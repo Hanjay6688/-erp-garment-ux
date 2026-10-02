@@ -1,0 +1,33 @@
+{
+  "source_branch": "audit/historical-fg-balances-20261002",
+  "source_commit": "591a0afbfe0b5c8e9555acc0d6548e05c9e3c344",
+  "source_basis": "2f504ff994a37cfd2000c0d62eb24231f023e61d",
+  "runtime": "PGlite 0.5.8/PostgreSQL18.3 bounded stock control",
+  "native_financial_browser_race_qualification": false,
+  "copied_files": {
+    "HANDOFF.md": {
+      "bytes": 8458,
+      "sha256": "2f0c154abfdb067e081a9b16f1010fe84e1f509759d0f4e61e7de86dba600a4d"
+    },
+    "REPORT.json": {
+      "bytes": 7332,
+      "sha256": "e37e926194612e2c3a50f08893d6fb7cb563ab7244d235f3e9b41883ae7ce7dc"
+    },
+    "THIRTY_ROWS.json": {
+      "bytes": 7544,
+      "sha256": "29014e6b4cb53b93505c3634d1534e7f32a7354443d84e0a335833ef690170b8"
+    },
+    "RUN1_REPORT.json": {
+      "bytes": 6472,
+      "sha256": "5bae90c6c17a44c9727dbc8bd5ec83e6fba8a60e8a4328dff9061733bbcd190c"
+    },
+    "RUN1_RECEIPT.json": {
+      "bytes": 411,
+      "sha256": "2eba491b2f266cbb7b6b4e9dc81f3f8028ad1058c88cb49a6f3bb71c8b4f1ff9"
+    },
+    "RUN1_PROBE.mjs.txt": {
+      "bytes": 17446,
+      "sha256": "1a4b2738972337b6fc91c3ceb4c06d80dbeb168700ea30027864a9e1b3d8a9e0"
+    }
+  }
+}

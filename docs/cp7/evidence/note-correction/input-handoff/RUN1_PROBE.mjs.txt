@@ -1,0 +1,220 @@
+/** Bounded, isolated PostgreSQL proof; never connects to a remote ERP database.
+ * Run unchanged source functions with explicitly limited master/auth fixtures.
+ * This is not a full CP7 Native, financial, HTTP, browser or race qualification.
+ */
+import assert from 'node:assert/strict'
+import {readFile,writeFile,mkdir} from 'node:fs/promises'
+import {gunzipSync} from 'node:zlib'
+import {createHash} from 'node:crypto'
+import {fileURLToPath} from 'node:url'
+import {resolve,dirname} from 'node:path'
+import {execFileSync} from 'node:child_process'
+
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'../..')
+const out=resolve(root,'docs/cp7/evidence/historical-fg-20261002')
+const modulePath=process.env.CP7_HISTORY_PGLITE_MODULE
+if(!modulePath)throw Error('Set CP7_HISTORY_PGLITE_MODULE to an isolated @electric-sql/pglite@0.5.8 dist/index.js. No database URL is used.')
+const {PGlite}=await import(modulePath)
+const db=new PGlite()
+const digest=s=>createHash('sha256').update(s).digest('hex')
+const inputs={}
+async function source(path,gz=false){const bytes=await readFile(resolve(root,path));inputs[path]=digest(bytes);return gz?gunzipSync(bytes).toString('utf8'):bytes.toString('utf8')}
+function fn(text,name,tag){
+ const start=text.toLowerCase().indexOf(`function ${name.toLowerCase()}(`)
+ assert(start>=0,`Missing ${name}`)
+ const line=text.lastIndexOf('\n',start)+1
+ const end=text.indexOf(`${tag};`,text.indexOf(tag,start)+tag.length)
+ assert(end>start,`Missing terminator ${name}`)
+ return text.slice(line,end+tag.length+1)
+}
+const book=await source('scripts/cp7-src/fg/book.sql')
+const ledger=await source('scripts/cp7-src/fg/ledger.sql')
+const baseline=await source('supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz',true)
+const temporal=await source('supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql')
+const definitions={}
+for(const [name,text,tag] of [
+ ['cp7_fg.book_signature',book,'$$'],['cp7_fg.book_rows',book,'$$'],['cp7_fg.book_workspace',book,'$$'],
+ ['cp7_fg.ledger_rows',ledger,'$$'],['erp.post_fg_movement',temporal,'$function$'],
+ ...['assert_fg_chronological_nonnegative','reverse_fg_movement','move_fg_stock_card_row_to_position','reset_fg_stock_mutation_book_order'].map(n=>[`erp.${n}`,baseline,'$function$']),
+])definitions[name]=fn(text,name,tag)
+const fixture=await source('scripts/audit/cp7_fg_history_fixture.sql')
+await db.exec(fixture)
+for(const sql of Object.values(definitions))await db.exec(sql)
+const version=(await db.query('select version() as version,clock_timestamp()::text as at')).rows[0]
+const cases=[],findings=[],details={}
+const uuid=n=>`00000000-0000-4000-8000-${String(n).padStart(12,'0')}`
+let serial=100
+async function nativePost(f,qty,at,notes='history probe',type='SALE'){
+ return (await db.query('select erp.post_fg_movement($1::uuid,$2::uuid,$3::uuid,$4,$5,$6::integer,10,$7::uuid,\'AUDIT_FIXTURE\',$8::uuid,$9::timestamptz,$10,false)::text as id',[f.product,f.lot,f.location,f.grade,type,qty,f.customer,uuid(serial++),at,notes])).rows[0].id
+}
+async function setup(days=30,openingDozens=100){
+ await db.exec(`truncate erp.fg_stock_movements,erp.fg_inventory_balances,erp.fg_lots,erp.products,erp.brands,erp.sizes,erp.locations,erp.customers,erp.audit_logs;
+ alter sequence erp.fg_stock_book_order_seq restart with 1000000;`)
+ serial=100
+ const f={product:uuid(1),lot:uuid(2),location:uuid(3),customer:uuid(4),grade:'GRADE_A',otherProduct:uuid(5),otherLot:uuid(6)}
+ await db.query('insert into erp.brands values($1,\'Audit Vivo\',\'VIVO\')',[uuid(7)])
+ await db.query('insert into erp.sizes values($1,\'29\'),($2,\'30\')',[uuid(8),uuid(9)])
+ await db.query('insert into erp.products values($1,$2,$3,\'AUDIT-29\',\'Audit jeans size 29\'),($4,$2,$5,\'AUDIT-30\',\'Audit jeans size 30\')',[f.product,uuid(7),uuid(8),f.otherProduct,uuid(9)])
+ await db.query('insert into erp.locations values($1,\'Audit FG\',true,\'FG_WAREHOUSE\')',[f.location])
+ await db.query('insert into erp.customers values($1,\'Audit shop\')',[f.customer])
+ const times=(await db.query("select (clock_timestamp()-interval '1 year 1 day')::text as opening,(clock_timestamp()-interval '1 year')::text as first")).rows[0]
+ f.firstAt=times.first
+ await db.query('insert into erp.fg_lots values($1,$2,\'AUDIT-LOT-29\',0,$3::timestamptz,true),($4,$5,\'AUDIT-LOT-30\',0,$3::timestamptz,true)',[f.lot,f.product,times.opening,f.otherLot,f.otherProduct])
+ f.opening=await nativePost(f,openingDozens*12,times.opening,'opening','OPENING')
+ f.first=await nativePost(f,-24,times.first,'first incorrect two dozens')
+ f.later=[]
+ for(let i=1;i<=days;i++){
+  const at=(await db.query("select ($1::timestamptz+($2::integer*interval '1 day'))::text as at",[times.first,i])).rows[0].at
+  f.later.push(await nativePost(f,-12,at,`later withdrawal ${i}`))
+ }
+ f.other=await nativePost({...f,product:f.otherProduct,lot:f.otherLot},120,times.opening,'other size unchanged','OPENING')
+ return f
+}
+async function readBook(query={}){return (await db.query('select cp7_fg.book_workspace($1::jsonb) as v',[JSON.stringify({q:'AUDIT-29',limit:100,offset:0,...query})])).rows[0].v}
+async function state(){return (await db.query(`select jsonb_build_object(
+ 'movements',(select coalesce(jsonb_agg(to_jsonb(m) order by id),'[]') from erp.fg_stock_movements m),
+ 'inventory',(select coalesce(jsonb_agg(to_jsonb(b) order by product_id),'[]') from erp.fg_inventory_balances b),
+ 'lots',(select coalesce(jsonb_agg(to_jsonb(l) order by id),'[]') from erp.fg_lots l),
+ 'audit',(select coalesce(jsonb_agg(to_jsonb(a) order by id),'[]') from erp.audit_logs a)) as v`)).rows[0].v}
+async function caseRun(id,test){
+ try{const result=await test();cases.push({id,status:'PASS',...result})}
+ catch(e){cases.push({id,status:'FAIL',error:String(e),stack:e.stack});throw e}
+}
+async function mapRows(){return new Map((await readBook()).page.rows.map(r=>[r.id,r]))}
+let exit=0
+try{
+ let f,before,correction
+ await caseRun('H01_OWNER_100_DOZENS_30_LATER_WITHDRAWALS',async()=>{
+  f=await setup();before=await mapRows()
+  assert.equal(before.get(f.first).official_physical_after,'1176')
+  for(let i=0;i<30;i++)assert.equal(before.get(f.later[i]).official_physical_after,String(1176-12*(i+1)))
+  assert.equal(before.get(f.later[29]).official_physical_after,'816')
+  return {opening_pcs:1200,first_out_pcs:24,later_out_count:30,before_final_pcs:816,before_final_dozens:68}
+ })
+ await caseRun('H02_BACKDATED_CORRECTION_CHANGES_EACH_LATER_OFFICIAL_BALANCE',async()=>{
+  const old=await state()
+  correction=await nativePost(f,12,f.firstAt,'correct mistaken first withdrawal','ADJUSTMENT')
+  const after=await mapRows()
+  details.thirty_rows=f.later.map((id,i)=>({withdrawal:i+1,id,qty_signed:after.get(id).available_delta,
+   before_official_pcs:before.get(id).official_physical_after,after_official_pcs:after.get(id).official_physical_after,
+   before_book_pcs:before.get(id).book_physical_after,after_book_pcs:after.get(id).book_physical_after}))
+  for(const r of details.thirty_rows){assert.equal(BigInt(r.after_official_pcs)-BigInt(r.before_official_pcs),12n);assert.equal(r.qty_signed,'-12')}
+  assert.equal(after.get(f.later[29]).official_physical_after,'828')
+  const now=await state();assert.deepEqual(now.movements.filter(m=>m.id!==correction),old.movements)
+  return {all_30_later_balances_changed:true,each_delta_pcs:12,original_movement_rows_unchanged:true,after_final_pcs:828,after_final_dozens:69}
+ })
+ await caseRun('H03_MAIN_BOOK_BALANCES_RETAIN_OLD_VALUES_COUNTEREXAMPLE',async()=>{
+  const rows=await mapRows()
+  for(const id of f.later)assert.equal(rows.get(id).book_physical_after,before.get(id).book_physical_after)
+  assert.equal((await readBook()).page.rows.at(-1).id,correction)
+  findings.push({id:'FGH-01',requirement_status:'NOT_MET',scope:'Current main book presentation after native backdated insertion',
+   observed:'All 30 official balances changed +12 PCS; all 30 main book balances stayed at their old values because the correction was appended by book_order.',
+   last_old_row:{official_pcs:'828',displayed_book_pcs:'816'},implementation_change_required:true})
+  return {counterexample_reproduced:true,unchanged_main_book_rows:30,official_final_dozens:69,main_old_row_dozens:68}
+ })
+ await caseRun('H04_FILTERS_AND_SECOND_PAGE_KEEP_COMPLETE_OFFICIAL_PREFIX',async()=>{
+  const page=await readBook({offset:25,limit:5,movement_types:['SALE'],customer_ids:[f.customer]})
+  assert.equal(page.page.rows.length,5)
+  assert.equal(page.page.total,'31')
+  const all=await mapRows()
+  for(const r of page.page.rows)assert.equal(r.official_physical_after,all.get(r.id).official_physical_after)
+  const datePage=await readBook({from:(await db.query("select ($1::timestamptz+interval '15 days')::text as at",[f.firstAt])).rows[0].at,movement_types:['SALE']})
+  for(const r of datePage.page.rows)assert.equal(r.official_physical_after,all.get(r.id).official_physical_after)
+  return {second_page_rows:5,date_filtered_rows:datePage.page.rows.length,complete_prefix_before_filter_and_page:true}
+ })
+ await caseRun('H05_UNCHANGED_LEDGER_READER_AND_OTHER_SIZE',async()=>{
+  const rows=(await db.query('select id::text,physical_balance::text from cp7_fg.ledger_rows($1::uuid,$2::uuid,$3::uuid,$4)',[f.product,f.lot,f.location,f.grade])).rows
+  const byId=new Map(rows.map(r=>[r.id,r.physical_balance]))
+  for(const id of f.later)assert.equal(byId.get(id),String(Number(before.get(id).official_physical_after)+12))
+  const other=(await db.query('select * from cp7_fg.book_rows() where product_id=$1::uuid',[f.otherProduct])).rows
+  assert.equal(other.length,1);assert.equal(other[0].official_physical_after,'120');assert.equal(other[0].book_physical_after,'120')
+  return {all_30_stock_card_balances_changed:true,other_size_unchanged:true}
+ })
+ await caseRun('H06_NATIVE_REPOSITION_FIXES_BOOK_SUFFIX_WITHOUT_REWRITING_QTY',async()=>{
+  const old=(await state()).movements
+  const rank=(await db.query('select pos::integer from (select id,row_number() over(order by book_order,id) pos from erp.fg_stock_movements)x where id=$1::uuid',[f.first])).rows[0].pos
+  await db.query('select erp.move_fg_stock_card_row_to_position($1::uuid,$2::integer)',[correction,rank+1])
+  const rows=await mapRows()
+  for(const id of f.later)assert.equal(rows.get(id).book_physical_after,rows.get(id).official_physical_after)
+  const current=(await state()).movements
+  assert.deepEqual(current.map(({book_order,...r})=>r),old.map(({book_order,...r})=>r))
+  return {all_30_book_suffix_balances_changed_after_explicit_reposition:true,original_quantities_and_physical_times_unchanged:true,
+   limitation:'This invokes the existing presentation move explicitly. No automatic correction-to-source anchor exists in the current invoice API. The immutable original first row remains separate from its correction.'}
+ })
+ await caseRun('H07_CURRENT_DATED_REVERSAL_DOES_NOT_RESTATE_OLD_SUFFIX',async()=>{
+  f=await setup();const old=await mapRows()
+  const reversed=(await db.query('select erp.reverse_fg_movement($1::uuid,\'audit old wrong amount\')::text as id',[f.first])).rows[0].id
+  const inverse=(await db.query('select physical_at::text from erp.fg_stock_movements where id=$1::uuid',[reversed])).rows[0]
+  assert(Date.parse(inverse.physical_at)>Date.parse(f.firstAt)+300*86400000)
+  const now=(await db.query('select clock_timestamp()::text as at')).rows[0].at
+  await nativePost(f,-12,now,'replacement dated today')
+  const after=await mapRows();for(const id of f.later)assert.equal(after.get(id).official_physical_after,old.get(id).official_physical_after)
+  assert.equal((await readBook()).page.rows.at(-1).official_physical_after,'828')
+  findings.push({id:'FGH-02',requirement_status:'NOT_MET',scope:'Current movement inverse plus replacement',
+   observed:'Existing reverse_fg_movement dates the inverse now. A current-dated replacement fixes current 69-dozen stock but leaves all old suffix balances unchanged.',
+   limitation:'Bounded movement-level control only; invoice/journal/HPP/payment lifecycle not executed.',implementation_change_required:true})
+  return {current_stock_correct_pcs:828,all_30_historical_balances_unrestated:true,inverse_effective_time:inverse.physical_at}
+ })
+ await caseRun('H08_OLD_DATED_REPLACEMENT_WITH_CURRENT_INVERSE_IS_NOT_HISTORICAL_CORRECTION',async()=>{
+  f=await setup();const old=await mapRows()
+  await db.query('select erp.reverse_fg_movement($1::uuid,\'audit wrong effective date\')',[f.first])
+  await nativePost(f,-12,f.firstAt,'replacement dated original day')
+  const after=await mapRows()
+  for(const id of f.later)assert.equal(BigInt(after.get(id).official_physical_after)-BigInt(old.get(id).official_physical_after),-12n)
+  assert.equal((await readBook()).page.rows.at(-1).official_physical_after,'828')
+  return {counterexample_reproduced:true,old_suffix_wrong_delta_pcs:-12,current_stock_still_correct_pcs:828,
+   implication:'Backdating replacement alone does not backdate its source inverse.'}
+ })
+ await caseRun('H09_TRANSACTION_ROLLBACK_AFTER_LATER_NATIVE_FAILURE',async()=>{
+  f=await setup();const old=await state();await db.exec('begin')
+  try{
+   await nativePost(f,12,f.firstAt,'uncommitted correction')
+   assert.notDeepEqual(await state(),old)
+   await nativePost(f,-100000,f.firstAt,'deliberate later native refusal')
+   throw Error('Expected native failure')
+  }catch(e){assert.match(String(e),/Finished goods stock cannot become negative/);await db.exec('rollback')}
+  assert.deepEqual(await state(),old)
+  return {all_movements_inventory_lots_and_audit_rolled_back:true,
+   limitation:'Native calls enclosed by test transaction, not an existing combined correction-note API; no concurrent session, money, HPP or HTTP assertions.'}
+ })
+ await caseRun('H10_CORRECTION_AND_FAILED_BOOK_PLACEMENT_ROLL_BACK_TOGETHER',async()=>{
+  f=await setup();const old=await state();await db.exec('begin')
+  try{
+   const id=await nativePost(f,12,f.firstAt,'uncommitted correction with invalid book placement')
+   await db.query('select erp.move_fg_stock_card_row_to_position($1::uuid,0)',[id])
+   throw Error('Expected placement failure')
+  }catch(e){assert.match(String(e),/minimal 1/);await db.exec('rollback')}
+  assert.deepEqual(await state(),old)
+  return {mutation_and_presentation_change_all_or_none:true,test_transaction_only:true}
+ })
+ await caseRun('H11_HISTORICAL_NEGATIVE_REFUSED_EVEN_WHEN_CURRENT_STOCK_POSITIVE',async()=>{
+  f=await setup();await nativePost(f,1200,(await db.query('select clock_timestamp()::text as at')).rows[0].at,'later receipt','QC_GOOD')
+  const old=await state();await db.exec('begin')
+  try{await nativePost(f,-1300,f.firstAt,'negative only in past');throw Error('Expected historical refusal')}
+  catch(e){assert.match(String(e),/stok historis SKU\/gudang menjadi negatif/);await db.exec('rollback')}
+  assert.deepEqual(await state(),old)
+  return {existing_native_chronological_guard_executed:true,current_stock_would_remain_positive:true,entire_failed_mutation_rolled_back:true}
+ })
+ await caseRun('H12_FULL_YEAR_ALL_364_LATER_BALANCES_ACROSS_PAGES',async()=>{
+  f=await setup(364,1000)
+  async function pages(){let offset=0,result=[];do{const p=await readBook({offset,limit:25,movement_types:['SALE']});result.push(...p.page.rows);offset=p.page.next_offset}while(offset!==null);return result}
+  const old=new Map((await pages()).map(r=>[r.id,r]))
+  await nativePost(f,12,f.firstAt,'full year correction','ADJUSTMENT')
+  const after=await pages();assert.equal(after.length,365)
+  for(const r of after.filter(r=>r.id!==f.first)){assert.equal(BigInt(r.official_physical_after)-BigInt(old.get(r.id).official_physical_after),12n);assert.equal(r.available_delta,old.get(r.id).available_delta)}
+  return {elapsed_history:'one year',later_balances_verified:364,page_size:25,pages_read:15,original_withdrawal_quantities_unchanged:true}
+ })
+}catch(e){exit=1;details.failure=String(e)}
+finally{
+ const report={schema_version:'cp7.fg-history-bounded-proof.v1',source_head:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),
+  recorded_at:new Date().toISOString(),status:exit?'INCOMPLETE':'BOUNDED_CHECKS_COMPLETE',engine:version,pglite_version:'0.5.8',
+  counts:cases.reduce((n,c)=>(n[c.status]=(n[c.status]??0)+1,n),{}),product_requirement_status:findings.length?'NOT_MET':'UNDETERMINED',
+  production_go:false,independent_full_erp_acceptance:false,remote_database_connections:0,product_function_changes:0,
+  explicit_fixture_substitutions:['Minimal table/master schema, not full accepted ERP catalog','require_internal/current_app_user_id auth identity helpers','commercial-SKU label helper','cp7_fg.book_access read access fixture'],
+  not_executed:['Full Native CP6/CP7 install and restoration','Invoice correction API (does not exist)','Invoices, receivables, journal or HPP effects','Real Auth/HTTP/browser UI','Concurrent-session visibility/races','Production deployment'],
+  cases,findings,source_file_sha256:inputs,unchanged_function_sha256:Object.fromEntries(Object.entries(definitions).map(([name,sql])=>[name,digest(sql)]))}
+ await mkdir(out,{recursive:true});await writeFile(resolve(out,'REPORT.json'),JSON.stringify(report,null,2)+'\n')
+ await writeFile(resolve(out,'THIRTY_ROWS.json'),JSON.stringify(details,null,2)+'\n')
+ await db.close();console.log(JSON.stringify({status:report.status,counts:report.counts,findings:report.findings,report:resolve(out,'REPORT.json')},null,2))
+ process.exitCode=exit
+}

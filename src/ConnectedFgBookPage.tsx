@@ -7,7 +7,7 @@ import {cp6WibPhysicalTimeToIso,formatCp6WibDateTime} from './cp6BusinessTime'
 import {useProductionMutation,type ProductionMutationHandlers} from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import {formatReceiptDecimal as numberText} from './procurementContract'
-import {parseFgBook,parseFgBookOptions,parseFgBookOutcome,bookDozens,type FgBook,type FgBookRow,type FgBookOptions,type BookOption,type BookFilterKind} from './fgBookContract'
+import {parseCorrectedFgBook,parseFgBookOptions,parseFgBookOutcome,bookDozens,type CorrectedFgBook,type CorrectedFgBookRow,type FgBookOptions,type BookOption,type BookFilterKind} from './fgBookContract'
 import './procurement-connected.css'
 import './fg-book-connected.css'
 
@@ -25,7 +25,7 @@ function Workspace({bookName}:{bookName:'Vivo'|'Widie'}){
  const {runtime}=useAuth();if(!isConnectedRuntime(runtime))throw Error('Sesi gudang belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime])
  const mutation=useProductionMutation('FG_BOOK'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
- const [data,setData]=useState<FgBook|null>(null),[error,setError]=useState(''),[loading,setLoading]=useState(false)
+ const [data,setData]=useState<CorrectedFgBook|null>(null),[error,setError]=useState(''),[loading,setLoading]=useState(false)
  const [filters,setFilters]=useState<Filters>(emptyFilters),[search,setSearch]=useState(''),[from,setFrom]=useState(''),[to,setTo]=useState('')
  const drag=useRef<string|null>(null)
  const [over,setOver]=useState<string|null>(null),[resetReview,setResetReview]=useState(false)
@@ -44,9 +44,9 @@ function Workspace({bookName}:{bookName:'Vivo'|'Widie'}){
     request.current.filters=initial;request.current.initialized=true;setFilters(initial)
    }
    const q=request.current
-   const r=await client.rpc('erp_cp7_get_fg_book_v1',{p_query:{q:q.q,from:q.from,to:q.to,brand_ids:q.filters.BRAND.map(x=>x.id),customer_ids:q.filters.CUSTOMER.map(x=>x.id),movement_types:q.filters.TYPE.map(x=>x.id),offset:q.offset,limit:25}})
+   const r=await client.rpc('erp_cp7_get_fg_book_v2',{p_query:{q:q.q,from:q.from,to:q.to,brand_ids:q.filters.BRAND.map(x=>x.id),customer_ids:q.filters.CUSTOMER.map(x=>x.id),movement_types:q.filters.TYPE.map(x=>x.id),offset:q.offset,limit:25}})
    if(s!==sequence.current||!isReadCurrent(ticket))return false;if(r.error)throw r.error
-   const v=parseFgBook(r.data);if(v.page.offset!==q.offset)throw Error('Halaman buku berubah. Muat ulang.')
+   const v=parseCorrectedFgBook(r.data);if(v.page.offset!==q.offset)throw Error('Halaman buku berubah. Muat ulang.')
    setData(v);return finishRead(ticket)
   }catch(e){if(s===sequence.current&&isReadCurrent(ticket))setError(normalizeClientError(e).message);return false}
   finally{if(s===sequence.current)setLoading(false)}
@@ -67,7 +67,7 @@ function Workspace({bookName}:{bookName:'Vivo'|'Widie'}){
   if(from&&!start||to&&!end||start&&end&&start>=end){setError('Periksa rentang waktu: akhir harus sesudah awal.');return}
   request.current={initialized:true,q:search.trim(),from:start,to:end,filters,offset:0};void load()
  }
- const label=(r:FgBookRow)=>`${r.commercial_sku} · ${r.size_code}`
+ const label=(r:CorrectedFgBookRow)=>`${r.commercial_sku} · ${r.size_code}`
  return <section className="cproc cfgb"><header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · BUKU MUTASI</div><h1>Mutasi Barang Jadi · {bookName}</h1><p>Atur urutan kartu untuk memeriksa mutasi. Saldo buku mengikuti urutan ini; kartu stok tetap mengikuti waktu transaksi.</p></div><button disabled={loading||mutation.busy} onClick={()=>void load()}>Muat ulang buku</button></header>
   <ProductionRecoveryNotice recovery={mutation} onReconcile={()=>reconcile(handlers)} className="panel"/>{error?<p className="panel" role="alert">{error}</p>:null}
   <section className="panel cfgb-filters" aria-label="Filter buku"><div className="cproc-grid"><label>Cari SKU, lot, toko, atau catatan<input aria-label="Cari buku mutasi" maxLength={120} value={search} onChange={e=>setSearch(e.target.value)}/></label><label>Mulai · WIB<input aria-label="Awal buku WIB" type="datetime-local" value={from} onChange={e=>setFrom(e.target.value)}/></label><label>Sebelum · WIB<input aria-label="Akhir buku WIB" type="datetime-local" value={to} onChange={e=>setTo(e.target.value)}/></label></div>
@@ -85,6 +85,7 @@ function Workspace({bookName}:{bookName:'Vivo'|'Widie'}){
     <header><div><span className="cfgb-brand">{r.brand_name}</span><h3>{label(r)}</h3><p>{r.product_name}</p></div><div className="cfgb-date"><strong>{movementLabels[r.movement_type]??r.movement_type.replaceAll('_',' ')}</strong><time>{formatCp6WibDateTime(r.physical_at)}</time></div></header>
     <div className="cfgb-destination"><span>{r.customer_name??'Tanpa toko'}</span><small>{r.location_name} · {r.quality_grade.replaceAll('_',' ')}</small></div>
     <dl className="cfgb-balances">{([['book_physical_before','Awal buku'],['physical_delta','Perubahan fisik'],['book_physical_after','Akhir buku']] as const).map(([key,title])=><div key={key}><dt>{title}</dt><dd>{numberText(r[key])}<small> PCS</small></dd><span>{bookDozens(r[key])}</span></div>)}</dl>
+    {r.correction_count!=='0'?<details><summary>Nota dibetulkan {r.correction_count} kali</summary><p>Jumlah asli {bookDozens(r.original_physical_delta)}. Jumlah yang berlaku {bookDozens(r.physical_delta)}.</p><p>Pembetulan terakhir dicatat {formatCp6WibDateTime(r.correction_recorded_at!)}. Saldo kartu berikutnya mengikuti jumlah yang berlaku.</p><ul>{r.audit_movements.map(m=><li key={m.id}>{m.id} · {bookDozens(m.available_delta)} · berlaku {formatCp6WibDateTime(m.physical_at)} · dicatat {formatCp6WibDateTime(m.recorded_at)}</li>)}</ul></details>:null}
     {r.reservation_delta!=='0'?<p>Perubahan cadangan {numberText(r.reservation_delta)} PCS · fisik tetap.</p>:null}{r.notes?<p className="cfgb-notes">{r.notes}</p>:null}
     <details><summary>Saldo resmi dan sumber</summary><dl className="cfgb-official"><div><dt>Fisik setelah transaksi</dt><dd>{numberText(r.official_physical_after)} PCS</dd></div><div><dt>Cadangan</dt><dd>{numberText(r.official_reserved_after)} PCS</dd></div><div><dt>Tersedia</dt><dd>{numberText(r.official_available_after)} PCS</dd></div></dl><small>Saldo resmi memakai urutan waktu transaksi. Saldo buku bisa berbeda setelah kartu dipindah.</small><p>{r.lot_number??'Tanpa lot'} · {r.source_type} · {r.source_id??'Tanpa nomor sumber'}</p>{r.reversal_of_id?<p>Pembalik transaksi {r.reversal_of_id}</p>:null}<small>Dicatat {formatCp6WibDateTime(r.recorded_at)}</small></details>
     {canOrder?<footer><span className="cfgb-grip" aria-hidden="true" title="Tarik kartu">⠿</span><button disabled={locked||i===0} aria-label={`Pindahkan ${label(r)} ke atas`} onClick={()=>move(r.id,data.page.rows[i-1].id,'BEFORE')}>↑ Pindah ke atas</button><button disabled={locked||i===data.page.rows.length-1} aria-label={`Pindahkan ${label(r)} ke bawah`} onClick={()=>move(r.id,data.page.rows[i+1].id,'AFTER')}>↓ Pindah ke bawah</button></footer>:null}

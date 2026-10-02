@@ -93,6 +93,20 @@ export function normalizeClientError(error: unknown): ClientAppError {
     if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
   }
 
+  const correctionMessages: Record<string,string> = {
+    cp7_note_review_changed: 'Nota, pembayaran, atau retur berubah. Muat ulang lalu periksa nota terbaru.',
+    cp7_note_active_posted_only: 'Nota ini sudah dibatalkan atau diganti. Buka nota yang berlaku sebelum membetulkan lagi.',
+    cp7_note_source_superseded: 'Nota sudah dibetulkan sebelumnya. Buka nota yang berlaku saat ini.',
+    cp7_note_source_identity_changed: 'Nomor, pelanggan, gudang, dan waktu kejadian harus mengikuti nota asal.',
+    cp7_note_pending_child_review_required: 'Masih ada draft pembayaran atau retur pada nota ini. Selesaikan atau batalkan draft tersebut terlebih dahulu.',
+    cp7_note_return_allocation_changed: 'Barang yang sudah diretur belum cocok dengan jumlah atau SKU pengganti. Periksa barang dan retur asal; pembetulan ini belum disimpan.',
+    cp7_note_prepayment_owning_reallocation_required: 'Nota memakai uang muka impor yang perlu dipindahkan melalui alur uang muka. Pembetulan ini belum disimpan.',
+    cp7_note_request_changed: 'Permintaan pembetulan berubah. Periksa hasil permintaan sebelumnya sebelum mengirim tindakan baru.',
+  }
+  for (const [key,message] of Object.entries(correctionMessages)) {
+    if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
+  }
+
   // W11: only a failure that never got an answer is unreachable; show definite refusals.
   // (a server rule such as CLOSE_ALREADY_CLOSED, or a page parser such as "Model produk bukan UUID valid.") is shown as is.
   const originalMessage = typeof candidate.message === 'string' ? candidate.message.trim() : ''

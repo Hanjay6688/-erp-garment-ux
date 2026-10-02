@@ -1,0 +1,5 @@
+{
+  "probe_sha256": "1a4b2738972337b6fc91c3ceb4c06d80dbeb168700ea30027864a9e1b3d8a9e0",
+  "report_sha256": "5bae90c6c17a44c9727dbc8bd5ec83e6fba8a60e8a4328dff9061733bbcd190c",
+  "retained_failure": "H08 checked current stock using the last manually ordered book row, whose official prefix belongs to its old physical date; fixed oracle reads the actual current inventory position and reconciles movement sum."
+}

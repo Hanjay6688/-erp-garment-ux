@@ -7,6 +7,37 @@ grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_p
  erp.bf_commercial_sku_at_v1(uuid,timestamptz),erp.bd_lot_laundry_unknown_v1(uuid),erp.get_hpp_completeness(uuid) to cp7_fg_read;
 grant select on erp.fg_stock_movements,erp.fg_lots,erp.products,erp.sizes,erp.brands,erp.locations,erp.customers,erp.hpp_versions to cp7_fg_read;
 
+-- Presentation lineage only. Economic/stock effects come from Native writers.
+create table cp7_fg.correction_movements(
+ member_id uuid primary key references erp.fg_stock_movements(id),
+ origin_id uuid not null references erp.fg_stock_movements(id),
+ correction_id uuid not null,recorded_at timestamptz not null,
+ check(member_id<>origin_id)
+);
+alter table cp7_fg.correction_movements owner to cp7_fg_read;
+alter table cp7_fg.correction_movements enable row level security;
+create policy private_correction_movements on cp7_fg.correction_movements for all using(false)with check(false);
+revoke all on cp7_fg.correction_movements from public,anon,authenticated,service_role,cp7_capture;
+create function cp7_fg.immutable_correction_movement()returns trigger
+language plpgsql stable security invoker set search_path=''as $$
+begin raise exception 'CP7_FG_CORRECTION_LINEAGE_IMMUTABLE';end $$;
+alter function cp7_fg.immutable_correction_movement()owner to cp7_fg_read;
+create trigger immutable_correction_movement before update or delete on cp7_fg.correction_movements
+ for each row execute function cp7_fg.immutable_correction_movement();
+create function cp7_fg.validate_correction_movement()returns trigger
+language plpgsql stable security invoker set search_path=''as $$
+begin
+ if exists(select 1 from cp7_fg.correction_movements where member_id=new.origin_id)
+  or not exists(select 1 from erp.fg_stock_movements m join erp.fg_stock_movements o on o.id=new.origin_id
+    where m.id=new.member_id and m.product_id=o.product_id and m.location_id=o.location_id
+     and m.quality_grade=o.quality_grade and m.physical_at=o.physical_at)then
+  raise exception 'CP7_FG_CORRECTION_ORIGIN_CHANGED';end if;
+ return new;
+end $$;
+alter function cp7_fg.validate_correction_movement()owner to cp7_fg_read;
+create trigger validate_correction_movement before insert on cp7_fg.correction_movements
+ for each row execute function cp7_fg.validate_correction_movement();
+
 create function cp7_fg.access_now(p_purpose text) returns jsonb
 language plpgsql stable security invoker set search_path='' as $$
 declare a jsonb;permission_key text;

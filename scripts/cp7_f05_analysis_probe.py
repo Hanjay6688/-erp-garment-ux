@@ -4,6 +4,7 @@ import psycopg
 import cp7_analysis_bundle as bundle
 import cp7_schedule_bundle as schedule
 import cp7_f03_bundle as f03
+import cp7_note_correction_verify as note_correction
 import cp7_planning_bundle as planning
 import cp7_baseline_bundle as baseline
 import cp7_supply_bundle as supply
@@ -28,6 +29,7 @@ def public_state(cur):
 def verify(cur):
  bundle.verify(cur)
  payroll.verify(cur,True,True,True,True,True);finance.verify(cur);f03.journal.verify(cur);f03.misc.verify(cur);f03.installment.verify(cur)
+ note_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run(attention=False,p18_e01=False):

@@ -1,0 +1,50 @@
+{
+  "schema": "cp7-owning-note-correction-native-manifest-v1",
+  "qualification_scope": "Immutable posted note corrected with linked Native inverses/replacements, complete official and main-book prefixes, atomic stock AR cash journal HPP, actual Auth HTTP browser and competing transactions",
+  "production_go": false,
+  "independent_acceptance": false,
+  "groups": {
+    "native": [
+      "NOTE_YEAR_30",
+      "NOTE_YEAR_364",
+      "NOTE_REPEATED_REVISIONS",
+      "NOTE_FULL_NATIVE_FINANCIAL",
+      "NOTE_RETURN_OTHER_WAREHOUSE",
+      "NOTE_EXACT_CENTS",
+      "NOTE_ADDED_SKU_MAIN_BOOK",
+      "NOTE_HISTORICAL_NEGATIVE",
+      "NOTE_CLOSED_PERIOD_NATIVE_RULE",
+      "NOTE_LATE_FAILURE_ATOMIC",
+      "NOTE_OVERPAYMENT_ATOMIC",
+      "NOTE_RETURN_CAPACITY_ATOMIC",
+      "NOTE_CHILD_REVIEW_CHANGED",
+      "NOTE_REPLAY_CURRENT_AUTHORITY",
+      "NOTE_PRIVATE_CLOSED_FIELDS",
+      "NOTE_SAME_DAY_CHRONOLOGY"
+    ],
+    "races": [
+      "NOTE_RACE_TWO_REQUESTS",
+      "NOTE_RACE_SAME_UUID",
+      "NOTE_RACE_PAYMENT",
+      "NOTE_RACE_REVOKE_DURING_WAIT"
+    ],
+    "http": [
+      "NOTE_HTTP_COMMAND_REPLAY_AUTH",
+      "NOTE_HTTP_CORRECTED_BOOK"
+    ],
+    "browser": [
+      "NOTE_BROWSER_DESKTOP",
+      "NOTE_BROWSER_MOBILE_LOST_REPLY"
+    ]
+  },
+  "required_counts": {
+    "native": 16,
+    "races": 4,
+    "http": 2,
+    "browser": 2
+  },
+  "expected_case_executions": 24,
+  "unique_oracle_total_claim": false,
+  "frozen_cp6_modifications": false,
+  "native_private_role_count": 31
+}

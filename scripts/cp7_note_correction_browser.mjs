@@ -1,0 +1,40 @@
+import assert from 'node:assert/strict'
+import {execFileSync} from 'node:child_process'
+import {mkdirSync,writeFileSync,readFileSync} from 'node:fs'
+const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_note_correction_browser_fixture.py',op,JSON.stringify(p)],{cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim().split('\n').at(-1))
+async function open(ui,p,title='Penjualan & Invoice',section='Penjualan'){
+ await ui.expect(p.locator('.sidebar .nav-main').filter({hasText:section})).toBeAttached()
+ const menu=p.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
+ const link=p.getByRole('button',{name:'• '+title,exact:true});if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:section}).click();await link.click()
+}
+async function flow(ui,today,mobile){
+ const f=fixture('prepare',{today}),user=await ui.login('OWNER',{label:'note-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,ws=p.locator('.csales'),suffix=mobile?'MOBILE':'DESKTOP'
+ let peer,first,replay,lost=false;const peerErrors=[];let peerWrites=0
+ const select=async page=>{const w=page.locator('.csales');await w.getByLabel('Cari invoice',{exact:true}).fill(f.tag);await w.getByRole('button',{name:'Cari invoice',exact:true}).click();const row=w.getByRole('region',{name:'Daftar invoice'}).locator('.cproc-receipt');await ui.expect(row).toHaveCount(1);await row.click();await ui.expect(w.getByRole('complementary',{name:'Rincian invoice'})).toContainText('Sisa pembayaran Rp175')}
+ try{
+  const before=fixture('read',f);assert.equal(before.available,45);assert.equal(before.document.qty_pcs,'20')
+  await open(ui,p);await select(p)
+  if(mobile){peer=await user.context.newPage();peer.on('pageerror',e=>peerErrors.push(String(e)));peer.on('console',m=>{if(m.type()==='error')peerErrors.push(m.text())});peer.on('request',r=>{if(r.url().includes('/rest/v1/rpc/erp_cp7_correct_note_v1'))peerWrites++});await peer.goto(ui.url);await open(ui,peer);await select(peer)}
+  await ws.getByRole('button',{name:'Benerin nota',exact:true}).click();const form=ws.getByRole('form',{name:'Benerin nota',exact:true})
+  await ui.expect(form.getByLabel('Nomor draft invoice',{exact:true})).toHaveAttribute('readonly','');await ui.expect(form.getByLabel('Waktu draft invoice WIB',{exact:true})).toHaveAttribute('readonly','')
+  await form.getByLabel('Jumlah invoice 1',{exact:true}).fill('16');await form.getByLabel('Alasan simpan invoice',{exact:true}).fill('Jumlah yang benar16 PCS; pembayaran dan retur tetap sama')
+  await ui.expect(form.getByRole('button',{name:'Simpan pembetulan nota',exact:true})).toBeDisabled();await form.getByLabel('Pembetulan nota sudah diperiksa',{exact:true}).check()
+  if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_correct_note_v1',async route=>{const body=route.request().postDataJSON();if(!lost){first=body;const response=await route.fetch();if(response.status()!==200){await route.fulfill({response});return}lost=true;await route.abort('failed')}else{replay=body;await route.continue()}})
+  await form.getByRole('button',{name:'Simpan pembetulan nota',exact:true}).click()
+  if(mobile){
+   await ui.expect.poll(()=>lost,{timeout:20000}).toBe(true);const other=peer.locator('.csales');await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await ui.expect(other.getByRole('button',{name:'Benerin nota',exact:true})).toBeDisabled()
+   await other.getByRole('button',{name:'Muat ulang invoice',exact:true}).click();const pending=await peer.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.production.SALES.pending-mutation.v1:')).map(([,v])=>JSON.parse(v)));assert.equal(pending.length,1);assert.equal(pending[0].action,'CORRECT');assert.equal(pending[0].id,first.p_request);assert.deepEqual(pending[0].payload.document,first.p_payload)
+   await p.reload();await open(ui,p);await ws.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);assert.deepEqual(replay,first);assert.equal(peerWrites,0);assert.deepEqual(peerErrors,[])
+  }
+  await ui.expect(form).toHaveCount(0);const detail=ws.getByRole('complementary',{name:'Rincian invoice'});await ui.expect(detail).toContainText('16 PCS dalam invoice');await ui.expect(detail).toContainText('Sisa pembayaran Rp75');await ui.expect(detail).toContainText('Pembayaran tercatat Rp200')
+  await ws.getByRole('button',{name:'Riwayat pembetulan nota',exact:true}).click();await ui.expect(ws.getByRole('region',{name:'Riwayat pembetulan nota',exact:true})).toContainText('Pembetulan 1');await ui.expect(ws.getByRole('region',{name:'Riwayat pembetulan nota',exact:true})).toContainText(f.tag)
+  const after=fixture('read',f);assert.equal(after.available,49);assert.equal(Number(after.fg_value),735);assert.equal(after.document.financial.net_total,'275.00');assert.equal(after.document.financial.paid_total,'200.00');assert.equal(after.document.financial.open_balance,'75.00');assert.equal(after.history.history.length,1);assert.deepEqual(after.original_facts,f.original_facts)
+  const source=Object.values(after.book).find(r=>r.original_physical_delta==='-20'&&r.correction_count==='1');assert.ok(source);assert.equal(source.physical_delta,'-16');assert.equal(source.reservation_delta,'0');assert.equal(Date.parse(source.physical_at),Date.parse(f.sale_at))
+  mkdirSync('cp6-proof/t3',{recursive:true});await ui.expect.poll(()=>ws.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true);await p.screenshot({path:`cp6-proof/t3/NOTE_CORRECTION_${suffix}.png`,fullPage:true})
+  await open(ui,p,'Mutasi Barang Jadi · Vivo','Gudang');const fg=p.locator('.cfgb');const brand=fg.locator('.cfgb-filter').first();if(!await brand.getAttribute('open'))await brand.locator('summary').click();const clear=brand.getByRole('button',{name:'Semua merek',exact:true});if(await clear.isEnabled())await clear.click();await brand.locator('summary').click()
+  await fg.getByLabel('Cari buku mutasi',{exact:true}).fill(f.sku);await fg.getByRole('button',{name:'Terapkan filter buku',exact:true}).click();await ui.expect(fg).toContainText('Nota dibetulkan 1 kali');await ui.expect(fg.locator('[role="alert"]')).toHaveCount(0);await ui.expect.poll(()=>fg.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true);await p.screenshot({path:`cp6-proof/t3/NOTE_CORRECTED_BOOK_${suffix}.png`,fullPage:true})
+  return{status:'PASS',mobile,real_UI_Auth_HTTP_native_owning_correction:true,native_production_fixture_not_browser_production_claim:true,qty20_to16:true,cash200_and_return125_retained:true,AR75_COGS165_FG49_value735:true,immutable_original_and_one_revision:true,corrected_source_main_book:true,lost_commit_reply_identical_UUID_reconcile:mobile?true:null,other_tab_cannot_write_or_clear_uncertain_request:mobile?true:null,screenshots:[`NOTE_CORRECTION_${suffix}.png`,`NOTE_CORRECTED_BOOK_${suffix}.png`]}
+ }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});let observed;try{observed=fixture('read',f)}catch(e){observed={error:String(e)}}writeFileSync(`cp6-proof/t3/NOTE_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,text:await p.locator('body').innerText().catch(()=>''),observed},null,2));await p.screenshot({path:`cp6-proof/t3/NOTE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
+ finally{if(peer)await peer.close().catch(()=>{});await user.context.close()}
+}
+export async function cases(ui,today){const tests=[['NOTE_BROWSER_DESKTOP',()=>flow(ui,today,false)],['NOTE_BROWSER_MOBILE_LOST_REPLY',()=>flow(ui,today,true)]];const manifest=JSON.parse(readFileSync(new URL('./cp7_note_correction_manifest.json',import.meta.url),'utf8'));assert.deepEqual(tests.map(([name])=>name),manifest.groups.browser);return tests}

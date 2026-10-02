@@ -1,0 +1,164 @@
+{
+  "schema_version": "cp7.fg-history-bounded-proof.v1",
+  "source_head": "2f504ff994a37cfd2000c0d62eb24231f023e61d",
+  "recorded_at": "2026-10-02T06:46:01.327Z",
+  "status": "BOUNDED_CHECKS_COMPLETE",
+  "engine": {
+    "version": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+    "at": "2026-10-02 13:45:59.535+07"
+  },
+  "pglite_version": "0.5.8",
+  "counts": {
+    "PASS": 12
+  },
+  "product_requirement_status": "NOT_MET",
+  "production_go": false,
+  "independent_full_erp_acceptance": false,
+  "remote_database_connections": 0,
+  "product_function_changes": 0,
+  "explicit_fixture_substitutions": [
+    "Minimal table/master schema, not full accepted ERP catalog",
+    "require_internal/current_app_user_id auth identity helpers",
+    "commercial-SKU label helper",
+    "cp7_fg.book_access read access fixture"
+  ],
+  "not_executed": [
+    "Full Native CP6/CP7 install and restoration",
+    "Invoice correction API (does not exist)",
+    "Invoices, receivables, journal or HPP effects",
+    "Real Auth/HTTP/browser UI",
+    "Concurrent-session visibility/races",
+    "Production deployment"
+  ],
+  "cases": [
+    {
+      "id": "H01_OWNER_100_DOZENS_30_LATER_WITHDRAWALS",
+      "status": "PASS",
+      "opening_pcs": 1200,
+      "first_out_pcs": 24,
+      "later_out_count": 30,
+      "before_final_pcs": 816,
+      "before_final_dozens": 68
+    },
+    {
+      "id": "H02_BACKDATED_CORRECTION_CHANGES_EACH_LATER_OFFICIAL_BALANCE",
+      "status": "PASS",
+      "all_30_later_balances_changed": true,
+      "each_delta_pcs": 12,
+      "original_movement_rows_unchanged": true,
+      "after_final_pcs": 828,
+      "after_final_dozens": 69
+    },
+    {
+      "id": "H03_MAIN_BOOK_BALANCES_RETAIN_OLD_VALUES_COUNTEREXAMPLE",
+      "status": "PASS",
+      "counterexample_reproduced": true,
+      "unchanged_main_book_rows": 30,
+      "official_final_dozens": 69,
+      "main_old_row_dozens": 68
+    },
+    {
+      "id": "H04_FILTERS_AND_SECOND_PAGE_KEEP_COMPLETE_OFFICIAL_PREFIX",
+      "status": "PASS",
+      "second_page_rows": 5,
+      "date_filtered_rows": 16,
+      "complete_prefix_before_filter_and_page": true
+    },
+    {
+      "id": "H05_UNCHANGED_LEDGER_READER_AND_OTHER_SIZE",
+      "status": "PASS",
+      "all_30_stock_card_balances_changed": true,
+      "other_size_unchanged": true
+    },
+    {
+      "id": "H06_NATIVE_REPOSITION_FIXES_BOOK_SUFFIX_WITHOUT_REWRITING_QTY",
+      "status": "PASS",
+      "all_30_book_suffix_balances_changed_after_explicit_reposition": true,
+      "original_quantities_and_physical_times_unchanged": true,
+      "limitation": "This invokes the existing presentation move explicitly. No automatic correction-to-source anchor exists in the current invoice API. The immutable original first row remains separate from its correction."
+    },
+    {
+      "id": "H07_CURRENT_DATED_REVERSAL_DOES_NOT_RESTATE_OLD_SUFFIX",
+      "status": "PASS",
+      "current_stock_correct_pcs": 828,
+      "all_30_historical_balances_unrestated": true,
+      "inverse_effective_time": "2026-10-02 13:45:59.83+07"
+    },
+    {
+      "id": "H08_OLD_DATED_REPLACEMENT_WITH_CURRENT_INVERSE_IS_NOT_HISTORICAL_CORRECTION",
+      "status": "PASS",
+      "counterexample_reproduced": true,
+      "old_suffix_wrong_delta_pcs": -12,
+      "current_stock_still_correct_pcs": 828,
+      "implication": "Backdating replacement alone does not backdate its source inverse."
+    },
+    {
+      "id": "H09_TRANSACTION_ROLLBACK_AFTER_LATER_NATIVE_FAILURE",
+      "status": "PASS",
+      "all_movements_inventory_lots_and_audit_rolled_back": true,
+      "limitation": "Native calls enclosed by test transaction, not an existing combined correction-note API; no concurrent session, money, HPP or HTTP assertions."
+    },
+    {
+      "id": "H10_CORRECTION_AND_FAILED_BOOK_PLACEMENT_ROLL_BACK_TOGETHER",
+      "status": "PASS",
+      "mutation_and_presentation_change_all_or_none": true,
+      "test_transaction_only": true
+    },
+    {
+      "id": "H11_HISTORICAL_NEGATIVE_REFUSED_EVEN_WHEN_CURRENT_STOCK_POSITIVE",
+      "status": "PASS",
+      "existing_native_chronological_guard_executed": true,
+      "current_stock_would_remain_positive": true,
+      "entire_failed_mutation_rolled_back": true
+    },
+    {
+      "id": "H12_FULL_YEAR_ALL_364_LATER_BALANCES_ACROSS_PAGES",
+      "status": "PASS",
+      "elapsed_history": "one year",
+      "later_balances_verified": 364,
+      "page_size": 25,
+      "pages_read": 15,
+      "original_withdrawal_quantities_unchanged": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "FGH-01",
+      "requirement_status": "NOT_MET",
+      "scope": "Current main book presentation after native backdated insertion",
+      "observed": "All 30 official balances changed +12 PCS; all 30 main book balances stayed at their old values because the correction was appended by book_order.",
+      "last_old_row": {
+        "official_pcs": "828",
+        "displayed_book_pcs": "816"
+      },
+      "implementation_change_required": true
+    },
+    {
+      "id": "FGH-02",
+      "requirement_status": "NOT_MET",
+      "scope": "Current movement inverse plus replacement",
+      "observed": "Existing reverse_fg_movement dates the inverse now. A current-dated replacement fixes current 69-dozen stock but leaves all old suffix balances unchanged.",
+      "limitation": "Bounded movement-level control only; invoice/journal/HPP/payment lifecycle not executed.",
+      "implementation_change_required": true
+    }
+  ],
+  "source_file_sha256": {
+    "scripts/cp7-src/fg/book.sql": "3a5c57867d3909227b7d52902b9cc7bd3c5f31372bf80c9172bc148f128328f6",
+    "scripts/cp7-src/fg/ledger.sql": "8f51d8d7329fe139acf26465589df963be53f188ef667bb8dc6212a8c2b29cde",
+    "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz": "7aa808a3060bb878fab6b311ba031b9d91d2f12f7268bcc67ea0b88e0974b7ae",
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc",
+    "scripts/audit/cp7_fg_history_probe.mjs": "23659cd4da783c2aca956110738fa0a06d0b1cf56d79ea2766a844084d3ae1c3",
+    "scripts/audit/cp7_fg_history_fixture.sql": "c24cb8970f9a8115304a82f92034f62764046cb7d237c544b818f19ac8934ce5"
+  },
+  "unchanged_function_sha256": {
+    "cp7_fg.book_signature": "7b4eb697c70219cc29d627f42d1dcb895d6c8ecc0ca0d4d87aed8791130e4d2f",
+    "cp7_fg.book_rows": "fb105720cc164d36daca725fc6ff6dc24dc12a1ac8e470583596041a3cc347b8",
+    "cp7_fg.book_workspace": "b9fba4ff497e79f44497ed35270a0c5f5a6b32ec23ae27ec42567be008468f13",
+    "cp7_fg.ledger_rows": "10ccd3bf77cde69f2e51791f04e6af7c0a7820fb1ecb1b94200cc5fb2fbf48af",
+    "erp.post_fg_movement": "00882336bc7138bc8701639ba5baa30b55a5c0e4363ba05a7363f1ec1f5445f0",
+    "erp.assert_fg_chronological_nonnegative": "1d75f27e4516f7220b9dce8adba6a256f2fd0eb5d57764a4e9c1b553cc249045",
+    "erp.reverse_fg_movement": "504941c22e1d996ef9e10275e73d478d5333a262139b841dc428aec4c5afcf4b",
+    "erp.move_fg_stock_card_row_to_position": "3e97773665578be5fdcf9ab7dc14cd2ac9461bcd2204994db54b1e9fb6699b6c",
+    "erp.reset_fg_stock_mutation_book_order": "d7495cb239222c4c644c0505220feb6bd16cfce097e71cf7bb1fc40ca0de3657"
+  }
+}

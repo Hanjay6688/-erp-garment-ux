@@ -53,7 +53,7 @@ async function bookFlow(ui,today,mobile){
   await panel.getByLabel('Saya ingin mengatur ulang seluruh buku FG.',{exact:true}).check();await reset.click()
   await ui.expect(panel.locator('.cfgb-card').first()).toHaveAttribute('data-movement-id',f.first)
   await ui.expect.poll(()=>fixture('read_book',f).book.page.rows.map(r=>r.id)).toEqual([f.first,f.second,f.sale])
-  if(mobile){await p.route('**/rest/v1/rpc/erp_cp7_get_fg_book_v1',r=>r.abort('failed'));await panel.getByRole('button',{name:'Muat ulang buku',exact:true}).click();await ui.expect(panel.locator('.cfgb-card')).toHaveCount(0);await ui.expect(panel.getByRole('alert').first()).toBeVisible()}
+  if(mobile){await p.route('**/rest/v1/rpc/erp_cp7_get_fg_book_v2',r=>r.abort('failed'));await panel.getByRole('button',{name:'Muat ulang buku',exact:true}).click();await ui.expect(panel.locator('.cfgb-card')).toHaveCount(0);await ui.expect(panel.getByRole('alert').first()).toBeVisible()}
   return {status:'PASS',mobile,real_auth_ui_rpc_database:true,desktop_drag:mobile?null:true,mobile_move_and_lost_reply_exact_recovery:mobile?true:null,global_reset_review:true,all_movement_facts_hpp_journals_stock_unchanged:true,failed_read_clears_cards:mobile?true:null,screenshot:`P10_BOOK_${mobile?'MOBILE':'DESKTOP'}.png`}
  }finally{await user.context.close()}
 }

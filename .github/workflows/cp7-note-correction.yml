@@ -1,98 +1,23 @@
-name: CP7 F05 Native Durable Attention
+name: CP7 Owning Historical Note Correction
 'on':
   push:
     branches:
     - cp7/integration
     paths:
     - scripts/cp7_note_correction_*
-    - scripts/cp7-src/sales/**
-    - scripts/cp7-src/fg/**
-    - scripts/cp7_fg_bundle.py
-    - scripts/cp7_f03_bundle.py
-    - src/ConnectedSalesPage*
-    - src/ConnectedFgBookPage*
-    - src/noteCorrectionContract*
-    - src/fgBookContract*
-    - scripts/cp7_f05_attention_*
-    - scripts/cp6_auditor_browser_host.mjs
-    - scripts/cp7_attention_*
-    - scripts/cp7_f05_receivable_*
-    - scripts/cp7_f05_payable_*
-    - scripts/cp7_payable_condition_cases.py
-    - scripts/cp7_obligation_episode_cases.py
-    - scripts/cp7_obligation_history_cases.py
-    - scripts/cp7_rule_policy_cases.py
-    - scripts/cp7_rule_source_*
-    - scripts/cp7_other_obligation_*
-    - scripts/cp7_obligation_report_*
-    - scripts/cp7_f05_obligation_report_browser*
-    - src/NativeObligationReportsPanel*
-    - src/nativeObligationReports*
-    - tests/fixtures/nativeObligationReports.ts
-    - scripts/cp7_f05_other_browser*
-    - scripts/cp7_f05_rule_browser*
-    - src/NativeRuleSourcePanel*
-    - src/nativeRuleSource*
-    - tests/fixtures/nativeRuleSource.ts
-    - scripts/cp7_f05_policy_browser*
-    - src/NativeReminderPolicyPanel*
-    - src/nativeReminderPolicy*
-    - tests/fixtures/nativeReminderPolicy.ts
-    - scripts/cp7_f05_history_browser*
-    - scripts/cp7_f05_episode_browser.mjs
-    - scripts/cp7_f05_ai_browser.mjs
-    - scripts/cp7_catalog_state.py
-    - src/nativeObligationEpisodes*
-    - src/NativeObligationObservationView.tsx
-    - tests/fixtures/nativeObligationEpisodes*
-    - src/nativePayableConditions*
-    - tests/fixtures/nativePayableConditions*
-    - src/supplierCredit*
-    - scripts/cp7_receivable_condition_cases.py
-    - src/nativeReceivableConditions*
-    - tests/fixtures/nativeReceivableConditions*
-    - scripts/cp7_reminder_bundle.py
-    - scripts/cp7-src/reminders/**
-    - scripts/cp7_f05_publication_*
-    - scripts/cp7_f05_analysis_*
-    - scripts/cp7_analysis_*
-    - src/NativeAnalysis*
-    - src/NativeMaterialNeedsView.tsx
-    - tests/fixtures/nativeMaterialNeeds.ts
-    - scripts/cp7_material_need_cases.py
-    - scripts/cp7_f04_material_browser*
-    - src/nativeAnalysis*
-    - src/native-analysis.css
-    - src/cp7/native-analysis.schema.json
-    - scripts/cp7_f04_netting_*
-    - scripts/cp7_netting_bundle.py
-    - scripts/cp7_schedule_bundle.py
-    - scripts/cp7_supply_bundle.py
-    - scripts/cp7_f04_baseline_*
-    - scripts/cp7_f04_history_*
-    - scripts/cp7_baseline_bundle.py
-    - scripts/cp7_planning_*
-    - scripts/cp7-src/planning/**
-    - scripts/cp7-src/demand/**
-    - scripts/cp7-src/baseline/**
-    - scripts/cp7-src/models/**
-    - src/NativePlanningProfilePanel*
-    - src/nativePlanningProfile*
-    - src/native-planning-profile.css
-    - src/NativeDemandHistoryPanel*
-    - src/nativeDemandHistory*
-    - src/native-demand-history.css
-    - src/ConnectedFgStockPage*
-    - .github/workflows/cp7-f05-attention.yml
+    - scripts/cp7-src/**
+    - scripts/cp7_*bundle.py
+    - src/**
+    - .github/workflows/cp7-note-correction.yml
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: cp7-f05-attention-${{ github.run_id }}
+  group: cp7-note-correction-${{ github.run_id }}
   cancel-in-progress: false
 jobs:
   phase:
-    name: Original analysis, own-user Native reminders and current Auth
+    name: Nota correction / Native stock AR cash journal HPP
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
@@ -149,7 +74,7 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
+        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
         sudo apt-get update -qq
         sudo apt-get install -y -qq ca-certificates curl gnupg
         sudo install -d /usr/share/postgresql-common/pgdg
@@ -269,40 +194,9 @@ jobs:
           'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
           cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'
-    - name: Inspect retained Native155 handoff failures without source or credentials
-      working-directory: auditor
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11139828865/zip > "$RUNNER_TEMP/cp7-native155-retained.zip"
-        python - <<'PY'
-        from pathlib import Path
-        import os,hashlib,zipfile,json
-        p=Path(os.environ['RUNNER_TEMP'])/'cp7-native155-retained.zip'
-        assert p.stat().st_size==132000390 and hashlib.sha256(p.read_bytes()).hexdigest()=='ed3ec21ec77056086a61c8b242a914d86beadfa31ee4d4864cc81bbe1f3933c0'
-        results={}
-        with zipfile.ZipFile(p)as z:
-          for name in z.namelist():
-            if name.endswith('CP7_F05_NATIVE_ATTENTION.json'):
-              r=json.loads(z.read(name));results['original155']={k:r.get(k)for k in('status','expected_case_count','observed_case_count','source_sha256','cp6_restored','restore_components','advisor_gate','native_public_catalog_comparison')}
-              results['original155']['groups']={g:r[g]['counts']for g in('native','races','http','browser')}
-            if name.endswith('.json')and 'P17_HANDOFF_'in name and 'FAILURE'in name:
-              r=json.loads(z.read(name));t=r.get('text','');o=r.get('original')or{};a=r.get('lastRead')or{}
-              messages=['Salinan otomatis terlalu besar','Salin otomatis gagal','Pertanyaan dan data sumber disalin','Sumber sudah berubah','belum sesuai sumber']
-              results[Path(name).name]={'message_hits':[m for m in messages if m in t],'panel_utf8_bytes':len(t.encode()),'original_analysis_utf8_bytes':len(json.dumps(o.get('analysis'),ensure_ascii=False,separators=(',',':')).encode()),'original_finance_utf8_bytes':len(json.dumps(o.get('financial_source'),ensure_ascii=False,separators=(',',':')).encode()),'last_source_state':a.get('source_state'),'same_original_analysis':a.get('analysis')==o.get('analysis'),'same_original_finance':a.get('financial_source')==o.get('financial_source')}
-        out=Path('cp6-proof/t3');out.mkdir(parents=True,exist_ok=True);(out/'CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json').write_text(json.dumps(results,indent=2)+'\n')
-        print('CP7_NATIVE155_HANDOFF_DIAGNOSTIC '+json.dumps(results))
-        PY
-    - name: Retain exact qualified Native155 originals and source identity
-      working-directory: auditor
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11141076740/zip > "$RUNNER_TEMP/cp7-native155-qualified.zip"
-        python scripts/cp7_native155_retained_receipt.py "$RUNNER_TEMP/cp7-native155-qualified.zip" cp6-proof/t3/retained-native155-928332d
-    - name: Install accepted package and qualify the frozen Native analysis compiler
+    - name: Install accepted package and qualify owning note correction
       working-directory: writer
-      run: python '../auditor/scripts/cp7_f05_attention_probe.py'
+      run: python '../auditor/scripts/cp7_note_correction_probe.py'
     - name: Remove disposable database
       if: always()
       working-directory: base
@@ -310,7 +204,7 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp7-f05-attention
+        name: cp7-note-correction
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error

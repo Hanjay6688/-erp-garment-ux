@@ -2,6 +2,8 @@ import type {MaterialPage} from './materialContract'
 import type {Json} from './types/database.preconnect'
 export type FgBookRow={id:string;book_order:string;physical_at:string;recorded_at:string;product_id:string;brand_id:string;brand_name:string;commercial_sku:string;product_name:string;size_code:string;lot_id:string|null;lot_number:string|null;location_id:string;location_name:string;quality_grade:string;customer_id:string|null;customer_name:string|null;movement_type:string;source_type:string;source_id:string|null;reversal_of_id:string|null;notes:string|null;physical_delta:string;reservation_delta:string;available_delta:string;book_physical_before:string;book_physical_after:string;book_available_after:string;book_reserved_after:string;official_physical_after:string;official_available_after:string;official_reserved_after:string}
 export type FgBook={contract_version:'cp7.fg-book.v1';read_at:string;knowledge:'CURRENT';book_token:string;can_order:boolean;quantity_scope:'PHYSICAL_PRODUCT_LOCATION_GRADE';presentation_only:true;page:MaterialPage<FgBookRow>}
+export type CorrectedFgBookRow=FgBookRow&{original_physical_delta:string;correction_count:string;correction_recorded_at:string|null;audit_movements:Array<{id:string;physical_at:string;recorded_at:string;lot_id:string|null;source_type:string;source_id:string|null;reversal_of_id:string|null;available_delta:string;reservation_delta:string}>}
+export type CorrectedFgBook=Omit<FgBook,'contract_version'|'page'>&{contract_version:'cp7.fg-book.v2';page:MaterialPage<CorrectedFgBookRow>}
 export type BookOption={id:string;label:string;code:string}
 export type BookFilterKind='BRAND'|'CUSTOMER'|'TYPE'
 export type FgBookOptions={contract_version:'cp7.fg-book-options.v1';kind:BookFilterKind;read_at:string;page:MaterialPage<BookOption>}
@@ -39,6 +41,29 @@ export function parseFgBookOptions(v:unknown,kind:BookFilterKind):FgBookOptions{
  const w=closed(v,['contract_version','kind','read_at','page']);if(w.contract_version!=='cp7.fg-book-options.v1'||w.kind!==kind||!instant(w.read_at))fail()
  page(w.page,v=>{const r=closed(v,['id','label','code']);if(!text(r.id)||!r.id||kind!=='TYPE'&&!id(r.id)||!text(r.label)||!text(r.code))return fail();return r.id})
  return w as unknown as FgBookOptions
+}
+export function parseCorrectedFgBook(v:unknown):CorrectedFgBook{
+ const source=fgBookObject(v),p=fgBookObject(source.page)
+ if(source.contract_version!=='cp7.fg-book.v2'||!Array.isArray(p.rows))return fail()
+ const extra=['original_physical_delta','correction_count','correction_recorded_at','audit_movements']
+ const rows=p.rows.map(value=>{
+  const row=fgBookObject(value)
+  if(!extra.every(k=>k in row)||!signed(row.original_physical_delta)||!signed(row.available_delta)||!signed(row.reservation_delta)||!whole(row.correction_count)||row.correction_recorded_at!==null&&!instant(row.correction_recorded_at)||!Array.isArray(row.audit_movements)||!row.audit_movements.length)return fail()
+  const members=row.audit_movements.map(value=>{
+   const m=closed(value,['id','physical_at','recorded_at','lot_id','source_type','source_id','reversal_of_id','available_delta','reservation_delta'])
+   if(!id(m.id)||!instant(m.physical_at)||!instant(m.recorded_at)||!nullableId(m.lot_id)||!text(m.source_type)||!nullableId(m.source_id)||!nullableId(m.reversal_of_id)||!signed(m.available_delta)||!signed(m.reservation_delta))return fail()
+   return m
+  })
+  if(new Set(members.map(m=>m.id)).size!==members.length||!members.some(m=>m.id===row.id)||
+   members.reduce((n,m)=>n+BigInt(m.available_delta as string),0n)!==BigInt(row.available_delta as string)||
+   members.reduce((n,m)=>n+BigInt(m.reservation_delta as string),0n)!==BigInt(row.reservation_delta as string))return fail()
+  const original=members.find(m=>m.id===row.id)!
+  if(BigInt(row.original_physical_delta)!==BigInt(original.available_delta as string)+BigInt(original.reservation_delta as string)||Date.parse(original.physical_at as string)!==Date.parse(row.physical_at as string)||Date.parse(original.recorded_at as string)!==Date.parse(row.recorded_at as string))return fail()
+  if(row.correction_count==='0'?(row.correction_recorded_at!==null||members.length!==1):(row.correction_recorded_at===null||members.length<2))return fail()
+  return Object.fromEntries(Object.entries(row).filter(([k])=>!extra.includes(k)))
+ })
+ parseFgBook({...source,contract_version:'cp7.fg-book.v1',page:{...p,rows}})
+ return v as CorrectedFgBook
 }
 export function parseFgBookOutcome(v:unknown,request:string,action:string,payload:Json){
  const r=closed(v,['contract_version','kind','action','request_id','source_id','book_token','presentation_only']),p=fgBookObject(payload)

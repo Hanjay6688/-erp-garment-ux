@@ -1,0 +1,47 @@
+{
+  "status": "LOCAL_SOURCE_AND_UI_PASS_NATIVE_PENDING",
+  "focused_test_files": 5,
+  "focused_tests_pass": 58,
+  "focused_tests_fail": 0,
+  "typescript_vite_build": "PASS",
+  "client_secret_scan": "PASS",
+  "source_ownership": {
+    "runtime_files": 236,
+    "owned_rpc_boundaries": 164
+  },
+  "access_ownership": {
+    "backend_permissions": 111,
+    "routes": 48,
+    "sensitive_actions": 21
+  },
+  "css_ownership": "PASS",
+  "cp5_frozen_boundary": "PASS",
+  "cp6_frozen_boundary_all_checks": "PASS",
+  "predecessor_backend_ownership_exact_cp5_base": "PASS",
+  "build_secret_canary_regression": "PASS",
+  "uat_auth_assertions": "PASS",
+  "python_ast": "PASS",
+  "workflow_yaml": "PASS",
+  "browser_js_parse": "PASS",
+  "git_diff_whitespace": "PASS",
+  "sql_create_control": {
+    "runtime": "PGlite 0.5.8/PostgreSQL18.3",
+    "private_helpers_created": 6,
+    "native_economic_command_executions": 0,
+    "qualification_credit": 0
+  },
+  "native_24": "PENDING",
+  "full_f03_8": "PENDING",
+  "native284_composed": "PENDING",
+  "production_go": false,
+  "independent_acceptance": false,
+  "current_code_hashes": {
+    "scripts/cp7-src/sales/correction.sql": "277c8704a7cf806db1de9830d2b48baca0ce71543dd2bdff8c328bee1b503e37",
+    "scripts/cp7-src/fg/bootstrap.sql": "a6cffac52590f4e18ad4555da532b0460549e956ab8557923b0c6083ca148755",
+    "scripts/cp7-src/fg/corrected-book.sql": "54174b4670d3c35640bc100c6914925ae57b44652da8312cc17b1f87e10a3cf0",
+    "src/ConnectedSalesPage.tsx": "301da4604c29b5c9aaa2f0e50ac85e6a765b3917a37c5007bb6aea36688871b9",
+    "src/SalesDraftPanel.tsx": "63341f3625a5d1d59a7756fe927cbf030d02cc17615c87ab7783c651129be525",
+    "src/ConnectedFgBookPage.tsx": "62f006807a272bc5c3c30b55058f97bcfce2b6270bb4d4b11987a58d3538ce6f",
+    "scripts/cp7_note_correction_manifest.json": "795d45188cf448140be7f4d20def59993b81ec85088635f335f3f9a545a6ed3e"
+  }
+}

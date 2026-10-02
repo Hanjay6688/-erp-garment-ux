@@ -1,0 +1,274 @@
+{
+  "thirty_rows": [
+    {
+      "withdrawal": 1,
+      "id": "c54c2337-fb3e-4f22-8864-fb8976be5761",
+      "qty_signed": "-12",
+      "before_official_pcs": "1164",
+      "after_official_pcs": "1176",
+      "before_book_pcs": "1164",
+      "after_book_pcs": "1164"
+    },
+    {
+      "withdrawal": 2,
+      "id": "3d3a25b2-e29e-458e-a1ef-7f5e99977633",
+      "qty_signed": "-12",
+      "before_official_pcs": "1152",
+      "after_official_pcs": "1164",
+      "before_book_pcs": "1152",
+      "after_book_pcs": "1152"
+    },
+    {
+      "withdrawal": 3,
+      "id": "57852bc8-16d6-46a0-85c0-8c6b752ebd46",
+      "qty_signed": "-12",
+      "before_official_pcs": "1140",
+      "after_official_pcs": "1152",
+      "before_book_pcs": "1140",
+      "after_book_pcs": "1140"
+    },
+    {
+      "withdrawal": 4,
+      "id": "974500c4-e293-4ec9-b9db-c2eba16cd11a",
+      "qty_signed": "-12",
+      "before_official_pcs": "1128",
+      "after_official_pcs": "1140",
+      "before_book_pcs": "1128",
+      "after_book_pcs": "1128"
+    },
+    {
+      "withdrawal": 5,
+      "id": "8b346538-041b-42af-86e7-06b48ab07bec",
+      "qty_signed": "-12",
+      "before_official_pcs": "1116",
+      "after_official_pcs": "1128",
+      "before_book_pcs": "1116",
+      "after_book_pcs": "1116"
+    },
+    {
+      "withdrawal": 6,
+      "id": "4eec1a2d-6e55-47da-b701-0e41f01672c9",
+      "qty_signed": "-12",
+      "before_official_pcs": "1104",
+      "after_official_pcs": "1116",
+      "before_book_pcs": "1104",
+      "after_book_pcs": "1104"
+    },
+    {
+      "withdrawal": 7,
+      "id": "8d723ea3-b819-4f97-aceb-846a4c7c1e1f",
+      "qty_signed": "-12",
+      "before_official_pcs": "1092",
+      "after_official_pcs": "1104",
+      "before_book_pcs": "1092",
+      "after_book_pcs": "1092"
+    },
+    {
+      "withdrawal": 8,
+      "id": "2bba0200-0c79-4a05-a09b-59ee0b2c6acd",
+      "qty_signed": "-12",
+      "before_official_pcs": "1080",
+      "after_official_pcs": "1092",
+      "before_book_pcs": "1080",
+      "after_book_pcs": "1080"
+    },
+    {
+      "withdrawal": 9,
+      "id": "150d2c53-e354-461b-ace4-3581e64de965",
+      "qty_signed": "-12",
+      "before_official_pcs": "1068",
+      "after_official_pcs": "1080",
+      "before_book_pcs": "1068",
+      "after_book_pcs": "1068"
+    },
+    {
+      "withdrawal": 10,
+      "id": "0e7b087c-13f6-4783-8618-1c6028875858",
+      "qty_signed": "-12",
+      "before_official_pcs": "1056",
+      "after_official_pcs": "1068",
+      "before_book_pcs": "1056",
+      "after_book_pcs": "1056"
+    },
+    {
+      "withdrawal": 11,
+      "id": "68498e38-1fee-4fd0-9597-db04741ceb1b",
+      "qty_signed": "-12",
+      "before_official_pcs": "1044",
+      "after_official_pcs": "1056",
+      "before_book_pcs": "1044",
+      "after_book_pcs": "1044"
+    },
+    {
+      "withdrawal": 12,
+      "id": "aea123ed-3a89-4444-b3b4-e9b94be1ded3",
+      "qty_signed": "-12",
+      "before_official_pcs": "1032",
+      "after_official_pcs": "1044",
+      "before_book_pcs": "1032",
+      "after_book_pcs": "1032"
+    },
+    {
+      "withdrawal": 13,
+      "id": "a0b0814a-a876-4839-ada9-2ff8c1d4f8a9",
+      "qty_signed": "-12",
+      "before_official_pcs": "1020",
+      "after_official_pcs": "1032",
+      "before_book_pcs": "1020",
+      "after_book_pcs": "1020"
+    },
+    {
+      "withdrawal": 14,
+      "id": "ddb6dd78-b691-42d0-b61f-8e2ebdc1e8f3",
+      "qty_signed": "-12",
+      "before_official_pcs": "1008",
+      "after_official_pcs": "1020",
+      "before_book_pcs": "1008",
+      "after_book_pcs": "1008"
+    },
+    {
+      "withdrawal": 15,
+      "id": "ee938b01-365d-4283-9494-a13079753055",
+      "qty_signed": "-12",
+      "before_official_pcs": "996",
+      "after_official_pcs": "1008",
+      "before_book_pcs": "996",
+      "after_book_pcs": "996"
+    },
+    {
+      "withdrawal": 16,
+      "id": "e09f891c-3a72-4cb3-bb79-c41719171d67",
+      "qty_signed": "-12",
+      "before_official_pcs": "984",
+      "after_official_pcs": "996",
+      "before_book_pcs": "984",
+      "after_book_pcs": "984"
+    },
+    {
+      "withdrawal": 17,
+      "id": "7543359e-1ab6-4403-88a1-9f3ac7b03442",
+      "qty_signed": "-12",
+      "before_official_pcs": "972",
+      "after_official_pcs": "984",
+      "before_book_pcs": "972",
+      "after_book_pcs": "972"
+    },
+    {
+      "withdrawal": 18,
+      "id": "c350641c-6510-4669-97d4-f00322814481",
+      "qty_signed": "-12",
+      "before_official_pcs": "960",
+      "after_official_pcs": "972",
+      "before_book_pcs": "960",
+      "after_book_pcs": "960"
+    },
+    {
+      "withdrawal": 19,
+      "id": "efceeee5-3668-45aa-8c2b-da995444aa5e",
+      "qty_signed": "-12",
+      "before_official_pcs": "948",
+      "after_official_pcs": "960",
+      "before_book_pcs": "948",
+      "after_book_pcs": "948"
+    },
+    {
+      "withdrawal": 20,
+      "id": "3498ac52-2c76-4d4c-bb5d-7745bfa42d32",
+      "qty_signed": "-12",
+      "before_official_pcs": "936",
+      "after_official_pcs": "948",
+      "before_book_pcs": "936",
+      "after_book_pcs": "936"
+    },
+    {
+      "withdrawal": 21,
+      "id": "ce786479-4778-48d6-a38b-f44e1bcefbb4",
+      "qty_signed": "-12",
+      "before_official_pcs": "924",
+      "after_official_pcs": "936",
+      "before_book_pcs": "924",
+      "after_book_pcs": "924"
+    },
+    {
+      "withdrawal": 22,
+      "id": "fc9e8b12-4e46-4504-9c98-3f1d33af3f84",
+      "qty_signed": "-12",
+      "before_official_pcs": "912",
+      "after_official_pcs": "924",
+      "before_book_pcs": "912",
+      "after_book_pcs": "912"
+    },
+    {
+      "withdrawal": 23,
+      "id": "7464f70c-bbcb-4f76-8276-8db380f1afd0",
+      "qty_signed": "-12",
+      "before_official_pcs": "900",
+      "after_official_pcs": "912",
+      "before_book_pcs": "900",
+      "after_book_pcs": "900"
+    },
+    {
+      "withdrawal": 24,
+      "id": "611531a5-5020-43cd-ab3d-7eb720443f19",
+      "qty_signed": "-12",
+      "before_official_pcs": "888",
+      "after_official_pcs": "900",
+      "before_book_pcs": "888",
+      "after_book_pcs": "888"
+    },
+    {
+      "withdrawal": 25,
+      "id": "b3c7a0ee-6cf9-4230-9dcf-778dba113a4a",
+      "qty_signed": "-12",
+      "before_official_pcs": "876",
+      "after_official_pcs": "888",
+      "before_book_pcs": "876",
+      "after_book_pcs": "876"
+    },
+    {
+      "withdrawal": 26,
+      "id": "cef01191-3482-400b-b4a4-d8e781e49599",
+      "qty_signed": "-12",
+      "before_official_pcs": "864",
+      "after_official_pcs": "876",
+      "before_book_pcs": "864",
+      "after_book_pcs": "864"
+    },
+    {
+      "withdrawal": 27,
+      "id": "36d2c08a-a72a-4ef7-98a9-bf1db8a73d63",
+      "qty_signed": "-12",
+      "before_official_pcs": "852",
+      "after_official_pcs": "864",
+      "before_book_pcs": "852",
+      "after_book_pcs": "852"
+    },
+    {
+      "withdrawal": 28,
+      "id": "365d81d6-c17d-4832-94f4-8fedabbb0b94",
+      "qty_signed": "-12",
+      "before_official_pcs": "840",
+      "after_official_pcs": "852",
+      "before_book_pcs": "840",
+      "after_book_pcs": "840"
+    },
+    {
+      "withdrawal": 29,
+      "id": "2c2deb08-c2e7-421a-8116-71c265b9d09a",
+      "qty_signed": "-12",
+      "before_official_pcs": "828",
+      "after_official_pcs": "840",
+      "before_book_pcs": "828",
+      "after_book_pcs": "828"
+    },
+    {
+      "withdrawal": 30,
+      "id": "1cd957ec-7f3e-4a42-a88a-f9db31452177",
+      "qty_signed": "-12",
+      "before_official_pcs": "816",
+      "after_official_pcs": "828",
+      "before_book_pcs": "816",
+      "after_book_pcs": "816"
+    }
+  ]
+}

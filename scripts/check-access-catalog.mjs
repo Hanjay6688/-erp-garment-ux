@@ -146,7 +146,7 @@ const cp7PeriodBoundaries = ['erp_cp7_get_period_control_v1','erp_cp7_save_perio
 for (const name of cp7PeriodBoundaries) assert.ok(rpcBoundaries.has(`src/FinancePeriodPanel.tsx:${name}`))
 const cp7FinanceBoundaries = ['src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1','src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1','src/ConnectedCashLedgerPage.tsx:erp_cp7_get_finance_analysis_v1']
 for (const boundary of cp7FinanceBoundaries) assert.ok(rpcBoundaries.has(boundary))
-const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1']
+const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1','erp_cp7_get_note_correction_v1','erp_cp7_correct_note_v1']
 for (const name of cp7SalesBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedSalesPage.tsx:${name}`))
 const cp7PayrollBoundaries = ['erp_cp7_get_payroll_workspace_v1','erp_cp7_save_payroll_v1']
 for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))
@@ -176,7 +176,7 @@ const cp7AttendanceBoundaries = ['erp_cp7_get_attendance_workspace_v1','erp_cp7_
 for (const name of cp7AttendanceBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedAttendancePage.tsx:${name}`))
 const cp7NotaBoundaries = ['erp_cp7_get_nota_workspace_v1','erp_cp7_save_nota_v1']
 for (const name of cp7NotaBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedNotaPage.tsx:${name}`))
-const cp7FgBookBoundaries = ['erp_cp7_get_fg_book_v1','erp_cp7_save_fg_book_v1','erp_cp7_get_fg_book_options_v1']
+const cp7FgBookBoundaries = ['erp_cp7_get_fg_book_v2','erp_cp7_save_fg_book_v1','erp_cp7_get_fg_book_options_v1']
 for (const name of cp7FgBookBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedFgBookPage.tsx:${name}`))
 const cp7FgBoundaries = ['erp_cp7_get_fg_v1','erp_cp7_get_fg_ledger_v1']
 const cp7FgAdjustmentBoundaries = ['erp_cp7_get_fg_v1','erp_cp7_get_fg_adjustments_v1','erp_cp7_save_fg_adjustment_v1']

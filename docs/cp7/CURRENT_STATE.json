@@ -82,7 +82,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "F03 writer exit preserved; finish F04 and F05 with actual Native, current authority, exact restoration and retained Originals",
+  "execution_priority": "Owner requested owning note correction and historical main-book balances first; finish remaining F04/F05 and full CP7 gates without inheriting previous Native PASS onto new code",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -1220,7 +1220,7 @@
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 all-eight writer exit preserved; repaired Native284 all284 PASS, main152 and actual E01 bridge7 PASS with exact Original/restoration/primary/backup/advisor/Auth gates. Counts overlap; full F04/F05 acceptance remains open.",
   "latest_tested_source": "656e4fd5944b6061a87fd0a388d2b928563ac398",
-  "next_action": "Finish remaining F04 Native analyzer/material source contracts, then full P18-P21; complete Native284 performance repair is qualified and does not require another unchanged rerun. F03 writer exit stays qualified.",
+  "next_action": "Qualify owning note correction on actual disposable Native PostgreSQL/Auth/HTTP/browser, retain exact failed or passed Originals, run unchanged eight F03 buckets and composed Native284; continue Native F04 producer/material gaps while those jobs run.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -2408,5 +2408,18 @@
     "measured_full_analysis_candidate_ms": 903,
     "measured_full_analysis_restored_original_ms": 1943,
     "measurement_scope": "12_ACTUAL_NATIVE_E01_JOURNEYS_PLUS12_NATIVE_PLANNER_FIXTURES_NOT_FACTORY_P95"
+  },
+  "f03_historical_note_correction": {
+    "status": "CANDIDATE_NATIVE_QUALIFICATION_PENDING",
+    "handoff": "docs/cp7/F03_HISTORICAL_NOTE_CORRECTION.md",
+    "input_receipt": "docs/cp7/evidence/note-correction/input-handoff/INPUT_RECEIPT.json",
+    "manifest": "scripts/cp7_note_correction_manifest.json",
+    "current_native_economic_qualification": false,
+    "prior_f03_qualified_scope_preserved": true,
+    "local_dom_tests": 58,
+    "local_build": "PASS",
+    "native_predeclared_case_executions": 24,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }
