@@ -1,0 +1,122 @@
+{
+  "status": "EXACT_SOURCE_NATIVE_WRITER_PASS",
+  "source_commit": "45e06d7315590a8f1c275fe1767ecaf0c82f33ae",
+  "source_tree": "5423cf2a22fd6d6611c1e9189819ce59344779f3",
+  "run_id": 36997888732,
+  "job_id": 110808686552,
+  "artifact_id": 11221809298,
+  "archive_bytes": 10503841,
+  "archive_sha256": "fd458dc2d005784a6f4ee4670f1ce0b9c4264fada8e64172916f888813f7418c",
+  "source_bundle_sha256": "b133edccd745c7ae80a2222430b9490667127d7a9da2865defde0c0932dc5556",
+  "expected_case_count": 9,
+  "observed_case_count": 9,
+  "groups": {
+    "native": {
+      "PASS": 5
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "7f9669ef1599f621aa8f430b3b6e1f75e6c59b7f1b365ed11e54a665283f637d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "7f9669ef1599f621aa8f430b3b6e1f75e6c59b7f1b365ed11e54a665283f637d"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "1b1b43bbe0438feae8911019998dbba4638277a62651a08b1841331f2d71c48b"
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 278234,
+      "sha256": "992144621ca06bd31fab41e408f6a476330103e630254ffb887d18a37d716620"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png": {
+      "bytes": 1657772,
+      "sha256": "0654eac932571948af748bdf8f6168cb0f5b64207389e77e782689f77a99ffa1"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_MOBILE.png": {
+      "bytes": 757198,
+      "sha256": "190da97304a5ebc04e477073d7b23cddd53d87a3342eac798c15b8c633be5501"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png": {
+      "bytes": 862878,
+      "sha256": "57e8ed551a0e7af3b51ad41d053e197e99f76cd0ac1046b4bc1f9c28d82292d0"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png": {
+      "bytes": 480899,
+      "sha256": "7f567ba0907d874afe8da9a3093e5f6b62098ca7f847cbbccb68e454d428d92c"
+    },
+    "P18_E01_BRIDGE_PREVIEW_DESKTOP.png": {
+      "bytes": 1881774,
+      "sha256": "8911dbe81a93bca9ab909ae89ded4f7aae75c36cef692c067e3b747405b10847"
+    },
+    "P18_E01_BRIDGE_PREVIEW_MOBILE.png": {
+      "bytes": 1112154,
+      "sha256": "c730392f5bf5ce7db54ba60645a48b06a956ee9c1dcff880dd3e3ae3acf44763"
+    },
+    "P18_E01_BRIDGE_RECOVERED_DESKTOP.png": {
+      "bytes": 1620860,
+      "sha256": "e2709e5ac62f1e03a2eb4e285ba0703095133e63c03940d7a55ce96b6bb7b9a1"
+    },
+    "P18_E01_BRIDGE_RECOVERED_MOBILE.png": {
+      "bytes": 744472,
+      "sha256": "341d8a65d80e39e14fff49c1706c81bebd04897207a0ad7f8aa8076a1e2a365e"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ed59b219f8f728180eeda61eee328d881b75d12f557872f2d779bb8527341b33"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360411,
+      "sha256": "7492837582fb7c0898f81eb636da25c4224b478cea04d8d347425f03dda1129a"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

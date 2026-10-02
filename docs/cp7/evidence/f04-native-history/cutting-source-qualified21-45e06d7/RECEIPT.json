@@ -1,0 +1,126 @@
+{
+  "status": "EXACT_SOURCE_NATIVE_WRITER_PASS",
+  "source_commit": "45e06d7315590a8f1c275fe1767ecaf0c82f33ae",
+  "source_tree": "5423cf2a22fd6d6611c1e9189819ce59344779f3",
+  "run_id": 36997888702,
+  "job_id": 110808686869,
+  "artifact_id": 11222444154,
+  "archive_bytes": 6305830,
+  "archive_sha256": "98a0aa03e0d8ea1037946b66a60450d52a166b7b30b6aff2104eb0ee9721c06a",
+  "source_bundle_sha256": "72abe47aac4e6ad5fed1b780d01758734c3150f05cde1f05ab898184009cc580",
+  "expected_case_count": 21,
+  "observed_case_count": 21,
+  "groups": {
+    "native": {
+      "PASS": 15
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "63d4e2defc80ebae671287fbf49480675b2bac1b951fc0808a8f2c8459b9e99f"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "63d4e2defc80ebae671287fbf49480675b2bac1b951fc0808a8f2c8459b9e99f"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "1a4ce7f5ec4fa609086cea55cf307fe33e286d3027168c2e11a2bc6944a22877"
+    },
+    "CP7_F04_NATIVE_HISTORY.json": {
+      "bytes": 270219,
+      "sha256": "bc98e7add22fc70f18c298c7f10b5a3d7703bf34655294e3052dee551ddad8fd"
+    },
+    "P05_CURRENT_DESKTOP.png": {
+      "bytes": 695197,
+      "sha256": "f392937773663e5c899bc0a570a74f7e367fefc1fe9a111baa4ef90fe0d50bac"
+    },
+    "P05_CURRENT_MOBILE.png": {
+      "bytes": 459305,
+      "sha256": "52a699fd0042483cae1e737e265355f25c5afd7d1f8f541b1b081e49d80bacc9"
+    },
+    "P05_POSTED_DESKTOP.png": {
+      "bytes": 699831,
+      "sha256": "ce59a055fe4e0995ecb433311576dab5867dbbb0cbddb86b229547949c86b23f"
+    },
+    "P05_POSTED_MOBILE.png": {
+      "bytes": 457370,
+      "sha256": "6c0e6600de3b5f6baf1e71ec03e620ae0e8856805f83cfd232a15eecceb21eb6"
+    },
+    "P05_REVOKED_MOBILE.png": {
+      "bytes": 213941,
+      "sha256": "666df09f3f1f2653352e00b4d255eef02f8be546ef45ef7b3f293a64d54e82f6"
+    },
+    "P05_STALE_DESKTOP.png": {
+      "bytes": 704202,
+      "sha256": "2e95976dfcec594dd5b0f9223555179f85d194bc7a629abdb0e5ec376ddc7ed6"
+    },
+    "P05_STALE_MOBILE.png": {
+      "bytes": 461012,
+      "sha256": "ece1f0047b631cf0336ab34d145559087374238ca97cd0d17f49364ba31c2f81"
+    },
+    "P05_UNCERTAIN_DESKTOP.png": {
+      "bytes": 603057,
+      "sha256": "d92bbb64eb1dc4edf547ef2e07e10a9ab19767faa3135895badb42d581b38d3d"
+    },
+    "P05_UNCERTAIN_MOBILE.png": {
+      "bytes": 440175,
+      "sha256": "a1ad22752b48825cb35f22a8bc839140bd73723a491ee763bfea59f1163b24b2"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "f929913b8e649ec77d307171fdbf5f35b4abdfc516cda81304f856e9abfc81df"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360413,
+      "sha256": "0a3183e65e230eaee05d949406a2bb2340101ce4ac5e39fb95ea776ddf2e6ac6"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

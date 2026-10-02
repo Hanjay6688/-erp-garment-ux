@@ -4,6 +4,12 @@ Owner asks for a usable **Benerin nota** feature, and for every later running st
 
 **VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.**
 
+## Qualified owning feature checkpoint
+
+Actual Native30 PASS at `41bfe11fbafa724a82f6e41baa236c352f84adbe`, run36996180995: database22, competing transactions4, real Auth/HTTP2 and desktop/mobile2. Three repeated admission controls carry zero extra case credit. All8 retained F03 groups at `4ca93db345860dfce5dec8d745e4a89cea1389b5`, run36995839444, PASS on the same exact SQL bundle `190994c487cd9241313ab7e32cea273fcb763f40dd0d48b2ca238604978ebafd`. Original root JSON bytes, source identities, artifact/member hashes and all restore/primary/Auth/backup/advisor gates are retained in `evidence/note-correction/qualified30-41bfe11/RECEIPT.json` and `evidence/f03-full/all-eight-qualified-4ca93db/RECEIPT.json`. Overlapping executions are not summed as unique oracles.
+
+Actual corrected demand/report/attention consumer bridge Native9 PASS at `45e06d7`, run36997888732, after the funding and owner-report fixes. Full P18/family/independent acceptance remains open. A successor frontend guard compares exact microseconds, accepts equivalent timezone offsets, and refuses a one-microsecond mismatch; its focused19 DOM tests and TypeScript pass locally. That frontend successor still requires its own Native/browser source run. Historical pending/failure sections below are retained Original checkpoints, not the current result.
+
 ## Candidate behavior
 
 Owner/Admin with all required current invoice and finance permissions can correct quantities, SKU lines, unit prices, discounts, notes, payment terms and due date. The original customer, warehouse, document number and exact physical time remain bound to the reviewed source. The original posted item quantities and prices remain immutable; linked Native inverses and a replacement implement the corrected current facts. Revision history separates the original effective time from today's actual recording time.

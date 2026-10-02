@@ -1,0 +1,119 @@
+{
+  "status": "NATIVE30_WRITER_PASS",
+  "source_commit": "41bfe11fbafa724a82f6e41baa236c352f84adbe",
+  "source_tree": "b82843c8c15425b2ea710d0e8f9a446f5f7a460c",
+  "run_id": 36996180995,
+  "job_id": 110803300949,
+  "artifact_id": 11222213105,
+  "archive_bytes": 4526265,
+  "archive_sha256": "e2854a53ae961596d98e8025db865d32be736ca89874410529168d501ddbd47b",
+  "product_bundle_sha256": "190994c487cd9241313ab7e32cea273fcb763f40dd0d48b2ca238604978ebafd",
+  "manifest_sha256": "92e4c25505b081e81f5114ac992a292ea92b233ccf137bb17db53906d5ea1c61",
+  "provider_sha256": {
+    "cp7_note_correction_cases.py": "3376afd1106e3468ccb2d9c32e8c6e4f9bf9c554402249197e3b57673c8a1316",
+    "cp7_note_correction_verify.py": "988136fb7d99643bda2c25c4248148f6e96da068ffbe5408ecc4e6664e2764c6",
+    "cp7_note_correction_browser.mjs": "186b158ec701c7f7c742096421b655cb229ca746f27342d2dc96ae0829221d64",
+    "cp7_note_correction_browser_fixture.py": "398f6ae5e83c0fd056485e7dbd32f37681446fd8c990a587a89e783fc8d653bb"
+  },
+  "expected_case_count": 30,
+  "observed_case_count": 30,
+  "groups": {
+    "native": {
+      "PASS": 22
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "composition_smoke": {
+    "PASS": 3
+  },
+  "composition_smoke_required_case_credit": 0,
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385625,
+      "sha256": "9cd5046e6cce711f016579db7acd185b4f70ef4dc52ce9461d676c28e5e9dea6"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "4fc33c82ddd8b1f1b8d645bc8e4667afc74845f89dc2f704918c7b23122be0df"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385625,
+      "sha256": "9cd5046e6cce711f016579db7acd185b4f70ef4dc52ce9461d676c28e5e9dea6"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 308865,
+      "sha256": "c7852d77c159bedeaf92cf3d823b7970000845c8223595c7b2a75836e40ca09e"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP.png": {
+      "bytes": 1121930,
+      "sha256": "1d770adf2ccec12402ff33a397bed3c1603340070582944e3d811f8c3d3dd1ec"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE.png": {
+      "bytes": 715100,
+      "sha256": "84f2c61cac23717bd75da1b4fd52e25e2e5fb56a04041f5cdd5374b8465649f5"
+    },
+    "NOTE_CORRECTION_DESKTOP.png": {
+      "bytes": 606927,
+      "sha256": "a3da707e86c54d0baa7fc3eb832905bfdbc9914a8a723ce145e06e1a6c439f0d"
+    },
+    "NOTE_CORRECTION_MOBILE.png": {
+      "bytes": 506628,
+      "sha256": "df07b14b2fa4b080245c3f6817869496ec447e4fca2bd0b1f29ae12598a774c0"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "e2306d5e4c3f14fe8ddf1619d5d54f113dc553d3b497fb4f22e261bd5d99d3f5"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "88d97c9d39e1bc4c356ef871a391ade3713a99651c56d9003ce500a6851c7c0c"
+    }
+  },
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "successor_browser_wait_and_microsecond_receiver_guard_require_source_specific_confirmation": true
+}
