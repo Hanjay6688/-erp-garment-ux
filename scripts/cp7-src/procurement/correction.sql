@@ -70,7 +70,7 @@ create table cp7_receipt_fix.payment_replays(
  previous_payment_id uuid not null references erp.supplier_payments,
  correction_id uuid not null references cp7_receipt_fix.revisions(id) deferrable initially deferred,
  target_purchase_id uuid not null references erp.material_purchase_headers,
- kind text not null check(kind in('CORRECTED_RECEIPT','CREDIT_TO_OTHER_RECEIPT')),
+ kind text not null check(kind in('CORRECTED_RECEIPT','CREDIT_TO_OTHER_RECEIPT','SHARED_INVOICE_RECEIPT')),
  amount numeric(20,2) not null check(amount>0),
  recorded_at timestamptz not null default clock_timestamp()
 );
@@ -106,7 +106,7 @@ create table cp7_receipt_fix.invoice_restatements(
 );
 create table cp7_receipt_fix.context(
  backend_pid integer not null,transaction_id bigint not null,actor uuid not null,
- source_purchase_id uuid not null,primary key(backend_pid,transaction_id)
+ source_purchase_id uuid not null,related_purchase_ids uuid[] not null default '{}',primary key(backend_pid,transaction_id)
 );
 do $own$
 declare t text;
@@ -208,12 +208,25 @@ language sql stable security definer set search_path=''as $$
    from(select source_type,movement_type,count(*)n from active group by 1,2)u),'[]'),
   'movable',not exists(select 1 from active where source_type not in('CUTTING_GROUP','CUTTING_GROUP_RETURN')))$$;
 
+-- Lowest running balance of a non-roll material at one location from the
+-- receipt time on. A receipt line reduced by more than this would make the
+-- location history negative after the stock already left (transfer, issue).
+create function cp7_receipt_fix.location_floor(p_material uuid,p_location uuid,p_from timestamptz)returns numeric
+language sql stable security definer set search_path=''as $$
+ select coalesce(min(x.prefix)filter(where x.physical_at>=p_from),0)from(
+  select m.physical_at,sum(m.qty_signed)over(order by m.physical_at,m.system_created_at,m.id rows unbounded preceding)prefix
+  from erp.material_stock_movements m where m.material_id=p_material and m.location_id=p_location and m.roll_id is null)x$$;
+
 create function cp7_receipt_fix.blockers(p_purchase uuid)returns jsonb
 language sql stable security definer set search_path=''as $$
  select coalesce(jsonb_agg(b order by b->>'code'),'[]')from(
-  select jsonb_build_object('code','CP7_RECEIPT_FIX_INVOICE_SHARED','count',count(*))b from erp.material_supplier_invoices v
-   where v.status='POSTED'and v.id in(select l.invoice_id from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=p_purchase)
-    and v.id in(select l.invoice_id from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id<>p_purchase)
+  -- A supplier invoice that also covers other receipts is corrected whole; only
+  -- an AP-backed return on another receipt of that invoice blocks the Native reversal.
+  select jsonb_build_object('code','CP7_RECEIPT_FIX_SHARED_INVOICE_RETURN_ACTIVE','count',count(*))b from erp.material_supplier_return_items ri
+   join erp.material_supplier_returns rh on rh.id=ri.return_id join erp.material_supplier_invoice_lines l on l.purchase_item_id=ri.purchase_item_id
+   join erp.material_supplier_invoices v on v.id=l.invoice_id join erp.material_purchase_items i on i.id=ri.purchase_item_id
+   where rh.status='POSTED'and coalesce(ri.ap_relief_qty_snapshot,0)>0 and v.status='POSTED'and i.purchase_id<>p_purchase
+    and v.id in(select l2.invoice_id from erp.material_supplier_invoice_lines l2 join erp.material_purchase_items i2 on i2.id=l2.purchase_item_id where i2.purchase_id=p_purchase)
    having count(*)>0
   union all select jsonb_build_object('code','CP7_RECEIPT_FIX_PENDING_CHILD_REVIEW_REQUIRED','count',count(*))from(
    select l.id from erp.material_supplier_invoice_lines l join erp.material_supplier_invoices v on v.id=l.invoice_id
@@ -261,6 +274,7 @@ begin
   'price_state',case when i.invoice_match_state in('PARTIAL','MATCHED')then 'ESTIMATED'else i.price_state end,
   'price_source',case when i.invoice_match_state in('PARTIAL','MATCHED')then i.receipt_price_source_snapshot else i.price_source end,
   'invoice_match_state',i.invoice_match_state,'lot_number',i.lot_number,'notes',i.notes,
+  'min_qty',case when m.material_type='FABRIC'then '0'else greatest(0,i.qty-cp7_receipt_fix.location_floor(i.material_id,h.location_id,h.physical_at))::text end,
   'rolls',(select coalesce(jsonb_agg(jsonb_build_object('roll_id',r.id,'roll_number',r.roll_number,'qty',r.original_qty::text,
     'cached_qty',r.cached_qty::text,'status',r.status)||cp7_receipt_fix.roll_use(r.id,h.location_id)order by r.roll_number,r.id),'[]')
    from erp.material_rolls r where r.purchase_item_id=i.id))order by i.id),'[]')into lines
@@ -272,7 +286,10 @@ begin
   'received_at',v.received_at,'due_date',v.due_date,'row_version',v.row_version::text,'notes',v.notes,
   'lines',(select jsonb_agg(jsonb_build_object('invoice_line_id',l.id,'purchase_item_id',l.purchase_item_id,'qty_invoiced',l.qty_invoiced::text,
    'unit_price',l.unit_price::text,'discount_amount',l.discount_amount::text,'net_amount',l.net_amount::text,'notes',l.notes)order by l.id)
-   from erp.material_supplier_invoice_lines l where l.invoice_id=v.id))order by v.invoice_date,v.posted_at,v.id),'[]')into invoices
+   from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where l.invoice_id=v.id and i.purchase_id=leaf),
+  'other_receipts',(select coalesce(jsonb_agg(jsonb_build_object('purchase_id',o.id,'purchase_number',o.purchase_number)order by o.purchase_number,o.id),'[]')
+   from erp.material_purchase_headers o where o.id<>leaf and o.id in(select i.purchase_id from erp.material_supplier_invoice_lines l
+    join erp.material_purchase_items i on i.id=l.purchase_item_id where l.invoice_id=v.id)))order by v.invoice_date,v.posted_at,v.id),'[]')into invoices
  from erp.material_supplier_invoices v where v.status='POSTED'and v.id in(select l.invoice_id from erp.material_supplier_invoice_lines l
   join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=leaf);
  -- Receipts of the same supplier that still owe money: where an overpayment
@@ -303,15 +320,15 @@ end $$;
 -- Native inverse line set, its posting fact and closed-period rule are kept.
 create function cp7_receipt_fix.restate(p_inverse uuid,p_reason text)returns void
 language plpgsql volatile security definer set search_path=''as $$
-declare original erp.journal_entries%rowtype;inverse erp.journal_entries%rowtype;src uuid;lines jsonb;neutral uuid;effective uuid;
+declare original erp.journal_entries%rowtype;inverse erp.journal_entries%rowtype;src uuid;related uuid[];lines jsonb;neutral uuid;effective uuid;
 begin
- select source_purchase_id into strict src from cp7_receipt_fix.context
+ select source_purchase_id,related_purchase_ids into strict src,related from cp7_receipt_fix.context
   where backend_pid=pg_backend_pid()and transaction_id=txid_current()and actor=auth.uid();
  select*into strict inverse from erp.journal_entries where id=p_inverse;
  select*into strict original from erp.journal_entries where id=inverse.reversal_of_id;
  if original.status<>'REVERSED'or inverse.status<>'POSTED'or inverse.source_type<>'JOURNAL_REVERSAL'or inverse.source_id<>original.id
   or not(original.source_type in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS')and original.source_id=src
-   or original.source_type='SUPPLIER_PAYMENT'and exists(select 1 from erp.supplier_payments where id=original.source_id and purchase_id=src))then
+   or original.source_type='SUPPLIER_PAYMENT'and exists(select 1 from erp.supplier_payments where id=original.source_id and(purchase_id=src or purchase_id=any(related))))then
   raise exception 'CP7_RECEIPT_FIX_JOURNAL_SOURCE_CHANGED';end if;
  if original.economic_date=inverse.economic_date then return;end if;
  select jsonb_agg(jsonb_build_object('account_id',j.account_id,'debit',j.credit,'credit',j.debit,'description',j.description,
@@ -329,14 +346,14 @@ end $$;
 
 create function cp7_receipt_fix.restate_all(p_reason text)returns void
 language plpgsql volatile security definer set search_path=''as $$
-declare src uuid;j uuid;
+declare src uuid;related uuid[];j uuid;
 begin
- select source_purchase_id into strict src from cp7_receipt_fix.context
+ select source_purchase_id,related_purchase_ids into strict src,related from cp7_receipt_fix.context
   where backend_pid=pg_backend_pid()and transaction_id=txid_current()and actor=auth.uid();
  for j in select v.id from erp.journal_entries v join erp.journal_entries o on o.id=v.reversal_of_id
   where v.source_type='JOURNAL_REVERSAL'and v.status='POSTED'
    and(o.source_type in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS')and o.source_id=src
-    or o.source_type='SUPPLIER_PAYMENT'and exists(select 1 from erp.supplier_payments p where p.id=o.source_id and p.purchase_id=src))
+    or o.source_type='SUPPLIER_PAYMENT'and exists(select 1 from erp.supplier_payments p where p.id=o.source_id and(p.purchase_id=src or p.purchase_id=any(related))))
    and not exists(select 1 from cp7_receipt_fix.journal_restatements r where r.inverse_journal_id=v.id)
   order by v.id loop
   perform cp7_receipt_fix.restate(j,p_reason);
@@ -401,6 +418,32 @@ begin
  end loop;
 end $$;
 
+-- Snapshot the Native opening-advance funding validation compares (UTC text).
+create function cp7_receipt_fix.payment_snapshot(p_payment uuid)returns jsonb
+language sql stable security definer set search_path='' set "TimeZone"='UTC' as $$
+ select to_jsonb(p)-'status'from erp.supplier_payments p where p.id=p_payment$$;
+
+-- One replayed supplier payment through the Native writer: same date, method,
+-- cash account and reference. A payment funded from a supplier opening advance
+-- (uang muka saldo awal) is funded from the same advance again; the Native
+-- funding validation checks its remaining amount, party and dates.
+create function cp7_receipt_fix.replay_payment(p_target uuid,p_payment jsonb,p_amount numeric,p_number text,p_notes text)returns uuid
+language plpgsql volatile security definer set search_path=''as $$
+declare new_payment uuid;
+begin
+ perform 1 from cp7_receipt_fix.context where backend_pid=pg_backend_pid()and transaction_id=txid_current()and actor=auth.uid();
+ if not found then raise exception using errcode='42501',message='CP7_RECEIPT_FIX_PRIVATE_CONTEXT_REQUIRED';end if;
+ insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,notes,status,created_by)
+ values(p_target,p_number,(p_payment->>'payment_date')::timestamptz,p_amount,(p_payment->>'cash_account_id')::uuid,p_payment->>'payment_method',
+  p_payment->>'reference_number',p_notes,'DRAFT',erp.current_app_user_id())returning id into new_payment;
+ if p_payment->>'advance_id'is not null then
+  insert into erp.initial_import_prepayment_payments(payment_id,advance_id,supplier_payment_id,payment_snapshot)
+  values(new_payment,(p_payment->>'advance_id')::uuid,new_payment,cp7_receipt_fix.payment_snapshot(new_payment));
+ end if;
+ perform erp.post_supplier_payment(new_payment);
+ return new_payment;
+end $$;
+
 create function cp7_receipt_fix.command(p_payload jsonb,p_request uuid,p_expected text)returns jsonb
 language plpgsql volatile security definer set search_path=''as $$
 declare a jsonb;old cp7_receipt_fix.requests%rowtype;h erp.material_purchase_headers%rowtype;root uuid;rev_no bigint;
@@ -411,7 +454,7 @@ declare a jsonb;old cp7_receipt_fix.requests%rowtype;h erp.material_purchase_hea
  rev_id uuid;tmp text;previous_doc jsonb;corrected_doc jsonb;pending jsonb:='[]';
  inv_ids uuid[];inv jsonb;il jsonb;old_new jsonb:='{}';inv_lines jsonb;new_inv uuid;invoiced jsonb:='{}';
  paid_total numeric:=0;excess numeric:=0;credits jsonb:='[]';credit jsonb;target erp.material_purchase_headers%rowtype;
- left_on_receipt numeric;part numeric;piece integer:=0;queue jsonb;
+ left_on_receipt numeric;part numeric;piece integer:=0;queue jsonb;related uuid[]:='{}';other_paid jsonb:='[]';pay jsonb;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_receipt_fix.access_now();
@@ -436,7 +479,12 @@ begin
  select array_agg(distinct mats.id order by mats.id)into mat_ids from(
   select i.material_id id from erp.material_purchase_items i where i.purchase_id=(p_payload->>'purchase_id')::uuid
   union select(l->>'material_id')::uuid from jsonb_array_elements(p_payload->'lines')l where l->>'material_id'~'^[0-9a-fA-F-]{36}$')mats;
- perform 1 from erp.materials where id=any(coalesce(mat_ids,'{}'))order by id for update;
+ -- Materials of other receipts on a shared supplier invoice are locked in the
+ -- same order: the invoice reversal/re-post refreshes their cost too.
+ perform 1 from erp.materials where id=any(coalesce(mat_ids,'{}'))or id in(select i2.material_id from erp.material_supplier_invoice_lines l2
+  join erp.material_purchase_items i2 on i2.id=l2.purchase_item_id join erp.material_supplier_invoices v2 on v2.id=l2.invoice_id
+  where v2.status='POSTED'and v2.id in(select l.invoice_id from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id
+   where i.purchase_id=(p_payload->>'purchase_id')::uuid))order by id for update;
  select*into h from erp.material_purchase_headers where id=(p_payload->>'purchase_id')::uuid for update;
  if h.id is null then raise exception 'CP7_RECEIPT_FIX_NOT_FOUND';end if;
  if h.status<>'POSTED'then raise exception 'CP7_RECEIPT_FIX_ACTIVE_POSTED_ONLY';end if;
@@ -522,6 +570,16 @@ begin
     and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=mm.id))then
    raise exception 'CP7_RECEIPT_FIX_REMOVED_ROLL_USED roll %',old_roll.roll_number;end if;
  end loop;
+ -- Non-roll lines: what already left the receipt location after the receipt
+ -- (transfer, issue) stays covered by the corrected quantity of that material.
+ for mat in select i.material_id id,max(m.material_sku)sku,sum(i.qty)old_qty from erp.material_purchase_items i join erp.materials m on m.id=i.material_id
+  where i.purchase_id=h.id and m.material_type<>'FABRIC'group by i.material_id order by i.material_id loop
+  part:=coalesce((select sum((l->>'qty')::numeric)from jsonb_array_elements(p_payload->'lines')l
+   where(l->>'material_id')::uuid=mat.id and jsonb_array_length(l->'rolls')=0),0);
+  if mat.old_qty-part>cp7_receipt_fix.location_floor(mat.id,h.location_id,h.physical_at)then
+   raise exception 'CP7_RECEIPT_FIX_LINE_BELOW_USE % corrected % used %',mat.sku,part,
+    mat.old_qty-greatest(cp7_receipt_fix.location_floor(mat.id,h.location_id,h.physical_at),0);end if;
+ end loop;
  -- Every posted supplier invoice of the receipt is corrected with it: each of
  -- its lines is restated on the corrected receipt line that replaces its line.
  if cardinality(inv_ids)>0 and not p_payload?'invoices'then raise exception 'CP7_RECEIPT_FIX_INVOICE_DECISION_REQUIRED';end if;
@@ -536,7 +594,8 @@ begin
    or exists(select 1 from jsonb_each(inv)e where e.key<>'lines'and jsonb_typeof(e.value)not in('string','null'))
   then raise exception using errcode='22023',message='CP7_RECEIPT_FIX_FIELDS';end if;
   if(select coalesce(array_agg(x order by x),'{}')from(select(z->>'replaces_invoice_line_id')::uuid x from jsonb_array_elements(inv->'lines')z)q)
-    is distinct from(select array_agg(l.id order by l.id)from erp.material_supplier_invoice_lines l where l.invoice_id=(inv->>'replaces_invoice_id')::uuid)
+    is distinct from(select array_agg(l.id order by l.id)from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id
+     where l.invoice_id=(inv->>'replaces_invoice_id')::uuid and i.purchase_id=h.id)
   then raise exception 'CP7_RECEIPT_FIX_INVOICE_LINE_SET';end if;
   for il in select value from jsonb_array_elements(inv->'lines')loop
    if jsonb_typeof(il)is distinct from'object'or not il?&array['replaces_invoice_line_id','qty_invoiced','unit_price']
@@ -560,7 +619,8 @@ begin
     else(select sum((z->>'qty')::numeric)from jsonb_array_elements(line->'rolls')z)end)then
    raise exception 'CP7_RECEIPT_FIX_INVOICE_EXCEEDS_RECEIPT';end if;
  end loop;
- select coalesce(jsonb_agg(to_jsonb(p)order by p.payment_date,p.id),'[]')into paid from erp.supplier_payments p where p.purchase_id=h.id and p.status='POSTED';
+ select coalesce(jsonb_agg(to_jsonb(p)||jsonb_build_object('advance_id',l.advance_id)order by p.payment_date,p.id),'[]')into paid from erp.supplier_payments p
+  left join erp.initial_import_prepayment_payments l on l.supplier_payment_id=p.id where p.purchase_id=h.id and p.status='POSTED';
  select coalesce(sum((v->>'amount')::numeric),0)into paid_total from jsonb_array_elements(paid)v;
  excess:=greatest(paid_total-round(corrected_total,2),0);
  -- Paid more than the corrected total: the excess becomes supplier credit cut
@@ -590,13 +650,21 @@ begin
  if (select count(*)from erp.material_purchase_headers t where t.id in(select(x->>'purchase_id')::uuid from jsonb_array_elements(credits)x))<>jsonb_array_length(credits)then
   raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID';end if;
 
+ -- Other receipts on the same supplier invoices: their lines are carried
+ -- unchanged and their real payments move out and back at their own dates.
+ select coalesce(array_agg(distinct i.purchase_id order by i.purchase_id),'{}')into related from erp.material_supplier_invoice_lines l
+  join erp.material_purchase_items i on i.id=l.purchase_item_id where l.invoice_id=any(inv_ids)and i.purchase_id<>h.id;
+ perform 1 from erp.material_purchase_headers where id=any(related)order by id for update;
+ if exists(select 1 from erp.material_purchase_headers where id=any(related)and status<>'POSTED')then raise exception 'CP7_RECEIPT_FIX_INVOICE_SET';end if;
+ select coalesce(jsonb_agg(to_jsonb(p)||jsonb_build_object('advance_id',l.advance_id)order by p.purchase_id,p.payment_date,p.id),'[]')into other_paid from erp.supplier_payments p
+  left join erp.initial_import_prepayment_payments l on l.supplier_payment_id=p.id where p.purchase_id=any(related)and p.status='POSTED';
  -- Execute. Effects run under the receipt's own business date as economic
  -- date (accepted invoice-recost dating rules for revaluation/HPP/GL).
- insert into cp7_receipt_fix.context values(pg_backend_pid(),txid_current(),auth.uid(),h.id);
+ insert into cp7_receipt_fix.context values(pg_backend_pid(),txid_current(),auth.uid(),h.id,related);
  insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id)values(txid_current(),erp._cp3_business_date(h.physical_at),h.id);
  perform set_config('app.change_reason',why,true);
  perform cp7_receipt_fix.admit('POST');
- for payment in select*from jsonb_to_recordset(paid)as p(id uuid)loop
+ for payment in select*from jsonb_to_recordset(paid||other_paid)as p(id uuid)loop
   perform erp.reverse_supplier_payment(payment.id,'Benerin penerimaan: '||why);
  end loop;
  -- Supplier invoices: Native reversal, restated to their own economic dates.
@@ -762,7 +830,15 @@ begin
   select coalesce(jsonb_agg(jsonb_build_object('purchase_item_id',old_new->>l.purchase_item_id::text,'qty_invoiced',il2->>'qty_invoiced',
     'unit_price',il2->>'unit_price','discount_amount',coalesce(nullif(il2->>'discount_amount',''),'0'),'notes',coalesce(nullif(il2->>'notes',''),l.notes))order by l.id),'[]')
   into inv_lines from jsonb_array_elements(inv->'lines')il2 join erp.material_supplier_invoice_lines l on l.id=(il2->>'replaces_invoice_line_id')::uuid;
-  select jsonb_build_object('invoice_number',regexp_replace(v.invoice_number,' · R[0-9]+$','')||' · R'||rev_no::text,'supplier_id',v.supplier_id,
+  inv_lines:=inv_lines||(select coalesce(jsonb_agg(jsonb_build_object('purchase_item_id',l.purchase_item_id,'qty_invoiced',l.qty_invoiced::text,'unit_price',l.unit_price::text,
+    'discount_amount',l.discount_amount::text,'notes',l.notes)order by l.id),'[]')from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id
+   where l.invoice_id=(inv->>'replaces_invoice_id')::uuid and i.purchase_id<>h.id);
+  -- Supplier invoice numbers are unique per supplier, reversed ones included:
+  -- the next free revision suffix of the same base number (a shared invoice
+  -- can already carry one from another receipt's correction).
+  select jsonb_build_object('invoice_number',left(regexp_replace(v.invoice_number,' · R[0-9]+$',''),90)||' · R'||(select coalesce(max((regexp_match(x.invoice_number,' · R([0-9]+)$'))[1]::bigint),0)+1
+    from erp.material_supplier_invoices x where x.supplier_id=v.supplier_id
+     and regexp_replace(x.invoice_number,' · R[0-9]+$','')=left(regexp_replace(v.invoice_number,' · R[0-9]+$',''),90))::text,'supplier_id',v.supplier_id,
     'invoice_date',v.invoice_date,'received_at',v.received_at,'due_date',v.due_date,'notes',coalesce(nullif(inv->>'notes',''),v.notes),
     'change_reason','Benerin penerimaan '||h.purchase_number||': '||why,'lines',inv_lines)into draft
   from erp.material_supplier_invoices v where v.id=(inv->>'replaces_invoice_id')::uuid;
@@ -784,37 +860,47 @@ begin
  -- amount: on the corrected receipt up to its payable, the rest as credit on
  -- the chosen receipts of the same supplier.
  queue:=credits;
- for payment in select*from jsonb_to_recordset(paid)as p(id uuid,payment_number text,payment_date timestamptz,amount numeric,cash_account_id uuid,
-  payment_method text,reference_number text,notes text)loop
-  part:=least(payment.amount,left_on_receipt);
+ for pay in select value from jsonb_array_elements(paid)loop
+  part:=least((pay->>'amount')::numeric,left_on_receipt);
   if part>0 then
    piece:=piece+1;
-   insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,notes,status,created_by)
-   values(replaced,left(payment.payment_number,36)||' · K'||piece::text||'-'||left(p_request::text,8),payment.payment_date,part,payment.cash_account_id,
-    payment.payment_method,payment.reference_number,payment.notes,'DRAFT',erp.current_app_user_id())returning id into new_payment;
-   perform erp.post_supplier_payment(new_payment);
+   new_payment:=cp7_receipt_fix.replay_payment(replaced,pay,part,left(pay->>'payment_number',36)||' · K'||piece::text||'-'||left(p_request::text,8),pay->>'notes');
    insert into cp7_receipt_fix.payment_replays(replacement_payment_id,previous_payment_id,correction_id,target_purchase_id,kind,amount)
-   values(new_payment,payment.id,fix_id,replaced,'CORRECTED_RECEIPT',part);
+   values(new_payment,(pay->>'id')::uuid,fix_id,replaced,'CORRECTED_RECEIPT',part);
    left_on_receipt:=left_on_receipt-part;
   end if;
-  part:=payment.amount-part;
+  part:=(pay->>'amount')::numeric-part;
   while part>0 loop
    credit:=queue->0;
    if credit is null then raise exception 'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH';end if;
    piece:=piece+1;
-   insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,notes,status,created_by)
-   values((credit->>'purchase_id')::uuid,left(payment.payment_number,36)||' · K'||piece::text||'-'||left(p_request::text,8),payment.payment_date,
-    least(part,(credit->>'amount')::numeric),payment.cash_account_id,payment.payment_method,payment.reference_number,
-    left('Retur bayangan dari pembetulan penerimaan '||h.purchase_number||': barang tidak pernah diterima; kelebihan bayar dipotong ke nota ini. '||why,1000),
-    'DRAFT',erp.current_app_user_id())returning id into new_payment;
-   perform erp.post_supplier_payment(new_payment);
+   begin
+    new_payment:=cp7_receipt_fix.replay_payment((credit->>'purchase_id')::uuid,pay,least(part,(credit->>'amount')::numeric),
+     left(pay->>'payment_number',36)||' · K'||piece::text||'-'||left(p_request::text,8),
+     left('Retur bayangan dari pembetulan penerimaan '||h.purchase_number||': barang tidak pernah diterima; kelebihan bayar dipotong ke nota ini. '||why,1000));
+   exception when raise_exception then
+    -- Native refusals of this piece, named for the chosen nota.
+    if sqlerrm like 'Supplier payment exceeds remaining payable%'then
+     raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_EXCEEDS_REMAINING %',(select purchase_number from erp.material_purchase_headers where id=(credit->>'purchase_id')::uuid);end if;
+    if sqlerrm like 'Tanggal pemakaian uang muka%'then
+     raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_AFTER_ADVANCE_USE %',(select purchase_number from erp.material_purchase_headers where id=(credit->>'purchase_id')::uuid);end if;
+    raise;
+   end;
    insert into cp7_receipt_fix.payment_replays(replacement_payment_id,previous_payment_id,correction_id,target_purchase_id,kind,amount)
-   values(new_payment,payment.id,fix_id,(credit->>'purchase_id')::uuid,'CREDIT_TO_OTHER_RECEIPT',least(part,(credit->>'amount')::numeric));
+   values(new_payment,(pay->>'id')::uuid,fix_id,(credit->>'purchase_id')::uuid,'CREDIT_TO_OTHER_RECEIPT',least(part,(credit->>'amount')::numeric));
    if part>=(credit->>'amount')::numeric then part:=part-(credit->>'amount')::numeric;queue:=queue-0;
    else queue:=jsonb_set(queue,'{0,amount}',to_jsonb(((credit->>'amount')::numeric-part)::text));part:=0;end if;
   end loop;
  end loop;
  if jsonb_array_length(queue)<>0 then raise exception 'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH';end if;
+ -- Payments of the other receipts of a shared invoice, back on the same receipt.
+ for pay in select value from jsonb_array_elements(other_paid)loop
+  piece:=piece+1;
+  new_payment:=cp7_receipt_fix.replay_payment((pay->>'purchase_id')::uuid,pay,(pay->>'amount')::numeric,
+   left(pay->>'payment_number',36)||' · K'||piece::text||'-'||left(p_request::text,8),pay->>'notes');
+  insert into cp7_receipt_fix.payment_replays(replacement_payment_id,previous_payment_id,correction_id,target_purchase_id,kind,amount)
+  values(new_payment,(pay->>'id')::uuid,fix_id,(pay->>'purchase_id')::uuid,'SHARED_INVOICE_RECEIPT',(pay->>'amount')::numeric);
+ end loop;
  perform cp7_receipt_fix.admit(null);
  delete from erp.invoice_recost_execution_context where transaction_id=txid_current();
  if cp7_receipt_fix.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_RECEIPT_FIX_ACCESS_CHANGED';end if;
@@ -847,7 +933,8 @@ do $own$
 declare f text;
 begin
  foreach f in array array['immutable()','access_now()','admit(text)','review_token(uuid)','roll_use(uuid,uuid)','blockers(uuid)','workspace(uuid)',
-  'restate(uuid,text)','restate_all(text)','journal_net(uuid[])','reverse_invoice(uuid,text,uuid)','command(jsonb,uuid,text)']loop
+  'location_floor(uuid,uuid,timestamptz)','restate(uuid,text)','restate_all(text)','journal_net(uuid[])','reverse_invoice(uuid,text,uuid)','payment_snapshot(uuid)',
+  'replay_payment(uuid,jsonb,numeric,text,text)','command(jsonb,uuid,text)']loop
   execute 'alter function cp7_receipt_fix.'||f||' owner to postgres';
  end loop;
 end $own$;

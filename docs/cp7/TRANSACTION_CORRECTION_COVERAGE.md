@@ -21,7 +21,8 @@ Baris tabel di atas tidak diubah. Untuk kasus bahan, sekarang ada perintah pemil
 |---|---|
 | Posted receipt quantity / roll count | `RF_QTY_DOWN_AFTER_CUTTING`, `RF_QTY_UP_AFTER_CUTTING`, `RF_ROLL_COUNT_TYPO_UNUSED_ROLL`, `RF_YEAR_HISTORY_364` (+ penolakan `RF_REMOVED_ROLL_USED_REFUSED`, `RF_ROLL_BELOW_USE_REFUSED`) |
 | Wrong material identity after posting/use | `RF_WRONG_MATERIAL_AFTER_CUTTING`, `RF_WRONG_MATERIAL_AND_PRICE` (pemakaian potong; pemakaian lain ditolak dengan nama pemakaiannya) |
-| Already-final material price correction | `RF_PRICE_AFTER_SALE_AND_RETURN` (harga final di penerimaan), `RF_INVOICE_PRICE_AFTER_SALE` dan `RF_INVOICED_QTY_DOWN_WITH_PAYMENT` (harga final di invoice supplier, setiap efek pada tanggalnya sendiri) |
+| Already-final material price correction | `RF_PRICE_AFTER_SALE_AND_RETURN` (harga final di penerimaan), `RF_INVOICE_PRICE_AFTER_SALE` dan `RF_INVOICED_QTY_DOWN_WITH_PAYMENT` (harga final di invoice supplier, setiap efek pada tanggalnya sendiri); `RF_SHARED_INVOICE_CORRECTED` (invoice supplier yang juga mencakup penerimaan lain) |
+| Pembayaran supplier dan periode tertutup | `RF_PAYMENT_REPLAY`, `RF_OVERPAID_CREDIT_TO_NEXT_NOTA` (retur bayangan), `RF_OPENING_ADVANCE_PAYMENT_REPLAY` (dibayar dari uang muka saldo awal), `RF_CLOSED_PERIOD_CORRECTION` |
 | Typo in the same material's name | `RF_MATERIAL_NAME_TYPO`, `RF_MATERIAL_NAME_REFUSALS` (hanya nama; nama bahan lain ditolak sebagai masalah identitas) |
 
 Status bukti: lihat tabel "Bukti CI" di dokumen itu (run gagal tetap tercatat). `production_go=false`.

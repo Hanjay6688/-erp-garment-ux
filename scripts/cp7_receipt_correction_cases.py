@@ -18,6 +18,8 @@ import cp7_procurement_uom_cases as uom
 import cp7_f03_e01_cases as e01
 import cp7_sales_draft_cases as drafts
 import cp7_sales_return_cases as returned
+import cp6_ao_ap_installed as imports
+import cp6_initial_import_prepayment_trial as prepaid
 auth,b,bc,aa=receipt.auth,receipt.b,receipt.bc,receipt.aa
 cmd,source=drafts.cmd,drafts.source
 ROOT=Path(__file__).resolve().parents[1]
@@ -191,8 +193,14 @@ def roll_receipt(cur,today,rolls=('50','50','50'),price='10',final=True,day_offs
     return f
 
 def transfer(cur,f,qty,roll=None,at=None):
-    g=dict(f,roll=roll or f['roll'])
-    d,_=material.draft(cur,g,qty=qty,at=at);return material.post(cur,d)
+    """An ordinary posted warehouse transfer through the public P09 command. The
+    number is sequential per fixture: 364 random 6-hex suffixes collided in run
+    37029649347 (duplicate transfer_number, a fixture defect)."""
+    f['transfers']=f.get('transfers',0)+1
+    p=dict(transfer_number='%s-T%04d'%(f['tag'],f['transfers']),from_location_id=f['location'],to_location_id=f['destination'],
+      physical_at=at or aa.at(f['day']+timedelta(days=1),10).isoformat(),change_reason='P09 ordinary warehouse transfer',
+      items=[dict(material_id=f['material'],roll_id=roll or f['roll'],qty=qty)])
+    return material.post(cur,material.command(cur,'SAVE_TRANSFER',p))
 
 def cases(cur,today):
     def qty_down():
@@ -328,6 +336,44 @@ def cases(cur,today):
         return dict(status='PASS',paid_1000_corrected_800=True,credit_200_cut_from_next_nota=True,next_nota_received_later_paid_200_partial=True,
           same_cash_account_and_original_date=True,note_retur_bayangan_barang_tidak_pernah_diterima=True,cash_unchanged=True,
           effects_on_receipt_date_only=True,all_integrity_checks_unchanged=True)
+    def opening_advance():
+        """Receipt paid 60 from the supplier's opening advance (uang muka saldo awal) and 400 cash, corrected twice."""
+        f=roll_receipt(cur,today,rolls=('100',),day_offset=3);late=roll_receipt(cur,today,rolls=('100',),day_offset=0);early=roll_receipt(cur,today,rolls=('100',),day_offset=2)
+        aa.prior.set_open_period(cur,today-timedelta(days=5));masters=bc.fixture(cur,today,purchase=False,zones=False)
+        cash_pay=bc.supplier_payment(cur,f['purchase'],'400',masters['cash'],f['day']);bc.internal(cur,'post_supplier_payment',cash_pay);b.api.admin(cur)
+        supplier=cur.execute('select supplier_id from erp.material_purchase_headers where id=%s',(f['purchase'],)).fetchone()[0]
+        w=prepaid.fixture(imports,cur,today,'SUPPLIER',party=supplier,bill=None)
+        prepaid.manage(imports,cur,w,'APPLY',today-timedelta(days=1),target_id=f['purchase'],amount='60');b.api.admin(cur)
+        advance_pay=cur.execute('select payment_id from erp.initial_import_prepayment_payments where advance_id=%s',(w['advance'],)).fetchone()[0]
+        cash=lambda:cur.execute("select sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id join erp.cash_accounts c on c.coa_account_id=l.account_id where c.id=%s and j.status in('POSTED','REVERSED')",(masters['cash'],)).fetchone()[0]
+        state=lambda pid:cur.execute("select round(erp.material_purchase_payable_total(h.id),2),coalesce((select sum(amount) from erp.supplier_payments where purchase_id=h.id and status='POSTED'),0),h.payment_status from erp.material_purchase_headers h where h.id=%s",(pid,)).fetchone()
+        replays=lambda prev:cur.execute("""select r.kind,r.target_purchase_id::text,s.amount,s.payment_date=o.payment_date,s.cash_account_id::text,s.payment_method,l.advance_id::text,s.notes
+          from cp7_receipt_fix.payment_replays r join erp.supplier_payments s on s.id=r.replacement_payment_id join erp.supplier_payments o on o.id=r.previous_payment_id
+          left join erp.initial_import_prepayment_payments l on l.supplier_payment_id=s.id where r.previous_payment_id=%s order by r.kind,s.amount""",(prev,)).fetchall()
+        wallet=lambda:(prepaid.state(imports,cur,w)['remaining_amount'],prepaid.bank(cur,w))
+        assert wallet()==('7.25',100),wallet()
+        before,dated,chk,cash_before=ledger(cur),by_date(cur),checks(cur),cash()
+        w1=ws(cur,f['purchase']);assert w1['can_correct'] and w1['paid_total']=='460.00',w1
+        n1=fix(cur,payload(w1,line=lambda n,i:i['rolls'][0].update(qty='80')),w1['purchase']['row_version'])['purchase_id']
+        r=replays(cash_pay);assert [x[:5]+(x[6],) for x in r]==[('CORRECTED_RECEIPT',n1,D(400),True,masters['cash'],None)],r
+        r=replays(advance_pay);assert [x[:7] for x in r]==[('CORRECTED_RECEIPT',n1,D(60),True,None,'OPENING_ADVANCE',str(w['advance']))],r
+        assert state(n1)==(D(800),D(460),'PARTIAL') and wallet()==('7.25',100) and cash()==cash_before,(state(n1),wallet())
+        delta=ledger_delta(before,ledger(cur));assert delta=={'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)},delta
+        dd=dated_delta(dated,by_date(cur));assert dd=={f['day']:{'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)}},dd
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        # 80 -> 40: payable 400 is covered by the 400 cash; the 60 from the
+        # advance becomes credit on another nota at the advance use date.
+        replayed=cur.execute("select replacement_payment_id from cp7_receipt_fix.payment_replays where previous_payment_id=%s",(advance_pay,)).fetchone()[0]
+        before,chk=ledger(cur),checks(cur);w2=ws(cur,f['purchase']);p=payload(w2,line=lambda n,i:i['rolls'][0].update(qty='40'))
+        refused(cur,lambda:fix(cur,dict(p,credit_allocations=[dict(purchase_id=late['purchase'],amount='60')]),w2['purchase']['row_version']),'CP7_RECEIPT_FIX_CREDIT_TARGET_AFTER_ADVANCE_USE')
+        n2=fix(cur,dict(p,credit_allocations=[dict(purchase_id=early['purchase'],amount='60')]),w2['purchase']['row_version'])['purchase_id']
+        r=replays(replayed);assert [x[:7] for x in r]==[('CREDIT_TO_OTHER_RECEIPT',early['purchase'],D(60),True,None,'OPENING_ADVANCE',str(w['advance']))] and 'barang tidak pernah diterima' in r[0][7],r
+        assert state(n2)==(D(400),D(400),'PAID') and state(early['purchase'])==(D(1000),D(60),'PARTIAL'),(state(n2),state(early['purchase']))
+        assert wallet()==('7.25',100) and cash()==cash_before,wallet()
+        delta=ledger_delta(before,ledger(cur));assert delta=={'MATERIAL_INVENTORY':D(-400),'AP_SUPPLIER':D(400)},delta
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',advance_60_and_cash_400_replayed=True,advance_payment_funded_from_same_advance=True,wallet_remaining_7_25_unchanged=True,
+          cash_unchanged=True,excess_from_advance_credited_to_earlier_nota=True,later_nota_before_advance_use_named_refusal=True,all_integrity_checks_unchanged=True)
     def invoice_price_after_sale():
         f=invoiced_production(cur,today)
         drafts.create(cur,f,drafts.payload(f,'20','25'));p,v=cmd.review(cur,f);cmd.command(cur,'POST',p,v)
@@ -378,15 +424,70 @@ def cases(cur,today):
         refused(cur,lambda:fix(cur,over,w['purchase']['row_version']),'CP7_RECEIPT_FIX_INVOICE_EXCEEDS_RECEIPT')
         partial=dict(payload(w),invoices=[dict(x,lines=[]) for x in invoices(w)])
         refused(cur,lambda:fix(cur,partial,w['purchase']['row_version']),'CP7_RECEIPT_FIX_FIELDS')
+        return dict(status='PASS',invoice_decision_required=True,invoice_qty_above_corrected_receipt_refused=True,every_invoice_line_required=True,
+          refusals_without_effect=True)
+    def shared_invoice():
         g=invoice.fixture(cur,today);k=invoice.fixture(cur,today);auth.actor(cur)
         shared=dict(invoice_number=g['tag']+'-SHARED',supplier_id=str(aa.prior.BASE_SUPPLIER),invoice_date=str(g['day']),received_at=aa.at(g['day']+timedelta(days=2),15).isoformat(),
           change_reason='Satu invoice supplier untuk dua penerimaan',lines=[dict(purchase_item_id=x['item'],qty_invoiced='2',unit_price='12.5',discount_amount='0') for x in (g,k)])
         d=cur.execute('select erp.save_material_supplier_invoice_draft_v2(%s::jsonb,%s,null)',(json.dumps(shared),uuid.uuid4())).fetchone()[0]
         cur.execute('select erp.post_material_supplier_invoice_v2(%s,%s,%s,%s)',(d['supplier_invoice_id'],uuid.uuid4(),d['row_version'],'Invoice gabungan dua penerimaan'));b.api.admin(cur)
-        wg=ws(cur,g['receipt']['purchase_id']);assert not wg['can_correct'] and [x['code'] for x in wg['blockers']]==['CP7_RECEIPT_FIX_INVOICE_SHARED'],wg['blockers']
-        refused(cur,lambda:fix(cur,dict(payload(wg),invoices=invoices(wg)),wg['purchase']['row_version']),'CP7_RECEIPT_FIX_DEPENDENCY')
-        return dict(status='PASS',invoice_decision_required=True,invoice_qty_above_corrected_receipt_refused=True,every_invoice_line_required=True,
-          invoice_covering_another_receipt_named_blocker=True,refusals_without_effect=True)
+        masters=bc.fixture(cur,today,purchase=False,zones=False);kp=k['receipt']['purchase_id']
+        payment=bc.supplier_payment(cur,kp,'25',masters['cash'],today);bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
+        state=lambda pid:cur.execute("select round(erp.material_purchase_payable_total(h.id),2),coalesce((select sum(amount) from erp.supplier_payments where purchase_id=h.id and status='POSTED'),0),h.payment_status from erp.material_purchase_headers h where h.id=%s",(pid,)).fetchone()
+        k_before,k_facts=state(kp),facts(cur,kp)
+        before,dated,chk=ledger(cur),by_date(cur),checks(cur);w=ws(cur,g['receipt']['purchase_id'])
+        assert w['can_correct'] and w['blockers']==[] and len(w['invoices'])==1 and [x['purchase_id'] for x in w['invoices'][0]['other_receipts']]==[kp],w
+        assert [l['purchase_item_id'] for l in w['invoices'][0]['lines']]==[g['item']],w['invoices']
+        old=w['invoices'][0]
+        out=fix(cur,dict(payload(w,reason='Harga g di invoice gabungan salah ketik; 11 per meter'),invoices=invoices(w,price='11')),w['purchase']['row_version'])
+        assert cur.execute('select status from erp.material_supplier_invoices where id=%s',(old['invoice_id'],)).fetchone()[0]=='REVERSED'
+        new=cur.execute('select replacement_invoice_id::text from cp7_receipt_fix.invoice_replays where previous_invoice_id=%s',(old['invoice_id'],)).fetchone()[0]
+        lines=cur.execute('select v.status,v.invoice_date,i.purchase_id::text,l.qty_invoiced,l.unit_price from erp.material_supplier_invoices v join erp.material_supplier_invoice_lines l on l.invoice_id=v.id join erp.material_purchase_items i on i.id=l.purchase_item_id where v.id=%s order by l.unit_price',(new,)).fetchall()
+        assert lines==[('POSTED',g['day'],out['purchase_id'],D(2),D(11)),('POSTED',g['day'],kp,D(2),D('12.5'))],lines
+        moved=cur.execute('select s.amount,s.payment_date=o.payment_date,s.cash_account_id::text,s.status,r.kind,r.target_purchase_id::text from cp7_receipt_fix.payment_replays r join erp.supplier_payments s on s.id=r.replacement_payment_id join erp.supplier_payments o on o.id=r.previous_payment_id where r.previous_payment_id=%s',(payment,)).fetchall()
+        assert moved==[(D(25),True,masters['cash'],'POSTED','SHARED_INVOICE_RECEIPT',kp)],moved
+        assert cur.execute('select status from erp.supplier_payments where id=%s',(payment,)).fetchone()[0]=='REVERSED'
+        assert state(kp)==k_before and k_before[2]=='PAID',(state(kp),k_before)
+        # The other receipt keeps its source; only the Native price-finalized
+        # time follows the re-posted invoice (the reversed one keeps its own).
+        kf=facts(cur,kp)
+        for x in (kf,k_facts):
+            for i in x['items']:i.pop('price_finalized_at')
+        assert kf==k_facts,{x:(k_facts[x],kf[x]) for x in kf if kf[x]!=k_facts[x]}
+        assert cur.execute('select status from erp.material_purchase_headers where id=%s',(kp,)).fetchone()[0]=='POSTED'
+        delta=ledger_delta(before,ledger(cur));assert delta=={'AP_SUPPLIER':D(3),'MATERIAL_INVENTORY':D(-3)},delta
+        dd=dated_delta(dated,by_date(cur));assert dd=={g['day']:{'AP_SUPPLIER':D(3),'MATERIAL_INVENTORY':D(-3)}},dd
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        # Then the other receipt corrects the same shared invoice (2 x 12.5 -> 2 x 13):
+        # invoice numbers are unique per supplier, so it takes the next suffix.
+        before,chk=ledger(cur),checks(cur);wk=ws(cur,kp);assert [x['purchase_id'] for x in wk['invoices'][0]['other_receipts']]==[out['purchase_id']],wk['invoices']
+        outk=fix(cur,dict(payload(wk,reason='Harga k di invoice gabungan salah ketik; 13 per meter'),invoices=invoices(wk,price='13')),wk['purchase']['row_version'])
+        numbers=cur.execute("select invoice_number,status from erp.material_supplier_invoices where invoice_number like %s order by invoice_number",(g['tag']+'-SHARED%',)).fetchall()
+        assert numbers==[(g['tag']+'-SHARED','REVERSED'),(g['tag']+'-SHARED · R1','REVERSED'),(g['tag']+'-SHARED · R2','POSTED')],numbers
+        lines=cur.execute("select i.purchase_id::text,l.qty_invoiced,l.unit_price from erp.material_supplier_invoices v join erp.material_supplier_invoice_lines l on l.invoice_id=v.id join erp.material_purchase_items i on i.id=l.purchase_item_id where v.invoice_number=%s order by l.unit_price",(g['tag']+'-SHARED · R2',)).fetchall()
+        assert lines==[(out['purchase_id'],D(2),D(11)),(outk['purchase_id'],D(2),D(13))],lines
+        assert state(outk['purchase_id'])==(D(26),D(25),'PARTIAL'),state(outk['purchase_id'])
+        delta=ledger_delta(before,ledger(cur));assert delta=={'AP_SUPPLIER':D(-1),'MATERIAL_INVENTORY':D(1)},delta
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',shared_invoice_two_receipts_corrected_whole=True,second_receipt_corrects_same_shared_invoice_next_number_R2=True,corrected_line_2x12_5_to_2x11=True,other_receipt_line_2x12_5_unchanged=True,
+          new_invoice_same_date=True,other_receipt_payment_25_replayed_same_date_cash=True,other_receipt_still_paid=True,other_receipt_source_untouched=True,
+          ap_and_inventory_minus_3_on_invoice_date=True,all_integrity_checks_unchanged=True)
+    def closed_period():
+        f=production(cur,today);aa.prior.set_open_period(cur,f['production_day'])
+        closed=cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]
+        assert closed==f['production_day'],closed
+        seen={r[0] for r in cur.execute('select id from erp.journal_entries').fetchall()}
+        before,dated,chk=ledger(cur),by_date(cur),checks(cur);w=ws(cur,f['purchase'])
+        assert w['can_correct'],w['blockers']
+        fix(cur,payload(w,line=lambda n,i:i['rolls'][0].update(qty='80')),w['purchase']['row_version'])
+        assert raw(cur,f['material'])==(D(20),D(200)) and hpp(cur,f)==(D(900),D(15),0),(raw(cur,f['material']),hpp(cur,f))
+        made=[(e,t) for i,e,t in cur.execute('select id,economic_date,transaction_date from erp.journal_entries').fetchall() if i not in seen]
+        assert made and all(t>closed for e,t in made) and any(e<=closed for e,t in made),(closed,made)
+        dd=dated_delta(dated,by_date(cur));assert dd=={f['day']:{'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)}},dd
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',period_closed_through_production_day=True,correction_accepted=True,economic_date_kept_in_closed_period=True,
+          transaction_date_after_close=True,stock_20_hpp_900=True,effects_on_receipt_date_only=True,all_integrity_checks_unchanged=True)
     def repeated():
         f=production(cur,today);w=ws(cur,f['purchase'])
         fix(cur,payload(w,line=lambda n,i:i['rolls'][0].update(qty='80')),w['purchase']['row_version'])
@@ -447,12 +548,19 @@ def cases(cur,today):
         return dict(status='PASS',failure_after_all_stock_cost_hpp_journal_payment_steps_rolls_back_everything=True)
     def accessory():
         f=uom.fixture(cur,today,qty='2',price='120');d=receipt.command(cur,'SAVE_DRAFT',f['payload']);r=receipt.post(cur,d)
-        before=ledger(cur);chk=checks(cur);w=ws(cur,r['purchase_id']);assert w['lines'][0]['rolls']==[] and D(w['lines'][0]['qty'])==24
+        # 16 of the 24 pcs already left the receipt location (ordinary transfer).
+        location=str(cur.execute('select location_id from erp.material_purchase_headers where id=%s',(r['purchase_id'],)).fetchone()[0]);destination=str(uuid.uuid4())
+        cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,%s,'RAW_MATERIAL_WAREHOUSE',true)",(destination,f['tag']+'-TO',f['tag']+' destination'))
+        moved=dict(transfer_number=f['tag']+'-T0001',from_location_id=location,to_location_id=destination,physical_at=aa.at(f['day']+timedelta(days=1),10).isoformat(),
+          change_reason='P09 ordinary warehouse transfer',items=[dict(material_id=f['material'],roll_id=None,qty='16')])
+        material.post(cur,material.command(cur,'SAVE_TRANSFER',moved))
+        before=ledger(cur);chk=checks(cur);w=ws(cur,r['purchase_id']);assert w['lines'][0]['rolls']==[] and D(w['lines'][0]['qty'])==24 and w['lines'][0]['min_qty']=='16.000000',w['lines']
+        refused(cur,lambda:fix(cur,payload(w,line=lambda n,i:i.update(qty='10')),w['purchase']['row_version']),'CP7_RECEIPT_FIX_LINE_BELOW_USE')
         out=fix(cur,payload(w,line=lambda n,i:i.update(qty='20')),w['purchase']['row_version'])
         assert raw(cur,f['material'])[0]==20 and cur.execute('select qty,unit_price from erp.material_purchase_items where purchase_id=%s',(out['purchase_id'],)).fetchone()==(D(20),D(10))
         delta=ledger_delta(before,ledger(cur));assert delta=={'MATERIAL_INVENTORY':D(-40),'GRNI_MATERIAL':D(40)},delta
         same_checks(chk,checks(cur))
-        return dict(status='PASS',accessory_24_pcs_corrected_20=True,estimated_receipt_grni_follows=True,all_integrity_checks_unchanged=True)
+        return dict(status='PASS',accessory_24_pcs_16_moved_out_corrected_10_refused=True,accessory_24_pcs_corrected_20=True,estimated_receipt_grni_follows=True,all_integrity_checks_unchanged=True)
     def name_typo():
         f=production(cur,today);before,chk=ledger(cur),checks(cur)
         IDENT='select material_sku,material_type,unit_code,accessory_category_id,is_active,cached_stock_qty,moving_average_cost from erp.materials where id=%s'
@@ -498,9 +606,9 @@ def cases(cur,today):
     tests=[('RF_QTY_DOWN_AFTER_CUTTING',qty_down),('RF_QTY_UP_AFTER_CUTTING',qty_up),('RF_PRICE_AFTER_SALE_AND_RETURN',price_after_sale),
       ('RF_WRONG_MATERIAL_AFTER_CUTTING',lambda:wrong_material()),('RF_WRONG_MATERIAL_AND_PRICE',lambda:wrong_material('12')),
       ('RF_ROLL_COUNT_TYPO_UNUSED_ROLL',roll_count),('RF_REMOVED_ROLL_USED_REFUSED',removed_used),('RF_ROLL_BELOW_USE_REFUSED',below_use),
-      ('RF_PAYMENT_REPLAY',lambda:paid('300',True)),('RF_PAID_EXCEEDS_CORRECTED_REFUSED',lambda:paid('1000',False)),('RF_OVERPAID_CREDIT_TO_NEXT_NOTA',overpaid_credit),
+      ('RF_PAYMENT_REPLAY',lambda:paid('300',True)),('RF_PAID_EXCEEDS_CORRECTED_REFUSED',lambda:paid('1000',False)),('RF_OVERPAID_CREDIT_TO_NEXT_NOTA',overpaid_credit),('RF_OPENING_ADVANCE_PAYMENT_REPLAY',opening_advance),
       ('RF_INVOICE_PRICE_AFTER_SALE',invoice_price_after_sale),('RF_INVOICED_QTY_DOWN_WITH_PAYMENT',invoiced_qty_down),
-      ('RF_INVOICE_SHARED_OR_INCOMPLETE_REFUSED',invoice_refusals),('RF_REPEATED_REVISIONS',repeated),('RF_REPLAY_SAME_REQUEST',replay),
+      ('RF_INVOICE_INCOMPLETE_REFUSED',invoice_refusals),('RF_SHARED_INVOICE_CORRECTED',shared_invoice),('RF_CLOSED_PERIOD_CORRECTION',closed_period),('RF_REPEATED_REVISIONS',repeated),('RF_REPLAY_SAME_REQUEST',replay),
       ('RF_REVIEW_CHANGED_REFUSED',review_changed),('RF_ACCESS_CURRENT_AUTHORITY',access),('RF_YEAR_HISTORY_364',year_history),
       ('RF_LATE_FAILURE_ATOMIC',late_failure),('RF_ACCESSORY_LINE_QTY',accessory),('RF_MATERIAL_NAME_TYPO',name_typo),('RF_MATERIAL_NAME_REFUSALS',name_refusals)]
     assert [n for n,_ in tests]==MANIFEST['groups']['native']

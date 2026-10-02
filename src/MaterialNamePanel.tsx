@@ -7,7 +7,7 @@ import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { procurementObject } from './procurementContract'
-import { materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, type MaterialNameWorkspace } from './receiptCorrectionContract'
+import { correctionRefusal, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, type MaterialNameWorkspace } from './receiptCorrectionContract'
 import type { Json } from './types/database.preconnect'
 
 type Props = { materialId: string | null; onRenamed: () => Promise<boolean> }
@@ -40,7 +40,7 @@ function NameWorkspace({ materialId, onRenamed }: Props) {
   }, [client, materialId, beginRead, finishRead, isReadCurrent])
   useEffect(() => { if (open && !mutation.busy) void load() }, [open, load, mutation.busy])
   const handlers: ProductionMutationHandlers = {
-    send: envelope => { const p = procurementObject(envelope.payload); return client.rpc('erp_cp7_rename_material_v1', { p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string }) },
+    send: async envelope => { const p = procurementObject(envelope.payload); const r = await client.rpc('erp_cp7_rename_material_v1', { p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string }); return { data: r.data, error: r.error ? correctionRefusal(r.error) : null } },
     validate: (r, e) => { parseMaterialNameOutcome(r, e.id, procurementObject(procurementObject(e.payload).document).material_id as string) },
     retire: () => { setName(''); setReason(''); setChecked(false); setData(null) },
     // The page reloads first (after the envelope is cleared), then this panel.

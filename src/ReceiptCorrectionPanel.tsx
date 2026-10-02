@@ -7,7 +7,7 @@ import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, procurementObject, type ProcurementOption } from './procurementContract'
-import { blockerLabels, correctionDraft, correctionExcess, correctionInvoices, correctionPayload, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace, type DraftCredit, type DraftInvoice, type DraftLine, type ReceiptCorrectionWorkspace } from './receiptCorrectionContract'
+import { blockerLabels, correctionDraft, correctionRefusal, correctionExcess, correctionInvoices, correctionPayload, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace, type DraftCredit, type DraftInvoice, type DraftLine, type ReceiptCorrectionWorkspace } from './receiptCorrectionContract'
 import type { Json } from './types/database.preconnect'
 
 type Props = { purchaseId: string | null; receiptRevision?: string | null; onReceiptUpdated: (purchaseId: string) => Promise<boolean> }
@@ -53,7 +53,7 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
   }, [client, beginRead, finishRead, isReadCurrent])
   useEffect(() => { if (mutation.busy) return; if (requested.current !== purchaseId) { requested.current = purchaseId; setLines(null); setInvoices([]); setCredits([]); setChecked(false) }; if (open) void load() }, [purchaseId, receiptRevision, open, load, mutation.busy])
   const handlers: ProductionMutationHandlers = {
-    send: envelope => { const p = procurementObject(envelope.payload); return client.rpc('erp_cp7_correct_receipt_v1', { p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string }) },
+    send: async envelope => { const p = procurementObject(envelope.payload); const r = await client.rpc('erp_cp7_correct_receipt_v1', { p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string }); return { data: r.data, error: r.error ? correctionRefusal(r.error) : null } },
     validate: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string) },
     retire: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); const out = parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string); requested.current = out.purchase_id; setLines(null); setInvoices([]); setCredits([]); setChecked(false); setReason(''); setData(null); setOpen(true) },
     // The page first selects the replacement receipt (after the envelope is
@@ -91,11 +91,12 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
               <label>Jumlah ({l.unitCode}){r.locked ? ` · sudah terpakai ${numberText(r.minQty)}` : ''}<input aria-label={`Jumlah roll benar ${n + 1}.${ri + 1}`} inputMode="decimal" value={r.qty} onChange={e => change(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, qty: e.target.value } : x) }))}/></label>
               <button type="button" disabled={r.locked} title={r.locked ? 'Roll ini sudah terpakai sehingga tidak bisa dihapus' : undefined} onClick={() => change(l.key, old => ({ ...old, rolls: old.rolls.filter(x => x.key !== r.key) }))}>Hapus roll {ri + 1}</button></div>)}
               <button type="button" onClick={() => change(l.key, old => ({ ...old, rolls: [...old.rolls, { key: crypto.randomUUID(), replaces: null, number: '', qty: '', minQty: '0', locked: false }] }))}>Tambah roll yang terlewat</button></div>
-              : <label>Jumlah benar ({l.unitCode})<input aria-label={`Jumlah benar barang ${n + 1}`} inputMode="decimal" value={l.qty} onChange={e => change(l.key, old => ({ ...old, qty: e.target.value }))}/></label>}
+              : <label>Jumlah benar ({l.unitCode}){Number(l.minQty) > 0 ? ` · sudah keluar ${numberText(l.minQty)}` : ''}<input aria-label={`Jumlah benar barang ${n + 1}`} inputMode="decimal" value={l.qty} onChange={e => change(l.key, old => ({ ...old, qty: e.target.value }))}/></label>}
           </section>)}
           {invoices.length ? <section className="cproc-line" aria-label="Invoice supplier yang ikut dibetulkan"><h3>Invoice supplier</h3>
             <p className="cproc-help">Harga final dan jumlah ditagih mengikuti invoice yang benar. HPP, nilai stok, dan utang dihitung ulang sejak tanggal invoice; tidak ada selisih yang dicatat di hari ini.</p>
             {invoices.map((v, vi) => <div key={v.replaces}><h4>{v.number} · tanggal invoice {v.date.split('-').reverse().join('-')}</h4>
+              {data.invoices.find(x => x.invoice_id === v.replaces)?.other_receipts.length ? <p className="cproc-help">Invoice ini juga mencakup {data.invoices.find(x => x.invoice_id === v.replaces)!.other_receipts.map(o => o.purchase_number).join(', ')}. Baris penerimaan itu ikut dicatat ulang apa adanya, dan pembayarannya dipindah utuh dengan tanggal aslinya.</p> : null}
               {v.lines.map((x, li) => <div className="cproc-inline" key={x.replaces}><span>{lines.find(l => l.replaces === x.itemId)?.materialName ?? 'Barang'}</span>
                 <label>Jumlah ditagih<input aria-label={`Jumlah ditagih invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.qty} onChange={e => changeInvoice(v.replaces, x.replaces, 'qty', e.target.value)}/></label>
                 <label>Harga final<input aria-label={`Harga final invoice ${vi + 1}.${li + 1}`} inputMode="decimal" value={x.price} onChange={e => changeInvoice(v.replaces, x.replaces, 'price', e.target.value)}/></label>

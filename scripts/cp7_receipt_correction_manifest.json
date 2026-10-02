@@ -1,6 +1,6 @@
 {
   "schema": "cp7-receipt-correction-native-manifest-v1",
-  "qualification_scope": "Posted material receipt corrected after real use: immutable source receipt, source-time Native inverse and exact replacement, same physical rolls kept, wrong-material cutting use re-attributed at its own time, chronological material recost, PO HPP/GL, supplier payment replay (excess as supplier credit cut from another nota of the same supplier), posted supplier invoices reversed and re-posted at their own dates, effective material card, material-name typo fix on the same material, current authority, actual Auth HTTP, browser and competing transactions",
+  "qualification_scope": "Posted material receipt corrected after real use: immutable source receipt, source-time Native inverse and exact replacement, same physical rolls kept, wrong-material cutting use re-attributed at its own time, chronological material recost, PO HPP/GL, supplier payment replay (opening-advance funding kept; excess as supplier credit cut from another nota of the same supplier), posted supplier invoices (including one shared with other receipts) reversed and re-posted at their own dates, correction into a closed period, effective material card, material-name typo fix on the same material, current authority, actual Auth HTTP, browser and competing transactions",
   "production_go": false,
   "independent_acceptance": false,
   "groups": {
@@ -16,9 +16,12 @@
       "RF_PAYMENT_REPLAY",
       "RF_PAID_EXCEEDS_CORRECTED_REFUSED",
       "RF_OVERPAID_CREDIT_TO_NEXT_NOTA",
+   "RF_OPENING_ADVANCE_PAYMENT_REPLAY",
       "RF_INVOICE_PRICE_AFTER_SALE",
       "RF_INVOICED_QTY_DOWN_WITH_PAYMENT",
-      "RF_INVOICE_SHARED_OR_INCOMPLETE_REFUSED",
+      "RF_INVOICE_INCOMPLETE_REFUSED",
+   "RF_SHARED_INVOICE_CORRECTED",
+   "RF_CLOSED_PERIOD_CORRECTION",
       "RF_REPEATED_REVISIONS",
       "RF_REPLAY_SAME_REQUEST",
       "RF_REVIEW_CHANGED_REFUSED",
@@ -43,12 +46,12 @@
     ]
   },
   "required_counts": {
-    "native": 23,
+    "native": 26,
     "races": 3,
     "http": 1,
     "browser": 2
   },
-  "expected_case_executions": 29,
+  "expected_case_executions": 32,
   "unique_oracle_total_claim": false,
   "frozen_cp6_modifications": false,
   "native_definitions_changed": false

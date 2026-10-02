@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { correctionDraft, correctionExcess, correctionInvoices, correctionPayload, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, parseMaterialCard, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace } from './receiptCorrectionContract'
+import { correctionDraft, correctionExcess, correctionRefusal, correctionInvoices, correctionPayload, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, parseMaterialCard, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace } from './receiptCorrectionContract'
 
 const ids = { root: '11111111-1111-4111-8111-111111111111', rep: '22222222-2222-4222-8222-222222222222', item: '33333333-3333-4333-8333-333333333333', mat: '44444444-4444-4444-8444-444444444444', roll: '55555555-5555-4555-8555-555555555555', sup: '66666666-6666-4666-8666-666666666666', loc: '77777777-7777-4777-8777-777777777777', rev: '88888888-8888-4888-8888-888888888888' }
 const at = '2026-09-29T03:00:00+00:00'
@@ -8,9 +8,9 @@ function workspace(history = false, invoiced = false) {
   return {
     contract_version: 'cp7.receipt-correction-workspace.v1', read_at: at, root_purchase_id: ids.root, current_purchase_id: history ? ids.rep : ids.root, original_purchase_number: 'SJ-1',
     purchase: { purchase_id: history ? ids.rep : ids.root, purchase_number: history ? 'SJ-1 · R1-abcd' : 'SJ-1', status: 'POSTED', row_version: '3', supplier_id: ids.sup, supplier_name: 'Supplier', location_id: ids.loc, location_name: 'Gudang', physical_at: at, payment_status: 'UNPAID', supplier_invoice_number: null, due_date: null, notes: null },
-    lines: [{ item_id: ids.item, material_id: ids.mat, material_sku: 'KAIN', material_name: 'Kain', material_type: 'FABRIC', unit_code: 'yd', qty: '100.000000', unit_price: '10.000000', line_total: '1000.000000', price_state: invoiced ? 'ESTIMATED' : 'FINAL', price_source: invoiced ? 'MANUAL_ESTIMATE' : 'SUPPLIER_INVOICE', invoice_match_state: invoiced ? 'MATCHED' : 'DIRECT_FINAL', lot_number: null, notes: null,
+    lines: [{ item_id: ids.item, material_id: ids.mat, material_sku: 'KAIN', material_name: 'Kain', material_type: 'FABRIC', unit_code: 'yd', qty: '100.000000', unit_price: '10.000000', line_total: '1000.000000', price_state: invoiced ? 'ESTIMATED' : 'FINAL', price_source: invoiced ? 'MANUAL_ESTIMATE' : 'SUPPLIER_INVOICE', invoice_match_state: invoiced ? 'MATCHED' : 'DIRECT_FINAL', lot_number: null, notes: null, min_qty: '0',
       rolls: [{ roll_id: ids.roll, roll_number: 'R1', qty: '100.000000', cached_qty: '40.000000', status: 'HALF_USED', used_qty: '60.000000', min_qty: '60.000000', movable: true, uses: [{ source_type: 'CUTTING_GROUP', movement_type: 'CUTTING_ISSUE', count: 1 }] }] }],
-    invoices: invoiced ? [{ invoice_id: inv.id, invoice_number: 'INV-7', invoice_date: '2026-09-29', received_at: at, due_date: null, row_version: '2', notes: null,
+    invoices: invoiced ? [{ invoice_id: inv.id, invoice_number: 'INV-7', invoice_date: '2026-09-29', received_at: at, due_date: null, row_version: '2', notes: null, other_receipts: [{ purchase_id: ids.rev, purchase_number: 'SJ-9' }],
       lines: [{ invoice_line_id: inv.line, purchase_item_id: ids.item, qty_invoiced: '100.000000', unit_price: '12.000000', discount_amount: '0.000000', net_amount: '1200.000000', notes: null }] }] : [],
     credit_targets: [] as { purchase_id: string; purchase_number: string; physical_at: string; remaining: string }[], payments: [] as unknown[], paid_total: '0', blockers: [], can_correct: true, review_token: 'a'.repeat(32),
     history: history ? [{ revision_id: ids.rev, revision: '1', previous_purchase_id: ids.root, previous_purchase_number: 'SJ-1', replacement_purchase_id: ids.rep, replacement_purchase_number: 'SJ-1 · R1-abcd', effective_at: at, recorded_at: at, reason: 'Salah ketik jumlah', actor_name: 'Owner', previous_document: {}, corrected_document: {} }] : [],
@@ -95,5 +95,33 @@ describe('receipt correction contract', () => {
     expect(parseMaterialCard(card, false).page.rows[0].qty_signed).toBe('80.000000')
     expect(() => parseMaterialCard({ ...card, page: { ...card.page, rows: [{ ...row, qty_signed: '70.000000' }] } }, false)).toThrow()
     expect(() => parseMaterialCard(card, true)).toThrow()
+  })
+})
+
+describe('command refusals in Indonesian', () => {
+  it('keeps code/status, names the nota and lists blockers; unknown codes stay as they are', () => {
+    const e = correctionRefusal({ code: 'P0001', status: 400, message: 'CP7_RECEIPT_FIX_CREDIT_TARGET_AFTER_ADVANCE_USE SJ-7', details: null }) as Record<string, unknown>
+    expect(e).toEqual({ code: 'P0001', status: 400, details: null, message: 'Kelebihan bayar ini berasal dari uang muka saldo awal. Pilih nota yang tanggalnya sama atau sebelum tanggal pemakaian uang muka itu (SJ-7).' })
+    expect((correctionRefusal({ code: 'P0001', message: 'CP7_RECEIPT_FIX_ROLL_BELOW_USE roll R1 corrected 50 used 60.000000' }) as { message: string }).message)
+      .toBe('Jumlah roll tidak boleh di bawah jumlah yang sudah dipakai atau dipindah dari gudang penerimaan (roll R1 dibetulkan 50 terpakai 60.000000).')
+    expect((correctionRefusal({ code: 'P0001', message: 'CP7_RECEIPT_FIX_DEPENDENCY CP7_RECEIPT_FIX_RETURN_ACTIVE,CP7_RECEIPT_FIX_COST_CORRECTION_ACTIVE' }) as { message: string }).message)
+      .toBe('Ada retur ke supplier yang sudah diposting dari penerimaan ini. Batalkan retur itu dulu. Ada koreksi harga lama yang aktif. Batalkan koreksi harga itu dulu.')
+    expect((correctionRefusal({ code: 'P0001', message: 'CP7_MATERIAL_NAME_TAKEN' }) as { message: string }).message).toBe('Nama ini sudah dipakai bahan lain. Bila itu memang bahan yang sama, jangan digabung lewat ganti nama.')
+    const raw = { code: 'P0001', message: 'CP7_RECEIPT_FIX_INVOICE_RESTATEMENT_MISMATCH INV-1' }
+    expect(correctionRefusal(raw)).toBe(raw)
+    expect(correctionRefusal(null)).toBe(null)
+  })
+})
+
+describe('non-roll line already left the receipt location', () => {
+  it('keeps the corrected quantity at or above what left, and the material unchanged', () => {
+    const raw = workspace() as ReturnType<typeof workspace>
+    raw.lines = [{ ...raw.lines[0], material_type: 'ACCESSORY', unit_code: 'pcs', qty: '24.000000', min_qty: '20.000000', rolls: [] }]
+    const w = parseReceiptCorrectionWorkspace(raw, ids.root), draft = correctionDraft(w)
+    expect(draft[0].minQty).toBe('20.000000')
+    const at = (qty: string, materialId = ids.mat) => correctionPayload(w, [{ ...draft[0], qty, materialId }], 'Jumlah salah ketik di surat jalan')
+    expect(at('19').problem).toBe('Kain sudah keluar 20 pcs dari gudang penerimaan; jumlah benar tidak boleh lebih kecil dan bahannya tidak bisa diganti.')
+    expect(at('20').problem).toBeNull()
+    expect(at('22', ids.rev).problem).toContain('bahannya tidak bisa diganti')
   })
 })

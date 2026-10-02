@@ -14,7 +14,7 @@ function closed(v: unknown, keys: string[], optional: string[] = []) {
   return r
 }
 export const blockerLabels: Record<string, string> = {
-  CP7_RECEIPT_FIX_INVOICE_SHARED: 'Invoice supplier untuk penerimaan ini juga mencakup penerimaan lain. Batalkan invoice gabungan itu dulu, lalu benerin penerimaan ini.',
+  CP7_RECEIPT_FIX_SHARED_INVOICE_RETURN_ACTIVE: 'Invoice supplier ini juga mencakup penerimaan lain yang sudah punya retur ke supplier. Batalkan retur itu dulu.',
   CP7_RECEIPT_FIX_PENDING_CHILD_REVIEW_REQUIRED: 'Masih ada draft invoice, retur, pembayaran atau koreksi harga untuk penerimaan ini. Selesaikan atau hapus draft tersebut dulu.',
   CP7_RECEIPT_FIX_RETURN_ACTIVE: 'Ada retur ke supplier yang sudah diposting dari penerimaan ini. Batalkan retur itu dulu.',
   CP7_RECEIPT_FIX_COST_CORRECTION_ACTIVE: 'Ada koreksi harga lama yang aktif. Batalkan koreksi harga itu dulu.',
@@ -24,10 +24,10 @@ export const blockerLabels: Record<string, string> = {
   CP7_RECEIPT_FIX_ACTIVE_POSTED_ONLY: 'Hanya penerimaan yang sudah diterima (aktif) yang bisa dibenerin.',
 }
 export type CorrectionRoll = { roll_id: string; roll_number: string; qty: string; cached_qty: string; status: string; used_qty: string; min_qty: string; movable: boolean; uses: { source_type: string; movement_type: string; count: number }[] }
-export type CorrectionLine = { item_id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; unit_price: string; line_total: string; price_state: string; price_source: string; invoice_match_state: string; lot_number: string | null; notes: string | null; rolls: CorrectionRoll[] }
+export type CorrectionLine = { item_id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; unit_price: string; line_total: string; price_state: string; price_source: string; invoice_match_state: string; lot_number: string | null; notes: string | null; min_qty: string; rolls: CorrectionRoll[] }
 export type CorrectionInvoiceLine = { invoice_line_id: string; purchase_item_id: string; qty_invoiced: string; unit_price: string; discount_amount: string; net_amount: string; notes: string | null }
 export type CreditTarget = { purchase_id: string; purchase_number: string; physical_at: string; remaining: string }
-export type CorrectionInvoice = { invoice_id: string; invoice_number: string; invoice_date: string; received_at: string; due_date: string | null; row_version: string; notes: string | null; lines: CorrectionInvoiceLine[] }
+export type CorrectionInvoice = { invoice_id: string; invoice_number: string; invoice_date: string; received_at: string; due_date: string | null; row_version: string; notes: string | null; lines: CorrectionInvoiceLine[]; other_receipts: { purchase_id: string; purchase_number: string }[] }
 export type CorrectionRevision = { revision_id: string; revision: string; previous_purchase_id: string; previous_purchase_number: string; replacement_purchase_id: string; replacement_purchase_number: string; effective_at: string; recorded_at: string; reason: string; actor_name: string | null; previous_document: unknown; corrected_document: unknown }
 export type ReceiptCorrectionWorkspace = {
   contract_version: 'cp7.receipt-correction-workspace.v1'; read_at: string; root_purchase_id: string; current_purchase_id: string; original_purchase_number: string
@@ -44,8 +44,8 @@ export function parseReceiptCorrectionWorkspace(v: unknown, requested: string): 
   if (p.purchase_id !== r.current_purchase_id || typeof p.purchase_number !== 'string' || !['POSTED', 'REVERSED', 'DRAFT'].includes(p.status as string) || typeof p.row_version !== 'string' || !/^[1-9][0-9]{0,18}$/.test(p.row_version)
     || !id(p.supplier_id) || !id(p.location_id) || !at(p.physical_at) || !text(p.supplier_name) || !text(p.location_name) || !text(p.supplier_invoice_number) || !text(p.notes)) return fail()
   for (const value of r.lines) {
-    const l = closed(value, ['item_id', 'material_id', 'material_sku', 'material_name', 'material_type', 'unit_code', 'qty', 'unit_price', 'line_total', 'price_state', 'price_source', 'invoice_match_state', 'lot_number', 'notes', 'rolls'])
-    if (!id(l.item_id) || !id(l.material_id) || typeof l.material_name !== 'string' || !decimal(l.qty) || !decimal(l.unit_price) || !decimal(l.line_total) || typeof l.invoice_match_state !== 'string' || !Array.isArray(l.rolls)) return fail()
+    const l = closed(value, ['item_id', 'material_id', 'material_sku', 'material_name', 'material_type', 'unit_code', 'qty', 'unit_price', 'line_total', 'price_state', 'price_source', 'invoice_match_state', 'lot_number', 'notes', 'min_qty', 'rolls'])
+    if (!id(l.item_id) || !id(l.material_id) || typeof l.material_name !== 'string' || !decimal(l.qty) || !decimal(l.unit_price) || !decimal(l.line_total) || typeof l.invoice_match_state !== 'string' || !decimal(l.min_qty) || !Array.isArray(l.rolls)) return fail()
     for (const roll of l.rolls as unknown[]) {
       const x = closed(roll, ['roll_id', 'roll_number', 'qty', 'cached_qty', 'status', 'used_qty', 'min_qty', 'movable', 'uses'])
       if (!id(x.roll_id) || typeof x.roll_number !== 'string' || !decimal(x.qty) || !decimal(x.cached_qty) || !decimal(x.used_qty) || !decimal(x.min_qty) || typeof x.movable !== 'boolean' || !Array.isArray(x.uses)) return fail()
@@ -53,8 +53,9 @@ export function parseReceiptCorrectionWorkspace(v: unknown, requested: string): 
   }
   const items = new Set((r.lines as { item_id: string }[]).map(l => l.item_id))
   for (const value of r.invoices) {
-    const x = closed(value, ['invoice_id', 'invoice_number', 'invoice_date', 'received_at', 'due_date', 'row_version', 'notes', 'lines'])
-    if (!id(x.invoice_id) || typeof x.invoice_number !== 'string' || !day(x.invoice_date) || !at(x.received_at) || x.due_date !== null && !day(x.due_date) || typeof x.row_version !== 'string' || !text(x.notes) || !Array.isArray(x.lines) || !x.lines.length) return fail()
+    const x = closed(value, ['invoice_id', 'invoice_number', 'invoice_date', 'received_at', 'due_date', 'row_version', 'notes', 'lines', 'other_receipts'])
+    if (!id(x.invoice_id) || typeof x.invoice_number !== 'string' || !day(x.invoice_date) || !at(x.received_at) || x.due_date !== null && !day(x.due_date) || typeof x.row_version !== 'string' || !text(x.notes) || !Array.isArray(x.lines) || !x.lines.length || !Array.isArray(x.other_receipts)) return fail()
+    for (const other of x.other_receipts as unknown[]) { const o = closed(other, ['purchase_id', 'purchase_number']); if (!id(o.purchase_id) || o.purchase_id === r.current_purchase_id || typeof o.purchase_number !== 'string') return fail() }
     for (const line of x.lines as unknown[]) {
       const y = closed(line, ['invoice_line_id', 'purchase_item_id', 'qty_invoiced', 'unit_price', 'discount_amount', 'net_amount', 'notes'])
       if (!id(y.invoice_line_id) || !id(y.purchase_item_id) || !items.has(y.purchase_item_id) || !decimal(y.qty_invoiced) || !decimal(y.unit_price) || !decimal(y.discount_amount) || !decimal(y.net_amount) || !text(y.notes)) return fail()
@@ -84,7 +85,7 @@ export function parseReceiptCorrectionOutcome(v: unknown, request: string, sourc
   return r as typeof r & { purchase_id: string }
 }
 export type DraftRoll = { key: string; replaces: string | null; number: string; qty: string; minQty: string; locked: boolean }
-export type DraftLine = { key: string; replaces: string | null; materialId: string; materialName: string; materialType: string; unitCode: string; qty: string; price: string; priceState: string; priceSource: string; rolls: DraftRoll[] }
+export type DraftLine = { key: string; replaces: string | null; materialId: string; materialName: string; materialType: string; unitCode: string; qty: string; minQty: string; price: string; priceState: string; priceSource: string; rolls: DraftRoll[] }
 export type DraftInvoiceLine = { replaces: string; itemId: string; qty: string; price: string; discount: string }
 export type DraftInvoice = { replaces: string; number: string; date: string; lines: DraftInvoiceLine[] }
 export type DraftCredit = { purchaseId: string; amount: string }
@@ -112,7 +113,7 @@ export function correctionExcess(w: ReceiptCorrectionWorkspace, lines: DraftLine
 const plain = (s: string) => s.includes('.') ? s.replace(/0+$/, '').replace(/\.$/, '') : s
 const exact = (s: string, positive: boolean) => { const t = s.trim().replace(',', '.'); return /^(0|[1-9][0-9]{0,11})(\.[0-9]{1,6})?$/.test(t) && (!positive || Number(t) > 0) ? t : null }
 export function correctionDraft(w: ReceiptCorrectionWorkspace): DraftLine[] {
-  return w.lines.map(l => ({ key: l.item_id, replaces: l.item_id, materialId: l.material_id, materialName: l.material_name, materialType: l.material_type, unitCode: l.unit_code, qty: plain(l.qty), price: plain(l.unit_price),
+  return w.lines.map(l => ({ key: l.item_id, replaces: l.item_id, materialId: l.material_id, materialName: l.material_name, materialType: l.material_type, unitCode: l.unit_code, qty: plain(l.qty), minQty: l.min_qty, price: plain(l.unit_price),
     priceState: l.price_state, priceSource: l.price_source, rolls: l.rolls.map(r => ({ key: r.roll_id, replaces: r.roll_id, number: r.roll_number, qty: plain(r.qty), minQty: r.min_qty, locked: Number(r.used_qty) > 0 })) }))
 }
 /** Every posted supplier invoice of the receipt, line by line, as it now reads. */
@@ -141,6 +142,10 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
     } else {
       const qty = exact(l.qty, true)
       if (!qty) return { payload: null, problem: `Jumlah ${l.materialName} belum benar.` }
+      // Already left the receipt location (transfer/issue): the same material keeps at least that much.
+      const source = w.lines.find(x => x.item_id === l.replaces)
+      if (source && Number(source.min_qty) > 0 && (source.material_id !== l.materialId || Number(qty) < Number(source.min_qty)))
+        return { payload: null, problem: `${source.material_name} sudah keluar ${plain(source.min_qty)} ${source.unit_code} dari gudang penerimaan; jumlah benar tidak boleh lebih kecil dan bahannya tidak bisa diganti.` }
       out.push({ ...(l.replaces ? { replaces_item_id: l.replaces } : {}), material_id: l.materialId, unit_price: price, price_state: l.priceState, price_source: l.priceSource, qty, rolls: [] })
     }
   }
@@ -236,4 +241,68 @@ export function materialNamePayload(w: MaterialNameWorkspace, name: string, reas
   if (clean === w.material_name) return { payload: null, problem: 'Nama belum berubah.' }
   if (reason.trim().length < 5) return { payload: null, problem: 'Tulis alasan pembetulan (minimal 5 huruf).' }
   return { payload: { material_id: w.material_id, material_name: clean, change_reason: reason.trim() }, problem: null }
+}
+
+// Indonesian text for the commands' named refusals. Only the message changes:
+// the error code/status stay, so the mutation recovery still reads a definite
+// rejection. Unknown or technical codes are shown as they are.
+const changed = 'berubah sejak diperiksa. Muat ulang lalu periksa lagi.'
+const refusalLabels: Record<string, string> = {
+  CP7_RECEIPT_FIX_REVIEW_CHANGED: `Penerimaan, pemakaian roll, pembayaran, atau invoice ${changed}`,
+  CP7_RECEIPT_FIX_ACTIVE_POSTED_ONLY: 'Penerimaan ini sudah dibetulkan atau dibatalkan. Buka penerimaan yang berlaku.',
+  CP7_RECEIPT_FIX_SOURCE_SUPERSEDED: 'Penerimaan ini sudah dibetulkan atau dibatalkan. Buka penerimaan yang berlaku.',
+  CP7_RECEIPT_FIX_NOT_FOUND: 'Penerimaan tidak ditemukan.',
+  CP7_RECEIPT_FIX_FIELDS: 'Isian pembetulan belum lengkap atau formatnya belum sesuai.',
+  CP7_RECEIPT_FIX_REQUEST_CHANGED: 'Permintaan pembetulan berubah. Periksa hasil permintaan sebelumnya sebelum mengirim tindakan baru.',
+  CP7_RECEIPT_FIX_ROLL_BELOW_USE: 'Jumlah roll tidak boleh di bawah jumlah yang sudah dipakai atau dipindah dari gudang penerimaan',
+  CP7_RECEIPT_FIX_REMOVED_ROLL_USED: 'Roll yang sudah dipakai tidak boleh dihapus dari penerimaan',
+  CP7_RECEIPT_FIX_LINE_BELOW_USE: 'Jumlah barang tidak boleh di bawah jumlah yang sudah keluar dari gudang penerimaan',
+  CP7_RECEIPT_FIX_ROLL_USE_UNSUPPORTED: 'Roll ini sudah dipakai selain untuk potong. Untuk salah bahan, batalkan pemakaian itu dulu, betulkan penerimaan, lalu catat ulang pemakaiannya',
+  CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN: 'Nomor roll sudah dipakai pada bahan tujuan',
+  CP7_RECEIPT_FIX_ROLL_NUMBER_IS_IDENTITY: 'Nomor roll yang sudah ada tidak bisa diubah.',
+  CP7_RECEIPT_FIX_ROLL_LINEAGE: `Daftar roll ${changed}`,
+  CP7_RECEIPT_FIX_ITEM_LINEAGE: `Daftar barang ${changed}`,
+  CP7_RECEIPT_FIX_MATERIAL_KIND_CHANGED: 'Bahan pengganti harus jenis dan satuan yang sama dengan bahan semula.',
+  CP7_RECEIPT_FIX_MATERIAL_INACTIVE: 'Bahan pengganti sedang tidak aktif.',
+  CP7_RECEIPT_FIX_MATERIAL_NOT_FOUND: 'Bahan tidak ditemukan.',
+  CP7_RECEIPT_FIX_FABRIC_ROLLS_REQUIRED: 'Bahan kain dicatat per roll.',
+  CP7_RECEIPT_FIX_NON_ROLL_QTY_REQUIRED: 'Bahan selain kain dicatat dengan jumlah, tanpa roll.',
+  CP7_RECEIPT_FIX_INVOICE_DECISION_REQUIRED: 'Penerimaan ini sudah punya invoice supplier. Periksa baris invoice yang ikut dibetulkan.',
+  CP7_RECEIPT_FIX_INVOICE_EXCEEDS_RECEIPT: 'Jumlah di invoice melebihi jumlah penerimaan yang dibetulkan.',
+  CP7_RECEIPT_FIX_INVOICED_LINE_ESTIMATE_REQUIRED: 'Baris yang punya invoice tetap memakai harga perkiraan; harga final ada di invoice.',
+  CP7_RECEIPT_FIX_INVOICE_DISCOUNT: 'Diskon invoice tidak boleh melebihi nilai barisnya.',
+  CP7_RECEIPT_FIX_INVOICE_SET: `Invoice supplier ${changed}`,
+  CP7_RECEIPT_FIX_INVOICE_LINE_SET: `Baris invoice supplier ${changed}`,
+  CP7_RECEIPT_FIX_INVOICE_LINE_ORPHAN: 'Setiap baris invoice harus tetap terhubung ke barang penerimaan yang dibetulkan.',
+  CP7_RECEIPT_FIX_CREDIT_ALLOCATION_REQUIRED: 'Sudah dibayar lebih dari total yang benar. Pilih nota lain dari supplier yang sama untuk menampung kelebihan bayar',
+  CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH: 'Jumlah kredit ke nota lain harus sama dengan kelebihan bayar',
+  CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID: 'Nota tujuan kredit harus nota lain yang aktif dari supplier yang sama, masing-masing sekali.',
+  CP7_RECEIPT_FIX_CREDIT_TARGET_EXCEEDS_REMAINING: 'Kredit melebihi sisa tagihan nota tujuan',
+  CP7_RECEIPT_FIX_CREDIT_TARGET_AFTER_ADVANCE_USE: 'Kelebihan bayar ini berasal dari uang muka saldo awal. Pilih nota yang tanggalnya sama atau sebelum tanggal pemakaian uang muka itu',
+  CP7_RECEIPT_FIX_CREDIT_CENTS: 'Jumlah kredit paling banyak dua angka di belakang koma.',
+  CP7_MATERIAL_NAME_TAKEN: 'Nama ini sudah dipakai bahan lain. Bila itu memang bahan yang sama, jangan digabung lewat ganti nama.',
+  CP7_MATERIAL_NAME_UNCHANGED: 'Nama baru sama dengan nama sekarang.',
+  CP7_MATERIAL_NAME_REVIEW_CHANGED: `Data bahan ${changed}`,
+  CP7_MATERIAL_NAME_REASON_REQUIRED: 'Tulis alasan pembetulan (minimal 5 huruf).',
+  CP7_MATERIAL_NAME_LENGTH: 'Tulis nama bahan yang benar (1–150 huruf).',
+  CP7_MATERIAL_NAME_FIELDS: 'Isian ganti nama belum lengkap atau formatnya belum sesuai.',
+  CP7_MATERIAL_NAME_NOT_FOUND: 'Bahan tidak ditemukan.',
+  CP7_MATERIAL_NAME_REQUEST_CHANGED: 'Permintaan ganti nama berubah. Periksa hasil permintaan sebelumnya sebelum mengirim tindakan baru.',
+}
+const detailWords: [RegExp, string][] = [[/\bpaid\b/g, 'dibayar'], [/\bcorrected\b/g, 'dibetulkan'], [/\bused\b/g, 'terpakai'], [/\bcredit\b/g, 'kredit'], [/\ballocated\b/g, 'dialokasikan']]
+/** The same error with the refusal in Indonesian (code, status and details kept). */
+export function correctionRefusal(error: unknown): unknown {
+  if (!error || typeof error !== 'object') return error
+  const message = (error as { message?: unknown }).message
+  const m = typeof message === 'string' ? /^(CP7_(?:RECEIPT_FIX|MATERIAL_NAME)_[A-Z_]+)(?:\s+([\s\S]*))?$/.exec(message.trim()) : null
+  if (!m) return error
+  const [, code, rest = ''] = m
+  if (code === 'CP7_RECEIPT_FIX_DEPENDENCY') {
+    const reasons = rest.split(',').map(c => blockerLabels[c.trim()]).filter(Boolean)
+    return reasons.length ? { ...error, message: reasons.join(' ') } : error
+  }
+  const label = refusalLabels[code]
+  if (!label) return error
+  const detail = rest.trim() ? ` (${detailWords.reduce((s, [w, t]) => s.replace(w, t), rest.trim())})` : ''
+  return { ...error, message: label.replace(/\.$/, '') + detail + '.' }
 }
