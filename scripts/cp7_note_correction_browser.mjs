@@ -20,7 +20,11 @@ async function flow(ui,today,mobile){
   await form.getByLabel('Jumlah invoice 1',{exact:true}).fill('16');await form.getByLabel('Alasan simpan invoice',{exact:true}).fill('Jumlah yang benar16 PCS; pembayaran dan retur tetap sama')
   await ui.expect(form.getByRole('button',{name:'Simpan pembetulan nota',exact:true})).toBeDisabled();await form.getByLabel('Pembetulan nota sudah diperiksa',{exact:true}).check()
   if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_correct_note_v1',async route=>{const body=route.request().postDataJSON();if(!lost){first=body;const response=await route.fetch();if(response.status()!==200){await route.fulfill({response});return}lost=true;await route.abort('failed')}else{replay=body;await route.continue()}})
+  // The form is retired after the owning transaction's actual reply is
+  // validated. Five seconds of an in-flight transaction is not a failed save.
+  const committed=mobile?null:p.waitForResponse(r=>r.url().includes('/rest/v1/rpc/erp_cp7_correct_note_v1')&&r.request().method()==='POST',{timeout:20000})
   await form.getByRole('button',{name:'Simpan pembetulan nota',exact:true}).click()
+  if(committed){const response=await committed;assert.equal(response.status(),200);const body=await response.json();assert.equal(body.kind,'COMMITTED_OUTCOME');assert.equal(body.action,'CORRECT');assert.equal(body.request_id,response.request().postDataJSON().p_request);assert.equal(body.previous_sale_id,f.root_sale);assert.equal(body.revision,'1')}
   if(mobile){
    await ui.expect.poll(()=>lost,{timeout:20000}).toBe(true);const other=peer.locator('.csales');await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await ui.expect(other.getByRole('button',{name:'Benerin nota',exact:true})).toBeDisabled()
    await other.getByRole('button',{name:'Muat ulang invoice',exact:true}).click();const pending=await peer.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.production.SALES.pending-mutation.v1:')).map(([,v])=>JSON.parse(v)));assert.equal(pending.length,1);assert.equal(pending[0].action,'CORRECT');assert.equal(pending[0].id,first.p_request);assert.deepEqual(pending[0].payload.document,first.p_payload)

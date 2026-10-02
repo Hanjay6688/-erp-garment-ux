@@ -934,6 +934,34 @@
       "all_twenty_installers_capture_compare_restore_exact_report_definition": true,
       "qualified_native_money_cases": 0,
       "production_go": false
+    },
+    "latest_actual_owning30": {
+      "status": "INCOMPLETE",
+      "source_commit": "4ca93db345860dfce5dec8d745e4a89cea1389b5",
+      "run_id": 36995839540,
+      "job_id": 110802227650,
+      "expected_case_count": 30,
+      "observed_case_count": 30,
+      "groups": {
+        "native": {
+          "PASS": 22
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 2
+        },
+        "browser": {
+          "PASS": 1,
+          "INCOMPLETE": 1
+        }
+      },
+      "receipt": "docs/cp7/evidence/note-correction/required30-29pass-4ca93db/RECEIPT.json",
+      "all_funding_and_period_report_Native_oracles_pass": true,
+      "desktop_requires_actual_committed_reply_before_form_assertion": true,
+      "production_go": false,
+      "full_family_acceptance": false
     }
   },
   "f03_journal_source": {
@@ -3053,5 +3081,23 @@
     "writer": "Hansen-authorized successor to Writer Finisher CP6, F03 takeover30Sep2026"
   },
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
-  "version": "cp7.integration-entry.v1"
+  "version": "cp7.integration-entry.v1",
+  "native_cutting_yield_source_bridge": {
+    "status": "AWAITING_NATIVE21_SOURCE_ONLY",
+    "scope": "Native cutting source, immutable own Originals, current Auth; learned interval and connected analyzer consumer remain pending",
+    "source": "scripts/cp7-src/cutting-yield/source.sql",
+    "predeclared_native_history_case_count": 21,
+    "all_original17_preserved": true,
+    "actual_cutting_additions": {
+      "native": 3,
+      "http": 1
+    },
+    "width_required": false,
+    "native_cutting_save_post_unchanged": true,
+    "local_structural_control": "PGlite PostgreSQL18, zero Native economic qualification credit",
+    "f05_preview_tests": 47,
+    "trained_model": false,
+    "full_family_acceptance": false,
+    "production_go": false
+  }
 }

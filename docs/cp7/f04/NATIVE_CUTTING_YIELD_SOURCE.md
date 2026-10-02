@@ -1,0 +1,11 @@
+# Native cutting source bridge — model still pending
+
+The Native producer captures real cutting groups, roll slices, physical time, pattern revision, consumption in the exact Native unit and outputs by size. Pickup, sewing, laundry, QC and split completions do not add cutting slices or count their output again. No business table is written. Only the required identity/unit columns on material and roll masters are granted SELECT to the existing read-only NOLOGIN capture principal; money fields are not added.
+
+Own source/results are immutable and request-idempotent. Current permission is checked before and after the request lock and again before a saved Original is served. Caller data cannot supply actual yield, width, family, unit conversion, missingness, interval or a normal label. Source or engine revisions archive the old result without rewriting it. Native physical time is separate from actual capture knowledge; historical Native dates never become false historical knowledge.
+
+Missing metadata stays explicit: family, prospective planned mix, recorded width, independent physical remainder and a qualified interval are NULL. Native output mix is not a preknown marker plan; issued minus consumed is not a physical measurement; laundry BS does not prove a cutting cause. The existing cutting SAVE and POST are untouched and never wait for this source/analyzer or a width.
+
+The model and connected analyzer consumer are not complete. This source bridge does not claim a learned factory range, a verified cause, full F04/F05 acceptance, P19 or production GO. Prospective metadata, actual revision deduplication for training, separated chronological batch calibration/holdout and width-model promotion against its baseline are the next producer work.
+
+Predeclared F04 history extension retains all17 existing controls and adds3 actual Native source cases plus1 real Auth/HTTP case, total21. Actual Native production creates60 cutting PCS and completes later stages through accepted writers; the collector must return exactly one60-PCS slice, preserve its unit/precision, withhold all unproved inputs/ranges, replay once, preserve Original across an engine change and deny current deactivation/anonymous use. Structural PGlite controls pass (zero Native qualification credit); the frozen F05 shell's47 tests/build pass. Actual Native21 is pending.

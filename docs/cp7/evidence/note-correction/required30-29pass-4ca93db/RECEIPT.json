@@ -1,0 +1,111 @@
+{
+  "run_id": 36995839540,
+  "job_id": 110802227650,
+  "artifact_id": 11221708927,
+  "archive_bytes": 3159858,
+  "archive_sha256": "cd9d2e128b29c029f85d7cf54b755d980508ea769ee57ae8b25a70fb6685b5e1",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385609,
+      "sha256": "c658b7ec0e6e3e39123c9e312e0ff414ffbadf5c2e0b666b461e7ab1b8c50bbd"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385609,
+      "sha256": "c658b7ec0e6e3e39123c9e312e0ff414ffbadf5c2e0b666b461e7ab1b8c50bbd"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "cbb2e13da3faf342fac0a097072ae250c44b58161a2633b6cd8c8f8cf1717aed"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 288901,
+      "sha256": "064f717d3de07fef394405ea42e7b120d19eaff7e00c0e6097f08669c6a9b084"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE.png": {
+      "bytes": 716175,
+      "sha256": "36a67f79217181d255346d8ecd3c4bfc3a5dd366fe645aa40625fccc92b9a6d5"
+    },
+    "NOTE_CORRECTION_MOBILE.png": {
+      "bytes": 507185,
+      "sha256": "bc561a06dd6f85559dec64743cd3c51872f52a949ed0e6f62a8b65e1971b4ae5"
+    },
+    "NOTE_DESKTOP_FAILURE.json": {
+      "bytes": 25073,
+      "sha256": "20e7b8234e73a76ca221efdc416017668de4971173c65bfc9f2f356a25b2c6be"
+    },
+    "NOTE_DESKTOP_FAILURE.png": {
+      "bytes": 308838,
+      "sha256": "dba1915a62de27497fec893345d57a3c4bfe84275f9e9daf405372af3a883ec2"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10525,
+      "sha256": "540297c6eb0b83c7a5d3eb6b3d5edb970aa9fcd34917cfaf53d20448bd075e9c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360428,
+      "sha256": "6ebbdef615acfd33e8a64ee2c95832a056be9bd1ead37e155a75c0f00241f8b4"
+    }
+  },
+  "source_commit": "4ca93db345860dfce5dec8d745e4a89cea1389b5",
+  "source_tree": "6db8d5edb04b64a7ecc390924c5c05c41ea1a934",
+  "product_bundle_sha256": "190994c487cd9241313ab7e32cea273fcb763f40dd0d48b2ca238604978ebafd",
+  "manifest_sha256": "92e4c25505b081e81f5114ac992a292ea92b233ccf137bb17db53906d5ea1c61",
+  "status": "INCOMPLETE",
+  "expected_case_count": 30,
+  "observed_case_count": 30,
+  "groups": {
+    "native": {
+      "PASS": 22
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "desktop_native_commit_already_visible_in_failure_readback": true,
+  "desktop_form_assertion_preceded_actual_response": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "unique_oracle_total_claim": false
+}

@@ -7,6 +7,7 @@ No consumer-supplied completeness, matching, allocation or cost is trusted.
 from pathlib import Path
 import hashlib
 import cp7_f03_bundle as predecessor
+import cp7_cutting_yield_bundle as cutting_yield
 
 ROOT=Path(__file__).resolve().parents[1]
 KERNEL_FILES=(
@@ -17,7 +18,8 @@ KERNEL_FILES=(
  'models/ownership.sql',
 )
 ADAPTER_FILES=('planning/bootstrap.sql','planning/history-source.sql','planning/history.sql','planning/ownership.sql',
- 'model-native/bootstrap.sql','model-native/source.sql','model-native/evaluation.sql','model-native/ownership.sql')
+ 'model-native/bootstrap.sql','model-native/source.sql','model-native/evaluation.sql','model-native/ownership.sql',
+ 'cutting-yield/source.sql')
 ROLES=predecessor.ROLES
 GRANTS=predecessor.GRANTS
 
@@ -32,6 +34,7 @@ def source_hashes():
 def verify(cur):
  from cp7_model_bundle import verify as verify_models
  verify_models(cur)
+ cutting_yield.verify(cur)
  # Both metadata originals must keep their actual before-row UPDATE/DELETE
  # fence. RLS/ACL checks alone would miss a disabled immutability trigger.
  for relation,trigger in (('cp7_model_native.registry','model_registry_immutable'),

@@ -3,7 +3,7 @@ import hashlib,json,traceback
 import psycopg
 import cp7_restore_state as restore_state
 import cp7_planning_bundle as bundle
-import cp7_planning_history_cases as history_cases
+import cp7_cutting_yield_history_cases as history_cases
 import cp7_p12_nota_probe as payroll
 import cp7_p13_finance_probe as finance
 import cp7_p09_procurement_probe as p09
@@ -19,7 +19,7 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- report=dict(label='CP7_F04_NATIVE_HISTORY',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='GLOBAL_NATIVE_DEMAND_HISTORY_RESERVATION_ONCE_IMMUTABLE_CAPTURE_UNKNOWN_KNOWLEDGE',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=17);installed=False
+ report=dict(label='CP7_F04_NATIVE_HISTORY',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='RETAIN_ALL17_DEMAND_HISTORY_CONTROLS_PLUS_NATIVE_CUTTING_SOURCE3_AND_ACTUAL_AUTH_HTTP1_NO_TRAINED_YIELD_MODEL_CLAIM',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=history_cases.EXPECTED);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
@@ -54,7 +54,7 @@ def run():
     for role in bundle.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
     conn.commit();report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,native.public_state,p09.functions,report);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice')for f in d.get('added',[])))
-  groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==17 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==history_cases.EXPECTED and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':
