@@ -6,16 +6,21 @@ archives. No production result, money balance or HPP is seeded here.
 """
 from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal
+from datetime import timedelta
 import json
 import uuid
 
 import cp7_f03_e01_cases as worksheet
 import cp7_obligation_report_cases as reports
 import cp7_analysis_cases as analysis
+import cp7_note_correction_cases as notes
+import cp7_planning_history_cases as demand
+import cp7_model_native_cases as models
 
 b, auth = reports.b, reports.auth
 rules = reports.previous.previous
-DATABASE_NAMES = ('NATIVE_SOURCE_TO_ALL_CONSUMERS', 'CASH_INVERSE_IMMUTABLE_ARCHIVE', 'CURRENT_AUTHORITY')
+DATABASE_NAMES = ('NATIVE_SOURCE_TO_ALL_CONSUMERS', 'CASH_INVERSE_IMMUTABLE_ARCHIVE', 'CURRENT_AUTHORITY',
+                  'OWNING_NOTE_CORRECTION_ALL_CONSUMERS', 'CORRECTED_DEMAND_PROSPECTIVE_MODEL')
 RACE_NAMES = ('CASH_INVERSE_DURING_SAVED_REPORT_WAIT',)
 HTTP_NAMES = ('EXACT_AUTH_NATIVE_SOURCE_TO_REPORT',)
 BROWSER_NAMES = ('DESKTOP', 'MOBILE')
@@ -158,7 +163,80 @@ def cases(cur, today):
                     own_AR175_and_ops_remain_authorized_without_payroll_leak=True,
                     foreign_actor_saved_report_unavailable=True)
 
-    return [('P18_E01_' + name, operation) for name, operation in zip(DATABASE_NAMES, (complete, archive, current))]
+    def corrected_consumers():
+        f, _ = prepare(cur, today)
+        old_sale = f['sale']
+        c = consumers(cur, today, f)
+        old_body, old_source = c['appendix']['body'], c['appendix']['source']
+        old_facts = notes.unchanged_facts(cur, old_sale)
+        p, v = notes.edit(cur, f, '16')
+        result = notes.correct(cur, p, v)
+        f['sale'] = result['sale_id']
+        detail = worksheet.source.read(cur, f)['detail']
+        assert detail['financial']['net_total'] == '275.00' and detail['financial']['paid_total'] == '200.00'
+        assert detail['financial']['open_balance'] == '75.00' and worksheet.physical(cur, f) == 49
+        assert notes.unchanged_facts(cur, old_sale) == old_facts
+        notes.inverse_date_truth(cur)
+        old_report = reports.read(cur, c['appendix']['id'])
+        assert old_report['source_state'] == 'ARCHIVED_STALE'
+        assert old_report['body'] == old_body and old_report['source'] == old_source
+        saved = analysis.read(cur, c['original']['run_id'])
+        assert saved['analysis'] == c['original']['analysis'] and saved['financial_source'] == c['original']['financial_source']
+        fresh = analysis.capture(cur, today)
+        analysis.checked(fresh)
+        financial = fresh['financial_source']['report']['snapshot']
+        assert financial['data_confidence']['status'] == 'READY'
+        assert Decimal(financial['financial_position']['customer_ar']) - Decimal(c['original']['financial_source']['report']['snapshot']['financial_position']['customer_ar']) == -100
+        current_source = rules.source(cur, fresh)
+        assert rules.row(current_source, 'AR_DUE:' + f['sale'])['financial_source']['remaining']['value'] == '75.00'
+        assert not any(r['key'] == 'AR_DUE:' + old_sale and not r['business_resolved'] for r in current_source['rows'])
+        new_base = reports.base(cur, fresh)
+        payload = reports.payload(reports.preview(cur, new_base), c['appendix'], title='E01 nota dibetulkan, kas dan retur tetap')
+        successor = reports.checked(reports.command(cur, payload), payload)
+        assert successor['series_id'] == c['appendix']['series_id'] and successor['revision'] == '2'
+        assert rules.row(successor['source'], 'AR_DUE:' + f['sale'])['financial_source']['remaining']['value'] == '75.00'
+        assert reports.read(cur, c['appendix']['id'])['body'] == old_body
+        assert notes.history(cur, old_sale)['current_sale_id'] == f['sale']
+        return dict(status='PASS', owning_note20_to16_cash200_return5_retained=True,
+                    current_Native_AR75_FG49_HPP15_and_financial_READY=True,
+                    superseded_note_not_an_active_AR_obligation=True,
+                    new_Original_analysis_report_rules_appendix_share_corrected_current_source=True,
+                    prior_Original175_body_financial_and_source_immutable=True, explicit_report_revision2=True)
+
+    def corrected_learning():
+        f = notes.posted(cur, notes.stock(cur, today, 10, notes.source.fg.ax.r1.now(cur) - timedelta(days=2)))
+        original_sale = f['sale']
+        q = demand.query(today, 3)
+        first = demand.capture(cur, today, q=q)
+        assert demand.history(first, f)['gross_observed_pcs'] == '4'
+        first_model = models.capture(cur, models.query(first, f))
+        frozen = models.stored(cur, first_model['run_id'])
+        old_history = cur.execute('select facts,result from cp7_planning.history_runs where id=%s', (first['run_id'],)).fetchone()
+        p, v = notes.edit(cur, f, '3')
+        result = notes.correct(cur, p, v)
+        f['sale'] = result['sale_id']
+        corrected = demand.capture(cur, today, q=q)
+        assert demand.history(corrected, f)['gross_observed_pcs'] == '3'
+        demand.stock_assert(cur, corrected, f, 7, 0, 7)
+        assert demand.read(cur, first['run_id'])['source_state'] == 'ARCHIVED_STALE'
+        assert cur.execute('select facts,result from cp7_planning.history_runs where id=%s', (first['run_id'],)).fetchone() == old_history
+        assert models.read(cur, first_model['run_id'])['source_state'] == 'ARCHIVED_STALE'
+        assert models.stored(cur, first_model['run_id']) == frozen
+        current_model = models.capture(cur, models.query(corrected, f))
+        current_input, _ = models.stored(cur, current_model['run_id'])
+        assert current_input['known_as_of'] == corrected['captured_at']
+        assert all(x['known_at'] <= corrected['captured_at'] for x in current_input['series'])
+        assert current_input['no_retrospective_availability_backfill']
+        assert all(x['state'] != 'OBSERVED' and x['value'] is None for x in current_input['series'])
+        assert current_model['automatic_activation'] is False and current_model['apply_allowed'] is False
+        assert notes.history(cur, original_sale)['current_sale_id'] == f['sale']
+        return dict(status='PASS', actual_Native_corrected_demand4_to3_once_current_stock7=True,
+                    original_history_and_model_input_result_immutable=True,
+                    correction_known_at_actual_new_capture_not_old_physical_time=True,
+                    historical_availability_UNKNOWN_not_fabricated_zero_or_OBSERVED=True,
+                    no_automatic_model_promotion_or_material_business_write=True)
+
+    return [('P18_E01_' + name, operation) for name, operation in zip(DATABASE_NAMES, (complete, archive, current, corrected_consumers, corrected_learning))]
 
 
 def races(tools, today):

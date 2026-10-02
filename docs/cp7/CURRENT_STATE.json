@@ -2452,5 +2452,25 @@
       "receipt": "docs/cp7/evidence/note-correction/failed-install-27cbaee4/RECEIPT.json",
       "repair": "Explicitly pin six derived private helper owners to postgres; preserve exact Native security/config; emit actual failed properties for diagnosis. Native confirmation pending."
     }
+  },
+  "p18_owning_note_consumer_bridge_candidate": {
+    "status": "NATIVE9_PREDECLARED_PENDING",
+    "case_provider": "scripts/cp7_p18_e01_bridge_cases.py",
+    "required_counts": {
+      "native": 5,
+      "races": 1,
+      "http": 1,
+      "browser": 2
+    },
+    "prior_7_cases_retained": true,
+    "additional_cases": [
+      "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+      "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL"
+    ],
+    "scope": "Actual owning-note correction shared by current Native owner finance, saved report/rules/appendix and corrected demand/prospective model; immutable prior Originals and actual knowledge time",
+    "full_P18_acceptance": false,
+    "full_F04_acceptance": false,
+    "full_F05_acceptance": false,
+    "production_go": false
   }
 }

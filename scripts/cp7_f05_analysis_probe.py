@@ -44,7 +44,7 @@ def run(attention=False,p18_e01=False):
   import cp7_obligation_report_bundle as candidate
   import cp7_p18_e01_bridge_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==7;out=OUT.with_name('CP7_P18_E01_BRIDGE.json');phase='cp7_p18_e01_bridge';browser_script='cp7_p18_e01_bridge_browser.mjs'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==9;out=OUT.with_name('CP7_P18_E01_BRIDGE.json');phase='cp7_p18_e01_bridge';browser_script='cp7_p18_e01_bridge_browser.mjs'
  report=dict(label='CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='FOCUSED_E01_NATIVE_SOURCE_TO_ORIGINAL_REPORT_APPENDIX_RULE_EPISODES_NOT_FULL_P18'if p18_e01 else'IMMUTABLE_NATIVE_PUBLICATIONS_ATTENTION_ALL_NATIVE_OBLIGATION_DOMAINS_UNKNOWN_REVIEW_EPISODES_LOCAL_TEST_SINK'if attention else'FROZEN_ANALYSIS_V2_NATIVE_PUBLICATION_REVISION_PERIOD_COMPARISON_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  if attention:report['required_case_counts']=dict(native=179,races=40,http=29,browser=36)
  if p18_e01:report['required_case_counts']=case_provider.REQUIRED;report['full_P18_acceptance']=False
