@@ -33,7 +33,8 @@ async function flow(ui,today,mobile){
    await ui.expect.poll(()=>lost,{timeout:30000}).toBe(true)
    const pending=await p.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.production.RECEIPT_CORRECTION.pending-mutation.v1:')).map(([,v])=>JSON.parse(v)))
    assert.equal(pending.length,1);assert.equal(pending[0].action,'CORRECT');assert.equal(pending[0].id,first.p_request);assert.deepEqual(pending[0].payload.document,first.p_payload)
-   await p.reload();await open(ui,p);await select(p);const again=p.getByRole('region',{name:'Benerin penerimaan',exact:true})
+   // The receipt list is locked while the result is unknown; the panel itself offers the reconcile step.
+   await p.reload();await open(ui,p);const again=p.getByRole('region',{name:'Benerin penerimaan',exact:true})
    await again.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(again.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0)
    assert.deepEqual(replay,first)
   }

@@ -35,7 +35,7 @@ function MaterialChoice({ client, value, disabled, onChange }: { client: ReturnT
 function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: Props) {
   const { runtime } = useAuth(); if (!isConnectedRuntime(runtime)) throw Error('Sesi pembetulan penerimaan belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), mutation = useProductionMutation('RECEIPT_CORRECTION')
-  const { beginRead, finishRead, isReadCurrent, run, reconcile } = mutation
+  const { beginRead, finishRead, isReadCurrent, run, reconcile, invalidate } = mutation
   const [data, setData] = useState<ReceiptCorrectionWorkspace | null>(null), [loading, setLoading] = useState(false), [error, setError] = useState('')
   const [lines, setLines] = useState<DraftLine[] | null>(null), [invoices, setInvoices] = useState<DraftInvoice[]>([]), [reason, setReason] = useState(''), [checked, setChecked] = useState(false), [open, setOpen] = useState(false)
   const requested = useRef(purchaseId), sequence = useRef(0)
@@ -55,20 +55,23 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
   const handlers: ProductionMutationHandlers = {
     send: envelope => { const p = procurementObject(envelope.payload); return client.rpc('erp_cp7_correct_receipt_v1', { p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string }) },
     validate: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string) },
-    retire: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); const out = parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string); requested.current = out.purchase_id; setLines(null); setInvoices([]); setChecked(false); setReason(''); void onReceiptUpdated(out.purchase_id) },
-    reload: load,
+    retire: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); const out = parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string); requested.current = out.purchase_id; setLines(null); setInvoices([]); setChecked(false); setReason(''); setData(null); setOpen(true) },
+    // The page first selects the replacement receipt (after the envelope is
+    // cleared), then this panel reads its own workspace for the same receipt.
+    reload: async () => { if (!requested.current || !await onReceiptUpdated(requested.current)) { invalidate(); setData(null); return false }; return load() },
   }
   const locked = mutation.writerLocked || loading
   const stale = Boolean(lines && data && data.purchase.purchase_id !== requested.current)
   const built = data && lines ? correctionPayload(data, lines, reason, invoices) : null
   const change = (key: string, fn: (l: DraftLine) => DraftLine) => setLines(ls => ls ? ls.map(l => l.key === key ? fn(l) : l) : ls)
   const changeInvoice = (invoice: string, line: string, field: 'qty' | 'price' | 'discount', value: string) => { setChecked(false); setInvoices(vs => vs.map(v => v.replaces !== invoice ? v : { ...v, lines: v.lines.map(l => l.replaces === line ? { ...l, [field]: value } : l) })) }
-  if (!purchaseId) return null
+  // A pending result stays reachable after reload even before a receipt is selected (the receipt list is locked meanwhile).
+  if (!purchaseId && !mutation.pending && !mutation.error) return null
   return <section className="panel cproc-invoices" aria-label="Benerin penerimaan">
     <div className="cproc-heading"><div><div className="eyebrow">PEMBETULAN PENERIMAAN</div><h2>Benerin penerimaan</h2><p>Untuk salah ketik jumlah, jumlah roll, harga (termasuk harga final di invoice supplier), atau salah pilih bahan pada penerimaan yang sudah diterima — termasuk yang bahannya sudah dipotong. Dokumen lama tetap tersimpan sebagai riwayat; saldo stok, HPP, dan utang mengikuti angka yang benar sejak tanggal barang datang.</p></div>
-      <button type="button" disabled={mutation.busy} onClick={() => { setOpen(o => !o); if (!open) { requested.current = purchaseId } }}>{open ? 'Tutup' : 'Buka pembetulan'}</button></div>
+      {purchaseId ? <button type="button" disabled={mutation.busy} onClick={() => { setOpen(o => !o); if (!open) { requested.current = purchaseId } }}>{open ? 'Tutup' : 'Buka pembetulan'}</button> : null}</div>
     <ProductionRecoveryNotice recovery={{ ...mutation, notice: mutation.notice ? 'Pembetulan penerimaan sudah tercatat.' : '' }} onReconcile={() => reconcile(handlers)} className="cproc-review"/>
-    {!open ? null : loading && !data ? <p role="status">Memuat penerimaan…</p> : error ? <p role="alert">{error}</p> : data ? <>
+    {!open || !purchaseId ? null : loading && !data ? <p role="status">Memuat penerimaan…</p> : error ? <p role="alert">{error}</p> : data ? <>
       <p><strong>{data.purchase.purchase_number}</strong> · {data.purchase.supplier_name} · {data.purchase.location_name} · barang datang {formatCp6WibDateTime(data.purchase.physical_at)}</p>
       {data.history.length ? <details open><summary>Riwayat pembetulan ({data.history.length})</summary><ul>{data.history.map(h => <li key={h.revision_id}>R{h.revision} · {h.previous_purchase_number} → {h.replacement_purchase_number} · dicatat {formatCp6WibDateTime(h.recorded_at)}{h.actor_name ? ` oleh ${h.actor_name}` : ''} · berlaku sejak {formatCp6WibDateTime(h.effective_at)} · {h.reason}</li>)}</ul></details> : null}
       {data.blockers.length ? <div role="alert"><p>Penerimaan ini belum bisa dibenerin:</p><ul>{data.blockers.map(b => <li key={b.code}>{blockerLabels[b.code] ?? b.code}</li>)}</ul></div> : null}
