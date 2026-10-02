@@ -21,12 +21,19 @@ def verify(cur):
   native_security=cur.execute('select prosecdef,proconfig from pg_proc where oid=%s::regprocedure',(signature,)).fetchone()
   owner,secdef,config,body=cur.execute('select pg_get_userbyid(proowner),prosecdef,proconfig,prosrc from pg_proc where oid=%s::regprocedure',(private,)).fetchone()
   assert owner=='postgres' and (secdef,config)==native_security and 'perform cp7_note.require_context();'in body,('NOTE_SCOPED_HELPER',private,{'owner':owner,'private_security':(secdef,config),'native_security':native_security,'private_context_fence':'perform cp7_note.require_context();'in body})
+ for table in ('requests','revisions','context','helper_sources','journal_restatements'):
+  assert cur.execute("select pg_get_userbyid(relowner),relrowsecurity from pg_class where oid=%s::regclass",('cp7_note.'+table,)).fetchone()==('postgres',True),('NOTE_PRIVATE_METADATA_OWNER',table)
+ for signature in ('public.erp_cp7_get_sales_v1(jsonb)','cp7_fg.book_anchor(uuid,uuid,text)'):
+  assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')",(signature,)).fetchone()[0],('NOTE_INTERNAL_COMPOSITION',signature)
+ assert cur.execute("select has_table_privilege('postgres','cp7_sales.command_context','INSERT,DELETE')and has_table_privilege('postgres','cp7_fg.correction_movements','SELECT,INSERT')").fetchone()[0]
  for who in ('anon','authenticated','service_role','cp7_capture','cp7_sales_read','cp7_fg_write'):
   assert not cur.execute("select has_schema_privilege(%s,'cp7_note','USAGE')",(who,)).fetchone()[0],('NOTE_PRIVATE_SCHEMA',who)
   for signature in SIGNATURES:
    assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(who,signature.replace('erp.','cp7_note.',1))).fetchone()[0],('NOTE_PRIVATE_HELPER',who,signature)
   for table in ('cp7_note.requests','cp7_note.revisions','cp7_note.context','cp7_note.helper_sources','cp7_note.journal_restatements','cp7_fg.correction_movements'):
    assert not cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(who,table)).fetchone()[0],('NOTE_PRIVATE_TABLE',who,table)
+ for table in ('cp7_note.requests','cp7_note.revisions','cp7_note.context','cp7_note.helper_sources','cp7_note.journal_restatements'):
+  assert not cur.execute("select has_table_privilege('cp7_sales_write',%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(table,)).fetchone()[0],('NOTE_LOW_WRAPPER_NO_METADATA_DML',table)
  for signature in ('public.erp_cp7_get_note_correction_v1(uuid)','public.erp_cp7_correct_note_v1(jsonb,uuid,text)'):
   assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure",(signature,)).fetchone()==('cp7_sales_write',True,'v',['search_path=""']),('NOTE_PUBLIC_OWNER',signature)
   assert cur.execute("select has_function_privilege('authenticated',%s,'EXECUTE') and not has_function_privilege('anon',%s,'EXECUTE') and not has_function_privilege('service_role',%s,'EXECUTE')",(signature,signature,signature)).fetchone()==(True,)

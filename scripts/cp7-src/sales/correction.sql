@@ -29,11 +29,13 @@ create table cp7_note.journal_restatements(
  recorded_at timestamptz not null default clock_timestamp()
 );
 create index note_journal_source on cp7_note.journal_restatements(previous_sale_id);
-alter table cp7_note.requests owner to cp7_sales_write;
-alter table cp7_note.revisions owner to cp7_sales_write;
-alter table cp7_note.context owner to cp7_sales_write;
-alter table cp7_note.helper_sources owner to cp7_sales_write;
-alter table cp7_note.journal_restatements owner to cp7_sales_write;
+-- postgres is a non-superuser Native business executor on Supabase. Own only
+-- this private command's metadata; the low public wrapper obtains no table DML.
+alter table cp7_note.requests owner to postgres;
+alter table cp7_note.revisions owner to postgres;
+alter table cp7_note.context owner to postgres;
+alter table cp7_note.helper_sources owner to postgres;
+alter table cp7_note.journal_restatements owner to postgres;
 alter table cp7_note.requests enable row level security;
 alter table cp7_note.revisions enable row level security;
 alter table cp7_note.context enable row level security;
@@ -59,9 +61,11 @@ language plpgsql volatile security definer set search_path=''as $$
 declare a jsonb;k text;
 begin
  if auth.uid()is null or coalesce(auth.jwt()->>'role','')<>'authenticated'
-  or cp7_sales.access_now()is distinct from true then raise exception using errcode='42501',message='CP7_NOTE_ACCESS_DENIED';end if;
+  then raise exception using errcode='42501',message='CP7_NOTE_ACCESS_DENIED';end if;
  a:=erp.get_my_access_v1();
- if a->'allowed'is distinct from'true'::jsonb or coalesce(a->'profile'->>'role_code','')not in('OWNER','ADMIN')then
+ if a->'allowed'is distinct from'true'::jsonb or erp.has_permission('sales.invoice.view')is distinct from true then
+  raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;
+ if coalesce(a->'profile'->>'role_code','')not in('OWNER','ADMIN')then
   raise exception using errcode='42501',message='CP7_NOTE_OWNER_ADMIN_REQUIRED';end if;
  foreach k in array array['sales.invoice.view','sales.invoice.create','sales.invoice.edit_draft',
   'sales.invoice.post','sales.invoice.reverse','finance.ar.view','finance.hpp.view']loop
@@ -173,7 +177,7 @@ begin
  root:=coalesce(root,p_sale);
  select replacement_sale_id into leaf from cp7_note.revisions where root_sale_id=root order by revision desc limit 1;
  leaf:=coalesce(leaf,root);
- native:=cp7_sales.workspace(jsonb_build_object('sale_id',leaf,'limit',1,'offset',0));
+ native:=public.erp_cp7_get_sales_v1(jsonb_build_object('sale_id',leaf,'limit',1,'offset',0));
  select coalesce(jsonb_agg(jsonb_build_object('revision_id',id,'revision',revision::text,
   'previous_sale_id',previous_sale_id,'replacement_sale_id',replacement_sale_id,
   'effective_at',effective_at,'recorded_at',recorded_at,'reason',reason)order by revision),'[]')into history
@@ -337,8 +341,18 @@ begin
 end $$;
 
 alter function cp7_note.access_now()owner to postgres;
+alter function cp7_note.require_context()owner to postgres;
+alter function cp7_note.restate_reversal(uuid,uuid,text)owner to postgres;
+alter function cp7_note.immutable_revision()owner to postgres;
 alter function cp7_note.workspace(uuid)owner to postgres;
 alter function cp7_note.command(jsonb,uuid,text)owner to postgres;
+-- Exact private composition only. Reuse the admitted low read wrapper instead
+-- of granting postgres every private sales reader. No Native privilege or
+-- operational caller privilege changes. Context/lineage are CP7 metadata.
+grant usage on schema cp7_note,cp7_fg to postgres;
+grant execute on function public.erp_cp7_get_sales_v1(jsonb),cp7_fg.book_anchor(uuid,uuid,text)to postgres;
+grant insert,delete on cp7_sales.command_context to postgres;
+grant select,insert on cp7_fg.correction_movements to postgres;
 revoke all on all functions in schema cp7_note from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write;
 grant usage on schema cp7_note to cp7_sales_write;
 grant execute on function cp7_note.workspace(uuid),cp7_note.command(jsonb,uuid,text)to cp7_sales_write;

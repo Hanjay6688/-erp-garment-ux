@@ -2463,7 +2463,16 @@
       "qualification_credit": 0,
       "receipt": "docs/cp7/evidence/note-correction/BOOK_READER_LOCAL.json",
       "all_original_28_cases_retained": true
-    }
+    },
+    "legacy_combined22": {
+      "source_commit": "37df58a1f748cd9acc8c7c4f66598ff1ee1b44b0",
+      "run_id": 36988804602,
+      "status": "PASS",
+      "observed": 22,
+      "receipt": "docs/cp7/evidence/note-correction/legacy22-37df58a/RECEIPT.json",
+      "owning_note_economic_qualification_credit": 0
+    },
+    "internal_composition_candidate": "Explicit private metadata ownership and narrow CP7-only invocation/context/lineage grants; all ordinary callers remain denied and all Native original hashes/ACLs unchanged. Native28/bridge9 pending."
   },
   "p18_owning_note_consumer_bridge_candidate": {
     "status": "NATIVE9_PREDECLARED_PENDING",
@@ -2483,6 +2492,17 @@
     "full_P18_acceptance": false,
     "full_F04_acceptance": false,
     "full_F05_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "first_incomplete": {
+      "run_id": 36989278940,
+      "source_commit": "b214ec26c8c40d47034792d34ecf932c8f390323",
+      "observed": 9,
+      "pass": 7,
+      "incomplete": 2,
+      "cause": "Non-superuser Native postgres executor lacks private sales access_now privilege before correction economic effects",
+      "receipt": "docs/cp7/evidence/p18-e01-bridge/first9-incomplete-b214ec2/RECEIPT.json",
+      "repair": "Direct exact current own-note fine rights, postgres-owned private metadata, existing low sales wrapper and narrow context/FG metadata composition; no Native ACL/ordinary privileges changed",
+      "status": "REPAIR_NATIVE_PENDING"
+    }
   }
 }

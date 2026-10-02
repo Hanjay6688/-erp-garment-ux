@@ -1,0 +1,128 @@
+{
+  "run_id": 36988804602,
+  "job_id": 110779911823,
+  "artifact_id": 11218438895,
+  "archive_bytes": 6612320,
+  "archive_sha256": "50c4daa9dd2e8c9f666987522b3d579f00182ecff17be09ccc612f7d4adf35cd",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "7b8689a022b04d69777293dc118f7767395d54b34f069142cf0c2f35d2cee77f"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "7b8689a022b04d69777293dc118f7767395d54b34f069142cf0c2f35d2cee77f"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "bytes": 274386,
+      "sha256": "8ceca6025af964ccc13adfd5d9e1659b18f1ca3da7df348d931bfb06a4035c9d"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "f3f4a987db6c7781cb2bfec191cbd6007d679b84a1b38554f3a15cefc0d49c70"
+    },
+    "P11_RETURN_DESKTOP.png": {
+      "bytes": 978491,
+      "sha256": "574c58a1d4baa3e5866e5da53e75e14b0b71cf539ed49a1537f84d7f9e1e9cbe"
+    },
+    "P11_RETURN_MOBILE.png": {
+      "bytes": 698309,
+      "sha256": "2e43076cc7d63d7162ba627a5a9365c050d4ff9c1cbbd9a7ba4d7c0b9597eaa9"
+    },
+    "P12_OPENING_DESKTOP.png": {
+      "bytes": 556349,
+      "sha256": "8c5d95179a9d2e8302d6e83cf96b0ffe7ba5ce41f27fb1fe55694ec4a5065906"
+    },
+    "P12_OPENING_MOBILE.png": {
+      "bytes": 373258,
+      "sha256": "1a5c31386fbf326b68a27c9d2dad276b6e0cf2d0793bc41a2ad416f2d7a163dd"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1433052,
+      "sha256": "1c5f128569600ed521c2677bdf220c450d27798cdb16d9c6d46a9a1b9e8e0df7"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1053859,
+      "sha256": "91ebaaf883daad251a101f9bd0622b86d5bff7dee56151cfa4da3fcf286f9c3d"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "a61a4d03dd5549f82275a0e1d54b4b5737cf1acece2021838fcbacab60608be2"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360406,
+      "sha256": "b6ee96deb1b36839c678e6a2e118617cc7e364ce12c26919debbff45a7c8b122"
+    }
+  },
+  "product_bundle_sha256": "761ed6945100d860c8e47e446ed4a6069bad8e7a227f413127f94be2b6958fd2",
+  "status": "PASS",
+  "observed_case_count": 22,
+  "groups": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_commit": "37df58a1f748cd9acc8c7c4f66598ff1ee1b44b0",
+  "qualification_scope": "Legacy combined22 regression and private installer ownership repaired; no owning-note economic qualification credit",
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "path": "docs/cp7/evidence/note-correction/legacy22-37df58a/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "docs/cp7/evidence/note-correction/legacy22-37df58a/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360406,
+      "sha256": "b6ee96deb1b36839c678e6a2e118617cc7e364ce12c26919debbff45a7c8b122",
+      "gzip_bytes": 11382,
+      "gzip_sha256": "7a17c2de81a20afc23770c03179141f6654711ca7d5a7c905b29906ff7b2e9f8"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "path": "docs/cp7/evidence/note-correction/legacy22-37df58a/CP7_F03_COMBINED_STACK.json.gz",
+      "bytes": 274386,
+      "sha256": "8ceca6025af964ccc13adfd5d9e1659b18f1ca3da7df348d931bfb06a4035c9d",
+      "gzip_bytes": 16283,
+      "gzip_sha256": "924a0a965007fe0815a4fdc04a295a62710400cb9f5f0ee39f4130f18a7363c2"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "docs/cp7/evidence/note-correction/legacy22-37df58a/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "docs/cp7/evidence/note-correction/legacy22-37df58a/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "a61a4d03dd5549f82275a0e1d54b4b5737cf1acece2021838fcbacab60608be2",
+      "gzip_bytes": 1827,
+      "gzip_sha256": "5b0714549b7c1935c078a2253d546c5d4c3220e14ed51cb3a2d8fd67aa694d92"
+    }
+  }
+}
