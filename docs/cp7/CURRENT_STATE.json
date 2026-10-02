@@ -2045,7 +2045,7 @@
     "production_go": false
   },
   "f05_obligation_report_candidate": {
-    "status": "NATIVE284_RUNNING_PRE_METADATA_DEDUPLICATION",
+    "status": "NATIVE_WRITER_INCOMPLETE",
     "case_counts": {
       "native": 179,
       "races": 40,
@@ -2060,7 +2060,40 @@
     "independent_acceptance": false,
     "production_go": false,
     "source_commit": "6bdddbe2cea7b1a8e284bfc2ce0a84f896f0e0f1",
-    "run_id": 36960176714
+    "run_id": 36960176714,
+    "source_tree": "20adbfd4e10074082091d4733428565db2c055d5",
+    "counts": {
+      "native": {
+        "PASS": 179
+      },
+      "races": {
+        "PASS": 40
+      },
+      "http": {
+        "PASS": 27,
+        "INCOMPLETE": 2
+      },
+      "browser": {
+        "PASS": 29,
+        "INCOMPLETE": 7
+      }
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "pass_count": 275,
+    "observed_case_count": 284,
+    "receipt": "docs/cp7/evidence/f05-obligation-report/first-incomplete-6bdddbe/RECEIPT.json",
+    "repair_source": "466180aca878b775afc73a91d54c1217d910d80d",
+    "repair_run_id": 36963316962,
+    "repair_status": "NATIVE284_RUNNING_METADATA_READ_DEDUPLICATION",
+    "remaining": "Actual HTTP/browser statement timeouts; all new Native report DB/race/HTTP cases pass, full composed gate remains incomplete"
   },
   "f05_native_analysis_latest_regression": {
     "status": "NATIVE_WRITER_QUALIFIED",
@@ -2094,5 +2127,23 @@
     "auth_users_before": 0,
     "auth_users_after": 0,
     "receipt": "docs/cp7/evidence/f05-native-publication/qualified152-6bdddbe/RECEIPT.json"
+  },
+  "p18_e01_consumer_bridge": {
+    "status": "IMPLEMENTED_FOCUSED_NATIVE7_QUALIFICATION_REQUIRED",
+    "contract": "docs/cp7/P18_E01_CONSUMER_BRIDGE.md",
+    "required_case_counts": {
+      "native": 3,
+      "races": 1,
+      "http": 1,
+      "browser": 2
+    },
+    "expected_case_count": 7,
+    "product_stack": "EXACT_COMPLETE_NATIVE284_BUNDLE",
+    "retains_complete_Native284_gate": true,
+    "source_oracle": "Accepted actual E01 production60/sale20/payment200/return5 -> FG45/value675/HPP15/AR175/payroll180; public payment inverse -> AR375 with same stock/HPP",
+    "full_P18_acceptance": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

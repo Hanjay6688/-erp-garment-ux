@@ -12,6 +12,10 @@ The source repair removes duplicate protected Original reads from policy and loc
 
 The Native analysis/material regression at6bdddbe/tree20adbfd, run36960176608, passes all152:106 DB/20 actual races/12 Auth-HTTP/14 browser, with all install/restoration/primary/backup/advisor and Auth0→0 gates. Exact Originals are retained in `evidence/f05-native-publication/qualified152-6bdddbe/`. The append-only Native284 report candidate at the same source is still running in36960176714; it is not acceptance. See `f05/NATIVE_METADATA_READ_REPAIR.md`. Full F04/F05, P18 integration, P19 scale/recovery, P20 independent demo/audit and P21 combined install/restore remain open. Do not install hosted or merge main.
 
+The first complete Native284 at6bdddbe/run36960176714 observes275 PASS and9 INCOMPLETE:179 DB/40 races/27 HTTP/29 browser PASS. Two HTTP and seven browser failures are actual statement timeouts, including initial capture. All restore/primary/backup/advisor and Auth0→0 gates pass; runtime remains false. Exact Originals are retained in `evidence/f05-obligation-report/first-incomplete-6bdddbe/`. Metadata repair466180a is running in36963316962. Failure-only read diagnostics now distinguish actual Native source-read and pure compiler costs without retrying, writing a saved run or changing the HTTP timeout.
+
+The focused P18 E01 bridge now joins the actual production/sale/payment/return worksheet to one frozen analysis, Native owner finance, published report, dated appendix and UNKNOWN condition episodes. Seven fixed executions cover three DB, one actual cash inverse during an observed request wait, one Auth/HTTP and two browser journeys. Literal FG45/value675/HPP15/AR175/payroll180 and inverse AR375 remain required. This is preparation, not full P18 or replacement of Native284. See `P18_E01_CONSUMER_BRIDGE.md`.
+
 Earlier checkpoints below are retained historical context; the latest checkpoint above controls active status.
 
 ## Current exit and active work
