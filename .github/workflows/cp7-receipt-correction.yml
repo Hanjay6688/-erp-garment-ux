@@ -3,6 +3,7 @@ name: CP7 Owning Receipt Correction
   push:
     branches:
     - claude/new-session-deapao
+    - cp7/integration
     paths:
     - scripts/cp7_receipt_correction_*
     - scripts/cp7-src/procurement/correction.sql
