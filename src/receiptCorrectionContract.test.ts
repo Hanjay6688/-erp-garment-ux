@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { correctionDraft, correctionInvoices, correctionPayload, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, parseMaterialCard, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace } from './receiptCorrectionContract'
+import { correctionDraft, correctionExcess, correctionInvoices, correctionPayload, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, parseMaterialCard, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace } from './receiptCorrectionContract'
 
 const ids = { root: '11111111-1111-4111-8111-111111111111', rep: '22222222-2222-4222-8222-222222222222', item: '33333333-3333-4333-8333-333333333333', mat: '44444444-4444-4444-8444-444444444444', roll: '55555555-5555-4555-8555-555555555555', sup: '66666666-6666-4666-8666-666666666666', loc: '77777777-7777-4777-8777-777777777777', rev: '88888888-8888-4888-8888-888888888888' }
 const at = '2026-09-29T03:00:00+00:00'
@@ -12,7 +12,7 @@ function workspace(history = false, invoiced = false) {
       rolls: [{ roll_id: ids.roll, roll_number: 'R1', qty: '100.000000', cached_qty: '40.000000', status: 'HALF_USED', used_qty: '60.000000', min_qty: '60.000000', movable: true, uses: [{ source_type: 'CUTTING_GROUP', movement_type: 'CUTTING_ISSUE', count: 1 }] }] }],
     invoices: invoiced ? [{ invoice_id: inv.id, invoice_number: 'INV-7', invoice_date: '2026-09-29', received_at: at, due_date: null, row_version: '2', notes: null,
       lines: [{ invoice_line_id: inv.line, purchase_item_id: ids.item, qty_invoiced: '100.000000', unit_price: '12.000000', discount_amount: '0.000000', net_amount: '1200.000000', notes: null }] }] : [],
-    payments: [], paid_total: '0', blockers: [], can_correct: true, review_token: 'a'.repeat(32),
+    credit_targets: [] as { purchase_id: string; purchase_number: string; physical_at: string; remaining: string }[], payments: [] as unknown[], paid_total: '0', blockers: [], can_correct: true, review_token: 'a'.repeat(32),
     history: history ? [{ revision_id: ids.rev, revision: '1', previous_purchase_id: ids.root, previous_purchase_number: 'SJ-1', replacement_purchase_id: ids.rep, replacement_purchase_number: 'SJ-1 · R1-abcd', effective_at: at, recorded_at: at, reason: 'Salah ketik jumlah', actor_name: 'Owner', previous_document: {}, corrected_document: {} }] : [],
     production_go: false,
   }
@@ -61,6 +61,23 @@ describe('receipt correction contract', () => {
     const out = { contract_version: 'cp7.material-name-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'RENAME', request_id: ids.rev, material_id: ids.mat, previous_name: 'Katun Combad', material_name: 'Katun Combed', row_version: '5' }
     expect(parseMaterialNameOutcome(out, ids.rev, ids.mat).material_name).toBe('Katun Combed')
     expect(() => parseMaterialNameOutcome(out, ids.rev, ids.item)).toThrow()
+  })
+  it('turns a payment above the corrected total into credit cut from another nota of the same supplier', () => {
+    const next = { purchase_id: ids.rev, purchase_number: 'SJ-2', physical_at: at, remaining: '1000.00' }
+    const base = { ...workspace(), paid_total: '1000.00', credit_targets: [next] }
+    const w = parseReceiptCorrectionWorkspace(base, ids.root), lines = correctionDraft(w)
+    lines[0].rolls[0].qty = '80'
+    expect(correctionExcess(w, lines, [])).toBe('200.00')
+    expect(correctionPayload(w, lines, 'Surat jalan asli 80').problem).toContain('Rp200.00')
+    expect(correctionPayload(w, lines, 'Surat jalan asli 80', [], [{ purchaseId: ids.rev, amount: '150' }]).problem).toContain('sekarang Rp150.00')
+    expect(correctionPayload(w, lines, 'Surat jalan asli 80', [], [{ purchaseId: ids.rev, amount: '200' }]).payload).toMatchObject({ credit_allocations: [{ purchase_id: ids.rev, amount: '200.00' }] })
+    expect(correctionPayload(w, lines, 'Surat jalan asli 80', [], [{ purchaseId: ids.rev, amount: '1200' }]).problem).toContain('melebihi sisa utang')
+    const none = parseReceiptCorrectionWorkspace({ ...base, credit_targets: [] }, ids.root)
+    expect(correctionPayload(none, lines, 'Surat jalan asli 80').problem).toContain('setelah nota berikutnya dicatat')
+    lines[0].rolls[0].qty = '100'
+    expect(correctionExcess(w, lines, [])).toBe('0.00')
+    expect(correctionPayload(w, lines, 'Tidak ada selisih bayar').payload).not.toHaveProperty('credit_allocations')
+    expect(() => parseReceiptCorrectionWorkspace({ ...base, credit_targets: [{ ...next, purchase_id: ids.root }] }, ids.root)).toThrow()
   })
   it('validates the committed outcome against the request and source', () => {
     const out = { contract_version: 'cp7.receipt-correction-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'CORRECT', request_id: ids.rev, root_purchase_id: ids.root, previous_purchase_id: ids.root, purchase_id: ids.rep, revision_id: ids.rev, revision: '1', effective_at: at, row_version: '2' }

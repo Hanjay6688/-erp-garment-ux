@@ -285,8 +285,14 @@ def cases(cur,today):
         cash_before=cur.execute('select sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id join erp.cash_accounts c on c.coa_account_id=l.account_id where c.id=%s and j.status in(\'POSTED\',\'REVERSED\')',(masters['cash'],)).fetchone()[0]
         before=ledger(cur);w=ws(cur,f['purchase']);p=payload(w,line=lambda n,i:i['rolls'][0].update(qty='80'))
         if not expect:
-            refused(cur,lambda:fix(cur,p,w['purchase']['row_version']),'CP7_RECEIPT_FIX_PAID_EXCEEDS_CORRECTED')
-            return dict(status='PASS',payment_1000_exceeds_corrected_800=True,no_partial_effect=True,supplier_refund_flow_not_invented=True)
+            # Owner decision 2 Oct 2026: the excess is credit cut from another nota of the same supplier; without a chosen nota it is refused.
+            refused(cur,lambda:fix(cur,p,w['purchase']['row_version']),'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_REQUIRED')
+            small=roll_receipt(cur,today,rolls=('10',))
+            refused(cur,lambda:fix(cur,dict(p,credit_allocations=[dict(purchase_id=small['purchase'],amount='200')]),w['purchase']['row_version']),'CP7_RECEIPT_FIX_CREDIT_TARGET_EXCEEDS_REMAINING')
+            refused(cur,lambda:fix(cur,dict(p,credit_allocations=[dict(purchase_id=f['purchase'],amount='200')]),w['purchase']['row_version']),'CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID')
+            refused(cur,lambda:fix(cur,dict(p,credit_allocations=[dict(purchase_id=small['purchase'],amount='50')]),w['purchase']['row_version']),'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH')
+            return dict(status='PASS',payment_1000_exceeds_corrected_800=True,credit_target_required=True,target_remaining_checked=True,
+              own_receipt_not_a_target=True,allocation_must_equal_credit=True,no_partial_effect=True,supplier_refund_flow_not_invented=True)
         out=fix(cur,p,w['purchase']['row_version'])
         replay=cur.execute('select r.replacement_payment_id,s.amount,s.payment_date,s.status,o.payment_date from cp7_receipt_fix.payment_replays r join erp.supplier_payments s on s.id=r.replacement_payment_id join erp.supplier_payments o on o.id=r.previous_payment_id where r.previous_payment_id=%s',(payment,)).fetchone()
         assert replay and replay[1]==D(amount) and replay[2]==replay[4] and replay[3]=='POSTED',replay
@@ -299,6 +305,29 @@ def cases(cur,today):
         assert cur.execute('select count(*) from cp7_receipt_fix.journal_restatements where previous_purchase_id=%s',(f['purchase'],)).fetchone()[0]>=1
         reversal_dates(cur)
         return dict(status='PASS',real_payment_300_reversed_and_replayed_same_date_amount=True,cash_unchanged=True,payable_800_remaining_500=True,economic_dates_restated=True)
+    def overpaid_credit():
+        f=roll_receipt(cur,today,rolls=('100',),day_offset=10);t=roll_receipt(cur,today,rolls=('100',),day_offset=2)
+        masters=bc.fixture(cur,today,purchase=False,zones=False);pay_day=f['day']+timedelta(days=1)
+        payment=bc.supplier_payment(cur,f['purchase'],'1000',masters['cash'],pay_day);bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
+        cash=lambda:cur.execute("select sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id join erp.cash_accounts c on c.coa_account_id=l.account_id where c.id=%s and j.status in('POSTED','REVERSED')",(masters['cash'],)).fetchone()[0]
+        state=lambda pid:cur.execute("select round(erp.material_purchase_payable_total(h.id),2),coalesce((select sum(amount) from erp.supplier_payments where purchase_id=h.id and status='POSTED'),0),h.payment_status from erp.material_purchase_headers h where h.id=%s",(pid,)).fetchone()
+        before,dated,chk,cash_before=ledger(cur),by_date(cur),checks(cur),cash()
+        w=ws(cur,f['purchase']);assert [x['remaining'] for x in w['credit_targets'] if x['purchase_id']==t['purchase']]==['1000.00'],w['credit_targets']
+        p=payload(w,reason='Surat jalan asli 80 yard; 20 yard tidak pernah diterima',line=lambda n,i:i['rolls'][0].update(qty='80'))
+        out=fix(cur,dict(p,credit_allocations=[dict(purchase_id=t['purchase'],amount='200')]),w['purchase']['row_version'])
+        assert cur.execute('select original_qty,cached_qty from erp.material_rolls where id=%s',(f['roll'],)).fetchone()==(D(80),D(80))
+        assert state(out['purchase_id'])==(D(800),D(800),'PAID') and state(t['purchase'])==(D(1000),D(200),'PARTIAL'),(state(out['purchase_id']),state(t['purchase']))
+        moved=cur.execute("select s.amount,s.payment_date,s.cash_account_id::text,s.notes,r.kind from cp7_receipt_fix.payment_replays r join erp.supplier_payments s on s.id=r.replacement_payment_id where r.previous_payment_id=%s order by r.kind",(payment,)).fetchall()
+        assert [(m[0],m[4]) for m in moved]==[(D(800),'CORRECTED_RECEIPT'),(D(200),'CREDIT_TO_OTHER_RECEIPT')],moved
+        original_date=cur.execute('select payment_date from erp.supplier_payments where id=%s',(payment,)).fetchone()[0]
+        assert all(m[1]==original_date and m[2]==masters['cash'] for m in moved) and 'barang tidak pernah diterima' in moved[1][3],moved
+        assert cash()==cash_before
+        delta=ledger_delta(before,ledger(cur));assert delta=={'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)},delta
+        dd=dated_delta(dated,by_date(cur));assert dd=={f['day']:{'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)}},dd
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',paid_1000_corrected_800=True,credit_200_cut_from_next_nota=True,next_nota_received_later_paid_200_partial=True,
+          same_cash_account_and_original_date=True,note_retur_bayangan_barang_tidak_pernah_diterima=True,cash_unchanged=True,
+          effects_on_receipt_date_only=True,all_integrity_checks_unchanged=True)
     def invoice_price_after_sale():
         f=invoiced_production(cur,today)
         drafts.create(cur,f,drafts.payload(f,'20','25'));p,v=cmd.review(cur,f);cmd.command(cur,'POST',p,v)
@@ -469,7 +498,7 @@ def cases(cur,today):
     tests=[('RF_QTY_DOWN_AFTER_CUTTING',qty_down),('RF_QTY_UP_AFTER_CUTTING',qty_up),('RF_PRICE_AFTER_SALE_AND_RETURN',price_after_sale),
       ('RF_WRONG_MATERIAL_AFTER_CUTTING',lambda:wrong_material()),('RF_WRONG_MATERIAL_AND_PRICE',lambda:wrong_material('12')),
       ('RF_ROLL_COUNT_TYPO_UNUSED_ROLL',roll_count),('RF_REMOVED_ROLL_USED_REFUSED',removed_used),('RF_ROLL_BELOW_USE_REFUSED',below_use),
-      ('RF_PAYMENT_REPLAY',lambda:paid('300',True)),('RF_PAID_EXCEEDS_CORRECTED_REFUSED',lambda:paid('1000',False)),
+      ('RF_PAYMENT_REPLAY',lambda:paid('300',True)),('RF_PAID_EXCEEDS_CORRECTED_REFUSED',lambda:paid('1000',False)),('RF_OVERPAID_CREDIT_TO_NEXT_NOTA',overpaid_credit),
       ('RF_INVOICE_PRICE_AFTER_SALE',invoice_price_after_sale),('RF_INVOICED_QTY_DOWN_WITH_PAYMENT',invoiced_qty_down),
       ('RF_INVOICE_SHARED_OR_INCOMPLETE_REFUSED',invoice_refusals),('RF_REPEATED_REVISIONS',repeated),('RF_REPLAY_SAME_REQUEST',replay),
       ('RF_REVIEW_CHANGED_REFUSED',review_changed),('RF_ACCESS_CURRENT_AUTHORITY',access),('RF_YEAR_HISTORY_364',year_history),

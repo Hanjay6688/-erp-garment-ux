@@ -60,12 +60,21 @@ create table cp7_receipt_fix.journal_restatements(
  native_economic_date date not null,corrected_economic_date date not null,
  recorded_at timestamptz not null default clock_timestamp()
 );
+-- Every real supplier payment is replayed at its own date, cash account and
+-- amount. A payment larger than the corrected payable is split: the corrected
+-- receipt first, the excess as supplier credit on other receipts of the same
+-- supplier chosen by the owner (owner decision 2 Oct 2026: "retur bayangan",
+-- goods never received; the credit is cut from any next nota).
 create table cp7_receipt_fix.payment_replays(
- previous_payment_id uuid primary key references erp.supplier_payments,
- replacement_payment_id uuid not null unique references erp.supplier_payments,
+ replacement_payment_id uuid primary key references erp.supplier_payments,
+ previous_payment_id uuid not null references erp.supplier_payments,
  correction_id uuid not null references cp7_receipt_fix.revisions(id) deferrable initially deferred,
+ target_purchase_id uuid not null references erp.material_purchase_headers,
+ kind text not null check(kind in('CORRECTED_RECEIPT','CREDIT_TO_OTHER_RECEIPT')),
+ amount numeric(20,2) not null check(amount>0),
  recorded_at timestamptz not null default clock_timestamp()
 );
+create index receipt_fix_payment_previous on cp7_receipt_fix.payment_replays(previous_payment_id);
 -- Main material card grouping: each compensating receipt movement is shown
 -- under the original receipt row it corrects (effective quantity), while the
 -- raw immutable rows stay available as audit members.
@@ -228,7 +237,7 @@ language sql stable security definer set search_path=''as $$
 
 create function cp7_receipt_fix.workspace(p_purchase uuid)returns jsonb
 language plpgsql volatile security definer set search_path=''as $$
-declare a jsonb;root uuid;leaf uuid;h erp.material_purchase_headers%rowtype;history jsonb;lines jsonb;pays jsonb;blocks jsonb;invoices jsonb;
+declare a jsonb;root uuid;leaf uuid;h erp.material_purchase_headers%rowtype;history jsonb;lines jsonb;pays jsonb;blocks jsonb;invoices jsonb;targets jsonb;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_receipt_fix.access_now();
@@ -266,6 +275,14 @@ begin
    from erp.material_supplier_invoice_lines l where l.invoice_id=v.id))order by v.invoice_date,v.posted_at,v.id),'[]')into invoices
  from erp.material_supplier_invoices v where v.status='POSTED'and v.id in(select l.invoice_id from erp.material_supplier_invoice_lines l
   join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=leaf);
+ -- Receipts of the same supplier that still owe money: where an overpayment
+ -- becomes credit (retur bayangan) when the corrected total is lower.
+ select coalesce(jsonb_agg(jsonb_build_object('purchase_id',t.id,'purchase_number',t.purchase_number,'physical_at',t.physical_at,
+   'remaining',t.remaining::text)order by t.physical_at desc,t.id),'[]')into targets
+ from(select t0.*from(select x.id,x.purchase_number,x.physical_at,(round(erp.material_purchase_payable_total(x.id),2)
+   -coalesce((select sum(p.amount)from erp.supplier_payments p where p.purchase_id=x.id and p.status='POSTED'),0))::numeric(20,2)remaining
+  from erp.material_purchase_headers x where x.supplier_id=h.supplier_id and x.status='POSTED'and x.id<>leaf)t0
+ where t0.remaining>0 order by t0.physical_at desc,t0.id limit 50)t;
  blocks:=case when h.status<>'POSTED'then jsonb_build_array(jsonb_build_object('code','CP7_RECEIPT_FIX_ACTIVE_POSTED_ONLY','count',1))
   else cp7_receipt_fix.blockers(leaf)end;
  if cp7_receipt_fix.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_RECEIPT_FIX_ACCESS_CHANGED';end if;
@@ -276,7 +293,7 @@ begin
    'supplier_id',h.supplier_id,'supplier_name',(select supplier_name from erp.suppliers where id=h.supplier_id),
    'location_id',h.location_id,'location_name',(select location_name from erp.locations where id=h.location_id),
    'physical_at',h.physical_at,'payment_status',h.payment_status,'supplier_invoice_number',h.supplier_invoice_number,'due_date',h.due_date,'notes',h.notes),
-  'lines',lines,'invoices',invoices,'payments',pays,'paid_total',(select coalesce(sum(amount),0)::text from erp.supplier_payments where purchase_id=leaf and status='POSTED'),
+  'lines',lines,'invoices',invoices,'payments',pays,'credit_targets',targets,'paid_total',(select coalesce(sum(amount),0)::text from erp.supplier_payments where purchase_id=leaf and status='POSTED'),
   'blockers',blocks,'can_correct',jsonb_array_length(blocks)=0,'review_token',cp7_receipt_fix.review_token(leaf),
   'history',history,'production_go',false);
 end $$;
@@ -393,14 +410,17 @@ declare a jsonb;old cp7_receipt_fix.requests%rowtype;h erp.material_purchase_hea
  paid jsonb;payment record;new_payment uuid;corrected_total numeric:=0;why text;fix_id uuid:=gen_random_uuid();
  rev_id uuid;tmp text;previous_doc jsonb;corrected_doc jsonb;pending jsonb:='[]';
  inv_ids uuid[];inv jsonb;il jsonb;old_new jsonb:='{}';inv_lines jsonb;new_inv uuid;invoiced jsonb:='{}';
+ paid_total numeric:=0;excess numeric:=0;credits jsonb:='[]';credit jsonb;target erp.material_purchase_headers%rowtype;
+ left_on_receipt numeric;part numeric;piece integer:=0;queue jsonb;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_receipt_fix.access_now();
  if jsonb_typeof(p_payload)is distinct from'object'or not p_payload?&array['purchase_id','review_token','change_reason','lines']
-  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('purchase_id','review_token','change_reason','lines','invoices','notes'))
+  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('purchase_id','review_token','change_reason','lines','invoices','credit_allocations','notes'))
+  or p_payload?'credit_allocations'and(jsonb_typeof(p_payload->'credit_allocations')is distinct from'array'or jsonb_array_length(p_payload->'credit_allocations')>20)
   or jsonb_typeof(p_payload->'lines')is distinct from'array'or jsonb_array_length(p_payload->'lines')not between 1 and 100
   or p_payload?'invoices'and(jsonb_typeof(p_payload->'invoices')is distinct from'array'or jsonb_array_length(p_payload->'invoices')>20)
-  or exists(select 1 from jsonb_each(p_payload)e where e.key not in('lines','invoices')and jsonb_typeof(e.value)not in('string','null'))
+  or exists(select 1 from jsonb_each(p_payload)e where e.key not in('lines','invoices','credit_allocations')and jsonb_typeof(e.value)not in('string','null'))
   or nullif(btrim(p_payload->>'change_reason'),'')is null or length(p_payload->>'change_reason')>500
  then raise exception using errcode='22023',message='CP7_RECEIPT_FIX_FIELDS';end if;
  if p_request is null or p_expected is null or p_expected!~'^[1-9][0-9]{0,18}$'then raise exception 'CP7_RECEIPT_FIX_REQUEST_REQUIRED';end if;
@@ -541,8 +561,34 @@ begin
    raise exception 'CP7_RECEIPT_FIX_INVOICE_EXCEEDS_RECEIPT';end if;
  end loop;
  select coalesce(jsonb_agg(to_jsonb(p)order by p.payment_date,p.id),'[]')into paid from erp.supplier_payments p where p.purchase_id=h.id and p.status='POSTED';
- if (select coalesce(sum((v->>'amount')::numeric),0)from jsonb_array_elements(paid)v)>round(corrected_total,2)then
-  raise exception 'CP7_RECEIPT_FIX_PAID_EXCEEDS_CORRECTED paid % corrected %',(select sum((v->>'amount')::numeric)from jsonb_array_elements(paid)v),round(corrected_total,2);end if;
+ select coalesce(sum((v->>'amount')::numeric),0)into paid_total from jsonb_array_elements(paid)v;
+ excess:=greatest(paid_total-round(corrected_total,2),0);
+ -- Paid more than the corrected total: the excess becomes supplier credit cut
+ -- from other receipts (nota) of the same supplier, never a refund invented here.
+ for credit in select value from jsonb_array_elements(coalesce(p_payload->'credit_allocations','[]'))loop
+  if jsonb_typeof(credit)is distinct from'object'or not credit?&array['purchase_id','amount']
+   or exists(select 1 from jsonb_object_keys(credit)k where k not in('purchase_id','amount'))
+   or exists(select 1 from jsonb_each(credit)e where jsonb_typeof(e.value)<>'string')
+   or credit->>'purchase_id'!~'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+  then raise exception using errcode='22023',message='CP7_RECEIPT_FIX_FIELDS';end if;
+  perform cp7_procurement.decimal(credit->'amount',true);
+  if (credit->>'amount')::numeric<>round((credit->>'amount')::numeric,2)then raise exception 'CP7_RECEIPT_FIX_CREDIT_CENTS';end if;
+  if (credit->>'purchase_id')::uuid=h.id or(credit->>'purchase_id')in(select x->>'purchase_id'from jsonb_array_elements(credits)x)then
+   raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID';end if;
+  credits:=credits||credit;
+ end loop;
+ if excess>0 and jsonb_array_length(credits)=0 then
+  raise exception 'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_REQUIRED paid % corrected % credit %',paid_total,round(corrected_total,2),excess;end if;
+ if (select coalesce(sum((x->>'amount')::numeric),0)from jsonb_array_elements(credits)x)<>excess then
+  raise exception 'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH credit % allocated %',excess,(select coalesce(sum((x->>'amount')::numeric),0)from jsonb_array_elements(credits)x);end if;
+ for target in select t.*from erp.material_purchase_headers t where t.id in(select(x->>'purchase_id')::uuid from jsonb_array_elements(credits)x)order by t.id for update loop
+  if target.status<>'POSTED'or target.supplier_id is distinct from h.supplier_id then raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID';end if;
+  if round(erp.material_purchase_payable_total(target.id),2)-coalesce((select sum(amount)from erp.supplier_payments where purchase_id=target.id and status='POSTED'),0)
+   <(select(x->>'amount')::numeric from jsonb_array_elements(credits)x where(x->>'purchase_id')::uuid=target.id)then
+   raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_EXCEEDS_REMAINING %',target.purchase_number;end if;
+ end loop;
+ if (select count(*)from erp.material_purchase_headers t where t.id in(select(x->>'purchase_id')::uuid from jsonb_array_elements(credits)x))<>jsonb_array_length(credits)then
+  raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID';end if;
 
  -- Execute. Effects run under the receipt's own business date as economic
  -- date (accepted invoice-recost dating rules for revaluation/HPP/GL).
@@ -731,18 +777,44 @@ begin
    (select jsonb_agg(jsonb_build_object('invoice_line_id',l.id,'purchase_item_id',l.purchase_item_id,'qty_invoiced',l.qty_invoiced::text,'unit_price',l.unit_price::text,
      'discount_amount',l.discount_amount::text)order by l.id)from erp.material_supplier_invoice_lines l where l.invoice_id=new_inv));
  end loop;
- if(select coalesce(sum((v->>'amount')::numeric),0)from jsonb_array_elements(paid)v)>round(erp.material_purchase_payable_total(replaced),2)then
-  raise exception 'CP7_RECEIPT_FIX_PAID_EXCEEDS_CORRECTED paid % corrected %',(select sum((v->>'amount')::numeric)from jsonb_array_elements(paid)v),
-   round(erp.material_purchase_payable_total(replaced),2);end if;
- -- Replay every real supplier payment on the replacement, original date and amount.
+ left_on_receipt:=round(erp.material_purchase_payable_total(replaced),2);
+ if greatest(paid_total-left_on_receipt,0)<>excess then
+  raise exception 'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH credit % allocated %',greatest(paid_total-left_on_receipt,0),excess;end if;
+ -- Replay every real supplier payment at its own date, cash account and
+ -- amount: on the corrected receipt up to its payable, the rest as credit on
+ -- the chosen receipts of the same supplier.
+ queue:=credits;
  for payment in select*from jsonb_to_recordset(paid)as p(id uuid,payment_number text,payment_date timestamptz,amount numeric,cash_account_id uuid,
   payment_method text,reference_number text,notes text)loop
-  insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,notes,status,created_by)
-  values(replaced,left(payment.payment_number,40)||' · K-'||left(p_request::text,8),payment.payment_date,payment.amount,payment.cash_account_id,
-   payment.payment_method,payment.reference_number,payment.notes,'DRAFT',erp.current_app_user_id())returning id into new_payment;
-  perform erp.post_supplier_payment(new_payment);
-  insert into cp7_receipt_fix.payment_replays(previous_payment_id,replacement_payment_id,correction_id)values(payment.id,new_payment,fix_id);
+  part:=least(payment.amount,left_on_receipt);
+  if part>0 then
+   piece:=piece+1;
+   insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,notes,status,created_by)
+   values(replaced,left(payment.payment_number,36)||' · K'||piece::text||'-'||left(p_request::text,8),payment.payment_date,part,payment.cash_account_id,
+    payment.payment_method,payment.reference_number,payment.notes,'DRAFT',erp.current_app_user_id())returning id into new_payment;
+   perform erp.post_supplier_payment(new_payment);
+   insert into cp7_receipt_fix.payment_replays(replacement_payment_id,previous_payment_id,correction_id,target_purchase_id,kind,amount)
+   values(new_payment,payment.id,fix_id,replaced,'CORRECTED_RECEIPT',part);
+   left_on_receipt:=left_on_receipt-part;
+  end if;
+  part:=payment.amount-part;
+  while part>0 loop
+   credit:=queue->0;
+   if credit is null then raise exception 'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH';end if;
+   piece:=piece+1;
+   insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,notes,status,created_by)
+   values((credit->>'purchase_id')::uuid,left(payment.payment_number,36)||' · K'||piece::text||'-'||left(p_request::text,8),payment.payment_date,
+    least(part,(credit->>'amount')::numeric),payment.cash_account_id,payment.payment_method,payment.reference_number,
+    left('Retur bayangan dari pembetulan penerimaan '||h.purchase_number||': barang tidak pernah diterima; kelebihan bayar dipotong ke nota ini. '||why,1000),
+    'DRAFT',erp.current_app_user_id())returning id into new_payment;
+   perform erp.post_supplier_payment(new_payment);
+   insert into cp7_receipt_fix.payment_replays(replacement_payment_id,previous_payment_id,correction_id,target_purchase_id,kind,amount)
+   values(new_payment,payment.id,fix_id,(credit->>'purchase_id')::uuid,'CREDIT_TO_OTHER_RECEIPT',least(part,(credit->>'amount')::numeric));
+   if part>=(credit->>'amount')::numeric then part:=part-(credit->>'amount')::numeric;queue:=queue-0;
+   else queue:=jsonb_set(queue,'{0,amount}',to_jsonb(((credit->>'amount')::numeric-part)::text));part:=0;end if;
+  end loop;
  end loop;
+ if jsonb_array_length(queue)<>0 then raise exception 'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH';end if;
  perform cp7_receipt_fix.admit(null);
  delete from erp.invoice_recost_execution_context where transaction_id=txid_current();
  if cp7_receipt_fix.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_RECEIPT_FIX_ACCESS_CHANGED';end if;

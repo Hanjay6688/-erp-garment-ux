@@ -26,18 +26,19 @@ export const blockerLabels: Record<string, string> = {
 export type CorrectionRoll = { roll_id: string; roll_number: string; qty: string; cached_qty: string; status: string; used_qty: string; min_qty: string; movable: boolean; uses: { source_type: string; movement_type: string; count: number }[] }
 export type CorrectionLine = { item_id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; unit_price: string; line_total: string; price_state: string; price_source: string; invoice_match_state: string; lot_number: string | null; notes: string | null; rolls: CorrectionRoll[] }
 export type CorrectionInvoiceLine = { invoice_line_id: string; purchase_item_id: string; qty_invoiced: string; unit_price: string; discount_amount: string; net_amount: string; notes: string | null }
+export type CreditTarget = { purchase_id: string; purchase_number: string; physical_at: string; remaining: string }
 export type CorrectionInvoice = { invoice_id: string; invoice_number: string; invoice_date: string; received_at: string; due_date: string | null; row_version: string; notes: string | null; lines: CorrectionInvoiceLine[] }
 export type CorrectionRevision = { revision_id: string; revision: string; previous_purchase_id: string; previous_purchase_number: string; replacement_purchase_id: string; replacement_purchase_number: string; effective_at: string; recorded_at: string; reason: string; actor_name: string | null; previous_document: unknown; corrected_document: unknown }
 export type ReceiptCorrectionWorkspace = {
   contract_version: 'cp7.receipt-correction-workspace.v1'; read_at: string; root_purchase_id: string; current_purchase_id: string; original_purchase_number: string
   purchase: { purchase_id: string; purchase_number: string; status: string; row_version: string; supplier_id: string; supplier_name: string | null; location_id: string; location_name: string | null; physical_at: string; payment_status: string; supplier_invoice_number: string | null; due_date: string | null; notes: string | null }
-  lines: CorrectionLine[]; invoices: CorrectionInvoice[]; payments: { payment_id: string; payment_number: string; payment_date: string; amount: string; status: string }[]; paid_total: string
+  lines: CorrectionLine[]; invoices: CorrectionInvoice[]; credit_targets: CreditTarget[]; payments: { payment_id: string; payment_number: string; payment_date: string; amount: string; status: string }[]; paid_total: string
   blockers: { code: string; count: number }[]; can_correct: boolean; review_token: string; history: CorrectionRevision[]; production_go: false
 }
 export function parseReceiptCorrectionWorkspace(v: unknown, requested: string): ReceiptCorrectionWorkspace {
-  const r = closed(v, ['contract_version', 'read_at', 'root_purchase_id', 'current_purchase_id', 'original_purchase_number', 'purchase', 'lines', 'invoices', 'payments', 'paid_total', 'blockers', 'can_correct', 'review_token', 'history', 'production_go'])
+  const r = closed(v, ['contract_version', 'read_at', 'root_purchase_id', 'current_purchase_id', 'original_purchase_number', 'purchase', 'lines', 'invoices', 'credit_targets', 'payments', 'paid_total', 'blockers', 'can_correct', 'review_token', 'history', 'production_go'])
   if (r.contract_version !== 'cp7.receipt-correction-workspace.v1' || !at(r.read_at) || !id(r.root_purchase_id) || !id(r.current_purchase_id) || typeof r.original_purchase_number !== 'string'
-    || !Array.isArray(r.lines) || !Array.isArray(r.invoices) || !Array.isArray(r.payments) || !decimal(r.paid_total) || !Array.isArray(r.blockers) || typeof r.can_correct !== 'boolean' || typeof r.review_token !== 'string' || !/^[0-9a-f]{32}$/.test(r.review_token)
+    || !Array.isArray(r.lines) || !Array.isArray(r.invoices) || !Array.isArray(r.credit_targets) || !Array.isArray(r.payments) || !decimal(r.paid_total) || !Array.isArray(r.blockers) || typeof r.can_correct !== 'boolean' || typeof r.review_token !== 'string' || !/^[0-9a-f]{32}$/.test(r.review_token)
     || !Array.isArray(r.history) || r.production_go !== false) return fail()
   const p = closed(r.purchase, ['purchase_id', 'purchase_number', 'status', 'row_version', 'supplier_id', 'supplier_name', 'location_id', 'location_name', 'physical_at', 'payment_status', 'supplier_invoice_number', 'due_date', 'notes'])
   if (p.purchase_id !== r.current_purchase_id || typeof p.purchase_number !== 'string' || !['POSTED', 'REVERSED', 'DRAFT'].includes(p.status as string) || typeof p.row_version !== 'string' || !/^[1-9][0-9]{0,18}$/.test(p.row_version)
@@ -58,6 +59,10 @@ export function parseReceiptCorrectionWorkspace(v: unknown, requested: string): 
       const y = closed(line, ['invoice_line_id', 'purchase_item_id', 'qty_invoiced', 'unit_price', 'discount_amount', 'net_amount', 'notes'])
       if (!id(y.invoice_line_id) || !id(y.purchase_item_id) || !items.has(y.purchase_item_id) || !decimal(y.qty_invoiced) || !decimal(y.unit_price) || !decimal(y.discount_amount) || !decimal(y.net_amount) || !text(y.notes)) return fail()
     }
+  }
+  for (const value of r.credit_targets) {
+    const x = closed(value, ['purchase_id', 'purchase_number', 'physical_at', 'remaining'])
+    if (!id(x.purchase_id) || x.purchase_id === r.current_purchase_id || typeof x.purchase_number !== 'string' || !at(x.physical_at) || !decimal(x.remaining) || Number(x.remaining) <= 0) return fail()
   }
   for (const value of r.payments) { const x = closed(value, ['payment_id', 'payment_number', 'payment_date', 'amount', 'status']); if (!id(x.payment_id) || !at(x.payment_date) || !decimal(x.amount)) return fail() }
   for (const value of r.blockers) { const x = closed(value, ['code', 'count']); if (typeof x.code !== 'string' || typeof x.count !== 'number') return fail() }
@@ -82,6 +87,28 @@ export type DraftRoll = { key: string; replaces: string | null; number: string; 
 export type DraftLine = { key: string; replaces: string | null; materialId: string; materialName: string; materialType: string; unitCode: string; qty: string; price: string; priceState: string; priceSource: string; rolls: DraftRoll[] }
 export type DraftInvoiceLine = { replaces: string; itemId: string; qty: string; price: string; discount: string }
 export type DraftInvoice = { replaces: string; number: string; date: string; lines: DraftInvoiceLine[] }
+export type DraftCredit = { purchaseId: string; amount: string }
+// Exact money: decimals as integer micro-units, rounded to cents like the database (half away from zero).
+const micros = (s: string) => { const [w, f = ''] = s.trim().replace(',', '.').split('.'); return BigInt(w || '0') * 1000000n + BigInt((f + '000000').slice(0, 6)) }
+const cents = (scaled: bigint, scale: bigint) => (scaled >= 0n ? (scaled + scale / 2n) / scale : -((-scaled + scale / 2n) / scale))
+const money = (c: bigint) => `${c < 0n ? '-' : ''}${(c < 0n ? -c : c) / 100n}.${String((c < 0n ? -c : c) % 100n).padStart(2, '0')}`
+/** Paid amount above the corrected supplier total, in rupiah with cents ("0.00" when none). */
+export function correctionExcess(w: ReceiptCorrectionWorkspace, lines: DraftLine[], invoices: DraftInvoice[]): string | null {
+  let total = 0n
+  for (const l of lines) {
+    if (l.priceState !== 'FINAL') continue
+    const qty = l.materialType === 'FABRIC' ? l.rolls.map(r => exact(r.qty, true)) : [exact(l.qty, true)], price = exact(l.price, false)
+    if (price === null || qty.some(q => q === null)) return null
+    for (const q of qty) total += micros(q as string) * micros(price)
+  }
+  for (const v of invoices) for (const l of v.lines) {
+    const q = exact(l.qty, true), p = exact(l.price, false), d = exact(l.discount || '0', false)
+    if (!q || p === null || d === null) return null
+    total += micros(q) * micros(p) - micros(d) * 1000000n
+  }
+  const excess = micros(w.paid_total) / 10000n - cents(total, 10000000000n)
+  return money(excess > 0n ? excess : 0n)
+}
 const plain = (s: string) => s.includes('.') ? s.replace(/0+$/, '').replace(/\.$/, '') : s
 const exact = (s: string, positive: boolean) => { const t = s.trim().replace(',', '.'); return /^(0|[1-9][0-9]{0,11})(\.[0-9]{1,6})?$/.test(t) && (!positive || Number(t) > 0) ? t : null }
 export function correctionDraft(w: ReceiptCorrectionWorkspace): DraftLine[] {
@@ -94,7 +121,7 @@ export function correctionInvoices(w: ReceiptCorrectionWorkspace): DraftInvoice[
     lines: v.lines.map(l => ({ replaces: l.invoice_line_id, itemId: l.purchase_item_id, qty: plain(l.qty_invoiced), price: plain(l.unit_price), discount: plain(l.discount_amount) })) }))
 }
 /** The exact command payload, or the reason it cannot be sent yet. */
-export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLine[], reason: string, invoices: DraftInvoice[] = []): { payload: Record<string, unknown> | null; problem: string | null } {
+export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLine[], reason: string, invoices: DraftInvoice[] = [], credits: DraftCredit[] = []): { payload: Record<string, unknown> | null; problem: string | null } {
   if (reason.trim().length < 5) return { payload: null, problem: 'Tulis alasan pembetulan (minimal 5 huruf).' }
   if (!lines.length) return { payload: null, problem: 'Penerimaan harus punya minimal satu barang.' }
   const out = []
@@ -141,7 +168,22 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
     const received = line.materialType === 'FABRIC' ? line.rolls.reduce((s, r) => s + Number(r.qty), 0) : Number(line.qty)
     if (qty > received + 1e-9) return { payload: null, problem: `Jumlah ditagih ${line.materialName} (${qty}) lebih besar dari jumlah diterima yang benar (${received}).` }
   }
-  return { payload: { purchase_id: w.current_purchase_id, review_token: w.review_token, change_reason: reason.trim(), lines: out, ...(outInvoices.length ? { invoices: outInvoices } : {}) }, problem: null }
+  // Paid more than the corrected total: the excess is supplier credit (retur bayangan, barang tidak pernah diterima) cut from other nota of the same supplier.
+  const excess = correctionExcess(w, lines, invoices), outCredits = []
+  if (excess === null) return { payload: null, problem: 'Harga atau jumlah belum benar.' }
+  if (excess !== '0.00') {
+    let sum = 0n
+    for (const c of credits) {
+      if (!c.amount.trim()) continue
+      const amount = exact(c.amount, true), target = w.credit_targets.find(t => t.purchase_id === c.purchaseId)
+      if (!amount || !target || micros(amount) % 10000n !== 0n) return { payload: null, problem: 'Jumlah kredit per nota belum benar (rupiah, paling banyak 2 angka di belakang koma).' }
+      if (micros(amount) > micros(target.remaining)) return { payload: null, problem: `Kredit untuk ${target.purchase_number} melebihi sisa utangnya Rp${target.remaining}.` }
+      sum += micros(amount); outCredits.push({ purchase_id: c.purchaseId, amount: money(micros(amount) / 10000n) })
+    }
+    if (!w.credit_targets.length) return { payload: null, problem: `Sudah dibayar Rp${excess} lebih dari total yang benar. Belum ada nota lain dari supplier ini yang masih punya sisa utang; simpan pembetulan setelah nota berikutnya dicatat.` }
+    if (money(sum / 10000n) !== excess) return { payload: null, problem: `Kelebihan bayar Rp${excess} harus ditempel penuh ke nota lain dari supplier yang sama (sekarang Rp${money(sum / 10000n)}).` }
+  }
+  return { payload: { purchase_id: w.current_purchase_id, review_token: w.review_token, change_reason: reason.trim(), lines: out, ...(outInvoices.length ? { invoices: outInvoices } : {}), ...(outCredits.length ? { credit_allocations: outCredits } : {}) }, problem: null }
 }
 
 // Material card v2: same scope/access/money projection as v1; a corrected
