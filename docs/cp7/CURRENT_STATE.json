@@ -2216,7 +2216,9 @@
     ],
     "all_prior_qualified_Originals_preserved": true,
     "full_family_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "actual_HTTP_500_browser_replies": 5,
+    "cause_closed": false
   },
   "f05_native_analysis_latest_regression": {
     "status": "NATIVE_WRITER_QUALIFIED",
@@ -4306,7 +4308,15 @@
     ],
     "product_SQL_RPC_grants_or_timeouts_changed": false,
     "Claude_product_files_changed": false,
-    "production_go": false
+    "production_go": false,
+    "source_commit": "0dec1c1dd2ed1558efbd416684687eda362616a6",
+    "source_tree": "fa555adb4f204d17ef3b1392677b5975eeaabbf6",
+    "owning_note40_run": 37052402095,
+    "full_PostgreSQL_Shell_pass": true,
+    "full_PostgreSQL_Shell_run": 37052401676,
+    "both_CodeQL_jobs_pass": true,
+    "receipt32_and_cutting57_shared_hook_trigger_added": true,
+    "existing_workflow_jobs_and_product_imports_unchanged": true
   },
   "shell_note_read_authority_predecessor": {
     "status": "FULL_NATIVE_PG_SHELL_137_FILES1269_TESTS_SECURITY_BUILD_BOTH_CODEQL_PASS",
@@ -4314,5 +4324,31 @@
     "run_id": 37047744546,
     "job_id": 110973248605,
     "qualifies_new_UI_source": false
+  },
+  "f05_native_analysis_predecessor34": {
+    "status": "ACTUAL_NATIVE284_PASS_EXACT_ORIGINAL_EXTRACTION_PENDING",
+    "source_commit": "34d7e2e962423cdc42d2d596d1ce996ea9070a8b",
+    "source_tree": "38ad2c662aaaf63bcf5e8377b0ad861b2a38e002",
+    "run_id": 37047744131,
+    "job_id": 110973247042,
+    "artifact_id": 11246264212,
+    "counts": {
+      "native": 179,
+      "races": 40,
+      "http": 29,
+      "browser": 36
+    },
+    "qualifies_new_UI_source": false,
+    "intermittent_HTTP500_cause_closed": false,
+    "production_go": false
+  },
+  "existing_artifact_retention_candidate": {
+    "workflow": ".github/workflows/cp7-retain-existing-artifact.yml",
+    "manifest": "scripts/cp7_retained_artifact_manifest.json",
+    "read_only_GitHub_actions_permission": true,
+    "source_run_job_tree_and_full_archive_digests_required": true,
+    "new_execution_case_credit": 0,
+    "raw_Originals_unchanged": true,
+    "production_go": false
   }
 }

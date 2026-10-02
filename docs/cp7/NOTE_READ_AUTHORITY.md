@@ -18,4 +18,6 @@ The source repair still requires a new complete Native40 and combined Shell, rec
 
 Financial SQL, Native timeouts, RPC definitions and access grants are unchanged. Claude owns posted receipt/final supplier-price/name correction; his further integration is deferred until his section is finished. No parallel receipt/year-price or receipt-sale join provider is added here.
 
+The existing receipt32 and cutting57 workflow path filters omitted the shared mutation/recovery hook. Those two source patterns are now included, keeping all jobs, source imports, probes, assertions and case budgets unchanged. This requalifies the already-integrated receipt source; it does not import Claude's unfinished branch.
+
 The intermittent HTTP timeout cause remains open. A successful repeat is not a cause diagnosis. CP6 HOLD; audit_complete=false; production_go=false. Complete F03/F04/F05, independent/demo and hosted acceptance remain open.

@@ -16,6 +16,8 @@ name: CP7 F04 Prospective Native Cutting Model and Consumer
     - docs/cp7/f04/native_cutting_learning_native57_manifest.json
     - .github/workflows/cp7-f04-cutting-model.yml
     - src/ConnectedCuttingPage.tsx
+    - src/useProductionMutation*
+    - src/productionRecovery*
     - src/CuttingPatternPicker.tsx
     - scripts/cp7_cutting_yield_browser.mjs
     - scripts/cp7_cutting_input_browser.mjs

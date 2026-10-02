@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.existing-native-artifact-retention.v1",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "records": {
+    "f05-e873-incomplete284": {
+      "source_commit": "e873462c7372c23e86e48c33ebf3de386b0c9dec",
+      "source_tree": "39863f36fccf9be7aa79ac09a245d154ac07c293",
+      "run_id": 37043056813,
+      "job_id": 110957628784,
+      "artifact_id": 11245403985,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 271942433,
+      "zip_sha256": "f2a6ca2f5158f224e184a52a0bca19d47bada18aaec26b77a23197b1f5bec33a",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "INCOMPLETE",
+      "expected_case_count": 284,
+      "required_case_counts": {"native": 179, "races": 40, "http": 29, "browser": 36},
+      "expected_counts": {"native": {"PASS": 179}, "races": {"PASS": 40}, "http": {"PASS": 29}, "browser": {"PASS": 31, "INCOMPLETE": 5}},
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
+    },
+    "f05-34d7-qualified284": {
+      "source_commit": "34d7e2e962423cdc42d2d596d1ce996ea9070a8b",
+      "source_tree": "38ad2c662aaaf63bcf5e8377b0ad861b2a38e002",
+      "run_id": 37047744131,
+      "job_id": 110973247042,
+      "artifact_id": 11246264212,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 344849681,
+      "zip_sha256": "2bd903f8a77587075aded610985e8b23ada62ed96d1494f8a884e7bbeb90d9f9",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {"native": 179, "races": 40, "http": 29, "browser": 36},
+      "expected_counts": {"native": {"PASS": 179}, "races": {"PASS": 40}, "http": {"PASS": 29}, "browser": {"PASS": 36}},
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
+    }
+  }
+}

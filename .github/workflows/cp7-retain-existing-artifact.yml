@@ -1,0 +1,46 @@
+name: CP7 Retain Existing Native Originals
+'on':
+  push:
+    branches:
+    - cp7/integration
+    paths:
+    - scripts/cp7_retained_artifact_manifest.json
+    - scripts/cp7_retain_existing_artifact.py
+    - scripts/cp7_native_runtime_receipt.py
+    - .github/workflows/cp7-retain-existing-artifact.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp7-existing-originals-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  retain:
+    name: Read-only exact existing Originals / zero new case credit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        record:
+        - f05-e873-incomplete284
+        - f05-34d7-qualified284
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Verify exact source/run/archive and retain unmodified reports
+      env:
+        GH_TOKEN: ${{ github.token }}
+        RECORD: ${{ matrix.record }}
+      run: python scripts/cp7_retain_existing_artifact.py "$RECORD" "$RUNNER_TEMP/cp7-retained-runtime"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp7-retained-${{ matrix.record }}
+        path: ${{ runner.temp }}/cp7-retained-runtime/reports
+        if-no-files-found: error
+        retention-days: 21

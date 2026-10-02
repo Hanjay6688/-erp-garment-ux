@@ -11,6 +11,8 @@ name: CP7 Owning Receipt Correction
     - src/ReceiptCorrectionPanel.tsx
     - src/MaterialNamePanel.tsx
     - src/receiptCorrectionContract.ts
+    - src/useProductionMutation*
+    - src/productionRecovery*
     - src/ConnectedMaterialsPage.tsx
     - src/ConnectedProcurementPage.tsx
     - .github/workflows/cp7-receipt-correction.yml
