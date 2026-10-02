@@ -2,8 +2,9 @@
 import gzip,hashlib,json,sys,zipfile
 from pathlib import Path
 
-def main():
- manifest=json.loads(Path(sys.argv[1]).read_text());root=Path(sys.argv[2]);root.mkdir(parents=True,exist_ok=True)
+def retain(manifest_path,root,source_commit,source_tree,run_id):
+ manifest=json.loads(Path(manifest_path).read_text());root=Path(root);root.mkdir(parents=True,exist_ok=True)
+ assert {f['name'].removeprefix('cp7-f03-full-') for f in manifest}=={'p09','p10','p11','p12','p13','supplier_credit','cash_installments','customer_refund'} and len(manifest)==8
  receipts=[]
  for f in manifest:
   path=Path(f['path']);data=path.read_bytes();assert len(data)==f['size']and 'sha256:'+hashlib.sha256(data).hexdigest()==f['digest']
@@ -11,19 +12,21 @@ def main():
   with zipfile.ZipFile(path)as z:
    originals={n:z.read(n).decode('UTF8')for n in z.namelist()if '/'not in n and n.endswith('.json')}
    native_name=next(n for n in originals if n.startswith('CP7_F03_FULL_'));r=json.loads(originals[native_name]);package=json.loads(originals['T3_PACKAGE_INSTALL.json']);backup=json.loads(originals['T3_BACKUP_RESTORE_DRILL.json'])
-   assert r['source_commit']=='656e4fd5944b6061a87fd0a388d2b928563ac398'and r['source_tree']=='d0a70ed59c8dedbe88ab0b16a214a4da4201449a'
+   assert r['source_commit']==source_commit and r['source_tree']==source_tree
+   assert package['run_identity']['tool_head']==source_commit and str(package['run_identity']['run_id'])==str(run_id)
    assert r['status']=='PASS'and r['observed_case_count']==r['expected_case_count']and r['observed_smoke_count']==r['expected_smoke_count']and r['groups_complete']
    assert r['cp6_restored']and r['advisor_gate']and all(r['restore_components'].values())
-   assert package['primary_unchanged']and package['gate']['writer_runtime']and package['auth_users_after']==package['auth_users_before']==0
+   assert package['primary_unchanged']and all(package['gate'].values())and package['auth_users_after']==package['auth_users_before']==0
    assert backup['status']=='RESTORED_SAME_MEANING'
    groups={}
    for name,g in r['groups'].items():
+    assert set(g['counts'])=={'PASS'} and g['counts']['PASS']>0,(name,g['counts'])
     groups[name]={k:g[k]for k in ('status','counts','complete_boundary_restored','cleanup_failures','auth_counts','host_status')if k in g}
     if 'cleanup_failures'in g:assert g['cleanup_failures']is False
     if 'auth_counts'in g:assert g['auth_counts']['restored']
    raw=json.dumps(dict(contract='cp7.retained-originals.v1',source_commit=r['source_commit'],root_json_utf8=originals),ensure_ascii=False,separators=(',',':')).encode()
    (out/'ORIGINAL_REPORTS.json.gz').write_bytes(gzip.compress(raw,mtime=0))
-   receipt=dict(status='NATIVE_WRITER_PASS',source_commit=r['source_commit'],source_tree=r['source_tree'],run_id=36953696925,
+   receipt=dict(status='NATIVE_WRITER_PASS',source_commit=r['source_commit'],source_tree=r['source_tree'],run_id=run_id,job_id=f.get('jobId'),
     artifact_id=f['artifactId'],artifact_name=f['name'],original_file_id=f['fileId'],zip_bytes=len(data),zip_sha256=hashlib.sha256(data).hexdigest(),
     bucket=bucket,expected_case_count=r['expected_case_count'],observed_case_count=r['observed_case_count'],expected_smoke_count=r['expected_smoke_count'],observed_smoke_count=r['observed_smoke_count'],
     source_bundle_sha256=r['source_sha256'],manifest_sha256=r['manifest_sha256'],provider_sha256=r['provider_sha256'],retained_probe_sha256=r['retained_probe_sha256'],
@@ -33,9 +36,14 @@ def main():
     all_zip_members={n:dict(bytes=len(z.read(n)),sha256=hashlib.sha256(z.read(n)).hexdigest())for n in sorted(z.namelist())if not n.endswith('/')},
     unique_oracle_total_claim=False,full_family_acceptance=False,independent_acceptance=False,production_go=False)
    (out/'RECEIPT.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n');receipts.append(receipt)
- summary=dict(status='ALL_EIGHT_NATIVE_F03_BUCKETS_WRITER_PASS',source_commit=receipts[0]['source_commit'],source_tree=receipts[0]['source_tree'],run_id=36953696925,
+ assert len({r['source_bundle_sha256']for r in receipts})==1
+ summary=dict(status='ALL_EIGHT_NATIVE_F03_BUCKETS_WRITER_PASS',source_commit=receipts[0]['source_commit'],source_tree=receipts[0]['source_tree'],source_bundle_sha256=receipts[0]['source_bundle_sha256'],run_id=run_id,
   buckets={r['bucket']:{k:r[k]for k in ('expected_case_count','observed_case_count','expected_smoke_count','observed_smoke_count','artifact_id','zip_sha256','primary_unchanged','cp6_restored','advisor_gate')}for r in receipts},
   unique_oracle_total_claim=False,independent_acceptance=False,full_family_acceptance=False,production_go=False)
  (root/'RECEIPT.json').write_text(json.dumps(summary,indent=2)+'\n')
  print(json.dumps(summary))
+ return summary
+def main():
+ assert len(sys.argv)==6,'Manifest, destination, exact source commit/tree and run ID are required'
+ retain(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],int(sys.argv[5]))
 if __name__=='__main__':main()

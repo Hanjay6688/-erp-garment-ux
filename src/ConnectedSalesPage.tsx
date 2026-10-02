@@ -25,7 +25,7 @@ export default function ConnectedSalesPage({view='sales-invoice'}:{view?:View}){
 function Workspace({view}:{view:View}){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi penjualan belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.ar.view')
- const mutation=useProductionMutation('SALES'),{beginRead,finishRead,isReadCurrent,run,reconcile,invalidate}=mutation
+ const mutation=useProductionMutation('SALES'),{beginRead,currentReadTicket,finishRead,isReadCurrent,run,reconcile,invalidate}=mutation
  const [data,setData]=useState<SalesRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[q,setQ]=useState(''),[status,setStatus]=useState('')
  const [draft,setDraft]=useState<{initial:NonNullable<SalesRead['detail']>|null;key:string;correction?:boolean}|null>(null)
  const [history,setHistory]=useState<NoteCorrectionWorkspace|null>(null),[historyBusy,setHistoryBusy]=useState(false)
@@ -41,7 +41,7 @@ function Workspace({view}:{view:View}){
   }catch(e){if(s===sequence.current&&isReadCurrent(ticket))setError(normalizeClientError(e).message);return false}finally{if(s===sequence.current)setBusy(false)}
  },[client,finance,beginRead,finishRead,isReadCurrent])
  useEffect(()=>{void load();return()=>{++sequence.current;++historySequence.current}},[load])
- const d=data?.detail,f=d?.financial
+ const visible=mutation.workspaceStale?null:data,d=visible?.detail,f=d?.financial
  const envelope=(value:Json)=>{const p=value as {document:Json;expected_version:string|null};if(!p||typeof p!=='object'||p.expected_version!==null&&typeof p.expected_version!=='string'||!p.document||typeof p.document!=='object'||Array.isArray(p.document))throw Error('Permintaan invoice belum lengkap.');return p}
  const outcome=(v:unknown,e:{payload:Json;id:string;action:string})=>{const document=envelope(e.payload).document as {sale_id?:string;payment_id?:string;return_id?:string;sale_date?:string};return e.action==='CORRECT'?parseNoteCorrectionOutcome(v,e.id,document.sale_id??'',document.sale_date??''):parseSalesOutcome(v,e.id,e.action,document.sale_id??null,document.payment_id??null,document.return_id??null)}
  const handlers:ProductionMutationHandlers={
@@ -60,10 +60,11 @@ function Workspace({view}:{view:View}){
  const stale=!!draft?.initial&&(!d||d.id!==draft.initial.id||d.row_version!==draft.initial.row_version||d.review_token!==draft.initial.review_token||(draft.correction?!['POSTED','PARTIAL_PAID','PAID'].includes(d.status):d.status!=='DRAFT'))
  async function loadHistory(){
   if(!d||!canCorrect||locked)return
+  const ticket=currentReadTicket();if(!ticket)return
   const source=d.id,s=++historySequence.current,parent=sequence.current;setHistory(null);setHistoryBusy(true);setError('')
-  try{const r=await client.rpc('erp_cp7_get_note_correction_v2',{p_sale:source});if(s!==historySequence.current||parent!==sequence.current)return;if(r.error)throw r.error
+  try{const r=await client.rpc('erp_cp7_get_note_correction_v2',{p_sale:source});if(s!==historySequence.current||parent!==sequence.current||!isReadCurrent(ticket))return;if(r.error)throw r.error
    const h=parseNoteCorrectionWorkspace(r.data,source);if(h.current_sale_id===source&&(h.current.detail?.row_version!==d.row_version||h.current.detail?.review_token!==d.review_token))throw Error('Nota berubah. Muat ulang dan periksa nota terbaru.');setHistory(h)
-  }catch(e){if(s===historySequence.current&&parent===sequence.current){setHistory(null);setData(null);invalidate();setError(normalizeClientError(e).message)}}finally{if(s===historySequence.current)setHistoryBusy(false)}
+  }catch(e){if(s===historySequence.current&&parent===sequence.current&&isReadCurrent(ticket)){setHistory(null);setData(null);invalidate();setError(normalizeClientError(e).message)}}finally{if(s===historySequence.current)setHistoryBusy(false)}
  }
  const write=(action:'POST'|'CANCEL'|'SALE_REVERSE')=>{if(d?.review_token&&!locked&&reviewed&&reason.trim().length>=5)void run(action,{document:{sale_id:d.id,review_token:d.review_token,change_reason:reason.trim()},expected_version:d.row_version},null,handlers)}
  return <section className="cproc csales">
@@ -80,9 +81,9 @@ function Workspace({view}:{view:View}){
    <button disabled={busy||mutation.busy}>Cari invoice</button>
   </form>
   <div className="cproc-layout"><section className="panel" aria-label="Daftar invoice"><h2>Daftar invoice</h2>
-   {data?.page.rows.length===0?<p>Belum ada invoice sesuai pencarian.</p>:null}
-   {data?.page.rows.map(r=><button className="cproc-receipt" key={r.id} aria-pressed={r.id===d?.id} disabled={busy||mutation.busy} onClick={()=>{requested.current.sale_id=r.id;void load()}}><span><strong>{r.number}</strong><small>{r.customer_name} · {numberText(r.qty_pcs)} PCS</small><small>{formatCp6WibDateTime(r.physical_at)}</small></span><span><small>{labels[r.status]}</small>{r.financial?<strong>{money(r.financial.net_total)}</strong>:null}</span></button>)}
-   {data?<div className="cproc-pagination"><span>Total {data.page.total}</span><button disabled={busy||mutation.busy||data.page.offset===0} onClick={()=>{requested.current.offset=Math.max(0,data.page.offset-25);void load()}}>Invoice sebelumnya</button><button disabled={busy||mutation.busy||data.page.next_offset===null} onClick={()=>{requested.current.offset=data.page.next_offset??0;void load()}}>Invoice berikutnya</button></div>:null}
+   {visible?.page.rows.length===0?<p>Belum ada invoice sesuai pencarian.</p>:null}
+   {visible?.page.rows.map(r=><button className="cproc-receipt" key={r.id} aria-pressed={r.id===d?.id} disabled={busy||mutation.busy} onClick={()=>{requested.current.sale_id=r.id;void load()}}><span><strong>{r.number}</strong><small>{r.customer_name} · {numberText(r.qty_pcs)} PCS</small><small>{formatCp6WibDateTime(r.physical_at)}</small></span><span><small>{labels[r.status]}</small>{r.financial?<strong>{money(r.financial.net_total)}</strong>:null}</span></button>)}
+   {visible?<div className="cproc-pagination"><span>Total {visible.page.total}</span><button disabled={busy||mutation.busy||visible.page.offset===0} onClick={()=>{requested.current.offset=Math.max(0,visible.page.offset-25);void load()}}>Invoice sebelumnya</button><button disabled={busy||mutation.busy||visible.page.next_offset===null} onClick={()=>{requested.current.offset=visible.page.next_offset??0;void load()}}>Invoice berikutnya</button></div>:null}
   </section><aside className="panel" aria-label="Rincian invoice">{d?<>
    <div className="eyebrow">{labels[d.status]}</div><h2>{d.number}</h2><p>{d.customer_name} · {d.location_name??'Lokasi belum tercatat'}</p><p>{formatCp6WibDateTime(d.physical_at)}{d.due_date?` · jatuh tempo ${d.due_date}`:''}</p>
    <p>{numberText(d.qty_pcs)} PCS dalam invoice · {numberText(d.reserved_qty)} PCS masih dipesan · {numberText(d.returned_qty)} PCS sudah diretur.</p>

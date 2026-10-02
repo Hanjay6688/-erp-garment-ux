@@ -41,3 +41,19 @@ it('retires a prior successful-read notice as soon as a newer read or shared inv
  expect(recovery.notice).toContain('sudah dimuat ulang');await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
  expect(recovery.notice).toBe('');expect(recovery.writerLocked).toBe(true);expect(h.send).toHaveBeenCalledTimes(2)
 })
+it('rejects a held reply after explicit invalidation even when the recovery signature has not changed',async()=>{
+ await mount();let held:ReturnType<typeof recovery.beginRead>
+ await act(async()=>{held=recovery.beginRead();recovery.invalidate()})
+ expect(recovery.isReadCurrent(held!)).toBe(false)
+ await act(async()=>{expect(recovery.finishRead(held!)).toBe(false)})
+ expect(recovery.writerLocked).toBe(true)
+})
+it('binds a child read to the exact completed parent proof and retires it on a shared invalidation',async()=>{
+ await mount();const ticket=recovery.currentReadTicket()
+ expect(ticket).not.toBeNull();expect(recovery.writerLocked).toBe(false)
+ expect(recovery.isReadCurrent(ticket!)).toBe(true)
+ await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
+ expect(recovery.currentReadTicket()).toBeNull();expect(recovery.isReadCurrent(ticket!)).toBe(false)
+ await act(async()=>{expect(recovery.finishRead(ticket!)).toBe(false)})
+ expect(recovery.writerLocked).toBe(true)
+})

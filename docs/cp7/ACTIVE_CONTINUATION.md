@@ -1,5 +1,23 @@
 # Active writer continuation · 2Oct2026
 
+## Current owned checkpoint · retire stale invoice and child history
+
+Three writer counterexamples confirm explicit/shared SALES invalidation can leave a held read ticket, old Native invoice/money and a delayed correction-history reply current. The repaired hook retires all preceding sequences and exposes only the exact completed parent ticket; the sales page hides retired source facts and fences child replies while retaining the operator's unsent quantities and reason. All1142 application tests in118 files, build and full security/ownership/access checks pass. The existing mobile lost-reply/two-tab Native40 oracle now also requires old peer invoice rows/money/actions to disappear. No financial SQL, RPC, grants, timeout, case budget or Claude product files change. Fresh complete Native40 and combined Shell/receipt32/cutting57 remain required. See NOTE_READ_AUTHORITY.md.
+
+Preceding note sources e99f121 and34d7e2e both qualify40=28DB/4race/3Auth-HTTP/5browser with every package/restoration/primary/backup/advisor/Auth0→0 gate and zero console errors. Exact Originals are retained under evidence/owning-note-correction/qualified40-e99f121/ and qualified40-34d7e2e/. Source34's read-only monitor samples successful actual command sessions at observed maxima2886.362/2278.422/2284.208/2365.16ms. These sampled lower bounds are not exact command durations; case-wide monitor lifetimes are not command latency. No wait or error function frame was observed in this successful run. The earlier intermittent8s timeout cause remains open, and these predecessor40 results do not qualify the new UI source.
+
+The e873 F05 Native284 repeat completed incomplete at run37043056813/job110957628784: five browser cases fail assertions; exact diagnostics are being retained and examined. Do not use preceding13b's qualified284 to label this registered composition complete. The source34 full PostgreSQL Shell passes137 files/1269 tests plus security/build and both CodeQL jobs, before this new UI repair.
+
+## Owner steering · wait for Claude completion before further integration
+
+Owner subsequently explicitly defers further Claude integration until that section is finished. Do not import his unfinished WIP or build a parallel receipt/year-price implementation. Keep the already-qualified08d/e873 composition and exact source Originals intact. No new receipt-sale join provider was written; GPT continues its owning-note timeout/F04/F05/P18-P21 work.
+
+## Retained scope check · avoid duplicate Claude work
+
+Owner asked the writer to re-read Claude's work before taking the final year-old supplier-price example. Exact branch09e00453 and its complete handoff/case source confirm that posted receipt and already-FINAL supplier invoice price correction, including that example, are Claude's scope. His existing32 tests separately qualify price-after-production/sale/return and a364-transfer quantity-history correction; the literal combined year-old final-price example remains a proof gap for Claude, not a second GPT implementation. GPT's temporary generic receipt-probe edit is discarded; no new year-provider, workflow or product edits were made. Claude's case/provider files stay unchanged. GPT continues actual sale-note HTTP timeout and F04/F05/P18-P21.
+
+All eight main-registered e873 F03 bucket Originals are now retained in evidence/f03-full/all-eight-qualified-e873462/: P09 132+3 separate smokes, P10 34, P11 64, P12 90, P13 50, supplier credit5, cash/installments61 and customer refund10. Each exact source/bundle installation/restoration/primary/backup/advisor/runtime/Auth0→0 gate passes. They are overlapping controls, not a summed unique total or full-family/independent/production acceptance.
+
 ## Latest controlling checkpoint · complete cutting57 qualified; note HTTP timeout open
 
 Actual Native57 on e99f121d/tree d9245347, run37046014731/job110967509358 qualifies all34DB/8race/5Auth-HTTP/10browser, including complete parent/sibling factual retirement in all eight existing cutting current403 journeys. Every installation/restoration/unchanged-primary/proven-backup/advisor/runtime/Auth0→0 gate passes; console errors are zero. Exact runtime Originals and all ZIP-member hashes are retained in evidence/f04-native-history/cutting-learning-qualified57-e99f121/. This closes the confirmed parent authority defect; factory prediction accuracy, independent/demo and full F04 remain open.

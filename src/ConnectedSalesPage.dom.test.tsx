@@ -84,6 +84,27 @@ function correctionOutcome(request:string){return {contract_version:'cp7.note-co
 function correctionWorkspace(){return {contract_version:'cp7.note-correction-workspace.v2',read_at:'2026-10-02T10:00:00Z',root_sale_id:id,current_sale_id:replacement,history:[{revision_id:revisionId,revision:'1',previous_sale_id:id,replacement_sale_id:replacement,effective_at:'2026-09-29T03:00:00Z',recorded_at:'2026-10-02T10:00:00Z',reason:'Jumlah sebenarnya tiga PCS',actor_id:id,actor_display_name:'Owner Asli',actor_name_basis:'CURRENT_PROFILE'}],current:correctedData(true),original_note_number:'INV-1',production_go:false}}
 async function fillInvoice(label:string,value:string){await act(async()=>{const e=container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event('input',{bubbles:true}))});await flush()}
 describe('owning historical note correction',()=>{
+ it('retires current invoice facts and a held correction history after the shared source is invalidated',async()=>{
+  allowCorrection();let finish!:(r:unknown)=>void
+  client.rpc.mockImplementation((name,args)=>name==='erp_cp7_get_note_correction_v2'?new Promise(resolve=>{finish=resolve}):Promise.resolve({data:draftData(!!args.p_query.sale_id,'POSTED'),error:null}))
+  await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);await fillInvoice('Cari invoice','Pencarian milik operator');await click(button('Riwayat pembetulan nota'))
+  await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
+  await act(async()=>finish({data:correctionWorkspace(),error:null}));await flush()
+  expect(container.textContent).not.toContain('Owner Asli')
+  expect(container.querySelector('[aria-label="Nilai invoice"]')).toBeNull()
+  expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(0)
+  expect(container.querySelector<HTMLInputElement>('[aria-label="Cari invoice"]')!.value).toBe('Pencarian milik operator')
+ })
+ it('keeps unsent correction quantities and reason while locking its retired source',async()=>{
+  allowCorrection();client.rpc.mockImplementation(async(_name,args)=>({data:draftData(!!args.p_query.sale_id,'POSTED'),error:null}))
+  await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);await click(button('Benerin nota'));await fillInvoice('Jumlah invoice 1','3');await fillInvoice('Alasan simpan invoice','Catatan baru milik operator')
+  await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
+  expect(container.querySelector('[aria-label="Nilai invoice"]')).toBeNull()
+  expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah invoice 1"]')!.value).toBe('3')
+  expect(container.querySelector<HTMLInputElement>('[aria-label="Alasan simpan invoice"]')!.value).toBe('Catatan baru milik operator')
+  expect(button('Simpan pembetulan nota').disabled).toBe(true)
+  expect(client.rpc.mock.calls.some(([name])=>name==='erp_cp7_correct_note_v1')).toBe(false)
+ })
  it('opens a real form, sends exact source/version and retires it for the replacement',async()=>{
   allowCorrection();let committed=false;client.rpc.mockImplementation(async(name,args)=>{if(name==='erp_cp7_get_sales_v1')return {data:committed?correctedData(!!args.p_query.sale_id):draftData(!!args.p_query.sale_id,'POSTED'),error:null};if(name==='erp_cp7_correct_note_v1'){committed=true;return {data:correctionOutcome(args.p_request),error:null}}throw Error('Unowned RPC')});await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);await click(button('Benerin nota'));expect(container.querySelector<HTMLInputElement>('[aria-label="Waktu draft invoice WIB"]')!.readOnly).toBe(true);await fillInvoice('Jumlah invoice 1','3');await fillInvoice('Alasan simpan invoice','Jumlah sebenarnya tiga PCS');expect(button('Simpan pembetulan nota').disabled).toBe(true);await click(container.querySelector<HTMLInputElement>('[aria-label="Pembetulan nota sudah diperiksa"]')!);await click(button('Simpan pembetulan nota'));const sent=client.rpc.mock.calls.find(([n])=>n==='erp_cp7_correct_note_v1')![1];expect(sent.p_expected).toBe('9007199254740993');expect(sent.p_payload.sale_id).toBe(id);expect(sent.p_payload.sale_date).toBe('2026-09-29T03:00:00Z');expect(sent.p_payload.items[0].qty_pcs).toBe('3');expect(container.querySelector('[aria-label="Benerin nota"]')).toBeNull();expect(container.textContent).toContain('INV-1 · R1');expect(container.textContent).toContain('Sisa pembayaran Rp60');expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false)
  })

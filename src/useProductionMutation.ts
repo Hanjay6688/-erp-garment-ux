@@ -40,10 +40,11 @@ export function useProductionMutation(domain: ProductionDomain) {
   const readyRef = useRef(false)
   const readSequence = useRef(0)
   const readySignature = useRef<string | null>(null)
+  const readyTicket = useRef<ReadTicket | null>(null)
   const readScope = useRef(scope)
   const supported = productionLockManager() !== null
 
-  const invalidate = useCallback(() => { readyRef.current = false; setReady(false); setNotice('') }, [])
+  const invalidate = useCallback(() => { readSequence.current += 1; readyTicket.current = null; readyRef.current = false; setReady(false); setNotice('') }, [])
   const synchronize = useCallback(() => {
     invalidate()
     setObserved(readProductionRecovery(scope))
@@ -70,6 +71,12 @@ export function useProductionMutation(domain: ProductionDomain) {
   const isReadCurrent = useCallback((ticket: ReadTicket) =>
     mountedRef.current && ticket.scope === scopeRef.current && ticket.sequence === readSequence.current
       && ticket.session === sessionRef.current && ticket.signature === readProductionRecovery(scope).signature, [scope])
+  // A child read can bind to the already-authorized parent proof without
+  // starting a new parent refresh. Any invalidation retires this ticket too.
+  const currentReadTicket = useCallback((): ReadTicket | null => {
+    const ticket = readyTicket.current
+    return readyRef.current && readScope.current === scope && ticket !== null && isReadCurrent(ticket) ? ticket : null
+  }, [scope, isReadCurrent])
   const finishRead = useCallback((ticket: ReadTicket) => {
     if (!isReadCurrent(ticket)) return false
     const current = readProductionRecovery(scope)
@@ -77,6 +84,7 @@ export function useProductionMutation(domain: ProductionDomain) {
     const fresh = !current.corrupted && !hasProductionPending(current)
       && ticket.signature !== null && current.signature === ticket.signature
     readyRef.current = fresh
+    readyTicket.current = fresh ? ticket : null
     readySignature.current = fresh ? current.signature : null
     readScope.current = ticket.scope
     setReady(fresh)
@@ -194,6 +202,6 @@ export function useProductionMutation(domain: ProductionDomain) {
     scope, busy, pending, error, notice, blockReason, committedSequence,
     corruptedEnvelope: observed.corrupted, externalMutationBlocked: Boolean(foreignDomain),
     workspaceStale: !ready, writerLocked: busy || !ready || readScope.current !== scope || !supported || observed.corrupted || hasProductionPending(observed),
-    beginRead, finishRead, isReadCurrent, invalidate, run, reconcile,
+    beginRead, currentReadTicket, finishRead, isReadCurrent, invalidate, run, reconcile,
   }
 }
