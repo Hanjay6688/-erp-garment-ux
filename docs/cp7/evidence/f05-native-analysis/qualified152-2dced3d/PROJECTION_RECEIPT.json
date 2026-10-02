@@ -1,0 +1,42 @@
+{
+  "projection_run": 37004744165,
+  "projection_job": 110830255598,
+  "projection_source": "bf99cec13925f89af58e9398ee7afc02248510b6",
+  "projection_artifact": 11225288003,
+  "projection_zip_bytes": 525429,
+  "projection_zip_sha256": "4b7e9ec21d96c63b07f2b3c9b784951b1233441075fcd655d57cf1a290c7b4fc",
+  "native_original_run": 37002543380,
+  "native_original_zip_sha256": "b3aa8e5deae7e5d27f6cd5d30d0933e3cf5d46c9b86642a81df8fc5bba88a8fe",
+  "native_original_bytes": 71602533,
+  "all_projection_archive_members": {
+    "native152/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 42319,
+      "sha256": "bba1e50f60cf523226b90b9485a0dd64edb7095c1a448e3bf689cfb41fd9ce4e"
+    },
+    "native152/RECEIPT.json": {
+      "bytes": 14868,
+      "sha256": "a372b94b2648099fa2a67f9fa1d9c7cb67349db728705f11ec2e67688ebe0b66"
+    },
+    "native152/PROJECTION.json": {
+      "bytes": 895,
+      "sha256": "7b6495d8bd8a20fc31ff7c84d0530bc078e4f8f84b35920633f4833000019c2c"
+    },
+    "native284/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 581640,
+      "sha256": "e8de5f7471be5434720be6bb93976023e8ef1e897a8c6c3b623b6bb9b28dbff0"
+    },
+    "native284/PROJECTION.json": {
+      "bytes": 895,
+      "sha256": "ee3b5763ad233dfff615ce493dd3e8376f8b138367c8d0f376274f455d65f295"
+    },
+    "native284/RECEIPT.json": {
+      "bytes": 32459,
+      "sha256": "ad4e72c31826da40df23cbdd2d2da244e01d348cabcbe5bce1479dfa4bb952b6"
+    }
+  },
+  "Native_product_cases_reexecuted": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -2654,6 +2654,7 @@
       "races": 20
     },
     "native152_exact_artifact_projection": "docs/cp7/native152_artifact_projection.json",
+    "native152_exact_original_receipt": "docs/cp7/evidence/f05-native-analysis/qualified152-2dced3d/RECEIPT.json",
     "native152_run": 37002543380,
     "production_go": false,
     "required_case_count": 284,
@@ -2834,7 +2835,9 @@
     },
     "consumer_second_incomplete_original": "docs/cp7/evidence/f04-native-history/cutting-consumer-incomplete23-2dced3d/RECEIPT.json",
     "consumer_second_incomplete_run": 37002543490,
-    "consumer_status": "SECOND_NATIVE23_INCOMPLETE21_PASS_2_BROWSER_LOCATOR_ERRORS_REPAIR_PENDING",
+    "consumer_status": "THIRD_NATIVE23_INCOMPLETE22_PASS_MOBILE_AUTH_RELOAD_NAVIGATION_REPAIR_PENDING",
+    "consumer_third_incomplete_original": "docs/cp7/evidence/f04-native-history/cutting-consumer-incomplete23-bf99cec/RECEIPT.json",
+    "consumer_third_incomplete_run": 37004744218,
     "f05_preview_tests": 47,
     "full_family_acceptance": false,
     "job_id": 110808686869,
@@ -3333,6 +3336,19 @@
     "source": "310ab77b77eba604b560e67cbb2ab1a64959c1f4",
     "status": "INCOMPLETE"
   },
+  "private_cutting_learning_candidate": {
+    "Native_business_case_credit": 0,
+    "connected_consumer": false,
+    "contract": "docs/cp7/f04/PRIVATE_CUTTING_LEARNING_CANDIDATE.md",
+    "full_family_acceptance": false,
+    "functions": 9,
+    "independent_acceptance": false,
+    "installed": false,
+    "production_go": false,
+    "public_rpc": false,
+    "source": "scripts/cp7-src/cutting-yield/learning-kernel.sql",
+    "status": "SIX_SYNTHETIC_PRIVATE_SQL_CONTROLS_AND_TYPESCRIPT_PASS_NATIVE_PRODUCER_UNINSTALLED"
+  },
   "production_go": false,
   "receivables_candidate": {
     "actual_cases_pass": 12,
@@ -3376,6 +3392,15 @@
     "qualified_run": 36716904088,
     "sql_bundle_changed": false,
     "status": "NATIVE_HTTP_BROWSER8_PASS_SOURCE_0f25d86"
+  },
+  "shell_authority_control_repair": {
+    "Auth_proof_credit": 0,
+    "cause": "Native_runtime_opens_fresh_psql_sessions_previous_GUC_and_SET_ROLE_not_reused",
+    "failed_native_shell_run": 37004741855,
+    "failed_tests": 1,
+    "other_unit_tests_pass": 1216,
+    "product_SQL_changed": false,
+    "status": "NATIVE_PSQL_SESSION_BOUND_SETTINGS_AND_ROLE_CONTROL_REPAIR_LOCAL_PASS_CI_REQUIRED"
   },
   "shell_import": {
     "base": "da20943c25cafe887d96943428fc157f80839e24",

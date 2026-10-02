@@ -12,6 +12,11 @@ Owning correction Native30 is qualified twice at41bfe11/run36996180995 and45e06d
 
 Owner's new price/year, receipt quantity/roll and wrong-material examples are recorded in TRANSACTION_CORRECTION_COVERAGE.md. Existing safe refusal does not mean all posted transactions have a usable correction feature. ESTIMATED→lateFINAL price/HPP evidence is not an arbitrary already-FINAL historical price-edit proof. No blanket safe-edit claim is permitted.
 
+
+Native23 atbf99cec/run37004744218 advances to22 PASS: the full desktop Cutting journey now passes. The mobile reload checked its menu before Auth had rendered and clicked the off-canvas sidebar. Repair awaits the actual mobile menu and uses ordinary navigation, keeping budgets and every assertion. Exact Original retained in evidence/f04-native-history/cutting-consumer-incomplete23-bf99cec/. Native152 exact71MB archive digest, all members and root Originals are now retained in evidence/f05-native-analysis/qualified152-2dced3d/ through read-only projection37004744165; the projection adds zero product cases.
+
+Shell bf99cec observes1216 PASS/1 failed private authority control because its local test mistakenly assumed a persistent psql session for GUC/role setup. Repair establishes those stubs and the real role within each tested function call. Exact product SQL is unchanged. The uninstalled cutting-learning kernel now has six synthetic SQL controls passing locally (zero Native/factory credit); prospective Native metadata/history/policy integration remains required. See f04/PRIVATE_CUTTING_LEARNING_CANDIDATE.md.
+
 Next: qualify full284 and cutting23, then continue prospective Native cutting learning/material feasibility and full P18–P21. No main merge, hosted installation, independent acceptance or production GO.
 
 ## Retained predecessor checkpoint: complete Native284 qualified

@@ -13,8 +13,15 @@ test('private Original admission preserves own actor, current capabilities and f
   const source = readFileSync('scripts/cp7-src/reminders/attention.sql', 'utf8')
   const helper = source.slice(source.indexOf('grant usage,create on schema cp7_reminder_native'), source.indexOf('-- Revalidate the complete current capability set'))
   const functionSql = (name: string, next: string) => source.slice(source.indexOf(`create function cp7_reminder_native.${name}`), source.indexOf(next))
-  const setting = async (key: string, value: unknown) => db.query(`select set_config('test.${key}',${jsonArg(value)}#>>'{}',false)`)
-  const pocket = () => db.query(`select cp7_reminder_native.original_authority('${run}') result`)
+  // The native kernel runtime opens a fresh psql session for each query.
+  // Establish the stub settings AND role in the same session as the actual
+  // private function call; a previous SET cannot stand in for that context.
+  const configuration: Record<string, unknown> = {}
+  let principal = 'cp7_reminder'
+  const setting = async (key: string, value: unknown) => { configuration[key] = value }
+  const contextual = async (sql: string) => (await db.query(`select public.control_authority_query(
+    ${jsonArg(sql)}#>>'{}',${jsonArg(configuration)},${jsonArg(principal)}#>>'{}') result`))[0].result
+  const pocket = () => contextual(`select cp7_reminder_native.original_authority('${run}') result`)
   try {
     await db.execute(`create role cp7_reminder nologin;
       create schema cp7_reminder_native authorization cp7_reminder;
@@ -43,11 +50,22 @@ test('private Original admission preserves own actor, current capabilities and f
       alter function cp7_reminder_native.recheck(jsonb,text)owner to cp7_reminder;
       revoke all on all functions in schema cp7_reminder_native from public,anon,authenticated,service_role;
       grant execute on function cp7_reminder_native.original_authority(uuid)to cp7_reminder;
-      grant usage on schema cp7_reminder_native to authenticated;`)
+      grant usage on schema cp7_reminder_native to authenticated;
+      create function public.control_authority_query(q text,settings jsonb,principal text)returns jsonb
+      language plpgsql security invoker set search_path=''as $$
+      declare setting record;result jsonb;
+      begin
+       for setting in select key,value from jsonb_each(settings)loop
+        perform set_config('test.'||setting.key,setting.value#>>'{}',true);
+       end loop;
+       perform set_config('role',principal,true);
+       execute 'select coalesce(jsonb_agg(t),''[]''::jsonb)from ('||q||')t'into result;
+       return result;
+      end $$;`)
     await setting('actor', actor);await setting('allowed', true);await setting('role', 'OWNER');await setting('rights', rights)
     const original = { snapshot: { source_hash: 's'.repeat(64) }, semantic_hash: 'h'.repeat(64), recommendations: [{ target: { key: 'PRODUCT:SIZE' }, q_conditional: { value: '9007199254740993.01' } }], never_admit: 'SECRET_AMOUNT'.repeat(200000) }
     await db.execute(`insert into cp7_analysis_native.runs values('${run}','${actor}',${jsonArg(original)},
-      '{"financial_source":{"report":{"close_preflight":{},"secret_balance":"12345.67"}}}'::jsonb);set role cp7_reminder;`)
+      '{"financial_source":{"report":{"close_preflight":{},"secret_balance":"12345.67"}}}'::jsonb);`)
     const admitted = (await pocket())[0].result
     expect(admitted.analysis.analysis.recommendations).toEqual([{ target: { key: 'PRODUCT:SIZE' } }])
     expect(admitted.analysis.analysis.snapshot).toEqual(original.snapshot)
@@ -56,12 +74,12 @@ test('private Original admission preserves own actor, current capabilities and f
     expect(admitted.analysis).not.toHaveProperty('source_state')
     expect(JSON.stringify(admitted).length).toBeLessThan(2000)
     expect(JSON.stringify(admitted)).not.toMatch(/SECRET_AMOUNT|9007199254740993|secret_balance/)
-    await expect(db.query(`select cp7_reminder_native.access_now('${run}')`)).rejects.toThrow('CONTROL_FRESH_SOURCE_REQUIRED')
+    await expect(contextual(`select cp7_reminder_native.access_now('${run}')`)).rejects.toThrow('CONTROL_FRESH_SOURCE_REQUIRED')
     expect((await pocket())[0].result).toEqual(admitted)
     for (const right of rights) {
       await setting('rights', rights.filter(x => x !== right))
       await expect(pocket()).rejects.toThrow(right.startsWith('finance.') ? 'CP7_ANALYSIS_FINANCE_ACCESS_DENIED' : 'CP7_REMINDER_ACCESS_DENIED')
-      await expect(db.query(`select cp7_reminder_native.recheck(${jsonArg(admitted)})`)).rejects.toThrow()
+      await expect(contextual(`select cp7_reminder_native.recheck(${jsonArg(admitted)})`)).rejects.toThrow()
     }
     await setting('rights', rights);await setting('role', 'STAFF')
     await expect(pocket()).rejects.toThrow('CP7_ANALYSIS_FINANCE_ACCESS_DENIED')
@@ -69,9 +87,8 @@ test('private Original admission preserves own actor, current capabilities and f
     await expect(pocket()).rejects.toThrow('CP7_ANALYSIS_RUN_UNAVAILABLE')
     await setting('actor', actor);await setting('allowed', false)
     await expect(pocket()).rejects.toThrow('CP7_REMINDER_ACCESS_DENIED')
-    await setting('allowed', true);await db.execute('reset role;set role authenticated')
+    await setting('allowed', true);principal = 'authenticated'
     await expect(pocket()).rejects.toThrow(/permission denied/)
-    await db.execute('reset role')
     const privileges = (await db.query(`select pg_get_userbyid(proowner) owner,prosecdef definer,
       has_function_privilege('authenticated',oid,'EXECUTE') exposed,
       has_schema_privilege('cp7_capture','cp7_reminder_native','CREATE') ddl

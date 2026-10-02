@@ -4,13 +4,21 @@ import {mkdirSync,writeFileSync} from 'node:fs'
 import * as history from './cp7_f04_history_browser.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f04_history_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function capture(ui,page,name){mkdirSync('cp6-proof/t3',{recursive:true});await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true})}
+async function openCutting(ui,page,mobile){
+ // Reload first restores Auth. Checking isVisible before that completed can
+ // miss the mobile menu and try to click the off-canvas sidebar. Wait for the
+ // real menu control and use the ordinary navigation without force clicks.
+ if(mobile){const menu=page.getByRole('button',{name:'Buka menu',exact:true});await ui.expect(menu).toBeVisible();await menu.click()}
+ const link=page.getByRole('button',{name:'• Buat Potongan',exact:true})
+ if(!await link.isVisible()){const branch=page.locator('.sidebar .nav-main').filter({hasText:'Produksi'});await ui.expect(branch).toBeVisible();await branch.click()}
+ await ui.expect(link).toBeVisible();await link.click()
+}
 async function cuttingJourney(ui,today,mobile){
  const user=await ui.login('OWNER',{label:'native-cutting-yield-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,f=fixture('cut_prepare',{today}),suffix=mobile?'MOBILE':'DESKTOP',screenshots=[]
  const panel=page.getByRole('region',{name:'Sumber hasil potong',exact:true});let lost=null
  const state=()=>fixture('cut_state',{fixture:f,actor:user.user.id})
  try{
-  const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
-  const link=page.getByRole('button',{name:'• Buat Potongan',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Produksi'}).click();await link.click()
+  await openCutting(ui,page,mobile)
   await page.getByLabel('Cari draft Potongan',{exact:true}).fill(f.group_number);const searched=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_get_cutting_workspace_v2')&&r.request().postDataJSON().p_draft_query===f.group_number);await page.getByRole('button',{name:'Cari draft',exact:true}).click();assert.equal((await searched).status(),200)
   await page.locator('.ccut-drafts button').filter({hasText:f.group_number}).click();await ui.expect(page.getByRole('button',{name:'Post ke WIP Potongan',exact:true})).toBeEnabled()
   const notes=page.getByLabel('Catatan',{exact:true});await notes.fill('ISIAN OPERATOR TETAP ADA');const beforeDraft=state();assert.equal(Number(beforeDraft.raw_qty),100);assert.equal(beforeDraft.posted,false)
@@ -20,7 +28,7 @@ async function cuttingJourney(ui,today,mobile){
   await page.route('**/rest/v1/rpc/erp_cp7_capture_cutting_yield_v1',async route=>{if(!lost){const reply=await route.fetch();assert.equal(reply.status(),200);lost={envelope:route.request().postDataJSON(),body:await reply.json()};await route.abort('failed')}else await route.continue()})
   await panel.getByRole('button',{name:'Muat hasil potong tersimpan',exact:true}).click();await ui.expect(panel.getByRole('button',{name:'Pulihkan pembacaan hasil potong',exact:true})).toBeEnabled();assert.equal(state().native_hash,afterPost.native_hash);assert.equal(state().own_runs,2)
   await capture(ui,page,`CUTTING_SOURCE_UNCERTAIN_${suffix}.png`);screenshots.push(`CUTTING_SOURCE_UNCERTAIN_${suffix}.png`)
-  await page.reload();const reopened=page.getByRole('button',{name:'• Buat Potongan',exact:true});const menuAgain=page.getByRole('button',{name:'Buka menu',exact:true});if(await menuAgain.isVisible())await menuAgain.click();if(!await reopened.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Produksi'}).click();await reopened.click()
+  await page.reload();await openCutting(ui,page,mobile)
   await ui.expect(panel.getByRole('button',{name:'Pulihkan pembacaan hasil potong',exact:true})).toBeEnabled();const response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_cutting_yield_v1'));await panel.getByRole('button',{name:'Pulihkan pembacaan hasil potong',exact:true}).click();const reply=await response;assert.equal(reply.status(),200);assert.deepEqual(reply.request().postDataJSON(),lost.envelope);assert.deepEqual(await reply.json(),lost.body)
   await ui.expect(panel.locator('[data-cutting-actual]')).toContainText('hasil potong 60 PCS');await ui.expect(panel).toContainText('Belum dapat dinilai.');assert.equal(lost.body.rows[0].interval,null);assert.equal(lost.body.rows[0].recorded_width_cm,null);assert.equal(lost.body.rows[0].planned_mix,null);assert.equal(state().native_hash,afterPost.native_hash);assert.equal(state().own_runs,2)
   await capture(ui,page,`CUTTING_SOURCE_RECOVERED_${suffix}.png`);screenshots.push(`CUTTING_SOURCE_RECOVERED_${suffix}.png`)
