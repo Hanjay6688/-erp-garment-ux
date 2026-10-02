@@ -22,6 +22,8 @@ The third complete Native284 at6d2dbc4/run36966030891 observes278 PASS and6 INCO
 
 The repaired isolated instrument atfb9dce9/run36969864657 measures all28 stage reads successfully. Pure analysis grows26→329ms across0→12 actual planner fixtures; Native financial source stays116–121ms, but those fixtures have no actual stock/sale/return/journal rows. Exact Originals are retained in `evidence/native-read-diagnostic/measured-planner-fb9dce9/`, with zero product exit-case credit. The next instrument adds1/4/12 actual complete qualified E01 physical/cost/cash/return journeys while preserving all planner checkpoints and unchanged product stack. Its purpose is to distinguish accumulated Native financial source cost from repeated pure compilation before a concrete performance repair; all current source/rights, Native money/stock/HPP, timeout and complete284 gates remain mandatory.
 
+The actual E01-load measurement is running at2f504ff/run36971273331. A separate predeclared, rolled-back pure-compiler experiment tests one-pass match aggregation and local pair reuse on the same actual SQL source/query/UUID/access. Complete netting, operational and financial-analysis JSON must be byte-identical before/new/restored-original, with original order and duplicate-key fallback preserved. The product definition and full284 gate remain unchanged until actual evidence supports a repair.
+
 Earlier checkpoints below are retained historical context; the latest checkpoint above controls active status.
 
 ## Current exit and active work

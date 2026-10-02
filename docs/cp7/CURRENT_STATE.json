@@ -2253,7 +2253,16 @@
       12
     ],
     "actual_E01_status": "PREDECLARED_AWAITS_NATIVE_MEASUREMENT",
-    "inference": "Pure compilation grows with planner products; actual accumulated physical/financial source load has not yet been measured."
+    "inference": "Pure compilation grows with planner products; actual accumulated physical/financial source load has not yet been measured.",
+    "actual_E01_source_commit": "2f504ff994a37cfd2000c0d62eb24231f023e61d",
+    "actual_E01_run_id": 36971273331,
+    "pure_compile_experiment": "PREDECLARED_ROLLED_BACK_MATCH_MATRIX_AGGREGATION_AND_MEMOIZATION",
+    "pure_compile_comparison_checkpoints": [
+      4,
+      12
+    ],
+    "pure_compile_result_contract": "COMPLETE_NETTING_OPERATIONAL_FINANCIAL_ANALYSIS_JSON_BYTE_IDENTICAL_OLD_NEW_OLD",
+    "experimental_definition_product_installed": false
   },
   "native_analysis_regression_6d2dbc4": {
     "status": "NATIVE152_WRITER_QUALIFIED",

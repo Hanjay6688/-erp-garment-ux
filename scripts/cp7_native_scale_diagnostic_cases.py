@@ -11,6 +11,7 @@ import uuid
 import psycopg
 import cp7_analysis_cases as cases
 import cp7_f03_e01_cases as production
+import cp7_native_compile_equivalence as equivalence
 
 CHECKPOINTS = (0, 1, 4, 12)
 
@@ -102,6 +103,9 @@ def cases_provider(cur, today):
             before = cases.b.boundary.snapshot(cur)
             originals_before = cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0]
             observation = measure(cur, cases.previous.baseline.history.query(today), subject)
+            if target in (4, 12):
+                observation['experimental_pure_compile'] = equivalence.compare(
+                    cur, cases.previous.baseline.history.query(today), subject)
             cases.b.api.admin(cur)
             assert cases.b.boundary.snapshot(cur) == before, 'DIAGNOSTIC_CHANGED_NATIVE_BUSINESS'
             assert cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0] == originals_before
@@ -121,6 +125,9 @@ def cases_provider(cur, today):
             before = cases.b.boundary.snapshot(cur)
             originals_before = cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0]
             observation = measure(cur, cases.previous.baseline.history.query(today), subject)
+            if target in (4, 12):
+                observation['experimental_pure_compile'] = equivalence.compare(
+                    cur, cases.previous.baseline.history.query(today), subject)
             cases.b.api.admin(cur)
             assert cases.b.boundary.snapshot(cur) == before, 'DIAGNOSTIC_CHANGED_NATIVE_BUSINESS'
             assert cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0] == originals_before
