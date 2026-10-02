@@ -125,8 +125,16 @@ async function journey(ui,today,mobile) {
       await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
       const other=peer.locator('.csales')
       await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
-      await ui.expect(other.getByRole('button',{name:'Retur fisik invoice',exact:true})).toBeDisabled()
-      await ui.expect(other.getByRole('button',{name:'Pembayaran invoice',exact:true})).toBeDisabled()
+      // Shared invalidation retires old Native facts before any fresh read.
+      // The pending command locks writing without leaving the stale invoice,
+      // money, return/payment or correction actions on the peer's screen.
+      await ui.expect(other.getByRole('region',{name:'Daftar invoice'}).locator('.cproc-receipt')).toHaveCount(0)
+      await ui.expect(other.getByRole('complementary',{name:'Rincian invoice'}).getByRole('heading',{name:f.tag,exact:true})).toHaveCount(0)
+      await ui.expect(other.locator('[aria-label="Nilai invoice"]')).toHaveCount(0)
+      for(const name of ['Retur fisik invoice','Pembayaran invoice','Riwayat pembetulan nota'])
+        await ui.expect(other.getByRole('button',{name,exact:true})).toHaveCount(0)
+      await ui.expect(other.getByRole('button',{name:'Buat invoice',exact:true})).toBeDisabled()
+      assert.equal(peerWrites,0)
       // Recovery is visible as soon as the envelope is persisted, including
       // while the RPC still runs. Only read the committed amount after the
       // intercepted real server response has confirmed COMMIT.
@@ -172,7 +180,7 @@ async function journey(ui,today,mobile) {
     await p.evaluate(()=>window.scrollTo(0,0))
     await p.screenshot({path:`cp6-proof/t3/E01_REPORT_${suffix}.png`,fullPage:true})
     assert.deepEqual(fixture('read',f).accounts,returned.accounts)
-    return {status:'PASS',journey:'E01',mobile,production_source_native_qualified:true,production_checkpoints:f.trace,browser_create_post_pay_return_report:true,fg:45,fg_value:'675',cash:'200',AR:'175',revenue:'375',COGS:'225',gross_profit:'150',lost_return_response_exact_UUID_replay:mobile?true:null,E12_second_authenticated_tab_same_invoice_fenced:mobile?true:null,E12_read_allowed_without_clearing_pending:mobile?true:null,E12_peer_write_requests:mobile?peerWrites:null,one_return:true,report_read_only:true,report_confidence:returned.report.snapshot.data_confidence,production_browser_write_claim:false,full_family_acceptance:false,screenshots:[`E01_SALE_RETURN_${suffix}.png`,`E01_REPORT_${suffix}.png`]}
+    return {status:'PASS',journey:'E01',mobile,production_source_native_qualified:true,production_checkpoints:f.trace,browser_create_post_pay_return_report:true,fg:45,fg_value:'675',cash:'200',AR:'175',revenue:'375',COGS:'225',gross_profit:'150',lost_return_response_exact_UUID_replay:mobile?true:null,E12_second_authenticated_tab_same_invoice_fenced:mobile?true:null,E12_peer_previous_invoice_money_and_actions_retired:mobile?true:null,E12_peer_create_disabled_before_fresh_read:mobile?true:null,E12_read_allowed_without_clearing_pending:mobile?true:null,E12_peer_write_requests:mobile?peerWrites:null,one_return:true,report_read_only:true,report_confidence:returned.report.snapshot.data_confidence,production_browser_write_claim:false,full_family_acceptance:false,screenshots:[`E01_SALE_RETURN_${suffix}.png`,`E01_REPORT_${suffix}.png`]}
   } catch(e) {
     let observed; try {observed=fixture('read',f)} catch(x) {observed={error:String(x)}}
     mkdirSync('cp6-proof/t3',{recursive:true})

@@ -12,6 +12,8 @@ The existing Native40 mobile lost-reply/two-tab case now additionally requires t
 
 ## Source qualification
 
+The separate E01 four-journey regression at15aca456 retains3/4 because its historical mobile peer assertion requires a return button that the source-retirement repair correctly removes. Its corrected oracle now explicitly checks absent old invoice/money/actions, disabled create, current recovery and zero peer writes before a fresh read, while preserving exact pending UUID/payload and every committed financial value. No product change or case-budget reduction accompanies it; a complete new Native4 remains required. See E01_READ_AUTHORITY_SCENARIO.md and the retained failure Original.
+
 The three counterexamples fail against the predecessor source; the repaired application suite passes1142 tests in118 files, including the exact-parent-ticket regression. Build and the full security/ownership/access catalog checks pass. Local PostgreSQL is unavailable, so this application-only result does not claim the full PostgreSQL suite.
 
 The source repair still requires a new complete Native40 and combined Shell, receipt32 and cutting57 qualification because the shared read hook is used by other writers. Source34d7e2e passed complete Native40 before this repair: run37047744469/job110973248260, exact Original under evidence/owning-note-correction/qualified40-34d7e2e/. That preceding run does not qualify the new UI source.

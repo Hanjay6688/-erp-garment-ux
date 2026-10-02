@@ -4859,5 +4859,37 @@
     },
     "cause_closed": false,
     "production_go": false
+  },
+  "E01_peer_read_authority_scenario": {
+    "status": "EXACT3_OF4_RETAINED_SCENARIO_REPAIR_REQUIRES_COMPLETE_NATIVE4",
+    "contract": "docs/cp7/E01_READ_AUTHORITY_SCENARIO.md",
+    "failed_source": "15aca45680e01740faf2523fbbb63609e81e41ba",
+    "failed_run": 37061659715,
+    "failed_job": 111019497701,
+    "counts": {
+      "native": {
+        "PASS": 1
+      },
+      "races": null,
+      "http": {
+        "PASS": 1
+      },
+      "browser": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      }
+    },
+    "failure_receipt": "docs/cp7/evidence/f03-e01/incomplete4-15aca45/RECEIPT.json",
+    "peer_old_invoice_money_actions_must_be_absent": true,
+    "peer_create_must_be_disabled": true,
+    "exact_pending_UUID_payload_and_one_commit_preserved": true,
+    "original_financial_and_report_assertions_preserved": true,
+    "product_changed": false,
+    "case_count": 4,
+    "Native_credit_from_local_checks": 0,
+    "Claude_unfinished_scope_imported": false,
+    "production_go": false,
+    "local_existing_Sales_DOM_tests_pass": 16,
+    "local_scenario_syntax_pass": true
   }
 }
