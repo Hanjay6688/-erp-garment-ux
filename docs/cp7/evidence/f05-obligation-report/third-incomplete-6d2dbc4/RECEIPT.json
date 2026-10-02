@@ -1,0 +1,873 @@
+{
+  "run_id": 36966030891,
+  "job_id": 110709857622,
+  "artifact_id": 11211107121,
+  "artifact_name": "cp7-f05-attention",
+  "source_commit": "6d2dbc482f999f86a9588951203279f6ee4c76a4",
+  "source_tree": "9599a973494be68768b6b50b6575a30b08e4dcb7",
+  "zip_bytes": 287627748,
+  "zip_sha256": "d3c8eccc4593119ccd3815398f1490564a9506609ca6308a6649777fdc8e6fe8",
+  "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+  "expected_status": "INCOMPLETE",
+  "expected_case_count": 284,
+  "status": "NATIVE_WRITER_INCOMPLETE",
+  "source_bundle_sha256": "19ca4d5868f0a448405cdcc4eec71771d6cc538327293e106a73c7fde4693fdb",
+  "observed_case_count": 284,
+  "required_case_counts": {
+    "native": 179,
+    "races": 40,
+    "http": 29,
+    "browser": 36
+  },
+  "counts": {
+    "native": {
+      "PASS": 179
+    },
+    "races": {
+      "PASS": 40
+    },
+    "http": {
+      "PASS": 28,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 31,
+      "INCOMPLETE": 5
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {
+      "P16_OTHER_HTTP_LOCAL_NATIVE_INVOICE": "INCOMPLETE"
+    },
+    "browser": {
+      "P16_RULE_LOCAL_BROWSER_DESKTOP": "INCOMPLETE",
+      "P16_RULE_LOCAL_BROWSER_MOBILE": "INCOMPLETE",
+      "P16_OTHER_BROWSER_MOBILE": "INCOMPLETE",
+      "P15_OBLIGATION_REPORT_BROWSER_DESKTOP": "INCOMPLETE",
+      "P15_OBLIGATION_REPORT_BROWSER_MOBILE": "INCOMPLETE"
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "7fa74d6a8724fe93856164ab3f97b79a62dc212cbe416825814fb8395a1d6b3c",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "bytes": 414928,
+      "sha256": "4d923268ad9f3ba30ab8230543b3452f658910810baec8b8864f71c5c5c3b08e"
+    },
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": {
+      "bytes": 1585,
+      "sha256": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40"
+    },
+    "P15_OBLIGATION_REPORT_DESKTOP_FAILURE.json": {
+      "bytes": 533,
+      "sha256": "7901b8470dd110e05479f4610c326241e188f3818da3cc7686077b06060e683d"
+    },
+    "P15_OBLIGATION_REPORT_DESKTOP_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "f0238f8ed92c5ab6522cbe9cec039afe88b334d5d234381e2c9ea34539050270"
+    },
+    "P15_OBLIGATION_REPORT_MOBILE_FAILURE.json": {
+      "bytes": 533,
+      "sha256": "7901b8470dd110e05479f4610c326241e188f3818da3cc7686077b06060e683d"
+    },
+    "P15_OBLIGATION_REPORT_MOBILE_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "2c6169ab627359379c68eea2fb52db478243eb6c2904d23ce8133bc5016bc803"
+    },
+    "P16_OTHER_MOBILE_FAILURE.json": {
+      "bytes": 3049,
+      "sha256": "f67341c4bc34d90a6b5938852c1b59047384eeef0bed42bfece9458901f0e9e4"
+    },
+    "P16_OTHER_MOBILE_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "2b922ee938d34a3ff4bdb45f0d649c5a1d4640272fcca57847d04ce11cc4c9b5"
+    },
+    "P16_RULE_LOCAL_DESKTOP_FAILURE.json": {
+      "bytes": 6235798,
+      "sha256": "011c0cee794c2ca40901fd002a181c791aee556aa4b684e858bbd008b3bf9dd8"
+    },
+    "P16_RULE_LOCAL_DESKTOP_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "faa212604440d8bae6c0da0ffa88a2f13593971fd9a1692560191b2a6cc22651"
+    },
+    "P16_RULE_LOCAL_MOBILE_FAILURE.json": {
+      "bytes": 6553233,
+      "sha256": "51f7a14d8f17b183b01c71b8ce1e3060222f9f24c4da3fbb904266cd18572def"
+    },
+    "P16_RULE_LOCAL_MOBILE_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "c8a47c350b698719763bf0c129a1bcad6e988e9571c57a7bba024a38cfb9cfb8"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ce96a5ea30ddca90d0a371512bc9957a28dfedc81e848dc3a21b3b5446e8e5ac"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "a446a440bc0a04c81c73830c2809e1e67b7c2d6d1e4abdf6c3be22c78c00f11d"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385617,
+      "sha256": "34a84a05b1057b3426233856642588f38229470722d509f97655960799fe5d12"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385617,
+      "sha256": "34a84a05b1057b3426233856642588f38229470722d509f97655960799fe5d12"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "833a12f4cd5140992a42bc067024ea7dfa3c0ffc615b77e9d70e12413025737f"
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "bytes": 414928,
+      "sha256": "4d923268ad9f3ba30ab8230543b3452f658910810baec8b8864f71c5c5c3b08e"
+    },
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": {
+      "bytes": 1585,
+      "sha256": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40"
+    },
+    "P05_CURRENT_DESKTOP.png": {
+      "bytes": 693030,
+      "sha256": "c3a37137e15b54d0aa4955e6742884fc67d22dc29fc729ad2ca9b4e9a0a4893a"
+    },
+    "P05_CURRENT_MOBILE.png": {
+      "bytes": 454728,
+      "sha256": "5b915da0f117271148f7553fba796daf31a4c7ff84a9aabb284de0fe566b01db"
+    },
+    "P05_POSTED_DESKTOP.png": {
+      "bytes": 697857,
+      "sha256": "2e126b6e4db55bf8f43c15c4b1cb38f3042cdbb3ea09619791551d0d3d885312"
+    },
+    "P05_POSTED_MOBILE.png": {
+      "bytes": 452764,
+      "sha256": "7d39b6b8a3d36cd4edfc19ac2cfd27e80c5256889cb81b0fd506c379b31429b1"
+    },
+    "P05_REVOKED_MOBILE.png": {
+      "bytes": 213941,
+      "sha256": "666df09f3f1f2653352e00b4d255eef02f8be546ef45ef7b3f293a64d54e82f6"
+    },
+    "P05_STALE_DESKTOP.png": {
+      "bytes": 702054,
+      "sha256": "02bd537f8f67f2bb101c048507d79e982468768fe43a742f437b7e47d29b4865"
+    },
+    "P05_STALE_MOBILE.png": {
+      "bytes": 456322,
+      "sha256": "c9955ca83166167a92b2fe18f6f24e3e66b9d380e5a180fa81cdcaa4bc62d4e4"
+    },
+    "P05_UNCERTAIN_DESKTOP.png": {
+      "bytes": 602368,
+      "sha256": "f6ee47d4208e990ba7ca6e6b71ad1022c93b8325015f1ef63f3496b21e6094a5"
+    },
+    "P05_UNCERTAIN_MOBILE.png": {
+      "bytes": 437389,
+      "sha256": "7dce43a78eb1c07712b7ae5316e5ac3479f86032461c4d984bea6ab30608b67b"
+    },
+    "P06_MATERIAL_ARCHIVE186_DESKTOP.png": {
+      "bytes": 1202834,
+      "sha256": "8fb5529ccfcfe84f3801c23f6fc8592dd07239cf0780d3cc5e741f44549db447"
+    },
+    "P06_MATERIAL_ARCHIVE186_MOBILE.png": {
+      "bytes": 774836,
+      "sha256": "a3ef4d7ea2b22d20a5a7f81e890d9e16ad990d7e2b79ae7b0d24e5e88ebb304e"
+    },
+    "P06_MATERIAL_BOM186_DESKTOP.png": {
+      "bytes": 1199423,
+      "sha256": "d93eefcb163fa7f69d267696a1f2052bde5231ed313c04a02348a1f5c68778f5"
+    },
+    "P06_MATERIAL_BOM186_MOBILE.png": {
+      "bytes": 772009,
+      "sha256": "746f62e272ac3ddd49bdd21f235540438c1bcc278c4a07a1a54d583c62f3e3dd"
+    },
+    "P06_MATERIAL_FRESH279_DESKTOP.png": {
+      "bytes": 1198984,
+      "sha256": "25c7b5c27112a985f227c55def86c484cf2dd6e841b7d8053813b87304f65593"
+    },
+    "P06_MATERIAL_FRESH279_MOBILE.png": {
+      "bytes": 771751,
+      "sha256": "154340bd5c575da71aee7239363b6c68dd2e524e738c2099037a18374d845605"
+    },
+    "P06_MATERIAL_REVOKED_DESKTOP.png": {
+      "bytes": 505256,
+      "sha256": "2e2aab9282a1f05d46586a17f74f1c5a9f126f9a3ce0ccbb04121e6403116a16"
+    },
+    "P06_MATERIAL_REVOKED_MOBILE.png": {
+      "bytes": 279929,
+      "sha256": "4e940f8708149920215413153bec02f6eca4afa54224d3c15a8789cb5c385d4f"
+    },
+    "P06_NETTING93_DESKTOP.png": {
+      "bytes": 1650099,
+      "sha256": "71bde9f8745c2e4db7f5ef2ca6e6449e771466b5b8764f3555b8faa11cb32d09"
+    },
+    "P06_NETTING93_MOBILE.png": {
+      "bytes": 1365854,
+      "sha256": "d5a2ce82fc62875cd789d8549800c18ac449ba524c102116a6a569aff2967413"
+    },
+    "P06_NETTING_ARCHIVE_DESKTOP.png": {
+      "bytes": 1577642,
+      "sha256": "4f7ce6abfd454d34288a3886723dd44a7ad8e0a2103270e1c4e08f5c393b8b7c"
+    },
+    "P06_NETTING_ARCHIVE_MOBILE.png": {
+      "bytes": 1063221,
+      "sha256": "c0783c231883eb4444c94c001987af73baf488c8bff7dd0db8f003541bac6ace"
+    },
+    "P06_NETTING_REVOKED_DESKTOP.png": {
+      "bytes": 1036551,
+      "sha256": "3c760e71653b69577c868b454f0aa156140797d2c259311dbfd3b19db622ca52"
+    },
+    "P06_NETTING_REVOKED_MOBILE.png": {
+      "bytes": 704020,
+      "sha256": "626b2ceca4dd0fbbd52bc33f378f0355cefb7a535b4a0a2f210fc001e9caaf59"
+    },
+    "P06_REVOKED_MOBILE.png": {
+      "bytes": 364651,
+      "sha256": "ff6ddaeefd82e3a6c87f475f05eccad0b32df6a385e5a795597c5a6fcb62739d"
+    },
+    "P06_STALE100_DESKTOP.png": {
+      "bytes": 1072854,
+      "sha256": "637f7b12ab65cadabc5496ad27c0456fb54eebbda9b80a2d8a248fc720a13d0e"
+    },
+    "P06_STALE100_MOBILE.png": {
+      "bytes": 443842,
+      "sha256": "ff4dfe553e58912c65a033e628f15b04b08e0005071edd259da1626aae60aee4"
+    },
+    "P06_TARGET100_DESKTOP.png": {
+      "bytes": 1069698,
+      "sha256": "cf4bb8835bca57fd24e539366c01d4f9da37b374b6cf47d9e1600360716388b8"
+    },
+    "P06_TARGET100_MOBILE.png": {
+      "bytes": 709196,
+      "sha256": "788f0e710c89430fcc8f298b8aea0485d8d1e916cb7da31b0b0635705c195200"
+    },
+    "P06_TARGET200_DESKTOP.png": {
+      "bytes": 1070220,
+      "sha256": "33788e942fdb34e9e0a4a66070e2e4e07594c35a30960f55cb28043de6fa3be5"
+    },
+    "P06_TARGET200_MOBILE.png": {
+      "bytes": 709783,
+      "sha256": "da629863e2edd0de03fd044d96ee46719a698244ec79f0c3c921b8e18a3039c9"
+    },
+    "P06_UNCERTAIN_PROFILE_DESKTOP.png": {
+      "bytes": 1009955,
+      "sha256": "8f088cff2c4332e98af1221ffa2e5b4a1766b1d7f215d1943c49bbd98fc89e4f"
+    },
+    "P06_UNCERTAIN_PROFILE_MOBILE.png": {
+      "bytes": 680167,
+      "sha256": "d4faabe51ba9f9570cfd63fe701794ac931ffe961a474c290e70ed95d9897a28"
+    },
+    "P06_WORK_REVIEW_DESKTOP.png": {
+      "bytes": 1389897,
+      "sha256": "eddecce54e26c0debfd7130c82ffc9ab387f809512bea94666e5e46e0e0d1591"
+    },
+    "P06_WORK_REVIEW_MOBILE.png": {
+      "bytes": 999615,
+      "sha256": "88d4f87d4d17c92e0dad4444a06db4238c6615a96d3999ade55d7e48072a7564"
+    },
+    "P06_WORK_UNCERTAIN_DESKTOP.png": {
+      "bytes": 1444597,
+      "sha256": "09c63b5276ee8d8ea04e9ff72a513d07331093a35931b3818786a898a76d51ad"
+    },
+    "P06_WORK_UNCERTAIN_MOBILE.png": {
+      "bytes": 1021524,
+      "sha256": "8136cee6703b729da762ce67c263ec98a064120cf2440e80ff16dea1cce06e9e"
+    },
+    "P14_ARCHIVE_DESKTOP.png": {
+      "bytes": 1322624,
+      "sha256": "7682862caa784cafd0e294810ec2ec4300a4943a7819cf3d926a6d5a6b543d9d"
+    },
+    "P14_ARCHIVE_MOBILE.png": {
+      "bytes": 735885,
+      "sha256": "7342a0293d625f7a30e0b0dc60b96ae23f3ca9f9dc45d84cef5dfe6112fb55d2"
+    },
+    "P14_PRODUCTION_DESKTOP.png": {
+      "bytes": 1874540,
+      "sha256": "22588bede52891d4aa062473b43e1f63b279ffe4618a17c83c113fa150fb479e"
+    },
+    "P14_PRODUCTION_MOBILE.png": {
+      "bytes": 1557603,
+      "sha256": "2d05a085bbc62247f973dcb8d2f3929d7e9a4389aef5bbe3aadc32b55dbedce5"
+    },
+    "P14_REVOKED_DESKTOP.png": {
+      "bytes": 534624,
+      "sha256": "81b10b2f732b4ef1c92bcbda013800def2719a650251c626bd88580236def1d6"
+    },
+    "P14_REVOKED_MOBILE.png": {
+      "bytes": 297135,
+      "sha256": "dbcef1d2fc9460b81897a544b9258c3655ee5962ecac22896e9240519071445e"
+    },
+    "P14_UNCERTAIN_DESKTOP.png": {
+      "bytes": 898908,
+      "sha256": "00d6d2ad7e5ece7b403cb789dd578266f56206af9ea735f87602df8eea71194e"
+    },
+    "P14_UNCERTAIN_MOBILE.png": {
+      "bytes": 575865,
+      "sha256": "1707771213bf02a575cb0b32a25f54d0b3b7eb2b9b694f67f031c5c431700548"
+    },
+    "P15_OBLIGATION_REPORT_DESKTOP_FAILURE.json": {
+      "bytes": 533,
+      "sha256": "7901b8470dd110e05479f4610c326241e188f3818da3cc7686077b06060e683d"
+    },
+    "P15_OBLIGATION_REPORT_DESKTOP_FAILURE.png": {
+      "bytes": 589705,
+      "sha256": "c9f700652e6e86fc36fe006fe2d24f0eed459877bea1d8cada9b599d3951960f"
+    },
+    "P15_OBLIGATION_REPORT_DESKTOP_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "f0238f8ed92c5ab6522cbe9cec039afe88b334d5d234381e2c9ea34539050270"
+    },
+    "P15_OBLIGATION_REPORT_MOBILE_FAILURE.json": {
+      "bytes": 533,
+      "sha256": "7901b8470dd110e05479f4610c326241e188f3818da3cc7686077b06060e683d"
+    },
+    "P15_OBLIGATION_REPORT_MOBILE_FAILURE.png": {
+      "bytes": 302883,
+      "sha256": "f76fb3f513cddb4357dd014bb941a2e2bd754e109b0dfe5ebe428e9ff9fd7f80"
+    },
+    "P15_OBLIGATION_REPORT_MOBILE_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "2c6169ab627359379c68eea2fb52db478243eb6c2904d23ce8133bc5016bc803"
+    },
+    "P15_PUBLICATION_ABSENT_DESKTOP.png": {
+      "bytes": 1670702,
+      "sha256": "9ceaa8c3b6f7397f1c8cdb78ea51b9830d5df7a4538f3d1393223aa48b585446"
+    },
+    "P15_PUBLICATION_ABSENT_MOBILE.png": {
+      "bytes": 908788,
+      "sha256": "9d0a6bcf96338f534c5d2b3d6497e3116a81f98ae54159ed4cc0aef9703e7a10"
+    },
+    "P15_PUBLICATION_ARCHIVED_DESKTOP.png": {
+      "bytes": 2016879,
+      "sha256": "2b66a3771fc45e45669133387e8caf79cfdf91a9547a3dfd0a625ba5d6bade7f"
+    },
+    "P15_PUBLICATION_ARCHIVED_MOBILE.png": {
+      "bytes": 987470,
+      "sha256": "ede3925b7413c246541aed4be3d3bb5c85033dc7c00ad706956c334998af4556"
+    },
+    "P15_PUBLICATION_COMPARISON_DESKTOP.png": {
+      "bytes": 2347171,
+      "sha256": "f11df869e3e8c888299e0052fc3d0019e42e242fd90bed5e921bc88c430cf93c"
+    },
+    "P15_PUBLICATION_COMPARISON_MOBILE.png": {
+      "bytes": 1437404,
+      "sha256": "940bf88aec9eea6ba5985be4e4d19149ca3c0832605acf7b3c3529fab6326410"
+    },
+    "P15_PUBLICATION_RECOVERED_DESKTOP.png": {
+      "bytes": 1990446,
+      "sha256": "2db666af04011f0dbf579e69883b8db1ff670e81912e418e9a86017241ef434f"
+    },
+    "P15_PUBLICATION_RECOVERED_MOBILE.png": {
+      "bytes": 993683,
+      "sha256": "9193f4f0a449d47166054fe80379bcee3279eb3cb96c9e345a51c618c4c3f3e5"
+    },
+    "P15_PUBLICATION_REVISION_DESKTOP.png": {
+      "bytes": 2032151,
+      "sha256": "7ba30a06a47d1815d94f0dcb016c78d7d76800b5e9c8f3bdf18353868b58c015"
+    },
+    "P15_PUBLICATION_REVISION_MOBILE.png": {
+      "bytes": 995967,
+      "sha256": "6cfcb17a006e691c45a116a357825cd8ff1f5eb8e91606f4fcb5adb4496947a0"
+    },
+    "P15_PUBLICATION_REVOKED_DESKTOP.png": {
+      "bytes": 861293,
+      "sha256": "a3cad0a9e7a30c4f045c2f7aff2c6b9d2606448dec6e97eeda08ddcbaaf36b18"
+    },
+    "P15_PUBLICATION_REVOKED_MOBILE.png": {
+      "bytes": 480084,
+      "sha256": "bf080f0b492c924b31c053aaebabf618c6477c2e63371594ef6a42e9c02f4926"
+    },
+    "P15_PUBLICATION_UNCERTAIN_DESKTOP.png": {
+      "bytes": 1315664,
+      "sha256": "bf090946b9e8ef04ae6696ba244e41a898f65d7facb1b0ada1aa8fd6d355c67f"
+    },
+    "P15_PUBLICATION_UNCERTAIN_MOBILE.png": {
+      "bytes": 790672,
+      "sha256": "18b441ec8cdc5d63bfca4d0dcdb3dff0789c55b967b788f7a3660530f612b2a6"
+    },
+    "P15_REPORT_DESKTOP.png": {
+      "bytes": 1607825,
+      "sha256": "87e4f472aecef90e20789e102f99b52b24df148895bd954837a3ff7ddffdd922"
+    },
+    "P15_REPORT_MOBILE.png": {
+      "bytes": 882695,
+      "sha256": "3592b1294ffba3302aac6a9d8a73bb5bdcffa8e532292f579acbba15a67cfe5f"
+    },
+    "P15_SERVER_ARCHIVE_DESKTOP.png": {
+      "bytes": 1664402,
+      "sha256": "e09d02e5a25d802b53b6ea84b264182bbd823591a48d9d3687e475f390727909"
+    },
+    "P15_SERVER_ARCHIVE_MOBILE.png": {
+      "bytes": 891286,
+      "sha256": "90fe7ebd0e1c90e29d24900cba9ead721e6e4f7e1fb9b46a512588abc62b1228"
+    },
+    "P15_SERVER_INDEX_DESKTOP.png": {
+      "bytes": 947004,
+      "sha256": "3aa7a3a74f39e83327777c7c6d941932690550b17cc67dcc4937a0deae062ac0"
+    },
+    "P15_SERVER_INDEX_MOBILE.png": {
+      "bytes": 508049,
+      "sha256": "fa58c44f773fe1e01d939e39e6bb3bbbf4a5fb553090dd6bf839f90841f10d02"
+    },
+    "P15_SERVER_REOPEN_DESKTOP.png": {
+      "bytes": 1618569,
+      "sha256": "80c9c172d833fddbc0361c869234d62d0146752223121b92f81d3ea7eef5225f"
+    },
+    "P15_SERVER_REOPEN_MOBILE.png": {
+      "bytes": 891820,
+      "sha256": "fffee6608497953926849f3794e0c85e65bc5c4dec67a075a48d09f637ffbc21"
+    },
+    "P15_SERVER_REVOKED_DESKTOP.png": {
+      "bytes": 872650,
+      "sha256": "58101e3d1ec67a48d76e35e976aae559fb3c268294846b093e6e24fe6b3bd514"
+    },
+    "P15_SERVER_REVOKED_MOBILE.png": {
+      "bytes": 483963,
+      "sha256": "42e1a359fea6c314e03ed999f271186655723c16f357b432887ebf2515d85e22"
+    },
+    "P16_AP_INVERSE_DESKTOP.png": {
+      "bytes": 4478047,
+      "sha256": "0a886698fee50a27910bd99ba8f85738e6e4e5f98cae03d1e963948a080c39f0"
+    },
+    "P16_AP_INVERSE_MOBILE.png": {
+      "bytes": 2750605,
+      "sha256": "a5bf4d69f03bfcb1a551f91d1f067e024e8a852d9e05fd759d8203c1d170896d"
+    },
+    "P16_AP_OPEN_DESKTOP.png": {
+      "bytes": 4478047,
+      "sha256": "0a886698fee50a27910bd99ba8f85738e6e4e5f98cae03d1e963948a080c39f0"
+    },
+    "P16_AP_OPEN_MOBILE.png": {
+      "bytes": 2750605,
+      "sha256": "a5bf4d69f03bfcb1a551f91d1f067e024e8a852d9e05fd759d8203c1d170896d"
+    },
+    "P16_AP_PENDING_DESKTOP.png": {
+      "bytes": 4381385,
+      "sha256": "bbb6545f4071e248b2ce80076e2bc89e5223bef9153bb19a9e7b5a314638e067"
+    },
+    "P16_AP_PENDING_MOBILE.png": {
+      "bytes": 2860751,
+      "sha256": "ef74237bb39fa1a22410bddae95a722bbd562b6a7b1e9f5b5653fa896b91347b"
+    },
+    "P16_AP_REVOKED_DESKTOP.png": {
+      "bytes": 633537,
+      "sha256": "c33f327210be9cfb6f583ee0287fb9b39dcf10a0545e3716531d5c4d97a8cb9b"
+    },
+    "P16_AP_REVOKED_MOBILE.png": {
+      "bytes": 367255,
+      "sha256": "ebfcf57fb82c99a12c45af060889d4c85499421cf64bdc5f15b9e6527eca1b71"
+    },
+    "P16_AP_SETTLED_DESKTOP.png": {
+      "bytes": 4477245,
+      "sha256": "75d74daaeb1b153f43952055976f635ed4329aae25cd32f3d9afcaf607b345d9"
+    },
+    "P16_AP_SETTLED_MOBILE.png": {
+      "bytes": 2750127,
+      "sha256": "64e46b7101f6223ef4a506c41a373187e47e52aa7f48adc7781c859defc2bb29"
+    },
+    "P16_ARCHIVE_DESKTOP.png": {
+      "bytes": 3840045,
+      "sha256": "7e2c346bf7a455f7d047518bfe4387bdb85abc29c041d2bc0800542557f09d7c"
+    },
+    "P16_ARCHIVE_MOBILE.png": {
+      "bytes": 1667400,
+      "sha256": "42f00f6a13c06b83c47f3d6898dbc368f5c0ae0342e4e4a23b8c5cfc5dd6b15c"
+    },
+    "P16_AR_INVERSE_DESKTOP.png": {
+      "bytes": 4210913,
+      "sha256": "8858d6733851385c59400dffc03c39a6b2737c0ee3d245050d7b6f89de3b225f"
+    },
+    "P16_AR_INVERSE_MOBILE.png": {
+      "bytes": 2801329,
+      "sha256": "ccf1c2a452c876ac7374ab0ccb07347f9430b2e576fd257ade753ae462e4afd4"
+    },
+    "P16_AR_OPEN_DESKTOP.png": {
+      "bytes": 4222295,
+      "sha256": "2d655127728fc579dc30db47b6b58fed329efb0e53baec8d234024c109880365"
+    },
+    "P16_AR_OPEN_MOBILE.png": {
+      "bytes": 2795235,
+      "sha256": "e9376a3e12d419f111e66ea14579f5cc1ce73940355876186eea0242e7f52f32"
+    },
+    "P16_AR_REVOKED_DESKTOP.png": {
+      "bytes": 633134,
+      "sha256": "26775c2df725f42f65649beba381b9d9cf9425192e90875c36f2b129ef3bf8e5"
+    },
+    "P16_AR_REVOKED_MOBILE.png": {
+      "bytes": 365791,
+      "sha256": "18c5ad167b4923033f5d0611b3cadba5b593895056e458a672c2e5a6bb41524f"
+    },
+    "P16_AR_SETTLED_DESKTOP.png": {
+      "bytes": 4210082,
+      "sha256": "360a01cd5bc3935b4ddaa9793a5ddb33b5e3e8a7f87cb2f952e3e5f3cab29cee"
+    },
+    "P16_AR_SETTLED_MOBILE.png": {
+      "bytes": 2686989,
+      "sha256": "1f393748b64fb855cf3697810b395f56c4f3be697c2f1de4ce90f7105da52b25"
+    },
+    "P16_DONE_REVIEW_DESKTOP.png": {
+      "bytes": 3865983,
+      "sha256": "6d644e17ecd3f7f6c953575fcc44caef6ea8f13a28ad56077e81149488fc5ecb"
+    },
+    "P16_DONE_REVIEW_MOBILE.png": {
+      "bytes": 1630844,
+      "sha256": "d81cdef09492d2863fdf4d5ed0dd26c533e5f42bcd9175236d23c3cd286bf223"
+    },
+    "P16_EP_OPEN_DESKTOP.png": {
+      "bytes": 4928527,
+      "sha256": "3dfb8daa7249a0e2444f5d357b30a8308fce1b065c601d3707a65290e26309a1"
+    },
+    "P16_EP_OPEN_MOBILE.png": {
+      "bytes": 3624068,
+      "sha256": "b8b4840231eddacc4f8bf1d5523efdca3249db7190a2baef2b54fd0396d80892"
+    },
+    "P16_EP_REOPENED_DESKTOP.png": {
+      "bytes": 5072233,
+      "sha256": "e1bfb68d8130ddd2c9e3d5757e54b89d2914003d5821610a562886ca2d35a6cd"
+    },
+    "P16_EP_REOPENED_MOBILE.png": {
+      "bytes": 3625045,
+      "sha256": "9a130aedf1ea6c8703b966b36193ee0dc9f81d610f7e65f4a91d77231d32329b"
+    },
+    "P16_EP_RESOLVED_DESKTOP.png": {
+      "bytes": 4930575,
+      "sha256": "7d0e6a5680a18294b3a69d830e78f3b90dc26e5f1415032b1149569ecd84e3e1"
+    },
+    "P16_EP_RESOLVED_MOBILE.png": {
+      "bytes": 3622470,
+      "sha256": "b19c4cdd1034da13249ec6f3fece5ba2565b2b179b9a7dfef08a2e0bdfe575a0"
+    },
+    "P16_EP_REVOKED_DESKTOP.png": {
+      "bytes": 656463,
+      "sha256": "f2d349480ab4d1b6e31ac9ec7bf0428992b5c142d3fcd0ae5957a195c694b2d4"
+    },
+    "P16_EP_REVOKED_MOBILE.png": {
+      "bytes": 383878,
+      "sha256": "3c90cea5ff55dd0f64c70915a48633cba128ee37fbe785f2e0a9f3e13a32427a"
+    },
+    "P16_HISTORY_LATEST_DESKTOP.png": {
+      "bytes": 6590539,
+      "sha256": "88c94b9367d9dcb6c7d552bd47de4158fb4a906ff1ab2f9b93577d777589c81e"
+    },
+    "P16_HISTORY_LATEST_MOBILE.png": {
+      "bytes": 4736487,
+      "sha256": "2d003453df36223638abfb52b024d3eaed51f15cd9fa579aaa8454f1b53234af"
+    },
+    "P16_HISTORY_OLDEST_DESKTOP.png": {
+      "bytes": 5311296,
+      "sha256": "90d332af0ae0d112bf975fb0e15079752206f357f75aab5907c5039b2a8a7a3c"
+    },
+    "P16_HISTORY_OLDEST_MOBILE.png": {
+      "bytes": 3772040,
+      "sha256": "9e14e3203e61e22a814056172358a892b9c7fa4532aac69eddd1e773d2f6650f"
+    },
+    "P16_HISTORY_REVOKED_DESKTOP.png": {
+      "bytes": 658445,
+      "sha256": "c53db9fb60e07f1529d4840e0dada4d0d6e94a48f03fdf450f990641a147d731"
+    },
+    "P16_HISTORY_REVOKED_MOBILE.png": {
+      "bytes": 376130,
+      "sha256": "1f4d003bb4667f6348477dd56946fe6362d9ac17f87066296151c69372f2d8e6"
+    },
+    "P16_LOADED_DESKTOP.png": {
+      "bytes": 3821211,
+      "sha256": "2b0e25bcb37554ce0751b6a092d81d18b32eb443a2bc4ef7057271a9593f5672"
+    },
+    "P16_LOADED_MOBILE.png": {
+      "bytes": 1636969,
+      "sha256": "66b4ae799593c3205deefb989fc1625510f07d2e21d996a3cc31fbefc1bd0dcc"
+    },
+    "P16_OTHER_CURRENT_AUTH_DESKTOP.png": {
+      "bytes": 642717,
+      "sha256": "bf57551f662b7a294e1ceedd31f8d7ebad090eaa05ccc5956403cbe435f81c34"
+    },
+    "P16_OTHER_EXACT_UNKNOWN_DUE_DESKTOP.png": {
+      "bytes": 6626335,
+      "sha256": "b60ff462003bdc8ce35b92baf696b52395400a142be15243e4904a0d09c35106"
+    },
+    "P16_OTHER_MOBILE_FAILURE.json": {
+      "bytes": 3049,
+      "sha256": "f67341c4bc34d90a6b5938852c1b59047384eeef0bed42bfece9458901f0e9e4"
+    },
+    "P16_OTHER_MOBILE_FAILURE.png": {
+      "bytes": 302610,
+      "sha256": "5b68cb55a6d27ab0ea99f508591202a2bb891af3c0cd063002bd4d36820acab7"
+    },
+    "P16_OTHER_MOBILE_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "2b922ee938d34a3ff4bdb45f0d649c5a1d4640272fcca57847d04ce11cc4c9b5"
+    },
+    "P16_OTHER_NATIVE_INVERSE_DESKTOP.png": {
+      "bytes": 6627158,
+      "sha256": "f0f43aed828b78883a7a4da9e2b13fdee8ec04e7176c67663138b0006ce4165c"
+    },
+    "P16_OTHER_PARTIAL_CENT_DESKTOP.png": {
+      "bytes": 6627103,
+      "sha256": "a757497530a280bd9433752314a885ec26bf1244301f659b4ae6c7020ae6544f"
+    },
+    "P16_OTHER_PENDING_LAUNDRY_DESKTOP.png": {
+      "bytes": 6626335,
+      "sha256": "b60ff462003bdc8ce35b92baf696b52395400a142be15243e4904a0d09c35106"
+    },
+    "P16_POLICY_NULL_DESKTOP.png": {
+      "bytes": 5203498,
+      "sha256": "8d11a8c9241c058045786e7edf3b8c13d1b07de0d1b272d1da0aa75fedb56ab3"
+    },
+    "P16_POLICY_NULL_MOBILE.png": {
+      "bytes": 3797038,
+      "sha256": "6da173f4d640dcd502e2d9b7881cc2f4232919855d0541a163a3a2fbbf09f2d7"
+    },
+    "P16_POLICY_RECOVERED_DESKTOP.png": {
+      "bytes": 5213325,
+      "sha256": "8417d2c31e0abfce18a239f137d313a7155e5ebfcd60d7bb20dc34e4145343e5"
+    },
+    "P16_POLICY_RECOVERED_MOBILE.png": {
+      "bytes": 3748754,
+      "sha256": "6a4cfd0edcf7d8a8e44536c2e748de6bec0617449cb07d9b8478f07eedd70e83"
+    },
+    "P16_POLICY_REVOKED_DESKTOP.png": {
+      "bytes": 634695,
+      "sha256": "0388d02a2b9f739fd8d27376dbd4c75abc228060670b0bdcf484bc499e2c1460"
+    },
+    "P16_POLICY_REVOKED_MOBILE.png": {
+      "bytes": 362357,
+      "sha256": "2baf0c7cb9f06de73506df3dd842343cebb8ea110e007b944e84698f6c1ad2be"
+    },
+    "P16_POLICY_UNCERTAIN_DESKTOP.png": {
+      "bytes": 1384983,
+      "sha256": "483e068ca1e5995679d75cc6315bbf34d6ba75b6d74fbb9aac1258fc6199b5cb"
+    },
+    "P16_POLICY_UNCERTAIN_MOBILE.png": {
+      "bytes": 411974,
+      "sha256": "c5eeb82deb9a6b13f0d60f8a9f465b739755c02e253cd51b5de5ac212412366a"
+    },
+    "P16_POLICY_WIB_HISTORY_DESKTOP.png": {
+      "bytes": 5185189,
+      "sha256": "d76c6fa93c03d0e955e1b1dfdb7a11ff159d065071183d43f730e3c004244c58"
+    },
+    "P16_POLICY_WIB_HISTORY_MOBILE.png": {
+      "bytes": 3595304,
+      "sha256": "39b7d0dc4f70dca4d65228570e1552327a9fdfb2b4428c252266e15235385e9a"
+    },
+    "P16_RECOVERED_DESKTOP.png": {
+      "bytes": 3887417,
+      "sha256": "3977dd23249bfa38a733b2cf4b45dcd6f76d9f02ada7f38b4fca7b022b1d60e1"
+    },
+    "P16_RECOVERED_MOBILE.png": {
+      "bytes": 1633035,
+      "sha256": "fc326caca4f7460ede1b597943e1a22e30fdf15360329f1453390d06cebf9cce"
+    },
+    "P16_REMINDER_DESKTOP.png": {
+      "bytes": 2939720,
+      "sha256": "459b06d3dbfd8f869ae27e539473fe031db440fd62ffda550e9d03df2a8bfb47"
+    },
+    "P16_REMINDER_MOBILE.png": {
+      "bytes": 1327938,
+      "sha256": "10477cc01890341eada05fac33ba53b14e1257d2d89965494b8992bf47470881"
+    },
+    "P16_REVOKED_DESKTOP.png": {
+      "bytes": 631700,
+      "sha256": "cbfc375f99943982eec6521a5b87045709f7a8a6e110028ff38988694f733fb2"
+    },
+    "P16_REVOKED_MOBILE.png": {
+      "bytes": 359431,
+      "sha256": "f09d1b3823eeb105ccb9997c471852166ef261a5b76ffc8b5ecd58f11457e876"
+    },
+    "P16_RULE_LOCAL_DESKTOP_FAILURE.json": {
+      "bytes": 6235798,
+      "sha256": "011c0cee794c2ca40901fd002a181c791aee556aa4b684e858bbd008b3bf9dd8"
+    },
+    "P16_RULE_LOCAL_DESKTOP_FAILURE.png": {
+      "bytes": 1392379,
+      "sha256": "5bf35e9d9be4c32dde3a49107a450c40d929923b865d94e91964f90c9ae5d203"
+    },
+    "P16_RULE_LOCAL_DESKTOP_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "faa212604440d8bae6c0da0ffa88a2f13593971fd9a1692560191b2a6cc22651"
+    },
+    "P16_RULE_LOCAL_MOBILE_FAILURE.json": {
+      "bytes": 6553233,
+      "sha256": "51f7a14d8f17b183b01c71b8ce1e3060222f9f24c4da3fbb904266cd18572def"
+    },
+    "P16_RULE_LOCAL_MOBILE_FAILURE.png": {
+      "bytes": 404718,
+      "sha256": "a2f8344aef9d6453f938d9a076c0331cf767b272f1081a4e2a2274b03fd561f0"
+    },
+    "P16_RULE_LOCAL_MOBILE_READ_PROFILE.json": {
+      "bytes": 308,
+      "sha256": "c8a47c350b698719763bf0c129a1bcad6e988e9571c57a7bba024a38cfb9cfb8"
+    },
+    "P16_RULE_POLICY_HISTORY_DESKTOP.png": {
+      "bytes": 5777077,
+      "sha256": "50e3f3d5e252255b6cb74ad15fa8d55ef32242591412a425655e99c003c20a69"
+    },
+    "P16_RULE_POLICY_HISTORY_MOBILE.png": {
+      "bytes": 4272295,
+      "sha256": "12bfe23c50a9a7e0b65426602c9e8eb9ca6a961377c7cb253c7574b75463a7d1"
+    },
+    "P16_SNOOZED_DESKTOP.png": {
+      "bytes": 3869260,
+      "sha256": "2d6d6c85bc1245e6e34fd1c5a280687950c0931a52a39edbf4a3984ab66c8e01"
+    },
+    "P16_SNOOZED_MOBILE.png": {
+      "bytes": 1633849,
+      "sha256": "59b3507f786bb749ad6ac66b428f8a864a1bb09db1f90ed6f46452e5148ad005"
+    },
+    "P16_UNCERTAIN_DESKTOP.png": {
+      "bytes": 1059127,
+      "sha256": "bf2028c12ff58b5df60d095c8b6bf56560b10bdf4e5bb77977773504930d8c67"
+    },
+    "P16_UNCERTAIN_MOBILE.png": {
+      "bytes": 683653,
+      "sha256": "aefa3f26192fc83c2c93bb5036ce498208b098195a14b71539a0594e1ba12f6c"
+    },
+    "P17_COPIED_AUTO_DESKTOP.png": {
+      "bytes": 1148785,
+      "sha256": "70cbff63fb06470f0a3fd4e21ee17baf324928b37cd4de6601f5043aba328c49"
+    },
+    "P17_COPIED_AUTO_MOBILE.png": {
+      "bytes": 598569,
+      "sha256": "b5fe6ec807390c95a5ebb041d024427a32fa51ba33ed546b49366f423c36d817"
+    },
+    "P17_COPIED_DESKTOP.png": {
+      "bytes": 1622036,
+      "sha256": "ba73f20e0ee301217a9fe8c23cf621c31b9af11fda100095eb5b28695ee8e96e"
+    },
+    "P17_COPIED_MOBILE.png": {
+      "bytes": 946637,
+      "sha256": "dc86a397560fb57afcdf1a2e446e3401587f42bc8be99fb5b56d2dd4ce06a69f"
+    },
+    "P17_MANUAL_BLOCKED_AUTO_DESKTOP.png": {
+      "bytes": 1149712,
+      "sha256": "43100c6174e15a7c58fb7171659be6cc9f2a2ff30e161ebde93e9b24e7ca46a3"
+    },
+    "P17_MANUAL_BLOCKED_AUTO_MOBILE.png": {
+      "bytes": 599046,
+      "sha256": "1a8dd38aad849eee28d4f1966f5d9fbf129972c93313a270d027e6b3aed340ea"
+    },
+    "P17_MANUAL_BLOCKED_DESKTOP.png": {
+      "bytes": 1619591,
+      "sha256": "8f08b7ee9cf808c247b48bf43b5382f5f4d608c623f3d6578b6e31390ba10c99"
+    },
+    "P17_MANUAL_BLOCKED_MOBILE.png": {
+      "bytes": 940605,
+      "sha256": "2aa29120aa8a43f36c65c1183abf663bbf8f9ede812bac6ce2070ca64b0fda56"
+    },
+    "P17_PROMPT_DESKTOP.png": {
+      "bytes": 1301960,
+      "sha256": "6205397669126410908c31561afaca1d1f10763ce0b5a998a3faeebb6e010694"
+    },
+    "P17_PROMPT_MOBILE.png": {
+      "bytes": 709127,
+      "sha256": "19756ce41dc95b3bebed4a37b86303a459c00786741b6f97333de75a991087ca"
+    },
+    "P17_RECOVERED_AUTO_DESKTOP.png": {
+      "bytes": 1095488,
+      "sha256": "3214c8b6574186aec4b4a848129fd00ee78c3fdb28cd752acddf6911f099c56c"
+    },
+    "P17_RECOVERED_AUTO_MOBILE.png": {
+      "bytes": 583871,
+      "sha256": "32aa489beb60faa92c1ec3b72786b30ff821f41cfdc01134d137b10421d6f2bd"
+    },
+    "P17_RECOVERED_DESKTOP.png": {
+      "bytes": 1589240,
+      "sha256": "70c72e901083839f6a38cb905f03b547b2fa87be80985a00911364066745dd36"
+    },
+    "P17_RECOVERED_MOBILE.png": {
+      "bytes": 925969,
+      "sha256": "5f22f62f51e158098235733013dbda16c5961781e1cb2620a3ad2554dca34b46"
+    },
+    "P17_STALE_AUTO_DESKTOP.png": {
+      "bytes": 1032198,
+      "sha256": "f52117f06e2944b3726a601d8cf9dfa91c78df47c972a7d85f60586e6d5dc39d"
+    },
+    "P17_STALE_AUTO_MOBILE.png": {
+      "bytes": 539060,
+      "sha256": "92b126311d7726637f8a7d2499b366eb8fb1b50c748b024acac72898b9511921"
+    },
+    "P17_STALE_DESKTOP.png": {
+      "bytes": 1525981,
+      "sha256": "198de446e8d6065d72c7f0dbaf24fd510a4e68547f46a07f725070197256132a"
+    },
+    "P17_STALE_MOBILE.png": {
+      "bytes": 880981,
+      "sha256": "dfbcf7a2347d036cae1a3d6e3f715399647c07da699379d20db40779c27e091e"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ce96a5ea30ddca90d0a371512bc9957a28dfedc81e848dc3a21b3b5446e8e5ac"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "a446a440bc0a04c81c73830c2809e1e67b7c2d6d1e4abdf6c3be22c78c00f11d"
+    },
+    "retained-native155-928332d/ALIGNED_CHAIN.json.gz": {
+      "bytes": 4731,
+      "sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "retained-native155-928332d/CP7_F05_NATIVE_ATTENTION.json.gz": {
+      "bytes": 24363,
+      "sha256": "167b85f843eb4e5f9b3a0b2ceac7e1ec7de652c69599a0be3ed397ab5a8e5251"
+    },
+    "retained-native155-928332d/RECEIPT.json": {
+      "bytes": 2619,
+      "sha256": "f4501c91a666ca35d54d8dfc1db17113d55ab01928c8cbe8df7fcf7c5f92d2aa"
+    },
+    "retained-native155-928332d/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 1827,
+      "sha256": "9a3f401edbd8b52797e95da57d8849fc74c33a8d6aaca0b09ca3154fe43af8d4"
+    },
+    "retained-native155-928332d/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "retained-native155-928332d/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11387,
+      "sha256": "3a9adce7324db1bc13c973643f96cca9b7b162cd6888e1272400edaafbec0bd4"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

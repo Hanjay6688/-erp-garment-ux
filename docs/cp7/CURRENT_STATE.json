@@ -2059,9 +2059,9 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "source_commit": "466180aca878b775afc73a91d54c1217d910d80d",
-    "run_id": 36963316962,
-    "source_tree": "25066ff287ab34f0d642ef13981b2c7b16f77a18",
+    "source_commit": "6d2dbc482f999f86a9588951203279f6ee4c76a4",
+    "run_id": 36966030891,
+    "source_tree": "9599a973494be68768b6b50b6575a30b08e4dcb7",
     "counts": {
       "native": {
         "PASS": 179
@@ -2074,8 +2074,8 @@
         "INCOMPLETE": 1
       },
       "browser": {
-        "PASS": 28,
-        "INCOMPLETE": 8
+        "PASS": 31,
+        "INCOMPLETE": 5
       }
     },
     "package_gate": {
@@ -2087,13 +2087,13 @@
     },
     "auth_users_before": 0,
     "auth_users_after": 0,
-    "pass_count": 275,
+    "pass_count": 278,
     "observed_case_count": 284,
-    "receipt": "docs/cp7/evidence/f05-obligation-report/second-incomplete-466180a/RECEIPT.json",
+    "receipt": "docs/cp7/evidence/f05-obligation-report/third-incomplete-6d2dbc4/RECEIPT.json",
     "repair_source": "466180aca878b775afc73a91d54c1217d910d80d",
     "repair_run_id": 36963316962,
     "repair_status": "NATIVE284_INCOMPLETE_INITIAL_CAPTURE_AND_EPISODE_TIMEOUTS",
-    "remaining": "Actual Native accumulated-fixture source/compile cost; one HTTP episode evaluation and eight initial browser captures time out. Native7 same-bundle success does not replace complete284.",
+    "remaining": "One actual Native invoice HTTP episode evaluation, two local-rule browser episode evaluations, other-obligation mobile capture and both appendix captures time out. Complete284 remains mandatory; current focused7 and main152 do not replace it.",
     "prior_incomplete_original": {
       "source_commit": "6bdddbe2cea7b1a8e284bfc2ce0a84f896f0e0f1",
       "source_tree": "20adbfd4e10074082091d4733428565db2c055d5",
@@ -2117,7 +2117,33 @@
       "pass_count": 275,
       "observed_case_count": 284,
       "receipt": "docs/cp7/evidence/f05-obligation-report/first-incomplete-6bdddbe/RECEIPT.json"
-    }
+    },
+    "second_incomplete_original": {
+      "source_commit": "466180aca878b775afc73a91d54c1217d910d80d",
+      "source_tree": "25066ff287ab34f0d642ef13981b2c7b16f77a18",
+      "run_id": 36963316962,
+      "counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 28,
+          "INCOMPLETE": 1
+        },
+        "browser": {
+          "PASS": 28,
+          "INCOMPLETE": 8
+        }
+      },
+      "pass_count": 275,
+      "observed_case_count": 284,
+      "receipt": "docs/cp7/evidence/f05-obligation-report/second-incomplete-466180a/RECEIPT.json"
+    },
+    "job_id": 110709857622,
+    "latest_status": "NATIVE284_INCOMPLETE_SIX_ACTUAL_TIMEOUTS"
   },
   "f05_native_analysis_latest_regression": {
     "status": "NATIVE_WRITER_QUALIFIED",
@@ -2195,7 +2221,7 @@
     "production_go": false
   },
   "native_read_stage_diagnostic": {
-    "status": "FIRST_EMITTER_INCOMPLETE_UID_PRINCIPAL_REPAIR_AWAITS_MEASUREMENT",
+    "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED",
     "contract": "docs/cp7/f05/NATIVE_READ_STAGE_DIAGNOSTIC.md",
     "fixture_checkpoints": [
       0,
@@ -2212,7 +2238,22 @@
     "first_run_id": 36968778412,
     "first_source_commit": "565ed2a1b044d57bd9c9816ff8696ae52b846ca9",
     "first_receipt": "docs/cp7/evidence/native-read-diagnostic/first-incomplete-565ed2a/RECEIPT.json",
-    "observed_Native_exit_case_count": 0
+    "observed_Native_exit_case_count": 0,
+    "source_commit": "fb9dce920dfc4a26d9164786d82211c05686801a",
+    "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
+    "run_id": 36969864657,
+    "job_id": 110721390589,
+    "receipt": "docs/cp7/evidence/native-read-diagnostic/measured-planner-fb9dce9/RECEIPT.json",
+    "measurements": "docs/cp7/evidence/native-read-diagnostic/measured-planner-fb9dce9/MEASUREMENTS.json",
+    "measured_reads": 28,
+    "SQL_errors": 0,
+    "actual_E01_checkpoints": [
+      1,
+      4,
+      12
+    ],
+    "actual_E01_status": "PREDECLARED_AWAITS_NATIVE_MEASUREMENT",
+    "inference": "Pure compilation grows with planner products; actual accumulated physical/financial source load has not yet been measured."
   },
   "native_analysis_regression_6d2dbc4": {
     "status": "NATIVE152_WRITER_QUALIFIED",

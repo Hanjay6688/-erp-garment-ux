@@ -10,6 +10,7 @@ import uuid
 
 import psycopg
 import cp7_analysis_cases as cases
+import cp7_f03_e01_cases as production
 
 CHECKPOINTS = (0, 1, 4, 12)
 
@@ -105,10 +106,32 @@ def cases_provider(cur, today):
             assert cases.b.boundary.snapshot(cur) == before, 'DIAGNOSTIC_CHANGED_NATIVE_BUSINESS'
             assert cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0] == originals_before
             observation.update(added_actual_fixture_count=prepared, Native_business_unchanged=True,
+                               workload='NATIVE_PLANNER_FIXTURES',
                                saved_analyses_added=0, no_HTTP_timeout_changed=True)
+            observations.append(observation)
+            print('CP7_NATIVE_READ_MEASUREMENT ' + json.dumps(observation), flush=True)
+        # The initial workload has no stock/sale/journal rows. Add the actual
+        # qualified physical/cost/cash/return journey to expose the financial
+        # source cost, while retaining all planner fixtures and their timings.
+        completed = 0
+        for target in CHECKPOINTS[1:]:
+            while completed < target:
+                production.journey(cur, today)
+                completed += 1
+            before = cases.b.boundary.snapshot(cur)
+            originals_before = cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0]
+            observation = measure(cur, cases.previous.baseline.history.query(today), subject)
+            cases.b.api.admin(cur)
+            assert cases.b.boundary.snapshot(cur) == before, 'DIAGNOSTIC_CHANGED_NATIVE_BUSINESS'
+            assert cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0] == originals_before
+            observation.update(added_actual_fixture_count=prepared, completed_actual_E01_journeys=completed,
+                               workload='NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN',
+                               Native_business_unchanged=True, saved_analyses_added=0,
+                               no_HTTP_timeout_changed=True)
             observations.append(observation)
             print('CP7_NATIVE_READ_MEASUREMENT ' + json.dumps(observation), flush=True)
         return dict(status='PASS', diagnostic_emission_and_isolation_only=True,
                     product_qualification=False, full_P19_acceptance=False,
-                    actual_fixture_checkpoints=list(CHECKPOINTS), measurements=observations)
+                    actual_fixture_checkpoints=list(CHECKPOINTS),
+                    actual_E01_checkpoints=list(CHECKPOINTS[1:]), measurements=observations)
     return [('DIAGNOSTIC_EMISSION_AND_NATIVE_READ_ISOLATION', emission)]
