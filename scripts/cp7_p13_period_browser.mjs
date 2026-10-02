@@ -39,7 +39,13 @@ async function period(ui,f,mobile){
   await panel.getByRole('button',{name:'Buka kembali periode',exact:true}).click();await ui.expect.poll(()=>fixture('read',f).period.control.closed_through).toBe(f.previous_closed)
   await ui.expect(panel.getByLabel('Tindakan periode',{exact:true})).toBeEnabled()
   const opened=fixture('read',f);assert.deepEqual(opened.filings,after.filings);assert.deepEqual(opened.business,before.business)
-  await p.route('**/rest/v1/rpc/erp_cp7_get_period_control_v1',route=>route.abort('failed'));await panel.getByRole('button',{name:'Periksa ulang periode',exact:true}).click();await ui.expect(panel.getByRole('alert')).toBeVisible();await ui.expect(panel.getByRole('button',{name:'Buka kembali periode',exact:true})).toHaveCount(0)
+  await p.route('**/rest/v1/rpc/erp_cp7_get_period_control_v1',route=>route.abort('failed'));await panel.getByRole('button',{name:'Periksa ulang periode',exact:true}).click()
+  // The retained mutation notice and actual failed-read alert may coexist.
+  // Require the specific transport failure, rather than an ambiguous alert.
+  const failedRead=panel.getByRole('alert').filter({hasText:'Layanan UAT belum dapat dihubungi'})
+  await ui.expect(failedRead).toHaveCount(1);await ui.expect(failedRead).toBeVisible()
+  await ui.expect(panel.getByRole('button',{name:'Buka kembali periode',exact:true})).toHaveCount(0)
+  await ui.expect(panel.getByRole('button',{name:'Tutup buku dan simpan arsip',exact:true})).toHaveCount(0)
   assert.deepEqual(fixture('read',f).filings,after.filings)
   return {status:'PASS',mobile,real_browser_review_close_native_filing_view_and_reopen:true,only_source_preparation_is_native_fixture:true,one_new_archive_originals_immutable:true,GL_stock_unchanged_by_close_and_reopen:true,current_period_restored:true,failed_read_retires_actions:true,exact_lost_close_replay:mobile?true:null,screenshot:`P13_PERIOD_${suffix}.png`}
  }catch(e){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/P13_PERIOD_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await p.locator('.cfinance-report').innerText().catch(()=>''),native:fixture('read',f)},null,2));throw e}

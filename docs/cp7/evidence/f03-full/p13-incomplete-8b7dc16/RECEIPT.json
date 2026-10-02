@@ -1,0 +1,190 @@
+{
+  "run_id": 36991113665,
+  "job_id": 110787301933,
+  "artifact_id": 11220186276,
+  "archive_bytes": 11413563,
+  "archive_sha256": "2e0b6d6efaec67760a7d7f2bceeb807fe547eaae80eea32807d9c41e8bf3da44",
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385604,
+      "sha256": "eca3095b4105cb1417ac2c68802270382c823181aa928290dc3847cc8e6c190d"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385604,
+      "sha256": "eca3095b4105cb1417ac2c68802270382c823181aa928290dc3847cc8e6c190d"
+    },
+    "CP7_F03_FULL_P13.json": {
+      "bytes": 340220,
+      "sha256": "ada97243a4467b8d97183ccc3f1538acf3540c390ad338b5b5b1ea172a4c680d"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "fde9310a1cb7fa493094d239ca0d4ef61396ae796e7282ae6f18c7bb53942dc2"
+    },
+    "P13_ANALYSIS_DESKTOP.png": {
+      "bytes": 2543552,
+      "sha256": "bca21f1e2b7c1980540f26179742a9d16ef28fc144c33000b5420ddd4c634a55"
+    },
+    "P13_ANALYSIS_MOBILE.png": {
+      "bytes": 1959092,
+      "sha256": "89ae3a416b6de4c62895203783f9cf18fdd5a77bf4f3daebfab6f3f43ab7baf8"
+    },
+    "P13_PERIOD_DESKTOP.png": {
+      "bytes": 1355284,
+      "sha256": "7b6fa0c748ab4693dc932f5f9180523214892bfdd021144497fddb907cd8d0e4"
+    },
+    "P13_PERIOD_DESKTOP_FAILURE.json": {
+      "bytes": 8937,
+      "sha256": "f344c5ad5fbf694ac343949bc65f424b3f9643851c0e3f05af56f0b78c9809cc"
+    },
+    "P13_PERIOD_MOBILE.png": {
+      "bytes": 1074192,
+      "sha256": "5db4dbf4f96369cd9364641e8268f51dadca1bc7807ec1e49d5664555ec68856"
+    },
+    "P13_RECOST_DESKTOP.png": {
+      "bytes": 334197,
+      "sha256": "3b503dd2c3ad8e6c5d49d6155883cc864e8c0c5d5d684e4596b145dcb7756b9c"
+    },
+    "P13_RECOST_MOBILE.png": {
+      "bytes": 251164,
+      "sha256": "18f6bae12e922eeef29c367416d5ff50f24f7236c4aa1cb5a767bc32c926045c"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1433134,
+      "sha256": "2189e82c9194a981236cd49818c2379c44b6c606b19e6d561489a257e34acf85"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1054162,
+      "sha256": "2147a41adecb4ba018cc4454648411d394148fc0199eb229d859ab078cc671d4"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "a69590b6cf59de6ba9b8354e17c49e2bd237ae751a172cbf278ee55e87c2f967"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "1d02d44733b9ac82fcd143243b23b3b0bc0b246818fcfe5c522408a4179cb9f3"
+    }
+  },
+  "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+  "source_tree": "bf17a14bb9198aeaa7f2436528505a8296d5f0f5",
+  "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "status": "INCOMPLETE",
+  "observed_case_count": 50,
+  "expected_case_count": 50,
+  "groups": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    },
+    "analysis_native": {
+      "PASS": 8
+    },
+    "analysis_races": {
+      "PASS": 1
+    },
+    "analysis_http": {
+      "PASS": 1
+    },
+    "analysis_browser": {
+      "PASS": 2
+    },
+    "recost_native": {
+      "PASS": 8
+    },
+    "recost_races": {
+      "PASS": 2
+    },
+    "recost_http": {
+      "PASS": 1
+    },
+    "recost_browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "cause": "Specific failed-read browser oracle matched two legitimate alerts: retained mutation notice and transport failure. Actual close/reopen/archive and every49 other execution passed. Original remains INCOMPLETE.",
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "path": "docs/cp7/evidence/f03-full/p13-incomplete-8b7dc16/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_P13.json": {
+      "path": "docs/cp7/evidence/f03-full/p13-incomplete-8b7dc16/CP7_F03_FULL_P13.json.gz",
+      "bytes": 340220,
+      "sha256": "ada97243a4467b8d97183ccc3f1538acf3540c390ad338b5b5b1ea172a4c680d",
+      "gzip_bytes": 23086,
+      "gzip_sha256": "a0ab8b8272dbefdca9b2b46a21f80a55a441d04b2125ea6a3820ecfb03247d17"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/p13-incomplete-8b7dc16/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360423,
+      "sha256": "1d02d44733b9ac82fcd143243b23b3b0bc0b246818fcfe5c522408a4179cb9f3",
+      "gzip_bytes": 11393,
+      "gzip_sha256": "bdd290383a7fe3fa3dbde420d0a1a892e3cb90033cc6ba9886e7d4ba676e078f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/p13-incomplete-8b7dc16/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "docs/cp7/evidence/f03-full/p13-incomplete-8b7dc16/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "a69590b6cf59de6ba9b8354e17c49e2bd237ae751a172cbf278ee55e87c2f967",
+      "gzip_bytes": 1827,
+      "gzip_sha256": "6f46bced4ae0208804e363c6f826b7b722b3bf321d706b8728944717fb5cfecd"
+    },
+    "P13_PERIOD_DESKTOP_FAILURE.json": {
+      "path": "docs/cp7/evidence/f03-full/p13-incomplete-8b7dc16/P13_PERIOD_DESKTOP_FAILURE.json.gz",
+      "bytes": 8937,
+      "sha256": "f344c5ad5fbf694ac343949bc65f424b3f9643851c0e3f05af56f0b78c9809cc",
+      "gzip_bytes": 3045,
+      "gzip_sha256": "04742ad4e1000d207704e7dabad5a824dc026873de60c305bc4c5f8209ad7cd1"
+    }
+  }
+}

@@ -462,6 +462,19 @@
       "status": "PREDECLARED_PENDING"
     },
     "native_predeclared_case_executions": 28,
+    "p13_same_product_regression": {
+      "job_id": 110787301933,
+      "observed_case_count": 50,
+      "receipt": "docs/cp7/evidence/f03-full/p13-incomplete-8b7dc16/RECEIPT.json",
+      "repair": "Require specific actual transport-error alert and absence of both close/reopen actions; retained mutation notices may coexist",
+      "required_P13_count_unchanged": 50,
+      "rerun": ".github/workflows/cp7-f03-p13-regression.yml",
+      "run_id": 36991113665,
+      "same_product_bundle": true,
+      "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+      "status": "49_PASS_1_INCOMPLETE_BROWSER_ORACLE_REPAIR_PENDING",
+      "unchanged_other_seven_buckets": "Retain their source-specific results; no financial product change or dropped case"
+    },
     "pending_extension": {
       "additional_case_executions": 4,
       "customer_prepaid_wallet": "Same Native original wallet, original amount/date, unchanged opening and no fabricated cash; predeclared qualification pending",
