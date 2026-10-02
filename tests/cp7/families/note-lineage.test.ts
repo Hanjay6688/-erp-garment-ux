@@ -15,6 +15,11 @@ beforeEach(async()=>{
  create table erp.sales_items(id uuid primary key,sale_id uuid,product_id uuid,qty_pcs integer,unit_price_snapshot numeric,discount_amount numeric,notes text);
  create table erp.fg_stock_movements(id uuid primary key,source_id uuid,source_type text,movement_type text,product_id uuid,location_id uuid,quality_grade text,lot_id uuid,book_order bigint,qty_signed numeric);
  create table cp7_fg.correction_movements(member_id uuid,origin_id uuid);
+ -- Both runtimes must emulate the installed Native owner. Native PG16 opens
+ -- as cp7_f04_test, while PGlite opens as postgres; this changes only the stubs.
+ alter schema erp owner to postgres;alter schema cp7_note owner to postgres;alter schema cp7_fg owner to postgres;
+ alter table erp.sales_items owner to postgres;alter table erp.fg_stock_movements owner to postgres;
+ alter table cp7_note.revisions owner to postgres;alter table cp7_fg.correction_movements owner to postgres;
  insert into erp.sales_items values('${old5}','${previous}','${product}',5,10,0,null),('${old10}','${previous}','${product}',10,10,0,null),('${new5}','${replacement}','${product}',5,10,0,null),('${new6}','${replacement}','${product}',6,10,0,null);
  insert into erp.fg_stock_movements values('${u(40)}','${old5}','SALE_ITEM','SALE','${product}','${location}','GRADE_A','${lot}',1,-5),('${u(41)}','${old10}','SALE_ITEM','SALE','${product}','${location}','GRADE_A','${lot}',2,-10);
  ${readFileSync('scripts/cp7-src/sales/correction-lines.sql','utf8')}`)

@@ -113,6 +113,13 @@ def project(manifest_path, destination):
                                           original_error=diagnostic.get('error'),
                                           visible_panel_text=str(diagnostic.get('text', ''))[:12000]),
                                      ensure_ascii=False))
+                elif member.endswith('_READ_PROFILE.json'):
+                    profile = json.loads(raw)
+                    public_metrics = {key: profile[key] for key in
+                                      ('status', 'diagnostic_only', 'read_only', 'saved_runs_added',
+                                       'Native_HTTP_timeout_changed', 'steps', 'sqlstate', 'error')
+                                      if key in profile}
+                    print(json.dumps(dict(exact_read_profile=member, metrics=public_metrics)))
     projection = dict(
         contract='cp7.exact-native-artifact-projection.v1',
         status='EXACT_ORIGINAL_REPORTS_RETAINED',

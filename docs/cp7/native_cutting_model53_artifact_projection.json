@@ -1,0 +1,21 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37028887830,
+  "job_id": 110910427706,
+  "artifact_id": 11236229103,
+  "artifact_name": "cp7-f04-cutting-model",
+  "source_commit": "3c05905318c6417ac22d8055e05d284dbcf5bbb7",
+  "source_tree": "97c41ff004d678ee3da666230738276ab5d15536",
+  "source_bundle_sha256": "d1aedd4bfeb7ec3201ca665c25624334c466ba61abf7013a86e889851b0c4431",
+  "zip_bytes": 9942702,
+  "zip_sha256": "8ecf90b5b67e047f2ecb285f2de9b86ba722f3f4462bee49fff9a09fedd81d66",
+  "runtime_report": "CP7_F04_NATIVE_HISTORY.json",
+  "expected_status": "PASS",
+  "expected_case_count": 53,
+  "required_case_counts": {
+    "native": 34,
+    "races": 8,
+    "http": 5,
+    "browser": 6
+  }
+}

@@ -2764,7 +2764,8 @@
       "source": "2f4e454890e1506aa798c14707e8ae9c23a5452f",
       "exact_artifact_projection_manifest": "docs/cp7/native284_artifact_projection.json",
       "failed_original_retention": "PENDING_READ_ONLY_COMPLETED_ARTIFACT_PROJECTION",
-      "previous_qualified_Original_unchanged": true
+      "previous_qualified_Original_unchanged": true,
+      "confirmed_failure": "Both final initial analysis captures cancelled by unchanged Native statement timeout, exact visible diagnostic retained via projection37030449719; earlier failure remains despite passing same-bundle repeat13b."
     },
     "latest_completed_qualified_repeat": {
       "run_id": 37023166457,
@@ -2844,7 +2845,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-02T22:50+07:00: Native40 first admission at3c05905 caught SQL alias old colliding with PLpgSQL old request record; renamed prior_allocation without guard/formula changes, fresh complete40 mandatory. Isolated40 first failed Original pinned for read-only retention. Native284 at13b all284 PASS with same bundle as failed2f; both exact artifacts retained through projection, failure cause still checked. Claude receipt28 independently checked from CI415b; older cutting permission test differs from fixed current writer13b Shell. Local execution environment offline; remote API work and CI continue. No Claude WIP imported, CP6 HOLD/audit_complete=false/production_go=false.",
+  "last_writer_checkpoint": "2026-10-02: actual observation44/model53 standalone PASS at3c; exact projection pinned. Native40 alias fixed at088 with complete40 running; new NoteLineage synthetic PG16 fixture ownership mismatch repaired, all4 assertions preserved. Same-bundle full284 successor13b qualified; failed2f capture timeout remains and read-only profile is collected. Claude28 qualified CI verified, stale cutting test already fixed in GPT source. Local environment offline; API/CI work continues; full CP7 remains open.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 owning30 and full8 source-bound proof preserved; latest analysis152 PASS. Complete284 stops after three individually PASS admission controls with physical public-function order mismatch; full mandatory suite unrun. Cutting23 has21 PASS/2 browser Locator errors. Both repairs require complete fresh runs. Full CP7 and production acceptance remain open.",
   "latest_tested_source": "2dced3d393dd2f3073de1dc3706c62581f52b9c6",
@@ -3710,7 +3711,7 @@
     }
   },
   "native_cutting_observation_candidate": {
-    "status": "NATIVE44_INCOMPLETE_POSTED_OUTPUT_DECIMAL_ORACLE_REPAIRED",
+    "status": "STANDALONE_NATIVE44_PASS_AT3c05905_EXACT_RETENTION_PENDING",
     "required_counts": {
       "native": 28,
       "races": 6,
@@ -3742,11 +3743,19 @@
     },
     "all_cleanup_gates_pass": true,
     "auth_users_after": 0,
-    "complete_native44_still_required": true
+    "complete_native44_still_required": true,
+    "qualified_run": 37028887887,
+    "qualified_counts": {
+      "native": 28,
+      "races": 6,
+      "http": 4,
+      "browser": 6
+    },
+    "projection_manifest": "docs/cp7/native_cutting_observation44_artifact_projection.json"
   },
   "audit_complete": false,
   "native_cutting_model_candidate": {
-    "status": "LOCAL5_SYNTHETIC_SQL_PASS_REAL_NATIVE53_PENDING",
+    "status": "STANDALONE_NATIVE53_PASS_AT3c05905_EXACT_RETENTION_PENDING",
     "required_counts": {
       "native": 34,
       "races": 8,
@@ -3762,7 +3771,24 @@
     "complete_prospective_actor_scope": true,
     "explicit_scope_cap_refusal": 20000,
     "full_family_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "qualified_run": 37028887830,
+    "qualified_counts": {
+      "native": 34,
+      "races": 8,
+      "http": 5,
+      "browser": 6
+    },
+    "projection_manifest": "docs/cp7/native_cutting_model53_artifact_projection.json"
   },
-  "execution_environment": "LOCAL_EXECUTION_OFFLINE_REMOTE_REPOSITORY_AND_CI_WORK_CONTINUES"
+  "execution_environment": "LOCAL_EXECUTION_OFFLINE_REMOTE_REPOSITORY_AND_CI_WORK_CONTINUES",
+  "shell_note_lineage_control_repair": {
+    "status": "NATIVE_PG16_STUB_OWNERSHIP_REPAIRED_FRESH_SHELL_PENDING",
+    "source": "3c05905318c6417ac22d8055e05d284dbcf5bbb7",
+    "run_id": 37028886191,
+    "other_pass": 1247,
+    "failed": 4,
+    "product_SQL_changed": false,
+    "fixture_only": "Explicit postgres schema/table ownership emulates real Native owner in both PGlite and NativePG16; no privilege grant, dropped assertion or actual Native credit."
+  }
 }
