@@ -36,11 +36,12 @@ create function cp7_fg.book_rows() returns table(
  join erp.locations loc on loc.id=m.location_id left join erp.fg_lots l on l.id=m.lot_id left join erp.customers c on c.id=m.customer_id
 $$;
 
-create function cp7_fg.book_workspace(p_query jsonb) returns jsonb
+-- One closed validator shared by both projections. It performs no ledger
+-- read; the corrected projection must not build the complete legacy book too.
+create function cp7_fg.book_query(p_query jsonb) returns jsonb
 language plpgsql stable security invoker set search_path='' as $$
-declare a jsonb;q text;n integer;off integer;at_from timestamptz;at_to timestamptz;brands uuid[];customers uuid[];types text[];rows jsonb;total bigint;key text;
+declare q text;n integer;off integer;at_from timestamptz;at_to timestamptz;brands uuid[];customers uuid[];types text[];key text;
 begin
- a:=cp7_fg.book_access();
  if jsonb_typeof(p_query) is distinct from 'object' or exists(select 1 from jsonb_object_keys(p_query) k where k not in('q','limit','offset','from','to','brand_ids','customer_ids','movement_types'))
   or exists(select 1 from jsonb_each(p_query) e where e.key in('q','from','to') and jsonb_typeof(e.value) not in('string','null'))
   or(p_query?'limit' and (jsonb_typeof(p_query->'limit')<>'number' or(p_query->>'limit')!~'^[0-9]{1,3}$'))
@@ -53,6 +54,22 @@ begin
  select array_agg(value::uuid) into brands from jsonb_array_elements_text(p_query->'brand_ids');
  select array_agg(value::uuid) into customers from jsonb_array_elements_text(p_query->'customer_ids');
  select array_agg(value) into types from jsonb_array_elements_text(p_query->'movement_types');
+ return jsonb_build_object('q',q,'limit',n,'offset',off,'from',at_from,'to',at_to,
+  'brand_ids',to_jsonb(coalesce(brands,'{}'::uuid[])),
+  'customer_ids',to_jsonb(coalesce(customers,'{}'::uuid[])),
+  'movement_types',to_jsonb(coalesce(types,'{}'::text[])));
+end $$;
+
+create function cp7_fg.book_workspace(p_query jsonb) returns jsonb
+language plpgsql stable security invoker set search_path='' as $$
+declare a jsonb;validated jsonb;q text;n integer;off integer;at_from timestamptz;at_to timestamptz;brands uuid[];customers uuid[];types text[];rows jsonb;total bigint;
+begin
+ a:=cp7_fg.book_access();validated:=cp7_fg.book_query(p_query);
+ q:=validated->>'q';n:=(validated->>'limit')::integer;off:=(validated->>'offset')::integer;
+ at_from:=(validated->>'from')::timestamptz;at_to:=(validated->>'to')::timestamptz;
+ select array_agg(value::uuid)into brands from jsonb_array_elements_text(validated->'brand_ids');
+ select array_agg(value::uuid)into customers from jsonb_array_elements_text(validated->'customer_ids');
+ select array_agg(value)into types from jsonb_array_elements_text(validated->'movement_types');
  with filtered as materialized(
   select * from cp7_fg.book_rows() m where(at_from is null or m.physical_at>=at_from) and(at_to is null or m.physical_at<at_to)
    and(brands is null or m.brand_id=any(brands)) and(customers is null or m.customer_id=any(customers)) and(types is null or m.movement_type=any(types))

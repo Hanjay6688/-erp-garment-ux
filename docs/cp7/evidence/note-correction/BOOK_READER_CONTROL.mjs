@@ -1,0 +1,63 @@
+// Synthetic reader/validation equivalence. Zero Native economic executions.
+import {readFileSync,writeFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {resolve} from 'node:path';
+const {PGlite}=await import(process.argv[2]);
+const root=resolve(process.argv[3]||process.cwd());
+const sql=p=>readFileSync(root+'/'+p,'utf8');
+const priorRef=process.argv[4]||'b214ec26c8c40d47034792d34ecf932c8f390323';
+const prior=p=>execFileSync('git',['show',priorRef+':'+p],{cwd:root,encoding:'utf8'});
+const bookPath='scripts/cp7-src/fg/book.sql',projectionPath='scripts/cp7-src/fg/corrected-book.sql';
+const db=new PGlite();const id=n=>`00000000-0000-4000-8000-${n.toString(16).padStart(12,'0')}`;
+const brand='aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',customer=id(70);
+try {
+await db.exec(`create schema erp;create schema cp7_fg;create schema auth;
+create role anon;create role authenticated;create role service_role;create role cp7_capture;create role cp7_fg_read;create role cp7_fg_write;
+create table erp.products(id uuid primary key,brand_id uuid,size_id uuid,sku text,product_name text);
+create table erp.brands(id uuid primary key,brand_name text);
+create table erp.sizes(id uuid primary key,size_code text);
+create table erp.locations(id uuid primary key,location_name text);
+create table erp.customers(id uuid primary key,customer_name text);
+create table erp.fg_lots(id uuid primary key,lot_number text);
+create table erp.fg_stock_movements(id uuid primary key,book_order bigint,physical_at timestamptz,system_created_at timestamptz,product_id uuid,location_id uuid,quality_grade text,qty_signed numeric,lot_id uuid,customer_id uuid,movement_type text,source_type text,source_id uuid,reversal_of_id uuid,notes text);
+create table cp7_fg.requests(actor uuid,request_id uuid,action text,payload jsonb,expected_version text,response jsonb,primary key(actor,request_id));
+create table cp7_fg.correction_movements(member_id uuid primary key,origin_id uuid,correction_id uuid,recorded_at timestamptz);
+create function cp7_fg.access_now(text)returns jsonb language sql as $$select '{"profile":{"role_code":"OWNER"}}'::jsonb$$;
+create function erp.has_permission(text)returns boolean language sql as $$select true$$;
+create function auth.uid()returns uuid language sql as $$select null::uuid$$;
+create function erp.bf_commercial_sku_at_v1(uuid,timestamptz)returns text language sql as $$select sku from erp.products where id=$1$$;
+create function erp.move_fg_stock_card_row_to_position(uuid,integer)returns void language plpgsql as $$begin raise exception 'CONTROL_NO_NATIVE_WRITER';end$$;
+create function erp.reset_fg_stock_mutation_book_order()returns void language plpgsql as $$begin raise exception 'CONTROL_NO_NATIVE_WRITER';end$$;
+grant usage on schema erp,cp7_fg,auth,public to cp7_fg_read,cp7_fg_write;
+grant select on all tables in schema erp,cp7_fg to cp7_fg_read;
+insert into erp.products values('${id(1)}','${brand}','${id(2)}','SYNTHETIC-READER','Synthetic quantity reader');
+insert into erp.brands values('${brand}','Synthetic brand');insert into erp.sizes values('${id(2)}','30');
+insert into erp.locations values('${id(3)}','Synthetic warehouse');insert into erp.customers values('${customer}','Synthetic customer');
+insert into erp.fg_lots values('${id(4)}','SYNTHETIC-LOT');
+insert into erp.fg_stock_movements values('${id(100)}',1,'2020-01-01','2020-01-01','${id(1)}','${id(3)}','GRADE_A',1200,'${id(4)}',null,'OPENING','SYNTHETIC_READER','${id(100)}',null,null);
+insert into erp.fg_stock_movements values('${id(101)}',2,'2020-01-02','2020-01-02','${id(1)}','${id(3)}','GRADE_A',-24,'${id(4)}','${customer}','SALE','SALE_ITEM','${id(101)}',null,'Original physical note');
+`);
+for(let i=0;i<30;i++)await db.query('insert into erp.fg_stock_movements values($1,$2,$3,$3,$4,$5,\'GRADE_A\',-12,$6,$7,\'SALE\',\'SALE_ITEM\',$1,null,\'Later unchanged transaction\')',[id(102+i),3+i,`2020-02-${String(i%28+1).padStart(2,'0')}T12:00:00Z`,id(1),id(3),id(4),customer]);
+await db.exec(`insert into erp.fg_stock_movements values('${id(500)}',33,'2020-01-02','2026-10-02','${id(1)}','${id(3)}','GRADE_A',24,'${id(4)}','${customer}','REVERSAL','FG_REVERSAL','${id(101)}','${id(101)}','Linked inverse');
+insert into erp.fg_stock_movements values('${id(501)}',34,'2020-01-02','2026-10-02','${id(1)}','${id(3)}','GRADE_A',-12,'${id(4)}','${customer}','SALE','SALE_ITEM','${id(501)}',null,'Linked replacement');
+insert into cp7_fg.correction_movements values('${id(500)}','${id(101)}','${id(502)}','2026-10-02'),('${id(501)}','${id(101)}','${id(502)}','2026-10-02');`);
+await db.exec(prior(bookPath));await db.exec(prior(projectionPath));
+const get=async(q,v2=true)=> (await db.query('select cp7_fg.'+(v2?'corrected_book_workspace':'book_workspace')+'($1::jsonb) result',[JSON.stringify(q)])).rows[0].result;
+const trim=r=>{const v=structuredClone(r);delete v.read_at;return v;};
+const queries=[{}, {limit:5,offset:4}, {q:'Original'}, {q:'LATER',limit:9,offset:5}, {brand_ids:[brand]}, {customer_ids:[customer]}, {movement_types:['SALE']}, {from:'2020-02-10T00:00:00Z',to:'2020-03-01T00:00:00Z',limit:4}, {brand_ids:[],customer_ids:[],movement_types:[]}, {q:'no match'}];
+const before=[];for(const q of queries)before.push(trim(await get(q)));
+const malformed=[{limit:0},{offset:-1},{limit:'1'},{offset:'0'},{q:'x'.repeat(121)},{history_complete:true},{brand_ids:null},{customer_ids:[3]},{brand_ids:['wrong UUID']},{from:'wrong date'},{from:'2020-03-02',to:'2020-01-01'},[]];
+const refusals=[];for(const q of malformed){try{await get(q);throw Error('CONTROL_EXPECTED_REFUSAL');}catch(e){if(e.message==='CONTROL_EXPECTED_REFUSAL')throw e;refusals.push({code:e.code,message:e.message});}}
+await db.exec(sql(bookPath).replace(/^create function /gm,'create or replace function '));
+await db.exec(sql(projectionPath).replace(/^create function /gm,'create or replace function '));
+for(let i=0;i<queries.length;i++)assert.deepEqual(trim(await get(queries[i])),before[i]);
+for(let i=0;i<malformed.length;i++){try{await get(malformed[i]);throw Error('CONTROL_EXPECTED_REFUSAL');}catch(e){if(e.message==='CONTROL_EXPECTED_REFUSAL')throw e;assert.deepEqual({code:e.code,message:e.message},refusals[i]);}}
+const low=await get({brand_ids:[brand]});assert.deepEqual((await get({brand_ids:[brand.toUpperCase()]})).page,low.page);
+assert.equal(low.page.total,'32');const original=low.page.rows.find(x=>x.id===id(101));assert.equal(original.original_physical_delta,'-24');assert.equal(original.physical_delta,'-12');
+await db.exec(`create or replace function cp7_fg.book_workspace(p_query jsonb)returns jsonb language plpgsql stable as $$begin raise exception 'CONTROL_LEGACY_COMPLETE_BOOK_MUST_NOT_RUN';end$$;`);
+assert.deepEqual((await get({q:'Original'})).page,before[2].page);
+const result={status:'PASS_SYNTHETIC_READER_EQUIVALENCE',qualified_native:false,qualification_credit:0,native_economic_commands:0,valid_queries_exact_equal:queries.length,malformed_queries_same_refusal:malformed.length,uppercase_UUID_canonical_filter:true,complete_prefix_preserved:true,old_complete_book_poisoned_and_v2_still_pass:true,source_hashes:Object.fromEntries([bookPath,projectionPath].map(p=>[p,createHash('sha256').update(sql(p)).digest('hex')]))};
+writeFileSync(root+'/docs/cp7/evidence/note-correction/BOOK_READER_LOCAL.json',JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));
+}catch(e){console.log(JSON.stringify({status:'SYNTHETIC_READER_CONTROL_FAILED',message:e.message,code:e.code}));process.exitCode=1;}finally {await db.close();}

@@ -52,21 +52,24 @@ language plpgsql stable security invoker set search_path=''as $$
 declare a jsonb;validated jsonb;rows jsonb;total bigint;n integer;off integer;
 begin
  a:=cp7_fg.book_access();
- -- Reuse the complete existing closed-query/type/limit/permission validator.
- validated:=cp7_fg.book_workspace(p_query);n:=(validated->'page'->>'limit')::integer;off:=(validated->'page'->>'offset')::integer;
+ -- Share exact validation, with canonical UUIDs. Do not compute a legacy
+ -- complete book that this projection immediately discards.
+ validated:=cp7_fg.book_query(p_query);n:=(validated->>'limit')::integer;off:=(validated->>'offset')::integer;
  with filtered as materialized(
   select value r from cp7_fg.corrected_book_rows()value where
-   (p_query->>'from'is null or(value->>'physical_at')::timestamptz>=(p_query->>'from')::timestamptz)
-   and(p_query->>'to'is null or(value->>'physical_at')::timestamptz<(p_query->>'to')::timestamptz)
-   and(coalesce(jsonb_array_length(p_query->'brand_ids'),0)=0 or p_query->'brand_ids'@>jsonb_build_array(value->>'brand_id'))
-   and(coalesce(jsonb_array_length(p_query->'customer_ids'),0)=0 or p_query->'customer_ids'@>jsonb_build_array(value->>'customer_id'))
-   and(coalesce(jsonb_array_length(p_query->'movement_types'),0)=0 or p_query->'movement_types'@>jsonb_build_array(value->>'movement_type'))
-   and(btrim(coalesce(p_query->>'q',''))=''or strpos(lower(concat_ws(' ',value->>'brand_name',value->>'commercial_sku',
+   (validated->>'from'is null or(value->>'physical_at')::timestamptz>=(validated->>'from')::timestamptz)
+   and(validated->>'to'is null or(value->>'physical_at')::timestamptz<(validated->>'to')::timestamptz)
+   and(jsonb_array_length(validated->'brand_ids')=0 or validated->'brand_ids'@>jsonb_build_array(value->>'brand_id'))
+   and(jsonb_array_length(validated->'customer_ids')=0 or validated->'customer_ids'@>jsonb_build_array(value->>'customer_id'))
+   and(jsonb_array_length(validated->'movement_types')=0 or validated->'movement_types'@>jsonb_build_array(value->>'movement_type'))
+   and(validated->>'q'=''or strpos(lower(concat_ws(' ',value->>'brand_name',value->>'commercial_sku',
     value->>'product_name',value->>'size_code',value->>'lot_number',value->>'location_name',value->>'customer_name',
-    value->>'source_type',value->>'source_id',value->>'notes')),lower(btrim(p_query->>'q')))>0)
+    value->>'source_type',value->>'source_id',value->>'notes')),lower(validated->>'q'))>0)
  ),page as(select r from filtered order by(r->>'book_order')::bigint,r->>'id'limit n offset off)
  select(select count(*)from filtered),coalesce(jsonb_agg(r order by(r->>'book_order')::bigint,r->>'id'),'[]')into total,rows from page;
- return(validated-'page')||jsonb_build_object('contract_version','cp7.fg-book.v2',
+ return jsonb_build_object('contract_version','cp7.fg-book.v2','read_at',statement_timestamp(),'knowledge','CURRENT',
+  'book_token',cp7_fg.book_signature(),'can_order',a->'can_order',
+  'quantity_scope','PHYSICAL_PRODUCT_LOCATION_GRADE','presentation_only',true,
   'page',jsonb_build_object('rows',rows,'total',total::text,'offset',off,'limit',n,
   'next_offset',case when off+jsonb_array_length(rows)<total then off+jsonb_array_length(rows)else null end));
 end $$;

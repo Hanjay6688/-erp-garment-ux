@@ -2451,6 +2451,18 @@
       "observed_case_count": 0,
       "receipt": "docs/cp7/evidence/note-correction/failed-install-27cbaee4/RECEIPT.json",
       "repair": "Explicitly pin six derived private helper owners to postgres; preserve exact Native security/config; emit actual failed properties for diagnosis. Native confirmation pending."
+    },
+    "book_reader_performance_candidate": {
+      "status": "LOCAL_SYNTHETIC_EQUIVALENCE_PASS_NATIVE_PENDING",
+      "duplicate_complete_legacy_read_removed": true,
+      "shared_exact_closed_validator": true,
+      "uppercase_UUID_filter_canonical": true,
+      "valid_queries_exact_equal": 10,
+      "malformed_queries_same_refusal": 12,
+      "native_economic_commands": 0,
+      "qualification_credit": 0,
+      "receipt": "docs/cp7/evidence/note-correction/BOOK_READER_LOCAL.json",
+      "all_original_28_cases_retained": true
     }
   },
   "p18_owning_note_consumer_bridge_candidate": {

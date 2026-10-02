@@ -175,8 +175,13 @@ def cases(cur,today):
   ownership.verify(cur);f=posted(cur,drafts.fixture(cur,today));p,v=edit(cur,f,'3');before=snapshot(cur)
   for change in (dict(unit_hpp_snapshot='0'),dict(sale_date=source.fg.ax.r1.now(cur).isoformat()),dict(sale_number='ALTERED-ORIGINAL-NUMBER')):
    auth.refused(cur,lambda:correct(cur,dict(p,**change),v),'CP7_SALES_DRAFT_FIELDS'if'unit_hpp_snapshot'in change else'CP7_NOTE_SOURCE_IDENTITY_CHANGED')
+  for extra in (dict(limit=0),dict(offset=-1),dict(q='x'*121),dict(history_complete=True),dict(brand_ids=None),dict(customer_ids=[3])):
+   auth.refused(cur,lambda extra=extra:book(cur,f,**extra),'CP7_FG_BOOK_FILTER'if'brand_ids'in extra or'customer_ids'in extra else'CP7_FG_BOOK_QUERY')
+  brand=str(cur.execute('select brand_id from erp.products where id=%s',(f['product'],)).fetchone()[0])
+  low=book(cur,f,brand_ids=[brand]);upper=book(cur,f,brand_ids=[brand.upper()])
+  assert low['page']['rows']and low['page']==upper['page']and low['book_token']==upper['book_token']
   assert snapshot(cur)==before
-  return dict(status='PASS',no_injected_HPP_or_silent_date_number_change=True,no_extra_native_privilege=True,scoped_private_helpers_unreachable=True)
+  return dict(status='PASS',no_injected_HPP_or_silent_date_number_change=True,no_extra_native_privilege=True,scoped_private_helpers_unreachable=True,shared_closed_book_query_refusals=True,uppercase_UUID_filter_same_complete_page_and_prefix=True)
  def same_day():
   f=stock(cur,today,100,source.fg.ax.r1.now(cur)-timedelta(days=2));posted(cur,f,'24');later=dict(f,tag=f['tag']+'-PM',sale_at=(source.fg.ax.r1.now(cur)-timedelta(days=2)+timedelta(hours=5)).isoformat());posted(cur,later,'12');before=complete_book(cur,f);p,v=edit(cur,f,'12');correct(cur,p,v);after=complete_book(cur,f)
   later_row=next(r for r in before.values()if r['movement_type']=='SALE'and r['physical_at']==source.read(cur,later)['detail']['physical_at']);assert after[later_row['id']]['physical_at']==later_row['physical_at']and D(after[later_row['id']]['book_physical_after'])==D(later_row['book_physical_after'])+12

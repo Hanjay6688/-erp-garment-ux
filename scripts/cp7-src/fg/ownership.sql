@@ -28,6 +28,7 @@ grant create on schema public,cp7_fg to cp7_fg_read,cp7_fg_write;
 alter function cp7_fg.book_access() owner to cp7_fg_read;
 alter function cp7_fg.book_signature() owner to cp7_fg_read;
 alter function cp7_fg.book_rows() owner to cp7_fg_read;
+alter function cp7_fg.book_query(jsonb) owner to cp7_fg_read;
 alter function cp7_fg.book_workspace(jsonb) owner to cp7_fg_read;
 alter function cp7_fg.book_anchor(uuid,uuid,text) owner to cp7_fg_read;
 alter function cp7_fg.book_options(text,text,integer,integer) owner to cp7_fg_read;
