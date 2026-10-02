@@ -11,6 +11,11 @@ name: CP7 F04 Prospective Native Cutting Model and Consumer
     - src/NativeCuttingInputsPanel*
     - src/nativeCuttingInputs*
     - scripts/cp7_cutting_learning_*
+    - scripts/cp7-src/procurement/accepted-deltas.sql
+    - scripts/cp7_sales_bundle.py
+    - scripts/cp7_nota_bundle.py
+    - scripts/cp7_settlement_bundle.py
+    - scripts/cp7_attendance_write_bundle.py
     - src/NativeCuttingLearningPanel*
     - src/nativeCuttingLearning*
     - docs/cp7/f04/native_cutting_learning_native57_manifest.json

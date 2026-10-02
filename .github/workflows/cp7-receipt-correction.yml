@@ -7,6 +7,11 @@ name: CP7 Owning Receipt Correction
     paths:
     - scripts/cp7_receipt_correction_*
     - scripts/cp7-src/procurement/correction.sql
+    - scripts/cp7-src/procurement/accepted-deltas.sql
+    - scripts/cp7_sales_bundle.py
+    - scripts/cp7_nota_bundle.py
+    - scripts/cp7_settlement_bundle.py
+    - scripts/cp7_attendance_write_bundle.py
     - scripts/cp7-src/procurement/material-name.sql
     - src/ReceiptCorrectionPanel.tsx
     - src/MaterialNamePanel.tsx

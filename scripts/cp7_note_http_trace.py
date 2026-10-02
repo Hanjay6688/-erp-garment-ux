@@ -17,6 +17,11 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 stop = False
+TARGETS = {
+    'NOTE': ('erp_cp7_correct_note_v1', 'NOTE_'),
+    'F05_CAPTURE': ('erp_cp7_capture_analysis_v1', 'F05_CAPTURE_'),
+    'F05_LOCAL_CLAIM': ('erp_cp7_claim_local_preview_v1', 'F05_LOCAL_CLAIM_'),
+}
 
 
 def server_frames(raw):
@@ -26,10 +31,11 @@ def server_frames(raw):
     return [dict(function=name, line=int(line)) for name, line in re.findall(pattern, raw)]
 
 
-def watch(suffix):
+def watch(suffix, family='NOTE'):
     global stop
     import psycopg
     assert re.fullmatch(r'[A-Z_]+', suffix), 'DIAGNOSTIC_CASE_LABEL_ONLY'
+    rpc, prefix = TARGETS[family]
     target = os.environ['AUDITOR_BROWSER_DB_URL']
     parsed = urlparse(target)
     assert parsed.hostname in ('localhost', '127.0.0.1') and parsed.path == '/cp6_auditor_browser', 'DISPOSABLE_BROWSER_TRACE_ONLY'
@@ -42,7 +48,7 @@ def watch(suffix):
                   query_claims_payload_and_raw_log_emitted=False, samples=[])
     signal.signal(signal.SIGUSR1, lambda *_: globals().__setitem__('stop', True))
     try:
-        with psycopg.connect(target, autocommit=True) as connection:
+        with psycopg.connect(target, autocommit=True, connect_timeout=2) as connection:
             with connection.cursor() as cur:
                 # Fixed readiness marker contains no database or actor data.
                 # The browser waits briefly for this so the first command is
@@ -58,8 +64,8 @@ def watch(suffix):
                       from pg_stat_activity
                       where datname=current_database() and pid<>pg_backend_pid()
                         and backend_type='client backend' and state='active'
-                        and strpos(query,'erp_cp7_correct_note_v1')>0
-                    """).fetchall()
+                        and strpos(query,%s)>0
+                    """, (rpc,)).fetchall()
                     report['samples'].append(dict(elapsed_ms=round((time.monotonic()-started)*1000),
                         command_sessions=[dict(pid=pid, state=state, wait_type=kind,
                             wait_event=event, query_elapsed_ms=str(elapsed),
@@ -74,10 +80,10 @@ def watch(suffix):
         # Emit only the exception class; a driver message can contain a URL.
         report.update(status='TRACE_INCOMPLETE', error_type=type(error).__name__)
     report['elapsed_ms'] = round((time.monotonic()-started)*1000)
-    destination = ROOT/'cp6-proof/t3'/('NOTE_'+suffix+'_HTTP_TRACE.json')
+    destination = ROOT/'cp6-proof/t3'/(prefix+suffix+'_HTTP_TRACE.json')
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(report, indent=2)+'\n')
 
 
 if __name__ == '__main__':
-    watch(sys.argv[1])
+    watch(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else 'NOTE')

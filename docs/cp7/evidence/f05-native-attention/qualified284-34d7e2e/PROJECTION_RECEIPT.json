@@ -1,0 +1,18 @@
+{
+  "status": "EXACT_EXISTING_ORIGINALS_RETAINED",
+  "new_execution_case_credit": 0,
+  "retention_source_commit": "435e9e00f5439216f5f9e36c2a07f2d479449fc4",
+  "retention_run_id": 37054009354,
+  "projection_artifact_id": 11247484040,
+  "projection_zip_bytes": 65454,
+  "projection_zip_sha256": "8003b7f5fe8bf3789c8a335e97652cd0e50355a9081a10d5090d3904e69360d3",
+  "source_run_id": 37047744131,
+  "source_commit": "34d7e2e962423cdc42d2d596d1ce996ea9070a8b",
+  "source_tree": "38ad2c662aaaf63bcf5e8377b0ad861b2a38e002",
+  "original_artifact_id": 11246264212,
+  "original_zip_sha256": "2bd903f8a77587075aded610985e8b23ada62ed96d1494f8a884e7bbeb90d9f9",
+  "original_reports_gzip_sha256": "258f4a023ecb2af280d13284bb0ed6ad0f22088747b126108d1487bdb3f96a86",
+  "receipt_sha256": "97db57354cf95fcef71af3d6e18dbd720d0cbfab0feace34db3840dfe019bb2a",
+  "original_root_json_bytes_unchanged": true,
+  "production_go": false
+}

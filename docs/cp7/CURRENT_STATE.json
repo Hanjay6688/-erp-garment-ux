@@ -584,7 +584,8 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/f03-full/all-eight-qualified-e873462/RECEIPT.json",
       "exact_original_retention": "COMPLETE"
-    }
+    },
+    "new_guard_candidate_full_repeat_required": true
   },
   "f03_historical_note_correction": {
     "all_eight_current_sql_qualified": {
@@ -2201,7 +2202,7 @@
     "tested_source": "ae74c4118d3d42ceec3b3865faad4cc2292ac8a9"
   },
   "f05_native_analysis_current_repeat": {
-    "status": "NATIVE284_INCOMPLETE_FIVE_BROWSER_ASSERTIONS_DIAGNOSTIC_RETENTION_PENDING",
+    "status": "EXACT_INCOMPLETE279_AND_QUALIFIED284_PREDECESSOR_RETAINED_NEW_GUARD_REQUALIFICATION_REQUIRED",
     "source_commit": "e873462c7372c23e86e48c33ebf3de386b0c9dec",
     "run_id": 37043056813,
     "job_id": 110957628784,
@@ -2218,7 +2219,70 @@
     "full_family_acceptance": false,
     "production_go": false,
     "actual_HTTP_500_browser_replies": 5,
-    "cause_closed": false
+    "cause_closed": false,
+    "current_incomplete": {
+      "source_commit": "e873462c7372c23e86e48c33ebf3de386b0c9dec",
+      "source_tree": "39863f36fccf9be7aa79ac09a245d154ac07c293",
+      "run_id": 37043056813,
+      "job_id": 110957628784,
+      "artifact_id": 11245403985,
+      "zip_sha256": "f2a6ca2f5158f224e184a52a0bca19d47bada18aaec26b77a23197b1f5bec33a",
+      "counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 31,
+          "INCOMPLETE": 5
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "receipt": "docs/cp7/evidence/f05-native-attention/incomplete284-e873462/RECEIPT.json",
+      "qualifies_new_guard_candidate": false
+    },
+    "qualified_predecessor": {
+      "source_commit": "34d7e2e962423cdc42d2d596d1ce996ea9070a8b",
+      "source_tree": "38ad2c662aaaf63bcf5e8377b0ad861b2a38e002",
+      "run_id": 37047744131,
+      "job_id": 110973247042,
+      "artifact_id": 11246264212,
+      "zip_sha256": "2bd903f8a77587075aded610985e8b23ada62ed96d1494f8a884e7bbeb90d9f9",
+      "counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/f05-native-attention/qualified284-34d7e2e/RECEIPT.json",
+      "qualifies_new_guard_candidate": false
+    }
   },
   "f05_native_analysis_latest_regression": {
     "status": "NATIVE_WRITER_QUALIFIED",
@@ -3861,7 +3925,7 @@
     "console_errors": 0
   },
   "f03_note_presentation_candidate": {
-    "status": "NATIVE40_QUALIFIED_AT34D7E2E_NEW_READ_AUTHORITY_UI_REQUALIFICATION_PENDING",
+    "status": "NEW_OWNED_UI_NOTE40_INCOMPLETE37_OF40_ACTUAL_INTERNAL_GUARD_HOT_FRAMES_REPAIR_CANDIDATE",
     "preceding36": {
       "status": "NATIVE36_INCOMPLETE_ORIGINAL_RETAINED_REPAIRS_PENDING",
       "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
@@ -4008,6 +4072,44 @@
       "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-34d7e2e/RECEIPT.json",
       "console_errors": 0,
       "intermittent_timeout_cause_closed": false
+    },
+    "current_incomplete40": {
+      "source_commit": "0dec1c1dd2ed1558efbd416684687eda362616a6",
+      "source_tree": "fa555adb4f204d17ef3b1392677b5975eeaabbf6",
+      "run_id": 37052402095,
+      "job_id": 110988741241,
+      "artifact_id": 11247932418,
+      "counts": {
+        "native": {
+          "PASS": 28
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 3
+        },
+        "browser": {
+          "INCOMPLETE": 3,
+          "PASS": 2
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/owning-note-correction/incomplete40-0dec1c1/RECEIPT.json",
+      "UI_peer_oracle_qualified": false
     }
   },
   "native_cutting_observation_candidate": {
@@ -4244,7 +4346,7 @@
     "console_errors": 0
   },
   "note_http_runtime_trace_candidate": {
-    "status": "ACTUAL_NATIVE40_QUALIFIED_SUCCESSFUL_COMMAND_SAMPLES_RETAINED_CAUSE_UNPROVEN",
+    "status": "ACTUAL_FAILED_SESSIONS_AND_ERROR_FRAMES_RETAINED_SCOPE_GATED_GUARD_CANDIDATE",
     "provider": "scripts/cp7_note_http_trace.py",
     "contract": "docs/cp7/NOTE_HTTP_TIMEOUT.md",
     "product_SQL_changed": false,
@@ -4278,10 +4380,14 @@
     "instrument_case_lifetime_is_NOT_command_latency": true,
     "observed_waits": null,
     "observed_server_error_function_frames": [],
-    "preceding57014_cause_closed": false
+    "preceding57014_cause_closed": false,
+    "latest_failed_source_commit": "0dec1c1dd2ed1558efbd416684687eda362616a6",
+    "latest_failed_run_id": 37052402095,
+    "latest_failed_receipt": "docs/cp7/evidence/owning-note-correction/incomplete40-0dec1c1/RECEIPT.json",
+    "statement_timeout_cause_closed": false
   },
   "note_read_authority_repair": {
-    "status": "APPLICATION_1142_PASS_BUILD_SECURITY_PASS_NEW_NATIVE40_REQUIRED",
+    "status": "FULL_NATIVE_SHELL1273_PASS_RECEIPT32_CUTTING57_PASS_NOTE40_THREE_ACTUAL_TIMEOUTS_UNQUALIFIED",
     "contract": "docs/cp7/NOTE_READ_AUTHORITY.md",
     "confirmed_pre_repair_counterexamples": 3,
     "read_invalidation_retires_all_prior_tickets": true,
@@ -4316,7 +4422,65 @@
     "full_PostgreSQL_Shell_run": 37052401676,
     "both_CodeQL_jobs_pass": true,
     "receipt32_and_cutting57_shared_hook_trigger_added": true,
-    "existing_workflow_jobs_and_product_imports_unchanged": true
+    "existing_workflow_jobs_and_product_imports_unchanged": true,
+    "full_PostgreSQL_Shell_tests": 1273,
+    "full_PostgreSQL_Shell_files": 137,
+    "receipt32": {
+      "source_commit": "435e9e00f5439216f5f9e36c2a07f2d479449fc4",
+      "source_tree": "6ac73cbb785ac9e9ec992709249d65cb6884dd78",
+      "run_id": 37054009241,
+      "job_id": 110994105520,
+      "counts": {
+        "native": {
+          "PASS": 26
+        },
+        "races": {
+          "PASS": 3
+        },
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/receipt-correction/qualified32-435e9e0/RECEIPT.json"
+    },
+    "cutting57": {
+      "source_commit": "435e9e00f5439216f5f9e36c2a07f2d479449fc4",
+      "source_tree": "6ac73cbb785ac9e9ec992709249d65cb6884dd78",
+      "run_id": 37054009168,
+      "job_id": 110994105692,
+      "counts": {
+        "native": {
+          "PASS": 34
+        },
+        "races": {
+          "PASS": 8
+        },
+        "http": {
+          "PASS": 5
+        },
+        "browser": {
+          "PASS": 10
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-435e9e0/RECEIPT.json"
+    }
   },
   "shell_note_read_authority_predecessor": {
     "status": "FULL_NATIVE_PG_SHELL_137_FILES1269_TESTS_SECURITY_BUILD_BOTH_CODEQL_PASS",
@@ -4326,7 +4490,7 @@
     "qualifies_new_UI_source": false
   },
   "f05_native_analysis_predecessor34": {
-    "status": "ACTUAL_NATIVE284_PASS_EXACT_ORIGINAL_EXTRACTION_PENDING",
+    "status": "ACTUAL_NATIVE284_PASS_EXACT_ORIGINAL_RETAINED_NEW_GUARD_REQUIRES_SUCCESSOR",
     "source_commit": "34d7e2e962423cdc42d2d596d1ce996ea9070a8b",
     "source_tree": "38ad2c662aaaf63bcf5e8377b0ad861b2a38e002",
     "run_id": 37047744131,
@@ -4349,6 +4513,62 @@
     "source_run_job_tree_and_full_archive_digests_required": true,
     "new_execution_case_credit": 0,
     "raw_Originals_unchanged": true,
+    "production_go": false
+  },
+  "guard_predicate_order_candidate": {
+    "status": "SOURCE_READY_ACTUAL_COMPLETE_QUALIFICATION_REQUIRED",
+    "contract": "docs/cp7/GUARD_PREDICATE_ORDER.md",
+    "actual_failed_source": "0dec1c1dd2ed1558efbd416684687eda362616a6",
+    "actual_failed_run": 37052402095,
+    "maximum_sampled_failed_query_elapsed_ms": [
+      7908.021,
+      7901.45,
+      7919.529
+    ],
+    "actual_server_frames": [
+      "erp.has_permission",
+      "erp.require_internal",
+      "account_id",
+      "Native_PO_HPP_GL_refresh",
+      "note_sale_return_payment_replay"
+    ],
+    "no_wait_observed_not_proof_of_no_short_wait": true,
+    "matched_context_fine_checks_preserved": true,
+    "legacy_fallback_remains_at_end": true,
+    "authority_cached": false,
+    "early_legacy_allow": false,
+    "money_formulas_changed": false,
+    "ACL_grants_or_statement_timeout_changed": false,
+    "original_CP6_release_files_changed": false,
+    "new_isolated_guard_controls": 5,
+    "local_guard_controls_claim": "NOT_RUN_POSTGRES_AND_WASM_UNAVAILABLE_NATIVE_SHELL_REQUIRED",
+    "required_successors": [
+      "note40",
+      "F05_attention284",
+      "all_eight_F03",
+      "receipt32",
+      "cutting57",
+      "full_Native_Shell"
+    ],
+    "cause_closed": false,
+    "production_go": false
+  },
+  "f05_http_runtime_trace_candidate": {
+    "contract": "docs/cp7/F05_HTTP_TIMEOUT.md",
+    "status": "READ_ONLY_SOURCE_READY_ACTUAL_NATIVE284_REQUIRED",
+    "existing_commands_instrumented": 6,
+    "extra_product_RPC": 0,
+    "Native_exit_case_credit": 0,
+    "raw_query_claims_payload_headers_errors_or_logs_emitted": false,
+    "redaction_unavailable_instrument_body_output_controls_pass": true,
+    "original_operation_called_once_and_original_exception_preserved": true,
+    "case_budget_unchanged": {
+      "native": 179,
+      "races": 40,
+      "http": 29,
+      "browser": 36
+    },
+    "cause_closed": false,
     "production_go": false
   }
 }

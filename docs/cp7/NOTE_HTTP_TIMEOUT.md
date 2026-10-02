@@ -1,5 +1,7 @@
 # Actual owning-note HTTP timeout
 
+Source0dec1c1d/run37052402095 supplies actual failing-session error frames: Native PO HPP refresh/account lookup stops inside the internal/fine permission guard at sampled elapsed7908/7901/7919ms, with no observed wait. Exact37/40 failure Original is retained separately. The declared guard now has a scope-first CASE candidate preserving every matched fine check and the late legacy fallback. Actual full Native40 and combined qualification are required before closing this cause; see GUARD_PREDICATE_ORDER.md.
+
 The reported duplicate-SKU defect is closed at qualified ddac Native40: original5/10 corrected5/6 produces main and per-lot -5/-6, balances95/89, immutable original identity, correct returns, atomic financial rollback and actual ordinary UI.
 
 The main-registered e873 run37043056790/job110957629347 is a different, unresolved failure:37/40 PASS, with ordinary desktop, mobile lost reply and desktop microsecond commands returning HTTP500. Two server bodies report57014 statement timeout. All28 database cases,4 races,3 Auth-HTTP cases and remaining2 browsers pass; runtime gate remains false. Installation, exact restoration, unchanged primary, proven backup, advisor and Auth0→0 all pass. Exact Original: evidence/owning-note-correction/incomplete40-e873462/RECEIPT.json.

@@ -1,5 +1,15 @@
 # Active writer continuation · 2Oct2026
 
+## Current controlling candidate · actual timeout frames and scope-first guard
+
+Owned UI source0dec1c1d actually executes40 at37052402095 but qualifies37:28DB/4race/3Auth-HTTP/2browser. Three real ordinary commands time out; their sampled actual query maxima are7908/7901/7919ms with no observed wait. Static server frames identify Native HPP refresh/account lookup stopping inside the internal/fine permission guard. Exact failure Original is retained in evidence/owning-note-correction/incomplete40-0dec1c1/. This failed run does not qualify the strengthened mobile peer UI oracle; the local1273-test Native Shell and separate source435 receipt32/cutting57 qualify only their stated scopes.
+
+The declared guard candidate now keeps indexable PID/transaction keys and places permission expressions behind CASE on the exact private context identity. Every matched fine check, throwing sales access check and final legacy fallback remains; no authority cache, early legacy allow, financial formula, grant or8s change. Five new isolated Native database controls must execute in full Shell. All complete Native40/284/eight-F03/receipt32/cutting57 successors are mandatory. See GUARD_PREDICATE_ORDER.md. This is a candidate repair, not a proven timeout closure.
+
+Source435e9e00/tree6ac73cbb qualifies the unchanged receipt implementation32 (26/3/1/2, run37054009241/job110994105520) and cutting57 (34/8/5/10,37054009168/job110994105692); every package/restoration/primary/backup/advisor/Auth0→0 gate passes. Exact Originals are retained in evidence/receipt-correction/qualified32-435e9e0/ and evidence/f04-native-history/cutting-learning-qualified57-435e9e0/. Claude's unfinished section is still deferred.
+
+Both e873 F05 incomplete279/284 and34 qualified284 exact Originals are now retained. The new optional F05 sampler surrounds the same six ordinary capture/local-claim operations, keeping all284 mandatory cases and existing assertions. Redaction/unavailable-instrument/body/output controls pass with zero Native credit; no actual cause is inferred from a successful repeat. See F05_HTTP_TIMEOUT.md. CP6 HOLD; audit_complete=false; production_go=false.
+
 ## Current owned checkpoint · retire stale invoice and child history
 
 Owned UI repair0dec1c1d/treefa555adb is published to both CP7 writer refs; actual full Shell and both CodeQL jobs pass at run37052401676, and owning-note40 is executing at37052402095. Existing receipt32 and cutting57 omitted the common mutation/recovery hook from their path filters; those triggers now include it with every existing test/source/guard unchanged. Only already-integrated source is requalified; Claude's unfinished section is still deferred.

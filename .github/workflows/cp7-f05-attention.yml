@@ -31,6 +31,8 @@ name: CP7 F05 Native Durable Attention
     - tests/fixtures/nativeObligationReports.ts
     - scripts/cp7_f05_other_browser*
     - scripts/cp7_f05_rule_browser*
+    - scripts/cp7_f05_http_trace.mjs
+    - scripts/cp7_note_http_trace.py
     - src/NativeRuleSourcePanel*
     - src/nativeRuleSource*
     - tests/fixtures/nativeRuleSource.ts
