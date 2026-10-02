@@ -22,7 +22,7 @@ def project(manifest_path, destination):
     manifest = json.loads(Path(manifest_path).read_text())
     repository = manifest['repository']
     assert repository == 'Hanjay6688/-erp-garment-ux'
-    assert manifest['expected_status'] == 'PASS'
+    assert manifest['expected_status'] in ('PASS', 'INCOMPLETE')
     token = os.environ['GH_TOKEN']
     api = f'https://api.github.com/repos/{repository}'
     opener = urllib.request.build_opener(NoRedirect())
@@ -42,7 +42,8 @@ def project(manifest_path, destination):
     artifact = read_json(f"/actions/artifacts/{manifest['artifact_id']}")
     commit = read_json(f"/git/commits/{manifest['source_commit']}")
     assert run['head_sha'] == manifest['source_commit']
-    assert run['status'] == 'completed' and run['conclusion'] == 'success'
+    expected_conclusion = 'success' if manifest['expected_status'] == 'PASS' else 'failure'
+    assert run['status'] == 'completed' and run['conclusion'] == expected_conclusion
     assert commit['tree']['sha'] == manifest['source_tree']
     assert artifact['workflow_run']['id'] == manifest['run_id']
     assert artifact['name'] == manifest['artifact_name'] and not artifact['expired']
@@ -72,7 +73,8 @@ def project(manifest_path, destination):
         report = json.loads(source.read(manifest['runtime_report']))
     assert report['source_sha256'] == manifest['source_bundle_sha256']
     assert report['required_case_counts'] == manifest['required_case_counts']
-    assert report['browser']['console_errors'] == 0
+    if manifest['expected_status'] == 'PASS':
+        assert report['browser']['console_errors'] == 0
     metadata = {key: manifest[key] for key in (
         'run_id', 'job_id', 'artifact_id', 'artifact_name', 'source_commit',
         'source_tree', 'zip_bytes', 'zip_sha256', 'runtime_report',

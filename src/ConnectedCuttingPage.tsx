@@ -1,4 +1,5 @@
 import SkuWaveReferences from './SkuWaveReferences'
+import NativeCuttingYieldPanel from './NativeCuttingYieldPanel'
 import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertTriangle, Check, Database, FilePenLine, LoaderCircle, RefreshCw, Search, Trash2 } from 'lucide-react'
@@ -81,6 +82,7 @@ export default function ConnectedCuttingPage() {
   const [notes, setNotes] = useState('')
   const [draftId, setDraftId] = useState<string | null>(null)
   const [draftVersion, setDraftVersion] = useState<number | null>(null)
+  const [lastCommittedGroupId, setLastCommittedGroupId] = useState<string | null>(null)
   const [selectedRolls, setSelectedRolls] = useState<Record<string, SelectedRoll>>({})
   const [slots, setSlots] = useState<SizeSlot[]>([])
   const [yields, setYields] = useState<Record<string, Record<string, string>>>({})
@@ -291,9 +293,10 @@ export default function ConnectedCuttingPage() {
   }
   const retire = (data: unknown, envelope: ProductionEnvelope) => {
     resetForm()
-    if (envelope.action === 'DELETE') setNotice('Draft Potongan sudah dihapus.')
+    if (envelope.action === 'DELETE') { setLastCommittedGroupId(null); setNotice('Draft Potongan sudah dihapus.') }
     else {
       const result = parseCuttingSaveResult(data)
+      setLastCommittedGroupId(result.cutting_group_id)
       setNotice(`${result.group_number} ${result.material_issue_posted ? 'terposting' : 'tersimpan sebagai draft'}. Form lama ditutup; muat draft terbaru untuk melanjutkan.`)
     }
   }
@@ -338,6 +341,7 @@ export default function ConnectedCuttingPage() {
         {draftId && selectedOrder && <SkuWaveReferences waveId={draftId} modelId={selectedOrder.model_id}/>}
         <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>Size {slot.sizeCode}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input aria-label={`${item.roll.roll_number} terpakai`} aria-invalid={parseQuantityInput(item.consumed, 'MEASURE', item.issued) === null} inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{display(item.issued - consumed, 2)}</td>{slots.map((slot) => <td key={slot.key}><input aria-label={`${item.roll.roll_number} Size ${slot.sizeCode}`} aria-invalid={parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') === null} inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value } }))}/></td>)}<td><strong>{display(rowPieces)}</strong></td></tr>})}</tbody></table></div>}</section>
 
+        <NativeCuttingYieldPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={mutation.writerLocked}/>
         <section className="ccut-review"><div><span>ROLL</span><strong>{selected.length}</strong></div><div><span>KELUAR</span><strong>{totalIssued.toFixed(2)}</strong></div><div><span>TERPAKAI</span><strong>{display(totalConsumed, 2)}</strong></div><div><span>SISA</span><strong>{display(totalRemaining, 2)}</strong></div><div><span>HASIL</span><strong>{display(totalPieces)} pcs</strong></div></section>
         <footer className="ccut-actions"><span>{draftId ? `Draft ${draftId.slice(0, 8)} · row version ${draftVersion}` : 'Transaksi baru · ID dibuat backend'}</span><div>{draftId && <button className="danger" disabled={Boolean(selectionIssue) || !canEdit || mutation.writerLocked} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button>}<button disabled={Boolean(selectionIssue) || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate)} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={Boolean(selectionIssue) || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || !canPost} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Post ke WIP Potongan</button></div></footer>
       </main>

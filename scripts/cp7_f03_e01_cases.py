@@ -74,7 +74,7 @@ def payroll_source(cur, f, today):
     f['trace'].append(step('REPORT_READY', confidence=report['snapshot']['data_confidence'], seed_completion=f['seed_completion']))
 
 
-def production(cur, today, *, receipt_final=True):
+def production(cur, today, *, receipt_final=True, cutting_draft_only=False):
     """100 raw x10; consume60; sew30+30 x2; wash30+30 x2; QC20+40.
 
     Accessory60 is the accepted BOM_STANDARD/Mandor reimbursement path: one
@@ -109,6 +109,13 @@ def production(cur, today, *, receipt_final=True):
     f.update(po=po, model=model, contractor=contractor, product=product, sku=tag, tag=tag, raw_location=f['location'], location=fg_location, destination=fg_location, production_day=day)
     cut_p = dict(action='SAVE_DRAFT', po_id=po, pattern_id=prod.PATTERN, source_location_id=f['raw_location'], cut_at=when(8), change_reason='E01 consume sixty of hundred; forty remains at warehouse', size_slots=[dict(slot_no=1, size_id=base.SIZE, drawing_no=1)], rolls=[dict(roll_id=f['roll'], qty_issued=60, qty_consumed=60, qty_reported_remaining=0, yields=[dict(slot_no=1, qty_pcs=60)])])
     cut = prod.rpc(cur, 'public.erp_save_cutting_group_before_sewing_v2', cut_p)
+    if cutting_draft_only:
+        # An additional actual-browser fixture stop, before Native POST.
+        # The existing complete production oracle keeps its unchanged default.
+        b.api.admin(cur)
+        f.update(group=cut['cutting_group_id'], group_number=cut['group_number'])
+        assert cur.execute('select sum(qty_signed),sum(qty_signed*unit_cost_snapshot) from erp.material_stock_movements where material_id=%s', (f['material'],)).fetchone() == (D(100), D(1000))
+        return f
     cut = prod.rpc(cur, 'public.erp_save_cutting_group_before_sewing_v2', dict(cut_p, id=cut['cutting_group_id'], action='POST'), expected_version=int(cut['row_version']))
     b.api.admin(cur)
     f['group'] = cut['cutting_group_id']

@@ -21,3 +21,5 @@ Actual Native30 at4ca93db (run36995839540):29 PASS /1 INCOMPLETE. All22 database
 ## Qualified successor
 
 The owning30 at41bfe11 is PASS, including Native imported advances and both cross-period owner-report cases. All8 retained F03 groups on the exact same SQL at4ca93db pass. The fresh consumer bridge9 at45e06d7 passes. Exact roots and gates are preserved in their source-specific receipts; no failed Original is relabelled. Frontend precision-successor confirmation and complete remaining CP7 gates are separate.
+
+A second full owning30 at45e06d7 / run36997888603 also passes, with the actual-response desktop ordering repair. Its exact Original roots are preserved under `evidence/note-correction/qualified30-45e06d7`. The separate large F05 repeat completed all284 with3 HTTP500 browser failures; this is retained as INCOMPLETE and is investigated separately, without converting earlier source-specific qualification or raising a timeout.

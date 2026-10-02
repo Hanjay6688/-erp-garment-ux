@@ -143,6 +143,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/NativePlanningProfilePanel.tsx:erp_cp7_capture_baseline_v1',
   'src/NativePlanningProfilePanel.tsx:erp_cp7_read_baseline_v1',
   'src/NativeDemandHistoryPanel.tsx:erp_cp7_capture_demand_history_v1',
+  'src/NativeCuttingYieldPanel.tsx:erp_cp7_capture_cutting_yield_v1',
+  'src/NativeCuttingYieldPanel.tsx:erp_cp7_read_cutting_yield_v1',
   'src/NativeDemandHistoryPanel.tsx:erp_cp7_read_demand_history_v1',
   'src/SalesDraftPanel.tsx:erp_cp7_get_sales_form_v1',
   'src/SalesPaymentPanel.tsx:erp_cp7_get_sales_cash_v1',

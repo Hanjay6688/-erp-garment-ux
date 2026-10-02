@@ -19,7 +19,7 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- report=dict(label='CP7_F04_NATIVE_HISTORY',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='RETAIN_ALL17_DEMAND_HISTORY_CONTROLS_PLUS_NATIVE_CUTTING_SOURCE3_AND_ACTUAL_AUTH_HTTP1_NO_TRAINED_YIELD_MODEL_CLAIM',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=history_cases.EXPECTED);installed=False
+ report=dict(label='CP7_F04_NATIVE_HISTORY',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='RETAIN_ALL17_DEMAND_HISTORY_CONTROLS_PLUS_NATIVE_CUTTING_SOURCE3_AUTH_HTTP1_ACTUAL_CONNECTED_BROWSER2_NO_TRAINED_YIELD_MODEL_CLAIM',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=history_cases.EXPECTED);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
@@ -45,7 +45,7 @@ def run():
   report['native']=native.strict_group('CP7_F04_HISTORY',history_cases.cases,verify)
   report['races']=modes.run_races(history_cases,verify,'cp7_f04_history')
   report['http']=modes.run_http(history_cases,verify,'cp7_f04_history')
-  report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_f04_history_browser.mjs',verify,'cp7_f04_history_browser')
+  report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_cutting_yield_browser.mjs',verify,'cp7_f04_history_browser')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
   if installed:

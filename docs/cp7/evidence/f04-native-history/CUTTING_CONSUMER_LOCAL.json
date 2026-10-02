@@ -1,0 +1,26 @@
+{
+  "status": "LOCAL_WRITER_CHECKS_PASS_NATIVE23_PENDING",
+  "focused_tests": 45,
+  "changed_consumer_tests": 8,
+  "typescript": true,
+  "source_ownership": true,
+  "access_boundary_count": 166,
+  "main_build": true,
+  "client_secret_scan": true,
+  "Native_qualification_credit": 0,
+  "native_economic_SQL_changed": false,
+  "source_SQL_changed": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "complete_unit_attempt": {
+    "total": 1215,
+    "PASS": 1214,
+    "runtime_unavailable": 1,
+    "source": "Original Vitest JSON; unchanged F04 private kernel runner refused missing local native PostgreSQL"
+  },
+  "unchanged_private_kernel_portable_repeat": {
+    "PASS": 1,
+    "runtime": "PGlite PostgreSQL18.3 explicit fallback",
+    "Native_qualification_credit": 0
+  }
+}

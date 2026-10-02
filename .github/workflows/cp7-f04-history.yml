@@ -4,6 +4,11 @@ name: CP7 F04 Native Demand History
     branches:
     - cp7/integration
     paths:
+    - scripts/cp7_cutting_yield_*
+    - scripts/cp7-src/cutting-yield/**
+    - src/NativeCuttingYieldPanel*
+    - src/nativeCuttingYield*
+    - src/ConnectedCuttingPage*
     - scripts/cp7_f04_history_*
     - scripts/cp7_planning_*
     - scripts/cp7-src/planning/**
