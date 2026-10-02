@@ -1,6 +1,6 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['PLAN_APPLY', 'PAYROLL_INSTALLMENT', 'FINANCE_MISC', 'HPP_RECOST', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION'] as const
+export const productionDomains = ['PLAN_APPLY', 'PAYROLL_INSTALLMENT', 'FINANCE_MISC', 'HPP_RECOST', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
@@ -23,6 +23,8 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PURCHASE_INVOICE: 'Invoice supplier di Pembelian & Penerimaan',
   MATERIALS: 'Bahan & Roll',
   PROCUREMENT: 'Pembelian & Penerimaan',
+  RECEIPT_CORRECTION: 'Benerin penerimaan di Pembelian & Penerimaan',
+  MATERIAL_NAME: 'Benerin nama bahan di Bahan & Roll',
   SUPPLIER_CREDIT: 'Kredit retur supplier',
   SKU: 'Produk & SKU',
   PRODUCT_CONVERSION: 'Ganti Merek / SKU', ACCESSORY_ISSUE: 'Nota Ambil Aksesori', ACCESSORY_SERVICE: 'Pemakaian & Pengembalian Aksesori', LAUNDRY_BD: 'Harga & Tagihan Laundry',
@@ -46,6 +48,8 @@ const actions: Record<ProductionDomain, readonly string[]> = {
   PURCHASE_INVOICE: ['FINALIZE', 'REVERSE', 'SAVE_DOCUMENT', 'POST_DOCUMENT', 'DELETE_DOCUMENT', 'REVERSE_DOCUMENT'],
   MATERIALS: ['SAVE_TRANSFER', 'POST_TRANSFER', 'REVERSE_TRANSFER'],
   PROCUREMENT: ['SAVE_DRAFT', 'POST', 'REVERSE'],
+  RECEIPT_CORRECTION: ['CORRECT'],
+  MATERIAL_NAME: ['RENAME'],
   SUPPLIER_CREDIT: ['ALLOCATE'],
   SKU: ['SAVE_GROUPS', 'BIND_WAVE'],
   PRODUCT_CONVERSION: ['POST', 'REVERSE', 'POST_USAGE', 'SAVE_REWORK', 'SAVE_REDYE', 'SET_REDYE_PRICE'],

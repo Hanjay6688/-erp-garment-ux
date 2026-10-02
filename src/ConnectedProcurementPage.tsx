@@ -8,6 +8,7 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import PurchaseInvoicePanel from './PurchaseInvoicePanel'
 import SupplierReturnPanel from './SupplierReturnPanel'
+import ReceiptCorrectionPanel from './ReceiptCorrectionPanel'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, procurementObject, receiptDecimal, receiptEditable, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementUom, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
 import type { Json } from './types/database.preconnect'
 import './procurement-connected.css'
@@ -196,7 +197,7 @@ function ProcurementWorkspace() {
         {i.rolls.length ? <details><summary>{i.rolls.length} roll</summary><ul>{i.rolls.map(r => <li key={r.id}>{r.roll_number} · {numberText(r.receipt_qty)} {i.unit_code}</li>)}</ul></details> : null}</article>)}
       {current.finance ? <div className="cproc-total"><span>Nilai pada penerimaan</span><strong>Rp{numberText(current.finance.receipt_value)}</strong><small>Jumlah utang mengikuti invoice dan penyelesaian supplier.</small></div> : null}
       {current.status === 'DRAFT' ? <div className="cproc-review"><h3>Periksa sebelum menerima</h3><p>Pastikan supplier, gudang, waktu, bahan dan jumlah roll sudah sesuai barang datang.</p>{valueAccess && data?.capabilities.create && receiptEditable(current) ? <button type="button" disabled={locked} onClick={() => setDraft(fromDetail(current))}>Perbaiki draft</button> : null}<label>Catatan pemeriksaan<input aria-label="Catatan pemeriksaan penerimaan" disabled={locked} value={postReason} onChange={e => setPostReason(e.target.value)}/></label><button className="primary-btn" type="button" disabled={locked || Boolean(draft) || !data?.capabilities.post || !postReason.trim()} onClick={() => void write('POST', { purchase_id: current.id, change_reason: postReason.trim() }, current.row_version)}>Sahkan penerimaan ke gudang</button></div> : null}
-      {current.status === 'POSTED' && data?.capabilities.reverse ? <div className="cproc-review"><h3>Pembatalan penerimaan</h3><p>Invoice, pembayaran, retur aktif, dan pemakaian barang yang masih terkait harus diselesaikan sebelum penerimaan dapat dibatalkan. Riwayat dokumen tetap disimpan.</p>
+      {current.status === 'POSTED' && data?.capabilities.reverse ? <div className="cproc-review"><h3>Pembatalan penerimaan</h3><p>Invoice, pembayaran, retur aktif, dan pemakaian barang yang masih terkait harus diselesaikan sebelum penerimaan dapat dibatalkan. Riwayat dokumen tetap disimpan. Untuk salah ketik jumlah, roll, harga, atau bahan, pakai Benerin penerimaan di bawah.</p>
         {!reverseReview ? <button type="button" disabled={locked || Boolean(draft)} onClick={() => setReverseReview({ id: current.id, version: current.row_version, readAt: data.read_at, reason: '', checked: false })}>Tinjau pembatalan penerimaan</button> : <>
           {staleReverse ? <p role="alert">Data penerimaan telah dimuat ulang atau berubah. Tutup pemeriksaan ini, lalu periksa kembali dokumen terbaru.</p> : null}
           <fieldset disabled={locked || staleReverse}><label>Alasan pembatalan<input aria-label="Alasan pembatalan penerimaan" value={reverseReview.reason} onChange={e => setReverseReview({ ...reverseReview, reason: e.target.value, checked: false })}/></label>
@@ -208,5 +209,6 @@ function ProcurementWorkspace() {
     </> : <><h2>Periksa dokumen</h2><p>Pilih surat jalan untuk melihat barang, rincian roll dan status penerimaannya.</p></>}</aside></div>
     <PurchaseInvoicePanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
     <SupplierReturnPanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
+    <ReceiptCorrectionPanel purchaseId={current && current.status !== 'DRAFT' ? current.id : null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
   </section>
 }
