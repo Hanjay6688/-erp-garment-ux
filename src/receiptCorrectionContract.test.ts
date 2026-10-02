@@ -58,9 +58,31 @@ describe('receipt correction contract', () => {
     expect(materialNamePayload(w, 'Katun Combed', 'typo').problem).toContain('alasan')
     expect(() => parseMaterialNameWorkspace({ ...w, unit_code: 'yd', extra: true }, ids.mat)).toThrow()
     expect(() => parseMaterialNameWorkspace(w, ids.item)).toThrow()
-    const out = { contract_version: 'cp7.material-name-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'RENAME', request_id: ids.rev, material_id: ids.mat, previous_name: 'Katun Combad', material_name: 'Katun Combed', row_version: '5' }
+    const out = { contract_version: 'cp7.material-name-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'RENAME', request_id: ids.rev, material_id: ids.mat, previous_name: 'Katun Combad', material_name: 'Katun Combed', previous_sku: 'KAIN', material_sku: 'KAIN', row_version: '5' }
     expect(parseMaterialNameOutcome(out, ids.rev, ids.mat).material_name).toBe('Katun Combed')
     expect(() => parseMaterialNameOutcome(out, ids.rev, ids.item)).toThrow()
+    expect(() => parseMaterialNameOutcome({ ...out, previous_sku: undefined }, ids.rev, ids.mat)).toThrow()
+  })
+  it('fixes the code (SKU) of the same material, alone or with the name', () => {
+    const w = parseMaterialNameWorkspace({ contract_version: 'cp7.material-name-workspace.v1', read_at: at, material_id: ids.mat, material_sku: 'KAIN-01O', material_name: 'Katun', material_type: 'FABRIC', unit_code: 'yd', row_version: '4',
+      history: [{ id: ids.rev, previous_name: 'Katun', corrected_name: 'Katun', previous_sku: 'KAIN-1', corrected_sku: 'KAIN-01O', reason: 'Salah kode', recorded_at: at, actor_name: null }], production_go: false }, ids.mat)
+    expect(materialNamePayload(w, 'Katun', 'Kode salah ketik', ' KAIN-010 ').payload).toEqual({ material_id: ids.mat, material_name: 'Katun', material_sku: 'KAIN-010', change_reason: 'Kode salah ketik' })
+    expect(materialNamePayload(w, 'Katun', 'Kode salah ketik', 'KAIN-01O').problem).toContain('belum berubah')
+    expect(materialNamePayload(w, 'Katun', 'Kode salah ketik', '  ').problem).toContain('kode bahan')
+  })
+  it('corrects roll numbers on the same rolls and the delivery-note fields', () => {
+    const w = parseReceiptCorrectionWorkspace(workspace(), ids.root), lines = correctionDraft(w)
+    lines[0].rolls[0].number = 'R1-BENAR'
+    expect((correctionPayload(w, lines, 'Nomor roll salah ketik').payload?.lines as { rolls: { roll_number: string; replaces_roll_id: string }[] }[])[0].rolls[0]).toEqual({ replaces_roll_id: ids.roll, roll_number: 'R1-BENAR', qty: '100' })
+    lines[0].rolls.push({ key: 'new', replaces: null, number: 'R1-BENAR', qty: '5', minQty: '0', locked: false })
+    expect(correctionPayload(w, lines, 'Nomor roll salah ketik').problem).toBe('Nomor roll R1-BENAR dipakai lebih dari sekali.')
+    lines[0].rolls.pop()
+    const head = (n: string, d: string) => correctionPayload(w, lines, 'Surat jalan salah ketik', [], [], { supplierInvoiceNumber: n, dueDate: d })
+    expect(head('', '').payload).not.toHaveProperty('supplier_invoice_number')
+    expect(head('SJ-21', '2026-10-30').payload).toMatchObject({ supplier_invoice_number: 'SJ-21', due_date: '2026-10-30' })
+    expect(head('', '30-10-2026').problem).toBe('Tanggal jatuh tempo belum benar.')
+    const invoiced = parseReceiptCorrectionWorkspace(workspace(false, true), ids.root)
+    expect(correctionPayload(invoiced, correctionDraft(invoiced), 'Surat jalan salah ketik', correctionInvoices(invoiced), [], { supplierInvoiceNumber: 'SJ-21', dueDate: '' }).problem).toContain('mengikuti invoice')
   })
   it('turns a payment above the corrected total into credit cut from another nota of the same supplier', () => {
     const next = { purchase_id: ids.rev, purchase_number: 'SJ-2', physical_at: at, remaining: '1000.00' }

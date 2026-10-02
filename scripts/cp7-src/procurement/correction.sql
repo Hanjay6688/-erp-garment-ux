@@ -32,7 +32,7 @@ create table cp7_receipt_fix.roll_lineage(
  old_roll_id uuid references erp.material_rolls,new_roll_id uuid references erp.material_rolls,
  old_material_id uuid references erp.materials,new_material_id uuid references erp.materials,
  old_purchase_item_id uuid references erp.material_purchase_items,new_purchase_item_id uuid references erp.material_purchase_items,
- old_qty numeric(18,6),new_qty numeric(18,6),roll_number text not null,
+ old_qty numeric(18,6),new_qty numeric(18,6),roll_number text not null,previous_roll_number text,
  recorded_at timestamptz not null default clock_timestamp(),
  check((kind='ADDED')=(old_roll_id is null)),check((kind='REMOVED')=(new_roll_id is null))
 );
@@ -459,7 +459,8 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_receipt_fix.access_now();
  if jsonb_typeof(p_payload)is distinct from'object'or not p_payload?&array['purchase_id','review_token','change_reason','lines']
-  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('purchase_id','review_token','change_reason','lines','invoices','credit_allocations','notes'))
+  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('purchase_id','review_token','change_reason','lines','invoices','credit_allocations','notes','supplier_invoice_number','due_date'))
+  or nullif(p_payload->>'due_date','')!~'^[0-9]{4}-[0-9]{2}-[0-9]{2}$'or length(p_payload->>'supplier_invoice_number')>100
   or p_payload?'credit_allocations'and(jsonb_typeof(p_payload->'credit_allocations')is distinct from'array'or jsonb_array_length(p_payload->'credit_allocations')>20)
   or jsonb_typeof(p_payload->'lines')is distinct from'array'or jsonb_array_length(p_payload->'lines')not between 1 and 100
   or p_payload?'invoices'and(jsonb_typeof(p_payload->'invoices')is distinct from'array'or jsonb_array_length(p_payload->'invoices')>20)
@@ -497,7 +498,7 @@ begin
  select coalesce(max(v.revision),0)+1 into rev_no from cp7_receipt_fix.revisions v where v.root_purchase_id=root;
  select array_agg(id order by id)into old_items from erp.material_purchase_items where purchase_id=h.id;
  select array_agg(r2.id order by r2.id)into old_rolls from erp.material_rolls r2 join erp.material_purchase_items i on i.id=r2.purchase_item_id where i.purchase_id=h.id;
- select jsonb_build_object('purchase_number',h.purchase_number,'lines',coalesce(jsonb_agg(jsonb_build_object('item_id',i.id,'material_id',i.material_id,
+ select jsonb_build_object('purchase_number',h.purchase_number,'supplier_invoice_number',h.supplier_invoice_number,'due_date',h.due_date,'notes',h.notes,'lines',coalesce(jsonb_agg(jsonb_build_object('item_id',i.id,'material_id',i.material_id,
   'qty',i.qty::text,'unit_price',i.unit_price::text,'price_state',i.price_state,'price_source',i.price_source,
   'rolls',(select coalesce(jsonb_agg(jsonb_build_object('roll_id',r3.id,'roll_number',r3.roll_number,'qty',r3.original_qty::text)order by r3.roll_number,r3.id),'[]')
    from erp.material_rolls r3 where r3.purchase_item_id=i.id))order by i.id),'[]'))into previous_doc
@@ -541,7 +542,6 @@ begin
      if old_roll.status='RETURNED_SUPPLIER'then raise exception 'CP7_RECEIPT_FIX_RETURN_ACTIVE';end if;
      use:=cp7_receipt_fix.roll_use(old_roll.id,h.location_id);
      if old_roll.material_id=mat.id then
-      if btrim(roll->>'roll_number')<>old_roll.roll_number then raise exception 'CP7_RECEIPT_FIX_ROLL_NUMBER_IS_IDENTITY';end if;
       if (roll->>'qty')::numeric<(use->>'min_qty')::numeric then
        raise exception 'CP7_RECEIPT_FIX_ROLL_BELOW_USE roll % corrected % used %',old_roll.roll_number,roll->>'qty',use->>'min_qty';end if;
      else
@@ -562,6 +562,26 @@ begin
    if upper(coalesce(line->>'price_state',''))='FINAL'then corrected_total:=corrected_total+(line->>'qty')::numeric*(line->>'unit_price')::numeric;end if;
   end if;
  end loop;
+ -- Roll numbers per material after the correction: unique in the document
+ -- and against every other roll of that material. A roll kept on its own
+ -- material keeps its identity (id, use, history); only a typed number may
+ -- change, so numbers can also be swapped between kept rolls. A new or moved
+ -- roll is created before the kept rolls are renumbered, so it may not take
+ -- any number that exists now.
+ with r as(select(l->>'material_id')::uuid m,btrim(z->>'roll_number')n,nullif(z->>'replaces_roll_id','')::uuid rid
+   from jsonb_array_elements(p_payload->'lines')l cross join jsonb_array_elements(l->'rolls')z),
+  kept as(select r.rid from r join erp.material_rolls x on x.id=r.rid and x.material_id=r.m)
+ select string_agg(distinct r.n,', ')into tmp from r
+  where(select count(*)from r r2 where r2.m=r.m and r2.n=r.n)>1
+   or exists(select 1 from erp.material_rolls x where x.material_id=r.m and x.roll_number=r.n
+    and not(coalesce(r.rid in(select rid from kept),false)and x.id in(select rid from kept)));
+ if tmp is not null then raise exception 'CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN %',tmp;end if;
+ -- Header fields typed on the receipt. With a posted supplier invoice they
+ -- follow the invoice (Native), so they are corrected on the invoice instead.
+ if cardinality(coalesce(inv_ids,'{}'))>0 and(
+   p_payload?'supplier_invoice_number'and nullif(btrim(p_payload->>'supplier_invoice_number'),'')is distinct from h.supplier_invoice_number
+   or p_payload?'due_date'and nullif(p_payload->>'due_date','')::date is distinct from h.due_date)then
+  raise exception 'CP7_RECEIPT_FIX_HEADER_FOLLOWS_INVOICE';end if;
  -- Rolls the corrected document no longer contains must never have been used.
  for old_roll in select*from erp.material_rolls where id=any(coalesce(old_rolls,'{}'))and not(id=any(seen_rolls))order by id loop
   if (cp7_receipt_fix.roll_use(old_roll.id,h.location_id)->>'min_qty')::numeric>0
@@ -703,7 +723,9 @@ begin
  -- inside this transaction and never receive stock.
  draft:=jsonb_build_object('purchase_number',left((select purchase_number from erp.material_purchase_headers where id=root),40)||' · R'||rev_no::text||'-'||left(p_request::text,8),
   'supplier_id',h.supplier_id,'location_id',h.location_id,'physical_at',h.physical_at,
-  'notes',coalesce(nullif(p_payload->>'notes',''),h.notes),'supplier_invoice_number',h.supplier_invoice_number,'due_date',h.due_date,
+  'notes',coalesce(nullif(p_payload->>'notes',''),h.notes),
+  'supplier_invoice_number',case when p_payload?'supplier_invoice_number'then nullif(btrim(p_payload->>'supplier_invoice_number'),'')else h.supplier_invoice_number end,
+  'due_date',case when p_payload?'due_date'then nullif(p_payload->>'due_date','')::date else h.due_date end,
   'change_reason','Benerin penerimaan '||h.purchase_number||': '||why,
   'lines',(select jsonb_agg(jsonb_build_object('material_id',l->>'material_id','unit_price',l->>'unit_price','price_state',l->>'price_state',
     'price_source',l->>'price_source','lot_number',l->>'lot_number','notes',l->>'notes')
@@ -738,16 +760,19 @@ begin
     if old_roll.material_id=(line->>'material_id')::uuid then
      delete from erp.material_rolls where purchase_item_id=new_item and roll_number='__CP7FIX-'||old_roll.id::text;
      if not found then raise exception 'CP7_RECEIPT_FIX_DRAFT_ROLL_MAPPING';end if;
+     -- A typed roll number moves through a private temporary number, so
+     -- numbers can be swapped between rolls of this receipt.
      update erp.material_rolls set purchase_item_id=new_item,original_qty=(roll->>'qty')::numeric,
+      roll_number=case when btrim(roll->>'roll_number')<>old_roll.roll_number then '__CP7FIX-RN-'||old_roll.id::text else roll_number end,
       notes=coalesce(nullif(roll->>'notes',''),notes),updated_at=statement_timestamp()where id=old_roll.id;
      lineage:=lineage||jsonb_build_object('kind','REPARENTED','old_roll_id',old_roll.id,'new_roll_id',old_roll.id,'old_material_id',old_roll.material_id,
       'new_material_id',old_roll.material_id,'old_purchase_item_id',old_roll.purchase_item_id,'new_purchase_item_id',new_item,
-      'old_qty',old_roll.original_qty,'new_qty',(roll->>'qty')::numeric,'roll_number',old_roll.roll_number);
+      'old_qty',old_roll.original_qty,'new_qty',(roll->>'qty')::numeric,'roll_number',btrim(roll->>'roll_number'),'previous_roll_number',old_roll.roll_number);
     else
      select id into new_roll from erp.material_rolls where purchase_item_id=new_item and roll_number=btrim(roll->>'roll_number');
      lineage:=lineage||jsonb_build_object('kind','MATERIAL_MOVED','old_roll_id',old_roll.id,'new_roll_id',new_roll,'old_material_id',old_roll.material_id,
       'new_material_id',(line->>'material_id')::uuid,'old_purchase_item_id',old_roll.purchase_item_id,'new_purchase_item_id',new_item,
-      'old_qty',old_roll.original_qty,'new_qty',(roll->>'qty')::numeric,'roll_number',btrim(roll->>'roll_number'));
+      'old_qty',old_roll.original_qty,'new_qty',(roll->>'qty')::numeric,'roll_number',btrim(roll->>'roll_number'),'previous_roll_number',old_roll.roll_number);
     end if;
    else
     select id into new_roll from erp.material_rolls where purchase_item_id=new_item and roll_number=btrim(roll->>'roll_number');
@@ -760,6 +785,9 @@ begin
   lineage:=lineage||jsonb_build_object('kind','REMOVED','old_roll_id',old_roll.id,'old_material_id',old_roll.material_id,
    'old_purchase_item_id',old_roll.purchase_item_id,'old_qty',old_roll.original_qty,'roll_number',old_roll.roll_number);
  end loop;
+ update erp.material_rolls r set roll_number=x.roll_number,updated_at=statement_timestamp()
+ from jsonb_to_recordset(lineage)as x(kind text,old_roll_id uuid,roll_number text,previous_roll_number text)
+ where x.kind='REPARENTED'and r.id=x.old_roll_id and x.roll_number<>x.previous_roll_number;
  -- Native posting of the replacement at the original physical time.
  perform cp7_receipt_fix.admit('POST');
  perform erp.post_material_purchase(replaced);
@@ -904,7 +932,9 @@ begin
  perform cp7_receipt_fix.admit(null);
  delete from erp.invoice_recost_execution_context where transaction_id=txid_current();
  if cp7_receipt_fix.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_RECEIPT_FIX_ACCESS_CHANGED';end if;
- select jsonb_build_object('purchase_number',(select purchase_number from erp.material_purchase_headers where id=replaced),'lines',coalesce(jsonb_agg(jsonb_build_object('item_id',i.id,'material_id',i.material_id,
+ select jsonb_build_object('purchase_number',(select purchase_number from erp.material_purchase_headers where id=replaced),
+  'supplier_invoice_number',(select supplier_invoice_number from erp.material_purchase_headers where id=replaced),
+  'due_date',(select due_date from erp.material_purchase_headers where id=replaced),'notes',(select notes from erp.material_purchase_headers where id=replaced),'lines',coalesce(jsonb_agg(jsonb_build_object('item_id',i.id,'material_id',i.material_id,
   'qty',i.qty::text,'unit_price',i.unit_price::text,'price_state',i.price_state,'price_source',i.price_source,
   'rolls',(select coalesce(jsonb_agg(jsonb_build_object('roll_id',r5.id,'roll_number',r5.roll_number,'qty',r5.original_qty::text)order by r5.roll_number,r5.id),'[]')
    from erp.material_rolls r5 where r5.purchase_item_id=i.id))order by i.id),'[]'))into corrected_doc
@@ -914,10 +944,10 @@ begin
   from cp7_receipt_fix.invoice_replays x join erp.material_supplier_invoices v on v.id=x.replacement_invoice_id where x.correction_id=fix_id));
  insert into cp7_receipt_fix.revisions(id,root_purchase_id,previous_purchase_id,replacement_purchase_id,revision,actor,request_id,reason,effective_at,previous_document,corrected_document)
  values(fix_id,root,h.id,replaced,rev_no,auth.uid(),p_request,why,h.physical_at,previous_doc,corrected_doc);
- insert into cp7_receipt_fix.roll_lineage(correction_id,kind,old_roll_id,new_roll_id,old_material_id,new_material_id,old_purchase_item_id,new_purchase_item_id,old_qty,new_qty,roll_number)
- select fix_id,x.kind,x.old_roll_id,x.new_roll_id,x.old_material_id,x.new_material_id,x.old_purchase_item_id,x.new_purchase_item_id,x.old_qty,x.new_qty,x.roll_number
+ insert into cp7_receipt_fix.roll_lineage(correction_id,kind,old_roll_id,new_roll_id,old_material_id,new_material_id,old_purchase_item_id,new_purchase_item_id,old_qty,new_qty,roll_number,previous_roll_number)
+ select fix_id,x.kind,x.old_roll_id,x.new_roll_id,x.old_material_id,x.new_material_id,x.old_purchase_item_id,x.new_purchase_item_id,x.old_qty,x.new_qty,x.roll_number,x.previous_roll_number
  from jsonb_to_recordset(lineage)as x(kind text,old_roll_id uuid,new_roll_id uuid,old_material_id uuid,new_material_id uuid,old_purchase_item_id uuid,
-  new_purchase_item_id uuid,old_qty numeric,new_qty numeric,roll_number text);
+  new_purchase_item_id uuid,old_qty numeric,new_qty numeric,roll_number text,previous_roll_number text);
  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
  values('material_purchase_headers',h.id,'REVERSE',jsonb_build_object('receipt_correction_id',fix_id,'replacement_purchase_id',replaced),erp.current_app_user_id(),why);
  delete from cp7_receipt_fix.context where backend_pid=pg_backend_pid()and transaction_id=txid_current();

@@ -89,6 +89,8 @@ export type DraftLine = { key: string; replaces: string | null; materialId: stri
 export type DraftInvoiceLine = { replaces: string; itemId: string; qty: string; price: string; discount: string }
 export type DraftInvoice = { replaces: string; number: string; date: string; lines: DraftInvoiceLine[] }
 export type DraftCredit = { purchaseId: string; amount: string }
+/** Header fields typed on the receipt (delivery-note number, due date); empty = clear. */
+export type DraftHeader = { supplierInvoiceNumber: string; dueDate: string }
 // Exact money: decimals as integer micro-units, rounded to cents like the database (half away from zero).
 const micros = (s: string) => { const [w, f = ''] = s.trim().replace(',', '.').split('.'); return BigInt(w || '0') * 1000000n + BigInt((f + '000000').slice(0, 6)) }
 const cents = (scaled: bigint, scale: bigint) => (scaled >= 0n ? (scaled + scale / 2n) / scale : -((-scaled + scale / 2n) / scale))
@@ -122,7 +124,7 @@ export function correctionInvoices(w: ReceiptCorrectionWorkspace): DraftInvoice[
     lines: v.lines.map(l => ({ replaces: l.invoice_line_id, itemId: l.purchase_item_id, qty: plain(l.qty_invoiced), price: plain(l.unit_price), discount: plain(l.discount_amount) })) }))
 }
 /** The exact command payload, or the reason it cannot be sent yet. */
-export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLine[], reason: string, invoices: DraftInvoice[] = [], credits: DraftCredit[] = []): { payload: Record<string, unknown> | null; problem: string | null } {
+export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLine[], reason: string, invoices: DraftInvoice[] = [], credits: DraftCredit[] = [], header?: DraftHeader): { payload: Record<string, unknown> | null; problem: string | null } {
   if (reason.trim().length < 5) return { payload: null, problem: 'Tulis alasan pembetulan (minimal 5 huruf).' }
   if (!lines.length) return { payload: null, problem: 'Penerimaan harus punya minimal satu barang.' }
   const out = []
@@ -138,6 +140,8 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
         if (r.replaces && Number(qty) < Number(r.minQty)) return { payload: null, problem: `Roll ${r.number} sudah terpakai ${r.minQty}; jumlah benar tidak boleh lebih kecil.` }
         rolls.push({ ...(r.replaces ? { replaces_roll_id: r.replaces } : {}), roll_number: r.number.trim(), qty })
       }
+      const numbers = rolls.map(r => r.roll_number), twice = numbers.find((n, k) => numbers.indexOf(n) !== k)
+      if (twice) return { payload: null, problem: `Nomor roll ${twice} dipakai lebih dari sekali.` }
       out.push({ ...(l.replaces ? { replaces_item_id: l.replaces } : {}), material_id: l.materialId, unit_price: price, price_state: l.priceState, price_source: l.priceSource, rolls })
     } else {
       const qty = exact(l.qty, true)
@@ -188,7 +192,18 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
     if (!w.credit_targets.length) return { payload: null, problem: `Sudah dibayar Rp${excess} lebih dari total yang benar. Belum ada nota lain dari supplier ini yang masih punya sisa utang; simpan pembetulan setelah nota berikutnya dicatat.` }
     if (money(sum / 10000n) !== excess) return { payload: null, problem: `Kelebihan bayar Rp${excess} harus ditempel penuh ke nota lain dari supplier yang sama (sekarang Rp${money(sum / 10000n)}).` }
   }
-  return { payload: { purchase_id: w.current_purchase_id, review_token: w.review_token, change_reason: reason.trim(), lines: out, ...(outInvoices.length ? { invoices: outInvoices } : {}), ...(outCredits.length ? { credit_allocations: outCredits } : {}) }, problem: null }
+  // Delivery-note number and due date: sent only when changed; with a posted supplier invoice they follow the invoice.
+  const head: Record<string, string> = {}
+  if (header) {
+    const number = header.supplierInvoiceNumber.trim(), due = header.dueDate.trim()
+    if (number !== (w.purchase.supplier_invoice_number ?? '')) head.supplier_invoice_number = number
+    if (due !== (w.purchase.due_date ?? '')) {
+      if (due && !/^\d{4}-\d{2}-\d{2}$/.test(due)) return { payload: null, problem: 'Tanggal jatuh tempo belum benar.' }
+      head.due_date = due
+    }
+    if (Object.keys(head).length && w.invoices.length) return { payload: null, problem: 'Penerimaan ini sudah punya invoice supplier; nomor dan jatuh tempo mengikuti invoice. Betulkan di baris invoice.' }
+  }
+  return { payload: { purchase_id: w.current_purchase_id, review_token: w.review_token, change_reason: reason.trim(), lines: out, ...head, ...(outInvoices.length ? { invoices: outInvoices } : {}), ...(outCredits.length ? { credit_allocations: outCredits } : {}) }, problem: null }
 }
 
 // Material card v2: same scope/access/money projection as v1; a corrected
@@ -218,29 +233,30 @@ export function parseMaterialCard(v: unknown, finance: boolean): MaterialCard {
 // "Benerin nama bahan": a typo in the name of the same material. Only the name
 // changes; SKU, unit, type and every stock row keep their identity.
 export type MaterialNameWorkspace = { contract_version: 'cp7.material-name-workspace.v1'; read_at: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; row_version: string
-  history: { id: string; previous_name: string; corrected_name: string; reason: string; recorded_at: string; actor_name: string | null }[]; production_go: false }
+  history: { id: string; previous_name: string; corrected_name: string; previous_sku: string; corrected_sku: string; reason: string; recorded_at: string; actor_name: string | null }[]; production_go: false }
 export function parseMaterialNameWorkspace(v: unknown, requested: string): MaterialNameWorkspace {
   const r = closed(v, ['contract_version', 'read_at', 'material_id', 'material_sku', 'material_name', 'material_type', 'unit_code', 'row_version', 'history', 'production_go'])
   if (r.contract_version !== 'cp7.material-name-workspace.v1' || !at(r.read_at) || r.material_id !== requested || !id(r.material_id) || typeof r.material_sku !== 'string' || typeof r.material_name !== 'string'
     || typeof r.material_type !== 'string' || typeof r.unit_code !== 'string' || typeof r.row_version !== 'string' || !/^[1-9][0-9]{0,18}$/.test(r.row_version) || !Array.isArray(r.history) || r.production_go !== false) return fail()
   for (const value of r.history) {
-    const h = closed(value, ['id', 'previous_name', 'corrected_name', 'reason', 'recorded_at', 'actor_name'])
-    if (!id(h.id) || typeof h.previous_name !== 'string' || typeof h.corrected_name !== 'string' || typeof h.reason !== 'string' || !at(h.recorded_at) || !text(h.actor_name)) return fail()
+    const h = closed(value, ['id', 'previous_name', 'corrected_name', 'previous_sku', 'corrected_sku', 'reason', 'recorded_at', 'actor_name'])
+    if (!id(h.id) || typeof h.previous_name !== 'string' || typeof h.corrected_name !== 'string' || typeof h.previous_sku !== 'string' || typeof h.corrected_sku !== 'string' || typeof h.reason !== 'string' || !at(h.recorded_at) || !text(h.actor_name)) return fail()
   }
   return r as unknown as MaterialNameWorkspace
 }
 export function parseMaterialNameOutcome(v: unknown, request: string, material: string) {
-  const r = closed(v, ['contract_version', 'kind', 'action', 'request_id', 'material_id', 'previous_name', 'material_name', 'row_version'])
+  const r = closed(v, ['contract_version', 'kind', 'action', 'request_id', 'material_id', 'previous_name', 'material_name', 'previous_sku', 'material_sku', 'row_version'])
   if (r.contract_version !== 'cp7.material-name-outcome.v1' || r.kind !== 'COMMITTED_OUTCOME' || r.action !== 'RENAME' || r.request_id !== request || r.material_id !== material
-    || typeof r.previous_name !== 'string' || typeof r.material_name !== 'string' || typeof r.row_version !== 'string') return fail()
-  return r as typeof r & { material_name: string }
+    || typeof r.previous_name !== 'string' || typeof r.material_name !== 'string' || typeof r.previous_sku !== 'string' || typeof r.material_sku !== 'string' || typeof r.row_version !== 'string') return fail()
+  return r as typeof r & { material_name: string; material_sku: string }
 }
-export function materialNamePayload(w: MaterialNameWorkspace, name: string, reason: string): { payload: Record<string, unknown> | null; problem: string | null } {
-  const clean = name.trim().replace(/\s+/g, ' ')
+export function materialNamePayload(w: MaterialNameWorkspace, name: string, reason: string, sku: string = w.material_sku): { payload: Record<string, unknown> | null; problem: string | null } {
+  const clean = name.trim().replace(/\s+/g, ' '), code = sku.trim()
   if (!clean || clean.length > 150) return { payload: null, problem: 'Tulis nama bahan yang benar (1–150 huruf).' }
-  if (clean === w.material_name) return { payload: null, problem: 'Nama belum berubah.' }
+  if (!code || code.length > 60) return { payload: null, problem: 'Tulis kode bahan yang benar (1–60 huruf).' }
+  if (clean === w.material_name && code === w.material_sku) return { payload: null, problem: 'Nama dan kode belum berubah.' }
   if (reason.trim().length < 5) return { payload: null, problem: 'Tulis alasan pembetulan (minimal 5 huruf).' }
-  return { payload: { material_id: w.material_id, material_name: clean, change_reason: reason.trim() }, problem: null }
+  return { payload: { material_id: w.material_id, material_name: clean, ...(code !== w.material_sku ? { material_sku: code } : {}), change_reason: reason.trim() }, problem: null }
 }
 
 // Indonesian text for the commands' named refusals. Only the message changes:
@@ -258,8 +274,8 @@ const refusalLabels: Record<string, string> = {
   CP7_RECEIPT_FIX_REMOVED_ROLL_USED: 'Roll yang sudah dipakai tidak boleh dihapus dari penerimaan',
   CP7_RECEIPT_FIX_LINE_BELOW_USE: 'Jumlah barang tidak boleh di bawah jumlah yang sudah keluar dari gudang penerimaan',
   CP7_RECEIPT_FIX_ROLL_USE_UNSUPPORTED: 'Roll ini sudah dipakai selain untuk potong. Untuk salah bahan, batalkan pemakaian itu dulu, betulkan penerimaan, lalu catat ulang pemakaiannya',
-  CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN: 'Nomor roll sudah dipakai pada bahan tujuan',
-  CP7_RECEIPT_FIX_ROLL_NUMBER_IS_IDENTITY: 'Nomor roll yang sudah ada tidak bisa diubah.',
+  CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN: 'Nomor roll sudah dipakai roll lain dari bahan yang sama (roll baru juga tidak boleh memakai nomor yang sekarang masih dipakai)',
+  CP7_RECEIPT_FIX_HEADER_FOLLOWS_INVOICE: 'Penerimaan ini sudah punya invoice supplier; nomor dan jatuh tempo mengikuti invoice. Betulkan di baris invoice.',
   CP7_RECEIPT_FIX_ROLL_LINEAGE: `Daftar roll ${changed}`,
   CP7_RECEIPT_FIX_ITEM_LINEAGE: `Daftar barang ${changed}`,
   CP7_RECEIPT_FIX_MATERIAL_KIND_CHANGED: 'Bahan pengganti harus jenis dan satuan yang sama dengan bahan semula.',
@@ -281,7 +297,9 @@ const refusalLabels: Record<string, string> = {
   CP7_RECEIPT_FIX_CREDIT_TARGET_AFTER_ADVANCE_USE: 'Kelebihan bayar ini berasal dari uang muka saldo awal. Pilih nota yang tanggalnya sama atau sebelum tanggal pemakaian uang muka itu',
   CP7_RECEIPT_FIX_CREDIT_CENTS: 'Jumlah kredit paling banyak dua angka di belakang koma.',
   CP7_MATERIAL_NAME_TAKEN: 'Nama ini sudah dipakai bahan lain. Bila itu memang bahan yang sama, jangan digabung lewat ganti nama.',
-  CP7_MATERIAL_NAME_UNCHANGED: 'Nama baru sama dengan nama sekarang.',
+  CP7_MATERIAL_NAME_UNCHANGED: 'Nama dan kode baru sama dengan yang sekarang.',
+  CP7_MATERIAL_NAME_SKU_TAKEN: 'Kode ini sudah dipakai bahan lain. Bila itu memang bahan yang sama, jangan digabung lewat ganti kode.',
+  CP7_MATERIAL_NAME_SKU_LENGTH: 'Tulis kode bahan yang benar (1–60 huruf).',
   CP7_MATERIAL_NAME_REVIEW_CHANGED: `Data bahan ${changed}`,
   CP7_MATERIAL_NAME_REASON_REQUIRED: 'Tulis alasan pembetulan (minimal 5 huruf).',
   CP7_MATERIAL_NAME_LENGTH: 'Tulis nama bahan yang benar (1–150 huruf).',

@@ -561,6 +561,63 @@ def cases(cur,today):
         delta=ledger_delta(before,ledger(cur));assert delta=={'MATERIAL_INVENTORY':D(-40),'GRNI_MATERIAL':D(40)},delta
         same_checks(chk,checks(cur))
         return dict(status='PASS',accessory_24_pcs_16_moved_out_corrected_10_refused=True,accessory_24_pcs_corrected_20=True,estimated_receipt_grni_follows=True,all_integrity_checks_unchanged=True)
+    def roll_number_typo():
+        """Roll numbers typed wrong on a posted receipt whose first roll is already used: swapped R1/R2 and a typo on R3."""
+        f=roll_receipt(cur,today);transfer(cur,f,'4');t=f['tag']
+        before,dated,chk=ledger(cur),by_date(cur),checks(cur);w=ws(cur,f['purchase'])
+        assert [r['roll_number'] for r in w['lines'][0]['rolls']]==[t+'-R1',t+'-R2',t+'-R3'] and w['lines'][0]['rolls'][0]['used_qty']=='4.000000',w['lines']
+        number=lambda k,v:(lambda n,i:i['rolls'][k].update(roll_number=v))
+        refused(cur,lambda:fix(cur,payload(w,line=lambda n,i:(i['rolls'][1].update(roll_number=t+'-R9'),i['rolls'][2].update(roll_number=t+'-R9'))),w['purchase']['row_version']),'CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN')
+        refused(cur,lambda:fix(cur,payload(w,line=lambda n,i:i['rolls'].append(dict(roll_number=t+'-R1',qty='5'))),w['purchase']['row_version']),'CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN')
+        moved=cur.execute('select id,roll_id,qty_signed,physical_at from erp.material_stock_movements where roll_id=%s and source_type=%s order by id',(f['rolls'][0],'MATERIAL_TRANSFER')).fetchall()
+        out=fix(cur,payload(w,reason='Nomor roll tertukar dan salah ketik; dicek dengan label fisik',
+          line=lambda n,i:(i['rolls'][0].update(roll_number=t+'-R2'),i['rolls'][1].update(roll_number=t+'-R1'),i['rolls'][2].update(roll_number=t+'-R30'))),w['purchase']['row_version'])
+        rolls=cur.execute('select r.id::text,r.roll_number,r.original_qty from erp.material_rolls r join erp.material_purchase_items i on i.id=r.purchase_item_id where i.purchase_id=%s order by r.id',(out['purchase_id'],)).fetchall()
+        assert sorted(rolls)==sorted([(f['rolls'][0],t+'-R2',D(50)),(f['rolls'][1],t+'-R1',D(50)),(f['rolls'][2],t+'-R30',D(50))]),rolls
+        assert cur.execute('select id,roll_id,qty_signed,physical_at from erp.material_stock_movements where roll_id=%s and source_type=%s order by id',(f['rolls'][0],'MATERIAL_TRANSFER')).fetchall()==moved
+        lineage=cur.execute("select old_roll_id::text,previous_roll_number,roll_number from cp7_receipt_fix.roll_lineage where correction_id=%s and kind='REPARENTED' order by roll_number",(out['revision_id'],)).fetchall()
+        assert sorted(lineage)==sorted([(f['rolls'][0],t+'-R1',t+'-R2'),(f['rolls'][1],t+'-R2',t+'-R1'),(f['rolls'][2],t+'-R3',t+'-R30')]),lineage
+        h=ws(cur,f['purchase'])['history'][0]
+        assert [r['roll_number'] for r in h['previous_document']['lines'][0]['rolls']]==[t+'-R1',t+'-R2',t+'-R3'],h
+        assert sorted(r['roll_number'] for r in h['corrected_document']['lines'][0]['rolls'])==sorted([t+'-R1',t+'-R2',t+'-R30']),h
+        assert raw(cur,f['material'])==(D(150),D(1500)),raw(cur,f['material'])
+        assert ledger_delta(before,ledger(cur))=={} and dated_delta(dated,by_date(cur))=={},(ledger_delta(before,ledger(cur)),dated_delta(dated,by_date(cur)))
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',used_roll_number_typo_fixed_same_roll=True,numbers_swapped_between_rolls=True,roll_ids_use_and_transfer_kept=True,
+          duplicate_number_refused=True,new_roll_cannot_take_existing_number=True,lineage_previous_and_corrected_number=True,no_stock_or_ledger_effect=True,
+          all_integrity_checks_unchanged=True)
+    def header_typo():
+        """Supplier delivery-note number and due date typed wrong; with a posted supplier invoice they follow the invoice."""
+        f=roll_receipt(cur,today,rolls=('100',));before,chk=ledger(cur),checks(cur);w=ws(cur,f['purchase'])
+        due=str(f['day']+timedelta(days=30))
+        out=fix(cur,dict(payload(w,reason='Nomor surat jalan supplier dan jatuh tempo salah ketik'),supplier_invoice_number='SJ-'+f['tag']+'-21',due_date=due),w['purchase']['row_version'])
+        head=cur.execute('select supplier_invoice_number,due_date::text,physical_at=%s from erp.material_purchase_headers where id=%s',(w['purchase']['physical_at'],out['purchase_id'])).fetchone()
+        assert head==('SJ-'+f['tag']+'-21',due,True),head
+        h=ws(cur,f['purchase'])['history'][0]
+        assert (h['previous_document']['supplier_invoice_number'],h['corrected_document']['supplier_invoice_number'],h['corrected_document']['due_date'])==(w['purchase']['supplier_invoice_number'],'SJ-'+f['tag']+'-21',due),h
+        assert ledger_delta(before,ledger(cur))=={};same_checks(chk,checks(cur))
+        g=invoiced_production(cur,today);wg=ws(cur,g['purchase'])
+        refused(cur,lambda:fix(cur,dict(payload(wg),invoices=invoices(wg),supplier_invoice_number='SJ-LAIN'),wg['purchase']['row_version']),'CP7_RECEIPT_FIX_HEADER_FOLLOWS_INVOICE')
+        return dict(status='PASS',delivery_note_number_and_due_date_corrected=True,history_keeps_previous_header=True,no_ledger_effect=True,
+          invoiced_receipt_header_follows_invoice_refused=True)
+    def sku_typo():
+        """The code (SKU) of the same material typed wrong; nothing else changes."""
+        f=production(cur,today);other=clone(cur,'cp7-sku-b');before,chk=ledger(cur),checks(cur)
+        IDENT='select material_name,material_type,unit_code,accessory_category_id,is_active,cached_stock_qty,moving_average_cost from erp.materials where id=%s'
+        ident=cur.execute(IDENT,(f['material'],)).fetchone();card_before=full_card(cur,f['material'],f['roll'],f['raw_location'])
+        w=name_ws(cur,f['material']);old=w['material_sku'];other_sku=cur.execute('select material_sku from erp.materials where id=%s',(other,)).fetchone()[0]
+        p=dict(material_id=f['material'],material_name=w['material_name'],material_sku=old+'-B',change_reason='Kode bahan salah ketik di master')
+        refused(cur,lambda:rename(cur,dict(p,material_sku=other_sku.lower()),w['row_version']),'CP7_MATERIAL_NAME_SKU_TAKEN')
+        refused(cur,lambda:rename(cur,dict(p,material_sku=old),w['row_version']),'CP7_MATERIAL_NAME_UNCHANGED')
+        out=rename(cur,p,w['row_version'])
+        assert (out['previous_sku'],out['material_sku'],out['previous_name'],out['material_name'])==(old,old+'-B',w['material_name'],w['material_name']),out
+        assert cur.execute(IDENT,(f['material'],)).fetchone()==ident and cur.execute('select material_sku from erp.materials where id=%s',(f['material'],)).fetchone()[0]==old+'-B'
+        assert instants(full_card(cur,f['material'],f['roll'],f['raw_location']))==instants(card_before)
+        assert ws(cur,f['purchase'])['lines'][0]['material_sku']==old+'-B' and hpp(cur,f)==(D(900),D(15),0)
+        h=name_ws(cur,f['material']);assert [(x['previous_sku'],x['corrected_sku'],x['previous_name'],x['corrected_name']) for x in h['history']]==[(old,old+'-B',w['material_name'],w['material_name'])],h
+        assert ledger_delta(before,ledger(cur))=={};same_checks(chk,checks(cur))
+        return dict(status='PASS',same_material_code_fixed=True,code_of_another_material_refused=True,name_type_unit_stock_cost_unchanged=True,
+          card_unchanged=True,receipt_shows_new_code=True,history_kept=True,no_journal=True)
     def name_typo():
         f=production(cur,today);before,chk=ledger(cur),checks(cur)
         IDENT='select material_sku,material_type,unit_code,accessory_category_id,is_active,cached_stock_qty,moving_average_cost from erp.materials where id=%s'
@@ -605,12 +662,12 @@ def cases(cur,today):
           unit_or_other_identity_field_refused=True,staff_refused=True,anonymous_denied=True,deactivated_admin_refused=True,refusals_without_effect=True)
     tests=[('RF_QTY_DOWN_AFTER_CUTTING',qty_down),('RF_QTY_UP_AFTER_CUTTING',qty_up),('RF_PRICE_AFTER_SALE_AND_RETURN',price_after_sale),
       ('RF_WRONG_MATERIAL_AFTER_CUTTING',lambda:wrong_material()),('RF_WRONG_MATERIAL_AND_PRICE',lambda:wrong_material('12')),
-      ('RF_ROLL_COUNT_TYPO_UNUSED_ROLL',roll_count),('RF_REMOVED_ROLL_USED_REFUSED',removed_used),('RF_ROLL_BELOW_USE_REFUSED',below_use),
+      ('RF_ROLL_COUNT_TYPO_UNUSED_ROLL',roll_count),('RF_REMOVED_ROLL_USED_REFUSED',removed_used),('RF_ROLL_BELOW_USE_REFUSED',below_use),('RF_ROLL_NUMBER_TYPO_USED_ROLL',roll_number_typo),('RF_HEADER_TYPO',header_typo),
       ('RF_PAYMENT_REPLAY',lambda:paid('300',True)),('RF_PAID_EXCEEDS_CORRECTED_REFUSED',lambda:paid('1000',False)),('RF_OVERPAID_CREDIT_TO_NEXT_NOTA',overpaid_credit),('RF_OPENING_ADVANCE_PAYMENT_REPLAY',opening_advance),
       ('RF_INVOICE_PRICE_AFTER_SALE',invoice_price_after_sale),('RF_INVOICED_QTY_DOWN_WITH_PAYMENT',invoiced_qty_down),
       ('RF_INVOICE_INCOMPLETE_REFUSED',invoice_refusals),('RF_SHARED_INVOICE_CORRECTED',shared_invoice),('RF_CLOSED_PERIOD_CORRECTION',closed_period),('RF_REPEATED_REVISIONS',repeated),('RF_REPLAY_SAME_REQUEST',replay),
       ('RF_REVIEW_CHANGED_REFUSED',review_changed),('RF_ACCESS_CURRENT_AUTHORITY',access),('RF_YEAR_HISTORY_364',year_history),
-      ('RF_LATE_FAILURE_ATOMIC',late_failure),('RF_ACCESSORY_LINE_QTY',accessory),('RF_MATERIAL_NAME_TYPO',name_typo),('RF_MATERIAL_NAME_REFUSALS',name_refusals)]
+      ('RF_LATE_FAILURE_ATOMIC',late_failure),('RF_ACCESSORY_LINE_QTY',accessory),('RF_MATERIAL_NAME_TYPO',name_typo),('RF_MATERIAL_SKU_TYPO',sku_typo),('RF_MATERIAL_NAME_REFUSALS',name_refusals)]
     assert [n for n,_ in tests]==MANIFEST['groups']['native']
     return tests
 

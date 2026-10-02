@@ -7,7 +7,7 @@ import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, procurementObject, type ProcurementOption } from './procurementContract'
-import { blockerLabels, correctionDraft, correctionRefusal, correctionExcess, correctionInvoices, correctionPayload, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace, type DraftCredit, type DraftInvoice, type DraftLine, type ReceiptCorrectionWorkspace } from './receiptCorrectionContract'
+import { blockerLabels, correctionDraft, correctionRefusal, correctionExcess, correctionInvoices, correctionPayload, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace, type DraftCredit, type DraftHeader, type DraftInvoice, type DraftLine, type ReceiptCorrectionWorkspace } from './receiptCorrectionContract'
 import type { Json } from './types/database.preconnect'
 
 type Props = { purchaseId: string | null; receiptRevision?: string | null; onReceiptUpdated: (purchaseId: string) => Promise<boolean> }
@@ -37,7 +37,7 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), mutation = useProductionMutation('RECEIPT_CORRECTION')
   const { beginRead, finishRead, isReadCurrent, run, reconcile, invalidate } = mutation
   const [data, setData] = useState<ReceiptCorrectionWorkspace | null>(null), [loading, setLoading] = useState(false), [error, setError] = useState('')
-  const [lines, setLines] = useState<DraftLine[] | null>(null), [invoices, setInvoices] = useState<DraftInvoice[]>([]), [credits, setCredits] = useState<DraftCredit[]>([]), [reason, setReason] = useState(''), [checked, setChecked] = useState(false), [open, setOpen] = useState(false)
+  const [lines, setLines] = useState<DraftLine[] | null>(null), [invoices, setInvoices] = useState<DraftInvoice[]>([]), [credits, setCredits] = useState<DraftCredit[]>([]), [reason, setReason] = useState(''), [header, setHeader] = useState<DraftHeader | null>(null), [checked, setChecked] = useState(false), [open, setOpen] = useState(false)
   const requested = useRef(purchaseId), sequence = useRef(0)
   const load = useCallback(async () => {
     const s = ++sequence.current, ticket = beginRead(), purchase = requested.current
@@ -51,18 +51,18 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
     } catch (e) { if (isReadCurrent(ticket)) { setData(null); setError(normalizeClientError(e).message) }; return false }
     finally { if (s === sequence.current) setLoading(false) }
   }, [client, beginRead, finishRead, isReadCurrent])
-  useEffect(() => { if (mutation.busy) return; if (requested.current !== purchaseId) { requested.current = purchaseId; setLines(null); setInvoices([]); setCredits([]); setChecked(false) }; if (open) void load() }, [purchaseId, receiptRevision, open, load, mutation.busy])
+  useEffect(() => { if (mutation.busy) return; if (requested.current !== purchaseId) { requested.current = purchaseId; setLines(null); setInvoices([]); setCredits([]); setHeader(null); setChecked(false) }; if (open) void load() }, [purchaseId, receiptRevision, open, load, mutation.busy])
   const handlers: ProductionMutationHandlers = {
     send: async envelope => { const p = procurementObject(envelope.payload); const r = await client.rpc('erp_cp7_correct_receipt_v1', { p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string }); return { data: r.data, error: r.error ? correctionRefusal(r.error) : null } },
     validate: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string) },
-    retire: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); const out = parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string); requested.current = out.purchase_id; setLines(null); setInvoices([]); setCredits([]); setChecked(false); setReason(''); setData(null); setOpen(true) },
+    retire: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); const out = parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string); requested.current = out.purchase_id; setLines(null); setInvoices([]); setCredits([]); setHeader(null); setChecked(false); setReason(''); setData(null); setOpen(true) },
     // The page first selects the replacement receipt (after the envelope is
     // cleared), then this panel reads its own workspace for the same receipt.
     reload: async () => { if (!requested.current || !await onReceiptUpdated(requested.current)) { invalidate(); setData(null); return false }; return load() },
   }
   const locked = mutation.writerLocked || loading
   const stale = Boolean(lines && data && data.purchase.purchase_id !== requested.current)
-  const built = data && lines ? correctionPayload(data, lines, reason, invoices, credits) : null
+  const built = data && lines ? correctionPayload(data, lines, reason, invoices, credits, header ?? undefined) : null
   const excess = data && lines ? correctionExcess(data, lines, invoices) : null
   const change = (key: string, fn: (l: DraftLine) => DraftLine) => setLines(ls => ls ? ls.map(l => l.key === key ? fn(l) : l) : ls)
   const changeInvoice = (invoice: string, line: string, field: 'qty' | 'price' | 'discount', value: string) => { setChecked(false); setInvoices(vs => vs.map(v => v.replaces !== invoice ? v : { ...v, lines: v.lines.map(l => l.replaces === line ? { ...l, [field]: value } : l) })) }
@@ -78,7 +78,7 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
       {data.blockers.length ? <div role="alert"><p>Penerimaan ini belum bisa dibenerin:</p><ul>{data.blockers.map(b => <li key={b.code}>{blockerLabels[b.code] ?? b.code}</li>)}</ul></div> : null}
       {data.payments.some(p => p.status === 'POSTED') ? <p className="cproc-help">Pembayaran supplier Rp{numberText(data.paid_total)} dipindahkan ke dokumen yang benar dengan tanggal pembayaran aslinya. Kalau total yang benar lebih kecil, kelebihannya jadi kredit yang dipotong ke nota lain dari supplier yang sama.</p> : null}
       {data.invoices.length ? <p className="cproc-help">Penerimaan ini sudah punya invoice supplier ({data.invoices.map(v => v.invoice_number).join(', ')}). Invoice ikut dibetulkan: yang lama dibatalkan dan yang benar dicatat ulang dengan tanggal invoice yang sama.</p> : null}
-      {data.can_correct && !lines ? <button className="primary-btn" type="button" disabled={locked} onClick={() => { setLines(correctionDraft(data)); setInvoices(correctionInvoices(data)); setChecked(false) }}>Benerin penerimaan</button> : null}
+      {data.can_correct && !lines ? <button className="primary-btn" type="button" disabled={locked} onClick={() => { setLines(correctionDraft(data)); setInvoices(correctionInvoices(data)); setHeader({ supplierInvoiceNumber: data.purchase.supplier_invoice_number ?? '', dueDate: data.purchase.due_date ?? '' }); setChecked(false) }}>Benerin penerimaan</button> : null}
       {lines ? <form onSubmit={e => { e.preventDefault(); if (built?.payload && checked && !locked && !stale) void run('CORRECT', { document: built.payload as Json, expected_version: data.purchase.row_version }, null, handlers) }}>
         {stale ? <p role="alert">Penerimaan sudah berubah. Tutup formulir dan muat ulang.</p> : null}
         <fieldset disabled={locked || stale}>
@@ -87,7 +87,7 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
             <div className="cproc-grid"><MaterialChoice client={client} value={{ id: l.materialId, name: l.materialName }} disabled={locked} onChange={m => change(l.key, old => ({ ...old, materialId: m.id, materialName: m.name, unitCode: m.unit_code ?? old.unitCode }))}/>
               <label>{l.priceState === 'FINAL' ? 'Harga' : 'Harga perkiraan saat terima'} per {l.unitCode}<input aria-label={`Harga benar barang ${n + 1}`} inputMode="decimal" value={l.price} onChange={e => change(l.key, old => ({ ...old, price: e.target.value }))}/></label></div>
             {l.materialType === 'FABRIC' ? <div className="cproc-rolls"><h4>Roll yang benar</h4>{l.rolls.map((r, ri) => <div className="cproc-inline" key={r.key}>
-              <label>Nomor roll<input aria-label={`Nomor roll benar ${n + 1}.${ri + 1}`} value={r.number} disabled={Boolean(r.replaces) && l.materialId === data.lines.find(x => x.item_id === l.replaces)?.material_id} onChange={e => change(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, number: e.target.value } : x) }))}/></label>
+              <label>Nomor roll{r.replaces && r.number.trim() !== data.lines.flatMap(x => x.rolls).find(x => x.roll_id === r.replaces)?.roll_number ? ` · tadinya ${data.lines.flatMap(x => x.rolls).find(x => x.roll_id === r.replaces)?.roll_number}` : ''}<input aria-label={`Nomor roll benar ${n + 1}.${ri + 1}`} maxLength={80} value={r.number} onChange={e => change(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, number: e.target.value } : x) }))}/></label>
               <label>Jumlah ({l.unitCode}){r.locked ? ` · sudah terpakai ${numberText(r.minQty)}` : ''}<input aria-label={`Jumlah roll benar ${n + 1}.${ri + 1}`} inputMode="decimal" value={r.qty} onChange={e => change(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, qty: e.target.value } : x) }))}/></label>
               <button type="button" disabled={r.locked} title={r.locked ? 'Roll ini sudah terpakai sehingga tidak bisa dihapus' : undefined} onClick={() => change(l.key, old => ({ ...old, rolls: old.rolls.filter(x => x.key !== r.key) }))}>Hapus roll {ri + 1}</button></div>)}
               <button type="button" onClick={() => change(l.key, old => ({ ...old, rolls: [...old.rolls, { key: crypto.randomUUID(), replaces: null, number: '', qty: '', minQty: '0', locked: false }] }))}>Tambah roll yang terlewat</button></div>
@@ -109,10 +109,15 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
                 onChange={e => { const amount = e.target.value; setChecked(false); setCredits(cs => [...cs.filter(c => c.purchaseId !== t.purchase_id), { purchaseId: t.purchase_id, amount }]) }}/></label></div>)
               : <p role="alert">Belum ada nota lain dari supplier ini yang masih punya sisa utang. Simpan pembetulan setelah nota berikutnya dicatat.</p>}
           </section> : null}
+          {header ? <section className="cproc-line" aria-label="Data surat jalan"><h3>Surat jalan supplier</h3>
+            {data.invoices.length ? <p className="cproc-help">Sudah ada invoice supplier: nomor dan jatuh tempo mengikuti invoice. Betulkan di baris invoice.</p> : <div className="cproc-grid">
+              <label>Nomor surat jalan / nota supplier<input aria-label="Nomor surat jalan supplier yang benar" maxLength={100} value={header.supplierInvoiceNumber} onChange={e => { const v = e.target.value; setChecked(false); setHeader(h => h && { ...h, supplierInvoiceNumber: v }) }}/></label>
+              <label>Jatuh tempo<input aria-label="Jatuh tempo yang benar" type="date" value={header.dueDate} onChange={e => { const v = e.target.value; setChecked(false); setHeader(h => h && { ...h, dueDate: v }) }}/></label></div>}
+          </section> : null}
           <label>Alasan pembetulan<input aria-label="Alasan pembetulan penerimaan" value={reason} maxLength={500} onChange={e => { setReason(e.target.value); setChecked(false) }}/></label>
           {built?.problem ? <p role="alert">{built.problem}</p> : null}
           <label className="cproc-check"><input type="checkbox" aria-label="Pembetulan penerimaan sudah diperiksa" checked={checked} onChange={e => setChecked(e.target.checked)}/>Saya sudah mencocokkan dengan surat jalan / barang fisik. Stok, HPP, dan utang akan dihitung ulang sejak tanggal barang datang.</label>
-          <div className="cproc-actions"><button className="primary-btn" disabled={!built?.payload || !checked}>Simpan pembetulan</button><button type="button" disabled={mutation.busy} onClick={() => { setLines(null); setInvoices([]); setCredits([]); setChecked(false) }}>Batal</button></div>
+          <div className="cproc-actions"><button className="primary-btn" disabled={!built?.payload || !checked}>Simpan pembetulan</button><button type="button" disabled={mutation.busy} onClick={() => { setLines(null); setInvoices([]); setCredits([]); setHeader(null); setChecked(false) }}>Batal</button></div>
         </fieldset></form> : null}
     </> : null}
   </section>

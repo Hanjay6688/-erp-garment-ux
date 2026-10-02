@@ -1,7 +1,7 @@
--- "Benerin nama bahan": a typo in a material's name is fixed on the same
--- material. Only material_name changes; SKU, type, unit, accessory category,
--- active state, stock, cost and every roll/movement keep their identity and
--- history. A receipt recorded under a different material is not a typo: it is
+-- "Benerin nama bahan": a typo in a material's name or code (SKU) is fixed on
+-- the same material. Only material_name/material_sku change; type, unit,
+-- accessory category, active state, stock, cost and every roll/movement keep
+-- their identity and history. A receipt recorded under a different material is not a typo: it is
 -- corrected with "Benerin penerimaan" (wrong material A -> B).
 create table cp7_receipt_fix.name_requests(
  actor uuid not null,request_id uuid not null,payload jsonb not null,expected_version text not null,
@@ -10,7 +10,7 @@ create table cp7_receipt_fix.name_requests(
 create table cp7_receipt_fix.material_names(
  id uuid primary key default gen_random_uuid(),
  material_id uuid not null references erp.materials,
- previous_name text not null,corrected_name text not null,reason text not null,
+ previous_name text not null,corrected_name text not null,previous_sku text not null,corrected_sku text not null,reason text not null,
  actor uuid not null,request_id uuid not null,recorded_at timestamptz not null default clock_timestamp(),
  unique(actor,request_id)
 );
@@ -64,7 +64,8 @@ begin
  return jsonb_build_object('contract_version','cp7.material-name-workspace.v1','read_at',clock_timestamp(),
   'material_id',m.id,'material_sku',m.material_sku,'material_name',m.material_name,'material_type',m.material_type,'unit_code',m.unit_code,
   'row_version',m.row_version::text,
-  'history',(select coalesce(jsonb_agg(jsonb_build_object('id',h.id,'previous_name',h.previous_name,'corrected_name',h.corrected_name,'reason',h.reason,
+  'history',(select coalesce(jsonb_agg(jsonb_build_object('id',h.id,'previous_name',h.previous_name,'corrected_name',h.corrected_name,
+    'previous_sku',h.previous_sku,'corrected_sku',h.corrected_sku,'reason',h.reason,
     'recorded_at',h.recorded_at,'actor_name',(select u.full_name from erp.app_users u where u.auth_user_id=h.actor limit 1))order by h.recorded_at,h.id),'[]')
    from cp7_receipt_fix.material_names h where h.material_id=m.id),
   'production_go',false);
@@ -72,11 +73,11 @@ end $$;
 
 create function cp7_receipt_fix.rename(p_payload jsonb,p_request uuid,p_expected text)returns jsonb
 language plpgsql volatile security definer set search_path=''as $$
-declare a jsonb;old cp7_receipt_fix.name_requests%rowtype;m erp.materials%rowtype;before jsonb;name text;why text;result jsonb;
+declare a jsonb;old cp7_receipt_fix.name_requests%rowtype;m erp.materials%rowtype;before jsonb;name text;sku text;why text;result jsonb;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  if jsonb_typeof(p_payload)is distinct from'object'or not p_payload?&array['material_id','material_name','change_reason']
-  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('material_id','material_name','change_reason'))
+  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('material_id','material_name','material_sku','change_reason'))
   or exists(select 1 from jsonb_each(p_payload)e where jsonb_typeof(e.value)<>'string')
   or p_payload->>'material_id'!~'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
  then raise exception using errcode='22023',message='CP7_MATERIAL_NAME_FIELDS';end if;
@@ -84,6 +85,7 @@ begin
  name:=regexp_replace(btrim(p_payload->>'material_name'),'\s+',' ','g');why:=btrim(p_payload->>'change_reason');
  if length(name)not between 1 and 150 then raise exception using errcode='22023',message='CP7_MATERIAL_NAME_LENGTH';end if;
  if length(why)not between 5 and 500 then raise exception using errcode='22023',message='CP7_MATERIAL_NAME_REASON_REQUIRED';end if;
+ if p_payload?'material_sku'and length(btrim(p_payload->>'material_sku'))not between 1 and 60 then raise exception using errcode='22023',message='CP7_MATERIAL_NAME_SKU_LENGTH';end if;
  select*into m from erp.materials where id=(p_payload->>'material_id')::uuid for update;
  if m.id is null then raise exception 'CP7_MATERIAL_NAME_NOT_FOUND';end if;
  a:=cp7_receipt_fix.name_access(m.material_type);
@@ -92,19 +94,24 @@ begin
  if old.payload is distinct from p_payload or old.expected_version is distinct from p_expected then raise exception 'CP7_MATERIAL_NAME_REQUEST_CHANGED';end if;
  if old.response is not null then return old.response;end if;
  if m.row_version::text<>p_expected then raise exception 'CP7_MATERIAL_NAME_REVIEW_CHANGED';end if;
- if name=m.material_name then raise exception 'CP7_MATERIAL_NAME_UNCHANGED';end if;
- -- The same name on another material means two records of one material
- -- (identity), not a typo; it is never merged here.
- if exists(select 1 from erp.materials x where x.id<>m.id and lower(x.material_name)=lower(name))then
+ sku:=coalesce(btrim(p_payload->>'material_sku'),m.material_sku);
+ if name=m.material_name and sku=m.material_sku then raise exception 'CP7_MATERIAL_NAME_UNCHANGED';end if;
+ -- The same name or code on another material means two records of one
+ -- material (identity), not a typo; it is never merged here.
+ if name<>m.material_name and exists(select 1 from erp.materials x where x.id<>m.id and lower(x.material_name)=lower(name))then
   raise exception 'CP7_MATERIAL_NAME_TAKEN';end if;
- before:=cp7_receipt_fix.identity(m.id);
+ if sku<>m.material_sku and exists(select 1 from erp.materials x where x.id<>m.id and lower(x.material_sku)=lower(sku))then
+  raise exception 'CP7_MATERIAL_NAME_SKU_TAKEN';end if;
+ before:=cp7_receipt_fix.identity(m.id)-'sku';
  perform set_config('app.change_reason','Benerin nama bahan: '||why,true);
- update erp.materials set material_name=name where id=m.id;
- if cp7_receipt_fix.identity(m.id)is distinct from before then raise exception 'CP7_MATERIAL_NAME_IDENTITY_CHANGED';end if;
- insert into cp7_receipt_fix.material_names(material_id,previous_name,corrected_name,reason,actor,request_id)values(m.id,m.material_name,name,why,auth.uid(),p_request);
+ update erp.materials set material_name=name,material_sku=sku where id=m.id;
+ if cp7_receipt_fix.identity(m.id)-'sku'is distinct from before or cp7_receipt_fix.identity(m.id)->>'sku'is distinct from sku then
+  raise exception 'CP7_MATERIAL_NAME_IDENTITY_CHANGED';end if;
+ insert into cp7_receipt_fix.material_names(material_id,previous_name,corrected_name,previous_sku,corrected_sku,reason,actor,request_id)
+ values(m.id,m.material_name,name,m.material_sku,sku,why,auth.uid(),p_request);
  if cp7_receipt_fix.name_access(m.material_type)is distinct from a then raise exception using errcode='42501',message='CP7_MATERIAL_NAME_ACCESS_CHANGED';end if;
  result:=jsonb_build_object('contract_version','cp7.material-name-outcome.v1','kind','COMMITTED_OUTCOME','action','RENAME','request_id',p_request,
-  'material_id',m.id,'previous_name',m.material_name,'material_name',name,'row_version',(select row_version::text from erp.materials where id=m.id));
+  'material_id',m.id,'previous_name',m.material_name,'material_name',name,'previous_sku',m.material_sku,'material_sku',sku,'row_version',(select row_version::text from erp.materials where id=m.id));
  update cp7_receipt_fix.name_requests set response=result where actor=auth.uid()and request_id=p_request;
  return result;
 end $$;
