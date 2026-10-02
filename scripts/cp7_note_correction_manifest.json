@@ -24,7 +24,9 @@
       "NOTE_PREPAYMENT_REPLAY",
       "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC",
       "NOTE_ECONOMIC_REPORT_RESTATEMENT",
-      "NOTE_EXACT_TIME_SOURCE_ORDER"
+      "NOTE_EXACT_TIME_SOURCE_ORDER",
+      "NOTE_OLD_CASH_RETURN_REPORT",
+      "NOTE_OLD_ADVANCE_CASH_REPORT"
     ],
     "races": [
       "NOTE_RACE_TWO_REQUESTS",
@@ -42,13 +44,14 @@
     ]
   },
   "required_counts": {
-    "native": 20,
+    "native": 22,
     "races": 4,
     "http": 2,
     "browser": 2
   },
-  "expected_case_executions": 28,
+  "expected_case_executions": 30,
   "unique_oracle_total_claim": false,
   "frozen_cp6_modifications": false,
-  "native_private_role_count": 31
+  "native_private_role_count": 31,
+  "predeclared_expansion": "Keep every original28 ID and strengthen existing report/prepayment oracles; add two mandatory cross-month funding/report cases. Exact read-only Native owner report overlay is separately attested and restored; frozen CP6 release files and all money/stock writers unchanged."
 }

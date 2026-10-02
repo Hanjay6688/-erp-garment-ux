@@ -29,6 +29,15 @@ create table cp7_note.journal_restatements(
  recorded_at timestamptz not null default clock_timestamp()
 );
 create index note_journal_source on cp7_note.journal_restatements(previous_sale_id);
+-- Note replay is reversal plus a fresh use of the same original funding.
+-- Native replaces_payment_id is reserved for cash reallocation at the reversal
+-- date and explicitly excludes imported advances. Keep note lineage here.
+create table cp7_note.payment_replays(
+ previous_payment_id uuid primary key references erp.sales_payments,
+ replacement_payment_id uuid not null unique references erp.sales_payments,
+ correction_id uuid not null references cp7_note.revisions(id)deferrable initially deferred,
+ recorded_at timestamptz not null default clock_timestamp()
+);
 -- postgres is a non-superuser Native business executor on Supabase. Own only
 -- this private command's metadata; the low public wrapper obtains no table DML.
 alter table cp7_note.requests owner to postgres;
@@ -36,16 +45,19 @@ alter table cp7_note.revisions owner to postgres;
 alter table cp7_note.context owner to postgres;
 alter table cp7_note.helper_sources owner to postgres;
 alter table cp7_note.journal_restatements owner to postgres;
+alter table cp7_note.payment_replays owner to postgres;
 alter table cp7_note.requests enable row level security;
 alter table cp7_note.revisions enable row level security;
 alter table cp7_note.context enable row level security;
 alter table cp7_note.helper_sources enable row level security;
 alter table cp7_note.journal_restatements enable row level security;
+alter table cp7_note.payment_replays enable row level security;
 create policy private_requests on cp7_note.requests for all using(false)with check(false);
 create policy private_revisions on cp7_note.revisions for all using(false)with check(false);
 create policy private_context on cp7_note.context for all using(false)with check(false);
 create policy private_helper_sources on cp7_note.helper_sources for all using(false)with check(false);
 create policy private_journal_restatements on cp7_note.journal_restatements for all using(false)with check(false);
+create policy private_payment_replays on cp7_note.payment_replays for all using(false)with check(false);
 revoke all on all tables in schema cp7_note from public,anon,authenticated,service_role,cp7_capture;
 
 create function cp7_note.immutable_revision()returns trigger
@@ -54,6 +66,8 @@ begin raise exception 'CP7_NOTE_POSTED_REVISION_IMMUTABLE';end $$;
 create trigger immutable_revision before update or delete on cp7_note.revisions
  for each row execute function cp7_note.immutable_revision();
 create trigger immutable_journal_restatement before update or delete on cp7_note.journal_restatements
+ for each row execute function cp7_note.immutable_revision();
+create trigger immutable_payment_replay before update or delete on cp7_note.payment_replays
  for each row execute function cp7_note.immutable_revision();
 
 create function cp7_note.access_now()returns jsonb
@@ -273,10 +287,10 @@ begin
  end loop;
  for payment in select value from jsonb_array_elements(paid)loop
   perform cp7_sales.command_access('PAYMENT');
-  insert into erp.sales_payments(sale_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,notes,status,created_by,replaces_payment_id)
+  insert into erp.sales_payments(sale_id,payment_number,payment_date,amount,cash_account_id,payment_method,reference_number,notes,status,created_by)
   values(replaced,left(payment.value->>'payment_number',38)||' · K-'||left(p_request::text,8),
    (payment.value->>'payment_date')::timestamptz,(payment.value->>'amount')::numeric,(payment.value->>'cash_account_id')::uuid,
-   payment.value->>'payment_method',payment.value->>'reference_number',payment.value->>'notes','DRAFT',erp.current_app_user_id(),(payment.value->>'id')::uuid)returning id into new_payment;
+   payment.value->>'payment_method',payment.value->>'reference_number',payment.value->>'notes','DRAFT',erp.current_app_user_id())returning id into new_payment;
   if payment.value->>'advance_id'is not null then
    -- Same original wallet and amount. Accepted Native funding validation locks
    -- it, checks its actual remaining amount/customer/source snapshot and dates,
@@ -286,6 +300,8 @@ begin
    from erp.sales_payments p where p.id=new_payment;
   end if;
   perform erp.post_sales_payment(new_payment);
+  insert into cp7_note.payment_replays(previous_payment_id,replacement_payment_id,correction_id)
+  values((payment.value->>'id')::uuid,new_payment,correction_id);
  end loop;
  -- Collapse compensating movements under their original source card. A newly
  -- added SKU gets its own Native card inserted beside this note's source,

@@ -398,6 +398,390 @@
       "valid_queries_exact_equal": 10
     },
     "current_native_economic_qualification": false,
+    "current_seven_retained_buckets_qualified": {
+      "buckets": {
+        "cash_installments": {
+          "expected_cases": 61,
+          "groups": {
+            "cp7_f03_cash_browser": {
+              "PASS": 10
+            },
+            "cp7_f03_cash_http": {
+              "PASS": 1
+            },
+            "cp7_f03_cash_journal_http": {
+              "PASS": 1
+            },
+            "cp7_f03_cash_journal_native": {
+              "PASS": 6
+            },
+            "cp7_f03_cash_native": {
+              "PASS": 3
+            },
+            "cp7_f03_e05_browser": {
+              "PASS": 2
+            },
+            "cp7_f03_e05_http": {
+              "PASS": 1
+            },
+            "cp7_f03_e05_native": {
+              "PASS": 20
+            },
+            "cp7_f03_e05_races": {
+              "PASS": 3
+            },
+            "cp7_f03_misc_browser": {
+              "PASS": 2
+            },
+            "cp7_f03_misc_http": {
+              "PASS": 1
+            },
+            "cp7_f03_misc_native": {
+              "PASS": 9
+            },
+            "cp7_f03_misc_races": {
+              "PASS": 2
+            }
+          },
+          "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+          "receipt": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/cash_installments/RECEIPT.json",
+          "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649"
+        },
+        "customer_refund": {
+          "expected_cases": 10,
+          "groups": {
+            "browser": {
+              "PASS": 2
+            },
+            "http": {
+              "PASS": 1
+            },
+            "native": {
+              "PASS": 1
+            },
+            "refund_browser": {
+              "PASS": 2
+            },
+            "refund_http": {
+              "PASS": 1
+            },
+            "refund_native": {
+              "PASS": 2
+            },
+            "refund_races": {
+              "PASS": 1
+            }
+          },
+          "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+          "receipt": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/customer_refund/RECEIPT.json",
+          "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649"
+        },
+        "p09": {
+          "expected_cases": 132,
+          "groups": {
+            "browser": {
+              "PASS": 22
+            },
+            "combined_invoice": {
+              "PASS": 6
+            },
+            "combined_invoice_http": {
+              "PASS": 1
+            },
+            "combined_invoice_races": {
+              "PASS": 3
+            },
+            "http": {
+              "PASS": 1
+            },
+            "invoice": {
+              "PASS": 9
+            },
+            "invoice_http": {
+              "PASS": 1
+            },
+            "invoice_races": {
+              "PASS": 3
+            },
+            "material": {
+              "PASS": 13
+            },
+            "material_count": {
+              "PASS": 17
+            },
+            "material_count_http": {
+              "PASS": 2
+            },
+            "material_count_races": {
+              "PASS": 2
+            },
+            "material_crossflow": {
+              "PASS": 2
+            },
+            "material_http": {
+              "PASS": 1
+            },
+            "material_races": {
+              "PASS": 3
+            },
+            "material_smoke": {
+              "PASS": 1
+            },
+            "native": {
+              "PASS": 9
+            },
+            "races": {
+              "PASS": 3
+            },
+            "receipt_reversal": {
+              "PASS": 7
+            },
+            "receipt_reversal_http": {
+              "PASS": 1
+            },
+            "receipt_reversal_races": {
+              "PASS": 3
+            },
+            "return_http": {
+              "PASS": 1
+            },
+            "return_races": {
+              "PASS": 3
+            },
+            "return_smoke": {
+              "PASS": 1
+            },
+            "returns": {
+              "PASS": 10
+            },
+            "smoke": {
+              "PASS": 1
+            },
+            "uom": {
+              "PASS": 6
+            },
+            "uom_http": {
+              "PASS": 1
+            },
+            "uom_races": {
+              "PASS": 2
+            }
+          },
+          "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+          "receipt": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p09/RECEIPT.json",
+          "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649"
+        },
+        "p10": {
+          "expected_cases": 34,
+          "groups": {
+            "adjustment_http": {
+              "PASS": 1
+            },
+            "adjustment_races": {
+              "PASS": 2
+            },
+            "adjustments": {
+              "PASS": 8
+            },
+            "book": {
+              "PASS": 6
+            },
+            "book_http": {
+              "PASS": 1
+            },
+            "book_races": {
+              "PASS": 2
+            },
+            "browser": {
+              "PASS": 6
+            },
+            "http": {
+              "PASS": 1
+            },
+            "native": {
+              "PASS": 7
+            }
+          },
+          "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+          "receipt": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p10/RECEIPT.json",
+          "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649"
+        },
+        "p11": {
+          "expected_cases": 64,
+          "groups": {
+            "browser": {
+              "PASS": 10
+            },
+            "command_http": {
+              "PASS": 1
+            },
+            "command_races": {
+              "PASS": 2
+            },
+            "commands": {
+              "PASS": 6
+            },
+            "draft_http": {
+              "PASS": 1
+            },
+            "draft_races": {
+              "PASS": 1
+            },
+            "drafts": {
+              "PASS": 7
+            },
+            "http": {
+              "PASS": 1
+            },
+            "native": {
+              "PASS": 8
+            },
+            "payment_http": {
+              "PASS": 1
+            },
+            "payment_races": {
+              "PASS": 3
+            },
+            "payments": {
+              "PASS": 8
+            },
+            "return_http": {
+              "PASS": 1
+            },
+            "return_races": {
+              "PASS": 3
+            },
+            "returns": {
+              "PASS": 11
+            }
+          },
+          "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+          "receipt": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p11/RECEIPT.json",
+          "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649"
+        },
+        "p12": {
+          "expected_cases": 90,
+          "groups": {
+            "admission_regression": {
+              "PASS": 1
+            },
+            "attendance_read": {
+              "PASS": 6
+            },
+            "attendance_read_browser": {
+              "PASS": 2
+            },
+            "attendance_read_http": {
+              "PASS": 1
+            },
+            "attendance_write": {
+              "PASS": 10
+            },
+            "attendance_write_browser": {
+              "PASS": 2
+            },
+            "attendance_write_http": {
+              "PASS": 1
+            },
+            "attendance_write_races": {
+              "PASS": 4
+            },
+            "browser": {
+              "PASS": 2
+            },
+            "http": {
+              "PASS": 1
+            },
+            "native": {
+              "PASS": 5
+            },
+            "note_http": {
+              "PASS": 1
+            },
+            "note_races": {
+              "PASS": 3
+            },
+            "notes": {
+              "PASS": 7
+            },
+            "opening_payroll": {
+              "PASS": 5
+            },
+            "opening_payroll_browser": {
+              "PASS": 2
+            },
+            "opening_payroll_http": {
+              "PASS": 1
+            },
+            "opening_payroll_races": {
+              "PASS": 2
+            },
+            "payroll_review": {
+              "PASS": 4
+            },
+            "payroll_review_browser": {
+              "PASS": 2
+            },
+            "payroll_review_http": {
+              "PASS": 1
+            },
+            "roster": {
+              "PASS": 6
+            },
+            "roster_browser": {
+              "PASS": 2
+            },
+            "roster_http": {
+              "PASS": 1
+            },
+            "roster_races": {
+              "PASS": 3
+            },
+            "settlement": {
+              "PASS": 7
+            },
+            "settlement_browser": {
+              "PASS": 3
+            },
+            "settlement_http": {
+              "PASS": 1
+            },
+            "settlement_races": {
+              "PASS": 4
+            }
+          },
+          "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+          "receipt": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p12/RECEIPT.json",
+          "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649"
+        },
+        "supplier_credit": {
+          "expected_cases": 5,
+          "groups": {
+            "browser": {
+              "PASS": 2
+            },
+            "http": {
+              "PASS": 1
+            },
+            "native": {
+              "PASS": 1
+            },
+            "races": {
+              "PASS": 1
+            }
+          },
+          "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+          "receipt": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/supplier_credit/RECEIPT.json",
+          "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649"
+        }
+      },
+      "current_product_bytes_identical": true,
+      "owning28_qualification_credit": 0,
+      "run_id": 36991113665,
+      "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+      "status": "SEVEN_SOURCE_BOUND_PASS_P13_ORACLE_REPEAT_PENDING",
+      "unique_oracle_total_claim": false
+    },
     "first_failed_native": {
       "observed_case_count": 0,
       "reason": "AB canonical statement-time clock missing from private date derivation",
@@ -499,6 +883,57 @@
       "repair": "Explicitly pin six derived private helper owners to postgres; preserve exact Native security/config; emit actual failed properties for diagnosis. Native confirmation pending.",
       "run_id": 36988164670,
       "source_commit": "27cbaee41fdd5407fbe604f86b88c962a0ea40cb"
+    },
+    "latest_actual_owning28": {
+      "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+      "source_tree": "bf17a14bb9198aeaa7f2436528505a8296d5f0f5",
+      "run_id": 36991113585,
+      "job_id": 110787301050,
+      "receipt": "docs/cp7/evidence/note-correction/required28-22pass-8b7dc16/RECEIPT.json",
+      "status": "INCOMPLETE",
+      "groups": {
+        "native": {
+          "PASS": 16,
+          "INCOMPLETE": 4
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 2
+        },
+        "browser": {
+          "INCOMPLETE": 2
+        }
+      },
+      "stock_year30_and364_pass": true,
+      "all_native_races_and_HTTP_pass": true,
+      "actual_product_gaps": [
+        "Imported advance prohibited from Native cash replacement path",
+        "Native owner financial lifecycle missing supplemental restatement pair"
+      ],
+      "browser_provider_gaps": [
+        "Timezone rendering of immutable Native microseconds",
+        "Peer browser used undefined origin"
+      ],
+      "full_family_acceptance": false,
+      "production_go": false
+    },
+    "current_candidate": {
+      "status": "AWAITING_NATIVE30",
+      "required_counts": {
+        "native": 22,
+        "races": 4,
+        "http": 2,
+        "browser": 2
+      },
+      "manifest": "scripts/cp7_note_correction_manifest.json",
+      "private_immutable_funding_replay": true,
+      "exact_read_only_Native_owner_report_overlay": true,
+      "native_money_stock_HPP_writers_unchanged": true,
+      "all_twenty_installers_capture_compare_restore_exact_report_definition": true,
+      "qualified_native_money_cases": 0,
+      "production_go": false
     }
   },
   "f03_journal_source": {
@@ -2445,6 +2880,8 @@
       "required_case_ids_unchanged": true,
       "status": "CANDIDATE_NATIVE9_RETEST_PENDING"
     },
+    "current_product_bundle_sha256": "6d6b965cade7dc0146b62c00a24a6c976780be175ad1a627a079d92547e12458",
+    "current_product_bytes_identical": true,
     "first_incomplete": {
       "cause": "Non-superuser Native postgres executor lacks private sales access_now privilege before correction economic effects",
       "incomplete": 2,
@@ -2459,8 +2896,28 @@
     "full_F04_acceptance": false,
     "full_F05_acceptance": false,
     "full_P18_acceptance": false,
+    "mandatory_owning28_qualified": false,
     "prior_7_cases_retained": true,
     "production_go": false,
+    "qualified_case_count": 9,
+    "qualified_groups": {
+      "browser": {
+        "PASS": 2
+      },
+      "http": {
+        "PASS": 1
+      },
+      "native": {
+        "PASS": 5
+      },
+      "races": {
+        "PASS": 1
+      }
+    },
+    "qualified_job_id": 110791952281,
+    "qualified_receipt": "docs/cp7/evidence/p18-e01-bridge/qualified9-3afc5e6/RECEIPT.json",
+    "qualified_run_id": 36992576759,
+    "qualified_source_commit": "3afc5e651c533d611be22481645bf2e7d31a5c2e",
     "required_counts": {
       "browser": 2,
       "http": 1,
@@ -2492,7 +2949,9 @@
       "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
       "status": "INCOMPLETE"
     },
-    "status": "NATIVE9_PREDECLARED_PENDING"
+    "status": "FOCUSED_NATIVE9_WRITER_QUALIFIED_NOT_FULL_P18",
+    "current_candidate_requalification_required": true,
+    "retained_native9_does_not_qualify_new_report_and_payment_candidate": true
   },
   "packets": {
     "P00": "ENTRY_RECEIPT_AND_NATIVE_CATALOGUE_VERIFIED",

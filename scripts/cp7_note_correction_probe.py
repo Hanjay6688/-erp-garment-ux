@@ -23,13 +23,14 @@ def run():
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
+   bundle.note_report.capture(cur,originals)
    cur.execute(bundle.extension(),prepare=False);after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)");grants={}
    for principal,signatures in bundle.GRANTS.items():
     for signature in signatures:
      key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add((principal,'EXECUTE',False))
    cur.execute("select set_config('search_path',%s,true)",(path,))
-   expected_definitions={'erp.require_internal()':bundle.patched_internal(internal_before),'erp.require_owner_admin()':bundle.settlement.patched_owner(originals['erp.require_owner_admin()'])}
+   expected_definitions=bundle.note_report.expected_definitions(internal_before,originals,bundle.patched_internal,bundle.settlement.patched_owner)
    for signature,old in pre.items():
     new=after[signature];expected=hashlib.md5(expected_definitions[signature].encode()).hexdigest()if signature in expected_definitions else old['definition']
     assert new['definition']==expected and new['owner']==old['owner'],('NOTE_UNDECLARED_NATIVE_CHANGE',signature)

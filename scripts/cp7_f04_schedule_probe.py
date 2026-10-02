@@ -29,13 +29,14 @@ def run():
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
+   f03.note_report.capture(cur,originals)
    cur.execute(f03.extension()+'\n'+planning.extension()+'\n'+baseline.extension()+'\n'+supply.extension()+'\n'+bundle.extension(),prepare=False);after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)");grants={}
    for principal,signatures in bundle.GRANTS.items():
     for signature in signatures:
      key=str(cur.execute('select %s::regprocedure::text',(signature,)).fetchone()[0]);grants.setdefault(key,set()).add((principal,'EXECUTE',False))
    cur.execute("select set_config('search_path',%s,true)",(path,))
-   expected_definitions={'erp.require_internal()':f03.patched_internal(internal_before),'erp.require_owner_admin()':f03.settlement.patched_owner(originals['erp.require_owner_admin()'])}
+   expected_definitions=f03.note_report.expected_definitions(internal_before,originals,f03.patched_internal,f03.settlement.patched_owner)
    for sig,old in pre.items():
     new=after[sig];expected=hashlib.md5(expected_definitions[sig].encode()).hexdigest() if sig in expected_definitions else old['definition']
     assert new['definition']==expected and new['owner']==old['owner'],('F03_UNDECLARED_PREDECESSOR_CHANGE',sig)

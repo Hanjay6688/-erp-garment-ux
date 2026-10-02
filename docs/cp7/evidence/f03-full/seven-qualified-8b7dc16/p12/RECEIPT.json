@@ -1,0 +1,276 @@
+{
+  "run_id": 36991113665,
+  "job_id": 110787301952,
+  "artifact_id": 11221020660,
+  "archive_bytes": 7782368,
+  "archive_sha256": "651b56821fb1086d67a66a65bdd011509dc6f6f0a44e07ffae4d897c51ca26c8",
+  "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+  "source_tree": "bf17a14bb9198aeaa7f2436528505a8296d5f0f5",
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+    "product_ref": "98e73f093c39a3437e4fb49788beede38a3be06f",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36991113665",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Full Retained Components",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+  "status": "PASS",
+  "expected_case_count": 90,
+  "observed_case_count": 90,
+  "groups": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "payroll_review": {
+      "PASS": 4
+    },
+    "payroll_review_http": {
+      "PASS": 1
+    },
+    "payroll_review_browser": {
+      "PASS": 2
+    },
+    "settlement": {
+      "PASS": 7
+    },
+    "settlement_races": {
+      "PASS": 4
+    },
+    "settlement_http": {
+      "PASS": 1
+    },
+    "settlement_browser": {
+      "PASS": 3
+    },
+    "attendance_read": {
+      "PASS": 6
+    },
+    "attendance_read_http": {
+      "PASS": 1
+    },
+    "attendance_read_browser": {
+      "PASS": 2
+    },
+    "roster": {
+      "PASS": 6
+    },
+    "roster_races": {
+      "PASS": 3
+    },
+    "roster_http": {
+      "PASS": 1
+    },
+    "roster_browser": {
+      "PASS": 2
+    },
+    "attendance_write": {
+      "PASS": 10
+    },
+    "attendance_write_races": {
+      "PASS": 4
+    },
+    "attendance_write_http": {
+      "PASS": 1
+    },
+    "attendance_write_browser": {
+      "PASS": 2
+    },
+    "opening_payroll": {
+      "PASS": 5
+    },
+    "opening_payroll_races": {
+      "PASS": 2
+    },
+    "opening_payroll_http": {
+      "PASS": 1
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "unique_oracle_total_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "members": {
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "b4eb7409d6cd233065a1b495203bd3ebc6f3bb08570edae44ddf976e4468ddc4"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "b4eb7409d6cd233065a1b495203bd3ebc6f3bb08570edae44ddf976e4468ddc4"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "aa669f0f88a47e064cbe4ceb3a619362505c84b0e731c9c33bf47d8216d8bb9c"
+    },
+    "CP7_F03_FULL_P12.json": {
+      "bytes": 407846,
+      "sha256": "3d01a03f7d76873065640dfad9e4fbc4365bf8602d6d0630fd4a6dcd78a7a67a"
+    },
+    "P12_ATTENDANCE_ENTRY_DESKTOP.png": {
+      "bytes": 646739,
+      "sha256": "a4e488dac4714adbb51119039669468bfb51e99145c5ef1b2af0fd19a5c948ab"
+    },
+    "P12_ATTENDANCE_ENTRY_MOBILE.png": {
+      "bytes": 450125,
+      "sha256": "cf5fc4eb48530d74b0ab1bab29f397d730b904889c224ee841d335a63f2b67d5"
+    },
+    "P12_ATTENDANCE_READ_DESKTOP.png": {
+      "bytes": 392293,
+      "sha256": "5edf2574c8a285ce69e9103cb8ba00ac9ce1b8f8e23ec11e26890985a726b42a"
+    },
+    "P12_ATTENDANCE_READ_MOBILE.png": {
+      "bytes": 283928,
+      "sha256": "24936572a5e7c944e583bd0a5827e2c787a9343080f30bdf79045b7867e72d7e"
+    },
+    "P12_NOTA_DESKTOP.png": {
+      "bytes": 487677,
+      "sha256": "68a784962a19ab2f0338ce37699d19872d5d034669c642f1bbb531354ebd25e1"
+    },
+    "P12_NOTA_MOBILE.png": {
+      "bytes": 302910,
+      "sha256": "ccec5742676da72a9338694ddefa257cb087bab20473d90d555c6c944e254786"
+    },
+    "P12_OPENING_DESKTOP.png": {
+      "bytes": 553476,
+      "sha256": "d30a39add7f13ba0b3163541156cf56065956631d6f293fd689e67d55bde8372"
+    },
+    "P12_OPENING_MOBILE.png": {
+      "bytes": 374616,
+      "sha256": "9267b53a04fd0dda1d3b90742123eb46f03aa9d936543302751c63705fa5a2b8"
+    },
+    "P12_PAYROLL_REVIEW_DESKTOP.png": {
+      "bytes": 510032,
+      "sha256": "cb47af8c3f58601268fee45bfbd120268dccf83b3b1d448ba78f399e940c3228"
+    },
+    "P12_PAYROLL_REVIEW_MOBILE.png": {
+      "bytes": 361391,
+      "sha256": "2f3aba8bf47a87a955bafd19d0d06e0452b617d05cc20a62f116493ff833d8d1"
+    },
+    "P12_PAYROLL_SETTLEMENT_DESKTOP.png": {
+      "bytes": 573367,
+      "sha256": "2ad3756496949ac7dfe6489c52d80554c00c7579387f6ab2d7fe78e8f18e1a72"
+    },
+    "P12_PAYROLL_SETTLEMENT_MOBILE.png": {
+      "bytes": 401139,
+      "sha256": "72081746f8ffc2f92a6ab2aee8153a352eb732fee8b5250d22fd0d21ec87791b"
+    },
+    "P12_ROSTER_DESKTOP.png": {
+      "bytes": 536203,
+      "sha256": "0c4cb84ceb0152e70d768ac7f9662e035bca28ff594f8070fea5ac10dacdf3c2"
+    },
+    "P12_ROSTER_MOBILE.png": {
+      "bytes": 371252,
+      "sha256": "6e3b24fc1cb08c5f3be2dee15fc9ddf7aa05f4f98774e01c28f7e86d44416362"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "790954fe5b1b64d3263d871138c5ae4a2e22c3fb224bacd56db3ce3522d44734"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "cd95b65ee5def3712c5c5ba2fc382016b857e7f53f62b0c9690da9e1bdf596d8"
+    }
+  },
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p12/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_P12.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p12/CP7_F03_FULL_P12.json.gz",
+      "bytes": 407846,
+      "sha256": "3d01a03f7d76873065640dfad9e4fbc4365bf8602d6d0630fd4a6dcd78a7a67a",
+      "gzip_bytes": 28128,
+      "gzip_sha256": "de7734ddf7d14cac0359f2d5d88f41d07f40e0d734d93870a038e5033a6e48cd"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p12/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360416,
+      "sha256": "cd95b65ee5def3712c5c5ba2fc382016b857e7f53f62b0c9690da9e1bdf596d8",
+      "gzip_bytes": 11386,
+      "gzip_sha256": "c09dade82a5de5c4c711aa9fc46329240ebcde2e8735efe2d8c4b844160ec5f1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p12/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p12/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "790954fe5b1b64d3263d871138c5ae4a2e22c3fb224bacd56db3ce3522d44734",
+      "gzip_bytes": 1826,
+      "gzip_sha256": "e23ba216a901edd55ed8865634aca91562698ce6209464d03915742e1bec8cee"
+    }
+  },
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "observed_smoke_count": 0,
+  "qualification_scope": "Retained complete p12 controls on the current exact31-role product; seven PASS buckets do not close P13 or mandatory owning28"
+}

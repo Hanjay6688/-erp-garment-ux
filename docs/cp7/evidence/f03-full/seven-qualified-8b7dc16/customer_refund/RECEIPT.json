@@ -1,0 +1,194 @@
+{
+  "run_id": 36991113665,
+  "job_id": 110787302220,
+  "artifact_id": 11220681276,
+  "archive_bytes": 3605827,
+  "archive_sha256": "af3ce2c7f9cfd3641e12426f2d965daf6333908ebf5f58db84ff0937c68b129d",
+  "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+  "source_tree": "bf17a14bb9198aeaa7f2436528505a8296d5f0f5",
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+    "product_ref": "98e73f093c39a3437e4fb49788beede38a3be06f",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36991113665",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Full Retained Components",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+  "status": "PASS",
+  "expected_case_count": 10,
+  "observed_case_count": 10,
+  "groups": {
+    "native": {
+      "PASS": 1
+    },
+    "refund_native": {
+      "PASS": 2
+    },
+    "refund_races": {
+      "PASS": 1
+    },
+    "refund_http": {
+      "PASS": 1
+    },
+    "refund_browser": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "unique_oracle_total_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "fa3fad9edb595d8d4ead713e5b2f7fae0ccad0de233c70433caa3e8bc8994c7a"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "fa3fad9edb595d8d4ead713e5b2f7fae0ccad0de233c70433caa3e8bc8994c7a"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "a8dd44b65eb1db3f81559133d3fad7e1801d5dc48ad3cd3d5a17ea0ca4370c9a"
+    },
+    "CP7_F03_FULL_CUSTOMER_REFUND.json": {
+      "bytes": 293292,
+      "sha256": "b2ff0808ea7f2363069285a17b89259685c3a27a7ff948cb2f57bf7d3662c76d"
+    },
+    "E03_CUSTOMER_CUSTODY_DESKTOP.png": {
+      "bytes": 221766,
+      "sha256": "1a5f31301a1f2759d13579017abd8465441b22d45322e3184cb7c976c0ce50b8"
+    },
+    "E03_CUSTOMER_CUSTODY_MOBILE.png": {
+      "bytes": 131049,
+      "sha256": "419806bca91d8799dcd46ccc8d19fb19837d33b7a632aa64a9d60c251e8ff783"
+    },
+    "F03_E03_REFUND_DESKTOP_CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED.png": {
+      "bytes": 166154,
+      "sha256": "e9f465e893f26e845c2e27a6758c3e2bb06e7160728088d9efe1ca7034d3ef63"
+    },
+    "F03_E03_REFUND_DESKTOP_EXACT_UUID_RECONCILED.png": {
+      "bytes": 334253,
+      "sha256": "02b76cae67da6d6a3e1a43ed10ec4aa2e7e801fe096b45c3ac0585334741a371"
+    },
+    "F03_E03_REFUND_DESKTOP_REVIEWED_SOURCE.png": {
+      "bytes": 318617,
+      "sha256": "7a0c5f271a9dcdd602bf59671d4564169598b4a7ef30e666fb2f9676d211ccf5"
+    },
+    "F03_E03_REFUND_DESKTOP_UNCERTAIN_REPLY_FACTS_RETIRED.png": {
+      "bytes": 164738,
+      "sha256": "473e8416d64681f6d83edb83d43bac094b20f2a2fb9e6f32d91bdc52bf6f3ac2"
+    },
+    "F03_E03_REFUND_MOBILE_CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED.png": {
+      "bytes": 89295,
+      "sha256": "7b81c133b7448c7ecc426cc0180b6b227c5617101760e8f113c26f38e1c16290"
+    },
+    "F03_E03_REFUND_MOBILE_EXACT_UUID_RECONCILED.png": {
+      "bytes": 252728,
+      "sha256": "a181a816919c9fa30b70089756a3e3a9baaeff851318234a1db3a9aa1f6534b5"
+    },
+    "F03_E03_REFUND_MOBILE_REVIEWED_SOURCE.png": {
+      "bytes": 235970,
+      "sha256": "b168b2496ce7844879c53c3286e5e31dddbf2dd32397fd856a15828975a24ef9"
+    },
+    "F03_E03_REFUND_MOBILE_UNCERTAIN_REPLY_FACTS_RETIRED.png": {
+      "bytes": 98275,
+      "sha256": "91c84a8a93ef5f4a2e61248edcb105b7e0f67ebfd19b07f6fdfa547f21a7f356"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "af6e1472412ecf3ff72ef59ed69d9de07eebd699896624126f05f0880c02ea10"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "cd95b65ee5def3712c5c5ba2fc382016b857e7f53f62b0c9690da9e1bdf596d8"
+    }
+  },
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/customer_refund/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_CUSTOMER_REFUND.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/customer_refund/CP7_F03_FULL_CUSTOMER_REFUND.json.gz",
+      "bytes": 293292,
+      "sha256": "b2ff0808ea7f2363069285a17b89259685c3a27a7ff948cb2f57bf7d3662c76d",
+      "gzip_bytes": 18444,
+      "gzip_sha256": "5086feeeda7d1f0a56d877d4fdfbb5e706d9d3ddd0bb7629f43fd4878a3e6689"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/customer_refund/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360416,
+      "sha256": "cd95b65ee5def3712c5c5ba2fc382016b857e7f53f62b0c9690da9e1bdf596d8",
+      "gzip_bytes": 11386,
+      "gzip_sha256": "c09dade82a5de5c4c711aa9fc46329240ebcde2e8735efe2d8c4b844160ec5f1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/customer_refund/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/customer_refund/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "af6e1472412ecf3ff72ef59ed69d9de07eebd699896624126f05f0880c02ea10",
+      "gzip_bytes": 1826,
+      "gzip_sha256": "877401839a9bad8e79b38ac744f92444844ba167309f14ab80466842b710c35f"
+    }
+  },
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "observed_smoke_count": 0,
+  "qualification_scope": "Retained complete customer_refund controls on the current exact31-role product; seven PASS buckets do not close P13 or mandatory owning28"
+}

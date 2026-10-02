@@ -11,6 +11,7 @@ import cp7_recost_bundle as recost
 import cp7_journal_bundle as journal
 import cp7_misc_bundle as misc
 import cp7_installment_bundle as installment
+import cp7_note_report_bundle as note_report
 ROOT=finance.ROOT
 
 def attendance_internal_body():
@@ -29,7 +30,7 @@ def sales_after_attendance():
 
 def extension():
  prefix=procurement.bundle();full=attendance.bundle();assert full.startswith(prefix+'\n')
- return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()
+ return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+note_report.extension()
 def bundle():return procurement.bundle()+'\n'+extension()
 def patched_internal(definition):return sales.patched_internal(attendance.patched_internal(settlement.patched_internal(nota.patched_internal(definition))))
 

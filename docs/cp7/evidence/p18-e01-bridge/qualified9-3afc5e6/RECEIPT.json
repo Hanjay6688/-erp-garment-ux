@@ -1,0 +1,175 @@
+{
+  "run_id": 36992576759,
+  "job_id": 110791952281,
+  "artifact_id": 11221045607,
+  "archive_bytes": 10492550,
+  "archive_sha256": "eb81c0fc378da19eecee391defc63049b8e2976d91cd07573082d2419aa47205",
+  "source_commit": "3afc5e651c533d611be22481645bf2e7d31a5c2e",
+  "source_tree": "070a82b4c10cbe8b346b3927b8d95c30d7d3e6ed",
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "3afc5e651c533d611be22481645bf2e7d31a5c2e",
+    "product_ref": "98e73f093c39a3437e4fb49788beede38a3be06f",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36992576759",
+    "run_attempt": "1",
+    "workflow": "CP7 P18 E01 Consumer Bridge",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "3afc5e651c533d611be22481645bf2e7d31a5c2e",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "product_bundle_sha256": "6d6b965cade7dc0146b62c00a24a6c976780be175ad1a627a079d92547e12458",
+  "status": "PASS",
+  "expected_case_count": 9,
+  "observed_case_count": 9,
+  "groups": {
+    "native": {
+      "PASS": 5
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "unique_oracle_total_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "e63ba427100d16b183a639c6ef463883cdb5bf29be657cc59a275d99140d3331"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "e63ba427100d16b183a639c6ef463883cdb5bf29be657cc59a275d99140d3331"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "5b8eed920c9299c8871ed730fe10be049a3dda09c15883843258c48460ca0052"
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 278107,
+      "sha256": "9d886acbf06c19b3822d2b290ce19618bb77b69bc4d03457fa0ec5da45840d0e"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png": {
+      "bytes": 1653223,
+      "sha256": "ef6a9b94afcd851b477b56e1d6e18d94109c3c3964fd2f38496058cd38155adf"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_MOBILE.png": {
+      "bytes": 757073,
+      "sha256": "837fff3a35f1e8094d76d78db3eb3ba97c34c09ac9cd64b81a9ed62bd2eaca1b"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png": {
+      "bytes": 862878,
+      "sha256": "57e8ed551a0e7af3b51ad41d053e197e99f76cd0ac1046b4bc1f9c28d82292d0"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png": {
+      "bytes": 480899,
+      "sha256": "7f567ba0907d874afe8da9a3093e5f6b62098ca7f847cbbccb68e454d428d92c"
+    },
+    "P18_E01_BRIDGE_PREVIEW_DESKTOP.png": {
+      "bytes": 1876661,
+      "sha256": "9f1b2f84a7ceb3401df3bc0cf2a6f6c145dec607c39e848d479b811f2a799cc1"
+    },
+    "P18_E01_BRIDGE_PREVIEW_MOBILE.png": {
+      "bytes": 1112871,
+      "sha256": "80adc018f3b3074d8f8209680325056bb1efa0dc79bb81798d83c282144923cf"
+    },
+    "P18_E01_BRIDGE_RECOVERED_DESKTOP.png": {
+      "bytes": 1617086,
+      "sha256": "605e4c92b55a322778daee6267d205251ba6f051fe4e837b1fc3596de4d163f6"
+    },
+    "P18_E01_BRIDGE_RECOVERED_MOBILE.png": {
+      "bytes": 744358,
+      "sha256": "8e83fd838cc3d7d12e08a43b361a1c179f95e791affc3c3651288b9c266a2148"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "80d4b1db84ba8fc72c01452a7817fc8cfb39c7ada118dd5710215ef65cbab0d6"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360411,
+      "sha256": "837ed9e8caf9bb40599f8bca60bac333ec0c63b5440fbdcf42e581aa4c7e7d15"
+    }
+  },
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "path": "docs/cp7/evidence/p18-e01-bridge/qualified9-3afc5e6/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "path": "docs/cp7/evidence/p18-e01-bridge/qualified9-3afc5e6/CP7_P18_E01_BRIDGE.json.gz",
+      "bytes": 278107,
+      "sha256": "9d886acbf06c19b3822d2b290ce19618bb77b69bc4d03457fa0ec5da45840d0e",
+      "gzip_bytes": 17268,
+      "gzip_sha256": "08d12fc672e921d341fbdbb0bf7f10ab1b667953361999aa873f9cf42d0e1e43"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "docs/cp7/evidence/p18-e01-bridge/qualified9-3afc5e6/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360411,
+      "sha256": "837ed9e8caf9bb40599f8bca60bac333ec0c63b5440fbdcf42e581aa4c7e7d15",
+      "gzip_bytes": 11384,
+      "gzip_sha256": "bab27f44efb345ef9de8e403f2b6c94f4a3a2bd4848462a202b78b9525af0201"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "docs/cp7/evidence/p18-e01-bridge/qualified9-3afc5e6/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "docs/cp7/evidence/p18-e01-bridge/qualified9-3afc5e6/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "80d4b1db84ba8fc72c01452a7817fc8cfb39c7ada118dd5710215ef65cbab0d6",
+      "gzip_bytes": 1827,
+      "gzip_sha256": "1e12a8ff4bf5ade96fb5dca2c038b016ba3c44dff844537a48af5be577d54ec8"
+    }
+  },
+  "qualification_scope": "Nine predeclared focused actual E01 consumer-bridge cases qualified; not complete P18 or mandatory owning28"
+}

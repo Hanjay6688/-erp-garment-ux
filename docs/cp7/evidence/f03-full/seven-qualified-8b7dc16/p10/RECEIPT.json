@@ -1,0 +1,184 @@
+{
+  "run_id": 36991113665,
+  "job_id": 110787301912,
+  "artifact_id": 11219264501,
+  "archive_bytes": 5236938,
+  "archive_sha256": "cc6e6bbc7e575dc5e8a9d20f4daa1d0a73f4d33d7860cf69356faeac5414ab40",
+  "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+  "source_tree": "bf17a14bb9198aeaa7f2436528505a8296d5f0f5",
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+    "product_ref": "98e73f093c39a3437e4fb49788beede38a3be06f",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36991113665",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Full Retained Components",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+  "status": "PASS",
+  "expected_case_count": 34,
+  "observed_case_count": 34,
+  "groups": {
+    "native": {
+      "PASS": 7
+    },
+    "http": {
+      "PASS": 1
+    },
+    "adjustments": {
+      "PASS": 8
+    },
+    "adjustment_races": {
+      "PASS": 2
+    },
+    "adjustment_http": {
+      "PASS": 1
+    },
+    "book": {
+      "PASS": 6
+    },
+    "book_races": {
+      "PASS": 2
+    },
+    "book_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "unique_oracle_total_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "504aad1cef390f5dc24d16615f5ac0c7e012ca0573ced3aec3d842b5555deb0e"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "504aad1cef390f5dc24d16615f5ac0c7e012ca0573ced3aec3d842b5555deb0e"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "e92e6d78ebe710ab9992238e096e25b6685d032c6b7d73cbdbaf45a63a69f9c4"
+    },
+    "CP7_F03_FULL_P10.json": {
+      "bytes": 297194,
+      "sha256": "f36b6d739693ce77656428bcf435b9ec3d8e23d82661939eb172c0c3a8f1b98b"
+    },
+    "P10_ADJUST_DESKTOP.png": {
+      "bytes": 616360,
+      "sha256": "a7777b782c537dff9e55d2deac5d5575619a1873ec57f95a9a8faacb9a7e96ae"
+    },
+    "P10_ADJUST_MOBILE.png": {
+      "bytes": 559506,
+      "sha256": "70916aa4f3d585de96f2d2cc9466ccdb42db9d910759e887db2242ed9b054d17"
+    },
+    "P10_BOOK_DESKTOP.png": {
+      "bytes": 892897,
+      "sha256": "3310c9d0e088ae83819d9d469097a4523b8cc5da8dd5bf687f2ac598bbc9c2b4"
+    },
+    "P10_BOOK_MOBILE.png": {
+      "bytes": 547094,
+      "sha256": "a6e55b19404e051112fef7fd7c00888327b92045453e93b250c610ba5e9a7377"
+    },
+    "P10_FG_DESKTOP.png": {
+      "bytes": 643437,
+      "sha256": "4680e8cdf00a19b611b204ea3bea1e6004b8ca989df990ba13f184ec7981a4bf"
+    },
+    "P10_FG_MOBILE.png": {
+      "bytes": 401959,
+      "sha256": "56737f3bd01062a9842268831224ad654039220f2dd333f02642e5f499bab0be"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "bebe834496c175b97897e15b1306640dd456641509a270d6f1131dc831f6ad52"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "cd95b65ee5def3712c5c5ba2fc382016b857e7f53f62b0c9690da9e1bdf596d8"
+    }
+  },
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p10/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_P10.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p10/CP7_F03_FULL_P10.json.gz",
+      "bytes": 297194,
+      "sha256": "f36b6d739693ce77656428bcf435b9ec3d8e23d82661939eb172c0c3a8f1b98b",
+      "gzip_bytes": 17551,
+      "gzip_sha256": "f4a3af87ef70e578092564c36498cb1ba036c40bc73da88e552004d1c12367be"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p10/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360416,
+      "sha256": "cd95b65ee5def3712c5c5ba2fc382016b857e7f53f62b0c9690da9e1bdf596d8",
+      "gzip_bytes": 11386,
+      "gzip_sha256": "c09dade82a5de5c4c711aa9fc46329240ebcde2e8735efe2d8c4b844160ec5f1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p10/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p10/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "bebe834496c175b97897e15b1306640dd456641509a270d6f1131dc831f6ad52",
+      "gzip_bytes": 1827,
+      "gzip_sha256": "9d013ebc8def14d9e8461f097e90bcdc449eec8e4aaa27061fea5efc15f9079a"
+    }
+  },
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "observed_smoke_count": 0,
+  "qualification_scope": "Retained complete p10 controls on the current exact31-role product; seven PASS buckets do not close P13 or mandatory owning28"
+}

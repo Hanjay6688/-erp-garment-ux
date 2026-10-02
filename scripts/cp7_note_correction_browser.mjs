@@ -14,7 +14,7 @@ async function flow(ui,today,mobile){
  try{
   const before=fixture('read',f);assert.equal(before.available,45);assert.equal(before.document.qty_pcs,'20')
   await open(ui,p);await select(p)
-  if(mobile){peer=await user.context.newPage();peer.on('pageerror',e=>peerErrors.push(String(e)));peer.on('console',m=>{if(m.type()==='error')peerErrors.push(m.text())});peer.on('request',r=>{if(r.url().includes('/rest/v1/rpc/erp_cp7_correct_note_v1'))peerWrites++});await peer.goto(ui.url);await open(ui,peer);await select(peer)}
+  if(mobile){peer=await user.context.newPage();peer.on('pageerror',e=>peerErrors.push(String(e)));peer.on('console',m=>{if(m.type()==='error')peerErrors.push(m.text())});peer.on('request',r=>{if(r.url().includes('/rest/v1/rpc/erp_cp7_correct_note_v1'))peerWrites++});await peer.goto(ui.origin);await open(ui,peer);await select(peer)}
   await ws.getByRole('button',{name:'Benerin nota',exact:true}).click();const form=ws.getByRole('form',{name:'Benerin nota',exact:true})
   await ui.expect(form.getByLabel('Nomor draft invoice',{exact:true})).toHaveAttribute('readonly','');await ui.expect(form.getByLabel('Waktu draft invoice WIB',{exact:true})).toHaveAttribute('readonly','')
   await form.getByLabel('Jumlah invoice 1',{exact:true}).fill('16');await form.getByLabel('Alasan simpan invoice',{exact:true}).fill('Jumlah yang benar16 PCS; pembayaran dan retur tetap sama')

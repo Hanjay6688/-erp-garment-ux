@@ -1,0 +1,308 @@
+{
+  "run_id": 36991113665,
+  "job_id": 110787301934,
+  "artifact_id": 11220545927,
+  "archive_bytes": 19619147,
+  "archive_sha256": "c82d8204fe9ddc621fa359cc113de56e8ee729ca3680aad2ecd9404c6e7bc487",
+  "source_commit": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+  "source_tree": "bf17a14bb9198aeaa7f2436528505a8296d5f0f5",
+  "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+    "product_ref": "98e73f093c39a3437e4fb49788beede38a3be06f",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36991113665",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Full Retained Components",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "8b7dc162fb7d5fbd2e265e104977cf29b7075649",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "product_bundle_sha256": "1d8db71b60432bc1707c9da2e89b7a9ee8d1b8735673459463b99870dfb5ae63",
+  "status": "PASS",
+  "expected_case_count": 132,
+  "observed_case_count": 132,
+  "groups": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 13
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 3
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "material_count": {
+      "PASS": 17
+    },
+    "material_count_races": {
+      "PASS": 2
+    },
+    "material_count_http": {
+      "PASS": 2
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "combined_invoice": {
+      "PASS": 6
+    },
+    "combined_invoice_races": {
+      "PASS": 3
+    },
+    "combined_invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 22
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "unique_oracle_total_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "bfa1b6c44042aa1604cc081518147f31e798e1ac70ccf7d526e3f1e16693da50"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "bfa1b6c44042aa1604cc081518147f31e798e1ac70ccf7d526e3f1e16693da50"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "3ed29567007701be618782261075a33cd8151a8ab1acc1996d21f44987a6ddf5"
+    },
+    "CP7_F03_FULL_P09.json": {
+      "bytes": 499883,
+      "sha256": "0fea4a220b0cd80cef96e4aa4ed10b74af92ece63b603c2866bc15fe14c7c949"
+    },
+    "P09_COMBINED_INVOICE_DESKTOP.png": {
+      "bytes": 894522,
+      "sha256": "6fdd66e92dec8d105bc4156aa18dbb613c7d251d5a625ce498289aa0de723770"
+    },
+    "P09_COMBINED_INVOICE_MOBILE.png": {
+      "bytes": 964433,
+      "sha256": "568c407eb8dbb5f5269c0f12b8d006a3e026d427d366d24ec3fbbf03a7d0a0ea"
+    },
+    "P09_COUNT_DESKTOP.png": {
+      "bytes": 585968,
+      "sha256": "dad7b44765b40480a8e52a28de884ccb0f1c307a1b2a25e2646180d280d4eab5"
+    },
+    "P09_COUNT_MOBILE.png": {
+      "bytes": 1004392,
+      "sha256": "7a551a85e0d7b9b09e551be1144bb8d9eb233e62aff5fd99b011f01a578793e4"
+    },
+    "P09_COUNT_MULTI_DESKTOP.png": {
+      "bytes": 997675,
+      "sha256": "454bdc8c8fe49cbee35d55549f53e449fcbdf2985430523a34e09a6fe7e37630"
+    },
+    "P09_COUNT_MULTI_MOBILE.png": {
+      "bytes": 1339245,
+      "sha256": "417975e32621a2e06dd438055c6e57d455c46f3f67d1ada3548700654a243f75"
+    },
+    "P09_COUNT_UNMOVED_DESKTOP.png": {
+      "bytes": 1646132,
+      "sha256": "fa177478584399af2dbb9b69beb5e9fa89634a021dd93590a4cd5f1652f2be88"
+    },
+    "P09_COUNT_UNMOVED_MOBILE.png": {
+      "bytes": 1013617,
+      "sha256": "47a417f0d8236d376cf2dd0faf5410df421c69ec3e141fd2b30163905eaa9023"
+    },
+    "P09_INVOICE_DESKTOP.png": {
+      "bytes": 894811,
+      "sha256": "7534958ba63deec4f41c187b575b0ca0c3aa128f91955148bf2fac5b43663bf0"
+    },
+    "P09_DESKTOP.png": {
+      "bytes": 845780,
+      "sha256": "86209ab4c61472a66eab48c758a8ab130a7a07bff3dd673e8a1adee5c70f481f"
+    },
+    "P09_INVOICE_MOBILE.png": {
+      "bytes": 715621,
+      "sha256": "5b3b780f048966b7ce2038defb0e01cca4f82e0250da43e12dc713c12663cd37"
+    },
+    "P09_MATERIAL_ACCESSORY_DESKTOP.png": {
+      "bytes": 512937,
+      "sha256": "2fe3343f49c070b61102319f722d156231ba4c779abd7ad7c78e1e854596e426"
+    },
+    "P09_MATERIAL_DESKTOP.png": {
+      "bytes": 538688,
+      "sha256": "03646f5db4afd682c86824f5ad963b54b264fae019174b9f68cc1b2ebaa227d1"
+    },
+    "P09_MATERIAL_MOBILE.png": {
+      "bytes": 307204,
+      "sha256": "73280bc6baf0d64d0ed5f0f5fbebe57cb47b24661e38af4f83e3625e9aab9ad9"
+    },
+    "P09_MATERIAL_OTHER_MOBILE.png": {
+      "bytes": 288611,
+      "sha256": "45be2bd6e45448b4fc1f2a6e9bf97dbf0d452b2c39ad223fb629ccca813a9030"
+    },
+    "P09_RECEIPT_REVERSE_DESKTOP.png": {
+      "bytes": 759926,
+      "sha256": "0af1a977e3cddb163892794870718f2b1fe07f01e970aa97c05c2c863d170c7e"
+    },
+    "P09_RECEIPT_REVERSE_MOBILE.png": {
+      "bytes": 703512,
+      "sha256": "de930a5ebdeb6452d92989bfab09954d93a1e98405cc7c9aa8e4ced7ec44b639"
+    },
+    "P09_MOBILE.png": {
+      "bytes": 585790,
+      "sha256": "b5630ab0cb293f4cf9651bca578e48345ae5496cdb8dc48b5ca09064d3b85e39"
+    },
+    "P09_RETURN_DESKTOP.png": {
+      "bytes": 1002096,
+      "sha256": "0c63929c55e2d556532dce83d088015d129cff6d754394acb3c4391d79141170"
+    },
+    "P09_RETURN_MOBILE.png": {
+      "bytes": 856555,
+      "sha256": "e820965dab80ea74acc162270291d3d7c6242fa51cdd5741ce557482048ae63a"
+    },
+    "P09_UOM_DESKTOP.png": {
+      "bytes": 1081077,
+      "sha256": "5cec99428672c707410e7fcaedba3b7a08a32eb5262845f4ac110872b035e200"
+    },
+    "P09_UOM_MOBILE.png": {
+      "bytes": 782837,
+      "sha256": "2849f48b430b836eeb5da0ee3d54fa74acc15fa3de99a154fc9f9b3dfa027f90"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "5af7e6ae3bc6004c9558a8ed2b16c4269bc8b48a4f53da327c3e34b1e6a4889c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "cd95b65ee5def3712c5c5ba2fc382016b857e7f53f62b0c9690da9e1bdf596d8"
+    }
+  },
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p09/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_P09.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p09/CP7_F03_FULL_P09.json.gz",
+      "bytes": 499883,
+      "sha256": "0fea4a220b0cd80cef96e4aa4ed10b74af92ece63b603c2866bc15fe14c7c949",
+      "gzip_bytes": 34677,
+      "gzip_sha256": "97e24ac29eb554974edab4b428ae15d99b2fd3f863f528ddf24c2117d1a047b1"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p09/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360416,
+      "sha256": "cd95b65ee5def3712c5c5ba2fc382016b857e7f53f62b0c9690da9e1bdf596d8",
+      "gzip_bytes": 11386,
+      "gzip_sha256": "c09dade82a5de5c4c711aa9fc46329240ebcde2e8735efe2d8c4b844160ec5f1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p09/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "path": "docs/cp7/evidence/f03-full/seven-qualified-8b7dc16/p09/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "5af7e6ae3bc6004c9558a8ed2b16c4269bc8b48a4f53da327c3e34b1e6a4889c",
+      "gzip_bytes": 1827,
+      "gzip_sha256": "125460f81c7a9276741f2333c40e109f90dcc65f97c29d651f730476341ce26a"
+    }
+  },
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "observed_smoke_count": 3,
+  "qualification_scope": "Retained complete p09 controls on the current exact31-role product; seven PASS buckets do not close P13 or mandatory owning28"
+}
