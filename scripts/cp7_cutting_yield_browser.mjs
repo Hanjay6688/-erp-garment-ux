@@ -18,7 +18,7 @@ async function readableCutting(page){
  for(const x of measured)assert.ok(x.ratio>=4.5,`Cutting text contrast ${x.ratio}: ${x.text}`)
  return measured
 }
-async function openCutting(ui,page,mobile){
+export async function openCutting(ui,page,mobile){
  // Reload first restores Auth. Checking isVisible before that completed can
  // miss the mobile menu and try to click the off-canvas sidebar. Wait for the
  // real menu control and use the ordinary navigation without force clicks.

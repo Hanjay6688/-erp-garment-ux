@@ -1,6 +1,18 @@
 # Active writer continuation · 1Oct2026
 
-## Latest controlling checkpoint · 2Oct2026 · actual Cutting23 and repaired complete284 qualified
+## Latest controlling checkpoint · 2Oct2026 · repaired Native284 Original retained; prospective input candidate
+
+Repaired complete284 atbf99cec/run37004744295 is qualified179/40/29/36, zero console errors and all gates/Auth0→0. Exact343931054-byte archive digest, every member digest and unmodified root Originals are now retained in evidence/f05-native284/qualified284-bf99cec/ using completed-artifact-only projection266f2b5/run37009475352. The projection has zero database access or product-case credit. Earlier failed Originals remain unchanged.
+
+At266f2b5/run37009475386, all23 cutting/history cases PASS again, now including all six actual heading/pattern contrast measurements in both desktop/mobile journeys. Actual mobile capture was inspected and is readable; independent demo alignment remains open. Exact Original retained in evidence/f04-native-history/cutting-consumer-readable23-266f2b5/. Full Shell and both CodeQL languages pass at266f2b5/run37009472193, including the corrected real-role private cutting control. No unchanged F03 re-execution adds unique-case credit.
+
+Prospective inputs now have a separately declared Native34 candidate (21 DB/4 races/3 Auth-HTTP/6 browser), retaining every predecessor23. The new actual Cutting consumer binds reviewed family/marker/ratio/optional width to Native group/pattern/roll/size/unit, with immutable real knowledge clocks, current access/source/CAS fences and exact UUID recovery. A missing current Native group returns an explicit unavailable workspace, so a negative request can be sealed without manufacturing Native facts. Main planning bundle remains unchanged; no trained model or full F04 claim follows. Native34 qualification is required before its candidate can be composed into the final whole stack.
+
+Owner relayed Claude's scope at20:07+07: posted receipt correction, already-FINAL supplier invoice price, name-only rename and material book, solely claude/new-session-deapao. Do not edit src/ConnectedProcurementPage.tsx or docs/cp7/TRANSACTION_CORRECTION_COVERAGE.md until that work is ready. No Claude WIP or Native acceptance has been imported. GPT retains sale correction/F04/F05/P18-P21 and the per-lot/actor/multi-lot/multi-line/retro-policy/explicit browser microsecond notes. Preserve closed-period/financial guards; the three-month example is not by itself a newly agreed owner limit.
+
+Next: qualify Native34, then actual prospective observation/policy/model and material/P18–P21. No main merge, hosted installation, independent acceptance or production GO.
+
+## Retained preceding checkpoint · 2Oct2026 · actual Cutting23 and repaired complete284 qualified
 
 At7bff651/run37006145866, all23 cutting/history cases PASS:15 DB/2 actual races/2 Auth-HTTP/4 browser, zero console errors, all install/restore/primary/backup/advisor/runtime gates and Auth0→0. Both actual desktop and mobile journeys preserve Native draft→POST60, raw100→40/value1000→400, dirty-form protection, exact UUID recovery after reload and current403 retirement. Exact Original and every archive member hash are retained in evidence/f04-native-history/cutting-consumer-qualified23-7bff651/. Every failed predecessor remains unchanged. This qualifies the source consumer, not a learned range or full F04.
 

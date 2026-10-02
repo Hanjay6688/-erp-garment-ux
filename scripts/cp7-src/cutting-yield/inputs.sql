@@ -3,6 +3,7 @@
 -- only; every physical identity, unit and revision is read from Native ERP.
 create schema cp7_cutting_inputs authorization cp7_capture;
 revoke all on schema cp7_cutting_inputs from public,anon,authenticated,service_role;
+grant select(id,size_code)on erp.sizes to cp7_capture;
 
 create table cp7_cutting_inputs.plans(
  id uuid primary key default gen_random_uuid(),actor uuid not null,group_id uuid not null,
@@ -41,7 +42,9 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
  select jsonb_build_object('group',jsonb_build_object('id',g.id,'po_id',g.po_id,'version',g.row_version::text,
   'physical_at',cp7_planning.utc(g.cut_at),'posted',g.material_issue_posted,
   'pattern_id',g.pattern_id,'pattern_revision',g.pattern_revision_snapshot),
-  'cutting',cp7_cutting_yield.source(jsonb_build_object('group_ids',jsonb_build_array(g.id))))
+  'cutting',cp7_cutting_yield.source(jsonb_build_object('group_ids',jsonb_build_array(g.id))),
+  'size_labels',(select coalesce(jsonb_object_agg(s.id::text,s.size_code),'{}')from erp.sizes s
+   where s.id in(select z.size_id from erp.cutting_group_size_slots z where z.cutting_group_id=g.id)))
  from erp.cutting_groups g where g.id=group_id
 $$;
 
@@ -58,8 +61,8 @@ begin
  if exists(select 1 from jsonb_array_elements(rolls)x group by x->>'roll_id'having count(*)<>1)then
   raise exception 'CP7_CUTTING_INPUT_DUPLICATE_NATIVE_ROLL';end if;
  select coalesce(jsonb_agg(to_jsonb(size_id)order by size_id collate "C"),'[]')into sizes
- from(select distinct y->>'size_id'size_id from jsonb_array_elements(s->'cutting'->'slices')x
-  cross join lateral jsonb_array_elements(x->'outputs')y)t;
+ from jsonb_object_keys(s->'size_labels')size_id;
+ if jsonb_array_length(sizes)not between 1 and 1000 then raise exception 'CP7_CUTTING_INPUT_NATIVE_SIZE_SCOPE';end if;
  return jsonb_build_object('group_id',s->'group'->'id','po_id',s->'group'->'po_id',
   'pattern_id',s->'group'->'pattern_id','pattern_revision',s->'group'->'pattern_revision','rolls',rolls,'size_ids',sizes);
 end $$;
@@ -130,12 +133,14 @@ language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'a
 declare a jsonb;s jsonb;r cp7_cutting_inputs.plans%rowtype;current_anchor jsonb;
 begin
  a:=cp7_cutting_inputs.access_now();s:=cp7_cutting_inputs.source(p_group);
- if s is null then raise exception using errcode='42501',message='CP7_CUTTING_INPUT_GROUP_UNAVAILABLE';end if;
- if s->'group'->>'pattern_id'is not null and s->'group'->>'pattern_revision'is not null
+ if s is not null and s->'group'->>'pattern_id'is not null and s->'group'->>'pattern_revision'is not null
   and jsonb_array_length(s->'cutting'->'slices')between 1 and 1000 then current_anchor:=cp7_cutting_inputs.anchor(s);end if;
  select *into r from cp7_cutting_inputs.plans where actor=(a->>'actor')::uuid and group_id=p_group order by version desc limit 1;
  if cp7_cutting_inputs.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_CUTTING_INPUT_ACCESS_CHANGED';end if;
  return jsonb_build_object('contract_version','cp7.native-cutting-input-workspace.v1','actor_scope_id',a->'actor',
+  'requested_group_id',p_group,
+  'size_labels',coalesce(s->'size_labels','{}'),
+  'roll_labels',(select coalesce(jsonb_object_agg(x->>'roll_id',x->>'material_sku'),'{}')from jsonb_array_elements(s->'cutting'->'slices')x),
   'group',s->'group','anchor',current_anchor,'record',case when r.id is null then null else cp7_cutting_inputs.record_view(r)end,
   'record_matches_native_identity',r.id is not null and coalesce(r.native_anchor=current_anchor,false),
   'preknown_before_physical',r.id is not null and coalesce(r.known_at<(s->'group'->>'physical_at')::timestamptz,false),

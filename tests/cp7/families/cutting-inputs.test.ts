@@ -28,10 +28,15 @@ beforeAll(async () => {
        return jsonb_build_object('actor',r.actor,'allowed',r.allowed);end$$;
     create function erp.has_permission(p text)returns boolean language sql as $$select write_allowed from public.control_cutting_access$$;
     create table erp.cutting_groups(id uuid,po_id uuid,row_version bigint,cut_at timestamptz,material_issue_posted boolean,pattern_id uuid,pattern_revision_snapshot text);
+    create table erp.sizes(id uuid,size_code text);
+    insert into erp.sizes values('${size}','SIZE-REAL');
+    create table erp.cutting_group_size_slots(cutting_group_id uuid,size_id uuid);
+    insert into erp.cutting_group_size_slots values('${group}','${size}');
+    grant select on erp.cutting_group_size_slots to cp7_capture;
     insert into erp.cutting_groups values('${group}','${group}',1,clock_timestamp()-interval '1 year',false,'${pattern}','r1');
     grant select on erp.cutting_groups to cp7_capture;
     create table public.control_cutting_slices(group_id uuid,slices jsonb);
-    insert into public.control_cutting_slices values('${group}',${jsonArg([{ slice_id: roll, group_id: group, roll_id: roll, material_id: roll, unit_code: 'YARD', outputs: [{ yield_id: size, size_id: size, qty_pcs: '60' }], consumed_native: '60' }])});
+    insert into public.control_cutting_slices values('${group}',${jsonArg([{ slice_id: roll, group_id: group, roll_id: roll, material_id: roll, material_sku: 'MATERIAL-REAL', unit_code: 'YARD', outputs: [{ yield_id: size, size_id: size, qty_pcs: '60' }], consumed_native: '60' }])});
     grant select on public.control_cutting_slices to cp7_capture;
     create function cp7_cutting_yield.source(q jsonb)returns jsonb language sql stable as $$
       select jsonb_build_object('requested_group_count',1,'found_group_count',1,'slices',slices)
@@ -100,4 +105,16 @@ test('closed input refuses Native identity/size/version mismatch and current acc
   expect((await command({ ...payload(), expected_input_version: null }, key, true)).result.status).toBe('NOT_COMMITTED')
   await db.execute(`update public.control_cutting_access set actor='${actor}'`)
   expect((await command(p, key, true)).result).toEqual(saved.result)
+})
+
+test('missing current Native group seals an absent UUID without reconstructing Native facts or backdating an existing Original', async () => {
+  const p = payload(), saved = (await command(p, newRequest())).result.record
+  await db.execute('delete from erp.cutting_groups') // explicitly synthetic draft-source stub
+  const w = (await workspace())[0].result
+  expect(w.group).toBeNull(); expect(w.anchor).toBeNull(); expect(w.record).toEqual(saved)
+  expect(w.can_record).toBe(false); expect(w.preknown_before_physical).toBe(false)
+  const key = newRequest(), absent = (await command(p, key, true)).result
+  expect(absent.status).toBe('NOT_COMMITTED')
+  expect((await command(p, key)).result).toEqual(absent)
+  await expect(command(p, newRequest())).rejects.toThrow('CP7_CUTTING_INPUT_NATIVE_SCOPE')
 })

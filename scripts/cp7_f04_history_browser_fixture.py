@@ -21,13 +21,15 @@ def main():
    # single JSON result; preserve those diagnostics on stderr for the receipt.
    with contextlib.redirect_stdout(sys.stderr):
     out=e01.production(cur,date.fromisoformat(p['today']),cutting_draft_only=True)
-  elif op=='cut_state':
+  elif op in('cut_state','cut_input_state'):
    f=p['fixture'];cases.b.api.admin(cur)
    qty,value=cur.execute('select sum(qty_signed),sum(qty_signed*unit_cost_snapshot)from erp.material_stock_movements where material_id=%s',(f['material'],)).fetchone()
    posted=cur.execute('select material_issue_posted from erp.cutting_groups where id=%s',(f['group'],)).fetchone()[0]
    pcs=cur.execute('select sum(y.qty_pcs)from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id where r.cutting_group_id=%s',(f['group'],)).fetchone()[0]
    snapshot=cases.b.boundary.snapshot(cur)
    out=dict(raw_qty=str(qty),raw_value=str(value),posted=posted,cut_pcs=str(pcs),native_hash=hashlib.sha256(json.dumps(snapshot,sort_keys=True,default=str).encode()).hexdigest(),own_runs=cur.execute('select count(*)from cp7_cutting_yield.runs where actor=%s',(p['actor'],)).fetchone()[0])
+   if op=='cut_input_state':
+    out.update(own_plans=cur.execute('select count(*)from cp7_cutting_inputs.plans where actor=%s',(p['actor'],)).fetchone()[0],own_requests=cur.execute('select count(*)from cp7_cutting_inputs.requests where actor=%s',(p['actor'],)).fetchone()[0])
   elif op=='post':out=cases.sales.fg.post_sale(cur,p['fixture']['draft'])
   elif op=='state':
    f=p['fixture'];out=cases.capture(cur,date.fromisoformat(p['today']));out={'history':out,'native_rows':cur.execute('select count(*)from cp7_planning.history_runs where actor=%s',(p['actor'],)).fetchone()[0]}

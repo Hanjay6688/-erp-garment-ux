@@ -1,0 +1,14 @@
+{
+  "run_id": 37009475352,
+  "job_id": 110845482584,
+  "artifact_id": 11227287880,
+  "source_commit": "266f2b55a59b67c7121369072d6460e7ac5a9dcc",
+  "source_tree": "e6b7065786443b4556357863e20d08bdd06397ec",
+  "zip_bytes": 114135,
+  "zip_sha256": "fe241422799089ae8aa7d6b3b5f2cc88906d0ec9cc52dd2fb7f72c953547e821",
+  "original_product_run": 37004744295,
+  "Native_product_cases_reexecuted": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "production_go": false
+}

@@ -113,7 +113,7 @@ def production(cur, today, *, receipt_final=True, cutting_draft_only=False):
         # An additional actual-browser fixture stop, before Native POST.
         # The existing complete production oracle keeps its unchanged default.
         b.api.admin(cur)
-        f.update(group=cut['cutting_group_id'], group_number=cut['group_number'])
+        f.update(group=cut['cutting_group_id'], group_number=cut['group_number'], cut_payload=cut_p)
         assert cur.execute('select sum(qty_signed),sum(qty_signed*unit_cost_snapshot) from erp.material_stock_movements where material_id=%s', (f['material'],)).fetchone() == (D(100), D(1000))
         return f
     cut = prod.rpc(cur, 'public.erp_save_cutting_group_before_sewing_v2', dict(cut_p, id=cut['cutting_group_id'], action='POST'), expected_version=int(cut['row_version']))

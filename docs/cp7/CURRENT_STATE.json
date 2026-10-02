@@ -40,6 +40,40 @@
     "verification": "docs/cp7/evidence/f03-cash/QUALIFIED_RECEIPT.json",
     "visual_review": true
   },
+  "collaborator_receipt_correction_handoff": {
+    "Gpt_scope_unchanged": [
+      "owning_sale_correction",
+      "F04",
+      "F05",
+      "P18-P21"
+    ],
+    "branch": "claude/new-session-deapao",
+    "old_shell_failure": {
+      "source": "7bff651d0607e766545e57b796c2b7fd18f47dcd",
+      "status": "REPAIRED_AND_FRESH_SHELL_CODEQL_PASS_AT266f2b5"
+    },
+    "owner": "Claude",
+    "production_go": false,
+    "protected_files": [
+      "src/ConnectedProcurementPage.tsx",
+      "docs/cp7/TRANSACTION_CORRECTION_COVERAGE.md"
+    ],
+    "received": "2026-10-02T20:07:33+07:00",
+    "remaining_Gpt_notes": [
+      "per_lot_corrected_stock_projection",
+      "correction_actor_display",
+      "multi_lot_multi_line_Native_cases",
+      "historical_stock_vs_financial_close_HPP_retro_policy",
+      "explicit_browser_microsecond_guard_case"
+    ],
+    "scope": [
+      "posted_material_receipt_quantity_roll_material_price_correction",
+      "already_final_supplier_invoice_price_correction",
+      "material_name_only_rename",
+      "corrected_material_stock_book"
+    ],
+    "status": "OWNER_RELAYED_IN_PROGRESS_NO_IMPORTED_OR_SELF_VERIFIED_NATIVE_QUALIFICATION"
+  },
   "connected_attendance_candidate": {
     "counts": {
       "FAIL": 0,
@@ -2662,9 +2696,12 @@
     "auth_before": 0,
     "complete284_candidate_run": 37004744295,
     "complete284_exact_artifact_manifest": "docs/cp7/native284_artifact_projection.json",
+    "complete284_exact_original_receipt": "docs/cp7/evidence/f05-native284/qualified284-bf99cec/RECEIPT.json",
+    "complete284_projection_Native_case_credit": 0,
+    "complete284_projection_run": 37009475352,
     "console_errors": 0,
     "contract": "docs/cp7/f05/NATIVE_SOURCE_ADMISSION_TIMELINE_REPAIR.md",
-    "exact_artifact_retention_status": "PINNED343931054_BYTES_SHA256_READ_ONLY_PROJECTION_PENDING",
+    "exact_artifact_retention_status": "EXACT343MB_DIGEST_ALL_MEMBERS_AND_ROOT_ORIGINALS_RETAINED",
     "extra_case_credit": 0,
     "full_family_acceptance": false,
     "local_control_rows": 2700,
@@ -2759,7 +2796,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-02: current repaired full Native284 PASS atbf99cec/run37004744295 (179/40/29/36, zero console errors, all gates, Auth0\u21920). Native cutting23 and owning30 are qualified and exact Originals retained. Full284343MB exact artifact pinned for read-only projection. Prospective cutting input/model uninstalled; contrast and Shell role controls require successor qualification.",
+  "last_writer_checkpoint": "2026-10-02: repaired Native284 exact343MB Original and all-member digests retained; readability Native23 and complete Shell/CodeQL qualified at266f2b5. Prospective input Native34 standalone candidate now has real consumer, private current-source/permission/UUID/CAS fences and local controls; Native qualification pending. Claude owns receipt/invoice/name/material-book correction and two files are protected. Full F04/F05/P18-P21 remains incomplete.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "F03 owning30 and full8 source-bound proof preserved; latest analysis152 PASS. Complete284 stops after three individually PASS admission controls with physical public-function order mismatch; full mandatory suite unrun. Cutting23 has21 PASS/2 browser Locator errors. Both repairs require complete fresh runs. Full CP7 and production acceptance remain open.",
   "latest_tested_source": "2dced3d393dd2f3073de1dc3706c62581f52b9c6",
@@ -2834,6 +2871,7 @@
       "http": 1,
       "native": 3
     },
+    "actual_mobile_capture_visually_inspected": true,
     "all_original17_preserved": true,
     "all_original21_preserved": true,
     "consumer": "src/NativeCuttingYieldPanel.tsx",
@@ -2883,6 +2921,7 @@
     "consumer_third_incomplete_run": 37004744218,
     "f05_preview_tests": 47,
     "full_family_acceptance": false,
+    "independent_demo_alignment": false,
     "job_id": 110808686869,
     "local_structural_control": "PGlite PostgreSQL18, zero Native economic qualification credit",
     "native_cutting_save_post_unchanged": true,
@@ -2899,7 +2938,10 @@
     "source_tree": "5423cf2a22fd6d6611c1e9189819ce59344779f3",
     "status": "SOURCE_ONLY_NATIVE21_WRITER_PASS_MODEL_CONSUMER_PENDING",
     "trained_model": false,
-    "visual_hero_pattern_contrast_repair": "Actual qualified mobile capture reveals unreadable dark hero and light pattern text on light card. Scoped CSS repair with six actual computed contrast assertions requires successor Native23 qualification.",
+    "visual_hero_pattern_contrast_repair": "QUALIFIED_NATIVE23_AT266f2b5_SIX_COMPUTED_CONTRAST_CHECKS_IN_BOTH_ACTUAL_DESKTOP_MOBILE_JOURNEYS",
+    "visual_qualified_receipt": "docs/cp7/evidence/f04-native-history/cutting-consumer-readable23-266f2b5/RECEIPT.json",
+    "visual_qualified_run": 37009475386,
+    "visual_qualified_source": "266f2b55a59b67c7121369072d6460e7ac5a9dcc",
     "width_required": false
   },
   "native_read_stage_diagnostic": {
@@ -2971,7 +3013,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Retain exact qualified284 Original via completed-artifact-only read-only projection; qualify cutting contrast and corrected Shell role controls; connect prospective Native input/history/model, then complete material and P18-P21. No independent or hosted GO.",
+  "next_action": "Qualify prospective input Native34 without dropping predecessor23; build genuine prospective observation/policy/model producer and complete material/P18-P21; retain Claude ownership and integrate only its source-bound qualification. Preserve all financial-period guards and do not infer a three-month owner rule from a three-month example.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -3392,21 +3434,34 @@
     "native_shell_failure": "Role setup and denied call previously executed in distinct psql sessions; repaired to execute the actual denied call in the same real role session. No product grant changed.",
     "production_go": false,
     "public_rpc": false,
+    "qualified_native_shell_source": "266f2b55a59b67c7121369072d6460e7ac5a9dcc",
     "source": "scripts/cp7-src/cutting-yield/learning-kernel.sql",
-    "status": "SIX_SYNTHETIC_SQL_CONTROLS_LOCAL_PASS_NATIVE_SHELL_ROLE_CONTROL_REPAIR_REQUIRED"
+    "status": "ALL_SIX_SYNTHETIC_SQL_CONTROLS_REAL_POSTGRES_SHELL_PASS_AT266f2b5_NO_NATIVE_PRODUCER_QUALIFICATION"
   },
   "production_go": false,
   "prospective_cutting_input_candidate": {
     "Native_business_case_credit": 0,
-    "connected_consumer": false,
+    "all_predecessor23_preserved": true,
+    "candidate_bundle": "scripts/cp7_cutting_input_bundle.py",
+    "candidate_probe": "scripts/cp7_cutting_input_probe.py",
+    "candidate_workflow": ".github/workflows/cp7-f04-cutting-inputs.yml",
+    "connected_consumer": "src/NativeCuttingInputsPanel.tsx",
     "contract": "docs/cp7/f04/PROSPECTIVE_CUTTING_INPUT_CANDIDATE.md",
     "full_family_acceptance": false,
     "history_or_model_qualified": false,
     "installed": false,
+    "main_planning_bundle_registered": false,
     "production_go": false,
     "real_auth_case_credit": 0,
+    "required_Native_case_count": 34,
+    "required_Native_case_counts": {
+      "browser": 6,
+      "http": 3,
+      "native": 21,
+      "races": 4
+    },
     "source": "scripts/cp7-src/cutting-yield/inputs.sql",
-    "status": "THREE_SYNTHETIC_LOCAL_SQL_CONTROLS_PASS_UNINSTALLED"
+    "status": "STANDALONE_NATIVE34_CANDIDATE_AND_CONNECTED_UI_LOCAL_CONTROLS_COMPLETE_NATIVE_QUALIFICATION_REQUIRED"
   },
   "receivables_candidate": {
     "actual_cases_pass": 12,
@@ -3457,9 +3512,11 @@
     "failed_native_shell_run": 37004741855,
     "failed_tests": 1,
     "other_unit_tests_pass": 1216,
-    "overall_shell_status": "1222_PASS_1_FAILED_CUTTING_KERNEL_ROLE_CONTROL_OVERALL_INCOMPLETE",
+    "overall_shell_status": "SOURCE266f2b5_COMPLETE_SHELL_AND_BOTH_CODEQL_PASS",
     "product_SQL_changed": false,
+    "qualified_job": 110845471837,
     "qualified_native_shell_source": "7bff651d0607e766545e57b796c2b7fd18f47dcd",
+    "qualified_run": 37009472193,
     "status": "SESSION_BOUND_NATIVE_AUTHORITY_CONTROL_PASS_AT7bff651"
   },
   "shell_import": {
