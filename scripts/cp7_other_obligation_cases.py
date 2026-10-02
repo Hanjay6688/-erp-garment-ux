@@ -57,9 +57,11 @@ def allocate_accessory(cur,f):
 def pay_accessory(cur,f):
  for name in('approve_payroll','post_payroll_payment'):bc.internal(cur,name,f['payroll'])
 
-def laundry_fixture(cur,today,priced=True,invoice=False):
+def laundry_fixture(cur,today,invoice=False):
  day=today-timedelta(days=1);fx=bd.fixture(cur,day,'P16 Native obligation');bd.invoice_policies(cur)
- if priced:bd.process_rate(cur,fx,'1731.29')
+ # Native posting requires one effective vendor/process rate. A known receipt
+ # estimate still does not establish the final invoice payable.
+ bd.process_rate(cur,fx,'1731.29')
  delivery=bd.plain_delivery(cur,fx,10,11)
  receipt=bd.receive(cur,delivery,fx,10,13)['receipt_id'];line=bd.receipt_line(cur,receipt)
  result=dict(fx=fx,day=day,delivery=delivery,receipt=receipt,line=line)
@@ -114,7 +116,7 @@ def cases(cur,today):
   installments.act(cur,f,amount='0.01');r=row(cur,e,'PAYROLL_AP',f['payroll']);amount(r,'0');assert r['business_resolved']
   return dict(status='PASS',actual_Native_large_integer_plus_cent_remaining_one_cent_then_settled_no_JS_Number=True)
  def inactive():
-  setup(cur,today);f=installments.fixture(cur,today);e=capture(cur,today);installments.act(cur,f,'REVERSE_PAYROLL');r=row(cur,e,'PAYROLL_AP',f['payroll'])
+  setup(cur,today);f=installments.fixture(cur,today);e=capture(cur,today);installments.act(cur,f);installments.act(cur,f,'REVERSE_PAYROLL');r=row(cur,e,'PAYROLL_AP',f['payroll'])
   assert r['economic_state']=='INACTIVE'and r['state']=='NO_CURRENT_GAP';unknown(r)
   pid=str(cur.execute('insert into erp.payroll_settlements(payroll_number,contractor_id,period_start,period_end)values(%s,%s,%s,%s)returning id',('P16DRAFT-'+uuid.uuid4().hex,f['contractor'],today,today)).fetchone()[0])
   r=row(cur,e,'PAYROLL_AP',pid);assert r['reason']=='DRAFT_ONLY'and r['economic_state']=='INACTIVE';unknown(r)
@@ -135,15 +137,16 @@ def cases(cur,today):
  def accessory_inverse():
   setup(cur,today);f=accessory_fixture(cur,today);e=capture(cur,today);allocate_accessory(cur,f);pay_accessory(cur,f)
   r=row(cur,e,'ACCESSORY_AP',f['credit']['event_id']);amount(r,'0');assert r['business_resolved']
-  bc.internal(cur,'reverse_payroll',f['payroll'],'Actual Native carry payment inverse')
+  bc.internal(cur,'reverse_paid_payroll',f['payroll'],'Actual Native carry payment inverse')
   r=row(cur,e,'ACCESSORY_AP',f['credit']['event_id']);amount(r,'12');assert not r['business_resolved']
   return dict(status='PASS',actual_Native_all_allocations_PAID_proves_zero_inverse_reopens12_without_attributing_partial_installments=True)
  def laundry_unknown():
-  setup(cur,today);f=laundry_fixture(cur,today,priced=False);e=capture(cur,today);r=row(cur,e,'LAUNDRY_RECEIPT',f['line']);unknown(r)
+  setup(cur,today);f=laundry_fixture(cur,today);e=capture(cur,today);r=row(cur,e,'LAUNDRY_RECEIPT',f['line']);unknown(r)
   assert r['reason']=='VALUE_PENDING'and r['financial_source']['recorded_due_date']is None
-  assert r['financial_source']['document']['receipt']['actual_cost_status']=='UNKNOWN'
+  assert r['financial_source']['document']['receipt']['actual_cost_status']=='ESTIMATED'
+  assert r['financial_source']['document']['native_billable']['receipt_line_id']==f['line']
   first=episode(cur,e,'LAUNDRY_RECEIPT',f['line'])['episode'];assert first['freshness']=='UNKNOWN'and first['state']=='ACTIVE'
-  return dict(status='PASS',actual_unpriced_posted_receipt_not_dropped_estimated_or_final_zero_unknown_review_age_created=True)
+  return dict(status='PASS',actual_lawfully_priced_receipt_estimate_not_final_invoice_AP_or_zero_unknown_review_age_created=True)
  def laundry_cycle():
   setup(cur,today);f=laundry_fixture(cur,today,invoice=True);e=capture(cur,today);r=row(cur,e,'LAUNDRY_AP',f['invoice']);amount(r,'17312.90');assert r['state']=='ACTIVE'and r['value']['value']=='1'
   unknown(row(cur,e,'LAUNDRY_RECEIPT',f['line']));first=bd.pay(cur,f['invoice'],'7312.90',f['day']);amount(row(cur,e,'LAUNDRY_AP',f['invoice']),'10000')

@@ -2,6 +2,16 @@
 
 Owner direction: finish F03–F05, preserve every ERP rule and source-bound proof, and defer hosted installation until CP7. Sole writer continues on `cp7/integration`. **VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.**
 
+## Latest checkpoint · 2Oct2026
+
+F03 stays writer-qualified. All eight complete transactional/financial buckets passed again at656e4fd/tree d0a70ed, run36953696925, with exact ERP/public/Auth restoration, unchanged primary, backup/advisor gates and Auth0→0. Exact Originals and every archive member digest are retained in `evidence/f03-full/qualified-656e4fd/`; overlapping execution counts are not unique-oracle totals. This regression does not reopen F03 implementation or claim independent acceptance.
+
+F05 Native269 at the same source is INCOMPLETE235/269:166/171 DB,37/37 actual races,26/27 Auth/HTTP,30 observed browser PASS with four incomplete flows and no formal browser count. The unchanged Original records CP6 restoration/advisor/backup PASS, but primary/runtime FALSE and Auth0→32. All are retained in `evidence/f05-other-obligations/first-incomplete-656e4fd/`.
+
+Immediate repair preserves269 IDs and all gates: extract Native opening/receipt arrays before JSON concatenation; reuse the already-fenced final episode read; prepare lawful managed payroll, actual paid accessory inverse and mandatory-rate laundry with ESTIMATED cost/UNKNOWN final AP; await actual committed-response loss before browser recovery. Publish and rerun this isolated repair before reporting PASS. The dated immutable obligation-report appendix is separate local work, with284 cases predeclared and no Native acceptance yet. Full F04/F05, P18 integration, P19 scale/recovery, P20 independent demo/audit and P21 combined install/restore remain open. Do not install hosted or merge main.
+
+Earlier checkpoints below are retained historical context; the latest checkpoint above controls active status.
+
 ## Current exit and active work
 
 F03 is writer-qualified and ready for independent audit. All eight transactional/financial buckets pass on source37c103e/treea155a3c, run36861170597. The separate six actual current-authority counterexamples pass on the same source, run36861170397. Literal Native O06/O07 pass on sourcee63fc18/treea1eade3, run36869047004; the separate full Native82 composed planner regression also passes there, run36869047034. Original outcomes, three earlier planner attempts, archive hashes, exact ERP/public/Auth restoration, cleanup, unchanged primary and backup proof remain retained. Counts overlap and must not be summed as unique oracles. [Current F03 writer handoff](F03_WRITER_HANDOFF_20261001.md).

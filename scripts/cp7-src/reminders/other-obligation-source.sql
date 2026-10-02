@@ -85,7 +85,7 @@ begin
   where f.source_kind<>'CONTRACTOR_CASH_ADVANCE'and(p_ar and b.direction='RECEIVABLE'or p_ap and b.direction='PAYABLE')loop
   native:=erp.bb_financial_workspace_v1(batch);
   if jsonb_typeof(native->'opening_balances')is distinct from'array'then raise exception 'CP7_OTHER_OPENING_SOURCE_INCOMPLETE';end if;
-  native_rows:=native_rows||native->'opening_balances';
+  native_rows:=native_rows||(native->'opening_balances');
  end loop;
  if(select count(distinct x->>'balance_id')from jsonb_array_elements(native_rows)x)<>jsonb_array_length(native_rows)then
   raise exception 'CP7_OTHER_OPENING_SOURCE_INCOMPLETE';end if;
@@ -233,7 +233,7 @@ begin
   loop
    page:=erp.bd_receipt_page_v1(vendor,cursor,at);
    if jsonb_typeof(page->'items')is distinct from'array'or(page->>'limit')::integer<>200 then raise exception 'CP7_OTHER_LAUNDRY_SOURCE_INCOMPLETE';end if;
-   native_rows:=native_rows||page->'items';old_cursor:=cursor;cursor:=(page->>'next_id')::uuid;
+   native_rows:=native_rows||(page->'items');old_cursor:=cursor;cursor:=(page->>'next_id')::uuid;
    exit when cursor is null;
    if cursor is not distinct from old_cursor or jsonb_array_length(page->'items')<>200 or jsonb_array_length(native_rows)>15000 then raise exception 'CP7_OTHER_LAUNDRY_SOURCE_INCOMPLETE';end if;
   end loop;

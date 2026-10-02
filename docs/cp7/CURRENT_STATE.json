@@ -512,7 +512,105 @@
     "literal_planner_run": 36869047004,
     "literal_planner_source": "e63fc18b4e1b4c47f26cf4de6daed5b324f9490b",
     "production_go": false,
-    "status": "QUALIFIED_READY_FOR_INDEPENDENT_AUDIT"
+    "status": "QUALIFIED_READY_FOR_INDEPENDENT_AUDIT",
+    "latest_regression": {
+      "status": "ALL_EIGHT_NATIVE_F03_BUCKETS_WRITER_PASS",
+      "source_commit": "656e4fd5944b6061a87fd0a388d2b928563ac398",
+      "source_tree": "d0a70ed59c8dedbe88ab0b16a214a4da4201449a",
+      "run_id": 36953696925,
+      "buckets": {
+        "cash_installments": {
+          "expected_case_count": 61,
+          "observed_case_count": 61,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11205555761,
+          "zip_sha256": "0e2b3e6f6de1ecedd9b8ec92fb480159109c7a20937f4f194ddc07aa0431f68e",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p12": {
+          "expected_case_count": 90,
+          "observed_case_count": 90,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11205486926,
+          "zip_sha256": "53bf9b2aa8f0e480cea420afca3d659201cc872c0b60d2d3ac8c3b683beb4b3b",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p13": {
+          "expected_case_count": 50,
+          "observed_case_count": 50,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11205330990,
+          "zip_sha256": "4a76479b1be2e4fc241f641356298fa002def2beff14019c338415670b3c1f22",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "supplier_credit": {
+          "expected_case_count": 5,
+          "observed_case_count": 5,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11205251450,
+          "zip_sha256": "a712354ce032be8f486888a08596936a89b538317b09caf17f00223611d5fd3a",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p10": {
+          "expected_case_count": 34,
+          "observed_case_count": 34,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11205097249,
+          "zip_sha256": "d65f91b54922745b0b0d4763a5ed8cca333e640ebd5c23402812e92dfe125ff5",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p11": {
+          "expected_case_count": 64,
+          "observed_case_count": 64,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11205062675,
+          "zip_sha256": "ed4f31281432e3b523fea94e81dcb37768947b874cd4d60cd0efe226e0882ef9",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "customer_refund": {
+          "expected_case_count": 10,
+          "observed_case_count": 10,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11204982784,
+          "zip_sha256": "34eac47438e3fe24caeec89a719a9c0d4f925653ee702df627425955ee8f0f24",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p09": {
+          "expected_case_count": 132,
+          "observed_case_count": 132,
+          "expected_smoke_count": 3,
+          "observed_smoke_count": 3,
+          "artifact_id": 11204849593,
+          "zip_sha256": "8fc017a61ccfcc769cdab56b1decb2ad09da99399b5f53e398b0fb7d88b61833",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        }
+      },
+      "unique_oracle_total_claim": false,
+      "receipt": "docs/cp7/evidence/f03-full/qualified-656e4fd/RECEIPT.json"
+    }
   },
   "f03_x04": {
     "counts": {
@@ -1118,11 +1216,11 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "docs/cp7/ACTIVE_CONTINUATION.md",
+  "last_writer_checkpoint": "2026-10-02: F03 all eight buckets PASS at656e4fd; F05 Native269 INCOMPLETE235/269 retained, fixed-count source repair requires fresh Native qualification. Appendix284 remains separate local work.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
-  "latest_tested_scope": "Bounded Native plan22 and attention164 all PASS at a8b7f3a, every restore/cleanup/Auth/advisor/primary/backup gate retained. Native118 finance canonicalization separately PASS at81fcd44. These counts overlap and do not close full F04/F05.",
-  "latest_tested_source": "a8b7f3a055a1fee51af1387d44ff1f1a6ab9593d",
-  "next_action": "Qualify fixed Native35 linked plan/actual; finish Native186 publication clock qualification; then full F04 material/model and F05 obligation/policy/delivery preview contracts",
+  "latest_tested_scope": "F03 all-eight writer regression PASS; F05 Native269 incomplete, not full F04/F05 acceptance",
+  "latest_tested_source": "656e4fd5944b6061a87fd0a388d2b928563ac398",
+  "next_action": "Run repaired full Native269 on a fresh disposable runtime; finish the obligation report appendix with all predecessor case IDs retained, then P18-P21. F03 writer exit remains qualified.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -1866,6 +1964,60 @@
     "successor_fixed_attention_required": 247,
     "full_f03_required": true,
     "product_financial_changes": false,
+    "production_go": false
+  },
+  "f05_native_other_obligations": {
+    "status": "NATIVE_WRITER_INCOMPLETE",
+    "source_commit": "656e4fd5944b6061a87fd0a388d2b928563ac398",
+    "source_tree": "d0a70ed59c8dedbe88ab0b16a214a4da4201449a",
+    "run_id": 36953696884,
+    "expected_case_count": 269,
+    "observed_case_count": 235,
+    "required_case_counts": {
+      "native": 171,
+      "races": 37,
+      "http": 27,
+      "browser": 34
+    },
+    "counts": {
+      "native": {
+        "PASS": 166,
+        "INCOMPLETE": 5
+      },
+      "races": {
+        "PASS": 37
+      },
+      "http": {
+        "PASS": 26,
+        "INCOMPLETE": 1
+      },
+      "browser": null
+    },
+    "browser_observed_counts": {
+      "PASS": 30,
+      "INCOMPLETE": 4,
+      "FAIL": 0
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": false,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "auth_users_before": 0,
+    "auth_users_after": 32,
+    "receipt": "docs/cp7/evidence/f05-other-obligations/first-incomplete-656e4fd/RECEIPT.json",
+    "repair_status": "SOURCE_REPAIRED_FIXED_NATIVE269_RERUN_REQUIRED",
+    "repair_scope": [
+      "Native opening and receipt array extraction before concatenation",
+      "Reuse fenced final episode source; cached and negative reads remain fresh",
+      "Lawful managed payroll and real paid-accessory inverse fixtures",
+      "Mandatory vendor-rate receipt estimate stays unknown final AP",
+      "Browser waits for actual committed-response loss and cleans routes"
+    ],
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
     "production_go": false
   }
 }

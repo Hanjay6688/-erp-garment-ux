@@ -85,7 +85,11 @@ begin
   result:=jsonb_build_object('request_id',p_request,'status','COMMITTED','source_hash',source->'source_hash','rows',observations);
   insert into cp7_reminder_native.requests values(actor,p_request,p,result,clock_timestamp());
  end if;
- perform cp7_reminder_native.recheck(a);source:=cp7_reminder_native.condition_source((p->>'run_id')::uuid);
+ perform cp7_reminder_native.recheck(a);
+ -- A new commit already read and fenced the complete current Native source.
+ -- Reuse that final read; cached/negative outcomes still read fresh facts.
+ if final_source is not null then source:=final_source;
+ else source:=cp7_reminder_native.condition_source((p->>'run_id')::uuid);end if;
  -- Cached observation is visible only when its domain still appears in the
  -- caller's current authorized source. Source-changed results remain history,
  -- never current business resolution or a delivery permission.

@@ -1,0 +1,260 @@
+{
+  "status": "NATIVE_WRITER_PASS",
+  "source_commit": "656e4fd5944b6061a87fd0a388d2b928563ac398",
+  "source_tree": "d0a70ed59c8dedbe88ab0b16a214a4da4201449a",
+  "run_id": 36953696925,
+  "artifact_id": 11204982784,
+  "artifact_name": "cp7-f03-full-customer_refund",
+  "original_file_id": "file_00000000844c8211847c667f49654ad8",
+  "zip_bytes": 3600560,
+  "zip_sha256": "34eac47438e3fe24caeec89a719a9c0d4f925653ee702df627425955ee8f0f24",
+  "bucket": "customer_refund",
+  "expected_case_count": 10,
+  "observed_case_count": 10,
+  "expected_smoke_count": 0,
+  "observed_smoke_count": 0,
+  "source_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "provider_sha256": {
+    "native": "cf984827f6b0f25fd69da140f99a2b5f844d20782dee87184d3513159ad9ee5e",
+    "refund_native": "a67d4ff78046b7ad773a8891eecbcf3277bf7dc5a209c91b2b7cf63ea3b7b735",
+    "refund_races": "a67d4ff78046b7ad773a8891eecbcf3277bf7dc5a209c91b2b7cf63ea3b7b735",
+    "refund_http": "a67d4ff78046b7ad773a8891eecbcf3277bf7dc5a209c91b2b7cf63ea3b7b735",
+    "refund_browser": "61056b721a0b3ff0968436461873103913e8575882c326d1017e2075a8e42545",
+    "http": "cf984827f6b0f25fd69da140f99a2b5f844d20782dee87184d3513159ad9ee5e",
+    "browser": "1f8f45744993ff1b851fc69c0cfdb27b41ec304efd8074dc5aae562a761d2fee"
+  },
+  "retained_probe_sha256": {
+    "cp7_f03_e03_probe.py": "cb0eddf1a35a32014861c83da0647bd5f35fe5fefe62102a4ab6a671804b0ab7"
+  },
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": true
+    },
+    "refund_native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": true
+    },
+    "refund_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      }
+    },
+    "refund_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "refund_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "backup_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F03_FULL_CUSTOMER_REFUND.json": "a08a8a3fbc2030d525d16b212cf3150b15d1085315c624222c47a4ea83579455",
+    "T3_BACKUP_RESTORE_DRILL.json": "cf1d8b9a96d227f5f6a36ae408120f3188c718a16bbf9de4a237f31a7d455593",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "e2845c1b9d7c0c80b76ca09c6eb53f5d5906dade4b526fc721049eef4e89a303"
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "419b9abf22802c7a3016a706e6c0e9fd14815dfaf1253073bc39175696681972"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "419b9abf22802c7a3016a706e6c0e9fd14815dfaf1253073bc39175696681972"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "7c8f3c9989d2cdea96ca4f6f2ce9af28113aaad25e4855b48ef169b42457d516"
+    },
+    "CP7_F03_FULL_CUSTOMER_REFUND.json": {
+      "bytes": 311494,
+      "sha256": "a08a8a3fbc2030d525d16b212cf3150b15d1085315c624222c47a4ea83579455"
+    },
+    "E03_CUSTOMER_CUSTODY_DESKTOP.png": {
+      "bytes": 220864,
+      "sha256": "100433ae2040cf43a29864b24cdf904f3be6dcacff4b8c39f1671bbf9ad3021a"
+    },
+    "E03_CUSTOMER_CUSTODY_MOBILE.png": {
+      "bytes": 129950,
+      "sha256": "e65c58b7207779750a8bb5cce886a81a85ceaff05e7dc54d01b62e1b1ba15ca3"
+    },
+    "F03_E03_REFUND_DESKTOP_CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED.png": {
+      "bytes": 166154,
+      "sha256": "e9f465e893f26e845c2e27a6758c3e2bb06e7160728088d9efe1ca7034d3ef63"
+    },
+    "F03_E03_REFUND_DESKTOP_EXACT_UUID_RECONCILED.png": {
+      "bytes": 333670,
+      "sha256": "1105ca1efb2a1a2748e97428a2649a449193032e4e1926c624606e393bac4d9f"
+    },
+    "F03_E03_REFUND_DESKTOP_REVIEWED_SOURCE.png": {
+      "bytes": 317945,
+      "sha256": "6b96e055233ef2a667403690f349281078daae3fbfebdc5a94062aea728ea847"
+    },
+    "F03_E03_REFUND_DESKTOP_UNCERTAIN_REPLY_FACTS_RETIRED.png": {
+      "bytes": 164738,
+      "sha256": "473e8416d64681f6d83edb83d43bac094b20f2a2fb9e6f32d91bdc52bf6f3ac2"
+    },
+    "F03_E03_REFUND_MOBILE_CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED.png": {
+      "bytes": 89295,
+      "sha256": "7b81c133b7448c7ecc426cc0180b6b227c5617101760e8f113c26f38e1c16290"
+    },
+    "F03_E03_REFUND_MOBILE_EXACT_UUID_RECONCILED.png": {
+      "bytes": 250904,
+      "sha256": "bc640a65cde1c1ffd18a3d247519044ba4b763cd76d3bda406d80de567c96a34"
+    },
+    "F03_E03_REFUND_MOBILE_REVIEWED_SOURCE.png": {
+      "bytes": 234032,
+      "sha256": "2558eb9d6a0fd05b51e92f70ebccc12427fb0ebdd2cf26185647c942e7b42605"
+    },
+    "F03_E03_REFUND_MOBILE_UNCERTAIN_REPLY_FACTS_RETIRED.png": {
+      "bytes": 98275,
+      "sha256": "91c84a8a93ef5f4a2e61248edcb105b7e0f67ebfd19b07f6fdfa547f21a7f356"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "cf1d8b9a96d227f5f6a36ae408120f3188c718a16bbf9de4a237f31a7d455593"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "e2845c1b9d7c0c80b76ca09c6eb53f5d5906dade4b526fc721049eef4e89a303"
+    }
+  },
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

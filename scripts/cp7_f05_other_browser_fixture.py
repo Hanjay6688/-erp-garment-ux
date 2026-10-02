@@ -16,7 +16,7 @@ def main():
    today=date.fromisoformat(p['today']);cases.setup(cur,today)
    payroll=cases.installments.fixture(cur,today,attendance=False,manual='9007199254740993.01')
    opening=cases.opening.fixture(cur,today)
-   laundry=cases.laundry_fixture(cur,today,priced=False)
+   laundry=cases.laundry_fixture(cur,today)
    out=dict(payroll=payroll,opening_id=opening['balances']['UPAH-OLD'],receipt_line=laundry['line'])
   elif op=='partial':out=cases.installments.act(cur,p['payroll'],amount='9007199254740993.00')
   elif op=='final':out=cases.installments.act(cur,p['payroll'],amount='0.01')
