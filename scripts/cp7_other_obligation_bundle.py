@@ -23,8 +23,8 @@ FUNCTIONS={**previous.FUNCTIONS,**OTHER_FUNCTIONS,'condition_domain':'i','condit
 CONTRACTS={name:('cp7_obligation_read',name=='other_obligation_source')for name in OTHER_FUNCTIONS}
 def extension():return previous.previous.extension()+'\n'+'\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return previous.previous.predecessor.bundle()+'\n'+extension()
-def verify(cur):
- previous.previous.verify(cur,FUNCTIONS,previous.TABLES,previous.PUBLIC,CONTRACTS)
+def verify(cur,extension_functions=None,extension_tables=(),extension_public=()):
+ previous.previous.verify(cur,{**FUNCTIONS,**(extension_functions or{})},(*previous.TABLES,*extension_tables),(*previous.PUBLIC,*extension_public),CONTRACTS)
  for name in previous.TABLES:
   assert cur.execute("select count(*)from pg_trigger where tgrelid=%s::regclass and not tgisinternal",('cp7_reminder_native.'+name,)).fetchone()[0]==1
  assert cur.execute("select rolcanlogin,rolinherit,rolsuper,rolcreatedb,rolcreaterole,rolreplication,rolbypassrls from pg_roles where rolname='cp7_obligation_read'").fetchone()==(False,False,False,False,False,False,True)

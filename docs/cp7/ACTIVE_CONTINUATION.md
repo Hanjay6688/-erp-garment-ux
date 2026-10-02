@@ -10,6 +10,8 @@ F05 Native269 at the same source is INCOMPLETE235/269:166/171 DB,37/37 actual ra
 
 Immediate repair preserves269 IDs and all gates: extract Native opening/receipt arrays before JSON concatenation; reuse the already-fenced final episode read; prepare lawful managed payroll, actual paid accessory inverse and mandatory-rate laundry with ESTIMATED cost/UNKNOWN final AP; await actual committed-response loss before browser recovery. Publish and rerun this isolated repair before reporting PASS. The dated immutable obligation-report appendix is separate local work, with284 cases predeclared and no Native acceptance yet. Full F04/F05, P18 integration, P19 scale/recovery, P20 independent demo/audit and P21 combined install/restore remain open. Do not install hosted or merge main.
 
+The isolated Native269 repair is published at2c6f014/tree24e6f4b and is running in36958885075. The append-only284 report candidate now composes the dated Native facts with an immutable Native publication and actual UUID/CAS/Auth/browser cases; local45 and syntax/TypeScript checks pass. Native acceptance remains pending.
+
 Earlier checkpoints below are retained historical context; the latest checkpoint above controls active status.
 
 ## Current exit and active work

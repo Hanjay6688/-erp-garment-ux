@@ -48,6 +48,11 @@ export type PreconnectDatabase = {
       erp_cp7_get_analysis_attention_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_list_analysis_archives_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_publish_report_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_obligation_report_preview_v1: { Args: { p_publication: string }; Returns: Json }
+      erp_cp7_read_obligation_report_v1: { Args: { p_id: string }; Returns: Json }
+      erp_cp7_publish_obligation_report_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_obligation_report_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_list_obligation_reports_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_report_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_read_report_v1: { Args: { p_id: string }; Returns: Json }
       erp_cp7_list_reports_v1: { Args: { p_query: Json }; Returns: Json }

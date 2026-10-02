@@ -76,9 +76,9 @@ def laundry_opening_fixture(cur,today):
  ids={r['category']:r['id']for r in bd.bd_ws(cur,dict(vendor_id=vendor))['opening_uninvoiced']}
  return dict(batch=batch,vendor=vendor,ids=ids,code=code)
 
-def cases(cur,today):
+def cases(cur,today,qualification_bundle=None):
  def acl():
-  bundle.verify(cur)
+  (qualification_bundle or bundle).verify(cur)
   for principal in('anon','authenticated','service_role'):
    assert not cur.execute("select pg_has_role(%s,'cp7_obligation_read','MEMBER')",(principal,)).fetchone()[0]
    assert not cur.execute("select has_function_privilege(%s,'cp7_reminder_native.other_obligation_source()','EXECUTE')",(principal,)).fetchone()[0]

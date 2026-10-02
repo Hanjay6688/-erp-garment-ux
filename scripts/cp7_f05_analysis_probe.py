@@ -33,12 +33,12 @@ def verify(cur):
 def run(attention=False):
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=152;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if attention:
-  import cp7_other_obligation_bundle as candidate
-  import cp7_other_obligation_cases as case_provider
+  import cp7_obligation_report_bundle as candidate
+  import cp7_obligation_report_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==269;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_other_browser_all.mjs'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==284;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_obligation_report_browser_all.mjs'
  report=dict(label='CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='IMMUTABLE_NATIVE_PUBLICATIONS_ATTENTION_ALL_NATIVE_OBLIGATION_DOMAINS_UNKNOWN_REVIEW_EPISODES_LOCAL_TEST_SINK'if attention else'FROZEN_ANALYSIS_V2_NATIVE_PUBLICATION_REVISION_PERIOD_COMPARISON_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
- if attention:report['required_case_counts']=dict(native=171,races=37,http=27,browser=34)
+ if attention:report['required_case_counts']=dict(native=179,races=40,http=29,browser=36)
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=public_state(cur);accepted_functions_before=p09.functions(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)

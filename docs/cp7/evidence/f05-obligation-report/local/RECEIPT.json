@@ -1,0 +1,58 @@
+{
+  "classification": "LOCAL_TYPED_RECEIVER_UI_SOURCE_ONLY_NOT_NATIVE_PROOF",
+  "parent_commit": "2c6f014113b49690d105c1b5ba9fcfc2a8bb7828",
+  "source_sha256": {
+    ".github/workflows/cp7-f05-attention.yml": "8dd432daba9a13baf8ff6844033e7f59becdbf0de31fddf958e68717aacc771e",
+    "docs/cp7/ACTIVE_CONTINUATION.md": "06fb869c9b83c5e44b18482e27505181f9ecb38af6dac23d1446afafb252cf1d",
+    "docs/cp7/CURRENT_STATE.json": "bc5376759e25280277c81edc0ca2689cf7de0c22fe9e5e500aae1b2703971cea",
+    "docs/cp7/f05/NATIVE_OBLIGATION_REPORT_APPENDIX.md": "9e51018752a8774b916ec4a3356c8c1fcf7abba8cb130c012fd4976499529dd2",
+    "scripts/cp7-src/reminders/obligation-report.sql": "af2f08563ba8e507a9af86dc206505d0bf66605c2c97945e718db214d4e32951",
+    "scripts/cp7_f05_analysis_probe.py": "5c01e7af5b763194ae54146e9edd30b07ed636b430e8e25658ace0e04c198380",
+    "scripts/cp7_f05_obligation_report_browser.mjs": "c3b62fe8822ee0c1743bf96a8af3587cb94b803c7e787bc6bf268826dcafef5f",
+    "scripts/cp7_f05_obligation_report_browser_all.mjs": "c1828b2dd20d88d91e5e04b7c0fad37311c8203aba857ec875d7b20ec0ae7dc8",
+    "scripts/cp7_obligation_report_bundle.py": "38443dfe0893bb7ee7bf5e5bbcdc1a9807bd92a0575dd86404ddb21a0abcb4be",
+    "scripts/cp7_obligation_report_cases.py": "d999318dfb966774ff49076d1a463102b7e71ba63377ebf8a8abe5f26c905a2c",
+    "scripts/cp7_other_obligation_bundle.py": "fb30d74563a5ba839b9c571ac6ab192f35cde1db99a5441264d211c2e4f539a6",
+    "scripts/cp7_other_obligation_cases.py": "561855cba7381154d5ba62c00bf0dc08b832be3893230e7bc6bea8934ce83c44",
+    "scripts/check-source-ownership.mjs": "c0b4c15eea86f510fb651a4b608739eea502f619f13a17184b83468ee7436da3",
+    "scripts/check-access-catalog.mjs": "aa0a8669662687de04c4b4242cfdb399fa0143cf31b06e047b771a4f4e537d7d",
+    "src/NativeAnalysisPanel.tsx": "e7c8c8a71bd41cfafc168fab71fbd35f1e060c180d08585789ede436d098fde7",
+    "src/NativeAnalysisReportsPanel.tsx": "8483122e455f7b13c131c52f9fbb3cbd46e05772959fe4d4478a0ef3aea9719a",
+    "src/NativeObligationReportsPanel.tsx": "1d19052431f09b6391ee34407ba0f20aa3b37be86256441591a2efe2898a3843",
+    "src/NativeObligationReportsPanel.dom.test.tsx": "5ec3ab52ae955abed478ab18dd3bb97b548cbed514cd92352b7a1819826fcc11",
+    "src/nativeObligationReports.ts": "855437227b4ebd20e8385c6cd253dbe1815d938206a8317405c9923de2db3296",
+    "src/nativeObligationReports.test.ts": "f10aa0d67817b83cbdc3897be08222126776d2b9dec470bae1fe5550aa99632f",
+    "src/types/database.preconnect.ts": "762f07e165001fb3900ee9b807a158479504fa9d4d2b019a133e8ec94c5ab0a5",
+    "tests/fixtures/nativeObligationReports.ts": "d23a3f1b8551701e4be514be7bf8cfd03107a6dc4aad37867b4ec782f5283f45"
+  },
+  "affected_tests": {
+    "PASS": 45,
+    "FAIL": 0
+  },
+  "earlier_local_attempt": {
+    "PASS": 44,
+    "FAIL": 1,
+    "reason": "Test checked asynchronous digest recovery after fixed20ms; bounded actual recovery completion now required"
+  },
+  "security": "PASS_EXACT_SOURCE_ACCESS_CSS_CP5_CP6_BACKEND_BUILD_SECRET_UAT_GATES",
+  "earlier_security_failures": [
+    "Dynamic RPC ternary replaced with exact literal lookup/publish boundaries",
+    "Five new boundaries declared explicitly in source/access ownership; no assertion removed"
+  ],
+  "typescript": "PASS",
+  "python_and_node_syntax": "PASS",
+  "whitespace": "PASS",
+  "disposable_build_and_secret_scan": "PASS_BUILD_BEFORE_LITERAL_RPC_DECLARATION_FINAL_NATIVE_BUILD_STILL_REQUIRED",
+  "local_build_auth": "ANONYMOUS_STAND_IN_ONLY_NO_SIGNED_NATIVE_SESSION",
+  "native_qualification": "PENDING_284_FIXED_CASES",
+  "native_counts": {
+    "native": 179,
+    "races": 40,
+    "http": 29,
+    "browser": 36
+  },
+  "all269_predecessor_cases_retained": true,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
