@@ -147,7 +147,7 @@ declare scenario jsonb;wip jsonb;matching jsonb;p jsonb;t jsonb;m jsonb;s jsonb;
  matches jsonb:='[]';rows jsonb:='[]';reviews jsonb:='[]';hash text;policy text;ready timestamptz;
  deadline timestamptz;helps timestamptz;raw_need numeric;directed numeric;candidate numeric;gap numeric;
  budget numeric:=0;all_targets_known boolean:=true;supplies_complete boolean:=true;refs jsonb;production_status text;needs jsonb:='{}';
- supplies jsonb;net jsonb;net_input jsonb;raw_net jsonb;directed_edges jsonb;
+ supplies jsonb;net jsonb;net_input jsonb;raw_net jsonb;directed_edges jsonb;match_index jsonb;match_index_unique boolean;
 begin
  scenario:=cp7_schedule_native.build(c,q);wip:=scenario->'wip';hash:=cp7_netting_native.fingerprint(c);
  ready:=(c->>'captured_at')::timestamptz;
@@ -198,12 +198,21 @@ begin
  -- Model is an additional Native hard constraint absent from the retained
  -- five-field pure matcher. A source with a Native product binding can only
  -- match that root; unbound critical brand/color remains NEEDS_CHECK.
- for p in select value from jsonb_array_elements(wip->'positions')where value->'eligible_company_wip'='true'::jsonb loop
-  for r in select value from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'rows')loop
-   m:=cp7_netting_native.matches(c,p,r,matching);
-   matches:=matches||jsonb_build_array(jsonb_build_object('position_key',p->'key','target_key',r->'target_key','result',m));
-  end loop;
- end loop;
+ -- Evaluate each immutable pair once and aggregate in the original array
+ -- order. The local index never enters the returned matching/result contract.
+ with pair_results as materialized(
+  select pp.position->'key' position_key,rr.target->'target_key' target_key,
+   pp.p_ordinal,rr.t_ordinal,
+   jsonb_build_array(pp.position->>'key',rr.target->>'target_key')::text pair_key,
+   cp7_netting_native.matches(c,pp.position,rr.target,matching) pair_result
+  from jsonb_array_elements(wip->'positions')with ordinality pp(position,p_ordinal)
+  cross join jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'rows')with ordinality rr(target,t_ordinal)
+  where pp.position->'eligible_company_wip'='true'::jsonb)
+ select coalesce(jsonb_agg(jsonb_build_object('position_key',pr.position_key,'target_key',pr.target_key,
+   'result',pr.pair_result)order by pr.p_ordinal,pr.t_ordinal),'[]'::jsonb),
+  coalesce(jsonb_object_agg(pr.pair_key,pr.pair_result),'{}'::jsonb),
+  count(*)=count(distinct pr.pair_key)
+ into matches,match_index,match_index_unique from pair_results pr;
  if not all_targets_known then alloc:=jsonb_build_object('status','UNKNOWN','reason','GLOBAL_TARGET_NEEDS_OR_POLICY_NOT_FULLY_REVIEWED');
  elsif scenario->>'schedule_state'<>'SELECTED_ASSUMPTIONS'then alloc:=jsonb_build_object('status','UNKNOWN','reason','SOURCE_BOUND_WORK_YIELD_NOT_REVIEWED');
  elsif not supplies_complete then alloc:=jsonb_build_object('status','UNKNOWN','reason','EXISTING_SUPPLY_YIELD_OR_SHARED_ETA_UNKNOWN');
@@ -223,7 +232,9 @@ begin
   if t is not null then
    raw_need:=cp7_wip.pcs(t->'need_pcs');
    for p in select value from jsonb_array_elements(wip->'positions')where value->'eligible_company_wip'='true'::jsonb loop
-    m:=cp7_netting_native.matches(c,p,r,matching);eta:=(select x from jsonb_array_elements(etas)x where x->>'position_key'=p->>'key');
+    m:=case when match_index_unique then
+     match_index->(jsonb_build_array(p->>'key',r->>'target_key')::text)
+     else cp7_netting_native.matches(c,p,r,matching)end;eta:=(select x from jsonb_array_elements(etas)x where x->>'position_key'=p->>'key');
     if m->>'match'='CONFIRMED_TARGET'then
      supplies:=supplies||jsonb_build_array(jsonb_build_object('physical_key',p->'key','snapshot_id',wip->'snapshot_id',
       'target_key',r->'target_key','size_id',r->'size_id','kind','DIRECTED',

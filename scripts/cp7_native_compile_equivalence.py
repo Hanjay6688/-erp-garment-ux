@@ -58,6 +58,14 @@ def compare(cur, query, actor):
     cases.b.api.admin(cur)
     signature = 'cp7_netting_native.build(jsonb,jsonb)'
     original = cur.execute('select pg_get_functiondef(%s::regprocedure)', (signature,)).fetchone()[0]
+    if NEW_MATRIX in original and NEW_REPEAT in original:
+        # The complete retained comparison belongs to the pre-repair source.
+        # Later measurements must not relabel the installed candidate as an
+        # independently rerun before/after comparison or mutate it again.
+        report.update(status='CANDIDATE_ALREADY_INSTALLED_USE_RETAINED_COMPARISON',
+                      definition_restored=True, comparison_rerun=False,
+                      retained_comparison_source='4c726f33694b7f0c6ec25397b79bcc81fdc8e645')
+        return report
     candidate = optimized_definition(original)
     report.update(original_definition_sha256=hashlib.sha256(original.encode()).hexdigest(),
                   experimental_definition_sha256=hashlib.sha256(candidate.encode()).hexdigest())

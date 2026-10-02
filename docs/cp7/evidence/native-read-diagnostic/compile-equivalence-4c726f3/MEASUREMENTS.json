@@ -1,0 +1,811 @@
+[
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 224,
+        "utf8_bytes": 20931,
+        "source_status": "COMPLETE",
+        "product_count": 1,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 1,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 22,
+        "utf8_bytes": 27471,
+        "source_status": "PARTIAL",
+        "recommendations": 0,
+        "timeline_rows": 0,
+        "fact_count": 5
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 8,
+        "utf8_bytes": 5578,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 7,
+        "utf8_bytes": 12085,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 127,
+        "utf8_bytes": 20931,
+        "source_status": "COMPLETE",
+        "product_count": 1,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 1,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 109,
+        "utf8_bytes": 17562,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 17,
+        "utf8_bytes": 3347,
+        "source_status": "COMPLETE",
+        "product_count": 1,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 1,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      }
+    ],
+    "added_actual_fixture_count": 0,
+    "Native_business_unchanged": true,
+    "workload": "NATIVE_PLANNER_FIXTURES",
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 126,
+        "utf8_bytes": 25957,
+        "source_status": "COMPLETE",
+        "product_count": 2,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 2,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 57,
+        "utf8_bytes": 113289,
+        "source_status": "PARTIAL",
+        "recommendations": 2,
+        "timeline_rows": 21,
+        "fact_count": 12
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 38,
+        "utf8_bytes": 91393,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 28,
+        "utf8_bytes": 67729,
+        "source_status": "SCENARIO"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 122,
+        "utf8_bytes": 25954,
+        "source_status": "COMPLETE",
+        "product_count": 2,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 2,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 107,
+        "utf8_bytes": 17562,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 12,
+        "utf8_bytes": 8375,
+        "source_status": "COMPLETE",
+        "product_count": 2,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 2,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      }
+    ],
+    "added_actual_fixture_count": 1,
+    "Native_business_unchanged": true,
+    "workload": "NATIVE_PLANNER_FIXTURES",
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 121,
+        "utf8_bytes": 36366,
+        "source_status": "COMPLETE",
+        "product_count": 5,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 5,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 93,
+        "utf8_bytes": 237687,
+        "source_status": "PARTIAL",
+        "recommendations": 5,
+        "timeline_rows": 52,
+        "fact_count": 27
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 85,
+        "utf8_bytes": 215790,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 57,
+        "utf8_bytes": 142796,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 120,
+        "utf8_bytes": 36366,
+        "source_status": "COMPLETE",
+        "product_count": 5,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 5,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 105,
+        "utf8_bytes": 17564,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 13,
+        "utf8_bytes": 18780,
+        "source_status": "COMPLETE",
+        "product_count": 5,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 5,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      }
+    ],
+    "experimental_pure_compile": {
+      "diagnostic_only": true,
+      "product_qualification": false,
+      "status": "EXACT_PURE_RESULT_EQUIVALENCE",
+      "comparisons": [
+        {
+          "stage": "COMPOSED_NETTING",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 56,
+          "experimental_ms": 56,
+          "utf8_bytes": 142796,
+          "original_sha256": "8d4bb6cf54db4d5ed18d0f7f84b8f2252ea3e482a3d0fa43e1f50561c481928a",
+          "experimental_sha256": "8d4bb6cf54db4d5ed18d0f7f84b8f2252ea3e482a3d0fa43e1f50561c481928a",
+          "restored_original_ms": 60,
+          "restored_original_sha256": "8d4bb6cf54db4d5ed18d0f7f84b8f2252ea3e482a3d0fa43e1f50561c481928a"
+        },
+        {
+          "stage": "OPERATIONAL_COMPILER",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 80,
+          "experimental_ms": 77,
+          "utf8_bytes": 215790,
+          "original_sha256": "0c535772299013f8ddcb3840ed5d2c2bca4bd9f002716781cb4445d313b01199",
+          "experimental_sha256": "0c535772299013f8ddcb3840ed5d2c2bca4bd9f002716781cb4445d313b01199",
+          "restored_original_ms": 80,
+          "restored_original_sha256": "0c535772299013f8ddcb3840ed5d2c2bca4bd9f002716781cb4445d313b01199"
+        },
+        {
+          "stage": "PURE_NATIVE_COMPILER",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 87,
+          "experimental_ms": 86,
+          "utf8_bytes": 237687,
+          "original_sha256": "9d021689a90e7eaf197cfc68ffac0837d8e43c1142084bc7fc427a7816162b0a",
+          "experimental_sha256": "9d021689a90e7eaf197cfc68ffac0837d8e43c1142084bc7fc427a7816162b0a",
+          "restored_original_ms": 87,
+          "restored_original_sha256": "9d021689a90e7eaf197cfc68ffac0837d8e43c1142084bc7fc427a7816162b0a"
+        }
+      ],
+      "definition_restored": true,
+      "Native_HTTP_timeout_changed": false,
+      "original_definition_sha256": "a3ca82e0ce1ae1dff27ad6bfaaf069a670036f6bce27e3bcee6c0fc42e5c5cb3",
+      "experimental_definition_sha256": "232d0f85a92edf723fa84088eed015b65fb1461d9f119b3d0040e2e6d0a5f1eb"
+    },
+    "added_actual_fixture_count": 4,
+    "Native_business_unchanged": true,
+    "workload": "NATIVE_PLANNER_FIXTURES",
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 125,
+        "utf8_bytes": 64112,
+        "source_status": "COMPLETE",
+        "product_count": 13,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 13,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 298,
+        "utf8_bytes": 565862,
+        "source_status": "PARTIAL",
+        "recommendations": 13,
+        "timeline_rows": 132,
+        "fact_count": 67
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 281,
+        "utf8_bytes": 543965,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 164,
+        "utf8_bytes": 386827,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 138,
+        "utf8_bytes": 64112,
+        "source_status": "COMPLETE",
+        "product_count": 13,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 13,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 108,
+        "utf8_bytes": 17564,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 16,
+        "utf8_bytes": 46526,
+        "source_status": "COMPLETE",
+        "product_count": 13,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 13,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      }
+    ],
+    "experimental_pure_compile": {
+      "diagnostic_only": true,
+      "product_qualification": false,
+      "status": "EXACT_PURE_RESULT_EQUIVALENCE",
+      "comparisons": [
+        {
+          "stage": "COMPOSED_NETTING",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 161,
+          "experimental_ms": 145,
+          "utf8_bytes": 386827,
+          "original_sha256": "8e630657d72130298e9b9d41c6fe2ff405bf0959aac42f48d26401bda84732b0",
+          "experimental_sha256": "8e630657d72130298e9b9d41c6fe2ff405bf0959aac42f48d26401bda84732b0",
+          "restored_original_ms": 164,
+          "restored_original_sha256": "8e630657d72130298e9b9d41c6fe2ff405bf0959aac42f48d26401bda84732b0"
+        },
+        {
+          "stage": "OPERATIONAL_COMPILER",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 274,
+          "experimental_ms": 255,
+          "utf8_bytes": 543965,
+          "original_sha256": "4cbe8207018b7bea34a9c88607bd29b8d5ba81dd57e317d1aeeecfadbc2082ec",
+          "experimental_sha256": "4cbe8207018b7bea34a9c88607bd29b8d5ba81dd57e317d1aeeecfadbc2082ec",
+          "restored_original_ms": 290,
+          "restored_original_sha256": "4cbe8207018b7bea34a9c88607bd29b8d5ba81dd57e317d1aeeecfadbc2082ec"
+        },
+        {
+          "stage": "PURE_NATIVE_COMPILER",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 291,
+          "experimental_ms": 273,
+          "utf8_bytes": 565862,
+          "original_sha256": "05fed92fc5fea58f93a1499819aec3d3a09ae5de5d06cc653028ecdf795bc477",
+          "experimental_sha256": "05fed92fc5fea58f93a1499819aec3d3a09ae5de5d06cc653028ecdf795bc477",
+          "restored_original_ms": 294,
+          "restored_original_sha256": "05fed92fc5fea58f93a1499819aec3d3a09ae5de5d06cc653028ecdf795bc477"
+        }
+      ],
+      "definition_restored": true,
+      "Native_HTTP_timeout_changed": false,
+      "original_definition_sha256": "a3ca82e0ce1ae1dff27ad6bfaaf069a670036f6bce27e3bcee6c0fc42e5c5cb3",
+      "experimental_definition_sha256": "232d0f85a92edf723fa84088eed015b65fb1461d9f119b3d0040e2e6d0a5f1eb"
+    },
+    "added_actual_fixture_count": 12,
+    "Native_business_unchanged": true,
+    "workload": "NATIVE_PLANNER_FIXTURES",
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 181,
+        "utf8_bytes": 61699,
+        "source_status": "COMPLETE",
+        "product_count": 14,
+        "fact_collections": {
+          "sales": 1,
+          "stock": 5,
+          "returns": 1,
+          "products": 14,
+          "sale_journals": 1,
+          "return_journals": 1
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 346,
+        "utf8_bytes": 559227,
+        "source_status": "PARTIAL",
+        "recommendations": 13,
+        "timeline_rows": 130,
+        "fact_count": 95
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 304,
+        "utf8_bytes": 537618,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 195,
+        "utf8_bytes": 409283,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 170,
+        "utf8_bytes": 61699,
+        "source_status": "COMPLETE",
+        "product_count": 14,
+        "fact_collections": {
+          "sales": 1,
+          "stock": 5,
+          "returns": 1,
+          "products": 14,
+          "sale_journals": 1,
+          "return_journals": 1
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 147,
+        "utf8_bytes": 3010,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 23,
+        "utf8_bytes": 58665,
+        "source_status": "COMPLETE",
+        "product_count": 14,
+        "fact_collections": {
+          "sales": 1,
+          "stock": 5,
+          "returns": 1,
+          "products": 14,
+          "sale_journals": 1,
+          "return_journals": 1
+        }
+      }
+    ],
+    "added_actual_fixture_count": 12,
+    "completed_actual_E01_journeys": 1,
+    "workload": "NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN",
+    "Native_business_unchanged": true,
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 264,
+        "utf8_bytes": 98231,
+        "source_status": "COMPLETE",
+        "product_count": 17,
+        "fact_collections": {
+          "sales": 4,
+          "stock": 20,
+          "returns": 4,
+          "products": 17,
+          "sale_journals": 4,
+          "return_journals": 4
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 498,
+        "utf8_bytes": 561008,
+        "source_status": "PARTIAL",
+        "recommendations": 13,
+        "timeline_rows": 130,
+        "fact_count": 179
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 476,
+        "utf8_bytes": 539395,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 356,
+        "utf8_bytes": 585037,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 238,
+        "utf8_bytes": 98231,
+        "source_status": "COMPLETE",
+        "product_count": 17,
+        "fact_collections": {
+          "sales": 4,
+          "stock": 20,
+          "returns": 4,
+          "products": 17,
+          "sale_journals": 4,
+          "return_journals": 4
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 213,
+        "utf8_bytes": 3012,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 28,
+        "utf8_bytes": 95197,
+        "source_status": "COMPLETE",
+        "product_count": 17,
+        "fact_collections": {
+          "sales": 4,
+          "stock": 20,
+          "returns": 4,
+          "products": 17,
+          "sale_journals": 4,
+          "return_journals": 4
+        }
+      }
+    ],
+    "experimental_pure_compile": {
+      "diagnostic_only": true,
+      "product_qualification": false,
+      "status": "EXACT_PURE_RESULT_EQUIVALENCE",
+      "comparisons": [
+        {
+          "stage": "COMPOSED_NETTING",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 357,
+          "experimental_ms": 251,
+          "utf8_bytes": 585037,
+          "original_sha256": "677353ecbcb3f7e36dff96f44ca51499838c37a92bb9d3a30abe6c2726e506b1",
+          "experimental_sha256": "677353ecbcb3f7e36dff96f44ca51499838c37a92bb9d3a30abe6c2726e506b1",
+          "restored_original_ms": 379,
+          "restored_original_sha256": "677353ecbcb3f7e36dff96f44ca51499838c37a92bb9d3a30abe6c2726e506b1"
+        },
+        {
+          "stage": "OPERATIONAL_COMPILER",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 491,
+          "experimental_ms": 364,
+          "utf8_bytes": 539395,
+          "original_sha256": "5b1439f16a06b8caeedea43ec172b6cb9e2bd7da2f6de41f5e29b4455481d2ad",
+          "experimental_sha256": "5b1439f16a06b8caeedea43ec172b6cb9e2bd7da2f6de41f5e29b4455481d2ad",
+          "restored_original_ms": 488,
+          "restored_original_sha256": "5b1439f16a06b8caeedea43ec172b6cb9e2bd7da2f6de41f5e29b4455481d2ad"
+        },
+        {
+          "stage": "PURE_NATIVE_COMPILER",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 505,
+          "experimental_ms": 377,
+          "utf8_bytes": 561008,
+          "original_sha256": "98237db8d42d8de69f2a4f0782c5e980692c0cb718c46a2fdea221a19f724a07",
+          "experimental_sha256": "98237db8d42d8de69f2a4f0782c5e980692c0cb718c46a2fdea221a19f724a07",
+          "restored_original_ms": 506,
+          "restored_original_sha256": "98237db8d42d8de69f2a4f0782c5e980692c0cb718c46a2fdea221a19f724a07"
+        }
+      ],
+      "definition_restored": true,
+      "Native_HTTP_timeout_changed": false,
+      "original_definition_sha256": "a3ca82e0ce1ae1dff27ad6bfaaf069a670036f6bce27e3bcee6c0fc42e5c5cb3",
+      "experimental_definition_sha256": "232d0f85a92edf723fa84088eed015b65fb1461d9f119b3d0040e2e6d0a5f1eb"
+    },
+    "added_actual_fixture_count": 12,
+    "completed_actual_E01_journeys": 4,
+    "workload": "NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN",
+    "Native_business_unchanged": true,
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 400,
+        "utf8_bytes": 195670,
+        "source_status": "COMPLETE",
+        "product_count": 25,
+        "fact_collections": {
+          "sales": 12,
+          "stock": 60,
+          "returns": 12,
+          "products": 25,
+          "sale_journals": 12,
+          "return_journals": 12
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 1723,
+        "utf8_bytes": 565760,
+        "source_status": "PARTIAL",
+        "recommendations": 13,
+        "timeline_rows": 130,
+        "fact_count": 403
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 1722,
+        "utf8_bytes": 544133,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 1607,
+        "utf8_bytes": 1169991,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 383,
+        "utf8_bytes": 195670,
+        "source_status": "COMPLETE",
+        "product_count": 25,
+        "fact_collections": {
+          "sales": 12,
+          "stock": 60,
+          "returns": 12,
+          "products": 25,
+          "sale_journals": 12,
+          "return_journals": 12
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 346,
+        "utf8_bytes": 3020,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 36,
+        "utf8_bytes": 192626,
+        "source_status": "COMPLETE",
+        "product_count": 25,
+        "fact_collections": {
+          "sales": 12,
+          "stock": 60,
+          "returns": 12,
+          "products": 25,
+          "sale_journals": 12,
+          "return_journals": 12
+        }
+      }
+    ],
+    "experimental_pure_compile": {
+      "diagnostic_only": true,
+      "product_qualification": false,
+      "status": "EXACT_PURE_RESULT_EQUIVALENCE",
+      "comparisons": [
+        {
+          "stage": "COMPOSED_NETTING",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 1610,
+          "experimental_ms": 778,
+          "utf8_bytes": 1169991,
+          "original_sha256": "d5655e42161174284112f7333bce57b5f4838f5ef68ff4d69759d3080a273ac3",
+          "experimental_sha256": "d5655e42161174284112f7333bce57b5f4838f5ef68ff4d69759d3080a273ac3",
+          "restored_original_ms": 1806,
+          "restored_original_sha256": "d5655e42161174284112f7333bce57b5f4838f5ef68ff4d69759d3080a273ac3"
+        },
+        {
+          "stage": "OPERATIONAL_COMPILER",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 1911,
+          "experimental_ms": 892,
+          "utf8_bytes": 544133,
+          "original_sha256": "67d7e8e71501e33a0171f9290b1b5342776ee716bfad0598b04d8b210b518c11",
+          "experimental_sha256": "67d7e8e71501e33a0171f9290b1b5342776ee716bfad0598b04d8b210b518c11",
+          "restored_original_ms": 1940,
+          "restored_original_sha256": "67d7e8e71501e33a0171f9290b1b5342776ee716bfad0598b04d8b210b518c11"
+        },
+        {
+          "stage": "PURE_NATIVE_COMPILER",
+          "status": "BYTE_IDENTICAL",
+          "original_ms": 1934,
+          "experimental_ms": 903,
+          "utf8_bytes": 565760,
+          "original_sha256": "2ad611e27da9d8dc2fb192384a77e6d978dccfbb81cfce7a7e7712d86d54520f",
+          "experimental_sha256": "2ad611e27da9d8dc2fb192384a77e6d978dccfbb81cfce7a7e7712d86d54520f",
+          "restored_original_ms": 1943,
+          "restored_original_sha256": "2ad611e27da9d8dc2fb192384a77e6d978dccfbb81cfce7a7e7712d86d54520f"
+        }
+      ],
+      "definition_restored": true,
+      "Native_HTTP_timeout_changed": false,
+      "original_definition_sha256": "a3ca82e0ce1ae1dff27ad6bfaaf069a670036f6bce27e3bcee6c0fc42e5c5cb3",
+      "experimental_definition_sha256": "232d0f85a92edf723fa84088eed015b65fb1461d9f119b3d0040e2e6d0a5f1eb"
+    },
+    "added_actual_fixture_count": 12,
+    "completed_actual_E01_journeys": 12,
+    "workload": "NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN",
+    "Native_business_unchanged": true,
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  }
+]

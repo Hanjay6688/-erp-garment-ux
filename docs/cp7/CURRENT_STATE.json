@@ -2252,17 +2252,33 @@
       4,
       12
     ],
-    "actual_E01_status": "PREDECLARED_AWAITS_NATIVE_MEASUREMENT",
+    "actual_E01_status": "ACTUAL49_READS_MEASURED_NO_SQL_ERRORS_NATIVE_UNCHANGED",
     "inference": "Pure compilation grows with planner products; actual accumulated physical/financial source load has not yet been measured.",
     "actual_E01_source_commit": "2f504ff994a37cfd2000c0d62eb24231f023e61d",
     "actual_E01_run_id": 36971273331,
-    "pure_compile_experiment": "PREDECLARED_ROLLED_BACK_MATCH_MATRIX_AGGREGATION_AND_MEMOIZATION",
+    "pure_compile_experiment": "ACTUAL_COMPLETE_PURE_JSON_BYTE_EQUIVALENCE_PROVEN_CANDIDATE_PROMOTED_AWAITS_NATIVE284",
     "pure_compile_comparison_checkpoints": [
       4,
       12
     ],
     "pure_compile_result_contract": "COMPLETE_NETTING_OPERATIONAL_FINANCIAL_ANALYSIS_JSON_BYTE_IDENTICAL_OLD_NEW_OLD",
-    "experimental_definition_product_installed": false
+    "experimental_definition_product_installed": true,
+    "actual_E01_receipt": "docs/cp7/evidence/native-read-diagnostic/measured-actual-E01-2f504ff/RECEIPT.json",
+    "actual_E01_measurements": "docs/cp7/evidence/native-read-diagnostic/measured-actual-E01-2f504ff/MEASUREMENTS.json",
+    "actual_E01_measured_reads": 49,
+    "actual_E01_inference": "At12 actual complete production/sale/cash/return journeys plus12 planner fixtures, netting1708ms dominates pure compiler1951ms; complete Source423ms and Native financial383ms. This is a bounded actual measurement, not complete P19 performance acceptance.",
+    "pure_compile_comparison_source_commit": "4c726f33694b7f0c6ec25397b79bcc81fdc8e645",
+    "pure_compile_comparison_source_tree": "926019b84831280848d047880185b7bd779f3940",
+    "pure_compile_comparison_run_id": 36971712046,
+    "pure_compile_comparison_receipt": "docs/cp7/evidence/native-read-diagnostic/compile-equivalence-4c726f3/RECEIPT.json",
+    "pure_compile_comparison_measurements": "docs/cp7/evidence/native-read-diagnostic/compile-equivalence-4c726f3/MEASUREMENTS.json",
+    "exact_complete_JSON_comparisons": 12,
+    "largest_actual_pure_compiler_ms": {
+      "original": 1934,
+      "candidate": 903,
+      "restored_original": 1943
+    },
+    "complete_Native284_qualification": false
   },
   "native_analysis_regression_6d2dbc4": {
     "status": "NATIVE152_WRITER_QUALIFIED",
@@ -2291,5 +2307,23 @@
     "full_family_acceptance": false,
     "independent_acceptance": false,
     "production_go": false
+  },
+  "f05_pure_netting_performance_repair": {
+    "status": "SOURCE_READY_AWAITS_COMPLETE_NATIVE284",
+    "contract": "docs/cp7/f05/NATIVE_PURE_NETTING_REPAIR.md",
+    "source": "scripts/cp7-src/planning/netting.sql",
+    "change": "ONE_PASS_ORIGINAL_ORDER_MATCH_AGGREGATION_LOCAL_IMMUTABLE_PAIR_REUSE_DUPLICATE_KEY_FALLBACK",
+    "actual_equivalence_source": "4c726f33694b7f0c6ec25397b79bcc81fdc8e645",
+    "actual_equivalence_run": 36971712046,
+    "actual_equivalence_receipt": "docs/cp7/evidence/native-read-diagnostic/compile-equivalence-4c726f3/RECEIPT.json",
+    "whole_JSON_comparisons": 12,
+    "expected_complete_case_count": 284,
+    "full_P19_acceptance": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "Native_HTTP_timeout_changed": false,
+    "Native_business_grants_changed": false,
+    "money_stock_HPP_formula_changed": false
   }
 }

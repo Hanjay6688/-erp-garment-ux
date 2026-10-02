@@ -27,4 +27,14 @@ These planner fixtures have no sale, stock, return or journal rows. They demonst
 
 At the4/12 planner and actual-E01 checkpoints, a pure-compiler experiment compares the existing complete results with a bounded candidate that aggregates the match matrix once and reuses each immutable pair result. Original array order is explicit; duplicate pair keys retain the original recomputation behavior rather than overwrite semantics. The index is local and absent from every returned contract. Actual raw SQL source JSON, normalized query, run UUID and access operands are identical for both definitions. All three complete netting/operational/financial-analysis JSON texts must match byte for byte, including semantic hashes. Another read of the restored original brackets timing to expose warm-plan bias. The experimental definition exists only in an isolated rolled-back savepoint; exact prior definition and Native business/saved-result isolation are checked afterward. These comparisons have no Native284/P19 product case credit, and the candidate is not installed into the product by this diagnostic.
 
+Actual physical/financial measurement at2f504ff/run36971273331 completes all49 reads without SQL errors, retaining all install/restore/primary/backup/advisor and Auth0→0 gates. All read checkpoints preserve Native business and saved-analysis counts. Exact Originals are retained in `evidence/native-read-diagnostic/measured-actual-E01-2f504ff/`, with zero product exit-case credit.
+
+| Completed actual E01 journeys, with12 planner fixtures retained | Products | Stock movements | Sales / returns | Complete source, ms | Pure analysis, ms | Netting, ms | Native financial source, ms |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 14 | 5 | 1 / 1 | 192 | 354 | 218 | 177 |
+| 4 | 17 | 20 | 4 / 4 | 274 | 539 | 401 | 221 |
+| 12 | 25 | 60 | 12 / 12 | 423 | 1951 | 1708 | 383 |
+
+This concrete workload identifies pure netting as the dominant measured compiler cost. It supports testing one-pass match aggregation and immutable pair reuse; it does not claim p95, LARGE completeness or complete Native284 success. Financial/current-source rechecks remain mandatory.
+
 The main Native152 regression also passes on6d2dbc4/run36966030893:106 DB/20 races/12 Auth-HTTP/14 browser, all install/restore/primary/backup/advisor and Auth0→0 gates. Its exact Original is retained in `evidence/f05-native-publication/qualified152-6d2dbc4/`. It neither replaces Native284 nor qualifies the diagnostic's emitter as a product case.
