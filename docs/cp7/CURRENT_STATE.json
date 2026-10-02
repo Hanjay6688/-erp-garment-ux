@@ -2147,12 +2147,10 @@
   },
   "f05_native_analysis_latest_regression": {
     "status": "NATIVE_WRITER_QUALIFIED",
-    "source_commit": "6bdddbe2cea7b1a8e284bfc2ce0a84f896f0e0f1",
-    "source_tree": "20adbfd4e10074082091d4733428565db2c055d5",
-    "run_id": 36960176608,
-    "expected_case_count": 152,
-    "observed_case_count": 152,
-    "required_case_counts": null,
+    "source_commit": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
+    "source_tree": "efad5d6b32e7d6c9985a6a13cf327330443e9b74",
+    "run_id": 36972420485,
+    "job_id": 110729002602,
     "counts": {
       "native": {
         "PASS": 106
@@ -2167,6 +2165,7 @@
         "PASS": 14
       }
     },
+    "observed_case_count": 152,
     "package_gate": {
       "installed": true,
       "primary_unchanged": true,
@@ -2176,17 +2175,18 @@
     },
     "auth_users_before": 0,
     "auth_users_after": 0,
-    "receipt": "docs/cp7/evidence/f05-native-publication/qualified152-6bdddbe/RECEIPT.json"
+    "expected_case_count": 152,
+    "receipt": "docs/cp7/evidence/f05-native-publication/qualified152-556c5e0/RECEIPT.json"
   },
   "p18_e01_consumer_bridge": {
     "status": "FOCUSED_NATIVE7_WRITER_QUALIFIED_NOT_FULL_P18",
     "contract": "docs/cp7/P18_E01_CONSUMER_BRIDGE.md",
-    "source_commit": "6d2dbc482f999f86a9588951203279f6ee4c76a4",
-    "source_tree": "9599a973494be68768b6b50b6575a30b08e4dcb7",
-    "run_id": 36966030887,
-    "job_id": 110709857376,
-    "source_bundle_sha256": "19ca4d5868f0a448405cdcc4eec71771d6cc538327293e106a73c7fde4693fdb",
-    "receipt": "docs/cp7/evidence/p18-e01-bridge/qualified7-6d2dbc4/RECEIPT.json",
+    "source_commit": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
+    "source_tree": "efad5d6b32e7d6c9985a6a13cf327330443e9b74",
+    "run_id": 36972420474,
+    "job_id": 110729002668,
+    "source_bundle_sha256": "b1849d8276e6b0eeeed11dbf3c2128c2236624202e0be7d5994cbc1c8a93fc3e",
+    "receipt": "docs/cp7/evidence/p18-e01-bridge/qualified7-556c5e0/RECEIPT.json",
     "counts": {
       "native": {
         "PASS": 3
@@ -2218,7 +2218,30 @@
     "full_P18_acceptance": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "prior_qualified_originals": [
+      {
+        "source_commit": "6d2dbc482f999f86a9588951203279f6ee4c76a4",
+        "source_tree": "9599a973494be68768b6b50b6575a30b08e4dcb7",
+        "run_id": 36966030887,
+        "receipt": "docs/cp7/evidence/p18-e01-bridge/qualified7-6d2dbc4/RECEIPT.json",
+        "counts": {
+          "native": {
+            "PASS": 3
+          },
+          "races": {
+            "PASS": 1
+          },
+          "http": {
+            "PASS": 1
+          },
+          "browser": {
+            "PASS": 2
+          }
+        }
+      }
+    ],
+    "performance_repair_regression": true
   },
   "native_read_stage_diagnostic": {
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED",
@@ -2280,7 +2303,14 @@
     },
     "complete_Native284_qualification": false,
     "next_measurement": "PREDECLARED_EXISTING_7_STAGES_PLUS_3_NATIVE_REMINDER_SOURCE_STAGES",
-    "Native_obligation_measurement_durable_writes": 0
+    "Native_obligation_measurement_durable_writes": 0,
+    "latest_measurement_status": "ACTUAL70_READS_COMPLETE_NATIVE_RESTORED_NO_SQL_ERRORS",
+    "latest_measurement_source": "7fc9fdb652f9d983f82fd5c967327341d176d26d",
+    "latest_measurement_run_id": 36973039083,
+    "latest_measurement_receipt": "docs/cp7/evidence/native-read-diagnostic/measured-obligations-7fc9fdb/RECEIPT.json",
+    "latest_measurement_data": "docs/cp7/evidence/native-read-diagnostic/measured-obligations-7fc9fdb/MEASUREMENTS.json",
+    "latest_measurement_product_qualification": false,
+    "inference_at_actual12": "Complete Source444ms; pure analysis1016ms/netting766ms after repair; Native reminder AR5ms/materialAP32ms/other188ms. Repeated protected complete Source reads remain a measured performance candidate, not permission to remove final fresh financial checks."
   },
   "native_analysis_regression_6d2dbc4": {
     "status": "NATIVE152_WRITER_QUALIFIED",
@@ -2330,8 +2360,10 @@
     "source_commit": "556c5e0ca006b9b8705f6a2aca1d25a52166b979",
     "source_tree": "efad5d6b32e7d6c9985a6a13cf327330443e9b74",
     "complete_Native284_run_id": 36972420528,
-    "complete_Native284_status": "QUEUED_AWAITS_ACTUAL_RESULT",
+    "complete_Native284_status": "IN_PROGRESS_AWAITS_ACTUAL_RESULT",
     "main_Native152_run_id": 36972420485,
-    "focused_Native7_run_id": 36972420474
+    "focused_Native7_run_id": 36972420474,
+    "main_Native152_status": "PASS_152_OF152_ALL_GATES",
+    "focused_Native7_status": "PASS_7_OF7_ALL_GATES"
   }
 }

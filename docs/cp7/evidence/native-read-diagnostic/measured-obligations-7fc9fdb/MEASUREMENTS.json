@@ -1,0 +1,885 @@
+[
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 251,
+        "utf8_bytes": 20931,
+        "source_status": "COMPLETE",
+        "product_count": 1,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 1,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 27,
+        "utf8_bytes": 27471,
+        "source_status": "PARTIAL",
+        "recommendations": 0,
+        "timeline_rows": 0,
+        "fact_count": 5
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 10,
+        "utf8_bytes": 5578,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 8,
+        "utf8_bytes": 12085,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 145,
+        "utf8_bytes": 20931,
+        "source_status": "COMPLETE",
+        "product_count": 1,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 1,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 124,
+        "utf8_bytes": 17562,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 19,
+        "utf8_bytes": 3347,
+        "source_status": "COMPLETE",
+        "product_count": 1,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 1,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_REMINDER_SALES_AR",
+        "status": "MEASURED",
+        "elapsed_ms": 3,
+        "utf8_bytes": 556,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 0,
+        "page_count": 1
+      },
+      {
+        "stage": "NATIVE_REMINDER_MATERIAL_AP",
+        "status": "MEASURED",
+        "elapsed_ms": 6,
+        "utf8_bytes": 348,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 0,
+        "page_count": 0
+      },
+      {
+        "stage": "NATIVE_REMINDER_OTHER_OBLIGATIONS",
+        "status": "MEASURED",
+        "elapsed_ms": 41,
+        "utf8_bytes": 19570,
+        "source_status": null,
+        "document_rows": 7,
+        "condition_rows": 0,
+        "page_count": 0
+      }
+    ],
+    "added_actual_fixture_count": 0,
+    "Native_business_unchanged": true,
+    "workload": "NATIVE_PLANNER_FIXTURES",
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 136,
+        "utf8_bytes": 25962,
+        "source_status": "COMPLETE",
+        "product_count": 2,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 2,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 65,
+        "utf8_bytes": 113289,
+        "source_status": "PARTIAL",
+        "recommendations": 2,
+        "timeline_rows": 21,
+        "fact_count": 12
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 43,
+        "utf8_bytes": 91393,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 32,
+        "utf8_bytes": 67731,
+        "source_status": "SCENARIO"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 146,
+        "utf8_bytes": 25962,
+        "source_status": "COMPLETE",
+        "product_count": 2,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 2,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 129,
+        "utf8_bytes": 17563,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 15,
+        "utf8_bytes": 8377,
+        "source_status": "COMPLETE",
+        "product_count": 2,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 2,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_REMINDER_SALES_AR",
+        "status": "MEASURED",
+        "elapsed_ms": 1,
+        "utf8_bytes": 556,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 0,
+        "page_count": 1
+      },
+      {
+        "stage": "NATIVE_REMINDER_MATERIAL_AP",
+        "status": "MEASURED",
+        "elapsed_ms": 4,
+        "utf8_bytes": 348,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 0,
+        "page_count": 0
+      },
+      {
+        "stage": "NATIVE_REMINDER_OTHER_OBLIGATIONS",
+        "status": "MEASURED",
+        "elapsed_ms": 28,
+        "utf8_bytes": 19570,
+        "source_status": null,
+        "document_rows": 7,
+        "condition_rows": 0,
+        "page_count": 0
+      }
+    ],
+    "added_actual_fixture_count": 1,
+    "Native_business_unchanged": true,
+    "workload": "NATIVE_PLANNER_FIXTURES",
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 137,
+        "utf8_bytes": 36360,
+        "source_status": "COMPLETE",
+        "product_count": 5,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 5,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 104,
+        "utf8_bytes": 237661,
+        "source_status": "PARTIAL",
+        "recommendations": 5,
+        "timeline_rows": 52,
+        "fact_count": 27
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 93,
+        "utf8_bytes": 215764,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 70,
+        "utf8_bytes": 142798,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 138,
+        "utf8_bytes": 36363,
+        "source_status": "COMPLETE",
+        "product_count": 5,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 5,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 120,
+        "utf8_bytes": 17563,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 15,
+        "utf8_bytes": 18777,
+        "source_status": "COMPLETE",
+        "product_count": 5,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 5,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_REMINDER_SALES_AR",
+        "status": "MEASURED",
+        "elapsed_ms": 1,
+        "utf8_bytes": 556,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 0,
+        "page_count": 1
+      },
+      {
+        "stage": "NATIVE_REMINDER_MATERIAL_AP",
+        "status": "MEASURED",
+        "elapsed_ms": 4,
+        "utf8_bytes": 348,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 0,
+        "page_count": 0
+      },
+      {
+        "stage": "NATIVE_REMINDER_OTHER_OBLIGATIONS",
+        "status": "MEASURED",
+        "elapsed_ms": 28,
+        "utf8_bytes": 19570,
+        "source_status": null,
+        "document_rows": 7,
+        "condition_rows": 0,
+        "page_count": 0
+      }
+    ],
+    "experimental_pure_compile": {
+      "diagnostic_only": true,
+      "product_qualification": false,
+      "status": "CANDIDATE_ALREADY_INSTALLED_USE_RETAINED_COMPARISON",
+      "comparisons": [],
+      "definition_restored": true,
+      "Native_HTTP_timeout_changed": false,
+      "comparison_rerun": false,
+      "retained_comparison_source": "4c726f33694b7f0c6ec25397b79bcc81fdc8e645"
+    },
+    "added_actual_fixture_count": 4,
+    "Native_business_unchanged": true,
+    "workload": "NATIVE_PLANNER_FIXTURES",
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 150,
+        "utf8_bytes": 64110,
+        "source_status": "COMPLETE",
+        "product_count": 13,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 13,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 321,
+        "utf8_bytes": 565888,
+        "source_status": "PARTIAL",
+        "recommendations": 13,
+        "timeline_rows": 132,
+        "fact_count": 67
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 299,
+        "utf8_bytes": 543991,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 166,
+        "utf8_bytes": 386823,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 144,
+        "utf8_bytes": 64110,
+        "source_status": "COMPLETE",
+        "product_count": 13,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 13,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 130,
+        "utf8_bytes": 17564,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 19,
+        "utf8_bytes": 46524,
+        "source_status": "COMPLETE",
+        "product_count": 13,
+        "fact_collections": {
+          "sales": 0,
+          "stock": 0,
+          "returns": 0,
+          "products": 13,
+          "sale_journals": 0,
+          "return_journals": 0
+        }
+      },
+      {
+        "stage": "NATIVE_REMINDER_SALES_AR",
+        "status": "MEASURED",
+        "elapsed_ms": 1,
+        "utf8_bytes": 556,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 0,
+        "page_count": 1
+      },
+      {
+        "stage": "NATIVE_REMINDER_MATERIAL_AP",
+        "status": "MEASURED",
+        "elapsed_ms": 4,
+        "utf8_bytes": 348,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 0,
+        "page_count": 0
+      },
+      {
+        "stage": "NATIVE_REMINDER_OTHER_OBLIGATIONS",
+        "status": "MEASURED",
+        "elapsed_ms": 28,
+        "utf8_bytes": 19570,
+        "source_status": null,
+        "document_rows": 7,
+        "condition_rows": 0,
+        "page_count": 0
+      }
+    ],
+    "experimental_pure_compile": {
+      "diagnostic_only": true,
+      "product_qualification": false,
+      "status": "CANDIDATE_ALREADY_INSTALLED_USE_RETAINED_COMPARISON",
+      "comparisons": [],
+      "definition_restored": true,
+      "Native_HTTP_timeout_changed": false,
+      "comparison_rerun": false,
+      "retained_comparison_source": "4c726f33694b7f0c6ec25397b79bcc81fdc8e645"
+    },
+    "added_actual_fixture_count": 12,
+    "Native_business_unchanged": true,
+    "workload": "NATIVE_PLANNER_FIXTURES",
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 210,
+        "utf8_bytes": 61695,
+        "source_status": "COMPLETE",
+        "product_count": 14,
+        "fact_collections": {
+          "sales": 1,
+          "stock": 5,
+          "returns": 1,
+          "products": 14,
+          "sale_journals": 1,
+          "return_journals": 1
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 335,
+        "utf8_bytes": 559227,
+        "source_status": "PARTIAL",
+        "recommendations": 13,
+        "timeline_rows": 130,
+        "fact_count": 95
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 319,
+        "utf8_bytes": 537618,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 181,
+        "utf8_bytes": 409283,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 202,
+        "utf8_bytes": 61695,
+        "source_status": "COMPLETE",
+        "product_count": 14,
+        "fact_collections": {
+          "sales": 1,
+          "stock": 5,
+          "returns": 1,
+          "products": 14,
+          "sale_journals": 1,
+          "return_journals": 1
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 186,
+        "utf8_bytes": 3010,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 26,
+        "utf8_bytes": 58663,
+        "source_status": "COMPLETE",
+        "product_count": 14,
+        "fact_collections": {
+          "sales": 1,
+          "stock": 5,
+          "returns": 1,
+          "products": 14,
+          "sale_journals": 1,
+          "return_journals": 1
+        }
+      },
+      {
+        "stage": "NATIVE_REMINDER_SALES_AR",
+        "status": "MEASURED",
+        "elapsed_ms": 3,
+        "utf8_bytes": 1595,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 1,
+        "page_count": 1
+      },
+      {
+        "stage": "NATIVE_REMINDER_MATERIAL_AP",
+        "status": "MEASURED",
+        "elapsed_ms": 11,
+        "utf8_bytes": 2051,
+        "source_status": null,
+        "document_rows": 1,
+        "condition_rows": 0,
+        "page_count": 0
+      },
+      {
+        "stage": "NATIVE_REMINDER_OTHER_OBLIGATIONS",
+        "status": "MEASURED",
+        "elapsed_ms": 54,
+        "utf8_bytes": 37459,
+        "source_status": null,
+        "document_rows": 14,
+        "condition_rows": 0,
+        "page_count": 0
+      }
+    ],
+    "added_actual_fixture_count": 12,
+    "completed_actual_E01_journeys": 1,
+    "workload": "NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN",
+    "Native_business_unchanged": true,
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 248,
+        "utf8_bytes": 98231,
+        "source_status": "COMPLETE",
+        "product_count": 17,
+        "fact_collections": {
+          "sales": 4,
+          "stock": 20,
+          "returns": 4,
+          "products": 17,
+          "sale_journals": 4,
+          "return_journals": 4
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 423,
+        "utf8_bytes": 561008,
+        "source_status": "PARTIAL",
+        "recommendations": 13,
+        "timeline_rows": 130,
+        "fact_count": 179
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 403,
+        "utf8_bytes": 539395,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 273,
+        "utf8_bytes": 585037,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 263,
+        "utf8_bytes": 98231,
+        "source_status": "COMPLETE",
+        "product_count": 17,
+        "fact_collections": {
+          "sales": 4,
+          "stock": 20,
+          "returns": 4,
+          "products": 17,
+          "sale_journals": 4,
+          "return_journals": 4
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 241,
+        "utf8_bytes": 3012,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 34,
+        "utf8_bytes": 95197,
+        "source_status": "COMPLETE",
+        "product_count": 17,
+        "fact_collections": {
+          "sales": 4,
+          "stock": 20,
+          "returns": 4,
+          "products": 17,
+          "sale_journals": 4,
+          "return_journals": 4
+        }
+      },
+      {
+        "stage": "NATIVE_REMINDER_SALES_AR",
+        "status": "MEASURED",
+        "elapsed_ms": 3,
+        "utf8_bytes": 4724,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 4,
+        "page_count": 1
+      },
+      {
+        "stage": "NATIVE_REMINDER_MATERIAL_AP",
+        "status": "MEASURED",
+        "elapsed_ms": 16,
+        "utf8_bytes": 6866,
+        "source_status": null,
+        "document_rows": 4,
+        "condition_rows": 0,
+        "page_count": 0
+      },
+      {
+        "stage": "NATIVE_REMINDER_OTHER_OBLIGATIONS",
+        "status": "MEASURED",
+        "elapsed_ms": 86,
+        "utf8_bytes": 66973,
+        "source_status": null,
+        "document_rows": 26,
+        "condition_rows": 0,
+        "page_count": 0
+      }
+    ],
+    "experimental_pure_compile": {
+      "diagnostic_only": true,
+      "product_qualification": false,
+      "status": "CANDIDATE_ALREADY_INSTALLED_USE_RETAINED_COMPARISON",
+      "comparisons": [],
+      "definition_restored": true,
+      "Native_HTTP_timeout_changed": false,
+      "comparison_rerun": false,
+      "retained_comparison_source": "4c726f33694b7f0c6ec25397b79bcc81fdc8e645"
+    },
+    "added_actual_fixture_count": 12,
+    "completed_actual_E01_journeys": 4,
+    "workload": "NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN",
+    "Native_business_unchanged": true,
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  },
+  {
+    "diagnostic_only": true,
+    "product_qualification": false,
+    "steps": [
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 444,
+        "utf8_bytes": 195665,
+        "source_status": "COMPLETE",
+        "product_count": 25,
+        "fact_collections": {
+          "sales": 12,
+          "stock": 60,
+          "returns": 12,
+          "products": 25,
+          "sale_journals": 12,
+          "return_journals": 12
+        }
+      },
+      {
+        "stage": "PURE_NATIVE_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 1016,
+        "utf8_bytes": 565760,
+        "source_status": "PARTIAL",
+        "recommendations": 13,
+        "timeline_rows": 130,
+        "fact_count": 403
+      },
+      {
+        "stage": "OPERATIONAL_COMPILER",
+        "status": "MEASURED",
+        "elapsed_ms": 896,
+        "utf8_bytes": 544133,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPOSED_NETTING",
+        "status": "MEASURED",
+        "elapsed_ms": 766,
+        "utf8_bytes": 1169991,
+        "source_status": "PARTIAL"
+      },
+      {
+        "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+        "status": "MEASURED",
+        "elapsed_ms": 430,
+        "utf8_bytes": 195665,
+        "source_status": "COMPLETE",
+        "product_count": 25,
+        "fact_collections": {
+          "sales": 12,
+          "stock": 60,
+          "returns": 12,
+          "products": 25,
+          "sale_journals": 12,
+          "return_journals": 12
+        }
+      },
+      {
+        "stage": "NATIVE_FINANCIAL_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 395,
+        "utf8_bytes": 3020,
+        "source_status": null
+      },
+      {
+        "stage": "OPERATIONS_SOURCE",
+        "status": "MEASURED",
+        "elapsed_ms": 43,
+        "utf8_bytes": 192621,
+        "source_status": "COMPLETE",
+        "product_count": 25,
+        "fact_collections": {
+          "sales": 12,
+          "stock": 60,
+          "returns": 12,
+          "products": 25,
+          "sale_journals": 12,
+          "return_journals": 12
+        }
+      },
+      {
+        "stage": "NATIVE_REMINDER_SALES_AR",
+        "status": "MEASURED",
+        "elapsed_ms": 5,
+        "utf8_bytes": 13070,
+        "source_status": null,
+        "document_rows": 0,
+        "condition_rows": 12,
+        "page_count": 1
+      },
+      {
+        "stage": "NATIVE_REMINDER_MATERIAL_AP",
+        "status": "MEASURED",
+        "elapsed_ms": 32,
+        "utf8_bytes": 19715,
+        "source_status": null,
+        "document_rows": 12,
+        "condition_rows": 0,
+        "page_count": 0
+      },
+      {
+        "stage": "NATIVE_REMINDER_OTHER_OBLIGATIONS",
+        "status": "MEASURED",
+        "elapsed_ms": 188,
+        "utf8_bytes": 145677,
+        "source_status": null,
+        "document_rows": 58,
+        "condition_rows": 0,
+        "page_count": 0
+      }
+    ],
+    "experimental_pure_compile": {
+      "diagnostic_only": true,
+      "product_qualification": false,
+      "status": "CANDIDATE_ALREADY_INSTALLED_USE_RETAINED_COMPARISON",
+      "comparisons": [],
+      "definition_restored": true,
+      "Native_HTTP_timeout_changed": false,
+      "comparison_rerun": false,
+      "retained_comparison_source": "4c726f33694b7f0c6ec25397b79bcc81fdc8e645"
+    },
+    "added_actual_fixture_count": 12,
+    "completed_actual_E01_journeys": 12,
+    "workload": "NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN",
+    "Native_business_unchanged": true,
+    "saved_analyses_added": 0,
+    "no_HTTP_timeout_changed": true
+  }
+]
