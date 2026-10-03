@@ -4046,12 +4046,13 @@
   "transaction_correction_coverage": {
     "all_posted_transactions_editable": false,
     "contract": "docs/cp7/TRANSACTION_CORRECTION_COVERAGE.md",
-    "historical_final_material_price_year_case_qualified": false,
+    "historical_final_material_price_year_case_qualified": true,
     "posted_used_receipt_quantity_roll_correction_complete": false,
     "safe_refusal_is_not_complete_correction_usability": true,
     "wrong_material_identity_reassignment_complete": false,
-    "current_registered_receipt32": "docs/cp7/evidence/receipt-correction/qualified32-e873462/RECEIPT.json",
-    "year_final_price_proof": "RF_INVOICE_PRICE_AFTER_SALE proves final invoice replacement with sale/return costs; RF_YEAR_HISTORY_364 proves year-old quantity and every suffix. A literal year-old already-final invoice case remains required; neither result is relabelled as the other."
+    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12→11,AP12000→11000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
+    "previous_registered_receipt32": "docs/cp7/evidence/receipt-correction/qualified32-e873462/RECEIPT.json",
+    "current_registered_receipt42": "docs/cp7/evidence/claude-merge-20261003/receipt-qualified42/RECEIPT.json"
   },
   "verification_receipt": "docs/cp7/evidence/p02-facade/VERIFICATION.json",
   "version": "cp7.integration-entry.v1",
@@ -6455,7 +6456,7 @@
     "owner_target": {
       "date": "2026-10-05",
       "time": "12:00",
-      "timezone": "Asia/Bangkok (UTC+07 / WIB)",
+      "timezone": "Asia/Jakarta (UTC+07 / WIB)",
       "kind": "IMPLEMENTATION_AND_WRITER_QUALIFICATION_TARGET_NOT_UNATTENDED_EXECUTION_OR_RELEASE_ACCEPTANCE"
     },
     "submenu_tools": {
@@ -6512,11 +6513,24 @@
         "cp6_restored": true,
         "advisor_gate": true
       },
-      "successor_fix": "Exact private helpers, context INSERT/DELETE and immutable link SELECT/INSERT for existing non-superuser postgres driver; no new app or Native ERP writer grants. Browser route failures stay awaited so Auth cleanup runs. Local NOSUPER owner-identifier substitution kernel10 is not Native proof."
+      "successor_fix": "Exact private helpers, context INSERT/DELETE and immutable link SELECT/INSERT for existing non-superuser postgres driver; no new app or Native ERP writer grants. Browser route failures stay awaited so Auth cleanup runs. Local NOSUPER owner-identifier substitution kernel10 is not Native proof.",
+      "successor_source": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+      "successor_run": 37108983675
     },
     "regression_fixes": [
       "Same active submenu keeps current AR invoice selection while manual navigation still retires all pending source resolutions and other pages clear the selection. E01 desktop/mobile actual regression awaits requalification.",
       "Retained full-stack explicit role guard updated to exact manifest32, preserving all original31 roles and the already Native18-qualified readonly source role; unchanged case budgets and restoration/advisor/Auth gates."
-    ]
+    ],
+    "retained_regression_successor_run": 37108983720,
+    "E01_regression_successor_run": 37108983704,
+    "retained_explicit_private_role_count": 32,
+    "companion_manifest_fix": {
+      "first_source": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+      "first_run": 37108983656,
+      "first_original": "docs/cp7/evidence/finisher-regression/first7638/supplier-authority/T3_PACKAGE_INSTALL.json.gz",
+      "status": "EXACT32_REVIEWED_ROLES_ADDED_PENDING_ACTUAL6_OBSERVED_WAIT_REQUALIFICATION",
+      "business_source_changed": false,
+      "expected_native_race_cases": 6
+    }
   }
 }

@@ -1,11 +1,11 @@
-Current continuation: atomic posted miscellaneous correction and actual history/restore are now implemented as a candidate. Native20 qualification remains pending; Source18 a0f1 is green for its declared families. Other transaction kinds retain their own documented capabilities and dependencies.
+Current continuation: Source18 a0f1 is qualified for its declared families. Atomic posted miscellaneous correction/history/prior-value restore is implemented; first Native20 e133 refused at the private driver and aborted browser cleanup. Successor76385615 fixes those boundaries and awaits actual requalification. Full transaction/source coverage remains open.
 
 # Kontrol submenu dan koreksi seluruh transaksi — keputusan owner, 3 Oktober 2026
 
 > 3 October 2026 merge review: Claude’s completed `f4049e4f` handoff is merged into `cp7/integration`. Current source and qualification are controlled by [CLAUDE_MERGE_VERIFICATION_20261003.md](CLAUDE_MERGE_VERIFICATION_20261003.md); the source-specific checkpoints below remain historical. Receipt correction now has a fresh 42/42 Native result at `48fe7c2`; whole CP7 and every-submenu transaction controls remain open.
 
 
-> Finisher3 October2026: Claude merge is complete; no Claude WIP needs waiting. Native inactive-reminder lifecycle16/16 is qualified at ef2461f8. Exact source-navigation candidate9ceb02d8 and the subsequent submenu rollout are tracked in CP7_FINISHER_20261003.md. The historical table below describes the owner mandate and inherited checkpoints; it does not declare full posted-edit/source/submenu coverage. Current owner target is Monday5 October12:00 UTC+07.
+> Finisher3 October2026: Claude merge is complete; no Claude WIP needs waiting. Native inactive-reminder lifecycle16/16 is qualified at ef2461f8. Exact source-navigation Native18 a0f1 and the subsequent submenu rollout are tracked in CP7_FINISHER_20261003.md. The historical table below describes the owner mandate and inherited checkpoints; it does not declare full posted-edit/source/submenu coverage. Current owner target is Monday5 October12:00 UTC+07.
 
 
 Ini bagian wajib CP7. Permintaan owner mencakup seluruh pergerakan stok, pembayaran, penerimaan uang, biaya, dan pergerakan lain; cakupannya tidak terbatas pada koreksi nota yang baru selesai. Seluruh tombol dan jalur di bawah harus mempunyai bukti sebelum dianggap selesai. Hasil stress test backend pada jalur yang sudah ada tidak membuktikan bahwa semua jalur edit telah tersedia.
@@ -35,7 +35,7 @@ Ini bagian wajib CP7. Permintaan owner mencakup seluruh pergerakan stok, pembaya
 | --- | --- | --- |
 | Penjualan/nota | Edit draft, batalkan draft, koreksi posted atomik, pembalikan penjualan; Native40 dan P11 dimiliki | Kepala submenu seragam; tindakan jelas; penghalang pembayaran/retur beserta arah tindak lanjut; uji kembali UI pada sumber baru |
 | Pembayaran/retur pelanggan | Penambahan dan pembalikan Native, current Auth, expected version dan UUID recovery | Jalur edit pembayaran/retur tersendiri jangan dianggap selesai dari adanya tombol pembalikan; telusur, urutan, filter, dan tindakan pada setiap entry |
-| Penerimaan/invoice supplier/nama bahan | Koreksi penerimaan32 yang sudah terintegrasi; draft, pembatalan dan name-only writer dimiliki | Tunggu Claude menyelesaikan bagiannya; compose kontrol dan blocker, jangan menimpa WIP atau menggandakan koreksi final-price miliknya |
+| Penerimaan/invoice supplier/nama bahan | Claude sudah digabung; koreksi penerimaan42 Native-qualified pada merge, termasuk invoice FINAL366 hari dan12 transfer bulanan; draft, pembatalan dan name-only writer dimiliki | Lengkapi kontrol sumber dan submenu; batas pemakaian non-potong tetap mengikuti blocker bernama dan jalur pembatalan Native |
 | Hitung bahan/penyesuaian FG | Draft save/edit/delete, post dan reverse | Kontrol seragam; edit posted melalui jalur pengganti yang dimiliki atau tandai belum tersedia; ketergantungan/saldo kronologis harus terlihat |
 | Transfer bahan, aksesori, kain kantong, konversi | Jalur Native masing-masing dan pengaman ketergantungan | Inventaris per-entry edit/hapus dan seluruh koreksi historis; jangan menganggap reversal sama dengan fitur edit penuh |
 | Potong/bagi/ambil/sewing/laundry/QC/BS/rework | Draft dan writer lifecycle CP5/CP6; beberapa reversal dengan guard pemakaian/claim | Penghalang bernama dan arah halaman; jalur edit setiap sumber serta pembatalan dari ketergantungan akhir; lindungi snapshot pola dan lineage campuran |
@@ -45,6 +45,6 @@ Ini bagian wajib CP7. Permintaan owner mencakup seluruh pergerakan stok, pembaya
 
 ## Uji penerimaan
 
-Nomor, identitas, tanggal asal termasuk mikrodetik, harga/jumlah persis, versi besar, penolakan hak akses saat ini, balasan lama, UUID replay, perintah paralel, batas saldo berjalan, periode tutup, dan laporan sebelum/sesudah wajib dicocokkan pada jalur masing-masing. Sertakan satu tahun riwayat, multi-lot/multi-baris, pemakaian lintas tahap, partial return, pembayaran/kredit yang sudah dipakai, serta kegagalan langkah terakhir. Existing Native40/32 dan delapan paket F03 tetap bukti sumber terdahulu; perubahan UI berikutnya harus mempunyai bukti sumber baru. Seluruh rollout belum selesai.
+Nomor, identitas, tanggal asal termasuk mikrodetik, harga/jumlah persis, versi besar, penolakan hak akses saat ini, balasan lama, UUID replay, perintah paralel, batas saldo berjalan, periode tutup, dan laporan sebelum/sesudah wajib dicocokkan pada jalur masing-masing. Sertakan satu tahun riwayat, multi-lot/multi-baris, pemakaian lintas tahap, partial return, pembayaran/kredit yang sudah dipakai, serta kegagalan langkah terakhir. Existing Native40/42 dan delapan paket F03 tetap bukti sumber terdahulu; perubahan UI berikutnya harus mempunyai bukti sumber baru. Seluruh rollout belum selesai.
 
 CP6 HOLD. audit_complete=false; production_go=false. **VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.**

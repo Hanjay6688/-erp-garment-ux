@@ -1,5 +1,7 @@
 # Transaction correction coverage — owner examples, 2Oct2026
 
+> Current merge/finisher status, 3 October 2026: Claude's final product is merged and the fresh receipt family42/42 is writer-qualified. The exact merge Original proves `RF_YEAR_FINAL_INVOICE_PRICE`: FINAL invoice366 days earlier,12 monthly transfers,12→11 price, AP12000→11000 on the invoice date and every transfer cost restated, with unchanged integrity/restoration. See `evidence/claude-merge-20261003/receipt-qualified42/RECEIPT.json`. The original2Oct scope questions and Claude addendum below remain historical. Used cutting-supported corrections have their declared proof; non-cutting dependencies and arbitrary cross-domain historical edits remain open. Owning note40 is separately qualified. Atomic miscellaneous correction20 awaits successor qualification after the retained e133 failure. Independent/installed/production acceptance remains false.
+
 Owner asks whether other transactions stay safe under changes: a prior-year wrong material price, an erroneous three-roll receipt, and choosing material A when the actual receipt was material B. These are distinct acceptance questions. Refusal to edit an unsafe posted transaction is a successful integrity guard, not proof that the required correction workflow exists.
 
 | Case | Current evidence / behavior | Required before claiming complete correction |
