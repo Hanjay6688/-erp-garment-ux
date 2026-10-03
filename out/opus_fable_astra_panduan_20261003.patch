@@ -1,0 +1,241 @@
+--- a/docs/AUDIT_PANDUAN_PRO_MAX.md
++++ b/docs/AUDIT_PANDUAN_PRO_MAX.md
+@@ -45,6 +45,9 @@
+ 4. **Oracle tidak boleh dilonggarkan dan expected tidak boleh diubah supaya hijau.** Log yang gagal dan fixture yang salah disimpan. Run yang gagal tetap tercatat FAIL.
+ 5. **Hasil lokal bukan bukti.** Beri label `LOCAL_PG16_DEV` atau `LOCAL_QUALIFIED`. Bukti penerimaan hanya dari run CI pada commit yang dipin (lihat tingkat bukti di protokol CP6).
+ 6. **Selama audit tidak ada perbaikan.** Auditor hanya membaca, menjalankan, dan menulis laporan. Perbaikan dikerjakan sesudah penyatuan, oleh satu penulis aktif pada satu waktu.
++7. **Dispatch CI hanya lewat API dengan `ref` = cabang kandidat dan `head_sha` dicatat.** Auditor tidak membuat commit di cabang kandidat, juga tidak untuk "memicu workflow". Workflow milik auditor hidup di cabang audit dan memasang kandidat lewat `ref:` sha yang dipin, bukan lewat salinan berkas.
++8. **Akses baca ke proyek hosted hanya lewat SQL `read only` yang berkasnya tersimpan di repo** dan receipt-nya dicatat (tanggal, proyek, jumlah sesi lain). Siapa yang tidak punya akses baca menulis `TIDAK DAPAT DIVERIFIKASI DARI SESI INI`, bukan menyalin angka orang lain sebagai fakta.
++9. **Rerun job paling banyak satu kali**, dan hanya bila job mati **sebelum satu kasus pun berjalan** (checkout, instalasi, prasyarat pemasangan seperti `PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE`). Gagal kedua = nyata. Rerun dicatat beserta alasannya. Job yang sudah menjalankan kasus tidak pernah di-rerun untuk "mencoba lagi".
+ 
+ ---
+ 
+@@ -57,6 +60,15 @@
+ 5. **Identitas laporan:** commit, tree, tanggal, nama auditor, lingkungan uji (versi PostgreSQL, Node, browser), dan daftar perintah yang dijalankan.
+ 6. **Kosakata hasil** mengikuti protokol CP6: `PASS`, `FAIL`, `INCOMPLETE`, `BLOCKED_BY_TOOLING`. Yang tidak selesai tidak boleh dihitung PASS.
+ 7. **Tingkat bukti** mengikuti protokol CP6: `STATIC_QUALIFIED` < `LOCAL_QUALIFIED` < `NATIVE_QUALIFIED` < `NATIVE_ACCEPTED`. Setiap temuan menyebut tingkat buktinya.
++8. **Identitas produk, bukan hanya commit.** Selain sha commit, auditor mencatat tree hash direktori produk (`src`, `supabase/release`, `supabase/migrations`, `scripts/cp7-src`, `supabase/dev`). Commit dokumen saja tidak membatalkan run; perubahan tree produk selama audit membatalkan semua run yang menyentuh bagian itu dan wajib diulang. Alat dispatch auditor **menolak** bila head cabang bergeser dari yang dipin (`BRANCH_MOVED`) sampai identitas produk diperiksa ulang.
++9. **Label asal-bukti wajib pada setiap klaim** (bukan hanya tingkat bukti): `INDEPENDENT_NATIVE_RERUN` (auditor mendispatch dan membaca per kasus), `INDEPENDENT_SOURCE_REVIEW` (auditor membaca kode), `REUSED_WRITER_EVIDENCE` (run atau receipt penulis), `REUSED_AUDITOR_LOG_READ` (log auditor lain), `OWNER_CONFIRMED_TO_AUDITOR` (owner berkata langsung kepada auditor itu), `UNVERIFIED_OWNER_DECISION` (keputusan owner yang dikutip pihak lain), `SUPERSEDED_BY_OWNER_RULE` (skenario atau oracle yang bertentangan dengan keputusan owner yang lebih baru). **Gerbang §12 hanya boleh ditutup oleh bukti berlabel `INDEPENDENT_*`.** Run penulis boleh dipakai sebagai petunjuk, tidak pernah sebagai penutup.
++10. **Job hijau bukan hasil.** Runner ketat hanya memerahkan job pada `FAIL`/`INCOMPLETE`; `COUNTEREXAMPLE` dan `NO_ROUTE` tetap hijau. Auditor wajib membaca status **per kasus** dari log (baris JSON), dan menulis hitungannya per status. "Workflow hijau" tanpa hitungan per kasus tidak diterima sebagai bukti.
++11. **Setiap kasus menyatakan perannya.** Kasus menyebut peran sesi yang dipakai (owner/admin/gudang/operator) dan memanggil pembaca lewat fasad publik dengan peran itu. `permission denied for schema erp` di dalam kasus auditor adalah cacat alat auditor, dicatat `INCOMPLETE (AUDITOR_TOOL)`, bukan `PASS` dan bukan temuan produk.
++12. **Register keputusan owner dibaca dulu sebelum menulis "terbuka".** Sebelum menulis pertanyaan owner, auditor mencari di register keputusan (`OWNER_DECISIONS_*`, `docs/cp6-d11-kebijakan-dan-gbd03.md`, handoff §"keputusan owner") dan di log auditor lain. Pertanyaan yang sudah dijawab owner dan ditulis ulang sebagai terbuka adalah temuan S3 atas auditornya sendiri.
++
++**Penegasan §2.2/§2.12 (klarifikasi Fable, disampaikan owner 3 Oktober 2026):** "log auditor lain" hanya berarti dokumen yang sudah ada sebelum commit beku ditetapkan. Versi dokumen itu dicatat dengan commit/hash; perubahan dan laporan peserta dari putaran yang sedang berjalan tidak boleh dibaca sebelum seluruh laporan dikunci untuk penyatuan.
++
++**Penegasan §2.9/§12.8 (klarifikasi Fable):** `INDEPENDENT_SOURCE_REVIEW` hanya menutup klaim statis, misalnya pola regex, deklarasi grant, hash, atau isi berkas. Keberhasilan akses, penolakan transaksi, perhitungan, race, browser, dan pemulihan adalah klaim runtime dan wajib run independen pada lapisan yang diklaim. Membaca deklarasi grant tidak membuktikan penegakan izin saat runtime. Tanda tangan/keputusan owner adalah otorisasi, bukan sesuatu yang diganti oleh run auditor.
+ 
+ ---
+ 
+@@ -95,6 +107,7 @@
+ 4. Ikuti rantainya sampai ujung:
+    **dokumen → stok/roll → biaya/HPP → jurnal → utang/piutang/kas → laporan (per tanggal dan per periode) → rekomendasi/reminder → layar.**
+ 5. Tulis setiap jalur sebagai `TERDAMPAK`, `TIDAK TERDAMPAK (alasan dari kode)`, atau `BELUM TERBUKTI`. Pencarian kata saja tidak cukup untuk menyatakan "tidak terdampak".
++6. **Badan yang diuji = badan yang dipasang.** Bila probe memasang berkas dev (`supabase/dev/*.sql`) sedangkan paket rilis memakai berkas lain, auditor membuktikan dengan perbandingan byte bahwa badan dev termuat utuh di berkas rilis (hanya pembungkus guard dan baris deskripsi ledger yang boleh berbeda, dan perbedaannya disebut). Tanpa bukti itu, hasil probe berlabel `BELUM TERBUKTI` untuk paket rilis.
+ 
+ ### 4.3 Untuk SQL
+ 
+@@ -192,6 +205,7 @@
+ - **INV-K04** Setiap penulisan langsung ke tabel Native di luar writer Native terdaftar, alasannya ditulis, dan tercatat di lineage (`docs/cp7/RECEIPT_CORRECTION.md` butir 4 dan dokumen yang setara milik GPT).
+ - **INV-K05** Draft terkait (invoice, retur, pembayaran, potong, transfer) memblokir koreksi dan disebut nomornya.
+ - **INV-K06** Koreksi berulang (R1, R2, …) menghasilkan satu dokumen berlaku dan satu baris efektif di kartu mutasi.
++- **INV-K07** Tabel fakta dan buku (jurnal, mutasi stok, fakta recost, lineage) **append-only**: `UPDATE`/`DELETE` ditolak oleh trigger bahkan untuk peran admin aplikasi. Auditor wajib mencoba merusaknya di dalam savepoint dan mencatat penolakannya (kode, misalnya `MATERIAL_ADJUSTMENT_REVALUATION_FACT_APPEND_ONLY`). Pembalikan selalu baris baru.
+ 
+ ### 5.C Konkurensi dan idempoten
+ 
+@@ -200,6 +214,7 @@
+ - **INV-C03** Dua sesi bersamaan menghasilkan urutan yang sah, atau salah satunya ditolak. Tidak ada efek setengah jadi.
+ - **INV-C04** Kegagalan di langkah terakhir membatalkan semua efek (atomik).
+ - **INV-C05** Balasan yang hilang bisa di-reconcile memakai UUID yang sama. Writer tetap terkunci sampai statusnya pasti.
++- **INV-C06** Setiap command meninggalkan database bersih: tidak ada advisory lock tersisa, tidak ada sesi tambahan, skema `public` tidak berubah, dan batas transaksi dipulihkan penuh. Runner ketat memeriksa ini sesudah **setiap** kasus (`full_boundary_restored`, `session_leaks`), dan kasus yang melanggar ditandai `FAIL` walau oraclenya lolos.
+ 
+ ### 5.A Akses dan keamanan
+ 
+@@ -221,17 +236,30 @@
+ - **INV-POL01** Nilai kebijakan adalah pengaturan di aplikasi dengan nilai awal `PENDING_POLICY_VALUE`. **Tidak ada angka karangan.**
+ - **INV-POL02** Kebijakan yang masih pending membuat fitur yang bergantung padanya berstatus belum siap, bukan memakai nilai default diam-diam.
+ - **INV-POL03** Satu aturan bisnis, satu sumber. Dua implementasi berbeda untuk hal yang sama adalah temuan.
++- **INV-POL04** Skenario uji yang oraclenya bertentangan dengan keputusan owner yang lebih baru adalah skenario **basi**, bukan bug produk. Ia ditandai `SUPERSEDED_BY_OWNER_RULE`, dipindah ke historis, dan ditulis ulang pada tingkat yang benar. **Produk tidak pernah diubah supaya skenario lama lulus.** Contoh nyata: paket uji BF yang memasang tarif laundry pada SKU, ditolak produk sesuai D13 (tarif dari vendor).
++- **INV-POL05** Hasil `COUNTEREXAMPLE` yang diterima owner lewat keputusan tertulis (contoh: sen per PO, T3 = A) tetap dicatat `COUNTEREXAMPLE` dengan rujukan keputusannya. Tidak direlabel `PASS`, tidak dihapus dari matriks, dan laporan menampilkan aturannya kepada pembaca keuangan.
+ 
+ ### 5.M Saldo awal, impor, dan cutover
+ 
+ - **INV-M01** Saldo awal (stok, WIP, utang, piutang, uang muka, upah) sama persis dengan dokumen sumber cutover, per baris.
+ - **INV-M02** Impor bersifat idempoten dan menolak baris yang tidak valid dengan alasan. Tidak ada baris yang hilang diam-diam.
+ - **INV-M03** Sesudah cutover, semua cek integritas bernilai nol pelanggaran.
++- **INV-M04** Paket rilis diuji **dari baseline hosted yang sebenarnya**, bukan baseline yang diasumsikan. Preflight baca-saja mencatat versi ledger hosted dan objek yang ada; pemasang membawa semua pendahulu yang hilang (contoh nyata: hosted masih v2.6.20 sehingga 30 berkas CP6 membutuhkan 28 pendahulu A–AB, total 58). Hash setiap berkas pendahulu diverifikasi auditor terhadap berkas asli di repo.
++- **INV-M05** Pemasang menolak sebelum mengubah admission bila: baseline berbeda, katalog G-01 bergeser, berkas sudah terpasang, endpoint salah, bukan pemilik database, atau ada maintenance lain. Semua penolakan ini punya kasus uji masing-masing, dan pemasang **tidak pernah mematikan sesi orang lain**.
+ 
+ ### 5.N Reminder dan notifikasi
+ 
+ - **INV-N01** Reminder dihitung dari fakta yang berlaku. Dokumen yang dibalik atau dibatalkan tidak memunculkan alert palsu, dan episodenya selesai dengan jelas.
+ - **INV-N02** ACK atau snooze tidak mengubah fakta bisnis.
++
++### 5.D Detektor, alarm, dan cek integritas
++
++- **INV-D01** Setiap detektor punya **kontrol positif dan negatif** di run auditor: diam pada buku yang benar (0 baris), dan **naik tepat +1** ketika auditor merusak satu angka di dalam savepoint, lalu kembali 0 sesudah rollback. Detektor yang tidak bisa dibuat berbunyi berlabel `TIDAK TERUJI`, bukan `PASS`.
++- **INV-D02** Detektor yang berbunyi pada buku yang benar adalah **cacat detektor** (S1), bukan alasan membuang alarm: ia disetel ulang ke tingkat yang benar (per dokumen, per fakta), dan kontrol negatifnya dibuktikan lagi sesudah disetel. Mematikan alarm memerlukan keputusan owner tertulis.
++- **INV-D03** Detektor membaca tabel yang **memang ditulis mesin yang berlaku**. Detektor lama yang membaca tabel yang tidak lagi ditulis mesin baru (contoh nyata: `material_cost_revaluation_state` vs fakta v2.6.20t) adalah temuan.
++- **INV-D04** Nol pelanggaran dicatat **sebelum dan sesudah** setiap skenario §7, bukan hanya di akhir run.
++
++**Batas kesimpulan detektor (klarifikasi Fable):** kontrol negatif §5.D membuktikan kepekaan terhadap kerusakan dan jalur yang benar-benar diuji; aturan tersebut tidak menjanjikan semua kesalahan pasti tertangkap. Oracle independen dan rekonsiliasi §13 tetap wajib. Penolakan perusakan tabel append-only membuktikan pencegahan INV-K07, bukan kepekaan detektor INV-D01.
+ 
+ ---
+ 
+@@ -254,6 +282,13 @@
+ | POLA-13 | Fakta basi di layar sesudah 403 atau balasan hilang | Panel pembetulan (diperbaiki) |
+ | POLA-14 | Batasan unik menyertakan atau melupakan dokumen yang dibalik (nomor dipakai ulang) | Nomor invoice unik per supplier termasuk yang dibalik |
+ | POLA-15 | Kinerja kuadratik pada riwayat panjang, sehingga time-out membuat proses setengah jalan atau dilewati | 364 transfer pada satu roll |
++| POLA-16 | Alat auditor sendiri salah, lalu hasilnya terbaca sebagai hasil produk (bentuk skenario, peran sesi, kolom salah nama, re-pin sha mengganti semua sha 40-hex termasuk action pihak ketiga) | r12 rev1–rev4, C0 `permission denied`, BC pin rev1 (`supabase/setup-cli@<sha-salah>`) |
++| POLA-17 | Skenario basi: oracle mengikuti aturan lama yang sudah dicabut owner, lalu "gagal" dibaca sebagai bug | `cp6_bf_free_modes.py` memasang tarif laundry di SKU setelah D13 |
++| POLA-18 | Hasil mengekor: auditor menerima klaim karena auditor lain atau penulis sudah hijau, tanpa menjalankan sendiri | penerimaan 29 Sep yang bersandar pada run penulis untuk D07/D09/F3 |
++| POLA-19 | Baseline diasumsikan: paket diuji dari AB padahal hosted masih v2.6.20 | 30 vs 58 berkas |
++| POLA-20 | Prasyarat pemasangan berpacu dengan sesi sisa (database belum terkuras), job jatuh sebelum kasus apa pun | BE pin rev1 `before` |
++| POLA-21 | Fixture memakai jam dinding ("hari ini jam 10") sehingga hasil tergantung jam run; fixture harus relatif ke `clock_timestamp()` | Run 37048755577 |
++| POLA-22 | Pertanyaan ke owner yang sebenarnya sudah dijawab, atau pertanyaan tanpa rekomendasi default; owner dipaksa menjelaskan ulang | register D11/GBD-03/UI-01, 1 Okt |
+ 
+ ---
+ 
+@@ -279,6 +314,21 @@
+ - **SKN-16** Data cutover nyata (saldo awal) diproses sampai satu periode penuh.
+ - **SKN-17** Rekomendasi dengan data tidak lengkap: harga belum final, yield belum terkualifikasi, deadline tidak diketahui, pasokan mundur.
+ - **SKN-18** Laporan dibaca berulang-ulang dan dari dua sesi: hasilnya identik, dan tidak ada efek samping.
++- **SKN-19** **Perusakan terkendali:** satu angka di tabel state/fakta/jurnal diubah di dalam savepoint; semua detektor terkait harus naik; rollback mengembalikan nol. Bila tabelnya append-only, penolakannya dicatat sebagai bukti INV-K07.
++- **SKN-20** **Regrouping tanpa jejak fisik:** mengubah pengelompokan komersial (SKU/range/kategori) tidak menulis mutasi stok, lot, produk, jurnal, dan tidak mengubah buku; riwayat "siapa pada jam berapa" kontinu tanpa celah (`effective_to` = `effective_from` berikutnya) dan dapat dibaca untuk waktu lampau.
++- **SKN-21** **Pemasangan dari hosted nyata:** salinan sekali pakai pada versi ledger hosted yang sebenarnya, dipasang penuh dengan akun non-superuser seperti hosted, lalu dicopot (rollback) tanpa sisa; semua penolakan pra-admission INV-M05 dicoba satu per satu.
++- **SKN-22** **Lintas checkpoint CP1–7:** saldo awal cutover (CP6 AC..) → pembelian dan potong (CP3–5) → aksesori/laundry/konversi (BC..BF) → penjualan, retur, pembayaran (CP7 P11–P13) → laporan BR dan reminder → koreksi R1 di awal rantai → semua cek integritas nol, laporan per tanggal direproduksi, rekomendasi berubah hanya bila faktanya berubah.
++- **SKN-23** **Regresi baseline:** seluruh paket regresi CP3–5 (326 + AS 34 + AR 174 + AT 16 + AU 15 kasus dan balapannya) dijalankan pada kandidat akhir; setiap kasus yang berubah status wajib punya disposisi tertulis (`EXPECTED_CHANGE` dengan kasus pengganti penulis, atau temuan).
++
++- **SKN-24** **Sambungan antarmesin:** sumber yang ditolak matcher karena warna/SKU/range tidak cocok tidak boleh menjadi alokasi sah hanya dengan mengganti label menjadi `CANDIDATE_MATCH`. Uji pasangan cocok sebagai kontrol, lalu telusuri keluaran matcher → allocator → rencana → command publik; kelulusan kernel privat hanya menutup kernel itu.
++- **SKN-25** **Gratis sah, bukan nol sembarang:** bentuk konfigurasi FREE/WAIVED yang sah menurut keputusan owner dan jalankan sampai laporan; bandingkan dengan tarif nol tanpa izin, tarif belum diketahui, serta tarif normal. Penolakan nol saja tidak membuktikan jalur gratis bekerja; konfigurasi tidak terbentuk = `INCOMPLETE`, bukan otomatis bug produk.
++- **SKN-26** **Batas angka dan daftar:** uji tepat di bawah, pada, dan di atas batas tipe/skala nominal serta batas halaman yang sebenarnya. Sertakan sekitar Rp21.474.836,48 bila jalur memakai sen 32-bit, dokumen satu dan banyak baris, diskon nol, serta sumber lama setelah batas 50/200 bila batas tersebut masih dipakai. Pencarian, pilihan, total, dan ekspor harus sesuai cakupan kontraknya; halaman pertama tidak mewakili seluruh data.
++
++  **Batas yang tidak berlaku:** contoh sen 32-bit boleh ditandai `N/A` untuk jalur tertentu hanya dengan bukti pada kandidat beku: tipe/skala kolom dan parameter, ekspresi perhitungan serta cast antara, helper/RPC terkait, dan konversi di klien. Kolom akhir `numeric` saja belum membuktikan perkalian atau cast sebelumnya bebas batas 32-bit. Cantumkan lokasi kode/objek dan rentang nominal yang sah menurut kontrak; tetap uji batas yang benar-benar berlaku. `N/A` pada contoh 32-bit tidak membatalkan seluruh SKN-26, tidak dihitung runtime PASS, dan tidak dipakai bila jalurnya belum ditelusuri.
++
++- **SKN-27** **Koreksi yang benar-benar selesai:** untuk setiap jenis transaksi dalam inventaris, jalankan jalur buat → edit draft → post → koreksi/pembalikan sah → baca ulang seluruh dampak. Uji juga larangan hapus/edit dokumen posted. Penolakan yang aman tidak menggantikan bukti jalur koreksi sah yang bisa dipakai pengguna; jika tidak tersedia, catat fungsi belum lengkap.
++- **SKN-28** **Batas identitas dan waktu:** ganti anggota SKU/range sebelum, tepat pada, dan sesudah komitmen transaksi, termasuk sisi asal/hasil konversi dan dokumen REVERSED. Cocokkan identitas historis, PCS, biaya, jurnal, laporan per tanggal, serta snapshot rekomendasi terhadap aturan owner; membuktikan PCS tetap tidak cukup untuk menyatakan HPP/label tetap.
++- **SKN-29** **Keluaran yang benar-benar dipakai:** cocokkan angka dan izin antara RPC, layar, file laporan yang diunduh, serta proyeksi Tanya AI. Dengan peran operasional, coba filter/ID sumber yang tidak berhak, cache setelah pencabutan izin, dan instruksi yang disisipkan dalam catatan sumber. Periksa kebocoran pada isi respons, alasan, total, file, dan prompt; UI yang menyembunyikan angka saja tidak cukup. Reminder diuji sampai perubahan episode/ACK/snooze; arsip bukan bukti utang lunas. Pengiriman WA memakai transport uji tanpa penerima nyata dan tidak diklaim sebagai bukti pengiriman live.
+ 
+ ---
+ 
+@@ -292,6 +342,8 @@
+ | **S3 – Dokumen atau bukti** | Klaim dokumen tidak sesuai bukti; bukti basi | Jumlah kasus di dokumen tidak sesuai manifest |
+ 
+ Kalau ragu, pilih yang lebih tinggi. **Semua S0 dan S1 harus selesai** sebelum gerbang §12.
++
++Hasil non-PASS yang **bukan** cacat produk tetap ditulis, dengan klasifikasi eksplisit: `AUDITOR_TOOL` (POLA-16), `SUPERSEDED_BY_OWNER_RULE` (POLA-17), `ACCEPTED_BY_DECISION` (INV-POL05), `INFRA_RACE_RERUN_PASSED` (POLA-20, satu rerun), `GUARD_BY_DESIGN` (penjaga skenario yang memang harus merah). Tanpa klasifikasi, hasil merah dihitung sebagai temuan.
+ 
+ ---
+ 
+@@ -322,6 +374,18 @@
+ ## Yang belum saya periksa (wajib)
+ Daftar berkas/modul/skenario yang tidak sempat atau tidak bisa diperiksa, beserta alasannya.
+ 
++## Hasil merah yang bukan temuan (wajib)
++Setiap FAIL/INCOMPLETE/COUNTEREXAMPLE yang tidak dihitung temuan: run, kasus, klasifikasi §8, alasan satu kalimat.
++
++## Label asal-bukti per klaim (wajib)
++Tabel klaim → label §2.9 → run/commit. Klaim tanpa label dianggap REUSED_WRITER_EVIDENCE.
++
++## Pertanyaan untuk owner, masing-masing dengan rekomendasi auditor (wajib)
++Tidak ada pertanyaan tanpa jawaban yang disarankan dan alasannya; owner cukup menjawab "ya" atau mengoreksi. Pertanyaan yang jawabannya sudah ada di register keputusan tidak boleh muncul di sini.
++
++## Ringkasan untuk owner (bahasa sehari-hari, ≤ 10 kalimat)
++Apa yang lolos, apa yang tidak, apa yang belum diperiksa siapa pun, dan apa yang harus owner putuskan.
++
+ ## Fokus tambahan yang menurut saya paling berisiko
+ ```
+ 
+@@ -336,6 +400,9 @@
+ 5. **Gabungkan daftar "belum diperiksa"** dari ketiga auditor. Bagian yang tidak diperiksa oleh **siapa pun** ditugaskan ke putaran kedua.
+ 6. **Hasilnya satu register temuan** (ID baru `REG-001…` dengan rujukan ID asal), dan rencana perbaikan berurutan: S0 → S1 → S2 → S3, dikelompokkan per keluarga akar masalah (`cp6-efficient-audit-rule.md`).
+ 7. **Tidak ada temuan yang dibuang diam-diam.** Temuan yang ditolak ditulis alasannya beserta buktinya.
++8. **Konvergensi bukan bukti.** Dua auditor yang sama-sama hijau tidak menutup apa pun bila keduanya mengekor run penulis (POLA-18). Penyatu menjalankan ulang secara native setiap klaim penutup yang hanya berlabel `REUSED_*` sebelum menulis `REG-… CLOSED`.
++9. **Daftar "merah yang bukan temuan"** dari semua auditor disatukan dan diperiksa silang: klasifikasi yang berbeda untuk kasus yang sama diputuskan dengan reproduksi.
++10. **Register keputusan owner dimutakhirkan dalam penyatuan yang sama**: setiap keputusan baru owner dicatat verbatim (tanggal, saluran, siapa yang mendengar), skenario yang kedaluwarsa karenanya ditandai, dan daftar "terbuka untuk owner" dibersihkan dari yang sudah dijawab.
+ 
+ ---
+ 
+@@ -361,6 +428,10 @@
+ 5. Backup dan restore diuji. Rollback ke versi sebelumnya diuji tanpa sisa.
+ 6. Pengawasan sesudah live sudah siap (§13).
+ 7. Tanda tangan owner.
++8. **Semua klaim penutup berlabel `INDEPENDENT_NATIVE_RERUN` atau `INDEPENDENT_SOURCE_REVIEW`** dari minimal satu auditor yang bukan penulisnya, dengan hitungan per kasus tercatat. Tidak ada gerbang yang ditutup oleh `REUSED_WRITER_EVIDENCE`.
++9. **Setiap detektor punya bukti kontrol negatif** (INV-D01) pada kandidat akhir.
++10. **Pemasangan penuh dari salinan baseline hosted nyata** (SKN-21) lulus dengan akun non-superuser, dan preflight hosted baca-saja terbaru berumur < 7 hari pada saat jendela maintenance.
++11. **Daftar "belum diperiksa siapa pun"** (§10 butir 5) kosong, atau setiap sisanya diterima owner secara tertulis dengan nama bagiannya.
+ 
+ ---
+ 
+@@ -408,6 +479,72 @@
+ | Tanggal | Penyunting | Bagian | Ringkasan |
+ |---|---|---|---|
+ | 2026-10-03 | Claude | Semua | Versi awal: aturan main, peta, metode, katalog invarian INV-*, pola POLA-01..15, skenario SKN-01..18, keparahan, format laporan, penyatuan, perbaikan, gerbang, pengawasan. |
++| 2026-10-03 | Fable (auditor independen) | §1.7–1.9, §2.8–2.12, §4.2.6, §5.D (INV-D01–D04), INV-K07, INV-C06, INV-POL04–05, INV-M04–05, POLA-16..22, SKN-19..23, §8 klasifikasi non-temuan, §9 empat bagian wajib baru, §10.8–10.10, §12.8–12.11 | Hanya menambah dan mempertajam; tidak ada aturan yang dilonggarkan atau dihapus. Semua tambahan berasal dari kejadian nyata audit CP6 putaran 1–15 (alat auditor cacat, skenario basi vs D13, penerimaan yang mengekor run penulis, baseline hosted v2.6.20 vs 58 berkas, balapan prasyarat pemasangan, kontrol negatif D07, register keputusan owner yang terlewat). Ditulis di cabang audit `audit/cp6-final-20260924-gpt-a0bcadf`; auditor tidak menulis ke cabang penulis. |
++| 2026-10-03 | Astra (peserta/auditor independen) | Penegasan §2.2/2.9/2.12/12.8 dan §5.D; SKN-24..29; §16 | Memasukkan tiga klarifikasi Fable yang disampaikan owner; menambah identitas lingkungan/bukti, manifest kasus, pemisahan oracle dan eksekusi, pembuktian race/balasan hilang, disiplin koreksi alat, batas hosted, inventaris fungsi CP1–7, dan tata penilaian lomba. Semua baris versi Fable dipertahankan; tambahan ini bukan hasil uji produk atau perubahan keputusan bisnis. Berlaku sama untuk semua peserta setelah panduan putaran disahkan/dibekukan. |
++| 2026-10-03 | Astra (tindak lanjut review Fable melalui owner) | Penegasan SKN-26 dan §16.7 | Menambahkan konvensi nama workflow/run/artifact serta register run per peserta, batas bukti disiplin tanpa akses privat, dan syarat N/A batas 32-bit yang memeriksa perhitungan antara selain tipe kolom. Usulan dokumentasi; seluruh baris PR42 versi 1aad7509 dipertahankan. |
++
++---
++
++## 16. Penguatan Astra: bukti yang bisa diperiksa dan lomba yang adil
++
++Bagian ini memperjelas pelaksanaan aturan di atas, mengikuti urutan otoritas §0.1. Tidak memberi izin hosted, tidak mengubah kontrak bisnis, dan tidak mengizinkan peserta menurunkan syarat agar lulus.
++
++### 16.1 Bekukan paket audit, bukan nama cabangnya saja
++
++- Manifest putaran mencatat `round_id`, waktu pembekuan, commit/tree produk, versi aturan, register keputusan owner, lingkup CP1–7, inventaris kasus wajib, lingkungan, serta peserta/penyatu. Log lama yang boleh dibaca adalah versi sebelum pembekuan (§2.2), bukan isi terbaru di cabang bergerak.
++- Catat terpisah `candidate_sha`, `workflow_sha`, `harness_sha`, hash fixture/oracle, paket pemasang dan pendahulunya, lockfile, versi dependency/container, serta konfigurasi yang memengaruhi hasil (tanpa rahasia). Direktori §2.8 adalah daftar awal; pemasang, workflow, konfigurasi build, dan dependency yang memengaruhi perilaku juga masuk identitas bukti.
++- Penegasan §1.7: dispatch workflow kandidat memakai ref kandidat; dispatch workflow auditor memakai ref cabang audit miliknya dan memasang produk pada `candidate_sha` yang tepat. Keduanya mencatat SHA hasil resolusi; tidak ada commit pemicu di cabang writer. Cocokkan SHA sebelum dispatch dan identitas yang benar-benar terpasang di runner.
++- Perubahan produk atau aturan di tengah putaran tidak diam-diam mengganti baseline. Catat perubahan, bekukan kandidat/aturan berikutnya bersama owner, dan kualifikasi ulang bagian terdampak sesuai §4.2/§11; bukti lama tetap bertanggal dan terikat kandidat lama. Penulisan panduan ini belum memulai atau membekukan putaran.
++
++### 16.2 Bukti per kasus dan oracle yang mandiri
++
++- Manifest kasus dibuat sebelum eksekusi: ID stabil, kebutuhan/invarian, lapisan yang diuji, peran, prasyarat, expected, sumber oracle, dan batas klaim. Ledger hasil memuat run/attempt, ID, input/fixture hash, observed, status asli, status protokol, alasan pemetaan, dan tautan bukti. Penambahan kasus saat eksplorasi dicatat beserta alasannya; kasus gagal tidak dihapus.
++- Bandingkan **himpunan ID dan jumlah kemunculan**, bukan total PASS saja: setiap kasus wajib punya tepat satu hasil kanonik; riwayat attempt tersimpan terpisah. ID hilang, duplikat tak dijelaskan, status tidak dikenal, skip, cancel, timeout, dan log terpotong tidak dihitung PASS. Tetap kumpulkan kelompok uji lain yang aman sesudah satu kelompok gagal (protokol CP6).
++- `COUNTEREXAMPLE`, `NO_ROUTE`, dan hasil mentah lain tetap disimpan; normalisasi mengikuti protokol CP6 dan disposisi kontrak, tidak mengikuti warna job. Laporan menjumlahkan kasus unik, attempt, reused, dan runtime independen secara terpisah agar satu bukti tidak dihitung berkali-kali.
++- Tambahkan `oracle_origin` dan `fixture_origin` selain label asal-bukti §2.9. Menjalankan tes writer sendiri membuktikan eksekusi independen, **belum** membuktikan rancangan tes/oracle independen. Setiap keluarga risiko uang, stok, HPP, akses, dan laporan mendapat kasus kontrak yang dirancang auditor sendiri; angka expected tidak dihitung oleh helper yang sedang diuji.
++- Simpan expected per dimensi, bukan hanya total seimbang: pihak, SKU/ukuran/lot, akun, tanggal, sumber biaya, dan baris lineage. Total nol/imbang masih bisa menyembunyikan alokasi ke pihak atau ukuran yang salah. Uji perubahan urutan baris/pembagian batch hanya jika kontrak menyatakan hasil semestinya setara.
++
++### 16.3 Penolakan, fixture, dan koreksi alat
++
++- Kasus penolakan harus membuktikan prasyarat sah, kontrol positif, kode/alasan penolakan yang dimaksud, dan tidak ada efek tersisa. Menangkap sembarang exception bukan PASS. Penegasan §2.11: akses langsung fixture ke skema privat yang tidak berhak adalah cacat alat; fasad publik sah yang gagal di dalamnya dengan `permission denied` harus diselidiki sebagai kemungkinan cacat produk.
++- Pisahkan snapshot sebelum command, efek sesudah command, dan keadaan sesudah cleanup. Keberhasilan bisnis dibuktikan **sebelum** rollback/disposal; "sesudah rollback semua nol" hanya bukti pemulihan. Uji atomisitas menggagalkan langkah yang dituju setelah langkah sebelumnya benar-benar tercapai.
++- Batas satu rerun §1.9 tetap berlaku. Koreksi alat yang terbukti salah, reproduksi sengketa §10.3, dan uji kandidat perbaikan §11.1 adalah kualifikasi baru yang wajib mencatat alasan, diff alat/produk, versi oracle, serta hubungan ke run lama. Ini tidak mengizinkan mengganti nama kasus, UUID, seed, timeout, atau expected untuk menyembunyikan kegagalan; gagal/INCOMPLETE lama tetap tersimpan. Rerun identik sesudah kasus berjalan untuk mencari hijau dilarang.
++- Kegagalan kedua sebelum kasus berjalan menutup kelayakan run, tetapi bukan dengan sendirinya bukti bug produk. Klasifikasi infra/alat/skenario basi memerlukan bukti penyebab; bila penyebab belum diketahui, tulis INCOMPLETE, bukan menuduh produk atau menganggap aman.
++
++### 16.4 Race, balasan hilang, dan detektor harus benar-benar terpancing
++
++- Dua proses yang diluncurkan bersamaan belum membuktikan race. Catat barrier, PID/sesi, titik tunggu atau lock yang diamati, urutan commit/release, dan hasil yang sah menurut kontrak. Untuk pencabutan izin, buktikan pencabutan sudah commit sebelum command melanjutkan titik validasi yang hendak diuji.
++- Kasus balasan hilang membuktikan command asli sudah commit, respons sungguh terputus pada transport uji, lalu reconcile/replay memakai UUID yang sama. Cocokkan jumlah efek bisnis dan keadaan UI sesudah pemulihan. Mock sukses atau sekadar menampilkan pesan "jaringan gagal" tidak membuktikan alur tersebut.
++- Untuk INV-D01, sebut ID detektor dan unit pelanggaran yang diharapkan naik tepat +1, lalu simpan **seluruh** keluaran detektor terkait sebelum/selama/sesudah injeksi. Jangan menyembunyikan alarm tambahan agar hitungan tampak cocok; cakupan dan hasil detektor lain dijelaskan.
++- Bila append-only mencegah fixture rusak, catat bukti pencegahan. Uji sensitivitas detektor dilakukan terpisah pada salinan disposable dengan injeksi kesalahan yang didokumentasikan, lalu dibuang/dipulihkan. Catat hash/grant/trigger yang berbeda; lingkungan yang pengamannya dilemahkan tidak boleh dipakai untuk menerima keamanan kandidat asli. Tanpa injeksi yang sah dan terukur, sensitivitasnya tetap TIDAK TERUJI.
++
++### 16.5 Cakupan penuh berarti kebutuhan sampai bisa dipakai
++
++- Inventaris dibentuk dari kontrak/keputusan owner **dan** rute UI, fasad publik, writer, pembaca, serta tabel yang benar-benar terpasang. CP1/CP2 dicatat eksplisit juga, tidak dianggap tercakup hanya karena regresi CP3–5 lolos. Petakan setiap kebutuhan ke jalur positif, penolakan, koreksi, pembacaan hilir, dan bukti; N/A wajib alasan spesifik.
++- Setiap fitur edit/delete/koreksi mengikuti kontrak status dan izin yang berlaku, bukan aturan baru auditor. Buktikan jalur sah selesai, alasan blocker menyebut sumbernya, pengguna bisa menuju penyelesaian yang tersedia, dan setelahnya stok/HPP/jurnal/laporan konsisten. Guard yang aman dengan semua jalur sah masih macet tidak dihitung "fitur selesai".
++- FREE/WAIVED, UNKNOWN, policy pending, kehabisan data, dan model fallback diuji sebagai keadaan berbeda. UNKNOWN/fallback yang aman tidak menutup kebutuhan happy path dengan data sah; model juga harus punya bukti positive promotion pada data uji independen tanpa kebocoran holdout.
++- Baca UI terhubung dan keluaran hilir sesuai klaim, termasuk laporan unduhan, rekomendasi SKU/prioritas, reminder produksi/aksesori/utang/piutang, serta batas koneksi WA. Tidak mengirim pesan nyata (§1.3); fungsi yang baru dibuktikan dengan transport uji ditulis demikian.
++- Catat `feature_complete`, `audit_complete`, dan `production_go` terpisah dengan denominator/scope jika memakai persen. Ambiguitas keputusan atau fungsi belum terhubung tidak disamarkan dengan "100% tes lulus". Status CP6/CP7 mengacu keputusan owner terbaru; kalimat status lama dalam panduan tidak otomatis membuka kembali atau menutup checkpoint.
++
++### 16.6 Rilis, pemulihan, dan penjagaan bukti
++
++- §1.2 melarang SQL hosted, sedangkan §1.8 menjelaskan tata cara baca bila diizinkan. **§1.8 bukan izin baru atau pengecualian otomatis:** tanpa instruksi owner yang secara eksplisit menyelesaikan konflik ini, auditor tetap tidak menjalankan SQL hosted. Preflight dari operator yang berwenang diberi label asalnya; menyalin receipt bukan bukti auditor membacanya sendiri. Syarat baseline §12.10 tetap belum terpenuhi jika bukti yang diwajibkan belum tersedia.
++- Pemasangan pada baseline disposable mencatat seluruh berkas/objek yang terpasang, bukan angka total berkas saja; perbedaan dev/release, grant, trigger, konfigurasi dan pendahulu dijelaskan. Pemasangan bersih saja tidak menggantikan uji upgrade dari baseline relevan.
++- Backup/restore, rollback pemasangan, dan pembalikan transaksi adalah tiga klaim berbeda. Uji masing-masing sesuai kontrak, termasuk kondisi sudah ada transaksi setelah upgrade dan penolakan rollback yang tidak aman. Setelah pemulihan, cocokkan isi/relasi/grant serta kemampuan menjalankan command baru, bukan hanya proses keluar dengan kode 0.
++- Arsip bukti memuat sumber probe, manifest, expected/observed, log asli, ringkasan dan checksum; salinan dipertahankan sebelum artifact CI kedaluwarsa. Jangan memasukkan token, password, URL bertanda tangan, atau data asli sensitif ke repo publik. Gunakan fixture sintetis untuk bukti publik; redaksi disebut dan bukti lengkap hanya di lokasi yang diizinkan owner. Ini tidak mengubah kewajiban shadow run asli §12.4.
++
++### 16.7 Penilaian lomba dan konflik kepentingan
++
++- Sebelum putaran dimulai, owner/penilai menetapkan lingkup, waktu, fasilitas yang tersedia, format penyerahan, dan cara penilaian yang berlaku sama. Kendala tool/akses dicatat; tidak dianggap membuktikan produk rusak atau boleh menutup celah bukti. Angka bobot lomba tidak ditetapkan sepihak oleh peserta.
++- Tiap peserta mengunci laporan, manifest dan probe-nya dengan commit/hash sebelum membaca hasil putaran peserta lain. Tidak membaca log Actions, artifact, PR, atau komentar peserta lain yang membocorkan putaran itu. Paparan tak sengaja dicatat waktu/sumber/bagiannya; temuan terkait kemudian diberi label cross-check, bukan diklaim penemuan buta.
++- Konvensi praktis: nama workflow audit `AUDIT/<peserta>/<suite>`, nama run `AUDIT/<round_id>/<peserta>/<candidate_sha8>/<suite>/<attempt>`, dan nama artifact memakai prefix round/peserta/kandidat yang sama. File workflow auditor memakai prefix `audit-<peserta>-`; bila workflow bersama dipakai, identitas peserta/putaran harus tercatat pada input dan nama run. Identitas ini bukan pengganti SHA lengkap atau izin rerun; §1.9/§16.3 tetap berlaku. Tidak menaruh hasil atau judul temuan pada nama run yang terlihat bersama.
++- Setiap peserta mencatat URL/ID run hasil dispatch-nya, SHA lengkap, suite, attempt, dan pemiliknya dalam register sendiri. Sampai **seluruh laporan peserta dikunci**, peserta hanya membuka run/artifact miliknya melalui URL tersebut atau filter nama; daftar Actions bersama hanya untuk navigasi metadata, bukan untuk membaca hasil orang lain. Run bersama/hasil writer yang dipakai sebagai acuan tetap mengikuti label asal-bukti dan batas waktu §2.2.
++- Prefix membantu pemisahan dan pemeriksaan jejak, **bukan kontrol akses atau bukti mutlak tidak saling membaca**. Tiap laporan menyertakan daftar run yang dibuka dan pernyataan paparan; paparan tak sengaja ditangani menurut aturan di atas. Jangan mengklaim isolasi teknis dari repo bersama. Jika owner meminta isolasi akses, owner menetapkan tempat penyerahan/izin terpisah sebelum pembekuan; peserta tidak mengubah akses repo sepihak.
++- Nilai temuan berdasarkan **akar masalah yang terbukti, dampak yang terbukti, dan kelengkapan reproduksi**, bukan banyaknya baris temuan, angka test, label S0, kecepatan memposting, atau nama model. Gejala satu akar masalah disatukan; penemuan mandiri yang sama tetap mengakui semua penemunya. Bagian dugaan dibedakan dari dampak yang sudah dibuktikan.
++- Fable tetap menyatukan sesuai §10. Karena penyatu juga peserta, sengketa yang memengaruhi nilai/temuannya tidak diputuskan sendiri: auditor lain mereproduksi dan owner/penilai menetapkan keputusan. Peserta tidak menerima perbaikan hasil tulisannya sendiri; peran penulis sebelumnya di bagian terkait diungkapkan.
++- Register temuan menyimpan `first_seen_sha`, `retested_sha`, status kini, bukti sebelum/sesudah, serta disposisi. Temuan yang sudah sembuh ditutup pada kandidat baru setelah uji relevan; writer tidak diminta memperbaiki ulang hanya karena laporan lama masih merah. Bukti yang belum cukup tetap terbuka sebagai kekurangan bukti, terpisah dari bug terbukti.
++- Laporan untuk owner memisahkan **temuan tes sendiri**, **hasil cross-check sesudah penguncian**, dan **belum terbukti**; handoff writer menyatukan seluruhnya per akar masalah. Tidak ada bonus untuk menciptakan pekerjaan writer tanpa reproduksi yang sah.
++- Kosongnya daftar "belum diperiksa" berarti seluruh inventaris wajib yang dibekukan sudah memiliki disposisi/bukti, bukan seluruh kemungkinan input sudah dicoba. Penerimaan risiko oleh owner tetap ditulis sebagai penerimaan risiko, bukan PASS pengujian. Tidak ada aturan atau pemenang lomba yang menjamin nol bug.
+ 
+ ---
+ 
