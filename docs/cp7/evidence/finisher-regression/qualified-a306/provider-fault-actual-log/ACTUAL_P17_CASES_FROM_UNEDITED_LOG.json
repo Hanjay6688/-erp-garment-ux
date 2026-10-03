@@ -1,0 +1,194 @@
+[
+  {
+    "group": "AUDITOR_BROWSER_CP7_F05_ATTENTION_BROWSER",
+    "case": "P17_BROWSER_DESKTOP_NATIVE_AUTOMATIC_HANDOFF",
+    "status": "PASS",
+    "actual_Auth_Native_original_before_every_copy_or_open": true,
+    "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+    "initial_copy_mode": "AUTOMATIC",
+    "initial_prompt_utf8_bytes": 138354,
+    "controlled_clipboard_denial_visited_count": 5,
+    "complete_manual_byte_bound_visited_count": 0,
+    "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+    "provider_offline_manual_fallback_witness": {
+      "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+      "actual_browser_failed_navigation": [
+        {
+          "url": "https://chatgpt.com/",
+          "error": "net::ERR_INTERNET_DISCONNECTED"
+        }
+      ],
+      "actual_destination_requests": [
+        {
+          "url": "https://chatgpt.com/",
+          "method": "GET",
+          "post_data": null
+        }
+      ],
+      "complete_prompt_and_question_unchanged": true,
+      "complete_Native_business_and_capture_count_unchanged": true,
+      "static_URL_GET_without_ERP_data": true,
+      "provider_network_contact": false,
+      "provider_outage_measured": false,
+      "full_E18_acceptance": false
+    },
+    "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+    "actual_source_change_keeps_archived_Original_no_handoff": true,
+    "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+    "own_question_stock_search_retained_no_fact_cache": true,
+    "explicit_capture_count": 6,
+    "legitimate_clock_archives": 0,
+    "no_implicit_capture_business_write_or_delivery": true,
+    "screenshots": [
+      "P17_COPIED_AUTO_DESKTOP.png",
+      "P17_MANUAL_BLOCKED_AUTO_DESKTOP.png",
+      "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+      "P17_STALE_AUTO_DESKTOP.png",
+      "P17_RECOVERED_AUTO_DESKTOP.png"
+    ]
+  },
+  {
+    "group": "AUDITOR_BROWSER_CP7_F05_ATTENTION_BROWSER",
+    "case": "P17_BROWSER_MOBILE_NATIVE_AUTOMATIC_HANDOFF",
+    "status": "PASS",
+    "actual_Auth_Native_original_before_every_copy_or_open": true,
+    "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+    "initial_copy_mode": "AUTOMATIC",
+    "initial_prompt_utf8_bytes": 180945,
+    "controlled_clipboard_denial_visited_count": 5,
+    "complete_manual_byte_bound_visited_count": 0,
+    "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+    "provider_offline_manual_fallback_witness": {
+      "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+      "actual_browser_failed_navigation": [
+        {
+          "url": "https://chatgpt.com/",
+          "error": "net::ERR_INTERNET_DISCONNECTED"
+        }
+      ],
+      "actual_destination_requests": [
+        {
+          "url": "https://chatgpt.com/",
+          "method": "GET",
+          "post_data": null
+        }
+      ],
+      "complete_prompt_and_question_unchanged": true,
+      "complete_Native_business_and_capture_count_unchanged": true,
+      "static_URL_GET_without_ERP_data": true,
+      "provider_network_contact": false,
+      "provider_outage_measured": false,
+      "full_E18_acceptance": false
+    },
+    "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+    "actual_source_change_keeps_archived_Original_no_handoff": true,
+    "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+    "own_question_stock_search_retained_no_fact_cache": true,
+    "explicit_capture_count": 6,
+    "legitimate_clock_archives": 0,
+    "no_implicit_capture_business_write_or_delivery": true,
+    "screenshots": [
+      "P17_COPIED_AUTO_MOBILE.png",
+      "P17_MANUAL_BLOCKED_AUTO_MOBILE.png",
+      "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+      "P17_STALE_AUTO_MOBILE.png",
+      "P17_RECOVERED_AUTO_MOBILE.png"
+    ]
+  },
+  {
+    "group": "AUDITOR_BROWSER_CP7_F05_ATTENTION_BROWSER",
+    "case": "P17_BROWSER_DESKTOP_NATIVE_HANDOFF",
+    "status": "PASS",
+    "actual_Auth_Native_original_before_every_copy_or_open": true,
+    "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+    "initial_copy_mode": "MANUAL_UTF8_BOUND",
+    "initial_prompt_utf8_bytes": 1303385,
+    "controlled_clipboard_denial_visited_count": 0,
+    "complete_manual_byte_bound_visited_count": 6,
+    "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+    "provider_offline_manual_fallback_witness": {
+      "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+      "actual_browser_failed_navigation": [
+        {
+          "url": "https://chatgpt.com/",
+          "error": "net::ERR_INTERNET_DISCONNECTED"
+        }
+      ],
+      "actual_destination_requests": [
+        {
+          "url": "https://chatgpt.com/",
+          "method": "GET",
+          "post_data": null
+        }
+      ],
+      "complete_prompt_and_question_unchanged": true,
+      "complete_Native_business_and_capture_count_unchanged": true,
+      "static_URL_GET_without_ERP_data": true,
+      "provider_network_contact": false,
+      "provider_outage_measured": false,
+      "full_E18_acceptance": false
+    },
+    "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+    "actual_source_change_keeps_archived_Original_no_handoff": true,
+    "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+    "own_question_stock_search_retained_no_fact_cache": true,
+    "explicit_capture_count": 6,
+    "legitimate_clock_archives": 0,
+    "no_implicit_capture_business_write_or_delivery": true,
+    "screenshots": [
+      "P17_COPIED_DESKTOP.png",
+      "P17_MANUAL_BLOCKED_DESKTOP.png",
+      "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+      "P17_STALE_DESKTOP.png",
+      "P17_RECOVERED_DESKTOP.png"
+    ]
+  },
+  {
+    "group": "AUDITOR_BROWSER_CP7_F05_ATTENTION_BROWSER",
+    "case": "P17_BROWSER_MOBILE_NATIVE_HANDOFF",
+    "status": "PASS",
+    "actual_Auth_Native_original_before_every_copy_or_open": true,
+    "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+    "initial_copy_mode": "MANUAL_UTF8_BOUND",
+    "initial_prompt_utf8_bytes": 1346083,
+    "controlled_clipboard_denial_visited_count": 0,
+    "complete_manual_byte_bound_visited_count": 6,
+    "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+    "provider_offline_manual_fallback_witness": {
+      "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+      "actual_browser_failed_navigation": [
+        {
+          "url": "https://chatgpt.com/",
+          "error": "net::ERR_INTERNET_DISCONNECTED"
+        }
+      ],
+      "actual_destination_requests": [
+        {
+          "url": "https://chatgpt.com/",
+          "method": "GET",
+          "post_data": null
+        }
+      ],
+      "complete_prompt_and_question_unchanged": true,
+      "complete_Native_business_and_capture_count_unchanged": true,
+      "static_URL_GET_without_ERP_data": true,
+      "provider_network_contact": false,
+      "provider_outage_measured": false,
+      "full_E18_acceptance": false
+    },
+    "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+    "actual_source_change_keeps_archived_Original_no_handoff": true,
+    "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+    "own_question_stock_search_retained_no_fact_cache": true,
+    "explicit_capture_count": 6,
+    "legitimate_clock_archives": 0,
+    "no_implicit_capture_business_write_or_delivery": true,
+    "screenshots": [
+      "P17_COPIED_MOBILE.png",
+      "P17_MANUAL_BLOCKED_MOBILE.png",
+      "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+      "P17_STALE_MOBILE.png",
+      "P17_RECOVERED_MOBILE.png"
+    ]
+  }
+]

@@ -1,14 +1,14 @@
 {
   "repository": "Hanjay6688/-erp-garment-ux",
-  "run_id": 37130874626,
-  "job_id": 111225549340,
-  "artifact_id": 11277990244,
+  "run_id": 37140634704,
+  "job_id": 111254173539,
+  "artifact_id": 11280926337,
   "artifact_name": "cp7-f05-attention",
-  "source_commit": "967b5087879ea6c076fa1d18574becef88ef4cbc",
-  "source_tree": "b4cf3aa16548920e1d959dcd60151b94913d2f67",
+  "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
   "source_bundle_sha256": "24a4a2cb763fddabff9a30fccf57e30a03683f8bc65c301642aebf48a2861b45",
-  "zip_bytes": 348689698,
-  "zip_sha256": "0ff38ebcbec8a9086986d80ad8ed49be26426d96cf9900e26bd29e33cd517980",
+  "zip_bytes": 353239084,
+  "zip_sha256": "0e86a17763c5f7c29810acc30ce052afd3495c5f2d34846f9f5e337d0d0aeca5",
   "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
   "expected_status": "PASS",
   "expected_case_count": 284,
@@ -17,5 +17,11 @@
     "races": 40,
     "http": 29,
     "browser": 36
-  }
+  },
+  "image_members": [
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png"
+  ]
 }

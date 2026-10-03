@@ -18,6 +18,29 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
+def retain_requested_images(source, receipt, requested, destination):
+    """Copy bounded exact PNG members after the whole Original ZIP is verified."""
+    assert isinstance(requested, list) and len(requested) <= 8
+    assert all(isinstance(name, str) and name == Path(name).name
+               and name.endswith('.png') for name in requested)
+    assert len(set(requested)) == len(requested)
+    records = {}
+    for name in requested:
+        expected = receipt['all_zip_members'][name]
+        assert 0 < expected['bytes'] <= 2 * 1024 * 1024
+        raw = source.read(name)
+        assert len(raw) == expected['bytes']
+        assert hashlib.sha256(raw).hexdigest() == expected['sha256']
+        assert raw.startswith(b'\x89PNG\r\n\x1a\n')
+        target = Path(destination) / 'images' / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw)
+        records[name] = dict(expected, file='images/' + name,
+                             original_bytes_unchanged=True,
+                             visual_review='NOT_AUTOMATICALLY_QUALIFIED')
+    return records
+
+
 def project(manifest_path, destination):
     manifest = json.loads(Path(manifest_path).read_text())
     repository = manifest['repository']
@@ -89,6 +112,9 @@ def project(manifest_path, destination):
     )}
     metadata['zip_verification_runtime'] = 'GITHUB_ACTIONS_READ_ONLY_ARTIFACT_PROJECTION'
     receipt = retain(archive, metadata, destination)
+    with zipfile.ZipFile(archive) as source:
+        images = retain_requested_images(source, receipt,
+                                         manifest.get('image_members', []), destination)
     diagnostics = {}
     requested = manifest.get('diagnostic_members', [])
     optional = manifest.get('optional_diagnostic_members', [])
@@ -134,6 +160,7 @@ def project(manifest_path, destination):
         Native_product_cases_reexecuted=0, Native_database_access=False,
         full_family_acceptance=False, independent_acceptance=False, production_go=False,
         exact_failure_diagnostics=diagnostics,
+        exact_original_images=images,
     )
     (destination / 'PROJECTION.json').write_text(json.dumps(projection, indent=2) + '\n')
     archive.unlink()

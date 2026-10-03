@@ -1,0 +1,18 @@
+{
+  "classification": "DECLARED_LOCAL_BYTE_ZIP_BOUNDARY_STANDINS_ZERO_NATIVE_OR_VISUAL_CREDIT",
+  "tests": 9,
+  "status": "PASS",
+  "actual_workflow_caller": true,
+  "maximum_images": 8,
+  "maximum_bytes_each": 2097152,
+  "Native_database_access": false,
+  "Native_product_cases_reexecuted": 0,
+  "visual_acceptance": false,
+  "source_sha256": {
+    "scripts/cp7_native_artifact_projection.py": "3e63c4bf351048ae80e9a9b2913a83972bbeb16e06572c3833a00b77b57c1f10",
+    "scripts/cp7_native_artifact_projection_test.py": "cf4b43a8b66fbb9fb2ba49e28cc8c8cc29903c606fcc470fbae68b80f59239bc",
+    ".github/workflows/cp7-native-artifact-projection.yml": "d4545e684ce744d82ee4a50f40fe2316134d63e25e78fb4ee89889fcfbd6d751"
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}

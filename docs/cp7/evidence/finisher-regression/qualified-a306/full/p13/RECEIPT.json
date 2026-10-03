@@ -1,0 +1,504 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_RETAINED_F03_BUCKET_WRITER_QUALIFIED_NOT_FULL_F03_OR_CP7",
+  "status": "PASS",
+  "bucket": "p13",
+  "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+  "source_bundle_sha256": "59d1ebf6ed44a4b4475515ee54e671362a9118233b9d28a5cf90f2413593c2d5",
+  "run_id": 37140634825,
+  "job_id": 111254174333,
+  "artifact_id": 11279849160,
+  "artifact_bytes": 11412185,
+  "artifact_sha256": "d63400bdb56cf8ef682828993c98a24bb5773967fa4c97bb8cca5ba0e8e70cd9",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "e56dbae7d6bf4a10fbf0f4182a325aea067be4f7c5615f77681ea496b27aa09d"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "e56dbae7d6bf4a10fbf0f4182a325aea067be4f7c5615f77681ea496b27aa09d"
+    },
+    "CP7_F03_FULL_P13.json": {
+      "bytes": 341267,
+      "sha256": "8e763ce983cbb8e849128e1fff02133f12b81d0c174e0ebe8570ffcbe93b5aa0"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "aa49c1dd21036d35c56e5eda0af0d2ffa89f2aee0658d785a6ff857d13a6415d"
+    },
+    "P13_ANALYSIS_DESKTOP.png": {
+      "bytes": 2547201,
+      "sha256": "7579d0ffa66f8b58c6454e39d617332b526cbee56c9c1436ed0fc7ab52dd3c3e"
+    },
+    "P13_ANALYSIS_MOBILE.png": {
+      "bytes": 1963068,
+      "sha256": "651065a9be33c7881a355a6a38ebd52bd7dfe1649c0948effa2b49a72c632bd7"
+    },
+    "P13_PERIOD_DESKTOP.png": {
+      "bytes": 1354088,
+      "sha256": "051501573605c912a0dd31673c303ca84a5ace1486d9606445531dba157557ae"
+    },
+    "P13_PERIOD_MOBILE.png": {
+      "bytes": 1073826,
+      "sha256": "815c542efc2a8158e7a17624951bbf27bde85307be375f5d31a14c71032965f6"
+    },
+    "P13_RECOST_DESKTOP.png": {
+      "bytes": 332875,
+      "sha256": "d5f4ce4290cf69f4d6e997ca62be7281f0b597d18815f582ade477f394e0f03b"
+    },
+    "P13_RECOST_MOBILE.png": {
+      "bytes": 250691,
+      "sha256": "7ac0b4573269e1a97457d4dfb80fbed82bea37e59564bf64620c9e24d888245e"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1432691,
+      "sha256": "55d14f2e0e57e7c9df5ac2e20a5754c422627f3fe1a157b99f944a2df3160b38"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1053275,
+      "sha256": "3bbf3bf3b556d3a84740e21dff0c2b8473b8bbe5af585c9946a6d60a08098096"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c97e47fbfa25ce552cc57803a21c4add65e8ef0920b2c61fd618f1b7a1f768df"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "f026d8ba2988b99c99aa15bd5191ae0cc998019836d9073f9ce23a815335dde2"
+    }
+  },
+  "root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p13/ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_P13.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p13/CP7_F03_FULL_P13.json.gz",
+      "raw_bytes": 341267,
+      "raw_sha256": "8e763ce983cbb8e849128e1fff02133f12b81d0c174e0ebe8570ffcbe93b5aa0",
+      "gzip_bytes": 22484,
+      "gzip_sha256": "47fd3e6a3cd50f0f9952343b093ae3d61acce9a3dfe27d35dc97eafe4f6fa84a"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p13/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10524,
+      "raw_sha256": "c97e47fbfa25ce552cc57803a21c4add65e8ef0920b2c61fd618f1b7a1f768df",
+      "gzip_bytes": 1826,
+      "gzip_sha256": "9121ef1145c3c7d5c71be130be8f6126d6bb2ebeff4f1f6c2eac21e321bbe50f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p13/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p13/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360416,
+      "raw_sha256": "f026d8ba2988b99c99aa15bd5191ae0cc998019836d9073f9ce23a815335dde2",
+      "gzip_bytes": 11390,
+      "gzip_sha256": "65050346062f2dee61d3bfaca89fe37bebab5b3283e065cb6a0df08938bf4352"
+    }
+  },
+  "expected_case_count": 50,
+  "observed_case_count": 50,
+  "observed_smoke_count": 0,
+  "predeclared_groups": [
+    {
+      "key": "native",
+      "kind": "native",
+      "module": "cp7_finance_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "races",
+      "kind": "races",
+      "module": "cp7_finance_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "http",
+      "kind": "http",
+      "module": "cp7_finance_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p13_finance_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "period_native",
+      "kind": "native",
+      "module": "cp7_period_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "period_races",
+      "kind": "races",
+      "module": "cp7_period_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "period_http",
+      "kind": "http",
+      "module": "cp7_period_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "period_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p13_period_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "analysis_native",
+      "kind": "native",
+      "module": "cp7_finance_analysis_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "analysis_races",
+      "kind": "races",
+      "module": "cp7_finance_analysis_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "analysis_http",
+      "kind": "http",
+      "module": "cp7_finance_analysis_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "analysis_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p13_analysis_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "recost_native",
+      "kind": "native",
+      "module": "cp7_recost_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "recost_races",
+      "kind": "races",
+      "module": "cp7_recost_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "recost_http",
+      "kind": "http",
+      "module": "cp7_recost_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "recost_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p13_recost_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    }
+  ],
+  "provider_sha256": {
+    "native": "8c9f7ceedfe687c03641b2df4c280b20990cceda9e38220c93f60026653b29f6",
+    "races": "8c9f7ceedfe687c03641b2df4c280b20990cceda9e38220c93f60026653b29f6",
+    "http": "8c9f7ceedfe687c03641b2df4c280b20990cceda9e38220c93f60026653b29f6",
+    "browser": "efd6093afd8efcf2c668158f55caf006f167cdfe4dccae17f2336671f17c6b39",
+    "period_native": "a01f568bab12465ef0b71a005f0eddb73574c3e259c1fd3b020f35ea39087bb3",
+    "period_races": "a01f568bab12465ef0b71a005f0eddb73574c3e259c1fd3b020f35ea39087bb3",
+    "period_http": "a01f568bab12465ef0b71a005f0eddb73574c3e259c1fd3b020f35ea39087bb3",
+    "period_browser": "bcc7604f430927fffbd7ce06e04740f03bc85fe6fc1fdc5df6174f06fe8a97a5",
+    "analysis_native": "c1e7a63aaae81f70ed09f5a1a694c9aef3077ceebfe532e0580ea814a1fded49",
+    "analysis_races": "c1e7a63aaae81f70ed09f5a1a694c9aef3077ceebfe532e0580ea814a1fded49",
+    "analysis_http": "c1e7a63aaae81f70ed09f5a1a694c9aef3077ceebfe532e0580ea814a1fded49",
+    "analysis_browser": "1af1b258202e775122e97252ccc844b61dac6918f14f5be3772e2fe674beec91",
+    "recost_native": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "recost_races": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "recost_http": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "recost_browser": "7164a93fa92a7bf7651d240e0bdd8d8082b846ab0ac9312022ee12d9f481bf59"
+  },
+  "retained_probe_sha256": {
+    "cp7_p13_finance_probe.py": "3d4122d6b784af13a41a66cf2c4193b6ed04ed20d6031c09128587ce60bfc473"
+  },
+  "expected_group_executions": {
+    "native": 8,
+    "races": 1,
+    "http": 1,
+    "browser": 2,
+    "period_native": 8,
+    "period_races": 2,
+    "period_http": 1,
+    "period_browser": 2,
+    "analysis_native": 8,
+    "analysis_races": 1,
+    "analysis_http": 1,
+    "analysis_browser": 2,
+    "recost_native": 8,
+    "recost_races": 2,
+    "recost_http": 1,
+    "recost_browser": 2
+  },
+  "counts": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "period_native": {
+      "PASS": 8
+    },
+    "period_races": {
+      "PASS": 2
+    },
+    "period_http": {
+      "PASS": 1
+    },
+    "period_browser": {
+      "PASS": 2
+    },
+    "analysis_native": {
+      "PASS": 8
+    },
+    "analysis_races": {
+      "PASS": 1
+    },
+    "analysis_http": {
+      "PASS": 1
+    },
+    "analysis_browser": {
+      "PASS": 2
+    },
+    "recost_native": {
+      "PASS": 8
+    },
+    "recost_races": {
+      "PASS": 2
+    },
+    "recost_http": {
+      "PASS": 1
+    },
+    "recost_browser": {
+      "PASS": 2
+    }
+  },
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "Auth_counts": {
+    "http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "browser": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "period_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "period_browser": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "analysis_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "analysis_browser": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "recost_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "recost_browser": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    }
+  },
+  "console_errors": 0,
+  "all_original_PNG_member_hashes_retained": true,
+  "raw_PNG_files_not_copied_or_visually_reviewed_this_source": true,
+  "full_CI_job_log_not_retained_this_checkpoint": true,
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

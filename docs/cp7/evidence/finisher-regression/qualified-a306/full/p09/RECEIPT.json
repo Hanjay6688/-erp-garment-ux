@@ -1,0 +1,757 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_RETAINED_F03_BUCKET_WRITER_QUALIFIED_NOT_FULL_F03_OR_CP7",
+  "status": "PASS",
+  "bucket": "p09",
+  "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+  "source_bundle_sha256": "59d1ebf6ed44a4b4475515ee54e671362a9118233b9d28a5cf90f2413593c2d5",
+  "run_id": 37140634825,
+  "job_id": 111254174306,
+  "artifact_id": 11280636957,
+  "artifact_bytes": 25553577,
+  "artifact_sha256": "90bfec989d57e078a97f3cc0121e484ea35e094b18d98884d4db6c8bf1aa900e",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "55f4cc9239b5c33289b746382e49079c0946a6af1f8152dff6db536e820d360a"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "55f4cc9239b5c33289b746382e49079c0946a6af1f8152dff6db536e820d360a"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "cbdfce404a84d13ef5356834c3a7e98ac29c97d495d748b57fdd03caee73b937"
+    },
+    "CP7_F03_FULL_P09.json": {
+      "bytes": 502035,
+      "sha256": "37b84e4a6ec0ed05feb815c01302850e7d0a534b49c9b398b852a24af79d1dbb"
+    },
+    "P09_COMBINED_INVOICE_DESKTOP.png": {
+      "bytes": 1406949,
+      "sha256": "5d269917094765d5be801d49a0411d9e8a3363f7e29820824aca8ca20a33702f"
+    },
+    "P09_COMBINED_INVOICE_MOBILE.png": {
+      "bytes": 1286374,
+      "sha256": "315ada64a06baff6c7de1f545671b829ee64c40ae7454f6f0b8a372c22b623ab"
+    },
+    "P09_COUNT_DESKTOP.png": {
+      "bytes": 780043,
+      "sha256": "376b07d4ca2a8d80045d29b80188a743ef161f547c6ff0b0baa9d353f27e786e"
+    },
+    "P09_COUNT_MOBILE.png": {
+      "bytes": 1101873,
+      "sha256": "f97d17150d563463162fa48813ee6d23cc91c2b6a0fac943c3e4feec1c62f15b"
+    },
+    "P09_COUNT_MULTI_DESKTOP.png": {
+      "bytes": 1246902,
+      "sha256": "15dc797525b93b3c52e11e64dc2ea96e8261fa11473e7d0b52c43f3d37ab26d5"
+    },
+    "P09_COUNT_MULTI_MOBILE.png": {
+      "bytes": 1449741,
+      "sha256": "c9b09be7fa11d342aa535795b25ad6cc4b64087ee58c396e2d1d92354e292465"
+    },
+    "P09_COUNT_UNMOVED_DESKTOP.png": {
+      "bytes": 1806570,
+      "sha256": "cad2e6c5d9a02e7e0b6792f15125ad3e6f449c7f6496ca5631c79bdb2f46323c"
+    },
+    "P09_COUNT_UNMOVED_MOBILE.png": {
+      "bytes": 1130197,
+      "sha256": "4a23862da78394d0ae97397ef8c6be1bb8d250ed2d65dae60c2a466760f643fa"
+    },
+    "P09_DESKTOP.png": {
+      "bytes": 1376569,
+      "sha256": "eb1a03537d3ad7b1e8ed7fe61e3b45f367adb383f7fa14030dcdb89b2f170837"
+    },
+    "P09_INVOICE_DESKTOP.png": {
+      "bytes": 1392699,
+      "sha256": "e791a36c573cc5355413bda02aa63f18c494348a4952fbb865517f539a8da2c4"
+    },
+    "P09_INVOICE_MOBILE.png": {
+      "bytes": 1041106,
+      "sha256": "216e9c24b5fe94743cf7dbfc305931e8085d25986f4504309f1c3166500a34e2"
+    },
+    "P09_MATERIAL_ACCESSORY_DESKTOP.png": {
+      "bytes": 536163,
+      "sha256": "f4d68b70ce2f56f310fd58f74dee83b6c40d09f48c25da18f7109ec1374aed08"
+    },
+    "P09_MATERIAL_DESKTOP.png": {
+      "bytes": 551982,
+      "sha256": "c274608bcdaa93d03ae85eaa0be598b534197e1a75607fd52d93c94ff115b9d4"
+    },
+    "P09_MATERIAL_MOBILE.png": {
+      "bytes": 352419,
+      "sha256": "0fb7288adaa3d1f1d2b6c2800ce327eb31965e99b618de171a7e04590f000d26"
+    },
+    "P09_MATERIAL_OTHER_MOBILE.png": {
+      "bytes": 335350,
+      "sha256": "8614c4aefedc9de3523ff2442fd6c7ae5e3e77a8545b898d2e91e80842c92f58"
+    },
+    "P09_MOBILE.png": {
+      "bytes": 911552,
+      "sha256": "302ccc5f4f47045a32b67f878639aca7300b66d9d8df51ad7ed87e7081b93d35"
+    },
+    "P09_RECEIPT_REVERSE_MOBILE.png": {
+      "bytes": 1003420,
+      "sha256": "b4196d1a1a9911f052290d492c469141d69a76cb71f884e666effdb7685900b4"
+    },
+    "P09_RECEIPT_REVERSE_DESKTOP.png": {
+      "bytes": 1241748,
+      "sha256": "954c5a2a9f6383dda806663e29f586556d069b02b7dd794f845840ed412b911c"
+    },
+    "P09_RETURN_DESKTOP.png": {
+      "bytes": 1540650,
+      "sha256": "e05273ee3e76e1e22a64a9d0f00c8004ba81b4cdbd7618aaab9822dc03605a42"
+    },
+    "P09_RETURN_MOBILE.png": {
+      "bytes": 1176752,
+      "sha256": "e48b2a58de08b2f523cb4e9f361c37d04ef8e8f8b10f46d250caf4c9872c7019"
+    },
+    "P09_UOM_DESKTOP.png": {
+      "bytes": 1574049,
+      "sha256": "50a11887811bca8d098da76fbefce93d2a481700d721b7b76eae1cdfdb601c37"
+    },
+    "P09_UOM_MOBILE.png": {
+      "bytes": 1106898,
+      "sha256": "8f591b64ffbfadc2e3edb2455aeb70e349921c2d271944ab04b0c183cad9f728"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "d7ab1ac5909c88ea48e8cef7702ade64c96a9587e458411d98a9c9398e0f69c0"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "f026d8ba2988b99c99aa15bd5191ae0cc998019836d9073f9ce23a815335dde2"
+    }
+  },
+  "root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_P09.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/CP7_F03_FULL_P09.json.gz",
+      "raw_bytes": 502035,
+      "raw_sha256": "37b84e4a6ec0ed05feb815c01302850e7d0a534b49c9b398b852a24af79d1dbb",
+      "gzip_bytes": 34812,
+      "gzip_sha256": "cae21e27d7472194085c784519854cec3d181d9ee0826ef5f167c258b72c69d1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10524,
+      "raw_sha256": "d7ab1ac5909c88ea48e8cef7702ade64c96a9587e458411d98a9c9398e0f69c0",
+      "gzip_bytes": 1827,
+      "gzip_sha256": "dc9c06f3c9f4300650017c3135752741a81d9234a5b240e8627f621fcbf721b1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360416,
+      "raw_sha256": "f026d8ba2988b99c99aa15bd5191ae0cc998019836d9073f9ce23a815335dde2",
+      "gzip_bytes": 11390,
+      "gzip_sha256": "65050346062f2dee61d3bfaca89fe37bebab5b3283e065cb6a0df08938bf4352"
+    }
+  },
+  "expected_case_count": 132,
+  "observed_case_count": 132,
+  "observed_smoke_count": 3,
+  "predeclared_groups": [
+    {
+      "key": "smoke",
+      "kind": "native",
+      "module": "cp7_procurement_cases",
+      "entry": "smoke",
+      "smoke": true,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "native",
+      "kind": "native",
+      "module": "cp7_procurement_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 9
+    },
+    {
+      "key": "races",
+      "kind": "races",
+      "module": "cp7_procurement_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "http",
+      "kind": "http",
+      "module": "cp7_procurement_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "material_smoke",
+      "kind": "native",
+      "module": "cp7_material_cases",
+      "entry": "smoke",
+      "smoke": true,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "material",
+      "kind": "native",
+      "module": "cp7_material_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 13
+    },
+    {
+      "key": "material_crossflow",
+      "kind": "native",
+      "module": "cp7_material_cases",
+      "entry": "crossflow_cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "material_races",
+      "kind": "races",
+      "module": "cp7_material_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "material_http",
+      "kind": "http",
+      "module": "cp7_material_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "material_count",
+      "kind": "native",
+      "module": "cp7_material_count_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 17
+    },
+    {
+      "key": "material_count_races",
+      "kind": "races",
+      "module": "cp7_material_count_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "material_count_http",
+      "kind": "http",
+      "module": "cp7_material_count_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "invoice",
+      "kind": "native",
+      "module": "cp7_invoice_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 9
+    },
+    {
+      "key": "invoice_races",
+      "kind": "races",
+      "module": "cp7_invoice_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "invoice_http",
+      "kind": "http",
+      "module": "cp7_invoice_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "combined_invoice",
+      "kind": "native",
+      "module": "cp7_invoice_document_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 6
+    },
+    {
+      "key": "combined_invoice_races",
+      "kind": "races",
+      "module": "cp7_invoice_document_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "combined_invoice_http",
+      "kind": "http",
+      "module": "cp7_invoice_document_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p09_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 22
+    },
+    {
+      "key": "return_smoke",
+      "kind": "native",
+      "module": "cp7_supplier_return_cases",
+      "entry": "smoke",
+      "smoke": true,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "returns",
+      "kind": "native",
+      "module": "cp7_supplier_return_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 10
+    },
+    {
+      "key": "return_races",
+      "kind": "races",
+      "module": "cp7_supplier_return_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "return_http",
+      "kind": "http",
+      "module": "cp7_supplier_return_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "receipt_reversal",
+      "kind": "native",
+      "module": "cp7_receipt_reversal_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 7
+    },
+    {
+      "key": "receipt_reversal_races",
+      "kind": "races",
+      "module": "cp7_receipt_reversal_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "receipt_reversal_http",
+      "kind": "http",
+      "module": "cp7_receipt_reversal_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "uom",
+      "kind": "native",
+      "module": "cp7_procurement_uom_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 6
+    },
+    {
+      "key": "uom_races",
+      "kind": "races",
+      "module": "cp7_procurement_uom_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "uom_http",
+      "kind": "http",
+      "module": "cp7_procurement_uom_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p09_procurement_probe.py",
+      "expected_executions": 1
+    }
+  ],
+  "provider_sha256": {
+    "smoke": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "native": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "races": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "http": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "material_smoke": "f49955919e1dd839d0097806b5d5466476cac6351e6448011ace6f1e7bba030d",
+    "material": "f49955919e1dd839d0097806b5d5466476cac6351e6448011ace6f1e7bba030d",
+    "material_crossflow": "f49955919e1dd839d0097806b5d5466476cac6351e6448011ace6f1e7bba030d",
+    "material_races": "f49955919e1dd839d0097806b5d5466476cac6351e6448011ace6f1e7bba030d",
+    "material_http": "f49955919e1dd839d0097806b5d5466476cac6351e6448011ace6f1e7bba030d",
+    "material_count": "5aa7aedf0240aa55fbc63bd0980b3a355eee6046f9b5226487ac9c1cdd032bb9",
+    "material_count_races": "5aa7aedf0240aa55fbc63bd0980b3a355eee6046f9b5226487ac9c1cdd032bb9",
+    "material_count_http": "5aa7aedf0240aa55fbc63bd0980b3a355eee6046f9b5226487ac9c1cdd032bb9",
+    "invoice": "a6b2e46346b211c0934b8b43f30d9ecfeb161ba37ab4eff5fdf7f183fc810bb1",
+    "invoice_races": "a6b2e46346b211c0934b8b43f30d9ecfeb161ba37ab4eff5fdf7f183fc810bb1",
+    "invoice_http": "a6b2e46346b211c0934b8b43f30d9ecfeb161ba37ab4eff5fdf7f183fc810bb1",
+    "combined_invoice": "930b20fc9898045eb5bca76a0a031e0008f38b7f51a8c6e9388eecdf955bc30f",
+    "combined_invoice_races": "930b20fc9898045eb5bca76a0a031e0008f38b7f51a8c6e9388eecdf955bc30f",
+    "combined_invoice_http": "930b20fc9898045eb5bca76a0a031e0008f38b7f51a8c6e9388eecdf955bc30f",
+    "browser": "399314455d5953b21aef8ba10a6890af018875d0db58505045d4b1f303e82385",
+    "return_smoke": "e6ce244a9d149b93706e967a64e331f5e2b125437f62dd2027b9ec343e7c8233",
+    "returns": "e6ce244a9d149b93706e967a64e331f5e2b125437f62dd2027b9ec343e7c8233",
+    "return_races": "e6ce244a9d149b93706e967a64e331f5e2b125437f62dd2027b9ec343e7c8233",
+    "return_http": "e6ce244a9d149b93706e967a64e331f5e2b125437f62dd2027b9ec343e7c8233",
+    "receipt_reversal": "e656153f250c16cb653194f63804389bf411d3b5368a32cba198b15c089cc586",
+    "receipt_reversal_races": "e656153f250c16cb653194f63804389bf411d3b5368a32cba198b15c089cc586",
+    "receipt_reversal_http": "e656153f250c16cb653194f63804389bf411d3b5368a32cba198b15c089cc586",
+    "uom": "f574b96ca7d35657bcbed0135749d348ef09fec235fcaf52b655e1e177526b5a",
+    "uom_races": "f574b96ca7d35657bcbed0135749d348ef09fec235fcaf52b655e1e177526b5a",
+    "uom_http": "f574b96ca7d35657bcbed0135749d348ef09fec235fcaf52b655e1e177526b5a"
+  },
+  "retained_probe_sha256": {
+    "cp7_p09_procurement_probe.py": "f55ef336c7ecb70a1018e02e7e66213e9d25bacf6978f6488c043cec5453c4fa"
+  },
+  "expected_group_executions": {
+    "smoke": 1,
+    "native": 9,
+    "races": 3,
+    "http": 1,
+    "material_smoke": 1,
+    "material": 13,
+    "material_crossflow": 2,
+    "material_races": 3,
+    "material_http": 1,
+    "material_count": 17,
+    "material_count_races": 2,
+    "material_count_http": 2,
+    "invoice": 9,
+    "invoice_races": 3,
+    "invoice_http": 1,
+    "combined_invoice": 6,
+    "combined_invoice_races": 3,
+    "combined_invoice_http": 1,
+    "browser": 22,
+    "return_smoke": 1,
+    "returns": 10,
+    "return_races": 3,
+    "return_http": 1,
+    "receipt_reversal": 7,
+    "receipt_reversal_races": 3,
+    "receipt_reversal_http": 1,
+    "uom": 6,
+    "uom_races": 2,
+    "uom_http": 1
+  },
+  "counts": {
+    "smoke": {
+      "PASS": 1
+    },
+    "native": {
+      "PASS": 9
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "material_smoke": {
+      "PASS": 1
+    },
+    "material": {
+      "PASS": 13
+    },
+    "material_crossflow": {
+      "PASS": 2
+    },
+    "material_races": {
+      "PASS": 3
+    },
+    "material_http": {
+      "PASS": 1
+    },
+    "material_count": {
+      "PASS": 17
+    },
+    "material_count_races": {
+      "PASS": 2
+    },
+    "material_count_http": {
+      "PASS": 2
+    },
+    "invoice": {
+      "PASS": 9
+    },
+    "invoice_races": {
+      "PASS": 3
+    },
+    "invoice_http": {
+      "PASS": 1
+    },
+    "combined_invoice": {
+      "PASS": 6
+    },
+    "combined_invoice_races": {
+      "PASS": 3
+    },
+    "combined_invoice_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 22
+    },
+    "return_smoke": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 10
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "receipt_reversal": {
+      "PASS": 7
+    },
+    "receipt_reversal_races": {
+      "PASS": 3
+    },
+    "receipt_reversal_http": {
+      "PASS": 1
+    },
+    "uom": {
+      "PASS": 6
+    },
+    "uom_races": {
+      "PASS": 2
+    },
+    "uom_http": {
+      "PASS": 1
+    }
+  },
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "Auth_counts": {
+    "http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "material_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "material_count_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "invoice_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "combined_invoice_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "browser": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "return_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "receipt_reversal_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "uom_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    }
+  },
+  "console_errors": 0,
+  "all_original_PNG_member_hashes_retained": true,
+  "raw_PNG_files_not_copied_or_visually_reviewed_this_source": true,
+  "full_CI_job_log_not_retained_this_checkpoint": true,
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

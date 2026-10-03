@@ -1,6 +1,6 @@
 {
   "note_committed_http_year_candidate": {
-    "status": "CANDIDATE_ACTUAL_AUTH_COMMITTED_YEAR364_NATIVE40_PENDING",
+    "status": "ACTUAL_SOURCE_BOUND_NATIVE40_COMMITTED_YEAR364_QUALIFIED_B5",
     "contract": "docs/cp7/NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md",
     "provider": "scripts/cp7_note_correction_cases.py",
     "new_helper": "year_committed_actual_http",
@@ -15,9 +15,21 @@
     "local_standin_controls": 15,
     "local_receipt": "docs/cp7/evidence/note-http-committed-year/local-d84/LOCAL_RECEIPT.json",
     "app_runtime_Native_SQL_grants_formulas_and_frozen_proofs_changed": false,
-    "actual_Native_qualification": "PENDING",
+    "actual_Native_qualification": "PASS_28_DB_4_RACES_3_AUTH_HTTP_5_BROWSER",
     "full_P19_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "source_commit": "b5b7da7bd1745ececfd0c2badcb659531f3cafbe",
+    "source_tree": "569c3c6e22f0ab504f69f2090d890dda12a04c57",
+    "run_id": 37138696569,
+    "job_id": 111248442454,
+    "artifact_id": 11280240975,
+    "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-b5/RECEIPT.json",
+    "actual_command_HTTP_ms": 5447.011,
+    "actual_read_pages": 16,
+    "raw_four_arrays366_and_all364_prefixes_plus12_recomputed": true,
+    "Native_stock_before100_after112": true,
+    "confirmed_UUID_replay_no_second_effect": true,
+    "recurring8s_timeout_cause": "OPEN"
   },
   "note_actual_http_diagnostic_candidate": {
     "status": "ACTUAL_AUTH_DIAGNOSTIC2_AND_YEAR364_QUALIFIED_AT_07DD",
@@ -334,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Inspect actual b5 Native40 committed-year Auth result and remaining current Native284/retained CI. Publish unchanged22-delta report-window query candidate and real provider-only browser-failure witness; inspect fresh Native22/284. Keep all first failures Original,8s cause open and no material/policy invention; full P18/P19/P20/P21 remain open.",
+  "execution_priority": "Publish qualified committed-year Native40/current Native22/Shell/eight retained Originals and explicit dated Native contrast. Inspect fresh22 and actual a306284 provider-fault roots with read-only pinned projection. Keep first failures,8s cause and missing recipe/owner/independent/installed exits open; continue the standing CP7 mandate.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3639,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Inspect actual b5 Native40 committed-year Auth result and remaining current Native284/retained CI. Publish unchanged22-delta report-window query candidate and real provider-only browser-failure witness; inspect fresh Native22/284. Keep all first failures Original,8s cause open and no material/policy invention; full P18/P19/P20/P21 remain open.",
+  "next_action": "Publish qualified committed-year Native40/current Native22/Shell/eight retained Originals and explicit dated Native contrast. Inspect fresh22 and actual a306284 provider-fault roots with read-only pinned projection. Keep first failures,8s cause and missing recipe/owner/independent/installed exits open; continue the standing CP7 mandate.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9174,7 +9186,7 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
-    "next_action": "Inspect actual b5 Native40 committed-year Auth result and remaining current Native284/retained CI. Publish unchanged22-delta report-window query candidate and real provider-only browser-failure witness; inspect fresh Native22/284. Keep all first failures Original,8s cause open and no material/policy invention; full P18/P19/P20/P21 remain open.",
+    "next_action": "Publish qualified committed-year Native40/current Native22/Shell/eight retained Originals and explicit dated Native contrast. Inspect fresh22 and actual a306284 provider-fault roots with read-only pinned projection. Keep first failures,8s cause and missing recipe/owner/independent/installed exits open; continue the standing CP7 mandate.",
     "previous_application_qualification7300": {
       "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
       "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
@@ -9548,7 +9560,7 @@
     }
   },
   "report_window_and_AI_fallback_candidate": {
-    "status": "CANDIDATE_FRESH_NATIVE22_AND_284_REQUIRED",
+    "status": "NATIVE22_QUALIFIED_A306_EXPLICIT_CROSS_DATE_SUCCESSOR_AND_PROVIDER284_PENDING",
     "contract": "docs/cp7/REPORT_WINDOW_AND_AI_FALLBACK_HANDOFF.md",
     "combined_first_failure_source": "b5b7da7bd1745ececfd0c2badcb659531f3cafbe",
     "combined_first_failure_run": 37138696580,
@@ -9564,9 +9576,44 @@
     "provider_network_contact": false,
     "provider_outage_measured": false,
     "Native_product_SQL_app_and_frozen_sources_changed": false,
-    "fresh_actual_Native22": "PENDING",
-    "fresh_actual_Native284_offline_witness": "PENDING",
+    "fresh_actual_Native22": "PASS_AT_A306_10_DB_2_RACES_4_AUTH_HTTP_6_BROWSER",
+    "fresh_actual_Native284_offline_witness": "ACTUAL_RUN_SUCCESS_FOUR_LOG_WITNESSES_PASS_EXACT_ROOT_PROJECTION_PENDING",
     "full_P19_acceptance": false,
+    "production_go": false,
+    "Native22_source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+    "Native22_source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+    "Native22_run_id": 37140634732,
+    "Native22_job_id": 111254173744,
+    "Native22_artifact_id": 11280291941,
+    "Native22_receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/combined/RECEIPT.json",
+    "all8_deltas_recomputed_from_raw_actual_reports": true,
+    "final_financial_position_and_performance_equal_before": true,
+    "fresh_same_day_run_does_not_prove_prior_midnight_cause": true,
+    "explicit_prior_day_Native_stock_sale_current_day_return_successor": "CANDIDATE_ACTUAL_NATIVE22_REQUIRED",
+    "original_complete_cycle_preserved_and_same8_deltas_in_both_cycles_required": true,
+    "current_day_only_negative_control_revenue_minus20_COGS_minus10_required": true,
+    "Native_clock_source_rows_writers_formulas_or_8s_changed": false,
+    "new_unique_case_credit": 0,
+    "Native284_run_id": 37140634704,
+    "Native284_artifact_id": 11280926337,
+    "Native284_original_log_receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/provider-fault-actual-log/RECEIPT.json",
+    "exact_root_and_four_unedited_PNG_projection_candidate": "docs/cp7/native284_latest_qualified_artifact_projection.json",
+    "local_exact_image_boundary_standin_tests": 9,
+    "projection_access_and_case_credit": "READ_ONLY_ARTIFACTS_NO_NATIVE_DATABASE_OR_REEXECUTIONS"
+  },
+  "latest_inspected_application_and_retained_regressions_20261003": {
+    "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+    "Shell_receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/shell/RECEIPT.json",
+    "Shell_tests": 1404,
+    "Shell_test_files": 146,
+    "Shell_browsers": 6,
+    "both_CodeQL_findings": 0,
+    "orphan_modules_under_runtime_ownership_check": 0,
+    "full_F03_retained_index": "docs/cp7/evidence/finisher-regression/qualified-a306/full/INDEX.json",
+    "all_eight_actual_roots_IDs_and_gates_checked": true,
+    "overlapping_buckets_not_unique_case_total": true,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
     "production_go": false
   }
 }

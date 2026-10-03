@@ -1,0 +1,68 @@
+{
+  "status": "ALL_EIGHT_ACTUAL_SOURCE_BOUND_RETAINED_BUCKETS_QUALIFIED",
+  "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+  "run_id": 37140634825,
+  "buckets": {
+    "p09": {
+      "cases": 132,
+      "smokes": 3,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p09/RECEIPT.json",
+      "artifact_id": 11280636957,
+      "job_id": 111254174306
+    },
+    "cash_installments": {
+      "cases": 61,
+      "smokes": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/cash_installments/RECEIPT.json",
+      "artifact_id": 11280392060,
+      "job_id": 111254174351
+    },
+    "p10": {
+      "cases": 34,
+      "smokes": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p10/RECEIPT.json",
+      "artifact_id": 11280381871,
+      "job_id": 111254174237
+    },
+    "p11": {
+      "cases": 64,
+      "smokes": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p11/RECEIPT.json",
+      "artifact_id": 11280342079,
+      "job_id": 111254174366
+    },
+    "p12": {
+      "cases": 90,
+      "smokes": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p12/RECEIPT.json",
+      "artifact_id": 11280247703,
+      "job_id": 111254174317
+    },
+    "customer_refund": {
+      "cases": 10,
+      "smokes": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/customer_refund/RECEIPT.json",
+      "artifact_id": 11280159480,
+      "job_id": 111254174287
+    },
+    "p13": {
+      "cases": 50,
+      "smokes": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p13/RECEIPT.json",
+      "artifact_id": 11279849160,
+      "job_id": 111254174333
+    },
+    "supplier_credit": {
+      "cases": 5,
+      "smokes": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/full/supplier_credit/RECEIPT.json",
+      "artifact_id": 11279734079,
+      "job_id": 111254174332
+    }
+  },
+  "overlapping_executions_not_summed_to_unique_total": true,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
