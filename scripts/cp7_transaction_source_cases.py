@@ -12,10 +12,11 @@ import cp7_sales_payment_cases as payment
 import cp7_sales_return_cases as returned
 import cp7_note_correction_cases as note
 import cp7_misc_cases as misc
+import cp7_installment_cases as installment
 import cp7_f03_cases as combined
 import cp7_transaction_source_bundle as bundle
 b,auth=material.b,material.auth
-REQUIRED=dict(native=12,races=2,http=2,browser=2)
+REQUIRED=dict(native=16,races=2,http=3,browser=4)
 EXPECTED=sum(REQUIRED.values())
 RPC='erp_cp7_resolve_transaction_source_v1'
 
@@ -80,6 +81,45 @@ def cases(cur,today):
   exact(cur,'MISC_FINANCE',ident,'MISC_FINANCE',ident);misc.command(cur,'REVERSE',misc.intent(posted));inverse=cur.execute('select source_type,source_id from erp.journal_entries where reversal_of_id=%s',(original,)).fetchone();assert inverse
   exact(cur,inverse[0],inverse[1],'MISC_FINANCE',ident)
   return dict(status='PASS',actual_inverse_journal_link_follows_immutable_parent_not_guessed_UUID=True)
+ def payroll_headers():
+  f=installment.fixture(cur,today);pid=f['payroll'];before=installment.read(cur,pid)['document']
+  original=cur.execute("select id from erp.journal_entries where source_type='PAYROLL_ATTENDANCE_ACCRUAL'and source_id=%s and status='POSTED'",(pid,)).fetchone()[0]
+  d=exact(cur,'PAYROLL_ATTENDANCE_ACCRUAL',pid,'PAYROLL',pid);assert d['route']=='finance-payroll'and d['revision']==before['row_version']
+  installment.legacy.act(cur,'PAY',installment.legacy.doc(cur,pid),payment_date=f['payment_date'],cash_account_id=f['cash']['id'])
+  d=exact(cur,'PAYROLL_PAYMENT',pid,'PAYROLL',pid);assert d['status']=='PAID'
+  installment.legacy.act(cur,'REVERSE',installment.legacy.doc(cur,pid))
+  inverse=cur.execute('select source_type,source_id from erp.journal_entries where reversal_of_id=%s',(original,)).fetchone();assert inverse
+  d=exact(cur,inverse[0],inverse[1],'PAYROLL',pid);assert d['status']=='REVERSED'
+  assert installment.physical.stock_cost(cur)==f['physical']
+  return dict(status='PASS',actual_accrual_legacy_payment_and_immutable_inverse_same_payroll=True,Native_owning_reader_version_no_money_or_write=True)
+ def payroll_payments():
+  f=installment.fixture(cur,today);payments=[installment.act(cur,f,amount='10.00')['payment_id']for _ in range(26)];target=payments[-1]
+  d=exact(cur,'PAYROLL_INSTALLMENT',target,'PAYROLL',f['payroll'],('PAYROLL_INSTALLMENT',target));assert d['route']=='finance-payroll'and d['focus']['page_offset']==25
+  page=installment.read(cur,f['payroll'],payment_offset=25);assert [p['id']for p in page['payments']['rows']]==[target]
+  assert(page['document']['paid_amount'],page['document']['remaining_amount'])==('260.00','740.00')
+  installment.act(cur,f,'REVERSE_PAYMENT',payment=target)
+  d=exact(cur,'PAYROLL_INSTALLMENT',target,'PAYROLL',f['payroll'],('PAYROLL_INSTALLMENT',target));assert d['focus']['page_offset']==25
+  inverse=cur.execute('select j.source_type,j.source_id from cp7_installment.payments p join erp.journal_entries j on j.id=p.reversal_journal_id where p.id=%s',(target,)).fetchone()
+  exact(cur,inverse[0],inverse[1],'PAYROLL',f['payroll'],('PAYROLL_INSTALLMENT',target))
+  page=installment.read(cur,f['payroll'],payment_offset=25);assert(page['document']['paid_amount'],page['document']['remaining_amount'],page['payments']['rows'][0]['status'])==('250.00','750.00','REVERSED')
+  assert installment.physical.stock_cost(cur)==f['physical']
+  return dict(status='PASS',actual26_installments_exact_second_page_matches_existing_Native_order=True,inverse_keeps_original_child_date_page_and_link=True,approved_cost_and_stock_HPP_unchanged=True)
+ def payroll_authority():
+  f=installment.fixture(cur,today);payment=installment.act(cur,f,amount='10.00')['payment_id'];subject,role=auth.custom_actor(cur)
+  cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.payroll.pay')",(role,))
+  auth.refused(cur,lambda:read(cur,'PAYROLL_INSTALLMENT',payment,subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
+  cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.payroll.view')",(role,))
+  exact(cur,'PAYROLL_INSTALLMENT',payment,'PAYROLL',f['payroll'],('PAYROLL_INSTALLMENT',payment),subject=subject)
+  cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.payroll.view'",(role,))
+  auth.refused(cur,lambda:read(cur,'PAYROLL_INSTALLMENT',payment,subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
+  assert not cur.execute("select has_table_privilege(%s,'cp7_installment.payments','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')or has_function_privilege(%s,'cp7_installment.command(text,jsonb,uuid,text)','EXECUTE')",(bundle.ROLE,bundle.ROLE)).fetchone()[0]
+  return dict(status='PASS',current_custom_role_view_required_before_private_child_resolution=True,pay_permission_does_not_imply_view=True,no_payment_writer_or_DML_grant=True)
+ def payroll_unavailable():
+  missing=str(uuid.uuid4());before=b.boundary.snapshot(cur)
+  for kind in('PAYROLL_INSTALLMENT','PAYROLL_ATTENDANCE_ACCRUAL','PAYROLL_PAYMENT'):auth.refused(cur,lambda:read(cur,kind,missing),'CP7_TRANSACTION_SOURCE_UNAVAILABLE')
+  unsupported=read(cur,'PAYROLL_INVENTED_SOURCE',missing);assert unsupported['status']=='UNSUPPORTED_SOURCE'and unsupported['document']is None
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',missing_payroll_or_child_refused_and_unregistered_payroll_kind_not_guessed=True,no_placeholder_payment_or_business_DML=True)
  def authority():
   f=material.fixture(cur,today);subject,role=auth.custom_actor(cur)
   auth.refused(cur,lambda:read(cur,'MATERIAL_PURCHASE_ROLL',f['roll'],subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
@@ -103,7 +143,7 @@ def cases(cur,today):
   for who in('anon','service_role'):assert not cur.execute('select has_function_privilege(%s,\'public.erp_cp7_resolve_transaction_source_v1(jsonb)\',\'EXECUTE\')',(who,)).fetchone()[0]
   assert cur.execute('select has_function_privilege(\'authenticated\',\'public.erp_cp7_resolve_transaction_source_v1(jsonb)\',\'EXECUTE\')').fetchone()[0]
   return dict(status='PASS',public_current_auth_only_private_resolver_and_ERP_DML_denied=True)
- functions=[receipts,invoices,transfers,counts,finished,sales,payments,returns,journals,authority,malformed,least_privilege]
+ functions=[receipts,invoices,transfers,counts,finished,sales,payments,returns,journals,authority,malformed,least_privilege,payroll_headers,payroll_payments,payroll_authority,payroll_unavailable]
  assert len(functions)==REQUIRED['native']
  return [('CP7_SOURCE_'+f.__name__.upper(),f)for f in functions]
 
@@ -130,4 +170,18 @@ def http_cases(http,today):
   with http.connect()as conn,conn.cursor()as cur:cur.execute('delete from erp.app_role_permissions where role_id=%s and permission_key=%s',(role,'warehouse.procurement.view'));conn.commit()
   assert admin.rpc(RPC,args)['status']==403
   return dict(status='PASS',real_Auth_CURRENT_native_role_permission_revocation_not_token_metadata=True)
- return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http)]
+ def payroll_http():
+  owner=http.login('OWNER','cp7-source-payroll-owner')
+  with http.connect()as conn,conn.cursor()as cur:
+   f=installment.fixture(cur,today);payment=installment.act(cur,f,amount='10.00')['payment_id'];conn.commit();before=b.boundary.snapshot(cur);conn.rollback()
+  args=dict(p_source=dict(source_type='PAYROLL_INSTALLMENT',source_id=payment))
+  assert http.anon_rpc(RPC,args)['status']in(401,403)
+  r=owner.rpc(RPC,args);assert r['status']==200,r
+  assert r['body']['actor_scope_id']==owner.auth_user_id and r['body']['document']['id']==f['payroll']and r['body']['document']['focus']==dict(kind='PAYROLL_INSTALLMENT',id=payment,page_offset=0)and r['body']['business_DML']is False
+  with http.connect()as conn,conn.cursor()as cur:
+   assert b.boundary.snapshot(cur)==before
+   role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(owner.auth_user_id,)).fetchone()[0];cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.payroll.view'",(role,));conn.commit();revoked=b.boundary.snapshot(cur);conn.rollback()
+  assert owner.rpc(RPC,args)['status']==403
+  with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==revoked;conn.rollback()
+  return dict(status='PASS',real_Auth_HTTP_exact_private_installment_to_Native_payroll=True,current_database_view_revoke_denied_despite_same_Auth_token=True,no_business_write=True)
+ return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http),('CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW',payroll_http)]

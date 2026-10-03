@@ -1,4 +1,5 @@
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
+import {useTransactionSource} from './TransactionSourceNavigation'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
 import {getUatSupabaseClient} from './lib/supabase'
@@ -19,20 +20,20 @@ const sections=[['WORK','Upah pekerjaan'],['ATTENDANCE','Absensi'],['REIMBURSEME
 const statuses:Record<string,string>={DRAFT:'Draft',CALCULATED:'Sudah dihitung',REVIEW:'Dalam pemeriksaan',APPROVED:'Disetujui',PAID:'Lunas',REVERSED:'Dibatalkan'}
 const money=(v:string)=>`Rp${numberText(v)}`
 export default function ConnectedPayrollPage(){
- const {runtime,identity}=useAuth()
+ const {runtime,identity}=useAuth(),source=useTransactionSource('PAYROLL')
  if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes('finance.payroll.view'))return <section className="panel" role="alert">Hak melihat payroll diperlukan.</section>
- return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
+ return <Workspace key={`${source?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}initialPayrollId={source?.document.id??null}/>
 }
 import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 
-function Workspace(){
+function Workspace({initialPayrollId}:{initialPayrollId:string|null}){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi payroll belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),[data,setData]=useState<PayrollRead|null>(null),[detail,setDetail]=useState<PayrollRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[q,setQ]=useState(''),[status,setStatus]=useState('')
  const mutation=useProductionMutation('PAYROLL'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
  const [listOrder,setListOrder]=useState<RecordPageOrder>('SOURCE')
  const [action,setAction]=useState<PayrollAction|null>(null)
- const [selectedId,setSelectedId]=useState<string|null>(null),[readRevision,setReadRevision]=useState(0),[paymentSource,setPaymentSource]=useState<InstallmentDocument|null>(null)
- const seq=useRef(0),requested=useRef({q:'',status:'',offset:0,id:null as string|null,section:'WORK' as PayrollSection,detailOffset:0})
+ const [selectedId,setSelectedId]=useState<string|null>(initialPayrollId),[readRevision,setReadRevision]=useState(0),[paymentSource,setPaymentSource]=useState<InstallmentDocument|null>(null)
+ const seq=useRef(0),requested=useRef({q:'',status:'',offset:0,id:initialPayrollId,section:'WORK' as PayrollSection,detailOffset:0})
  const retire=useCallback(()=>{++seq.current;setData(null);setDetail(null);setBusy(false);setAction(null);setPaymentSource(null)},[])
  const blocked=useFinancialRecoveryGate(mutation.scope,retire)
  const onPaymentSource=useCallback((d:InstallmentDocument|null)=>setPaymentSource(d),[])

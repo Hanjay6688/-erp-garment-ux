@@ -1,4 +1,5 @@
 import {useCallback,useEffect,useMemo,useRef,useState}from 'react'
+import {useTransactionSource}from './TransactionSourceNavigation'
 import {useAuth}from './auth/AuthProvider'
 import {isConnectedRuntime}from './config/runtime'
 import {getUatSupabaseClient}from './lib/supabase'
@@ -15,12 +16,13 @@ const labels={NOT_APPROVED:'Belum disetujui',UNPAID:'Belum dibayar',PARTIAL:'Dib
 type Props={parentReady:boolean;payrollId:string|null;readRevision:number;onRetire:()=>void;onReload:()=>Promise<boolean>;onTarget:(id:string)=>void;onSource:(d:InstallmentDocument|null)=>void}
 function pendingId(payload:Json|undefined){if(!payload||typeof payload!=='object'||Array.isArray(payload))return null;const d=payload.document;if(!d||typeof d!=='object'||Array.isArray(d))return null;return typeof d.payroll_id==='string'?d.payroll_id:null}
 export default function PayrollInstallmentPanel({parentReady,payrollId,readRevision,onRetire,onReload,onTarget,onSource}:Props){
+ const navigation=useTransactionSource('PAYROLL'),focus=navigation?.document.id===payrollId&&navigation.document.focus?.kind==='PAYROLL_INSTALLMENT'?navigation.document.focus:null
  const{runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi payroll belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),mutation=useProductionMutation('PAYROLL_INSTALLMENT'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
  const[data,setData]=useState<InstallmentRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[action,setAction]=useState<InstallmentAction|null>(null),[chosenPayment,setChosenPayment]=useState<InstallmentPayment|null>(null)
  const[amount,setAmount]=useState(''),[date,setDate]=useState(cp6WibDateTimeInput().slice(0,10)),[reason,setReason]=useState(''),[review,setReview]=useState(false),[bank,setBank]=useState<InstallmentCash|null>(null),[cashQuery,setCashQuery]=useState('')
- const selected=payrollId??pendingId(mutation.pending?.payload),seq=useRef(0),query=useRef({id:selected,payment_offset:0,cash_offset:0,cash_query:''})
- if(query.current.id!==selected)query.current={id:selected,payment_offset:0,cash_offset:0,cash_query:''}
+ const selected=payrollId??pendingId(mutation.pending?.payload),seq=useRef(0),query=useRef({id:selected,payment_offset:focus?.page_offset??0,cash_offset:0,cash_query:''})
+ if(query.current.id!==selected)query.current={id:selected,payment_offset:focus?.page_offset??0,cash_offset:0,cash_query:''}
  const retire=useCallback(()=>{++seq.current;setData(null);setBusy(false);setReview(false);setBank(null);onSource(null)},[onSource])
  const blocked=useFinancialRecoveryGate(mutation.scope,retire)
  const pay=identity.permissions.includes('finance.payroll.pay'),reversePayroll=pay&&identity.permissions.includes('finance.payroll.approve')
@@ -34,13 +36,14 @@ export default function PayrollInstallmentPanel({parentReady,payrollId,readRevis
    if(r.error)throw r.error
    const next=parseInstallmentRead(r.data,f.id)
    if(next.payments.offset!==f.payment_offset||next.cash_accounts.offset!==f.cash_offset||next.capabilities.pay!==pay||next.capabilities.reverse_payroll!==reversePayroll)throw Error('Pilihan payroll atau hak pembayaran berubah. Muat ulang pembayaran.')
+   if(focus&&f.payment_offset===focus.page_offset&&!next.payments.rows.some(p=>p.id===focus.id))throw Error('Pembayaran sumber berubah. Buka ulang sumber dari buku.')
    if(!finishRead(ticket))return false
    setData(next);onSource(next.document);return true
   }catch(e){if(s===seq.current&&isReadCurrent(ticket))setError(normalizeClientError(e).message);return false}finally{if(s===seq.current)setBusy(false)}
- },[client,mutation.scope,pay,reversePayroll,beginRead,finishRead,isReadCurrent,retire,onSource])
+ },[client,mutation.scope,pay,reversePayroll,beginRead,finishRead,isReadCurrent,retire,onSource,focus])
  useEffect(()=>{setAction(null);if(parentReady)void load();else{retire();mutation.invalidate()}return()=>{++seq.current}},[load,selected,readRevision,parentReady,retire,mutation.invalidate])
  const visible=parentReady&&!blocked&&data?.document.payroll_id===selected?data:null,h=visible?.document,locked=busy||mutation.writerLocked
- const handlers:ProductionMutationHandlers={send:e=>{const p=e.payload as{document:Json;expected_version:string};return client.rpc('erp_cp7_save_payroll_installment_v1',{p_action:e.action,p_payload:p.document,p_request:e.id,p_expected:p.expected_version})},validate:(v,e)=>{parseInstallmentOutcome(v,e.id,e.action,e.payload)},retire:(v,e)=>{const r=parseInstallmentOutcome(v,e.id,e.action,e.payload);query.current.id=r.payroll_id;query.current.payment_offset=0;setAction(null);retire();onTarget(r.payroll_id);onRetire()},reload:async()=>{if(!await onReload()){retire();mutation.invalidate();return false}return load()}}
+ const handlers:ProductionMutationHandlers={send:e=>{const p=e.payload as{document:Json;expected_version:string};return client.rpc('erp_cp7_save_payroll_installment_v1',{p_action:e.action,p_payload:p.document,p_request:e.id,p_expected:p.expected_version})},validate:(v,e)=>{parseInstallmentOutcome(v,e.id,e.action,e.payload)},retire:(v,e)=>{const r=parseInstallmentOutcome(v,e.id,e.action,e.payload);query.current.id=r.payroll_id;query.current.payment_offset=focus&&r.payroll_id===payrollId?focus.page_offset:0;setAction(null);retire();onTarget(r.payroll_id);onRetire()},reload:async()=>{if(!await onReload()){retire();mutation.invalidate();return false}return load()}}
  const start=(type:InstallmentAction,payment:InstallmentPayment|null=null)=>{setAction(type);setChosenPayment(payment);setAmount(h?.remaining_amount??'');setDate(cp6WibDateTimeInput().slice(0,10));setReason('');setReview(false);setBank(null)}
  const write=()=>{
   if(!h||!action||locked||!review||reason.trim().length<5)return
@@ -70,7 +73,7 @@ export default function PayrollInstallmentPanel({parentReady,payrollId,readRevis
      <div className="cpay-actions"><button className="primary-btn"disabled={!canSubmit}onClick={write}>{action==='PAY'?'Catat pembayaran gaji':action==='REVERSE_PAYMENT'?'Balikkan pembayaran sekarang':'Batalkan payroll sekarang'}</button><button onClick={()=>setAction(null)}>Kembali ke pembayaran</button></div>
     </fieldset></section>:null}
    <h3>Riwayat pembayaran</h3>{!h.managed&&h.native_status==='PAID'?<p>Pembayaran penuh sebelumnya tercatat pada payroll ini. Gunakan koreksi payroll lunas untuk membalik seluruh payroll.</p>:null}
-   {visible.payments.rows.map(p=><article className="cpay-line"key={p.id}><header><strong>{money(p.amount)}</strong><strong>{p.status==='POSTED'?'Tercatat':'Dibalik'}</strong></header><p>{p.payment_date} · {p.cash_account_code} · {p.cash_account_name}</p><p className="cpay-reference">{p.journal_number} · Tanggal pembukuan {p.accounting_date}{p.period_shifted?' · Beralih ke periode terbuka':''}</p>{p.reversal_journal_id?<p className="cpay-reference">Pembalik {p.reversal_journal_number} · {p.reversal_accounting_date}</p>:null}{pay&&p.status==='POSTED'&&['APPROVED','PAID'].includes(h.native_status)?<button disabled={locked}onClick={()=>start('REVERSE_PAYMENT',p)}>Balikkan pembayaran {p.journal_number}</button>:null}</article>)}{!visible.payments.rows.length&&h.managed?<p>Tidak ada pembayaran pada halaman ini.</p>:null}<Pager label="Pembayaran"page={visible.payments}busy={locked}change={offset=>{query.current.payment_offset=offset;setAction(null);void load()}}/>
+   {visible.payments.rows.map(p=><article className="cpay-line"key={p.id}data-payment-id={p.id}data-source-focus={p.id===focus?.id?'true':undefined}><header><strong>{money(p.amount)}</strong><strong>{p.status==='POSTED'?'Tercatat':'Dibalik'}</strong></header>{p.id===focus?.id?<p><strong>Pembayaran asal dari buku</strong></p>:null}<p>{p.payment_date} · {p.cash_account_code} · {p.cash_account_name}</p><p className="cpay-reference">{p.journal_number} · Tanggal pembukuan {p.accounting_date}{p.period_shifted?' · Beralih ke periode terbuka':''}</p>{p.reversal_journal_id?<p className="cpay-reference">Pembalik {p.reversal_journal_number} · {p.reversal_accounting_date}</p>:null}{pay&&p.status==='POSTED'&&['APPROVED','PAID'].includes(h.native_status)?<button disabled={locked}onClick={()=>start('REVERSE_PAYMENT',p)}>Balikkan pembayaran {p.journal_number}</button>:null}</article>)}{!visible.payments.rows.length&&h.managed?<p>Tidak ada pembayaran pada halaman ini.</p>:null}<Pager label="Pembayaran"page={visible.payments}busy={locked}change={offset=>{query.current.payment_offset=offset;setAction(null);void load()}}/>
   </>:null}
  </section>
 }

@@ -1,0 +1,57 @@
+{
+  "status": "LOCAL_CHECKS_PASS_NATIVE_PENDING",
+  "base_head": "35e096234fd9ec0538556e31ae924cda6d6581a4",
+  "source_sha256": {
+    "scripts/cp7-src/transactions/source.sql": "5af86ec427461d0a09f1d72e2500055f829dbc94648ee98b54faa32dad39910e",
+    "scripts/cp7_transaction_source_bundle.py": "7154921d8fde5d2683f4400556215d355545c1d6bad94f9670d090771d50ab59",
+    "scripts/cp7_transaction_source_cases.py": "eb242cdeffebc4a77d67e0978b361c3165ca86c110a2faf16a6c63045f342e2b",
+    "scripts/cp7_transaction_source_browser.mjs": "46e01aea5478717d66f01399797c840bb3b6f11692675267c966c9d81396fa32",
+    "scripts/cp7_transaction_source_browser_fixture.py": "6cf8b2291c63beccc53f9e9cab44588299af9d786292f8f550cfb8bd18d4dd84",
+    "scripts/cp7_f05_analysis_probe.py": "f3429fb1499c36c2a4427142c64459aeefb38e2ebde338d8e5a0fd708edba396",
+    "src/transactionSource.ts": "d25d9920b5ee407ccf41474fdaae7c930d2e8cce4f3409d997baa241f958fbe6",
+    "src/transactionSource.test.ts": "fb874af94c2e4c8069ed1601c9f826a0b8a6dfc91995f8b6468d302cbba12b90",
+    "src/ConnectedPayrollPage.tsx": "148f10882e7c9f1592456431b8e7f0d1d312f0321d60dbb51ee6533ed77a8ca2",
+    "src/ConnectedPayrollPage.dom.test.tsx": "beb0c6982e6e227d511125642f812b7515956513beda55054c1af428377db47a",
+    "src/PayrollInstallmentPanel.tsx": "07e4bba230b7d7a69eb6a0f73583697a3e66289a21c841a3524787658a4d563c",
+    ".github/workflows/cp7-transaction-source.yml": "ac5f0551def957fe51e2e6fe424a70b633e2c6b9c56a1a990afaf52f05002037"
+  },
+  "frontend_tests": {
+    "PASS": 44,
+    "files": 4,
+    "command": "npx vitest run src/transactionSource.test.ts src/TransactionSourceNavigation.dom.test.tsx src/ConnectedPayrollPage.dom.test.tsx src/PayrollInstallmentPanel.dom.test.tsx"
+  },
+  "build": "PASS",
+  "security": "PASS",
+  "runtime_ownership": "PASS_ZERO_ORPHANS",
+  "sql_machine": {
+    "status": "PASS",
+    "runtime": "PGLITE_WASM_WITH_DECLARED_AUTH_TABLE_STANDINS_NOT_NATIVE_PROOF",
+    "checks": [
+      "compile_actual_SQL",
+      "exact_parent_child",
+      "large_revision_string",
+      "page25",
+      "unsupported_no_invented_parent",
+      "current_permission_refusal",
+      "no_business_DML",
+      "payroll_child_native_order_page25",
+      "payroll_header_direct_metadata_only"
+    ],
+    "checks_passed": 9
+  },
+  "Native_counts_required": {
+    "native": 16,
+    "races": 2,
+    "http": 3,
+    "browser": 4
+  },
+  "prior18_cases_retained": true,
+  "full_source_coverage": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "impacted_regression": {
+    "PASS": 123,
+    "files": 11,
+    "scope": "Current owning books/payroll/source contracts and recovery"
+  }
+}

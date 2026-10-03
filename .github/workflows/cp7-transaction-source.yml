@@ -24,7 +24,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: Native inactive AP episodes, source correction, recovery, current Auth and retained E01 bridge
+    name: Exact transaction and payroll payment sources, owning inverse, recovery, current Auth and retained F03 schedules
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:

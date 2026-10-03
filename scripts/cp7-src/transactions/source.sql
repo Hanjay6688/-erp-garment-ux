@@ -3,12 +3,14 @@ create role cp7_transaction_source_read nologin noinherit nosuperuser nocreatedb
 create schema cp7_transaction_source authorization cp7_transaction_source_read;
 revoke all on schema cp7_transaction_source from public,anon,authenticated,service_role;
 grant usage on schema erp,auth to cp7_transaction_source_read;
+grant usage on schema cp7_installment to cp7_transaction_source_read;
+grant select on cp7_installment.payments to cp7_transaction_source_read;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text) to cp7_transaction_source_read;
 grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.material_rolls,
  erp.material_supplier_invoices,erp.material_supplier_invoice_lines,erp.supplier_payments,
  erp.material_transfers,erp.material_transfer_items,erp.material_adjustments,erp.material_adjustment_items,
  erp.fg_adjustments,erp.fg_adjustment_items,erp.sales_headers,erp.sales_items,erp.sales_payments,
- erp.sales_returns,erp.sales_return_items,erp.misc_finance_transactions,erp.journal_entries
+ erp.sales_returns,erp.sales_return_items,erp.misc_finance_transactions,erp.journal_entries,erp.payroll_settlements
  to cp7_transaction_source_read;
 
 create function cp7_transaction_source.authority()returns jsonb
@@ -63,6 +65,8 @@ begin
   permission:='sales.invoice.view';
  when kind in('MISC_FINANCE','MISC_CORRECTION_TIME_NEUTRAL','MISC_CORRECTION_EFFECTIVE')then
   domain:='MISC_FINANCE';route:='finance-journal';permission:='finance.journal.view';
+ when kind in('PAYROLL_ATTENDANCE_ACCRUAL','PAYROLL_EXTRA_ACCRUAL','PAYROLL_MANUAL_REDUCTION','PAYROLL_MATERIAL_DEDUCTION','PAYROLL_CASH_ADVANCE_DEDUCTION','PAYROLL_OTHER_DEDUCTION','PAYROLL_PAYMENT','PAYROLL_INSTALLMENT')then
+  domain:='PAYROLL';route:='finance-payroll';permission:='finance.payroll.view';
  else
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
@@ -99,6 +103,9 @@ begin
  when'SALES_RETURN_ITEM'then
   select i.sale_id,jsonb_build_object('kind','SALES_RETURN','id',i.id)into parent_id,focus
    from erp.sales_return_items l join erp.sales_returns i on i.id=l.return_id where l.id=ident;
+ when'PAYROLL_INSTALLMENT'then
+  select i.payroll_id into parent_id from cp7_installment.payments i where i.id=ident;
+  focus:=jsonb_build_object('kind','PAYROLL_INSTALLMENT','id',ident);
  else null;
  end case;
  if parent_id is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
@@ -109,6 +116,7 @@ begin
  when'FG_ADJUSTMENT'then select to_jsonb(h),h.adjustment_number into doc,label from erp.fg_adjustments h where h.id=parent_id;
  when'SALE'then select to_jsonb(h),h.sale_number into doc,label from erp.sales_headers h where h.id=parent_id;
  when'MISC_FINANCE'then select to_jsonb(h),h.transaction_number into doc,label from erp.misc_finance_transactions h where h.id=parent_id;
+ when'PAYROLL'then select to_jsonb(h),h.payroll_number into doc,label from erp.payroll_settlements h where h.id=parent_id;
  end case;
  if doc is null or coalesce(label,'')=''then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
  -- Position the exact child within its owning reader's unchanged 25-row
@@ -121,6 +129,9 @@ begin
    select ((n-1)/25)*25 into focus_offset from(select id,row_number()over(order by physical_at desc,id)n from erp.sales_returns where sale_id=parent_id)x where id=(focus->>'id')::uuid;
   when'PURCHASE_INVOICE'then
    select ((n-1)/25)*25 into focus_offset from(select ih.id,row_number()over(order by ih.received_at desc,ih.id)n from erp.material_supplier_invoices ih where exists(select 1 from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where l.invoice_id=ih.id and i.purchase_id=parent_id))x where id=(focus->>'id')::uuid;
+  when'PAYROLL_INSTALLMENT'then
+   -- Match the existing installment source loop, including reversed history.
+   select ((n-1)/25)*25 into focus_offset from(select i.id,row_number()over(order by i.payment_date,i.created_at,i.id)n from cp7_installment.payments i where i.payroll_id=parent_id)x where id=(focus->>'id')::uuid;
   end case;
   if focus_offset is null or focus_offset>1000000 then raise exception 'CP7_TRANSACTION_SOURCE_FOCUS_UNAVAILABLE';end if;
   focus:=focus||jsonb_build_object('page_offset',focus_offset);

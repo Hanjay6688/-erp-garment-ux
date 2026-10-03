@@ -4050,7 +4050,7 @@
     "posted_used_receipt_quantity_roll_correction_complete": false,
     "safe_refusal_is_not_complete_correction_usability": true,
     "wrong_material_identity_reassignment_complete": false,
-    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12→11,AP12000→11000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
+    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12\u219211,AP12000\u219211000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
     "previous_registered_receipt32": "docs/cp7/evidence/receipt-correction/qualified32-e873462/RECEIPT.json",
     "current_registered_receipt42": "docs/cp7/evidence/claude-merge-20261003/receipt-qualified42/RECEIPT.json"
   },
@@ -4812,7 +4812,7 @@
         }
       ],
       "qualified_log_lines": [
-        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:25:35.1498781Z  \u2713 tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
         "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
         "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
         "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
@@ -5727,7 +5727,7 @@
         }
       ],
       "qualified_log_lines": [
-        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:25:35.1498781Z  \u2713 tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
         "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
         "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
         "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
@@ -6432,11 +6432,11 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "PASS_NATIVE18_a0f1_DECLARED_FAMILIES_ONLY",
-      "native_case_budget": 18,
+      "status": "PENDING_NATIVE25_PAYROLL_EXACT_SOURCE_EXTENSION",
+      "native_case_budget": 25,
       "no_business_DML": true,
       "full_source_coverage": false,
-      "remaining": "Production/laundry/BS/accessory/payroll sources, supplier-payment exact owning panel, all submenu tools; material/P08/F06 exits remain open",
+      "remaining": "Production/laundry/BS/accessory sources, supplier-payment exact owning panel, all submenu tools; material/P08/F06 exits remain open; payroll source awaits actual Native25 qualification",
       "qualification": {
         "source": "a0f1d51b051d8397c678720278571be18881e0db",
         "run": 37106282569,
@@ -6451,6 +6451,23 @@
         },
         "cp6_restored": true,
         "advisor_gate": true
+      },
+      "current_counts_required": {
+        "native": 16,
+        "races": 2,
+        "http": 3,
+        "browser": 4
+      },
+      "payroll_source_candidate": {
+        "status": "LOCAL44_BUILD_SECURITY_PASS_NATIVE_PENDING",
+        "scope": "Existing Native payroll journal kinds and exact installment FK/current25-row source order, owner re-read, explicit inverse review, same UUID reload recovery; no new financial writer",
+        "ERP_tables_select": 20,
+        "private_select": "cp7_installment.payments",
+        "no_new_business_DML_or_Native_writer_EXEC": true,
+        "native_definitions_unchanged": true,
+        "full_source_coverage": false,
+        "independent_acceptance": false,
+        "production_go": false
       }
     },
     "owner_target": {
