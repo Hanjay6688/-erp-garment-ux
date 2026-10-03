@@ -18,7 +18,11 @@ begin
  if auth.uid()is null or coalesce(auth.jwt()->>'role','')<>'authenticated'then
   raise exception using errcode='42501',message='CP7_TRANSACTION_SOURCE_ACCESS_DENIED';end if;
  a:=erp.get_my_access_v1();
- if a->'allowed'is distinct from'true'::jsonb or coalesce(a->'profile'->>'role_code','')not in('OWNER','ADMIN','STAFF')then
+ -- Native active custom roles use their own role_code. Their current domain
+ -- permissions below are authoritative for reads; a STAFF-code whitelist
+ -- would reject an otherwise authorized owning workspace. Financial owner
+ -- restrictions remain at their specific domains and never grant a writer.
+ if a->'allowed'is distinct from'true'::jsonb then
   raise exception using errcode='42501',message='CP7_TRANSACTION_SOURCE_ACCESS_DENIED';end if;
  return a;
 end $$;
