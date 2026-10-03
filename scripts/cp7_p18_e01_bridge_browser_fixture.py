@@ -3,6 +3,7 @@ from datetime import date
 from urllib.parse import urlparse
 import contextlib
 import io
+import hashlib
 import json
 import os
 import sys
@@ -42,6 +43,11 @@ def main():
                                                      (payload['actor'],)).fetchone()[0],
                           appendix_count=cur.execute('select count(*) from cp7_reminder_native.obligation_reports where actor=%s',
                                                      (payload['actor'],)).fetchone()[0])
+            cases.b.api.admin(cur)
+            snapshot = cases.b.boundary.snapshot(cur)
+            result['operational_boundary_sha256'] = hashlib.sha256(
+                json.dumps(snapshot, sort_keys=True, separators=(',', ':'),
+                           default=str).encode()).hexdigest()
         else:
             raise ValueError('UNKNOWN_E01_BRIDGE_FIXTURE_ACTION')
         cases.b.api.admin(cur)
