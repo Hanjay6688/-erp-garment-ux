@@ -6432,7 +6432,7 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "QUALIFIED_NATIVE64_AT_7300_SUCCESSOR_NATIVE69_PENDING",
+      "status": "QUALIFIED_NATIVE69_AT_3809_PAGINATION_SHRINK_SUCCESSOR_PENDING_FRESH69",
       "native_case_budget": 69,
       "no_business_DML": true,
       "full_source_coverage": false,
@@ -6441,29 +6441,49 @@
         "full material feasibility, broader P08 and P18-P21 qualification"
       ],
       "qualification": {
-        "source": "7300fe0150531f9352d0e5f65ad6606e09167567",
-        "tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
-        "run": 37124311853,
-        "job": 111206429296,
-        "observed_case_count": 64,
-        "counts": {
-          "native": {
-            "PASS": 36
-          },
-          "races": {
-            "PASS": 4
-          },
-          "http": {
-            "PASS": 8
-          },
-          "browser": {
-            "PASS": 16
-          }
+        "source_commit": "3809968e455486f66eea46b726e276644e845b7c",
+        "source_tree": "ae23ca9195c34bec8d05259099323243558e9a45",
+        "run_id": 37126045724,
+        "job_id": 111211423734,
+        "artifact_id": 11275478019,
+        "archive_sha256": "4c48d1154c3177e2cf840bbc0248037fd49ea9531d24cf3069af6cf7cb493d24",
+        "reported_native_bundle_sha256": "1ee2efaea967dcd89fb1551652cc6019597237896ecd7c4f1301503e72c5f1c5",
+        "status": "PASS",
+        "required_case_counts": {
+          "native": 38,
+          "races": 4,
+          "http": 9,
+          "browser": 18
         },
-        "receipt": "docs/cp7/evidence/transaction-source/qualified64-7300/RECEIPT.json",
-        "all_Native_primary_restore_backup_advisor_Auth_gates": true,
+        "observed_case_count": 69,
+        "prior_64_ids_preserved": true,
+        "added_case_ids": {
+          "native": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_AUTHORITY_FIELDS",
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_PAGES"
+          ],
+          "races": [],
+          "http": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_HTTP_CURRENT_VIEW"
+          ],
+          "browser": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_DESKTOP",
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_MOBILE"
+          ]
+        },
+        "all_restore_components": {
+          "erp_platform_auth_schema_acl": true,
+          "public_catalog_and_rows": true,
+          "erp_public_auth_function_definitions_owners_acls": true
+        },
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "console_errors": 0,
         "independent_acceptance": false,
-        "production_go": false
+        "production_go": false,
+        "receipt": "docs/cp7/evidence/transaction-source/qualified69-3809/RECEIPT.json"
       },
       "current_counts_required": {
         "native": 38,
@@ -7413,6 +7433,31 @@
         "production_go": false,
         "full_family_acceptance": false,
         "receipt": "docs/cp7/evidence/transaction-source/qualified57-a8/RECEIPT.json"
+      },
+      "previous_qualification64": {
+        "source": "7300fe0150531f9352d0e5f65ad6606e09167567",
+        "tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
+        "run": 37124311853,
+        "job": 111206429296,
+        "observed_case_count": 64,
+        "counts": {
+          "native": {
+            "PASS": 36
+          },
+          "races": {
+            "PASS": 4
+          },
+          "http": {
+            "PASS": 8
+          },
+          "browser": {
+            "PASS": 16
+          }
+        },
+        "receipt": "docs/cp7/evidence/transaction-source/qualified64-7300/RECEIPT.json",
+        "all_Native_primary_restore_backup_advisor_Auth_gates": true,
+        "independent_acceptance": false,
+        "production_go": false
       }
     },
     "owner_target": {
@@ -7740,55 +7785,30 @@
       "receipt_index": "docs/cp7/evidence/finisher-regression/qualified7638/full/INDEX.json"
     },
     "application_qualification": {
-      "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
-      "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
-      "run_id": 37124311873,
+      "source_commit": "3809968e455486f66eea46b726e276644e845b7c",
+      "source_tree": "ae23ca9195c34bec8d05259099323243558e9a45",
+      "run_id": 37126045730,
       "jobs": {
-        "shell": 111206429338,
-        "actions": 111206429519,
-        "javascript": 111206429516
+        "shell": 111211423721,
+        "javascript": 111211423824,
+        "actions": 111211423887
       },
       "artifacts": {
-        "actions": {
-          "artifact_id": 11274775336,
-          "archive_sha256": "6383f9c06e9ae27caeedf39224a8566d906bc61bdbb2385e158323972c792f4d"
+        "shell": {
+          "artifact_id": 11275591669,
+          "archive_sha256": "2814742d2d632abec95d9e317b0c0b0298d60258ef709d272f0ea041684e54b2"
         },
         "javascript": {
-          "artifact_id": 11274550652,
-          "archive_sha256": "5b33fc368646d6269bf5801673169ec296e74c5ce3f259c863b2ae6008e4b0ce"
+          "artifact_id": 11275331212,
+          "archive_sha256": "fd9d89a5013d445e0fbd3c51ddc6802ef9bb95f4fc3485cf8e668df58d10a41d"
         },
-        "shell": {
-          "artifact_id": 11274099876,
-          "archive_sha256": "b2caf4ce742db55847288d8affd9258d89b6c8ffab0f05fcab984804c055da0c"
+        "actions": {
+          "artifact_id": 11274896550,
+          "archive_sha256": "c52995e2d0772f401863f74b87dd55945b89c9ccbe1cbd4dc4147acab5502d05"
         }
       },
       "status": "PASS",
-      "application_tests_passed": 1396,
-      "application_files_passed": 144,
-      "actual_Shell_browser_passed": 6,
-      "build": true,
-      "security_static_checks": true,
-      "runtime_owned": 254,
-      "RPC_boundaries": 186,
-      "styles_owned": 53,
-      "import_orphans": 0,
-      "direct_browser_table_access": false,
-      "codeql_sarif_findings": {
-        "javascript": 0,
-        "actions": 0
-      },
-      "private_kernel_runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
       "members": {
-        "actions.sarif": {
-          "bytes": 696056,
-          "sha256": "91866f8f70678556639cfde047ba613f6535df2580cb581e7180d0ab59cce5f1",
-          "compressed_sha256": "1380dd16de9fa983f7d0557c6e33bca4d5dde8cbeaabf651f959c53631d28945"
-        },
-        "javascript.sarif": {
-          "bytes": 1308836,
-          "sha256": "0360613164da7cf6307f9bda992b5aade29b763692ec5d0b77093a3f18f446ce",
-          "compressed_sha256": "51719e1ffbd0852f3c7cc943c19cf87328972bdc8c6e53aab45ae78963636aff"
-        },
         "desktop-planner.png": {
           "bytes": 130883,
           "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
@@ -7799,19 +7819,51 @@
         },
         "f04-private-kernels.json": {
           "bytes": 53273,
-          "sha256": "368548a7b0db4b64bc23eb1683744e5cd42661990b18fdc709c8cbd19589b83d",
-          "compressed_sha256": "2393d6012181ef914d42d5c66185a25c627f777914a94af7aa113051f2e39854"
+          "sha256": "18b65f484fe0b1b337f5ac381a6502088cd5873368010d1dea5a040145f03d16",
+          "compressed_sha256": "1d96e80c2c74e25a31f9c4dddfaf268c4ac7bc0673786d8141658a48f49fb9d1"
         },
         "results.json": {
-          "bytes": 12439,
-          "sha256": "ad6e95ac2e2751defb384a27078a72fc115531f74beb9ece850d084d98fba466",
-          "compressed_sha256": "2c792483fef5ab5a9df24a0ed37b4f83a1407835fc1075095312275adc3a87f9"
+          "bytes": 12417,
+          "sha256": "cd4b30866cac4772072b1f5029d4d2c1b59a348397cdda545c828cfe9a34d53f",
+          "compressed_sha256": "e0e2cd5e17d96e6440ad4f829abef92e05fcee41a6c8fd17cc4ce4c93f64b542"
+        },
+        "javascript.sarif": {
+          "bytes": 1311718,
+          "sha256": "12aa3bc8f51bc8976cfe4e2bed41a8eab27c239f8fbe7ab03d6af157420ea8ed",
+          "compressed_sha256": "43441d4c1c9e2617ef55b2e4547aa7b5fb3727da82bc5aa25cef777661a15845"
+        },
+        "actions.sarif": {
+          "bytes": 697628,
+          "sha256": "8755a3287e1f89db4773f6f799947a899931057a4113ad676bd9ad75cec98f1c",
+          "compressed_sha256": "6333d73b488bdc4d96ac29e1fab24a0daff25c80365aa2bf89558a8ef98ccb4e"
+        },
+        "SHELL_CI_ORIGINAL.log": {
+          "bytes": 171218,
+          "sha256": "cc599311014ec51c6c2d7bc9e34b64f99efc9f8c702e4fe958461c4440dfb1c7",
+          "compressed_sha256": "925e8338158feaa86edf97d750fd8e77c2bd0dd8b9e94145e3db933691bcf96f"
         }
       },
-      "scope": "Application Shell, separately declared private kernel proof, actual Shell browser and static CodeQL at7300 only. No business-source or full CP7 acceptance; current successor69 still pending.",
+      "private_kernel_runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+      "private_kernel_scope": "WRITER_PRIVATE_KERNEL_PROOF_ONLY",
+      "private_kernel_passed": 138,
+      "actual_Shell_browser_passed": 6,
+      "codeql_sarif_findings": {
+        "javascript": 0,
+        "actions": 0
+      },
+      "application_tests_passed": 1403,
+      "application_files_passed": 146,
+      "runtime_owned": 256,
+      "RPC_boundaries": 187,
+      "styles_owned": 53,
+      "import_orphans": 0,
+      "direct_browser_table_access": false,
+      "build": true,
+      "security_static_checks": true,
+      "scope": "Exact application/Shell/static CodeQL/private kernel proof at3809 only; no automatic successor or whole CP7 acceptance.",
       "independent_acceptance": false,
       "production_go": false,
-      "receipt": "docs/cp7/evidence/finisher-regression/qualified7300/shell/RECEIPT.json"
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified3809/shell/RECEIPT.json"
     },
     "previous_application_qualification": {
       "source_commit": "9148adf778d7210b41435b7cb7633d3edfb620a8",
@@ -8736,10 +8788,55 @@
         "all_Native_primary_restore_backup_advisor_Auth_gates": true,
         "independent_acceptance": false,
         "production_go": false
+      },
+      "current69_regression_qualification": {
+        "source_commit": "3809968e455486f66eea46b726e276644e845b7c",
+        "source_tree": "ae23ca9195c34bec8d05259099323243558e9a45",
+        "run_id": 37126045724,
+        "job_id": 111211423734,
+        "artifact_id": 11275478019,
+        "archive_sha256": "4c48d1154c3177e2cf840bbc0248037fd49ea9531d24cf3069af6cf7cb493d24",
+        "reported_native_bundle_sha256": "1ee2efaea967dcd89fb1551652cc6019597237896ecd7c4f1301503e72c5f1c5",
+        "status": "PASS",
+        "required_case_counts": {
+          "native": 38,
+          "races": 4,
+          "http": 9,
+          "browser": 18
+        },
+        "observed_case_count": 69,
+        "prior_64_ids_preserved": true,
+        "added_case_ids": {
+          "native": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_AUTHORITY_FIELDS",
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_PAGES"
+          ],
+          "races": [],
+          "http": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_HTTP_CURRENT_VIEW"
+          ],
+          "browser": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_DESKTOP",
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_MOBILE"
+          ]
+        },
+        "all_restore_components": {
+          "erp_platform_auth_schema_acl": true,
+          "public_catalog_and_rows": true,
+          "erp_public_auth_function_definitions_owners_acls": true
+        },
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "console_errors": 0,
+        "independent_acceptance": false,
+        "production_go": false,
+        "receipt": "docs/cp7/evidence/transaction-source/qualified69-3809/RECEIPT.json"
       }
     },
     "laundry_dependency_candidate": {
-      "status": "NATIVE69_PENDING",
+      "status": "QUALIFIED_NATIVE69_AT_3809_SUCCESSOR_PENDING_FRESH69",
       "scope": "Exact current paginated active QC dependencies of one Native Laundry receipt; actual owning QC then explicit receipt inverse, no new physical/money writer",
       "required": {
         "native": 38,
@@ -8754,10 +8851,57 @@
       "both_current_view_permissions_required": true,
       "local_receipt": "docs/cp7/evidence/transaction-source/laundry-dependencies-local/LOCAL_RECEIPT.json",
       "handoff": "docs/cp7/TRANSACTION_DEPENDENCIES_HANDOFF.md",
-      "local_targeted_tests": 115,
+      "local_targeted_tests": 116,
       "full_local_standin": "INCOMPLETE_1400_PASS_3_GUARD_SUBJECT_PERMISSION_FAILURES",
       "independent_acceptance": false,
-      "production_go": false
+      "production_go": false,
+      "qualification": {
+        "source_commit": "3809968e455486f66eea46b726e276644e845b7c",
+        "source_tree": "ae23ca9195c34bec8d05259099323243558e9a45",
+        "run_id": 37126045724,
+        "job_id": 111211423734,
+        "artifact_id": 11275478019,
+        "archive_sha256": "4c48d1154c3177e2cf840bbc0248037fd49ea9531d24cf3069af6cf7cb493d24",
+        "reported_native_bundle_sha256": "1ee2efaea967dcd89fb1551652cc6019597237896ecd7c4f1301503e72c5f1c5",
+        "status": "PASS",
+        "required_case_counts": {
+          "native": 38,
+          "races": 4,
+          "http": 9,
+          "browser": 18
+        },
+        "observed_case_count": 69,
+        "prior_64_ids_preserved": true,
+        "added_case_ids": {
+          "native": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_AUTHORITY_FIELDS",
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_PAGES"
+          ],
+          "races": [],
+          "http": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_HTTP_CURRENT_VIEW"
+          ],
+          "browser": [
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_DESKTOP",
+            "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_MOBILE"
+          ]
+        },
+        "all_restore_components": {
+          "erp_platform_auth_schema_acl": true,
+          "public_catalog_and_rows": true,
+          "erp_public_auth_function_definitions_owners_acls": true
+        },
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "console_errors": 0,
+        "independent_acceptance": false,
+        "production_go": false,
+        "receipt": "docs/cp7/evidence/transaction-source/qualified69-3809/RECEIPT.json"
+      },
+      "local_successor_receipt": "docs/cp7/evidence/transaction-source/laundry-dependencies-pagination-local/LOCAL_RECEIPT.json",
+      "local_targeted_files": 9
     },
     "previous_application_qualification_a8": {
       "source_commit": "a8e5b8e0a76de209d694d0a331153a23ef20082c",
@@ -8832,6 +8976,89 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
-    "next_action": "Qualify all69 current source/dependency controls and Native Shell, retain any first Original failure, then continue remaining feasible P08/P18/P19 and source families. Owner data/policies stay UNKNOWN; independent P20 and installed P21 remain open. Do not stop at routine writer checkpoint."
+    "next_action": "Publish exact pagination-shrink and SQL reachability successor, qualify all69 controls and Native Shell on that source, retain any first Original failure, then continue feasible P08/P18/P19/source scopes. Current Native69 at3809 is retained; not automatically transferred to untested changed bytes. Owner data/policies UNKNOWN; P20 independent/P21 installed remain open. Do not stop at routine writer checkpoint.",
+    "previous_application_qualification7300": {
+      "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
+      "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
+      "run_id": 37124311873,
+      "jobs": {
+        "shell": 111206429338,
+        "actions": 111206429519,
+        "javascript": 111206429516
+      },
+      "artifacts": {
+        "actions": {
+          "artifact_id": 11274775336,
+          "archive_sha256": "6383f9c06e9ae27caeedf39224a8566d906bc61bdbb2385e158323972c792f4d"
+        },
+        "javascript": {
+          "artifact_id": 11274550652,
+          "archive_sha256": "5b33fc368646d6269bf5801673169ec296e74c5ce3f259c863b2ae6008e4b0ce"
+        },
+        "shell": {
+          "artifact_id": 11274099876,
+          "archive_sha256": "b2caf4ce742db55847288d8affd9258d89b6c8ffab0f05fcab984804c055da0c"
+        }
+      },
+      "status": "PASS",
+      "application_tests_passed": 1396,
+      "application_files_passed": 144,
+      "actual_Shell_browser_passed": 6,
+      "build": true,
+      "security_static_checks": true,
+      "runtime_owned": 254,
+      "RPC_boundaries": 186,
+      "styles_owned": 53,
+      "import_orphans": 0,
+      "direct_browser_table_access": false,
+      "codeql_sarif_findings": {
+        "javascript": 0,
+        "actions": 0
+      },
+      "private_kernel_runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+      "members": {
+        "actions.sarif": {
+          "bytes": 696056,
+          "sha256": "91866f8f70678556639cfde047ba613f6535df2580cb581e7180d0ab59cce5f1",
+          "compressed_sha256": "1380dd16de9fa983f7d0557c6e33bca4d5dde8cbeaabf651f959c53631d28945"
+        },
+        "javascript.sarif": {
+          "bytes": 1308836,
+          "sha256": "0360613164da7cf6307f9bda992b5aade29b763692ec5d0b77093a3f18f446ce",
+          "compressed_sha256": "51719e1ffbd0852f3c7cc943c19cf87328972bdc8c6e53aab45ae78963636aff"
+        },
+        "desktop-planner.png": {
+          "bytes": 130883,
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+        },
+        "mobile-planner.png": {
+          "bytes": 382780,
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+        },
+        "f04-private-kernels.json": {
+          "bytes": 53273,
+          "sha256": "368548a7b0db4b64bc23eb1683744e5cd42661990b18fdc709c8cbd19589b83d",
+          "compressed_sha256": "2393d6012181ef914d42d5c66185a25c627f777914a94af7aa113051f2e39854"
+        },
+        "results.json": {
+          "bytes": 12439,
+          "sha256": "ad6e95ac2e2751defb384a27078a72fc115531f74beb9ece850d084d98fba466",
+          "compressed_sha256": "2c792483fef5ab5a9df24a0ed37b4f83a1407835fc1075095312275adc3a87f9"
+        }
+      },
+      "scope": "Application Shell, separately declared private kernel proof, actual Shell browser and static CodeQL at7300 only. No business-source or full CP7 acceptance; current successor69 still pending.",
+      "independent_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7300/shell/RECEIPT.json"
+    },
+    "sql_file_reachability": {
+      "status": "LOCAL_PASS_146_INSTALLED_1_OWNED_DIAGNOSTIC_147_TOTAL",
+      "receipt": "docs/cp7/evidence/sql-reachability/LOCAL_RECEIPT.json",
+      "checker": "scripts/cp7_bundle_reachability.py",
+      "actual_unowned_file_negative_control": true,
+      "new_native_workflow_gate": true,
+      "native_execution": false,
+      "feature_acceptance": false
+    }
   }
 }

@@ -62,6 +62,14 @@ describe('Readonly Laundry receipt dependency navigation', () => {
     expect(box.querySelectorAll('[data-laundry-qc-dependency-id]')).toHaveLength(0); expect(box.querySelector('[role="alert"]')?.textContent).toContain('izin')
     expect(box.textContent).not.toContain('Tidak ada QC aktif'); allReads()
   })
+  it('keeps a way back when another device removes the last QC on the next page', async () => {
+    await render(); await click('Lihat QC terkait')
+    mock.rpc.mockResolvedValueOnce({ data: result(25, 25), error: null }); await click('QC berikutnya')
+    expect(box.querySelectorAll('[data-laundry-qc-dependency-id]')).toHaveLength(0)
+    expect(box.textContent).toContain('25 QC aktif'); expect(box.textContent).toContain('Halaman ini kosong')
+    expect(box.textContent).not.toContain('26–25'); expect(button('QC sebelumnya').disabled).toBe(false)
+    await click('QC sebelumnya'); expect(box.querySelectorAll('[data-laundry-qc-dependency-id]')).toHaveLength(25); allReads()
+  })
   it('discards a held reply after current view revocation or current workspace retirement', async () => {
     await render(); let release!: (value: unknown) => void
     mock.rpc.mockImplementationOnce(() => new Promise(resolve => { release = resolve })); await click('Lihat QC terkait')

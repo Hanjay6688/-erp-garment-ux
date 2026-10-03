@@ -47,8 +47,8 @@ export default function LaundryReceiptDependencies({ receiptId, receiptNumber, r
       <ul>{value.dependencies.map(row => <li key={row.source_id} data-laundry-qc-dependency-id={row.source_id}>
         <strong>{row.number}</strong><TransactionSourceLink sourceType={row.source_type} sourceId={row.source_id} disabled={!permitted || busy} label="Buka QC terkait"/>
       </li>)}</ul>
-      {value.page.total > 25 ? <div className="clq-dependency-pages">
-        <span>{value.page.offset + 1}–{value.page.offset + value.dependencies.length} dari {value.page.total}</span>
+      {value.page.total > 25 || value.page.offset > 0 ? <div className="clq-dependency-pages">
+        <span>{value.dependencies.length ? `${value.page.offset + 1}–${value.page.offset + value.dependencies.length} dari ${value.page.total}` : 'Halaman ini kosong karena daftar QC aktif berubah. Buka halaman sebelumnya atau periksa ulang.'}</span>
         <button type="button" disabled={!permitted || busy || value.page.offset === 0} onClick={() => void load(Math.max(0, value.page.offset - 25))}>QC sebelumnya</button>
         <button type="button" disabled={!permitted || busy || !value.page.has_more || value.page.offset >= 1000000} onClick={() => void load(value.page.offset + 25)}>QC berikutnya</button>
       </div> : null}

@@ -1,0 +1,31 @@
+{
+  "classification": "EXACT_LOCAL_SUCCESSOR_CHECKS_NOT_NATIVE_QUALIFICATION",
+  "base_commit": "3809968e455486f66eea46b726e276644e845b7c",
+  "source_files": {
+    "src/LaundryReceiptDependencies.tsx": "3f56091575c04dda97660a1b87941479e8aa57684328318b1968e06e14c069c2",
+    "src/LaundryReceiptDependencies.dom.test.tsx": "f964d98b77175e69cb177c719a3a3e2d6f87317b2157d939003f08f8193c61e5",
+    "scripts/cp7_laundry_source_cases.py": "4e01dfd421ae5e0f5a569c4911d0be960c4015ddd97045eec7e6eb1dbd9c3155",
+    "scripts/cp7_bundle_reachability.py": "fa4e2c78236a7f3cb35568a06ab00016794acbbb294a441364c6b901965d29e9",
+    ".github/workflows/cp7-transaction-source.yml": "2cb0db192513b4c1e3b4cf41514bd4d05c91ce284c8b87ae36f422b067882775"
+  },
+  "targeted_tests_passed": 116,
+  "targeted_files_passed": 9,
+  "build": "PASS",
+  "native69": "PENDING_FRESH_SUCCESSOR",
+  "logs": {
+    "laundry-dependencies-shrink-verified.log": {
+      "bytes": 235,
+      "sha256": "3a0983a52ac22a42bf7164a2053e98d18e8c8e6861db754d58a0c686f45accfe",
+      "compressed_sha256": "cfc8818544c03bd94f89b5ebb90ba9c9d5c33b2a98c016243ce53321bb022f72"
+    },
+    "laundry-dependencies-shrink-build.log": {
+      "bytes": 11705,
+      "sha256": "5001faa3716631dac61a5efb96242d831b160192e1bcea6c3f823fdf36b807f2",
+      "compressed_sha256": "8608bafb21839a2b563767558caa3fa2048c24b469f90a3d124423742a04e3fc"
+    }
+  },
+  "standin_retroactive_relabel": false,
+  "scope": "Current dependency page can shrink from26 to25 on another device; keep Previous navigation and no inverted range. Added Native assertion remains same predeclared69 budget. Permanent read-only SQL reachability gate rejects an actual unowned file.",
+  "independent_acceptance": false,
+  "production_go": false
+}

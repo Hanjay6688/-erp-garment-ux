@@ -149,8 +149,9 @@ def dependency_cases(cur,today):
   removed=seen[0];reverse_qc(cur,removed);current=dependency_read(cur,f)
   assert current['page']==dict(offset=0,limit=25,total=25,has_more=False)
   assert {x['source_id']for x in current['dependencies']}==set(ids)-{removed}
+  empty=dependency_read(cur,f,25);assert empty['page']==dict(offset=25,limit=25,total=25,has_more=False)and empty['dependencies']==[]
   before=b.boundary.snapshot(cur);auth.refused(cur,lambda:reverse(cur,f),'QC');assert b.boundary.snapshot(cur)==before
-  return dict(status='PASS',actual_26_Native_QC_posts_complete_25_and_1_pages=True,unrelated_actual_receipt_QC_excluded=True,reads_full_Native_boundary_unchanged=True,owning_QC_inverse_removes_only_actual_active_dependency=True,other_25_current_QC_keep_parent_inverse_refused=True)
+  return dict(status='PASS',actual_26_Native_QC_posts_complete_25_and_1_pages=True,unrelated_actual_receipt_QC_excluded=True,reads_full_Native_boundary_unchanged=True,owning_QC_inverse_removes_only_actual_active_dependency=True,current_empty_next_page_after_other_inverse=True,other_25_current_QC_keep_parent_inverse_refused=True)
  def authority_fields():
   f=fixture(cur,today);physical.qc(cur,f,1,0,14);subject,role=material.receipt.custom(cur,('production.laundry.view','production.final_sku.view'))
   assert dependency_read(cur,f,subject=subject)['page']['total']==1

@@ -1,3 +1,5 @@
+> Tambahan regression terkini: semua64 ID di bawah dipertahankan dan PASS dalam Native69 pada3809968e; detail QC terkait dan successor pagination-shrink ada di TRANSACTION_DEPENDENCIES_HANDOFF.md serta CURRENT_PROGRESS.md. Original64 tetap terikat7300.
+
 # Laundry source continuation · 3 October 2026
 
 Standing owner instruction: complete CP7, including usable source edit/correction/inverse controls. Single writer on cp7/integration. Frozen CP5/CP6 product/proofs and the32 private role budget remain unchanged.
