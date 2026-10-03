@@ -1,5 +1,7 @@
 # Current CP7 writer handoff · 3 October 2026
 
+Latest candidate strengthens the existing NOTE_HTTP_CORRECTED_BOOK with an actual committed year364 correction and separate actual Auth366-row main/lot readbacks plus exact replay/no-second-effect.15 offline pager/failure controls pass; complete Native40 remains pending. It also repairs the BS test oracle to select the exact workspace refresh after the inverse. The first d84 Shell result1403 PASS/1 FAIL stays Original; build/security/browser did not execute. The separate actual d84 Original-verifier CI12/pinned152/284 passes. See NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md. Earlier qualified results below are source-bound and do not close the latest Shell failure or pending year commit.
+
 Standing owner instruction: finish CP7 and make transaction source edit/correction/inverse usable. Single writer on cp7/integration. Claude f4049e4f is already merged; his branch and frozen CP5/CP6 remain unchanged. Target Monday5October2026 at12:00 WIB remains a target. Full CP7, independent acceptance and production GO are open.
 
 ## Latest actual results
@@ -20,7 +22,7 @@ All54 configured workflows at967b completed SUCCESS. This is metadata for the co
 
 ## Current increment
 
-The qualified Original validator scripts/cp7_verify_retained_originals.py is called by the read-only projection workflow. It checks full gzip/root/archive member hashes, source/run/tree/bundle pins, every actual case against planned identities and budgets, cleanup/gates, and zero-credit diagnostic/projection classification. Twelve synthetic corruption/refusal controls and all six newly retained Native/diagnostic receipts pass locally. This is read-only evidence validation, not new Native product execution. Fresh same-source CI for this tooling increment remains required. See RETAINED_ORIGINAL_VERIFICATION.md.
+The qualified Original validator scripts/cp7_verify_retained_originals.py is called by the read-only projection workflow. It checks full gzip/root/archive member hashes, source/run/tree/bundle pins, every actual case against planned identities and budgets, cleanup/gates, and zero-credit diagnostic/projection classification. Twelve synthetic corruption/refusal controls and all six retained Native/diagnostic receipts pass locally. Actual same-source read-only verifier CI atd84/run37136682011 now passes12 controls and both exact pinned current F05 Originals. Proof: evidence/retained-original-verifier/qualified-d84/RECEIPT.json. This is read-only evidence validation, not new Native product execution. See RETAINED_ORIGINAL_VERIFICATION.md.
 
 Source bytes were recovered exactly from07dd after the local workspace changed:2165 restored source/document files passed their Git blob SHA checks; the full indexed base tree remained209b5c835d9c5730e73e74df9fe5bda89f606573. Previous bulky historical evidence remains in the repo; new Originals, unedited images and full CI logs are retained again from hash-pinned downloads. No source product/frozen path was edited during recovery.
 
@@ -32,8 +34,10 @@ Source bytes were recovered exactly from07dd after the local workspace changed:2
 - Real fabric-per-PC recipes, eligible actual material allocation and unconfirmed owner policies remain UNKNOWN. Accessory BOM is not a real fabric recipe; P08 SAVE_DRAFT is not physical apply/reservation. Skip work that depends on those missing facts.
 - Full P18 journeys/P19 scale-recovery, independent P20 and installed/combined-restore P21 remain open. No main/hosted/liveWA change or writer-issued independent/production acceptance.
 
-Next: publish all retained Originals and the bounded verifier, inspect its fresh CI, then continue feasible transaction/source and P18/P19 work. A routine qualification checkpoint does not end the owner mandate.
+Next: publish the committed-year Auth/BS oracle successor, inspect full Native40/Shell, then continue feasible transaction/source and P18/P19 work. A routine qualification checkpoint does not end the owner mandate.
 
 ## Previous checkpoints
 
 The prior full progress text is preserved unchanged in HISTORICAL_PROGRESS_20261003_07dd.md. It includes old pending/failure/qualification statuses tied to their own source and must not supersede this current handoff. CURRENT_STATE.json contains the detailed source history; its top diagnostic and finisher entries control current work.
+
+The workspace refreshed again after d84 publication. The current local checkout contains exact pinned metadata and the files needed for this bounded successor; it is partial. Product/frozen source stays in the repo; CI checks out the full source. Do not claim a fresh local full DOM/Native run from this workspace.

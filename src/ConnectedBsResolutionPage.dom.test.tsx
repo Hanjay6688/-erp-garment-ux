@@ -207,7 +207,10 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     expect(container.querySelector(`[data-rework-id="${sourceReworkId}"]`)?.textContent).toContain('CANCELLED')
     expect(container.querySelector('.cbsr-rework-complete')).toBeNull()
     expect(rpc.mock.calls.filter(([name])=>name==='erp_save_bs_resolution_action_v1')).toHaveLength(1)
-    expect(rpc.mock.calls.at(-1)?.[1]).toMatchObject({p_filter:'ALL',p_kind:'BS',p_limit:50,p_offset:0})
+    const inverseIndex=rpc.mock.calls.findIndex(([name])=>name==='erp_save_bs_resolution_action_v1')
+    const refreshedSourceCalls=rpc.mock.calls.slice(inverseIndex+1).filter(([name])=>name==='erp_get_bs_resolution_workspace_v1')
+    expect(refreshedSourceCalls.length).toBeGreaterThan(0)
+    expect(refreshedSourceCalls.at(-1)?.[1]).toMatchObject({p_filter:'ALL',p_kind:'BS',p_limit:50,p_offset:0})
   })
 
   it('clears the source focus when the user browses the whole Native case list',async()=>{

@@ -1,0 +1,55 @@
+{
+  "run_id": 37136682049,
+  "job_id": 111242522687,
+  "artifact_id": 11278644265,
+  "zip_bytes": 7205,
+  "zip_sha256": "13d3bc55c6da5d5faf985a05f7123f4b69f0752c1ae50c8ec11567e262344e97",
+  "classification": "SOURCE_BOUND_SHELL_FIRST_FAILURE_NOT_QUALIFIED",
+  "source_commit": "d84ed947173fba17d356db5bfbb36f57faf9afd0",
+  "source_tree": "ff20267f3b1e34bc625a8e3ef7a3391fce6aaff9",
+  "tests_PASS": 1403,
+  "tests_FAILED": 1,
+  "files_PASS": 145,
+  "files_FAILED": 1,
+  "private_kernel_PASS": 138,
+  "failure_test": "ConnectedBsResolutionPage: reopens the same retained rework after its owning inverse changes the case page",
+  "actual_failed_oracle": "last RPC of any kind instead of exact refreshed BS workspace RPC",
+  "build_security_browser": "NOT_EXECUTED_AFTER_NPM_TEST_FAILURE",
+  "codeql": {
+    "js": {
+      "zip_sha256": "eabf2454505aa44de10c39054e1a60ed34f9ef0993fb601a01817a4998fd3a42",
+      "reports": {
+        "javascript.sarif": {
+          "bytes": 1315273,
+          "sha256": "500d49551ca3fdbc363a36e02a0e126411978a7f096df8745f13bb80b07b3a22",
+          "findings": 0,
+          "invocations_execution_successful": true
+        }
+      }
+    },
+    "actions": {
+      "zip_sha256": "7f5a246fbc918a88885653022b838c8847c477d8659264e521e70b55876171b4",
+      "reports": {
+        "actions.sarif": {
+          "bytes": 700558,
+          "sha256": "7c40d7d1cc3656fea1133958ac3aad86926859ff9aa9a9b89d8990155b35f7a2",
+          "findings": 0,
+          "invocations_execution_successful": true
+        }
+      }
+    }
+  },
+  "all_zip_members": {
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "5752a28d82c88650fea6890d5504d6e5e04c3cc617ca87dee3f97a49e80ed07e"
+    }
+  },
+  "original_CI_log": {
+    "bytes": 119112,
+    "sha256": "e271f8a4166f7b06cbd4ad52f4245cc8a581dcbbfdd5ff4d24b62d81887d3d9c"
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

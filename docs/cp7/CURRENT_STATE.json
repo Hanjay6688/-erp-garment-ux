@@ -1,4 +1,24 @@
 {
+  "note_committed_http_year_candidate": {
+    "status": "CANDIDATE_ACTUAL_AUTH_COMMITTED_YEAR364_NATIVE40_PENDING",
+    "contract": "docs/cp7/NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md",
+    "provider": "scripts/cp7_note_correction_cases.py",
+    "new_helper": "year_committed_actual_http",
+    "existing_HTTP_case": "NOTE_HTTP_CORRECTED_BOOK",
+    "Native40_budget_28_4_3_5_and_all40_IDs_unchanged": true,
+    "one_initial_actual_Auth_command_then_separate_request_readback": true,
+    "full366_before_after_main_lot_pages_required": true,
+    "all364_later_prefixes_plus12_required": true,
+    "confirmed_same_UUID_replay_and_complete_Native_private_snapshot_required": true,
+    "failed_initial_command_never_retried_and_never_PASS": true,
+    "statement_timeout_unchanged": "8s",
+    "local_standin_controls": 15,
+    "local_receipt": "docs/cp7/evidence/note-http-committed-year/local-d84/LOCAL_RECEIPT.json",
+    "app_runtime_Native_SQL_grants_formulas_and_frozen_proofs_changed": false,
+    "actual_Native_qualification": "PENDING",
+    "full_P19_acceptance": false,
+    "production_go": false
+  },
   "note_actual_http_diagnostic_candidate": {
     "status": "ACTUAL_AUTH_DIAGNOSTIC2_AND_YEAR364_QUALIFIED_AT_07DD",
     "contract": "docs/cp7/NOTE_ACTUAL_HTTP_DIAGNOSTIC_HANDOFF.md",
@@ -314,7 +334,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Publish retained Native57/40/69/Shell and exact Native152/284 Originals plus qualified-retention verifier; actual Auth year364 at07dd passes bounded measurements/full forced rollback with zero product credit. Inspect fresh tooling CI, then continue feasible source/P08/P18/P19. Recurring8s cause stays open; no JIT/financial/current-authority change. Missing real recipes/policies UNKNOWN; independent P20/installed P21 open.",
+  "execution_priority": "Publish strengthened existing Native40 actual Auth corrected-book case and exact BS post-inverse workspace oracle; require fresh complete40/Shell/current regressions. Preserve d84 Shell first failure1403/1 and qualified read-only verifier12. Actual committed year and full366 separate-request reads remain pending; previous07dd forced-rollback diagnostic is not substituted. Recurring8s cause, missing real recipes/policies and full P18/P19/P20/P21 stay open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3619,7 +3639,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Publish retained Native57/40/69/Shell and exact Native152/284 Originals plus qualified-retention verifier; actual Auth year364 at07dd passes bounded measurements/full forced rollback with zero product credit. Inspect fresh tooling CI, then continue feasible source/P08/P18/P19. Recurring8s cause stays open; no JIT/financial/current-authority change. Missing real recipes/policies UNKNOWN; independent P20/installed P21 open.",
+  "next_action": "Publish strengthened existing Native40 actual Auth corrected-book case and exact BS post-inverse workspace oracle; require fresh complete40/Shell/current regressions. Preserve d84 Shell first failure1403/1 and qualified read-only verifier12. Actual committed year and full366 separate-request reads remain pending; previous07dd forced-rollback diagnostic is not substituted. Recurring8s cause, missing real recipes/policies and full P18/P19/P20/P21 stay open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9154,7 +9174,7 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
-    "next_action": "Publish retained Native57/40/69/Shell and exact Native152/284 Originals plus qualified-retention verifier; actual Auth year364 at07dd passes bounded measurements/full forced rollback with zero product credit. Inspect fresh tooling CI, then continue feasible source/P08/P18/P19. Recurring8s cause stays open; no JIT/financial/current-authority change. Missing real recipes/policies UNKNOWN; independent P20/installed P21 open.",
+    "next_action": "Publish strengthened existing Native40 actual Auth corrected-book case and exact BS post-inverse workspace oracle; require fresh complete40/Shell/current regressions. Preserve d84 Shell first failure1403/1 and qualified read-only verifier12. Actual committed year and full366 separate-request reads remain pending; previous07dd forced-rollback diagnostic is not substituted. Recurring8s cause, missing real recipes/policies and full P18/P19/P20/P21 stay open.",
     "previous_application_qualification7300": {
       "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
       "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
@@ -9454,12 +9474,15 @@
       "new_execution_credit": 0
     },
     "qualified_original_verifier": {
-      "status": "LOCAL_12_CORRUPTION_CONTROLS_AND_SIX_EXACT_RECEIPTS_PASS_FRESH_CI_PENDING",
+      "status": "ACTUAL_CI_D84_12_CORRUPTION_CONTROLS_AND_EXACT_PINNED_152_284_PASS",
       "script": "scripts/cp7_verify_retained_originals.py",
       "caller": ".github/workflows/cp7-native-artifact-projection.yml",
       "product_SQL_or_app_changed": false,
       "Native_database_access": false,
-      "new_Native_execution_credit": 0
+      "new_Native_execution_credit": 0,
+      "source_commit": "d84ed947173fba17d356db5bfbb36f57faf9afd0",
+      "run_id": 37136682011,
+      "receipt": "docs/cp7/evidence/retained-original-verifier/qualified-d84/RECEIPT.json"
     },
     "latest_shell_original": {
       "source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
@@ -9471,6 +9494,18 @@
       "CodeQL_findings": 0,
       "private_kernel_scope_only": true,
       "private_kernel_cases": 138
+    },
+    "current_shell_first_failure_d84": {
+      "status": "INCOMPLETE_1403_PASS_ONE_DOM_ORACLE_FAIL",
+      "run_id": 37136682049,
+      "job_id": 111242522687,
+      "source_commit": "d84ed947173fba17d356db5bfbb36f57faf9afd0",
+      "receipt": "docs/cp7/evidence/finisher-regression/firstd84/shell/RECEIPT.json",
+      "all_tests_1404_preserved": true,
+      "both_CodeQL_originals_zero_findings": true,
+      "private_kernel_scope_only_PASS138": true,
+      "build_security_browser_executed_after_failure": false,
+      "successor_only_selects_exact_BS_workspace_RPC_after_inverse": "PENDING_FRESH_SHELL"
     }
   }
 }

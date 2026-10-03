@@ -1,0 +1,31 @@
+{
+  "classification": "OFFLINE_RPC_STANDIN_PAGER_CHECKS_NOT_NATIVE_OR_COMMITTED_YEAR_PROOF",
+  "parent_source_commit": "d84ed947173fba17d356db5bfbb36f57faf9afd0",
+  "controls": 15,
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "...............\n----------------------------------------------------------------------\nRan 15 tests in 0.005s\n\nOK\n",
+  "tested_sha256": {
+    "scripts/cp7_note_correction_cases.py": "1bb22219136c716b407d869eee802f21b07f6ed61326278bc95c547eb6051624",
+    "scripts/cp7_note_correction_http_history_test.py": "d3d1735f61c506c790bdae7331602808889185c7fa97d9e22991081a1b2e9e47",
+    ".github/workflows/cp7-note-correction.yml": "9cfbe915f473fc904a422630dab4e87e1065c18d9c85faf54825b28ca8e3e49b",
+    "src/ConnectedBsResolutionPage.dom.test.tsx": "0cefaa9b97f777a97670d096506d1772c337d111af2393190f9d26578a8a1f53"
+  },
+  "all_previous_native_fixture_bodies_unchanged": true,
+  "existing_HTTP_ID_unchanged": "NOTE_HTTP_CORRECTED_BOOK",
+  "Native40_budget_28_4_3_5_unchanged": true,
+  "product_SQL_app_and_frozen_proofs_changed": false,
+  "local_DOM_execution": "UNAVAILABLE_DEPENDENCIES_NOT_RESTORED",
+  "actual_Auth_year_commit": "PENDING_NATIVE_CI",
+  "Native_product_exit_case_credit": 0,
+  "full_P19_acceptance": false,
+  "production_go": false,
+  "existing_function_AST_changes": [
+    "http_cases"
+  ],
+  "added_functions": [
+    "complete_actual_http_history",
+    "year_committed_actual_http"
+  ],
+  "failure_body_without_JSON_preserves_incomplete_and_no_retry": true
+}

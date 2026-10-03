@@ -1,6 +1,6 @@
 # Active writer continuation · 3Oct2026
 
-Current controlling work is CURRENT_PROGRESS.md, CURRENT_STATE.json and CP7_FINISHER_20261003.md. Native57/40 at967b and Source69 at088f Originals are retained; exact F05 Native152/284 roots and every source/hash/case/gate are now verified. Actual Auth year364 diagnostic2 at07dd observes all366 main/lot rows and364 later+12 with full forced rollback, every gate/Auth0→0 and zero product credit. The recurring8s cause is still open. Current retained-Original verifier has12 local corruption controls PASS; fresh tooling CI is pending. Historical sections below do not reinstate ended Claude WIP protection or supersede current source-bound results. Continue single writer; no main/hosted/liveWA or independent/production acceptance.
+Current controlling work is CURRENT_PROGRESS.md, CURRENT_STATE.json and NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md. Native40 committed-year actual Auth366-row readback is a candidate; all40 IDs/budgets remain and15 local stand-in refusal controls pass. d84 Shell is1403 PASS/1 FAIL on the positional BS last-RPC oracle; its first Original stays, the exact post-inverse BS workspace oracle is patched and fresh Shell is required. Actual d84 read-only verifier12/exact152/284 passes. Previous07dd year forced-rollback diagnostic and967b40/57 qualified Originals remain source-bound. Local checkout is partial; no fresh local full DOM/Native run. Continue single writer, no main/hosted/liveWA/independent/production acceptance.
 
 ## Claude merge review · owner authorization 3 October 2026
 

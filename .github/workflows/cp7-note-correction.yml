@@ -48,6 +48,9 @@ jobs:
         path: auditor
         fetch-depth: 0
         persist-credentials: false
+    - name: Offline complete-history pager refusal controls / zero Native credit
+      working-directory: auditor
+      run: python scripts/cp7_note_correction_http_history_test.py
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
         path: harness
