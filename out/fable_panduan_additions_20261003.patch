@@ -1,5 +1,5 @@
---- a/docs/AUDIT_PANDUAN_PRO_MAX.md (31ee23f0)
-+++ b/docs/AUDIT_PANDUAN_PRO_MAX.md (Fable rev)
+--- a/docs/AUDIT_PANDUAN_PRO_MAX.md
++++ b/docs/AUDIT_PANDUAN_PRO_MAX.md
 @@ -46,4 +46,7 @@
  5. **Hasil lokal bukan bukti.** Beri label `LOCAL_PG16_DEV` atau `LOCAL_QUALIFIED`. Bukti penerimaan hanya dari run CI pada commit yang dipin (lihat tingkat bukti di protokol CP6).
  6. **Selama audit tidak ada perbaikan.** Auditor hanya membaca, menjalankan, dan menulis laporan. Perbaikan dikerjakan sesudah penyatuan, oleh satu penulis aktif pada satu waktu.
