@@ -1,0 +1,9 @@
+# Payment and return history page tools
+
+The connected invoice payment and physical-return histories now use the existing owned RecordTools component for search, status filters, reset and document-number order. All three controls explicitly apply only to the loaded25-row page. The official total, pagination, invoice balance, line/lot identity, physical time, exact money and Native source order remain attached to the Original rows. Filtering/sorting creates no balance, stock mutation, replacement or archive and sends no RPC.
+
+Reset clears the page search/status/order together. A current source focus always presents the unfiltered Native page and disables the presentation controls; its exact selected payment/return is not hidden by an earlier filter. Return entries use the same existing selected-source attribute as payments. Error/loading/stale/current authority, Native missing-target refusal, review/version/UUID and owning writer controls remain.
+
+Two additional DOM scenarios exercise numeric document ordering, source statuses, reference/lot search and reset. They preserve the complete mock source, reviewed/dirty operator form and RPC/write counts. These are application DTO stand-ins, not Native financial proof. Expected application budget becomes1429 in the same148 files; current-source CI must verify it. Existing Native cases/budgets, commands and financial guards are unchanged. Fresh actual Native source-navigation/financial browser results remain required before source-bound rollout qualification.
+
+This improves discovery of existing owning transactions. Posted payment/return atomic replacement, posted cutting edit/inverse, arbitrary whole-chain atomic rollback and complete all-submenu coverage remain separate open work. Reversal alone is not a completed edit feature. Frozen CP5/CP6/backend formulas and roles are untouched.

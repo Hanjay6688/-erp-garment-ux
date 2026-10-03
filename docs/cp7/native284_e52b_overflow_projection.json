@@ -1,0 +1,42 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37152608958,
+  "job_id": 111289394536,
+  "artifact_id": 11286370669,
+  "artifact_name": "cp7-f05-attention",
+  "source_commit": "e52b1df5294ec4001138b498a8379e47b3690318",
+  "source_tree": "f7cf0f41fd55e3d2cbcb0eefbf6d09836d748cae",
+  "source_bundle_sha256": "e6655a83f9514590467d0b31d2e710016ebe3944de67dd212de49926f3ee402f",
+  "zip_bytes": 345940734,
+  "zip_sha256": "33779cfc355f7ed2bccdd710edbdf4df90f478c8f81b2716aeff724ddf695e5b",
+  "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+  "expected_status": "INCOMPLETE",
+  "expected_case_count": 284,
+  "required_case_counts": {
+    "native": 179,
+    "races": 40,
+    "http": 29,
+    "browser": 36
+  },
+  "incomplete_case_counts": {
+    "native": {
+      "PASS": 179
+    },
+    "races": {
+      "PASS": 40
+    },
+    "http": {
+      "PASS": 29
+    },
+    "browser": {
+      "PASS": 35,
+      "INCOMPLETE": 1
+    }
+  },
+  "diagnostic_members": [
+    "P06_NETTING_DESKTOP_FAILURE.json"
+  ],
+  "image_members": [
+    "P06_NETTING_DESKTOP_FAILURE.png"
+  ]
+}

@@ -28,6 +28,14 @@ async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
 async function add(location='Gudang lain'){await click(button(location));await click(container.querySelector<HTMLElement>('[aria-label="Pilih alokasi retur"] .cproc-receipt:not(:disabled)')!)}
 async function header(){await fill('Nomor retur pelanggan','RET-NEW');await fill('Waktu retur pelanggan WIB','2026-09-29T12:31')}
 describe('P11 selected-allocation physical return',()=>{
+ it('filters the loaded return page without changing physical lines, source order or dispatching a writer',async()=>{
+  const rows=[{...record,number:'RET-10'},{...record,id:'77777777-7777-4777-8777-777777777777',number:'RET-2',status:'REVERSED',items:[{...record.items[0],id:'88888888-8888-4888-8888-888888888888'}]}]
+  const original=structuredClone(rows);mock.rpc.mockImplementation((_rpc,{p_query})=>{const r=response(p_query.kind);if(p_query.kind==='RETURNS'){r.page.rows=rows;r.page.total='2'}return Promise.resolve({data:r,error:null})});await mount();await fill('Nomor retur pelanggan','RET-OWN');const reads=mock.rpc.mock.calls.length
+  const numbers=()=>[...container.querySelectorAll('[aria-label="Riwayat retur invoice"] .cproc-item h4')].map(e=>e.textContent?.split(' · ')[0])
+  expect(numbers()).toEqual(['RET-10','RET-2']);await select('Urutkan halaman riwayat retur invoice','LABEL_ASC');expect(numbers()).toEqual(['RET-2','RET-10']);await select('Status retur di halaman ini','POSTED');expect(numbers()).toEqual(['RET-10'])
+  await fill('Cari riwayat retur di halaman ini','LOT-1');await click(button('Cari riwayat retur di halaman ini'));expect(numbers()).toEqual(['RET-10']);expect(container.textContent).toContain('Menampilkan 1 dari 2 retur pada halaman ini');expect(input('Nomor retur pelanggan').value).toBe('RET-OWN')
+  await click(button('Semua retur di halaman ini'));expect(numbers()).toEqual(['RET-10','RET-2']);expect(mock.rpc).toHaveBeenCalledTimes(reads);expect(saved).not.toHaveBeenCalled();expect(rows).toEqual(original)
+ })
  it('rejects stale source, incomplete history, impossible capacity and injected cost',()=>{
   expect(parseSalesReturns(response('ALLOCATIONS'),'ALLOCATIONS',source).page.total).toBe('2')
   expect(()=>parseSalesReturns({...response('ALLOCATIONS'),review_token:'b'.repeat(32)},'ALLOCATIONS',source)).toThrow()

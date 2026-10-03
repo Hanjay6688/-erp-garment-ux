@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Qualify scoped long-source production field containment with fresh Native82/152/284 and Shell; inspect complete Native/P17 roots and unedited desktop/mobile screenshots. First Native284 remains281/284 INCOMPLETE with its21 exact roots, failure diagnostic/image and four separately bounded P17 witnesses. Continue feasible CP7 edit/inverse/P18/P19 work without guessing owner/material policy or independent/installed GO.",
+  "execution_priority": "Qualify7112 long-source field containment and the latest P11 page-tools increment with fresh current-source Shell/Native results. Preserve e52b284 repeated width failure through exact read-only projection; no full284 qualification until all gates pass. Continue feasible CP7 transaction/edit/inverse/P18/P19 work without guessed owner/material policy or independent/installed GO.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -9996,6 +9996,19 @@
       "all21_Original_roots_verified": true,
       "four_P17_case_witnesses_actual_verified": true,
       "full284_credit": false
+    },
+    "second_attention284": {
+      "source_commit": "e52b1df5294ec4001138b498a8379e47b3690318",
+      "run_id": 37152608958,
+      "job_id": 111289394536,
+      "artifact_id": 11286370669,
+      "status": "ACTUAL_CI_INCOMPLETE_ONE_P06_DESKTOP_WIDTH_OBSERVER_FULL_ORIGINAL_ROOTS_PENDING_PROJECTION",
+      "failed_case_ids": [
+        "P06_BROWSER_DESKTOP_NATIVE_NETTING"
+      ],
+      "manifest": "docs/cp7/native284_e52b_overflow_projection.json",
+      "first_result_relabelled": false,
+      "full284_credit": false
     }
   },
   "production_long_source_label_candidate": {
@@ -10009,6 +10022,26 @@
     "full_actual_Native_long_label_and_option_required": true,
     "old_case_IDs_budgets_native_business_writers_formulas_guards_and_timeouts_unchanged": true,
     "new_Native_product_execution_credit": 0,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "p11_history_page_tools_candidate": {
+    "status": "IMPLEMENTED_CURRENT_SOURCE_APPLICATION_AND_NATIVE_ROLLOUT_PENDING",
+    "handoff": "docs/cp7/P11_HISTORY_PAGE_TOOLS_HANDOFF.md",
+    "consumer_paths": [
+      "src/SalesPaymentPanel.tsx",
+      "src/SalesReturnPanel.tsx"
+    ],
+    "existing_RecordTools_reused": true,
+    "search_status_and_order_scope": "LOADED_PAGE_ONLY_25",
+    "source_focus_never_filtered_or_reordered": true,
+    "Native_pagination_totals_money_balances_and_physical_timestamps_unchanged": true,
+    "new_browser_RPC_or_business_writer": false,
+    "two_meaningful_DOM_cases_predeclared": true,
+    "expected_application_cases": 1429,
+    "current_source_full_DOM_Native_execution_claimed": false,
+    "atomic_posted_payment_or_return_replacement_added": false,
+    "full_CP7": false,
     "independent_acceptance": false,
     "production_go": false
   }
