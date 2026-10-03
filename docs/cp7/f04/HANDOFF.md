@@ -1,5 +1,7 @@
 # F04 handoff to the single integrator
 
+> Current integrator continuation, 3 October 2026: the checkpoint below is historical contribution evidence. The modules are now composed in CP7; live-source baseline37, frozen-analysis152, attention284 and focused E01 have separately bound receipts in ../CURRENT_STATE.json. Current P08 proof is SAVE_DRAFT for one exact root/size/slot with current Native inputs. It does not reserve material, prove fabric-per-PC recipes/eligible allocations, or close broad physical apply. Continue from ../CURRENT_PROGRESS.md, not this old branch's integration instructions. Independent F04/full P18–P21 acceptance remains open.
+
 Contribution: [draft PR #36](https://github.com/Hanjay6688/-erp-garment-ux/pull/36)
 on `cp7/f04-planning-20260929`, targeting `cp7/integration`.
 

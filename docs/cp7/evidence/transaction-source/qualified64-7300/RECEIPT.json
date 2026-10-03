@@ -1,0 +1,370 @@
+{
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
+  "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
+  "run_id": 37124311853,
+  "job_id": 111206429296,
+  "artifact_id": 11275180943,
+  "archive_sha256": "c3f8159bb415a5be91bec1b8cade68761038577a2111a4cb6a3fbb2aee2d8b1e",
+  "archive_bytes": 16978315,
+  "source_bundle_sha256": "3df677325e8ac49cdbc7eb99c6bd00ba9e44e8780895a91739cece45bdc14cab",
+  "expected_case_count": 64,
+  "observed_case_count": 64,
+  "required_case_counts": {
+    "native": 36,
+    "races": 4,
+    "http": 8,
+    "browser": 16
+  },
+  "counts": {
+    "native": {
+      "PASS": 36
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 8
+    },
+    "browser": {
+      "PASS": 16
+    }
+  },
+  "previous57_id_retention": {
+    "native": {
+      "previous": 32,
+      "current": 36,
+      "previous_ids_retained": true,
+      "added": [
+        "CP7_SOURCE_LAUNDRY_AUTHORITY",
+        "CP7_SOURCE_LAUNDRY_DEPENDENCIES",
+        "CP7_SOURCE_LAUNDRY_DOCUMENTS",
+        "CP7_SOURCE_LAUNDRY_UNAVAILABLE"
+      ]
+    },
+    "races": {
+      "previous": 4,
+      "current": 4,
+      "previous_ids_retained": true,
+      "added": []
+    },
+    "http": {
+      "previous": 7,
+      "current": 8,
+      "previous_ids_retained": true,
+      "added": [
+        "CP7_SOURCE_LAUNDRY_HTTP_CURRENT_VIEW"
+      ]
+    },
+    "browser": {
+      "previous": 14,
+      "current": 16,
+      "previous_ids_retained": true,
+      "added": [
+        "CP7_SOURCE_LAUNDRY_BROWSER_DESKTOP",
+        "CP7_SOURCE_LAUNDRY_BROWSER_MOBILE"
+      ]
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "browser_console_errors": 0,
+  "Laundry_browser_original_observations": {
+    "CP7_SOURCE_LAUNDRY_BROWSER_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "actual_QC_queue_to_exact_Laundry_delivery_and_receipt": true,
+      "source_open_and_own_reason_no_business_DML": true,
+      "unchanged_Native_inverse_exact30_PCS_WIP_and_original_lines": true,
+      "actual_committed_reply_loss_reload_identical_UUID_payload_and_version": true,
+      "screenshots": [
+        "CP7_SOURCE_LAUNDRY_DESKTOP.png",
+        "CP7_SOURCE_LAUNDRY_INVERSE_DESKTOP.png"
+      ]
+    },
+    "CP7_SOURCE_LAUNDRY_BROWSER_MOBILE": {
+      "status": "PASS",
+      "mobile": true,
+      "actual_QC_queue_to_exact_Laundry_delivery_and_receipt": true,
+      "source_open_and_own_reason_no_business_DML": true,
+      "unchanged_Native_inverse_exact30_PCS_WIP_and_original_lines": true,
+      "actual_committed_reply_loss_reload_identical_UUID_payload_and_version": false,
+      "screenshots": [
+        "CP7_SOURCE_LAUNDRY_MOBILE.png",
+        "CP7_SOURCE_LAUNDRY_INVERSE_MOBILE.png"
+      ]
+    }
+  },
+  "retained_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "compressed_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_SOURCE_LAUNDRY_DESKTOP.png": {
+      "bytes": 297434,
+      "sha256": "5654a60dd359b1f1d6dc6aa15224dd9e25f53e76fbbfba5ff7acae643cf4d188"
+    },
+    "CP7_SOURCE_LAUNDRY_INVERSE_DESKTOP.png": {
+      "bytes": 283385,
+      "sha256": "9a2ac57d998aa8de66595f3c5881a97e477686cb5d29a59a5c2d4e2b8de60893"
+    },
+    "CP7_SOURCE_LAUNDRY_INVERSE_MOBILE.png": {
+      "bytes": 232188,
+      "sha256": "48ffe2ed8684341bcf13fee34b9d90af14130dc6f6261138e58a3fee9639f5dc"
+    },
+    "CP7_SOURCE_LAUNDRY_MOBILE.png": {
+      "bytes": 230159,
+      "sha256": "a87945d2ef9a9f8454fa768cb61e09d2fe3a97264eb54cc41cec1e76e731a3ef"
+    },
+    "CP7_SOURCE_QC_DESKTOP.png": {
+      "bytes": 255044,
+      "sha256": "dd615025d54050300b50e4e6a3e249e8882dd64edaedfb1f5e4d6904ebe785d6"
+    },
+    "CP7_SOURCE_QC_INVERSE_DESKTOP.png": {
+      "bytes": 255396,
+      "sha256": "0774543c7a839b92906e6a237de7de5459ccde9dfdcd3dfae485b787a2790f1b"
+    },
+    "CP7_SOURCE_QC_INVERSE_MOBILE.png": {
+      "bytes": 174587,
+      "sha256": "927dfce7d666e9b32390b31ad889c3e6723d05edf010ad6846d84729fb4a4b86"
+    },
+    "CP7_SOURCE_QC_MOBILE.png": {
+      "bytes": 174257,
+      "sha256": "3a9d7183cc9f8527de7e4c188a624dab7409966a65afb514a0de49ea0e3e760c"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_DESKTOP.png": {
+      "bytes": 1537061,
+      "sha256": "3c628c5421de5aac984710bca5cd55f8067e7eee58399afdace2b6577a3d7cd6"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_DESKTOP.png": {
+      "bytes": 1523771,
+      "sha256": "fc3274a6a7d210845747c259f3556bc6799c805a4c6e4e9010d9d0263543cfa5"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_MOBILE.png": {
+      "bytes": 1089019,
+      "sha256": "30e2188b68f3166b55ed86cb1c8810730400734f562728a1f8ec60d2fadee04b"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_MOBILE.png": {
+      "bytes": 1068010,
+      "sha256": "019bd9594016d9a89b6abed40b8828d554a99047a34a93949ecb1ee710018674"
+    },
+    "CP7_TRANSACTION_SOURCE.json": {
+      "bytes": 300657,
+      "sha256": "e6b26f44999feae3b1c6fa09084c4a2a5e246df435e6aeb700d751adfeaa45d4",
+      "compressed_sha256": "885f66ff478234835de8b677b50e09ad3b5705e919b180f4c092aa174a7d502c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "e71aeaf9bde139b25804bb49161f4651d0d3b1951313836b637119da7046b996",
+      "compressed_sha256": "5694a946bd69adab285fe640fe87a5ffc97b349e16871e8eef96335b12c3d2da"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "compressed_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "f3057bf9f0642494a6f066a3bdefcece1bb20b7f9a70caa1f003bba54848bef1",
+      "compressed_sha256": "fedee8321a7de249472446373a849c76119088e9e705c96ddef4f827ce5dd38b"
+    }
+  },
+  "all_archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "01db51566081a2b9dd5642c0619c78582791aa77bf1d1934b79eb897991febbf"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "01db51566081a2b9dd5642c0619c78582791aa77bf1d1934b79eb897991febbf"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "f2ac0e55ae21ce9f3ced8cbe28918574e386042215799365792b903eaf860564"
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png": {
+      "bytes": 222331,
+      "sha256": "99b65c1cdd7080e2f6826608b6b1d6d18830062c2573840746faa966a204845b"
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png": {
+      "bytes": 147084,
+      "sha256": "6039c41fb4b93da3cf5ce03a3cd6ffd6d81f786d776f61382436bda1517f7ea9"
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png": {
+      "bytes": 285424,
+      "sha256": "9308a2428c378efd346f58f31bf01cde81147c2b19fd5f535ff59f785ff13c8c"
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png": {
+      "bytes": 220611,
+      "sha256": "cc439a011ae15c7b56e8df3e3669677a2fe980f83793d6ba820132ebc320b56d"
+    },
+    "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png": {
+      "bytes": 214130,
+      "sha256": "aff7bef94863594b97cfa6b006ba6fab757b6ac7bb4d972686eca0e50a733c73"
+    },
+    "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png": {
+      "bytes": 136174,
+      "sha256": "8d4944900b8032c944c00a372b418124f5bf58e1dcbbaf0cf72a306977955e46"
+    },
+    "CP7_PRODUCTION_READ_QC_DESKTOP.png": {
+      "bytes": 536049,
+      "sha256": "f5352b326ee7f37fd4cb4493cffdb1fbe48f5354238b5be5b3b42debad468e33"
+    },
+    "CP7_PRODUCTION_READ_QC_MOBILE.png": {
+      "bytes": 415760,
+      "sha256": "aed5c3dbdb749f617f5023a97f1c984c583aa289212273beee57a06950575fd0"
+    },
+    "CP7_SOURCE_ACCESSORY_DESKTOP.png": {
+      "bytes": 336390,
+      "sha256": "aec37f878c9e0bb5c682bf9605f5c5a97ef973fbe2593000a70079e669b5d779"
+    },
+    "CP7_SOURCE_ACCESSORY_INVERSE_DESKTOP.png": {
+      "bytes": 330939,
+      "sha256": "d1d001dccb900c9b673b1aa0dc07503c52016f7dd995174bf16165478ad349ca"
+    },
+    "CP7_SOURCE_ACCESSORY_INVERSE_MOBILE.png": {
+      "bytes": 197924,
+      "sha256": "67964ab58c4de22573fc39b49dbabb3a83899c9519f9c40e201ad6ff155b51b3"
+    },
+    "CP7_SOURCE_ACCESSORY_MOBILE.png": {
+      "bytes": 200769,
+      "sha256": "ba268e39f67040582d2a185fc32ade049d63900627f7818ad16e491d3e248c2d"
+    },
+    "CP7_SOURCE_DESKTOP.png": {
+      "bytes": 789861,
+      "sha256": "65193f9e8dcec1d1d77f5d7b495a957954ced870368aaf4df25fb96f1cb1b0ff"
+    },
+    "CP7_SOURCE_LAUNDRY_DESKTOP.png": {
+      "bytes": 297434,
+      "sha256": "5654a60dd359b1f1d6dc6aa15224dd9e25f53e76fbbfba5ff7acae643cf4d188"
+    },
+    "CP7_SOURCE_LAUNDRY_INVERSE_DESKTOP.png": {
+      "bytes": 283385,
+      "sha256": "9a2ac57d998aa8de66595f3c5881a97e477686cb5d29a59a5c2d4e2b8de60893"
+    },
+    "CP7_SOURCE_LAUNDRY_INVERSE_MOBILE.png": {
+      "bytes": 232188,
+      "sha256": "48ffe2ed8684341bcf13fee34b9d90af14130dc6f6261138e58a3fee9639f5dc"
+    },
+    "CP7_SOURCE_LAUNDRY_MOBILE.png": {
+      "bytes": 230159,
+      "sha256": "a87945d2ef9a9f8454fa768cb61e09d2fe3a97264eb54cc41cec1e76e731a3ef"
+    },
+    "CP7_SOURCE_MOBILE.png": {
+      "bytes": 492829,
+      "sha256": "e83b6aec0fb470b2e9909724989a1fd5b14046064af79c41a6a7e71ce6aea5bc"
+    },
+    "CP7_SOURCE_PAYROLL_DESKTOP.png": {
+      "bytes": 769524,
+      "sha256": "d10c028ec438547e5e9391a44fd3df4421676cbb02fc7acfb39286ef8aa53aa0"
+    },
+    "CP7_SOURCE_PAYROLL_INVERSE_DESKTOP.png": {
+      "bytes": 768238,
+      "sha256": "10a1f7ea2ebcaa6f58decb67a38be4f422c34a8c6f97ae57dba87563756080e5"
+    },
+    "CP7_SOURCE_PAYROLL_MOBILE.png": {
+      "bytes": 529813,
+      "sha256": "94cd5694d001a22e34fc8142d9775055d7825320d676af16339adcded434a389"
+    },
+    "CP7_SOURCE_PAYROLL_INVERSE_MOBILE.png": {
+      "bytes": 529555,
+      "sha256": "86fa203058d30da8eac332feda4293298541653d18ac6676646bf4c67e7e2de9"
+    },
+    "CP7_SOURCE_QC_DESKTOP.png": {
+      "bytes": 255044,
+      "sha256": "dd615025d54050300b50e4e6a3e249e8882dd64edaedfb1f5e4d6904ebe785d6"
+    },
+    "CP7_SOURCE_QC_INVERSE_DESKTOP.png": {
+      "bytes": 255396,
+      "sha256": "0774543c7a839b92906e6a237de7de5459ccde9dfdcd3dfae485b787a2790f1b"
+    },
+    "CP7_SOURCE_QC_INVERSE_MOBILE.png": {
+      "bytes": 174587,
+      "sha256": "927dfce7d666e9b32390b31ad889c3e6723d05edf010ad6846d84729fb4a4b86"
+    },
+    "CP7_SOURCE_QC_MOBILE.png": {
+      "bytes": 174257,
+      "sha256": "3a9d7183cc9f8527de7e4c188a624dab7409966a65afb514a0de49ea0e3e760c"
+    },
+    "CP7_SOURCE_REWORK_DESKTOP.png": {
+      "bytes": 390446,
+      "sha256": "04f74bcb598966392b732d0e03264d27a4b96ab43ba75d9abd48070d49f73438"
+    },
+    "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png": {
+      "bytes": 410660,
+      "sha256": "46b23d45e133d18e32e2853d2c41f8f58d7fc87358a45ad6f523d8eb51fb87af"
+    },
+    "CP7_SOURCE_REWORK_INVERSE_MOBILE.png": {
+      "bytes": 311151,
+      "sha256": "71e570197945700aad03c0cbc854b9f37db04827b933fb7fc381e876d87964ca"
+    },
+    "CP7_SOURCE_REWORK_MOBILE.png": {
+      "bytes": 316526,
+      "sha256": "7ccd167075c6b5478c0e6a6c310d0910930a4970fe7aa86ae5f83d3d52ac701f"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_DESKTOP.png": {
+      "bytes": 1537061,
+      "sha256": "3c628c5421de5aac984710bca5cd55f8067e7eee58399afdace2b6577a3d7cd6"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_DESKTOP.png": {
+      "bytes": 1523771,
+      "sha256": "fc3274a6a7d210845747c259f3556bc6799c805a4c6e4e9010d9d0263543cfa5"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_MOBILE.png": {
+      "bytes": 1089019,
+      "sha256": "30e2188b68f3166b55ed86cb1c8810730400734f562728a1f8ec60d2fadee04b"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_MOBILE.png": {
+      "bytes": 1068010,
+      "sha256": "019bd9594016d9a89b6abed40b8828d554a99047a34a93949ecb1ee710018674"
+    },
+    "CP7_TRANSACTION_SOURCE.json": {
+      "bytes": 300657,
+      "sha256": "e6b26f44999feae3b1c6fa09084c4a2a5e246df435e6aeb700d751adfeaa45d4"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "e71aeaf9bde139b25804bb49161f4651d0d3b1951313836b637119da7046b996"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "f3057bf9f0642494a6f066a3bdefcece1bb20b7f9a70caa1f003bba54848bef1"
+    }
+  },
+  "scope": "Exact Native source navigation64 at7300 only. QC queue to current owning Laundry parent/embedded receipt and unchanged owning inverse with actual desktop lost-reply reload recovery. All prior57 IDs retained. Does not automatically qualify successor69 dependencies.",
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

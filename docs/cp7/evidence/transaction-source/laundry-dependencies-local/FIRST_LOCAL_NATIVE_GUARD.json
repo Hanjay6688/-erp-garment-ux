@@ -1,0 +1,22 @@
+{
+  "classification": "LOCAL_BLOCKED_NATIVE_RUNTIME_NOT_PRODUCT_QUALIFICATION",
+  "exit_code": 1,
+  "native_guard_preserved": true,
+  "reason": "Native PostgreSQL unavailable and executor is root; explicit local PGlite stand-in separately permitted by existing runner, Native CI unchanged.",
+  "application_first_observed": {
+    "files_failed": 11,
+    "files_passed": 135,
+    "tests_failed": 17,
+    "tests_passed": 1365,
+    "tests_skipped": 21,
+    "total": 1403
+  },
+  "original_log": {
+    "bytes": 16076,
+    "sha256": "d76b164c508f2b76195c70c21315ade2f365d97f8f8994f1a8ae1f0caf2a3439",
+    "gzip_sha256": "a5f72a345d1bd8729674234e1dac8e1dcfd00db5dc0361591e678f6c7a00e2f4"
+  },
+  "Native69": "PENDING",
+  "independent_acceptance": false,
+  "production_go": false
+}

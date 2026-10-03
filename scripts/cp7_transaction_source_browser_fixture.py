@@ -71,6 +71,15 @@ def main():
    out=laundry_source.fixture(cur,date.fromisoformat(p['today']))
   elif op=='state-laundry-source':
    out=laundry_source.observe(cur,p['fixture'])
+  elif op=='prepare-laundry-dependencies':
+   f=laundry_source.fixture(cur,date.fromisoformat(p['today']))
+   f['qc']=laundry_source.physical.qc(cur,f,1,0,14)['qc_inspection_id'];source.b.api.admin(cur)
+   f['qc_number']=cur.execute('select inspection_number from erp.qc_inspections where id=%s',(f['qc'],)).fetchone()[0]
+   f['item']=str(cur.execute('select id from erp.qc_inspection_items where inspection_id=%s',(f['qc'],)).fetchone()[0])
+   f['lot']=str(cur.execute('select id from erp.fg_lots where qc_item_id=%s',(f['item'],)).fetchone()[0])
+   f['movement']=str(cur.execute("select id from erp.fg_stock_movements where source_type='QC_ITEM'and source_id=%s and reversal_of_id is null",(f['item'],)).fetchone()[0]);out=f
+  elif op=='state-laundry-dependencies':
+   f=p['fixture'];out=dict(laundry=laundry_source.observe(cur,f),qc=qc_source.observe(cur,f))
   elif op=='prepare-qc-source':
    out=qc_source.fixture(cur,date.fromisoformat(p['today']))
   elif op=='state-qc-source':

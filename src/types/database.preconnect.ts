@@ -96,6 +96,7 @@ export type PreconnectDatabase = {
       erp_cp7_get_finance_report_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_finance_analysis_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_resolve_transaction_source_v1: { Args: { p_source: Json }; Returns: Json }
+      erp_cp7_get_transaction_dependencies_v1: { Args: { p_source: Json; p_offset: number }; Returns: Json }
       erp_cp7_get_journal_book_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_sales_returns_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_recost_queue_v1: { Args: { p_offset: number }; Returns: Json }

@@ -375,4 +375,46 @@ async function laundrySourceJourney(ui,today,mobile){
  }catch(e){let actual=null;try{actual=state()}catch(failure){actual={observation_error:String(failure)}}writeFileSync(`cp6-proof/t3/CP7_SOURCE_LAUNDRY_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual,lost},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_LAUNDRY_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
-export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP',()=>supplierPaymentJourney(ui,today,false)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE',()=>supplierPaymentJourney(ui,today,true)],['CP7_SOURCE_QC_BROWSER_DESKTOP',()=>qcSourceJourney(ui,today,false)],['CP7_SOURCE_QC_BROWSER_MOBILE',()=>qcSourceJourney(ui,today,true)],['CP7_SOURCE_LAUNDRY_BROWSER_DESKTOP',()=>laundrySourceJourney(ui,today,false)],['CP7_SOURCE_LAUNDRY_BROWSER_MOBILE',()=>laundrySourceJourney(ui,today,true)]]}
+async function laundryDependencyJourney(ui,today,mobile){
+ const f=fixture('prepare-laundry-dependencies',{today}),user=await ui.login('OWNER',{label:'transaction-laundry-QC-dependency-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',screenshots=[]
+ const state=()=>fixture('state-laundry-dependencies',{fixture:f}),receipt=()=>page.locator(`[data-laundry-receipt-id="${f.receipt}"]`),qc=()=>page.locator(`[data-qc-inspection-id="${f.qc}"]`)
+ const sourceResponse=r=>r.url().endsWith('/rpc/erp_cp7_resolve_transaction_source_v1'),dependencyResponse=r=>r.url().endsWith('/rpc/erp_cp7_get_transaction_dependencies_v1')
+ const saveResponse=action=>r=>r.url().endsWith('/rpc/erp_save_laundry_qc_action_v1')&&r.request().postDataJSON()?.p_action===action
+ const openReceipt=async()=>{
+  await page.getByRole('button',{name:'Antrean finalisasi',exact:true}).click()
+  await page.getByPlaceholder('Cari PO, Potongan, receipt, atau histori…',{exact:true}).fill(f.group_number)
+  const source=page.locator(`[data-qc-source-receipt-id="${f.receipt}"]`);await ui.expect(source).toHaveCount(1)
+  const r=await observed(page,sourceResponse,()=>source.getByRole('button',{name:'Buka penerimaan asal',exact:true}).click())
+  assert.equal(r.status(),200);const d=(await r.json()).document;assert.equal(d.id,f.delivery);assert.equal(d.focus.id,f.receipt)
+  await ui.expect(receipt()).toHaveAttribute('data-source-focus','true')
+ }
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state();assert.equal(before.qc.lot_qty,'1');assert.equal(before.qc.inspection.status,'POSTED')
+  await productionMenu(page,'• QC & Final SKU');await openReceipt()
+  await ui.expect(receipt()).toContainText('QC');await ui.expect(receipt().getByRole('button',{name:'Batalkan penerimaan',exact:true})).toBeDisabled()
+  let r=await observed(page,dependencyResponse,()=>receipt().getByRole('button',{name:'Lihat QC terkait',exact:true}).click())
+  assert.equal(r.status(),200);const d=await r.json();assert.equal(d.business_DML,false);assert.equal(d.parent.id,f.receipt);assert.deepEqual(d.page,{offset:0,limit:25,total:1,has_more:false});assert.equal(d.dependencies[0].source_id,f.qc)
+  const related=receipt().locator(`[data-laundry-qc-dependency-id="${f.qc}"]`);await ui.expect(related).toContainText(f.qc_number);assert.deepEqual(state(),before)
+  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
+  let filename=`CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
+  r=await observed(page,sourceResponse,()=>related.getByRole('button',{name:'Buka QC terkait',exact:true}).click())
+  assert.equal(r.status(),200);const target=(await r.json()).document;assert.equal(target.domain,'QC');assert.equal(target.id,f.qc);assert.equal(target.number,f.qc_number)
+  await ui.expect(qc()).toHaveAttribute('data-source-focus','true');await ui.expect(qc()).toContainText(f.qc_number);assert.deepEqual(state(),before)
+  await qc().getByLabel('Alasan reversal '+f.qc_number,{exact:true}).fill('Hasil QC salah setelah sumber penerimaan diperiksa')
+  r=await observed(page,saveResponse('REVERSE_FINAL_SKU'),()=>qc().getByRole('button',{name:'Batalkan finalisasi',exact:true}).click())
+  assert.equal(r.status(),200);assert.equal(r.request().postDataJSON().p_payload.qc_inspection_id,f.qc)
+  await ui.expect(qc().getByRole('button',{name:'Batalkan finalisasi',exact:true})).toBeDisabled()
+  const corrected=state();assert.equal(corrected.qc.inspection.status,'REVERSED');assert.equal(corrected.qc.lot_qty,'0');assert.deepEqual(corrected.qc.items,before.qc.items);assert.deepEqual(corrected.qc.original_movements,before.qc.original_movements);assert.equal(corrected.qc.inverse_movements.length,1)
+  await openReceipt();await ui.expect(receipt().locator('.clq-dependencies')).toHaveCount(0);assert.deepEqual(state(),corrected)
+  await receipt().getByLabel('Alasan reversal '+f.receipt_number,{exact:true}).fill('Penerimaan salah setelah pembatalan QC terkait selesai')
+  r=await observed(page,saveResponse('REVERSE_RECEIPT'),()=>receipt().getByRole('button',{name:'Batalkan penerimaan',exact:true}).click())
+  assert.equal(r.status(),200);assert.equal(r.request().postDataJSON().p_payload.receipt_id,f.receipt)
+  await ui.expect(receipt().getByRole('button',{name:'Batalkan penerimaan',exact:true})).toBeDisabled()
+  const after=state();assert.equal(after.laundry.receipt.status,'REVERSED');assert.deepEqual(after.laundry.receipt_lines,before.laundry.receipt_lines);assert.deepEqual(after.laundry.receipt_sizes,before.laundry.receipt_sizes);assert.deepEqual(after.laundry.original_WIP,before.laundry.original_WIP);assert.equal(after.laundry.inverse_WIP.length,1);assert.equal(after.qc.inverse_movements.length,1);assert.equal(after.qc.lot_qty,'0')
+  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
+  filename=`CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_INVERSE_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
+  return{status:'PASS',mobile,actual_blocked_receipt_lists_exact_QC_FK_no_DML:true,current_QC_target_rechecked_by_owning_reader:true,explicit_owning_QC_then_receipt_inverses_with_original_history:true,one_PCS_FG_and30_PCS_receipt_WIP_inverses_once:true,two_Native_commands_not_claimed_one_atomic_chain:true,screenshots}
+ }catch(e){let actual=null;try{actual=state()}catch(failure){actual={observation_error:String(failure)}}writeFileSync(`cp6-proof/t3/CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
+ finally{await user.context.close()}
+}
+export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP',()=>supplierPaymentJourney(ui,today,false)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE',()=>supplierPaymentJourney(ui,today,true)],['CP7_SOURCE_QC_BROWSER_DESKTOP',()=>qcSourceJourney(ui,today,false)],['CP7_SOURCE_QC_BROWSER_MOBILE',()=>qcSourceJourney(ui,today,true)],['CP7_SOURCE_LAUNDRY_BROWSER_DESKTOP',()=>laundrySourceJourney(ui,today,false)],['CP7_SOURCE_LAUNDRY_BROWSER_MOBILE',()=>laundrySourceJourney(ui,today,true)],['CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_DESKTOP',()=>laundryDependencyJourney(ui,today,false)],['CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_MOBILE',()=>laundryDependencyJourney(ui,today,true)]]}

@@ -21,7 +21,7 @@ import cp7_qc_source_cases as qc_source
 import cp7_laundry_source_cases as laundry_source
 import cp7_transaction_source_bundle as bundle
 b,auth=material.b,material.auth
-REQUIRED=dict(native=36,races=4,http=8,browser=16)
+REQUIRED=dict(native=38,races=4,http=9,browser=18)
 EXPECTED=sum(REQUIRED.values())
 RPC='erp_cp7_resolve_transaction_source_v1'
 
@@ -290,7 +290,7 @@ def cases(cur,today):
   assert cur.execute('select has_function_privilege(\'authenticated\',\'public.erp_cp7_resolve_transaction_source_v1(jsonb)\',\'EXECUTE\')').fetchone()[0]
   return dict(status='PASS',public_current_auth_only_private_resolver_and_ERP_DML_denied=True)
  functions=[receipts,invoices,transfers,counts,finished,sales,payments,returns,journals,authority,malformed,least_privilege,payroll_headers,payroll_payments,payroll_authority,payroll_unavailable,accessory_documents,accessory_history,accessory_authority,accessory_unsupported,rework_documents,rework_history,rework_authority,rework_unavailable]
- controls=[('CP7_SOURCE_'+f.__name__.upper(),f)for f in functions]+supplier_payment.cases(cur,today)+qc_source.cases(cur,today)+laundry_source.cases(cur,today)
+ controls=[('CP7_SOURCE_'+f.__name__.upper(),f)for f in functions]+supplier_payment.cases(cur,today)+qc_source.cases(cur,today)+laundry_source.cases(cur,today)+laundry_source.dependency_cases(cur,today)
  assert len(controls)==REQUIRED['native']
  return controls
 

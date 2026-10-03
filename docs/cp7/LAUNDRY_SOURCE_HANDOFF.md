@@ -13,3 +13,8 @@ Local qualification:108 impacted controls in7 files, build, full security/owners
 Next writer: obtain the source-bound Native64 Original before marking this path qualified. Keep its exact first failure if any. Continue remaining source/dependency exits and feasible material/P08/P18/P19 work; real fabric recipes/eligible allocation and owner policy inputs stay UNKNOWN until available. P20 independent and P21 installed/production acceptance cannot be issued by this writer.
 
 independent_acceptance=false; audit_complete=false; production_go=false.
+# Current qualification · source7300
+
+Native64 at7300fe0150531f9352d0e5f65ad6606e09167567/tree e8b46a419a03aec3839739932a5c1dd1c7294270 is PASS36 DB/4 actual races/8 actual Auth HTTP/16 desktop/mobile browsers. All57 previous IDs remain; every restoration/primary/backup/advisor/Auth gate passes, Auth0→0, console0. Source bundle3df677325e8ac49cdbc7eb99c6bd00ba9e44e8780895a91739cece45bdc14cab. Run37124311853/job111206429296/artifact11275180943; five Original root JSONs and12 unedited supplier/QC/Laundry captures: evidence/transaction-source/qualified64-7300/RECEIPT.json.
+
+Shell at the same source passes1396 application tests/144 files/6 actual Shell browsers/build/security and both zero-finding CodeQL jobs; evidence/finisher-regression/qualified7300/shell/RECEIPT.json. This does not close all CP7 or qualify the later dependency reader automatically. Continue successor69 from TRANSACTION_DEPENDENCIES_HANDOFF.md; the earlier candidate text below is historical.

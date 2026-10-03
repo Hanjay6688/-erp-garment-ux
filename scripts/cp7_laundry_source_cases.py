@@ -114,4 +114,82 @@ def http_cases(http,today):
   assert user.rpc('erp_get_laundry_qc_workspace_v1',dict(p_scope='LAUNDRY',p_query=f['delivery_number']))['status']==403
   with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==before
   return dict(status='PASS',actual_ADMIN_JWT_exact_Laundry_parent_and_child=True,same_token_current_view_revoke_both_readers_403_no_DML=True)
- return [('CP7_SOURCE_LAUNDRY_HTTP_CURRENT_VIEW',current)]
+ return [('CP7_SOURCE_LAUNDRY_HTTP_CURRENT_VIEW',current)]+dependency_http_cases(http,today)
+
+def dependency_read(cur,f,offset=0,subject=None):
+ auth.actor(cur,subject)
+ r=cur.execute('select public.erp_cp7_get_transaction_dependencies_v1(%s::jsonb,%s)',
+  (json.dumps(dict(source_type='LAUNDRY_RECEIPT',source_id=f['receipt'])),offset)).fetchone()[0]
+ b.api.admin(cur);return r
+
+def reverse_qc(cur,ident,subject=None):
+ b.api.admin(cur);number=cur.execute('select inspection_number from erp.qc_inspections where id=%s',(ident,)).fetchone()[0]
+ auth.actor(cur,subject)
+ w=cur.execute("select public.erp_get_laundry_qc_workspace_v1('QC',%s)",(number,)).fetchone()[0]
+ q=next(x for x in w['qc_history']if x['qc_inspection_id']==ident)
+ assert q['reversible']is True
+ r=cur.execute("select public.erp_save_laundry_qc_action_v1('REVERSE_FINAL_SKU',%s::jsonb,%s,%s)",
+  (json.dumps(dict(qc_inspection_id=ident,reason='Actual source dependency corrected through owning QC')),uuid.uuid4(),q['row_version'])).fetchone()[0]
+ b.api.admin(cur);return r
+
+def dependency_cases(cur,today):
+ def pages():
+  f=fixture(cur,today);ids=[physical.qc(cur,f,1,0,14)['qc_inspection_id']for _ in range(26)]
+  other=fixture(cur,today);other_qc=physical.qc(cur,other,1,0,14)['qc_inspection_id'];b.api.admin(cur);before=b.boundary.snapshot(cur)
+  first=dependency_read(cur,f);last=dependency_read(cur,f,25)
+  assert first['business_DML']is False and last['business_DML']is False
+  assert first['source']==dict(source_type='LAUNDRY_RECEIPT',source_id=f['receipt'])
+  assert first['parent']['id']==f['receipt']and first['parent']['number']==f['receipt_number']
+  assert first['page']==dict(offset=0,limit=25,total=26,has_more=True)
+  assert last['page']==dict(offset=25,limit=25,total=26,has_more=False)
+  seen=[x['source_id']for x in first['dependencies']+last['dependencies']]
+  assert len(first['dependencies'])==25 and len(last['dependencies'])==1 and len(set(seen))==26 and set(seen)==set(ids)and other_qc not in seen
+  assert all(set(x)=={'source_type','source_id','number','status','revision'}and x['source_type']=='QC_INSPECTION'and x['status']!='REVERSED'for x in first['dependencies']+last['dependencies'])
+  assert b.boundary.snapshot(cur)==before
+  removed=seen[0];reverse_qc(cur,removed);current=dependency_read(cur,f)
+  assert current['page']==dict(offset=0,limit=25,total=25,has_more=False)
+  assert {x['source_id']for x in current['dependencies']}==set(ids)-{removed}
+  before=b.boundary.snapshot(cur);auth.refused(cur,lambda:reverse(cur,f),'QC');assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',actual_26_Native_QC_posts_complete_25_and_1_pages=True,unrelated_actual_receipt_QC_excluded=True,reads_full_Native_boundary_unchanged=True,owning_QC_inverse_removes_only_actual_active_dependency=True,other_25_current_QC_keep_parent_inverse_refused=True)
+ def authority_fields():
+  f=fixture(cur,today);physical.qc(cur,f,1,0,14);subject,role=material.receipt.custom(cur,('production.laundry.view','production.final_sku.view'))
+  assert dependency_read(cur,f,subject=subject)['page']['total']==1
+  for permission in('production.final_sku.view','production.laundry.view'):
+   cur.execute('delete from erp.app_role_permissions where role_id=%s and permission_key=%s',(role,permission));before=b.boundary.snapshot(cur)
+   for ident in(f['receipt'],str(uuid.uuid4())):
+    auth.refused(cur,lambda ident=ident:dependency_read(cur,dict(receipt=ident),subject=subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
+   assert b.boundary.snapshot(cur)==before
+   cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)',(role,permission))
+  before=b.boundary.snapshot(cur)
+  for offset in(-25,1,1000025,None):auth.refused(cur,lambda offset=offset:dependency_read(cur,f,offset),'CP7_TRANSACTION_DEPENDENCY_FIELDS')
+  auth.refused(cur,lambda:dependency_read(cur,dict(receipt=str(uuid.uuid4()))),'CP7_TRANSACTION_SOURCE_UNAVAILABLE')
+  for value in(dict(source_type='LAUNDRY_DELIVERY',source_id=f['delivery']),dict(source_type='LAUNDRY_RECEIPT',source_id=f['receipt'],extra=True)):
+   def bad():
+    auth.actor(cur);return cur.execute('select public.erp_cp7_get_transaction_dependencies_v1(%s::jsonb,0)',(json.dumps(value),)).fetchone()[0]
+   auth.refused(cur,bad,'CP7_TRANSACTION_DEPENDENCY_FIELDS')
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',both_actual_current_view_permissions_precede_parent_and_QC_metadata=True,missing_parent_and_malformed_scope_or_pagination_refused=True,all_refusals_full_Native_boundary_unchanged=True)
+ return [('CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_PAGES',pages),('CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_AUTHORITY_FIELDS',authority_fields)]
+
+def dependency_http_cases(http,today):
+ def current():
+  user=http.login('ADMIN','cp7-source-Laundry-QC-dependencies')
+  with http.connect()as conn,conn.cursor()as cur:
+   f=fixture(cur,today);qc=physical.qc(cur,f,1,0,14)['qc_inspection_id'];b.api.admin(cur)
+   role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(user.auth_user_id,)).fetchone()[0]
+   for permission in('production.laundry.view','production.final_sku.view'):
+    cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,permission))
+   before=b.boundary.snapshot(cur);conn.commit()
+  args=dict(p_source=dict(source_type='LAUNDRY_RECEIPT',source_id=f['receipt']),p_offset=0)
+  r=user.rpc('erp_cp7_get_transaction_dependencies_v1',args);assert r['status']==200
+  assert r['body']['actor_scope_id']==user.auth_user_id and r['body']['parent']['id']==f['receipt']and r['body']['business_DML']is False
+  assert r['body']['page']==dict(offset=0,limit=25,total=1,has_more=False)and r['body']['dependencies'][0]['source_id']==qc
+  with http.connect()as conn,conn.cursor()as cur:
+   assert b.boundary.snapshot(cur)==before
+   cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='production.final_sku.view'",(role,));before=b.boundary.snapshot(cur);conn.commit()
+  assert user.rpc('erp_cp7_get_transaction_dependencies_v1',args)['status']==403
+  missing=dict(p_source=dict(source_type='LAUNDRY_RECEIPT',source_id=str(uuid.uuid4())),p_offset=0)
+  assert user.rpc('erp_cp7_get_transaction_dependencies_v1',missing)['status']==403
+  with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',actual_ADMIN_JWT_current_exact_receipt_QC_dependency_read_no_DML=True,same_JWT_current_QC_view_revoke_denies_known_and_unknown_receipt=True)
+ return [('CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_HTTP_CURRENT_VIEW',current)]
