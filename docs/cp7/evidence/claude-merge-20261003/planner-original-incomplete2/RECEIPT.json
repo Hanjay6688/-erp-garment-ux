@@ -1,0 +1,121 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "artifact_id": 11265820081,
+  "artifact_name": "cp7-f03-planner-seam",
+  "run_id": 37099281973,
+  "job_id": 111135455611,
+  "zip_bytes": 1636684,
+  "zip_sha256": "f6d0740f70210f4c0a1c979f6dc021246af5a4fd73cdb9c9372856f2201250e5",
+  "runtime_report": "CP7_F03_NATIVE_PLANNER_SEAMS.json",
+  "expected_status": "INCOMPLETE",
+  "expected_case_count": 2,
+  "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+  "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+  "zip_verification_runtime": "LOCAL_READ_ONLY_EXACT_GITHUB_ARTIFACT_RETAIN_NO_NEW_EXECUTION_CREDIT",
+  "status": "NATIVE_WRITER_INCOMPLETE",
+  "source_bundle_sha256": "e4b4fa925d2b0b1c19bb2b971f192d17dcf12511e935221091257b3d56ab3cc1",
+  "observed_case_count": 2,
+  "required_case_counts": null,
+  "counts": {
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    },
+    "races": null,
+    "http": null,
+    "browser": null
+  },
+  "failures": {
+    "native": {
+      "O06_NATIVE_RESERVATION_PLANNER_ONCE": "INCOMPLETE"
+    },
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "cf5978e20b068579ef4ff65473ba85e1c1520a42ef76e1781c8be693a34e651c",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F03_NATIVE_PLANNER_SEAMS.json": {
+      "bytes": 276844,
+      "sha256": "55493e1c3d8386ec488a09504a4912bff80d8400f01738606fd14c5c0f3fef2b"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c9e820b927be6720aebdc53602424defc6ef559c456c5270dbf8b5eddc958428"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360440,
+      "sha256": "5cdda9fd5e46202fbf0a569ef9eb8e62dd39545b4a610f224e869e026cbf80d9"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385609,
+      "sha256": "1fe34b38a748b0c9641e3808122d4675c40efafad03fe0bc41d87099e55b53c8"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385609,
+      "sha256": "1fe34b38a748b0c9641e3808122d4675c40efafad03fe0bc41d87099e55b53c8"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "86834d5746029bb8b81c4d49b4eafa5e1ac6dfa4d4da7a8c6e83c426a393425b"
+    },
+    "CP7_F03_NATIVE_PLANNER_SEAMS.json": {
+      "bytes": 276844,
+      "sha256": "55493e1c3d8386ec488a09504a4912bff80d8400f01738606fd14c5c0f3fef2b"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c9e820b927be6720aebdc53602424defc6ef559c456c5270dbf8b5eddc958428"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360440,
+      "sha256": "5cdda9fd5e46202fbf0a569ef9eb8e62dd39545b4a610f224e869e026cbf80d9"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

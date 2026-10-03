@@ -1,0 +1,164 @@
+{
+  "artifact_id": 11265966261,
+  "artifact_name": "cp7-f03-full-p12",
+  "zip_bytes": 7781680,
+  "zip_sha256": "f69b8b3f34ed25b6a77134c5ba0bdee037cb2fba61b868a00324abe9c383f568",
+  "job_id": 111135456573,
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37099282091,
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "runtime_report": "CP7_F03_FULL_P12.json",
+  "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+  "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+  "source_bundle_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+  "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+  "expected_case_count": 90,
+  "observed_case_count": 90,
+  "expected_smoke_count": 0,
+  "observed_smoke_count": 0,
+  "observed_group_count": 29,
+  "groups_complete": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "3ced98060ed5a05352c019760cc7334c38f405569c370ccde4a061f869650dfa",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F03_FULL_P12.json": {
+      "bytes": 407966,
+      "sha256": "d9fb9349b56b5c6c05b82c164f766b95fab3bb56f3cd2cc0e7d4ab06c80ca72c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "947ab64f767f45c61408cb47a5a17a14a27b0192b99d443677c599fe8c67f348"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "cc7474bf0fb0dcb10af6d6e1305873901d9eae4f63a5a89fa94f24128ab17170"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385628,
+      "sha256": "01b9a187ae9662dceb153bb0df5a2cac42001ba9b6c869f920ab7b6518a481f8"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385628,
+      "sha256": "01b9a187ae9662dceb153bb0df5a2cac42001ba9b6c869f920ab7b6518a481f8"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "39051f917949e12a7db2c2cd9fc7c5030fb1868d28a396236d696a9a8b449539"
+    },
+    "CP7_F03_FULL_P12.json": {
+      "bytes": 407966,
+      "sha256": "d9fb9349b56b5c6c05b82c164f766b95fab3bb56f3cd2cc0e7d4ab06c80ca72c"
+    },
+    "P12_ATTENDANCE_ENTRY_DESKTOP.png": {
+      "bytes": 648123,
+      "sha256": "52ecbb4951532e835d5152d3cddea1399e786889b897707063618ce45ba9aad8"
+    },
+    "P12_ATTENDANCE_ENTRY_MOBILE.png": {
+      "bytes": 447582,
+      "sha256": "cddeea01f06bcaf95e939939e2a3556a1954f23b6c0cb0b12051fd39a3da7445"
+    },
+    "P12_ATTENDANCE_READ_DESKTOP.png": {
+      "bytes": 391864,
+      "sha256": "d97a812ac6951bbecc9cceb846df76190b479b38ebbeadba0d6b33e18343ff9d"
+    },
+    "P12_ATTENDANCE_READ_MOBILE.png": {
+      "bytes": 284022,
+      "sha256": "8cbc79e0ceb24859e5b1537cf723c92dea5e51a82ab6afa06eb2ac626a91e030"
+    },
+    "P12_NOTA_DESKTOP.png": {
+      "bytes": 487983,
+      "sha256": "c89d0d5bd3e6ca44ae0b0f91df1d983700d785125e6b8ce3146a2dead468610c"
+    },
+    "P12_NOTA_MOBILE.png": {
+      "bytes": 304364,
+      "sha256": "220f32c1129ebecf3c1c9450bc76f23697c3e06a88925fd67832f8d580304d01"
+    },
+    "P12_OPENING_DESKTOP.png": {
+      "bytes": 556365,
+      "sha256": "d8a0a32a507d46cee9d759c1eda83bfe8aad9978b430d72d38acfdc3243461d3"
+    },
+    "P12_OPENING_MOBILE.png": {
+      "bytes": 374958,
+      "sha256": "300611a0062bc94a81279c22ee5c972a18c0a016ad6951dfc5cd50f0ac8474a5"
+    },
+    "P12_PAYROLL_REVIEW_DESKTOP.png": {
+      "bytes": 508427,
+      "sha256": "dcdffb3223ddca438d3b08bfc3198c742778f170f3a26432bace4bfab42beb41"
+    },
+    "P12_PAYROLL_REVIEW_MOBILE.png": {
+      "bytes": 360462,
+      "sha256": "57b0141ecb2fdb643b808e3440cbe5c0ef33ab9c5457fe51c4cbf85e8697fc78"
+    },
+    "P12_PAYROLL_SETTLEMENT_DESKTOP.png": {
+      "bytes": 571391,
+      "sha256": "a96ac838f858007d69ba97750b92da1c7f513d016e53c4fc11c4c615aada94e7"
+    },
+    "P12_PAYROLL_SETTLEMENT_MOBILE.png": {
+      "bytes": 403041,
+      "sha256": "8a0f32c090ab84c298fe959626b426dd27dd5b1922f76e3fed87db86a4b28a63"
+    },
+    "P12_ROSTER_DESKTOP.png": {
+      "bytes": 535839,
+      "sha256": "a8eba1fdbd800c5f9f90ae320e5b89f7fb58d141baefbbd9e6c0b10fb4f44e2d"
+    },
+    "P12_ROSTER_MOBILE.png": {
+      "bytes": 371684,
+      "sha256": "3b32033ab5a08bac7e62f0868995c0cb7a4390b12bf32d1c639cc596efa451bd"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "947ab64f767f45c61408cb47a5a17a14a27b0192b99d443677c599fe8c67f348"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "cc7474bf0fb0dcb10af6d6e1305873901d9eae4f63a5a89fa94f24128ab17170"
+    }
+  },
+  "artifact_retention_only": true,
+  "new_execution_case_credit": 0,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

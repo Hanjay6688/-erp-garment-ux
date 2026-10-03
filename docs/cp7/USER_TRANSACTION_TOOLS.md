@@ -1,5 +1,8 @@
 # Kontrol submenu dan koreksi seluruh transaksi — keputusan owner, 3 Oktober 2026
 
+> 3 October 2026 merge review: Claude’s completed `f4049e4f` handoff is merged into `cp7/integration`. Current source and qualification are controlled by [CLAUDE_MERGE_VERIFICATION_20261003.md](CLAUDE_MERGE_VERIFICATION_20261003.md); the source-specific checkpoints below remain historical. Receipt correction now has a fresh 42/42 Native result at `48fe7c2`; whole CP7 and every-submenu transaction controls remain open.
+
+
 Ini bagian wajib CP7. Permintaan owner mencakup seluruh pergerakan stok, pembayaran, penerimaan uang, biaya, dan pergerakan lain; cakupannya tidak terbatas pada koreksi nota yang baru selesai. Seluruh tombol dan jalur di bawah harus mempunyai bukti sebelum dianggap selesai. Hasil stress test backend pada jalur yang sudah ada tidak membuktikan bahwa semua jalur edit telah tersedia.
 
 ## Kepala setiap submenu

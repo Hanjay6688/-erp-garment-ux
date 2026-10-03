@@ -1,5 +1,11 @@
 # Current CP7 status · 3 October 2026
 
+Current controlling merge review: [CLAUDE_MERGE_VERIFICATION_20261003.md](CLAUDE_MERGE_VERIFICATION_20261003.md). Claude `f4049e4f` is integrated at `48fe7c2`; exact catalogue harness successor `0642d1bc` is qualifying. Fresh merged Shell: 1,297/1,297, 140 files, six browser checks, security/build/two CodeQL; receipt correction: 42/42 including actual year-old FINAL supplier-price correction and immutable Native writer hashes. Full merge qualification is pending the remaining runs; first planner failure remains retained. CP6 is CLOSED_CONTRACT_SCOPE_HOLD_NO_DEPLOYMENT, and full CP7 remains open.
+
+The checkpoints below are historical; their waiting-Claude and pending-literal-year descriptions do not override the completed handoff and fresh receipt proof. Receipt32 figures remain valid only for their stated prior sources.
+
+## Historical checkpoints
+
 Current UI candidate adds receivables search/status/browse/sort and direct exact-source invoice navigation for edit/cancel, with fresh Native read and fail-closed invalid/wrong selection. Local47 affected and1256/129 full tests, build/security pass; strengthened existing E01 desktop/mobile checks are not yet run at this source. See RECEIVABLES_SOURCE_CONTROLS.md. Preceding413 authority-read source passes five actual Native controls and full Shell1290/140 with6 browser/security/build/CodeQL. Source6127 F05 Original is now retained284=179/40/29/36 with all gates/Auth0→0; its note39/40 failure remains. No universal edit/delete or full-CP7 completion is claimed.
 
 Fresh result: source6127 passes all eight F03 buckets (Originals retained) and full Native Shell139/1285 with6 browser checks/CodeQL. Owning-note40 is INCOMPLETE39/40 due to actual desktop-microsecond HTTP500/57014; Original retained. A concrete candidate removes one duplicate complete current-access read per sales guard invocation while preserving all Native fine checks, live revocation, role boundaries and8s timeout. Build/security/28 affected DOM checks pass; five isolated Native controls plus complete40/eight-F03/284 must qualify the new source. See SALES_COMMAND_AUTHORITY_READ.md. Every-module edit/delete rollout remains mandatory and unfinished. The qualified9cc table below is historical, not current-source credit.

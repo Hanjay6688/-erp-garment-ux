@@ -1,0 +1,186 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+  "run_id": 37099282091,
+  "summaries": [
+    {
+      "job_id": 111135456443,
+      "name": "Full F03 stack / cash_installments",
+      "root_summaries": [
+        {
+          "label": "CP7_F03_FULL_CASH_INSTALLMENTS",
+          "status": "PASS",
+          "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+          "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+          "source_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+          "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+          "observed_case_count": 61,
+          "expected_case_count": 61,
+          "observed_smoke_count": 0,
+          "observed_group_count": 13,
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "error": null,
+          "restore_error": null
+        }
+      ]
+    },
+    {
+      "job_id": 111135456512,
+      "name": "Full F03 stack / p13",
+      "root_summaries": [
+        {
+          "label": "CP7_F03_FULL_P13",
+          "status": "PASS",
+          "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+          "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+          "source_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+          "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+          "observed_case_count": 50,
+          "expected_case_count": 50,
+          "observed_smoke_count": 0,
+          "observed_group_count": 16,
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "error": null,
+          "restore_error": null
+        }
+      ]
+    },
+    {
+      "job_id": 111135456554,
+      "name": "Full F03 stack / p11",
+      "root_summaries": [
+        {
+          "label": "CP7_F03_FULL_P11",
+          "status": "PASS",
+          "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+          "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+          "source_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+          "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+          "observed_case_count": 64,
+          "expected_case_count": 64,
+          "observed_smoke_count": 0,
+          "observed_group_count": 15,
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "error": null,
+          "restore_error": null
+        }
+      ]
+    },
+    {
+      "job_id": 111135456558,
+      "name": "Full F03 stack / p10",
+      "root_summaries": [
+        {
+          "label": "CP7_F03_FULL_P10",
+          "status": "PASS",
+          "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+          "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+          "source_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+          "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+          "observed_case_count": 34,
+          "expected_case_count": 34,
+          "observed_smoke_count": 0,
+          "observed_group_count": 9,
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "error": null,
+          "restore_error": null
+        }
+      ]
+    },
+    {
+      "job_id": 111135456565,
+      "name": "Full F03 stack / p09",
+      "root_summaries": [
+        {
+          "label": "CP7_F03_FULL_P09",
+          "status": "PASS",
+          "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+          "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+          "source_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+          "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+          "observed_case_count": 132,
+          "expected_case_count": 132,
+          "observed_smoke_count": 3,
+          "observed_group_count": 29,
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "error": null,
+          "restore_error": null
+        }
+      ]
+    },
+    {
+      "job_id": 111135456573,
+      "name": "Full F03 stack / p12",
+      "root_summaries": [
+        {
+          "label": "CP7_F03_FULL_P12",
+          "status": "PASS",
+          "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+          "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+          "source_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+          "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+          "observed_case_count": 90,
+          "expected_case_count": 90,
+          "observed_smoke_count": 0,
+          "observed_group_count": 29,
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "error": null,
+          "restore_error": null
+        }
+      ]
+    },
+    {
+      "job_id": 111135456580,
+      "name": "Full F03 stack / supplier_credit",
+      "root_summaries": [
+        {
+          "label": "CP7_F03_FULL_SUPPLIER_CREDIT",
+          "status": "PASS",
+          "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+          "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+          "source_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+          "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+          "observed_case_count": 5,
+          "expected_case_count": 5,
+          "observed_smoke_count": 0,
+          "observed_group_count": 4,
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "error": null,
+          "restore_error": null
+        }
+      ]
+    },
+    {
+      "job_id": 111135456630,
+      "name": "Full F03 stack / customer_refund",
+      "root_summaries": [
+        {
+          "label": "CP7_F03_FULL_CUSTOMER_REFUND",
+          "status": "PASS",
+          "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+          "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+          "source_sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a",
+          "manifest_sha256": "e634906f2fe963b88593c5d75bf0b0b8bb3456f117491392579a4803f46e4796",
+          "observed_case_count": 10,
+          "expected_case_count": 10,
+          "observed_smoke_count": 0,
+          "observed_group_count": 7,
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "error": null,
+          "restore_error": null
+        }
+      ]
+    }
+  ],
+  "budgets_overlap": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

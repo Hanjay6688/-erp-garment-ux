@@ -1,0 +1,118 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "artifact_id": 11265758314,
+  "artifact_name": "cp7-f03-planner-seam",
+  "run_id": 37099666029,
+  "job_id": 111136571411,
+  "zip_bytes": 1633958,
+  "zip_sha256": "5aa2501e7bc49b65e2b81ef7d309fe600e7827540322b4c6f4dcb65c73962694",
+  "runtime_report": "CP7_F03_NATIVE_PLANNER_SEAMS.json",
+  "expected_status": "PASS",
+  "expected_case_count": 2,
+  "required_case_counts": null,
+  "source_commit": "c3aa9745a9ff95e54b3d4e11631945085453b1e0",
+  "source_tree": "acd5e70f85389104f6b763f61ad5348646915545",
+  "zip_verification_runtime": "LOCAL_READ_ONLY_EXACT_GITHUB_ARTIFACT_RETAIN_NO_NEW_EXECUTION_CREDIT",
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "source_bundle_sha256": "e4b4fa925d2b0b1c19bb2b971f192d17dcf12511e935221091257b3d56ab3cc1",
+  "observed_case_count": 2,
+  "counts": {
+    "native": {
+      "PASS": 2
+    },
+    "races": null,
+    "http": null,
+    "browser": null
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "7fd4ae72b2f42405f134840064c6fff524bd19a3a065fa837b8ed44eae3552a1",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F03_NATIVE_PLANNER_SEAMS.json": {
+      "bytes": 258814,
+      "sha256": "2f89e1c5e059d720166b7639732ca6740aaea87cb798da1d7898c41c53bc6574"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9f428fe50d887404ecb30fbfcd08de2c03ed7063352721bad647be0e67faf10e"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360433,
+      "sha256": "9547c7c9cba903016d585728d02ea135b7a285576e63d72b083603c2708b5167"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385621,
+      "sha256": "1f7ad1f2fce786019bdaa2c0a49a3a107ff578c55f1ffcdfbc74163dc1395141"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385621,
+      "sha256": "1f7ad1f2fce786019bdaa2c0a49a3a107ff578c55f1ffcdfbc74163dc1395141"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "a4ca0adc965747bd102e7337aedb538c282b614fb69404c61182be89133a2836"
+    },
+    "CP7_F03_NATIVE_PLANNER_SEAMS.json": {
+      "bytes": 258814,
+      "sha256": "2f89e1c5e059d720166b7639732ca6740aaea87cb798da1d7898c41c53bc6574"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9f428fe50d887404ecb30fbfcd08de2c03ed7063352721bad647be0e67faf10e"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360433,
+      "sha256": "9547c7c9cba903016d585728d02ea135b7a285576e63d72b083603c2708b5167"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

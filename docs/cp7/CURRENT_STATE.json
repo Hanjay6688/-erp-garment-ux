@@ -6,7 +6,7 @@
   "accepted_product_commit": "434b18215f57dd7a361ca621341488d3c31e9703",
   "accepted_tree": "20f23f598334b52b6ee5fed8acc356d499a43705",
   "active_contract_ledger": "docs/cp7/F03_REMAINING_CONTRACT.md",
-  "active_family": "F03_DUPLICATE_LINE_REPAIR_THEN_F04_F05_P18_P21",
+  "active_family": "CP7_CLAUDE_MERGE_FULL_QUALIFICATION",
   "cash_connected_reader": {
     "cash_writer": false,
     "first_counts": {
@@ -64,13 +64,12 @@
       "scripts/check-source-ownership.mjs",
       "scripts/check-access-catalog.mjs"
     ],
-    "received": "2026-10-02T20:07:33+07:00",
+    "received": "2026-10-03",
     "remaining_Gpt_notes": [
-      "per_lot_corrected_stock_projection",
-      "correction_actor_display",
-      "multi_lot_multi_line_Native_cases",
-      "historical_stock_vs_financial_close_HPP_retro_policy",
-      "explicit_browser_microsecond_guard_case"
+      "inactive AP_DUE rule lifecycle",
+      "all-submenu transaction/source controls",
+      "explicit future HPP age policy if owner chooses",
+      "remaining CP7 family and independent/hosted exits"
     ],
     "scope": [
       "posted_material_receipt_quantity_roll_material_price_correction",
@@ -78,18 +77,18 @@
       "material_name_only_rename",
       "corrected_material_stock_book"
     ],
-    "status": "CLAUDE_QUALIFIED32_SOURCE_IMPORTED_ADDITIVELY_MAIN_P09_REGISTRATION_REQUALIFICATION_PENDING",
-    "latest_owner_relay": "Duplicate-SKU5/10 correction to5/6 independently reproduced as -11/0, source detail fetched read-only from Claude docs/cp7/RECEIPT_CORRECTION.md; no WIP imported.",
+    "status": "COMPLETED_CLAUDE_HANDOFF_MERGED_FRESH_RECEIPT42_PASS_FULL_MERGE_QUALIFICATION_PENDING",
+    "latest_owner_relay": "Claude finished f4049e4f; owner authorized merge and all tests. FF possible from40c4127c; no longer protected unfinished WIP.",
     "GPT_current_repair": "Native40 atddac proves exact main/per-lot5/6 line identity, return allocation, atomicity and actual UI; registered composition requalification pending",
     "latest_verified_candidate": {
-      "source_commit": "08d1967440571019ce81a8d2347df30743860242",
-      "source_tree": "6336568536c31af55e6361517c56390b91623488",
-      "run_id": 37032710947,
-      "job_id": 110923245617,
-      "observed_case_count": 32,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+      "run_id": 37099282030,
+      "job_id": 111135455813,
+      "observed_case_count": 42,
       "counts": {
         "native": {
-          "PASS": 26
+          "PASS": 36
         },
         "races": {
           "PASS": 3
@@ -101,7 +100,7 @@
           "PASS": 2
         }
       },
-      "receipt": "docs/cp7/evidence/receipt-correction/qualified32-08d1967/RECEIPT.json"
+      "receipt": "docs/cp7/evidence/claude-merge-20261003/receipt-qualified42/RECEIPT.json"
     },
     "old_cutting_test_comparison": "Claude branchf1e11a still SET ROLE in a different Native psql session from evaluate; current GPT3c code does SET ROLE and the denied call within one invocation, unchanged9 private function/role checks. Source13b full Shell and CodeQL PASS; do not repeat implementation.",
     "imported_code_source": "08d1967440571019ce81a8d2347df30743860242",
@@ -125,18 +124,52 @@
       "GPT_new_year_provider_written": false,
       "GPT_uncommitted_generic_receipt_probe_change_discarded": true
     },
-    "owner_latest_steering": {
-      "date": "2026-10-03",
-      "timezone": "Asia/Jakarta",
-      "instruction": "Wait for Claude to finish his section before further integration; keep intersections additive and seamless.",
-      "further_Claude_WIP_imports": "DEFERRED_UNTIL_READY",
-      "new_receipt_sale_join_provider": "NOT_WRITTEN",
-      "GPT_continues": [
-        "owning_sale_note_HTTP_timeout",
-        "F04",
-        "F05",
-        "P18-P21"
-      ]
+    "owner_latest_steering": "Merge and fully test completed Claude handoff; single writer cp7/integration",
+    "preceding_handoff_checkpoint_20261002": {
+      "status": "CLAUDE_QUALIFIED32_SOURCE_IMPORTED_ADDITIVELY_MAIN_P09_REGISTRATION_REQUALIFICATION_PENDING",
+      "latest_owner_relay": "Duplicate-SKU5/10 correction to5/6 independently reproduced as -11/0, source detail fetched read-only from Claude docs/cp7/RECEIPT_CORRECTION.md; no WIP imported.",
+      "latest_verified_candidate": {
+        "source_commit": "08d1967440571019ce81a8d2347df30743860242",
+        "source_tree": "6336568536c31af55e6361517c56390b91623488",
+        "run_id": 37032710947,
+        "job_id": 110923245617,
+        "observed_case_count": 32,
+        "counts": {
+          "native": {
+            "PASS": 26
+          },
+          "races": {
+            "PASS": 3
+          },
+          "http": {
+            "PASS": 1
+          },
+          "browser": {
+            "PASS": 2
+          }
+        },
+        "receipt": "docs/cp7/evidence/receipt-correction/qualified32-08d1967/RECEIPT.json"
+      },
+      "remaining_Gpt_notes": [
+        "per_lot_corrected_stock_projection",
+        "correction_actor_display",
+        "multi_lot_multi_line_Native_cases",
+        "historical_stock_vs_financial_close_HPP_retro_policy",
+        "explicit_browser_microsecond_guard_case"
+      ],
+      "owner_latest_steering": {
+        "date": "2026-10-03",
+        "timezone": "Asia/Jakarta",
+        "instruction": "Wait for Claude to finish his section before further integration; keep intersections additive and seamless.",
+        "further_Claude_WIP_imports": "DEFERRED_UNTIL_READY",
+        "new_receipt_sale_join_provider": "NOT_WRITTEN",
+        "GPT_continues": [
+          "owning_sale_note_HTTP_timeout",
+          "F04",
+          "F05",
+          "P18-P21"
+        ]
+      }
     }
   },
   "connected_attendance_candidate": {
@@ -3269,10 +3302,10 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-03: owner makes clear headers and safe Edit/Hapus for every transaction mandatory. First real UI rollout covers sales four views plus material count and FG adjustment; six new controls and full local1149/119 pass, build/security pass. No financial/backend/Claude file change. Current-source note40/full-eight-F03/Shell qualification required; whole transaction-tools rollout and full CP7 open.",
+  "last_writer_checkpoint": "2026-10-03: completed Claude handoff merged. Fresh Native Shell1297/140 plus6 browser/security/build/twoCodeQL and receipt42 pass. Full 51-workflow qualification and catalogue harness successor pending; original failure retained. Current authority: claude_merge_20261003.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
-  "latest_tested_scope": "Native note40, E01-4, F05-284, all eight F03 buckets, cutting57, receipt32, focused P18-9 and Shell1279 at exact source; no full family or independent acceptance.",
-  "latest_tested_source": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+  "latest_tested_scope": "Fresh merged Shell1297/140 plus6 browser/security/build/twoCodeQL and owning receipt42; other suites pending. Current controlling qualification: claude_merge_20261003.",
+  "latest_tested_source": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
   "material_native_152_qualification": {
     "counts": {
       "browser": 14,
@@ -3486,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Finish Native qualification of owner transaction-tools UI; continue header/transaction/source-blocker rollout with explicit unsupported atomic-edit gaps. Preserve and wait for Claude WIP. Continue fabric recipe/material feasibility, complete P18 journeys, P19 scale and P21 combined restore. Independent/demo/hosted exits stay open.",
+  "next_action": "Finish all merged qualification workflows and exact public-catalog successor; preserve failed Originals and all prior source-bound evidence. Then continue explicit remaining product work in claude_merge_20261003; independent/demo/hosted exits remain open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -4006,8 +4039,8 @@
     "assignment": "Explicit owner takeover in this conversation; recheck canonical ref immediately before every fast-forward; stop on unexpected movement; no force push",
     "branch": "cp7/integration",
     "enforcement": "Owner explicitly confirmed previous writer stopped; successor writes canonical cp7/integration. Ref recheck before fast-forward protects unrelated concurrent changes.",
-    "last_observed_upstream": "3ac8ea94b9e2f79dd647f9eec2e779cdb250505f",
-    "previous_writer_status": "STOPPED_OWNER_CONFIRMED_20260930",
+    "last_observed_upstream": "35096974eee884c7f97a98b41b644318a350a051",
+    "previous_writer_status": "STOPPED_OWNER_CONFIRMED_20261003",
     "writer": "Hansen-authorized successor to Writer Finisher CP6, F03 takeover30Sep2026"
   },
   "transaction_correction_coverage": {
@@ -6192,5 +6225,163 @@
     "audit_complete": false,
     "production_go": false,
     "contract": "docs/cp7/RECEIVABLES_SOURCE_CONTROLS.md"
+  },
+  "claude_merge_20261003": {
+    "status": "ALL_INITIAL_PACKAGES_PASS_WITH_REPAIRED_PLANNER_FINAL_ATTENTION_REPEAT_PENDING",
+    "owner_authorization": "3 October 2026: merge Claude and test all including orphan code, report after integration",
+    "integration_before": "40c4127c7997d31d9ba2730ada0826268314c62e",
+    "claude_handoff": "f4049e4f7e0c9d436cce1147ce45d6760ab1d6f8",
+    "final_business_source": "19ff70ee4e2ca9100d7697eda12263c5f36968ff",
+    "merged_qualification_source": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+    "catalogue_harness_successor": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+    "application_sql_case_bytes_unchanged_after_claude": true,
+    "report": "docs/cp7/CLAUDE_MERGE_VERIFICATION_20261003.md",
+    "verification": "docs/cp7/evidence/claude-merge-20261003/VERIFICATION.json",
+    "receipt42": {
+      "run_id": 37099282030,
+      "job_id": 111135455813,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "source_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+      "counts": {
+        "native": {
+          "PASS": 36
+        },
+        "races": {
+          "PASS": 3
+        },
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0
+    },
+    "shell": {
+      "run_id": 37099281927,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "native_tests": 1297,
+      "test_files": 140,
+      "browser_controls": 6,
+      "build": "PASS",
+      "security": "PASS",
+      "codeql_actions": "PASS",
+      "codeql_javascript_typescript": "PASS"
+    },
+    "first_failure": {
+      "run_id": 37099281973,
+      "job_id": 111135455611,
+      "status": "INCOMPLETE",
+      "case": "O06_NATIVE_RESERVATION_PLANNER_ONCE",
+      "business_arithmetic_passed": true,
+      "public_catalog_check": false,
+      "writer_runtime": false,
+      "original": "docs/cp7/evidence/claude-merge-20261003/planner-original-incomplete2/RECEIPT.json",
+      "cause_closure": "ORIGINAL_RAW_PAIR_NOT_RECORDED_EXACT_CAUSE_UNPROVEN"
+    },
+    "remaining_product_work": [
+      "all-submenu source navigation/search/filter/sort/edit/cancel",
+      "inactive AP_DUE rule episode lifecycle",
+      "fabric recipe/material feasibility",
+      "remaining P18 journeys",
+      "P19 real scale/recovery",
+      "combined P21 restore",
+      "independent/demo/hosted acceptance"
+    ],
+    "hpp_age_cutoff": "OWNER_UNDECIDED_KEEP_IMPLEMENTED_YEAR_OLD_CORRECTION",
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "audit_complete": false,
+    "production_go": false,
+    "intermediate_catalogue_harness": "c3aa9745a9ff95e54b3d4e11631945085453b1e0",
+    "intermediate_planner_qualification": {
+      "run_id": 37099666029,
+      "job_id": 111136571411,
+      "source_commit": "c3aa9745a9ff95e54b3d4e11631945085453b1e0",
+      "counts": {
+        "native": {
+          "PASS": 2
+        }
+      },
+      "dropped_fields": [],
+      "snapshots_checked": 6,
+      "physical_order_only_changes": [],
+      "receipt": "docs/cp7/evidence/claude-merge-20261003/planner-intermediate-qualified2/RECEIPT.json"
+    },
+    "final_planner": {
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "run_id": 37099939343,
+      "job_id": 111137336052,
+      "case_count": 2,
+      "status": "PASS",
+      "original": "docs/cp7/evidence/claude-merge-20261003/planner-final-qualified2/RECEIPT.json",
+      "raw_restore_only_pair_order": true
+    },
+    "final_netting": {
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "run_id": 37099939323,
+      "job_id": 111137335853,
+      "case_count": 82,
+      "counts": {
+        "native": 59,
+        "races": 11,
+        "http": 6,
+        "browser": 6
+      },
+      "status": "PASS",
+      "original": "docs/cp7/evidence/claude-merge-20261003/netting-final-qualified82/RECEIPT.json",
+      "raw_restore_only_pair_order": true
+    },
+    "full_f03": {
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "run_id": 37099282091,
+      "status": "ALL_EIGHT_COMPONENTS_PASS",
+      "budgets_overlap": true,
+      "summary": "docs/cp7/evidence/claude-merge-20261003/F03_FULL_SUMMARIES.json"
+    },
+    "frozen_analysis152": {
+      "run_id": 37099282108,
+      "status": "PASS",
+      "receipt": "docs/cp7/evidence/claude-merge-20261003/analysis-qualified152/RECEIPT.json",
+      "retention_projection_run": 37100686913,
+      "projection_new_execution_credit": 0
+    },
+    "initial_workflows": {
+      "total": 51,
+      "success": 50,
+      "failure": 1,
+      "initial_failure_preserved": 37099281973,
+      "qualified_successor_planner": 37099939343
+    },
+    "owning_note40": {
+      "run_id": 37099282107,
+      "job_id": 111135456171,
+      "status": "PASS",
+      "case_count": 40,
+      "receipt": "docs/cp7/evidence/claude-merge-20261003/note-qualified40/RECEIPT.json"
+    },
+    "attention284": {
+      "run_id": 37099282094,
+      "job_id": 111135456231,
+      "status": "PASS",
+      "case_count": 284,
+      "counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "receipt": "docs/cp7/evidence/claude-merge-20261003/attention-qualified284/RECEIPT.json"
+    }
   }
 }

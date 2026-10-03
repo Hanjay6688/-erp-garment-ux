@@ -1,0 +1,9 @@
+{
+  "run_id": 37101157721,
+  "artifact_id": 11266156532,
+  "source_commit": "35096974eee884c7f97a98b41b644318a350a051",
+  "projection_zip_bytes": 47256,
+  "projection_zip_sha256": "e042a0ef9567f2583b51051a0ce995d43fe4b8e2f3d8cb10dfd2ffe59973999a",
+  "original_native_run_id": 37099939362,
+  "new_execution_case_credit": 0
+}

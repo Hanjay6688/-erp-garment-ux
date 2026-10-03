@@ -1,5 +1,15 @@
 # Active writer continuation · 3Oct2026
 
+## Claude merge review · owner authorization 3 October 2026
+
+Claude’s completed handoff `f4049e4f` was reviewed and fast-forward integrated without conflict. Published merged qualification source is `48fe7c2`; the only successor change `0642d1bc` binds the existing exact public-catalog adapter in the netting/planner qualification harness. Application, SQL and business-case bytes remain Claude’s final product source. Current qualification and handoff §8.4 dispositions live in [CLAUDE_MERGE_VERIFICATION_20261003.md](CLAUDE_MERGE_VERIFICATION_20261003.md).
+
+Fresh merged PostgreSQL Shell passes 1,297/1,297 across 140 files, six browser controls, build/security and both CodeQL jobs. Owning receipt correction passes 42/42 with all package/restoration/advisor/Auth gates. The original planner O06 public-catalog failure remains retained with its false runtime gate; the successor must pass every original business/restoration gate and record exact catalogue comparison. Remaining workflows are pending; do not claim the entire merge qualified until the verification receipt records completed outcomes. Never replace this failure with older green credit.
+
+The earlier “protected Claude WIP / wait” applies to historical checkpoints below and has ended for this completed handoff. Owner authorized this single-writer merge and full testing. No hosted/main/deployment or Claude branch change. Keep every-submenu source navigation/edit/cancel, inactive AP_DUE rule lifecycle, fabric material feasibility, P18/P19/P21 and independent/demo/hosted exits open. HPP age policy stays undecided; implemented year-old final-price correction remains accepted. `audit_complete=false`; `production_go=false`.
+
+## Historical checkpoints
+
 ## Current UI candidate · receivables to exact source invoice
 
 Mandatory rollout now reaches receivables: owned server search/status/browse, explicitly current-page immutable sorting, Buka invoice on each source entry and Edit/batalkan invoice on selected detail. App carries only exact source UUID bound to current project/actor/user-role revisions/permissions; invoice re-reads and verifies the actual current source before enabling any owning writer. Invalid/wrong invoice facts fail closed; same-submenu navigation keeps its selection. Four new DOM controls,47 affected tests and full local1256/129 pass; build/security pass. Existing desktop/mobile E01 adds exact UUID fresh source navigation, AR175 and unchanged ledger/layout checks, preserving budget4. Actual current E01-4/note40 remains required. See RECEIVABLES_SOURCE_CONTROLS.md. No additional SQL/grant/Claude file changes in this UI candidate.

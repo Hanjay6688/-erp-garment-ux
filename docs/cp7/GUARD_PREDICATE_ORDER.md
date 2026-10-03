@@ -1,5 +1,8 @@
 # Current guard predicate candidate
 
+> 3 October 2026 merge review: Claude’s completed `f4049e4f` handoff is merged into `cp7/integration`. Current source and qualification are controlled by [CLAUDE_MERGE_VERIFICATION_20261003.md](CLAUDE_MERGE_VERIFICATION_20261003.md); the source-specific checkpoints below remain historical. Receipt correction now has a fresh 42/42 Native result at `48fe7c2`; whole CP7 and every-submenu transaction controls remain open.
+
+
 ## Actual failing source
 
 Source0dec1c1d/treefa555adb, run37052402095/job110988741241 executes40:28 DB/4 race/3 Auth-HTTP/2 browser PASS and3 ordinary browser commands incomplete. Exact failure Original and all archive-member hashes are retained in evidence/owning-note-correction/incomplete40-0dec1c1/. Installation, exact restoration, primary, backup, advisor and Auth0→0 pass; runtime is false.
