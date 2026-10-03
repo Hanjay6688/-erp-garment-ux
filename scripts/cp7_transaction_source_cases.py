@@ -171,17 +171,20 @@ def http_cases(http,today):
   assert admin.rpc(RPC,args)['status']==403
   return dict(status='PASS',real_Auth_CURRENT_native_role_permission_revocation_not_token_metadata=True)
  def payroll_http():
-  owner=http.login('OWNER','cp7-source-payroll-owner')
+  admin=http.login('ADMIN','cp7-source-payroll-current-admin')
   with http.connect()as conn,conn.cursor()as cur:
-   f=installment.fixture(cur,today);payment=installment.act(cur,f,amount='10.00')['payment_id'];conn.commit();before=b.boundary.snapshot(cur);conn.rollback()
+   f=installment.fixture(cur,today);payment=installment.act(cur,f,amount='10.00')['payment_id']
+   role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(admin.auth_user_id,)).fetchone()[0]
+   cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.payroll.view')on conflict do nothing",(role,))
+   conn.commit();before=b.boundary.snapshot(cur);conn.rollback()
   args=dict(p_source=dict(source_type='PAYROLL_INSTALLMENT',source_id=payment))
   assert http.anon_rpc(RPC,args)['status']in(401,403)
-  r=owner.rpc(RPC,args);assert r['status']==200,r
-  assert r['body']['actor_scope_id']==owner.auth_user_id and r['body']['document']['id']==f['payroll']and r['body']['document']['focus']==dict(kind='PAYROLL_INSTALLMENT',id=payment,page_offset=0)and r['body']['business_DML']is False
+  r=admin.rpc(RPC,args);assert r['status']==200,r
+  assert r['body']['actor_scope_id']==admin.auth_user_id and r['body']['document']['id']==f['payroll']and r['body']['document']['focus']==dict(kind='PAYROLL_INSTALLMENT',id=payment,page_offset=0)and r['body']['business_DML']is False
   with http.connect()as conn,conn.cursor()as cur:
    assert b.boundary.snapshot(cur)==before
-   role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(owner.auth_user_id,)).fetchone()[0];cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.payroll.view'",(role,));conn.commit();revoked=b.boundary.snapshot(cur);conn.rollback()
-  assert owner.rpc(RPC,args)['status']==403
+   cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.payroll.view'",(role,));conn.commit();revoked=b.boundary.snapshot(cur);conn.rollback()
+  assert admin.rpc(RPC,args)['status']==403
   with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==revoked;conn.rollback()
   return dict(status='PASS',real_Auth_HTTP_exact_private_installment_to_Native_payroll=True,current_database_view_revoke_denied_despite_same_Auth_token=True,no_business_write=True)
  return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http),('CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW',payroll_http)]

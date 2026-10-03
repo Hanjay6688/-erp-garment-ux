@@ -35,6 +35,35 @@ const kpis = () => [...container.querySelectorAll('.cwip-kpis strong')].map(x =>
 const claimsNoWip = () => container.textContent?.includes('Tidak ada WIP aktif.') ?? false
 
 describe('WIP totals stay unknown unless the whole response was read', () => {
+  it('browses all through the existing global WIP sort and clears the search without a write', async () => {
+    client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>name==='erp_list_patterns_v1'?{data:recoveryPatterns,error:null}:{data:wip({filter:args.p_filter,sort:args.p_sort,pattern_id:args.p_pattern_id}),error:null})
+    await act(async()=>root.render(<ConnectedWipStatusPage/>));await flush()
+    const input=container.querySelector<HTMLInputElement>('[aria-label="Cari WIP"]')!
+    await act(async()=>{
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,'PO LAMA')
+      input.dispatchEvent(new Event('input',{bubbles:true}))
+    })
+    await act(async()=>[...container.querySelectorAll<HTMLButtonElement>('button')].find(b=>b.textContent==='Browse semua')!.click());await flush()
+    expect(client.rpc.mock.calls.filter(([name])=>name==='erp_get_wip_control_v1').at(-1)?.[1]).toEqual({p_filter:'ALL',p_pattern_id:null,p_sort:'PATTERN',p_query:null})
+    expect(input.value).toBe('')
+    expect(client.rpc.mock.calls.every(([name])=>['erp_list_patterns_v1','erp_get_wip_control_v1'].includes(name))).toBe(true)
+  })
+
+  it('cannot repaint the earlier opening WIP after the current role generation is denied', async () => {
+    let resolve!:(value:unknown)=>void
+    client.rpc.mockImplementation((name:string)=>name==='erp_list_patterns_v1'?Promise.resolve({data:recoveryPatterns,error:null}):new Promise(r=>{resolve=r}))
+    await act(async()=>root.render(<ConnectedWipStatusPage/>));await flush()
+    const oldResolve=resolve
+    serve(()=>({data:null,error:{code:'42501',message:'Current WIP view revoked'}}))
+    const next=structuredClone(recoveryIdentity)
+    Object.assign(next.identity.profile,{roleRowVersion:2});auth.current=next
+    await act(async()=>root.render(<ConnectedWipStatusPage/>));await flush()
+    await act(async()=>oldResolve({data:wip({opening_rows:[opening]}),error:null}));await flush()
+    expect(kpis()).toEqual(['—','—','—'])
+    expect(container.querySelector('[aria-label="WIP saldo awal"]')).toBeNull()
+    expect([...container.querySelectorAll('[role="alert"]')].some(row=>row.textContent?.includes('Akun tidak memiliki izin untuk operasi ini.'))).toBe(true)
+  })
+
   it('shows a real zero only for an explicit empty opening collection', async () => {
     await mount(() => ({ data:wip(), error:null }))
     expect(kpis()).toEqual(['0', '0 pcs', '0']); expect(claimsNoWip()).toBe(true)

@@ -6432,7 +6432,7 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "PENDING_NATIVE25_PAYROLL_EXACT_SOURCE_EXTENSION",
+      "status": "PAYROLL_NATIVE25_FIRST24_PASS_ONE_PROTECTED_OWNER_FIXTURE_REFUSAL_SUCCESSOR_PENDING",
       "native_case_budget": 25,
       "no_business_DML": true,
       "full_source_coverage": false,
@@ -6459,7 +6459,7 @@
         "browser": 4
       },
       "payroll_source_candidate": {
-        "status": "LOCAL44_BUILD_SECURITY_PASS_NATIVE_PENDING",
+        "status": "FIRST_NATIVE24_PASS_ONE_FIXTURE_REFUSAL_REQUALIFY_ALL25",
         "scope": "Existing Native payroll journal kinds and exact installment FK/current25-row source order, owner re-read, explicit inverse review, same UUID reload recovery; no new financial writer",
         "ERP_tables_select": 20,
         "private_select": "cp7_installment.payments",
@@ -6467,7 +6467,9 @@
         "native_definitions_unchanged": true,
         "full_source_coverage": false,
         "independent_acceptance": false,
-        "production_go": false
+        "production_go": false,
+        "first_Native_receipt": "docs/cp7/evidence/transaction-source/firstb979/RECEIPT.json",
+        "successor_fix": "Ordinary ADMIN actual Auth view grant/revoke replaces protected OWNER fixture; no business source or guard changed; retain all25 cases and restoration/Auth/advisor gates."
       }
     },
     "owner_target": {
@@ -6477,8 +6479,6 @@
       "kind": "IMPLEMENTATION_AND_WRITER_QUALIFICATION_TARGET_NOT_UNATTENDED_EXECUTION_OR_RELEASE_ACCEPTANCE"
     },
     "submenu_tools": {
-      "source": "f0f1a806d4fd0a06f35c262c73e782724c9a13e9",
-      "local_DOM_tests_pass": 84,
       "scope": [
         "receipt",
         "material_stock",
@@ -6487,11 +6487,19 @@
         "payroll",
         "journal",
         "misc_finance",
-        "saved_contractor_notes"
+        "saved_contractor_notes",
+        "BS_and_claim",
+        "pickup_distribution",
+        "WIP_control"
       ],
       "mandatory_dates_kept": true,
       "sort_scope": "CURRENT_PAGE_EXPLICIT",
-      "all_submenus_complete": false
+      "all_submenus_complete": false,
+      "historical_source": "f0f1a806d4fd0a06f35c262c73e782724c9a13e9",
+      "historical_local_DOM_tests_pass": 84,
+      "current_increment_local_DOM_tests_pass": 93,
+      "current_increment_receipt": "docs/cp7/evidence/submenu-production/local/LOCAL_RECEIPT.json",
+      "reader_state": "Failed/denied/older-authority readers cannot expose earlier facts as current, including after error dismissal; readonly recovery stays readable without unlocking Native writers"
     },
     "misc_correction_candidate": {
       "source": "e133a874c20394f3c86147a8c2ab06112ca5d152",

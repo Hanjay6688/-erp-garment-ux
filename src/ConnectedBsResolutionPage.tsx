@@ -16,6 +16,7 @@ import {
 import BeReworkTargetFields, { emptyBeTarget } from './BeReworkTargetFields'
 import { validateConversionResult } from './productConversion'
 import ConnectedPatternFilter from './ConnectedPatternFilter'
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import { normalizeClientError } from './lib/clientError'
 import { getUatSupabaseClient } from './lib/supabase'
 import type { Json } from './types/database.preconnect'
@@ -374,12 +375,13 @@ export default function ConnectedBsResolutionPage() {
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseBsResolution)
   const ownerAdmin = Boolean(access && ['OWNER', 'ADMIN'].includes(access.profile.role))
   const mutation = useProductionMutation('BS')
-  const { beginRead, finishRead, run, reconcile: reconcileMutation } = mutation
+  const { beginRead, finishRead, isReadCurrent, run, reconcile: reconcileMutation } = mutation
   const { busy, pending: pendingMutation, workspaceStale } = mutation
   const [filter, setFilter] = useState<BsWorkspaceFilter>('ACTIVE')
   const [kind, setKind] = useState<BsWorkspaceKind>('ALL')
   const [patternId, setPatternId] = useState('')
   const [query, setQuery] = useState('')
+  const [pageOrder,setPageOrder] = useState<RecordPageOrder>('SOURCE')
   const [offset, setOffset] = useState(0)
   const [workspace, setWorkspace] = useState<BsResolutionWorkspace | null>(null)
   const [selectedKey, setSelectedKey] = useState('')
@@ -397,36 +399,38 @@ export default function ConnectedBsResolutionPage() {
   ) => {
     const ticket = beginRead()
     const requestId = ++loadRequestRef.current
-    setLoading(true); setError('')
+    setLoading(true); setError(''); setWorkspace(null)
     try {
       const { data, error: loadError } = await client.rpc('erp_get_bs_resolution_workspace_v1', {
         p_filter: nextFilter, p_kind: nextKind, p_pattern_id: nextPattern || null,
         p_query: nextQuery.trim() || null, p_limit: 50, p_offset: nextOffset,
       })
-      if (requestId !== loadRequestRef.current) return false
+      if (requestId !== loadRequestRef.current || !isReadCurrent(ticket)) return false
       if (loadError) {
         setError(normalizeClientError(loadError).message)
         return false
       }
       try {
         const parsed = parseBsResolutionWorkspace(data)
+        const writable=finishRead(ticket)
+        if (!isReadCurrent(ticket)) return false
         setWorkspace(parsed)
         setOffset(parsed.offset)
         setSelectedKey((current) => parsed.rows.some((row) => row.case_key === current) ? current : parsed.rows[0]?.case_key ?? '')
-        return finishRead(ticket)
+        return writable
       } catch (parseError) { setError(parseError instanceof Error ? parseError.message : String(parseError)); return false }
     } catch (loadFailure) {
-      if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
+      if (requestId === loadRequestRef.current && isReadCurrent(ticket)) setError(normalizeClientError(loadFailure).message)
       return false
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
-  }, [beginRead, finishRead, client, filter, kind, offset, patternId, query])
+  }, [beginRead, finishRead, isReadCurrent, client, filter, kind, offset, patternId, query])
 
   useEffect(() => {
     void load()
     return () => { loadRequestRef.current += 1 }
-  }, [mutation.scope]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mutation.scope,access?.profile.rowVersion,access?.profile.roleRowVersion,access?.permissions.join('|')]) // eslint-disable-line react-hooks/exhaustive-deps
   const sendExact = useCallback((envelope: ProductionEnvelope) => envelope.action === 'SAVE_REWORK_SKU' || envelope.action === 'SAVE_REDYE_SKU'
     ? client.rpc('erp_save_product_conversion_action_v1', { p_action: envelope.action === 'SAVE_REDYE_SKU' ? 'SAVE_REDYE' : 'SAVE_REWORK', p_payload: envelope.payload, p_client_request_id: envelope.id })
     : client.rpc('erp_save_bs_resolution_action_v1', {
@@ -483,9 +487,17 @@ export default function ConnectedBsResolutionPage() {
     <div className="cbsr-boundary"><ShieldCheck/><strong>UAT BACKEND CONNECTED</strong><span>Rework, rewash, HOLD, disposition, claim, HPP, dan reversal memakai fungsi kanonik server.</span></div>
     {createMode && workspace ? null : feedback}
     {busy ? <div className="cbsr-busy"><LoaderCircle className="spin"/> Mengunci transaksi dan memuat ulang state…</div> : null}
-    <section className="cbsr-kpis"><article><span>TOTAL KASUS FILTER</span><strong>{workspace?.total ?? 0}</strong><small>{filter === 'ACTIVE' ? 'Closed disembunyikan' : filter}</small></article><article><span>QTY HALAMAN INI</span><strong>{activeQty} pcs</strong><small>Available + active rework</small></article><article><span>ON HOLD · HALAMAN</span><strong>{rows.filter((row) => row.status === 'ON_HOLD').length}</strong><small>Keputusan dibekukan eksplisit</small></article><article><span>CLAIM · HALAMAN</span><strong>{rows.filter((row) => row.kind === 'LAUNDRY_CLAIM').length}</strong><small>Filter halaman aktif</small></article></section>
-    <section className="cbsr-workspace"><aside><header><div className="cbsr-tabs">{(['ACTIVE', 'CLOSED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} key={value} onClick={() => { setFilter(value); setOffset(0); void load(value, kind, patternId, query, 0) }}>{value === 'ACTIVE' ? 'Aktif' : value === 'CLOSED' ? 'Selesai' : 'Semua'}</button>)}</div><select aria-label="Jenis kasus CP5" value={kind} onChange={(event) => { const next = event.target.value as BsWorkspaceKind; setKind(next); setOffset(0); void load(filter, next, patternId, query, 0) }}><option value="ALL">BS + Claim</option><option value="BS">Barang BS</option><option value="LAUNDRY_CLAIM">Claim Laundry</option></select></header><label className="cbsr-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setOffset(0); void load(filter, kind, patternId, query, 0) } }} placeholder="Nomor, PO, model, Pola, pihak…"/><button onClick={() => { setOffset(0); void load(filter, kind, patternId, query, 0) }}>Cari</button></label><ConnectedPatternFilter label="FILTER POLA CP5" value={patternId} onChange={(next) => { setPatternId(next); setOffset(0); void load(filter, kind, next, query, 0) }}/>
-      <div className="cbsr-list">{loading ? <div className="cbsr-empty"><LoaderCircle className="spin"/> Memuat kasus…</div> : rows.map((row) => <button type="button" className={`${row.case_key === selected?.case_key ? 'active ' : ''}${row.status === 'ON_HOLD' ? 'hold' : ''}`} key={row.case_key} onClick={() => setSelectedKey(row.case_key)}><span className={row.kind === 'BS' ? 'bs' : 'claim'}>{row.kind === 'BS' ? <Shirt/> : <Waves/>}</span><div><small>{row.po_number ?? row.legacy_reference ?? 'TANPA PO'} · {row.group_number ?? row.claim_type ?? 'UNTRACKED'}</small><strong>{row.number}</strong><em>{bsPatternLabel(row)}</em><p>{row.available_qty} tersedia · {row.active_rework_qty} rework</p></div><b>{statusLabel(row.status)}</b></button>)}{!loading && rows.length === 0 ? <div className="cbsr-empty"><Search/><strong>Tidak ada kasus pada filter ini</strong><small>Filter tidak mengubah transaksi.</small></div> : null}</div><footer className="cbsr-pagination"><span>{workspace?.total ? `${offset + 1}–${offset + rows.length} dari ${workspace.total}` : '0 kasus'}</span><div><button disabled={loading || !canPageBack} onClick={() => void load(filter, kind, patternId, query, Math.max(0, offset - 50))}>Sebelumnya</button><button disabled={loading || !canPageForward} onClick={() => void load(filter, kind, patternId, query, offset + 50)}>Berikutnya</button></div></footer>
+    <section className="cbsr-kpis"><article><span>TOTAL KASUS FILTER</span><strong>{workspace?workspace.total:'—'}</strong><small>{filter === 'ACTIVE' ? 'Closed disembunyikan' : filter}</small></article><article><span>QTY HALAMAN INI</span><strong>{workspace?`${activeQty} pcs`:'—'}</strong><small>Available + active rework</small></article><article><span>ON HOLD · HALAMAN</span><strong>{workspace?rows.filter((row) => row.status === 'ON_HOLD').length:'—'}</strong><small>Keputusan dibekukan eksplisit</small></article><article><span>CLAIM · HALAMAN</span><strong>{workspace?rows.filter((row) => row.kind === 'LAUNDRY_CLAIM').length:'—'}</strong><small>Filter halaman aktif</small></article></section>
+    <section className="cbsr-workspace"><aside>
+      <RecordTools title="BS dan claim" busy={loading||busy} order={pageOrder} onOrder={setPageOrder} submitLabel="Cari kasus"
+        onSubmit={event=>{event.preventDefault();setOffset(0);void load(filter,kind,patternId,query,0)}}
+        onBrowse={()=>{setFilter('ALL');setKind('ALL');setPatternId('');setQuery('');setPageOrder('SOURCE');setOffset(0);setSelectedKey('');setCreateMode(null);void load('ALL','ALL','','',0)}}
+        search={<label>Nomor, PO, model atau pihak<input aria-label="Cari BS atau claim"maxLength={200}value={query}onChange={event=>setQuery(event.target.value)}placeholder="Nomor, PO, model, Pola, pihak…"/></label>}
+        filters={<><div className="cbsr-tabs">{(['ACTIVE','CLOSED','ALL']as const).map(value=><button type="button"className={filter===value?'active':''}disabled={loading||busy}key={value}onClick={()=>{setFilter(value);setOffset(0);void load(value,kind,patternId,query,0)}}>{value==='ACTIVE'?'Aktif':value==='CLOSED'?'Selesai':'Semua'}</button>)}</div>
+          <label>Jenis kasus<select aria-label="Jenis kasus CP5"value={kind}disabled={loading||busy}onChange={event=>{const next=event.target.value as BsWorkspaceKind;setKind(next);setOffset(0);void load(filter,next,patternId,query,0)}}><option value="ALL">BS + Claim</option><option value="BS">Barang BS</option><option value="LAUNDRY_CLAIM">Claim Laundry</option></select></label>
+          <ConnectedPatternFilter label="FILTER POLA CP5"value={patternId}onChange={next=>{setPatternId(next);setOffset(0);void load(filter,kind,next,query,0)}}/></>}/>
+
+      <div className="cbsr-list">{loading ? <div className="cbsr-empty"><LoaderCircle className="spin"/> Memuat kasus…</div> : !workspace ? <div className="cbsr-empty"><AlertTriangle/><strong>Kasus belum dapat dipastikan.</strong><small>Muat ulang sebelum melanjutkan.</small></div> : orderRecordPage(rows,pageOrder,row=>row.number).map((row) => <button type="button" className={`${row.case_key === selected?.case_key ? 'active ' : ''}${row.status === 'ON_HOLD' ? 'hold' : ''}`} key={row.case_key} onClick={() => setSelectedKey(row.case_key)}><span className={row.kind === 'BS' ? 'bs' : 'claim'}>{row.kind === 'BS' ? <Shirt/> : <Waves/>}</span><div><small>{row.po_number ?? row.legacy_reference ?? 'TANPA PO'} · {row.group_number ?? row.claim_type ?? 'UNTRACKED'}</small><strong>{row.number}</strong><em>{bsPatternLabel(row)}</em><p>{row.available_qty} tersedia · {row.active_rework_qty} rework</p></div><b>{statusLabel(row.status)}</b></button>)}{!loading && workspace && rows.length === 0 ? <div className="cbsr-empty"><Search/><strong>Tidak ada kasus pada filter ini</strong><small>Filter tidak mengubah transaksi.</small></div> : null}</div><footer className="cbsr-pagination"><span>{!workspace?'— kasus':workspace.total ? `${offset + 1}–${offset + rows.length} dari ${workspace.total}` : '0 kasus'}</span><div><button disabled={!workspace || loading || !canPageBack} onClick={() => void load(filter, kind, patternId, query, Math.max(0, offset - 50))}>Sebelumnya</button><button disabled={!workspace || loading || !canPageForward} onClick={() => void load(filter, kind, patternId, query, offset + 50)}>Berikutnya</button></div></footer>
     </aside>{selected && workspace ? <CaseDetail key={selectedContractKey} row={selected} workspace={workspace} canCreate={effectiveCanCreate} canPost={effectiveCanPost} canReverse={effectiveCanReverse} ownerAdmin={ownerAdmin} onAction={runAction}/> : <main className="cbsr-no-selection"><PackageCheck/><strong>Tidak ada detail</strong><small>Ubah filter atau buat kasus yang memang punya sumber fisik.</small></main>}</section>
     {createMode === 'BS' && workspace ? <CreateManualBs workspace={workspace} canSubmit={effectiveCanCreate} onClose={() => setCreateMode(null)} onAction={runAction} feedback={feedback}/> : null}
     {createMode === 'CLAIM' && workspace ? <CreateClaim workspace={workspace} canSubmit={effectiveCanCreate} onClose={() => setCreateMode(null)} onAction={runAction} feedback={feedback}/> : null}

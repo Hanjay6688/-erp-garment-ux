@@ -1,0 +1,56 @@
+{
+  "head": "b979bdc517203f09fc2c45abebe3a568d46224c0",
+  "tree": "696db4100eaee6aa9b9f89e047dcd2875bfcaf31",
+  "run_id": 37112929419,
+  "job_id": 111174192869,
+  "artifact_id": 11271181194,
+  "archive_sha256": "45878863e5cb8d4534d17002f5216ea64c62cc41e1884f13c565aa88c46f8e54",
+  "status": "INCOMPLETE",
+  "observed_case_count": 25,
+  "required_case_counts": {
+    "native": 16,
+    "races": 2,
+    "http": 3,
+    "browser": 4
+  },
+  "groups": {
+    "native": {
+      "PASS": 16
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "source_sha256": "89195adda48450ca26e35f030ddd624bb150aa9b0d7f5486f15955ca528b3c22",
+  "originals": {
+    "CP7_TRANSACTION_SOURCE.json": "98f8971efa1a7738eac172584a4469fe374a3679b9af8824268406b4384d9628",
+    "T3_PACKAGE_INSTALL.json": "9e63d845eb4cf96a584d56df7d8049f8b52632e6c5798a18ab2337bb031861d3"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "failure": {
+    "case": "CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW",
+    "reason": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED\nCONTEXT:  PL/pgSQL function erp.guard_protected_role() line 15 at RAISE",
+    "successor": "Use an ordinary current ADMIN role for an explicit view grant/revoke; preserve protected OWNER and all25 cases/cleanup gates"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

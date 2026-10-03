@@ -133,6 +133,66 @@ describe('cutting source authority covers the complete connected page', () => {
 })
 
 describe('real Cutting/Pickup forms keep pending, committed and stale distinct', () => {
+  it('orders the pickup page without selecting a different group or changing its unsent allocation', async () => {
+    const data=pickupFixture()
+    data.rows=['CUT-10','CUT-2','CUT-1'].map((group_number,index)=>({...data.rows[0]!,group_number,cutting_group_id:`group-${index}`}))
+    data.total=3
+    client.rpc.mockImplementation(async(name:string)=>name==='erp_list_patterns_v1'?{data:recoveryPatterns,error:null}:{data,error:null})
+    await mount('PICKUP')
+    const notes=container.querySelector<HTMLInputElement>('.cpick-notes input')!
+    await fill(notes,'BELUM DIKIRIM')
+    const reads=client.rpc.mock.calls.length
+    await act(async()=>{
+      const select=container.querySelector<HTMLSelectElement>('[aria-label="Urutkan halaman distribusi potongan"]')!
+      Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value')!.set!.call(select,'LABEL_ASC')
+      select.dispatchEvent(new Event('change',{bubbles:true}))
+    })
+    expect([...container.querySelectorAll('.cpick-queue > button strong')].map(row=>row.textContent)).toEqual(['CUT-1','CUT-2','CUT-10'])
+    expect(container.querySelector('.cpick-selected h2')?.textContent).toContain('CUT-10')
+    expect(notes.value).toBe('BELUM DIKIRIM');expect(client.rpc.mock.calls).toHaveLength(reads);expect(writes()).toHaveLength(0)
+  })
+
+  it('browses pickup with the complete existing100-row reader from page zero and no write', async () => {
+    client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+      if(name==='erp_list_patterns_v1')return{data:recoveryPatterns,error:null}
+      if(name==='erp_get_cutting_pickup_queue_v1')return{data:{...pickupFixture(),filter:args.p_filter,pattern_id:args.p_pattern_id,query:args.p_query,offset:args.p_offset},error:null}
+      throw new Error(`Unexpected writer ${name}`)
+    })
+    await mount('PICKUP')
+    await fill(container.querySelector<HTMLInputElement>('[aria-label="Cari distribusi potongan"]')!,'CUT lama')
+    await click('Browse semua')
+    expect(client.rpc.mock.calls.filter(([name])=>name==='erp_get_cutting_pickup_queue_v1').at(-1)?.[1]).toEqual({p_filter:'ALL',p_pattern_id:null,p_query:null,p_limit:100,p_offset:0})
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Cari distribusi potongan"]')!.value).toBe('')
+    expect(writes()).toHaveLength(0)
+  })
+
+  it('does not reveal an old pickup after a failed reader is dismissed and keeps the search', async () => {
+    server();await mount('PICKUP')
+    await fill(container.querySelector<HTMLInputElement>('[aria-label="Cari distribusi potongan"]')!,'BELUM DIKIRIM')
+    const ordinary=client.rpc.getMockImplementation()!
+    client.rpc.mockImplementation((name,args)=>name==='erp_get_cutting_pickup_queue_v1'?Promise.resolve({data:null,error:{code:'08006',message:'Read failed'}}):ordinary(name,args))
+    await click('Refetch');await click('Tutup',container.querySelector('.cpick-message.error')!)
+    expect(container.querySelector('.cpick-selected')).toBeNull()
+    expect(container.querySelector('.cpick-queue > header strong')?.textContent).toBe('— Potongan')
+    expect(container.querySelector('.cpick-pagination > span')?.textContent).toBe('— Potongan')
+    expect(button('Berikutnya').disabled).toBe(true)
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Cari distribusi potongan"]')!.value).toBe('BELUM DIKIRIM')
+    expect(writes()).toHaveLength(0)
+  })
+
+  it('refuses an old pickup response after the new authority generation denies the reader', async () => {
+    let resolve!:(value:unknown)=>void
+    client.rpc.mockImplementation((name:string)=>name==='erp_list_patterns_v1'?Promise.resolve({data:recoveryPatterns,error:null}):new Promise(r=>{resolve=r}))
+    await mount('PICKUP');const oldResolve=resolve
+    client.rpc.mockImplementation(async(name:string)=>name==='erp_list_patterns_v1'?{data:recoveryPatterns,error:null}:{data:null,error:{code:'42501',message:'Current pickup view revoked'}})
+    const next=structuredClone(recoveryIdentity);Object.assign(next.identity.profile,{roleRowVersion:2});authState.current=next
+    await mount('PICKUP')
+    await act(async()=>oldResolve({data:pickupFixture(),error:null}));await settle()
+    expect(container.querySelector('.cpick-selected')).toBeNull()
+    expect(container.querySelector('.cpick-queue > header strong')?.textContent).toBe('— Potongan')
+    expect(container.querySelector('[role="alert"]')?.textContent).toContain('Akun tidak memiliki izin untuk operasi ini.');expect(writes()).toHaveLength(0)
+  })
+
   it.each(['CUTTING', 'PICKUP'] as const)('%s retires committed form before a failed refetch and never replays it', async (kind) => {
     const state = server(); state.failRead = true
     await mount(kind)

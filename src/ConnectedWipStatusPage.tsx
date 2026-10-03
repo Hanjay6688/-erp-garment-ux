@@ -178,6 +178,7 @@ export default function ConnectedWipStatusPage() {
   if (!isConnectedRuntime(runtime)) throw new Error('ConnectedWipStatusPage hanya untuk ERP Enteng UAT.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const canAdjust = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.wip.adjust')
+  const authorityGeneration=identity.status==='AUTHORIZED'?`${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:identity.status
   const [filter, setFilter] = useState<WipStatusFilter>('ACTIVE')
   const [sort, setSort] = useState<WipStatusSort>('PATTERN')
   const [patternId, setPatternId] = useState('')
@@ -185,7 +186,7 @@ export default function ConnectedWipStatusPage() {
   const [response, setResponse] = useState<WipResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const mutation = useProductionMutation('WIP')
-  const { beginRead, finishRead, run, reconcile } = mutation
+  const { beginRead, finishRead, isReadCurrent, run, reconcile } = mutation
   const flagging = mutation.writerLocked
   const [error, setError] = useState('')
   const loadRequestRef = useRef(0)
@@ -196,6 +197,7 @@ export default function ConnectedWipStatusPage() {
     const ticket = beginRead()
     const requestId = ++loadRequestRef.current
     setLoading(true)
+    setResponse(null)
     setError('')
     try {
       const { data, error: loadError } = await client.rpc('erp_get_wip_control_v1', {
@@ -204,7 +206,7 @@ export default function ConnectedWipStatusPage() {
         p_sort: nextSort,
         p_query: nextQuery.trim() || null,
       })
-      if (requestId !== loadRequestRef.current) return false
+      if (requestId !== loadRequestRef.current || !isReadCurrent(ticket)) return false
       if (loadError) {
         setError(normalizeClientError(loadError).message)
         return false
@@ -212,21 +214,23 @@ export default function ConnectedWipStatusPage() {
       try {
         const parsed = parseWipResponse(data)
         if (parsed.filter !== nextFilter || parsed.sort !== nextSort || parsed.pattern_id !== (nextPattern || null)) throw new Error('Respons WIP tidak cocok dengan filter yang diminta.')
+        const writable=finishRead(ticket)
+        if (!isReadCurrent(ticket)) return false
         setResponse(parsed)
-        return finishRead(ticket)
+        return writable
       } catch (parseError) {
         setError(parseError instanceof Error ? parseError.message : String(parseError))
         return false
       }
     } catch (loadFailure) {
-      if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
+      if (requestId === loadRequestRef.current && isReadCurrent(ticket)) setError(normalizeClientError(loadFailure).message)
       return false
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
-  }, [beginRead, finishRead, client, filter, patternId, query, sort])
+  }, [beginRead, finishRead, isReadCurrent, client, filter, patternId, query, sort])
 
-  useEffect(() => { void load(); return () => { loadRequestRef.current += 1 } }, [mutation.scope]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { void load(); return () => { loadRequestRef.current += 1 } }, [mutation.scope,authorityGeneration]) // eslint-disable-line react-hooks/exhaustive-deps
   const changeFilter = (next: WipStatusFilter) => { setFilter(next); void load(next, sort, patternId, query) }
   const changeSort = (next: WipStatusSort) => { setSort(next); void load(filter, next, patternId, query) }
   const changePattern = (next: string) => { setPatternId(next); void load(filter, sort, next, query) }
@@ -270,7 +274,7 @@ export default function ConnectedWipStatusPage() {
     <section className="cwip-kpis"><article><span>BARIS TAMPIL</span><strong>{totalsKnown ? rows.length + openingRows.length : '—'}</strong><small>{filter === 'ACTIVE' ? 'Selesai disembunyikan' : filter === 'COMPLETED' ? 'Riwayat selesai' : 'Aktif + selesai'}</small></article><article><span>KUANTITAS</span><strong>{totalsKnown ? `${qty} pcs` : '—'}</strong><small>Read-only control total</small></article><article><span>MASIH ADA AKSI</span><strong>{totalsKnown ? blocked : '—'}</strong><small>Gabungan seluruh blocker</small></article></section>
 
     {!loading && openingRows.length > 0 && <section className="cwip-workspace" aria-label="WIP saldo awal"><h2>Produksi yang dibawa saat saldo awal</h2><div className="cwip-list">{openingRows.map(s => <article key={s.opening_item_id}><header><div><small>{s.po_number} · {s.source_key}</small><h3>{s.balance_type} · Ukuran {s.size_code}</h3><p>Tahap saat saldo awal: {s.stage}{s.bb && s.bb.current_stage !== s.stage ? ` · sekarang ${s.bb.current_stage}` : ''} · {s.bb?.current_stage === 'CUTTING' ? `Menunggu pickup di ${s.bb.location_code ?? 'lokasi potong'}` : (s.stage === 'LAUNDRY' ? s.vendor_name : s.contractor_name ?? s.vendor_name) ?? 'Pemegang mengikuti saldo awal'}{s.bb && s.bb.split_qty_pcs > 0 ? ` · dipisah BS ${s.bb.split_qty_pcs} pcs` : ''}</p></div></header><div className="cwip-facts"><span><small>AWAL</small><strong>{s.qty_pcs} pcs</strong></span><span><small>TERSISA</small><strong>{s.remaining_qty_pcs} pcs</strong></span>{s.bd && s.bd.held_qty_pcs > 0 && <span><small>DIKLAIM KE LAUNDRY</small><strong>{s.bd.held_qty_pcs - s.bd.lost_qty_pcs} pcs{s.bd.lost_qty_pcs > 0 ? ` · hilang ${s.bd.lost_qty_pcs} pcs` : ''}</strong></span>}</div><p>{s.balance_type === 'BS' ? 'Lanjutkan melalui BS/Rework.' : 'Hasil saldo awal dicatat owner/admin pada rincian impor awal.'}</p></article>)}</div></section>}
-    <section className="cwip-workspace"><header><div className="cwip-tabs" role="tablist" aria-label="Status WIP">{(['ACTIVE', 'COMPLETED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} onClick={() => changeFilter(value)} key={value}>{value === 'ACTIVE' ? 'Aktif' : value === 'COMPLETED' ? 'Selesai' : 'Semua'}</button>)}</div><label className="cwip-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void load() }} placeholder="Nomor produksi, model, Pola, mandor, status…"/><button onClick={() => void load()}><Filter/> Terapkan</button></label><ConnectedPatternFilter value={patternId} onChange={changePattern}/><select aria-label="Urutan WIP" value={sort} onChange={(event) => changeSort(event.target.value as WipStatusSort)}><option value="PATTERN">Urutan Pola</option><option value="PRODUCTION">Kronologi produksi</option><option value="UPDATED">Terakhir diperbarui</option></select></header>
+    <section className="cwip-workspace"><header><div className="cwip-tabs" role="tablist" aria-label="Status WIP">{(['ACTIVE', 'COMPLETED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} onClick={() => changeFilter(value)} key={value}>{value === 'ACTIVE' ? 'Aktif' : value === 'COMPLETED' ? 'Selesai' : 'Semua'}</button>)}</div><button type="button"disabled={loading||mutation.busy}onClick={()=>{setFilter('ALL');setSort('PATTERN');setPatternId('');setQuery('');void load('ALL','PATTERN','','')}}>Browse semua</button><label className="cwip-search"><Search/><input aria-label="Cari WIP" maxLength={200} value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void load() }} placeholder="Nomor produksi, model, Pola, mandor, status…"/><button onClick={() => void load()}><Filter/> Terapkan</button></label><ConnectedPatternFilter value={patternId} onChange={changePattern}/><select aria-label="Urutan WIP" value={sort} onChange={(event) => changeSort(event.target.value as WipStatusSort)}><option value="PATTERN">Urutan Pola</option><option value="PRODUCTION">Kronologi produksi</option><option value="UPDATED">Terakhir diperbarui</option></select></header>
       {loading ? <div className="cwip-empty"><RefreshCw className="spin"/><strong>Mengambil status authoritative…</strong></div> : <div className="cwip-list">{rows.map((row) => {
         const blockers = activeBlockerLabels(row)
         return <article key={row.cutting_group_id} className={row.control_status.toLowerCase()}>

@@ -1,0 +1,39 @@
+{
+  "basis": "Current uncommitted successor of b979bdc5; file hashes identify exact local inputs. DOM stand-ins, not Native or independent qualification.",
+  "local_DOM_tests_pass": 93,
+  "test_files": 5,
+  "new_operator_controls": 10,
+  "checks": {
+    "build": "PASS",
+    "security": "PASS",
+    "runtime_orphans": 0,
+    "unused_CSS_selectors": 0
+  },
+  "source_sha256": {
+    "src/ConnectedBsResolutionPage.tsx": "50fd1bc5e7918ae0cec223df19c5539739e75ff3903962a0003ca5ae7343a7e1",
+    "src/ConnectedPickupPage.tsx": "f7c9098ac99fa1cde0ef45e27ed7acabe888e0de452bf3692d1470395fba377f",
+    "src/ConnectedWipStatusPage.tsx": "dea1c2e27cd5618cd3dd42b8c6b42cf10596d34f23272e7c7cfd334cd0deec83",
+    "src/ConnectedBsResolutionPage.dom.test.tsx": "cb5fe3468ec14218ab0d518ff4f77c4e10c319145d36cd2877788b668e549c59",
+    "src/ConnectedProductionRecovery.dom.test.tsx": "101a0d70c05effbb4a4b9af6ad8eddeb4690215f9a88b66b7126bfb90113dd3f",
+    "src/ConnectedWipStatusPage.dom.test.tsx": "b9e3b961f64b4816900ae9dfcc1f335a8fcfa45afe1f0afb21865f26e310634a",
+    "src/connected-bs-resolution.css": "576a90559de172af9514550f239fabd160c028b3a13d7276640a125142060f36",
+    "src/connected-pickup.css": "bccb81244f60b3019abc95454f878b511a27436f7f2b99ce17c0095eeca16f3f"
+  },
+  "logs_sha256": {
+    "out/cp7-submenu-production-tests.log": "fd2d2d2c32a9dda812e2c83339fcc42f8e5ef9c171968caadb6244756dff1b4b",
+    "out/cp7-submenu-production-build.log": "3e4f214f95768d5208f9742e2e922efb9836c511f14e72afc5c5d4657765875b",
+    "out/cp7-submenu-production-security.log": "81b7977cffb7fba538c3f93ca1722125bca53fc6c6f1b397c918a01dc9931e72"
+  },
+  "scope": [
+    "BS/claim search, ALL/kind/pattern filter and50-row browse",
+    "Pickup search, ALL/pattern filter and100-row browse",
+    "WIP browse through existing global backend sort",
+    "Displayed-page sorting preserves selected Native IDs and unsent pickup allocation",
+    "Reader failure/permission generation retire old facts; dismissing errors cannot restore them",
+    "Recovery keeps its original UUID/envelope; readonly successful views do not unlock any writer"
+  ],
+  "Native_qualification": "PENDING_CURRENT_SOURCE",
+  "all_submenus_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
