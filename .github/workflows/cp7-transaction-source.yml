@@ -12,6 +12,7 @@ name: CP7 Native Transaction Source Navigation
     - scripts/cp7_supplier_payment_cases.py
     - scripts/cp7_qc_source_cases.py
     - scripts/cp7_laundry_source_cases.py
+    - scripts/cp7_cutting_source_cases.py
     - scripts/cp7_f03_e01_*
     - scripts/cp7_f05_analysis_probe.py
     - scripts/cp7_f05_obligation_report_browser.mjs

@@ -1,3 +1,5 @@
+> Successor inspection found the separate existing Native get_cutting_pickup_queue_v1(ALL,NULL,NULL,100,offset) reader includes posted/picked/QC group history with current production.distribution.view. CUTTING_POSTED_SOURCE_HANDOFF.md now controls the implemented exact source/PO/page/readonly-preview candidate and pending Native76. The cutting draft exclusion below remains true; no posted edit/inverse or draft navigation is added.
+
 # Batas pembaca potongan dari transaksi asal
 
 Inspection read-only pada source088f446c. Native runtime atau sambungan baru belum dijalankan. Exact frozen/UI file hashes: `evidence/cutting-source-contract/READ_ONLY_INSPECTION.json`.

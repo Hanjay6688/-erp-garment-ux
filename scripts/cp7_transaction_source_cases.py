@@ -19,9 +19,10 @@ import cp7_f03_cases as combined
 import cp7_supplier_payment_cases as supplier_payment
 import cp7_qc_source_cases as qc_source
 import cp7_laundry_source_cases as laundry_source
+import cp7_cutting_source_cases as cutting_source
 import cp7_transaction_source_bundle as bundle
 b,auth=material.b,material.auth
-REQUIRED=dict(native=38,races=4,http=9,browser=18)
+REQUIRED=dict(native=41,races=4,http=11,browser=20)
 EXPECTED=sum(REQUIRED.values())
 RPC='erp_cp7_resolve_transaction_source_v1'
 
@@ -290,7 +291,7 @@ def cases(cur,today):
   assert cur.execute('select has_function_privilege(\'authenticated\',\'public.erp_cp7_resolve_transaction_source_v1(jsonb)\',\'EXECUTE\')').fetchone()[0]
   return dict(status='PASS',public_current_auth_only_private_resolver_and_ERP_DML_denied=True)
  functions=[receipts,invoices,transfers,counts,finished,sales,payments,returns,journals,authority,malformed,least_privilege,payroll_headers,payroll_payments,payroll_authority,payroll_unavailable,accessory_documents,accessory_history,accessory_authority,accessory_unsupported,rework_documents,rework_history,rework_authority,rework_unavailable]
- controls=[('CP7_SOURCE_'+f.__name__.upper(),f)for f in functions]+supplier_payment.cases(cur,today)+qc_source.cases(cur,today)+laundry_source.cases(cur,today)+laundry_source.dependency_cases(cur,today)
+ controls=[('CP7_SOURCE_'+f.__name__.upper(),f)for f in functions]+supplier_payment.cases(cur,today)+qc_source.cases(cur,today)+laundry_source.cases(cur,today)+laundry_source.dependency_cases(cur,today)+cutting_source.cases(cur,today)
  assert len(controls)==REQUIRED['native']
  return controls
 
@@ -364,4 +365,4 @@ def http_cases(http,today):
   assert admin.rpc(RPC,args)['status']==403
   with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==revoked;conn.rollback()
   return dict(status='PASS',real_Auth_HTTP_exact_Native_rework_child_to_bs=True,current_database_view_revoke_same_token_denied=True,no_business_write=True)
- return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http),('CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW',payroll_http),('CP7_SOURCE_HTTP_ACCESSORY_CURRENT_VIEW',accessory_http),('CP7_SOURCE_HTTP_BS_CURRENT_VIEW',rework_http)]+supplier_payment.http_cases(http,today)+qc_source.http_cases(http,today)+laundry_source.http_cases(http,today)
+ return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http),('CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW',payroll_http),('CP7_SOURCE_HTTP_ACCESSORY_CURRENT_VIEW',accessory_http),('CP7_SOURCE_HTTP_BS_CURRENT_VIEW',rework_http)]+supplier_payment.http_cases(http,today)+qc_source.http_cases(http,today)+laundry_source.http_cases(http,today)+cutting_source.http_cases(http,today)

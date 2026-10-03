@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Inspect fresh actual Auth function counters using only the already-existing isolated maintenance authority for the temporary tracker. Preserve6bac unavailable profile and exact successful Shell/diagnostic Originals, Native22/284/year40 scopes; no Native product SQL/app/guard/formula/timeout changes. Continue measured correction-timing and remaining feasible CP7 exits; independent/installed/owner data remain separately open.",
+  "execution_priority": "Qualify posted-cutting source Native76 plus full Shell/current-source regressions. Preserve all69 earlier cases and every cleanup gate; inspect exact source group/PO/page/current permission and no-write desktop/mobile witnesses, retain first failures. Actual3266 function profile55 is available with complete restoration; preserve6bac unavailable Original and do not infer an old timeout cause or change guards/formulas/timeouts from one profile. Continue remaining feasible CP7; owner-data/independent/installed gates stay separate.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3651,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Inspect fresh actual Auth function counters using only the already-existing isolated maintenance authority for the temporary tracker. Preserve6bac unavailable profile and exact successful Shell/diagnostic Originals, Native22/284/year40 scopes; no Native product SQL/app/guard/formula/timeout changes. Continue measured correction-timing and remaining feasible CP7 exits; independent/installed/owner data remain separately open.",
+  "next_action": "Qualify posted-cutting source Native76 plus full Shell/current-source regressions. Preserve all69 earlier cases and every cleanup gate; inspect exact source group/PO/page/current permission and no-write desktop/mobile witnesses, retain first failures. Actual3266 function profile55 is available with complete restoration; preserve6bac unavailable Original and do not infer an old timeout cause or change guards/formulas/timeouts from one profile. Continue remaining feasible CP7; owner-data/independent/installed gates stay separate.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9635,7 +9635,7 @@
     "production_go": false
   },
   "note_function_profile_candidate": {
-    "status": "ACTUAL_6BAC_DIAGNOSTIC2_RESTORATION_PASS_PROFILE_UNAVAILABLE_SUCCESSOR_EXISTING_MAINTENANCE_PENDING",
+    "status": "ACTUAL3266_DIAGNOSTIC2_FUNCTION_PROFILE_AVAILABLE_QUALIFIED_NO_PRODUCT_EXIT_CREDIT",
     "handoff": "docs/cp7/NOTE_FUNCTION_PROFILE_HANDOFF.md",
     "actual_caller": "scripts/cp7_note_command_diagnostic_probe.py",
     "workflow": ".github/workflows/cp7-note-command-diagnostic.yml",
@@ -9699,6 +9699,48 @@
       "browsers": 6,
       "build_security_and_CodeQL_zero": true,
       "orphan_in_declared_runtime_scope": 0
-    }
+    },
+    "source_commit": "3266539801e198de6cdd480fa3156d91b050bf9d",
+    "receipt": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-3266/RECEIPT.json",
+    "raw_counter_verification": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-3266/FUNCTION_PROFILE_VERIFICATION.json",
+    "function_profile_available": true,
+    "raw_before_count": 0,
+    "raw_after_count": 55,
+    "year_default_command_ms": 3782.345,
+    "year_profile_command_ms": 3744.339,
+    "profile_HTTP_ms": 4226.266,
+    "root_delta_calls": "1",
+    "first_6bac_UNAVAILABLE_Original_preserved": true,
+    "restore_raw_public_equal": false,
+    "raw_public_pair_order_only_independently_recomputed": true,
+    "guard_or_formula_or_timeout_changed": false,
+    "one_profile_does_not_prove_old_timeout_cause": true,
+    "current_shell_receipt": "docs/cp7/evidence/finisher-regression/qualified3266/shell/RECEIPT.json"
+  },
+  "cutting_posted_source_candidate": {
+    "status": "IMPLEMENTED_NATIVE76_AND_FULL_SHELL_PENDING",
+    "handoff": "docs/cp7/CUTTING_POSTED_SOURCE_HANDOFF.md",
+    "required_counts": {
+      "native": 41,
+      "races": 4,
+      "http": 11,
+      "browser": 20
+    },
+    "expected": 76,
+    "all69_prior_cases_retained": true,
+    "added_executions": 7,
+    "source_kinds": [
+      "CUTTING_GROUP",
+      "CUTTING_MATERIAL_ISSUE"
+    ],
+    "owning_route": "mandor-wip",
+    "current_view_permission": "production.distribution.view",
+    "Native_reader": "erp_get_cutting_pickup_queue_v1(ALL,NULL,NULL,100,offset)",
+    "exact_group_PO_number_status_version_and_page_required": true,
+    "preview_business_writer_calls": false,
+    "posted_cutting_edit_or_inverse": false,
+    "new_role_or_RPC_or_ERP_DML_or_Native_writer_grant": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

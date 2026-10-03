@@ -14,7 +14,8 @@ grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.ma
  erp.contractor_material_issues,erp.contractor_material_issue_items,erp.materials,erp.uom_definitions,
  erp.bs_cases,erp.rework_orders,erp.qc_inspections,erp.qc_inspection_items,erp.fg_stock_movements,
  erp.laundry_deliveries,erp.laundry_delivery_lines,erp.laundry_delivery_batch_size_lines,
- erp.laundry_receipts,erp.laundry_receipt_lines,erp.laundry_receipt_batch_size_lines
+ erp.laundry_receipts,erp.laundry_receipt_lines,erp.laundry_receipt_batch_size_lines,
+ erp.cutting_groups,erp.production_orders,erp.product_models
  to cp7_transaction_source_read;
 
 create function cp7_transaction_source.authority()returns jsonb
@@ -93,6 +94,11 @@ begin
  when kind in('LAUNDRY_DELIVERY','LAUNDRY_DELIVERY_LINE','LAUNDRY_DELIVERY_BATCH_SIZE_LINE',
   'LAUNDRY_RECEIPT','LAUNDRY_RECEIPT_LINE','LAUNDRY_RECEIPT_BATCH_SIZE_LINE')then
   domain:='LAUNDRY';route:='laundry';permission:='production.laundry.view';
+ when kind in('CUTTING_GROUP','CUTTING_MATERIAL_ISSUE')then
+  -- Posted cutting is read by the existing Native ALL distribution queue,
+  -- never by the unposted cutting-draft selector. Its current view right is
+  -- production.distribution.view; cutting.view alone cannot open that reader.
+  domain:='CUTTING';route:='mandor-wip';permission:='production.distribution.view';
  else
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
@@ -171,8 +177,19 @@ begin
  when'BS_REWORK'then select to_jsonb(h),h.bs_number into doc,label from erp.bs_cases h where h.id=parent_id;
  when'QC'then select to_jsonb(h),h.inspection_number into doc,label from erp.qc_inspections h where h.id=parent_id;
  when'LAUNDRY'then select to_jsonb(h),h.delivery_number into doc,label from erp.laundry_deliveries h where h.id=parent_id;
+ when'CUTTING'then
+  select to_jsonb(g),g.group_number into doc,label from erp.cutting_groups g
+   join erp.production_orders po on po.id=g.po_id
+   join erp.product_models pm on pm.id=po.model_id where g.id=parent_id;
  end case;
  if doc is null or coalesce(label,'')=''then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
+ if domain='CUTTING'then
+  if doc->'material_issue_posted'is distinct from'true'::jsonb then
+   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
+    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
+  end if;
+  focus:=jsonb_build_object('kind','CUTTING_GROUP','id',parent_id,'parent_id',doc->>'po_id');
+ end if;
  -- The existing CP6 owner reads complete Native laundry-linked QC only.
  -- Legacy/import outputs are distinct sources, never guessed into this form.
  if domain='QC'and(not exists(select 1 from erp.qc_inspection_items i where i.inspection_id=parent_id)
@@ -206,6 +223,15 @@ begin
  -- The owner re-reads the page and checks both identities; no client scan.
  if focus is not null and focus<>'null'::jsonb then
   case focus->>'kind'
+  when'CUTTING_GROUP'then
+   -- Exactly Native get_cutting_pickup_queue_v1(ALL,NULL,NULL,100,offset):
+   -- all posted groups including picked-up/finished PO history, same inner
+   -- joins and cut_at/group_number/id order. No query scan or first-row guess.
+   select ((n-1)/100)*100 into focus_offset from(
+    select g.id,row_number()over(order by g.cut_at,g.group_number,g.id)n
+    from erp.cutting_groups g join erp.production_orders po on po.id=g.po_id
+    join erp.product_models pm on pm.id=po.model_id where g.material_issue_posted
+   )x where id=parent_id;
   when'LAUNDRY_RECEIPT'then
    -- Embedded child, not an independently paginated list. Zero is the closed
    -- focus position; the owner re-reads and checks this receipt's actual FK.

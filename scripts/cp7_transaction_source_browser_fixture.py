@@ -9,6 +9,7 @@ import cp7_transaction_source_cases as source
 import cp7_supplier_payment_cases as supplier_payment
 import cp7_qc_source_cases as qc_source
 import cp7_laundry_source_cases as laundry_source
+import cp7_cutting_source_cases as cutting_source
 
 def main():
  target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -82,6 +83,10 @@ def main():
    f=p['fixture'];out=dict(laundry=laundry_source.observe(cur,f),qc=qc_source.observe(cur,f))
   elif op=='prepare-qc-source':
    out=qc_source.fixture(cur,date.fromisoformat(p['today']))
+  elif op=='prepare-cutting-source':
+   out=cutting_source.advanced(cur,date.fromisoformat(p['today']))
+  elif op=='state-cutting-source':
+   f=p['fixture'];out=dict(business=source.b.boundary.snapshot(cur),document=cutting_source.document(cur,f)[0])
   elif op=='state-qc-source':
    out=qc_source.observe(cur,p['fixture'])
   elif op=='prepare-supplier-payment':

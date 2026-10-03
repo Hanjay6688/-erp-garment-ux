@@ -11,7 +11,8 @@ TABLES=('material_purchase_headers','material_purchase_items','material_rolls','
  'sales_payments','sales_returns','sales_return_items','misc_finance_transactions','journal_entries','payroll_settlements',
  'contractor_material_issues','contractor_material_issue_items','materials','uom_definitions','bs_cases','rework_orders',
  'qc_inspections','qc_inspection_items','fg_stock_movements','laundry_deliveries','laundry_delivery_lines',
- 'laundry_delivery_batch_size_lines','laundry_receipts','laundry_receipt_lines','laundry_receipt_batch_size_lines')
+ 'laundry_delivery_batch_size_lines','laundry_receipts','laundry_receipt_lines','laundry_receipt_batch_size_lines',
+ 'cutting_groups','production_orders','product_models')
 
 def extension():return '\n'.join((ROOT/'scripts/cp7-src/transactions'/name).read_text()for name in('source.sql','dependencies.sql'))
 def verify(cur):

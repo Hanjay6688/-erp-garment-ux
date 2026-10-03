@@ -417,4 +417,48 @@ async function laundryDependencyJourney(ui,today,mobile){
  }catch(e){let actual=null;try{actual=state()}catch(failure){actual={observation_error:String(failure)}}writeFileSync(`cp6-proof/t3/CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
-export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP',()=>supplierPaymentJourney(ui,today,false)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE',()=>supplierPaymentJourney(ui,today,true)],['CP7_SOURCE_QC_BROWSER_DESKTOP',()=>qcSourceJourney(ui,today,false)],['CP7_SOURCE_QC_BROWSER_MOBILE',()=>qcSourceJourney(ui,today,true)],['CP7_SOURCE_LAUNDRY_BROWSER_DESKTOP',()=>laundrySourceJourney(ui,today,false)],['CP7_SOURCE_LAUNDRY_BROWSER_MOBILE',()=>laundrySourceJourney(ui,today,true)],['CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_DESKTOP',()=>laundryDependencyJourney(ui,today,false)],['CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_MOBILE',()=>laundryDependencyJourney(ui,today,true)]]}
+async function cuttingSourceJourney(ui,today,mobile){
+ const f=fixture('prepare-cutting-source',{today}),user=await ui.login('OWNER',{label:'transaction-source-cutting-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',screenshots=[]
+ const state=()=>fixture('state-cutting-source',{fixture:f}),sourceResponse=r=>r.url().endsWith('/rpc/erp_cp7_resolve_transaction_source_v1')
+ const preview=()=>page.locator(`[data-cutting-group-id="${f.group}"][data-source-focus="true"]`)
+ const writes=[];page.on('request',r=>{if(/\/rpc\/erp_(?:save_|cp7_(?:save_|correct_))/.test(r.url()))writes.push(r.url().split('/').at(-1))})
+ const check=async(before,kind)=>{
+  await ui.expect(preview()).toHaveCount(1);await ui.expect(preview()).toHaveAttribute('data-cutting-po-id',f.po);await ui.expect(preview()).toContainText(f.group_number)
+  await ui.expect(page.locator('[data-cutting-source-id]')).toHaveAttribute('data-cutting-source-id',f.group)
+  assert.equal(await page.locator('.cpick-actions button').evaluateAll(nodes=>nodes.every(n=>n.disabled)),true)
+  assert.equal(await page.locator('.cpick-workspace input').evaluateAll(nodes=>nodes.every(n=>n.disabled)),true)
+  assert.deepEqual(writes,[]);assert.deepEqual(state(),before)
+  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
+  const name=`CP7_SOURCE_CUTTING_${kind}_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});screenshots.push(name)
+ }
+ const inspect=response=>response.json().then(r=>{
+  assert.equal(r.business_DML,false);assert.equal(r.document.domain,'CUTTING');assert.equal(r.document.route,'mandor-wip');assert.equal(r.document.id,f.group)
+  assert.equal(r.document.focus.kind,'CUTTING_GROUP');assert.equal(r.document.focus.parent_id,f.po);assert.equal(r.document.focus.id,f.group)
+  assert.equal(r.document.focus.page_offset%100,0);return r
+ })
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state()
+  await financeMenu(page,'• Jurnal & Transaksi Lain');const journal=page.getByRole('main',{name:'Jurnal keuangan dari buku',exact:true})
+  await journal.getByLabel('Periode jurnal dari',{exact:true}).fill(f.journal_date);await journal.getByLabel('Periode jurnal sampai',{exact:true}).fill(f.journal_date)
+  await journal.getByLabel('Cari sumber jurnal',{exact:true}).fill(f.journal_number);await journal.getByRole('button',{name:'Tampilkan jurnal',exact:true}).click()
+  const jr=journal.locator(`[data-journal-id="${f.journal_id}"]`);await ui.expect(jr).toHaveCount(1);await jr.click()
+  let response=await observed(page,sourceResponse,()=>journal.getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200)
+  let resolved=await inspect(response);assert.equal(resolved.source.source_type,'CUTTING_MATERIAL_ISSUE');await check(before,'JOURNAL')
+  await warehouseMenu(page,'• Bahan & Roll');await page.getByLabel('Cari stok bahan',{exact:true}).fill(f.roll_number)
+  await page.getByRole('checkbox',{name:'Tampilkan roll habis',exact:true}).check();await page.getByRole('button',{name:'Cari stok',exact:true}).click()
+  const roll=page.locator('.cmat-roll').filter({hasText:f.roll_number});await ui.expect(roll).toHaveCount(1)
+  response=await observed(page,r=>r.url().endsWith('/rpc/erp_cp7_get_material_ledger_v1'),()=>roll.getByRole('button',{name:'Mutasi '+f.roll_number,exact:true}).click());assert.equal(response.status(),200)
+  const ledger=await response.json(),movement=ledger.page.rows.find(m=>m.movement_id===f.material_movement);assert.ok(movement);assert.equal(movement.source_type,'CUTTING_GROUP');assert.equal(movement.source_id,f.group)
+  const mr=page.locator('.cmat-ledger .cproc-item').filter({hasText:'CUTTING ISSUE'});await ui.expect(mr).toHaveCount(1)
+  response=await observed(page,sourceResponse,()=>mr.getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200)
+  resolved=await inspect(response);assert.equal(resolved.source.source_type,'CUTTING_GROUP');await check(before,'MATERIAL')
+  await productionMenu(page,'• QC & Final SKU');await page.getByPlaceholder('Cari PO, Potongan, receipt, atau histori…',{exact:true}).fill(f.group_number)
+  const qr=page.locator(`[data-qc-source-receipt-id="${f.receipt_id}"]`);await ui.expect(qr).toHaveCount(1)
+  response=await observed(page,sourceResponse,()=>qr.getByRole('button',{name:'Buka potongan asal',exact:true}).click());assert.equal(response.status(),200)
+  await inspect(response);await check(before,'QC')
+  return{status:'PASS',mobile,actual_Native_issue_journal_and_QC_open_same_posted_cutting_group_PO:true,Native_ALL_page_exact_version_and_group_rechecked:true,source_preview_inputs_and_all_business_writers_disabled:true,complete_Native_business_boundary_unchanged:true,browser_business_writer_requests:0,screenshots}
+ }catch(e){let actual=null;try{actual=state()}catch(error){actual={observation_error:String(error)}}writeFileSync(`cp6-proof/t3/CP7_SOURCE_CUTTING_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual,writes},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_CUTTING_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
+ finally{await user.context.close()}
+}
+
+export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP',()=>supplierPaymentJourney(ui,today,false)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE',()=>supplierPaymentJourney(ui,today,true)],['CP7_SOURCE_QC_BROWSER_DESKTOP',()=>qcSourceJourney(ui,today,false)],['CP7_SOURCE_QC_BROWSER_MOBILE',()=>qcSourceJourney(ui,today,true)],['CP7_SOURCE_LAUNDRY_BROWSER_DESKTOP',()=>laundrySourceJourney(ui,today,false)],['CP7_SOURCE_LAUNDRY_BROWSER_MOBILE',()=>laundrySourceJourney(ui,today,true)],['CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_DESKTOP',()=>laundryDependencyJourney(ui,today,false)],['CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_MOBILE',()=>laundryDependencyJourney(ui,today,true)],['CP7_SOURCE_CUTTING_BROWSER_DESKTOP',()=>cuttingSourceJourney(ui,today,false)],['CP7_SOURCE_CUTTING_BROWSER_MOBILE',()=>cuttingSourceJourney(ui,today,true)]]}

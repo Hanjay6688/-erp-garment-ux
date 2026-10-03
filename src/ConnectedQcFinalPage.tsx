@@ -299,6 +299,7 @@ function QcReceiptSources({ workspace }: { workspace: LaundryQcWorkspace }) {
     {receipts.map(row => <article key={row.receipt_id} data-qc-source-receipt-id={row.receipt_id}>
       <header><div><strong>{row.receipt_number}</strong><small>{row.delivery_number} · {row.vendor_name}</small></div></header>
       <TransactionSourceLink sourceType="LAUNDRY_RECEIPT" sourceId={row.receipt_id} label="Buka penerimaan asal"/>
+      <TransactionSourceLink sourceType="CUTTING_GROUP" sourceId={row.cutting_group_id} label="Buka potongan asal"/>
     </article>)}
   </section>
 }

@@ -1,0 +1,520 @@
+{
+  "status": "ACTUAL_PROFILE_RAW_COUNTERS_AND_ARITHMETIC_VERIFIED",
+  "source_commit": "3266539801e198de6cdd480fa3156d91b050bf9d",
+  "parser_sha256": "6b0bcef8b4030d68452337793c10432d04ccf893010fd6e95c0ef2bfb283343e",
+  "raw_before_count": 0,
+  "raw_after_count": 55,
+  "derived_deltas_equal_Original": true,
+  "functions_by_self_elapsed_ms": [
+    {
+      "function_oid": "22878",
+      "schema_name": "erp",
+      "function_name": "require_internal",
+      "identity_arguments": "",
+      "delta_calls": "14752",
+      "delta_total_time_ms": "3568.096729",
+      "delta_self_time_ms": "1220.730417"
+    },
+    {
+      "function_oid": "22766",
+      "schema_name": "erp",
+      "function_name": "has_permission",
+      "identity_arguments": "p_permission_key text",
+      "delta_calls": "44328",
+      "delta_total_time_ms": "1059.840706",
+      "delta_self_time_ms": "1059.840706"
+    },
+    {
+      "function_oid": "23112",
+      "schema_name": "erp",
+      "function_name": "role_permission_keys",
+      "identity_arguments": "p_role_id uuid",
+      "delta_calls": "14761",
+      "delta_total_time_ms": "733.525044",
+      "delta_self_time_ms": "733.525044"
+    },
+    {
+      "function_oid": "22668",
+      "schema_name": "erp",
+      "function_name": "get_my_access_v1",
+      "identity_arguments": "",
+      "delta_calls": "14761",
+      "delta_total_time_ms": "1088.601816",
+      "delta_self_time_ms": "355.076772"
+    },
+    {
+      "function_oid": "32033",
+      "schema_name": "cp7_sales",
+      "function_name": "command_access",
+      "identity_arguments": "p_action text",
+      "delta_calls": "14752",
+      "delta_total_time_ms": "2347.366312",
+      "delta_self_time_ms": "202.698231"
+    },
+    {
+      "function_oid": "22618",
+      "schema_name": "erp",
+      "function_name": "account_id",
+      "identity_arguments": "p_mapping_key text",
+      "delta_calls": "14732",
+      "delta_total_time_ms": "3670.465263",
+      "delta_self_time_ms": "109.110069"
+    },
+    {
+      "function_oid": "25136",
+      "schema_name": "erp",
+      "function_name": "compute_non_po_product_hpp_book_v2620f",
+      "identity_arguments": "p_product_id uuid",
+      "delta_calls": "5",
+      "delta_total_time_ms": "3687.247066",
+      "delta_self_time_ms": "19.183286"
+    },
+    {
+      "function_oid": "25135",
+      "schema_name": "erp",
+      "function_name": "compute_non_po_product_hpp_targets_v2620f",
+      "identity_arguments": "p_product_id uuid",
+      "delta_calls": "5",
+      "delta_total_time_ms": "12.343363",
+      "delta_self_time_ms": "12.343363"
+    },
+    {
+      "function_oid": "22837",
+      "schema_name": "erp",
+      "function_name": "post_sale",
+      "identity_arguments": "p_sale_id uuid",
+      "delta_calls": "1",
+      "delta_total_time_ms": "2228.993312",
+      "delta_self_time_ms": "5.59631"
+    },
+    {
+      "function_oid": "32395",
+      "schema_name": "cp7_note",
+      "function_name": "command",
+      "identity_arguments": "p_payload jsonb, p_request uuid, p_expected text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "3744.28546",
+      "delta_self_time_ms": "3.541488"
+    },
+    {
+      "function_oid": "22802",
+      "schema_name": "erp",
+      "function_name": "post_journal",
+      "identity_arguments": "p_source_type text, p_source_id uuid, p_transaction_date date, p_description text, p_lines jsonb",
+      "delta_calls": "4",
+      "delta_total_time_ms": "8.691875",
+      "delta_self_time_ms": "3.350863"
+    },
+    {
+      "function_oid": "32387",
+      "schema_name": "cp7_note",
+      "function_name": "reverse_sale",
+      "identity_arguments": "p_sale_id uuid, p_reason text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "1500.764748",
+      "delta_self_time_ms": "2.797481"
+    },
+    {
+      "function_oid": "23101",
+      "schema_name": "erp",
+      "function_name": "current_app_user_id",
+      "identity_arguments": "",
+      "delta_calls": "16",
+      "delta_total_time_ms": "2.571953",
+      "delta_self_time_ms": "2.571953"
+    },
+    {
+      "function_oid": "22629",
+      "schema_name": "erp",
+      "function_name": "assert_fg_chronological_nonnegative",
+      "identity_arguments": "p_product_id uuid, p_lot_id uuid, p_location_id uuid, p_quality_grade text",
+      "delta_calls": "2",
+      "delta_total_time_ms": "1.937303",
+      "delta_self_time_ms": "1.305447"
+    },
+    {
+      "function_oid": "22797",
+      "schema_name": "erp",
+      "function_name": "post_fg_movement",
+      "identity_arguments": "p_product_id uuid, p_lot_id uuid, p_location_id uuid, p_quality_grade text, p_movement_type text, p_qty_signed integer, p_unit_hpp numeric, p_customer_id uuid, p_source_type text, p_source_id uuid, p_physical_at timestamp with time zone, p_note text, p_allow_negative boolean",
+      "delta_calls": "2",
+      "delta_total_time_ms": "4.133381",
+      "delta_self_time_ms": "1.165492"
+    },
+    {
+      "function_oid": "25137",
+      "schema_name": "erp",
+      "function_name": "assert_non_po_product_hpp_target_book_v2620f",
+      "identity_arguments": "p_product_id uuid",
+      "delta_calls": "3",
+      "delta_total_time_ms": "2229.669567",
+      "delta_self_time_ms": "1.07804"
+    },
+    {
+      "function_oid": "22609",
+      "schema_name": "erp",
+      "function_name": "_reserve_sale_draft",
+      "identity_arguments": "p_sale_id uuid",
+      "delta_calls": "1",
+      "delta_total_time_ms": "3.700752",
+      "delta_self_time_ms": "0.969815"
+    },
+    {
+      "function_oid": "32012",
+      "schema_name": "cp7_sales",
+      "function_name": "review_token",
+      "identity_arguments": "p_id uuid",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.966796",
+      "delta_self_time_ms": "0.966796"
+    },
+    {
+      "function_oid": "22998",
+      "schema_name": "erp",
+      "function_name": "save_sale_draft_v2",
+      "identity_arguments": "p_payload jsonb, p_client_request_id uuid, p_expected_version bigint",
+      "delta_calls": "1",
+      "delta_total_time_ms": "6.027173",
+      "delta_self_time_ms": "0.698124"
+    },
+    {
+      "function_oid": "32433",
+      "schema_name": "cp7_note",
+      "function_name": "line_origin",
+      "identity_arguments": "previous_sale uuid, replacement_item uuid, p_product uuid, p_lot uuid, p_location uuid, p_grade text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.567864",
+      "delta_self_time_ms": "0.567864"
+    },
+    {
+      "function_oid": "23031",
+      "schema_name": "erp",
+      "function_name": "sync_opening_hpp_after_sale_status",
+      "identity_arguments": "",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.548297",
+      "delta_self_time_ms": "0.548297"
+    },
+    {
+      "function_oid": "29981",
+      "schema_name": "erp",
+      "function_name": "bd_lot_laundry_unknown_v1",
+      "identity_arguments": "p_lot uuid",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.501504",
+      "delta_self_time_ms": "0.501504"
+    },
+    {
+      "function_oid": "22637",
+      "schema_name": "erp",
+      "function_name": "audit_row_change",
+      "identity_arguments": "",
+      "delta_calls": "4",
+      "delta_total_time_ms": "1.054425",
+      "delta_self_time_ms": "0.500482"
+    },
+    {
+      "function_oid": "32432",
+      "schema_name": "cp7_note",
+      "function_name": "bind_items",
+      "identity_arguments": "previous_sale uuid, replacement_sale uuid, correction uuid, items jsonb, source_ids jsonb",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.450323",
+      "delta_self_time_ms": "0.450323"
+    },
+    {
+      "function_oid": "32383",
+      "schema_name": "cp7_note",
+      "function_name": "restate_reversal",
+      "identity_arguments": "p_source uuid, p_inverse uuid, p_reason text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "4.303495",
+      "delta_self_time_ms": "0.425291"
+    },
+    {
+      "function_oid": "31797",
+      "schema_name": "cp7_fg",
+      "function_name": "validate_correction_movement",
+      "identity_arguments": "",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.413635",
+      "delta_self_time_ms": "0.413635"
+    },
+    {
+      "function_oid": "32385",
+      "schema_name": "cp7_note",
+      "function_name": "_cp3_r4_reverse_journal_internal",
+      "identity_arguments": "p_journal_entry_id uuid, p_reason text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "7.268277",
+      "delta_self_time_ms": "0.376455"
+    },
+    {
+      "function_oid": "25138",
+      "schema_name": "erp",
+      "function_name": "sync_non_po_product_hpp_to_gl_v2620f",
+      "identity_arguments": "p_product_id uuid, p_effective_date date, p_trigger_source_type text, p_trigger_source_id uuid, p_reason text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "736.462324",
+      "delta_self_time_ms": "0.355544"
+    },
+    {
+      "function_oid": "32381",
+      "schema_name": "cp7_note",
+      "function_name": "access_now",
+      "identity_arguments": "",
+      "delta_calls": "9",
+      "delta_total_time_ms": "4.12439",
+      "delta_self_time_ms": "0.349949"
+    },
+    {
+      "function_oid": "32384",
+      "schema_name": "cp7_note",
+      "function_name": "reverse_fg_movement",
+      "identity_arguments": "p_movement_id uuid, p_reason text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "3.22984",
+      "delta_self_time_ms": "0.332788"
+    },
+    {
+      "function_oid": "32016",
+      "schema_name": "cp7_sales",
+      "function_name": "validate_draft",
+      "identity_arguments": "p_payload jsonb, p_edit boolean",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.310131",
+      "delta_self_time_ms": "0.310131"
+    },
+    {
+      "function_oid": "32228",
+      "schema_name": "cp7_installment",
+      "function_name": "guard_line",
+      "identity_arguments": "",
+      "delta_calls": "16",
+      "delta_total_time_ms": "0.246599",
+      "delta_self_time_ms": "0.246599"
+    },
+    {
+      "function_oid": "22752",
+      "schema_name": "erp",
+      "function_name": "guard_system_managed_table",
+      "identity_arguments": "",
+      "delta_calls": "75",
+      "delta_total_time_ms": "0.239859",
+      "delta_self_time_ms": "0.239859"
+    },
+    {
+      "function_oid": "22868",
+      "schema_name": "erp",
+      "function_name": "refresh_hpp_state_after_sale_header",
+      "identity_arguments": "",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.233072",
+      "delta_self_time_ms": "0.233072"
+    },
+    {
+      "function_oid": "23100",
+      "schema_name": "erp",
+      "function_name": "current_app_role",
+      "identity_arguments": "",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.204482",
+      "delta_self_time_ms": "0.204482"
+    },
+    {
+      "function_oid": "32221",
+      "schema_name": "cp7_installment",
+      "function_name": "guard_journal",
+      "identity_arguments": "",
+      "delta_calls": "6",
+      "delta_total_time_ms": "0.196926",
+      "delta_self_time_ms": "0.196926"
+    },
+    {
+      "function_oid": "23093",
+      "schema_name": "erp",
+      "function_name": "_cp3_business_date",
+      "identity_arguments": "p_value timestamp with time zone",
+      "delta_calls": "7",
+      "delta_total_time_ms": "0.167747",
+      "delta_self_time_ms": "0.167747"
+    },
+    {
+      "function_oid": "22602",
+      "schema_name": "erp",
+      "function_name": "_idempotency_begin",
+      "identity_arguments": "p_operation_name text, p_client_request_id uuid, p_request_hash text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.332819",
+      "delta_self_time_ms": "0.158753"
+    },
+    {
+      "function_oid": "22769",
+      "schema_name": "erp",
+      "function_name": "lock_current_hpp_per_pcs",
+      "identity_arguments": "p_lot_id uuid",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.813658",
+      "delta_self_time_ms": "0.156986"
+    },
+    {
+      "function_oid": "22880",
+      "schema_name": "erp",
+      "function_name": "require_owner_admin",
+      "identity_arguments": "",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.342899",
+      "delta_self_time_ms": "0.138417"
+    },
+    {
+      "function_oid": "32382",
+      "schema_name": "cp7_note",
+      "function_name": "require_context",
+      "identity_arguments": "",
+      "delta_calls": "5",
+      "delta_total_time_ms": "2.002779",
+      "delta_self_time_ms": "0.128379"
+    },
+    {
+      "function_oid": "32386",
+      "schema_name": "cp7_note",
+      "function_name": "reverse_journal",
+      "identity_arguments": "p_journal_entry_id uuid, p_reason text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "8.047668",
+      "delta_self_time_ms": "0.113415"
+    },
+    {
+      "function_oid": "23308",
+      "schema_name": "erp",
+      "function_name": "_idempotency_actor_key",
+      "identity_arguments": "",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.391527",
+      "delta_self_time_ms": "0.111501"
+    },
+    {
+      "function_oid": "29982",
+      "schema_name": "erp",
+      "function_name": "bd_assert_sale_laundry_known_v1",
+      "identity_arguments": "p_sale uuid",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.596176",
+      "delta_self_time_ms": "0.094672"
+    },
+    {
+      "function_oid": "22603",
+      "schema_name": "erp",
+      "function_name": "_idempotency_complete",
+      "identity_arguments": "p_operation_name text, p_client_request_id uuid, p_response jsonb",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.300549",
+      "delta_self_time_ms": "0.083088"
+    },
+    {
+      "function_oid": "28715",
+      "schema_name": "erp",
+      "function_name": "bb_guard_open_sales_draft_v1",
+      "identity_arguments": "",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.075879",
+      "delta_self_time_ms": "0.075879"
+    },
+    {
+      "function_oid": "30327",
+      "schema_name": "erp",
+      "function_name": "be_nonpo_in_sync_v1",
+      "identity_arguments": "",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.07458",
+      "delta_self_time_ms": "0.07458"
+    },
+    {
+      "function_oid": "22888",
+      "schema_name": "erp",
+      "function_name": "resolve_accounting_transaction_date",
+      "identity_arguments": "p_economic_date date",
+      "delta_calls": "4",
+      "delta_total_time_ms": "0.17034",
+      "delta_self_time_ms": "0.054882"
+    },
+    {
+      "function_oid": "23097",
+      "schema_name": "erp",
+      "function_name": "_request_hash",
+      "identity_arguments": "p_payload jsonb",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.065205",
+      "delta_self_time_ms": "0.051804"
+    },
+    {
+      "function_oid": "32404",
+      "schema_name": "public",
+      "function_name": "erp_cp7_correct_note_v1",
+      "identity_arguments": "p_payload jsonb, p_request uuid, p_expected text",
+      "delta_calls": "1",
+      "delta_total_time_ms": "3744.321959",
+      "delta_self_time_ms": "0.036499"
+    },
+    {
+      "function_oid": "22730",
+      "schema_name": "erp",
+      "function_name": "guard_posted_document",
+      "identity_arguments": "",
+      "delta_calls": "3",
+      "delta_total_time_ms": "0.019068",
+      "delta_self_time_ms": "0.019068"
+    },
+    {
+      "function_oid": "22723",
+      "schema_name": "erp",
+      "function_name": "guard_no_future_physical_event",
+      "identity_arguments": "",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.015589",
+      "delta_self_time_ms": "0.015589"
+    },
+    {
+      "function_oid": "22638",
+      "schema_name": "erp",
+      "function_name": "bump_row_version",
+      "identity_arguments": "",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.008927",
+      "delta_self_time_ms": "0.008927"
+    },
+    {
+      "function_oid": "22684",
+      "schema_name": "erp",
+      "function_name": "guard_child_by_parent_status",
+      "identity_arguments": "",
+      "delta_calls": "1",
+      "delta_total_time_ms": "0.007993",
+      "delta_self_time_ms": "0.007993"
+    },
+    {
+      "function_oid": "23037",
+      "schema_name": "erp",
+      "function_name": "touch_updated_at",
+      "identity_arguments": "",
+      "delta_calls": "2",
+      "delta_total_time_ms": "0.007481",
+      "delta_self_time_ms": "0.007481"
+    }
+  ],
+  "root_function_delta": {
+    "function_oid": "32404",
+    "schema_name": "public",
+    "function_name": "erp_cp7_correct_note_v1",
+    "identity_arguments": "p_payload jsonb, p_request uuid, p_expected text",
+    "delta_calls": "1",
+    "delta_total_time_ms": "3744.321959",
+    "delta_self_time_ms": "0.036499"
+  },
+  "all366_after_main_and_lot_closings_recomputed_in_both_modes": true,
+  "inclusive_times_not_summed": true,
+  "timings_are_elapsed_not_CPU": true,
+  "one_profile_does_not_establish_timeout_cause": true,
+  "diagnostic_only": true,
+  "Native_exit_case_credit": 0
+}
