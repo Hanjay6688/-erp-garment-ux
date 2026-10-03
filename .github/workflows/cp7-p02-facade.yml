@@ -4,6 +4,7 @@ name: CP7 P02 actor facade
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_p02_facade_probe.py
     - scripts/cp7-src/snapshot/**
     - scripts/cp7_snapshot_bundle.py

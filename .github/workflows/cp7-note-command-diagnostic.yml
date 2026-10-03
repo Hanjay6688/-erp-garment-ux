@@ -4,6 +4,7 @@ name: CP7 Note Command Diagnostic
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_note_command_diagnostic_*
     - .github/workflows/cp7-note-command-diagnostic.yml
 permissions:

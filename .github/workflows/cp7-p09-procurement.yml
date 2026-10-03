@@ -4,6 +4,7 @@ name: CP7 P09 Procurement
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_p09_procurement_probe.py
     - scripts/cp7-src/procurement/**
     - scripts/cp7-src/materials/**

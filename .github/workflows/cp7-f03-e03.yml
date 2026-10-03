@@ -4,6 +4,7 @@ name: CP7 F03 E03 Customer Service
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_f03_e03_*
     - scripts/cp7_f03_refund_*
     - src/ConnectedInitialImportPage*

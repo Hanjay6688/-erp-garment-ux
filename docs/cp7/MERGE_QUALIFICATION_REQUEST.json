@@ -1,0 +1,11 @@
+{
+  "schema": "cp7.merge-qualification.v1",
+  "request": "claude-handoff-20261003",
+  "integration_base": "40c4127c7997d31d9ba2730ada0826268314c62e",
+  "claude_head": "f4049e4f7e0c9d436cce1147ce45d6760ab1d6f8",
+  "final_product_source": "19ff70ee4e2ca9100d7697eda12263c5f36968ff",
+  "scope": "All CP7 integration workflows, Shell, Build UX and CodeQL at the merged candidate",
+  "business_source_changed_by_GPT": false,
+  "test_oracles_changed": false,
+  "production_go": false
+}

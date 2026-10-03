@@ -4,6 +4,7 @@ name: CP7 F03 E05 Payroll Installments
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_f03_e05_*
     - scripts/cp7_installment_*
     - scripts/cp7_misc_*

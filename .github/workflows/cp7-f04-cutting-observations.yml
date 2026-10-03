@@ -4,6 +4,7 @@ name: CP7 F04 Native Cutting Observations
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_cutting_observation_*
     - scripts/cp7-src/cutting-yield/inputs.sql
     - scripts/cp7-src/cutting-yield/learning-kernel.sql

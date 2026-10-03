@@ -4,6 +4,7 @@ name: CP7 P02 source capture probe
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_p02_snapshot_probe.py
     - scripts/cp7-src/snapshot/**
     - tests/cp7/sourceProbeContract.ts

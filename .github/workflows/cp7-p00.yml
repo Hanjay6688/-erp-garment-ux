@@ -4,6 +4,7 @@ name: CP7 P00 accepted-base catalogue
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_p00_catalogue.py
     - .github/workflows/cp7-p00.yml
 permissions:

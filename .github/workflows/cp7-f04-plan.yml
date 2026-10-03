@@ -4,6 +4,7 @@ name: CP7 F04 Native Planning Draft Bridge
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_f04_plan_*
     - scripts/cp7_analysis_*
     - scripts/cp7-src/planning/**

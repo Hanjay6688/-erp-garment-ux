@@ -4,6 +4,7 @@ name: CP7 Owning Historical Note Correction
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_note_correction_*
     - scripts/cp7-src/**
     - scripts/cp7_*bundle.py

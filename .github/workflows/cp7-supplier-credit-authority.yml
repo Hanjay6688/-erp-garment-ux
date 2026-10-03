@@ -4,6 +4,7 @@ name: CP7 F03 Supplier Current Authority
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_supplier_credit_authority_*
     - scripts/cp7_supplier_credit_guard.py
     - scripts/cp7_procurement_bundle.py
