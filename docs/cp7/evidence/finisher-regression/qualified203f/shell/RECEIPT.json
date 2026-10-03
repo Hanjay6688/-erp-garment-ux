@@ -1,0 +1,78 @@
+{
+  "source_commit": "203ff0e75d40a0597cd86562c51c6a43c9dec456",
+  "source_tree": "b11cc276c1b7f34dc4edc5515e6d442f37ef5784",
+  "run_id": 37110006063,
+  "jobs": {
+    "application": 111165896289,
+    "CodeQL_javascript_typescript": 111165896334,
+    "CodeQL_actions": 111165896347
+  },
+  "status": "PASS",
+  "application_tests": 1325,
+  "application_test_files": 142,
+  "Shell_browser_tests": 6,
+  "build": "PASS",
+  "security": "PASS",
+  "CodeQL_findings": 0,
+  "runtime_graph_files": 251,
+  "owned_browser_RPC_boundaries": 183,
+  "stylesheets": 53,
+  "orphans_under_runtime_import_ownership_check": 0,
+  "direct_browser_table_reads": 0,
+  "artifacts": [
+    {
+      "artifact_id": 11269691511,
+      "name": "cp7-codeql-actions",
+      "archive_sha256": "3f8fd38ce2cb0a0bed1e670b015267eb0b7d17fe0955cacbe7715a4ee97ba53b",
+      "archive_bytes": 50598,
+      "members": {
+        "actions.sarif": {
+          "sha256": "fd99836384452da7c9fbcc72ba0b6d3632b7d04e2a6b490b64c100cd95fb5b4f",
+          "bytes": 692188
+        }
+      },
+      "findings": 0
+    },
+    {
+      "artifact_id": 11269671534,
+      "name": "cp7-codeql-javascript-typescript",
+      "archive_sha256": "34494fb39be80ce13a90a0246fae7a4bc93ebae3330adfc13d64bcac5d432162",
+      "archive_bytes": 120178,
+      "members": {
+        "javascript.sarif": {
+          "sha256": "f6fba91faaf9b0854e21c8f21fa52c54122115d4111a6bfb9dacebe5bbfad19b",
+          "bytes": 1302696
+        }
+      },
+      "findings": 0
+    },
+    {
+      "artifact_id": 11269297545,
+      "name": "cp7-shell-proof",
+      "archive_sha256": "aacdd1244c6b47015cfd5cf6bcfa7acff5c9c30a92b5a830e7ba701b94c11d30",
+      "archive_bytes": 491525,
+      "members": {
+        "f04-private-kernels.json": {
+          "sha256": "ba3856ee339374cca49a82047248bf8f25087f1e758f01b55c4183bc1b375ca3",
+          "bytes": 53271
+        },
+        "desktop-planner.png": {
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8",
+          "bytes": 130883
+        },
+        "results.json": {
+          "sha256": "dbfeb06c8406a545d54e2318983f2bb888cec1d1a25c765653c42fb100f69719",
+          "bytes": 12592
+        },
+        "mobile-planner.png": {
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06",
+          "bytes": 382780
+        }
+      }
+    }
+  ],
+  "log_extract": "EXTRACT.txt",
+  "log_extract_is_not_full_Original": true,
+  "independent_acceptance": false,
+  "production_go": false
+}

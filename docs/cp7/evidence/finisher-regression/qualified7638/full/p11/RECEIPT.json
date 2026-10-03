@@ -1,0 +1,168 @@
+{
+  "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "source_tree": "8186fba6c39ac9ad897026d2c1763ba3363789a0",
+  "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+  "run_id": 37108983720,
+  "job_id": 111163032027,
+  "artifact_id": 11269141823,
+  "archive_sha256": "a72d27ac609186bf1d18b2782ba055b0de796c3b9c6618d3f875a33b31a4269c",
+  "archive_bytes": 9491571,
+  "original_sha256": "8f7dedd63ba6a6c7c10ef1ce2ed6af45af109ab9b1216e92c7ceffa199610181",
+  "package_original_sha256": "8783a6b2730f7525b5897a9aadb7328c44eb9d37f7361340bff0e966afd1eff2",
+  "status": "PASS",
+  "expected_case_count": 64,
+  "observed_case_count": 64,
+  "predeclared_groups": [
+    {
+      "key": "native",
+      "kind": "native",
+      "module": "cp7_sales_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "http",
+      "kind": "http",
+      "module": "cp7_sales_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "commands",
+      "kind": "native",
+      "module": "cp7_sales_command_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 6
+    },
+    {
+      "key": "command_races",
+      "kind": "races",
+      "module": "cp7_sales_command_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "command_http",
+      "kind": "http",
+      "module": "cp7_sales_command_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "drafts",
+      "kind": "native",
+      "module": "cp7_sales_draft_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 7
+    },
+    {
+      "key": "draft_races",
+      "kind": "races",
+      "module": "cp7_sales_draft_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "draft_http",
+      "kind": "http",
+      "module": "cp7_sales_draft_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "payments",
+      "kind": "native",
+      "module": "cp7_sales_payment_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "payment_races",
+      "kind": "races",
+      "module": "cp7_sales_payment_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "payment_http",
+      "kind": "http",
+      "module": "cp7_sales_payment_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "returns",
+      "kind": "native",
+      "module": "cp7_sales_return_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 11
+    },
+    {
+      "key": "return_races",
+      "kind": "races",
+      "module": "cp7_sales_return_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "return_http",
+      "kind": "http",
+      "module": "cp7_sales_return_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p11_sales_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p11_sales_probe.py",
+      "expected_executions": 10
+    }
+  ],
+  "private_role_count": 32,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "unique_scenario_total_claim": false
+}

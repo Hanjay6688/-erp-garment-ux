@@ -1,0 +1,58 @@
+{
+  "status": "ALL8_PASS_EXACT_ORIGINALS_RETAINED",
+  "source_commit": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "run_id": 37108983720,
+  "qualifications": [
+    {
+      "bucket": "p12",
+      "status": "PASS",
+      "cases": 90,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/full/p12/RECEIPT.json"
+    },
+    {
+      "bucket": "customer_refund",
+      "status": "PASS",
+      "cases": 10,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/full/customer_refund/RECEIPT.json"
+    },
+    {
+      "bucket": "p09",
+      "status": "PASS",
+      "cases": 132,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/full/p09/RECEIPT.json"
+    },
+    {
+      "bucket": "supplier_credit",
+      "status": "PASS",
+      "cases": 5,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/full/supplier_credit/RECEIPT.json"
+    },
+    {
+      "bucket": "p13",
+      "status": "PASS",
+      "cases": 50,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/full/p13/RECEIPT.json"
+    },
+    {
+      "bucket": "p10",
+      "status": "PASS",
+      "cases": 34,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/full/p10/RECEIPT.json"
+    },
+    {
+      "bucket": "cash_installments",
+      "status": "PASS",
+      "cases": 61,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/full/cash_installments/RECEIPT.json"
+    },
+    {
+      "bucket": "p11",
+      "status": "PASS",
+      "cases": 64,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/full/p11/RECEIPT.json"
+    }
+  ],
+  "total_unique_scenarios": null,
+  "independent_acceptance": false,
+  "production_go": false
+}

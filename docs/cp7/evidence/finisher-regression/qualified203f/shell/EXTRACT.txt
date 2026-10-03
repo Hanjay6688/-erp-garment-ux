@@ -1,0 +1,11 @@
+2026-10-03T08:38:00.9746422Z  Test Files  142 passed (142)
+2026-10-03T08:38:00.9750467Z       Tests  1325 passed (1325)
+2026-10-03T08:38:01.2037465Z Source ownership passed: 251 runtime files, 183 owned RPC boundaries, no orphan or direct table access.
+2026-10-03T08:38:01.3113963Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 183 browser RPC boundaries.
+2026-10-03T08:38:04.2976460Z CSS ownership passed: 53 stylesheets have no unowned selector branches.
+2026-10-03T08:38:05.4786261Z Backend ownership v3 passed: 55 inherited + 15 Cutting Bridge + 24 CP5 backend/proof entries; 89 effective unique files, 66 CP5 source files byte-bound, zero unowned.
+2026-10-03T08:38:06.3659384Z Source ownership passed: 251 runtime files, 183 owned RPC boundaries, no orphan or direct table access.
+2026-10-03T08:38:06.4677760Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 183 browser RPC boundaries.
+2026-10-03T08:38:09.4435888Z CSS ownership passed: 53 stylesheets have no unowned selector branches.
+2026-10-03T08:38:11.4058316Z Client artifact secret scan passed: /home/runner/work/-erp-garment-ux/-erp-garment-ux/dist
+2026-10-03T08:38:44.1676295Z   6 passed (8.4s)

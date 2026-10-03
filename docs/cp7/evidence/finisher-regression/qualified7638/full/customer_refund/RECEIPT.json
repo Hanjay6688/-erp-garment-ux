@@ -1,0 +1,96 @@
+{
+  "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "source_tree": "8186fba6c39ac9ad897026d2c1763ba3363789a0",
+  "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+  "run_id": 37108983720,
+  "job_id": 111163032150,
+  "artifact_id": 11269750022,
+  "archive_sha256": "686db109bcca939516d3a93b7dcac1c1bbb8e28c70941476cc7e4d95358c5caa",
+  "archive_bytes": 3608340,
+  "original_sha256": "13c87126693c427dafe895ca493ef9d379176a176fc84e2d143cb7b2bdaed9db",
+  "package_original_sha256": "8783a6b2730f7525b5897a9aadb7328c44eb9d37f7361340bff0e966afd1eff2",
+  "status": "PASS",
+  "expected_case_count": 10,
+  "observed_case_count": 10,
+  "predeclared_groups": [
+    {
+      "key": "native",
+      "kind": "native",
+      "module": "cp7_f03_e03_cases",
+      "entry": "cases",
+      "smoke": false,
+      "expected_executions": 1,
+      "retained_probe": "cp7_f03_e03_probe.py"
+    },
+    {
+      "key": "refund_native",
+      "kind": "native",
+      "module": "cp7_f03_refund_cases",
+      "entry": "cases",
+      "smoke": false,
+      "expected_executions": 2,
+      "retained_probe": "cp7_f03_e03_probe.py"
+    },
+    {
+      "key": "refund_races",
+      "kind": "races",
+      "module": "cp7_f03_refund_cases",
+      "entry": null,
+      "smoke": false,
+      "expected_executions": 1,
+      "retained_probe": "cp7_f03_e03_probe.py"
+    },
+    {
+      "key": "refund_http",
+      "kind": "http",
+      "module": "cp7_f03_refund_cases",
+      "entry": null,
+      "smoke": false,
+      "expected_executions": 1,
+      "retained_probe": "cp7_f03_e03_probe.py"
+    },
+    {
+      "key": "refund_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_f03_refund_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "expected_executions": 2,
+      "retained_probe": "cp7_f03_e03_probe.py"
+    },
+    {
+      "key": "http",
+      "kind": "http",
+      "module": "cp7_f03_e03_cases",
+      "entry": null,
+      "smoke": false,
+      "expected_executions": 1,
+      "retained_probe": "cp7_f03_e03_probe.py"
+    },
+    {
+      "key": "browser",
+      "kind": "browser",
+      "module": "scripts/cp7_f03_e03_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "expected_executions": 2,
+      "retained_probe": "cp7_f03_e03_probe.py"
+    }
+  ],
+  "private_role_count": 32,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "unique_scenario_total_claim": false
+}

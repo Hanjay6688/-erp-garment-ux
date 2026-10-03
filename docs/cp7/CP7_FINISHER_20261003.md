@@ -95,3 +95,22 @@ The actual journal page now opens the owning miscellaneous panel when the curren
 E01 run37108983704/job111163031781 at76385615 PASS4:1 Native DB,1 real Auth/HTTP and2 actual desktop/mobile invoice journeys. Exact Original/digest retained under evidence/finisher-regression/qualified7638/e01; all package/restore/advisor gates true and Auth0→0. The corrected same-menu selection is now verified within this precise source.
 
 Supplier current-authority companion run37109380020/job111164166445 at47e7e124 PASS6 actual observed-wait/current-revoke schedules, literal32 roles. Exact Original and package Original retained under evidence/finisher-regression/qualified47e7/supplier-authority. Every unchanged gate passes, primary unchanged and Auth0→0. Its first zero-execution manifest refusal remains retained.
+
+
+### Retained combined F03 regression at76385615
+
+Run37108983720 completes all8 unchanged buckets: P09 132, P10 34, P11 64, P12 90, P13 50, supplier-credit5, customer-refund10 and cash/installments61. Every bucket declares the exact32 reviewed private roles, passes its original budget, restores CP6/public/Auth exactly, passes advisors/backup/package gates and leaves Auth0→0. Exact root Original and outer package Original with archive/source/run/job hashes are retained for each bucket under evidence/finisher-regression/qualified7638/full/INDEX.json. Counts overlap across packages and are not added into a unique-scenario total. The current203ff0e7 reload-recovery UI successor is running its own Native20 at37110006069/job111165896282; these prior-source receipts do not replace that required result.
+
+
+## Increment 4 qualification
+
+Successor203ff0e75d40a0597cd86562c51c6a43c9dec456 / treeb11cc276c1b7f34dc4edc5515e6d442f37ef5784, run37110006069/job111165896282 PASS20:14 Native DB,2 actual schedules,2 real Auth/HTTP,2 actual desktop/mobile browser correction journeys. Original source bundle aba13782688b34b8b80b7bfaf5cc847b8a56717dd6bbad8384173930bfe090b0; exact root and outer package Originals plus original desktop/mobile screenshots are retained under evidence/misc-correction/qualified203f. Archive digest8cea5f2098d394354ffa8e09f9618c0855c0f9bb4f396a8d6792fcc7717e1ac2. Every package/primary/backup/restore/advisor gate passes, Auth0→0, console_errors0, cleanup_failures empty. Both firste133 and second7638 Originals remain unchanged.
+
+Desktop performs an actual committed lost reply, reloads with no navigation selection, reconciles identical UUID/payload/receipt and opens the exact replacement; both real browsers restore prior12.34 after9.99 through a second reviewed atomic correction. Original transaction/journal identities, immutable two-link history, raw microseconds and stock/HPP stay conserved. Year30 proves every later Native cash closing changes by2.35 while later documents remain identical. Closed GL daily books remain unchanged and Native post_journal chooses the lawful open posting date. This is writer qualification for this one correction family, not full transaction/source coverage or independent/installed/production acceptance.
+
+Next writer: continue the remaining exact production/laundry/BS/accessory/payroll/supplier-payment source exits and all-submenu/entry tools, then actual fabric/eligible allocation/material feasibility and P08/P18/P19. Run P20 independent and P21 installed checks on the concrete completed candidate before requesting release. Owner target remains Monday5October2026 12:00 WIB; no unfinished acceptance or unattended work is implied.
+
+
+### Application/source checks on the qualified correction UI
+
+Shell run37110006063 at203ff0e7 completes all1325 application tests in142 files, all6 Shell browser tests, build, static security/ownership checks and both CodeQL jobs with zero retained SARIF findings. Runtime import graph251/RPC183/style53 has zero orphan modules, no direct browser table read and no unowned RPC name. This states the exact check scope; it is not full-family or independent proof. Exact Shell JSON results/private kernel report and CodeQL SARIF bytes are retained compressed under evidence/finisher-regression/qualified203f/shell, with archive/member digests and a clearly labelled log extract.
