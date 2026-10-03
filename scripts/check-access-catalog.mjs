@@ -141,7 +141,11 @@ assert.ok(rpcBoundaries.has('src/SalesDraftPanel.tsx:erp_cp7_get_sales_form_v1')
 assert.ok(rpcBoundaries.has('src/SalesPaymentPanel.tsx:erp_cp7_get_sales_cash_v1'))
 assert.ok(rpcBoundaries.has('src/SalesReturnPanel.tsx:erp_cp7_get_sales_returns_v1'))
 assert.ok(rpcBoundaries.has('src/TransactionSourceNavigation.tsx:erp_cp7_resolve_transaction_source_v1'))
-const cp7TransactionDependencyBoundaries = ['src/LaundryReceiptDependencies.tsx:erp_cp7_get_transaction_dependencies_v1']
+const cp7TransactionDependencyBoundaries = [
+  'src/LaundryReceiptDependencies.tsx:erp_cp7_get_transaction_dependencies_v1',
+  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_cash_v1',
+  'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_returns_v1',
+]
 for (const name of cp7TransactionDependencyBoundaries) assert.ok(rpcBoundaries.has(name))
 const cp7RecostBoundaries = ['erp_cp7_get_recost_queue_v1','erp_cp7_process_recost_v1']
 for (const name of cp7RecostBoundaries) assert.ok(rpcBoundaries.has(`src/RecostQueuePanel.tsx:${name}`))

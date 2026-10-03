@@ -1,0 +1,33 @@
+{
+  "status": "INCOMPLETE_FIRST_EXACT_OWNERSHIP_ADMISSION",
+  "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+  "source_tree": "38d54c989af9b0892bdfa367fe0674e745ad0cb0",
+  "run_id": 37160029400,
+  "job_id": 111311381873,
+  "artifact_id": 11287148172,
+  "archive_bytes": 745,
+  "archive_sha256": "dfb9341f7162894f3026445cefbf6d9dfeb3efb213a707c78b7d1f6f8ebc4df9",
+  "archive_members": {
+    "CASH_BUILD.txt": {
+      "bytes": 1187,
+      "sha256": "c1600295ca46ebfeb268ab2dfed39addb439da96cd229bcc521fcd69dec8f6c6"
+    }
+  },
+  "original_CI_log": {
+    "file": "ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 166503,
+    "raw_sha256": "91a9d2c5cb2e1146b6a357884e7e97778837fe40b76df7a062691fbf1c4a5c81",
+    "gzip_sha256": "ce170db86dbee201530ab1c90c339c6ae82c07ea1ee08319ab369238de06cf6f"
+  },
+  "actual_failure": "CHECK_ACCESS_CATALOG_EXACT_CALLSITE_COUNT189_VS_OLD_DECLARATION187",
+  "failure_is_GitHub_transport": false,
+  "assertion_guards_relaxed": false,
+  "first_failure_relabelled": false,
+  "Native_product_execution_credit": 0,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "Native_database_start": "SKIPPED_BEFORE_DATABASE",
+  "Native_product_cases_emitted": 0,
+  "cleanup_cli_not_installed": "EXPECTED_SECONDARY_AFTER_PREINSTALL_ADMISSION_FAILURE"
+}

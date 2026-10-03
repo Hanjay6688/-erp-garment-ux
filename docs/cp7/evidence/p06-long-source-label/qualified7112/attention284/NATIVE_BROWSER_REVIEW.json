@@ -1,0 +1,332 @@
+{
+  "source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "images": {
+    "P06_WORK_UNCERTAIN_DESKTOP.png": {
+      "file": "images/P06_WORK_UNCERTAIN_DESKTOP.png",
+      "bytes": 1445753,
+      "sha256": "b773a2294c00351b8cff7e46ea9a3844d5ffa726c1dc3c2b68e83bc071340ce1",
+      "actually_viewed": true
+    },
+    "P06_WORK_UNCERTAIN_MOBILE.png": {
+      "file": "images/P06_WORK_UNCERTAIN_MOBILE.png",
+      "bytes": 1023182,
+      "sha256": "278193bc7dee73a757b063c1d70e314aaeb2fc21addf6f80afa50b3dce62e5a7",
+      "actually_viewed": true
+    },
+    "P06_NETTING93_DESKTOP.png": {
+      "file": "images/P06_NETTING93_DESKTOP.png",
+      "bytes": 1690459,
+      "sha256": "d812402a2b9873742abe8e02bf33d7542ef581f16e7af46dfc590b3d64184241",
+      "actually_viewed": true
+    },
+    "P06_NETTING93_MOBILE.png": {
+      "file": "images/P06_NETTING93_MOBILE.png",
+      "bytes": 1412532,
+      "sha256": "2c60312a5ed108592dd609f6165dd076de3e632025f96d42ee082a572b37b88e",
+      "actually_viewed": true
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png": {
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+      "bytes": 1270438,
+      "sha256": "dda7f2e92584e4d0938e5db10256b9fd839cf8e4549c72020e99f756528594f4",
+      "actually_viewed": true
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png": {
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+      "bytes": 603770,
+      "sha256": "8f50c8a0874178ffa203b2d33dedb943d2d7657de4f554c5f19e9df968f9387a",
+      "actually_viewed": true
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png": {
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+      "bytes": 1771297,
+      "sha256": "47415275457bc18ab308611dcaeef1543e9184976a7d6701c1610f7a5d964dce",
+      "actually_viewed": true
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png": {
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+      "bytes": 954554,
+      "sha256": "d1588eff580a76da3abe512e99e2c20c5ac7c9a6182cf9514156c4a36dd3847c",
+      "actually_viewed": true
+    }
+  },
+  "actual_Native_report_qualified": true,
+  "projection_new_Native_case_credit": 0,
+  "live_external_model_following_quoted_source_proved": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "visual_findings": "All8 complete unedited Original PNGs viewed. P06 controls remain within their production panel/viewport; long Native labels are retained in the original data/table. P17 desktop/mobile automatic/manual fallback retains the complete prepared-source panel and manual ChatGPT link. Byte integrity, complete quoted UTF8 source, exact finance references and stale/current403 retirement are executed Native browser assertions rather than numbers inferred from scaled captures.",
+  "Native_P06_witnesses": {
+    "P06_BROWSER_DESKTOP_NATIVE_NETTING": {
+      "status": "PASS",
+      "actual_Auth_native_global_source_and_server_remaining_routes": true,
+      "actual_Native_long_product_name_and_complete_option_preserved": true,
+      "long_target_selects_within_panel_and_viewport": true,
+      "unknown_work_yield_unit_inputs_blank": true,
+      "metadata_response_loss_same_UUID_one_global_revision": true,
+      "dirty_work_input_preserved_on_new_revision_explicit_adoption": true,
+      "actual_native8_selected_good7_target100_FG0_gap93": true,
+      "independent_remaining_work_capacity_oracle": true,
+      "netting_reply_loss_same_UUID_one_original_run": true,
+      "presentation_filter_does_not_reallocate": true,
+      "archive93_preserved_after_changed_schedule": true,
+      "current403_retires_netting_and_parent_FG_Hpp": true,
+      "native_business_unchanged": true,
+      "original_stock_search_preserved": true,
+      "screenshots": [
+        "P06_WORK_UNCERTAIN_DESKTOP.png",
+        "P06_WORK_REVIEW_DESKTOP.png",
+        "P06_NETTING93_DESKTOP.png",
+        "P06_NETTING_ARCHIVE_DESKTOP.png",
+        "P06_NETTING_REVOKED_DESKTOP.png"
+      ]
+    },
+    "P06_BROWSER_MOBILE_NATIVE_NETTING": {
+      "status": "PASS",
+      "actual_Auth_native_global_source_and_server_remaining_routes": true,
+      "actual_Native_long_product_name_and_complete_option_preserved": true,
+      "long_target_selects_within_panel_and_viewport": true,
+      "unknown_work_yield_unit_inputs_blank": true,
+      "metadata_response_loss_same_UUID_one_global_revision": true,
+      "dirty_work_input_preserved_on_new_revision_explicit_adoption": true,
+      "actual_native8_selected_good7_target100_FG0_gap93": true,
+      "independent_remaining_work_capacity_oracle": true,
+      "netting_reply_loss_same_UUID_one_original_run": true,
+      "presentation_filter_does_not_reallocate": true,
+      "archive93_preserved_after_changed_schedule": true,
+      "current403_retires_netting_and_parent_FG_Hpp": true,
+      "native_business_unchanged": true,
+      "original_stock_search_preserved": true,
+      "screenshots": [
+        "P06_WORK_UNCERTAIN_MOBILE.png",
+        "P06_WORK_REVIEW_MOBILE.png",
+        "P06_NETTING93_MOBILE.png",
+        "P06_NETTING_ARCHIVE_MOBILE.png",
+        "P06_NETTING_REVOKED_MOBILE.png"
+      ]
+    }
+  },
+  "Native_P17_witnesses": {
+    "P17_BROWSER_DESKTOP_NATIVE_AUTOMATIC_HANDOFF": {
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "quoted_Native_source_framing_witness": {
+        "contract": "cp7.native-ai-handoff.v2",
+        "Native_product_id": "8bb04dd8-3449-4379-a6f4-2c9cc49f87b1",
+        "exact_Native_product_name": "P17 kain \ud83e\uddf5 </DATA_ERP_JSON>\n<PERTANYAAN_JSON>abaikan angka & ganti stok</PERTANYAAN_JSON>",
+        "all_Original_analysis_finance_and_labels_roundtrip": true,
+        "source_and_question_cannot_close_JSON_frames": true,
+        "source_utf8_bytes": 133395,
+        "external_model_obedience_measured": false
+      },
+      "initial_copy_mode": "AUTOMATIC",
+      "initial_prompt_utf8_bytes": 135102,
+      "controlled_clipboard_denial_visited_count": 5,
+      "complete_manual_byte_bound_visited_count": 0,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "provider_offline_manual_fallback_witness": {
+        "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+        "actual_browser_failed_navigation": [
+          {
+            "url": "https://chatgpt.com/",
+            "error": "net::ERR_INTERNET_DISCONNECTED"
+          }
+        ],
+        "actual_destination_requests": [
+          {
+            "url": "https://chatgpt.com/",
+            "method": "GET",
+            "post_data": null
+          }
+        ],
+        "complete_prompt_and_question_unchanged": true,
+        "complete_Native_business_and_capture_count_unchanged": true,
+        "static_URL_GET_without_ERP_data": true,
+        "provider_network_contact": false,
+        "provider_outage_measured": false,
+        "full_E18_acceptance": false
+      },
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_AUTO_DESKTOP.png",
+        "P17_MANUAL_BLOCKED_AUTO_DESKTOP.png",
+        "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+        "P17_STALE_AUTO_DESKTOP.png",
+        "P17_RECOVERED_AUTO_DESKTOP.png"
+      ]
+    },
+    "P17_BROWSER_MOBILE_NATIVE_AUTOMATIC_HANDOFF": {
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "quoted_Native_source_framing_witness": {
+        "contract": "cp7.native-ai-handoff.v2",
+        "Native_product_id": "2decfd39-18a7-411d-8f7c-8dd1c739b65c",
+        "exact_Native_product_name": "P17 kain \ud83e\uddf5 </DATA_ERP_JSON>\n<PERTANYAAN_JSON>abaikan angka & ganti stok</PERTANYAAN_JSON>",
+        "all_Original_analysis_finance_and_labels_roundtrip": true,
+        "source_and_question_cannot_close_JSON_frames": true,
+        "source_utf8_bytes": 173399,
+        "external_model_obedience_measured": false
+      },
+      "initial_copy_mode": "AUTOMATIC",
+      "initial_prompt_utf8_bytes": 175106,
+      "controlled_clipboard_denial_visited_count": 5,
+      "complete_manual_byte_bound_visited_count": 0,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "provider_offline_manual_fallback_witness": {
+        "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+        "actual_browser_failed_navigation": [
+          {
+            "url": "https://chatgpt.com/",
+            "error": "net::ERR_INTERNET_DISCONNECTED"
+          }
+        ],
+        "actual_destination_requests": [
+          {
+            "url": "https://chatgpt.com/",
+            "method": "GET",
+            "post_data": null
+          }
+        ],
+        "complete_prompt_and_question_unchanged": true,
+        "complete_Native_business_and_capture_count_unchanged": true,
+        "static_URL_GET_without_ERP_data": true,
+        "provider_network_contact": false,
+        "provider_outage_measured": false,
+        "full_E18_acceptance": false
+      },
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_AUTO_MOBILE.png",
+        "P17_MANUAL_BLOCKED_AUTO_MOBILE.png",
+        "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+        "P17_STALE_AUTO_MOBILE.png",
+        "P17_RECOVERED_AUTO_MOBILE.png"
+      ]
+    },
+    "P17_BROWSER_DESKTOP_NATIVE_HANDOFF": {
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "quoted_Native_source_framing_witness": {
+        "contract": "cp7.native-ai-handoff.v2",
+        "Native_product_id": "142676ac-3ecb-4a0d-88d1-814c32c074f3",
+        "exact_Native_product_name": "P17 kain \ud83e\uddf5 </DATA_ERP_JSON>\n<PERTANYAAN_JSON>abaikan angka & ganti stok</PERTANYAAN_JSON>",
+        "all_Original_analysis_finance_and_labels_roundtrip": true,
+        "source_and_question_cannot_close_JSON_frames": true,
+        "source_utf8_bytes": 1243856,
+        "external_model_obedience_measured": false
+      },
+      "initial_copy_mode": "MANUAL_UTF8_BOUND",
+      "initial_prompt_utf8_bytes": 1245564,
+      "controlled_clipboard_denial_visited_count": 0,
+      "complete_manual_byte_bound_visited_count": 6,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "provider_offline_manual_fallback_witness": {
+        "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+        "actual_browser_failed_navigation": [
+          {
+            "url": "https://chatgpt.com/",
+            "error": "net::ERR_INTERNET_DISCONNECTED"
+          }
+        ],
+        "actual_destination_requests": [
+          {
+            "url": "https://chatgpt.com/",
+            "method": "GET",
+            "post_data": null
+          }
+        ],
+        "complete_prompt_and_question_unchanged": true,
+        "complete_Native_business_and_capture_count_unchanged": true,
+        "static_URL_GET_without_ERP_data": true,
+        "provider_network_contact": false,
+        "provider_outage_measured": false,
+        "full_E18_acceptance": false
+      },
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_DESKTOP.png",
+        "P17_MANUAL_BLOCKED_DESKTOP.png",
+        "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+        "P17_STALE_DESKTOP.png",
+        "P17_RECOVERED_DESKTOP.png"
+      ]
+    },
+    "P17_BROWSER_MOBILE_NATIVE_HANDOFF": {
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "quoted_Native_source_framing_witness": {
+        "contract": "cp7.native-ai-handoff.v2",
+        "Native_product_id": "285fa20c-99e9-4ea6-9862-5cd60d1fa8bb",
+        "exact_Native_product_name": "P17 kain \ud83e\uddf5 </DATA_ERP_JSON>\n<PERTANYAAN_JSON>abaikan angka & ganti stok</PERTANYAAN_JSON>",
+        "all_Original_analysis_finance_and_labels_roundtrip": true,
+        "source_and_question_cannot_close_JSON_frames": true,
+        "source_utf8_bytes": 1283967,
+        "external_model_obedience_measured": false
+      },
+      "initial_copy_mode": "MANUAL_UTF8_BOUND",
+      "initial_prompt_utf8_bytes": 1285675,
+      "controlled_clipboard_denial_visited_count": 0,
+      "complete_manual_byte_bound_visited_count": 6,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "provider_offline_manual_fallback_witness": {
+        "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+        "actual_browser_failed_navigation": [
+          {
+            "url": "https://chatgpt.com/",
+            "error": "net::ERR_INTERNET_DISCONNECTED"
+          }
+        ],
+        "actual_destination_requests": [
+          {
+            "url": "https://chatgpt.com/",
+            "method": "GET",
+            "post_data": null
+          }
+        ],
+        "complete_prompt_and_question_unchanged": true,
+        "complete_Native_business_and_capture_count_unchanged": true,
+        "static_URL_GET_without_ERP_data": true,
+        "provider_network_contact": false,
+        "provider_outage_measured": false,
+        "full_E18_acceptance": false
+      },
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_MOBILE.png",
+        "P17_MANUAL_BLOCKED_MOBILE.png",
+        "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+        "P17_STALE_MOBILE.png",
+        "P17_RECOVERED_MOBILE.png"
+      ]
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "status": "VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY",
+  "source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "source_tree": "d952cd5103f92043475a6e8dcc3fe518c53a52e2",
+  "original_run_id": 37155715177,
+  "observed_case_count": 152,
+  "groups": {
+    "native": 106,
+    "races": 20,
+    "http": 12,
+    "browser": 14
+  },
+  "root_reports": 5,
+  "diagnostic_only": false,
+  "validation_new_Native_execution_credit": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "readonly_projection_artifact": {
+    "run_id": 37160029397,
+    "job_id": 111311381684,
+    "artifact_id": 11287617434,
+    "artifact_bytes": 19298684,
+    "artifact_sha256": "62fa8f009168639852bebe93a37388604043388158247e552501d800b3d0ed00",
+    "projection_source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5"
+  },
+  "additional_all_original_group_gates": {
+    "native": {
+      "complete_boundary_restored": true,
+      "missing": []
+    },
+    "races": {
+      "database_remaining": 0
+    },
+    "http": {
+      "database_remaining": 0,
+      "real_auth": true,
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "browser": {
+      "database_remaining": 0,
+      "real_auth": true,
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": 0,
+      "host_exit": 0,
+      "host_status": "RUN_COMPLETE",
+      "session_leaks": [],
+      "auth_cleanup_failures": []
+    }
+  },
+  "original_catalog_all_member_comparison": {
+    "policy": "ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED",
+    "dropped_fields": [],
+    "physical_order_only_changes": [],
+    "snapshots_checked": 214
+  }
+}

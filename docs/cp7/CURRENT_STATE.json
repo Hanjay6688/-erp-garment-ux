@@ -3382,7 +3382,7 @@
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
     "F03_P09_P13": "EIGHT_CURRENT_SOURCE_NATIVE_BUCKETS_AND_NOTE40_PASS_FULL_FAMILY_EXIT_OPEN",
     "F04_P05_P08": "CURRENT_SOURCE_CUTTING57_PASS_FABRIC_RECIPE_MATERIAL_FEASIBILITY_AND_FULL_EXIT_OPEN",
-    "F05_P14_P17": "CURRENT_SOURCE_NATIVE284_PASS_EXACT_ORIGINAL_RETAINED_FULL_FAMILY_EXIT_OPEN",
+    "F05_P14_P17": "WRITER_NATIVE284_7112_ALL_ORIGINALS_QUALIFIED_FULL_FAMILY_EXIT_OPEN",
     "F06_P18_P21": "CURRENT_SOURCE_FOCUSED_P18_E01_9_PASS_FULL_P18_P21_OPEN"
   },
   "finance_overview_candidate": {
@@ -3651,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "QUALIFY_INVOICE_DEPENDENCIES_1436_149_NATIVE64_SOURCE78_AND_READONLY_7112_NATIVE284_152_THEN_CONTINUE_FEASIBLE_CP7_EDIT_ROLLBACK",
+  "next_action": "VERIFY_189_EXACT_ACCESS_BOUNDARIES_FRESH_SHELL_FINANCE_AND_SOURCE702_NATIVE64_SOURCE78_THEN_CONTINUE_OWNING_CP7_EDIT_ROLLBACK",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -10020,7 +10020,7 @@
     }
   },
   "production_long_source_label_candidate": {
-    "status": "ACTUAL_7112_NATIVE82_QUALIFIED_LARGE284_152_PROJECTION_PENDING",
+    "status": "ACTUAL_7112_NATIVE82_284_152_ALL_ORIGINAL_ROOTS_AND_GATES_QUALIFIED",
     "handoff": "docs/cp7/P06_LONG_SOURCE_LABEL_HANDOFF.md",
     "first_source": "cbdb02897798221f2bf8dc3eda37989a032551c8",
     "first_actual_case": "P06_BROWSER_DESKTOP_NATIVE_NETTING",
@@ -10042,8 +10042,14 @@
     },
     "qualified82_receipt": "docs/cp7/evidence/p06-long-source-label/qualified7112-netting82/RECEIPT.json",
     "four_original_P06_images_actually_viewed": true,
-    "large284_152_roots_qualified": false,
-    "first503_incomplete_relabelled": false
+    "large284_152_roots_qualified": true,
+    "first503_incomplete_relabelled": false,
+    "qualified284_receipt": "docs/cp7/evidence/p06-long-source-label/qualified7112/attention284/RECEIPT.json",
+    "qualified152_receipt": "docs/cp7/evidence/p06-long-source-label/qualified7112/analysis152/RECEIPT.json",
+    "all8_Native284_P06_P17_original_images_actually_viewed": true,
+    "readonly_projection_run_id": 37160029397,
+    "readonly_projection_new_Native_case_credit": 0,
+    "live_external_model_obedience_proved": false
   },
   "p11_history_page_tools_candidate": {
     "status": "ACTUAL_1A0_SHELL_AND_NATIVE64_QUALIFIED_SEPARATE_SUCCESSOR_PENDING",
@@ -10085,7 +10091,7 @@
     "new_widget_qualified": false
   },
   "sales_invoice_dependencies_candidate": {
-    "status": "WRITER_SUCCESSOR_PENDING_ACTUAL_SOURCE_BOUND_CI",
+    "status": "ACTUAL702_1436_149_AND_SOURCE_OWNERSHIP_PASS_EXACT_ACCESS_DECLARATION_ADMISSION_FIX_PENDING",
     "contract": "docs/cp7/SALES_INVOICE_DEPENDENCIES_HANDOFF.md",
     "authored_from": "1a0cf12c44e02154a0a3b85e1d5eb104adcf7023",
     "implementation": "src/SalesInvoiceDependencies.tsx",
@@ -10119,6 +10125,25 @@
     "new_payment_return_atomic_edit": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+    "source_tree": "38d54c989af9b0892bdfa367fe0674e745ad0cb0",
+    "actual_application_tests": 1436,
+    "actual_application_files": 149,
+    "actual_runtime_source_files": 258,
+    "actual_owned_RPC_boundaries": 189,
+    "orphan_or_direct_browser_table_access": false,
+    "first_Shell_cash_misc_receipts": "docs/cp7/evidence/sales-invoice-dependencies/first702-ownership",
+    "first_Shell_whole_security_and_build_qualified": false,
+    "first_cash_misc_Native_database_started": false,
+    "exact_declaration_of_two_new_reader_sites": true,
+    "security_assertion_relaxed": false,
+    "Native64_and_Source78_actual_scope": "SOURCE702_NATIVE64_PASS_FULL_SOURCE78_STILL_RUNNING",
+    "actual_Native64_list_reads_qualified": true,
+    "actual_Native64_receipt": "docs/cp7/evidence/sales-invoice-dependencies/qualified702-p11/RECEIPT.json",
+    "actual_Native64_run_id": 37160029368,
+    "actual_Native64_job_id": 111311381886,
+    "both_original_dependency_images_actually_viewed": true,
+    "full_Source78_navigation_qualified": false
   }
 }
