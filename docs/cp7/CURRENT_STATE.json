@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Retain published exact6ac Native76/Shell proofs and all8 unedited reviewed images. Qualify current P17 quoted-source v2 with full decoded Native Original comparisons in Shell/Native152/284/P18_9; preserve first cbdb028 and prior Source76 failures. Qualify scoped pickup hero contrast via fresh Source76 images. Continue feasible CP7 transaction/P18/P19 work without fabricating owner policies/material inputs or independent/installed acceptance.",
+  "execution_priority": "Qualify complete97a19cd Shell from exact artifacts; retain projected first/qualified Native152 and actual full Native284 hostile-source witnesses without relabelling first results. e52b Source76/fresh8 visuals and focused9/rule16 are source-bound qualified. Continue feasible transaction/edit/inverse/P18/P19 work; no guessed owner/material policy or independent/installed GO.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -9718,7 +9718,7 @@
     "current_shell_receipt": "docs/cp7/evidence/finisher-regression/qualified3266/shell/RECEIPT.json"
   },
   "cutting_posted_source_candidate": {
-    "status": "QUALIFIED_NATIVE76_AT6AC_RECORDED_ONLY_UNPICKED_PREVIEW",
+    "status": "QUALIFIED_NATIVE76_AT_E52B_WITH_FRESH8_REVIEWED_WHITE_HERO_IMAGES",
     "handoff": "docs/cp7/CUTTING_POSTED_SOURCE_HANDOFF.md",
     "required_counts": {
       "native": 41,
@@ -9856,10 +9856,22 @@
       "finding": "Hero heading/description dark on dark in actual desktop/mobile Original captures",
       "repair": "Scoped white hero panel consistent with queue/workspace, operator-focused copy instead of RPC/table implementation text",
       "writers_guards_Native_changed": false
+    },
+    "visual_successor": {
+      "status": "PASS",
+      "source_commit": "e52b1df5294ec4001138b498a8379e47b3690318",
+      "source_tree": "f7cf0f41fd55e3d2cbcb0eefbf6d09836d748cae",
+      "run_id": 37152609033,
+      "job_id": 111289394674,
+      "artifact_id": 11285252033,
+      "receipt": "docs/cp7/evidence/transaction-source/qualified76-e52b-visual/RECEIPT.json",
+      "Native76_and_all_previous69": true,
+      "Original_images_retained_and_visually_reviewed": 8,
+      "posted_cutting_edit_or_inverse": false
     }
   },
   "f05_native_ai_source_framing_candidate": {
-    "status": "IMPLEMENTED_FRESH_SHELL_NATIVE152_NATIVE284_PENDING",
+    "status": "FOCUSED_NATIVE9_RULE16_QUOTED_V2_PASS_FULL_NATIVE284_AND_PROJECTED152_PENDING",
     "handoff": "docs/cp7/f05/NATIVE_AI_HANDOFF.md",
     "contract": "cp7.native-ai-handoff.v2",
     "scope": "Complete quoted analysis/report/product labels/financial source and question; framing integrity only",
@@ -9876,7 +9888,6 @@
     "original_case_ids_or_timeouts_or_business_guards_changed": false,
     "frozen_analysis_schema_or_Native_compiler_changed": false,
     "new_business_writer_or_grant": false,
-    "Native_credit": 0,
     "external_model_obedience_measured": false,
     "full_E18_or_CP7_acceptance": false,
     "production_go": false,
@@ -9891,6 +9902,46 @@
       "CodeQL_matrix_auto_cancelled_not_writer_cancelled": true,
       "build_browser_Native_credit": false
     },
-    "second_financial_header_reader_repair": "Receiver DOM checks full decoded original financial_source and analysis instead of the removed v1 financial heading; same original case and no product/Native change."
+    "second_financial_header_reader_repair": "Receiver DOM checks full decoded original financial_source and analysis instead of the removed v1 financial heading; same original case and no product/Native change.",
+    "new_unique_Native_executions_added": 0,
+    "focused_consumer_qualification": {
+      "source_commit": "e52b1df5294ec4001138b498a8379e47b3690318",
+      "native9_receipt": "docs/cp7/evidence/p18-shared-consumer/qualified9-e52b/RECEIPT.json",
+      "native9_required_counts": {
+        "native": 5,
+        "races": 1,
+        "http": 1,
+        "browser": 2
+      },
+      "rule16_receipt": "docs/cp7/evidence/f05-ai-source-framing/qualified-e52b/rule-16/RECEIPT.json",
+      "rule16_required_counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "all_original_IDs_and_gates_verified": true,
+      "Native_reported_order_only_catalog_difference_retained": true,
+      "rule16_raw_catalog_pairs_independently_recomputed": false,
+      "first_cbdb0289_and16_INCOMPLETE_preserved": true,
+      "full_P18_E08_E18": false
+    },
+    "second_Shell_Original": {
+      "source": "e52b1df5294ec4001138b498a8379e47b3690318",
+      "run": 37152608952,
+      "job": 111289455950,
+      "status": "INCOMPLETE_1426_PASS_1_LEGACY_FINANCIAL_HEADER_FAILURE_OF1427",
+      "receipt": "docs/cp7/evidence/f05-ai-source-framing/second-e52b/shell/RECEIPT.json",
+      "first_result_relabelled": false
+    },
+    "Native152_projection": {
+      "status": "PINNED_FIRST_AND_QUALIFIED_SOURCE_MANIFESTS_FRESH_READ_ONLY_PROJECTION_PENDING",
+      "first_manifest": "docs/cp7/native152_first_v2_source_projection.json",
+      "qualified_manifest": "docs/cp7/native152_v2_source_qualified_projection.json",
+      "all_prior6_projection_calls_and_qualified_verifiers_preserved": true,
+      "local_byte_count_standin_controls": 15,
+      "Native_database_access": false,
+      "Native_product_reexecution_credit": 0
+    }
   }
 }

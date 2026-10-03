@@ -41,6 +41,33 @@ def retain_requested_images(source, receipt, requested, destination):
     return records
 
 
+def verify_declared_case_counts(report, manifest):
+    if 'required_case_counts' in report:
+        assert report['required_case_counts'] == manifest['required_case_counts']
+        return
+    if manifest['expected_status'] == 'PASS':
+        # Fixed analysis reports omit the redundant declared budget field.
+        assert {g: report[g]['counts'] for g in manifest['required_case_counts']} == {
+            g: {'PASS': n} for g, n in manifest['required_case_counts'].items()}
+        return
+    # A first incomplete fixed-analysis Original needs exact explicit counts;
+    # preserve its failures rather than admitting it as a qualified report.
+    assert report['status'] == manifest['expected_status'] == 'INCOMPLETE'
+    counts = manifest['incomplete_case_counts']
+    assert set(counts) == set(manifest['required_case_counts'])
+    assert any(c.get('INCOMPLETE', 0) > 0 for c in counts.values())
+    for group, budget in manifest['required_case_counts'].items():
+        observed = report[group]['counts']
+        assert observed == counts[group] and set(observed) <= {'PASS', 'INCOMPLETE'}
+        assert all(type(n) is int and n > 0 for n in observed.values())
+        assert sum(observed.values()) == budget
+        cases = report[group]['races' if group == 'races' else 'cases']
+        actual = {}
+        for case in cases.values():
+            actual[case['status']] = actual.get(case['status'], 0) + 1
+        assert len(cases) == budget and actual == observed
+
+
 def project(manifest_path, destination):
     manifest = json.loads(Path(manifest_path).read_text())
     repository = manifest['repository']
@@ -95,14 +122,7 @@ def project(manifest_path, destination):
     with zipfile.ZipFile(archive) as source:
         report = json.loads(source.read(manifest['runtime_report']))
     assert report['source_sha256'] == manifest['source_bundle_sha256']
-    if 'required_case_counts' in report:
-        assert report['required_case_counts'] == manifest['required_case_counts']
-    else:
-        # Older fixed analysis reports omit this redundant budget field. Pin
-        # their complete successful group counts to the explicit manifest.
-        assert manifest['expected_status'] == 'PASS'
-        assert {g: report[g]['counts'] for g in manifest['required_case_counts']} == {
-            g: {'PASS': n} for g, n in manifest['required_case_counts'].items()}
+    verify_declared_case_counts(report, manifest)
     if manifest['expected_status'] == 'PASS':
         assert report['browser']['console_errors'] == 0
     metadata = {key: manifest[key] for key in (

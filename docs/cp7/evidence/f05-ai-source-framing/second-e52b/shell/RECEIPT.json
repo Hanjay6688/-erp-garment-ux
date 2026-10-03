@@ -1,0 +1,73 @@
+{
+  "classification": "SECOND_V2_ORIGINAL_INCOMPLETE_FINANCIAL_V1_READER_NOT_FULL_APPLICATION",
+  "status": "INCOMPLETE",
+  "source_commit": "e52b1df5294ec4001138b498a8379e47b3690318",
+  "source_tree": "f7cf0f41fd55e3d2cbcb0eefbf6d09836d748cae",
+  "run_id": 37152608952,
+  "job_id": 111289455950,
+  "job_conclusion": "failure",
+  "artifact_id": 11284288565,
+  "archive_bytes": 7159,
+  "archive_sha256": "c7ebe97e4f829833f08757b29be8b8434f8b1e8fa9e6286de06fa6518bcc15a3",
+  "archive_members": {
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "b690a58542bf53dc44caee49eeac1f43915abb764eec9f9564cc64b51d4f60ed"
+    }
+  },
+  "Original_roots": {
+    "f04-private-kernels.json": {
+      "file": "docs/cp7/evidence/f05-ai-source-framing/second-e52b/shell/f04-private-kernels.json.gz",
+      "raw_bytes": 53273,
+      "raw_sha256": "b690a58542bf53dc44caee49eeac1f43915abb764eec9f9564cc64b51d4f60ed",
+      "gzip_bytes": 6844,
+      "gzip_sha256": "7ce47acc1a23494e253a54e6bbb672c807cffc083d14d456995ff602fc1c7d87"
+    }
+  },
+  "Original_CI_log": {
+    "file": "docs/cp7/evidence/f05-ai-source-framing/second-e52b/shell/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 445027,
+    "raw_sha256": "3ead3d21518df919db1fe091302a875864639b9e58fb2feb28fcda4c68c473fa",
+    "gzip_bytes": 39633,
+    "gzip_sha256": "3b41fad6fafdb8696db7ce17f3b95f6a5197abea6e2d6a66670f60b9c1c03aeb"
+  },
+  "application_tests": {
+    "pass_count": 1426,
+    "fail_count": 1,
+    "total": 1427
+  },
+  "application_files": {
+    "pass_count": 147,
+    "fail_count": 1,
+    "total": 148
+  },
+  "exact_failed_cases": [
+    "shows the exact financial source under current report rights and stores only an archive pointer"
+  ],
+  "cause": "Remaining inherited v1 financial heading reader; successor97a19cd compares complete decoded original financial_source and analysis.",
+  "CodeQL_jobs": [
+    {
+      "id": 111289456003,
+      "conclusion": "success",
+      "artifact_id": 11285156165
+    },
+    {
+      "id": 111289456078,
+      "conclusion": "cancelled",
+      "artifact_id": 11284681790
+    }
+  ],
+  "CodeQL_zero_or_build_or_browser_pass_claimed": false,
+  "GitHub_matrix_auto_cancellation": true,
+  "writer_cancelled_job": false,
+  "private_kernel_scope": {
+    "passed": 138,
+    "source": "e52b1df5294ec4001138b498a8379e47b3690318",
+    "not_Native_credit": true
+  },
+  "Native_credit": 0,
+  "first_result_relabelled": false,
+  "full_CP7": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

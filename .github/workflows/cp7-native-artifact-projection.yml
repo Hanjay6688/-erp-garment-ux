@@ -11,6 +11,8 @@ name: CP7 Completed Native Artifact Projection
       - scripts/cp7_verify_retained_originals_test.py
       - docs/cp7/native284_artifact_projection.json
       - docs/cp7/native152_artifact_projection.json
+      - docs/cp7/native152_first_v2_source_projection.json
+      - docs/cp7/native152_v2_source_qualified_projection.json
       - docs/cp7/native284_latest_qualified_artifact_projection.json
       - docs/cp7/native40_incomplete_artifact_projection.json
       - docs/cp7/native_cutting_observation44_artifact_projection.json
@@ -34,6 +36,8 @@ jobs:
           python scripts/cp7_native_artifact_projection_test.py
           python scripts/cp7_native_artifact_projection.py docs/cp7/native284_artifact_projection.json cp7-proof/native284
           python scripts/cp7_native_artifact_projection.py docs/cp7/native152_artifact_projection.json cp7-proof/native152
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native152_first_v2_source_projection.json cp7-proof/native152-first-v2-source
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native152_v2_source_qualified_projection.json cp7-proof/native152-v2-source-qualified
           python scripts/cp7_native_artifact_projection.py docs/cp7/native284_latest_qualified_artifact_projection.json cp7-proof/native284-qualified-current
           python scripts/cp7_native_artifact_projection.py docs/cp7/native40_incomplete_artifact_projection.json cp7-proof/native40-incomplete3c
           python scripts/cp7_native_artifact_projection.py docs/cp7/native_cutting_observation44_artifact_projection.json cp7-proof/cutting-observation44-qualified3c
@@ -42,6 +46,7 @@ jobs:
         run: |
           python scripts/cp7_verify_retained_originals_test.py
           python scripts/cp7_verify_retained_originals.py cp7-proof/native152 --manifest docs/cp7/native152_artifact_projection.json --projection-head "$GITHUB_SHA"
+          python scripts/cp7_verify_retained_originals.py cp7-proof/native152-v2-source-qualified --manifest docs/cp7/native152_v2_source_qualified_projection.json --projection-head "$GITHUB_SHA"
           python scripts/cp7_verify_retained_originals.py cp7-proof/native284-qualified-current --manifest docs/cp7/native284_latest_qualified_artifact_projection.json --projection-head "$GITHUB_SHA"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:

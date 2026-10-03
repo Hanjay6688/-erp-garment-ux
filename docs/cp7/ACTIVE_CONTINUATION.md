@@ -2,6 +2,8 @@
 
 Owner mandate: finish CP7 and make transaction source edit/correction/inverse usable. Claude f4049e4f is integrated. Single writer on cp7/integration. Current product and proofs remain source-bound; full CP7/independent acceptance/production GO remain open. Frozen CP5/CP6/framework, main/hosted/liveWA are not changed.
 
+Latest inspected continuation: e52b Source76/41DB4race11Auth20browser and all8 fresh unedited reviewed images qualify the white hero/source preview, preserving all earlier69/current-Auth/restore gates. e52b focused Native9 and rule16 also pass with complete quoted v2 comparisons and unchanged IDs. Exact first cbdb0289/16 and second e52b Shell1426PASS/one old financial-header failure stay Original. Final97a19cd fixes only that receiver; its application/build/security/six-browser job is green, complete Shell CodeQL/Original verification pending. Additive read-only152 projection preserves both first INCOMPLETE and qualified successor from ZIPs above the local transfer limit; all prior six projection calls stay. Native284 untrusted-source witnesses/actual projected roots remain pending. CURRENT_STATE.json and the exact receipts override older pending text below; continue the owner mandate after these results.
+
 ## Qualified work
 
 - Committed-year note atb5: Native40 all28/4/3/5 PASS. One actual Auth commit24→12;16 separate Auth pages read every366 main/lot row before/after. Every364 later balance+12, stock100→112, confirmed UUID replay without second effect. Original arrays are recomputed. Native monetary/history/replay assertions have their explicit separate evidence scope. Original8s is unchanged; request5447.011ms is one measurement, not SLA.
