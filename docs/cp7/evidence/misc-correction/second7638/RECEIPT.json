@@ -1,0 +1,32 @@
+{
+  "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "run_id": 37108983675,
+  "job_id": 111163031748,
+  "artifact_id": 11269321381,
+  "archive_sha256": "117e8c75d45ab5489632b17d06ffbb39c2419f521d247ae3e49a8ab8ee545014",
+  "original_sha256": "685ee18cb1711f62377bb0c8614a626971912cc9109b2ab2b1314b31c8143332",
+  "package_original_sha256": "fcc2e3e36454d31ae8ed4d2a7d209efed7c52f0283edf7d6743f3a281e33752a",
+  "source_sha256": "aba13782688b34b8b80b7bfaf5cc847b8a56717dd6bbad8384173930bfe090b0",
+  "status": "INCOMPLETE",
+  "observed_case_count": 18,
+  "groups": {
+    "native": {
+      "PASS": 14
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": null
+  },
+  "failure": "14 DB+2 schedules+2 realAuth HTTP PASS. Browser reload hides miscellaneous panel and its pending recovery action; unattached response promise times out outside awaited case, aborting Auth cleanup. Successor mounts actual pending FINANCE_MISC recovery and awaits every response promise rejection.",
+  "primary_unchanged": false,
+  "auth_users_before": 0,
+  "auth_users_after": 1,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "independent_acceptance": false,
+  "production_go": false
+}

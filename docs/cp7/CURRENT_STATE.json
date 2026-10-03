@@ -6478,7 +6478,7 @@
     },
     "misc_correction_candidate": {
       "source": "e133a874c20394f3c86147a8c2ab06112ca5d152",
-      "status": "FIRST_NATIVE20_INCOMPLETE_PRIVATE_OWNER_ACL_AND_BROWSER_AUTH_CLEANUP_FIXED_SUCCESSOR_AWAITING_REQUALIFICATION",
+      "status": "SECOND_NATIVE18_BACKEND_PASS_BROWSER_RELOAD_AND_UNAWAITED_RESPONSE_FAILURE_FIXED_NATIVE20_REQUALIFICATION_REQUIRED",
       "run": 37107850885,
       "job": 111159780645,
       "counts_required": {
@@ -6515,10 +6515,49 @@
       },
       "successor_fix": "Exact private helpers, context INSERT/DELETE and immutable link SELECT/INSERT for existing non-superuser postgres driver; no new app or Native ERP writer grants. Browser route failures stay awaited so Auth cleanup runs. Local NOSUPER owner-identifier substitution kernel10 is not Native proof.",
       "successor_source": "76385615a5b46c5f35a6cc03976464b7f18b0088",
-      "successor_run": 37108983675
+      "successor_run": 37108983675,
+      "second_failure_original": "docs/cp7/evidence/misc-correction/second7638/CP7_MISC_CORRECTION.json.gz",
+      "second_failure_package_original": "docs/cp7/evidence/misc-correction/second7638/T3_PACKAGE_INSTALL.json.gz",
+      "second_failure": {
+        "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+        "run_id": 37108983675,
+        "job_id": 111163031748,
+        "artifact_id": 11269321381,
+        "archive_sha256": "117e8c75d45ab5489632b17d06ffbb39c2419f521d247ae3e49a8ab8ee545014",
+        "original_sha256": "685ee18cb1711f62377bb0c8614a626971912cc9109b2ab2b1314b31c8143332",
+        "package_original_sha256": "fcc2e3e36454d31ae8ed4d2a7d209efed7c52f0283edf7d6743f3a281e33752a",
+        "source_sha256": "aba13782688b34b8b80b7bfaf5cc847b8a56717dd6bbad8384173930bfe090b0",
+        "status": "INCOMPLETE",
+        "observed_case_count": 18,
+        "groups": {
+          "native": {
+            "PASS": 14
+          },
+          "races": {
+            "PASS": 2
+          },
+          "http": {
+            "PASS": 2
+          },
+          "browser": null
+        },
+        "failure": "14 DB+2 schedules+2 realAuth HTTP PASS. Browser reload hides miscellaneous panel and its pending recovery action; unattached response promise times out outside awaited case, aborting Auth cleanup. Successor mounts actual pending FINANCE_MISC recovery and awaits every response promise rejection.",
+        "primary_unchanged": false,
+        "auth_users_before": 0,
+        "auth_users_after": 1,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "independent_acceptance": false,
+        "production_go": false
+      },
+      "reload_recovery_fix": "Current actor pending FINANCE_MISC mounts its owning authorized panel on reload or recovery observation, without auto-dispatch or envelope changes. Other actors/domains and current cash denial remain fenced. Every browser response rejection is handled before awaiting the click and reaches real cleanup.",
+      "reload_recovery_local_tests_pass": 94,
+      "reload_recovery_build": "PASS",
+      "reload_recovery_security": "PASS",
+      "successor_requalification": "REQUIRED_FOR_THIS_PRODUCT_COMMIT_ALL20_AND_ALL_PACKAGE_AUTH_GATES"
     },
     "regression_fixes": [
-      "Same active submenu keeps current AR invoice selection while manual navigation still retires all pending source resolutions and other pages clear the selection. E01 desktop/mobile actual regression awaits requalification.",
+      "Same active submenu preserves current AR invoice selection; manual navigation still retires pending generic source resolutions and other pages clear AR selection. Native E01 four actual DB/HTTP/desktop/mobile checks PASS at76385615; exact Original retained.",
       "Retained full-stack explicit role guard updated to exact manifest32, preserving all original31 roles and the already Native18-qualified readonly source role; unchanged case budgets and restoration/advisor/Auth gates."
     ],
     "retained_regression_successor_run": 37108983720,
@@ -6528,9 +6567,80 @@
       "first_source": "76385615a5b46c5f35a6cc03976464b7f18b0088",
       "first_run": 37108983656,
       "first_original": "docs/cp7/evidence/finisher-regression/first7638/supplier-authority/T3_PACKAGE_INSTALL.json.gz",
-      "status": "EXACT32_REVIEWED_ROLES_ADDED_PENDING_ACTUAL6_OBSERVED_WAIT_REQUALIFICATION",
+      "status": "ACTUAL6_OBSERVED_WAIT_CURRENT_AUTHORITY_PASS_AT47E7_EXACT_ORIGINAL_RETAINED",
       "business_source_changed": false,
-      "expected_native_race_cases": 6
+      "expected_native_race_cases": 6,
+      "qualification": {
+        "head": "47e7e12480220680bbf6570c7697ce4021096d4c",
+        "source_tree": "9fc6d4822ea4ec36b908c54edeaedee8103019d0",
+        "run_id": 37109380020,
+        "job_id": 111164166445,
+        "artifact_id": 11269525494,
+        "archive_sha256": "7b31dd6de4a8bfa43d6a7410cf8267dab90d84353ecf846ae8202e60971b569f",
+        "original_sha256": "57704ef37eb7bd0a143b65f295f0604cc5c31432b00e17d00f8563eb054664cc",
+        "package_original_sha256": "4ac07c568ef930b374e39afabd3b0c777b725565f7eaacff85fab7faa9edac7a",
+        "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+        "status": "PASS",
+        "observed_case_count": 6,
+        "groups": {
+          "races": {
+            "PASS": 6
+          }
+        },
+        "private_role_count": 32,
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "package_gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "independent_acceptance": false,
+        "production_go": false,
+        "receipt": "docs/cp7/evidence/finisher-regression/qualified47e7/supplier-authority/RECEIPT.json"
+      }
+    },
+    "E01_regression_qualification": {
+      "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+      "run_id": 37108983704,
+      "job_id": 111163031781,
+      "artifact_id": 11268719354,
+      "archive_sha256": "c97596cea73cef1d06a614fd2a660fc8464a1e8660f54ecfa9467dcd03844410",
+      "original_sha256": "5000fd69dac6375cfce1f41d7ea5671baeb60aca2d56f6c99ed271fb5cae3e05",
+      "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+      "status": "PASS",
+      "observed_case_count": 4,
+      "groups": {
+        "native": {
+          "PASS": 1
+        },
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "primary_unchanged": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "independent_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified7638/e01/RECEIPT.json"
     }
   }
 }

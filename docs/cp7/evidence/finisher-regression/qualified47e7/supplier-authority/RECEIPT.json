@@ -1,0 +1,143 @@
+{
+  "head": "47e7e12480220680bbf6570c7697ce4021096d4c",
+  "source_tree": "9fc6d4822ea4ec36b908c54edeaedee8103019d0",
+  "run_id": 37109380020,
+  "job_id": 111164166445,
+  "artifact_id": 11269525494,
+  "archive_sha256": "7b31dd6de4a8bfa43d6a7410cf8267dab90d84353ecf846ae8202e60971b569f",
+  "original_sha256": "57704ef37eb7bd0a143b65f295f0604cc5c31432b00e17d00f8563eb054664cc",
+  "package_original_sha256": "4ac07c568ef930b374e39afabd3b0c777b725565f7eaacff85fab7faa9edac7a",
+  "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+  "status": "PASS",
+  "observed_case_count": 6,
+  "groups": {
+    "races": {
+      "PASS": 6
+    }
+  },
+  "private_role_count": 32,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "observed_wait_cases": {
+    "F03_CREDIT_AUTHORITY_CACHED_REQUEST": {
+      "status": "PASS",
+      "wait_kind": "cached_request",
+      "revoked": "finance.ap.pay",
+      "observed_wait": {
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "holder_blocks_exact_worker": true
+      },
+      "checks": {
+        "actual_wait_observed": true,
+        "revocation_committed_before_release": true,
+        "current_authority_refused": true,
+        "native_money_stock_cost_unchanged": true,
+        "allocation_events_unchanged": true,
+        "existing_response_preserved": true
+      }
+    },
+    "F03_CREDIT_AUTHORITY_FRESH_REQUEST": {
+      "status": "PASS",
+      "wait_kind": "fresh_request",
+      "revoked": "finance.ap.pay",
+      "observed_wait": {
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "holder_blocks_exact_worker": true
+      },
+      "checks": {
+        "actual_wait_observed": true,
+        "revocation_committed_before_release": true,
+        "current_authority_refused": true,
+        "native_money_stock_cost_unchanged": true,
+        "allocation_events_unchanged": true,
+        "existing_response_preserved": true
+      }
+    },
+    "F03_CREDIT_AUTHORITY_SOURCE_ROW": {
+      "status": "PASS",
+      "wait_kind": "source_row",
+      "revoked": "finance.ap.pay",
+      "observed_wait": {
+        "wait_event_type": "Lock",
+        "wait_event": "transactionid",
+        "holder_blocks_exact_worker": true
+      },
+      "checks": {
+        "actual_wait_observed": true,
+        "revocation_committed_before_release": true,
+        "current_authority_refused": true,
+        "native_money_stock_cost_unchanged": true,
+        "allocation_events_unchanged": true,
+        "existing_response_preserved": true
+      }
+    },
+    "F03_CREDIT_AUTHORITY_TARGET_ROW": {
+      "status": "PASS",
+      "wait_kind": "target_row",
+      "revoked": "finance.ap.pay",
+      "observed_wait": {
+        "wait_event_type": "Lock",
+        "wait_event": "transactionid",
+        "holder_blocks_exact_worker": true
+      },
+      "checks": {
+        "actual_wait_observed": true,
+        "revocation_committed_before_release": true,
+        "current_authority_refused": true,
+        "native_money_stock_cost_unchanged": true,
+        "allocation_events_unchanged": true,
+        "existing_response_preserved": true
+      }
+    },
+    "F03_CREDIT_AUTHORITY_JOURNAL_ROW": {
+      "status": "PASS",
+      "wait_kind": "journal_row",
+      "revoked": "finance.ap.pay",
+      "observed_wait": {
+        "wait_event_type": "Lock",
+        "wait_event": "transactionid",
+        "holder_blocks_exact_worker": true
+      },
+      "checks": {
+        "actual_wait_observed": true,
+        "revocation_committed_before_release": true,
+        "current_authority_refused": true,
+        "native_money_stock_cost_unchanged": true,
+        "allocation_events_unchanged": true,
+        "existing_response_preserved": true
+      }
+    },
+    "F03_CREDIT_ACTOR_REVOKED_DURING_CACHED_REQUEST": {
+      "status": "PASS",
+      "wait_kind": "cached_request",
+      "revoked": "APP_USER_ACTIVE",
+      "observed_wait": {
+        "wait_event_type": "Lock",
+        "wait_event": "advisory",
+        "holder_blocks_exact_worker": true
+      },
+      "checks": {
+        "actual_wait_observed": true,
+        "revocation_committed_before_release": true,
+        "current_authority_refused": true,
+        "native_money_stock_cost_unchanged": true,
+        "allocation_events_unchanged": true,
+        "existing_response_preserved": true
+      }
+    }
+  }
+}

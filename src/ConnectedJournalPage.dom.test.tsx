@@ -5,6 +5,7 @@ import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
 import ConnectedJournalPage from './ConnectedJournalPage'
 import {parseJournalRead,type JournalDates,type JournalRead} from './journalReadContract'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
+import {persistProductionEnvelope,productionKey,readProductionRecovery,type ProductionEnvelope} from './productionRecovery'
 const mock=vi.hoisted(()=>({auth:null as unknown,rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>mock.auth}))
 vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>mock}))
@@ -16,14 +17,23 @@ function fixture(q:Query,amount='10.01'):JournalRead{
  return {contract_version:'cp7.journal-read.v1',captured_at:'2026-09-30T03:00:00Z',knowledge_basis:'CURRENT_RECORDED_KNOWLEDGE',historical_knowledge:'NOT_RECONSTRUCTED',basis:{from:q.from,to:q.to,q:q.q,scope:'POSTED_AND_REVERSED_JOURNALS_BY_ACCOUNTING_DATE'},totals:{journal_count:'1',line_count:'2',debit:amount,credit:amount,unbalanced_journal_count:'0'},page:{rows:[h],total:'1',offset:q.offset??0,limit:25,next_offset:null},detail:q.journal_id?{...h,lines:[{...base,id:account,debit:amount,credit:'0.00'},{...base,id:other,account_code:'3100',account_name:'Modal',debit:'0.00',credit:amount}]}:null}
 }
 let root:Root,container:HTMLDivElement
-beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});mock.rpc.mockReset();const auth=structuredClone(recoveryIdentity);auth.identity.permissions.push('finance.journal.view');mock.auth=auth;mock.rpc.mockImplementation((_name,{p_query})=>Promise.resolve({data:fixture(p_query),error:null}));container=document.createElement('div');document.body.append(container);root=createRoot(container)})
-afterEach(async()=>{await act(async()=>root.unmount());container.remove()})
+beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});localStorage.clear();mock.rpc.mockReset();const auth=structuredClone(recoveryIdentity);auth.identity.permissions.push('finance.journal.view');mock.auth=auth;mock.rpc.mockImplementation((_name,{p_query})=>Promise.resolve({data:fixture(p_query),error:null}));container=document.createElement('div');document.body.append(container);root=createRoot(container)})
+afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear()})
 const flush=async()=>act(async()=>{await new Promise(r=>setTimeout(r,0))})
 async function mount(){await act(async()=>root.render(<ConnectedJournalPage/>));await flush()}
 async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
 const button=(name:string)=>[...container.querySelectorAll('button')].find(e=>e.textContent===name)!
 async function fill(label:string,value:string){await act(async()=>{const e=container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event('input',{bubbles:true}))});await flush()}
 const dates={from:'2026-09-01',to:'2026-09-29',q:''}
+const recoveryScope='disposable:actor-1'
+function correctionEnvelope():ProductionEnvelope{
+ const action='CORRECT',expectedVersion=null,payload={transaction_id:id,review_token:'a'.repeat(32),replacement:{transaction_id:null,review_token:null,transaction_number:'MISC-NATIVE-1',transaction_type:'OTHER_EXPENSE',category_id:account,category_review_token:'b'.repeat(32),cash_account_id:other,cash_review_token:'c'.repeat(32),physical_at:'2025-09-30T03:00:00.123456Z',amount:'9.99',counterparty_name:null,reference_number:null,notes:null,change_reason:'Nominal sumber diperiksa ulang'},change_reason:'Nominal sumber diperiksa ulang'}
+ return {action,payload,expectedVersion,fingerprint:JSON.stringify({action,payload,expectedVersion}),id:'44444444-4444-4444-8444-444444444444',createdAt:'2026-10-03T03:00:00Z'}
+}
+function miscReadRefused(){
+ (mock.auth as typeof recoveryIdentity).identity.permissions.push('finance.cash.view')
+ mock.rpc.mockImplementation((name,{p_query})=>Promise.resolve(name==='erp_cp7_get_journal_book_v1'?{data:fixture(p_query),error:null}:{data:null,error:{message:'Sumber transaksi belum dibaca'}}))
+}
 describe('complete native journal source',()=>{
  it('keeps exact money beyond JS integer precision and full selected account lines',async()=>{
   mock.rpc.mockImplementation((_name,{p_query})=>Promise.resolve({data:fixture(p_query,'9007199254740993.01'),error:null}))
@@ -80,5 +90,35 @@ describe('complete native journal source',()=>{
   await click(button('Muat ulang jurnal'));await click(button('Muat ulang transaksi lain'))
   await act(async()=>resolveOld!({data:fixture(old!),error:null}));await flush()
   expect(container.textContent).toContain('Hak kas dicabut');expect(container.textContent).not.toContain('Rp');expect(container.querySelectorAll('[data-journal-id]')).toHaveLength(0)
+ })
+ it('reload mounts the current actor miscellaneous recovery without selection or automatic writes and keeps the exact envelope',async()=>{
+  await import('./MiscFinancePanel');miscReadRefused()
+  const envelope=correctionEnvelope();expect(persistProductionEnvelope(recoveryScope,'FINANCE_MISC',envelope)).toBe(true)
+  const raw=localStorage.getItem(productionKey(recoveryScope,'FINANCE_MISC'))
+  await mount()
+  expect(button('Reconcile transaksi')).toBeDefined();expect(button('Buka pendapatan dan biaya lain').getAttribute('aria-expanded')).toBe('true')
+  expect(container.textContent).not.toContain('Rp');expect(container.querySelectorAll('[data-journal-id]')).toHaveLength(0)
+  expect(localStorage.getItem(productionKey(recoveryScope,'FINANCE_MISC'))).toBe(raw);expect(readProductionRecovery(recoveryScope).pending.FINANCE_MISC).toEqual(envelope)
+  expect(mock.rpc.mock.calls.every(([name])=>name==='erp_cp7_get_misc_finance_v1')).toBe(true)
+ })
+ it('observing a current miscellaneous pending request mounts recovery and retires already visible journal amounts',async()=>{
+  await import('./MiscFinancePanel');miscReadRefused();await mount();expect(container.textContent).toContain('Rp10,01')
+  const envelope=correctionEnvelope();await act(async()=>{expect(persistProductionEnvelope(recoveryScope,'FINANCE_MISC',envelope)).toBe(true)});await flush()
+  expect(button('Reconcile transaksi')).toBeDefined();expect(container.textContent).not.toContain('Rp');expect(readProductionRecovery(recoveryScope).pending.FINANCE_MISC).toEqual(envelope)
+  expect(mock.rpc.mock.calls.every(([name])=>['erp_cp7_get_journal_book_v1','erp_cp7_get_misc_finance_v1'].includes(name))).toBe(true)
+ })
+ it('another actor pending request cannot open or expose its recovery in the current actor journal',async()=>{
+  miscReadRefused();const envelope=correctionEnvelope();expect(persistProductionEnvelope('disposable:other-actor','FINANCE_MISC',envelope)).toBe(true)
+  await mount();expect(button('Reconcile transaksi')).toBeUndefined();expect(button('Buka pendapatan dan biaya lain').getAttribute('aria-expanded')).toBe('false');expect(container.textContent).toContain('Rp10,01')
+  expect(readProductionRecovery('disposable:other-actor').pending.FINANCE_MISC).toEqual(envelope);expect(mock.rpc.mock.calls.every(([name])=>name==='erp_cp7_get_journal_book_v1')).toBe(true)
+ })
+ it('another owning domain stays blocked without exposing an unrelated miscellaneous recovery control',async()=>{
+  miscReadRefused();const envelope={...correctionEnvelope(),action:'POST'};envelope.fingerprint=JSON.stringify({action:envelope.action,payload:envelope.payload,expectedVersion:envelope.expectedVersion})
+  expect(persistProductionEnvelope(recoveryScope,'CUTTING',envelope)).toBe(true);await mount()
+  expect(button('Reconcile transaksi')).toBeUndefined();expect(button('Buka pendapatan dan biaya lain').getAttribute('aria-expanded')).toBe('false');expect(container.textContent).not.toContain('Rp');expect(mock.rpc).not.toHaveBeenCalled();expect(readProductionRecovery(recoveryScope).pending.CUTTING).toEqual(envelope)
+ })
+ it('restored miscellaneous recovery still requires the current cash permission and preserves its request when denied',async()=>{
+  expect(persistProductionEnvelope(recoveryScope,'FINANCE_MISC',correctionEnvelope())).toBe(true);const raw=localStorage.getItem(productionKey(recoveryScope,'FINANCE_MISC'));await mount()
+  expect(container.textContent).toContain('hak melihat jurnal dan kas');expect(button('Reconcile transaksi')).toBeUndefined();expect(container.textContent).not.toContain('Rp');expect(mock.rpc).not.toHaveBeenCalled();expect(localStorage.getItem(productionKey(recoveryScope,'FINANCE_MISC'))).toBe(raw)
  })
 })

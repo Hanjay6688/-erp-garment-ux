@@ -26,15 +26,17 @@ import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 function Workspace({initialMiscId}:{initialMiscId:string|null}){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi jurnal belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),today=cp6WibDateTimeInput().slice(0,10)
+ const recoveryScope=`${runtime.projectRef}:${identity.profile.id}`
  const [from,setFrom]=useState(today.slice(0,7)+'-01'),[to,setTo]=useState(today),[q,setQ]=useState(''),[data,setData]=useState<JournalRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
  const [order,setOrder]=useState<RecordPageOrder>('SOURCE')
- const [miscOpen,setMiscOpen]=useState(Boolean(initialMiscId)),[recoveryBlocked,setRecoveryBlocked]=useState(false)
+ // A lost committed reply survives a reload without a source-navigation
+ // selection. Mount its owning panel so the original request can be reconciled.
+ const [miscOpen,setMiscOpen]=useState(()=>Boolean(initialMiscId||readProductionRecovery(recoveryScope).pending.FINANCE_MISC)),[recoveryBlocked,setRecoveryBlocked]=useState(false)
  const seq=useRef(0),selected=useRef<Query>({from:today.slice(0,7)+'-01',to:today,q:'',offset:0,journal_id:null})
  const entered=useRef({from,to,q});entered.current={from,to,q}
- const recoveryScope=`${runtime.projectRef}:${identity.profile.id}`
  const retire=()=>{++seq.current;setData(null);setBusy(false);setError('')}
  const retireBook=useCallback(()=>{++seq.current;setData(null);setBusy(false);setError('')},[])
- useEffect(()=>{const changed=()=>{const current=readProductionRecovery(recoveryScope),blocked=current.corrupted||hasProductionPending(current);setRecoveryBlocked(blocked);if(blocked)retireBook()};changed();return observeProductionRecovery(recoveryScope,changed)},[recoveryScope,retireBook])
+ useEffect(()=>{const changed=()=>{const current=readProductionRecovery(recoveryScope),blocked=current.corrupted||hasProductionPending(current);setRecoveryBlocked(blocked);if(current.pending.FINANCE_MISC)setMiscOpen(true);if(blocked)retireBook()};changed();return observeProductionRecovery(recoveryScope,changed)},[recoveryScope,retireBook])
  const load=useCallback(async(query:Query)=>{
   const ticket=++seq.current;setData(null);setBusy(true);setError('')
   try{const recovery=readProductionRecovery(recoveryScope);if(recovery.corrupted||hasProductionPending(recovery)){setRecoveryBlocked(true);return false}const result=await client.rpc('erp_cp7_get_journal_book_v1',{p_query:{...query,limit:25}});if(ticket!==seq.current)return false;if(result.error)throw result.error;setData(parseJournalRead(result.data,query,query.offset,query.journal_id));return true}

@@ -45,7 +45,7 @@ The broad local test command cannot use native PostgreSQL here (missing installa
 
 ## Owner target and increment 3 — submenu controls
 
-Owner moved the target from midnight to Monday5 October2026 at12:00 UTC+07 (Asia/Bangkok). This is a delivery target for implementation/qualification, not evidence or unattended/background execution. Native/independent/installed gates remain explicit.
+Owner moved the target from midnight to Monday5 October2026 at12:00 UTC+07 (Asia/Jakarta / WIB). This is a delivery target for implementation/qualification, not evidence or unattended/background execution. Native/independent/installed gates remain explicit.
 
 Search/browse/order controls now cover receipt, material stock, material transfer, attendance, payroll, journal, miscellaneous finance and saved contractor notes. Source readers, amounts, pagination and business writers are unchanged. Browse resets non-date selections; mandatory-date workspaces explicitly browse within the selected period. Changes retire stale lists/details and older read generations. Nota status filtering explicitly covers the current page only.84 impacted DOM checks and build pass; security pass recorded locally. Native navigation9ceb02d8 is queued while this reversible UI increment proceeds. Whole-submenu coverage remains open.
 
@@ -82,3 +82,16 @@ Other e133 regression observations: E01 DB/HTTP pass but both browser journeys l
 ### Companion manifest dependency caught on76385615
 
 Actual supplier-current-authority run37108983656/job111163031712 refused before execution because its companion manifest replaces the full manifest but did not declare expected_private_roles. Give that manifest the identical literal32 reviewed roles and the same review explanation; retain every exact observed-wait/current-revoke case and gate. No business source or Native authority rule changes. The first outer package Original and digest are retained under evidence/finisher-regression/first7638/supplier-authority; primary unchanged and Auth0→0 in that refusal. Requalify this explicit companion separately.
+
+
+### Second Native20 result and reload recovery correction
+
+Run37108983675/job111163031748 at76385615 now has all14 DB,2 actual schedules and2 real Auth/HTTP controls PASS. That proves the corrected private driver, exact expense/income money, every30 later year-long cash closing, closed GL periods, raw microseconds, changed type/account, forced final Native journal rollback, immutable correction chains/replay and current revoke controls within this18-case backend scope. It does not qualify Native20: the desktop lost-reply reload hides the owning miscellaneous panel, and its response promise times out outside the awaited journey. Browser cases are unobserved; primary_unchanged=false, Auth0→1. Exact second Original and outer package Original are retained under evidence/misc-correction/second7638.
+
+The actual journal page now opens the owning miscellaneous panel when the current actor has pending FINANCE_MISC, both on reload without a source selection and on recovery observation. No request is auto-sent or rewritten. All books/writers remain fenced while pending; other actors/domains do not expose the control, and current cash permission remains mandatory. Five new integrated DOM controls cover these boundaries. Every browser response promise gets its rejection handler before awaiting a click, so refusal reaches the existing real cleanup.94 affected tests, build and security PASS; full Native20/current-source browser/cleanup requalification is required before writer qualification. No case, timeout or cleanup gate is reduced.
+
+### Actual companion regressions
+
+E01 run37108983704/job111163031781 at76385615 PASS4:1 Native DB,1 real Auth/HTTP and2 actual desktop/mobile invoice journeys. Exact Original/digest retained under evidence/finisher-regression/qualified7638/e01; all package/restore/advisor gates true and Auth0→0. The corrected same-menu selection is now verified within this precise source.
+
+Supplier current-authority companion run37109380020/job111164166445 at47e7e124 PASS6 actual observed-wait/current-revoke schedules, literal32 roles. Exact Original and package Original retained under evidence/finisher-regression/qualified47e7/supplier-authority. Every unchanged gate passes, primary unchanged and Auth0→0. Its first zero-execution manifest refusal remains retained.

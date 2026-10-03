@@ -3,6 +3,13 @@ import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_misc_correction_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const endpoint='**/rest/v1/rpc/erp_cp7_correct_misc_finance_v1'
+async function observedCommand(page,button){
+ // Attach a rejection handler immediately, before an awaited click. A button
+ // refusal/time-out must stay inside the case and its real Auth cleanup.
+ const pending=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_correct_misc_finance_v1')).then(response=>({response}),error=>({error}))
+ await button.click()
+ const result=await pending;if(result.error)throw result.error;return result.response
+}
 async function journalMenu(page){
  const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const link=page.getByRole('button',{name:'• Jurnal & Transaksi Lain',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
@@ -39,9 +46,9 @@ async function journey(ui,today,mobile){
    await ui.expect.poll(()=>interception!==undefined).toBe(true);assert.equal(interception.status,200,JSON.stringify(interception))
    await ui.expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();assert.equal(state().cash_delta,'-9.99');assert.equal(state().chain.length,1)
    const originalRequest=structuredClone(requests[0].body);await page.unroute(endpoint);await page.reload();await journalMenu(page)
-   const replay=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_correct_misc_finance_v1'));await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();const response=await replay;assert.equal(response.status(),200);assert.deepEqual(await response.json(),first);assert.deepEqual(requests[1].body,originalRequest)
+   const response=await observedCommand(page,page.getByRole('button',{name:'Reconcile transaksi',exact:true}));assert.equal(response.status(),200);assert.deepEqual(await response.json(),first);assert.deepEqual(requests[1].body,originalRequest)
   }else{
-   const response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_correct_misc_finance_v1'));await form.getByRole('button',{name:'Simpan koreksi transaksi lain',exact:true}).click();const r=await response;assert.equal(r.status(),200);first=await r.json()
+   const r=await observedCommand(page,form.getByRole('button',{name:'Simpan koreksi transaksi lain',exact:true}));assert.equal(r.status(),200);first=await r.json()
   }
   await ui.expect(detail).toContainText(first.document.number);await ui.expect(detail).toContainText('Rp9,99');assert.equal(first.document.physical_at,f.document.physical_at);assert.match(first.document.physical_at,/123456/)
   const after=state();assert.equal(after.original.status,'REVERSED');assert.equal(after.original.amount,'12.34');assert.equal(after.cash_delta,'-9.99');assert.equal(after.chain.length,1);assert.equal(after.stock_HPP_unchanged,true)
@@ -50,7 +57,7 @@ async function journey(ui,today,mobile){
   // Rollback uses another reviewed atomic correction, keeping both histories.
   await page.getByRole('button',{name:'Pulihkan nilai sebelum koreksi',exact:true}).click();await ui.expect(form.getByLabel('Nominal transaksi lain',{exact:true})).toHaveValue('12.34')
   await form.getByLabel('Alasan simpan transaksi lain',{exact:true}).fill('Nilai sebelum koreksi dipulihkan setelah pemeriksaan ulang');await form.getByLabel('Koreksi transaksi lain sudah diperiksa',{exact:true}).check()
-  const restored=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_correct_misc_finance_v1'));await form.getByRole('button',{name:'Simpan koreksi transaksi lain',exact:true}).click();const response=await restored;assert.equal(response.status(),200);const result=await response.json();await ui.expect(detail).toContainText(result.document.number)
+  const response=await observedCommand(page,form.getByRole('button',{name:'Simpan koreksi transaksi lain',exact:true}));assert.equal(response.status(),200);const result=await response.json();await ui.expect(detail).toContainText(result.document.number)
   const final=state();assert.equal(final.chain.length,2);assert.equal(final.current.amount,'12.34');assert.equal(final.cash_delta,'-12.34');assert.equal(final.current.physical_at,f.document.physical_at);assert.equal(final.stock_HPP_unchanged,true)
   assert.equal(requests.length,mobile?2:3);assert.equal(requests.filter(r=>r.url.endsWith('/erp_cp7_save_misc_finance_v1')).length,0)
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:`cp6-proof/t3/CP7_MISC_CORRECTION_${suffix}.png`,fullPage:true})
