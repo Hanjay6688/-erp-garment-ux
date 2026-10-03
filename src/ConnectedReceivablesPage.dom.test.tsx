@@ -23,8 +23,25 @@ async function mount(){await act(async()=>root.render(<ConnectedReceivablesPage/
 async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
 const button=(name:string)=>[...container.querySelectorAll('button')].find(e=>e.textContent===name)!
 async function fill(label:string,value:string){await act(async()=>{const e=container.querySelector<HTMLInputElement>(`input[aria-label="${label}"]`)!;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event('input',{bubbles:true}))});await flush()}
-async function chooseStatus(value:string){await act(async()=>{const e=container.querySelector<HTMLSelectElement>('select')!;e.value=value;e.dispatchEvent(new Event('change',{bubbles:true}))});await flush()}
+async function chooseStatus(value:string){await act(async()=>{const e=container.querySelector<HTMLSelectElement>('[aria-label="Status sumber piutang"]')!;e.value=value;e.dispatchEvent(new Event('change',{bubbles:true}))});await flush()}
 describe('native invoice receivables source',()=>{
+ it('browses the owned full list and sorts only current source records without rewriting money',async()=>{
+  mock.rpc.mockImplementation((_name,{p_query})=>{const d=fixture(p_query);d.page.rows=[{...d.page.rows[0],number:'INV-10'},{...d.page.rows[0],id:line,number:'INV-2'}];d.page.total='2';return Promise.resolve({data:d,error:null})})
+  await mount();const before=mock.rpc.mock.calls.length
+  const order=container.querySelector<HTMLSelectElement>('[aria-label="Urutkan halaman piutang pelanggan"]')!
+  await act(async()=>{order.value='LABEL_ASC';order.dispatchEvent(new Event('change',{bubbles:true}))})
+  expect([...container.querySelectorAll('[data-sale-id] strong:first-child')].map(e=>e.textContent).slice(0,2)).toEqual(['INV-2','INV-10']);expect(mock.rpc.mock.calls).toHaveLength(before)
+  expect([...container.querySelectorAll('[data-sale-id]')].every(e=>e.textContent!.includes('Rp30'))).toBe(true)
+  await fill('Cari sumber piutang','Toko');await chooseStatus('POSTED');await click(button('Cari piutang'));expect(mock.rpc.mock.calls.at(-1)![1].p_query).toMatchObject({q:'Toko',status:'POSTED',sale_id:null,offset:0})
+  await click(button('Browse semua'));expect(mock.rpc.mock.calls.at(-1)![1].p_query).toMatchObject({q:'',status:null,sale_id:null,offset:0})
+  expect(new Set(mock.rpc.mock.calls.map(c=>c[0]))).toEqual(new Set(['erp_cp7_get_sales_v1']))
+ })
+ it('opens the exact source invoice through navigation, and retires source actions when facts retire',async()=>{
+  const open=vi.fn();await act(async()=>root.render(<ConnectedReceivablesPage onOpenInvoice={open}/>));await flush()
+  const before=mock.rpc.mock.calls.length;await click(button('Buka invoice INV-NATIVE-1'));expect(open).toHaveBeenLastCalledWith(id);expect(mock.rpc.mock.calls).toHaveLength(before)
+  await click(container.querySelector<HTMLElement>('[data-sale-id]')!);await click(button('Edit / batalkan invoice INV-NATIVE-1'));expect(open).toHaveBeenCalledTimes(2);expect(open).toHaveBeenLastCalledWith(id)
+  await fill('Cari sumber piutang','Berubah');expect(button('Buka invoice INV-NATIVE-1')).toBeUndefined();expect(button('Edit / batalkan invoice INV-NATIVE-1')).toBeUndefined();expect(container.textContent).not.toContain('Rp30')
+ })
  it('renders source invoice/return/payment/balance and historical SKU without any financial writer',async()=>{
   await mount();await click(container.querySelector<HTMLElement>('[data-sale-id]')!)
   expect(container.textContent).toContain('Rp30');expect(container.textContent).toContain('HISTORICAL');expect(container.textContent).toContain('Jatuh tempo 2026-10-29')

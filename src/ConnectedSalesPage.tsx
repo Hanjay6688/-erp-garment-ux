@@ -20,12 +20,14 @@ import './procurement-connected.css'
 const labels:Record<SalesStatus,string>={DRAFT:'Draft · stok dipesan',POSTED:'Belum lunas',PARTIAL_PAID:'Dibayar sebagian',PAID:'Lunas',CANCELLED:'Draft dibatalkan',REVERSED:'Penjualan dibatalkan'}
 const money=(v:string)=>`Rp${numberText(v)}`
 type View='sales-invoice'|'sales-allocation'|'sales-payments'|'sales-returns'
-export default function ConnectedSalesPage({view='sales-invoice'}:{view?:View}){
+export default function ConnectedSalesPage({view='sales-invoice',initialSaleId=null}:{view?:View;initialSaleId?:string|null}){
  const {runtime,identity}=useAuth()
  if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes('sales.invoice.view'))return <section className="panel" role="alert">Hak melihat invoice diperlukan.</section>
- return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}:${view}`} view={view}/>
+ if(initialSaleId!==null&&!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(initialSaleId))return <section className="panel" role="alert">Referensi invoice tidak sah. Buka kembali dokumen sumber.</section>
+ const selected=initialSaleId?.toLowerCase()??null
+ return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}:${view}:${selected??''}`} view={view} initialSaleId={selected}/>
 }
-function Workspace({view}:{view:View}){
+function Workspace({view,initialSaleId}:{view:View;initialSaleId:string|null}){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi penjualan belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.ar.view')
  const mutation=useProductionMutation('SALES'),{beginRead,currentReadTicket,finishRead,isReadCurrent,run,reconcile,invalidate}=mutation
@@ -36,7 +38,7 @@ function Workspace({view}:{view:View}){
  const [returns,setReturns]=useState<{source:NonNullable<SalesRead['detail']>;key:string}|null>(null)
  const [reviewed,setReviewed]=useState(false),[reason,setReason]=useState('Invoice dan barang sudah diperiksa')
  const [listOrder,setListOrder]=useState<RecordPageOrder>('SOURCE'),reverseReview=useRef<HTMLDivElement>(null)
- const requested=useRef({q:'',status:'',offset:0,sale_id:null as string|null}),sequence=useRef(0),historySequence=useRef(0)
+ const requested=useRef({q:'',status:'',offset:0,sale_id:initialSaleId}),sequence=useRef(0),historySequence=useRef(0)
  const load=useCallback(async()=>{
   const query={...requested.current},s=++sequence.current,ticket=beginRead();++historySequence.current;setHistory(null);setHistoryBusy(false);setBusy(true);setData(null);setError('');setReviewed(false)
   try{const r=await client.rpc('erp_cp7_get_sales_v1',{p_query:{...query,status:query.status||null,limit:25}});if(s!==sequence.current||!isReadCurrent(ticket))return false;if(r.error)throw r.error

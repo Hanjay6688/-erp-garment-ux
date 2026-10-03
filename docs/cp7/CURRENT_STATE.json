@@ -6052,7 +6052,25 @@
       "run_id": 37085856602,
       "job_id": 111095894227,
       "run_conclusion": "success",
-      "original_retention": "READ_ONLY_PROJECTION_QUEUED_REQUIRED_BEFORE_EXACT284_CREDIT"
+      "original_retention": "docs/cp7/evidence/f05-native-attention/qualified284-6127ec8/RECEIPT.json",
+      "status": "PASS",
+      "counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "all_original_gates": true,
+      "auth_before": 0,
+      "auth_after": 0
     },
     "note": {
       "run_id": 37085856721,
@@ -6127,6 +6145,52 @@
     "build_pass": true,
     "security_pass": true,
     "affected_DOM_tests": 28,
-    "affected_DOM_tests_pass": true
+    "affected_DOM_tests_pass": true,
+    "source_commit": "413c35a9f789381b0c135dd10e3663a943316aa4",
+    "source_tree": "e15a10957bba876b1250a795895b0cb26faf47d9",
+    "actual_isolated_Native_authority_controls": 5,
+    "actual_isolated_Native_authority_controls_pass": true,
+    "full_native_shell": {
+      "run_id": 37089455849,
+      "job_id": 111106473630,
+      "test_files": 140,
+      "tests": 1290,
+      "browser": 6,
+      "security": true,
+      "build": true,
+      "CodeQL": true,
+      "retained_original": "docs/cp7/evidence/shell/qualified1290-413c35a/RECEIPT.json"
+    },
+    "complete_owning_note40": "RUN37089474834_IN_PROGRESS",
+    "complete_eight_F03": "RUN37089474785_IN_PROGRESS",
+    "complete_F05_284": "RUN37089474746_IN_PROGRESS",
+    "current_Native40_qualified": false
+  },
+  "receivables_source_navigation_candidate": {
+    "status": "LOCAL1256_IN129_FILES_PASS_ACTUAL_E01_REQUIRED",
+    "actual_implementation": [
+      "RecordTools on receivables:owned server search/status/browse and explicitly current-page sort",
+      "source action per invoice row and selected detail",
+      "App navigation carries only exact invoice UUID bound to current project and Auth identity/revisions/permissions",
+      "sales source always re-read before writer facts/actions; invalid/mismatched invoice identity denied",
+      "same sales submenu preserves opened source; manual navigation clears the handoff"
+    ],
+    "no_ledger_or_journal_business_write": true,
+    "no_added_SQL_or_grant": true,
+    "no_new_CLAUDE_files_changed": true,
+    "actual_browser_oracle_strengthened": "existing E01 desktop/mobile check exact source UUID fresh reader AR175 and unchanged ledger; unchanged4 total case budget",
+    "four_new_DOM_controls": true,
+    "local_tests": 1256,
+    "local_test_files": 129,
+    "local_Native_credit": 0,
+    "build_pass": true,
+    "security_pass": true,
+    "Native_E01_4_required": true,
+    "Native_note40_required": true,
+    "every_submenu_complete": false,
+    "every_transaction_edit_delete_complete": false,
+    "audit_complete": false,
+    "production_go": false,
+    "contract": "docs/cp7/RECEIVABLES_SOURCE_CONTROLS.md"
   }
 }

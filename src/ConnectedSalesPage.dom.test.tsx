@@ -25,6 +25,18 @@ async function mount(){await act(async()=>root.render(<ConnectedSalesPage/>));aw
 async function click(button:HTMLElement){await act(async()=>button.click());await flush()}
 const reload=()=>[...container.querySelectorAll('button')].find(x=>x.textContent==='Muat ulang invoice')!
 describe('P11 invoice source boundary',()=>{
+ it('re-reads an opened source invoice and never treats receivables navigation as a business write',async()=>{
+  allowCorrection();client.rpc.mockImplementation(async(_name,args)=>({data:data(true,!!args.p_query.sale_id),error:null}))
+  await act(async()=>root.render(<ConnectedSalesPage initialSaleId={id}/>));await flush()
+  expect(client.rpc.mock.calls[0][1].p_query).toMatchObject({sale_id:id,q:'',status:null,offset:0})
+  expect(container.querySelector('[aria-label="Rincian invoice"]')!.textContent).toContain('Rp30');expect(button('Benerin nota')).toBeDefined()
+  expect(new Set(client.rpc.mock.calls.map(c=>c[0]))).toEqual(new Set(['erp_cp7_get_sales_v1']))
+ })
+ it('refuses invalid or mismatched opened invoice identity before showing any old source action',async()=>{
+  await act(async()=>root.render(<ConnectedSalesPage initialSaleId="not-an-invoice"/>));await flush();expect(client.rpc).not.toHaveBeenCalled();expect(container.textContent).toContain('Referensi invoice tidak sah')
+  client.rpc.mockResolvedValue({data:data(true,true),error:null});await act(async()=>root.render(<ConnectedSalesPage initialSaleId={line}/>));await flush()
+  expect(container.textContent).toContain('Pilihan invoice berubah');expect(container.querySelector('[aria-label="Rincian invoice"]')!.textContent).toContain('Pilih invoice');expect(container.querySelector('[aria-label="Rincian invoice"]')!.textContent).not.toContain('Rp30');expect(button('Benerin nota')).toBeUndefined()
+ })
  it('keeps sort local and sends browse and filters through the owned current source reader',async()=>{
   client.rpc.mockImplementation(async(_name,args)=>({data:data(true,!!args.p_query.sale_id),error:null}));await mount()
   const order=container.querySelector<HTMLSelectElement>('[aria-label="Urutkan halaman invoice"]')!,before=client.rpc.mock.calls.length

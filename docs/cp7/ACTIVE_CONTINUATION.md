@@ -1,5 +1,11 @@
 # Active writer continuation · 3Oct2026
 
+## Current UI candidate · receivables to exact source invoice
+
+Mandatory rollout now reaches receivables: owned server search/status/browse, explicitly current-page immutable sorting, Buka invoice on each source entry and Edit/batalkan invoice on selected detail. App carries only exact source UUID bound to current project/actor/user-role revisions/permissions; invoice re-reads and verifies the actual current source before enabling any owning writer. Invalid/wrong invoice facts fail closed; same-submenu navigation keeps its selection. Four new DOM controls,47 affected tests and full local1256/129 pass; build/security pass. Existing desktop/mobile E01 adds exact UUID fresh source navigation, AR175 and unchanged ledger/layout checks, preserving budget4. Actual current E01-4/note40 remains required. See RECEIVABLES_SOURCE_CONTROLS.md. No additional SQL/grant/Claude file changes in this UI candidate.
+
+The preceding authority-read source413 already passes five isolated Native PostgreSQL controls and full Shell1290/140 with6 browser/security/build/CodeQL; exact Original retained. Its complete40/eight-F03/F05 remain in progress. Exact source6127 F05284 Original is now verified and retained179/40/29/36 with every original gate/Auth0→0; read-only projection413 grants zero new executions. Source6127 owning-note39/40 remains incomplete and its false runtime gate is preserved. All sections below are preceding checkpoints.
+
 ## Current candidate · fresh sales-command access read
 
 The owner asks whether transactional correction/rollback actually exists. It does for the qualified owning sale-note path, with preserved Original and atomic Native stock/AR/cash/GL/HPP effects. Every transaction edit/delete remains our mandatory unfinished CP7 work. Source6127 passes all eight F03 components (exact Originals retained) and full Native Shell139/1285 plus6 browser/CodeQL. Its owning-note run37085856721 observes39 PASS of40; desktop microsecond correction returns actual500/57014. Exact failure Original and false runtime gate are retained. Complete F05 run succeeds but exact284 retention is pending read-only projection. Do not call6127 note40 qualified.
