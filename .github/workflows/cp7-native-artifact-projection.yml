@@ -12,6 +12,7 @@ name: CP7 Completed Native Artifact Projection
       - docs/cp7/native284_artifact_projection.json
       - docs/cp7/native284_first_v2_source_projection.json
       - docs/cp7/native284_e52b_overflow_projection.json
+      - docs/cp7/native284_97_overflow_projection.json
       - docs/cp7/native152_artifact_projection.json
       - docs/cp7/native152_first_v2_source_projection.json
       - docs/cp7/native152_v2_source_qualified_projection.json
@@ -39,6 +40,7 @@ jobs:
           python scripts/cp7_native_artifact_projection.py docs/cp7/native284_artifact_projection.json cp7-proof/native284
           python scripts/cp7_native_artifact_projection.py docs/cp7/native284_first_v2_source_projection.json cp7-proof/native284-first-v2-source
           python scripts/cp7_native_artifact_projection.py docs/cp7/native284_e52b_overflow_projection.json cp7-proof/native284-e52b-overflow
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native284_97_overflow_projection.json cp7-proof/native284-97-overflow
           python scripts/cp7_native_artifact_projection.py docs/cp7/native152_artifact_projection.json cp7-proof/native152
           python scripts/cp7_native_artifact_projection.py docs/cp7/native152_first_v2_source_projection.json cp7-proof/native152-first-v2-source
           python scripts/cp7_native_artifact_projection.py docs/cp7/native152_v2_source_qualified_projection.json cp7-proof/native152-v2-source-qualified

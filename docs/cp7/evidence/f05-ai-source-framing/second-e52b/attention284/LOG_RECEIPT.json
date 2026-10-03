@@ -1,0 +1,15 @@
+{
+  "status": "EXACT_SECOND_INCOMPLETE_LOG_RETAINED",
+  "source_commit": "e52b1df5294ec4001138b498a8379e47b3690318",
+  "run_id": 37152608958,
+  "job_id": 111289394536,
+  "Original_CI_log": {
+    "file": "ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 395246,
+    "raw_sha256": "00bd6b942846f44a7ed597b11edd3ef62f76507db76d444c9d0107f64c260242",
+    "gzip_bytes": 63719,
+    "gzip_sha256": "c548d8d52f76711de20e23119ce8e40f575f7c97e93e4b4c21ed075a110be468"
+  },
+  "projection_new_Native_credit": 0,
+  "first_failure_relabelled": false
+}

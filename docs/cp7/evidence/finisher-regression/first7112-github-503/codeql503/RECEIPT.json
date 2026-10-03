@@ -1,0 +1,25 @@
+{
+  "status": "ORIGINAL_INFRASTRUCTURE_FAILURE",
+  "source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "source_tree": "d952cd5103f92043475a6e8dcc3fe518c53a52e2",
+  "run_id": 37155715169,
+  "run_attempt": 1,
+  "job_id": 111298561673,
+  "job_conclusion": "failure",
+  "failed_stage": "CodeQL initialization",
+  "reported_cause": "GitHub service unavailable HTTP503",
+  "Original_CI_log": {
+    "file": "ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 19515,
+    "raw_sha256": "c218053dcc982720da70a9899cfa0d0464b1d625164dd178685245ec20d5b9bd",
+    "gzip_bytes": 5240,
+    "gzip_sha256": "e6094fb6bc88946afbf8c49a438d1083b545c7cb668b08738b1bcad0f5220b42"
+  },
+  "first_failure_relabelled": false,
+  "Native_product_credit": 0,
+  "later_attempt_requires_its_own_result": true,
+  "frozen_bootstrap_modified": false,
+  "guards_timeouts_or_case_budgets_modified": false,
+  "full_CP7": false,
+  "production_go": false
+}

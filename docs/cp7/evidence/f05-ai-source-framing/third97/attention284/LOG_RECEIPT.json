@@ -1,0 +1,21 @@
+{
+  "status": "THIRD_ORIGINAL_INCOMPLETE_LOG_ONLY_ROOTS_PENDING",
+  "source_commit": "97a19cda2d0e26134b8df8289f7a5d5f147bc19b",
+  "source_tree": "9a3572e9be385259cd6912933646635c514e89ff",
+  "run_id": 37153242146,
+  "job_id": 111291256727,
+  "artifact_id": 11286326827,
+  "zip_bytes": 351971825,
+  "zip_sha256": "6ab22a4720a3433142d50e5156cbf3fc4d9b9ec84cc1be7b02bd3038b6d0ff5b",
+  "Original_CI_log": {
+    "file": "ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 395372,
+    "raw_sha256": "538279706f86aca657fe9f128b6d112d2bda263030e4849639a9687ae3dfd820",
+    "gzip_bytes": 63622,
+    "gzip_sha256": "42586ec4abda04bd53c2893ae862abdd5b7ed5eae1c1594c24682f323847a98e"
+  },
+  "root_case_counts_qualification": false,
+  "original_log_incomplete_case": "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+  "Native_product_credit": 0,
+  "first_failure_relabelled": false
+}

@@ -1,0 +1,25 @@
+{
+  "status": "ORIGINAL_INFRASTRUCTURE_FAILURE",
+  "source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "source_tree": "d952cd5103f92043475a6e8dcc3fe518c53a52e2",
+  "run_id": 37155715155,
+  "run_attempt": 1,
+  "job_id": 111298561601,
+  "job_conclusion": "failure",
+  "failed_stage": "frozen AB bootstrap",
+  "reported_cause": "GitHub service unavailable HTTP503",
+  "Original_CI_log": {
+    "file": "ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 173055,
+    "raw_sha256": "d1f71c25eea9d7ef93f117544f421ed179b606fa01778de3231970050f0320d9",
+    "gzip_bytes": 24414,
+    "gzip_sha256": "3a4a26e4ef1a752e9d4ebf6285b908c2fd7b15018e9fc7661e01f4e258d1601b"
+  },
+  "first_failure_relabelled": false,
+  "Native_product_credit": 0,
+  "later_attempt_requires_its_own_result": true,
+  "frozen_bootstrap_modified": false,
+  "guards_timeouts_or_case_budgets_modified": false,
+  "full_CP7": false,
+  "production_go": false
+}
