@@ -214,7 +214,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Standing continuation: qualify source50 with supplier exact owning inverse and current input retention; retain all Originals and prior41 controls. Continue real fabric/material/P08 and full P18/P19 exits during qualification, then P20 independent and P21 installed gates.",
+  "execution_priority": "Publish all-field F04 catalog comparator repair, preserve first Native57 failure088f, qualify fresh57 with every raw snapshot and unchanged IDs/budgets, and repeat all54 configured workflows. Continue feasible source/P08/P18/P19 exits. Missing real recipes/policies stay UNKNOWN; independent P20 and installed P21 remain open. No routine checkpoint ends standing writer work.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Continue standing CP7 writer scope. Qualify exact Native64 Laundry/QC/source/owning supplier paths, retaining all57 prior controls and full Original/gates. Continue feasible remaining source/dependency exits, real material/P08/P18/P19. Missing real recipes/eligible allocations/owner inputs stay UNKNOWN; independent/installed/production acceptance cannot be self-issued.",
+  "next_action": "Publish all-field F04 catalog comparator repair, preserve first Native57 failure088f, qualify fresh57 with every raw snapshot and unchanged IDs/budgets, and repeat all54 configured workflows. Continue feasible source/P08/P18/P19 exits. Missing real recipes/policies stay UNKNOWN; independent P20 and installed P21 remain open. No routine checkpoint ends standing writer work.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9054,7 +9054,7 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
-    "next_action": "Publish current stronger E08/E18 witness on the unchanged Native9 budget and trigger the complete CP7 matrix; verify exact artifacts and retain first failures. Continue feasible exact-source/P08/P18/P19 work. Owner recipes/policies UNKNOWN; independent P20 and installed P21 remain open. No ordinary checkpoint ends writer work.",
+    "next_action": "Publish all-field F04 catalog comparator repair, preserve first Native57 failure088f, qualify fresh57 with every raw snapshot and unchanged IDs/budgets, and repeat all54 configured workflows. Continue feasible source/P08/P18/P19 exits. Missing real recipes/policies stay UNKNOWN; independent P20 and installed P21 remain open. No routine checkpoint ends standing writer work.",
     "previous_application_qualification7300": {
       "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
       "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
@@ -9221,7 +9221,7 @@
       "receipt": "docs/cp7/evidence/finisher-regression/qualified3809/shell/RECEIPT.json"
     },
     "shared_consumer_browser_continuation": {
-      "status": "NATIVE9_PENDING_CURRENT_SOURCE",
+      "status": "FOCUSED_NATIVE9_WRITER_PASS_AT088F_FULL_FAMILY_OPEN",
       "local_receipt": "docs/cp7/evidence/p18-shared-consumer/local-3af3/LOCAL_RECEIPT.json",
       "handoff": "docs/cp7/P18_SHARED_CONSUMER_CONTINUATION.md",
       "unchanged_case_budget": {
@@ -9232,7 +9232,15 @@
       },
       "additional_execution_credit": 0,
       "full_P18_acceptance": false,
-      "matrix_trigger_inventory": "docs/cp7/evidence/p18-shared-consumer/local-3af3/MATRIX_TRIGGER_INVENTORY.json"
+      "matrix_trigger_inventory": "docs/cp7/evidence/p18-shared-consumer/local-3af3/MATRIX_TRIGGER_INVENTORY.json",
+      "source_commit": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+      "run_id": 37128855789,
+      "job_id": 111219700310,
+      "receipt": "docs/cp7/evidence/p18-shared-consumer/qualified9-088f/RECEIPT.json",
+      "actual_browser_shared_witnesses": "BOTH_PASS",
+      "Auth_users_before": 0,
+      "Auth_users_after": 0,
+      "console_errors": 0
     },
     "all_triggered_workflows_3af3": {
       "source": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
@@ -9240,6 +9248,71 @@
       "success": 20,
       "all_pass": true,
       "full_54_matrix": false
+    },
+    "application_qualification088f": {
+      "status": "PASS",
+      "source_commit": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+      "run_id": 37128855528,
+      "application_tests_passed": 1404,
+      "application_files_passed": 146,
+      "actual_Shell_browser_passed": 6,
+      "CodeQL_results": {
+        "javascript": 0,
+        "actions": 0
+      },
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified088f/shell/RECEIPT.json",
+      "whole_CP7_acceptance": false
+    },
+    "f04_catalog_comparison_candidate": {
+      "status": "LOCAL_PRESERVATION_CONTROLS_PASS_FRESH_NATIVE57_PENDING",
+      "first_failure_source": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+      "first_failure_run": 37128855585,
+      "first_failure_original": "docs/cp7/evidence/f04-catalog-repair/first088f/RECEIPT.json",
+      "local_receipt": "docs/cp7/evidence/f04-catalog-repair/local-088f/LOCAL_RECEIPT.json",
+      "handoff": "docs/cp7/F04_CATALOG_COMPARISON_HANDOFF.md",
+      "frozen_reader_runner_changed": false,
+      "all_raw_snapshots_retained": true,
+      "field_member_hash_or_row_ignored": false,
+      "additional_execution_credit": 0,
+      "budget57": {
+        "native": 34,
+        "races": 8,
+        "http": 5,
+        "browser": 10
+      },
+      "complete54_matrix_requalification": "REQUESTED_CURRENT_WORKFLOW_SHA",
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "cutting_source_contract_inspection": {
+      "status": "READ_ONLY_DRAFT_ELIGIBILITY_BOUNDARY_IDENTIFIED_POSTED_ROUTE_SKIPPED",
+      "handoff": "docs/cp7/CUTTING_SOURCE_CONTRACT_HANDOFF.md",
+      "receipt": "docs/cp7/evidence/cutting-source-contract/READ_ONLY_INSPECTION.json",
+      "new_route_reader_writer_or_grant": false
+    },
+    "matrix088f_observation": {
+      "source": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+      "observed": 54,
+      "success": 51,
+      "in_progress": 1,
+      "failure": 2,
+      "all_pass": false,
+      "status_receipt": "docs/cp7/evidence/f04-catalog-repair/first088f/MATRIX_STATUS_LATEST.json"
+    },
+    "note_HTTP_timeout088f": {
+      "status": "ACTUAL_NATIVE40_INCOMPLETE_39_PASS_CAUSE_OPEN",
+      "source_commit": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+      "run_id": 37128855701,
+      "receipt": "docs/cp7/evidence/owning-note-correction/incomplete40-088f/RECEIPT.json",
+      "failure_case": "NOTE_BROWSER_MOBILE_LOST_REPLY",
+      "sqlstate": "57014",
+      "observed_query_elapsed_lower_bound_ms": 7902.991,
+      "real_statement_timeout_unchanged": "8s",
+      "no_partial_business_effect_on_failure": true,
+      "cause_established": false,
+      "next_measurement": "REAL_AUTH_POSTGREST_PRESERVING_DEFAULT_TIMEOUT_AND_CURRENT_GUARDS_ZERO_EXIT_CREDIT",
+      "independent_acceptance": false,
+      "production_go": false
     }
   }
 }

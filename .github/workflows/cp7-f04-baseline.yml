@@ -5,6 +5,7 @@ name: CP7 F04 Native Profile and Baseline Targets
     - cp7/integration
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
+    - scripts/cp7_catalog_state.py
     - scripts/cp7_f04_baseline_*
     - scripts/cp7_f04_history_*
     - scripts/cp7_baseline_bundle.py

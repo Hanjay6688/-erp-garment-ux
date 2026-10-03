@@ -5,6 +5,7 @@ name: CP7 F04 Native Selected Production Schedule
     - cp7/integration
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
+    - scripts/cp7_catalog_state.py
     - scripts/cp7_f04_schedule_*
     - scripts/cp7_schedule_bundle.py
     - scripts/cp7_supply_bundle.py

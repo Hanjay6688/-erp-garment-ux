@@ -21,12 +21,14 @@ Bukti Original lengkap:
 - evidence/transaction-source/qualified57-a8/RECEIPT.json — Native57 supplier/QC dan gambar desktop/mobile asli.
 - evidence/misc-correction/qualified203f/RECEIPT.json — Native20. Kedua kegagalan terdahulu tetap tersimpan.
 
-## Penerus yang belum boleh dianggap lolos
+## Sambungan Laundry/QC yang sudah qualified
 
 | Bagian | Status | Bukti wajib |
 |---|---|---|
-| Antrean QC→penerimaan Laundry tepat | Native64 di7300fe01 sudah PASS36 DB/4 races/8 Auth HTTP/16 browser; semua57 ID lama dan seluruh gerbang pemulihan lolos.6 sumber Laundry memakai FK asli, nomor pengiriman dari reader Native, dan UUID penerimaan di dalam parent yang tepat. | Semua57 ID lama +4 DB/1 Auth HTTP/2 browser, inverse Native dan lost-reply reload/recovery. LAUNDRY_SOURCE_HANDOFF.md. |
-| Penerimaan blocked→daftar QC aktif→owning QC | Penerus lokal; Native69 belum dijalankan.25 baris/halaman, relasi sama dengan pengaman Native, izin lihat Laundry dan QC saat ini. | Seluruh64 ID lama +2 DB/1 Auth HTTP/2 desktop/mobile. TRANSACTION_DEPENDENCIES_HANDOFF.md. |
+| Antrean QC→penerimaan Laundry tepat | Semua64 ID sebelumnya tetap dan PASS dalam Native69 pada3af3be8a (38 DB/4 race/9 Auth HTTP/18 browser).6 sumber Laundry memakai FK asli, nomor pengiriman dari reader Native, dan UUID penerimaan di dalam parent yang tepat. | Inverse Native dan lost-reply reload/recovery tetap. LAUNDRY_SOURCE_HANDOFF.md; Original qualified69-3af3. |
+| Penerimaan blocked→daftar QC aktif→owning QC | Native69 pada3af3 lolos, termasuk26 QC pada halaman25+1 serta halaman2 benar-benar kosong setelah inverse membuat total25. Izin Laundry/QC saat ini, source asli dan dua inverse owning Native terbukti. | Semua69 ID tetap, seluruh restore/primary/backup/advisor/Auth gates lolos. TRANSACTION_DEPENDENCIES_HANDOFF.md. |
+
+Potongan yang sudah mengeluarkan bahan/pickup/QC tidak dapat dibuka sebagai draft oleh pembaca Native sekarang. Batas selector dan kemungkinan sambungan berikutnya: CUTTING_SOURCE_CONTRACT_HANDOFF.md. Inspection ini tidak menambah writer/grant/route atau mengaku koreksi posted sudah tersedia.
 
 QC lalu penerimaan adalah dua transaksi Native terpisah, masing-masing atomik pada efeknya sendiri. Tidak dijanjikan satu rollback atomik seluruh rantai. Invoice vendor, payroll, claim, PO selesai dan pemakaian lain tetap diperiksa Native. Daftar QC bukan daftar semua penghalang.
 
