@@ -1,0 +1,34 @@
+name: CP7 Claude Merge Original Reports
+'on':
+  push:
+    branches: [cp7/integration]
+    paths:
+      - docs/cp7/evidence/claude-merge-20261003/native-artifact-manifests/*.json
+      - .github/workflows/cp7-merge-originals.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  retain:
+    name: Read-only verified original reports / zero new case credit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        record: [f05-analysis-48]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify completed archive and retain exact source-bound reports
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RECORD: ${{ matrix.record }}
+        run: python scripts/cp7_native_artifact_projection.py "docs/cp7/evidence/claude-merge-20261003/native-artifact-manifests/$RECORD.json" "$RUNNER_TEMP/cp7-merge-reports"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-merge-originals-${{ matrix.record }}
+          path: ${{ runner.temp }}/cp7-merge-reports
+          if-no-files-found: error
+          retention-days: 90
