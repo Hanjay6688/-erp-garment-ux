@@ -84,9 +84,10 @@ def main():
   elif op=='prepare-qc-source':
    out=qc_source.fixture(cur,date.fromisoformat(p['today']))
   elif op=='prepare-cutting-source':
-   out=cutting_source.advanced(cur,date.fromisoformat(p['today']))
+   out=cutting_source.browser_fixture(cur,date.fromisoformat(p['today']))
   elif op=='state-cutting-source':
    f=p['fixture'];out=dict(business=source.b.boundary.snapshot(cur),document=cutting_source.document(cur,f)[0])
+   if f.get('unpicked'):out['unpicked_document']=cutting_source.document(cur,f['unpicked'])[0]
   elif op=='state-qc-source':
    out=qc_source.observe(cur,p['fixture'])
   elif op=='prepare-supplier-payment':

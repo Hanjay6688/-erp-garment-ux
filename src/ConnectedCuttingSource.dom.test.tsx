@@ -49,6 +49,10 @@ describe('Native posted cutting preview refuses substitution and writes',()=>{
   const selected=el.querySelector('[data-source-focus="true"]');expect(selected?.getAttribute('data-cutting-group-id')).toBe(group);expect(selected?.getAttribute('data-cutting-po-id')).toBe(po)
   for(const b of el.querySelectorAll<HTMLButtonElement>('.cpick-actions button'))expect(b.disabled).toBe(true)
   for(const input of el.querySelectorAll<HTMLInputElement>('.cpick-workspace input'))expect(input.disabled).toBe(true)
+  expect(el.querySelector('[data-cutting-unpicked-source="true"]')?.textContent).toContain('Pickup belum tercatat')
+  expect(el.querySelector('.cpick-setup')).toBeNull();expect(el.querySelector('.cpick-reconcile')).toBeNull()
+  expect(el.querySelector('[type="datetime-local"]')).toBeNull();expect(el.querySelector('.cpick-table-wrap')?.textContent).toContain('9 pcs')
+  expect(el.textContent).not.toContain('Pickup baru · ID dibuat backend')
   expect(writes()).toEqual([])
  })
  it.each(['missing','po','version','denied'])('retires the old detail on a %s source response',async mode=>{

@@ -58,6 +58,13 @@ def advanced(cur,today):
  f['journal_id'],f['journal_number'],f['journal_date']=str(j[0]),j[1],str(j[2])
  return f
 
+def browser_fixture(cur,today):
+ f=advanced(cur,today);unpicked=posted(cur,today);d,row=document(cur,unpicked)
+ assert row['pickup']is None and row['picked_up_at']is None
+ j=cur.execute("select id,journal_number,transaction_date from erp.journal_entries where source_type='CUTTING_MATERIAL_ISSUE'and source_id=%s and status='POSTED'order by id limit 1",(unpicked['group'],)).fetchone();assert j
+ unpicked.update(group_number=d['number'],journal_id=str(j[0]),journal_number=j[1],journal_date=str(j[2]),Native_row=row)
+ f['unpicked']=unpicked;return f
+
 def cases(cur,today):
  def exact():
   f=advanced(cur,today);before=b.boundary.snapshot(cur)

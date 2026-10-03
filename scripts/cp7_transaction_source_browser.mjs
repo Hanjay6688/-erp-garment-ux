@@ -420,20 +420,20 @@ async function laundryDependencyJourney(ui,today,mobile){
 async function cuttingSourceJourney(ui,today,mobile){
  const f=fixture('prepare-cutting-source',{today}),user=await ui.login('OWNER',{label:'transaction-source-cutting-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',screenshots=[]
  const state=()=>fixture('state-cutting-source',{fixture:f}),sourceResponse=r=>r.url().endsWith('/rpc/erp_cp7_resolve_transaction_source_v1')
- const preview=()=>page.locator(`[data-cutting-group-id="${f.group}"][data-source-focus="true"]`)
+ const preview=(target=f)=>page.locator(`[data-cutting-group-id="${target.group}"][data-source-focus="true"]`)
  const writes=[];page.on('request',r=>{if(/\/rpc\/erp_(?:save_|cp7_(?:save_|correct_))/.test(r.url()))writes.push(r.url().split('/').at(-1))})
- const check=async(before,kind)=>{
-  await ui.expect(preview()).toHaveCount(1);await ui.expect(preview()).toHaveAttribute('data-cutting-po-id',f.po);await ui.expect(preview()).toContainText(f.group_number)
-  await ui.expect(page.locator('[data-cutting-source-id]')).toHaveAttribute('data-cutting-source-id',f.group)
+ const check=async(before,kind,target=f)=>{
+  await ui.expect(preview(target)).toHaveCount(1);await ui.expect(preview(target)).toHaveAttribute('data-cutting-po-id',target.po);await ui.expect(preview(target)).toContainText(target.group_number)
+  await ui.expect(page.locator('[data-cutting-source-id]')).toHaveAttribute('data-cutting-source-id',target.group)
   assert.equal(await page.locator('.cpick-actions button').evaluateAll(nodes=>nodes.every(n=>n.disabled)),true)
   assert.equal(await page.locator('.cpick-workspace input').evaluateAll(nodes=>nodes.every(n=>n.disabled)),true)
   assert.deepEqual(writes,[]);assert.deepEqual(state(),before)
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
   const name=`CP7_SOURCE_CUTTING_${kind}_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});screenshots.push(name)
  }
- const inspect=response=>response.json().then(r=>{
-  assert.equal(r.business_DML,false);assert.equal(r.document.domain,'CUTTING');assert.equal(r.document.route,'mandor-wip');assert.equal(r.document.id,f.group)
-  assert.equal(r.document.focus.kind,'CUTTING_GROUP');assert.equal(r.document.focus.parent_id,f.po);assert.equal(r.document.focus.id,f.group)
+ const inspect=(response,target=f)=>response.json().then(r=>{
+  assert.equal(r.business_DML,false);assert.equal(r.document.domain,'CUTTING');assert.equal(r.document.route,'mandor-wip');assert.equal(r.document.id,target.group)
+  assert.equal(r.document.focus.kind,'CUTTING_GROUP');assert.equal(r.document.focus.parent_id,target.po);assert.equal(r.document.focus.id,target.group)
   assert.equal(r.document.focus.page_offset%100,0);return r
  })
  try{
@@ -447,7 +447,7 @@ async function cuttingSourceJourney(ui,today,mobile){
   await warehouseMenu(page,'• Bahan & Roll');await page.getByLabel('Cari stok bahan',{exact:true}).fill(f.roll_number)
   await page.getByRole('checkbox',{name:'Tampilkan roll habis',exact:true}).check();await page.getByRole('button',{name:'Cari stok',exact:true}).click()
   const roll=page.locator('.cmat-roll').filter({hasText:f.roll_number});await ui.expect(roll).toHaveCount(1)
-  response=await observed(page,r=>r.url().endsWith('/rpc/erp_cp7_get_material_ledger_v1'),()=>roll.getByRole('button',{name:'Mutasi '+f.roll_number,exact:true}).click());assert.equal(response.status(),200)
+  response=await observed(page,r=>r.url().endsWith('/rpc/erp_cp7_get_material_ledger_v2'),()=>roll.getByRole('button',{name:'Mutasi '+f.roll_number,exact:true}).click());assert.equal(response.status(),200)
   const ledger=await response.json(),movement=ledger.page.rows.find(m=>m.movement_id===f.material_movement);assert.ok(movement);assert.equal(movement.source_type,'CUTTING_GROUP');assert.equal(movement.source_id,f.group)
   const mr=page.locator('.cmat-ledger .cproc-item').filter({hasText:'CUTTING ISSUE'});await ui.expect(mr).toHaveCount(1)
   response=await observed(page,sourceResponse,()=>mr.getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200)
@@ -456,7 +456,20 @@ async function cuttingSourceJourney(ui,today,mobile){
   const qr=page.locator(`[data-qc-source-receipt-id="${f.receipt_id}"]`);await ui.expect(qr).toHaveCount(1)
   response=await observed(page,sourceResponse,()=>qr.getByRole('button',{name:'Buka potongan asal',exact:true}).click());assert.equal(response.status(),200)
   await inspect(response);await check(before,'QC')
-  return{status:'PASS',mobile,actual_Native_issue_journal_and_QC_open_same_posted_cutting_group_PO:true,Native_ALL_page_exact_version_and_group_rechecked:true,source_preview_inputs_and_all_business_writers_disabled:true,complete_Native_business_boundary_unchanged:true,browser_business_writer_requests:0,screenshots}
+  const unpicked=f.unpicked
+  await financeMenu(page,'• Jurnal & Transaksi Lain');const unpickedJournal=page.getByRole('main',{name:'Jurnal keuangan dari buku',exact:true})
+  await unpickedJournal.getByLabel('Periode jurnal dari',{exact:true}).fill(unpicked.journal_date);await unpickedJournal.getByLabel('Periode jurnal sampai',{exact:true}).fill(unpicked.journal_date)
+  await unpickedJournal.getByLabel('Cari sumber jurnal',{exact:true}).fill(unpicked.journal_number);await unpickedJournal.getByRole('button',{name:'Tampilkan jurnal',exact:true}).click()
+  const uj=unpickedJournal.locator(`[data-journal-id="${unpicked.journal_id}"]`);await ui.expect(uj).toHaveCount(1);await uj.click()
+  response=await observed(page,sourceResponse,()=>unpickedJournal.getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200)
+  await inspect(response,unpicked);await ui.expect(preview(unpicked)).toHaveCount(1)
+  const recorded=page.locator('[data-cutting-unpicked-source="true"]');await ui.expect(recorded).toContainText('Pickup belum tercatat')
+  await ui.expect(page.locator('.cpick-setup')).toHaveCount(0);await ui.expect(page.locator('.cpick-reconcile')).toHaveCount(0);await ui.expect(page.locator('.cpick-workspace input[type="datetime-local"]')).toHaveCount(0)
+  const nativeRoll=unpicked.Native_row.rolls[0],nativeYield=nativeRoll.yields[0]
+  await ui.expect(recorded).toContainText(nativeRoll.roll_number);await ui.expect(recorded).toContainText(`${nativeYield.qty_pcs} pcs`)
+  assert.deepEqual(await recorded.locator('tbody tr').first().locator('td').allTextContents(),[`${nativeRoll.qty_issued} ${nativeRoll.unit_code}`,`${nativeRoll.qty_consumed} ${nativeRoll.unit_code}`,`${nativeRoll.qty_reported_remaining} ${nativeRoll.unit_code}`,nativeYield.size_code+(nativeYield.label?` · ${nativeYield.label}`:''),String(nativeYield.drawing_no),`${nativeYield.qty_pcs} pcs`])
+  await check(before,'UNPICKED',unpicked)
+  return{status:'PASS',mobile,actual_Native_issue_journal_and_QC_open_same_posted_cutting_group_PO:true,Native_ALL_page_exact_version_and_group_rechecked:true,source_preview_inputs_and_all_business_writers_disabled:true,complete_Native_business_boundary_unchanged:true,browser_business_writer_requests:0,unpicked_source_no_proposed_allocation_or_fabricated_pickup_time:true,unpicked_roll_and_size_quantities_exact_Native_readback:true,screenshots}
  }catch(e){let actual=null;try{actual=state()}catch(error){actual={observation_error:String(error)}}writeFileSync(`cp6-proof/t3/CP7_SOURCE_CUTTING_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual,writes},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_CUTTING_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
