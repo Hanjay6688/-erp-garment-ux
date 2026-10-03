@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Publish current qualified48ed dated Originals/a306 provider284 roots/first180e failed-query Original and additive function-profile candidate. Inspect fresh actual Auth counters, original attempts and exact restoration before attributing the unresolved8s cause; continue remaining CP7 writer work. No changed Native guard/helper/formula/timeout or independent/production acceptance.",
+  "execution_priority": "Inspect fresh actual Auth function counters using only the already-existing isolated maintenance authority for the temporary tracker. Preserve6bac unavailable profile and exact successful Shell/diagnostic Originals, Native22/284/year40 scopes; no Native product SQL/app/guard/formula/timeout changes. Continue measured correction-timing and remaining feasible CP7 exits; independent/installed/owner data remain separately open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3651,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Publish current qualified48ed dated Originals/a306 provider284 roots/first180e failed-query Original and additive function-profile candidate. Inspect fresh actual Auth counters, original attempts and exact restoration before attributing the unresolved8s cause; continue remaining CP7 writer work. No changed Native guard/helper/formula/timeout or independent/production acceptance.",
+  "next_action": "Inspect fresh actual Auth function counters using only the already-existing isolated maintenance authority for the temporary tracker. Preserve6bac unavailable profile and exact successful Shell/diagnostic Originals, Native22/284/year40 scopes; no Native product SQL/app/guard/formula/timeout changes. Continue measured correction-timing and remaining feasible CP7 exits; independent/installed/owner data remain separately open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9186,7 +9186,7 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
-    "next_action": "Publish current qualified48ed dated Originals/a306 provider284 roots/first180e failed-query Original and additive function-profile candidate. Inspect fresh actual Auth counters, original attempts and exact restoration before attributing the unresolved8s cause; continue remaining CP7 writer work. No changed Native guard/helper/formula/timeout or independent/production acceptance.",
+    "next_action": "Inspect fresh actual Auth function counters using only the already-existing isolated maintenance authority for the temporary tracker. Preserve6bac unavailable profile and exact successful Shell/diagnostic Originals, Native22/284/year40 scopes; no Native product SQL/app/guard/formula/timeout changes. Continue measured correction-timing and remaining feasible CP7 exits; independent/installed/owner data remain separately open.",
     "previous_application_qualification7300": {
       "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
       "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
@@ -9635,7 +9635,7 @@
     "production_go": false
   },
   "note_function_profile_candidate": {
-    "status": "LOCAL_SYNTAX_AND9_COUNTER_INTEGRITY_CONTROLS_PASS_ACTUAL_NATIVE_PENDING",
+    "status": "ACTUAL_6BAC_DIAGNOSTIC2_RESTORATION_PASS_PROFILE_UNAVAILABLE_SUCCESSOR_EXISTING_MAINTENANCE_PENDING",
     "handoff": "docs/cp7/NOTE_FUNCTION_PROFILE_HANDOFF.md",
     "actual_caller": "scripts/cp7_note_command_diagnostic_probe.py",
     "workflow": ".github/workflows/cp7-note-command-diagnostic.yml",
@@ -9661,6 +9661,44 @@
     "local_Native_or_SQL_execution": false,
     "product_SQL_app_frozen_or_owning_probe_changed": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "local_closed_maintenance_admission_standin_controls": 4,
+    "local_standin_controls_total": 13,
+    "temporary_tracking_owner": "EXISTING_ISOLATED_cp6_maintenance_admission",
+    "maintenance_connection": "ONLY_SAME_LOCAL_HOST_EXPLICIT_PORT_TARGET_cp6_auditor_http_EXISTING_template1_CONTROL",
+    "actual_server_identity_and_existing_superuser_required": true,
+    "only_temporary_tracker_owner_changed": true,
+    "new_role_member_or_parameter_SET_grant": false,
+    "admission_failure_before_instrument_install": true,
+    "all3_temporary_functions_dropped_atomically_by_same_admitted_installer": true,
+    "first_actual_6bac": {
+      "source": "6bac5d1bc085012ce6d7d52e91cb4b530758e15c",
+      "run": 37145412516,
+      "job": 111268201659,
+      "artifact": 11282615056,
+      "receipt": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-6bac/RECEIPT.json",
+      "diagnostic_emissions": 2,
+      "actual_HTTP_rows": 6,
+      "original5_rows_measured": true,
+      "function_profile_available": false,
+      "profile_business_command_called": false,
+      "year_command_ms": 2459.36,
+      "year_observation_ms": 327.873,
+      "year_HTTP_ms": 2810.065,
+      "all366_after_closings_recomputed": true,
+      "exact_restoration_all_gates_Auth0_to0": true,
+      "first_unavailable_row_preserved": true,
+      "Native_exit_case_credit": 0
+    },
+    "fresh_6bac_Shell": {
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified6bac/shell/RECEIPT.json",
+      "run": 37145412546,
+      "job": 111268201670,
+      "app_tests": 1404,
+      "files": 146,
+      "browsers": 6,
+      "build_security_and_CodeQL_zero": true,
+      "orphan_in_declared_runtime_scope": 0
+    }
   }
 }

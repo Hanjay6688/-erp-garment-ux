@@ -12,7 +12,11 @@ from urllib.parse import urlparse
 import copy
 import hashlib
 import json
+import os
 import uuid
+
+import psycopg
+from psycopg.conninfo import conninfo_to_dict
 
 import cp7_note_correction_cases as cases
 import cp7_note_command_diagnostic_cases as private
@@ -128,7 +132,7 @@ begin
    if current_setting('track_functions')<>initial_track then
     raise exception 'DIAGNOSTIC_TRACK_NOT_RESTORED';end if;
    return jsonb_build_object('status','FUNCTION_INSTRUMENT_UNAVAILABLE',
-    'reason','EXISTING_DISPOSABLE_OWNER_CANNOT_ENABLE_TRACKING',
+    'reason','EXISTING_DISPOSABLE_TRACKING_PREFLIGHT_DENIED',
     'business_command_called',false,'forced_business_rollback',false,
     'diagnostic_only',true,'product_qualification',false,'Native_exit_case_credit',0,
     'mode',p_mode,'session_user',session_user,'invoker_role',current_user,
@@ -239,6 +243,55 @@ grant execute on function public.cp7_note_actual_http_diagnostic(text,jsonb,uuid
 SQL = SQL.replace('__FUNCTION_COUNTERS_SELECT__', FUNCTION_COUNTERS_SELECT)
 
 
+def instrument_connection(http):
+    # This authority is already created by the isolated diagnostic workflow.
+    # Only temporary instrumentation is owned/dropped with it. The actual
+    # correction continues through the original authenticated PostgREST RPC.
+    control = os.environ.get('CP6_ADMISSION_CONTROL_PGURL')
+    if not control:
+        raise ValueError('PROFILE_INSTALL_EXISTING_CONTROL_REQUIRED')
+    admitted = function_profile.instrument_admission(conninfo_to_dict(control),
+                                                     conninfo_to_dict(http.url))
+    return psycopg.connect(control, dbname=admitted['database'], connect_timeout=5,
+                           application_name='cp7_disposable_function_instrument')
+
+
+def instrument_identity(cur):
+    observed = cur.execute("select pg_catalog.current_database(),session_user,current_user,"
+                           "(select rolsuper from pg_catalog.pg_roles where rolname=current_user)").fetchone()
+    assert observed == ('cp6_auditor_http', 'cp6_maintenance_admission',
+                        'cp6_maintenance_admission', True), 'PROFILE_INSTALL_ACTUAL_AUTHORITY_REQUIRED'
+
+
+def admit_tracker_owner(http):
+    with instrument_connection(http) as conn, conn.cursor() as cur:
+        instrument_identity(cur)
+        before = cur.execute("select pg_catalog.pg_get_userbyid(proowner),prosecdef,proconfig,"
+                             "pg_catalog.pg_get_functiondef(oid),"
+                             "pg_catalog.has_function_privilege('authenticated',oid,'EXECUTE'),"
+                             "pg_catalog.has_function_privilege('anon',oid,'EXECUTE'),"
+                             "pg_catalog.has_function_privilege('service_role',oid,'EXECUTE')"
+                             "from pg_catalog.pg_proc where oid=%s::regprocedure",
+                             (TRACK_SIGNATURE,)).fetchone()
+        assert before and before[:3] == ('postgres', True, None) and before[4:] == (True, False, False)
+        cur.execute('alter function public.cp7_note_actual_http_track(text)owner to cp6_maintenance_admission')
+        after = cur.execute("select pg_catalog.pg_get_userbyid(proowner),prosecdef,proconfig,"
+                            "pg_catalog.pg_get_functiondef(oid),"
+                            "pg_catalog.has_function_privilege('authenticated',oid,'EXECUTE'),"
+                            "pg_catalog.has_function_privilege('anon',oid,'EXECUTE'),"
+                            "pg_catalog.has_function_privilege('service_role',oid,'EXECUTE')"
+                            "from pg_catalog.pg_proc where oid=%s::regprocedure",
+                            (TRACK_SIGNATURE,)).fetchone()
+        assert after and after[:3] == ('cp6_maintenance_admission', True, None)
+        assert after[3:] == before[3:], 'PROFILE_TRACKER_DEFINITION_OR_EXECUTE_ACL_CHANGED'
+        conn.commit()
+    return dict(database='cp6_auditor_http', temporary_tracking_owner='cp6_maintenance_admission',
+                existing_installer_superuser_checked=True, no_new_role_or_parameter_SET_grant=True,
+                tracking_definition_and_existing_execute_scope_unchanged=True,
+                connection_strings_or_passwords_emitted=False,
+                owning_command_still_original_authenticated_invoker=True)
+
+
 def http_cases(http, today):
     def emission():
         target = urlparse(http.url)
@@ -256,11 +309,20 @@ def http_cases(http, today):
             native_definitions_before = cases.ownership.verify(cur)
             conn.rollback()
         try:
+            # Fail before creating any instrumentation if the existing local
+            # maintenance identity is unavailable or points elsewhere.
+            with instrument_connection(http) as conn, conn.cursor() as cur:
+                instrument_identity(cur)
+                conn.rollback()
             with http.connect() as conn, conn.cursor() as cur:
                 cur.execute(SQL, prepare=False)
                 cur.execute("notify pgrst,'reload schema'")
                 conn.commit()
                 installed = True
+            tracker_installation = admit_tracker_owner(http)
+            with http.connect() as conn, conn.cursor() as cur:
+                cur.execute("notify pgrst,'reload schema'")
+                conn.commit()
             # Only a read-only identity operation polls schema registration.
             # No failed Native command is retried or converted into a PASS.
             deadline = monotonic() + 10
@@ -438,7 +500,8 @@ def http_cases(http, today):
             assert restored_identity['body']['invoker_role'] == 'authenticated'
         finally:
             if installed:
-                with http.connect() as conn, conn.cursor() as cur:
+                with instrument_connection(http) as conn, conn.cursor() as cur:
+                    instrument_identity(cur)
                     cur.execute('drop function ' + SIGNATURE)
                     cur.execute('drop function ' + OBSERVER_SIGNATURE)
                     cur.execute('drop function ' + TRACK_SIGNATURE)
@@ -453,6 +516,7 @@ def http_cases(http, today):
                     function_profile_parser_sha256=profile_parser_sha256,
                     request_local_tracking_and_actual_identity_restored=True,
                     anonymous_tracking_helper_denied=True,
+                    tracker_installation=tracker_installation,
                     same_UUID_payload_version_and_full_rollback_each_pair=True,
                     default_real_timeout_and_every_Native_guard_unchanged=True)
     return [('NOTE_ACTUAL_AUTH_POSTGREST_DEFAULT_VS_JIT_EMISSION', emission)]

@@ -1,4 +1,8 @@
-# Historical-note function timing · candidate after48ed
+# Historical-note function timing · successor after6bac
+
+Actual6bac diagnostic2 and Shell pass. Exact diagnostic Original and full log are at evidence/note-actual-http-diagnostic/qualified2-6bac/RECEIPT.json; Shell at evidence/finisher-regression/qualified6bac/shell/RECEIPT.json. All original five Auth attempts complete with exact restoration. Actual year command2459.360ms/observation327.873ms/HTTP2810.065ms, all366 after main/lot closings independently recomputed and finalFG112/value1120/net240/paid0/AR240. The sixth row explicitly returns FUNCTION_INSTRUMENT_UNAVAILABLE: the existing postgres-owned helper cannot enable tracking; it calls no business command and produces no function-time counters. This is qualified cleanup evidence, not a working profile or an explanation of earlier8s failures.
+
+The successor below changes only ownership/admission/cleanup of that temporary instrument using the existing isolated maintenance authority. Fresh actual function counters remain pending;6bac's unavailable row is retained unchanged.
 
 Standing owner mandate continues. This additive diagnostic investigates recurring actual500/57014 at the unchanged8s limit. It does not change the application, installed product SQL, original Native command or financial/current-authority guard. Full CP7, independent acceptance, full P19 and production GO remain open.
 
@@ -12,11 +16,13 @@ The original owning correction still runs as authenticated through real Auth/Pos
 
 ## Request-local instrument
 
-Three temporary functions are installed only on the disposable HTTP database, absent before install and removed in finally. The new postgres-owned cp7_note_actual_http_track(text) accepts only none/pl/all, requires session_user authenticator and the existing fresh current owner/fine-right fence, and uses fully-qualified routines. Its only setting operation is pg_catalog.set_config('track_functions', value, true). No global/session/role setting or parameter-SET grant is added.
+Three temporary functions are installed only on the disposable HTTP database, absent before install and removed in finally. The closed cp7_note_actual_http_track(text) accepts only none/pl/all, requires session_user authenticator and the existing fresh current owner/fine-right fence, and uses fully-qualified routines. Its only setting operation is pg_catalog.set_config('track_functions', value, true). No global/session/role setting or parameter-SET grant is added.
+
+The diagnostic workflow already creates cp6_maintenance_admission for isolated installation/rollback work. Before creating instrumentation, the successor parses its existing control URI without emitting it: exact installer role/template1, same explicit localhost host/port, and only target cp6_auditor_http are admitted. A real SQL check requires actual database/session/current role and existing rolsuper=true. That authority changes the owner of the temporary tracking helper only, asserting its definition/empty function configuration/authenticated-only execute scope are unchanged. The original invoker diagnostic and observer remain their original owners. All three temporary functions are removed atomically by the same admitted maintenance identity, followed by exact complete catalog/Native ownership restoration. No new role/member privilege or Native business writer/table grant is created. Neither connection URI nor password is emitted.
 
 The setter intentionally has no function SET clause, so its request-local setting can remain active in the invoker caller. The caller asserts all before the owning command, restores the exact original tracking value before return, and asserts restoration. A separate actual read-only identity request checks initial tracking and8s again; this request alone does not prove reuse of the same pool backend. Request-local scope and the within-request restoration are the actual setting guarantees. Anonymous helper execution is refused. Complete public catalog, Native/private snapshots and original Native definitions/ownership must match after cleanup.
 
-If the existing disposable postgres owner cannot enable tracking, the profile explicitly returns FUNCTION_INSTRUMENT_UNAVAILABLE without calling the business command or pretending a forced rollback occurred. No privilege is invented to hide this limitation. Such a row provides no function-time evidence even if the enclosing cleanup diagnostic passes.
+If tracking preflight is denied, the profile explicitly returns FUNCTION_INSTRUMENT_UNAVAILABLE without calling the business command or pretending a forced rollback occurred.6bac's postgres-owner limitation stays its exact Original. Such a row provides no function-time evidence even if the enclosing cleanup diagnostic passes. Missing or misdirected maintenance authority fails before creating any instrumentation; there is no live-database or new-privilege fallback.
 
 ## Raw measurements and interpretation
 
@@ -30,6 +36,6 @@ Primary references: [PostgreSQL17 function tracking](https://www.postgresql.org/
 
 ## Checks and next work
 
-Local Python syntax and nine counter-integrity stand-in controls pass. The workflow directly runs these controls before the real diagnostic. They cover duplicate/missing/reused OIDs, reset/nonfinite/out-of-scope values, exact completed-root identity, interrupted partial data, nested-time interpretation and cap refusal. They execute no PostgreSQL or Auth and grant zero Native credit.
+Local Python syntax and13 stand-in controls pass: the original nine counter-integrity controls plus four closed maintenance-connection admission controls. The workflow directly runs them before the real diagnostic. Counter controls cover duplicate/missing/reused OIDs, reset/nonfinite/out-of-scope values, exact completed-root identity, interrupted partial data, nested-time interpretation and cap refusal. Admission controls refuse other databases/users, remote/mismatched hosts and missing/invalid/mismatched ports while not emitting credential fields. They execute no PostgreSQL or Auth and grant zero Native credit.
 
 Fresh actual CI is pending for this candidate. Read the complete Original, each of the six planned HTTP rows, raw counters and all restoration/Auth/advisor/primary/backup gates. Preserve any first failure with its exact source and runtime gate. Continue only with measured evidence before changing a Native helper. Qualified committed-year Native40 atb5 and dated Native22 at48ed remain separate successful product evidence; no diagnostic reclassification changes those scopes.

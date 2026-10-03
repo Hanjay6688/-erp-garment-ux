@@ -2,7 +2,7 @@
 import copy
 import unittest
 
-from cp7_note_command_function_profile import summarize
+from cp7_note_command_function_profile import instrument_admission, summarize
 
 
 def row(oid, name, calls, total, own, schema='cp7_note'):
@@ -91,6 +91,42 @@ class ProfileIntegrity(unittest.TestCase):
         changed[1]['self_time_ms'] = '17'
         with self.assertRaisesRegex(ValueError, 'SELF_EXCEEDS_TOTAL'):
             self.summary(after=changed)
+
+
+class InstrumentAdmission(unittest.TestCase):
+    def setUp(self):
+        self.control = dict(user='cp6_maintenance_admission', host='127.0.0.1',
+                            port='54322', dbname='template1', password='DECLARED_STANDIN_SECRET')
+        self.target = dict(user='postgres', host='127.0.0.1', port='54322', dbname='cp6_auditor_http')
+
+    def test_closed_connection_admission_does_not_emit_credentials_or_change_inputs(self):
+        before = copy.deepcopy((self.control, self.target))
+        result = instrument_admission(self.control, self.target)
+        self.assertEqual(result['database'], 'cp6_auditor_http')
+        self.assertNotIn('password', result)
+        self.assertNotIn('DECLARED_STANDIN_SECRET', repr(result))
+        self.assertEqual((self.control, self.target), before)
+
+    def test_primary_and_other_databases_and_new_installer_identities_are_refused(self):
+        for field, value in (('user', 'postgres'), ('dbname', 'postgres'), ('dbname', 'cp6_rollback')):
+            bad = dict(self.control, **{field: value})
+            with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                instrument_admission(bad, self.target)
+        for db in ('postgres', 'cp6_rollback', 'template1', 'production'):
+            with self.subTest(db=db), self.assertRaises(ValueError):
+                instrument_admission(self.control, dict(self.target, dbname=db))
+
+    def test_remote_or_mismatched_local_hosts_are_refused(self):
+        for host in ('db.example.com', '', 'localhost'):
+            with self.subTest(host=host), self.assertRaises(ValueError):
+                instrument_admission(self.control, dict(self.target, host=host))
+
+    def test_missing_non_numeric_out_of_range_or_different_ports_are_refused(self):
+        for port in (None, True, '0', '65536', '054322', '54322 extra'):
+            with self.subTest(port=port), self.assertRaises(ValueError):
+                instrument_admission(dict(self.control, port=port), dict(self.target, port=port))
+        with self.assertRaises(ValueError):
+            instrument_admission(self.control, dict(self.target, port='5432'))
 
 
 if __name__ == '__main__':

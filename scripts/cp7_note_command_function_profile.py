@@ -14,6 +14,30 @@ FIELDS = frozenset(('function_oid', 'schema_name', 'function_name',
 INTEGER = re.compile(r'(?:0|[1-9][0-9]*)\Z')
 
 
+def instrument_admission(control, target):
+    """Admit only the existing local maintenance identity on the HTTP copy.
+
+    Conninfo is parsed by psycopg in the actual caller. Neither connection map
+    nor any password is returned or attached to a failure. Server identity and
+    existing superuser authority still require a separate actual SQL check.
+    """
+    if not isinstance(control, dict) or not isinstance(target, dict):
+        raise ValueError('PROFILE_INSTALL_CLOSED_CONNINFO_REQUIRED')
+    if control.get('user') != 'cp6_maintenance_admission' or control.get('dbname') != 'template1':
+        raise ValueError('PROFILE_INSTALL_EXISTING_MAINTENANCE_ONLY')
+    if target.get('dbname') != 'cp6_auditor_http':
+        raise ValueError('PROFILE_INSTALL_DISPOSABLE_HTTP_ONLY')
+    if control.get('host') not in ('localhost', '127.0.0.1') or target.get('host') != control['host']:
+        raise ValueError('PROFILE_INSTALL_SAME_LOCAL_HOST_ONLY')
+    port = control.get('port')
+    if not isinstance(port, str) or INTEGER.fullmatch(port) is None or not 1 <= int(port) <= 65535 or \
+            target.get('port') != port:
+        raise ValueError('PROFILE_INSTALL_SAME_EXPLICIT_PORT_ONLY')
+    return dict(database='cp6_auditor_http', installer_role='cp6_maintenance_admission',
+                host=control['host'], port=port, existing_authority_only=True,
+                connection_strings_or_passwords_emitted=False)
+
+
 def _integer(value, label, positive=False):
     if not isinstance(value, str) or INTEGER.fullmatch(value) is None:
         raise ValueError('PROFILE_INVALID_' + label)
