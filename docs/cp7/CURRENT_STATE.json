@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Qualify complete97a19cd Shell from exact artifacts; retain projected first/qualified Native152 and actual full Native284 hostile-source witnesses without relabelling first results. e52b Source76/fresh8 visuals and focused9/rule16 are source-bound qualified. Continue feasible transaction/edit/inverse/P18/P19 work; no guessed owner/material policy or independent/installed GO.",
+  "execution_priority": "Retain first Native284 exact roots/diagnostic/image through read-only projection; determine actual P06 desktop overflow cause before a scoped fix. Native152 at e52b and complete Shell97 are source-bound verified; full e52b284 remains running. Continue feasible CP7 transaction/edit/inverse/P18/P19 work without guessed owner/material policy or independent/installed GO.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -9871,7 +9871,7 @@
     }
   },
   "f05_native_ai_source_framing_candidate": {
-    "status": "FOCUSED_NATIVE9_RULE16_QUOTED_V2_PASS_FULL_NATIVE284_AND_PROJECTED152_PENDING",
+    "status": "QUOTED_SOURCE_NATIVE152_AND_CONSUMER9_RULE16_PASS_FULL284_PENDING",
     "handoff": "docs/cp7/f05/NATIVE_AI_HANDOFF.md",
     "contract": "cp7.native-ai-handoff.v2",
     "scope": "Complete quoted analysis/report/product labels/financial source and question; framing integrity only",
@@ -9935,13 +9935,48 @@
       "first_result_relabelled": false
     },
     "Native152_projection": {
-      "status": "PINNED_FIRST_AND_QUALIFIED_SOURCE_MANIFESTS_FRESH_READ_ONLY_PROJECTION_PENDING",
+      "status": "ACTUAL_READ_ONLY_PROJECTION_PASS_ORIGINAL_FIRST150_OF152_AND_QUALIFIED152_VERIFIED",
       "first_manifest": "docs/cp7/native152_first_v2_source_projection.json",
       "qualified_manifest": "docs/cp7/native152_v2_source_qualified_projection.json",
       "all_prior6_projection_calls_and_qualified_verifiers_preserved": true,
       "local_byte_count_standin_controls": 15,
       "Native_database_access": false,
-      "Native_product_reexecution_credit": 0
+      "Native_product_reexecution_credit": 0,
+      "projection_source": "fe278bae35f760e7e23e8037cc3bdb830fd20b12",
+      "projection_run_id": 37154624938,
+      "projection_job_id": 111295370098,
+      "projection_artifact_id": 11285575208,
+      "first_Original": "docs/cp7/evidence/f05-ai-source-framing/first-cbdb/analysis152/RECEIPT.json",
+      "qualified_Original": "docs/cp7/evidence/f05-ai-source-framing/qualified-e52b/analysis152/RECEIPT.json"
+    },
+    "current_Shell": {
+      "status": "PASS",
+      "source_commit": "97a19cda2d0e26134b8df8289f7a5d5f147bc19b",
+      "source_tree": "9a3572e9be385259cd6912933646635c514e89ff",
+      "run_id": 37153242106,
+      "job_id": 111291264281,
+      "application_tests": 1427,
+      "application_files": 148,
+      "Shell_browser_cases": 6,
+      "both_CodeQL_actual_SARIF_findings": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified97-p17-v2/shell/RECEIPT.json",
+      "Native_credit": false
+    },
+    "first_attention284": {
+      "status": "INCOMPLETE_CI_LOG_EXACT_FULL_ORIGINAL_ROOTS_PENDING_PROJECTION",
+      "source_commit": "cbdb02897798221f2bf8dc3eda37989a032551c8",
+      "run_id": 37152039101,
+      "job_id": 111287729441,
+      "artifact_id": 11285535114,
+      "projection_manifest": "docs/cp7/native284_first_v2_source_projection.json",
+      "original_log_receipt": "docs/cp7/evidence/f05-ai-source-framing/first-cbdb/attention284/LOG_RECEIPT.json",
+      "failed_case_ids": [
+        "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+        "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+        "P14_BROWSER_MOBILE_SHARED_ANALYSIS"
+      ],
+      "overflow_cause_closed": false,
+      "first_result_relabelled": false
     }
   }
 }
