@@ -6,6 +6,8 @@ name: CP7 Note Command Diagnostic
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_note_command_diagnostic_*
+    - scripts/cp7_note_actual_http_diagnostic_*
+    - scripts/cp7_note_correction_probe.py
     - .github/workflows/cp7-note-command-diagnostic.yml
 permissions:
   contents: read

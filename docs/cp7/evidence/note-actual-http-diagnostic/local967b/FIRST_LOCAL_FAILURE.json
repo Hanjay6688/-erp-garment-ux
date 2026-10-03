@@ -1,0 +1,14 @@
+{
+  "status": "INCOMPLETE",
+  "runtime": "PGLITE_DECLARED_STANDINS_NOT_NATIVE",
+  "checks_completed": [
+    "actual_embedded_PLpgSQL_compiles_with_declared_standins",
+    "invoker_role_and_authenticator_session_remain_separate"
+  ],
+  "error": {
+    "name": "error",
+    "message": "permission denied for schema erp",
+    "code": "42501"
+  },
+  "Native_product_qualification": false
+}
