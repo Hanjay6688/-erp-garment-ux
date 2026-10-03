@@ -3651,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "VERIFY_189_EXACT_ACCESS_BOUNDARIES_FRESH_SHELL_FINANCE_AND_SOURCE702_NATIVE64_SOURCE78_THEN_CONTINUE_OWNING_CP7_EDIT_ROLLBACK",
+  "next_action": "QUALIFY_E05_OWNING_SCRIPT_SUCCESSOR_THEN_CONTINUE_REMAINING_REAL_ATOMIC_CHILD_EDITS_AND_CP7_EXITS",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -10091,7 +10091,7 @@
     "new_widget_qualified": false
   },
   "sales_invoice_dependencies_candidate": {
-    "status": "ACTUAL702_1436_149_AND_SOURCE_OWNERSHIP_PASS_EXACT_ACCESS_DECLARATION_ADMISSION_FIX_PENDING",
+    "status": "ACTUAL_SOURCE702_NATIVE64_AND_SOURCE78_D0_SHELL_FINANCE_QUALIFIED",
     "contract": "docs/cp7/SALES_INVOICE_DEPENDENCIES_HANDOFF.md",
     "authored_from": "1a0cf12c44e02154a0a3b85e1d5eb104adcf7023",
     "implementation": "src/SalesInvoiceDependencies.tsx",
@@ -10121,7 +10121,7 @@
       "CP7_SOURCE_INVOICE_DEPENDENCIES_DESKTOP",
       "CP7_SOURCE_INVOICE_DEPENDENCIES_MOBILE"
     ],
-    "actual_Native_and_source_navigation_qualified": false,
+    "actual_Native_and_source_navigation_qualified": true,
     "new_payment_return_atomic_edit": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
@@ -10138,12 +10138,41 @@
     "first_cash_misc_Native_database_started": false,
     "exact_declaration_of_two_new_reader_sites": true,
     "security_assertion_relaxed": false,
-    "Native64_and_Source78_actual_scope": "SOURCE702_NATIVE64_PASS_FULL_SOURCE78_STILL_RUNNING",
+    "Native64_and_Source78_actual_scope": "SOURCE702_64_AND78_PASS",
     "actual_Native64_list_reads_qualified": true,
     "actual_Native64_receipt": "docs/cp7/evidence/sales-invoice-dependencies/qualified702-p11/RECEIPT.json",
     "actual_Native64_run_id": 37160029368,
     "actual_Native64_job_id": 111311381886,
     "both_original_dependency_images_actually_viewed": true,
-    "full_Source78_navigation_qualified": false
+    "full_Source78_navigation_qualified": true,
+    "actual_Source78_receipt": "docs/cp7/evidence/sales-invoice-dependencies/qualified702-source78/RECEIPT.json",
+    "actual_Source78_validation": "docs/cp7/evidence/sales-invoice-dependencies/qualified702-source78/VALIDATION.json",
+    "all_original76_ids_retained": true,
+    "two_source78_actual_dependency_images_viewed": true,
+    "current_shell_source_commit": "d0b41469a131bf03a4e39de2a728f4ecf42278df",
+    "current_shell_receipt": "docs/cp7/evidence/sales-invoice-dependencies/qualifiedd0-shell/RECEIPT.json",
+    "whole_security_build_browsers_qualified": true,
+    "both_CodeQL_Original_zero_results_verified": true,
+    "current_finance_receipts": [
+      "docs/cp7/evidence/sales-invoice-dependencies/qualifiedd0-finance/cash21/RECEIPT.json",
+      "docs/cp7/evidence/sales-invoice-dependencies/qualifiedd0-finance/misc14/RECEIPT.json"
+    ],
+    "E05_first_failure_retained": "docs/cp7/evidence/sales-invoice-dependencies/first702-ownership/e05/RECEIPT.json",
+    "E05_fresh_successor": "PENDING_ADDITIVE_OWNING_SCRIPT_TRIGGER"
+  },
+  "invoice_dependencies_note40_regression": {
+    "status": "ACTUAL702_ALL40_PLANNED_IDS_AND_GATES_QUALIFIED",
+    "receipt": "docs/cp7/evidence/sales-invoice-dependencies/qualified702-note40/RECEIPT.json",
+    "arithmetic": "docs/cp7/evidence/sales-invoice-dependencies/qualified702-note40/RAW_ARITHMETIC_VERIFICATION.json",
+    "all_complete366_before_after_main_lot_rows_recomputed": true,
+    "all364_later_prefixes_plus12": true,
+    "original_note24_to12": true,
+    "FG100_to112": true,
+    "identical_UUID_no_second_Native_private_effect": true,
+    "actual_command_HTTP_ms": 2577.358,
+    "original_statement_timeout": "8s",
+    "full_P19_acceptance": false,
+    "production_SLA": false,
+    "prior_timeout_cause_closed": false
   }
 }

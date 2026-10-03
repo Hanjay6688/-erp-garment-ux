@@ -1,0 +1,111 @@
+{
+  "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+  "actual_Native_resolver_navigation_qualified": true,
+  "images": {
+    "P11_DEPENDENCIES_DESKTOP.png": {
+      "file": "images/P11_DEPENDENCIES_DESKTOP.png",
+      "bytes": 945642,
+      "sha256": "e1e85a1661e1db6315776a02af611b9c3a354f6ccd0dcb3c4c0027865b65a537",
+      "actually_viewed": true
+    },
+    "P11_RETURN_DESKTOP.png": {
+      "file": "images/P11_RETURN_DESKTOP.png",
+      "bytes": 1370940,
+      "sha256": "6b5584d7b4aa89bf67e9e5c121babdeaffc39c0b903c960fc597974fbcc524d3",
+      "actually_viewed": false
+    },
+    "P11_DEPENDENCIES_MOBILE.png": {
+      "file": "images/P11_DEPENDENCIES_MOBILE.png",
+      "bytes": 626786,
+      "sha256": "f5df7b7d15752efe3010db26f3857de863b303f8d1b31a987f996e0b82b07f73",
+      "actually_viewed": true
+    },
+    "P11_RETURN_MOBILE.png": {
+      "file": "images/P11_RETURN_MOBILE.png",
+      "bytes": 957734,
+      "sha256": "45b37c55a03559a7939ad09089785b2042d6c0549cb1e89418378ab352dd5a48",
+      "actually_viewed": false
+    }
+  },
+  "Native_browser_witnesses": {
+    "CP7_SOURCE_INVOICE_DEPENDENCIES_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "only_master_and_FG_stock_are_native_fixtures": true,
+      "real_browser_source_create_post_return_payment_and_full_inverse": true,
+      "dedicated_return_and_payment_navigation_connected": true,
+      "sale80_return20_cash60": true,
+      "grade": "GRADE_A",
+      "destination": "OTHER_ACTIVE_FG_WAREHOUSE",
+      "source_available6_after_sale_total7_after_return_final10": true,
+      "exact_cash_AR_revenue_FG_COGS_assertions": true,
+      "all_final_GL_accounts_neutral": true,
+      "lost_return_response_replay_identical": null,
+      "original_payment_and_return_history_retained": true,
+      "return_history_page_tools": {
+        "actual_Native_posted_original_retained": true,
+        "current_page_search_status_order_and_complete_reset": true,
+        "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+        "additional_browser_RPC_or_writer": 0,
+        "unsent_return_number_and_review_preserved": true,
+        "paid_invoice_new_payment_form_absent": null
+      },
+      "payment_history_page_tools": {
+        "actual_Native_posted_original_retained": true,
+        "current_page_search_status_order_and_complete_reset": true,
+        "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+        "additional_browser_RPC_or_writer": 0,
+        "unsent_return_number_and_review_preserved": null,
+        "paid_invoice_new_payment_form_absent": true
+      },
+      "actual_named_dependencies_preserve_all_Native_source_facts": true,
+      "Native_resolver_opens_exact_payment_and_return_UUIDs_with_focus": true,
+      "source_resolver_scope": "DECLARED_FULL_TRANSACTION_SOURCE_CASE",
+      "active_dependency_refresh_excludes_reversed_payment": true,
+      "dependency_screenshot": "P11_DEPENDENCIES_DESKTOP.png",
+      "screenshot": "P11_RETURN_DESKTOP.png"
+    },
+    "CP7_SOURCE_INVOICE_DEPENDENCIES_MOBILE": {
+      "status": "PASS",
+      "mobile": true,
+      "only_master_and_FG_stock_are_native_fixtures": true,
+      "real_browser_source_create_post_return_payment_and_full_inverse": true,
+      "dedicated_return_and_payment_navigation_connected": true,
+      "sale80_return20_cash60": true,
+      "grade": "GRADE_B",
+      "destination": "OTHER_ACTIVE_FG_WAREHOUSE",
+      "source_available6_after_sale_total7_after_return_final10": true,
+      "exact_cash_AR_revenue_FG_COGS_assertions": true,
+      "all_final_GL_accounts_neutral": true,
+      "lost_return_response_replay_identical": true,
+      "original_payment_and_return_history_retained": true,
+      "return_history_page_tools": {
+        "actual_Native_posted_original_retained": true,
+        "current_page_search_status_order_and_complete_reset": true,
+        "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+        "additional_browser_RPC_or_writer": 0,
+        "unsent_return_number_and_review_preserved": true,
+        "paid_invoice_new_payment_form_absent": null
+      },
+      "payment_history_page_tools": {
+        "actual_Native_posted_original_retained": true,
+        "current_page_search_status_order_and_complete_reset": true,
+        "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+        "additional_browser_RPC_or_writer": 0,
+        "unsent_return_number_and_review_preserved": null,
+        "paid_invoice_new_payment_form_absent": true
+      },
+      "actual_named_dependencies_preserve_all_Native_source_facts": true,
+      "Native_resolver_opens_exact_payment_and_return_UUIDs_with_focus": true,
+      "source_resolver_scope": "DECLARED_FULL_TRANSACTION_SOURCE_CASE",
+      "active_dependency_refresh_excludes_reversed_payment": true,
+      "dependency_screenshot": "P11_DEPENDENCIES_MOBILE.png",
+      "screenshot": "P11_RETURN_MOBILE.png"
+    }
+  },
+  "new_financial_family_oracle_credit": 0,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "visual_review": "Both complete unchanged Source78 dependency screenshots viewed. Exact Native payment/return labels and all-history/page scope are visible; actual child-focus/order-lock navigation and final neutral Native state are executed browser assertions. The2 other R10 return captures remain actually_viewed=false in this source review."
+}
