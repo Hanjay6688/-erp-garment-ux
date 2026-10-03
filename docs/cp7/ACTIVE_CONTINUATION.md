@@ -1,5 +1,7 @@
 # Active writer continuation · 3Oct2026
 
+Current controlling work is CURRENT_PROGRESS.md, CURRENT_STATE.json and CP7_FINISHER_20261003.md. Native57 all-field repair and Native40 at967b are freshly qualified; first088f failures remain Original. Actual Auth diagnostic2 atbe4e is retained with zero product credit and no JIT-cause inference; the year364 actual Auth successor remains pending. All54 workflows at967b succeed; large152/284 Originals still await exact projection. The earlier merged/historical checkpoints below do not supersede these source-bound results or reinstate Claude's ended WIP protection. Continue standing single-writer scope; no main/hosted/liveWA or independent/production acceptance.
+
 ## Claude merge review · owner authorization 3 October 2026
 
 Claude’s completed handoff `f4049e4f` was reviewed and fast-forward integrated without conflict. Published merged qualification source is `48fe7c2`; the only successor change `0642d1bc` binds the existing exact public-catalog adapter in the netting/planner qualification harness. Application, SQL and business-case bytes remain Claude’s final product source. Current qualification and handoff §8.4 dispositions live in [CLAUDE_MERGE_VERIFICATION_20261003.md](CLAUDE_MERGE_VERIFICATION_20261003.md).

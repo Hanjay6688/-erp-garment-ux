@@ -1,17 +1,23 @@
 {
   "note_actual_http_diagnostic_candidate": {
-    "status": "LOCAL_CONTROLS_PASS_ACTUAL_AUTH_POSTGREST_DIAGNOSTIC2_PENDING",
+    "status": "ACTUAL_AUTH_DIAGNOSTIC2_QUALIFIED_YEAR364_SUCCESSOR_PENDING",
     "contract": "docs/cp7/NOTE_ACTUAL_HTTP_DIAGNOSTIC_HANDOFF.md",
     "provider": "scripts/cp7_note_actual_http_diagnostic_cases.py",
     "entrypoint": "scripts/cp7_note_command_diagnostic_probe.py",
     "actual_command_invoker_role_required": "authenticated",
     "actual_session_user_required": "authenticator",
     "temporary_functions_only_on_disposable_HTTP_copy": 2,
-    "predeclared_actual_E01_checkpoints": [1, 4],
+    "predeclared_actual_E01_checkpoints": [
+      1,
+      4
+    ],
     "same_UUID_payload_version_each_pair": true,
     "complete_Native_and_private_rollback_required_each_attempt": true,
     "command_and_observation_duration_separate": true,
-    "instrument_emission_counts": {"native": 1, "http": 1},
+    "instrument_emission_counts": {
+      "native": 1,
+      "http": 1
+    },
     "Native_product_exit_case_credit": 0,
     "local_PGlite_declared_standin_controls": 12,
     "local_actual_HTTP_login_or_real_timer_proof": false,
@@ -20,7 +26,24 @@
     "JIT_OFF_only_request_local_disposable_experiment": true,
     "prior_timeout_cause_closed": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "qualified_source_commit": "be4e558764ff8e8bb6a09dec8bfe8e1aeedc4690",
+    "qualified_source_tree": "6cf0d1f75ce0ff18cbfec42cde6e0f699d8d86b4",
+    "qualified_run_id": 37131974886,
+    "qualified_job_id": 111228708927,
+    "qualified_artifact_id": 11276933232,
+    "qualified_receipt": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-be4e/RECEIPT.json",
+    "actual_command_elapsed_ms": [
+      861.392,
+      789.497,
+      808.941,
+      802.518
+    ],
+    "JIT_cause_inferred": false,
+    "year364_actual_Auth_successor": "PENDING",
+    "year364_main_and_lot_complete366_and_original_facts_required": true,
+    "local_successor_controls": 15,
+    "year364_scope_not_whole_P19_or_SLA": true
   },
   "acceptance_ref": "761f1bf33199519205248947b5fe2d86e25b2fa0",
   "acceptance_source": "https://github.com/Hanjay6688/-erp-garment-ux/blob/761f1bf33199519205248947b5fe2d86e25b2fa0/audits/acceptance_20260929/HANDOFF.md",
@@ -237,7 +260,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Publish all-field F04 catalog comparator repair, preserve first Native57 failure088f, qualify fresh57 with every raw snapshot and unchanged IDs/budgets, and repeat all54 configured workflows. Continue feasible source/P08/P18/P19 exits. Missing real recipes/policies stay UNKNOWN; independent P20 and installed P21 remain open. No routine checkpoint ends standing writer work.",
+  "execution_priority": "Publish actual Auth year364 diagnostic successor with unchanged Native40 and zero product credit; complete54 at967b is54 workflow SUCCESS; large Originals pending exact projection. Retain fresh Native57/40/69 Originals and project exact large Native152/284 before credit. Recurring8s cause remains open; current actual Auth paired0.79-0.86s does not justify a JIT change. Continue feasible source/P08/P18/P19; missing real recipes/policies UNKNOWN and independent/installed exits open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -9077,7 +9100,7 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
-    "next_action": "Publish all-field F04 catalog comparator repair, preserve first Native57 failure088f, qualify fresh57 with every raw snapshot and unchanged IDs/budgets, and repeat all54 configured workflows. Continue feasible source/P08/P18/P19 exits. Missing real recipes/policies stay UNKNOWN; independent P20 and installed P21 remain open. No routine checkpoint ends standing writer work.",
+    "next_action": "Publish actual Auth year364 diagnostic successor with unchanged Native40 and zero product credit; complete54 at967b is54 workflow SUCCESS; large Originals pending exact projection. Retain fresh Native57/40/69 Originals and project exact large Native152/284 before credit. Recurring8s cause remains open; current actual Auth paired0.79-0.86s does not justify a JIT change. Continue feasible source/P08/P18/P19; missing real recipes/policies UNKNOWN and independent/installed exits open.",
     "previous_application_qualification7300": {
       "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
       "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
@@ -9287,7 +9310,7 @@
       "whole_CP7_acceptance": false
     },
     "f04_catalog_comparison_candidate": {
-      "status": "LOCAL_PRESERVATION_CONTROLS_PASS_FRESH_NATIVE57_PENDING",
+      "status": "QUALIFIED_NATIVE57_WITH_ALL70_RAW_SNAPSHOTS",
       "first_failure_source": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
       "first_failure_run": 37128855585,
       "first_failure_original": "docs/cp7/evidence/f04-catalog-repair/first088f/RECEIPT.json",
@@ -9305,7 +9328,22 @@
       },
       "complete54_matrix_requalification": "REQUESTED_CURRENT_WORKFLOW_SHA",
       "production_go": false,
-      "independent_acceptance": false
+      "independent_acceptance": false,
+      "qualified_source_commit": "967b5087879ea6c076fa1d18574becef88ef4cbc",
+      "qualified_run": 37130874584,
+      "qualified_job": 111225549526,
+      "qualified_artifact": 11277710452,
+      "qualified_counts": {
+        "native": 34,
+        "races": 8,
+        "http": 5,
+        "browser": 10
+      },
+      "raw_complete_snapshots": 70,
+      "all_raw_canonical_hashes_recomputed": true,
+      "all_original_case_IDs_and_product_bundle_unchanged": true,
+      "first_failed_Original_relabelled": false,
+      "qualified_receipt": "docs/cp7/evidence/f04-catalog-repair/qualified57-967b/RECEIPT.json"
     },
     "cutting_source_contract_inspection": {
       "status": "READ_ONLY_DRAFT_ELIGIBILITY_BOUNDARY_IDENTIFIED_POSTED_ROUTE_SKIPPED",
@@ -9335,7 +9373,26 @@
       "cause_established": false,
       "next_measurement": "REAL_AUTH_POSTGREST_PRESERVING_DEFAULT_TIMEOUT_AND_CURRENT_GUARDS_ZERO_EXIT_CREDIT",
       "independent_acceptance": false,
-      "production_go": false
+      "production_go": false,
+      "current_note40_pass_run": 37130874809,
+      "current_note40_receipt": "docs/cp7/evidence/owning-note-correction/qualified40-967b/RECEIPT.json",
+      "recurring_cause_closed": false,
+      "JIT_setting_changed": false
+    },
+    "matrix967b_observation": {
+      "source_commit": "967b5087879ea6c076fa1d18574becef88ef4cbc",
+      "source_tree": "b4cf3aa16548920e1d959dcd60151b94913d2f67",
+      "configured_workflows": 54,
+      "success": 54,
+      "in_progress": 0,
+      "status_is_metadata_not_Native_Original_inspection": true,
+      "full_CP7_acceptance": false
+    },
+    "current_large_original_projection": {
+      "analysis152_run": 37130875111,
+      "attention284_run": 37130874626,
+      "status": "EXPECTED_COMPLETED_PASS_METADATA_PINNED_REPORT_HASH_AND_GATES_AWAIT_PROJECTION",
+      "new_execution_credit": 0
     }
   }
 }

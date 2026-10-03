@@ -1,0 +1,16 @@
+{
+  "status": "PASS_LOCAL_DIAGNOSTIC_CONTROLS_ONLY_ACTUAL_YEAR_PENDING",
+  "base_head": "be4e558764ff8e8bb6a09dec8bfe8e1aeedc4690",
+  "provider_sha256": "8260d84ead4cbb780810b15268145d3b65f276902f32e515e36bd7fa22063809",
+  "local_declared_standin_controls": 15,
+  "real_Auth_PostgREST_year364_result": false,
+  "real_statement_timer_result": false,
+  "Native_product_exit_case_credit": 0,
+  "product_SQL_or_Native_grants_changed": false,
+  "local_scope": "PGLITE_WITH_DECLARED_AUTH_NATIVE_WRITER_READERS_AND_TABLE_STANDINS_NOT_NATIVE_PROOF",
+  "retained_file_sha256": {
+    "controls-year.log": "5ab7862313731e7d1b13e27eff975979c7bf249772dde3bc9f1df464199a2016",
+    "LOCAL_CONTROLS.json": "5e3076e80eeb13d4d3b07fdd3ea6f6ae039d9bcd8c45209059a916ce9d521eb0",
+    "controls.mjs": "1c47da9bf6333eeaf24b24f9794fa8522f8f2c6f591fb644f7b9fa90573899db"
+  }
+}

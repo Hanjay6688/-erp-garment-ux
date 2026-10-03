@@ -1,5 +1,9 @@
 # Actual Auth/PostgREST note diagnostic
 
+Actual diagnostic2 atbe4e558764ff8e8bb6a09dec8bfe8e1aeedc4690/tree6cf0d1f75ce0ff18cbfec42cde6e0f699d8d86b4 passes all emission/install/restore/primary/backup/advisor/Auth0→0 gates. Actual authenticated command timings DEFAULT/JIT_OFF at checkpoints1/4 are861.392/789.497 and808.941/802.518ms. Every pair preserves its exact UUID/payload/version and full Native/private rollback; FG49/value735/net275/paid200/AR75 are observed before forced rollback. These results do not establish a JIT cause or close the preceding recurring8s failure. Unaltered Original: evidence/note-actual-http-diagnostic/qualified2-be4e/RECEIPT.json.
+
+The successor extends the same zero-credit HTTP emission with YEAR_364_DEFAULT: original24→12,364 later Native sales, complete366-row main-book and lot-card observations before forced rollback, exact per-row+12 and original facts/manual ranks, Native FG112/value1120/net240/cash0/AR240. The original invoker calls both admitted public readers; no new Native EXECUTE/table grant is added. Paging refuses nonadvancing, incomplete or over-cap results.15 local declared-stand-in controls pass; the actual year Auth result is pending. Diagnostic2 budget and ordinary Native40 remain unchanged. This bounded actual HTTP exercise does not claim whole P19 or a production SLA.
+
 Standing writer work continues. The current recurring 8s historical-note failure at088f is still open; NOTE_HTTP_TIMEOUT.md and evidence/owning-note-correction/incomplete40-088f retain the actual failure. Successful private-session timings do not exercise its session_user-sensitive Native internal admission.
 
 ## Owning path and isolation

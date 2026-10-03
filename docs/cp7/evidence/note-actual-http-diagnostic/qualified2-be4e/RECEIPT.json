@@ -1,0 +1,78 @@
+{
+  "status": "PASS_DIAGNOSTIC_EMISSION_AND_EXACT_RESTORATION_ONLY",
+  "source_commit": "be4e558764ff8e8bb6a09dec8bfe8e1aeedc4690",
+  "source_tree": "6cf0d1f75ce0ff18cbfec42cde6e0f699d8d86b4",
+  "source_bundle_sha256": "59d1ebf6ed44a4b4475515ee54e671362a9118233b9d28a5cf90f2413593c2d5",
+  "run_id": 37131974886,
+  "job_id": 111228708927,
+  "artifact_id": 11276933232,
+  "archive_bytes": 1639172,
+  "archive_sha256": "1d7a2145bdd90c050efb8cbd8fad63bb82c51b29e275504f7e68f96a5e52ae67",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385624,
+      "sha256": "43341ba658cd79c2c3bf5943c91e50cdada6b7c55371496b850f47120f9adbf6"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385624,
+      "sha256": "43341ba658cd79c2c3bf5943c91e50cdada6b7c55371496b850f47120f9adbf6"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "34f490effef88f083241b3b652f272ca7f79180373a792330b4aba740a90f532"
+    },
+    "CP7_NOTE_COMMAND_DIAGNOSTIC.json": {
+      "bytes": 290901,
+      "sha256": "035c961e36d0d9ffca240de1ec19d42250e8393b16128ec357ccea70c26961be"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "f120c8eb998c104c31f6aba2fd99c10fc46cb7d5815d6a68e57b2695dc449211"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360411,
+      "sha256": "e5967fe74f2e759bb7998bc89bea12b08a5d2401c643096aceca5eb71888166a"
+    }
+  },
+  "Original_CI_log_sha256": "8afef10a739f3dc803c359fa8340305c4b691665b360fccbb44ac5957d534513",
+  "actual_public_command_elapsed_ms": [
+    861.392,
+    789.497,
+    808.941,
+    802.518
+  ],
+  "actual_HTTP_elapsed_ms": [
+    871.785,
+    797.261,
+    818.29,
+    810.445
+  ],
+  "same_UUID_payload_version_each_pair": true,
+  "all_full_business_private_and_temporary_catalog_restores": true,
+  "all_install_primary_backup_advisor_and_Auth_cleanup_gates_pass": true,
+  "Auth_users_before_after": [
+    0,
+    0
+  ],
+  "JIT_cause_inferred": false,
+  "preceding_recurring_timeout_cause_closed": false,
+  "Native_product_exit_case_credit": 0,
+  "Native_year364_HTTP_proof": false,
+  "production_go": false
+}
