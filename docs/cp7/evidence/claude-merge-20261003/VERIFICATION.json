@@ -1,6 +1,6 @@
 {
   "contract": "cp7.claude-merge-verification.v1",
-  "status": "PENDING_FINAL_DURABLE_ATTENTION_REPEAT",
+  "status": "MERGED_DECLARED_PACKAGES_WRITER_QUALIFIED",
   "repository": "Hanjay6688/-erp-garment-ux",
   "integration_before": "40c4127c7997d31d9ba2730ada0826268314c62e",
   "claude_handoff": "f4049e4f7e0c9d436cce1147ce45d6760ab1d6f8",
@@ -9,7 +9,6 @@
   "initial_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
   "final_harness_source": "0642d1bcd6df09505be7ea6d030c61a585722c04",
   "final_harness_tree": "4afeec237f3572844e35f784313ca82bd4f7df21",
-  "current_published_checkpoint": "35096974eee884c7f97a98b41b644318a350a051",
   "application_sql_business_cases_identical_to_claude_final": true,
   "initial_qualification_counts": {
     "success": 50,
@@ -434,14 +433,6 @@
   ],
   "final_harness_runs": [
     {
-      "id": 37099939383,
-      "name": "CP7 F05 Native Durable Attention",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "0642d1bcd6df09505be7ea6d030c61a585722c04",
-      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099939383"
-    },
-    {
       "id": 37099939313,
       "name": "CP7 Shell S0",
       "status": "completed",
@@ -472,6 +463,14 @@
       "conclusion": "success",
       "head_sha": "0642d1bcd6df09505be7ea6d030c61a585722c04",
       "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099939362"
+    },
+    {
+      "id": 37099939383,
+      "name": "CP7 F05 Native Durable Attention",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099939383"
     }
   ],
   "verified_initial_successful_child_jobs": {
@@ -1210,5 +1209,99 @@
   "independent_acceptance": false,
   "audit_complete": false,
   "production_go": false,
-  "hosted_main_deployment_changed": false
+  "hosted_main_deployment_changed": false,
+  "final_harness_counts": {
+    "success": 5,
+    "failure": 0,
+    "pending": 0
+  },
+  "effective_required_packages_pass": 51,
+  "no_initial_failed_run_relabelled": true,
+  "final_attention_original_retention": {
+    "receipt": "attention-final-qualified284/RECEIPT.json",
+    "projection": "attention-final-qualified284/PROJECTION.json",
+    "source_run_id": 37099939383,
+    "projection_run_id": 37102637502,
+    "projection_new_execution_case_credit": 0
+  },
+  "verified_final_successful_child_jobs": {
+    "37099939313": {
+      "workflow": "CP7 Shell S0",
+      "run_id": 37099939313,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137476802,
+          "name": "shell",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111137476884,
+          "name": "CP7 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111137476937,
+          "name": "CP7 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099939343": {
+      "workflow": "CP7 F03 Native Reservation and Size Planner Seams",
+      "run_id": 37099939343,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137336052,
+          "name": "O06 reservation once and O07 same-SKU size arithmetic",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099939323": {
+      "workflow": "CP7 F04 Native Product Bound Netting",
+      "run_id": 37099939323,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137335853,
+          "name": "Native binding, dated netting and one global existing-supply allocation",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099939362": {
+      "workflow": "CP7 F05 Native Frozen Analysis",
+      "run_id": 37099939362,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137335826,
+          "name": "Frozen analysis.v2 compiler, original archives and current Native Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099939383": {
+      "workflow": "CP7 F05 Native Durable Attention",
+      "run_id": 37099939383,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137335934,
+          "name": "Original analysis, own-user Native reminders and current Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  },
+  "checkpoint_before_final_evidence": "b5e59f5f67f650b3d49a33d7d66597104fa7e608"
 }
