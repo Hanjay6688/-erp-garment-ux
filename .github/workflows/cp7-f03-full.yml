@@ -3,6 +3,7 @@ name: CP7 F03 Full Retained Components
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_*
     - scripts/cp6_auditor_browser_host.mjs

@@ -3,6 +3,7 @@ name: CP7 F03 E20 E14 Complete Stock Capacity
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_capacity_*
     - scripts/cp7-src/**

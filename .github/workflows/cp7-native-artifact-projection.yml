@@ -3,6 +3,7 @@ name: CP7 Completed Native Artifact Projection
   push:
     branches:
       - cp7/integration
+      - claude/new-session-deapao
     paths:
       - scripts/cp7_native_artifact_projection.py
       - docs/cp7/native284_artifact_projection.json

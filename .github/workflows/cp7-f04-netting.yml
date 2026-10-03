@@ -3,6 +3,7 @@ name: CP7 F04 Native Product Bound Netting
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_f04_netting_*
     - scripts/cp7_netting_bundle.py

@@ -3,6 +3,7 @@ name: CP7 F03 X04 Source Versions
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_x04_*
     - scripts/cp7_f03_e01_cases.py

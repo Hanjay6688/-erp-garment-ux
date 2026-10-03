@@ -3,6 +3,7 @@ name: CP7 F04 Prospective Native Cutting Model and Consumer
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_cutting_model_*
     - scripts/cp7-src/cutting-yield/**

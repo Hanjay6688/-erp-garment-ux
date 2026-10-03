@@ -3,6 +3,7 @@ name: CP7 P02 source capture probe
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_p02_snapshot_probe.py
     - scripts/cp7-src/snapshot/**

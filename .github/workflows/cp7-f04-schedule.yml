@@ -3,6 +3,7 @@ name: CP7 F04 Native Selected Production Schedule
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_f04_schedule_*
     - scripts/cp7_schedule_bundle.py

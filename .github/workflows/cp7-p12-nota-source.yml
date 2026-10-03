@@ -1,7 +1,7 @@
 name: CP7 P12 Nota source
 'on':
   push:
-    branches: [cp7/integration]
+    branches: [cp7/integration, claude/new-session-deapao]
     paths:
     - scripts/cp7-src/payroll/**
     - scripts/cp7_payroll_bundle.py

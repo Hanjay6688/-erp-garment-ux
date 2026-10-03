@@ -3,6 +3,7 @@ name: CP7 P03 production policy
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_p03_identity_probe.py
     - scripts/cp7-src/identity/**

@@ -3,6 +3,7 @@ name: CP7 F04 Native Profile and Baseline Targets
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_f04_baseline_*
     - scripts/cp7_f04_history_*

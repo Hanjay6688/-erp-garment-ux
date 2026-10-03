@@ -3,6 +3,7 @@ name: CP7 F03 E01 Source Journey
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_e01_*
     - scripts/cp7-src/**

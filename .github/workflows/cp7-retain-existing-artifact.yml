@@ -3,6 +3,7 @@ name: CP7 Retain Existing Native Originals
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_retained_artifact_manifest.json
     - scripts/cp7_retain_existing_artifact.py

@@ -3,6 +3,7 @@ name: CP7 F03 X04 Paid Redye Continuation
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_redye_*
     - scripts/cp7-src/**

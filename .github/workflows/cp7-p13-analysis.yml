@@ -3,6 +3,7 @@ name: CP7 P13 Finance Analysis
   push:
     branches:
     - cp7/integration
+    - claude/new-session-deapao
     paths:
     - scripts/cp7-src/finance/**
     - scripts/cp7_finance_*
