@@ -8,7 +8,7 @@ Dokumen ini adalah pintu masuk tunggal untuk GPT. Isinya mencakup semua perubaha
 
 ## 0. Identitas dan status
 
-- Cabang: `claude/new-session-deapao`. Head saat dokumen ini dibuat: commit yang memuat dokumen ini. Commit kode Claude terakhir `dda66b9a`; bukti CI terakhirnya `cp7-receipt-correction` run 37083713960, 39/39 PASS.
+- Cabang: `claude/new-session-deapao`. Sejak 3 Okt sudah memuat `cp7/integration` `40c4127c` (merge `eabfec75`). Commit kode Claude terakhir `19ff70ee`; bukti CI-nya ada di §8.2 dan §8.5. Bukti sebelum merge: `cp7-receipt-correction` run 37083713960 (39/39 PASS di `dda66b9a`).
 - Commit buatan Claude di cabang ini: **279**, dari 23 Sep sampai 3 Okt 2026. Cara melihatnya: `git log origin/main..HEAD --author=Claude`.
 - Status tetap: `production_go=false`, CP6 HOLD, `audit_complete=false`. Semua pekerjaan Claude berstatus **kandidat** dan belum diterima auditor independen.
 - Tidak pernah dimutasi oleh Claude: `main`, deployment Cloudflare, Supabase hosted Enteng (`siimvrusnzxexizpyoib`), legacy ERP-Garment (`vlxdhpkjeevubjxexnfo`), dan production.
@@ -139,10 +139,132 @@ Jalankan di head cabang ini. Hasilnya dicatat apa adanya.
   - kredit kelebihan bayar butuh nota tujuan yang sudah ada.
 - **Auditor:**
   - verifikasi D07–D12, keputusan owner no. 4/6/11/13, dan substitusi cek `V2620C_WIP_SOURCE_CONSERVATION_MISMATCH` (§34.8);
-  - seluruh CP7 pembetulan penerimaan.
+  - seluruh CP7 pembetulan penerimaan, termasuk hasil merge dan perbaikan di §8.
+- **GPT:** temuan dan dokumen basi di §8.4.
 
 ## 7. Indeks dokumen Claude
 
 - CP6: `docs/cp6-au-r1-handoff.md` (§1–§34.9), `docs/cp6-aw-design.md`, `docs/cp6-bb-case-table.md`, `docs/cp6-bc-case-table.md`, `docs/cp6-bd-case-table.md`, `docs/cp6-d11-kebijakan-dan-gbd03.md`, `docs/cp6-t3-cent-per-po-and-t5-advisor-note.md`, `docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25.md` (+ `_LAMPIRAN_C6.md`), `docs/evidence/cp6-*`.
 - CP7: `docs/cp7/RECEIPT_CORRECTION.md`, tambahan Claude di `docs/cp7/TRANSACTION_CORRECTION_COVERAGE.md`.
 - Dokumen ini: `docs/HANDOFF_CLAUDE_UNTUK_GPT_MERGE.md`.
+
+## 8. Status merge dengan `cp7/integration` (3 Okt 2026)
+
+### 8.1 Yang terjadi dan cara konflik diselesaikan
+
+- GPT memasukkan snapshot Claude `08d19674` ke `cp7/integration` (`77307d55`, `c5c08262`): SQL pembetulan penerimaan kini dipasang sekali di basis P09 (`scripts/cp7_procurement_bundle.py`). Claude melanjutkan 7 commit di cabangnya sendiri. Akibatnya 14 file konflik *add/add*.
+- Merge `eabfec75` (parent `32b25b53` + `40c4127c`) menyelesaikannya di cabang ini, tanpa menyentuh cabang GPT:
+  - 9 file tidak diubah GPT sejak snapshot itu, jadi versi Claude yang lebih baru dipakai: `correction.sql`, `material-name.sql`, manifest, verify, kedua panel, kontrak + tes, dokumen coverage.
+  - 5 file diedit GPT, dan editnya diterapkan apa adanya di atas versi Claude: workflow (trigger `cp7/integration` + path komposisi), katalog akses (note-correction v2, FG ledger v2, boundary potong), probe (SQL penerimaan dari basis P09), cases (fixture jam hari ini, tanpa efek untuk kasus Claude yang sudah bertanggal lampau), dan catatan integrasi di `RECEIPT_CORRECTION.md`.
+- Sesudah merge, `git diff origin/cp7/integration origin/claude/new-session-deapao` hanya berisi pekerjaan Claude: file pembetulan penerimaan, dokumen, dan perbaikan di 8.3.
+
+### 8.2 Uji gabungan
+
+Hanya run CI yang dihitung sebagai bukti. Hasil lokal (`LOCAL_PG16_DEV`) hanya catatan kerja.
+
+| Commit | Isi | Hasil CI |
+|---|---|---|
+| `40c4127c` (GPT murni, pembanding) | — | 20 workflow yang terpicu hijau, termasuk F05 Durable Attention (37090157536) dan F03 Full (37090157569). |
+| `2f50178b` (merge + trigger sementara) | Kode Claude sebelum perbaikan 8.3 | 53 run: 51 workflow CP7 GPT + Build UX + CodeQL. Pembetulan penerimaan [37091436624](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436624) **PASS 39/39** di atas komposisi P09 GPT. Build UX [37091436427](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436427) **FAIL** di `test:browser:cp5` (8.3a). Build UX tidak dijalankan di cabang GPT, tetapi `build:uat-auth` gagal dengan kode yang sama saat direproduksi lokal di `40c4127c` murni. Total 52 PASS, 1 FAIL (Build UX). |
+| `19ff70ee` (perbaikan 8.3) | Kode final | **21/21 PASS**: 21 workflow yang path-nya menyentuh file yang diubah, termasuk pembetulan penerimaan [37093021067](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021067) **42/42** (36 native, 3 race, 1 HTTP, 2 browser), Build UX [37093021103](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021103) PASS (8.3a terbukti), P09 Procurement, 14 workflow F03, koreksi nota historis, P18, Shell S0, dan CodeQL. 30 workflow lain tidak terpicu karena path-nya tidak menyentuh file yang diubah. Semuanya PASS di `2f50178b`, dan perubahan `19ff70ee` tidak menambah atau menghapus objek database (hanya isi fungsi `cp7_receipt_fix` dan UI). |
+
+Lokal (`LOCAL_PG16_DEV`, bukan bukti): 35/35 kasus native kode final PASS. `RF_YEAR_HISTORY_364` lokal kena batas waktu 80 menit (TIMEOUT), karena mesin lokal lambat untuk 364 transfer pada satu roll; di CI kasus ini PASS. Kode sebelum merge lokal 33/33. Lokal di hasil merge: `tsc -b`, `npm run test:security`, `check:source` dan `check:access` lolos. `vitest` penuh menghasilkan 27 baris gagal yang **identik** dengan `40c4127c` murni; semuanya tes yang butuh PostgreSQL native atau browser Playwright.
+
+### 8.3 Perbaikan sesudah audit gabungan
+
+Dua audit baca-saja dijalankan atas hasil merge: alur SQL/data GPT terhadap pembetulan penerimaan, dan frontend serta aturan GPT. Yang diperbaiki di cabang ini:
+
+a. **Build UX merah sejak `3ab575a0` (GPT).** `VITE_DISPOSABLE_API_PORT` masuk ke objek runtime, tetapi gate artefak UAT belum mengenalnya, sehingga `build:uat-auth` dan `deploy:uat-auth` selalu gagal (`UAT_ARTIFACT_MODE_MISMATCH`). Gate sekarang mewajibkan input itu `void 0`; nilai apa pun, duplikat, atau posisi lain ditolak (`UAT_ARTIFACT_DISPOSABLE_PORT_PRESENT`). Tes gate ditambah. Gate tidak dilonggarkan.
+b. **Pemetaan baris pengganti eksplisit**, satu id per posisi baris; sebelumnya ditebak dari bahan/harga/jumlah. **Lot dan catatan baris tidak lagi hilang.** Ini cacat nyata: sebelum perbaikan, `RF_DUPLICATE_LINES_KEEP_LOT` gagal di SQL `2f50178b` dengan `[('LOT-A2', None, 20), (None, None, 20)]`.
+c. **Draft potong/transfer yang memakai roll penerimaan memblokir** dengan nomor dokumennya (`CP7_RECEIPT_FIX_DRAFT_ROLL_USE`). Draft potong Native berstatus `CUT` dengan `material_issue_posted=false`. Sebelum perbaikan, daftar blocker kosong di SQL `2f50178b`.
+d. **Setiap blocker menyebut dokumennya** (`documents: [{type, number}]`), seperti aturan GPT.
+e. **Pelaku di riwayat** memakai kontrak `cp7_note`: `actor_id`, nama profil saat ini, `CURRENT_PROFILE`, dengan fallback "pengguna <UUID>".
+f. **Pesan penolakan satu jalur**: `normalizeClientError` → `src/lib/receiptCorrectionMessages.ts`. Penolakan 42501 memakai pesan umum GPT.
+g. **Fakta uang disembunyikan saat `workspaceStale`**, aturan GPT dari `ConnectedSalesPage`.
+h. **Teks periode tertutup** di panel invoice dibetulkan.
+i. **Klaim "invoice FINAL setahun lalu" kini diuji** oleh `RF_YEAR_FINAL_INVOICE_PRICE`.
+j. **Daftar penulisan langsung ke tabel Native dilengkapi** (`RECEIPT_CORRECTION.md`, serah terima butir 4).
+
+### 8.4 Temuan di sisi GPT (tidak diubah Claude; diputuskan GPT)
+
+1. **Pembelajaran potong sesudah salah bahan A→B.** Pembetulan memindah pemakaian potong ke roll baru dengan bahan B. Rencana input potong GPT memakai `roll_id`/`material_id` lama, sehingga observasi lama menjadi `INPUT_IDENTITY_UNAVAILABLE_OR_CHANGED` dan dikeluarkan. Ini gagal tertutup dan tidak merusak data, tetapi data belajar dari potongan itu hilang. Uji: rencana input → posting potong → betulkan bahan roll → ambil observasi; harapannya slice dikeluarkan.
+2. **Episode reminder utang (AP_DUE) untuk penerimaan yang dibalik**, baik oleh pembetulan maupun pembalikan Native biasa, tetap `ACTIVE` tanpa alert (`SCENARIO_NO_ALERT_EPISODE_RETAINED`, `rule-episodes.sql`), dan penerimaan pengganti membuka episode baru. Uji: penerimaan jatuh tempo dengan episode aktif → betulkan → jalankan episode.
+3. **Ganti kode bahan (SKU)** menandai hasil dan observasi cutting-yield GPT sebagai `ARCHIVED_STALE`, karena SKU disimpan di sumber potong. Aman, tetapi ramai.
+4. **Format nomor pembayaran putar ulang** berbeda: nota memakai `· K-<8hex>`, penerimaan `· K<n>-<8hex>`. Pilih satu bila ingin seragam.
+5. **Dokumen GPT yang menjadi basi sesudah merge** (masih menyebut "receipt32" atau "Claude WIP ditunda"): `docs/cp7/CURRENT_STATE.json` (antara lain baris 75–132, 3274, 4020, 4794), `ACTIVE_CONTINUATION.md` (21, 23, 63, 79, 87, 103), `CURRENT_PROGRESS.md:16`, `USER_TRANSACTION_TOOLS.md:30`, `GUARD_PREDICATE_ORDER.md:29,31`, `PENDING_SOURCE_READ.md:17`, `NOTE_CORRECTION_PRESENTATION.md:29`, `F03_REMAINING_CONTRACT.md:3`. Hash bundle P09/F03 di `CURRENT_STATE.json` berubah karena SQL Claude terbaru ada di basis P09. Mohon GPT memperbaruinya dengan run ID kualifikasinya sendiri.
+6. **Celah yang dipunyai keduanya:** baris kartu mutasi belum membuka dokumen sumbernya, dan "Benerin penerimaan" masih panel terpisah (rencana komposisi GPT di `USER_TRANSACTION_TOOLS.md:30`).
+
+7. **Batas umur koreksi HPP** masih keputusan owner yang terbuka di dokumen GPT (`NOTE_CORRECTION_PRESENTATION.md:29`, `CURRENT_PROGRESS.md:26`). Pembetulan penerimaan saat ini tidak punya batas umur, karena owner meminta koreksi harga final setahun lalu (`RF_YEAR_HISTORY_364`, `RF_YEAR_FINAL_INVOICE_PRICE`). Kalau owner menetapkan batas, batas itu harus menjadi satu pengaturan (`PENDING_POLICY_VALUE`) yang dipakai nota dan penerimaan sekaligus.
+8. **Aturan GPT "dokumen terposting immutable"** (`framework-v2/01_KONTRAK_DAN_INTEGRASI.md:98`): dokumen asal pembetulan penerimaan tetap immutable dan dibalik oleh writer Native. Yang diubah di tempat hanyalah atribut roll fisik (nomor, supplier, waktu terima, baris induk), status header asal sesudah pembalikan, dan nama/kode bahan. Semuanya tercatat di lineage privat dan terdaftar di `RECEIPT_CORRECTION.md` (serah terima butir 4). Alasannya: roll fisik yang sama tetap dipakai potong, termasuk input potong GPT yang mengikat UUID roll.
+
+### 8.5 Hasil CI per workflow
+
+Disusun langsung dari API GitHub. "—" berarti workflow tidak terpicu di commit itu.
+
+| Workflow | `40c4127c` | `2f50178b` | `19ff70ee` |
+|---|---|---|---|
+| Build UX | — | [**FAIL**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436427) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021103) |
+| CP6 Candidate CodeQL (T3) | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436463) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021054) |
+| CP7 Completed Native Artifact Projection | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436742) | — |
+| CP7 F03 Cash and Native Finance Readers | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157499) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436673) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021145) |
+| CP7 F03 Combined Stack | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157524) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436714) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021081) |
+| CP7 F03 Combined Supplier Returns | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157549) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436690) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021080) |
+| CP7 F03 E01 Source Journey | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157523) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436621) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021055) |
+| CP7 F03 E03 Customer Service | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157540) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436641) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021034) |
+| CP7 F03 E05 Payroll Installments | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157527) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436626) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021019) |
+| CP7 F03 E06 Year-end Late Invoice | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157537) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436636) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021027) |
+| CP7 F03 E20 E14 Complete Stock Capacity | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157491) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436530) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021000) |
+| CP7 F03 E24 Material Issue | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157492) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436648) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021097) |
+| CP7 F03 Full Retained Components | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157569) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436587) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021069) |
+| CP7 F03 Native Misc Finance | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157535) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436614) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021072) |
+| CP7 F03 Native Reservation and Size Planner Seams | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436595) | — |
+| CP7 F03 P13 Retained Regression | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436629) | — |
+| CP7 F03 Required Cost Continuations | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157505) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436695) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021056) |
+| CP7 F03 Supplier Current Authority | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436693) | — |
+| CP7 F03 X04 Paid Redye Continuation | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157503) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436688) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021064) |
+| CP7 F03 X04 Source Versions | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157514) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436613) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021041) |
+| CP7 F04 Global Native Production Supply | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436661) | — |
+| CP7 F04 Native Cutting Observations | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436486) | — |
+| CP7 F04 Native Demand History | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436692) | — |
+| CP7 F04 Native Model Evaluation | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436646) | — |
+| CP7 F04 Native Planning Draft Bridge | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436618) | — |
+| CP7 F04 Native Product Bound Netting | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436697) | — |
+| CP7 F04 Native Profile and Baseline Targets | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436691) | — |
+| CP7 F04 Native Selected Production Schedule | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436665) | — |
+| CP7 F04 Prospective Cutting Inputs | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436602) | — |
+| CP7 F04 Prospective Native Cutting Model and Consumer | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436657) | — |
+| CP7 F05 Native Durable Attention | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157536) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436472) | — |
+| CP7 F05 Native Frozen Analysis | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436475) | — |
+| CP7 Native Read Stage Diagnostic | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436640) | — |
+| CP7 Note Command Diagnostic | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436718) | — |
+| CP7 Owning Historical Note Correction | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157538) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436647) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021018) |
+| CP7 Owning Receipt Correction | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436624) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021067) |
+| CP7 P00 accepted-base catalogue | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436551) | — |
+| CP7 P02 actor facade | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091437153) | — |
+| CP7 P02 source capture probe | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436671) | — |
+| CP7 P03 production policy | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436617) | — |
+| CP7 P04 WIP kernels | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436709) | — |
+| CP7 P09 Procurement | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157508) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436609) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021030) |
+| CP7 P10 Finished goods | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436571) | — |
+| CP7 P11 Sales | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157555) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436716) | — |
+| CP7 P12 Nota and payroll lifecycle | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436678) | — |
+| CP7 P12 Nota source | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436616) | — |
+| CP7 P13 Finance | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436635) | — |
+| CP7 P13 Finance Analysis | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436663) | — |
+| CP7 P13 HPP recost | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436706) | — |
+| CP7 P13 Period control | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436525) | — |
+| CP7 P18 E01 Consumer Bridge | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090157488) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436701) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021003) |
+| CP7 Retain Existing Native Originals | — | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436503) | — |
+| CP7 Shell S0 | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37090156257) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37091436612) | [PASS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37093021038) |
+
+Ringkasan: `40c4127c` success 20; `2f50178b` failure 1, success 52; `19ff70ee` success 21
+
+### 8.6 Commit CI sementara
+
+`2f50178b` hanya menambahkan `claude/new-session-deapao` ke trigger push 50 workflow CP7 GPT, supaya semua tes GPT jalan di hasil gabungan; job, langkah, path, dan izin tidak diubah. Perubahan ini dibalik di commit terakhir cabang ini. Cek: `git diff origin/cp7/integration origin/claude/new-session-deapao -- .github/workflows` harus kosong.
+
+### 8.7 Cara merge untuk GPT
+
+- Audit: `git diff origin/cp7/integration...origin/claude/new-session-deapao` (hanya pekerjaan Claude).
+- Merge: `git merge origin/claude/new-session-deapao` dari `cp7/integration`. Selama `cp7/integration` masih `40c4127c`, merge ini tanpa konflik karena cabang Claude sudah memuatnya. Kalau `cp7/integration` sudah maju, konflik yang tersisa hanya pada perubahan GPT sesudah `40c4127c`.
+- Sesudah merge: jalankan ulang workflow GPT yang memasang basis P09, dan perbarui dokumen di 8.4 butir 5.
