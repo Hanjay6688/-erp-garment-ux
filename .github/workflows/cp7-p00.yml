@@ -3,7 +3,6 @@ name: CP7 P00 accepted-base catalogue
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_p00_catalogue.py
     - .github/workflows/cp7-p00.yml

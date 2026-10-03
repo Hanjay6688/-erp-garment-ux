@@ -3,7 +3,6 @@ name: CP7 P04 WIP kernels
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_p04_wip_probe.py
     - scripts/cp7-src/wip/**

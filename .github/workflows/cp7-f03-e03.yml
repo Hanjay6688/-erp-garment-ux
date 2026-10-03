@@ -3,7 +3,6 @@ name: CP7 F03 E03 Customer Service
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_e03_*
     - scripts/cp7_f03_refund_*

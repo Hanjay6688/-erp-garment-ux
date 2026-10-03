@@ -3,7 +3,6 @@ name: CP7 Native Read Stage Diagnostic
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_native_scale_diagnostic_*
     - scripts/cp7_native_compile_equivalence.py

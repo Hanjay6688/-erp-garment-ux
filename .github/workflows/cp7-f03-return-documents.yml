@@ -3,7 +3,6 @@ name: CP7 F03 Combined Supplier Returns
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_return_documents_*
     - scripts/cp7_supplier_return_document_*

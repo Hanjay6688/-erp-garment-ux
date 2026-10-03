@@ -3,7 +3,6 @@ name: CP7 F03 Supplier Current Authority
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_supplier_credit_authority_*
     - scripts/cp7_supplier_credit_guard.py

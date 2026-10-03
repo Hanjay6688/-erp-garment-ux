@@ -3,7 +3,6 @@ name: CP7 F03 Required Cost Continuations
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_cost_continuation_*
     - scripts/cp7-src/**

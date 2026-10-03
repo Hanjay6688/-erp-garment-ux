@@ -3,7 +3,6 @@ name: CP7 F03 Cash and Native Finance Readers
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_cash_*
     - scripts/cp7_f03_report_dates_*

@@ -3,7 +3,6 @@ name: CP7 F03 Native Reservation and Size Planner Seams
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_f03_planner_seam_*
     - scripts/cp7_f04_netting_*

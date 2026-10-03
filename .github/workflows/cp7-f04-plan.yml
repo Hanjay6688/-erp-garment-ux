@@ -3,7 +3,6 @@ name: CP7 F04 Native Planning Draft Bridge
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_f04_plan_*
     - scripts/cp7_analysis_*

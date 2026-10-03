@@ -3,7 +3,6 @@ name: CP7 Note Command Diagnostic
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_note_command_diagnostic_*
     - .github/workflows/cp7-note-command-diagnostic.yml

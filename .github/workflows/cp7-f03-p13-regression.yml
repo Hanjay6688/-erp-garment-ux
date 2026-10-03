@@ -3,7 +3,6 @@ name: CP7 F03 P13 Retained Regression
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_p13_period_browser.mjs
     - .github/workflows/cp7-f03-p13-regression.yml

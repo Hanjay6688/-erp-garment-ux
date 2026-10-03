@@ -3,7 +3,6 @@ name: CP7 P09 Procurement
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_p09_procurement_probe.py
     - scripts/cp7-src/procurement/**

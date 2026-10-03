@@ -3,7 +3,6 @@ name: CP7 F04 Native Cutting Observations
   push:
     branches:
     - cp7/integration
-    - claude/new-session-deapao
     paths:
     - scripts/cp7_cutting_observation_*
     - scripts/cp7-src/cutting-yield/inputs.sql
