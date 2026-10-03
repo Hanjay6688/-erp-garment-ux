@@ -7,6 +7,7 @@ import cp7_misc_cases as misc
 import cp7_installment_cases as installment
 import cp7_transaction_source_cases as source
 import cp7_supplier_payment_cases as supplier_payment
+import cp7_qc_source_cases as qc_source
 
 def main():
  target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -65,6 +66,10 @@ def main():
   elif op=='state-rework':
    f=p['fixture'];out=source.rework_state(cur,f)
    out['source']=source.read(cur,'REWORK_ORDER',f['rework'])['document']
+  elif op=='prepare-qc-source':
+   out=qc_source.fixture(cur,date.fromisoformat(p['today']))
+  elif op=='state-qc-source':
+   out=qc_source.observe(cur,p['fixture'])
   elif op=='prepare-supplier-payment':
    out=supplier_payment.fixture(cur,date.fromisoformat(p['today']))
   elif op=='state-supplier-payment':

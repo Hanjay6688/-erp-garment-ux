@@ -23,6 +23,11 @@ revoke all on all functions in schema cp7_invoice from public,anon,authenticated
 grant execute on function cp7_invoice.access_now(),cp7_invoice.assert_single_receipt(uuid,uuid) to cp7_invoice_write;
 grant execute on function cp7_invoice.validate_sources(uuid,uuid,jsonb),cp7_invoice.assert_document(uuid,uuid,jsonb) to cp7_invoice_write;
 grant execute on function cp7_invoice.payment_access(),cp7_invoice.reverse_payment_locked(jsonb) to cp7_invoice_write;
+-- The accepted runtime's postgres role is deliberately not a superuser. The
+-- narrow locking helper needs these exact private readers, including the
+-- invoker access check's dependency; no ERP DML or App execution is added.
+grant execute on function cp7_invoice.access_now(),cp7_invoice.payment_access(),
+ cp7_invoice.payment_ap(uuid),cp7_invoice.payment_detail(uuid,jsonb) to postgres;
 revoke all on function public.erp_cp7_get_supplier_payments_v1(uuid,text,integer,uuid),public.erp_cp7_reverse_supplier_payment_v1(jsonb,uuid) from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_get_supplier_payments_v1(uuid,text,integer,uuid),public.erp_cp7_reverse_supplier_payment_v1(jsonb,uuid) to authenticated;
 revoke all on function public.erp_cp7_get_invoice_sources_v1(uuid,text,integer,integer) from public,anon,authenticated,service_role,cp7_capture;

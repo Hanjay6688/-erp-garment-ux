@@ -277,7 +277,58 @@ async function supplierPaymentJourney(ui,today,mobile){
   await ui.expect(owningRow()).toContainText('Sudah dibalik');await ui.expect(owningRow().getByRole('button',{name:'Tinjau pembatalan '+original.number,exact:true})).toHaveCount(0);assert.deepEqual(state(),after)
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);filename=`CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
   return{status:'PASS',mobile,real_Auth_Native_journal_to_actual26th_payment_and_page25:true,full_Native_rows_unchanged_by_source_and_review:true,Native_AP1000_paid260_to250_remaining740_to750_cash260_to250:true,original_payment_date_cash_and_journal_preserved:true,inverse_journal_reopens_same_reversed_child:true,one_Native_inverse_one_request_no_stock_HPP_change:true,actual_committed_reply_loss_reload_identical_UUID_and_payload:!mobile,screenshots}
- }catch(e){writeFileSync(`cp6-proof/t3/CP7_SOURCE_SUPPLIER_PAYMENT_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:state(),lost},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_SUPPLIER_PAYMENT_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
+ }catch(e){let actual=null;try{actual=state()}catch(failure){actual={observation_error:String(failure)}}writeFileSync(`cp6-proof/t3/CP7_SOURCE_SUPPLIER_PAYMENT_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual,lost},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_SUPPLIER_PAYMENT_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
-export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP',()=>supplierPaymentJourney(ui,today,false)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE',()=>supplierPaymentJourney(ui,today,true)]]}
+async function warehouseMenu(page,name){
+ const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
+ const link=page.getByRole('button',{name,exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()
+}
+async function qcSourceJourney(ui,today,mobile){
+ const f=fixture('prepare-qc-source',{today}),user=await ui.login('OWNER',{label:'transaction-source-qc-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',screenshots=[]
+ const state=()=>fixture('state-qc-source',{fixture:f}),sourceResponse=r=>r.url().endsWith('/rpc/erp_cp7_resolve_transaction_source_v1'),saveResponse=r=>r.url().endsWith('/rpc/erp_save_laundry_qc_action_v1')&&r.request().postDataJSON()?.p_action==='REVERSE_FINAL_SKU'
+ const row=()=>page.locator(`[data-qc-inspection-id="${f.qc}"]`)
+ let lost=null
+ const openLedger=async()=>{
+  await warehouseMenu(page,'• Kartu Stok FG');await page.getByLabel('Cari barang jadi',{exact:true}).fill(f.lot_number);await page.getByRole('checkbox',{name:'Sertakan stok habis',exact:true}).check();await page.getByRole('button',{name:'Cari stok',exact:true}).click()
+  const position=page.locator('.cfg-position').filter({hasText:f.lot_number});await ui.expect(position).toHaveCount(1)
+  const response=await observed(page,r=>r.url().endsWith('/rpc/erp_cp7_get_fg_ledger_v2')&&r.request().postDataJSON()?.p_query?.lot_id===f.lot,()=>position.getByRole('button',{name:/^Lihat mutasi /}).click());assert.equal(response.status(),200)
+  const body=await response.json();assert.equal(body.position.product_id,f.product);assert.equal(body.position.lot_id,f.lot)
+  const original=body.page.rows.find(m=>m.id===f.movement);assert.ok(original);assert.equal(original.source_type,'QC_ITEM');assert.equal(original.source_id,f.item)
+  return body
+ }
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state();assert.equal(before.lot_qty,'1');await openLedger();assert.deepEqual(state(),before)
+  let response=await observed(page,sourceResponse,()=>page.locator(`[data-fg-movement-id="${f.movement}"]`).getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200);let resolved=await response.json()
+  assert.equal(resolved.business_DML,false);assert.equal(resolved.document.domain,'QC');assert.equal(resolved.document.route,'qc');assert.equal(resolved.document.id,f.qc);assert.equal(resolved.document.focus,null)
+  await ui.expect(row()).toHaveAttribute('data-source-focus','true');await ui.expect(row()).toContainText(f.number);await ui.expect(row()).toContainText('Good 1 · BS 0');assert.deepEqual(state(),before)
+  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);let filename=`CP7_SOURCE_QC_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
+  await row().getByLabel('Alasan reversal '+f.number,{exact:true}).fill('Finalisasi salah setelah pemeriksaan fisik sumber QC');assert.deepEqual(state(),before)
+  if(!mobile){
+   await page.route('**/rest/v1/rpc/erp_save_laundry_qc_action_v1',async route=>{
+    if(route.request().postDataJSON()?.p_action==='REVERSE_FINAL_SKU'&&!lost){const result=await route.fetch();assert.equal(result.status(),200);lost={envelope:route.request().postDataJSON(),body:await result.json()};await route.abort('failed')}
+    else await route.continue()
+   })
+   await row().getByRole('button',{name:'Batalkan finalisasi',exact:true}).click();await ui.expect(page.getByRole('button',{name:'Reconcile UUID lama',exact:true})).toBeEnabled();assert.ok(lost)
+   const committed=state();assert.equal(committed.inspection.status,'REVERSED');assert.equal(committed.inverse_movements.length,1)
+   await page.reload()
+   // This owning CP6 hook automatically reconciles its persisted envelope on
+   // mount. Observe the actual replay before navigating; do not create a UUID.
+   response=await observed(page,r=>saveResponse(r)&&r.request().postDataJSON()?.p_client_request_id===lost.envelope.p_client_request_id,()=>productionMenu(page,'• QC & Final SKU'))
+   assert.equal(response.status(),200);assert.deepEqual(response.request().postDataJSON(),lost.envelope);assert.deepEqual(await response.json(),lost.body);assert.deepEqual(state(),committed)
+   await page.getByRole('button',{name:'Riwayat & koreksi',exact:true}).click();await page.getByPlaceholder('Cari PO, Potongan, receipt, atau histori…',{exact:true}).fill(f.number)
+  }else{
+   response=await observed(page,saveResponse,()=>row().getByRole('button',{name:'Batalkan finalisasi',exact:true}).click());assert.equal(response.status(),200);assert.equal(response.request().postDataJSON().p_payload.qc_inspection_id,f.qc)
+  }
+  await ui.expect(row()).toContainText('Dibatalkan');await ui.expect(row().getByRole('button',{name:'Batalkan finalisasi',exact:true})).toBeDisabled()
+  const after=state();assert.equal(after.inspection.status,'REVERSED');assert.equal(after.lot_qty,'0');assert.deepEqual(after.items,before.items);assert.deepEqual(after.original_movements,before.original_movements);assert.equal(after.inverse_movements.length,1)
+  const inverse=after.inverse_movements[0];assert.equal(inverse.reversal_of_id,f.movement);assert.equal(inverse.qty_signed,-1);assert.equal(inverse.source_type,'FG_MOVEMENT_REVERSAL');assert.equal(inverse.source_id,f.movement)
+  const ledger=await openLedger();assert.equal(ledger.balances.physical_qty,'0');assert.equal(ledger.page.rows.find(m=>m.id===f.movement).physical_balance,'1');assert.equal(ledger.page.rows.find(m=>m.id===inverse.id).physical_balance,'0');assert.deepEqual(state(),after)
+  response=await observed(page,sourceResponse,()=>page.locator(`[data-fg-movement-id="${inverse.id}"]`).getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200);resolved=await response.json();assert.equal(resolved.document.id,f.qc);assert.equal(resolved.document.status,'REVERSED')
+  await ui.expect(row()).toHaveAttribute('data-source-focus','true');await ui.expect(row().getByRole('button',{name:'Batalkan finalisasi',exact:true})).toBeDisabled();assert.deepEqual(state(),after)
+  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);filename=`CP7_SOURCE_QC_INVERSE_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
+  return{status:'PASS',mobile,actual_Native_QC_GOOD_movement_to_exact_inspection_parent:true,source_and_own_reason_no_DML:true,unchanged_Native_owning_inverse_one_PCS_and_original_history:true,FG_inverse_link_reopens_same_reversed_QC:true,chronological_physical_balance1_then0:true,actual_committed_reply_loss_reload_identical_UUID_payload_and_version:!mobile,screenshots}
+ }catch(e){let actual=null;try{actual=state()}catch(failure){actual={observation_error:String(failure)}}writeFileSync(`cp6-proof/t3/CP7_SOURCE_QC_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual,lost},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_QC_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
+ finally{await user.context.close()}
+}
+export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP',()=>supplierPaymentJourney(ui,today,false)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE',()=>supplierPaymentJourney(ui,today,true)],['CP7_SOURCE_QC_BROWSER_DESKTOP',()=>qcSourceJourney(ui,today,false)],['CP7_SOURCE_QC_BROWSER_MOBILE',()=>qcSourceJourney(ui,today,true)]]}

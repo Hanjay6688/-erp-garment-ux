@@ -12,7 +12,7 @@ grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.ma
  erp.fg_adjustments,erp.fg_adjustment_items,erp.sales_headers,erp.sales_items,erp.sales_payments,
  erp.sales_returns,erp.sales_return_items,erp.misc_finance_transactions,erp.journal_entries,erp.payroll_settlements,
  erp.contractor_material_issues,erp.contractor_material_issue_items,erp.materials,erp.uom_definitions,
- erp.bs_cases,erp.rework_orders
+ erp.bs_cases,erp.rework_orders,erp.qc_inspections,erp.qc_inspection_items,erp.fg_stock_movements
  to cp7_transaction_source_read;
 
 create function cp7_transaction_source.authority()returns jsonb
@@ -53,6 +53,19 @@ begin
   select j.source_type,j.source_id into kind,ident from erp.journal_entries j where j.id=ident;
   if not found or ident is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
  end loop;
+ -- A Native FG inverse references the original movement UUID, not a QC
+ -- inspection. Follow that actual immutable link only for the qualified QC
+ -- source family. Other FG inverse families stay explicitly unsupported.
+ if kind='FG_MOVEMENT_REVERSAL' then
+  if not(erp.has_permission('warehouse.stock.view')or erp.has_permission('warehouse.movement.view'))then
+   raise exception using errcode='42501',message='CP7_TRANSACTION_SOURCE_ACCESS_DENIED';end if;
+  select m.source_type,m.source_id into kind,ident from erp.fg_stock_movements m where m.id=ident and m.reversal_of_id is null;
+  if not found or ident is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
+  if kind<>'QC_ITEM'then
+   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),'source',p,
+    'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
+  end if;
+ end if;
  case
  when kind in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS','MATERIAL_PURCHASE_REVERSAL','MATERIAL_PURCHASE_ITEM','MATERIAL_PURCHASE_ROLL','MATERIAL_SUPPLIER_INVOICE','MATERIAL_SUPPLIER_INVOICE_LINE','SUPPLIER_PAYMENT')then
   domain:='RECEIPT';route:='procurement';permission:='warehouse.procurement.view';
@@ -73,6 +86,8 @@ begin
   domain:='ACCESSORY_ISSUE';route:='contractor-issue';permission:='finance.contractor_accessory.view';
  when kind in('REWORK_ORDER','REWORK_COMPLETION')then
   domain:='BS_REWORK';route:='bs-rework';permission:='production.bs_rework.view';
+ when kind in('QC_INSPECTION','QC_ITEM')then
+  domain:='QC';route:='qc';permission:='production.final_sku.view';
  else
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
@@ -119,6 +134,8 @@ begin
  when'REWORK_ORDER','REWORK_COMPLETION'then
   select r.bs_case_id into parent_id from erp.rework_orders r where r.id=ident;
   focus:=jsonb_build_object('kind','REWORK_ORDER','id',ident);
+ when'QC_ITEM'then
+  select i.inspection_id into parent_id from erp.qc_inspection_items i where i.id=ident;
  else null;
  end case;
  if parent_id is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
@@ -132,8 +149,16 @@ begin
  when'PAYROLL'then select to_jsonb(h),h.payroll_number into doc,label from erp.payroll_settlements h where h.id=parent_id;
  when'ACCESSORY_ISSUE'then select to_jsonb(h),h.issue_number into doc,label from erp.contractor_material_issues h where h.id=parent_id;
  when'BS_REWORK'then select to_jsonb(h),h.bs_number into doc,label from erp.bs_cases h where h.id=parent_id;
+ when'QC'then select to_jsonb(h),h.inspection_number into doc,label from erp.qc_inspections h where h.id=parent_id;
  end case;
  if doc is null or coalesce(label,'')=''then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
+ -- The existing CP6 owner reads complete Native laundry-linked QC only.
+ -- Legacy/import outputs are distinct sources, never guessed into this form.
+ if domain='QC'and(not exists(select 1 from erp.qc_inspection_items i where i.inspection_id=parent_id)
+  or exists(select 1 from erp.qc_inspection_items i where i.inspection_id=parent_id and i.source_laundry_receipt_batch_size_line_id is null))then
+  return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
+   'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
+ end if;
  -- The current owner is specifically a counted-PCS accessory workspace.
  -- A mixed or fabric issue is a different Native document and cannot be
  -- redirected into that editor merely because its receivable has this kind.

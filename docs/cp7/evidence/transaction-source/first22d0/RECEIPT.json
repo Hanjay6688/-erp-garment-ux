@@ -1,0 +1,55 @@
+{
+  "head": "22d0d88ce034fc5ef8d05c91626e1b462b638211",
+  "tree": "88d1b546d8a182c461be18d288edeadbdf522f75",
+  "run_id": 37119734161,
+  "job_id": 111193364288,
+  "artifact_id": 11273157518,
+  "archive_sha256": "f8af9c33a389032a5edf44f62ac04a08387e264e608eb93f2875c059f19c9511",
+  "status": "INCOMPLETE",
+  "observed_case_count": 50,
+  "required_case_counts": {
+    "native": 28,
+    "races": 4,
+    "http": 6,
+    "browser": 12
+  },
+  "source_sha256": "a8339804ee42c5151295f69e5e2f515d3c01a33a7944a81831389022ad88f884",
+  "groups": {
+    "native": {
+      "PASS": 25,
+      "INCOMPLETE": 3
+    },
+    "races": {
+      "PASS": 2,
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "PASS": 5,
+      "INCOMPLETE": 1
+    },
+    "browser": {
+      "PASS": 10,
+      "INCOMPLETE": 2
+    }
+  },
+  "members": {
+    "CP7_TRANSACTION_SOURCE.json": {
+      "sha256": "e7ec9faa2e596c6eb27b8af551d559417d5ab714b8d6400a5389537615faaa25",
+      "bytes": 305364,
+      "compressed_sha256": "21a3d9f507e3c271215c6f80ac9df091884d38f7b5e7de484e14780a48dc006c"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "sha256": "ca46ea1eb0ed618bfaf60d98a8e69845605ce92994112948b8c3a1d5d36d932c",
+      "bytes": 360431,
+      "compressed_sha256": "8616c5844801e4f3d7c7ea7bc20f2a54647fd9bafddd06e45a15ec4e1968c8db"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_gate": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "note": "42 PASS / 8 INCOMPLETE. Native inverse helper was missing private-reader EXECUTE for non-superuser postgres. The separate cross-connection stock/HPP hash used inconsistent timezone; normalize full rows, dropping no fields. Original browser observer failure masked its earlier failure, so no supplier screenshot was produced. All preceding41 cases passed. Originals retained without relabeling."
+}

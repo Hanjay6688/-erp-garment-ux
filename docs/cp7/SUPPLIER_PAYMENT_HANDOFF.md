@@ -1,6 +1,6 @@
 # Supplier payment owning history and inverse
 
-Writer increment, successor of404252fb. Native50 qualification is pending. This is payment history and a reviewed inverse, not arbitrary payment editing or a new payment-creation engine. Do not describe it as complete CP7 acceptance.
+Writer increment, successor of404252fb. First Native50 was INCOMPLETE; the successor retest is declared within Native57. This is payment history and a reviewed inverse, not arbitrary payment editing or a new payment-creation engine. Do not describe it as complete CP7 acceptance.
 
 `SupplierPaymentPanel` is inside the existing connected procurement workspace. An actual supplier-payment journal opens its actual receipt and selects that exact payment, including payment26 on page25. The public reader calculates the child's current page in the database; recovery also supplies the exact original child UUID. No guessed parent, browser scan or first-page substitution is used.
 
@@ -20,3 +20,5 @@ The current candidate declares50 actual controls: the existing41 retained, plus4
 `first4042/RECEIPT.json` retains the preceding Native41 INCOMPLETE Original and full failure diagnostics. Both failures searched literal size31 although Native QC fixture sizes are BF-prefixed. The successor uses the size_code from the same Native response, without changing product QC rules or dropping controls. Shell4042 is separately qualified1374 tests/143 files,6 Shell browsers and zero CodeQL findings.
 
 80 impacted local checks in5 files, build and security pass; the exact source/log hashes are in `evidence/transaction-source/supplier-payment-local/LOCAL_RECEIPT.json`. Fresh Native50 and complete composition qualification remain required. Independent acceptance and installed/production GO remain false. Continue material/P08 and P18/P19 work while qualification runs; the owner continuation remains active.
+
+Native50 at22d0 observed42 PASS/8 INCOMPLETE. All previous41 passed. The actual nonsuperuser postgres helper lacked EXECUTE on private payment_access. The successor grants only access_now/payment_access/payment_ap/payment_detail to that Native locking owner and verifies the exact dependencies; no App ERP DML is added. Full stock/HPP hashes now use UTC and restore the caller timezone across independent fixture connections, preserving every field. Browser failure capture preserves the original assertion even if its observer also fails. Exact first50 Originals: evidence/transaction-source/first22d0/RECEIPT.json. Shell on22d0 separately passes1386 tests/144 files/6 browsers/zero CodeQL findings. Native57 retains all50 supplier/source controls and adds seven QC-source controls; it remains pending.

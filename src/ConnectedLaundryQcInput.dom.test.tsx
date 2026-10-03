@@ -8,9 +8,10 @@ import { laundryQcInputFixture } from '../tests/fixtures/laundryQcInput'
 import { recoveryRuntime } from '../tests/fixtures/productionRecovery'
 import type { LaundryQcScope } from './laundryQcModel'
 
-const mock = vi.hoisted(() => ({ auth: null as unknown, rpc: vi.fn() }))
+const mock = vi.hoisted(() => ({ auth: null as unknown, rpc: vi.fn(), source: null as { key: string; document: { id: string; number: string } } | null }))
 vi.mock('./auth/AuthProvider', () => ({ useAuth: () => mock.auth }))
 vi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => mock }))
+vi.mock('./TransactionSourceNavigation', () => ({ useTransactionSource: () => mock.source }))
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`
 function identity() {
   return { runtime: recoveryRuntime, identity: { status: 'AUTHORIZED',
@@ -34,7 +35,7 @@ function withDelivery() {
 }
 let root: Root, box: HTMLDivElement
 beforeEach(() => {
-  Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true }); localStorage.clear(); mock.auth = identity(); mock.rpc.mockReset()
+  Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true }); localStorage.clear(); mock.auth = identity(); mock.rpc.mockReset(); mock.source = null
   Object.defineProperty(navigator, 'locks', { configurable: true, value: { request: vi.fn(async (name, _options, run) => run({ name, mode: 'exclusive' })) } })
   mock.rpc.mockImplementation((name, args) => {
     if (name === 'erp_get_laundry_qc_workspace_v1') return Promise.resolve({ data: args.p_scope === 'LAUNDRY' ? withDelivery() : laundryQcInputFixture('QC'), error: null })
@@ -60,6 +61,33 @@ async function failedRefresh() {
 }
 
 describe('Laundry/QC own input survives current source retirement', () => {
+  const qcHistory = () => {
+    const w = laundryQcInputFixture('QC')
+    ;(w.qc_history as unknown[]).push({ qc_inspection_id: id(70), inspection_number: 'QC-EXACT-001', status: 'POSTED',
+      row_version: 2, physical_at: '2026-09-04T03:00:00Z', destination_location_id: id(5), location_name: 'FG A',
+      po_id: id(14), po_number: 'PO-001', good_qty_pcs: 1, bs_qty_pcs: 0, cutting_group_count: 1,
+      reversible: true, reversal_blocker: null })
+    return w
+  }
+  it('opens the exact source QC history without writing or using another first-page inspection', async () => {
+    mock.source = { key: 'actual-QC-source', document: { id: id(70), number: 'QC-EXACT-001' } }
+    mock.rpc.mockResolvedValue({ data: qcHistory(), error: null }); await mount('QC')
+    expect(mock.rpc).toHaveBeenCalledWith('erp_get_laundry_qc_workspace_v1', { p_scope: 'QC', p_query: 'QC-EXACT-001' })
+    const row = box.querySelector(`[data-qc-inspection-id="${id(70)}"][data-source-focus="true"]`)
+    expect(row?.textContent).toContain('Finalisasi asal dari buku transaksi'); expect(row?.textContent).toContain('QC-EXACT-001'); assertReadsOnly()
+  })
+  it('does not enable a different QC inverse when the exact source is absent or its current read is denied', async () => {
+    mock.source = { key: 'missing-QC-source', document: { id: id(71), number: 'QC-EXACT-001' } }
+    mock.rpc.mockResolvedValue({ data: qcHistory(), error: null }); await mount('QC')
+    expect(box.textContent).toContain('Finalisasi asal belum ditemukan'); expect(input('Alasan reversal QC-EXACT-001').disabled).toBe(true)
+    expect(buttons('Batalkan finalisasi')[0].disabled).toBe(true); await failedRefresh(); expect(box.querySelector('[data-qc-inspection-id]')).toBeNull(); assertReadsOnly()
+  })
+  it('retains only its own source QC reason across refresh and retires it on a new source selection', async () => {
+    mock.source = { key: 'QC-source-A', document: { id: id(70), number: 'QC-EXACT-001' } }
+    mock.rpc.mockResolvedValue({ data: qcHistory(), error: null }); await mount('QC'); await change(input('Alasan reversal QC-EXACT-001'), 'Own source QC reason')
+    await failedRefresh(); await click('Muat ulang data'); expect(input('Alasan reversal QC-EXACT-001').value).toBe('Own source QC reason')
+    mock.source = { ...mock.source, key: 'QC-source-B' }; await mount('QC'); expect(input('Alasan reversal QC-EXACT-001').value).toBe(''); assertReadsOnly()
+  })
   it('retains raw send quantity and own time/notes across failure, revalidates changed availability, resets confirmation', async () => {
     await mount(); await change(select('BATCH DISTRIBUSI AUTHORITATIVE'), id(10)); await change(input('Qty kirim size 31'), '0005')
     await change(input('WARNA TARGET'), 'NAVY OPERATOR'); await change(input('WAKTU FISIK KELUAR'), '2026-09-04T17:00')

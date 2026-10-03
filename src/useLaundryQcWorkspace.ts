@@ -19,7 +19,7 @@ function validateCommitted(data: unknown, envelope: ProductionEnvelope) {
     || value.action !== envelope.action || value.client_request_id !== envelope.id) throw new Error('UUID/action CP6 tidak cocok')
 }
 
-export function useLaundryQcWorkspace(scope: LaundryQcScope) {
+export function useLaundryQcWorkspace(scope: LaundryQcScope, initialQuery = '') {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Laundry/QC memerlukan sesi connected yang berizin.')
   const authorityKey = JSON.stringify([runtime.projectRef, identity.profile.id, identity.profile.authUserId,
@@ -32,7 +32,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
   // read remains visible during an uncertain command; an old or held read
   // cannot survive a new read, actor/role change or shared recovery event.
   const workspace = capture?.authority === authorityKey && isReadCurrent(capture.ticket) ? capture.data : null
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(initialQuery)
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState('')
   const [committedRefreshRequired, setCommittedRefreshRequired] = useState(false)

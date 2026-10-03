@@ -1,0 +1,61 @@
+{
+  "source_commit": "22d0d88ce034fc5ef8d05c91626e1b462b638211",
+  "source_tree": "88d1b546d8a182c461be18d288edeadbdf522f75",
+  "run_id": 37119734093,
+  "jobs": {
+    "application": 111193364090,
+    "CodeQL_javascript_typescript": 111193364202,
+    "CodeQL_actions": 111193364205
+  },
+  "status": "PASS",
+  "application_tests": 1386,
+  "application_test_files": 144,
+  "Shell_browser_tests": 6,
+  "build": "PASS",
+  "security": "PASS",
+  "CodeQL_findings": 0,
+  "runtime_graph_files": 254,
+  "owned_browser_RPC_boundaries": 186,
+  "stylesheets": 53,
+  "orphans_under_runtime_import_ownership_check": 0,
+  "direct_browser_table_reads": 0,
+  "members": {
+    "results.json": {
+      "sha256": "e1b4857d43de2b4d7440832bc05b02a30fe4edd584a5e1d760ed06d64ee692f3",
+      "bytes": 12196,
+      "compressed_sha256": "3a81f8c0cf14b194c338bfb699ab7add6900b52408a8815d9b6894aa18a6248a"
+    },
+    "f04-private-kernels.json": {
+      "sha256": "5cc191e3750789e5f0a1823d4fe2f9b456d8b64b62e94e8e77a0dcaaee649b6d",
+      "bytes": 53273,
+      "compressed_sha256": "187c8058fd3258154e1711e7ad470de53637ef2f3b75c88ca20749d677eff36a"
+    },
+    "js.sarif": {
+      "sha256": "35a951d93b12c7f8c5d7312c9c717bf54c8a03f0147afd9375a658eced09a214",
+      "bytes": 1308070,
+      "compressed_sha256": "9edbc31b2f9d1f108f9bd1018d5fb1bac4ee73956ce154e918c21b134527e048"
+    },
+    "actions.sarif": {
+      "sha256": "2e2cc2efbc32e78df0b615be98aa186dfa9811a1f8e80cd83a49f2770d3e5e1e",
+      "bytes": 695286,
+      "compressed_sha256": "3212458d88292d69cdf11981ad73193521a1ca5a6d71bf77a9faf7d7b4868797"
+    }
+  },
+  "archives": {
+    "shell": {
+      "artifact_id": 11273186502,
+      "sha256": "addf0298e9459490360635668f4f95d828cb02e197755e083c88adfe49ca1102"
+    },
+    "CodeQL_javascript_typescript": {
+      "artifact_id": 11273405020,
+      "sha256": "2b2055dd12da6a3b0a8f00f1cc6f99a4176390e1d7cb52f5ec3af9c36c430601"
+    },
+    "CodeQL_actions": {
+      "artifact_id": 11272673089,
+      "sha256": "c59b990b82ad2acc875a52d37e811c1ba214f95a78a9014b5c6b3d34f0d458c4"
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "scope": "Shell application regressions/build/security/CodeQL on exact22d0. Separate source50 Native was INCOMPLETE; does not qualify supplier inverse or later QC edits."
+}

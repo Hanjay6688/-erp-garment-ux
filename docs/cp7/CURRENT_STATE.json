@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Standing continuation: qualify source50 with supplier exact owning inverse and current input retention; retain all Originals and prior41 controls. Continue real fabric/material/P08 and full P18/P19 exits during qualification, then P20 independent and P21 installed gates. Do not stop at a routine checkpoint. No main/hosted/liveWA or self-issued acceptance.",
+  "next_action": "Standing continuation: qualify successor source57, retaining all50 cases and first22d0 Original; complete remaining source/dependency exits, real fabric/material/P08 and full P18/P19 work during qualification. Then P20 independent and P21 installed gates. Routine checkpoints do not stop the authorized work. No main/hosted/liveWA or self-issued acceptance.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -7558,62 +7558,66 @@
       "receipt_index": "docs/cp7/evidence/finisher-regression/qualified7638/full/INDEX.json"
     },
     "application_qualification": {
-      "source_commit": "404252fbf8e4fbea724b727dbf7228ab5466eb96",
-      "source_tree": "fa447667b14049135aa4f62841723e5bcb3349b3",
-      "run_id": 37118026859,
+      "source_commit": "22d0d88ce034fc5ef8d05c91626e1b462b638211",
+      "source_tree": "88d1b546d8a182c461be18d288edeadbdf522f75",
+      "run_id": 37119734093,
       "jobs": {
-        "application": 111188518044,
-        "CodeQL_javascript_typescript": 111188518099,
-        "CodeQL_actions": 111188518198
+        "application": 111193364090,
+        "CodeQL_javascript_typescript": 111193364202,
+        "CodeQL_actions": 111193364205
       },
       "status": "PASS",
-      "application_tests": 1374,
-      "application_test_files": 143,
+      "application_tests": 1386,
+      "application_test_files": 144,
       "Shell_browser_tests": 6,
       "build": "PASS",
       "security": "PASS",
       "CodeQL_findings": 0,
-      "runtime_graph_files": 251,
-      "owned_browser_RPC_boundaries": 184,
+      "runtime_graph_files": 254,
+      "owned_browser_RPC_boundaries": 186,
       "stylesheets": 53,
       "orphans_under_runtime_import_ownership_check": 0,
       "direct_browser_table_reads": 0,
-      "archives": {
-        "shell": {
-          "artifact_id": 11272113871,
-          "sha256": "d75ee2144e96bc57f4abb0aeacef229e0319634df563037f39fcce4d03790444"
-        },
-        "CodeQL_javascript_typescript": {
-          "artifact_id": 11272556717,
-          "sha256": "f1e5eea22d030c57e4f9a9dca2eb6e5143faaf150e3e324e3787e387ae8ab50f"
-        },
-        "CodeQL_actions": {
-          "artifact_id": 11271634735,
-          "sha256": "847fab9cd837901a277e788c02d7425c8eb43d6ab771e2cc7c9c2767fe1e58d7"
-        }
-      },
       "members": {
         "results.json": {
-          "sha256": "41d0a159f82bd2feb48fbe45d5c496177b7add666b9a8c78eb576b8a9e2378b8",
-          "bytes": 12206
+          "sha256": "e1b4857d43de2b4d7440832bc05b02a30fe4edd584a5e1d760ed06d64ee692f3",
+          "bytes": 12196,
+          "compressed_sha256": "3a81f8c0cf14b194c338bfb699ab7add6900b52408a8815d9b6894aa18a6248a"
         },
         "f04-private-kernels.json": {
-          "sha256": "feecee092da76b537a2c41f87244c015e787a8d156dd6a7f7aa04c00014f93f3",
-          "bytes": 53273
+          "sha256": "5cc191e3750789e5f0a1823d4fe2f9b456d8b64b62e94e8e77a0dcaaee649b6d",
+          "bytes": 53273,
+          "compressed_sha256": "187c8058fd3258154e1711e7ad470de53637ef2f3b75c88ca20749d677eff36a"
         },
-        "javascript.sarif": {
-          "sha256": "a2ac4e2e83b22b07c72776f8c41675cd71abd19b9c498811999022fb4c6b0a9d",
-          "bytes": 1304835
+        "js.sarif": {
+          "sha256": "35a951d93b12c7f8c5d7312c9c717bf54c8a03f0147afd9375a658eced09a214",
+          "bytes": 1308070,
+          "compressed_sha256": "9edbc31b2f9d1f108f9bd1018d5fb1bac4ee73956ce154e918c21b134527e048"
         },
         "actions.sarif": {
-          "sha256": "0aca553d46a7470520e05e5ba5bbb3cb554ddab1fa397afbc6a28cd3b78f2cfd",
-          "bytes": 693352
+          "sha256": "2e2cc2efbc32e78df0b615be98aa186dfa9811a1f8e80cd83a49f2770d3e5e1e",
+          "bytes": 695286,
+          "compressed_sha256": "3212458d88292d69cdf11981ad73193521a1ca5a6d71bf77a9faf7d7b4868797"
         }
       },
-      "independent_acceptance": false,
+      "archives": {
+        "shell": {
+          "artifact_id": 11273186502,
+          "sha256": "addf0298e9459490360635668f4f95d828cb02e197755e083c88adfe49ca1102"
+        },
+        "CodeQL_javascript_typescript": {
+          "artifact_id": 11273405020,
+          "sha256": "2b2055dd12da6a3b0a8f00f1cc6f99a4176390e1d7cb52f5ec3af9c36c430601"
+        },
+        "CodeQL_actions": {
+          "artifact_id": 11272673089,
+          "sha256": "c59b990b82ad2acc875a52d37e811c1ba214f95a78a9014b5c6b3d34f0d458c4"
+        }
+      },
       "production_go": false,
-      "qualification_scope": "Application/Shell only; source Native41 successor is INCOMPLETE and is retained separately.",
-      "receipt": "docs/cp7/evidence/finisher-regression/qualified4042/shell/RECEIPT.json"
+      "independent_acceptance": false,
+      "scope": "Shell application regressions/build/security/CodeQL on exact22d0. Separate source50 Native was INCOMPLETE; does not qualify supplier inverse or later QC edits.",
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified22d0/shell/RECEIPT.json"
     },
     "previous_application_qualification": {
       "source_commit": "9148adf778d7210b41435b7cb7633d3edfb620a8",
@@ -7800,7 +7804,7 @@
         "http": 6,
         "browser": 12
       },
-      "Native_status": "PENDING",
+      "Native_status": "FIRST_NATIVE50_INCOMPLETE42_PASS8_INCOMPLETE_SUCCESSOR_REQUIRED",
       "all41_prior_cases_retained": true,
       "source_sha256": {
         "src/SupplierPaymentPanel.tsx": "1404832247ce599632541172271bddcf738913b230a297741e53d1396a8cc284",
@@ -7830,7 +7834,126 @@
       "handoff": "docs/cp7/SUPPLIER_PAYMENT_HANDOFF.md",
       "qualification": "PENDING_NATIVE50",
       "payment_creation": false,
-      "arbitrary_atomic_payment_edit": false
+      "arbitrary_atomic_payment_edit": false,
+      "first_Native50": {
+        "receipt": "docs/cp7/evidence/transaction-source/first22d0/RECEIPT.json",
+        "all41_predecessor_cases_pass": true,
+        "product_refusal": "Private postgres inverse helper lacked exact reader EXECUTE; successor declares only the four required private dependencies.",
+        "observer_issue": "Full stock/HPP rows lacked cross-connection timezone normalization. Canonical UTC preserves every field and caller timezone; actual retest required."
+      }
+    },
+    "previous_application_qualification4042": {
+      "source_commit": "404252fbf8e4fbea724b727dbf7228ab5466eb96",
+      "source_tree": "fa447667b14049135aa4f62841723e5bcb3349b3",
+      "run_id": 37118026859,
+      "jobs": {
+        "application": 111188518044,
+        "CodeQL_javascript_typescript": 111188518099,
+        "CodeQL_actions": 111188518198
+      },
+      "status": "PASS",
+      "application_tests": 1374,
+      "application_test_files": 143,
+      "Shell_browser_tests": 6,
+      "build": "PASS",
+      "security": "PASS",
+      "CodeQL_findings": 0,
+      "runtime_graph_files": 251,
+      "owned_browser_RPC_boundaries": 184,
+      "stylesheets": 53,
+      "orphans_under_runtime_import_ownership_check": 0,
+      "direct_browser_table_reads": 0,
+      "archives": {
+        "shell": {
+          "artifact_id": 11272113871,
+          "sha256": "d75ee2144e96bc57f4abb0aeacef229e0319634df563037f39fcce4d03790444"
+        },
+        "CodeQL_javascript_typescript": {
+          "artifact_id": 11272556717,
+          "sha256": "f1e5eea22d030c57e4f9a9dca2eb6e5143faaf150e3e324e3787e387ae8ab50f"
+        },
+        "CodeQL_actions": {
+          "artifact_id": 11271634735,
+          "sha256": "847fab9cd837901a277e788c02d7425c8eb43d6ab771e2cc7c9c2767fe1e58d7"
+        }
+      },
+      "members": {
+        "results.json": {
+          "sha256": "41d0a159f82bd2feb48fbe45d5c496177b7add666b9a8c78eb576b8a9e2378b8",
+          "bytes": 12206
+        },
+        "f04-private-kernels.json": {
+          "sha256": "feecee092da76b537a2c41f87244c015e787a8d156dd6a7f7aa04c00014f93f3",
+          "bytes": 53273
+        },
+        "javascript.sarif": {
+          "sha256": "a2ac4e2e83b22b07c72776f8c41675cd71abd19b9c498811999022fb4c6b0a9d",
+          "bytes": 1304835
+        },
+        "actions.sarif": {
+          "sha256": "0aca553d46a7470520e05e5ba5bbb3cb554ddab1fa397afbc6a28cd3b78f2cfd",
+          "bytes": 693352
+        }
+      },
+      "independent_acceptance": false,
+      "production_go": false,
+      "qualification_scope": "Application/Shell only; source Native41 successor is INCOMPLETE and is retained separately.",
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified4042/shell/RECEIPT.json"
+    },
+    "qc_source_candidate": {
+      "basis": "Local integrated frontend fixtures are synthetic, not Native database/browser qualification.",
+      "impacted_tests": 96,
+      "test_files": 7,
+      "build": "PASS",
+      "security": "PASS",
+      "python_and_browser_syntax": "PASS",
+      "runtime_graph_files": 254,
+      "owned_browser_RPC_boundaries": 186,
+      "stylesheets": 53,
+      "Native_status": "PENDING",
+      "Native_budget": 57,
+      "required_case_counts": {
+        "native": 32,
+        "races": 4,
+        "http": 7,
+        "browser": 14
+      },
+      "all50_prior_cases_retained": true,
+      "source_sha256": {
+        "scripts/cp7-src/invoices/ownership.sql": "8af60720e6c2d1d488bcc86575dbbeca3b2d47aa72a532739e8a0ef8b63ca7a6",
+        "scripts/cp7-src/transactions/source.sql": "e23e04c9190b1461d768e494a57911c062d884c2f88bcd047a855acb441762f9",
+        "scripts/cp7_supplier_payment_cases.py": "af9ca224eec46f2cee057abc442833c194d624593e7ba24ad08d73eedc8e3929",
+        "scripts/cp7_qc_source_cases.py": "67fe6812924583a7789377f6a01525614d9d0fb2665a8d59ee113a794d076ed5",
+        "scripts/cp7_transaction_source_cases.py": "d26011fa788793aef19b15fab8035603604d4f0b05fae9a924758e94582c1435",
+        "scripts/cp7_transaction_source_browser.mjs": "9493184d520ec00d4f559b7f24d08d8a0a2e47e29b44fa6148c41a1e45046961",
+        "scripts/cp7_transaction_source_browser_fixture.py": "b3728dfbcf48b15126e3c57de9b115c81e4f990c9c81338e56e63eebb0a3c5ca",
+        "scripts/cp7_transaction_source_bundle.py": "2dc8378aef8985c4205c14a23b0500c6344eec10fef4723612641a84f85e67aa",
+        "scripts/cp7_p09_procurement_probe.py": "f55ef336c7ecb70a1018e02e7e66213e9d25bacf6978f6488c043cec5453c4fa",
+        "scripts/cp7_f05_analysis_probe.py": "6c5c1d0c19b11704bd5c73879573d71d694a011009ce91376b99ba9c2ed4a2d4",
+        "src/ConnectedQcFinalPage.tsx": "bcacfb8004751994da8f2402d738dcf46b302f1bf15b0a90b7b0c7d94991459c",
+        "src/useLaundryQcWorkspace.ts": "44252054fc76c93553ae42199614baf3869ae451c7ea592ebffc569f9dbd0351",
+        "src/ConnectedFgStockPage.tsx": "7ce04421548a733aedab21acceb86dc232ca7738078f94c6bdc90f82b9e1d0c0",
+        "src/ConnectedLaundryQcInput.dom.test.tsx": "3edd9906a03c15d21ba2957c85552c6a3d4530ae931240876420f381b79a6778",
+        "src/transactionSource.ts": "72d7999d1745cece36b6aee6579c92c01946052aa4526934cb33345365a2c912",
+        "src/transactionSource.test.ts": "a3ef66cc4be176585b0de52f9ea2b1dda6343657b87dd898dfeafc4f4a8be665"
+      },
+      "logs": {
+        "qc-payment-targeted.log": {
+          "sha256": "19eb41756efcf582e18c643cb49de37c2474117212b65e016755189ace4e9e1b",
+          "bytes": 332
+        },
+        "qc-source-build.log": {
+          "sha256": "03cd0381adf0696ac68a5bb663ebd080554ad91ba79f5ed69dc2897fa288175f",
+          "bytes": 11705
+        },
+        "qc-source-security.log": {
+          "sha256": "f44e9c149f5315912cc5324a1dad7189dc2a843e6ef5561f60856b132074d05a",
+          "bytes": 12142
+        }
+      },
+      "receipt": "docs/cp7/evidence/transaction-source/qc-source-local/LOCAL_RECEIPT.json",
+      "handoff": "docs/cp7/QC_SOURCE_HANDOFF.md",
+      "scope": "Actual QC item FK to owning complete laundry-linked inspection; current exact Native query; QC inverse FG reference follows original movement only; unchanged Native QC command/recovery. Other FG inverse families and legacy/import QC stay unsupported."
     }
   }
 }

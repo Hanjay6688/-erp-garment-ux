@@ -30,10 +30,17 @@ def original_payment(cur,ident):
  try:return cur.execute('select to_jsonb(p)from erp.supplier_payments p where id=%s',(ident,)).fetchone()[0]
  finally:invoice.aa.zone(cur,zone)
 
+def physical_state(cur):
+ # Keep every stock/HPP field. The Native boundary reader uses UTC, while
+ # independent browser fixture connections otherwise serialize rows in WIB.
+ zone=cur.execute('show timezone').fetchone()[0];invoice.aa.zone(cur,'UTC')
+ try:return misc.stock_cost(cur)
+ finally:invoice.aa.zone(cur,zone)
+
 def fixture(cur,today,count=26):
  bank=bc.fixture(cur,today,zones=False,purchase=False)
  f=invoice.fixture(cur,today,'100','10',True);f['cash']=bank['cash'];f['cash_before']=str(misc.cash_balance(cur,f['cash']))
- f['physical']=misc.stock_cost(cur)
+ f['physical']=physical_state(cur)
  for _ in range(count):
   ident=bc.supplier_payment(cur,f['receipt']['purchase_id'],'10.00',f['cash'],f['day']+timedelta(days=2))
   auth.actor(cur);cur.execute('select erp.post_supplier_payment(%s)',(ident,));b.api.admin(cur)
@@ -48,7 +55,7 @@ def intent(cur,f,subject=None):
 
 def observe(cur,f):
  w=read(cur,f,payment=f['target']);p=next(p for p in w['page']['rows']if p['id']==f['target'])
- assert misc.stock_cost(cur)==f['physical'],'SUPPLIER_PAYMENT_CHANGED_STOCK_HPP'
+ assert physical_state(cur)==f['physical'],'SUPPLIER_PAYMENT_CHANGED_STOCK_HPP'
  ap=w['Native_AP'];paid=D(ap['paid']);cash=misc.cash_balance(cur,f['cash'])-D(f['cash_before'])
  assert D(ap['final_ap'])==D('1000.00') and D(ap['remaining'])==D('1000.00')-paid
  assert cash==-paid,'SUPPLIER_PAYMENT_NATIVE_CASH_AP_MISMATCH'
@@ -99,7 +106,7 @@ def cases(cur,today):
     assert not cur.execute("select has_table_privilege(%s,%s,'INSERT,UPDATE,DELETE')",(who,table)).fetchone()[0]
   return dict(status='PASS',current_database_pay_before_replay=True,custom_role_readonly_no_inverse=True,private_helper_and_all_ERP_DML_denied=True)
  def atomic():
-  f=fixture(cur,today,2);p=intent(cur,f);other=fixture(cur,today,1);f['physical']=misc.stock_cost(cur);bad={**p,'purchase_id':other['receipt']['purchase_id']}
+  f=fixture(cur,today,2);p=intent(cur,f);other=fixture(cur,today,1);f['physical']=physical_state(cur);bad={**p,'purchase_id':other['receipt']['purchase_id']}
   before=b.boundary.snapshot(cur);auth.refused(cur,lambda:command(cur,bad),'CP7_SUPPLIER_PAYMENT_NOT_FOUND');assert b.boundary.snapshot(cur)==before
   peer=next(x for x in f['payments']if x!=f['target']);readpeer=read(cur,f,payment=peer);pp={**p,'payment_id':peer,'review_token':readpeer['page']['rows'][0]['review_token']};command(cur,pp)
   before=b.boundary.snapshot(cur);auth.refused(cur,lambda:command(cur,p),'CP7_SUPPLIER_PAYMENT_STALE_REVIEW');assert b.boundary.snapshot(cur)==before

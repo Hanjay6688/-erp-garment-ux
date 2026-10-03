@@ -1,0 +1,22 @@
+2026-10-03T11:28:05.7909506Z  * [new branch]        security/public-github-hardening-20260909 -> origin/security/public-github-hardening-20260909
+2026-10-03T11:29:41.6845430Z  Test Files  144 passed (144)
+2026-10-03T11:29:41.6850465Z       Tests  1386 passed (1386)
+2026-10-03T11:29:41.8377224Z > erp-garment-ux@0.1.2 test:security
+2026-10-03T11:29:41.8378150Z > npm run check:source && npm run check:access && npm run check:css && npm run check:cp5 && npm run check:cp6 && npm run check:backend && node scripts/test-build-preflight.mjs && node scripts/test-uat-auth-assertions.mjs
+2026-10-03T11:29:41.9860814Z Source ownership passed: 254 runtime files, 186 owned RPC boundaries, no orphan or direct table access.
+2026-10-03T11:29:42.0980871Z Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.
+2026-10-03T11:29:42.1164743Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 186 browser RPC boundaries.
+2026-10-03T11:29:45.8051089Z CSS ownership passed: 53 stylesheets have no unowned selector branches.
+2026-10-03T11:29:45.9212613Z Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.
+2026-10-03T11:29:46.0485853Z Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.
+2026-10-03T11:29:48.2566769Z > erp-garment-ux@0.1.2 prebuild
+2026-10-03T11:29:48.2567691Z > node scripts/build-preflight.mjs && npm run check:source && npm run check:access && npm run check:css
+2026-10-03T11:29:48.4246835Z Source ownership passed: 254 runtime files, 186 owned RPC boundaries, no orphan or direct table access.
+2026-10-03T11:29:48.5357272Z Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.
+2026-10-03T11:29:48.5540644Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 186 browser RPC boundaries.
+2026-10-03T11:29:52.2380960Z CSS ownership passed: 53 stylesheets have no unowned selector branches.
+2026-10-03T11:29:52.2514711Z > erp-garment-ux@0.1.2 build
+2026-10-03T11:29:52.2515103Z > tsc -b && vite build
+2026-10-03T11:29:54.6314938Z > erp-garment-ux@0.1.2 postbuild
+2026-10-03T11:29:54.6699280Z Client artifact secret scan passed: /home/runner/work/-erp-garment-ux/-erp-garment-ux/dist
+2026-10-03T11:30:30.7189118Z   6 passed (8.7s)

@@ -4,6 +4,14 @@ const source='11111111-1111-4111-8111-111111111111',parent='22222222-2222-4222-8
 const ref={source_type:'SALES_PAYMENT',source_id:source}
 const receipt=()=>({contract_version:'cp7.transaction-source.v1',actor_scope_id:actor,source:{...ref},status:'AVAILABLE',document:{domain:'SALE',route:'sales-payments',id:parent,number:'INV-26',status:'PARTIAL_PAID',revision:'9007199254740993',focus:{kind:'SALES_PAYMENT',id:source,page_offset:25}},read_at:'2026-10-03T04:00:00.123456Z',business_DML:false})
 describe('exact transaction source boundaries',()=>{
+ it('opens an actual QC item through its inspection FK and keeps a direct inspection exact',()=>{
+  for(const kind of ['QC_ITEM','QC_INSPECTION','FG_MOVEMENT_REVERSAL']){
+   const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'QC',route:'qc',id:kind==='QC_INSPECTION'?source:parent,focus:null})
+   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({domain:'QC',route:'qc',focus:null})
+   for(const bad of [{route:'fg-summary'},{focus:{kind:'SALES_RETURN',id:source,page_offset:0}}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
+   if(kind==='QC_INSPECTION'){r.document.id=parent;expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()}
+  }
+ })
  it('binds a supplier payment to its receipt, exact child and owning25-row page',()=>{
   const r=receipt();r.source={source_type:'SUPPLIER_PAYMENT',source_id:source};Object.assign(r.document,{domain:'RECEIPT',route:'procurement',focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:25}})
   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:25}})

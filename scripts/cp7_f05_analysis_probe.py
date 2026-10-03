@@ -54,7 +54,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
  if source_navigation:
   assert not attention and not p18_e01 and not rule_lifecycle
   import cp7_transaction_source_cases as case_provider
-  expected=case_provider.EXPECTED;assert expected==50;out=OUT.with_name('CP7_TRANSACTION_SOURCE.json');phase='cp7_transaction_source';browser_script='cp7_transaction_source_browser.mjs'
+  expected=case_provider.EXPECTED;assert expected==57;out=OUT.with_name('CP7_TRANSACTION_SOURCE.json');phase='cp7_transaction_source';browser_script='cp7_transaction_source_browser.mjs'
  if misc_correction:
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation))
   import cp7_misc_correction_cases as case_provider

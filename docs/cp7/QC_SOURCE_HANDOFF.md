@@ -1,0 +1,15 @@
+# QC source owning workflow
+
+Writer successor to22d0. Local checks pass; actual Native57 qualification is pending. This does not claim full source coverage, arbitrary posted replacement, independent acceptance or production GO.
+
+An actual FG QC_GOOD movement has source_type QC_ITEM. Resolve its real qc_inspection_items.inspection_id foreign key, then open QC with the current Native reader queried by the actual inspection number. The exact UUID must be present before inverse controls unlock. The history view starts on the source inspection; no first-row substitution or browser page scan is used. Generic manual QC entry still uses its existing queue.
+
+Native FG inverse rows use FG_MOVEMENT_REVERSAL and reference the original movement UUID. The read-only resolver follows that actual row only for QC_ITEM, after current warehouse.stock.view or warehouse.movement.view. It also requires current production.final_sku.view before exposing the parent. Other FG inverse families remain explicitly unsupported. The existing source role gains SELECT on three exact Native tables, no ERP DML or new writer role. Public response still contains only closed document metadata, no quantities, cash or HPP.
+
+Only complete Native laundry-linked inspections are admitted. Legacy/imported output sources are distinct and stay unsupported. Actual qc_inspection_items, original QC_GOOD movements and timestamps are retained after the unchanged REVERSE_FINAL_SKU command. A new Native inverse changes physical quantity1 to0; original running balance1 and later inverse balance0 must remain consistent. The same immutable request UUID, payload and expected_version are replayed on uncertain replies. No replacement UUID is created after reload.
+
+The budget is32 DB/4 actual schedules/7 actual Auth-HTTP/14 actual desktop-mobile journeys, total57. All preceding50 controls remain required. Four new DB controls include a real inspection outside the Native reader's actual window, constructed by actual QC executions; the exact Native query must retrieve it without DML. The two new browser journeys start from the actual FG stock-card source, perform the owning inverse, reopen the same source through the inverse movement and conserve original history. Desktop drops the actual committed response and observes the automatic owning-hook replay after reload. Full ERP/public/Auth restoration, private-role manifest32, primary unchanged, backup drill, advisors and Auth cleanup remain unchanged.
+
+Local96 checks in7 files/build/security/JS-Python syntax pass. Receipts and exact hashes: evidence/transaction-source/qc-source-local/LOCAL_RECEIPT.json. Synthetic frontend fixtures are not Native evidence. First supplier50 INCOMPLETE Original remains at first22d0; its real private-helper ACL refusal is repaired narrowly and must pass actual requalification.
+
+Continue remaining source/dependency exits and feasible material/P08/P18/P19 work while Native57 runs. Full fabric recipes/eligible allocation and installed/independent acceptance remain separate requirements. Missing operating data stays UNKNOWN.
