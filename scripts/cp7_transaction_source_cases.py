@@ -13,12 +13,21 @@ import cp7_sales_return_cases as returned
 import cp7_note_correction_cases as note
 import cp7_misc_cases as misc
 import cp7_installment_cases as installment
+import cp7_f03_e24_issue_cases as accessory
 import cp7_f03_cases as combined
 import cp7_transaction_source_bundle as bundle
 b,auth=material.b,material.auth
-REQUIRED=dict(native=16,races=2,http=3,browser=4)
+REQUIRED=dict(native=20,races=2,http=4,browser=6)
 EXPECTED=sum(REQUIRED.values())
 RPC='erp_cp7_resolve_transaction_source_v1'
+
+def accessory_fixture(cur,today):
+ f=accessory.fixture(cur,today);f['before']=accessory.observe(cur,f)
+ f['issue']=accessory.bc.note_call(cur,'POST',accessory.payload(f))
+ f['issue_item']=str(cur.execute('select id from erp.contractor_material_issue_items where issue_id=%s',(f['issue']['id'],)).fetchone()[0])
+ f['journals']=[dict(id=str(i),source_type=kind,number=number)for i,kind,number in cur.execute("select id,source_type,journal_number from erp.journal_entries where source_id=%s and source_type in('CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE')and status='POSTED'order by source_type,id",(f['issue']['id'],)).fetchall()]
+ assert {j['source_type']for j in f['journals']}=={'CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE'}
+ return f
 
 def read(cur,kind,ident,subject=None):
  auth.actor(cur,subject)
@@ -120,6 +129,54 @@ def cases(cur,today):
   unsupported=read(cur,'PAYROLL_INVENTED_SOURCE',missing);assert unsupported['status']=='UNSUPPORTED_SOURCE'and unsupported['document']is None
   assert b.boundary.snapshot(cur)==before
   return dict(status='PASS',missing_payroll_or_child_refused_and_unregistered_payroll_kind_not_guessed=True,no_placeholder_payment_or_business_DML=True)
+ def accessory_documents():
+  f=accessory_fixture(cur,today);ident=f['issue']['id'];posted=accessory.assert_posted(cur,f,f['before'])
+  d=exact(cur,'CONTRACTOR_MATERIAL_ISSUE_ITEM',f['issue_item'],'ACCESSORY_ISSUE',ident);assert d['route']=='contractor-issue'and d['revision']==f['issue']['row_version']
+  for j in f['journals']:exact(cur,j['source_type'],ident,'ACCESSORY_ISSUE',ident)
+  accessory.bc.note_call(cur,'REVERSE',dict(id=ident,expected_version=f['issue']['row_version'],reason='Inverse exact source accessory note'))
+  restored=accessory.observe(cur,f);assert restored['stock']==f['before']['stock']and restored['accounts']==f['before']['accounts']and restored['source']==f['before']['source']
+  for j in f['journals']:
+   inverse=cur.execute('select source_type,source_id from erp.journal_entries where reversal_of_id=%s',(j['id'],)).fetchone();assert inverse
+   assert exact(cur,inverse[0],inverse[1],'ACCESSORY_ISSUE',ident)['status']=='REVERSED'
+  assert exact(cur,'CONTRACTOR_MATERIAL_ISSUE_ITEM',f['issue_item'],'ACCESSORY_ISSUE',ident)['status']=='REVERSED'
+  return dict(status='PASS',actual_stock_item_and_cost_receivable_journals_same_Native_note=True,owning_Native_inverse_restores_stock_every_account_and_retains_original_child=True)
+ def accessory_history():
+  f=accessory_fixture(cur,today);ident=f['issue']['id']
+  for i in range(51):
+   p=accessory.payload(f);p.update(number=f['issue_number']+'-NEW-'+str(i),physical_at=accessory.bc.local_at(today,11))
+   accessory.bc.note_call(cur,'SAVE_DRAFT',p)
+  before=b.boundary.snapshot(cur);w=accessory.bc.note_read(cur,dict(id=ident,query=f['code']))
+  assert len(w['history'])==50 and w['history_count']>=52 and ident not in[x['id']for x in w['history']]
+  assert w['document']['id']==ident and w['document']['status']=='POSTED'and w['document']['row_version']==f['issue']['row_version']
+  exact(cur,'CONTRACTOR_MATERIAL_ISSUE_ITEM',f['issue_item'],'ACCESSORY_ISSUE',ident)
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',actual52_Native_notes_original_outside_history50_opens_by_exact_id=True,no_client_scan_placeholder_or_write=True)
+ def accessory_authority():
+  f=accessory_fixture(cur,today);subject,role=auth.custom_actor(cur)
+  cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.contractor_accessory.reverse')",(role,))
+  auth.refused(cur,lambda:read(cur,'CONTRACTOR_MATERIAL_ISSUE_ITEM',f['issue_item'],subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
+  cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.contractor_accessory.view')",(role,))
+  exact(cur,'CONTRACTOR_MATERIAL_ISSUE_ITEM',f['issue_item'],'ACCESSORY_ISSUE',f['issue']['id'],subject=subject)
+  cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.contractor_accessory.view'",(role,))
+  for kind,ident in [('CONTRACTOR_MATERIAL_ISSUE_ITEM',f['issue_item']),('CONTRACTOR_MATERIAL_RECEIVABLE',f['issue']['id'])]:auth.refused(cur,lambda:read(cur,kind,ident,subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
+  assert not cur.execute("select has_function_privilege(%s,'erp.save_accessory_issue_action_v1(text,jsonb,uuid)','EXECUTE')",(bundle.ROLE,)).fetchone()[0]
+  bundle.verify(cur)
+  return dict(status='PASS',current_custom_role_view_before_child_resolution_and_after_revoke=True,reverse_permission_does_not_imply_view=True,no_ERP_DML_or_Native_writer_EXEC=True)
+ def accessory_unsupported():
+  f=accessory_fixture(cur,today);fabric=material.fixture(cur,today)
+  # Administrative master price only; the valid fabric document below is
+  # saved by its Native writer, never inserted as a business outcome.
+  cur.execute('insert into erp.contractor_material_price_versions(material_id,contractor_id,selling_price,effective_from,notes)values(%s,%s,%s,%s,%s)',(fabric['material'],f['mandor'],'3.25',fabric['payload']['physical_at'],'Source classification fixture configured fabric price'))
+  p=dict(issue_number=f['issue_number']+'-FABRIC',contractor_id=f['mandor'],location_id=fabric['location'],physical_at=f['issue_at'],change_reason='Native fabric note is not a counted accessory editor',items=[dict(material_id=fabric['material'],roll_id=fabric['roll'],qty='1')])
+  from psycopg.types.json import Jsonb
+  draft=accessory.bc.internal(cur,'save_contractor_material_issue_draft_v2',Jsonb(p),uuid.uuid4(),None)
+  ident=draft['contractor_material_issue_id'];item=cur.execute('select id from erp.contractor_material_issue_items where issue_id=%s',(ident,)).fetchone()[0];before=b.boundary.snapshot(cur)
+  for kind,i in [('CONTRACTOR_MATERIAL_RECEIVABLE',ident),('CONTRACTOR_MATERIAL_ISSUE_ITEM',item)]:
+   r=read(cur,kind,i);assert r['status']=='UNSUPPORTED_SOURCE'and r['document']is None and r['business_DML']is False
+  missing=uuid.uuid4()
+  for kind in('CONTRACTOR_MATERIAL_RECEIVABLE','CONTRACTOR_MATERIAL_ISSUE_ITEM'):auth.refused(cur,lambda:read(cur,kind,missing),'CP7_TRANSACTION_SOURCE_UNAVAILABLE')
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',actual_Native_fabric_issue_not_redirected_into_PCS_accessory_editor=True,missing_header_or_child_refused_no_guessed_document=True)
  def authority():
   f=material.fixture(cur,today);subject,role=auth.custom_actor(cur)
   auth.refused(cur,lambda:read(cur,'MATERIAL_PURCHASE_ROLL',f['roll'],subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
@@ -143,7 +200,7 @@ def cases(cur,today):
   for who in('anon','service_role'):assert not cur.execute('select has_function_privilege(%s,\'public.erp_cp7_resolve_transaction_source_v1(jsonb)\',\'EXECUTE\')',(who,)).fetchone()[0]
   assert cur.execute('select has_function_privilege(\'authenticated\',\'public.erp_cp7_resolve_transaction_source_v1(jsonb)\',\'EXECUTE\')').fetchone()[0]
   return dict(status='PASS',public_current_auth_only_private_resolver_and_ERP_DML_denied=True)
- functions=[receipts,invoices,transfers,counts,finished,sales,payments,returns,journals,authority,malformed,least_privilege,payroll_headers,payroll_payments,payroll_authority,payroll_unavailable]
+ functions=[receipts,invoices,transfers,counts,finished,sales,payments,returns,journals,authority,malformed,least_privilege,payroll_headers,payroll_payments,payroll_authority,payroll_unavailable,accessory_documents,accessory_history,accessory_authority,accessory_unsupported]
  assert len(functions)==REQUIRED['native']
  return [('CP7_SOURCE_'+f.__name__.upper(),f)for f in functions]
 
@@ -187,4 +244,19 @@ def http_cases(http,today):
   assert admin.rpc(RPC,args)['status']==403
   with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==revoked;conn.rollback()
   return dict(status='PASS',real_Auth_HTTP_exact_private_installment_to_Native_payroll=True,current_database_view_revoke_denied_despite_same_Auth_token=True,no_business_write=True)
- return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http),('CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW',payroll_http)]
+ def accessory_http():
+  admin=http.login('ADMIN','cp7-source-accessory-current-admin')
+  with http.connect()as conn,conn.cursor()as cur:
+   f=accessory_fixture(cur,today);role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(admin.auth_user_id,)).fetchone()[0]
+   cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.contractor_accessory.view')on conflict do nothing",(role,));conn.commit();before=b.boundary.snapshot(cur);conn.rollback()
+  args=dict(p_source=dict(source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM',source_id=f['issue_item']))
+  assert http.anon_rpc(RPC,args)['status']in(401,403)
+  r=admin.rpc(RPC,args);assert r['status']==200,r
+  assert r['body']['actor_scope_id']==admin.auth_user_id and r['body']['document']['id']==f['issue']['id']and r['body']['document']['route']=='contractor-issue'and r['body']['business_DML']is False
+  with http.connect()as conn,conn.cursor()as cur:
+   assert b.boundary.snapshot(cur)==before
+   cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.contractor_accessory.view'",(role,));conn.commit();revoked=b.boundary.snapshot(cur);conn.rollback()
+  assert admin.rpc(RPC,args)['status']==403
+  with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==revoked;conn.rollback()
+  return dict(status='PASS',real_Auth_HTTP_exact_Native_stock_child_to_note=True,current_database_view_revoke_denied_with_unchanged_Auth_token=True,no_business_write=True)
+ return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http),('CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW',payroll_http),('CP7_SOURCE_HTTP_ACCESSORY_CURRENT_VIEW',accessory_http)]

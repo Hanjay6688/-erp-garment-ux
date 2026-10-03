@@ -10,7 +10,8 @@ grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.ma
  erp.material_supplier_invoices,erp.material_supplier_invoice_lines,erp.supplier_payments,
  erp.material_transfers,erp.material_transfer_items,erp.material_adjustments,erp.material_adjustment_items,
  erp.fg_adjustments,erp.fg_adjustment_items,erp.sales_headers,erp.sales_items,erp.sales_payments,
- erp.sales_returns,erp.sales_return_items,erp.misc_finance_transactions,erp.journal_entries,erp.payroll_settlements
+ erp.sales_returns,erp.sales_return_items,erp.misc_finance_transactions,erp.journal_entries,erp.payroll_settlements,
+ erp.contractor_material_issues,erp.contractor_material_issue_items,erp.materials,erp.uom_definitions
  to cp7_transaction_source_read;
 
 create function cp7_transaction_source.authority()returns jsonb
@@ -67,6 +68,8 @@ begin
   domain:='MISC_FINANCE';route:='finance-journal';permission:='finance.journal.view';
  when kind in('PAYROLL_ATTENDANCE_ACCRUAL','PAYROLL_EXTRA_ACCRUAL','PAYROLL_MANUAL_REDUCTION','PAYROLL_MATERIAL_DEDUCTION','PAYROLL_CASH_ADVANCE_DEDUCTION','PAYROLL_OTHER_DEDUCTION','PAYROLL_PAYMENT','PAYROLL_INSTALLMENT')then
   domain:='PAYROLL';route:='finance-payroll';permission:='finance.payroll.view';
+ when kind in('CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE','CONTRACTOR_MATERIAL_ISSUE_ITEM')then
+  domain:='ACCESSORY_ISSUE';route:='contractor-issue';permission:='finance.contractor_accessory.view';
  else
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
@@ -106,6 +109,8 @@ begin
  when'PAYROLL_INSTALLMENT'then
   select i.payroll_id into parent_id from cp7_installment.payments i where i.id=ident;
   focus:=jsonb_build_object('kind','PAYROLL_INSTALLMENT','id',ident);
+ when'CONTRACTOR_MATERIAL_ISSUE_ITEM'then
+  select i.issue_id into parent_id from erp.contractor_material_issue_items i where i.id=ident;
  else null;
  end case;
  if parent_id is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
@@ -117,8 +122,21 @@ begin
  when'SALE'then select to_jsonb(h),h.sale_number into doc,label from erp.sales_headers h where h.id=parent_id;
  when'MISC_FINANCE'then select to_jsonb(h),h.transaction_number into doc,label from erp.misc_finance_transactions h where h.id=parent_id;
  when'PAYROLL'then select to_jsonb(h),h.payroll_number into doc,label from erp.payroll_settlements h where h.id=parent_id;
+ when'ACCESSORY_ISSUE'then select to_jsonb(h),h.issue_number into doc,label from erp.contractor_material_issues h where h.id=parent_id;
  end case;
  if doc is null or coalesce(label,'')=''then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
+ -- The current owner is specifically a counted-PCS accessory workspace.
+ -- A mixed or fabric issue is a different Native document and cannot be
+ -- redirected into that editor merely because its receivable has this kind.
+ if domain='ACCESSORY_ISSUE'and exists(
+  select 1 from erp.contractor_material_issue_items i
+   left join erp.materials m on m.id=i.material_id
+   left join erp.uom_definitions u on u.unit_code=m.unit_code
+  where i.issue_id=parent_id and(m.material_type is distinct from'ACCESSORY'
+   or upper(m.unit_code)is distinct from'PCS'or u.dimension is distinct from'COUNT'))then
+  return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
+   'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
+ end if;
  -- Position the exact child within its owning reader's unchanged 25-row
  -- ordering. The owner re-reads the page and checks identity; no client scan.
  if focus is not null and focus<>'null'::jsonb then

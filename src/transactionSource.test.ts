@@ -4,6 +4,18 @@ const source='11111111-1111-4111-8111-111111111111',parent='22222222-2222-4222-8
 const ref={source_type:'SALES_PAYMENT',source_id:source}
 const receipt=()=>({contract_version:'cp7.transaction-source.v1',actor_scope_id:actor,source:{...ref},status:'AVAILABLE',document:{domain:'SALE',route:'sales-payments',id:parent,number:'INV-26',status:'PARTIAL_PAID',revision:'9007199254740993',focus:{kind:'SALES_PAYMENT',id:source,page_offset:25}},read_at:'2026-10-03T04:00:00.123456Z',business_DML:false})
 describe('exact transaction source boundaries',()=>{
+ it('keeps actual accessory stock/receivable header IDs and rejects invented routes or child focus',()=>{
+  for(const kind of ['CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE']){
+   const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'ACCESSORY_ISSUE',route:'contractor-issue',id:source,focus:null})
+   expect(parseTransactionSource(r,r.source,actor).document?.id).toBe(source)
+   for(const bad of [{id:parent},{route:'accessories'},{focus:{kind:'PAYROLL_INSTALLMENT',id:source,page_offset:0}}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
+  }
+ })
+ it('preserves a stock issue item FK to its accessory owner without pretending the child is the header',()=>{
+  const r=receipt();r.source={source_type:'CONTRACTOR_MATERIAL_ISSUE_ITEM',source_id:source};Object.assign(r.document,{domain:'ACCESSORY_ISSUE',route:'contractor-issue',id:parent,focus:null})
+  expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:null})
+  const bad=structuredClone(r);Object.assign(bad.document,{domain:'RECEIPT',route:'procurement'});expect(()=>parseTransactionSource(bad,r.source,actor)).toThrow()
+ })
  it('keeps the Native parent, exact child page and large revision without numeric conversion',()=>{const result=parseTransactionSource(receipt(),ref,actor);expect(result.document).toMatchObject({id:parent,revision:'9007199254740993',focus:{id:source,page_offset:25}})})
  it('rejects a source or actor belonging to another selection',()=>{for(const change of [{source:{...ref,source_id:parent}},{actor_scope_id:parent}])expect(()=>parseTransactionSource({...receipt(),...change},ref,actor)).toThrow()})
  it('rejects a mismatched parent domain, route, payment child or missing focus',()=>{for(const change of [{domain:'RECEIPT',route:'procurement'},{route:'sales-invoice'},{focus:null},{focus:{kind:'SALES_PAYMENT',id:parent,page_offset:25}}]){const r=receipt();Object.assign(r.document,change);expect(()=>parseTransactionSource(r,ref,actor)).toThrow()}})

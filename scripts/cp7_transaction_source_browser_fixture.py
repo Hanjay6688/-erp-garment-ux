@@ -5,6 +5,7 @@ import json,os,sys
 import psycopg
 import cp7_misc_cases as misc
 import cp7_installment_cases as installment
+import cp7_transaction_source_cases as source
 
 def main():
  target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -41,6 +42,20 @@ def main():
    if p['original']:cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.payroll.pay')on conflict do nothing",(role,))
    else:cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.payroll.pay'",(role,))
    out=dict(status='PASS',original_ADMIN_pay_permission_restored=True)
+  elif op=='prepare-accessory':
+   today=date.fromisoformat(p['today']);f=source.accessory_fixture(cur,today)
+   for i in range(51):
+    payload=source.accessory.payload(f);payload.update(number=f['issue_number']+'-NEW-'+str(i),physical_at=source.accessory.bc.local_at(today,11))
+    source.accessory.bc.note_call(cur,'SAVE_DRAFT',payload)
+   w=source.accessory.bc.note_read(cur,dict(id=f['issue']['id'],query=f['code']))
+   assert len(w['history'])==50 and w['history_count']>=52 and f['issue']['id']not in[x['id']for x in w['history']]
+   assert w['document']['id']==f['issue']['id']
+   out=f
+  elif op=='state-accessory':
+   f=p['fixture'];observed=source.accessory.observe(cur,f)
+   assert observed['document']['id']==f['issue']['id']
+   inverses=[dict(id=str(i),number=number,original_id=str(original))for i,number,original in cur.execute('select id,journal_number,reversal_of_id from erp.journal_entries where reversal_of_id=any(%s::uuid[])order by id',([j['id']for j in f['journals']],)).fetchall()]
+   out=dict(observation=observed,inverses=inverses,business=source.b.boundary.snapshot(cur))
   else:raise ValueError('Unknown source navigation fixture operation')
   misc.b.api.admin(cur)
   if not had:cur.execute('revoke usage on schema erp from authenticated')

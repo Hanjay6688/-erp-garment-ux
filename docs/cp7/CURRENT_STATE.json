@@ -214,7 +214,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Single writer continuation after completed Claude merge and Native20 qualified miscellaneous correction/reload/recovery: complete remaining source/submenu edit/cancel controls and named dependency paths, then fabric/material feasibility and full P08/P18/P19, independent P20 and installed P21 exits. Preserve exact source/run/job Originals and every existing budget/restore/Auth gate. Current cursor: finisher_20261003 and CP7_FINISHER_20261003.md; prior checkpoints stay source-specific historical evidence.",
+  "execution_priority": "Standing owner continuation active: current payroll/source Native25 and submenu Shell1342/6/CodeQL qualification retained at5e4; qualify accessory extension Native32, then remaining exact production/laundry/BS/supplier-payment owning controls, full submenu tools, material/P08/P18-P21. No independent/installed/production acceptance or unattended execution implied.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -6432,12 +6432,163 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "PAYROLL_NATIVE25_FIRST24_PASS_ONE_PROTECTED_OWNER_FIXTURE_REFUSAL_SUCCESSOR_PENDING",
-      "native_case_budget": 25,
+      "status": "NATIVE25_QUALIFIED_ACCESSORY_EXTENSION_PENDING_NATIVE32",
+      "native_case_budget": 32,
       "no_business_DML": true,
       "full_source_coverage": false,
-      "remaining": "Production/laundry/BS/accessory sources, supplier-payment exact owning panel, all submenu tools; material/P08/F06 exits remain open; payroll source awaits actual Native25 qualification",
+      "remaining": "Current accessory extension needs its own Native32 qualification. Production/laundry/BS sources, supplier-payment exact owning panel, all submenu/material/P08/F06 exits remain open.",
       "qualification": {
+        "head": "5e4af78f10dfbbe9162d4b99a75f4ee95d25c9f5",
+        "tree": "a3c23c777bb56b0b5ad2bcba0eccac5905f2f2c1",
+        "run_id": 37113905171,
+        "job_id": 111176884410,
+        "artifact_id": 11270812958,
+        "archive_sha256": "42a862333475d774ae71d894a68b8f51ec66b8f78bf40a9afc10e80a83978f64",
+        "originals": {
+          "CP7_TRANSACTION_SOURCE.json": "21de1cecb63e53967687471e7ebd3058a40d75ca41d035d68f715aa92cfb1d1a",
+          "T3_PACKAGE_INSTALL.json": "560eec2cd21593b6cf4cb4e6017efe6d8bab43f776cc35797ca2053481ea4cb3"
+        },
+        "source_sha256": "89195adda48450ca26e35f030ddd624bb150aa9b0d7f5486f15955ca528b3c22",
+        "status": "PASS",
+        "observed_case_count": 25,
+        "groups": {
+          "native": {
+            "PASS": 16
+          },
+          "races": {
+            "PASS": 2
+          },
+          "http": {
+            "PASS": 3
+          },
+          "browser": {
+            "PASS": 4
+          }
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": "RESTORED_SAME_MEANING",
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "console_errors": 0,
+        "visuals": {
+          "CP7_SOURCE_PAYROLL_DESKTOP.png": {
+            "sha256": "19e125bf916ec1d8e0feeb58dbc14bb20264ba7b90f3c54e75655e0c1523bc21",
+            "bytes": 767587
+          },
+          "CP7_SOURCE_PAYROLL_INVERSE_DESKTOP.png": {
+            "sha256": "27dfa2e754e728b18d32851507569e3cea1234db61f6fde3796d43fe01d884a7",
+            "bytes": 766015
+          },
+          "CP7_SOURCE_PAYROLL_INVERSE_MOBILE.png": {
+            "sha256": "be0ef01a2e1ec2979fda21ff677faa5e1d8133c55924aa78fa961f421c871440",
+            "bytes": 530743
+          },
+          "CP7_SOURCE_PAYROLL_MOBILE.png": {
+            "sha256": "db9bc05ae331ed8145306ca3494cd60e049c6a55d641cdbefd9461ef8b8a0ac6",
+            "bytes": 531098
+          }
+        },
+        "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+        "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
+        "production_go": false,
+        "independent_acceptance": false,
+        "receipt": "docs/cp7/evidence/transaction-source/qualified5e4/RECEIPT.json"
+      },
+      "current_counts_required": {
+        "native": 20,
+        "races": 2,
+        "http": 4,
+        "browser": 6
+      },
+      "payroll_source_candidate": {
+        "status": "QUALIFIED_NATIVE25_EXACT_ORIGINAL_RETAINED_AT5E4",
+        "scope": "Existing Native payroll journal kinds and exact installment FK/current25-row source order, owner re-read, explicit inverse review, same UUID reload recovery; no new financial writer",
+        "ERP_tables_select": 20,
+        "private_select": "cp7_installment.payments",
+        "no_new_business_DML_or_Native_writer_EXEC": true,
+        "native_definitions_unchanged": true,
+        "full_source_coverage": false,
+        "independent_acceptance": false,
+        "production_go": false,
+        "first_Native_receipt": "docs/cp7/evidence/transaction-source/firstb979/RECEIPT.json",
+        "successor_fix": "Ordinary ADMIN actual Auth view grant/revoke replaces protected OWNER fixture; no business source or guard changed; retain all25 cases and restoration/Auth/advisor gates.",
+        "qualification": {
+          "head": "5e4af78f10dfbbe9162d4b99a75f4ee95d25c9f5",
+          "tree": "a3c23c777bb56b0b5ad2bcba0eccac5905f2f2c1",
+          "run_id": 37113905171,
+          "job_id": 111176884410,
+          "artifact_id": 11270812958,
+          "archive_sha256": "42a862333475d774ae71d894a68b8f51ec66b8f78bf40a9afc10e80a83978f64",
+          "originals": {
+            "CP7_TRANSACTION_SOURCE.json": "21de1cecb63e53967687471e7ebd3058a40d75ca41d035d68f715aa92cfb1d1a",
+            "T3_PACKAGE_INSTALL.json": "560eec2cd21593b6cf4cb4e6017efe6d8bab43f776cc35797ca2053481ea4cb3"
+          },
+          "source_sha256": "89195adda48450ca26e35f030ddd624bb150aa9b0d7f5486f15955ca528b3c22",
+          "status": "PASS",
+          "observed_case_count": 25,
+          "groups": {
+            "native": {
+              "PASS": 16
+            },
+            "races": {
+              "PASS": 2
+            },
+            "http": {
+              "PASS": 3
+            },
+            "browser": {
+              "PASS": 4
+            }
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": "RESTORED_SAME_MEANING",
+          "auth_users_before": 0,
+          "auth_users_after": 0,
+          "gate": {
+            "installed": true,
+            "primary_unchanged": true,
+            "backup_restore_drill": true,
+            "security_advisors": true,
+            "writer_runtime": true
+          },
+          "console_errors": 0,
+          "visuals": {
+            "CP7_SOURCE_PAYROLL_DESKTOP.png": {
+              "sha256": "19e125bf916ec1d8e0feeb58dbc14bb20264ba7b90f3c54e75655e0c1523bc21",
+              "bytes": 767587
+            },
+            "CP7_SOURCE_PAYROLL_INVERSE_DESKTOP.png": {
+              "sha256": "27dfa2e754e728b18d32851507569e3cea1234db61f6fde3796d43fe01d884a7",
+              "bytes": 766015
+            },
+            "CP7_SOURCE_PAYROLL_INVERSE_MOBILE.png": {
+              "sha256": "be0ef01a2e1ec2979fda21ff677faa5e1d8133c55924aa78fa961f421c871440",
+              "bytes": 530743
+            },
+            "CP7_SOURCE_PAYROLL_MOBILE.png": {
+              "sha256": "db9bc05ae331ed8145306ca3494cd60e049c6a55d641cdbefd9461ef8b8a0ac6",
+              "bytes": 531098
+            }
+          },
+          "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+          "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
+          "production_go": false,
+          "independent_acceptance": false,
+          "receipt": "docs/cp7/evidence/transaction-source/qualified5e4/RECEIPT.json"
+        }
+      },
+      "previous_qualification": {
         "source": "a0f1d51b051d8397c678720278571be18881e0db",
         "run": 37106282569,
         "job": 111155338092,
@@ -6452,24 +6603,61 @@
         "cp6_restored": true,
         "advisor_gate": true
       },
-      "current_counts_required": {
-        "native": 16,
-        "races": 2,
-        "http": 3,
-        "browser": 4
-      },
-      "payroll_source_candidate": {
-        "status": "FIRST_NATIVE24_PASS_ONE_FIXTURE_REFUSAL_REQUALIFY_ALL25",
-        "scope": "Existing Native payroll journal kinds and exact installment FK/current25-row source order, owner re-read, explicit inverse review, same UUID reload recovery; no new financial writer",
-        "ERP_tables_select": 20,
-        "private_select": "cp7_installment.payments",
-        "no_new_business_DML_or_Native_writer_EXEC": true,
-        "native_definitions_unchanged": true,
-        "full_source_coverage": false,
-        "independent_acceptance": false,
+      "accessory_source_candidate": {
+        "basis": "Current uncommitted successor of5e4af78f; exact file hashes identify local source. Not Native or independent qualification.",
+        "local_impacted_tests": 92,
+        "test_files": 5,
+        "new_controls": 7,
+        "build": "PASS",
+        "security": "PASS",
+        "source_sha256": {
+          "src/ConnectedAccessoryIssuePage.tsx": "fd3bdfcf2fe2fa330454de2c5a1accf0cc773648546cb783568ef114f58a9951",
+          "src/ConnectedAccessoryIssuePage.dom.test.tsx": "2b191551fc6db15a02097b1e32d3b674de54aede38a336d8fff12f389eeab237",
+          "src/transactionSource.ts": "8c6ff5d61090e099a25f09b11847fedccd7d607c132126a9a3095857b18cb8e5",
+          "src/transactionSource.test.ts": "022ed606a05b6ab39434a2517d7835271d96393bdbc3ddd9e1826a5182c2f1e8",
+          "scripts/cp7-src/transactions/source.sql": "189119c555078bc89825110211e6afe096b32398746ba7672b12166d54a7421e",
+          "scripts/cp7_transaction_source_bundle.py": "da13a4f6d3732cf62c71444028c338d8221db61f0171e6741cd08f72f4b817e6",
+          "scripts/cp7_transaction_source_cases.py": "c9e733a9352d09461c1d40c1d0d0a060a0bed4a54fd03a7940150e26069c775f",
+          "scripts/cp7_transaction_source_browser.mjs": "f097b3ac4aaf002bcf8373dadc46e2cfb211ed834585fd1a287b7acf9b955e0c",
+          "scripts/cp7_transaction_source_browser_fixture.py": "8ab3472e70b217a03e230a4a39295266862aec6863bf52bcf52e335985a16acf",
+          "scripts/cp7_f05_analysis_probe.py": "700f6e41362367d5c26bc6544147a6b2c26c377fc34ae237a8578c14d87edeb6"
+        },
+        "local_SQL_machine": {
+          "status": "PASS",
+          "runtime": "PGLITE_WASM_WITH_DECLARED_AUTH_TABLE_STANDINS_NOT_NATIVE_PROOF",
+          "checks": [
+            "compile_actual_SQL",
+            "exact_parent_child",
+            "large_revision_string",
+            "page25",
+            "unsupported_no_invented_parent",
+            "current_permission_refusal",
+            "no_business_DML",
+            "payroll_child_native_order_page25",
+            "payroll_header_direct_metadata_only",
+            "accessory_exact_child_and_big_version",
+            "accessory_direct_cost_receivable_headers",
+            "read_role_no_ERP_DML",
+            "non_PCS_material_issue_not_redirected",
+            "missing_accessory_child_refused"
+          ],
+          "checks_passed": 14
+        },
+        "Native_case_budget": 32,
+        "required": {
+          "native": 20,
+          "races": 2,
+          "http": 4,
+          "browser": 6
+        },
+        "Native_status": "PENDING",
+        "existing25_cases_retained": true,
+        "ERP_SELECT_tables": 24,
+        "no_new_Native_writer_EXEC_or_business_DML": true,
+        "Native_definitions_unchanged": true,
         "production_go": false,
-        "first_Native_receipt": "docs/cp7/evidence/transaction-source/firstb979/RECEIPT.json",
-        "successor_fix": "Ordinary ADMIN actual Auth view grant/revoke replaces protected OWNER fixture; no business source or guard changed; retain all25 cases and restoration/Auth/advisor gates."
+        "independent_acceptance": false,
+        "receipt": "docs/cp7/evidence/transaction-source/accessory-local/LOCAL_RECEIPT.json"
       }
     },
     "owner_target": {
@@ -6490,7 +6678,8 @@
         "saved_contractor_notes",
         "BS_and_claim",
         "pickup_distribution",
-        "WIP_control"
+        "WIP_control",
+        "accessory_issue"
       ],
       "mandatory_dates_kept": true,
       "sort_scope": "CURRENT_PAGE_EXPLICIT",
@@ -6499,7 +6688,8 @@
       "historical_local_DOM_tests_pass": 84,
       "current_increment_local_DOM_tests_pass": 93,
       "current_increment_receipt": "docs/cp7/evidence/submenu-production/local/LOCAL_RECEIPT.json",
-      "reader_state": "Failed/denied/older-authority readers cannot expose earlier facts as current, including after error dismissal; readonly recovery stays readable without unlocking Native writers"
+      "reader_state": "Failed/denied/older-authority readers cannot expose earlier facts as current, including after error dismissal; readonly recovery stays readable without unlocking Native writers",
+      "accessory_tools": "Native query and current50-row display status/order, explicit cap, direct source ID outside list; no Native reader limit change, unsent form preserved on browse/refetch; failed reads retire previous stock, totals and history"
     },
     "misc_correction_candidate": {
       "source": "e133a874c20394f3c86147a8c2ab06112ca5d152",
@@ -6794,6 +6984,63 @@
       "receipt_index": "docs/cp7/evidence/finisher-regression/qualified7638/full/INDEX.json"
     },
     "application_qualification": {
+      "source_commit": "5e4af78f10dfbbe9162d4b99a75f4ee95d25c9f5",
+      "source_tree": "a3c23c777bb56b0b5ad2bcba0eccac5905f2f2c1",
+      "run_id": 37113905246,
+      "jobs": {
+        "application": 111176884489,
+        "CodeQL_javascript_typescript": 111176884603,
+        "CodeQL_actions": 111176884654
+      },
+      "status": "PASS",
+      "application_tests": 1342,
+      "application_test_files": 142,
+      "Shell_browser_tests": 6,
+      "build": "PASS",
+      "security": "PASS",
+      "CodeQL_findings": 0,
+      "runtime_graph_files": 251,
+      "owned_browser_RPC_boundaries": 183,
+      "stylesheets": 53,
+      "orphans_under_runtime_import_ownership_check": 0,
+      "direct_browser_table_reads": 0,
+      "archives": {
+        "shell": {
+          "artifact_id": 11271067304,
+          "sha256": "c7af7a89680e190a70520d71f596ca8daef6a6c45b6d6ecfd89feba78eb6d3c1"
+        },
+        "CodeQL_javascript_typescript": {
+          "artifact_id": 11270887579,
+          "sha256": "088d31f68c85a1341c76511946514d1c3ff2c179dbc80229acd0e95da7298465"
+        },
+        "CodeQL_actions": {
+          "artifact_id": 11270332246,
+          "sha256": "09f07d6e146f59a5092c3b235cfa4d94b3c1c307844ff6e21b62f1dcf5aa8c20"
+        }
+      },
+      "members": {
+        "f04-private-kernels.json": {
+          "sha256": "2e58e8da45f2f767d3ff1936418b98e68f791cbb69e59ee3e3cef6fc98182d06",
+          "bytes": 53273
+        },
+        "results.json": {
+          "sha256": "d6b269065ec2215c3e46b96f181b97b9e17bcb54cc6c253cd56d79605f9ec41d",
+          "bytes": 12262
+        },
+        "javascript.sarif": {
+          "sha256": "493f715b207d3003c716998267259b51004becaff55bce00fdb82eeabd27c13d",
+          "bytes": 1302407
+        },
+        "actions.sarif": {
+          "sha256": "23e1ad2640e6f05b52a040c1e8b1c24556061e5c197004a98f3e594e8edd6c7b",
+          "bytes": 691808
+        }
+      },
+      "independent_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified5e4/shell/RECEIPT.json"
+    },
+    "previous_application_qualification": {
       "source_commit": "203ff0e75d40a0597cd86562c51c6a43c9dec456",
       "source_tree": "b11cc276c1b7f34dc4edc5515e6d442f37ef5784",
       "run_id": 37110006063,
