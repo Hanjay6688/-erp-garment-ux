@@ -8,6 +8,7 @@ name: CP7 Native Transaction Source Navigation
     - scripts/cp7_catalog_state.py
     - scripts/cp7_p18_e01_bridge_*
     - scripts/cp7_transaction_source_*
+    - scripts/cp7_p11_returns_browser.mjs
     - scripts/cp7_bundle_reachability.py
     - scripts/cp7_supplier_payment_cases.py
     - scripts/cp7_qc_source_cases.py

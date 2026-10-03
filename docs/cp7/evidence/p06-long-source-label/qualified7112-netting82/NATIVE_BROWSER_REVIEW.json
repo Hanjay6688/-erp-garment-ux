@@ -1,0 +1,119 @@
+{
+  "status": "ORIGINAL_NATIVE82_AND_FOUR_UNEDITED_LAYOUT_IMAGES_VERIFIED",
+  "source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "run_id": 37155715155,
+  "run_attempt": 2,
+  "job_id": 111302725555,
+  "all_original82_cases_and_planned_IDs_verified": true,
+  "first503_before_execution_preserved": true,
+  "witnesses": {
+    "P06_BROWSER_DESKTOP_NATIVE_NETTING": {
+      "status": "PASS",
+      "actual_Auth_native_global_source_and_server_remaining_routes": true,
+      "actual_Native_long_product_name_and_complete_option_preserved": true,
+      "long_target_selects_within_panel_and_viewport": true,
+      "unknown_work_yield_unit_inputs_blank": true,
+      "metadata_response_loss_same_UUID_one_global_revision": true,
+      "dirty_work_input_preserved_on_new_revision_explicit_adoption": true,
+      "actual_native8_selected_good7_target100_FG0_gap93": true,
+      "independent_remaining_work_capacity_oracle": true,
+      "netting_reply_loss_same_UUID_one_original_run": true,
+      "presentation_filter_does_not_reallocate": true,
+      "archive93_preserved_after_changed_schedule": true,
+      "current403_retires_netting_and_parent_FG_Hpp": true,
+      "native_business_unchanged": true,
+      "original_stock_search_preserved": true,
+      "screenshots": [
+        "P06_WORK_UNCERTAIN_DESKTOP.png",
+        "P06_WORK_REVIEW_DESKTOP.png",
+        "P06_NETTING93_DESKTOP.png",
+        "P06_NETTING_ARCHIVE_DESKTOP.png",
+        "P06_NETTING_REVOKED_DESKTOP.png"
+      ]
+    },
+    "P06_BROWSER_MOBILE_NATIVE_NETTING": {
+      "status": "PASS",
+      "actual_Auth_native_global_source_and_server_remaining_routes": true,
+      "actual_Native_long_product_name_and_complete_option_preserved": true,
+      "long_target_selects_within_panel_and_viewport": true,
+      "unknown_work_yield_unit_inputs_blank": true,
+      "metadata_response_loss_same_UUID_one_global_revision": true,
+      "dirty_work_input_preserved_on_new_revision_explicit_adoption": true,
+      "actual_native8_selected_good7_target100_FG0_gap93": true,
+      "independent_remaining_work_capacity_oracle": true,
+      "netting_reply_loss_same_UUID_one_original_run": true,
+      "presentation_filter_does_not_reallocate": true,
+      "archive93_preserved_after_changed_schedule": true,
+      "current403_retires_netting_and_parent_FG_Hpp": true,
+      "native_business_unchanged": true,
+      "original_stock_search_preserved": true,
+      "screenshots": [
+        "P06_WORK_UNCERTAIN_MOBILE.png",
+        "P06_WORK_REVIEW_MOBILE.png",
+        "P06_NETTING93_MOBILE.png",
+        "P06_NETTING_ARCHIVE_MOBILE.png",
+        "P06_NETTING_REVOKED_MOBILE.png"
+      ]
+    }
+  },
+  "images": {
+    "P06_WORK_UNCERTAIN_DESKTOP.png": {
+      "bytes": 1228291,
+      "sha256": "62388f1c00d629684571ecb602c8b4d23e382915ba7f4577f76429fb47213770",
+      "actual_visual_review": true
+    },
+    "P06_WORK_REVIEW_DESKTOP.png": {
+      "bytes": 1211900,
+      "sha256": "1509e42d92eded7e6adee82e2f814a2125ec1701db9fb94302089c3324b5be27",
+      "actual_visual_review": false
+    },
+    "P06_NETTING93_DESKTOP.png": {
+      "bytes": 1442342,
+      "sha256": "29436e3097cab40cc06a5e37eceded6d01431044240c828c335e9ed8c2cbebfd",
+      "actual_visual_review": true
+    },
+    "P06_NETTING_ARCHIVE_DESKTOP.png": {
+      "bytes": 1361829,
+      "sha256": "c55488917f70b560805452ba6e88221a72135b4eb500223ac112fd61d9c176e4",
+      "actual_visual_review": false
+    },
+    "P06_NETTING_REVOKED_DESKTOP.png": {
+      "bytes": 806846,
+      "sha256": "7b333a3890061d4f47ec384652bf0f854fa443475bf930710703096d2f31782d",
+      "actual_visual_review": false
+    },
+    "P06_WORK_UNCERTAIN_MOBILE.png": {
+      "bytes": 879957,
+      "sha256": "7ac7ba76dea90b840d6a0883c403eeaeb0933418292dec0d07b866f337ed9037",
+      "actual_visual_review": true
+    },
+    "P06_WORK_REVIEW_MOBILE.png": {
+      "bytes": 860657,
+      "sha256": "6ab0fefd76db8a62d5712636be5ceb8bf7d5829ed86f14bed4ff968f59f9d561",
+      "actual_visual_review": false
+    },
+    "P06_NETTING93_MOBILE.png": {
+      "bytes": 1176997,
+      "sha256": "aebb2afd0e1decac1fcd5965b1d356dfee4c1e6e58a733b9df16a907d921370d",
+      "actual_visual_review": true
+    },
+    "P06_NETTING_ARCHIVE_MOBILE.png": {
+      "bytes": 947710,
+      "sha256": "8b8f8cae60afd40292249084f9dbb16a5c2b74e74d6d4afac9d6c38a4e9f13ff",
+      "actual_visual_review": false
+    },
+    "P06_NETTING_REVOKED_MOBILE.png": {
+      "bytes": 566051,
+      "sha256": "b92d69183d5d5fad90c57265f0835366ac94ad29a7165a50445fe6d0f904c301",
+      "actual_visual_review": false
+    }
+  },
+  "Native_business_formulas_guards_commands_and_case_budgets_unchanged": true,
+  "full_CP7": false,
+  "production_go": false,
+  "visual_observations": [
+    "Desktop/mobile controls stay within the production panel and viewport.",
+    "Long Native product text wraps in the netting result.",
+    "100 target/7 expected good/93 remaining are verified by exact executed Native witnesses; no arithmetic is inferred from a scaled image."
+  ]
+}

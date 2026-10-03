@@ -1,0 +1,236 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37155715155,
+  "run_attempt": 2,
+  "job_id": 111302725555,
+  "artifact_id": 11285499349,
+  "artifact_name": "cp7-f04-netting",
+  "source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "source_tree": "d952cd5103f92043475a6e8dcc3fe518c53a52e2",
+  "source_bundle_sha256": "1f0ca52157023eeb7205615302dadb392fe5421c4805191be88bfece1ee539b0",
+  "zip_bytes": 23249212,
+  "zip_sha256": "14124eece070d5fde529eb53bfcc54435e8583ffb443836cb83c353c5409b144",
+  "runtime_report": "CP7_F04_NATIVE_NETTING.json",
+  "expected_status": "PASS",
+  "expected_case_count": 82,
+  "required_case_counts": null,
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "observed_case_count": 82,
+  "counts": {
+    "native": {
+      "PASS": 59
+    },
+    "races": {
+      "PASS": 11
+    },
+    "http": {
+      "PASS": 6
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "7a4e9f69232ec4da24844b2443efe546e7a7b0618283bc80f33f829b526a7d89",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F04_NATIVE_NETTING.json": {
+      "bytes": 321367,
+      "sha256": "6042232edc477e16400922ceac3adb07f547e421c9cf55708b39276548b6e479"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7eb54cfb60e226b0eda5d60df0469fca0a0de17475509e1bdfcefcd5f7583c2a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "0606f0cb047f1198f68b2e937c22bd82dab232da19f930f155d97bb8012f71df"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385596,
+      "sha256": "efacffbc9fb042792b81ee3b7d86908d085993b9de368ed317a1d1cae77035cb"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385596,
+      "sha256": "efacffbc9fb042792b81ee3b7d86908d085993b9de368ed317a1d1cae77035cb"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "08c6667efde256534566bdd8bc5b456e7934e0f1fe4e802d995d16fb09319ed7"
+    },
+    "CP7_F04_NATIVE_NETTING.json": {
+      "bytes": 321367,
+      "sha256": "6042232edc477e16400922ceac3adb07f547e421c9cf55708b39276548b6e479"
+    },
+    "P05_CURRENT_DESKTOP.png": {
+      "bytes": 696727,
+      "sha256": "846299c234d00b513d8d1a0d5dc1aca47266917fd810642de907c97dd18e814c"
+    },
+    "P05_CURRENT_MOBILE.png": {
+      "bytes": 458386,
+      "sha256": "1a9eb0407b3896719f4d6d0f3b49036e96920dc22a179cf9f9d31778694c5bfb"
+    },
+    "P05_POSTED_DESKTOP.png": {
+      "bytes": 701351,
+      "sha256": "067a8a7c6c26f01dd5b0f7fa967ed1b84f328d907aa0c9e8d7da5ef311c6badb"
+    },
+    "P05_POSTED_MOBILE.png": {
+      "bytes": 456449,
+      "sha256": "171cc6bfbf70790498bbd954b367fa0a99fc8d99a435b588d595ba8f0a5a2bb4"
+    },
+    "P05_REVOKED_MOBILE.png": {
+      "bytes": 214267,
+      "sha256": "ff8b1cc96191c5d6cd6a64bbbd3ef9d7422cdc45cf8350b826f20c511967b8fe"
+    },
+    "P05_STALE_DESKTOP.png": {
+      "bytes": 705421,
+      "sha256": "a0d3b8d52fe75617d32c1ee18ca25ee6c393b589b560197e716a6bbc5dc423da"
+    },
+    "P05_STALE_MOBILE.png": {
+      "bytes": 459954,
+      "sha256": "e33af4d73c52969cafc0e6f19edfc265e3a6d147aadda93799be332183f97f87"
+    },
+    "P05_UNCERTAIN_DESKTOP.png": {
+      "bytes": 603665,
+      "sha256": "0410009bcad2e28a8668b1b23758a579b77cb795861c76994033591dc4f2cbfe"
+    },
+    "P05_UNCERTAIN_MOBILE.png": {
+      "bytes": 439964,
+      "sha256": "fc058df472fb643936f0ad8daa854eba00753764d505f4ef821106dbd0c2c85c"
+    },
+    "P06_NETTING93_DESKTOP.png": {
+      "bytes": 1442342,
+      "sha256": "29436e3097cab40cc06a5e37eceded6d01431044240c828c335e9ed8c2cbebfd"
+    },
+    "P06_NETTING93_MOBILE.png": {
+      "bytes": 1176997,
+      "sha256": "aebb2afd0e1decac1fcd5965b1d356dfee4c1e6e58a733b9df16a907d921370d"
+    },
+    "P06_NETTING_ARCHIVE_DESKTOP.png": {
+      "bytes": 1361829,
+      "sha256": "c55488917f70b560805452ba6e88221a72135b4eb500223ac112fd61d9c176e4"
+    },
+    "P06_NETTING_ARCHIVE_MOBILE.png": {
+      "bytes": 947710,
+      "sha256": "8b8f8cae60afd40292249084f9dbb16a5c2b74e74d6d4afac9d6c38a4e9f13ff"
+    },
+    "P06_NETTING_REVOKED_DESKTOP.png": {
+      "bytes": 806846,
+      "sha256": "7b333a3890061d4f47ec384652bf0f854fa443475bf930710703096d2f31782d"
+    },
+    "P06_NETTING_REVOKED_MOBILE.png": {
+      "bytes": 566051,
+      "sha256": "b92d69183d5d5fad90c57265f0835366ac94ad29a7165a50445fe6d0f904c301"
+    },
+    "P06_REVOKED_MOBILE.png": {
+      "bytes": 364599,
+      "sha256": "06ee64a3b4dc10c12f49193b74fc670181bd8ecfc869cecbafa2acc9b79a7381"
+    },
+    "P06_STALE100_DESKTOP.png": {
+      "bytes": 1076407,
+      "sha256": "d85bbb5d384d3ee1360550ca04fb2a6e531fb6e47d58d0fc781226642e73f419"
+    },
+    "P06_STALE100_MOBILE.png": {
+      "bytes": 442497,
+      "sha256": "a5bae517f0047f19ab747bacae0327d6381e59c0e2b1721a5100ea826c9a311a"
+    },
+    "P06_TARGET100_DESKTOP.png": {
+      "bytes": 1073286,
+      "sha256": "ae59ebeb3b3a65ca6fae68ae1ee52240da8a9b08e3c4e156b9b821561b840b52"
+    },
+    "P06_TARGET100_MOBILE.png": {
+      "bytes": 711721,
+      "sha256": "85029886a10c9e61ef4ca134a6eff80fc64aa5dc3a479e4ad33aed8b5dda4ed5"
+    },
+    "P06_TARGET200_DESKTOP.png": {
+      "bytes": 1073816,
+      "sha256": "8205f75cf63a6d54862141c3d553ad2a79adbb70b0493f057117692dd6cd6a8c"
+    },
+    "P06_TARGET200_MOBILE.png": {
+      "bytes": 712281,
+      "sha256": "af64c799e9b81790757e01fc0f92abd268140197f28e82a3089184a2db5026c1"
+    },
+    "P06_UNCERTAIN_PROFILE_DESKTOP.png": {
+      "bytes": 735530,
+      "sha256": "9904ae069c600b5d259489bbb3aa671bb37af1434cd2e2e53bf2e5672726e666"
+    },
+    "P06_UNCERTAIN_PROFILE_MOBILE.png": {
+      "bytes": 682711,
+      "sha256": "f6ed4f743116dde3cc49c2c7f371c6cc8fb9d191e362525861a35bf2ebf1319f"
+    },
+    "P06_WORK_REVIEW_DESKTOP.png": {
+      "bytes": 1211900,
+      "sha256": "1509e42d92eded7e6adee82e2f814a2125ec1701db9fb94302089c3324b5be27"
+    },
+    "P06_WORK_REVIEW_MOBILE.png": {
+      "bytes": 860657,
+      "sha256": "6ab0fefd76db8a62d5712636be5ceb8bf7d5829ed86f14bed4ff968f59f9d561"
+    },
+    "P06_WORK_UNCERTAIN_DESKTOP.png": {
+      "bytes": 1228291,
+      "sha256": "62388f1c00d629684571ecb602c8b4d23e382915ba7f4577f76429fb47213770"
+    },
+    "P06_WORK_UNCERTAIN_MOBILE.png": {
+      "bytes": 879957,
+      "sha256": "7ac7ba76dea90b840d6a0883c403eeaeb0933418292dec0d07b866f337ed9037"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7eb54cfb60e226b0eda5d60df0469fca0a0de17475509e1bdfcefcd5f7583c2a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "0606f0cb047f1198f68b2e937c22bd82dab232da19f930f155d97bb8012f71df"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

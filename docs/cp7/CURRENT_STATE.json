@@ -3651,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Retain published exact6ac Native76/Shell proofs and all8 unedited reviewed images. Qualify current P17 quoted-source v2 with full decoded Native Original comparisons in Shell/Native152/284/P18_9; preserve first cbdb028 and prior Source76 failures. Qualify scoped pickup hero contrast via fresh Source76 images. Continue feasible CP7 transaction/P18/P19 work without fabricating owner policies/material inputs or independent/installed acceptance.",
+  "next_action": "QUALIFY_INVOICE_DEPENDENCIES_1436_149_NATIVE64_SOURCE78_AND_READONLY_7112_NATIVE284_152_THEN_CONTINUE_FEASIBLE_CP7_EDIT_ROLLBACK",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -10020,7 +10020,7 @@
     }
   },
   "production_long_source_label_candidate": {
-    "status": "IMPLEMENTED_ACTUAL_NATIVE_82_152_284_AND_SHELL_PENDING",
+    "status": "ACTUAL_7112_NATIVE82_QUALIFIED_LARGE284_152_PROJECTION_PENDING",
     "handoff": "docs/cp7/P06_LONG_SOURCE_LABEL_HANDOFF.md",
     "first_source": "cbdb02897798221f2bf8dc3eda37989a032551c8",
     "first_actual_case": "P06_BROWSER_DESKTOP_NATIVE_NETTING",
@@ -10039,10 +10039,14 @@
       "receipt": "docs/cp7/evidence/finisher-regression/first7112-github-503/netting82_503/RECEIPT.json",
       "before_Native_product_cases": true,
       "same_source_separate_retry": true
-    }
+    },
+    "qualified82_receipt": "docs/cp7/evidence/p06-long-source-label/qualified7112-netting82/RECEIPT.json",
+    "four_original_P06_images_actually_viewed": true,
+    "large284_152_roots_qualified": false,
+    "first503_incomplete_relabelled": false
   },
   "p11_history_page_tools_candidate": {
-    "status": "FIRST_APPLICATION_1428PASS_1_LEGACY_FORM_SELECTOR_FAILURE_OF1429_SUCCESSOR_PENDING",
+    "status": "ACTUAL_1A0_SHELL_AND_NATIVE64_QUALIFIED_SEPARATE_SUCCESSOR_PENDING",
     "handoff": "docs/cp7/P11_HISTORY_PAGE_TOOLS_HANDOFF.md",
     "consumer_paths": [
       "src/SalesPaymentPanel.tsx",
@@ -10071,6 +10075,50 @@
     "exact_owning_permission_test_successor": true,
     "Native_R10_existing_desktop_mobile_journeys_strengthened": true,
     "Native_R10_budget_and_original_business_commands_unchanged": true,
-    "Native_R10_new_unique_case_credit": 0
+    "Native_R10_new_unique_case_credit": 0,
+    "qualified_source_commit": "1a0cf12c44e02154a0a3b85e1d5eb104adcf7023",
+    "qualified_source_tree": "5d687717dba6a6c6b2cd80903669d16186ccf10e",
+    "qualified_shell_receipt": "docs/cp7/evidence/p11-history-page-tools/qualified1a0/shell/RECEIPT.json",
+    "qualified_P11_receipt": "docs/cp7/evidence/p11-history-page-tools/qualified1a0/p11/RECEIPT.json",
+    "all64_original_planned_ids_and_gates_verified": true,
+    "all22_source1a0_workflow_metadata_success": true,
+    "new_widget_qualified": false
+  },
+  "sales_invoice_dependencies_candidate": {
+    "status": "WRITER_SUCCESSOR_PENDING_ACTUAL_SOURCE_BOUND_CI",
+    "contract": "docs/cp7/SALES_INVOICE_DEPENDENCIES_HANDOFF.md",
+    "authored_from": "1a0cf12c44e02154a0a3b85e1d5eb104adcf7023",
+    "implementation": "src/SalesInvoiceDependencies.tsx",
+    "exact_existing_reader_boundaries": [
+      "erp_cp7_get_sales_cash_v1",
+      "erp_cp7_get_sales_returns_v1"
+    ],
+    "all_history_page25_active_rows_explicit": true,
+    "current_actor_version_review_and_retirement_fenced": true,
+    "failed_or_stale_reply_never_empty_verified": true,
+    "Native_writer_SQL_grants_permissions_formulas_changed": false,
+    "existing_atomic_note_payment_return_replay_unchanged": true,
+    "expected_shell_tests": 1436,
+    "expected_shell_files": 149,
+    "expected_runtime_files": 258,
+    "expected_owned_RPC_boundaries": 189,
+    "standalone_P11_original64_unchanged": true,
+    "standalone_P11_source_resolver_installed": false,
+    "full_source_original76_retained": true,
+    "full_source_expected78": {
+      "native": 41,
+      "races": 4,
+      "http": 11,
+      "browser": 22
+    },
+    "two_new_browser_ids": [
+      "CP7_SOURCE_INVOICE_DEPENDENCIES_DESKTOP",
+      "CP7_SOURCE_INVOICE_DEPENDENCIES_MOBILE"
+    ],
+    "actual_Native_and_source_navigation_qualified": false,
+    "new_payment_return_atomic_edit": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

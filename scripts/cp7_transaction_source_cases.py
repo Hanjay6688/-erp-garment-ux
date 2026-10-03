@@ -22,7 +22,7 @@ import cp7_laundry_source_cases as laundry_source
 import cp7_cutting_source_cases as cutting_source
 import cp7_transaction_source_bundle as bundle
 b,auth=material.b,material.auth
-REQUIRED=dict(native=41,races=4,http=11,browser=20)
+REQUIRED=dict(native=41,races=4,http=11,browser=22)
 EXPECTED=sum(REQUIRED.values())
 RPC='erp_cp7_resolve_transaction_source_v1'
 

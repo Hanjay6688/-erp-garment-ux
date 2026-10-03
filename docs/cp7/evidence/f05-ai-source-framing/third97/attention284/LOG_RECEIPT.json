@@ -1,5 +1,5 @@
 {
-  "status": "THIRD_ORIGINAL_INCOMPLETE_LOG_ONLY_ROOTS_PENDING",
+  "status": "THIRD_ORIGINAL_INCOMPLETE_283PASS_1_P06_FAILURE_ALL19_ROOTS_VERIFIED",
   "source_commit": "97a19cda2d0e26134b8df8289f7a5d5f147bc19b",
   "source_tree": "9a3572e9be385259cd6912933646635c514e89ff",
   "run_id": 37153242146,
@@ -14,8 +14,9 @@
     "gzip_bytes": 63622,
     "gzip_sha256": "42586ec4abda04bd53c2893ae862abdd5b7ed5eae1c1594c24682f323847a98e"
   },
-  "root_case_counts_qualification": false,
+  "root_case_counts_qualification": true,
   "original_log_incomplete_case": "P06_BROWSER_DESKTOP_NATIVE_NETTING",
   "Native_product_credit": 0,
-  "first_failure_relabelled": false
+  "first_failure_relabelled": false,
+  "Native_full284_qualified": false
 }

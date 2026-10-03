@@ -17,6 +17,7 @@ import type {Json} from './types/database.preconnect'
 import {Pencil,Trash2} from 'lucide-react'
 import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import TransactionDependencyNotice,{type TransactionDependencyStep} from './TransactionDependencyNotice'
+import SalesInvoiceDependencies from './SalesInvoiceDependencies'
 import './procurement-connected.css'
 const labels:Record<SalesStatus,string>={DRAFT:'Draft · stok dipesan',POSTED:'Belum lunas',PARTIAL_PAID:'Dibayar sebagian',PAID:'Lunas',CANCELLED:'Draft dibatalkan',REVERSED:'Penjualan dibatalkan'}
 const money=(v:string)=>`Rp${numberText(v)}`
@@ -107,6 +108,7 @@ function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|nu
     {(d.status==='DRAFT'?canCancel:canReverseSale)?<button type="button" disabled={actionLocked} onClick={()=>{reverseReview.current?.scrollIntoView?.({block:'center',behavior:'smooth'});reverseReview.current?.querySelector<HTMLInputElement>('input:not([type=checkbox])')?.focus()}}><Trash2 aria-hidden="true"/>Hapus / batalkan invoice</button>:null}
    </div>:null}
    <TransactionDependencyNotice documentNumber={d.number} steps={deleteSteps}/>
+   {deleteSteps.length>0?<SalesInvoiceDependencies source={d} current={!mutation.workspaceStale} locked={actionLocked}/>:null}
    <p>{numberText(d.qty_pcs)} PCS dalam invoice · {numberText(d.reserved_qty)} PCS masih dipesan · {numberText(d.returned_qty)} PCS sudah diretur.</p>
    {d.status==='DRAFT'?<p>Draft memesan stok siap jual. Piutang dan penjualan terbentuk saat invoice disahkan.</p>:null}
    {f?<div className="cproc-review" aria-label="Nilai invoice"><p>Bruto <strong>{money(f.gross_total)}</strong></p><p>Retur <strong>{money(f.return_total)}</strong> · bersih <strong>{money(f.net_total)}</strong></p><p>Pembayaran tercatat <strong>{money(f.paid_total)}</strong></p>{f.open_balance!==null?<p>Sisa pembayaran <strong>{money(f.open_balance)}</strong></p>:<p>{f.state==='DRAFT_PREVIEW'?'Nilai draft belum menjadi piutang.':'Dokumen ini sudah dibatalkan.'}</p>}</div>:null}
