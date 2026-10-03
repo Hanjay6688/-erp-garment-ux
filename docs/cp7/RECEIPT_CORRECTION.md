@@ -62,6 +62,50 @@ Oracle integritas di setiap kasus utama: semua `erp.run_v*_checks()` sebelum dan
 - UI: `src/ReceiptCorrectionPanel.tsx` (di Pembelian & Penerimaan), `src/MaterialNamePanel.tsx` (di Bahan & Roll, kolom mutasi), `src/receiptCorrectionContract.ts` (+ tes)
 - File bersama yang ikut disentuh (mohon diketahui GPT): `src/ConnectedProcurementPage.tsx`, `src/ConnectedMaterialsPage.tsx` (+ dom test), `src/productionRecovery.ts` (domain `RECEIPT_CORRECTION`, `MATERIAL_NAME`), `src/types/database.preconnect.ts`, `scripts/check-source-ownership.mjs`, `scripts/check-access-catalog.mjs` (registrasi 5 RPC browser baru; RPC riwayat Mutasi bahan v1 → v2).
 
+## Serah terima untuk merge dengan arsitektur GPT
+
+Bagian ini merangkum aturan yang dipakai "Benerin penerimaan" dan "Benerin nama / kode bahan", supaya saat digabung tidak ada aturan yang bertentangan. Kalau arsitektur GPT sudah punya aturan yang setara, pakai satu sumber saja dan hapus yang lain. Jangan menjalankan dua aturan berbeda untuk hal yang sama.
+
+**Pola koreksi.** Pola ini sama dengan koreksi nota penjualan GPT (`cp7_note`):
+- Dokumen asal tidak diubah.
+- Writer Native membalik dokumen asal pada waktu sumbernya, lalu memposting dokumen pengganti yang persis.
+- Riwayat disimpan di skema privat `cp7_receipt_fix`, dengan tabel immutable.
+- Jurnal pembalik bertanggal hari ini dipindah ke tanggal ekonomi asal lewat pasangan jurnal netral dan efektif.
+
+**Aturan yang perlu diselaraskan dengan aturan GPT:**
+1. **Penomoran revisi.** Penerimaan: `<nomor dasar> · R<n>-<8 hex request>`. Invoice supplier: `<nomor dasar> · R<n>`, memakai akhiran kosong berikutnya, karena nomor invoice unik per supplier termasuk yang sudah dibalik.
+2. **Putar ulang pembayaran supplier.** Tanggal, kas, metode, dan referensi tetap asli. Pembayaran dari uang muka saldo awal dihubungkan lagi ke uang muka yang sama; polanya disalin dari `cp7_note`. Kalau GPT punya helper umum, pakai satu helper.
+3. **Kelebihan bayar ("retur bayangan", keputusan owner 2 Okt 2026).** Pembayaran asli dibagi ke nota lain dari supplier yang sama, dengan catatan "barang tidak pernah diterima". Ini bukan dokumen retur Native dan bukan `bf_supplier_credit_moves_v1`. Kredit klaim laundry GPT (BD) adalah mekanisme terpisah.
+4. **Penulisan ke tabel Native di luar writer Native.** Perintah ini dimiliki `postgres`, sehingga melewati trigger "frozen" milik Native untuk hal-hal berikut:
+   - `material_rolls`: `purchase_item_id`, `original_qty`, `roll_number`, `supplier_id`, `received_at`. Tujuannya agar roll fisik yang sama tetap dipakai.
+   - `material_stock_movements`: `material_id` dan `roll_id`, hanya untuk pemakaian potong pada kasus salah bahan A→B.
+   - `cutting_group_rolls.roll_id`.
+   - `materials`: `material_name` dan `material_sku`.
+   - Baris baru di `initial_import_prepayment_payments`.
+
+   Semuanya dicatat di lineage privat. Kalau GPT menambah guard pada kolom-kolom ini, perintah ini harus dikecualikan secara eksplisit.
+5. **Kartu mutasi bahan.** Halaman Bahan & Roll memakai `erp_cp7_get_material_ledger_v2` (bukan v1). Baris penerimaan yang dibetulkan digabung ke baris asal, kecuali bila tanggal atau gudangnya berubah: baris asal tetap ada dengan jumlah efektif 0, dan baris baru tampil pada waktu dan gudang yang benar.
+6. **Pesan penolakan.** Pemetaan kode `CP7_RECEIPT_FIX_*` dan `CP7_MATERIAL_NAME_*` ke bahasa Indonesia ada di `src/receiptCorrectionContract.ts` (`correctionRefusal`), bukan di `src/lib/clientError.ts` milik GPT. Kalau GPT memusatkan pemetaan, pindahkan ke sana.
+7. **Domain pemulihan.** Domain `RECEIPT_CORRECTION` dan `MATERIAL_NAME` didaftarkan di `src/productionRecovery.ts`.
+8. **Batas akses.** Hanya OWNER/ADMIN dengan izin pengadaan (create, post, reverse) dan `finance.ap.view` untuk penerimaan, atau izin master kain/aksesori untuk nama dan kode bahan. Izin dicek ulang di awal dan akhir perintah.
+
+**Aturan bisnis yang perlu satu sumber kebenaran:**
+- Tanggal datang tidak boleh sesudah pemakaian pertama.
+- Gudang hanya bisa diganti untuk barang yang belum dipakai atau dipindah.
+- Supplier tidak bisa diganti untuk invoice gabungan atau pembayaran dari uang muka supplier lama.
+- Nomor roll unik per bahan.
+- Nama dan kode bahan unik tanpa membedakan huruf besar/kecil.
+- Batas bawah aksesori ditentukan oleh saldo berjalan terendah di gudang.
+
+**File bersama yang ikut disentuh** (sudah tercantum di bagian File):
+- `src/ConnectedProcurementPage.tsx`, `src/ConnectedMaterialsPage.tsx` (+ dom test)
+- `src/productionRecovery.ts`, `src/types/database.preconnect.ts`
+- `scripts/check-source-ownership.mjs`, `scripts/check-access-catalog.mjs`
+
+Di putaran-putaran sesudahnya tidak ada file GPT yang diubah.
+
+**Bukti.** Workflow terpisah `cp7-receipt-correction`, dengan manifest `scripts/cp7_receipt_correction_manifest.json` (33 native, 3 race, 1 HTTP, 2 browser). Run yang gagal tetap tercatat di bagian "Bukti CI".
+
 ## Temuan untuk GPT (koreksi nota, bukan scope saya)
 
 `LOCAL_PG16_DEV`, bukan bukti; mohon direproduksi di harness note-correction GPT.
