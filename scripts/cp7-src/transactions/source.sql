@@ -95,7 +95,9 @@ begin
  when'MATERIAL_SUPPLIER_INVOICE_LINE'then
   select i.purchase_id,jsonb_build_object('kind','PURCHASE_INVOICE','id',l.invoice_id)into parent_id,focus
    from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where l.id=ident;
- when'SUPPLIER_PAYMENT'then select s.purchase_id into parent_id from erp.supplier_payments s where s.id=ident;
+ when'SUPPLIER_PAYMENT'then
+  select s.purchase_id into parent_id from erp.supplier_payments s where s.id=ident;
+  focus:=jsonb_build_object('kind','SUPPLIER_PAYMENT','id',ident);
  when'MATERIAL_TRANSFER_ITEM'then select i.transfer_id into parent_id from erp.material_transfer_items i where i.id=ident;
  when'MATERIAL_ADJUSTMENT_ITEM'then select i.adjustment_id into parent_id from erp.material_adjustment_items i where i.id=ident;
  when'FG_ADJUSTMENT_ITEM'then select i.adjustment_id into parent_id from erp.fg_adjustment_items i where i.id=ident;
@@ -155,6 +157,8 @@ begin
    select ((n-1)/25)*25 into focus_offset from(select id,row_number()over(order by physical_at desc,id)n from erp.sales_returns where sale_id=parent_id)x where id=(focus->>'id')::uuid;
   when'PURCHASE_INVOICE'then
    select ((n-1)/25)*25 into focus_offset from(select ih.id,row_number()over(order by ih.received_at desc,ih.id)n from erp.material_supplier_invoices ih where exists(select 1 from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where l.invoice_id=ih.id and i.purchase_id=parent_id))x where id=(focus->>'id')::uuid;
+  when'SUPPLIER_PAYMENT'then
+   select ((n-1)/25)*25 into focus_offset from(select p.id,row_number()over(order by p.payment_date,p.created_at,p.id)n from erp.supplier_payments p where p.purchase_id=parent_id)x where id=(focus->>'id')::uuid;
   when'PAYROLL_INSTALLMENT'then
    -- Match the existing installment source loop, including reversed history.
    select ((n-1)/25)*25 into focus_offset from(select i.id,row_number()over(order by i.payment_date,i.created_at,i.id)n from cp7_installment.payments i where i.payroll_id=parent_id)x where id=(focus->>'id')::uuid;

@@ -143,7 +143,7 @@ async function productionReadJourney(ui,today,mobile){
  page.on('request',request=>{if(request.url().endsWith('/rpc/erp_save_laundry_qc_action_v1'))writes.push(request.postDataJSON())})
  const permission=(key,allowed)=>fixture('production-permission',{role:f.admin_role,permission:key,allowed})
  const responseFor=scope=>r=>r.url().endsWith('/rpc/'+rpc)&&r.request().postDataJSON()?.p_scope===scope
- let releaseHeld=null
+ let releaseHeld=null,qcFirstSize=null
  const freshFacts=async(scope,response)=>{
   assert.equal(response.status(),200);const actual=await response.json(),expected=fixture('production-read',{actor:user.user.id,scope,query:f.group_number})
   // Compare every actual Native member for the same actual Auth actor. The
@@ -156,6 +156,7 @@ async function productionReadJourney(ui,today,mobile){
    assert.deepEqual(delivery.sizes.map(s=>s.qty_sent_pcs),f.actual_qty_by_size);await ui.expect(page.locator('.clq-history')).toContainText(f.delivery_number);await ui.expect(page.locator('.clq-history')).toContainText(f.group_number)
   }else{
    const rows=actual.qc_queue.filter(r=>r.cutting_group_id===f.group_id);assert.equal(rows.length,4);assert.equal(rows.reduce((n,r)=>n+r.available_for_qc_qty_pcs,0),20)
+   assert.equal(typeof rows[0].size_code,'string');assert.ok(rows[0].size_code.length);qcFirstSize=rows[0].size_code
    assert.deepEqual(rows.map(r=>r.available_for_qc_qty_pcs),f.actual_qty_by_size);await ui.expect(page.locator(`.clq-panel option[value="${f.group_id}"]`)).toHaveCount(1)
   }
   await ui.expect(page.locator('.clq-kpis [data-kpi-state="KNOWN"]')).toHaveCount(4)
@@ -172,8 +173,8 @@ async function productionReadJourney(ui,today,mobile){
   if(scope==='QC'){
    await page.locator('.clq-form-grid select').first().selectOption(f.group_id)
    await page.getByLabel('WAKTU FISIK QC',{exact:true}).fill(ownTime)
-   await page.getByRole('textbox',{name:'Good final size 31',exact:true}).fill('0002')
-   await page.getByRole('textbox',{name:'BS QC size 31',exact:true}).fill('00')
+   await page.getByRole('textbox',{name:`Good final size ${qcFirstSize}`,exact:true}).fill('0002')
+   await page.getByRole('textbox',{name:`BS QC size ${qcFirstSize}`,exact:true}).fill('00')
    await page.locator('.clq-confirm input').check()
   }
  }
@@ -182,8 +183,8 @@ async function productionReadJourney(ui,today,mobile){
   if(scope==='QC'){
    await ui.expect(page.locator('.clq-form-grid select').first()).toHaveValue(f.group_id)
    await ui.expect(page.getByLabel('WAKTU FISIK QC',{exact:true})).toHaveValue(ownTime)
-   await ui.expect(page.getByRole('textbox',{name:'Good final size 31',exact:true})).toHaveValue('0002')
-   await ui.expect(page.getByRole('textbox',{name:'BS QC size 31',exact:true})).toHaveValue('00')
+   await ui.expect(page.getByRole('textbox',{name:`Good final size ${qcFirstSize}`,exact:true})).toHaveValue('0002')
+   await ui.expect(page.getByRole('textbox',{name:`BS QC size ${qcFirstSize}`,exact:true})).toHaveValue('00')
    await ui.expect(page.locator('.clq-confirm input')).not.toBeChecked()
    await ui.expect(page.getByRole('button',{name:'Post QC + Final SKU atomic',exact:true})).toBeDisabled()
   }
@@ -223,4 +224,60 @@ async function productionReadJourney(ui,today,mobile){
  }catch(e){writeFileSync(`cp6-proof/t3/CP7_PRODUCTION_READ_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('.connected-laundry-qc-page').innerText().catch(()=>''),state:boundary(),observations},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_PRODUCTION_READ_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{if(releaseHeld)releaseHeld();for(const [key,allowed]of Object.entries(f.original_permissions))permission(key,allowed);await user.context.close()}
 }
-export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)]]}
+async function supplierPaymentJourney(ui,today,mobile){
+ const f=fixture('prepare-supplier-payment',{today}),user=await ui.login('OWNER',{label:'source-supplier-payment-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',screenshots=[]
+ const journal=page.getByRole('main',{name:'Jurnal keuangan dari buku',exact:true}),payments=page.getByRole('region',{name:'Pembayaran supplier',exact:true})
+ const sourceResponse=r=>r.url().endsWith('/rpc/erp_cp7_resolve_transaction_source_v1'),saveResponse=r=>r.url().endsWith('/rpc/erp_cp7_reverse_supplier_payment_v1')
+ const state=()=>{
+  const result=fixture('state-supplier-payment',{fixture:f})
+  assert.ok(Number.isFinite(Date.parse(result.workspace.captured_at)))
+  const {captured_at,...facts}=result.workspace
+  return{...result,workspace:facts}
+ }
+ const openJournal=async(id,number)=>{
+  await financeMenu(page,'• Jurnal & Transaksi Lain');await journal.getByLabel('Periode jurnal dari',{exact:true}).fill(f.day);await journal.getByLabel('Periode jurnal sampai',{exact:true}).fill(today)
+  await journal.getByLabel('Cari sumber jurnal',{exact:true}).fill(number);await journal.getByRole('button',{name:'Tampilkan jurnal',exact:true}).click()
+  const row=journal.locator(`[data-journal-id="${id}"]`);await ui.expect(row).toBeVisible();await row.click()
+ }
+ const owningRow=()=>payments.locator(`[data-supplier-payment-id="${f.target}"][data-source-focus="true"]`)
+ let lost=null
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true});const before=state(),original=before.payment
+  assert.equal(before.workspace.page.offset,25);assert.equal(before.workspace.Native_AP.paid,'260.00');assert.equal(before.workspace.Native_AP.remaining,'740.00');assert.equal(before.cash_delta,'-260.00');assert.equal(before.requests,0)
+  await openJournal(original.journal.id,original.journal.number)
+  let response=await observed(page,sourceResponse,()=>journal.getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200)
+  let resolved=await response.json();assert.equal(resolved.business_DML,false);assert.equal(resolved.document.id,f.receipt.purchase_id);assert.deepEqual(resolved.document.focus,{kind:'SUPPLIER_PAYMENT',id:f.target,page_offset:25})
+  await ui.expect(owningRow()).toContainText(original.number);await ui.expect(owningRow()).toContainText('Pembayaran asal dari buku transaksi');await ui.expect(payments).toContainText('Rp740');assert.deepEqual(state(),before)
+  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
+  let filename=`CP7_SOURCE_SUPPLIER_PAYMENT_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
+  await owningRow().getByRole('button',{name:'Tinjau pembatalan '+original.number,exact:true}).click()
+  await payments.getByLabel('Alasan pembatalan pembayaran supplier',{exact:true}).fill('Pembayaran asal dibalik setelah jumlah tanggal dan sumber kas diperiksa')
+  await payments.getByLabel('Pembayaran supplier sudah diperiksa',{exact:true}).check();assert.deepEqual(state(),before)
+  if(!mobile){
+   await page.route('**/rest/v1/rpc/erp_cp7_reverse_supplier_payment_v1',async route=>{
+    if(!lost){const result=await route.fetch();assert.equal(result.status(),200);lost={envelope:route.request().postDataJSON(),body:await result.json()};await route.abort('failed')}
+    else await route.continue()
+   })
+   await payments.getByRole('button',{name:'Balikkan pembayaran supplier sekarang',exact:true}).click();await ui.expect(payments.getByRole('button',{name:'Periksa status pembatalan supplier',exact:true})).toBeEnabled()
+   assert.ok(lost);assert.equal(state().requests,1);assert.equal(await payments.getByText('Sisa utang',{exact:true}).count(),0)
+   await page.reload()
+   const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
+   const link=page.getByRole('button',{name:'• Pembelian & Penerimaan',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()
+   await ui.expect(payments.getByRole('button',{name:'Periksa status pembatalan supplier',exact:true})).toBeEnabled()
+   response=await observed(page,r=>saveResponse(r)&&r.request().postDataJSON()?.p_request===lost.envelope.p_request,()=>payments.getByRole('button',{name:'Periksa status pembatalan supplier',exact:true}).click())
+   assert.equal(response.status(),200);assert.deepEqual(response.request().postDataJSON(),lost.envelope);assert.deepEqual(await response.json(),lost.body)
+  }else{
+   response=await observed(page,saveResponse,()=>payments.getByRole('button',{name:'Balikkan pembayaran supplier sekarang',exact:true}).click());assert.equal(response.status(),200);assert.equal(response.request().postDataJSON().p_payload.payment_id,f.target)
+  }
+  await ui.expect(owningRow()).toContainText('Sudah dibalik');await ui.expect(payments).toContainText('Rp750')
+  const after=state();assert.equal(after.workspace.Native_AP.final_ap,'1000.00');assert.equal(after.workspace.Native_AP.paid,'250.00');assert.equal(after.workspace.Native_AP.remaining,'750.00');assert.equal(after.cash_delta,'-250.00');assert.equal(after.requests,1)
+  assert.equal(after.payment.id,f.target);assert.equal(after.payment.status,'REVERSED');assert.equal(after.payment.payment_date,original.payment_date);assert.equal(after.payment.cash_account_id,original.cash_account_id);assert.equal(after.payment.journal.id,original.journal.id);assert.equal(after.payment.inverse.accounting_date,today)
+  assert.equal(after.stock_HPP_unchanged,true)
+  await openJournal(after.payment.inverse.id,after.payment.inverse.number);response=await observed(page,sourceResponse,()=>journal.getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200);resolved=await response.json();assert.equal(resolved.document.id,f.receipt.purchase_id);assert.deepEqual(resolved.document.focus,{kind:'SUPPLIER_PAYMENT',id:f.target,page_offset:25})
+  await ui.expect(owningRow()).toContainText('Sudah dibalik');await ui.expect(owningRow().getByRole('button',{name:'Tinjau pembatalan '+original.number,exact:true})).toHaveCount(0);assert.deepEqual(state(),after)
+  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);filename=`CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
+  return{status:'PASS',mobile,real_Auth_Native_journal_to_actual26th_payment_and_page25:true,full_Native_rows_unchanged_by_source_and_review:true,Native_AP1000_paid260_to250_remaining740_to750_cash260_to250:true,original_payment_date_cash_and_journal_preserved:true,inverse_journal_reopens_same_reversed_child:true,one_Native_inverse_one_request_no_stock_HPP_change:true,actual_committed_reply_loss_reload_identical_UUID_and_payload:!mobile,screenshots}
+ }catch(e){writeFileSync(`cp6-proof/t3/CP7_SOURCE_SUPPLIER_PAYMENT_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:state(),lost},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_SUPPLIER_PAYMENT_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
+ finally{await user.context.close()}
+}
+export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP',()=>supplierPaymentJourney(ui,today,false)],['CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE',()=>supplierPaymentJourney(ui,today,true)]]}

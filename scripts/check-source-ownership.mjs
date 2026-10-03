@@ -209,6 +209,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/PurchaseInvoicePanel.tsx:erp_cp7_get_invoice_sources_v1',
   'src/PurchaseInvoicePanel.tsx:erp_cp7_get_purchase_invoices_v1',
   'src/PurchaseInvoicePanel.tsx:erp_cp7_save_purchase_invoice_v1',
+  'src/SupplierPaymentPanel.tsx:erp_cp7_get_supplier_payments_v1',
+  'src/SupplierPaymentPanel.tsx:erp_cp7_reverse_supplier_payment_v1',
   'src/ConnectedMaterialsPage.tsx:erp_cp7_get_materials_v1',
   'src/ConnectedMaterialsPage.tsx:erp_cp7_get_material_ledger_v2',
   'src/ConnectedMaterialsPage.tsx:erp_cp7_get_material_transfers_v1',

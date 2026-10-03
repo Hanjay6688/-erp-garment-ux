@@ -6,6 +6,7 @@ import psycopg
 import cp7_misc_cases as misc
 import cp7_installment_cases as installment
 import cp7_transaction_source_cases as source
+import cp7_supplier_payment_cases as supplier_payment
 
 def main():
  target=os.environ['AUDITOR_BROWSER_DB_URL'];url=urlparse(target)
@@ -64,6 +65,13 @@ def main():
   elif op=='state-rework':
    f=p['fixture'];out=source.rework_state(cur,f)
    out['source']=source.read(cur,'REWORK_ORDER',f['rework'])['document']
+  elif op=='prepare-supplier-payment':
+   out=supplier_payment.fixture(cur,date.fromisoformat(p['today']))
+  elif op=='state-supplier-payment':
+   out=supplier_payment.observe(cur,p['fixture'])
+   # All Native economic/platform rows, not only the panel subtotal. Only the
+   # read's capture timestamp is volatile; the browser keeps every other fact.
+   out['business']=source.b.boundary.snapshot(cur)
   elif op=='prepare-production-read':
    f=source.production.fixture(cur,date.fromisoformat(p['today']))
    wash=source.production.wash(cur,f,range(4),11)

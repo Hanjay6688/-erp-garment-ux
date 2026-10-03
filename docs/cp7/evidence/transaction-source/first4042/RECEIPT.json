@@ -1,0 +1,79 @@
+{
+  "head": "404252fbf8e4fbea724b727dbf7228ab5466eb96",
+  "tree": "fa447667b14049135aa4f62841723e5bcb3349b3",
+  "run_id": 37118026901,
+  "job_id": 111188518135,
+  "artifact_id": 11271604977,
+  "archive_sha256": "3b2e640fd61e7a421321587c6e322466611b48bb52e4af1108aade33735ca770",
+  "status": "INCOMPLETE",
+  "observed_case_count": 41,
+  "required_case_counts": {
+    "native": 24,
+    "races": 2,
+    "http": 5,
+    "browser": 10
+  },
+  "source_sha256": "87f6a6ed1d890e548af8897c29cc40f1592e4a2e1651022f1af2f6567f3f3291",
+  "groups": {
+    "native": {
+      "PASS": 24
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 5
+    },
+    "browser": {
+      "PASS": 8,
+      "INCOMPLETE": 2
+    }
+  },
+  "failed_case_ids": [
+    "CP7_PRODUCTION_READ_BROWSER_DESKTOP",
+    "CP7_PRODUCTION_READ_BROWSER_MOBILE"
+  ],
+  "members": {
+    "CP7_TRANSACTION_SOURCE.json": {
+      "sha256": "deb1592448d2fb3c919a0723ffd4d2cf3c9c1ed332d37243b8df019f9334f9a7",
+      "bytes": 283519
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "sha256": "0309133052053dc5d7dd1d930aa9bd41c1211ecc5b32d88cbf2097d315e7b1cb",
+      "bytes": 360431
+    },
+    "CP7_PRODUCTION_READ_DESKTOP_FAILURE.json": {
+      "sha256": "730ef312e618ef6093ee99cd49c063d7289d521587421d9f0c38cc9218d2aac1",
+      "bytes": 6840693
+    },
+    "CP7_PRODUCTION_READ_DESKTOP_FAILURE.png": {
+      "sha256": "f68c376657008fb8421b949f8dac5da333e3d9259245916cb29ececd2d5e7aab",
+      "bytes": 490810
+    },
+    "CP7_PRODUCTION_READ_MOBILE_FAILURE.json": {
+      "sha256": "907b517752f77d72c0205884b05303e250af1b3bf80e626f5ab73170c623f327",
+      "bytes": 6840693
+    },
+    "CP7_PRODUCTION_READ_MOBILE_FAILURE.png": {
+      "sha256": "9a81b2ee6f87183c9422fcf627efefd95a09fd0b385b0340be4876bb2ad67b07",
+      "bytes": 388452
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "console_errors": 0,
+  "cause": "Both exact Native QC fixture labels are BF-\u2026-31; the browser test incorrectly searched literal Good final size 31. Native queues, stock and source controls pass. Successor uses the size_code from the same current Native response. Original failures and complete Native state are retained unchanged.",
+  "production_go": false,
+  "independent_acceptance": false
+}

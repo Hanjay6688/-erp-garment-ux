@@ -10,6 +10,7 @@ import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import PurchaseInvoicePanel from './PurchaseInvoicePanel'
 import SupplierReturnPanel from './SupplierReturnPanel'
 import ReceiptCorrectionPanel from './ReceiptCorrectionPanel'
+import SupplierPaymentPanel from './SupplierPaymentPanel'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, procurementObject, receiptDecimal, receiptEditable, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementUom, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
 import type { Json } from './types/database.preconnect'
 import './procurement-connected.css'
@@ -218,5 +219,6 @@ function ProcurementWorkspace({initialPurchaseId}:{initialPurchaseId:string|null
     <PurchaseInvoicePanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
     <SupplierReturnPanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
     <ReceiptCorrectionPanel purchaseId={current && current.status !== 'DRAFT' ? current.id : null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
+    {valueAccess ? <SupplierPaymentPanel purchaseId={current?.id ?? null} parentReady={!loading && data !== null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/> : null}
   </section>
 }

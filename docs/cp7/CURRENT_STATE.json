@@ -214,7 +214,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Standing owner continuation active: current payroll/source Native25 and submenu Shell1342/6/CodeQL qualification retained at5e4; qualify accessory extension Native32, then remaining exact production/laundry/BS/supplier-payment owning controls, full submenu tools, material/P08/P18-P21. No independent/installed/production acceptance or unattended execution implied.",
+  "execution_priority": "Standing continuation: qualify source50 with supplier exact owning inverse and current input retention; retain all Originals and prior41 controls. Continue real fabric/material/P08 and full P18/P19 exits during qualification, then P20 independent and P21 installed gates.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Standing owner instruction remains active. Qualify all41 exact source/current-read cases and all cleanup gates, retaining failed first51c9/9148 and historical25 qualification. Continue unsent form preservation, remaining exact owning supplier payment/source/dependency exits, full material/P08 and P18-P21. Independent/hosted/production acceptance remains false; do not stop at a routine status checkpoint.",
+  "next_action": "Standing continuation: qualify source50 with supplier exact owning inverse and current input retention; retain all Originals and prior41 controls. Continue real fabric/material/P08 and full P18/P19 exits during qualification, then P20 independent and P21 installed gates. Do not stop at a routine checkpoint. No main/hosted/liveWA or self-issued acceptance.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -6432,8 +6432,8 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "QUALIFIED_NATIVE41_AT3C7_OWN_INPUT_SUCCESSOR_PENDING",
-      "native_case_budget": 41,
+      "status": "QUALIFIED_NATIVE41_AT3C7_FIRST4042_INCOMPLETE_SUCCESSOR_NATIVE50_PENDING",
+      "native_case_budget": 50,
       "no_business_DML": true,
       "full_source_coverage": false,
       "remaining": [
@@ -7151,6 +7151,86 @@
         "scope": "Current project/actor/profile and role versions/permissions plus committed form sequence",
         "Native_writers_unchanged": true,
         "independent_acceptance": false
+      },
+      "first4042": {
+        "head": "404252fbf8e4fbea724b727dbf7228ab5466eb96",
+        "tree": "fa447667b14049135aa4f62841723e5bcb3349b3",
+        "run_id": 37118026901,
+        "job_id": 111188518135,
+        "artifact_id": 11271604977,
+        "archive_sha256": "3b2e640fd61e7a421321587c6e322466611b48bb52e4af1108aade33735ca770",
+        "status": "INCOMPLETE",
+        "observed_case_count": 41,
+        "required_case_counts": {
+          "native": 24,
+          "races": 2,
+          "http": 5,
+          "browser": 10
+        },
+        "source_sha256": "87f6a6ed1d890e548af8897c29cc40f1592e4a2e1651022f1af2f6567f3f3291",
+        "groups": {
+          "native": {
+            "PASS": 24
+          },
+          "races": {
+            "PASS": 2
+          },
+          "http": {
+            "PASS": 5
+          },
+          "browser": {
+            "PASS": 8,
+            "INCOMPLETE": 2
+          }
+        },
+        "failed_case_ids": [
+          "CP7_PRODUCTION_READ_BROWSER_DESKTOP",
+          "CP7_PRODUCTION_READ_BROWSER_MOBILE"
+        ],
+        "members": {
+          "CP7_TRANSACTION_SOURCE.json": {
+            "sha256": "deb1592448d2fb3c919a0723ffd4d2cf3c9c1ed332d37243b8df019f9334f9a7",
+            "bytes": 283519
+          },
+          "T3_PACKAGE_INSTALL.json": {
+            "sha256": "0309133052053dc5d7dd1d930aa9bd41c1211ecc5b32d88cbf2097d315e7b1cb",
+            "bytes": 360431
+          },
+          "CP7_PRODUCTION_READ_DESKTOP_FAILURE.json": {
+            "sha256": "730ef312e618ef6093ee99cd49c063d7289d521587421d9f0c38cc9218d2aac1",
+            "bytes": 6840693
+          },
+          "CP7_PRODUCTION_READ_DESKTOP_FAILURE.png": {
+            "sha256": "f68c376657008fb8421b949f8dac5da333e3d9259245916cb29ececd2d5e7aab",
+            "bytes": 490810
+          },
+          "CP7_PRODUCTION_READ_MOBILE_FAILURE.json": {
+            "sha256": "907b517752f77d72c0205884b05303e250af1b3bf80e626f5ab73170c623f327",
+            "bytes": 6840693
+          },
+          "CP7_PRODUCTION_READ_MOBILE_FAILURE.png": {
+            "sha256": "9a81b2ee6f87183c9422fcf627efefd95a09fd0b385b0340be4876bb2ad67b07",
+            "bytes": 388452
+          }
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": "RESTORED_SAME_MEANING",
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": false
+        },
+        "console_errors": 0,
+        "cause": "Both exact Native QC fixture labels are BF-\u2026-31; the browser test incorrectly searched literal Good final size 31. Native queues, stock and source controls pass. Successor uses the size_code from the same current Native response. Original failures and complete Native state are retained unchanged.",
+        "production_go": false,
+        "independent_acceptance": false,
+        "receipt": "docs/cp7/evidence/transaction-source/first4042/RECEIPT.json"
       }
     },
     "owner_target": {
@@ -7478,17 +7558,17 @@
       "receipt_index": "docs/cp7/evidence/finisher-regression/qualified7638/full/INDEX.json"
     },
     "application_qualification": {
-      "source_commit": "3c7cb2cf75bb029c37efe60c2f80949924893701",
-      "source_tree": "30eb47eb79578c58fa4c8b4d1491b70c36c71ab8",
-      "run_id": 37117225615,
+      "source_commit": "404252fbf8e4fbea724b727dbf7228ab5466eb96",
+      "source_tree": "fa447667b14049135aa4f62841723e5bcb3349b3",
+      "run_id": 37118026859,
       "jobs": {
-        "application": 111186246040,
-        "CodeQL_javascript_typescript": 111186246102,
-        "CodeQL_actions": 111186246162
+        "application": 111188518044,
+        "CodeQL_javascript_typescript": 111188518099,
+        "CodeQL_actions": 111188518198
       },
       "status": "PASS",
-      "application_tests": 1365,
-      "application_test_files": 142,
+      "application_tests": 1374,
+      "application_test_files": 143,
       "Shell_browser_tests": 6,
       "build": "PASS",
       "security": "PASS",
@@ -7500,39 +7580,40 @@
       "direct_browser_table_reads": 0,
       "archives": {
         "shell": {
-          "artifact_id": 11271443575,
-          "sha256": "ba71d922ecd0d1c9c2bc01b5f49650ff7de014173807d8a9f87242e823ff9128"
+          "artifact_id": 11272113871,
+          "sha256": "d75ee2144e96bc57f4abb0aeacef229e0319634df563037f39fcce4d03790444"
         },
         "CodeQL_javascript_typescript": {
-          "artifact_id": 11272281359,
-          "sha256": "a7f97cbe4aaa8648e34ff163aa276536373e0914f376787020623f18a38e343c"
+          "artifact_id": 11272556717,
+          "sha256": "f1e5eea22d030c57e4f9a9dca2eb6e5143faaf150e3e324e3787e387ae8ab50f"
         },
         "CodeQL_actions": {
-          "artifact_id": 11272186592,
-          "sha256": "909dc80713097a18fa669381cd16dab280b6ad346ee496a2557448eb094435ff"
+          "artifact_id": 11271634735,
+          "sha256": "847fab9cd837901a277e788c02d7425c8eb43d6ab771e2cc7c9c2767fe1e58d7"
         }
       },
       "members": {
         "results.json": {
-          "sha256": "9d8c29ff7874cec8b537c27a5b68e7aa54735333249487dd21a804003b44f729",
-          "bytes": 12196
+          "sha256": "41d0a159f82bd2feb48fbe45d5c496177b7add666b9a8c78eb576b8a9e2378b8",
+          "bytes": 12206
         },
         "f04-private-kernels.json": {
-          "sha256": "e62c85f6cf8138f374d9d0e4158c441e0164850a52f1159b0e509cc65cc69735",
-          "bytes": 53259
+          "sha256": "feecee092da76b537a2c41f87244c015e787a8d156dd6a7f7aa04c00014f93f3",
+          "bytes": 53273
         },
         "javascript.sarif": {
-          "sha256": "378ad420e330c06bfd81ed5350444d8099670dbe470fc9144a1ecc4b509c20f3",
-          "bytes": 1302696
+          "sha256": "a2ac4e2e83b22b07c72776f8c41675cd71abd19b9c498811999022fb4c6b0a9d",
+          "bytes": 1304835
         },
         "actions.sarif": {
-          "sha256": "d20f75a4b258f437ca66d5b403f69bdb61053a5bd592fa1fb199157bceedd2d2",
-          "bytes": 692188
+          "sha256": "0aca553d46a7470520e05e5ba5bbb3cb554ddab1fa397afbc6a28cd3b78f2cfd",
+          "bytes": 693352
         }
       },
       "independent_acceptance": false,
       "production_go": false,
-      "receipt": "docs/cp7/evidence/finisher-regression/qualified3c7/shell/RECEIPT.json"
+      "qualification_scope": "Application/Shell only; source Native41 successor is INCOMPLETE and is retained separately.",
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified4042/shell/RECEIPT.json"
     },
     "previous_application_qualification": {
       "source_commit": "9148adf778d7210b41435b7cb7633d3edfb620a8",
@@ -7647,6 +7728,109 @@
       "independent_acceptance": false,
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified51c9/shell/RECEIPT.json"
+    },
+    "previous_application_qualification3c7": {
+      "source_commit": "3c7cb2cf75bb029c37efe60c2f80949924893701",
+      "source_tree": "30eb47eb79578c58fa4c8b4d1491b70c36c71ab8",
+      "run_id": 37117225615,
+      "jobs": {
+        "application": 111186246040,
+        "CodeQL_javascript_typescript": 111186246102,
+        "CodeQL_actions": 111186246162
+      },
+      "status": "PASS",
+      "application_tests": 1365,
+      "application_test_files": 142,
+      "Shell_browser_tests": 6,
+      "build": "PASS",
+      "security": "PASS",
+      "CodeQL_findings": 0,
+      "runtime_graph_files": 251,
+      "owned_browser_RPC_boundaries": 184,
+      "stylesheets": 53,
+      "orphans_under_runtime_import_ownership_check": 0,
+      "direct_browser_table_reads": 0,
+      "archives": {
+        "shell": {
+          "artifact_id": 11271443575,
+          "sha256": "ba71d922ecd0d1c9c2bc01b5f49650ff7de014173807d8a9f87242e823ff9128"
+        },
+        "CodeQL_javascript_typescript": {
+          "artifact_id": 11272281359,
+          "sha256": "a7f97cbe4aaa8648e34ff163aa276536373e0914f376787020623f18a38e343c"
+        },
+        "CodeQL_actions": {
+          "artifact_id": 11272186592,
+          "sha256": "909dc80713097a18fa669381cd16dab280b6ad346ee496a2557448eb094435ff"
+        }
+      },
+      "members": {
+        "results.json": {
+          "sha256": "9d8c29ff7874cec8b537c27a5b68e7aa54735333249487dd21a804003b44f729",
+          "bytes": 12196
+        },
+        "f04-private-kernels.json": {
+          "sha256": "e62c85f6cf8138f374d9d0e4158c441e0164850a52f1159b0e509cc65cc69735",
+          "bytes": 53259
+        },
+        "javascript.sarif": {
+          "sha256": "378ad420e330c06bfd81ed5350444d8099670dbe470fc9144a1ecc4b509c20f3",
+          "bytes": 1302696
+        },
+        "actions.sarif": {
+          "sha256": "d20f75a4b258f437ca66d5b403f69bdb61053a5bd592fa1fb199157bceedd2d2",
+          "bytes": 692188
+        }
+      },
+      "independent_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified3c7/shell/RECEIPT.json"
+    },
+    "supplier_payment_candidate": {
+      "basis": "Actual Native solver/inverse source; local integrated UI fixtures are synthetic and not Native proof.",
+      "impacted_tests": 80,
+      "test_files": 5,
+      "new_supplier_UI_controls": 11,
+      "build": "PASS",
+      "security": "PASS",
+      "Native_budget": 50,
+      "required_case_counts": {
+        "native": 28,
+        "races": 4,
+        "http": 6,
+        "browser": 12
+      },
+      "Native_status": "PENDING",
+      "all41_prior_cases_retained": true,
+      "source_sha256": {
+        "src/SupplierPaymentPanel.tsx": "1404832247ce599632541172271bddcf738913b230a297741e53d1396a8cc284",
+        "src/supplierPaymentContract.ts": "a352a3d98282db0e0aad111edcb8d0763bc6a9f08414523b2ca54674e8351a85",
+        "src/SupplierPaymentPanel.dom.test.tsx": "19c4cb1fa6fb2040ff55947def61bb48c4cceb4373005612aadb7e77ad322689",
+        "tests/fixtures/supplierPayments.ts": "2a380ab7d076ea92e0d41fab68e00c0aa9fbcc55919cb4b2bc6bdab75855efd1",
+        "src/ConnectedProcurementPage.tsx": "8330191999a279930034322c97e5ee3707f1de54f0b91d2deff0cfabb5a6af3b",
+        "scripts/cp7-src/invoices/payments.sql": "0e1d96f253235c58b0685eabc7ece94f498583a96b3f13dfed4cad29f00dc77a",
+        "scripts/cp7-src/invoices/ownership.sql": "4a8f38ce6b1132655ca3916211fa126986be0c4d78e9f3c74e92b76e5c933d1b",
+        "scripts/cp7-src/transactions/source.sql": "8d00d836dd145f3e64f4af24dbc3ea05fbc21338e1b809acc4b421b58d056188",
+        "scripts/cp7_supplier_payment_cases.py": "af96add6b754925c8254d64c08ae9b122fe21c8014ed8d797c7b64dd3c80cb16",
+        "scripts/cp7_transaction_source_cases.py": "1f0c6af9a97654550c724caf108a6753ef40876cffeafa057143db8f36ab606e",
+        "scripts/cp7_transaction_source_browser.mjs": "ce5655a937559874fea1bcbc3095a0049f511ea2ce704c9064737e42c2e5f75e",
+        "scripts/cp7_transaction_source_browser_fixture.py": "260234a9a2b207860e7128c3f065386b225cf36b680e2ba75e35c9d167c8378d",
+        "scripts/cp7_p09_procurement_probe.py": "88aa5281b10309688f21db41d022dbcd98f097d04781376a548a7a4e0a2a51be"
+      },
+      "logs_sha256": {
+        "supplier-payment-targeted.log": "5099cb44c9bd5b857ecc9cb5cad0dcb8a0af41ef3bea5b05ca45b892ed1e28ae",
+        "supplier-payment-build.log": "8628f9ab2ed0d55ea122020e14e3b5c1a0e11639212ee51e283a3eee06e8e5bd",
+        "supplier-payment-security.log": "f44e9c149f5315912cc5324a1dad7189dc2a843e6ef5561f60856b132074d05a"
+      },
+      "runtime_graph_files": 254,
+      "owned_browser_RPC_boundaries": 186,
+      "stylesheets": 53,
+      "production_go": false,
+      "independent_acceptance": false,
+      "handoff": "docs/cp7/SUPPLIER_PAYMENT_HANDOFF.md",
+      "qualification": "PENDING_NATIVE50",
+      "payment_creation": false,
+      "arbitrary_atomic_payment_edit": false
     }
   }
 }
