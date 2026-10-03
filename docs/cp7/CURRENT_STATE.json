@@ -181,7 +181,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Fix actual owning sale-note HTTP timeouts; continue GPT F04/F05/P18-P21. Claude owns posted material receipts, final supplier invoice price (including literal year-old example), name-only rename and material card. Do not duplicate his implementation or extend his case/provider files while he owns them. Main registered receipt32 and cutting57 are qualified; full CP7/independent/demo/hosted exits remain open.",
+  "execution_priority": "Finish exact current-source F05 Original retention; continue GPT fabric recipe/material feasibility, complete P18 journeys, P19 scale and P21 combined restore. Wait for Claude to finish before further receipt/final-invoice-price integration. Independent/demo/hosted exits remain open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3215,10 +3215,10 @@
   "family_status": {
     "F01_P00_P02": "WRITER_T1_BOUNDED_FOUNDATION_PASS_INDEPENDENT_PENDING",
     "F02_P03_P04": "WRITER_REPAIR_VERIFIED_53_CASES_INDEPENDENT_HOLD",
-    "F03_P09_P13": "EIGHT_PREDECESSOR_NATIVE_BUCKETS_RETAINED_NEW_NOTE_LINEAGE_REPAIR_NATIVE40_PENDING",
-    "F04_P05_P08": "NATIVE_NETTING82_WRITER_PASS_MODEL31_IMPLEMENTED_NATIVE_PENDING_MATERIAL_APPLY_OPEN",
-    "F05_P14_P17": "NATIVE_CORE164_WRITER_PASS_REPORT_PUBLICATION_OTHER_RULE_DOMAINS_OPEN",
-    "F06_P18_P21": "PLANNED"
+    "F03_P09_P13": "EIGHT_CURRENT_SOURCE_NATIVE_BUCKETS_AND_NOTE40_PASS_FULL_FAMILY_EXIT_OPEN",
+    "F04_P05_P08": "CURRENT_SOURCE_CUTTING57_PASS_FABRIC_RECIPE_MATERIAL_FEASIBILITY_AND_FULL_EXIT_OPEN",
+    "F05_P14_P17": "CURRENT_SOURCE_NATIVE284_PASS_ORIGINAL_RETENTION_PENDING_FULL_FAMILY_EXIT_OPEN",
+    "F06_P18_P21": "CURRENT_SOURCE_FOCUSED_P18_E01_9_PASS_FULL_P18_P21_OPEN"
   },
   "finance_overview_candidate": {
     "actual_cases_pass": 10,
@@ -3269,10 +3269,10 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-02: e99 actualNative57 qualifies complete parent/sibling retirement in all eight existing cutting current403 journeys,34/8/5/10 PASS and all install/restore/primary/backup/advisor/Auth gates; exact Originals retained. Main composition e873 note40 is37 PASS/3 browser INCOMPLETE due actual HTTP500/57014; failure Original retained. No timeout or financial SQL changed; read-only per-command trace is diagnostic-only. All eight e873 F03 jobs completed success, exact retention pending. Full CP7 remains open.",
+  "last_writer_checkpoint": "2026-10-03: all23 current-source workflow runs at9cc70e5 complete success. Exact Native note40/E01-4/cutting57/receipt32/P18-9/eight-F03 Originals and Shell1279 retained. Guard-source15aca F05 Original retained; current348930671-byte F05 Original pinned for read-only extraction. No new product or Claude WIP import. Full CP7/audit/production remain open.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
-  "latest_tested_scope": "F03 owning30 and full8 source-bound proof preserved; latest analysis152 PASS. Complete284 stops after three individually PASS admission controls with physical public-function order mismatch; full mandatory suite unrun. Cutting23 has21 PASS/2 browser Locator errors. Both repairs require complete fresh runs. Full CP7 and production acceptance remain open.",
-  "latest_tested_source": "2dced3d393dd2f3073de1dc3706c62581f52b9c6",
+  "latest_tested_scope": "Native note40, E01-4, F05-284, all eight F03 buckets, cutting57, receipt32, focused P18-9 and Shell1279 at exact source; no full family or independent acceptance.",
+  "latest_tested_source": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
   "material_native_152_qualification": {
     "counts": {
       "browser": 14,
@@ -3486,7 +3486,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Qualify registered receipt32, owning40, complete F03 retained components and ordinary F04 learning57 with all Native gates; retain every failed Original. Continue material feasibility, F05/P18-P21 and independent/demo acceptance. No main merge, hosted write or production GO.",
+  "next_action": "Finish exact current-source F05 Original retention; continue GPT fabric recipe/material feasibility, complete P18 journeys, P19 scale and P21 combined restore. Wait for Claude to finish before further receipt/final-invoice-price integration. Independent/demo/hosted exits remain open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -4067,7 +4067,7 @@
     "console_errors": 0
   },
   "f03_note_presentation_candidate": {
-    "status": "FULL_NATIVE40_AT_GUARD_SOURCE15ACA456_QUALIFIED_PRECEDING_FAILURES_RETAINED",
+    "status": "CURRENT_SOURCE_FULL_NATIVE40_QUALIFIED_PRECEDING_FAILURES_RETAINED",
     "preceding36": {
       "status": "NATIVE36_INCOMPLETE_ORIGINAL_RETAINED_REPAIRS_PENDING",
       "financial_writer_sha256_unchanged": "4b1a48763fed395fdbd9f59bcce17dd58e701227436bb7af5cea171e432bffed",
@@ -4137,8 +4137,8 @@
       "projection_manifest": "docs/cp7/native40_incomplete_artifact_projection.json",
       "complete40_still_required": true
     },
-    "latest40_run": 37061659616,
-    "latest40_source": "15aca45680e01740faf2523fbbb63609e81e41ba",
+    "latest40_run": 37066670291,
+    "latest40_source": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
     "latest40_counts": {
       "native": {
         "PASS": 28
@@ -4150,11 +4150,10 @@
         "PASS": 3
       },
       "browser": {
-        "PASS": 3,
-        "INCOMPLETE": 2
+        "PASS": 5
       }
     },
-    "latest40_receipt": "docs/cp7/evidence/owning-note-correction/qualified40-15aca45/RECEIPT.json",
+    "latest40_receipt": "docs/cp7/evidence/owning-note-correction/qualified40-9cc70e5/RECEIPT.json",
     "duplicate_SKU_UI_actual_minus5_minus6_balances95_89": true,
     "latest40_all_cleanup_gates_pass": true,
     "latest40_Auth_users": [
@@ -4176,13 +4175,10 @@
       "console_errors": 0
     },
     "latest_qualified40": {
-      "source_commit": "34d7e2e962423cdc42d2d596d1ce996ea9070a8b",
-      "source_tree": "38ad2c662aaaf63bcf5e8377b0ad861b2a38e002",
-      "run_id": 37047744469,
-      "job_id": 110973248260,
-      "artifact_id": 11246955560,
-      "zip_sha256": "c69561a28e3c1f7ce7cce540857eb83d12dfef9ed505041e071925032a0dfecc",
-      "source_bundle_sha256": "13cd9a555719fa9fb3996b3232abd9bbc37bee0c83e2c83db3365e1951a16ca6",
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670291,
+      "job_id": 111036130796,
       "counts": {
         "native": {
           "PASS": 28
@@ -4209,11 +4205,11 @@
         "all_public_catalog_members_and_row_hashes": true,
         "erp_public_auth_function_definitions_owners_acls": true
       },
+      "cp6_restored": true,
+      "advisor_gate": true,
       "auth_users_before": 0,
       "auth_users_after": 0,
-      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-34d7e2e/RECEIPT.json",
-      "console_errors": 0,
-      "intermittent_timeout_cause_closed": false
+      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-9cc70e5/RECEIPT.json"
     },
     "current_incomplete40": {
       "source_commit": "0dec1c1dd2ed1558efbd416684687eda362616a6",
@@ -4624,7 +4620,7 @@
     "statement_timeout_cause_closed": false
   },
   "note_read_authority_repair": {
-    "status": "PRECEDING_GUARD_NATIVE40_PASS_NEW_SHARED_HOOK_PENDING_READ_REPAIR_REQUIRES_CURRENT_NATIVE",
+    "status": "CURRENT_SOURCE_NATIVE40_E01_4_AND_SHARED_CONSUMER_SUITES_PASS_F05_ORIGINAL_RETENTION_PENDING",
     "contract": "docs/cp7/NOTE_READ_AUTHORITY.md",
     "confirmed_pre_repair_counterexamples": 3,
     "read_invalidation_retires_all_prior_tickets": true,
@@ -4643,16 +4639,7 @@
     "build_pass": true,
     "security_pass": true,
     "local_full_PostgreSQL_suite_claim": false,
-    "required_successors": [
-      "E01_4",
-      "owning_note40",
-      "F05_284",
-      "all_eight_F03",
-      "receipt32",
-      "cutting57",
-      "P18_9",
-      "full_Native_Shell"
-    ],
+    "required_successors": [],
     "product_SQL_RPC_grants_or_timeouts_changed": false,
     "Claude_product_files_changed": false,
     "production_go": false,
@@ -4722,12 +4709,12 @@
       },
       "receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-435e9e0/RECEIPT.json"
     },
-    "latest_qualified_source": "15aca45680e01740faf2523fbbb63609e81e41ba",
+    "latest_qualified_source": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
     "latest_note40": {
-      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
-      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
-      "run_id": 37061659616,
-      "job_id": 111019496644,
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670291,
+      "job_id": 111036130796,
       "counts": {
         "native": {
           "PASS": 28
@@ -4749,102 +4736,66 @@
         "security_advisors": true,
         "writer_runtime": true
       },
-      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-15aca45/RECEIPT.json",
-      "actual_success_trace": {
-        "NOTE_DESKTOP_HTTP_TRACE.json": {
-          "command_samples": 22,
-          "maximum_observed_query_elapsed_ms": 2174.423,
-          "observed_waits": [
-            [
-              "None",
-              "None"
-            ]
-          ],
-          "server_function_frames": [],
-          "monitor_lifetime_ms_not_command_duration": 6889,
-          "diagnostic_only": true,
-          "Native_exit_case_credit": 0
-        },
-        "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
-          "command_samples": 17,
-          "maximum_observed_query_elapsed_ms": 1676.913,
-          "observed_waits": [
-            [
-              "None",
-              "None"
-            ]
-          ],
-          "server_function_frames": [],
-          "monitor_lifetime_ms_not_command_duration": 7595,
-          "diagnostic_only": true,
-          "Native_exit_case_credit": 0
-        },
-        "NOTE_MOBILE_HTTP_TRACE.json": {
-          "command_samples": 16,
-          "maximum_observed_query_elapsed_ms": 1561.253,
-          "observed_waits": [
-            [
-              "None",
-              "None"
-            ]
-          ],
-          "server_function_frames": [],
-          "monitor_lifetime_ms_not_command_duration": 8099,
-          "diagnostic_only": true,
-          "Native_exit_case_credit": 0
-        },
-        "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
-          "command_samples": 17,
-          "maximum_observed_query_elapsed_ms": 1673.279,
-          "observed_waits": [
-            [
-              "None",
-              "None"
-            ]
-          ],
-          "server_function_frames": [],
-          "monitor_lifetime_ms_not_command_duration": 7283,
-          "diagnostic_only": true,
-          "Native_exit_case_credit": 0
-        }
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
       },
-      "sampled_elapsed_is_lower_bound_not_exact_duration": true,
-      "preceding_timeout_cause_closed": false
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-9cc70e5/RECEIPT.json"
     },
     "preceding_owned_UI40_run": 37052402095,
     "latest_full_Native_Shell": {
-      "run_id": 37061657821,
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670316,
+      "status": "FULL_NATIVE_POSTGRESQL_SHELL_SECURITY_BUILD_CODEQL_PASS",
       "test_files": 138,
-      "tests": 1278,
+      "tests": 1279,
       "isolated_guard_controls": 5,
       "browser_shell_checks": 6,
       "jobs": [
         {
-          "id": 111019489876,
+          "id": 111036127539,
           "name": "shell",
           "status": "completed",
           "conclusion": "success"
         },
         {
-          "id": 111019490235,
+          "id": 111036127742,
           "name": "CP7 CodeQL javascript-typescript",
           "status": "completed",
           "conclusion": "success"
         },
         {
-          "id": 111019490248,
+          "id": 111036127937,
           "name": "CP7 CodeQL actions",
           "status": "completed",
           "conclusion": "success"
         }
       ],
-      "receipt": "docs/cp7/evidence/shell/qualified1278-15aca45/RECEIPT.json"
+      "qualified_log_lines": [
+        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
+        "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
+        "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
+      ],
+      "log_retained_in_receipt": false,
+      "evidence_type": "Actual GitHub Actions completed jobs and decoded original job log, fetched through repository connector",
+      "qualifies_actual_Native40_or284_HTTP_performance": false,
+      "full_family_acceptance": false,
+      "independent_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/shell/qualified1279-9cc70e5/RECEIPT.json"
     },
     "latest_receipt32": {
-      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
-      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
-      "run_id": 37061659782,
-      "job_id": 111019498148,
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670364,
+      "job_id": 111036127894,
       "counts": {
         "native": {
           "PASS": 26
@@ -4866,13 +4817,22 @@
         "security_advisors": true,
         "writer_runtime": true
       },
-      "receipt": "docs/cp7/evidence/receipt-correction/qualified32-15aca45/RECEIPT.json"
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/receipt-correction/qualified32-9cc70e5/RECEIPT.json"
     },
     "latest_cutting57": {
-      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
-      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
-      "run_id": 37061659760,
-      "job_id": 111019496261,
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670368,
+      "job_id": 111036127661,
       "counts": {
         "native": {
           "PASS": 34
@@ -4894,8 +4854,20 @@
         "security_advisors": true,
         "writer_runtime": true
       },
-      "receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-15aca45/RECEIPT.json"
-    }
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-9cc70e5/RECEIPT.json"
+    },
+    "required_evidence_retention": [
+      "F05_9cc70_Original"
+    ]
   },
   "shell_note_read_authority_predecessor": {
     "status": "FULL_NATIVE_PG_SHELL_137_FILES1269_TESTS_SECURITY_BUILD_BOTH_CODEQL_PASS",
@@ -4931,7 +4903,7 @@
     "production_go": false
   },
   "guard_predicate_order_candidate": {
-    "status": "ALL_MANDATORY_GUARD_SOURCE_NATIVE_SUITES_PASS_F05_ORIGINAL_RETENTION_PENDING_SUBSEQUENT_READ_HOOK_REPAIR_SEPARATE",
+    "status": "ALL_GUARD_SOURCE_NATIVE_SUITES_PASS_AND_EXACT_F05_ORIGINAL_RETAINED_SUBSEQUENT_READ_REPAIR_PASSES",
     "contract": "docs/cp7/GUARD_PREDICATE_ORDER.md",
     "actual_failed_source": "0dec1c1dd2ed1558efbd416684687eda362616a6",
     "actual_failed_run": 37052402095,
@@ -5279,7 +5251,9 @@
     },
     "required_evidence_retention": [
       "F05_attention284_15aca_Original"
-    ]
+    ],
+    "F05_Original_retention_verified": true,
+    "F05_Original_receipt": "docs/cp7/evidence/f05-native-attention/qualified284-15aca45/RECEIPT.json"
   },
   "f05_http_runtime_trace_candidate": {
     "contract": "docs/cp7/F05_HTTP_TIMEOUT.md",
@@ -5300,7 +5274,7 @@
     "production_go": false
   },
   "E01_peer_read_authority_scenario": {
-    "status": "SCENARIO_RETIREMENT_FIXED_SECOND_NATIVE3_OF4_REVEALS_REAL_PRODUCT_REFETCH_GAP",
+    "status": "CURRENT_SOURCE_ALL4_NATIVE_JOURNEYS_PASS_BOTH_PREDECESSOR_FAILURE_ORIGINALS_RETAINED",
     "contract": "docs/cp7/E01_READ_AUTHORITY_SCENARIO.md",
     "failed_source": "15aca45680e01740faf2523fbbb63609e81e41ba",
     "failed_run": 37061659715,
@@ -5332,10 +5306,46 @@
     "local_scenario_syntax_pass": true,
     "second_failure_receipt": "docs/cp7/evidence/f03-e01/incomplete4-8e6100e/RECEIPT.json",
     "second_failure_is_product_read_visibility": true,
-    "shared_hook_repair_contract": "docs/cp7/PENDING_SOURCE_READ.md"
+    "shared_hook_repair_contract": "docs/cp7/PENDING_SOURCE_READ.md",
+    "current_source": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+    "current_qualification": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670678,
+      "job_id": 111036128853,
+      "counts": {
+        "native": {
+          "PASS": 1
+        },
+        "races": null,
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/f03-e01/qualified4-9cc70e5/RECEIPT.json"
+    }
   },
   "pending_source_read_repair": {
-    "status": "TWO_COUNTEREXAMPLES_FAIL_BEFORE_FULL_LOCAL1143_PASS_AFTER_COMPLETE_NATIVE_QUALIFICATION_REQUIRED",
+    "status": "ALL_REQUIRED_CURRENT_SOURCE_NATIVE_RUNS_PASS_F05_ORIGINAL_RETENTION_PENDING",
     "contract": "docs/cp7/PENDING_SOURCE_READ.md",
     "actual_failed_source": "8e6100eb7cc8948b8c3007050929d53f91003ca4",
     "actual_failed_run": 37064288854,
@@ -5353,18 +5363,642 @@
     "build_pass": true,
     "security_pass": true,
     "local_Native_PostgreSQL_claim": false,
-    "required_successors": [
-      "E01_4",
-      "owning_note40",
-      "F05_284",
-      "all_eight_F03",
-      "receipt32",
-      "cutting57",
-      "P18_9",
-      "full_Native_Shell"
-    ],
+    "required_successors": [],
     "Native_SQL_money_grants_or_timeouts_changed": false,
     "Claude_product_files_changed": false,
+    "production_go": false,
+    "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+    "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+    "required_evidence_retention": [
+      "F05_9cc70_Original"
+    ],
+    "qualification_receipt": "docs/cp7/evidence/current-source-9cc70e5/RECEIPT.json",
+    "all_required_Native_workflow_runs_pass": true,
+    "full_Native_Shell_tests": 1279,
+    "full_Native_Shell_files": 138
+  },
+  "latest_current_source_qualification": {
+    "status": "ALL_REQUIRED_CURRENT_SOURCE_NATIVE_RUNS_PASS_F05_ORIGINAL_RETENTION_PENDING",
+    "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+    "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+    "note40": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670291,
+      "job_id": 111036130796,
+      "counts": {
+        "native": {
+          "PASS": 28
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 3
+        },
+        "browser": {
+          "PASS": 5
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/owning-note-correction/qualified40-9cc70e5/RECEIPT.json"
+    },
+    "E01_4": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670678,
+      "job_id": 111036128853,
+      "counts": {
+        "native": {
+          "PASS": 1
+        },
+        "races": null,
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/f03-e01/qualified4-9cc70e5/RECEIPT.json"
+    },
+    "cutting57": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670368,
+      "job_id": 111036127661,
+      "counts": {
+        "native": {
+          "PASS": 34
+        },
+        "races": {
+          "PASS": 8
+        },
+        "http": {
+          "PASS": 5
+        },
+        "browser": {
+          "PASS": 10
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/f04-native-history/cutting-learning-qualified57-9cc70e5/RECEIPT.json"
+    },
+    "receipt32": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670364,
+      "job_id": 111036127894,
+      "counts": {
+        "native": {
+          "PASS": 26
+        },
+        "races": {
+          "PASS": 3
+        },
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/receipt-correction/qualified32-9cc70e5/RECEIPT.json"
+    },
+    "focused_P18_9": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670361,
+      "job_id": 111036127853,
+      "counts": {
+        "native": {
+          "PASS": 5
+        },
+        "races": {
+          "PASS": 1
+        },
+        "http": {
+          "PASS": 1
+        },
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "receipt": "docs/cp7/evidence/p18-e01-bridge/qualified9-9cc70e5/RECEIPT.json"
+    },
+    "all_eight_F03": {
+      "status": "ALL_EIGHT_NATIVE_F03_BUCKETS_WRITER_PASS",
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "source_bundle_sha256": "02a450d332e65dfba2f1f9d08ed0e680f5f0ec3424553820d5650988f16abbb3",
+      "run_id": 37066670403,
+      "buckets": {
+        "p12": {
+          "expected_case_count": 90,
+          "observed_case_count": 90,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11253746406,
+          "zip_sha256": "d5ea579e47e237991edd69d099a821e0561cbd82707447345e5182db3d2b4a3e",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "customer_refund": {
+          "expected_case_count": 10,
+          "observed_case_count": 10,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11253416362,
+          "zip_sha256": "0eaeb904df5d483a2d530fc62a1ef7cf249cd0704e847a25697733b72a3e3f3e",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p09": {
+          "expected_case_count": 132,
+          "observed_case_count": 132,
+          "expected_smoke_count": 3,
+          "observed_smoke_count": 3,
+          "artifact_id": 11253361454,
+          "zip_sha256": "6698e415df9e4b9e23c273cc329e416dea078e2dea801e45112609ba4ff1ca1f",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "supplier_credit": {
+          "expected_case_count": 5,
+          "observed_case_count": 5,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11253047144,
+          "zip_sha256": "25b651905a52cb8ea15ef8e406bde1d47563bebefaa1a097ba5a52bc719947de",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p13": {
+          "expected_case_count": 50,
+          "observed_case_count": 50,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11253001901,
+          "zip_sha256": "9b673f7045543413fb7d48785afe178d1fc9379adab6c040aea0bf287c0905b7",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p10": {
+          "expected_case_count": 34,
+          "observed_case_count": 34,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11252619015,
+          "zip_sha256": "16055897057040570d7d16e3097286cdc1df9f54315f2b196e5fc0b69525f795",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "p11": {
+          "expected_case_count": 64,
+          "observed_case_count": 64,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11252599493,
+          "zip_sha256": "595801d673f686e9e72c4e5dfb5cc4d0f52846dc6634cfff8470785feca2ec3d",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        },
+        "cash_installments": {
+          "expected_case_count": 61,
+          "observed_case_count": 61,
+          "expected_smoke_count": 0,
+          "observed_smoke_count": 0,
+          "artifact_id": 11252573869,
+          "zip_sha256": "a2dc8821f1cb26d66ead5cb1a983033cb363e839896698bbcc0b6449e589079d",
+          "primary_unchanged": true,
+          "cp6_restored": true,
+          "advisor_gate": true
+        }
+      },
+      "unique_oracle_total_claim": false,
+      "independent_acceptance": false,
+      "full_family_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/f03-full/all-eight-qualified-9cc70e5/RECEIPT.json"
+    },
+    "full_Native_Shell": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670316,
+      "status": "FULL_NATIVE_POSTGRESQL_SHELL_SECURITY_BUILD_CODEQL_PASS",
+      "test_files": 138,
+      "tests": 1279,
+      "isolated_guard_controls": 5,
+      "browser_shell_checks": 6,
+      "jobs": [
+        {
+          "id": 111036127539,
+          "name": "shell",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111036127742,
+          "name": "CP7 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111036127937,
+          "name": "CP7 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ],
+      "qualified_log_lines": [
+        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
+        "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
+        "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
+      ],
+      "log_retained_in_receipt": false,
+      "evidence_type": "Actual GitHub Actions completed jobs and decoded original job log, fetched through repository connector",
+      "qualifies_actual_Native40_or284_HTTP_performance": false,
+      "full_family_acceptance": false,
+      "independent_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/shell/qualified1279-9cc70e5/RECEIPT.json"
+    },
+    "F05_284": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670314,
+      "job_id": 111036127674,
+      "artifact_id": 11254952041,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 348930671,
+      "zip_sha256": "1c18e7f13441cdf20456aa0a69732c994acac155f8d534ead34121b29a367d1b",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0,
+      "label": "CP7_F05_NATIVE_ATTENTION",
+      "status": "ACTUAL_NATIVE284_PASS_EXACT_ORIGINAL_RETENTION_PENDING",
+      "source_sha256": "1c81bf8164d67aeadb17dc79d975e757a32a45063b11806d6fedb00ae3f84bf3",
+      "observed_case_count": 284,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "error": null,
+      "traceback": null,
+      "original_retention_verified": false,
+      "source_bundle_sha256": "1c81bf8164d67aeadb17dc79d975e757a32a45063b11806d6fedb00ae3f84bf3",
+      "declared_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "record": "f05-9cc70-qualified284",
+      "expected_receipt": "docs/cp7/evidence/f05-native-attention/qualified284-9cc70e5/RECEIPT.json"
+    },
+    "workflow_runs": [
+      {
+        "id": 37066670299,
+        "name": "CP7 F03 E05 Payroll Installments",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670299",
+        "updated_at": "2026-10-02T21:30:58Z"
+      },
+      {
+        "id": 37066670402,
+        "name": "CP7 F03 X04 Source Versions",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670402",
+        "updated_at": "2026-10-02T21:31:19Z"
+      },
+      {
+        "id": 37066670361,
+        "name": "CP7 P18 E01 Consumer Bridge",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670361",
+        "updated_at": "2026-10-02T21:31:23Z"
+      },
+      {
+        "id": 37066670408,
+        "name": "CP7 Retain Existing Native Originals",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670408",
+        "updated_at": "2026-10-02T21:31:57Z"
+      },
+      {
+        "id": 37066670316,
+        "name": "CP7 Shell S0",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670316",
+        "updated_at": "2026-10-02T21:31:41Z"
+      },
+      {
+        "id": 37066670368,
+        "name": "CP7 F04 Prospective Native Cutting Model and Consumer",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670368",
+        "updated_at": "2026-10-02T21:32:56Z"
+      },
+      {
+        "id": 37066670364,
+        "name": "CP7 Owning Receipt Correction",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670364",
+        "updated_at": "2026-10-02T21:33:13Z"
+      },
+      {
+        "id": 37066670678,
+        "name": "CP7 F03 E01 Source Journey",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670678",
+        "updated_at": "2026-10-02T21:29:43Z"
+      },
+      {
+        "id": 37066670334,
+        "name": "CP7 F03 Native Misc Finance",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670334",
+        "updated_at": "2026-10-02T21:29:48Z"
+      },
+      {
+        "id": 37066670333,
+        "name": "CP7 F03 E06 Year-end Late Invoice",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670333",
+        "updated_at": "2026-10-02T21:28:58Z"
+      },
+      {
+        "id": 37066670287,
+        "name": "CP7 F03 Required Cost Continuations",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670287",
+        "updated_at": "2026-10-02T21:29:06Z"
+      },
+      {
+        "id": 37066670484,
+        "name": "CP7 F03 Combined Supplier Returns",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670484",
+        "updated_at": "2026-10-02T21:30:10Z"
+      },
+      {
+        "id": 37066670315,
+        "name": "CP7 F03 X04 Paid Redye Continuation",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670315",
+        "updated_at": "2026-10-02T21:32:08Z"
+      },
+      {
+        "id": 37066670399,
+        "name": "CP7 F03 E20 E14 Complete Stock Capacity",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670399",
+        "updated_at": "2026-10-02T21:34:07Z"
+      },
+      {
+        "id": 37066670298,
+        "name": "CP7 P11 Sales",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670298",
+        "updated_at": "2026-10-02T21:34:13Z"
+      },
+      {
+        "id": 37066670314,
+        "name": "CP7 F05 Native Durable Attention",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670314",
+        "updated_at": "2026-10-02T22:08:34Z"
+      },
+      {
+        "id": 37066670433,
+        "name": "CP7 F03 E03 Customer Service",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670433",
+        "updated_at": "2026-10-02T21:34:37Z"
+      },
+      {
+        "id": 37066670451,
+        "name": "CP7 F03 Cash and Native Finance Readers",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670451",
+        "updated_at": "2026-10-02T21:35:32Z"
+      },
+      {
+        "id": 37066670401,
+        "name": "CP7 F03 E24 Material Issue",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670401",
+        "updated_at": "2026-10-02T21:36:37Z"
+      },
+      {
+        "id": 37066670291,
+        "name": "CP7 Owning Historical Note Correction",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670291",
+        "updated_at": "2026-10-02T21:45:29Z"
+      },
+      {
+        "id": 37066670403,
+        "name": "CP7 F03 Full Retained Components",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670403",
+        "updated_at": "2026-10-02T21:38:22Z"
+      },
+      {
+        "id": 37066670320,
+        "name": "CP7 F03 Combined Stack",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/integration",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066670320",
+        "updated_at": "2026-10-02T21:39:46Z"
+      },
+      {
+        "id": 37066669016,
+        "name": "CP7 Shell S0",
+        "head_sha": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+        "head_branch": "cp7/historical-note-correction",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37066669016",
+        "updated_at": "2026-10-02T21:28:04Z"
+      }
+    ],
+    "unique_case_total_claim": false,
+    "Claude_WIP_imported": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "audit_complete": false,
     "production_go": false
   }
 }

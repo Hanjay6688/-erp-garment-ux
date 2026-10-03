@@ -1,4 +1,10 @@
-# Active writer continuation · 2Oct2026
+# Active writer continuation · 3Oct2026
+
+## Current checkpoint · 3 October 2026 · latest product source fully passes required runtime suites
+
+All23 actual workflow runs at exact9cc70e5/tree3b591a68 pass. The pending-read fix now passes Native E01-4, owning-note40, F05-284, all eight F03 buckets, receipt32, cutting57, focused P18-9 and full Native Shell1279 in138 files with6 browser checks, security/build and both CodeQL jobs. Exact current-source note/E01/F03/receipt/cutting/P18 Originals and Shell receipt are retained. Current F05 Original extraction remains pending; the exact348930671-byte archive is pinned. The preceding15aca F05 Original is now retained. See CURRENT_PROGRESS.md and evidence/current-source-9cc70e5/RECEIPT.json.
+
+Continue current-source F05 Original retention, then fabric recipe/material feasibility, complete P18 journeys, P19 scale and combined P21 restore. Claude's unfinished receipt/final-price section remains deferred by owner instruction. Full CP7, independent/demo and hosted exits remain open; audit_complete=false; production_go=false. No product change or new whole-family credit is made by this evidence checkpoint. All sections below are preceding historical checkpoints.
 
 ## Current product repair · allow a fresh read while pending, keep all writing locked
 

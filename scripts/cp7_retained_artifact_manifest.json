@@ -107,6 +107,41 @@
       },
       "artifact_retention_only": true,
       "new_execution_case_credit": 0
+    },
+    "f05-9cc70-qualified284": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670314,
+      "job_id": 111036127674,
+      "artifact_id": 11254952041,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 348930671,
+      "zip_sha256": "1c18e7f13441cdf20456aa0a69732c994acac155f8d534ead34121b29a367d1b",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
     }
   }
 }
