@@ -36,7 +36,7 @@ def previous_day_sale_fixture(cur,today):
   sale_date=f['sale_at'],reason='F03 explicit prior-day invoice/current-day return fixture',
   items=[dict(product_id=f['product'],qty_pcs=4,unit_price_snapshot='20',discount_amount='0')]),uuid.uuid4(),None)
  f['sale']=f['draft']['sale_id'];b.api.admin(cur)
- actual=cur.execute('select sale_date from erp.sales where id=%s',(f['sale'],)).fetchone()[0]
+ actual=cur.execute('select sale_date from erp.sales_headers where id=%s',(f['sale'],)).fetchone()[0]
  assert actual==now-timedelta(days=1,minutes=10),'F03_PRIOR_DAY_NATIVE_SALE_TIMESTAMP'
  f['sale_at']=actual.isoformat()
  return f

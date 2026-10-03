@@ -9599,7 +9599,10 @@
     "Native284_original_log_receipt": "docs/cp7/evidence/finisher-regression/qualified-a306/provider-fault-actual-log/RECEIPT.json",
     "exact_root_and_four_unedited_PNG_projection_candidate": "docs/cp7/native284_latest_qualified_artifact_projection.json",
     "local_exact_image_boundary_standin_tests": 9,
-    "projection_access_and_case_credit": "READ_ONLY_ARTIFACTS_NO_NATIVE_DATABASE_OR_REEXECUTIONS"
+    "projection_access_and_case_credit": "READ_ONLY_ARTIFACTS_NO_NATIVE_DATABASE_OR_REEXECUTIONS",
+    "cross_date_initial_candidate_source": "180e9d61d948ce2fdf30d9ce1ceb5ad0a93a228a",
+    "cross_date_source_lookup_correction": "erp.sales_headers FROM_ACCEPTED_NOTE_AND_P18_SOURCE_READERS",
+    "first180e_run_not_cancelled_or_relabelled": true
   },
   "latest_inspected_application_and_retained_regressions_20261003": {
     "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",

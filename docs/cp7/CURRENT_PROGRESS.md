@@ -22,7 +22,7 @@ Standing owner instruction: finish CP7 and make transaction source edit/correcti
 
 ## Continue from this checkpoint
 
-REPORT_WINDOW_AND_AI_FALLBACK_HANDOFF.md and NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md govern the fresh date contrast/provider witness and qualified commit proof. TRANSACTION_CORRECTION_COVERAGE.md and CUTTING_SOURCE_CONTRACT_HANDOFF.md state supported owning correction/inverse paths and posted-cutting limitations. P18_E01_BRIDGE_HANDOFF.md controls the focused shared-consumer evidence, not full P18. Current JSON state has the exact source/history/remaining gates.
+REPORT_WINDOW_AND_AI_FALLBACK_HANDOFF.md and NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md govern the fresh date contrast/provider witness and qualified commit proof. TRANSACTION_CORRECTION_COVERAGE.md and CUTTING_SOURCE_CONTRACT_HANDOFF.md state supported owning correction/inverse paths and posted-cutting limitations. P18_E01_CONSUMER_BRIDGE.md and P18_SHARED_CONSUMER_CONTINUATION.md control the focused shared-consumer evidence, not full P18. Current JSON state has the exact source/history/remaining gates.
 
 Finish current actual22/284 inspection and raw proof retention, then continue feasible CP7 exits. Thirteen unconfirmed owner policies, actual fabric-per-piece recipe/eligible installed allocation, full P18/P19, independent P20 and installed P21 remain open. Accessory BOM cannot substitute for fabric consumption; P08 SAVE_DRAFT cannot claim physical apply/reservation. The prior-year Auth diagnostic deliberately forces rollback and is separate from the now genuinely committed b5 proof. Neither proves arbitrary scale or SLA. No guessed policy/data or writer-issued independent/production acceptance.
 
