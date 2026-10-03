@@ -14,9 +14,13 @@ import cp7_p13_finance_probe as finance
 import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
+from cp7_catalog_state import canonical_public_state,exact_public_catalog
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_F04_NATIVE_NETTING.json'
+
+def public_state(cur):
+ return canonical_public_state(native.public_state(cur))
 
 def verify(cur):
  bundle.verify(cur)
@@ -31,7 +35,7 @@ def run(contract_seam=False):
  report=dict(label=label,status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope=scope,source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),provider_sha256=hashlib.sha256(bundle.ROOT.joinpath(provider.__file__).read_bytes()).hexdigest(),expected_case_count=expected);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
-   p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
+   p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
    f03.note_report.capture(cur,originals)
@@ -51,7 +55,9 @@ def run(contract_seam=False):
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group(label,provider.cases,verify)
+  with exact_public_catalog(native)as catalog_audit:
+   report['native']=native.strict_group(label,provider.cases,verify)
+  report['native_public_catalog_comparison']=catalog_audit
   if not contract_seam:
    report['races']=modes.run_races(provider,verify,'cp7_f04_netting')
    report['http']=modes.run_http(provider,verify,'cp7_f04_netting')
@@ -65,7 +71,7 @@ def run(contract_seam=False):
    with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
     for definition in originals.values():cur.execute(definition,prepare=False)
     for role in bundle.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
-    conn.commit();report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,native.public_state,p09.functions,report);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
+    conn.commit();report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,public_state,p09.functions,report);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice','cp7_receipt_fix')for f in d.get('added',[])))
   groups=[report.get(k,{})for k in(('native',)if contract_seam else('native','races','http','browser'))];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
