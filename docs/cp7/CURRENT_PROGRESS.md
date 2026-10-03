@@ -1,6 +1,8 @@
 # Current CP7 writer handoff · 3 October 2026
 
-Latest candidate strengthens the existing NOTE_HTTP_CORRECTED_BOOK with an actual committed year364 correction and separate actual Auth366-row main/lot readbacks plus exact replay/no-second-effect.15 offline pager/failure controls pass; complete Native40 remains pending. It also repairs the BS test oracle to select the exact workspace refresh after the inverse. The first d84 Shell result1403 PASS/1 FAIL stays Original; build/security/browser did not execute. The separate actual d84 Original-verifier CI12/pinned152/284 passes. See NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md. Earlier qualified results below are source-bound and do not close the latest Shell failure or pending year commit.
+Current successor prepares the combined22 report-window repair and actual provider-only browser network-failure witness. The first b5 combined result is21 PASS/1 INCOMPLETE (expected revenue60, actual−20); it stays Original. All source/amount assertions remain, and fresh22/284 are required. b5 Shell is actually qualified1404/146/6/build/security/both CodeQL0; its BS oracle passes. Actual committed-year Native40 is still running, not replaced by a prior diagnostic. REPORT_WINDOW_AND_AI_FALLBACK_HANDOFF.md controls this next bounded increment.
+
+Prior increment atb5 strengthens the existing NOTE_HTTP_CORRECTED_BOOK with an actual committed year364 correction and separate actual Auth366-row main/lot readbacks plus exact replay/no-second-effect.15 offline pager/failure controls pass; complete Native40 remains pending. It also repairs the BS test oracle to select the exact workspace refresh after the inverse. The first d84 Shell result1403 PASS/1 FAIL stays Original; build/security/browser did not execute. The separate actual d84 Original-verifier CI12/pinned152/284 passes. See NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md. Earlier qualified results below are source-bound and do not close the latest Shell failure or pending year commit.
 
 Standing owner instruction: finish CP7 and make transaction source edit/correction/inverse usable. Single writer on cp7/integration. Claude f4049e4f is already merged; his branch and frozen CP5/CP6 remain unchanged. Target Monday5October2026 at12:00 WIB remains a target. Full CP7, independent acceptance and production GO are open.
 
@@ -34,7 +36,7 @@ Source bytes were recovered exactly from07dd after the local workspace changed:2
 - Real fabric-per-PC recipes, eligible actual material allocation and unconfirmed owner policies remain UNKNOWN. Accessory BOM is not a real fabric recipe; P08 SAVE_DRAFT is not physical apply/reservation. Skip work that depends on those missing facts.
 - Full P18 journeys/P19 scale-recovery, independent P20 and installed/combined-restore P21 remain open. No main/hosted/liveWA change or writer-issued independent/production acceptance.
 
-Next: publish the committed-year Auth/BS oracle successor, inspect full Native40/Shell, then continue feasible transaction/source and P18/P19 work. A routine qualification checkpoint does not end the owner mandate.
+Next: inspect committed-year Native40 and current regressions; publish report-window/provider-fault successor and inspect fresh22/284. A routine qualification checkpoint does not end the owner mandate.
 
 ## Previous checkpoints
 

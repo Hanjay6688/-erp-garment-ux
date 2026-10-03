@@ -44,6 +44,7 @@ name: CP7 F05 Native Durable Attention
     - scripts/cp7_f05_history_browser*
     - scripts/cp7_f05_episode_browser.mjs
     - scripts/cp7_f05_ai_browser.mjs
+    - scripts/cp7_f05_ai_offline_browser.mjs
     - scripts/cp7_catalog_state.py
     - src/nativeObligationEpisodes*
     - src/NativeObligationObservationView.tsx

@@ -334,7 +334,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Publish strengthened existing Native40 actual Auth corrected-book case and exact BS post-inverse workspace oracle; require fresh complete40/Shell/current regressions. Preserve d84 Shell first failure1403/1 and qualified read-only verifier12. Actual committed year and full366 separate-request reads remain pending; previous07dd forced-rollback diagnostic is not substituted. Recurring8s cause, missing real recipes/policies and full P18/P19/P20/P21 stay open.",
+  "execution_priority": "Inspect actual b5 Native40 committed-year Auth result and remaining current Native284/retained CI. Publish unchanged22-delta report-window query candidate and real provider-only browser-failure witness; inspect fresh Native22/284. Keep all first failures Original,8s cause open and no material/policy invention; full P18/P19/P20/P21 remain open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3639,7 +3639,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Publish strengthened existing Native40 actual Auth corrected-book case and exact BS post-inverse workspace oracle; require fresh complete40/Shell/current regressions. Preserve d84 Shell first failure1403/1 and qualified read-only verifier12. Actual committed year and full366 separate-request reads remain pending; previous07dd forced-rollback diagnostic is not substituted. Recurring8s cause, missing real recipes/policies and full P18/P19/P20/P21 stay open.",
+  "next_action": "Inspect actual b5 Native40 committed-year Auth result and remaining current Native284/retained CI. Publish unchanged22-delta report-window query candidate and real provider-only browser-failure witness; inspect fresh Native22/284. Keep all first failures Original,8s cause open and no material/policy invention; full P18/P19/P20/P21 remain open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9174,7 +9174,7 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
-    "next_action": "Publish strengthened existing Native40 actual Auth corrected-book case and exact BS post-inverse workspace oracle; require fresh complete40/Shell/current regressions. Preserve d84 Shell first failure1403/1 and qualified read-only verifier12. Actual committed year and full366 separate-request reads remain pending; previous07dd forced-rollback diagnostic is not substituted. Recurring8s cause, missing real recipes/policies and full P18/P19/P20/P21 stay open.",
+    "next_action": "Inspect actual b5 Native40 committed-year Auth result and remaining current Native284/retained CI. Publish unchanged22-delta report-window query candidate and real provider-only browser-failure witness; inspect fresh Native22/284. Keep all first failures Original,8s cause open and no material/policy invention; full P18/P19/P20/P21 remain open.",
     "previous_application_qualification7300": {
       "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
       "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
@@ -9485,15 +9485,22 @@
       "receipt": "docs/cp7/evidence/retained-original-verifier/qualified-d84/RECEIPT.json"
     },
     "latest_shell_original": {
-      "source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
-      "run_id": 37134007447,
-      "receipt": "docs/cp7/evidence/finisher-regression/qualified07dd/shell/RECEIPT.json",
-      "tests": 1404,
-      "files": 146,
-      "browser": 6,
+      "source_commit": "b5b7da7bd1745ececfd0c2badcb659531f3cafbe",
+      "source_tree": "569c3c6e22f0ab504f69f2090d890dda12a04c57",
+      "status": "ACTUAL_FULL_SHELL_PASS_1404_146_6_BUILD_SECURITY_BOTH_CODEQL0",
+      "run_id": 37138696594,
+      "job_id": 111248442650,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-b5/shell/RECEIPT.json",
+      "application_tests": 1404,
+      "application_files": 146,
+      "browser_cases": 6,
       "CodeQL_findings": 0,
+      "runtime_files": 256,
+      "owned_RPC_boundaries": 187,
+      "stylesheets": 53,
       "private_kernel_scope_only": true,
-      "private_kernel_cases": 138
+      "private_kernel_cases": 138,
+      "prior_d84_failure_relabelled": false
     },
     "current_shell_first_failure_d84": {
       "status": "INCOMPLETE_1403_PASS_ONE_DOM_ORACLE_FAIL",
@@ -9505,7 +9512,61 @@
       "both_CodeQL_originals_zero_findings": true,
       "private_kernel_scope_only_PASS138": true,
       "build_security_browser_executed_after_failure": false,
-      "successor_only_selects_exact_BS_workspace_RPC_after_inverse": "PENDING_FRESH_SHELL"
+      "successor_only_selects_exact_BS_workspace_RPC_after_inverse": "QUALIFIED_AT_B5_FULL_SHELL_1404"
+    },
+    "latest_source_navigation_original": {
+      "source_commit": "b5b7da7bd1745ececfd0c2badcb659531f3cafbe",
+      "source_tree": "569c3c6e22f0ab504f69f2090d890dda12a04c57",
+      "run_id": 37138696542,
+      "job_id": 111248442375,
+      "source_bundle_sha256": "1ee2efaea967dcd89fb1551652cc6019597237896ecd7c4f1301503e72c5f1c5",
+      "status": "ACTUAL_NATIVE69_ALL_REQUIRED_CASES_AND_GATES_PASS",
+      "counts": {
+        "native": {
+          "PASS": 38
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 9
+        },
+        "browser": {
+          "PASS": 18
+        }
+      },
+      "receipt": "docs/cp7/evidence/transaction-source/qualified69-b5/RECEIPT.json",
+      "all_raw_images_retained": 38,
+      "visually_reviewed_originals": 2,
+      "Auth_before_after": [
+        0,
+        0
+      ],
+      "console_errors": 0,
+      "SQL_reachability_read_only": "146_INSTALL_PLUS1_OWNED_DIAGNOSTIC_147_NO_NEW_NATIVE_CREDIT",
+      "full_source_acceptance": false
     }
+  },
+  "report_window_and_AI_fallback_candidate": {
+    "status": "CANDIDATE_FRESH_NATIVE22_AND_284_REQUIRED",
+    "contract": "docs/cp7/REPORT_WINDOW_AND_AI_FALLBACK_HANDOFF.md",
+    "combined_first_failure_source": "b5b7da7bd1745ececfd0c2badcb659531f3cafbe",
+    "combined_first_failure_run": 37138696580,
+    "first_failure_receipt": "docs/cp7/evidence/finisher-regression/first-b5/combined/RECEIPT.json",
+    "preserves_all22_IDs_and_all8_expected_deltas": true,
+    "uses_existing_Native_fixture_report_window": true,
+    "first_failure_date_cause_only_source_inference_not_proven": true,
+    "successful_Native_case_requires_complete_before_after_final_reports": true,
+    "offline_date_controls": 4,
+    "AI_browser_helper": "scripts/cp7_f05_ai_offline_browser.mjs",
+    "AI_helper_has_real_caller_and_workflow_trigger": true,
+    "existing_four_P17_IDs_and_complete_Native284_budget_unchanged": true,
+    "provider_network_contact": false,
+    "provider_outage_measured": false,
+    "Native_product_SQL_app_and_frozen_sources_changed": false,
+    "fresh_actual_Native22": "PENDING",
+    "fresh_actual_Native284_offline_witness": "PENDING",
+    "full_P19_acceptance": false,
+    "production_go": false
   }
 }

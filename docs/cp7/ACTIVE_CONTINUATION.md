@@ -1,6 +1,6 @@
 # Active writer continuation · 3Oct2026
 
-Current controlling work is CURRENT_PROGRESS.md, CURRENT_STATE.json and NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md. Native40 committed-year actual Auth366-row readback is a candidate; all40 IDs/budgets remain and15 local stand-in refusal controls pass. d84 Shell is1403 PASS/1 FAIL on the positional BS last-RPC oracle; its first Original stays, the exact post-inverse BS workspace oracle is patched and fresh Shell is required. Actual d84 read-only verifier12/exact152/284 passes. Previous07dd year forced-rollback diagnostic and967b40/57 qualified Originals remain source-bound. Local checkout is partial; no fresh local full DOM/Native run. Continue single writer, no main/hosted/liveWA/independent/production acceptance.
+Current controlling work is CURRENT_PROGRESS.md, CURRENT_STATE.json, REPORT_WINDOW_AND_AI_FALLBACK_HANDOFF.md and NOTE_COMMITTED_HTTP_YEAR_HANDOFF.md. b5 full Shell1404/146/6 and both CodeQL0 are qualified; d84 first failure stays. b5 combined22 is21 PASS/1 INCOMPLETE; a query-only Native-clock/WIB window candidate retains all expected amounts/IDs and actual report snapshots. Provider-only Chromium abort witness has a real caller/trigger in all four existing P17 journeys; Native284 pending. Committed-year Auth Native40/current284 remain running. No local full DOM/Native from the partial checkout and no main/hosted/liveWA/independent/production acceptance.
 
 ## Claude merge review · owner authorization 3 October 2026
 
