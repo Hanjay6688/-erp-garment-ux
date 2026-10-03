@@ -1,3 +1,4 @@
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -24,6 +25,7 @@ function Workspace(){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi nota belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.payroll.view')
  const mutation=useProductionMutation('FG_NOTA'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
+ const [docOrder,setDocOrder]=useState<RecordPageOrder>('SOURCE'),[docStatus,setDocStatus]=useState('')
  const [sources,setSources]=useState<NotaWorkspace<NotaCard>|null>(null),[docs,setDocs]=useState<NotaWorkspace<NotaDocument>|null>(null),[detail,setDetail]=useState<NotaDocument|null>(null)
  const [form,setForm]=useState<Form|null>(null),[dirty,setDirty]=useState(false),[review,setReview]=useState(false),[reason,setReason]=useState('Komponen dan tujuan payroll sudah diperiksa')
  const [search,setSearch]=useState(''),[docSearch,setDocSearch]=useState(''),[loading,setLoading]=useState(false),[error,setError]=useState(''),[drop,setDrop]=useState(false)
@@ -97,7 +99,10 @@ function Workspace(){
      <div className="cnota-actions"><button className="primary-btn" disabled={locked||!canWrite||dirty||stale||!review||reason.trim().length<5} onClick={()=>void write('POST',{id:detail.id,change_reason:reason.trim()},detail.row_version)}>Posting ke payroll</button><button disabled={locked||!canWrite||dirty||stale||!review||reason.trim().length<5} onClick={()=>void write('VOID',{id:detail.id,change_reason:reason.trim()},detail.row_version)}>Batalkan draft</button></div>{dirty?<small>Simpan perubahan draft sebelum melanjutkan.</small>:null}</>:null}
    </section>:null}
   </section></div>
-  <section className="panel cnota-history"><h2>Nota tersimpan</h2><div className="cnota-search"><label>Cari nota atau mandor<input aria-label="Cari nota tersimpan" value={docSearch} maxLength={120} onChange={e=>setDocSearch(e.target.value)}/></label><button disabled={loading||mutation.busy} onClick={()=>{request.current.docQ=docSearch.trim();request.current.docOffset=0;void load()}}>Cari nota</button></div>{docs?.page.rows.map(n=><button key={n.id} className="cnota-note-row" disabled={loading||mutation.busy} onClick={()=>open(n)}><span><strong>{n.contractor_name}</strong><small>{n.note_date} · {n.note_number}</small></span><span>{statusLabel[n.status]}{n.amount!==undefined?<strong>Rp{numberText(n.amount)}</strong>:null}</span></button>)}{docs&&!docs.page.rows.length?<p>Belum ada nota yang cocok.</p>:null}{docs?<Pager label="nota" page={docs.page} disabled={loading||mutation.busy} change={offset=>{request.current.docOffset=offset;void load()}}/>:null}</section>
+  <section className="panel cnota-history"><h2>Nota tersimpan</h2><RecordTools title="nota mandor" filterScope="PAGE" busy={loading||mutation.busy} order={docOrder} onOrder={setDocOrder} submitLabel="Cari nota" onSubmit={e=>{e.preventDefault();request.current.docQ=docSearch.trim();request.current.docOffset=0;void load()}}
+   onBrowse={()=>{setDocSearch('');setDocStatus('');setDocOrder('SOURCE');request.current.docQ='';request.current.docOffset=0;void load()}}
+   search={<label>Cari nota atau mandor<input aria-label="Cari nota tersimpan" value={docSearch} maxLength={120} onChange={e=>{++sequence.current;setDocs(null);setLoading(false);setDocSearch(e.target.value)}}/></label>} filters={<label>Status pada halaman<select aria-label="Status nota pada halaman" value={docStatus} onChange={e=>setDocStatus(e.target.value)}><option value="">Semua status pada halaman</option>{Object.entries(statusLabel).map(([key,label])=><option key={key} value={key}>{label}</option>)}</select></label>}/>
+{orderRecordPage(docs?.page.rows.filter(n=>!docStatus||n.status===docStatus),docOrder,n=>n.note_number).map(n=><button key={n.id} className="cnota-note-row" disabled={loading||mutation.busy} onClick={()=>open(n)}><span><strong>{n.contractor_name}</strong><small>{n.note_date} · {n.note_number}</small></span><span>{statusLabel[n.status]}{n.amount!==undefined?<strong>Rp{numberText(n.amount)}</strong>:null}</span></button>)}{docs&&!docs.page.rows.length?<p>Belum ada nota yang cocok.</p>:null}{docs?<Pager label="nota" page={docs.page} disabled={loading||mutation.busy} change={offset=>{request.current.docOffset=offset;void load()}}/>:null}</section>
  </section>
 }
 function SourceCard({card:c,snapshot=false}:{card:NotaCard;snapshot?:boolean}){

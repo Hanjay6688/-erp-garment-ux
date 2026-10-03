@@ -19,9 +19,12 @@ export default function MiscFinancePanel(props: Props) {
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED' || !['OWNER', 'ADMIN'].includes(identity.profile.role) || !identity.permissions.includes('finance.journal.view') || !identity.permissions.includes('finance.cash.view')) return <p role="alert">Transaksi lain tersedia untuk Owner atau Admin dengan hak melihat jurnal dan kas.</p>
   return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}:${props.initialId??''}`} {...props}/>
 }
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
+
 function Workspace({ client, onChanged, onRetire,initialId }: Props) {
   const mutation = useProductionMutation('FINANCE_MISC'), { beginRead, finishRead, isReadCurrent, run, reconcile, invalidate } = mutation
   const query = useRef({...emptyQuery(),transaction_id:initialId??null})
+  const [order,setOrder]=useState<RecordPageOrder>('SOURCE')
   const [data, setData] = useState<MiscRead | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState('')
   const [q, setQ] = useState(''), [status, setStatus] = useState<MiscQuery['status']>(null), [outcome, setOutcome] = useState<MiscOutcome | null>(null)
   const [formOpen, setFormOpen] = useState(false), [editing, setEditing] = useState<string | null>(null)
@@ -86,15 +89,16 @@ function Workspace({ client, onChanged, onRetire,initialId }: Props) {
     <ProductionRecoveryNotice recovery={mutation} className="" onReconcile={() => reconcile(handlers)}/>
     {busy ? <p role="status">Memeriksa transaksi, kategori dan rekening…</p> : null}{error ? <p role="alert">{error}</p> : null}
     {outcome ? <p role="status">Permintaan terakhir: {outcome.document.number} · {statusLabel[outcome.document.status]}. Hasil permintaan ini sudah tersimpan; tindakan berikutnya mengikuti sumber yang dimuat ulang.</p> : null}
-    <form className="cproc-grid" onSubmit={e => { e.preventDefault(); filter() }}>
-      <label>Cari transaksi<input aria-label="Cari transaksi lain" maxLength={120} value={q} onChange={e => { editFilter(); setQ(e.target.value) }}/></label>
-      <label>Status<select aria-label="Status transaksi lain" value={status ?? ''} onChange={e => { editFilter(); setStatus(e.target.value === '' ? null : e.target.value as MiscQuery['status']) }}><option value="">Semua status</option><option value="DRAFT">Draft</option><option value="POSTED">Tercatat</option><option value="REVERSED">Sudah dibalik</option></select></label><button disabled={busy || mutation.busy}>Cari transaksi lain</button>
-    </form>
+    <RecordTools title="transaksi lain" busy={busy||mutation.busy} order={order} onOrder={setOrder} submitLabel="Cari transaksi lain" onSubmit={e=>{e.preventDefault();filter()}}
+     onBrowse={()=>{editFilter();setQ('');setStatus(null);setOrder('SOURCE');query.current={...query.current,q:'',status:null,transaction_id:null,offset:0};setFormOpen(false);void load()}}
+     search={<label>Cari transaksi<input aria-label="Cari transaksi lain" maxLength={120} value={q} onChange={e=>{editFilter();setQ(e.target.value)}}/></label>}
+     filters={<label>Status<select aria-label="Status transaksi lain" value={status??''} onChange={e=>{editFilter();setStatus(e.target.value===''?null:e.target.value as MiscQuery['status'])}}><option value="">Semua status</option><option value="DRAFT">Draft</option><option value="POSTED">Tercatat</option><option value="REVERSED">Sudah dibalik</option></select></label>}/>
+
     {data ? <>
       <p>Dibaca {formatCp6WibDateTime(data.captured_at)}. Draft belum memengaruhi kas atau laba. Nama kategori dan rekening mengikuti data saat ini; transaksi tercatat tetap mengikuti jurnal sumber.</p>
       <button disabled={locked} onClick={() => openForm(false)}>Buat transaksi lain</button>
       <div className="cproc-layout"><section aria-label="Daftar transaksi lain"><h3>Transaksi</h3>{data.page.rows.length === 0 ? <p>Tidak ada transaksi sesuai pencarian.</p> : null}
-        {data.page.rows.map(t => <button className="cproc-receipt" data-misc-id={t.id} key={t.id} disabled={locked} aria-pressed={detail?.id === t.id} onClick={() => { query.current = { ...query.current, transaction_id: t.id }; setFormOpen(false); setActionReason(''); void load() }}><span><strong>{t.number}</strong><small>{typeLabel[t.type]} · {statusLabel[t.status]}</small><small>{formatCp6WibDateTime(t.physical_at)}</small></span><span>{money(t.amount)}</span></button>)}
+        {orderRecordPage(data.page.rows,order,t=>t.number).map(t => <button className="cproc-receipt" data-misc-id={t.id} key={t.id} disabled={locked} aria-pressed={detail?.id === t.id} onClick={() => { query.current = { ...query.current, transaction_id: t.id }; setFormOpen(false); setActionReason(''); void load() }}><span><strong>{t.number}</strong><small>{typeLabel[t.type]} · {statusLabel[t.status]}</small><small>{formatCp6WibDateTime(t.physical_at)}</small></span><span>{money(t.amount)}</span></button>)}
         <div className="cproc-pagination"><span>Total {data.page.total} dokumen</span><button disabled={locked || data.page.offset === 0} onClick={() => { query.current = { ...query.current, offset: Math.max(0, data.page.offset - 25) }; void load() }}>Transaksi lain sebelumnya</button><button disabled={locked || data.page.next_offset === null} onClick={() => { query.current = { ...query.current, offset: data.page.next_offset ?? 0 }; void load() }}>Transaksi lain berikutnya</button></div>
       </section><aside aria-label="Rincian transaksi lain">{detail ? <>
         <h3>{detail.number}</h3><p>{typeLabel[detail.type]} · {statusLabel[detail.status]} · {money(detail.amount)}</p><p>{detail.category_name ?? 'Kategori belum tersedia'} · {detail.cash_account_name ?? 'Rekening belum tersedia'}.</p><p>Kejadian {formatCp6WibDateTime(detail.physical_at)}.</p>{detail.counterparty_name ? <p>Pihak {detail.counterparty_name}</p> : null}{detail.reference_number ? <p>Referensi {detail.reference_number}</p> : null}{detail.notes ? <p>{detail.notes}</p> : null}

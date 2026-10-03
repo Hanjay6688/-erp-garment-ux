@@ -42,3 +42,9 @@ Local77 impacted DOM plus12 new parser/navigation tests PASS, build/security PAS
 Remaining in this increment: production/laundry/BS/accessory/payroll source families, supplier-payment exact owning panel and coverage-wide submenu tools. New resolver supports the declared families only; no full-source coverage claim.
 
 The broad local test command cannot use native PostgreSQL here (missing installation/root process). Its explicit PGlite successor runs1310 tests:1307 PASS,3 INCOMPLETE in the unchanged internal-guard stand-in because guard_subject SELECT is refused. Those are not relabelled PASS or skipped. Current-source Native Shell must qualify the full suite; no guard grant is widened to fix this local result. Focused89/build/security and7 explicit source SQL stand-in checks pass.
+
+## Owner target and increment 3 — submenu controls
+
+Owner moved the target from midnight to Monday5 October2026 at12:00 UTC+07 (Asia/Bangkok). This is a delivery target for implementation/qualification, not evidence or unattended/background execution. Native/independent/installed gates remain explicit.
+
+Search/browse/order controls now cover receipt, material stock, material transfer, attendance, payroll, journal, miscellaneous finance and saved contractor notes. Source readers, amounts, pagination and business writers are unchanged. Browse resets non-date selections; mandatory-date workspaces explicitly browse within the selected period. Changes retire stale lists/details and older read generations. Nota status filtering explicitly covers the current page only.84 impacted DOM checks and build pass; security pass recorded locally. Native navigation9ceb02d8 is queued while this reversible UI increment proceeds. Whole-submenu coverage remains open.
