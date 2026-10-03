@@ -1,5 +1,7 @@
 # Current CP7 status · 3 October 2026
 
+Owner addendum3Oct2026: clear headers plus safe Edit/Hapus for every transaction are now mandatory (USER_TRANSACTION_TOOLS.md). Initial real controls are implemented on sales four views, material count and FG adjustment, with1149 local application controls PASS and build/security PASS. Native qualification of this new UI source remains required. Every submenu/all-transaction rollout is open; the product source and Native results in the table below are the preceding9cc70e5 checkpoint.
+
 The latest shared source-read repair is qualified at exact source `9cc70e5615e4811f826ddb0f3d15c0540f452220`, tree `3b591a682ec92db57fa39fa561df1246fd733014`. All 23 actual GitHub Actions runs have completed successfully. This closes the fresh-read visibility regression while uncertain writes remain locked. It does not close all CP7.
 
 | Current-source package | Actual result | Exact evidence |

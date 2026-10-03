@@ -1,5 +1,9 @@
 # Active writer continuation · 3Oct2026
 
+## Active owner mandate · headers and serviceable transactions
+
+Owner requires clear Cari/Browse/Urutkan/Filter at every submenu and easy Edit/Hapus on every transaction source. See USER_TRANSACTION_TOOLS.md and TRANSACTION_TOOLS_CANDIDATE.md. First rollout covers sales four views, material count and FG adjustment; six new controls and full local1149/119 pass, build/security pass. Invoice deletion lists active payment/return blockers and opens their authorized source panels; atomic note edit remains available. UI sorting and adjustment filtering are explicitly current-page scope. No new SQL, grant, calculation, timeout, UUID behavior or Claude file change. New-source note40, all-eight F03 and Native Shell remain mandatory. Do not claim every submenu or arbitrary atomic edit complete. Claude unfinished scope remains deferred. All checkpoints below refer to preceding sources.
+
 ## Current checkpoint · 3 October 2026 · latest product source fully passes required runtime suites
 
 All23 actual workflow runs at exact9cc70e5/tree3b591a68 pass. The pending-read fix now passes Native E01-4, owning-note40, F05-284, all eight F03 buckets, receipt32, cutting57, focused P18-9 and full Native Shell1279 in138 files with6 browser checks, security/build and both CodeQL jobs. Exact current-source note/E01/F03/receipt/cutting/P18 Originals and Shell receipt are retained. Current F05 Original is also verified and retained at evidence/f05-native-attention/qualified284-9cc70e5/,179/40/29/36 PASS and all package/boundary/Auth0→0 gates. Exact read-only projection at7e25281b/run37083431197 earns zero new execution credit. The preceding15aca F05 Original is now retained. See CURRENT_PROGRESS.md and evidence/current-source-9cc70e5/RECEIPT.json.

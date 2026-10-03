@@ -181,7 +181,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Continue GPT fabric recipe/material feasibility, complete P18 combined journeys, P19 scale and P21 combined restore. Wait for Claude to finish before further receipt/final-invoice-price integration. Independent/demo/hosted exits remain open.",
+  "execution_priority": "Finish Native qualification of owner transaction-tools UI; continue header/transaction/source-blocker rollout with explicit unsupported atomic-edit gaps. Preserve and wait for Claude WIP. Continue fabric recipe/material feasibility, complete P18 journeys, P19 scale and P21 combined restore. Independent/demo/hosted exits stay open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3269,7 +3269,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-03: all23 current-source workflow runs at9cc70e5 complete success. Exact Native note40/E01-4/F05-284/cutting57/receipt32/P18-9/eight-F03 Originals and Shell1279 retained, with all Native gates/Auth0→0. Current F05 oversized archive source/run/tree/bytes/SHA and every root report verified through read-only projection at7e25281b/run37083431197. No product change or Claude WIP import. Full CP7/audit/production remain open.",
+  "last_writer_checkpoint": "2026-10-03: owner makes clear headers and safe Edit/Hapus for every transaction mandatory. First real UI rollout covers sales four views plus material count and FG adjustment; six new controls and full local1149/119 pass, build/security pass. No financial/backend/Claude file change. Current-source note40/full-eight-F03/Shell qualification required; whole transaction-tools rollout and full CP7 open.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Native note40, E01-4, F05-284, all eight F03 buckets, cutting57, receipt32, focused P18-9 and Shell1279 at exact source; no full family or independent acceptance.",
   "latest_tested_source": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
@@ -3486,7 +3486,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Continue GPT fabric recipe/material feasibility, complete P18 combined journeys, P19 scale and P21 combined restore. Wait for Claude to finish before further receipt/final-invoice-price integration. Independent/demo/hosted exits remain open.",
+  "next_action": "Finish Native qualification of owner transaction-tools UI; continue header/transaction/source-blocker rollout with explicit unsupported atomic-edit gaps. Preserve and wait for Claude WIP. Continue fabric recipe/material feasibility, complete P18 journeys, P19 scale and P21 combined restore. Independent/demo/hosted exits stay open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -5992,5 +5992,46 @@
     "audit_complete": false,
     "production_go": false,
     "pending_read_visibility_defect_closed": true
+  },
+  "transaction_tools_owner_mandate": {
+    "status": "MANDATORY_ALL_MODULES_PARTIAL_UI_ROLLOUT_LOCAL1149_PASS_CURRENT_NATIVE_REQUIRED",
+    "decision_date_WIB": "2026-10-03",
+    "contract": "docs/cp7/USER_TRANSACTION_TOOLS.md",
+    "candidate": "docs/cp7/TRANSACTION_TOOLS_CANDIDATE.md",
+    "actual_UI_rollout": [
+      "sales-invoice",
+      "sales-allocation",
+      "sales-payments",
+      "sales-returns",
+      "material-count",
+      "fg-adjustment"
+    ],
+    "global_invoice_status_filter": true,
+    "adjustment_status_filter_scope": "CURRENT_PAGE_EXPLICITLY_LABELLED",
+    "sort_scope": "CURRENT_PAGE_EXPLICITLY_LABELLED",
+    "backend_SQL_grants_money_stock_HPP_report_formulas_changed": false,
+    "new_raw_table_access": false,
+    "premature_invoice_reversal_blocked_for_paid_or_returned_source": true,
+    "owning_atomic_edit_kept": true,
+    "current_scope_exact_versions_authority_and_pending_fences_preserved": true,
+    "local_application_files": 119,
+    "local_application_tests": 1149,
+    "local_new_controls": 6,
+    "local_application_pass": true,
+    "local_Native_credit": 0,
+    "build_pass": true,
+    "security_pass": true,
+    "mandatory_Native_successors": [
+      "owning_note40",
+      "all_eight_F03_including_P09_P10_P11",
+      "full_Native_Shell"
+    ],
+    "Claude_WIP_imported": false,
+    "protected_Claude_files_changed": false,
+    "every_submenu_complete": false,
+    "every_transaction_edit_delete_complete": false,
+    "full_family_acceptance": false,
+    "audit_complete": false,
+    "production_go": false
   }
 }

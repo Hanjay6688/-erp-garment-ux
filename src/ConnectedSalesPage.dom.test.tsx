@@ -25,6 +25,24 @@ async function mount(){await act(async()=>root.render(<ConnectedSalesPage/>));aw
 async function click(button:HTMLElement){await act(async()=>button.click());await flush()}
 const reload=()=>[...container.querySelectorAll('button')].find(x=>x.textContent==='Muat ulang invoice')!
 describe('P11 invoice source boundary',()=>{
+ it('keeps sort local and sends browse and filters through the owned current source reader',async()=>{
+  client.rpc.mockImplementation(async(_name,args)=>({data:data(true,!!args.p_query.sale_id),error:null}));await mount()
+  const order=container.querySelector<HTMLSelectElement>('[aria-label="Urutkan halaman invoice"]')!,before=client.rpc.mock.calls.length
+  await act(async()=>{order.value='LABEL_DESC';order.dispatchEvent(new Event('change',{bubbles:true}))});expect(client.rpc.mock.calls).toHaveLength(before)
+  await act(async()=>{const input=container.querySelector<HTMLInputElement>('[aria-label="Cari invoice"]')!;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,'INV-1');input.dispatchEvent(new Event('input',{bubbles:true}));const s=container.querySelector<HTMLSelectElement>('[aria-label="Status invoice"]')!;s.value='PAID';s.dispatchEvent(new Event('change',{bubbles:true}))})
+  await click(button('Cari invoice'));expect(client.rpc.mock.calls.at(-1)![1].p_query).toMatchObject({q:'INV-1',status:'PAID',offset:0,sale_id:null})
+  await click(button('Browse semua'));expect(client.rpc.mock.calls.at(-1)![1].p_query).toMatchObject({q:'',status:null,offset:0,sale_id:null});expect(container.querySelector<HTMLInputElement>('[aria-label="Cari invoice"]')!.value).toBe('')
+  expect(new Set(client.rpc.mock.calls.map(x=>x[0]))).toEqual(new Set(['erp_cp7_get_sales_v1']))
+ })
+ it('names active downstream types at the selected invoice and refuses a premature reversal without blocking atomic edit',async()=>{
+  allowCorrection();const a=state.auth as typeof recoveryIdentity;a.identity.permissions.push('sales.payment.view','sales.return.view')
+  client.rpc.mockImplementation(async(_name,args)=>({data:data(true,!!args.p_query.sale_id),error:null}));await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!)
+  const notice=container.querySelector('[aria-label="Penghalang pembatalan INV-1"]')!
+  expect(notice.textContent).toContain('Pembayaran INV-1 masih aktif');expect(notice.textContent).toContain('Retur INV-1 masih aktif')
+  expect(button('Buka pembayaran INV-1')).toBeDefined();expect(button('Buka retur INV-1')).toBeDefined();expect(button('Benerin nota').disabled).toBe(false)
+  await act(async()=>container.querySelector<HTMLInputElement>('[aria-label="Pembatalan penjualan sudah diperiksa"]')!.click());expect(button('Batalkan penjualan tercatat').disabled).toBe(true)
+  await click(button('Batalkan penjualan tercatat'));expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false)
+ })
  it('keeps exact versions and source price arithmetic',()=>{const d=parseSalesRead(data(true,true),true);expect(d.detail?.row_version).toBe('9007199254740993');expect(d.detail?.financial?.open_balance).toBe('30.00');expect(d.detail?.items[0].commercial_sku).toBe('HISTORICAL')})
  it('rejects wrong balances, hidden finance, missing lines and wrong pages',()=>{
   const values:unknown[]=[];const a=data(true,true);a.detail!.financial!.open_balance='50.00';values.push(a)
