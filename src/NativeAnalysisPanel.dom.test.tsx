@@ -124,10 +124,10 @@ it('loads Native supplier AP explicitly, retires both AR and AP during a held re
  client.rpc.mockResolvedValue({data:wire(id),error:null});await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip analisis 1"]')!.click());await click('Tanya AI');expect((container.querySelector('[aria-label="Pertanyaan analisis ERP"]')as HTMLTextAreaElement).value).toBe('Pertanyaan utang tetap milik operator')
 })
 it('shows the exact financial source under current report rights and stores only an archive pointer',async()=>{
- const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')
+ const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view');const e=analysisFinanceFixture()
  client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:{...analysisFinanceFixture(),request_id:args.p_request},error:null}))
  await render();await click('Ambil analisis ERP terbaru');await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01');expect(container.textContent).toContain('Rp-7,02')
- await click('Tanya AI');expect(container.textContent).toContain('SUMBER KEUANGAN ERP ASLI');const stored=localStorage.getItem(analysisArchiveKey(scope))!;expect(stored).not.toContain('9007199254740993');expect(stored).not.toContain('financial_source');expect(stored).not.toContain('report')
+ await click('Tanya AI');const prompt=container.querySelector('[aria-label="Pertanyaan dan sumber ERP"]')!.textContent!;const quoted=JSON.parse(prompt.split('<DATA_ERP_JSON>\n\n')[1].split('\n\n</DATA_ERP_JSON>')[0]);expect(quoted.financial_source).toEqual(e.financial_source);expect(quoted.analysis).toEqual(e.analysis);const stored=localStorage.getItem(analysisArchiveKey(scope))!;expect(stored).not.toContain('9007199254740993');expect(stored).not.toContain('financial_source');expect(stored).not.toContain('report')
 })
 it('retires financial and operational analysis on report-only403 and on a permissions remount while keeping four Ops rights',async()=>{
  const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')

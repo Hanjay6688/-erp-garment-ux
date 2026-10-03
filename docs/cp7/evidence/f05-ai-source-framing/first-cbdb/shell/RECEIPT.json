@@ -1,0 +1,73 @@
+{
+  "classification": "FIRST_V2_SOURCE_ORIGINAL_SHELL_INCOMPLETE_NO_FULL_APPLICATION_NATIVE_OR_CODEQL_CREDIT",
+  "status": "INCOMPLETE",
+  "source_commit": "cbdb02897798221f2bf8dc3eda37989a032551c8",
+  "source_tree": "925fa0e6593d9751d205a1fecfc1614b23fb4e23",
+  "run_id": 37152039114,
+  "run_conclusion": "cancelled",
+  "job_id": 111287729658,
+  "job_conclusion": "failure",
+  "artifact_id": 11284541714,
+  "archive_bytes": 7175,
+  "archive_sha256": "11839758ad0ad2e48ea78b66d7a296cea9319b92220036525056c4c191da9fda",
+  "archive_members": {
+    "f04-private-kernels.json": {
+      "bytes": 53269,
+      "sha256": "54ff39344b2aa1d16e017473b0c1d20ab46be87d61322d0f03a0b8766cad6125"
+    }
+  },
+  "Original_roots": {
+    "f04-private-kernels.json": {
+      "file": "docs/cp7/evidence/f05-ai-source-framing/first-cbdb/shell/f04-private-kernels.json.gz",
+      "raw_bytes": 53269,
+      "raw_sha256": "54ff39344b2aa1d16e017473b0c1d20ab46be87d61322d0f03a0b8766cad6125",
+      "gzip_bytes": 6831,
+      "gzip_sha256": "3b3a7818714c5643268ef9325cf9fa41d93f14e89b25e62015c21fb96556a32d"
+    }
+  },
+  "Original_CI_log": {
+    "file": "docs/cp7/evidence/f05-ai-source-framing/first-cbdb/shell/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 735724,
+    "raw_sha256": "7eb891a1aa21d93e62d1c8e1699f07dcfc2749a2894f9e844ff68a62e0223c38",
+    "gzip_bytes": 50348,
+    "gzip_sha256": "715f8786d77d24b71594d07d9f57fee8dc5a2be6894389c2f66591d4dfb04f14"
+  },
+  "application_tests": {
+    "pass": 1425,
+    "fail": 2,
+    "total": 1427
+  },
+  "application_files": {
+    "pass": 147,
+    "fail": 1,
+    "total": 148
+  },
+  "exact_failed_cases": [
+    "copies the complete original analysis and question only after current-source verification, without treating source text as markup",
+    "shows the exact financial source under current report rights and stores only an archive pointer"
+  ],
+  "cause": "Inherited v1 test readers expect raw HASIL ANALISIS ASLI and SUMBER KEUANGAN ERP ASLI headings after the product moved the complete data into quoted v2 JSON.",
+  "CodeQL_jobs": [
+    {
+      "id": 111287729807,
+      "conclusion": "cancelled"
+    },
+    {
+      "id": 111287729866,
+      "conclusion": "cancelled"
+    }
+  ],
+  "CodeQL_zero_or_build_or_browser_pass_claimed": false,
+  "GitHub_matrix_auto_cancellation": true,
+  "writer_cancelled_job": false,
+  "private_kernel_scope": {
+    "pass": 138,
+    "source": "cbdb02897798221f2bf8dc3eda37989a032551c8",
+    "not_Native_credit": true
+  },
+  "Native_credit": 0,
+  "production_go": false,
+  "full_CP7": false,
+  "independent_acceptance": false,
+  "first_result_relabelled": false
+}

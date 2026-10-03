@@ -9881,6 +9881,16 @@
     "full_E18_or_CP7_acceptance": false,
     "production_go": false,
     "independent_acceptance": false,
-    "legacy_v1_test_reader_repair": "General analysis/P18 browser and panel/finance receiver assertions decode full v2 JSON; all old facts, labels, financial data, report and question remain exactly compared. First cbdb028 results remain Original."
+    "legacy_v1_test_reader_repair": "General analysis/P18 browser and panel/finance receiver assertions decode full v2 JSON; all old facts, labels, financial data, report and question remain exactly compared. First cbdb028 results remain Original.",
+    "first_Shell_Original": {
+      "source": "cbdb02897798221f2bf8dc3eda37989a032551c8",
+      "run": 37152039114,
+      "job": 111287729658,
+      "status": "INCOMPLETE_1425_PASS_2_LEGACY_HEADER_FAILURES_OF1427",
+      "exact_Original_receipt": "docs/cp7/evidence/f05-ai-source-framing/first-cbdb/shell/RECEIPT.json",
+      "CodeQL_matrix_auto_cancelled_not_writer_cancelled": true,
+      "build_browser_Native_credit": false
+    },
+    "second_financial_header_reader_repair": "Receiver DOM checks full decoded original financial_source and analysis instead of the removed v1 financial heading; same original case and no product/Native change."
   }
 }
