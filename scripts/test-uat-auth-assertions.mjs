@@ -208,6 +208,24 @@ try {
   assert.equal(artifactResult.javascriptFileCount, 1)
   assert.equal(artifactResult.runtimeBundle, runtimeFile)
 
+  // The disposable loopback port (src/main.tsx) is reviewed as a fifth input
+  // that must stay undefined in a UAT artifact; any value is refused.
+  writeFileSync(runtimeFile, runtimeArtifact.replace('VITE_SUPABASE_URL:', 'VITE_DISPOSABLE_API_PORT:void 0,VITE_SUPABASE_URL:'))
+  assert.equal(assertUatAuthArtifact(fixtureRoot, validEnvironment).runtimeBundle, runtimeFile)
+  writeFileSync(runtimeFile, runtimeArtifact.replace('VITE_SUPABASE_URL:', 'VITE_DISPOSABLE_API_PORT:"54328",VITE_SUPABASE_URL:'))
+  expectFailure(
+    () => assertUatAuthArtifact(fixtureRoot, validEnvironment),
+    'UAT_ARTIFACT_DISPOSABLE_PORT_PRESENT',
+    browserKey,
+  )
+  writeFileSync(runtimeFile, runtimeArtifact.replace(`VITE_ERP_RUNTIME_MODE:"${UAT_AUTH_RUNTIME_MODE}",`, `VITE_ERP_RUNTIME_MODE:"${UAT_AUTH_RUNTIME_MODE}",VITE_DISPOSABLE_API_PORT:void 0,VITE_DISPOSABLE_API_PORT:void 0,`))
+  expectFailure(
+    () => assertUatAuthArtifact(fixtureRoot, validEnvironment),
+    'UAT_ARTIFACT_DISPOSABLE_PORT_PRESENT',
+    browserKey,
+  )
+  writeFileSync(runtimeFile, runtimeArtifact)
+
   writeFileSync(indexFile, '<!doctype html><html><head><script type="module" src="./assets/index.js"></script></head><body></body></html>')
   expectFailure(
     () => assertUatAuthArtifact(fixtureRoot, validEnvironment),

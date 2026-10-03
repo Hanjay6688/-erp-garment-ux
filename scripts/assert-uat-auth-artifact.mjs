@@ -5,6 +5,7 @@ import { JSDOM } from 'jsdom'
 import { assertUatAuthBuildEnvironment } from './assert-uat-auth-env.mjs'
 import { scanClientArtifacts } from './scan-client-artifacts.mjs'
 
+const disposablePortMarker = 'VITE_DISPOSABLE_API_PORT:'
 const runtimeMarkers = [
   'VITE_ERP_RUNTIME_MODE:',
   'VITE_SUPABASE_URL:',
@@ -163,7 +164,17 @@ export function assertUatAuthArtifact(rootPath, environment = process.env) {
     fail('UAT_ARTIFACT_RUNTIME_ORDER_INVALID', 'Runtime inputs are not emitted in the reviewed deterministic order.')
   }
 
-  const modeSegment = runtimeContent.slice(positions[0] + runtimeMarkers[0].length, positions[1])
+  let modeSegment = runtimeContent.slice(positions[0] + runtimeMarkers[0].length, positions[1])
+  // The disposable loopback port (src/main.tsx, cp7/integration 3ab575a0) is a
+  // fifth runtime input emitted between mode and URL. It is reviewed here as
+  // "must be undefined": a UAT artifact carrying any port value is refused.
+  if (runtimeContent.includes(disposablePortMarker)) {
+    const port = /^([\s\S]*?)VITE_DISPOSABLE_API_PORT:\s*(?:void 0|undefined)\s*,\s*$/.exec(modeSegment)
+    if (!port || occurrenceCount(runtimeContent, disposablePortMarker) !== 1) {
+      fail('UAT_ARTIFACT_DISPOSABLE_PORT_PRESENT', 'The disposable API port must stay undefined in a UAT artifact.')
+    }
+    modeSegment = port[1]
+  }
   const urlSegment = runtimeContent.slice(positions[1] + runtimeMarkers[1].length, positions[2])
   const keySegment = runtimeContent.slice(positions[2] + runtimeMarkers[2].length, positions[3])
   const anonSegment = runtimeContent.slice(positions[3] + runtimeMarkers[3].length, positions[3] + runtimeMarkers[3].length + 64)
@@ -184,6 +195,7 @@ export function assertUatAuthArtifact(rootPath, environment = process.env) {
   const exactRuntimeObjectPattern = new RegExp([
     '\\{\\s*',
     `VITE_ERP_RUNTIME_MODE\\s*:\\s*${stringLiteralPattern(expected.mode)}\\s*,\\s*`,
+    '(?:VITE_DISPOSABLE_API_PORT\\s*:\\s*(?:void\\s+0|undefined)\\s*,\\s*)?',
     `VITE_SUPABASE_URL\\s*:\\s*${stringLiteralPattern(expected.supabaseUrl)}\\s*,\\s*`,
     `VITE_SUPABASE_PUBLISHABLE_KEY\\s*:\\s*${stringLiteralPattern(expected.publishableKey)}\\s*,\\s*`,
     'VITE_SUPABASE_ANON_KEY\\s*:\\s*(?:void\\s+0|undefined)\\s*\\}',

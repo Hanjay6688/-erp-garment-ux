@@ -42,7 +42,8 @@ if (inviteSensitiveNavigation) {
 
 try {
   // Never pass the complete Vite environment object to client code. Only these
-  // four browser-safe values can participate in the bundle.
+  // browser-safe values can participate in the bundle; the disposable API port
+  // must stay undefined in a UAT artifact (scripts/assert-uat-auth-artifact.mjs).
   const runtime = parseRuntimeConfig({
     VITE_ERP_RUNTIME_MODE: import.meta.env.VITE_ERP_RUNTIME_MODE,
     VITE_DISPOSABLE_API_PORT: import.meta.env.VITE_DISPOSABLE_API_PORT,
