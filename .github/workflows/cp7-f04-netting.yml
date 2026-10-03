@@ -7,6 +7,9 @@ name: CP7 F04 Native Product Bound Netting
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_catalog_state.py
     - scripts/cp7_f04_netting_*
+    - src/NativeProductionPlanningPanel*
+    - src/nativeProductionPlanning*
+    - src/native-production-planning.css
     - scripts/cp7_netting_bundle.py
     - scripts/cp7_schedule_bundle.py
     - scripts/cp7_supply_bundle.py

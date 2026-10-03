@@ -1,0 +1,19 @@
+{
+  "classification": "WRITER_VIEWED_EXACT_FIRST_FAILURE_NOT_REQUALIFIED",
+  "source_commit": "cbdb02897798221f2bf8dc3eda37989a032551c8",
+  "Original_image": "images/P06_NETTING_DESKTOP_FAILURE.png",
+  "Original_image_bytes": 1445232,
+  "Original_image_sha256": "b0cac410a9ca5e0de0e9464e210c1ff0ad29d57c82b5f86193071dccfaa23074",
+  "Original_image_dimensions": [
+    1481,
+    4712
+  ],
+  "visually_reviewed": true,
+  "observed_long_Native_target_selects_extend_beyond_fieldset_and_page": true,
+  "original_case_and_full284_status": "INCOMPLETE",
+  "successor_qualification": "PENDING",
+  "Native_new_execution_credit": 0,
+  "full_CP7": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

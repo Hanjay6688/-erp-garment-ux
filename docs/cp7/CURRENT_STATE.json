@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Retain first Native284 exact roots/diagnostic/image through read-only projection; determine actual P06 desktop overflow cause before a scoped fix. Native152 at e52b and complete Shell97 are source-bound verified; full e52b284 remains running. Continue feasible CP7 transaction/edit/inverse/P18/P19 work without guessed owner/material policy or independent/installed GO.",
+  "execution_priority": "Qualify scoped long-source production field containment with fresh Native82/152/284 and Shell; inspect complete Native/P17 roots and unedited desktop/mobile screenshots. First Native284 remains281/284 INCOMPLETE with its21 exact roots, failure diagnostic/image and four separately bounded P17 witnesses. Continue feasible CP7 edit/inverse/P18/P19 work without guessing owner/material policy or independent/installed GO.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -9963,7 +9963,7 @@
       "Native_credit": false
     },
     "first_attention284": {
-      "status": "INCOMPLETE_CI_LOG_EXACT_FULL_ORIGINAL_ROOTS_PENDING_PROJECTION",
+      "status": "EXACT_FIRST_NATIVE284_ROOTS_VERIFIED_281_PASS_3_INCOMPLETE",
       "source_commit": "cbdb02897798221f2bf8dc3eda37989a032551c8",
       "run_id": 37152039101,
       "job_id": 111287729441,
@@ -9976,7 +9976,40 @@
         "P14_BROWSER_MOBILE_SHARED_ANALYSIS"
       ],
       "overflow_cause_closed": false,
-      "first_result_relabelled": false
+      "first_result_relabelled": false,
+      "receipt": "docs/cp7/evidence/f05-ai-source-framing/first-cbdb/attention284/RECEIPT.json",
+      "actual_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 33,
+          "INCOMPLETE": 3
+        }
+      },
+      "all21_Original_roots_verified": true,
+      "four_P17_case_witnesses_actual_verified": true,
+      "full284_credit": false
     }
+  },
+  "production_long_source_label_candidate": {
+    "status": "IMPLEMENTED_ACTUAL_NATIVE_82_152_284_AND_SHELL_PENDING",
+    "handoff": "docs/cp7/P06_LONG_SOURCE_LABEL_HANDOFF.md",
+    "first_source": "cbdb02897798221f2bf8dc3eda37989a032551c8",
+    "first_actual_case": "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+    "observed_first_long_Native_selects_outside_panel_and_page": true,
+    "Original_source_diagnostic_review": "docs/cp7/evidence/f05-ai-source-framing/first-cbdb/attention284/SOURCE_DIAGNOSTIC_REVIEW.json",
+    "field_section_label_control_widths_bounded": true,
+    "full_actual_Native_long_label_and_option_required": true,
+    "old_case_IDs_budgets_native_business_writers_formulas_guards_and_timeouts_unchanged": true,
+    "new_Native_product_execution_credit": 0,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
