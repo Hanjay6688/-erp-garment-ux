@@ -176,6 +176,13 @@ alter function cp7_misc_correction.protect_link()owner to postgres;
 revoke all on all functions in schema cp7_misc_correction from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function cp7_misc_correction.validate(jsonb),cp7_misc_correction.apply(jsonb,uuid)to cp7_misc_write;
 grant execute on function cp7_misc_correction.link_value(cp7_misc_correction.links)to cp7_misc_write;
+-- Hosted postgres is an ordinary privileged owner, not a superuser. The
+-- definer driver needs these exact private capabilities; no app principal
+-- receives private context access, ERP DML or a Native writer grant.
+grant usage on schema cp7_misc_correction to postgres;
+grant execute on function cp7_misc_correction.validate(jsonb),cp7_misc_correction.link_value(cp7_misc_correction.links)to postgres;
+grant select,insert on cp7_misc_correction.links to postgres;
+grant insert,delete on cp7_misc.command_context to postgres;
 revoke create on schema cp7_misc_correction from cp7_misc_write;
 
 create function public.erp_cp7_correct_misc_finance_v1(p_payload jsonb,p_request uuid)returns jsonb

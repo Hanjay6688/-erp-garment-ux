@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Owner authorized full CP7 continuation on3Oct2026. Read CP7_FINISHER_20261003.md. Inactive rule lifecycle candidate is ready for source-bound Native16 qualification; continue exact source navigation and all-submenu owning transaction tools, then remaining material/P08/P18/P19/P20/P21 gates.",
+  "next_action": "Owner target Monday5Oct2026 12:00 UTC+07. Requalify the exact private ACL/browser-cleanup fix to Native20, E01 same-menu selection and all8 full retained component buckets. First e133 failures remain retained. Finish remaining sources/submenu transactions, material/P08/P18/P19/P20/P21; full-family/independent/installed acceptance remains false.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -6410,7 +6410,7 @@
     "owner_scope": "Complete CP7 including all submenu/source edit/cancel/recovery controls",
     "writer": "cp7/integration single writer",
     "handoff": "docs/cp7/CP7_FINISHER_20261003.md",
-    "inactive_rule_lifecycle": "IMPLEMENTED_LOCAL12_BUILD_SECURITY_PASS_NATIVE16_PENDING",
+    "inactive_rule_lifecycle": "QUALIFIED_NATIVE16_ef2461_EXACT_ORIGINAL_RETAINED",
     "independent_acceptance": false,
     "production_go": false,
     "rule_lifecycle_qualification": {
@@ -6431,11 +6431,92 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "LOCAL89_BUILD_SECURITY_PASS_NATIVE18_PENDING",
+      "status": "PASS_NATIVE18_a0f1_DECLARED_FAMILIES_ONLY",
       "native_case_budget": 18,
       "no_business_DML": true,
       "full_source_coverage": false,
-      "remaining": "Production/laundry/BS/accessory/payroll sources, supplier-payment exact owning panel, all submenu tools; material/P08/F06 exits remain open"
-    }
+      "remaining": "Production/laundry/BS/accessory/payroll sources, supplier-payment exact owning panel, all submenu tools; material/P08/F06 exits remain open",
+      "qualification": {
+        "source": "a0f1d51b051d8397c678720278571be18881e0db",
+        "run": 37106282569,
+        "job": 111155338092,
+        "original": "docs/cp7/evidence/transaction-source/a0f1/CP7_TRANSACTION_SOURCE.json.gz",
+        "first_failure_original": "docs/cp7/evidence/transaction-source/first9ce/CP7_TRANSACTION_SOURCE.json.gz",
+        "counts": {
+          "native": 12,
+          "races": 2,
+          "http": 2,
+          "browser": 2
+        },
+        "cp6_restored": true,
+        "advisor_gate": true
+      }
+    },
+    "owner_target": {
+      "date": "2026-10-05",
+      "time": "12:00",
+      "timezone": "Asia/Bangkok (UTC+07 / WIB)",
+      "kind": "IMPLEMENTATION_AND_WRITER_QUALIFICATION_TARGET_NOT_UNATTENDED_EXECUTION_OR_RELEASE_ACCEPTANCE"
+    },
+    "submenu_tools": {
+      "source": "f0f1a806d4fd0a06f35c262c73e782724c9a13e9",
+      "local_DOM_tests_pass": 84,
+      "scope": [
+        "receipt",
+        "material_stock",
+        "material_transfer",
+        "attendance",
+        "payroll",
+        "journal",
+        "misc_finance",
+        "saved_contractor_notes"
+      ],
+      "mandatory_dates_kept": true,
+      "sort_scope": "CURRENT_PAGE_EXPLICIT",
+      "all_submenus_complete": false
+    },
+    "misc_correction_candidate": {
+      "source": "e133a874c20394f3c86147a8c2ab06112ca5d152",
+      "status": "FIRST_NATIVE20_INCOMPLETE_PRIVATE_OWNER_ACL_AND_BROWSER_AUTH_CLEANUP_FIXED_SUCCESSOR_AWAITING_REQUALIFICATION",
+      "run": 37107850885,
+      "job": 111159780645,
+      "counts_required": {
+        "native": 14,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "scope": "POSTED_MISC_ATOMIC_NATIVE_INVERSE_REPLACEMENT_EXACT_ECONOMIC_TIMING_CURRENT_AUTH_UUID_RECOVERY_HISTORY_PRIOR_VALUE_RESTORE",
+      "Native_writer_definitions_unchanged": true,
+      "new_app_ERP_DML_or_Native_writer_EXEC": false,
+      "full_transaction_correction_coverage": false,
+      "independent_acceptance": false,
+      "production_go": false,
+      "first_failure_original": "docs/cp7/evidence/misc-correction/firste133/CP7_MISC_CORRECTION.json.gz",
+      "first_failure_package_original": "docs/cp7/evidence/misc-correction/firste133/T3_PACKAGE_INSTALL.json.gz",
+      "first_failure": {
+        "observed": 18,
+        "counts": {
+          "native": {
+            "INCOMPLETE": 14
+          },
+          "races": {
+            "INCOMPLETE": 2
+          },
+          "http": {
+            "INCOMPLETE": 2
+          }
+        },
+        "auth_users_after": 1,
+        "primary_unchanged": false,
+        "cp6_restored": true,
+        "advisor_gate": true
+      },
+      "successor_fix": "Exact private helpers, context INSERT/DELETE and immutable link SELECT/INSERT for existing non-superuser postgres driver; no new app or Native ERP writer grants. Browser route failures stay awaited so Auth cleanup runs. Local NOSUPER owner-identifier substitution kernel10 is not Native proof."
+    },
+    "regression_fixes": [
+      "Same active submenu keeps current AR invoice selection while manual navigation still retires all pending source resolutions and other pages clear the selection. E01 desktop/mobile actual regression awaits requalification.",
+      "Retained full-stack explicit role guard updated to exact manifest32, preserving all original31 roles and the already Native18-qualified readonly source role; unchanged case budgets and restoration/advisor/Auth gates."
+    ]
   }
 }

@@ -39,7 +39,7 @@ def run():
   scope=manifest['qualification_scope'],expected_case_count=spec['expected_case_executions'],
   expected_smoke_count=spec['expected_smoke_executions'],expected_group_executions={g['key']:g['expected_executions']for g in spec['groups']},predeclared_groups=spec['groups'],
   private_role_count=len(bundle.ROLES),groups={});installed=False
- assert report['private_role_count']==31,'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
+ assert len(manifest['expected_private_roles'])==32 and len(set(manifest['expected_private_roles']))==32 and tuple(bundle.ROLES)==tuple(manifest['expected_private_roles']),'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)

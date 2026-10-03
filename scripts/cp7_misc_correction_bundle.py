@@ -20,5 +20,16 @@ def verify(cur):
         for who in('anon','service_role'):assert not cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0]
     for who in('anon','authenticated','service_role','cp7_capture'):
         assert not cur.execute("select has_schema_privilege(%s,'cp7_misc_correction','USAGE')or has_function_privilege(%s,'cp7_misc_correction.apply(jsonb,uuid)','EXECUTE')or has_table_privilege(%s,'cp7_misc_correction.links','SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(who,who,who)).fetchone()[0]
+        assert not cur.execute("select has_table_privilege(%s,'cp7_misc.command_context','SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(who,)).fetchone()[0]
+    # Check the full private call/data path under the actual non-superuser
+    # execution owner. A superuser-only local runtime conceals missing ACLs.
+    assert cur.execute("select has_schema_privilege('postgres','cp7_misc_correction','USAGE')").fetchone()[0]
+    for sig in('cp7_misc_correction.validate(jsonb)','cp7_misc_correction.link_value(cp7_misc_correction.links)',
+               'cp7_misc.access_now()','cp7_misc.validate(text,jsonb)','cp7_misc.source(uuid)',
+               'cp7_misc.apply_command(text,jsonb,uuid)'):
+        assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')",(sig,)).fetchone()[0],('MISC_CORRECTION_DRIVER_EXEC',sig)
+    for table,privileges in [('cp7_misc_correction.links',('SELECT','INSERT')),('cp7_misc.command_context',('SELECT','INSERT','DELETE'))]:
+        for privilege in privileges:
+            assert cur.execute("select has_table_privilege('postgres',%s,%s)",(table,privilege)).fetchone()[0],('MISC_CORRECTION_DRIVER_TABLE',table,privilege)
     assert not cur.execute('select exists(select 1 from cp7_misc.command_context)').fetchone()[0]
     return dict(atomic_unchanged_Native_inverse_save_post=True,immutable_actual_correction_links=True,no_app_ERP_DML_or_private_context=True)

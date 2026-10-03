@@ -1,0 +1,22 @@
+{
+  "head": "e133a874c20394f3c86147a8c2ab06112ca5d152",
+  "run_id": 37107850832,
+  "job_id": 111159780537,
+  "artifact_id": 11268288574,
+  "archive_sha256": "6e69a19401afd18c65fa59eea73c64341a863b5c00ca3d37c3f59749cfc2de6d",
+  "original_sha256": "5abef982cd6d740db8fc775c64734761cfefd598314b533021b2c9352db97a9d",
+  "status": "INCOMPLETE",
+  "failure": "Full-stack guard still requires31; Native18 adds the reviewed readonly source role32. No retained component cases executed; every8 bucket refused before installation.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "outer_gate": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  }
+}

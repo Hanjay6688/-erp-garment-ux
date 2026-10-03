@@ -451,7 +451,7 @@ function ErpApp() {
     ? 'dashboard'
     : (firstAllowedPageId(accessBundle) as Page | null) ?? 'dashboard')
   const [sourceEpoch,setSourceEpoch]=useState(0)
-  const setPage=(next:Page)=>{setInvoiceSource(null);setSourceEpoch(value=>value+1);setPageState(next)}
+  const setPage=(next:Page)=>{if(next!==page)setInvoiceSource(null);setSourceEpoch(value=>value+1);setPageState(next)}
   const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
   const invoiceSourceScope=runtime.mode==='DISPOSABLE_TEST'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
   const [expanded, setExpanded] = useState<NavSection | null>(null)

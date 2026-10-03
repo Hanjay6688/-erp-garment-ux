@@ -24,8 +24,19 @@ async function journey(ui,today,mobile){
   let first
   if(!mobile){
    // Let the actual server commit, then drop only its reply. No fake outcome.
-   await page.route(endpoint,async route=>{const response=await route.fetch();assert.equal(response.status(),200);first=await response.json();await route.abort('failed')})
+   let interception
+   await page.route(endpoint,async route=>{
+    // Route callbacks must not throw outside the awaited journey: even a
+    // product refusal must reach the harness's real Auth/browser cleanup.
+    try{
+     const response=await route.fetch(),status=response.status()
+     if(status===200){first=await response.json();await route.abort('failed')}
+     else await route.fulfill({response})
+     interception={status}
+    }catch(error){interception={status:null,error:String(error)};await route.abort('failed').catch(()=>{})}
+   })
    await form.getByRole('button',{name:'Simpan koreksi transaksi lain',exact:true}).click()
+   await ui.expect.poll(()=>interception!==undefined).toBe(true);assert.equal(interception.status,200,JSON.stringify(interception))
    await ui.expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();assert.equal(state().cash_delta,'-9.99');assert.equal(state().chain.length,1)
    const originalRequest=structuredClone(requests[0].body);await page.unroute(endpoint);await page.reload();await journalMenu(page)
    const replay=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_correct_misc_finance_v1'));await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();const response=await replay;assert.equal(response.status(),200);assert.deepEqual(await response.json(),first);assert.deepEqual(requests[1].body,originalRequest)
