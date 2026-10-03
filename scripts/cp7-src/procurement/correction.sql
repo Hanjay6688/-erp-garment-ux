@@ -217,6 +217,16 @@ language sql stable security definer set search_path=''as $$
   select m.physical_at,sum(m.qty_signed)over(order by m.physical_at,m.system_created_at,m.id rows unbounded preceding)prefix
   from erp.material_stock_movements m where m.material_id=p_material and m.location_id=p_location and m.roll_id is null)x$$;
 
+-- Lowest balance of a non-roll material at one location when this receipt's
+-- own rows are taken out and the corrected quantity comes in at the corrected
+-- time (and location): never negative, else stock would have left before it came.
+create function cp7_receipt_fix.shifted_floor(p_material uuid,p_location uuid,p_purchase uuid,p_from timestamptz,p_new_at timestamptz,p_new_qty numeric)returns numeric
+language sql stable security definer set search_path=''as $$
+ select coalesce(min(x.prefix+case when x.physical_at>=p_new_at then p_new_qty else 0 end)filter(where x.physical_at>=p_from),0)from(
+  select m.physical_at,sum(m.qty_signed)over(order by m.physical_at,m.system_created_at,m.id rows unbounded preceding)prefix
+  from erp.material_stock_movements m where m.material_id=p_material and m.location_id=p_location and m.roll_id is null
+   and not(m.source_type='MATERIAL_PURCHASE_ITEM'and m.source_id in(select id from erp.material_purchase_items where purchase_id=p_purchase)))x$$;
+
 create function cp7_receipt_fix.blockers(p_purchase uuid)returns jsonb
 language sql stable security definer set search_path=''as $$
  select coalesce(jsonb_agg(b order by b->>'code'),'[]')from(
@@ -455,11 +465,14 @@ declare a jsonb;old cp7_receipt_fix.requests%rowtype;h erp.material_purchase_hea
  inv_ids uuid[];inv jsonb;il jsonb;old_new jsonb:='{}';inv_lines jsonb;new_inv uuid;invoiced jsonb:='{}';
  paid_total numeric:=0;excess numeric:=0;credits jsonb:='[]';credit jsonb;target erp.material_purchase_headers%rowtype;
  left_on_receipt numeric;part numeric;piece integer:=0;queue jsonb;related uuid[]:='{}';other_paid jsonb:='[]';pay jsonb;base text;inv_base text;
+ new_at timestamptz;new_loc uuid;new_sup uuid;moved boolean;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_receipt_fix.access_now();
  if jsonb_typeof(p_payload)is distinct from'object'or not p_payload?&array['purchase_id','review_token','change_reason','lines']
-  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('purchase_id','review_token','change_reason','lines','invoices','credit_allocations','notes','purchase_number'))
+  or exists(select 1 from jsonb_object_keys(p_payload)k where k not in('purchase_id','review_token','change_reason','lines','invoices','credit_allocations','notes','purchase_number','physical_at','location_id','supplier_id'))
+  or nullif(p_payload->>'location_id','')!~'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+  or nullif(p_payload->>'supplier_id','')!~'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
   or p_payload?'credit_allocations'and(jsonb_typeof(p_payload->'credit_allocations')is distinct from'array'or jsonb_array_length(p_payload->'credit_allocations')>20)
   or jsonb_typeof(p_payload->'lines')is distinct from'array'or jsonb_array_length(p_payload->'lines')not between 1 and 100
   or p_payload?'invoices'and(jsonb_typeof(p_payload->'invoices')is distinct from'array'or jsonb_array_length(p_payload->'invoices')>20)
@@ -494,10 +507,18 @@ begin
   raise exception 'CP7_RECEIPT_FIX_DEPENDENCY %',(select string_agg(b->>'code',',')from jsonb_array_elements(cp7_receipt_fix.blockers(h.id))b);end if;
  select root_purchase_id into root from cp7_receipt_fix.revisions where replacement_purchase_id=h.id;
  root:=coalesce(root,h.id);
+ -- Time, warehouse and supplier as they really were. A changed time or
+ -- warehouse moves the stock row; a changed supplier moves its debt.
+ begin new_at:=coalesce(nullif(p_payload->>'physical_at','')::timestamptz,h.physical_at);
+ exception when others then raise exception using errcode='22023',message='CP7_RECEIPT_FIX_FIELDS';end;
+ new_loc:=coalesce(nullif(p_payload->>'location_id','')::uuid,h.location_id);
+ new_sup:=coalesce(nullif(p_payload->>'supplier_id','')::uuid,h.supplier_id);
+ if new_at>statement_timestamp()then raise exception 'CP7_RECEIPT_FIX_DATE_FUTURE';end if;
+ moved:=new_at<>h.physical_at or new_loc<>h.location_id;
  select coalesce(max(v.revision),0)+1 into rev_no from cp7_receipt_fix.revisions v where v.root_purchase_id=root;
  select array_agg(id order by id)into old_items from erp.material_purchase_items where purchase_id=h.id;
  select array_agg(r2.id order by r2.id)into old_rolls from erp.material_rolls r2 join erp.material_purchase_items i on i.id=r2.purchase_item_id where i.purchase_id=h.id;
- select jsonb_build_object('purchase_number',h.purchase_number,'supplier_invoice_number',h.supplier_invoice_number,'due_date',h.due_date,'notes',h.notes,'lines',coalesce(jsonb_agg(jsonb_build_object('item_id',i.id,'material_id',i.material_id,
+ select jsonb_build_object('purchase_number',h.purchase_number,'physical_at',h.physical_at,'location_id',h.location_id,'supplier_id',h.supplier_id,'supplier_invoice_number',h.supplier_invoice_number,'due_date',h.due_date,'notes',h.notes,'lines',coalesce(jsonb_agg(jsonb_build_object('item_id',i.id,'material_id',i.material_id,
   'qty',i.qty::text,'unit_price',i.unit_price::text,'price_state',i.price_state,'price_source',i.price_source,
   'rolls',(select coalesce(jsonb_agg(jsonb_build_object('roll_id',r3.id,'roll_number',r3.roll_number,'qty',r3.original_qty::text)order by r3.roll_number,r3.id),'[]')
    from erp.material_rolls r3 where r3.purchase_item_id=i.id))order by i.id),'[]'))into previous_doc
@@ -596,16 +617,41 @@ begin
     and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=mm.id))then
    raise exception 'CP7_RECEIPT_FIX_REMOVED_ROLL_USED roll %',old_roll.roll_number;end if;
  end loop;
+ -- A roll used or moved before the corrected time, or used at all when the
+ -- warehouse changes, contradicts its own history: refused by roll number.
+ if moved then
+  select string_agg(distinct r.roll_number,', ')into tmp from erp.material_rolls r where r.id=any(seen_rolls)
+   and exists(select 1 from erp.material_stock_movements m where m.roll_id=r.id and m.reversal_of_id is null
+    and m.source_type not in('MATERIAL_PURCHASE_ROLL','MATERIAL_PURCHASE_ITEM')
+    and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+    and(new_loc<>h.location_id or m.physical_at<new_at));
+  if tmp is not null and new_loc<>h.location_id then raise exception 'CP7_RECEIPT_FIX_LOCATION_USED %',tmp;end if;
+  if tmp is not null then raise exception 'CP7_RECEIPT_FIX_DATE_AFTER_USE %',tmp;end if;
+ end if;
  -- Non-roll lines: what already left the receipt location after the receipt
- -- (transfer, issue) stays covered by the corrected quantity of that material.
+ -- (transfer, issue) stays covered by the corrected quantity of that material
+ -- at the corrected time; with another warehouse nothing may have left here.
  for mat in select i.material_id id,max(m.material_sku)sku,sum(i.qty)old_qty from erp.material_purchase_items i join erp.materials m on m.id=i.material_id
   where i.purchase_id=h.id and m.material_type<>'FABRIC'group by i.material_id order by i.material_id loop
   part:=coalesce((select sum((l->>'qty')::numeric)from jsonb_array_elements(p_payload->'lines')l
    where(l->>'material_id')::uuid=mat.id and jsonb_array_length(l->'rolls')=0),0);
-  if mat.old_qty-part>cp7_receipt_fix.location_floor(mat.id,h.location_id,h.physical_at)then
+  if cp7_receipt_fix.shifted_floor(mat.id,h.location_id,h.id,least(h.physical_at,new_at),new_at,case when new_loc=h.location_id then part else 0 end)<0 then
+   if new_loc<>h.location_id then raise exception 'CP7_RECEIPT_FIX_LOCATION_USED %',mat.sku;end if;
+   if new_at<>h.physical_at and part>=mat.old_qty then raise exception 'CP7_RECEIPT_FIX_DATE_AFTER_USE %',mat.sku;end if;
    raise exception 'CP7_RECEIPT_FIX_LINE_BELOW_USE % corrected % used %',mat.sku,part,
     mat.old_qty-greatest(cp7_receipt_fix.location_floor(mat.id,h.location_id,h.physical_at),0);end if;
  end loop;
+ -- Another supplier: the debt and its payments move with the receipt. A
+ -- supplier invoice shared with other receipts, or a payment from the old
+ -- supplier's opening advance, belongs to the old supplier and is refused.
+ if new_sup<>h.supplier_id then
+  if exists(select 1 from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id
+    join erp.material_supplier_invoices v on v.id=l.invoice_id where v.status='POSTED'and i.purchase_id<>h.id
+     and v.id in(select l2.invoice_id from erp.material_supplier_invoice_lines l2 join erp.material_purchase_items i2 on i2.id=l2.purchase_item_id where i2.purchase_id=h.id))then
+   raise exception 'CP7_RECEIPT_FIX_SUPPLIER_SHARED_INVOICE';end if;
+  if exists(select 1 from erp.supplier_payments p join erp.initial_import_prepayment_payments l on l.supplier_payment_id=p.id where p.purchase_id=h.id and p.status='POSTED')then
+   raise exception 'CP7_RECEIPT_FIX_SUPPLIER_ADVANCE_PAYMENT';end if;
+ end if;
  -- Every posted supplier invoice of the receipt is corrected with it: each of
  -- its lines is restated on the corrected receipt line that replaces its line.
  if cardinality(inv_ids)>0 and not p_payload?'invoices'then raise exception 'CP7_RECEIPT_FIX_INVOICE_DECISION_REQUIRED';end if;
@@ -627,11 +673,12 @@ begin
   then raise exception 'CP7_RECEIPT_FIX_INVOICE_LINE_SET';end if;
   -- A typed supplier invoice number is corrected on the re-posted invoice; the
   -- number of another invoice of the supplier is never taken over.
-  if inv?'invoice_number'and btrim(inv->>'invoice_number')<>(select regexp_replace(v.invoice_number,' · R[0-9]+$','')from erp.material_supplier_invoices v where v.id=(inv->>'replaces_invoice_id')::uuid)
-   and exists(with recursive chain(id)as(select(inv->>'replaces_invoice_id')::uuid union select r.previous_invoice_id from cp7_receipt_fix.invoice_replays r join chain c on r.replacement_invoice_id=c.id)
-    select 1 from erp.material_supplier_invoices x join erp.material_supplier_invoices v on v.id=(inv->>'replaces_invoice_id')::uuid
-    where x.supplier_id=v.supplier_id and regexp_replace(x.invoice_number,' · R[0-9]+$','')=btrim(inv->>'invoice_number')and x.id not in(select id from chain))then
-   raise exception 'CP7_RECEIPT_FIX_INVOICE_NUMBER_TAKEN %',btrim(inv->>'invoice_number');end if;
+  select coalesce(nullif(btrim(inv->>'invoice_number'),''),regexp_replace(v.invoice_number,' · R[0-9]+$',''))into inv_base
+  from erp.material_supplier_invoices v where v.id=(inv->>'replaces_invoice_id')::uuid;
+  if exists(with recursive chain(id)as(select(inv->>'replaces_invoice_id')::uuid union select r.previous_invoice_id from cp7_receipt_fix.invoice_replays r join chain c on r.replacement_invoice_id=c.id)
+    select 1 from erp.material_supplier_invoices x where x.supplier_id=new_sup and regexp_replace(x.invoice_number,' · R[0-9]+$','')=inv_base and x.id not in(select id from chain))then
+   raise exception 'CP7_RECEIPT_FIX_INVOICE_NUMBER_TAKEN %',inv_base;end if;
+  if nullif(inv->>'invoice_date','')::date>erp._cp3_business_date(statement_timestamp())then raise exception 'CP7_RECEIPT_FIX_DATE_FUTURE';end if;
   for il in select value from jsonb_array_elements(inv->'lines')loop
    if jsonb_typeof(il)is distinct from'object'or not il?&array['replaces_invoice_line_id','qty_invoiced','unit_price']
     or exists(select 1 from jsonb_object_keys(il)k where k not in('replaces_invoice_line_id','qty_invoiced','unit_price','discount_amount','notes'))
@@ -677,7 +724,7 @@ begin
  if (select coalesce(sum((x->>'amount')::numeric),0)from jsonb_array_elements(credits)x)<>excess then
   raise exception 'CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH credit % allocated %',excess,(select coalesce(sum((x->>'amount')::numeric),0)from jsonb_array_elements(credits)x);end if;
  for target in select t.*from erp.material_purchase_headers t where t.id in(select(x->>'purchase_id')::uuid from jsonb_array_elements(credits)x)order by t.id for update loop
-  if target.status<>'POSTED'or target.supplier_id is distinct from h.supplier_id then raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID';end if;
+  if target.status<>'POSTED'or target.supplier_id is distinct from new_sup then raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID';end if;
   if round(erp.material_purchase_payable_total(target.id),2)-coalesce((select sum(amount)from erp.supplier_payments where purchase_id=target.id and status='POSTED'),0)
    <(select(x->>'amount')::numeric from jsonb_array_elements(credits)x where(x->>'purchase_id')::uuid=target.id)then
    raise exception 'CP7_RECEIPT_FIX_CREDIT_TARGET_EXCEEDS_REMAINING %',target.purchase_number;end if;
@@ -696,7 +743,7 @@ begin
  -- Execute. Effects run under the receipt's own business date as economic
  -- date (accepted invoice-recost dating rules for revaluation/HPP/GL).
  insert into cp7_receipt_fix.context values(pg_backend_pid(),txid_current(),auth.uid(),h.id,related);
- insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id)values(txid_current(),erp._cp3_business_date(h.physical_at),h.id);
+ insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id)values(txid_current(),erp._cp3_business_date(least(h.physical_at,new_at)),h.id);
  perform set_config('app.change_reason',why,true);
  perform cp7_receipt_fix.admit('POST');
  for payment in select*from jsonb_to_recordset(paid||other_paid)as p(id uuid)loop
@@ -709,7 +756,7 @@ begin
   foreach new_inv in array inv_ids loop
    perform cp7_receipt_fix.reverse_invoice(new_inv,'Benerin penerimaan: '||why,fix_id);
   end loop;
-  insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id)values(txid_current(),erp._cp3_business_date(h.physical_at),h.id);
+  insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id)values(txid_current(),erp._cp3_business_date(least(h.physical_at,new_at)),h.id);
  end if;
  -- Source-time inverse of every receipt stock movement (Native writer), with
  -- the accepted replacement admission for a temporarily used roll.
@@ -737,7 +784,7 @@ begin
  -- same material are re-attached below; their placeholder draft rows exist only
  -- inside this transaction and never receive stock.
  draft:=jsonb_build_object('purchase_number',left(base,40)||' · R'||rev_no::text||'-'||left(p_request::text,8),
-  'supplier_id',h.supplier_id,'location_id',h.location_id,'physical_at',h.physical_at,
+  'supplier_id',new_sup,'location_id',new_loc,'physical_at',new_at,
   'notes',coalesce(nullif(p_payload->>'notes',''),h.notes),
   'supplier_invoice_number',h.supplier_invoice_number,'due_date',h.due_date,
   'change_reason','Benerin penerimaan '||h.purchase_number||': '||why,
@@ -778,6 +825,7 @@ begin
      -- numbers can be swapped between rolls of this receipt.
      update erp.material_rolls set purchase_item_id=new_item,original_qty=(roll->>'qty')::numeric,
       roll_number=case when btrim(roll->>'roll_number')<>old_roll.roll_number then '__CP7FIX-RN-'||old_roll.id::text else roll_number end,
+      supplier_id=new_sup,received_at=case when new_at<>h.physical_at then new_at else received_at end,
       notes=coalesce(nullif(roll->>'notes',''),notes),updated_at=statement_timestamp()where id=old_roll.id;
      lineage:=lineage||jsonb_build_object('kind','REPARENTED','old_roll_id',old_roll.id,'new_roll_id',old_roll.id,'old_material_id',old_roll.material_id,
       'new_material_id',old_roll.material_id,'old_purchase_item_id',old_roll.purchase_item_id,'new_purchase_item_id',new_item,
@@ -835,11 +883,11 @@ begin
  from erp.material_stock_movements p join erp.material_rolls r6 on r6.id=p.source_id
   join erp.material_purchase_items i6 on i6.id=r6.purchase_item_id
  where p.movement_type='PURCHASE'and p.source_type='MATERIAL_PURCHASE_ROLL'and i6.purchase_id=replaced
-  and r6.id=any(seen_rolls)and r6.id=any(coalesce(old_rolls,'{}'))
+  and r6.id=any(seen_rolls)and r6.id=any(coalesce(old_rolls,'{}'))and not moved
   and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=p.id)
   and not exists(select 1 from cp7_receipt_fix.ledger_links z where z.member_id=p.id);
  for line in select value from jsonb_array_elements(p_payload->'lines')loop
-  if nullif(line->>'replaces_item_id','')is null or jsonb_array_length(line->'rolls')>0
+  if moved or nullif(line->>'replaces_item_id','')is null or jsonb_array_length(line->'rolls')>0
    or(select material_id from erp.material_purchase_items where id=(line->>'replaces_item_id')::uuid)<>(line->>'material_id')::uuid then continue;end if;
   insert into cp7_receipt_fix.ledger_links(member_id,origin_id,correction_id)
   select p.id,(select coalesce(l.origin_id,o.id)from erp.material_stock_movements o left join cp7_receipt_fix.ledger_links l on l.member_id=o.id
@@ -855,9 +903,9 @@ begin
  for mat in select x.id from erp.materials x where x.id=any(mat_ids)
   order by(x.id in(select(z->>'old_material')::uuid from jsonb_array_elements(pending)z))desc,x.id loop
   if mat.id in(select(z->>'old_material')::uuid from jsonb_array_elements(pending)z)then
-   perform erp._recalculate_material_cost_core(mat.id,h.physical_at,false);
+   perform erp._recalculate_material_cost_core(mat.id,least(h.physical_at,new_at),false);
   else
-   perform erp.recalculate_material_cost(mat.id,h.physical_at);
+   perform erp.recalculate_material_cost(mat.id,least(h.physical_at,new_at));
   end if;
  end loop;
  delete from erp.invoice_recost_execution_context where transaction_id=txid_current();
@@ -881,7 +929,7 @@ begin
   select left(coalesce(nullif(btrim(inv->>'invoice_number'),''),regexp_replace(v.invoice_number,' · R[0-9]+$','')),90)into inv_base
   from erp.material_supplier_invoices v where v.id=(inv->>'replaces_invoice_id')::uuid;
   select jsonb_build_object('invoice_number',inv_base||' · R'||(select coalesce(max((regexp_match(x.invoice_number,' · R([0-9]+)$'))[1]::bigint),0)+1
-    from erp.material_supplier_invoices x where x.supplier_id=v.supplier_id and regexp_replace(x.invoice_number,' · R[0-9]+$','')=inv_base)::text,'supplier_id',v.supplier_id,
+    from erp.material_supplier_invoices x where x.supplier_id=new_sup and regexp_replace(x.invoice_number,' · R[0-9]+$','')=inv_base)::text,'supplier_id',new_sup,
     -- Invoice date and due date as typed on the supplier invoice; the Native
     -- writer posts the corrected invoice at its corrected book date.
     'invoice_date',coalesce(nullif(inv->>'invoice_date','')::date,v.invoice_date),'received_at',v.received_at,
@@ -951,6 +999,7 @@ begin
  delete from erp.invoice_recost_execution_context where transaction_id=txid_current();
  if cp7_receipt_fix.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_RECEIPT_FIX_ACCESS_CHANGED';end if;
  select jsonb_build_object('purchase_number',(select purchase_number from erp.material_purchase_headers where id=replaced),
+  'physical_at',new_at,'location_id',new_loc,'supplier_id',new_sup,
   'supplier_invoice_number',(select supplier_invoice_number from erp.material_purchase_headers where id=replaced),
   'due_date',(select due_date from erp.material_purchase_headers where id=replaced),'notes',(select notes from erp.material_purchase_headers where id=replaced),'lines',coalesce(jsonb_agg(jsonb_build_object('item_id',i.id,'material_id',i.material_id,
   'qty',i.qty::text,'unit_price',i.unit_price::text,'price_state',i.price_state,'price_source',i.price_source,
@@ -961,7 +1010,7 @@ begin
   'invoice_date',v.invoice_date,'replaces_invoice_id',x.previous_invoice_id,'lines',x.corrected_lines)order by v.invoice_date,v.posted_at,v.id),'[]')
   from cp7_receipt_fix.invoice_replays x join erp.material_supplier_invoices v on v.id=x.replacement_invoice_id where x.correction_id=fix_id));
  insert into cp7_receipt_fix.revisions(id,root_purchase_id,previous_purchase_id,replacement_purchase_id,revision,actor,request_id,reason,effective_at,previous_document,corrected_document)
- values(fix_id,root,h.id,replaced,rev_no,auth.uid(),p_request,why,h.physical_at,previous_doc,corrected_doc);
+ values(fix_id,root,h.id,replaced,rev_no,auth.uid(),p_request,why,new_at,previous_doc,corrected_doc);
  insert into cp7_receipt_fix.roll_lineage(correction_id,kind,old_roll_id,new_roll_id,old_material_id,new_material_id,old_purchase_item_id,new_purchase_item_id,old_qty,new_qty,roll_number,previous_roll_number)
  select fix_id,x.kind,x.old_roll_id,x.new_roll_id,x.old_material_id,x.new_material_id,x.old_purchase_item_id,x.new_purchase_item_id,x.old_qty,x.new_qty,x.roll_number,x.previous_roll_number
  from jsonb_to_recordset(lineage)as x(kind text,old_roll_id uuid,new_roll_id uuid,old_material_id uuid,new_material_id uuid,old_purchase_item_id uuid,
@@ -971,7 +1020,7 @@ begin
  delete from cp7_receipt_fix.context where backend_pid=pg_backend_pid()and transaction_id=txid_current();
  result:=jsonb_build_object('contract_version','cp7.receipt-correction-outcome.v1','kind','COMMITTED_OUTCOME','action','CORRECT',
   'request_id',p_request,'root_purchase_id',root,'previous_purchase_id',h.id,'purchase_id',replaced,
-  'revision_id',fix_id,'revision',rev_no::text,'effective_at',h.physical_at,
+  'revision_id',fix_id,'revision',rev_no::text,'effective_at',new_at,
   'row_version',(select row_version::text from erp.material_purchase_headers where id=replaced));
  update cp7_receipt_fix.requests set response=result where actor=auth.uid()and request_id=p_request;
  return result;
@@ -981,7 +1030,7 @@ do $own$
 declare f text;
 begin
  foreach f in array array['immutable()','access_now()','admit(text)','review_token(uuid)','roll_use(uuid,uuid)','blockers(uuid)','workspace(uuid)',
-  'location_floor(uuid,uuid,timestamptz)','restate(uuid,text)','restate_all(text)','journal_net(uuid[])','reverse_invoice(uuid,text,uuid)','payment_snapshot(uuid)',
+  'location_floor(uuid,uuid,timestamptz)','shifted_floor(uuid,uuid,uuid,timestamptz,timestamptz,numeric)','restate(uuid,text)','restate_all(text)','journal_net(uuid[])','reverse_invoice(uuid,text,uuid)','payment_snapshot(uuid)',
   'replay_payment(uuid,jsonb,numeric,text,text)','command(jsonb,uuid,text)']loop
   execute 'alter function cp7_receipt_fix.'||f||' owner to postgres';
  end loop;

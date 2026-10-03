@@ -77,7 +77,7 @@ describe('receipt correction contract', () => {
     lines[0].rolls.push({ key: 'new', replaces: null, number: 'R1-BENAR', qty: '5', minQty: '0', locked: false })
     expect(correctionPayload(w, lines, 'Nomor roll salah ketik').problem).toBe('Nomor roll R1-BENAR dipakai lebih dari sekali.')
     lines[0].rolls.pop()
-    const head = (n: string) => correctionPayload(w, lines, 'Nomor surat jalan salah ketik', [], [], { purchaseNumber: n })
+    const head = (n: string) => correctionPayload(w, lines, 'Nomor surat jalan salah ketik', [], [], { ...draftHeader(w), purchaseNumber: n })
     expect(head('SJ-1').payload).not.toHaveProperty('purchase_number')
     expect(head(' SJ-10 ').payload).toMatchObject({ purchase_number: 'SJ-10' })
     expect(head('').problem).toBe('Nomor surat jalan harus 1–40 huruf.')
@@ -150,5 +150,19 @@ describe('non-roll line already left the receipt location', () => {
     expect(at('19').problem).toBe('Kain sudah keluar 20 pcs dari gudang penerimaan; jumlah benar tidak boleh lebih kecil dan bahannya tidak bisa diganti.')
     expect(at('20').problem).toBeNull()
     expect(at('22', ids.rev).problem).toContain('bahannya tidak bisa diganti')
+  })
+})
+
+describe('arrival time, warehouse and supplier as they really were', () => {
+  it('sends only what changed, in WIB, and keeps credit and supplier change apart', () => {
+    const w = parseReceiptCorrectionWorkspace(workspace(), ids.root), lines = correctionDraft(w), base = draftHeader(w)
+    expect(base.at).toBe('2026-09-29T10:00')
+    expect(correctionPayload(w, lines, 'Data penerimaan salah', [], [], base).payload).not.toHaveProperty('physical_at')
+    const moved = correctionPayload(w, lines, 'Tanggal datang salah ketik', [], [], { ...base, at: '2026-09-28T08:30', location: { id: ids.rev, name: 'Gudang B' }, supplier: { id: ids.item, name: 'Supplier B' } }).payload
+    expect(moved).toMatchObject({ physical_at: '2026-09-28T01:30:00.000Z', location_id: ids.rev, supplier_id: ids.item })
+    expect(correctionPayload(w, lines, 'Tanggal datang salah ketik', [], [], { ...base, at: '2099-01-01T08:00' }).problem).toBe('Tanggal datang tidak boleh di masa depan.')
+    const paid = parseReceiptCorrectionWorkspace({ ...workspace(), paid_total: '1000.00', credit_targets: [{ purchase_id: ids.rev, purchase_number: 'SJ-2', physical_at: at, remaining: '1000.00' }] }, ids.root), less = correctionDraft(paid)
+    less[0].rolls[0].qty = '80'
+    expect(correctionPayload(paid, less, 'Supplier dan jumlah salah', [], [{ purchaseId: ids.rev, amount: '200' }], { ...draftHeader(paid), supplier: { id: ids.item, name: 'Supplier B' } }).problem).toContain('tidak bisa sekaligus')
   })
 })

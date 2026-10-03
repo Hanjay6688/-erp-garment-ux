@@ -627,6 +627,74 @@ def cases(cur,today):
         same_checks(chk,checks(cur));reversal_dates(cur)
         return dict(status='PASS',supplier_invoice_number_date_due_corrected=True,same_amounts_move_to_corrected_invoice_date=True,
           number_of_another_invoice_refused=True,old_invoice_reversed=True,all_integrity_checks_unchanged=True)
+    def arrival_date():
+        """The arrival time typed wrong: earlier and later, never after the first use of a roll."""
+        f=roll_receipt(cur,today,rolls=('50','50'),day_offset=6);aa.prior.set_open_period(cur,f['day']-timedelta(days=5))
+        transfer(cur,f,'4',at=aa.at(f['day']+timedelta(days=2),10).isoformat())
+        before,dated,chk=ledger(cur),by_date(cur),checks(cur);w=ws(cur,f['purchase'])
+        at=lambda d,h:aa.at(d,h).isoformat()
+        refused(cur,lambda:fix(cur,dict(payload(w),physical_at=at(f['day']+timedelta(days=3),9)),w['purchase']['row_version']),'CP7_RECEIPT_FIX_DATE_AFTER_USE')
+        refused(cur,lambda:fix(cur,dict(payload(w),physical_at=(datetime.now().astimezone()+timedelta(days=2)).isoformat()),w['purchase']['row_version']),'CP7_RECEIPT_FIX_DATE_FUTURE')
+        early=f['day']-timedelta(days=1)
+        out=fix(cur,dict(payload(w,reason='Tanggal datang salah ketik; dicek dengan surat jalan'),physical_at=at(early,9)),w['purchase']['row_version'])
+        head=cur.execute('select physical_at,location_id::text,supplier_id from erp.material_purchase_headers where id=%s',(out['purchase_id'],)).fetchone()
+        assert head[0]==aa.at(early,9) and head[1]==w['purchase']['location_id'],head
+        assert cur.execute('select received_at from erp.material_rolls where id=%s',(f['roll'],)).fetchone()[0]==aa.at(early,9)
+        assert ledger_delta(before,ledger(cur))=={},ledger_delta(before,ledger(cur))
+        dd=dated_delta(dated,by_date(cur))
+        assert dd=={f['day']:{'MATERIAL_INVENTORY':D(-1000),'AP_SUPPLIER':D(1000)},early:{'MATERIAL_INVENTORY':D(1000),'AP_SUPPLIER':D(-1000)}},dd
+        rows=full_card(cur,f['material'],f['roll'],f['location'])
+        assert rows[0]['running_qty']=='46.000000' and any(r['movement_type']=='PURCHASE' and r['qty_signed']=='50.000000' and datetime.fromisoformat(r['physical_at'])==aa.at(early,9) for r in rows),rows
+        # Later again, still before the first use: allowed.
+        w2=ws(cur,f['purchase']);later=f['day']+timedelta(days=1)
+        fix(cur,dict(payload(w2,reason='Tanggal datang yang benar sehari sesudahnya'),physical_at=at(later,9)),w2['purchase']['row_version'])
+        dd=dated_delta(dated,by_date(cur))
+        assert dd=={f['day']:{'MATERIAL_INVENTORY':D(-1000),'AP_SUPPLIER':D(1000)},later:{'MATERIAL_INVENTORY':D(1000),'AP_SUPPLIER':D(-1000)}},dd
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',arrival_moved_earlier_then_later=True,effects_move_to_corrected_date=True,roll_received_at_follows=True,
+          card_row_at_corrected_time=True,date_after_first_use_refused=True,future_date_refused=True,all_integrity_checks_unchanged=True)
+    def warehouse():
+        """The receiving warehouse picked wrong, for rolls not yet used or moved."""
+        f=roll_receipt(cur,today,rolls=('50','50'));before,chk=ledger(cur),checks(cur);w=ws(cur,f['purchase'])
+        out=fix(cur,dict(payload(w,reason='Gudang penerimaan salah pilih'),location_id=f['destination']),w['purchase']['row_version'])
+        assert cur.execute('select location_id::text from erp.material_purchase_headers where id=%s',(out['purchase_id'],)).fetchone()[0]==f['destination']
+        on=lambda loc:cur.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s and location_id=%s',(f['material'],loc)).fetchone()[0]
+        assert (on(f['location']),on(f['destination']))==(0,100),(on(f['location']),on(f['destination']))
+        assert full_card(cur,f['material'],f['roll'],f['destination'])[0]['running_qty']=='50.000000'
+        assert ledger_delta(before,ledger(cur))=={};same_checks(chk,checks(cur))
+        g=roll_receipt(cur,today,rolls=('50',));transfer(cur,g,'4');wg=ws(cur,g['purchase'])
+        refused(cur,lambda:fix(cur,dict(payload(wg),location_id=g['destination']),wg['purchase']['row_version']),'CP7_RECEIPT_FIX_LOCATION_USED')
+        return dict(status='PASS',warehouse_corrected_stock_at_right_warehouse=True,old_warehouse_zero=True,card_at_right_warehouse=True,
+          no_ledger_effect=True,used_roll_warehouse_change_refused=True)
+    def supplier():
+        """The supplier picked wrong: debt, payment and supplier invoice move to the right supplier."""
+        right=str(cur.execute("insert into erp.suppliers(supplier_code,supplier_name,supplier_type) values(%s,'Supplier yang benar','MATERIAL') returning id",('RF-SUP-'+uuid.uuid4().hex[:8],)).fetchone()[0])
+        f=roll_receipt(cur,today,rolls=('100',));masters=bc.fixture(cur,today,purchase=False,zones=False)
+        payment=bc.supplier_payment(cur,f['purchase'],'300',masters['cash'],f['day']);bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
+        before,chk=ledger(cur),checks(cur);w=ws(cur,f['purchase'])
+        out=fix(cur,dict(payload(w,reason='Supplier salah pilih'),supplier_id=right),w['purchase']['row_version'])
+        assert cur.execute('select supplier_id::text from erp.material_purchase_headers where id=%s',(out['purchase_id'],)).fetchone()[0]==right
+        assert cur.execute('select supplier_id::text from erp.material_rolls where id=%s',(f['roll'],)).fetchone()[0]==right
+        r=cur.execute('select s.purchase_id::text,s.amount,s.payment_date=o.payment_date,s.cash_account_id::text,s.status from cp7_receipt_fix.payment_replays x join erp.supplier_payments s on s.id=x.replacement_payment_id join erp.supplier_payments o on o.id=x.previous_payment_id where x.previous_payment_id=%s',(payment,)).fetchone()
+        assert r==(out['purchase_id'],D(300),True,masters['cash'],'POSTED'),r
+        owed=lambda sup:cur.execute("select coalesce(sum(round(erp.material_purchase_payable_total(h.id),2)-coalesce((select sum(amount) from erp.supplier_payments p where p.purchase_id=h.id and p.status='POSTED'),0)),0) from erp.material_purchase_headers h where h.supplier_id=%s and h.status='POSTED' and h.id in(%s,%s)",(sup,f['purchase'],out['purchase_id'])).fetchone()[0]
+        assert owed(right)==700 and owed(w['purchase']['supplier_id'])==0,(owed(right),owed(w['purchase']['supplier_id']))
+        assert ledger_delta(before,ledger(cur))=={};same_checks(chk,checks(cur));reversal_dates(cur)
+        # A posted supplier invoice moves with the receipt to the right supplier.
+        g=invoice.fixture(cur,today);invoice.finalize(cur,g);b.api.admin(cur);wg=ws(cur,g['receipt']['purchase_id']);old=wg['invoices'][0]['invoice_id']
+        fix(cur,dict(payload(wg,reason='Supplier salah pilih'),supplier_id=right,invoices=invoices(wg)),wg['purchase']['row_version'])
+        new=cur.execute('select v.supplier_id::text,v.status from cp7_receipt_fix.invoice_replays r join erp.material_supplier_invoices v on v.id=r.replacement_invoice_id where r.previous_invoice_id=%s',(old,)).fetchone()
+        assert new==(right,'POSTED'),new
+        # An invoice shared with another receipt of the old supplier stays with it.
+        a=invoice.fixture(cur,today);k=invoice.fixture(cur,today);auth.actor(cur)
+        shared=dict(invoice_number=a['tag']+'-SHARED',supplier_id=str(aa.prior.BASE_SUPPLIER),invoice_date=str(a['day']),received_at=aa.at(a['day']+timedelta(days=2),15).isoformat(),
+          change_reason='Satu invoice supplier untuk dua penerimaan',lines=[dict(purchase_item_id=x['item'],qty_invoiced='2',unit_price='12.5',discount_amount='0') for x in (a,k)])
+        d=cur.execute('select erp.save_material_supplier_invoice_draft_v2(%s::jsonb,%s,null)',(json.dumps(shared),uuid.uuid4())).fetchone()[0]
+        cur.execute('select erp.post_material_supplier_invoice_v2(%s,%s,%s,%s)',(d['supplier_invoice_id'],uuid.uuid4(),d['row_version'],'Invoice gabungan dua penerimaan'));b.api.admin(cur)
+        wa=ws(cur,a['receipt']['purchase_id'])
+        refused(cur,lambda:fix(cur,dict(payload(wa),supplier_id=right,invoices=invoices(wa)),wa['purchase']['row_version']),'CP7_RECEIPT_FIX_SUPPLIER_SHARED_INVOICE')
+        return dict(status='PASS',supplier_corrected_debt_moves=True,payment_300_replayed_same_date_cash=True,rolls_follow_supplier=True,
+          supplier_invoice_moves_to_right_supplier=True,shared_invoice_supplier_change_refused=True,no_ledger_total_effect=True,all_integrity_checks_unchanged=True)
     def sku_typo():
         """The code (SKU) of the same material typed wrong; nothing else changes."""
         f=production(cur,today);other=clone(cur,'cp7-sku-b');before,chk=ledger(cur),checks(cur)
@@ -689,7 +757,7 @@ def cases(cur,today):
           unit_or_other_identity_field_refused=True,staff_refused=True,anonymous_denied=True,deactivated_admin_refused=True,refusals_without_effect=True)
     tests=[('RF_QTY_DOWN_AFTER_CUTTING',qty_down),('RF_QTY_UP_AFTER_CUTTING',qty_up),('RF_PRICE_AFTER_SALE_AND_RETURN',price_after_sale),
       ('RF_WRONG_MATERIAL_AFTER_CUTTING',lambda:wrong_material()),('RF_WRONG_MATERIAL_AND_PRICE',lambda:wrong_material('12')),
-      ('RF_ROLL_COUNT_TYPO_UNUSED_ROLL',roll_count),('RF_REMOVED_ROLL_USED_REFUSED',removed_used),('RF_ROLL_BELOW_USE_REFUSED',below_use),('RF_ROLL_NUMBER_TYPO_USED_ROLL',roll_number_typo),('RF_HEADER_TYPO',header_typo),('RF_INVOICE_HEADER_TYPO',invoice_header_typo),
+      ('RF_ROLL_COUNT_TYPO_UNUSED_ROLL',roll_count),('RF_REMOVED_ROLL_USED_REFUSED',removed_used),('RF_ROLL_BELOW_USE_REFUSED',below_use),('RF_ROLL_NUMBER_TYPO_USED_ROLL',roll_number_typo),('RF_HEADER_TYPO',header_typo),('RF_INVOICE_HEADER_TYPO',invoice_header_typo),('RF_ARRIVAL_DATE_TYPO',arrival_date),('RF_WAREHOUSE_TYPO',warehouse),('RF_SUPPLIER_TYPO',supplier),
       ('RF_PAYMENT_REPLAY',lambda:paid('300',True)),('RF_PAID_EXCEEDS_CORRECTED_REFUSED',lambda:paid('1000',False)),('RF_OVERPAID_CREDIT_TO_NEXT_NOTA',overpaid_credit),('RF_OPENING_ADVANCE_PAYMENT_REPLAY',opening_advance),
       ('RF_INVOICE_PRICE_AFTER_SALE',invoice_price_after_sale),('RF_INVOICED_QTY_DOWN_WITH_PAYMENT',invoiced_qty_down),
       ('RF_INVOICE_INCOMPLETE_REFUSED',invoice_refusals),('RF_SHARED_INVOICE_CORRECTED',shared_invoice),('RF_CLOSED_PERIOD_CORRECTION',closed_period),('RF_REPEATED_REVISIONS',repeated),('RF_REPLAY_SAME_REQUEST',replay),

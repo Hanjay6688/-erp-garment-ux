@@ -3,7 +3,7 @@ import hashlib
 import cp7_receipt_correction_bundle as bundle
 
 TABLES=('requests','revisions','roll_lineage','movement_lineage','journal_restatements','payment_replays','ledger_links','invoice_replays','invoice_restatements','context','name_requests','material_names')
-PRIVATE=('cp7_receipt_fix.access_now()','cp7_receipt_fix.admit(text)','cp7_receipt_fix.review_token(uuid)','cp7_receipt_fix.roll_use(uuid,uuid)','cp7_receipt_fix.location_floor(uuid,uuid,timestamptz)',
+PRIVATE=('cp7_receipt_fix.access_now()','cp7_receipt_fix.admit(text)','cp7_receipt_fix.review_token(uuid)','cp7_receipt_fix.roll_use(uuid,uuid)','cp7_receipt_fix.location_floor(uuid,uuid,timestamptz)','cp7_receipt_fix.shifted_floor(uuid,uuid,uuid,timestamptz,timestamptz,numeric)',
  'cp7_receipt_fix.blockers(uuid)','cp7_receipt_fix.restate(uuid,text)','cp7_receipt_fix.restate_all(text)','cp7_receipt_fix.journal_net(uuid[])',
  'cp7_receipt_fix.reverse_invoice(uuid,text,uuid)','cp7_receipt_fix.payment_snapshot(uuid)','cp7_receipt_fix.replay_payment(uuid,jsonb,numeric,text,text)','cp7_receipt_fix.command(jsonb,uuid,text)','cp7_receipt_fix.workspace(uuid)',
  'cp7_receipt_fix.name_access(text)','cp7_receipt_fix.identity(uuid)','cp7_receipt_fix.name_workspace(uuid)','cp7_receipt_fix.rename(jsonb,uuid,text)')

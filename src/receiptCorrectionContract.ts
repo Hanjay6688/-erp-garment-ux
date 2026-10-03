@@ -1,6 +1,7 @@
 // "Benerin penerimaan": closed client contract for the owning receipt correction
 // workspace and its committed outcome. Unknown fields or inconsistent lineage
 // are refused instead of rendered.
+import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
 const fail = (): never => { throw Error('Data pembetulan penerimaan belum cocok dengan sumber yang diperiksa. Muat ulang penerimaan.') }
 const object = (v: unknown) => { if (!v || typeof v !== 'object' || Array.isArray(v)) return fail(); return v as Record<string, unknown> }
 const id = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
@@ -89,10 +90,11 @@ export type DraftLine = { key: string; replaces: string | null; materialId: stri
 export type DraftInvoiceLine = { replaces: string; itemId: string; qty: string; price: string; discount: string }
 export type DraftInvoice = { replaces: string; number: string; date: string; lines: DraftInvoiceLine[]; head?: { number: string; date: string; dueDate: string } }
 export type DraftCredit = { purchaseId: string; amount: string }
-/** The receipt (delivery-note) number as typed, without the revision suffix. */
-export type DraftHeader = { purchaseNumber: string }
+/** The receipt as it really was: delivery-note number (without revision suffix), WIB arrival time, warehouse, supplier. */
+export type DraftHeader = { purchaseNumber: string; at: string; location: { id: string; name: string }; supplier: { id: string; name: string } }
 const receiptBase = (n: string) => n.replace(/ · R\d+-[0-9a-f]{8}$/, ''), invoiceBase = (n: string) => n.replace(/ · R\d+$/, '')
-export const draftHeader = (w: ReceiptCorrectionWorkspace): DraftHeader => ({ purchaseNumber: receiptBase(w.purchase.purchase_number) })
+export const draftHeader = (w: ReceiptCorrectionWorkspace): DraftHeader => ({ purchaseNumber: receiptBase(w.purchase.purchase_number), at: cp6WibDateTimeInput(w.purchase.physical_at),
+  location: { id: w.purchase.location_id, name: w.purchase.location_name ?? '' }, supplier: { id: w.purchase.supplier_id, name: w.purchase.supplier_name ?? '' } })
 // Exact money: decimals as integer micro-units, rounded to cents like the database (half away from zero).
 const micros = (s: string) => { const [w, f = ''] = s.trim().replace(',', '.').split('.'); return BigInt(w || '0') * 1000000n + BigInt((f + '000000').slice(0, 6)) }
 const cents = (scaled: bigint, scale: bigint) => (scaled >= 0n ? (scaled + scale / 2n) / scale : -((-scaled + scale / 2n) / scale))
@@ -210,6 +212,18 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
       if (!number || number.length > 40) return { payload: null, problem: 'Nomor surat jalan harus 1–40 huruf.' }
       head.purchase_number = number
     }
+    // Arrival time, warehouse and supplier as they really were (sent only when changed).
+    if (header.at !== cp6WibDateTimeInput(w.purchase.physical_at)) {
+      const at = cp6WibPhysicalTimeToIso(header.at)
+      if (!at) return { payload: null, problem: 'Tanggal dan jam datang belum benar.' }
+      if (Date.parse(at) > Date.now()) return { payload: null, problem: 'Tanggal datang tidak boleh di masa depan.' }
+      head.physical_at = at
+    }
+    if (header.location.id !== w.purchase.location_id) head.location_id = header.location.id
+    if (header.supplier.id !== w.purchase.supplier_id) {
+      if (outCredits.length) return { payload: null, problem: 'Kelebihan bayar dan ganti supplier tidak bisa sekaligus: nota tujuan kredit harus dari supplier yang benar. Simpan pembetulan supplier dulu, lalu betulkan jumlahnya.' }
+      head.supplier_id = header.supplier.id
+    }
   }
   return { payload: { purchase_id: w.current_purchase_id, review_token: w.review_token, change_reason: reason.trim(), lines: out, ...head, ...(outInvoices.length ? { invoices: outInvoices } : {}), ...(outCredits.length ? { credit_allocations: outCredits } : {}) }, problem: null }
 }
@@ -284,6 +298,11 @@ const refusalLabels: Record<string, string> = {
   CP7_RECEIPT_FIX_ROLL_USE_UNSUPPORTED: 'Roll ini sudah dipakai selain untuk potong. Untuk salah bahan, batalkan pemakaian itu dulu, betulkan penerimaan, lalu catat ulang pemakaiannya',
   CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN: 'Nomor roll sudah dipakai roll lain dari bahan yang sama (roll baru juga tidak boleh memakai nomor yang sekarang masih dipakai)',
   CP7_RECEIPT_FIX_PURCHASE_NUMBER_TAKEN: 'Nomor surat jalan ini sudah dipakai penerimaan lain',
+  CP7_RECEIPT_FIX_DATE_FUTURE: 'Tanggal tidak boleh di masa depan.',
+  CP7_RECEIPT_FIX_DATE_AFTER_USE: 'Barang ini sudah dipakai atau dipindah sebelum tanggal datang yang baru. Pilih tanggal datang yang tidak sesudah pemakaian pertamanya',
+  CP7_RECEIPT_FIX_LOCATION_USED: 'Barang ini sudah dipakai atau dipindah dari gudang lama, jadi gudangnya tidak bisa diganti. Catat transfer ke gudang yang benar',
+  CP7_RECEIPT_FIX_SUPPLIER_SHARED_INVOICE: 'Invoice supplier penerimaan ini juga mencakup penerimaan lain dari supplier lama, jadi suppliernya tidak bisa diganti di sini.',
+  CP7_RECEIPT_FIX_SUPPLIER_ADVANCE_PAYMENT: 'Penerimaan ini dibayar dari uang muka saldo awal supplier lama, jadi suppliernya tidak bisa diganti di sini.',
   CP7_RECEIPT_FIX_PURCHASE_NUMBER_LENGTH: 'Nomor surat jalan harus 1–40 huruf.',
   CP7_RECEIPT_FIX_INVOICE_NUMBER_TAKEN: 'Nomor invoice ini sudah dipakai invoice lain dari supplier yang sama',
   CP7_RECEIPT_FIX_ROLL_LINEAGE: `Daftar roll ${changed}`,

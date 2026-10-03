@@ -32,6 +32,19 @@ function MaterialChoice({ client, value, disabled, onChange }: { client: ReturnT
     {error ? <span role="alert">{error}</span> : <small>Pilih bahan lain hanya jika barang yang datang memang bahan berbeda. Untuk salah ketik nama, ubah nama di master bahan.</small>}</div>
 }
 
+function MasterChoice({ client, kind, label, value, disabled, onChange }: { client: ReturnType<typeof getUatSupabaseClient>; kind: 'SUPPLIER' | 'LOCATION'; label: string; value: { id: string; name: string }; disabled: boolean; onChange: (m: ProcurementOption) => void }) {
+  const [q, setQ] = useState(''), [rows, setRows] = useState<ProcurementOption[]>([]), [error, setError] = useState('')
+  const search = async () => {
+    setError('')
+    try { const r = await client.rpc('erp_cp7_get_procurement_options_v1', { p_kind: kind, p_q: q.trim(), p_offset: 0, p_limit: 25 }); if (r.error) throw r.error; setRows(parseProcurementOptions(r.data, kind).rows) }
+    catch (e) { setError(normalizeClientError(e).message) }
+  }
+  return <div className="cproc-picker"><label>{label}<select aria-label={label} value={value.id} disabled={disabled} onChange={e => { const m = rows.find(r => r.id === e.target.value); if (m) onChange(m) }}>
+    <option value={value.id}>{value.name}</option>{rows.filter(r => r.id !== value.id).map(r => <option key={r.id} value={r.id}>{r.code} · {r.name}</option>)}</select></label>
+    <div className="cproc-inline"><input aria-label={`Cari ${label.toLowerCase()}`} placeholder="Cari kode atau nama" value={q} maxLength={120} disabled={disabled} onChange={e => setQ(e.target.value)}/><button type="button" disabled={disabled} onClick={() => void search()}>Cari</button></div>
+    {error ? <span role="alert">{error}</span> : null}</div>
+}
+
 function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: Props) {
   const { runtime } = useAuth(); if (!isConnectedRuntime(runtime)) throw Error('Sesi pembetulan penerimaan belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), mutation = useProductionMutation('RECEIPT_CORRECTION')
@@ -114,8 +127,12 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
                 onChange={e => { const amount = e.target.value; setChecked(false); setCredits(cs => [...cs.filter(c => c.purchaseId !== t.purchase_id), { purchaseId: t.purchase_id, amount }]) }}/></label></div>)
               : <p role="alert">Belum ada nota lain dari supplier ini yang masih punya sisa utang. Simpan pembetulan setelah nota berikutnya dicatat.</p>}
           </section> : null}
-          {header ? <section className="cproc-line" aria-label="Data surat jalan"><h3>Surat jalan</h3>
-            <label>Nomor surat jalan{header.purchaseNumber.trim() !== draftHeader(data).purchaseNumber ? ` · tadinya ${draftHeader(data).purchaseNumber}` : ''}<input aria-label="Nomor surat jalan yang benar" maxLength={40} value={header.purchaseNumber} onChange={e => { const v = e.target.value; setChecked(false); setHeader({ purchaseNumber: v }) }}/></label>
+          {header ? <section className="cproc-line" aria-label="Data surat jalan"><h3>Data penerimaan</h3>
+            <label>Nomor surat jalan{header.purchaseNumber.trim() !== draftHeader(data).purchaseNumber ? ` · tadinya ${draftHeader(data).purchaseNumber}` : ''}<input aria-label="Nomor surat jalan yang benar" maxLength={40} value={header.purchaseNumber} onChange={e => { const v = e.target.value; setChecked(false); setHeader(h => h && { ...h, purchaseNumber: v }) }}/></label>
+            <label>Tanggal &amp; jam datang (WIB){header.at !== draftHeader(data).at ? ` · tadinya ${formatCp6WibDateTime(data.purchase.physical_at)}` : ''}<input aria-label="Tanggal datang yang benar" type="datetime-local" value={header.at} onChange={e => { const v = e.target.value; setChecked(false); setHeader(h => h && { ...h, at: v }) }}/></label>
+            <MasterChoice client={client} kind="LOCATION" label="Gudang yang benar" value={header.location} disabled={locked} onChange={m => { setChecked(false); setHeader(h => h && { ...h, location: { id: m.id, name: m.name } }) }}/>
+            <MasterChoice client={client} kind="SUPPLIER" label="Supplier yang benar" value={header.supplier} disabled={locked} onChange={m => { setChecked(false); setHeader(h => h && { ...h, supplier: { id: m.id, name: m.name } }) }}/>
+            <p className="cproc-help">Tanggal datang tidak boleh sesudah pemakaian pertama barangnya. Gudang hanya bisa diganti bila barangnya belum dipakai atau dipindah. Ganti supplier memindahkan utang dan pembayarannya ke supplier yang benar.</p>
           </section> : null}
           <label>Alasan pembetulan<input aria-label="Alasan pembetulan penerimaan" value={reason} maxLength={500} onChange={e => { setReason(e.target.value); setChecked(false) }}/></label>
           {built?.problem ? <p role="alert">{built.problem}</p> : null}
