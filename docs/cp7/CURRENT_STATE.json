@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Merged declared-package qualification is complete. Read CLAUDE_MERGE_NEXT_WRITER.md and claude_merge_20261003 remaining_product_work. Continue inactive AP_DUE rule lifecycle, all-submenu source/transaction tools, material feasibility and remaining P18/P19/P21 plus independent/demo/hosted exits. No old Claude WIP wait remains.",
+  "next_action": "Owner authorized full CP7 continuation on3Oct2026. Read CP7_FINISHER_20261003.md. Inactive rule lifecycle candidate is ready for source-bound Native16 qualification; continue exact source navigation and all-submenu owning transaction tools, then remaining material/P08/P18/P19/P20/P21 gates.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -6404,5 +6404,14 @@
       "pending": 0,
       "source": "0642d1bcd6df09505be7ea6d030c61a585722c04"
     }
+  },
+  "finisher_20261003": {
+    "base": "2a7e3cdf4682c28d061ed726920b7bffc47a7c25",
+    "owner_scope": "Complete CP7 including all submenu/source edit/cancel/recovery controls",
+    "writer": "cp7/integration single writer",
+    "handoff": "docs/cp7/CP7_FINISHER_20261003.md",
+    "inactive_rule_lifecycle": "IMPLEMENTED_LOCAL12_BUILD_SECURITY_PASS_NATIVE16_PENDING",
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

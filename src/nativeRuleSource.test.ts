@@ -7,6 +7,27 @@ import original from '../tests/fixtures/nativeAnalysisStandin.json'
 import type {NativeDemandQuery} from './nativeDemandHistory'
 const q=original.query as NativeDemandQuery,finance={ownerReports:false,preflight:false},rights={ar:true,ap:true}
 afterEach(()=>{localStorage.clear();vi.unstubAllGlobals()})
+it('archives a proven inactive source without calling it paid and rejects false closure or old-contract archives',()=>{
+ const source=ruleSourceFixture(),c=source.rows[2]
+ c.economic_state='INACTIVE';c.state='NO_CURRENT_GAP';c.reason='INACTIVE_DOCUMENT';c.eligibility='NO_CURRENT_ALERT'
+ const request:RuleRequest={id:ruleFixtureId(84),query:q,operation:'EPISODES',payload:{run_id:original.run_id,source_hash:source.source_hash}}
+ const wire={contract_version:'cp7.native-rule-observations.v2',actor_scope_id:ruleFixtureActor,source,
+  result:{request_id:request.id,status:'COMMITTED',source_hash:source.source_hash,rows:source.rows.map(condition=>({condition,
+   episode:condition===c?{id:ruleFixtureId(85),number:'1',previous_id:null,state:'ARCHIVED',freshness:'KNOWN',first_observed_at:ruleFixtureClock,last_observed_at:ruleFixtureClock,resolved_at:null,archived_at:ruleFixtureClock}:null,
+   transition:condition===c?'ARCHIVED_INACTIVE_DOCUMENT':'OBSERVED_NO_ACTIVE_EPISODE'}))},
+  result_freshness:'CURRENT_SOURCE',external_delivery_enabled:false,business_DML:false}
+ const parsed=parseRuleObservations(wire,request,ruleFixtureActor,finance,rights)
+ expect(parsed.rows[2].episode).toMatchObject({state:'ARCHIVED',resolved_at:null,archived_at:ruleFixtureClock})
+ expect(parsed.rows[2].condition.business_resolved).toBe(false)
+ for(const mutate of [
+  (v:typeof wire)=>{v.contract_version='cp7.native-rule-observations.v1'},
+  (v:typeof wire)=>{v.result.rows[2].episode!.freshness='UNKNOWN'},
+  (v:typeof wire)=>{v.result.rows[2].condition.economic_state='UNKNOWN'},
+  (v:typeof wire)=>{v.result.rows[2].condition.reason='SOURCE_MISSING'},
+  (v:typeof wire)=>{v.result.rows[2].transition='RESOLVED'},
+  (v:typeof wire)=>{v.result.rows[2].episode!.archived_at='2026-09-01T00:00:00Z'},
+ ]){const invalid=structuredClone(wire);mutate(invalid);expect(()=>parseRuleObservations(invalid,request,ruleFixtureActor,finance,rights)).toThrow()}
+})
 it('preserves exact Native decimal text and an open debt whose due date is unknown',()=>{
  const wire=payrollRuleSourceFixture(),r=parseRuleSource(wire,q,ruleFixtureActor,finance,{...rights,payroll:true}).rows.at(-1)!
  expect(r.financial_source?.remaining).toMatchObject({state:'KNOWN',value:'9007199254740993.01',unit:'IDR'})
