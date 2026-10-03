@@ -41,6 +41,14 @@ describe('complete native journal source',()=>{
   expect(container.textContent).toContain('Rp9.007.199.254.740.993,01');expect(container.querySelectorAll('[data-journal-line-id]')).toHaveLength(2);expect(container.textContent).toContain('3100 · Modal')
   expect(mock.rpc.mock.calls.every(([name])=>name==='erp_cp7_get_journal_book_v1')).toBe(true)
  })
+ it('retains canonical Native legacy contractor FKs in real rework-shaped journal details',async()=>{
+  const contractor='a1000000-0000-0000-0000-000000000001'
+  mock.rpc.mockImplementation((_name,{p_query})=>{const d=fixture(p_query,'60.00');for(const h of [d.page.rows[0],...(d.detail?[d.detail]:[])]){h.source_type='REWORK_COMPLETION';h.description='Rework labor completion'};for(const l of d.detail?.lines??[])l.contractor_id=contractor;return Promise.resolve({data:d,error:null})})
+  await mount();await click(container.querySelector<HTMLElement>('[data-journal-id]')!)
+  expect(container.textContent).toContain('Rp60');expect(container.textContent).toContain('Mandor '+contractor);expect(container.querySelectorAll('[data-journal-line-id]')).toHaveLength(2)
+  const invalid=fixture({...dates,journal_id:id});invalid.detail!.lines[0].contractor_id='a1000000000000000000000000000001';expect(()=>parseJournalRead(invalid,dates,0,id)).toThrow()
+  const incomplete=fixture({...dates,journal_id:id});incomplete.detail!.lines[0].debit='59.99';expect(()=>parseJournalRead(incomplete,dates,0,id)).toThrow()
+ })
  it('preserves reversed originals, linked inverses and different economic/accounting dates',()=>{
   const original=fixture(dates);original.page.rows[0].status='REVERSED';expect(parseJournalRead(original,dates).page.rows[0].status).toBe('REVERSED')
   const inverse=fixture({...dates,journal_id:id});for(const h of [inverse.page.rows[0],inverse.detail!]){h.reversal_of_id=other;h.economic_date='2026-08-31';h.period_shifted=true}

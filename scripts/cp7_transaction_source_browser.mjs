@@ -136,4 +136,64 @@ async function reworkJourney(ui,today,mobile){
  }catch(e){writeFileSync(`cp6-proof/t3/CP7_SOURCE_REWORK_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:state(),lost},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_REWORK_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
-export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)]]}
+async function productionReadJourney(ui,today,mobile){
+ const f=fixture('prepare-production-read',{today}),user=await ui.login('ADMIN',{label:'transaction-production-current-read-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',screenshots=[],observations=[]
+ const rpc='erp_get_laundry_qc_workspace_v1',path='**/rest/v1/rpc/'+rpc,boundary=()=>fixture('production-boundary',{})
+ const permission=(key,allowed)=>fixture('production-permission',{role:f.admin_role,permission:key,allowed})
+ const responseFor=scope=>r=>r.url().endsWith('/rpc/'+rpc)&&r.request().postDataJSON()?.p_scope===scope
+ let releaseHeld=null
+ const freshFacts=async(scope,response)=>{
+  assert.equal(response.status(),200);const actual=await response.json(),expected=fixture('production-read',{actor:user.user.id,scope,query:f.group_number})
+  // Compare every actual Native member for the same actual Auth actor. The
+  // independent SQL and HTTP statements have different capture times only.
+  for(const value of [actual,expected])assert.ok(Number.isFinite(Date.parse(value.generated_at)))
+  const {generated_at:actualAt,...actualFacts}=actual,{generated_at:expectedAt,...expectedFacts}=expected
+  assert.deepEqual(actualFacts,expectedFacts);assert.equal(actual.scope,scope)
+  if(scope==='LAUNDRY'){
+   const delivery=actual.deliveries.find(d=>d.delivery_id===f.delivery_id);assert.ok(delivery);assert.equal(delivery.cutting_group_id,f.group_id);assert.equal(delivery.qty_sent_pcs,20)
+   assert.deepEqual(delivery.sizes.map(s=>s.qty_sent_pcs),f.actual_qty_by_size);await ui.expect(page.locator('.clq-history')).toContainText(f.delivery_number);await ui.expect(page.locator('.clq-history')).toContainText(f.group_number)
+  }else{
+   const rows=actual.qc_queue.filter(r=>r.cutting_group_id===f.group_id);assert.equal(rows.length,4);assert.equal(rows.reduce((n,r)=>n+r.available_for_qc_qty_pcs,0),20)
+   assert.deepEqual(rows.map(r=>r.available_for_qc_qty_pcs),f.actual_qty_by_size);await ui.expect(page.locator(`.clq-panel option[value="${f.group_id}"]`)).toHaveCount(1)
+  }
+  await ui.expect(page.locator('.clq-kpis [data-kpi-state="KNOWN"]')).toHaveCount(4)
+ }
+ const retiredFacts=async()=>{
+  await ui.expect(page.locator('.clq-kpis [data-kpi-state="UNKNOWN"]')).toHaveCount(4)
+  await ui.expect(page.locator('.clq-kpis strong')).toHaveText(['—','—','—','—'])
+  await ui.expect(page.locator('.clq-history article')).toHaveCount(0);await ui.expect(page.locator(`.clq-panel option[value="${f.group_id}"]`)).toHaveCount(0)
+  assert.ok(!(await page.locator('.connected-laundry-qc-page').innerText()).includes(f.group_number))
+ }
+ try{
+  mkdirSync('cp6-proof/t3',{recursive:true})
+  for(const [scope,menu,view]of [['LAUNDRY','• Laundry','production.laundry.view'],['QC','• QC & Final SKU','production.final_sku.view']]){
+   let response=await observed(page,responseFor(scope),()=>productionMenu(page,menu));assert.equal(response.status(),200)
+   if(scope==='LAUNDRY')await page.getByRole('button',{name:'Riwayat & koreksi',exact:true}).click()
+   const before=boundary();response=await observed(page,responseFor(scope),()=>page.locator('.clq-tabs input').fill(f.group_number));await freshFacts(scope,response);assert.deepEqual(boundary(),before)
+   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);const currentName=`CP7_PRODUCTION_READ_${scope}_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+currentName,fullPage:true});screenshots.push(currentName)
+   let upstreamResolve,upstreamReject,heldReply=null
+   const upstream=new Promise((resolve,reject)=>{upstreamResolve=resolve;upstreamReject=reject});upstream.catch(()=>{})
+   const gate=new Promise(resolve=>{releaseHeld=resolve})
+   const hold=async route=>{
+    try{heldReply=await route.fetch();assert.equal(heldReply.status(),200);upstreamResolve();await gate;await route.fulfill({response:heldReply})}
+    catch(e){upstreamReject(e);await route.abort('failed').catch(()=>{})}
+   }
+   await page.route(path,hold,{times:1})
+   const oldReply=page.waitForResponse(responseFor(scope));oldReply.catch(()=>{})
+   await page.getByRole('button',{name:'Muat ulang data',exact:true}).click();await retiredFacts();await upstream
+   await page.evaluate(()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
+   releaseHeld();releaseHeld=null;assert.equal((await oldReply).status(),200);await retiredFacts();assert.deepEqual(boundary(),before)
+   response=await observed(page,responseFor(scope),()=>page.getByRole('button',{name:'Muat ulang data',exact:true}).click());await freshFacts(scope,response);assert.deepEqual(boundary(),before)
+   // Revoke the actual ordinary ADMIN view in PostgreSQL. No substitute 403
+   // response and no protected OWNER permission is used for this observation.
+   permission(view,false);const revoked=boundary()
+   response=await observed(page,responseFor(scope),()=>page.getByRole('button',{name:'Muat ulang data',exact:true}).click());assert.equal(response.status(),403);assert.equal((await response.json()).code,'42501');await retiredFacts();await ui.expect(page.locator('.clq-alert.error')).toBeVisible();assert.deepEqual(boundary(),revoked)
+   const deniedName=`CP7_PRODUCTION_READ_${scope}_DENIED_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+deniedName,fullPage:true});screenshots.push(deniedName)
+   permission(view,true);const restored=boundary();response=await observed(page,responseFor(scope),()=>page.getByRole('button',{name:'Muat ulang data',exact:true}).click());await freshFacts(scope,response);assert.deepEqual(boundary(),restored)
+   observations.push({scope,same_actual_Auth_Native_SQL_and_HTTP_facts:true,actual_unequal_size_qtys:[5,8,3,4],total20:true,read_start_retires_old_facts_and_KPIs:true,held_actual200_after_shared_storage_invalidation_not_painted:true,current_Native403_retires_facts_not_zero:true,explicit_fresh_recovery:true,all_ERP_platform_Auth_schema_rows_unchanged_by_reads:true})
+  }
+  return{status:'PASS',mobile,scopes:observations,screenshots,no_business_writer_or_substituted_reply:true}
+ }catch(e){writeFileSync(`cp6-proof/t3/CP7_PRODUCTION_READ_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('.connected-laundry-qc-page').innerText().catch(()=>''),state:boundary(),observations},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_PRODUCTION_READ_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
+ finally{if(releaseHeld)releaseHeld();for(const [key,allowed]of Object.entries(f.original_permissions))permission(key,allowed);await user.context.close()}
+}
+export function cases(ui,today){return[['CP7_SOURCE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['CP7_SOURCE_BROWSER_MOBILE',()=>journey(ui,today,true)],['CP7_SOURCE_PAYROLL_BROWSER_DESKTOP',()=>payrollJourney(ui,today,false)],['CP7_SOURCE_PAYROLL_BROWSER_MOBILE',()=>payrollJourney(ui,today,true)],['CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP',()=>accessoryJourney(ui,today,false)],['CP7_SOURCE_ACCESSORY_BROWSER_MOBILE',()=>accessoryJourney(ui,today,true)],['CP7_SOURCE_REWORK_BROWSER_DESKTOP',()=>reworkJourney(ui,today,false)],['CP7_SOURCE_REWORK_BROWSER_MOBILE',()=>reworkJourney(ui,today,true)],['CP7_PRODUCTION_READ_BROWSER_DESKTOP',()=>productionReadJourney(ui,today,false)],['CP7_PRODUCTION_READ_BROWSER_MOBILE',()=>productionReadJourney(ui,today,true)]]}

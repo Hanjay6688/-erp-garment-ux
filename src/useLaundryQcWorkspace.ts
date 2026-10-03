@@ -20,12 +20,18 @@ function validateCommitted(data: unknown, envelope: ProductionEnvelope) {
 }
 
 export function useLaundryQcWorkspace(scope: LaundryQcScope) {
-  const { runtime } = useAuth()
-  if (!isConnectedRuntime(runtime)) throw new Error('Laundry/QC memerlukan sesi connected.')
+  const { runtime, identity } = useAuth()
+  if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Laundry/QC memerlukan sesi connected yang berizin.')
+  const authorityKey = JSON.stringify([runtime.projectRef, identity.profile.id, identity.profile.authUserId,
+    identity.profile.rowVersion, identity.profile.roleRowVersion, identity.permissions])
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const mutation = useProductionMutation('LAUNDRY_QC')
-  const { beginRead, finishRead, run, reconcile: reconcileMutation } = mutation
-  const [workspace, setWorkspace] = useState<LaundryQcWorkspace | null>(null)
+  const { beginRead, finishRead, isReadCurrent, run, reconcile: reconcileMutation } = mutation
+  const [capture, setCapture] = useState<{ data: LaundryQcWorkspace; ticket: ReturnType<typeof beginRead>; authority: string } | null>(null)
+  // Current authorized facts and permission to write are separate. A fresh
+  // read remains visible during an uncertain command; an old or held read
+  // cannot survive a new read, actor/role change or shared recovery event.
+  const workspace = capture?.authority === authorityKey && isReadCurrent(capture.ticket) ? capture.data : null
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState('')
@@ -36,20 +42,21 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
   const load = useCallback(async (nextQuery = queryRef.current) => {
     const ticket = beginRead()
     const request = ++requestRef.current
-    setLoading(true); setLoadError('')
+    setCapture(null); setLoading(true); setLoadError('')
     try {
       const { data, error } = await client.rpc('erp_get_laundry_qc_workspace_v1', { p_scope: scope, p_query: nextQuery.trim() || null })
-      if (request !== requestRef.current) return false
+      if (request !== requestRef.current || !isReadCurrent(ticket)) return false
       if (error) throw error
       const parsed = parseLaundryQcWorkspace(data)
       if (parsed.scope !== scope) throw new Error('Respons workspace tidak cocok dengan halaman yang diminta.')
-      setWorkspace(parsed)
-      return finishRead(ticket)
+      const writable = finishRead(ticket)
+      setCapture({ data: parsed, ticket, authority: authorityKey })
+      return writable
     } catch (error) {
-      if (request === requestRef.current) setLoadError(normalizeClientError(error).message)
+      if (request === requestRef.current && isReadCurrent(ticket)) { setCapture(null); setLoadError(normalizeClientError(error).message) }
       return false
     } finally { if (request === requestRef.current) setLoading(false) }
-  }, [beginRead, client, finishRead, scope])
+  }, [beginRead, client, finishRead, isReadCurrent, scope, authorityKey])
   const sendExact = useCallback((envelope: ProductionEnvelope) => client.rpc('erp_save_laundry_qc_action_v1', {
     p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id, p_expected_version: envelope.expectedVersion,
   }), [client])
@@ -116,7 +123,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
     if (mutation.pending) void reconcile()
     else void load()
     return () => { requestRef.current += 1 }
-  }, [mutation.scope, scope]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mutation.scope, scope, authorityKey]) // eslint-disable-line react-hooks/exhaustive-deps
   const acknowledgeCommittedFormRetired = useCallback((sequence: number) => {
     if (sequence <= 0 || sequence !== mutation.committedSequence || mutation.writerLocked) return false
     setCommittedRefreshRequired(false)

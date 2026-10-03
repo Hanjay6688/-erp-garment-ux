@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Standing owner instruction remains active. Qualify all39 exact source cases and all cleanup gates, retaining failed first9148 and prior25 qualification. Continue remaining source/dependency exits, full material/P08 and P18-P21. Independent/hosted/production acceptance remains false; do not stop at a routine status checkpoint.",
+  "next_action": "Standing owner instruction remains active. Qualify all41 exact source/current-read cases and all cleanup gates, retaining failed first51c9/9148 and historical25 qualification. Continue unsent form preservation, remaining exact owning supplier payment/source/dependency exits, full material/P08 and P18-P21. Independent/hosted/production acceptance remains false; do not stop at a routine status checkpoint.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -6432,8 +6432,8 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "NATIVE25_QUALIFIED_FIRST_ACCESSORY32_INCOMPLETE_REWORK39_PENDING",
-      "native_case_budget": 39,
+      "status": "NATIVE25_QUALIFIED_FIRST39_INCOMPLETE_CURRENT_READ41_PENDING",
+      "native_case_budget": 41,
       "no_business_DML": true,
       "full_source_coverage": false,
       "remaining": [
@@ -6804,6 +6804,112 @@
         "production_go": false,
         "independent_acceptance": false,
         "receipt": "docs/cp7/evidence/transaction-source/rework-local/LOCAL_RECEIPT.json"
+      },
+      "required": {
+        "native": 24,
+        "races": 2,
+        "http": 5,
+        "browser": 10
+      },
+      "first_rework39": {
+        "head": "51c9647536f008e7ae78e01ec89ca70851675a44",
+        "tree": "0746d5acdd681ee153f672ea3e6d6cc2ed746f76",
+        "run_id": 37116170347,
+        "job_id": 111183306300,
+        "artifact_id": 11271487250,
+        "archive_sha256": "0c84a900a8b4da127606114e79eadee3edbe2372a21e0f765d672cd975389546",
+        "status": "INCOMPLETE",
+        "observed_case_count": 39,
+        "required_case_counts": {
+          "native": 24,
+          "races": 2,
+          "http": 5,
+          "browser": 8
+        },
+        "groups": {
+          "native": {
+            "PASS": 23,
+            "INCOMPLETE": 1
+          },
+          "races": {
+            "PASS": 2
+          },
+          "http": {
+            "PASS": 5
+          },
+          "browser": {
+            "PASS": 6,
+            "INCOMPLETE": 2
+          }
+        },
+        "source_sha256": "87f6a6ed1d890e548af8897c29cc40f1592e4a2e1651022f1af2f6567f3f3291",
+        "members": {
+          "CP7_TRANSACTION_SOURCE.json": {
+            "sha256": "3075af5e36f8faba00bd121e9b2af1e57cdc48fe0cbd1703ad9906c367f9d590",
+            "bytes": 282628
+          },
+          "T3_PACKAGE_INSTALL.json": {
+            "sha256": "04a9474bc841e8807596c70a26d41e42cca17e8b3eb6833f65b877b929db15f6",
+            "bytes": 360431
+          },
+          "CP7_SOURCE_REWORK_DESKTOP_FAILURE.json": {
+            "sha256": "c42a45d76575f523990ca37eee37aa61c7cf7e17878c3501845efb2726551fd1",
+            "bytes": 6842818
+          },
+          "CP7_SOURCE_REWORK_MOBILE_FAILURE.json": {
+            "sha256": "50e2971a545fec91da65e210b34419b4b3cdd6bdd1d2a0b6a9c9d72b1fe154c6",
+            "bytes": 6842837
+          },
+          "CP7_SOURCE_REWORK_DESKTOP_FAILURE.png": {
+            "sha256": "13afc51999140b019fee0e57ddf181d6b4d16789df6fdc3d453e26330145f766",
+            "bytes": 339987
+          },
+          "CP7_SOURCE_REWORK_MOBILE_FAILURE.png": {
+            "sha256": "5e91ecb59b629e72a6b850a588f0481b8502b4d510bae8c45253e45d9fe4f677",
+            "bytes": 187625
+          }
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": "RESTORED_SAME_MEANING",
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": false
+        },
+        "failed_case_ids": {
+          "native": [
+            "CP7_SOURCE_REWORK_DOCUMENTS"
+          ],
+          "races": [],
+          "http": [],
+          "browser": [
+            "CP7_SOURCE_REWORK_BROWSER_DESKTOP",
+            "CP7_SOURCE_REWORK_BROWSER_MOBILE"
+          ]
+        },
+        "successor": {
+          "journal": "Accept actual canonical PostgreSQL legacy master UUIDs, preserving Native FKs, closed fields and exact money/balance controls.",
+          "rework_full_state": "Capture all original order/movement timestamp JSON in UTC before the unchanged full boundary reader sets UTC. Preserve every original member and full no-DML comparison.",
+          "case_budget": "Retain all39 original controls and add two actual Laundry/QC current-read browser cases:41 required24/2/5/10. No timeout, guard or restore gate reduced."
+        },
+        "production_go": false,
+        "independent_acceptance": false,
+        "receipt": "docs/cp7/evidence/transaction-source/first51c9/RECEIPT.json"
+      },
+      "current_read_retirement": {
+        "status": "LOCAL66_BUILD_SECURITY_PASS_NATIVE41_PENDING",
+        "prior39_cases_retained": true,
+        "same_Native_writer_readers": true,
+        "actual_reply_and_current403_cases_predeclared": true,
+        "pending_UUID_preserved": true,
+        "unknown_not_zero": true,
+        "independent_acceptance": false
       }
     },
     "owner_target": {
@@ -7131,6 +7237,63 @@
       "receipt_index": "docs/cp7/evidence/finisher-regression/qualified7638/full/INDEX.json"
     },
     "application_qualification": {
+      "source_commit": "51c9647536f008e7ae78e01ec89ca70851675a44",
+      "source_tree": "0746d5acdd681ee153f672ea3e6d6cc2ed746f76",
+      "run_id": 37116170397,
+      "jobs": {
+        "application": 111183306520,
+        "CodeQL_javascript_typescript": 111183306644,
+        "CodeQL_actions": 111183306658
+      },
+      "status": "PASS",
+      "application_tests": 1357,
+      "application_test_files": 142,
+      "Shell_browser_tests": 6,
+      "build": "PASS",
+      "security": "PASS",
+      "CodeQL_findings": 0,
+      "runtime_graph_files": 251,
+      "owned_browser_RPC_boundaries": 184,
+      "stylesheets": 53,
+      "orphans_under_runtime_import_ownership_check": 0,
+      "direct_browser_table_reads": 0,
+      "archives": {
+        "shell": {
+          "artifact_id": 11271941151,
+          "sha256": "c7d52932d85784e8a54bf333906983196a1b7247c6df4cb54914cbcd568c0d1f"
+        },
+        "CodeQL_javascript_typescript": {
+          "artifact_id": 11271871446,
+          "sha256": "e0aee9b90d90d08671588adbac7352330d1369cee3d7f0d42cf8595df619c6c8"
+        },
+        "CodeQL_actions": {
+          "artifact_id": 11271656672,
+          "sha256": "b982d7a40d38f03293dd15c1bfb0aa68ac740863bba6a5fcf53eadcb32b92390"
+        }
+      },
+      "members": {
+        "results.json": {
+          "sha256": "0e7bb4f6fc657a281a20103d0350c1cfbefdf7a4073f9b035cf54907f84f9ad5",
+          "bytes": 12161
+        },
+        "f04-private-kernels.json": {
+          "sha256": "96da8ca45907a959e834986ec7f323f05c5a40e433c6bfae232e806bc10e43bd",
+          "bytes": 53268
+        },
+        "javascript.sarif": {
+          "sha256": "581e5cf76ac45d1fe3044c5cc67f1ff2d9903684f5415e73395dc20f8c3fb9e9",
+          "bytes": 1302696
+        },
+        "actions.sarif": {
+          "sha256": "ecaefedbe85617ce73e75ca37b4036b58726f39f0e47fa81c348d1bc9e9e951c",
+          "bytes": 692188
+        }
+      },
+      "independent_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified51c9/shell/RECEIPT.json"
+    },
+    "previous_application_qualification": {
       "source_commit": "9148adf778d7210b41435b7cb7633d3edfb620a8",
       "source_tree": "dd40acebcf0366d23709aa64b7b79d0370038226",
       "run_id": 37114757495,
@@ -7186,63 +7349,6 @@
       "independent_acceptance": false,
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified9148/shell/RECEIPT.json"
-    },
-    "previous_application_qualification": {
-      "source_commit": "5e4af78f10dfbbe9162d4b99a75f4ee95d25c9f5",
-      "source_tree": "a3c23c777bb56b0b5ad2bcba0eccac5905f2f2c1",
-      "run_id": 37113905246,
-      "jobs": {
-        "application": 111176884489,
-        "CodeQL_javascript_typescript": 111176884603,
-        "CodeQL_actions": 111176884654
-      },
-      "status": "PASS",
-      "application_tests": 1342,
-      "application_test_files": 142,
-      "Shell_browser_tests": 6,
-      "build": "PASS",
-      "security": "PASS",
-      "CodeQL_findings": 0,
-      "runtime_graph_files": 251,
-      "owned_browser_RPC_boundaries": 183,
-      "stylesheets": 53,
-      "orphans_under_runtime_import_ownership_check": 0,
-      "direct_browser_table_reads": 0,
-      "archives": {
-        "shell": {
-          "artifact_id": 11271067304,
-          "sha256": "c7af7a89680e190a70520d71f596ca8daef6a6c45b6d6ecfd89feba78eb6d3c1"
-        },
-        "CodeQL_javascript_typescript": {
-          "artifact_id": 11270887579,
-          "sha256": "088d31f68c85a1341c76511946514d1c3ff2c179dbc80229acd0e95da7298465"
-        },
-        "CodeQL_actions": {
-          "artifact_id": 11270332246,
-          "sha256": "09f07d6e146f59a5092c3b235cfa4d94b3c1c307844ff6e21b62f1dcf5aa8c20"
-        }
-      },
-      "members": {
-        "f04-private-kernels.json": {
-          "sha256": "2e58e8da45f2f767d3ff1936418b98e68f791cbb69e59ee3e3cef6fc98182d06",
-          "bytes": 53273
-        },
-        "results.json": {
-          "sha256": "d6b269065ec2215c3e46b96f181b97b9e17bcb54cc6c253cd56d79605f9ec41d",
-          "bytes": 12262
-        },
-        "javascript.sarif": {
-          "sha256": "493f715b207d3003c716998267259b51004becaff55bce00fdb82eeabd27c13d",
-          "bytes": 1302407
-        },
-        "actions.sarif": {
-          "sha256": "23e1ad2640e6f05b52a040c1e8b1c24556061e5c197004a98f3e594e8edd6c7b",
-          "bytes": 691808
-        }
-      },
-      "independent_acceptance": false,
-      "production_go": false,
-      "receipt": "docs/cp7/evidence/finisher-regression/qualified5e4/shell/RECEIPT.json"
     }
   }
 }

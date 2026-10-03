@@ -4,6 +4,8 @@ import { act, useEffect, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useLaundryQcWorkspace } from './useLaundryQcWorkspace'
+import { readProductionRecovery } from './productionRecovery'
+import type { LaundryQcScope } from './laundryQcModel'
 
 const authState = vi.hoisted(() => ({ current: null as unknown }))
 const mockedClient = vi.hoisted(() => ({ current: null as unknown }))
@@ -88,8 +90,8 @@ function auth() {
   }
 }
 
-function Harness({ prefix = '' }: { prefix?: string }) {
-  const bridge = useLaundryQcWorkspace('LAUNDRY')
+function Harness({ prefix = '', scope = 'LAUNDRY' }: { prefix?: string; scope?: LaundryQcScope }) {
+  const bridge = useLaundryQcWorkspace(scope)
   const [retired, setRetired] = useState(false)
   useEffect(() => {
     if (bridge.committedSequence > 0 && !bridge.workspaceStale) {
@@ -103,6 +105,8 @@ function Harness({ prefix = '' }: { prefix?: string }) {
     )}>run</button>
     <button id={`${prefix}reconcile`} disabled={!bridge.pending || bridge.busy} onClick={() => void bridge.reconcile()}>reconcile</button>
     <button id={`${prefix}load`} disabled={bridge.busy} onClick={() => void bridge.load()}>load</button>
+    <button id={`${prefix}search`} onClick={() => bridge.search('operator query')}>search</button>
+    <output id={`${prefix}facts`}>{bridge.workspace ? `${bridge.workspace.generated_at}:${bridge.workspace.legacy_unlinked.delivery_count}` : 'UNKNOWN'}</output>
     <output id={`${prefix}state`}>{JSON.stringify({
       retired, locked: bridge.writerLocked, pending: Boolean(bridge.pending), corrupt: bridge.corruptedEnvelope,
       stale: bridge.workspaceStale, committed: bridge.committedRefreshRequired, sequence: bridge.committedSequence,
@@ -372,5 +376,98 @@ describe('useLaundryQcWorkspace durable mutation envelope', () => {
     finishRefetch?.()
     await settle()
     expect(state()).toMatchObject({ locked: false, stale: false })
+  })
+
+  it.each(['LAUNDRY', 'QC'] as const)('retires %s facts at read start and after a denied read, without displaying zero', async scope => {
+    let complete!: (v: unknown) => void
+    const dto = { ...workspace(), scope, collection_window: { ...workspace().collection_window, products_relevant_to_live_qc: scope === 'QC' }, legacy_unlinked: { delivery_count: 7, receipt_count: 3 } }
+    const rpc = vi.fn().mockResolvedValue({ data: dto, error: null })
+    mockedClient.current = { rpc }
+    await act(async () => root.render(<Harness scope={scope}/>)); await settle()
+    expect(container.querySelector('#facts')?.textContent).toContain(':7')
+    rpc.mockImplementationOnce(() => new Promise(resolve => { complete = resolve }))
+    await click('#load')
+    expect(container.querySelector('#facts')?.textContent).toBe('UNKNOWN')
+    await act(async () => complete({ data: null, error: { code: '42501', status: 403, message: 'CURRENT_VIEW_DENIED' } }))
+    expect(container.querySelector('#facts')?.textContent).toBe('UNKNOWN')
+    expect(state()).toMatchObject({ locked: true, stale: true })
+    expect(container.querySelector('#error')?.textContent).toContain('tidak memiliki izin')
+    await click('#load')
+    expect(container.querySelector('#facts')?.textContent).toContain(':7')
+    expect(rpc.mock.calls.every(([name]) => name === 'erp_get_laundry_qc_workspace_v1')).toBe(true)
+  })
+
+  it('refuses a held success after shared recovery changes, then admits a fresh explicit read', async () => {
+    let complete!: (v: unknown) => void
+    const rpc = vi.fn().mockResolvedValue({ data: workspace(), error: null })
+    mockedClient.current = { rpc }; await renderHarness()
+    rpc.mockImplementationOnce(() => new Promise(resolve => { complete = resolve }))
+    await click('#load')
+    await act(async () => window.dispatchEvent(new StorageEvent('storage', { key: null })))
+    await act(async () => complete({ data: { ...workspace(), generated_at: '2026-09-04T13:00:00Z', legacy_unlinked: { delivery_count: 91, receipt_count: 0 } }, error: null }))
+    expect(container.querySelector('#facts')?.textContent).toBe('UNKNOWN')
+    expect(state()).toMatchObject({ locked: true, stale: true })
+    await click('#load')
+    expect(container.querySelector('#facts')?.textContent).toBe('2026-09-04T12:00:00Z:0')
+    expect(state()).toMatchObject({ locked: false, stale: false })
+  })
+
+  it('retires old actor/role facts synchronously and ignores that role\'s held response', async () => {
+    let oldRead!: (v: unknown) => void, newRead!: (v: unknown) => void
+    const rpc = vi.fn().mockResolvedValue({ data: workspace(), error: null })
+    mockedClient.current = { rpc }; await renderHarness()
+    rpc.mockImplementationOnce(() => new Promise(resolve => { oldRead = resolve }))
+    await click('#load')
+    const next = auth(); next.identity.profile.roleRowVersion = 2
+    next.identity.permissions = ['production.laundry.view']
+    authState.current = next
+    rpc.mockImplementationOnce(() => new Promise(resolve => { newRead = resolve }))
+    await act(async () => root.render(<Harness/>))
+    expect(container.querySelector('#facts')?.textContent).toBe('UNKNOWN')
+    await act(async () => oldRead({ data: { ...workspace(), legacy_unlinked: { delivery_count: 91, receipt_count: 0 } }, error: null }))
+    expect(container.querySelector('#facts')?.textContent).toBe('UNKNOWN')
+    await act(async () => newRead({ data: { ...workspace(), legacy_unlinked: { delivery_count: 4, receipt_count: 0 } }, error: null }))
+    expect(container.querySelector('#facts')?.textContent).toContain(':4')
+    expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_laundry_qc_action_v1')).toHaveLength(0)
+  })
+
+  it('keeps source facts retired when an earlier query returns after its replacement', async () => {
+    let earlier!: (v: unknown) => void
+    const rpc = vi.fn().mockResolvedValue({ data: workspace(), error: null })
+    mockedClient.current = { rpc }; await renderHarness()
+    rpc.mockImplementationOnce(() => new Promise(resolve => { earlier = resolve }))
+    await click('#load')
+    rpc.mockResolvedValueOnce({ data: { ...workspace(), legacy_unlinked: { delivery_count: 4, receipt_count: 0 } }, error: null })
+    await click('#search')
+    expect(container.querySelector('#facts')?.textContent).toContain(':4')
+    await act(async () => earlier({ data: { ...workspace(), legacy_unlinked: { delivery_count: 91, receipt_count: 0 } }, error: null }))
+    expect(container.querySelector('#facts')?.textContent).toContain(':4')
+    expect(rpc.mock.calls.at(-1)?.[1]).toEqual({ p_scope: 'LAUNDRY', p_query: 'operator query' })
+  })
+
+  it('admits current readonly facts while an uncertain command keeps its exact recovery envelope and all writes locked', async () => {
+    const rpc = vi.fn(async (name: string) => name === 'erp_get_laundry_qc_workspace_v1'
+      ? { data: { ...workspace(), legacy_unlinked: { delivery_count: 7, receipt_count: 0 } }, error: null }
+      : { data: null, error: { status: 503, message: 'Lost reply' } })
+    mockedClient.current = { rpc }; await renderHarness(); await click('#run')
+    const original = localStorage.getItem(storageKey)
+    expect(container.querySelector('#facts')?.textContent).toBe('UNKNOWN')
+    expect(readProductionRecovery(`${runtime.projectRef}:${appUserId}`).pending.LAUNDRY_QC).toBeDefined()
+    await click('#load')
+    expect(container.querySelector('#facts')?.textContent).toContain(':7')
+    expect(state()).toMatchObject({ locked: true, stale: false, pending: true })
+    expect(localStorage.getItem(storageKey)).toBe(original)
+    await click('#run')
+    expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_laundry_qc_action_v1')).toHaveLength(1)
+  })
+
+  it('keeps current source readable without Web Locks while refusing every write', async () => {
+    Reflect.deleteProperty(navigator, 'locks')
+    const rpc = vi.fn().mockResolvedValue({ data: { ...workspace(), legacy_unlinked: { delivery_count: 7, receipt_count: 0 } }, error: null })
+    mockedClient.current = { rpc }; await renderHarness()
+    expect(container.querySelector('#facts')?.textContent).toContain(':7')
+    expect(state()).toMatchObject({ locked: true, stale: false })
+    await click('#run')
+    expect(rpc.mock.calls.every(([name]) => name === 'erp_get_laundry_qc_workspace_v1')).toBe(true)
   })
 })

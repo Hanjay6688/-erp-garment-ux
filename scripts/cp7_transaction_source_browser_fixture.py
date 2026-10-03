@@ -64,6 +64,27 @@ def main():
   elif op=='state-rework':
    f=p['fixture'];out=source.rework_state(cur,f)
    out['source']=source.read(cur,'REWORK_ORDER',f['rework'])['document']
+  elif op=='prepare-production-read':
+   f=source.production.fixture(cur,date.fromisoformat(p['today']))
+   wash=source.production.wash(cur,f,range(4),11)
+   misc.b.api.admin(cur)
+   role=str(cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0])
+   original={key:cur.execute('select exists(select 1 from erp.app_role_permissions where role_id=%s and permission_key=%s)',(role,key)).fetchone()[0]for key in('production.laundry.view','production.final_sku.view')}
+   for key in original:cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,key))
+   group=cur.execute('select group_number from erp.cutting_groups where id=%s',(f['group'],)).fetchone()[0]
+   delivery=cur.execute('select delivery_number from erp.laundry_deliveries where id=%s',(wash['sent']['delivery_id'],)).fetchone()[0]
+   out=dict(group_id=f['group'],group_number=group,delivery_id=wash['sent']['delivery_id'],delivery_number=delivery,admin_role=role,original_permissions=original,actual_qty_by_size=f['qtys'],actual_total=sum(f['qtys']))
+  elif op=='production-read':
+   source.auth.actor(cur,p['actor'])
+   out=cur.execute('select public.erp_get_laundry_qc_workspace_v1(%s,%s)',(p['scope'],p['query'])).fetchone()[0]
+  elif op=='production-permission':
+   assert p['permission']in('production.laundry.view','production.final_sku.view')and isinstance(p['allowed'],bool)
+   assert str(cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0])==p['role']
+   if p['allowed']:cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(p['role'],p['permission']))
+   else:cur.execute('delete from erp.app_role_permissions where role_id=%s and permission_key=%s',(p['role'],p['permission']))
+   out=dict(status='PASS',current_ADMIN_view=p['allowed'])
+  elif op=='production-boundary':
+   out=source.b.boundary.snapshot(cur)
   else:raise ValueError('Unknown source navigation fixture operation')
   misc.b.api.admin(cur)
   if not had:cur.execute('revoke usage on schema erp from authenticated')

@@ -18,7 +18,7 @@ import cp6_bf_combined_probe as production
 import cp7_f03_cases as combined
 import cp7_transaction_source_bundle as bundle
 b,auth=material.b,material.auth
-REQUIRED=dict(native=24,races=2,http=5,browser=8)
+REQUIRED=dict(native=24,races=2,http=5,browser=10)
 EXPECTED=sum(REQUIRED.values())
 RPC='erp_cp7_resolve_transaction_source_v1'
 
@@ -61,6 +61,11 @@ def rework_workspace(cur,f,offset=None,subject=None):
 
 def rework_state(cur,f):
  b.api.admin(cur)
+ # The unchanged boundary reader sets UTC before hashing every ERP row.
+ # Capture the full document/movement JSON in that same zone, including every
+ # timestamp. Otherwise the first pre-boundary document uses the runner's WIB
+ # encoding and differs from the next UTC document without any row changing.
+ cur.execute("set local timezone='UTC'")
  order=cur.execute('select to_jsonb(r)from erp.rework_orders r where id=%s',(f['rework'],)).fetchone()[0]
  return dict(order=order,lot_qty=str(cur.execute('select coalesce(sum(qty_signed),0)from erp.fg_stock_movements where lot_id=%s',(f['lot'],)).fetchone()[0]),
   original_movement=cur.execute('select to_jsonb(m)from erp.fg_stock_movements m where id=%s',(f['movement']['id'],)).fetchone()[0],
@@ -226,7 +231,8 @@ def cases(cur,today):
   for kind in('REWORK_ORDER','REWORK_COMPLETION'):
    d=exact(cur,kind,f['rework'],'BS_REWORK',f['bs'],('REWORK_ORDER',f['rework']));assert d['route']=='bs-rework'
   w=rework_workspace(cur,f);row=next(r for r in w['rows']if r['id']==f['bs']);assert row['kind']=='BS'and any(r['id']==f['rework']for r in row['rework_orders'])
-  assert rework_state(cur,f)==before
+  observed=rework_state(cur,f)
+  assert observed==before,('REWORK_READ_CHANGED_FULL_STATE',{k:dict(before=before[k],after=observed[k])for k in before if before[k]!=observed[k]})
   production.b.chain.bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=f['rework'],change_reason='Inverse exact source of repaired goods'),production.b.chain.version(cur,'rework_orders',f['rework']))
   after=rework_state(cur,f);assert after['order']['id']==before['order']['id']and after['order']['bs_case_id']==before['order']['bs_case_id']and after['order']['physical_sent_at']==before['order']['physical_sent_at']
   assert after['order']['status']=='CANCELLED'and after['lot_qty']=='0'and after['original_movement']==before['original_movement']and len(after['inverses'])==1

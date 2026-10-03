@@ -1,0 +1,56 @@
+{
+  "source_commit": "51c9647536f008e7ae78e01ec89ca70851675a44",
+  "source_tree": "0746d5acdd681ee153f672ea3e6d6cc2ed746f76",
+  "run_id": 37116170397,
+  "jobs": {
+    "application": 111183306520,
+    "CodeQL_javascript_typescript": 111183306644,
+    "CodeQL_actions": 111183306658
+  },
+  "status": "PASS",
+  "application_tests": 1357,
+  "application_test_files": 142,
+  "Shell_browser_tests": 6,
+  "build": "PASS",
+  "security": "PASS",
+  "CodeQL_findings": 0,
+  "runtime_graph_files": 251,
+  "owned_browser_RPC_boundaries": 184,
+  "stylesheets": 53,
+  "orphans_under_runtime_import_ownership_check": 0,
+  "direct_browser_table_reads": 0,
+  "archives": {
+    "shell": {
+      "artifact_id": 11271941151,
+      "sha256": "c7d52932d85784e8a54bf333906983196a1b7247c6df4cb54914cbcd568c0d1f"
+    },
+    "CodeQL_javascript_typescript": {
+      "artifact_id": 11271871446,
+      "sha256": "e0aee9b90d90d08671588adbac7352330d1369cee3d7f0d42cf8595df619c6c8"
+    },
+    "CodeQL_actions": {
+      "artifact_id": 11271656672,
+      "sha256": "b982d7a40d38f03293dd15c1bfb0aa68ac740863bba6a5fcf53eadcb32b92390"
+    }
+  },
+  "members": {
+    "results.json": {
+      "sha256": "0e7bb4f6fc657a281a20103d0350c1cfbefdf7a4073f9b035cf54907f84f9ad5",
+      "bytes": 12161
+    },
+    "f04-private-kernels.json": {
+      "sha256": "96da8ca45907a959e834986ec7f323f05c5a40e433c6bfae232e806bc10e43bd",
+      "bytes": 53268
+    },
+    "javascript.sarif": {
+      "sha256": "581e5cf76ac45d1fe3044c5cc67f1ff2d9903684f5415e73395dc20f8c3fb9e9",
+      "bytes": 1302696
+    },
+    "actions.sarif": {
+      "sha256": "ecaefedbe85617ce73e75ca37b4036b58726f39f0e47fa81c348d1bc9e9e951c",
+      "bytes": 692188
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}
