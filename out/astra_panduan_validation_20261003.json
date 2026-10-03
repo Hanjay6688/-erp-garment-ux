@@ -7,11 +7,18 @@
     "fable": "3da9498d64a354bff1886166d6b8d0a513172a27",
     "opus": "31ee23f0cdde4ddb36c76f1089d356b9b8d8663c"
   },
+  "followup_base": {
+    "commit": "1aad75098ddcd96e03bf85d622161af8f7bc24d0",
+    "sha256": "ee7a184339799ad8e8498bb897c23ce164aa8d0af5432210fc47b39b330ac6a5",
+    "all_original_lines_preserved": true,
+    "added_lines": 7,
+    "deleted_lines": 0
+  },
   "final": {
     "path": "docs/AUDIT_PANDUAN_PRO_MAX.md",
-    "bytes": 59869,
-    "lines": 544,
-    "sha256": "ee7a184339799ad8e8498bb897c23ce164aa8d0af5432210fc47b39b330ac6a5"
+    "bytes": 62249,
+    "lines": 551,
+    "sha256": "9cf6ac628731faa13b5cad47198e0e52c0a798623022883e7177dbe057e9a00a"
   },
   "patches": [
     {
@@ -19,8 +26,8 @@
       "baseline_sha256": "8a358c536e588c69ff2c2082b5eb26859b01137e80cf0d7b6213c36dd2e56e4e",
       "baseline_lines": 470,
       "path": "out/astra_panduan_additions_20261003.patch",
-      "patch_sha256": "c6c3505b778b24acad84549f548f3016225ef284e92a85e0a0d1442721a28c45",
-      "added_lines": 74,
+      "patch_sha256": "d055cf4d1c7a4680fc33c2a2a7e8f74575287dfba8b7d35990ce78c3d282e369",
+      "added_lines": 81,
       "deleted_lines": 0,
       "source_copy_exact": true,
       "original_lines_preserved_in_order": true,
@@ -34,8 +41,8 @@
       "baseline_sha256": "71bcdf3e8341d32b2b9307c35ef7e1edcf2bcfb2da849b2c528fbd355ac2a219",
       "baseline_lines": 414,
       "path": "out/opus_fable_astra_panduan_20261003.patch",
-      "patch_sha256": "bb94ee2cbc00ee5c3f94aa3c8bde92a5f8e9bff0e8bb8a1baed2de63e9486e28",
-      "added_lines": 130,
+      "patch_sha256": "cfbb2623d40fdb774213d66b5c4510e8a116b770633f70ee96ddda8cabfe5e1f",
+      "added_lines": 137,
       "deleted_lines": 0,
       "source_copy_exact": true,
       "original_lines_preserved_in_order": true,

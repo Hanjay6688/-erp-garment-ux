@@ -95,7 +95,7 @@
  
  ---
  
-@@ -279,6 +314,18 @@
+@@ -279,6 +314,21 @@
  - **SKN-16** Data cutover nyata (saldo awal) diproses sampai satu periode penuh.
  - **SKN-17** Rekomendasi dengan data tidak lengkap: harga belum final, yield belum terkualifikasi, deadline tidak diketahui, pasokan mundur.
  - **SKN-18** Laporan dibaca berulang-ulang dan dari dua sesi: hasilnya identik, dan tidak ada efek samping.
@@ -108,13 +108,16 @@
 +- **SKN-24** **Sambungan antarmesin:** sumber yang ditolak matcher karena warna/SKU/range tidak cocok tidak boleh menjadi alokasi sah hanya dengan mengganti label menjadi `CANDIDATE_MATCH`. Uji pasangan cocok sebagai kontrol, lalu telusuri keluaran matcher → allocator → rencana → command publik; kelulusan kernel privat hanya menutup kernel itu.
 +- **SKN-25** **Gratis sah, bukan nol sembarang:** bentuk konfigurasi FREE/WAIVED yang sah menurut keputusan owner dan jalankan sampai laporan; bandingkan dengan tarif nol tanpa izin, tarif belum diketahui, serta tarif normal. Penolakan nol saja tidak membuktikan jalur gratis bekerja; konfigurasi tidak terbentuk = `INCOMPLETE`, bukan otomatis bug produk.
 +- **SKN-26** **Batas angka dan daftar:** uji tepat di bawah, pada, dan di atas batas tipe/skala nominal serta batas halaman yang sebenarnya. Sertakan sekitar Rp21.474.836,48 bila jalur memakai sen 32-bit, dokumen satu dan banyak baris, diskon nol, serta sumber lama setelah batas 50/200 bila batas tersebut masih dipakai. Pencarian, pilihan, total, dan ekspor harus sesuai cakupan kontraknya; halaman pertama tidak mewakili seluruh data.
++
++  **Batas yang tidak berlaku:** contoh sen 32-bit boleh ditandai `N/A` untuk jalur tertentu hanya dengan bukti pada kandidat beku: tipe/skala kolom dan parameter, ekspresi perhitungan serta cast antara, helper/RPC terkait, dan konversi di klien. Kolom akhir `numeric` saja belum membuktikan perkalian atau cast sebelumnya bebas batas 32-bit. Cantumkan lokasi kode/objek dan rentang nominal yang sah menurut kontrak; tetap uji batas yang benar-benar berlaku. `N/A` pada contoh 32-bit tidak membatalkan seluruh SKN-26, tidak dihitung runtime PASS, dan tidak dipakai bila jalurnya belum ditelusuri.
++
 +- **SKN-27** **Koreksi yang benar-benar selesai:** untuk setiap jenis transaksi dalam inventaris, jalankan jalur buat → edit draft → post → koreksi/pembalikan sah → baca ulang seluruh dampak. Uji juga larangan hapus/edit dokumen posted. Penolakan yang aman tidak menggantikan bukti jalur koreksi sah yang bisa dipakai pengguna; jika tidak tersedia, catat fungsi belum lengkap.
 +- **SKN-28** **Batas identitas dan waktu:** ganti anggota SKU/range sebelum, tepat pada, dan sesudah komitmen transaksi, termasuk sisi asal/hasil konversi dan dokumen REVERSED. Cocokkan identitas historis, PCS, biaya, jurnal, laporan per tanggal, serta snapshot rekomendasi terhadap aturan owner; membuktikan PCS tetap tidak cukup untuk menyatakan HPP/label tetap.
 +- **SKN-29** **Keluaran yang benar-benar dipakai:** cocokkan angka dan izin antara RPC, layar, file laporan yang diunduh, serta proyeksi Tanya AI. Dengan peran operasional, coba filter/ID sumber yang tidak berhak, cache setelah pencabutan izin, dan instruksi yang disisipkan dalam catatan sumber. Periksa kebocoran pada isi respons, alasan, total, file, dan prompt; UI yang menyembunyikan angka saja tidak cukup. Reminder diuji sampai perubahan episode/ACK/snooze; arsip bukan bukti utang lunas. Pengiriman WA memakai transport uji tanpa penerima nyata dan tidak diklaim sebagai bukti pengiriman live.
  
  ---
  
-@@ -292,6 +339,8 @@
+@@ -292,6 +342,8 @@
  | **S3 – Dokumen atau bukti** | Klaim dokumen tidak sesuai bukti; bukti basi | Jumlah kasus di dokumen tidak sesuai manifest |
  
  Kalau ragu, pilih yang lebih tinggi. **Semua S0 dan S1 harus selesai** sebelum gerbang §12.
@@ -123,7 +126,7 @@
  
  ---
  
-@@ -322,6 +371,18 @@
+@@ -322,6 +374,18 @@
  ## Yang belum saya periksa (wajib)
  Daftar berkas/modul/skenario yang tidak sempat atau tidak bisa diperiksa, beserta alasannya.
  
@@ -142,7 +145,7 @@
  ## Fokus tambahan yang menurut saya paling berisiko
  ```
  
-@@ -336,6 +397,9 @@
+@@ -336,6 +400,9 @@
  5. **Gabungkan daftar "belum diperiksa"** dari ketiga auditor. Bagian yang tidak diperiksa oleh **siapa pun** ditugaskan ke putaran kedua.
  6. **Hasilnya satu register temuan** (ID baru `REG-001…` dengan rujukan ID asal), dan rencana perbaikan berurutan: S0 → S1 → S2 → S3, dikelompokkan per keluarga akar masalah (`cp6-efficient-audit-rule.md`).
  7. **Tidak ada temuan yang dibuang diam-diam.** Temuan yang ditolak ditulis alasannya beserta buktinya.
@@ -152,7 +155,7 @@
  
  ---
  
-@@ -361,6 +425,10 @@
+@@ -361,6 +428,10 @@
  5. Backup dan restore diuji. Rollback ke versi sebelumnya diuji tanpa sisa.
  6. Pengawasan sesudah live sudah siap (§13).
  7. Tanda tangan owner.
@@ -163,12 +166,13 @@
  
  ---
  
-@@ -408,6 +476,68 @@
+@@ -408,6 +479,72 @@
  | Tanggal | Penyunting | Bagian | Ringkasan |
  |---|---|---|---|
  | 2026-10-03 | Claude | Semua | Versi awal: aturan main, peta, metode, katalog invarian INV-*, pola POLA-01..15, skenario SKN-01..18, keparahan, format laporan, penyatuan, perbaikan, gerbang, pengawasan. |
 +| 2026-10-03 | Fable (auditor independen) | §1.7–1.9, §2.8–2.12, §4.2.6, §5.D (INV-D01–D04), INV-K07, INV-C06, INV-POL04–05, INV-M04–05, POLA-16..22, SKN-19..23, §8 klasifikasi non-temuan, §9 empat bagian wajib baru, §10.8–10.10, §12.8–12.11 | Hanya menambah dan mempertajam; tidak ada aturan yang dilonggarkan atau dihapus. Semua tambahan berasal dari kejadian nyata audit CP6 putaran 1–15 (alat auditor cacat, skenario basi vs D13, penerimaan yang mengekor run penulis, baseline hosted v2.6.20 vs 58 berkas, balapan prasyarat pemasangan, kontrol negatif D07, register keputusan owner yang terlewat). Ditulis di cabang audit `audit/cp6-final-20260924-gpt-a0bcadf`; auditor tidak menulis ke cabang penulis. |
 +| 2026-10-03 | Astra (peserta/auditor independen) | Penegasan §2.2/2.9/2.12/12.8 dan §5.D; SKN-24..29; §16 | Memasukkan tiga klarifikasi Fable yang disampaikan owner; menambah identitas lingkungan/bukti, manifest kasus, pemisahan oracle dan eksekusi, pembuktian race/balasan hilang, disiplin koreksi alat, batas hosted, inventaris fungsi CP1–7, dan tata penilaian lomba. Semua baris versi Fable dipertahankan; tambahan ini bukan hasil uji produk atau perubahan keputusan bisnis. Berlaku sama untuk semua peserta setelah panduan putaran disahkan/dibekukan. |
++| 2026-10-03 | Astra (tindak lanjut review Fable melalui owner) | Penegasan SKN-26 dan §16.7 | Menambahkan konvensi nama workflow/run/artifact serta register run per peserta, batas bukti disiplin tanpa akses privat, dan syarat N/A batas 32-bit yang memeriksa perhitungan antara selain tipe kolom. Usulan dokumentasi; seluruh baris PR42 versi 1aad7509 dipertahankan. |
 +
 +---
 +
@@ -224,6 +228,9 @@
 +
 +- Sebelum putaran dimulai, owner/penilai menetapkan lingkup, waktu, fasilitas yang tersedia, format penyerahan, dan cara penilaian yang berlaku sama. Kendala tool/akses dicatat; tidak dianggap membuktikan produk rusak atau boleh menutup celah bukti. Angka bobot lomba tidak ditetapkan sepihak oleh peserta.
 +- Tiap peserta mengunci laporan, manifest dan probe-nya dengan commit/hash sebelum membaca hasil putaran peserta lain. Tidak membaca log Actions, artifact, PR, atau komentar peserta lain yang membocorkan putaran itu. Paparan tak sengaja dicatat waktu/sumber/bagiannya; temuan terkait kemudian diberi label cross-check, bukan diklaim penemuan buta.
++- Konvensi praktis: nama workflow audit `AUDIT/<peserta>/<suite>`, nama run `AUDIT/<round_id>/<peserta>/<candidate_sha8>/<suite>/<attempt>`, dan nama artifact memakai prefix round/peserta/kandidat yang sama. File workflow auditor memakai prefix `audit-<peserta>-`; bila workflow bersama dipakai, identitas peserta/putaran harus tercatat pada input dan nama run. Identitas ini bukan pengganti SHA lengkap atau izin rerun; §1.9/§16.3 tetap berlaku. Tidak menaruh hasil atau judul temuan pada nama run yang terlihat bersama.
++- Setiap peserta mencatat URL/ID run hasil dispatch-nya, SHA lengkap, suite, attempt, dan pemiliknya dalam register sendiri. Sampai **seluruh laporan peserta dikunci**, peserta hanya membuka run/artifact miliknya melalui URL tersebut atau filter nama; daftar Actions bersama hanya untuk navigasi metadata, bukan untuk membaca hasil orang lain. Run bersama/hasil writer yang dipakai sebagai acuan tetap mengikuti label asal-bukti dan batas waktu §2.2.
++- Prefix membantu pemisahan dan pemeriksaan jejak, **bukan kontrol akses atau bukti mutlak tidak saling membaca**. Tiap laporan menyertakan daftar run yang dibuka dan pernyataan paparan; paparan tak sengaja ditangani menurut aturan di atas. Jangan mengklaim isolasi teknis dari repo bersama. Jika owner meminta isolasi akses, owner menetapkan tempat penyerahan/izin terpisah sebelum pembekuan; peserta tidak mengubah akses repo sepihak.
 +- Nilai temuan berdasarkan **akar masalah yang terbukti, dampak yang terbukti, dan kelengkapan reproduksi**, bukan banyaknya baris temuan, angka test, label S0, kecepatan memposting, atau nama model. Gejala satu akar masalah disatukan; penemuan mandiri yang sama tetap mengakui semua penemunya. Bagian dugaan dibedakan dari dampak yang sudah dibuktikan.
 +- Fable tetap menyatukan sesuai §10. Karena penyatu juga peserta, sengketa yang memengaruhi nilai/temuannya tidak diputuskan sendiri: auditor lain mereproduksi dan owner/penilai menetapkan keputusan. Peserta tidak menerima perbaikan hasil tulisannya sendiri; peran penulis sebelumnya di bagian terkait diungkapkan.
 +- Register temuan menyimpan `first_seen_sha`, `retested_sha`, status kini, bukti sebelum/sesudah, serta disposisi. Temuan yang sudah sembuh ditutup pada kandidat baru setelah uji relevan; writer tidak diminta memperbaiki ulang hanya karena laporan lama masih merah. Bukti yang belum cukup tetap terbuka sebagai kekurangan bukti, terpisah dari bug terbukti.
