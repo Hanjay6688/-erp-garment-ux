@@ -17,10 +17,10 @@ def main():
    cases.aw.chain.prior.post_purchase(cur,f['material'],cases.aw.chain.production.at(f['purchase_day'],22),unit_price=12);cases.b.api.admin(cur);cases.aw.chain.production.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');cases.b.api.admin(cur)
    corrected=cases.read(cur,day,filing_id=ident)
    assert corrected['filing']==filed and corrected['snapshot']['data_confidence']['status']=='READY' and corrected['snapshot']['data_confidence']['changed_since_filing']
-   sale=cases.source.fixture(cur,today);before=cases.read(cur,today);cases.source.fg.post_sale(cur,sale['draft']);cases.source.returned(cur,sale);cases.source.payment(cur,sale,today,'30');current=cases.read(cur,today)
+   sale=cases.source.fixture(cur,today);before=cases.fixture_read(cur,today,sale['sale_at']);cases.source.fg.post_sale(cur,sale['draft']);cases.source.returned(cur,sale);cases.source.payment(cur,sale,today,'30');current=cases.fixture_read(cur,today,sale['sale_at'])
    assert cases.change(before,current,'financial_position','customer_ar')==30 and cases.change(before,current,'financial_position','cash')==30
    assert cases.change(before,current,'performance','sales_revenue_gl')==60 and cases.change(before,current,'performance','cogs_gl')==30
-   out=dict(today=str(today),day=str(day),filing_id=ident,current=current,corrected=corrected)
+   out=dict(today=str(today),day=str(day),filing_id=ident,current=current,corrected=corrected,report_query=cases.native_window(cur,today,sale['sale_at']))
   elif op=='read':
    r=cases.read(cur,date.fromisoformat(p['day']),filing_id=p['filing_id']);out=dict(report=r,accounts={k:str(v) for k,v in cases.cmd.accounts(cur).items()},stock_hash=cur.execute("select md5(coalesce(jsonb_agg(to_jsonb(m) order by m.id)::text,'[]')) from erp.fg_stock_movements m").fetchone()[0])
   else:raise ValueError('Unknown fixture operation')

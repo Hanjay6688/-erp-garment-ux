@@ -5,10 +5,11 @@ import cp7_settlement_bundle as settlement
 import cp7_nota_bundle as nota
 ROOT=roster.ROOT
 CONTEXT="""  if exists(select 1 from cp7_attendance.command_context c where c.backend_pid=pg_backend_pid()
-    and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
-    and erp.has_permission('finance.attendance.view') and erp.has_permission(c.permission)
+    and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+     and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
+    then erp.has_permission('finance.attendance.view') and erp.has_permission(c.permission)
     and(not c.owner_required or erp.current_app_role() in('OWNER','ADMIN'))
-  ) then return;end if;
+    else false end) then return;end if;
 """
 def patched_internal(d):
     assert d.count(nota.ANCHOR)==1 and 'cp7_attendance.command_context' not in d

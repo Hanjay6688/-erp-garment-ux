@@ -1,6 +1,7 @@
 import assert from'node:assert/strict'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
+import{withActualHttpTrace}from'./cp7_f05_http_trace.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f05_other_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
 async function journey(ui,today,mobile){
@@ -10,7 +11,7 @@ async function journey(ui,today,mobile){
  const shot=async name=>{await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});shots.push(name)}
  try{
   mkdirSync('cp6-proof/t3',{recursive:true});await navigate(page);const dirty=page.getByLabel('Cari barang jadi',{exact:true});await dirty.fill('P15 LAMPIRAN ISIAN GUDANG');await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()
-  const capture=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();const c=await capture;assert.equal(c.status(),200);original=await c.json();await panel.getByRole('tab',{name:'Laporan',exact:true}).click()
+  const c=await withActualHttpTrace('F05_CAPTURE','OBLIGATION_REPORT_'+suffix,async()=>{const capture=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();return await capture});assert.equal(c.status(),200);original=await c.json();await panel.getByRole('tab',{name:'Laporan',exact:true}).click()
   await reports.getByLabel('Jenis laporan tersimpan',{exact:true}).selectOption('PERIOD');await reports.getByLabel('Judul laporan tersimpan',{exact:true}).fill('Laporan dasar untuk lampiran');await reports.getByLabel('Alasan laporan tersimpan',{exact:true}).fill('Sumber Native ditinjau');await reports.getByLabel('Laporan sudah ditinjau',{exact:true}).check()
   const savingBase=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_publish_report_v1'));await reports.getByRole('button',{name:'Simpan laporan yang ditinjau',exact:true}).click();const saved=await savingBase;assert.equal(saved.status(),200);base=(await saved.json()).document
   await appendix.getByLabel('Judul lampiran tagihan',{exact:true}).fill('Lampiran tagihan Native');await appendix.getByLabel('Alasan lampiran tagihan',{exact:true}).fill('Tanggal dan angka yang diketahui sekarang ditinjau')

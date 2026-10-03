@@ -5,9 +5,10 @@ ROOT=cp7_payroll_bundle.ROOT
 FILES=('notes.sql','note-read.sql','note-ownership.sql')
 ANCHOR=' v_app_role:=erp.current_app_role();'
 ADMISSION=""" if exists(select 1 from cp7_payroll.execution_context c where c.backend_pid=pg_backend_pid()
-  and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
-  and c.action='POST_NOTE' and c.permission_key='production.fg_handoff.post'
-  and erp.has_permission('production.fg_handoff.view') and erp.has_permission(c.permission_key)) then return;end if;
+  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
+   and c.action='POST_NOTE' and c.permission_key='production.fg_handoff.post'
+   then erp.has_permission('production.fg_handoff.view') and erp.has_permission(c.permission_key) else false end) then return;end if;
 """
 def patched_internal(definition):
     assert definition.count(ANCHOR)==1 and 'cp7_payroll.execution_context' not in definition

@@ -1,0 +1,35 @@
+{
+  "contract": "cp7.prospective-cutting-input-native34.v1",
+  "expected_case_count": 34,
+  "required_case_counts": {
+    "native": 21,
+    "races": 4,
+    "http": 3,
+    "browser": 6
+  },
+  "preserve_all_predecessor23": true,
+  "additional_cases": {
+    "native": [
+      "CUT_INPUT_NATIVE_PROSPECTIVE",
+      "CUT_INPUT_NATIVE_LATE",
+      "CUT_INPUT_NATIVE_IMMUTABLE_CAS",
+      "CUT_INPUT_NATIVE_UUID_RECOVERY",
+      "CUT_INPUT_NATIVE_CLOSED",
+      "CUT_INPUT_NATIVE_CURRENT_AUTH"
+    ],
+    "races": [
+      "CUT_INPUT_RACE_CURRENT_REVOKE",
+      "CUT_INPUT_RACE_NATIVE_VERSION"
+    ],
+    "http": [
+      "CUT_INPUT_ACTUAL_AUTH_HTTP"
+    ],
+    "browser": [
+      "CUT_INPUT_BROWSER_DESKTOP",
+      "CUT_INPUT_BROWSER_MOBILE"
+    ]
+  },
+  "must_pass_all_install_restore_primary_backup_advisor_runtime_current_Auth_cleanup_gates": true,
+  "trained_model_qualification": false,
+  "production_go": false
+}

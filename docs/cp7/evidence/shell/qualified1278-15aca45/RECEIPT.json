@@ -1,0 +1,42 @@
+{
+  "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+  "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+  "run_id": 37061657821,
+  "status": "FULL_NATIVE_POSTGRESQL_SHELL_SECURITY_BUILD_CODEQL_PASS",
+  "test_files": 138,
+  "tests": 1278,
+  "isolated_guard_controls": 5,
+  "browser_shell_checks": 6,
+  "jobs": [
+    {
+      "id": 111019489876,
+      "name": "shell",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 111019490235,
+      "name": "CP7 CodeQL javascript-typescript",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 111019490248,
+      "name": "CP7 CodeQL actions",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "qualified_log_lines": [
+    "2026-10-02T20:37:15.8307912Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7800ms",
+    "2026-10-02T20:37:54.7904833Z  Test Files  138 passed (138)",
+    "2026-10-02T20:37:54.7909973Z       Tests  1278 passed (1278)",
+    "2026-10-02T20:38:40.7780966Z   6 passed (9.1s)"
+  ],
+  "log_retained_in_receipt": false,
+  "evidence_type": "Actual GitHub Actions completed jobs and decoded original job log, fetched through repository connector",
+  "qualifies_actual_Native40_or284_HTTP_performance": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

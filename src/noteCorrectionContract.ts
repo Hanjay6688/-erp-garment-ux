@@ -10,15 +10,15 @@ function instantMicros(v:unknown):bigint|null{
 }
 const at=(v:unknown):v is string=>instantMicros(v)!==null
 function closed(v:unknown,keys:string[]){const r=object(v);if(keys.some(k=>!(k in r))||Object.keys(r).some(k=>!keys.includes(k)))fail();return r}
-export type NoteCorrectionHistory={revision_id:string;revision:string;previous_sale_id:string;replacement_sale_id:string;effective_at:string;recorded_at:string;reason:string}
-export type NoteCorrectionWorkspace={contract_version:'cp7.note-correction-workspace.v1';read_at:string;root_sale_id:string;current_sale_id:string;history:NoteCorrectionHistory[];current:SalesRead;original_note_number:string;production_go:false}
+export type NoteCorrectionHistory={revision_id:string;revision:string;previous_sale_id:string;replacement_sale_id:string;effective_at:string;recorded_at:string;reason:string;actor_id:string;actor_display_name:string|null;actor_name_basis:'CURRENT_PROFILE'}
+export type NoteCorrectionWorkspace={contract_version:'cp7.note-correction-workspace.v2';read_at:string;root_sale_id:string;current_sale_id:string;history:NoteCorrectionHistory[];current:SalesRead;original_note_number:string;production_go:false}
 export function parseNoteCorrectionWorkspace(v:unknown,requested:string):NoteCorrectionWorkspace{
  const r=closed(v,['contract_version','read_at','root_sale_id','current_sale_id','history','current','original_note_number','production_go'])
- if(r.contract_version!=='cp7.note-correction-workspace.v1'||!at(r.read_at)||!id(r.root_sale_id)||!id(r.current_sale_id)||!Array.isArray(r.history)||typeof r.original_note_number!=='string'||r.production_go!==false)return fail()
+ if(r.contract_version!=='cp7.note-correction-workspace.v2'||!at(r.read_at)||!id(r.root_sale_id)||!id(r.current_sale_id)||!Array.isArray(r.history)||typeof r.original_note_number!=='string'||r.production_go!==false)return fail()
  let previous=r.root_sale_id;const seen=new Set<string>([previous]);let revision=0n
  for(const value of r.history){
-  const h=closed(value,['revision_id','revision','previous_sale_id','replacement_sale_id','effective_at','recorded_at','reason'])
-  if(!id(h.revision_id)||!id(h.previous_sale_id)||!id(h.replacement_sale_id)||h.previous_sale_id!==previous||seen.has(h.replacement_sale_id)||typeof h.revision!=='string'||!/^[1-9][0-9]{0,18}$/.test(h.revision)||BigInt(h.revision)!==revision+1n||!at(h.effective_at)||!at(h.recorded_at)||typeof h.reason!=='string'||h.reason.trim().length<5)return fail()
+  const h=closed(value,['revision_id','revision','previous_sale_id','replacement_sale_id','effective_at','recorded_at','reason','actor_id','actor_display_name','actor_name_basis'])
+  if(!id(h.actor_id)||(h.actor_display_name!==null&&(typeof h.actor_display_name!=='string'||!h.actor_display_name.trim()))||h.actor_name_basis!=='CURRENT_PROFILE'||!id(h.revision_id)||!id(h.previous_sale_id)||!id(h.replacement_sale_id)||h.previous_sale_id!==previous||seen.has(h.replacement_sale_id)||typeof h.revision!=='string'||!/^[1-9][0-9]{0,18}$/.test(h.revision)||BigInt(h.revision)!==revision+1n||!at(h.effective_at)||!at(h.recorded_at)||typeof h.reason!=='string'||h.reason.trim().length<5)return fail()
   previous=h.replacement_sale_id;seen.add(previous);revision++
  }
  if(previous!==r.current_sale_id||!seen.has(requested))return fail()

@@ -41,3 +41,31 @@ it('retires a prior successful-read notice as soon as a newer read or shared inv
  expect(recovery.notice).toContain('sudah dimuat ulang');await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
  expect(recovery.notice).toBe('');expect(recovery.writerLocked).toBe(true);expect(h.send).toHaveBeenCalledTimes(2)
 })
+it('rejects a held reply after explicit invalidation even when the recovery signature has not changed',async()=>{
+ await mount();let held:ReturnType<typeof recovery.beginRead>
+ await act(async()=>{held=recovery.beginRead();recovery.invalidate()})
+ expect(recovery.isReadCurrent(held!)).toBe(false)
+ await act(async()=>{expect(recovery.finishRead(held!)).toBe(false)})
+ expect(recovery.writerLocked).toBe(true)
+})
+it('binds a child read to the exact completed parent proof and retires it on a shared invalidation',async()=>{
+ await mount();const ticket=recovery.currentReadTicket()
+ expect(ticket).not.toBeNull();expect(recovery.writerLocked).toBe(false)
+ expect(recovery.isReadCurrent(ticket!)).toBe(true)
+ await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
+ expect(recovery.currentReadTicket()).toBeNull();expect(recovery.isReadCurrent(ticket!)).toBe(false)
+ await act(async()=>{expect(recovery.finishRead(ticket!)).toBe(false)})
+ expect(recovery.writerLocked).toBe(true)
+})
+it('allows an exact fresh source read during uncertain recovery while preserving the pending command and write lock',async()=>{
+ await mount();const h=handlers(async()=>false);h.send=vi.fn(async()=>{throw Error('Reply lost after commit')})
+ await act(async()=>{expect(await run(h)).toBe(false)})
+ const pending=structuredClone(readProductionRecovery('disposable:actor-1').pending)
+ expect(recovery.workspaceStale).toBe(true);expect(recovery.currentReadTicket()).toBeNull()
+ let ticket:ReturnType<typeof recovery.beginRead>
+ await act(async()=>{ticket=recovery.beginRead();expect(recovery.finishRead(ticket)).toBe(false)})
+ expect(recovery.workspaceStale).toBe(false);expect(recovery.currentReadTicket()).toEqual(ticket!);expect(recovery.isReadCurrent(ticket!)).toBe(true)
+ expect(recovery.writerLocked).toBe(true);await act(async()=>{expect(await run(h)).toBe(false)})
+ expect(h.send).toHaveBeenCalledTimes(1);expect(readProductionRecovery('disposable:actor-1').pending).toEqual(pending)
+ await act(async()=>recovery.invalidate());expect(recovery.workspaceStale).toBe(true);expect(recovery.currentReadTicket()).toBeNull();expect(recovery.isReadCurrent(ticket!)).toBe(false)
+})

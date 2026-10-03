@@ -1,14 +1,14 @@
 {
   "repository": "Hanjay6688/-erp-garment-ux",
-  "run_id": 36995839646,
-  "job_id": 110802228117,
-  "artifact_id": 11223087753,
+  "run_id": 37018264861,
+  "job_id": 110874445938,
+  "artifact_id": 11235115761,
   "artifact_name": "cp7-f05-attention",
-  "source_commit": "4ca93db345860dfce5dec8d745e4a89cea1389b5",
-  "source_tree": "6db8d5edb04b64a7ecc390924c5c05c41ea1a934",
-  "source_bundle_sha256": "36e4c5d234687667b1fe4ee5e5b2150684a965165ce990c4cb6814bb8c60e5ba",
-  "zip_bytes": 321820785,
-  "zip_sha256": "198b28d7da9be2c6b81d99b91fb66f5f6de5c8258c1713004e9dd2a741ca0572",
+  "source_commit": "2f4e454890e1506aa798c14707e8ae9c23a5452f",
+  "source_tree": "0483ac2c3dbc47b0798f865f661e335264ddc28f",
+  "source_bundle_sha256": "a99e8db22c59cb22926dcc9f828b58885cad79893d0c59593a96f941f8e0b933",
+  "zip_bytes": 336749937,
+  "zip_sha256": "d77990606b83122df541722797a55dfe5ed46efd1537ea9da483b3f9cf865262",
   "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
   "expected_status": "INCOMPLETE",
   "expected_case_count": 284,
@@ -17,5 +17,13 @@
     "races": 40,
     "http": 29,
     "browser": 36
-  }
+  },
+  "diagnostic_members": [
+    "P15_OBLIGATION_REPORT_DESKTOP_FAILURE.json",
+    "P15_OBLIGATION_REPORT_MOBILE_FAILURE.json"
+  ],
+  "optional_diagnostic_members": [
+    "P15_OBLIGATION_REPORT_DESKTOP_READ_PROFILE.json",
+    "P15_OBLIGATION_REPORT_MOBILE_READ_PROFILE.json"
+  ]
 }

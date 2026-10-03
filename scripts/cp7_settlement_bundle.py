@@ -30,11 +30,12 @@ def derive_nonwork(definition):
     return definition.replace('erp.populate_payroll_draft(p_payroll_id uuid)','cp7_payroll.rebuild_nonwork(p_payroll_id uuid)',1).replace("SET search_path TO 'erp', 'public', 'pg_temp'","SET search_path TO ''",1).replace('  perform erp.require_internal();','  perform cp7_payroll.require_settlement_context(p_payroll_id);',1).replace(WORK_DELETE,'',1).replace(WORK_INSERT,'',1)
 
 CONTEXT="""  if exists(select 1 from cp7_payroll.settlement_context c where c.backend_pid=pg_backend_pid()
-    and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
-    and erp.has_permission('finance.payroll.view')
+    and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+     and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
+    then erp.has_permission('finance.payroll.view')
     and(c.action not in('PREPARE','APPROVE','CANCEL','REVERSE') or erp.has_permission('finance.payroll.approve'))
     and(c.action not in('PAY','REVERSE') or erp.has_permission('finance.payroll.pay'))
-  ) then return;end if;
+    else false end) then return;end if;
 """
 OWNER_ANCHOR="  if coalesce(erp.current_app_role(),'') not in ('OWNER','ADMIN') then"
 def patched_internal(d):

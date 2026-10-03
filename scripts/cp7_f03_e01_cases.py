@@ -40,8 +40,10 @@ def physical(cur, f):
     return int(cur.execute('select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id where l.po_id=%s', (f['po'],)).fetchone()[0])
 
 
-def ready_report(cur, today):
-    report = finance.read(cur, today)
+def ready_report(cur, today, *physical):
+    # Historical close worksheets deliberately ask for their own cutoff.
+    # Only current transaction deltas need the physical-event date window.
+    report = finance.fixture_read(cur, today, *physical) if physical else finance.read(cur, today)
     assert report['snapshot']['data_confidence']['status'] == 'READY', ('E01_REPORT_NOT_READY', report['snapshot']['data_confidence'])
     return report
 
@@ -113,7 +115,7 @@ def production(cur, today, *, receipt_final=True, cutting_draft_only=False):
         # An additional actual-browser fixture stop, before Native POST.
         # The existing complete production oracle keeps its unchanged default.
         b.api.admin(cur)
-        f.update(group=cut['cutting_group_id'], group_number=cut['group_number'])
+        f.update(group=cut['cutting_group_id'], group_number=cut['group_number'], cut_payload=cut_p)
         assert cur.execute('select sum(qty_signed),sum(qty_signed*unit_cost_snapshot) from erp.material_stock_movements where material_id=%s', (f['material'],)).fetchone() == (D(100), D(1000))
         return f
     cut = prod.rpc(cur, 'public.erp_save_cutting_group_before_sewing_v2', dict(cut_p, id=cut['cutting_group_id'], action='POST'), expected_version=int(cut['row_version']))
@@ -208,7 +210,7 @@ def expect_delta(cur, f, before, ar, revenue, fg, cogs, cash=0):
 def journey(cur, today):
     f = production(cur, today)
     before = cmd.accounts(cur)
-    report_before = ready_report(cur, today)
+    report_before = ready_report(cur, today, f['sale_at'])
     created = drafts.create(cur, f, drafts.payload(f, '20', '25'))
     assert physical(cur, f) == 40 and cmd.accounts(cur) == before
     f['trace'].append(step('DRAFT_SALE', available=40, no_gl=True))
@@ -229,7 +231,7 @@ def journey(cur, today):
     expect_delta(cur, f, before, 175, 375, -225, 225, 200)
     boundary = b.boundary.snapshot(cur)
     assert cmd.command(cur, 'RETURN', payload, version, key) == returned and b.boundary.snapshot(cur) == boundary
-    report_after = ready_report(cur, today)
+    report_after = ready_report(cur, today, f['sale_at'])
     for section, name, expected in [('financial_position', 'cash', 200), ('financial_position', 'customer_ar', 175), ('financial_position', 'fg_inventory', -225), ('performance', 'sales_revenue_gl', 375), ('performance', 'cogs_gl', 225), ('performance', 'gross_profit', 150)]:
         assert finance.change(report_before, report_after, section, name) == expected, ('E01_REPORT', section, name, report_after)
     detail = source.read(cur, f)['detail']
@@ -256,7 +258,7 @@ def http_cases(http, today):
             if not had: cur.execute('revoke usage on schema erp from authenticated')
             assert cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0] == acl
             before = cmd.accounts(cur)
-            report_before = ready_report(cur, today)
+            report_before = ready_report(cur, today, f['sale_at'])
             conn.commit()
         def send(action, payload, version=None, key=None):
             args = dict(p_action=action, p_payload=payload, p_request=str(key or uuid.uuid4()), p_expected=version)
@@ -287,7 +289,7 @@ def http_cases(http, today):
         with http.connect() as conn, conn.cursor() as cur:
             assert physical(cur, f) == 45
             expect_delta(cur, f, before, 175, 375, -225, 225, 200)
-            report_after = ready_report(cur, today)
+            report_after = ready_report(cur, today, f['sale_at'])
             for section, name, expected in [('financial_position','cash',200),('financial_position','customer_ar',175),('financial_position','fg_inventory',-225),('performance','sales_revenue_gl',375),('performance','cogs_gl',225),('performance','gross_profit',150)]:
                 assert finance.change(report_before, report_after, section, name) == expected
             assert returns.read(cur, f, 'RETURNS')['page']['total'] == '1'

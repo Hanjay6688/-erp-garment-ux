@@ -43,7 +43,7 @@ async function flow(ui,today,mobile){
     const stock=ws.locator('.cfg-position').filter({hasText:f.successor_group.sku})
     await ui.expect(stock).toHaveCount(1)
     for(const label of ['Fisik','Tersedia'])await ui.expect(stock.locator('dl div').filter({has:p.getByText(label,{exact:true})}).locator('dd')).toHaveText('4')
-    const cardResponse=p.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_fg_ledger_v1'))
+    const cardResponse=p.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_fg_ledger_v2'))
     await stock.getByRole('button',{name:/^Lihat mutasi /}).click()
     const card=await cardResponse;assert.equal(card.status(),200)
     assert.equal(fixture('verify-card',{...f,card:await card.json()}).status,'PASS')

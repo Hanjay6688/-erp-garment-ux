@@ -41,7 +41,19 @@ def retain(archive, metadata, destination):
                                if value.get('status') != 'PASS'}
         if report['status'] == 'PASS':
             assert report['observed_case_count'] == report['expected_case_count']
-            assert all(set(c or {}) == {'PASS'} for c in counts.values() if c is not None or not diagnostic)
+            budget = metadata.get('required_case_counts', report.get('required_case_counts'))
+            if budget is not None:
+                assert set(budget) == set(counts)
+                assert sum(budget.values()) == report['expected_case_count']
+                for group, required in budget.items():
+                    assert isinstance(required, int) and required >= 0
+                    if required:
+                        assert counts[group] == {'PASS': required}
+                    else:
+                        # A declared zero budget is absence, never PASS credit.
+                        assert report.get(group) in (None, {})
+            else:
+                assert all(set(c or {}) == {'PASS'} for c in counts.values() if c is not None or not diagnostic)
             assert all(package['gate'].values())
             assert report['cp6_restored'] and all(report['restore_components'].values())
             assert report['advisor_gate']

@@ -4,11 +4,15 @@ from decimal import Decimal as D
 import json,uuid
 import cp7_sales_payment_cases as payments
 import cp6_aw_probe as aw
+from cp7_native_fixture_window import native_window
 cmd,source,b,auth=payments.cmd,payments.source,payments.b,payments.auth
 
 def query(day,**extra):return dict({'from':str(day),'to':str(day),'as_of':str(day)},**extra)
 def read(cur,day,subject=None,**extra):
  auth.actor(cur,subject);r=cur.execute('select public.erp_cp7_get_finance_report_v1(%s)',(json.dumps(query(day,**extra)),)).fetchone()[0];b.api.admin(cur);return r
+
+def fixture_read(cur,day,*physical):
+ return read(cur,day,**native_window(cur,day,*physical))
 
 def change(a,z,section,key):return D(z['snapshot'][section][key])-D(a['snapshot'][section][key])
 
@@ -19,16 +23,16 @@ def archive_fixture(cur,today):
 
 def cases(cur,today):
  def lifecycle():
-  f=source.fixture(cur,today);before=read(cur,today);gl=cmd.accounts(cur);boundary=b.boundary.snapshot(cur);assert read(cur,today)['snapshot']==before['snapshot'] and b.boundary.snapshot(cur)==boundary
-  source.fg.post_sale(cur,f['draft']);rid=source.returned(cur,f);unpaid=read(cur,today);pid=source.payment(cur,f,today,'30');paid=read(cur,today)
+  f=source.fixture(cur,today);before=fixture_read(cur,today,f['sale_at']);gl=cmd.accounts(cur);boundary=b.boundary.snapshot(cur);assert fixture_read(cur,today,f['sale_at'])['snapshot']==before['snapshot'] and b.boundary.snapshot(cur)==boundary
+  source.fg.post_sale(cur,f['draft']);rid=source.returned(cur,f);unpaid=fixture_read(cur,today,f['sale_at']);pid=source.payment(cur,f,today,'30');paid=fixture_read(cur,today,f['sale_at'])
   assert change(before,paid,'financial_position','customer_ar')==30 and change(before,paid,'financial_position','cash')==30 and change(before,paid,'financial_position','fg_inventory')==-30
   assert change(before,paid,'performance','sales_revenue_gl')==60 and change(before,paid,'performance','cogs_gl')==30 and change(before,paid,'performance','gross_profit')==30
   assert unpaid['snapshot']['performance']==paid['snapshot']['performance'] and paid['snapshot']['performance']['sales_revenue_reconciled']
   source.native(cur,'select erp.reverse_sales_payment(%s,%s)',(pid,'P13 native inverse payment'));source.native(cur,'select erp.reverse_sales_return(%s,%s)',(rid,'P13 native inverse return'));source.native(cur,'select erp.reverse_sale(%s,%s)',(f['sale'],'P13 native inverse invoice'))
-  after=read(cur,today);assert after['snapshot']['financial_position']==before['snapshot']['financial_position'] and after['snapshot']['performance']==before['snapshot']['performance'] and cmd.accounts(cur)==gl
+  after=fixture_read(cur,today,f['sale_at']);assert after['snapshot']['financial_position']==before['snapshot']['financial_position'] and after['snapshot']['performance']==before['snapshot']['performance'] and cmd.accounts(cur)==gl
   return dict(status='PASS',native_sale80_return20_cash30=True,AR30_cash30_FG_minus30_revenue60_COGS30_profit30=True,payment_does_not_repeat_revenue_or_HPP=True,all_GL_and_report_amounts_restored_after_inverse=True,read_has_no_business_effect=True)
  def exact_large():
-  f=source.fixture(cur,today,qty=1000,stock=1001,price='9007199254741.01',discount='0.01');before=read(cur,today);source.fg.post_sale(cur,f['draft']);after=read(cur,today);expected=D('9007199254741009.99')
+  f=source.fixture(cur,today,qty=1000,stock=1001,price='9007199254741.01',discount='0.01');before=fixture_read(cur,today,f['sale_at']);source.fg.post_sale(cur,f['draft']);after=fixture_read(cur,today,f['sale_at']);expected=D('9007199254741009.99')
   assert change(before,after,'financial_position','customer_ar')==expected and change(before,after,'performance','sales_revenue_gl')==expected
   assert isinstance(after['snapshot']['performance']['gross_margin_pct'],str) or after['snapshot']['performance']['gross_margin_pct'] is None
   # The accepted numeric report is serialized before JS. No Number conversion.

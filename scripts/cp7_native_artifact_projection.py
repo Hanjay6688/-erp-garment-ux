@@ -89,6 +89,37 @@ def project(manifest_path, destination):
     )}
     metadata['zip_verification_runtime'] = 'GITHUB_ACTIONS_READ_ONLY_ARTIFACT_PROJECTION'
     receipt = retain(archive, metadata, destination)
+    diagnostics = {}
+    requested = manifest.get('diagnostic_members', [])
+    optional = manifest.get('optional_diagnostic_members', [])
+    if requested or optional:
+        assert len(set(requested + optional)) == len(requested + optional)
+        diagnostic_target = destination / 'diagnostics'
+        diagnostic_target.mkdir()
+        with zipfile.ZipFile(archive) as source:
+            for member in requested + optional:
+                assert member == Path(member).name and member.endswith(('_FAILURE.json', '_READ_PROFILE.json'))
+                if member not in source.namelist() and member in optional:
+                    continue
+                raw = source.read(member)
+                expected = receipt['all_zip_members'][member]
+                assert len(raw) == expected['bytes']
+                assert hashlib.sha256(raw).hexdigest() == expected['sha256']
+                (diagnostic_target / member).write_bytes(raw)
+                diagnostics[member] = expected
+                if member.endswith('_FAILURE.json'):
+                    diagnostic = json.loads(raw)
+                    print(json.dumps(dict(exact_failure_diagnostic=member,
+                                          original_error=diagnostic.get('error'),
+                                          visible_panel_text=str(diagnostic.get('text', ''))[:12000]),
+                                     ensure_ascii=False))
+                elif member.endswith('_READ_PROFILE.json'):
+                    profile = json.loads(raw)
+                    public_metrics = {key: profile[key] for key in
+                                      ('status', 'diagnostic_only', 'read_only', 'saved_runs_added',
+                                       'Native_HTTP_timeout_changed', 'steps', 'sqlstate', 'error')
+                                      if key in profile}
+                    print(json.dumps(dict(exact_read_profile=member, metrics=public_metrics)))
     projection = dict(
         contract='cp7.exact-native-artifact-projection.v1',
         status='EXACT_ORIGINAL_REPORTS_RETAINED',
@@ -102,6 +133,7 @@ def project(manifest_path, destination):
         projection_source_commit=os.environ.get('GITHUB_SHA'),
         Native_product_cases_reexecuted=0, Native_database_access=False,
         full_family_acceptance=False, independent_acceptance=False, production_go=False,
+        exact_failure_diagnostics=diagnostics,
     )
     (destination / 'PROJECTION.json').write_text(json.dumps(projection, indent=2) + '\n')
     archive.unlink()

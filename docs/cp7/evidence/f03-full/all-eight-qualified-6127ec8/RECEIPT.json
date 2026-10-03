@@ -1,0 +1,101 @@
+{
+  "status": "ALL_EIGHT_NATIVE_F03_BUCKETS_WRITER_PASS",
+  "source_commit": "6127ec867695a9416176f79199aad8b069578dcb",
+  "source_tree": "642311f5f782fc32aad649c0d7ae8db6b74f78d0",
+  "source_bundle_sha256": "02a450d332e65dfba2f1f9d08ed0e680f5f0ec3424553820d5650988f16abbb3",
+  "run_id": 37085856622,
+  "buckets": {
+    "p09": {
+      "expected_case_count": 132,
+      "observed_case_count": 132,
+      "expected_smoke_count": 3,
+      "observed_smoke_count": 3,
+      "artifact_id": 11261030395,
+      "zip_sha256": "f0749a394a18be94b31faa0283654a49d7844e4fe0ecee00b8907251ce518122",
+      "primary_unchanged": true,
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    "p11": {
+      "expected_case_count": 64,
+      "observed_case_count": 64,
+      "expected_smoke_count": 0,
+      "observed_smoke_count": 0,
+      "artifact_id": 11260935884,
+      "zip_sha256": "2842af90dc097d19fe4fd0413dc86991a5fd6117c1662948e2112fff17d3b210",
+      "primary_unchanged": true,
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    "p10": {
+      "expected_case_count": 34,
+      "observed_case_count": 34,
+      "expected_smoke_count": 0,
+      "observed_smoke_count": 0,
+      "artifact_id": 11260930856,
+      "zip_sha256": "3ba9bb922d5a3e49f44291ba9cb5e40f4af9ba5af818113ec9097651ff84ef79",
+      "primary_unchanged": true,
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    "cash_installments": {
+      "expected_case_count": 61,
+      "observed_case_count": 61,
+      "expected_smoke_count": 0,
+      "observed_smoke_count": 0,
+      "artifact_id": 11260701502,
+      "zip_sha256": "ea90c3a97db5f84ba24b1b3cd4ff8fa59c1faebf4da9a3183bae5375514e7977",
+      "primary_unchanged": true,
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    "p12": {
+      "expected_case_count": 90,
+      "observed_case_count": 90,
+      "expected_smoke_count": 0,
+      "observed_smoke_count": 0,
+      "artifact_id": 11260682117,
+      "zip_sha256": "2f3343ecaf2f06469055bd1bc1042325b1b3a045f960b4052a93a706f6f94e56",
+      "primary_unchanged": true,
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    "customer_refund": {
+      "expected_case_count": 10,
+      "observed_case_count": 10,
+      "expected_smoke_count": 0,
+      "observed_smoke_count": 0,
+      "artifact_id": 11260228626,
+      "zip_sha256": "492a6d092861bcf00637f3d238c026dbb3ec0e99a5f55983386f57c4b11fc427",
+      "primary_unchanged": true,
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    "supplier_credit": {
+      "expected_case_count": 5,
+      "observed_case_count": 5,
+      "expected_smoke_count": 0,
+      "observed_smoke_count": 0,
+      "artifact_id": 11260228138,
+      "zip_sha256": "49bc759be1295c5cdab0ce381259e34a60a38b3ce7c47e17232b028034d6a4ce",
+      "primary_unchanged": true,
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    "p13": {
+      "expected_case_count": 50,
+      "observed_case_count": 50,
+      "expected_smoke_count": 0,
+      "observed_smoke_count": 0,
+      "artifact_id": 11260058989,
+      "zip_sha256": "c226039349b36baa9325ab73536ba30606db90282631ac397479b9140e5cf2b8",
+      "primary_unchanged": true,
+      "cp6_restored": true,
+      "advisor_gate": true
+    }
+  },
+  "unique_oracle_total_claim": false,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false
+}

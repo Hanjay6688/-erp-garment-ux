@@ -1,6 +1,7 @@
 import assert from'node:assert/strict'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
+import{withActualHttpTrace}from'./cp7_f05_http_trace.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f05_other_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
 async function journey(ui,today,mobile){
@@ -13,7 +14,7 @@ async function journey(ui,today,mobile){
  const payrollKey='AP_DUE:PAYROLL_AP:'+native.payroll.payroll
  try{
   mkdirSync('cp6-proof/t3',{recursive:true});await navigate(page);const dirty=page.getByLabel('Cari barang jadi',{exact:true});await dirty.fill('P16 TAGIHAN ISIAN GUDANG');await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()
-  const response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();const captured=await response;assert.equal(captured.status(),200);original=await captured.json();const before=fixture('state',{actor:user.user.id});await panel.getByRole('tab',{name:'Pengingat',exact:true}).click()
+  const captured=await withActualHttpTrace('F05_CAPTURE','OTHER_'+suffix,async()=>{const response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();return await response});assert.equal(captured.status(),200);original=await captured.json();const before=fixture('state',{actor:user.user.id});await panel.getByRole('tab',{name:'Pengingat',exact:true}).click()
   await load();let a=await find(payrollKey);await ui.expect(a).toContainText('9.007.199.254.740.993,01');await ui.expect(a).toContainText('Tanggal jatuh tempo belum dicatat');await ui.expect(a).toContainText('Saldo kewajiban masih terbuka');assert.equal(lastSource.rows.find(r=>r.key===payrollKey).business_resolved,false);await shot('P16_OTHER_EXACT_UNKNOWN_DUE_'+suffix+'.png')
   await load();a=await find('AP_DUE:OPENING_AP:'+native.opening_id);await ui.expect(a).toContainText('65,00');await ui.expect(a).toContainText('Belum ada bukti sumber bahwa masalah ini selesai.')
   await load();a=await find('AP_DUE:LAUNDRY_RECEIPT:'+native.receipt_line);await ui.expect(a).toContainText('Belum diketahui');await ui.expect(a).toContainText('Nota belum lengkap');assert.equal(lastSource.rows.find(r=>r.key==='AP_DUE:LAUNDRY_RECEIPT:'+native.receipt_line).business_resolved,false);await shot('P16_OTHER_PENDING_LAUNDRY_'+suffix+'.png')

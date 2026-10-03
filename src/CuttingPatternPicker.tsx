@@ -36,9 +36,11 @@ export function mergeCreatedPattern(rows: readonly PatternRow[], choice: Cutting
   }]
 }
 
-export default function CuttingPatternPicker({ value, onChange }: {
+export default function CuttingPatternPicker({ value, onChange, suspended = false, onAuthorityLost }: {
   value: CuttingPatternChoice | null
   onChange: (value: CuttingPatternChoice | null) => void
+  suspended?: boolean
+  onAuthorityLost?: () => void
 }) {
   const { runtime, identity } = useAuth()
   const connected = isConnectedRuntime(runtime)
@@ -59,6 +61,8 @@ export default function CuttingPatternPicker({ value, onChange }: {
 
   useEffect(() => {
     if (!client) return
+    setRows([])
+    if (suspended) return
     let cancelled = false
     const timer = globalThis.setTimeout(() => {
       setLoading(true)
@@ -70,7 +74,9 @@ export default function CuttingPatternPicker({ value, onChange }: {
           })
           if (cancelled) return
           if (loadError) {
-            setError(normalizeClientError(loadError).message)
+            const failure = normalizeClientError(loadError)
+            setError(failure.message)
+            if (['FORBIDDEN', 'AUTH_REQUIRED'].includes(failure.code)) onAuthorityLost?.()
             return
           }
           setRows(parsePatternRows(data))
@@ -82,13 +88,13 @@ export default function CuttingPatternPicker({ value, onChange }: {
       })()
     }, 180)
     return () => { cancelled = true; globalThis.clearTimeout(timer) }
-  }, [client, query])
+  }, [client, query, suspended, onAuthorityLost])
 
   const visible = connected ? rows : rows.filter((row) =>
     `${row.code} ${row.revision} ${row.name}`.toLowerCase().includes(query.toLowerCase()))
 
   const openQuick = () => {
-    if (!canManage) return
+    if (suspended || !canManage) return
     setCode('')
     setRevision('R1')
     setName('')
@@ -98,7 +104,7 @@ export default function CuttingPatternPicker({ value, onChange }: {
   }
 
   const quickCreate = async () => {
-    if (!canManage || savingRef.current) return
+    if (suspended || !canManage || savingRef.current) return
     const normalizedCode = code.trim().toUpperCase()
     const normalizedRevision = revision.trim().toUpperCase()
     const normalizedName = name.trim()
@@ -136,7 +142,7 @@ export default function CuttingPatternPicker({ value, onChange }: {
     }
   }
 
-  return <section className="cutting-pattern-picker">
+  return <section className="cutting-pattern-picker" aria-hidden={suspended || undefined} style={suspended ? { display: 'none' } : undefined}>
     <header><div><span>POLA · WAJIB</span><strong>{value ? `${value.code} · ${value.revision}` : 'Pilih atau buat Pola'}</strong><small>{value ? `${value.name} · pattern_id siap mengikat snapshot transaksi` : 'Master boleh kosong, tetapi Potongan baru wajib memiliki Pola.'}</small></div>{value && <button type="button" aria-label="Ganti Pola" title="Kosongkan pilihan sementara untuk mengganti Pola" onClick={() => onChange(null)}><X/></button>}</header>
     <label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari kode, revisi, atau nama Pola…"/></label>
     <div className="cutting-pattern-results" role="listbox" aria-label="Pola aktif">

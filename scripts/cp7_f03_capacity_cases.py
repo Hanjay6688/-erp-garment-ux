@@ -46,7 +46,7 @@ def observe(cur, f):
         allocations=cur.execute("""select to_jsonb(a) from erp.sale_stock_allocations a
             join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s order by a.id""",
             (sf['sale'],)).fetchall() if sf else [],
-        report=x04.finance.read(cur, f['today'])['snapshot'])
+        report=x04.finance.fixture_read(cur, f['today'], f['sale_at'])['snapshot'])
 
 
 def page_pair(cur, f, subject=None):

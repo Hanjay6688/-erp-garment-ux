@@ -449,6 +449,8 @@ function ErpApp() {
   const [page, setPage] = useState<Page>(() => demoAccess
     ? 'dashboard'
     : (firstAllowedPageId(accessBundle) as Page | null) ?? 'dashboard')
+  const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
+  const invoiceSourceScope=runtime.mode==='DISPOSABLE_TEST'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
   const [expanded, setExpanded] = useState<NavSection | null>(null)
   const [adminExpanded,setAdminExpanded] = useState(false)
   const [mobileNav, setMobileNav] = useState(false)
@@ -554,6 +556,7 @@ function ErpApp() {
 
   const chooseSubmenu = (label: string) => {
     const salesTarget=salesPageByLabel[label]
+    if(salesTarget!=='sales-invoice'||page!=='sales-invoice')setInvoiceSource(null)
     const financeTarget=financePageByLabel[label]
     const masterTarget=businessMasterPageByLabel[label]
     const operationsTarget=operationsPageByLabel[label]
@@ -626,8 +629,8 @@ function ErpApp() {
           onOpenReminders={() => setPage('admin-reminders')}
           onToggleReminder={(id)=>setReminders((current)=>current.map((item)=>item.id===id?{...item,status:item.status==='OPEN'?'DONE':'OPEN',completedAt:item.status==='OPEN'?'Sesi ini':undefined}:item))}
         />}
-        {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}>{runtime.mode==='DISPOSABLE_TEST'&&(page==='sales-invoice'||page==='sales-allocation'||page==='sales-payments'||page==='sales-returns')?<ConnectedSalesPage view={page}/>:<SalesPages view={page} onNavigate={(next)=>setPage(next)} />}</Suspense>}
-        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceReportPage/> : page === 'finance-cash' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedReceivablesPage/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
+        {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}>{runtime.mode==='DISPOSABLE_TEST'&&(page==='sales-invoice'||page==='sales-allocation'||page==='sales-payments'||page==='sales-returns')?<ConnectedSalesPage view={page} initialSaleId={page==='sales-invoice'&&invoiceSourceScope!==null&&invoiceSource?.scope===invoiceSourceScope?invoiceSource.saleId:null}/>:<SalesPages view={page} onNavigate={(next)=>setPage(next)} />}</Suspense>}
+        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceReportPage/> : page === 'finance-cash' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setInvoiceSource({saleId,scope:invoiceSourceScope});setPage('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
         {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <StockCard /> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD"/></Suspense>)}
         {page === 'fg-summary' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang jadi"/>}><ConnectedFgStockPage/></Suspense>}
         {page === 'movements-vivo' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Vivo"/>}><ConnectedFgBookPage bookName="Vivo"/></Suspense>)}

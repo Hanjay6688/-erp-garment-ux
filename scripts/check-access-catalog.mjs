@@ -146,7 +146,7 @@ const cp7PeriodBoundaries = ['erp_cp7_get_period_control_v1','erp_cp7_save_perio
 for (const name of cp7PeriodBoundaries) assert.ok(rpcBoundaries.has(`src/FinancePeriodPanel.tsx:${name}`))
 const cp7FinanceBoundaries = ['src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1','src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1','src/ConnectedCashLedgerPage.tsx:erp_cp7_get_finance_analysis_v1']
 for (const boundary of cp7FinanceBoundaries) assert.ok(rpcBoundaries.has(boundary))
-const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1','erp_cp7_get_note_correction_v1','erp_cp7_correct_note_v1']
+const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1','erp_cp7_get_note_correction_v2','erp_cp7_correct_note_v1']
 for (const name of cp7SalesBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedSalesPage.tsx:${name}`))
 const cp7PayrollBoundaries = ['erp_cp7_get_payroll_workspace_v1','erp_cp7_save_payroll_v1']
 for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))
@@ -173,6 +173,10 @@ for(const name of cp7ModelBoundaries) assert.ok(rpcBoundaries.has(`src/NativeMod
 const cp7HistoryBoundaries = ['erp_cp7_capture_demand_history_v1','erp_cp7_read_demand_history_v1']
 const cp7CuttingYieldBoundaries=['erp_cp7_capture_cutting_yield_v1','erp_cp7_read_cutting_yield_v1']
 for(const name of cp7CuttingYieldBoundaries) assert.ok(rpcBoundaries.has(`src/NativeCuttingYieldPanel.tsx:${name}`))
+const cp7CuttingLearningBoundaries=['erp_cp7_get_cutting_input_workspace_v1','erp_cp7_get_cutting_model_workspace_v1','erp_cp7_capture_cutting_model_v1','erp_cp7_get_cutting_model_request_v1','erp_cp7_capture_cutting_observation_v1','erp_cp7_get_cutting_observation_request_v1']
+for(const name of cp7CuttingLearningBoundaries) assert.ok(rpcBoundaries.has(`src/NativeCuttingLearningPanel.tsx:${name}`))
+const cp7CuttingInputBoundaries=['erp_cp7_get_cutting_input_workspace_v1','erp_cp7_record_cutting_inputs_v1','erp_cp7_get_cutting_input_request_v1']
+for(const name of cp7CuttingInputBoundaries) assert.ok(rpcBoundaries.has(`src/NativeCuttingInputsPanel.tsx:${name}`))
 for (const name of cp7HistoryBoundaries) assert.ok(rpcBoundaries.has(`src/NativeDemandHistoryPanel.tsx:${name}`))
 const cp7AttendanceBoundaries = ['erp_cp7_get_attendance_workspace_v1','erp_cp7_save_roster_v1','erp_cp7_get_attendance_entry_v1','erp_cp7_preview_attendance_v1','erp_cp7_save_attendance_v1']
 for (const name of cp7AttendanceBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedAttendancePage.tsx:${name}`))
@@ -180,7 +184,7 @@ const cp7NotaBoundaries = ['erp_cp7_get_nota_workspace_v1','erp_cp7_save_nota_v1
 for (const name of cp7NotaBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedNotaPage.tsx:${name}`))
 const cp7FgBookBoundaries = ['erp_cp7_get_fg_book_v2','erp_cp7_save_fg_book_v1','erp_cp7_get_fg_book_options_v1']
 for (const name of cp7FgBookBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedFgBookPage.tsx:${name}`))
-const cp7FgBoundaries = ['erp_cp7_get_fg_v1','erp_cp7_get_fg_ledger_v1']
+const cp7FgBoundaries = ['erp_cp7_get_fg_v1','erp_cp7_get_fg_ledger_v2']
 const cp7FgAdjustmentBoundaries = ['erp_cp7_get_fg_v1','erp_cp7_get_fg_adjustments_v1','erp_cp7_save_fg_adjustment_v1']
 for (const name of cp7FgAdjustmentBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedFgAdjustmentPage.tsx:${name}`))
 for (const name of cp7FgBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedFgStockPage.tsx:${name}`))
@@ -203,7 +207,7 @@ for (const name of cp7ReturnBoundaries) assert.ok(rpcBoundaries.has(`src/Supplie
 const cp7FinanceOverviewBoundaries = ['src/ConnectedFinanceOverviewPage.tsx:erp_cp7_get_finance_report_v1','src/ConnectedReceivablesPage.tsx:erp_cp7_get_sales_v1','src/ConnectedJournalPage.tsx:erp_cp7_get_journal_book_v1']
 cp7FinanceOverviewBoundaries.push('src/MiscFinancePanel.tsx:erp_cp7_get_misc_finance_v1','src/MiscFinancePanel.tsx:erp_cp7_save_misc_finance_v1')
 for (const name of cp7FinanceOverviewBoundaries) assert.ok(rpcBoundaries.has(name))
-assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 3 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7SalesBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length)
+assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 3 + cp7RecostBoundaries.length + cp7FinanceBoundaries.length + cp7PeriodBoundaries.length + cp7SalesBoundaries.length + cp7AttendanceBoundaries.length + cp7PayrollBoundaries.length + cp7InstallmentBoundaries.length + cp7NotaBoundaries.length + cp7FgBookBoundaries.length + cp7FgAdjustmentBoundaries.length + cp7FgBoundaries.length + cp7CountBoundaries.length + cp7CountSourceBoundaries.length + cp7ReturnBoundaries.length + cp7InvoiceBoundaries.length + 19 + beRpcBoundaries.length + bfRpcBoundaries.length + cp7ProcurementBoundaries.length + cp7ReceiptCorrectionBoundaries.length + cp7MaterialNameBoundaries.length + cp7MaterialBoundaries.length + cp7FinanceOverviewBoundaries.length + cp7HistoryBoundaries.length + cp7CuttingYieldBoundaries.length + cp7CuttingInputBoundaries.length + cp7CuttingLearningBoundaries.length + cp7PlanningBoundaries.length + cp7ProductionPlanningBoundaries.length + cp7AnalysisBoundaries.length + cp7ModelBoundaries.length + cp7PlanBoundaries.length + cp7ReportBoundaries.length + cp7PolicyBoundaries.length + cp7RuleBoundaries.length + cp7ObligationReportBoundaries.length)
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1'))
 assert.ok(rpcBoundaries.has('src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1'))
 assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))

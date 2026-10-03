@@ -129,7 +129,8 @@ test('finite decimal strings and explicit timezone clocks are mandatory; private
     has_function_privilege('service_role',oid,'EXECUTE') service_role from pg_proc where pronamespace='cp7_cutting_learning'::regnamespace`)
   expect(privs).toHaveLength(9)
   for (const r of privs) expect(r).toEqual({ owner: 'cp7_capture', definer: false, volatility: 'i', anon: false, authenticated: false, service_role: false })
-  await db.execute('set role authenticated')
-  await expect(evaluate()).rejects.toThrow(/permission denied/)
+  // Native runtime queries have separate psql sessions. Exercise the denied
+  // call in the same SQL invocation as SET ROLE in both supported runtimes.
+  await expect(db.execute(`set role authenticated;select cp7_cutting_learning.evaluate(${jsonArg(records())},${jsonArg(query())})`)).rejects.toThrow(/permission denied/)
   await db.execute('reset role')
 })

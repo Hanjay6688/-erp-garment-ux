@@ -1,0 +1,21 @@
+.record-tools,.cproc .record-tools{display:grid;gap:14px;min-width:0}
+.record-tools-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.record-tools-heading h2{font-size:15px;margin:8px 0;color:#dfe9fb}
+.record-tools-buttons{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.record-tools-buttons button,.transaction-tools button,.transaction-dependencies button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px}
+.record-tools-buttons svg,.transaction-tools svg,.transaction-dependencies svg{width:16px;height:16px;flex:none}
+.record-tools-order{display:flex;align-items:center;gap:7px;flex-wrap:wrap;color:#bdcce4;font-size:12px}
+.record-tools-order select{min-height:40px;max-width:100%}
+.record-tools-fields,.record-tools-filters{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.record-tools-fields>label,.record-tools-filters>label{display:grid;gap:7px;flex:1 1 190px;font-size:12px}
+.record-tools-filters[hidden]{display:none}
+.record-tools>small{color:#91a4c1;line-height:1.6}
+.transaction-tools{display:flex;align-items:center;flex-wrap:wrap;gap:9px;padding:12px 0;margin-bottom:10px;border-bottom:1px solid #293c59}
+.transaction-tools>strong{flex:1 1 130px;font-size:12px;color:#c5d6ee}
+.transaction-dependencies{display:grid;gap:9px;padding:15px;background:#242235;border:1px solid #66532e;border-radius:12px;margin:12px 0;color:#e8dfc8}
+.transaction-dependencies h3{display:flex;align-items:center;gap:8px;margin:0;font-size:14px}
+.transaction-dependencies p{margin:0;line-height:1.6}
+.transaction-dependencies ol{padding-left:20px;margin:0;display:grid;gap:12px}
+.transaction-dependencies li button{margin-top:7px}
+.transaction-dependencies small{color:#c3b794;line-height:1.6}
+@media(max-width:650px){.record-tools-buttons{width:100%}.record-tools-buttons>button{flex:1 1 90px}.record-tools-order{width:100%}.record-tools-order select{flex:1}.record-tools-fields>label,.record-tools-filters,.record-tools-filters>label{width:100%}.transaction-tools>strong{flex-basis:100%}.transaction-tools>button{flex:1 1 140px}}

@@ -206,11 +206,12 @@ create function cp7_note.command(p_payload jsonb,p_request uuid,p_expected text)
 language plpgsql volatile security definer set search_path=''as $$
 declare a jsonb;old cp7_note.requests%rowtype;h erp.sales_headers%rowtype;root uuid;leaf uuid;
  revision bigint;replaced uuid;native_request uuid;result jsonb;draft jsonb;line jsonb;payment record;returned record;
- paid jsonb;returns jsonb;returned_lines jsonb;new_payment uuid;new_return uuid;allocation uuid;
+ paid jsonb;returns jsonb;returned_lines jsonb;new_payment uuid;new_return uuid;new_return_item uuid;allocation uuid;
+ return_lineage jsonb:='{}'::jsonb;
  correction_id uuid:=gen_random_uuid();before_movements uuid[];origin record;new_move record;anchor uuid;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
- a:=cp7_note.access_now();perform cp7_sales.validate_draft(p_payload,true);
+ a:=cp7_note.access_now();perform cp7_sales.validate_draft(p_payload-'item_lineage',true);
  if p_request is null or p_expected is null or p_expected!~'^[1-9][0-9]{0,18}$'then raise exception 'CP7_NOTE_REQUEST_REQUIRED';end if;
  insert into cp7_note.requests values(auth.uid(),p_request,p_payload,p_expected,null)on conflict do nothing;
  select *into strict old from cp7_note.requests where actor=auth.uid()and request_id=p_request for update;
@@ -262,9 +263,11 @@ begin
  end loop;
  perform cp7_note.reverse_sale(leaf,p_payload->>'change_reason');
  native_request:=md5(auth.uid()::text||':NOTE:'||p_request::text)::uuid;
- draft:=(p_payload-'sale_id'-'review_token'-'change_reason')||jsonb_build_object('sale_number',left((select sale_number from erp.sales_headers where id=root),38)||' · R'||revision::text||'-'||left(p_request::text,8),'reason',p_payload->>'change_reason');
+ draft:=(p_payload-'sale_id'-'review_token'-'change_reason'-'item_lineage')||jsonb_build_object('sale_number',left((select sale_number from erp.sales_headers where id=root),38)||' · R'||revision::text||'-'||left(p_request::text,8),'reason',p_payload->>'change_reason');
  result:=erp.save_sale_draft_v2(draft,native_request,null);
- replaced:=(result->>'sale_id')::uuid;perform erp.post_sale(replaced);
+ replaced:=(result->>'sale_id')::uuid;
+ perform cp7_note.bind_items(leaf,replaced,correction_id,p_payload->'items',p_payload->'item_lineage');
+ perform erp.post_sale(replaced);
  for returned in select value from jsonb_array_elements(returns)loop
   perform cp7_sales.command_access('RETURN');
   insert into erp.sales_returns(return_number,sale_id,customer_id,physical_at,notes,status,created_by)
@@ -274,6 +277,9 @@ begin
    select x.id into allocation from erp.sale_stock_allocations x join erp.sales_items i on i.id=x.sale_item_id
     where i.sale_id=replaced and i.product_id=(line->>'product_id')::uuid and x.lot_id=(line->>'lot_id')::uuid
      and x.location_id=(line->>'allocation_location_id')::uuid
+     and x.sale_item_id=(select l.replacement_item_id from cp7_note.item_lineage l
+      join erp.sale_stock_allocations prior_allocation on prior_allocation.sale_item_id=l.previous_item_id
+      where prior_allocation.id=(line->>'sale_stock_allocation_id')::uuid and l.replacement_item_id=x.sale_item_id)
      and not exists(select 1 from erp.sales_return_items z where z.return_id=new_return and z.sale_stock_allocation_id=x.id)
      and x.qty_pcs>=
       (line->>'qty_pcs')::integer+coalesce((select sum(z.qty_pcs)from erp.sales_return_items z where z.sale_stock_allocation_id=x.id),0)
@@ -281,7 +287,8 @@ begin
    if allocation is null then raise exception 'CP7_NOTE_RETURN_ALLOCATION_CHANGED';end if;
    insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)
    values(new_return,allocation,(line->>'product_id')::uuid,(line->>'lot_id')::uuid,(line->>'location_id')::uuid,
-    (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes');
+    (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')returning id into new_return_item;
+   return_lineage:=return_lineage||jsonb_build_object(new_return_item::text,line->>'id');
   end loop;
   perform erp.post_sales_return(new_return);
  end loop;
@@ -318,14 +325,11 @@ begin
   if new_move.reversal_of_id is not null then
    select coalesce(l.origin_id,new_move.reversal_of_id)into anchor from(select 1)x left join cp7_fg.correction_movements l on l.member_id=new_move.reversal_of_id;
   elsif new_move.source_type='SALE_ITEM'and exists(select 1 from erp.sales_items where id=new_move.source_id and sale_id=replaced)then
-   select coalesce(l.origin_id,m.id)into anchor from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id
-    left join cp7_fg.correction_movements l on l.member_id=m.id
-    where i.sale_id=leaf and m.movement_type='SALE'and m.product_id=new_move.product_id
-     and m.location_id=new_move.location_id and m.quality_grade=new_move.quality_grade order by(m.lot_id=new_move.lot_id)desc,m.book_order,m.id limit 1;
+   anchor:=cp7_note.line_origin(leaf,new_move.source_id,new_move.product_id,new_move.lot_id,new_move.location_id,new_move.quality_grade);
    if anchor is null then
     select coalesce(l.origin_id,m.id)into anchor from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id
      left join cp7_fg.correction_movements l on l.member_id=m.id
-     where i.sale_id=replaced and m.movement_type='SALE'and m.product_id=new_move.product_id
+     where i.sale_id=replaced and i.id=new_move.source_id and m.movement_type='SALE'and m.product_id=new_move.product_id
       and m.location_id=new_move.location_id and m.quality_grade=new_move.quality_grade
      order by(m.lot_id=new_move.lot_id)desc,m.book_order,m.id limit 1;
     if anchor=new_move.id then
@@ -338,7 +342,7 @@ begin
    end if;
   elsif new_move.source_type='SALES_RETURN_ITEM'then
    select coalesce(l.origin_id,m.id)into anchor from erp.fg_stock_movements m join erp.sales_return_items i on i.id=m.source_id join erp.sales_returns r on r.id=i.return_id
-    left join cp7_fg.correction_movements l on l.member_id=m.id where r.sale_id=leaf and m.movement_type='SALE_RETURN'
+    left join cp7_fg.correction_movements l on l.member_id=m.id where r.sale_id=leaf and i.id=(return_lineage->>new_move.source_id::text)::uuid and m.movement_type='SALE_RETURN'
      and m.product_id=new_move.product_id and m.lot_id is not distinct from new_move.lot_id and m.location_id=new_move.location_id
      and m.quality_grade=new_move.quality_grade and m.physical_at=new_move.physical_at order by m.book_order,m.id limit 1;
   end if;

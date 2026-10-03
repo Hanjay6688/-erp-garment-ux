@@ -42,4 +42,12 @@ describe('P11 complete draft form',()=>{
  it('keeps entered draft but blocks saving when its reviewed source is stale',async()=>{
   const d=detail();await mount(d);await fill('Jumlah invoice 1','5');await fill('Alasan simpan invoice','Alasan masih dipertahankan');await reviewed();await mount(d,true);expect(input('Jumlah invoice 1').value).toBe('5');expect(input('Alasan simpan invoice').value).toBe('Alasan masih dipertahankan');await click(button('Simpan draft invoice'));expect(saved).not.toHaveBeenCalled();expect(container.textContent).toContain('Dokumen berubah')
  })
+ it('keeps immutable source IDs for duplicate SKU lines after quantity changes and deletion',async()=>{
+  const d=detail();d.items[0].qty_pcs='5';d.items[1]={...d.items[1],product_id:d.items[0].product_id,qty_pcs:'10'}
+  await act(async()=>root.render(<SalesDraftPanel initial={d} correction locked={false} stale={false} onSave={saved} onClose={()=>{}}/>));await flush()
+  await fill('Jumlah invoice 2','6');await fill('Alasan simpan invoice','Jumlah kedua sebenarnya enam');await click(input('Pembetulan nota sudah diperiksa'));await click(button('Simpan pembetulan nota'))
+  expect(saved.mock.calls[0][1].item_lineage).toEqual([d.items[0].id,d.items[1].id]);expect(saved.mock.calls[0][1].items.map((x:{qty_pcs:string})=>x.qty_pcs)).toEqual(['5','6'])
+  await click(button('Hapus barang 1'));await click(input('Pembetulan nota sudah diperiksa'));await click(button('Simpan pembetulan nota'))
+  expect(saved.mock.calls[1][1].item_lineage).toEqual([d.items[1].id]);expect(saved.mock.calls[1][1].items[0].qty_pcs).toBe('6')
+ })
 })

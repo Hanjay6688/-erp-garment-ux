@@ -1,0 +1,182 @@
+{
+  "contract": "cp7.existing-native-artifact-retention.v1",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "records": {
+    "f05-e873-incomplete284": {
+      "source_commit": "e873462c7372c23e86e48c33ebf3de386b0c9dec",
+      "source_tree": "39863f36fccf9be7aa79ac09a245d154ac07c293",
+      "run_id": 37043056813,
+      "job_id": 110957628784,
+      "artifact_id": 11245403985,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 271942433,
+      "zip_sha256": "f2a6ca2f5158f224e184a52a0bca19d47bada18aaec26b77a23197b1f5bec33a",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "INCOMPLETE",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 31,
+          "INCOMPLETE": 5
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
+    },
+    "f05-34d7-qualified284": {
+      "source_commit": "34d7e2e962423cdc42d2d596d1ce996ea9070a8b",
+      "source_tree": "38ad2c662aaaf63bcf5e8377b0ad861b2a38e002",
+      "run_id": 37047744131,
+      "job_id": 110973247042,
+      "artifact_id": 11246264212,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 344849681,
+      "zip_sha256": "2bd903f8a77587075aded610985e8b23ada62ed96d1494f8a884e7bbeb90d9f9",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
+    },
+    "f05-15aca-qualified284": {
+      "source_commit": "15aca45680e01740faf2523fbbb63609e81e41ba",
+      "source_tree": "57338a9d7796d931c52ad26f7705c7c0435d95b4",
+      "run_id": 37061659770,
+      "job_id": 111019496822,
+      "artifact_id": 11252337076,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 347887394,
+      "zip_sha256": "7cc1d2cf2a3cded208c933305815a3a316cb9efec714f57869c372131d4ee4bb",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
+    },
+    "f05-9cc70-qualified284": {
+      "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+      "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
+      "run_id": 37066670314,
+      "job_id": 111036127674,
+      "artifact_id": 11254952041,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 348930671,
+      "zip_sha256": "1c18e7f13441cdf20456aa0a69732c994acac155f8d534ead34121b29a367d1b",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
+    },
+    "f05-6127-qualified284": {
+      "source_commit": "6127ec867695a9416176f79199aad8b069578dcb",
+      "source_tree": "642311f5f782fc32aad649c0d7ae8db6b74f78d0",
+      "run_id": 37085856602,
+      "job_id": 111095894227,
+      "artifact_id": 11260844579,
+      "artifact_name": "cp7-f05-attention",
+      "zip_bytes": 349647069,
+      "zip_sha256": "c3c633296a06ad5d05bd0a5915e42b4fad567a67c1be65a9d3a8a1e5eaf2eb87",
+      "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+      "expected_status": "PASS",
+      "expected_case_count": 284,
+      "required_case_counts": {
+        "native": 179,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "expected_counts": {
+        "native": {
+          "PASS": 179
+        },
+        "races": {
+          "PASS": 40
+        },
+        "http": {
+          "PASS": 29
+        },
+        "browser": {
+          "PASS": 36
+        }
+      },
+      "artifact_retention_only": true,
+      "new_execution_case_credit": 0
+    }
+  }
+}

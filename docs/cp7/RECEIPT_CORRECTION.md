@@ -108,6 +108,8 @@ Di putaran-putaran sesudahnya tidak ada file GPT yang diubah.
 
 ## Temuan untuk GPT (koreksi nota, bukan scope saya)
 
+**Tindak lanjut cabang integrasi:** temuan dua baris SKU yang sama sudah diperbaiki dengan lineage per baris di `sales/correction-lines.sql` dan ID baris asal dari formulir. Run [37037364406](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37037364406), sumber `ddac4e2c`, lulus lengkap **40/40** (28 database, 4 race, 3 Auth/HTTP, 5 browser). Angka main/per-lot benar −5/−6, main 95/89. Penghapusan, pengurutan ulang, harga berbeda, retur kedua baris, dan rollback atomic ikut lolos. Original lengkap ada di `evidence/owning-note-correction/qualified40-ddac4e2/`. Reproduksi lama di bawah tetap dicatat sebagai asal temuan. Native40 ini belum menguji gabungan penerimaan Claude, dan kegagalan timeout pada run sebelumnya tetap disimpan.
+
 `LOCAL_PG16_DEV`, bukan bukti; mohon direproduksi di harness note-correction GPT.
 
 Satu nota dengan SKU yang sama di dua baris (5 dan 10). Baris 10 dibetulkan menjadi 6. Di `scripts/cp7-src/sales/correction.sql`, kedua baris SALE pengganti diberi anchor ke baris SALE asli **pertama** dengan produk, lokasi, dan grade yang sama (`order by ... limit 1`, tanpa mengecualikan baris asli yang sudah dipasangkan). Hasil di buku FG:

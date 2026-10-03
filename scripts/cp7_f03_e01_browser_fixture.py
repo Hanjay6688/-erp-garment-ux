@@ -28,7 +28,8 @@ def main():
                        cash=cases.payments.cash(cur, f) if f else None,
                        available=cases.physical(cur, p),
                        accounts={k:str(v) for k,v in cases.cmd.accounts(cur).items()},
-                       report=cases.ready_report(cur, date.fromisoformat(p['today'])))
+                       report=cases.ready_report(cur, date.fromisoformat(p['today']), p['sale_at']),
+                       report_query=cases.finance.native_window(cur,p['today'],p['sale_at']))
             out['fg_value'] = str(cur.execute('select sum(m.qty_signed*h.hpp_per_pcs) from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id join erp.v_current_hpp h on h.lot_id=l.id where l.po_id=%s', (p['po'],)).fetchone()[0])
         else: raise ValueError('Unknown E01 fixture operation')
         cases.b.api.admin(cur)

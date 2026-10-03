@@ -1,0 +1,146 @@
+{
+  "run_id": 37040485992,
+  "job_id": 110949102931,
+  "artifact_id": 11242428938,
+  "source_commit": "c5c08262559449aad6d11a936e00f6d6f48bd964",
+  "source_tree": "93a75af13c9c5c955e65b9a67a760eba1c166ac3",
+  "zip_bytes": 4356654,
+  "zip_sha256": "62f60d8887fde9af96f65faf35861d74e8fa9c9e52227d143d5093346d27fe8a",
+  "runtime_report": "CP7_RECEIPT_CORRECTION.json",
+  "expected_status": "INCOMPLETE",
+  "expected_case_count": 32,
+  "required_case_counts": {
+    "native": 26,
+    "races": 3,
+    "http": 1,
+    "browser": 2
+  },
+  "scope": "Main P09/F03 additive composition before source-only day-offset0 fixture clock repair; unchanged source-qualified product SQL. One receipt-time refusal retained; no complete composition claim.",
+  "status": "NATIVE_WRITER_INCOMPLETE",
+  "source_bundle_sha256": "b643099a6f24958f155c758d1fa1381ae37da8b1763025509ebdb8274f9ec0e4",
+  "observed_case_count": 32,
+  "counts": {
+    "native": {
+      "PASS": 25,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "failures": {
+    "native": {
+      "RF_OPENING_ADVANCE_PAYMENT_REPLAY": "INCOMPLETE"
+    },
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "49e2ef2fd30e300ffc2c971bd48c58fba07148b537d6f95cd0620d5ee26352a7",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_RECEIPT_CORRECTION.json": {
+      "bytes": 278237,
+      "sha256": "77f95e2e511a847cb05d770e1ec500a783c893b576bc1bfd4d4f0e29f3d93cff"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ba5d8ca369e5b26f7a772131cc3de90b740b443bb6412c8eab338cf59fc225fc"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "8f54e1562e6c0d8d37c195caba6079cfec97bd3452a3c9f581d762559b73324b"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "50112f34423941a4338410419cd2e25ba83786f2f851ff85e3ca69c1a39d08f4"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385620,
+      "sha256": "50112f34423941a4338410419cd2e25ba83786f2f851ff85e3ca69c1a39d08f4"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "afe2c11c6c4abba52fd7c0e5c7c898f47c8a4158e6a68d488557d87d6d4683a4"
+    },
+    "CP7_RECEIPT_CORRECTION.json": {
+      "bytes": 278237,
+      "sha256": "77f95e2e511a847cb05d770e1ec500a783c893b576bc1bfd4d4f0e29f3d93cff"
+    },
+    "RECEIPT_CORRECTED_CARD_DESKTOP.png": {
+      "bytes": 648805,
+      "sha256": "9d075018629390dd0a78d149f92861c95507f785c525d2e7154f15dbb2353a52"
+    },
+    "RECEIPT_CORRECTED_CARD_MOBILE.png": {
+      "bytes": 384005,
+      "sha256": "ae5cd8a0406eb1901a5a7e2015b8ce5e482f11cf7b4f36a06d20799521bab9f7"
+    },
+    "RECEIPT_CORRECTION_DESKTOP.png": {
+      "bytes": 1083182,
+      "sha256": "923297f587b121dda6b423bc9420b053742d709cb6655514bbda6b6668a7ce9a"
+    },
+    "RECEIPT_CORRECTION_MOBILE.png": {
+      "bytes": 642429,
+      "sha256": "eace0d3b398f707ab5ffb7448c46769f7b511f509832637fa6dc81f9b45dd97d"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ba5d8ca369e5b26f7a772131cc3de90b740b443bb6412c8eab338cf59fc225fc"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "8f54e1562e6c0d8d37c195caba6079cfec97bd3452a3c9f581d762559b73324b"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

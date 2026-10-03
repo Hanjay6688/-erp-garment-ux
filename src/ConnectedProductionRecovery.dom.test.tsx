@@ -83,6 +83,55 @@ async function mount(kind: 'CUTTING' | 'PICKUP') {
 }
 function writes() { return client.rpc.mock.calls.filter(([name]) => name.startsWith('erp_save_')) }
 
+describe('cutting source authority covers the complete connected page', () => {
+  it('a current learning403 retires parent stock, draft facts and sibling results while retaining own notes', async () => {
+    const auth = structuredClone(recoveryIdentity)
+    Object.assign(auth.runtime, { mode: 'DISPOSABLE_TEST' })
+    Object.assign(auth.identity.profile, { authUserId: '22222222-2222-4222-8222-222222222222' })
+    auth.identity.permissions.push('production.cutting.view', 'master.product.view', 'warehouse.stock.view', 'sales.invoice.view')
+    authState.current = auth
+    server()
+    const ordinary = client.rpc.getMockImplementation()!
+    client.rpc.mockImplementation((name, args) => name === 'erp_cp7_get_cutting_input_workspace_v1'
+      ? Promise.resolve({ data: null, error: { code: '42501', message: 'Current actor revoked' } })
+      : ordinary(name, args))
+    await mount('CUTTING')
+    const notes = container.querySelector<HTMLInputElement>('.ccut-fields input[placeholder="Opsional"]')!
+    await fill(notes, 'CATATAN OPERATOR TETAP')
+    expect(container.querySelectorAll('.ccut-roll-catalog button')).toHaveLength(1)
+    expect(container.querySelector('.ccut-review')?.textContent).toContain('9 pcs')
+    await click('Muat penilaian potong', container.querySelector('[aria-label="Belajar dari hasil potong"]')!)
+    expect(container.querySelectorAll('.ccut-roll-catalog button')).toHaveLength(0)
+    expect(container.querySelectorAll('.ccut-drafts > button')).toHaveLength(0)
+    expect(container.querySelector('.ccut-review')?.textContent).not.toContain('9 pcs')
+    expect(container.querySelector('.ccut-table-wrap')).toBeNull()
+    expect(notes.value).toBe('CATATAN OPERATOR TETAP')
+    expect(button('Post ke WIP').disabled).toBe(true)
+    expect(button('Muat hasil potong tersimpan').disabled).toBe(true)
+    expect(writes()).toHaveLength(0)
+  })
+  it('a fresh parent403 cannot be repainted by an older in-flight200 and never erases unsent notes', async () => {
+    server(); await mount('CUTTING')
+    const notes = container.querySelector<HTMLInputElement>('.ccut-fields input[placeholder="Opsional"]')!
+    await fill(notes, 'BELUM DIKIRIM')
+    const ordinary = client.rpc.getMockImplementation()!
+    let resolve!:(value:unknown)=>void, oldArgs!:Record<string,unknown>, pending = false
+    client.rpc.mockImplementation((name, args) => {
+      if (name !== 'erp_get_cutting_workspace_v2') return ordinary(name, args)
+      if (!pending) { pending = true; oldArgs = args; return new Promise(r => { resolve = r }) }
+      return Promise.resolve({ data: null, error: { status: 403, code: '42501', message: 'Current actor revoked' } })
+    })
+    await click('Refetch'); await click('Refetch')
+    await act(async () => resolve({ data: cuttingSelectorFixture(oldArgs), error: null })); await settle()
+    expect(container.querySelectorAll('.ccut-roll-catalog button')).toHaveLength(0)
+    expect(container.querySelector('.ccut-review')?.textContent).not.toContain('9 pcs')
+    expect(container.querySelector('.ccut-table-wrap')).toBeNull()
+    expect(notes.value).toBe('BELUM DIKIRIM')
+    expect(button('Post ke WIP').disabled).toBe(true)
+    expect(writes()).toHaveLength(0)
+  })
+})
+
 describe('real Cutting/Pickup forms keep pending, committed and stale distinct', () => {
   it.each(['CUTTING', 'PICKUP'] as const)('%s retires committed form before a failed refetch and never replays it', async (kind) => {
     const state = server(); state.failRead = true

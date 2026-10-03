@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib,json,traceback
 import psycopg
 import cp7_restore_state as restore_state
+import cp7_receipt_correction_verify as receipt_correction
 import cp7_procurement_bundle as bundle
 import cp7_procurement_cases as cases
 import cp7_material_cases as material
@@ -36,6 +37,7 @@ def verify(cur):
     # it is installed, all function definitions/ACLs must match the captured
     # installation, including the exact declared predecessor admission guards.
     assert INSTALLED_FUNCTIONS is not None and functions(cur)==INSTALLED_FUNCTIONS,'P09_INSTALLED_FUNCTION_OR_ACL_CHANGED'
+    receipt_correction.verify(cur)
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_procurement' and (p.prosecdef is distinct from (p.proname in('reverse_receipt_locked','validate_uom_lines')) or pg_get_userbyid(p.proowner)<>case when p.proname='reverse_receipt_locked' then 'postgres' when p.proname in('command','reverse_request','save_draft_request') then 'cp7_procure_write' else 'cp7_procure_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     for name,role in [('erp_cp7_get_procurement_v1','cp7_procure_read'),('erp_cp7_get_procurement_options_v1','cp7_procure_read'),('erp_cp7_get_procurement_uom_v1','cp7_procure_read'),('erp_cp7_save_procurement_v1','cp7_procure_write'),
       ('erp_cp7_preview_material_count_v1','cp7_material_read'),('erp_cp7_get_material_counts_v1','cp7_material_read'),('erp_cp7_get_material_count_options_v1','cp7_material_read'),('erp_cp7_save_material_count_v1','cp7_material_write'),
@@ -132,7 +134,7 @@ def run():
                 conn.rollback();wip.policy.bf.verified(cur);conn.rollback()
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}))
             d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or (d['status']=='REVIEW_REQUIRED' and all(
-             f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice') for f in d.get('added',[])))
+             f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and (f.get('metadata') or {}).get('schema') in ('cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice','cp7_receipt_fix') for f in d.get('added',[])))
         groups=[report.get(k,{}) for k in ('smoke','native','races','http','browser','material_smoke','material','material_races','material_http','material_crossflow','material_count','material_count_races','material_count_http','invoice','invoice_races','invoice_http','combined_invoice','combined_invoice_races','combined_invoice_http','return_smoke','returns','return_races','return_http','receipt_reversal','receipt_reversal_races','receipt_reversal_http','uom','uom_races','uom_http')]
         smoke_groups=[report.get(k,{}) for k in ('smoke','material_smoke','return_smoke')]
         report['observed_smoke_count']=sum(sum(g.get('counts',{}).values()) for g in smoke_groups)

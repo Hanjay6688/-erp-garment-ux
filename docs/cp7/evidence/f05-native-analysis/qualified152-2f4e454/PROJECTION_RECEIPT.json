@@ -1,0 +1,9 @@
+{
+  "run_id": 37023165617,
+  "artifact_id": 11233829122,
+  "source_commit": "13bafb9897fb2137a26e2eea16b06b0f131aff81",
+  "zip_bytes": 113424,
+  "zip_sha256": "3ca3428ee1af84219badc0e69fe0471ee8ad04f425e61d57a13b9d2ab6945c61",
+  "Native_database_access": false,
+  "qualification_case_credit": 0
+}

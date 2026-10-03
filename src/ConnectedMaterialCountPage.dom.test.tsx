@@ -33,6 +33,13 @@ function server(finance=true){const s={posted:false,lose:false,failRead:false,ef
 });return s}
 async function select(){await act(async()=>container.querySelector<HTMLButtonElement>('.cproc-receipt')!.click());await flush();await check()}
 async function form(){await click('Hitung Kancing');await fill('Nomor hitung fisik','COUNT-NEW');await fill('Waktu hitung WIB','2026-09-29T10:00');await fill('Jumlah fisik bahan','8');await fill('Catatan hitung fisik','Hitung ulang dan foto gudang');await click('Periksa selisih')}
+it('keeps current-page status filtering separate from stock and does not create a count or business write',async()=>{
+ server();await mount();const count=client.rpc.mock.calls.length
+ const status=container.querySelector<HTMLSelectElement>('[aria-label="Status halaman hitung fisik"]')!
+ await act(async()=>{status.value='POSTED';status.dispatchEvent(new Event('change',{bubbles:true}))});expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(0);expect(container.textContent).toContain('Saldo sekarang 10');expect(client.rpc.mock.calls).toHaveLength(count);expect(writes()).toHaveLength(0)
+ const tools=container.querySelector('[aria-label="Cari, browse, urutkan dan filter dokumen hitung fisik"]')!,browse=[...tools.querySelectorAll('button')].find(b=>b.textContent==='Browse semua')!
+ await act(async()=>browse.click());await flush();expect(status.value).toBe('');expect(container.querySelectorAll('.cproc-receipt')).toHaveLength(1);expect(writes()).toHaveLength(0)
+})
 function multiServer(edit=false){
  server();const original=client.rpc.getMockImplementation()!
  const second={...(stock().page.rows[0] as Record<string,unknown>),material_id:doc,material_sku:'ZIP',material_name:'Resleting'}

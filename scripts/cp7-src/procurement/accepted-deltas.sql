@@ -13,36 +13,45 @@ begin
  if session_user in('postgres','supabase_admin') then return;end if;
  begin v_jwt_role:=coalesce(auth.jwt()->>'role','');exception when others then v_jwt_role:='';end;
  if v_jwt_role='service_role' then return;end if;
+ -- Keep indexable identity filters, and evaluate live scope permissions only
+ -- for that exact candidate. SQL AND does not fix predicate evaluation order.
+ -- Matched scope checks and the existing legacy fallback remain unchanged.
  if exists(select 1 from erp.cutting_bridge_execution_context c where c.backend_pid=pg_backend_pid()
-  and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key() and c.action='POST_CUTTING'
-  and c.permission_key='production.cutting.post' and erp.has_permission(c.permission_key)) then return;end if;
+  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key() and c.action='POST_CUTTING'
+   and c.permission_key='production.cutting.post' then erp.has_permission(c.permission_key) else false end) then return;end if;
  if exists(select 1 from erp.bs_resolution_execution_context c where c.backend_pid=pg_backend_pid()
-  and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key()
-  and c.permission_key in('production.bs_rework.create','production.bs_rework.post','production.bs_rework.reverse')
-  and erp.has_permission(c.permission_key)) then return;end if;
+  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key()
+   and c.permission_key in('production.bs_rework.create','production.bs_rework.post','production.bs_rework.reverse')
+   then erp.has_permission(c.permission_key) else false end) then return;end if;
  if exists(select 1 from erp.cp6_laundry_qc_execution_context c where c.backend_pid=pg_backend_pid()
-  and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key()
-  and ((c.action in('POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH') and c.permission_key='production.laundry.post')
+  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+   and c.transaction_id=txid_current() and c.actor_key=erp._idempotency_actor_key()
+   and ((c.action in('POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH') and c.permission_key='production.laundry.post')
     or(c.action='POST_FINAL_SKU' and c.permission_key='production.final_sku.post')
     or(c.action in('REVERSE_DELIVERY','REVERSE_RECEIPT') and c.permission_key='production.laundry.reverse')
     or(c.action='REVERSE_FINAL_SKU' and c.permission_key='production.final_sku.reverse'))
-  and erp.has_permission(c.permission_key)) then return;end if;
+   then erp.has_permission(c.permission_key) else false end) then return;end if;
  -- Only a private, transaction/actor-bound public-command context extends the
  -- legacy internal-role guard. Caller-controlled GUCs cannot grant this path.
  if exists(select 1 from cp7_procurement.execution_context c where c.backend_pid=pg_backend_pid()
-  and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
-  and ((c.action='SAVE_DRAFT' and c.permission_key='warehouse.procurement.create')
+  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
+   and ((c.action='SAVE_DRAFT' and c.permission_key='warehouse.procurement.create')
     or(c.action='POST' and c.permission_key='warehouse.procurement.post'))
-  and erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key)) then return;end if;
+   then erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key) else false end) then return;end if;
  if exists(select 1 from cp7_material.execution_context c where c.backend_pid=pg_backend_pid()
-  and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
-  and c.action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER','SAVE_COUNT','POST_COUNT','DELETE_COUNT','REVERSE_COUNT') and c.permission_key='warehouse.stock.adjust'
-  and erp.has_permission('warehouse.material.view') and erp.has_permission(c.permission_key)) then return;end if;
+  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
+   and c.action in('SAVE_TRANSFER','POST_TRANSFER','REVERSE_TRANSFER','SAVE_COUNT','POST_COUNT','DELETE_COUNT','REVERSE_COUNT') and c.permission_key='warehouse.stock.adjust'
+   then erp.has_permission('warehouse.material.view') and erp.has_permission(c.permission_key) else false end) then return;end if;
  if exists(select 1 from cp7_supplier_return.execution_context c where c.backend_pid=pg_backend_pid()
-  and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
-  and ((c.action='SAVE' and c.permission_key='warehouse.procurement.create')
+  and c.transaction_id=txid_current() and case when c.backend_pid=pg_backend_pid()
+   and c.transaction_id=txid_current() and c.actor=auth.uid() and v_jwt_role='authenticated'
+   and ((c.action='SAVE' and c.permission_key='warehouse.procurement.create')
     or(c.action in('POST','REVERSE') and c.permission_key='warehouse.procurement.reverse'))
-  and erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key)) then return;end if;
+   then erp.has_permission('warehouse.procurement.view') and erp.has_permission(c.permission_key) else false end) then return;end if;
  v_app_role:=erp.current_app_role();
  if coalesce(v_app_role,'') not in('OWNER','ADMIN','STAFF') then raise exception 'Internal ERP access required';end if;
 end $function$;

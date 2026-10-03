@@ -7,6 +7,10 @@ name: CP7 Completed Native Artifact Projection
       - scripts/cp7_native_artifact_projection.py
       - docs/cp7/native284_artifact_projection.json
       - docs/cp7/native152_artifact_projection.json
+      - docs/cp7/native284_latest_qualified_artifact_projection.json
+      - docs/cp7/native40_incomplete_artifact_projection.json
+      - docs/cp7/native_cutting_observation44_artifact_projection.json
+      - docs/cp7/native_cutting_model53_artifact_projection.json
       - .github/workflows/cp7-native-artifact-projection.yml
 permissions:
   contents: read
@@ -25,6 +29,10 @@ jobs:
         run: |
           python scripts/cp7_native_artifact_projection.py docs/cp7/native284_artifact_projection.json cp7-proof/native284
           python scripts/cp7_native_artifact_projection.py docs/cp7/native152_artifact_projection.json cp7-proof/native152
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native284_latest_qualified_artifact_projection.json cp7-proof/native284-qualified13b
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native40_incomplete_artifact_projection.json cp7-proof/native40-incomplete3c
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native_cutting_observation44_artifact_projection.json cp7-proof/cutting-observation44-qualified3c
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native_cutting_model53_artifact_projection.json cp7-proof/cutting-model53-qualified3c
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: cp7-native284-exact-original-reports

@@ -26,7 +26,13 @@
       "NOTE_ECONOMIC_REPORT_RESTATEMENT",
       "NOTE_EXACT_TIME_SOURCE_ORDER",
       "NOTE_OLD_CASH_RETURN_REPORT",
-      "NOTE_OLD_ADVANCE_CASH_REPORT"
+      "NOTE_OLD_ADVANCE_CASH_REPORT",
+      "NOTE_MULTI_LOT_CARD",
+      "NOTE_MULTI_LINE_ATOMIC",
+      "NOTE_CORRECTION_ACTOR",
+      "NOTE_DUPLICATE_SKU_LINES",
+      "NOTE_DUPLICATE_SKU_DELETE_REORDER",
+      "NOTE_DUPLICATE_SKU_RETURN_ATOMIC"
     ],
     "races": [
       "NOTE_RACE_TWO_REQUESTS",
@@ -36,22 +42,27 @@
     ],
     "http": [
       "NOTE_HTTP_COMMAND_REPLAY_AUTH",
-      "NOTE_HTTP_CORRECTED_BOOK"
+      "NOTE_HTTP_CORRECTED_BOOK",
+      "NOTE_HTTP_LOT_AND_ACTOR"
     ],
     "browser": [
       "NOTE_BROWSER_DESKTOP",
-      "NOTE_BROWSER_MOBILE_LOST_REPLY"
+      "NOTE_BROWSER_MOBILE_LOST_REPLY",
+      "NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD",
+      "NOTE_BROWSER_MOBILE_MICROSECOND_GUARD",
+      "NOTE_BROWSER_DUPLICATE_SKU_LINES"
     ]
   },
   "required_counts": {
-    "native": 22,
+    "native": 28,
     "races": 4,
-    "http": 2,
-    "browser": 2
+    "http": 3,
+    "browser": 5
   },
-  "expected_case_executions": 30,
+  "expected_case_executions": 40,
   "unique_oracle_total_claim": false,
   "frozen_cp6_modifications": false,
   "native_private_role_count": 31,
-  "predeclared_expansion": "Keep every original28 ID and strengthen existing report/prepayment oracles; add two mandatory cross-month funding/report cases. Exact read-only Native owner report overlay is separately attested and restored; frozen CP6 release files and all money/stock writers unchanged."
+  "predeclared_expansion": "Keep every original28 ID and strengthen existing report/prepayment oracles; add two mandatory cross-month funding/report cases. Exact read-only Native owner report overlay is separately attested and restored; frozen CP6 release files and all money/stock writers unchanged. Retain all30; add actual multi-lot allocation, multi-line atomic cash/invoice, immutable actor/current-name projection, real Auth per-lot/actor and two dedicated actual browser microsecond-response fault guards. Financial correction.sql remains byte-identical; original Native readers/writers/permissions unchanged. Retain every36; add three actual duplicate-SKU Native line/return/atomic controls and one ordinary desktop correction with immutable source-line identity. The owning command adds private immutable item lineage and uses it for card/return pairing; six Native financial helper definitions, posted facts, Native formulas and permissions remain unchanged. Fresh complete40 is mandatory.",
+  "duplicate_line_return_oracle": "Native same-SKU lines5@10+10@20; real payment50 and same-event returns1@10+4@20; correct10->6: invoice170/cash50/return90/AR30/stock94; return cards remain+1/+4; qty3 below returned4 refuses with entire Native and private snapshot unchanged."
 }

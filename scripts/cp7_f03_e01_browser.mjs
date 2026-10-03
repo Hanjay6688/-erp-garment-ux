@@ -125,8 +125,16 @@ async function journey(ui,today,mobile) {
       await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
       const other=peer.locator('.csales')
       await ui.expect(other.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible()
-      await ui.expect(other.getByRole('button',{name:'Retur fisik invoice',exact:true})).toBeDisabled()
-      await ui.expect(other.getByRole('button',{name:'Pembayaran invoice',exact:true})).toBeDisabled()
+      // Shared invalidation retires old Native facts before any fresh read.
+      // The pending command locks writing without leaving the stale invoice,
+      // money, return/payment or correction actions on the peer's screen.
+      await ui.expect(other.getByRole('region',{name:'Daftar invoice'}).locator('.cproc-receipt')).toHaveCount(0)
+      await ui.expect(other.getByRole('complementary',{name:'Rincian invoice'}).getByRole('heading',{name:f.tag,exact:true})).toHaveCount(0)
+      await ui.expect(other.locator('[aria-label="Nilai invoice"]')).toHaveCount(0)
+      for(const name of ['Retur fisik invoice','Pembayaran invoice','Riwayat pembetulan nota'])
+        await ui.expect(other.getByRole('button',{name,exact:true})).toHaveCount(0)
+      await ui.expect(other.getByRole('button',{name:'Buat invoice',exact:true})).toBeDisabled()
+      assert.equal(peerWrites,0)
       // Recovery is visible as soon as the envelope is persisted, including
       // while the RPC still runs. Only read the committed amount after the
       // intercepted real server response has confirmed COMMIT.
@@ -160,10 +168,31 @@ async function journey(ui,today,mobile) {
     mkdirSync('cp6-proof/t3',{recursive:true})
     await ui.expect.poll(()=>ws.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
     await p.screenshot({path:`cp6-proof/t3/E01_SALE_RETURN_${suffix}.png`,fullPage:true})
+    await open(ui,p,'Piutang Pelanggan','Keuangan')
+    const receivables=p.locator('.creceivables')
+    await receivables.getByLabel('Cari sumber piutang',{exact:true}).fill(f.tag)
+    await receivables.getByRole('button',{name:'Cari piutang',exact:true}).click()
+    await ui.expect(receivables.locator('[data-sale-id]')).toHaveCount(1)
+    await ui.expect(receivables.locator('[data-sale-id]')).toHaveAttribute('data-sale-id',returned.document.id)
+    await ui.expect(receivables.getByRole('button',{name:'Filter',exact:true})).toBeVisible()
+    await ui.expect(receivables.getByLabel('Urutkan halaman piutang pelanggan',{exact:true})).toBeVisible()
+    const sourceReads=[]
+    const captureSource=request=>{if(request.url().includes('/rest/v1/rpc/erp_cp7_get_sales_v1'))sourceReads.push(request.postDataJSON())}
+    p.on('request',captureSource)
+    try{
+      await receivables.getByRole('button',{name:'Buka invoice '+f.tag,exact:true}).click()
+      await ui.expect(detail.getByRole('heading',{name:f.tag,exact:true})).toBeVisible()
+      await ui.expect(detail).toContainText('Sisa pembayaran Rp175')
+      assert.ok(sourceReads.some(r=>r.p_query.sale_id===returned.document.id))
+      assert.deepEqual(fixture('read',f).accounts,returned.accounts)
+      await open(ui,p)
+      await ui.expect(detail.getByRole('heading',{name:f.tag,exact:true})).toBeVisible()
+      await ui.expect.poll(()=>ws.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+    }finally{p.off('request',captureSource)}
     await open(ui,p,'Laporan & Tutup Buku','Keuangan')
     const report=p.locator('.cfinance-report')
     await ui.expect(report.getByRole('button',{name:'Tampilkan laporan',exact:true})).toBeEnabled()
-    for(const name of ['Periode laporan dari','Periode laporan sampai','Posisi laporan pada']) await report.getByLabel(name,{exact:true}).fill(today)
+    for(const [name,key] of [['Periode laporan dari','from'],['Periode laporan sampai','to'],['Posisi laporan pada','as_of']]) await report.getByLabel(name,{exact:true}).fill(returned.report_query[key])
     await report.getByRole('button',{name:'Tampilkan laporan',exact:true}).click()
     const performance=report.getByRole('region',{name:'Kinerja keuangan tercatat'}), position=report.getByRole('region',{name:'Posisi keuangan tercatat'})
     for(const [label,key] of [['Penjualan menurut jurnal','sales_revenue_gl'],['Harga pokok penjualan','cogs_gl'],['Laba kotor','gross_profit']]) await ui.expect(performance.locator('.cproc-total').filter({has:p.getByText(label,{exact:true})}).locator('strong')).toHaveText(money(returned.report.snapshot.performance[key]))
@@ -172,7 +201,7 @@ async function journey(ui,today,mobile) {
     await p.evaluate(()=>window.scrollTo(0,0))
     await p.screenshot({path:`cp6-proof/t3/E01_REPORT_${suffix}.png`,fullPage:true})
     assert.deepEqual(fixture('read',f).accounts,returned.accounts)
-    return {status:'PASS',journey:'E01',mobile,production_source_native_qualified:true,production_checkpoints:f.trace,browser_create_post_pay_return_report:true,fg:45,fg_value:'675',cash:'200',AR:'175',revenue:'375',COGS:'225',gross_profit:'150',lost_return_response_exact_UUID_replay:mobile?true:null,E12_second_authenticated_tab_same_invoice_fenced:mobile?true:null,E12_read_allowed_without_clearing_pending:mobile?true:null,E12_peer_write_requests:mobile?peerWrites:null,one_return:true,report_read_only:true,report_confidence:returned.report.snapshot.data_confidence,production_browser_write_claim:false,full_family_acceptance:false,screenshots:[`E01_SALE_RETURN_${suffix}.png`,`E01_REPORT_${suffix}.png`]}
+    return {status:'PASS',journey:'E01',mobile,production_source_native_qualified:true,production_checkpoints:f.trace,browser_create_post_pay_return_report:true,receivables_source_invoice_navigation_fresh_exact_uuid_and_AR175:true,fg:45,fg_value:'675',cash:'200',AR:'175',revenue:'375',COGS:'225',gross_profit:'150',lost_return_response_exact_UUID_replay:mobile?true:null,E12_second_authenticated_tab_same_invoice_fenced:mobile?true:null,E12_peer_previous_invoice_money_and_actions_retired:mobile?true:null,E12_peer_create_disabled_before_fresh_read:mobile?true:null,E12_read_allowed_without_clearing_pending:mobile?true:null,E12_peer_write_requests:mobile?peerWrites:null,one_return:true,report_read_only:true,report_confidence:returned.report.snapshot.data_confidence,production_browser_write_claim:false,full_family_acceptance:false,screenshots:[`E01_SALE_RETURN_${suffix}.png`,`E01_REPORT_${suffix}.png`]}
   } catch(e) {
     let observed; try {observed=fixture('read',f)} catch(x) {observed={error:String(x)}}
     mkdirSync('cp6-proof/t3',{recursive:true})

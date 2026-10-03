@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.native-cutting-model-consumer-native57.v1",
+  "expected_case_count": 57,
+  "required_case_counts": {
+    "native": 34,
+    "races": 8,
+    "http": 5,
+    "browser": 10
+  },
+  "preserve_every_predecessor44": true,
+  "additional_cases": {
+    "native": [
+      "CUT_MODEL_NATIVE_WIDTH_BASELINE",
+      "CUT_MODEL_NATIVE_EARLY_POLICY",
+      "CUT_MODEL_NATIVE_MISSING_SCOPE",
+      "CUT_MODEL_NATIVE_UUID",
+      "CUT_MODEL_NATIVE_CLOSED_CAS",
+      "CUT_MODEL_NATIVE_PRIVATE_ACTOR"
+    ],
+    "races": [
+      "CUT_MODEL_RACE_CURRENT_REVOKE",
+      "CUT_MODEL_RACE_NATIVE_VERSION"
+    ],
+    "http": [
+      "CUT_MODEL_ACTUAL_AUTH_HTTP"
+    ],
+    "browser": [
+      "CUT_LEARNING_MODEL_DESKTOP",
+      "CUT_LEARNING_MODEL_MOBILE",
+      "CUT_LEARNING_OBSERVATION_DESKTOP",
+      "CUT_LEARNING_OBSERVATION_MOBILE"
+    ]
+  },
+  "model_connected_consumer_qualification": true,
+  "factory_model_qualification": false,
+  "must_pass_all_install_restore_primary_backup_advisor_runtime_current_Auth_cleanup_gates": true,
+  "production_go": false,
+  "preserve_every_predecessor53": true,
+  "current403_checks_complete_parent_and_siblings_preserving_operator_notes": true
+}

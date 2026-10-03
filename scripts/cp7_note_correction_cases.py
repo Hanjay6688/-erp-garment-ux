@@ -20,7 +20,7 @@ MANIFEST=json.loads((ownership.bundle.ROOT/'scripts/cp7_note_correction_manifest
 assert MANIFEST['schema']=='cp7-owning-note-correction-native-manifest-v1'
 REQUIRED=MANIFEST['required_counts']
 EXPECTED=MANIFEST['expected_case_executions']
-assert EXPECTED==30==sum(REQUIRED.values())
+assert EXPECTED==40==sum(REQUIRED.values())
 
 def correct(cur,p,version,key=None,subject=None):
  auth.actor(cur,subject)
@@ -28,10 +28,23 @@ def correct(cur,p,version,key=None,subject=None):
  b.api.admin(cur);return out
 
 def history(cur,sale,subject=None):
- auth.actor(cur,subject);out=cur.execute('select public.erp_cp7_get_note_correction_v1(%s)',(sale,)).fetchone()[0];b.api.admin(cur);return out
+ auth.actor(cur,subject);out=cur.execute('select public.erp_cp7_get_note_correction_v2(%s)',(sale,)).fetchone()[0];b.api.admin(cur);return out
 
 def book(cur,f,**q):
  auth.actor(cur);out=cur.execute('select public.erp_cp7_get_fg_book_v2(%s)',(json.dumps(dict(q=f['sku'],limit=100,offset=0)|q),)).fetchone()[0];b.api.admin(cur);return out
+
+def lot_card(cur,f,subject=None,**q):
+ auth.actor(cur,subject);out=cur.execute('select public.erp_cp7_get_fg_ledger_v2(%s)',(json.dumps(dict(product_id=f['product'],lot_id=f['lot'],location_id=f['location'],quality_grade='GRADE_A',purpose='CARD',limit=100,offset=0)|q),)).fetchone()[0];b.api.admin(cur);return out
+
+def complete_lot_card(cur,f):
+ result={};off=0
+ while True:
+  w=lot_card(cur,f,offset=off)
+  for r in w['page']['rows']:assert r['id']not in result;result[r['id']]=r
+  if w['page']['next_offset']is None:break
+  off=w['page']['next_offset']
+ assert len(result)==int(w['page']['total'])
+ return result
 
 def edit(cur,f,qty=None,price=None):
  d=source.read(cur,f)['detail']
@@ -40,6 +53,61 @@ def edit(cur,f,qty=None,price=None):
 
 def posted(cur,f,qty='4',price='20'):
  drafts.create(cur,f,drafts.payload(f,qty,price));p,v=cmd.review(cur,f);cmd.command(cur,'POST',p,v);return f
+
+def duplicate_fixture(cur,today,different_prices=False):
+ import cp7_fg_book_cases as native_book
+ f=stock(cur,today,100);p=drafts.payload(f,'5','10');p['items'].append(dict(p['items'][0],qty_pcs='10',unit_price_snapshot='20'if different_prices else'10'))
+ drafts.create(cur,f,p);review,v=cmd.review(cur,f);cmd.command(cur,'POST',review,v)
+ f['root_sale']=f['sale'];f['original_facts']=unchanged_facts(cur,f['sale'])
+ source_rows=cur.execute("select m.id,i.id,i.qty_pcs from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id where i.sale_id=%s and m.movement_type='SALE'order by i.qty_pcs",(f['sale'],)).fetchall()
+ assert len(source_rows)==2 and[source_rows[0][2],source_rows[1][2]]==[5,10],source_rows
+ f['source_lines']=[dict(movement_id=str(m),item_id=str(i),original_qty=str(q))for m,i,q in source_rows]
+ # Ordinary accepted owner move, not a rewrite of physical clocks/quantities.
+ w=native_book.read(cur,f);native_book.command(cur,'MOVE',native_book.move_payload(w,f['source_lines'][0]['movement_id'],f['source_lines'][1]['movement_id']))
+ return f
+
+def duplicate_edit(cur,f,qty='6'):
+ p,v=edit(cur,f);d=source.read(cur,f)['detail'];p['item_lineage']=[i['id']for i in d['items']]
+ target=next(i['item_id']for i in f['source_lines']if i['original_qty']=='10')
+ for index,i in enumerate(d['items']):
+  if i['id']==target:p['items'][index]['qty_pcs']=qty
+ return p,v
+
+def duplicate_read(cur,f):
+ main=complete_book(cur,f);card=complete_lot_card(cur,f)
+ return dict(main=[main[x['movement_id']]for x in f['source_lines']],lot=[card[x['movement_id']]for x in f['source_lines']],available=cmd.available(cur,f))
+
+def duplicate_cases(cur,today):
+ def lines():
+  f=duplicate_fixture(cur,today);p,v=duplicate_edit(cur,f);out=correct(cur,p,v);f['sale']=out['sale_id'];got=duplicate_read(cur,f)
+  assert[D(r['physical_delta'])for r in got['main']]==[D(-5),D(-6)],got
+  assert[D(r['book_physical_after'])for r in got['main']]==[D(95),D(89)],got
+  assert[D(r['physical_delta'])for r in got['lot']]==[D(-5),D(-6)]and got['available']==89,got
+  assert unchanged_facts(cur,f['root_sale'])==f['original_facts']
+  return dict(status='PASS',actual_duplicate_SKU5_10_to5_6=True,two_main_card_deltas_minus5_minus6_and_balances95_89=True,both_per_lot_deltas_correct=True,owner_manual_order_preserved=True,original_posted_facts_immutable=True)
+ def delete_reorder():
+  f=duplicate_fixture(cur,today);p,v=duplicate_edit(cur,f);p['items'].reverse();p['item_lineage'].reverse();out=correct(cur,p,v);f['sale']=out['sale_id'];assert[D(r['physical_delta'])for r in duplicate_read(cur,f)['main']]==[D(-5),D(-6)]
+  p,v=edit(cur,f);d=source.read(cur,f)['detail'];keep=next((index,i)for index,i in enumerate(d['items'])if D(i['qty_pcs'])==6)
+  p['items']=[p['items'][keep[0]]];p['item_lineage']=[keep[1]['id']];out=correct(cur,p,v);f['sale']=out['sale_id'];got=duplicate_read(cur,f)
+  assert[D(r['physical_delta'])for r in got['main']]==[D(0),D(-6)]and[D(r['book_physical_after'])for r in got['main']]==[D(100),D(94)],got
+  assert unchanged_facts(cur,f['root_sale'])==f['original_facts']
+  return dict(status='PASS',explicit_reorder_and_repeated_revision_preserve_line_identity=True,deleting_first_duplicate_does_not_shift_second_into_first_card=True,original_line5_effective0_and_line10_effective_minus6=True,book_balances100_94_and_immutable_originals=True)
+ def returned_line():
+  f=duplicate_fixture(cur,today,True);f['allocations']=returned.read(cur,f)['page']['rows'];line=next(i for i in f['source_lines']if i['original_qty']=='10');allocation=next(a for a in f['allocations']if a['sale_item_id']==line['item_id'])
+  f['bank']=str(source.bc.bank_account(cur,'NOTE-DUP-'+uuid.uuid4().hex[:8]))
+  returned.payments.pay(cur,f,'50');p,v=returned.payload(cur,f,qty='4',refund='80',allocation=allocation['allocation_id'],destination=f['location'])
+  first=next(a for a in f['allocations']if a['sale_item_id']==f['source_lines'][0]['item_id'])
+  p['items'].append(dict(p['items'][0],allocation_id=first['allocation_id'],qty_pcs='1',refund_amount='10'));cmd.command(cur,'RETURN',p,v)
+  return_sources=cur.execute("select m.id,i.qty_pcs from erp.fg_stock_movements m join erp.sales_return_items i on i.id=m.source_id join erp.sales_returns h on h.id=i.return_id where h.sale_id=%s and m.movement_type='SALE_RETURN'order by i.qty_pcs",(f['sale'],)).fetchall();assert[q for _,q in return_sources]==[1,4],return_sources
+  bad,v=duplicate_edit(cur,f,'3');before=snapshot(cur);auth.refused(cur,lambda:correct(cur,bad,v),'CP7_NOTE_RETURN_ALLOCATION_CHANGED');assert snapshot(cur)==before
+  good,v=duplicate_edit(cur,f);out=correct(cur,good,v);f['sale']=out['sale_id'];d=source.read(cur,f)['detail'];got=duplicate_read(cur,f)
+  assert D(d['financial']['gross_total'])==170 and D(d['financial']['paid_total'])==50 and D(d['financial']['return_total'])==90 and D(d['financial']['open_balance'])==30,d
+  items=cur.execute("select i.qty_pcs,i.unit_price_snapshot,r.qty_pcs,r.refund_amount from erp.sales_returns h join erp.sales_return_items r on r.return_id=h.id join erp.sale_stock_allocations a on a.id=r.sale_stock_allocation_id join erp.sales_items i on i.id=a.sale_item_id where h.sale_id=%s and h.status='POSTED'order by i.unit_price_snapshot",(f['sale'],)).fetchall()
+  assert items==[(5,D(10),1,D(10)),(6,D(20),4,D(80))]and got['available']==94,items
+  current_book=complete_book(cur,f);assert[D(current_book[str(m)]['physical_delta'])for m,_ in return_sources]==[D(1),D(4)],current_book
+  assert[D(r['physical_delta'])for r in got['main']]==[D(-5),D(-6)]and unchanged_facts(cur,f['root_sale'])==f['original_facts']
+  return dict(status='PASS',duplicate_SKU_different_prices_both_returns_stay_on_exact_original_lines=True,invoice170_cash50_return90_AR30_stock94=True,two_same_event_return_cards_remain_separate_plus1_plus4=True,invalid_qty3_below_return4_rolls_back_stock_cash_AR_journal_HPP_and_private_lineage=True)
+ return [('NOTE_DUPLICATE_SKU_LINES',lines),('NOTE_DUPLICATE_SKU_DELETE_REORDER',delete_reorder),('NOTE_DUPLICATE_SKU_RETURN_ATOMIC',returned_line)]
 
 def stock(cur,today,qty=1200,at=None):
  at=at or source.fg.ax.r1.now(cur)-timedelta(hours=2)
@@ -68,7 +136,7 @@ def unchanged_facts(cur,sale):
 
 def snapshot(cur):
  b.api.admin(cur)
- return dict(native=b.boundary.snapshot(cur),metadata=cur.execute("select jsonb_build_object('requests',(select coalesce(jsonb_agg(to_jsonb(r)order by actor,request_id),'[]')from cp7_note.requests r),'revisions',(select coalesce(jsonb_agg(to_jsonb(r)order by id),'[]')from cp7_note.revisions r),'context',(select coalesce(jsonb_agg(to_jsonb(r)),'[]')from cp7_note.context r),'journal_restatements',(select coalesce(jsonb_agg(to_jsonb(r)order by inverse_journal_id),'[]')from cp7_note.journal_restatements r),'payment_replays',(select coalesce(jsonb_agg(to_jsonb(r)order by previous_payment_id),'[]')from cp7_note.payment_replays r),'links',(select coalesce(jsonb_agg(to_jsonb(r)order by member_id),'[]')from cp7_fg.correction_movements r))").fetchone()[0])
+ return dict(native=b.boundary.snapshot(cur),metadata=cur.execute("select jsonb_build_object('requests',(select coalesce(jsonb_agg(to_jsonb(r)order by actor,request_id),'[]')from cp7_note.requests r),'revisions',(select coalesce(jsonb_agg(to_jsonb(r)order by id),'[]')from cp7_note.revisions r),'context',(select coalesce(jsonb_agg(to_jsonb(r)),'[]')from cp7_note.context r),'journal_restatements',(select coalesce(jsonb_agg(to_jsonb(r)order by inverse_journal_id),'[]')from cp7_note.journal_restatements r),'payment_replays',(select coalesce(jsonb_agg(to_jsonb(r)order by previous_payment_id),'[]')from cp7_note.payment_replays r),'links',(select coalesce(jsonb_agg(to_jsonb(r)order by member_id),'[]')from cp7_fg.correction_movements r),'item_lineage',(select coalesce(jsonb_agg(to_jsonb(r)order by replacement_item_id),'[]')from cp7_note.item_lineage r))").fetchone()[0])
 
 def inverse_date_truth(cur):
  rows=cur.execute("select check_name,issue_count from erp.run_v267_financial_truth_checks()where check_name='V2620U_JOURNAL_REVERSAL_BUSINESS_DATE'").fetchall()
@@ -97,9 +165,11 @@ def year(cur,today,count):
  for n in range(count):
   later=dict(f,tag=f['tag']+'-L'+str(n+1),sale_at=(first+timedelta(days=n+1)).isoformat());posted(cur,later,'12','20')
   ids.append(str(cur.execute("select m.id from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id where i.sale_id=%s and m.movement_type='SALE'",(later['sale'],)).fetchone()[0]))
- before=complete_book(cur,f);physical_before=cmd.available(cur,f);original_orders={r['id']:r['book_order']for r in before.values()}
- p,v=edit(cur,f,'12');out=correct(cur,p,v);f['sale']=out['sale_id'];after=complete_book(cur,f)
+ before_lot=complete_lot_card(cur,f);before=complete_book(cur,f);physical_before=cmd.available(cur,f);original_orders={r['id']:r['book_order']for r in before.values()}
+ p,v=edit(cur,f,'12');out=correct(cur,p,v);f['sale']=out['sale_id'];after=complete_book(cur,f);after_lot=complete_lot_card(cur,f)
  for ident in ids:
+  assert D(after_lot[ident]['physical_balance'])-D(before_lot[ident]['physical_balance'])==12
+  assert D(after_lot[ident]['available_balance'])-D(before_lot[ident]['available_balance'])==12
   for field in ('official_physical_after','book_physical_after','official_available_after','book_available_after'):
    assert D(after[ident][field])-D(before[ident][field])==12,(ident,field,before[ident],after[ident])
   assert after[ident]['physical_delta']=='-12'and after[ident]['correction_count']=='0'
@@ -272,10 +342,48 @@ def cases(cur,today):
   checks=prepaid.truth(cur);inverse_date_truth(cur)
   if advance:assert prepaid.state(imports,cur,w)['remaining_amount']=='42.25'and prepaid.bank(cur,w)==100
   return dict(status='PASS',original_physical_microseconds_and_funding_preserved=True,original_period_cash_and_advance_liability_unchanged=True,current_period_all_accounts_and_performance_unchanged=True,old_period_revenue_and_operational_minus20_COGS_minus10=True,immutable_private_payment_replay_lineage=True,native_truth_zero=checks,advance=advance)
+ def multi_lot():
+  at=source.fg.ax.r1.now(cur)-timedelta(hours=4);f=stock(cur,today,3,at)
+  receipt=source.fg.ax.post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=f['product'],location_id=f['location'],qty_pcs=5,physical_at=(at+timedelta(hours=1)).isoformat(),reason='Second independently valued physical lot for allocation oracle',owner_unit_value='10',owner_value_reason='Explicit value10 for this separate stock source'))
+  b.api.admin(cur);lot_b=str(cur.execute('select lot_id from erp.fg_unsourced_receipts_v1 where id=%s',(receipt['receipt_id'],)).fetchone()[0]);f['sale_at']=(at+timedelta(hours=2)).isoformat();posted(cur,f,'2')
+  original=f['sale'];facts=unchanged_facts(cur,original);initial=list(cur.execute('select a.lot_id,a.qty_pcs from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s',(original,)).fetchall())
+  assert initial==[(uuid.UUID(f['lot']),D(2))],initial
+  p,v=edit(cur,f,'6');out=correct(cur,p,v);f['sale']=out['sale_id'];a=lot_card(cur,f);z=lot_card(cur,dict(f,lot=lot_b))
+  assert(a['balances']['physical_qty'],z['balances']['physical_qty'])==('0','2'),(a,z)
+  effective_a=next(r for r in a['page']['rows']if r['correction_count']=='1');effective_b=next(r for r in z['page']['rows']if r['correction_count']=='1')
+  assert(effective_a['physical_delta'],effective_a['original_physical_delta'])==('-3','-2')and(effective_b['physical_delta'],effective_b['original_physical_delta'])==('-3','0')
+  assert all(r['lot_id']==f['lot']for r in effective_a['audit_movements'])and all(r['lot_id']==lot_b for r in effective_b['audit_movements'])
+  alloc=cur.execute('select count(distinct a.lot_id),sum(a.qty_pcs)from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s',(out['sale_id'],)).fetchone()
+  total=cur.execute("select sum(qty_signed)from erp.fg_stock_movements where product_id=%s and location_id=%s and quality_grade='GRADE_A'",(f['product'],f['location'])).fetchone()[0]
+  assert alloc==(2,D(6))and cmd.available(cur,f)==0 and cmd.available(cur,dict(f,lot=lot_b))==2 and total==2 and unchanged_facts(cur,original)==facts,(alloc,total,a,z)
+  assert source.read(cur,f)['detail']['financial']['gross_total']=='120.00'
+  return dict(status='PASS',real_Native_two_lot_allocation_3plus3=True,original_lot_only2_preserved=True,new_lot_card_original0_effective_minus3=True,old_lot_card_original_minus2_effective_minus3=True,per_lot_balances0_and2_reconcile_to_current2=True,no_cross_lot_audit_or_money_mutation=True)
+ def multi_line():
+  f=drafts.fixture(cur,today,10);g=drafts.fixture(cur,today,10);p=drafts.payload(f,'4','20');p['items']+=drafts.payload(g,'3','10.01','0.02')['items'];drafts.create(cur,f,p);post,v=cmd.review(cur,f);cmd.command(cur,'POST',post,v)
+  f['bank']=str(source.bc.bank_account(cur,'NOTE-MULTILINE-'+uuid.uuid4().hex[:8]));returned.payments.pay(cur,f,'30');original=f['sale'];facts=unchanged_facts(cur,original)
+  p,v=edit(cur,f)
+  for item in p['items']:item['qty_pcs']='5'if item['product_id']==f['product']else'1'
+  out=correct(cur,p,v);f['sale']=out['sale_id'];d=source.read(cur,f)['detail']
+  assert d['line_count']=='2'and d['financial']['gross_total']=='109.99'and d['financial']['paid_total']=='30.00'and d['financial']['open_balance']=='79.99'
+  assert cmd.available(cur,f)==5 and cmd.available(cur,g)==9 and unchanged_facts(cur,original)==facts
+  assert lot_card(cur,f)['balances']['physical_qty']=='5'and lot_card(cur,g)['balances']['physical_qty']=='9'
+  inverse_date_truth(cur)
+  return dict(status='PASS',two_actual_products_prices_discounts_and_lines_preserved=True,invoice110_01_to109_99_cash30_AR79_99=True,independent_lot_balances5_and9=True,one_owning_atomic_command=True,original_posted_note_immutable=True)
+ def actor_name():
+  f=posted(cur,drafts.fixture(cur,today));root=f['sale'];p,v=edit(cur,f,'3');out=correct(cur,p,v);h=history(cur,root);r=h['history'][0]
+  expected=cur.execute('select full_name from erp.app_users where auth_user_id=%s',(auth.base.OPERATOR_AUTH,)).fetchone()[0]
+  assert r['actor_id']==str(auth.base.OPERATOR_AUTH)and r['actor_display_name']==expected.strip()and r['actor_name_basis']=='CURRENT_PROFILE'
+  before=cur.execute('select to_jsonb(r)from cp7_note.revisions r where r.id=%s',(out['revision_id'],)).fetchone()[0]
+  cur.execute("update erp.app_users set full_name='Nama profil sesudah koreksi'where auth_user_id=%s",(auth.base.OPERATOR_AUTH,));renamed=history(cur,root)['history'][0]
+  assert renamed['actor_display_name']=='Nama profil sesudah koreksi'and renamed['actor_id']==r['actor_id']
+  assert cur.execute('select to_jsonb(r)from cp7_note.revisions r where r.id=%s',(out['revision_id'],)).fetchone()[0]==before
+  return dict(status='PASS',immutable_actor_UUID=True,current_profile_label_explicit_not_fabricated_historical_name=True,renamed_profile_does_not_edit_revision=True)
  tests=[('YEAR_30',lambda:year(cur,today,30)),('YEAR_364',lambda:year(cur,today,364)),('REPEATED_REVISIONS',repeat),('FULL_NATIVE_FINANCIAL',financial),('RETURN_OTHER_WAREHOUSE',other_warehouse),('EXACT_CENTS',cents),('ADDED_SKU_MAIN_BOOK',sku),('HISTORICAL_NEGATIVE',negative),('CLOSED_PERIOD_NATIVE_RULE',closed),('LATE_FAILURE_ATOMIC',injected),('OVERPAYMENT_ATOMIC',overpaid),('RETURN_CAPACITY_ATOMIC',allocation),('CHILD_REVIEW_CHANGED',review),('REPLAY_CURRENT_AUTHORITY',request_access),('PRIVATE_CLOSED_FIELDS',private),('SAME_DAY_CHRONOLOGY',same_day)]
  tests=[('NOTE_'+name,fn)for name,fn in tests]
  tests += [('NOTE_PREPAYMENT_REPLAY',wallet_replay),('NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC',wallet_overpaid),('NOTE_ECONOMIC_REPORT_RESTATEMENT',economic_report),('NOTE_EXACT_TIME_SOURCE_ORDER',exact_order)]
  tests += [('NOTE_OLD_CASH_RETURN_REPORT',lambda:cross_period_funding(False)),('NOTE_OLD_ADVANCE_CASH_REPORT',lambda:cross_period_funding(True))]
+ tests += [('NOTE_MULTI_LOT_CARD',multi_lot),('NOTE_MULTI_LINE_ATOMIC',multi_line),('NOTE_CORRECTION_ACTOR',actor_name)]
+ tests += duplicate_cases(cur,today)
  assert [name for name,_ in tests]==MANIFEST['groups']['native']
  return tests
 
@@ -344,6 +452,19 @@ def http_cases(http,today):
   assert'unit_hpp'not in json.dumps(result['body'])and'unit_cost'not in json.dumps(result['body'])
   assert http.anon_rpc('erp_cp7_get_fg_book_v2',args)['status']in(401,403)
   return dict(status='PASS',real_Auth_corrected_main_card=True,immutable_original_and_corrected_quantity_visible=True,no_money_on_stock_book=True)
- tests=[('NOTE_HTTP_COMMAND_REPLAY_AUTH',correction),('NOTE_HTTP_CORRECTED_BOOK',filtered_book)]
+ def lot_actor_http():
+  owner=http.login('OWNER','note-lot-actor-owner')
+  with http.connect()as conn,conn.cursor()as cur:f=posted(cur,drafts.fixture(cur,today,40),'24');p,v=edit(cur,f,'12');conn.commit()
+  result=owner.rpc('erp_cp7_correct_note_v1',dict(p_payload=p,p_request=str(uuid.uuid4()),p_expected=v));assert result['status']==200,result
+  args=dict(p_query=dict(product_id=f['product'],lot_id=f['lot'],location_id=f['location'],quality_grade='GRADE_A',purpose='CARD',q=f['tag'],limit=1,offset=0))
+  card=owner.rpc('erp_cp7_get_fg_ledger_v2',args);assert card['status']==200,card
+  r=card['body']['page']['rows'][0];assert r['physical_delta']=='-12'and r['original_physical_delta']=='-24'and r['physical_balance']=='28'and r['correction_count']=='1'
+  h=owner.rpc('erp_cp7_get_note_correction_v2',dict(p_sale=f['sale']));assert h['status']==200,h
+  assert h['body']['history'][0]['actor_id']==owner.auth_user_id and h['body']['history'][0]['actor_display_name']and h['body']['history'][0]['actor_name_basis']=='CURRENT_PROFILE'
+  assert http.anon_rpc('erp_cp7_get_fg_ledger_v2',args)['status']in(401,403)and http.anon_rpc('erp_cp7_get_note_correction_v2',dict(p_sale=f['sale']))['status']in(401,403)
+  with http.connect()as conn,conn.cursor()as cur:cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
+  assert owner.rpc('erp_cp7_get_fg_ledger_v2',args)['status']==403 and owner.rpc('erp_cp7_get_note_correction_v2',dict(p_sale=f['sale']))['status']==403
+  return dict(status='PASS',real_Auth_grouped_lot_suffix_and_actor_labels=True,anonymous_and_current_revocation_both_deny=True)
+ tests=[('NOTE_HTTP_COMMAND_REPLAY_AUTH',correction),('NOTE_HTTP_CORRECTED_BOOK',filtered_book),('NOTE_HTTP_LOT_AND_ACTOR',lot_actor_http)]
  assert [name for name,_ in tests]==MANIFEST['groups']['http']
  return tests

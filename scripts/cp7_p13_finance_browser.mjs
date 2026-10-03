@@ -12,7 +12,7 @@ async function report(ui,f,mobile){
   const link=p.getByRole('button',{name:'• Laporan & Tutup Buku',exact:true});if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Keuangan'}).click();await link.click()
   await ui.expect(ws.getByRole('heading',{name:'Laporan & Tutup Buku',exact:true})).toBeVisible()
   await ui.expect(ws.getByRole('button',{name:'Tampilkan laporan',exact:true})).toBeEnabled()
-  for(const name of ['Periode laporan dari','Periode laporan sampai','Posisi laporan pada'])await ws.getByLabel(name,{exact:true}).fill(f.today)
+  for(const [name,key] of [['Periode laporan dari','from'],['Periode laporan sampai','to'],['Posisi laporan pada','as_of']])await ws.getByLabel(name,{exact:true}).fill(f.report_query[key])
   await ws.getByRole('button',{name:'Tampilkan laporan',exact:true}).click()
   const performance=ws.getByRole('region',{name:'Kinerja keuangan tercatat'}),position=ws.getByRole('region',{name:'Posisi keuangan tercatat'}),basis=ws.getByRole('region',{name:'Basis dan kesiapan laporan'})
   for(const [label,key]of [['Penjualan menurut jurnal','sales_revenue_gl'],['Harga pokok penjualan','cogs_gl'],['Laba kotor','gross_profit'],['Laba/rugi bersih','net_profit']])await ui.expect(performance.locator('.cproc-total').filter({has:p.getByText(label,{exact:true})}).locator('strong')).toHaveText(money(f.current.snapshot.performance[key]))

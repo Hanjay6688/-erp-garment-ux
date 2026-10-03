@@ -19,7 +19,8 @@ KERNEL_FILES=(
 )
 ADAPTER_FILES=('planning/bootstrap.sql','planning/history-source.sql','planning/history.sql','planning/ownership.sql',
  'model-native/bootstrap.sql','model-native/source.sql','model-native/evaluation.sql','model-native/ownership.sql',
- 'cutting-yield/source.sql')
+ 'cutting-yield/source.sql','cutting-yield/learning-kernel.sql','cutting-yield/inputs.sql',
+ 'cutting-yield/observations.sql','cutting-yield/model-producer.sql')
 ROLES=predecessor.ROLES
 GRANTS=predecessor.GRANTS
 
@@ -33,6 +34,8 @@ def source_hashes():
 
 def verify(cur):
  from cp7_model_bundle import verify as verify_models
+ from cp7_cutting_learning_verify import verify as verify_cutting_learning
+ verify_cutting_learning(cur)
  verify_models(cur)
  cutting_yield.verify(cur)
  # Both metadata originals must keep their actual before-row UPDATE/DELETE

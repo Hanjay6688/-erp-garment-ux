@@ -1,0 +1,34 @@
+{
+  "contract": "cp7.native-cutting-observation-native44.v1",
+  "expected_case_count": 44,
+  "required_case_counts": {
+    "native": 28,
+    "races": 6,
+    "http": 4,
+    "browser": 6
+  },
+  "preserve_every_predecessor34": true,
+  "additional_cases": {
+    "native": [
+      "CUT_OBS_NATIVE_POSTED",
+      "CUT_OBS_NATIVE_UNPOSTED",
+      "CUT_OBS_NATIVE_LATE",
+      "CUT_OBS_NATIVE_INPUT_REVISION",
+      "CUT_OBS_NATIVE_UUID_RECOVERY",
+      "CUT_OBS_NATIVE_CLOSED_CAS",
+      "CUT_OBS_NATIVE_PRIVATE_ACTOR"
+    ],
+    "races": [
+      "CUT_OBS_RACE_CURRENT_REVOKE",
+      "CUT_OBS_RACE_NATIVE_VERSION"
+    ],
+    "http": [
+      "CUT_OBS_ACTUAL_AUTH_HTTP"
+    ],
+    "browser": []
+  },
+  "observation_connected_consumer_qualification": false,
+  "trained_model_qualification": false,
+  "must_pass_all_install_restore_primary_backup_advisor_runtime_current_Auth_cleanup_gates": true,
+  "production_go": false
+}

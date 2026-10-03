@@ -1,0 +1,9 @@
+# CP7 continuation at owner relay22:50+07
+
+Native40 first admission at3c05905 caught a real SQL name collision: the allocation table alias `old` was interpreted as the PLpgSQL cached-request record. The alias is renamed `prior_allocation`; exact old/new sale-item, allocation lot/location/capacity guards and all six Native financial helpers remain unchanged. The required40 cases did not execute, so this is not qualification. The immutable first failed artifact is pinned in native40_incomplete_artifact_projection.json; fresh complete40 remains mandatory.
+
+The complete Native284 successor at13bafb9/run37023166457 now passes all179DB/40races/29HTTP/36browsers (284), exact bundlea99e8db. It uses the same product bundle as the earlier2f failed two-browser run. Both exact failed336MB and qualified348MB artifacts are projected read-only; the failed run's real500 visible diagnostic is printed without credentials or product writes. A successful repeat does not explain that earlier failure or qualify the changed3c correction source.
+
+Claude's receipt candidate415b76a6/run37026064573 has been checked directly from completed CI:22DB/3observed races/1real AuthHTTP/2browsers,28PASS, CP6 restoration/advisor pass and zero console errors. It is still separate and not imported. Latest Claude headf1e11a04 and document were read without changes. The private cutting-role test in that branch is older: SET ROLE and denied evaluation use separate psql sessions. Current writer code already does both in one invocation and source13b Shell/CodeQL passes; no reimplementation is needed. Preserve every shared Claude file until a controlled source-bound composition.
+
+Local execution is disconnected; all37 candidate files were safely committed before the disconnect. Work continues through verified GitHub content API commits and actual CI. No main merge, hosted work, independent acceptance or production GO.

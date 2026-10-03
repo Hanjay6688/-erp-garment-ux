@@ -184,7 +184,12 @@ def roll_receipt(cur,today,rolls=('50','50','50'),price='10',final=True,day_offs
     f=receipt.fixture(cur,today,qty=str(sum(D(r) for r in rolls)),price=price,final=final)
     if day_offset is not None:
         f['day']=today-timedelta(days=day_offset);aa.prior.set_open_period(cur,f['day']-timedelta(days=1))
-        f['payload']['physical_at']=aa.at(f['day'],10).isoformat()
+        # Before 10:00 WIB, a current-day fixture must use a real past time.
+        # Preserve its date (the advance guard compares business dates) and
+        # retain Native's future-event refusal unchanged.
+        planned=aa.at(f['day'],10)
+        clock=cur.execute('select clock_timestamp()').fetchone()[0]
+        f['payload']['physical_at']=min(planned,clock-timedelta(seconds=1)).isoformat()
     f['payload']['lines'][0]['rolls']=[dict(roll_number=f['tag']+'-R%d'%(n+1),qty=q) for n,q in enumerate(rolls)]
     d=receipt.command(cur,'SAVE_DRAFT',f['payload']);f['receipt']=receipt.post(cur,d);f['purchase']=f['receipt']['purchase_id']
     f['rolls']=[str(r[0]) for r in cur.execute('select r.id from erp.material_rolls r join erp.material_purchase_items i on i.id=r.purchase_item_id where i.purchase_id=%s order by r.roll_number',(f['purchase'],)).fetchall()]
