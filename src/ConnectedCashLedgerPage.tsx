@@ -17,6 +17,8 @@ function queryFor(from:string,to:string):AnalysisDates{
  return {from,to,as_of:to,compare_from:previous,compare_to:previous}
 }
 
+import TransactionSourceLink from './TransactionSourceNavigation'
+
 export default function ConnectedCashLedgerPage(){
  const {runtime,identity}=useAuth()
  if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes('finance.cash.view')||!identity.permissions.includes('finance.reports.view'))return <section className="panel" role="alert">Hak melihat kas dan laporan keuangan diperlukan.</section>
@@ -73,7 +75,7 @@ function Workspace(){
      {page.rows.map(row=><article className="cproc-item" data-journal-id={row.id} key={row.id}>
       <strong>{row.journal_number}</strong><p>{row.source_type} · pembukuan {row.transaction_date} · kejadian {row.economic_date}</p>
       <p>Debit {money(row.debit)} · kredit {money(row.credit)} · bersih {money(row.net)}.</p>
-      {row.source_id?<small>Dokumen sumber {row.source_id}</small>:null}
+      <TransactionSourceLink sourceType={row.source_type} sourceId={row.source_id} disabled={busy}/>{row.source_id?<small>Dokumen sumber {row.source_id}</small>:null}
       {row.reversal_of_id?<small>Pembalikan jurnal {row.reversal_of_id}</small>:row.status==='REVERSED'?<small>Jurnal asli sudah dibalik. Catatan asli dan pembalikannya mengikuti tanggal pembukuan masing-masing.</small>:null}
      </article>)}
      <div className="cproc-pagination"><span>Total {page.total} jurnal · halaman mulai {page.offset+1}</span>

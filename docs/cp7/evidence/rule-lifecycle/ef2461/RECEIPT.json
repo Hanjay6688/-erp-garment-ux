@@ -1,0 +1,31 @@
+{
+  "source_commit": "ef2461f89b3f257b956fe17ce308e1049630cd63",
+  "source_bundle_sha256": "41751a5260debc4266654861ee98d4bd4e218486534864242611f5795b00bd61",
+  "run_id": 37104626413,
+  "job_id": 111150630289,
+  "artifact_id": 11267497165,
+  "zip_bytes": 10524850,
+  "zip_sha256": "8fc149fa1d9e47e727fce8b73677b38b73f4a2f0a8a41d034793437d814fb366",
+  "member": "CP7_RULE_LIFECYCLE.json",
+  "member_sha256": "2571e0e35f83a5c425f0b762f8a1df82315cf5e9af3d23986d8e57f4137b5a3e",
+  "gzip_sha256": "629b5e22dbfd24cb7d461b4387f324601841fec5a993ff90d148349bf3cdc129",
+  "status": "PASS",
+  "counts": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -26,3 +26,19 @@ Continue source navigation and submenu/transaction controls while Native qualifi
 Implementation, writer verification, independent acceptance, installed release and production authorization are separate statuses. audit_complete=false; independent_acceptance=false; production_go=false.
 
 First Native16 on92203d39:15 PASS/one INCOMPLETE fixture refusal, LAST_ACTIVE_OWNER_PROTECTED. All product lifecycle, observed correction wait and Auth checks pass; the test attempted to deactivate the last Owner. Its exact Original and archive digest are retained under evidence/rule-lifecycle/first922. The successor uses a separate ordinary ADMIN test account/own Original, revokes that account, and preserves the Native last-Owner guard, all16 cases and every cleanup gate. Retest pending.
+
+## Increment 1 qualification
+
+Successor ef2461f8 Native16 PASS:10 DB,2 observed races,2 real Auth/HTTP,2 browser. Exact Original retained in evidence/rule-lifecycle/ef2461. ERP/public/Auth definitions, owners, ACLs and data restored exactly; advisor gate passes. The predecessor Original with the last-Owner fixture refusal remains retained. No independent/production acceptance is inferred.
+
+## Increment 2 — exact source navigation candidate
+
+Books for FG stock, manual FG books, materials, cash and journals now expose Buka transaksi asal. A read-only current-authority public facade resolves actual Native child FKs to their owning receipt, transfer, count, FG adjustment, sale or miscellaneous-finance header. It follows actual inverse-journal links; unsupported kinds stay explicit. It returns closed metadata only, no money/quantity, and has no ERP DML grants. Invoice sources follow invoice-line purchase-item FKs, including a deterministic real receipt containing a multi-receipt invoice; no nonexistent header FK is assumed.
+
+Source payment/return/invoice positions use the owning Native reader ordering and 25-row page, then the owner re-reads/checks the exact document. A missing target refuses instead of showing another transaction. Route, manual navigation and permission generations retire late results; source reads never start a business writer. Posting, draft edit/delete and inverse use existing owning commands, exact UUID recovery, stale-review fences and Native dependencies.
+
+Local77 impacted DOM plus12 new parser/navigation tests PASS, build/security PASS. Predeclared Native18 is12 source controls,2 retained F03 write/current-revoke schedules,2 real Auth/HTTP and2 journal-source-to-owning-inverse browser journeys. Native18 pending; PGlite stand-ins are explicitly not Native proof. Existing152/284/9/16 and F03 budgets are unchanged.
+
+Remaining in this increment: production/laundry/BS/accessory/payroll source families, supplier-payment exact owning panel and coverage-wide submenu tools. New resolver supports the declared families only; no full-source coverage claim.
+
+The broad local test command cannot use native PostgreSQL here (missing installation/root process). Its explicit PGlite successor runs1310 tests:1307 PASS,3 INCOMPLETE in the unchanged internal-guard stand-in because guard_subject SELECT is refused. Those are not relabelled PASS or skipped. Current-source Native Shell must qualify the full suite; no guard grant is widened to fix this local result. Focused89/build/security and7 explicit source SQL stand-in checks pass.

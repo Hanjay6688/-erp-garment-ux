@@ -1,3 +1,4 @@
+import {useTransactionSource} from './TransactionSourceNavigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -83,12 +84,13 @@ function document(d: Draft, valueAccess: boolean, uoms: Record<string, Procureme
 
 export default function ConnectedProcurementPage() {
   const { runtime, identity } = useAuth()
+  const source=useTransactionSource('RECEIPT')
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') return <section className="panel"><h1>Pembelian & penerimaan</h1><p>Masuk ke ERP yang tersambung untuk membuka penerimaan.</p></section>
   if (!identity.permissions.includes('warehouse.procurement.view')) return <section className="panel" role="alert">Hak melihat penerimaan belum diberikan.</section>
-  return <ProcurementWorkspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
+  return <ProcurementWorkspace key={`${source?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`} initialPurchaseId={source?.document.id??null}/>
 }
 
-function ProcurementWorkspace() {
+function ProcurementWorkspace({initialPurchaseId}:{initialPurchaseId:string|null}) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Sesi penerimaan belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), valueAccess = identity.permissions.includes('finance.ap.view')
@@ -96,7 +98,7 @@ function ProcurementWorkspace() {
   const [data, setData] = useState<ProcurementWorkspace | null>(null), [loading, setLoading] = useState(false), [error, setError] = useState('')
   const [query, setQuery] = useState(''), [status, setStatus] = useState('ALL'), [draft, setDraft] = useState<Draft | null>(null), [postReason, setPostReason] = useState('Penerimaan barang telah diperiksa')
   const [reverseReview, setReverseReview] = useState<{ id: string; version: string; readAt: string; reason: string; checked: boolean } | null>(null)
-  const requested = useRef({ q: '', status: 'ALL', offset: 0, purchase_id: null as string | null }), sequence = useRef(0)
+  const requested = useRef({ q: '', status: 'ALL', offset: 0, purchase_id: initialPurchaseId }), sequence = useRef(0)
   const load = useCallback(async () => {
     const s = ++sequence.current, ticket = beginRead(), filters = { ...requested.current }
     setLoading(true); setError('')

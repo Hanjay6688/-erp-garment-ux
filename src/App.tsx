@@ -1,3 +1,4 @@
+import {TransactionSourceProvider} from './TransactionSourceNavigation'
 import { alignSizeQuantities } from './sizeQuantities'
 import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
@@ -446,9 +447,11 @@ function ErpApp() {
   const accessBundle = identity.status === 'AUTHORIZED' ? identity : null
   const demoAccess = identity.status === 'DEMO'
   const canSeeNavLabel = (label: string) => demoAccess || isNavLabelAllowed(accessBundle, label)
-  const [page, setPage] = useState<Page>(() => demoAccess
+  const [page, setPageState] = useState<Page>(() => demoAccess
     ? 'dashboard'
     : (firstAllowedPageId(accessBundle) as Page | null) ?? 'dashboard')
+  const [sourceEpoch,setSourceEpoch]=useState(0)
+  const setPage=(next:Page)=>{setSourceEpoch(value=>value+1);setPageState(next)}
   const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
   const invoiceSourceScope=runtime.mode==='DISPOSABLE_TEST'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
   const [expanded, setExpanded] = useState<NavSection | null>(null)
@@ -595,7 +598,7 @@ function ErpApp() {
     setMobileNav(false)
   }
 
-  return <div className="app-shell">
+  return <TransactionSourceProvider scope={invoiceSourceScope} epoch={sourceEpoch} onNavigate={route=>{if(!accessBundle||!isPageAllowed(accessBundle,route))throw Error('Hak membuka transaksi asal belum diberikan.');setPageState(route as Page);setMobileNav(false)}}><div className="app-shell">
     <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
       <div className="brand-row"><div className="brand-mark"><Icon name="brand" /></div><div><strong>ATELIER</strong><span>GARMENT ERP</span></div><button className="nav-close" aria-label="Tutup menu" onClick={() => setMobileNav(false)}>×</button></div>
       <div className="nav-caption">MENU UTAMA</div>
@@ -758,7 +761,7 @@ function ErpApp() {
         </>}
       </div>
     </main>
-  </div>
+  </div></TransactionSourceProvider>
 }
 
 function WorkspaceFallback({ label }: { label: string }) {

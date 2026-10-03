@@ -6,7 +6,8 @@ FILES=('planning/material-requirements.sql','planning/analysis.sql','planning/an
 ROLES=('cp7_plan_writer',)+predecessor.ROLES
 GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','cp7_private.immutable_run()','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
 MATERIAL_TABLES=('erp.accessory_bom_versions','erp.accessory_bom_items','erp.accessory_categories')
-TABLE_GRANTS={'cp7_capture':{name:'SELECT'for name in MATERIAL_TABLES}}
+import cp7_transaction_source_bundle as transaction_source
+TABLE_GRANTS={'cp7_capture':{name:'SELECT'for name in MATERIAL_TABLES},transaction_source.ROLE:{'erp.'+name:'SELECT'for name in transaction_source.TABLES}}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):

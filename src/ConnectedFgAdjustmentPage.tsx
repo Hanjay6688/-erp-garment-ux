@@ -1,3 +1,4 @@
+import {useTransactionSource} from './TransactionSourceNavigation'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -17,18 +18,19 @@ type Line=Pick<FgPosition,'product_id'|'commercial_sku'|'size_code'|'lot_id'|'lo
 type Form={id:string|null;version:string|null;location:string;locationName:string;number:string;at:string;originalAt:string|null;reasonCode:string;reason:string;notes:string|null;lines:Line[]}
 const statusLabel={DRAFT:'Draft',POSTED:'Sudah disahkan',REVERSED:'Dibatalkan'}
 export default function ConnectedFgAdjustmentPage(){
+ const source=useTransactionSource('FG_ADJUSTMENT')
  const {runtime,identity}=useAuth()
  if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes('warehouse.fg.view'))return <section className="panel" role="alert">Hak melihat barang jadi diperlukan.</section>
- return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
+ return <Workspace key={`${source?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`} initialId={source?.document.id??null}/>
 }
-function Workspace(){
+function Workspace({initialId}:{initialId:string|null}){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi gudang belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.hpp.view')
  const mutation=useProductionMutation('FG_ADJUSTMENT'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
  const [stock,setStock]=useState<FgWorkspace|null>(null),[docs,setDocs]=useState<FgAdjustments|null>(null),[form,setForm]=useState<Form|null>(null)
  const [search,setSearch]=useState(''),[docSearch,setDocSearch]=useState(''),[loading,setLoading]=useState(false),[error,setError]=useState(''),[reviewed,setReviewed]=useState(false),[reason,setReason]=useState('Jumlah dan alasan sudah diperiksa')
  const [stockOrder,setStockOrder]=useState<RecordPageOrder>('SOURCE'),[docOrder,setDocOrder]=useState<RecordPageOrder>('SOURCE'),[docStatus,setDocStatus]=useState('')
- const request=useRef({q:'',offset:0,docQ:'',docOffset:0,selected:null as string|null}),sequence=useRef(0)
+ const request=useRef({q:'',offset:0,docQ:'',docOffset:0,selected:initialId}),sequence=useRef(0)
  const load=useCallback(async()=>{
   const q={...request.current},s=++sequence.current,ticket=beginRead();setLoading(true);setError('');setStock(null);setDocs(null);setReviewed(false)
   try{

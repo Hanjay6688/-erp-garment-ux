@@ -1,0 +1,13 @@
+import {describe,it,expect} from 'vitest'
+import {parseTransactionSource} from './transactionSource'
+const source='11111111-1111-4111-8111-111111111111',parent='22222222-2222-4222-8222-222222222222',actor='33333333-3333-4333-8333-333333333333'
+const ref={source_type:'SALES_PAYMENT',source_id:source}
+const receipt=()=>({contract_version:'cp7.transaction-source.v1',actor_scope_id:actor,source:{...ref},status:'AVAILABLE',document:{domain:'SALE',route:'sales-payments',id:parent,number:'INV-26',status:'PARTIAL_PAID',revision:'9007199254740993',focus:{kind:'SALES_PAYMENT',id:source,page_offset:25}},read_at:'2026-10-03T04:00:00.123456Z',business_DML:false})
+describe('exact transaction source boundaries',()=>{
+ it('keeps the Native parent, exact child page and large revision without numeric conversion',()=>{const result=parseTransactionSource(receipt(),ref,actor);expect(result.document).toMatchObject({id:parent,revision:'9007199254740993',focus:{id:source,page_offset:25}})})
+ it('rejects a source or actor belonging to another selection',()=>{for(const change of [{source:{...ref,source_id:parent}},{actor_scope_id:parent}])expect(()=>parseTransactionSource({...receipt(),...change},ref,actor)).toThrow()})
+ it('rejects a mismatched parent domain, route, payment child or missing focus',()=>{for(const change of [{domain:'RECEIPT',route:'procurement'},{route:'sales-invoice'},{focus:null},{focus:{kind:'SALES_PAYMENT',id:parent,page_offset:25}}]){const r=receipt();Object.assign(r.document,change);expect(()=>parseTransactionSource(r,ref,actor)).toThrow()}})
+ it('rejects invented page positions and money or writer fields',()=>{for(const change of [{page_offset:1},{page_offset:1000025},{page_offset:'25'}]){const r=receipt();Object.assign(r.document.focus,change);expect(()=>parseTransactionSource(r,ref,actor)).toThrow()}expect(()=>parseTransactionSource({...receipt(),business_DML:true},ref,actor)).toThrow();const r=receipt();Object.assign(r.document,{amount:'500.00'});expect(()=>parseTransactionSource(r,ref,actor)).toThrow()})
+ it('does not invent a source document for an unsupported type',()=>{const r={...receipt(),source:{source_type:'UNREGISTERED_SOURCE',source_id:source},status:'UNSUPPORTED_SOURCE',document:null};expect(parseTransactionSource(r,r.source,actor).document).toBeNull();expect(()=>parseTransactionSource({...r,document:receipt().document},r.source,actor)).toThrow()})
+ it('requires a direct document reference to equal the source UUID',()=>{const r=receipt();r.source={source_type:'SALE',source_id:source};Object.assign(r.document,{route:'sales-invoice',focus:null});expect(()=>parseTransactionSource(r,r.source,actor)).toThrow();r.document.id=source;expect(parseTransactionSource(r,r.source,actor).document?.id).toBe(source)})
+})

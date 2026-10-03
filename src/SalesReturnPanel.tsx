@@ -1,3 +1,4 @@
+import {useTransactionSource} from './TransactionSourceNavigation'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -14,16 +15,18 @@ type Line={key:string;source:Allocation;location:Location;qty:string;grade:'GRAD
 type Props={source:Source;locked:boolean;stale:boolean;onClose:()=>void;onSave:(action:'RETURN'|'RETURN_REVERSE',document:Json,version:string)=>void}
 const money=(s:string)=>`Rp${numberText(s)}`
 export default function SalesReturnPanel({source,locked,stale,onClose,onSave}:Props){
+ const navigation=useTransactionSource('SALE'),focus=navigation?.document.id===source.id&&navigation.document.focus?.kind==='SALES_RETURN'?navigation.document.focus:null
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi retur belum siap.')
- const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),query=useRef({ALLOCATIONS:{offset:0,q:''},RETURNS:{offset:0,q:''},LOCATIONS:{offset:0,q:''}})
+ const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),query=useRef({ALLOCATIONS:{offset:0,q:''},RETURNS:{offset:focus?.page_offset??0,q:''},LOCATIONS:{offset:0,q:''}})
  const [data,setData]=useState<{allocations:Read<Allocation>;returns:Read<Record>;locations:Read<Location>}|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
  const [q,setQ]=useState(''),[locationQ,setLocationQ]=useState(''),[location,setLocation]=useState<Location|null>(null),[number,setNumber]=useState(''),[at,setAt]=useState(()=>cp6WibDateTimeInput()),[notes,setNotes]=useState(''),[reason,setReason]=useState('Barang retur dan invoice sudah diperiksa'),[review,setReview]=useState(false),[reverse,setReverse]=useState<Record|null>(null),[lines,setLines]=useState<Line[]>([])
  const load=useCallback(async()=>{
   const ticket=++seq.current,queries=structuredClone(query.current);setData(null);setBusy(true);setError('');setReview(false)
   try{const kinds=['ALLOCATIONS','RETURNS','LOCATIONS'] as const;const rows=await Promise.all(kinds.map(async kind=>{const r=await client.rpc('erp_cp7_get_sales_returns_v1',{p_query:{sale_id:source.id,kind,...queries[kind],limit:25}});if(r.error)throw r.error;return r.data}));if(ticket!==seq.current)return
+   const focused=parseSalesReturns<Record>(rows[1],'RETURNS',source,queries.RETURNS.offset);if(focus&&queries.RETURNS.offset===focus.page_offset&&!focused.page.rows.some(x=>x.id===focus.id))throw Error('Retur sumber berubah. Buka ulang sumber dari buku.');
    setData({allocations:parseSalesReturns<Allocation>(rows[0],'ALLOCATIONS',source,queries.ALLOCATIONS.offset),returns:parseSalesReturns<Record>(rows[1],'RETURNS',source,queries.RETURNS.offset),locations:parseSalesReturns<Location>(rows[2],'LOCATIONS',source,queries.LOCATIONS.offset)})
   }catch(e){if(ticket===seq.current)setError(normalizeClientError(e).message)}finally{if(ticket===seq.current)setBusy(false)}
- },[client,source])
+ },[client,source,focus])
  useEffect(()=>{void load();return()=>{++seq.current}},[load])
  const canCreate=identity.permissions.includes('sales.return.create')&&identity.permissions.includes('sales.return.post'),canReverse=identity.permissions.includes('sales.return.reverse')&&['OWNER','ADMIN'].includes(identity.profile.role)
  const disabled=locked||stale||busy||!data,physical=cp6WibPhysicalTimeToIso(at),total=salesReturnTotal(lines.map(l=>l.refund)),quantities=new Map<string,bigint>()

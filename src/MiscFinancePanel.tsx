@@ -9,7 +9,7 @@ import { miscAmount, miscCents, parseMiscRead, parseMiscOutcome, type MiscType, 
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 
-type Props = { client: ReturnType<typeof getUatSupabaseClient>; onChanged: () => Promise<boolean>; onRetire: () => void }
+type Props = { initialId?:string|null; client: ReturnType<typeof getUatSupabaseClient>; onChanged: () => Promise<boolean>; onRetire: () => void }
 const money = (n: string) => 'Rp' + formatReceiptDecimal(n)
 const emptyQuery = (): MiscQuery => ({ q: '', status: null, transaction_id: null, offset: 0, category_offset: 0, cash_offset: 0 })
 const typeLabel = { OTHER_INCOME: 'Pendapatan lain', OTHER_EXPENSE: 'Biaya lain' }
@@ -17,11 +17,11 @@ const statusLabel = { DRAFT: 'Draft', POSTED: 'Tercatat', REVERSED: 'Sudah dibal
 export default function MiscFinancePanel(props: Props) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED' || !['OWNER', 'ADMIN'].includes(identity.profile.role) || !identity.permissions.includes('finance.journal.view') || !identity.permissions.includes('finance.cash.view')) return <p role="alert">Transaksi lain tersedia untuk Owner atau Admin dengan hak melihat jurnal dan kas.</p>
-  return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`} {...props}/>
+  return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}:${props.initialId??''}`} {...props}/>
 }
-function Workspace({ client, onChanged, onRetire }: Props) {
+function Workspace({ client, onChanged, onRetire,initialId }: Props) {
   const mutation = useProductionMutation('FINANCE_MISC'), { beginRead, finishRead, isReadCurrent, run, reconcile, invalidate } = mutation
-  const query = useRef(emptyQuery())
+  const query = useRef({...emptyQuery(),transaction_id:initialId??null})
   const [data, setData] = useState<MiscRead | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState('')
   const [q, setQ] = useState(''), [status, setStatus] = useState<MiscQuery['status']>(null), [outcome, setOutcome] = useState<MiscOutcome | null>(null)
   const [formOpen, setFormOpen] = useState(false), [editing, setEditing] = useState<string | null>(null)

@@ -1,3 +1,4 @@
+import {useTransactionSource} from './TransactionSourceNavigation'
 import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -21,19 +22,21 @@ const labels:Record<SalesStatus,string>={DRAFT:'Draft · stok dipesan',POSTED:'B
 const money=(v:string)=>`Rp${numberText(v)}`
 type View='sales-invoice'|'sales-allocation'|'sales-payments'|'sales-returns'
 export default function ConnectedSalesPage({view='sales-invoice',initialSaleId=null}:{view?:View;initialSaleId?:string|null}){
+ const source=useTransactionSource('SALE')
  const {runtime,identity}=useAuth()
  if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes('sales.invoice.view'))return <section className="panel" role="alert">Hak melihat invoice diperlukan.</section>
  if(initialSaleId!==null&&!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(initialSaleId))return <section className="panel" role="alert">Referensi invoice tidak sah. Buka kembali dokumen sumber.</section>
- const selected=initialSaleId?.toLowerCase()??null
- return <Workspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}:${view}:${selected??''}`} view={view} initialSaleId={selected}/>
+ const selected=source?.document.id??initialSaleId?.toLowerCase()??null
+ return <Workspace key={`${source?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}:${view}:${selected??''}`} view={view} initialSaleId={selected} focus={source?.document.focus??null}/>
 }
-function Workspace({view,initialSaleId}:{view:View;initialSaleId:string|null}){
+function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|null;focus:import('./transactionSource').TransactionDocument['focus']}){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi penjualan belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.ar.view')
  const mutation=useProductionMutation('SALES'),{beginRead,currentReadTicket,finishRead,isReadCurrent,run,reconcile,invalidate}=mutation
  const [data,setData]=useState<SalesRead|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[q,setQ]=useState(''),[status,setStatus]=useState('')
  const [draft,setDraft]=useState<{initial:NonNullable<SalesRead['detail']>|null;key:string;correction?:boolean}|null>(null)
  const [history,setHistory]=useState<NoteCorrectionWorkspace|null>(null),[historyBusy,setHistoryBusy]=useState(false)
+ const openedFocus=useRef(false)
  const [cash,setCash]=useState<{source:NonNullable<SalesRead['detail']>;key:string}|null>(null)
  const [returns,setReturns]=useState<{source:NonNullable<SalesRead['detail']>;key:string}|null>(null)
  const [reviewed,setReviewed]=useState(false),[reason,setReason]=useState('Invoice dan barang sudah diperiksa')
@@ -48,6 +51,7 @@ function Workspace({view,initialSaleId}:{view:View;initialSaleId:string|null}){
  },[client,finance,beginRead,finishRead,isReadCurrent])
  useEffect(()=>{void load();return()=>{++sequence.current;++historySequence.current}},[load])
  const visible=mutation.workspaceStale?null:data,d=visible?.detail,f=d?.financial
+ useEffect(()=>{if(!focus||openedFocus.current||!d||d.id!==initialSaleId||mutation.workspaceStale)return;openedFocus.current=true;const value={source:d,key:crypto.randomUUID()};if(focus.kind==='SALES_PAYMENT')setCash(value);else if(focus.kind==='SALES_RETURN')setReturns(value)},[focus,d,initialSaleId,mutation.workspaceStale])
  const envelope=(value:Json)=>{const p=value as {document:Json;expected_version:string|null};if(!p||typeof p!=='object'||p.expected_version!==null&&typeof p.expected_version!=='string'||!p.document||typeof p.document!=='object'||Array.isArray(p.document))throw Error('Permintaan invoice belum lengkap.');return p}
  const outcome=(v:unknown,e:{payload:Json;id:string;action:string})=>{const document=envelope(e.payload).document as {sale_id?:string;payment_id?:string;return_id?:string;sale_date?:string};return e.action==='CORRECT'?parseNoteCorrectionOutcome(v,e.id,document.sale_id??'',document.sale_date??''):parseSalesOutcome(v,e.id,e.action,document.sale_id??null,document.payment_id??null,document.return_id??null)}
  const handlers:ProductionMutationHandlers={

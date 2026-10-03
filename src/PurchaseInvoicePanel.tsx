@@ -1,3 +1,4 @@
+import {useTransactionSource} from './TransactionSourceNavigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -25,6 +26,7 @@ export default function PurchaseInvoicePanel(props:Props){
  return <InvoiceWorkspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`} {...props}/>
 }
 function InvoiceWorkspace({purchaseId,receiptRevision,onReceiptUpdated}:Props){
+ const navigation=useTransactionSource('RECEIPT'),focus=navigation?.document.id===purchaseId&&navigation.document.focus?.kind==='PURCHASE_INVOICE'?navigation.document.focus:null
  const {runtime}=useAuth();if(!isConnectedRuntime(runtime))throw Error('Sesi invoice belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),mutation=useProductionMutation('PURCHASE_INVOICE')
  const {beginRead,finishRead,isReadCurrent,run,reconcile,invalidate}=mutation
@@ -32,7 +34,7 @@ function InvoiceWorkspace({purchaseId,receiptRevision,onReceiptUpdated}:Props){
  const [sources,setSources]=useState<InvoiceSources|null>(null),[sourceSearch,setSourceSearch]=useState(''),sourceQuery=useRef('')
  const [reviewAction,setReviewAction]=useState('REVERSE')
  const [reverseDoc,setReverseDoc]=useState<PurchaseInvoice|null>(null),[reverseReason,setReverseReason]=useState(''),[confirmed,setConfirmed]=useState(false)
- const requested=useRef({purchase:purchaseId,offset:0}),sequence=useRef(0),pendingRef=useRef(mutation.pending),busyRef=useRef(mutation.busy);pendingRef.current=mutation.pending;busyRef.current=mutation.busy
+ const requested=useRef({purchase:purchaseId,offset:focus?.page_offset??0}),sequence=useRef(0),pendingRef=useRef(mutation.pending),busyRef=useRef(mutation.busy);pendingRef.current=mutation.pending;busyRef.current=mutation.busy
  const load=useCallback(async()=>{
   const s=++sequence.current,ticket=beginRead(),query={...requested.current};setLoading(true);setError('');setConfirmed(false)
   try{
@@ -41,10 +43,10 @@ function InvoiceWorkspace({purchaseId,receiptRevision,onReceiptUpdated}:Props){
    if(!isReadCurrent(ticket)||s!==sequence.current)return false
    if(r.error)throw r.error
    const w=parsePurchaseInvoices(r.data,query.purchase);if(w.page.offset!==query.offset)throw Error('Halaman invoice tidak cocok.')
-   setData(w);return finishRead(ticket)
+   if(focus&&query.offset===focus.page_offset&&!w.page.rows.some(x=>x.id===focus.id))throw Error('Invoice sumber berubah. Buka ulang sumber dari buku.');setData(w);return finishRead(ticket)
   }catch(e){if(isReadCurrent(ticket)){setData(null);setError(normalizeClientError(e).message)};return false}
   finally{if(s===sequence.current)setLoading(false)}
- },[client,beginRead,finishRead,isReadCurrent])
+ },[client,beginRead,finishRead,isReadCurrent,focus])
  useEffect(()=>{
   // During our own mutation the outcome handler owns the complete read-back.
   // An external receipt revision (for example its first POST) reloads here.

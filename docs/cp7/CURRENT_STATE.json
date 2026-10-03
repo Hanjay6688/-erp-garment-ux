@@ -6412,6 +6412,30 @@
     "handoff": "docs/cp7/CP7_FINISHER_20261003.md",
     "inactive_rule_lifecycle": "IMPLEMENTED_LOCAL12_BUILD_SECURITY_PASS_NATIVE16_PENDING",
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "rule_lifecycle_qualification": {
+      "status": "PASS_NATIVE16",
+      "source": "ef2461f89b3f257b956fe17ce308e1049630cd63",
+      "run": 37104626413,
+      "job": 111150630289,
+      "original": "docs/cp7/evidence/rule-lifecycle/ef2461/CP7_RULE_LIFECYCLE.json.gz",
+      "counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "independent_acceptance": false,
+      "production_go": false
+    },
+    "transaction_source_candidate": {
+      "status": "LOCAL89_BUILD_SECURITY_PASS_NATIVE18_PENDING",
+      "native_case_budget": 18,
+      "no_business_DML": true,
+      "full_source_coverage": false,
+      "remaining": "Production/laundry/BS/accessory/payroll sources, supplier-payment exact owning panel, all submenu tools; material/P08/F06 exits remain open"
+    }
   }
 }
