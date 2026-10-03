@@ -1,0 +1,19 @@
+{
+  "contract": "cp7.exact-native-artifact-projection.v1",
+  "status": "EXACT_ORIGINAL_REPORTS_RETAINED",
+  "original_run_id": 37130874626,
+  "original_artifact_id": 11277990244,
+  "original_source_commit": "967b5087879ea6c076fa1d18574becef88ef4cbc",
+  "original_source_tree": "b4cf3aa16548920e1d959dcd60151b94913d2f67",
+  "original_zip_sha256": "0ff38ebcbec8a9086986d80ad8ed49be26426d96cf9900e26bd29e33cd517980",
+  "report_receipt_sha256": "a8fefd4f8eca612b0175c90a56803a57ebf41091ea11be3869766f12fd455095",
+  "original_reports_gzip_sha256": "b901ab93ab1ba4b1dbd6859da93efdbc38271aed74a712b97312b7b2c861b473",
+  "projection_run_id": "37134007451",
+  "projection_source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
+  "Native_product_cases_reexecuted": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "exact_failure_diagnostics": {}
+}

@@ -1,0 +1,305 @@
+{
+  "classification": "EXACT_OBSERVED_NATIVE_CASE_VALUES_NOT_HTTP_OR_SLA",
+  "source_commit": "967b5087879ea6c076fa1d18574becef88ef4cbc",
+  "NOTE_YEAR_30": {
+    "status": "PASS",
+    "later_balances_checked": 30,
+    "each_official_and_main_book_delta_pcs": 12,
+    "source_quantity_pcs": 24,
+    "effective_quantity_pcs": 12,
+    "original_fact_rows_immutable": true,
+    "original_manual_ranks_unchanged": true,
+    "complete_prefix_before_pages_and_filters": true,
+    "one_owning_note_command": true,
+    "current_available_before": 816,
+    "current_available_after": 828,
+    "actual_native_owning_correction_ms": 296.121,
+    "actual_native_read_measurements": {
+      "scope": "ACTUAL_NATIVE_SQL_RPC_PAGES_UNDER_OWNER_NOT_BROWSER_HTTP_OR_WHOLE_ERP_P19",
+      "latency_gate_not_invented": true,
+      "P19_full_acceptance": false,
+      "groups": {
+        "FG_MAIN_BOOK": {
+          "samples": 4,
+          "p95_nearest_rank_ms": 12.184,
+          "maximum_ms": 12.184,
+          "total_ms": 35.957
+        },
+        "FG_LOT_CARD": {
+          "samples": 2,
+          "p95_nearest_rank_ms": 10.985,
+          "maximum_ms": 10.985,
+          "total_ms": 20.083
+        }
+      },
+      "pages": [
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 32,
+          "total": "32",
+          "elapsed_ms": 10.985
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 32,
+          "total": "32",
+          "elapsed_ms": 12.184
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "AFTER_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 32,
+          "total": "32",
+          "elapsed_ms": 8.787
+        },
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "AFTER_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 32,
+          "total": "32",
+          "elapsed_ms": 9.098
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "FILTERED_AFTER_CORRECTION",
+          "offset": 25,
+          "limit": 5,
+          "rows": 5,
+          "total": "31",
+          "elapsed_ms": 7.488
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "FILTERED_AFTER_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 16,
+          "total": "16",
+          "elapsed_ms": 7.498
+        }
+      ]
+    },
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    }
+  },
+  "NOTE_YEAR_364": {
+    "status": "PASS",
+    "later_balances_checked": 364,
+    "each_official_and_main_book_delta_pcs": 12,
+    "source_quantity_pcs": 24,
+    "effective_quantity_pcs": 12,
+    "original_fact_rows_immutable": true,
+    "original_manual_ranks_unchanged": true,
+    "complete_prefix_before_pages_and_filters": true,
+    "one_owning_note_command": true,
+    "current_available_before": 100,
+    "current_available_after": 112,
+    "actual_native_owning_correction_ms": 3243.519,
+    "actual_native_read_measurements": {
+      "scope": "ACTUAL_NATIVE_SQL_RPC_PAGES_UNDER_OWNER_NOT_BROWSER_HTTP_OR_WHOLE_ERP_P19",
+      "latency_gate_not_invented": true,
+      "P19_full_acceptance": false,
+      "groups": {
+        "FG_MAIN_BOOK": {
+          "samples": 10,
+          "p95_nearest_rank_ms": 48.756,
+          "maximum_ms": 48.756,
+          "total_ms": 471.839
+        },
+        "FG_LOT_CARD": {
+          "samples": 8,
+          "p95_nearest_rank_ms": 66.562,
+          "maximum_ms": 66.562,
+          "total_ms": 391.577
+        }
+      },
+      "pages": [
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 66.562
+        },
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 100,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 48.05
+        },
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 200,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 47.79
+        },
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 300,
+          "limit": 100,
+          "rows": 66,
+          "total": "366",
+          "elapsed_ms": 46.052
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 48.756
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 100,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 47.921
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 200,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 47.831
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "BEFORE_CORRECTION",
+          "offset": 300,
+          "limit": 100,
+          "rows": 66,
+          "total": "366",
+          "elapsed_ms": 46.45
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "AFTER_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 48.034
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "AFTER_CORRECTION",
+          "offset": 100,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 47.447
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "AFTER_CORRECTION",
+          "offset": 200,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 46.549
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "AFTER_CORRECTION",
+          "offset": 300,
+          "limit": 100,
+          "rows": 66,
+          "total": "366",
+          "elapsed_ms": 47.136
+        },
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "AFTER_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 46.158
+        },
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "AFTER_CORRECTION",
+          "offset": 100,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 46.399
+        },
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "AFTER_CORRECTION",
+          "offset": 200,
+          "limit": 100,
+          "rows": 100,
+          "total": "366",
+          "elapsed_ms": 45.531
+        },
+        {
+          "reader": "FG_LOT_CARD",
+          "phase": "AFTER_CORRECTION",
+          "offset": 300,
+          "limit": 100,
+          "rows": 66,
+          "total": "366",
+          "elapsed_ms": 45.035
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "FILTERED_AFTER_CORRECTION",
+          "offset": 25,
+          "limit": 5,
+          "rows": 5,
+          "total": "365",
+          "elapsed_ms": 44.49
+        },
+        {
+          "reader": "FG_MAIN_BOOK",
+          "phase": "FILTERED_AFTER_CORRECTION",
+          "offset": 0,
+          "limit": 100,
+          "rows": 100,
+          "total": "350",
+          "elapsed_ms": 47.225
+        }
+      ]
+    },
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    }
+  },
+  "full_P19_acceptance": false
+}

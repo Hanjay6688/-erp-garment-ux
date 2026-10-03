@@ -1,0 +1,14 @@
+{
+  "classification": "READ_ONLY_WRITER_RECOMPUTATION_OF_EXACT_ACTUAL_AUTH_ORIGINAL",
+  "runtime_report_sha256": "ddeca837dbea291adb06961473a37453ce1be2816f00d7d34749b94619ae2ed9",
+  "Native_product_exit_case_credit": 0,
+  "all366_original_main_and_lot_balances_independently_recomputed": true,
+  "opening4492_then365_sales12_final112": true,
+  "all364_relative_deltas_and_original_order": true,
+  "year_command_ms": 6211.86,
+  "year_observation_ms": 857.075,
+  "year_HTTP_ms": 7108.019,
+  "timeout_unchanged": "8s",
+  "full_P19_acceptance": false,
+  "production_SLA": false
+}

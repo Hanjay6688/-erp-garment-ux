@@ -1,6 +1,6 @@
 {
   "note_actual_http_diagnostic_candidate": {
-    "status": "ACTUAL_AUTH_DIAGNOSTIC2_QUALIFIED_YEAR364_SUCCESSOR_PENDING",
+    "status": "ACTUAL_AUTH_DIAGNOSTIC2_AND_YEAR364_QUALIFIED_AT_07DD",
     "contract": "docs/cp7/NOTE_ACTUAL_HTTP_DIAGNOSTIC_HANDOFF.md",
     "provider": "scripts/cp7_note_actual_http_diagnostic_cases.py",
     "entrypoint": "scripts/cp7_note_command_diagnostic_probe.py",
@@ -40,10 +40,64 @@
       802.518
     ],
     "JIT_cause_inferred": false,
-    "year364_actual_Auth_successor": "PENDING",
+    "year364_actual_Auth_successor": "PASS_ACTUAL_AUTH_MEASUREMENT_WITH_EXACT_FORCED_ROLLBACK_ZERO_PRODUCT_CREDIT",
     "year364_main_and_lot_complete366_and_original_facts_required": true,
     "local_successor_controls": 15,
-    "year364_scope_not_whole_P19_or_SLA": true
+    "year364_scope_not_whole_P19_or_SLA": true,
+    "latest_source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
+    "latest_source_tree": "209b5c835d9c5730e73e74df9fe5bda89f606573",
+    "latest_run_id": 37134007452,
+    "latest_job_id": 111234689037,
+    "latest_artifact_id": 11277762532,
+    "latest_receipt": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-07dd/RECEIPT.json",
+    "latest_actual_HTTP_measurements": [
+      {
+        "fixtures": 1,
+        "mode": "DEFAULT",
+        "command_ms": 1392.613,
+        "HTTP_ms": 1406.332
+      },
+      {
+        "fixtures": 1,
+        "mode": "JIT_OFF",
+        "command_ms": 1282.858,
+        "HTTP_ms": 1292.76
+      },
+      {
+        "fixtures": 4,
+        "mode": "DEFAULT",
+        "command_ms": 1297.706,
+        "HTTP_ms": 1308.487
+      },
+      {
+        "fixtures": 4,
+        "mode": "JIT_OFF",
+        "command_ms": 1284.564,
+        "HTTP_ms": 1295.043
+      }
+    ],
+    "latest_year364_actual_Auth": {
+      "command_ms": 6211.86,
+      "observation_ms": 857.075,
+      "HTTP_ms": 7108.019,
+      "book_rows": 366,
+      "lot_rows": 366,
+      "later_balances_checked": 364,
+      "delta_each": 12,
+      "FG": 112,
+      "FG_value": 1120,
+      "net": 240,
+      "paid": 0,
+      "AR": 240,
+      "all_original_rows_and_prefixes_recomputed": true,
+      "every_full_Native_and_private_rollback": true,
+      "temporary_RPC_and_original_catalog_restored": true,
+      "statement_timeout": "8s",
+      "Native_product_exit_case_credit": 0,
+      "full_P19_acceptance": false,
+      "production_SLA": false
+    },
+    "recurring_timeout_cause_closed": false
   },
   "acceptance_ref": "761f1bf33199519205248947b5fe2d86e25b2fa0",
   "acceptance_source": "https://github.com/Hanjay6688/-erp-garment-ux/blob/761f1bf33199519205248947b5fe2d86e25b2fa0/audits/acceptance_20260929/HANDOFF.md",
@@ -260,7 +314,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Publish actual Auth year364 diagnostic successor with unchanged Native40 and zero product credit; complete54 at967b is54 workflow SUCCESS; large Originals pending exact projection. Retain fresh Native57/40/69 Originals and project exact large Native152/284 before credit. Recurring8s cause remains open; current actual Auth paired0.79-0.86s does not justify a JIT change. Continue feasible source/P08/P18/P19; missing real recipes/policies UNKNOWN and independent/installed exits open.",
+  "execution_priority": "Publish retained Native57/40/69/Shell and exact Native152/284 Originals plus qualified-retention verifier; actual Auth year364 at07dd passes bounded measurements/full forced rollback with zero product credit. Inspect fresh tooling CI, then continue feasible source/P08/P18/P19. Recurring8s cause stays open; no JIT/financial/current-authority change. Missing real recipes/policies UNKNOWN; independent P20/installed P21 open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3565,7 +3619,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Publish all-field F04 catalog comparator repair, preserve first Native57 failure088f, qualify fresh57 with every raw snapshot and unchanged IDs/budgets, and repeat all54 configured workflows. Continue feasible source/P08/P18/P19 exits. Missing real recipes/policies stay UNKNOWN; independent P20 and installed P21 remain open. No routine checkpoint ends standing writer work.",
+  "next_action": "Publish retained Native57/40/69/Shell and exact Native152/284 Originals plus qualified-retention verifier; actual Auth year364 at07dd passes bounded measurements/full forced rollback with zero product credit. Inspect fresh tooling CI, then continue feasible source/P08/P18/P19. Recurring8s cause stays open; no JIT/financial/current-authority change. Missing real recipes/policies UNKNOWN; independent P20/installed P21 open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9100,7 +9154,7 @@
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
-    "next_action": "Publish actual Auth year364 diagnostic successor with unchanged Native40 and zero product credit; complete54 at967b is54 workflow SUCCESS; large Originals pending exact projection. Retain fresh Native57/40/69 Originals and project exact large Native152/284 before credit. Recurring8s cause remains open; current actual Auth paired0.79-0.86s does not justify a JIT change. Continue feasible source/P08/P18/P19; missing real recipes/policies UNKNOWN and independent/installed exits open.",
+    "next_action": "Publish retained Native57/40/69/Shell and exact Native152/284 Originals plus qualified-retention verifier; actual Auth year364 at07dd passes bounded measurements/full forced rollback with zero product credit. Inspect fresh tooling CI, then continue feasible source/P08/P18/P19. Recurring8s cause stays open; no JIT/financial/current-authority change. Missing real recipes/policies UNKNOWN; independent P20/installed P21 open.",
     "previous_application_qualification7300": {
       "source_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
       "source_tree": "e8b46a419a03aec3839739932a5c1dd1c7294270",
@@ -9391,8 +9445,32 @@
     "current_large_original_projection": {
       "analysis152_run": 37130875111,
       "attention284_run": 37130874626,
-      "status": "EXPECTED_COMPLETED_PASS_METADATA_PINNED_REPORT_HASH_AND_GATES_AWAIT_PROJECTION",
+      "status": "QUALIFIED_ORIGINAL_ROOT_HASHES_ALL_GROUPS_IDS_AND_GATES_VERIFIED",
+      "source_commit": "967b5087879ea6c076fa1d18574becef88ef4cbc",
+      "projection_run_id": 37134007451,
+      "projection_source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
+      "analysis152_receipt": "docs/cp7/evidence/finisher-regression/qualified967b/analysis152/RECEIPT.json",
+      "attention284_receipt": "docs/cp7/evidence/finisher-regression/qualified967b/attention284/RECEIPT.json",
       "new_execution_credit": 0
+    },
+    "qualified_original_verifier": {
+      "status": "LOCAL_12_CORRUPTION_CONTROLS_AND_SIX_EXACT_RECEIPTS_PASS_FRESH_CI_PENDING",
+      "script": "scripts/cp7_verify_retained_originals.py",
+      "caller": ".github/workflows/cp7-native-artifact-projection.yml",
+      "product_SQL_or_app_changed": false,
+      "Native_database_access": false,
+      "new_Native_execution_credit": 0
+    },
+    "latest_shell_original": {
+      "source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
+      "run_id": 37134007447,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified07dd/shell/RECEIPT.json",
+      "tests": 1404,
+      "files": 146,
+      "browser": 6,
+      "CodeQL_findings": 0,
+      "private_kernel_scope_only": true,
+      "private_kernel_cases": 138
     }
   }
 }

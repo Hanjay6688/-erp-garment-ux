@@ -1,0 +1,70 @@
+{
+  "key": "shell07dd",
+  "source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
+  "source_tree": "209b5c835d9c5730e73e74df9fe5bda89f606573",
+  "run_id": 37134007447,
+  "job_id": 111234688976,
+  "artifact_id": 11278305690,
+  "zip_bytes": 491539,
+  "zip_sha256": "ee984c1322c27599db214f0a8a4f0406fd9c7b6ddc9d9843e542db4d775ba7de",
+  "classification": "SOURCE_BOUND_SHELL_AND_SEPARATE_PRIVATE_KERNEL_PROOF",
+  "vitest_tests": 1404,
+  "vitest_files": 146,
+  "browser_checks": 6,
+  "private_kernel_tests": 138,
+  "private_kernel_not_Native_business_or_Auth": true,
+  "codeql": {
+    "js": {
+      "zip_bytes": 120831,
+      "zip_sha256": "15a0ef2702563762a57a2afce4aded70396114b68358c24862de9677f4ab8d96",
+      "reports": {
+        "javascript.sarif": {
+          "bytes": 1314467,
+          "sha256": "285d0d739f26c2ad002588c402827270a6248563bf7c08a1d23e8cfb02dd0ab2",
+          "stored": "codeql-js-0.sarif.gz",
+          "findings": 0,
+          "all_invocations_execution_successful": true
+        }
+      }
+    },
+    "actions": {
+      "zip_bytes": 51115,
+      "zip_sha256": "59a98f1cd58a8c1dcbab5ca068310abdbec3d681ff3914179ed3979e915c838c",
+      "reports": {
+        "actions.sarif": {
+          "bytes": 699752,
+          "sha256": "b3f84c0d408ae1258c0bc5ef83c7f227991923f0d93348f7b202e55e1f7a3e43",
+          "stored": "codeql-actions-0.sarif.gz",
+          "findings": 0,
+          "all_invocations_execution_successful": true
+        }
+      }
+    }
+  },
+  "all_zip_members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53271,
+      "sha256": "7c04e9907afd3feacb17b3d73f13a3516bc1bda0cdc30e0d76b8328ad7a32a8b"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "results.json": {
+      "bytes": 12466,
+      "sha256": "a2cd0ab204c0c9668effdad45576eb2fb397a5c3dfdaebf0baa3ae499e0b6e28"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "original_CI_log": {
+    "bytes": 168046,
+    "sha256": "58fd326166060971c33793e6810141f22fbc5fbd1bcf73c3264da8a173f149d4",
+    "gzip_sha256": "8dbfc52396dec470a81020f155024702cdc3f8fdbb6eefcb96fb7c5028c01959"
+  }
+}
