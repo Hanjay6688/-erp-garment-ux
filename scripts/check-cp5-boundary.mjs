@@ -290,8 +290,8 @@ const runtime = read('src/config/runtime.ts')
 const cp5RpcNames = [...cp5Page.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].map((match) => match[1])
 assert.deepEqual(
   [...new Set(cp5RpcNames)].sort(),
-  ['erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1', 'erp_save_product_conversion_action_v1'],
-  'BS browser boundary must use its two native facades plus the owned BE conversion facade',
+  ['erp_cp7_resolve_transaction_source_v1', 'erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1', 'erp_save_product_conversion_action_v1'],
+  'BS browser boundary must retain both native facades and owned BE conversion, with only the CP7 read-only source recheck added',
 )
 assert.equal(cp5RpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 1,
   'CP5 initial mutation and reconcile must share one exact-envelope sender')

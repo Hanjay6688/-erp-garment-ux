@@ -14,10 +14,11 @@ import cp7_note_correction_cases as note
 import cp7_misc_cases as misc
 import cp7_installment_cases as installment
 import cp7_f03_e24_issue_cases as accessory
+import cp6_bf_combined_probe as production
 import cp7_f03_cases as combined
 import cp7_transaction_source_bundle as bundle
 b,auth=material.b,material.auth
-REQUIRED=dict(native=20,races=2,http=4,browser=6)
+REQUIRED=dict(native=24,races=2,http=5,browser=8)
 EXPECTED=sum(REQUIRED.values())
 RPC='erp_cp7_resolve_transaction_source_v1'
 
@@ -28,6 +29,42 @@ def accessory_fixture(cur,today):
  f['journals']=[dict(id=str(i),source_type=kind,number=number)for i,kind,number in cur.execute("select id,source_type,journal_number from erp.journal_entries where source_id=%s and source_type in('CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE')and status='POSTED'order by source_type,id",(f['issue']['id'],)).fetchall()]
  assert {j['source_type']for j in f['journals']}=={'CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE'}
  return f
+
+def rework_fixture(cur,today,history=False):
+ # The qualified ordinary rework worksheet is two new components at30,
+ # two actual repaired FG pieces. No BS/stock/journal result is seeded.
+ f=production.fixture(cur,today);wash=production.wash(cur,f,range(4),11)
+ production.finish(cur,f,[wash],range(4),13,bs={3:2});chain=production.b.chain
+ bs=production.one(cur,"select id::text from erp.bs_cases where po_id=%s and product_id=%s and status='OPEN'",f['po'],f['roots'][3])
+ chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=production.prod.COMPONENT,completed_before_bs_qty=0)],change_reason='Source rework components were not earned before BS'),chain.version(cur,'bs_cases',bs))
+ component=production.one(cur,'select id::text from erp.bs_case_components where bs_case_id=%s and work_component_id=%s',bs,production.prod.COMPONENT)
+ bom=production.one(cur,'select erp.resolve_rework_accessory_bom_v1(%s,%s)::text',bs,f['when'](15))
+ number='CP7-SRC-RW-'+uuid.uuid4().hex[:10]
+ made=chain.bs_action(cur,'SAVE_REWORK',dict(rework_number=number,bs_case_id=bs,destination_type='CONTRACTOR',contractor_id=production.prod.CONTRACTOR,vendor_id=None,qty_sent=2,physical_sent_at=f['when'](15).isoformat(),status='IN_PROGRESS',return_fg_location_id=production.base.LOCATION,accessory_bom_version_id=bom,accessory_bom_item_ids=[],change_reason='Actual source repair of two pieces',components=[dict(bs_case_component_id=component,qty_performed=2)]))
+ rid=made['result']['rework_order_id']
+ chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=2,qty_bs=0,completed_at=f['when'](16).isoformat(),return_fg_location_id=production.base.LOCATION,change_reason='Two repaired source pieces physically returned'),chain.version(cur,'rework_orders',rid))
+ b.api.admin(cur)
+ order=cur.execute('select to_jsonb(r)from erp.rework_orders r where id=%s',(rid,)).fetchone()[0]
+ journal=cur.execute("select id,journal_number,transaction_date from erp.journal_entries where source_type='REWORK_COMPLETION'and source_id=%s and status='POSTED'",(rid,)).fetchone();assert journal
+ labor=cur.execute('select sum(amount_payable)from erp.rework_component_lines where rework_order_id=%s',(rid,)).fetchone()[0];assert labor==60
+ movement=cur.execute("select id,qty_signed,physical_at from erp.fg_stock_movements where source_type='REWORK_ORDER'and source_id=%s and movement_type='REWORK_IN'",(rid,)).fetchone();assert movement and movement[1]==2
+ if history:
+  for i in range(51):
+   chain.bs_action(cur,'CREATE_MANUAL_BS',dict(untracked_type='LEGACY',legacy_reference=number+'-BOOK-'+str(i),qty_pcs=1,physical_at=f['when'](12).isoformat(),change_reason='Actual older manual BS cases for page boundary'))
+ return dict(bs=bs,rework=rid,number=number,order=order,lot=order['good_fg_lot_id'],journal=dict(id=str(journal[0]),number=journal[1],date=str(journal[2])),movement=dict(id=str(movement[0]),qty=str(movement[1]),physical_at=movement[2].isoformat()),labor='60.00',history=history)
+
+def rework_workspace(cur,f,offset=None,subject=None):
+ d=read(cur,'REWORK_ORDER',f['rework'],subject)['document'];assert d['id']==f['bs']and d['focus']['id']==f['rework']
+ auth.actor(cur,subject)
+ r=cur.execute("select public.erp_get_bs_resolution_workspace_v1('ALL','BS',null,null,50,%s)",(d['focus']['page_offset']if offset is None else offset,)).fetchone()[0]
+ b.api.admin(cur);return r
+
+def rework_state(cur,f):
+ b.api.admin(cur)
+ order=cur.execute('select to_jsonb(r)from erp.rework_orders r where id=%s',(f['rework'],)).fetchone()[0]
+ return dict(order=order,lot_qty=str(cur.execute('select coalesce(sum(qty_signed),0)from erp.fg_stock_movements where lot_id=%s',(f['lot'],)).fetchone()[0]),
+  original_movement=cur.execute('select to_jsonb(m)from erp.fg_stock_movements m where id=%s',(f['movement']['id'],)).fetchone()[0],
+  inverses=[dict(id=str(i),number=n,original_id=str(original))for i,n,original in cur.execute('select id,journal_number,reversal_of_id from erp.journal_entries where reversal_of_id=%s',(f['journal']['id'],)).fetchall()],business=b.boundary.snapshot(cur))
 
 def read(cur,kind,ident,subject=None):
  auth.actor(cur,subject)
@@ -163,7 +200,14 @@ def cases(cur,today):
   bundle.verify(cur)
   return dict(status='PASS',current_custom_role_view_before_child_resolution_and_after_revoke=True,reverse_permission_does_not_imply_view=True,no_ERP_DML_or_Native_writer_EXEC=True)
  def accessory_unsupported():
-  f=accessory_fixture(cur,today);fabric=material.fixture(cur,today)
+  f=accessory_fixture(cur,today);fabric=material.receipt.fixture(cur,today)
+  # The old receipt clone uses legacy lowercase yd. Configure this fresh,
+  # unused master with an actual registered LENGTH unit before any receipt;
+  # the Native issue trigger/FK is preserved, never bypassed with a new alias.
+  unit=cur.execute("select unit_code from erp.uom_definitions where dimension='LENGTH'and is_active order by unit_code limit 1").fetchone();assert unit
+  cur.execute('update erp.materials set unit_code=%s where id=%s',(unit[0],fabric['material']))
+  receipt=material.receipt.command(cur,'SAVE_DRAFT',fabric['payload']);fabric['receipt']=material.receipt.post(cur,receipt)
+  fabric['roll']=str(cur.execute('select r.id from erp.material_rolls r join erp.material_purchase_items i on i.id=r.purchase_item_id where i.purchase_id=%s',(receipt['purchase_id'],)).fetchone()[0])
   # Administrative master price only; the valid fabric document below is
   # saved by its Native writer, never inserted as a business outcome.
   cur.execute('insert into erp.contractor_material_price_versions(material_id,contractor_id,selling_price,effective_from,notes)values(%s,%s,%s,%s,%s)',(fabric['material'],f['mandor'],'3.25',fabric['payload']['physical_at'],'Source classification fixture configured fabric price'))
@@ -177,6 +221,42 @@ def cases(cur,today):
   for kind in('CONTRACTOR_MATERIAL_RECEIVABLE','CONTRACTOR_MATERIAL_ISSUE_ITEM'):auth.refused(cur,lambda:read(cur,kind,missing),'CP7_TRANSACTION_SOURCE_UNAVAILABLE')
   assert b.boundary.snapshot(cur)==before
   return dict(status='PASS',actual_Native_fabric_issue_not_redirected_into_PCS_accessory_editor=True,missing_header_or_child_refused_no_guessed_document=True)
+ def rework_documents():
+  f=rework_fixture(cur,today);before=rework_state(cur,f);assert before['lot_qty']=='2'
+  for kind in('REWORK_ORDER','REWORK_COMPLETION'):
+   d=exact(cur,kind,f['rework'],'BS_REWORK',f['bs'],('REWORK_ORDER',f['rework']));assert d['route']=='bs-rework'
+  w=rework_workspace(cur,f);row=next(r for r in w['rows']if r['id']==f['bs']);assert row['kind']=='BS'and any(r['id']==f['rework']for r in row['rework_orders'])
+  assert rework_state(cur,f)==before
+  production.b.chain.bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=f['rework'],change_reason='Inverse exact source of repaired goods'),production.b.chain.version(cur,'rework_orders',f['rework']))
+  after=rework_state(cur,f);assert after['order']['id']==before['order']['id']and after['order']['bs_case_id']==before['order']['bs_case_id']and after['order']['physical_sent_at']==before['order']['physical_sent_at']
+  assert after['order']['status']=='CANCELLED'and after['lot_qty']=='0'and after['original_movement']==before['original_movement']and len(after['inverses'])==1
+  assert cur.execute('select count(*)from erp.bs_resolutions where source_rework_order_id=%s',(f['rework'],)).fetchone()[0]==0
+  exact(cur,'JOURNAL_REVERSAL',f['journal']['id'],'BS_REWORK',f['bs'],('REWORK_ORDER',f['rework']))
+  return dict(status='PASS',actual_rework_stock_and_labor_journal_same_bs_parent=True,owning_inverse_retains_order_and_original_movement_after_resolution_deleted=True,Native_two_PCS_labor60_to_zero_stock_no_second_write_from_source=True)
+ def rework_history():
+  f=rework_fixture(cur,today,True);d=exact(cur,'REWORK_ORDER',f['rework'],'BS_REWORK',f['bs'],('REWORK_ORDER',f['rework']));old_offset=d['focus']['page_offset'];assert old_offset>=50 and old_offset%50==0
+  first=rework_workspace(cur,f,0);assert len(first['rows'])==50 and f['bs']not in[r['id']for r in first['rows']]
+  w=rework_workspace(cur,f);assert w['offset']==old_offset and any(r['id']==f['bs']and any(o['id']==f['rework']for o in r['rework_orders'])for r in w['rows'])
+  production.b.chain.bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=f['rework'],change_reason='Closed case becomes open in Native case ordering'),production.b.chain.version(cur,'rework_orders',f['rework']))
+  new=exact(cur,'REWORK_COMPLETION',f['rework'],'BS_REWORK',f['bs'],('REWORK_ORDER',f['rework']));assert new['focus']['page_offset']!=old_offset
+  w=rework_workspace(cur,f);row=next(r for r in w['rows']if r['id']==f['bs']);assert row['status']=='OPEN'and row['available_qty']==2 and row['resolved_qty']==0 and any(o['id']==f['rework']and o['status']=='CANCELLED'for o in row['rework_orders'])
+  return dict(status='PASS',actual51_older_manual_BS_cases_original_outside50=True,unchanged_Native_ALL_BS_order_exact_child=True,reversal_repositions_same_case_from_closed_to_open_without_scan=True,old_offset=old_offset,new_offset=new['focus']['page_offset'])
+ def rework_authority():
+  f=rework_fixture(cur,today);subject,role=auth.custom_actor(cur)
+  cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'production.bs_rework.reverse')",(role,))
+  auth.refused(cur,lambda:read(cur,'REWORK_ORDER',f['rework'],subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
+  cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'production.bs_rework.view')",(role,))
+  exact(cur,'REWORK_COMPLETION',f['rework'],'BS_REWORK',f['bs'],('REWORK_ORDER',f['rework']),subject=subject)
+  cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='production.bs_rework.view'",(role,))
+  for kind in('REWORK_ORDER','REWORK_COMPLETION'):auth.refused(cur,lambda:read(cur,kind,f['rework'],subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
+  assert not cur.execute("select has_function_privilege(%s,'public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)','EXECUTE')or has_table_privilege(%s,'erp.bs_cases','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')or has_table_privilege(%s,'erp.rework_orders','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(bundle.ROLE,bundle.ROLE,bundle.ROLE)).fetchone()[0]
+  return dict(status='PASS',current_native_custom_role_view_before_bs_fk_resolution=True,reverse_permission_never_implies_view=True,source_role_no_Native_bs_writer_EXEC_or_business_DML=True)
+ def rework_unavailable():
+  missing=str(uuid.uuid4());before=b.boundary.snapshot(cur)
+  for kind in('REWORK_ORDER','REWORK_COMPLETION'):auth.refused(cur,lambda:read(cur,kind,missing),'CP7_TRANSACTION_SOURCE_UNAVAILABLE')
+  r=read(cur,'BS_INVENTED_SOURCE',missing);assert r['status']=='UNSUPPORTED_SOURCE'and r['document']is None
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',missing_actual_order_and_unknown_bs_kind_never_guessed=True,no_placeholder_case_or_native_writer=True)
  def authority():
   f=material.fixture(cur,today);subject,role=auth.custom_actor(cur)
   auth.refused(cur,lambda:read(cur,'MATERIAL_PURCHASE_ROLL',f['roll'],subject),'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
@@ -200,7 +280,7 @@ def cases(cur,today):
   for who in('anon','service_role'):assert not cur.execute('select has_function_privilege(%s,\'public.erp_cp7_resolve_transaction_source_v1(jsonb)\',\'EXECUTE\')',(who,)).fetchone()[0]
   assert cur.execute('select has_function_privilege(\'authenticated\',\'public.erp_cp7_resolve_transaction_source_v1(jsonb)\',\'EXECUTE\')').fetchone()[0]
   return dict(status='PASS',public_current_auth_only_private_resolver_and_ERP_DML_denied=True)
- functions=[receipts,invoices,transfers,counts,finished,sales,payments,returns,journals,authority,malformed,least_privilege,payroll_headers,payroll_payments,payroll_authority,payroll_unavailable,accessory_documents,accessory_history,accessory_authority,accessory_unsupported]
+ functions=[receipts,invoices,transfers,counts,finished,sales,payments,returns,journals,authority,malformed,least_privilege,payroll_headers,payroll_payments,payroll_authority,payroll_unavailable,accessory_documents,accessory_history,accessory_authority,accessory_unsupported,rework_documents,rework_history,rework_authority,rework_unavailable]
  assert len(functions)==REQUIRED['native']
  return [('CP7_SOURCE_'+f.__name__.upper(),f)for f in functions]
 
@@ -259,4 +339,19 @@ def http_cases(http,today):
   assert admin.rpc(RPC,args)['status']==403
   with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==revoked;conn.rollback()
   return dict(status='PASS',real_Auth_HTTP_exact_Native_stock_child_to_note=True,current_database_view_revoke_denied_with_unchanged_Auth_token=True,no_business_write=True)
- return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http),('CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW',payroll_http),('CP7_SOURCE_HTTP_ACCESSORY_CURRENT_VIEW',accessory_http)]
+ def rework_http():
+  admin=http.login('ADMIN','cp7-source-bs-current-admin')
+  with http.connect()as conn,conn.cursor()as cur:
+   f=rework_fixture(cur,today);role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(admin.auth_user_id,)).fetchone()[0]
+   cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'production.bs_rework.view')on conflict do nothing",(role,));conn.commit();before=b.boundary.snapshot(cur);conn.rollback()
+  args=dict(p_source=dict(source_type='REWORK_ORDER',source_id=f['rework']))
+  assert http.anon_rpc(RPC,args)['status']in(401,403)
+  r=admin.rpc(RPC,args);assert r['status']==200,r
+  assert r['body']['actor_scope_id']==admin.auth_user_id and r['body']['document']['id']==f['bs']and r['body']['document']['focus']['id']==f['rework']and r['body']['document']['route']=='bs-rework'and r['body']['business_DML']is False
+  with http.connect()as conn,conn.cursor()as cur:
+   assert b.boundary.snapshot(cur)==before
+   cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='production.bs_rework.view'",(role,));conn.commit();revoked=b.boundary.snapshot(cur);conn.rollback()
+  assert admin.rpc(RPC,args)['status']==403
+  with http.connect()as conn,conn.cursor()as cur:assert b.boundary.snapshot(cur)==revoked;conn.rollback()
+  return dict(status='PASS',real_Auth_HTTP_exact_Native_rework_child_to_bs=True,current_database_view_revoke_same_token_denied=True,no_business_write=True)
+ return [('CP7_SOURCE_HTTP_EXACT',exact_http),('CP7_SOURCE_HTTP_CURRENT_REVOKE',current_http),('CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW',payroll_http),('CP7_SOURCE_HTTP_ACCESSORY_CURRENT_VIEW',accessory_http),('CP7_SOURCE_HTTP_BS_CURRENT_VIEW',rework_http)]

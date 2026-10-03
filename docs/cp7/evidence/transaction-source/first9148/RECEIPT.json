@@ -1,0 +1,74 @@
+{
+  "head": "9148adf778d7210b41435b7cb7633d3edfb620a8",
+  "tree": "dd40acebcf0366d23709aa64b7b79d0370038226",
+  "run_id": 37114757579,
+  "job_id": 111179299074,
+  "artifact_id": 11270844889,
+  "archive_sha256": "d9bc203001d424575026c67d08c2a98a32006f184919ce1214cdd574a064d53c",
+  "status": "INCOMPLETE",
+  "observed_case_count": 32,
+  "required_case_counts": {
+    "native": 20,
+    "races": 2,
+    "http": 4,
+    "browser": 6
+  },
+  "groups": {
+    "native": {
+      "PASS": 19,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "source_sha256": "c47eb70f059514a7af9ccd241a3dfc4f1b213fabe0a2eb00ffda9cb452305acc",
+  "originals": {
+    "CP7_TRANSACTION_SOURCE.json": "ada8313b167635adda94efa87b13ba01b3285e96200d4028b7c0c7a7c6ee4135",
+    "T3_PACKAGE_INSTALL.json": "c7ad48fbf0e4ff801597c9bddb87e2768b0d0180655db0e8042759f98378aed7"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "failure": {
+    "case": "CP7_SOURCE_ACCESSORY_UNSUPPORTED",
+    "reason": "Native fk_contractor_issue_transaction_uom refused legacy lowercase yd copied by the fabric master fixture.",
+    "successor": "Configure a fresh unused fabric master from the existing active LENGTH registry before its actual Native receipt and draft issue; preserve the FK and all32 cases, then retain them within the39-case BS extension."
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "browser_screenshots": {
+    "CP7_SOURCE_ACCESSORY_DESKTOP.png": {
+      "sha256": "76c88bf2e3c8b1bfb1840d49514847eb8aca20391014065fccf36638f3de4fe7",
+      "bytes": 338092
+    },
+    "CP7_SOURCE_ACCESSORY_INVERSE_DESKTOP.png": {
+      "sha256": "17d376a381b22b9a3acc82fcda35cd8af02053e422825c2cc1db698b6fc15379",
+      "bytes": 325459
+    },
+    "CP7_SOURCE_ACCESSORY_INVERSE_MOBILE.png": {
+      "sha256": "80b138cf8f1df8c811e0c9c33968fe2db7a713142d001d0cfcd9f3c9c7dfdd01",
+      "bytes": 188453
+    },
+    "CP7_SOURCE_ACCESSORY_MOBILE.png": {
+      "sha256": "877798aed2a18d9fdb0fe13bb16ceea36695c81664059246fd1e1dd3a2da97b2",
+      "bytes": 198373
+    }
+  }
+}

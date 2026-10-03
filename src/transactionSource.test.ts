@@ -4,6 +4,18 @@ const source='11111111-1111-4111-8111-111111111111',parent='22222222-2222-4222-8
 const ref={source_type:'SALES_PAYMENT',source_id:source}
 const receipt=()=>({contract_version:'cp7.transaction-source.v1',actor_scope_id:actor,source:{...ref},status:'AVAILABLE',document:{domain:'SALE',route:'sales-payments',id:parent,number:'INV-26',status:'PARTIAL_PAID',revision:'9007199254740993',focus:{kind:'SALES_PAYMENT',id:source,page_offset:25}},read_at:'2026-10-03T04:00:00.123456Z',business_DML:false})
 describe('exact transaction source boundaries',()=>{
+ it('keeps the exact Native rework child and its BS parent on the owning 50-row page',()=>{
+  for(const kind of ['REWORK_ORDER','REWORK_COMPLETION']){
+   const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'BS_REWORK',route:'bs-rework',focus:{kind:'REWORK_ORDER',id:source,page_offset:50}})
+   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:{id:source,page_offset:50}})
+   for(const bad of [{route:'sewing-wip'},{focus:null},{focus:{kind:'REWORK_ORDER',id:parent,page_offset:50}},{focus:{kind:'REWORK_ORDER',id:source,page_offset:25}},{focus:{kind:'PAYROLL_INSTALLMENT',id:source,page_offset:50}}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
+  }
+ })
+ it('requires a journal inverse for BS to retain the rework focus without inventing its owning header',()=>{
+  const r=receipt();r.source={source_type:'JOURNAL_REVERSAL',source_id:source};Object.assign(r.document,{domain:'BS_REWORK',route:'bs-rework',focus:{kind:'REWORK_ORDER',id:parent,page_offset:0}})
+  expect(parseTransactionSource(r,r.source,actor).document?.focus?.id).toBe(parent)
+  Object.assign(r.document,{focus:null});expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()
+ })
  it('keeps actual accessory stock/receivable header IDs and rejects invented routes or child focus',()=>{
   for(const kind of ['CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE']){
    const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'ACCESSORY_ISSUE',route:'contractor-issue',id:source,focus:null})

@@ -257,6 +257,7 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1',
   'src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1',
   'src/ConnectedBsResolutionPage.tsx:erp_get_bs_resolution_workspace_v1',
+  'src/ConnectedBsResolutionPage.tsx:erp_cp7_resolve_transaction_source_v1',
   'src/ConnectedBsResolutionPage.tsx:erp_save_bs_resolution_action_v1',
   'src/ConnectedPatternFilter.tsx:erp_list_patterns_v1',
   'src/ConnectedPickupPage.tsx:erp_get_cutting_pickup_queue_v1',

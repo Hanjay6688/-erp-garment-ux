@@ -56,6 +56,14 @@ def main():
    assert observed['document']['id']==f['issue']['id']
    inverses=[dict(id=str(i),number=number,original_id=str(original))for i,number,original in cur.execute('select id,journal_number,reversal_of_id from erp.journal_entries where reversal_of_id=any(%s::uuid[])order by id',([j['id']for j in f['journals']],)).fetchall()]
    out=dict(observation=observed,inverses=inverses,business=source.b.boundary.snapshot(cur))
+  elif op=='prepare-rework':
+   f=source.rework_fixture(cur,date.fromisoformat(p['today']),True)
+   d=source.read(cur,'REWORK_ORDER',f['rework'])['document'];assert d['focus']['page_offset']>=50
+   first=source.rework_workspace(cur,f,0);assert len(first['rows'])==50 and f['bs']not in[r['id']for r in first['rows']]
+   f['first_offset']=d['focus']['page_offset'];out=f
+  elif op=='state-rework':
+   f=p['fixture'];out=source.rework_state(cur,f)
+   out['source']=source.read(cur,'REWORK_ORDER',f['rework'])['document']
   else:raise ValueError('Unknown source navigation fixture operation')
   misc.b.api.admin(cur)
   if not had:cur.execute('revoke usage on schema erp from authenticated')

@@ -60,6 +60,14 @@ function server(){
 async function prepare(){await change('Nomor nota aksesori','ACC-NEW');await change('Mandor aksesori',id);await change('Gudang aksesori',id);await click('Perbarui harga dan stok');await change('Tambah aksesori',id);await change('Jumlah PCS 1','7');await change('Harga per PCS 1','3,25')}
 
 describe('connected accessory issue',()=>{
+  it('keeps the original amount on a reversed note without presenting its old collectible value as a current bill',async()=>{
+    const s=server();s.document={...documentFixture(),status:'REVERSED'};Object.assign(s.document.items[0]!,{collectible:'22.75'})
+    await mount();await click('Buka ACC-001')
+    expect(container.textContent).toContain('Tagihan asal');expect(container.textContent).toContain('Total tagihan asal: Rp 22,75')
+    expect(container.textContent).toContain('nota ini tidak lagi ditagih')
+    expect(container.textContent).not.toContain('Sisa ditagih');expect(container.textContent).not.toContain('Periksa pembatalan')
+    expect(writes()).toHaveLength(0)
+  })
   it('opens an exact stock source outside the50-row history through the owning reader without a write or review',async()=>{
     const s=server();s.document={...documentFixture(),status:'POSTED'}
     const a=structuredClone(recoveryIdentity);Object.assign(a.identity.profile,{authUserId:id});a.identity.permissions=['finance.contractor_accessory.view'];auth.current=a

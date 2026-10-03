@@ -9,7 +9,7 @@ TABLES=('material_purchase_headers','material_purchase_items','material_rolls','
  'material_supplier_invoice_lines','supplier_payments','material_transfers','material_transfer_items',
  'material_adjustments','material_adjustment_items','fg_adjustments','fg_adjustment_items','sales_headers','sales_items',
  'sales_payments','sales_returns','sales_return_items','misc_finance_transactions','journal_entries','payroll_settlements',
- 'contractor_material_issues','contractor_material_issue_items','materials','uom_definitions')
+ 'contractor_material_issues','contractor_material_issue_items','materials','uom_definitions','bs_cases','rework_orders')
 
 def extension():return (ROOT/'scripts/cp7-src/transactions/source.sql').read_text()
 def verify(cur):

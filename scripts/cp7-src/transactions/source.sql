@@ -11,7 +11,8 @@ grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.ma
  erp.material_transfers,erp.material_transfer_items,erp.material_adjustments,erp.material_adjustment_items,
  erp.fg_adjustments,erp.fg_adjustment_items,erp.sales_headers,erp.sales_items,erp.sales_payments,
  erp.sales_returns,erp.sales_return_items,erp.misc_finance_transactions,erp.journal_entries,erp.payroll_settlements,
- erp.contractor_material_issues,erp.contractor_material_issue_items,erp.materials,erp.uom_definitions
+ erp.contractor_material_issues,erp.contractor_material_issue_items,erp.materials,erp.uom_definitions,
+ erp.bs_cases,erp.rework_orders
  to cp7_transaction_source_read;
 
 create function cp7_transaction_source.authority()returns jsonb
@@ -70,6 +71,8 @@ begin
   domain:='PAYROLL';route:='finance-payroll';permission:='finance.payroll.view';
  when kind in('CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE','CONTRACTOR_MATERIAL_ISSUE_ITEM')then
   domain:='ACCESSORY_ISSUE';route:='contractor-issue';permission:='finance.contractor_accessory.view';
+ when kind in('REWORK_ORDER','REWORK_COMPLETION')then
+  domain:='BS_REWORK';route:='bs-rework';permission:='production.bs_rework.view';
  else
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
@@ -111,6 +114,9 @@ begin
   focus:=jsonb_build_object('kind','PAYROLL_INSTALLMENT','id',ident);
  when'CONTRACTOR_MATERIAL_ISSUE_ITEM'then
   select i.issue_id into parent_id from erp.contractor_material_issue_items i where i.id=ident;
+ when'REWORK_ORDER','REWORK_COMPLETION'then
+  select r.bs_case_id into parent_id from erp.rework_orders r where r.id=ident;
+  focus:=jsonb_build_object('kind','REWORK_ORDER','id',ident);
  else null;
  end case;
  if parent_id is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
@@ -123,6 +129,7 @@ begin
  when'MISC_FINANCE'then select to_jsonb(h),h.transaction_number into doc,label from erp.misc_finance_transactions h where h.id=parent_id;
  when'PAYROLL'then select to_jsonb(h),h.payroll_number into doc,label from erp.payroll_settlements h where h.id=parent_id;
  when'ACCESSORY_ISSUE'then select to_jsonb(h),h.issue_number into doc,label from erp.contractor_material_issues h where h.id=parent_id;
+ when'BS_REWORK'then select to_jsonb(h),h.bs_number into doc,label from erp.bs_cases h where h.id=parent_id;
  end case;
  if doc is null or coalesce(label,'')=''then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
  -- The current owner is specifically a counted-PCS accessory workspace.
@@ -137,8 +144,9 @@ begin
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
  end if;
- -- Position the exact child within its owning reader's unchanged 25-row
- -- ordering. The owner re-reads the page and checks identity; no client scan.
+ -- Match each unchanged owning reader's pagination and exact ordering.
+ -- BS uses ALL/BS, no query or pattern, and 50 rows; other children use 25.
+ -- The owner re-reads the page and checks both identities; no client scan.
  if focus is not null and focus<>'null'::jsonb then
   case focus->>'kind'
   when'SALES_PAYMENT'then
@@ -150,6 +158,13 @@ begin
   when'PAYROLL_INSTALLMENT'then
    -- Match the existing installment source loop, including reversed history.
    select ((n-1)/25)*25 into focus_offset from(select i.id,row_number()over(order by i.payment_date,i.created_at,i.id)n from cp7_installment.payments i where i.payroll_id=parent_id)x where id=(focus->>'id')::uuid;
+  when'REWORK_ORDER'then
+   -- Native get_bs_resolution_workspace_v1 orders open cases before closed,
+   -- then physical_at DESC, bs_number, id. Status comes from the same header;
+   -- the Native owning reader remains authoritative for quantities and history.
+   select ((n-1)/50)*50 into focus_offset from(select b.id,row_number()over(
+    order by(b.status in('RESOLVED','SCRAPPED','WRITTEN_OFF','CANCELLED')),
+     b.physical_at desc,b.bs_number,b.id)n from erp.bs_cases b)x where id=parent_id;
   end case;
   if focus_offset is null or focus_offset>1000000 then raise exception 'CP7_TRANSACTION_SOURCE_FOCUS_UNAVAILABLE';end if;
   focus:=focus||jsonb_build_object('page_offset',focus_offset);
