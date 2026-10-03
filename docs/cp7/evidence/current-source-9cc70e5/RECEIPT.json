@@ -1,5 +1,5 @@
 {
-  "status": "ALL_REQUIRED_CURRENT_SOURCE_NATIVE_RUNS_PASS_F05_ORIGINAL_RETENTION_PENDING",
+  "status": "ALL_REQUIRED_CURRENT_SOURCE_NATIVE_SUITES_PASS_EXACT_ORIGINALS_RETAINED",
   "source_commit": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
   "source_tree": "3b591a682ec92db57fa39fa561df1246fd733014",
   "note40": {
@@ -339,16 +339,9 @@
     "artifact_name": "cp7-f05-attention",
     "zip_bytes": 348930671,
     "zip_sha256": "1c18e7f13441cdf20456aa0a69732c994acac155f8d534ead34121b29a367d1b",
-    "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
-    "expected_status": "PASS",
-    "expected_case_count": 284,
-    "required_case_counts": {
-      "native": 179,
-      "races": 40,
-      "http": 29,
-      "browser": 36
-    },
-    "expected_counts": {
+    "source_bundle_sha256": "1c81bf8164d67aeadb17dc79d975e757a32a45063b11806d6fedb00ae3f84bf3",
+    "observed_case_count": 284,
+    "counts": {
       "native": {
         "PASS": 179
       },
@@ -362,26 +355,27 @@
         "PASS": 36
       }
     },
-    "artifact_retention_only": true,
-    "new_execution_case_credit": 0,
-    "label": "CP7_F05_NATIVE_ATTENTION",
-    "status": "ACTUAL_NATIVE284_PASS_EXACT_ORIGINAL_RETENTION_PENDING",
-    "source_sha256": "1c81bf8164d67aeadb17dc79d975e757a32a45063b11806d6fedb00ae3f84bf3",
-    "observed_case_count": 284,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "public_catalog_and_rows": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
     "cp6_restored": true,
     "advisor_gate": true,
-    "error": null,
-    "traceback": null,
-    "original_retention_verified": false,
-    "source_bundle_sha256": "1c81bf8164d67aeadb17dc79d975e757a32a45063b11806d6fedb00ae3f84bf3",
-    "declared_case_counts": {
-      "native": 179,
-      "races": 40,
-      "http": 29,
-      "browser": 36
-    },
-    "record": "f05-9cc70-qualified284",
-    "expected_receipt": "docs/cp7/evidence/f05-native-attention/qualified284-9cc70e5/RECEIPT.json"
+    "auth_users_before": 0,
+    "auth_users_after": 0,
+    "status": "ACTUAL_NATIVE284_PASS_EXACT_ORIGINAL_RETAINED",
+    "original_retention_verified": true,
+    "receipt": "docs/cp7/evidence/f05-native-attention/qualified284-9cc70e5/RECEIPT.json",
+    "projection_receipt": "docs/cp7/evidence/f05-native-attention/qualified284-9cc70e5/PROJECTION_RECEIPT.json",
+    "new_projection_execution_case_credit": 0
   },
   "workflow_runs": [
     {
@@ -620,5 +614,6 @@
   "full_family_acceptance": false,
   "independent_acceptance": false,
   "audit_complete": false,
-  "production_go": false
+  "production_go": false,
+  "pending_read_visibility_defect_closed": true
 }
