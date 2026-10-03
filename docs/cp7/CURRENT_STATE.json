@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Qualify fresh full Shell/Native76 for recorded-only unpicked source display: no seeded allocation or fabricated physical pickup time; eight Original images and all prior69 plus7 required. Preserve source-bound c9d1/21d575 results and the first zero-emission admission failure; inspect current Auth/readback/no-write/restoration. Continue feasible CP7; actual3266 timing is measured, old timeout cause and owner-data/independent/installed gates remain open.",
+  "execution_priority": "Finish exact6ac Native76 qualification and retain8 unedited images/all prior69/current permission/whole restore gates. Publish quoted-source P17 candidate and qualify fresh full Shell/Native152/Native284 without changing case IDs or budgets; retain every first failure and Native Original. Continue feasible CP7 transaction tools/P18/P19; owner-policy/material data and independent/installed gates stay open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3651,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Qualify fresh full Shell/Native76 for recorded-only unpicked source display: no seeded allocation or fabricated physical pickup time; eight Original images and all prior69 plus7 required. Preserve source-bound c9d1/21d575 results and the first zero-emission admission failure; inspect current Auth/readback/no-write/restoration. Continue feasible CP7; actual3266 timing is measured, old timeout cause and owner-data/independent/installed gates remain open.",
+  "next_action": "Finish exact6ac Native76 qualification and retain8 unedited images/all prior69/current permission/whole restore gates. Publish quoted-source P17 candidate and qualify fresh full Shell/Native152/Native284 without changing case IDs or budgets; retain every first failure and Native Original. Continue feasible CP7 transaction tools/P18/P19; owner-policy/material data and independent/installed gates stay open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9792,6 +9792,44 @@
       "cause": "Two new browser observers wait for ledger_v1; actual owning page calls ledger_v2 and displays the Native CUTTING ISSUE",
       "repair": "Observe actual ledger_v2, same20-second wait and same76 IDs/budgets",
       "receipt": "docs/cp7/evidence/transaction-source/incomplete76-c9d1/RECEIPT.json"
+    },
+    "current_Shell": {
+      "status": "PASS",
+      "source": "6ac6766dde1d330715300e6538cf68ab3b77c462",
+      "tree": "f219e398b82fbd25c91bbea63412c04dd131fa57",
+      "run": 37151081601,
+      "job": 111284942190,
+      "tests": 1426,
+      "test_files": 148,
+      "Shell_browsers": 6,
+      "orphan_direct_table_access": false,
+      "CodeQL_findings": 0,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified6ac/shell/RECEIPT.json",
+      "Native76_credit": false
     }
+  },
+  "f05_native_ai_source_framing_candidate": {
+    "status": "IMPLEMENTED_FRESH_SHELL_NATIVE152_NATIVE284_PENDING",
+    "handoff": "docs/cp7/f05/NATIVE_AI_HANDOFF.md",
+    "contract": "cp7.native-ai-handoff.v2",
+    "scope": "Complete quoted analysis/report/product labels/financial source and question; framing integrity only",
+    "source_byte_count_includes_report_and_labels": true,
+    "Native_original_and_financial_strings_unchanged_after_JSON_decode": true,
+    "controlled_source_field": "erp.products.product_name descriptive master metadata in disposable P17 fixture",
+    "existing_P17_journeys_extended": 4,
+    "Native284_counts_unchanged": {
+      "native": 179,
+      "races": 40,
+      "http": 29,
+      "browser": 36
+    },
+    "original_case_ids_or_timeouts_or_business_guards_changed": false,
+    "frozen_analysis_schema_or_Native_compiler_changed": false,
+    "new_business_writer_or_grant": false,
+    "Native_credit": 0,
+    "external_model_obedience_measured": false,
+    "full_E18_or_CP7_acceptance": false,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

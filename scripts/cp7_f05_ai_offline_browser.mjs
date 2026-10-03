@@ -1,5 +1,23 @@
 import assert from 'node:assert/strict'
 
+// Decode the complete handoff and compare with the real Native envelope;
+// substring matching cannot establish integrity once source text is escaped.
+export function assertQuotedNativePrompt(prompt,original,question){
+ assert.deepEqual(prompt.match(/<\/?DATA_ERP_JSON>/g),['<DATA_ERP_JSON>','</DATA_ERP_JSON>'])
+ assert.deepEqual(prompt.match(/<\/?PERTANYAAN_JSON>/g),['<PERTANYAAN_JSON>','</PERTANYAAN_JSON>'])
+ const source=prompt.split('<DATA_ERP_JSON>\n\n')[1].split('\n\n</DATA_ERP_JSON>')[0]
+ const quotedQuestion=prompt.split('<PERTANYAAN_JSON>\n\n')[1].split('\n\n</PERTANYAAN_JSON>')[0]
+ assert.ok(!/[<>&\u2028\u2029\n]/.test(source));assert.ok(!/[<>&\u2028\u2029\n]/.test(quotedQuestion))
+ const data=JSON.parse(source),coverage=JSON.parse(prompt.split('CAKUPAN SUMBER\n\n')[1].split('\n\n')[0])
+ assert.deepEqual(Object.keys(data).sort(),['analysis','analysis_report','financial_source','product_labels'])
+ assert.deepEqual(data.analysis,original.analysis);assert.deepEqual(data.financial_source,original.financial_source);assert.deepEqual(data.product_labels,original.product_labels)
+ assert.equal(JSON.parse(quotedQuestion),question)
+ assert.equal(typeof data.analysis_report,'string');assert.ok(data.analysis_report.includes(original.analysis.semantic_hash))
+ assert.equal(coverage.contract_version,'cp7.native-ai-handoff.v2');assert.equal(coverage.source_encoding,'JSON_ESCAPED_FRAMING_CHARACTERS')
+ assert.equal(coverage.serialized_source_utf8_bytes,Buffer.byteLength(source,'utf8'))
+ return{data,coverage,source}
+}
+
 // Actual Chromium navigation with an explicit provider-only network fault.
 // Loopback ERP/Auth stays live; no external provider response is fabricated.
 export async function offlineManualHandoff(ui,{context,panel,original,question,state,shot,suffix}){
@@ -7,9 +25,7 @@ export async function offlineManualHandoff(ui,{context,panel,original,question,s
  const requests=[],failures=[],before=state()
  const manual=panel.getByLabel('Salinan manual pertanyaan dan sumber ERP',{exact:true})
  const prompt=await manual.inputValue()
- assert.ok(prompt.includes(JSON.stringify(original.analysis)))
- assert.ok(prompt.includes(JSON.stringify(original.financial_source)))
- assert.ok(prompt.includes(JSON.stringify(question)))
+ assertQuotedNativePrompt(prompt,original,question)
  const link=panel.getByRole('link',{name:'Tautan manual ChatGPT',exact:true})
  assert.equal(await link.getAttribute('href'),destination)
  assert.equal(await link.getAttribute('target'),'_blank')
