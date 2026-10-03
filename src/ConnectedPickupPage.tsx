@@ -268,8 +268,8 @@ export default function ConnectedPickupPage() {
   }
 
   return <section className="connected-pickup-page">
-    <header className="cpick-hero"><div><span>PRODUKSI · DISTRIBUSI CONNECTED</span><h1>Bagi Potongan</h1><p>Pola, roll, dan hasil per size dibaca dari Potongan kanonik. Pickup hanya membagi sumber itu ke Mandor dan Batch Distribusi.</p></div><button type="button" onClick={() => void refresh()}><RefreshCw/> Refetch</button></header>
-    <div className="cpick-truth"><Database/><strong>ERP ENTENG UAT · RPC CONNECTED</strong><span>Tidak ada selector Pola kedua dan tidak ada direct-table write.</span></div>
+    <header className="cpick-hero"><div><span>PRODUKSI · BAGI POTONGAN</span><h1>Bagi Potongan</h1><p>Bagi hasil potong yang tercatat ke mandor dan batch jahit.</p></div><button type="button" onClick={() => void refresh()}><RefreshCw/> Refetch</button></header>
+    <div className="cpick-truth"><Database/><strong>HASIL POTONG TERCATAT</strong><span>Ukuran dan jumlah mengikuti catatan potongan asal.</span></div>
     {error ? <div className="cpick-message error" role="alert"><AlertTriangle/><span>{error}</span><button type="button" onClick={() => setError('')}>Tutup</button></div> : null}
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="cpick-message error"/>
     {notice ? <div className="cpick-message success" role="status"><Check/><span>{notice}</span></div> : null}

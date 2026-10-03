@@ -1,0 +1,572 @@
+{
+  "classification": "ACTUAL_NATIVE76_WRITER_QUALIFIED_POSTED_CUTTING_SOURCE_ONLY",
+  "status": "PASS",
+  "source_commit": "6ac6766dde1d330715300e6538cf68ab3b77c462",
+  "source_tree": "f219e398b82fbd25c91bbea63412c04dd131fa57",
+  "run_id": 37151081634,
+  "job_id": 111284942277,
+  "artifact_id": 11284437026,
+  "artifact_bytes": 20067105,
+  "archive_sha256": "939874cb69845931f222fad06f4dd3569da1aec841b046e873fc15e24dece770",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "e051a170b71ebe4efd0605009a2700304ee870dcb4653b59069807062be70dbd"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "e051a170b71ebe4efd0605009a2700304ee870dcb4653b59069807062be70dbd"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "43cd29dbda44575a56d162380d6efffccb0a1361192eebc6d534297badd08918"
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png": {
+      "bytes": 222087,
+      "sha256": "1ecfb26e52ec05582bc5449943f379a6bfe894840c2acbfed1365dacc1cc496e"
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png": {
+      "bytes": 147326,
+      "sha256": "4b471ec9c49a161b5d811fe4f13ca6b27969cbbca8b2dd239f7ebd5b11fc671f"
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png": {
+      "bytes": 284689,
+      "sha256": "46b75420f70c106a31065937e2f56e3cd11509ad96160ec3bb45592e1cb55559"
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png": {
+      "bytes": 219896,
+      "sha256": "60f05a614a1f0b8308b1da382d25523b363ac55542ab91650326aa13ad368ee8"
+    },
+    "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png": {
+      "bytes": 214162,
+      "sha256": "1ff8d4d19e9f9283e8f9251f6dd82f41f48a4ff5cf00a7afdb3f07cb63706817"
+    },
+    "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png": {
+      "bytes": 136409,
+      "sha256": "0d34d38be8da6c4450e8d11339885a86bbc10d33a96ea2ae92c4a4e4897135fb"
+    },
+    "CP7_PRODUCTION_READ_QC_DESKTOP.png": {
+      "bytes": 541146,
+      "sha256": "8c5acbc86bb159cd2f1a43e57966ec690ca62d9304c8d68b7eb26deedf53fffa"
+    },
+    "CP7_PRODUCTION_READ_QC_MOBILE.png": {
+      "bytes": 423506,
+      "sha256": "d714a521e96c9d6244c1bee52d2ff04f63e64a0e68f919c690281d93a5947eca"
+    },
+    "CP7_SOURCE_ACCESSORY_DESKTOP.png": {
+      "bytes": 334065,
+      "sha256": "267f8b883f6a616dad693f91def9cd476558eb49dbf264eb1d5ce8a984f56043"
+    },
+    "CP7_SOURCE_ACCESSORY_INVERSE_DESKTOP.png": {
+      "bytes": 328033,
+      "sha256": "e584172151f20c09a8e1616b9627d00f4bef33abf46f1cbcc46e4ae4be5dce29"
+    },
+    "CP7_SOURCE_ACCESSORY_INVERSE_MOBILE.png": {
+      "bytes": 197704,
+      "sha256": "bfc3736abdc677780220aa16b6c56cd0bc155add98b53d935e6dc6b22ce408e7"
+    },
+    "CP7_SOURCE_ACCESSORY_MOBILE.png": {
+      "bytes": 200680,
+      "sha256": "6b4eb2964b623a0fcf4c56538b550d0931505208599098303f375fcd0e6cfd56"
+    },
+    "CP7_SOURCE_CUTTING_JOURNAL_DESKTOP.png": {
+      "bytes": 354676,
+      "sha256": "3bccf87bcc609d28f94fb6beb522a4d3a20a2b9c36f48ed3c75957ea0f10ee6d"
+    },
+    "CP7_SOURCE_CUTTING_JOURNAL_MOBILE.png": {
+      "bytes": 174340,
+      "sha256": "92ea9107d1f61d0104674cc045bb2d8166876a0bd472c189c7567e87e02894b9"
+    },
+    "CP7_SOURCE_CUTTING_MATERIAL_DESKTOP.png": {
+      "bytes": 354815,
+      "sha256": "fc5befe6d8c33af7a5636de5f7915439cb4e9a5306dfe341c5bd99c411b735d6"
+    },
+    "CP7_SOURCE_CUTTING_MATERIAL_MOBILE.png": {
+      "bytes": 174340,
+      "sha256": "92ea9107d1f61d0104674cc045bb2d8166876a0bd472c189c7567e87e02894b9"
+    },
+    "CP7_SOURCE_CUTTING_QC_DESKTOP.png": {
+      "bytes": 353208,
+      "sha256": "81fe2c6ec75de3d5daf6d7822f24528a34aef92a1661f975a31c11527066b41f"
+    },
+    "CP7_SOURCE_CUTTING_QC_MOBILE.png": {
+      "bytes": 174340,
+      "sha256": "92ea9107d1f61d0104674cc045bb2d8166876a0bd472c189c7567e87e02894b9"
+    },
+    "CP7_SOURCE_CUTTING_UNPICKED_DESKTOP.png": {
+      "bytes": 330307,
+      "sha256": "86499948d8712d4397371d9a1b621d69ff6387e56adf2db06a0473a74109a95c"
+    },
+    "CP7_SOURCE_CUTTING_UNPICKED_MOBILE.png": {
+      "bytes": 150566,
+      "sha256": "a608b6726070bfd33679443bb662b77f5220f7acd0d96aac9b5c45f14c041e0c"
+    },
+    "CP7_SOURCE_DESKTOP.png": {
+      "bytes": 788760,
+      "sha256": "ce5a065ab40b28bcf8f971e8d00426364e67ac2056e69910443dee8927c51b4b"
+    },
+    "CP7_SOURCE_LAUNDRY_DESKTOP.png": {
+      "bytes": 296490,
+      "sha256": "8388fd2105b7bdf18d539a0b1933cff9d997443d0597b8a90f5f5457816f4501"
+    },
+    "CP7_SOURCE_LAUNDRY_INVERSE_DESKTOP.png": {
+      "bytes": 281971,
+      "sha256": "cbb9565aa9562718abd3402e4ef9c44403a292a1aaffc8963ef1a2b800486f28"
+    },
+    "CP7_SOURCE_LAUNDRY_INVERSE_MOBILE.png": {
+      "bytes": 230845,
+      "sha256": "2d4b97ca8506c518a30aad6ef4ed4e04e39012d64d1b872207cbddc43890fa0f"
+    },
+    "CP7_SOURCE_LAUNDRY_MOBILE.png": {
+      "bytes": 229984,
+      "sha256": "7459add44029ee2d5e074561db0886264ffdb63a2f745e4b94bfafeab20bcb42"
+    },
+    "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_DESKTOP.png": {
+      "bytes": 320828,
+      "sha256": "cb00a416e6df8d795c8b0e7e020c43c0bbcc7a13c6e28186837e618448b02afe"
+    },
+    "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_INVERSE_DESKTOP.png": {
+      "bytes": 299977,
+      "sha256": "451379906db7f23d187a4d8c7a2bc6d71765195b7bde21a722f6bf0992c763c4"
+    },
+    "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_INVERSE_MOBILE.png": {
+      "bytes": 232172,
+      "sha256": "1825d1c93f43b42f871953343c0b89999efa0ba07eef3ed5eb24fee4396e4a3b"
+    },
+    "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_MOBILE.png": {
+      "bytes": 249885,
+      "sha256": "6a53eed0d3862447eec5a55d24b8c5e9d6d79fc69a4532857ff5977045a5f5dc"
+    },
+    "CP7_SOURCE_MOBILE.png": {
+      "bytes": 493170,
+      "sha256": "2867326c64575787ab5efe321c5b5e691ff0a3b1580755a3e534e5e6a9b8af75"
+    },
+    "CP7_SOURCE_PAYROLL_DESKTOP.png": {
+      "bytes": 770063,
+      "sha256": "a3b3d880e80beb4eb4d61b593c382f2e1122e1ce1b0aa9a2a51c9e91e06a7736"
+    },
+    "CP7_SOURCE_PAYROLL_INVERSE_DESKTOP.png": {
+      "bytes": 768446,
+      "sha256": "24e4f12ae82d6cf232871e31606098d2295f25a64c17ec977d9b9f231686eacd"
+    },
+    "CP7_SOURCE_PAYROLL_INVERSE_MOBILE.png": {
+      "bytes": 531450,
+      "sha256": "382a8512b54370cfc8505d051287ceba153b36ec63e7f365c95a767aed2fd22e"
+    },
+    "CP7_SOURCE_PAYROLL_MOBILE.png": {
+      "bytes": 532099,
+      "sha256": "31e4c1f6702dac115158ee7a7ac6f483c64aa9ef55b52667f48b24b44cadfa95"
+    },
+    "CP7_SOURCE_QC_DESKTOP.png": {
+      "bytes": 254811,
+      "sha256": "ace58b919cc673d5721ebae4efe1d21b90fd5a4a1d5b46094a97f4b16919540e"
+    },
+    "CP7_SOURCE_QC_INVERSE_DESKTOP.png": {
+      "bytes": 255047,
+      "sha256": "5c2b06306244962b0713c79ff77658f3372ea6c0d72db62adc34afb40d2d83f4"
+    },
+    "CP7_SOURCE_QC_INVERSE_MOBILE.png": {
+      "bytes": 173728,
+      "sha256": "724d4f71e2cbc5192d870752a324153e0989ecbf3c31e8fec33aedec408f5fd2"
+    },
+    "CP7_SOURCE_QC_MOBILE.png": {
+      "bytes": 173480,
+      "sha256": "e5d75ee4651a5402e86bec229f1c5d3b2260ae8379d4ec4cc7b3f87e05f0a512"
+    },
+    "CP7_SOURCE_REWORK_DESKTOP.png": {
+      "bytes": 390572,
+      "sha256": "32178b66a93e064d41de81e780c0587b9a8a4e827eff91de2db7ab1b683b3ea3"
+    },
+    "CP7_SOURCE_REWORK_INVERSE_MOBILE.png": {
+      "bytes": 310007,
+      "sha256": "a5d86c3654e4990930d96b58daabcb657a1d648538cffc06348bad5d4eb8438f"
+    },
+    "CP7_SOURCE_REWORK_MOBILE.png": {
+      "bytes": 315836,
+      "sha256": "946bd3592055fa21868a74a7fd40cc2dcdb51d3fec210affa0e3e89b150aea84"
+    },
+    "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png": {
+      "bytes": 410173,
+      "sha256": "61350f48c226f679e75fadf0d22352c61769af0f180d614d038545e5c6c88a6f"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_DESKTOP.png": {
+      "bytes": 1537177,
+      "sha256": "795b8612dc13dd45c274de00b15bc5ceb814ee0681176577f8ac6389f8c98eca"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_DESKTOP.png": {
+      "bytes": 1523103,
+      "sha256": "3857be145b694bb464a55d5af69d2f224c4c651cf3de73632f45e9c6adb926cd"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_MOBILE.png": {
+      "bytes": 1089487,
+      "sha256": "e926bd4bbc32268fb200c417cb850986c07636bbd0dc7dc80254fb65396cba13"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_MOBILE.png": {
+      "bytes": 1068493,
+      "sha256": "4ac1a64c7b15b96c6b879edc40e440cd4e3c0cd96d4220f9b1b19569e194f3aa"
+    },
+    "CP7_SQL_REACHABILITY.json": {
+      "bytes": 17647,
+      "sha256": "cb0ead2f923ec04b63aac1bfa1dbbcd8e4c7e9660a236ca325eb20945049dd63"
+    },
+    "CP7_TRANSACTION_SOURCE.json": {
+      "bytes": 308083,
+      "sha256": "24eeedc74fb3892c83d923c3a948dda0a32d96832d393264a492cb2cef053888"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b1047b640ae54a736605bb5cd16c5b6630bbf3cd3063ab095e90585471917fef"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "159d5c46202369195b859d2a3eed37b7fe133498e5c234e4a1510cba5c875fd4"
+    }
+  },
+  "Original_roots": {
+    "ALIGNED_CHAIN.json": {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_SQL_REACHABILITY.json": {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SQL_REACHABILITY.json.gz",
+      "raw_bytes": 17647,
+      "raw_sha256": "cb0ead2f923ec04b63aac1bfa1dbbcd8e4c7e9660a236ca325eb20945049dd63",
+      "gzip_bytes": 7502,
+      "gzip_sha256": "40643aa5ac25984f5095c9312e181d2c993837e76e5516969b47332837a8ef53"
+    },
+    "CP7_TRANSACTION_SOURCE.json": {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_TRANSACTION_SOURCE.json.gz",
+      "raw_bytes": 308083,
+      "raw_sha256": "24eeedc74fb3892c83d923c3a948dda0a32d96832d393264a492cb2cef053888",
+      "gzip_bytes": 20070,
+      "gzip_sha256": "ee70984083172622f194de9f1cec1d327a028b713d864a2e516f40e3d9e7617f"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10524,
+      "raw_sha256": "b1047b640ae54a736605bb5cd16c5b6630bbf3cd3063ab095e90585471917fef",
+      "gzip_bytes": 1828,
+      "gzip_sha256": "c024f1214d5164bf1672022c848629f94affd453f692162aedb8e0aabd4f9efe"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360424,
+      "raw_sha256": "159d5c46202369195b859d2a3eed37b7fe133498e5c234e4a1510cba5c875fd4",
+      "gzip_bytes": 11361,
+      "gzip_sha256": "0f6fccdfdfae821dc81f7eac51e7c7a3fd3ce78f129351564cfba761ec37c6b6"
+    }
+  },
+  "Original_CI_log": {
+    "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 274619,
+    "raw_sha256": "1bf7070fcadf03ee92f5352dc52cced39f297992d66b9aa6d92d8fc64b28dfff",
+    "gzip_bytes": 43262,
+    "gzip_sha256": "1b4a05bb42368c411b7e67ce68dc91a07cda02068abcf4437f167fce2b0e2468"
+  },
+  "source_bundle_sha256": "7a2b2bc39ec928f3b3f44eda99f8a1de61d208474d0d1a28fe93fb8265b856e6",
+  "required_case_counts": {
+    "native": 41,
+    "races": 4,
+    "http": 11,
+    "browser": 20
+  },
+  "observed_case_count": 76,
+  "exact_case_ids": {
+    "native": [
+      "CP7_SOURCE_RECEIPTS",
+      "CP7_SOURCE_INVOICES",
+      "CP7_SOURCE_TRANSFERS",
+      "CP7_SOURCE_COUNTS",
+      "CP7_SOURCE_FINISHED",
+      "CP7_SOURCE_SALES",
+      "CP7_SOURCE_PAYMENTS",
+      "CP7_SOURCE_RETURNS",
+      "CP7_SOURCE_JOURNALS",
+      "CP7_SOURCE_AUTHORITY",
+      "CP7_SOURCE_MALFORMED",
+      "CP7_SOURCE_LEAST_PRIVILEGE",
+      "CP7_SOURCE_PAYROLL_HEADERS",
+      "CP7_SOURCE_PAYROLL_PAYMENTS",
+      "CP7_SOURCE_PAYROLL_AUTHORITY",
+      "CP7_SOURCE_PAYROLL_UNAVAILABLE",
+      "CP7_SOURCE_ACCESSORY_DOCUMENTS",
+      "CP7_SOURCE_ACCESSORY_HISTORY",
+      "CP7_SOURCE_ACCESSORY_AUTHORITY",
+      "CP7_SOURCE_ACCESSORY_UNSUPPORTED",
+      "CP7_SOURCE_REWORK_DOCUMENTS",
+      "CP7_SOURCE_REWORK_HISTORY",
+      "CP7_SOURCE_REWORK_AUTHORITY",
+      "CP7_SOURCE_REWORK_UNAVAILABLE",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_READER",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_AUTHORITY",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_ATOMIC",
+      "CP7_SOURCE_QC_DOCUMENTS",
+      "CP7_SOURCE_QC_HISTORY",
+      "CP7_SOURCE_QC_AUTHORITY",
+      "CP7_SOURCE_QC_UNAVAILABLE",
+      "CP7_SOURCE_LAUNDRY_DOCUMENTS",
+      "CP7_SOURCE_LAUNDRY_DEPENDENCIES",
+      "CP7_SOURCE_LAUNDRY_AUTHORITY",
+      "CP7_SOURCE_LAUNDRY_UNAVAILABLE",
+      "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_PAGES",
+      "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_AUTHORITY_FIELDS",
+      "CP7_SOURCE_CUTTING_POSTED_EXACT",
+      "CP7_SOURCE_CUTTING_NATIVE_PAGE100",
+      "CP7_SOURCE_CUTTING_CURRENT_AUTHORITY"
+    ],
+    "races": [
+      "CP7_SOURCE_RETAINED_F03_P11_RETURN_RACE_REVOKE",
+      "CP7_SOURCE_RETAINED_F03_P12_SETTLEMENT_RACE_REVOKE",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_RACE_SAME_REQUEST",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_RACE_CURRENT_REVOKE"
+    ],
+    "http": [
+      "CP7_SOURCE_HTTP_EXACT",
+      "CP7_SOURCE_HTTP_CURRENT_REVOKE",
+      "CP7_SOURCE_HTTP_PAYROLL_CURRENT_VIEW",
+      "CP7_SOURCE_HTTP_ACCESSORY_CURRENT_VIEW",
+      "CP7_SOURCE_HTTP_BS_CURRENT_VIEW",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_HTTP_CURRENT_REPLAY",
+      "CP7_SOURCE_QC_HTTP_CURRENT_VIEW",
+      "CP7_SOURCE_LAUNDRY_HTTP_CURRENT_VIEW",
+      "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_HTTP_CURRENT_VIEW",
+      "CP7_SOURCE_CUTTING_HTTP_EXACT",
+      "CP7_SOURCE_CUTTING_HTTP_CURRENT_REVOKE"
+    ],
+    "browser": [
+      "CP7_SOURCE_BROWSER_DESKTOP",
+      "CP7_SOURCE_BROWSER_MOBILE",
+      "CP7_SOURCE_PAYROLL_BROWSER_DESKTOP",
+      "CP7_SOURCE_PAYROLL_BROWSER_MOBILE",
+      "CP7_SOURCE_ACCESSORY_BROWSER_DESKTOP",
+      "CP7_SOURCE_ACCESSORY_BROWSER_MOBILE",
+      "CP7_SOURCE_REWORK_BROWSER_DESKTOP",
+      "CP7_SOURCE_REWORK_BROWSER_MOBILE",
+      "CP7_PRODUCTION_READ_BROWSER_DESKTOP",
+      "CP7_PRODUCTION_READ_BROWSER_MOBILE",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP",
+      "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE",
+      "CP7_SOURCE_QC_BROWSER_DESKTOP",
+      "CP7_SOURCE_QC_BROWSER_MOBILE",
+      "CP7_SOURCE_LAUNDRY_BROWSER_DESKTOP",
+      "CP7_SOURCE_LAUNDRY_BROWSER_MOBILE",
+      "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_DESKTOP",
+      "CP7_SOURCE_LAUNDRY_QC_DEPENDENCY_BROWSER_MOBILE",
+      "CP7_SOURCE_CUTTING_BROWSER_DESKTOP",
+      "CP7_SOURCE_CUTTING_BROWSER_MOBILE"
+    ]
+  },
+  "all_earlier69_preserved": true,
+  "new_cases": {
+    "native": {
+      "CP7_SOURCE_CUTTING_POSTED_EXACT": {
+        "status": "PASS",
+        "actual_cut_issue_and_journal_same_Native_group_PO": true,
+        "after_pickup_and_QC_history_readable_not_cutting_draft": true,
+        "complete_business_boundary_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "CP7_SOURCE_CUTTING_NATIVE_PAGE100": {
+        "status": "PASS",
+        "actual101_Native_cut_posts_exact_target_outside_first100": true,
+        "Native_ALL_order_page_and_PO_rechecked": true,
+        "page_offset": 100,
+        "no_business_write_from_navigation": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "CP7_SOURCE_CUTTING_CURRENT_AUTHORITY": {
+        "status": "PASS",
+        "current_distribution_view_before_metadata_not_implied_by_cutting_view": true,
+        "same_subject_after_revoke_denied_including_unknown_group": true,
+        "missing_and_unposted_group_not_guessed": true,
+        "no_Native_writer_or_ERP_DML_grant": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "races": {},
+    "http": {
+      "CP7_SOURCE_CUTTING_HTTP_EXACT": {
+        "status": "PASS",
+        "actual_Auth_HTTP_group_to_Native_ALL_page_exact_PO_version": true,
+        "anonymous_denied_full_business_boundary_unchanged": true,
+        "session_leaks": []
+      },
+      "CP7_SOURCE_CUTTING_HTTP_CURRENT_REVOKE": {
+        "status": "PASS",
+        "same_Auth_token_after_current_distribution_view_revoke_both_metadata_and_Native_reader_denied": true,
+        "no_business_write": true,
+        "session_leaks": []
+      }
+    },
+    "browser": {
+      "CP7_SOURCE_CUTTING_BROWSER_DESKTOP": {
+        "status": "PASS",
+        "mobile": false,
+        "actual_Native_issue_journal_and_QC_open_same_posted_cutting_group_PO": true,
+        "Native_ALL_page_exact_version_and_group_rechecked": true,
+        "source_preview_inputs_and_all_business_writers_disabled": true,
+        "complete_Native_business_boundary_unchanged": true,
+        "browser_business_writer_requests": 0,
+        "unpicked_source_no_proposed_allocation_or_fabricated_pickup_time": true,
+        "unpicked_roll_and_size_quantities_exact_Native_readback": true,
+        "screenshots": [
+          "CP7_SOURCE_CUTTING_JOURNAL_DESKTOP.png",
+          "CP7_SOURCE_CUTTING_MATERIAL_DESKTOP.png",
+          "CP7_SOURCE_CUTTING_QC_DESKTOP.png",
+          "CP7_SOURCE_CUTTING_UNPICKED_DESKTOP.png"
+        ]
+      },
+      "CP7_SOURCE_CUTTING_BROWSER_MOBILE": {
+        "status": "PASS",
+        "mobile": true,
+        "actual_Native_issue_journal_and_QC_open_same_posted_cutting_group_PO": true,
+        "Native_ALL_page_exact_version_and_group_rechecked": true,
+        "source_preview_inputs_and_all_business_writers_disabled": true,
+        "complete_Native_business_boundary_unchanged": true,
+        "browser_business_writer_requests": 0,
+        "unpicked_source_no_proposed_allocation_or_fabricated_pickup_time": true,
+        "unpicked_roll_and_size_quantities_exact_Native_readback": true,
+        "screenshots": [
+          "CP7_SOURCE_CUTTING_JOURNAL_MOBILE.png",
+          "CP7_SOURCE_CUTTING_MATERIAL_MOBILE.png",
+          "CP7_SOURCE_CUTTING_QC_MOBILE.png",
+          "CP7_SOURCE_CUTTING_UNPICKED_MOBILE.png"
+        ]
+      }
+    }
+  },
+  "all_restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "console_errors": 0,
+  "public_catalog_comparison": {
+    "policy": "ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED",
+    "dropped_fields": [],
+    "physical_order_only_changes": [],
+    "snapshots_checked": 84
+  },
+  "Original_screenshots": [
+    {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SOURCE_CUTTING_JOURNAL_DESKTOP.png",
+      "bytes": 354676,
+      "sha256": "3bccf87bcc609d28f94fb6beb522a4d3a20a2b9c36f48ed3c75957ea0f10ee6d",
+      "Original_unedited": true,
+      "visually_reviewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SOURCE_CUTTING_MATERIAL_DESKTOP.png",
+      "bytes": 354815,
+      "sha256": "fc5befe6d8c33af7a5636de5f7915439cb4e9a5306dfe341c5bd99c411b735d6",
+      "Original_unedited": true,
+      "visually_reviewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SOURCE_CUTTING_QC_DESKTOP.png",
+      "bytes": 353208,
+      "sha256": "81fe2c6ec75de3d5daf6d7822f24528a34aef92a1661f975a31c11527066b41f",
+      "Original_unedited": true,
+      "visually_reviewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SOURCE_CUTTING_UNPICKED_DESKTOP.png",
+      "bytes": 330307,
+      "sha256": "86499948d8712d4397371d9a1b621d69ff6387e56adf2db06a0473a74109a95c",
+      "Original_unedited": true,
+      "visually_reviewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SOURCE_CUTTING_JOURNAL_MOBILE.png",
+      "bytes": 174340,
+      "sha256": "92ea9107d1f61d0104674cc045bb2d8166876a0bd472c189c7567e87e02894b9",
+      "Original_unedited": true,
+      "visually_reviewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SOURCE_CUTTING_MATERIAL_MOBILE.png",
+      "bytes": 174340,
+      "sha256": "92ea9107d1f61d0104674cc045bb2d8166876a0bd472c189c7567e87e02894b9",
+      "Original_unedited": true,
+      "visually_reviewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SOURCE_CUTTING_QC_MOBILE.png",
+      "bytes": 174340,
+      "sha256": "92ea9107d1f61d0104674cc045bb2d8166876a0bd472c189c7567e87e02894b9",
+      "Original_unedited": true,
+      "visually_reviewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/transaction-source/qualified76-6ac/CP7_SOURCE_CUTTING_UNPICKED_MOBILE.png",
+      "bytes": 150566,
+      "sha256": "a608b6726070bfd33679443bb662b77f5220f7acd0d96aac9b5c45f14c041e0c",
+      "Original_unedited": true,
+      "visually_reviewed": true
+    }
+  ],
+  "scope": "Exact posted group/PO/page/version/current permission and read-only journal/material/QC source navigation; retained69 owning inverses unchanged",
+  "posted_cutting_edit_or_inverse": false,
+  "first21d575_relabelled": false,
+  "full_CP7": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "targeted_visual_findings": [
+    "All eight original source previews show exact source IDs and read-only actions. Unpicked views have only recorded roll/size fields, no allocation/time proposal. Mobile table uses inner horizontal scrolling with no page overflow. Existing hero heading/description has poor dark-background contrast; this visual defect is not dismissed by Native functional PASS."
+  ]
+}

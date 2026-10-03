@@ -1,4 +1,5 @@
 import assert from'node:assert/strict'
+import{assertQuotedNativePrompt}from'./cp7_f05_ai_offline_browser.mjs'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p18_e01_bridge_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
@@ -37,7 +38,7 @@ async function sharedConsumers(ui,page,panel,original,native,user,shot,mobile,be
  assert.equal(scope.original_run_id,original.run_id);assert.equal(scope.original_request_id,original.request_id)
  assert.equal(scope.source_hash,original.analysis.snapshot.source_hash);assert.equal(scope.semantic_hash,original.analysis.semantic_hash)
  assert.equal(scope.presentation_filter,'NOT_APPLIED');assert.equal(scope.truncation,'NONE')
- assert.deepEqual(JSON.parse(after('HASIL ANALISIS ASLI')),original.analysis);assert.deepEqual(JSON.parse(after('<PERTANYAAN_JSON>')),question)
+ const quoted=assertQuotedNativePrompt(prompt,original,question);assert.equal(quoted.data.analysis_report,report)
  await ui.expect(panel.getByRole('status')).toContainText('Salin otomatis gagal')
  const link=panel.getByRole('link',{name:'Tautan manual ChatGPT',exact:true});assert.equal(await link.getAttribute('href'),'https://chatgpt.com/')
  const afterState=state();assert.equal(afterState.operational_boundary_sha256,before.operational_boundary_sha256)

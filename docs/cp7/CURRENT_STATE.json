@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Finish exact6ac Native76 qualification and retain8 unedited images/all prior69/current permission/whole restore gates. Publish quoted-source P17 candidate and qualify fresh full Shell/Native152/Native284 without changing case IDs or budgets; retain every first failure and Native Original. Continue feasible CP7 transaction tools/P18/P19; owner-policy/material data and independent/installed gates stay open.",
+  "execution_priority": "Retain published exact6ac Native76/Shell proofs and all8 unedited reviewed images. Qualify current P17 quoted-source v2 with full decoded Native Original comparisons in Shell/Native152/284/P18_9; preserve first cbdb028 and prior Source76 failures. Qualify scoped pickup hero contrast via fresh Source76 images. Continue feasible CP7 transaction/P18/P19 work without fabricating owner policies/material inputs or independent/installed acceptance.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3651,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Finish exact6ac Native76 qualification and retain8 unedited images/all prior69/current permission/whole restore gates. Publish quoted-source P17 candidate and qualify fresh full Shell/Native152/Native284 without changing case IDs or budgets; retain every first failure and Native Original. Continue feasible CP7 transaction tools/P18/P19; owner-policy/material data and independent/installed gates stay open.",
+  "next_action": "Retain published exact6ac Native76/Shell proofs and all8 unedited reviewed images. Qualify current P17 quoted-source v2 with full decoded Native Original comparisons in Shell/Native152/284/P18_9; preserve first cbdb028 and prior Source76 failures. Qualify scoped pickup hero contrast via fresh Source76 images. Continue feasible CP7 transaction/P18/P19 work without fabricating owner policies/material inputs or independent/installed acceptance.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -9718,7 +9718,7 @@
     "current_shell_receipt": "docs/cp7/evidence/finisher-regression/qualified3266/shell/RECEIPT.json"
   },
   "cutting_posted_source_candidate": {
-    "status": "UNPICKED_PREVIEW_RECORDED_ONLY_REPAIR_IMPLEMENTED_FRESH_SHELL_NATIVE76_PENDING",
+    "status": "QUALIFIED_NATIVE76_AT6AC_RECORDED_ONLY_UNPICKED_PREVIEW",
     "handoff": "docs/cp7/CUTTING_POSTED_SOURCE_HANDOFF.md",
     "required_counts": {
       "native": 41,
@@ -9761,7 +9761,7 @@
       "kind": "STATIC_PRODUCT_DISPLAY_FINDING_NOT_A_RELABELLED_NATIVE_FAILURE",
       "cause": "Ordinary form prepared allocations and a default pickup time for a posted source with no Native pickup",
       "repair": "Bound unpicked preview displays only actual Native roll/size quantities and Pickup belum tercatat; no proposal, reconciliation or physical pickup inputs; no unrelated pattern selector",
-      "actual_extended_browser_checks_pending": true,
+      "actual_extended_browser_checks_pending": false,
       "required_Original_images": 8,
       "case_ids_and76_budget_unchanged": true,
       "normal_pickup_writer_or_frozen_Native_change": false
@@ -9806,6 +9806,56 @@
       "CodeQL_findings": 0,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified6ac/shell/RECEIPT.json",
       "Native76_credit": false
+    },
+    "qualification": {
+      "source_commit": "6ac6766dde1d330715300e6538cf68ab3b77c462",
+      "source_tree": "f219e398b82fbd25c91bbea63412c04dd131fa57",
+      "run_id": 37151081634,
+      "job_id": 111284942277,
+      "artifact_id": 11284437026,
+      "archive_sha256": "939874cb69845931f222fad06f4dd3569da1aec841b046e873fc15e24dece770",
+      "required_case_counts": {
+        "native": 41,
+        "races": 4,
+        "http": 11,
+        "browser": 20
+      },
+      "observed_case_count": 76,
+      "all_earlier69_preserved": true,
+      "all_restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "console_errors": 0,
+      "public_catalog_comparison": {
+        "policy": "ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED",
+        "dropped_fields": [],
+        "physical_order_only_changes": [],
+        "snapshots_checked": 84
+      },
+      "posted_cutting_edit_or_inverse": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "receipt": "docs/cp7/evidence/transaction-source/qualified76-6ac/RECEIPT.json",
+      "all8_unedited_images_visually_reviewed": true
+    },
+    "hero_visual_repair_candidate": {
+      "status": "IMPLEMENTED_FRESH_VISUAL_SOURCE76_PENDING",
+      "observed_source": "6ac6766dde1d330715300e6538cf68ab3b77c462",
+      "finding": "Hero heading/description dark on dark in actual desktop/mobile Original captures",
+      "repair": "Scoped white hero panel consistent with queue/workspace, operator-focused copy instead of RPC/table implementation text",
+      "writers_guards_Native_changed": false
     }
   },
   "f05_native_ai_source_framing_candidate": {
@@ -9830,6 +9880,7 @@
     "external_model_obedience_measured": false,
     "full_E18_or_CP7_acceptance": false,
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "legacy_v1_test_reader_repair": "General analysis/P18 browser and panel/finance receiver assertions decode full v2 JSON; all old facts, labels, financial data, report and question remain exactly compared. First cbdb028 results remain Original."
   }
 }
