@@ -1,0 +1,371 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_NATIVE284_AND_FOUR_PROVIDER_ONLY_BROWSER_FAULT_WITNESSES_WRITER_QUALIFIED",
+  "status": "PASS",
+  "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+  "source_bundle_sha256": "24a4a2cb763fddabff9a30fccf57e30a03683f8bc65c301642aebf48a2861b45",
+  "original_run_id": 37140634704,
+  "original_job_id": 111254173539,
+  "original_artifact_id": 11280926337,
+  "original_archive_bytes": 353239084,
+  "original_archive_sha256": "0e86a17763c5f7c29810acc30ce052afd3495c5f2d34846f9f5e337d0d0aeca5",
+  "required_case_counts": {
+    "native": 179,
+    "races": 40,
+    "http": 29,
+    "browser": 36
+  },
+  "all_actual_planned_IDs_statuses_gates_and_cleanup_verified": true,
+  "root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/CP7_F05_NATIVE_ATTENTION.json.gz",
+      "raw_bytes": 434016,
+      "raw_sha256": "ede92d40acd14a53b7407005b7a3d9b3b752a4502107d6ff4cef07e87cbc3540",
+      "gzip_sha256": "6c6550b7bab438d7318a08b4d2d884b69e1577207a8be8f16a4eb991133764c9"
+    },
+    "CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/CP7_NATIVE155_HANDOFF_DIAGNOSTIC.json.gz",
+      "raw_bytes": 1585,
+      "raw_sha256": "e8b61f251d8ac2e4442cee2d17e69fc40f7c44e7a547b0107e8a47be5a895c40",
+      "gzip_sha256": "7fe0e00f83678128d3938e68f5720053f2fd5c7195a06cd56e6597de5522c6d2"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_RESPONSE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_RESPONSE.json.gz",
+      "raw_bytes": 214,
+      "raw_sha256": "a022cca081d71b357d478612ae3a8f36e62ff20650f4fa2954e46162b472e98a",
+      "gzip_sha256": "9891bdb32a74f7eb6efc7eb3643b146f5d2240932c851b8a788697abde7fe232"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_TRACE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_TRACE.json.gz",
+      "raw_bytes": 6778,
+      "raw_sha256": "d123a19c481d466267913ea74a97acfc4bd267961fec31b4036e10a6fc7790eb",
+      "gzip_sha256": "467804f13a228501465899fa5b6037377954ac0bbc95b918154e25f69e214f59"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_RESPONSE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_RESPONSE.json.gz",
+      "raw_bytes": 214,
+      "raw_sha256": "fe859d4dd88638e3446e288bcb493738c5d6b37527df8c7250d151e110cd5a99",
+      "gzip_sha256": "1afdda25fe19ed10f21941e04bc697f4b4b0ecda86f4cbccdf3ac6cecbd95aaa"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_TRACE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_TRACE.json.gz",
+      "raw_bytes": 7410,
+      "raw_sha256": "121be3c62dafd9831b9458e7945c241e83518b76b089617f58ae1f99f957223a",
+      "gzip_sha256": "1a4600d806f31ac99eb49dc3eefe1995a985199914ac437c3abd7d52990dd1dc"
+    },
+    "F05_CAPTURE_OTHER_DESKTOP_HTTP_RESPONSE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_CAPTURE_OTHER_DESKTOP_HTTP_RESPONSE.json.gz",
+      "raw_bytes": 214,
+      "raw_sha256": "267802ce5da1668f124f72548afa2e3cfe0e7ce2a207934affc14241d184eb37",
+      "gzip_sha256": "7507b1035ec64f671e8df5245796d0f85675fa842c78ca4537f32378e5895252"
+    },
+    "F05_CAPTURE_OTHER_DESKTOP_HTTP_TRACE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_CAPTURE_OTHER_DESKTOP_HTTP_TRACE.json.gz",
+      "raw_bytes": 4882,
+      "raw_sha256": "a34b3cbbaf8a2c7676223573a799302c7e4fcc36c1a4e1cf8c98c065333680de",
+      "gzip_sha256": "6f4925455690aa756880c462e3447d7ddea66d224ced7c4c3942bbcd1d805ebd"
+    },
+    "F05_CAPTURE_OTHER_MOBILE_HTTP_RESPONSE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_CAPTURE_OTHER_MOBILE_HTTP_RESPONSE.json.gz",
+      "raw_bytes": 214,
+      "raw_sha256": "0534abafd3e7227b211392e0daea6d91cb82a79ec68f19586142fb7a4925a4d9",
+      "gzip_sha256": "e0e07f38fc427f8caa4bd7b62d8c6974cbeffc64206f20a0d86f67d94675de6e"
+    },
+    "F05_CAPTURE_OTHER_MOBILE_HTTP_TRACE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_CAPTURE_OTHER_MOBILE_HTTP_TRACE.json.gz",
+      "raw_bytes": 5830,
+      "raw_sha256": "bf43a6740d97c6fb7735023fa2fa76c5ce194e38f5341576f64a551aeae53929",
+      "gzip_sha256": "75866a7fc80a8286fcff6227ac69d105f07cdc5548429a6f56bc989d60a6e222"
+    },
+    "F05_LOCAL_CLAIM_DESKTOP_HTTP_RESPONSE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_LOCAL_CLAIM_DESKTOP_HTTP_RESPONSE.json.gz",
+      "raw_bytes": 214,
+      "raw_sha256": "6c22d61ec6e874e93a8668db1fa81d43311e1a52ac0f67639e56da4a84dc85c3",
+      "gzip_sha256": "17927cf174c2a01a1994d98dfc3d65b3bc19fbdcadf32e6db9d715af258379d2"
+    },
+    "F05_LOCAL_CLAIM_DESKTOP_HTTP_TRACE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_LOCAL_CLAIM_DESKTOP_HTTP_TRACE.json.gz",
+      "raw_bytes": 5199,
+      "raw_sha256": "62b8b4fec9e4e2e6ee63ac984fc6720bca1cbe6582d221636e2a259cb285af48",
+      "gzip_sha256": "b7b623f9085e24ac0d2f3848728661c539656dd4782cc876952062c549dc06f3"
+    },
+    "F05_LOCAL_CLAIM_MOBILE_HTTP_RESPONSE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_LOCAL_CLAIM_MOBILE_HTTP_RESPONSE.json.gz",
+      "raw_bytes": 214,
+      "raw_sha256": "f98246fb75ee8bbeedc052075d00b53470c2e2f01a409016e2f4c03bb1e30774",
+      "gzip_sha256": "be9e57c91e3a5e299d5782674df93edb968196f228f30b9a57f8332e0b644353"
+    },
+    "F05_LOCAL_CLAIM_MOBILE_HTTP_TRACE.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/F05_LOCAL_CLAIM_MOBILE_HTTP_TRACE.json.gz",
+      "raw_bytes": 4567,
+      "raw_sha256": "0168c05e2e0c4d1f83a7e499084585f7ac0533ddfdc50111fbc7fc180e1ce2be",
+      "gzip_sha256": "69db17f732269006c78e3b005aa59b3f9f1f32b5dcf523ee6752f2e2f49353be"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10524,
+      "raw_sha256": "a4587e6e9739d5bd7a0f1384b799ec8e220d753d44f40a5adf452fdd66240a5f",
+      "gzip_sha256": "f280b79e89cea05a0f1249cbe8a5f6e9500c9c4aa9835f32eed0b40ac2418fcd"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360416,
+      "raw_sha256": "cd54635d17a307b7dd573df49a5221ab7882f581dfe6db48f4281d0060f84d88",
+      "gzip_sha256": "572ea0d2fce7a60f997d736c0070061cd339c044de5e622108d0978d9cbf4b10"
+    }
+  },
+  "actual_four_existing_P17_cases": {
+    "P17_BROWSER_DESKTOP_NATIVE_AUTOMATIC_HANDOFF": {
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "initial_copy_mode": "AUTOMATIC",
+      "initial_prompt_utf8_bytes": 138354,
+      "controlled_clipboard_denial_visited_count": 5,
+      "complete_manual_byte_bound_visited_count": 0,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "provider_offline_manual_fallback_witness": {
+        "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+        "actual_browser_failed_navigation": [
+          {
+            "url": "https://chatgpt.com/",
+            "error": "net::ERR_INTERNET_DISCONNECTED"
+          }
+        ],
+        "actual_destination_requests": [
+          {
+            "url": "https://chatgpt.com/",
+            "method": "GET",
+            "post_data": null
+          }
+        ],
+        "complete_prompt_and_question_unchanged": true,
+        "complete_Native_business_and_capture_count_unchanged": true,
+        "static_URL_GET_without_ERP_data": true,
+        "provider_network_contact": false,
+        "provider_outage_measured": false,
+        "full_E18_acceptance": false
+      },
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_AUTO_DESKTOP.png",
+        "P17_MANUAL_BLOCKED_AUTO_DESKTOP.png",
+        "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+        "P17_STALE_AUTO_DESKTOP.png",
+        "P17_RECOVERED_AUTO_DESKTOP.png"
+      ]
+    },
+    "P17_BROWSER_MOBILE_NATIVE_AUTOMATIC_HANDOFF": {
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "initial_copy_mode": "AUTOMATIC",
+      "initial_prompt_utf8_bytes": 180945,
+      "controlled_clipboard_denial_visited_count": 5,
+      "complete_manual_byte_bound_visited_count": 0,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "provider_offline_manual_fallback_witness": {
+        "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+        "actual_browser_failed_navigation": [
+          {
+            "url": "https://chatgpt.com/",
+            "error": "net::ERR_INTERNET_DISCONNECTED"
+          }
+        ],
+        "actual_destination_requests": [
+          {
+            "url": "https://chatgpt.com/",
+            "method": "GET",
+            "post_data": null
+          }
+        ],
+        "complete_prompt_and_question_unchanged": true,
+        "complete_Native_business_and_capture_count_unchanged": true,
+        "static_URL_GET_without_ERP_data": true,
+        "provider_network_contact": false,
+        "provider_outage_measured": false,
+        "full_E18_acceptance": false
+      },
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_AUTO_MOBILE.png",
+        "P17_MANUAL_BLOCKED_AUTO_MOBILE.png",
+        "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+        "P17_STALE_AUTO_MOBILE.png",
+        "P17_RECOVERED_AUTO_MOBILE.png"
+      ]
+    },
+    "P17_BROWSER_DESKTOP_NATIVE_HANDOFF": {
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "initial_copy_mode": "MANUAL_UTF8_BOUND",
+      "initial_prompt_utf8_bytes": 1303385,
+      "controlled_clipboard_denial_visited_count": 0,
+      "complete_manual_byte_bound_visited_count": 6,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "provider_offline_manual_fallback_witness": {
+        "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+        "actual_browser_failed_navigation": [
+          {
+            "url": "https://chatgpt.com/",
+            "error": "net::ERR_INTERNET_DISCONNECTED"
+          }
+        ],
+        "actual_destination_requests": [
+          {
+            "url": "https://chatgpt.com/",
+            "method": "GET",
+            "post_data": null
+          }
+        ],
+        "complete_prompt_and_question_unchanged": true,
+        "complete_Native_business_and_capture_count_unchanged": true,
+        "static_URL_GET_without_ERP_data": true,
+        "provider_network_contact": false,
+        "provider_outage_measured": false,
+        "full_E18_acceptance": false
+      },
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_DESKTOP.png",
+        "P17_MANUAL_BLOCKED_DESKTOP.png",
+        "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+        "P17_STALE_DESKTOP.png",
+        "P17_RECOVERED_DESKTOP.png"
+      ]
+    },
+    "P17_BROWSER_MOBILE_NATIVE_HANDOFF": {
+      "status": "PASS",
+      "actual_Auth_Native_original_before_every_copy_or_open": true,
+      "actual_browser_clipboard_complete_UTF8_scope_hash_finance_and_question": true,
+      "initial_copy_mode": "MANUAL_UTF8_BOUND",
+      "initial_prompt_utf8_bytes": 1346083,
+      "controlled_clipboard_denial_visited_count": 0,
+      "complete_manual_byte_bound_visited_count": 6,
+      "controlled_popup_branches_only_static_data_free_URL_no_provider_contact": true,
+      "provider_offline_manual_fallback_witness": {
+        "fault": "DECLARED_PROVIDER_ONLY_CHROMIUM_ROUTE_ABORT_INTERNETDISCONNECTED",
+        "actual_browser_failed_navigation": [
+          {
+            "url": "https://chatgpt.com/",
+            "error": "net::ERR_INTERNET_DISCONNECTED"
+          }
+        ],
+        "actual_destination_requests": [
+          {
+            "url": "https://chatgpt.com/",
+            "method": "GET",
+            "post_data": null
+          }
+        ],
+        "complete_prompt_and_question_unchanged": true,
+        "complete_Native_business_and_capture_count_unchanged": true,
+        "static_URL_GET_without_ERP_data": true,
+        "provider_network_contact": false,
+        "provider_outage_measured": false,
+        "full_E18_acceptance": false
+      },
+      "held_actual_Native_read_scope_invalidation_closes_blank_and_retires_source": true,
+      "actual_source_change_keeps_archived_Original_no_handoff": true,
+      "current403_closes_blank_retires_parent_FG_HPP_and_all_prepared_source": true,
+      "own_question_stock_search_retained_no_fact_cache": true,
+      "explicit_capture_count": 6,
+      "legitimate_clock_archives": 0,
+      "no_implicit_capture_business_write_or_delivery": true,
+      "screenshots": [
+        "P17_COPIED_MOBILE.png",
+        "P17_MANUAL_BLOCKED_MOBILE.png",
+        "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+        "P17_STALE_MOBILE.png",
+        "P17_RECOVERED_MOBILE.png"
+      ]
+    }
+  },
+  "exact_original_images": {
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png": {
+      "bytes": 1151154,
+      "sha256": "375831b72663b3c82b1b7aa5073149378c77a812f1ab3aa5a875ba8eb4d8c39e",
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "WRITER_VIEWED_UNEDITED_ORIGINAL_FULL_PAGE_MANUAL_TEXT_QUESTION_AND_SOURCE_PRESENT"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png": {
+      "bytes": 599547,
+      "sha256": "910278f051be0abfb838ead83dc5203107432a0281b3a8f2a2d4b49b3de0cfd5",
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_YET_REVIEWED_THIS_SOURCE"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png": {
+      "bytes": 1640015,
+      "sha256": "61c44d729d07fb967f4bc2248248c1448e1012221bc644a982674568c5238489",
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/images/P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_YET_REVIEWED_THIS_SOURCE"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png": {
+      "bytes": 947484,
+      "sha256": "dd99382195a0de5ec8c25527ce98d652f004c233355cb38511ff5c425e628877",
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/images/P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "WRITER_VIEWED_UNEDITED_ORIGINAL_FULL_PAGE_MANUAL_TEXT_QUESTION_AND_SOURCE_PRESENT"
+    }
+  },
+  "projection_run_id": 37143038142,
+  "projection_job_id": 111261238400,
+  "projection_artifact_id": 11280649542,
+  "projection_artifact_bytes": 4530378,
+  "projection_artifact_sha256": "9faef88ae952a1a3bf03b86d585e217107e20ea02bcac20995102af66f260bb0",
+  "projection_source_commit": "180e9d61d948ce2fdf30d9ce1ceb5ad0a93a228a",
+  "projection_reexecution_credit": 0,
+  "projection_Native_database_access": false,
+  "actual_image_byte_boundary_tests": 9,
+  "actual_retained_Original_corruption_tests": 12,
+  "new_unique_case_credit_beyond_original284": 0,
+  "provider_outage_measured": false,
+  "full_E18_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "visual_scope_only_two_named_parent_captures_not_demo_or_independent": [
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png"
+  ],
+  "projection_Original_full_CI_log": {
+    "file": "docs/cp7/evidence/finisher-regression/qualified-a306/attention284/ORIGINAL_PROJECTION_CI_LOG.txt.gz",
+    "raw_bytes": 31589,
+    "raw_sha256": "304dc7ff4857abb1e59597f0a53f93a40ba21b80a818641ee56872855e771e31",
+    "gzip_sha256": "052564c2e22a54c14614f7d5d2319124026c9a3afee11ae5e9ef052b6d5add86"
+  }
+}

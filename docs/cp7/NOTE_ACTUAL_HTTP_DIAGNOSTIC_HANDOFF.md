@@ -1,5 +1,7 @@
 # Actual Auth/PostgREST note diagnostic · qualified07dd
 
+Current additive function-profile candidate is in NOTE_FUNCTION_PROFILE_HANDOFF.md. It preserves the original five HTTP attempts below and adds one separately declared, request-local tracked year comparison. The two diagnostic emissions and zero Native product exit credit are unchanged. Fresh actual availability/timing/restoration evidence is pending; this qualified07dd table remains historical source-bound evidence.
+
 Actual diagnostic2 at07ddb3dbca4045769f948f663d64f104d27a37ed/tree209b5c835d9c5730e73e74df9fe5bda89f606573, run37134007452/job111234689037/artifact11277762532, passes both instrument emissions and all installation/restore/primary/backup/advisor/Auth0→0 gates. Exact Original: evidence/note-actual-http-diagnostic/qualified2-07dd/RECEIPT.json; ZIP1720810 bytes, SHA2567bb05ce98690638a918cd66216ff288dab0134792cd0bb50639164479b68f116.
 
 The instrument has zero Native40/P19 product exit credit. Diagnostic PASS means measurements and restoration controls completed; inspect the actual command result in each row. In this specific Original all five actual HTTP rows return200/MEASURED_BEFORE_FORCED_ROLLBACK. The previous recurring500/57014 cause is still open; successful repeats do not explain it. NOTE_HTTP_TIMEOUT.md preserves the prior source-bound failures.

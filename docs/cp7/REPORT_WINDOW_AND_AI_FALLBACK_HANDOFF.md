@@ -1,6 +1,6 @@
 # Native report-window and AI fallback continuation
 
-Status: actual source-bound Native22 qualified at a306; explicit cross-date successor and complete Native284 provider-fault proof pending. No product SQL, app runtime, financial formula, Native writer/grant,8s command budget or frozen CP5/CP6/framework file is changed. This does not close full P18/P19 or independent/installed acceptance.
+Status: actual Native22 original/date-contrast cycles qualified at48ed; exact Native284 provider-fault Original qualified at a306 via projection180e. No product SQL, app runtime, financial formula, Native writer/grant,8s command budget or frozen CP5/CP6/framework file is changed. This does not close full P18/P19 or independent/installed acceptance.
 
 ## Preserve the actual combined first failure
 
@@ -41,3 +41,9 @@ The current read-only projection pin names the exact353239084-byte artifact11280
 ## Cross-date candidate source-query correction
 
 Read-only source review after180e9d61 publication finds one erroneous lookup in the new dated fixture: erp.sales. The accepted source is erp.sales_headers, as used by the unchanged owning-note original_facts and P18 Native source reader. Correct only this query target. Source date, Native writers, all8 expected deltas, original cycle and all22 identities remain unchanged. Any first180e run remains source-bound with its actual status/traceback; do not cancel or relabel it. The successor needs fresh actual22. A progress reference to nonexistent P18_E01_BRIDGE_HANDOFF.md is also corrected to the actual P18_E01_CONSUMER_BRIDGE.md and P18_SHARED_CONSUMER_CONTINUATION.md.
+
+## Current qualified successors
+
+Native22 at48ed/run37143306007/job111262033814/artifact11281296857 passes all22 IDs and every gate. The original current-day cycle and declared3Oct sale/4Oct return cycle both produce cash−6030,AR+30,FG−30,revenue+60,COGS+30,gross profit+30,expense+5,net profit+25. Every final financial/performance snapshot equals before, with all Native GL/stock/opening/context assertions retained. A separate valid4Oct-only query gives revenue−20/COGS−10; the proper actual3–4Oct window includes sale80/COGS40. These16 deltas are recomputed from the actual raw reports in evidence/finisher-regression/qualified48ed/combined/RECEIPT.json. The first180e lookup failure and its false runtime gate stay Original in first180e/combined/RECEIPT.json. Precise missing b5 historical dates are still not reconstructed.
+
+Exact Native284 at a306 is now fully inspected:179/40/29/36=284, all18 root reports, actual planned identities, original package/restore/primary/backup/advisor/Auth0→0/console0 gates. The four P17 root witnesses exactly match the original full CI log. Four parent PNGs are copied byte-for-byte from the353239084-byte original; AUTO_DESKTOP and MOBILE are visually reviewed. Qualified proof: evidence/finisher-regression/qualified-a306/attention284/QUALIFICATION.json. Read-only projection180e/run37143038142/job111261238400/artifact11280649542 passes9 image byte-boundary and12 Original-corruption controls, with zero database/reexecution/unique-case credit. Actual provider outage, full E18/malicious-source scope, full P18/P19, independent P20 and installed P21 remain open.

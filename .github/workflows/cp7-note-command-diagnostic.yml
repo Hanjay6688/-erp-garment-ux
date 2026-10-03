@@ -6,6 +6,7 @@ name: CP7 Note Command Diagnostic
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_note_command_diagnostic_*
+    - scripts/cp7_note_command_function_profile*
     - scripts/cp7_note_actual_http_diagnostic_*
     - scripts/cp7_note_correction_probe.py
     - .github/workflows/cp7-note-command-diagnostic.yml
@@ -104,6 +105,9 @@ jobs:
       run: |
         npm ci
         npx playwright install --with-deps chromium
+    - name: Refuse malformed or misleading function counter comparisons
+      working-directory: auditor
+      run: python scripts/cp7_note_command_function_profile_test.py
     - name: Install pinned Supabase CLI
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
