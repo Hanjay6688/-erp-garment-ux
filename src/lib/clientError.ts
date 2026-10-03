@@ -1,3 +1,5 @@
+import { receiptCorrectionMessage } from './receiptCorrectionMessages'
+
 export type ClientErrorCode =
   | 'AUTH_FAILED'
   | 'AUTH_REQUIRED'
@@ -106,6 +108,9 @@ export function normalizeClientError(error: unknown): ClientAppError {
   for (const [key,message] of Object.entries(correctionMessages)) {
     if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
   }
+
+  const receiptMessage = typeof candidate.message === 'string' ? receiptCorrectionMessage(candidate.message) : null
+  if (receiptMessage) return new ClientAppError('REJECTED', receiptMessage)
 
   // W11: only a failure that never got an answer is unreachable; show definite refusals.
   // (a server rule such as CLOSE_ALREADY_CLOSED, or a page parser such as "Model produk bukan UUID valid.") is shown as is.

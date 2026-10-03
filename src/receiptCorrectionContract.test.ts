@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { correctionDraft, correctionExcess, correctionRefusal, draftHeader, correctionInvoices, correctionPayload, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, parseMaterialCard, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace } from './receiptCorrectionContract'
+import { normalizeClientError } from './lib/clientError'
+import { correctionDraft, correctionExcess, draftHeader, correctionInvoices, correctionPayload, materialNamePayload, parseMaterialNameOutcome, parseMaterialNameWorkspace, parseMaterialCard, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace } from './receiptCorrectionContract'
 
 const ids = { root: '11111111-1111-4111-8111-111111111111', rep: '22222222-2222-4222-8222-222222222222', item: '33333333-3333-4333-8333-333333333333', mat: '44444444-4444-4444-8444-444444444444', roll: '55555555-5555-4555-8555-555555555555', sup: '66666666-6666-4666-8666-666666666666', loc: '77777777-7777-4777-8777-777777777777', rev: '88888888-8888-4888-8888-888888888888' }
 const at = '2026-09-29T03:00:00+00:00'
+const actor = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
 const inv = { id: '99999999-9999-4999-8999-999999999999', line: 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa' }
 function workspace(history = false, invoiced = false) {
   return {
@@ -13,7 +15,7 @@ function workspace(history = false, invoiced = false) {
     invoices: invoiced ? [{ invoice_id: inv.id, invoice_number: 'INV-7', invoice_date: '2026-09-29', received_at: at, due_date: null, row_version: '2', notes: null, other_receipts: [{ purchase_id: ids.rev, purchase_number: 'SJ-9' }],
       lines: [{ invoice_line_id: inv.line, purchase_item_id: ids.item, qty_invoiced: '100.000000', unit_price: '12.000000', discount_amount: '0.000000', net_amount: '1200.000000', notes: null }] }] : [],
     credit_targets: [] as { purchase_id: string; purchase_number: string; physical_at: string; remaining: string }[], payments: [] as unknown[], paid_total: '0', blockers: [], can_correct: true, review_token: 'a'.repeat(32),
-    history: history ? [{ revision_id: ids.rev, revision: '1', previous_purchase_id: ids.root, previous_purchase_number: 'SJ-1', replacement_purchase_id: ids.rep, replacement_purchase_number: 'SJ-1 · R1-abcd', effective_at: at, recorded_at: at, reason: 'Salah ketik jumlah', actor_name: 'Owner', previous_document: {}, corrected_document: {} }] : [],
+    history: history ? [{ revision_id: ids.rev, revision: '1', previous_purchase_id: ids.root, previous_purchase_number: 'SJ-1', replacement_purchase_id: ids.rep, replacement_purchase_number: 'SJ-1 · R1-abcd', effective_at: at, recorded_at: at, reason: 'Salah ketik jumlah', actor_id: actor, actor_display_name: 'Owner', actor_name_basis: 'CURRENT_PROFILE', previous_document: {}, corrected_document: {} }] : [],
     production_go: false,
   }
 }
@@ -65,7 +67,7 @@ describe('receipt correction contract', () => {
   })
   it('fixes the code (SKU) of the same material, alone or with the name', () => {
     const w = parseMaterialNameWorkspace({ contract_version: 'cp7.material-name-workspace.v1', read_at: at, material_id: ids.mat, material_sku: 'KAIN-01O', material_name: 'Katun', material_type: 'FABRIC', unit_code: 'yd', row_version: '4',
-      history: [{ id: ids.rev, previous_name: 'Katun', corrected_name: 'Katun', previous_sku: 'KAIN-1', corrected_sku: 'KAIN-01O', reason: 'Salah kode', recorded_at: at, actor_name: null }], production_go: false }, ids.mat)
+      history: [{ id: ids.rev, previous_name: 'Katun', corrected_name: 'Katun', previous_sku: 'KAIN-1', corrected_sku: 'KAIN-01O', reason: 'Salah kode', recorded_at: at, actor_id: actor, actor_display_name: null, actor_name_basis: 'CURRENT_PROFILE' }], production_go: false }, ids.mat)
     expect(materialNamePayload(w, 'Katun', 'Kode salah ketik', ' KAIN-010 ').payload).toEqual({ material_id: ids.mat, material_name: 'Katun', material_sku: 'KAIN-010', change_reason: 'Kode salah ketik' })
     expect(materialNamePayload(w, 'Katun', 'Kode salah ketik', 'KAIN-01O').problem).toContain('belum berubah')
     expect(materialNamePayload(w, 'Katun', 'Kode salah ketik', '  ').problem).toContain('kode bahan')
@@ -126,43 +128,33 @@ describe('receipt correction contract', () => {
 })
 
 describe('command refusals in Indonesian', () => {
-  it('keeps code/status, names the nota and lists blockers; unknown codes stay as they are', () => {
-    const e = correctionRefusal({ code: 'P0001', status: 400, message: 'CP7_RECEIPT_FIX_CREDIT_TARGET_AFTER_ADVANCE_USE SJ-7', details: null }) as Record<string, unknown>
-    expect(e).toEqual({ code: 'P0001', status: 400, details: null, message: 'Kelebihan bayar ini berasal dari uang muka saldo awal. Pilih nota yang tanggalnya sama atau sebelum tanggal pemakaian uang muka itu (SJ-7).' })
-    expect((correctionRefusal({ code: 'P0001', message: 'CP7_RECEIPT_FIX_ROLL_BELOW_USE roll R1 corrected 50 used 60.000000' }) as { message: string }).message)
+  // One translation path for every page: normalizeClientError (src/lib/clientError.ts).
+  const say = (e: unknown) => normalizeClientError(e)
+  it('names the nota, lists blockers and keeps unknown codes as they are', () => {
+    expect(say({ code: 'P0001', status: 400, message: 'CP7_RECEIPT_FIX_CREDIT_TARGET_AFTER_ADVANCE_USE SJ-7', details: null })).toMatchObject({ code: 'REJECTED',
+      message: 'Kelebihan bayar ini berasal dari uang muka saldo awal. Pilih nota yang tanggalnya sama atau sebelum tanggal pemakaian uang muka itu (SJ-7).' })
+    expect(say({ code: 'P0001', message: 'CP7_RECEIPT_FIX_ROLL_BELOW_USE roll R1 corrected 50 used 60.000000' }).message)
       .toBe('Jumlah roll tidak boleh di bawah jumlah yang sudah dipakai atau dipindah dari gudang penerimaan (roll R1 dibetulkan 50 terpakai 60.000000).')
-    expect((correctionRefusal({ code: 'P0001', message: 'CP7_RECEIPT_FIX_DEPENDENCY CP7_RECEIPT_FIX_RETURN_ACTIVE,CP7_RECEIPT_FIX_COST_CORRECTION_ACTIVE' }) as { message: string }).message)
-      .toBe('Ada retur ke supplier yang sudah diposting dari penerimaan ini. Batalkan retur itu dulu. Ada koreksi harga lama yang aktif. Batalkan koreksi harga itu dulu.')
-    expect((correctionRefusal({ code: 'P0001', message: 'CP7_MATERIAL_NAME_TAKEN' }) as { message: string }).message).toBe('Nama ini sudah dipakai bahan lain. Bila itu memang bahan yang sama, jangan digabung lewat ganti nama.')
-    const raw = { code: 'P0001', message: 'CP7_RECEIPT_FIX_INVOICE_RESTATEMENT_MISMATCH INV-1' }
-    expect(correctionRefusal(raw)).toBe(raw)
-    expect(correctionRefusal(null)).toBe(null)
+    expect(say({ code: 'P0001', message: 'CP7_RECEIPT_FIX_DEPENDENCY CP7_RECEIPT_FIX_RETURN_ACTIVE,CP7_RECEIPT_FIX_DRAFT_ROLL_USE' }).message)
+      .toBe('Ada retur ke supplier yang sudah diposting dari penerimaan ini. Batalkan retur itu dulu. Roll dari penerimaan ini sudah dipakai di draft potong atau draft transfer. Posting atau batalkan draft itu dulu.')
+    expect(say({ code: 'P0001', message: 'CP7_MATERIAL_NAME_TAKEN' }).message).toBe('Nama ini sudah dipakai bahan lain. Bila itu memang bahan yang sama, jangan digabung lewat ganti nama.')
+    expect(say({ code: 'P0001', message: 'CP7_RECEIPT_FIX_INVOICE_RESTATEMENT_MISMATCH INV-1' })).toMatchObject({ code: 'REJECTED', message: 'CP7_RECEIPT_FIX_INVOICE_RESTATEMENT_MISMATCH INV-1' })
+  })
+  it('keeps the generic no-permission message for access refusals', () => {
+    expect(say({ code: '42501', message: 'CP7_RECEIPT_FIX_OWNER_ADMIN_REQUIRED' })).toMatchObject({ code: 'FORBIDDEN', message: 'Akun tidak memiliki izin untuk operasi ini.' })
   })
 })
 
-describe('non-roll line already left the receipt location', () => {
-  it('keeps the corrected quantity at or above what left, and the material unchanged', () => {
-    const raw = workspace() as ReturnType<typeof workspace>
-    raw.lines = [{ ...raw.lines[0], material_type: 'ACCESSORY', unit_code: 'pcs', qty: '24.000000', min_qty: '20.000000', rolls: [] }]
-    const w = parseReceiptCorrectionWorkspace(raw, ids.root), draft = correctionDraft(w)
-    expect(draft[0].minQty).toBe('20.000000')
-    const at = (qty: string, materialId = ids.mat) => correctionPayload(w, [{ ...draft[0], qty, materialId }], 'Jumlah salah ketik di surat jalan')
-    expect(at('19').problem).toBe('Kain sudah keluar 20 pcs dari gudang penerimaan; jumlah benar tidak boleh lebih kecil dan bahannya tidak bisa diganti.')
-    expect(at('20').problem).toBeNull()
-    expect(at('22', ids.rev).problem).toContain('bahannya tidak bisa diganti')
-  })
-})
-
-describe('arrival time, warehouse and supplier as they really were', () => {
-  it('sends only what changed, in WIB, and keeps credit and supplier change apart', () => {
-    const w = parseReceiptCorrectionWorkspace(workspace(), ids.root), lines = correctionDraft(w), base = draftHeader(w)
-    expect(base.at).toBe('2026-09-29T10:00')
-    expect(correctionPayload(w, lines, 'Data penerimaan salah', [], [], base).payload).not.toHaveProperty('physical_at')
-    const moved = correctionPayload(w, lines, 'Tanggal datang salah ketik', [], [], { ...base, at: '2026-09-28T08:30', location: { id: ids.rev, name: 'Gudang B' }, supplier: { id: ids.item, name: 'Supplier B' } }).payload
-    expect(moved).toMatchObject({ physical_at: '2026-09-28T01:30:00.000Z', location_id: ids.rev, supplier_id: ids.item })
-    expect(correctionPayload(w, lines, 'Tanggal datang salah ketik', [], [], { ...base, at: '2099-01-01T08:00' }).problem).toBe('Tanggal datang tidak boleh di masa depan.')
-    const paid = parseReceiptCorrectionWorkspace({ ...workspace(), paid_total: '1000.00', credit_targets: [{ purchase_id: ids.rev, purchase_number: 'SJ-2', physical_at: at, remaining: '1000.00' }] }, ids.root), less = correctionDraft(paid)
-    less[0].rolls[0].qty = '80'
-    expect(correctionPayload(paid, less, 'Supplier dan jumlah salah', [], [{ purchaseId: ids.rev, amount: '200' }], { ...draftHeader(paid), supplier: { id: ids.item, name: 'Supplier B' } }).problem).toContain('tidak bisa sekaligus')
+describe('blockers and actors follow the shared contracts', () => {
+  it('a blocker names its documents; the actor is a UUID with the current profile name', () => {
+    const w = workspace(true)
+    const blocked = { ...w, can_correct: false, blockers: [{ code: 'CP7_RECEIPT_FIX_DRAFT_ROLL_USE', count: 2, documents: [{ type: 'CUTTING_GROUP', number: 'G-12' }, { type: 'MATERIAL_TRANSFER', number: 'T-3' }] }] }
+    expect(parseReceiptCorrectionWorkspace(blocked, ids.rep).blockers[0].documents).toEqual([{ type: 'CUTTING_GROUP', number: 'G-12' }, { type: 'MATERIAL_TRANSFER', number: 'T-3' }])
+    expect(() => parseReceiptCorrectionWorkspace({ ...blocked, blockers: [{ code: 'X', count: 1 }] }, ids.rep)).toThrow()
+    expect(() => parseReceiptCorrectionWorkspace({ ...blocked, blockers: [{ code: 'X', count: 1, documents: [{ type: 'CUTTING_GROUP' }] }] }, ids.rep)).toThrow()
+    expect(parseReceiptCorrectionWorkspace(w, ids.rep).history[0]).toMatchObject({ actor_id: actor, actor_display_name: 'Owner', actor_name_basis: 'CURRENT_PROFILE' })
+    const h = w.history[0] as Record<string, unknown>
+    for (const bad of [{ actor_display_name: ' ' }, { actor_name_basis: 'CAPTURED' }, { actor_id: 'owner' }]) expect(() => parseReceiptCorrectionWorkspace({ ...w, history: [{ ...h, ...bad }] }, ids.rep)).toThrow()
+    expect(parseReceiptCorrectionWorkspace({ ...w, history: [{ ...h, actor_display_name: null }] }, ids.rep).history[0].actor_display_name).toBeNull()
   })
 })

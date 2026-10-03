@@ -4,6 +4,8 @@ Dokumen ini adalah pintu masuk tunggal untuk GPT. Isinya mencakup semua perubaha
 
 **Urutan yang diminta owner: GPT mengaudit dulu, baru merge.** Kalau ada temuan, catat sebagai temuan dan kembalikan ke owner/Claude. Jangan "dibetulkan" dengan melonggarkan tes.
 
+**Mulai dari §8.** Per 3 Okt 2026, cabang ini sudah digabung dengan `cp7/integration` (`40c4127c`) dan semua konflik sudah diselesaikan di cabang ini. Atas instruksi owner 3 Okt ("serahin file lu, gpt tinggal cek sendiri pas di merge"), GPT tinggal mengaudit selisih `origin/cp7/integration..origin/claude/new-session-deapao`.
+
 ## 0. Identitas dan status
 
 - Cabang: `claude/new-session-deapao`. Head saat dokumen ini dibuat: commit yang memuat dokumen ini. Commit kode Claude terakhir `dda66b9a`; bukti CI terakhirnya `cp7-receipt-correction` run 37083713960, 39/39 PASS.
@@ -36,9 +38,9 @@ Kolom "Sesudahnya diubah GPT" penting untuk merge. Kalau GPT sudah merevisi suat
 | Kontrak owner | Addendum C0 D01–D06 dan lampiran C6 rev4 dengan crosswalk 75 ID; D07–D12 belum masuk addendum, tercatat di handoff §32–§34 dan dokumen D11 | `docs/contracts/ERP_ADDENDUM_OWNER_DECISIONS_CP6_2026-09-25*.md` | §29–§31 | tidak |
 | Runtime auditor | Workflow skenario auditor (race dua sesi, HTTP Auth nyata, browser) | §27–§31 | §31 | ya, 27 Sep |
 | UI WIB | Halaman potong, pickup, dan BS mengirim waktu fisik sebagai jam dinding WIB (A2/CP6-01) | §28 | §28 | tidak |
-| **CP7: Benerin penerimaan** | Koreksi penerimaan bahan/aksesori yang sudah diposting dan dipakai (jumlah, roll, nomor roll, harga, salah bahan, invoice supplier termasuk gabungan, nomor/tanggal invoice, surat jalan, tanggal datang, gudang, supplier, kelebihan bayar "retur bayangan", uang muka saldo awal, periode tertutup) | `docs/cp7/RECEIPT_CORRECTION.md` (termasuk bagian "Serah terima untuk merge") | run 37083713960, **39/39 PASS** | tidak |
-| **CP7: Benerin nama / kode bahan** | Nama dan SKU bahan yang sama; identitas lain diperiksa tidak berubah | sama | sama | tidak |
-| **CP7: Kartu Mutasi v2** | `erp_cp7_get_material_ledger_v2`: baris penerimaan yang dibetulkan tampil sebagai jumlah efektif | sama | sama | tidak |
+| **CP7: Benerin penerimaan** | Koreksi penerimaan bahan/aksesori yang sudah diposting dan dipakai (jumlah, roll, nomor roll, harga, salah bahan, invoice supplier termasuk gabungan dan invoice FINAL setahun lalu, nomor/tanggal invoice, surat jalan, tanggal datang, gudang, supplier, kelebihan bayar "retur bayangan", uang muka saldo awal, periode tertutup, baris ganda, draft yang memakai roll) | `docs/cp7/RECEIPT_CORRECTION.md` (termasuk bagian "Serah terima untuk merge") | lihat §8 | **ya**: GPT memasukkan versi `08d19674` ke `cp7/integration` (`77307d55`) dengan 5 edit kecil; sudah digabung balik (§8) |
+| **CP7: Benerin nama / kode bahan** | Nama dan SKU bahan yang sama; identitas lain diperiksa tidak berubah | sama | sama | ya, sama dengan baris di atas |
+| **CP7: Kartu Mutasi v2** | `erp_cp7_get_material_ledger_v2`: baris penerimaan yang dibetulkan tampil sebagai jumlah efektif | sama | sama | ya, sama dengan baris di atas |
 
 BE (pocket/celup/konversi) dikerjakan GPT atas arahan owner. Claude tidak menyentuh BE.
 
@@ -79,7 +81,9 @@ BE (pocket/celup/konversi) dikerjakan GPT atas arahan owner. Claude tidak menyen
 | Tanggal datang tidak boleh sesudah pemakaian pertama; gudang hanya bisa diganti bila barang belum dipakai; supplier tidak bisa diganti untuk invoice gabungan atau pembayaran dari uang muka | `correction.sql` | aturan tanggal/lokasi di keluarga AW/AZ/BA |
 | Batas bawah koreksi = pemakaian roll / saldo terendah di gudang | `roll_use`, `location_floor`, `shifted_floor` | pemeriksaan stok negatif Native/AM |
 | Nomor roll unik per bahan; nama dan kode bahan unik tanpa membedakan huruf besar/kecil | `correction.sql`, `material-name.sql` | master bahan GPT |
-| Pesan penolakan berbahasa Indonesia | `src/receiptCorrectionContract.ts` (`correctionRefusal`) | `src/lib/clientError.ts` (GPT) |
+| Pesan penolakan berbahasa Indonesia | **sudah satu jalur**: `normalizeClientError` (`src/lib/clientError.ts`, GPT) → `src/lib/receiptCorrectionMessages.ts` | — |
+| Pelaku di riwayat koreksi: UUID tetap + nama profil saat ini | `actor_id`/`actor_display_name`/`actor_name_basis` di kedua riwayat Claude | **sama** dengan `cp7_note.workspace_with_actors` |
+| Draft terkait memblokir koreksi dan disebut nomornya | `cp7_receipt_fix.blockers` (`documents`) | `cp7_note_pending_child_review_required` (GPT) |
 | Kartu mutasi: baris koreksi digabung ke baris asal kecuali tanggal/gudang berubah | `cp7_receipt_fix.ledger` (v2) | kartu v1 dan reader stok GPT |
 | Recost/HPP bertanggal dari barang dan pergerakan | keluarga AY, AZ | perubahan GPT sesudah 28 Sep (BD/BE/BF) |
 | Tutup buku per tanggal | keluarga AW | pembukaan/penutupan periode CP7 GPT (`cp7_period_*`) |
@@ -100,7 +104,7 @@ BE (pocket/celup/konversi) dikerjakan GPT atas arahan owner. Claude tidak menyen
 Jalankan di head cabang ini. Hasilnya dicatat apa adanya.
 
 1. **CP7 pembetulan penerimaan:** workflow `cp7-receipt-correction` (`.github/workflows/cp7-receipt-correction.yml`).
-   - Harapan: 39/39 (33 native, 3 race, 1 HTTP, 2 browser), `cp6_restored=true`, advisor gate lolos.
+   - Harapan: 42/42 (36 native, 3 race, 1 HTTP, 2 browser), `cp6_restored=true`, advisor gate lolos.
    - Manifest: `scripts/cp7_receipt_correction_manifest.json`.
    - Periksa juga lima hal ini:
      - definisi Native tidak berubah (`native_writers_unchanged` di probe);
@@ -117,7 +121,7 @@ Jalankan di head cabang ini. Hasilnya dicatat apa adanya.
 
    Karena GPT mengubah BD/T2/T3/rollback sesudah 26 Sep, bukti Claude di §34 tidak lagi mewakili head ini. **Jalankan ulang di head sekarang**, lalu bandingkan dengan disposisi T2 yang tercatat.
 3. **Frontend:** `npm run check:source`, `check:access`, `check:css`, `check:cp5`; `npx tsc --noEmit`; `npx vitest run`.
-   - Diketahui gagal dan bukan dari Claude: `tests/cp7/families/cutting-learning.test.ts`.
+   - Di mesin tanpa PostgreSQL native non-root dan browser Playwright, 16 file / 27 baris tes gagal **sama persis** di `cp7/integration` murni dan di hasil merge (keluarga DB CP7, spec Playwright). Itu soal lingkungan, bukan merge.
    - Tes F04/F05 butuh PostgreSQL native non-root.
    - Spec Playwright di `tests/browser/` bukan untuk vitest.
 4. **Ketidakcocokan antar aturan:** untuk setiap baris di §3, tulis keputusannya ("pakai versi Claude", "pakai versi GPT", atau "ke owner") sebelum merge.

@@ -14,27 +14,21 @@ function closed(v: unknown, keys: string[], optional: string[] = []) {
   if (keys.some(k => !(k in r)) || Object.keys(r).some(k => !keys.includes(k) && !optional.includes(k))) fail()
   return r
 }
-export const blockerLabels: Record<string, string> = {
-  CP7_RECEIPT_FIX_SHARED_INVOICE_RETURN_ACTIVE: 'Invoice supplier ini juga mencakup penerimaan lain yang sudah punya retur ke supplier. Batalkan retur itu dulu.',
-  CP7_RECEIPT_FIX_PENDING_CHILD_REVIEW_REQUIRED: 'Masih ada draft invoice, retur, pembayaran atau koreksi harga untuk penerimaan ini. Selesaikan atau hapus draft tersebut dulu.',
-  CP7_RECEIPT_FIX_RETURN_ACTIVE: 'Ada retur ke supplier yang sudah diposting dari penerimaan ini. Batalkan retur itu dulu.',
-  CP7_RECEIPT_FIX_COST_CORRECTION_ACTIVE: 'Ada koreksi harga lama yang aktif. Batalkan koreksi harga itu dulu.',
-  CP7_RECEIPT_FIX_SUPPLIER_CREDIT_ACTIVE: 'Kredit supplier dari penerimaan ini sudah dipindah ke tagihan lain. Kembalikan pemindahannya dulu.',
-  CP7_RECEIPT_FIX_POCKET_ORIGIN_ACTIVE: 'Bahan dari penerimaan ini sudah dipakai sebagai kain kantong. Batalkan pemakaian kain kantong itu dulu.',
-  CP7_RECEIPT_FIX_OPENING_IMPORT_USE_IMPORT_WORKFLOW: 'Penerimaan ini berasal dari impor saldo awal. Betulkan lewat alur impor data awal.',
-  CP7_RECEIPT_FIX_ACTIVE_POSTED_ONLY: 'Hanya penerimaan yang sudah diterima (aktif) yang bisa dibenerin.',
-}
+// Immutable actor UUID; the display name is the current profile name, or null
+// (same contract as cp7_note.workspace_with_actors).
+const actor = (h: Record<string, unknown>) => id(h.actor_id) && h.actor_name_basis === 'CURRENT_PROFILE'
+  && (h.actor_display_name === null || (typeof h.actor_display_name === 'string' && h.actor_display_name.trim() !== ''))
 export type CorrectionRoll = { roll_id: string; roll_number: string; qty: string; cached_qty: string; status: string; used_qty: string; min_qty: string; movable: boolean; uses: { source_type: string; movement_type: string; count: number }[] }
 export type CorrectionLine = { item_id: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; qty: string; unit_price: string; line_total: string; price_state: string; price_source: string; invoice_match_state: string; lot_number: string | null; notes: string | null; min_qty: string; rolls: CorrectionRoll[] }
 export type CorrectionInvoiceLine = { invoice_line_id: string; purchase_item_id: string; qty_invoiced: string; unit_price: string; discount_amount: string; net_amount: string; notes: string | null }
 export type CreditTarget = { purchase_id: string; purchase_number: string; physical_at: string; remaining: string }
 export type CorrectionInvoice = { invoice_id: string; invoice_number: string; invoice_date: string; received_at: string; due_date: string | null; row_version: string; notes: string | null; lines: CorrectionInvoiceLine[]; other_receipts: { purchase_id: string; purchase_number: string }[] }
-export type CorrectionRevision = { revision_id: string; revision: string; previous_purchase_id: string; previous_purchase_number: string; replacement_purchase_id: string; replacement_purchase_number: string; effective_at: string; recorded_at: string; reason: string; actor_name: string | null; previous_document: unknown; corrected_document: unknown }
+export type CorrectionRevision = { revision_id: string; revision: string; previous_purchase_id: string; previous_purchase_number: string; replacement_purchase_id: string; replacement_purchase_number: string; effective_at: string; recorded_at: string; reason: string; actor_id: string; actor_display_name: string | null; actor_name_basis: 'CURRENT_PROFILE'; previous_document: unknown; corrected_document: unknown }
 export type ReceiptCorrectionWorkspace = {
   contract_version: 'cp7.receipt-correction-workspace.v1'; read_at: string; root_purchase_id: string; current_purchase_id: string; original_purchase_number: string
   purchase: { purchase_id: string; purchase_number: string; status: string; row_version: string; supplier_id: string; supplier_name: string | null; location_id: string; location_name: string | null; physical_at: string; payment_status: string; supplier_invoice_number: string | null; due_date: string | null; notes: string | null }
   lines: CorrectionLine[]; invoices: CorrectionInvoice[]; credit_targets: CreditTarget[]; payments: { payment_id: string; payment_number: string; payment_date: string; amount: string; status: string }[]; paid_total: string
-  blockers: { code: string; count: number }[]; can_correct: boolean; review_token: string; history: CorrectionRevision[]; production_go: false
+  blockers: { code: string; count: number; documents: { type: string; number: string }[] }[]; can_correct: boolean; review_token: string; history: CorrectionRevision[]; production_go: false
 }
 export function parseReceiptCorrectionWorkspace(v: unknown, requested: string): ReceiptCorrectionWorkspace {
   const r = closed(v, ['contract_version', 'read_at', 'root_purchase_id', 'current_purchase_id', 'original_purchase_number', 'purchase', 'lines', 'invoices', 'credit_targets', 'payments', 'paid_total', 'blockers', 'can_correct', 'review_token', 'history', 'production_go'])
@@ -67,12 +61,16 @@ export function parseReceiptCorrectionWorkspace(v: unknown, requested: string): 
     if (!id(x.purchase_id) || x.purchase_id === r.current_purchase_id || typeof x.purchase_number !== 'string' || !at(x.physical_at) || !decimal(x.remaining) || Number(x.remaining) <= 0) return fail()
   }
   for (const value of r.payments) { const x = closed(value, ['payment_id', 'payment_number', 'payment_date', 'amount', 'status']); if (!id(x.payment_id) || !at(x.payment_date) || !decimal(x.amount)) return fail() }
-  for (const value of r.blockers) { const x = closed(value, ['code', 'count']); if (typeof x.code !== 'string' || typeof x.count !== 'number') return fail() }
+  for (const value of r.blockers) {
+    const x = closed(value, ['code', 'count', 'documents'])
+    if (typeof x.code !== 'string' || typeof x.count !== 'number' || !Array.isArray(x.documents)) return fail()
+    for (const d of x.documents) { const k = closed(d, ['type', 'number']); if (typeof k.type !== 'string' || typeof k.number !== 'string') return fail() }
+  }
   let previous = r.root_purchase_id as string, revision = 0n; const seen = new Set<string>([previous])
   for (const value of r.history) {
-    const h = closed(value, ['revision_id', 'revision', 'previous_purchase_id', 'previous_purchase_number', 'replacement_purchase_id', 'replacement_purchase_number', 'effective_at', 'recorded_at', 'reason', 'actor_name', 'previous_document', 'corrected_document'])
+    const h = closed(value, ['revision_id', 'revision', 'previous_purchase_id', 'previous_purchase_number', 'replacement_purchase_id', 'replacement_purchase_number', 'effective_at', 'recorded_at', 'reason', 'actor_id', 'actor_display_name', 'actor_name_basis', 'previous_document', 'corrected_document'])
     if (!id(h.revision_id) || h.previous_purchase_id !== previous || !id(h.replacement_purchase_id) || seen.has(h.replacement_purchase_id as string) || typeof h.revision !== 'string' || !/^[1-9][0-9]{0,18}$/.test(h.revision)
-      || BigInt(h.revision) !== revision + 1n || !at(h.effective_at) || !at(h.recorded_at) || typeof h.reason !== 'string' || !text(h.actor_name)) return fail()
+      || BigInt(h.revision) !== revision + 1n || !at(h.effective_at) || !at(h.recorded_at) || typeof h.reason !== 'string' || !actor(h)) return fail()
     previous = h.replacement_purchase_id as string; seen.add(previous); revision++
   }
   if (previous !== r.current_purchase_id || !seen.has(requested)) return fail()
@@ -255,14 +253,14 @@ export function parseMaterialCard(v: unknown, finance: boolean): MaterialCard {
 // "Benerin nama bahan": a typo in the name of the same material. Only the name
 // changes; SKU, unit, type and every stock row keep their identity.
 export type MaterialNameWorkspace = { contract_version: 'cp7.material-name-workspace.v1'; read_at: string; material_id: string; material_sku: string; material_name: string; material_type: string; unit_code: string; row_version: string
-  history: { id: string; previous_name: string; corrected_name: string; previous_sku: string; corrected_sku: string; reason: string; recorded_at: string; actor_name: string | null }[]; production_go: false }
+  history: { id: string; previous_name: string; corrected_name: string; previous_sku: string; corrected_sku: string; reason: string; recorded_at: string; actor_id: string; actor_display_name: string | null; actor_name_basis: 'CURRENT_PROFILE' }[]; production_go: false }
 export function parseMaterialNameWorkspace(v: unknown, requested: string): MaterialNameWorkspace {
   const r = closed(v, ['contract_version', 'read_at', 'material_id', 'material_sku', 'material_name', 'material_type', 'unit_code', 'row_version', 'history', 'production_go'])
   if (r.contract_version !== 'cp7.material-name-workspace.v1' || !at(r.read_at) || r.material_id !== requested || !id(r.material_id) || typeof r.material_sku !== 'string' || typeof r.material_name !== 'string'
     || typeof r.material_type !== 'string' || typeof r.unit_code !== 'string' || typeof r.row_version !== 'string' || !/^[1-9][0-9]{0,18}$/.test(r.row_version) || !Array.isArray(r.history) || r.production_go !== false) return fail()
   for (const value of r.history) {
-    const h = closed(value, ['id', 'previous_name', 'corrected_name', 'previous_sku', 'corrected_sku', 'reason', 'recorded_at', 'actor_name'])
-    if (!id(h.id) || typeof h.previous_name !== 'string' || typeof h.corrected_name !== 'string' || typeof h.previous_sku !== 'string' || typeof h.corrected_sku !== 'string' || typeof h.reason !== 'string' || !at(h.recorded_at) || !text(h.actor_name)) return fail()
+    const h = closed(value, ['id', 'previous_name', 'corrected_name', 'previous_sku', 'corrected_sku', 'reason', 'recorded_at', 'actor_id', 'actor_display_name', 'actor_name_basis'])
+    if (!id(h.id) || typeof h.previous_name !== 'string' || typeof h.corrected_name !== 'string' || typeof h.previous_sku !== 'string' || typeof h.corrected_sku !== 'string' || typeof h.reason !== 'string' || !at(h.recorded_at) || !actor(h)) return fail()
   }
   return r as unknown as MaterialNameWorkspace
 }
@@ -281,75 +279,3 @@ export function materialNamePayload(w: MaterialNameWorkspace, name: string, reas
   return { payload: { material_id: w.material_id, material_name: clean, ...(code !== w.material_sku ? { material_sku: code } : {}), change_reason: reason.trim() }, problem: null }
 }
 
-// Indonesian text for the commands' named refusals. Only the message changes:
-// the error code/status stay, so the mutation recovery still reads a definite
-// rejection. Unknown or technical codes are shown as they are.
-const changed = 'berubah sejak diperiksa. Muat ulang lalu periksa lagi.'
-const refusalLabels: Record<string, string> = {
-  CP7_RECEIPT_FIX_REVIEW_CHANGED: `Penerimaan, pemakaian roll, pembayaran, atau invoice ${changed}`,
-  CP7_RECEIPT_FIX_ACTIVE_POSTED_ONLY: 'Penerimaan ini sudah dibetulkan atau dibatalkan. Buka penerimaan yang berlaku.',
-  CP7_RECEIPT_FIX_SOURCE_SUPERSEDED: 'Penerimaan ini sudah dibetulkan atau dibatalkan. Buka penerimaan yang berlaku.',
-  CP7_RECEIPT_FIX_NOT_FOUND: 'Penerimaan tidak ditemukan.',
-  CP7_RECEIPT_FIX_FIELDS: 'Isian pembetulan belum lengkap atau formatnya belum sesuai.',
-  CP7_RECEIPT_FIX_REQUEST_CHANGED: 'Permintaan pembetulan berubah. Periksa hasil permintaan sebelumnya sebelum mengirim tindakan baru.',
-  CP7_RECEIPT_FIX_ROLL_BELOW_USE: 'Jumlah roll tidak boleh di bawah jumlah yang sudah dipakai atau dipindah dari gudang penerimaan',
-  CP7_RECEIPT_FIX_REMOVED_ROLL_USED: 'Roll yang sudah dipakai tidak boleh dihapus dari penerimaan',
-  CP7_RECEIPT_FIX_LINE_BELOW_USE: 'Jumlah barang tidak boleh di bawah jumlah yang sudah keluar dari gudang penerimaan',
-  CP7_RECEIPT_FIX_ROLL_USE_UNSUPPORTED: 'Roll ini sudah dipakai selain untuk potong. Untuk salah bahan, batalkan pemakaian itu dulu, betulkan penerimaan, lalu catat ulang pemakaiannya',
-  CP7_RECEIPT_FIX_ROLL_NUMBER_TAKEN: 'Nomor roll sudah dipakai roll lain dari bahan yang sama (roll baru juga tidak boleh memakai nomor yang sekarang masih dipakai)',
-  CP7_RECEIPT_FIX_PURCHASE_NUMBER_TAKEN: 'Nomor surat jalan ini sudah dipakai penerimaan lain',
-  CP7_RECEIPT_FIX_DATE_FUTURE: 'Tanggal tidak boleh di masa depan.',
-  CP7_RECEIPT_FIX_DATE_AFTER_USE: 'Barang ini sudah dipakai atau dipindah sebelum tanggal datang yang baru. Pilih tanggal datang yang tidak sesudah pemakaian pertamanya',
-  CP7_RECEIPT_FIX_LOCATION_USED: 'Barang ini sudah dipakai atau dipindah dari gudang lama, jadi gudangnya tidak bisa diganti. Catat transfer ke gudang yang benar',
-  CP7_RECEIPT_FIX_SUPPLIER_SHARED_INVOICE: 'Invoice supplier penerimaan ini juga mencakup penerimaan lain dari supplier lama, jadi suppliernya tidak bisa diganti di sini.',
-  CP7_RECEIPT_FIX_SUPPLIER_ADVANCE_PAYMENT: 'Penerimaan ini dibayar dari uang muka saldo awal supplier lama, jadi suppliernya tidak bisa diganti di sini.',
-  CP7_RECEIPT_FIX_PURCHASE_NUMBER_LENGTH: 'Nomor surat jalan harus 1–40 huruf.',
-  CP7_RECEIPT_FIX_INVOICE_NUMBER_TAKEN: 'Nomor invoice ini sudah dipakai invoice lain dari supplier yang sama',
-  CP7_RECEIPT_FIX_ROLL_LINEAGE: `Daftar roll ${changed}`,
-  CP7_RECEIPT_FIX_ITEM_LINEAGE: `Daftar barang ${changed}`,
-  CP7_RECEIPT_FIX_MATERIAL_KIND_CHANGED: 'Bahan pengganti harus jenis dan satuan yang sama dengan bahan semula.',
-  CP7_RECEIPT_FIX_MATERIAL_INACTIVE: 'Bahan pengganti sedang tidak aktif.',
-  CP7_RECEIPT_FIX_MATERIAL_NOT_FOUND: 'Bahan tidak ditemukan.',
-  CP7_RECEIPT_FIX_FABRIC_ROLLS_REQUIRED: 'Bahan kain dicatat per roll.',
-  CP7_RECEIPT_FIX_NON_ROLL_QTY_REQUIRED: 'Bahan selain kain dicatat dengan jumlah, tanpa roll.',
-  CP7_RECEIPT_FIX_INVOICE_DECISION_REQUIRED: 'Penerimaan ini sudah punya invoice supplier. Periksa baris invoice yang ikut dibetulkan.',
-  CP7_RECEIPT_FIX_INVOICE_EXCEEDS_RECEIPT: 'Jumlah di invoice melebihi jumlah penerimaan yang dibetulkan.',
-  CP7_RECEIPT_FIX_INVOICED_LINE_ESTIMATE_REQUIRED: 'Baris yang punya invoice tetap memakai harga perkiraan; harga final ada di invoice.',
-  CP7_RECEIPT_FIX_INVOICE_DISCOUNT: 'Diskon invoice tidak boleh melebihi nilai barisnya.',
-  CP7_RECEIPT_FIX_INVOICE_SET: `Invoice supplier ${changed}`,
-  CP7_RECEIPT_FIX_INVOICE_LINE_SET: `Baris invoice supplier ${changed}`,
-  CP7_RECEIPT_FIX_INVOICE_LINE_ORPHAN: 'Setiap baris invoice harus tetap terhubung ke barang penerimaan yang dibetulkan.',
-  CP7_RECEIPT_FIX_CREDIT_ALLOCATION_REQUIRED: 'Sudah dibayar lebih dari total yang benar. Pilih nota lain dari supplier yang sama untuk menampung kelebihan bayar',
-  CP7_RECEIPT_FIX_CREDIT_ALLOCATION_MISMATCH: 'Jumlah kredit ke nota lain harus sama dengan kelebihan bayar',
-  CP7_RECEIPT_FIX_CREDIT_TARGET_INVALID: 'Nota tujuan kredit harus nota lain yang aktif dari supplier yang sama, masing-masing sekali.',
-  CP7_RECEIPT_FIX_CREDIT_TARGET_EXCEEDS_REMAINING: 'Kredit melebihi sisa tagihan nota tujuan',
-  CP7_RECEIPT_FIX_CREDIT_TARGET_AFTER_ADVANCE_USE: 'Kelebihan bayar ini berasal dari uang muka saldo awal. Pilih nota yang tanggalnya sama atau sebelum tanggal pemakaian uang muka itu',
-  CP7_RECEIPT_FIX_CREDIT_CENTS: 'Jumlah kredit paling banyak dua angka di belakang koma.',
-  CP7_MATERIAL_NAME_TAKEN: 'Nama ini sudah dipakai bahan lain. Bila itu memang bahan yang sama, jangan digabung lewat ganti nama.',
-  CP7_MATERIAL_NAME_UNCHANGED: 'Nama dan kode baru sama dengan yang sekarang.',
-  CP7_MATERIAL_NAME_SKU_TAKEN: 'Kode ini sudah dipakai bahan lain. Bila itu memang bahan yang sama, jangan digabung lewat ganti kode.',
-  CP7_MATERIAL_NAME_SKU_LENGTH: 'Tulis kode bahan yang benar (1–60 huruf).',
-  CP7_MATERIAL_NAME_REVIEW_CHANGED: `Data bahan ${changed}`,
-  CP7_MATERIAL_NAME_REASON_REQUIRED: 'Tulis alasan pembetulan (minimal 5 huruf).',
-  CP7_MATERIAL_NAME_LENGTH: 'Tulis nama bahan yang benar (1–150 huruf).',
-  CP7_MATERIAL_NAME_FIELDS: 'Isian ganti nama belum lengkap atau formatnya belum sesuai.',
-  CP7_MATERIAL_NAME_NOT_FOUND: 'Bahan tidak ditemukan.',
-  CP7_MATERIAL_NAME_REQUEST_CHANGED: 'Permintaan ganti nama berubah. Periksa hasil permintaan sebelumnya sebelum mengirim tindakan baru.',
-}
-const detailWords: [RegExp, string][] = [[/\bpaid\b/g, 'dibayar'], [/\bcorrected\b/g, 'dibetulkan'], [/\bused\b/g, 'terpakai'], [/\bcredit\b/g, 'kredit'], [/\ballocated\b/g, 'dialokasikan']]
-/** The same error with the refusal in Indonesian (code, status and details kept). */
-export function correctionRefusal(error: unknown): unknown {
-  if (!error || typeof error !== 'object') return error
-  const message = (error as { message?: unknown }).message
-  const m = typeof message === 'string' ? /^(CP7_(?:RECEIPT_FIX|MATERIAL_NAME)_[A-Z_]+)(?:\s+([\s\S]*))?$/.exec(message.trim()) : null
-  if (!m) return error
-  const [, code, rest = ''] = m
-  if (code === 'CP7_RECEIPT_FIX_DEPENDENCY') {
-    const reasons = rest.split(',').map(c => blockerLabels[c.trim()]).filter(Boolean)
-    return reasons.length ? { ...error, message: reasons.join(' ') } : error
-  }
-  const label = refusalLabels[code]
-  if (!label) return error
-  const detail = rest.trim() ? ` (${detailWords.reduce((s, [w, t]) => s.replace(w, t), rest.trim())})` : ''
-  return { ...error, message: label.replace(/\.$/, '') + detail + '.' }
-}

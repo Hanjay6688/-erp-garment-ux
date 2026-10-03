@@ -7,7 +7,8 @@ import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, procurementObject, type ProcurementOption } from './procurementContract'
-import { blockerLabels, correctionDraft, correctionRefusal, correctionExcess, correctionInvoices, correctionPayload, draftHeader, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace, type DraftCredit, type DraftHeader, type DraftInvoice, type DraftLine, type ReceiptCorrectionWorkspace } from './receiptCorrectionContract'
+import { blockerDocumentLabels, blockerLabels } from './lib/receiptCorrectionMessages'
+import { correctionDraft, correctionExcess, correctionInvoices, correctionPayload, draftHeader, parseReceiptCorrectionOutcome, parseReceiptCorrectionWorkspace, type DraftCredit, type DraftHeader, type DraftInvoice, type DraftLine, type ReceiptCorrectionWorkspace } from './receiptCorrectionContract'
 import type { Json } from './types/database.preconnect'
 
 type Props = { purchaseId: string | null; receiptRevision?: string | null; onReceiptUpdated: (purchaseId: string) => Promise<boolean> }
@@ -49,7 +50,7 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
   const { runtime } = useAuth(); if (!isConnectedRuntime(runtime)) throw Error('Sesi pembetulan penerimaan belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), mutation = useProductionMutation('RECEIPT_CORRECTION')
   const { beginRead, finishRead, isReadCurrent, run, reconcile, invalidate } = mutation
-  const [data, setData] = useState<ReceiptCorrectionWorkspace | null>(null), [loading, setLoading] = useState(false), [error, setError] = useState('')
+  const [loaded, setData] = useState<ReceiptCorrectionWorkspace | null>(null), [loading, setLoading] = useState(false), [error, setError] = useState('')
   const [lines, setLines] = useState<DraftLine[] | null>(null), [invoices, setInvoices] = useState<DraftInvoice[]>([]), [credits, setCredits] = useState<DraftCredit[]>([]), [reason, setReason] = useState(''), [header, setHeader] = useState<DraftHeader | null>(null), [checked, setChecked] = useState(false), [open, setOpen] = useState(false)
   const requested = useRef(purchaseId), sequence = useRef(0)
   const load = useCallback(async () => {
@@ -66,13 +67,16 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
   }, [client, beginRead, finishRead, isReadCurrent])
   useEffect(() => { if (mutation.busy) return; if (requested.current !== purchaseId) { requested.current = purchaseId; setLines(null); setInvoices([]); setCredits([]); setHeader(null); setChecked(false) }; if (open) void load() }, [purchaseId, receiptRevision, open, load, mutation.busy])
   const handlers: ProductionMutationHandlers = {
-    send: async envelope => { const p = procurementObject(envelope.payload); const r = await client.rpc('erp_cp7_correct_receipt_v1', { p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string }); return { data: r.data, error: r.error ? correctionRefusal(r.error) : null } },
+    send: async envelope => { const p = procurementObject(envelope.payload); const r = await client.rpc('erp_cp7_correct_receipt_v1', { p_payload: p.document as Json, p_request: envelope.id, p_expected: p.expected_version as string }); return { data: r.data, error: r.error } },
     validate: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string) },
     retire: (r, e) => { const d = procurementObject(procurementObject(e.payload).document); const out = parseReceiptCorrectionOutcome(r, e.id, d.purchase_id as string); requested.current = out.purchase_id; setLines(null); setInvoices([]); setCredits([]); setHeader(null); setChecked(false); setReason(''); setData(null); setOpen(true) },
     // The page first selects the replacement receipt (after the envelope is
     // cleared), then this panel reads its own workspace for the same receipt.
     reload: async () => { if (!requested.current || !await onReceiptUpdated(requested.current)) { invalidate(); setData(null); return false }; return load() },
   }
+  // Money and source facts are shown only while this panel's read is current
+  // (GPT rule: after a 403, lost reply or shared recovery they are hidden).
+  const data = mutation.workspaceStale ? null : loaded
   const locked = mutation.writerLocked || loading
   const stale = Boolean(lines && data && data.purchase.purchase_id !== requested.current)
   const built = data && lines ? correctionPayload(data, lines, reason, invoices, credits, header ?? undefined) : null
@@ -86,10 +90,10 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
     <div className="cproc-heading"><div><div className="eyebrow">PEMBETULAN PENERIMAAN</div><h2>Benerin penerimaan</h2><p>Untuk salah ketik jumlah, jumlah roll, harga (termasuk harga final di invoice supplier), atau salah pilih bahan pada penerimaan yang sudah diterima — termasuk yang bahannya sudah dipotong. Dokumen lama tetap tersimpan sebagai riwayat; saldo stok, HPP, dan utang mengikuti angka yang benar sejak tanggal barang datang.</p></div>
       {purchaseId ? <button type="button" disabled={mutation.busy} onClick={() => { setOpen(o => !o); if (!open) { requested.current = purchaseId } }}>{open ? 'Tutup' : 'Buka pembetulan'}</button> : null}</div>
     <ProductionRecoveryNotice recovery={{ ...mutation, notice: mutation.notice ? 'Pembetulan penerimaan sudah tercatat.' : '' }} onReconcile={() => reconcile(handlers)} className="cproc-review"/>
-    {!open || !purchaseId ? null : loading && !data ? <p role="status">Memuat penerimaan…</p> : error ? <p role="alert">{error}</p> : data ? <>
+    {!open || !purchaseId ? null : loading && !data ? <p role="status">Memuat penerimaan…</p> : error ? <p role="alert">{error}</p> : loaded && !data ? <p role="status">Data penerimaan disembunyikan sampai terbaca ulang dari server. <button type="button" disabled={mutation.busy} onClick={() => void load()}>Muat ulang</button></p> : data ? <>
       <p><strong>{data.purchase.purchase_number}</strong> · {data.purchase.supplier_name} · {data.purchase.location_name} · barang datang {formatCp6WibDateTime(data.purchase.physical_at)}</p>
-      {data.history.length ? <details open><summary>Riwayat pembetulan ({data.history.length})</summary><ul>{data.history.map(h => <li key={h.revision_id}>R{h.revision} · {h.previous_purchase_number} → {h.replacement_purchase_number} · dicatat {formatCp6WibDateTime(h.recorded_at)}{h.actor_name ? ` oleh ${h.actor_name}` : ''} · berlaku sejak {formatCp6WibDateTime(h.effective_at)} · {h.reason}</li>)}</ul></details> : null}
-      {data.blockers.length ? <div role="alert"><p>Penerimaan ini belum bisa dibenerin:</p><ul>{data.blockers.map(b => <li key={b.code}>{blockerLabels[b.code] ?? b.code}</li>)}</ul></div> : null}
+      {data.history.length ? <details open><summary>Riwayat pembetulan ({data.history.length})</summary><ul>{data.history.map(h => <li key={h.revision_id}>R{h.revision} · {h.previous_purchase_number} → {h.replacement_purchase_number} · dicatat {formatCp6WibDateTime(h.recorded_at)}{` oleh ${h.actor_display_name ?? `pengguna ${h.actor_id}`}`} <small>(nama profil saat ini)</small> · berlaku sejak {formatCp6WibDateTime(h.effective_at)} · {h.reason}</li>)}</ul></details> : null}
+      {data.blockers.length ? <div role="alert"><p>Penerimaan ini belum bisa dibenerin:</p><ul>{data.blockers.map(b => <li key={b.code}>{blockerLabels[b.code] ?? b.code}{b.documents.length ? <> <small>{b.documents.map(d => `${blockerDocumentLabels[d.type] ?? d.type} ${d.number}`).join(', ')}</small></> : null}</li>)}</ul></div> : null}
       {data.payments.some(p => p.status === 'POSTED') ? <p className="cproc-help">Pembayaran supplier Rp{numberText(data.paid_total)} dipindahkan ke dokumen yang benar dengan tanggal pembayaran aslinya. Kalau total yang benar lebih kecil, kelebihannya jadi kredit yang dipotong ke nota lain dari supplier yang sama.</p> : null}
       {data.invoices.length ? <p className="cproc-help">Penerimaan ini sudah punya invoice supplier ({data.invoices.map(v => v.invoice_number).join(', ')}). Invoice ikut dibetulkan: yang lama dibatalkan dan yang benar dicatat ulang dengan tanggal invoice yang sama.</p> : null}
       {data.can_correct && !lines ? <button className="primary-btn" type="button" disabled={locked} onClick={() => { setLines(correctionDraft(data)); setInvoices(correctionInvoices(data)); setHeader(draftHeader(data)); setChecked(false) }}>Benerin penerimaan</button> : null}
@@ -108,7 +112,7 @@ function CorrectionWorkspace({ purchaseId, receiptRevision, onReceiptUpdated }: 
               : <label>Jumlah benar ({l.unitCode}){Number(l.minQty) > 0 ? ` · sudah keluar ${numberText(l.minQty)}` : ''}<input aria-label={`Jumlah benar barang ${n + 1}`} inputMode="decimal" value={l.qty} onChange={e => change(l.key, old => ({ ...old, qty: e.target.value }))}/></label>}
           </section>)}
           {invoices.length ? <section className="cproc-line" aria-label="Invoice supplier yang ikut dibetulkan"><h3>Invoice supplier</h3>
-            <p className="cproc-help">Harga final dan jumlah ditagih mengikuti invoice yang benar. HPP, nilai stok, dan utang dihitung ulang sejak tanggal invoice; tidak ada selisih yang dicatat di hari ini.</p>
+            <p className="cproc-help">Harga final dan jumlah ditagih mengikuti invoice yang benar. HPP, nilai stok, dan utang dihitung ulang sejak tanggal invoice. Bila periode itu sudah ditutup, jurnalnya tetap bertanggal ekonomi asal dengan tanggal pengakuan hari ini.</p>
             {invoices.map((v, vi) => <div key={v.replaces}><h4>{v.number} · tanggal invoice {v.date.split('-').reverse().join('-')}</h4>
               {v.head ? <div className="cproc-grid">
                 <label>Nomor invoice supplier<input aria-label={`Nomor invoice benar ${vi + 1}`} maxLength={90} value={v.head.number} onChange={e => changeHead(v.replaces, 'number', e.target.value)}/></label>

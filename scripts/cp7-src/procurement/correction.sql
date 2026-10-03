@@ -229,34 +229,47 @@ language sql stable security definer set search_path=''as $$
 
 create function cp7_receipt_fix.blockers(p_purchase uuid)returns jsonb
 language sql stable security definer set search_path=''as $$
- select coalesce(jsonb_agg(b order by b->>'code'),'[]')from(
-  -- A supplier invoice that also covers other receipts is corrected whole; only
-  -- an AP-backed return on another receipt of that invoice blocks the Native reversal.
-  select jsonb_build_object('code','CP7_RECEIPT_FIX_SHARED_INVOICE_RETURN_ACTIVE','count',count(*))b from erp.material_supplier_return_items ri
-   join erp.material_supplier_returns rh on rh.id=ri.return_id join erp.material_supplier_invoice_lines l on l.purchase_item_id=ri.purchase_item_id
-   join erp.material_supplier_invoices v on v.id=l.invoice_id join erp.material_purchase_items i on i.id=ri.purchase_item_id
-   where rh.status='POSTED'and coalesce(ri.ap_relief_qty_snapshot,0)>0 and v.status='POSTED'and i.purchase_id<>p_purchase
-    and v.id in(select l2.invoice_id from erp.material_supplier_invoice_lines l2 join erp.material_purchase_items i2 on i2.id=l2.purchase_item_id where i2.purchase_id=p_purchase)
-   having count(*)>0
-  union all select jsonb_build_object('code','CP7_RECEIPT_FIX_PENDING_CHILD_REVIEW_REQUIRED','count',count(*))from(
-   select l.id from erp.material_supplier_invoice_lines l join erp.material_supplier_invoices v on v.id=l.invoice_id
-    join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=p_purchase and v.status='DRAFT'
-   union all select x.id from erp.material_supplier_return_items x join erp.material_supplier_returns s on s.id=x.return_id
-    join erp.material_purchase_items i on i.id=x.purchase_item_id where i.purchase_id=p_purchase and s.status='DRAFT'
-   union all select p.id from erp.supplier_payments p where p.purchase_id=p_purchase and p.status='DRAFT'
-   union all select k.id from erp.material_purchase_cost_corrections k where k.purchase_id=p_purchase and k.status='DRAFT')d having count(*)>0
-  union all select jsonb_build_object('code','CP7_RECEIPT_FIX_RETURN_ACTIVE','count',count(*))from erp.material_supplier_return_items x
-   join erp.material_supplier_returns s on s.id=x.return_id join erp.material_purchase_items i on i.id=x.purchase_item_id
-   where i.purchase_id=p_purchase and s.status='POSTED' having count(*)>0
-  union all select jsonb_build_object('code','CP7_RECEIPT_FIX_COST_CORRECTION_ACTIVE','count',count(*))from erp.material_purchase_cost_corrections k
-   where k.purchase_id=p_purchase and k.status='POSTED' having count(*)>0
-  union all select jsonb_build_object('code','CP7_RECEIPT_FIX_SUPPLIER_CREDIT_ACTIVE','count',count(*))from erp.bf_supplier_credit_moves_v1 b
-   where p_purchase in(b.source_purchase_id,b.target_purchase_id)having count(*)>0
-  union all select jsonb_build_object('code','CP7_RECEIPT_FIX_POCKET_ORIGIN_ACTIVE','count',count(*))from erp.be_pocket_receipt_origins_v1 o
-   join erp.material_purchase_items i on i.id=o.purchase_item_id where i.purchase_id=p_purchase having count(*)>0
-  union all select jsonb_build_object('code','CP7_RECEIPT_FIX_OPENING_IMPORT_USE_IMPORT_WORKFLOW','count',1)
-   where exists(select 1 from erp.initial_import_receipt_headers where purchase_id=p_purchase)
- )x$$;
+ -- Each blocker names its documents (type and number), so the page can say
+ -- exactly what to finish or cancel first. count keeps the blocking rows.
+ select coalesce(jsonb_agg(jsonb_build_object('code',code,'count',n,'documents',docs)order by code),'[]')from(
+  select code,count(*)::integer n,jsonb_agg(distinct jsonb_build_object('type',kind,'number',number))docs from(
+   -- A supplier invoice that also covers other receipts is corrected whole; only
+   -- an AP-backed return on another receipt of that invoice blocks the Native reversal.
+   select 'CP7_RECEIPT_FIX_SHARED_INVOICE_RETURN_ACTIVE'code,'SUPPLIER_RETURN'kind,rh.return_number::text number from erp.material_supplier_return_items ri
+    join erp.material_supplier_returns rh on rh.id=ri.return_id join erp.material_supplier_invoice_lines l on l.purchase_item_id=ri.purchase_item_id
+    join erp.material_supplier_invoices v on v.id=l.invoice_id join erp.material_purchase_items i on i.id=ri.purchase_item_id
+    where rh.status='POSTED'and coalesce(ri.ap_relief_qty_snapshot,0)>0 and v.status='POSTED'and i.purchase_id<>p_purchase
+     and v.id in(select l2.invoice_id from erp.material_supplier_invoice_lines l2 join erp.material_purchase_items i2 on i2.id=l2.purchase_item_id where i2.purchase_id=p_purchase)
+   union all select 'CP7_RECEIPT_FIX_PENDING_CHILD_REVIEW_REQUIRED','SUPPLIER_INVOICE',v.invoice_number from erp.material_supplier_invoice_lines l
+    join erp.material_supplier_invoices v on v.id=l.invoice_id join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=p_purchase and v.status='DRAFT'
+   union all select 'CP7_RECEIPT_FIX_PENDING_CHILD_REVIEW_REQUIRED','SUPPLIER_RETURN',s.return_number from erp.material_supplier_return_items x
+    join erp.material_supplier_returns s on s.id=x.return_id join erp.material_purchase_items i on i.id=x.purchase_item_id where i.purchase_id=p_purchase and s.status='DRAFT'
+   union all select 'CP7_RECEIPT_FIX_PENDING_CHILD_REVIEW_REQUIRED','SUPPLIER_PAYMENT',p.payment_number from erp.supplier_payments p where p.purchase_id=p_purchase and p.status='DRAFT'
+   union all select 'CP7_RECEIPT_FIX_PENDING_CHILD_REVIEW_REQUIRED','COST_CORRECTION',k.correction_number from erp.material_purchase_cost_corrections k
+    where k.purchase_id=p_purchase and k.status='DRAFT'
+   -- An unposted cutting group (Native keeps status CUT with material_issue_posted
+   -- false until POST) or draft transfer already binds a roll of this receipt;
+   -- GPT's cutting inputs pin that roll too.
+   union all select 'CP7_RECEIPT_FIX_DRAFT_ROLL_USE','CUTTING_GROUP',g.group_number from erp.cutting_group_rolls cr
+    join erp.cutting_groups g on g.id=cr.cutting_group_id join erp.material_rolls r on r.id=cr.roll_id
+    join erp.material_purchase_items i on i.id=r.purchase_item_id where i.purchase_id=p_purchase and not g.material_issue_posted
+   union all select 'CP7_RECEIPT_FIX_DRAFT_ROLL_USE','MATERIAL_TRANSFER',t.transfer_number from erp.material_transfer_items ti
+    join erp.material_transfers t on t.id=ti.transfer_id join erp.material_rolls r on r.id=ti.roll_id
+    join erp.material_purchase_items i on i.id=r.purchase_item_id where i.purchase_id=p_purchase and t.status='DRAFT'
+   union all select 'CP7_RECEIPT_FIX_RETURN_ACTIVE','SUPPLIER_RETURN',s.return_number from erp.material_supplier_return_items x
+    join erp.material_supplier_returns s on s.id=x.return_id join erp.material_purchase_items i on i.id=x.purchase_item_id
+    where i.purchase_id=p_purchase and s.status='POSTED'
+   union all select 'CP7_RECEIPT_FIX_COST_CORRECTION_ACTIVE','COST_CORRECTION',k.correction_number from erp.material_purchase_cost_corrections k
+    where k.purchase_id=p_purchase and k.status='POSTED'
+   union all select 'CP7_RECEIPT_FIX_SUPPLIER_CREDIT_ACTIVE','MATERIAL_PURCHASE',o.purchase_number from erp.bf_supplier_credit_moves_v1 b
+    join erp.material_purchase_headers o on o.id=case when b.source_purchase_id=p_purchase then b.target_purchase_id else b.source_purchase_id end
+    where p_purchase in(b.source_purchase_id,b.target_purchase_id)
+   union all select 'CP7_RECEIPT_FIX_POCKET_ORIGIN_ACTIVE','POCKET_USE',coalesce(u.document_number,o.usage_id::text)from erp.be_pocket_receipt_origins_v1 o
+    join erp.material_purchase_items i on i.id=o.purchase_item_id left join erp.be_pocket_usage_v1 u on u.id=o.usage_id where i.purchase_id=p_purchase
+   union all select 'CP7_RECEIPT_FIX_OPENING_IMPORT_USE_IMPORT_WORKFLOW','OPENING_IMPORT',h.receipt_number from erp.initial_import_receipt_headers h
+    where h.purchase_id=p_purchase
+  )x group by code
+ )y$$;
 
 create function cp7_receipt_fix.workspace(p_purchase uuid)returns jsonb
 language plpgsql volatile security definer set search_path=''as $$
@@ -275,7 +288,9 @@ begin
   'previous_purchase_number',(select purchase_number from erp.material_purchase_headers where id=r.previous_purchase_id),
   'replacement_purchase_id',r.replacement_purchase_id,'replacement_purchase_number',(select purchase_number from erp.material_purchase_headers where id=r.replacement_purchase_id),
   'effective_at',r.effective_at,'recorded_at',r.recorded_at,'reason',r.reason,
-  'actor_name',(select u.full_name from erp.app_users u where u.auth_user_id=r.actor limit 1),
+  -- Immutable actor UUID; the current profile name is presentation only
+  -- (same contract as cp7_note.workspace_with_actors).
+  'actor_id',r.actor,'actor_display_name',(select nullif(btrim(u.full_name),'')from erp.app_users u where u.auth_user_id=r.actor),'actor_name_basis','CURRENT_PROFILE',
   'previous_document',r.previous_document,'corrected_document',r.corrected_document)order by r.revision),'[]')into history
  from cp7_receipt_fix.revisions r where r.root_purchase_id=root;
  select coalesce(jsonb_agg(jsonb_build_object('item_id',i.id,'material_id',i.material_id,'material_sku',m.material_sku,'material_name',m.material_name,
@@ -457,7 +472,7 @@ end $$;
 create function cp7_receipt_fix.command(p_payload jsonb,p_request uuid,p_expected text)returns jsonb
 language plpgsql volatile security definer set search_path=''as $$
 declare a jsonb;old cp7_receipt_fix.requests%rowtype;h erp.material_purchase_headers%rowtype;root uuid;rev_no bigint;
- line jsonb;roll jsonb;item record;mat record;mv record;draft jsonb;result jsonb;replaced uuid;item_map jsonb:='{}';
+ line jsonb;roll jsonb;item record;mat record;mv record;draft jsonb;result jsonb;replaced uuid;item_ids uuid[];
  lineage jsonb:='[]';old_rolls uuid[];old_items uuid[];seen_rolls uuid[]:='{}';seen_items uuid[]:='{}';mat_ids uuid[];
  old_roll erp.material_rolls%rowtype;use jsonb;new_roll uuid;new_item uuid;line_no integer:=0;roll_no integer;
  paid jsonb;payment record;new_payment uuid;corrected_total numeric:=0;why text;fix_id uuid:=gen_random_uuid();
@@ -783,13 +798,19 @@ begin
  -- Replacement document through the accepted Native draft writer. Rolls of the
  -- same material are re-attached below; their placeholder draft rows exist only
  -- inside this transaction and never receive stock.
+ -- Each replacement line gets its item id up front (one per payload position),
+ -- so the line map below is exact.
+ item_ids:=array(select gen_random_uuid()from jsonb_array_elements(p_payload->'lines'));
  draft:=jsonb_build_object('purchase_number',left(base,40)||' · R'||rev_no::text||'-'||left(p_request::text,8),
   'supplier_id',new_sup,'location_id',new_loc,'physical_at',new_at,
   'notes',coalesce(nullif(p_payload->>'notes',''),h.notes),
   'supplier_invoice_number',h.supplier_invoice_number,'due_date',h.due_date,
   'change_reason','Benerin penerimaan '||h.purchase_number||': '||why,
-  'lines',(select jsonb_agg(jsonb_build_object('material_id',l->>'material_id','unit_price',l->>'unit_price','price_state',l->>'price_state',
-    'price_source',l->>'price_source','lot_number',l->>'lot_number','notes',l->>'notes')
+  'lines',(select jsonb_agg(jsonb_build_object('id',item_ids[o::integer],'material_id',l->>'material_id','unit_price',l->>'unit_price','price_state',l->>'price_state',
+    'price_source',l->>'price_source',
+    -- A line keeps its own lot and notes unless the payload states them.
+    'lot_number',case when l?'lot_number'then l->>'lot_number'else(select x.lot_number from erp.material_purchase_items x where x.id=nullif(l->>'replaces_item_id','')::uuid)end,
+    'notes',case when l?'notes'then l->>'notes'else(select x.notes from erp.material_purchase_items x where x.id=nullif(l->>'replaces_item_id','')::uuid)end)
    ||case when jsonb_array_length(l->'rolls')=0 then jsonb_build_object('qty',l->>'qty')
      else jsonb_build_object('qty',(select sum((z->>'qty')::numeric)::text from jsonb_array_elements(l->'rolls')z),
       'rolls',(select jsonb_agg(jsonb_build_object('roll_number',case when nullif(z->>'replaces_roll_id','')is not null
@@ -800,20 +821,15 @@ begin
  perform cp7_receipt_fix.admit('SAVE_DRAFT');
  result:=erp.save_material_purchase_draft_v2(draft,md5(auth.uid()::text||':RECEIPT_FIX:'||p_request::text)::uuid,null);
  replaced:=(result->>'purchase_id')::uuid;
- -- Map draft lines to payload lines by order (the writer keeps payload order
- -- only through its returned ids; resolve deterministically by material/qty).
+ -- Map draft lines to payload lines exactly by the item id written for each
+ -- payload position, so two lines with the same material, quantity and price
+ -- keep their own lot and notes.
  line_no:=0;
  for line in select value from jsonb_array_elements(p_payload->'lines')loop
   line_no:=line_no+1;
-  select i.id into new_item from erp.material_purchase_items i where i.purchase_id=replaced and i.material_id=(line->>'material_id')::uuid
-   and not(i.id::text=any(select jsonb_object_keys(item_map)))
-   and i.unit_price=(line->>'unit_price')::numeric
-   and i.qty=case when jsonb_array_length(line->'rolls')=0 then(line->>'qty')::numeric else(select sum((z->>'qty')::numeric)from jsonb_array_elements(line->'rolls')z)end
-   order by(select count(*)from erp.material_rolls rr where rr.purchase_item_id=i.id and rr.roll_number=any(
-    select case when nullif(z->>'replaces_roll_id','')is not null then '__CP7FIX-'||(z->>'replaces_roll_id')else btrim(z->>'roll_number')end
-    from jsonb_array_elements(line->'rolls')z))desc,i.id limit 1;
-  if new_item is null then raise exception 'CP7_RECEIPT_FIX_DRAFT_LINE_MAPPING';end if;
-  item_map:=item_map||jsonb_build_object(new_item::text,line_no);
+  new_item:=item_ids[line_no];
+  if not exists(select 1 from erp.material_purchase_items where id=new_item and purchase_id=replaced)then
+   raise exception 'CP7_RECEIPT_FIX_DRAFT_LINE_MAPPING';end if;
   if nullif(line->>'replaces_item_id','')is not null then old_new:=old_new||jsonb_build_object(line->>'replaces_item_id',new_item);end if;
   for roll in select value from jsonb_array_elements(line->'rolls')loop
    if nullif(roll->>'replaces_roll_id','')is not null then
@@ -894,7 +910,7 @@ begin
     where o.movement_type='PURCHASE'and o.source_type='MATERIAL_PURCHASE_ITEM'and o.source_id=(line->>'replaces_item_id')::uuid limit 1),fix_id
   from erp.material_stock_movements p where p.movement_type='PURCHASE'and p.source_type='MATERIAL_PURCHASE_ITEM'
    and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=p.id)
-   and p.source_id=(select k::uuid from jsonb_each_text(item_map)e(k,v)where e.v::integer=(select o3 from jsonb_array_elements(p_payload->'lines')with ordinality q3(l3,o3)where l3=line limit 1)limit 1);
+   and p.source_id=(old_new->>(line->>'replaces_item_id'))::uuid;
  end loop;
  -- Chronological recost of every affected material from the receipt time. A
  -- material whose cutting use moved to the right material is rebuilt first and

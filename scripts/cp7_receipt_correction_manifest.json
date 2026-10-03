@@ -33,6 +33,9 @@
       "RF_REVIEW_CHANGED_REFUSED",
       "RF_ACCESS_CURRENT_AUTHORITY",
       "RF_YEAR_HISTORY_364",
+   "RF_YEAR_FINAL_INVOICE_PRICE",
+   "RF_DRAFT_ROLL_USE_BLOCKS",
+   "RF_DUPLICATE_LINES_KEEP_LOT",
       "RF_LATE_FAILURE_ATOMIC",
       "RF_ACCESSORY_LINE_QTY",
       "RF_MATERIAL_NAME_TYPO",
@@ -53,12 +56,12 @@
     ]
   },
   "required_counts": {
-    "native": 33,
+    "native": 36,
     "races": 3,
     "http": 1,
     "browser": 2
   },
-  "expected_case_executions": 39,
+  "expected_case_executions": 42,
   "unique_oracle_total_claim": false,
   "frozen_cp6_modifications": false,
   "native_definitions_changed": false

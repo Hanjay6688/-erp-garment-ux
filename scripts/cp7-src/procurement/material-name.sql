@@ -66,7 +66,8 @@ begin
   'row_version',m.row_version::text,
   'history',(select coalesce(jsonb_agg(jsonb_build_object('id',h.id,'previous_name',h.previous_name,'corrected_name',h.corrected_name,
     'previous_sku',h.previous_sku,'corrected_sku',h.corrected_sku,'reason',h.reason,
-    'recorded_at',h.recorded_at,'actor_name',(select u.full_name from erp.app_users u where u.auth_user_id=h.actor limit 1))order by h.recorded_at,h.id),'[]')
+    'recorded_at',h.recorded_at,'actor_id',h.actor,
+    'actor_display_name',(select nullif(btrim(u.full_name),'')from erp.app_users u where u.auth_user_id=h.actor),'actor_name_basis','CURRENT_PROFILE')order by h.recorded_at,h.id),'[]')
    from cp7_receipt_fix.material_names h where h.material_id=m.id),
   'production_go',false);
 end $$;

@@ -546,6 +546,63 @@ def cases(cur,today):
         assert after[0]['running_qty']==str(D(990-count).quantize(D('0.000001')))
         return dict(status='PASS',receipt_a_year_ago_corrected_1000_to_990=True,later_transfers_checked=count,each_later_running_balance_minus_10=True,
           original_transfer_quantities_unchanged=True,complete_prefix_before_paging=True)
+    def year_final_invoice(months=12):
+        """A FINAL supplier-invoice price from a year ago: receipt and invoice 366 days back, the roll moved
+        every month since, and the invoice price (12 -> 11) corrected today. Every effect stays on the invoice
+        book date; the transfers' cost history is restated, and nothing new is dated today."""
+        f=roll_receipt(cur,today,rolls=('1000',),final=False,day_offset=366)
+        f['item']=ws(cur,f['purchase'])['lines'][0]['item_id']
+        invoice.finalize(cur,f,p=invoice.payload(f,qty='1000',price='12'))
+        for n in range(months):transfer(cur,f,'10',at=aa.at(f['day']+timedelta(days=30*n+5),10).isoformat())
+        moved=lambda:[r[0] for r in cur.execute("select unit_cost_snapshot from erp.material_stock_movements where roll_id=%s and source_type='MATERIAL_TRANSFER' and reversal_of_id is null order by physical_at,id",(f['roll'],)).fetchall()]
+        assert raw(cur,f['material'])==(D(1000),D(12000)) and set(moved())=={D(12)} and len(moved())==2*months,(raw(cur,f['material']),moved())
+        before,dated,chk=ledger(cur),by_date(cur),checks(cur);w=ws(cur,f['purchase'])
+        assert w['can_correct'] and w['lines'][0]['invoice_match_state']=='MATCHED' and len(w['invoices'])==1 and w['invoices'][0]['invoice_date']==str(f['day']),w
+        old=w['invoices'][0]
+        out=fix(cur,dict(payload(w,reason='Harga final di invoice supplier setahun lalu salah ketik; 11 per meter'),invoices=invoices(w,price='11')),w['purchase']['row_version'])
+        assert raw(cur,f['material'])==(D(1000),D(11000)) and set(moved())=={D(11)},(raw(cur,f['material']),moved())
+        delta=ledger_delta(before,ledger(cur));assert delta=={'AP_SUPPLIER':D(1000),'MATERIAL_INVENTORY':D(-1000)},delta
+        dd=dated_delta(dated,by_date(cur));assert dd=={f['day']:{'AP_SUPPLIER':D(1000),'MATERIAL_INVENTORY':D(-1000)}},dd
+        new=cur.execute('select v.status,v.invoice_date,l.qty_invoiced,l.unit_price from erp.material_supplier_invoices v join erp.material_supplier_invoice_lines l on l.invoice_id=v.id join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=%s',(out['purchase_id'],)).fetchone()
+        assert (new[0],str(new[1]),new[2],new[3])==('POSTED',str(f['day']),D(1000),D(11)),new
+        assert cur.execute('select status from erp.material_supplier_invoices where id=%s',(old['invoice_id'],)).fetchone()[0]=='REVERSED'
+        assert cur.execute('select erp.material_purchase_final_ap_total(%s),erp.material_purchase_grni_total(%s)',(out['purchase_id'],out['purchase_id'])).fetchone()==(D(11000),D(0))
+        same_checks(chk,checks(cur));reversal_dates(cur)
+        return dict(status='PASS',receipt_and_final_invoice_366_days_ago=str(f['day']),monthly_transfers=months,invoice_final_12_to_11=True,
+          ap_12000_to_11000_on_invoice_date=True,transfer_costs_restated_12_to_11=True,nothing_dated_today=True,all_integrity_checks_unchanged=True)
+    def draft_roll_use():
+        """An unposted cutting group or transfer already binds a roll of the receipt: the correction waits until it is posted or cancelled."""
+        f=e01.production(cur,today,cutting_draft_only=True);b.api.admin(cur)
+        dest=str(uuid.uuid4());cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,%s,'RAW_MATERIAL_WAREHOUSE',true)",(dest,f['tag']+'-TO',f['tag']+' destination'))
+        moved=dict(transfer_number=f['tag']+'-T0001',from_location_id=f['raw_location'],to_location_id=dest,physical_at=aa.at(f['day']+timedelta(days=1),7).isoformat(),
+          change_reason='P09 ordinary warehouse transfer',items=[dict(material_id=f['material'],roll_id=f['roll'],qty='5')])
+        t=material.command(cur,'SAVE_TRANSFER',moved);b.api.admin(cur)
+        w=ws(cur,f['purchase']);block=[x for x in w['blockers'] if x['code']=='CP7_RECEIPT_FIX_DRAFT_ROLL_USE']
+        assert not w['can_correct'] and len(block)==1 and sorted((d['type'],d['number']) for d in block[0]['documents'])==[('CUTTING_GROUP',f['group_number']),('MATERIAL_TRANSFER',f['tag']+'-T0001')],w['blockers']
+        refused(cur,lambda:fix(cur,payload(w,line=lambda n,i:i['rolls'][0].update(qty='90')),w['purchase']['row_version']),'CP7_RECEIPT_FIX_DEPENDENCY')
+        material.post(cur,t);b.api.admin(cur)
+        version=cur.execute('select row_version from erp.cutting_groups where id=%s',(f['group'],)).fetchone()[0]
+        e01.prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(f['cut_payload'],id=f['group'],action='POST'),expected_version=int(version));b.api.admin(cur)
+        w=ws(cur,f['purchase']);assert w['can_correct'] and w['blockers']==[],w['blockers']
+        out=fix(cur,payload(w,line=lambda n,i:i['rolls'][0].update(qty='90')),w['purchase']['row_version'])
+        assert raw(cur,f['material'])[0]==D(30),raw(cur,f['material'])
+        return dict(status='PASS',draft_cutting_and_transfer_named_as_blockers=True,correction_refused_while_draft=True,posted_drafts_then_corrected_100_to_90=True)
+    def duplicate_lines():
+        """Two lines of the same accessory with the same quantity and price, each with its own lot and notes."""
+        f=uom.fixture(cur,today,qty='2',price='120');l=f['payload']['lines'][0]
+        f['payload']['lines']=[dict(l,lot_number='LOT-A',notes='Baris A'),dict(l,lot_number='LOT-B',notes='Baris B')]
+        r=receipt.post(cur,receipt.command(cur,'SAVE_DRAFT',f['payload']));w=ws(cur,r['purchase_id'])
+        assert [(x['lot_number'],x['notes'],x['qty']) for x in sorted(w['lines'],key=lambda x:x['lot_number'])]==[('LOT-A','Baris A','24.000000'),('LOT-B','Baris B','24.000000')],w['lines']
+        # Both lines stay identical in material, quantity and price; only line A states a new lot.
+        a=next(n for n,x in enumerate(w['lines']) if x['lot_number']=='LOT-A')
+        out=fix(cur,payload(w,line=lambda n,i:i.update(qty='20',**({'lot_number':'LOT-A2'} if n==a else {}))),w['purchase']['row_version'])
+        rows=cur.execute('select lot_number,notes,qty from erp.material_purchase_items where purchase_id=%s order by lot_number',(out['purchase_id'],)).fetchall()
+        assert rows==[('LOT-A2','Baris A',D(20)),('LOT-B','Baris B',D(20))],rows
+        pairs=sorted(cur.execute("""select mi.notes,oi.notes,oi.lot_number from cp7_receipt_fix.ledger_links z
+          join erp.material_stock_movements m on m.id=z.member_id join erp.material_purchase_items mi on mi.id=m.source_id
+          join erp.material_stock_movements o on o.id=z.origin_id join erp.material_purchase_items oi on oi.id=o.source_id where mi.purchase_id=%s""",(out['purchase_id'],)).fetchall())
+        assert pairs==[('Baris A','Baris A','LOT-A'),('Baris B','Baris B','LOT-B')],pairs
+        return dict(status='PASS',two_identical_lines_keep_their_own_lot_and_notes=True,stated_lot_changes_only_its_line=True,card_links_follow_exact_line=True)
     def late_failure():
         f=production(cur,today);w=ws(cur,f['purchase']);p=payload(w,line=lambda n,i:i['rolls'][0].update(qty='80'))
         cur.execute("create function cp7_receipt_fix.rf_test_fail() returns trigger language plpgsql as $$begin raise exception 'RF_TEST_INJECTED_AFTER_STOCK_COST_JOURNAL';end$$")
@@ -766,7 +823,8 @@ def cases(cur,today):
       ('RF_PAYMENT_REPLAY',lambda:paid('300',True)),('RF_PAID_EXCEEDS_CORRECTED_REFUSED',lambda:paid('1000',False)),('RF_OVERPAID_CREDIT_TO_NEXT_NOTA',overpaid_credit),('RF_OPENING_ADVANCE_PAYMENT_REPLAY',opening_advance),
       ('RF_INVOICE_PRICE_AFTER_SALE',invoice_price_after_sale),('RF_INVOICED_QTY_DOWN_WITH_PAYMENT',invoiced_qty_down),
       ('RF_INVOICE_INCOMPLETE_REFUSED',invoice_refusals),('RF_SHARED_INVOICE_CORRECTED',shared_invoice),('RF_CLOSED_PERIOD_CORRECTION',closed_period),('RF_REPEATED_REVISIONS',repeated),('RF_REPLAY_SAME_REQUEST',replay),
-      ('RF_REVIEW_CHANGED_REFUSED',review_changed),('RF_ACCESS_CURRENT_AUTHORITY',access),('RF_YEAR_HISTORY_364',year_history),
+      ('RF_REVIEW_CHANGED_REFUSED',review_changed),('RF_ACCESS_CURRENT_AUTHORITY',access),('RF_YEAR_HISTORY_364',year_history),('RF_YEAR_FINAL_INVOICE_PRICE',year_final_invoice),
+      ('RF_DRAFT_ROLL_USE_BLOCKS',draft_roll_use),('RF_DUPLICATE_LINES_KEEP_LOT',duplicate_lines),
       ('RF_LATE_FAILURE_ATOMIC',late_failure),('RF_ACCESSORY_LINE_QTY',accessory),('RF_MATERIAL_NAME_TYPO',name_typo),('RF_MATERIAL_SKU_TYPO',sku_typo),('RF_MATERIAL_NAME_REFUSALS',name_refusals)]
     assert [n for n,_ in tests]==MANIFEST['groups']['native']
     return tests
