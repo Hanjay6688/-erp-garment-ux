@@ -1,0 +1,111 @@
+{
+  "classification": "FIRST_ORIGINAL_INCOMPLETE_BEFORE_NATIVE76_EXECUTION",
+  "status": "INCOMPLETE",
+  "source_commit": "21d57529edcf588127797d4a95b987bb5856e408",
+  "source_tree": "f3a1491fb34b3ed4409507421c1a638251b8144c",
+  "run_id": 37148918190,
+  "job_id": 111278472003,
+  "artifact_id": 11282259027,
+  "artifact_bytes": 1625200,
+  "archive_sha256": "0aee0ae0e7f1c578f681544672c9bd3d0027fc47f7b0128096e4094fa936482c",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "73ba7c37756ad0f07d45d96b09c755c02e90edaee1ad4fb497d71d71da430980"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385610,
+      "sha256": "73ba7c37756ad0f07d45d96b09c755c02e90edaee1ad4fb497d71d71da430980"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "f4ddb4e1cb6ea240fb1901308a198ad9dd5513539da9b84f0a2c662bb1f4e3fd"
+    },
+    "CP7_SQL_REACHABILITY.json": {
+      "bytes": 17647,
+      "sha256": "04ba3ed0fed71af2e029705d50a62e03ae6978b7f81c312a55b9926a7a40d3e1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360668,
+      "sha256": "75069a42d10d953e044d1dc9f5c5318b6859289a787d331ed608917036486d44"
+    }
+  },
+  "Original_roots": {
+    "ALIGNED_CHAIN.json": {
+      "file": "docs/cp7/evidence/transaction-source/first76-21d575/ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_SQL_REACHABILITY.json": {
+      "file": "docs/cp7/evidence/transaction-source/first76-21d575/CP7_SQL_REACHABILITY.json.gz",
+      "raw_bytes": 17647,
+      "raw_sha256": "04ba3ed0fed71af2e029705d50a62e03ae6978b7f81c312a55b9926a7a40d3e1",
+      "gzip_bytes": 7505,
+      "gzip_sha256": "dc6b31007e5e3cecd63794bccb208586c42079f87860d7b7a62a7bfe2b004d15"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "file": "docs/cp7/evidence/transaction-source/first76-21d575/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "file": "docs/cp7/evidence/transaction-source/first76-21d575/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360668,
+      "raw_sha256": "75069a42d10d953e044d1dc9f5c5318b6859289a787d331ed608917036486d44",
+      "gzip_bytes": 11372,
+      "gzip_sha256": "da4cceb02d0917db37ee07a2246ad834de7602568e9d56e92c72b33031df0757"
+    }
+  },
+  "Original_CI_log": {
+    "file": "docs/cp7/evidence/transaction-source/first76-21d575/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 227711,
+    "raw_sha256": "e57c4070c7acfd9e8c78a2abc658110f310149f89d1b41007f810a3c075baec4",
+    "gzip_bytes": 34918,
+    "gzip_sha256": "dee257fbd2554efb2527197de82b906d03d343b7c86644621cd20238a6cd4757"
+  },
+  "declared_case_counts": {
+    "native": 41,
+    "races": 4,
+    "http": 11,
+    "browser": 20
+  },
+  "declared76_unchanged": true,
+  "Native_case_emissions": 0,
+  "Native_product_qualification": false,
+  "cause": "CP7 source-mode runner admission still expects69 before report construction; candidate provider predeclares76",
+  "repair": "Update only source_navigation assert69 to76; preserve all69 old IDs plus7 and other family budgets",
+  "Original_package_gate": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "unchanged_primary": true,
+  "backup_and_Native_runtime_and_restore_not_exercised": true,
+  "full_CP7": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
