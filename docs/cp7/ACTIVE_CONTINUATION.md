@@ -1,5 +1,11 @@
 # Active writer continuation · 3Oct2026
 
+## Current candidate · fresh sales-command access read
+
+The owner asks whether transactional correction/rollback actually exists. It does for the qualified owning sale-note path, with preserved Original and atomic Native stock/AR/cash/GL/HPP effects. Every transaction edit/delete remains our mandatory unfinished CP7 work. Source6127 passes all eight F03 components (exact Originals retained) and full Native Shell139/1285 plus6 browser/CodeQL. Its owning-note run37085856721 observes39 PASS of40; desktop microsecond correction returns actual500/57014. Exact failure Original and false runtime gate are retained. Complete F05 run succeeds but exact284 retention is pending read-only projection. Do not call6127 note40 qualified.
+
+The changed cp7_sales.command_access reads the complete current access once per invocation, preserving JWT/identity, allowed/invoice view/AR, every Native fine-permission call, reverse Owner/Admin restriction and current post-wait/replay checks. No transaction/session access cache, grant, Native financial helper, formula or8s limit changes. Five isolated Native authority controls compare every action/role/missing permission against the hash-pinned accepted6127 oracle and check live revoke/demotion plus one fresh read. Build/security and28 related DOM checks pass; actual Native controls/40/eight-F03/284 remain required. See SALES_COMMAND_AUTHORITY_READ.md. Protected Claude WIP stays deferred.
+
 ## Active owner mandate · headers and serviceable transactions
 
 Owner requires clear Cari/Browse/Urutkan/Filter at every submenu and easy Edit/Hapus on every transaction source. See USER_TRANSACTION_TOOLS.md and TRANSACTION_TOOLS_CANDIDATE.md. First rollout covers sales four views, material count and FG adjustment; six new controls and full local1149/119 pass, build/security pass. Invoice deletion lists active payment/return blockers and opens their authorized source panels; atomic note edit remains available. UI sorting and adjustment filtering are explicitly current-page scope. No new SQL, grant, calculation, timeout, UUID behavior or Claude file change. New-source note40, all-eight F03 and Native Shell remain mandatory. Do not claim every submenu or arbitrary atomic edit complete. Claude unfinished scope remains deferred. All checkpoints below refer to preceding sources.

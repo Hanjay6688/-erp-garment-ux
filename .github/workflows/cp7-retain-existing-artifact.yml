@@ -28,6 +28,7 @@ jobs:
         - f05-34d7-qualified284
         - f05-15aca-qualified284
         - f05-9cc70-qualified284
+        - f05-6127-qualified284
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:

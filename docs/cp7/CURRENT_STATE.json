@@ -181,7 +181,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Finish Native qualification of owner transaction-tools UI; continue header/transaction/source-blocker rollout with explicit unsupported atomic-edit gaps. Preserve and wait for Claude WIP. Continue fabric recipe/material feasibility, complete P18 journeys, P19 scale and P21 combined restore. Independent/demo/hosted exits stay open.",
+  "execution_priority": "Qualify single fresh sales-command authority read after actual6127 note39/40 timeout; retain all source6127 Originals. Then continue mandatory every-submenu/every-source edit/delete and named dependency rollout. Preserve and wait for Claude WIP. Full fabric/material, P18/P19/P21 and independent/demo/hosted exits remain open.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -5994,7 +5994,7 @@
     "pending_read_visibility_defect_closed": true
   },
   "transaction_tools_owner_mandate": {
-    "status": "MANDATORY_ALL_MODULES_PARTIAL_UI_ROLLOUT_LOCAL1149_PASS_CURRENT_NATIVE_REQUIRED",
+    "status": "MANDATORY_ALL_MODULES_PARTIAL_UI6127_FULL8_AND_SHELL_PASS_NOTE39_OF40_INCOMPLETE",
     "decision_date_WIB": "2026-10-03",
     "contract": "docs/cp7/USER_TRANSACTION_TOOLS.md",
     "candidate": "docs/cp7/TRANSACTION_TOOLS_CANDIDATE.md",
@@ -6033,5 +6033,100 @@
     "full_family_acceptance": false,
     "audit_complete": false,
     "production_go": false
+  },
+  "transaction_tools_source6127_results": {
+    "source_commit": "6127ec867695a9416176f79199aad8b069578dcb",
+    "source_tree": "642311f5f782fc32aad649c0d7ae8db6b74f78d0",
+    "all_eight_F03": {
+      "run_id": 37085856622,
+      "status": "PASS",
+      "retained_original": "docs/cp7/evidence/f03-full/all-eight-qualified-6127ec8/RECEIPT.json"
+    },
+    "shell": {
+      "run_id": 37085856611,
+      "job_id": 111095894294,
+      "status": "PASS",
+      "full_original_retention": "docs/cp7/evidence/shell/qualified1285-6127ec8/RECEIPT.json"
+    },
+    "f05": {
+      "run_id": 37085856602,
+      "job_id": 111095894227,
+      "run_conclusion": "success",
+      "original_retention": "READ_ONLY_PROJECTION_QUEUED_REQUIRED_BEFORE_EXACT284_CREDIT"
+    },
+    "note": {
+      "run_id": 37085856721,
+      "job_id": 111095894592,
+      "status": "INCOMPLETE",
+      "counts": {
+        "native": {
+          "PASS": 28
+        },
+        "races": {
+          "PASS": 4
+        },
+        "http": {
+          "PASS": 3
+        },
+        "browser": {
+          "PASS": 4,
+          "INCOMPLETE": 1
+        }
+      },
+      "actual_failure": "NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD_HTTP500_SQLSTATE57014",
+      "actual_server_frames": [
+        "erp.require_internal():64",
+        "account_id(text):1",
+        "compute_po_hpp_gl_book_v2620e:1",
+        "erp.refresh_po_hpp_gl_baseline(uuid):10",
+        "post_sales_return(uuid):163",
+        "cp7_note.command(jsonb,uuid,text):88"
+      ],
+      "retained_original": "docs/cp7/evidence/owning-note-correction/incomplete40-6127ec8/RECEIPT.json",
+      "sampled_query_elapsed_max_ms": [
+        7704.918,
+        5791.489,
+        7909.299,
+        1582.144
+      ],
+      "sampled_waits": [],
+      "maxima_are_lower_bounds": true,
+      "runtime_gate": false,
+      "other_package_gates": true,
+      "auth_before": 0,
+      "auth_after": 0
+    },
+    "current_note40_qualified": false,
+    "every_submenu_complete": false,
+    "every_transaction_edit_delete_complete": false,
+    "full_family_acceptance": false,
+    "audit_complete": false,
+    "production_go": false
+  },
+  "sales_command_authority_read_candidate": {
+    "status": "CURRENT_ACCESS_SINGLE_READ_CANDIDATE_NATIVE_REQUIRED",
+    "contract": "docs/cp7/SALES_COMMAND_AUTHORITY_READ.md",
+    "prior_source": "6127ec867695a9416176f79199aad8b069578dcb",
+    "changed_SQL": "scripts/cp7-src/sales/commands.sql:cp7_sales.command_access",
+    "change": "one complete fresh current access read per invocation instead of duplicate access_now plus get_my_access",
+    "native_permission_checks_retained": true,
+    "access_now_reader_unchanged": true,
+    "post_wait_and_replay_checks_retained": true,
+    "global_transaction_or_command_access_cache": false,
+    "Native_business_helpers_formulas_grants_timeout_changed": false,
+    "protected_Claude_files_changed": false,
+    "expected_isolated_native_authority_tests": 5,
+    "local_Native_credit": 0,
+    "complete_note40_required": true,
+    "complete_F03_eight_required": true,
+    "full_Native_Shell_required": true,
+    "complete_F05_284_required": true,
+    "preceding_timeout_cause_closed": false,
+    "audit_complete": false,
+    "production_go": false,
+    "build_pass": true,
+    "security_pass": true,
+    "affected_DOM_tests": 28,
+    "affected_DOM_tests_pass": true
   }
 }

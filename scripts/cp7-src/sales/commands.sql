@@ -14,14 +14,21 @@ create function cp7_sales.command_access(p_action text) returns jsonb
 language plpgsql stable security definer set search_path='' as $$
 declare a jsonb;
 begin
- if not cp7_sales.access_now() or p_action is null or p_action not in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')
+ -- Read the complete current access once per invocation. access_now() already
+ -- obtains that same document; invoking it here and then reading it again
+ -- multiplies full permission-list reads in each native account/HPP guard.
+ -- This is never a command/transaction cache: every post-wait guard invocation
+ -- still reads current authority and calls the native fine permission checks.
+ if auth.uid() is null or coalesce(auth.jwt()->>'role','')<>'authenticated' then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;
+ a:=erp.get_my_access_v1();
+ if a->'allowed' is distinct from 'true'::jsonb or not erp.has_permission('sales.invoice.view') then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;
+ if not erp.has_permission('finance.ar.view') or p_action is null or p_action not in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')
   or not erp.has_permission(case when p_action='POST' then 'sales.invoice.post' when p_action='CREATE' then 'sales.invoice.create' when p_action='PAYMENT' then 'sales.payment.create' when p_action='PAYMENT_REVERSE' then 'sales.payment.reverse' when p_action='RETURN' then 'sales.return.create' when p_action='RETURN_REVERSE' then 'sales.return.reverse' when p_action='SALE_REVERSE' then 'sales.invoice.reverse' else 'sales.invoice.edit_draft' end)
   or(p_action in('PAYMENT','PAYMENT_REVERSE') and not erp.has_permission('sales.payment.view'))
   or(p_action='PAYMENT' and not erp.has_permission('sales.payment.post'))
   or(p_action in('RETURN','RETURN_REVERSE') and not erp.has_permission('sales.return.view'))
   or(p_action='RETURN' and not erp.has_permission('sales.return.post'))
  then raise exception using errcode='42501',message='CP7_SALES_WRITE_DENIED';end if;
- a:=erp.get_my_access_v1();
  if p_action in('PAYMENT_REVERSE','RETURN_REVERSE','SALE_REVERSE') and coalesce(a->'profile'->>'role_code','') not in('OWNER','ADMIN') then raise exception using errcode='42501',message='CP7_SALES_OWNER_ADMIN_REQUIRED';end if;
  return a;
 end $$;

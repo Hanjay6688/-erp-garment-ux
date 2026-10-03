@@ -1,0 +1,40 @@
+{
+  "source_commit": "6127ec867695a9416176f79199aad8b069578dcb",
+  "source_tree": "642311f5f782fc32aad649c0d7ae8db6b74f78d0",
+  "run_id": 37085856611,
+  "shell_job_id": 111095894294,
+  "codeql_job_ids": [
+    111095894224,
+    111095894313
+  ],
+  "status": "FULL_NATIVE_POSTGRESQL_SHELL_SECURITY_BUILD_CODEQL_PASS",
+  "test_files": 139,
+  "tests": 1285,
+  "isolated_guard_controls": 5,
+  "browser_shell_checks": 6,
+  "artifact_id": 11260184611,
+  "zip_bytes": 491494,
+  "zip_sha256": "c8025f5879e34a90d3fe7bea33c88b0560a78e17ab5485750da931a24f6f5316",
+  "original_reports_gzip_sha256": "b2fd492e59b3fdacf1ed2aa6222e09cbbfaca397570b740eb7cb959c4094f4e4",
+  "all_zip_members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "2d04347a855629a1f0aabb0328fbdfdc12f06548afd119ce7950f141cf4a79b1"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "results.json": {
+      "bytes": 12277,
+      "sha256": "712ce76429356c562bda12e89a8bbe0da8bed94466fc13de203f3ccc3e6ffba0"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
