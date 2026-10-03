@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        record: [f05-analysis-48]
+        record: [f05-analysis-48, f05-attention-48, f05-analysis-64]
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
