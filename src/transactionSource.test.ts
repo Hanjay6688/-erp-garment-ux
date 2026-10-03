@@ -4,6 +4,19 @@ const source='11111111-1111-4111-8111-111111111111',parent='22222222-2222-4222-8
 const ref={source_type:'SALES_PAYMENT',source_id:source}
 const receipt=()=>({contract_version:'cp7.transaction-source.v1',actor_scope_id:actor,source:{...ref},status:'AVAILABLE',document:{domain:'SALE',route:'sales-payments',id:parent,number:'INV-26',status:'PARTIAL_PAID',revision:'9007199254740993',focus:{kind:'SALES_PAYMENT',id:source,page_offset:25}},read_at:'2026-10-03T04:00:00.123456Z',business_DML:false})
 describe('exact transaction source boundaries',()=>{
+ it('binds every Laundry receipt child to its actual parent and unpaged embedded receipt',()=>{
+  for(const kind of ['LAUNDRY_RECEIPT','LAUNDRY_RECEIPT_LINE','LAUNDRY_RECEIPT_BATCH_SIZE_LINE']){
+   const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'LAUNDRY',route:'laundry',focus:{kind:'LAUNDRY_RECEIPT',id:source,page_offset:0}})
+   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({domain:'LAUNDRY',id:parent,focus:{id:source,page_offset:0}})
+   for(const bad of [{focus:null},{route:'qc'},{focus:{kind:'LAUNDRY_RECEIPT',id:source,page_offset:25}},{focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:0}}]){const c=structuredClone(r);Object.assign(c.document,bad);expect(()=>parseTransactionSource(c,r.source,actor)).toThrow()}
+   if(kind==='LAUNDRY_RECEIPT'){r.document.focus.id=parent;expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()}
+  }
+ })
+ it('keeps a direct Laundry delivery exact and does not invent a receipt focus',()=>{
+  const r=receipt();r.source={source_type:'LAUNDRY_DELIVERY',source_id:source};Object.assign(r.document,{domain:'LAUNDRY',route:'laundry',id:source,focus:null})
+  expect(parseTransactionSource(r,r.source,actor).document?.id).toBe(source)
+  for(const bad of [{id:parent},{focus:{kind:'LAUNDRY_RECEIPT',id:parent,page_offset:0}}]){const c=structuredClone(r);Object.assign(c.document,bad);expect(()=>parseTransactionSource(c,r.source,actor)).toThrow()}
+ })
  it('opens an actual QC item through its inspection FK and keeps a direct inspection exact',()=>{
   for(const kind of ['QC_ITEM','QC_INSPECTION','FG_MOVEMENT_REVERSAL']){
    const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'QC',route:'qc',id:kind==='QC_INSPECTION'?source:parent,focus:null})

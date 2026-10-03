@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Standing continuation: requalify source57 after retaining first56/1 Original and correcting only the authority fixture comparison after its intentional Native regrant. Finish unchanged Native40 timing and Native37 exact-catalog requalification. Continue remaining feasible source/material/P08/P18/P19 work; P20 independent/P21 installed gates separate. No main/hosted/liveWA.",
+  "next_action": "Continue standing CP7 writer scope. Qualify exact Native64 Laundry/QC/source/owning supplier paths, retaining all57 prior controls and full Original/gates. Continue feasible remaining source/dependency exits, real material/P08/P18/P19. Missing real recipes/eligible allocations/owner inputs stay UNKNOWN; independent/installed/production acceptance cannot be self-issued.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -6432,8 +6432,8 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "QUALIFIED_NATIVE41_AT3C7_FIRST4042_INCOMPLETE_SUCCESSOR_NATIVE50_PENDING",
-      "native_case_budget": 50,
+      "status": "QUALIFIED_NATIVE57_AT_A8_SUCCESSOR_NATIVE64_PENDING",
+      "native_case_budget": 64,
       "no_business_DML": true,
       "full_source_coverage": false,
       "remaining": [
@@ -6441,91 +6441,77 @@
         "full material feasibility, broader P08 and P18-P21 qualification"
       ],
       "qualification": {
-        "head": "3c7cb2cf75bb029c37efe60c2f80949924893701",
-        "tree": "30eb47eb79578c58fa4c8b4d1491b70c36c71ab8",
-        "run_id": 37117225616,
-        "job_id": 111186246179,
-        "artifact_id": 11272471104,
-        "archive_sha256": "123dc07079483ca361bf91d6b48c4c0d5fc19a6d9678c93e6745c5a2f0d0f94f",
+        "source_commit": "a8e5b8e0a76de209d694d0a331153a23ef20082c",
+        "source_tree": "50c35096ff21a4dd25badc03f79a3cbca104471c",
+        "run_id": 37122365912,
+        "job_id": 111200850592,
+        "artifact_id": 11274446548,
+        "archive_sha256": "f91f7a9f35a0e98809862abdd62bb18213d0c8900459111ceb6c8345f90f2495",
         "status": "PASS",
-        "observed_case_count": 41,
+        "observed_case_count": 57,
         "required_case_counts": {
-          "native": 24,
-          "races": 2,
-          "http": 5,
-          "browser": 10
+          "native": 32,
+          "races": 4,
+          "http": 7,
+          "browser": 14
         },
-        "source_sha256": "87f6a6ed1d890e548af8897c29cc40f1592e4a2e1651022f1af2f6567f3f3291",
-        "groups": {
+        "source_sha256": "9b88b83d4b31873f9ea8630a622b76e8fb4041956308009e5d9f8fe24348fb1d",
+        "counts": {
           "native": {
-            "PASS": 24
+            "PASS": 32
           },
           "races": {
-            "PASS": 2
+            "PASS": 4
           },
           "http": {
-            "PASS": 5
+            "PASS": 7
           },
           "browser": {
-            "PASS": 10
+            "PASS": 14
           }
         },
         "members": {
           "CP7_TRANSACTION_SOURCE.json": {
-            "sha256": "e519e7080e987cd2fdc6b885d1d7e507bba7d06e0f0492eb8c84fc3620ee101c",
-            "bytes": 285228
+            "bytes": 296592,
+            "sha256": "2e9ecfbf819678d549f587a6b6aab1e31e3e417ef4ea2dc7422f2639b2589b1b",
+            "compressed_sha256": "feb8bb2e2d89fb8a6587bf87cfd8a0af170b69bdd39c8d43b52532796e0f1e90"
           },
           "T3_PACKAGE_INSTALL.json": {
-            "sha256": "f48476bca3bd4f5cf023d983f661bdf1864c2561bdd2d57195fac8640f6f70f0",
-            "bytes": 360424
+            "bytes": 360424,
+            "sha256": "b9cb2d5d905b10388b6bb6ab1ff56a1206ce8f3b465461155b66bc32c2a80c78",
+            "compressed_sha256": "4ef3d9c3f87ecf45e5abcd4d716fdfe76a04e0f99cbbec3bef7a269cb616cd61"
           },
-          "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png": {
-            "sha256": "860115d98957d6a1cb14c94752fd6eb8f9bbc507fe3b6f2fb9a94989ac58ece3",
-            "bytes": 222148
+          "CP7_SOURCE_QC_DESKTOP.png": {
+            "bytes": 254457,
+            "sha256": "2f891ca6d2a1e80c9dad478c8d7eb7df95eb1f1e559510894e094fe3c810d899"
           },
-          "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png": {
-            "sha256": "dce49d35421703bde4d1aa563b2a0278bd337d47b41652c9bf0039d6e08dbceb",
-            "bytes": 147137
+          "CP7_SOURCE_QC_INVERSE_DESKTOP.png": {
+            "bytes": 254815,
+            "sha256": "85dd3a14601479c70d9b46992212e78e63d729755e388577a108eb1af938f29a"
           },
-          "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png": {
-            "sha256": "9e4de5b2f261dc27a2f4d825000825807b202ea3f12d41926f122aff8a84e3ee",
-            "bytes": 283933
+          "CP7_SOURCE_QC_INVERSE_MOBILE.png": {
+            "bytes": 173598,
+            "sha256": "a42a924da7d0af5597b48daf65fe63f62afbbb0a80c6383b66371d48910765b1"
           },
-          "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png": {
-            "sha256": "b2eed451f73263a21a94c454dfa6d3b26307939ab7683269576112a043b1e033",
-            "bytes": 212185
+          "CP7_SOURCE_QC_MOBILE.png": {
+            "bytes": 173259,
+            "sha256": "73040b5174e37bd4dd1f179efa77ec824b666d365debf9e13835d85404d3989b"
           },
-          "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png": {
-            "sha256": "bdeac1472042953a68dc76f6fd9ef0c7c30ca7d047dbcc7a3a0313cf2068760a",
-            "bytes": 214206
+          "CP7_SOURCE_SUPPLIER_PAYMENT_DESKTOP.png": {
+            "bytes": 1537357,
+            "sha256": "b4e8b6df75574bf0ca348d3b46ada96f5dc6a8bd7c6b2d60929106c6a41f9173"
           },
-          "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png": {
-            "sha256": "a6a54b8a606c43bd9ad6b8885a639fc41b86bce2b86fc1bdc0cd2902b69ce4d8",
-            "bytes": 136220
+          "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_DESKTOP.png": {
+            "bytes": 1523472,
+            "sha256": "2e9ff0a44266f41d05328ba5210c3956da82e869eb1eda26773f0ad4b02e2b16"
           },
-          "CP7_PRODUCTION_READ_QC_DESKTOP.png": {
-            "sha256": "e7ffe1237db3f26ebb33a38ab5e1a9cde4f1ad113fb62f9a973fa922b57ff6b2",
-            "bytes": 293633
+          "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_MOBILE.png": {
+            "bytes": 1093431,
+            "sha256": "fb026f39e70225dd88d3ee562283db848bd6acd64bd0dcf79cce6d3200c6f8d6"
           },
-          "CP7_PRODUCTION_READ_QC_MOBILE.png": {
-            "sha256": "7ecaf74758b18716c628d918a15897a7c06cad528e61bde2d5239cfc9c19eb70",
-            "bytes": 203491
-          },
-          "CP7_SOURCE_REWORK_DESKTOP.png": {
-            "sha256": "035de38fa887fee444a10162d35aa12ba5683d4c1a71cd65a317696664b7d49d",
-            "bytes": 390691
-          },
-          "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png": {
-            "sha256": "35c6dcee147b3e8013ddac59cb692a867f6d5b5ff0a621d98d982e132ae2a7c7",
-            "bytes": 411257
-          },
-          "CP7_SOURCE_REWORK_INVERSE_MOBILE.png": {
-            "sha256": "e8145c88eba0b0fb295c704f1967f3c2b38042e4d7eb3776391bf36a85781a8a",
-            "bytes": 310840
-          },
-          "CP7_SOURCE_REWORK_MOBILE.png": {
-            "sha256": "64f3a1e274ce40b0cfb49b771420d1ea8ee6b0b54d1599e413a8b061c9ff71f1",
-            "bytes": 316334
+          "CP7_SOURCE_SUPPLIER_PAYMENT_MOBILE.png": {
+            "bytes": 1071523,
+            "sha256": "a88b15f974b67cd7a906c9617d8241ecd7172e15b703944ac5aeb6d9a559eb6a"
           }
         },
         "cp6_restored": true,
@@ -6542,140 +6528,80 @@
           "writer_runtime": true
         },
         "console_errors": 0,
+        "all57_previous_case_ids_retained": true,
         "browser_observations": {
-          "CP7_SOURCE_REWORK_BROWSER_DESKTOP": {
+          "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP": {
             "status": "PASS",
             "mobile": false,
-            "real_Auth_journal_to_exact_Native_rework_bs_outside50": true,
-            "opening_and_inverse_review_no_business_DML": true,
-            "original_order_and_FG_movement_retained_when_resolution_deleted": true,
-            "actual_repaired2_and_labor60_inverse_zero_lot_qty": true,
-            "closed_case_repositions_to_open_owning_page": true,
-            "inverse_journal_reopens_same_cancelled_child": true,
-            "actual_committed_inverse_reply_loss_reload_identical_UUID_one_effect": true,
+            "real_Auth_Native_journal_to_actual26th_payment_and_page25": true,
+            "full_Native_rows_unchanged_by_source_and_review": true,
+            "Native_AP1000_paid260_to250_remaining740_to750_cash260_to250": true,
+            "original_payment_date_cash_and_journal_preserved": true,
+            "inverse_journal_reopens_same_reversed_child": true,
+            "one_Native_inverse_one_request_no_stock_HPP_change": true,
+            "actual_committed_reply_loss_reload_identical_UUID_and_payload": true,
             "screenshots": [
-              "CP7_SOURCE_REWORK_DESKTOP.png",
-              "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png"
+              "CP7_SOURCE_SUPPLIER_PAYMENT_DESKTOP.png",
+              "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_DESKTOP.png"
             ]
           },
-          "CP7_SOURCE_REWORK_BROWSER_MOBILE": {
+          "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE": {
             "status": "PASS",
             "mobile": true,
-            "real_Auth_journal_to_exact_Native_rework_bs_outside50": true,
-            "opening_and_inverse_review_no_business_DML": true,
-            "original_order_and_FG_movement_retained_when_resolution_deleted": true,
-            "actual_repaired2_and_labor60_inverse_zero_lot_qty": true,
-            "closed_case_repositions_to_open_owning_page": true,
-            "inverse_journal_reopens_same_cancelled_child": true,
-            "actual_committed_inverse_reply_loss_reload_identical_UUID_one_effect": false,
+            "real_Auth_Native_journal_to_actual26th_payment_and_page25": true,
+            "full_Native_rows_unchanged_by_source_and_review": true,
+            "Native_AP1000_paid260_to250_remaining740_to750_cash260_to250": true,
+            "original_payment_date_cash_and_journal_preserved": true,
+            "inverse_journal_reopens_same_reversed_child": true,
+            "one_Native_inverse_one_request_no_stock_HPP_change": true,
+            "actual_committed_reply_loss_reload_identical_UUID_and_payload": false,
             "screenshots": [
-              "CP7_SOURCE_REWORK_MOBILE.png",
-              "CP7_SOURCE_REWORK_INVERSE_MOBILE.png"
+              "CP7_SOURCE_SUPPLIER_PAYMENT_MOBILE.png",
+              "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_MOBILE.png"
             ]
           },
-          "CP7_PRODUCTION_READ_BROWSER_DESKTOP": {
+          "CP7_SOURCE_QC_BROWSER_DESKTOP": {
             "status": "PASS",
             "mobile": false,
-            "scopes": [
-              {
-                "scope": "LAUNDRY",
-                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
-                "actual_unequal_size_qtys": [
-                  5,
-                  8,
-                  3,
-                  4
-                ],
-                "total20": true,
-                "read_start_retires_old_facts_and_KPIs": true,
-                "held_actual200_after_shared_storage_invalidation_not_painted": true,
-                "current_Native403_retires_facts_not_zero": true,
-                "explicit_fresh_recovery": true,
-                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
-              },
-              {
-                "scope": "QC",
-                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
-                "actual_unequal_size_qtys": [
-                  5,
-                  8,
-                  3,
-                  4
-                ],
-                "total20": true,
-                "read_start_retires_old_facts_and_KPIs": true,
-                "held_actual200_after_shared_storage_invalidation_not_painted": true,
-                "current_Native403_retires_facts_not_zero": true,
-                "explicit_fresh_recovery": true,
-                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
-              }
-            ],
+            "actual_Native_QC_GOOD_movement_to_exact_inspection_parent": true,
+            "source_and_own_reason_no_DML": true,
+            "unchanged_Native_owning_inverse_one_PCS_and_original_history": true,
+            "FG_inverse_link_reopens_same_reversed_QC": true,
+            "chronological_physical_balance1_then0": true,
+            "actual_committed_reply_loss_reload_identical_UUID_payload_and_version": true,
             "screenshots": [
-              "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png",
-              "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png",
-              "CP7_PRODUCTION_READ_QC_DESKTOP.png",
-              "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png"
-            ],
-            "no_business_writer_or_substituted_reply": true
+              "CP7_SOURCE_QC_DESKTOP.png",
+              "CP7_SOURCE_QC_INVERSE_DESKTOP.png"
+            ]
           },
-          "CP7_PRODUCTION_READ_BROWSER_MOBILE": {
+          "CP7_SOURCE_QC_BROWSER_MOBILE": {
             "status": "PASS",
             "mobile": true,
-            "scopes": [
-              {
-                "scope": "LAUNDRY",
-                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
-                "actual_unequal_size_qtys": [
-                  5,
-                  8,
-                  3,
-                  4
-                ],
-                "total20": true,
-                "read_start_retires_old_facts_and_KPIs": true,
-                "held_actual200_after_shared_storage_invalidation_not_painted": true,
-                "current_Native403_retires_facts_not_zero": true,
-                "explicit_fresh_recovery": true,
-                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
-              },
-              {
-                "scope": "QC",
-                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
-                "actual_unequal_size_qtys": [
-                  5,
-                  8,
-                  3,
-                  4
-                ],
-                "total20": true,
-                "read_start_retires_old_facts_and_KPIs": true,
-                "held_actual200_after_shared_storage_invalidation_not_painted": true,
-                "current_Native403_retires_facts_not_zero": true,
-                "explicit_fresh_recovery": true,
-                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
-              }
-            ],
+            "actual_Native_QC_GOOD_movement_to_exact_inspection_parent": true,
+            "source_and_own_reason_no_DML": true,
+            "unchanged_Native_owning_inverse_one_PCS_and_original_history": true,
+            "FG_inverse_link_reopens_same_reversed_QC": true,
+            "chronological_physical_balance1_then0": true,
+            "actual_committed_reply_loss_reload_identical_UUID_payload_and_version": false,
             "screenshots": [
-              "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png",
-              "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png",
-              "CP7_PRODUCTION_READ_QC_MOBILE.png",
-              "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png"
-            ],
-            "no_business_writer_or_substituted_reply": true
+              "CP7_SOURCE_QC_MOBILE.png",
+              "CP7_SOURCE_QC_INVERSE_MOBILE.png"
+            ]
           }
         },
-        "all39_prior_case_ids_retained": true,
-        "own_input_retention": "Not present in this source; successor controls pending",
-        "writer_visual_review": "Inspected actual Laundry desktop, QC mobile and actual Native403 mobile images. New source41 passes overflow and current-fact controls. Writer inspection only.",
-        "production_go": false,
+        "first_failure_receipt": "docs/cp7/evidence/transaction-source/first57-fac73/RECEIPT.json",
+        "visual_review": "Writer inspected the current unedited mobile QC inverse capture: long Native inspection number wraps and Dibatalkan badge is fully readable. Both actual existing QC browser journeys also require badge bounding box/scroll-width fit before/after; no extra case budget or dropped controls.",
+        "scope": "Declared Native transaction source families and owning supplier/QC inverses only. Later Laundry source64 is separate pending qualification. No full transaction/material/P08/P18/P19/independent/installed acceptance.",
         "independent_acceptance": false,
-        "receipt": "docs/cp7/evidence/transaction-source/qualified3c7/RECEIPT.json"
+        "production_go": false,
+        "full_family_acceptance": false,
+        "receipt": "docs/cp7/evidence/transaction-source/qualified57-a8/RECEIPT.json"
       },
       "current_counts_required": {
-        "native": 24,
-        "races": 2,
-        "http": 5,
-        "browser": 10
+        "native": 36,
+        "races": 4,
+        "http": 8,
+        "browser": 16
       },
       "payroll_source_candidate": {
         "status": "QUALIFIED_NATIVE25_EXACT_ORIGINAL_RETAINED_AT5E4",
@@ -7231,6 +7157,237 @@
         "production_go": false,
         "independent_acceptance": false,
         "receipt": "docs/cp7/evidence/transaction-source/first4042/RECEIPT.json"
+      },
+      "previous_qualification41": {
+        "head": "3c7cb2cf75bb029c37efe60c2f80949924893701",
+        "tree": "30eb47eb79578c58fa4c8b4d1491b70c36c71ab8",
+        "run_id": 37117225616,
+        "job_id": 111186246179,
+        "artifact_id": 11272471104,
+        "archive_sha256": "123dc07079483ca361bf91d6b48c4c0d5fc19a6d9678c93e6745c5a2f0d0f94f",
+        "status": "PASS",
+        "observed_case_count": 41,
+        "required_case_counts": {
+          "native": 24,
+          "races": 2,
+          "http": 5,
+          "browser": 10
+        },
+        "source_sha256": "87f6a6ed1d890e548af8897c29cc40f1592e4a2e1651022f1af2f6567f3f3291",
+        "groups": {
+          "native": {
+            "PASS": 24
+          },
+          "races": {
+            "PASS": 2
+          },
+          "http": {
+            "PASS": 5
+          },
+          "browser": {
+            "PASS": 10
+          }
+        },
+        "members": {
+          "CP7_TRANSACTION_SOURCE.json": {
+            "sha256": "e519e7080e987cd2fdc6b885d1d7e507bba7d06e0f0492eb8c84fc3620ee101c",
+            "bytes": 285228
+          },
+          "T3_PACKAGE_INSTALL.json": {
+            "sha256": "f48476bca3bd4f5cf023d983f661bdf1864c2561bdd2d57195fac8640f6f70f0",
+            "bytes": 360424
+          },
+          "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png": {
+            "sha256": "860115d98957d6a1cb14c94752fd6eb8f9bbc507fe3b6f2fb9a94989ac58ece3",
+            "bytes": 222148
+          },
+          "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png": {
+            "sha256": "dce49d35421703bde4d1aa563b2a0278bd337d47b41652c9bf0039d6e08dbceb",
+            "bytes": 147137
+          },
+          "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png": {
+            "sha256": "9e4de5b2f261dc27a2f4d825000825807b202ea3f12d41926f122aff8a84e3ee",
+            "bytes": 283933
+          },
+          "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png": {
+            "sha256": "b2eed451f73263a21a94c454dfa6d3b26307939ab7683269576112a043b1e033",
+            "bytes": 212185
+          },
+          "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png": {
+            "sha256": "bdeac1472042953a68dc76f6fd9ef0c7c30ca7d047dbcc7a3a0313cf2068760a",
+            "bytes": 214206
+          },
+          "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png": {
+            "sha256": "a6a54b8a606c43bd9ad6b8885a639fc41b86bce2b86fc1bdc0cd2902b69ce4d8",
+            "bytes": 136220
+          },
+          "CP7_PRODUCTION_READ_QC_DESKTOP.png": {
+            "sha256": "e7ffe1237db3f26ebb33a38ab5e1a9cde4f1ad113fb62f9a973fa922b57ff6b2",
+            "bytes": 293633
+          },
+          "CP7_PRODUCTION_READ_QC_MOBILE.png": {
+            "sha256": "7ecaf74758b18716c628d918a15897a7c06cad528e61bde2d5239cfc9c19eb70",
+            "bytes": 203491
+          },
+          "CP7_SOURCE_REWORK_DESKTOP.png": {
+            "sha256": "035de38fa887fee444a10162d35aa12ba5683d4c1a71cd65a317696664b7d49d",
+            "bytes": 390691
+          },
+          "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png": {
+            "sha256": "35c6dcee147b3e8013ddac59cb692a867f6d5b5ff0a621d98d982e132ae2a7c7",
+            "bytes": 411257
+          },
+          "CP7_SOURCE_REWORK_INVERSE_MOBILE.png": {
+            "sha256": "e8145c88eba0b0fb295c704f1967f3c2b38042e4d7eb3776391bf36a85781a8a",
+            "bytes": 310840
+          },
+          "CP7_SOURCE_REWORK_MOBILE.png": {
+            "sha256": "64f3a1e274ce40b0cfb49b771420d1ea8ee6b0b54d1599e413a8b061c9ff71f1",
+            "bytes": 316334
+          }
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": "RESTORED_SAME_MEANING",
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "console_errors": 0,
+        "browser_observations": {
+          "CP7_SOURCE_REWORK_BROWSER_DESKTOP": {
+            "status": "PASS",
+            "mobile": false,
+            "real_Auth_journal_to_exact_Native_rework_bs_outside50": true,
+            "opening_and_inverse_review_no_business_DML": true,
+            "original_order_and_FG_movement_retained_when_resolution_deleted": true,
+            "actual_repaired2_and_labor60_inverse_zero_lot_qty": true,
+            "closed_case_repositions_to_open_owning_page": true,
+            "inverse_journal_reopens_same_cancelled_child": true,
+            "actual_committed_inverse_reply_loss_reload_identical_UUID_one_effect": true,
+            "screenshots": [
+              "CP7_SOURCE_REWORK_DESKTOP.png",
+              "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png"
+            ]
+          },
+          "CP7_SOURCE_REWORK_BROWSER_MOBILE": {
+            "status": "PASS",
+            "mobile": true,
+            "real_Auth_journal_to_exact_Native_rework_bs_outside50": true,
+            "opening_and_inverse_review_no_business_DML": true,
+            "original_order_and_FG_movement_retained_when_resolution_deleted": true,
+            "actual_repaired2_and_labor60_inverse_zero_lot_qty": true,
+            "closed_case_repositions_to_open_owning_page": true,
+            "inverse_journal_reopens_same_cancelled_child": true,
+            "actual_committed_inverse_reply_loss_reload_identical_UUID_one_effect": false,
+            "screenshots": [
+              "CP7_SOURCE_REWORK_MOBILE.png",
+              "CP7_SOURCE_REWORK_INVERSE_MOBILE.png"
+            ]
+          },
+          "CP7_PRODUCTION_READ_BROWSER_DESKTOP": {
+            "status": "PASS",
+            "mobile": false,
+            "scopes": [
+              {
+                "scope": "LAUNDRY",
+                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+                "actual_unequal_size_qtys": [
+                  5,
+                  8,
+                  3,
+                  4
+                ],
+                "total20": true,
+                "read_start_retires_old_facts_and_KPIs": true,
+                "held_actual200_after_shared_storage_invalidation_not_painted": true,
+                "current_Native403_retires_facts_not_zero": true,
+                "explicit_fresh_recovery": true,
+                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+              },
+              {
+                "scope": "QC",
+                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+                "actual_unequal_size_qtys": [
+                  5,
+                  8,
+                  3,
+                  4
+                ],
+                "total20": true,
+                "read_start_retires_old_facts_and_KPIs": true,
+                "held_actual200_after_shared_storage_invalidation_not_painted": true,
+                "current_Native403_retires_facts_not_zero": true,
+                "explicit_fresh_recovery": true,
+                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+              }
+            ],
+            "screenshots": [
+              "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png",
+              "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png",
+              "CP7_PRODUCTION_READ_QC_DESKTOP.png",
+              "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png"
+            ],
+            "no_business_writer_or_substituted_reply": true
+          },
+          "CP7_PRODUCTION_READ_BROWSER_MOBILE": {
+            "status": "PASS",
+            "mobile": true,
+            "scopes": [
+              {
+                "scope": "LAUNDRY",
+                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+                "actual_unequal_size_qtys": [
+                  5,
+                  8,
+                  3,
+                  4
+                ],
+                "total20": true,
+                "read_start_retires_old_facts_and_KPIs": true,
+                "held_actual200_after_shared_storage_invalidation_not_painted": true,
+                "current_Native403_retires_facts_not_zero": true,
+                "explicit_fresh_recovery": true,
+                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+              },
+              {
+                "scope": "QC",
+                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+                "actual_unequal_size_qtys": [
+                  5,
+                  8,
+                  3,
+                  4
+                ],
+                "total20": true,
+                "read_start_retires_old_facts_and_KPIs": true,
+                "held_actual200_after_shared_storage_invalidation_not_painted": true,
+                "current_Native403_retires_facts_not_zero": true,
+                "explicit_fresh_recovery": true,
+                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+              }
+            ],
+            "screenshots": [
+              "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png",
+              "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png",
+              "CP7_PRODUCTION_READ_QC_MOBILE.png",
+              "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png"
+            ],
+            "no_business_writer_or_substituted_reply": true
+          }
+        },
+        "all39_prior_case_ids_retained": true,
+        "own_input_retention": "Not present in this source; successor controls pending",
+        "writer_visual_review": "Inspected actual Laundry desktop, QC mobile and actual Native403 mobile images. New source41 passes overflow and current-fact controls. Writer inspection only.",
+        "production_go": false,
+        "independent_acceptance": false,
+        "receipt": "docs/cp7/evidence/transaction-source/qualified3c7/RECEIPT.json"
       }
     },
     "owner_target": {
@@ -7558,66 +7715,77 @@
       "receipt_index": "docs/cp7/evidence/finisher-regression/qualified7638/full/INDEX.json"
     },
     "application_qualification": {
-      "source_commit": "22d0d88ce034fc5ef8d05c91626e1b462b638211",
-      "source_tree": "88d1b546d8a182c461be18d288edeadbdf522f75",
-      "run_id": 37119734093,
+      "source_commit": "a8e5b8e0a76de209d694d0a331153a23ef20082c",
+      "source_tree": "50c35096ff21a4dd25badc03f79a3cbca104471c",
+      "run_id": 37122365977,
       "jobs": {
-        "application": 111193364090,
-        "CodeQL_javascript_typescript": 111193364202,
-        "CodeQL_actions": 111193364205
+        "shell": 111200850847,
+        "actions": 111200851005,
+        "javascript": 111200851064
+      },
+      "artifacts": {
+        "shell": {
+          "artifact_id": 11273407499,
+          "archive_sha256": "8f3cdf099de665750e170c9c725e69fb0275d5b51314c6f2d225ec1800bdd294"
+        },
+        "javascript": {
+          "artifact_id": 11274206704,
+          "archive_sha256": "b9b5aa5bdf9cce0e7ab64d2f8d0e7817cb3e4e9a7d57f70e98307e35d7280c97"
+        },
+        "actions": {
+          "artifact_id": 11273926685,
+          "archive_sha256": "50b0811f8a6a9c06a865218d982fefa76dedb633982b055941f695279aa80361"
+        }
       },
       "status": "PASS",
-      "application_tests": 1386,
-      "application_test_files": 144,
-      "Shell_browser_tests": 6,
-      "build": "PASS",
-      "security": "PASS",
-      "CodeQL_findings": 0,
-      "runtime_graph_files": 254,
-      "owned_browser_RPC_boundaries": 186,
-      "stylesheets": 53,
-      "orphans_under_runtime_import_ownership_check": 0,
-      "direct_browser_table_reads": 0,
+      "application_tests_passed": 1390,
+      "application_files_passed": 144,
+      "actual_Shell_browser_passed": 6,
+      "build": true,
+      "security_static_checks": true,
+      "runtime_owned": 254,
+      "RPC_boundaries": 186,
+      "styles_owned": 53,
+      "import_orphans": 0,
+      "direct_browser_table_access": false,
+      "codeql_sarif_findings": {
+        "javascript": 0,
+        "actions": 0
+      },
       "members": {
-        "results.json": {
-          "sha256": "e1b4857d43de2b4d7440832bc05b02a30fe4edd584a5e1d760ed06d64ee692f3",
-          "bytes": 12196,
-          "compressed_sha256": "3a81f8c0cf14b194c338bfb699ab7add6900b52408a8815d9b6894aa18a6248a"
+        "desktop-planner.png": {
+          "bytes": 130883,
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
         },
         "f04-private-kernels.json": {
-          "sha256": "5cc191e3750789e5f0a1823d4fe2f9b456d8b64b62e94e8e77a0dcaaee649b6d",
           "bytes": 53273,
-          "compressed_sha256": "187c8058fd3258154e1711e7ad470de53637ef2f3b75c88ca20749d677eff36a"
+          "sha256": "14542d4789de5f0022e1462e5a6aed394f57238b0d8d47a6338ac91fb8edcd06",
+          "compressed_sha256": "7bd4b0e16c4f5d29952f2c81c98acec38582579f6fbf5fba7d3faa9e72888f9f"
         },
-        "js.sarif": {
-          "sha256": "35a951d93b12c7f8c5d7312c9c717bf54c8a03f0147afd9375a658eced09a214",
-          "bytes": 1308070,
-          "compressed_sha256": "9edbc31b2f9d1f108f9bd1018d5fb1bac4ee73956ce154e918c21b134527e048"
+        "mobile-planner.png": {
+          "bytes": 382780,
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+        },
+        "results.json": {
+          "bytes": 12231,
+          "sha256": "de6c34ee3e73834995a200a6857797dd4d2bcf9157beb2f8af5f683f18b4c718",
+          "compressed_sha256": "df2956522725098511f06cab39d90bdea679eaf2d3b1b25555152c5cb21fb5b8"
+        },
+        "javascript.sarif": {
+          "bytes": 1308448,
+          "sha256": "83523bceb6ada44a1ec8e9084cf1e43b315ee7a7422bc55230ae4226d899f2df",
+          "compressed_sha256": "7210f50a50815f8fef97251e5b764596aba73f0be09afc0045f063395a4813f2"
         },
         "actions.sarif": {
-          "sha256": "2e2cc2efbc32e78df0b615be98aa186dfa9811a1f8e80cd83a49f2770d3e5e1e",
-          "bytes": 695286,
-          "compressed_sha256": "3212458d88292d69cdf11981ad73193521a1ca5a6d71bf77a9faf7d7b4868797"
+          "bytes": 695668,
+          "sha256": "70f6e5a67eff5b13d073e5ebfa259281b701302c299c4b9218a5cf1f8d76ee39",
+          "compressed_sha256": "457aec7c9ab45df23f0e16ad1182dafb3a9ff1a6b6fa8f7434bb3581b63d64d9"
         }
       },
-      "archives": {
-        "shell": {
-          "artifact_id": 11273186502,
-          "sha256": "addf0298e9459490360635668f4f95d828cb02e197755e083c88adfe49ca1102"
-        },
-        "CodeQL_javascript_typescript": {
-          "artifact_id": 11273405020,
-          "sha256": "2b2055dd12da6a3b0a8f00f1cc6f99a4176390e1d7cb52f5ec3af9c36c430601"
-        },
-        "CodeQL_actions": {
-          "artifact_id": 11272673089,
-          "sha256": "c59b990b82ad2acc875a52d37e811c1ba214f95a78a9014b5c6b3d34f0d458c4"
-        }
-      },
-      "production_go": false,
+      "scope": "Application Shell/local kernel/actual Shell browser and static CodeQL only; not business Native source or full CP7 acceptance. Current57 has its own Original. Later Laundry64 is pending.",
       "independent_acceptance": false,
-      "scope": "Shell application regressions/build/security/CodeQL on exact22d0. Separate source50 Native was INCOMPLETE; does not qualify supplier inverse or later QC edits.",
-      "receipt": "docs/cp7/evidence/finisher-regression/qualified22d0/shell/RECEIPT.json"
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified-a8/shell/RECEIPT.json"
     },
     "previous_application_qualification": {
       "source_commit": "9148adf778d7210b41435b7cb7633d3edfb620a8",
@@ -7832,7 +8000,31 @@
       "production_go": false,
       "independent_acceptance": false,
       "handoff": "docs/cp7/SUPPLIER_PAYMENT_HANDOFF.md",
-      "qualification": "PENDING_NATIVE50",
+      "qualification": {
+        "source": "a8e5b8e0a76de209d694d0a331153a23ef20082c",
+        "tree": "50c35096ff21a4dd25badc03f79a3cbca104471c",
+        "run": 37122365912,
+        "job": 111200850592,
+        "observed_case_count": 57,
+        "counts": {
+          "native": {
+            "PASS": 32
+          },
+          "races": {
+            "PASS": 4
+          },
+          "http": {
+            "PASS": 7
+          },
+          "browser": {
+            "PASS": 14
+          }
+        },
+        "receipt": "docs/cp7/evidence/transaction-source/qualified57-a8/RECEIPT.json",
+        "all_Native_primary_restore_backup_advisor_Auth_gates": true,
+        "independent_acceptance": false,
+        "production_go": false
+      },
       "payment_creation": false,
       "arbitrary_atomic_payment_edit": false,
       "first_Native50": {
@@ -7847,7 +8039,8 @@
         "all_actual_supplier_inverse_race_HTTP_browser_controls_PASS": true,
         "authority_case": "The replay itself succeeds with the exact original receipt; old full-state comparator includes legitimate role revisions from its own revoke/regrant. Compare full post-regrant to full post-replay state; preserve all fields and current permission refusals.",
         "requalification_budget_unchanged": 57
-      }
+      },
+      "status": "QUALIFIED_DECLARED_PATHS_NATIVE57_AT_A8"
     },
     "previous_application_qualification4042": {
       "source_commit": "404252fbf8e4fbea724b727dbf7228ab5466eb96",
@@ -7966,10 +8159,36 @@
         "all7_QC_controls_PASS": true,
         "all14_actual_browser_controls_PASS": true,
         "complete_source57_qualified": false
+      },
+      "status": "QUALIFIED_DECLARED_PATHS_NATIVE57_AT_A8",
+      "qualification": {
+        "source": "a8e5b8e0a76de209d694d0a331153a23ef20082c",
+        "tree": "50c35096ff21a4dd25badc03f79a3cbca104471c",
+        "run": 37122365912,
+        "job": 111200850592,
+        "observed_case_count": 57,
+        "counts": {
+          "native": {
+            "PASS": 32
+          },
+          "races": {
+            "PASS": 4
+          },
+          "http": {
+            "PASS": 7
+          },
+          "browser": {
+            "PASS": 14
+          }
+        },
+        "receipt": "docs/cp7/evidence/transaction-source/qualified57-a8/RECEIPT.json",
+        "all_Native_primary_restore_backup_advisor_Auth_gates": true,
+        "independent_acceptance": false,
+        "production_go": false
       }
     },
     "historical_read_load_candidate": {
-      "status": "NATIVE_REQUALIFICATION_PENDING",
+      "status": "QUALIFIED_NATIVE40_AT3729",
       "provider": "scripts/cp7_note_correction_cases.py",
       "provider_sha256": "160be4e34ec0bbae8b8decf5c8fa9fd7004cffe3abe83d5f3a814f59ee8499e5",
       "existing_Native40_budget_unchanged": true,
@@ -7987,16 +8206,375 @@
       "scope": "Native SQL RPC and Auth round trips on the declared fixture only; not browser/network/full ERP throughput or full P19 acceptance.",
       "latency_SLA_not_fabricated": true,
       "independent_acceptance": false,
-      "production_go": false
+      "production_go": false,
+      "qualification": {
+        "source_commit": "3729e45aab735abaf8e5b9ae7fcf72bb93e34e27",
+        "source_tree": "bc27d8733bc15c53acbb5302f090f25bc5680e12",
+        "run_id": 37121675086,
+        "job_id": 111198842473,
+        "artifact_id": 11274300669,
+        "archive_sha256": "9cc60e152f1cfc96b757ba5e871a2c4e897e2d2f0477e04f912362c0730dcded",
+        "status": "PASS",
+        "source_sha256": "b444ff3747bc155fde06173ab85ee6f657e42fa679f6d066b40a03cf5816106d",
+        "observed_case_count": 40,
+        "counts": {
+          "native": {
+            "PASS": 28
+          },
+          "races": {
+            "PASS": 4
+          },
+          "http": {
+            "PASS": 3
+          },
+          "browser": {
+            "PASS": 5
+          }
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": "RESTORED_SAME_MEANING",
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "console_errors": 0,
+        "independent_acceptance": false,
+        "production_go": false,
+        "receipt": "docs/cp7/evidence/finisher-regression/historical-read-qualified3729/RECEIPT.json",
+        "observed_historical_pages": {
+          "NOTE_YEAR_30": {
+            "later_balances_checked": 30,
+            "actual_native_owning_correction_ms": 344.509,
+            "actual_native_read_measurements": {
+              "scope": "ACTUAL_NATIVE_SQL_RPC_PAGES_UNDER_OWNER_NOT_BROWSER_HTTP_OR_WHOLE_ERP_P19",
+              "latency_gate_not_invented": true,
+              "P19_full_acceptance": false,
+              "groups": {
+                "FG_MAIN_BOOK": {
+                  "samples": 4,
+                  "p95_nearest_rank_ms": 11.093,
+                  "maximum_ms": 11.093,
+                  "total_ms": 40.21
+                },
+                "FG_LOT_CARD": {
+                  "samples": 2,
+                  "p95_nearest_rank_ms": 13.359,
+                  "maximum_ms": 13.359,
+                  "total_ms": 24.653
+                }
+              },
+              "pages": [
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 32,
+                  "total": "32",
+                  "elapsed_ms": 13.359
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 32,
+                  "total": "32",
+                  "elapsed_ms": 11.093
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 32,
+                  "total": "32",
+                  "elapsed_ms": 10.65
+                },
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 32,
+                  "total": "32",
+                  "elapsed_ms": 11.294
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "FILTERED_AFTER_CORRECTION",
+                  "offset": 25,
+                  "limit": 5,
+                  "rows": 5,
+                  "total": "31",
+                  "elapsed_ms": 9.123
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "FILTERED_AFTER_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 16,
+                  "total": "16",
+                  "elapsed_ms": 9.344
+                }
+              ]
+            }
+          },
+          "NOTE_YEAR_364": {
+            "later_balances_checked": 364,
+            "actual_native_owning_correction_ms": 3911.167,
+            "actual_native_read_measurements": {
+              "scope": "ACTUAL_NATIVE_SQL_RPC_PAGES_UNDER_OWNER_NOT_BROWSER_HTTP_OR_WHOLE_ERP_P19",
+              "latency_gate_not_invented": true,
+              "P19_full_acceptance": false,
+              "groups": {
+                "FG_MAIN_BOOK": {
+                  "samples": 10,
+                  "p95_nearest_rank_ms": 72.689,
+                  "maximum_ms": 72.689,
+                  "total_ms": 684.693
+                },
+                "FG_LOT_CARD": {
+                  "samples": 8,
+                  "p95_nearest_rank_ms": 69.199,
+                  "maximum_ms": 69.199,
+                  "total_ms": 539.275
+                }
+              },
+              "pages": [
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 69.199
+                },
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 100,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 67.462
+                },
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 200,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 67.257
+                },
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 300,
+                  "limit": 100,
+                  "rows": 66,
+                  "total": "366",
+                  "elapsed_ms": 66.551
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 69.749
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 100,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 68.508
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 200,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 68.152
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "BEFORE_CORRECTION",
+                  "offset": 300,
+                  "limit": 100,
+                  "rows": 66,
+                  "total": "366",
+                  "elapsed_ms": 67.308
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 72.689
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 100,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 67.885
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 200,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 67.845
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 300,
+                  "limit": 100,
+                  "rows": 66,
+                  "total": "366",
+                  "elapsed_ms": 67.996
+                },
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 67.454
+                },
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 100,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 67.551
+                },
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 200,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "366",
+                  "elapsed_ms": 67.378
+                },
+                {
+                  "reader": "FG_LOT_CARD",
+                  "phase": "AFTER_CORRECTION",
+                  "offset": 300,
+                  "limit": 100,
+                  "rows": 66,
+                  "total": "366",
+                  "elapsed_ms": 66.423
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "FILTERED_AFTER_CORRECTION",
+                  "offset": 25,
+                  "limit": 5,
+                  "rows": 5,
+                  "total": "365",
+                  "elapsed_ms": 65.836
+                },
+                {
+                  "reader": "FG_MAIN_BOOK",
+                  "phase": "FILTERED_AFTER_CORRECTION",
+                  "offset": 0,
+                  "limit": 100,
+                  "rows": 100,
+                  "total": "350",
+                  "elapsed_ms": 68.725
+                }
+              ]
+            }
+          }
+        },
+        "P19_full_acceptance": false
+      }
     },
     "baseline_catalog_comparison_candidate": {
-      "status": "NATIVE37_REQUALIFICATION_PENDING",
+      "status": "QUALIFIED_NATIVE37_AT3729",
       "first_original": "docs/cp7/evidence/finisher-regression/baseline-first-fac73/RECEIPT.json",
       "all37_cases_unchanged": true,
       "every_original_public_catalog_field_pair_and_row_preserved": true,
       "frozen_CP6_runner_unchanged": true,
       "existing_exact_comparator": "scripts/cp7_catalog_state.py",
-      "scope": "Case checks succeed, public raw equality failed; restore only pair order differs. First case lacks raw per-case snapshots, so no retroactive PASS. Actual comparator audit in successor is required."
+      "scope": "Case checks succeed, public raw equality failed; restore only pair order differs. First case lacks raw per-case snapshots, so no retroactive PASS. Actual comparator audit in successor is required.",
+      "qualification": {
+        "source_commit": "3729e45aab735abaf8e5b9ae7fcf72bb93e34e27",
+        "source_tree": "bc27d8733bc15c53acbb5302f090f25bc5680e12",
+        "run_id": 37121675091,
+        "job_id": 111198842344,
+        "artifact_id": 11274225392,
+        "archive_sha256": "416092a83aa8d9a9e68b22d8e7145917bc6ff161ea385defc05946defb9b2c7c",
+        "status": "PASS",
+        "source_sha256": "eaed5e20b3c0db2b2f177c231841e5f9856b25167f0a81a1ab23ba1a0518dd6b",
+        "observed_case_count": 37,
+        "counts": {
+          "native": {
+            "PASS": 26
+          },
+          "races": {
+            "PASS": 5
+          },
+          "http": {
+            "PASS": 2
+          },
+          "browser": {
+            "PASS": 4
+          }
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": "RESTORED_SAME_MEANING",
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "console_errors": 0,
+        "independent_acceptance": false,
+        "production_go": false,
+        "receipt": "docs/cp7/evidence/finisher-regression/baseline-qualified3729/RECEIPT.json",
+        "native_public_catalog_comparison": {
+          "policy": "ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED",
+          "dropped_fields": [],
+          "physical_order_only_changes": [],
+          "snapshots_checked": 54
+        }
+      }
     },
     "source_provider_trigger_repair": {
       "paths": [
@@ -8011,7 +8589,103 @@
       "style": "Permit the header text column to shrink/wrap and keep the status badge at full width.",
       "Native_browser_assertions": "Before and after inverse, the entire badge must fit its actual inspection card and its text must not overflow. The existing14 browser cases are retained.",
       "Native_status": "PENDING_REQUALIFICATION",
-      "product_SQL_unchanged": true
+      "product_SQL_unchanged": true,
+      "status": "QUALIFIED_BOTH_ACTUAL_QC_JOURNEYS_NATIVE57_AT_A8",
+      "receipt": "docs/cp7/evidence/transaction-source/qualified57-a8/RECEIPT.json"
+    },
+    "previous_application_qualification22d0": {
+      "source_commit": "22d0d88ce034fc5ef8d05c91626e1b462b638211",
+      "source_tree": "88d1b546d8a182c461be18d288edeadbdf522f75",
+      "run_id": 37119734093,
+      "jobs": {
+        "application": 111193364090,
+        "CodeQL_javascript_typescript": 111193364202,
+        "CodeQL_actions": 111193364205
+      },
+      "status": "PASS",
+      "application_tests": 1386,
+      "application_test_files": 144,
+      "Shell_browser_tests": 6,
+      "build": "PASS",
+      "security": "PASS",
+      "CodeQL_findings": 0,
+      "runtime_graph_files": 254,
+      "owned_browser_RPC_boundaries": 186,
+      "stylesheets": 53,
+      "orphans_under_runtime_import_ownership_check": 0,
+      "direct_browser_table_reads": 0,
+      "members": {
+        "results.json": {
+          "sha256": "e1b4857d43de2b4d7440832bc05b02a30fe4edd584a5e1d760ed06d64ee692f3",
+          "bytes": 12196,
+          "compressed_sha256": "3a81f8c0cf14b194c338bfb699ab7add6900b52408a8815d9b6894aa18a6248a"
+        },
+        "f04-private-kernels.json": {
+          "sha256": "5cc191e3750789e5f0a1823d4fe2f9b456d8b64b62e94e8e77a0dcaaee649b6d",
+          "bytes": 53273,
+          "compressed_sha256": "187c8058fd3258154e1711e7ad470de53637ef2f3b75c88ca20749d677eff36a"
+        },
+        "js.sarif": {
+          "sha256": "35a951d93b12c7f8c5d7312c9c717bf54c8a03f0147afd9375a658eced09a214",
+          "bytes": 1308070,
+          "compressed_sha256": "9edbc31b2f9d1f108f9bd1018d5fb1bac4ee73956ce154e918c21b134527e048"
+        },
+        "actions.sarif": {
+          "sha256": "2e2cc2efbc32e78df0b615be98aa186dfa9811a1f8e80cd83a49f2770d3e5e1e",
+          "bytes": 695286,
+          "compressed_sha256": "3212458d88292d69cdf11981ad73193521a1ca5a6d71bf77a9faf7d7b4868797"
+        }
+      },
+      "archives": {
+        "shell": {
+          "artifact_id": 11273186502,
+          "sha256": "addf0298e9459490360635668f4f95d828cb02e197755e083c88adfe49ca1102"
+        },
+        "CodeQL_javascript_typescript": {
+          "artifact_id": 11273405020,
+          "sha256": "2b2055dd12da6a3b0a8f00f1cc6f99a4176390e1d7cb52f5ec3af9c36c430601"
+        },
+        "CodeQL_actions": {
+          "artifact_id": 11272673089,
+          "sha256": "c59b990b82ad2acc875a52d37e811c1ba214f95a78a9014b5c6b3d34f0d458c4"
+        }
+      },
+      "production_go": false,
+      "independent_acceptance": false,
+      "scope": "Shell application regressions/build/security/CodeQL on exact22d0. Separate source50 Native was INCOMPLETE; does not qualify supplier inverse or later QC edits.",
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified22d0/shell/RECEIPT.json"
+    },
+    "source57_all_triggered_workflows": {
+      "source": "a8e5b8e0a76de209d694d0a331153a23ef20082c",
+      "observed": 20,
+      "success": 20,
+      "failure": 0,
+      "cancelled": 0,
+      "not_full_CP7_acceptance": true
+    },
+    "laundry_source_candidate": {
+      "status": "NATIVE64_PENDING",
+      "scope": "Actual QC queue to exact Native delivery/embedded receipt and unchanged current owning inverse; no new physical/financial writer",
+      "Native_required": {
+        "native": 36,
+        "races": 4,
+        "http": 8,
+        "browser": 16
+      },
+      "all57_prior_ids_required": true,
+      "existing_source_role_ERP_SELECT_tables": 35,
+      "private_role_budget_unchanged": 32,
+      "current_view_only_navigation": true,
+      "missing_target_locks_all_inverses": true,
+      "original_Cp6_writers_and_guards_unchanged": true,
+      "handoff": "docs/cp7/LAUNDRY_SOURCE_HANDOFF.md",
+      "local_receipt": "docs/cp7/evidence/transaction-source/laundry-source-local/LOCAL_RECEIPT.json",
+      "local_tests": 108,
+      "local_files": 7,
+      "build_security_syntax": true,
+      "full_family_acceptance": false,
+      "independent_acceptance": false,
+      "production_go": false
     }
   }
 }

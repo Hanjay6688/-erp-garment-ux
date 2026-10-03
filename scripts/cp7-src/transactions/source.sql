@@ -12,7 +12,9 @@ grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.ma
  erp.fg_adjustments,erp.fg_adjustment_items,erp.sales_headers,erp.sales_items,erp.sales_payments,
  erp.sales_returns,erp.sales_return_items,erp.misc_finance_transactions,erp.journal_entries,erp.payroll_settlements,
  erp.contractor_material_issues,erp.contractor_material_issue_items,erp.materials,erp.uom_definitions,
- erp.bs_cases,erp.rework_orders,erp.qc_inspections,erp.qc_inspection_items,erp.fg_stock_movements
+ erp.bs_cases,erp.rework_orders,erp.qc_inspections,erp.qc_inspection_items,erp.fg_stock_movements,
+ erp.laundry_deliveries,erp.laundry_delivery_lines,erp.laundry_delivery_batch_size_lines,
+ erp.laundry_receipts,erp.laundry_receipt_lines,erp.laundry_receipt_batch_size_lines
  to cp7_transaction_source_read;
 
 create function cp7_transaction_source.authority()returns jsonb
@@ -88,6 +90,9 @@ begin
   domain:='BS_REWORK';route:='bs-rework';permission:='production.bs_rework.view';
  when kind in('QC_INSPECTION','QC_ITEM')then
   domain:='QC';route:='qc';permission:='production.final_sku.view';
+ when kind in('LAUNDRY_DELIVERY','LAUNDRY_DELIVERY_LINE','LAUNDRY_DELIVERY_BATCH_SIZE_LINE',
+  'LAUNDRY_RECEIPT','LAUNDRY_RECEIPT_LINE','LAUNDRY_RECEIPT_BATCH_SIZE_LINE')then
+  domain:='LAUNDRY';route:='laundry';permission:='production.laundry.view';
  else
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
@@ -136,6 +141,21 @@ begin
   focus:=jsonb_build_object('kind','REWORK_ORDER','id',ident);
  when'QC_ITEM'then
   select i.inspection_id into parent_id from erp.qc_inspection_items i where i.id=ident;
+ when'LAUNDRY_DELIVERY_LINE'then
+  select l.delivery_id into parent_id from erp.laundry_delivery_lines l where l.id=ident;
+ when'LAUNDRY_DELIVERY_BATCH_SIZE_LINE'then
+  select l.delivery_id into parent_id from erp.laundry_delivery_batch_size_lines s
+   join erp.laundry_delivery_lines l on l.id=s.delivery_line_id where s.id=ident;
+ when'LAUNDRY_RECEIPT'then
+  select r.delivery_id into parent_id from erp.laundry_receipts r where r.id=ident;
+  focus:=jsonb_build_object('kind','LAUNDRY_RECEIPT','id',ident);
+ when'LAUNDRY_RECEIPT_LINE'then
+  select r.delivery_id,jsonb_build_object('kind','LAUNDRY_RECEIPT','id',r.id)into parent_id,focus
+   from erp.laundry_receipt_lines l join erp.laundry_receipts r on r.id=l.receipt_id where l.id=ident;
+ when'LAUNDRY_RECEIPT_BATCH_SIZE_LINE'then
+  select r.delivery_id,jsonb_build_object('kind','LAUNDRY_RECEIPT','id',r.id)into parent_id,focus
+   from erp.laundry_receipt_batch_size_lines s join erp.laundry_receipt_lines l on l.id=s.receipt_line_id
+   join erp.laundry_receipts r on r.id=l.receipt_id where s.id=ident;
  else null;
  end case;
  if parent_id is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
@@ -150,12 +170,22 @@ begin
  when'ACCESSORY_ISSUE'then select to_jsonb(h),h.issue_number into doc,label from erp.contractor_material_issues h where h.id=parent_id;
  when'BS_REWORK'then select to_jsonb(h),h.bs_number into doc,label from erp.bs_cases h where h.id=parent_id;
  when'QC'then select to_jsonb(h),h.inspection_number into doc,label from erp.qc_inspections h where h.id=parent_id;
+ when'LAUNDRY'then select to_jsonb(h),h.delivery_number into doc,label from erp.laundry_deliveries h where h.id=parent_id;
  end case;
  if doc is null or coalesce(label,'')=''then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
  -- The existing CP6 owner reads complete Native laundry-linked QC only.
  -- Legacy/import outputs are distinct sources, never guessed into this form.
  if domain='QC'and(not exists(select 1 from erp.qc_inspection_items i where i.inspection_id=parent_id)
   or exists(select 1 from erp.qc_inspection_items i where i.inspection_id=parent_id and i.source_laundry_receipt_batch_size_line_id is null))then
+  return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
+   'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
+ end if;
+ -- The unchanged owning Laundry workspace reads batch-linked deliveries.
+ -- Receipt numbers are not searched by that reader: use its actual delivery
+ -- number and recheck the embedded receipt UUID inside that exact parent.
+ if domain='LAUNDRY'and(not exists(select 1 from erp.laundry_delivery_lines l where l.delivery_id=parent_id)
+  or exists(select 1 from erp.laundry_delivery_lines l where l.delivery_id=parent_id
+   and not exists(select 1 from erp.laundry_delivery_batch_size_lines s where s.delivery_line_id=l.id)))then
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),
    'source',p,'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
  end if;
@@ -176,6 +206,12 @@ begin
  -- The owner re-reads the page and checks both identities; no client scan.
  if focus is not null and focus<>'null'::jsonb then
   case focus->>'kind'
+  when'LAUNDRY_RECEIPT'then
+   -- Embedded child, not an independently paginated list. Zero is the closed
+   -- focus position; the owner re-reads and checks this receipt's actual FK.
+   if exists(select 1 from erp.laundry_receipts r where r.id=(focus->>'id')::uuid and r.delivery_id=parent_id)then
+    focus_offset:=0;
+   end if;
   when'SALES_PAYMENT'then
    select ((n-1)/25)*25 into focus_offset from(select id,row_number()over(order by payment_date desc,id)n from erp.sales_payments where sale_id=parent_id)x where id=(focus->>'id')::uuid;
   when'SALES_RETURN'then

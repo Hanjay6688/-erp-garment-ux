@@ -1,0 +1,50 @@
+{
+  "source_basis": "Current uncommitted successor of a8e5b8e0a76de209d694d0a331153a23ef20082c. Exact file hashes identify local source; not Native qualification.",
+  "source_files": {
+    "scripts/cp7-src/transactions/source.sql": "2da3b9c4e9146231c6e32f010efc864f8e9723a4080ea56603bec6d5d86fbcf2",
+    "scripts/cp7_transaction_source_bundle.py": "33a561f7ac241d18b50d0cfc6c557ce8cc85b882f23a340ff18dec1c4ba8ca7a",
+    "scripts/cp7_laundry_source_cases.py": "0b65bd3a696af1549631ee8a7a40c4ad01408d2117b53d0cd4151beb82519090",
+    "scripts/cp7_transaction_source_cases.py": "8400bde258c0b85d117041b6d01301830d8d2a0a69bcb8a3ddccacb462d78749",
+    "scripts/cp7_transaction_source_browser.mjs": "ae1ad17512d8f03c1428292b169bcf1ef26fd66bd02576ba92c38d4444b72bbd",
+    "scripts/cp7_transaction_source_browser_fixture.py": "e70e9eb75d021a1c19d830ff3d0b5371cb1162f59ffdd37e1ef8d1b0a90e7f5f",
+    "scripts/cp7_f05_analysis_probe.py": "4f5dd063dd39027d601a8e428ea06c432a08edae0a2362cf678e6a2484e89d1d",
+    ".github/workflows/cp7-transaction-source.yml": "cd9fd47083a41fea51085d5eee3f8c192fdd956b9a1a2c78634f6b918be190fd",
+    "src/ConnectedLaundryPage.tsx": "9dbfca3f787bfd51381b9ecb7e4d835598d54de342973758259b62362744e5ac",
+    "src/ConnectedQcFinalPage.tsx": "0350b9da4369646b96f9bf1e77098a2427d3057605c5941f1c92918ed42d9fc2",
+    "src/TransactionSourceNavigation.tsx": "db0fd1f2dc82157b79130f16425dad374bea59cffb1ea370c1468c4f6544f5cf",
+    "src/transactionSource.ts": "641ba2ebf5f0cd9cde81540d8a6f6750680dd89f0d883d120fa887232e0c4e40",
+    "src/transactionSource.test.ts": "d913560f311a114707197df3c816c24e802d38ff66b913ae6f24950a05ad0067",
+    "src/ConnectedLaundryQcInput.dom.test.tsx": "db6e9a714373fadb22ed6b009d3fdb682dbe6a9c52782c7cbfc22df1e1513e7f"
+  },
+  "logs": {
+    "laundry-source-targeted.log": {
+      "sha256": "82d90d3e097ed78fd30e9b6fb405392acc62066fa1dd7670e1c4193efaabe48f",
+      "bytes": 689,
+      "compressed_sha256": "e8426c80e310dc1a91e4c3cad335412bf0d616692a6c248af3e715ebe90c29b0"
+    },
+    "laundry-source-build.log": {
+      "sha256": "519801646d2bd74a2abb5ec12ffcd6f206796d679b3d8ce064c5f28dc25b0753",
+      "bytes": 11705,
+      "compressed_sha256": "20d359552deff0e86eb546261400ed623f0b749f5947d65fc83900289c959555"
+    },
+    "laundry-source-security.log": {
+      "sha256": "f44e9c149f5315912cc5324a1dad7189dc2a843e6ef5561f60856b132074d05a",
+      "bytes": 12142,
+      "compressed_sha256": "c7b43c8af18ba0f472e010a53a394fe4165655a4cb05eb97856538b07199dc5f"
+    }
+  },
+  "local_tests_passed": 108,
+  "local_files_passed": 7,
+  "build": true,
+  "security_static_checks": true,
+  "python_node_syntax": true,
+  "Native_required": {
+    "native": 36,
+    "races": 4,
+    "http": 8,
+    "browser": 16
+  },
+  "Native_status": "PENDING",
+  "independent_acceptance": false,
+  "production_go": false
+}

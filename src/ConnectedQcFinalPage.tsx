@@ -4,7 +4,7 @@ import {
   RefreshCw, Search, ShieldCheck, Undo2,
 } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
-import { useTransactionSource } from './TransactionSourceNavigation'
+import TransactionSourceLink, { useTransactionSource } from './TransactionSourceNavigation'
 import { isConnectedRuntime } from './config/runtime'
 import { useRetainedFormInput, useRetainedInput, type RetainedFormInput } from './useRetainedFormInput'
 import { SENSITIVE_ACTION_PERMISSION, hasPermission } from './auth/accessCatalog'
@@ -291,6 +291,18 @@ function FinalSkuForm({ workspace, transactionQuery, writerLocked, canPost, onAc
   </section>
 }
 
+function QcReceiptSources({ workspace }: { workspace: LaundryQcWorkspace }) {
+  const receipts = [...new Map(workspace.qc_queue.map(row => [row.receipt_id, row])).values()]
+  if (!receipts.length) return null
+  return <section className="clq-history">
+    <header><History/><div><span>PENERIMAAN ASAL</span><h2>Periksa transaksi Laundry yang memasok antrean QC</h2></div></header>
+    {receipts.map(row => <article key={row.receipt_id} data-qc-source-receipt-id={row.receipt_id}>
+      <header><div><strong>{row.receipt_number}</strong><small>{row.delivery_number} · {row.vendor_name}</small></div></header>
+      <TransactionSourceLink sourceType="LAUNDRY_RECEIPT" sourceId={row.receipt_id} label="Buka penerimaan asal"/>
+    </article>)}
+  </section>
+}
+
 function QcHistory({ workspace, writerLocked, canReverse, onAction, inputs, sourceId }: {
   workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction; inputs: RetainedFormInput; sourceId?: string
 }) {
@@ -355,6 +367,7 @@ function QcWorkspace({ initialSource }: { initialSource: { id: string; number: s
     <nav className="clq-tabs qc"><button className={tab === 'QUEUE' ? 'active' : ''} onClick={() => setTab('QUEUE')}>Antrean finalisasi</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, receipt, atau histori…"/></label></nav>
     {bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
       {tab === 'QUEUE' ? <FinalSkuForm key={`qc-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} transactionQuery={bridge.query} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchFinalSkuProducts}/> : null}
+      {tab === 'QUEUE' ? <QcReceiptSources workspace={bridge.workspace}/> : null}
       {initialSource && !sourcePresent ? <p role="alert">Finalisasi asal belum ditemukan pada hasil terbaru. Buka ulang sumber dari buku transaksi sebelum membatalkannya.</p> : null}
       {tab === 'HISTORY' ? <QcHistory key={`history-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked || !sourcePresent} canReverse={canReverse} onAction={onAction} sourceId={initialSource?.id}/> : null}
     </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}

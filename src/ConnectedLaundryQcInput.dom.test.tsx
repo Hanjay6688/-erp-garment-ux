@@ -7,11 +7,12 @@ import ConnectedQcFinalPage from './ConnectedQcFinalPage'
 import { laundryQcInputFixture } from '../tests/fixtures/laundryQcInput'
 import { recoveryRuntime } from '../tests/fixtures/productionRecovery'
 import type { LaundryQcScope } from './laundryQcModel'
+import { TransactionSourceProvider } from './TransactionSourceNavigation'
 
 const mock = vi.hoisted(() => ({ auth: null as unknown, rpc: vi.fn(), source: null as { key: string; document: { id: string; number: string } } | null }))
 vi.mock('./auth/AuthProvider', () => ({ useAuth: () => mock.auth }))
 vi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => mock }))
-vi.mock('./TransactionSourceNavigation', () => ({ useTransactionSource: () => mock.source }))
+vi.mock('./TransactionSourceNavigation', async importOriginal => ({ ...await importOriginal<typeof import('./TransactionSourceNavigation')>(), useTransactionSource: () => mock.source }))
 const id = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`
 function identity() {
   return { runtime: recoveryRuntime, identity: { status: 'AUTHORIZED',
@@ -61,6 +62,60 @@ async function failedRefresh() {
 }
 
 describe('Laundry/QC own input survives current source retirement', () => {
+  it('lets a current QC viewer open a receipt source while QC posting remains disabled', async () => {
+    const auth = identity(); auth.identity.profile.role = 'STAFF'; auth.identity.profile.roleName = 'QC Viewer'
+    auth.identity.permissions = ['production.final_sku.view', 'production.laundry.view']; mock.auth = auth
+    const w = laundryQcInputFixture('QC'), row = w.qc_queue[0], navigate = vi.fn()
+    mock.rpc.mockImplementation((name, args) => {
+      if (name === 'erp_get_laundry_qc_workspace_v1') return Promise.resolve({ data: w, error: null })
+      if (name === 'erp_cp7_resolve_transaction_source_v1') return Promise.resolve({ data: {
+        contract_version: 'cp7.transaction-source.v1', actor_scope_id: id(101), source: args.p_source,
+        status: 'AVAILABLE', document: { domain: 'LAUNDRY', route: 'laundry', id: row.delivery_id,
+          number: row.delivery_number, status: 'PARTIAL_RETURN', revision: '4',
+          focus: { kind: 'LAUNDRY_RECEIPT', id: row.receipt_id, page_offset: 0 } },
+        read_at: '2026-10-03T00:00:00Z', business_DML: false,
+      }, error: null })
+      throw Error('Unexpected business writer: ' + name)
+    })
+    await act(async () => root.render(<TransactionSourceProvider scope="current-viewer" onNavigate={navigate}><ConnectedQcFinalPage/></TransactionSourceProvider>)); await settle()
+    expect(buttons('Simpan hasil QC & Final SKU')).toHaveLength(1)
+    expect(buttons('Simpan hasil QC & Final SKU')[0].disabled).toBe(true)
+    expect(buttons('Buka penerimaan asal')[0].disabled).toBe(false); await click('Buka penerimaan asal')
+    expect(navigate).toHaveBeenCalledExactlyOnceWith('laundry')
+    expect(mock.rpc).toHaveBeenCalledWith('erp_cp7_resolve_transaction_source_v1', { p_source: { source_type: 'LAUNDRY_RECEIPT', source_id: row.receipt_id } })
+    expect(mock.rpc.mock.calls.every(([name]) => ['erp_get_laundry_qc_workspace_v1', 'erp_cp7_resolve_transaction_source_v1'].includes(name))).toBe(true)
+  })
+  const laundryHistory = () => {
+    const w = withDelivery()
+    ;(w.deliveries as unknown as { receipts: unknown[] }[])[0].receipts.push({ id: id(60), number: 'LR-EXACT-001', status: 'POSTED', row_version: 2,
+      physical_at: '2026-09-02T01:00:00Z', actual_cost: 1200, actual_rate: 1200, cost_status: 'ESTIMATED',
+      event_kind: 'PHYSICAL_RECEIPT', failed_wash_attempt_id: null, custody_outcome: null, attempted_qty_pcs: null,
+      process_name: null, reversible: true, reversal_blocker: null })
+    return w
+  }
+  const sourceLaundry = (receipt = id(60)) => ({ key: 'actual-Laundry-source', document: {
+    id: id(20), number: 'LDR-001', domain: 'LAUNDRY', route: 'laundry', status: 'PARTIAL_RETURN', revision: '3',
+    focus: { kind: 'LAUNDRY_RECEIPT', id: receipt, page_offset: 0 },
+  } })
+  it('queries the owning Laundry delivery number and highlights its exact embedded receipt without writing', async () => {
+    mock.source = sourceLaundry(); mock.rpc.mockResolvedValue({ data: laundryHistory(), error: null }); await mount()
+    expect(mock.rpc).toHaveBeenCalledWith('erp_get_laundry_qc_workspace_v1', { p_scope: 'LAUNDRY', p_query: 'LDR-001' })
+    expect(box.querySelector(`[data-laundry-delivery-id="${id(20)}"][data-source-focus="true"]`)).not.toBeNull()
+    expect(box.querySelector(`[data-laundry-receipt-id="${id(60)}"][data-source-focus="true"]`)?.textContent).toContain('Penerimaan asal yang dipilih')
+    expect(input('Alasan reversal LR-EXACT-001').disabled).toBe(false); assertReadsOnly()
+  })
+  it('locks every Laundry inverse if its exact receipt is missing or the current parent read fails', async () => {
+    mock.source = sourceLaundry(id(61)); mock.rpc.mockResolvedValue({ data: laundryHistory(), error: null }); await mount()
+    expect(box.textContent).toContain('Pengiriman atau penerimaan asal belum ditemukan')
+    expect(input('Alasan reversal LR-EXACT-001').disabled).toBe(true); expect(input('Alasan reversal LDR-001').disabled).toBe(true)
+    await failedRefresh(); expect(box.querySelector('[data-laundry-delivery-id]')).toBeNull(); assertReadsOnly()
+  })
+  it('keeps its own selected Laundry inverse reason through refetch but clears it for another source', async () => {
+    mock.source = sourceLaundry(); mock.rpc.mockResolvedValue({ data: laundryHistory(), error: null }); await mount()
+    await change(input('Alasan reversal LR-EXACT-001'), 'Own exact receipt reason')
+    await failedRefresh(); await click('Muat ulang data'); expect(input('Alasan reversal LR-EXACT-001').value).toBe('Own exact receipt reason')
+    mock.source = { ...sourceLaundry(), key: 'different-source' }; await mount(); expect(input('Alasan reversal LR-EXACT-001').value).toBe(''); assertReadsOnly()
+  })
   const qcHistory = () => {
     const w = laundryQcInputFixture('QC')
     ;(w.qc_history as unknown[]).push({ qc_inspection_id: id(70), inspection_number: 'QC-EXACT-001', status: 'POSTED',

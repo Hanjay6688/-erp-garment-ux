@@ -21,7 +21,7 @@ export function useTransactionSource(domain:TransactionDomain){
  const navigation=useContext(Context),selected=navigation?.selection
  return navigation?.scope&&selected?.scope===navigation.scope&&selected.document.domain===domain?selected:null
 }
-export default function TransactionSourceLink({sourceType,sourceId:identifier,disabled=false}:{sourceType:string;sourceId:string|null;disabled?:boolean}){
+export default function TransactionSourceLink({sourceType,sourceId:identifier,disabled=false,label='Buka transaksi asal'}:{sourceType:string;sourceId:string|null;disabled?:boolean;label?:string}){
  const {runtime,identity}=useAuth(),navigation=useContext(Context)
  const [busy,setBusy]=useState(false),[error,setError]=useState(''),seq=useRef(0)
  useEffect(()=>{++seq.current;setBusy(false);setError('');return()=>{++seq.current}},[navigation?.scope,sourceType,identifier,disabled])
@@ -40,5 +40,5 @@ export default function TransactionSourceLink({sourceType,sourceId:identifier,di
   }catch(e){if(ticket===seq.current&&navigation.isCurrent(scope))setError(normalizeClientError(e).message)}
   finally{if(ticket===seq.current&&navigation.isCurrent(scope))setBusy(false)}
  }
- return <div className="cproc-inline"><button type="button" disabled={disabled||busy||!sourceId(identifier)}onClick={()=>void open()}>{busy?'Memeriksa transaksi asal…':'Buka transaksi asal'}</button>{error?<small role="alert">{error}</small>:null}</div>
+ return <div className="cproc-inline"><button type="button" disabled={disabled||busy||!sourceId(identifier)}onClick={()=>void open()}>{busy?'Memeriksa transaksi asal…':label}</button>{error?<small role="alert">{error}</small>:null}</div>
 }

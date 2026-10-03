@@ -1,0 +1,70 @@
+{
+  "source_commit": "3729e45aab735abaf8e5b9ae7fcf72bb93e34e27",
+  "source_tree": "bc27d8733bc15c53acbb5302f090f25bc5680e12",
+  "run_id": 37121675091,
+  "job_id": 111198842344,
+  "artifact_id": 11274225392,
+  "archive_sha256": "416092a83aa8d9a9e68b22d8e7145917bc6ff161ea385defc05946defb9b2c7c",
+  "status": "PASS",
+  "source_sha256": "eaed5e20b3c0db2b2f177c231841e5f9856b25167f0a81a1ab23ba1a0518dd6b",
+  "observed_case_count": 37,
+  "required_case_counts": {
+    "native": 26,
+    "races": 5,
+    "http": 2,
+    "browser": 4
+  },
+  "counts": {
+    "native": {
+      "PASS": 26
+    },
+    "races": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "members": {
+    "CP7_F04_NATIVE_BASELINE.json": {
+      "bytes": 298604,
+      "sha256": "c7d7759d6e462609e5f361cce53c5b40e41880900d4116c90a40fe80e25f90ef",
+      "compressed_sha256": "b988301b75c72c2c76d9993064470cb8b6b385557fd6f5ab56d4005b9bc35bc6"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360427,
+      "sha256": "5d30257c356607978f45cab0333b203d81c11d943988d82e1630f7c47eb64a6e",
+      "compressed_sha256": "5ed9f0342e0c3cd6c7d39be881dd82188bde02e0b9b9bbb19d2011c10143beb3"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "console_errors": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "native_public_catalog_comparison": {
+    "policy": "ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED",
+    "dropped_fields": [],
+    "physical_order_only_changes": [],
+    "snapshots_checked": 54
+  },
+  "restore_raw_public_equal": false,
+  "restore_raw_public_difference_is_only_pair_order": true,
+  "prior_failure_receipt": "docs/cp7/evidence/finisher-regression/baseline-first-fac73/RECEIPT.json",
+  "scope": "All37 unchanged cases. Full original catalogue fields and signature/hash pairs retained; exact physical-order-only restoration differences remain in Original. No full F04/material/P08 acceptance."
+}
