@@ -142,3 +142,11 @@
   auditor-scenario 36824956958 combined+free browser 166/166. Identik dengan klaim penulis.
 - Tidak bisa verifikasi "hosted masih v2.6.20" dari sesi ini (baca proyek hosted ditolak) → REUSED_WRITER_EVIDENCE.
 - Laporan: out/fable_r15_pr39_review.md. Putusan: PR 39 layak merge ke cabang penulis; go produksi tetap menunggu isian owner, backup pulih, jendela maintenance, advisor hosted, UI vs demo.
+
+## 2026-10-03 — revisi Panduan Audit Pro Max (penulis 31ee23f0) oleh Fable
+- Dibaca utuh (414 baris). Tidak ada aturan yang dilonggarkan/dihapus. Tambahan: §1.7–1.9, §2.8–2.12 (identitas produk, label asal-bukti, job hijau ≠ hasil,
+  peran per kasus, register keputusan dibaca dulu), §4.2.6 (badan dev = badan rilis), §5.D detektor (kontrol negatif), INV-K07 append-only, INV-C06 bersih per kasus,
+  INV-POL04–05 skenario basi & COUNTEREXAMPLE diterima, INV-M04–05 baseline hosted nyata & penolakan pra-admission, POLA-16..22, SKN-19..23 (perusakan terkendali,
+  regrouping, pemasangan dari hosted nyata, lintas CP1–7, regresi baseline), §8 klasifikasi non-temuan, §9 empat bagian wajib (merah bukan temuan, label per klaim,
+  pertanyaan owner + rekomendasi, ringkasan owner), §10.8–10.10, §12.8–12.11. Log revisi §15 diisi.
+- Berkas: docs/AUDIT_PANDUAN_PRO_MAX.md (versi Fable, cabang audit) + out/fable_panduan_additions_20261003.patch (diff terhadap 31ee23f0) untuk digabung Opus ke cabang penulis.
