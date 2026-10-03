@@ -101,6 +101,8 @@ export type PreconnectDatabase = {
       erp_cp7_get_recost_queue_v1: { Args: { p_offset: number }; Returns: Json }
       erp_cp7_get_misc_finance_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_misc_finance_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
+      erp_cp7_correct_misc_finance_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_misc_correction_history_v1: { Args: { p_transaction_id: string }; Returns: Json }
       erp_cp7_process_recost_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_period_control_v1: { Args: { p_through: string }; Returns: Json }
       erp_cp7_save_period_control_v1: { Args: { p_action: string; p_payload: Json; p_request: string }; Returns: Json }

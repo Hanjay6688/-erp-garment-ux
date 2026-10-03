@@ -1,3 +1,5 @@
+Current continuation: atomic posted miscellaneous correction and actual history/restore are now implemented as a candidate. Native20 qualification remains pending; Source18 a0f1 is green for its declared families. Other transaction kinds retain their own documented capabilities and dependencies.
+
 # Kontrol submenu dan koreksi seluruh transaksi — keputusan owner, 3 Oktober 2026
 
 > 3 October 2026 merge review: Claude’s completed `f4049e4f` handoff is merged into `cp7/integration`. Current source and qualification are controlled by [CLAUDE_MERGE_VERIFICATION_20261003.md](CLAUDE_MERGE_VERIFICATION_20261003.md); the source-specific checkpoints below remain historical. Receipt correction now has a fresh 42/42 Native result at `48fe7c2`; whole CP7 and every-submenu transaction controls remain open.

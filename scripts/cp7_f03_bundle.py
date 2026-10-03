@@ -13,6 +13,7 @@ import cp7_misc_bundle as misc
 import cp7_installment_bundle as installment
 import cp7_note_report_bundle as note_report
 import cp7_transaction_source_bundle as transaction_source
+import cp7_misc_correction_bundle as misc_correction
 ROOT=finance.ROOT
 
 def attendance_internal_body():
@@ -31,7 +32,7 @@ def sales_after_attendance():
 
 def extension():
  prefix=procurement.bundle();full=attendance.bundle();assert full.startswith(prefix+'\n')
- return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()
+ return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()
 def bundle():return procurement.bundle()+'\n'+extension()
 def patched_internal(definition):return sales.patched_internal(attendance.patched_internal(settlement.patched_internal(nota.patched_internal(definition))))
 

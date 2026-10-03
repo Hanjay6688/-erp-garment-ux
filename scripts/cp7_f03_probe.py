@@ -16,7 +16,7 @@ OUT=bundle.ROOT/'cp6-proof/t3/CP7_F03_COMBINED_STACK.json'
 
 def verify(cur):
  payroll.verify(cur,True,True,True,True,True);finance.verify(cur);bundle.journal.verify(cur);bundle.misc.verify(cur);bundle.installment.verify(cur)
- note_correction.verify(cur);bundle.transaction_source.verify(cur)
+ note_correction.verify(cur);bundle.transaction_source.verify(cur);bundle.misc_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():

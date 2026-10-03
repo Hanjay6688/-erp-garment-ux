@@ -61,7 +61,7 @@ begin
  when kind in('SALE','SALE_ITEM','SALES_ITEM','SALES_PAYMENT','SALES_RETURN','SALES_RETURN_ITEM')then
   domain:='SALE';route:=case when kind='SALES_PAYMENT'then'sales-payments'when kind in('SALES_RETURN','SALES_RETURN_ITEM')then'sales-returns'else'sales-invoice'end;
   permission:='sales.invoice.view';
- when kind='MISC_FINANCE'then
+ when kind in('MISC_FINANCE','MISC_CORRECTION_TIME_NEUTRAL','MISC_CORRECTION_EFFECTIVE')then
   domain:='MISC_FINANCE';route:='finance-journal';permission:='finance.journal.view';
  else
   return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),

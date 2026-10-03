@@ -17,6 +17,11 @@ export type MiscDocument = {
 }
 export type MiscRead = { contract_version: 'cp7.misc-read.v1'; captured_at: string; scope: 'CURRENT_NATIVE_MISC_FINANCE_DOCUMENTS'; query: Pick<MiscQuery, 'q' | 'status' | 'transaction_id'>; page: Page<MiscDocument>; categories: Page<MiscCategory>; cash_accounts: Page<MiscCash>; detail: MiscDocument | null }
 export type MiscOutcome = { contract_version: 'cp7.misc-outcome.v1'; kind: 'COMMITTED_OUTCOME'; action: MiscAction; request_id: string; transaction_id: string; document: MiscDocument }
+export type MiscTimeRestatement = { neutral_journal_id: string; neutral_number: string; neutral_economic_date: string; neutral_transaction_date: string; effective_journal_id: string; effective_number: string; effective_economic_date: string; effective_transaction_date: string }
+export type MiscCorrectionLink = { original_id: string; replacement_id: string; actor_scope_id: string; request_id: string; reason: string; recorded_at: string; time_restatement: MiscTimeRestatement | null }
+export type MiscCorrectionOutcome = { contract_version: 'cp7.misc-correction.v1'; kind: 'COMMITTED_OUTCOME'; action: 'CORRECT'; request_id: string; transaction_id: string; original_review_token: string; original_document: MiscDocument; document: MiscDocument; link: MiscCorrectionLink }
+export type MiscMutationOutcome = MiscOutcome | MiscCorrectionOutcome
+export type MiscCorrectionHistory = { contract_version: 'cp7.misc-correction-history.v1'; captured_at: string; transaction_id: string; previous: { link: MiscCorrectionLink; document: MiscDocument } | null; next: { link: MiscCorrectionLink; document: MiscDocument } | null }
 const fail = (): never => { throw Error('Transaksi atau sumber rekening berubah atau belum lengkap. Muat ulang sebelum melanjutkan.') }
 const text = (v: unknown): v is string => typeof v === 'string'
 const uuid = (v: unknown) => text(v) && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
@@ -47,7 +52,7 @@ function option(v: unknown, category: boolean, eligibleOnly: boolean) {
 }
 export function parseMiscDocument(v: unknown): MiscDocument {
   const r = closed(v, ['id', 'number', 'type', 'category_id', 'category_name', 'category_eligible', 'cash_account_id', 'cash_account_name', 'cash_eligible', 'physical_at', 'amount', 'counterparty_name', 'reference_number', 'notes', 'status', 'review_token', 'category_source', 'cash_source', 'journals'])
-  if (![r.id, r.category_id, r.cash_account_id].every(uuid) || !text(r.number) || !r.number.trim() || r.number.length > 60 || !['OTHER_INCOME', 'OTHER_EXPENSE'].includes(String(r.type)) || !['DRAFT', 'POSTED', 'REVERSED'].includes(String(r.status)) || !instant(r.physical_at) || !token(r.review_token) || !text(r.amount) || miscAmount(r.amount) !== r.amount || miscCents(r.amount) <= 0n || !nullable(r.category_name, 120) || !nullable(r.cash_account_name, 120) || !nullable(r.counterparty_name, 150) || !nullable(r.reference_number, 100) || !nullable(r.notes, 2000) || typeof r.category_eligible !== 'boolean' || typeof r.cash_eligible !== 'boolean' || !Array.isArray(r.journals)) return fail()
+  if (![r.id, r.category_id, r.cash_account_id].every(uuid) || !text(r.number) || !r.number.trim() || Array.from(r.number).length > 60 || !['OTHER_INCOME', 'OTHER_EXPENSE'].includes(String(r.type)) || !['DRAFT', 'POSTED', 'REVERSED'].includes(String(r.status)) || !instant(r.physical_at) || !token(r.review_token) || !text(r.amount) || miscAmount(r.amount) !== r.amount || miscCents(r.amount) <= 0n || !nullable(r.category_name, 120) || !nullable(r.cash_account_name, 120) || !nullable(r.counterparty_name, 150) || !nullable(r.reference_number, 100) || !nullable(r.notes, 2000) || typeof r.category_eligible !== 'boolean' || typeof r.cash_eligible !== 'boolean' || !Array.isArray(r.journals)) return fail()
   const category = r.category_source === null ? null : option(r.category_source, true, false)
   const cash = r.cash_source === null ? null : option(r.cash_source, false, false)
   if (category ? category.id !== r.category_id || category.name !== r.category_name || category.eligible !== r.category_eligible : r.category_eligible || r.category_name !== null) fail()
@@ -95,4 +100,57 @@ export function parseMiscOutcome(v: unknown, request: string, action: string, pa
   if (d.id !== r.transaction_id || p.transaction_id !== null && p.transaction_id !== d.id || d.status !== ({ SAVE: 'DRAFT', POST: 'POSTED', REVERSE: 'REVERSED' } as Record<string, string>)[action]) fail()
   if (action === 'SAVE' && (d.number !== p.transaction_number || d.type !== p.transaction_type || d.category_id !== p.category_id || d.cash_account_id !== p.cash_account_id || typeof p.amount !== 'string' || miscCents(d.amount) !== miscCents(p.amount) || typeof p.physical_at !== 'string' || Date.parse(d.physical_at) !== Date.parse(p.physical_at) || d.counterparty_name !== p.counterparty_name || d.reference_number !== p.reference_number || d.notes !== p.notes)) fail()
   return r as unknown as MiscOutcome
+}
+
+export function miscCorrectionNumber(original: string, request: string): string {
+  if (!uuid(request)) return fail()
+  return Array.from(original).slice(0, 20).join('') + ' · K-' + request.replaceAll('-', '')
+}
+function instantMicros(v: unknown): bigint {
+  if (!instant(v)) return fail()
+  const value = v as string, fraction = value.match(/\.([0-9]{1,6})(?:Z|[+-][0-9]{2}:[0-9]{2})$/)?.[1] ?? ''
+  return BigInt(Date.parse(value)) * 1000n + BigInt(fraction.padEnd(6, '0').slice(3))
+}
+function parseCorrectionLink(v: unknown): MiscCorrectionLink {
+  const r = closed(v, ['original_id', 'replacement_id', 'actor_scope_id', 'request_id', 'reason', 'recorded_at', 'time_restatement'])
+  if (![r.original_id, r.replacement_id, r.actor_scope_id, r.request_id].every(uuid) || r.original_id === r.replacement_id || !text(r.reason) || r.reason !== r.reason.trim() || r.reason.length < 5 || r.reason.length > 1000 || !instant(r.recorded_at)) fail()
+  if (r.time_restatement !== null) {
+    const t = closed(r.time_restatement, ['neutral_journal_id', 'neutral_number', 'neutral_economic_date', 'neutral_transaction_date', 'effective_journal_id', 'effective_number', 'effective_economic_date', 'effective_transaction_date'])
+    if (!uuid(t.neutral_journal_id) || !uuid(t.effective_journal_id) || t.neutral_journal_id === t.effective_journal_id || !text(t.neutral_number) || !t.neutral_number || !text(t.effective_number) || !t.effective_number || ![t.neutral_economic_date, t.neutral_transaction_date, t.effective_economic_date, t.effective_transaction_date].every(financeDate) || t.neutral_economic_date === t.effective_economic_date) fail()
+  }
+  return r as unknown as MiscCorrectionLink
+}
+function validateRestatement(link: MiscCorrectionLink, original: MiscDocument) {
+  const journal = original.journals.find(j => j.reversal_of_id === null), inverse = original.journals.find(j => j.reversal_of_id === journal?.id)
+  if (!journal || !inverse) return fail()
+  if ((journal.economic_date === inverse.economic_date) !== (link.time_restatement === null)) fail()
+  const t = link.time_restatement
+  if (t && (t.effective_economic_date !== journal.economic_date || t.neutral_economic_date !== inverse.economic_date || original.journals.some(j => j.id === t.neutral_journal_id || j.id === t.effective_journal_id))) fail()
+}
+export function parseMiscMutationOutcome(v: unknown, request: string, action: string, payload: Json): MiscMutationOutcome {
+  if (action !== 'CORRECT') return parseMiscOutcome(v, request, action, payload)
+  const r = closed(v, ['contract_version', 'kind', 'action', 'request_id', 'transaction_id', 'original_review_token', 'original_document', 'document', 'link'])
+  const p = closed(payload, ['transaction_id', 'review_token', 'replacement', 'change_reason'])
+  const replacement = closed(p.replacement, ['transaction_id', 'review_token', 'transaction_number', 'transaction_type', 'category_id', 'category_review_token', 'cash_account_id', 'cash_review_token', 'physical_at', 'amount', 'counterparty_name', 'reference_number', 'notes', 'change_reason'])
+  if (r.contract_version !== 'cp7.misc-correction.v1' || r.kind !== 'COMMITTED_OUTCOME' || r.action !== 'CORRECT' || r.request_id !== request || !uuid(request) || !uuid(p.transaction_id) || !token(p.review_token) || r.original_review_token !== p.review_token || replacement.transaction_id !== null || replacement.review_token !== null || replacement.change_reason !== p.change_reason) return fail()
+  const old = parseMiscDocument(r.original_document), next = parseMiscDocument(r.document), link = parseCorrectionLink(r.link)
+  if (old.id !== p.transaction_id || old.status !== 'REVERSED' || old.number !== replacement.transaction_number || old.id === next.id || next.status !== 'POSTED' || next.id !== r.transaction_id || next.number !== miscCorrectionNumber(old.number, request) || link.original_id !== old.id || link.replacement_id !== next.id || link.request_id !== request || link.reason !== p.change_reason) fail()
+  if (next.type !== replacement.transaction_type || next.category_id !== replacement.category_id || next.cash_account_id !== replacement.cash_account_id || !text(replacement.amount) || miscCents(next.amount) !== miscCents(replacement.amount) || instantMicros(next.physical_at) !== instantMicros(replacement.physical_at) || next.counterparty_name !== replacement.counterparty_name || next.reference_number !== replacement.reference_number || next.notes !== replacement.notes) fail()
+  if (old.journals.some(j => next.journals.some(n => n.id === j.id))) fail()
+  validateRestatement(link, old)
+  if (link.time_restatement && next.journals.some(j => j.id === link.time_restatement!.neutral_journal_id || j.id === link.time_restatement!.effective_journal_id)) fail()
+  return r as unknown as MiscCorrectionOutcome
+}
+export function parseMiscCorrectionHistory(v: unknown, transaction: string): MiscCorrectionHistory {
+  const r = closed(v, ['contract_version', 'captured_at', 'transaction_id', 'previous', 'next'])
+  if (r.contract_version !== 'cp7.misc-correction-history.v1' || !instant(r.captured_at) || !uuid(transaction) || r.transaction_id !== transaction) fail()
+  const ids = new Set([transaction])
+  for (const side of ['previous', 'next'] as const) {
+    if (r[side] === null) continue
+    const edge = closed(r[side], ['link', 'document']), link = parseCorrectionLink(edge.link), d = parseMiscDocument(edge.document)
+    if (ids.has(d.id) || (side === 'previous' ? link.replacement_id !== transaction || link.original_id !== d.id || d.status !== 'REVERSED' : link.original_id !== transaction || link.replacement_id !== d.id)) fail()
+    if (side === 'previous') validateRestatement(link, d)
+    ids.add(d.id)
+  }
+  return r as unknown as MiscCorrectionHistory
 }

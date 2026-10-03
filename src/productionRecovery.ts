@@ -34,7 +34,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
 const actions: Record<ProductionDomain, readonly string[]> = {
   PLAN_APPLY: ['SAVE_DRAFT', 'APPLY'],
   PAYROLL_INSTALLMENT: ['PAY', 'REVERSE_PAYMENT', 'REVERSE_PAYROLL'],
-  FINANCE_MISC: ['SAVE', 'POST', 'REVERSE'],
+  FINANCE_MISC: ['SAVE', 'POST', 'REVERSE', 'CORRECT'],
   HPP_RECOST: ['PROCESS_ELIGIBLE'],
   FINANCE_PERIOD: ['CLOSE', 'REOPEN'],
   SALES: ['CREATE', 'EDIT', 'POST', 'CANCEL', 'PAYMENT', 'PAYMENT_REVERSE', 'RETURN', 'RETURN_REVERSE', 'SALE_REVERSE', 'CORRECT'],

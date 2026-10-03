@@ -166,6 +166,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/ConnectedJournalPage.tsx:erp_cp7_get_journal_book_v1',
   'src/MiscFinancePanel.tsx:erp_cp7_get_misc_finance_v1',
   'src/MiscFinancePanel.tsx:erp_cp7_save_misc_finance_v1',
+  'src/MiscFinancePanel.tsx:erp_cp7_correct_misc_finance_v1',
+  'src/MiscFinancePanel.tsx:erp_cp7_get_misc_correction_history_v1',
   'src/PayrollInstallmentPanel.tsx:erp_cp7_get_payroll_installments_v1',
   'src/PayrollInstallmentPanel.tsx:erp_cp7_save_payroll_installment_v1',
   'src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1',
