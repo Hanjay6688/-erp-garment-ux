@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Standing continuation: qualify source57 and unchanged Native40 yearly correction with actual page/correction timing. Retain every prior case/Original and finish remaining feasible source/material/P08/P18/P19 work. Missing operating inputs stay UNKNOWN; P20 independent/P21 installed gates are separate. Routine checkpoints do not stop work. No main/hosted/liveWA.",
+  "next_action": "Standing continuation: requalify source57 after retaining first56/1 Original and correcting only the authority fixture comparison after its intentional Native regrant. Finish unchanged Native40 timing and Native37 exact-catalog requalification. Continue remaining feasible source/material/P08/P18/P19 work; P20 independent/P21 installed gates separate. No main/hosted/liveWA.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -7840,6 +7840,13 @@
         "all41_predecessor_cases_pass": true,
         "product_refusal": "Private postgres inverse helper lacked exact reader EXECUTE; successor declares only the four required private dependencies.",
         "observer_issue": "Full stock/HPP rows lacked cross-connection timezone normalization. Canonical UTC preserves every field and caller timezone; actual retest required."
+      },
+      "successor_native57": {
+        "receipt": "docs/cp7/evidence/transaction-source/first57-fac73/RECEIPT.json",
+        "status": "INCOMPLETE56_PASS1",
+        "all_actual_supplier_inverse_race_HTTP_browser_controls_PASS": true,
+        "authority_case": "The replay itself succeeds with the exact original receipt; old full-state comparator includes legitimate role revisions from its own revoke/regrant. Compare full post-regrant to full post-replay state; preserve all fields and current permission refusals.",
+        "requalification_budget_unchanged": 57
       }
     },
     "previous_application_qualification4042": {
@@ -7910,7 +7917,7 @@
       "runtime_graph_files": 254,
       "owned_browser_RPC_boundaries": 186,
       "stylesheets": 53,
-      "Native_status": "PENDING",
+      "Native_status": "OBSERVED7_QC_PASS_WITH_FULL_SOURCE57_INCOMPLETE56_PASS1_ORACLE_RETEST_REQUIRED",
       "Native_budget": 57,
       "required_case_counts": {
         "native": 32,
@@ -7953,7 +7960,13 @@
       },
       "receipt": "docs/cp7/evidence/transaction-source/qc-source-local/LOCAL_RECEIPT.json",
       "handoff": "docs/cp7/QC_SOURCE_HANDOFF.md",
-      "scope": "Actual QC item FK to owning complete laundry-linked inspection; current exact Native query; QC inverse FG reference follows original movement only; unchanged Native QC command/recovery. Other FG inverse families and legacy/import QC stay unsupported."
+      "scope": "Actual QC item FK to owning complete laundry-linked inspection; current exact Native query; QC inverse FG reference follows original movement only; unchanged Native QC command/recovery. Other FG inverse families and legacy/import QC stay unsupported.",
+      "first_native57": {
+        "receipt": "docs/cp7/evidence/transaction-source/first57-fac73/RECEIPT.json",
+        "all7_QC_controls_PASS": true,
+        "all14_actual_browser_controls_PASS": true,
+        "complete_source57_qualified": false
+      }
     },
     "historical_read_load_candidate": {
       "status": "NATIVE_REQUALIFICATION_PENDING",
@@ -7984,6 +7997,21 @@
       "frozen_CP6_runner_unchanged": true,
       "existing_exact_comparator": "scripts/cp7_catalog_state.py",
       "scope": "Case checks succeed, public raw equality failed; restore only pair order differs. First case lacks raw per-case snapshots, so no retroactive PASS. Actual comparator audit in successor is required."
+    },
+    "source_provider_trigger_repair": {
+      "paths": [
+        "scripts/cp7_supplier_payment_cases.py",
+        "scripts/cp7_qc_source_cases.py"
+      ],
+      "reason": "These providers are actual qualification dependencies; editing them must trigger the same unchanged57-case package.",
+      "timeout_or_case_budget_changed": false
+    },
+    "qc_mobile_status_candidate": {
+      "basis": "Actual Native first57 mobile inverse screenshot clips Dibatalkan alongside its long inspection number.",
+      "style": "Permit the header text column to shrink/wrap and keep the status badge at full width.",
+      "Native_browser_assertions": "Before and after inverse, the entire badge must fit its actual inspection card and its text must not overflow. The existing14 browser cases are retained.",
+      "Native_status": "PENDING_REQUALIFICATION",
+      "product_SQL_unchanged": true
     }
   }
 }

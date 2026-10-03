@@ -7,6 +7,8 @@ name: CP7 Native Transaction Source Navigation
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_p18_e01_bridge_*
     - scripts/cp7_transaction_source_*
+    - scripts/cp7_supplier_payment_cases.py
+    - scripts/cp7_qc_source_cases.py
     - scripts/cp7_f03_e01_*
     - scripts/cp7_f05_analysis_probe.py
     - scripts/cp7_f05_obligation_report_browser.mjs

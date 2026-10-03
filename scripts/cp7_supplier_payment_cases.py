@@ -92,11 +92,15 @@ def cases(cur,today):
   auth.refused(cur,lambda:command(cur,p),'CP7_SUPPLIER_PAYMENT_POSTED_REQUIRED')
   return dict(status='PASS',Native_inverse10_once_paid260_to250_remaining740_to750=True,original_payment_date_cash_and_journal_preserved=True,one_cached_request_exact_payload=True)
  def authority():
-  f=fixture(cur,today,2);subject,role=admin_actor(cur);p=intent(cur,f,subject);key=str(uuid.uuid4());command(cur,p,key,subject)
-  before=b.boundary.snapshot(cur);cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ap.pay'",(role,));revoked=b.boundary.snapshot(cur)
+  f=fixture(cur,today,2);subject,role=admin_actor(cur);p=intent(cur,f,subject);key=str(uuid.uuid4());outcome=command(cur,p,key,subject)
+  cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ap.pay'",(role,));revoked=b.boundary.snapshot(cur)
   auth.refused(cur,lambda:command(cur,p,key,subject),'CP7_SUPPLIER_PAYMENT_REVERSE_DENIED');assert b.boundary.snapshot(cur)==revoked
   cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)',(role,'finance.ap.pay'))
-  assert command(cur,p,key,subject)['payment_id']==f['target'];assert b.boundary.snapshot(cur)==before
+  # Revoking/regranting current authority legitimately advances Native role
+  # versions/timestamps. Keep those fields and compare the cached replay to
+  # the complete state AFTER the intentional regrant, not before that edit.
+  restored_authority=b.boundary.snapshot(cur)
+  assert command(cur,p,key,subject)==outcome;assert b.boundary.snapshot(cur)==restored_authority
   other,custom_role=invoice.receipt.custom(cur,PERMISSIONS);readonly=read(cur,f,subject=other);assert readonly['capabilities']['reverse']is False
   auth.refused(cur,lambda:command(cur,p,key,other),'CP7_SUPPLIER_PAYMENT_REVERSE_DENIED')
   for who in('anon','authenticated','service_role','cp7_capture','cp7_invoice_read'):

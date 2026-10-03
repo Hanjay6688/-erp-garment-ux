@@ -1,0 +1,88 @@
+{
+  "source_commit": "fac73cf61d734638149b3ba1797228990bf37741",
+  "source_tree": "7b84f4542286e2fe02a85629383a97591bb3bb49",
+  "run_id": 37121139666,
+  "job_id": 111197329206,
+  "artifact_id": 11273805918,
+  "archive_sha256": "5f6294d6af7d66f0d9d0e83e31ab5396bd65e9f0ed2d289c81f0827065577407",
+  "status": "INCOMPLETE",
+  "observed_case_count": 57,
+  "required_case_counts": {
+    "native": 32,
+    "races": 4,
+    "http": 7,
+    "browser": 14
+  },
+  "groups": {
+    "native": {
+      "PASS": 31,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 7
+    },
+    "browser": {
+      "PASS": 14
+    }
+  },
+  "failed_case_id": "CP7_SOURCE_SUPPLIER_PAYMENT_AUTHORITY",
+  "source_sha256": "9b88b83d4b31873f9ea8630a622b76e8fb4041956308009e5d9f8fe24348fb1d",
+  "all7_added_QC_cases_PASS": true,
+  "all14_actual_browser_cases_PASS": true,
+  "console_errors": 0,
+  "Auth_cleanup_failures": [],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "members": {
+    "CP7_TRANSACTION_SOURCE.json": {
+      "sha256": "766218782c4f8b454619567f72d9a4ed7542414298280708b62c9627d6729da7",
+      "bytes": 297095
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "sha256": "bbaa4cf0372fbf9c3c52dba0b616f22929a8397a8a5e9eb992e674de62ad0ac3",
+      "bytes": 360431
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_MOBILE.png": {
+      "sha256": "bac0f6ba3c4b64fe84e152ee942d354979d758aa72d31561133606b07299170f",
+      "bytes": 1067947
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_DESKTOP.png": {
+      "sha256": "26445d6cba8defd619b7ff615dd7748798b594e4fe73d25389ca8bed24c3aa79",
+      "bytes": 1538848
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_DESKTOP.png": {
+      "sha256": "dde62111c575024635c5e90d3aa2e438e686c28c062185776214461b6bd5d48f",
+      "bytes": 1525248
+    },
+    "CP7_SOURCE_QC_INVERSE_DESKTOP.png": {
+      "sha256": "d35c1d0263e801dc30b954e8d109710925b19fc5ef4204af8a8eb8a07520b7ee",
+      "bytes": 254589
+    },
+    "CP7_SOURCE_QC_INVERSE_MOBILE.png": {
+      "sha256": "04654093d48e73222c1f8fafa61a86e46b640be423c93e6ddc675dd1be1747bd",
+      "bytes": 174510
+    },
+    "CP7_SOURCE_QC_DESKTOP.png": {
+      "sha256": "2147d38a3ea2cb01751704cfbd112267cf251ad613d44bfb87dafd52948cc64d",
+      "bytes": 254220
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_MOBILE.png": {
+      "sha256": "4aa399476d9fe12cc0fe9ebe04d14eeecb8646b2a9e013fbec653d0e0518509c",
+      "bytes": 1089443
+    },
+    "CP7_SOURCE_QC_MOBILE.png": {
+      "sha256": "fd5516dfd65cc7a62f74bf2d74b6a1fcfadf084957aa4b592b4a9a6450d57c1f",
+      "bytes": 174124
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "note": "56 PASS /1 INCOMPLETE. The authority case compared state after intentional Native role permission revoke/regrant to before that edit, including role version/timestamp updates. Successor retains every field and compares full state immediately after regrant to after exact cached replay; receipt must equal original outcome. No Native product SQL/UI changed, no field/case/control/gate dropped. First Original remains INCOMPLETE."
+}

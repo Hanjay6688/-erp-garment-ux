@@ -778,6 +778,8 @@
 }
 
 .clq-history > article > header > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
   display: grid;
   gap: 4px;
 }
@@ -797,6 +799,7 @@
 }
 
 .clq-history article header em {
+  flex-shrink: 0;
   align-self: start;
   padding: 6px 8px;
   border-radius: 8px;

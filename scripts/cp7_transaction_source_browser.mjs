@@ -288,6 +288,10 @@ async function qcSourceJourney(ui,today,mobile){
  const f=fixture('prepare-qc-source',{today}),user=await ui.login('OWNER',{label:'transaction-source-qc-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',screenshots=[]
  const state=()=>fixture('state-qc-source',{fixture:f}),sourceResponse=r=>r.url().endsWith('/rpc/erp_cp7_resolve_transaction_source_v1'),saveResponse=r=>r.url().endsWith('/rpc/erp_save_laundry_qc_action_v1')&&r.request().postDataJSON()?.p_action==='REVERSE_FINAL_SKU'
  const row=()=>page.locator(`[data-qc-inspection-id="${f.qc}"]`)
+ const statusFits=()=>ui.expect.poll(()=>row().locator('header em').evaluate(el=>{
+  const badge=el.getBoundingClientRect(),card=el.closest('article').getBoundingClientRect()
+  return badge.left>=card.left&&badge.right<=card.right&&el.scrollWidth<=el.clientWidth+1
+ })).toBe(true)
  let lost=null
  const openLedger=async()=>{
   await warehouseMenu(page,'• Kartu Stok FG');await page.getByLabel('Cari barang jadi',{exact:true}).fill(f.lot_number);await page.getByRole('checkbox',{name:'Sertakan stok habis',exact:true}).check();await page.getByRole('button',{name:'Cari stok',exact:true}).click()
@@ -302,6 +306,7 @@ async function qcSourceJourney(ui,today,mobile){
   let response=await observed(page,sourceResponse,()=>page.locator(`[data-fg-movement-id="${f.movement}"]`).getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200);let resolved=await response.json()
   assert.equal(resolved.business_DML,false);assert.equal(resolved.document.domain,'QC');assert.equal(resolved.document.route,'qc');assert.equal(resolved.document.id,f.qc);assert.equal(resolved.document.focus,null)
   await ui.expect(row()).toHaveAttribute('data-source-focus','true');await ui.expect(row()).toContainText(f.number);await ui.expect(row()).toContainText('Good 1 · BS 0');assert.deepEqual(state(),before)
+  await statusFits()
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);let filename=`CP7_SOURCE_QC_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
   await row().getByLabel('Alasan reversal '+f.number,{exact:true}).fill('Finalisasi salah setelah pemeriksaan fisik sumber QC');assert.deepEqual(state(),before)
   if(!mobile){
@@ -326,6 +331,7 @@ async function qcSourceJourney(ui,today,mobile){
   const ledger=await openLedger();assert.equal(ledger.balances.physical_qty,'0');assert.equal(ledger.page.rows.find(m=>m.id===f.movement).physical_balance,'1');assert.equal(ledger.page.rows.find(m=>m.id===inverse.id).physical_balance,'0');assert.deepEqual(state(),after)
   response=await observed(page,sourceResponse,()=>page.locator(`[data-fg-movement-id="${inverse.id}"]`).getByRole('button',{name:'Buka transaksi asal',exact:true}).click());assert.equal(response.status(),200);resolved=await response.json();assert.equal(resolved.document.id,f.qc);assert.equal(resolved.document.status,'REVERSED')
   await ui.expect(row()).toHaveAttribute('data-source-focus','true');await ui.expect(row().getByRole('button',{name:'Batalkan finalisasi',exact:true})).toBeDisabled();assert.deepEqual(state(),after)
+  await statusFits()
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);filename=`CP7_SOURCE_QC_INVERSE_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+filename,fullPage:true});screenshots.push(filename)
   return{status:'PASS',mobile,actual_Native_QC_GOOD_movement_to_exact_inspection_parent:true,source_and_own_reason_no_DML:true,unchanged_Native_owning_inverse_one_PCS_and_original_history:true,FG_inverse_link_reopens_same_reversed_QC:true,chronological_physical_balance1_then0:true,actual_committed_reply_loss_reload_identical_UUID_payload_and_version:!mobile,screenshots}
  }catch(e){let actual=null;try{actual=state()}catch(failure){actual={observation_error:String(failure)}}writeFileSync(`cp6-proof/t3/CP7_SOURCE_QC_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual,lost},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_SOURCE_QC_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
