@@ -4,6 +4,8 @@ import {
   RefreshCw, Search, ShieldCheck, Undo2,
 } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
+import { isConnectedRuntime } from './config/runtime'
+import { useRetainedFormInput, useRetainedInput, type RetainedFormInput } from './useRetainedFormInput'
 import { SENSITIVE_ACTION_PERMISSION, hasPermission } from './auth/accessCatalog'
 import { Cp6ActionBlocked, Cp6PermissionNotice } from './Cp6PermissionNotice'
 import { CP6_BUSINESS_TIME_LABEL, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
@@ -187,19 +189,19 @@ export function qcQueueSourceComplete(
       && value.toLowerCase().includes(needle))
 }
 
-function FinalSkuForm({ workspace, transactionQuery, writerLocked, canPost, onAction, searchProducts }: {
+function FinalSkuForm({ workspace, transactionQuery, writerLocked, canPost, onAction, searchProducts, inputs }: {
   workspace: LaundryQcWorkspace; transactionQuery: string; writerLocked: boolean; canPost: boolean; onAction: RunAction
-  searchProducts: SearchProducts
+  searchProducts: SearchProducts; inputs: RetainedFormInput
 }) {
   const groups = useMemo(() => groupQueue(workspace.qc_queue), [workspace.qc_queue])
-  const [groupId, setGroupId] = useState('')
-  const [locationId, setLocationId] = useState('')
-  const [physicalAt, setPhysicalAt] = useState('')
-  const [reason, setReason] = useState('')
+  const [groupId, setGroupId] = useRetainedInput(inputs, 'qc.groupId', '')
+  const [locationId, setLocationId] = useRetainedInput(inputs, 'qc.locationId', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'qc.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'qc.reason', '')
   const [confirmed, setConfirmed] = useState(false)
-  const [good, setGood] = useState<Record<string, string>>({})
-  const [bs, setBs] = useState<Record<string, string>>({})
-  const [products, setProducts] = useState<Record<string, string>>({})
+  const [good, setGood] = useRetainedInput<Record<string, string>>(inputs, 'qc.good', {})
+  const [bs, setBs] = useRetainedInput<Record<string, string>>(inputs, 'qc.bs', {})
+  const [products, setProducts] = useRetainedInput<Record<string, string>>(inputs, 'qc.products', {})
   const [resolvedProducts, setResolvedProducts] = useState<Record<string, Cp6Product>>({})
   useEffect(() => setConfirmed(false), [workspace])
   const actionLocked = writerLocked || !canPost
@@ -288,10 +290,10 @@ function FinalSkuForm({ workspace, transactionQuery, writerLocked, canPost, onAc
   </section>
 }
 
-function QcHistory({ workspace, writerLocked, canReverse, onAction }: {
-  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction
+function QcHistory({ workspace, writerLocked, canReverse, onAction, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction; inputs: RetainedFormInput
 }) {
-  const [reasons, setReasons] = useState<Record<string, string>>({})
+  const [reasons, setReasons] = useRetainedInput<Record<string, string>>(inputs, 'history.reasons', {})
   return <section className="clq-history">
     <header><History/><div><span>RIWAYAT FINAL SKU</span><h2>Stok dan HPP tidak diedit; koreksi membuat catatan pembalik</h2></div></header>
     <Cp6ActionBlocked allowed={canReverse} action="koreksi Final SKU" requirement="izin Reverse Final SKU"/>
@@ -300,12 +302,15 @@ function QcHistory({ workspace, writerLocked, canReverse, onAction }: {
 }
 
 export default function ConnectedQcFinalPage() {
-  const { identity } = useAuth()
+  const { runtime, identity } = useAuth()
   const access = identity.status === 'AUTHORIZED' ? identity : null
   const canPost = hasPermission(access, SENSITIVE_ACTION_PERMISSION.postFinalSku)
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseFinalSku)
   const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
   const bridge = useLaundryQcWorkspace('QC')
+  const inputScope = JSON.stringify([isConnectedRuntime(runtime) ? runtime.projectRef : null,
+    access?.profile.id, access?.profile.authUserId, access?.profile.rowVersion, access?.profile.roleRowVersion, access?.permissions])
+  const inputs = useRetainedFormInput(inputScope, bridge.committedSequence)
   const collectionTruncated = Boolean(bridge.workspace && (
     bridge.workspace.collection_window.qc_queue_truncated
     || bridge.workspace.collection_window.qc_history_truncated
@@ -342,8 +347,8 @@ export default function ConnectedQcFinalPage() {
     <section className="clq-kpis"><Cp6Kpi label="GOOD SIAP QC" value={kpis?.queueQty} note="pcs dari sumber yang tepat"/><Cp6Kpi label="BARIS UKURAN" value={kpis?.queueRows} note="penerimaan · batch · ukuran"/><Cp6Kpi label="FINALISASI AKTIF" value={kpis?.posted} note="transaksi CP6 tersimpan"/><Cp6Kpi label="DATA LAMA TERPISAH" value={kpis?.legacy} note="tidak ditebak atau digabung"/></section>
     <nav className="clq-tabs qc"><button className={tab === 'QUEUE' ? 'active' : ''} onClick={() => setTab('QUEUE')}>Antrean finalisasi</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, receipt, atau histori…"/></label></nav>
     {bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
-      {tab === 'QUEUE' ? <FinalSkuForm key={`qc-${bridge.committedSequence}`} workspace={bridge.workspace} transactionQuery={bridge.query} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchFinalSkuProducts}/> : null}
-      {tab === 'HISTORY' ? <QcHistory workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
+      {tab === 'QUEUE' ? <FinalSkuForm key={`qc-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} transactionQuery={bridge.query} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchFinalSkuProducts}/> : null}
+      {tab === 'HISTORY' ? <QcHistory key={`history-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
     </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}
     <section className="clq-rare-case"><AlertTriangle/><div><strong>Cuci gagal tidak boleh dicatat sebagai hasil QC palsu</strong><p>Cuci gagal berbayar dicatat dari tab Laundry sebagai attempt biaya terpisah; jangan ubah menjadi Good, BS, atau QC palsu. Posisi fisik tetap mengikuti pilihan coba lagi di vendor atau seluruh barang kembali ke Jahit.</p></div></section>
   </div>

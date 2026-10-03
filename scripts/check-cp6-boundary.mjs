@@ -44,6 +44,8 @@ const businessTime = read('src/cp6BusinessTime.ts')
 const businessTimeTest = read('src/cp6BusinessTime.test.ts')
 const laundryPage = read('src/ConnectedLaundryPage.tsx')
 const qcPage = read('src/ConnectedQcFinalPage.tsx')
+const retainedInput = read('src/useRetainedFormInput.ts')
+const retainedInputTest = read('src/ConnectedLaundryQcInput.dom.test.tsx')
 const fgBoundary = read('src/ConnectedFgHandoffBoundary.tsx')
 const permissionNotice = read('src/Cp6PermissionNotice.tsx')
 const workspaceCss = read('src/connected-laundry-qc.css')
@@ -528,10 +530,34 @@ for (const token of [
   'fails closed without Web Locks and sends no mutation',
 ]) assert.ok(hookTest.includes(token), `CP6 hook lifecycle proof missing: ${token}`)
 
-assert.equal(occurrences(laundryPage, "const [physicalAt, setPhysicalAt] = useState('')"), 3,
-  'Laundry physical timestamps must start blank for dispatch, receipt, and failed wash')
-assert.equal(occurrences(qcPage, "const [physicalAt, setPhysicalAt] = useState('')"), 1,
-  'QC physical timestamp must start blank')
+for (const kind of ['send', 'return', 'failed']) {
+  assert.equal(occurrences(laundryPage,
+    `const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, '${kind}.physicalAt', '')`), 1,
+  `Laundry ${kind} physical timestamp must start blank and retain only operator input`)
+}
+assert.equal(occurrences(qcPage,
+  "const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'qc.physicalAt', '')"), 1,
+  'QC physical timestamp must start blank and retain only operator input')
+for (const page of [laundryPage, qcPage]) {
+  assert.ok(page.includes('useRetainedFormInput(inputScope, bridge.committedSequence)'),
+    'Operator input must belong to the current actor and uncommitted form sequence')
+  for (const token of ['runtime.projectRef', 'access?.profile.id', 'access?.profile.authUserId',
+    'access?.profile.rowVersion', 'access?.profile.roleRowVersion', 'access?.permissions']) {
+    assert.ok(page.includes(token), `Operator input authority scope missing: ${token}`)
+  }
+  assert.equal(page.includes('useRetainedInput(inputs, \'confirmed\''), false,
+    'A physical confirmation must never survive a remount or authoritative refetch')
+}
+for (const token of ['current.current.scope !== scope',
+  'current.current.committedSequence !== committedSequence', 'fields: {}', 'Object.hasOwn(fields, key)']) {
+  assert.ok(retainedInput.includes(token), `Session-only operator input retirement missing: ${token}`)
+}
+for (const token of [
+  'retains raw send quantity and own time/notes across failure, revalidates changed availability, resets confirmation',
+  'retains QC raw Good/BS and selected source, then refuses a fresh source that has less available',
+  'retires own input when current %s authority changes',
+  'a committed delivery retires own drafts and confirmation without carrying them into another transaction',
+]) assert.ok(retainedInputTest.includes(token), `Operator input lifecycle proof missing: ${token}`)
 assert.equal(laundryPage.includes('localNow'), false, 'Laundry UI infers physical time from page/browser clock')
 assert.equal(qcPage.includes('localNow'), false, 'QC UI infers physical time from page/browser clock')
 assert.equal(occurrences(laundryPage, 'cp6WibPhysicalTimeToIso(physicalAt)'), 3,

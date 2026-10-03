@@ -1,0 +1,27 @@
+{
+  "basis": "Successor of qualified3c7. Integrated UI fixture is synthetic and not Native proof.",
+  "impacted_tests": 75,
+  "test_files": 6,
+  "new_integrated_UI_controls": 9,
+  "build": "PASS",
+  "security": "PASS",
+  "Native_budget": 41,
+  "Native_status": "PENDING_OWN_INPUT_RETENTION_AT_SUCCESSOR",
+  "all41_cases_retained": true,
+  "source_sha256": {
+    "src/useRetainedFormInput.ts": "d39c905148507c97b77f26ca682868cab2819b3a9a20c45a8f48fac6fef61167",
+    "src/ConnectedLaundryPage.tsx": "126a8ec315067b4b49fdb01c7c095d7913823c4b3fd6979e4d2c15ad7acbf6eb",
+    "src/ConnectedQcFinalPage.tsx": "75dfffd24553dace9aaaa31234dc717b3fb15ca94fa48f8d369f2877d0aef01a",
+    "src/ConnectedLaundryQcInput.dom.test.tsx": "29967ad293acb1501591e845e60523c75e9e0547aae499b5033194e4d7affeef",
+    "tests/fixtures/laundryQcInput.ts": "2e9d36a6f1874401b7d5718cc832b830f4fb99e358d7177a576b6d0ed7b99948",
+    "scripts/check-cp6-boundary.mjs": "7431df3911f8fb0597dd4c73b320ec341c07d8ae396ce140969f3c2b1716107b",
+    "scripts/cp7_transaction_source_browser.mjs": "71f48ed821f44cdaa73c731ac1e1f15683110b16c40c4e5320d36759d4d28e99"
+  },
+  "logs_sha256": {
+    "retained-input-targeted.log": "f3e49cc23e92ac30b2b758b5907d5229deffc5bf3359ee77d721dcaf8b01b627",
+    "retained-input-build.log": "cf8e75a0515a9f22869952a9f3300943f056be426923fa833f4db67963865279",
+    "retained-input-security.log": "ab8cf0b31554ebf818158b6e03d7c38e36b28e2ce6fea185cfce585a66fcd851"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -139,6 +139,8 @@ async function reworkJourney(ui,today,mobile){
 async function productionReadJourney(ui,today,mobile){
  const f=fixture('prepare-production-read',{today}),user=await ui.login('ADMIN',{label:'transaction-production-current-read-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',screenshots=[],observations=[]
  const rpc='erp_get_laundry_qc_workspace_v1',path='**/rest/v1/rpc/'+rpc,boundary=()=>fixture('production-boundary',{})
+ const ownReason='Operator draft '+suffix,ownTime=today+'T09:15',writes=[]
+ page.on('request',request=>{if(request.url().endsWith('/rpc/erp_save_laundry_qc_action_v1'))writes.push(request.postDataJSON())})
  const permission=(key,allowed)=>fixture('production-permission',{role:f.admin_role,permission:key,allowed})
  const responseFor=scope=>r=>r.url().endsWith('/rpc/'+rpc)&&r.request().postDataJSON()?.p_scope===scope
  let releaseHeld=null
@@ -164,12 +166,36 @@ async function productionReadJourney(ui,today,mobile){
   await ui.expect(page.locator('.clq-history article')).toHaveCount(0);await ui.expect(page.locator(`.clq-panel option[value="${f.group_id}"]`)).toHaveCount(0)
   assert.ok(!(await page.locator('.connected-laundry-qc-page').innerText()).includes(f.group_number))
  }
+ const ownInput=scope=>scope==='LAUNDRY'?page.locator('.clq-reversal input').first():page.getByRole('textbox',{name:'ALASAN / BUKTI HASIL QC',exact:true})
+ const enterOwn=async scope=>{
+  await ui.expect(ownInput(scope)).toBeEnabled();await ownInput(scope).fill(ownReason)
+  if(scope==='QC'){
+   await page.locator('.clq-form-grid select').first().selectOption(f.group_id)
+   await page.getByLabel('WAKTU FISIK QC',{exact:true}).fill(ownTime)
+   await page.getByRole('textbox',{name:'Good final size 31',exact:true}).fill('0002')
+   await page.getByRole('textbox',{name:'BS QC size 31',exact:true}).fill('00')
+   await page.locator('.clq-confirm input').check()
+  }
+ }
+ const retainedOwn=async scope=>{
+  await ui.expect(ownInput(scope)).toHaveValue(ownReason)
+  if(scope==='QC'){
+   await ui.expect(page.locator('.clq-form-grid select').first()).toHaveValue(f.group_id)
+   await ui.expect(page.getByLabel('WAKTU FISIK QC',{exact:true})).toHaveValue(ownTime)
+   await ui.expect(page.getByRole('textbox',{name:'Good final size 31',exact:true})).toHaveValue('0002')
+   await ui.expect(page.getByRole('textbox',{name:'BS QC size 31',exact:true})).toHaveValue('00')
+   await ui.expect(page.locator('.clq-confirm input')).not.toBeChecked()
+   await ui.expect(page.getByRole('button',{name:'Post QC + Final SKU atomic',exact:true})).toBeDisabled()
+  }
+  assert.equal(writes.length,0)
+ }
  try{
   mkdirSync('cp6-proof/t3',{recursive:true})
   for(const [scope,menu,view]of [['LAUNDRY','• Laundry','production.laundry.view'],['QC','• QC & Final SKU','production.final_sku.view']]){
    let response=await observed(page,responseFor(scope),()=>productionMenu(page,menu));assert.equal(response.status(),200)
    if(scope==='LAUNDRY')await page.getByRole('button',{name:'Riwayat & koreksi',exact:true}).click()
    const before=boundary();response=await observed(page,responseFor(scope),()=>page.locator('.clq-tabs input').fill(f.group_number));await freshFacts(scope,response);assert.deepEqual(boundary(),before)
+   await enterOwn(scope);assert.deepEqual(boundary(),before)
    await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);const currentName=`CP7_PRODUCTION_READ_${scope}_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+currentName,fullPage:true});screenshots.push(currentName)
    let upstreamResolve,upstreamReject,heldReply=null
    const upstream=new Promise((resolve,reject)=>{upstreamResolve=resolve;upstreamReject=reject});upstream.catch(()=>{})
@@ -183,14 +209,15 @@ async function productionReadJourney(ui,today,mobile){
    await page.getByRole('button',{name:'Muat ulang data',exact:true}).click();await retiredFacts();await upstream
    await page.evaluate(()=>window.dispatchEvent(new StorageEvent('storage',{key:null})))
    releaseHeld();releaseHeld=null;assert.equal((await oldReply).status(),200);await retiredFacts();assert.deepEqual(boundary(),before)
-   response=await observed(page,responseFor(scope),()=>page.getByRole('button',{name:'Muat ulang data',exact:true}).click());await freshFacts(scope,response);assert.deepEqual(boundary(),before)
+   response=await observed(page,responseFor(scope),()=>page.getByRole('button',{name:'Muat ulang data',exact:true}).click());await freshFacts(scope,response);await retainedOwn(scope);assert.deepEqual(boundary(),before)
    // Revoke the actual ordinary ADMIN view in PostgreSQL. No substitute 403
    // response and no protected OWNER permission is used for this observation.
+   if(scope==='QC')await page.locator('.clq-confirm input').check()
    permission(view,false);const revoked=boundary()
    response=await observed(page,responseFor(scope),()=>page.getByRole('button',{name:'Muat ulang data',exact:true}).click());assert.equal(response.status(),403);assert.equal((await response.json()).code,'42501');await retiredFacts();await ui.expect(page.locator('.clq-alert.error')).toBeVisible();assert.deepEqual(boundary(),revoked)
    const deniedName=`CP7_PRODUCTION_READ_${scope}_DENIED_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+deniedName,fullPage:true});screenshots.push(deniedName)
-   permission(view,true);const restored=boundary();response=await observed(page,responseFor(scope),()=>page.getByRole('button',{name:'Muat ulang data',exact:true}).click());await freshFacts(scope,response);assert.deepEqual(boundary(),restored)
-   observations.push({scope,same_actual_Auth_Native_SQL_and_HTTP_facts:true,actual_unequal_size_qtys:[5,8,3,4],total20:true,read_start_retires_old_facts_and_KPIs:true,held_actual200_after_shared_storage_invalidation_not_painted:true,current_Native403_retires_facts_not_zero:true,explicit_fresh_recovery:true,all_ERP_platform_Auth_schema_rows_unchanged_by_reads:true})
+   permission(view,true);const restored=boundary();response=await observed(page,responseFor(scope),()=>page.getByRole('button',{name:'Muat ulang data',exact:true}).click());await freshFacts(scope,response);await retainedOwn(scope);assert.deepEqual(boundary(),restored)
+   observations.push({scope,same_actual_Auth_Native_SQL_and_HTTP_facts:true,actual_unequal_size_qtys:[5,8,3,4],total20:true,read_start_retires_old_facts_and_KPIs:true,held_actual200_after_shared_storage_invalidation_not_painted:true,current_Native403_retires_facts_not_zero:true,explicit_fresh_recovery:true,own_unsent_reason_retained_through_held200_and_actual403:true,QC_raw_0002_00_and_physical_time_retained_confirmation_reset:scope==='QC',zero_Laundry_QC_writer_requests:true,all_ERP_platform_Auth_schema_rows_unchanged_by_reads:true})
   }
   return{status:'PASS',mobile,scopes:observations,screenshots,no_business_writer_or_substituted_reply:true}
  }catch(e){writeFileSync(`cp6-proof/t3/CP7_PRODUCTION_READ_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await page.locator('.connected-laundry-qc-page').innerText().catch(()=>''),state:boundary(),observations},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_PRODUCTION_READ_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}

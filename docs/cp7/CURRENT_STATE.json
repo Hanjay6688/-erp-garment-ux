@@ -4050,7 +4050,7 @@
     "posted_used_receipt_quantity_roll_correction_complete": false,
     "safe_refusal_is_not_complete_correction_usability": true,
     "wrong_material_identity_reassignment_complete": false,
-    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12→11,AP12000→11000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
+    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12\u219211,AP12000\u219211000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
     "previous_registered_receipt32": "docs/cp7/evidence/receipt-correction/qualified32-e873462/RECEIPT.json",
     "current_registered_receipt42": "docs/cp7/evidence/claude-merge-20261003/receipt-qualified42/RECEIPT.json"
   },
@@ -4812,7 +4812,7 @@
         }
       ],
       "qualified_log_lines": [
-        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:25:35.1498781Z  \u2713 tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
         "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
         "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
         "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
@@ -5727,7 +5727,7 @@
         }
       ],
       "qualified_log_lines": [
-        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:25:35.1498781Z  \u2713 tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
         "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
         "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
         "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
@@ -6432,7 +6432,7 @@
       "production_go": false
     },
     "transaction_source_candidate": {
-      "status": "NATIVE25_QUALIFIED_FIRST39_INCOMPLETE_CURRENT_READ41_PENDING",
+      "status": "QUALIFIED_NATIVE41_AT3C7_OWN_INPUT_SUCCESSOR_PENDING",
       "native_case_budget": 41,
       "no_business_DML": true,
       "full_source_coverage": false,
@@ -6441,31 +6441,91 @@
         "full material feasibility, broader P08 and P18-P21 qualification"
       ],
       "qualification": {
-        "head": "5e4af78f10dfbbe9162d4b99a75f4ee95d25c9f5",
-        "tree": "a3c23c777bb56b0b5ad2bcba0eccac5905f2f2c1",
-        "run_id": 37113905171,
-        "job_id": 111176884410,
-        "artifact_id": 11270812958,
-        "archive_sha256": "42a862333475d774ae71d894a68b8f51ec66b8f78bf40a9afc10e80a83978f64",
-        "originals": {
-          "CP7_TRANSACTION_SOURCE.json": "21de1cecb63e53967687471e7ebd3058a40d75ca41d035d68f715aa92cfb1d1a",
-          "T3_PACKAGE_INSTALL.json": "560eec2cd21593b6cf4cb4e6017efe6d8bab43f776cc35797ca2053481ea4cb3"
-        },
-        "source_sha256": "89195adda48450ca26e35f030ddd624bb150aa9b0d7f5486f15955ca528b3c22",
+        "head": "3c7cb2cf75bb029c37efe60c2f80949924893701",
+        "tree": "30eb47eb79578c58fa4c8b4d1491b70c36c71ab8",
+        "run_id": 37117225616,
+        "job_id": 111186246179,
+        "artifact_id": 11272471104,
+        "archive_sha256": "123dc07079483ca361bf91d6b48c4c0d5fc19a6d9678c93e6745c5a2f0d0f94f",
         "status": "PASS",
-        "observed_case_count": 25,
+        "observed_case_count": 41,
+        "required_case_counts": {
+          "native": 24,
+          "races": 2,
+          "http": 5,
+          "browser": 10
+        },
+        "source_sha256": "87f6a6ed1d890e548af8897c29cc40f1592e4a2e1651022f1af2f6567f3f3291",
         "groups": {
           "native": {
-            "PASS": 16
+            "PASS": 24
           },
           "races": {
             "PASS": 2
           },
           "http": {
-            "PASS": 3
+            "PASS": 5
           },
           "browser": {
-            "PASS": 4
+            "PASS": 10
+          }
+        },
+        "members": {
+          "CP7_TRANSACTION_SOURCE.json": {
+            "sha256": "e519e7080e987cd2fdc6b885d1d7e507bba7d06e0f0492eb8c84fc3620ee101c",
+            "bytes": 285228
+          },
+          "T3_PACKAGE_INSTALL.json": {
+            "sha256": "f48476bca3bd4f5cf023d983f661bdf1864c2561bdd2d57195fac8640f6f70f0",
+            "bytes": 360424
+          },
+          "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png": {
+            "sha256": "860115d98957d6a1cb14c94752fd6eb8f9bbc507fe3b6f2fb9a94989ac58ece3",
+            "bytes": 222148
+          },
+          "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png": {
+            "sha256": "dce49d35421703bde4d1aa563b2a0278bd337d47b41652c9bf0039d6e08dbceb",
+            "bytes": 147137
+          },
+          "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png": {
+            "sha256": "9e4de5b2f261dc27a2f4d825000825807b202ea3f12d41926f122aff8a84e3ee",
+            "bytes": 283933
+          },
+          "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png": {
+            "sha256": "b2eed451f73263a21a94c454dfa6d3b26307939ab7683269576112a043b1e033",
+            "bytes": 212185
+          },
+          "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png": {
+            "sha256": "bdeac1472042953a68dc76f6fd9ef0c7c30ca7d047dbcc7a3a0313cf2068760a",
+            "bytes": 214206
+          },
+          "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png": {
+            "sha256": "a6a54b8a606c43bd9ad6b8885a639fc41b86bce2b86fc1bdc0cd2902b69ce4d8",
+            "bytes": 136220
+          },
+          "CP7_PRODUCTION_READ_QC_DESKTOP.png": {
+            "sha256": "e7ffe1237db3f26ebb33a38ab5e1a9cde4f1ad113fb62f9a973fa922b57ff6b2",
+            "bytes": 293633
+          },
+          "CP7_PRODUCTION_READ_QC_MOBILE.png": {
+            "sha256": "7ecaf74758b18716c628d918a15897a7c06cad528e61bde2d5239cfc9c19eb70",
+            "bytes": 203491
+          },
+          "CP7_SOURCE_REWORK_DESKTOP.png": {
+            "sha256": "035de38fa887fee444a10162d35aa12ba5683d4c1a71cd65a317696664b7d49d",
+            "bytes": 390691
+          },
+          "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png": {
+            "sha256": "35c6dcee147b3e8013ddac59cb692a867f6d5b5ff0a621d98d982e132ae2a7c7",
+            "bytes": 411257
+          },
+          "CP7_SOURCE_REWORK_INVERSE_MOBILE.png": {
+            "sha256": "e8145c88eba0b0fb295c704f1967f3c2b38042e4d7eb3776391bf36a85781a8a",
+            "bytes": 310840
+          },
+          "CP7_SOURCE_REWORK_MOBILE.png": {
+            "sha256": "64f3a1e274ce40b0cfb49b771420d1ea8ee6b0b54d1599e413a8b061c9ff71f1",
+            "bytes": 316334
           }
         },
         "cp6_restored": true,
@@ -6482,35 +6542,140 @@
           "writer_runtime": true
         },
         "console_errors": 0,
-        "visuals": {
-          "CP7_SOURCE_PAYROLL_DESKTOP.png": {
-            "sha256": "19e125bf916ec1d8e0feeb58dbc14bb20264ba7b90f3c54e75655e0c1523bc21",
-            "bytes": 767587
+        "browser_observations": {
+          "CP7_SOURCE_REWORK_BROWSER_DESKTOP": {
+            "status": "PASS",
+            "mobile": false,
+            "real_Auth_journal_to_exact_Native_rework_bs_outside50": true,
+            "opening_and_inverse_review_no_business_DML": true,
+            "original_order_and_FG_movement_retained_when_resolution_deleted": true,
+            "actual_repaired2_and_labor60_inverse_zero_lot_qty": true,
+            "closed_case_repositions_to_open_owning_page": true,
+            "inverse_journal_reopens_same_cancelled_child": true,
+            "actual_committed_inverse_reply_loss_reload_identical_UUID_one_effect": true,
+            "screenshots": [
+              "CP7_SOURCE_REWORK_DESKTOP.png",
+              "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png"
+            ]
           },
-          "CP7_SOURCE_PAYROLL_INVERSE_DESKTOP.png": {
-            "sha256": "27dfa2e754e728b18d32851507569e3cea1234db61f6fde3796d43fe01d884a7",
-            "bytes": 766015
+          "CP7_SOURCE_REWORK_BROWSER_MOBILE": {
+            "status": "PASS",
+            "mobile": true,
+            "real_Auth_journal_to_exact_Native_rework_bs_outside50": true,
+            "opening_and_inverse_review_no_business_DML": true,
+            "original_order_and_FG_movement_retained_when_resolution_deleted": true,
+            "actual_repaired2_and_labor60_inverse_zero_lot_qty": true,
+            "closed_case_repositions_to_open_owning_page": true,
+            "inverse_journal_reopens_same_cancelled_child": true,
+            "actual_committed_inverse_reply_loss_reload_identical_UUID_one_effect": false,
+            "screenshots": [
+              "CP7_SOURCE_REWORK_MOBILE.png",
+              "CP7_SOURCE_REWORK_INVERSE_MOBILE.png"
+            ]
           },
-          "CP7_SOURCE_PAYROLL_INVERSE_MOBILE.png": {
-            "sha256": "be0ef01a2e1ec2979fda21ff677faa5e1d8133c55924aa78fa961f421c871440",
-            "bytes": 530743
+          "CP7_PRODUCTION_READ_BROWSER_DESKTOP": {
+            "status": "PASS",
+            "mobile": false,
+            "scopes": [
+              {
+                "scope": "LAUNDRY",
+                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+                "actual_unequal_size_qtys": [
+                  5,
+                  8,
+                  3,
+                  4
+                ],
+                "total20": true,
+                "read_start_retires_old_facts_and_KPIs": true,
+                "held_actual200_after_shared_storage_invalidation_not_painted": true,
+                "current_Native403_retires_facts_not_zero": true,
+                "explicit_fresh_recovery": true,
+                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+              },
+              {
+                "scope": "QC",
+                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+                "actual_unequal_size_qtys": [
+                  5,
+                  8,
+                  3,
+                  4
+                ],
+                "total20": true,
+                "read_start_retires_old_facts_and_KPIs": true,
+                "held_actual200_after_shared_storage_invalidation_not_painted": true,
+                "current_Native403_retires_facts_not_zero": true,
+                "explicit_fresh_recovery": true,
+                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+              }
+            ],
+            "screenshots": [
+              "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png",
+              "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png",
+              "CP7_PRODUCTION_READ_QC_DESKTOP.png",
+              "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png"
+            ],
+            "no_business_writer_or_substituted_reply": true
           },
-          "CP7_SOURCE_PAYROLL_MOBILE.png": {
-            "sha256": "db9bc05ae331ed8145306ca3494cd60e049c6a55d641cdbefd9461ef8b8a0ac6",
-            "bytes": 531098
+          "CP7_PRODUCTION_READ_BROWSER_MOBILE": {
+            "status": "PASS",
+            "mobile": true,
+            "scopes": [
+              {
+                "scope": "LAUNDRY",
+                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+                "actual_unequal_size_qtys": [
+                  5,
+                  8,
+                  3,
+                  4
+                ],
+                "total20": true,
+                "read_start_retires_old_facts_and_KPIs": true,
+                "held_actual200_after_shared_storage_invalidation_not_painted": true,
+                "current_Native403_retires_facts_not_zero": true,
+                "explicit_fresh_recovery": true,
+                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+              },
+              {
+                "scope": "QC",
+                "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+                "actual_unequal_size_qtys": [
+                  5,
+                  8,
+                  3,
+                  4
+                ],
+                "total20": true,
+                "read_start_retires_old_facts_and_KPIs": true,
+                "held_actual200_after_shared_storage_invalidation_not_painted": true,
+                "current_Native403_retires_facts_not_zero": true,
+                "explicit_fresh_recovery": true,
+                "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+              }
+            ],
+            "screenshots": [
+              "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png",
+              "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png",
+              "CP7_PRODUCTION_READ_QC_MOBILE.png",
+              "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png"
+            ],
+            "no_business_writer_or_substituted_reply": true
           }
         },
-        "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260→250/remaining740→750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
-        "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
+        "all39_prior_case_ids_retained": true,
+        "own_input_retention": "Not present in this source; successor controls pending",
+        "writer_visual_review": "Inspected actual Laundry desktop, QC mobile and actual Native403 mobile images. New source41 passes overflow and current-fact controls. Writer inspection only.",
         "production_go": false,
         "independent_acceptance": false,
-        "receipt": "docs/cp7/evidence/transaction-source/qualified5e4/RECEIPT.json"
+        "receipt": "docs/cp7/evidence/transaction-source/qualified3c7/RECEIPT.json"
       },
       "current_counts_required": {
         "native": 24,
         "races": 2,
         "http": 5,
-        "browser": 8
+        "browser": 10
       },
       "payroll_source_candidate": {
         "status": "QUALIFIED_NATIVE25_EXACT_ORIGINAL_RETAINED_AT5E4",
@@ -6584,7 +6749,7 @@
               "bytes": 531098
             }
           },
-          "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260→250/remaining740→750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+          "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
           "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
           "production_go": false,
           "independent_acceptance": false,
@@ -6903,12 +7068,88 @@
         "receipt": "docs/cp7/evidence/transaction-source/first51c9/RECEIPT.json"
       },
       "current_read_retirement": {
-        "status": "LOCAL66_BUILD_SECURITY_PASS_NATIVE41_PENDING",
+        "status": "QUALIFIED_NATIVE41_3C7",
         "prior39_cases_retained": true,
         "same_Native_writer_readers": true,
         "actual_reply_and_current403_cases_predeclared": true,
         "pending_UUID_preserved": true,
         "unknown_not_zero": true,
+        "independent_acceptance": false,
+        "receipt": "docs/cp7/evidence/transaction-source/qualified3c7/RECEIPT.json"
+      },
+      "previous_qualification25": {
+        "head": "5e4af78f10dfbbe9162d4b99a75f4ee95d25c9f5",
+        "tree": "a3c23c777bb56b0b5ad2bcba0eccac5905f2f2c1",
+        "run_id": 37113905171,
+        "job_id": 111176884410,
+        "artifact_id": 11270812958,
+        "archive_sha256": "42a862333475d774ae71d894a68b8f51ec66b8f78bf40a9afc10e80a83978f64",
+        "originals": {
+          "CP7_TRANSACTION_SOURCE.json": "21de1cecb63e53967687471e7ebd3058a40d75ca41d035d68f715aa92cfb1d1a",
+          "T3_PACKAGE_INSTALL.json": "560eec2cd21593b6cf4cb4e6017efe6d8bab43f776cc35797ca2053481ea4cb3"
+        },
+        "source_sha256": "89195adda48450ca26e35f030ddd624bb150aa9b0d7f5486f15955ca528b3c22",
+        "status": "PASS",
+        "observed_case_count": 25,
+        "groups": {
+          "native": {
+            "PASS": 16
+          },
+          "races": {
+            "PASS": 2
+          },
+          "http": {
+            "PASS": 3
+          },
+          "browser": {
+            "PASS": 4
+          }
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": "RESTORED_SAME_MEANING",
+        "auth_users_before": 0,
+        "auth_users_after": 0,
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "console_errors": 0,
+        "visuals": {
+          "CP7_SOURCE_PAYROLL_DESKTOP.png": {
+            "sha256": "19e125bf916ec1d8e0feeb58dbc14bb20264ba7b90f3c54e75655e0c1523bc21",
+            "bytes": 767587
+          },
+          "CP7_SOURCE_PAYROLL_INVERSE_DESKTOP.png": {
+            "sha256": "27dfa2e754e728b18d32851507569e3cea1234db61f6fde3796d43fe01d884a7",
+            "bytes": 766015
+          },
+          "CP7_SOURCE_PAYROLL_INVERSE_MOBILE.png": {
+            "sha256": "be0ef01a2e1ec2979fda21ff677faa5e1d8133c55924aa78fa961f421c871440",
+            "bytes": 530743
+          },
+          "CP7_SOURCE_PAYROLL_MOBILE.png": {
+            "sha256": "db9bc05ae331ed8145306ca3494cd60e049c6a55d641cdbefd9461ef8b8a0ac6",
+            "bytes": 531098
+          }
+        },
+        "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+        "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
+        "production_go": false,
+        "independent_acceptance": false,
+        "receipt": "docs/cp7/evidence/transaction-source/qualified5e4/RECEIPT.json"
+      },
+      "own_input_retention": {
+        "status": "LOCAL75_BUILD_SECURITY_PASS_NATIVE41_SUCCESSOR_PENDING",
+        "new_DOM_controls": 9,
+        "all41_cases_retained": true,
+        "own_fields": "Raw operator quantity/time/reason/source identifiers only; no confirmation/catalogue/Native facts/envelope",
+        "scope": "Current project/actor/profile and role versions/permissions plus committed form sequence",
+        "Native_writers_unchanged": true,
         "independent_acceptance": false
       }
     },
@@ -7237,16 +7478,16 @@
       "receipt_index": "docs/cp7/evidence/finisher-regression/qualified7638/full/INDEX.json"
     },
     "application_qualification": {
-      "source_commit": "51c9647536f008e7ae78e01ec89ca70851675a44",
-      "source_tree": "0746d5acdd681ee153f672ea3e6d6cc2ed746f76",
-      "run_id": 37116170397,
+      "source_commit": "3c7cb2cf75bb029c37efe60c2f80949924893701",
+      "source_tree": "30eb47eb79578c58fa4c8b4d1491b70c36c71ab8",
+      "run_id": 37117225615,
       "jobs": {
-        "application": 111183306520,
-        "CodeQL_javascript_typescript": 111183306644,
-        "CodeQL_actions": 111183306658
+        "application": 111186246040,
+        "CodeQL_javascript_typescript": 111186246102,
+        "CodeQL_actions": 111186246162
       },
       "status": "PASS",
-      "application_tests": 1357,
+      "application_tests": 1365,
       "application_test_files": 142,
       "Shell_browser_tests": 6,
       "build": "PASS",
@@ -7259,39 +7500,39 @@
       "direct_browser_table_reads": 0,
       "archives": {
         "shell": {
-          "artifact_id": 11271941151,
-          "sha256": "c7d52932d85784e8a54bf333906983196a1b7247c6df4cb54914cbcd568c0d1f"
+          "artifact_id": 11271443575,
+          "sha256": "ba71d922ecd0d1c9c2bc01b5f49650ff7de014173807d8a9f87242e823ff9128"
         },
         "CodeQL_javascript_typescript": {
-          "artifact_id": 11271871446,
-          "sha256": "e0aee9b90d90d08671588adbac7352330d1369cee3d7f0d42cf8595df619c6c8"
+          "artifact_id": 11272281359,
+          "sha256": "a7f97cbe4aaa8648e34ff163aa276536373e0914f376787020623f18a38e343c"
         },
         "CodeQL_actions": {
-          "artifact_id": 11271656672,
-          "sha256": "b982d7a40d38f03293dd15c1bfb0aa68ac740863bba6a5fcf53eadcb32b92390"
+          "artifact_id": 11272186592,
+          "sha256": "909dc80713097a18fa669381cd16dab280b6ad346ee496a2557448eb094435ff"
         }
       },
       "members": {
         "results.json": {
-          "sha256": "0e7bb4f6fc657a281a20103d0350c1cfbefdf7a4073f9b035cf54907f84f9ad5",
-          "bytes": 12161
+          "sha256": "9d8c29ff7874cec8b537c27a5b68e7aa54735333249487dd21a804003b44f729",
+          "bytes": 12196
         },
         "f04-private-kernels.json": {
-          "sha256": "96da8ca45907a959e834986ec7f323f05c5a40e433c6bfae232e806bc10e43bd",
-          "bytes": 53268
+          "sha256": "e62c85f6cf8138f374d9d0e4158c441e0164850a52f1159b0e509cc65cc69735",
+          "bytes": 53259
         },
         "javascript.sarif": {
-          "sha256": "581e5cf76ac45d1fe3044c5cc67f1ff2d9903684f5415e73395dc20f8c3fb9e9",
+          "sha256": "378ad420e330c06bfd81ed5350444d8099670dbe470fc9144a1ecc4b509c20f3",
           "bytes": 1302696
         },
         "actions.sarif": {
-          "sha256": "ecaefedbe85617ce73e75ca37b4036b58726f39f0e47fa81c348d1bc9e9e951c",
+          "sha256": "d20f75a4b258f437ca66d5b403f69bdb61053a5bd592fa1fb199157bceedd2d2",
           "bytes": 692188
         }
       },
       "independent_acceptance": false,
       "production_go": false,
-      "receipt": "docs/cp7/evidence/finisher-regression/qualified51c9/shell/RECEIPT.json"
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified3c7/shell/RECEIPT.json"
     },
     "previous_application_qualification": {
       "source_commit": "9148adf778d7210b41435b7cb7633d3edfb620a8",
@@ -7349,6 +7590,63 @@
       "independent_acceptance": false,
       "production_go": false,
       "receipt": "docs/cp7/evidence/finisher-regression/qualified9148/shell/RECEIPT.json"
+    },
+    "previous_application_qualification51c9": {
+      "source_commit": "51c9647536f008e7ae78e01ec89ca70851675a44",
+      "source_tree": "0746d5acdd681ee153f672ea3e6d6cc2ed746f76",
+      "run_id": 37116170397,
+      "jobs": {
+        "application": 111183306520,
+        "CodeQL_javascript_typescript": 111183306644,
+        "CodeQL_actions": 111183306658
+      },
+      "status": "PASS",
+      "application_tests": 1357,
+      "application_test_files": 142,
+      "Shell_browser_tests": 6,
+      "build": "PASS",
+      "security": "PASS",
+      "CodeQL_findings": 0,
+      "runtime_graph_files": 251,
+      "owned_browser_RPC_boundaries": 184,
+      "stylesheets": 53,
+      "orphans_under_runtime_import_ownership_check": 0,
+      "direct_browser_table_reads": 0,
+      "archives": {
+        "shell": {
+          "artifact_id": 11271941151,
+          "sha256": "c7d52932d85784e8a54bf333906983196a1b7247c6df4cb54914cbcd568c0d1f"
+        },
+        "CodeQL_javascript_typescript": {
+          "artifact_id": 11271871446,
+          "sha256": "e0aee9b90d90d08671588adbac7352330d1369cee3d7f0d42cf8595df619c6c8"
+        },
+        "CodeQL_actions": {
+          "artifact_id": 11271656672,
+          "sha256": "b982d7a40d38f03293dd15c1bfb0aa68ac740863bba6a5fcf53eadcb32b92390"
+        }
+      },
+      "members": {
+        "results.json": {
+          "sha256": "0e7bb4f6fc657a281a20103d0350c1cfbefdf7a4073f9b035cf54907f84f9ad5",
+          "bytes": 12161
+        },
+        "f04-private-kernels.json": {
+          "sha256": "96da8ca45907a959e834986ec7f323f05c5a40e433c6bfae232e806bc10e43bd",
+          "bytes": 53268
+        },
+        "javascript.sarif": {
+          "sha256": "581e5cf76ac45d1fe3044c5cc67f1ff2d9903684f5415e73395dc20f8c3fb9e9",
+          "bytes": 1302696
+        },
+        "actions.sarif": {
+          "sha256": "ecaefedbe85617ce73e75ca37b4036b58726f39f0e47fa81c348d1bc9e9e951c",
+          "bytes": 692188
+        }
+      },
+      "independent_acceptance": false,
+      "production_go": false,
+      "receipt": "docs/cp7/evidence/finisher-regression/qualified51c9/shell/RECEIPT.json"
     }
   }
 }

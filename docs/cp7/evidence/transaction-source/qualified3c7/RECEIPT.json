@@ -1,0 +1,230 @@
+{
+  "head": "3c7cb2cf75bb029c37efe60c2f80949924893701",
+  "tree": "30eb47eb79578c58fa4c8b4d1491b70c36c71ab8",
+  "run_id": 37117225616,
+  "job_id": 111186246179,
+  "artifact_id": 11272471104,
+  "archive_sha256": "123dc07079483ca361bf91d6b48c4c0d5fc19a6d9678c93e6745c5a2f0d0f94f",
+  "status": "PASS",
+  "observed_case_count": 41,
+  "required_case_counts": {
+    "native": 24,
+    "races": 2,
+    "http": 5,
+    "browser": 10
+  },
+  "source_sha256": "87f6a6ed1d890e548af8897c29cc40f1592e4a2e1651022f1af2f6567f3f3291",
+  "groups": {
+    "native": {
+      "PASS": 24
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 5
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "members": {
+    "CP7_TRANSACTION_SOURCE.json": {
+      "sha256": "e519e7080e987cd2fdc6b885d1d7e507bba7d06e0f0492eb8c84fc3620ee101c",
+      "bytes": 285228
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "sha256": "f48476bca3bd4f5cf023d983f661bdf1864c2561bdd2d57195fac8640f6f70f0",
+      "bytes": 360424
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png": {
+      "sha256": "860115d98957d6a1cb14c94752fd6eb8f9bbc507fe3b6f2fb9a94989ac58ece3",
+      "bytes": 222148
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png": {
+      "sha256": "dce49d35421703bde4d1aa563b2a0278bd337d47b41652c9bf0039d6e08dbceb",
+      "bytes": 147137
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png": {
+      "sha256": "9e4de5b2f261dc27a2f4d825000825807b202ea3f12d41926f122aff8a84e3ee",
+      "bytes": 283933
+    },
+    "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png": {
+      "sha256": "b2eed451f73263a21a94c454dfa6d3b26307939ab7683269576112a043b1e033",
+      "bytes": 212185
+    },
+    "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png": {
+      "sha256": "bdeac1472042953a68dc76f6fd9ef0c7c30ca7d047dbcc7a3a0313cf2068760a",
+      "bytes": 214206
+    },
+    "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png": {
+      "sha256": "a6a54b8a606c43bd9ad6b8885a639fc41b86bce2b86fc1bdc0cd2902b69ce4d8",
+      "bytes": 136220
+    },
+    "CP7_PRODUCTION_READ_QC_DESKTOP.png": {
+      "sha256": "e7ffe1237db3f26ebb33a38ab5e1a9cde4f1ad113fb62f9a973fa922b57ff6b2",
+      "bytes": 293633
+    },
+    "CP7_PRODUCTION_READ_QC_MOBILE.png": {
+      "sha256": "7ecaf74758b18716c628d918a15897a7c06cad528e61bde2d5239cfc9c19eb70",
+      "bytes": 203491
+    },
+    "CP7_SOURCE_REWORK_DESKTOP.png": {
+      "sha256": "035de38fa887fee444a10162d35aa12ba5683d4c1a71cd65a317696664b7d49d",
+      "bytes": 390691
+    },
+    "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png": {
+      "sha256": "35c6dcee147b3e8013ddac59cb692a867f6d5b5ff0a621d98d982e132ae2a7c7",
+      "bytes": 411257
+    },
+    "CP7_SOURCE_REWORK_INVERSE_MOBILE.png": {
+      "sha256": "e8145c88eba0b0fb295c704f1967f3c2b38042e4d7eb3776391bf36a85781a8a",
+      "bytes": 310840
+    },
+    "CP7_SOURCE_REWORK_MOBILE.png": {
+      "sha256": "64f3a1e274ce40b0cfb49b771420d1ea8ee6b0b54d1599e413a8b061c9ff71f1",
+      "bytes": 316334
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "console_errors": 0,
+  "browser_observations": {
+    "CP7_SOURCE_REWORK_BROWSER_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "real_Auth_journal_to_exact_Native_rework_bs_outside50": true,
+      "opening_and_inverse_review_no_business_DML": true,
+      "original_order_and_FG_movement_retained_when_resolution_deleted": true,
+      "actual_repaired2_and_labor60_inverse_zero_lot_qty": true,
+      "closed_case_repositions_to_open_owning_page": true,
+      "inverse_journal_reopens_same_cancelled_child": true,
+      "actual_committed_inverse_reply_loss_reload_identical_UUID_one_effect": true,
+      "screenshots": [
+        "CP7_SOURCE_REWORK_DESKTOP.png",
+        "CP7_SOURCE_REWORK_INVERSE_DESKTOP.png"
+      ]
+    },
+    "CP7_SOURCE_REWORK_BROWSER_MOBILE": {
+      "status": "PASS",
+      "mobile": true,
+      "real_Auth_journal_to_exact_Native_rework_bs_outside50": true,
+      "opening_and_inverse_review_no_business_DML": true,
+      "original_order_and_FG_movement_retained_when_resolution_deleted": true,
+      "actual_repaired2_and_labor60_inverse_zero_lot_qty": true,
+      "closed_case_repositions_to_open_owning_page": true,
+      "inverse_journal_reopens_same_cancelled_child": true,
+      "actual_committed_inverse_reply_loss_reload_identical_UUID_one_effect": false,
+      "screenshots": [
+        "CP7_SOURCE_REWORK_MOBILE.png",
+        "CP7_SOURCE_REWORK_INVERSE_MOBILE.png"
+      ]
+    },
+    "CP7_PRODUCTION_READ_BROWSER_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "scopes": [
+        {
+          "scope": "LAUNDRY",
+          "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+          "actual_unequal_size_qtys": [
+            5,
+            8,
+            3,
+            4
+          ],
+          "total20": true,
+          "read_start_retires_old_facts_and_KPIs": true,
+          "held_actual200_after_shared_storage_invalidation_not_painted": true,
+          "current_Native403_retires_facts_not_zero": true,
+          "explicit_fresh_recovery": true,
+          "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+        },
+        {
+          "scope": "QC",
+          "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+          "actual_unequal_size_qtys": [
+            5,
+            8,
+            3,
+            4
+          ],
+          "total20": true,
+          "read_start_retires_old_facts_and_KPIs": true,
+          "held_actual200_after_shared_storage_invalidation_not_painted": true,
+          "current_Native403_retires_facts_not_zero": true,
+          "explicit_fresh_recovery": true,
+          "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+        }
+      ],
+      "screenshots": [
+        "CP7_PRODUCTION_READ_LAUNDRY_DESKTOP.png",
+        "CP7_PRODUCTION_READ_LAUNDRY_DENIED_DESKTOP.png",
+        "CP7_PRODUCTION_READ_QC_DESKTOP.png",
+        "CP7_PRODUCTION_READ_QC_DENIED_DESKTOP.png"
+      ],
+      "no_business_writer_or_substituted_reply": true
+    },
+    "CP7_PRODUCTION_READ_BROWSER_MOBILE": {
+      "status": "PASS",
+      "mobile": true,
+      "scopes": [
+        {
+          "scope": "LAUNDRY",
+          "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+          "actual_unequal_size_qtys": [
+            5,
+            8,
+            3,
+            4
+          ],
+          "total20": true,
+          "read_start_retires_old_facts_and_KPIs": true,
+          "held_actual200_after_shared_storage_invalidation_not_painted": true,
+          "current_Native403_retires_facts_not_zero": true,
+          "explicit_fresh_recovery": true,
+          "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+        },
+        {
+          "scope": "QC",
+          "same_actual_Auth_Native_SQL_and_HTTP_facts": true,
+          "actual_unequal_size_qtys": [
+            5,
+            8,
+            3,
+            4
+          ],
+          "total20": true,
+          "read_start_retires_old_facts_and_KPIs": true,
+          "held_actual200_after_shared_storage_invalidation_not_painted": true,
+          "current_Native403_retires_facts_not_zero": true,
+          "explicit_fresh_recovery": true,
+          "all_ERP_platform_Auth_schema_rows_unchanged_by_reads": true
+        }
+      ],
+      "screenshots": [
+        "CP7_PRODUCTION_READ_LAUNDRY_MOBILE.png",
+        "CP7_PRODUCTION_READ_LAUNDRY_DENIED_MOBILE.png",
+        "CP7_PRODUCTION_READ_QC_MOBILE.png",
+        "CP7_PRODUCTION_READ_QC_DENIED_MOBILE.png"
+      ],
+      "no_business_writer_or_substituted_reply": true
+    }
+  },
+  "all39_prior_case_ids_retained": true,
+  "own_input_retention": "Not present in this source; successor controls pending",
+  "writer_visual_review": "Inspected actual Laundry desktop, QC mobile and actual Native403 mobile images. New source41 passes overflow and current-fact controls. Writer inspection only.",
+  "production_go": false,
+  "independent_acceptance": false
+}

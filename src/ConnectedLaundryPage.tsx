@@ -17,6 +17,8 @@ import type { Json } from './types/database.preconnect'
 import { parseQuantityInput } from './quantityInput'
 import './connected-laundry-qc.css'
 import { Cp6Kpi } from './components/Cp6Kpi'
+import { isConnectedRuntime } from './config/runtime'
+import { useRetainedFormInput, useRetainedInput, type RetainedFormInput } from './useRetainedFormInput'
 
 const LaundryBdPanel = lazy(() => import('./LaundryBdPanel'))
 
@@ -40,18 +42,18 @@ const statusLabel: Record<string, string> = {
 }
 const status = (value: string) => statusLabel[value] ?? value.replaceAll('_', ' ')
 
-function SendLaundryForm({ workspace, writerLocked, canCreate, canPost, onAction }: {
-  workspace: LaundryQcWorkspace; writerLocked: boolean; canCreate: boolean; canPost: boolean; onAction: RunAction
+function SendLaundryForm({ workspace, writerLocked, canCreate, canPost, onAction, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canCreate: boolean; canPost: boolean; onAction: RunAction; inputs: RetainedFormInput
 }) {
-  const [batchId, setBatchId] = useState('')
-  const [vendorId, setVendorId] = useState('')
-  const [processId, setProcessId] = useState('')
-  const [targetColor, setTargetColor] = useState('')
-  const [physicalAt, setPhysicalAt] = useState('')
-  const [reason, setReason] = useState('')
-  const [notes, setNotes] = useState('')
+  const [batchId, setBatchId] = useRetainedInput(inputs, 'send.batchId', '')
+  const [vendorId, setVendorId] = useRetainedInput(inputs, 'send.vendorId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'send.processId', '')
+  const [targetColor, setTargetColor] = useRetainedInput(inputs, 'send.targetColor', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'send.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'send.reason', '')
+  const [notes, setNotes] = useRetainedInput(inputs, 'send.notes', '')
   const [confirmed, setConfirmed] = useState(false)
-  const [quantities, setQuantities] = useState<Record<string, string>>({})
+  const [quantities, setQuantities] = useRetainedInput<Record<string, string>>(inputs, 'send.quantities', {})
   useEffect(() => setConfirmed(false), [workspace])
   const actionAllowed = canCreate && canPost
   const actionLocked = writerLocked || !actionAllowed
@@ -209,22 +211,22 @@ export function LaundryBsProductSelector({ sourceId, modelId, sizeId, sizeCode, 
   </div>
 }
 
-function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction, searchProducts }: {
+function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction, searchProducts, inputs }: {
   workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction
-  searchProducts: SearchLaundryBsProducts
+  searchProducts: SearchLaundryBsProducts; inputs: RetainedFormInput
 }) {
   const candidates = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
     && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs === 0)
   const blockedByClaim = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
     && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs > 0).length
-  const [deliveryId, setDeliveryId] = useState('')
-  const [processId, setProcessId] = useState('')
-  const [physicalAt, setPhysicalAt] = useState('')
-  const [reason, setReason] = useState('')
+  const [deliveryId, setDeliveryId] = useRetainedInput(inputs, 'return.deliveryId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'return.processId', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'return.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'return.reason', '')
   const [confirmed, setConfirmed] = useState(false)
-  const [good, setGood] = useState<Record<string, string>>({})
-  const [bs, setBs] = useState<Record<string, string>>({})
-  const [products, setProducts] = useState<Record<string, string>>({})
+  const [good, setGood] = useRetainedInput<Record<string, string>>(inputs, 'return.good', {})
+  const [bs, setBs] = useRetainedInput<Record<string, string>>(inputs, 'return.bs', {})
+  const [products, setProducts] = useRetainedInput<Record<string, string>>(inputs, 'return.products', {})
   const [resolvedProducts, setResolvedProducts] = useState<Record<string, Cp6Product>>({})
   useEffect(() => setConfirmed(false), [workspace])
   const actionLocked = writerLocked || !canPost
@@ -294,18 +296,18 @@ function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction, searchP
 
 type FailedWashCustody = '' | 'RETRY_AT_VENDOR' | 'RETURN_UNPROCESSED'
 
-function FailedWashForm({ workspace, writerLocked, canPost, onAction }: {
-  workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction
+function FailedWashForm({ workspace, writerLocked, canPost, onAction, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction; inputs: RetainedFormInput
 }) {
   const candidates = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
     && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs === 0)
-  const [deliveryId, setDeliveryId] = useState('')
-  const [processId, setProcessId] = useState('')
-  const [custodyOutcome, setCustodyOutcome] = useState<FailedWashCustody>('')
-  const [physicalAt, setPhysicalAt] = useState('')
-  const [reason, setReason] = useState('')
+  const [deliveryId, setDeliveryId] = useRetainedInput(inputs, 'failed.deliveryId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'failed.processId', '')
+  const [custodyOutcome, setCustodyOutcome] = useRetainedInput<FailedWashCustody>(inputs, 'failed.custodyOutcome', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'failed.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'failed.reason', '')
   const [confirmed, setConfirmed] = useState(false)
-  const [quantities, setQuantities] = useState<Record<string, string>>({})
+  const [quantities, setQuantities] = useRetainedInput<Record<string, string>>(inputs, 'failed.quantities', {})
   useEffect(() => setConfirmed(false), [workspace])
   const actionLocked = writerLocked || !canPost
   const delivery = candidates.find((row) => row.delivery_id === deliveryId) ?? null
@@ -377,10 +379,10 @@ function FailedWashForm({ workspace, writerLocked, canPost, onAction }: {
   </section>
 }
 
-function LaundryHistory({ workspace, writerLocked, canReverse, onAction }: {
-  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction
+function LaundryHistory({ workspace, writerLocked, canReverse, onAction, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction; inputs: RetainedFormInput
 }) {
-  const [reasons, setReasons] = useState<Record<string, string>>({})
+  const [reasons, setReasons] = useRetainedInput<Record<string, string>>(inputs, 'history.reasons', {})
   const setReason = (key: string, value: string) => setReasons((current) => ({ ...current, [key]: value }))
   return <section className="clq-history">
     <header><History/><div><span>RIWAYAT TRANSAKSI</span><h2>Dokumen tidak dihapus; kesalahan dibalik dengan catatan baru</h2></div></header>
@@ -400,13 +402,16 @@ function LaundryHistory({ workspace, writerLocked, canReverse, onAction }: {
 }
 
 export default function ConnectedLaundryPage() {
-  const { identity } = useAuth()
+  const { runtime, identity } = useAuth()
   const access = identity.status === 'AUTHORIZED' ? identity : null
   const canCreate = hasPermission(access, 'production.laundry.create')
   const canPost = hasPermission(access, SENSITIVE_ACTION_PERMISSION.postLaundry)
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseLaundry)
   const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
   const bridge = useLaundryQcWorkspace('LAUNDRY')
+  const inputScope = JSON.stringify([isConnectedRuntime(runtime) ? runtime.projectRef : null,
+    access?.profile.id, access?.profile.authUserId, access?.profile.rowVersion, access?.profile.roleRowVersion, access?.permissions])
+  const inputs = useRetainedFormInput(inputScope, bridge.committedSequence)
   const collectionTruncated = Boolean(bridge.workspace && (
     bridge.workspace.collection_window.ready_batches_truncated
     || bridge.workspace.collection_window.deliveries_truncated
@@ -445,10 +450,10 @@ export default function ConnectedLaundryPage() {
     {/* The pricing tab reads its own workspace; a Laundry/QC read that failed or is still loading only locks its priced-send section. */}
     {tab === 'PRICING' ? <Suspense fallback={<div className="clq-loading"><LoaderCircle className="spin"/> Memuat harga laundry…</div>}><LaundryBdPanel laundry={bridge.workspace ?? null} onPosted={() => void bridge.load()}/></Suspense>
       : bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
-      {tab === 'SEND' ? <SendLaundryForm key={`send-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canCreate={canCreate} canPost={canPost} onAction={onAction}/> : null}
-      {tab === 'RETURN' ? <ReturnLaundryForm key={`return-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchLaundryBsProducts}/> : null}
-      {tab === 'FAILED' ? <FailedWashForm key={`failed-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
-      {tab === 'HISTORY' ? <LaundryHistory workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
+      {tab === 'SEND' ? <SendLaundryForm key={`send-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canCreate={canCreate} canPost={canPost} onAction={onAction}/> : null}
+      {tab === 'RETURN' ? <ReturnLaundryForm key={`return-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchLaundryBsProducts}/> : null}
+      {tab === 'FAILED' ? <FailedWashForm key={`failed-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
+      {tab === 'HISTORY' ? <LaundryHistory key={`history-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
     </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}
     <section className="clq-rare-case"><AlertTriangle/><div><strong>Jangan campur dua kejadian cuci gagal.</strong><p>Tanpa tagihan: batalkan surat kirim setelah seluruh fisik kembali. Dengan tagihan: gunakan “Cuci gagal berbayar”; setiap attempt punya biaya sendiri, sementara posisi fisik tetap dicatat terpisah dan tidak pernah dibuat menjadi Good/BS palsu.</p></div></section>
   </div>
