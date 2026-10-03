@@ -1,6 +1,6 @@
 # Benerin penerimaan bahan & Benerin nama bahan (CP7, cabang `claude/new-session-deapao`)
 
-Status: **kandidat, belum diterima auditor independen** (run CI terakhir 37049589357: 36/36 PASS; run gagal tetap dicatat di "Bukti CI"). `production_go=false`, CP6 tetap HOLD, `audit_complete=false`. Hasil `LOCAL_PG16_DEV` di bawah hanya catatan kerja, **bukan bukti**. Bukti hanya dari run workflow `cp7-receipt-correction` (lihat bagian "Bukti CI").
+Status: **kandidat, belum diterima auditor independen** (run CI terakhir 37083713960: 39/39 PASS; run gagal tetap dicatat di "Bukti CI"). `production_go=false`, CP6 tetap HOLD, `audit_complete=false`. Hasil `LOCAL_PG16_DEV` di bawah hanya catatan kerja, **bukan bukti**. Bukti hanya dari run workflow `cp7-receipt-correction` (lihat bagian "Bukti CI").
 
 ## Untuk apa
 
@@ -104,7 +104,7 @@ Bagian ini merangkum aturan yang dipakai "Benerin penerimaan" dan "Benerin nama 
 
 Di putaran-putaran sesudahnya tidak ada file GPT yang diubah.
 
-**Bukti.** Workflow terpisah `cp7-receipt-correction`, dengan manifest `scripts/cp7_receipt_correction_manifest.json` (33 native, 3 race, 1 HTTP, 2 browser). Run yang gagal tetap tercatat di bagian "Bukti CI".
+**Bukti.** Workflow terpisah `cp7-receipt-correction`, dengan manifest `scripts/cp7_receipt_correction_manifest.json` (33 native, 3 race, 1 HTTP, 2 browser; run terakhir 37083713960 lulus 39/39). Run yang gagal tetap tercatat di bagian "Bukti CI".
 
 ## Temuan untuk GPT (koreksi nota, bukan scope saya)
 
@@ -132,3 +132,4 @@ Workflow `.github/workflows/cp7-receipt-correction.yml`, artefak `cp7-receipt-co
 | [37032710947](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37032710947) | `08d19674` | **PASS** | **32/32**: native 26/26 (termasuk `RF_SHARED_INVOICE_CORRECTED` dengan dua penerimaan yang membetulkan invoice yang sama, `RF_CLOSED_PERIOD_CORRECTION`, `RF_OPENING_ADVANCE_PAYMENT_REPLAY`, `RF_ACCESSORY_LINE_QTY` dengan stok yang sudah keluar, dan `RF_YEAR_HISTORY_364`), race 3/3, HTTP Auth nyata 1/1, browser 2/2. `observed_case_count=32`, `cp6_restored=true`, advisor gate lolos, console error 0. Bukti kandidat di runner CI sekali pakai, belum penerimaan auditor independen dan belum hosted. |
 | [37048755577](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37048755577) | `899cd4e7` | **FAIL** (INCOMPLETE) | 34/35 PASS (termasuk `RF_ROLL_NUMBER_TYPO_USED_ROLL`, `RF_MATERIAL_SKU_TYPO`, race, HTTP, browser). `RF_OPENING_ADVANCE_PAYMENT_REPLAY` INCOMPLETE: "physical_at cannot be in the future". Kasus itu membuat penerimaan pada hari ini jam 10:00 WIB, padahal run berjalan pukul 01:41 WIB. Ini cacat waktu di fixture saya (run 37032710947 lulus karena berjalan pukul 23:20 WIB). Di `03dc836b` semua tanggal kasus itu digeser ke masa lalu; oracle tidak diubah. Di commit yang sama, isian kepala penerimaan dari commit ini diganti dengan nomor surat jalan yang benar dan kepala invoice supplier. |
 | [37049589357](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37049589357) | `03dc836b` | **PASS** | **36/36**: native 30/30 (termasuk `RF_ROLL_NUMBER_TYPO_USED_ROLL`, `RF_HEADER_TYPO` untuk nomor surat jalan, `RF_INVOICE_HEADER_TYPO` untuk nomor/tanggal/jatuh tempo invoice supplier, `RF_MATERIAL_SKU_TYPO`, dan `RF_OPENING_ADVANCE_PAYMENT_REPLAY` dengan tanggal yang sudah digeser ke masa lalu, berjalan pukul 01:48 WIB), race 3/3, HTTP Auth nyata 1/1, browser 2/2. `observed_case_count=36`, `cp6_restored=true`, advisor gate lolos, console error 0. Bukti kandidat di runner CI sekali pakai, belum penerimaan auditor independen dan belum hosted. |
+| [37083713960](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37083713960) | `dda66b9a` | **PASS** | **39/39**: native 33/33 (termasuk `RF_ARRIVAL_DATE_TYPO`, `RF_WAREHOUSE_TYPO`, `RF_SUPPLIER_TYPO`), race 3/3, HTTP Auth nyata 1/1, browser 2/2. `observed_case_count=39`, `cp6_restored=true`, advisor gate lolos. Bukti kandidat di runner CI sekali pakai, belum penerimaan auditor independen dan belum hosted. |
