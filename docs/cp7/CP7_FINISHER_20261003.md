@@ -24,3 +24,5 @@ The separate missing-source test is an explicit private-reader fault control res
 Continue source navigation and submenu/transaction controls while Native qualification runs. Recheck exact source/permission generations on navigation and re-read through the owning current reader before editing. Keep literal unsupported paths visible rather than claiming every edit is available.
 
 Implementation, writer verification, independent acceptance, installed release and production authorization are separate statuses. audit_complete=false; independent_acceptance=false; production_go=false.
+
+First Native16 on92203d39:15 PASS/one INCOMPLETE fixture refusal, LAST_ACTIVE_OWNER_PROTECTED. All product lifecycle, observed correction wait and Auth checks pass; the test attempted to deactivate the last Owner. Its exact Original and archive digest are retained under evidence/rule-lifecycle/first922. The successor uses a separate ordinary ADMIN test account/own Original, revokes that account, and preserves the Native last-Owner guard, all16 cases and every cleanup gate. Retest pending.

@@ -115,18 +115,20 @@ def cases(cur, today):
     def recovery():
         f, e, key, first, _ = prepared(cur, today)
         replace(cur, f)
-        s = rules.source(cur, e)
-        p = dict(run_id=e['run_id'], source_hash=s['source_hash'])
+        subject, _ = rules.managed_actor(cur)
+        own = rules.parent.capture(cur, today, subject=subject)
+        s = rules.source(cur, own, subject)
+        p = dict(run_id=own['run_id'], source_hash=s['source_hash'])
         request = uuid.uuid4()
-        result = rules.command(cur, 'EPISODES', p, request)
+        result = rules.command(cur, 'EPISODES', p, request, subject=subject)
         assert rules.observation(result, key)['episode']['state'] == 'ARCHIVED'
         count = rules.counts(cur)
-        assert rules.command(cur, 'EPISODES', p, request, lookup=True)['result'] == result['result']
-        assert rules.command(cur, 'EPISODES', p, request)['result'] == result['result']
+        assert rules.command(cur, 'EPISODES', p, request, subject=subject, lookup=True)['result'] == result['result']
+        assert rules.command(cur, 'EPISODES', p, request, subject=subject)['result'] == result['result']
         assert rules.counts(cur) == count
         actor = result['actor_scope_id']
         cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (actor,))
-        auth.refused(cur, lambda: rules.command(cur, 'EPISODES', p, request, lookup=True), 'CP7_REMINDER_ACCESS_DENIED')
+        auth.refused(cur, lambda: rules.command(cur, 'EPISODES', p, request, subject=subject, lookup=True), 'CP7_REMINDER_ACCESS_DENIED')
         return dict(status='PASS', archived_exact_UUID_lost_reply_replay_no_extra_observation=True,
                     current_revoke_before_cached_archived_receipt=True)
 
