@@ -1,0 +1,50 @@
+{
+  "source_commit": "fac73cf61d734638149b3ba1797228990bf37741",
+  "source_tree": "7b84f4542286e2fe02a85629383a97591bb3bb49",
+  "run_id": 37121139613,
+  "job_id": 111197329011,
+  "artifact_id": 11272904588,
+  "archive_sha256": "d1911ff4821748de6fa9c77b063cfd044af3c36d0b10e1d8843e0a174cc8a66d",
+  "status": "INCOMPLETE",
+  "observed_case_count": 37,
+  "counts": {
+    "native": {
+      "PASS": 25,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "failed_case_id": "P05_NATIVE_OPERATIONAL_REDACTION",
+  "case_operational_permission_checks": true,
+  "case_no_financial_operands": true,
+  "case_full_boundary_restored": true,
+  "case_public_schema_unchanged": false,
+  "restore_raw_public_difference_is_only_pair_order": true,
+  "members": {
+    "CP7_F04_NATIVE_BASELINE.json": {
+      "bytes": 298434,
+      "sha256": "c1f9c5653c757141ef878e1f259aa7d03654c01bf4719c1ec0cc6dfedb487ed3",
+      "compressed_sha256": "1bcc77a0456ac9c55b754b48ae27e6ab4dbd1278fa64ff79bc56b5b21871c4eb"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360434,
+      "sha256": "bc6f043025ba3f312481828e616482c408808ed441d7be73718ed1890d7fe644",
+      "compressed_sha256": "aec4ba53b64b9fb36e6ee7b86c2474227e87cd2841d93c8b5d26c12b8e8c4f95"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "production_go": false,
+  "independent_acceptance": false,
+  "note": "Original37 remains INCOMPLETE, not relabelled. One case lacks individual raw before/after snapshots; its restoration raw state confirms only signature/hash-pair order changed. Successor uses the already-owned exact_public_catalog adapter around the CP7 Native group, preserving every field/pair/row and frozen CP6 runner, to determine actual case equivalence. All37 cases remain mandatory."
+}

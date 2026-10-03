@@ -6,7 +6,7 @@ are isolated test controls. No fixture inserts posted stock, AR or HPP results.
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from decimal import Decimal as D
-import copy,json,threading,time,uuid
+import copy,json,math,threading,time,uuid
 import psycopg
 import cp7_sales_draft_cases as drafts
 import cp7_sales_return_cases as returned
@@ -36,12 +36,31 @@ def book(cur,f,**q):
 def lot_card(cur,f,subject=None,**q):
  auth.actor(cur,subject);out=cur.execute('select public.erp_cp7_get_fg_ledger_v2(%s)',(json.dumps(dict(product_id=f['product'],lot_id=f['lot'],location_id=f['location'],quality_grade='GRADE_A',purpose='CARD',limit=100,offset=0)|q),)).fetchone()[0];b.api.admin(cur);return out
 
-def complete_lot_card(cur,f):
+def measured_page(reader,cur,f,observations,phase,**q):
+ start=time.monotonic_ns();page=reader(cur,f,**q);elapsed=(time.monotonic_ns()-start)/1_000_000
+ if observations is not None:
+  observations.append(dict(reader='FG_MAIN_BOOK'if reader is book else'FG_LOT_CARD',phase=phase,
+   offset=page['page']['offset'],limit=page['page']['limit'],rows=len(page['page']['rows']),
+   total=page['page']['total'],elapsed_ms=round(elapsed,3)))
+ return page
+
+def read_measurements(observations):
+ groups={}
+ for reader in ('FG_MAIN_BOOK','FG_LOT_CARD'):
+  samples=sorted(row['elapsed_ms']for row in observations if row['reader']==reader)
+  assert samples and all(math.isfinite(value)and value>=0 for value in samples)
+  groups[reader]=dict(samples=len(samples),p95_nearest_rank_ms=samples[math.ceil(.95*len(samples))-1],
+   maximum_ms=max(samples),total_ms=round(sum(samples),3))
+ return dict(scope='ACTUAL_NATIVE_SQL_RPC_PAGES_UNDER_OWNER_NOT_BROWSER_HTTP_OR_WHOLE_ERP_P19',
+  latency_gate_not_invented=True,P19_full_acceptance=False,groups=groups,pages=observations)
+
+def complete_lot_card(cur,f,observations=None,phase=None):
  result={};off=0
  while True:
-  w=lot_card(cur,f,offset=off)
+  w=measured_page(lot_card,cur,f,observations,phase,offset=off)
   for r in w['page']['rows']:assert r['id']not in result;result[r['id']]=r
   if w['page']['next_offset']is None:break
+  assert w['page']['rows']and w['page']['next_offset']>off,'NOTE_LOT_PAGE_NO_PROGRESS'
   off=w['page']['next_offset']
  assert len(result)==int(w['page']['total'])
  return result
@@ -116,12 +135,13 @@ def stock(cur,today,qty=1200,at=None):
  b.api.admin(cur)
  return dict(product=product,lot=str(cur.execute('select lot_id from erp.fg_unsourced_receipts_v1 where id=%s',(receipt['receipt_id'],)).fetchone()[0]),location=source.fg.base.LOCATION,at=at.isoformat(),sku=cur.execute('select sku from erp.products where id=%s',(product,)).fetchone()[0],tag='NOTE-'+uuid.uuid4().hex[:12],customer=str(source.fg.base.create_customer(cur,'NOTE-'+uuid.uuid4().hex[:12])),sale_at=(at+timedelta(hours=1)).isoformat())
 
-def complete_book(cur,f):
+def complete_book(cur,f,observations=None,phase=None):
  result=[];offset=0
  while True:
-  page=book(cur,f,offset=offset)
+  page=measured_page(book,cur,f,observations,phase,offset=offset)
   result+=page['page']['rows']
   if page['page']['next_offset']is None:break
+  assert page['page']['rows']and page['page']['next_offset']>offset,'NOTE_MAIN_PAGE_NO_PROGRESS'
   offset=page['page']['next_offset']
  assert len(result)==int(page['page']['total'])and len({r['id']for r in result})==len(result)
  return {r['id']:r for r in result}
@@ -165,8 +185,10 @@ def year(cur,today,count):
  for n in range(count):
   later=dict(f,tag=f['tag']+'-L'+str(n+1),sale_at=(first+timedelta(days=n+1)).isoformat());posted(cur,later,'12','20')
   ids.append(str(cur.execute("select m.id from erp.fg_stock_movements m join erp.sales_items i on i.id=m.source_id where i.sale_id=%s and m.movement_type='SALE'",(later['sale'],)).fetchone()[0]))
- before_lot=complete_lot_card(cur,f);before=complete_book(cur,f);physical_before=cmd.available(cur,f);original_orders={r['id']:r['book_order']for r in before.values()}
- p,v=edit(cur,f,'12');out=correct(cur,p,v);f['sale']=out['sale_id'];after=complete_book(cur,f);after_lot=complete_lot_card(cur,f)
+ observations=[]
+ before_lot=complete_lot_card(cur,f,observations,'BEFORE_CORRECTION');before=complete_book(cur,f,observations,'BEFORE_CORRECTION');physical_before=cmd.available(cur,f);original_orders={r['id']:r['book_order']for r in before.values()}
+ p,v=edit(cur,f,'12');started=time.monotonic_ns();out=correct(cur,p,v);correction_ms=round((time.monotonic_ns()-started)/1_000_000,3)
+ f['sale']=out['sale_id'];after=complete_book(cur,f,observations,'AFTER_CORRECTION');after_lot=complete_lot_card(cur,f,observations,'AFTER_CORRECTION')
  for ident in ids:
   assert D(after_lot[ident]['physical_balance'])-D(before_lot[ident]['physical_balance'])==12
   assert D(after_lot[ident]['available_balance'])-D(before_lot[ident]['available_balance'])==12
@@ -179,9 +201,10 @@ def year(cur,today,count):
  assert cmd.available(cur,f)==physical_before+12 and unchanged_facts(cur,root)==facts
  assert history(cur,root)['current_sale_id']==out['sale_id']and len(history(cur,root)['history'])==1
  for query in (dict(offset=25,limit=5,movement_types=['SALE']),dict(**{'from':(first+timedelta(days=15)).isoformat()},movement_types=['SALE'])):
-  page=book(cur,f,**query)
+  page=measured_page(book,cur,f,observations,'FILTERED_AFTER_CORRECTION',**query)
   for r in page['page']['rows']:assert r['book_physical_after']==after[r['id']]['book_physical_after']and r['official_physical_after']==after[r['id']]['official_physical_after']
- return dict(status='PASS',later_balances_checked=count,each_official_and_main_book_delta_pcs=12,source_quantity_pcs=24,effective_quantity_pcs=12,original_fact_rows_immutable=True,original_manual_ranks_unchanged=True,complete_prefix_before_pages_and_filters=True,one_owning_note_command=True,current_available_before=physical_before,current_available_after=physical_before+12)
+ return dict(status='PASS',later_balances_checked=count,each_official_and_main_book_delta_pcs=12,source_quantity_pcs=24,effective_quantity_pcs=12,original_fact_rows_immutable=True,original_manual_ranks_unchanged=True,complete_prefix_before_pages_and_filters=True,one_owning_note_command=True,current_available_before=physical_before,current_available_after=physical_before+12,
+  actual_native_owning_correction_ms=correction_ms,actual_native_read_measurements=read_measurements(observations))
 
 def cases(cur,today):
  def repeat():

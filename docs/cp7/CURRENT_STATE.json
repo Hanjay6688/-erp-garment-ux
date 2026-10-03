@@ -3519,7 +3519,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Standing continuation: qualify successor source57, retaining all50 cases and first22d0 Original; complete remaining source/dependency exits, real fabric/material/P08 and full P18/P19 work during qualification. Then P20 independent and P21 installed gates. Routine checkpoints do not stop the authorized work. No main/hosted/liveWA or self-issued acceptance.",
+  "next_action": "Standing continuation: qualify source57 and unchanged Native40 yearly correction with actual page/correction timing. Retain every prior case/Original and finish remaining feasible source/material/P08/P18/P19 work. Missing operating inputs stay UNKNOWN; P20 independent/P21 installed gates are separate. Routine checkpoints do not stop work. No main/hosted/liveWA.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -7954,6 +7954,36 @@
       "receipt": "docs/cp7/evidence/transaction-source/qc-source-local/LOCAL_RECEIPT.json",
       "handoff": "docs/cp7/QC_SOURCE_HANDOFF.md",
       "scope": "Actual QC item FK to owning complete laundry-linked inspection; current exact Native query; QC inverse FG reference follows original movement only; unchanged Native QC command/recovery. Other FG inverse families and legacy/import QC stay unsupported."
+    },
+    "historical_read_load_candidate": {
+      "status": "NATIVE_REQUALIFICATION_PENDING",
+      "provider": "scripts/cp7_note_correction_cases.py",
+      "provider_sha256": "160be4e34ec0bbae8b8decf5c8fa9fd7004cffe3abe83d5f3a814f59ee8499e5",
+      "existing_Native40_budget_unchanged": true,
+      "actual_year_profiles": [
+        30,
+        364
+      ],
+      "measurements": [
+        "per exact authenticated Native main-book and lot-card page: offset/limit/rows/total/elapsed_ms",
+        "nearest-rank p95/max/total with actual sample count",
+        "one actual Native atomic correction elapsed_ms"
+      ],
+      "all_original_running_balance_and_immutability_assertions_retained": true,
+      "additional_no_progress_page_refusal": true,
+      "scope": "Native SQL RPC and Auth round trips on the declared fixture only; not browser/network/full ERP throughput or full P19 acceptance.",
+      "latency_SLA_not_fabricated": true,
+      "independent_acceptance": false,
+      "production_go": false
+    },
+    "baseline_catalog_comparison_candidate": {
+      "status": "NATIVE37_REQUALIFICATION_PENDING",
+      "first_original": "docs/cp7/evidence/finisher-regression/baseline-first-fac73/RECEIPT.json",
+      "all37_cases_unchanged": true,
+      "every_original_public_catalog_field_pair_and_row_preserved": true,
+      "frozen_CP6_runner_unchanged": true,
+      "existing_exact_comparator": "scripts/cp7_catalog_state.py",
+      "scope": "Case checks succeed, public raw equality failed; restore only pair order differs. First case lacks raw per-case snapshots, so no retroactive PASS. Actual comparator audit in successor is required."
     }
   }
 }
