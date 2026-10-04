@@ -1,0 +1,38 @@
+name: CP7 Completed Source702 Original Projection
+'on':
+  push:
+    branches: [cp7/integration]
+    paths:
+      - docs/cp7/native284_702_qualified_projection.json
+      - scripts/cp7_native_artifact_projection.py
+      - scripts/cp7_native_artifact_projection_test.py
+      - scripts/cp7_verify_retained_originals.py
+      - scripts/cp7_verify_retained_originals_test.py
+      - .github/workflows/cp7-current-original-projection.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  retain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Retain one exact completed Original with no ERP access
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python scripts/cp7_native_artifact_projection_test.py
+          python scripts/cp7_native_artifact_projection.py docs/cp7/native284_702_qualified_projection.json cp7-proof/native284-702
+      - name: Verify all Original roots, declared case IDs, source and cleanup gates
+        run: |
+          python scripts/cp7_verify_retained_originals_test.py
+          python scripts/cp7_verify_retained_originals.py cp7-proof/native284-702 --manifest docs/cp7/native284_702_qualified_projection.json --projection-head "$GITHUB_SHA"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-source702-exact-original-reports
+          path: cp7-proof/
+          if-no-files-found: error
+          retention-days: 90
