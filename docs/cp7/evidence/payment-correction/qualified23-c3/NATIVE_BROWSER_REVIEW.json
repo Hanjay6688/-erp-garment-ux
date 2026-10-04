@@ -1,0 +1,25 @@
+{
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "run_id": 37165327308,
+  "images": [
+    {
+      "file": "docs/cp7/evidence/payment-correction/qualified23-c3/images/CP7_PAYMENT_CORRECTION_DESKTOP.png",
+      "Original_member": "CP7_PAYMENT_CORRECTION_DESKTOP.png",
+      "sha256": "db7316ebdf416bf62d25f2e53c8253173b98ad6b31da3e40012fd2f3f1536851",
+      "reviewed_unedited_original": true
+    },
+    {
+      "file": "docs/cp7/evidence/payment-correction/qualified23-c3/images/CP7_PAYMENT_CORRECTION_MOBILE.png",
+      "Original_member": "CP7_PAYMENT_CORRECTION_MOBILE.png",
+      "sha256": "27ded75c347629e53f4232cf2cafab1ff72c17fe273d2409d1b4ce273ffc4cc6",
+      "reviewed_unedited_original": true
+    }
+  ],
+  "desktop_actual_lost_committed_reply_same_UUID": true,
+  "mobile_lost_reply_not_executed": true,
+  "amount_original30_01_corrected20_01_restored30_01": true,
+  "Native_microseconds_effects_and_history_from_executed_assertions": true,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

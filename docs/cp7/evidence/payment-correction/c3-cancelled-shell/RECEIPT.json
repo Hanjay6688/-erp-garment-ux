@@ -1,0 +1,32 @@
+{
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "run_id": 37165327316,
+  "overall_conclusion": "cancelled",
+  "application_job": {
+    "id": 111326940211,
+    "conclusion": "success",
+    "actual_tests": 1446,
+    "files": 150,
+    "browsers": 6
+  },
+  "CodeQL_actions_job": {
+    "id": 111326940365,
+    "conclusion": "success"
+  },
+  "CodeQL_javascript_job": {
+    "id": 111326940376,
+    "conclusion": "cancelled"
+  },
+  "reason": "Successor proof-only branch push triggers existing same-branch Shell cancel-in-progress policy",
+  "complete_Shell_credit": false,
+  "qualified_successor_run_id": 37165732182,
+  "qualified_successor_head": "2a2c42e92c1c61d1dff66aef218329154d38f311",
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "Original_log": {
+    "raw_bytes": 172531,
+    "raw_sha256": "3187c68d25ffaa9f19253303fd750eb5840c29c312b17488a22b41c52424b92c",
+    "gzip_sha256": "0e5c41d388e41aef3d61d78f6137341ad719efb526c21626e973ce2adff71c3c"
+  }
+}

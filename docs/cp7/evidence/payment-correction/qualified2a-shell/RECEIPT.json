@@ -1,0 +1,100 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_SHELL_WRITER_QUALIFIED_NOT_FULL_CP7",
+  "status": "PASS",
+  "source_commit": "2a2c42e92c1c61d1dff66aef218329154d38f311",
+  "source_tree": "a4a458c43e934e75368817efc8449ca58a79cc77",
+  "run_id": 37165732182,
+  "job_id": 111328139658,
+  "all_jobs_completed_successfully": true,
+  "artifact_id": 11288524501,
+  "artifact_bytes": 491629,
+  "artifact_sha256": "5d852a0c39ac123849e5425c276378c7d0d5b94d548d45f925a8ab0ffb742dc5",
+  "archive_members": {
+    "f04-private-kernels.json": {
+      "bytes": 53272,
+      "sha256": "8faf199aa4b3ec7d653fdb1138b175e7d06ecd3e21fe0cb5603a07c15f7cd9ce"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "results.json": {
+      "bytes": 12733,
+      "sha256": "7f0ef187a5a12c62f8a08b7d1a45ae24e7a60307eaa77c1950f58e2d5b2b5265"
+    }
+  },
+  "root_reports": {
+    "f04-private-kernels.json": {
+      "file": "docs/cp7/evidence/payment-correction/qualified2a-shell/f04-private-kernels.json.gz",
+      "raw_bytes": 53272,
+      "raw_sha256": "8faf199aa4b3ec7d653fdb1138b175e7d06ecd3e21fe0cb5603a07c15f7cd9ce",
+      "gzip_bytes": 6848,
+      "gzip_sha256": "99a312c5a37b91409822cc1dc0405189a96e562ce69d272f53e515151f159a83"
+    },
+    "results.json": {
+      "file": "docs/cp7/evidence/payment-correction/qualified2a-shell/results.json.gz",
+      "raw_bytes": 12733,
+      "raw_sha256": "7f0ef187a5a12c62f8a08b7d1a45ae24e7a60307eaa77c1950f58e2d5b2b5265",
+      "gzip_bytes": 1891,
+      "gzip_sha256": "e82f9d901c995e9533c364c2aa2ab13aee41fbcc010debaf0aef63a54bd9af0f"
+    }
+  },
+  "original_CI_log": {
+    "file": "docs/cp7/evidence/payment-correction/qualified2a-shell/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 172333,
+    "raw_sha256": "a4f8b6d3e3f45976e63208b38d5a3647b80038c7341ec388efc393acf46dc1aa",
+    "gzip_bytes": 33803,
+    "gzip_sha256": "46cfde4bd1de63153b2d14c0c4474364752de8196434a12bbd292d53aba4bf9c"
+  },
+  "application_tests": 1446,
+  "application_test_files": 150,
+  "actual_shell_browsers": 6,
+  "build_and_security": "PASS",
+  "runtime_source_files": 260,
+  "owned_RPC_boundaries": 191,
+  "stylesheets": 53,
+  "orphan_or_direct_browser_table_access": false,
+  "both_CodeQL": {
+    "cp7-codeql-javascript-typescript": {
+      "artifact_id": 11289403172,
+      "archive_bytes": 121486,
+      "archive_sha256": "a53fea86c60aec48864a10952a78a476cced7100adf900a8bc0a9d5d695c1271",
+      "member": "javascript.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/payment-correction/qualified2a-shell/cp7-codeql-javascript-typescript.sarif.gz",
+        "raw_bytes": 1327932,
+        "raw_sha256": "f3556af72ac24b879c2460980e6bdf2a4dbdd237da0f6a7bf8ce0e5f2098d6fc",
+        "gzip_bytes": 118342,
+        "gzip_sha256": "6b94bab11c5ac3671ba31eee3c2550519fbb44d3729264d68332f5e85d997211"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    },
+    "cp7-codeql-actions": {
+      "artifact_id": 11288984226,
+      "archive_bytes": 51702,
+      "archive_sha256": "3771ad2b5f76a56af53952932feba4dbf45110287a6c337209c70d47f89e8972",
+      "member": "actions.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/payment-correction/qualified2a-shell/cp7-codeql-actions.sarif.gz",
+        "raw_bytes": 710051,
+        "raw_sha256": "a6d32504bf94e563cdd92c04fc1a03a5148b9d2ad16bc2adb8bc257a0662ac83",
+        "gzip_bytes": 48861,
+        "gzip_sha256": "578831901eeb76f119aaa0e37827573dfeab4b9cf53a332db07c3fea048309f7"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    }
+  },
+  "private_kernel_scope_only": true,
+  "private_kernel_cases": 138,
+  "first3d_admission_failures_relabelled": false,
+  "c3_Shell_cancelled_JavaScript_job_not_full_Shell_credit": true,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

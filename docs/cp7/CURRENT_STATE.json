@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Verify implemented ordinary-payment atomic correction at its exact source: Native23, complete Shell and all current regressions; retain first failures and actual Original roots/images/gates. Then continue feasible CP7 owning edit/rollback exits.",
+  "execution_priority": "Continue supplier payment owning atomic correction after reading actual Native schema/post/inverse/cent and current authority contracts. Preserve qualified payment23 c3 and full Shell2a; remaining note40 regression running. Do not end the CP7 mandate at this bounded green checkpoint.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -4182,7 +4182,7 @@
     "posted_used_receipt_quantity_roll_correction_complete": false,
     "safe_refusal_is_not_complete_correction_usability": true,
     "wrong_material_identity_reassignment_complete": false,
-    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12→11,AP12000→11000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
+    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12\u219211,AP12000\u219211000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
     "previous_registered_receipt32": "docs/cp7/evidence/receipt-correction/qualified32-e873462/RECEIPT.json",
     "current_registered_receipt42": "docs/cp7/evidence/claude-merge-20261003/receipt-qualified42/RECEIPT.json"
   },
@@ -4944,7 +4944,7 @@
         }
       ],
       "qualified_log_lines": [
-        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:25:35.1498781Z  \u2713 tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
         "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
         "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
         "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
@@ -5859,7 +5859,7 @@
         }
       ],
       "qualified_log_lines": [
-        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:25:35.1498781Z  \u2713 tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
         "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
         "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
         "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
@@ -6691,7 +6691,7 @@
               "bytes": 531098
             }
           },
-          "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260→250/remaining740→750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+          "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
           "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
           "production_go": false,
           "independent_acceptance": false,
@@ -7079,7 +7079,7 @@
             "bytes": 531098
           }
         },
-        "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260→250/remaining740→750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+        "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
         "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
         "production_go": false,
         "independent_acceptance": false,
@@ -7169,7 +7169,7 @@
           "writer_runtime": false
         },
         "console_errors": 0,
-        "cause": "Both exact Native QC fixture labels are BF-…-31; the browser test incorrectly searched literal Good final size 31. Native queues, stock and source controls pass. Successor uses the size_code from the same current Native response. Original failures and complete Native state are retained unchanged.",
+        "cause": "Both exact Native QC fixture labels are BF-\u2026-31; the browser test incorrectly searched literal Good final size 31. Native queues, stock and source controls pass. Successor uses the size_code from the same current Native response. Original failures and complete Native state are retained unchanged.",
         "production_go": false,
         "independent_acceptance": false,
         "receipt": "docs/cp7/evidence/transaction-source/first4042/RECEIPT.json"
@@ -10176,7 +10176,7 @@
     "prior_timeout_cause_closed": false
   },
   "ordinary_payment_correction_candidate": {
-    "status": "EXACT_RECOVERY_ACTION_AND_RPC_TYPE_ADMISSION_REPAIRED_FRESH_NATIVE23_SHELL_PENDING",
+    "status": "WRITER_QUALIFIED_ACTUAL_NATIVE23_C3_AND_COMPLETE_SHELL_2A",
     "handoff": "docs/cp7/SALES_PAYMENT_CORRECTION_HANDOFF.md",
     "owning_write_rpc": "erp_cp7_correct_sales_payment_v1",
     "owning_read_rpc": "erp_cp7_get_sales_payment_correction_v1",
@@ -10200,7 +10200,7 @@
     "year_prefix_test_reads_actual_Native_economic_days": true,
     "syntax_and_pure_contract_standins_pass": true,
     "local_full_Native_DOM_available": false,
-    "actual_native_feature_credit": false,
+    "actual_native_feature_credit": true,
     "whole_chain_atomic_rollback": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
@@ -10226,7 +10226,31 @@
     "first_native_overall_status": "INCOMPLETE",
     "first_native_writer_runtime_gate": false,
     "both_raw364_cash_prefix_arrays_recomputed_delta_minus12": true,
-    "source_bundle_unchanged_by_frontend_admission_successor": "cc0cc86ad9e46eb51f784f71fa6381bc312e7989137bc7df9ca123bb1235c28f"
+    "source_bundle_unchanged_by_frontend_admission_successor": "cc0cc86ad9e46eb51f784f71fa6381bc312e7989137bc7df9ca123bb1235c28f",
+    "qualified_Native_source": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+    "qualified_Native_receipt": "docs/cp7/evidence/payment-correction/qualified23-c3/RECEIPT.json",
+    "qualified_Native_counts": {
+      "native": 14,
+      "races": 4,
+      "http": 3,
+      "browser": 2
+    },
+    "qualified_Shell_source": "2a2c42e92c1c61d1dff66aef218329154d38f311",
+    "qualified_Shell_receipt": "docs/cp7/evidence/payment-correction/qualified2a-shell/RECEIPT.json",
+    "qualified_application_counts": {
+      "tests": 1446,
+      "files": 150,
+      "browsers": 6,
+      "runtime_files": 260,
+      "owned_RPC": 191,
+      "stylesheets": 53,
+      "both_CodeQL_findings": 0
+    },
+    "two_unedited_Native_payment_images_actually_viewed": true,
+    "raw_year_native_and_committed_Auth_arrays_verified": 364,
+    "actual_Auth_year_request_ms": 75.275,
+    "production_SLA": false,
+    "c3_Shell_JS_CodeQL_cancelled_not_relabelled": true
   },
   "latest_payment_predecessor_qualification": {
     "source_commit": "9279533f095bb51ae867415c5993f927560195da",
@@ -10249,5 +10273,28 @@
     "all_exact_roots_ids_gates_and_full_logs_checked": true,
     "first702_admission_failure_relabelled": false,
     "new_payment_correction_credit": false
+  },
+  "latest_source702_attention_original_qualification": {
+    "status": "WRITER_QUALIFIED_ORIGINAL_NATIVE284_NOT_PROJECTION_CASE_EXECUTION",
+    "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+    "source_tree": "38d54c989af9b0892bdfa367fe0674e745ad0cb0",
+    "run_id": 37160029453,
+    "receipt": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/RECEIPT.json",
+    "actual_groups": {
+      "native": 179,
+      "races": 40,
+      "http": 29,
+      "browser": 36
+    },
+    "all_exact284_previous7112_IDs_preserved": true,
+    "Original_roots": 18,
+    "Original_8_images_actually_viewed": true,
+    "projection_source": "2a2c42e92c1c61d1dff66aef218329154d38f311",
+    "projection_run": 37165732245,
+    "projection_executions": 0,
+    "external_model_obedience": false,
+    "full_family_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
