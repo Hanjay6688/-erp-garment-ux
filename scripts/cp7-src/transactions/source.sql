@@ -5,6 +5,8 @@ revoke all on schema cp7_transaction_source from public,anon,authenticated,servi
 grant usage on schema erp,auth to cp7_transaction_source_read;
 grant usage on schema cp7_installment to cp7_transaction_source_read;
 grant select on cp7_installment.payments to cp7_transaction_source_read;
+grant usage on schema cp7_payment_correction to cp7_transaction_source_read;
+grant select on cp7_payment_correction.links to cp7_transaction_source_read;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text) to cp7_transaction_source_read;
 grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.material_rolls,
  erp.material_supplier_invoices,erp.material_supplier_invoice_lines,erp.supplier_payments,
@@ -56,6 +58,18 @@ begin
   select j.source_type,j.source_id into kind,ident from erp.journal_entries j where j.id=ident;
   if not found or ident is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
  end loop;
+ -- Economic-date entries belong to the exact ordinary payment correction.
+ -- Require both the immutable correction FK and the actual Native journal;
+ -- an arbitrary payment UUID cannot masquerade as a correction source.
+ if kind in('PAYMENT_CORRECTION_TIME_NEUTRAL','PAYMENT_CORRECTION_EFFECTIVE')then
+  if not erp.has_permission('finance.journal.view')or a->'profile'->>'role_code'not in('OWNER','ADMIN')then
+   raise exception using errcode='42501',message='CP7_TRANSACTION_SOURCE_ACCESS_DENIED';end if;
+  if not exists(select 1 from cp7_payment_correction.links l join erp.journal_entries j
+   on j.id=case when kind='PAYMENT_CORRECTION_TIME_NEUTRAL'then l.time_neutral_id else l.effective_inverse_id end
+   where l.original_id=ident and j.source_type=kind and j.source_id=ident and j.status='POSTED')then
+   raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
+  kind:='SALES_PAYMENT';
+ end if;
  -- A Native FG inverse references the original movement UUID, not a QC
  -- inspection. Follow that actual immutable link only for the qualified QC
  -- source family. Other FG inverse families stay explicitly unsupported.

@@ -5,6 +5,7 @@ import cp7_analysis_bundle as bundle
 import cp7_schedule_bundle as schedule
 import cp7_f03_bundle as f03
 import cp7_note_correction_verify as note_correction
+import cp7_sales_payment_correction_bundle as payment_correction_ownership
 import cp7_planning_bundle as planning
 import cp7_baseline_bundle as baseline
 import cp7_supply_bundle as supply
@@ -30,9 +31,10 @@ def verify(cur):
  bundle.verify(cur)
  payroll.verify(cur,True,True,True,True,True);finance.verify(cur);f03.journal.verify(cur);f03.misc.verify(cur);f03.installment.verify(cur)
  note_correction.verify(cur);f03.transaction_source.verify(cur);f03.misc_correction.verify(cur)
+ payment_correction_ownership.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False):
+def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False):
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=152;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if attention:
   import cp7_obligation_report_bundle as candidate
@@ -59,9 +61,15 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation))
   import cp7_misc_correction_cases as case_provider
   expected=case_provider.EXPECTED;assert expected==20;out=OUT.with_name('CP7_MISC_CORRECTION.json');phase='cp7_misc_correction';browser_script='cp7_misc_correction_browser.mjs'
+ if payment_correction:
+  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction))
+  import cp7_payment_correction_cases as case_provider
+  expected=case_provider.EXPECTED;assert expected==23;out=OUT.with_name('CP7_PAYMENT_CORRECTION.json');phase='cp7_payment_correction';browser_script='cp7_payment_correction_browser.mjs'
  report=dict(label='CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='ATOMIC_POSTED_MISC_NATIVE_INVERSE_REPLACEMENT_HISTORY_EXACT_UUID_CURRENT_AUTH_AND_BROWSER_CORRECTION'if misc_correction else'EXACT_NATIVE_SOURCE_PARENT_CHILD_PAGE_CURRENT_AUTH_OWNING_BROWSER_INVERSE_RETAINED_F03_REVOKE_SCHEDULES'if source_navigation else'NATIVE_INACTIVE_EPISODE_ARCHIVE_NOT_PAID_EXACT_SOURCE_REPLAY_CURRENT_AUTH_AND_RETAINED_E01_BRIDGE'if rule_lifecycle else'FOCUSED_E01_NATIVE_SOURCE_TO_ORIGINAL_REPORT_APPENDIX_RULE_EPISODES_NOT_FULL_P18'if p18_e01 else'IMMUTABLE_NATIVE_PUBLICATIONS_ATTENTION_ALL_NATIVE_OBLIGATION_DOMAINS_UNKNOWN_REVIEW_EPISODES_LOCAL_TEST_SINK'if attention else'FROZEN_ANALYSIS_V2_NATIVE_PUBLICATION_REVISION_PERIOD_COMPARISON_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  if attention:report['required_case_counts']=dict(native=179,races=40,http=29,browser=36)
- if rule_lifecycle or source_navigation or misc_correction:report['required_case_counts']=case_provider.REQUIRED
+ if payment_correction:
+  report.update(label='CP7_PAYMENT_CORRECTION',scope='ORDINARY_CASH_PAYMENT_ATOMIC_NATIVE_INVERSE_REPLACEMENT_EXACT_HISTORY_OLD_DATES_CURRENT_AUTH_RECOVERY_BROWSER')
+ if rule_lifecycle or source_navigation or misc_correction or payment_correction:report['required_case_counts']=case_provider.REQUIRED
  if p18_e01:report['required_case_counts']=case_provider.REQUIRED;report['full_P18_acceptance']=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -104,7 +112,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    report['source_admission_required_case_credit']=0
    assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
   with exact_public_catalog(native)as catalog_audit:
-   report['native']=native.strict_group('CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+   report['native']=native.strict_group('CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
   report['native_public_catalog_comparison']=catalog_audit
   report['races']=modes.run_races(case_provider,checker,phase)
   report['http']=modes.run_http(case_provider,checker,phase)
@@ -126,7 +134,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
     if restored_functions!=accepted_functions_before:report['restore_function_difference']=dict(before=accepted_functions_before,after=restored_functions)
     report['cp6_restored']=all(report['restore_components'].values());conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice','cp7_receipt_fix')for f in d.get('added',[])))
-  groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':

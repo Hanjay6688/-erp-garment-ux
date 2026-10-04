@@ -18,6 +18,7 @@ import {Pencil,Trash2} from 'lucide-react'
 import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import TransactionDependencyNotice,{type TransactionDependencyStep} from './TransactionDependencyNotice'
 import SalesInvoiceDependencies from './SalesInvoiceDependencies'
+import {parsePaymentCorrectionOutcome} from './salesPaymentCorrectionContract'
 import './procurement-connected.css'
 const labels:Record<SalesStatus,string>={DRAFT:'Draft · stok dipesan',POSTED:'Belum lunas',PARTIAL_PAID:'Dibayar sebagian',PAID:'Lunas',CANCELLED:'Draft dibatalkan',REVERSED:'Penjualan dibatalkan'}
 const money=(v:string)=>`Rp${numberText(v)}`
@@ -54,9 +55,9 @@ function Workspace({view,initialSaleId,focus}:{view:View;initialSaleId:string|nu
  const visible=mutation.workspaceStale?null:data,d=visible?.detail,f=d?.financial
  useEffect(()=>{if(!focus||openedFocus.current||!d||d.id!==initialSaleId||mutation.workspaceStale)return;openedFocus.current=true;const value={source:d,key:crypto.randomUUID()};if(focus.kind==='SALES_PAYMENT')setCash(value);else if(focus.kind==='SALES_RETURN')setReturns(value)},[focus,d,initialSaleId,mutation.workspaceStale])
  const envelope=(value:Json)=>{const p=value as {document:Json;expected_version:string|null};if(!p||typeof p!=='object'||p.expected_version!==null&&typeof p.expected_version!=='string'||!p.document||typeof p.document!=='object'||Array.isArray(p.document))throw Error('Permintaan invoice belum lengkap.');return p}
- const outcome=(v:unknown,e:{payload:Json;id:string;action:string})=>{const document=envelope(e.payload).document as {sale_id?:string;payment_id?:string;return_id?:string;sale_date?:string};return e.action==='CORRECT'?parseNoteCorrectionOutcome(v,e.id,document.sale_id??'',document.sale_date??''):parseSalesOutcome(v,e.id,e.action,document.sale_id??null,document.payment_id??null,document.return_id??null)}
+ const outcome=(v:unknown,e:{payload:Json;id:string;action:string})=>{const document=envelope(e.payload).document as {sale_id?:string;payment_id?:string;return_id?:string;sale_date?:string};return e.action==='PAYMENT_CORRECT'?parsePaymentCorrectionOutcome(v,e.id,document.sale_id??'',document.payment_id??''):e.action==='CORRECT'?parseNoteCorrectionOutcome(v,e.id,document.sale_id??'',document.sale_date??''):parseSalesOutcome(v,e.id,e.action,document.sale_id??null,document.payment_id??null,document.return_id??null)}
  const handlers:ProductionMutationHandlers={
-  send:e=>{const p=envelope(e.payload);if(e.action==='CORRECT'){if(p.expected_version===null)throw Error('Versi nota asal diperlukan.');return client.rpc('erp_cp7_correct_note_v1',{p_payload:p.document,p_request:e.id,p_expected:p.expected_version})}return client.rpc('erp_cp7_save_sale_v1',{p_action:e.action,p_payload:p.document,p_request:e.id,p_expected:p.expected_version})},
+  send:e=>{const p=envelope(e.payload);if(e.action==='PAYMENT_CORRECT'){if(p.expected_version===null)throw Error('Versi invoice asal diperlukan.');return client.rpc('erp_cp7_correct_sales_payment_v1',{p_payload:p.document,p_request:e.id,p_expected:p.expected_version})}if(e.action==='CORRECT'){if(p.expected_version===null)throw Error('Versi nota asal diperlukan.');return client.rpc('erp_cp7_correct_note_v1',{p_payload:p.document,p_request:e.id,p_expected:p.expected_version})}return client.rpc('erp_cp7_save_sale_v1',{p_action:e.action,p_payload:p.document,p_request:e.id,p_expected:p.expected_version})},
   validate:(v,e)=>{outcome(v,e)},
   retire:(v,e)=>{const r=outcome(v,e);++historySequence.current;requested.current.sale_id=r.sale_id;setData(null);setHistory(null);setReviewed(false);setDraft(null);setCash(null);setReturns(null)},reload:load,
  }

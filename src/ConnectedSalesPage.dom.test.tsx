@@ -7,6 +7,7 @@ import {parseSalesRead,parseSalesOutcome} from './salesReadContract'
 import {parseNoteCorrectionOutcome,parseNoteCorrectionWorkspace} from './noteCorrectionContract'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 import {readProductionRecovery} from './productionRecovery'
+import type {PaymentCorrectionWorkspace} from './salesPaymentCorrectionContract'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
@@ -160,5 +161,37 @@ describe('owning historical note correction',()=>{
   for(const effective_at of ['2026-09-29T03:00:00.123457Z','2026-09-29T03:00:00.123455Z','2026-09-29T03:00:00.123Z','2026-09-29T03:00:00.1234567Z']){
    expect(()=>parseNoteCorrectionOutcome({...correctionOutcome(id),effective_at},id,id,original)).toThrow()
   }
+ })
+})
+
+const editedPayment='33333333-3333-4333-8333-333333333333',replacementPayment='44444444-4444-4444-8444-444444444444',paymentBank='55555555-5555-4555-8555-555555555555'
+const paymentDocument={id:editedPayment,number:'PAY-1',physical_at:'2026-09-29T04:00:59.123456+00:00',amount:'30.00',cash_account_id:paymentBank,cash_account_name:'Bank utama',method:'BANK_TRANSFER',reference:'REF-1',notes:'Catatan asli',status:'POSTED' as const,replaces_payment_id:null}
+function paymentWorkspace():PaymentCorrectionWorkspace{return{contract_version:'cp7.sales-payment-correction-workspace.v1',captured_at:'2026-09-29T05:00:00Z',sale_id:id,row_version:'9007199254740993',review_token:'a'.repeat(32),document:paymentDocument,eligible:true,previous:null,next:null,cash_accounts:{rows:[{id:paymentBank,code:'BANK-1',name:'Bank utama',kind:'BANK'}],total:'1',offset:0,limit:25,next_offset:null}}}
+function paymentOutcome(key:string){return{contract_version:'cp7.sales-payment-correction.v1',kind:'COMMITTED_OUTCOME',action:'PAYMENT_CORRECT',request_id:key,sale_id:id,status:'PARTIAL_PAID',row_version:'9007199254740994',original_payment_id:editedPayment,original_payment_status:'REVERSED',payment_id:replacementPayment,payment_status:'POSTED',link:{original_id:editedPayment,replacement_id:replacementPayment,sale_id:id,actor_scope_id:id,request_id:key,reason:'Nominal pembayaran diperbaiki',recorded_at:'2026-09-29T05:00:00Z',time_restatement:null}}}
+function editedInvoice(selected:boolean,committed:boolean){const w=data(true,selected);if(committed){for(const r of [...w.page.rows,...(w.detail?[w.detail]:[])]){r.row_version='9007199254740994';r.financial!.paid_total='20.00';r.financial!.open_balance='40.00'}if(w.detail)w.detail.review_token='b'.repeat(32)}return w}
+function allowPaymentEdit(){const a=structuredClone(recoveryIdentity);a.identity.permissions.push('sales.invoice.view','finance.ar.view','sales.payment.view','sales.payment.create','sales.payment.post','sales.payment.reverse');state.auth=a}
+async function openPaymentEdit(){await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);await click(button('Pembayaran invoice'));await click(button('Edit pembayaran PAY-1'));await fillInvoice('Nominal koreksi pembayaran','20.00');await fillInvoice('Alasan koreksi pembayaran','Nominal pembayaran diperbaiki');await click(container.querySelector<HTMLInputElement>('[aria-label="Koreksi pembayaran sudah diperiksa"]')!)}
+describe('payment correction owning command and recovery routing with declared server stand-ins',()=>{
+ it('routes the reviewed edit to one owning endpoint and retires the old form after source refresh',async()=>{
+  allowPaymentEdit();let committed=false
+  client.rpc.mockImplementation(async(name,args)=>{
+   if(name==='erp_cp7_get_sales_v1')return{data:editedInvoice(!!args.p_query.sale_id,committed),error:null}
+   if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:id,row_version:'9007199254740993',review_token:'a'.repeat(32),payments:{rows:[paymentDocument],total:'1',offset:0,limit:25,next_offset:null},cash_accounts:paymentWorkspace().cash_accounts},error:null}
+   if(name==='erp_cp7_get_sales_payment_correction_v1')return{data:paymentWorkspace(),error:null}
+   if(name==='erp_cp7_correct_sales_payment_v1'){committed=true;return{data:paymentOutcome(args.p_request),error:null}}throw Error('Unowned payment-edit RPC')
+  });await openPaymentEdit();await click(button('Simpan koreksi pembayaran'))
+  const sends=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_correct_sales_payment_v1');expect(sends).toHaveLength(1);expect(sends[0][1]).toMatchObject({p_expected:'9007199254740993',p_payload:{sale_id:id,payment_id:editedPayment,review_token:'a'.repeat(32),replacement:{amount:'20.00',payment_date:paymentDocument.physical_at}}})
+  expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false);expect(container.querySelector('[aria-label="Edit pembayaran pelanggan"]')).toBeNull();expect(container.textContent).toContain('Sisa pembayaran Rp40');const scope=`${recoveryIdentity.runtime.projectRef}:${recoveryIdentity.identity.profile.id}`;expect(readProductionRecovery(scope).pending.SALES).toBeUndefined()
+ })
+ it('retains the exact lost-reply envelope across remount and a current-access refusal, then reconciles it once',async()=>{
+  allowPaymentEdit();let committed=false,lost=false,revoked=false
+  client.rpc.mockImplementation(async(name,args)=>{
+   if(name==='erp_cp7_get_sales_v1')return{data:editedInvoice(!!args.p_query.sale_id,committed),error:null}
+   if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:id,row_version:'9007199254740993',review_token:'a'.repeat(32),payments:{rows:[paymentDocument],total:'1',offset:0,limit:25,next_offset:null},cash_accounts:paymentWorkspace().cash_accounts},error:null}
+   if(name==='erp_cp7_get_sales_payment_correction_v1')return{data:paymentWorkspace(),error:null}
+   if(name==='erp_cp7_correct_sales_payment_v1'){if(revoked)return{data:null,error:{code:'42501',message:'CP7_SALES_WRITE_DENIED'}};committed=true;if(!lost){lost=true;throw Error('Actual reply stand-in lost after commit')}return{data:paymentOutcome(args.p_request),error:null}}throw Error('Unowned payment recovery RPC')
+  });await openPaymentEdit();await click(button('Simpan koreksi pembayaran'));const scope=`${recoveryIdentity.runtime.projectRef}:${recoveryIdentity.identity.profile.id}`,original=structuredClone(readProductionRecovery(scope).pending.SALES);expect(original?.action).toBe('PAYMENT_CORRECT')
+  await act(async()=>root.unmount());root=createRoot(container);revoked=true;const a=state.auth as typeof recoveryIdentity;a.identity.permissions=a.identity.permissions.filter(p=>p!=='sales.payment.post');await mount();await click(button('Reconcile transaksi'));expect(readProductionRecovery(scope).pending.SALES).toEqual(original);expect(button('Reconcile transaksi')).toBeDefined();expect(container.textContent).toContain('Hasil transaksi masih belum pasti')
+  revoked=false;allowPaymentEdit();await act(async()=>root.render(<ConnectedSalesPage/>));await flush();await click(button('Reconcile transaksi'));const sends=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_correct_sales_payment_v1');expect(sends).toHaveLength(3);expect(sends[1][1]).toEqual(sends[0][1]);expect(sends[2][1]).toEqual(sends[0][1]);expect(readProductionRecovery(scope).pending.SALES).toBeUndefined();expect(container.textContent).toContain('Sisa pembayaran Rp40');expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false)
  })
 })
