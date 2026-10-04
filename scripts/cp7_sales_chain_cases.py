@@ -165,7 +165,7 @@ def cases(cur,today):
         return dict(status='PASS',pending_draft_exact_number_not_omitted_and_complete_no_effect_refusal=True)
     def downstream():
         f=fixture(cur,today);later=dict(f,tag=f['tag']+'-USED',location=f['destination'],sale_at=source.fg.ax.r1.now(cur).isoformat());note.posted(cur,later,'2','20');p,v=payload(cur,f)
-        unchanged_refusal(cur,p,v);assert source.read(cur,f)['detail']['status']=='PARTIAL_PAID'
+        unchanged_refusal(cur,p,v,'Finished goods stock cannot become negative');assert source.read(cur,f)['detail']['status']=='PARTIAL_PAID'
         return dict(status='PASS',Native_already_consumed_return_stock_refusal_rolls_back_payment_already_reversed_in_same_attempt=True)
     def closed():
         f=fixture(cur,today,historical=True);through=today-timedelta(days=1);source.fg.ax.boundary.historical.prior.set_open_period(cur,through)

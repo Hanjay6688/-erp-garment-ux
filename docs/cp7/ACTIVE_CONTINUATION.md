@@ -1,3 +1,5 @@
+Current 5 October writer checkpoint: predecessor d776 Return25 and Combined22 Originals are fully retained with tool/product byte reconciliation; sales-chain first1766 remains INCOMPLETE and its narrow internal admission repair is authored. Cash/FG/book record tools pass66 focused local tests; actual Native browser checks remain required. Receipt42/E24_4 first group restore failures stay INCOMPLETE and their successor records all raw catalog snapshots. See SALES_CHAIN_REVERSAL_HANDOFF.md, LEDGER_RECORD_TOOLS_HANDOFF.md and RECEIPT_E24_CATALOG_HANDOFF.md. Continue the full owner mandate after qualification; whole CP7/P20/P21 remain open.
+
 > Current writer continuation (5 October 2026 WIB): canonical base d776b192, owner mandate active. Read [WRITER_TAKEOVER_20261005](WRITER_TAKEOVER_20261005.md) and [SALES_CHAIN_REVERSAL_HANDOFF](SALES_CHAIN_REVERSAL_HANDOFF.md) before the historical checkpoints below. Atomic sale-chain candidate requires its own exact Native25; full CP7/P20/P21 and production GO remain open.
 
 # Active CP7 writer continuation · 3 October 2026

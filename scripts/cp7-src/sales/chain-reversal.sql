@@ -202,5 +202,8 @@ revoke create on schema public from cp7_sales_read,cp7_sales_write;
 revoke all on all functions in schema cp7_sales_chain from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write;
 grant execute on function cp7_sales_chain.workspace(uuid)to cp7_sales_read;
 grant execute on function cp7_sales_chain.command(jsonb,uuid,text)to cp7_sales_write;
+-- The hosted postgres role is not a superuser: explicitly admit only the
+-- existing owning command, whose current authority and Native guards still run.
+grant execute on function cp7_sales.command(text,jsonb,uuid,text)to postgres;
 revoke all on function public.erp_cp7_get_sales_chain_v1(uuid),public.erp_cp7_reverse_sales_chain_v1(jsonb,uuid,text)from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_get_sales_chain_v1(uuid),public.erp_cp7_reverse_sales_chain_v1(jsonb,uuid,text)to authenticated;

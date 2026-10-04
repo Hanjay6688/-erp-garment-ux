@@ -386,25 +386,27 @@
     "full_family_acceptance": false,
     "handoff": "docs/cp7/F03_COMBINED_STACK_HANDOFF.md",
     "independent_acceptance": false,
-    "latest_regression": "docs/cp7/evidence/f03-combined/misc-regression-4c3185a/QUALIFIED_RECEIPT.json",
-    "latest_regression_bundle_sha256": "4b03967b02612c87fc7c6e88211690f9854f78b41020a29a41f75895473c529a",
+    "latest_regression": "docs/cp7/evidence/f03-combined/qualified22-d776/RECEIPT.json",
+    "latest_regression_bundle_sha256": "20a9495456930477d1b5947e36e4644c269c95c9c7ceedd33d7be29cc35d3197",
     "latest_regression_counts": {
       "FAIL": 0,
       "INCOMPLETE": 0,
       "NOT_RUN": 0,
       "PASS": 22
     },
-    "latest_regression_job": 109993047734,
-    "latest_regression_roles": 29,
-    "latest_regression_run": 36746244231,
-    "latest_regression_source": "4c3185add1db2bb44a76d53f02751a287d98ca43",
+    "latest_regression_job": 111488892877,
+    "latest_regression_roles": 32,
+    "latest_regression_run": 37220228026,
+    "latest_regression_source": "d776b19227032be255a59214bf750ddef4ff70d8",
     "production_go": false,
     "qualifier": "scripts/cp7_f03_probe.py",
     "run_id": 36657403229,
     "source_commit": "a28ad225eff755cd63a2eb1e1f06de6ae0c14150",
     "source_tree": "a0b9866cec57dec977082c344586025431693e1d",
     "status": "WRITER_BOUNDED_COMBINED_22_PASS_FULL_FAMILY_OPEN",
-    "verification": "docs/cp7/evidence/f03-combined/RETURN_UI_QUALIFIED_RECEIPT.json"
+    "verification": "docs/cp7/evidence/f03-combined/RETURN_UI_QUALIFIED_RECEIPT.json",
+    "latest_regression_product_ref": "1d0e6dc8254de5a3f0e2c0abfbb8a4b4084889fe",
+    "latest_regression_product_paths_identical": true
   },
   "f03_continuation_checkpoint": "docs/cp7/F03_CONTINUATION_AUDITOR_CHECKPOINT_20260930.md",
   "f03_cost_continuation": {
@@ -3651,7 +3653,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Qualify reviewed atomic sale-chain reversal through exact Native25, complete cleanup/restore/primary/advisor/Auth gates and desktop/mobile originals. Continue remaining production correction, actual fabric/material allocation and P08/P18/P19; independent P20/installed P21 remain required.",
+  "next_action": "Qualify repaired sales-chain Native25 and exact restored receipt42/E24_4 with full raw catalog records, plus cash/FG/book actual browser page tools. Keep original1766 failures and predecessor d776 exact-product receipts separate. Continue posted-cutting correction, actual fabric allocation/full P08 and full P18/P19; independent P20 and installed P21 stay open.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -10426,7 +10428,7 @@
     "independent_acceptance": false
   },
   "ordinary_customer_return_correction_candidate": {
-    "status": "BA_SHELL_PASS_E01_MOBILE_INCOMPLETE_STABLE_TICKET_FIX_AUTHORED",
+    "status": "WRITER_NATIVE25_QUALIFIED_D776_EXACT_PRODUCT_BYTES_1D0",
     "handoff": "SALES_RETURN_CORRECTION_HANDOFF.md",
     "owning_read_rpc": "erp_cp7_get_sales_return_correction_v1",
     "owning_write_rpc": "erp_cp7_correct_sales_return_v1",
@@ -10438,8 +10440,8 @@
     },
     "declared_actual_year_364_and_page25_controls": true,
     "local_check_scope": "PYTHON_JS_TS_PARSER_SYNTAX_AND_DIFF_ONLY",
-    "Native_runtime_pass_claimed": false,
-    "browser_pass_claimed": false,
+    "Native_runtime_pass_claimed": true,
+    "browser_pass_claimed": true,
     "production_go": false,
     "independent_acceptance": false,
     "first_head": "c79f4435d32baa2138bf821917462421453d29df",
@@ -10448,7 +10450,15 @@
     "ba_shell_receipt": "evidence/sales-return-correction/qualified-ba-shell/RECEIPT.json",
     "ba_E01_receipt": "evidence/sales-return-correction/first-ba-e01/RECEIPT.json",
     "stable_callback_and_actual_child_data_ticket_fix_authored": true,
-    "cross_return_note_return_scene_authored_not_executed": true
+    "cross_return_note_return_scene_authored_not_executed": true,
+    "qualified_source": "d776b19227032be255a59214bf750ddef4ff70d8",
+    "product_ref": "1d0e6dc8254de5a3f0e2c0abfbb8a4b4084889fe",
+    "product_paths_byte_identical": true,
+    "qualification_receipt": "evidence/sales-return-correction/qualified25-d776/RECEIPT.json",
+    "raw_arithmetic_verification": "evidence/sales-return-correction/qualified25-d776/RAW_ARITHMETIC_VERIFICATION.json",
+    "actual_cases": 25,
+    "actual_year_HTTP_milliseconds": 7129.616,
+    "whole_CP7_acceptance": false
   },
   "supplier_cash_wait_exact432_shell": {
     "receipt": "evidence/supplier-payment-correction/qualified432-shell/RECEIPT.json",
@@ -10484,9 +10494,57 @@
       "native": 16,
       "races": 4
     },
-    "status": "CANDIDATE_NATIVE25_PENDING",
+    "status": "FIRST1766_NATIVE_INCOMPLETE_INTERNAL_OWNING_COMMAND_ADMISSION_REPAIR_AUTHORED",
     "whole_CP7_complete": false,
     "build_pass": true,
-    "security_pass": true
+    "security_pass": true,
+    "first_failure_receipt": "docs/cp7/evidence/sales-chain/first1766/RECEIPT.json",
+    "first_source": "1766c0de043fcab1d38d0455cfc826cf3126419d",
+    "first_observed_counts": {
+      "native": {
+        "PASS": 5,
+        "INCOMPLETE": 11
+      },
+      "races": {
+        "PASS": 2,
+        "INCOMPLETE": 2
+      },
+      "http": {
+        "PASS": 1,
+        "INCOMPLETE": 2
+      },
+      "browser": {
+        "INCOMPLETE": 2
+      }
+    },
+    "internal_command_grant_authored": true,
+    "downstream_refusal_requires_exact_Native_message": true
+  },
+  "current_ledger_record_tools_candidate": {
+    "status": "LOCAL66_PASS_NATIVE_BROWSER_REGRESSIONS_PENDING",
+    "search_scope": {
+      "cash": "PAGE",
+      "fg_stock": "ALL_MATCHING",
+      "fg_ledger": "ALL_MATCHING",
+      "fg_book": "ALL_MATCHING"
+    },
+    "sorting": "PAGE_DISPLAY_ONLY_PRESERVES_NATIVE_BALANCES_AND_BOOK_RANKS",
+    "cash_browse_rereads_current_authority": true,
+    "book_native_drag_disabled_during_display_sort": true,
+    "actual_focused_tests": 66,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "receipt_e24_catalog_comparison_candidate": {
+    "status": "FIRST1766_INCOMPLETE_GROUP_RESTORE_FRESH_RAW_ADAPTER_AUTHORED",
+    "receipt_first": "evidence/receipt-correction/first1766/RECEIPT.json",
+    "e24_first": "evidence/f03-e24-issue/first1766/RECEIPT.json",
+    "all_business_cases_pass": true,
+    "old_native_complete_boundary_restored": false,
+    "old_per_case_raw_difference_not_recorded": true,
+    "frozen_runner_unchanged": true,
+    "all_public_members_and_hashes_preserved": true,
+    "retain_raw_successor": true,
+    "qualification_claimed": false
   }
 }

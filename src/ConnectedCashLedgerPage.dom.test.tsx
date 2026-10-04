@@ -34,6 +34,17 @@ function pages(query:AnalysisDates,offset:number){
 }
 
 describe('connected cash uses complete native source and retires stale money',()=>{
+ it('searches and orders only the displayed page while complete period cash totals stay unchanged',async()=>{
+  await mount();const calls=mock.rpc.mock.calls.length,ids=[...container.querySelectorAll('[data-journal-id]')].map(e=>e.getAttribute('data-journal-id'))
+  await act(async()=>{const order=container.querySelector<HTMLSelectElement>('[aria-label="Urutkan halaman jurnal kas"]')!;order.value='LABEL_DESC';order.dispatchEvent(new Event('change',{bubbles:true}))});expect(mock.rpc).toHaveBeenCalledTimes(calls)
+  expect(new Set([...container.querySelectorAll('[data-journal-id]')].map(e=>e.getAttribute('data-journal-id')))).toEqual(new Set(ids))
+  const number=container.querySelector('[data-journal-id] strong')!.textContent!;await fill('Cari jurnal kas di halaman',number);await click('Tampilkan kas');expect(container.querySelectorAll('[data-journal-id]')).toHaveLength(1);expect(mock.rpc).toHaveBeenCalledTimes(calls+1);expect(container.textContent).toContain('Perubahan kas bersihRp100');expect(container.textContent).toContain('Pencarian hanya menelusuri halaman yang sedang tampil')
+  await click('Browse halaman ini');expect(container.querySelectorAll('[data-journal-id]')).toHaveLength(3);expect(mock.rpc.mock.calls.at(-1)![1].p_query.offset).toBe(0);expect(container.textContent).toContain('Perubahan kas bersihRp100')
+ })
+ it('keeps page filtering on page25 without silently moving to page0 or changing Native aggregates',async()=>{
+  mock.rpc.mockImplementation((_rpc,{p_query})=>Promise.resolve({data:pages(p_query,p_query.offset),error:null}));await mount();await click('Jurnal berikutnya');const calls=mock.rpc.mock.calls.length
+  await fill('Cari jurnal kas di halaman','PAGE-29');await click('Tampilkan kas');expect(container.querySelectorAll('[data-journal-id]')).toHaveLength(1);expect(mock.rpc).toHaveBeenCalledTimes(calls+1);expect(mock.rpc.mock.calls.at(-1)![1].p_query.offset).toBe(25);expect(container.textContent).toContain('Total 33 jurnal');expect(container.textContent).toContain('Perubahan kas bersihRp137,5');await click('Browse halaman ini');expect(mock.rpc.mock.calls.at(-1)![1].p_query.offset).toBe(25);expect(container.querySelectorAll('[data-journal-id]')).toHaveLength(8)
+ })
  it('loads the native dated source and keeps cash distinct from sale revenue',async()=>{
   await mount();expect(mock.rpc.mock.calls[0][0]).toBe('erp_cp7_get_finance_analysis_v1')
   expect(container.textContent).toContain('Perubahan kas bersihRp100');expect(container.textContent).toContain('Debit rekening kas/bankRp1.300')

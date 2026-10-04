@@ -56,3 +56,5 @@ Ordinary supplier-payment replacement is now an implemented candidate, awaiting 
 
 
 Ordinary supplier replacement is writer-qualified at source38 by Native23 plus complete Shell1456/151/6/both CodeQL0, with both actual images and raw364 prefixes+12 independently checked. Source38 E05 all26/old IDs is verified. The current cash-wait-token successor is pending fresh actual CI and has no inherited qualification from source38. See SUPPLIER_PAYMENT_CORRECTION_HANDOFF.md and evidence/supplier-payment-correction.
+
+Ordinary customer-return replacement is now writer-qualified by d776 Native25, complete original/gate and raw364-prefix evidence, with exact unchanged product bytes at1d0. See SALES_RETURN_CORRECTION_HANDOFF.md and evidence/sales-return-correction/qualified25-d776. Atomic sale-chain cancellation is a separate candidate: first1766 finds a real internal command admission defect; the repair and stronger exact downstream refusal are authored, awaiting fresh25. It has no passed chain qualification yet.

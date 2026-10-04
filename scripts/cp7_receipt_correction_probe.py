@@ -2,6 +2,7 @@
 import hashlib,json,subprocess,traceback
 import psycopg
 import cp7_restore_state as restore_state
+from cp7_catalog_state import exact_public_catalog
 import cp7_f03_bundle as bundle
 import cp7_receipt_correction_bundle as rf_bundle
 import cp7_receipt_correction_cases as cases
@@ -64,7 +65,9 @@ def run():
    p09.INSTALLED_FUNCTIONS=final;report['all_predecessor_definitions_owners_unchanged']=True
    report['receipt_correction_ownership']=rf_verify.verify(cur);conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_RECEIPT_CORRECTION',cases.cases,verify)
+  with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+   report['native']=native.strict_group('CP7_RECEIPT_CORRECTION',cases.cases,verify)
+  report['native_public_catalog_comparison']=catalog_audit
   report['races']=modes.run_races(cases,verify,'cp7_receipt_correction')
   report['http']=modes.run_http(cases,verify,'cp7_receipt_correction')
   report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_receipt_correction_browser.mjs',verify,'cp7_receipt_correction_browser')

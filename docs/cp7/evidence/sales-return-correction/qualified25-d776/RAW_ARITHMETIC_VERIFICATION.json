@@ -1,0 +1,37 @@
+{
+  "classification": "INDEPENDENT_READ_ONLY_RECOMPUTATION_FROM_ORIGINAL_RAW_ARRAYS",
+  "runtime_report_sha256": "5355942426a397285c89b49144bd58fe3a0af8c162776be8fa558cd710c026b2",
+  "results": {
+    "CP7_RETURN_CORRECTION_YEAR_364": {
+      "status": "PASS",
+      "unique_paired_rows": 367,
+      "later_sale_rows": 364,
+      "every_six_later_balance_columns_plus12": true,
+      "full_prefix_arithmetic_recomputed": true,
+      "source_time_identity_and_manual_rank_unchanged": true,
+      "original_return24_effective36": true,
+      "current_before": 124,
+      "current_after": 136,
+      "actual_committed_Auth": false,
+      "actual_HTTP_ms": null,
+      "production_SLA": false
+    },
+    "CP7_RETURN_CORRECTION_HTTP_YEAR_364": {
+      "status": "PASS",
+      "unique_paired_rows": 367,
+      "later_sale_rows": 364,
+      "every_six_later_balance_columns_plus12": true,
+      "full_prefix_arithmetic_recomputed": true,
+      "source_time_identity_and_manual_rank_unchanged": true,
+      "original_return24_effective36": true,
+      "current_before": 124,
+      "current_after": 136,
+      "actual_committed_Auth": true,
+      "actual_HTTP_ms": 7129.616,
+      "production_SLA": false
+    }
+  },
+  "validation_new_Native_execution_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

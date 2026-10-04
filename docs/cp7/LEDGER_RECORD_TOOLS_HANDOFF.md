@@ -1,0 +1,9 @@
+# Cari, Browse, Filter dan Urutkan pada kas dan FG
+
+Kas, stok FG, mutasi posisi FG dan buku FG memakai RecordTools yang sama. Cari stok/mutasi/buku mengirim q pada pembaca Native; kas hanya menelusuri halaman yang dibaca, karena kontrak Native kas tidak menerima q. Label halaman menyatakan batas itu. Filter jenis mutasi/status kas dan urutan tampilan hanya berlaku pada halaman. Total periode/sumber, urutan buku Native, rank dan setiap saldo berjalan tetap berasal dari pembaca utuh; filter/urutkan tidak menghitung ulang saldo dari potongan baris.
+
+Tampilkan kas dan Browse halaman ini selalu membaca Native kembali dengan otoritas sekarang. Pencarian/urutkan pada offset25 tidak diam-diam kembali ke halaman pertama. Perubahan periode kembali ke offset0. Browse stok/mutasi/buku menghapus pencarian dan filter pilihan dengan kontrak sumber yang sama. Brand pada buku tetap diselesaikan dari pilihan Native Vivo/Widie, tidak dibuat oleh client.
+
+Urutan buku yang disimpan tetap terpisah dari urutan tampilan. Drag/drop, MOVE dan RESET dinonaktifkan saat operator sedang memakai urutan tampilan; kembali ke Urutan standar memakai tetangga/rank Native sebenarnya. Read generation yang retired menyembunyikan fakta stok/buku/mutasi.
+
+Lokal66 tes bermakna pada tujuh file owning UI/contract lolos, termasuk keenam kontrol baru ledger dan38 tes rantai/owning invoice. TypeScript/build/client scan dan security ownership lulus;266 runtime/197 RPC/53 CSS serta frozen111 permission/48 nav/48 route/21 sensitive action tetap. Ini bukti lokal, bukan Native. Tiga browser Native yang sudah ada diperkuat: kas halaman25 memilih/filter/membaca ulang current Auth sambil total137.50/33 tetap; stok mempertahankan saldo fisik10 saat mutasi difilter/diurutkan; buku membuktikan full fakta/rank tetap dan drag terkunci saat urutan tampilan. Budget dan case IDs tidak berubah. Fresh Native desktop/mobile dan full affected regressions wajib sebelum qualification.

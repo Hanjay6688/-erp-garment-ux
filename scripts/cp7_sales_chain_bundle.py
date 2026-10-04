@@ -27,5 +27,6 @@ def verify(cur):
         assert not cur.execute('select has_schema_privilege(%s,%s,\'USAGE\')',(who,SCHEMA)).fetchone()[0]
     assert cur.execute('select count(*)from pg_trigger where tgrelid=%s::regclass and tgfoid=%s::regprocedure and not tgisinternal',(SCHEMA+'.history',SCHEMA+'.immutable()')).fetchone()[0]==2
     assert not cur.execute("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'and c.relkind in('r','p','v')and has_table_privilege('cp7_sales_write',c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER'))").fetchone()[0]
+    assert cur.execute("select has_function_privilege('postgres','cp7_sales.command(text,jsonb,uuid,text)','EXECUTE')").fetchone()[0], 'CHAIN_OWNING_COMMAND_POSTGRES_ADMISSION'
     assert not cur.execute('select exists(select 1 from cp7_sales.command_context)').fetchone()[0]
     return dict(all_business_effects_existing_Native_commands=True,closed_private_chain_capabilities=True,no_app_ERP_DML=True,immutable_reviewed_source_history=True)

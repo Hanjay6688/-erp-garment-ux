@@ -43,6 +43,15 @@ async function journey(ui,f,mobile){
   const actualIds=await cash.locator('[data-journal-id]').evaluateAll(rows=>rows.map(row=>row.getAttribute('data-journal-id')))
   assert.deepEqual(actualIds,observed[1].cash.entries.rows.map(row=>row.id))
   assert.deepEqual(source(),before)
+  const pageIds=[...actualIds].sort();await cash.getByLabel('Urutkan halaman jurnal kas',{exact:true}).selectOption('LABEL_DESC')
+  assert.deepEqual((await cash.locator('[data-journal-id]').evaluateAll(rows=>rows.map(row=>row.getAttribute('data-journal-id')))).sort(),pageIds)
+  const exactNumber=observed[1].cash.entries.rows[0].journal_number
+  await cash.getByLabel('Cari jurnal kas di halaman',{exact:true}).fill(exactNumber)
+  response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_finance_analysis_v1')&&r.request().postDataJSON()?.p_query?.offset===25)
+  await cash.getByRole('button',{name:'Tampilkan kas',exact:true}).click();assert.equal((await response).status(),200);await ui.expect(cash.locator('[data-journal-id]')).toHaveCount(1);await ui.expect(metric('Perubahan kas bersih')).toHaveText('Rp137,5');await ui.expect(cash).toContainText('Total 33 jurnal')
+  response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_finance_analysis_v1')&&r.request().postDataJSON()?.p_query?.offset===25)
+  await cash.getByRole('button',{name:'Browse halaman ini',exact:true}).click();assert.equal((await response).status(),200);await ui.expect(cash.locator('[data-journal-id]')).toHaveCount(8)
+  assert.deepEqual(source(),before)
   await screen(ui,page,`F03_CASH_PAGE2_${suffix}.png`);screenshots.push(`F03_CASH_PAGE2_${suffix}.png`)
   if(mobile){
    fixture('revoke',f)
