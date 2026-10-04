@@ -38,3 +38,8 @@ Tes history menambah 26 peer-return Native supaya child pengganti benar-benar di
 Status ketika kandidat ditulis: Python/JS/TS parser syntax dan diff whitespace lolos lokal. Runtime Native dan browser baru belum dikualifikasi. Jalankan workflow `CP7 Native Atomic Customer Return Correction`, simpan ZIP asli/digest/seluruh JSON roots/log, periksa setiap 25 ID dan empat grup, install/restore/advisor gates, pin source serta screenshot asli sebelum memperbarui status. Shell, CodeQL dan regresi F03 yang terpicu juga harus diperiksa pada head baru; hijau head sebelumnya bukan penerimaan kandidat ini.
 
 `production_go=false`; penulis bukan auditor independen. Supplier-return, cutting-posted edit/inverse, rollback seluruh dependency, recipe/material eligibility, P18/P19 penuh, keputusan owner dan hosted P21 masih terpisah.
+
+
+## First c79 UI compile result
+
+Actual cash/misc run37173078125/job111349864833 and run37173077938/job111349864508 stop before disposable provisioning on six TypeScript diagnostics. Completed Original full logs and exact diagnostics are retained at evidence/sales-return-correction/first-c79-ui/RECEIPT.json. No Native/restore credit is claimed. The successor uses the actual TransactionSourceLink sourceType/sourceId props with pending/stale disablement, a nullable ticket signature in the declared DOM stand-in, explicit globalThis.document for its DOM container, and Number only after the strict outcome parser has accepted the actual page offset. No Native budget, guard or timeout is altered. Fresh Shell/Native25 and triggered regressions remain required.

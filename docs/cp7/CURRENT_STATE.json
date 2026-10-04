@@ -10424,7 +10424,7 @@
     "independent_acceptance": false
   },
   "ordinary_customer_return_correction_candidate": {
-    "status": "IMPLEMENTED_AWAITING_NATIVE_CI",
+    "status": "FIRST_CI_UI_COMPILE_INCOMPLETE_FIX_AUTHORED",
     "handoff": "SALES_RETURN_CORRECTION_HANDOFF.md",
     "owning_read_rpc": "erp_cp7_get_sales_return_correction_v1",
     "owning_write_rpc": "erp_cp7_correct_sales_return_v1",
@@ -10439,6 +10439,22 @@
     "Native_runtime_pass_claimed": false,
     "browser_pass_claimed": false,
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "first_head": "c79f4435d32baa2138bf821917462421453d29df",
+    "first_failure_receipt": "evidence/sales-return-correction/first-c79-ui/RECEIPT.json"
+  },
+  "supplier_cash_wait_exact432_shell": {
+    "receipt": "evidence/supplier-payment-correction/qualified432-shell/RECEIPT.json",
+    "status": "ACTUAL_WRITER_QUALIFIED",
+    "source_head": "43265e22b723073680a7b3b2acaf698770f8cf14",
+    "application_tests": 1456,
+    "test_files": 151,
+    "actual_shell_browsers": 6,
+    "private_kernel_only_cases": 138,
+    "runtime_files": 262,
+    "owned_RPC_boundaries": 193,
+    "both_original_SARIF_zero_findings": true,
+    "new_return_candidate_qualification": false,
+    "production_go": false
   }
 }
