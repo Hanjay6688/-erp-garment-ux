@@ -4182,7 +4182,7 @@
     "posted_used_receipt_quantity_roll_correction_complete": false,
     "safe_refusal_is_not_complete_correction_usability": true,
     "wrong_material_identity_reassignment_complete": false,
-    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12→11,AP12000→11000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
+    "year_final_price_proof": "Native42 actual Original RF_YEAR_FINAL_INVOICE_PRICE PASS: final invoice366 days earlier,12 monthly transfers,final12\u219211,AP12000\u219211000 on invoice date,every transfer cost restated,no economic fact dated today,integrity and full restoration unchanged. Source48fe7c2 declared writer qualification only; arbitrary wrong-material/non-cutting/edit-all/independent/installed gates remain open.",
     "previous_registered_receipt32": "docs/cp7/evidence/receipt-correction/qualified32-e873462/RECEIPT.json",
     "current_registered_receipt42": "docs/cp7/evidence/claude-merge-20261003/receipt-qualified42/RECEIPT.json"
   },
@@ -4944,7 +4944,7 @@
         }
       ],
       "qualified_log_lines": [
-        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:25:35.1498781Z  \u2713 tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
         "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
         "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
         "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
@@ -5859,7 +5859,7 @@
         }
       ],
       "qualified_log_lines": [
-        "2026-10-02T21:25:35.1498781Z  ✓ tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
+        "2026-10-02T21:25:35.1498781Z  \u2713 tests/cp7/families/internal-guard.test.ts (5 tests) 7585ms",
         "2026-10-02T21:26:06.3347665Z  Test Files  138 passed (138)",
         "2026-10-02T21:26:06.3352978Z       Tests  1279 passed (1279)",
         "2026-10-02T21:26:51.6048028Z   6 passed (8.3s)"
@@ -6691,7 +6691,7 @@
               "bytes": 531098
             }
           },
-          "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260→250/remaining740→750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+          "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
           "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
           "production_go": false,
           "independent_acceptance": false,
@@ -7079,7 +7079,7 @@
             "bytes": 531098
           }
         },
-        "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260→250/remaining740→750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+        "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
         "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
         "production_go": false,
         "independent_acceptance": false,
@@ -7169,7 +7169,7 @@
           "writer_runtime": false
         },
         "console_errors": 0,
-        "cause": "Both exact Native QC fixture labels are BF-…-31; the browser test incorrectly searched literal Good final size 31. Native queues, stock and source controls pass. Successor uses the size_code from the same current Native response. Original failures and complete Native state are retained unchanged.",
+        "cause": "Both exact Native QC fixture labels are BF-\u2026-31; the browser test incorrectly searched literal Good final size 31. Native queues, stock and source controls pass. Successor uses the size_code from the same current Native response. Original failures and complete Native state are retained unchanged.",
         "production_go": false,
         "independent_acceptance": false,
         "receipt": "docs/cp7/evidence/transaction-source/first4042/RECEIPT.json"
@@ -10405,5 +10405,40 @@
     "raw_public_equality_false_pair_order_only_preserved": true,
     "actual_HTTP_ms": 6288.431,
     "production_SLA": false
+  },
+  "ordinary_supplier_payment_correction_cash_wait_qualification": {
+    "status": "NATIVE_WRITER_QUALIFIED",
+    "source_head": "43265e22b723073680a7b3b2acaf698770f8cf14",
+    "native_run_id": 37170190982,
+    "receipt": "evidence/supplier-payment-correction/qualified23-432/RECEIPT.json",
+    "counts": {
+      "native": 14,
+      "races": 4,
+      "http": 3,
+      "browser": 2
+    },
+    "actual_cash_row_lock_wait_retired_original_bank_recheck": true,
+    "all23_exact_head_workflows_completed_success": true,
+    "same_source_product_paths_38_432_verified": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "ordinary_customer_return_correction_candidate": {
+    "status": "IMPLEMENTED_AWAITING_NATIVE_CI",
+    "handoff": "SALES_RETURN_CORRECTION_HANDOFF.md",
+    "owning_read_rpc": "erp_cp7_get_sales_return_correction_v1",
+    "owning_write_rpc": "erp_cp7_correct_sales_return_v1",
+    "declared_budget": {
+      "native": 16,
+      "races": 4,
+      "http": 3,
+      "browser": 2
+    },
+    "declared_actual_year_364_and_page25_controls": true,
+    "local_check_scope": "PYTHON_JS_TS_PARSER_SYNTAX_AND_DIFF_ONLY",
+    "Native_runtime_pass_claimed": false,
+    "browser_pass_claimed": false,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

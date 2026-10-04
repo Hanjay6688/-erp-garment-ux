@@ -142,3 +142,10 @@ Read SALES_PAYMENT_CORRECTION_HANDOFF.md. The new ordinary-payment edit/restore 
 
 
 First3d payment candidate is INCOMPLETE: actual full Shell1444/1446 has exactly the two new owning-page failures because PAYMENT_CORRECT is absent from the strict SALES recovery whitelist. All8 panel cases pass separately. Cash/E05/misc fail build on the two undeclared RPC type signatures before CLI/Native; exact CASH_BUILD.txt/complete logs/failed cleanup preserved at evidence/payment-correction/first3d-admission. Successor adds only one exact local SALES action and two exact callable signatures. Unknown actions/other domains remain refused in actual parser/storage stand-ins. Existing tests/counts/assertions, Native SQL/guards/timeouts unchanged; fresh full Shell and Native23 remain pending.
+
+
+## Retur pelanggan: kandidat atomic edit/pulihkan
+
+Head 43265e22 telah selesai hijau di 23 workflow. Supplier payment cash-lock-wait qualified23-432 disimpan: 14 Native, 4 race, 3 Auth HTTP, 2 browser, dengan pin produk 38 yang path src/supabase-nya identik dan tool 432 nyata.
+
+Kandidat pembetulan retur pelanggan menambah read/write owning, form edit, dua arah sumber/riwayat dan pemulihan isi. Native inverse + post pengganti dalam satu transaksi; scope input Native, Native asli dan batas stok/pembayaran tetap dipertahankan. Budget 25 (16/4/3/2), YEAR_364 dengan empat array asli, dan 26 peer-retur untuk actual offset25 dinyatakan sebelum tes. Saat dicatat hanya syntax lokal yang lolos; belum Native/browser-qualified. Lihat SALES_RETURN_CORRECTION_HANDOFF.md. Seluruh CP7, auditor independen dan hosted go tetap terbuka.

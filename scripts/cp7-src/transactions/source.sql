@@ -9,6 +9,8 @@ grant usage on schema cp7_payment_correction to cp7_transaction_source_read;
 grant select on cp7_payment_correction.links to cp7_transaction_source_read;
 grant usage on schema cp7_supplier_payment_correction to cp7_transaction_source_read;
 grant select on cp7_supplier_payment_correction.links to cp7_transaction_source_read;
+grant usage on schema cp7_sales_return_correction to cp7_transaction_source_read;
+grant select on cp7_sales_return_correction.links,cp7_sales_return_correction.journal_restatements to cp7_transaction_source_read;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text) to cp7_transaction_source_read;
 grant select on erp.material_purchase_headers,erp.material_purchase_items,erp.material_rolls,
  erp.material_supplier_invoices,erp.material_supplier_invoice_lines,erp.supplier_payments,
@@ -81,6 +83,16 @@ begin
    raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
   kind:='SUPPLIER_PAYMENT';
  end if;
+ if kind in('RETURN_CORRECTION_TIME_NEUTRAL','RETURN_CORRECTION_EFFECTIVE')then
+  if not erp.has_permission('finance.journal.view')or a->'profile'->>'role_code'not in('OWNER','ADMIN')then
+   raise exception using errcode='42501',message='CP7_TRANSACTION_SOURCE_ACCESS_DENIED';end if;
+  select r.original_return_id into ident from cp7_sales_return_correction.journal_restatements r
+   join cp7_sales_return_correction.links l on l.original_id=r.original_return_id
+   join erp.journal_entries j on j.id=case when kind='RETURN_CORRECTION_TIME_NEUTRAL'then r.neutral_journal_id else r.effective_journal_id end
+   where r.inverse_journal_id=ident and j.source_type=kind and j.source_id=r.inverse_journal_id and j.status='POSTED';
+  if not found then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
+  kind:='SALES_RETURN';
+ end if;
  -- A Native FG inverse references the original movement UUID, not a QC
  -- inspection. Follow that actual immutable link only for the qualified QC
  -- source family. Other FG inverse families stay explicitly unsupported.
@@ -89,7 +101,8 @@ begin
    raise exception using errcode='42501',message='CP7_TRANSACTION_SOURCE_ACCESS_DENIED';end if;
   select m.source_type,m.source_id into kind,ident from erp.fg_stock_movements m where m.id=ident and m.reversal_of_id is null;
   if not found or ident is null then raise exception 'CP7_TRANSACTION_SOURCE_UNAVAILABLE';end if;
-  if kind<>'QC_ITEM'then
+  if kind<>'QC_ITEM'and not(kind='SALES_RETURN_ITEM'and exists(select 1 from erp.sales_return_items i
+   join cp7_sales_return_correction.links l on l.original_id=i.return_id where i.id=ident))then
    return jsonb_build_object('contract_version','cp7.transaction-source.v1','actor_scope_id',auth.uid(),'source',p,
     'status','UNSUPPORTED_SOURCE','document',null,'read_at',statement_timestamp(),'business_DML',false);
   end if;
@@ -303,3 +316,4 @@ alter function public.erp_cp7_resolve_transaction_source_v1(jsonb)owner to cp7_t
 revoke create on schema public from cp7_transaction_source_read;
 revoke all on function public.erp_cp7_resolve_transaction_source_v1(jsonb)from public,anon,authenticated,service_role;
 grant execute on function public.erp_cp7_resolve_transaction_source_v1(jsonb)to authenticated;
+grant execute on function public.erp_cp7_resolve_transaction_source_v1(jsonb)to postgres;

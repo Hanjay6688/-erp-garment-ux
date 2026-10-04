@@ -10,6 +10,8 @@ def changes():
    "      and reversal.transaction_date between p_from and p_to\n  )")
   addition=("\n    union all\n    select source_id,event_sign\n"
    "    from cp7_note.report_lifecycle(p_from,p_to,'"+kind+"')")
+  if kind=='SALES_RETURN':
+   addition+="\n    union all\n    select source_id,event_sign\n    from cp7_sales_return_correction.report_lifecycle(p_from,p_to)"
   yield anchor,anchor[:-4]+addition+'\n  )'
 
 def patched_report(definition):

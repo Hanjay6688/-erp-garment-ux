@@ -153,9 +153,9 @@ const cp7PeriodBoundaries = ['erp_cp7_get_period_control_v1','erp_cp7_save_perio
 for (const name of cp7PeriodBoundaries) assert.ok(rpcBoundaries.has(`src/FinancePeriodPanel.tsx:${name}`))
 const cp7FinanceBoundaries = ['src/ConnectedFinanceReportPage.tsx:erp_cp7_get_finance_report_v1','src/FinanceAnalysisPanel.tsx:erp_cp7_get_finance_analysis_v1','src/ConnectedCashLedgerPage.tsx:erp_cp7_get_finance_analysis_v1']
 for (const boundary of cp7FinanceBoundaries) assert.ok(rpcBoundaries.has(boundary))
-const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1','erp_cp7_get_note_correction_v2','erp_cp7_correct_note_v1','erp_cp7_correct_sales_payment_v1']
+const cp7SalesBoundaries = ['erp_cp7_get_sales_v1','erp_cp7_save_sale_v1','erp_cp7_get_note_correction_v2','erp_cp7_correct_note_v1','erp_cp7_correct_sales_payment_v1','erp_cp7_correct_sales_return_v1']
 for (const name of cp7SalesBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedSalesPage.tsx:${name}`))
-const cp7PaymentCorrectionBoundaries = ['src/SalesPaymentCorrectionPanel.tsx:erp_cp7_get_sales_payment_correction_v1']
+const cp7PaymentCorrectionBoundaries = ['src/SalesPaymentCorrectionPanel.tsx:erp_cp7_get_sales_payment_correction_v1','src/SalesReturnCorrectionPanel.tsx:erp_cp7_get_sales_return_correction_v1']
 for (const name of cp7PaymentCorrectionBoundaries) assert.ok(rpcBoundaries.has(name))
 const cp7PayrollBoundaries = ['erp_cp7_get_payroll_workspace_v1','erp_cp7_save_payroll_v1']
 for (const name of cp7PayrollBoundaries) assert.ok(rpcBoundaries.has(`src/ConnectedPayrollPage.tsx:${name}`))

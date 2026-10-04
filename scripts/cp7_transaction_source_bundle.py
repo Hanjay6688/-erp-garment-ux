@@ -28,6 +28,8 @@ def verify(cur):
     assert cur.execute("select has_schema_privilege(%s,'cp7_installment','USAGE')and has_table_privilege(%s,'cp7_installment.payments','SELECT')and not has_table_privilege(%s,'cp7_installment.payments','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(ROLE,ROLE,ROLE)).fetchone()[0]
     assert cur.execute("select has_schema_privilege(%s,'cp7_payment_correction','USAGE')and has_table_privilege(%s,'cp7_payment_correction.links','SELECT')and not has_table_privilege(%s,'cp7_payment_correction.links','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(ROLE,ROLE,ROLE)).fetchone()[0]
     assert cur.execute("select has_schema_privilege(%s,'cp7_supplier_payment_correction','USAGE')and has_table_privilege(%s,'cp7_supplier_payment_correction.links','SELECT')and not has_table_privilege(%s,'cp7_supplier_payment_correction.links','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(ROLE,ROLE,ROLE)).fetchone()[0]
+    for table in ('links','journal_restatements'):
+        assert cur.execute("select has_schema_privilege(%s,'cp7_sales_return_correction','USAGE')and has_table_privilege(%s,%s,'SELECT')and not has_table_privilege(%s,%s,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(ROLE,ROLE,'cp7_sales_return_correction.'+table,ROLE,'cp7_sales_return_correction.'+table)).fetchone()[0]
     for who in ('anon','authenticated','service_role'):
         assert not cur.execute('select has_schema_privilege(%s,\'cp7_transaction_source\',\'USAGE\')or has_function_privilege(%s,\'cp7_transaction_source.resolve(jsonb)\',\'EXECUTE\')',(who,who)).fetchone()[0]
         assert not cur.execute('select has_function_privilege(%s,\'cp7_transaction_source.dependencies(jsonb,integer)\',\'EXECUTE\')',(who,)).fetchone()[0]

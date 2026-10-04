@@ -1,0 +1,13 @@
+{
+  "tool_head": "43265e22b723073680a7b3b2acaf698770f8cf14",
+  "github_sha": "43265e22b723073680a7b3b2acaf698770f8cf14",
+  "product_ref": "38abb879f71b108d388a6221e307337b93e29ccf",
+  "same_exact_product_subtrees": {
+    "src": "f15f72fef97b6bba764e5a76e2c2d41d6e563311",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7"
+  },
+  "CP7_runtime_bundle_sha256": "07665a53cc3a24e770b8f4716aa55777176c908d3a252a810fef74eade997dee",
+  "product_paths_unchanged": true,
+  "all_pins_identical": false,
+  "reason": "Only CP7 scripts and proof documents changed at432; actual frozen Native and frontend product paths are exactly the source38 trees."
+}
