@@ -139,7 +139,21 @@ def cases(cur,today):
         return dict(status='PASS',Native_return2_to1_stock_minus1_AR_plus20_COGS_plus10=True,original_inputs_unchanged=True)
     def increase():
         f=fixture(cur,today);p,v=payload(cur,f,'3','60');w=check(cur,f,p,correct(cur,p,v));assert w['financial']['open_balance']=='20.00'and returns.positions(cur,f)[(f['destination'],'GRADE_A')]==3
-        return dict(status='PASS',Native_return2_to3_with_current_capacity=True)
+        # Cross the two owning contracts using actual Native child replay.
+        original_sale=f['sale'];original_return=f['return'];original_facts=f['original_fact']
+        change,version=note.edit(cur,f,'3');change['item_lineage']=[i['id']for i in source.read(cur,f)['detail']['items']]
+        revised=note.correct(cur,change,version);f['sale']=revised['sale_id']
+        assert f['sale']!=original_sale
+        replayed=cur.execute("select id::text from erp.sales_returns where sale_id=%s and status='POSTED'",(f['sale'],)).fetchall();assert len(replayed)==1
+        f['return']=replayed[0][0];f['original']=workspace(cur,f)['document'];f['original_fact']=original_fact(cur,f['return']);f['sale_fact']=note.unchanged_facts(cur,f['sale'])
+        assert f['original']['items'][0]['qty_pcs']=='3'and f['original']['items'][0]['refund_amount']=='60.00'
+        fresh,ver=payload(cur,f,'2','40');after=check(cur,f,fresh,correct(cur,fresh,ver))
+        assert after['financial']['gross_total']=='60.00'and after['financial']['return_total']=='40.00'and after['financial']['open_balance']=='20.00'
+        assert returns.positions(cur,f)=={(f['location'],'GRADE_A'):7,(f['destination'],'GRADE_A'):2}
+        assert original_fact(cur,original_return)==original_facts
+        return dict(status='PASS',Native_return2_to3_with_current_capacity=True,
+          actual_return_correction_then_note_correction_then_replayed_return_correction=True,
+          new_actual_parent_allocation_stock7_plus2_AR20_and_original_return_inputs_preserved=True)
     def full():
         f=fixture(cur,today,qty='4',refund='80');w=workspace(cur,f);assert w['financial']['net_total']=='0.00'and w['allocations']['total']=='1'and w['current_allocations'][0]['replacement_capacity']=='4'
         p,v=payload(cur,f,'3','60');check(cur,f,p,correct(cur,p,v));return dict(status='PASS',fully_returned_source_includes_own_capacity_and_corrects=True)

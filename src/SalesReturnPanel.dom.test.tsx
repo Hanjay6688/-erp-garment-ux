@@ -28,6 +28,12 @@ async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
 async function add(location='Gudang lain'){await click(button(location));await click(container.querySelector<HTMLElement>('[aria-label="Pilih alokasi retur"] .cproc-receipt:not(:disabled)')!)}
 async function header(){await fill('Nomor retur pelanggan','RET-NEW');await fill('Waktu retur pelanggan WIB','2026-09-29T12:31')}
 describe('P11 selected-allocation physical return',()=>{
+ it('retains entered lines and review across owning history renders with the same read ticket callbacks',async()=>{
+  const ticket={sequence:1,scope:'owning',signature:'source' as string|null,session:{}},currentReadTicket=()=>ticket,isReadCurrent=(t:typeof ticket)=>t===ticket,inputs={},onInvalid=vi.fn()
+  const render=async()=>{await act(async()=>root.render(<SalesReturnPanel source={source} locked={false} stale={false} onSave={saved} onClose={()=>{}} inputs={inputs} onInvalid={onInvalid} readFence={{currentReadTicket,isReadCurrent}}/>));await flush()}
+  await render();await header();await add();await fill('Jumlah retur 1','1');await fill('Nilai retur 1','20');await click(input('Retur pelanggan sudah diperiksa'));expect(input('Retur pelanggan sudah diperiksa').checked).toBe(true);const reads=mock.rpc.mock.calls.length
+  await render();expect(mock.rpc).toHaveBeenCalledTimes(reads);expect(input('Jumlah retur 1').value).toBe('1');expect(input('Nilai retur 1').value).toBe('20');expect(input('Retur pelanggan sudah diperiksa').checked).toBe(true);expect(button('Catat retur pelanggan').disabled).toBe(false);expect(saved).not.toHaveBeenCalled();expect(onInvalid).not.toHaveBeenCalled()
+ })
  it('filters the loaded return page without changing physical lines, source order or dispatching a writer',async()=>{
   const rows=[{...record,number:'RET-10'},{...record,id:'77777777-7777-4777-8777-777777777777',number:'RET-2',status:'REVERSED',items:[{...record.items[0],id:'88888888-8888-4888-8888-888888888888'}]}]
   const original=structuredClone(rows);mock.rpc.mockImplementation((_rpc,{p_query})=>{const r=response(p_query.kind);if(p_query.kind==='RETURNS'){r.page.rows=rows;r.page.total='2'}return Promise.resolve({data:r,error:null})});await mount();await fill('Nomor retur pelanggan','RET-OWN');const reads=mock.rpc.mock.calls.length

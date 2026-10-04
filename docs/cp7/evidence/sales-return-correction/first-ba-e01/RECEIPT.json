@@ -1,0 +1,101 @@
+{
+  "status": "INCOMPLETE",
+  "source_commit": "ba721df6d62ec3ef2334740eb26db3ce15cc08ce",
+  "source_tree": "331446cd4e730082daf140b43402a13dc28c29ab",
+  "run_id": 37173411862,
+  "job_id": 111350911010,
+  "artifact_id": 11292651692,
+  "archive_bytes": 4461431,
+  "archive_sha256": "ea282ba09c410e45bed41ddc53c74ffbc12e11eb7782e1734bfd48fe333af765",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "25961b579e9fa1edc85767ecbeab080ad4d6f3b39adeb19bf3d8249ea69fae17"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385602,
+      "sha256": "25961b579e9fa1edc85767ecbeab080ad4d6f3b39adeb19bf3d8249ea69fae17"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "f6608bbde627d89e273c714c9ac825fb846570a467e10eed40f2a087d6f71fd6"
+    },
+    "CP7_F03_E01.json": {
+      "bytes": 304903,
+      "sha256": "0c2c045e119d956ad040fc43a66735e456e2a061c53c2adfe9aba75a720da7ba"
+    },
+    "E01_MOBILE_FAILURE.json": {
+      "bytes": 14957,
+      "sha256": "fb844edf9ffab5d8a89fbac6fd35668dfaf239a8747bed5e31743263cc7ca543"
+    },
+    "E01_MOBILE_FAILURE.png": {
+      "bytes": 946404,
+      "sha256": "b392b05b05d67728bcc311259b3df04ddedc3b58f878ba0fe805fc3e1e409645"
+    },
+    "E01_REPORT_DESKTOP.png": {
+      "bytes": 1150194,
+      "sha256": "c966a2e8482f24bbce57502af6e186293579b41efebe7f48a302bc213e71c6af"
+    },
+    "E01_SALE_RETURN_DESKTOP.png": {
+      "bytes": 783287,
+      "sha256": "4a97338484f45e10bf6178ddc8bfa6ae1e0c44145528249a389cd6ed53e9b538"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "1c5c6183c309d116de6bdb7ad2737f170aa16c8d91cfe924834492e08f6fc5a0"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360417,
+      "sha256": "c75a2d1909b30ce546df8e18ab792faae0fa6e6ebb0b06837ea25689f9fdc874"
+    }
+  },
+  "all6_Original_roots_preserved": true,
+  "Original_reports_raw_sha256": "c449367d864e5e56a674c930d2dcb69e41da7aefcc908409585d8aea4c93982d",
+  "Original_log_raw_sha256": "ddc42bc1e67b37daf4ef7a10be46377cf5d7c35554ec2add7c70478d75b9c538",
+  "observed_case_count": 4,
+  "groups": {
+    "native": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 1,
+      "INCOMPLETE": 1
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "failed_case": "F03_E01_BROWSER_MOBILE_LOST_RETURN",
+  "failure": "Review checkbox reset before ordinary return save; no Native return command submitted",
+  "actual_mobile_failure_image_reviewed": true,
+  "diagnosis": "Parent readFence object changes during owning history render caused an unrelated form reload and review reset",
+  "successor": "Depend on stable currentReadTicket/isReadCurrent callbacks; bind child facts to their actual owning ticket; add two DOM controls",
+  "fresh_full_E01_and_return25_required": true,
+  "Native_budgets_or_guards_or_timeouts_changed": false,
+  "production_go": false
+}

@@ -20,7 +20,7 @@ type Props={source:Source;returnId:string;number:string;initialEdit:boolean;lock
 const money=(v:string)=>`Rp${formatReceiptDecimal(v)}`
 export default function SalesReturnCorrectionPanel({source,returnId,number,initialEdit,locked,stale,inputs,locations,readFence,onInvalid,onSave,onClose,onLocationSearch,onLocationPage}:Props){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi pembetulan retur belum siap.')
- const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),query=useRef({q:'',offset:0}),loaded=useRef(false)
+ const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),query=useRef({q:'',offset:0}),loaded=useRef(false),dataTicket=useRef<ReturnType<Recovery['currentReadTicket']>>(null)
  const {currentReadTicket,isReadCurrent}=readFence,key=`return.${source.id}.${returnId}.`,parentKey=JSON.stringify([source.id,source.row_version,source.review_token,returnId]),parent=useRef(parentKey);parent.current=parentKey
  const [data,setData]=useState<ReturnCorrectionWorkspace|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[edit,setEdit]=useState(initialEdit),[review,setReview]=useState(false)
  const [lines,setLines]=useRetainedInput<OwnLine[]>(inputs,key+'lines',[]),[at,setAt]=useRetainedInput(inputs,key+'at',''),[timeEdited,setTimeEdited]=useRetainedInput(inputs,key+'timeEdited',false),[restoredAt,setRestoredAt]=useRetainedInput<string|null>(inputs,key+'restoredAt',null),[notes,setNotes]=useRetainedInput(inputs,key+'notes',''),[reason,setReason]=useRetainedInput(inputs,key+'reason','')
@@ -29,7 +29,7 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
  const ownInitialized=useRef(Object.hasOwn(inputs,key+'lines'))
  const prefill=useCallback((d:ReturnCorrectionDocument)=>{setLines(d.items.map(i=>({key:crypto.randomUUID(),allocation_id:i.allocation_id,location_id:i.location_id,qty:i.qty_pcs,grade:i.quality_grade,refund:i.refund_amount,notes:i.notes??''})));setAt(cp6WibDateTimeInput(d.physical_at));setTimeEdited(false);setRestoredAt(null);setNotes(d.notes??'');setReason('');setReview(false)},[setLines,setAt,setTimeEdited,setRestoredAt,setNotes,setReason])
  const load=useCallback(async()=>{
-  const n=++seq.current,ticket=currentReadTicket(),capture=parentKey,requested={...query.current};setData(null);setBusy(false);setError('');setReview(false)
+  const n=++seq.current,ticket=currentReadTicket(),capture=parentKey,requested={...query.current};dataTicket.current=null;setData(null);setBusy(false);setError('');setReview(false)
   if(!ticket){setError('Muat ulang invoice sebelum membuka pembetulan retur.');return}setBusy(true)
   try{const r=await client.rpc('erp_cp7_get_sales_return_correction_v1',{p_query:{sale_id:source.id,return_id:returnId,...requested,limit:25}})
    if(n!==seq.current||parent.current!==capture||!isReadCurrent(ticket))return;if(r.error)throw r.error
@@ -37,11 +37,12 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
    if(!isReadCurrent(ticket)||parent.current!==capture)return
    if(facts.current.token!==next.return_review_token)facts.current={token:next.return_review_token,allocations:new Map()}
    for(const a of [...next.current_allocations,...next.allocations.rows])facts.current.allocations.set(a.allocation_id,a)
-   setData(next);if(!loaded.current){if(!ownInitialized.current)prefill(next.document);loaded.current=true}
+   dataTicket.current=ticket;setData(next);if(!loaded.current){if(!ownInitialized.current)prefill(next.document);loaded.current=true}
   }catch(e){if(n===seq.current&&isReadCurrent(ticket)&&parent.current===capture){const message=normalizeClientError(e).message;setData(null);setReview(false);setError(message);onInvalid(message)}}finally{if(n===seq.current)setBusy(false)}
  },[client,currentReadTicket,isReadCurrent,onInvalid,parentKey,source,returnId,prefill])
  useEffect(()=>{void load();return()=>{++seq.current}},[load])
- const disabled=locked||stale||busy||!data||!locations,canCorrect=!!data?.can_correct&&['OWNER','ADMIN'].includes(identity.profile.role)&&['sales.return.create','sales.return.post','sales.return.reverse','finance.hpp.view'].every(p=>identity.permissions.includes(p))
+ const factsCurrent=dataTicket.current!==null&&isReadCurrent(dataTicket.current)
+ const disabled=locked||stale||busy||!data||!locations||!factsCurrent,canCorrect=!!data?.can_correct&&['OWNER','ADMIN'].includes(identity.profile.role)&&['sales.return.create','sales.return.post','sales.return.reverse','finance.hpp.view'].every(p=>identity.permissions.includes(p))
  const original=data?.document,physical=timeEdited?cp6WibPhysicalTimeToIso(at):restoredAt??original?.physical_at??null
  const total=salesReturnTotal(lines.map(l=>l.refund)),originalTotal=original?salesReturnTotal(original.items.map(i=>i.refund_amount)):null
  const maxRefund=data?.financial.open_balance!==null&&data?.financial.open_balance!==undefined&&originalTotal!==null?returnCorrectionCents(data.financial.open_balance)+returnCorrectionCents(originalTotal):null
@@ -51,7 +52,7 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
  const normalized=(v:{allocation_id:string;location_id:string;qty_pcs:string;quality_grade:string;refund_amount:string;notes:string|null}[])=>JSON.stringify([...v].sort((a,b)=>a.allocation_id.localeCompare(b.allocation_id)).map(i=>({...i,refund_amount:salesCashAmount(i.refund_amount)===null?i.refund_amount:salesCashCents(i.refund_amount).toString()})))
  const changed=!!original&&(physical!==original.physical_at||(notes||null)!==original.notes||normalized(replacementLines)!==normalized(original.items.map(i=>({allocation_id:i.allocation_id,location_id:i.location_id,qty_pcs:i.qty_pcs,quality_grade:i.quality_grade,refund_amount:i.refund_amount,notes:i.notes}))))
  const valid=!disabled&&canCorrect&&changed&&validLines&&physical!==null&&total!==null&&maxRefund!==null&&returnCorrectionCents(total)<=maxRefund&&reason.trim().length>=5&&review
- const save=()=>{if(!valid||!data||!source.review_token)return;const ticket=currentReadTicket();if(!ticket||!isReadCurrent(ticket))return
+ const save=()=>{if(!valid||!data||!source.review_token||!dataTicket.current||!isReadCurrent(dataTicket.current))return;const ticket=currentReadTicket();if(!ticket||!isReadCurrent(ticket))return
   onSave('RETURN_CORRECT',{sale_id:source.id,return_id:returnId,review_token:source.review_token,return_review_token:data.return_review_token,change_reason:reason.trim(),replacement:{physical_at:physical!,notes:notes||null,items:replacementLines}},source.row_version)
  }
  const update=(id:string,change:Partial<OwnLine>)=>{setLines(old=>old.map(l=>l.key===id?{...l,...change}:l));setReview(false)}
@@ -60,6 +61,7 @@ export default function SalesReturnCorrectionPanel({source,returnId,number,initi
   <div className="cproc-heading"><div><h3>{edit?'Edit retur':'Perubahan retur'} {number}</h3><p>Invoice {source.number}</p></div><button disabled={locked} onClick={onClose}>Tutup pembetulan retur</button></div>
   <button disabled={locked||stale||busy} onClick={()=>void load()}>Muat ulang pembetulan retur</button>
   {error?<p role="alert">{error}</p>:null}{busy?<p role="status">Memuat retur dan alokasi asal…</p>:null}{stale?<p role="alert">Invoice berubah. Muat ulang invoice sebelum melanjutkan.</p>:null}
+  {data&&!factsCurrent?<p role="alert">Invoice sudah dimuat ulang. Muat ulang pembetulan retur sebelum melanjutkan.</p>:null}
   {data?<><p>{data.document.number} · {formatCp6WibDateTime(data.document.physical_at)} · {money(salesReturnTotal(data.document.items.map(i=>i.refund_amount))!)}</p><p>Retur lama tetap tersimpan. Stok, piutang, dan HPP diperiksa bersama saat pembetulan disimpan.</p>
    {data.previous?<section aria-label="Isi retur sebelum pembetulan"><h4>Sebelum pembetulan</h4><TransactionSourceLink sourceType="SALES_RETURN" sourceId={data.previous.document.id} disabled={disabled} label={`Buka retur sebelum pembetulan ${data.previous.document.number}`}/><p>{formatCp6WibDateTime(data.previous.document.physical_at)} · {money(salesReturnTotal(data.previous.document.items.map(i=>i.refund_amount))!)}</p><p>{data.previous.link.reason}</p>{canCorrect?<button disabled={disabled} onClick={restore}>Pulihkan isi retur sebelum pembetulan</button>:null}</section>:null}
    {data.next?<section aria-label="Retur pengganti"><h4>Retur pengganti</h4><TransactionSourceLink sourceType="SALES_RETURN" sourceId={data.next.document.id} disabled={disabled} label={`Buka retur pengganti ${data.next.document.number}`}/><p>{data.next.link.reason}</p></section>:null}

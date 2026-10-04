@@ -10424,7 +10424,7 @@
     "independent_acceptance": false
   },
   "ordinary_customer_return_correction_candidate": {
-    "status": "FIRST_CI_UI_COMPILE_INCOMPLETE_FIX_AUTHORED",
+    "status": "BA_SHELL_PASS_E01_MOBILE_INCOMPLETE_STABLE_TICKET_FIX_AUTHORED",
     "handoff": "SALES_RETURN_CORRECTION_HANDOFF.md",
     "owning_read_rpc": "erp_cp7_get_sales_return_correction_v1",
     "owning_write_rpc": "erp_cp7_correct_sales_return_v1",
@@ -10441,7 +10441,12 @@
     "production_go": false,
     "independent_acceptance": false,
     "first_head": "c79f4435d32baa2138bf821917462421453d29df",
-    "first_failure_receipt": "evidence/sales-return-correction/first-c79-ui/RECEIPT.json"
+    "first_failure_receipt": "evidence/sales-return-correction/first-c79-ui/RECEIPT.json",
+    "ba_head": "ba721df6d62ec3ef2334740eb26db3ce15cc08ce",
+    "ba_shell_receipt": "evidence/sales-return-correction/qualified-ba-shell/RECEIPT.json",
+    "ba_E01_receipt": "evidence/sales-return-correction/first-ba-e01/RECEIPT.json",
+    "stable_callback_and_actual_child_data_ticket_fix_authored": true,
+    "cross_return_note_return_scene_authored_not_executed": true
   },
   "supplier_cash_wait_exact432_shell": {
     "receipt": "evidence/supplier-payment-correction/qualified432-shell/RECEIPT.json",
