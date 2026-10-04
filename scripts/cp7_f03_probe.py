@@ -7,6 +7,7 @@ import cp7_f03_bundle as bundle
 import cp7_f03_cases as cases
 import cp7_note_correction_verify as note_correction
 import cp7_sales_return_correction_bundle as return_correction
+import cp7_sales_chain_bundle as sales_chain
 import cp7_p12_nota_probe as payroll
 import cp7_p13_finance_probe as finance
 import cp7_p09_procurement_probe as p09
@@ -18,7 +19,7 @@ OUT=bundle.ROOT/'cp6-proof/t3/CP7_F03_COMBINED_STACK.json'
 
 def verify(cur):
  payroll.verify(cur,True,True,True,True,True);finance.verify(cur);bundle.journal.verify(cur);bundle.misc.verify(cur);bundle.installment.verify(cur)
- note_correction.verify(cur);return_correction.verify(cur);bundle.transaction_source.verify(cur);bundle.misc_correction.verify(cur)
+ note_correction.verify(cur);return_correction.verify(cur);sales_chain.verify(cur);bundle.transaction_source.verify(cur);bundle.misc_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():

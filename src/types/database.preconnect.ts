@@ -110,6 +110,8 @@ export type PreconnectDatabase = {
       erp_cp7_get_sales_cash_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_sales_form_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_sale_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
+      erp_cp7_get_sales_chain_v1: { Args: { p_sale: string }; Returns: Json }
+      erp_cp7_reverse_sales_chain_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
       erp_cp7_get_sales_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_payroll_workspace_v1: { Args: { p_section: string; p_query: Json }; Returns: Json }
       erp_cp7_get_attendance_entry_v1: { Args: { p_query: Json }; Returns: Json }

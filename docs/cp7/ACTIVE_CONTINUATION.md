@@ -1,3 +1,5 @@
+> Current writer continuation (5 October 2026 WIB): canonical base d776b192, owner mandate active. Read [WRITER_TAKEOVER_20261005](WRITER_TAKEOVER_20261005.md) and [SALES_CHAIN_REVERSAL_HANDOFF](SALES_CHAIN_REVERSAL_HANDOFF.md) before the historical checkpoints below. Atomic sale-chain candidate requires its own exact Native25; full CP7/P20/P21 and production GO remain open.
+
 # Active CP7 writer continuation · 3 October 2026
 
 ## Qualified supplier source38 and cash-wait successor · 4 October 2026

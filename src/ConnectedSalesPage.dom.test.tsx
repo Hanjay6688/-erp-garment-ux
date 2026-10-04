@@ -8,6 +8,8 @@ import {parseNoteCorrectionOutcome,parseNoteCorrectionWorkspace} from './noteCor
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 import {readProductionRecovery} from './productionRecovery'
 import type {PaymentCorrectionWorkspace} from './salesPaymentCorrectionContract'
+import {chainWorkspace,chainOutcome} from '../tests/fixtures/salesChain'
+import type {SalesChainPayload} from './salesChainContract'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
@@ -193,5 +195,27 @@ describe('payment correction owning command and recovery routing with declared s
   });await openPaymentEdit();await click(button('Simpan koreksi pembayaran'));const scope=`${recoveryIdentity.runtime.projectRef}:${recoveryIdentity.identity.profile.id}`,original=structuredClone(readProductionRecovery(scope).pending.SALES);expect(original?.action).toBe('PAYMENT_CORRECT')
   await act(async()=>root.unmount());root=createRoot(container);revoked=true;const a=state.auth as typeof recoveryIdentity;a.identity.permissions=a.identity.permissions.filter(p=>p!=='sales.payment.post');await mount();await click(button('Reconcile transaksi'));expect(readProductionRecovery(scope).pending.SALES).toEqual(original);expect(button('Reconcile transaksi')).toBeDefined();expect(container.textContent).toContain('Hasil transaksi masih belum pasti')
   revoked=false;allowPaymentEdit();await act(async()=>root.render(<ConnectedSalesPage/>));await flush();await click(button('Reconcile transaksi'));const sends=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_correct_sales_payment_v1');expect(sends).toHaveLength(3);expect(sends[1][1]).toEqual(sends[0][1]);expect(sends[2][1]).toEqual(sends[0][1]);expect(readProductionRecovery(scope).pending.SALES).toBeUndefined();expect(container.textContent).toContain('Sisa pembayaran Rp40');expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false)
+ })
+})
+
+function allowChain(){allowCorrection();(state.auth as typeof recoveryIdentity).identity.permissions.push('sales.payment.view','sales.payment.reverse','sales.return.view','sales.return.reverse')}
+function chainRead(selected:boolean,reversed=false){const x=data(true,selected);if(reversed)for(const row of [x.page.rows[0],...(x.detail?[x.detail]:[])]){row.status='REVERSED';row.returned_qty='0';row.row_version='9007199254740996';Object.assign(row.financial!,{state:'INACTIVE_DOCUMENT',paid_total:'0.00',return_total:'0.00',net_total:'80.00',open_balance:null})}return x}
+async function openChain(){await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);await click(button('Periksa pembatalan rantai'));await fillInvoice('Alasan pembatalan rantai','Semua dokumen pembayaran retur dan invoice diperiksa');await click(container.querySelector<HTMLInputElement>('[aria-label="Seluruh rantai sudah diperiksa"]')!)}
+describe('owning atomic sale-chain recovery',()=>{
+ it('commits through one outer boundary and recovers exactly the same request after a lost reply and remount',async()=>{
+  allowChain();let lost=false,committed=false
+  client.rpc.mockImplementation(async(name,args)=>{if(name==='erp_cp7_get_sales_v1')return{data:chainRead(!!args.p_query.sale_id,committed),error:null};if(name==='erp_cp7_get_sales_chain_v1')return{data:chainWorkspace(),error:null};expect(name).toBe('erp_cp7_reverse_sales_chain_v1');committed=true;if(!lost){lost=true;throw Error('Reply lost after committed complete chain')}return{data:chainOutcome(args.p_request,args.p_payload),error:null}})
+  await openChain();expect(button('Batalkan penjualan tercatat').disabled).toBe(true);await click(button('Batalkan rantai sekaligus'))
+  expect(button('Reconcile transaksi')).toBeDefined();const first=structuredClone(client.rpc.mock.calls.find(([n])=>n==='erp_cp7_reverse_sales_chain_v1')![1]);expect(first.p_expected).toBe('9007199254740993');expect(first.p_payload.payment_ids).toHaveLength(1);expect(first.p_payload.return_ids).toHaveLength(1)
+  await act(async()=>root.unmount());root=createRoot(container);await mount();await click(button('Reconcile transaksi'));const calls=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_reverse_sales_chain_v1');expect(calls).toHaveLength(2);expect(calls[1][1]).toEqual(first);expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false);expect(readProductionRecovery('disposable:actor-1').pending.SALES).toBeUndefined();expect(container.querySelector('[aria-label="Rincian invoice"]')!.textContent).toContain('Penjualan dibatalkan')
+ })
+ it('holds an incomplete committed reply for same-UUID verification and never treats one child as success',async()=>{
+  allowChain();let complete=false
+  client.rpc.mockImplementation(async(name,args)=>{if(name==='erp_cp7_get_sales_v1')return{data:chainRead(!!args.p_query.sale_id),error:null};if(name==='erp_cp7_get_sales_chain_v1')return{data:chainWorkspace(),error:null};const value=chainOutcome(args.p_request,args.p_payload as SalesChainPayload);if(!complete)value.steps.pop();return{data:value,error:null}})
+  await openChain();await click(button('Batalkan rantai sekaligus'));expect(button('Reconcile transaksi')).toBeDefined();const p=structuredClone(readProductionRecovery('disposable:actor-1').pending.SALES);expect(p?.action).toBe('SALE_CHAIN_REVERSE');expect(container.querySelector('[aria-label="Rincian invoice"]')!.textContent).toContain('Pilih invoice')
+  complete=true;await click(button('Reconcile transaksi'));const calls=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_reverse_sales_chain_v1');expect(calls).toHaveLength(2);expect(calls[1][1]).toEqual(calls[0][1]);expect(readProductionRecovery('disposable:actor-1').pending.SALES).toBeUndefined()
+ })
+ it('offers chain cancellation only with the complete current owning permissions',async()=>{
+  allowCorrection();client.rpc.mockImplementation(async(_name,args)=>({data:chainRead(!!args.p_query.sale_id),error:null}));await mount();await click(container.querySelector<HTMLButtonElement>('.cproc-receipt')!);expect(button('Periksa pembatalan rantai')).toBeUndefined();expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_get_sales_chain_v1')).toBe(false)
  })
 })
