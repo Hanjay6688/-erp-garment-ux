@@ -1,0 +1,224 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37165327382,
+  "job_id": 111326940459,
+  "artifact_id": 11289931402,
+  "artifact_name": "cp7-note-correction",
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "source_tree": "c58280d22bd8c3cf4ae323e1304fbeb517c54e88",
+  "source_bundle_sha256": "733ab7d6708c31033248f469cb8a096fd1c452f6e1ec072303f890d46916eae2",
+  "zip_bytes": 13574927,
+  "zip_sha256": "23524fa3e852bdc12752d2b3441ea8e8fec7878c1f7585a1a8b70be0b2609b2d",
+  "runtime_report": "CP7_NOTE_CORRECTION.json",
+  "expected_status": "PASS",
+  "expected_case_count": 40,
+  "required_case_counts": {
+    "native": 28,
+    "races": 4,
+    "http": 3,
+    "browser": 5
+  },
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "observed_case_count": 40,
+  "counts": {
+    "native": {
+      "PASS": 28
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 5
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "895e045cf042a497a1b4d613510c5b8f3a845bc234c20dd6604b174e3e842caf",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 3456853,
+      "sha256": "3b58e598ae90fc5c7e690979007faabbe501a6c3d69744a93ce7e630bf2d8762"
+    },
+    "NOTE_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 8419,
+      "sha256": "4f0a8122b70b7dc6544fcc0b7a563b4067fb0ad508b3e835545d01ff05df050e"
+    },
+    "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 8919,
+      "sha256": "780f9b578f344411f81f8d3adb738d127d6c1c0e4e7e7f91351697a5e2205c81"
+    },
+    "NOTE_DUPLICATE_SKU_NATIVE_PROOF.json": {
+      "bytes": 37208,
+      "sha256": "c0b46b9208bc772be171f0098da116058f81412569d9e7ea9301b01463ed932d"
+    },
+    "NOTE_MOBILE_HTTP_TRACE.json": {
+      "bytes": 8919,
+      "sha256": "fe4551ded534975b45cab5dc46fc51d0b05e986fa828a50b718569c38e039c5b"
+    },
+    "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 8895,
+      "sha256": "02066e2e739fd68a8414050acb118a6111a7675aa3734739051450a9405f01b6"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "907977e6ae7c4506fdbdac65afdcc944bed8532adaa72ce5c3732e232a03921c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "11f6c206acdd44ea9c9cfca78751113ece4166b0fa44d8adf205ddd13091cc8a"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385627,
+      "sha256": "260b66b5ae34547f660d8ec1cccc1f824b64c7cf09647245eaa229c1bd599241"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385627,
+      "sha256": "260b66b5ae34547f660d8ec1cccc1f824b64c7cf09647245eaa229c1bd599241"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "7a3c2865db380864c8528392f098a9822e96247bb8f4ffdd4e42e343290acf21"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 3456853,
+      "sha256": "3b58e598ae90fc5c7e690979007faabbe501a6c3d69744a93ce7e630bf2d8762"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP.png": {
+      "bytes": 1193025,
+      "sha256": "8d7f183f392e44aa119fb22f0693b2f2d1d14e454eb9a647c5a4b7bcabf3f1ab"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP_MICROSECOND.png": {
+      "bytes": 1187979,
+      "sha256": "98c51e24bb926b16f414ee4c2309b7358aa4ffbe539648a19bb107d5c9c4bbc1"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE.png": {
+      "bytes": 733503,
+      "sha256": "c6695a72d2bb1b8feb1216be8c75936d73c71a61147893713fe007eddc09406e"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE_MICROSECOND.png": {
+      "bytes": 743594,
+      "sha256": "6cf34cc54a60012915e2075ec5e4b1acbd05f2aa8e6297ac1b1bea51995ad789"
+    },
+    "NOTE_CORRECTED_LOT_DESKTOP.png": {
+      "bytes": 944833,
+      "sha256": "a0fde211e6c2ca068134d6e17c097d0cde44ecedeb91073811c83d07fdfbfc76"
+    },
+    "NOTE_CORRECTED_LOT_DESKTOP_MICROSECOND.png": {
+      "bytes": 939144,
+      "sha256": "0acb455de6a0b4ddba686c55daeefaa5de72cf1bb6aca16e06a5e489d02aacc5"
+    },
+    "NOTE_CORRECTED_LOT_MOBILE.png": {
+      "bytes": 708164,
+      "sha256": "8e3563166d2a8c0aebf7145a6196de65370d74c6417f4a28709fa28dbf15bc98"
+    },
+    "NOTE_CORRECTED_LOT_MOBILE_MICROSECOND.png": {
+      "bytes": 721236,
+      "sha256": "a6984b55c3f8a0d38281140eb28e59454494d7005d51d42c3a85bb113c1d317a"
+    },
+    "NOTE_CORRECTION_DESKTOP.png": {
+      "bytes": 932662,
+      "sha256": "ca6d039a306ee3f8ee0fb7423aaa668634e2705f590302b8f2c394dc9754dad8"
+    },
+    "NOTE_CORRECTION_DESKTOP_MICROSECOND.png": {
+      "bytes": 905640,
+      "sha256": "1e1914483d5d1cc4a427e7804fdb72f742141f80cacfb3aad31027cc295db37a"
+    },
+    "NOTE_CORRECTION_MOBILE.png": {
+      "bytes": 674574,
+      "sha256": "9b025193a1d3fc60ec4564e475831e5a99d3ab6c50d84ba15641c1dbc73ec927"
+    },
+    "NOTE_CORRECTION_MOBILE_MICROSECOND.png": {
+      "bytes": 638928,
+      "sha256": "199f8b4671dd94a4633f7b7cd4c718b20c2f6e0bf396a2fcd7ac8efe87f2a299"
+    },
+    "NOTE_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 8419,
+      "sha256": "4f0a8122b70b7dc6544fcc0b7a563b4067fb0ad508b3e835545d01ff05df050e"
+    },
+    "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 8919,
+      "sha256": "780f9b578f344411f81f8d3adb738d127d6c1c0e4e7e7f91351697a5e2205c81"
+    },
+    "NOTE_DUPLICATE_SKU_LOT_CARD.png": {
+      "bytes": 797242,
+      "sha256": "2abfa9219076f3a65a513fa7d3832059df377e75c9b4686793ba36298643dc35"
+    },
+    "NOTE_DUPLICATE_SKU_MAIN_BOOK.png": {
+      "bytes": 906015,
+      "sha256": "9ad27cfa6834bc501900a08c56481f54f6fec0d5f82d9a63ac59a676563b53a6"
+    },
+    "NOTE_DUPLICATE_SKU_NATIVE_PROOF.json": {
+      "bytes": 37208,
+      "sha256": "c0b46b9208bc772be171f0098da116058f81412569d9e7ea9301b01463ed932d"
+    },
+    "NOTE_MOBILE_HTTP_TRACE.json": {
+      "bytes": 8919,
+      "sha256": "fe4551ded534975b45cab5dc46fc51d0b05e986fa828a50b718569c38e039c5b"
+    },
+    "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 8895,
+      "sha256": "02066e2e739fd68a8414050acb118a6111a7675aa3734739051450a9405f01b6"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "907977e6ae7c4506fdbdac65afdcc944bed8532adaa72ce5c3732e232a03921c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "11f6c206acdd44ea9c9cfca78751113ece4166b0fa44d8adf205ddd13091cc8a"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -161,6 +161,46 @@ def cases(cur,today):
     assert len(named)==REQUIRED['native'];return [('CP7_SUPPLIER_PAYMENT_CORRECTION_'+name,fn)for name,fn in named]
 
 def races(tools,today):
+    def cash_wait():
+        # A different valid replacement bank prevents Native's inactive-new-bank
+        # guard from concealing a stale original-bank review after a cash wait.
+        with tools.connect()as conn,conn.cursor()as cur:
+            f=fixture(cur,today);subject,_=supplier.admin_actor(cur)
+            other=bc.bank_account(cur,'SUP-CASH-WAIT-'+uuid.uuid4().hex[:8])
+            p=payload(cur,f,subject=subject,cash_account_id=other);conn.commit()
+        holder=tools.connect();holding=holder.cursor();b.api.admin(holding)
+        holding.execute('select 1 from erp.cash_accounts where id=%s for update',(f['cash'],))
+        holder_pid=holding.execute('select pg_backend_pid()').fetchone()[0]
+        ready=threading.Event();pid=[]
+        def send():
+            with tools.connect()as conn,conn.cursor()as cur:
+                pid.append(cur.execute('select pg_backend_pid()').fetchone()[0]);ready.set()
+                try:correct(cur,p,subject=subject);conn.commit();return'UNEXPECTED_COMMIT'
+                except psycopg.Error as e:conn.rollback();return str(e)
+        try:
+            with ThreadPoolExecutor(max_workers=1)as pool:
+                future=pool.submit(send)
+                try:
+                    assert ready.wait(5);deadline=time.monotonic()+8;blocked=False
+                    with tools.connect()as conn,conn.cursor()as cur:
+                        while time.monotonic()<deadline:
+                            blocked=holder_pid in cur.execute('select pg_blocking_pids(%s)',(pid[0],)).fetchone()[0];conn.rollback()
+                            if blocked:break
+                            time.sleep(.02)
+                        assert blocked,'SUPPLIER_CORRECTION_ACTUAL_CASH_LOCK_WAIT_NOT_OBSERVED'
+                    holding.execute('update erp.cash_accounts set is_active=false where id=%s',(f['cash'],))
+                    before=b.boundary.snapshot(holding);holder.commit()
+                finally:holder.rollback()
+                result=future.result(30)
+                assert 'CP7_SUPPLIER_PAYMENT_STALE_REVIEW'in result,result
+        finally:holder.rollback();holding.close();holder.close()
+        with tools.connect()as conn,conn.cursor()as cur:
+            assert b.boundary.snapshot(cur)==before
+            assert original_fact(cur,f['payment'])['status']=='POSTED'
+            assert cur.execute('select count(*)from cp7_supplier_payment_correction.requests').fetchone()[0]==0
+            assert cur.execute('select count(*)from cp7_supplier_payment_correction.links').fetchone()[0]==0
+        return dict(actual_cash_lock_wait_after_first_review=True,different_active_replacement_bank=True,
+          original_bank_retirement_after_first_review_refused_as_stale=True,complete_retired_source_boundary_unchanged=True)
     def double(same):
         with tools.connect()as conn,conn.cursor()as cur:f=fixture(cur,today);p=payload(cur,f);conn.commit()
         barrier=threading.Barrier(2);key=str(uuid.uuid4())
@@ -200,7 +240,9 @@ def races(tools,today):
                 result=future.result(30);assert result!='UNEXPECTED_COMMIT'
         finally:holder.rollback();holder.close()
         with tools.connect()as conn,conn.cursor()as cur:assert original_fact(cur,f['payment'])['status']=='POSTED'and cur.execute('select count(*)from cp7_supplier_payment_correction.requests').fetchone()[0]==0
-        return dict(status='PASS',actual_source_lock_observed_before_current_bank_retire=bank,actual_source_lock_observed_before_current_authority_revoke=not bank,no_partial_effect_or_request=True)
+        result=dict(status='PASS',actual_source_lock_observed_before_current_bank_retire=bank,actual_source_lock_observed_before_current_authority_revoke=not bank,no_partial_effect_or_request=True)
+        if bank:result['additional_actual_cash_lock_wait_schedule']=cash_wait()
+        return result
     return [('CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_SAME_UUID',lambda:double(True)),('CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_COMPETING',lambda:double(False)),('CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_AUTH_RETIRE',lambda:retire(False)),('CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_BANK_RETIRE',lambda:retire(True))]
 
 def http_cases(http,today):

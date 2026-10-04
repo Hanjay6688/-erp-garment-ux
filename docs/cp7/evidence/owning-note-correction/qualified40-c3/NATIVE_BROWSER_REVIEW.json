@@ -1,0 +1,163 @@
+{
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "run_id": 37165327382,
+  "Original_images": [
+    {
+      "file": "NOTE_CORRECTED_BOOK_DESKTOP.png",
+      "sha256": "8d7f183f392e44aa119fb22f0693b2f2d1d14e454eb9a647c5a4b7bcabf3f1ab",
+      "size": [
+        1440,
+        3904
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": true
+    },
+    {
+      "file": "NOTE_CORRECTED_BOOK_DESKTOP_MICROSECOND.png",
+      "sha256": "98c51e24bb926b16f414ee4c2309b7358aa4ffbe539648a19bb107d5c9c4bbc1",
+      "size": [
+        1440,
+        3904
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_CORRECTED_BOOK_MOBILE.png",
+      "sha256": "c6695a72d2bb1b8feb1216be8c75936d73c71a61147893713fe007eddc09406e",
+      "size": [
+        390,
+        4765
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_CORRECTED_BOOK_MOBILE_MICROSECOND.png",
+      "sha256": "6cf34cc54a60012915e2075ec5e4b1acbd05f2aa8e6297ac1b1bea51995ad789",
+      "size": [
+        390,
+        4765
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_CORRECTED_LOT_DESKTOP.png",
+      "sha256": "a0fde211e6c2ca068134d6e17c097d0cde44ecedeb91073811c83d07fdfbfc76",
+      "size": [
+        1440,
+        2365
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_CORRECTED_LOT_DESKTOP_MICROSECOND.png",
+      "sha256": "0acb455de6a0b4ddba686c55daeefaa5de72cf1bb6aca16e06a5e489d02aacc5",
+      "size": [
+        1440,
+        2365
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_CORRECTED_LOT_MOBILE.png",
+      "sha256": "8e3563166d2a8c0aebf7145a6196de65370d74c6417f4a28709fa28dbf15bc98",
+      "size": [
+        390,
+        4225
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": true
+    },
+    {
+      "file": "NOTE_CORRECTED_LOT_MOBILE_MICROSECOND.png",
+      "sha256": "a6984b55c3f8a0d38281140eb28e59454494d7005d51d42c3a85bb113c1d317a",
+      "size": [
+        390,
+        4225
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_CORRECTION_DESKTOP.png",
+      "sha256": "ca6d039a306ee3f8ee0fb7423aaa668634e2705f590302b8f2c394dc9754dad8",
+      "size": [
+        1440,
+        3308
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_CORRECTION_DESKTOP_MICROSECOND.png",
+      "sha256": "1e1914483d5d1cc4a427e7804fdb72f742141f80cacfb3aad31027cc295db37a",
+      "size": [
+        1440,
+        3283
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_CORRECTION_MOBILE.png",
+      "sha256": "9b025193a1d3fc60ec4564e475831e5a99d3ab6c50d84ba15641c1dbc73ec927",
+      "size": [
+        390,
+        4464
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": true
+    },
+    {
+      "file": "NOTE_CORRECTION_MOBILE_MICROSECOND.png",
+      "sha256": "199f8b4671dd94a4633f7b7cd4c718b20c2f6e0bf396a2fcd7ac8efe87f2a299",
+      "size": [
+        390,
+        4200
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_DUPLICATE_SKU_LOT_CARD.png",
+      "sha256": "2abfa9219076f3a65a513fa7d3832059df377e75c9b4686793ba36298643dc35",
+      "size": [
+        1440,
+        2314
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": false
+    },
+    {
+      "file": "NOTE_DUPLICATE_SKU_MAIN_BOOK.png",
+      "sha256": "9ad27cfa6834bc501900a08c56481f54f6fec0d5f82d9a63ac59a676563b53a6",
+      "size": [
+        1440,
+        2889
+      ],
+      "unedited_Original_retained": true,
+      "visually_viewed": true
+    }
+  ],
+  "viewed": [
+    "NOTE_CORRECTION_MOBILE.png",
+    "NOTE_CORRECTED_BOOK_DESKTOP.png",
+    "NOTE_CORRECTED_LOT_MOBILE.png",
+    "NOTE_DUPLICATE_SKU_MAIN_BOOK.png"
+  ],
+  "observations": [
+    "Mobile invoice displays corrected16PCS/payment-return dependencies and retained source history.",
+    "Desktop main book displays Native QC20+10+30, corrected sale-16 then return+5, final49PCS.",
+    "Mobile lot card displays actual3 lots/49PCS and corrected sale/return/source lineage.",
+    "Duplicate SKU book keeps separate source rows-5 and-6, balances100 to95 to89."
+  ],
+  "scope": "Visual inspection of four actual Native screenshots; exact year366-row/364-prefix arithmetic is separately recomputed in RAW_ARITHMETIC_VERIFICATION.json.",
+  "browser_count": 5,
+  "new_Native_execution_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

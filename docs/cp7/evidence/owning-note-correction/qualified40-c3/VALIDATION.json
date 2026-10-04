@@ -1,0 +1,84 @@
+{
+  "status": "VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY",
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "source_tree": "c58280d22bd8c3cf4ae323e1304fbeb517c54e88",
+  "original_run_id": 37165327382,
+  "observed_case_count": 40,
+  "groups": {
+    "native": 28,
+    "races": 4,
+    "http": 3,
+    "browser": 5
+  },
+  "root_reports": 10,
+  "diagnostic_only": false,
+  "validation_new_Native_execution_credit": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "all_original40_ids_preserved": true,
+  "all_original_group_gates": {
+    "native": {
+      "complete_boundary_restored": true
+    },
+    "races": {
+      "database_remaining": 0
+    },
+    "http": {
+      "database_remaining": 0,
+      "real_auth": true,
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "browser": {
+      "database_remaining": 0,
+      "real_auth": true,
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_exit": 0,
+      "host_status": "RUN_COMPLETE",
+      "console_errors": 0,
+      "session_leaks": [],
+      "auth_cleanup_failures": []
+    }
+  },
+  "original_run_job_source_success_verified": true,
+  "raw_public_catalog_equality_original_false_preserved": true,
+  "raw_public_difference_only_pair_order": true,
+  "Original_images_retained": 14,
+  "Original_images_visually_viewed": [
+    "NOTE_CORRECTION_MOBILE.png",
+    "NOTE_CORRECTED_BOOK_DESKTOP.png",
+    "NOTE_CORRECTED_LOT_MOBILE.png",
+    "NOTE_DUPLICATE_SKU_MAIN_BOOK.png"
+  ]
+}

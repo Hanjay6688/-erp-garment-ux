@@ -1,0 +1,530 @@
+{
+  "run": {
+    "id": 37168714008,
+    "name": "CP7 Shell S0",
+    "node_id": "WFR_kwLOUFnRys8AAAAIp22RGA",
+    "head_branch": "cp7/integration",
+    "head_sha": "38abb879f71b108d388a6221e307337b93e29ccf",
+    "path": ".github/workflows/cp7-shell.yml",
+    "display_title": "CP7: atomic ordinary supplier-payment correction with reviewed histor\u2026",
+    "run_number": 741,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_id": 369008034,
+    "check_suite_id": 100678446913,
+    "check_suite_node_id": "CS_kwDOUFnRys8AAAAXcOcvQQ",
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/37168714008",
+    "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37168714008",
+    "pull_requests": [],
+    "created_at": "2026-10-04T01:40:16Z",
+    "updated_at": "2026-10-04T01:49:03Z",
+    "actor": {
+      "login": "Hanjay6688",
+      "id": 321641262,
+      "node_id": "U_kgDOEyvbLg",
+      "avatar_url": "https://avatars.githubusercontent.com/u/321641262?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Hanjay6688",
+      "html_url": "https://github.com/Hanjay6688",
+      "followers_url": "https://api.github.com/users/Hanjay6688/followers",
+      "following_url": "https://api.github.com/users/Hanjay6688/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Hanjay6688/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Hanjay6688/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Hanjay6688/subscriptions",
+      "organizations_url": "https://api.github.com/users/Hanjay6688/orgs",
+      "repos_url": "https://api.github.com/users/Hanjay6688/repos",
+      "events_url": "https://api.github.com/users/Hanjay6688/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Hanjay6688/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "run_attempt": 1,
+    "referenced_workflows": [],
+    "run_started_at": "2026-10-04T01:40:16Z",
+    "triggering_actor": {
+      "login": "Hanjay6688",
+      "id": 321641262,
+      "node_id": "U_kgDOEyvbLg",
+      "avatar_url": "https://avatars.githubusercontent.com/u/321641262?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/Hanjay6688",
+      "html_url": "https://github.com/Hanjay6688",
+      "followers_url": "https://api.github.com/users/Hanjay6688/followers",
+      "following_url": "https://api.github.com/users/Hanjay6688/following{/other_user}",
+      "gists_url": "https://api.github.com/users/Hanjay6688/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/Hanjay6688/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/Hanjay6688/subscriptions",
+      "organizations_url": "https://api.github.com/users/Hanjay6688/orgs",
+      "repos_url": "https://api.github.com/users/Hanjay6688/repos",
+      "events_url": "https://api.github.com/users/Hanjay6688/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/Hanjay6688/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "jobs_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/37168714008/jobs",
+    "logs_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/37168714008/logs",
+    "check_suite_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/check-suites/100678446913",
+    "artifacts_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/37168714008/artifacts",
+    "cancel_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/37168714008/cancel",
+    "rerun_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/runs/37168714008/rerun",
+    "previous_attempt_url": null,
+    "workflow_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/workflows/369008034",
+    "head_commit": {
+      "id": "38abb879f71b108d388a6221e307337b93e29ccf",
+      "tree_id": "f55310115fdf848f961602634f784aa0ccefec31",
+      "message": "CP7: atomic ordinary supplier-payment correction with reviewed history and UUID recovery",
+      "timestamp": "2026-10-04T01:40:12Z",
+      "author": {
+        "name": "Hanjay6688",
+        "email": "jktr9n2g88@privaterelay.appleid.com"
+      },
+      "committer": {
+        "name": "Hanjay6688",
+        "email": "jktr9n2g88@privaterelay.appleid.com"
+      }
+    },
+    "repository": {
+      "id": 1348063690,
+      "node_id": "R_kgDOUFnRyg",
+      "name": "-erp-garment-ux",
+      "full_name": "Hanjay6688/-erp-garment-ux",
+      "private": false,
+      "owner": {
+        "login": "Hanjay6688",
+        "id": 321641262,
+        "node_id": "U_kgDOEyvbLg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/321641262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Hanjay6688",
+        "html_url": "https://github.com/Hanjay6688",
+        "followers_url": "https://api.github.com/users/Hanjay6688/followers",
+        "following_url": "https://api.github.com/users/Hanjay6688/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Hanjay6688/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Hanjay6688/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Hanjay6688/subscriptions",
+        "organizations_url": "https://api.github.com/users/Hanjay6688/orgs",
+        "repos_url": "https://api.github.com/users/Hanjay6688/repos",
+        "events_url": "https://api.github.com/users/Hanjay6688/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Hanjay6688/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux",
+      "description": null,
+      "fork": false,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux",
+      "forks_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/forks",
+      "keys_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/teams",
+      "hooks_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/hooks",
+      "issue_events_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/events",
+      "assignees_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/tags",
+      "blobs_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/languages",
+      "stargazers_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/stargazers",
+      "contributors_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/contributors",
+      "subscribers_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/subscribers",
+      "subscription_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/subscription",
+      "commits_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/merges",
+      "archive_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/downloads",
+      "issues_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/labels{/name}",
+      "releases_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/deployments"
+    },
+    "head_repository": {
+      "id": 1348063690,
+      "node_id": "R_kgDOUFnRyg",
+      "name": "-erp-garment-ux",
+      "full_name": "Hanjay6688/-erp-garment-ux",
+      "private": false,
+      "owner": {
+        "login": "Hanjay6688",
+        "id": 321641262,
+        "node_id": "U_kgDOEyvbLg",
+        "avatar_url": "https://avatars.githubusercontent.com/u/321641262?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Hanjay6688",
+        "html_url": "https://github.com/Hanjay6688",
+        "followers_url": "https://api.github.com/users/Hanjay6688/followers",
+        "following_url": "https://api.github.com/users/Hanjay6688/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Hanjay6688/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Hanjay6688/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Hanjay6688/subscriptions",
+        "organizations_url": "https://api.github.com/users/Hanjay6688/orgs",
+        "repos_url": "https://api.github.com/users/Hanjay6688/repos",
+        "events_url": "https://api.github.com/users/Hanjay6688/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Hanjay6688/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux",
+      "description": null,
+      "fork": false,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux",
+      "forks_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/forks",
+      "keys_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/teams",
+      "hooks_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/hooks",
+      "issue_events_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/events",
+      "assignees_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/tags",
+      "blobs_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/languages",
+      "stargazers_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/stargazers",
+      "contributors_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/contributors",
+      "subscribers_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/subscribers",
+      "subscription_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/subscription",
+      "commits_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/merges",
+      "archive_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/downloads",
+      "issues_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/labels{/name}",
+      "releases_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/deployments"
+    }
+  },
+  "jobs": [
+    {
+      "id": 111337051234,
+      "name": "CP7 CodeQL javascript-typescript",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37168714008,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Reject CodeQL findings or incomplete runs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        }
+      ]
+    },
+    {
+      "id": 111337051325,
+      "name": "shell",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37168714008,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run python3 scripts/cp7_contract_receipt.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run python3 scripts/cp7_native_fixture_window_test.py",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run npm run test:security",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run npx --no-install playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Run npx --no-install playwright test --config playwright.cp7.config.ts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 25
+        }
+      ]
+    },
+    {
+      "id": 111337051399,
+      "name": "CP7 CodeQL actions",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 37168714008,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Reject CodeQL findings or incomplete runs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11290502565,
+      "name": "cp7-shell-proof",
+      "size_in_bytes": 491546,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11290502565",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11290502565/zip",
+      "expired": false,
+      "created_at": "2026-10-04T01:48:24Z",
+      "expires_at": "2026-11-03T01:48:23Z",
+      "updated_at": "2026-10-04T01:48:24Z",
+      "digest": "sha256:e54aadeca555ed7022482409b3eb45cf59e460a2db16c3a16eca6bfd772dc078",
+      "workflow_run": {
+        "id": 37168714008,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "38abb879f71b108d388a6221e307337b93e29ccf"
+      },
+      "path": "/workspace/scratch/1d31852998a4/attachments/06ab98cc-7a03-4a10-bd80-c2a24c044e17/38-cp7-shell-proof-original.zip"
+    },
+    {
+      "id": 11290453959,
+      "name": "cp7-codeql-javascript-typescript",
+      "size_in_bytes": 121685,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11290453959",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11290453959/zip",
+      "expired": false,
+      "created_at": "2026-10-04T01:48:45Z",
+      "expires_at": "2026-11-03T01:48:45Z",
+      "updated_at": "2026-10-04T01:48:45Z",
+      "digest": "sha256:13c4c26a087a819fc1a35d1fbc396a60dbe6dd43a3dbc47fcedbb358ae261915",
+      "workflow_run": {
+        "id": 37168714008,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "38abb879f71b108d388a6221e307337b93e29ccf"
+      },
+      "path": "/workspace/scratch/1d31852998a4/attachments/e4941546-3a46-4695-8450-7ea444caad54/38-cp7-codeql-javascript-typescript-original.zip"
+    },
+    {
+      "id": 11290329309,
+      "name": "cp7-codeql-actions",
+      "size_in_bytes": 51838,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11290329309",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11290329309/zip",
+      "expired": false,
+      "created_at": "2026-10-04T01:48:45Z",
+      "expires_at": "2026-11-03T01:48:45Z",
+      "updated_at": "2026-10-04T01:48:45Z",
+      "digest": "sha256:541f243d536837f6fc81bc4575705fde8ddfb49d4b2cfc569c0d035fb3ff9d4d",
+      "workflow_run": {
+        "id": 37168714008,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "cp7/integration",
+        "head_sha": "38abb879f71b108d388a6221e307337b93e29ccf"
+      },
+      "path": "/workspace/scratch/1d31852998a4/attachments/49383b21-325a-421f-b7c5-2ea06d1c398b/38-cp7-codeql-actions-original.zip"
+    }
+  ]
+}

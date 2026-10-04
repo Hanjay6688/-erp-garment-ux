@@ -161,6 +161,10 @@ begin
  perform 1 from erp.chart_accounts where id in(select coa_account_id from erp.cash_accounts where id in(original.cash_account_id,(p->'replacement'->>'cash_account_id')::uuid)
   union select account_id from erp.accounting_account_mappings where mapping_key='AP_SUPPLIER')order by id for share;
  if cp7_supplier_payment_correction.access_now()is distinct from a then raise exception using errcode='42501',message='CP7_SUPPLIER_PAYMENT_ACCESS_CHANGED';end if;
+ -- A cash/master lock may itself have waited after the first source review.
+ -- Rebind the full Native source/AP/journal token to the now-locked rows.
+ ap:=cp7_invoice.payment_ap(h.id);d:=cp7_invoice.payment_detail(original.id,ap);
+ if d->>'review_token'is distinct from p->>'review_token'then raise exception 'CP7_SUPPLIER_PAYMENT_STALE_REVIEW';end if;
  if(p->'replacement'->>'amount')::numeric=original.amount and(p->'replacement'->>'payment_date')::timestamptz=original.payment_date
   and(p->'replacement'->>'cash_account_id')::uuid=original.cash_account_id then raise exception 'CP7_SUPPLIER_PAYMENT_CORRECTION_UNCHANGED';end if;
  perform erp.reverse_supplier_payment(original.id,btrim(p->>'change_reason'));

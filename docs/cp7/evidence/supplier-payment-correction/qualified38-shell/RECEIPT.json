@@ -1,0 +1,99 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_SHELL_WRITER_QUALIFIED_NOT_FULL_CP7",
+  "status": "PASS",
+  "source_commit": "38abb879f71b108d388a6221e307337b93e29ccf",
+  "source_tree": "f55310115fdf848f961602634f784aa0ccefec31",
+  "run_id": 37168714008,
+  "job_id": 111337051325,
+  "all_jobs_completed_successfully": true,
+  "artifact_id": 11290502565,
+  "artifact_bytes": 491546,
+  "artifact_sha256": "e54aadeca555ed7022482409b3eb45cf59e460a2db16c3a16eca6bfd772dc078",
+  "archive_members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53274,
+      "sha256": "9c38266d7f762afdc20e98e2badda88314ce0ec1762e21d8b42f33ca134d66f0"
+    },
+    "results.json": {
+      "bytes": 12266,
+      "sha256": "0f2512e705ade9a4451d032f91bb4c11ce25d8934afd6dedfd1b1fdf4c91e80f"
+    }
+  },
+  "root_reports": {
+    "f04-private-kernels.json": {
+      "file": "docs/cp7/evidence/supplier-payment-correction/qualified38-shell/f04-private-kernels.json.gz",
+      "raw_bytes": 53274,
+      "raw_sha256": "9c38266d7f762afdc20e98e2badda88314ce0ec1762e21d8b42f33ca134d66f0",
+      "gzip_bytes": 6867,
+      "gzip_sha256": "ac341b5ec75ad6ab39896296d83c837352ee3bc56222288df484f661644d620b"
+    },
+    "results.json": {
+      "file": "docs/cp7/evidence/supplier-payment-correction/qualified38-shell/results.json.gz",
+      "raw_bytes": 12266,
+      "raw_sha256": "0f2512e705ade9a4451d032f91bb4c11ce25d8934afd6dedfd1b1fdf4c91e80f",
+      "gzip_bytes": 1788,
+      "gzip_sha256": "1bc049b5e81ece3e09beb4a329c82191aa71b889558f147bffd63645c091e692"
+    }
+  },
+  "original_CI_log": {
+    "file": "docs/cp7/evidence/supplier-payment-correction/qualified38-shell/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 174499,
+    "raw_sha256": "5fe2e26cec65eab104f91324e410e50a196a7a4d69b74198c9d61b71eb2b53c6",
+    "gzip_bytes": 34616,
+    "gzip_sha256": "48a40e0fd0479988a4e31296d5f1fa1006640049215b0431bbda6684048a24f5"
+  },
+  "application_tests": 1456,
+  "application_test_files": 151,
+  "actual_shell_browsers": 6,
+  "build_and_security": "PASS",
+  "runtime_source_files": 262,
+  "owned_RPC_boundaries": 193,
+  "stylesheets": 53,
+  "orphan_or_direct_browser_table_access": false,
+  "both_CodeQL": {
+    "cp7-codeql-javascript-typescript": {
+      "artifact_id": 11290453959,
+      "archive_bytes": 121685,
+      "archive_sha256": "13c4c26a087a819fc1a35d1fbc396a60dbe6dd43a3dbc47fcedbb358ae261915",
+      "member": "javascript.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/supplier-payment-correction/qualified38-shell/cp7-codeql-javascript-typescript.sarif.gz",
+        "raw_bytes": 1333492,
+        "raw_sha256": "eeb4789ac4d7460f7cc973544b67925e88dd5aea143072e8128102d8cd7f26f2",
+        "gzip_bytes": 118510,
+        "gzip_sha256": "feb74f1dc5b48f370d8c9feaa6749916133709616e5a84546225994a217836de"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    },
+    "cp7-codeql-actions": {
+      "artifact_id": 11290329309,
+      "archive_bytes": 51838,
+      "archive_sha256": "541f243d536837f6fc81bc4575705fde8ddfb49d4b2cfc569c0d035fb3ff9d4d",
+      "member": "actions.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/supplier-payment-correction/qualified38-shell/cp7-codeql-actions.sarif.gz",
+        "raw_bytes": 713714,
+        "raw_sha256": "9ba6cf6c1ed711131ba7c0b03f0f17feed18b1c858dd0139596ea744895a72f6",
+        "gzip_bytes": 48960,
+        "gzip_sha256": "bcc42e08095d55f9d989e8cd0beaf31c0f8c8bf1b2a5de6064b4670ca912205e"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    }
+  },
+  "private_kernel_scope_only": true,
+  "private_kernel_cases": 138,
+  "previous_failures_relabelled": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

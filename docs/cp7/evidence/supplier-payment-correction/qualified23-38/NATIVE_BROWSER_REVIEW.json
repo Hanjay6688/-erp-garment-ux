@@ -1,0 +1,33 @@
+{
+  "both_images_pending_actual_view": false,
+  "source_commit": "38abb879f71b108d388a6221e307337b93e29ccf",
+  "run_id": 37168713930,
+  "images": [
+    {
+      "file": "docs/cp7/evidence/supplier-payment-correction/qualified23-38/images/CP7_SUPPLIER_PAYMENT_CORRECTION_DESKTOP.png",
+      "Original_member": "CP7_SUPPLIER_PAYMENT_CORRECTION_DESKTOP.png",
+      "sha256": "dd4f7ebf2ce876cc886ab9b06362b210779643e843ed80420b5d0531e963e1c8",
+      "unedited_Original_retained": true,
+      "actually_viewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/supplier-payment-correction/qualified23-38/images/CP7_SUPPLIER_PAYMENT_CORRECTION_MOBILE.png",
+      "Original_member": "CP7_SUPPLIER_PAYMENT_CORRECTION_MOBILE.png",
+      "sha256": "f476e2510c6c56784589a88bdcc4355e3383238073d5d98cb6db26d3df44fe5b",
+      "unedited_Original_retained": true,
+      "actually_viewed": true
+    }
+  ],
+  "desktop_actual_lost_committed_reply_same_UUID": true,
+  "mobile_lost_reply_not_executed": true,
+  "amount_original30_01_corrected20_01_restored30_01": true,
+  "Native_microseconds_effects_and_history_from_executed_assertions": true,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "visual_observations": {
+    "desktop": "Actual final Native paid30.01/remaining969.99; original30.01 and intermediate20.01 are reversed and retained, current restored30.01 is source-focused. Readonly history shows previous20.01 with exact source and reviewed-restore controls.",
+    "mobile": "Actual same3 payment rows, retained source clocks and adjacent history; long server-generated IDs wrap within the mobile form/page.",
+    "browser_scope": "Actual Native23 desktop/mobile; desktop alone exercises committed-lost-reply/reload/exact UUID. No installed-production or broad UI audit credit."
+  }
+}

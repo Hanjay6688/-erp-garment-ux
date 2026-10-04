@@ -3651,7 +3651,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Inspect exact candidate supplier-payment Shell/CodeQL/Native23 and retained regressions; preserve first failures, repair owning causes, retain raw364 cash prefixes and unedited images, then continue remaining CP7 owning edit/rollback work.",
+  "next_action": "Qualify the supplier cash-wait successor from fresh exact-source Native23/Shell/regressions; preserve source38 completed Originals and c3 Note40. Continue actual return/stock/HPP/date-aware atomic replacement and remaining CP7 owning edits without inferring full/independent/installed GO.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -10330,5 +10330,80 @@
     "Native_guards_and_existing_budgets_changed": false,
     "independent_acceptance": false,
     "production_go": false
+  },
+  "ordinary_supplier_payment_correction_qualification": {
+    "status": "ACTUAL_SOURCE38_NATIVE23_AND_COMPLETE_SHELL_WRITER_QUALIFIED",
+    "source_commit": "38abb879f71b108d388a6221e307337b93e29ccf",
+    "source_tree": "f55310115fdf848f961602634f784aa0ccefec31",
+    "Native_run": 37168713930,
+    "Native_job": 111337050623,
+    "Native_artifact": 11290737059,
+    "Native_receipt": "evidence/supplier-payment-correction/qualified23-38/RECEIPT.json",
+    "Native_counts": {
+      "native": 14,
+      "races": 4,
+      "http": 3,
+      "browser": 2
+    },
+    "all5_Original_roots_gates_and_ids_verified": true,
+    "both_unedited_Original_images_viewed": true,
+    "two_independently_recomputed_raw_cash_histories": {
+      "rows_each": 364,
+      "each_prefix_delta": "+12.00",
+      "first_before": "-61",
+      "first_after": "-49",
+      "last_before": "-424",
+      "last_after": "-412"
+    },
+    "Shell_receipt": "evidence/supplier-payment-correction/qualified38-shell/RECEIPT.json",
+    "Shell_tests": 1456,
+    "Shell_files": 151,
+    "Shell_browsers": 6,
+    "runtime_files": 262,
+    "named_RPC_sites": 193,
+    "both_successful_Original_SARIF_findings": 0,
+    "orphan_or_direct_browser_table_access": false,
+    "E05_receipt": "evidence/supplier-payment-correction/qualified38-e05/RECEIPT.json",
+    "E05_cases": 26,
+    "E05_old_ids_preserved": true,
+    "imported_advance_correction_control_credit": false,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "ordinary_supplier_payment_correction_cash_wait_successor": {
+    "status": "IMPLEMENTED_PENDING_ACTUAL_SUCCESSOR_CI",
+    "source38_qualification_inherited": false,
+    "second_full_review_token_check_after_cash_mapping_locks": true,
+    "old_BANK_RETIRE_case_and_schedule_preserved": true,
+    "additional_actual_cash_lock_wait_with_different_active_replacement_bank": "PREDECLARED_PENDING",
+    "expected_Native_counts": {
+      "native": 14,
+      "races": 4,
+      "http": 3,
+      "browser": 2
+    },
+    "guards_timeouts_or_Native_definitions_relaxed": false,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "latest_c3_note40_original_qualification": {
+    "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+    "source_tree": "c58280d22bd8c3cf4ae323e1304fbeb517c54e88",
+    "run_id": 37165327382,
+    "job_id": 111326940459,
+    "artifact_id": 11289931402,
+    "receipt": "evidence/owning-note-correction/qualified40-c3/RECEIPT.json",
+    "groups": {
+      "native": 28,
+      "races": 4,
+      "http": 3,
+      "browser": 5
+    },
+    "all10_roots_old_ids_gates_and_raw366_364_verified": true,
+    "Original_images_retained": 14,
+    "Original_images_viewed": 4,
+    "raw_public_equality_false_pair_order_only_preserved": true,
+    "actual_HTTP_ms": 6288.431,
+    "production_SLA": false
   }
 }

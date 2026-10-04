@@ -1,0 +1,27 @@
+{
+  "status": "VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY",
+  "source_commit": "38abb879f71b108d388a6221e307337b93e29ccf",
+  "source_tree": "f55310115fdf848f961602634f784aa0ccefec31",
+  "original_run_id": 37168713930,
+  "observed_case_count": 23,
+  "groups": {
+    "native": 14,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "root_reports": 5,
+  "diagnostic_only": false,
+  "validation_new_Native_execution_credit": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "both_unedited_Original_browser_images_actually_viewed": true,
+  "supplier_supported_fields": [
+    "amount",
+    "cash_account_id",
+    "payment_date"
+  ],
+  "imported_advance_Native_exclusion_control_credit": false
+}

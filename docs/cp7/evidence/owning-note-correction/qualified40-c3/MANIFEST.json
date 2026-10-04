@@ -1,0 +1,21 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37165327382,
+  "job_id": 111326940459,
+  "artifact_id": 11289931402,
+  "artifact_name": "cp7-note-correction",
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "source_tree": "c58280d22bd8c3cf4ae323e1304fbeb517c54e88",
+  "source_bundle_sha256": "733ab7d6708c31033248f469cb8a096fd1c452f6e1ec072303f890d46916eae2",
+  "zip_bytes": 13574927,
+  "zip_sha256": "23524fa3e852bdc12752d2b3441ea8e8fec7878c1f7585a1a8b70be0b2609b2d",
+  "runtime_report": "CP7_NOTE_CORRECTION.json",
+  "expected_status": "PASS",
+  "expected_case_count": 40,
+  "required_case_counts": {
+    "native": 28,
+    "races": 4,
+    "http": 3,
+    "browser": 5
+  }
+}

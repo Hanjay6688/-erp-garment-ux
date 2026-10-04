@@ -53,3 +53,6 @@ Ordinary customer payment correction is now writer-qualified by actual Native23 
 
 
 Ordinary supplier-payment replacement is now an implemented candidate, awaiting fresh Native23 and full Shell. Exactly amount/cash account/WIB time use one Native reverse+post, with original facts/immutable adjacent links and reviewed restore/exact UUID recovery. Imported advances retain their separate flow. SUPPLIER_PAYMENT_CORRECTION_HANDOFF.md controls its actual verification; previous supplier inverse/source proofs do not qualify this new replacement. No full CP7/independent/production GO.
+
+
+Ordinary supplier replacement is writer-qualified at source38 by Native23 plus complete Shell1456/151/6/both CodeQL0, with both actual images and raw364 prefixes+12 independently checked. Source38 E05 all26/old IDs is verified. The current cash-wait-token successor is pending fresh actual CI and has no inherited qualification from source38. See SUPPLIER_PAYMENT_CORRECTION_HANDOFF.md and evidence/supplier-payment-correction.
