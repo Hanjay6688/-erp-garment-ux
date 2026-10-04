@@ -10,6 +10,8 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import { financialRecoveryBlocked, useFinancialRecoveryGate } from './useFinancialRecoveryGate'
 import { useRetainedFormInput, useRetainedInput } from './useRetainedFormInput'
 import { parseSupplierPaymentRead, parseSupplierPaymentOutcome, type SupplierPaymentRead } from './supplierPaymentContract'
+import { parseSupplierPaymentCorrectionOutcome } from './supplierPaymentCorrectionContract'
+import SupplierPaymentCorrectionPanel from './SupplierPaymentCorrectionPanel'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import RecordTools, { orderRecordPage, type RecordPageOrder } from './RecordTools'
 import type { Json } from './types/database.preconnect'
@@ -52,9 +54,10 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
   const [query, setQuery] = useState(''), [order, setOrder] = useState<RecordPageOrder>('SOURCE')
   const [capture, setCapture] = useState<{ authority: string; ticket: ReturnType<typeof beginRead>; data: SupplierPaymentRead } | null>(null)
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [review, setReview] = useState<Review | null>(null)
+  const [correction, setCorrection] = useState<{ id: string; edit: boolean } | null>(null)
   const sequence = useRef(0), requested = useRef({ id: selected, q: '', offset: focus?.page_offset ?? 0, payment: focus?.id ?? recoveryPayment })
   if (requested.current.id !== selected) requested.current = { id: selected, q: '', offset: focus?.page_offset ?? 0, payment: focus?.id ?? recoveryPayment }
-  const retire = useCallback(() => { ++sequence.current; setCapture(null); setReview(null); setBusy(false) }, [])
+  const retire = useCallback(() => { ++sequence.current; setCapture(null); setReview(null); setCorrection(null); setBusy(false) }, [])
   const blocked = useFinancialRecoveryGate(mutation.scope, retire)
   const canReverse = ['OWNER', 'ADMIN'].includes(identity.profile.role) && identity.permissions.includes('finance.ap.pay')
   const load = useCallback(async () => {
@@ -83,6 +86,7 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
   const data = parentReady && !blocked && capture?.authority === authority && isReadCurrent(capture.ticket)
     && capture.data.purchase.id === selected ? capture.data : null
   const locked = busy || mutation.writerLocked, readBusy = busy || mutation.busy || blocked
+  const visiblePayment = data?.selected_payment_id ?? null
   const chosen = data?.page.rows.find(p => p.id === review?.id)
   const freshReview = Boolean(review && chosen && chosen.status === 'POSTED' && data?.purchase.status === 'POSTED'
     && data.Native_AP && review.token === chosen.review_token && review.capturedAt === data.captured_at)
@@ -90,11 +94,17 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
   const handlers: ProductionMutationHandlers = {
     send: envelope => {
       const p = envelope.payload as { document: Json }
+      if (envelope.action === 'CORRECT') return client.rpc('erp_cp7_correct_supplier_payment_v1', { p_payload: p.document, p_request: envelope.id })
       return client.rpc('erp_cp7_reverse_supplier_payment_v1', { p_payload: p.document, p_request: envelope.id })
     },
-    validate: (value, envelope) => { parseSupplierPaymentOutcome(value, envelope.id, (envelope.payload as { document: Json }).document) },
+    validate: (value, envelope) => {
+      const payload = (envelope.payload as { document: Json }).document
+      if (envelope.action === 'CORRECT') parseSupplierPaymentCorrectionOutcome(value, envelope.id, payload)
+      else parseSupplierPaymentOutcome(value, envelope.id, payload)
+    },
     retire: (value, envelope) => {
-      const result = parseSupplierPaymentOutcome(value, envelope.id, (envelope.payload as { document: Json }).document)
+      const payload = (envelope.payload as { document: Json }).document
+      const result = envelope.action === 'CORRECT' ? parseSupplierPaymentCorrectionOutcome(value, envelope.id, payload) : parseSupplierPaymentOutcome(value, envelope.id, payload)
       requested.current.id = result.purchase_id; requested.current.payment = result.payment_id
       setCommittedTarget({ purchase: result.purchase_id, payment: result.payment_id }); setReasons({}); retire()
     },
@@ -112,8 +122,8 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
   return <section className="panel cproc-invoices" aria-label="Pembayaran supplier">
     <header className="cproc-heading"><h2>Pembayaran supplier</h2><button disabled={busy || mutation.busy || blocked} onClick={() => void load()}>Muat ulang pembayaran supplier</button></header>
     <ProductionRecoveryNotice recovery={mutation} className="cproc-review" onReconcile={() => reconcile(handlers)}
-      noticeText="Pembayaran sudah dibalik. Catatan terbaru sudah dimuat."
-      messageText={mutation.pending && !mutation.corruptedEnvelope ? 'Hasil pembatalan belum pasti. Periksa pembayaran yang sama sebelum mencatat tindakan lain.' : undefined}
+      noticeText="Pembayaran sudah diperbarui. Catatan terbaru sudah dimuat."
+      messageText={mutation.pending && !mutation.corruptedEnvelope ? 'Hasil tindakan belum pasti. Periksa pembayaran yang sama sebelum mencatat tindakan lain.' : undefined}
       reconcileLabel="Periksa status pembatalan supplier"/>
     {error ? <p role="alert">{error}</p> : null}{busy ? <p role="status">Memuat pembayaran supplier…</p> : null}
     {!selected && !mutation.pending ? <p>Pilih penerimaan untuk melihat riwayat pembayaran supplier.</p> : null}
@@ -128,13 +138,16 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
       {data.Native_AP ? <dl className="cproc-grid"><div><dt>Utang final</dt><dd>{money(data.Native_AP.final_ap)}</dd></div><div><dt>Sudah dibayar</dt><dd>{money(data.Native_AP.paid)}</dd></div><div><dt>Sisa utang</dt><dd>{money(data.Native_AP.remaining)}</dd></div></dl>
         : <p>Saldo utang saat ini belum tersedia untuk penerimaan ini.</p>}
       {orderRecordPage(data.page.rows, order, p => p.number).map(p => <article className="cproc-item" key={p.id}
-        data-supplier-payment-id={p.id} data-source-focus={p.id === (focus?.id ?? recoveryPayment) ? 'true' : undefined}>
+        data-supplier-payment-id={p.id} data-source-focus={p.id === visiblePayment ? 'true' : undefined}>
         <h3>{p.number} · {money(p.amount)}</h3>
-        {p.id === (focus?.id ?? recoveryPayment) ? <strong>Pembayaran asal dari buku transaksi</strong> : null}
+        {p.id === visiblePayment ? <strong>Pembayaran asal dari buku transaksi</strong> : null}
         <p>{p.status === 'POSTED' ? 'Tercatat' : p.status === 'REVERSED' ? 'Sudah dibalik' : 'Belum disahkan'} · {originalTime(p.payment_date)}</p>
         <p>{p.cash_code && p.cash_name ? `${p.cash_code} · ${p.cash_name}` : 'Nama sumber kas belum tercatat'}</p>
         {p.journal ? <p>{p.journal.number} · Tanggal pembukuan {p.journal.accounting_date}{p.journal.period_shifted ? ' · Beralih ke periode terbuka' : ''}</p> : null}
         {p.inverse ? <p>Pembalik {p.inverse.number} · Tanggal pembukuan {p.inverse.accounting_date}. Catatan dan tanggal pembayaran asli tetap disimpan.</p> : null}
+        <button disabled={locked} onClick={() => { setReview(null); setCorrection({ id: p.id, edit: false }) }}>Lihat perubahan pembayaran supplier {p.number}</button>
+        {data.capabilities.reverse && data.purchase.status === 'POSTED' && p.status === 'POSTED'
+          ? <button disabled={locked} onClick={() => { setReview(null); setCorrection({ id: p.id, edit: true }) }}>Edit pembayaran supplier {p.number}</button> : null}
         {data.capabilities.reverse && data.purchase.status === 'POSTED' && p.status === 'POSTED'
           ? <button disabled={locked} onClick={() => setReview({ id: p.id, token: p.review_token, capturedAt: data.captured_at, checked: false })}>Tinjau pembatalan {p.number}</button> : null}
       </article>)}
@@ -142,6 +155,12 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
       <div className="cproc-pagination"><span>Total {data.page.total} pembayaran</span>
         <button disabled={readBusy || !data.page.offset} onClick={() => { requested.current.offset = Math.max(0, data.page.offset - 25); requested.current.payment = null; void load() }}>Pembayaran supplier sebelumnya</button>
         <button disabled={readBusy || data.page.next_offset === null} onClick={() => { requested.current.offset = data.page.next_offset ?? data.page.offset; requested.current.payment = null; void load() }}>Pembayaran supplier berikutnya</button></div>
+      {correction && data.page.rows.some(p => p.id === correction.id) ? <SupplierPaymentCorrectionPanel
+        key={JSON.stringify([correction.id, data.page.rows.find(p => p.id === correction.id)!.review_token])} source={data}
+        payment={data.page.rows.find(p => p.id === correction.id)!} initialEdit={correction.edit} locked={locked} inputs={inputs}
+        currentReadTicket={mutation.currentReadTicket} isReadCurrent={isReadCurrent} onClose={() => setCorrection(null)}
+        onInvalid={message => { retire(); mutation.invalidate(); setError(message) }}
+        onSave={document => { if (locked || !canReverse) return; retire(); void run('CORRECT', { document }, null, handlers) }}/>:null}
       {review && chosen ? <section className="cproc-review" aria-label="Periksa pembatalan pembayaran supplier"><h3>Periksa pembayaran yang akan dibalik</h3>
         <p>{chosen.number} · {money(chosen.amount)} · {originalTime(chosen.payment_date)}. Pembalikannya mengikuti tanggal pembukuan dari server dan menambah kembali sisa utang. Catatan asli tetap disimpan.</p>
         <fieldset disabled={locked || !freshReview}><label>Alasan pembatalan<textarea aria-label="Alasan pembatalan pembayaran supplier" maxLength={1000} value={reason}

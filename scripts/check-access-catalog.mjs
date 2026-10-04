@@ -211,8 +211,8 @@ const cp7MaterialNameBoundaries = ['erp_cp7_get_material_name_v1','erp_cp7_renam
 for (const name of cp7MaterialNameBoundaries) assert.ok(rpcBoundaries.has(`src/MaterialNamePanel.tsx:${name}`))
 const cp7InvoiceBoundaries = ['erp_cp7_get_invoice_sources_v1','erp_cp7_get_purchase_invoices_v1','erp_cp7_save_purchase_invoice_v1']
 for (const name of cp7InvoiceBoundaries) assert.ok(rpcBoundaries.has(`src/PurchaseInvoicePanel.tsx:${name}`))
-const cp7SupplierPaymentBoundaries = ['erp_cp7_get_supplier_payments_v1','erp_cp7_reverse_supplier_payment_v1']
-for (const name of cp7SupplierPaymentBoundaries) assert.ok(rpcBoundaries.has(`src/SupplierPaymentPanel.tsx:${name}`))
+const cp7SupplierPaymentBoundaries = ['src/SupplierPaymentPanel.tsx:erp_cp7_get_supplier_payments_v1','src/SupplierPaymentPanel.tsx:erp_cp7_reverse_supplier_payment_v1','src/SupplierPaymentPanel.tsx:erp_cp7_correct_supplier_payment_v1','src/SupplierPaymentCorrectionPanel.tsx:erp_cp7_get_supplier_payment_correction_v1']
+for (const site of cp7SupplierPaymentBoundaries) assert.ok(rpcBoundaries.has(site))
 const cp7ReturnBoundaries = ['erp_cp7_get_supplier_return_sources_v1','erp_cp7_get_supplier_returns_v1','erp_cp7_save_supplier_return_v1','erp_cp7_get_procurement_options_v1']
 for (const name of cp7ReturnBoundaries) assert.ok(rpcBoundaries.has(`src/SupplierReturnPanel.tsx:${name}`))
 const cp7FinanceOverviewBoundaries = ['src/ConnectedFinanceOverviewPage.tsx:erp_cp7_get_finance_report_v1','src/ConnectedReceivablesPage.tsx:erp_cp7_get_sales_v1','src/ConnectedJournalPage.tsx:erp_cp7_get_journal_book_v1']

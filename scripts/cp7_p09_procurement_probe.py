@@ -9,6 +9,7 @@ import cp7_procurement_cases as cases
 import cp7_material_cases as material
 import cp7_material_count_cases as counts
 import cp7_invoice_cases as invoice
+import cp7_supplier_payment_correction_bundle as supplier_payment_correction
 import cp7_invoice_document_cases as combined
 import cp7_supplier_return_cases as returns
 import cp7_receipt_reversal_cases as reversal
@@ -38,6 +39,7 @@ def verify(cur):
     # installation, including the exact declared predecessor admission guards.
     assert INSTALLED_FUNCTIONS is not None and functions(cur)==INSTALLED_FUNCTIONS,'P09_INSTALLED_FUNCTION_OR_ACL_CHANGED'
     receipt_correction.verify(cur)
+    supplier_payment_correction.verify(cur)
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_procurement' and (p.prosecdef is distinct from (p.proname in('reverse_receipt_locked','validate_uom_lines')) or pg_get_userbyid(p.proowner)<>case when p.proname='reverse_receipt_locked' then 'postgres' when p.proname in('command','reverse_request','save_draft_request') then 'cp7_procure_write' else 'cp7_procure_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     for name,role in [('erp_cp7_get_procurement_v1','cp7_procure_read'),('erp_cp7_get_procurement_options_v1','cp7_procure_read'),('erp_cp7_get_procurement_uom_v1','cp7_procure_read'),('erp_cp7_save_procurement_v1','cp7_procure_write'),
       ('erp_cp7_preview_material_count_v1','cp7_material_read'),('erp_cp7_get_material_counts_v1','cp7_material_read'),('erp_cp7_get_material_count_options_v1','cp7_material_read'),('erp_cp7_save_material_count_v1','cp7_material_write'),

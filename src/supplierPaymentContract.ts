@@ -38,7 +38,7 @@ function journal(v: unknown): SupplierPaymentJournal {
     || !date(r.economic_date) || !date(r.accounting_date) || !time(r.posting_at) || typeof r.period_shifted !== 'boolean') fail()
   return r as unknown as SupplierPaymentJournal
 }
-function payment(v: unknown): SupplierPayment {
+export function parseSupplierPayment(v: unknown): SupplierPayment {
   const r = closed(v, ['id', 'number', 'status', 'payment_date', 'amount', 'cash_account_id', 'cash_code', 'cash_name', 'journal', 'inverse', 'review_token'])
   if (!uuid(r.id) || !text(r.number) || !['DRAFT', 'POSTED', 'REVERSED'].includes(String(r.status))
     || !(date(r.payment_date) || time(r.payment_date)) || cents(r.amount) <= 0n || !token(r.review_token)
@@ -62,7 +62,7 @@ export function parseSupplierPaymentRead(value: unknown, purchaseId: string, que
   const p = closed(r.page, ['rows', 'total', 'offset', 'limit', 'next_offset'])
   if (!Array.isArray(p.rows) || typeof p.total !== 'string' || !/^(0|[1-9][0-9]{0,29})$/.test(p.total)
     || offset !== null && p.offset !== offset || !Number.isSafeInteger(p.offset) || Number(p.offset) < 0 || Number(p.offset) > 1000000 || p.limit !== 25 || p.rows.length > 25) fail()
-  const actualOffset = Number(p.offset), rows = (p.rows as unknown[]).map(payment), end = BigInt(actualOffset) + BigInt(rows.length), total = BigInt(p.total as string)
+  const actualOffset = Number(p.offset), rows = (p.rows as unknown[]).map(parseSupplierPayment), end = BigInt(actualOffset) + BigInt(rows.length), total = BigInt(p.total as string)
   if (new Set(rows.map(x => x.id)).size !== rows.length || rows.length && end > total
     || end < total && p.next_offset === null
     || p.next_offset !== null && (!rows.length || p.next_offset !== actualOffset + rows.length || end >= total)

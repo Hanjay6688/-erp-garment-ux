@@ -27,6 +27,7 @@ def verify(cur):
     for table in TABLES:assert cur.execute('select has_table_privilege(%s,%s,\'SELECT\')',(ROLE,'erp.'+table)).fetchone()[0]
     assert cur.execute("select has_schema_privilege(%s,'cp7_installment','USAGE')and has_table_privilege(%s,'cp7_installment.payments','SELECT')and not has_table_privilege(%s,'cp7_installment.payments','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(ROLE,ROLE,ROLE)).fetchone()[0]
     assert cur.execute("select has_schema_privilege(%s,'cp7_payment_correction','USAGE')and has_table_privilege(%s,'cp7_payment_correction.links','SELECT')and not has_table_privilege(%s,'cp7_payment_correction.links','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(ROLE,ROLE,ROLE)).fetchone()[0]
+    assert cur.execute("select has_schema_privilege(%s,'cp7_supplier_payment_correction','USAGE')and has_table_privilege(%s,'cp7_supplier_payment_correction.links','SELECT')and not has_table_privilege(%s,'cp7_supplier_payment_correction.links','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(ROLE,ROLE,ROLE)).fetchone()[0]
     for who in ('anon','authenticated','service_role'):
         assert not cur.execute('select has_schema_privilege(%s,\'cp7_transaction_source\',\'USAGE\')or has_function_privilege(%s,\'cp7_transaction_source.resolve(jsonb)\',\'EXECUTE\')',(who,who)).fetchone()[0]
         assert not cur.execute('select has_function_privilege(%s,\'cp7_transaction_source.dependencies(jsonb,integer)\',\'EXECUTE\')',(who,)).fetchone()[0]

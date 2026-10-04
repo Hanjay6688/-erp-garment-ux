@@ -1,5 +1,11 @@
 # Current CP7 writer handoff · 3 October 2026
 
+## Active supplier-payment correction candidate · 4 October 2026
+
+Read SUPPLIER_PAYMENT_CORRECTION_HANDOFF.md first. Ordinary supplier edit/history/restore is now an implemented candidate: exactly amount, cash account and WIB time; one Native reverse+post transaction; immutable adjacent links; actual old-date timing/source mapping; current authority and exact UUID recovery. Original Native facts remain retained. Child reads use the owning parent current ticket, and retained edited time survives close/reopen. Exact new supplier CORRECT action, two typed RPCs and two named source sites are declared; no App ERP DML or Native guard change.
+
+Local syntax and actual pure-contract stand-ins pass, with zero Native/DOM/Auth credit. Fresh expected Shell1456/151/6/runtime262/RPC193/53CSS and Native23=14/4/3/2 remain pending. All previous provider budgets/IDs, frozen111/48/48/21 and guards/timeouts remain. Preserve actual first failures and inspect complete candidate Original roots/gates/raw364 cash prefixes/unedited images. Continue owning fixes and the remaining CP7 edits after this bounded result; no full CP7/independent/installed GO.
+
 ## Latest verified continuation · 4 October 2026
 
 Actual ordinary payment correction is writer-qualified at c3 by all23 declared14/4/3/2 cases, all five Original roots and every package/primary/backup/restore/advisor/Auth/browser host/console gate. Both Original desktop/mobile images were viewed. Native and separately committed Auth HTTP raw364-pair cash histories independently recompute every later prefix−12 (61→49 through424→412); original payment clock/amount/posting facts and stock/HPP stay preserved. Desktop actual committed-lost-reply recovery reuses the same UUID; mobile executes correction/history restore without that lost-reply branch. HTTP75.275ms is a fixture observation, not a production SLA. Original first3d21/23 and first1444/1446 admission failures stay INCOMPLETE.

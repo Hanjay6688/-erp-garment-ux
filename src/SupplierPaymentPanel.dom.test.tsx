@@ -7,6 +7,7 @@ import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { supplierPaymentFixture, supplierPaymentReadFixture, supplierPurchaseId as purchase, supplierPaymentId as payment, supplierInverseId } from '../tests/fixtures/supplierPayments'
 import { clearProductionEnvelope, persistProductionEnvelope, productionKey, readProductionRecovery } from './productionRecovery'
 import { parseSupplierPaymentRead, parseSupplierPaymentOutcome } from './supplierPaymentContract'
+import { supplierCorrectionFixture, supplierCorrectionOutcome, replacementId } from '../tests/fixtures/supplierPaymentCorrections'
 import type { Json } from './types/database.preconnect'
 
 const state = vi.hoisted(() => ({ auth: null as unknown, rpc: vi.fn(), source: null as unknown }))
@@ -56,7 +57,53 @@ function server() {
   return s
 }
 async function review() { await click('Tinjau pembatalan PAY-SUP-026'); await input('Alasan pembatalan pembayaran supplier', 'Uang belum benar benar dibayarkan'); await act(async () => box.querySelector<HTMLInputElement>('[aria-label="Pembayaran supplier sudah diperiksa"]')!.click()); await flush() }
+function correctionServer(lose = false) {
+  const original = server(), base = state.rpc.getMockImplementation()!, cache = new Map<string, Json>()
+  let effects = 0
+  state.rpc.mockImplementation(async (name, args) => {
+    if (name === 'erp_cp7_get_supplier_payment_correction_v1') return { data: supplierCorrectionFixture(), error: null }
+    if (name === 'erp_cp7_correct_supplier_payment_v1') {
+      if (!cache.has(args.p_request)) { effects++; cache.set(args.p_request, supplierCorrectionOutcome(args.p_request, args.p_payload) as Json) }
+      if (lose) { lose = false; return { data: null, error: { message: 'Committed correction reply lost' } } }
+      return { data: cache.get(args.p_request), error: null }
+    }
+    if (name === 'erp_cp7_get_supplier_payments_v1' && effects) {
+      const r = supplierPaymentReadFixture(25, args.p_q, null), old = r.page.rows[0]
+      old.status = 'REVERSED'; old.journal!.status = 'REVERSED'; old.review_token = 'b'.repeat(32)
+      old.inverse = { ...old.journal!, id: supplierInverseId, number: 'JRN-SUP-REVERSE', status: 'POSTED' }
+      const next = supplierPaymentFixture(); next.id = replacementId; next.number = 'K-SUP'; next.amount = '9.00'; next.review_token = 'c'.repeat(32)
+      next.journal = { ...next.journal!, id: 'c3000000-0000-4000-8000-000000000027', number: 'JRN-SUP-NEW' }
+      r.page.rows = [old, next]; r.page.total = '27'; r.selected_payment_id = args.p_payment; r.Native_AP!.paid = '259.00'; r.Native_AP!.remaining = '741.00'
+      return { data: r, error: null }
+    }
+    return base(name, args)
+  })
+  return { original, get effects() { return effects } }
+}
+async function submitCorrection() {
+  await click('Edit pembayaran supplier PAY-SUP-026'); await input('Nominal koreksi pembayaran supplier', '9.00')
+  await input('Alasan koreksi pembayaran supplier', 'Jumlah supplier diperiksa di lapangan')
+  await act(async () => box.querySelector<HTMLInputElement>('[aria-label="Koreksi pembayaran supplier sudah diperiksa"]')!.click()); await flush()
+  await click('Simpan koreksi pembayaran supplier')
+}
 describe('Exact supplier payment and owning inverse', () => {
+  it('uses one owning correction RPC, retires old facts and reloads the exact replacement child', async () => {
+    const s = correctionServer(); await mount(); await submitCorrection()
+    const commands = state.rpc.mock.calls.filter(([name]) => name === 'erp_cp7_correct_supplier_payment_v1')
+    expect(commands).toHaveLength(1); expect(s.effects).toBe(1); expect(writes()).toHaveLength(0)
+    expect(commands[0][1].p_payload.payment_id).toBe(payment); expect(commands[0][1].p_payload.replacement.amount).toBe('9.00')
+    expect(onReceiptUpdated).toHaveBeenCalledWith(purchase); expect(box.textContent).toContain('Rp741')
+    expect(box.querySelector(`[data-supplier-payment-id="${replacementId}"][data-source-focus="true"]`)).toBeTruthy()
+  })
+  it('retains the exact correction envelope after a committed lost reply and recovers it once after reload', async () => {
+    const s = correctionServer(true); await mount(); await submitCorrection()
+    const commands = () => state.rpc.mock.calls.filter(([name]) => name === 'erp_cp7_correct_supplier_payment_v1')
+    const first = structuredClone(commands()[0][1]); expect(s.effects).toBe(1); expect(box.textContent).not.toContain('Rp')
+    expect(readProductionRecovery('disposable:actor-1').pending.SUPPLIER_PAYMENT?.action).toBe('CORRECT')
+    await act(async () => root.unmount()); root = createRoot(box); await mount(null); await click('Periksa status pembatalan supplier')
+    expect(commands()[1][1]).toEqual(first); expect(s.effects).toBe(1); expect(writes()).toHaveLength(0)
+    expect(box.textContent).toContain('Rp741'); expect(readProductionRecovery('disposable:actor-1').pending.SUPPLIER_PAYMENT).toBeUndefined()
+  })
   it('opens the exact Native parent and child on page25 without a client scan or write', async () => {
     server(); await mount(); expect(state.rpc.mock.calls[0][1]).toEqual({ p_purchase: purchase, p_q: '', p_offset: 25, p_payment: payment })
     expect(box.querySelector('[data-source-focus="true"]')?.getAttribute('data-supplier-payment-id')).toBe(payment)
