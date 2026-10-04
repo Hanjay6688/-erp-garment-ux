@@ -10176,7 +10176,7 @@
     "prior_timeout_cause_closed": false
   },
   "ordinary_payment_correction_candidate": {
-    "status": "IMPLEMENTED_CANDIDATE_ACTUAL_NATIVE23_AND_SHELL_PENDING",
+    "status": "EXACT_RECOVERY_ACTION_AND_RPC_TYPE_ADMISSION_REPAIRED_FRESH_NATIVE23_SHELL_PENDING",
     "handoff": "docs/cp7/SALES_PAYMENT_CORRECTION_HANDOFF.md",
     "owning_write_rpc": "erp_cp7_correct_sales_payment_v1",
     "owning_read_rpc": "erp_cp7_get_sales_payment_correction_v1",
@@ -10204,7 +10204,29 @@
     "whole_chain_atomic_rollback": false,
     "full_family_acceptance": false,
     "independent_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "first_candidate_source": "3d9051df367bffa6f6250d5ec8bd2b355ecc9434",
+    "first_admission_receipt": "docs/cp7/evidence/payment-correction/first3d-admission/RECEIPT.json",
+    "first_Shell_passed_failed_expected": [
+      1444,
+      2,
+      1446
+    ],
+    "first_two_owning_DOM_failures_preserved": true,
+    "first_finance_build_RPC_type_failures_preserved": true,
+    "actual_recovery_functions_EventTarget_storage_standins_pass": true,
+    "all_previous_actions_and_unknown_action_rejections_retained": true,
+    "first_native_execution_receipt": "docs/cp7/evidence/payment-correction/first3d-native21/RECEIPT.json",
+    "first_native_passed_counts": {
+      "native": 14,
+      "races": 4,
+      "http": 3,
+      "browser": 0
+    },
+    "first_native_overall_status": "INCOMPLETE",
+    "first_native_writer_runtime_gate": false,
+    "both_raw364_cash_prefix_arrays_recomputed_delta_minus12": true,
+    "source_bundle_unchanged_by_frontend_admission_successor": "cc0cc86ad9e46eb51f784f71fa6381bc312e7989137bc7df9ca123bb1235c28f"
   },
   "latest_payment_predecessor_qualification": {
     "source_commit": "9279533f095bb51ae867415c5993f927560195da",
