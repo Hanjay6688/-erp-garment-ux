@@ -51,7 +51,10 @@ def fixture(cur,today,historical=False,two=False,qty='2',refund='40',sale_qty='4
         f['destination']=f['location'];f['bank']=str(source.bc.bank_account(cur,'RETEDIT-'+uuid.uuid4().hex[:8]))
         f['allocations']=returns.read(cur,f)['page']['rows'];physical=at+timedelta(hours=2)
     else:
-        f=returns.fixture(cur,today,two);physical=source.fg.ax.r1.now(cur).replace(microsecond=123456)
+        f=returns.fixture(cur,today,two)
+        # Keep a fixed microsecond on the actual clock's preceding second;
+        # replacing the current second's microsecond can create a future event.
+        physical=(source.fg.ax.r1.now(cur)-timedelta(seconds=1)).replace(microsecond=123456)
     p,v=returns.payload(cur,f,qty=qty,refund=refund);p['physical_at']=physical.isoformat()
     if two:
         p['items'].append(dict(p['items'][0],allocation_id=f['allocations'][1]['allocation_id']))
@@ -197,6 +200,9 @@ def cases(cur,today):
         bundle.verify(cur);return dict(status='PASS',current_HPP_permission_rechecked_before_cached_outcome=True,exact_private_caps_and_all4_frozen_Native_helpers=True)
     def fields():
         f=fixture(cur,today);p,v=payload(cur,f);before=b.boundary.snapshot(cur)
+        future=copy.deepcopy(p);future['replacement']['physical_at']=(source.fg.ax.r1.now(cur)+timedelta(days=1)).isoformat()
+        private=private_state(cur);auth.refused(cur,lambda:correct(cur,future,v),'CP7_SALES_RETURN_FUTURE_DATE')
+        assert b.boundary.snapshot(cur)==before and private_state(cur)==private
         for key,value in [('qty_pcs','0'),('refund_amount','20.001'),('unit_hpp_snapshot','0')]:
             bad=copy.deepcopy(p);bad['replacement']['items'][0][key]=value;auth.refused(cur,lambda:correct(cur,bad,v),'CP7_SALES_RETURN_LINES');assert b.boundary.snapshot(cur)==before
         bad=copy.deepcopy(p);bad['replacement']['items']*=2;auth.refused(cur,lambda:correct(cur,bad,v),'CP7_SALES_RETURN_DUPLICATE_ALLOCATION');assert b.boundary.snapshot(cur)==before
@@ -239,15 +245,22 @@ def cases(cur,today):
         assert b.boundary.snapshot(cur)==before and private_state(cur)==private and workspace(cur,f)['document']['status']=='POSTED'
         return dict(status='PASS',accepted_Native_already_used_return_stock_refusal_preserved_complete_no_effect=True)
     def closed():
-        import cp7_p13_finance_probe as finance
+        import cp7_finance_cases as finance
         f=fixture(cur,today,historical=True);through=today-timedelta(days=1);source.fg.ax.boundary.historical.prior.set_open_period(cur,through)
         before=cur.execute('select balance_date,account_id,debit_total,credit_total from erp.account_daily_balances where balance_date<=%s order by balance_date,account_id',(through,)).fetchall()
+        before_report=finance.fixture_read(cur,today,f['sale_at'],f['original']['physical_at'])
         p,v=payload(cur,f);r=correct(cur,p,v);check(cur,f,p,r)
         assert cur.execute('select balance_date,account_id,debit_total,credit_total from erp.account_daily_balances where balance_date<=%s order by balance_date,account_id',(through,)).fetchall()==before
         assert cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]==through
         t=r['link']['time_restatement'];assert t and cur.execute('select transaction_date>%s from erp.journal_entries where id=%s',(through,t['effective_journal_id'])).fetchone()[0]
-        report=finance.read(cur,today);assert report['snapshot']['performance']['sales_revenue_reconciled']
-        return dict(status='PASS',closed_daily_GL_unchanged_original_economic_date_Native_open_posting_date_and_owner_report_reconciled=True)
+        report=finance.fixture_read(cur,today,f['sale_at'],f['original']['physical_at'],p['replacement']['physical_at'])
+        assert before_report['snapshot']['performance']['sales_revenue_reconciled']and report['snapshot']['performance']['sales_revenue_reconciled']
+        assert finance.change(before_report,report,'performance','sales_revenue_gl')==20
+        assert finance.change(before_report,report,'performance','cogs_gl')==10
+        assert finance.change(before_report,report,'financial_position','customer_ar')==20
+        assert finance.change(before_report,report,'financial_position','fg_inventory')==-10
+        return dict(status='PASS',closed_daily_GL_unchanged_original_economic_date_Native_open_posting_date_and_owner_report_reconciled=True,
+          actual_Native_report_before=before_report['snapshot'],actual_Native_report_after=report['snapshot'])
     functions=(exact,increase,full,two,grade,micros,date,year,failure,stale,authority,fields,chain,history,downstream,closed)
     assert len(functions)==len(NAMES)==REQUIRED['native'];return [('CP7_RETURN_CORRECTION_'+n,f)for n,f in zip(NAMES,functions)]
 
