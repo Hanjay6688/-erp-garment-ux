@@ -80,12 +80,16 @@ def cases(cur,today):
   assert row(s,key)['label']==f['tag']+' · '+ar.sales.read(cur,f)['detail']['customer_name']
   for r in s['rows']:
    if r['rule_id']=='PRODUCTION_GAP':assert r['value']==next(a['q_conditional']for a in e['analysis']['recommendations']if a['target']['key']==r['target_key'])
-   if r['rule_id']=='ACCESSORY_NEED':assert r['value']==next(a['additional_external']for a in e['analysis']['material_needs']if a['target_key']==r['target_key']and a['material_key']==r['material_key'])
+   if r['rule_id']in('ACCESSORY_NEED','FABRIC_NEED'):assert r['value']==next(a['additional_external']for a in e['analysis']['material_needs']if a['target_key']==r['target_key']and a['material_key']==r['material_key'])
   assert s['contract_version']=='cp7.native-rule-conditions.v2'
   assert s['coverage']['opening_ar']==s['coverage']['opening_ap']=='COMPLETE_NATIVE_DOCUMENT_SCOPE_CONTRACTOR_CASH_ADVANCE_EXCLUDED'
   assert s['coverage']['payroll_ap']=='COMPLETE_NATIVE_DOCUMENT_SCOPE'
   assert s['coverage']['accessory_ap']=='COMPLETE_NATIVE_RETURN_CARRY_SCOPE_UNKNOWN_UNALLOCATED_BALANCE_RETAINED'
   assert s['coverage']['laundry_ap']=='COMPLETE_NATIVE_INVOICE_RECEIPT_AND_OPENING_UNINVOICED_SCOPE_UNKNOWN_PENDING_RETAINED'
+  # P18 successor: every shared fabric row has exactly one FABRIC_NEED condition.
+  assert s['coverage']['fabric']=='COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_PHYSICAL_AND_UNREVIEWED_RECIPE_RETAINED'
+  assert sorted(r['material_key']for r in s['rows']if r['rule_id']=='FABRIC_NEED')==sorted(a['material_key']for a in e['analysis']['material_needs']if(a['material_key']or'').startswith('FABRIC_'))
+  assert all(r['state']in('DATA_REVIEW','SOURCE_CHANGED')for r in s['rows']if r['rule_id']=='FABRIC_NEED'and r['material_key'].startswith('FABRIC_UNREVIEWED:'))
   assert not s['full_family_acceptance']and b.boundary.snapshot(cur)==before
   # This admission helper can inspect only the current actor's immutable
   # identity/capability flags. It must not replace the final fresh Native read.

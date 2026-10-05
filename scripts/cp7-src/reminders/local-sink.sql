@@ -71,7 +71,7 @@ begin
   or not(p?&array['run_id','expected_revision','enabled','label','environment','rules','reason'])or(select count(*)from jsonb_object_keys(p))<>7
   or jsonb_typeof(p->'enabled')is distinct from'boolean'or p->>'environment'is distinct from'LOCAL_TEST_SINK'
   or jsonb_typeof(p->'rules')is distinct from'array'or jsonb_array_length(p->'rules')not between 1 and 4
-  or exists(select 1 from jsonb_array_elements(p->'rules')x where jsonb_typeof(x)<>'string'or x#>>'{}'not in('PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE'))
+  or exists(select 1 from jsonb_array_elements(p->'rules')x where jsonb_typeof(x)<>'string'or x#>>'{}'not in('PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED','AR_DUE','AP_DUE'))
   or(select count(distinct x)from jsonb_array_elements(p->'rules')x)<>jsonb_array_length(p->'rules')
   or exists(select 1 from jsonb_each(p)e where e.key not in('enabled','rules')and jsonb_typeof(e.value)<>'string')
   or btrim(p->>'label')=''or length(p->>'label')>120 or btrim(p->>'reason')=''or length(p->>'reason')>1000
@@ -164,7 +164,7 @@ begin
    at:=(source->>'read_at')::timestamptz;
    final_source:=source;
    body:='PRATINJAU LOKAL — BELUM DIKIRIM'||chr(10)||case r->>'rule_id'
-    when'PRODUCTION_GAP'then'Kebutuhan produksi'when'ACCESSORY_NEED'then'Kebutuhan aksesori'
+    when'PRODUCTION_GAP'then'Kebutuhan produksi'when'ACCESSORY_NEED'then'Kebutuhan aksesori'when'FABRIC_NEED'then'Kebutuhan kain'
     when'AR_DUE'then'Piutang jatuh tempo'else'Utang jatuh tempo'end||chr(10)||(r->>'label')||chr(10)||
     coalesce(r->'value'->>'value','Belum diketahui')||' '||(r->'value'->>'unit')||chr(10)||
     case when r->'financial_source'is not null and r->'financial_source'<>'null'::jsonb then

@@ -4,6 +4,7 @@ language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'
 begin
  if p_key like'PRODUCTION_GAP:%'then return'PRODUCTION';end if;
  if p_key like'ACCESSORY_NEED:%'then return'ACCESSORY';end if;
+ if p_key like'FABRIC_NEED:%'then return'FABRIC';end if;
  if p_key like'AR_DUE:OPENING_AR:%'then return'OPENING_AR';end if;
  if p_key like'AR_DUE:%'and split_part(p_key,':',2)~'^[0-9a-f-]{36}$'then return'SALES_AR';end if;
  if p_key like'AP_DUE:MATERIAL:%'then return'MATERIAL_AP';end if;
@@ -13,7 +14,7 @@ end $$;
 create function cp7_reminder_native.condition_domain_access(p_domain text)returns boolean
 language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
 begin
- if p_domain in('PRODUCTION','ACCESSORY')then return true;end if;
+ if p_domain in('PRODUCTION','ACCESSORY','FABRIC')then return true;end if;
  if p_domain in('SALES_AR','OPENING_AR')then return erp.has_permission('finance.ar.view');end if;
  if p_domain in('MATERIAL_AP','OPENING_AP')then return erp.has_permission('finance.ap.view');end if;
  if p_domain='PAYROLL_AP'then return erp.has_permission('finance.ap.view')and erp.has_permission('finance.payroll.view');end if;
@@ -77,6 +78,25 @@ begin
    'value',value,'production_state',null,'business_resolved',resolved,'domain','ACCESSORY','financial_source',null,'economic_state','NOT_APPLICABLE','scope','CURRENT_NATIVE_ACCESSORY_BOM_INSTALLATION_AND_ALLOCATION','label',label);
   out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
  end loop;
+ -- P18 fabric rule: the same immutable shared-analysis fabric row, copied
+ -- exactly. ASSUMED recipe/allocation facts never become business resolution;
+ -- an unknown physical fact or unreviewed recipe stays DATA_REVIEW (no episode).
+ for r in select x.value from jsonb_array_elements(e->'analysis'->'material_needs')x
+  where left(coalesce(x.value->>'material_key',''),7)='FABRIC_'loop
+  value:=r->'additional_external';known:=value->>'state'in('KNOWN','ASSUMED');resolved:=false;
+  if e->>'source_state'<>'UNCHANGED'then state:='SOURCE_CHANGED';reason:='IMMUTABLE_ORIGINAL_REQUIRES_NEW_CAPTURE';
+  elsif not known then state:='DATA_REVIEW';
+   reason:=case when r->>'material_key'like'FABRIC_UNREVIEWED:%'then'FABRIC_RECIPE_NOT_REVIEWED'else coalesce(value->>'reason','FABRIC_PHYSICAL_NOT_PROVEN')end;
+  elsif(value->>'value')::numeric>0 then state:='ACTIVE';reason:='SOURCE_BOUND_ADDITIONAL_EXTERNAL_FABRIC_NEED';
+  elsif value->>'state'='ASSUMED'then state:='NO_CURRENT_GAP';reason:='SELECTED_FABRIC_RECIPE_SCENARIO_NOT_PHYSICAL_RESOLUTION';
+  else state:='RESOLVED';reason:='KNOWN_CURRENT_ZERO_FABRIC_NEED';resolved:=true;end if;
+  select x->>'sku'||' · '||(x->>'product_name')into label from jsonb_array_elements(e->'product_labels')x where x->>'target_key'=r->>'target_key';
+  row_source:=jsonb_build_object('key','FABRIC_NEED:'||(r->>'target_key')||':'||(r->>'material_key'),
+   'rule_id','FABRIC_NEED','target_key',r->'target_key','source_id',split_part(r->>'target_key',':',1),
+   'material_key',r->'material_key','source_hash',e->'analysis'->>'semantic_hash','state',state,'reason',reason,
+   'value',value,'production_state',null,'business_resolved',resolved,'domain','FABRIC','financial_source',null,'economic_state','NOT_APPLICABLE','scope','CURRENT_NATIVE_FABRIC_RECIPE_AND_PHYSICAL_ALLOCATION','label',label);
+  out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
+ end loop;
  if ar is not null and ar<>'null'::jsonb then
   as_of:=(ar->>'as_of')::date;
   for c in select x.value from jsonb_array_elements(ar->'conditions')x loop
@@ -136,6 +156,7 @@ begin
  rows:=cp7_reminder_native.condition_rows(again->'analysis',source->'ar',source->'ap',policies,at);
  select rows||coalesce(jsonb_agg(cp7_reminder_native.condition_policy(x.value,policies,at)order by x.value->>'key'),'[]')into rows from jsonb_array_elements(source->'other'->'rows')x;
  coverage:=jsonb_build_object('production','COMPLETE_AUTHORIZED_ORIGINAL','accessory','COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_INSTALLATION_RETAINED',
+  'fabric','COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_PHYSICAL_AND_UNREVIEWED_RECIPE_RETAINED',
   'sales_ar',case when source->'ar'='null'::jsonb then'EXCLUDED_BY_CURRENT_RIGHTS'else'COMPLETE_NATIVE_DOCUMENT_SCOPE'end,
   'material_ap',case when source->'ap'='null'::jsonb then'EXCLUDED_BY_CURRENT_RIGHTS'else'COMPLETE_NATIVE_DOCUMENT_SCOPE'end,
   'opening_ar',source->'other'->'coverage'->'opening_ar','opening_ap',source->'other'->'coverage'->'opening_ap',

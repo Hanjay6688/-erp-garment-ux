@@ -1,12 +1,12 @@
 -- Explicit versioned settings. No defaults, business writes or delivery.
 create table cp7_reminder_native.rule_policies(
  id uuid primary key default gen_random_uuid(),rule_id text not null
-  check(rule_id in('PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE')),
+  check(rule_id in('PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED','AR_DUE','AP_DUE')),
  scope_kind text not null check(scope_kind in('GLOBAL','TARGET')),scope_key text not null,
  revision bigint not null check(revision>0),previous_id uuid references cp7_reminder_native.rule_policies(id),
  config jsonb not null,reason text not null,created_at timestamptz not null,created_by uuid not null,
  unique(rule_id,scope_kind,scope_key,revision),
- check((scope_kind='GLOBAL'and scope_key='*')or(scope_kind='TARGET'and rule_id in('PRODUCTION_GAP','ACCESSORY_NEED'))));
+ check((scope_kind='GLOBAL'and scope_key='*')or(scope_kind='TARGET'and rule_id in('PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED'))));
 alter table cp7_reminder_native.rule_policies owner to cp7_reminder;
 alter table cp7_reminder_native.rule_policies enable row level security;
 create policy rule_policy_no_access on cp7_reminder_native.rule_policies for all to public using(false)with check(false);
@@ -18,7 +18,7 @@ create function cp7_reminder_native.policy_validate(rule text,c jsonb)returns js
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
 declare quiet jsonb:=c->'quiet';unit text:=c->>'threshold_unit';value text:=c->>'threshold_value';cooldown text:=c->>'cooldown_minutes';
 begin
- if rule not in('PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE')
+ if rule not in('PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED','AR_DUE','AP_DUE')
   or jsonb_typeof(c)is distinct from'object'or not(c?&array['enabled','threshold_value','threshold_unit','cooldown_minutes','quiet'])
   or(select count(*)from jsonb_object_keys(c))<>5
   or jsonb_typeof(c->'enabled')not in('boolean','null')
@@ -26,7 +26,8 @@ begin
   or jsonb_typeof(c->'threshold_unit')not in('string','null')
   or jsonb_typeof(c->'cooldown_minutes')not in('string','null')
   or value is not null and(value!~'^(0|[1-9][0-9]{0,11})(\.[0-9]{1,12})?$'or unit is null)
-  or unit is not null and unit!~'^[A-Z][A-Z0-9/_-]{0,23}$'
+  -- FABRIC_NEED compares against the exact Native material unit text (e.g. 'yd'); never case-folded or converted.
+  or unit is not null and unit!~(case when rule='FABRIC_NEED'then'^[A-Za-z][A-Za-z0-9/_-]{0,23}$'else'^[A-Z][A-Z0-9/_-]{0,23}$'end)
   or rule='PRODUCTION_GAP'and unit is not null and unit<>'PCS'
   or rule in('AR_DUE','AP_DUE')and(unit is not null and unit<>'DAY'or value is not null and value!~'^(0|[1-9][0-9]{0,5})$')
   or cooldown is not null and(cooldown!~'^(0|[1-9][0-9]{0,5})$'or cooldown::numeric>525600)
@@ -52,7 +53,7 @@ begin
   raise exception using errcode='42501',message='CP7_RULE_POLICY_MANAGE_DENIED';end if;
  if p->>'scope_kind'='GLOBAL'then
   if p->>'scope_key'<>'*'then raise exception 'CP7_RULE_POLICY_SCOPE';end if;
- elsif p->>'scope_kind'='TARGET'and p->>'rule_id'in('PRODUCTION_GAP','ACCESSORY_NEED')then
+ elsif p->>'scope_kind'='TARGET'and p->>'rule_id'in('PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED')then
   if not exists(select 1 from jsonb_array_elements(a->'analysis'->'analysis'->'recommendations')r
    where r->'target'->>'key'=p->>'scope_key')then raise exception using errcode='42501',message='CP7_RULE_POLICY_TARGET_UNAVAILABLE';end if;
  else raise exception 'CP7_RULE_POLICY_SCOPE';end if;
@@ -85,7 +86,7 @@ begin
  perform cp7_reminder_native.recheck(a);
  rows:=cp7_reminder_native.policy_rows(a);
  if jsonb_array_length(rows)>4000 then raise exception 'CP7_RULE_POLICY_SCOPE_INCOMPLETE';end if;
- select jsonb_agg(rule order by rule)into allowed from unnest(array['PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE'])rule
+ select jsonb_agg(rule order by rule)into allowed from unnest(array['PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED','AR_DUE','AP_DUE'])rule
   where rule not in('AR_DUE','AP_DUE')or erp.has_permission(case rule when'AR_DUE'then'finance.ar.view'else'finance.ap.view'end);
  perform cp7_reminder_native.recheck(a);
  return jsonb_build_object('contract_version','cp7.native-rule-policy-workspace.v1','actor_scope_id',auth.uid(),

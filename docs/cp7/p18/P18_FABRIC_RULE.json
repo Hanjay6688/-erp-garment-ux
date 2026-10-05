@@ -1,0 +1,66 @@
+{
+ "contract": "cp7.p18-fabric-rule-declaration.v1",
+ "label": "CP7_P18_FABRIC_RULE",
+ "expected_case_count": 11,
+ "required_case_counts": {
+  "native": 7,
+  "races": 1,
+  "http": 1,
+  "browser": 2
+ },
+ "required_case_ids": {
+  "native": [
+   "P18_FABRIC_RULE_ACTIVE_FROM_ORIGINAL",
+   "P18_FABRIC_RULE_POLICY_UNIT_EXACT",
+   "P18_FABRIC_RULE_ASSUMED_ZERO_NOT_RESOLVED",
+   "P18_FABRIC_RULE_IDENTITY_UNKNOWN_NO_EPISODE",
+   "P18_FABRIC_RULE_UNREVIEWED_RECIPE",
+   "P18_FABRIC_RULE_SHARED_SPLIT_UNDECIDED",
+   "P18_FABRIC_RULE_LOCAL_PREVIEW"
+  ],
+  "races": [
+   "P18_FABRIC_RULE_REAL_CONCURRENT_EPISODE"
+  ],
+  "http": [
+   "P18_FABRIC_RULE_REAL_AUTH_HTTP"
+  ],
+  "browser": [
+   "P18_FABRIC_RULE_BROWSER_DESKTOP",
+   "P18_FABRIC_RULE_BROWSER_MOBILE"
+  ]
+ },
+ "rule": {
+  "id": "FABRIC_NEED",
+  "domain": "FABRIC",
+  "label_id": "Kebutuhan kain",
+  "key": "FABRIC_NEED:<target_key>:<material_key>",
+  "value": "exact copy of the shared-analysis fabric row additional_external (P08); no recomputation",
+  "states": {
+   "SOURCE_CHANGED": "Original no longer current (IMMUTABLE_ORIGINAL_REQUIRES_NEW_CAPTURE)",
+   "DATA_REVIEW": "external UNKNOWN; reason FABRIC_RECIPE_NOT_REVIEWED for FABRIC_UNREVIEWED rows, else the fact reason code",
+   "ACTIVE": "external > 0 (ASSUMED); SOURCE_BOUND_ADDITIONAL_EXTERNAL_FABRIC_NEED",
+   "NO_CURRENT_GAP": "external = 0 ASSUMED; SELECTED_FABRIC_RECIPE_SCENARIO_NOT_PHYSICAL_RESOLUTION; never business resolution",
+   "RESOLVED": "only for a KNOWN zero, which the P08 source never produces"
+  },
+  "episodes": "unchanged writer: ACTIVE opens an ASSUMED episode; DATA_REVIEW in a product domain opens none; an assumed zero retains, never resolves",
+  "policy": "explicit versioned setting per rule (GLOBAL or exact TARGET); missing = UNCONFIGURED, not zero; threshold compared only in the same unit, never converted",
+  "coverage": "COMPLETE_AUTHORIZED_ORIGINAL_UNKNOWN_PHYSICAL_AND_UNREVIEWED_RECIPE_RETAINED",
+  "delivery": "local sink only; external_delivery_enabled=false"
+ },
+ "successor_oracles": {
+  "cp7_rule_policy_cases": "empty(): allowed_rules now five; units(): five rules stored, FABRIC_NEED with fixture unit 'M'",
+  "cp7_rule_source_cases": "exact_source(): FABRIC_NEED values equal shared fabric rows; fabric coverage; unreviewed rows DATA_REVIEW",
+  "case_ids_and_counts": "unchanged in every retained suite"
+ },
+ "fixtures": "P08 bound gap93 rate2 (external 176; with on-time PO50 external 126), plan fixture for ambiguous WIP, shared material setup; policy thresholds 100/200/500 and unit choices are fixture values, never owner values",
+ "requalification": [
+  "attention284",
+  "rule-lifecycle16",
+  "p18-e01-9",
+  "Shell SQL controls",
+  "CodeQL"
+ ],
+ "full_P18_acceptance": false,
+ "independent_acceptance": false,
+ "production_go": false
+}

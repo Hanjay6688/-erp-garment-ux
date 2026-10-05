@@ -279,10 +279,11 @@ Basis: `cp7/integration` caa1b038 (checkpoint kain + recovery) yang sudah digabu
 |---|---|
 | `scripts/cp7-src/planning/fabric-requirements.sql` | `source` → `cp7.fabric-source.v2` dengan blok `physical` (roll, stok per lokasi, draf potong belum diposting, intent, PO terbuka BB); fungsi baru `physical_source`, `index`, `recipe_state`, `plan`; `needs` kini 4 argumen. Hak baca kolom saja + EXECUTE fungsi sisa PO BB. |
 | `scripts/cp7-src/planning/analysis.sql` | `plan()` dihitung sekali per analisis dan diteruskan ke `needs()`. |
-| `scripts/cp7-src/plan-native/bootstrap.sql` | `cp7_capture` boleh SELECT kolom `id,target_key,cutting_group_id` pada `cp7_plan_native.intents` (tanpa payload/aktor). |
+| `scripts/cp7-src/plan-native/bootstrap.sql` | `cp7_capture` boleh SELECT kolom `id,target_key,cutting_group_id` pada `cp7_plan_native.intents` (tanpa payload/aktor). Tabel privat baru `cp7_plan_native.apply_own_drafts` (lihat 9.2 butir 6). |
+| `scripts/cp7-src/plan-native/commands.sql` (milik GPT) | `apply` menandai draf Native miliknya sendiri hanya di sekitar pemeriksaan ulang setelah tulis (sisip → preflight → hapus). |
 | `src/nativeAnalysis.ts`, `src/NativeMaterialNeedsView.tsx` | Penerima menerima angka fisik kain hanya dalam batas kernel; teks menjelaskan "bukan reservasi stok" dan "hanya PO yang tercatat di ERP". |
 | `scripts/cp7_fabric_physical_*`, `scripts/cp7_f05_analysis_probe.py` | Suite Native baru 21 kasus (flag `fabric_physical`). |
-| `scripts/cp7_fabric_recipe_cases.py`, `scripts/cp7_fabric_recipe_browser.mjs`, `tests/cp7/families/f04/fabric-recipe.mjs` | Oracle penerus fabric13 (ID/jumlah tetap); kontrol SQL Shell 24 → 26. |
+| `scripts/cp7_fabric_recipe_cases.py`, `scripts/cp7_fabric_recipe_browser.mjs`, `tests/cp7/families/f04/fabric-recipe.mjs` | Oracle penerus fabric13 (ID/jumlah tetap); kontrol SQL Shell 24 → 27. |
 | `scripts/cp7_analysis_bundle.py` | `TABLE_GRANTS['cp7_capture']` memuat hak kolom P08; `GRANTS['cp7_capture']` mendeklarasikan satu-satunya EXECUTE baru pada fungsi pendahulu: `erp.bb_commitment_line_remaining_v1(uuid,uuid)` (lihat 9.4). |
 | `.github/workflows/claude-p08-*.yml` | Workflow khusus cabang ini (P08 + regresi 152/284/39 + Shell/CodeQL). Tidak mengubah workflow GPT. |
 
@@ -293,6 +294,8 @@ Basis: `cp7/integration` caa1b038 (checkpoint kain + recovery) yang sudah digabu
 3. Sidik jari analisis kini mencakup stok/draf/PO bahan kain yang direview: penerimaan atau draf potong bahan itu membuat Original lama `ARCHIVED_STALE`. Tanpa resep kain, blok fisik kosong sehingga suite 152/284/39 secara logika tidak berubah — tetap wajib dikualifikasi ulang karena tanda tangan mesin berubah.
 4. **Cacat resep lama yang ikut diperbaiki:** hash resep dulu memakai seluruh baris `erp.materials`; Native menulis ulang stok tersimpan/biaya rata-rata/`row_version`/`updated_at` pada tiap penerimaan dan pemakaian, sehingga resep yang sudah direview langsung UNKNOWN setelah barang masuk/keluar. Kini `cp7_fabric_native.material_hash` hanya memakai field master. Counterfixture `P08_FABRIC_MASTER_CHANGED` diganti ke revisi nama master; kontrol Shell 25 → 26.
 5. Kemampuan produksi global tetap UNKNOWN (kebijakan kelipatan/kapasitas masih PENDING_POLICY_VALUE).
+6. **Cacat apply rencana yang ditemukan CI P08 (run 37360628807).** `cp7_plan_native.apply` memeriksa ulang Original setelah SAVE_DRAFT Native. Sidik jari P08 memuat draf belum diposting pada kain yang direview, sehingga pemeriksaan ulang menolak draf buatannya sendiri (`CP7_PLAN_SOURCE_CHANGED`). Perbaikannya: penanda transaksi-lokal `apply_own_drafts` (dihapus sebelum commit, terikat `txid`), dan `physical_source` hanya mengabaikan draf itu di dalam transaksi apply tersebut. Perubahan lain tetap membuat Original basi. Setelah satu apply ter-commit, Original lama menjadi basi bila ada resep kain yang direview, jadi apply berikutnya perlu ambil analisis baru. Mohon GPT menilai apakah perilaku ini cocok dengan alur planner; alternatif yang lebih longgar tidak dipilih karena bisa memakai angka alokasi lama.
+7. **Batas skala sumber fisik.** Roll yang sudah habis tidak lagi ikut sumber. Sebelumnya semua roll historis ikut, sehingga setelah bertahun-tahun penerimaan ambil analisis bisa ditolak. Batas baris PO dihitung setelah memilih baris terbuka; sebelumnya baris tutup bisa menyingkirkan baris terbuka tanpa error. Kontrol Shell ke-27 membuktikan keduanya: gagal pada SQL lama, lulus pada perbaikan.
 
 ### 9.3 Status bukti
 
@@ -316,4 +319,18 @@ Lihat tabel CI di `docs/cp7/f04/NATIVE_FABRIC_PHYSICAL.md` (diperbarui setelah r
 +  await expect(page.getByRole('button', { name: /Post pengiriman atomic/ })).toHaveCount(0)
    await page.getByRole('button', { name: 'Refetch', exact: true }).click()
 ```
+
+## 10. P18 — pengingat kebutuhan kain `FABRIC_NEED` (5 Okt 2026, cabang ini)
+
+Dokumen: [`docs/cp7/p18/P18_FABRIC_RULE.md`](cp7/p18/P18_FABRIC_RULE.md) dan deklarasi `P18_FABRIC_RULE.json` (11 kasus: 7 DB, 1 race, 1 HTTP, 2 browser). Workflow: `.github/workflows/claude-p18-fabric-rule.yml` (fabric-rule11, rule-lifecycle16, p18-e01-9). attention284 berjalan di workflow P08 pada head yang sama.
+
+| Berkas (milik GPT kecuali disebut) | Perubahan |
+|---|---|
+| `reminders/rule-condition-source.sql` | Domain `FABRIC`, satu kondisi per baris kain (nilai = `additional_external` persis), cakupan `fabric`. |
+| `reminders/rule-policy.sql`, `policy-history.sql`, `local-sink.sql` | Aturan kelima `FABRIC_NEED` (GLOBAL/TARGET, label "Kebutuhan kain"). Khusus `FABRIC_NEED`, satuan ambang boleh huruf kecil agar sama persis dengan satuan Native (mis. `yd`). Aturan lama tidak berubah. |
+| `src/nativeRuleSource.ts`, `src/nativeReminderPolicy.ts`, `src/NativeReminderPolicyPanel.tsx`, `src/NativeRuleSourcePanel.tsx` | Penerima tertutup untuk `FABRIC_NEED`, input "Satuan dasar kain", kalimat alasan kain. |
+| `scripts/cp7_rule_policy_cases.py`, `scripts/cp7_rule_source_cases.py` | Oracle penerus dalam rantai 284 (ID/jumlah tetap): lima aturan; nilai dan cakupan kain. |
+| `scripts/cp7_p18_fabric_rule_*` (Claude) | Suite baru. |
+
+Keputusan: nol yang masih asumsi tidak pernah "selesai"; UNKNOWN atau resep belum direview menjadi `DATA_REVIEW` tanpa episode; ambang hanya dibandingkan dengan satuan yang sama persis (tanpa konversi atau penyamaan huruf); pratinjau hanya lokal. Kontrak tetap `cp7.native-rule-conditions.v2` karena belum terpasang di mana pun. Bila GPT ingin naik ke v3, penerima dan SQL perlu diubah bersamaan.
 

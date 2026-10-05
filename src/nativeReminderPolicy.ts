@@ -2,9 +2,9 @@ import {parseNativeAnalysis,type NativeAnalysis,type AnalysisFinanceAccess} from
 import type {NativeDemandQuery} from './nativeDemandHistory'
 import {financeDate} from './financeReportContract'
 
-export const reminderRuleIds=['PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE'] as const
+export const reminderRuleIds=['PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED','AR_DUE','AP_DUE'] as const
 export type ReminderRule=typeof reminderRuleIds[number]
-export const reminderRuleLabels:Record<ReminderRule,string>={PRODUCTION_GAP:'Kebutuhan produksi',ACCESSORY_NEED:'Kebutuhan aksesori',AR_DUE:'Piutang jatuh tempo',AP_DUE:'Utang jatuh tempo'}
+export const reminderRuleLabels:Record<ReminderRule,string>={PRODUCTION_GAP:'Kebutuhan produksi',ACCESSORY_NEED:'Kebutuhan aksesori',FABRIC_NEED:'Kebutuhan kain',AR_DUE:'Piutang jatuh tempo',AP_DUE:'Utang jatuh tempo'}
 export type ReminderPolicyConfig={enabled:boolean|null;threshold_value:string|null;threshold_unit:string|null;cooldown_minutes:string|null;quiet:{enabled:boolean|null;starts_at:string|null;ends_at:string|null;timezone:'Asia/Jakarta'}}
 export type ReminderPolicyRow={policy_id:string;rule_id:ReminderRule;scope_kind:'GLOBAL'|'TARGET';scope_key:string;revision:string;previous_id:string|null;config:ReminderPolicyConfig;reason:string;created_at:string;created_by:string}
 export type ReminderPolicyPayload={run_id:string;rule_id:ReminderRule;scope_kind:'GLOBAL'|'TARGET';scope_key:string;expected_revision:string;config:ReminderPolicyConfig;reason:string}
@@ -21,7 +21,7 @@ const tri=(v:unknown)=>v===null||typeof v==='boolean'
 const canonical=(v:unknown):string=>JSON.stringify(v===null||typeof v!=='object'?v:Array.isArray(v)?v.map(x=>JSON.parse(canonical(x))):Object.fromEntries(Object.entries(v).sort(([a],[b])=>a.localeCompare(b)).map(([k,x])=>[k,JSON.parse(canonical(x))])))
 export function parseReminderPolicyConfig(v:unknown,r:ReminderRule):ReminderPolicyConfig{
  const c=closed(v,['enabled','threshold_value','threshold_unit','cooldown_minutes','quiet']),q=closed(c.quiet,['enabled','starts_at','ends_at','timezone'])
- if(!tri(c.enabled)||!tri(q.enabled)||q.timezone!=='Asia/Jakarta'||c.threshold_value!==null&&(typeof c.threshold_value!=='string'||!/^(0|[1-9][0-9]{0,11})(\.[0-9]{1,12})?$/.test(c.threshold_value))||c.threshold_unit!==null&&(typeof c.threshold_unit!=='string'||!/^[A-Z][A-Z0-9/_-]{0,23}$/.test(c.threshold_unit))||c.threshold_value!==null&&c.threshold_unit===null||c.cooldown_minutes!==null&&(typeof c.cooldown_minutes!=='string'||!/^(0|[1-9][0-9]{0,5})$/.test(c.cooldown_minutes)||BigInt(c.cooldown_minutes)>525600n))fail()
+ if(!tri(c.enabled)||!tri(q.enabled)||q.timezone!=='Asia/Jakarta'||c.threshold_value!==null&&(typeof c.threshold_value!=='string'||!/^(0|[1-9][0-9]{0,11})(\.[0-9]{1,12})?$/.test(c.threshold_value))||c.threshold_unit!==null&&(typeof c.threshold_unit!=='string'||!(r==='FABRIC_NEED'?/^[A-Za-z][A-Za-z0-9/_-]{0,23}$/:/^[A-Z][A-Z0-9/_-]{0,23}$/).test(c.threshold_unit))||c.threshold_value!==null&&c.threshold_unit===null||c.cooldown_minutes!==null&&(typeof c.cooldown_minutes!=='string'||!/^(0|[1-9][0-9]{0,5})$/.test(c.cooldown_minutes)||BigInt(c.cooldown_minutes)>525600n))fail()
  if(r==='PRODUCTION_GAP'&&c.threshold_unit!==null&&c.threshold_unit!=='PCS'||['AR_DUE','AP_DUE'].includes(r)&&(c.threshold_unit!==null&&c.threshold_unit!=='DAY'||c.threshold_value!==null&&!/^(0|[1-9][0-9]{0,5})$/.test(c.threshold_value as string)))fail()
  if(q.enabled===true){if(typeof q.starts_at!=='string'||typeof q.ends_at!=='string'||![q.starts_at,q.ends_at].every(t=>/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(t))||q.starts_at===q.ends_at)fail()}
  else if(q.starts_at!==null||q.ends_at!==null)fail()
@@ -29,14 +29,14 @@ export function parseReminderPolicyConfig(v:unknown,r:ReminderRule):ReminderPoli
 }
 function payload(v:unknown):ReminderPolicyPayload{
  const p=closed(v,['run_id','rule_id','scope_kind','scope_key','expected_revision','config','reason'])
- if(!uuid(p.run_id)||!rule(p.rule_id)||!uint(p.expected_revision)||BigInt(p.expected_revision)>9223372036854775806n||typeof p.reason!=='string'||!p.reason.trim()||p.reason.length>1000||p.scope_kind==='GLOBAL'&&p.scope_key!=='*'||p.scope_kind==='TARGET'&&(!['PRODUCTION_GAP','ACCESSORY_NEED'].includes(p.rule_id)||typeof p.scope_key!=='string'||!/^[0-9a-f-]{36}:[0-9a-f-]{36}$/.test(p.scope_key))||!['GLOBAL','TARGET'].includes(String(p.scope_kind)))fail()
+ if(!uuid(p.run_id)||!rule(p.rule_id)||!uint(p.expected_revision)||BigInt(p.expected_revision)>9223372036854775806n||typeof p.reason!=='string'||!p.reason.trim()||p.reason.length>1000||p.scope_kind==='GLOBAL'&&p.scope_key!=='*'||p.scope_kind==='TARGET'&&(!['PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED'].includes(p.rule_id)||typeof p.scope_key!=='string'||!/^[0-9a-f-]{36}:[0-9a-f-]{36}$/.test(p.scope_key))||!['GLOBAL','TARGET'].includes(String(p.scope_kind)))fail()
  parseReminderPolicyConfig(p.config,p.rule_id as ReminderRule);return structuredClone(p) as ReminderPolicyPayload
 }
 export function parseReminderPolicyRow(value:unknown,allowed:ReminderRule[],targets:Set<string>):ReminderPolicyRow{
  const r=closed(value,['policy_id','rule_id','scope_kind','scope_key','revision','previous_id','config','reason','created_at','created_by'])
  if(!uuid(r.policy_id)||!uuid(r.created_by)||!rule(r.rule_id)||!allowed.includes(r.rule_id as ReminderRule)||!uint(r.revision)||r.revision==='0'||!stamp(r.created_at)||typeof r.reason!=='string'||!r.reason.trim()||r.reason.length>1000||r.revision==='1'&&r.previous_id!==null||r.revision!=='1'&&(!uuid(r.previous_id)||r.previous_id===r.policy_id))fail()
  parseReminderPolicyConfig(r.config,r.rule_id as ReminderRule)
- if(r.scope_kind==='GLOBAL'?r.scope_key!=='*':r.scope_kind!=='TARGET'||!['PRODUCTION_GAP','ACCESSORY_NEED'].includes(r.rule_id as string)||typeof r.scope_key!=='string'||!/^[0-9a-f-]{36}:[0-9a-f-]{36}$/.test(r.scope_key))fail()
+ if(r.scope_kind==='GLOBAL'?r.scope_key!=='*':r.scope_kind!=='TARGET'||!['PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED'].includes(r.rule_id as string)||typeof r.scope_key!=='string'||!/^[0-9a-f-]{36}:[0-9a-f-]{36}$/.test(r.scope_key))fail()
  if(r.scope_kind==='TARGET'&&!targets.has(r.scope_key as string))fail()
  return structuredClone(r) as ReminderPolicyRow
 }

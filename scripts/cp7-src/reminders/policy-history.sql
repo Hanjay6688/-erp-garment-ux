@@ -7,7 +7,7 @@ begin
   or not(p?&array['run_id','rule_id','scope_kind','scope_key','before_revision','through_revision','limit'])
   or(select count(*)from jsonb_object_keys(p))<>7 or p->'limit'is distinct from'25'::jsonb
   or exists(select 1 from jsonb_each(p)e where e.key not in('before_revision','through_revision','limit')and jsonb_typeof(e.value)<>'string')
-  or p->>'rule_id'not in('PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE')
+  or p->>'rule_id'not in('PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED','AR_DUE','AP_DUE')
   or jsonb_typeof(p->'before_revision')not in('string','null')or jsonb_typeof(p->'through_revision')not in('string','null')
   or p->>'before_revision'is not null and(p->>'before_revision'!~'^[1-9][0-9]{0,18}$'or(p->>'before_revision')::numeric>9223372036854775807)
   or p->>'through_revision'is not null and(p->>'through_revision'!~'^[1-9][0-9]{0,18}$'or(p->>'through_revision')::numeric>9223372036854775807)
@@ -16,7 +16,7 @@ begin
  perform cp7_reminder_native.recheck(a,case p->>'rule_id'when'AR_DUE'then'AR'when'AP_DUE'then'MATERIAL_AP'else null end);
  if p->>'scope_kind'='GLOBAL'then
   if p->>'scope_key'<>'*'then raise exception 'CP7_RULE_POLICY_SCOPE';end if;
- elsif p->>'scope_kind'='TARGET'and p->>'rule_id'in('PRODUCTION_GAP','ACCESSORY_NEED')then
+ elsif p->>'scope_kind'='TARGET'and p->>'rule_id'in('PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED')then
   if not exists(select 1 from jsonb_array_elements(a->'analysis'->'analysis'->'recommendations')x where x->'target'->>'key'=p->>'scope_key')then
    raise exception using errcode='42501',message='CP7_RULE_POLICY_TARGET_UNAVAILABLE';end if;
  else raise exception 'CP7_RULE_POLICY_SCOPE';end if;

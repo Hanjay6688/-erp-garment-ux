@@ -36,7 +36,7 @@ def cases(cur,today):
  def empty():
   original=fixture(cur,today);before=b.boundary.snapshot(cur);e=get(cur,original['run_id'])
   assert e['contract_version']=='cp7.native-rule-policy-workspace.v1'and e['rows']==[]and e['total']=='0'and e['page_complete']
-  assert set(e['allowed_rules'])=={'PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE'}and e['manage_allowed']and not e['external_delivery_enabled']
+  assert set(e['allowed_rules'])=={'PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED','AR_DUE','AP_DUE'}and e['manage_allowed']and not e['external_delivery_enabled']
   assert e['analysis']['analysis']==original['analysis']and e['analysis']['financial_source']==original['financial_source']and b.boundary.snapshot(cur)==before
   return dict(status='PASS',actual_empty_complete_workspace_no_implicit_zero_or_disable=True,Original_and_entire_ERP_boundary_unchanged=True)
  def nullable():
@@ -49,10 +49,11 @@ def cases(cur,today):
   return dict(status='PASS',three_immutable_versions_preserve_NULL_zero_disabled_and_reasons=True,linked_history_and_entire_ERP_boundary_preserved=True)
  def units():
   original=fixture(cur,today);before=b.boundary.snapshot(cur)
-  for r in('PRODUCTION_GAP','ACCESSORY_NEED','AR_DUE','AP_DUE'):
-   unit='DAY'if r in('AR_DUE','AP_DUE')else'PCS';e=command(cur,intent(original,r,c=ready(unit=unit)));assert next(p for p in rows(e)if p['rule_id']==r)['config']['threshold_unit']==unit
-  assert len(stored(cur))==4 and b.boundary.snapshot(cur)==before
-  return dict(status='PASS',all_four_current_authorized_units_stored_without_conversion_or_money_calculation=True)
+  # P18 successor: FABRIC_NEED is the fifth rule; 'M' is a fixture unit, not an owner value.
+  for r in('PRODUCTION_GAP','ACCESSORY_NEED','FABRIC_NEED','AR_DUE','AP_DUE'):
+   unit='DAY'if r in('AR_DUE','AP_DUE')else'M'if r=='FABRIC_NEED'else'PCS';e=command(cur,intent(original,r,c=ready(unit=unit)));assert next(p for p in rows(e)if p['rule_id']==r)['config']['threshold_unit']==unit
+  assert len(stored(cur))==5 and b.boundary.snapshot(cur)==before
+  return dict(status='PASS',all_five_current_authorized_units_stored_without_conversion_or_money_calculation=True)
  def hierarchy():
   original=fixture(cur,today);target=original['analysis']['recommendations'][0]['target']['key'];global_row=rows(command(cur,intent(original,c=ready())))[0]
   missing=cur.execute("select cp7_reminder_native.policy_resolve(%s::jsonb,'ACCESSORY_NEED',%s)",(json.dumps([global_row]),target)).fetchone()[0];assert missing['basis']=='MISSING'and missing['policy']is None

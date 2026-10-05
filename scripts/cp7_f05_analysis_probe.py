@@ -39,8 +39,8 @@ def verify(cur):
  f03.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False):
- fabric_any=fabric_recipe or fabric_physical
+def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False):
+ fabric_any=fabric_recipe or fabric_physical or fabric_reminder
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=152;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if attention:
   import cp7_obligation_report_bundle as candidate
@@ -88,8 +88,15 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   import cp7_cutting_correction_cases as case_provider
   expected=case_provider.EXPECTED;assert expected==19;out=OUT.with_name('CP7_CUTTING_REOPEN.json');phase='cp7_cutting_reopen';browser_script='cp7_cutting_correction_browser.mjs'
  if fabric_any:
-  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction))and not(fabric_recipe and fabric_physical)
-  if fabric_physical:
+  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction))and sum((fabric_recipe,fabric_physical,fabric_reminder))==1
+  if fabric_reminder:
+   # P18 fabric rule: the complete reminder product stack is the candidate.
+   import cp7_obligation_report_bundle as candidate
+   import cp7_p18_fabric_rule_cases as case_provider
+   def checker(cur):verify(cur);candidate.verify(cur)
+   extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==11;out=OUT.with_name('CP7_P18_FABRIC_RULE.json');phase='cp7_p18_fabric_rule';browser_script='cp7_p18_fabric_rule_browser.mjs'
+   declaration_path=bundle.ROOT/'docs/cp7/p18/P18_FABRIC_RULE.json';contract='cp7.p18-fabric-rule-declaration.v1'
+  elif fabric_physical:
    # P08 physical successor: its own predeclared IDs/counts, same closed harness.
    import cp7_fabric_physical_cases as case_provider
    expected=case_provider.EXPECTED;assert expected==21;out=OUT.with_name('CP7_FABRIC_PHYSICAL.json');phase='cp7_fabric_physical';browser_script='cp7_fabric_physical_browser.mjs'
@@ -113,6 +120,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
  if cutting_correction:report.update(label='CP7_CUTTING_REOPEN',scope='ACTUAL_UNPICKED_POSTED_CUTTING_UNCHANGED_NATIVE_INVERSE_EXACT_CURRENT_AUTH_UUID_SOURCE_HISTORY_AND_FOLLOWING_DRAFT_EDIT')
  if rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction:report['required_case_counts']=case_provider.REQUIRED
  if p18_e01:report['required_case_counts']=case_provider.REQUIRED;report['full_P18_acceptance']=False
+ if fabric_reminder:report.update(label='CP7_P18_FABRIC_RULE',scope='P18_FABRIC_NEED_RULE_EXACT_SHARED_FABRIC_ROW_ASSUMED_NEVER_RESOLVES_UNKNOWN_NEVER_ZERO_SAME_UNIT_POLICY_LOCAL_SINK_ONLY_NO_DELIVERY',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P18_acceptance=False)
  if fabric_physical:report.update(label='CP7_FABRIC_PHYSICAL',scope='P08_PHYSICAL_FABRIC_INSTALLED_UNSTARTED_ZERO_LINKED_DRAFT_OR_UNIQUE_FREE_STOCK_ON_TIME_OPEN_COMMITMENT_FAIL_CLOSED_NO_RESERVATION_OR_FEASIBILITY_CREDIT',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P08_acceptance=False)
  if fabric_recipe:report.update(label='CP7_FABRIC_RECIPE',scope='EXPLICIT_EFFECTIVE_DATED_EXACT_ROOT_SIZE_NATIVE_FABRIC_RECIPE_ASSUMPTIONS_SHARED_ANALYSIS_NO_INSTALLATION_ALLOCATION_OR_FEASIBILITY_CREDIT',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P08_acceptance=False)
  try:
@@ -156,7 +164,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    report['source_admission_required_case_credit']=0
    assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
   with exact_public_catalog(native,retain_raw=fabric_any)as catalog_audit:
-   report['native']=native.strict_group('CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+   report['native']=native.strict_group('CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
   report['native_public_catalog_comparison']=catalog_audit
   report['races']=modes.run_races(case_provider,checker,phase)
   report['http']=modes.run_http(case_provider,checker,phase)
