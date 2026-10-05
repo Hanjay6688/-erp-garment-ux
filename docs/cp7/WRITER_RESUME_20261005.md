@@ -8,7 +8,7 @@ Keep one canonical writer operationally: check the canonical remote before edits
 
 ## Recovered working context
 
-The saved context recovery contains 329 byte-preserved sources, including the current framework/backbone, 328 ERP documents, all 271 requirement records, 22 P00–P21 packets and 84 referenced case IDs. Five original b215 Native archives were downloaded and their GitHub digests/ZIP CRCs verified. Historical large archives are indexed; they have not all been opened. Chat retrieval supplies excerpts rather than a complete export. Do not claim exhaustive access to unavailable transcripts or unseen archive contents.
+The saved context recovery contains 329 byte-preserved sources, including the current framework/backbone, 328 ERP documents, all 271 requirement records, 22 P00–P21 packets and 84 referenced case IDs. Five original b215 Native archives were downloaded and their GitHub digests/ZIP CRCs verified. All 160 ERP ZIP archives have now been downloaded and opened/indexed; 159 pass CRC and one damaged CP6 archive yields 18 CRC-verified context members. Seven additional loose workflow/patch/preview files are recovered. The archive index retains 1,816 context occurrences and 1,410 unique text hashes. See the qualification receipt for the exact damaged/encrypted/transcript limits. Chat retrieval supplies excerpts rather than a complete export. Do not claim exhaustive access to unavailable transcripts or unseen archive contents.
 
 The current binding contracts are framework-v2, accepted CP6 owner decisions, Master Pulih, BR/UX32/CP7 rev3, current code and CURRENT_STATE, ACTIVE_CONTINUATION, USER_TRANSACTION_TOOLS and owning family handoffs. Older pending banners are historical. CP6's accepted scope is closed; full CP7, P20 independent acceptance, P21 installed release and production GO remain separate open gates.
 
@@ -33,3 +33,7 @@ Next open implementation exits remain posted-cutting correction/inverse, actual 
 ## Local verification before fresh Native qualification
 
 Production build and secret scan pass. Complete static security, frozen CP5/CP6 checks, exact predecessor backend ownership and build/Auth assertion regressions pass. Four exact-catalog adapter tests, Python compilation, workflow YAML parsing and diff whitespace checks pass. The first local application run cannot exercise database kernel tests because native PostgreSQL is unavailable. With explicitly selected PGlite 0.5.8, 1,489 tests pass and three existing internal-guard fixture tests fail with permission denied for table guard_subject; these remain recorded, not skipped or relabelled. The substitute runtime grants zero Native/Auth qualification. Fresh Shell on its required real disposable PostgreSQL and the existing real Supabase Native workflows must decide qualification. No business guard, privilege or fixture is weakened for a local green result.
+
+## Published source-qualified successor
+
+Actual fd702d7 Native qualification closes SalesChain25, SupplierReturns12 and MiscFinance14, and Native PostgreSQL Shell1492/138 plus six fixture browser cases. See [RESUME_QUALIFICATION_20261005](RESUME_QUALIFICATION_20261005.md) and retained first419 failure/current-source Originals. This receipt supersedes the preparation-stage pending status above without relabelling any old failure. Full CP7 remains open.

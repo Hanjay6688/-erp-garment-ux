@@ -1,0 +1,179 @@
+{
+  "contract": "cp7.writer-resume-original-verification.v1",
+  "source_commit": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+  "source_tree": "fc01331793570c302db3083aae0107757131ee36",
+  "runtime_bundle_sha256": "55d8c4e25397f01c3c42e803069eda5218d3c087c19b4195ab7c079e8cb2fc6e",
+  "run_id": 37258209386,
+  "job_id": 111599681118,
+  "artifact_id": 11324150708,
+  "artifact_sha256": "dfda681de3a6b505f05c4456d1bdb7710c013c5d2a53dad5046cd6c4194ee7e0",
+  "artifact_bytes": 4250333,
+  "artifact_crc": "PASS",
+  "report": "CP7_F03_RETURN_DOCUMENTS.json",
+  "reported_status": "PASS",
+  "writer_qualified": true,
+  "expected_counts": {
+    "native": 6,
+    "races": 3,
+    "http": 1,
+    "browser": 2
+  },
+  "observed_counts": {
+    "native": 6,
+    "races": 3,
+    "http": 1,
+    "browser": 2
+  },
+  "observed_total": 12,
+  "planned_ids": {
+    "native": [
+      "P09_COMBINED_RETURN_FABRIC_CREDIT_INVERSE",
+      "P09_COMBINED_RETURN_MIXED_AP_GRNI",
+      "P09_COMBINED_RETURN_ATOMIC",
+      "P09_COMBINED_RETURN_REPLAY",
+      "P09_COMBINED_RETURN_ACCESS",
+      "P09_COMBINED_RETURN_SOURCES"
+    ],
+    "races": [
+      "P09_COMBINED_RETURN_RACE_SAME",
+      "P09_COMBINED_RETURN_RACE_CAPACITY",
+      "P09_COMBINED_RETURN_RACE_REVOKE"
+    ],
+    "http": [
+      "P09_COMBINED_RETURN_HTTP"
+    ],
+    "browser": [
+      "P09_COMBINED_RETURN_BROWSER_DESKTOP",
+      "P09_COMBINED_RETURN_BROWSER_MOBILE_RECOVERY"
+    ]
+  },
+  "root_originals": "ORIGINAL_REPORTS.json.gz",
+  "root_originals_sha256": "6b12cf3a26d7eb36515db5b3a8499a27cf0c8fb7c412a49e3bc51f75062d65e0",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385610,
+      "crc32": "11a7b7c8",
+      "sha256": "9778bc0e69d4dd08ca68a401ba16e69eb30ce84fc0b10a76faabbad574c31c02"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385610,
+      "crc32": "11a7b7c8",
+      "sha256": "9778bc0e69d4dd08ca68a401ba16e69eb30ce84fc0b10a76faabbad574c31c02"
+    },
+    {
+      "name": "CP7_F03_RETURN_DOCUMENTS.json",
+      "bytes": 597672,
+      "crc32": "074ba0b5",
+      "sha256": "82f95b7d2c93cdbcd0359bb6e894459dc162e3399559925d395ed43a36dad784"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "5825ef9a",
+      "sha256": "9d8698f72f944747181a92ecb8d7a8f96e4ee13c0b15be2120367471f2b2ab51"
+    },
+    {
+      "name": "P09_COMBINED_RETURN_DESKTOP.png",
+      "bytes": 1590811,
+      "crc32": "6055cfdb",
+      "sha256": "e3e9bbc212a63b9ad5cd731ad9ca7f2cad97cd032ad43333836c72b88b730574"
+    },
+    {
+      "name": "P09_COMBINED_RETURN_MOBILE.png",
+      "bytes": 1059608,
+      "crc32": "f5c78659",
+      "sha256": "576708d236552520f0779f69db1cef6d5ecec2869e940b3fba95961688bcdb4a"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "707e6d30",
+      "sha256": "19b83baf7f6a1dc5850312cdebbd9bb43dbadf8462d3d20de02cd7271eedcfcc"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360417,
+      "crc32": "9f5964e9",
+      "sha256": "581fe4ce0395f120d174f333f830ef1d3e844ed2b0b062dd3aec944bfbd8ec70"
+    }
+  ],
+  "screenshots": [
+    "P09_COMBINED_RETURN_DESKTOP.png",
+    "P09_COMBINED_RETURN_MOBILE.png"
+  ],
+  "original_source_identity": {
+    "label": "T3_PREP",
+    "tool_head": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+    "product_ref": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "37258209386",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Combined Supplier Returns",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "outer_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "catalog_verification": {
+    "raw_snapshots_retained": true,
+    "snapshots_checked": 14,
+    "original_canonical_hashes_recomputed": true,
+    "every_snapshot_full_state_equal": true,
+    "independent_read_only_sensitivity_controls_pass": true,
+    "dropped_fields": [],
+    "restoration_order_only_difference_independently_recomputed": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_cp7_acceptance": false,
+  "previous_failures_preserved": true
+}

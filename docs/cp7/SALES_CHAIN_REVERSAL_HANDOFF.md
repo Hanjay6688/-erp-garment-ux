@@ -1,3 +1,5 @@
+Current source qualification · 5 October 2026: [RESUME_QUALIFICATION_20261005](RESUME_QUALIFICATION_20261005.md). fd702d7 SalesChain25/25, SupplierReturns12/12 and MiscFinance14/14 PASS with exact Original run/source/restoration/Auth gates. This closes those three b215 failures. Posted cutting correction, actual recipe/allocation/full P08 and full P18/P19/P20/P21 remain open. Earlier candidate states and failures below retain their historical scope.
+
 # Reviewed atomic sales-chain reversal · candidate 5 October 2026 WIB
 
 Standing owner instruction: make transaction edit/cancellation usable and continue CP7 until complete. Canonical base d776b192; previous writer STOPPED owner-confirmation preserved. This family cancels **all active customer payments, all active customer returns, then their invoice in one database transaction**. It never sequences separate browser writers and calls them atomic. It does not imply an arbitrary production-chain rollback or posted-cutting correction.

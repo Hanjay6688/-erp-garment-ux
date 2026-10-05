@@ -1,0 +1,256 @@
+{
+  "contract": "cp7.writer-resume-original-verification.v1",
+  "source_commit": "fd702d7235d270add2da38143a22d5ed45c47685",
+  "source_tree": "b91e3264ec50b6eea2003cb54f82ab6078799826",
+  "runtime_bundle_sha256": "55d8c4e25397f01c3c42e803069eda5218d3c087c19b4195ab7c079e8cb2fc6e",
+  "run_id": 37258654208,
+  "job_id": 111600965113,
+  "artifact_id": 11323538204,
+  "artifact_sha256": "74350225f060687328249d40b9002c317ea0632ef792ff4387ca189badd627bd",
+  "artifact_bytes": 8083235,
+  "artifact_crc": "PASS",
+  "report": "CP7_F03_MISC_FINANCE.json",
+  "reported_status": "PASS",
+  "writer_qualified": true,
+  "expected_counts": {
+    "native": 9,
+    "races": 2,
+    "http": 1,
+    "browser": 2
+  },
+  "observed_counts": {
+    "native": 9,
+    "races": 2,
+    "http": 1,
+    "browser": 2
+  },
+  "observed_total": 14,
+  "planned_ids": {
+    "native": [
+      "F03_MISC_DRAFT_EXACT",
+      "F03_MISC_POST_ACCOUNTING",
+      "F03_MISC_INVERSE_DATES",
+      "F03_MISC_STALE_REVIEW",
+      "F03_MISC_FIELDS",
+      "F03_MISC_PROTECTED_ACCOUNTS",
+      "F03_MISC_REPLAY",
+      "F03_MISC_CURRENT_ACCESS_PRIVATE",
+      "F03_MISC_PAGES"
+    ],
+    "races": [
+      "F03_MISC_RACE_REPLAY",
+      "F03_MISC_RACE_CURRENT_REVOKE"
+    ],
+    "http": [
+      "F03_MISC_REAL_HTTP"
+    ],
+    "browser": [
+      "F03_MISC_BROWSER_DESKTOP_LOST_REPLY",
+      "F03_MISC_BROWSER_MOBILE_CURRENT_AUTH"
+    ]
+  },
+  "root_originals": "ORIGINAL_REPORTS.json.gz",
+  "root_originals_sha256": "d38a6977dee337de79b57d36221408e0e58e6d9354f9c1a70a13f1545c082932",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CASH_BUILD.txt",
+      "bytes": 11438,
+      "crc32": "a481cb48",
+      "sha256": "b470bfdd870cfbaf91c4024e73b03e3802838886b9eb5f4bec11631a001f78eb"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385617,
+      "crc32": "f2295fee",
+      "sha256": "301a781874bd0f900788906c2d94ce36ae4b9c3fefc16b66d54c17ee8c22911c"
+    },
+    {
+      "name": "CASH_LOCAL_TESTS.txt",
+      "bytes": 1447,
+      "crc32": "688cc82f",
+      "sha256": "55a0437c28fe5fbcf6e1476057a6d1f48b93f840f00eca1b682f148bb06ca953"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385617,
+      "crc32": "f2295fee",
+      "sha256": "301a781874bd0f900788906c2d94ce36ae4b9c3fefc16b66d54c17ee8c22911c"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "0c8e3f34",
+      "sha256": "951d016e7c91b070bf3d41f5875c514c90fc820cc8e63f77b11e86bec46a0f66"
+    },
+    {
+      "name": "CP7_F03_MISC_FINANCE.json",
+      "bytes": 731846,
+      "crc32": "6a89ffc3",
+      "sha256": "7adabb49083f46e63dcb2fe9b4b835d9799704c5ab601a64cb71f37698e32192"
+    },
+    {
+      "name": "F03_MISC_PENDING_AR_DESKTOP.png",
+      "bytes": 358585,
+      "crc32": "eba7129f",
+      "sha256": "d3472b518a1b9d14d579084857fd944235cad4e195124909073be8bdc01dd8f3"
+    },
+    {
+      "name": "F03_MISC_PENDING_CASH_DESKTOP.png",
+      "bytes": 349988,
+      "crc32": "5a48d7c9",
+      "sha256": "f3948d2a515c9367786bf064bb5950197a1db6cb849ff132c426ca0dc87dc084"
+    },
+    {
+      "name": "F03_MISC_PENDING_OVERVIEW_DESKTOP.png",
+      "bytes": 276117,
+      "crc32": "522b6815",
+      "sha256": "14825be69f9569180810990e35ece0d8ede0a2891e34076f60ac6e66c3a23dc9"
+    },
+    {
+      "name": "F03_MISC_PENDING_REPORT_DESKTOP.png",
+      "bytes": 365913,
+      "crc32": "70f91e2e",
+      "sha256": "d919cf37d7426527e687ad23f4c61ddc5d2f7285854a6f1a663aabcf4a23c983"
+    },
+    {
+      "name": "F03_MISC_POSTED_DESKTOP.png",
+      "bytes": 1046976,
+      "crc32": "362dbeb1",
+      "sha256": "6c88bcf0f0b64c7632d86859c5078a5cfb41d384a167a1f98bd100e24c3aa0ef"
+    },
+    {
+      "name": "F03_MISC_POSTED_MOBILE.png",
+      "bytes": 774101,
+      "crc32": "192d3f12",
+      "sha256": "f62c51f8a66c3610555b9f742bdd64c62766ddb03b6bc11ec465ad43d31419e5"
+    },
+    {
+      "name": "F03_MISC_RETIRED_DESKTOP.png",
+      "bytes": 577235,
+      "crc32": "49a685f0",
+      "sha256": "cea5f72869d7de4f868ba6ed030e7a63deb66b71233153db79479098878524eb"
+    },
+    {
+      "name": "F03_MISC_RETIRED_MOBILE.png",
+      "bytes": 339150,
+      "crc32": "094fc85e",
+      "sha256": "beff5b601fc78b86ceaca99b90f92b1a1a45a2ea281d5f854ead2a83c8367466"
+    },
+    {
+      "name": "F03_MISC_REVERSED_MOBILE.png",
+      "bytes": 799208,
+      "crc32": "570072d7",
+      "sha256": "887880c558b474fd572bafda8f208ae5c6a3591575468a297d2ca4a67f4e7dc9"
+    },
+    {
+      "name": "F03_MISC_REVERSED_DESKTOP.png",
+      "bytes": 1060621,
+      "crc32": "eab6ee1b",
+      "sha256": "b63bf10de29be4e56f24199f583c36ecf04589df72bbbd02083400ca09ee1be4"
+    },
+    {
+      "name": "F03_MISC_UNCERTAIN_DESKTOP.png",
+      "bytes": 580003,
+      "crc32": "806bc27c",
+      "sha256": "9b90755e26d655e993991b3bcf3534c21909e3088458be7db0ed5d548a399c38"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "40d0cf33",
+      "sha256": "424695d8425ec3bf151b2e54d2314e98f311052f1177405c6eadd794cfafb8c6"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360411,
+      "crc32": "d5147776",
+      "sha256": "c64a28b04d55dc3e0c9bf7f118ecce25cc1f2f0bd67dad7d3ed97376ced53611"
+    }
+  ],
+  "screenshots": [
+    "F03_MISC_PENDING_AR_DESKTOP.png",
+    "F03_MISC_PENDING_CASH_DESKTOP.png",
+    "F03_MISC_PENDING_OVERVIEW_DESKTOP.png",
+    "F03_MISC_PENDING_REPORT_DESKTOP.png",
+    "F03_MISC_POSTED_DESKTOP.png",
+    "F03_MISC_POSTED_MOBILE.png",
+    "F03_MISC_RETIRED_DESKTOP.png",
+    "F03_MISC_RETIRED_MOBILE.png",
+    "F03_MISC_REVERSED_MOBILE.png",
+    "F03_MISC_REVERSED_DESKTOP.png",
+    "F03_MISC_UNCERTAIN_DESKTOP.png"
+  ],
+  "original_source_identity": {
+    "label": "T3_PREP",
+    "tool_head": "fd702d7235d270add2da38143a22d5ed45c47685",
+    "product_ref": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "37258654208",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Native Misc Finance",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "fd702d7235d270add2da38143a22d5ed45c47685",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "outer_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "catalog_verification": {
+    "raw_snapshots_retained": true,
+    "snapshots_checked": 20,
+    "original_canonical_hashes_recomputed": true,
+    "every_snapshot_full_state_equal": true,
+    "dropped_fields": [],
+    "restoration_order_only_difference_independently_recomputed": true,
+    "read_only_sensitivity_controls_recomputed": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_cp7_acceptance": false,
+  "previous_failures_preserved": true
+}

@@ -1,3 +1,5 @@
+Current source qualification · 5 October 2026: [RESUME_QUALIFICATION_20261005](RESUME_QUALIFICATION_20261005.md). fd702d7 SalesChain25/25, SupplierReturns12/12 and MiscFinance14/14 PASS with exact Original run/source/restoration/Auth gates. This closes those three b215 failures. Posted cutting correction, actual recipe/allocation/full P08 and full P18/P19/P20/P21 remain open. Earlier candidate states and failures below retain their historical scope.
+
 # Koreksi dan pembatalan transaksi · 3 Oktober 2026
 
 Ini status CP7 sesudah merge Claude. Bukti mengikuti commit yang benar-benar diuji. CURRENT_PROGRESS.md dan CURRENT_STATE.json memisahkan hasil lolos dari penerus yang masih diuji. Independent acceptance dan production GO tetap false.

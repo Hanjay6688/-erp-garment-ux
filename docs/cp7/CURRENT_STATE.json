@@ -3436,7 +3436,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-03: Claude f4049e4f integrated without conflict. All 50 initially successful workflows plus exact planner/netting successors and final five-workflow harness suite qualify. Native Shell1297/140 plus6 browser/security/build/twoCodeQL; note40, receipt42, cutting57, all eight F03 buckets, frozen-analysis152 and attention284 pass. First failure and source-bound Originals retained. Whole CP7 and independent/production acceptance remain open.",
+  "last_writer_checkpoint": "2026-10-05: recovered original writer chat 02:44:40 WIB differs from b215 commit 01:19:46 WIB. Successor fd702d7 qualifies SalesChain25, SupplierReturns12, MiscFinance14 and Native Shell1492/138 plus6 browser; exact Originals retained, first b215/419 failures preserved. Full CP7/P08/P18/P19/P20/P21 and production/independent acceptance remain open.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Merged declared packages pass with exact source-bound lineage: Native Shell1297/140+6 browser/build/security/twoCodeQL, note40, receipt42, cutting57, all eight F03 buckets, frozen-analysis152, attention284, planner2/netting82. No full-family or independent acceptance.",
   "latest_tested_source": "0642d1bcd6df09505be7ea6d030c61a585722c04",
@@ -4175,7 +4175,7 @@
     "context_recovery": "docs/cp7/WRITER_RESUME_20261005.md",
     "current_mandate": "Resume CP7 from latest observed b215 after repeated context/chat/ref/CI checks, current conversation",
     "enforcement": "No newer original writing observed; explicit Oct5 STOP is not proven. Remote recheck before publication, no force push, halt on unexpected movement.",
-    "last_observed_upstream": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
+    "last_observed_upstream": "fd702d7235d270add2da38143a22d5ed45c47685",
     "previous_writer_status": "NO_NEWER_ACTIVITY_OBSERVED_EXPLICIT_STOP_UNKNOWN",
     "writer": "Hansen-authorized Codex continuation, 5 October 2026 WIB"
   },
@@ -10563,7 +10563,7 @@
     "qualification_claimed": false
   },
   "writer_resume_20261005": {
-    "status": "OWNER_REPEATED_CONDITIONAL_CONTINUATION_ISOLATED_BRANCH",
+    "status": "WRITER_NATIVE25_12_14_SOURCE_QUALIFIED",
     "base": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
     "base_tree": "bf0cc47ffeb35437fff84200efcf5cb1210082f8",
     "last_original_writer_chat_WIB": "2026-10-05T02:44:40+07:00",
@@ -10582,7 +10582,38 @@
       "writer": "Hansen-authorized Codex continuation, 5 October 2026 WIB"
     },
     "contract": "docs/cp7/WRITER_RESUME_20261005.md",
-    "publication": "Only checked canonical fast-forward; unexpected movement stops writing; never force push"
+    "publication": "Only checked canonical fast-forward; unexpected movement stops writing; never force push",
+    "tested_source": "fd702d7235d270add2da38143a22d5ed45c47685",
+    "tested_tree": "b91e3264ec50b6eea2003cb54f82ab6078799826",
+    "qualification": "docs/cp7/RESUME_QUALIFICATION_20261005.md",
+    "first_successor_sales_failure_preserved": "docs/cp7/evidence/sales-chain/first-419369a/RECEIPT.json",
+    "Native_counts": {
+      "sales_chain": 25,
+      "supplier_returns": 12,
+      "misc_finance": 14
+    },
+    "Native_Shell": {
+      "run": 37258654086,
+      "application_tests": 1492,
+      "failed": 0,
+      "browser_shell_tests": 6,
+      "F04_private_kernels": 138
+    },
+    "context_scope": {
+      "loose_ERP_documents": 328,
+      "loose_extra_files": 7,
+      "ERP_archives": 160,
+      "CRC_valid_archives": 159,
+      "damaged_archive_recovered_contexts": 18,
+      "archive_context_member_occurrences": 1816,
+      "archive_context_unique_hashes": 1410,
+      "full_chat_transcript_recovered": false,
+      "encrypted_CP2_backup_bytes_recovered": false
+    },
+    "full_cp7_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "prior_root_writer_checkpoint": "2026-10-03: Claude f4049e4f integrated without conflict. All 50 initially successful workflows plus exact planner/netting successors and final five-workflow harness suite qualify. Native Shell1297/140 plus6 browser/security/build/twoCodeQL; note40, receipt42, cutting57, all eight F03 buckets, frozen-analysis152 and attention284 pass. First failure and source-bound Originals retained. Whole CP7 and independent/production acceptance remain open."
   },
   "f03_catalog_successor": {
     "status": "B215_ORIGINAL_INCOMPLETE_RAW_EXACT_ADAPTER_AUTHORED",
