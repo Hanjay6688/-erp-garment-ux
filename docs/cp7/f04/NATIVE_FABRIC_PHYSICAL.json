@@ -138,5 +138,10 @@
   "refusal": "CP7_FABRIC_PHYSICAL_LIMIT above a bound, never silent truncation",
   "shell_control": "scale_bounds_empty_rolls_excluded_open_PO_never_cut_by_closed_lines (fails on the previous SQL)",
   "refusal_control": "scale_bound_refusal_20001_held_rolls_or_10001_open_PO_lines_never_truncated"
+ },
+ "successor_oracles": {
+  "P08_PHYSICAL_POSTED_ISSUE_ONCE": "after an actual Native POST the cut WIP identity is unproven: planning gap and every fabric fact UNKNOWN (no number); the posted group is not a draft and the roll holds 10-6=4 (counted once). First oracle (gross known, allocated 4) failed in CI run 37374383973 and is retained.",
+  "P08_PHYSICAL_REAL_MVCC_NATIVE_POST": "same post-commit successor oracle; pre-commit invisibility unchanged",
+  "browser_report": "shared report now cites the sources of all four facts, so CP7_FABRIC_FREE_STOCK and CP7_FABRIC_OPEN_COMMITMENTS appear"
  }
 }

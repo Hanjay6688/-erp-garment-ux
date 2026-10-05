@@ -41,6 +41,7 @@ LOCAL_PG16_DEV: pemasangan bundel analisis + seluruh rantai pengingat beserta ve
 
 | Run | Commit | Hasil | Catatan |
 |---|---|---|---|
+| 37374231262 | 6f3216e2 | **fabric-rule11 PASS 11/11** (7 DB, 1 race, 1 Auth/HTTP, 2 browser) | Juga pada head 7c7f90db: attention284 PASS dengan SQL pengingat baru (run 37374383973), Shell S0 PASS 28 kontrol (37374384031), CodeQL PASS (37374231260). |
 | 37366015710 | 7b89f767 | fabric-rule11 INCOMPLETE 9/11; rule-lifecycle16 PASS; p18-e01-9 PASS | DB 7/7, race 1/1, Auth/HTTP 1/1 lulus. Browser 0/2: skrip memanggil fixture `state` tanpa `today` (`KeyError`); diperbaiki di skrip/fixture saja. Shell S0 (37366015538) dan CodeQL (37366015467) PASS pada head yang sama. |
 
 ## Batas skala (catatan P19)

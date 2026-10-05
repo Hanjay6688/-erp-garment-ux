@@ -344,3 +344,13 @@ Keputusan: nol yang masih asumsi tidak pernah "selesai"; UNKNOWN atau resep belu
 - **attention284 pada ebf3a394 (run 37360628807) PASS**, tetapi itu sebelum perubahan SQL pengingat. Bukti 284 untuk P18 masih menunggu run baru.
 - **Kegagalan pertama tetap tercatat** di `NATIVE_FABRIC_PHYSICAL.md` dan `P18_FABRIC_RULE.md`.
 
+### 10.2 Status CI (5 Okt 2026, 23:15 UTC)
+
+- **P18 lulus penuh.** fabric-rule11 PASS 11/11 (run 37374231262). attention284 PASS dengan SQL pengingat baru (run 37374383973). rule-lifecycle16 dan p18-e01-9 PASS (run 37366015710).
+- **P08:** fabric13-successor, analysis152, plan39 dan attention284 PASS. Shell S0 PASS (28 kontrol), CodeQL PASS, receipt-correction PASS (rerun).
+- **fabric-physical21: 17/21.** Kegagalan pertamanya tetap tercatat. Dua sisa diperbaiki:
+  1. Oracle penerus untuk kasus POST nyata. Celah rencana memang UNKNOWN setelah potongan diposting, jadi oracle sekarang membuktikan pengeluaran terhitung sekali lewat sumber fisik.
+  2. Laporan bersama sekarang mengutip sumber semua fakta, sehingga rujukan stok bebas dan PO tampil.
+
+  `src/nativeAnalysis.ts` (`analysisReport`) berubah. Konsumen pembanding laporan memakai fungsi yang sama, jadi tetap konsisten.
+

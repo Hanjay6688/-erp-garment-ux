@@ -70,6 +70,21 @@ def upper(m,bound_value):
  """External is UNKNOWN for ambiguous same-model WIP, with the exact bound."""
  assert m['additional_external']['reason']=='FABRIC_WIP_IDENTITY_UNRESOLVED'and f'paling banyak {bound_value} 'in m['reason'],m
  return m
+def physical_block(cur,run):
+ b.api.admin(cur);return cur.execute("select facts->'fabric_source'->'physical' from cp7_analysis_native.runs where id=%s",(run,)).fetchone()[0]
+def posted_once_oracle(cur,e,target,gid,p):
+ """Successor of the first oracle (CI run 37374383973): after an actual
+ Native POST the cut WIP identity is unproven, so the shared planning gap is
+ UNKNOWN and the whole fabric row stays UNKNOWN (never a number). The issue is
+ still counted exactly once in the physical source: the posted group is no
+ longer an unposted draft and the roll holds 10-6=4 at its location."""
+ r=next(x for x in e['analysis']['recommendations']if x['target']['key']==target)
+ assert r['q_conditional']['state']=='UNKNOWN'and'value'not in r['q_conditional'],r['q_conditional']
+ m=row(e,target);assert all(m[k]['state']=='UNKNOWN'and'value'not in m[k]for k in('gross',)+KEYS),m
+ ph=physical_block(cur,e['run_id']);assert all(d['id']!=gid for d in ph['drafts']),ph['drafts']
+ roll_id,location_id=p['cutting']['rolls'][0]['roll_id'],p['cutting']['source_location_id']
+ stock=next(x for x in ph['rolls']if x['id']==roll_id)['stock'];assert stock==[{'location_id':location_id,'qty':'4'}],stock
+ return m,stock
 def material(f):return f['payload']['config']['material_id']
 def roll(f):return f['plan']['payload']['cutting']['rolls'][0]['roll_id']
 def location(f):return f['plan']['payload']['cutting']['source_location_id']
@@ -192,10 +207,8 @@ def cases(cur,today):
   from cp7_plan_actual_cases import post
   f=recipe(cur,today);gid,p=link(cur,today,f,'6');p['cutting']['rolls'][0].update(qty_consumed='6',qty_reported_remaining='0')
   b.chain.production.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(p['cutting'],id=gid,action='SAVE_DRAFT',change_reason='P08 consume whole issue'),expected_version=int(b.chain.base.group_version(cur,gid)))
-  b.api.admin(cur);post(cur,dict(payload=p,group=gid));b.api.admin(cur);e=capture(cur,today);m=row(e,f['target'])
-  expect(m,None,'4',None,external_reason='FABRIC_WIP_IDENTITY_UNRESOLVED');upper(m,str(max(D(0),D(m['gross']['value'])-4)))
-  assert not refs(m['unused_allocated_proven'],'erp.cutting_groups')
-  return dict(status='PASS',actual_Native_POST_issue6_stock10_to4_counted_once_issue_not_allocation=True,complete_material_row=m)
+  b.api.admin(cur);post(cur,dict(payload=p,group=gid));b.api.admin(cur);e=capture(cur,today);m,stock=posted_once_oracle(cur,e,f['target'],gid,p)
+  return dict(status='PASS',actual_Native_POST_issue6_stock10_to4_counted_once_issue_not_allocation=True,cut_WIP_identity_unproven_gap_and_fabric_row_UNKNOWN_not_number=True,physical_roll_stock=stock,complete_material_row=m)
  def kernel():
   out=synthetic(cur)
   return dict(status='PASS',SYNTHETIC_KERNEL_ORACLE_NO_NATIVE_CREDIT=True,branches=out)
@@ -289,7 +302,7 @@ def races(tools,today):
     old=parent.read(cur,e['run_id']);assert old['source_state']=='ARCHIVED_STALE'and old['analysis']==e['analysis']
     fresh=capture(cur,today);n=row(fresh,f['target'])
     if kind=='RECEIPT':expect(n,'0','30','156')
-    else:expect(n,None,'4',None,external_reason='FABRIC_WIP_IDENTITY_UNRESOLVED');upper(n,str(max(D(0),D(n['gross']['value'])-4)));assert not refs(n['unused_allocated_proven'],'erp.cutting_groups')
+    else:n,_=posted_once_oracle(cur,fresh,f['target'],gid,p)
     conn.rollback()
    return dict(status='PASS',distinct_backend_pids=[holder_pid,reader_pid],uncommitted_physical_change_invisible_to_capture=True,
     commit_archives_immutable_original=True,fresh_capture_counts_once=True,before=m,after=n,kind=kind)
