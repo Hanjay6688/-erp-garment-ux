@@ -30,7 +30,7 @@ Native PostgreSQL Shell run **37258654086** passed **1,492 application tests in 
 
 The complete static security/frozen CP5/CP6/backend-ownership/build-secret/Auth checks, production build, four catalog-adapter unit controls and workflow/Python/diff checks passed. The earlier explicit local PGlite result stays **1,489 PASS / three FAIL**, with zero Native/Auth credit; its guard_subject fixture permission errors are not hidden. No grant or guard was weakened to repair that substitute-runtime result.
 
-The broader fd702d7 workflow status snapshot is recorded separately in `evidence/writer-resume-20261005/WORKFLOW_STATUS.json`. Workflow metadata success alone does not qualify every historical business result or close independent acceptance.
+All 24 workflows triggered for fd702d7 completed successfully. Their final source-bound workflow metadata and earlier 22/23-success snapshots are recorded separately in `evidence/writer-resume-20261005/WORKFLOW_STATUS.json`. Workflow metadata success alone does not qualify every historical business result or close independent acceptance.
 
 ## Expanded context recovery and exact limits
 
@@ -51,3 +51,7 @@ Binding context remains framework-v2's 271 requirements, 22 P00–P21 packets an
 | P20 / P21 | Independent acceptance and full installed candidate qualification remain open. The writer cannot issue its own independent acceptance. |
 
 Whole CP7, production GO, hosted/main changes and live WA remain unaccepted. This checkpoint closes the three recovered failures and records actual continuation; it does not declare the entire ERP complete.
+
+## Affected-family final regression
+
+All 24 fd702d7 workflows completed successfully. The final ordinary customer-return correction Original was separately inspected: 25/25 (16 Native, four races, three real Auth HTTP and two browser) PASS with current permissions, exact immutable source, full restoration, zero session/lock leaks, all package/advisor gates and Auth0→0. Receipt: evidence/customer-return-correction/qualified25-fd702d7/RECEIPT.json, run37258654088. This is a current-source affected-family regression; it adds no product scope or self-issued independent acceptance.

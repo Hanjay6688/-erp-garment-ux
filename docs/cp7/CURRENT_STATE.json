@@ -10616,7 +10616,23 @@
     "full_cp7_acceptance": false,
     "independent_acceptance": false,
     "production_go": false,
-    "prior_root_writer_checkpoint": "2026-10-03: Claude f4049e4f integrated without conflict. All 50 initially successful workflows plus exact planner/netting successors and final five-workflow harness suite qualify. Native Shell1297/140 plus6 browser/security/build/twoCodeQL; note40, receipt42, cutting57, all eight F03 buckets, frozen-analysis152 and attention284 pass. First failure and source-bound Originals retained. Whole CP7 and independent/production acceptance remain open."
+    "prior_root_writer_checkpoint": "2026-10-03: Claude f4049e4f integrated without conflict. All 50 initially successful workflows plus exact planner/netting successors and final five-workflow harness suite qualify. Native Shell1297/140 plus6 browser/security/build/twoCodeQL; note40, receipt42, cutting57, all eight F03 buckets, frozen-analysis152 and attention284 pass. First failure and source-bound Originals retained. Whole CP7 and independent/production acceptance remain open.",
+    "affected_source_workflows": {
+      "tested_source": "fd702d7235d270add2da38143a22d5ed45c47685",
+      "success": 24,
+      "failed": 0,
+      "pending": 0,
+      "evidence_class": "CI_METADATA",
+      "full_business_or_independent_acceptance": false
+    },
+    "affected_family_customer_return_correction": {
+      "source": "fd702d7235d270add2da38143a22d5ed45c47685",
+      "status": "WRITER_NATIVE25_PASS",
+      "run": 37258654088,
+      "receipt": "docs/cp7/evidence/customer-return-correction/qualified25-fd702d7/RECEIPT.json",
+      "production_go": false,
+      "independent_acceptance": false
+    }
   },
   "f03_catalog_successor": {
     "status": "B215_ORIGINAL_INCOMPLETE_RAW_EXACT_ADAPTER_AUTHORED",
