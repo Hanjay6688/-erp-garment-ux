@@ -78,6 +78,8 @@ def measure(cur, query, actor):
                  (source, q, uuid.uuid4(), access))
             read('COMPOSED_NETTING',
                  'select cp7_netting_native.build(%s::jsonb,cp7_planning.history_query(%s::jsonb))::text', (source, q))
+            read('HISTORY_AVAILABILITY',
+                 'select cp7_planning.history_availability(%s::jsonb,cp7_planning.history_query(%s::jsonb))::text', (source, q))
             read('COMPLETE_NATIVE_SOURCE_AGAIN',
                  'select cp7_analysis_native.source(cp7_planning.history_query(%s::jsonb))::text', (q,))
             read('NATIVE_FINANCIAL_SOURCE',
@@ -120,6 +122,8 @@ def cases_provider(cur, today):
             if target in (4, 12):
                 observation['experimental_pure_compile'] = equivalence.compare(
                     cur, cases.previous.baseline.history.query(today), subject)
+                observation['complete_history_SQL_comparison'] = equivalence.compare_history(
+                    cur, cases.previous.baseline.history.query(today), subject)
             cases.b.api.admin(cur)
             assert cases.b.boundary.snapshot(cur) == before, 'DIAGNOSTIC_CHANGED_NATIVE_BUSINESS'
             assert cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0] == originals_before
@@ -141,6 +145,8 @@ def cases_provider(cur, today):
             observation = measure(cur, cases.previous.baseline.history.query(today), subject)
             if target in (4, 12):
                 observation['experimental_pure_compile'] = equivalence.compare(
+                    cur, cases.previous.baseline.history.query(today), subject)
+                observation['complete_history_SQL_comparison'] = equivalence.compare_history(
                     cur, cases.previous.baseline.history.query(today), subject)
             cases.b.api.admin(cur)
             assert cases.b.boundary.snapshot(cur) == before, 'DIAGNOSTIC_CHANGED_NATIVE_BUSINESS'

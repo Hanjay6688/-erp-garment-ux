@@ -1,6 +1,6 @@
 {
   "contract": "cp7.cutting-reopen-handoff.v1",
-  "status": "SECOND_NATIVE14_OF19_FIVE_MOVEMENT_OBSERVATIONS_INCOMPLETE_FULL_UTC_SUCCESSOR19_PENDING",
+  "status": "NATIVE19_PASS_E206_WRITER_VISUAL_CONTRAST_REPAIR_SUCCESSOR19_PENDING",
   "base_commit": "3fbca363fa39c8a8a248129e20519fb13cf937ce",
   "base_tree": "1a4b8cf5f6ab2af54a1d9fa058980b27147658f2",
   "scope": "UNPICKED_POSTED_CUTTING_EXISTING_NATIVE_INVERSE_AND_SEPARATE_FOLLOWING_DRAFT_EDIT",
@@ -104,7 +104,7 @@
     "Retained source78 browser/readonly journeys",
     "Full Shell build/security/CodeQL and affected F03 exact34-role regressions"
   ],
-  "Native_qualified": false,
+  "Native_qualified": true,
   "full_family_acceptance": false,
   "whole_CP7_complete": false,
   "full_P08_acceptance": false,
@@ -142,5 +142,12 @@
     "required_fresh_case_count": 19,
     "local_display_control": "docs/cp7/evidence/cutting-reopen/movement-observer-local/SQL_DISPLAY_CONTROL.json"
   },
-  "qualified_supplier_current_authority": "docs/cp7/evidence/cutting-reopen/qualified-supplier6-d68/RECEIPT.json"
+  "qualified_supplier_current_authority": "docs/cp7/evidence/cutting-reopen/qualified-supplier6-d68/RECEIPT.json",
+  "qualified19_Original": "docs/cp7/evidence/cutting-reopen/qualified19-e206/RECEIPT.json",
+  "writer_visual": {
+    "committed_text_readability": "FAIL_DARK_TEXT_INHERITED_ON_DARK_PANEL",
+    "reviewed_original": "CP7_CUTTING_REOPEN_COMMITTED_DESKTOP.png",
+    "successor": "Own actual dark surface/text tokens and enabled text contrast assertions within unchanged desktop/mobile cases",
+    "fresh_case_count": 19
+  }
 }

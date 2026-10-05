@@ -1,0 +1,215 @@
+{
+  "contract": "cp7.history-availability-full-SQL-parity.v1",
+  "status": "PASS",
+  "runtime": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+  "version": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "previous_source_sha256": "82b49380ecb8f0ae61415414fa0cc4fce08718012b795cd19c2c22754fd50c95",
+  "candidate_source_sha256": "53058a964a1aad72bc04400ce5fd47f771b3b1995c7215052c48f7aaa9288d32",
+  "cases": [
+    {
+      "id": "empty_scope",
+      "status": "PASS",
+      "rows": 0,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "no_stock",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "strict_before_WIB_midnight",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "incoming_at_WIB_midnight",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "zero_then_replenished_within_day",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "negative_intraday_then_replenished",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "negative_opening",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "established_one_microsecond_after_open",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "same_clock_numeric_book_order",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "same_clock_ID_tie_break",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "sellable_grade_B_and_non_sellable_excluded",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "precise_tiny_positive_opening",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "last_day_upper_boundary_excluded",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "one_root_never_uses_another_stock",
+      "status": "PASS",
+      "rows": 6,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "multi_root_ordered_prefix_0",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_1",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_2",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_3",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_4",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_5",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_6",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_7",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_8",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_9",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_10",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "multi_root_ordered_prefix_11",
+      "status": "PASS",
+      "rows": 21,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": false
+    },
+    {
+      "id": "observing_timezone_Asia/Jakarta",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    },
+    {
+      "id": "observing_timezone_America/Los_Angeles",
+      "status": "PASS",
+      "rows": 3,
+      "complete_prior_SQL_parity": true,
+      "literal_oracle": true
+    }
+  ],
+  "passed": 28,
+  "operational_boundary_unchanged": true,
+  "Native_business_case_credit": 0,
+  "Auth_HTTP_credit": 0,
+  "browser_credit": 0,
+  "full_P19_acceptance": false,
+  "source_caps_changed": false,
+  "statement_timeouts_changed": false,
+  "cleanup": "CLOSED_DISPOSABLE_RUNTIME"
+}

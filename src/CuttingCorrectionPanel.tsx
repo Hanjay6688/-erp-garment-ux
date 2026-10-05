@@ -63,7 +63,7 @@ export default function CuttingCorrectionPanel({ source, parentReady, onCommitte
   const current = data && target && data.groupId === target.groupId && data.rowVersion === target.rowVersion && !recovery.workspaceStale
   const disabled = !allowed || !parentReady || recovery.writerLocked || busy || !current || !data?.eligible
   if (!open && !recovery.pending && !done && !(allowed && target)) return null
-  return <section className="panel cproc-review" aria-label="Koreksi potongan tercatat">
+  return <section className="panel cproc-review cp7-cutting-correction" aria-label="Koreksi potongan tercatat">
     {recovery.pending || recovery.error ? <ProductionRecoveryNotice recovery={recovery} onReconcile={() => reconcile(handlers)} className="cpick-message error" reconcileLabel="Periksa hasil koreksi potongan"/> : null}
     {done ? <p role="status">{done}</p> : null}
     {allowed && target && !open ? <button type="button" disabled={!parentReady || recovery.busy || Boolean(recovery.pending)} onClick={() => { setOpen(true); setDone(''); void load() }}>Periksa koreksi potongan</button> : null}

@@ -1,6 +1,6 @@
 {
   "contract": "cp7.stock-popup-shared-Original-handoff.v1",
-  "status": "FIRST_NATIVE7_OF9_EMPTY_RECOMMENDATION_BROWSER_INCOMPLETE_REAL_E01_TARGET_SUCCESSOR_PENDING",
+  "status": "WRITER_NATIVE9_FULL_SIX_CONSUMER_STOCK_POPUP_E01_BRIDGE_PASS_E206_FULL_P18_OPEN",
   "base_commit": "5fb7579efa49780ef0229237c4e781291203eb83",
   "scope": "SAME_VALIDATED_NATIVE_ANALYSIS_IN_STOCK_POPUP_PRODUCTION_REPORT_REMINDER_AND_MANUAL_AI_HANDOFF",
   "data": "Stock rows and popup render exact validated Native FactValue bodies, run/source/semantic hashes, full source/assumptions and explicit UNKNOWN; no new calculation or recapture.",
@@ -40,5 +40,12 @@
     "required_fresh_native9": true,
     "required_fresh_retained_lifecycle16": true,
     "new_unique_lifecycle_credit": 0
+  },
+  "qualified9_Original": "docs/cp7/evidence/p18-e01-bridge/qualified9-e206/RECEIPT.json",
+  "retained_lifecycle16_Original": "docs/cp7/evidence/rule-lifecycle/qualified16-e206/RECEIPT.json",
+  "writer_visual": {
+    "reviewed": "P18_SHARED_STOCK_POPUP_MOBILE.png",
+    "exact_stock45_target100_assumption_gap55_UNKNOWN_material_and_feasible_clear": true,
+    "independent_demo_acceptance": false
   }
 }

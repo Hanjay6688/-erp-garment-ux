@@ -1,0 +1,244 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "e206a2454faddb2734992e4aada6b36b7db69615",
+  "source_tree": "3d04d948ae5540546403630bbf61322d8b3601a2",
+  "run_id": 37277660224,
+  "job_id": 111658184465,
+  "artifact_id": 11330834490,
+  "artifact_bytes": 17534516,
+  "artifact_sha256": "aa1baa4595a974d7b2a1520b7e34a123236302d2a365aa8d29c41ba82586f6c1",
+  "artifact_CRC": "PASS",
+  "status": "WRITER_QUALIFIED_9_COMPLETE_CASE_BODIES_PASS",
+  "expected_case_count": 9,
+  "observed_case_count": 9,
+  "counts": {
+    "native": {
+      "PASS": 5
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "actual_ids": {
+    "native": [
+      "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+      "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+      "P18_E01_CURRENT_AUTHORITY",
+      "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+      "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL"
+    ],
+    "races": [
+      "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT"
+    ],
+    "http": [
+      "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT"
+    ],
+    "browser": [
+      "P18_E01_BRIDGE_BROWSER_DESKTOP",
+      "P18_E01_BRIDGE_BROWSER_MOBILE"
+    ]
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_P18_E01_BRIDGE.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png",
+    "P18_E01_BRIDGE_ARCHIVE_MOBILE.png",
+    "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png",
+    "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png",
+    "P18_E01_BRIDGE_PREVIEW_DESKTOP.png",
+    "P18_E01_BRIDGE_PREVIEW_MOBILE.png",
+    "P18_E01_BRIDGE_RECOVERED_DESKTOP.png",
+    "P18_E01_BRIDGE_RECOVERED_MOBILE.png",
+    "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png",
+    "P18_E01_E08_SHARED_HANDOFF_MOBILE.png",
+    "P18_SHARED_STOCK_DESKTOP.png",
+    "P18_SHARED_STOCK_MOBILE.png",
+    "P18_SHARED_STOCK_POPUP_DESKTOP.png",
+    "P18_SHARED_STOCK_POPUP_MOBILE.png"
+  ],
+  "full_job_log_original_sha256": "e17e292c989b2e88edfbbbe954be3c73f987c509b7dfcf4f42d32cf11a2ec609",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385615,
+      "crc32": "a919126d",
+      "sha256": "6ae7d03b0f7e6607260eebe1b636db61f07e77ddde2b5498fcd65ff26f7b2f33"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385615,
+      "crc32": "a919126d",
+      "sha256": "6ae7d03b0f7e6607260eebe1b636db61f07e77ddde2b5498fcd65ff26f7b2f33"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "e90a56dc",
+      "sha256": "99ba1ad483e6b5fad2eee9d774ae00016d9d776bf12a809cdaf9ba3a6b9bf49f"
+    },
+    {
+      "name": "CP7_P18_E01_BRIDGE.json",
+      "bytes": 283757,
+      "crc32": "e5269642",
+      "sha256": "a1fc8d96a6908ed59c2fb5a4cb39df9a70fdbc3b762ab3a190bbf86ccbbe3d0d"
+    },
+    {
+      "name": "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png",
+      "bytes": 2089675,
+      "crc32": "201bc3f7",
+      "sha256": "407fd909553e3223ec4190f17fb5c242a85a86d34853431a7567559e8fcdfaa2"
+    },
+    {
+      "name": "P18_E01_BRIDGE_ARCHIVE_MOBILE.png",
+      "bytes": 1224371,
+      "crc32": "6c6c4996",
+      "sha256": "b96980c823524a9dd00cb18426f0aeda6bc3235cb828ec5952fd8bb23dc6f46a"
+    },
+    {
+      "name": "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png",
+      "bytes": 963902,
+      "crc32": "2f1d8b6f",
+      "sha256": "1b431b108bff9fb1dd4d56d6ec2548bfbd3b556d6144222bc3c730fab884177c"
+    },
+    {
+      "name": "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png",
+      "bytes": 535872,
+      "crc32": "2da9b6fa",
+      "sha256": "6aaedffccd71076b10be56ab49e9dfb667000f2a72e8fdd69cb58029a328631a"
+    },
+    {
+      "name": "P18_E01_BRIDGE_PREVIEW_DESKTOP.png",
+      "bytes": 2027207,
+      "crc32": "cc3800bb",
+      "sha256": "a1af0172d26282692a2d07bc6b6e5890c2c639ce543fda518b6ed35d2d71b947"
+    },
+    {
+      "name": "P18_E01_BRIDGE_PREVIEW_MOBILE.png",
+      "bytes": 1176702,
+      "crc32": "3819f558",
+      "sha256": "661628c4b563fc380bb73747afa94a39b0b290840fbfc5db20bee59c83c209cb"
+    },
+    {
+      "name": "P18_E01_BRIDGE_RECOVERED_DESKTOP.png",
+      "bytes": 1732677,
+      "crc32": "8dfe8d20",
+      "sha256": "e47009c0f9bfc58eb19b616f744895e0dd9eb4805533c87f8c545ef447319597"
+    },
+    {
+      "name": "P18_E01_BRIDGE_RECOVERED_MOBILE.png",
+      "bytes": 796806,
+      "crc32": "f5f4e947",
+      "sha256": "8008c67e1462b2f85c6a2ebfe145032065d9a040145bb740767f894843259b39"
+    },
+    {
+      "name": "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png",
+      "bytes": 1624897,
+      "crc32": "55d1c2b6",
+      "sha256": "a36f35ac708258f7faa7d0bc53323734fb95e2635ec8d2f290f60bd43050e66d"
+    },
+    {
+      "name": "P18_E01_E08_SHARED_HANDOFF_MOBILE.png",
+      "bytes": 984866,
+      "crc32": "3e5a5cc4",
+      "sha256": "627ce0a5ebf22614e14d3e05164602089eda0bc5c4c51ad4bc55a9d606a9ee3b"
+    },
+    {
+      "name": "P18_SHARED_STOCK_DESKTOP.png",
+      "bytes": 1142405,
+      "crc32": "6f1850ce",
+      "sha256": "cc91f2f2a6f1d09331f7568ca1c84e3277df04551e7337a42c58bbd34cb60f17"
+    },
+    {
+      "name": "P18_SHARED_STOCK_MOBILE.png",
+      "bytes": 929102,
+      "crc32": "51346877",
+      "sha256": "1132b6abb18165b89f3c9400d0c8c603192f5319b1e4e579c5b54db185af961e"
+    },
+    {
+      "name": "P18_SHARED_STOCK_POPUP_DESKTOP.png",
+      "bytes": 618240,
+      "crc32": "df2f1dea",
+      "sha256": "3ccd8ffc988f5516c101d2514694a374cd6ac270fce05175cb20afaf2604b2b0"
+    },
+    {
+      "name": "P18_SHARED_STOCK_POPUP_MOBILE.png",
+      "bytes": 458321,
+      "crc32": "3ce04c2a",
+      "sha256": "178f2f45078ca7261fb19748f2c260674c1175991d9a6468be71314a446d5bb1"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "6b4189bf",
+      "sha256": "4925c8e0afe474d1f5183477634d6449000e0dfd29e2ee3ee22972cb92e8fbba"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360411,
+      "crc32": "2b612b29",
+      "sha256": "1735cf3097867411845281c64fe916715afa841725fb06a68af4a7efc2d287c6"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "installed_status": "ALL_STAGES_INSTALLED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "PASS",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

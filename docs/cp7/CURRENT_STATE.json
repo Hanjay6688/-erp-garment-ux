@@ -10885,4 +10885,39 @@
     "installed_P21_acceptance": false,
     "production_go": false
   }
+,
+  "continuation_e206_source_bound_outcomes": {
+    "source_commit": "e206a2454faddb2734992e4aada6b36b7db69615",
+    "source_tree": "3d04d948ae5540546403630bbf61322d8b3601a2",
+    "cutting19": {
+      "status": "19_PASS",
+      "receipt": "docs/cp7/evidence/cutting-reopen/qualified19-e206/RECEIPT.json",
+      "exact_full_UTC_movement_pairs": 5,
+      "old_d68_movement_cause_proved": false,
+      "writer_visual_contrast_failure": true,
+      "successor_fresh19_required": true
+    },
+    "cost4": {
+      "status": "4_PASS",
+      "receipt": "docs/cp7/evidence/cost-continuation/qualified4-e206/RECEIPT.json",
+      "full_raw_catalog_snapshots": 10,
+      "old_d68_per_case_cause_proved": false
+    },
+    "p18_bridge9": {
+      "status": "9_PASS",
+      "receipt": "docs/cp7/evidence/p18-e01-bridge/qualified9-e206/RECEIPT.json",
+      "six_consumer_same_Original_current_Auth_and_recovery": true,
+      "full_P18_acceptance": false
+    },
+    "retained_lifecycle16": {
+      "status": "16_PASS",
+      "receipt": "docs/cp7/evidence/rule-lifecycle/qualified16-e206/RECEIPT.json"
+    },
+    "whole_CP7_complete": false,
+    "full_P08_acceptance": false,
+    "full_P19_acceptance": false,
+    "independent_P20_acceptance": false,
+    "installed_P21_acceptance": false,
+    "production_go": false
+  }
 }
