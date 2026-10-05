@@ -37,6 +37,12 @@ Tujuh DB: aktif dari Original (176 ASSUMED), kebijakan satuan persis (layak/di b
 
 LOCAL_PG16_DEV: pemasangan bundel analisis + seluruh rantai pengingat beserta verifikasinya PASS. Uji asap `condition_rows` sesuai rancangan (ACTIVE/NO_CURRENT_GAP/DATA_REVIEW/SOURCE_CHANGED, satuan beda → UNIT_REVIEW_REQUIRED). Uji unit penerima dan panel PASS. Kualifikasi Native wajib di CI (workflow `claude-p18-fabric-rule.yml`); attention284, rule-lifecycle16 dan p18-e01-9 wajib dikualifikasi ulang karena SQL pengingat berubah.
 
+## Riwayat CI
+
+| Run | Commit | Hasil | Catatan |
+|---|---|---|---|
+| 37366015710 | 7b89f767 | fabric-rule11 INCOMPLETE 9/11; rule-lifecycle16 PASS; p18-e01-9 PASS | DB 7/7, race 1/1, Auth/HTTP 1/1 lulus. Browser 0/2: skrip memanggil fixture `state` tanpa `today` (`KeyError`); diperbaiki di skrip/fixture saja. Shell S0 (37366015538) dan CodeQL (37366015467) PASS pada head yang sama. |
+
 ## Batas skala (catatan P19)
 
 Sumber kondisi menolak seluruhnya (`CP7_RULE_CONDITION_SCOPE_INCOMPLETE`) bila ada lebih dari 15.000 kondisi atau lebih dari 8 MB. Penolakan ini menyeluruh; tidak ada potongan sebagian. Jumlah kondisi kira-kira jumlah target × (1 produksi + baris aksesori + 1 kain), ditambah dokumen piutang/utang. `FABRIC_NEED` menambah satu kondisi per target, sehingga batas efektif jumlah target turun. Contoh: dengan rata-rata satu baris aksesori, batas efektifnya sekitar 5.000 target dikurangi jumlah dokumen tagihan. Uji beban P19 belum dijalankan; angka ini batas desain, bukan bukti kinerja.

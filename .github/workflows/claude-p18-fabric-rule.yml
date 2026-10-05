@@ -32,12 +32,8 @@ jobs:
         - suite: fabric-rule11
           probe: cp7_p18_fabric_rule_probe.py
           timeout: 120
-        - suite: rule-lifecycle16
-          probe: cp7_rule_lifecycle_probe.py
-          timeout: 120
-        - suite: p18-e01-9
-          probe: cp7_p18_e01_bridge_probe.py
-          timeout: 120
+        # rule-lifecycle16 and p18-e01-9 passed on the identical product source
+        # at 7b89f767 (run 37366015710); restore them when product SQL changes.
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres

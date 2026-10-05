@@ -11,6 +11,8 @@ def main():
  with psycopg.connect(url)as conn,conn.cursor()as cur:
   had=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0];acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
   if not had:cur.execute('grant usage on schema erp to authenticated')
+  # Every operation receives the same WIB day from the journey; refuse a missing one explicitly.
+  if 'today' not in p:raise ValueError('FABRIC_BROWSER_FIXTURE_TODAY_REQUIRED')
   today=date.fromisoformat(p['today'])
   if op=='prepare':
    # Bound opening WIP (no ambiguous same-model WIP), explicit synthetic rate2,

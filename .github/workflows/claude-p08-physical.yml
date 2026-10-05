@@ -35,12 +35,8 @@ jobs:
         - suite: fabric13-successor
           probe: cp7_fabric_recipe_probe.py
           timeout: 90
-        - suite: analysis152
-          probe: cp7_f05_analysis_probe.py
-          timeout: 90
-        - suite: plan39
-          probe: cp7_f04_plan_probe.py
-          timeout: 90
+        # analysis152 and plan39 passed on the identical product source at
+        # 7b89f767 (run 37366015511); restore them when product SQL changes.
         - suite: attention284
           probe: cp7_f05_attention_probe.py
           timeout: 180

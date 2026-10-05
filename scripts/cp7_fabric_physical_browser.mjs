@@ -18,17 +18,17 @@ async function journey(ui,today,mobile){
   assert.ok(m.unused_allocated_proven.refs.some(r=>r.kind==='CP7_FABRIC_FREE_STOCK'));assert.ok(m.additional_external.refs.some(r=>r.kind==='CP7_FABRIC_OPEN_COMMITMENTS'))
   assert.equal(e.analysis.recommendations.find(r=>r.target.key===f.target).feasible_new.state,'UNKNOWN');return m}
  try{
-  mkdirSync('cp6-proof/t3',{recursive:true});await open();const before=fixture('state',{actor:user.user.id})
+  mkdirSync('cp6-proof/t3',{recursive:true});await open();const before=fixture('state',{today,actor:user.user.id})
   first=await capture();const m=row(first,f.expected.unused,f.expected.external)
-  assert.deepEqual(fixture('state',{actor:user.user.id}).business,before.business)
+  assert.deepEqual(fixture('state',{today,actor:user.user.id}).business,before.business)
   const label=first.product_labels.find(l=>l.target_key===f.target).sku;await panel.getByLabel('Cari hasil analisis bersama',{exact:true}).fill(label)
   for(const text of['Kebutuhan kain','Terpasang terbukti: 0','Sisa layak yang sudah dialokasikan: 10','Tambahan dari luar: 126','PO terbuka','bukan reservasi stok','PO di luar ERP tidak terlihat','Kemampuan produksi global belum terbukti'])await ui.expect(materials).toContainText(text)
   await shot(`P08_PHYSICAL_ALLOCATED10_EXTERNAL126_${suffix}.png`)
-  const count=fixture('state',{actor:user.user.id}).analyses;await panel.getByRole('tab',{name:'Laporan',exact:true}).click();const report=await panel.getByLabel('Isi laporan ERP',{exact:true}).innerText()
+  const count=fixture('state',{today,actor:user.user.id}).analyses;await panel.getByRole('tab',{name:'Laporan',exact:true}).click();const report=await panel.getByLabel('Isi laporan ERP',{exact:true}).innerText()
   for(const text of['CP7_FABRIC_FREE_STOCK','CP7_FABRIC_OPEN_COMMITMENTS','tambahan eksternal 126'])assert.ok(report.includes(text),text)
   await panel.getByRole('tab',{name:'Tanya AI',exact:true}).click();const prompt=await panel.getByLabel('Pertanyaan dan sumber ERP',{exact:true}).innerText()
   for(const text of['CP7_FABRIC_FREE_STOCK','CP7_FABRIC_OPEN_COMMITMENTS'])assert.ok(prompt.includes(text),text)
-  assert.equal(fixture('state',{actor:user.user.id}).analyses,count)
+  assert.equal(fixture('state',{today,actor:user.user.id}).analyses,count)
   // Actual second receipt of the same fabric: the immutable Original is stale,
   // never silently refreshed; a fresh capture counts the new roll once.
   fixture('receive',{today,actor:user.user.id,material:f.material,roll:f.roll,location:f.location})

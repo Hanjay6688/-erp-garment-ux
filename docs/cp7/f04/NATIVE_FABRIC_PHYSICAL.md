@@ -67,7 +67,8 @@ LOCAL_PG16_DEV (5 Okt 2026): kontrol SQL Shell kain 27/27 PASS (kontrol batas sk
 | Run | Commit | Hasil | Catatan |
 |---|---|---|---|
 | 37357315101 | 1850619c | FAIL (5/5 suite, 0 kasus) | `F03_UNDECLARED_ACL_DELTA` pada `erp.bb_commitment_line_remaining_v1(uuid,uuid)`. Diperbaiki di ebf3a394 (hanya deklarasi). |
-| 37360628807 | ebf3a394 | fabric13 PASS, analysis152 PASS, plan39 PASS; fabric-physical21 INCOMPLETE (5 kasus + 1 race alur apply) | `CP7_PLAN_SOURCE_CHANGED` dari pemeriksaan ulang apply terhadap drafnya sendiri; diperbaiki seperti di atas. attention284 dicatat sesudah selesai. |
+| 37360628807 | ebf3a394 | fabric13 PASS, analysis152 PASS, plan39 PASS, attention284 PASS; fabric-physical21 INCOMPLETE 13/21 | Native 11/16 dan race 1/2: `CP7_PLAN_SOURCE_CHANGED` karena apply memeriksa ulang drafnya sendiri (diperbaiki di 0cb8994d). Browser 0/2: fixture `state` tanpa `today` (`KeyError`). |
+| 37366015511 | 7b89f767 | analysis152 PASS, plan39 PASS; fabric-physical21 INCOMPLETE 17/21; fabric13 dan attention284 tidak dijalankan | Perbaikan apply terbukti (semua kasus draf bertaut lulus). Sisa: `P08_PHYSICAL_POSTED_ISSUE_ONCE` dan race `NATIVE_POST`, karena fixture memanggil helper `post` milik GPT saat sesi masih berperan `authenticated` (izin baca `erp.cutting_groups`). Browser 0/2: `KeyError: 'today'` yang sama. Diperbaiki di fixture saja (kembali ke admin sebelum `post`; `today` dikirim pada setiap panggilan fixture); oracle tidak diubah. fabric13/attention284: "job was not acquired by Runner" (kapasitas runner, bukan kode), dijalankan ulang. |
 
 ## Batas
 

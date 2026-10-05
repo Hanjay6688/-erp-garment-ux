@@ -334,3 +334,13 @@ Dokumen: [`docs/cp7/p18/P18_FABRIC_RULE.md`](cp7/p18/P18_FABRIC_RULE.md) dan dek
 
 Keputusan: nol yang masih asumsi tidak pernah "selesai"; UNKNOWN atau resep belum direview menjadi `DATA_REVIEW` tanpa episode; ambang hanya dibandingkan dengan satuan yang sama persis (tanpa konversi atau penyamaan huruf); pratinjau hanya lokal. Kontrak tetap `cp7.native-rule-conditions.v2` karena belum terpasang di mana pun. Bila GPT ingin naik ke v3, penerima dan SQL perlu diubah bersamaan.
 
+### 10.1 Status CI (5 Okt 2026, 21:10 UTC)
+
+- **Head 7b89f767:** analysis152, plan39, rule-lifecycle16, p18-e01-9, Shell S0 dan CodeQL PASS.
+- **fabric-physical21: 17/21.** Perbaikan apply terbukti. Sisa kegagalan adalah dua fixture `post` yang masih berperan `authenticated`, ditambah dua browser dengan `today` hilang.
+- **fabric-rule11: 9/11.** Sisa kegagalan adalah dua browser karena `today` yang sama.
+- **Perbaikan** hanya di fixture/skrip uji. Oracle dan SQL produk tidak diubah.
+- **Tidak dijalankan karena kapasitas runner:** fabric13, attention284 dan receipt-correction ("job was not acquired by Runner"). Ketiganya dijalankan ulang.
+- **attention284 pada ebf3a394 (run 37360628807) PASS**, tetapi itu sebelum perubahan SQL pengingat. Bukti 284 untuk P18 masih menunggu run baru.
+- **Kegagalan pertama tetap tercatat** di `NATIVE_FABRIC_PHYSICAL.md` dan `P18_FABRIC_RULE.md`.
+

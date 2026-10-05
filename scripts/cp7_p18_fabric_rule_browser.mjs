@@ -14,7 +14,7 @@ async function journey(ui,today,mobile){
  async function click(region,label,name){const response=page.waitForResponse(r=>r.url().endsWith('/rpc/'+name));await region.getByRole('button',{name:label,exact:true}).click();const r=await response;assert.equal(r.status(),200,name);return r.json()}
  try{
   mkdirSync('cp6-proof/t3',{recursive:true});await navigate(page);await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()
-  const before=fixture('state',{actor:user.user.id})
+  const before=fixture('state',{today,actor:user.user.id})
   captured=await click(panel,'Ambil analisis ERP terbaru','erp_cp7_capture_analysis_v1')
   const need=captured.analysis.material_needs.find(m=>m.target_key===f.target&&m.material_key===`FABRIC_MATERIAL:${f.material}`);assert.ok(need);assert.equal(need.additional_external.state,'ASSUMED');assert.equal(need.additional_external.value,f.expected.external)
   const unit=need.additional_external.unit,key=`FABRIC_NEED:${f.target}:FABRIC_MATERIAL:${f.material}`
@@ -33,7 +33,7 @@ async function journey(ui,today,mobile){
   observed=await click(conditions,'Catat pemeriksaan kondisi ERP','erp_cp7_evaluate_rule_episodes_v1')
   const o=observed.result.rows.find(r=>r.condition.key===key);assert.ok(o);assert.equal(o.transition,'OPENED');assert.equal(o.episode.state,'ACTIVE');assert.equal(o.episode.freshness,'ASSUMED')
   await ui.expect(conditions.getByRole('region',{name:'Catatan pemeriksaan kondisi',exact:true})).toContainText('masih terbuka')
-  assert.deepEqual(fixture('state',{actor:user.user.id}).business,before.business)
+  assert.deepEqual(fixture('state',{today,actor:user.user.id}).business,before.business)
   await shot(`P18_FABRIC_RULE_EPISODE_${suffix}.png`)
   return{status:'PASS',actual_Auth_HTTP_FABRIC_NEED_ACTIVE_external126_ASSUMED_copied_exactly:true,explicit_fixture_policy100_same_unit_LOCAL_PREVIEW_ELIGIBLE:true,episode_opened_ACTIVE_ASSUMED_not_resolved:true,reads_and_reminder_metadata_leave_Native_business_unchanged:true,screenshots:shots,complete_condition:row,complete_observation:o}
  }catch(e){writeFileSync(`cp6-proof/t3/P18_FABRIC_RULE_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),text:await panel.innerText().catch(()=>''),captured,source,observed},null,2));await page.screenshot({path:`cp6-proof/t3/P18_FABRIC_RULE_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}

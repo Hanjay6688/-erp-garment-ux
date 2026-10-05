@@ -192,7 +192,7 @@ def cases(cur,today):
   from cp7_plan_actual_cases import post
   f=recipe(cur,today);gid,p=link(cur,today,f,'6');p['cutting']['rolls'][0].update(qty_consumed='6',qty_reported_remaining='0')
   b.chain.production.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(p['cutting'],id=gid,action='SAVE_DRAFT',change_reason='P08 consume whole issue'),expected_version=int(b.chain.base.group_version(cur,gid)))
-  post(cur,dict(payload=p,group=gid));b.api.admin(cur);e=capture(cur,today);m=row(e,f['target'])
+  b.api.admin(cur);post(cur,dict(payload=p,group=gid));b.api.admin(cur);e=capture(cur,today);m=row(e,f['target'])
   expect(m,None,'4',None,external_reason='FABRIC_WIP_IDENTITY_UNRESOLVED');upper(m,str(max(D(0),D(m['gross']['value'])-4)))
   assert not refs(m['unused_allocated_proven'],'erp.cutting_groups')
   return dict(status='PASS',actual_Native_POST_issue6_stock10_to4_counted_once_issue_not_allocation=True,complete_material_row=m)
@@ -277,7 +277,7 @@ def races(tools,today):
      from cp7_plan_actual_cases import post
      p['cutting']['rolls'][0].update(qty_consumed='6',qty_reported_remaining='0')
      b.chain.production.rpc(h,'public.erp_save_cutting_group_before_sewing_v2',dict(p['cutting'],id=gid,action='SAVE_DRAFT',change_reason='P08 consume whole issue'),expected_version=int(b.chain.base.group_version(h,gid)))
-     post(h,dict(payload=p,group=gid))
+     b.api.admin(h);post(h,dict(payload=p,group=gid))
     holder_pid=h.execute('select pg_backend_pid()').fetchone()[0]
     with tools.connect()as conn,conn.cursor()as cur:
      reader_pid=cur.execute('select pg_backend_pid()').fetchone()[0];e=capture(cur,today);conn.commit()
