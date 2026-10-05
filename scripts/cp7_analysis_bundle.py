@@ -12,7 +12,8 @@ import cp7_transaction_source_bundle as transaction_source
 # P08 physical fabric facts: exact read-only column grants (see cp7_fabric_verify.COLUMNS).
 FABRIC_PHYSICAL_COLUMNS={'erp.material_rolls':'SELECT(id,material_id,status)','erp.material_stock_movements':'SELECT(material_id,roll_id,location_id,qty_signed,physical_at)',
  'erp.locations':'SELECT(id,location_type,is_active)','erp.bb_purchase_commitments_v1':'SELECT(id,po_number,location_id,expected_date)',
- 'erp.bb_purchase_commitment_lines_v1':'SELECT(id,commitment_id,material_id,line_number)','cp7_plan_native.intents':'SELECT(id,target_key,cutting_group_id)'}
+ 'erp.bb_purchase_commitment_lines_v1':'SELECT(id,commitment_id,material_id,line_number)','cp7_plan_native.intents':'SELECT(id,target_key,cutting_group_id)',
+ 'cp7_plan_native.apply_own_drafts':'SELECT(cutting_group_id,txid)'}
 TABLE_GRANTS={'cp7_capture':{**{name:'SELECT'for name in MATERIAL_TABLES},**FABRIC_PHYSICAL_COLUMNS},'cp7_plan_writer':{'erp.cutting_group_rolls':'SELECT'},transaction_source.ROLE:{'erp.'+name:'SELECT'for name in transaction_source.TABLES}}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()

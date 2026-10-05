@@ -38,6 +38,15 @@ create index plan_target_intents on cp7_plan_native.intents(target_key,cutting_g
 -- The shared analysis reads which unposted Native draft each intent links to;
 -- it never reads drafts/commands payloads or gains any plan writer right.
 grant select(id,target_key,cutting_group_id)on cp7_plan_native.intents to cp7_capture;
+-- P08: apply marks its own just-written Native draft for the post-write
+-- Original recheck only. The row lives inside that one apply transaction
+-- (deleted before commit, txid-bound), so no other read can ever skip a draft.
+create table cp7_plan_native.apply_own_drafts(cutting_group_id uuid primary key,txid xid8 not null default pg_current_xact_id());
+alter table cp7_plan_native.apply_own_drafts owner to cp7_plan_writer;
+alter table cp7_plan_native.apply_own_drafts enable row level security;
+create policy plan_apply_own_drafts_private on cp7_plan_native.apply_own_drafts for all to public using(false)with check(false);
+revoke all on cp7_plan_native.apply_own_drafts from public,anon,authenticated,service_role;
+grant select(cutting_group_id,txid)on cp7_plan_native.apply_own_drafts to cp7_capture;
 create function cp7_plan_native.access_now(mode text)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;k text;

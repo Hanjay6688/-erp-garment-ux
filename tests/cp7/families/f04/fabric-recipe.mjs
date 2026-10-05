@@ -30,7 +30,7 @@ try{
  create table erp.bb_purchase_commitments_v1(id uuid primary key,po_number text,location_id uuid,expected_date date);
  create table erp.bb_purchase_commitment_lines_v1(id uuid primary key,commitment_id uuid,material_id uuid,line_number text);
  create function erp.bb_commitment_line_remaining_v1(uuid,uuid)returns numeric language sql stable as $$select 0::numeric$$;
- create schema cp7_plan_native;create table cp7_plan_native.intents(id uuid primary key,target_key text,cutting_group_id uuid);
+ create schema cp7_plan_native;create table cp7_plan_native.intents(id uuid primary key,target_key text,cutting_group_id uuid);create table cp7_plan_native.apply_own_drafts(cutting_group_id uuid primary key,txid xid8);
  create schema cp7_planning;
  grant usage on schema cp7_plan_native,cp7_planning to cp7_capture;
  insert into erp.materials(id,material_sku,material_name,unit_code,material_type,is_active,row_version)values('${material}','TEST-FABRIC','Explicit fixture fabric','M','FABRIC',true,1);
@@ -89,6 +89,19 @@ try{
  assert.ok(stocked[0].unused_allocated_proven.refs.some(r=>r.kind==='CP7_FABRIC_FREE_STOCK'))
  await db.execute(`update erp.locations set is_active=false;`)
  const inactive=await needs(await source(at));assert.deepEqual([inactive[0].unused_allocated_proven.value,inactive[0].additional_external.value],['0','200'])
+ await db.execute(`update erp.locations set is_active=true;`)
+ // P19 bounds: emptied historical rolls never enter the source or change a number,
+ // and closed PO lines can never push an open line out of the bounded source.
+ await db.execute(`insert into erp.material_rolls select(lpad(to_hex(g),8,'0')||'-0000-4000-8000-000000000001')::uuid,'${material}','USED' from generate_series(1,25)g;
+  insert into erp.material_stock_movements(material_id,roll_id,location_id,qty_signed,physical_at)select '${material}',(lpad(to_hex(g),8,'0')||'-0000-4000-8000-000000000001')::uuid,'${warehouse}',v.q,'2026-01-01T00:00:00Z' from generate_series(1,25)g cross join(values(10),(-10))v(q);`)
+ const held=await source(at);assert.deepEqual(held.physical.rolls.map(r=>r.id),[roll]);assert.deepEqual((await needs(held)).map(m=>[m.unused_allocated_proven.value,m.additional_external.value]),[['30','170']])
+ await db.execute(`insert into erp.bb_purchase_commitments_v1 values('99999999-9999-4999-8999-999999999999','PO-SCALE','${warehouse}',null);
+  insert into erp.bb_purchase_commitment_lines_v1 select(lpad(to_hex(g),8,'0')||'-0000-4000-8000-000000000002')::uuid,'99999999-9999-4999-8999-999999999999','${material}',g::text from generate_series(1,10001)g;
+  insert into erp.bb_purchase_commitment_lines_v1 values('ffffffff-0000-4000-8000-000000000002','99999999-9999-4999-8999-999999999999','${material}','OPEN');
+  create or replace function erp.bb_commitment_line_remaining_v1(uuid,uuid)returns numeric language sql stable as $f$select case when $1='ffffffff-0000-4000-8000-000000000002'::uuid then 5::numeric else 0::numeric end$f$;`)
+ const open=await source(at);assert.deepEqual(open.physical.commitments.map(c=>[c.id,c.remaining]),[['ffffffff-0000-4000-8000-000000000002','5']])
+ await db.execute(`delete from erp.bb_purchase_commitment_lines_v1;delete from erp.bb_purchase_commitments_v1;create or replace function erp.bb_commitment_line_remaining_v1(uuid,uuid)returns numeric language sql stable as $f$select 0::numeric$f$;`)
+ check('scale_bounds_empty_rolls_excluded_open_PO_never_cut_by_closed_lines',{held_rolls:held.physical.rolls.length,empty_rolls:25,closed_lines:10001,open:open.physical.commitments})
  await db.execute(`delete from erp.material_stock_movements;delete from erp.material_rolls;delete from erp.locations;`)
  check('single_claimant_free_roll30_allocated_external170_inactive_warehouse_not_ready',{stocked,inactive})
  assert.equal((await needs(first,null))[0].gross.state,'UNKNOWN');assert.equal((await needs(first,'100',`${root}:ffffffff-ffff-4fff-8fff-ffffffffffff`))[0].gross.state,'UNKNOWN');check('unknown_need_and_exact_other_size_not_zero',{no_inherited_recipe:true})

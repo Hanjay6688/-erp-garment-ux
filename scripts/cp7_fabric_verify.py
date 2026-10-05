@@ -31,3 +31,11 @@ def verify(cur):
  for table,columns in PRIVATE_COLUMNS.items():
   for column in columns:assert not cur.execute("select has_column_privilege('cp7_capture',%s,%s,'SELECT')",(table,column)).fetchone()[0],(table,column)
  assert cur.execute("select has_function_privilege('cp7_capture','erp.bb_commitment_line_remaining_v1(uuid,uuid)','EXECUTE')").fetchone()[0]
+ # P08 plan-apply own-draft marker: private, read-only to capture, empty outside one apply transaction.
+ t='cp7_plan_native.apply_own_drafts'
+ assert cur.execute('select pg_get_userbyid(relowner),relrowsecurity from pg_class where oid=%s::regclass',(t,)).fetchone()==('cp7_plan_writer',True)
+ assert cur.execute("select count(*)from pg_policy where polrelid=%s::regclass and pg_get_expr(polqual,polrelid)='false'and pg_get_expr(polwithcheck,polrelid)='false'",(t,)).fetchone()[0]==1
+ for who in('anon','authenticated','service_role'):assert not cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE')",(who,t)).fetchone()[0],who
+ assert all(cur.execute("select has_column_privilege('cp7_capture',%s,%s,'SELECT')",(t,c)).fetchone()[0]for c in('cutting_group_id','txid'))
+ assert not cur.execute("select has_table_privilege('cp7_capture',%s,'INSERT,UPDATE,DELETE,TRUNCATE')",(t,)).fetchone()[0]
+ assert cur.execute('select count(*)from '+t).fetchone()[0]==0

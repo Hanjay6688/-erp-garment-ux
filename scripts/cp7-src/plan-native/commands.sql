@@ -74,7 +74,11 @@ begin
  -- The Native writer can wait on real roll locks. Recheck its own Original
  -- after that wait, before recording an intent. A refusal rolls the Native
  -- draft back too; there is no domain commit without an atomic receipt.
+ -- P08: the fabric physical source must not count this command's own new
+ -- draft as a foreign change; everything else is still compared.
+ insert into cp7_plan_native.apply_own_drafts(cutting_group_id)values((native->>'cutting_group_id')::uuid);
  preview:=cp7_plan_native.preflight(r.payload);
+ delete from cp7_plan_native.apply_own_drafts where cutting_group_id=(native->>'cutting_group_id')::uuid;
  if preview->>'composition_hash'<>r.composition_hash then raise exception using errcode='40001',message='CP7_PLAN_NATIVE_SELECTION_CHANGED';end if;
  if cp7_plan_native.access_now('APPLY')is distinct from a then raise exception using errcode='42501',message='CP7_PLAN_ACCESS_CHANGED';end if;
  insert into cp7_plan_native.intents(draft_id,actor,target_key,core_hash,cutting_group_id,request_id)

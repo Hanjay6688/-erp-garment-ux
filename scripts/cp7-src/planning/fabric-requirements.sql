@@ -118,7 +118,10 @@ begin
   into mats,targets from jsonb_array_elements(selected)x;
  with groups as materialized(
   select g.id,g.row_version,g.source_location_id from erp.cutting_groups g
-  where not g.material_issue_posted and(
+  where not g.material_issue_posted
+   -- Only the running plan apply's own new draft, only inside that transaction.
+   and not exists(select 1 from cp7_plan_native.apply_own_drafts o where o.cutting_group_id=g.id and o.txid=pg_current_xact_id_if_assigned())
+   and(
    exists(select 1 from erp.cutting_group_rolls l join erp.material_rolls r on r.id=l.roll_id where l.cutting_group_id=g.id and r.material_id=any(mats))
    or exists(select 1 from cp7_plan_native.intents i where i.cutting_group_id=g.id and i.target_key=any(targets)))
   order by g.id limit 10001)
@@ -129,7 +132,11 @@ begin
     from erp.cutting_group_rolls l where l.cutting_group_id=g.id),'[]'::jsonb))order by g.id),'[]'::jsonb)
   into drafts from groups g;
  if jsonb_array_length(drafts)>10000 then raise exception 'CP7_FABRIC_PHYSICAL_LIMIT';end if;
- with ids as(select r.id from erp.material_rolls r where r.material_id=any(mats)
+ -- P19 bound: only rolls holding a nonzero quantity at some location at p_at
+ -- (positive or negative) or used by an unposted draft. Emptied historical
+ -- rolls never change a number, so years of receipts cannot refuse capture.
+ with ids as(select r.id from erp.material_rolls r join erp.material_stock_movements m on m.roll_id=r.id
+   where r.material_id=any(mats)and m.physical_at<=p_at group by r.id,m.location_id having sum(m.qty_signed)<>0
    union select(l->>'roll_id')::uuid from jsonb_array_elements(drafts)d cross join jsonb_array_elements(d->'lines')l),
  limited as materialized(select id from ids order by id limit 20001)
  select coalesce(jsonb_agg(jsonb_build_object('id',r.id,'material_id',r.material_id,'status',r.status,
@@ -139,10 +146,13 @@ begin
      where m.roll_id=r.id and m.physical_at<=p_at group by m.location_id)s where s.qty<>0),'[]'::jsonb))order by r.id),'[]'::jsonb)
   into rolls from limited x join erp.material_rolls r on r.id=x.id;
  if jsonb_array_length(rolls)>20000 then raise exception 'CP7_FABRIC_PHYSICAL_LIMIT';end if;
- with lines as materialized(select l.id,l.commitment_id,l.material_id,l.line_number,c.po_number,c.location_id,c.expected_date,
+ -- The bound applies to open lines only; closed lines can never push an open
+ -- line out of the source (no silent truncation).
+ with all_lines as materialized(select l.id,l.commitment_id,l.material_id,l.line_number,c.po_number,c.location_id,c.expected_date,
    erp.bb_commitment_line_remaining_v1(l.id,null)remaining
   from erp.bb_purchase_commitment_lines_v1 l join erp.bb_purchase_commitments_v1 c on c.id=l.commitment_id
-  where l.material_id=any(mats)order by l.id limit 10001)
+  where l.material_id=any(mats)),
+ lines as materialized(select * from all_lines where remaining<>0 order by id limit 10001)
  select coalesce(jsonb_agg(jsonb_build_object('id',x.id,'commitment_id',x.commitment_id,'po_number',x.po_number,'line_number',x.line_number,
    'material_id',x.material_id,'location_id',x.location_id,'expected_date',x.expected_date,'remaining',trim_scale(x.remaining)::text)order by x.id),'[]'::jsonb)
   into commitments from lines x where x.remaining<>0;

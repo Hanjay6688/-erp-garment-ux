@@ -121,5 +121,21 @@
  "independent_acceptance": false,
  "production_go": false,
  "labels": "Only a linked Native draft composition (or no allocation at all) is KNOWN. Installed, free-stock allocation and external are ASSUMED because they rest on the recipe and the scenario; a product-bound fixture does not make them KNOWN.",
- "recipe_identity_fix": "Recipe review identity now hashes Native fabric master fields only (cp7_fabric_native.material_hash: id, sku, name, type, unit, active, accessory category, created_at). Every receipt/issue rewrites cached_stock_qty, moving_average_cost, row_version and updated_at, which previously voided every reviewed recipe. A real master field revision still voids it; fabric13 MASTER_CHANGED now renames the master, and the Shell SQL control adds cache-rewrite-keeps-review (26 controls)."
+ "recipe_identity_fix": "Recipe review identity now hashes Native fabric master fields only (cp7_fabric_native.material_hash: id, sku, name, type, unit, active, accessory category, created_at). Every receipt/issue rewrites cached_stock_qty, moving_average_cost, row_version and updated_at, which previously voided every reviewed recipe. A real master field revision still voids it; fabric13 MASTER_CHANGED now renames the master, and the Shell SQL control adds cache-rewrite-keeps-review (26 controls).",
+ "plan_apply_own_draft_fix": {
+  "defect": "apply re-checked its Original after its own Native SAVE_DRAFT; the P08 physical fingerprint counted that draft as a foreign change (CP7_PLAN_SOURCE_CHANGED on every reviewed-fabric draft, CI run 37360628807)",
+  "fix": "apply marks its own new cutting group in cp7_plan_native.apply_own_drafts only around the post-write preflight; physical_source skips it only when txid equals the running transaction; the row is deleted before commit",
+  "unchanged": "every other physical, stock, draft, intent and commitment change still stales the Original; the marker table is private and verified empty",
+  "consequence": "after one committed apply, the old Original is ARCHIVED_STALE; the next apply needs a fresh capture (fail-closed)",
+  "first_failures_retained": [
+   "37357315101",
+   "37360628807"
+  ]
+ },
+ "scale_bounds": {
+  "rolls": "only rolls with a nonzero per-location quantity at the capture time, or used by an unposted draft; emptied history never enters",
+  "commitments": "10000 bound applied after selecting open lines; closed lines never push an open line out",
+  "refusal": "CP7_FABRIC_PHYSICAL_LIMIT above a bound, never silent truncation",
+  "shell_control": "scale_bounds_empty_rolls_excluded_open_PO_never_cut_by_closed_lines (fails on the previous SQL)"
+ }
 }

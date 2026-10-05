@@ -15,7 +15,7 @@ Sebelumnya baris kain yang resepnya sudah direview hanya punya `gross` (celah re
 - lokasi yang dipakai (jenis dan status aktif);
 - baris PO terbuka saldo awal (ALL-P04) untuk bahan itu, dengan sisa dari fungsi BB yang sudah ada `erp.bb_commitment_line_remaining_v1` dan tanggal datang yang tercatat.
 
-Hak baca yang ditambahkan hanya kolom tertentu (bukan harga/biaya): `material_rolls(id,material_id,status)`, `material_stock_movements(material_id,roll_id,location_id,qty_signed,physical_at)`, `locations(id,location_type,is_active)`, `bb_purchase_commitments_v1(id,po_number,location_id,expected_date)`, `bb_purchase_commitment_lines_v1(id,commitment_id,material_id,line_number)`, `cp7_plan_native.intents(id,target_key,cutting_group_id)`, plus EXECUTE pada fungsi sisa PO BB. Tidak ada hak tulis, role, atau RPC publik baru. Karena blok fisik ikut sidik jari analisis, setiap penerimaan, draf potong, posting potong, atau perubahan PO pada bahan yang direview membuat Original lama `ARCHIVED_STALE`; Original lama tidak pernah diubah.
+Hak baca yang ditambahkan hanya kolom tertentu (bukan harga/biaya): `material_rolls(id,material_id,status)`, `material_stock_movements(material_id,roll_id,location_id,qty_signed,physical_at)`, `locations(id,location_type,is_active)`, `bb_purchase_commitments_v1(id,po_number,location_id,expected_date)`, `bb_purchase_commitment_lines_v1(id,commitment_id,material_id,line_number)`, `cp7_plan_native.intents(id,target_key,cutting_group_id)`, plus EXECUTE pada fungsi sisa PO BB. Tidak ada hak tulis, role, atau RPC publik baru. Batas skala (P19): hanya roll yang masih memegang jumlah tidak nol pada suatu lokasi (positif atau negatif) atau yang dipakai draf belum diposting yang ikut sumber. Roll lama yang sudah habis tidak mengubah angka, jadi bertahun-tahun penerimaan tidak membuat ambil analisis ditolak. Batas 10.000 baris PO berlaku setelah memilih baris yang masih terbuka, sehingga baris yang sudah tutup tidak pernah menyingkirkan baris terbuka. Melewati batas tetap menolak dengan `CP7_FABRIC_PHYSICAL_LIMIT`; tidak ada pemotongan diam-diam. Karena blok fisik ikut sidik jari analisis, setiap penerimaan, draf potong, posting potong, atau perubahan PO pada bahan yang direview membuat Original lama `ARCHIVED_STALE`; Original lama tidak pernah diubah.
 
 ## Aturan
 
@@ -48,9 +48,26 @@ Suite `NATIVE_FABRIC_RECIPE` (13 kasus) adalah pendahulu: ID dan jumlah tidak be
 
 Karena tanda tangan mesin analisis berubah, fabric13, analysis152, attention284, plan39, Shell, dan CodeQL wajib dikualifikasi ulang di sumber ini (workflow `claude-p08-physical.yml` dan `claude-p08-shell.yml`).
 
+## Perbaikan apply rencana (cacat kedua yang ditemukan P08)
+
+Run CI 37360628807 menunjukkan lima kasus rencana → draf Native tetap gagal dengan `CP7_PLAN_SOURCE_CHANGED`, padahal setiap kasus hanya beberapa detik. Penyebabnya bukan jam menit seperti dugaan lokal sebelumnya (diagnosis itu salah karena dibandingkan sesudah rollback). `cp7_plan_native.apply` menulis draf Native (SAVE_DRAFT), lalu memeriksa ulang Original. Sejak P08, sidik jari Original memuat draf potong belum diposting pada kain yang direview, sehingga pemeriksaan ulang melihat draf buatannya sendiri sebagai perubahan sumber. Buktinya: draf pada kain lain (WRONG_MATERIAL) lolos, semua draf pada kain yang direview gagal.
+
+Perbaikan: `apply` menandai draf barunya sendiri di `cp7_plan_native.apply_own_drafts` tepat sebelum pemeriksaan ulang, lalu menghapusnya. `physical_source` mengabaikan draf itu hanya bila `txid` sama dengan transaksi yang sedang berjalan. Baris penanda tidak pernah terlihat transaksi lain dan tidak pernah ter-commit. Semua perubahan lain (stok, draf lain, PO, intent) tetap dibandingkan. Tabel ini privat (RLS false, pemilik `cp7_plan_writer`, `cp7_capture` hanya SELECT dua kolom) dan diverifikasi kosong di luar apply.
+
+Akibat yang disengaja: setelah satu apply ter-commit, Original lama menjadi `ARCHIVED_STALE` karena draf baru bertaut ke target yang direview. Apply berikutnya perlu analisis baru. Ini gagal-tertutup: tidak ada angka lama yang dipakai ulang.
+
+Run CI pertama dan kedua tetap tercatat FAIL. Retry di `link()` tetap dibatasi pada perbedaan jam saja.
+
 ## Bukti lokal (bukan bukti kualifikasi)
 
-LOCAL_PG16_DEV (5 Okt 2026, bukan bukti kualifikasi): kontrol SQL Shell kain 26/26 PASS di PostgreSQL 16 sekali pakai; uji unit penerima 21/21 dan uji DOM resep 8/8 PASS; build dan pemeriksaan keamanan PASS. Kasus DB fabric13 penerus 8/8 PASS. Kasus DB fisik 11/16 PASS (stok bebas tunggal, stok cukup, batas atas identitas, draf bahan lain, draf manual, empat PO terbuka, penerimaan kedua, kernel sintetis). Lima kasus alur rencana→draf Native (draf bertaut 10 dan 6+4, draf melebihi stok, pembagian dua target, posting draf) gagal lokal dengan `CP7_PLAN_SOURCE_CHANGED` karena sidik jari analisis memuat bucket menit jam kapasitas dan mesin lokal butuh >60 detik untuk capture→simpan→apply; diagnosis sumber menunjukkan hanya field jam yang berbeda. Kasus itu wajib dibuktikan di CI; kegagalan lokal tidak diubah menjadi PASS.
+LOCAL_PG16_DEV (5 Okt 2026): kontrol SQL Shell kain 27/27 PASS (kontrol batas skala baru terbukti gagal pada SQL lama, lulus pada perbaikan), uji unit penerima dan DOM PASS, build dan pemeriksaan keamanan PASS, kasus DB fabric13 penerus 8/8 PASS. Kasus `P08_PHYSICAL_LINKED_DRAFT_KNOWN` lulus lokal setelah perbaikan apply. Hasil kualifikasi hanya dari CI (tabel di bawah).
+
+## Riwayat CI
+
+| Run | Commit | Hasil | Catatan |
+|---|---|---|---|
+| 37357315101 | 1850619c | FAIL (5/5 suite, 0 kasus) | `F03_UNDECLARED_ACL_DELTA` pada `erp.bb_commitment_line_remaining_v1(uuid,uuid)`. Diperbaiki di ebf3a394 (hanya deklarasi). |
+| 37360628807 | ebf3a394 | fabric13 PASS, analysis152 PASS, plan39 PASS; fabric-physical21 INCOMPLETE (5 kasus + 1 race alur apply) | `CP7_PLAN_SOURCE_CHANGED` dari pemeriksaan ulang apply terhadap drafnya sendiri; diperbaiki seperti di atas. attention284 dicatat sesudah selesai. |
 
 ## Batas
 
