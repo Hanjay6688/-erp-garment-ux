@@ -75,16 +75,31 @@ def setup(cur,today,subject=None,new_plan_po=False):
 
 def current_payload(cur,today,f,issued='6',subject=None):
  original=analysis.capture(cur,today,subject=subject)
- payload=copy.deepcopy(f['payload']);payload.update(run_id=original['run_id'],source_hash=original['analysis']['snapshot']['source_hash'])
+ payload=copy.deepcopy(f['payload']);payload.update(run_id=original['run_id'],source_hash=original['analysis']['snapshot']['source_hash'],
+  reviewed_assumption_ids=[x['id']for x in original['analysis']['assumptions']])
  roll=payload['cutting']['rolls'][0]
  roll.update(qty_issued=issued,qty_consumed=str(D(issued)/2),qty_reported_remaining=str(D(issued)/2))
  return payload
 
 def shared_material_setup(cur,today):
  first=setup(cur,today,new_plan_po=True);second=setup(cur,today,new_plan_po=True)
+ # The inherited single-target fixture deliberately sets every other root's
+ # selected mean to zero. After creating target two, explicitly restore target
+ # one's selected profile through the unchanged profile command; otherwise its
+ # legitimate NO_NEW_NEED guard refuses before the shared-roll control starts.
+ profile=previous.baseline.get(cur,[first['root']])['rows'][0]
+ previous.baseline.save(cur,dict(root_id=profile['root_id'],product_version_id=profile['product_version_id'],
+  expected_revision=profile['revision'],reason='P08 explicit two-target fixture: selected daily ten on each target; no factory demand claim',
+  config=dict(profile['config'],daily_pcs='10')))
  second['payload']['cutting']['source_location_id']=first['payload']['cutting']['source_location_id']
  second['payload']['cutting']['rolls'][0]['roll_id']=first['payload']['cutting']['rolls'][0]['roll_id']
  assert first['payload']['target_key']!=second['payload']['target_key']
+ profiles=previous.baseline.get(cur,[first['root'],second['root']])['rows']
+ assert len(profiles)==2 and all(p['config']['daily_pcs']=='10'for p in profiles),profiles
+ original=analysis.capture(cur,today)
+ needs=[analysis.recommendation(original['analysis'],f['root'])for f in(first,second)]
+ assert all(r['q_conditional']['state']=='ASSUMED'and D(r['q_conditional']['value'])>=2 for r in needs),needs
+ first['shared_target_setup']=dict(selected_profiles=profiles,current_recommendations=needs)
  return first,second
 
 def material_pool(cur,payload):
@@ -101,7 +116,7 @@ def material_cases(cur,today):
   p=current_payload(cur,today,second,'4');d2=save(cur,p);apply(cur,action(d2));pool=material_pool(cur,p)
   assert [D(pool[k])for k in('native_available','linked_native_draft_qty','free_for_new_plan')]==[D(10),D(10),D(0)],pool
   assert monetary_state(cur)==before and cur.execute('select count(*)from cp7_plan_native.intents').fetchone()[0]==2
-  return dict(status='PASS',two_actual_distinct_targets_one_Native_roll10=True,first_linked_draft6_then_second6_refused_and_second4_committed=True,physical_stock_money_HPP_unchanged=True,final_complete_pool=pool)
+  return dict(status='PASS',two_actual_distinct_targets_one_Native_roll10=True,first_linked_draft6_then_second6_refused_and_second4_committed=True,physical_stock_money_HPP_unchanged=True,explicit_current_two_target_setup=first['shared_target_setup'],final_complete_pool=pool)
  def posted_once():
   from cp7_plan_actual_cases import post
   f=setup(cur,today,new_plan_po=True);p=current_payload(cur,today,f);p['cutting']['rolls'][0].update(qty_consumed='6',qty_reported_remaining='0')
@@ -246,7 +261,7 @@ def races(tools,today):
    pool=material_pool(cur,one);assert monetary_state(cur)==before
    assert cur.execute('select count(*)from cp7_plan_native.intents').fetchone()[0]==1
    assert [D(pool[k])for k in('native_available','linked_native_draft_qty','free_for_new_plan')]==[D(10),D(6),D(4)],pool
-  return dict(status='PASS',actual_two_distinct_targets_drafts_UUIDs=True,exact_two_workers_same_physical_pool_wait=observed,one_Native_draft_and_intent_other40001=True,physical_stock_money_HPP_unchanged=True,final_complete_pool=pool)
+  return dict(status='PASS',actual_two_distinct_targets_drafts_UUIDs=True,explicit_current_two_target_setup=first['shared_target_setup'],exact_two_workers_same_physical_pool_wait=observed,one_Native_draft_and_intent_other40001=True,physical_stock_money_HPP_unchanged=True,final_complete_pool=pool)
  def prepared(two=False):
   with tools.connect()as conn,conn.cursor()as cur:
    f=setup(cur,today);d=save(cur,f['payload']);other=None

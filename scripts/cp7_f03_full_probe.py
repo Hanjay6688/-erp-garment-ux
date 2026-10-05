@@ -11,6 +11,7 @@ import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
 import cp6_t3_package_run as package
+from cp7_catalog_state import exact_public_catalog
 from cp7_f03_probe import verify
 from cp6_t3_aligned_install import advisors,advisor_delta
 MANIFEST=bundle.ROOT/'scripts/cp7_f03_full_manifest.json'
@@ -68,7 +69,13 @@ def run():
     if g['kind']=='browser':result=modes.run_browser(bundle.ROOT/g['module'],verify,phase)
     else:
      module=importlib.import_module(g['module'])
-     if g['kind']=='native':result=native.strict_group(phase.upper(),getattr(module,g['entry']),verify)
+     if g['kind']=='native':
+      # Retain each complete raw public catalog while comparing every original
+      # signature/hash/member in canonical pair order. The frozen CP6 runner
+      # and reader remain unchanged, including every strict group gate.
+      with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+       try:result=native.strict_group(phase.upper(),getattr(module,g['entry']),verify)
+       finally:report.setdefault('native_public_catalog_comparisons',{})[key]=catalog_audit
      elif g['kind']=='races':result=modes.run_races(module,verify,phase)
      elif g['kind']=='http':result=modes.run_http(module,verify,phase)
      else:raise AssertionError(('UNKNOWN_PREDECLARED_GROUP_KIND',g))

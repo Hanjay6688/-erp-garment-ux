@@ -1,0 +1,115 @@
+{
+  "contract": "cp7.retained-shell-and-Native-private-kernels.v1",
+  "status": "WRITER_SHELL1522_PRIVATE_KERNELS12_AND28_COMPLETE",
+  "source_commit": "3e82f789326ea18e430d7ed8adf1f8c2cb2435ec",
+  "source_tree": "bf312bd0a59101faf8ee68b6b7c48b1574cff145",
+  "run_id": 37284698696,
+  "job_id": 111680696514,
+  "Native_shared_material_private_kernel_controls": 12,
+  "Native_history_SQL_parity_private_controls": 28,
+  "prior_F04_private_kernel_controls": 138,
+  "Vitest_files": 158,
+  "Vitest_tests": 1522,
+  "synthetic_browser_journeys": 6,
+  "CodeQL": [
+    {
+      "language": "javascript-typescript",
+      "results": 0,
+      "all_invocations_execution_successful": true,
+      "Original": "javascript.sarif"
+    },
+    {
+      "language": "actions",
+      "results": 0,
+      "all_invocations_execution_successful": true,
+      "Original": "actions.sarif"
+    }
+  ],
+  "artifacts": [
+    {
+      "label": "shell",
+      "artifact_id": 11334875103,
+      "artifact_bytes": 493794,
+      "artifact_sha256": "07cf38d82b81fc13ecc71da5699ed9708ed47ffdabe49dd76d146e1079192e2c",
+      "CRC": "PASS",
+      "all_original_member_hashes": [
+        {
+          "name": "desktop-planner.png",
+          "bytes": 130883,
+          "crc32": "3656a87f",
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+        },
+        {
+          "name": "f04-private-kernels.json",
+          "bytes": 53273,
+          "crc32": "06b0c1c4",
+          "sha256": "7d25b6f49408a329f97e6a216579dd6db77bd84790a1ae296980fdb2f6892101"
+        },
+        {
+          "name": "history-availability-parity.json",
+          "bytes": 5502,
+          "crc32": "f188678c",
+          "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+        },
+        {
+          "name": "material-pool.json",
+          "bytes": 8612,
+          "crc32": "0e3479ee",
+          "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+        },
+        {
+          "name": "mobile-planner.png",
+          "bytes": 382780,
+          "crc32": "294dfa75",
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+        },
+        {
+          "name": "results.json",
+          "bytes": 12265,
+          "crc32": "c9e9c349",
+          "sha256": "39c4ed1ac25e4a7a41319fc2405fad01d72d1b5f80cef3f88768bb747c8c3fda"
+        }
+      ]
+    },
+    {
+      "label": "javascript-typescript",
+      "artifact_id": 11334535860,
+      "artifact_bytes": 122709,
+      "artifact_sha256": "4ac543d7cb208c1052eae6cb46f39e73c6fcd3b82ac808d93dcda9d0eaf33a33",
+      "CRC": "PASS",
+      "all_original_member_hashes": [
+        {
+          "name": "javascript.sarif",
+          "bytes": 1354443,
+          "crc32": "b19644e9",
+          "sha256": "772778a6cadd4cc9e5dc617b43dfd188298f79e378b31a6fef66a298a16f9ad5"
+        }
+      ]
+    },
+    {
+      "label": "actions",
+      "artifact_id": 11334232228,
+      "artifact_bytes": 52650,
+      "artifact_sha256": "9043f3f4290f80003c3ecbc235625229ae7e663e87f25e7d152836d1419f3ba3",
+      "CRC": "PASS",
+      "all_original_member_hashes": [
+        {
+          "name": "actions.sarif",
+          "bytes": 727890,
+          "crc32": "2537a2c5",
+          "sha256": "31d229ad0cbe1cbbfc763d73a7eb5f07f91b040b1c08c806709a11fee593bb6a"
+        }
+      ]
+    }
+  ],
+  "full_job_log_original_sha256": "6456ff4e02f31e98d8a2b3d9ccbcd7763eb30834540851f2a269f44f0c591aeb",
+  "Native_business_case_credit": 0,
+  "Auth_HTTP_credit": 0,
+  "browser_credit": 0,
+  "new_execution_case_credit": 0,
+  "full_P08_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

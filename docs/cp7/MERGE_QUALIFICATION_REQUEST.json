@@ -1,14 +1,14 @@
 {
   "schema": "cp7.merge-qualification.v1",
-  "request": "cp7-continuation-20261005-shared-material39-history-parity-capacity-and-diagnostic-repeat",
+  "request": "cp7-continuation-20261005-two-target39-and-complete-F03-catalog-rerun",
   "qualified_parent": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
   "candidate_source": "CURRENT_WORKFLOW_GITHUB_SHA",
   "claude_head": "f4049e4f7e0c9d436cce1147ce45d6760ab1d6f8",
   "claude_final_product_source": "19ff70ee4e2ca9100d7697eda12263c5f36968ff",
-  "scope": "All53 configured CP7 integration workflows plus Shell and its two CodeQL jobs at the exact current candidate. Retain all prior Native budgets; P08 extends35 to39 without deleting a prior case. Retain the two861 failures and qualify exact array diagnostic emission plus complete all-field capacity catalog comparison. No writer self-award of independent/P20 or installed/P21/full product acceptance.",
+  "scope": "All59 observed configured CP7 integration workflows including Shell and its two CodeQL jobs at the exact current candidate. Retain every prior Native budget and all39 P08 IDs; correct two-target fixture selection and fresh Original assumption IDs. Bind existing complete all-field catalog comparator around every full F03 Native group and retain all raw snapshots plus eight sensitivity controls. Preserve both full 3e82 failed Originals. No writer independent/P20, installed/P21 or full product self-acceptance.",
   "compiled_product_changed_since_qualified_parent": true,
   "browser_oracle_strengthened": true,
-  "qualification_comparator_changed": "Existing exact all-field CP7 pair-order adapter also bounds Native capacity5 and retains full raw snapshots plus all eight read-only sensitivity controls. Frozen CP6 reader/runner and every public hash/member/field remain exact.",
+  "qualification_comparator_changed": "Existing exact all-field pair-order adapter now bounds each full F03 Native group with retain_raw=True. Every signature/hash/member/field and all eight read-only sensitivity controls retained; frozen CP6 reader/runner untouched.",
   "prior_complete_matrix_source": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
   "prior_Native57_first_failure_run": 37128855585,
   "prior_Native57_first_failure_original_preserved": true,
@@ -22,7 +22,7 @@
   "independent_acceptance": false,
   "full_P18_acceptance": false,
   "production_go": false,
-  "prior_candidate_source": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
+  "prior_candidate_source": "3e82f789326ea18e430d7ed8adf1f8c2cb2435ec",
   "P08_required_case_count": 39,
   "P08_required_case_counts": {
     "native": 25,
@@ -62,5 +62,22 @@
     "independent_acceptance": false,
     "full_P18_acceptance": false,
     "production_go": false
+  },
+  "previous_candidate_request_original": "docs/cp7/evidence/current-source-3e82/MERGE_QUALIFICATION_REQUEST.json.gz",
+  "compiled_product_changed_since_previous_candidate": false,
+  "qualification_tooling_changed_since_previous_candidate": true,
+  "previous_failures_retained": [
+    "docs/cp7/evidence/plan-native/incomplete39-two-target-setup-3e82/RECEIPT.json",
+    "docs/cp7/evidence/f03-full/incomplete34-final-boundary-3e82/RECEIPT.json"
+  ],
+  "full_F03_bucket_execution_counts_preserved": {
+    "p09": 132,
+    "p10": 34,
+    "p11": 64,
+    "p12": 90,
+    "p13": 50,
+    "cash_installments": 61,
+    "supplier_credit": 5,
+    "customer_refund": 10
   }
 }

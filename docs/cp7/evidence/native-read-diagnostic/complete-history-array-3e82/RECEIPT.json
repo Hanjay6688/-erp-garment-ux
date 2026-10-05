@@ -1,0 +1,289 @@
+{
+  "source_commit": "3e82f789326ea18e430d7ed8adf1f8c2cb2435ec",
+  "source_tree": "bf312bd0a59101faf8ee68b6b7c48b1574cff145",
+  "run_id": 37284698917,
+  "job_id": 111680697717,
+  "artifact_id": 11334965410,
+  "artifact_name": "cp7-native-read-diagnostic",
+  "zip_bytes": 1712936,
+  "zip_sha256": "ffa6650123d465f5445f4781208e9521cb8bfd760a689ee7956a95a08074d2d2",
+  "runtime_report": "CP7_NATIVE_READ_DIAGNOSTIC.json",
+  "expected_status": "PASS",
+  "expected_case_count": 1,
+  "required_case_counts": null,
+  "diagnostic_only": true,
+  "status": "DIAGNOSTIC_EMISSION_COMPLETE",
+  "source_bundle_sha256": "8408ac4b0a9e330bbed826feadc3429f4954bcc42f9c4c7b7dda26b96cd2c106",
+  "observed_case_count": 1,
+  "counts": {
+    "native": {
+      "PASS": 1
+    },
+    "races": null,
+    "http": null,
+    "browser": null
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "e5173eace2933a72a715318d24b4e81b8630bbc454aa276c0ca1ee3eebc9873d",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_NATIVE_READ_DIAGNOSTIC.json": {
+      "bytes": 784723,
+      "sha256": "4de7f79790f72db2b2c44e3f7855e1e9ee072a4449dcf1677b9236665e0d1243"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b96a2c8db6b5b56071b53defc4044a8bee38f7def2bc1a895ac3cd76daaa285c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360481,
+      "sha256": "fc4895b1d5ffed6657994f04c9e57439054c3bacd5a1a9750badb4a2132f6f50"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "9cbc83f72d223e4368a847bfd8c324016d5183bc21a4cd88c4ef4230514b0a48"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "9cbc83f72d223e4368a847bfd8c324016d5183bc21a4cd88c4ef4230514b0a48"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "a83e0d9b5afad9afdc426b8339f8a842f733d040443e6bdb89188c3dd765467c"
+    },
+    "CP7_NATIVE_READ_DIAGNOSTIC.json": {
+      "bytes": 784723,
+      "sha256": "4de7f79790f72db2b2c44e3f7855e1e9ee072a4449dcf1677b9236665e0d1243"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b96a2c8db6b5b56071b53defc4044a8bee38f7def2bc1a895ac3cd76daaa285c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360481,
+      "sha256": "fc4895b1d5ffed6657994f04c9e57439054c3bacd5a1a9750badb4a2132f6f50"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "artifact_CRC": "PASS",
+  "full_job_log_original_sha256": "afd5da8219515028d7b8d76e63d766da34b26bbc1db88bf712e84b864416083a",
+  "actual_complete_history_comparisons": [
+    {
+      "workload": "NATIVE_PLANNER_FIXTURES",
+      "fixture_count": 4,
+      "actual_E01": 0,
+      "Native_products": 5,
+      "Native_stock_rows": 0,
+      "exact_full_SQL_JSON_equal": true,
+      "definition_restored": true,
+      "full_JSON_sha256": "905e19f38e57b42f958173536fb5d5e0b9f42c9d530e8b7d3d9c19eee038fe6d",
+      "observations": [
+        {
+          "label": "INSTALLED_CANDIDATE_FIRST",
+          "elapsed_ms": 2.815,
+          "utf8_bytes": 1445,
+          "full_JSON_sha256": "905e19f38e57b42f958173536fb5d5e0b9f42c9d530e8b7d3d9c19eee038fe6d",
+          "row_count": 5
+        },
+        {
+          "label": "PRIOR_COMPLETE_SQL_FIRST",
+          "elapsed_ms": 1.369,
+          "utf8_bytes": 1445,
+          "full_JSON_sha256": "905e19f38e57b42f958173536fb5d5e0b9f42c9d530e8b7d3d9c19eee038fe6d",
+          "row_count": 5
+        },
+        {
+          "label": "PRIOR_COMPLETE_SQL_WARMED",
+          "elapsed_ms": 1.493,
+          "utf8_bytes": 1445,
+          "full_JSON_sha256": "905e19f38e57b42f958173536fb5d5e0b9f42c9d530e8b7d3d9c19eee038fe6d",
+          "row_count": 5
+        },
+        {
+          "label": "RESTORED_CANDIDATE_WARMED",
+          "elapsed_ms": 1.464,
+          "utf8_bytes": 1445,
+          "full_JSON_sha256": "905e19f38e57b42f958173536fb5d5e0b9f42c9d530e8b7d3d9c19eee038fe6d",
+          "row_count": 5
+        }
+      ]
+    },
+    {
+      "workload": "NATIVE_PLANNER_FIXTURES",
+      "fixture_count": 12,
+      "actual_E01": 0,
+      "Native_products": 13,
+      "Native_stock_rows": 0,
+      "exact_full_SQL_JSON_equal": true,
+      "definition_restored": true,
+      "full_JSON_sha256": "de2415a8af8113324af22f89a476352081c30aefa164bbea8b13de17a4f5973c",
+      "observations": [
+        {
+          "label": "INSTALLED_CANDIDATE_FIRST",
+          "elapsed_ms": 2.973,
+          "utf8_bytes": 3757,
+          "full_JSON_sha256": "de2415a8af8113324af22f89a476352081c30aefa164bbea8b13de17a4f5973c",
+          "row_count": 13
+        },
+        {
+          "label": "PRIOR_COMPLETE_SQL_FIRST",
+          "elapsed_ms": 1.628,
+          "utf8_bytes": 3757,
+          "full_JSON_sha256": "de2415a8af8113324af22f89a476352081c30aefa164bbea8b13de17a4f5973c",
+          "row_count": 13
+        },
+        {
+          "label": "PRIOR_COMPLETE_SQL_WARMED",
+          "elapsed_ms": 1.568,
+          "utf8_bytes": 3757,
+          "full_JSON_sha256": "de2415a8af8113324af22f89a476352081c30aefa164bbea8b13de17a4f5973c",
+          "row_count": 13
+        },
+        {
+          "label": "RESTORED_CANDIDATE_WARMED",
+          "elapsed_ms": 1.794,
+          "utf8_bytes": 3757,
+          "full_JSON_sha256": "de2415a8af8113324af22f89a476352081c30aefa164bbea8b13de17a4f5973c",
+          "row_count": 13
+        }
+      ]
+    },
+    {
+      "workload": "NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN",
+      "fixture_count": 12,
+      "actual_E01": 4,
+      "Native_products": 17,
+      "Native_stock_rows": 20,
+      "exact_full_SQL_JSON_equal": true,
+      "definition_restored": true,
+      "full_JSON_sha256": "d3eb3e09184230ed7205a1177586322714874c39ae3c43a97ab03779b4d431f8",
+      "observations": [
+        {
+          "label": "INSTALLED_CANDIDATE_FIRST",
+          "elapsed_ms": 2.679,
+          "utf8_bytes": 4913,
+          "full_JSON_sha256": "d3eb3e09184230ed7205a1177586322714874c39ae3c43a97ab03779b4d431f8",
+          "row_count": 17
+        },
+        {
+          "label": "PRIOR_COMPLETE_SQL_FIRST",
+          "elapsed_ms": 1.941,
+          "utf8_bytes": 4913,
+          "full_JSON_sha256": "d3eb3e09184230ed7205a1177586322714874c39ae3c43a97ab03779b4d431f8",
+          "row_count": 17
+        },
+        {
+          "label": "PRIOR_COMPLETE_SQL_WARMED",
+          "elapsed_ms": 1.883,
+          "utf8_bytes": 4913,
+          "full_JSON_sha256": "d3eb3e09184230ed7205a1177586322714874c39ae3c43a97ab03779b4d431f8",
+          "row_count": 17
+        },
+        {
+          "label": "RESTORED_CANDIDATE_WARMED",
+          "elapsed_ms": 2.268,
+          "utf8_bytes": 4913,
+          "full_JSON_sha256": "d3eb3e09184230ed7205a1177586322714874c39ae3c43a97ab03779b4d431f8",
+          "row_count": 17
+        }
+      ]
+    },
+    {
+      "workload": "NATIVE_PLANNER_PLUS_PHYSICAL_COST_CASH_RETURN",
+      "fixture_count": 12,
+      "actual_E01": 12,
+      "Native_products": 25,
+      "Native_stock_rows": 60,
+      "exact_full_SQL_JSON_equal": true,
+      "definition_restored": true,
+      "full_JSON_sha256": "ff6a1ecb34dc30bb87344f142a72ee9351fd81d231bbef1a76300645924ef8a1",
+      "observations": [
+        {
+          "label": "INSTALLED_CANDIDATE_FIRST",
+          "elapsed_ms": 5.209,
+          "utf8_bytes": 7225,
+          "full_JSON_sha256": "ff6a1ecb34dc30bb87344f142a72ee9351fd81d231bbef1a76300645924ef8a1",
+          "row_count": 25
+        },
+        {
+          "label": "PRIOR_COMPLETE_SQL_FIRST",
+          "elapsed_ms": 2.495,
+          "utf8_bytes": 7225,
+          "full_JSON_sha256": "ff6a1ecb34dc30bb87344f142a72ee9351fd81d231bbef1a76300645924ef8a1",
+          "row_count": 25
+        },
+        {
+          "label": "PRIOR_COMPLETE_SQL_WARMED",
+          "elapsed_ms": 2.429,
+          "utf8_bytes": 7225,
+          "full_JSON_sha256": "ff6a1ecb34dc30bb87344f142a72ee9351fd81d231bbef1a76300645924ef8a1",
+          "row_count": 25
+        },
+        {
+          "label": "RESTORED_CANDIDATE_WARMED",
+          "elapsed_ms": 2.83,
+          "utf8_bytes": 7225,
+          "full_JSON_sha256": "ff6a1ecb34dc30bb87344f142a72ee9351fd81d231bbef1a76300645924ef8a1",
+          "row_count": 25
+        }
+      ]
+    }
+  ],
+  "Native_business_case_credit": 0,
+  "Auth_HTTP_credit": 0,
+  "browser_credit": 0,
+  "new_execution_case_credit": 0,
+  "product_qualification": false,
+  "full_P08_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false
+}

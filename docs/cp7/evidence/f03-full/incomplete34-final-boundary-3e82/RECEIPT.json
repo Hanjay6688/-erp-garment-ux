@@ -1,0 +1,180 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "status": "WRITER_INCOMPLETE_34_PASS_BODIES_FINAL_NATIVE_GROUP_BOUNDARY_FAILED",
+  "source_commit": "3e82f789326ea18e430d7ed8adf1f8c2cb2435ec",
+  "source_tree": "bf312bd0a59101faf8ee68b6b7c48b1574cff145",
+  "run_id": 37284698499,
+  "job_id": 111680696491,
+  "artifact_id": 11334663173,
+  "artifact_bytes": 6218079,
+  "artifact_sha256": "811dcd24d71ffa685087d4d7fbca70231cc814fff79d9c20c2ac8c7f3ba61dde",
+  "artifact_CRC": "PASS",
+  "expected_case_count": 34,
+  "observed_case_count": 34,
+  "counts": {
+    "native": {
+      "PASS": 7
+    },
+    "http": {
+      "PASS": 1
+    },
+    "adjustments": {
+      "PASS": 8
+    },
+    "adjustment_races": {
+      "PASS": 2
+    },
+    "adjustment_http": {
+      "PASS": 1
+    },
+    "book": {
+      "PASS": 6
+    },
+    "book_races": {
+      "PASS": 2
+    },
+    "book_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385625,
+      "crc32": "33528023",
+      "sha256": "48e33071a08584b35b355e45e6b861935ff5cb9edb452040cf2e9a01c4a0a1a7"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385625,
+      "crc32": "33528023",
+      "sha256": "48e33071a08584b35b355e45e6b861935ff5cb9edb452040cf2e9a01c4a0a1a7"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "e41014eb",
+      "sha256": "c993e52a52831960128620ab9551e8d7103076337946f54f5f3f67a6ecbe0d75"
+    },
+    {
+      "name": "CP7_F03_FULL_P10.json",
+      "bytes": 317694,
+      "crc32": "c456a175",
+      "sha256": "0d5723d8f6d84b6dbc655accc1afb1d1b2b4ae024420a7f4e22adbe904a14149"
+    },
+    {
+      "name": "P10_ADJUST_DESKTOP.png",
+      "bytes": 819744,
+      "crc32": "752d5ecc",
+      "sha256": "9deaf2db7f3e50f4357ae27ce4d4271406775ce8433adf49224b48a1410b3468"
+    },
+    {
+      "name": "P10_ADJUST_MOBILE.png",
+      "bytes": 671128,
+      "crc32": "9a273305",
+      "sha256": "9c5bede86f7e0694f8a676145beeee5ea5bd6de443f20f087d84dd232c706641"
+    },
+    {
+      "name": "P10_BOOK_DESKTOP.png",
+      "bytes": 1019637,
+      "crc32": "31a7adc9",
+      "sha256": "1e37ce38416d29a2687bfca30b6f524ce0b9a8780f2776e6712693e68fa4d5f3"
+    },
+    {
+      "name": "P10_BOOK_MOBILE.png",
+      "bytes": 606127,
+      "crc32": "61cb1548",
+      "sha256": "a661418534eff2c8e33fc7f1e35b4c88acccd89508604b7045f37e9cd62c6843"
+    },
+    {
+      "name": "P10_FG_DESKTOP.png",
+      "bytes": 1038724,
+      "crc32": "382269f4",
+      "sha256": "0012bf267c9eaad4918a8c70f60d8899e0994288547552033a4a14a64ddf59c3"
+    },
+    {
+      "name": "P10_FG_MOBILE.png",
+      "bytes": 532699,
+      "crc32": "26941530",
+      "sha256": "7d20f221706f100647aa38a5ebffcc875be1e63b30e466c27a68cbcb008b917a"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "aa7fce1c",
+      "sha256": "68349653e6c263c5c5feebbe5cc6b97f578c27ebd8110636e933fd325d3e35f2"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360423,
+      "crc32": "8b47d13e",
+      "sha256": "a17d04aff7d76c67076be6e0b4114c9aa96cb9b1f159aa1370acec98ad6ff5ec"
+    }
+  ],
+  "screenshots": [
+    "P10_ADJUST_DESKTOP.png",
+    "P10_ADJUST_MOBILE.png",
+    "P10_BOOK_DESKTOP.png",
+    "P10_BOOK_MOBILE.png",
+    "P10_FG_DESKTOP.png",
+    "P10_FG_MOBILE.png"
+  ],
+  "full_job_log_original_sha256": "4697a558b3ead52080198d7543766532fb070c533869f4b70a72755370344fba",
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "raw_package_restore_difference_proved_pair_order_only": true,
+  "old_native_group_exact_difference_cause_proved": false,
+  "reason": "Old strict Native group did not retain its paired initial/final raw catalog; exact Native group cause unproved. Package restore full pair order-only difference separately proved.",
+  "successor": "Bind existing exact_public_catalog retain_raw=True only around every declared Native group; preserve frozen CP6 reader/runner, all original fields/function hashes and all eight read-only sensitivity controls.",
+  "new_execution_case_credit": 0,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

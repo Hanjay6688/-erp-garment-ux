@@ -1,6 +1,6 @@
 {
   "contract": "cp7.p08-shared-material-budget-declaration.v1",
-  "status": "IMPLEMENTED_LOCAL_CHECKED_NATIVE39_REQUIRED",
+  "status": "NATIVE39_FIRST_37_PASS_2_INCOMPLETE_FIXTURE_REPAIR_RERUN_REQUIRED",
   "base_commit": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
   "expected_case_count": 39,
   "required_case_counts": {
@@ -80,5 +80,8 @@
   "remaining_P08_work": [
     "complete effective-dated fabric recipe binding",
     "global eligibility and installed/actual material proof through every consumer"
-  ]
+  ],
+  "first39_original": "docs/cp7/evidence/plan-native/incomplete39-two-target-setup-3e82/RECEIPT.json",
+  "two_target_fixture_repair": "Explicit current daily-ten profiles for both distinct targets through unchanged public profile command; fresh exact Original assumption IDs; positive need guard unchanged",
+  "current_rerun_expected_case_count": 39
 }
