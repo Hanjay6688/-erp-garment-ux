@@ -1,6 +1,6 @@
 {
   "contract": "cp7.owning-cutting-search-toolbar-readability.v1",
-  "status": "IMPLEMENTED_LOCAL_BUILD_SECURITY_NATIVE19_BROWSER_REQUIRED",
+  "status": "NATIVE19_COMPLETE_WITH_ACTUAL_BOTH_DEVICE_BOTH_PHASE_TOOLBAR_CONTRAST_PASS",
   "source_base": "6a1939d8f42e4d96f375a8878fa766a6a683ece4",
   "prior_Original": "docs/cp7/evidence/cutting-reopen/qualified19-readable-861/RECEIPT.json",
   "prior_toolbar_pixel_acceptance": false,
@@ -19,5 +19,59 @@
   "Native_SQL_changed": false,
   "full_product_visual_acceptance": false,
   "independent_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "qualified_source_commit": "51e9f3fe22326efa9244fd83068c386d5f955edd",
+  "qualified_source_tree": "6e8f943335801734f302c64be70d3d7aa2341faa",
+  "qualified_original_receipt": "docs/cp7/evidence/cutting-reopen/qualified19-toolbar-51e/RECEIPT.json",
+  "actual_computed_toolbar_contrast": {
+    "CP7_CUTTING_REOPEN_BROWSER_DESKTOP": {
+      "mobile": false,
+      "toolbar": {
+        "review": {
+          "observed_visible_enabled_texts_and_empty_placeholders": 21,
+          "minimum_ratio": 6.287528596095884,
+          "kinds": {
+            "TEXT": 20,
+            "PLACEHOLDER": 1
+          },
+          "all_at_least4_5": true
+        },
+        "committed": {
+          "observed_visible_enabled_texts_and_empty_placeholders": 22,
+          "minimum_ratio": 6.287528596095884,
+          "kinds": {
+            "TEXT": 20,
+            "PLACEHOLDER": 2
+          },
+          "all_at_least4_5": true
+        }
+      },
+      "committed_lost_reply_reload_same_UUID": true
+    },
+    "CP7_CUTTING_REOPEN_BROWSER_MOBILE": {
+      "mobile": true,
+      "toolbar": {
+        "review": {
+          "observed_visible_enabled_texts_and_empty_placeholders": 21,
+          "minimum_ratio": 6.287528596095884,
+          "kinds": {
+            "TEXT": 20,
+            "PLACEHOLDER": 1
+          },
+          "all_at_least4_5": true
+        },
+        "committed": {
+          "observed_visible_enabled_texts_and_empty_placeholders": 21,
+          "minimum_ratio": 6.287528596095884,
+          "kinds": {
+            "TEXT": 20,
+            "PLACEHOLDER": 1
+          },
+          "all_at_least4_5": true
+        }
+      },
+      "committed_lost_reply_reload_same_UUID": false
+    }
+  },
+  "committed_Original_screenshots_inspected": true
 }

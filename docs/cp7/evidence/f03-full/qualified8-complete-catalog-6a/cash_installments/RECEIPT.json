@@ -1,0 +1,770 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "status": "WRITER_QUALIFIED_ALL_DECLARED_BODIES_AND_GROUP_BOUNDARIES_PASS",
+  "source_commit": "6a1939d8f42e4d96f375a8878fa766a6a683ece4",
+  "source_tree": "d1f7d152c5f70f4853a78d0cb9487fcb2adbd3ab",
+  "run_id": 37289725728,
+  "job_id": 111697030707,
+  "artifact_id": 11337847147,
+  "original_file_id": "file_00000000f9748211bcc82b326255523a",
+  "archive_bytes": 30604863,
+  "archive_sha256": "76e2598687d5ea397279a1b806d3613bbe80b260644dc2297ea273add6b10f4a",
+  "archive_CRC": "PASS",
+  "bucket": "cash_installments",
+  "expected_case_count": 61,
+  "observed_case_count": 61,
+  "expected_smoke_count": 0,
+  "observed_smoke_count": 0,
+  "private_role_count": 34,
+  "groups": {
+    "cp7_f03_cash_native": {
+      "kind": "native",
+      "counts": {
+        "PASS": 3
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "cp7_f03_cash_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "cp7_f03_cash_journal_native": {
+      "kind": "native",
+      "counts": {
+        "PASS": 6
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "cp7_f03_cash_journal_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "cp7_f03_cash_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 10
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "cp7_f03_misc_native": {
+      "kind": "native",
+      "counts": {
+        "PASS": 9
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "cp7_f03_misc_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "cp7_f03_misc_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "cp7_f03_misc_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "cp7_f03_e05_native": {
+      "kind": "native",
+      "counts": {
+        "PASS": 20
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "cp7_f03_e05_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 3
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "cp7_f03_e05_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "cp7_f03_e05_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    }
+  },
+  "counts": {
+    "cp7_f03_cash_native": {
+      "PASS": 3
+    },
+    "cp7_f03_cash_http": {
+      "PASS": 1
+    },
+    "cp7_f03_cash_journal_native": {
+      "PASS": 6
+    },
+    "cp7_f03_cash_journal_http": {
+      "PASS": 1
+    },
+    "cp7_f03_cash_browser": {
+      "PASS": 10
+    },
+    "cp7_f03_misc_native": {
+      "PASS": 9
+    },
+    "cp7_f03_misc_races": {
+      "PASS": 2
+    },
+    "cp7_f03_misc_http": {
+      "PASS": 1
+    },
+    "cp7_f03_misc_browser": {
+      "PASS": 2
+    },
+    "cp7_f03_e05_native": {
+      "PASS": 20
+    },
+    "cp7_f03_e05_races": {
+      "PASS": 3
+    },
+    "cp7_f03_e05_http": {
+      "PASS": 1
+    },
+    "cp7_f03_e05_browser": {
+      "PASS": 2
+    }
+  },
+  "actual_ids": {
+    "cp7_f03_cash_native": [
+      "F03_CASH_O14_COMPLETE_33_SOURCE_PAGES",
+      "F03_CASH_E13_LINKED_NATIVE_INVERSE_DATES",
+      "F03_CASH_CURRENT_AUTHORITY_NO_WRITE"
+    ],
+    "cp7_f03_cash_http": [
+      "F03_CASH_REAL_HTTP_COMPLETE_SOURCE_AUTH"
+    ],
+    "cp7_f03_cash_journal_native": [
+      "F03_JOURNAL_PAGES",
+      "F03_JOURNAL_COMPLETE_DETAIL",
+      "F03_JOURNAL_INVERSE_DATES",
+      "F03_JOURNAL_QUERY",
+      "F03_JOURNAL_EXACT_LARGE",
+      "F03_JOURNAL_CURRENT_ACCESS_PRIVATE"
+    ],
+    "cp7_f03_cash_journal_http": [
+      "F03_JOURNAL_REAL_HTTP"
+    ],
+    "cp7_f03_cash_browser": [
+      "F03_CASH_BROWSER_DESKTOP",
+      "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH",
+      "F03_REPORT_DATES_BROWSER_DESKTOP",
+      "F03_REPORT_DATES_BROWSER_MOBILE",
+      "F03_FINANCE_OVERVIEW_BROWSER_DESKTOP",
+      "F03_FINANCE_OVERVIEW_BROWSER_MOBILE",
+      "F03_RECEIVABLES_BROWSER_DESKTOP",
+      "F03_RECEIVABLES_BROWSER_MOBILE",
+      "F03_JOURNAL_BROWSER_DESKTOP",
+      "F03_JOURNAL_BROWSER_MOBILE_CURRENT_AUTH"
+    ],
+    "cp7_f03_misc_native": [
+      "F03_MISC_DRAFT_EXACT",
+      "F03_MISC_POST_ACCOUNTING",
+      "F03_MISC_INVERSE_DATES",
+      "F03_MISC_STALE_REVIEW",
+      "F03_MISC_FIELDS",
+      "F03_MISC_PROTECTED_ACCOUNTS",
+      "F03_MISC_REPLAY",
+      "F03_MISC_CURRENT_ACCESS_PRIVATE",
+      "F03_MISC_PAGES"
+    ],
+    "cp7_f03_misc_races": [
+      "F03_MISC_RACE_REPLAY",
+      "F03_MISC_RACE_CURRENT_REVOKE"
+    ],
+    "cp7_f03_misc_http": [
+      "F03_MISC_REAL_HTTP"
+    ],
+    "cp7_f03_misc_browser": [
+      "F03_MISC_BROWSER_DESKTOP_LOST_REPLY",
+      "F03_MISC_BROWSER_MOBILE_CURRENT_AUTH"
+    ],
+    "cp7_f03_e05_native": [
+      "E05_FIXED_1000_600_400_INVERSE",
+      "E05_DEDUCTION_RESERVATION",
+      "E05_WHOLE_PARTIAL_INVERSE",
+      "E05_WHOLE_PAID_INVERSE",
+      "E05_EXACT_LARGE_CENTS",
+      "E05_AMOUNT_CAP",
+      "E05_CLOSED_FIELDS",
+      "E05_REPLAY",
+      "E05_STALE_REVIEW",
+      "E05_CURRENT_CASH",
+      "E05_CURRENT_ACCESS_PRIVATE",
+      "E05_LEGACY_BYPASS",
+      "E05_IMMUTABLE_APPROVED_SOURCE",
+      "E05_NATIVE_DATES_TZ",
+      "E05_COMPLETE_30_PAGES",
+      "E05_LEGACY_FULL_HISTORY",
+      "E05_INACTIVE_NOT_PAYABLE",
+      "E05_OPENING_ADVANCE_CARRY_INSTALLMENTS",
+      "E05_ZERO_NET_NO_CASH",
+      "E05_ACTIVE_HPP_CASH_CORRECTION"
+    ],
+    "cp7_f03_e05_races": [
+      "E05_RACE_SAME_UUID",
+      "E05_RACE_DISTINCT_UUID_CAP",
+      "E05_RACE_CURRENT_REVOKE"
+    ],
+    "cp7_f03_e05_http": [
+      "E05_REAL_AUTH_HTTP"
+    ],
+    "cp7_f03_e05_browser": [
+      "E05_BROWSER_DESKTOP_INSTALLMENTS_LOST_REPLY",
+      "E05_BROWSER_MOBILE_CURRENT_AUTH_INSTALLMENTS"
+    ]
+  },
+  "full_raw_public_catalog_snapshots": 84,
+  "native_public_catalog_comparisons": {
+    "cp7_f03_cash_native": {
+      "raw_snapshot_count": 8,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "cp7_f03_cash_journal_native": {
+      "raw_snapshot_count": 14,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "cp7_f03_misc_native": {
+      "raw_snapshot_count": 20,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "cp7_f03_e05_native": {
+      "raw_snapshot_count": 42,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    }
+  },
+  "source_bundle_sha256": "70d214afb62660ecd73bbf92a838cc4ff2921f023928df47661b6602247265b6",
+  "manifest_sha256": "82ecb85996df322456af48328a501f8405d0c17df0b12bd4cb2dac72e781c147",
+  "provider_sha256": {
+    "cp7_f03_cash_native": "3908c71cd8541263d94fe43ff179fe79a1c455a302fb4e6f45d624b83fa48a56",
+    "cp7_f03_cash_http": "3908c71cd8541263d94fe43ff179fe79a1c455a302fb4e6f45d624b83fa48a56",
+    "cp7_f03_cash_journal_native": "939d1def2f2ea6b9c90b89b9a60ac62dbac7d1405d75ab5503fda82fb19c1bfb",
+    "cp7_f03_cash_journal_http": "939d1def2f2ea6b9c90b89b9a60ac62dbac7d1405d75ab5503fda82fb19c1bfb",
+    "cp7_f03_cash_browser": "c52ff96c148607b66d04eb4cadb36678b22c8dab2ebac134e0617ff4243eb9ce",
+    "cp7_f03_misc_native": "126a83c017c59383a4a46cc02de432bb2e527a04d1b476374e22ca314c23c11d",
+    "cp7_f03_misc_races": "126a83c017c59383a4a46cc02de432bb2e527a04d1b476374e22ca314c23c11d",
+    "cp7_f03_misc_http": "126a83c017c59383a4a46cc02de432bb2e527a04d1b476374e22ca314c23c11d",
+    "cp7_f03_misc_browser": "d1e356c614164808010debd902eaf06df4633a28af998728a5114ef445a467f5",
+    "cp7_f03_e05_native": "efe5462aa155d3fa318f978865c398786ba045fe6a32933d19c14bc0bc5d1793",
+    "cp7_f03_e05_races": "efe5462aa155d3fa318f978865c398786ba045fe6a32933d19c14bc0bc5d1793",
+    "cp7_f03_e05_http": "efe5462aa155d3fa318f978865c398786ba045fe6a32933d19c14bc0bc5d1793",
+    "cp7_f03_e05_browser": "861042cadb437c75c1a9a3685396a18382ded0b72632e210660d86f1da31298a"
+  },
+  "retained_probe_sha256": {
+    "cp7_f03_cash_probe.py": "bc8389d6ce4a51c73d14922f92ca0c297e977e8ebb06d01b66a96aa4b93260c4",
+    "cp7_f03_e05_probe.py": "d25a43b4f73bde247c5746d0acaaadcfc5aac384e51a885795c17b34906ed302",
+    "cp7_f03_misc_probe.py": "67ef152b00d7e558c09ed2ee13d6ad436f083ffddf2cdfd484c63617b8cc3cd4"
+  },
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "crc32": "a2b4de5a"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385617,
+      "sha256": "4e89efd8f10b69b454bab72473bd0f0ff570b23fc7748ff42698ce738599c326",
+      "crc32": "c61b70c8"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+      "crc32": "046ee9c1"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+      "crc32": "3c2aa92b"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385617,
+      "sha256": "4e89efd8f10b69b454bab72473bd0f0ff570b23fc7748ff42698ce738599c326",
+      "crc32": "c61b70c8"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "68e6704317be9d758aabbd977f7ef9a63b8c44f86a23627adab331ab9d28b916",
+      "crc32": "1fddb81b"
+    },
+    {
+      "name": "CP7_F03_FULL_CASH_INSTALLMENTS.json",
+      "bytes": 2344189,
+      "sha256": "96cf1ccd0d6f0ad78ebac3f86823716f4b0a99613df5d1592f882aaa90899184",
+      "crc32": "3cfb474e"
+    },
+    {
+      "name": "E05_INVERSED_DESKTOP.png",
+      "bytes": 777287,
+      "sha256": "bd616bbda11fa9dd5b4d324edba011d0881b5c955de4f2111884229f667656e8",
+      "crc32": "088d473b"
+    },
+    {
+      "name": "E05_INVERSED_MOBILE.png",
+      "bytes": 559310,
+      "sha256": "05055c680f73b7702d61eb842c2483c2438ce38c68e89f0b711ace91a7482259",
+      "crc32": "9c74de1c"
+    },
+    {
+      "name": "E05_PAID_DESKTOP.png",
+      "bytes": 777236,
+      "sha256": "04f0f5db10f8faddb1b12cd7ae0b7c685dca1df407e88c21740ceec0844af1d7",
+      "crc32": "bdfde855"
+    },
+    {
+      "name": "E05_PAID_MOBILE.png",
+      "bytes": 540076,
+      "sha256": "be825b59912929bbe9f167d296c45b874845299ac9c414971dd59125576d0887",
+      "crc32": "99e94d4b"
+    },
+    {
+      "name": "E05_PARTIAL_DESKTOP.png",
+      "bytes": 754799,
+      "sha256": "0b0c23d13f88ad8559a8aa8b9a6028efe57f353267039f45edd49f10f9183aec",
+      "crc32": "973753f7"
+    },
+    {
+      "name": "E05_PARTIAL_MOBILE.png",
+      "bytes": 540965,
+      "sha256": "ac7916044eb140a0721b79527bb6a63953ee3fdd4e0849bae768679ef1b78b0a",
+      "crc32": "6f44f031"
+    },
+    {
+      "name": "E05_PENDING_CASH_DESKTOP.png",
+      "bytes": 350256,
+      "sha256": "752d5f8747a4e82e862cfacd3afd1f721d9a29cba0078a40cdfce4ddb9cbfefd",
+      "crc32": "57b539b6"
+    },
+    {
+      "name": "E05_REVOKED_REPLAY_MOBILE.png",
+      "bytes": 267321,
+      "sha256": "3cb68ca1d49f4ca77216928e3adf3e5b5daa7639df9776b2feb3a73fd7576628",
+      "crc32": "b1d53204"
+    },
+    {
+      "name": "E05_UNCERTAIN_DESKTOP.png",
+      "bytes": 465871,
+      "sha256": "2c409b2de1f70c87293298b671e12eafbba5723e7e076a7201281bcc4082f51c",
+      "crc32": "14262aae"
+    },
+    {
+      "name": "E05_UNCERTAIN_MOBILE.png",
+      "bytes": 267321,
+      "sha256": "3cb68ca1d49f4ca77216928e3adf3e5b5daa7639df9776b2feb3a73fd7576628",
+      "crc32": "b1d53204"
+    },
+    {
+      "name": "F03_CASH_PAGE1_DESKTOP.png",
+      "bytes": 2547904,
+      "sha256": "98b3b70d785f78f166e086ccbe2f058f5ff514ac0e6107b36a1f525c3f04bd7b",
+      "crc32": "47fbfd41"
+    },
+    {
+      "name": "F03_CASH_PAGE1_MOBILE.png",
+      "bytes": 1219142,
+      "sha256": "7e83272b078a88af749bcc4340aa203e7647999c2fdfa7da3715279a0558b996",
+      "crc32": "8938a50e"
+    },
+    {
+      "name": "F03_CASH_PAGE2_DESKTOP.png",
+      "bytes": 961382,
+      "sha256": "07e250878ef91892b37697d5e4b7bbb9c3ec6788582619eed5aebdeb8e458025",
+      "crc32": "ccd88ffd"
+    },
+    {
+      "name": "F03_CASH_PAGE2_MOBILE.png",
+      "bytes": 630289,
+      "sha256": "1b7c79bbf26215f10142c8fdee74ba3f82f1903037ba5bb0c1f345c0e0b5c701",
+      "crc32": "21bb170d"
+    },
+    {
+      "name": "F03_CASH_RETIRED_DESKTOP.png",
+      "bytes": 336387,
+      "sha256": "6e65283bed66e391fe3c89f2c1b68915b00b476ac270adbf9f9700545a48347d",
+      "crc32": "688683b5"
+    },
+    {
+      "name": "F03_CASH_RETIRED_MOBILE.png",
+      "bytes": 159027,
+      "sha256": "336fd0c0d6e06be8e04efa0d88d5e016e50a91cd52095307a54478c5a27d2b63",
+      "crc32": "ec9b72bc"
+    },
+    {
+      "name": "F03_FINANCE_OVERVIEW_RETIRED_DESKTOP.png",
+      "bytes": 258640,
+      "sha256": "077b5f0df58df430c71661ac4593702e0e225d32b95c4026260f643130b8c4e3",
+      "crc32": "af1ca631"
+    },
+    {
+      "name": "F03_FINANCE_OVERVIEW_RETIRED_MOBILE.png",
+      "bytes": 130961,
+      "sha256": "78b2fb2dae87acce8afb1f030ec40cc9efc42fb1353385d4ff1504644b7816c7",
+      "crc32": "3a331faa"
+    },
+    {
+      "name": "F03_FINANCE_OVERVIEW_SOURCE_DESKTOP.png",
+      "bytes": 1078632,
+      "sha256": "441a27de73fbfea8648190dd3fa91db6ac4884609c44c54adfd1bf8d540dd30a",
+      "crc32": "732fe153"
+    },
+    {
+      "name": "F03_FINANCE_OVERVIEW_SOURCE_MOBILE.png",
+      "bytes": 772148,
+      "sha256": "5ed3be4554692ca65c5560b060a0f32e499396efda4ca8dd662765a28ef38be8",
+      "crc32": "473536cb"
+    },
+    {
+      "name": "F03_JOURNAL_DETAIL_DESKTOP.png",
+      "bytes": 705957,
+      "sha256": "8738a7fdf707000846eb9a43c0ad115d6cfb46c87cb6c52c5dae3d56301eb83f",
+      "crc32": "94f91c7e"
+    },
+    {
+      "name": "F03_JOURNAL_DETAIL_MOBILE.png",
+      "bytes": 522495,
+      "sha256": "a1ec7a20d4a5aab4e27753e8efcb44543e966ceeba585384b9cd552140894ed8",
+      "crc32": "3302475c"
+    },
+    {
+      "name": "F03_JOURNAL_PAGE1_DESKTOP.png",
+      "bytes": 1043184,
+      "sha256": "ad63ec8c7aeae913d46f88605d7750bec972a54a30187b73758f491b721aee7d",
+      "crc32": "22f82915"
+    },
+    {
+      "name": "F03_JOURNAL_PAGE1_MOBILE.png",
+      "bytes": 786953,
+      "sha256": "f829b4f3c7a58cd5c4d09f864d4e9f56e2627b5d8cf989180baabd0688c1ce3b",
+      "crc32": "699415c3"
+    },
+    {
+      "name": "F03_JOURNAL_RETIRED_DESKTOP.png",
+      "bytes": 339269,
+      "sha256": "d4c925cdc0096edb496013931e1729ecc7b4c97e22216d76a69f70ad7033d307",
+      "crc32": "b330e100"
+    },
+    {
+      "name": "F03_JOURNAL_RETIRED_MOBILE.png",
+      "bytes": 173742,
+      "sha256": "b424840b3c1c62b085d62cc6cd5d4816a385ef6aa92bd4bf94bca66c4d64028e",
+      "crc32": "6e6d1dc5"
+    },
+    {
+      "name": "F03_MISC_PENDING_AR_DESKTOP.png",
+      "bytes": 358585,
+      "sha256": "d3472b518a1b9d14d579084857fd944235cad4e195124909073be8bdc01dd8f3",
+      "crc32": "eba7129f"
+    },
+    {
+      "name": "F03_MISC_PENDING_CASH_DESKTOP.png",
+      "bytes": 349988,
+      "sha256": "f3948d2a515c9367786bf064bb5950197a1db6cb849ff132c426ca0dc87dc084",
+      "crc32": "5a48d7c9"
+    },
+    {
+      "name": "F03_MISC_PENDING_OVERVIEW_DESKTOP.png",
+      "bytes": 276117,
+      "sha256": "14825be69f9569180810990e35ece0d8ede0a2891e34076f60ac6e66c3a23dc9",
+      "crc32": "522b6815"
+    },
+    {
+      "name": "F03_MISC_PENDING_REPORT_DESKTOP.png",
+      "bytes": 365913,
+      "sha256": "d919cf37d7426527e687ad23f4c61ddc5d2f7285854a6f1a663aabcf4a23c983",
+      "crc32": "70f91e2e"
+    },
+    {
+      "name": "F03_MISC_POSTED_DESKTOP.png",
+      "bytes": 1046377,
+      "sha256": "ca016b9c519dce94b8f6373ebaf850275caa405d08b335137e5c09aa1a42ce2d",
+      "crc32": "758f9014"
+    },
+    {
+      "name": "F03_MISC_POSTED_MOBILE.png",
+      "bytes": 770874,
+      "sha256": "b5da4794024d97b11de7858825314c6b1e22e0b769baa1a0c59d93eef3ec647c",
+      "crc32": "d10d60a1"
+    },
+    {
+      "name": "F03_MISC_RETIRED_DESKTOP.png",
+      "bytes": 577259,
+      "sha256": "a43e0c94e33533e3dd2921d314d6ee121bed1c8d79b356025513353065f36610",
+      "crc32": "805f1840"
+    },
+    {
+      "name": "F03_MISC_RETIRED_MOBILE.png",
+      "bytes": 338546,
+      "sha256": "b045b598057c6748c6b3cc82ed808afe359bbe466118917bf238de9904b8fca3",
+      "crc32": "6db1d8f5"
+    },
+    {
+      "name": "F03_MISC_REVERSED_DESKTOP.png",
+      "bytes": 1060064,
+      "sha256": "9c40713c4a381096773d0bb33b0509925bff305260f10354cc5ff226673250d4",
+      "crc32": "4b7f326d"
+    },
+    {
+      "name": "F03_MISC_REVERSED_MOBILE.png",
+      "bytes": 796263,
+      "sha256": "572c5029a04373b2c51120fcb497b9a1b275579da283497b3618f6b157861bec",
+      "crc32": "cb9d45e7"
+    },
+    {
+      "name": "F03_MISC_UNCERTAIN_DESKTOP.png",
+      "bytes": 580008,
+      "sha256": "1c4ce3fb9ccedcc9fb09864d1c021149fc0e0d4dd349dc7947ba82ce9da8f3cb",
+      "crc32": "02af1988"
+    },
+    {
+      "name": "F03_RECEIVABLES_RETIRED_DESKTOP.png",
+      "bytes": 342913,
+      "sha256": "13d174a4e5149facf24bbf71208e6d8af7ac408d94cdbd6cb981baf640091acf",
+      "crc32": "9c1c4abd"
+    },
+    {
+      "name": "F03_RECEIVABLES_RETIRED_MOBILE.png",
+      "bytes": 315689,
+      "sha256": "a9fd78f98e3dd571c52faa340ba8a7dc22e9f960352481e28969c93417a54d97",
+      "crc32": "bd97295a"
+    },
+    {
+      "name": "F03_RECEIVABLES_SOURCE_DESKTOP.png",
+      "bytes": 640044,
+      "sha256": "c60917c4247f16aa2cc320e2f1988a956aba1ac7e2a7a9c6316c04b0b844780a",
+      "crc32": "ede02aa2"
+    },
+    {
+      "name": "F03_RECEIVABLES_SOURCE_MOBILE.png",
+      "bytes": 430922,
+      "sha256": "026a1858ed348c5ca1ba435a57b5e61381f6544afe5bb59297490b948a5f2631",
+      "crc32": "540070cb"
+    },
+    {
+      "name": "F03_REPORT_DATE_RETIRED_DESKTOP.png",
+      "bytes": 699402,
+      "sha256": "2682a5575a0697237c248a391e6caf04dd709fe73798a17115bd3d18c3879e9b",
+      "crc32": "912b6bb2"
+    },
+    {
+      "name": "F03_REPORT_DATE_RETIRED_MOBILE.png",
+      "bytes": 463401,
+      "sha256": "89f5a00d012b8d668f1a38e6abe10518579899670f8e3347bf3aaac7976f5f47",
+      "crc32": "c67b59e0"
+    },
+    {
+      "name": "F03_REPORT_DATE_SOURCE_DESKTOP.png",
+      "bytes": 1754687,
+      "sha256": "95b69566dc85f4b235129d2ab32462f1b505d530e93bd813c4d1ebac29cb9487",
+      "crc32": "b1f58fbd"
+    },
+    {
+      "name": "F03_REPORT_DATE_SOURCE_MOBILE.png",
+      "bytes": 1289353,
+      "sha256": "16c7f512a816c9aab9523787e78b0bfd13bbbf9e22d15ffa6a2bdc51cc560eaf",
+      "crc32": "ea1c6fb4"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "7fc532d696361b52ee391269c36b833dd5cd28bddacf3798a301275c7f0f9cfa",
+      "crc32": "9a8442e9"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "crc32": "cfb01269"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360416,
+      "sha256": "8746a37306ea38d823a0004b3a389c2b4ef15cbe9f723d451c5c9bb8f4e26837",
+      "crc32": "132a870b"
+    }
+  ],
+  "all_original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F03_FULL_CASH_INSTALLMENTS.json": {
+      "bytes": 2344189,
+      "sha256": "96cf1ccd0d6f0ad78ebac3f86823716f4b0a99613df5d1592f882aaa90899184"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7fc532d696361b52ee391269c36b833dd5cd28bddacf3798a301275c7f0f9cfa"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "8746a37306ea38d823a0004b3a389c2b4ef15cbe9f723d451c5c9bb8f4e26837"
+    }
+  },
+  "full_original_job_log_sha256": "046b823338cc868a9033865e1e854e62b2944426a332532dffc608c429e6db2b",
+  "Original_png_members_in_reusable_original_file": [
+    "E05_INVERSED_DESKTOP.png",
+    "E05_INVERSED_MOBILE.png",
+    "E05_PAID_DESKTOP.png",
+    "E05_PAID_MOBILE.png",
+    "E05_PARTIAL_DESKTOP.png",
+    "E05_PARTIAL_MOBILE.png",
+    "E05_PENDING_CASH_DESKTOP.png",
+    "E05_REVOKED_REPLAY_MOBILE.png",
+    "E05_UNCERTAIN_DESKTOP.png",
+    "E05_UNCERTAIN_MOBILE.png",
+    "F03_CASH_PAGE1_DESKTOP.png",
+    "F03_CASH_PAGE1_MOBILE.png",
+    "F03_CASH_PAGE2_DESKTOP.png",
+    "F03_CASH_PAGE2_MOBILE.png",
+    "F03_CASH_RETIRED_DESKTOP.png",
+    "F03_CASH_RETIRED_MOBILE.png",
+    "F03_FINANCE_OVERVIEW_RETIRED_DESKTOP.png",
+    "F03_FINANCE_OVERVIEW_RETIRED_MOBILE.png",
+    "F03_FINANCE_OVERVIEW_SOURCE_DESKTOP.png",
+    "F03_FINANCE_OVERVIEW_SOURCE_MOBILE.png",
+    "F03_JOURNAL_DETAIL_DESKTOP.png",
+    "F03_JOURNAL_DETAIL_MOBILE.png",
+    "F03_JOURNAL_PAGE1_DESKTOP.png",
+    "F03_JOURNAL_PAGE1_MOBILE.png",
+    "F03_JOURNAL_RETIRED_DESKTOP.png",
+    "F03_JOURNAL_RETIRED_MOBILE.png",
+    "F03_MISC_PENDING_AR_DESKTOP.png",
+    "F03_MISC_PENDING_CASH_DESKTOP.png",
+    "F03_MISC_PENDING_OVERVIEW_DESKTOP.png",
+    "F03_MISC_PENDING_REPORT_DESKTOP.png",
+    "F03_MISC_POSTED_DESKTOP.png",
+    "F03_MISC_POSTED_MOBILE.png",
+    "F03_MISC_RETIRED_DESKTOP.png",
+    "F03_MISC_RETIRED_MOBILE.png",
+    "F03_MISC_REVERSED_DESKTOP.png",
+    "F03_MISC_REVERSED_MOBILE.png",
+    "F03_MISC_UNCERTAIN_DESKTOP.png",
+    "F03_RECEIVABLES_RETIRED_DESKTOP.png",
+    "F03_RECEIVABLES_RETIRED_MOBILE.png",
+    "F03_RECEIVABLES_SOURCE_DESKTOP.png",
+    "F03_RECEIVABLES_SOURCE_MOBILE.png",
+    "F03_REPORT_DATE_RETIRED_DESKTOP.png",
+    "F03_REPORT_DATE_RETIRED_MOBILE.png",
+    "F03_REPORT_DATE_SOURCE_DESKTOP.png",
+    "F03_REPORT_DATE_SOURCE_MOBILE.png"
+  ],
+  "PNG_copies_in_this_directory": [],
+  "fresh_whole_product_pixel_acceptance": false,
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}
