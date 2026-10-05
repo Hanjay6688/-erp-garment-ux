@@ -283,7 +283,7 @@ Basis: `cp7/integration` caa1b038 (checkpoint kain + recovery) yang sudah digabu
 | `scripts/cp7-src/plan-native/commands.sql` (milik GPT) | `apply` menandai draf Native miliknya sendiri hanya di sekitar pemeriksaan ulang setelah tulis (sisip → preflight → hapus). |
 | `src/nativeAnalysis.ts`, `src/NativeMaterialNeedsView.tsx` | Penerima menerima angka fisik kain hanya dalam batas kernel; teks menjelaskan "bukan reservasi stok" dan "hanya PO yang tercatat di ERP". |
 | `scripts/cp7_fabric_physical_*`, `scripts/cp7_f05_analysis_probe.py` | Suite Native baru 21 kasus (flag `fabric_physical`). |
-| `scripts/cp7_fabric_recipe_cases.py`, `scripts/cp7_fabric_recipe_browser.mjs`, `tests/cp7/families/f04/fabric-recipe.mjs` | Oracle penerus fabric13 (ID/jumlah tetap); kontrol SQL Shell 24 → 27. |
+| `scripts/cp7_fabric_recipe_cases.py`, `scripts/cp7_fabric_recipe_browser.mjs`, `tests/cp7/families/f04/fabric-recipe.mjs` | Oracle penerus fabric13 (ID/jumlah tetap); kontrol SQL Shell 24 → 28. |
 | `scripts/cp7_analysis_bundle.py` | `TABLE_GRANTS['cp7_capture']` memuat hak kolom P08; `GRANTS['cp7_capture']` mendeklarasikan satu-satunya EXECUTE baru pada fungsi pendahulu: `erp.bb_commitment_line_remaining_v1(uuid,uuid)` (lihat 9.4). |
 | `.github/workflows/claude-p08-*.yml` | Workflow khusus cabang ini (P08 + regresi 152/284/39 + Shell/CodeQL). Tidak mengubah workflow GPT. |
 

@@ -136,6 +136,7 @@
   "rolls": "only rolls with a nonzero per-location quantity at the capture time, or used by an unposted draft; emptied history never enters",
   "commitments": "10000 bound applied after selecting open lines; closed lines never push an open line out",
   "refusal": "CP7_FABRIC_PHYSICAL_LIMIT above a bound, never silent truncation",
-  "shell_control": "scale_bounds_empty_rolls_excluded_open_PO_never_cut_by_closed_lines (fails on the previous SQL)"
+  "shell_control": "scale_bounds_empty_rolls_excluded_open_PO_never_cut_by_closed_lines (fails on the previous SQL)",
+  "refusal_control": "scale_bound_refusal_20001_held_rolls_or_10001_open_PO_lines_never_truncated"
  }
 }

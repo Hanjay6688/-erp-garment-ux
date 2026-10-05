@@ -60,7 +60,7 @@ Run CI pertama dan kedua tetap tercatat FAIL. Retry di `link()` tetap dibatasi p
 
 ## Bukti lokal (bukan bukti kualifikasi)
 
-LOCAL_PG16_DEV (5 Okt 2026): kontrol SQL Shell kain 27/27 PASS (kontrol batas skala baru terbukti gagal pada SQL lama, lulus pada perbaikan), uji unit penerima dan DOM PASS, build dan pemeriksaan keamanan PASS, kasus DB fabric13 penerus 8/8 PASS. Kasus `P08_PHYSICAL_LINKED_DRAFT_KNOWN` lulus lokal setelah perbaikan apply. Hasil kualifikasi hanya dari CI (tabel di bawah).
+LOCAL_PG16_DEV (5 Okt 2026): kontrol SQL Shell kain 28/28 PASS (kontrol batas skala terbukti gagal pada SQL lama dan lulus pada perbaikan; kontrol ke-28 membuktikan penolakan jujur `CP7_FABRIC_PHYSICAL_LIMIT` pada 20.001 roll berisi atau 10.001 baris PO terbuka), uji unit penerima dan DOM PASS, build dan pemeriksaan keamanan PASS, kasus DB fabric13 penerus 8/8 PASS. Kasus `P08_PHYSICAL_LINKED_DRAFT_KNOWN` lulus lokal setelah perbaikan apply. Hasil kualifikasi hanya dari CI (tabel di bawah).
 
 ## Riwayat CI
 

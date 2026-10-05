@@ -102,6 +102,18 @@ try{
  const open=await source(at);assert.deepEqual(open.physical.commitments.map(c=>[c.id,c.remaining]),[['ffffffff-0000-4000-8000-000000000002','5']])
  await db.execute(`delete from erp.bb_purchase_commitment_lines_v1;delete from erp.bb_purchase_commitments_v1;create or replace function erp.bb_commitment_line_remaining_v1(uuid,uuid)returns numeric language sql stable as $f$select 0::numeric$f$;`)
  check('scale_bounds_empty_rolls_excluded_open_PO_never_cut_by_closed_lines',{held_rolls:held.physical.rolls.length,empty_rolls:25,closed_lines:10001,open:open.physical.commitments})
+ // P19 honest refusal: above a bound the whole source is refused, never truncated.
+ await db.execute(`insert into erp.material_rolls select(lpad(to_hex(g),8,'0')||'-0000-4000-8000-000000000003')::uuid,'${material}','AVAILABLE' from generate_series(1,20000)g;
+  insert into erp.material_stock_movements(material_id,roll_id,location_id,qty_signed,physical_at)select '${material}',(lpad(to_hex(g),8,'0')||'-0000-4000-8000-000000000003')::uuid,'${warehouse}',1,'2026-01-01T00:00:00Z' from generate_series(1,20000)g;`)
+ await assert.rejects(()=>source(at),/CP7_FABRIC_PHYSICAL_LIMIT/)
+ await db.execute(`delete from erp.material_stock_movements where roll_id::text like '%-000000000003';delete from erp.material_rolls where id::text like '%-000000000003';
+  insert into erp.bb_purchase_commitments_v1 values('99999999-9999-4999-8999-999999999999','PO-SCALE','${warehouse}',null);
+  insert into erp.bb_purchase_commitment_lines_v1 select(lpad(to_hex(g),8,'0')||'-0000-4000-8000-000000000004')::uuid,'99999999-9999-4999-8999-999999999999','${material}',g::text from generate_series(1,10001)g;
+  create or replace function erp.bb_commitment_line_remaining_v1(uuid,uuid)returns numeric language sql stable as $f$select 1::numeric$f$;`)
+ await assert.rejects(()=>source(at),/CP7_FABRIC_PHYSICAL_LIMIT/)
+ await db.execute(`delete from erp.bb_purchase_commitment_lines_v1;delete from erp.bb_purchase_commitments_v1;create or replace function erp.bb_commitment_line_remaining_v1(uuid,uuid)returns numeric language sql stable as $f$select 0::numeric$f$;`)
+ assert.deepEqual((await source(at)).physical.rolls.map(r=>r.id),[roll])
+ check('scale_bound_refusal_20001_held_rolls_or_10001_open_PO_lines_never_truncated',{held_rolls:20001,open_lines:10001,refused:'CP7_FABRIC_PHYSICAL_LIMIT'})
  await db.execute(`delete from erp.material_stock_movements;delete from erp.material_rolls;delete from erp.locations;`)
  check('single_claimant_free_roll30_allocated_external170_inactive_warehouse_not_ready',{stocked,inactive})
  assert.equal((await needs(first,null))[0].gross.state,'UNKNOWN');assert.equal((await needs(first,'100',`${root}:ffffffff-ffff-4fff-8fff-ffffffffffff`))[0].gross.state,'UNKNOWN');check('unknown_need_and_exact_other_size_not_zero',{no_inherited_recipe:true})
