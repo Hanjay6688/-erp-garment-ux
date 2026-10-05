@@ -3436,10 +3436,10 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-05: original writer chat02:44:40 WIB remains distinct from b215 commit01:19:46 WIB. Authorized continuation qualifies shared-material Native39 and cutting reopen Native19 at source51e, X04 Native7 and Shell158/1522+private kernels+6 synthetic browser+two CodeQL0 at source767, and every unchanged full F03 bucket at source6a (132+3smokes,34,64,90,50,61,5,10;612 full raw catalogs). All first failures and their unproved exact causes remain preserved. Full P08/P18/P19/P20/P21 and production/independent acceptance remain open. Effective-dated fabric recipe source now changes the analysis dependency; local66/SQL24/build/security evidence is preparatory and cannot inherit prior Native qualification by commit parity.",
+  "last_writer_checkpoint": "2026-10-05: checkpoint besar fabric input and recovery COMPLETE within its declared bounded scope. Original writer chat02:44:40 WIB and b215 commit01:19:46 WIB remain separate. Codee7 fabric13, analysis152, note40+admission3, redye5, Shell1538+6 synthetic browser+CodeQL2 zero are qualified from full Originals. Source1ee attention284 plus3 source admission is now qualified from all18 exact complete JSON roots; source190 plan39 retained separately. Current physical installation/allocation/external/feasibility remain UNKNOWN; full P08/P18/P19/P20/P21 and independent/production acceptance remain open. First190 failures and unproved causes remain unchanged. See CHECKPOINT_FABRIC_20261005.md; final checkpoint publication changes documentation and retained evidence only.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
-  "latest_tested_scope": "Exact source767 X04 Native7 (6 Native/1 real Auth HTTP), all14 full raw catalog snapshots and final group boundary, plus Shell158 files/1522 tests/private Native material12/history28/F04 138/synthetic browser6/two successful CodeQL scans with0 findings. Exact source51e P08 Native39 and cutting19 remain qualified; all8 full F03 buckets are separately qualified at exact source6a with612 full raw catalogs, unchanged budgets and honest source parity. These source-bound case executions overlap earlier controls; no unique-oracle sum, full-product visual acceptance, full P08/P18/P19/P20/P21 or production GO.",
-  "latest_tested_source": "767c35f14fa88a52d03053f843492258be56df72",
+  "latest_tested_scope": "Exact source1ee attention284 (179 database/40 actual races/29 real Auth HTTP/36 browser), all18 complete top-level Original JSON roots, planned IDs exact, admission3 zero extra case credit, full install/primary/backup/restoration/advisor/Auth0 gates. Application and Native SQL match sourcee7: fabric13 (8/2/1/2), all5 full Original roots/eight PNGs/all18 raw public catalogs/eight recomputed controls; analysis152 (106/20/12/14) all5 roots; historical note40 (28/4/3/5) plus3 composition admission zero case credit/all10 complete roots/all66 main+admission raw catalogs; redye5 (2/1/2)/all5 roots/all6 raw catalogs; Shell161 files/1538 tests/private recipe24/private F04 138/synthetic browser6/two successful CodeQL0. Source190 Native plan39 (25/8/2/4) remains separately qualified from full roots; unchanged planner source parity checked. Overlapping executions are not a unique-oracle sum. No full P08/P18/P19/P20/P21 or production GO.",
+  "latest_tested_source": "1ee958f5408bb75fd6bbff513ff117da5362082c",
   "material_native_152_qualification": {
     "counts": {
       "browser": 14,
@@ -3653,7 +3653,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Finish exact-source Native152/284 and note40+admission3 complete Original qualification. Fabric13/69 affected/1538 Shell and source190 Native152+plan39 are qualified by full roots; first failures remain immutable. The attention workflow exports every full top-level JSON separately to make complete284 Originals accessible. Then continue actual P08 physical installation/eligible-unused/global feasibility, P18 and representative P19. Independent P20 and installed P21 are separate; no hosted production authorization.",
+  "next_action": "Continue actual P08 physical fabric installation, eligible-unused allocation and global feasibility from exact Native physical sources; preserve UNKNOWN until proved and do not invent operating recipe inputs. Then qualify fabric reminder/P18 and representative scale/P19 on the actual candidate. Independent P20 and installed P21 remain separate; no hosted production authorization. Read CHECKPOINT_FABRIC_20261005.md and all referenced source-bound complete Original receipts before continuing; one writer and guarded canonical fast-forward, no force-push. Fabric13/analysis152/attention284/note40/redye5/plan39 and Shell1538 checkpoint qualification is complete, so do not restart these completed suites without a relevant new change.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -11206,22 +11206,61 @@
         "source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
         "receipt": "docs/cp7/evidence/f03-redye/qualified5-e7/RECEIPT.json",
         "raw_snapshots_recomputed": 6
+      },
+      "analysis152_successor": {
+        "source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+        "receipt": "docs/cp7/evidence/f05-analysis/qualified152-e7/RECEIPT.json",
+        "counts": {
+          "native": 106,
+          "races": 20,
+          "http": 12,
+          "browser": 14
+        }
+      },
+      "note40_successor": {
+        "source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+        "receipt": "docs/cp7/evidence/note-correction/qualified40-e7/RECEIPT.json",
+        "counts": {
+          "native": 28,
+          "races": 4,
+          "http": 3,
+          "browser": 5
+        },
+        "admission3_case_credit": 0,
+        "complete_JSON_roots": 10,
+        "raw_catalogs_recomputed": 66
+      },
+      "attention284_successor": {
+        "source": "1ee958f5408bb75fd6bbff513ff117da5362082c",
+        "runtime_source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+        "receipt": "docs/cp7/evidence/f05-attention/qualified284-1ee/RECEIPT.json",
+        "counts": {
+          "native": 179,
+          "races": 40,
+          "http": 29,
+          "browser": 36
+        },
+        "admission3_case_credit": 0,
+        "complete_JSON_roots": 18,
+        "raw_catalog_bodies_not_exported": true
       }
     }
   },
   "retained_public_catalog_requalification_190": {
     "note_first": "docs/cp7/evidence/note-correction/first-admission-incomplete-190/FIRST_FAILURE.json",
     "redye_first": "docs/cp7/evidence/f03-redye/first-public-incomplete-190/FIRST_FAILURE.json",
-    "status": "FIRST_FAILURES_RETAINED_EXACT_CAUSE_UNPROVED; RETAIN_FULL_RAW_CATALOGS_WITH_EXISTING_ALL_FIELD_COMPARATOR_FOR_REQUALIFICATION",
+    "status": "SUCCESSOR_E7_NOTE40_AND_REDYE5_QUALIFIED_FULL_RAW_CATALOGS; FIRST190_FAILURES_RETAINED_EXACT_CAUSE_UNPROVED",
     "unchanged_budgets": {
       "note40": 40,
       "note_admission": 3,
       "redye5": 5
     },
-    "production_code_changes": 0
+    "production_code_changes": 0,
+    "qualified_note_receipt": "docs/cp7/evidence/note-correction/qualified40-e7/RECEIPT.json",
+    "qualified_redye_receipt": "docs/cp7/evidence/f03-redye/qualified5-e7/RECEIPT.json"
   },
   "native_attention_complete_original_export": {
-    "status": "SEPARATE_COMPLETE_JSON_ARTIFACT_REQUIRED",
+    "status": "SUCCESSOR284_COMPLETE_ORIGINALS_QUALIFIED_18_ROOTS",
     "old_source": "190078a891054b2181d50d12458b9f12721cec59",
     "old_run": 37304873193,
     "old_artifact": 11343944807,
@@ -11233,6 +11272,52 @@
     ],
     "old_284_CI_status": "success",
     "full_old_284_Original_qualification_awarded": false,
-    "repair": "Additional complete top-level JSON artifact; existing full archive remains. No test/provider/runtime/oracle change."
+    "repair": "Additional complete top-level JSON artifact; existing full archive remains. No test/provider/runtime/oracle change.",
+    "qualified_source": "1ee958f5408bb75fd6bbff513ff117da5362082c",
+    "qualified_runtime_source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+    "qualified_run": 37313916811,
+    "qualified_job": 111775775298,
+    "qualified_artifact": 11348714546,
+    "qualified_artifact_sha256": "4b7da57fc85d2f7488dc5e86d384be1974aa9214413f095a31346c12d0eddb69",
+    "qualified_artifact_bytes": 65445,
+    "qualified_receipt": "docs/cp7/evidence/f05-attention/qualified284-1ee/RECEIPT.json",
+    "complete_JSON_roots": 18,
+    "full_archive_artifact_retained": 11349048986,
+    "full_archive_sha256": "66291f7e335fd926d2168dce94b96a6959e3c81ab1b4cfc2b65778d9dcbc737f",
+    "full_archive_materialized_here": false,
+    "old_download_failure_is_not_ZIP_corruption_proof": true
+  },
+  "checkpoint_besar_20261005": {
+    "status": "COMPLETE_BOUNDED_FABRIC_RECOVERY_AND_DECLARED_REGRESSIONS",
+    "core_checkpoint": "1ee958f5408bb75fd6bbff513ff117da5362082c",
+    "qualified_runtime_source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+    "contract": "docs/cp7/CHECKPOINT_FABRIC_20261005.md",
+    "Native13_complete": true,
+    "Native152_successor_complete": true,
+    "Native39_complete_source190": true,
+    "redye5_complete": true,
+    "shell1538_complete": true,
+    "CodeQL_both_zero": true,
+    "attention284_export_run": 37313916811,
+    "note40_run": 37310043396,
+    "independent_acceptance": false,
+    "production_go": false,
+    "note40_successor_complete": true,
+    "Native284_complete_source1ee": true,
+    "attention284_receipt": "docs/cp7/evidence/f05-attention/qualified284-1ee/RECEIPT.json",
+    "attention284_source": "1ee958f5408bb75fd6bbff513ff117da5362082c",
+    "attention284_admission3_case_credit": 0,
+    "final_checkpoint_documentation_and_evidence_only": true,
+    "whole_CP7_complete": false,
+    "full_P08_acceptance": false,
+    "full_P18_acceptance": false,
+    "full_P19_acceptance": false,
+    "independent_P20_acceptance": false,
+    "installed_P21_acceptance": false
+  },
+  "historical_top_level_state_before_fabric_checkpoint": {
+    "latest_tested_source": "767c35f14fa88a52d03053f843492258be56df72",
+    "latest_tested_scope": "Exact source767 X04 Native7 (6 Native/1 real Auth HTTP), all14 full raw catalog snapshots and final group boundary, plus Shell158 files/1522 tests/private Native material12/history28/F04 138/synthetic browser6/two successful CodeQL scans with0 findings. Exact source51e P08 Native39 and cutting19 remain qualified; all8 full F03 buckets are separately qualified at exact source6a with612 full raw catalogs, unchanged budgets and honest source parity. These source-bound case executions overlap earlier controls; no unique-oracle sum, full-product visual acceptance, full P08/P18/P19/P20/P21 or production GO.",
+    "last_writer_checkpoint": "2026-10-05: original writer chat02:44:40 WIB remains distinct from b215 commit01:19:46 WIB. Authorized continuation qualifies shared-material Native39 and cutting reopen Native19 at source51e, X04 Native7 and Shell158/1522+private kernels+6 synthetic browser+two CodeQL0 at source767, and every unchanged full F03 bucket at source6a (132+3smokes,34,64,90,50,61,5,10;612 full raw catalogs). All first failures and their unproved exact causes remain preserved. Full P08/P18/P19/P20/P21 and production/independent acceptance remain open. Effective-dated fabric recipe source now changes the analysis dependency; local66/SQL24/build/security evidence is preparatory and cannot inherit prior Native qualification by commit parity."
   }
 }
