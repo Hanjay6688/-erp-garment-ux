@@ -11015,5 +11015,22 @@
     "independent_acceptance": false,
     "installed_P21_acceptance": false,
     "production_go": false
+  },
+  "continuation_6a_profile_schedule_and_toolbar_candidate": {
+    "base_commit": "6a1939d8f42e4d96f375a8878fa766a6a683ece4",
+    "status": "CONTINUING_NATIVE39_AND_CUTTING19_RERUN_REQUIRED",
+    "profile_source_change_requires_same_selected_schedule_review": true,
+    "complete_schedule_config_unchanged_required": true,
+    "public_schedule_CAS_and_fresh_Original": true,
+    "owning_toolbar_min_contrast4_5_required_on_both_Native_browsers": true,
+    "preparation": "docs/cp7/evidence/plan-native/profile-schedule-review-local/PREPARATION.json",
+    "Native_business_SQL_or_grants_changed": false,
+    "source_caps_or_statement_timeouts_changed": false,
+    "full_P08_acceptance": false,
+    "full_P18_acceptance": false,
+    "full_P19_acceptance": false,
+    "independent_acceptance": false,
+    "installed_P21_acceptance": false,
+    "production_go": false
   }
 }

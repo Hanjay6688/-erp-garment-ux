@@ -96,10 +96,19 @@ def shared_material_setup(cur,today):
  assert first['payload']['target_key']!=second['payload']['target_key']
  profiles=previous.baseline.get(cur,[first['root'],second['root']])['rows']
  assert len(profiles)==2 and all(p['config']['daily_pcs']=='10'for p in profiles),profiles
+ # Profiles are operands of the complete supply fingerprint. Review the same
+ # already selected work configuration against the new source via the existing
+ # public schedule CAS; no hash edit, source override or inferred free capacity.
+ retained=cur.execute('select revision,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone()
+ analysis.material_cases.review_schedule(cur,today,analysis)
+ reviewed=cur.execute('select revision,config,source_hash from cp7_schedule_native.plans order by revision desc limit 1').fetchone()
+ assert reviewed[0]==retained[0]+1 and reviewed[1]==retained[1],('SHARED_TARGET_WORK_CONFIG_CHANGED',retained,reviewed)
  original=analysis.capture(cur,today)
  needs=[analysis.recommendation(original['analysis'],f['root'])for f in(first,second)]
  assert all(r['q_conditional']['state']=='ASSUMED'and D(r['q_conditional']['value'])>=2 for r in needs),needs
- first['shared_target_setup']=dict(selected_profiles=profiles,current_recommendations=needs)
+ first['shared_target_setup']=dict(selected_profiles=profiles,current_recommendations=needs,
+  schedule_review=dict(before_revision=str(retained[0]),after_revision=str(reviewed[0]),source_hash=reviewed[2],
+   complete_selected_work_config=reviewed[1],complete_config_unchanged=True,public_schedule_CAS=True))
  return first,second
 
 def material_pool(cur,payload):

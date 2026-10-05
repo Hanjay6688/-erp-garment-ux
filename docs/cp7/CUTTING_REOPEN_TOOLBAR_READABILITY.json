@@ -1,0 +1,23 @@
+{
+  "contract": "cp7.owning-cutting-search-toolbar-readability.v1",
+  "status": "IMPLEMENTED_LOCAL_BUILD_SECURITY_NATIVE19_BROWSER_REQUIRED",
+  "source_base": "6a1939d8f42e4d96f375a8878fa766a6a683ece4",
+  "prior_Original": "docs/cp7/evidence/cutting-reopen/qualified19-readable-861/RECEIPT.json",
+  "prior_toolbar_pixel_acceptance": false,
+  "prior_correction_panel_scope_preserved": true,
+  "scope": "Only the existing dark record-tools surface within connected-pickup-page; source search/order/filter/permissions/Native command/recovery semantics preserved",
+  "expected_case_count": 19,
+  "required_case_counts": {
+    "native": 10,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "browser_controls": "Retain all old Native/source/movement/stock/GL/replay/timezone/overflow checks; add actual computed style measurements for every visible enabled search/filter label/input/select/button/placeholder at review and committed states on both desktop/mobile, minimum ratio4.5.",
+  "old_case_IDs_removed": [],
+  "public_RPCs_added": [],
+  "Native_SQL_changed": false,
+  "full_product_visual_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
