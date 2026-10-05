@@ -157,20 +157,20 @@ begin
   select *into strict h from erp.sales_headers where id=h.id;
   intent:=jsonb_build_object('sale_id',h.id,'review_token',cp7_sales.review_token(h.id),'payment_id',child->>'id','change_reason',btrim(p->>'change_reason'));
   child_request:=md5(auth.uid()::text||':SALE_CHAIN:'||p_request::text||':PAYMENT:'||(child->>'id'))::uuid;
-  result:=cp7_sales.command('PAYMENT_REVERSE',intent,child_request,h.row_version::text);
+  result:=public.erp_cp7_save_sale_v1('PAYMENT_REVERSE',intent,child_request,h.row_version::text);
   steps:=steps||jsonb_build_array(jsonb_build_object('action','PAYMENT_REVERSE','id',child->>'id','status',result->>'payment_status'));
  end loop;
  for child in select value from jsonb_array_elements(source->'returns')loop
   select *into strict h from erp.sales_headers where id=h.id;
   intent:=jsonb_build_object('sale_id',h.id,'review_token',cp7_sales.review_token(h.id),'return_id',child->>'id','change_reason',btrim(p->>'change_reason'));
   child_request:=md5(auth.uid()::text||':SALE_CHAIN:'||p_request::text||':RETURN:'||(child->>'id'))::uuid;
-  result:=cp7_sales.command('RETURN_REVERSE',intent,child_request,h.row_version::text);
+  result:=public.erp_cp7_save_sale_v1('RETURN_REVERSE',intent,child_request,h.row_version::text);
   steps:=steps||jsonb_build_array(jsonb_build_object('action','RETURN_REVERSE','id',child->>'id','status',result->>'return_status'));
  end loop;
  select *into strict h from erp.sales_headers where id=h.id;
  intent:=jsonb_build_object('sale_id',h.id,'review_token',cp7_sales.review_token(h.id),'change_reason',btrim(p->>'change_reason'));
  child_request:=md5(auth.uid()::text||':SALE_CHAIN:'||p_request::text||':SALE:'||h.id::text)::uuid;
- result:=cp7_sales.command('SALE_REVERSE',intent,child_request,h.row_version::text);
+ result:=public.erp_cp7_save_sale_v1('SALE_REVERSE',intent,child_request,h.row_version::text);
  steps:=steps||jsonb_build_array(jsonb_build_object('action','SALE_REVERSE','id',h.id,'status',result->>'status'));
  if result->>'status'is distinct from'REVERSED'or exists(select 1 from jsonb_array_elements(steps)x where x->>'status'is distinct from'REVERSED')then
   raise exception 'CP7_SALES_CHAIN_INCOMPLETE';end if;
@@ -202,8 +202,10 @@ revoke create on schema public from cp7_sales_read,cp7_sales_write;
 revoke all on all functions in schema cp7_sales_chain from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write;
 grant execute on function cp7_sales_chain.workspace(uuid)to cp7_sales_read;
 grant execute on function cp7_sales_chain.command(jsonb,uuid,text)to cp7_sales_write;
--- The hosted postgres role is not a superuser: explicitly admit only the
--- existing owning command, whose current authority and Native guards still run.
-grant execute on function cp7_sales.command(text,jsonb,uuid,text)to postgres;
+-- The coordinator's postgres owner is not a superuser. Enter through the
+-- existing facade owned by cp7_sales_write so its invoker command retains
+-- private request/context ownership. Do not grant postgres private table DML
+-- or direct invoker execution; every current-authority and Native guard runs.
+grant execute on function public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)to postgres;
 revoke all on function public.erp_cp7_get_sales_chain_v1(uuid),public.erp_cp7_reverse_sales_chain_v1(jsonb,uuid,text)from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_get_sales_chain_v1(uuid),public.erp_cp7_reverse_sales_chain_v1(jsonb,uuid,text)to authenticated;

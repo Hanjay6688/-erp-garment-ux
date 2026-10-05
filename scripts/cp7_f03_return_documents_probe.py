@@ -2,6 +2,7 @@
 import hashlib,json,traceback
 import psycopg
 import cp7_restore_state as restore_state
+from cp7_catalog_state import exact_public_catalog
 import cp7_f03_bundle as bundle
 import cp7_supplier_return_document_cases as cases
 import cp7_p12_nota_probe as payroll
@@ -41,7 +42,9 @@ def run():
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_F03_RETURN_DOCUMENTS',cases.cases,verify)
+  with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+   report['native_public_catalog_comparison']=catalog_audit
+   report['native']=native.strict_group('CP7_F03_RETURN_DOCUMENTS',cases.cases,verify)
   report['http']=modes.run_http(cases,verify,'cp7_f03_return_documents')
   report['races']=modes.run_races(cases,verify,'cp7_f03_return_documents')
   report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_f03_return_documents_browser.mjs',verify,'cp7_f03_return_documents_browser')

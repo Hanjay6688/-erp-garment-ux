@@ -1,0 +1,120 @@
+{
+  "source_commit": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
+  "source_tree": "bf0cc47ffeb35437fff84200efcf5cb1210082f8",
+  "run_id": 37224015513,
+  "job_id": 111499840864,
+  "artifact_id": 11311531461,
+  "zip_bytes": 4241351,
+  "zip_sha256": "29b1d785e6f936d4783e2a127b24c615b32029c96c49dd9089c987e10ac62eca",
+  "runtime_report": "CP7_F03_RETURN_DOCUMENTS.json",
+  "status": "NATIVE_WRITER_INCOMPLETE",
+  "expected_status": "INCOMPLETE",
+  "source_bundle_sha256": "2518a7446e961769296f805bdf51c20d9591713d2aba6ddf2631e2cda957ab2b",
+  "expected_case_count": 12,
+  "observed_case_count": 12,
+  "counts": {
+    "native": {
+      "PASS": 6
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_reports_gzip_sha256": "993bc195f811e94c68db902903bfc972d59b0de59f4d15877b1997ff6473e263",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F03_RETURN_DOCUMENTS.json": {
+      "bytes": 286485,
+      "sha256": "eb37a9daa740686f047519736bab84cc4ca8cfebe841a66dc5a38a3c575eb869"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "8dda3e26a452823885cb19c32c6e77eab03b7961ad84b0439b5aa96ae56e231c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "ce8171c62c0e99b3e21f410ac09cc3d5aab035ac3f150f6dd1cf474d29658bf3"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "dd9143b5ffd35004d7c188a4683bf0971f4b7203e708acaa64edc5ecc97b1977"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "dd9143b5ffd35004d7c188a4683bf0971f4b7203e708acaa64edc5ecc97b1977"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "5321d7af334c6f4f6f1e18b69fc2bffc331801c1728dfcb53209c3a41b4fa5cf"
+    },
+    "CP7_F03_RETURN_DOCUMENTS.json": {
+      "bytes": 286485,
+      "sha256": "eb37a9daa740686f047519736bab84cc4ca8cfebe841a66dc5a38a3c575eb869"
+    },
+    "P09_COMBINED_RETURN_DESKTOP.png": {
+      "bytes": 1586412,
+      "sha256": "7fd6197e0f6923d7d00cb70d78f137782a40734db8ad148db638620c4b5aa153"
+    },
+    "P09_COMBINED_RETURN_MOBILE.png": {
+      "bytes": 1062640,
+      "sha256": "789237a5e3ea285189a7a6ab75d8375381f2a2fe544c962b74745a95fec459ed"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "8dda3e26a452823885cb19c32c6e77eab03b7961ad84b0439b5aa96ae56e231c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "ce8171c62c0e99b3e21f410ac09cc3d5aab035ac3f150f6dd1cf474d29658bf3"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "package_report_status": "ALL_STAGES_INSTALLED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  }
+}

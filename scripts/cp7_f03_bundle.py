@@ -14,6 +14,7 @@ import cp7_installment_bundle as installment
 import cp7_note_report_bundle as note_report
 import cp7_transaction_source_bundle as transaction_source
 import cp7_misc_correction_bundle as misc_correction
+import cp7_sales_chain_bundle as sales_chain
 ROOT=finance.ROOT
 
 def attendance_internal_body():
@@ -54,3 +55,4 @@ GRANTS.update(cp7_misc_read=misc.READ_GRANTS,cp7_misc_write=misc.WRITE_GRANTS)
 GRANTS.update(cp7_installment_read=installment.READ_GRANTS,cp7_installment_write=installment.WRITE_GRANTS)
 
 GRANTS[transaction_source.ROLE]=transaction_source.GRANTS
+GRANTS['postgres']=(sales_chain.OWNING_FACADE,)

@@ -1,6 +1,7 @@
 """Closed capabilities for one reviewed Native sale-chain transaction."""
 SCHEMA='cp7_sales_chain'
 TABLES=('requests','history')
+OWNING_FACADE='public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)'
 def verify(cur):
     expected={'access_now':(True,'v',False),'immutable':(False,'v',False),'snapshot':(True,'s',True),
         'token':(True,'s',False),'workspace':(True,'v',True),'validate':(False,'i',False),'command':(True,'v',True)}
@@ -27,6 +28,10 @@ def verify(cur):
         assert not cur.execute('select has_schema_privilege(%s,%s,\'USAGE\')',(who,SCHEMA)).fetchone()[0]
     assert cur.execute('select count(*)from pg_trigger where tgrelid=%s::regclass and tgfoid=%s::regprocedure and not tgisinternal',(SCHEMA+'.history',SCHEMA+'.immutable()')).fetchone()[0]==2
     assert not cur.execute("select exists(select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'and c.relkind in('r','p','v')and has_table_privilege('cp7_sales_write',c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER'))").fetchone()[0]
-    assert cur.execute("select has_function_privilege('postgres','cp7_sales.command(text,jsonb,uuid,text)','EXECUTE')").fetchone()[0], 'CHAIN_OWNING_COMMAND_POSTGRES_ADMISSION'
+    assert cur.execute('select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure',(OWNING_FACADE,)).fetchone()==('cp7_sales_write',True,'v',['search_path=""']), 'CHAIN_EXISTING_OWNING_FACADE'
+    assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')",(OWNING_FACADE,)).fetchone()[0], 'CHAIN_OWNING_FACADE_POSTGRES_ADMISSION'
+    assert not cur.execute("select has_function_privilege('postgres','cp7_sales.command(text,jsonb,uuid,text)','EXECUTE')").fetchone()[0], 'CHAIN_NO_POSTGRES_DIRECT_INVOKER'
+    for table in ('cp7_sales.requests','cp7_sales.command_context'):
+        assert not cur.execute("select has_table_privilege('postgres',%s,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(table,)).fetchone()[0],('CHAIN_NO_POSTGRES_PRIVATE_DML',table)
     assert not cur.execute('select exists(select 1 from cp7_sales.command_context)').fetchone()[0]
-    return dict(all_business_effects_existing_Native_commands=True,closed_private_chain_capabilities=True,no_app_ERP_DML=True,immutable_reviewed_source_history=True)
+    return dict(all_business_effects_existing_Native_commands=True,closed_private_chain_capabilities=True,no_app_ERP_DML=True,immutable_reviewed_source_history=True,existing_owning_facade_admitted=True,no_postgres_private_DML_or_direct_invoker=True)

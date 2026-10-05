@@ -5,6 +5,8 @@ name: CP7 F03 Native Misc Finance
     - cp7/integration
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
+    - scripts/cp7_catalog_state.py
+    - scripts/cp7_restore_state.py
     - scripts/check-access-catalog.mjs
     - scripts/check-source-ownership.mjs
     - scripts/cp7_f03_misc_*
