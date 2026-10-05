@@ -1,0 +1,49 @@
+{
+  "contract": "cp7.X04-public-catalog-observation-preparation.v1",
+  "base_commit": "51e9f3fe22326efa9244fd83068c386d5f955edd",
+  "status": "READ_ONLY_ACTUAL_CATALOG_CONTROLS_PASS_NATIVE7_RERUN_REQUIRED",
+  "source_original": "docs/cp7/evidence/f03-x04/incomplete7-public-catalog-51e/RECEIPT.json",
+  "observed_package_before_after_all_fields_canonical_equal": true,
+  "observed_package_raw_pair_order_different": true,
+  "every_actual_full_catalog_sensitivity_control": {
+    "before": {
+      "pair_order_only_equal": true,
+      "function_hash_change_refused": true,
+      "function_signature_change_refused": true,
+      "missing_function_member_refused": true,
+      "duplicate_function_member_refused": true,
+      "relation_member_change_refused": true,
+      "public_row_hash_or_member_change_refused": true,
+      "observed_input_not_mutated": true
+    },
+    "after": {
+      "pair_order_only_equal": true,
+      "function_hash_change_refused": true,
+      "function_signature_change_refused": true,
+      "missing_function_member_refused": true,
+      "duplicate_function_member_refused": true,
+      "relation_member_change_refused": true,
+      "public_row_hash_or_member_change_refused": true,
+      "observed_input_not_mutated": true
+    }
+  },
+  "context_exception_reader_identity_restored": true,
+  "observed_adapter_snapshots_retained": 2,
+  "adapter_order_only_witness_count": 1,
+  "candidate_probe_sha256": "2d3d6be0c711b3f6f43a4f9b75071c41917aef227e2f3cac8c32117c7ccae65b",
+  "unchanged_expected_case_count": 7,
+  "unchanged_native_cases": 6,
+  "unchanged_real_Auth_HTTP_cases": 1,
+  "Native_business_SQL_unchanged": true,
+  "Native_grants_unchanged": true,
+  "frozen_CP6_reader_and_runner_unchanged": true,
+  "old_Native_case_or_group_difference_exact_cause_proved": false,
+  "local_Native_business_credit": 0,
+  "local_Auth_HTTP_credit": 0,
+  "local_browser_credit": 0,
+  "full_X04_acceptance": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

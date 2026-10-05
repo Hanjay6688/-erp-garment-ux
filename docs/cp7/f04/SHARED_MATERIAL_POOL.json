@@ -1,6 +1,6 @@
 {
   "contract": "cp7.p08-shared-material-budget-declaration.v1",
-  "status": "PROFILE_SCHEDULE_DEPENDENCY_REVIEW_IMPLEMENTED_NATIVE39_REQUIRED",
+  "status": "NATIVE39_ALL_COMPLETE_CASE_BODIES_QUALIFIED_AT_51E",
   "base_commit": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
   "expected_case_count": 39,
   "required_case_counts": {
@@ -86,5 +86,27 @@
   "current_rerun_expected_case_count": 39,
   "profile_schedule_review": "Complete profiles are supply fingerprint operands. Reuse existing public source capture/schedule CAS review; assert all original work config exactly unchanged and revision increment1, then capture two current positive recommendations and exact fresh assumption IDs.",
   "dependency_review_of_source6a": "Detected by exact current source before its Native39 result; preserve later actual source6a Original without relabelling or granting qualification.",
-  "successor_local_preparation": "docs/cp7/evidence/plan-native/profile-schedule-review-local/PREPARATION.json"
+  "successor_local_preparation": "docs/cp7/evidence/plan-native/profile-schedule-review-local/PREPARATION.json",
+  "latest39_original": {
+    "source_commit": "51e9f3fe22326efa9244fd83068c386d5f955edd",
+    "source_tree": "6e8f943335801734f302c64be70d3d7aa2341faa",
+    "run_id": 37291363535,
+    "job_id": 111702268543,
+    "receipt": "docs/cp7/evidence/plan-native/qualified39-shared-material-51e/RECEIPT.json",
+    "counts": {
+      "native": 25,
+      "races": 8,
+      "http": 2,
+      "browser": 4
+    },
+    "expected_case_count": 39,
+    "observed_case_count": 39,
+    "all39_declared_ids_matched": true,
+    "all_complete_boundaries_restored": true,
+    "full_P08_acceptance": false
+  },
+  "source6a_actual_outcome": {
+    "status": "INCOMPLETE_37_PASS_2_SETUP_REFUSALS",
+    "receipt": "docs/cp7/evidence/plan-native/incomplete39-profile-schedule-6a/RECEIPT.json"
+  }
 }

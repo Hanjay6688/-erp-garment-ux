@@ -1,0 +1,476 @@
+{
+  "source_commit": "6a1939d8f42e4d96f375a8878fa766a6a683ece4",
+  "source_tree": "d1f7d152c5f70f4853a78d0cb9487fcb2adbd3ab",
+  "run_id": 37289725862,
+  "job_id": 111697032578,
+  "artifact_id": 11336637722,
+  "zip_bytes": 24667509,
+  "zip_sha256": "6d95633df748184d406da8cca9de6f4a0f19bbaec7eaeea54a0240ca82cf9bd2",
+  "runtime_report": "CP7_F04_NATIVE_PLANS.json",
+  "expected_status": "INCOMPLETE",
+  "expected_case_count": 39,
+  "required_case_counts": {
+    "native": 25,
+    "races": 8,
+    "http": 2,
+    "browser": 4
+  },
+  "status": "NATIVE_WRITER_INCOMPLETE",
+  "source_bundle_sha256": "753e23504f072889fe25a9f3a020baf9bf22005a7f3ef2a28fd15216a6a91952",
+  "observed_case_count": 39,
+  "counts": {
+    "native": {
+      "PASS": 24,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 7,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "failures": {
+    "native": {
+      "P08_SHARED_FABRIC_NEXT_TARGET": "INCOMPLETE"
+    },
+    "races": {
+      "P08_SHARED_FABRIC_REAL_TWO_TARGET_WAIT": "INCOMPLETE"
+    },
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "1e2b8a3760fdd1a35684aa64ced8546ea7a9dfb69088475050976e138931dc43",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F04_NATIVE_PLANS.json": {
+      "bytes": 309645,
+      "sha256": "91a23a621a950731e552ae0dda35bbd889b2729b999b83b0c50f1d332f9291f3"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "cfcc5d0f83dfe89c3a2b6d23b2b5ff4a342a456143ae3a8462b1ab1c5542ca9b"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360427,
+      "sha256": "db36a6a514ecb8400e4a7b797060a297df7182184f4bd718a67fb28637e69cec"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "b2aba08cac090a80b1175f15ea23205d6c40815770c53e8a08a68199e1aa771f"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "b2aba08cac090a80b1175f15ea23205d6c40815770c53e8a08a68199e1aa771f"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "8ffd8a91b24fb91818052e98c883f00948ee6f0d7991fb5190a8dae697f81ebd"
+    },
+    "CP7_F04_NATIVE_PLANS.json": {
+      "bytes": 309645,
+      "sha256": "91a23a621a950731e552ae0dda35bbd889b2729b999b83b0c50f1d332f9291f3"
+    },
+    "P08_ACTUAL_PARTIAL_QC_DESKTOP_ACTUAL.png": {
+      "bytes": 1425741,
+      "sha256": "7dc512fca6d76272392df73d0e127e5ed9200db7a074dafa0309dcaa2cb295d4"
+    },
+    "P08_ACTUAL_PARTIAL_QC_MOBILE_ACTUAL.png": {
+      "bytes": 1011207,
+      "sha256": "90ae5004bfdd0eebd5d26ea2cdfd241da5cb9baf7ac1791f5a4ec03d62da0184"
+    },
+    "P08_ACTUAL_UNPOSTED_DESKTOP_ACTUAL.png": {
+      "bytes": 1327700,
+      "sha256": "12a3841fd50c9dd841b3569f0fa766d4a4a6782f864d7bf069530ddce7d370f4"
+    },
+    "P08_ACTUAL_UNPOSTED_MOBILE_ACTUAL.png": {
+      "bytes": 922140,
+      "sha256": "f8eddd1a0711f904c9ab4c5483187a44cca86a9070d409e36e3cd06636f28561"
+    },
+    "P08_NATIVE_PREVIEW_DESKTOP.png": {
+      "bytes": 1038837,
+      "sha256": "59a41a471b75128501e822e39adabed577c43b12d23dac92f29a39b5af491a99"
+    },
+    "P08_NATIVE_PREVIEW_DESKTOP_ACTUAL.png": {
+      "bytes": 1040526,
+      "sha256": "f0d6189479c085ae2b47a94d3be7292a63cafcff8b96ac8b4925d3a90b3b042c"
+    },
+    "P08_NATIVE_PREVIEW_MOBILE.png": {
+      "bytes": 577837,
+      "sha256": "22804b892ffeed24a3635fafdda0b14deac10605a995e354de10afefc3fd24d7"
+    },
+    "P08_NATIVE_PREVIEW_MOBILE_ACTUAL.png": {
+      "bytes": 579245,
+      "sha256": "42b274cd668212e4e74d982650879295f71cd154ab7c20b86103acbcfcd56a78"
+    },
+    "P08_NATIVE_RECONCILED_DESKTOP.png": {
+      "bytes": 1144529,
+      "sha256": "1f7e0b62397bc17d65c5ad6dc8bccafbab861bf3ea57aead9309b7a2607984a8"
+    },
+    "P08_NATIVE_RECONCILED_DESKTOP_ACTUAL.png": {
+      "bytes": 1316480,
+      "sha256": "26f88a6321742fee7ef1c770496a829d70d3c8ae65dada7b79866dc2142c2df8"
+    },
+    "P08_NATIVE_RECONCILED_MOBILE.png": {
+      "bytes": 716220,
+      "sha256": "3bea926b1a7a8c4aaf9b470fe1d7abd74bc0eda9ba19ebdaa3c962d8de994910"
+    },
+    "P08_NATIVE_RECONCILED_MOBILE_ACTUAL.png": {
+      "bytes": 886262,
+      "sha256": "cb377fdedde56b3bab1e0f1e8f0c2f066e1a4ff9b6f1ec1acdca3201cec2e937"
+    },
+    "P08_NATIVE_REVOKED_DESKTOP.png": {
+      "bytes": 907485,
+      "sha256": "5526ae8a336dadda70495ceecd84878ccac0de6d845c43a29296eb0dd9f1955a"
+    },
+    "P08_NATIVE_REVOKED_DESKTOP_ACTUAL.png": {
+      "bytes": 911614,
+      "sha256": "0e85b4d9baef8e74925cef5053e2c92af254310ada4e6374829db472873391fc"
+    },
+    "P08_NATIVE_REVOKED_MOBILE.png": {
+      "bytes": 492537,
+      "sha256": "3f7570d464490a39b1f71cc05a153c61fa5eb26a4284c454a83c592e4e4b4dc5"
+    },
+    "P08_NATIVE_REVOKED_MOBILE_ACTUAL.png": {
+      "bytes": 492304,
+      "sha256": "27cded1e71f19f62519a77c45dfbeceaa4c368f6d3fc4a7664f123fced009b0e"
+    },
+    "P08_NATIVE_UNCERTAIN_DESKTOP.png": {
+      "bytes": 1274829,
+      "sha256": "af79b09ad1f54159b80a8792ed61d5e3a597d1d829b3ab1870e2eda383252a5c"
+    },
+    "P08_NATIVE_UNCERTAIN_DESKTOP_ACTUAL.png": {
+      "bytes": 1438729,
+      "sha256": "4588397eb92fea495a8ee051aab41dc5a346879e24bd8f60728f0742f994e74c"
+    },
+    "P08_NATIVE_UNCERTAIN_MOBILE.png": {
+      "bytes": 793573,
+      "sha256": "daa7d5f0d93ee328258fee100558ab1c934f901200b50a1093e4d8c1a1971b9e"
+    },
+    "P08_NATIVE_UNCERTAIN_MOBILE_ACTUAL.png": {
+      "bytes": 965318,
+      "sha256": "b708296a406e62d8ed7361a66a431c15a911c4a1f81d859f74385f756f05b540"
+    },
+    "P08_SHARED_MATERIAL_DESKTOP.png": {
+      "bytes": 1245741,
+      "sha256": "ecb43c249b2ab01a16abb75a565a9c72e7bd01d153de109c95d5d50ba5e52ca9"
+    },
+    "P08_SHARED_MATERIAL_DESKTOP_ACTUAL.png": {
+      "bytes": 1402729,
+      "sha256": "3c12b246d491f854ce7daa61b63a3c7798f42138fd416ccca18ddb34c921df6b"
+    },
+    "P08_SHARED_MATERIAL_MOBILE.png": {
+      "bytes": 817356,
+      "sha256": "6f426514fe0ead733123a05759aeeb7dfaf40c07d5abcfa5f4406127d9f7a148"
+    },
+    "P08_SHARED_MATERIAL_MOBILE_ACTUAL.png": {
+      "bytes": 1006219,
+      "sha256": "5ed76bc48de9e223da2adaadd047ee0f9623ba5f421f38c408fca09ec32f739c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "cfcc5d0f83dfe89c3a2b6d23b2b5ff4a342a456143ae3a8462b1ab1c5542ca9b"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360427,
+      "sha256": "db36a6a514ecb8400e4a7b797060a297df7182184f4bd718a67fb28637e69cec"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385615,
+      "crc32": "8f0b2f9e",
+      "sha256": "b2aba08cac090a80b1175f15ea23205d6c40815770c53e8a08a68199e1aa771f"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385615,
+      "crc32": "8f0b2f9e",
+      "sha256": "b2aba08cac090a80b1175f15ea23205d6c40815770c53e8a08a68199e1aa771f"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "758b11ad",
+      "sha256": "8ffd8a91b24fb91818052e98c883f00948ee6f0d7991fb5190a8dae697f81ebd"
+    },
+    {
+      "name": "CP7_F04_NATIVE_PLANS.json",
+      "bytes": 309645,
+      "crc32": "03d05ee6",
+      "sha256": "91a23a621a950731e552ae0dda35bbd889b2729b999b83b0c50f1d332f9291f3"
+    },
+    {
+      "name": "P08_ACTUAL_PARTIAL_QC_DESKTOP_ACTUAL.png",
+      "bytes": 1425741,
+      "crc32": "a18f5f6e",
+      "sha256": "7dc512fca6d76272392df73d0e127e5ed9200db7a074dafa0309dcaa2cb295d4"
+    },
+    {
+      "name": "P08_ACTUAL_PARTIAL_QC_MOBILE_ACTUAL.png",
+      "bytes": 1011207,
+      "crc32": "affc6a01",
+      "sha256": "90ae5004bfdd0eebd5d26ea2cdfd241da5cb9baf7ac1791f5a4ec03d62da0184"
+    },
+    {
+      "name": "P08_ACTUAL_UNPOSTED_DESKTOP_ACTUAL.png",
+      "bytes": 1327700,
+      "crc32": "77d23a19",
+      "sha256": "12a3841fd50c9dd841b3569f0fa766d4a4a6782f864d7bf069530ddce7d370f4"
+    },
+    {
+      "name": "P08_ACTUAL_UNPOSTED_MOBILE_ACTUAL.png",
+      "bytes": 922140,
+      "crc32": "807ff841",
+      "sha256": "f8eddd1a0711f904c9ab4c5483187a44cca86a9070d409e36e3cd06636f28561"
+    },
+    {
+      "name": "P08_NATIVE_PREVIEW_DESKTOP.png",
+      "bytes": 1038837,
+      "crc32": "9d5e3ba2",
+      "sha256": "59a41a471b75128501e822e39adabed577c43b12d23dac92f29a39b5af491a99"
+    },
+    {
+      "name": "P08_NATIVE_PREVIEW_DESKTOP_ACTUAL.png",
+      "bytes": 1040526,
+      "crc32": "e974f03f",
+      "sha256": "f0d6189479c085ae2b47a94d3be7292a63cafcff8b96ac8b4925d3a90b3b042c"
+    },
+    {
+      "name": "P08_NATIVE_PREVIEW_MOBILE.png",
+      "bytes": 577837,
+      "crc32": "616dc931",
+      "sha256": "22804b892ffeed24a3635fafdda0b14deac10605a995e354de10afefc3fd24d7"
+    },
+    {
+      "name": "P08_NATIVE_RECONCILED_DESKTOP.png",
+      "bytes": 1144529,
+      "crc32": "8fb0d7ae",
+      "sha256": "1f7e0b62397bc17d65c5ad6dc8bccafbab861bf3ea57aead9309b7a2607984a8"
+    },
+    {
+      "name": "P08_NATIVE_PREVIEW_MOBILE_ACTUAL.png",
+      "bytes": 579245,
+      "crc32": "e73f65ad",
+      "sha256": "42b274cd668212e4e74d982650879295f71cd154ab7c20b86103acbcfcd56a78"
+    },
+    {
+      "name": "P08_NATIVE_RECONCILED_DESKTOP_ACTUAL.png",
+      "bytes": 1316480,
+      "crc32": "7f332065",
+      "sha256": "26f88a6321742fee7ef1c770496a829d70d3c8ae65dada7b79866dc2142c2df8"
+    },
+    {
+      "name": "P08_NATIVE_RECONCILED_MOBILE.png",
+      "bytes": 716220,
+      "crc32": "6e4f4fdb",
+      "sha256": "3bea926b1a7a8c4aaf9b470fe1d7abd74bc0eda9ba19ebdaa3c962d8de994910"
+    },
+    {
+      "name": "P08_NATIVE_RECONCILED_MOBILE_ACTUAL.png",
+      "bytes": 886262,
+      "crc32": "419f360e",
+      "sha256": "cb377fdedde56b3bab1e0f1e8f0c2f066e1a4ff9b6f1ec1acdca3201cec2e937"
+    },
+    {
+      "name": "P08_NATIVE_REVOKED_DESKTOP.png",
+      "bytes": 907485,
+      "crc32": "b27059c3",
+      "sha256": "5526ae8a336dadda70495ceecd84878ccac0de6d845c43a29296eb0dd9f1955a"
+    },
+    {
+      "name": "P08_NATIVE_REVOKED_DESKTOP_ACTUAL.png",
+      "bytes": 911614,
+      "crc32": "56a95988",
+      "sha256": "0e85b4d9baef8e74925cef5053e2c92af254310ada4e6374829db472873391fc"
+    },
+    {
+      "name": "P08_NATIVE_REVOKED_MOBILE.png",
+      "bytes": 492537,
+      "crc32": "ac7b774c",
+      "sha256": "3f7570d464490a39b1f71cc05a153c61fa5eb26a4284c454a83c592e4e4b4dc5"
+    },
+    {
+      "name": "P08_NATIVE_REVOKED_MOBILE_ACTUAL.png",
+      "bytes": 492304,
+      "crc32": "7906fd37",
+      "sha256": "27cded1e71f19f62519a77c45dfbeceaa4c368f6d3fc4a7664f123fced009b0e"
+    },
+    {
+      "name": "P08_NATIVE_UNCERTAIN_DESKTOP.png",
+      "bytes": 1274829,
+      "crc32": "4a43e50d",
+      "sha256": "af79b09ad1f54159b80a8792ed61d5e3a597d1d829b3ab1870e2eda383252a5c"
+    },
+    {
+      "name": "P08_NATIVE_UNCERTAIN_DESKTOP_ACTUAL.png",
+      "bytes": 1438729,
+      "crc32": "dcb4b263",
+      "sha256": "4588397eb92fea495a8ee051aab41dc5a346879e24bd8f60728f0742f994e74c"
+    },
+    {
+      "name": "P08_NATIVE_UNCERTAIN_MOBILE.png",
+      "bytes": 793573,
+      "crc32": "2076df27",
+      "sha256": "daa7d5f0d93ee328258fee100558ab1c934f901200b50a1093e4d8c1a1971b9e"
+    },
+    {
+      "name": "P08_NATIVE_UNCERTAIN_MOBILE_ACTUAL.png",
+      "bytes": 965318,
+      "crc32": "836129f3",
+      "sha256": "b708296a406e62d8ed7361a66a431c15a911c4a1f81d859f74385f756f05b540"
+    },
+    {
+      "name": "P08_SHARED_MATERIAL_DESKTOP.png",
+      "bytes": 1245741,
+      "crc32": "64051c25",
+      "sha256": "ecb43c249b2ab01a16abb75a565a9c72e7bd01d153de109c95d5d50ba5e52ca9"
+    },
+    {
+      "name": "P08_SHARED_MATERIAL_DESKTOP_ACTUAL.png",
+      "bytes": 1402729,
+      "crc32": "0f6929a1",
+      "sha256": "3c12b246d491f854ce7daa61b63a3c7798f42138fd416ccca18ddb34c921df6b"
+    },
+    {
+      "name": "P08_SHARED_MATERIAL_MOBILE.png",
+      "bytes": 817356,
+      "crc32": "635934dd",
+      "sha256": "6f426514fe0ead733123a05759aeeb7dfaf40c07d5abcfa5f4406127d9f7a148"
+    },
+    {
+      "name": "P08_SHARED_MATERIAL_MOBILE_ACTUAL.png",
+      "bytes": 1006219,
+      "crc32": "84c98525",
+      "sha256": "5ed76bc48de9e223da2adaadd047ee0f9623ba5f421f38c408fca09ec32f739c"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "fee0386f",
+      "sha256": "cfcc5d0f83dfe89c3a2b6d23b2b5ff4a342a456143ae3a8462b1ab1c5542ca9b"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360427,
+      "crc32": "84b3a947",
+      "sha256": "db36a6a514ecb8400e4a7b797060a297df7182184f4bd718a67fb28637e69cec"
+    }
+  ],
+  "screenshots": [
+    "P08_ACTUAL_PARTIAL_QC_DESKTOP_ACTUAL.png",
+    "P08_ACTUAL_PARTIAL_QC_MOBILE_ACTUAL.png",
+    "P08_ACTUAL_UNPOSTED_DESKTOP_ACTUAL.png",
+    "P08_ACTUAL_UNPOSTED_MOBILE_ACTUAL.png",
+    "P08_NATIVE_PREVIEW_DESKTOP.png",
+    "P08_NATIVE_PREVIEW_DESKTOP_ACTUAL.png",
+    "P08_NATIVE_PREVIEW_MOBILE.png",
+    "P08_NATIVE_RECONCILED_DESKTOP.png",
+    "P08_NATIVE_PREVIEW_MOBILE_ACTUAL.png",
+    "P08_NATIVE_RECONCILED_DESKTOP_ACTUAL.png",
+    "P08_NATIVE_RECONCILED_MOBILE.png",
+    "P08_NATIVE_RECONCILED_MOBILE_ACTUAL.png",
+    "P08_NATIVE_REVOKED_DESKTOP.png",
+    "P08_NATIVE_REVOKED_DESKTOP_ACTUAL.png",
+    "P08_NATIVE_REVOKED_MOBILE.png",
+    "P08_NATIVE_REVOKED_MOBILE_ACTUAL.png",
+    "P08_NATIVE_UNCERTAIN_DESKTOP.png",
+    "P08_NATIVE_UNCERTAIN_DESKTOP_ACTUAL.png",
+    "P08_NATIVE_UNCERTAIN_MOBILE.png",
+    "P08_NATIVE_UNCERTAIN_MOBILE_ACTUAL.png",
+    "P08_SHARED_MATERIAL_DESKTOP.png",
+    "P08_SHARED_MATERIAL_DESKTOP_ACTUAL.png",
+    "P08_SHARED_MATERIAL_MOBILE.png",
+    "P08_SHARED_MATERIAL_MOBILE_ACTUAL.png"
+  ],
+  "full_job_log_original_sha256": "8b1a7fbdc7966ac280718c5010b602b10642c595b8bb7a5380c74eba6c6873ce",
+  "actual_failed_case_ids": [
+    "P08_SHARED_FABRIC_NEXT_TARGET",
+    "P08_SHARED_FABRIC_REAL_TWO_TARGET_WAIT"
+  ],
+  "observed_failure": "Fresh q_base stays ASSUMED 85 for both distinct targets; q_conditional is UNKNOWN/SOURCE_INPUT_NOT_PROVEN during shared-material setup, before either new budget operation.",
+  "dependency_review": "Profile re-selection changes the supply fingerprint; the selected schedule must be explicitly rebound by the existing public review command before analysis.",
+  "successor_candidate_source": "51e9f3fe22326efa9244fd83068c386d5f955edd",
+  "successor_Native_result": "PENDING_SEPARATE_ORIGINAL_REVIEW",
+  "expected_new_cases_not_relaxed": true,
+  "new_Native_DML_grants": 0,
+  "unique_oracle_total_claim": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false
+}

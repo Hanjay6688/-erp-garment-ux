@@ -1,0 +1,448 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "51e9f3fe22326efa9244fd83068c386d5f955edd",
+  "source_tree": "6e8f943335801734f302c64be70d3d7aa2341faa",
+  "run_id": 37291363535,
+  "job_id": 111702268543,
+  "artifact_id": 11337531103,
+  "artifact_bytes": 24627373,
+  "artifact_sha256": "e20d382a045df1ba450c51a89376618927d4f6143c0b1f3daa0c2b543e583ee3",
+  "artifact_CRC": "PASS",
+  "status": "WRITER_QUALIFIED_39_COMPLETE_CASE_BODIES_PASS",
+  "expected_case_count": 39,
+  "observed_case_count": 39,
+  "counts": {
+    "native": {
+      "PASS": 25
+    },
+    "races": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "actual_ids": {
+    "native": [
+      "P08_METADATA",
+      "P08_SAVE_REPLAY",
+      "P08_VERSION",
+      "P08_PREVIEW_READONLY",
+      "P08_NATIVE_APPLY",
+      "P08_APPLY_REPLAY",
+      "E09_PLAN_STALE",
+      "P08_CURRENT_AUTH",
+      "P08_FOREIGN",
+      "P08_CLOSED",
+      "P08_NATIVE_IDENTITIES",
+      "O10_PLAN_QUANTITY",
+      "P08_ATOMIC_RECEIPT_FAILURE",
+      "E22_PLAN_COMPUTE_SEPARATION",
+      "P08_ACTUAL_UNPOSTED_ZERO",
+      "P08_ACTUAL_PHYSICAL_CUT",
+      "P08_ACTUAL_PARTIAL_LIFECYCLE",
+      "P08_ACTUAL_OTHER_ROOT",
+      "P08_ACTUAL_NATIVE_DELETED_UNKNOWN",
+      "P08_ACTUAL_CURRENT_PRIVATE_AUTH",
+      "P08_ACTUAL_PROTECTED_ORIGINAL_AUTH",
+      "P08_ACTUAL_FUTURE_CORRUPTION_UNKNOWN",
+      "P08_SHARED_FABRIC_NEXT_TARGET",
+      "P08_SHARED_FABRIC_POSTED_ONCE",
+      "P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT"
+    ],
+    "races": [
+      "E10_REAL_SAME_UUID",
+      "E10_REAL_SAME_UUID_DIFFERENT_PAYLOAD",
+      "E11_REAL_DIFFERENT_ACTOR_RUN_DRAFT",
+      "P08_REAL_TARGET_WAIT_REVOKED",
+      "P08_REAL_NATIVE_ROLL_WAIT_REVOKED",
+      "P08_ACTUAL_MVCC_NATIVE_POST",
+      "P08_ACTUAL_CAPTURE_WAIT_CURRENT_AUTH",
+      "P08_SHARED_FABRIC_REAL_TWO_TARGET_WAIT"
+    ],
+    "http": [
+      "P08_REAL_AUTH_HTTP",
+      "P08_ACTUAL_REAL_AUTH_HTTP"
+    ],
+    "browser": [
+      "P08_BROWSER_DESKTOP_NATIVE_DRAFT",
+      "P08_BROWSER_MOBILE_NATIVE_DRAFT",
+      "P08_BROWSER_DESKTOP_NATIVE_ACTUAL",
+      "P08_BROWSER_MOBILE_NATIVE_ACTUAL"
+    ]
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_F04_NATIVE_PLANS.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "P08_ACTUAL_PARTIAL_QC_DESKTOP_ACTUAL.png",
+    "P08_ACTUAL_PARTIAL_QC_MOBILE_ACTUAL.png",
+    "P08_ACTUAL_UNPOSTED_DESKTOP_ACTUAL.png",
+    "P08_ACTUAL_UNPOSTED_MOBILE_ACTUAL.png",
+    "P08_NATIVE_PREVIEW_DESKTOP.png",
+    "P08_NATIVE_PREVIEW_DESKTOP_ACTUAL.png",
+    "P08_NATIVE_PREVIEW_MOBILE.png",
+    "P08_NATIVE_PREVIEW_MOBILE_ACTUAL.png",
+    "P08_NATIVE_RECONCILED_DESKTOP.png",
+    "P08_NATIVE_RECONCILED_DESKTOP_ACTUAL.png",
+    "P08_NATIVE_RECONCILED_MOBILE.png",
+    "P08_NATIVE_RECONCILED_MOBILE_ACTUAL.png",
+    "P08_NATIVE_REVOKED_DESKTOP_ACTUAL.png",
+    "P08_NATIVE_REVOKED_DESKTOP.png",
+    "P08_NATIVE_REVOKED_MOBILE.png",
+    "P08_NATIVE_REVOKED_MOBILE_ACTUAL.png",
+    "P08_NATIVE_UNCERTAIN_DESKTOP.png",
+    "P08_NATIVE_UNCERTAIN_DESKTOP_ACTUAL.png",
+    "P08_NATIVE_UNCERTAIN_MOBILE.png",
+    "P08_NATIVE_UNCERTAIN_MOBILE_ACTUAL.png",
+    "P08_SHARED_MATERIAL_DESKTOP.png",
+    "P08_SHARED_MATERIAL_DESKTOP_ACTUAL.png",
+    "P08_SHARED_MATERIAL_MOBILE.png",
+    "P08_SHARED_MATERIAL_MOBILE_ACTUAL.png"
+  ],
+  "full_job_log_original_sha256": "d6557830ce0c236fb5d39d0fe8aa923ece779ef591e5a2e8b756453fb2bf8662",
+  "all_original_member_hashes": [
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385616,
+      "crc32": "908ecf94",
+      "sha256": "a364e503bef47e1999ab2238dae1d7cc3c2c61bffa103aaf748103830926e0e4"
+    },
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385616,
+      "crc32": "908ecf94",
+      "sha256": "a364e503bef47e1999ab2238dae1d7cc3c2c61bffa103aaf748103830926e0e4"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "7e40c3bf",
+      "sha256": "c571e39492765198a8ccd322c61d445695d4ea9f57bbd3393879f4cc315d3ed8"
+    },
+    {
+      "name": "CP7_F04_NATIVE_PLANS.json",
+      "bytes": 335041,
+      "crc32": "a6306952",
+      "sha256": "c2dd50c0d8052908d10a2fef61c3b3659151bdc0dabba24fc24a831b14c494b3"
+    },
+    {
+      "name": "P08_ACTUAL_PARTIAL_QC_DESKTOP_ACTUAL.png",
+      "bytes": 1424401,
+      "crc32": "b92da08b",
+      "sha256": "cbcd10cff6489cf9a9d3e525e244baa362980d24e31f3b62b6bbd3cb55641c6e"
+    },
+    {
+      "name": "P08_ACTUAL_PARTIAL_QC_MOBILE_ACTUAL.png",
+      "bytes": 1008961,
+      "crc32": "564e133e",
+      "sha256": "93298b272ce61aae3cd47269f7ccfb415382b48922b882365bc66f6da79c58de"
+    },
+    {
+      "name": "P08_ACTUAL_UNPOSTED_DESKTOP_ACTUAL.png",
+      "bytes": 1325737,
+      "crc32": "7cff70c7",
+      "sha256": "bd710f5eaf3140cbacb1bc9ae489a59a84fd398910a5a18e7b4472d2d9ed534e"
+    },
+    {
+      "name": "P08_ACTUAL_UNPOSTED_MOBILE_ACTUAL.png",
+      "bytes": 919833,
+      "crc32": "ebedc7bb",
+      "sha256": "541f1c7e8cab0f7d8471438f2e747942667af28b24e0c07e5984154658012962"
+    },
+    {
+      "name": "P08_NATIVE_PREVIEW_DESKTOP.png",
+      "bytes": 1038877,
+      "crc32": "f8880b74",
+      "sha256": "298ff289baee8210cb2197ecc43a9356b0861b299702b3fdc2f82a00906b7195"
+    },
+    {
+      "name": "P08_NATIVE_PREVIEW_DESKTOP_ACTUAL.png",
+      "bytes": 1040504,
+      "crc32": "e258a1b0",
+      "sha256": "fbe0c69d4b619445426653c1cefad9fda40218d724627a97b1e1d0a60b6b048d"
+    },
+    {
+      "name": "P08_NATIVE_PREVIEW_MOBILE.png",
+      "bytes": 573145,
+      "crc32": "0d1cf3e6",
+      "sha256": "25d18357de0e931f6374ae5077c6316ab4af7c24c1ed76e24e90a51b7fec58e1"
+    },
+    {
+      "name": "P08_NATIVE_PREVIEW_MOBILE_ACTUAL.png",
+      "bytes": 573976,
+      "crc32": "27cebc3a",
+      "sha256": "9a363f35267243dafdff1ca3f639641e0005f6bcf94e1652ae019a6dd271f99a"
+    },
+    {
+      "name": "P08_NATIVE_RECONCILED_DESKTOP.png",
+      "bytes": 1142949,
+      "crc32": "17a034a5",
+      "sha256": "316d58ea85472a0a7a9243fde45f5bada0d08772e7bb12299016ac5c4ffa64bc"
+    },
+    {
+      "name": "P08_NATIVE_RECONCILED_DESKTOP_ACTUAL.png",
+      "bytes": 1313830,
+      "crc32": "4414804f",
+      "sha256": "fedd0f79818de548d8d79c78d0c498d7a6226992d24618447e14c9601589bb10"
+    },
+    {
+      "name": "P08_NATIVE_RECONCILED_MOBILE.png",
+      "bytes": 714307,
+      "crc32": "6dfb2bb7",
+      "sha256": "68e144fc138bb70881740e30e97615f1add357e0f70b9a826433e38abcb4d263"
+    },
+    {
+      "name": "P08_NATIVE_RECONCILED_MOBILE_ACTUAL.png",
+      "bytes": 884002,
+      "crc32": "37a0c8a7",
+      "sha256": "65d327651655d850d278d3b611bcf5f29c47cc7a773692dfa3a3e763bac2a7d1"
+    },
+    {
+      "name": "P08_NATIVE_REVOKED_DESKTOP_ACTUAL.png",
+      "bytes": 911614,
+      "crc32": "56a95988",
+      "sha256": "0e85b4d9baef8e74925cef5053e2c92af254310ada4e6374829db472873391fc"
+    },
+    {
+      "name": "P08_NATIVE_REVOKED_DESKTOP.png",
+      "bytes": 907485,
+      "crc32": "b27059c3",
+      "sha256": "5526ae8a336dadda70495ceecd84878ccac0de6d845c43a29296eb0dd9f1955a"
+    },
+    {
+      "name": "P08_NATIVE_REVOKED_MOBILE.png",
+      "bytes": 492537,
+      "crc32": "ac7b774c",
+      "sha256": "3f7570d464490a39b1f71cc05a153c61fa5eb26a4284c454a83c592e4e4b4dc5"
+    },
+    {
+      "name": "P08_NATIVE_REVOKED_MOBILE_ACTUAL.png",
+      "bytes": 492304,
+      "crc32": "7906fd37",
+      "sha256": "27cded1e71f19f62519a77c45dfbeceaa4c368f6d3fc4a7664f123fced009b0e"
+    },
+    {
+      "name": "P08_NATIVE_UNCERTAIN_DESKTOP.png",
+      "bytes": 1273407,
+      "crc32": "cf085107",
+      "sha256": "b99a4bcb0629309a26bd9542d181280477f42dffc28676289569745a7b60e418"
+    },
+    {
+      "name": "P08_NATIVE_UNCERTAIN_DESKTOP_ACTUAL.png",
+      "bytes": 1436988,
+      "crc32": "939c313f",
+      "sha256": "fc327fbd2d70ff4379fd97069004908d4f738ffa5f91def364ae9b6e37e17fb2"
+    },
+    {
+      "name": "P08_NATIVE_UNCERTAIN_MOBILE.png",
+      "bytes": 791925,
+      "crc32": "3d056b73",
+      "sha256": "31947e8f0a3a78e5f15d9c3137b2fc6467467aaa31a78e3e1fe264a1ecc6aed7"
+    },
+    {
+      "name": "P08_NATIVE_UNCERTAIN_MOBILE_ACTUAL.png",
+      "bytes": 963023,
+      "crc32": "b6972ea0",
+      "sha256": "4b1db3a03da3d54c01eb03050c8b816c621406fbf1f5025a25770e00b4889515"
+    },
+    {
+      "name": "P08_SHARED_MATERIAL_DESKTOP.png",
+      "bytes": 1243447,
+      "crc32": "9ac05c49",
+      "sha256": "d2f264a0b75cb18b68a206bfc3a4570d36a4087e4318e26c534bd8bb389deddf"
+    },
+    {
+      "name": "P08_SHARED_MATERIAL_DESKTOP_ACTUAL.png",
+      "bytes": 1399821,
+      "crc32": "111f32e6",
+      "sha256": "f7181d9701ffce30a93e03307ef32f302a0685b035aeb5e39c17dcbab82b225c"
+    },
+    {
+      "name": "P08_SHARED_MATERIAL_MOBILE.png",
+      "bytes": 816069,
+      "crc32": "dd70ea09",
+      "sha256": "e8fd4e15d1ab9c9c5d3d9d69d63015f0d8e47a27055e84f8131c85d9d9411746"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "8385991a",
+      "sha256": "be4e97126a6b3ca4c8522188d1818b0e374dde544e0381f8b8b1a670f76f62f9"
+    },
+    {
+      "name": "P08_SHARED_MATERIAL_MOBILE_ACTUAL.png",
+      "bytes": 1003550,
+      "crc32": "4dec80c8",
+      "sha256": "ce5f4b032fe5596619235b3713bc32328f17f729acd2d0b7bd9ae7c4cb8c1679"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360420,
+      "crc32": "5d2e5298",
+      "sha256": "97d1d5d7bd0437d147bee965cff35baafe40547854fa22488ec2ab0897627f32"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "installed_status": "ALL_STAGES_INSTALLED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "PASS",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "required_case_ids_pass": true,
+  "exact_all39_declaration_matched": true,
+  "two_distinct_actual_targets_and_fresh_public_schedule_review": true,
+  "two_actual_waiting_backend_PIDs_and_same_ungranted_physical_pool_lock": [
+    [
+      446,
+      "advisory",
+      33762,
+      9593189,
+      3548557235,
+      1,
+      false
+    ],
+    [
+      447,
+      "advisory",
+      33762,
+      9593189,
+      3548557235,
+      1,
+      false
+    ]
+  ],
+  "exact_Native_pool_bodies": {
+    "P08_SHARED_FABRIC_NEXT_TARGET": {
+      "basis": "CURRENT_NATIVE_LINKED_UNPOSTED_DRAFT_BUDGET_NOT_STOCK_RESERVATION",
+      "roll_id": "a8152892-14a9-46c1-a9b3-a5402efb4ead",
+      "location_id": "2d6437ff-070e-4b8c-907b-4a2e64900cef",
+      "native_available": "10.000000",
+      "free_for_new_plan": "0",
+      "linked_native_drafts": [
+        {
+          "line_id": "6c389c28-32d8-44f4-ab4e-c162824bb8e1",
+          "group_id": "d392fae3-7442-44cb-9b09-660f7fe2e776",
+          "qty_issued": "6.000000",
+          "group_revision": "2"
+        },
+        {
+          "line_id": "eb39266f-9f8c-4898-ad92-b56137220bee",
+          "group_id": "dbb4ed9b-459d-4445-a82c-b1814c31bd07",
+          "qty_issued": "4.000000",
+          "group_revision": "2"
+        }
+      ],
+      "linked_native_draft_qty": "10.000000"
+    },
+    "P08_SHARED_FABRIC_POSTED_ONCE": {
+      "basis": "CURRENT_NATIVE_LINKED_UNPOSTED_DRAFT_BUDGET_NOT_STOCK_RESERVATION",
+      "roll_id": "312e97ee-2303-47dc-aa0c-a8cfd1866fcc",
+      "location_id": "44b670d7-9837-4a18-83e9-ed4dedf59cca",
+      "native_available": "4.000000",
+      "free_for_new_plan": "4.000000",
+      "linked_native_drafts": [],
+      "linked_native_draft_qty": "0"
+    },
+    "P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT": {
+      "basis": "CURRENT_NATIVE_LINKED_UNPOSTED_DRAFT_BUDGET_NOT_STOCK_RESERVATION",
+      "roll_id": "54aba25e-1e43-4b3a-baa0-be436e25c1d1",
+      "location_id": "2fab1837-174b-4e0e-bdb3-bee87994093e",
+      "native_available": "10.000000",
+      "free_for_new_plan": "7.000000",
+      "linked_native_drafts": [
+        {
+          "line_id": "f77a7da1-d3f1-4dc8-8d73-f0b4c6c17b19",
+          "group_id": "5024156b-ef5b-4d7b-bdb0-a70c18c65d60",
+          "qty_issued": "3.000000",
+          "group_revision": "4"
+        }
+      ],
+      "linked_native_draft_qty": "3.000000"
+    }
+  },
+  "exact_two_target_race_final_pool": {
+    "basis": "CURRENT_NATIVE_LINKED_UNPOSTED_DRAFT_BUDGET_NOT_STOCK_RESERVATION",
+    "roll_id": "90c22f4e-5ec6-4cc3-bdbf-30b0cc612215",
+    "location_id": "14f8455e-514c-44b7-afec-ff1fd1da43ef",
+    "native_available": "10.000000",
+    "free_for_new_plan": "4.000000",
+    "linked_native_drafts": [
+      {
+        "line_id": "d32e6ae0-3e2a-4f0f-99d3-a6d388ff278d",
+        "group_id": "4f151e1f-41c2-4d67-acbe-8eac360e9790",
+        "qty_issued": "6.000000",
+        "group_revision": "2"
+      }
+    ],
+    "linked_native_draft_qty": "6.000000"
+  },
+  "native_catalog_comparison": {
+    "policy": "ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED",
+    "dropped_fields": [],
+    "physical_order_only_changes": [],
+    "snapshots_checked": 52
+  },
+  "native_catalog_full_raw_snapshots_retained": false,
+  "predecessor_failure_Originals_preserved": [
+    "docs/cp7/evidence/plan-native/incomplete39-two-target-setup-3e82/RECEIPT.json",
+    "docs/cp7/evidence/plan-native/incomplete39-profile-schedule-6a/RECEIPT.json"
+  ],
+  "new_Native_DML_grants": 0,
+  "new_roles": 0,
+  "new_public_RPCs": 0,
+  "full_fabric_recipe_eligibility_or_installed_material_proof": false,
+  "unique_oracle_total_claim": false
+}
