@@ -5,6 +5,8 @@ ROOT=predecessor.ROOT
 FILES=('planning/material-requirements.sql','planning/fabric-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/fabric-commands.sql','planning/analysis-archive.sql','planning/report-publication.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql')
 ROLES=('cp7_plan_writer',)+predecessor.ROLES
 GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','cp7_private.immutable_run()','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
+# P08: the open-PO remaining reader is the only new EXECUTE on a predecessor function (read-only, BB-owned).
+GRANTS['cp7_capture']=tuple(GRANTS.get('cp7_capture',()))+('erp.bb_commitment_line_remaining_v1(uuid,uuid)',)
 MATERIAL_TABLES=('erp.accessory_bom_versions','erp.accessory_bom_items','erp.accessory_categories','erp.materials','erp.production_patterns')
 import cp7_transaction_source_bundle as transaction_source
 # P08 physical fabric facts: exact read-only column grants (see cp7_fabric_verify.COLUMNS).
