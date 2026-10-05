@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.qualification-fixture-successor-local.v1",
+  "status": "SYNTAX_FROZEN_SECURITY_AND_EXACT_SQL_DISPLAY_CONTROL_PASS",
+  "base_commit": "d68ecc6cdea046522391dcabdeabe34151aec261",
+  "base_tree": "0b3ccdfd3136bde6dd9719779ec27846a8accdb5",
+  "source_sha256": {
+    "scripts/cp7_cutting_correction_cases.py": "4fb9c6956f450b6ca9e62418add2e92267aa695658b4f1807a7a7de3befb37cf",
+    "scripts/cp7_cutting_correction_browser_fixture.py": "ba562a7ad9de921c96f7a914b476f16e84e810bbf3fdb35ca66467033ca69985",
+    "scripts/cp7_cutting_correction_browser.mjs": "8caedd2494f74f6faa94ebe8f64b90fbb6bcff902ef095052a0c40494d8fbe0d",
+    "scripts/cp7_p18_e01_bridge_browser_fixture.py": "b625584e587d023a4c98d5a17a7526f7ff11317f0a8c909072df442f1991f0b6",
+    "scripts/cp7_p18_e01_bridge_browser.mjs": "00d06f2e2fc71dedda9eb077e46456386e8fdca08e344f60da3b60cf892ccbef",
+    "scripts/cp7_f03_cost_continuation_probe.py": "316957cc7b662e6adc5f0a4369f6023c4b0658e76eee1fe325019b2950c82373"
+  },
+  "unchanged_Native_cutting_SQL_sha256": "190f07c85d46ae70490af6388e3251fdb8a184ae3ef9018898a4adf4c07e3e90",
+  "frozen_security_gates": "PASS",
+  "ownership": {
+    "runtime_files": 269,
+    "RPC_boundaries": 199,
+    "stylesheets": 53,
+    "permissions": 111,
+    "nav": 48,
+    "routes": 48,
+    "sensitive": 21
+  },
+  "changes": "Qualification observer/fixture only; no Native business SQL, definition, ACL, fixed IDs, count or timeout change",
+  "mandatory_fresh": {
+    "cutting": 19,
+    "P18_E01": 9,
+    "cost": 4,
+    "retained_lifecycle": 16
+  },
+  "Native_qualification_credit": 0,
+  "whole_CP7_complete": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_P20_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

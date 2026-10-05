@@ -10842,5 +10842,47 @@
     "partial_member_not_qualified": "H_MAINTENANCE_ROLLBACK/G_FK_SYNC_ADMISSION_FIRST/PHYSICAL_BOUNDARY.source-erp.sql",
     "whole_archive_valid": false,
     "damage_cause_proved": false
+  },
+  "continuation_d68_source_bound_outcomes": {
+    "source_commit": "d68ecc6cdea046522391dcabdeabe34151aec261",
+    "source_tree": "0b3ccdfd3136bde6dd9719779ec27846a8accdb5",
+    "supplier6": {
+      "status": "PASS",
+      "receipt": "docs/cp7/evidence/cutting-reopen/qualified-supplier6-d68/RECEIPT.json"
+    },
+    "cash21": {
+      "status": "PASS",
+      "receipt": "docs/cp7/evidence/cash/qualified-d68/RECEIPT.json",
+      "post_restore_raw_pair_order_only_proved": true,
+      "old_first5fb_per_case_cause_proved": false
+    },
+    "cutting19": {
+      "status": "14_PASS_5_MOVEMENT_OBSERVATIONS_INCOMPLETE",
+      "receipt": "docs/cp7/evidence/cutting-reopen/second-d68-movement/RECEIPT.json",
+      "Native_qualified": false,
+      "successor": "Full UTC Native JSON text with raw paired observations; same19"
+    },
+    "cost4": {
+      "status": "3_PASS_1_CATALOG_FLAG_INCOMPLETE",
+      "receipt": "docs/cp7/evidence/cost-continuation/first-d68-catalog/RECEIPT.json",
+      "successor": "Pre-existing full exact catalog adapter retain_raw=True; same4"
+    },
+    "p18_bridge9": {
+      "status": "7_PASS_2_EMPTY_TARGET_BROWSER_INCOMPLETE",
+      "receipt": "docs/cp7/evidence/p18-e01-bridge/first-stock-d68/RECEIPT.json",
+      "successor": "Preserved economics and explicit disposable real E01 target policy/profile; same9"
+    },
+    "retained_lifecycle16": {
+      "status": "14_PASS_2_SHARED_E01_BROWSER_INCOMPLETE",
+      "receipt": "docs/cp7/evidence/rule-lifecycle/first-stock-d68/RECEIPT.json",
+      "successor": "Same E01 target fixture; same16"
+    },
+    "whole_CP7_complete": false,
+    "full_P08_acceptance": false,
+    "full_P18_acceptance": false,
+    "full_P19_acceptance": false,
+    "independent_P20_acceptance": false,
+    "installed_P21_acceptance": false,
+    "production_go": false
   }
 }

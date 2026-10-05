@@ -1,7 +1,7 @@
 """Actual Native unpicked cutting inverse; fixed 19 separate executions."""
 from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal
-import copy,json,threading,time,uuid
+import copy,hashlib,json,threading,time,uuid
 import psycopg
 import cp7_cutting_source_cases as cutting
 import cp7_cutting_correction_bundle as bundle
@@ -37,13 +37,41 @@ def gl(cur):
 def stock(cur,f):
     b.api.admin(cur)
     return cur.execute('select coalesce(sum(m.qty_signed),0)from erp.material_stock_movements m join erp.cutting_groups g on g.source_location_id=m.location_id where g.id=%s and m.roll_id=%s',(f['group'],f['roll'])).fetchone()[0]
+def observe_movements(cur,f):
+    """Retain every Native field and decimal, with a common timestamp display.
+
+    to_jsonb(timestamptz) uses the observing session's TimeZone. The fixture,
+    worker and HTTP/browser observer are separate sessions. Keep both raw
+    displays, compare exact PostgreSQL JSON text in UTC, and restore the GUC.
+    No source row, field, timestamp precision or numeric precision is dropped.
+    """
+    b.api.admin(cur)
+    sql="select coalesce(jsonb_agg(to_jsonb(m)order by m.id),'[]')::text from erp.material_stock_movements m where m.source_type='CUTTING_GROUP'and m.source_id=%s"
+    timezone=cur.execute('show TimeZone').fetchone()[0]
+    raw=cur.execute(sql,(f['group'],)).fetchone()[0]
+    try:
+        cur.execute("select set_config('TimeZone','UTC',true)")
+        canonical=cur.execute(sql,(f['group'],)).fetchone()[0]
+    finally:
+        cur.execute("select set_config('TimeZone',%s,true)",(timezone,))
+    assert cur.execute('show TimeZone').fetchone()[0]==timezone
+    return dict(timezone=timezone,raw_json_text=raw,UTC_json_text=canonical,
+        UTC_sha256=hashlib.sha256(canonical.encode()).hexdigest(),
+        policy='ALL_NATIVE_ROWS_FIELDS_PRECISE_NUMBERS_AND_TIMESTAMPS_EXACT_UTC_DISPLAY')
+def movement_comparison(cur,f):
+    before=f['original_movement_observation'];after=observe_movements(cur,f)
+    equal=before['UTC_json_text']==after['UTC_json_text']
+    return dict(before=before,after=after,exact_UTC_text_equal=equal,
+        raw_text_equal=before['raw_json_text']==after['raw_json_text'],
+        display_only_difference=equal and before['raw_json_text']!=after['raw_json_text'])
 def fixture(cur,today):
     f=cutting.posted(cur,today);w=read(cur,f);assert w['eligible']and w['blockers']==[]
     f.update(number=w['number'],version=w['row_version'],original=facts(cur,f),before_gl=gl(cur))
     f['roll'],f['qty']=cur.execute('select roll_id::text,qty_issued from erp.cutting_group_rolls where cutting_group_id=%s',(f['group'],)).fetchone()
     f['before_stock']=stock(cur,f)
     f['issue_lines']={str(k):v for k,v in cur.execute("select l.account_id,sum(l.debit-l.credit)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.source_type='CUTTING_MATERIAL_ISSUE'and j.source_id=%s group by l.account_id",(f['group'],)).fetchall()}
-    f['original_movements']=cur.execute("select jsonb_agg(to_jsonb(m)order by m.id)from erp.material_stock_movements m where m.source_type='CUTTING_GROUP'and m.source_id=%s",(f['group'],)).fetchone()[0]
+    f['original_movement_observation']=observe_movements(cur,f)
+    f['original_movements']=json.loads(f['original_movement_observation']['UTC_json_text'])
     return f
 def verify_effect(cur,f,p,r,key=None):
     assert r['contract_version']=='cp7.cutting-reopen-outcome.v1'and r['kind']=='COMMITTED_OUTCOME'and r['action']=='REOPEN_POSTED'
@@ -56,7 +84,8 @@ def verify_effect(cur,f,p,r,key=None):
     for key in ('material_issue_posted','material_return_posted','status','row_version','updated_at'):
         original['group'].pop(key,None);now['group'].pop(key,None)
     assert now==original,(now,original)
-    assert cur.execute("select jsonb_agg(to_jsonb(m)order by m.id)from erp.material_stock_movements m where m.source_type='CUTTING_GROUP'and m.source_id=%s",(f['group'],)).fetchone()[0]==f['original_movements']
+    movements=movement_comparison(cur,f);f['verified_original_movements']=movements
+    assert movements['exact_UTC_text_equal'],movements
     h=cur.execute('select original_source,Native_response,reason from '+bundle.SCHEMA+'.history where request_id=%s and group_id=%s',(r['request_id'],f['group'])).fetchone()
     assert h and h[0]['group']['material_issue_posted']and h[1]==r['Native_response']and h[2]==p['change_reason']
     auth.actor(cur)
@@ -152,7 +181,7 @@ def races(tools,today):
         else:assert len(wins)==len(losses)==1 and'CP7_CUTTING_CORRECTION_STALE_REVIEW'in losses[0],rows
         with tools.connect()as conn,conn.cursor()as cur:
             verify_effect(cur,f,p,wins[0]);assert cur.execute('select count(*)from '+bundle.SCHEMA+'.history where group_id=%s',(f['group'],)).fetchone()[0]==1
-        return dict(status='PASS',actual_two_sessions_observed_same_UUID=same,one_Native_inverse=True)
+        return dict(status='PASS',actual_two_sessions_observed_same_UUID=same,one_Native_inverse=True,original_movement_observation=f['verified_original_movements'])
     def revoked_wait(native_wait=False):
         with tools.connect()as conn,conn.cursor()as cur:
             f=fixture(cur,today);subject,_=auth.custom_actor(cur);role=cur.execute("select id from erp.app_roles where role_code='ADMIN'").fetchone()[0]
@@ -195,7 +224,7 @@ def http_cases(http,today):
         reply=owner.rpc(RPC,args);assert reply['status']==200,reply
         assert owner.rpc(RPC,args)['body']==reply['body']
         with http.connect()as conn,conn.cursor()as cur:verify_effect(cur,f,p,reply['body'],key);conn.rollback()
-        return dict(status='PASS',real_Auth_Native_inverse_committed_exact_UUID_stock_GL_and_following_draft=True)
+        return dict(status='PASS',real_Auth_Native_inverse_committed_exact_UUID_stock_GL_and_following_draft=True,original_movement_observation=f['verified_original_movements'])
     def readonly():
         owner=http.login('OWNER','cutting-correction-reader')
         with http.connect()as conn,conn.cursor()as cur:f=fixture(cur,today);before=b.boundary.snapshot(cur);private=private_state(cur);conn.commit()

@@ -1,0 +1,173 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "d68ecc6cdea046522391dcabdeabe34151aec261",
+  "source_tree": "0b3ccdfd3136bde6dd9719779ec27846a8accdb5",
+  "run_id": 37275119480,
+  "job_id": 111650337605,
+  "artifact_id": 11330345843,
+  "artifact_bytes": 1639175,
+  "artifact_sha256": "93da53117bd67dea4e1f8c0a4f062acdca8bb7bdd331dfe4ed56e0594c5851d9",
+  "artifact_CRC": "PASS",
+  "status": "THREE_NATIVE_PASS_ONE_CATALOG_FLAG_INCOMPLETE",
+  "expected_case_count": 4,
+  "observed_case_count": 4,
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_F03_COST_CONTINUATION.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "full_job_log_original_sha256": "4fbb29c208cebd7c2938cd5bb3c80ea54d4c276762fd87142b668aef10313bc1",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385611,
+      "crc32": "442dc6fb",
+      "sha256": "ac69476084e373d9bff1c40e92d2323fffa3939194058f3fdb2abc7e920f6be8"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385611,
+      "crc32": "442dc6fb",
+      "sha256": "ac69476084e373d9bff1c40e92d2323fffa3939194058f3fdb2abc7e920f6be8"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "ceea1208",
+      "sha256": "5dc1ad63a9fcd2895f5672673734f010183151ae2792686b5e4224c44f475eca"
+    },
+    {
+      "name": "CP7_F03_COST_CONTINUATION.json",
+      "bytes": 298395,
+      "crc32": "e59f4748",
+      "sha256": "ddb2b68e1bad1918f64285960df6e3def945dcad2cb42f3559e6cb99f9f1824a"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "51d5572f",
+      "sha256": "1828c08ca983c1a1841e537de0e1474a55270aaec5068408b177953de42255f8"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360426,
+      "crc32": "28691bcb",
+      "sha256": "cdb9a42d8cadbe7bd8f11e94364981ee4c14de68ec8aac7a7ddb2a790d0d275f"
+    }
+  ],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "installed_status": "ALL_STAGES_INSTALLED",
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "INCOMPLETE",
+  "independent_acceptance": false,
+  "production_go": false,
+  "counts": {
+    "PASS": 3,
+    "INCOMPLETE": 1
+  },
+  "failed_id": "F03_E04_CONVERSION_SOLD_CHILD_COST",
+  "failed_Original_body": {
+    "invoice_delta": {
+      "FG_INVENTORY": "4.00",
+      "COGS": "2.00",
+      "OTHER_EXPENSE": "0",
+      "OTHER_INCOME": "0"
+    },
+    "recovery_delta": {
+      "FG_INVENTORY": "-2.00",
+      "COGS": "-1.00",
+      "OTHER_EXPENSE": "0",
+      "OTHER_INCOME": "0.00"
+    },
+    "returns": [
+      {
+        "id": "2fe3370e-6775-4341-861d-c95264195dca",
+        "holder": "BE accountable holder",
+        "expected": "3.000000",
+        "material": "BC kancing silver",
+        "received": "2.000000",
+        "unreturned": "1.000000",
+        "material_id": "eeea8276-49bd-433a-a5f7-95df10cdc57d",
+        "awaiting_value": "0.000000"
+      }
+    ],
+    "refusals": [
+      {
+        "code": "BC_POLICY_PENDING",
+        "refusal": {
+          "sqlstate": "P0001",
+          "message": "BC_POLICY_PENDING: nilai pemulihan barang bekas menunggu keputusan owner (ACC-DEC03); langkah finansial ini belum dapat diposting"
+        },
+        "result": null,
+        "ok": true
+      },
+      {
+        "code": "BC_RETURN_EXCEEDS_SOURCE",
+        "refusal": {
+          "sqlstate": "P0001",
+          "message": "BC_RETURN_EXCEEDS_SOURCE: sisa yang ditunggu 1.000000 , diterima 2"
+        },
+        "result": null,
+        "ok": true
+      }
+    ],
+    "checks": {
+      "invoice_to_sold_and_child": true,
+      "recovery_to_sold_and_child": true,
+      "no_extra_income": true,
+      "policy": true,
+      "capacity": true,
+      "source_immutable": true,
+      "sales_snapshots_immutable": true,
+      "inverse_recovery": true,
+      "inverse_invoice": true,
+      "provisional": true,
+      "truth": true
+    },
+    "failed": [],
+    "status": "INCOMPLETE",
+    "contract": "E04_SELECTED_CONVERSION_BRANCH",
+    "installed_stack": "EXPLICIT_F03_26_ROLES",
+    "production_go": false,
+    "independent_acceptance": false,
+    "not_new_independent_CP6_acceptance": true,
+    "full_boundary_restored": true,
+    "public_schema_unchanged": false,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    }
+  },
+  "old_raw_before_after_catalog_states_recorded": false,
+  "cause_of_old_raw_catalog_difference_proved": false,
+  "successor": "Wrap only Native cost4 with the pre-existing exact_public_catalog retain_raw=True. Preserve all fields/function signature/hash pairs/ACL/rows. No Native business definition, guard, budget, ID or timeout change. Fresh4 required."
+}

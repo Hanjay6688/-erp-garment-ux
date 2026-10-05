@@ -1,6 +1,6 @@
 {
   "contract": "cp7.stock-popup-shared-Original-handoff.v1",
-  "status": "LOCAL73_PASS_SIX_CONSUMER_NATIVE9_PENDING",
+  "status": "FIRST_NATIVE7_OF9_EMPTY_RECOMMENDATION_BROWSER_INCOMPLETE_REAL_E01_TARGET_SUCCESSOR_PENDING",
   "base_commit": "5fb7579efa49780ef0229237c4e781291203eb83",
   "scope": "SAME_VALIDATED_NATIVE_ANALYSIS_IN_STOCK_POPUP_PRODUCTION_REPORT_REMINDER_AND_MANUAL_AI_HANDOFF",
   "data": "Stock rows and popup render exact validated Native FactValue bodies, run/source/semantic hashes, full source/assumptions and explicit UNKNOWN; no new calculation or recapture.",
@@ -29,5 +29,16 @@
   "whole_CP7_complete": false,
   "independent_P20_acceptance": false,
   "installed_P21_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "first_stock_Native_Original": "docs/cp7/evidence/p18-e01-bridge/first-stock-d68/RECEIPT.json",
+  "retained_lifecycle_first_Original": "docs/cp7/evidence/rule-lifecycle/first-stock-d68/RECEIPT.json",
+  "browser_fixture_successor": {
+    "target": "Exact actual E01 Native sold physical root/size; never first unrelated recommendation",
+    "economics": "Preserve full Native current price/BOM, actual work rates and vendor-authoritative laundry; verify old E01 stock45 value675 HPP15 AR175",
+    "scenario": "Only this disposable root: public Native commercial grouping/current-policy ACTIVE and selected mean10 L3 R7 B0 target100; no owner factory defaults",
+    "unknown": "No capacity, recipe installation or other-root policy assumption; feasible_new remains UNKNOWN",
+    "required_fresh_native9": true,
+    "required_fresh_retained_lifecycle16": true,
+    "new_unique_lifecycle_credit": 0
+  }
 }

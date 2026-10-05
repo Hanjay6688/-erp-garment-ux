@@ -20,9 +20,11 @@ def main():
             original=cases.facts(cur,f);baseline=f['original']
             for field in('material_issue_posted','material_return_posted','status','row_version','updated_at'):
                 original['group'].pop(field,None);baseline['group'].pop(field,None)
+            movements=cases.movement_comparison(cur,f)
             out=dict(stock=str(cases.stock(cur,f)),issued=str(f['qty']),
                 original_nonlifecycle_facts_unchanged=original==baseline,
-                original_movements_unchanged=cur.execute("select jsonb_agg(to_jsonb(m)order by m.id)from erp.material_stock_movements m where m.source_type='CUTTING_GROUP'and m.source_id=%s",(f['group'],)).fetchone()[0]==f['original_movements'],
+                original_movements_unchanged=movements['exact_UTC_text_equal'],
+                original_movement_observation=movements,
                 gl_delta={k:str(v-Decimal(f['before_gl'].get(k,'0')))for k,v in cases.gl(cur).items()if v!=Decimal(f['before_gl'].get(k,'0'))},
                 expected_gl_delta={k:str(-Decimal(v))for k,v in f['issue_lines'].items()if Decimal(v)!=0},
                 history=cur.execute('select coalesce(jsonb_agg(jsonb_build_object(\'request_id\',request_id,\'group_id\',group_id,\'original_source\',original_source,\'Native_response\',Native_response)order by recorded_at),\'[]\')from '+cases.bundle.SCHEMA+'.history where group_id=%s',(f['group'],)).fetchone()[0],

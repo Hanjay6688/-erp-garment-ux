@@ -1,0 +1,165 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "d68ecc6cdea046522391dcabdeabe34151aec261",
+  "source_tree": "0b3ccdfd3136bde6dd9719779ec27846a8accdb5",
+  "run_id": 37275119383,
+  "job_id": 111650337258,
+  "artifact_id": 11328979955,
+  "artifact_bytes": 3558874,
+  "artifact_sha256": "7090462b6995ea18265065ec9b3f9f0c8521cc47942835f58f2dda32bbaeb95e",
+  "artifact_CRC": "PASS",
+  "status": "NATIVE_LIFECYCLE_PASS_RETAINED_P18_TWO_BROWSER_INCOMPLETE",
+  "expected_case_count": 16,
+  "observed_case_count": 16,
+  "counts": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_RULE_LIFECYCLE.json",
+    "P18_E01_BRIDGE_DESKTOP_FAILURE.json",
+    "P18_E01_BRIDGE_DESKTOP_READ_PROFILE.json",
+    "P18_E01_BRIDGE_MOBILE_FAILURE.json",
+    "P18_E01_BRIDGE_MOBILE_READ_PROFILE.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "P18_E01_BRIDGE_DESKTOP_FAILURE.png",
+    "P18_E01_BRIDGE_MOBILE_FAILURE.png"
+  ],
+  "full_job_log_original_sha256": "7f0a46062a355944d9dcbd1c51599aebbe0dd64ef128a561af51a22e275a050c",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385622,
+      "crc32": "705898e4",
+      "sha256": "2960134c4c89de80c05a8144d1eec90ef88047dc8b0088a02b5069c4be25d7e3"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385622,
+      "crc32": "705898e4",
+      "sha256": "2960134c4c89de80c05a8144d1eec90ef88047dc8b0088a02b5069c4be25d7e3"
+    },
+    {
+      "name": "CP7_RULE_LIFECYCLE.json",
+      "bytes": 285704,
+      "crc32": "e9111e6a",
+      "sha256": "c029c691d59920aa7e2aef9f6f2678b160f2b08c4a5115d643b579f57202da4e"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "b3bce204",
+      "sha256": "d07ad4d94a87563eb6dbdbeda4ca69eaf8a4a928696bdbb68b282b530d0e8d6c"
+    },
+    {
+      "name": "P18_E01_BRIDGE_DESKTOP_FAILURE.json",
+      "bytes": 47835,
+      "crc32": "a41f34b1",
+      "sha256": "c99ed3ecdd4ed5502746023f5ec524ad5f7de10e7d54c41caf506874c86f7808"
+    },
+    {
+      "name": "P18_E01_BRIDGE_DESKTOP_FAILURE.png",
+      "bytes": 1113393,
+      "crc32": "69877b83",
+      "sha256": "e54d6badc7e91157675b0caef83b8bd5887c6ea99a89d51615f4ae17be120d2b"
+    },
+    {
+      "name": "P18_E01_BRIDGE_DESKTOP_READ_PROFILE.json",
+      "bytes": 579,
+      "crc32": "e9f74060",
+      "sha256": "10e201e778b23a69945f00cfca5e6b16a83a810386704e7c1bd1ba99d104ee92"
+    },
+    {
+      "name": "P18_E01_BRIDGE_MOBILE_FAILURE.json",
+      "bytes": 48898,
+      "crc32": "057ed3ad",
+      "sha256": "fcc3134a50f395434f88ad58b32dfd228a5385cadbc735d6265f1fa926a40c8f"
+    },
+    {
+      "name": "P18_E01_BRIDGE_MOBILE_FAILURE.png",
+      "bytes": 836053,
+      "crc32": "2d89fa8f",
+      "sha256": "1538de20a31021b2688a92ab2b022a65444d2bde1a6c7af3db0f8a888db8399a"
+    },
+    {
+      "name": "P18_E01_BRIDGE_MOBILE_READ_PROFILE.json",
+      "bytes": 579,
+      "crc32": "56e3ee8c",
+      "sha256": "27df5adc1904a0636d12390e8e267533367d2b01fc1f5a004b08717a5674dac2"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "071d69c9",
+      "sha256": "7f21279db8f2aedda77e2f43a557dda62eecef1848d2d029b76c49b9f84f7db5"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360425,
+      "crc32": "b94bf31e",
+      "sha256": "fbdd54b2e9b5acda5c45969cc9b1b19a02108af5fbe6cb3a7dee603fd18658ee"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "INCOMPLETE",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "successor": "Same retained actual E01 browser fixture must select real reviewed target. No new lifecycle case credit. Fresh unchanged16 required."
+}

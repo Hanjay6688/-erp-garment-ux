@@ -33,7 +33,7 @@ async function journey(ui,today,mobile){
   assert.equal(requests[0].p_payload.group_id,f.fixture.group);assert.equal(requests[0].p_payload.po_id,f.fixture.po);assert.equal(requests[0].p_expected,f.workspace.row_version);assert.equal(requests.length,mobile?1:2)
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
   image=`CP7_CUTTING_REOPEN_COMMITTED_${suffix}.png`;await page.screenshot({path:'cp6-proof/t3/'+image,fullPage:true});screenshots.push(image)
-  return{status:'PASS',mobile,actual_Auth_read_and_unchanged_Native_inverse:true,old_original_roll_size_clock_and_movement_facts_preserved:true,stock10_restored_and_source_GL_neutral:true,one_immutable_original_receipt:true,actual_committed_lost_reply_reload_same_UUID:!mobile,device_timezone_America_Los_Angeles:true,screenshots}
+  return{status:'PASS',mobile,actual_Auth_read_and_unchanged_Native_inverse:true,old_original_roll_size_clock_and_movement_facts_preserved:true,original_movement_observation:after.original_movement_observation,stock10_restored_and_source_GL_neutral:true,one_immutable_original_receipt:true,actual_committed_lost_reply_reload_same_UUID:!mobile,device_timezone_America_Los_Angeles:true,screenshots}
  }catch(error){let actual;try{actual=state()}catch(failure){actual={observation_error:String(failure)}}writeFileSync(`cp6-proof/t3/CP7_CUTTING_REOPEN_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,text:await page.locator('main').innerText().catch(()=>''),state:actual,requests},null,2));await page.screenshot({path:`cp6-proof/t3/CP7_CUTTING_REOPEN_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
  finally{await page.unroute(endpoint).catch(()=>{});await user.context.close()}
 }

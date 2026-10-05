@@ -1,0 +1,311 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "d68ecc6cdea046522391dcabdeabe34151aec261",
+  "source_tree": "0b3ccdfd3136bde6dd9719779ec27846a8accdb5",
+  "run_id": 37275119381,
+  "job_id": 111650337020,
+  "artifact_id": 11330266616,
+  "artifact_bytes": 18911973,
+  "artifact_sha256": "0db0d0c3a44575df5fa91b41c033165db45479d8b729ecfcd66c98bc559546c6",
+  "artifact_CRC": "PASS",
+  "status": "WRITER_NATIVE_AUTH_HTTP_BROWSER_TWENTY_ONE_PASS",
+  "expected_case_count": 21,
+  "observed_case_count": 21,
+  "counts": {
+    "native": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "journal_native": {
+      "PASS": 6
+    },
+    "journal_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_F03_CASH.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "F03_CASH_PAGE1_DESKTOP.png",
+    "F03_CASH_PAGE1_MOBILE.png",
+    "F03_CASH_PAGE2_DESKTOP.png",
+    "F03_CASH_PAGE2_MOBILE.png",
+    "F03_CASH_RETIRED_DESKTOP.png",
+    "F03_CASH_RETIRED_MOBILE.png",
+    "F03_FINANCE_OVERVIEW_RETIRED_DESKTOP.png",
+    "F03_FINANCE_OVERVIEW_RETIRED_MOBILE.png",
+    "F03_FINANCE_OVERVIEW_SOURCE_DESKTOP.png",
+    "F03_FINANCE_OVERVIEW_SOURCE_MOBILE.png",
+    "F03_JOURNAL_DETAIL_MOBILE.png",
+    "F03_JOURNAL_DETAIL_DESKTOP.png",
+    "F03_JOURNAL_PAGE1_DESKTOP.png",
+    "F03_JOURNAL_PAGE1_MOBILE.png",
+    "F03_JOURNAL_RETIRED_DESKTOP.png",
+    "F03_JOURNAL_RETIRED_MOBILE.png",
+    "F03_RECEIVABLES_RETIRED_DESKTOP.png",
+    "F03_RECEIVABLES_RETIRED_MOBILE.png",
+    "F03_RECEIVABLES_SOURCE_DESKTOP.png",
+    "F03_RECEIVABLES_SOURCE_MOBILE.png",
+    "F03_REPORT_DATE_RETIRED_DESKTOP.png",
+    "F03_REPORT_DATE_RETIRED_MOBILE.png",
+    "F03_REPORT_DATE_SOURCE_DESKTOP.png",
+    "F03_REPORT_DATE_SOURCE_MOBILE.png"
+  ],
+  "full_job_log_original_sha256": "efd2f91d5e8e32614fa40506bd2ebbfa1465c16331be5ecce14defc0381a3b9e",
+  "all_original_member_hashes": [
+    {
+      "name": "CASH_BUILD.txt",
+      "bytes": 11438,
+      "crc32": "353b9849",
+      "sha256": "e584c0adfd0f2dd63733cdbeb880865f87f578ebe75f170d06e5c6a133119493"
+    },
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CASH_LOCAL_TESTS.txt",
+      "bytes": 1224,
+      "crc32": "cb5b3ed2",
+      "sha256": "7f939602067462b45b876d550c777a4e601cd1e72fd5fc147e1283c1ccd6e8dc"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385613,
+      "crc32": "553ff6be",
+      "sha256": "f797a293313b8e12f3756769e088298585ed04b768f6f081c2d6e920c299ff74"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385613,
+      "crc32": "553ff6be",
+      "sha256": "f797a293313b8e12f3756769e088298585ed04b768f6f081c2d6e920c299ff74"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "e0ffa67e",
+      "sha256": "16095a37b407423957eeeed2802de571ae78e317382475ae7ce7ab05df00efff"
+    },
+    {
+      "name": "CP7_F03_CASH.json",
+      "bytes": 479395,
+      "crc32": "f256ed43",
+      "sha256": "cc9938db29074f105bd491958a1bbfabc4e07408f6490c0588caab937fe82049"
+    },
+    {
+      "name": "F03_CASH_PAGE1_DESKTOP.png",
+      "bytes": 2546507,
+      "crc32": "77bdf9e9",
+      "sha256": "ed789bde246d652b4dea31a791090ca0287a98a33ae4d99ba38a8a7dc786745f"
+    },
+    {
+      "name": "F03_CASH_PAGE1_MOBILE.png",
+      "bytes": 1214973,
+      "crc32": "3c9c9411",
+      "sha256": "fc7870048b2505156e511f04deb32746027e0a04736f7b3d2306285acc13281e"
+    },
+    {
+      "name": "F03_CASH_PAGE2_DESKTOP.png",
+      "bytes": 963474,
+      "crc32": "476eeb67",
+      "sha256": "ff3e2211402d01de5d5023f1ccf182c823f71f7e275d1e78f23d8768ff1a745e"
+    },
+    {
+      "name": "F03_CASH_PAGE2_MOBILE.png",
+      "bytes": 629575,
+      "crc32": "431d6e8f",
+      "sha256": "1a316bc255bc595e83ab5b6df5cbb00632423e13363d973b2a40badd68ed1fd9"
+    },
+    {
+      "name": "F03_CASH_RETIRED_DESKTOP.png",
+      "bytes": 336387,
+      "crc32": "688683b5",
+      "sha256": "6e65283bed66e391fe3c89f2c1b68915b00b476ac270adbf9f9700545a48347d"
+    },
+    {
+      "name": "F03_CASH_RETIRED_MOBILE.png",
+      "bytes": 159027,
+      "crc32": "ec9b72bc",
+      "sha256": "336fd0c0d6e06be8e04efa0d88d5e016e50a91cd52095307a54478c5a27d2b63"
+    },
+    {
+      "name": "F03_FINANCE_OVERVIEW_RETIRED_DESKTOP.png",
+      "bytes": 258640,
+      "crc32": "af1ca631",
+      "sha256": "077b5f0df58df430c71661ac4593702e0e225d32b95c4026260f643130b8c4e3"
+    },
+    {
+      "name": "F03_FINANCE_OVERVIEW_RETIRED_MOBILE.png",
+      "bytes": 130961,
+      "crc32": "3a331faa",
+      "sha256": "78b2fb2dae87acce8afb1f030ec40cc9efc42fb1353385d4ff1504644b7816c7"
+    },
+    {
+      "name": "F03_FINANCE_OVERVIEW_SOURCE_DESKTOP.png",
+      "bytes": 1078516,
+      "crc32": "a95d7a05",
+      "sha256": "d3502447b41463345e06e96777c5bebd3dd8cb188d4337926550c6e17ae94255"
+    },
+    {
+      "name": "F03_FINANCE_OVERVIEW_SOURCE_MOBILE.png",
+      "bytes": 771895,
+      "crc32": "62f69537",
+      "sha256": "737da98e2a0f94b856b61dbd8fc60356887852d488578ccfbd769988948fdb74"
+    },
+    {
+      "name": "F03_JOURNAL_DETAIL_MOBILE.png",
+      "bytes": 520488,
+      "crc32": "adc39635",
+      "sha256": "ce339e73d8022023b2d9c1a7b0ef853f12d03a5e4ca793a58f00e1b03d012905"
+    },
+    {
+      "name": "F03_JOURNAL_DETAIL_DESKTOP.png",
+      "bytes": 704813,
+      "crc32": "b2cdd600",
+      "sha256": "274a17a0dfd1bc047ee9b1e7865dd821378e3ea0e87c302c1aee4c39b04cf9e6"
+    },
+    {
+      "name": "F03_JOURNAL_PAGE1_DESKTOP.png",
+      "bytes": 1036207,
+      "crc32": "05fab044",
+      "sha256": "527f6592f381822abc80f40c2a46ed24d7004de9773d66824c9d3934633e98cd"
+    },
+    {
+      "name": "F03_JOURNAL_PAGE1_MOBILE.png",
+      "bytes": 780219,
+      "crc32": "48538850",
+      "sha256": "194462916609e3f5799f07d5e3c95ce9b69939df12c48473f2521b648f822731"
+    },
+    {
+      "name": "F03_JOURNAL_RETIRED_DESKTOP.png",
+      "bytes": 339585,
+      "crc32": "6b231e56",
+      "sha256": "003c54581bf4f24e7b3b2149a5ba0c9638c9de55abd29eaf10a8d20c0297af1a"
+    },
+    {
+      "name": "F03_JOURNAL_RETIRED_MOBILE.png",
+      "bytes": 173645,
+      "crc32": "8e3032f3",
+      "sha256": "513f766bc39fe94268364bf2992cca5cf024a9719b69c5b2c805300785beb829"
+    },
+    {
+      "name": "F03_RECEIVABLES_RETIRED_DESKTOP.png",
+      "bytes": 342694,
+      "crc32": "df05be73",
+      "sha256": "9937d7508471aded1a25259109981c4d1ba33618fbc941155254e1ddbf605163"
+    },
+    {
+      "name": "F03_RECEIVABLES_RETIRED_MOBILE.png",
+      "bytes": 315489,
+      "crc32": "9bce3dc3",
+      "sha256": "05275955e48b0fdc0f6ca41b8add8227b3ed06a3ffc70109b17a2d1eca46873f"
+    },
+    {
+      "name": "F03_RECEIVABLES_SOURCE_DESKTOP.png",
+      "bytes": 639726,
+      "crc32": "a8111da3",
+      "sha256": "779a16f2962d159f4e3e605b7b84df0c35ae0890ae65a6d2ceeda3d87a52d9ba"
+    },
+    {
+      "name": "F03_RECEIVABLES_SOURCE_MOBILE.png",
+      "bytes": 430350,
+      "crc32": "edaf076a",
+      "sha256": "8e771cc1c5c8473ce2dd60d11426de54b411699a5d4702ccb6a580762bf540df"
+    },
+    {
+      "name": "F03_REPORT_DATE_RETIRED_DESKTOP.png",
+      "bytes": 699756,
+      "crc32": "1f8dd918",
+      "sha256": "9c9381932c0725092c658dee886db85b96fb05691e28fc561a30257afe8b2716"
+    },
+    {
+      "name": "F03_REPORT_DATE_RETIRED_MOBILE.png",
+      "bytes": 463426,
+      "crc32": "5133b150",
+      "sha256": "3b7f58590c3b532ac5259e6f0a3096fd606f216efba80b0dfbf312856cff2b7e"
+    },
+    {
+      "name": "F03_REPORT_DATE_SOURCE_DESKTOP.png",
+      "bytes": 1755045,
+      "crc32": "380c561a",
+      "sha256": "9a0d03977d9f25c563f4aaf7e3a12db169f852a6bee9db98269f32979360c30c"
+    },
+    {
+      "name": "F03_REPORT_DATE_SOURCE_MOBILE.png",
+      "bytes": 1289317,
+      "crc32": "039378d0",
+      "sha256": "a4c28a67618ab84e49b5b7a63fd81e5f720fbd2f1a57fc0a48cb2c454da7772f"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "21e08445",
+      "sha256": "72a8591dd89b2009c8218f684404c27761b70c94f3396d31be6ae9ae1929193e"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360423,
+      "crc32": "7a9db0a0",
+      "sha256": "fecaa5bd9280f161a56381a56141f42dccb45c3f0eb91c712bab983f8c518574"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "PASS",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "successor": "First5fb20/21 Original remains retained. This qualified successor does not prove the cause of the old per-case catalog mismatch.",
+  "full_raw_catalog_snapshots_retained": 8,
+  "post_restore_raw_catalog_difference_proved_only_full_function_pair_order": true,
+  "old_first5fb_per_case_catalog_cause_proved": false,
+  "qualified_case_count": 21,
+  "actual_screenshots_retained": 24
+}
