@@ -6,7 +6,7 @@ export default function NativeMaterialNeedsView({data,visibleTargets}:{data:Nati
  const rows=data.analysis.material_needs.filter(m=>visibleTargets.includes(m.target_key))
  return <section aria-label="Kebutuhan bahan dari BOM ERP">
   <h3>Kebutuhan bahan</h3>
-  <p>Aksesori mengikuti BOM ERP; kain mengikuti pemakaian per PCS yang direview. Keduanya memakai jumlah rencana yang sama. Bahan yang dikeluarkan belum tentu terpasang. Sisa gudang belum tentu dialokasikan ke pekerjaan ini.</p>
+  <p>Aksesori mengikuti BOM ERP; kain mengikuti pemakaian per PCS yang direview. Keduanya memakai jumlah rencana yang sama. Bahan yang dikeluarkan belum tentu terpasang. Untuk kain, sisa layak hanya dihitung dari draf potong ERP yang terhubung ke rencana, atau stok bebas gudang bahan bila pembagiannya pasti; ini bukan reservasi stok. Tambahan dari luar hanya memperhitungkan PO terbuka yang tercatat di ERP dan datang sebelum batas waktu.</p>
   {rows.map((m,i)=><article key={`${m.target_key}:${m.material_key}:${i}`}>
    <h4>{data.labels.find(l=>l.key===m.target_key)?.sku??'Produk'} · bahan untuk rencana</h4>
    <p>{m.reason}</p><p>{m.material_key?.startsWith('FABRIC_')?'Kebutuhan kain':'Kebutuhan BOM'}: <strong>{formatFact(m.gross)}</strong>.</p>

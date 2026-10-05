@@ -33,6 +33,8 @@ function matches(s:Schema,v:unknown):boolean{
  return true
 }
 const numeric=(f:FactValue)=>'value'in f
+// Exact decimal quantity scaled to the kernel's twelve fractional digits.
+function quantity(v:string):bigint{const m=/^(0|[1-9][0-9]{0,29})(?:\.([0-9]{1,12}))?$/.exec(v);if(!m)fail();return BigInt(m[1])*10n**12n+BigInt((m[2]??'').padEnd(12,'0'))}
 function pcs(f:FactValue):bigint|null{if(!numeric(f))return null;if(f.unit!=='PCS'||!/^(0|[1-9][0-9]*)$/.test(f.value)||f.value.length>39)fail();return BigInt(f.value)}
 function assertSemantics(x:AnalysisResult){
  const unique=(a:string[])=>new Set(a).size===a.length
@@ -71,7 +73,7 @@ function assertSemantics(x:AnalysisResult){
    if(!m.gross.refs.some(r=>r.kind==='erp.accessory_categories'&&r.id===category)||!m.gross.refs.some(r=>r.kind==='erp.accessory_bom_items')||!m.gross.refs.some(r=>r.kind==='erp.accessory_bom_versions'))fail()
   }
   if(m.material_key?.startsWith('FABRIC_')){
-   if(target.target.kind!=='PRODUCT'||[m.installed_proven,m.unused_allocated_proven,m.additional_external].some(numeric))fail()
+   if(target.target.kind!=='PRODUCT')fail()
    if(m.material_key===`FABRIC_UNREVIEWED:${m.target_key}`){if(facts.some(numeric)||facts.some(f=>f.unit!=='MATERIAL_BASE_UNIT'))fail()}
    else if(m.material_key.startsWith('FABRIC_MATERIAL:')){
     const material=uuid(m.material_key.slice('FABRIC_MATERIAL:'.length)),recipe=m.gross.refs.filter(r=>r.kind==='CP7_FABRIC_RECIPE')
@@ -80,6 +82,15 @@ function assertSemantics(x:AnalysisResult){
     if(facts.some(f=>!f.refs.some(r=>r.kind==='CP7_FABRIC_RECIPE'&&r.id===recipe[0].id&&r.revision===recipe[0].revision)))fail()
     if(numeric(m.gross)&&(m.gross.state!=='ASSUMED'||!m.gross.assumption_ids.includes(recipe[0].id)||!m.gross.refs.some(r=>r.kind==='erp.materials'&&r.id===material&&/^[a-f0-9]{64}$/.test(r.revision??''))))fail()
     if(!x.assumptions.some(a=>a.id===recipe[0].id&&a.origin==='OWNER_INPUT'&&a.confirmed_for_operation===false))fail()
+    // P08 physical facts follow the shared material kernel: installed is only
+    // zero for unstarted conditional PCS, allocated is never negative, and the
+    // external addition can never exceed gross - installed - allocated.
+    const [g,i,u,e]=[m.gross,m.installed_proven,m.unused_allocated_proven,m.additional_external].map(f=>numeric(f)?quantity(f.value):null)
+    const assumed=(f:FactValue)=>f.state==='ASSUMED'&&f.assumption_ids.includes(recipe[0].id)
+    if(g===null&&[i,u,e].some(v=>v!==null))fail()
+    if(i!==null&&(i!==0n||!assumed(m.installed_proven)))fail()
+    if(u!==null&&(u<0n||m.unused_allocated_proven.state==='ASSUMED'&&!assumed(m.unused_allocated_proven)))fail()
+    if(e!==null&&(g===null||i===null||u===null||e<0n||e>(g-i-u>0n?g-i-u:0n)||!assumed(m.additional_external)))fail()
    }else fail()
   }
  }

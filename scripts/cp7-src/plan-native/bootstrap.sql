@@ -35,6 +35,9 @@ create trigger immutable_plan_draft before update or delete on cp7_plan_native.d
 create trigger immutable_plan_command before update or delete on cp7_plan_native.commands for each row execute function cp7_private.immutable_run();
 create trigger immutable_plan_intent before update or delete on cp7_plan_native.intents for each row execute function cp7_private.immutable_run();
 create index plan_target_intents on cp7_plan_native.intents(target_key,cutting_group_id);
+-- The shared analysis reads which unposted Native draft each intent links to;
+-- it never reads drafts/commands payloads or gains any plan writer right.
+grant select(id,target_key,cutting_group_id)on cp7_plan_native.intents to cp7_capture;
 create function cp7_plan_native.access_now(mode text)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;k text;

@@ -16,6 +16,17 @@ def workspace(cur,q,subject=None):return plan.rpc(cur,'erp_cp7_get_fabric_recipe
 def rows(e,target):return[m for m in e['analysis']['material_needs']if m['target_key']==target and(m['material_key']or'').startswith('FABRIC_')]
 def unknown(row):
  assert all(row[k]['state']=='UNKNOWN'and'value'not in row[k]for k in('installed_proven','unused_allocated_proven','additional_external')),row
+def physical(row,gross):
+ # P08 successor oracle. The same fixture holds exactly one posted ten-unit roll
+ # of the reviewed fabric, no linked/manual draft, no open commitment and no
+ # other new-start claimant: the unique free-stock allocation10. Its unbound
+ # same-model/size WIP is NEEDS_CHECK (brand/color unproved): PCS of this
+ # target may already be cut, so installation is UNKNOWN and the external
+ # addition is UNKNOWN with only the exact upper bound gross-10 in the reason.
+ i,u,e=(row[k]for k in('installed_proven','unused_allocated_proven','additional_external'))
+ assert i['state']=='UNKNOWN'and'value'not in i and i['reason']=='FABRIC_WIP_IDENTITY_UNRESOLVED',row
+ assert u['state']=='ASSUMED'and D(u['value'])==10 and any(r['kind']=='CP7_FABRIC_FREE_STOCK'for r in u['refs']),row
+ assert e['state']=='UNKNOWN'and'value'not in e and e['reason']=='FABRIC_WIP_IDENTITY_UNRESOLVED'and f'paling banyak {D(gross)-10} 'in row['reason'],row
 def setup(cur,today,subject=None):
  f=plan.setup(cur,today,subject);roll=next(r for r in f['options']['rolls']if r['id']==f['payload']['cutting']['rolls'][0]['roll_id']);sku=cur.execute('select material_sku from erp.materials where id=%s',(roll['material_id'],)).fetchone()[0]
  q=dict(run_id=f['original']['run_id'],target_key=f['payload']['target_key'],material_query=sku,material_offset='0',pattern_offset='0',limit='50')
@@ -32,7 +43,7 @@ def cases(cur,today):
  def gross():
   f=setup(cur,today);before=b.boundary.snapshot(cur);key=uuid.uuid4();out=save(cur,f['payload'],key);assert save(cur,f['payload'],key)==out
   old=parent.read(cur,f['plan']['original']['run_id']);assert old['source_state']=='ARCHIVED_STALE'and old['analysis']==f['plan']['original']['analysis']
-  fresh=parent.capture(cur,today);parent.checked(fresh);m=rows(fresh,f['target'])[0];assert m['gross']['state']=='ASSUMED'and D(m['gross']['value'])==170 and m['gross']['unit']==f['payload']['config']['unit'];unknown(m)
+  fresh=parent.capture(cur,today);parent.checked(fresh);m=rows(fresh,f['target'])[0];assert m['gross']['state']=='ASSUMED'and D(m['gross']['value'])==170 and m['gross']['unit']==f['payload']['config']['unit'];physical(m,170)
   assert out['recipe_id']in m['gross']['assumption_ids']and any(r['kind']=='erp.materials'and r['id']==f['payload']['config']['material_id']for r in m['gross']['refs'])
   assert parent.recommendation(fresh['analysis'],f['plan']['root'])['feasible_new']['state']=='UNKNOWN'and b.boundary.snapshot(cur)==before
   return dict(status='PASS',Native_gap85_selected_rate2_gross170=True,same_UUID_one_immutable_recipe=True,all_Native_stock_money_HPP_unchanged=True,original_preserved=True,complete_material_row=m)
@@ -49,15 +60,17 @@ def cases(cur,today):
   f=setup(cur,today);one=save(cur,f['payload']);original=parent.capture(cur,today);old=copy.deepcopy(rows(original,f['target'])[0]);assert D(old['gross']['value'])==170
   q={**f['query'],'run_id':original['run_id']};w=workspace(cur,q);p=copy.deepcopy(f['payload']);p.update(run_id=original['run_id'],source_hash=w['source_hash'],expected_revision=one['revision']);p['config']['qty_per_good_pcs']='3';two=save(cur,p)
   archived=parent.read(cur,original['run_id']);fresh=parent.capture(cur,today);parent.checked(fresh);m=rows(fresh,f['target'])[0]
-  assert archived['source_state']=='ARCHIVED_STALE'and archived['analysis']==original['analysis']and D(m['gross']['value'])==255 and two['recipe_id']in m['gross']['assumption_ids'];unknown(m)
+  assert archived['source_state']=='ARCHIVED_STALE'and archived['analysis']==original['analysis']and D(m['gross']['value'])==255 and two['recipe_id']in m['gross']['assumption_ids'];physical(m,255)
   auth.refused(cur,lambda:cur.execute('update cp7_fabric_native.recipes set reason=%s where id=%s',('rewrite',one['recipe_id'])),'CP7_RUN_IMMUTABLE')
   return dict(status='PASS',original170_immutable_successor255=True,complete_old_row=old,complete_new_row=m)
  def changed():
   f=setup(cur,today);save(cur,f['payload']);original=parent.capture(cur,today);b.api.admin(cur)
-  # Native master counterfixture, not a fabricated stock/installation event.
-  cur.execute('update erp.materials set row_version=row_version+1 where id=%s',(f['payload']['config']['material_id'],))
+  # Native master identity counterfixture, not a fabricated stock/installation
+  # event. Stock/cost cache rewrites (every receipt or issue) no longer void a
+  # review; a real master field revision still does (P08 successor).
+  cur.execute("update erp.materials set material_name=material_name||' (revisi master)'where id=%s",(f['payload']['config']['material_id'],))
   archived=parent.read(cur,original['run_id']);fresh=parent.capture(cur,today);m=rows(fresh,f['target'])[0];assert archived['source_state']=='ARCHIVED_STALE'and archived['analysis']==original['analysis']and m['gross']['state']=='UNKNOWN';unknown(m)
-  return dict(status='PASS',full_Native_master_revision_counterfixture_stales_original=True,unreviewed_new_identity_rate_UNKNOWN=True,complete_material_row=m)
+  return dict(status='PASS',Native_master_identity_revision_counterfixture_stales_original=True,unreviewed_new_identity_rate_UNKNOWN=True,complete_material_row=m)
  def strict():
   f=setup(cur,today);before=b.boundary.snapshot(cur)
   for change,error in[({'qty_per_good_pcs':'0'},'CP7_FABRIC_RATE'),({'qty_per_good_pcs':'-1'},'CP7_FABRIC_RATE'),({'unit':'WRONG'},'CP7_FABRIC_NATIVE_MATERIAL_CHANGED'),({'material_hash':'0'*64},'CP7_FABRIC_NATIVE_MATERIAL_CHANGED')]:
@@ -124,7 +137,7 @@ def http_cases(http,today):
   owner=http.login('OWNER','p08-fabric-owner');other=http.login('OWNER','p08-fabric-foreign')
   with http.connect()as conn,conn.cursor()as cur:f=setup(cur,today,owner.auth_user_id);before=plan.monetary_state(cur);conn.commit()
   key=str(uuid.uuid4());args=dict(p_payload=f['payload'],p_request=key);one=owner.rpc('erp_cp7_save_fabric_recipe_v1',args);assert one['status']==200,one;assert owner.rpc('erp_cp7_save_fabric_recipe_v1',args)['body']==one['body']
-  fresh=owner.rpc('erp_cp7_capture_analysis_v1',dict(p_query=f['plan']['original']['query'],p_request=str(uuid.uuid4())));assert fresh['status']==200,fresh;parent.checked(fresh['body']);m=rows(fresh['body'],f['target'])[0];assert D(m['gross']['value'])==170;unknown(m)
+  fresh=owner.rpc('erp_cp7_capture_analysis_v1',dict(p_query=f['plan']['original']['query'],p_request=str(uuid.uuid4())));assert fresh['status']==200,fresh;parent.checked(fresh['body']);m=rows(fresh['body'],f['target'])[0];assert D(m['gross']['value'])==170;physical(m,170)
   assert other.rpc('erp_cp7_get_fabric_recipe_v1',dict(p_query={**f['query'],'run_id':fresh['body']['run_id']}))['status']==403 and http.anon_rpc('erp_cp7_save_fabric_recipe_v1',args)['status']in(401,403)
   with http.connect()as conn,conn.cursor()as cur:assert plan.monetary_state(cur)==before;cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(owner.auth_user_id,));conn.commit()
   assert owner.rpc('erp_cp7_save_fabric_recipe_v1',args)['status']==403

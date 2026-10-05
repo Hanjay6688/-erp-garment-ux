@@ -19,7 +19,7 @@ begin
  select count(*)into mc from erp.materials m where m.is_active and m.material_type='FABRIC'
   and(term=''or strpos(lower(m.material_sku||' '||m.material_name),term)>0);
  select coalesce(jsonb_agg(jsonb_build_object('id',x.id,'sku',x.material_sku,'name',x.material_name,'unit',x.unit_code,
-  'source_hash',encode(extensions.digest(convert_to(to_jsonb(x)::text,'UTF8'),'sha256'),'hex'))order by x.material_sku,x.id),'[]')into materials
+  'source_hash',cp7_fabric_native.material_hash(to_jsonb(x)))order by x.material_sku,x.id),'[]')into materials
   from(select *from erp.materials m where m.is_active and m.material_type='FABRIC'
    and(term=''or strpos(lower(m.material_sku||' '||m.material_name),term)>0)order by m.material_sku,m.id limit n offset mo)x;
  select count(*)into pc from erp.production_patterns where is_active;

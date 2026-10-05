@@ -1,5 +1,10 @@
 """Exact metadata/read-only boundary; not a Native qualification receipt."""
-FUNCTIONS={'validate':'i','source':'s','needs':'i','workspace':'v','save':'v'}
+FUNCTIONS={'material_hash':'i','validate':'i','source':'s','physical_source':'s','index':'i','recipe_state':'i','plan':'i','needs':'i','workspace':'v','save':'v'}
+# P08 physical facts: exact read-only columns, never cost/price columns or writers.
+COLUMNS={'erp.material_rolls':('id','material_id','status'),'erp.material_stock_movements':('material_id','roll_id','location_id','qty_signed','physical_at'),
+ 'erp.locations':('id','location_type','is_active'),'erp.bb_purchase_commitments_v1':('id','po_number','location_id','expected_date'),
+ 'erp.bb_purchase_commitment_lines_v1':('id','commitment_id','material_id','line_number'),'cp7_plan_native.intents':('id','target_key','cutting_group_id')}
+PRIVATE_COLUMNS={'erp.material_stock_movements':('unit_cost_snapshot','input_unit_cost','original_unit_cost_snapshot'),'erp.bb_purchase_commitment_lines_v1':('unit_price',),'cp7_plan_native.intents':('actor','core_hash','request_id','draft_id')}
 PUBLIC=('public.erp_cp7_get_fabric_recipe_v1(jsonb)','public.erp_cp7_save_fabric_recipe_v1(jsonb,uuid)')
 def verify(cur):
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,p.provolatile,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_fabric_native'").fetchall()
@@ -20,3 +25,9 @@ def verify(cur):
   for who in('anon','service_role'):assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(who,sig)).fetchone()[0]
  for table in('erp.materials','erp.production_patterns'):
   assert cur.execute("select has_table_privilege('cp7_capture',%s,'SELECT')and not has_table_privilege('cp7_capture',%s,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(table,table)).fetchone()[0]
+ for table,columns in COLUMNS.items():
+  for column in columns:assert cur.execute("select has_column_privilege('cp7_capture',%s,%s,'SELECT')",(table,column)).fetchone()[0],(table,column)
+  assert not cur.execute("select has_table_privilege('cp7_capture',%s,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(table,)).fetchone()[0],table
+ for table,columns in PRIVATE_COLUMNS.items():
+  for column in columns:assert not cur.execute("select has_column_privilege('cp7_capture',%s,%s,'SELECT')",(table,column)).fetchone()[0],(table,column)
+ assert cur.execute("select has_function_privilege('cp7_capture','erp.bb_commitment_line_remaining_v1(uuid,uuid)','EXECUTE')").fetchone()[0]

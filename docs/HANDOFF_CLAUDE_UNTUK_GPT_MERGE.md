@@ -268,3 +268,31 @@ Ringkasan: `40c4127c` success 20; `2f50178b` failure 1, success 52; `19ff70ee` s
 - Audit: `git diff origin/cp7/integration...origin/claude/new-session-deapao` (hanya pekerjaan Claude).
 - Merge: `git merge origin/claude/new-session-deapao` dari `cp7/integration`. Selama `cp7/integration` masih `40c4127c`, merge ini tanpa konflik karena cabang Claude sudah memuatnya. Kalau `cp7/integration` sudah maju, konflik yang tersisa hanya pada perubahan GPT sesudah `40c4127c`.
 - Sesudah merge: jalankan ulang workflow GPT yang memasang basis P09, dan perbarui dokumen di 8.4 butir 5.
+
+## 9. P08 bukti fisik kain (5 Okt 2026, cabang `claude/new-session-deapao`)
+
+Basis: `cp7/integration` caa1b038 (checkpoint kain + recovery) yang sudah digabung ke cabang ini (1a030315). Dokumen utama: [`docs/cp7/f04/NATIVE_FABRIC_PHYSICAL.md`](cp7/f04/NATIVE_FABRIC_PHYSICAL.md) dan deklarasi [`NATIVE_FABRIC_PHYSICAL.json`](cp7/f04/NATIVE_FABRIC_PHYSICAL.json).
+
+### 9.1 Yang berubah
+
+| Berkas | Perubahan |
+|---|---|
+| `scripts/cp7-src/planning/fabric-requirements.sql` | `source` → `cp7.fabric-source.v2` dengan blok `physical` (roll, stok per lokasi, draf potong belum diposting, intent, PO terbuka BB); fungsi baru `physical_source`, `index`, `recipe_state`, `plan`; `needs` kini 4 argumen. Hak baca kolom saja + EXECUTE fungsi sisa PO BB. |
+| `scripts/cp7-src/planning/analysis.sql` | `plan()` dihitung sekali per analisis dan diteruskan ke `needs()`. |
+| `scripts/cp7-src/plan-native/bootstrap.sql` | `cp7_capture` boleh SELECT kolom `id,target_key,cutting_group_id` pada `cp7_plan_native.intents` (tanpa payload/aktor). |
+| `src/nativeAnalysis.ts`, `src/NativeMaterialNeedsView.tsx` | Penerima menerima angka fisik kain hanya dalam batas kernel; teks menjelaskan "bukan reservasi stok" dan "hanya PO yang tercatat di ERP". |
+| `scripts/cp7_fabric_physical_*`, `scripts/cp7_f05_analysis_probe.py` | Suite Native baru 21 kasus (flag `fabric_physical`). |
+| `scripts/cp7_fabric_recipe_cases.py`, `scripts/cp7_fabric_recipe_browser.mjs`, `tests/cp7/families/f04/fabric-recipe.mjs` | Oracle penerus fabric13 (ID/jumlah tetap); kontrol SQL Shell 24 → 25. |
+| `.github/workflows/claude-p08-*.yml` | Workflow khusus cabang ini (P08 + regresi 152/284/39 + Shell/CodeQL). Tidak mengubah workflow GPT. |
+
+### 9.2 Keputusan desain yang perlu GPT ketahui
+
+1. Draf potong yang ditautkan intent dihitung sebagai **alokasi rencana**, bukan reservasi (tetap konsisten dengan `SHARED_MATERIAL_POOL.json`). Stok bebas hanya ditambahkan bila pembagiannya unik.
+2. WIP potong Native hanya terikat model+ukuran; warna/merek belum terbukti → NEEDS_CHECK. Untuk produk seperti itu "terpasang" dan "tambahan dari luar" sengaja UNKNOWN, dengan batas atas di alasan (bukan angka beli). Terpasang = 0 hanya untuk PCS yang terbukti belum dipotong (semua WIP produk/ukuran itu sudah pasti). Sesuai masukan GPT 5 Okt: fixture terikat (gap 93) untuk jalur pasti, fixture ambigu untuk UNKNOWN/batas atas; tidak ada hasil yang diberi KNOWN hanya karena fixture terikat.
+3. Sidik jari analisis kini mencakup stok/draf/PO bahan kain yang direview: penerimaan atau draf potong bahan itu membuat Original lama `ARCHIVED_STALE`. Tanpa resep kain, blok fisik kosong sehingga suite 152/284/39 secara logika tidak berubah — tetap wajib dikualifikasi ulang karena tanda tangan mesin berubah.
+4. **Cacat resep lama yang ikut diperbaiki:** hash resep dulu memakai seluruh baris `erp.materials`; Native menulis ulang stok tersimpan/biaya rata-rata/`row_version`/`updated_at` pada tiap penerimaan dan pemakaian, sehingga resep yang sudah direview langsung UNKNOWN setelah barang masuk/keluar. Kini `cp7_fabric_native.material_hash` hanya memakai field master. Counterfixture `P08_FABRIC_MASTER_CHANGED` diganti ke revisi nama master; kontrol Shell 25 → 26.
+5. Kemampuan produksi global tetap UNKNOWN (kebijakan kelipatan/kapasitas masih PENDING_POLICY_VALUE).
+
+### 9.3 Status bukti
+
+Lihat tabel CI di `docs/cp7/f04/NATIVE_FABRIC_PHYSICAL.md` (diperbarui setelah run selesai). Hasil lokal hanya LOCAL_PG16_DEV, bukan bukti. `full_P08_acceptance=false`, `production_go=false`.

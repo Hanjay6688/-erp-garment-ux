@@ -1,0 +1,125 @@
+{
+ "contract": "cp7.fabric-physical-declaration.v1",
+ "base_source": "1a030315",
+ "expected_case_count": 21,
+ "required_case_counts": {
+  "native": 16,
+  "races": 2,
+  "http": 1,
+  "browser": 2
+ },
+ "required_case_ids": {
+  "native": [
+   "P08_PHYSICAL_SINGLE_FREE_STOCK",
+   "P08_PHYSICAL_SUFFICIENT_FREE_STOCK",
+   "P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND",
+   "P08_PHYSICAL_LINKED_DRAFT_KNOWN",
+   "P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE",
+   "P08_PHYSICAL_WRONG_MATERIAL_DRAFT",
+   "P08_PHYSICAL_OVERCOMMITTED_DRAFT",
+   "P08_PHYSICAL_UNLINKED_NATIVE_DRAFT",
+   "P08_PHYSICAL_INCOMING_ON_TIME",
+   "P08_PHYSICAL_INCOMING_LATE",
+   "P08_PHYSICAL_INCOMING_NO_DATE",
+   "P08_PHYSICAL_INCOMING_OVERDUE",
+   "P08_PHYSICAL_SHARED_SPLIT_THEN_DRAFTS",
+   "P08_PHYSICAL_RECEIPT_STALES_ORIGINAL",
+   "P08_PHYSICAL_POSTED_ISSUE_ONCE",
+   "P08_PHYSICAL_KERNEL_BRANCHES_SYNTHETIC"
+  ],
+  "races": [
+   "P08_PHYSICAL_REAL_MVCC_RECEIPT",
+   "P08_PHYSICAL_REAL_MVCC_NATIVE_POST"
+  ],
+  "http": [
+   "P08_PHYSICAL_REAL_AUTH_HTTP"
+  ],
+  "browser": [
+   "P08_PHYSICAL_BROWSER_DESKTOP",
+   "P08_PHYSICAL_BROWSER_MOBILE"
+  ]
+ },
+ "rules": [
+  "Installed is ASSUMED 0 only for conditional new-start PCS proven not yet cut at the capture clock: the reviewed recipe's gap is known and every WIP match of that exact product/size is resolved (no UNKNOWN/NEEDS_CHECK). Already cut WIP needs its own physical installation source and exact product/size link; unresolved identity keeps installation UNKNOWN. Issue is never consumption.",
+  "Allocated unused = current unposted Native cutting composition linked by a CP7 intent to that exact target, only when every line is the recipe fabric, AVAILABLE/HALF_USED, consistent, at an active RAW_MATERIAL_WAREHOUSE and the roll/location stock covers every unposted draft on it (linked or not). It is a plan, not a reservation.",
+  "Free eligible stock (same roll/location rules, minus every unposted draft) is added only when the claimant set is complete (no other ACTIVE/unreviewed row with an unknown fabric or unknown gap) and the split is unique: either it covers every claimant's outstanding need, or there is exactly one claimant.",
+  "Open opening-balance purchase commitments (remaining via the unchanged BB function) count once, only for a single complete claimant, only from an active raw warehouse and only when the WIB expected date's end is on or before the target deadline. Null or overdue expected dates are UNKNOWN; commitments after the deadline are excluded.",
+  "Any unlinked unposted Native draft on the fabric, inconsistent or negative roll stock, unresolved shared split, unknown deadline or paused/stopped production makes the external addition UNKNOWN with a reason code. Nothing unproved becomes zero.",
+  "Unbound same-model/size WIP whose brand/color is unproved (NEEDS_CHECK/UNKNOWN for the target) may already hold this target's fabric: installation is UNKNOWN (FABRIC_WIP_IDENTITY_UNRESOLVED) and the kernel value computed with installed0 is only an upper bound, reported in the reason; the external addition stays UNKNOWN, even when that bound is 0.",
+  "External = the trusted material-need kernel: max(0, gross - installed - allocated - on-time incoming). Global production feasibility stays UNKNOWN (rounding multiple and capacity policies remain unconfirmed)."
+ ],
+ "oracles": [
+  "Bound opening-WIP fixture gap93 x explicit rate2 = 186 with one posted ten-unit roll: installed0, allocated10 (unique free stock), external176; rate0.1 gives 9.3/9.3/0.",
+  "Plan fixture gap85 x rate2 = 170 with unbound same-model WIP (NEEDS_CHECK): installed UNKNOWN, allocated10, external UNKNOWN with upper bound 160.",
+  "Linked draft10 KNOWN allocated10; linked draft6 + free4 = 10 (installed and external UNKNOWN, bound 160).",
+  "Linked draft on another fabric, or linked6 + manual6 above roll10: allocated and external UNKNOWN (FABRIC_LINKED_DRAFT_NOT_ELIGIBLE).",
+  "Manual unlinked draft: allocated0 KNOWN, external UNKNOWN (FABRIC_UNLINKED_NATIVE_DRAFT).",
+  "Bound fixture, open commitment remaining50: due today+2 gives external126; today+30 is after the ten-day deadline (176); no date FABRIC_INCOMING_ETA_UNKNOWN; overdue FABRIC_INCOMING_OVERDUE.",
+  "Two plan targets on one roll10: split UNKNOWN until explicit linked drafts6/4 consume the free stock; then allocated6/4 KNOWN, installed UNKNOWN and external UNKNOWN bounded by gross minus own draft.",
+  "Bound fixture second receipt20 archives the immutable Original; fresh capture allocated30 external156. Native POST of linked draft6 counts the issued stock once: allocated4.",
+  "Synthetic kernel branches (no Native credit): identity unresolved (installed UNKNOWN, bound 160; a covering bound 0 still UNKNOWN), negative stock, material mismatch, inactive commitment location, unknown deadline, O09 on-time 110, stopped policy, unreviewed other need, nothing-to-split, known-zero gap, v1 source without physical block.",
+  "Two real sessions: an uncommitted receipt (bound fixture 176 -> 156) or Native POST is invisible to a concurrent capture; after commit the Original is ARCHIVED_STALE and a fresh capture counts the change once.",
+  "Real Auth HTTP owner capture (plan fixture) shows installed UNKNOWN/allocated10/external UNKNOWN bound160; foreign and anonymous are denied; Native business state unchanged.",
+  "Desktop/mobile (bound fixture): allocated10/external126 with an on-time open commitment in Production, report and AI; an actual second receipt shows the stale archive, a fresh capture allocated30/external106; global feasibility UNKNOWN."
+ ],
+ "successor_of": {
+  "declaration": "docs/cp7/f04/NATIVE_FABRIC_RECIPE.json",
+  "changed_oracle": "Reviewed rows now carry the unique free-stock allocation10. The fabric13 plan fixture's same-model WIP is NEEDS_CHECK, so installation and the external addition stay UNKNOWN, with the exact upper bound gross-10 in the reason. Unreviewed, expired and master-changed rows stay all UNKNOWN. IDs and counts of the thirteen cases are unchanged.",
+  "first_original_retained": "evidence/fabric-recipe/qualified13-e7"
+ },
+ "Native_SELECT_columns_added": {
+  "erp.material_rolls": [
+   "id",
+   "material_id",
+   "status"
+  ],
+  "erp.material_stock_movements": [
+   "material_id",
+   "roll_id",
+   "location_id",
+   "qty_signed",
+   "physical_at"
+  ],
+  "erp.locations": [
+   "id",
+   "location_type",
+   "is_active"
+  ],
+  "erp.bb_purchase_commitments_v1": [
+   "id",
+   "po_number",
+   "location_id",
+   "expected_date"
+  ],
+  "erp.bb_purchase_commitment_lines_v1": [
+   "id",
+   "commitment_id",
+   "material_id",
+   "line_number"
+  ],
+  "cp7_plan_native.intents": [
+   "id",
+   "target_key",
+   "cutting_group_id"
+  ]
+ },
+ "Native_EXECUTE_added": [
+  "erp.bb_commitment_line_remaining_v1(uuid,uuid)"
+ ],
+ "Native_DML_grants_added": 0,
+ "roles_added": 0,
+ "public_wrappers_added": 0,
+ "requalification_required": [
+  "fabric13 successor",
+  "analysis152",
+  "attention284",
+  "plan39",
+  "Shell",
+  "CodeQL"
+ ],
+ "full_P08_acceptance": false,
+ "independent_acceptance": false,
+ "production_go": false,
+ "labels": "Only a linked Native draft composition (or no allocation at all) is KNOWN. Installed, free-stock allocation and external are ASSUMED because they rest on the recipe and the scenario; a product-bound fixture does not make them KNOWN.",
+ "recipe_identity_fix": "Recipe review identity now hashes Native fabric master fields only (cp7_fabric_native.material_hash: id, sku, name, type, unit, active, accessory category, created_at). Every receipt/issue rewrites cached_stock_qty, moving_average_cost, row_version and updated_at, which previously voided every reviewed recipe. A real master field revision still voids it; fabric13 MASTER_CHANGED now renames the master, and the Shell SQL control adds cache-rewrite-keeps-review (26 controls)."
+}

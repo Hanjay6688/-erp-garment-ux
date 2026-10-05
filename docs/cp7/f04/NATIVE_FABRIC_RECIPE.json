@@ -57,5 +57,6 @@
     "erp_cp7_save_fabric_recipe_v1(jsonb,uuid)"
   ],
   "full_P08_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "p08_physical_successor": "Source 1a030315+ (P08 physical facts) changes only the three physical oracles of reviewed rows: GROSS170/SUCCESSOR255/HTTP now require allocated10 (the fixture's single free ten-unit roll), ASSUMED; the fixture's unbound same-model WIP is NEEDS_CHECK, so installation and the external addition are UNKNOWN (FABRIC_WIP_IDENTITY_UNRESOLVED) with the exact upper bound gross-10 in the reason. Unreviewed, expired and master-changed rows stay UNKNOWN. IDs/counts unchanged; qualified13-e7 Originals stay retained. MASTER_CHANGED now revises the master name, because recipe identity no longer includes the stock/cost caches that every receipt rewrites. See NATIVE_FABRIC_PHYSICAL.json."
 }

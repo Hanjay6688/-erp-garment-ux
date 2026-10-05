@@ -38,6 +38,7 @@ declare n jsonb:=cp7_netting_native.build(c,q);scenario jsonb:=n->'schedule_run_
  complete boolean:=c->>'status'='COMPLETE'and wip->>'status'='COMPLETE';hash text:=cp7_analysis_native.fingerprint(c);
  allocation_known boolean:=n->'allocation'->>'status'='SCENARIO';allocated numeric;load numeric;captured text:=c->>'captured_at';
  supply_match text;scenario_revision bigint:=coalesce((c->'schedule'->>'revision')::bigint,0);
+ fabric_plan jsonb:=cp7_fabric_native.plan(c,n);
 begin
  if scenario_revision>9007199254740991 then raise exception 'CP7_ANALYSIS_REVISION_RANGE';end if;
  if c->'schedule'<>'null'::jsonb then
@@ -95,7 +96,7 @@ begin
    'selection_reason','Native available-history/manual fallback; no backtest promotion without earlier-known training evidence',
    'validation_fold_ids','[]'::jsonb,'scores','[]'::jsonb));
   end if;
-  materials:=materials||cp7_analysis_native.material_needs(c,r,row_aids)||cp7_fabric_native.needs(c,r,row_aids);
+  materials:=materials||cp7_analysis_native.material_needs(c,r,row_aids)||cp7_fabric_native.needs(c,r,row_aids,fabric_plan);
   metrics:=metrics||jsonb_build_array(jsonb_build_object('metric_id','AVAILABLE_FG_PCS:'||(r->>'target_key'),'version','native-availability-1',
    'value',cp7_analysis_native.fact(r->>'available_fg_pcs','PCS',refs),'formula_ref','NATIVE_PHYSICAL_MINUS_ACTIVE_DRAFT_RESERVATIONS_ONCE',
    'operands',jsonb_build_array(cp7_analysis_native.fact(stock->'availability'->>'physical_fg_pcs','PCS',stock->'refs'),
