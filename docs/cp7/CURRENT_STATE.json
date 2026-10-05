@@ -3653,7 +3653,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Qualify existing-owning-facade sales-chain Native25 and raw exact catalog SupplierReturns12/MiscFinance14 on the new source; preserve first1766/b215 Originals and existing b215 Receipt42/E24Issue4 qualifications separately. Continue posted-cutting correction, actual fabric recipe/allocation and full P08/P18/P19, with independent P20 and installed P21 separate. GBD03 Option1 and five D11 policies are approved; do not invent the eight remaining operating config inputs.",
+  "next_action": "Qualify new cutting-reopen Native19 and affected source78/full34-role F03/Shell on this exact candidate. SalesChain25/SupplierReturns12/MiscFinance14 remain qualified at fd702d7 with source-bound Originals; do not erase their first failures. Continue actual fabric recipe/allocation, full P08/P18/P19 and feasible posted-source correction. Independent P20 and installed P21 remain separate; do not invent eight unknown operating config inputs.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -10647,5 +10647,139 @@
       "misc": 14
     },
     "Native_qualified": false
+  },
+  "cutting_reopen_candidate": {
+    "contract": "cp7.cutting-reopen-handoff.v1",
+    "status": "LOCAL106_PASS_NATIVE19_PENDING",
+    "base_commit": "3fbca363fa39c8a8a248129e20519fb13cf937ce",
+    "base_tree": "1a4b8cf5f6ab2af54a1d9fa058980b27147658f2",
+    "scope": "UNPICKED_POSTED_CUTTING_EXISTING_NATIVE_INVERSE_AND_SEPARATE_FOLLOWING_DRAFT_EDIT",
+    "operation": {
+      "source": "Current exact group/PO/number/version and whole source snapshot token from the explicit owning read.",
+      "eligibility": "CUT, unpicked, material issue posted, material return not posted; no active draft/posted pickup and no Native downstream evidence.",
+      "command": "One unchanged erp.reverse_cutting_material_flow_before_sewing_v2 call; retain full immutable original source, Native result and actor/UUID receipt atomically.",
+      "following_action": "Ordinary existing Native SAVE_DRAFT then explicit POST; these are separate commands and no replacement is claimed.",
+      "clock": "Existing Native current physical inverse clock and original cut clock retained. No historical economic restatement is claimed.",
+      "HPP": "Existing Native recost and queue semantics retained; no new finished/sold HPP qualification is inferred from this bounded inverse."
+    },
+    "payload_fields": [
+      "group_id",
+      "po_id",
+      "review_token",
+      "change_reason"
+    ],
+    "recovery": {
+      "domain": "CUTTING_CORRECTION",
+      "action": "REOPEN_POSTED",
+      "same_UUID_after_lost_commit_reply": true,
+      "independent_from_legacy_draft_CUTTING_domain": true,
+      "global_pending_write_fence": true,
+      "mounted_without_queue_group_for_reconciliation": true
+    },
+    "authority": {
+      "roles": [
+        "OWNER",
+        "ADMIN"
+      ],
+      "current_permissions": [
+        "production.distribution.view",
+        "production.cutting.view",
+        "production.cutting.edit_draft",
+        "production.cutting.post"
+      ],
+      "checks": [
+        "before metadata",
+        "after metadata",
+        "before receipt",
+        "after receipt lock wait including cached outcome",
+        "after group lock wait",
+        "after Native inverse/any Native stock lock wait"
+      ],
+      "no_new_ERP_DML_or_direct_Native_execute_privilege": true,
+      "private_false_RLS": true,
+      "SECURITY_DEFINER_empty_search_path": true,
+      "new_closed_private_roles": [
+        "cp7_cutting_write",
+        "cp7_cutting_read"
+      ],
+      "combined_F03_exact_role_count": 34
+    },
+    "required_counts": {
+      "native": 10,
+      "races": 4,
+      "http": 3,
+      "browser": 2
+    },
+    "expected_case_count": 19,
+    "planned_ids": {
+      "native": [
+        "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+        "CP7_CUTTING_REOPEN_READ_ONLY_CAPABILITIES",
+        "CP7_CUTTING_REOPEN_REPLAY",
+        "CP7_CUTTING_REOPEN_CLOSED_FIELDS",
+        "CP7_CUTTING_REOPEN_STALE_SOURCE",
+        "CP7_CUTTING_REOPEN_PICKUP_DOWNSTREAM",
+        "CP7_CUTTING_REOPEN_ATOMIC_LATE_FAILURE",
+        "CP7_CUTTING_REOPEN_IMMUTABLE_HISTORY",
+        "CP7_CUTTING_REOPEN_CURRENT_AUTH",
+        "CP7_CUTTING_REOPEN_CLOSED_PERIOD"
+      ],
+      "races": [
+        "CP7_CUTTING_REOPEN_RACE_SAME_UUID",
+        "CP7_CUTTING_REOPEN_RACE_COMPETING",
+        "CP7_CUTTING_REOPEN_RACE_GROUP_REVOKE",
+        "CP7_CUTTING_REOPEN_RACE_NATIVE_REVOKE"
+      ],
+      "http": [
+        "CP7_CUTTING_REOPEN_HTTP_COMMIT_REPLAY",
+        "CP7_CUTTING_REOPEN_HTTP_READONLY",
+        "CP7_CUTTING_REOPEN_HTTP_CURRENT_AUTH"
+      ],
+      "browser": [
+        "CP7_CUTTING_REOPEN_BROWSER_DESKTOP",
+        "CP7_CUTTING_REOPEN_BROWSER_MOBILE"
+      ]
+    },
+    "required_screenshots": [
+      "CP7_CUTTING_REOPEN_REVIEW_DESKTOP.png",
+      "CP7_CUTTING_REOPEN_COMMITTED_DESKTOP.png",
+      "CP7_CUTTING_REOPEN_REVIEW_MOBILE.png",
+      "CP7_CUTTING_REOPEN_COMMITTED_MOBILE.png"
+    ],
+    "local_receipt": "docs/cp7/evidence/cutting-reopen/local/RECEIPT.json",
+    "required_gates": [
+      "All exact 19 nonempty planned bodies PASS",
+      "All Original install/runtime/backup/restore/advisor/current Auth/browser cleanup gates PASS",
+      "Pinned product source/tree and artifact CRC/member hashes",
+      "Retained source78 browser/readonly journeys",
+      "Full Shell build/security/CodeQL and affected F03 exact34-role regressions"
+    ],
+    "Native_qualified": false,
+    "full_family_acceptance": false,
+    "whole_CP7_complete": false,
+    "full_P08_acceptance": false,
+    "full_P18_acceptance": false,
+    "full_P19_acceptance": false,
+    "independent_P20_acceptance": false,
+    "installed_P21_acceptance": false,
+    "production_go": false,
+    "frozen_permission_nav_route_sensitive_budgets": {
+      "permissions": 111,
+      "nav": 48,
+      "routes": 48,
+      "sensitive_actions": 21
+    },
+    "ownership": {
+      "runtime_files": 268,
+      "named_RPC_boundaries": 199,
+      "stylesheets": 53
+    },
+    "continued_work": [
+      "Complete feasible posted-source owning correction contracts",
+      "Actual fabric recipe/allocation and full P08",
+      "Full six-consumer P18",
+      "Engineering-volume P19 with observed performance and recovery",
+      "Prepare independent P20 and installed P21 gates; never self-award acceptance"
+    ]
   }
 }

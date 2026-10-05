@@ -1,0 +1,143 @@
+{
+  "contract": "cp7.cutting-reopen-local-receipt.v1",
+  "status": "LOCAL_PASS_NATIVE_PENDING",
+  "source_base": "3fbca363fa39c8a8a248129e20519fb13cf937ce",
+  "SQL_sha256": "190f07c85d46ae70490af6388e3251fdb8a184ae3ef9018898a4adf4c07e3e90",
+  "focused_application_tests": {
+    "files": 5,
+    "passed": 106,
+    "failed": 0,
+    "new_contract": 17,
+    "new_DOM": 5,
+    "retained": 84,
+    "Native_credit": 0
+  },
+  "first_local_failure": {
+    "file": "first-focused-hoisted.log.gz",
+    "reason": "Vitest nested hoisted transform from shared const declaration; fixed test setup declarations; no product or Native gate change.",
+    "preserved": true
+  },
+  "SQL_stand_in": {
+    "status": "PASS",
+    "classification": "PGLITE_STUB_SYNTAX_CLOSED_ADMISSION_ONLY",
+    "Native_product_cases": 0,
+    "real_Auth_credit": false,
+    "stock_GL_HPP_qualification": false,
+    "source_sha256": "190f07c85d46ae70490af6388e3251fdb8a184ae3ef9018898a4adf4c07e3e90",
+    "SQL_creation_empty_pickup_admission_exact_replay_closed_fields_current_auth_stub": true,
+    "functions": [
+      {
+        "signature": "cp7_cutting_correction.access_now()",
+        "owner": "postgres",
+        "prosecdef": true,
+        "proconfig": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "signature": "cp7_cutting_correction.command(jsonb,uuid,text)",
+        "owner": "postgres",
+        "prosecdef": true,
+        "proconfig": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "signature": "cp7_cutting_correction.immutable()",
+        "owner": "postgres",
+        "prosecdef": false,
+        "proconfig": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "signature": "cp7_cutting_correction.snapshot(uuid)",
+        "owner": "postgres",
+        "prosecdef": true,
+        "proconfig": [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ]
+      },
+      {
+        "signature": "cp7_cutting_correction.workspace(uuid)",
+        "owner": "postgres",
+        "prosecdef": true,
+        "proconfig": [
+          "search_path=\"\""
+        ]
+      }
+    ]
+  },
+  "tsc_build_security_syntax_manifest_and_diffcheck": "PASS",
+  "reachability": {
+    "installed_SQL": 151,
+    "diagnostic_SQL": 1,
+    "orphans": 0,
+    "missing": 0,
+    "Native_credit": 0
+  },
+  "required_Native_counts": {
+    "native": 10,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "Native_cases_qualified": 0,
+  "real_Auth_qualified": false,
+  "stock_GL_HPP_qualification": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "member_hashes": [
+    {
+      "path": "build.log.gz",
+      "bytes": 3465,
+      "sha256": "7951978db7e0ab22faee8eef243b0fba6a0f7698ccde9866c5cb8ea9b43a2959",
+      "uncompressed_original_bytes": 11786,
+      "uncompressed_original_sha256": "f92547607a62504ef88c8f8e6071f8b6dab8df2759e6dee70213ad66236cfe74",
+      "original_bytes_unchanged": true
+    },
+    {
+      "path": "first-focused-hoisted.log.gz",
+      "bytes": 579,
+      "sha256": "c7cf44ca056101b9434a20016ec9fd4cffcb4644302e68089fa5a60a4af0567f",
+      "uncompressed_original_bytes": 1149,
+      "uncompressed_original_sha256": "0baf29763d3e6b73ec8f9ab92fb3aaeaef1f1b16f7d3e14866fd940469df5110",
+      "original_bytes_unchanged": true
+    },
+    {
+      "path": "focused.log.gz",
+      "bytes": 192,
+      "sha256": "9c09655ca36305c6ec6725987fa0f674b3692509b22a7df923c6ff50d07342a1",
+      "uncompressed_original_bytes": 230,
+      "uncompressed_original_sha256": "3c10bacfdab8b590bfb095f9c10ad975eafe599fbc6e7960ac06b48be64f7594",
+      "original_bytes_unchanged": true
+    },
+    {
+      "path": "reachability.json",
+      "bytes": 18246,
+      "sha256": "126a4687e6e3fd773168b5a9931dcb83aa84ab421fd8e6ca22f92e26c650debe"
+    },
+    {
+      "path": "security.log.gz",
+      "bytes": 3450,
+      "sha256": "60eae8e391bbdd15845b11db92b947c7aa10b55369c45e52ecc2ddc9680e6511",
+      "uncompressed_original_bytes": 12142,
+      "uncompressed_original_sha256": "468da188b8f40243ffd10ae8c8bcc0a001e43cf05ed7b96dfad0364fac06d9a7",
+      "original_bytes_unchanged": true
+    },
+    {
+      "path": "sql-admission.json",
+      "bytes": 1320,
+      "sha256": "6b7b850dc608ea45f97fb5f8d7ea2d9429f9170304e6d1b2d6415ef196406f8b"
+    },
+    {
+      "path": "sql-admission.log.gz",
+      "bytes": 277,
+      "sha256": "c12d117bc51dbbe09073f69dd27f7195a915c15907f15e1b9bdd3f49ae668a8b",
+      "uncompressed_original_bytes": 334,
+      "uncompressed_original_sha256": "614afb603ee04b8f8d6b4501fc9fd8fa670516f4dc26263624fd254bead0e244",
+      "original_bytes_unchanged": true
+    }
+  ]
+}

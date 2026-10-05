@@ -15,6 +15,7 @@ import cp7_note_report_bundle as note_report
 import cp7_transaction_source_bundle as transaction_source
 import cp7_misc_correction_bundle as misc_correction
 import cp7_sales_chain_bundle as sales_chain
+import cp7_cutting_correction_bundle as cutting_correction
 ROOT=finance.ROOT
 
 def attendance_internal_body():
@@ -33,13 +34,14 @@ def sales_after_attendance():
 
 def extension():
  prefix=procurement.bundle();full=attendance.bundle();assert full.startswith(prefix+'\n')
- return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/return-correction.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/chain-reversal.sql').read_text()
+ return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/return-correction.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/chain-reversal.sql').read_text()+'\n'+cutting_correction.extension()
 def bundle():return procurement.bundle()+'\n'+extension()
 def patched_internal(definition):return sales.patched_internal(attendance.patched_internal(settlement.patched_internal(nota.patched_internal(definition))))
 
 ROLES=('cp7_recost_write','cp7_recost_read','cp7_period_write','cp7_period_read','cp7_finance_read','cp7_sales_write','cp7_sales_read','cp7_attendance_write','cp7_roster_write','cp7_attendance_read','cp7_payroll_write','cp7_nota_write','cp7_payroll_header','cp7_payroll_read','cp7_fg_write','cp7_fg_read','cp7_return_write','cp7_return_read','cp7_invoice_write','cp7_invoice_read','cp7_material_write','cp7_material_read','cp7_procure_write','cp7_procure_read','cp7_policy','cp7_capture')
 ROLES=('cp7_misc_write','cp7_misc_read','cp7_journal_read',)+ROLES
 ROLES=(transaction_source.ROLE,'cp7_installment_write','cp7_installment_read',)+ROLES
+ROLES=cutting_correction.ROLES+ROLES
 BASE_GRANTS=('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)')
 GRANTS={role:BASE_GRANTS for role in ('cp7_fg_read','cp7_fg_write','cp7_payroll_read','cp7_nota_write','cp7_payroll_header','cp7_payroll_write','cp7_attendance_read','cp7_roster_write','cp7_attendance_write')}
 GRANTS['cp7_fg_read']+=('erp.bf_commercial_sku_at_v1(uuid,timestamptz)','erp.bd_lot_laundry_unknown_v1(uuid)','erp.get_hpp_completeness(uuid)')

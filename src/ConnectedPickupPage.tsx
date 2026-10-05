@@ -1,5 +1,6 @@
 import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import CuttingCorrectionPanel from './CuttingCorrectionPanel'
 import { AlertTriangle, Check, Database, LoaderCircle, RefreshCw, Trash2, UserRound } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
@@ -304,5 +305,6 @@ export default function ConnectedPickupPage() {
         </>}
       </main>
     </div>
+    <CuttingCorrectionPanel source={queueCurrent ? selected ?? null : null} parentReady={queueCurrent && !loading} onCommitted={async () => { setQueue(null); setSelectedId(''); await refresh() }}/>
   </section>
 }

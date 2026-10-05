@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "classification": "PGLITE_STUB_SYNTAX_CLOSED_ADMISSION_ONLY",
+  "Native_product_cases": 0,
+  "real_Auth_credit": false,
+  "stock_GL_HPP_qualification": false,
+  "source_sha256": "190f07c85d46ae70490af6388e3251fdb8a184ae3ef9018898a4adf4c07e3e90",
+  "SQL_creation_empty_pickup_admission_exact_replay_closed_fields_current_auth_stub": true,
+  "functions": [
+    {
+      "signature": "cp7_cutting_correction.access_now()",
+      "owner": "postgres",
+      "prosecdef": true,
+      "proconfig": [
+        "search_path=\"\""
+      ]
+    },
+    {
+      "signature": "cp7_cutting_correction.command(jsonb,uuid,text)",
+      "owner": "postgres",
+      "prosecdef": true,
+      "proconfig": [
+        "search_path=\"\""
+      ]
+    },
+    {
+      "signature": "cp7_cutting_correction.immutable()",
+      "owner": "postgres",
+      "prosecdef": false,
+      "proconfig": [
+        "search_path=\"\""
+      ]
+    },
+    {
+      "signature": "cp7_cutting_correction.snapshot(uuid)",
+      "owner": "postgres",
+      "prosecdef": true,
+      "proconfig": [
+        "search_path=\"\"",
+        "TimeZone=UTC"
+      ]
+    },
+    {
+      "signature": "cp7_cutting_correction.workspace(uuid)",
+      "owner": "postgres",
+      "prosecdef": true,
+      "proconfig": [
+        "search_path=\"\""
+      ]
+    }
+  ]
+}
