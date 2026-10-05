@@ -38,7 +38,8 @@
     "Same actor/request UUID and payload produce one immutable recipe and command, with no Native business DML.",
     "Two distinct real backend PIDs must be observed waiting on the same target advisory lock: stale CAS40001 and after-wait revoked authority42501.",
     "Real Auth HTTP own, foreign, anonymous and deactivated subject boundaries.",
-    "Desktop/mobile committed lost reply, reload and identical UUID recovery produce one recipe; Production, report and AI use the same fresh Original; current403 retires facts."
+    "Desktop/mobile committed lost reply, reload and identical UUID recovery produce one recipe; Production, report and AI use the same fresh Original; current403 retires facts.",
+    "Definitive server rejection after current authority and absent same-UUID cache clears only that pending UUID. Transport, general current403 and changed-payload collisions preserve the exact request. Native desktop/mobile prove one-year backdate refusal with no recipe or command, fresh review, then committed lost-reply recovery."
   ],
   "preceding_case_budgets": {
     "analysis": 152,

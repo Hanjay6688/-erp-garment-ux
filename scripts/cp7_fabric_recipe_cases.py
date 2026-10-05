@@ -82,7 +82,12 @@ def races(tools,today):
   with tools.connect()as conn,conn.cursor()as cur:
    subject=role=None
    if custom:
-    subject,role=auth.custom_actor(cur);cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'master.product.manage')on conflict do nothing",(role,))
+    subject,role=auth.custom_actor(cur)
+    # The reused Native85 fixture reads cutting options before the fabric race.
+    # Grant that initial read, then revoke only fabric's master manage at the
+    # observed target wait. Never weaken either production authorization guard.
+    for permission in('master.product.manage','production.cutting.view'):
+     cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,permission))
    f=setup(cur,today,subject);before=plan.monetary_state(cur);conn.commit();return f,subject,role,before
  def waited(revoke=False):
   f,subject,role,before=prepared(revoke);pids=Queue();count=1 if revoke else 2

@@ -5,7 +5,7 @@ import {normalizeClientError} from './lib/clientError'
 import {cp6WibPhysicalTimeToIso,formatCp6WibDateTime} from './cp6BusinessTime'
 import {assertSameAnalysis,type NativeAnalysis,type AnalysisFinanceAccess} from './nativeAnalysis'
 import {productionLockManager,productionLockName,readProductionRecovery,hasProductionPending} from './productionRecovery'
-import {parseFabricWorkspace,parseFabricConfig,checkFabricOutcome,readFabricRequest,persistFabricRequest,clearFabricRequest,fabricRequestKey,type FabricRequest,type FabricWorkspace} from './nativeFabricRecipe'
+import {parseFabricWorkspace,parseFabricConfig,checkFabricOutcome,fabricSaveDefinitelyUncommitted,readFabricRequest,persistFabricRequest,clearFabricRequest,fabricRequestKey,type FabricRequest,type FabricWorkspace} from './nativeFabricRecipe'
 
 type Props={context:NativeAnalysis|null;generation:number;blocked:boolean;access:AnalysisFinanceAccess;onReadStart:()=>number;isReadCurrent:(n:number)=>boolean;onReadEnd:(n:number)=>void;onAnalysis:(a:NativeAnalysis,n:number)=>void;requireClear:()=>void}
 type Form={target:string;query:string;material:string;pattern:string;rate:string;from:string;to:string;reason:string}
@@ -45,7 +45,15 @@ function Recipes(props:Props&{project:string;profile:string;actor:string;canWrit
    if(retry){if(held.error||!held.pending||JSON.stringify(held.pending)!==JSON.stringify(request))throw Error(held.error??'Permintaan resep kain tersimpan berubah.')}
    else persistFabricRequest(scope,request)
    setRecovery(readFabricRequest(scope));const response=await client.rpc('erp_cp7_save_fabric_recipe_v1',{p_payload:request.payload,p_request:request.id})
-   if(!current(n))return;if(response.error)throw response.error
+   if(!current(n))return;if(response.error){
+    if(fabricSaveDefinitelyUncommitted(response.error)){
+     clearFabricRequest(scope,request.id);setRecovery(readFabricRequest(scope))
+     const reason=response.error.code==='40001'?'Versi resep atau sumber analisis berubah.':response.error.message==='CP7_FABRIC_BACKDATE_LIMIT'?'Tanggal mulai resep kain melebihi batas mundur satu tahun.':response.error.message==='CP7_FABRIC_ORIGINAL_ACCESS_CHANGED'?'Izin analisis berubah sejak diambil.':'Data bahan, pola, satuan, atau isian review belum sesuai sumber.'
+     throw Error(reason+' Ambil analisis ERP terbaru lalu review kembali.')
+    }
+    if(response.error.message==='CP7_FABRIC_REQUEST_CHANGED')throw Error('Permintaan tersimpan berbeda dari catatan server. Pastikan hasil permintaan ini sebelum membuat yang baru.')
+    throw response.error
+   }
    checkFabricOutcome(response.data,request,props.actor);clearFabricRequest(scope,request.id);setRecovery(readFabricRequest(scope))
    setMessage('Review resep kain tersimpan. Ambil analisis ERP terbaru untuk memakai versi yang berlaku.');setForm(f=>({...f,rate:'',reason:''}))
   })
@@ -74,6 +82,7 @@ function Recipes(props:Props&{project:string;profile:string;actor:string;canWrit
     <label>Pola resep kain (opsional)<select aria-label="Pola resep kain" value={form.pattern} onChange={e=>edit({pattern:e.target.value})}><option value="">Pola belum dipilih</option>{data.patterns.map(p=><option key={p.id} value={p.id}>{p.code} · {p.name} · {p.revision}</option>)}</select></label>
     <label>Pemakaian kain per PCS<input aria-label="Pemakaian kain per PCS" inputMode="decimal" value={form.rate} maxLength={19} onChange={e=>edit({rate:e.target.value})}/></label><p>Satuan: {data.materials.find(m=>m.id===form.material)?.unit??'pilih bahan terlebih dahulu'} per PCS. Tidak ada angka bawaan.</p>
     <label>Mulai berlaku resep kain (WIB)<input aria-label="Mulai berlaku resep kain WIB" type="datetime-local" step="1" value={form.from} onChange={e=>edit({from:e.target.value})}/></label>
+    <p>Tanggal mulai boleh dimundurkan paling lama satu tahun.</p>
     <label>Akhir berlaku resep kain (WIB, opsional)<input aria-label="Akhir berlaku resep kain WIB" type="datetime-local" step="1" value={form.to} onChange={e=>edit({to:e.target.value})}/></label>
     <label>Alasan review resep kain<textarea aria-label="Alasan review resep kain" value={form.reason} maxLength={1000} onChange={e=>edit({reason:e.target.value})}/></label>
     <label><input aria-label="Konfirmasi review resep kain" type="checkbox" checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Saya sudah memeriksa produk, ukuran, bahan, satuan, pemakaian dan tanggal berlaku.</label>

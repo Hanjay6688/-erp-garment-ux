@@ -1,0 +1,207 @@
+{
+  "contract": "cp7.fabric-recipe-first-native-failure.v1",
+  "source": "190078a891054b2181d50d12458b9f12721cec59",
+  "source_tree": "d2a983ded471f89f5551fbd448c58ab2b82dcfdc",
+  "status": "INCOMPLETE_12_PASS_1_FIXTURE_ADMISSION_REFUSAL_NOT_QUALIFIED",
+  "workflow_run": 37304873230,
+  "job": 111746021560,
+  "artifact_id": 11344160970,
+  "artifact_bytes": 8801610,
+  "artifact_sha256": "575678095627da9be7bb8b1374ed40aa2fff5ff685686a07809fbe60b0f06fa8",
+  "GitHub_digest_matched": true,
+  "ZIP_CRC_pass": true,
+  "counts": {
+    "native": {
+      "PASS": 8
+    },
+    "races": {
+      "PASS": 1,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "failed_case": "P08_FABRIC_REAL_WAIT_REVOKED",
+  "complete_failure_receipt": {
+    "status": "INCOMPLETE",
+    "error": "CP7_PLAN_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_plan_native.access_now(text) line 10 at RAISE\nPL/pgSQL function cp7_plan_native.options(jsonb) line 5 at assignment\nSQL function \"erp_cp7_get_plan_options_v1\" statement 1",
+    "traceback": "^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fabric_recipe_cases.py\", line 115, in <lambda>\n    return[(IDS['races'][0],lambda:waited()),(IDS['races'][1],lambda:waited(True))]\n                                                                     ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fabric_recipe_cases.py\", line 88, in waited\n    f,subject,role,before=prepared(revoke);pids=Queue();count=1 if revoke else 2\n                          ^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fabric_recipe_cases.py\", line 86, in prepared\n    f=setup(cur,today,subject);before=plan.monetary_state(cur);conn.commit();return f,subject,role,before\n      ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_fabric_recipe_cases.py\", line 20, in setup\n    f=plan.setup(cur,today,subject);roll=next(r for r in f['options']['rolls']if r['id']==f['payload']['cutting']['rolls'][0]['roll_id']);sku=cur.execute('select material_sku from erp.materials where id=%s',(roll['material_id'],)).fetchone()[0]\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_plan_native_cases.py\", line 61, in setup\n    q=dict(run_id=original['run_id'],target_key=target,location_id=loc,po_query='',roll_query='',po_offset='0',roll_offset='0',pattern_offset='0',limit='50');o=options(cur,q,subject)\n                                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_plan_native_cases.py\", line 16, in options\n    def options(cur,q,subject=None):return rpc(cur,'erp_cp7_get_plan_options_v1',(json.dumps(q),),subject)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_plan_native_cases.py\", line 11, in rpc\n    def rpc(cur,name,args,subject=None):return schedule.rpc(cur,name,args,subject)\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_planning_schedule_cases.py\", line 27, in rpc\n    r=cur.execute('select public.'+name+'('+placeholders+')',args).fetchone()[0]\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: CP7_PLAN_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_plan_native.access_now(text) line 10 at RAISE\nPL/pgSQL function cp7_plan_native.options(jsonb) line 5 at assignment\nSQL function \"erp_cp7_get_plan_options_v1\" statement 1\n",
+    "session_leaks": []
+  },
+  "observed_cause": "The custom actor had the four analysis reads and master.product.manage, but lacked production.cutting.view required by reused plan.setup Native option read; the exception happened before fabric target wait observation. No post-wait authority assertion was reached.",
+  "repair_scope": "Grant only production.cutting.view to the initial test actor. Continue deleting master.product.manage after its real observed target wait and requiring exact42501 CP7_SCHEDULE_ACCESS_DENIED with zero recipe/command. Production guards and all13 IDs/counts/oracles remain unchanged.",
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "Native_case_catalog_all_fields_retained_in_original": true,
+  "selected_complete_Original_roots": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "CRC32": "a2b4de5a",
+      "retained": "ALIGNED_CHAIN.json.gz",
+      "retained_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    {
+      "name": "CP7_FABRIC_RECIPE.json",
+      "bytes": 2657631,
+      "sha256": "831f8cb8cbacd39726d6a172f3f070b931a10ff240e8d0c4116f7633d5ef7e36",
+      "CRC32": "6e4e3990",
+      "retained": "CP7_FABRIC_RECIPE.json.gz",
+      "retained_sha256": "b6a0bc6a55563114451b9573bf50aa931c0ae19386e05143f94cd25ff050cad3"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "8b63d4b5f3ab742dd8a15041ad4feddcc120e3fe604b9d3450d96d386c95f85a",
+      "CRC32": "9e2e27e2",
+      "retained": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "retained_sha256": "4c087d734fa28969ce86107cf2bf57b06a1c49ab1e1f467ef87813aa478f248c"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "CRC32": "cfb01269",
+      "retained": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "retained_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360419,
+      "sha256": "0e4ab939efea81e3fd1e5bc84b54033a0424952f703fff35f25fc0a77bb4e917",
+      "CRC32": "de254485",
+      "retained": "T3_PACKAGE_INSTALL.json.gz",
+      "retained_sha256": "2166d0a9cda893dc3344ac97cf23433f316e1fc690f1090736f876182d42e27e"
+    }
+  ],
+  "all_zip_members": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "CRC32": "a2b4de5a"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385624,
+      "sha256": "80c0efa080d148fde62b14613e2dd39fe1e4971f38f92d7a96eb0a8cc052209b",
+      "CRC32": "68a3917f"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+      "CRC32": "046ee9c1"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+      "CRC32": "3c2aa92b"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385624,
+      "sha256": "80c0efa080d148fde62b14613e2dd39fe1e4971f38f92d7a96eb0a8cc052209b",
+      "CRC32": "68a3917f"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "d2f1416af0319fb4c627840ae8e9172668502bcc31668fd503f61d93ec676c51",
+      "CRC32": "f25b0482"
+    },
+    {
+      "name": "CP7_FABRIC_RECIPE.json",
+      "bytes": 2657631,
+      "sha256": "831f8cb8cbacd39726d6a172f3f070b931a10ff240e8d0c4116f7633d5ef7e36",
+      "CRC32": "6e4e3990"
+    },
+    {
+      "name": "P08_FABRIC_CURRENT403_DESKTOP.png",
+      "bytes": 597576,
+      "sha256": "cb0af7772586e9fbd7d04703ff13d6a01b34861434cde6f0c60a562be1ccd77d",
+      "CRC32": "95cb2d52"
+    },
+    {
+      "name": "P08_FABRIC_CURRENT403_MOBILE.png",
+      "bytes": 321118,
+      "sha256": "5191f2b1da3c7dd15a889909aab4dca7d625086db465ffabdffe011843146dd5",
+      "CRC32": "abdd5f8e"
+    },
+    {
+      "name": "P08_FABRIC_GROSS170_DESKTOP.png",
+      "bytes": 1246624,
+      "sha256": "f818df07815a30a90c4f112643b2b0d2e27b2bbabca90293dc6a56b9eb48fae4",
+      "CRC32": "a1167c0a"
+    },
+    {
+      "name": "P08_FABRIC_GROSS170_MOBILE.png",
+      "bytes": 842238,
+      "sha256": "2554341b49a0d1ae643dd37fdaadd3d08516368a5a69f3ed705cdf0562a6c10d",
+      "CRC32": "730e37ea"
+    },
+    {
+      "name": "P08_FABRIC_LOST_REPLY_DESKTOP.png",
+      "bytes": 929587,
+      "sha256": "3301f0cf80424c5654af529581c45e3b1bda6d26eacc435ad50d4dcaf69e8c5f",
+      "CRC32": "46e327e8"
+    },
+    {
+      "name": "P08_FABRIC_LOST_REPLY_MOBILE.png",
+      "bytes": 621759,
+      "sha256": "e9dfa2f7cfb7deb3fb01b19e11345d06a52bc3aa2ed2dbf673f7221a1146ef16",
+      "CRC32": "9c52aee4"
+    },
+    {
+      "name": "P08_FABRIC_REVIEW_DESKTOP.png",
+      "bytes": 1532509,
+      "sha256": "2fb4b42c7aadbe90b1d55997414ac6d662c755577db93e8aacaeb7ed8533f915",
+      "CRC32": "816c4fa2"
+    },
+    {
+      "name": "P08_FABRIC_REVIEW_MOBILE.png",
+      "bytes": 1137192,
+      "sha256": "29fb340b37d133cf4b18c534c1c209ba76d916b64ce717a689f817e7b0286cd1",
+      "CRC32": "c7cfa38a"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "8b63d4b5f3ab742dd8a15041ad4feddcc120e3fe604b9d3450d96d386c95f85a",
+      "CRC32": "9e2e27e2"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "CRC32": "cfb01269"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360419,
+      "sha256": "0e4ab939efea81e3fd1e5bc84b54033a0424952f703fff35f25fc0a77bb4e917",
+      "CRC32": "de254485"
+    }
+  ],
+  "complete_job_log": {
+    "bytes": 1142975,
+    "sha256": "83c507232d5935226d1e0d3f7d4c6c150d28f3c72c16c9f75b06cded37e79c1a",
+    "retained_gzip": "native-job.log.gz",
+    "retained_sha256": "02979bebe6a984905af64c926f5681c9bd544315a9671d840c91bdb5208feb20"
+  },
+  "raw_clone_SQL_not_exported": true,
+  "full_P08_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

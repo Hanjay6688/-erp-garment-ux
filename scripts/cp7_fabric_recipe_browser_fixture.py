@@ -14,8 +14,8 @@ def main():
   if op=='prepare':
    f=cases.setup(cur,date.fromisoformat(p['today']),p['actor']);cases.b.api.admin(cur)
    material=next(m for m in f['workspace']['materials']if m['id']==f['payload']['config']['material_id'])
-   now=cur.execute("select (clock_timestamp()-interval'1 minute')at time zone'Asia/Jakarta'").fetchone()[0]
-   out=dict(root=f['plan']['root'],target=f['target'],material=material,from_wib=now.isoformat(timespec='seconds'),expected_gross='170',selected_rate='2')
+   now,too_old=cur.execute("select (clock_timestamp()-interval'1 minute')at time zone'Asia/Jakarta',(clock_timestamp()-interval'2 years')at time zone'Asia/Jakarta'").fetchone()
+   out=dict(root=f['plan']['root'],target=f['target'],material=material,from_wib=now.isoformat(timespec='seconds'),rejected_from_wib=too_old.isoformat(timespec='seconds'),expected_gross='170',selected_rate='2')
   elif op=='state':
    cases.b.api.admin(cur);out=dict(business=cases.b.boundary.snapshot(cur),recipes=cur.execute('select count(*)from cp7_fabric_native.recipes where actor=%s',(p['actor'],)).fetchone()[0],commands=cur.execute('select count(*)from cp7_fabric_native.commands where actor=%s',(p['actor'],)).fetchone()[0],analyses=cur.execute('select count(*)from cp7_analysis_native.runs where actor=%s',(p['actor'],)).fetchone()[0])
   elif op in('deactivate','restore'):

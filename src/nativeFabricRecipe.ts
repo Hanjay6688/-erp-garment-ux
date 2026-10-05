@@ -46,6 +46,17 @@ export function parseFabricWorkspace(v:unknown,q:NativeDemandQuery,actor:string,
  return {analysis,targetKey:target,revision:x.revision as string,materials:structuredClone(x.materials)as FabricMaterial[],patterns:structuredClone(x.patterns)as FabricPattern[],recipes:structuredClone(recipes),page:structuredClone(page)as FabricWorkspace['page']}
 }
 export function checkFabricOutcome(v:unknown,r:FabricRequest,actor:string){const x=closed(v,['contract_version','actor_scope_id','request_id','recipe_id','target_key','revision','quality','apply_enabled','production_go']);if(x.contract_version!=='cp7.fabric-outcome.v1'||x.actor_scope_id!==actor||x.request_id!==r.id||!id(x.recipe_id)||x.target_key!==r.payload.target_key||!uint(x.revision)||BigInt(x.revision)!==BigInt(r.payload.expected_revision)+1n||x.quality!=='SELECTED_ASSUMPTIONS'||x.apply_enabled!==false||x.production_go!==false)fail()}
+// These exact save errors occur only after current authority, the request lock,
+// and absence of a committed command for this UUID. A cached command returns
+// before these checks. Transport, general403 and changed-payload collisions
+// cannot prove absence and must keep the original request fenced.
+export function fabricSaveDefinitelyUncommitted(v:unknown):boolean{
+ if(v===null||typeof v!=='object')return false
+ const e=v as Record<string,unknown>
+ if(e.code==='40001')return e.message==='CP7_FABRIC_REVISION_CHANGED'||e.message==='CP7_FABRIC_ANALYSIS_CHANGED'
+ if(e.code==='42501')return e.message==='CP7_FABRIC_ORIGINAL_ACCESS_CHANGED'
+ return e.code==='P0001'&&typeof e.message==='string'&&['CP7_FABRIC_REVIEW','CP7_FABRIC_TARGET','CP7_FABRIC_BASIS','CP7_FABRIC_EFFECTIVE_WINDOW','CP7_FABRIC_RATE','CP7_FABRIC_NATIVE_MATERIAL_CHANGED','CP7_FABRIC_PATTERN','CP7_FABRIC_NATIVE_PATTERN_CHANGED','CP7_FABRIC_BACKDATE_LIMIT','CP7_FABRIC_REASON'].includes(e.message)
+}
 export const fabricRequestKey=(scope:string)=>'cp7.fabric-recipe.request.v1:'+scope
 export function readFabricRequest(scope:string):{pending:FabricRequest|null;error:string|null}{try{const raw=localStorage.getItem(fabricRequestKey(scope));if(raw===null)return{pending:null,error:null};if(raw.length>15000)fail();const x=closed(JSON.parse(raw),['id','payload']);if(!id(x.id))fail();payload(x.payload);return{pending:structuredClone(x)as FabricRequest,error:null}}catch{return{pending:null,error:'Permintaan resep kain tersimpan belum dapat dibaca. Pastikan hasilnya sebelum membuat permintaan lain.'}}}
 export function persistFabricRequest(scope:string,r:FabricRequest){if(!id(r.id))fail();payload(r.payload);const held=readFabricRequest(scope);if(held.error||held.pending)throw Error(held.error??'Pastikan permintaan resep kain yang sama dahulu.');localStorage.setItem(fabricRequestKey(scope),JSON.stringify(r));const stored=readFabricRequest(scope);if(stored.error||JSON.stringify(stored.pending)!==JSON.stringify(r))fail()}

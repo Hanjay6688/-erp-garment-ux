@@ -6,3 +6,4 @@
 .native-analysis-popup h3{overflow-wrap:anywhere}
 
 .native-analysis [aria-label="Review pemakaian kain"] fieldset{min-width:0;margin-block:14px;border:1px solid var(--border,#293047);border-radius:8px;padding:12px}.native-analysis [aria-label="Review pemakaian kain"] select,.native-analysis [aria-label="Review pemakaian kain"] input:not([type=checkbox]){width:100%;min-width:0;box-sizing:border-box;padding:10px 12px;background:var(--surface,#151b2c);color:var(--text,#e8ecf6);border:1px solid var(--border,#293047);border-radius:8px;font:inherit}.native-analysis [aria-label="Review pemakaian kain"] input[type=checkbox]{width:auto;justify-self:start}.native-analysis [aria-label="Review pemakaian kain"] select:focus-visible,.native-analysis [aria-label="Review pemakaian kain"] input:focus-visible{outline:2px solid var(--accent,#8894e8);outline-offset:2px}
+.native-analysis [aria-label="Review pemakaian kain"] input[type=datetime-local]{color-scheme:dark}

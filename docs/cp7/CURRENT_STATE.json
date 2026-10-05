@@ -3653,7 +3653,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Run and inspect actual Native13 fabric plus affected analysis152, attention284, plan39 and full Native Shell. Resolve actual failures without relaxing numerical or authorization oracles. Continue complete P08/P18 and representative P19 across all6 consumers. Independent P20 and installed P21 remain separate; no hosted production authorization.",
+  "next_action": "Qualify updated fabric Native13 at exact changed UI/provider source, then inspect full analysis152, attention284, plan39 and Shell Originals. Requalify unchanged note40+admission3 and redye5 with full raw catalogs and8 preservation controls; retain first unproved public-comparison failures. Continue actual P08/P18 integration and representative P19; independent P20 and installed P21 remain separate. No hosted production authorization.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -11109,7 +11109,7 @@
     "production_go": false
   },
   "fabric_recipe_candidate": {
-    "status": "LOCAL_AFFECTED_AND_SECURITY_PASS_NATIVE13_NOT_RUN",
+    "status": "NATIVE_FIRST12_PASS_1_FIXTURE_ADMISSION_REFUSAL; SOURCE_RECOVERY_FIX_LOCAL69_BUILD_SECURITY_PASS_REQUALIFY13",
     "base_source": "3d4948b1598b0fc03490d5615b21b5d9e2926462",
     "contract": "docs/cp7/f04/NATIVE_FABRIC_RECIPE.md",
     "declaration": "docs/cp7/f04/NATIVE_FABRIC_RECIPE.json",
@@ -11152,8 +11152,39 @@
         "P08_FABRIC_BROWSER_MOBILE"
       ]
     },
-    "actual_Native_status": "NOT_RUN",
+    "actual_Native_status": "FIRST_INCOMPLETE_NOT_RECLASSIFIED",
     "full_P08_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "first_native_receipt": "docs/cp7/evidence/fabric-recipe/first13-incomplete-190/FIRST_FAILURE.json",
+    "qualified_shell_receipt": "docs/cp7/evidence/fabric-recipe/qualified-shell-190/QUALIFIED_SHELL.json",
+    "recovery_preparation": "docs/cp7/evidence/fabric-recipe/recovery-preparation-190/LOCAL_RECOVERY.json",
+    "first_source": "190078a891054b2181d50d12458b9f12721cec59",
+    "first_counts": {
+      "native": {
+        "PASS": 8
+      },
+      "races": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "http": {
+        "PASS": 1
+      },
+      "browser": {
+        "PASS": 2
+      }
+    },
+    "fixture_repair": "Initial custom actor also needs production.cutting.view for reused Native85 option fixture; revoke only master.product.manage after its actually observed target wait. No production guard weakened."
+  },
+  "retained_public_catalog_requalification_190": {
+    "note_first": "docs/cp7/evidence/note-correction/first-admission-incomplete-190/FIRST_FAILURE.json",
+    "redye_first": "docs/cp7/evidence/f03-redye/first-public-incomplete-190/FIRST_FAILURE.json",
+    "status": "FIRST_FAILURES_RETAINED_EXACT_CAUSE_UNPROVED; RETAIN_FULL_RAW_CATALOGS_WITH_EXISTING_ALL_FIELD_COMPARATOR_FOR_REQUALIFICATION",
+    "unchanged_budgets": {
+      "note40": 40,
+      "note_admission": 3,
+      "redye5": 5
+    },
+    "production_code_changes": 0
   }
 }
