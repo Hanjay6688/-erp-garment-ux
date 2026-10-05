@@ -1189,5 +1189,5 @@
     "cp7_policy",
     "cp7_capture"
   ],
-  "private_role_review": "Original31 retained; cp7_transaction_source_read is the one added nologin Native SELECT/current-authority-only role, qualified in Native18 a0f1. Native ERP DML and business writer EXEC remain denied."
+  "private_role_review": "All original31 roles and the prior qualified readonly transaction source role retained. Two new cutting facade owners cp7_cutting_write/read are NOLOGIN/NOINHERIT, with no ERP table access or direct Native inverse EXEC. Only their closed private command/workspace entrypoints are admitted; exact current authority and original source history required. New role qualification remains pending on the exact current source; all prior business case budgets unchanged."
 }

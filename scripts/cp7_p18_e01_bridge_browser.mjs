@@ -14,6 +14,22 @@ async function sharedConsumers(ui,page,panel,original,native,user,shot,mobile,be
  const search=panel.getByLabel('Cari hasil analisis bersama',{exact:true});await search.fill('FILTER_TIDAK_MENGUBAH_ANALISIS')
  await ui.expect(panel.getByRole('tabpanel')).toContainText('0 dari '+original.analysis.recommendations.length+' produk.')
  await search.fill('');await sameRun()
+ await panel.getByRole('tab',{name:'Stok',exact:true}).click()
+ const stock=panel.getByRole('region',{name:'Stok dari analisis bersama',exact:true})
+ for(const [attribute,value]of[['data-run-id',original.run_id],['data-source-hash',original.analysis.snapshot.source_hash],['data-semantic-hash',original.analysis.semantic_hash]])await ui.expect(stock).toHaveAttribute(attribute,value)
+ const stockSearch=panel.getByLabel('Cari stok dari analisis bersama',{exact:true});await stockSearch.fill('FILTER_TIDAK_MENGUBAH_ANALISIS')
+ await ui.expect(stock).toContainText('0 dari '+original.analysis.recommendations.length+' produk.');await stockSearch.fill('')
+ const target=original.analysis.recommendations[0];assert.ok(target)
+ const ownRow=stock.locator(`[data-analysis-target="${target.target.key}"]`)
+ for(const key of['actual_fg','target_qty','q_base','q_conditional'])assert.deepEqual(JSON.parse(await ownRow.locator(`[data-fact="${key}"]`).getAttribute('data-native-fact')),target[key])
+ await shot('P18_SHARED_STOCK_'+(mobile?'MOBILE':'DESKTOP')+'.png')
+ const popupReply=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_read_analysis_v1'))
+ await ownRow.getByRole('button').click();const reviewed=await popupReply;assert.equal(reviewed.status(),200);assert.equal(reviewed.request().postDataJSON().p_run,original.run_id);assert.deepEqual((await reviewed.json()).analysis,original.analysis)
+ const popup=page.getByRole('dialog');await ui.expect(popup).toBeVisible();await ui.expect(popup).toHaveAttribute('data-analysis-target',target.target.key)
+ for(const [attribute,value]of[['data-run-id',original.run_id],['data-source-hash',original.analysis.snapshot.source_hash],['data-semantic-hash',original.analysis.semantic_hash]])await ui.expect(popup).toHaveAttribute(attribute,value)
+ for(const key of['actual_fg','target_qty','q_base','q_conditional','feasible_new'])assert.deepEqual(JSON.parse(await popup.locator(`[data-fact="${key}"]`).getAttribute('data-native-fact')),target[key])
+ await ui.expect(popup).toContainText('Bahan yang dikeluarkan belum tentu terpasang');await shot('P18_SHARED_STOCK_POPUP_'+(mobile?'MOBILE':'DESKTOP')+'.png')
+ await popup.getByRole('button',{name:'Tutup rincian stok',exact:true}).click();await ui.expect(page.getByRole('dialog')).toHaveCount(0);await sameRun()
  await panel.getByRole('tab',{name:'Laporan',exact:true}).click()
  const report=await panel.getByLabel('Isi laporan ERP',{exact:true}).textContent()
  assert.ok(report.includes(original.run_id)&&report.includes(original.analysis.snapshot.source_hash)&&report.includes(original.analysis.semantic_hash))
@@ -46,7 +62,7 @@ async function sharedConsumers(ui,page,panel,original,native,user,shot,mobile,be
  assert.equal(before.analysis_count,beforeCapture.analysis_count+1);assert.equal(afterState.analysis_count,before.analysis_count)
  await shot('P18_E01_E08_SHARED_HANDOFF_'+(mobile?'MOBILE':'DESKTOP')+'.png')
  await panel.getByRole('tab',{name:'Laporan',exact:true}).click();await sameRun()
- return{same_Native_Original_across_four_views:true,filter_does_not_truncate_AI_source:true,actual_clipboard_denied_complete_manual_fallback:true,original_question_JSON_not_instruction_or_URL:true,whole_operational_boundary_unchanged:true}
+ return{same_Native_Original_across_four_views:true,same_Native_Original_across_stock_popup_planner_report_reminder_AI:true,stock_and_popup_exact_fact_bodies_and_current_Auth_read:true,filter_does_not_truncate_AI_source:true,actual_clipboard_denied_complete_manual_fallback:true,original_question_JSON_not_instruction_or_URL:true,whole_operational_boundary_unchanged:true}
 }
 async function journey(ui,today,mobile){
  const native=fixture('prepare',{today}),user=await ui.login('OWNER',{label:'p18-e01-bridge-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP'

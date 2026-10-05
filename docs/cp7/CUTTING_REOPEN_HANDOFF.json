@@ -1,6 +1,6 @@
 {
   "contract": "cp7.cutting-reopen-handoff.v1",
-  "status": "LOCAL106_PASS_NATIVE19_PENDING",
+  "status": "FIRST_NATIVE_ONE_PASS_EIGHTEEN_FIXTURE_INCOMPLETE_CORRECTED_SUCCESSOR19_PENDING",
   "base_commit": "3fbca363fa39c8a8a248129e20519fb13cf937ce",
   "base_tree": "1a4b8cf5f6ab2af54a1d9fa058980b27147658f2",
   "scope": "UNPICKED_POSTED_CUTTING_EXISTING_NATIVE_INVERSE_AND_SEPARATE_FOLLOWING_DRAFT_EDIT",
@@ -130,5 +130,7 @@
     "Full six-consumer P18",
     "Engineering-volume P19 with observed performance and recovery",
     "Prepare independent P20 and installed P21 gates; never self-award acceptance"
-  ]
+  ],
+  "first_Native_Original": "docs/cp7/evidence/cutting-reopen/first5fb-native19/RECEIPT.json",
+  "fixture_successor": "Only replace l.journal_id with actual l.journal_entry_id; all nineteen fixed cases required fresh."
 }

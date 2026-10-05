@@ -1,0 +1,234 @@
+{
+  "contract": "cp7.cutting-reopen-first-Native-incomplete.v1",
+  "source_commit": "5fb7579efa49780ef0229237c4e781291203eb83",
+  "source_tree": "7d37b305a6cc6aaf555ca0a022357c03ca380910",
+  "run_id": 37272674912,
+  "job_id": 111642828759,
+  "artifact_id": 11329223776,
+  "artifact_bytes": 1637446,
+  "artifact_sha256": "0c55b08aa3e89bd98a57fecec64c0832666f834a0d2ecab5a32fe257c450b0c5",
+  "artifact_CRC": "PASS",
+  "status": "ONE_NATIVE_PASS_EIGHTEEN_FIXTURE_SETUP_INCOMPLETE",
+  "expected_case_count": 19,
+  "counts": {
+    "native": {
+      "INCOMPLETE": 9,
+      "PASS": 1
+    },
+    "races": {
+      "INCOMPLETE": 4
+    },
+    "http": {
+      "INCOMPLETE": 3
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "observed_total": 19,
+  "observed_ids": [
+    "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+    "CP7_CUTTING_REOPEN_READ_ONLY_CAPABILITIES",
+    "CP7_CUTTING_REOPEN_REPLAY",
+    "CP7_CUTTING_REOPEN_CLOSED_FIELDS",
+    "CP7_CUTTING_REOPEN_STALE_SOURCE",
+    "CP7_CUTTING_REOPEN_PICKUP_DOWNSTREAM",
+    "CP7_CUTTING_REOPEN_ATOMIC_LATE_FAILURE",
+    "CP7_CUTTING_REOPEN_IMMUTABLE_HISTORY",
+    "CP7_CUTTING_REOPEN_CURRENT_AUTH",
+    "CP7_CUTTING_REOPEN_CLOSED_PERIOD",
+    "CP7_CUTTING_REOPEN_RACE_SAME_UUID",
+    "CP7_CUTTING_REOPEN_RACE_COMPETING",
+    "CP7_CUTTING_REOPEN_RACE_GROUP_REVOKE",
+    "CP7_CUTTING_REOPEN_RACE_NATIVE_REVOKE",
+    "CP7_CUTTING_REOPEN_HTTP_COMMIT_REPLAY",
+    "CP7_CUTTING_REOPEN_HTTP_READONLY",
+    "CP7_CUTTING_REOPEN_HTTP_CURRENT_AUTH",
+    "CP7_CUTTING_REOPEN_BROWSER_DESKTOP",
+    "CP7_CUTTING_REOPEN_BROWSER_MOBILE"
+  ],
+  "passed_ids": [
+    "CP7_CUTTING_REOPEN_PICKUP_DOWNSTREAM"
+  ],
+  "owning_command_reached_in_failed_fixture_cases": false,
+  "root_cause": "Common fixture joined journal_lines.l.journal_id; actual accepted schema uses l.journal_entry_id. Eighteen cases stopped during fixture before the owning correction command.",
+  "successor": "Correct this one fixture column to journal_entry_id; require all nineteen fresh. Product SQL, Native guards, permissions, counts, IDs and timeouts remain unchanged.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_install_gate": {
+    "status": "ALL_STAGES_INSTALLED",
+    "primary_unchanged": true,
+    "backup_restore_drill": "RESTORED_SAME_MEANING",
+    "security_advisors_original_file": "T3_PACKAGE_INSTALL.json.gz#/security_advisors",
+    "security_advisor_gate": true,
+    "writer_runtime_status": "INCOMPLETE",
+    "writer_runtime_original_file": "T3_PACKAGE_INSTALL.json.gz#/writer_runtime"
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_CUTTING_REOPEN.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "full_job_log_original_sha256": "e54c6f2c3fb63501f146bb359970b77a19351a39f780c2a0108e7c630478bc68",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385621,
+      "crc32": "29dc69fa",
+      "sha256": "e61c6f41b52cc0af593fcf7b0c10b1e7b9e528cdcb686a2191d65978f6796a49"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385621,
+      "crc32": "29dc69fa",
+      "sha256": "e61c6f41b52cc0af593fcf7b0c10b1e7b9e528cdcb686a2191d65978f6796a49"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "14a11731",
+      "sha256": "c7ea50a08691bdd62d679b1c688c22bc4964a0ad522aecf42d08d13e844e9726"
+    },
+    {
+      "name": "CP7_CUTTING_REOPEN.json",
+      "bytes": 305793,
+      "crc32": "31c92a2e",
+      "sha256": "7f59e45f74edfee2dfd73faa3c8ab30be3f7b81cff8e51a06f0ac6fffcb370c4"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "35b48e61",
+      "sha256": "6dede8c466e7237a09e9ef10282ba48eccb09793657b460712f7788aaee7a3fe"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360423,
+      "crc32": "3007d68e",
+      "sha256": "7eb0e82574f3de8bdf0ec76408efe54594918ca3f0b93809422a4667d2e89148"
+    }
+  ],
+  "Native_cutting_qualified": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "failed_original_body_locations": {
+    "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_READ_ONLY_CAPABILITIES": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_READ_ONLY_CAPABILITIES",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_REPLAY": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_REPLAY",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_CLOSED_FIELDS": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_CLOSED_FIELDS",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_STALE_SOURCE": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_STALE_SOURCE",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_ATOMIC_LATE_FAILURE": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_ATOMIC_LATE_FAILURE",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_IMMUTABLE_HISTORY": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_IMMUTABLE_HISTORY",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_CURRENT_AUTH": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_CURRENT_AUTH",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_CLOSED_PERIOD": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/native/cases/CP7_CUTTING_REOPEN_CLOSED_PERIOD",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_RACE_SAME_UUID": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/races/races/CP7_CUTTING_REOPEN_RACE_SAME_UUID",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_RACE_COMPETING": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/races/races/CP7_CUTTING_REOPEN_RACE_COMPETING",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_RACE_GROUP_REVOKE": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/races/races/CP7_CUTTING_REOPEN_RACE_GROUP_REVOKE",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_RACE_NATIVE_REVOKE": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/races/races/CP7_CUTTING_REOPEN_RACE_NATIVE_REVOKE",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_HTTP_COMMIT_REPLAY": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/http/cases/CP7_CUTTING_REOPEN_HTTP_COMMIT_REPLAY",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_HTTP_READONLY": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/http/cases/CP7_CUTTING_REOPEN_HTTP_READONLY",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_HTTP_CURRENT_AUTH": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/http/cases/CP7_CUTTING_REOPEN_HTTP_CURRENT_AUTH",
+      "error": "column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^"
+    },
+    "CP7_CUTTING_REOPEN_BROWSER_DESKTOP": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/browser/cases/CP7_CUTTING_REOPEN_BROWSER_DESKTOP",
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_cutting_correction_browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_cutting_correction_browser_fixture.py\", line 36, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_cutting_correction_browser_fixture.py\", line 17, in main\n    f=cases.fixture(cur,date.fromisoformat(p['today']));out=dict(fixture=f,workspace=cases.read(cur,f))\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_cutting_correction_cases.py\", line 45, in fixture\n    f['issue_lines']={str(k):v for k,v in cur.execute(\"select l.account_id,sum(l.debit-l.credit)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_id where j.source_type='CUTTING_MATERIAL_ISSUE'and j.source_id=%s group by l.account_id\",(f['group'],)).fetchall()}\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedColumn: column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_cutting_correction_browser.mjs:4:47)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_cutting_correction_browser.mjs:9:10)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_cutting_correction_browser.mjs:40:82\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+    },
+    "CP7_CUTTING_REOPEN_BROWSER_MOBILE": {
+      "original_file": "CP7_CUTTING_REOPEN.json.gz",
+      "json_pointer": "/browser/cases/CP7_CUTTING_REOPEN_BROWSER_MOBILE",
+      "error": "Error: Command failed: python ../auditor/scripts/cp7_cutting_correction_browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_cutting_correction_browser_fixture.py\", line 36, in <module>\n    if __name__=='__main__':main()\n                            ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_cutting_correction_browser_fixture.py\", line 17, in main\n    f=cases.fixture(cur,date.fromisoformat(p['today']));out=dict(fixture=f,workspace=cases.read(cur,f))\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_cutting_correction_cases.py\", line 45, in fixture\n    f['issue_lines']={str(k):v for k,v in cur.execute(\"select l.account_id,sum(l.debit-l.credit)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_id where j.source_type='CUTTING_MATERIAL_ISSUE'and j.source_id=%s group by l.account_id\",(f['group'],)).fetchall()}\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedColumn: column l.journal_id does not exist\nLINE 1: ...ournal_lines l join erp.journal_entries j on j.id=l.journal_...\n                                                             ^\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_cutting_correction_browser.mjs:4:47)\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_cutting_correction_browser.mjs:9:10)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_cutting_correction_browser.mjs:40:148\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:19)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+    }
+  },
+  "all_full_failed_original_bodies_preserved": true
+}

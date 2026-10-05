@@ -1,0 +1,89 @@
+{
+  "contract": "cp7.cutting-reopen-retained-regression-first-failure.v1",
+  "source_commit": "5fb7579efa49780ef0229237c4e781291203eb83",
+  "source_tree": "7d37b305a6cc6aaf555ca0a022357c03ca380910",
+  "run_id": 37272674729,
+  "job_id": 111642828685,
+  "artifact_id": 11328857753,
+  "artifact_bytes": 1617892,
+  "artifact_sha256": "389e0a0c8b873b748754c15c4aeaa238c08dcbe47c9c6b2b429abea87f5e3446",
+  "artifact_CRC": "PASS",
+  "status": "INCOMPLETE_PRE_NATIVE_EMISSION",
+  "expected_unchanged_supplier_authority_cases": 6,
+  "Native_cases_emitted": 0,
+  "Native_credit": 0,
+  "error": "FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW",
+  "cause": "The supplier authority entrypoint replaces the full manifest with its own explicit manifest. Its inherited32-role tuple was omitted when the shared exact guard and main manifest became34 for the two new cutting facades.",
+  "successor": "Admit exactly the same reviewed34-role tuple in both manifests. Preserve every existing case, expected result, Native function/grant/guard and timeout. Fresh actual6 and complete restoration required.",
+  "Original_root_count": 3,
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "full_job_log_original_sha256": "9850aed570de3de611b221935140886b0722e726c5ea05bbf5024a8b2cb91815",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385618,
+      "crc32": "418afd54",
+      "sha256": "e600015e48af09c9ea79b931f8871801993397caeb35c74f2e09eb6297c38160"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385618,
+      "crc32": "418afd54",
+      "sha256": "e600015e48af09c9ea79b931f8871801993397caeb35c74f2e09eb6297c38160"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "01e1e041",
+      "sha256": "3104a1e7fd3e9af6c711256ca60a41eea4cc34f01028ef8f66523d0a83946b8e"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360885,
+      "crc32": "3f961b6c",
+      "sha256": "b422973270882d9f38d51245adc1eb742036b84926e748be572d285dc1a2c584"
+    }
+  ],
+  "original_gate": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "auth_before_after": [
+    0,
+    0
+  ],
+  "restore_claimed": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -10650,7 +10650,7 @@
   },
   "cutting_reopen_candidate": {
     "contract": "cp7.cutting-reopen-handoff.v1",
-    "status": "LOCAL106_PASS_NATIVE19_PENDING",
+    "status": "FIRST_NATIVE_ONE_PASS_EIGHTEEN_FIXTURE_INCOMPLETE_CORRECTED_SUCCESSOR19_PENDING",
     "base_commit": "3fbca363fa39c8a8a248129e20519fb13cf937ce",
     "base_tree": "1a4b8cf5f6ab2af54a1d9fa058980b27147658f2",
     "scope": "UNPICKED_POSTED_CUTTING_EXISTING_NATIVE_INVERSE_AND_SEPARATE_FOLLOWING_DRAFT_EDIT",
@@ -10781,5 +10781,66 @@
       "Engineering-volume P19 with observed performance and recovery",
       "Prepare independent P20 and installed P21 gates; never self-award acceptance"
     ]
+  },
+  "cutting_reopen_first_Native_20261005": {
+    "status": "NATIVE_ONE_PASS_EIGHTEEN_FIXTURE_SETUP_INCOMPLETE",
+    "source_commit": "5fb7579efa49780ef0229237c4e781291203eb83",
+    "run_id": 37272674912,
+    "receipt": "docs/cp7/evidence/cutting-reopen/first5fb-native19/RECEIPT.json",
+    "successor": "Fixture actual journal_entry_id only; fresh full19 required.",
+    "Native_qualified": false
+  },
+  "retained_cash_first_5fb": {
+    "status": "NATIVE20_OF21_ONE_CATALOG_FLAG_INCOMPLETE",
+    "receipt": "docs/cp7/evidence/cutting-reopen/first5fb-cash-catalog/RECEIPT.json",
+    "successor": "Pre-existing exact_public_catalog with raw states retained; full21 fresh. Old raw ordering cause not proved."
+  },
+  "retained_supplier_authority_first_5fb": {
+    "status": "OWN_ROLE_MANIFEST32_VS_COMBINED34_PRE_NATIVE_STOP",
+    "receipt": "docs/cp7/evidence/cutting-reopen/first5fb-supplier-authority/RECEIPT.json",
+    "successor": "Exact same two closed cutting roles added to own manifest; fresh full6 required."
+  },
+  "p18_stock_popup_candidate": {
+    "contract": "cp7.stock-popup-shared-Original-handoff.v1",
+    "status": "LOCAL73_PASS_SIX_CONSUMER_NATIVE9_PENDING",
+    "base_commit": "5fb7579efa49780ef0229237c4e781291203eb83",
+    "scope": "SAME_VALIDATED_NATIVE_ANALYSIS_IN_STOCK_POPUP_PRODUCTION_REPORT_REMINDER_AND_MANUAL_AI_HANDOFF",
+    "data": "Stock rows and popup render exact validated Native FactValue bodies, run/source/semantic hashes, full source/assumptions and explicit UNKNOWN; no new calculation or recapture.",
+    "authority": "Opening a popup explicitly rechecks existing erp_cp7_read_analysis_v1 under current Auth. Revocation/source retirement/storage invalidation/generation changes clear the popup and source. Archived snapshots cannot open fresh popup.",
+    "filter": "Presentation only. It never changes global physical allocation, report or AI Original.",
+    "clock": "WIB business time; real desktop/mobile qualification remains under America/Los_Angeles device time.",
+    "local_receipt": "docs/cp7/evidence/p18-shared-consumer/local-stock-popup-5fb/RECEIPT.json",
+    "required_counts": {
+      "native": 5,
+      "races": 1,
+      "http": 1,
+      "browser": 2
+    },
+    "expected_case_count": 9,
+    "new_unique_Native_executions": 0,
+    "real_browser": "Strengthen both retained real E01 desktop/mobile journeys with stock/filter/popup exact FactValue bodies and same Original comparisons; keep all previous loss/recovery/inverse/archive/current-403 controls.",
+    "required_new_screenshots": [
+      "P18_SHARED_STOCK_DESKTOP.png",
+      "P18_SHARED_STOCK_POPUP_DESKTOP.png",
+      "P18_SHARED_STOCK_MOBILE.png",
+      "P18_SHARED_STOCK_POPUP_MOBILE.png"
+    ],
+    "full_P08_acceptance": false,
+    "full_P18_acceptance": false,
+    "full_P19_acceptance": false,
+    "whole_CP7_complete": false,
+    "independent_P20_acceptance": false,
+    "installed_P21_acceptance": false,
+    "production_go": false
+  },
+  "cp6_M_deep_observation": {
+    "status": "ORIGINAL_UNMODIFIED_PARTIAL_STRUCTURAL_RECOVERY",
+    "receipt": "docs/cp7/evidence/context-recovery/CP6_M_DEEP_OBSERVATION.json.gz",
+    "outer_members_CRC_valid": 160,
+    "recovered_context_documents": 18,
+    "inner_members_CRC_valid": 562,
+    "partial_member_not_qualified": "H_MAINTENANCE_ROLLBACK/G_FK_SYNC_ADMISSION_FIRST/PHYSICAL_BOUNDARY.source-erp.sql",
+    "whole_archive_valid": false,
+    "damage_cause_proved": false
   }
 }

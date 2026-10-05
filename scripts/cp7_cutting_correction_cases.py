@@ -42,7 +42,7 @@ def fixture(cur,today):
     f.update(number=w['number'],version=w['row_version'],original=facts(cur,f),before_gl=gl(cur))
     f['roll'],f['qty']=cur.execute('select roll_id::text,qty_issued from erp.cutting_group_rolls where cutting_group_id=%s',(f['group'],)).fetchone()
     f['before_stock']=stock(cur,f)
-    f['issue_lines']={str(k):v for k,v in cur.execute("select l.account_id,sum(l.debit-l.credit)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_id where j.source_type='CUTTING_MATERIAL_ISSUE'and j.source_id=%s group by l.account_id",(f['group'],)).fetchall()}
+    f['issue_lines']={str(k):v for k,v in cur.execute("select l.account_id,sum(l.debit-l.credit)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.source_type='CUTTING_MATERIAL_ISSUE'and j.source_id=%s group by l.account_id",(f['group'],)).fetchall()}
     f['original_movements']=cur.execute("select jsonb_agg(to_jsonb(m)order by m.id)from erp.material_stock_movements m where m.source_type='CUTTING_GROUP'and m.source_id=%s",(f['group'],)).fetchone()[0]
     return f
 def verify_effect(cur,f,p,r,key=None):
