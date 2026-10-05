@@ -10522,10 +10522,18 @@
     "latest_original_failure_receipt": "docs/cp7/evidence/sales-chain/first-b215/RECEIPT.json",
     "latest_original_source": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
     "existing_owning_facade_grant_authored": true,
-    "postgres_private_DML_granted": false,
     "postgres_direct_invoker_execution": false,
     "original_invoker_security_and_all_Native_guards_unchanged": true,
-    "fresh_25_required": true
+    "fresh_25_required": true,
+    "additional_postgres_private_DML_granted": false,
+    "postgres_requests_DML": false,
+    "existing_postgres_context_rights": [
+      "SELECT",
+      "INSERT",
+      "DELETE"
+    ],
+    "context_UPDATE_TRUNCATE_REFERENCES_TRIGGER_denied": true,
+    "source419_verifier_issue": "Incorrectly refused the pre-existing note/payment context INSERT/DELETE; verifier successor preserves their exact prior rights, with no SQL/case/timeout change"
   },
   "current_ledger_record_tools_candidate": {
     "status": "LOCAL66_PASS_NATIVE_BROWSER_REGRESSIONS_PENDING",

@@ -31,7 +31,12 @@ def verify(cur):
     assert cur.execute('select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid=%s::regprocedure',(OWNING_FACADE,)).fetchone()==('cp7_sales_write',True,'v',['search_path=""']), 'CHAIN_EXISTING_OWNING_FACADE'
     assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')",(OWNING_FACADE,)).fetchone()[0], 'CHAIN_OWNING_FACADE_POSTGRES_ADMISSION'
     assert not cur.execute("select has_function_privilege('postgres','cp7_sales.command(text,jsonb,uuid,text)','EXECUTE')").fetchone()[0], 'CHAIN_NO_POSTGRES_DIRECT_INVOKER'
-    for table in ('cp7_sales.requests','cp7_sales.command_context'):
-        assert not cur.execute("select has_table_privilege('postgres',%s,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(table,)).fetchone()[0],('CHAIN_NO_POSTGRES_PRIVATE_DML',table)
+    assert not cur.execute("select has_table_privilege('postgres','cp7_sales.requests','INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')").fetchone()[0], 'CHAIN_NO_POSTGRES_REQUEST_DML'
+    # Note/payment correction already owns SELECT/INSERT/DELETE context
+    # admission. Preserve that exact predecessor capability; the chain adds
+    # no context/table grant and enters the existing owning facade instead.
+    for right in ('SELECT','INSERT','DELETE','UPDATE','TRUNCATE','REFERENCES','TRIGGER'):
+        allowed=right in ('SELECT','INSERT','DELETE')
+        assert cur.execute("select has_table_privilege('postgres','cp7_sales.command_context',%s)",(right,)).fetchone()[0]==allowed,('CHAIN_EXACT_PREDECESSOR_CONTEXT_RIGHT',right)
     assert not cur.execute('select exists(select 1 from cp7_sales.command_context)').fetchone()[0]
-    return dict(all_business_effects_existing_Native_commands=True,closed_private_chain_capabilities=True,no_app_ERP_DML=True,immutable_reviewed_source_history=True,existing_owning_facade_admitted=True,no_postgres_private_DML_or_direct_invoker=True)
+    return dict(all_business_effects_existing_Native_commands=True,closed_private_chain_capabilities=True,no_app_ERP_DML=True,immutable_reviewed_source_history=True,existing_owning_facade_admitted=True,no_postgres_request_DML_or_direct_invoker=True,predecessor_context_privileges_exact=True)
