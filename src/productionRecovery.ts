@@ -1,12 +1,13 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['PLAN_APPLY', 'PAYROLL_INSTALLMENT', 'FINANCE_MISC', 'HPP_RECOST', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const
+export const productionDomains = ['CUTTING_CORRECTION', 'PLAN_APPLY', 'PAYROLL_INSTALLMENT', 'FINANCE_MISC', 'HPP_RECOST', 'FINANCE_PERIOD', 'SALES', 'ROSTER', 'PAYROLL', 'FG_NOTA', 'FG_BOOK', 'FG_ADJUSTMENT', 'MATERIAL_COUNT', 'SUPPLIER_RETURN', 'PURCHASE_INVOICE', 'SUPPLIER_PAYMENT', 'MATERIALS', 'PROCUREMENT', 'SUPPLIER_CREDIT', 'SKU', 'BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE', 'ACCESSORY_SERVICE', 'LAUNDRY_BD', 'PRODUCT_CONVERSION', 'RECEIPT_CORRECTION', 'MATERIAL_NAME'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
+  CUTTING_CORRECTION: 'Koreksi potongan di Bagi Potongan',
   PLAN_APPLY: 'Rencana Potongan',
   PAYROLL_INSTALLMENT: 'Pembayaran gaji di Payroll & Kasbon',
   FINANCE_MISC: 'Pendapatan & Biaya Lain',
@@ -21,6 +22,7 @@ export const domainLabels: Record<ProductionDomain, string> = {
   MATERIAL_COUNT: 'Penyesuaian bahan',
   SUPPLIER_RETURN: 'Retur supplier di Pembelian & Penerimaan',
   PURCHASE_INVOICE: 'Invoice supplier di Pembelian & Penerimaan',
+  SUPPLIER_PAYMENT: 'Pembayaran supplier di Pembelian & Penerimaan',
   MATERIALS: 'Bahan & Roll',
   PROCUREMENT: 'Pembelian & Penerimaan',
   RECEIPT_CORRECTION: 'Benerin penerimaan di Pembelian & Penerimaan',
@@ -32,12 +34,13 @@ export const domainLabels: Record<ProductionDomain, string> = {
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
+  CUTTING_CORRECTION: ['REOPEN_POSTED'],
   PLAN_APPLY: ['SAVE_DRAFT', 'APPLY'],
   PAYROLL_INSTALLMENT: ['PAY', 'REVERSE_PAYMENT', 'REVERSE_PAYROLL'],
-  FINANCE_MISC: ['SAVE', 'POST', 'REVERSE'],
+  FINANCE_MISC: ['SAVE', 'POST', 'REVERSE', 'CORRECT'],
   HPP_RECOST: ['PROCESS_ELIGIBLE'],
   FINANCE_PERIOD: ['CLOSE', 'REOPEN'],
-  SALES: ['CREATE', 'EDIT', 'POST', 'CANCEL', 'PAYMENT', 'PAYMENT_REVERSE', 'RETURN', 'RETURN_REVERSE', 'SALE_REVERSE', 'CORRECT'],
+  SALES: ['CREATE', 'EDIT', 'POST', 'CANCEL', 'PAYMENT', 'PAYMENT_REVERSE', 'PAYMENT_CORRECT', 'RETURN', 'RETURN_REVERSE', 'RETURN_CORRECT', 'SALE_REVERSE', 'SALE_CHAIN_REVERSE', 'CORRECT'],
   ROSTER: ['CREATE_WORKER', 'UPDATE_WORKER', 'SET_RATE', 'SAVE_ATTENDANCE', 'POST_ATTENDANCE', 'REVERSE_ATTENDANCE'],
   PAYROLL: ['PREPARE', 'APPROVE', 'PAY', 'CANCEL', 'REVERSE'],
   FG_NOTA: ['SAVE', 'POST', 'VOID'],
@@ -46,6 +49,7 @@ const actions: Record<ProductionDomain, readonly string[]> = {
   MATERIAL_COUNT: ['SAVE', 'POST', 'DELETE', 'REVERSE'],
   SUPPLIER_RETURN: ['SAVE', 'POST', 'REVERSE', 'SAVE_DOCUMENT', 'POST_DOCUMENT', 'REVERSE_DOCUMENT'],
   PURCHASE_INVOICE: ['FINALIZE', 'REVERSE', 'SAVE_DOCUMENT', 'POST_DOCUMENT', 'DELETE_DOCUMENT', 'REVERSE_DOCUMENT'],
+  SUPPLIER_PAYMENT: ['REVERSE', 'CORRECT'],
   MATERIALS: ['SAVE_TRANSFER', 'POST_TRANSFER', 'REVERSE_TRANSFER'],
   PROCUREMENT: ['SAVE_DRAFT', 'POST', 'REVERSE'],
   RECEIPT_CORRECTION: ['CORRECT'],

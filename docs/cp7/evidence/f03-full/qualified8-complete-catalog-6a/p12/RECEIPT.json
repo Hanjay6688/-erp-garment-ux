@@ -1,0 +1,864 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "status": "WRITER_QUALIFIED_ALL_DECLARED_BODIES_AND_GROUP_BOUNDARIES_PASS",
+  "source_commit": "6a1939d8f42e4d96f375a8878fa766a6a683ece4",
+  "source_tree": "d1f7d152c5f70f4853a78d0cb9487fcb2adbd3ab",
+  "run_id": 37289725728,
+  "job_id": 111697030741,
+  "artifact_id": 11338047113,
+  "original_file_id": "file_0000000058c882119756638c719c64f6",
+  "archive_bytes": 8852812,
+  "archive_sha256": "93407930220bee9414b90d23a2b8dd4ac81d5342b1ed51a8b94d9c52a8a5a1a6",
+  "archive_CRC": "PASS",
+  "bucket": "p12",
+  "expected_case_count": 90,
+  "observed_case_count": 90,
+  "expected_smoke_count": 0,
+  "observed_smoke_count": 0,
+  "private_role_count": 34,
+  "groups": {
+    "native": {
+      "kind": "native",
+      "counts": {
+        "PASS": 5
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "notes": {
+      "kind": "native",
+      "counts": {
+        "PASS": 7
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "note_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 3
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "note_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "admission_regression": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "payroll_review": {
+      "kind": "native",
+      "counts": {
+        "PASS": 4
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "payroll_review_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "payroll_review_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "settlement": {
+      "kind": "native",
+      "counts": {
+        "PASS": 7
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "settlement_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 4
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "settlement_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "settlement_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 3
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "attendance_read": {
+      "kind": "native",
+      "counts": {
+        "PASS": 6
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "attendance_read_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "attendance_read_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "roster": {
+      "kind": "native",
+      "counts": {
+        "PASS": 6
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "roster_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 3
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "roster_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "roster_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "attendance_write": {
+      "kind": "native",
+      "counts": {
+        "PASS": 10
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "attendance_write_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 4
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "attendance_write_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "attendance_write_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "opening_payroll": {
+      "kind": "native",
+      "counts": {
+        "PASS": 5
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "opening_payroll_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "opening_payroll_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "opening_payroll_browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    }
+  },
+  "counts": {
+    "native": {
+      "PASS": 5
+    },
+    "http": {
+      "PASS": 1
+    },
+    "notes": {
+      "PASS": 7
+    },
+    "note_races": {
+      "PASS": 3
+    },
+    "note_http": {
+      "PASS": 1
+    },
+    "admission_regression": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "payroll_review": {
+      "PASS": 4
+    },
+    "payroll_review_http": {
+      "PASS": 1
+    },
+    "payroll_review_browser": {
+      "PASS": 2
+    },
+    "settlement": {
+      "PASS": 7
+    },
+    "settlement_races": {
+      "PASS": 4
+    },
+    "settlement_http": {
+      "PASS": 1
+    },
+    "settlement_browser": {
+      "PASS": 3
+    },
+    "attendance_read": {
+      "PASS": 6
+    },
+    "attendance_read_http": {
+      "PASS": 1
+    },
+    "attendance_read_browser": {
+      "PASS": 2
+    },
+    "roster": {
+      "PASS": 6
+    },
+    "roster_races": {
+      "PASS": 3
+    },
+    "roster_http": {
+      "PASS": 1
+    },
+    "roster_browser": {
+      "PASS": 2
+    },
+    "attendance_write": {
+      "PASS": 10
+    },
+    "attendance_write_races": {
+      "PASS": 4
+    },
+    "attendance_write_http": {
+      "PASS": 1
+    },
+    "attendance_write_browser": {
+      "PASS": 2
+    },
+    "opening_payroll": {
+      "PASS": 5
+    },
+    "opening_payroll_races": {
+      "PASS": 2
+    },
+    "opening_payroll_http": {
+      "PASS": 1
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    }
+  },
+  "actual_ids": {
+    "native": [
+      "P12_NOTA_SOURCE_REPAIR_FIXED_VALUE",
+      "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+      "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE",
+      "P12_NOTA_SOURCE_PAGES_ACCESS",
+      "P12_NOTA_SOURCE_CROSS_TIMEZONE"
+    ],
+    "http": [
+      "P12_NOTA_SOURCE_HTTP"
+    ],
+    "notes": [
+      "P12_NOTA_SAVE_POST_REPLAY",
+      "P12_NOTA_DRAFT_EDIT_VOID",
+      "P12_NOTA_TARGET_APPEND",
+      "P12_NOTA_STALE_SOURCE",
+      "P12_NOTA_EXACT_ACCESS",
+      "P12_NOTA_CANCEL_RELEASE",
+      "P12_NOTA_ORDINARY_REWORK"
+    ],
+    "note_races": [
+      "P12_NOTA_RACE_CLAIM",
+      "P12_NOTA_RACE_REPLAY",
+      "P12_NOTA_RACE_REVOKE"
+    ],
+    "note_http": [
+      "P12_NOTA_HTTP"
+    ],
+    "admission_regression": [
+      "P09_HTTP_RECEIPT_REPLAY_AUTH"
+    ],
+    "browser": [
+      "P12_NOTA_BROWSER_DESKTOP_DRAG",
+      "P12_NOTA_BROWSER_MOBILE_RECOVERY"
+    ],
+    "payroll_review": [
+      "P12_PAYROLL_READ_EXACT_PAGES",
+      "P12_PAYROLL_READ_TOKEN_TIMEZONE",
+      "P12_PAYROLL_READ_ACCESS",
+      "P12_PAYROLL_READ_REVERSED_HISTORY"
+    ],
+    "payroll_review_http": [
+      "P12_PAYROLL_READ_HTTP"
+    ],
+    "payroll_review_browser": [
+      "P12_PAYROLL_REVIEW_BROWSER_DESKTOP",
+      "P12_PAYROLL_REVIEW_BROWSER_MOBILE"
+    ],
+    "settlement": [
+      "P12_SETTLEMENT_FULL_LIFECYCLE",
+      "P12_SETTLEMENT_PRESERVE_SELECTED_WORK",
+      "P12_SETTLEMENT_ATTENDANCE_ACCRUAL",
+      "P12_SETTLEMENT_KASBON_CARRY",
+      "P12_SETTLEMENT_STALE_CHILD",
+      "P12_SETTLEMENT_ACCESS",
+      "P12_SETTLEMENT_INVALID_PAY_CANCEL"
+    ],
+    "settlement_races": [
+      "P12_SETTLEMENT_RACE_REPLAY",
+      "P12_SETTLEMENT_RACE_PAY_CANCEL",
+      "P12_SETTLEMENT_RACE_REVOKE",
+      "P12_SETTLEMENT_RACE_SOURCE_CHANGE"
+    ],
+    "settlement_http": [
+      "P12_SETTLEMENT_HTTP"
+    ],
+    "settlement_browser": [
+      "P12_SETTLEMENT_BROWSER_DESKTOP",
+      "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY",
+      "P12_SETTLEMENT_BROWSER_UNPAID_CANCEL"
+    ],
+    "attendance_read": [
+      "P12_ATTENDANCE_READ_HISTORY",
+      "P12_ATTENDANCE_READ_PAGES",
+      "P12_ATTENDANCE_READ_PERIODS",
+      "P12_ATTENDANCE_READ_TIMEZONE_TOKEN",
+      "P12_ATTENDANCE_READ_ACCESS",
+      "P12_ATTENDANCE_READ_VALIDATION"
+    ],
+    "attendance_read_http": [
+      "P12_ATTENDANCE_READ_HTTP"
+    ],
+    "attendance_read_browser": [
+      "P12_ATTENDANCE_READ_BROWSER_DESKTOP",
+      "P12_ATTENDANCE_READ_BROWSER_MOBILE"
+    ],
+    "roster": [
+      "P12_ROSTER_LIFECYCLE",
+      "P12_ROSTER_POSTED_HISTORY",
+      "P12_ROSTER_FIELDS",
+      "P12_ROSTER_STALE",
+      "P12_ROSTER_ACCESS",
+      "P12_ROSTER_CHANGED_INTENT"
+    ],
+    "roster_races": [
+      "P12_ROSTER_RACE_CREATE_REPLAY",
+      "P12_ROSTER_RACE_RATE_VERSION",
+      "P12_ROSTER_RACE_REVOKE"
+    ],
+    "roster_http": [
+      "P12_ROSTER_HTTP"
+    ],
+    "roster_browser": [
+      "P12_ROSTER_BROWSER_DESKTOP",
+      "P12_ROSTER_BROWSER_MOBILE_RECOVERY"
+    ],
+    "attendance_write": [
+      "P12_ATTENDANCE_WRITE_LIFECYCLE",
+      "P12_ATTENDANCE_WRITE_BLANKS",
+      "P12_ATTENDANCE_WRITE_DATED_RATES",
+      "P12_ATTENDANCE_WRITE_CORRECTION",
+      "P12_ATTENDANCE_WRITE_CONSUMED",
+      "P12_ATTENDANCE_WRITE_ACCESS",
+      "P12_ATTENDANCE_WRITE_STALE",
+      "P12_ATTENDANCE_WRITE_FIELDS_INTENT",
+      "P12_ATTENDANCE_WRITE_MATRIX_PAGES",
+      "P12_ATTENDANCE_WRITE_MATRIX_PERIOD"
+    ],
+    "attendance_write_races": [
+      "P12_ATTENDANCE_RACE_SAVE_REPLAY",
+      "P12_ATTENDANCE_RACE_POST_VERSION",
+      "P12_ATTENDANCE_RACE_TWO_PERIODS",
+      "P12_ATTENDANCE_RACE_REVOKE"
+    ],
+    "attendance_write_http": [
+      "P12_ATTENDANCE_WRITE_HTTP"
+    ],
+    "attendance_write_browser": [
+      "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE",
+      "P12_ATTENDANCE_BROWSER_MOBILE_POST_RECOVERY"
+    ],
+    "opening_payroll": [
+      "P12_OPENING_LIFECYCLE",
+      "P12_OPENING_EDIT_RELEASE",
+      "P12_OPENING_STALE_REVIEW",
+      "P12_OPENING_GUARDS",
+      "P12_OPENING_CANCEL"
+    ],
+    "opening_payroll_races": [
+      "P12_OPENING_RACE_REPLAY",
+      "P12_OPENING_RACE_RESERVATION"
+    ],
+    "opening_payroll_http": [
+      "P12_OPENING_HTTP"
+    ],
+    "opening_payroll_browser": [
+      "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+      "P12_OPENING_BROWSER_MOBILE_RECOVERY"
+    ]
+  },
+  "full_raw_public_catalog_snapshots": 116,
+  "native_public_catalog_comparisons": {
+    "native": {
+      "raw_snapshot_count": 12,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "notes": {
+      "raw_snapshot_count": 16,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "payroll_review": {
+      "raw_snapshot_count": 10,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "settlement": {
+      "raw_snapshot_count": 16,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "attendance_read": {
+      "raw_snapshot_count": 14,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "roster": {
+      "raw_snapshot_count": 14,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "attendance_write": {
+      "raw_snapshot_count": 22,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "opening_payroll": {
+      "raw_snapshot_count": 12,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    }
+  },
+  "source_bundle_sha256": "70d214afb62660ecd73bbf92a838cc4ff2921f023928df47661b6602247265b6",
+  "manifest_sha256": "82ecb85996df322456af48328a501f8405d0c17df0b12bd4cb2dac72e781c147",
+  "provider_sha256": {
+    "native": "136cf7c0132258fe3b1967ec9046abdba82b06f535c2e790975357e3a237b679",
+    "http": "136cf7c0132258fe3b1967ec9046abdba82b06f535c2e790975357e3a237b679",
+    "notes": "4a1a4934e1f63098813798ac52b8ab34f0177d837c21f8d833477c4b51050ad4",
+    "note_races": "4a1a4934e1f63098813798ac52b8ab34f0177d837c21f8d833477c4b51050ad4",
+    "note_http": "4a1a4934e1f63098813798ac52b8ab34f0177d837c21f8d833477c4b51050ad4",
+    "admission_regression": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "browser": "c0d2c2ffa082f7c61149d3501e035c0f3316c439c488e15d4c374e36ce3ec8bc",
+    "payroll_review": "817b3c0faa868992ba65bb5a4c77fb74dfe528802a36d3a68b100fbb64d81c83",
+    "payroll_review_http": "817b3c0faa868992ba65bb5a4c77fb74dfe528802a36d3a68b100fbb64d81c83",
+    "payroll_review_browser": "90913df8dcdf0d2441321380bd3842c64b8e0a4a475d054a94d5e006ae03c29e",
+    "settlement": "1a8ae0fbc3c42127bb0584d5c2a9515166b15ed392693c75131c728ee8be4f57",
+    "settlement_races": "1a8ae0fbc3c42127bb0584d5c2a9515166b15ed392693c75131c728ee8be4f57",
+    "settlement_http": "1a8ae0fbc3c42127bb0584d5c2a9515166b15ed392693c75131c728ee8be4f57",
+    "settlement_browser": "c19c455e8557aa2238e680056e99bfd9d98c5ea1eeac785b06fbea2a5fb0113a",
+    "attendance_read": "f878fb85a2343387d13ad4278d11c63cb1c1734a6949420de87eac82fdc4551a",
+    "attendance_read_http": "f878fb85a2343387d13ad4278d11c63cb1c1734a6949420de87eac82fdc4551a",
+    "attendance_read_browser": "90a7c04649bd273229908080127a30a7f0cefd47562fb193088906e05b59373f",
+    "roster": "8865e6f7465bc2620831ec1ed6a856f1e52c2e91b15e0d29b3ccb83f9a284700",
+    "roster_races": "8865e6f7465bc2620831ec1ed6a856f1e52c2e91b15e0d29b3ccb83f9a284700",
+    "roster_http": "8865e6f7465bc2620831ec1ed6a856f1e52c2e91b15e0d29b3ccb83f9a284700",
+    "roster_browser": "74d7a3562bf4d8f2be7d245ee6feee8d6627008d026a32ba3eba3dbb5cc603ec",
+    "attendance_write": "0acb84852197eff8f8e3b19727cdd1dd1409bc686d5026a090800b0198beed68",
+    "attendance_write_races": "0acb84852197eff8f8e3b19727cdd1dd1409bc686d5026a090800b0198beed68",
+    "attendance_write_http": "0acb84852197eff8f8e3b19727cdd1dd1409bc686d5026a090800b0198beed68",
+    "attendance_write_browser": "a51e5976d8eb3b197f03b88aa82c50fd9aea6fe7756120b74c62a18ccacbecff",
+    "opening_payroll": "d799a52a417c710b90cffbfb9d1775754b93cf9e480683374515d1e33748bc3a",
+    "opening_payroll_races": "d799a52a417c710b90cffbfb9d1775754b93cf9e480683374515d1e33748bc3a",
+    "opening_payroll_http": "d799a52a417c710b90cffbfb9d1775754b93cf9e480683374515d1e33748bc3a",
+    "opening_payroll_browser": "89ef95648d4635cd82342a521196bee7946e7205e1322470d6bf8f5bd6aca0f9"
+  },
+  "retained_probe_sha256": {
+    "cp7_p12_nota_probe.py": "d193a47c1bd5351e0c9b52ab9025e8f23a7e6bf1018a7385cef9a433f4a36645"
+  },
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "crc32": "a2b4de5a"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385617,
+      "sha256": "01329fb8cbc0193e07145489415bd1f9a4ff4c6b2f863dba47a8dc7603f13d25",
+      "crc32": "2752c3f9"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+      "crc32": "046ee9c1"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+      "crc32": "3c2aa92b"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385617,
+      "sha256": "01329fb8cbc0193e07145489415bd1f9a4ff4c6b2f863dba47a8dc7603f13d25",
+      "crc32": "2752c3f9"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "5d910974b13f889dbe9f727dfb16434b88ccf646305ae43d6cdbee4160652858",
+      "crc32": "0c952edc"
+    },
+    {
+      "name": "CP7_F03_FULL_P12.json",
+      "bytes": 3167438,
+      "sha256": "3800880b8028a00b1762754be8f915a132b9dc76a8f0cacf235d1eda552ad95c",
+      "crc32": "8ec0e332"
+    },
+    {
+      "name": "P12_ATTENDANCE_ENTRY_DESKTOP.png",
+      "bytes": 738232,
+      "sha256": "2764508ca331054eee04a11ff852465fd9043b103e69b8328078b1e8f784e662",
+      "crc32": "4fc2bf6a"
+    },
+    {
+      "name": "P12_ATTENDANCE_ENTRY_MOBILE.png",
+      "bytes": 503190,
+      "sha256": "61f48cc0f4e4195518e9cb97c571cb450ecb972d8fe04b81e5d5e74e9a2adcde",
+      "crc32": "9710fb01"
+    },
+    {
+      "name": "P12_ATTENDANCE_READ_DESKTOP.png",
+      "bytes": 468560,
+      "sha256": "bd0189f9a249daae3cf0a96083ba0bc096f13d0d615b14b9f68fd4409875802c",
+      "crc32": "7af451f6"
+    },
+    {
+      "name": "P12_ATTENDANCE_READ_MOBILE.png",
+      "bytes": 336532,
+      "sha256": "9039e2c70aa469442ba0e42fac59b8014bd94d334ecc7eccec13b52b889e5534",
+      "crc32": "804c384b"
+    },
+    {
+      "name": "P12_NOTA_DESKTOP.png",
+      "bytes": 617306,
+      "sha256": "7b15af27ecb69fa01493fb94a12612f11703dc9927a3401e551d3a9beffab7da",
+      "crc32": "cf249033"
+    },
+    {
+      "name": "P12_NOTA_MOBILE.png",
+      "bytes": 379110,
+      "sha256": "32a3e77960816fc21e8b471a7b122b6d0d73ddedfcad25818c1861f3dff75665",
+      "crc32": "ce9d4c86"
+    },
+    {
+      "name": "P12_OPENING_DESKTOP.png",
+      "bytes": 649176,
+      "sha256": "9f15f5a8379f828870ac0d6f07df4a49628b4acab36850ba48e915aae912050a",
+      "crc32": "b89732be"
+    },
+    {
+      "name": "P12_OPENING_MOBILE.png",
+      "bytes": 423082,
+      "sha256": "46702b3da61d8122e116b7470d1a642ed77837abeccbbe09fc2702457f899602",
+      "crc32": "91c25d2e"
+    },
+    {
+      "name": "P12_PAYROLL_REVIEW_MOBILE.png",
+      "bytes": 405752,
+      "sha256": "de89fbb04a5fa98519b301e4e21c34d582d87ae409b9587f268d12e1edc27e45",
+      "crc32": "b2d758b4"
+    },
+    {
+      "name": "P12_PAYROLL_REVIEW_DESKTOP.png",
+      "bytes": 601472,
+      "sha256": "db4d2097e5db470cabe6b8ac85c696dd10924a608665bc4ce4d63b89a5af0ca1",
+      "crc32": "e9864a85"
+    },
+    {
+      "name": "P12_PAYROLL_SETTLEMENT_DESKTOP.png",
+      "bytes": 667630,
+      "sha256": "7a46705aaadc3344f83a67367bb8339f7221b8e0ee7584e4ef9a511a5668b97a",
+      "crc32": "a359d795"
+    },
+    {
+      "name": "P12_PAYROLL_SETTLEMENT_MOBILE.png",
+      "bytes": 449139,
+      "sha256": "c9c3e8aa26ff3824081289a40e75022c3752608e823b7ce3eac3af3e19cdb173",
+      "crc32": "4b516b0f"
+    },
+    {
+      "name": "P12_ROSTER_DESKTOP.png",
+      "bytes": 622210,
+      "sha256": "6cfde27e8288ef013e8581a00bff4b7f47a931d028fa6ca3ba2cfdb518f677ed",
+      "crc32": "9a5ce82d"
+    },
+    {
+      "name": "P12_ROSTER_MOBILE.png",
+      "bytes": 425751,
+      "sha256": "89619248a4f353c7f3023884388398d366e05ac83919d3d02365445d43e10f17",
+      "crc32": "6a4da887"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "8cad8adf2c3c6aa0a995f09bcbc0c77c4768159d282a60037aa76bab2e5c9bbd",
+      "crc32": "ec9f2217"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "crc32": "cfb01269"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360416,
+      "sha256": "8746a37306ea38d823a0004b3a389c2b4ef15cbe9f723d451c5c9bb8f4e26837",
+      "crc32": "132a870b"
+    }
+  ],
+  "all_original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F03_FULL_P12.json": {
+      "bytes": 3167438,
+      "sha256": "3800880b8028a00b1762754be8f915a132b9dc76a8f0cacf235d1eda552ad95c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "8cad8adf2c3c6aa0a995f09bcbc0c77c4768159d282a60037aa76bab2e5c9bbd"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "8746a37306ea38d823a0004b3a389c2b4ef15cbe9f723d451c5c9bb8f4e26837"
+    }
+  },
+  "full_original_job_log_sha256": "918adf5ab2f46ec4009c0fa52c8e8f859e29ae5efd699364c4668ebe19dab7b7",
+  "Original_png_members_in_reusable_original_file": [
+    "P12_ATTENDANCE_ENTRY_DESKTOP.png",
+    "P12_ATTENDANCE_ENTRY_MOBILE.png",
+    "P12_ATTENDANCE_READ_DESKTOP.png",
+    "P12_ATTENDANCE_READ_MOBILE.png",
+    "P12_NOTA_DESKTOP.png",
+    "P12_NOTA_MOBILE.png",
+    "P12_OPENING_DESKTOP.png",
+    "P12_OPENING_MOBILE.png",
+    "P12_PAYROLL_REVIEW_MOBILE.png",
+    "P12_PAYROLL_REVIEW_DESKTOP.png",
+    "P12_PAYROLL_SETTLEMENT_DESKTOP.png",
+    "P12_PAYROLL_SETTLEMENT_MOBILE.png",
+    "P12_ROSTER_DESKTOP.png",
+    "P12_ROSTER_MOBILE.png"
+  ],
+  "PNG_copies_in_this_directory": [],
+  "fresh_whole_product_pixel_acceptance": false,
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,152 @@
+{
+  "contract": "cp7.fabric-recipe-shell-qualification.v1",
+  "status": "PASS_BOUNDED_SHELL_NOT_NATIVE_FABRIC_ACCEPTANCE",
+  "source": "190078a891054b2181d50d12458b9f12721cec59",
+  "source_tree": "d2a983ded471f89f5551fbd448c58ab2b82dcfdc",
+  "workflow_run": 37304873309,
+  "jobs": {
+    "shell": 111746021949,
+    "codeql_actions": 111746022155,
+    "codeql_javascript_typescript": 111746022313
+  },
+  "Vitest": {
+    "files": 161,
+    "tests": 1535,
+    "passed": 1535,
+    "failed": 0
+  },
+  "synthetic_browser": {
+    "passed": 6,
+    "Native_fabric_browser_credit": 0
+  },
+  "fabric_private_controls": {
+    "passed": 24,
+    "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+    "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+    "full_case_bodies_retained": true,
+    "Native_business_Auth_HTTP_race_browser_credit": 0
+  },
+  "TypeScript_build_security_source_access_CSS_client_secret_scan": "PASS",
+  "CodeQL": [
+    {
+      "artifact": 11343193280,
+      "member": "javascript.sarif",
+      "results": 0,
+      "invocations_successful": true,
+      "coverage": "JavaScript/TypeScript",
+      "whole_SQL_Python_ERP_security_acceptance": false
+    },
+    {
+      "artifact": 11343088237,
+      "member": "actions.sarif",
+      "results": 0,
+      "invocations_successful": true,
+      "coverage": "GitHub Actions",
+      "whole_SQL_Python_ERP_security_acceptance": false
+    }
+  ],
+  "originals": [
+    {
+      "artifact_id": 11343475680,
+      "name": "cp7-shell-proof-190.zip",
+      "bytes": 497416,
+      "sha256": "1fc9a778a7d533c87fbbb242f828ca6d053dc92a9c2f48a7cba8f48e7e951bf4",
+      "GitHub_digest_matched": true,
+      "ZIP_CRC_pass": true,
+      "complete_Original_zip_retained_as": "cp7-shell-proof-190.zip.gz",
+      "retained_sha256": "0d24f083b8c404769067c9b1146351778b8cd198d12baf22550afd7971adb600",
+      "members": [
+        {
+          "name": "f04-private-kernels.json",
+          "bytes": 53259,
+          "sha256": "4b1f475afeba4387aa09b4ce95f7116e2e44c1f2fa626f82a416a1004f92b5d7",
+          "CRC32": "cba85121"
+        },
+        {
+          "name": "fabric-recipe.json",
+          "bytes": 40170,
+          "sha256": "071c2f54f7d7fafba10e07654c1b1ef1ecc0e5ce3c0263e6977345e94295bc49",
+          "CRC32": "1eeaf5fc"
+        },
+        {
+          "name": "desktop-planner.png",
+          "bytes": 130883,
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8",
+          "CRC32": "3656a87f"
+        },
+        {
+          "name": "history-availability-parity.json",
+          "bytes": 5502,
+          "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4",
+          "CRC32": "f188678c"
+        },
+        {
+          "name": "material-pool.json",
+          "bytes": 8612,
+          "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6",
+          "CRC32": "0e3479ee"
+        },
+        {
+          "name": "mobile-planner.png",
+          "bytes": 382780,
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06",
+          "CRC32": "294dfa75"
+        },
+        {
+          "name": "results.json",
+          "bytes": 12243,
+          "sha256": "ba4388da4a3bdb1d4ed2bc9e65d39fb353464913ef4b3395e5a65f8b57c6a5fe",
+          "CRC32": "fb6f22ed"
+        }
+      ]
+    },
+    {
+      "artifact_id": 11343193280,
+      "name": "cp7-codeql-javascript-typescript-190.zip",
+      "bytes": 123000,
+      "sha256": "935983723c57b12e62639fd21574cbf6bdba18afd325a21fefd5482afbb38c4e",
+      "GitHub_digest_matched": true,
+      "ZIP_CRC_pass": true,
+      "complete_Original_zip_retained_as": "cp7-codeql-javascript-typescript-190.zip.gz",
+      "retained_sha256": "11be51cf7964c2e98eb1542637e72301190a14534241e5a486719fbc1fe29aa9",
+      "members": [
+        {
+          "name": "javascript.sarif",
+          "bytes": 1362173,
+          "sha256": "0ca8bac5f03c6e68cd0e13c627e46cf16251239bf0959ff13702c84cbe346f95",
+          "CRC32": "1c805470"
+        }
+      ]
+    },
+    {
+      "artifact_id": 11343088237,
+      "name": "cp7-codeql-actions-190.zip",
+      "bytes": 52879,
+      "sha256": "c4ec8a95034788d09fb3595453d3f86770a19444398e97de2205661be846f5f7",
+      "GitHub_digest_matched": true,
+      "ZIP_CRC_pass": true,
+      "complete_Original_zip_retained_as": "cp7-codeql-actions-190.zip.gz",
+      "retained_sha256": "eaa1f8872ae7583a58a5046ec94c24f00a646302da2a393c6ab82df6379b5602",
+      "members": [
+        {
+          "name": "actions.sarif",
+          "bytes": 732918,
+          "sha256": "7f470315d28cdeed3b037fa5bea7603f4e22de551ce4a95a8cdbce569056fb3a",
+          "CRC32": "64644d33"
+        }
+      ]
+    }
+  ],
+  "complete_shell_log": {
+    "bytes": 178157,
+    "sha256": "5f02ca1da956e902f9564793bf8929bdc37b4dbc5f9e80040cc002b43d4627e5",
+    "retained_gzip": "shell-job.log.gz",
+    "retained_sha256": "2f194a72e857a1dd34bf2eb9fdb1ef4f13b0de7b6c5177720c526c5cb61f1164"
+  },
+  "first_full_local_failure_not_deleted": true,
+  "unchanged_three_internal_guard_tests_pass_on_Native_PostgreSQL_runner": true,
+  "actual_Native_fabric13": "NOT_QUALIFIED_YET",
+  "full_P08_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

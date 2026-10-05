@@ -1,0 +1,21 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37160029481,
+  "job_id": 111311382668,
+  "artifact_id": 11287323399,
+  "artifact_name": "cp7-transaction-source",
+  "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+  "source_tree": "38d54c989af9b0892bdfa367fe0674e745ad0cb0",
+  "source_bundle_sha256": "7a2b2bc39ec928f3b3f44eda99f8a1de61d208474d0d1a28fe93fb8265b856e6",
+  "zip_bytes": 23697246,
+  "zip_sha256": "a4e2745266d844ede6333a6f20d626e1afdb660e8424255ee33f4d34c4c45c1c",
+  "runtime_report": "CP7_TRANSACTION_SOURCE.json",
+  "expected_status": "PASS",
+  "expected_case_count": 78,
+  "required_case_counts": {
+    "native": 41,
+    "races": 4,
+    "http": 11,
+    "browser": 22
+  }
+}

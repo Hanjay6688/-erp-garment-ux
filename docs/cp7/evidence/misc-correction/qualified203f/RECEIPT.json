@@ -1,0 +1,62 @@
+{
+  "head": "203ff0e75d40a0597cd86562c51c6a43c9dec456",
+  "source_tree": "b11cc276c1b7f34dc4edc5515e6d442f37ef5784",
+  "run_id": 37110006069,
+  "job_id": 111165896282,
+  "artifact_id": 11269506853,
+  "archive_bytes": 4357378,
+  "archive_sha256": "8cea5f2098d394354ffa8e09f9618c0855c0f9bb4f396a8d6792fcc7717e1ac2",
+  "original_sha256": "69c735a3e7b6486b7302b5ccf4f00a26f5786c30a05fe9a88497af3fd4da35da",
+  "package_original_sha256": "34ed34b0c385abae846f54cd96bccbed00df11355a8df96d3ead64b20e910147",
+  "source_sha256": "aba13782688b34b8b80b7bfaf5cc847b8a56717dd6bbad8384173930bfe090b0",
+  "status": "PASS",
+  "expected_case_count": 20,
+  "observed_case_count": 20,
+  "groups": {
+    "native": {
+      "PASS": 14
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "console_errors": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "first_and_second_originals_retained": true,
+  "source_tree_basis": "Actual Git object for the outer Original pinned product_ref; no Original field rewritten",
+  "visuals": {
+    "CP7_MISC_CORRECTION_MOBILE.png": {
+      "sha256": "6bff3003904b9df66f29faa154870ba4d2f7d9bb08e476737950e826eaf051e2",
+      "bytes": 1255804
+    },
+    "CP7_MISC_CORRECTION_DESKTOP.png": {
+      "sha256": "a6e53738ac2a71d1efcac1bfe5dcb9b2473f0e40c09f8498b5a399280f900a8e",
+      "bytes": 1518406
+    }
+  },
+  "writer_visual_review": "Actual retained desktop and mobile captures inspected; both show restored12.34 and immutable prior9.99 correction history. Browser layout/overflow and both real correction/recovery journeys PASS; no independent visual acceptance."
+}

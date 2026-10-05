@@ -2,9 +2,10 @@
 create table cp7_reminder_native.rule_episodes(
  id uuid primary key default gen_random_uuid(),condition_key text not null,rule_id text not null,
  episode_number bigint not null check(episode_number>0),previous_id uuid references cp7_reminder_native.rule_episodes(id),
- state text not null check(state in('ACTIVE','RESOLVED')),freshness text not null check(freshness in('KNOWN','ASSUMED','UNKNOWN')),
+ state text not null check(state in('ACTIVE','RESOLVED','ARCHIVED')),freshness text not null check(freshness in('KNOWN','ASSUMED','UNKNOWN')),
  condition_state text not null,first_observed_at timestamptz not null,last_observed_at timestamptz not null,
- resolved_at timestamptz,unique(condition_key,episode_number),check((state='ACTIVE')=(resolved_at is null)));
+ resolved_at timestamptz,archived_at timestamptz,unique(condition_key,episode_number),
+ check((state='RESOLVED')=(resolved_at is not null)),check((state='ARCHIVED')=(archived_at is not null)));
 create unique index rule_episode_one_active on cp7_reminder_native.rule_episodes(condition_key)where state='ACTIVE';
 create table cp7_reminder_native.rule_observations(
  actor uuid not null,request_id uuid not null,condition_key text not null,episode_id uuid references cp7_reminder_native.rule_episodes(id),
@@ -20,9 +21,10 @@ revoke all on cp7_reminder_native.rule_episodes,cp7_reminder_native.rule_observa
 create function cp7_reminder_native.guard_rule_episode()returns trigger
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 begin
- if tg_op='DELETE'or old.state='RESOLVED'or(old.id,old.condition_key,old.rule_id,old.episode_number,old.previous_id,old.first_observed_at)
+ if tg_op='DELETE'or old.state<>'ACTIVE'or(old.id,old.condition_key,old.rule_id,old.episode_number,old.previous_id,old.first_observed_at)
   is distinct from(new.id,new.condition_key,new.rule_id,new.episode_number,new.previous_id,new.first_observed_at)
-  or new.last_observed_at<old.last_observed_at or(new.state='RESOLVED'and(new.freshness<>'KNOWN'or new.condition_state<>'RESOLVED'))then
+  or new.last_observed_at<old.last_observed_at or(new.state='RESOLVED'and(new.freshness<>'KNOWN'or new.condition_state<>'RESOLVED'))
+  or(new.state='ARCHIVED'and(new.freshness<>'KNOWN'or new.condition_state<>'INACTIVE_DOCUMENT'or new.archived_at<>new.last_observed_at))then
   raise exception using errcode='55000',message='CP7_RULE_EPISODE_IMMUTABLE';end if;
  return new;
 end $$;
@@ -65,7 +67,14 @@ begin
      values(r->>'key',r->>'rule_id',coalesce(previous.episode_number,0)+1,previous.id,'ACTIVE',freshness,r->>'state',at,at)returning *into episode;
     transition:=case when previous.id is null then'OPENED'else'REOPENED_NEW_EPISODE'end;
    elsif episode.id is not null then
-    if r->'business_resolved'='true'::jsonb and r->>'state'='RESOLVED'then
+    if r->>'economic_state'='INACTIVE'and r->>'state'='NO_CURRENT_GAP'
+     and r->>'reason'in('INACTIVE_DOCUMENT','DRAFT_ONLY')and r->'business_resolved'='false'::jsonb then
+     -- Explicit current Native inactivity closes this source's alert episode,
+     -- never the debt by payment. Absence, partial coverage and UNKNOWN cannot
+     -- archive it. The replacement document owns a different condition key.
+     update cp7_reminder_native.rule_episodes q set state='ARCHIVED',freshness='KNOWN',condition_state='INACTIVE_DOCUMENT',
+      last_observed_at=at,archived_at=at where q.id=episode.id returning *into episode;transition:='ARCHIVED_INACTIVE_DOCUMENT';
+    elsif r->'business_resolved'='true'::jsonb and r->>'state'='RESOLVED'then
      update cp7_reminder_native.rule_episodes q set state='RESOLVED',freshness='KNOWN',condition_state='RESOLVED',last_observed_at=at,resolved_at=at where q.id=episode.id returning *into episode;transition:='RESOLVED';
     else
      update cp7_reminder_native.rule_episodes q set freshness=freshness,condition_state=r->>'state',last_observed_at=at where q.id=episode.id returning *into episode;
@@ -74,7 +83,8 @@ begin
    end if;
    observation:=jsonb_build_object('condition',r,'episode',case when episode.id is null then null else jsonb_build_object(
     'id',episode.id,'number',episode.episode_number::text,'previous_id',episode.previous_id,'state',episode.state,'freshness',episode.freshness,
-    'first_observed_at',episode.first_observed_at,'last_observed_at',episode.last_observed_at,'resolved_at',episode.resolved_at)end,'transition',transition);
+    'first_observed_at',episode.first_observed_at,'last_observed_at',episode.last_observed_at,'resolved_at',episode.resolved_at)
+     ||case when episode.state='ARCHIVED'then jsonb_build_object('archived_at',episode.archived_at)else'{}'::jsonb end end,'transition',transition);
    insert into cp7_reminder_native.rule_observations values(actor,p_request,r->>'key',episode.id,source->>'source_hash',at,observation);
    observations:=observations||jsonb_build_array(observation);
   end loop;
@@ -94,7 +104,7 @@ begin
  -- caller's current authorized source. Source-changed results remain history,
  -- never current business resolution or a delivery permission.
  if exists(select 1 from jsonb_array_elements(result->'rows')x where not cp7_reminder_native.condition_domain_access(cp7_reminder_native.condition_domain(x->'condition'->>'key')))then raise exception using errcode='42501',message='CP7_RULE_EPISODE_DOMAIN_DENIED';end if;
- return jsonb_build_object('contract_version','cp7.native-rule-observations.v1','actor_scope_id',actor,'source',source,'result',result,
+ return jsonb_build_object('contract_version','cp7.native-rule-observations.v2','actor_scope_id',actor,'source',source,'result',result,
   'result_freshness',case when result->>'source_hash'=source->>'source_hash'then'CURRENT_SOURCE'else'HISTORICAL_SOURCE_CHANGED'end,
   'external_delivery_enabled',false,'business_DML',false);
 end $$;

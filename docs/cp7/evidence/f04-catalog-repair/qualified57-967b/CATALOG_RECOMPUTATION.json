@@ -1,0 +1,7 @@
+{
+  "classification": "READ_ONLY_ORIGINAL_RECOMPUTATION",
+  "raw_snapshots": 70,
+  "all_fields_and_canonical_hashes_exact": true,
+  "all_sensitivity_controls_pass_each_snapshot": true,
+  "Native_product_exit_case_credit": 0
+}

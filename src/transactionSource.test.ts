@@ -1,0 +1,65 @@
+import {describe,it,expect} from 'vitest'
+import {parseTransactionSource} from './transactionSource'
+const source='11111111-1111-4111-8111-111111111111',parent='22222222-2222-4222-8222-222222222222',actor='33333333-3333-4333-8333-333333333333'
+const ref={source_type:'SALES_PAYMENT',source_id:source}
+const receipt=()=>({contract_version:'cp7.transaction-source.v1',actor_scope_id:actor,source:{...ref},status:'AVAILABLE',document:{domain:'SALE',route:'sales-payments',id:parent,number:'INV-26',status:'PARTIAL_PAID',revision:'9007199254740993',focus:{kind:'SALES_PAYMENT',id:source,page_offset:25}},read_at:'2026-10-03T04:00:00.123456Z',business_DML:false})
+describe('exact transaction source boundaries',()=>{
+ it('binds every Laundry receipt child to its actual parent and unpaged embedded receipt',()=>{
+  for(const kind of ['LAUNDRY_RECEIPT','LAUNDRY_RECEIPT_LINE','LAUNDRY_RECEIPT_BATCH_SIZE_LINE']){
+   const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'LAUNDRY',route:'laundry',focus:{kind:'LAUNDRY_RECEIPT',id:source,page_offset:0}})
+   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({domain:'LAUNDRY',id:parent,focus:{id:source,page_offset:0}})
+   for(const bad of [{focus:null},{route:'qc'},{focus:{kind:'LAUNDRY_RECEIPT',id:source,page_offset:25}},{focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:0}}]){const c=structuredClone(r);Object.assign(c.document,bad);expect(()=>parseTransactionSource(c,r.source,actor)).toThrow()}
+   if(kind==='LAUNDRY_RECEIPT'){r.document.focus.id=parent;expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()}
+  }
+ })
+ it('keeps a direct Laundry delivery exact and does not invent a receipt focus',()=>{
+  const r=receipt();r.source={source_type:'LAUNDRY_DELIVERY',source_id:source};Object.assign(r.document,{domain:'LAUNDRY',route:'laundry',id:source,focus:null})
+  expect(parseTransactionSource(r,r.source,actor).document?.id).toBe(source)
+  for(const bad of [{id:parent},{focus:{kind:'LAUNDRY_RECEIPT',id:parent,page_offset:0}}]){const c=structuredClone(r);Object.assign(c.document,bad);expect(()=>parseTransactionSource(c,r.source,actor)).toThrow()}
+ })
+ it('opens an actual QC item through its inspection FK and keeps a direct inspection exact',()=>{
+  for(const kind of ['QC_ITEM','QC_INSPECTION','FG_MOVEMENT_REVERSAL']){
+   const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'QC',route:'qc',id:kind==='QC_INSPECTION'?source:parent,focus:null})
+   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({domain:'QC',route:'qc',focus:null})
+   for(const bad of [{route:'fg-summary'},{focus:{kind:'SALES_RETURN',id:source,page_offset:0}}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
+   if(kind==='QC_INSPECTION'){r.document.id=parent;expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()}
+  }
+ })
+ it('binds a supplier payment to its receipt, exact child and owning25-row page',()=>{
+  const r=receipt();r.source={source_type:'SUPPLIER_PAYMENT',source_id:source};Object.assign(r.document,{domain:'RECEIPT',route:'procurement',focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:25}})
+  expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:25}})
+  for(const bad of [{route:'finance-ap'},{focus:null},{focus:{kind:'SUPPLIER_PAYMENT',id:parent,page_offset:25}},{focus:{kind:'PURCHASE_INVOICE',id:source,page_offset:25}}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
+ })
+ it('keeps the exact Native rework child and its BS parent on the owning 50-row page',()=>{
+  for(const kind of ['REWORK_ORDER','REWORK_COMPLETION']){
+   const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'BS_REWORK',route:'bs-rework',focus:{kind:'REWORK_ORDER',id:source,page_offset:50}})
+   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:{id:source,page_offset:50}})
+   for(const bad of [{route:'sewing-wip'},{focus:null},{focus:{kind:'REWORK_ORDER',id:parent,page_offset:50}},{focus:{kind:'REWORK_ORDER',id:source,page_offset:25}},{focus:{kind:'PAYROLL_INSTALLMENT',id:source,page_offset:50}}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
+  }
+ })
+ it('requires a journal inverse for BS to retain the rework focus without inventing its owning header',()=>{
+  const r=receipt();r.source={source_type:'JOURNAL_REVERSAL',source_id:source};Object.assign(r.document,{domain:'BS_REWORK',route:'bs-rework',focus:{kind:'REWORK_ORDER',id:parent,page_offset:0}})
+  expect(parseTransactionSource(r,r.source,actor).document?.focus?.id).toBe(parent)
+  Object.assign(r.document,{focus:null});expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()
+ })
+ it('keeps actual accessory stock/receivable header IDs and rejects invented routes or child focus',()=>{
+  for(const kind of ['CONTRACTOR_ACCESSORY_STOCK_COST','CONTRACTOR_MATERIAL_RECEIVABLE']){
+   const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'ACCESSORY_ISSUE',route:'contractor-issue',id:source,focus:null})
+   expect(parseTransactionSource(r,r.source,actor).document?.id).toBe(source)
+   for(const bad of [{id:parent},{route:'accessories'},{focus:{kind:'PAYROLL_INSTALLMENT',id:source,page_offset:0}}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
+  }
+ })
+ it('preserves a stock issue item FK to its accessory owner without pretending the child is the header',()=>{
+  const r=receipt();r.source={source_type:'CONTRACTOR_MATERIAL_ISSUE_ITEM',source_id:source};Object.assign(r.document,{domain:'ACCESSORY_ISSUE',route:'contractor-issue',id:parent,focus:null})
+  expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:null})
+  const bad=structuredClone(r);Object.assign(bad.document,{domain:'RECEIPT',route:'procurement'});expect(()=>parseTransactionSource(bad,r.source,actor)).toThrow()
+ })
+ it('keeps the Native parent, exact child page and large revision without numeric conversion',()=>{const result=parseTransactionSource(receipt(),ref,actor);expect(result.document).toMatchObject({id:parent,revision:'9007199254740993',focus:{id:source,page_offset:25}})})
+ it('rejects a source or actor belonging to another selection',()=>{for(const change of [{source:{...ref,source_id:parent}},{actor_scope_id:parent}])expect(()=>parseTransactionSource({...receipt(),...change},ref,actor)).toThrow()})
+ it('rejects a mismatched parent domain, route, payment child or missing focus',()=>{for(const change of [{domain:'RECEIPT',route:'procurement'},{route:'sales-invoice'},{focus:null},{focus:{kind:'SALES_PAYMENT',id:parent,page_offset:25}}]){const r=receipt();Object.assign(r.document,change);expect(()=>parseTransactionSource(r,ref,actor)).toThrow()}})
+ it('rejects invented page positions and money or writer fields',()=>{for(const change of [{page_offset:1},{page_offset:1000025},{page_offset:'25'}]){const r=receipt();Object.assign(r.document.focus,change);expect(()=>parseTransactionSource(r,ref,actor)).toThrow()}expect(()=>parseTransactionSource({...receipt(),business_DML:true},ref,actor)).toThrow();const r=receipt();Object.assign(r.document,{amount:'500.00'});expect(()=>parseTransactionSource(r,ref,actor)).toThrow()})
+ it('does not invent a source document for an unsupported type',()=>{const r={...receipt(),source:{source_type:'UNREGISTERED_SOURCE',source_id:source},status:'UNSUPPORTED_SOURCE',document:null};expect(parseTransactionSource(r,r.source,actor).document).toBeNull();expect(()=>parseTransactionSource({...r,document:receipt().document},r.source,actor)).toThrow()})
+ it('requires a direct document reference to equal the source UUID',()=>{const r=receipt();r.source={source_type:'SALE',source_id:source};Object.assign(r.document,{route:'sales-invoice',focus:null});expect(()=>parseTransactionSource(r,r.source,actor)).toThrow();r.document.id=source;expect(parseTransactionSource(r,r.source,actor).document?.id).toBe(source)})
+ it('keeps the exact payroll installment and its owning second page',()=>{const r=receipt();r.source={source_type:'PAYROLL_INSTALLMENT',source_id:source};Object.assign(r.document,{domain:'PAYROLL',route:'finance-payroll',focus:{kind:'PAYROLL_INSTALLMENT',id:source,page_offset:25}});expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({domain:'PAYROLL',id:parent,focus:{kind:'PAYROLL_INSTALLMENT',id:source,page_offset:25}});for(const change of [{route:'finance-journal'},{domain:'SALE',route:'sales-payments'},{focus:null},{focus:{kind:'PAYROLL_INSTALLMENT',id:parent,page_offset:25}},{focus:{kind:'SALES_PAYMENT',id:source,page_offset:25}}]){const bad=structuredClone(r);Object.assign(bad.document,change);expect(()=>parseTransactionSource(bad,r.source,actor)).toThrow()}})
+ it('requires actual payroll header journal kinds to keep their own UUID and no invented child',()=>{for(const kind of ['PAYROLL_ATTENDANCE_ACCRUAL','PAYROLL_EXTRA_ACCRUAL','PAYROLL_MANUAL_REDUCTION','PAYROLL_MATERIAL_DEDUCTION','PAYROLL_CASH_ADVANCE_DEDUCTION','PAYROLL_OTHER_DEDUCTION','PAYROLL_PAYMENT']){const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'PAYROLL',route:'finance-payroll',id:source,focus:null});expect(parseTransactionSource(r,r.source,actor).document?.id).toBe(source);Object.assign(r.document,{id:parent});expect(()=>parseTransactionSource(r,r.source,actor)).toThrow();Object.assign(r.document,{id:source,focus:{kind:'PAYROLL_INSTALLMENT',id:parent,page_offset:0}});expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()}})
+})

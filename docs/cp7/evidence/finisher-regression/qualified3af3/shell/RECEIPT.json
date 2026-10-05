@@ -1,0 +1,80 @@
+{
+  "source_commit": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+  "source_tree": "a1253cffcd23df96984eaf1fa096a80424db8135",
+  "run_id": 37127410119,
+  "jobs": {
+    "shell": 111215429827,
+    "javascript": 111215429969,
+    "actions": 111215429979
+  },
+  "artifacts": {
+    "shell": {
+      "artifact_id": 11275319675,
+      "archive_sha256": "c36f15dc37471e994b0d9e5834da7ef74e9f7e1b223000ed87f5c3cbaeab0fb4"
+    },
+    "javascript": {
+      "artifact_id": 11275940161,
+      "archive_sha256": "8916437bea86ce110c81323a464493548b9d846d4ae8854ec340dbad897f264e"
+    },
+    "actions": {
+      "artifact_id": 11275708978,
+      "archive_sha256": "63659df1b7abe400860394cdf124870d6dfd109d52f5e38c3db0a7e74da5c828"
+    }
+  },
+  "status": "PASS",
+  "members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53259,
+      "sha256": "0bab7547e489edc3c829013e5969ff6028dc391e301df14e0fac2dcfc98682a4",
+      "compressed_sha256": "50d655ec893a249c7a1588805f6c8914e7efb42b831484935484814d94e03228"
+    },
+    "results.json": {
+      "bytes": 12595,
+      "sha256": "a5980b4899b88ab483f68d5b3b2477a68087e8cf665685cfd9554c3e791fecf7",
+      "compressed_sha256": "b4f608b8d970ffa6f62dc7624956c242a69baf953f48e679c735cea3433e7d8f"
+    },
+    "javascript.sarif": {
+      "bytes": 1312104,
+      "sha256": "3e75829f6b2d0d6838552cdc760704bf85a95db786165300939b501503bbe8b4",
+      "compressed_sha256": "e951b60cf9049cbec5bb4be9de12dcce3da65004d773bd220147ca14b5a639fd"
+    },
+    "actions.sarif": {
+      "bytes": 698014,
+      "sha256": "032111a831e50c63a8981ed7de121842ca46672a2dbc92f1a9f31602f52a6541",
+      "compressed_sha256": "030289e9454fdb2a7c900436970ab5135a8171383a3f2fd45c80ce5c0bba7a72"
+    },
+    "SHELL_CI_ORIGINAL.log": {
+      "bytes": 169617,
+      "sha256": "c9569558d02a87a84bf00a3e62eccd40baa6d57d4f121c83e1cc9ec837217758",
+      "compressed_sha256": "7f3cf757ffb826bdcd81bd634f170f191aa6ed8c23768a8070042c66bd155282"
+    }
+  },
+  "private_kernel_runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+  "private_kernel_scope": "WRITER_PRIVATE_KERNEL_PROOF_ONLY",
+  "private_kernel_passed": 138,
+  "actual_Shell_browser_passed": 6,
+  "codeql_sarif_findings": {
+    "javascript": 0,
+    "actions": 0
+  },
+  "application_tests_passed": 1404,
+  "application_files_passed": 146,
+  "runtime_owned": 256,
+  "RPC_boundaries": 187,
+  "styles_owned": 53,
+  "import_orphans": 0,
+  "direct_browser_table_access": false,
+  "build": true,
+  "security_static_checks": true,
+  "scope": "Exact application/Shell/static CodeQL/private kernel proof at3af3; pagination shrink control included. New E08/E18 browser extension requires its own actual Native9 execution; whole CP7 acceptance remains open.",
+  "independent_acceptance": false,
+  "production_go": false
+}

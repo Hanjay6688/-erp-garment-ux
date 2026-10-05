@@ -1,0 +1,59 @@
+{
+  "contract": "cp7.writer-resume-shell-verification.v1",
+  "source": "fd702d7235d270add2da38143a22d5ed45c47685",
+  "run_id": 37258654086,
+  "job_id": 111601067033,
+  "artifact_id": 11323897492,
+  "artifact_bytes": 491451,
+  "artifact_sha256": "39e107c1ec40537399dbb8895f4dbe9735c599da54fbfe5cd5980b3852b04429",
+  "all_original_member_hashes": [
+    {
+      "name": "desktop-planner.png",
+      "bytes": 130859,
+      "sha256": "3e8bb2119c051470bfa6ae7d0377470df5a27821024d1bdd81c92bf4b3462cf2"
+    },
+    {
+      "name": "f04-private-kernels.json",
+      "bytes": 53269,
+      "sha256": "604167b1edaaf6d56f2ce4b9a789f0ca252d57df8d36ed161548fa8c42d69c6e"
+    },
+    {
+      "name": "mobile-planner.png",
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    {
+      "name": "results.json",
+      "bytes": 12202,
+      "sha256": "b630108432ba78728cc2edffce1843ecb08a593751372d72eeb5f8976e9df757"
+    }
+  ],
+  "Native_Postgres_version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+  "Native_application_tests": {
+    "files": 154,
+    "pass_count": 1492,
+    "failures": 0,
+    "skipped": 0
+  },
+  "Native_F04_private_kernels": {
+    "passed": 138,
+    "failures": [],
+    "scope": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+    "source_hashes_recomputed": true
+  },
+  "browser_shell": {
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "scope": "fixture shell; not full Native P18 acceptance"
+  },
+  "local_PGlite_previous_result": {
+    "passed": 1489,
+    "failed": 3,
+    "Native_or_Auth_qualification_credit": 0,
+    "preserved": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_cp7_acceptance": false
+}

@@ -1,3 +1,4 @@
+import {useTransactionSource} from './TransactionSourceNavigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -9,6 +10,7 @@ import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import PurchaseInvoicePanel from './PurchaseInvoicePanel'
 import SupplierReturnPanel from './SupplierReturnPanel'
 import ReceiptCorrectionPanel from './ReceiptCorrectionPanel'
+import SupplierPaymentPanel from './SupplierPaymentPanel'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, procurementObject, receiptDecimal, receiptEditable, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementUom, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
 import type { Json } from './types/database.preconnect'
 import './procurement-connected.css'
@@ -83,12 +85,15 @@ function document(d: Draft, valueAccess: boolean, uoms: Record<string, Procureme
 
 export default function ConnectedProcurementPage() {
   const { runtime, identity } = useAuth()
+  const source=useTransactionSource('RECEIPT')
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') return <section className="panel"><h1>Pembelian & penerimaan</h1><p>Masuk ke ERP yang tersambung untuk membuka penerimaan.</p></section>
   if (!identity.permissions.includes('warehouse.procurement.view')) return <section className="panel" role="alert">Hak melihat penerimaan belum diberikan.</section>
-  return <ProcurementWorkspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
+  return <ProcurementWorkspace key={`${source?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`} initialPurchaseId={source?.document.id??null}/>
 }
 
-function ProcurementWorkspace() {
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
+
+function ProcurementWorkspace({initialPurchaseId}:{initialPurchaseId:string|null}) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('Sesi penerimaan belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), valueAccess = identity.permissions.includes('finance.ap.view')
@@ -96,7 +101,9 @@ function ProcurementWorkspace() {
   const [data, setData] = useState<ProcurementWorkspace | null>(null), [loading, setLoading] = useState(false), [error, setError] = useState('')
   const [query, setQuery] = useState(''), [status, setStatus] = useState('ALL'), [draft, setDraft] = useState<Draft | null>(null), [postReason, setPostReason] = useState('Penerimaan barang telah diperiksa')
   const [reverseReview, setReverseReview] = useState<{ id: string; version: string; readAt: string; reason: string; checked: boolean } | null>(null)
-  const requested = useRef({ q: '', status: 'ALL', offset: 0, purchase_id: null as string | null }), sequence = useRef(0)
+  const [listOrder,setListOrder]=useState<RecordPageOrder>('SOURCE')
+  const retireSearch=()=>{++sequence.current;setData(null);setLoading(false);setReverseReview(null)}
+  const requested = useRef({ q: '', status: 'ALL', offset: 0, purchase_id: initialPurchaseId }), sequence = useRef(0)
   const load = useCallback(async () => {
     const s = ++sequence.current, ticket = beginRead(), filters = { ...requested.current }
     setLoading(true); setError('')
@@ -156,10 +163,12 @@ function ProcurementWorkspace() {
       ...(mutation.pending && !mutation.corruptedEnvelope ? { error: 'Hasil pencatatan belum diketahui. Periksa kembali hasil transaksi; data kiriman sebelumnya tetap disimpan.', blockReason: '' } : {}) }}
       onReconcile={() => reconcile(handlers)} className="panel"/>
     {error ? <p className="panel" role="alert">{error}</p> : null}
-    <form className="panel cproc-search" onSubmit={e => { e.preventDefault(); requested.current = { ...requested.current, q: query.trim(), status, offset: 0 }; void load() }}>
-      <label>Cari surat jalan atau supplier<input aria-label="Cari penerimaan" value={query} maxLength={120} onChange={e => setQuery(e.target.value)}/></label>
-      <label>Status<select aria-label="Status penerimaan" value={status} onChange={e => setStatus(e.target.value)}><option value="ALL">Semua</option><option value="DRAFT">Draft</option><option value="POSTED">Sudah diterima</option><option value="REVERSED">Dibatalkan</option></select></label><button disabled={mutation.busy || loading}>Cari penerimaan</button>
-    </form>
+    <RecordTools title="penerimaan" busy={mutation.busy||loading} order={listOrder} onOrder={setListOrder} submitLabel="Cari penerimaan"
+      onSubmit={e=>{e.preventDefault();requested.current={...requested.current,q:query.trim(),status,offset:0,purchase_id:null};void load()}}
+      onBrowse={()=>{retireSearch();setQuery('');setStatus('ALL');setListOrder('SOURCE');requested.current={q:'',status:'ALL',offset:0,purchase_id:null};void load()}}
+      search={<label>Cari surat jalan atau supplier<input aria-label="Cari penerimaan" value={query} maxLength={120} onChange={e=>{retireSearch();setQuery(e.target.value)}}/></label>}
+      filters={<label>Status<select aria-label="Status penerimaan" value={status} onChange={e=>{retireSearch();setStatus(e.target.value)}}><option value="ALL">Semua</option><option value="DRAFT">Draft</option><option value="POSTED">Sudah diterima</option><option value="REVERSED">Dibatalkan</option></select></label>}/>
+
     {draft ? <form className="panel cproc-editor" onSubmit={e => { e.preventDefault(); if (payload && !locked && !staleDraft && data?.capabilities.create) void write('SAVE_DRAFT', payload, draft.version) }}>
       <div className="cproc-heading"><div><div className="eyebrow">SURAT JALAN</div><h2>{draft.id ? 'Perbaiki draft penerimaan' : 'Penerimaan baru'}</h2><p>Draft belum menambah stok. Setelah disimpan, periksa dokumennya sebelum disahkan.</p></div><button type="button" disabled={mutation.busy} onClick={() => setDraft(null)}>Tutup formulir</button></div>
       {staleDraft ? <p role="alert">Versi draft sudah berubah. Tutup formulir dan buka ulang dokumen sebelum mengubahnya.</p> : null}
@@ -189,7 +198,7 @@ function ProcurementWorkspace() {
       <div className="cproc-actions"><button className="primary-btn" disabled={!payload || !data?.capabilities.create}>Simpan draft penerimaan</button><span>Jumlah roll akan dicocokkan dengan jumlah surat jalan.</span></div></fieldset>
     </form> : null}
     <div className="cproc-layout"><section className="panel cproc-history"><h2>Daftar penerimaan</h2>{loading ? <p role="status">Memuat penerimaan…</p> : null}{data?.page.rows.length === 0 ? <p>Belum ada penerimaan sesuai pencarian.</p> : null}
-      {data?.page.rows.map(r => <button type="button" className="cproc-receipt" key={r.id} aria-pressed={r.id === current?.id} disabled={locked} onClick={() => { requested.current.purchase_id = r.id; setDraft(null); void load() }}><span><strong>{r.purchase_number}</strong><small>{r.supplier_name ?? 'Supplier belum dipilih'} · {r.location_name ?? 'Gudang belum dipilih'}</small><small>{formatCp6WibDateTime(r.physical_at)} · {r.line_count} barang</small></span><span className={`cproc-status ${r.status.toLowerCase()}`}>{statusLabel[r.status]}</span></button>)}
+      {orderRecordPage(data?.page.rows,listOrder,r=>r.purchase_number).map(r => <button type="button" className="cproc-receipt" key={r.id} aria-pressed={r.id === current?.id} disabled={locked} onClick={() => { requested.current.purchase_id = r.id; setDraft(null); void load() }}><span><strong>{r.purchase_number}</strong><small>{r.supplier_name ?? 'Supplier belum dipilih'} · {r.location_name ?? 'Gudang belum dipilih'}</small><small>{formatCp6WibDateTime(r.physical_at)} · {r.line_count} barang</small></span><span className={`cproc-status ${r.status.toLowerCase()}`}>{statusLabel[r.status]}</span></button>)}
       {data ? <div className="cproc-pagination"><span>{data.page.rows.length} dokumen pada halaman ini · total {data.page.total}</span><button type="button" disabled={loading || mutation.busy || !data.page.offset} onClick={() => { requested.current.offset = Math.max(0, data.page.offset - 25); void load() }}>Sebelumnya</button><button type="button" disabled={loading || mutation.busy || data.page.next_offset === null} onClick={() => { requested.current.offset = data.page.next_offset ?? data.page.offset; void load() }}>Berikutnya</button></div> : null}
     </section>
     <aside className="panel cproc-detail">{current ? <><div className="eyebrow">DOKUMEN PENERIMAAN</div><h2>{current.purchase_number}</h2><p>{current.supplier_name} · {current.location_name}</p><span className={`cproc-status ${current.status.toLowerCase()}`}>{statusLabel[current.status]}</span><p>{current.status === 'DRAFT' ? 'Belum menambah stok gudang.' : current.status === 'POSTED' ? 'Penerimaan sudah tercatat. Kuantitas di bawah mengikuti dokumen masuk.' : 'Penerimaan sudah dibatalkan.'}</p>
@@ -210,5 +219,6 @@ function ProcurementWorkspace() {
     <PurchaseInvoicePanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
     <SupplierReturnPanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
     <ReceiptCorrectionPanel purchaseId={current && current.status !== 'DRAFT' ? current.id : null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
+    {valueAccess ? <SupplierPaymentPanel purchaseId={current?.id ?? null} parentReady={!loading && data !== null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/> : null}
   </section>
 }

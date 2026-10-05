@@ -1,0 +1,98 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_SHELL_WRITER_QUALIFIED_NOT_FULL_CP7",
+  "status": "PASS",
+  "source_commit": "97a19cda2d0e26134b8df8289f7a5d5f147bc19b",
+  "source_tree": "9a3572e9be385259cd6912933646635c514e89ff",
+  "run_id": 37153242106,
+  "job_id": 111291264281,
+  "artifact_id": 11285047851,
+  "artifact_bytes": 491510,
+  "artifact_sha256": "93060e82a3d8996ee629e6881c5df20ba372fc6dffd030d84d5543e365b2fa06",
+  "archive_members": {
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "e6619141ed9a0c074139c7ee8d3c007239cea4955da9049bf7d33bb17199ba8f"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "results.json": {
+      "bytes": 12226,
+      "sha256": "0bd0e2ba694068b3e24216c736e635116c9b062e41786df2f80e47e4469c850c"
+    }
+  },
+  "root_reports": {
+    "f04-private-kernels.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified97-p17-v2/shell/f04-private-kernels.json.gz",
+      "raw_bytes": 53273,
+      "raw_sha256": "e6619141ed9a0c074139c7ee8d3c007239cea4955da9049bf7d33bb17199ba8f",
+      "gzip_bytes": 6838,
+      "gzip_sha256": "9774f7b38bf71febc449ef9f78d13b6cae88db7576b42aae0132e0617fb369ab"
+    },
+    "results.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified97-p17-v2/shell/results.json.gz",
+      "raw_bytes": 12226,
+      "raw_sha256": "0bd0e2ba694068b3e24216c736e635116c9b062e41786df2f80e47e4469c850c",
+      "gzip_bytes": 1784,
+      "gzip_sha256": "5331fc0da3a8014a89f2500c4e6b1d17767f0316830e5f77f4a43223a6fb5265"
+    }
+  },
+  "original_CI_log": {
+    "file": "docs/cp7/evidence/finisher-regression/qualified97-p17-v2/shell/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 171774,
+    "raw_sha256": "32d99b218dd7be8b731657dd4fb27563177b014120ce2d8b01bbe96b8a419a58",
+    "gzip_bytes": 33771,
+    "gzip_sha256": "bbaa2795af5089d499304a9145f963f6d0ede0700c14a0b8b49431e32dff5918"
+  },
+  "application_tests": 1427,
+  "application_test_files": 148,
+  "actual_shell_browsers": 6,
+  "build_and_security": "PASS",
+  "runtime_source_files": 257,
+  "owned_RPC_boundaries": 187,
+  "stylesheets": 53,
+  "orphan_or_direct_browser_table_access": false,
+  "both_CodeQL": {
+    "cp7-codeql-actions": {
+      "artifact_id": 11285202639,
+      "archive_bytes": 51414,
+      "archive_sha256": "7c18469d41a8e9d9dda42e5aa4c8e26c1f2f855f3d3d759ddbaaa92dff53de56",
+      "member": "actions.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/finisher-regression/qualified97-p17-v2/shell/cp7-codeql-actions.sarif.gz",
+        "raw_bytes": 704124,
+        "raw_sha256": "273d54cf7ba30b113b15b4cd5d8aa7162593ca948efa8220ef9aa6fd347f0481",
+        "gzip_bytes": 48614,
+        "gzip_sha256": "7c642aa0cac2eea0aefe68748aff156e435418a6d79bc8a327850ceacc66c0e9"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    },
+    "cp7-codeql-javascript-typescript": {
+      "artifact_id": 11284842638,
+      "archive_bytes": 121162,
+      "archive_sha256": "4eb9934bf23fd37a55faca251e860980747c1b2ed118e6a3b0e1c69ebe17bab6",
+      "member": "javascript.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/finisher-regression/qualified97-p17-v2/shell/cp7-codeql-javascript-typescript.sarif.gz",
+        "raw_bytes": 1320129,
+        "raw_sha256": "a02c932752a94aa5499936f9d0603d48097e508a436f3b3c1663f6578e10ee43",
+        "gzip_bytes": 118009,
+        "gzip_sha256": "def05492731b503c704cef1d10e8e0cfcbcbe30fc2835569920aeba92ddc3fba"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    }
+  },
+  "private_kernel_scope_only": true,
+  "private_kernel_cases": 138,
+  "prior_native76_admission_failure_relabelled": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

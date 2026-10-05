@@ -9,6 +9,7 @@ import cp7_procurement_cases as cases
 import cp7_material_cases as material
 import cp7_material_count_cases as counts
 import cp7_invoice_cases as invoice
+import cp7_supplier_payment_correction_bundle as supplier_payment_correction
 import cp7_invoice_document_cases as combined
 import cp7_supplier_return_cases as returns
 import cp7_receipt_reversal_cases as reversal
@@ -38,16 +39,20 @@ def verify(cur):
     # installation, including the exact declared predecessor admission guards.
     assert INSTALLED_FUNCTIONS is not None and functions(cur)==INSTALLED_FUNCTIONS,'P09_INSTALLED_FUNCTION_OR_ACL_CHANGED'
     receipt_correction.verify(cur)
+    supplier_payment_correction.verify(cur)
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_procurement' and (p.prosecdef is distinct from (p.proname in('reverse_receipt_locked','validate_uom_lines')) or pg_get_userbyid(p.proowner)<>case when p.proname='reverse_receipt_locked' then 'postgres' when p.proname in('command','reverse_request','save_draft_request') then 'cp7_procure_write' else 'cp7_procure_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     for name,role in [('erp_cp7_get_procurement_v1','cp7_procure_read'),('erp_cp7_get_procurement_options_v1','cp7_procure_read'),('erp_cp7_get_procurement_uom_v1','cp7_procure_read'),('erp_cp7_save_procurement_v1','cp7_procure_write'),
       ('erp_cp7_preview_material_count_v1','cp7_material_read'),('erp_cp7_get_material_counts_v1','cp7_material_read'),('erp_cp7_get_material_count_options_v1','cp7_material_read'),('erp_cp7_save_material_count_v1','cp7_material_write'),
       ('erp_cp7_get_materials_v1','cp7_material_read'),('erp_cp7_get_material_ledger_v1','cp7_material_read'),
       ('erp_cp7_get_material_transfers_v1','cp7_material_read'),('erp_cp7_get_material_locations_v1','cp7_material_read'),('erp_cp7_save_materials_v1','cp7_material_write'),
       ('erp_cp7_get_invoice_sources_v1','cp7_invoice_read'),('erp_cp7_get_purchase_invoices_v1','cp7_invoice_read'),('erp_cp7_save_purchase_invoice_v1','cp7_invoice_write'),
+      ('erp_cp7_get_supplier_payments_v1','cp7_invoice_read'),('erp_cp7_reverse_supplier_payment_v1','cp7_invoice_write'),
       ('erp_cp7_get_supplier_return_sources_v1','cp7_return_read'),('erp_cp7_get_supplier_returns_v1','cp7_return_read'),('erp_cp7_save_supplier_return_v1','cp7_return_write')]:
         assert cur.execute("select p.prosecdef and pg_get_userbyid(p.proowner)=%s and p.proconfig=array['search_path=\"\"'] from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname=%s",(role,name)).fetchone()==(True,)
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_material' and (p.prosecdef is distinct from (p.proname in('validate_lines','validate_transfer_scope','count_lines','count_signature')) or pg_get_userbyid(p.proowner)<>case when p.proname in('command','count_command') then 'cp7_material_write' else 'cp7_material_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
-    assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_invoice' and (p.prosecdef is distinct from (p.proname in('assert_single_receipt','validate_sources','assert_document')) or pg_get_userbyid(p.proowner)<>case when p.proname in('command','document_command') then 'cp7_invoice_write' else 'cp7_invoice_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
+    assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_invoice' and (p.prosecdef is distinct from (p.proname in('assert_single_receipt','validate_sources','assert_document','payment_ap','payment_detail','reverse_payment_locked')) or pg_get_userbyid(p.proowner)<>case when p.proname='reverse_payment_locked' then 'postgres' when p.proname in('command','document_command','reverse_payment_request') then 'cp7_invoice_write' else 'cp7_invoice_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
+    for signature in ('cp7_invoice.access_now()','cp7_invoice.payment_access()','cp7_invoice.payment_ap(uuid)','cp7_invoice.payment_detail(uuid,jsonb)'):
+        assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')",(signature,)).fetchone()[0],('SUPPLIER_PAYMENT_PRIVATE_HELPER_DEPENDENCY',signature)
     assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_supplier_return' and (p.prosecdef is distinct from (p.proname in('validate_source','assert_document','validate_post','validate_sources','assert_complete_document','validate_document_post')) or pg_get_userbyid(p.proowner)<>case when p.proname in('command','document_command') then 'cp7_return_write' else 'cp7_return_read' end or p.proconfig is distinct from array['search_path=\"\"'])").fetchone()[0]==0
     return dict(stage='CP7_F02_PLUS_DECLARED_P09' ,cp7_p09_bundle_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest())
 
@@ -69,6 +74,7 @@ def install(cur):
     grants.update({s:{('cp7_procure_write','EXECUTE',False)} for s in ('erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)','erp.post_material_purchase_v2(uuid,uuid,bigint,text)')})
     grants.update({s:{('cp7_material_write','EXECUTE',False)} for s in ('erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)','erp.post_material_transfer_v2(uuid,uuid,bigint,text)','erp.reverse_material_transfer_v2(uuid,text,uuid,bigint)','erp.save_material_adjustment_draft_v2(jsonb,uuid,bigint)','erp.post_material_adjustment_v2(uuid,uuid,bigint,text)','erp.reverse_material_adjustment_v2(uuid,text,uuid,bigint)')})
     grants.update({s:{('cp7_invoice_read','EXECUTE',False)} for s in ('erp.material_purchase_invoice_capacity(uuid)','erp.material_purchase_posted_invoice_qty(uuid)')})
+    grants['public.erp_get_supplier_credit_v1(jsonb)']={('cp7_invoice_read','EXECUTE',False)}
     grants.update({s:{('cp7_invoice_write','EXECUTE',False)} for s in ('erp.finalize_material_purchase_invoice_v2(jsonb,uuid,bigint)','erp.reverse_material_supplier_invoice_v2(uuid,text,uuid,bigint)','erp.save_material_supplier_invoice_draft_v2(jsonb,uuid,bigint)','erp.post_material_supplier_invoice_v2(uuid,uuid,bigint,text)')})
     grants.update({s:{('cp7_return_write','EXECUTE',False)} for s in ('erp.save_material_supplier_return_draft_v2(jsonb,uuid,bigint)','erp.post_material_supplier_return_v2(uuid,uuid,bigint,text)','erp.reverse_material_supplier_return_v2(uuid,text,uuid,bigint)')})
     for signature,old in pre_functions.items():

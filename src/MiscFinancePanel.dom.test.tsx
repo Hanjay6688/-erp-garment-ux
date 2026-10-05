@@ -3,7 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import MiscFinancePanel from './MiscFinancePanel'
-import { parseMiscDocument, parseMiscRead, parseMiscOutcome, type MiscQuery, type MiscRead, type MiscDocument } from './miscFinanceContract'
+import { parseMiscDocument, parseMiscRead, parseMiscOutcome, parseMiscMutationOutcome, parseMiscCorrectionHistory, miscCorrectionNumber, type MiscQuery, type MiscRead, type MiscDocument, type MiscCorrectionOutcome } from './miscFinanceContract'
 import { persistProductionEnvelope, productionKey, readProductionRecovery } from './productionRecovery'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import type { getUatSupabaseClient } from './lib/supabase'
@@ -11,6 +11,7 @@ const state = vi.hoisted(() => ({ auth: null as unknown }))
 const client = vi.hoisted(() => ({ rpc: vi.fn() }))
 vi.mock('./auth/AuthProvider', () => ({ useAuth: () => state.auth }))
 const id = '11111111-1111-4111-8111-111111111111', categoryId = '22222222-2222-4222-8222-222222222222', cashId = '33333333-3333-4333-8333-333333333333', originalId = '44444444-4444-4444-8444-444444444444', inverseId = '55555555-5555-4555-8555-555555555555'
+const replacementId = '66666666-6666-4666-8666-666666666666', replacementJournal = '77777777-7777-4777-8777-777777777777', actorId = '99999999-9999-4999-8999-999999999999'
 const category = { id: categoryId, code: 'OTHER', name: 'Biaya native', type: 'OTHER_EXPENSE' as const, account_id: categoryId, account_code: '5900', account_name: 'Biaya lain', eligible: true, review_token: 'a'.repeat(32) }
 const cash = { id: cashId, code: 'CASH', name: 'Kas native', kind: 'CASH', account_id: cashId, account_code: '1000', account_name: 'Kas', eligible: true, review_token: 'b'.repeat(32) }
 const query: MiscQuery = { q: '', status: null, transaction_id: null, offset: 0, category_offset: 0, cash_offset: 0 }
@@ -26,7 +27,7 @@ const onChanged = vi.fn(async () => true), onRetire = vi.fn()
 let root: Root, container: HTMLDivElement
 beforeEach(() => {
   Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true }); localStorage.clear(); client.rpc.mockReset(); onChanged.mockClear(); onRetire.mockClear()
-  const auth = structuredClone(recoveryIdentity); auth.identity.permissions.push('finance.journal.view', 'finance.cash.view'); state.auth = auth
+  const auth = structuredClone(recoveryIdentity); Object.assign(auth.identity.profile, { authUserId: actorId }); auth.identity.permissions.push('finance.journal.view', 'finance.cash.view'); state.auth = auth
   Object.defineProperty(navigator, 'locks', { configurable: true, value: { request: async (_name: string, _opts: unknown, fn: (lock: unknown) => Promise<unknown>) => fn({}) } })
   container = globalThis.document.createElement('div'); globalThis.document.body.append(container); root = createRoot(container)
 })
@@ -44,6 +45,7 @@ function server(initial: MiscDocument | null = null) {
   const s = { doc: initial, lost: false, failRead: false, effects: 0, mismatch: false }, cache = new Map<string, unknown>()
   client.rpc.mockImplementation(async (name, args) => {
     if (name === 'erp_cp7_get_misc_finance_v1') return s.failRead ? { data: null, error: { message: 'Sumber tidak tersedia' } } : { data: read({ ...query, ...args.p_query }, s.doc), error: null }
+    if (name === 'erp_cp7_get_misc_correction_history_v1') return { data: { contract_version: 'cp7.misc-correction-history.v1', captured_at: '2026-09-30T03:00:00Z', transaction_id: args.p_transaction_id, previous: null, next: null }, error: null }
     if (name !== 'erp_cp7_save_misc_finance_v1') throw Error('Unexpected ' + name)
     if (!cache.has(args.p_request)) {
       s.effects++; const p = args.p_payload, status = args.p_action === 'SAVE' ? 'DRAFT' : args.p_action === 'POST' ? 'POSTED' : 'REVERSED'
@@ -123,4 +125,78 @@ it('requires the native Owner/Admin role and both current permissions without is
 })
 it('corrupt misc recovery storage is retained and blocks all new writing', async () => {
   server(); const key = productionKey('disposable:actor-1', 'FINANCE_MISC'); localStorage.setItem(key, '{'); await mount(); expect(localStorage.getItem(key)).toBe('{'); expect(button('Buat transaksi lain')).toBeUndefined(); expect(writes()).toHaveLength(0)
+})
+
+function correctionServer(initial = doc('12.34', 'POSTED')) {
+  const s = { lost: false, effects: 0, failHistory: false, microMismatch: false, actorMismatch: false, current: initial, receipt: null as MiscCorrectionOutcome | null }
+  const cache = new Map<string, MiscCorrectionOutcome>()
+  const history = (transaction: string) => ({ contract_version: 'cp7.misc-correction-history.v1', captured_at: '2026-09-30T03:00:00Z', transaction_id: transaction,
+    previous: s.receipt && transaction === replacementId ? { link: s.receipt.link, document: s.receipt.original_document } : null,
+    next: s.receipt && transaction === id ? { link: s.receipt.link, document: s.receipt.document } : null })
+  client.rpc.mockImplementation(async (name, args) => {
+    if (name === 'erp_cp7_get_misc_finance_v1') return { data: read({ ...query, ...args.p_query }, args.p_query.transaction_id === id && s.receipt ? s.receipt.original_document : s.current), error: null }
+    if (name === 'erp_cp7_get_misc_correction_history_v1') return s.failHistory ? { data: null, error: { code: '42501', message: 'Riwayat tidak boleh dibaca' } } : { data: history(args.p_transaction_id), error: null }
+    if (name !== 'erp_cp7_correct_misc_finance_v1') throw Error('Unexpected business writer: ' + name)
+    if (!cache.has(args.p_request)) {
+      ++s.effects
+      const p = args.p_payload, replacement = p.replacement, original = { ...doc(s.current.amount, 'REVERSED'), number: s.current.number, physical_at: s.current.physical_at }
+      const next = doc(replacement.amount, 'POSTED'); Object.assign(next, { id: replacementId, number: miscCorrectionNumber(original.number, args.p_request), physical_at: replacement.physical_at, counterparty_name: replacement.counterparty_name, reference_number: replacement.reference_number, notes: replacement.notes }); next.journals[0].id = replacementJournal
+      const receipt: MiscCorrectionOutcome = { contract_version: 'cp7.misc-correction.v1', kind: 'COMMITTED_OUTCOME', action: 'CORRECT', request_id: args.p_request, transaction_id: next.id, original_review_token: p.review_token, original_document: original, document: next, link: { original_id: id, replacement_id: next.id, actor_scope_id: actorId, request_id: args.p_request, reason: p.change_reason, recorded_at: '2026-09-30T03:00:00Z', time_restatement: { neutral_journal_id: '88888888-8888-4888-8888-888888888888', neutral_number: 'JRN-NEUTRAL', neutral_economic_date: '2020-01-03', neutral_transaction_date: '2020-01-03', effective_journal_id: 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', effective_number: 'JRN-EFFECTIVE', effective_economic_date: '2020-01-02', effective_transaction_date: '2020-01-02' } } }
+      s.receipt = structuredClone(receipt); s.current = next
+      if (s.microMismatch) receipt.document.physical_at = '2020-01-02T08:00:59.123457+00:00'
+      if (s.actorMismatch) receipt.link.actor_scope_id = originalId
+      cache.set(args.p_request, receipt)
+    }
+    return s.lost ? { data: null, error: { status: 503, message: 'Lost correction reply' } } : { data: cache.get(args.p_request), error: null }
+  })
+  return s
+}
+const corrections = () => client.rpc.mock.calls.filter(([name]) => name === 'erp_cp7_correct_misc_finance_v1')
+async function prepareCorrection(amount = '9.99') {
+  await act(async () => container.querySelector<HTMLElement>('[data-misc-id]')!.click()); await flush(); await click('Koreksi transaksi tercatat'); await fill('Nominal transaksi lain', amount); await fill('Alasan simpan transaksi lain', 'Nominal transaksi asal diperbaiki setelah diperiksa'); await check('Koreksi transaksi lain sudah diperiksa')
+}
+it('corrects a posted document with one writer, exact large money and original microseconds, then opens both history directions', async () => {
+  const initial = doc('12.34', 'POSTED'); initial.physical_at = '2020-01-02T08:00:59.123456+00:00'; const s = correctionServer(initial); await mount(); await prepareCorrection('9007199254740993.01'); await click('Simpan koreksi transaksi lain')
+  expect(corrections()).toHaveLength(1); expect(writes()).toHaveLength(0); expect(s.effects).toBe(1)
+  expect(corrections()[0][1].p_payload).toMatchObject({ transaction_id: id, review_token: 'd'.repeat(32), replacement: { transaction_id: null, review_token: null, transaction_number: initial.number, amount: '9007199254740993.01', physical_at: initial.physical_at } })
+  expect(s.receipt?.original_document.amount).toBe('12.34'); expect(container.textContent).toContain('Rp9.007.199.254.740.993,01'); expect(container.textContent).toContain('Dokumen sebelum koreksi')
+  await click('Buka dokumen sebelum koreksi'); expect(container.textContent).toContain('Transaksi ini sudah diganti melalui koreksi'); expect(button('Koreksi transaksi tercatat')).toBeUndefined()
+  await click('Buka dokumen pengganti'); expect(container.textContent).toContain('Rp9.007.199.254.740.993,01'); expect(s.effects).toBe(1)
+})
+it('recovers a lost committed correction by replaying the exact durable UUID and payload once after remount', async () => {
+  const s = correctionServer(); await mount(); await prepareCorrection(); s.lost = true; await click('Simpan koreksi transaksi lain'); const original = structuredClone(corrections()[0][1])
+  expect(readProductionRecovery('disposable:actor-1').pending.FINANCE_MISC?.action).toBe('CORRECT'); expect(container.querySelectorAll('[data-misc-id]')).toHaveLength(0)
+  await act(async () => root.unmount()); root = createRoot(container); s.lost = false; await mount(); await click('Reconcile transaksi')
+  expect(corrections()[1][1]).toEqual(original); expect(s.effects).toBe(1); expect(writes()).toHaveLength(0); expect(readProductionRecovery('disposable:actor-1').pending).toEqual({}); expect(container.textContent).toContain('Dokumen sebelum koreksi')
+})
+it('a denied current history read retires the source and cannot offer posted correction', async () => {
+  const s = correctionServer(); await mount(); s.failHistory = true; await act(async () => container.querySelector<HTMLElement>('[data-misc-id]')!.click()); await flush()
+  expect(container.textContent).toContain('Akun tidak memiliki izin'); expect(container.querySelectorAll('[data-misc-id]')).toHaveLength(0); expect(button('Koreksi transaksi tercatat')).toBeUndefined(); expect(corrections()).toHaveLength(0)
+})
+it('a success differing by one microsecond stays uncertain and retains its original correction UUID', async () => {
+  const initial = doc('12.34', 'POSTED'); initial.physical_at = '2020-01-02T08:00:59.123456+00:00'; const s = correctionServer(initial); s.microMismatch = true; await mount(); await prepareCorrection(); await click('Simpan koreksi transaksi lain')
+  expect(readProductionRecovery('disposable:actor-1').pending.FINANCE_MISC?.id).toBe(corrections()[0][1].p_request); expect(container.querySelectorAll('[data-misc-id]')).toHaveLength(0); expect(onChanged).not.toHaveBeenCalled()
+})
+it('a foreign actor correction receipt cannot retire the durable intent as successful', async () => {
+  const s = correctionServer(); s.actorMismatch = true; await mount(); await prepareCorrection(); await click('Simpan koreksi transaksi lain')
+  expect(readProductionRecovery('disposable:actor-1').pending.FINANCE_MISC).toBeDefined(); expect(container.querySelectorAll('[data-misc-id]')).toHaveLength(0); expect(onChanged).not.toHaveBeenCalled()
+})
+it('requires fresh explicit review after any posted correction form change and preserves the original number', async () => {
+  correctionServer(); await mount(); await prepareCorrection(); expect(button('Simpan koreksi transaksi lain').disabled).toBe(false); expect(container.querySelector<HTMLInputElement>('[aria-label="Nomor transaksi lain"]')!.readOnly).toBe(true)
+  await fill('Nominal transaksi lain', '8.88'); expect(button('Simpan koreksi transaksi lain').disabled).toBe(true); expect(corrections()).toHaveLength(0)
+  await check('Koreksi transaksi lain sudah diperiksa'); await click('Simpan koreksi transaksi lain'); expect(corrections()[0][1].p_payload.replacement.amount).toBe('8.88')
+})
+it('restore prepares the previous reviewed values and original microseconds without starting a writer', async () => {
+  const initial = doc('12.34', 'POSTED'); initial.physical_at = '2020-01-02T08:00:59.123456+00:00'; const s = correctionServer(initial); await mount(); await prepareCorrection(); await click('Simpan koreksi transaksi lain')
+  expect(s.effects).toBe(1); await click('Pulihkan nilai sebelum koreksi'); expect(container.querySelector<HTMLInputElement>('[aria-label="Nominal transaksi lain"]')!.value).toBe('12.34'); expect(button('Simpan koreksi transaksi lain').disabled).toBe(true)
+  expect(corrections()).toHaveLength(1); expect(writes()).toHaveLength(0); expect(container.querySelector<HTMLInputElement>('[aria-label="Nomor transaksi lain"]')!.value).toBe(s.receipt!.document.number)
+})
+it('strictly binds correction receipts and history to actual parent, replacement, reason, UUID and Native microseconds', async () => {
+  const s = correctionServer(); await mount(); await prepareCorrection(); await click('Simpan koreksi transaksi lain'); const args = corrections()[0][1], receipt = s.receipt!
+  expect(parseMiscMutationOutcome(receipt, args.p_request, 'CORRECT', args.p_payload).transaction_id).toBe(replacementId)
+  for (const change of [{ original_review_token: 'f'.repeat(32) }, { request_id: originalId }, { transaction_id: id }, { link: { ...receipt.link, reason: 'Another reason' } }, { document: { ...receipt.document, number: 'Guessed replacement' } }, { extra: true }]) expect(() => parseMiscMutationOutcome({ ...receipt, ...change }, args.p_request, 'CORRECT', args.p_payload)).toThrow()
+  const history = { contract_version: 'cp7.misc-correction-history.v1', captured_at: '2026-09-30T03:00:00Z', transaction_id: replacementId, previous: { link: receipt.link, document: receipt.original_document }, next: null }
+  expect(parseMiscCorrectionHistory(history, replacementId).previous?.document.id).toBe(id)
+  expect(() => parseMiscCorrectionHistory(history, id)).toThrow(); expect(() => parseMiscCorrectionHistory({ ...history, previous: { ...history.previous, document: receipt.document } }, replacementId)).toThrow()
+  const unicode = '👖'.repeat(25); expect(Array.from(miscCorrectionNumber(unicode, args.p_request))).toHaveLength(57)
 })

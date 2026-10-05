@@ -1,9 +1,11 @@
 import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { AlertTriangle, Check, Database, LoaderCircle, RefreshCw, Search, Trash2, UserRound } from 'lucide-react'
+import CuttingCorrectionPanel from './CuttingCorrectionPanel'
+import { AlertTriangle, Check, Database, LoaderCircle, RefreshCw, Trash2, UserRound } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
 import ConnectedPatternFilter from './ConnectedPatternFilter'
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import {
   draftPickupAllocations,
   parsePickupQueue,
@@ -22,6 +24,8 @@ import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import type { ProductionEnvelope } from './productionRecovery'
 import { parseQuantityInput } from './quantityInput'
 import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
+import { useTransactionSource } from './TransactionSourceNavigation'
+import { cuttingSourceRow } from './cuttingSource'
 import './connected-pickup.css'
 
 type PickupFilter = 'WAITING' | 'PICKED' | 'ALL'
@@ -47,10 +51,15 @@ export default function ConnectedPickupPage() {
   const canCreate = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.distribution.create')
   const canEdit = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.distribution.edit_draft')
   const canPost = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.distribution.post')
+  const source = useTransactionSource('CUTTING')
+  const [releasedSource, setReleasedSource] = useState<string | null>(null)
+  const activeSource = source && source.key !== releasedSource ? source : null
+  const sourceDocument = activeSource?.document ?? null
   const [queue, setQueue] = useState<PickupQueue | null>(null)
   const [filter, setFilter] = useState<PickupFilter>('WAITING')
   const [patternId, setPatternId] = useState('')
   const [query, setQuery] = useState('')
+  const [pageOrder,setPageOrder] = useState<RecordPageOrder>('SOURCE')
   const [offset, setOffset] = useState(0)
   const [selectedId, setSelectedId] = useState('')
   const [contractorId, setContractorId] = useState('')
@@ -63,11 +72,16 @@ export default function ConnectedPickupPage() {
   const [pickupVersion, setPickupVersion] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
   const mutation = useProductionMutation('PICKUP')
-  const { beginRead, finishRead, run, reconcile } = mutation
+  const { beginRead, finishRead, isReadCurrent, run, reconcile } = mutation
+  const authorityGeneration = useMemo(() => ({}), [mutation.scope,
+    identity.status === 'AUTHORIZED' ? identity.profile.rowVersion : null,
+    identity.status === 'AUTHORIZED' ? identity.profile.roleRowVersion : null,
+    identity.status === 'AUTHORIZED' ? identity.permissions.join('|') : null])
   const saving = mutation.busy
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const loadRequestRef = useRef(0)
+  const queueAuthorityRef = useRef<object | null>(null)
   const viewRef = useRef({ filter, patternId, query })
   viewRef.current = { filter, patternId, query }
 
@@ -75,6 +89,7 @@ export default function ConnectedPickupPage() {
     nextFilter: PickupFilter, nextPattern: string, nextQuery: string, nextOffset = 0,
   ) => {
     const ticket = beginRead()
+    queueAuthorityRef.current = null
     const requestId = ++loadRequestRef.current
     setLoading(true)
     setError('')
@@ -86,28 +101,46 @@ export default function ConnectedPickupPage() {
         p_limit: 100,
         p_offset: nextOffset,
       })
-      if (requestId !== loadRequestRef.current) return null
+      if (requestId !== loadRequestRef.current || !isReadCurrent(ticket)) return null
       if (loadError) {
         setError(normalizeClientError(loadError).message)
         return null
       }
       const parsed = parsePickupQueue(data)
+      if (sourceDocument) cuttingSourceRow(parsed, sourceDocument)
+      const writable=finishRead(ticket)
+      if (!isReadCurrent(ticket)) return null
+      queueAuthorityRef.current = authorityGeneration
       setQueue(parsed)
       setOffset(parsed.offset)
-      return finishRead(ticket) ? parsed : null
+      return writable?parsed:null
     } catch (loadFailure) {
-      if (requestId === loadRequestRef.current) {
+      if (requestId === loadRequestRef.current && isReadCurrent(ticket)) {
         setError(loadFailure instanceof Error ? loadFailure.message : normalizeClientError(loadFailure).message)
       }
       return null
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
-  }, [beginRead, finishRead, client])
+  }, [beginRead, finishRead, isReadCurrent, client, authorityGeneration, sourceDocument])
 
-  useEffect(() => { void fetchQueue('WAITING', '', ''); return () => { loadRequestRef.current += 1 } }, [fetchQueue])
+  useEffect(() => {
+    setQueue(null)
+    if (sourceDocument?.focus?.kind === 'CUTTING_GROUP') {
+      setFilter('ALL'); setPatternId(''); setQuery(''); setPageOrder('SOURCE'); setSelectedId(sourceDocument.id)
+      void fetchQueue('ALL', '', '', sourceDocument.focus.page_offset)
+    } else {
+      const view = viewRef.current
+      void fetchQueue(view.filter, view.patternId, view.query, 0)
+    }
+    return () => { loadRequestRef.current += 1 }
+  }, [fetchQueue, sourceDocument])
 
-  const selected = queue?.rows.find((row) => row.cutting_group_id === selectedId) ?? queue?.rows[0] ?? null
+  const queueCurrent = queue !== null && queueAuthorityRef.current === authorityGeneration
+
+  const selected = !queueCurrent ? null : sourceDocument
+    ? queue.rows.find(row => row.cutting_group_id === sourceDocument.id) ?? null
+    : queue.rows.find(row => row.cutting_group_id === selectedId) ?? queue.rows[0] ?? null
   const selectedGroupId = selected?.cutting_group_id ?? ''
   const selectedPickupVersion = selected?.pickup?.row_version ?? null
   const selectedGroupVersion = selected?.row_version ?? null
@@ -120,28 +153,31 @@ export default function ConnectedPickupPage() {
     const nextMode = selected.pickup?.allocation_mode ?? 'ROLL'
     setSelectedId(selected.cutting_group_id)
     setContractorId(selected.pickup?.contractor_id ?? selected.assigned_contractor_id ?? queue?.contractors[0]?.id ?? '')
-    setPickedUpAt(cp6WibDateTimeInput(selected.pickup?.picked_up_at ?? new Date()))
+    setPickedUpAt(activeSource && !selected.pickup ? '' : cp6WibDateTimeInput(selected.pickup?.picked_up_at ?? new Date()))
     setMode(nextMode)
     setBatchCount(count)
     setNotes(Array.from({ length: count }, (_, index) => selected.pickup?.batches.find((batch) => batch.batch_no === index + 1)?.notes ?? ''))
-    setMatrix(selected.pickup ? draftPickupAllocations(selected.pickup, count) : seedPickupAllocations(selected, count, nextMode))
+    setMatrix(selected.pickup ? draftPickupAllocations(selected.pickup, count) : activeSource ? {} : seedPickupAllocations(selected, count, nextMode))
     setPickupId(selected.pickup?.status === 'DRAFT' ? selected.pickup.id : null)
     setPickupVersion(selected.pickup?.status === 'DRAFT' ? selected.pickup.row_version : null)
-  }, [contractorSignature, selectedAssignedContractor, selectedGroupId, selectedGroupVersion, selectedPickupVersion]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [Boolean(activeSource), contractorSignature, selectedAssignedContractor, selectedGroupId, selectedGroupVersion, selectedPickupVersion]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const changeFilter = async (next: PickupFilter) => {
+    if (activeSource) return
     setFilter(next)
     setOffset(0)
     setSelectedId('')
     await fetchQueue(next, patternId, query, 0)
   }
   const changePattern = async (next: string) => {
+    if (activeSource) return
     setPatternId(next)
     setOffset(0)
     setSelectedId('')
     await fetchQueue(filter, next, query, 0)
   }
-  const refresh = () => fetchQueue(filter, patternId, query, offset)
+  const refresh = () => sourceDocument?.focus?.kind === 'CUTTING_GROUP'
+    ? fetchQueue('ALL', '', '', sourceDocument.focus.page_offset) : fetchQueue(filter, patternId, query, offset)
   const search = () => { setOffset(0); setSelectedId(''); return fetchQueue(filter, patternId, query, 0) }
 
   const sourceRows = selected?.rolls.flatMap((roll) => roll.yields.map((yieldRow) => ({ roll, yieldRow }))) ?? []
@@ -155,7 +191,8 @@ export default function ConnectedPickupPage() {
     return values?.length === batchCount && values.every((value) => parseQuantityInput(value, 'COUNT', yieldRow.qty_pcs) !== null)
   })
   const posted = selected?.pickup?.status === 'POSTED' || selected?.picked_up_at !== null
-  const editable = Boolean(selected?.pickup_eligible && !posted)
+  const editable = Boolean(selected?.pickup_eligible && !posted && !activeSource)
+  const unpickedSource = Boolean(activeSource && selected && !selected.pickup)
   const mutationAllowed = pickupId ? canEdit : canCreate
   const pickedUpAtIso = cp6WibPhysicalTimeToIso(pickedUpAt)
   const pickedAtValid = pickedUpAtIso !== null
@@ -222,7 +259,7 @@ export default function ConnectedPickupPage() {
     await run(action, payload(action), pickupVersion, handlers)
   }
   const removeDraft = async () => {
-    if (!selected || !pickupId || pickupVersion === null || mutation.writerLocked || !canEdit) return
+    if (activeSource || !selected || !pickupId || pickupVersion === null || mutation.writerLocked || !canEdit) return
     if (!globalThis.confirm('Hapus draft pembagian ini? Potongan tetap aman di antrean.')) return
     setError(''); setNotice('')
     await run('DELETE', {
@@ -232,32 +269,42 @@ export default function ConnectedPickupPage() {
   }
 
   return <section className="connected-pickup-page">
-    <header className="cpick-hero"><div><span>PRODUKSI · DISTRIBUSI CONNECTED</span><h1>Bagi Potongan</h1><p>Pola, roll, dan hasil per size dibaca dari Potongan kanonik. Pickup hanya membagi sumber itu ke Mandor dan Batch Distribusi.</p></div><button type="button" onClick={() => void refresh()}><RefreshCw/> Refetch</button></header>
-    <div className="cpick-truth"><Database/><strong>ERP ENTENG UAT · RPC CONNECTED</strong><span>Tidak ada selector Pola kedua dan tidak ada direct-table write.</span></div>
+    <header className="cpick-hero"><div><span>PRODUKSI · BAGI POTONGAN</span><h1>Bagi Potongan</h1><p>Bagi hasil potong yang tercatat ke mandor dan batch jahit.</p></div><button type="button" onClick={() => void refresh()}><RefreshCw/> Refetch</button></header>
+    <div className="cpick-truth"><Database/><strong>HASIL POTONG TERCATAT</strong><span>Ukuran dan jumlah mengikuti catatan potongan asal.</span></div>
     {error ? <div className="cpick-message error" role="alert"><AlertTriangle/><span>{error}</span><button type="button" onClick={() => setError('')}>Tutup</button></div> : null}
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="cpick-message error"/>
     {notice ? <div className="cpick-message success" role="status"><Check/><span>{notice}</span></div> : null}
+    {activeSource ? <div className="cpick-truth" role="status" data-cutting-source-id={sourceDocument?.id}>
+      <span>{queueCurrent && selected ? `Potongan asal · ${selected.group_number}. Rincian ini dibaca dari transaksi tercatat.` : loading ? 'Memeriksa potongan asal…' : 'Rincian potongan asal belum dapat dipastikan.'}</span>
+      <button type="button" disabled={saving} onClick={() => { setQueue(null); setSelectedId(''); setReleasedSource(activeSource.key) }}>Tutup transaksi asal</button>
+    </div> : null}
 
-    <section className="cpick-toolbar">
-      <div className="cpick-tabs">{(['WAITING', 'PICKED', 'ALL'] as const).map((value) => <button type="button" className={filter === value ? 'active' : ''} onClick={() => void changeFilter(value)} key={value}>{value === 'WAITING' ? 'Menunggu' : value === 'PICKED' ? 'Sudah diambil' : 'Semua'}</button>)}</div>
-      <label className="cpick-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void search() }} placeholder="Nomor Potongan, PO, model, Pola, Mandor…"/><button type="button" onClick={() => void search()}>Cari</button></label>
-      <ConnectedPatternFilter value={patternId} onChange={(next) => void changePattern(next)}/>
-    </section>
+    {!activeSource && <RecordTools title="distribusi potongan"busy={loading||saving}order={pageOrder}onOrder={setPageOrder}submitLabel="Cari Potongan"
+      onSubmit={event=>{event.preventDefault();void search()}}
+      onBrowse={()=>{setFilter('ALL');setPatternId('');setQuery('');setPageOrder('SOURCE');setOffset(0);setSelectedId('');void fetchQueue('ALL','','',0)}}
+      search={<label>Nomor Potongan, PO atau Mandor<input aria-label="Cari distribusi potongan"maxLength={200}value={query}onChange={event=>setQuery(event.target.value)}placeholder="Nomor Potongan, PO, model, Pola, Mandor…"/></label>}
+      filters={<><div className="cpick-tabs">{(['WAITING','PICKED','ALL']as const).map(value=><button type="button"className={filter===value?'active':''}disabled={loading||saving}onClick={()=>void changeFilter(value)}key={value}>{value==='WAITING'?'Menunggu':value==='PICKED'?'Sudah diambil':'Semua'}</button>)}</div><ConnectedPatternFilter value={patternId}onChange={next=>void changePattern(next)}/></>}/>}
 
     <div className="cpick-layout">
-      <aside className="cpick-queue"><header><span>ANTREAN BACKEND</span><strong>{queue?.total ?? 0} Potongan</strong></header>{loading ? <div className="cpick-empty"><LoaderCircle className="spin"/> Memuat antrean…</div> : queue?.rows.map((row) => <button type="button" className={selected?.cutting_group_id === row.cutting_group_id ? 'active' : ''} onClick={() => setSelectedId(row.cutting_group_id)} key={row.cutting_group_id}><span><small>{row.po_number}</small><strong>{row.group_number}</strong><em>{row.model_code} · {row.model_name}</em></span><span><b>{row.total_pieces} pcs</b><small>{row.pattern_code ? `${row.pattern_code} · ${row.pattern_revision}` : 'Pola legacy kosong'}</small></span></button>)}{!loading && queue?.rows.length === 0 ? <div className="cpick-empty">Tidak ada Potongan pada filter ini.</div> : null}<footer className="cpick-pagination"><span>{queue?.total ? `${offset + 1}–${offset + (queue?.rows.length ?? 0)} dari ${queue.total}` : '0 Potongan'}</span><div><button type="button" disabled={loading || offset === 0} onClick={() => void fetchQueue(filter, patternId, query, Math.max(0, offset - 100))}>Sebelumnya</button><button type="button" disabled={loading || !queue || offset + queue.rows.length >= queue.total} onClick={() => void fetchQueue(filter, patternId, query, offset + 100)}>Berikutnya</button></div></footer></aside>
+      <aside className="cpick-queue"><header><span>ANTREAN BACKEND</span><strong>{queueCurrent?`${queue.total} Potongan`:'— Potongan'}</strong></header>{loading ? <div className="cpick-empty"><LoaderCircle className="spin"/> Memuat antrean…</div> : !queueCurrent ? <div className="cpick-empty">Antrean belum dapat dipastikan. Muat ulang data.</div> : orderRecordPage(queue.rows,pageOrder,row=>row.group_number).map((row) => <button type="button" className={selected?.cutting_group_id === row.cutting_group_id ? 'active' : ''} disabled={Boolean(activeSource)} onClick={() => setSelectedId(row.cutting_group_id)} key={row.cutting_group_id}><span><small>{row.po_number}</small><strong>{row.group_number}</strong><em>{row.model_code} · {row.model_name}</em></span><span><b>{row.total_pieces} pcs</b><small>{row.pattern_code ? `${row.pattern_code} · ${row.pattern_revision}` : 'Pola legacy kosong'}</small></span></button>)}{queueCurrent && queue.rows.length === 0 ? <div className="cpick-empty">Tidak ada Potongan pada filter ini.</div> : null}<footer className="cpick-pagination"><span>{!queueCurrent?'— Potongan':queue.total ? `${offset + 1}–${offset + queue.rows.length} dari ${queue.total}` : '0 Potongan'}</span><div><button type="button" disabled={Boolean(activeSource) || !queueCurrent || loading || offset === 0} onClick={() => void fetchQueue(filter, patternId, query, Math.max(0, offset - 100))}>Sebelumnya</button><button type="button" disabled={Boolean(activeSource) || !queueCurrent || loading || offset + queue.rows.length >= queue.total} onClick={() => void fetchQueue(filter, patternId, query, offset + 100)}>Berikutnya</button></div></footer></aside>
 
       <main className="cpick-workspace">
-        {!selected ? <div className="cpick-empty large">Pilih Potongan dari antrean.</div> : <>
-          <header className="cpick-selected"><div><span>{selected.po_number} · ROW VERSION {selected.row_version}</span><h2>{selected.group_number} · {selected.model_name}</h2><p>{selected.pattern_code ? `${selected.pattern_code} · ${selected.pattern_revision} · ${selected.pattern_name}` : 'Histori legacy tanpa Pola'} · {selected.source_location_code ?? 'Lokasi legacy kosong'}</p></div><em className={posted ? 'posted' : selected.pickup_eligible ? 'ready' : 'blocked'}>{posted ? 'SUDAH DIAMBIL' : selected.pickup_eligible ? 'SIAP DIBAGI' : 'BUTUH REVIEW'}</em></header>
+        {!queueCurrent ? <div className="cpick-empty large">{loading?'Memuat rincian Potongan…':'Rincian Potongan belum dapat dipastikan. Muat ulang sebelum melanjutkan.'}</div> : !selected ? <div className="cpick-empty large">Pilih Potongan dari antrean.</div> : <>
+          <header className="cpick-selected" data-cutting-group-id={selected.cutting_group_id} data-source-focus={Boolean(activeSource)} data-cutting-po-id={selected.po_id}><div><span>{selected.po_number} · ROW VERSION {selected.row_version}</span><h2>{selected.group_number} · {selected.model_name}</h2><p>{selected.pattern_code ? `${selected.pattern_code} · ${selected.pattern_revision} · ${selected.pattern_name}` : 'Histori legacy tanpa Pola'} · {selected.source_location_code ?? 'Lokasi legacy kosong'}</p></div><em className={posted ? 'posted' : selected.pickup_eligible ? 'ready' : 'blocked'}>{posted ? 'SUDAH DIAMBIL' : selected.pickup_eligible ? 'SIAP DIBAGI' : 'BUTUH REVIEW'}</em></header>
           <section className="cpick-facts"><div><span>POTONGAN</span><strong>{selected.total_pieces} pcs</strong></div><div><span>ROLL</span><strong>{selected.rolls.length}</strong></div><div><span>BAHAN KELUAR</span><strong>{selected.total_qty_issued}</strong></div><div><span>POLA SNAPSHOT</span><strong>{selected.pattern_code ?? '—'} · {selected.pattern_revision ?? '—'}</strong></div></section>
+          {unpickedSource ? <section data-cutting-unpicked-source="true">
+            <p className="cpick-message" role="status">Pickup belum tercatat. Rincian ini hanya menunjukkan bahan dan hasil potong yang tercatat.</p>
+            <div className="cpick-table-wrap"><table><thead><tr><th>Roll bahan</th><th>Bahan keluar</th><th>Terpakai</th><th>Sisa tercatat</th><th>Size</th><th>Gambar</th><th>Hasil potong</th></tr></thead><tbody>{sourceRows.map(({ roll, yieldRow }) => <tr key={yieldRow.yield_id}><th><strong>{roll.roll_number}</strong><small>{roll.material_name}</small></th><td>{display(roll.qty_issued)} {roll.unit_code}</td><td>{display(roll.qty_consumed)} {roll.unit_code}</td><td>{display(roll.qty_reported_remaining)} {roll.unit_code}</td><td>{yieldRow.size_code}{yieldRow.label ? ` · ${yieldRow.label}` : ''}</td><td>{yieldRow.drawing_no}</td><td>{yieldRow.qty_pcs} pcs</td></tr>)}</tbody></table></div>
+          </section> : <>
           <section className="cpick-setup"><label>Mandor<select value={contractorId} disabled={!editable || Boolean(selected.assigned_contractor_id)} onChange={(event) => setContractorId(event.target.value)}><option value="">Pilih Mandor…</option>{contractorOptions.map((contractor) => <option value={contractor.id} key={contractor.id}>{contractor.code} · {contractor.name}</option>)}{selectedContractorMissing ? <option value={contractorId}>{selected.assigned_contractor_name ?? selected.pickup?.contractor_name ?? 'Mandor tidak aktif'} · TIDAK AKTIF</option> : null}</select>{assignedContractorMissing ? <small role="alert">Mandor yang dikunci di Production Order sudah tidak aktif. Aktifkan kembali atau ubah penugasan PO sebelum pickup.</small> : selectedContractorMissing ? <small role="alert">Mandor pada draft sudah tidak aktif. Pilih Mandor aktif sebelum menyimpan atau posting.</small> : selected.assigned_contractor_id ? <small>Mandor dikunci mengikuti penugasan Production Order.</small> : null}</label><label>Waktu fisik diambil (WIB)<input type="datetime-local" value={pickedUpAt} disabled={!editable} onChange={(event) => setPickedUpAt(event.target.value)}/></label><label>Jumlah batch<div><button type="button" disabled={!editable || batchCount <= 1} onClick={() => resizeBatches(batchCount - 1)}>−</button><strong>{batchCount}</strong><button type="button" disabled={!editable || batchCount >= 12} onClick={() => resizeBatches(batchCount + 1)}>+</button></div></label><fieldset disabled={!editable}><legend>Susun awal</legend><button type="button" className={mode === 'ROLL' ? 'active' : ''} onClick={() => changeMode('ROLL')}>Per roll</button><button type="button" className={mode === 'SIZE' ? 'active' : ''} onClick={() => changeMode('SIZE')}>Per size</button></fieldset></section>
           <section className="cpick-table-wrap"><table><thead><tr><th>Sumber kanonik</th><th>Size</th><th>Qty</th>{Array.from({ length: batchCount }, (_, index) => <th key={index}>Batch {index + 1}</th>)}</tr></thead><tbody>{sourceRows.map(({ roll, yieldRow }) => <tr key={yieldRow.yield_id}><th><strong>{roll.roll_number}</strong><small>{roll.material_name}</small></th><td>{yieldRow.size_code}{yieldRow.label ? ` · ${yieldRow.label}` : ''}</td><td><strong>{yieldRow.qty_pcs}</strong></td>{Array.from({ length: batchCount }, (_, batchIndex) => <td key={batchIndex}><input aria-label={`${roll.roll_number} ${yieldRow.size_code} Batch ${batchIndex + 1}`} inputMode="numeric" aria-invalid={parseQuantityInput(matrix[yieldRow.yield_id]?.[batchIndex] ?? '', 'COUNT', yieldRow.qty_pcs) === null} disabled={!editable} value={matrix[yieldRow.yield_id]?.[batchIndex] ?? 0} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setMatrix((current) => ({ ...current, [yieldRow.yield_id]: Array.from({ length: batchCount }, (_, index) => index === batchIndex ? event.target.value : current[yieldRow.yield_id]?.[index] ?? 0) }))}/></td>)}</tr>)}</tbody><tfoot><tr><th colSpan={3}>TOTAL BATCH</th>{allocation.batchTotals.map((qty, index) => <th key={index}>{display(qty)} pcs</th>)}</tr></tfoot></table></section>
           <section className="cpick-notes">{Array.from({ length: batchCount }, (_, index) => <label key={index}><span>Catatan Batch {index + 1}</span><input disabled={!editable} value={notes[index] ?? ''} onChange={(event) => setNotes((current) => Array.from({ length: batchCount }, (_, noteIndex) => noteIndex === index ? event.target.value : current[noteIndex] ?? ''))} placeholder="Warna / arahan jahitan…"/></label>)}</section>
           <section className={`cpick-reconcile ${allocation.exact && allocation.everyBatchUsed ? 'ready' : 'blocked'}`}><div><span>SUMBER</span><strong>{allocation.sourceTotal} pcs</strong></div><div><span>TERBAGI</span><strong>{display(allocation.allocatedTotal)} pcs</strong></div><div><span>SELISIH</span><strong>{display(allocation.sourceTotal - allocation.allocatedTotal)} pcs</strong></div><p>{!quantitiesValid ? 'Qty PCS harus bilangan bulat dalam batas sumber; periksa input yang ditandai.' : overAllocated ? 'Ada baris melebihi sumber Potongan.' : allocation.exact && allocation.everyBatchUsed ? 'Seluruh sumber persis terbagi dan setiap batch terpakai.' : 'Draft boleh belum penuh; posting menunggu rekonsiliasi persis.'}</p></section>
-          <footer className="cpick-actions"><span>{posted ? `Posted oleh ${selected.pickup?.contractor_name}` : pickupId ? `Draft ${pickupId.slice(0, 8)} · version ${pickupVersion}` : 'Pickup baru · ID dibuat backend'}</span><div>{pickupId ? <button type="button" className="danger" disabled={mutation.writerLocked || !canEdit} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button> : null}<button type="button" disabled={mutation.writerLocked || !mutationAllowed || !draftValid} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button type="button" className="primary" disabled={mutation.writerLocked || !mutationAllowed || !canPost || !postValid} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <UserRound/>} Catat pickup & masuk Sewing</button></div></footer>
+          </>}
+          <footer className="cpick-actions"><span>{activeSource ? 'Rincian asal · hanya dibaca' : posted ? `Posted oleh ${selected.pickup?.contractor_name}` : pickupId ? `Draft ${pickupId.slice(0, 8)} · version ${pickupVersion}` : 'Pickup baru · ID dibuat backend'}</span><div>{pickupId ? <button type="button" className="danger" disabled={Boolean(activeSource) || mutation.writerLocked || !canEdit} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button> : null}<button type="button" disabled={mutation.writerLocked || !mutationAllowed || !draftValid} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button type="button" className="primary" disabled={mutation.writerLocked || !mutationAllowed || !canPost || !postValid} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <UserRound/>} Catat pickup & masuk Sewing</button></div></footer>
         </>}
       </main>
     </div>
+    <CuttingCorrectionPanel source={queueCurrent ? selected ?? null : null} parentReady={queueCurrent && !loading} onCommitted={async () => { setQueue(null); setSelectedId(''); await refresh() }}/>
   </section>
 }

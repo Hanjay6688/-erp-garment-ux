@@ -1,0 +1,28 @@
+{
+  "head": "a0f1d51b051d8397c678720278571be18881e0db",
+  "run_id": 37106282569,
+  "job_id": 111155338092,
+  "artifact_id": 11268530434,
+  "archive_sha256": "b075762b05b02cc6aa1c9c1502fb8f022ac4904e4ec723e34e96bdcf17375169",
+  "original_sha256": "01c2f2e10eaac4f77f325d746507940942a2d1e2c6a535cd7abb02b05a00c8ff",
+  "source_sha256": "710367df2852b1f0ae1bf6a323d7ed7b56dd88b56ddd39ee1b011884c9d65afb",
+  "status": "PASS",
+  "groups": {
+    "native": {
+      "PASS": 12
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

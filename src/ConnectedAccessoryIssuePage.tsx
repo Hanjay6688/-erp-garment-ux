@@ -5,6 +5,8 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import { useTransactionSource } from './TransactionSourceNavigation'
+import RecordTools, { orderRecordPage, type RecordPageOrder } from './RecordTools'
 import { accessoryUuid, displayDecimal, displayMoney, micro, parseAccessoryWorkspace, previewAccessoryLine,
   type AccessoryDocument, type AccessoryLine, type AccessoryWorkspace } from './accessoryIssue'
 import type { Json } from './types/database.preconnect'
@@ -20,12 +22,13 @@ const fromDocument = (d: AccessoryDocument): Form => ({ id:d.id,version:d.row_ve
 
 export default function ConnectedAccessoryIssuePage() {
   const { runtime, identity } = useAuth()
+  const source = useTransactionSource('ACCESSORY_ISSUE')
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') return <section className="panel"><h1>Nota Ambil Aksesori</h1><p>Masuk ke ERP yang tersambung untuk mencatat pengambilan aksesori.</p></section>
   if (!identity.permissions.includes('finance.contractor_accessory.view')) return <section className="panel" role="alert"><h1>Nota Ambil Aksesori</h1><p>Hak melihat nota aksesori diperlukan.</p></section>
-  return <AccessoryWorkspace key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
+  return <AccessoryWorkspace key={`${source?.key ?? 'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`} initialIssueId={source?.document.id ?? null}/>
 }
 
-function AccessoryWorkspace() {
+function AccessoryWorkspace({ initialIssueId }: { initialIssueId: string | null }) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw new Error('ERP belum tersambung.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
@@ -33,8 +36,10 @@ function AccessoryWorkspace() {
   const { beginRead, finishRead, isReadCurrent, run, reconcile } = mutation
   const [data, setData] = useState<AccessoryWorkspace | null>(null), [error, setError] = useState(''), [loading, setLoading] = useState(false)
   const [form, setForm] = useState<Form>(() => emptyForm()), formRef = useRef(form)
-  const selected = useRef<string | null>(null), opening = useRef(true), sequence = useRef(0)
+  const selected = useRef<string | null>(initialIssueId), opening = useRef(true), sequence = useRef(0)
   const [query, setQuery] = useState(''), [materialQuery, setMaterialQuery] = useState(''), filters = useRef({ query:'',material_query:'' })
+  const [pageOrder, setPageOrder] = useState<RecordPageOrder>('SOURCE')
+  const [historyStatus, setHistoryStatus] = useState('ALL')
   const [reason, setReason] = useState('Pengambilan aksesori'), [reverseReason, setReverseReason] = useState('')
   const [review, setReview] = useState<'POST' | 'DELETE' | 'REVERSE' | null>(null)
   const setEditor = useCallback((next: Form) => { formRef.current=next; setForm(next); setReview(null) }, [])
@@ -44,7 +49,7 @@ function AccessoryWorkspace() {
     const request: Record<string, Json> = { ...filters.current, id }
     if (!replace) Object.assign(request,{ contractor_id:editor.contractor || null,location_id:editor.location || null,
       ...(editor.at ? { physical_at:editor.at + '+07:00' } : {}),material_ids:editor.lines.map(i => i.material_id) })
-    setLoading(true); setError(''); setReview(null)
+    setLoading(true); setError(''); setReview(null); setData(null)
     try {
       const result = await client.rpc('erp_get_accessory_issue_workspace_v1',{ p_filters:request })
       if (!isReadCurrent(ticket) || number !== sequence.current || (!replace && editor !== formRef.current)) return false
@@ -100,14 +105,16 @@ function AccessoryWorkspace() {
       <button type="button" disabled={locked || !canCreate} onClick={() => open(null)}>Nota baru</button><button type="button" disabled={mutation.busy || loading} onClick={() => void load()}>Muat ulang</button></header>
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
     {error && <p role="alert" className="initial-import-message">{error}</p>}
-    <form className="panel initial-import-toolbar" onSubmit={e => { e.preventDefault(); filters.current.query=query.trim(); void load() }}>
-      <label>Cari nota atau mandor<input aria-label="Cari nota aksesori" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label><button disabled={locked}>Cari nota</button>
-      {data && <span>{data.history.length} dari {data.history_count} nota. Persempit pencarian untuk nota lama.</span>}
-    </form>
-    <section className="panel initial-import-table"><table><thead><tr><th>Nota</th><th>Mandor</th><th>Tanggal</th><th>Status</th><th>Tagihan</th><th/></tr></thead><tbody>{data?.history.map(h => <tr key={h.id}>
+    <RecordTools title="nota aksesori" busy={loading || mutation.busy} order={pageOrder} onOrder={setPageOrder} submitLabel="Cari nota" filterScope="PAGE"
+      onSubmit={e => { e.preventDefault(); filters.current.query=query.trim(); void load() }}
+      onBrowse={() => { setQuery('');setHistoryStatus('ALL');setPageOrder('SOURCE');filters.current.query='';void load() }}
+      search={<label>Cari nota atau mandor<input aria-label="Cari nota aksesori" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label>}
+      filters={<label>Status pada 50 nota tampil<select aria-label="Status halaman nota aksesori" value={historyStatus} onChange={e=>setHistoryStatus(e.target.value)}><option value="ALL">Semua status</option><option value="DRAFT">Draft</option><option value="POSTED">Disahkan</option><option value="REVERSED">Dibatalkan</option></select></label>}/>
+    {data ? <p>{data.history.length} dari {data.history_count} nota. Persempit pencarian untuk nota lama; filter status hanya berlaku pada daftar yang tampil.</p> : <p role="status">Riwayat nota belum dapat dipastikan. Muat ulang data.</p>}
+    <section className="panel initial-import-table" aria-label="Riwayat nota aksesori"><table><thead><tr><th>Nota</th><th>Mandor</th><th>Tanggal</th><th>Status</th><th>Tagihan</th><th/></tr></thead><tbody>{orderRecordPage(data?.history.filter(h=>historyStatus==='ALL'||h.status===historyStatus),pageOrder,h=>h.number).map(h => <tr key={h.id}>
       <td>{h.number}</td><td>{h.contractor}</td><td>{h.date}</td><td>{h.status}</td><td>{displayMoney(micro(h.total))}</td><td><button disabled={locked} onClick={() => open(h.id)}>Buka {h.number}</button></td>
     </tr>)}</tbody></table>{data?.history.length===0 && <p>Belum ada nota aksesori hitung yang cocok.</p>}</section>
-    <section className="panel initial-import-advances" aria-label="Form nota aksesori"><h2>{form.id ? form.number : 'Nota baru'} · {document?.status ?? 'Draft'}</h2>
+    <section className="panel initial-import-advances" aria-label="Form nota aksesori"><h2>{form.id ? form.number : 'Nota baru'} · {data ? document?.status ?? 'Draft' : 'Status belum dipastikan'}</h2>
       <p>{isDraft ? 'Draft belum mengurangi stok atau membentuk kasbon. Pengesahan memakai isi formulir terakhir.' : 'Nota disahkan tersimpan sebagai sumber. Koreksi dilakukan melalui pembatalan tertaut.'}</p>
       <div className="initial-import-toolbar">
         <label>Nomor nota<input aria-label="Nomor nota aksesori" maxLength={60} disabled={!editable} value={form.number} onChange={e => change({ number:e.target.value })}/></label>
@@ -133,10 +140,11 @@ function AccessoryWorkspace() {
         })}</tbody></table></div>
         {!enoughStock && form.lines.length>0 && <p role="status">Jumlah melebihi stok atau belum lengkap. Draft boleh disimpan; pengesahan memeriksa stok kembali.</p>}
       </>}
-      {!isDraft && document && <div className="initial-import-table"><table><thead><tr><th>Barang</th><th>Jumlah</th><th>Harga tersimpan</th><th>Tagihan</th>{document.items.some(i => i.collectible !== undefined) && <th>Sisa ditagih</th>}<th>Payroll</th></tr></thead><tbody>{document.items.map(i => <tr key={i.id}><td>{i.name}</td><td>{displayDecimal(i.qty)} {i.unit}</td><td>{displayMoney(micro(i.price))} / {i.price_unit}{i.free ? ' · Gratis Special' : i.manual_price!==null ? ' · Eceran' : ' · Master'}</td><td>{displayMoney(micro(i.amount))}</td>{document.items.some(x => x.collectible !== undefined) && <td>{i.collectible === undefined ? '—' : displayMoney(micro(i.collectible.replace('-','')) * (i.collectible.startsWith('-') ? -1n : 1n))}</td>}<td>{i.payroll_status}</td></tr>)}</tbody></table>
+      {!isDraft && document && <div className="initial-import-table"><table><thead><tr><th>Barang</th><th>Jumlah</th><th>Harga tersimpan</th><th>{document.status === 'REVERSED' ? 'Tagihan asal' : 'Tagihan'}</th>{document.status === 'POSTED' && document.items.some(i => i.collectible !== undefined) && <th>Sisa ditagih</th>}<th>Payroll</th></tr></thead><tbody>{document.items.map(i => <tr key={i.id}><td>{i.name}</td><td>{displayDecimal(i.qty)} {i.unit}</td><td>{displayMoney(micro(i.price))} / {i.price_unit}{i.free ? ' · Gratis Special' : i.manual_price!==null ? ' · Eceran' : ' · Master'}</td><td>{displayMoney(micro(i.amount))}</td>{document.status === 'POSTED' && document.items.some(x => x.collectible !== undefined) && <td>{i.collectible === undefined ? '—' : displayMoney(micro(i.collectible.replace('-','')) * (i.collectible.startsWith('-') ? -1n : 1n))}</td>}<td>{i.payroll_status}</td></tr>)}</tbody></table>
         {document.rounding && <p>Pembulatan ke rupiah: {document.rounding.amount.startsWith('-') ? '−' : '+'}{displayMoney(micro(document.rounding.amount.replace('-','')))} (baris terpisah; jumlah PCS dan nominal asal tidak berubah). Pembatalan pembulatan lewat Gudang · Aksesori.</p>}</div>}
+      {document?.status === 'REVERSED' && <p role="status">Nota dibatalkan. Jumlah dan tagihan adalah catatan transaksi asli; nota ini tidak lagi ditagih.</p>}
       <label>Catatan<input aria-label="Catatan nota aksesori" maxLength={1000} disabled={!editable} value={form.notes} onChange={e => change({notes:e.target.value})}/></label>
-      <p><strong>Total tagihan: {isDraft ? previews.every(p => p.amount!==null) ? displayMoney(total) : 'Lengkapi rincian' : displayMoney(micro(document!.total))}</strong></p>
+      <p><strong>{document?.status === 'REVERSED' ? 'Total tagihan asal' : 'Total tagihan'}: {!data ? '—' : isDraft ? previews.every(p => p.amount!==null) ? displayMoney(total) : 'Lengkapi rincian' : displayMoney(micro(document!.total))}</strong></p>
       <p>Harga jual mandor terpisah dari biaya persediaan. Harga master dan kebijakan penggantian biaya produksi tetap mengikuti sumber masing-masing.</p>
       {isDraft && canCreate && <><label>Alasan perubahan<input aria-label="Alasan nota aksesori" maxLength={1000} disabled={locked} value={reason} onChange={e => { setReason(e.target.value); setReview(null) }}/></label>
         <div className="initial-import-toolbar"><button type="button" disabled={locked || !valid} onClick={() => submit('SAVE_DRAFT')}>Simpan draft</button>

@@ -49,6 +49,13 @@ for (const token of ["useProductionMutation('MATERIALS')", 'beginRead()', 'finis
 assert.doesNotMatch(materials, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
 
 const invoices = read('src/PurchaseInvoicePanel.tsx')
+const supplierPayments = read('src/SupplierPaymentPanel.tsx')
+for (const token of ["useProductionMutation('SUPPLIER_PAYMENT')", 'beginRead()', 'finishRead(ticket)',
+  'p_request: envelope.id', 'parseSupplierPaymentOutcome', 'useFinancialRecoveryGate', 'setCommittedTarget',
+  'selected_payment_id']) {
+  assert.ok((supplierPayments + read('src/supplierPaymentContract.ts')).includes(token), `Supplier payment recovery omits ${token}`)
+}
+assert.doesNotMatch(supplierPayments, /p_request:\s*(?:globalThis\.)?crypto\.randomUUID/)
 for (const token of ["useProductionMutation('PURCHASE_INVOICE')", 'beginRead()', 'finishRead(ticket)', 'p_request:envelope.id', 'p_expected:p.expected_version', 'parsePurchaseInvoiceOutcome']) {
   assert.ok(invoices.includes(token), `Invoice recovery omits ${token}`)
 }

@@ -1,0 +1,583 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "status": "WRITER_QUALIFIED_ALL_DECLARED_BODIES_AND_GROUP_BOUNDARIES_PASS",
+  "source_commit": "6a1939d8f42e4d96f375a8878fa766a6a683ece4",
+  "source_tree": "d1f7d152c5f70f4853a78d0cb9487fcb2adbd3ab",
+  "run_id": 37289725728,
+  "job_id": 111697030590,
+  "artifact_id": 11337328630,
+  "original_file_id": "file_0000000075288206881af5c6857a6b21",
+  "archive_bytes": 11892397,
+  "archive_sha256": "2dc988276b739adbe73be967da76be67fb904584b44e3d65c40b138ca6c552b9",
+  "archive_CRC": "PASS",
+  "bucket": "p11",
+  "expected_case_count": 64,
+  "observed_case_count": 64,
+  "expected_smoke_count": 0,
+  "observed_smoke_count": 0,
+  "private_role_count": 34,
+  "groups": {
+    "native": {
+      "kind": "native",
+      "counts": {
+        "PASS": 8
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "commands": {
+      "kind": "native",
+      "counts": {
+        "PASS": 6
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "command_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 2
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "command_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "drafts": {
+      "kind": "native",
+      "counts": {
+        "PASS": 7
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "draft_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "draft_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "payments": {
+      "kind": "native",
+      "counts": {
+        "PASS": 8
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "payment_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 3
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "payment_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "returns": {
+      "kind": "native",
+      "counts": {
+        "PASS": 11
+      },
+      "complete_boundary_restored": true,
+      "smoke": false
+    },
+    "return_races": {
+      "kind": "races",
+      "counts": {
+        "PASS": 3
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "return_http": {
+      "kind": "http",
+      "counts": {
+        "PASS": 1
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    },
+    "browser": {
+      "kind": "browser",
+      "counts": {
+        "PASS": 10
+      },
+      "complete_boundary_restored": null,
+      "smoke": false
+    }
+  },
+  "counts": {
+    "native": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 1
+    },
+    "commands": {
+      "PASS": 6
+    },
+    "command_races": {
+      "PASS": 2
+    },
+    "command_http": {
+      "PASS": 1
+    },
+    "drafts": {
+      "PASS": 7
+    },
+    "draft_races": {
+      "PASS": 1
+    },
+    "draft_http": {
+      "PASS": 1
+    },
+    "payments": {
+      "PASS": 8
+    },
+    "payment_races": {
+      "PASS": 3
+    },
+    "payment_http": {
+      "PASS": 1
+    },
+    "returns": {
+      "PASS": 11
+    },
+    "return_races": {
+      "PASS": 3
+    },
+    "return_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 10
+    }
+  },
+  "actual_ids": {
+    "native": [
+      "P11_READ_DRAFT_CANCEL",
+      "P11_READ_NATIVE_LIFECYCLE",
+      "P11_READ_EXACT_CENTS",
+      "P11_READ_FINANCIAL_REDACTION",
+      "P11_READ_PRIVATE_READ_ONLY",
+      "P11_READ_COMPLETE_PAGES",
+      "P11_READ_QUERY_REFUSAL",
+      "P11_READ_EMPTY_MISSING"
+    ],
+    "http": [
+      "P11_READ_HTTP_CURRENT_AUTH"
+    ],
+    "commands": [
+      "P11_COMMAND_POST_ONCE",
+      "P11_COMMAND_CANCEL",
+      "P11_COMMAND_CHILD_REVIEW",
+      "P11_COMMAND_VERSION_STATUS",
+      "P11_COMMAND_REPLAY_AUTH",
+      "P11_COMMAND_PRIVATE_FIELDS"
+    ],
+    "command_races": [
+      "P11_COMMAND_RACE_POST_CANCEL",
+      "P11_COMMAND_RACE_REVOKE"
+    ],
+    "command_http": [
+      "P11_COMMAND_HTTP_AUTH"
+    ],
+    "drafts": [
+      "P11_DRAFT_MULTI_CREATE_EDIT_POST",
+      "P11_DRAFT_REPLAY",
+      "P11_DRAFT_INSUFFICIENT_EDIT",
+      "P11_DRAFT_EXACT_FIELDS",
+      "P11_DRAFT_SELECTORS",
+      "P11_DRAFT_MASTER_REFUSAL",
+      "P11_DRAFT_PERMISSIONS"
+    ],
+    "draft_races": [
+      "P11_DRAFT_RACE_AVAILABLE"
+    ],
+    "draft_http": [
+      "P11_DRAFT_HTTP"
+    ],
+    "payments": [
+      "P11_PAYMENT_EXACT_LIFECYCLE",
+      "P11_PAYMENT_REPLAY",
+      "P11_PAYMENT_FIELDS",
+      "P11_PAYMENT_SOURCE_CHANGE",
+      "P11_PAYMENT_PAGES",
+      "P11_PAYMENT_INACTIVE_BANK",
+      "P11_PAYMENT_PERMISSIONS",
+      "P11_PAYMENT_PRIVATE"
+    ],
+    "payment_races": [
+      "P11_PAYMENT_RACE_SAME_UUID",
+      "P11_PAYMENT_RACE_COMPETING",
+      "P11_PAYMENT_RACE_REVOKE"
+    ],
+    "payment_http": [
+      "P11_PAYMENT_HTTP"
+    ],
+    "returns": [
+      "P11_RETURN_LIFECYCLE",
+      "P11_RETURN_SPLIT_GRADES",
+      "P11_RETURN_ALLOCATION_CAP",
+      "P11_RETURN_FIELDS",
+      "P11_RETURN_PAID_REFUSAL",
+      "P11_RETURN_DATE_LOCATION",
+      "P11_RETURN_REPLAY",
+      "P11_RETURN_SOURCE_CHANGE",
+      "P11_RETURN_PERMISSIONS",
+      "P11_RETURN_PAGES",
+      "P11_RETURN_CONSUMED"
+    ],
+    "return_races": [
+      "P11_RETURN_RACE_CAPACITY",
+      "P11_RETURN_RACE_CASH",
+      "P11_RETURN_RACE_REVOKE"
+    ],
+    "return_http": [
+      "P11_RETURN_HTTP"
+    ],
+    "browser": [
+      "P11_READ_BROWSER_DESKTOP",
+      "P11_READ_BROWSER_MOBILE_OPERATIONS",
+      "P11_COMMAND_BROWSER_DESKTOP",
+      "P11_COMMAND_BROWSER_MOBILE_RECOVERY",
+      "P11_DRAFT_BROWSER_DESKTOP",
+      "P11_DRAFT_BROWSER_MOBILE_RECOVERY",
+      "P11_PAYMENT_BROWSER_DESKTOP",
+      "P11_PAYMENT_BROWSER_MOBILE_RECOVERY",
+      "P11_RETURN_BROWSER_R10_DESKTOP_A",
+      "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY"
+    ]
+  },
+  "full_raw_public_catalog_snapshots": 90,
+  "native_public_catalog_comparisons": {
+    "native": {
+      "raw_snapshot_count": 18,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "commands": {
+      "raw_snapshot_count": 14,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "drafts": {
+      "raw_snapshot_count": 16,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "payments": {
+      "raw_snapshot_count": 18,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "returns": {
+      "raw_snapshot_count": 24,
+      "every_original_signature_hash_member_relation_and_row_compared": true,
+      "dropped_fields": [],
+      "read_only_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    }
+  },
+  "source_bundle_sha256": "70d214afb62660ecd73bbf92a838cc4ff2921f023928df47661b6602247265b6",
+  "manifest_sha256": "82ecb85996df322456af48328a501f8405d0c17df0b12bd4cb2dac72e781c147",
+  "provider_sha256": {
+    "native": "c76d05c381f712d50e61ab1d8efa367981e7619a842581fecc21a73ed9b6e185",
+    "http": "c76d05c381f712d50e61ab1d8efa367981e7619a842581fecc21a73ed9b6e185",
+    "commands": "9d3525afa2326a5f42166d6425bb92facda7205578fbab581bc4ad1a1c5243da",
+    "command_races": "9d3525afa2326a5f42166d6425bb92facda7205578fbab581bc4ad1a1c5243da",
+    "command_http": "9d3525afa2326a5f42166d6425bb92facda7205578fbab581bc4ad1a1c5243da",
+    "drafts": "9795a983aaeeae20793b6b7741d18a4486ac05193af97776882ce8014c2a84f4",
+    "draft_races": "9795a983aaeeae20793b6b7741d18a4486ac05193af97776882ce8014c2a84f4",
+    "draft_http": "9795a983aaeeae20793b6b7741d18a4486ac05193af97776882ce8014c2a84f4",
+    "payments": "a28bdaa916775ccfe14e5eb1bb492ec94d0b2b614169141d60f73e06cd575786",
+    "payment_races": "a28bdaa916775ccfe14e5eb1bb492ec94d0b2b614169141d60f73e06cd575786",
+    "payment_http": "a28bdaa916775ccfe14e5eb1bb492ec94d0b2b614169141d60f73e06cd575786",
+    "returns": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360",
+    "return_races": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360",
+    "return_http": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360",
+    "browser": "9748a323a1065ae71ce1b6b194ff03aa15e3cd7bd41f6d1b491c46bcde93a8a0"
+  },
+  "retained_probe_sha256": {
+    "cp7_p11_sales_probe.py": "25831bae638b3ea847b2b7702f8b7423096e17f72484fff1de96f771df7b91e6"
+  },
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "crc32": "a2b4de5a"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+      "crc32": "046ee9c1"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385623,
+      "sha256": "7cba252540c91c19ebabf9c472ddaa51229a3f99a66632c6e0b157fd4c856abd",
+      "crc32": "4682e700"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+      "crc32": "3c2aa92b"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385623,
+      "sha256": "7cba252540c91c19ebabf9c472ddaa51229a3f99a66632c6e0b157fd4c856abd",
+      "crc32": "4682e700"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "424663b59339b0a75ab26b9428ba70472d36a3760afe42f1b6be693e62075234",
+      "crc32": "0eef89fc"
+    },
+    {
+      "name": "CP7_F03_FULL_P11.json",
+      "bytes": 2475281,
+      "sha256": "cdaa48cb14b798fb7d0e821308fad78f47ed8bb0c951f4e5df2ede6f003579e1",
+      "crc32": "5e766090"
+    },
+    {
+      "name": "P11_COMMAND_DESKTOP.png",
+      "bytes": 652488,
+      "sha256": "f34f0a343a4e0ef0a25e46c871b98962e72a9bb52676bf8abfd5770c91609ac7",
+      "crc32": "d84c7d08"
+    },
+    {
+      "name": "P11_COMMAND_MOBILE.png",
+      "bytes": 543150,
+      "sha256": "e2c6e559c3b58d62693d6fcafe8f2671a7be83e0747f2e300d6aa7ceff50fbd6",
+      "crc32": "c7d8f554"
+    },
+    {
+      "name": "P11_DEPENDENCIES_DESKTOP.png",
+      "bytes": 924227,
+      "sha256": "3f86899944545a098464aec5ae07494bc4991b8ba02f9320baa32146ab2c455d",
+      "crc32": "c012a0b8"
+    },
+    {
+      "name": "P11_DEPENDENCIES_MOBILE.png",
+      "bytes": 640246,
+      "sha256": "b3f48a8b51618be3c3b7e3e8b5bcaece02713fb07b9c3c0b72fc9d581ae64f79",
+      "crc32": "1002c46e"
+    },
+    {
+      "name": "P11_DRAFT_DESKTOP.png",
+      "bytes": 1132468,
+      "sha256": "67609b3b9fa056683be5bee6c667e64013510a6fe3241fbc34f7f330c384dd4a",
+      "crc32": "353cad84"
+    },
+    {
+      "name": "P11_DRAFT_MOBILE.png",
+      "bytes": 853038,
+      "sha256": "b1f531aa0d2d9a6f18e12e3841b8eff92b792576a9d9aec6339f1a2a9cd6d047",
+      "crc32": "9a80e32c"
+    },
+    {
+      "name": "P11_PAYMENT_DESKTOP.png",
+      "bytes": 1178447,
+      "sha256": "e12ea365c42d87ac78817c9de861730e1e9c9282b19fb53f5c59e28746bd6ef6",
+      "crc32": "df1c5fa0"
+    },
+    {
+      "name": "P11_PAYMENT_MOBILE.png",
+      "bytes": 963279,
+      "sha256": "c17e3ec88a622d6b1afb0084f3bd6a76980ffefbb4b1f717a122130f7e6c0f71",
+      "crc32": "f8153c9d"
+    },
+    {
+      "name": "P11_READ_DESKTOP.png",
+      "bytes": 771342,
+      "sha256": "accfd8e0c55a4ecdef85995fc32f91ed29d60a8388c85c9156f96a6ee0607ff3",
+      "crc32": "e9cc697b"
+    },
+    {
+      "name": "P11_READ_MOBILE.png",
+      "bytes": 280744,
+      "sha256": "71bc4f44d97240ef25cdaec29c4271131b636b5178ec7e7836d9e977de65969d",
+      "crc32": "2d73f33a"
+    },
+    {
+      "name": "P11_RETURN_DESKTOP.png",
+      "bytes": 1402125,
+      "sha256": "acbda1ead721f7a7e00247f015851af4340e0001540ebdb6294eda58580fa451",
+      "crc32": "33c6656a"
+    },
+    {
+      "name": "P11_RETURN_MOBILE.png",
+      "bytes": 1143101,
+      "sha256": "309ad64f2f9c3d6b8c7d143ff1bd671f93440c27b5f274eafe3e9737c806c549",
+      "crc32": "af52fecf"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "0ecfd176d85d9bcc5f78aae7876d947e7864f797ad67110491dd52d6f0e9c29b",
+      "crc32": "c34c79de"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "crc32": "cfb01269"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360416,
+      "sha256": "8746a37306ea38d823a0004b3a389c2b4ef15cbe9f723d451c5c9bb8f4e26837",
+      "crc32": "132a870b"
+    }
+  ],
+  "all_original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F03_FULL_P11.json": {
+      "bytes": 2475281,
+      "sha256": "cdaa48cb14b798fb7d0e821308fad78f47ed8bb0c951f4e5df2ede6f003579e1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "0ecfd176d85d9bcc5f78aae7876d947e7864f797ad67110491dd52d6f0e9c29b"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "8746a37306ea38d823a0004b3a389c2b4ef15cbe9f723d451c5c9bb8f4e26837"
+    }
+  },
+  "full_original_job_log_sha256": "c8dccf00b9ae44ad9652ec6fcce66edfed24451bf8f14a44d0f7ac81c03e4854",
+  "Original_png_members_in_reusable_original_file": [
+    "P11_COMMAND_DESKTOP.png",
+    "P11_COMMAND_MOBILE.png",
+    "P11_DEPENDENCIES_DESKTOP.png",
+    "P11_DEPENDENCIES_MOBILE.png",
+    "P11_DRAFT_DESKTOP.png",
+    "P11_DRAFT_MOBILE.png",
+    "P11_PAYMENT_DESKTOP.png",
+    "P11_PAYMENT_MOBILE.png",
+    "P11_READ_DESKTOP.png",
+    "P11_READ_MOBILE.png",
+    "P11_RETURN_DESKTOP.png",
+    "P11_RETURN_MOBILE.png"
+  ],
+  "PNG_copies_in_this_directory": [],
+  "fresh_whole_product_pixel_acceptance": false,
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

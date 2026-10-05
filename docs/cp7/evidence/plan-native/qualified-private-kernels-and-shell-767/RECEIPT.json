@@ -1,0 +1,117 @@
+{
+  "contract": "cp7.source-bound-private-kernel-and-shell-Original.v1",
+  "status": "SHELL_BUILD_SECURITY_NATIVE_PRIVATE_KERNELS_BROWSER6_AND_TWO_CODEQL_PASS",
+  "source_commit": "767c35f14fa88a52d03053f843492258be56df72",
+  "source_tree": "d2977d098c3f36ef38352e264eae4d86d293ed16",
+  "run_id": 37294145417,
+  "shell_job_id": 111711290943,
+  "private_kernel_cases": {
+    "f04-private-kernels.json": 138,
+    "history-availability-parity.json": 28,
+    "material-pool.json": 12
+  },
+  "unit_test_files": 158,
+  "unit_tests": 1522,
+  "synthetic_browser_cases": 6,
+  "synthetic_browser_unexpected": 0,
+  "synthetic_browser_flaky": 0,
+  "synthetic_browser_skipped": 0,
+  "artifacts": {
+    "shell": {
+      "artifact_id": 11338305989,
+      "bytes": 493848,
+      "sha256": "ef2b498b7ca2ddbd5d67e25b8c57f76b435152dc7aa935da34d91e9e44b0ce50",
+      "CRC": "PASS",
+      "all_members": [
+        {
+          "name": "desktop-planner.png",
+          "bytes": 130883,
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8",
+          "crc32": "3656a87f"
+        },
+        {
+          "name": "f04-private-kernels.json",
+          "bytes": 53270,
+          "sha256": "7838053f4fd1aa9717285e2166c3f4fd7df31f635dfe8715bbdaafc50ea4b804",
+          "crc32": "ffaa951e"
+        },
+        {
+          "name": "history-availability-parity.json",
+          "bytes": 5502,
+          "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4",
+          "crc32": "f188678c"
+        },
+        {
+          "name": "material-pool.json",
+          "bytes": 8612,
+          "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6",
+          "crc32": "0e3479ee"
+        },
+        {
+          "name": "mobile-planner.png",
+          "bytes": 382780,
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06",
+          "crc32": "294dfa75"
+        },
+        {
+          "name": "results.json",
+          "bytes": 12307,
+          "sha256": "0d382b6e376b123d6f9f075317fdc7d23605163cc4eb741a691206805d1cc653",
+          "crc32": "bada7afe"
+        }
+      ]
+    },
+    "actions": {
+      "artifact_id": 11338630009,
+      "bytes": 52640,
+      "sha256": "cf2618ffd346238ea0884bcbeb6a1c760bbf39e9fd2f3d3fc6e955e713ac92da",
+      "CRC": "PASS",
+      "all_members": [
+        {
+          "name": "actions.sarif",
+          "bytes": 727890,
+          "sha256": "c3d3933c9c30757d169144dc8b0e60c8807af234602fecbe40bcbff4f96bfd1c",
+          "crc32": "6e81b11d"
+        }
+      ]
+    },
+    "javascript-typescript": {
+      "artifact_id": 11338361322,
+      "bytes": 122713,
+      "sha256": "9aa2ea8b5bfbd488208e3bdee639f79d2dffa8955c29057a95d7f9fa8d46bbf9",
+      "CRC": "PASS",
+      "all_members": [
+        {
+          "name": "javascript.sarif",
+          "bytes": 1354443,
+          "sha256": "6d6bac7a7d53b9d1ec9b1fc709037f87f3c82c49f091ed9d6085ca55824fcd9b",
+          "crc32": "9235d1d6"
+        }
+      ]
+    }
+  },
+  "CodeQL": {
+    "actions": {
+      "results": 0,
+      "invocations_successful": true
+    },
+    "javascript-typescript": {
+      "results": 0,
+      "invocations_successful": true
+    }
+  },
+  "screenshots": [
+    "desktop-planner.png",
+    "mobile-planner.png"
+  ],
+  "full_original_job_log_sha256": "a87030f633cd8c1bb6d22b17b4e9f0f9fabdaec87d8ddcf6864baab0ea4f7f33",
+  "Native_business_case_credit": 0,
+  "Auth_HTTP_credit": 0,
+  "browser_Native_credit": 0,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

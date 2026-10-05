@@ -11,6 +11,7 @@ import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
+from cp7_catalog_state import exact_public_catalog
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_F04_NATIVE_BASELINE.json'
 
 def verify(cur):
@@ -42,7 +43,12 @@ def run():
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_F04_BASELINE',history_cases.cases,verify)
+  # Keep every original public catalog/row field and signature/hash pair.
+  # The frozen reader's jsonb_agg ORDER BY 1 does not order those pairs; bind
+  # the existing exact comparator only around this CP7 qualification group.
+  with exact_public_catalog(native)as catalog_audit:
+   report['native']=native.strict_group('CP7_F04_BASELINE',history_cases.cases,verify)
+  report['native_public_catalog_comparison']=catalog_audit
   report['races']=modes.run_races(history_cases,verify,'cp7_f04_baseline')
   report['http']=modes.run_http(history_cases,verify,'cp7_f04_baseline')
   # Keep port ownership evidence before opening the native browser host.

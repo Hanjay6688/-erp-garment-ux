@@ -1,0 +1,1307 @@
+{
+  "contract": "cp7.claude-merge-verification.v1",
+  "status": "MERGED_DECLARED_PACKAGES_WRITER_QUALIFIED",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "integration_before": "40c4127c7997d31d9ba2730ada0826268314c62e",
+  "claude_handoff": "f4049e4f7e0c9d436cce1147ce45d6760ab1d6f8",
+  "final_business_source": "19ff70ee4e2ca9100d7697eda12263c5f36968ff",
+  "initial_qualification_source": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+  "initial_tree": "7bf1e8c8ff7a4dc00e146c5bcb4b38b5aada269b",
+  "final_harness_source": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+  "final_harness_tree": "4afeec237f3572844e35f784313ca82bd4f7df21",
+  "application_sql_business_cases_identical_to_claude_final": true,
+  "initial_qualification_counts": {
+    "success": 50,
+    "failure": 1
+  },
+  "initial_failure": {
+    "run_id": 37099281973,
+    "original": "planner-original-incomplete2/RECEIPT.json",
+    "writer_runtime_gate": false,
+    "exact_original_raw_mismatch_cause": "UNPROVEN_RAW_PAIR_NOT_RECORDED",
+    "qualified_successor_run": 37099939343
+  },
+  "initial_runs": [
+    {
+      "id": 37099281910,
+      "name": "CP7 Completed Native Artifact Projection",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281910"
+    },
+    {
+      "id": 37099281915,
+      "name": "CP7 F03 P13 Retained Regression",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281915"
+    },
+    {
+      "id": 37099282055,
+      "name": "CP7 F04 Native Selected Production Schedule",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282055"
+    },
+    {
+      "id": 37099281957,
+      "name": "CP7 F03 Combined Supplier Returns",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281957"
+    },
+    {
+      "id": 37099282045,
+      "name": "CP7 F04 Native Cutting Observations",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282045"
+    },
+    {
+      "id": 37099282084,
+      "name": "CP7 P11 Sales",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282084"
+    },
+    {
+      "id": 37099282039,
+      "name": "CP7 F03 Supplier Current Authority",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282039"
+    },
+    {
+      "id": 37099281917,
+      "name": "CP7 F04 Native Product Bound Netting",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281917"
+    },
+    {
+      "id": 37099281965,
+      "name": "CP7 P13 HPP recost",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281965"
+    },
+    {
+      "id": 37099281949,
+      "name": "CP7 P13 Finance",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281949"
+    },
+    {
+      "id": 37099282073,
+      "name": "CP7 P10 Finished goods",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282073"
+    },
+    {
+      "id": 37099282046,
+      "name": "CP7 F04 Prospective Cutting Inputs",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282046"
+    },
+    {
+      "id": 37099282128,
+      "name": "CP7 P12 Nota and payroll lifecycle",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282128"
+    },
+    {
+      "id": 37099282054,
+      "name": "CP7 F04 Native Model Evaluation",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282054"
+    },
+    {
+      "id": 37099281922,
+      "name": "CP7 P18 E01 Consumer Bridge",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281922"
+    },
+    {
+      "id": 37099282067,
+      "name": "CP7 F03 E01 Source Journey",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282067"
+    },
+    {
+      "id": 37099282061,
+      "name": "CP7 Note Command Diagnostic",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282061"
+    },
+    {
+      "id": 37099282044,
+      "name": "CP7 F03 E20 E14 Complete Stock Capacity",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282044"
+    },
+    {
+      "id": 37099281986,
+      "name": "CP7 P13 Finance Analysis",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281986"
+    },
+    {
+      "id": 37099282117,
+      "name": "CP7 F04 Native Demand History",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282117"
+    },
+    {
+      "id": 37099282088,
+      "name": "CP7 F03 Native Misc Finance",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282088"
+    },
+    {
+      "id": 37099282062,
+      "name": "CP7 F04 Global Native Production Supply",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282062"
+    },
+    {
+      "id": 37099282001,
+      "name": "CP7 Native Read Stage Diagnostic",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282001"
+    },
+    {
+      "id": 37099282109,
+      "name": "CP7 F03 X04 Paid Redye Continuation",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282109"
+    },
+    {
+      "id": 37099282111,
+      "name": "CP7 F04 Native Planning Draft Bridge",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282111"
+    },
+    {
+      "id": 37099282098,
+      "name": "CP7 Retain Existing Native Originals",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282098"
+    },
+    {
+      "id": 37099282201,
+      "name": "CP7 F03 E05 Payroll Installments",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282201"
+    },
+    {
+      "id": 37099282104,
+      "name": "CP7 F03 Cash and Native Finance Readers",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282104"
+    },
+    {
+      "id": 37099282075,
+      "name": "CP7 F04 Prospective Native Cutting Model and Consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282075"
+    },
+    {
+      "id": 37099282051,
+      "name": "CP7 P04 WIP kernels",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282051"
+    },
+    {
+      "id": 37099282033,
+      "name": "CP7 F04 Native Profile and Baseline Targets",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282033"
+    },
+    {
+      "id": 37099282113,
+      "name": "CP7 F03 E03 Customer Service",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282113"
+    },
+    {
+      "id": 37099282071,
+      "name": "CP7 P00 accepted-base catalogue",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282071"
+    },
+    {
+      "id": 37099282115,
+      "name": "CP7 P02 source capture probe",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282115"
+    },
+    {
+      "id": 37099281973,
+      "name": "CP7 F03 Native Reservation and Size Planner Seams",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281973"
+    },
+    {
+      "id": 37099281883,
+      "name": "CP7 F03 E06 Year-end Late Invoice",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281883"
+    },
+    {
+      "id": 37099282021,
+      "name": "CP7 P12 Nota source",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282021"
+    },
+    {
+      "id": 37099281927,
+      "name": "CP7 Shell S0",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281927"
+    },
+    {
+      "id": 37099281905,
+      "name": "CP7 F03 Required Cost Continuations",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281905"
+    },
+    {
+      "id": 37099282085,
+      "name": "CP7 F03 X04 Source Versions",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282085"
+    },
+    {
+      "id": 37099282042,
+      "name": "CP7 P02 actor facade",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282042"
+    },
+    {
+      "id": 37099282097,
+      "name": "CP7 F03 E24 Material Issue",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282097"
+    },
+    {
+      "id": 37099281994,
+      "name": "CP7 F03 Combined Stack",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099281994"
+    },
+    {
+      "id": 37099282030,
+      "name": "CP7 Owning Receipt Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282030"
+    },
+    {
+      "id": 37099282083,
+      "name": "CP7 P13 Period control",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282083"
+    },
+    {
+      "id": 37099282093,
+      "name": "CP7 P03 production policy",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282093"
+    },
+    {
+      "id": 37099282108,
+      "name": "CP7 F05 Native Frozen Analysis",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282108"
+    },
+    {
+      "id": 37099282096,
+      "name": "CP7 P09 Procurement",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282096"
+    },
+    {
+      "id": 37099282091,
+      "name": "CP7 F03 Full Retained Components",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282091"
+    },
+    {
+      "id": 37099282107,
+      "name": "CP7 Owning Historical Note Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282107"
+    },
+    {
+      "id": 37099282094,
+      "name": "CP7 F05 Native Durable Attention",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099282094"
+    }
+  ],
+  "final_harness_runs": [
+    {
+      "id": 37099939313,
+      "name": "CP7 Shell S0",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099939313"
+    },
+    {
+      "id": 37099939343,
+      "name": "CP7 F03 Native Reservation and Size Planner Seams",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099939343"
+    },
+    {
+      "id": 37099939323,
+      "name": "CP7 F04 Native Product Bound Netting",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099939323"
+    },
+    {
+      "id": 37099939362,
+      "name": "CP7 F05 Native Frozen Analysis",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099939362"
+    },
+    {
+      "id": 37099939383,
+      "name": "CP7 F05 Native Durable Attention",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37099939383"
+    }
+  ],
+  "verified_initial_successful_child_jobs": {
+    "37099281910": {
+      "workflow": "CP7 Completed Native Artifact Projection",
+      "run_id": 37099281910,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455455,
+          "name": "retain",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282071": {
+      "workflow": "CP7 P00 accepted-base catalogue",
+      "run_id": 37099282071,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456347,
+          "name": "P00 catalogue on accepted 30-file CP6 package",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282115": {
+      "workflow": "CP7 P02 source capture probe",
+      "run_id": 37099282115,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456224,
+          "name": "P02 diagnostic read on accepted 30-file CP6 package",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281883": {
+      "workflow": "CP7 F03 E06 Year-end Late Invoice",
+      "run_id": 37099281883,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455276,
+          "name": "E06 year-end invoice, immutable filing and close race",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282021": {
+      "workflow": "CP7 P12 Nota source",
+      "run_id": 37099282021,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455658,
+          "name": "P12 native Nota source",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281927": {
+      "workflow": "CP7 Shell S0",
+      "run_id": 37099281927,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455598,
+          "name": "shell",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135455743,
+          "name": "CP7 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135455759,
+          "name": "CP7 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281905": {
+      "workflow": "CP7 F03 Required Cost Continuations",
+      "run_id": 37099281905,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455433,
+          "name": "O18 pocket report, E07 and selected E04 cost continuations",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282085": {
+      "workflow": "CP7 F03 X04 Source Versions",
+      "run_id": 37099282085,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456118,
+          "name": "X04 source versions through FG cards and financial reports",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282042": {
+      "workflow": "CP7 P02 actor facade",
+      "run_id": 37099282042,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455562,
+          "name": "P02 actor, immutable run, race and real Auth family",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282097": {
+      "workflow": "CP7 F03 E24 Material Issue",
+      "run_id": 37099282097,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456057,
+          "name": "E24 receipt, transferred accessory notes and late invoice",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281994": {
+      "workflow": "CP7 F03 Combined Stack",
+      "run_id": 37099281994,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455937,
+          "name": "F03 combined installation, ledger and selected connected regression",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282030": {
+      "workflow": "CP7 Owning Receipt Correction",
+      "run_id": 37099282030,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455813,
+          "name": "Receipt correction / Native stock cost HPP AP journal",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282083": {
+      "workflow": "CP7 P13 Period control",
+      "run_id": 37099282083,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456096,
+          "name": "P13 reviewed period control and dated report regression",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282093": {
+      "workflow": "CP7 P03 production policy",
+      "run_id": 37099282093,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456205,
+          "name": "P03 production policy, atomic bulk and real Auth family",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281915": {
+      "workflow": "CP7 F03 P13 Retained Regression",
+      "run_id": 37099281915,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455316,
+          "name": "Full F03 stack / P13 retained50",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282055": {
+      "workflow": "CP7 F04 Native Selected Production Schedule",
+      "run_id": 37099282055,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456009,
+          "name": "Native selected calendar, yield, remaining work and shared capacity",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281957": {
+      "workflow": "CP7 F03 Combined Supplier Returns",
+      "run_id": 37099281957,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455588,
+          "name": "Complete supplier return native, races and real Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282045": {
+      "workflow": "CP7 F04 Native Cutting Observations",
+      "run_id": 37099282045,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455790,
+          "name": "Native prospective cutting input, current source and immutable recovery",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282084": {
+      "workflow": "CP7 P11 Sales",
+      "run_id": 37099282084,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456027,
+          "name": "P11 native invoice reader and draft transitions",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282039": {
+      "workflow": "CP7 F03 Supplier Current Authority",
+      "run_id": 37099282039,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455795,
+          "name": "Native supplier authority / supplier_authority",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281917": {
+      "workflow": "CP7 F04 Native Product Bound Netting",
+      "run_id": 37099281917,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455311,
+          "name": "Native binding, dated netting and one global existing-supply allocation",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281965": {
+      "workflow": "CP7 P13 HPP recost",
+      "run_id": 37099281965,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455481,
+          "name": "P13 native HPP recost and dated report regression",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281949": {
+      "workflow": "CP7 P13 Finance",
+      "run_id": 37099281949,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456040,
+          "name": "P13 native dated report and immutable archive reader",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282073": {
+      "workflow": "CP7 P10 Finished goods",
+      "run_id": 37099282073,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456130,
+          "name": "P10 native FG source and connected ledger",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282046": {
+      "workflow": "CP7 F04 Prospective Cutting Inputs",
+      "run_id": 37099282046,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455908,
+          "name": "Native prospective cutting input, current source and immutable recovery",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282104": {
+      "workflow": "CP7 F03 Cash and Native Finance Readers",
+      "run_id": 37099282104,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456209,
+          "name": "Native financial readers and complete journal sources",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282128": {
+      "workflow": "CP7 P12 Nota and payroll lifecycle",
+      "run_id": 37099282128,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456298,
+          "name": "P12 selected Nota and native payroll lifecycle",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282054": {
+      "workflow": "CP7 F04 Native Model Evaluation",
+      "run_id": 37099282054,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456043,
+          "name": "Native own snapshots, registry knowledge, rolling models and current Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281922": {
+      "workflow": "CP7 P18 E01 Consumer Bridge",
+      "run_id": 37099281922,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455692,
+          "name": "Native E01 source through original analysis, report, obligations and current Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282067": {
+      "workflow": "CP7 F03 E01 Source Journey",
+      "run_id": 37099282067,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456189,
+          "name": "E01 sixty GOOD from raw receipt through cash and return",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282061": {
+      "workflow": "CP7 Note Command Diagnostic",
+      "run_id": 37099282061,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456024,
+          "name": "Actual command timing and exact rollback / zero Native40 exit credit",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282044": {
+      "workflow": "CP7 F03 E20 E14 Complete Stock Capacity",
+      "run_id": 37099282044,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455888,
+          "name": "E20 E14 complete FG pages through public sale and current access",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099281986": {
+      "workflow": "CP7 P13 Finance Analysis",
+      "run_id": 37099281986,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455752,
+          "name": "P13 native period comparison and cash ledger",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282117": {
+      "workflow": "CP7 F04 Native Demand History",
+      "run_id": 37099282117,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456420,
+          "name": "Native global sales history, draft stock once and immutable captures",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282088": {
+      "workflow": "CP7 F03 Native Misc Finance",
+      "run_id": 37099282088,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456365,
+          "name": "Native misc finance lifecycle, races and lost reply recovery",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282062": {
+      "workflow": "CP7 F04 Global Native Production Supply",
+      "run_id": 37099282062,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455762,
+          "name": "Global production origins, one conserved WIP graph, targets and current authority",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282001": {
+      "workflow": "CP7 Native Read Stage Diagnostic",
+      "run_id": 37099282001,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456061,
+          "name": "Actual Native read timings with unchanged product and exact restore",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282109": {
+      "workflow": "CP7 F03 X04 Paid Redye Continuation",
+      "run_id": 37099282109,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456341,
+          "name": "X04 original redye price and grouping through CP7 stock and finance",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282111": {
+      "workflow": "CP7 F04 Native Planning Draft Bridge",
+      "run_id": 37099282111,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456278,
+          "name": "Native draft, atomic intent, cross-actor target locks and recovery",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282098": {
+      "workflow": "CP7 Retain Existing Native Originals",
+      "run_id": 37099282098,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456233,
+          "name": "Read-only exact existing Originals / zero new case credit (f05-34d7-qualified284)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456338,
+          "name": "Read-only exact existing Originals / zero new case credit (f05-e873-incomplete284)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456346,
+          "name": "Read-only exact existing Originals / zero new case credit (f05-15aca-qualified284)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456373,
+          "name": "Read-only exact existing Originals / zero new case credit (f05-9cc70-qualified284)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456421,
+          "name": "Read-only exact existing Originals / zero new case credit (f05-6127-qualified284)",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282201": {
+      "workflow": "CP7 F03 E05 Payroll Installments",
+      "run_id": 37099282201,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456312,
+          "name": "Native immutable approved payroll installments, races and recovery",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282075": {
+      "workflow": "CP7 F04 Prospective Native Cutting Model and Consumer",
+      "run_id": 37099282075,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455859,
+          "name": "Native prospective policy, independent cutting batches and immutable model",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282051": {
+      "workflow": "CP7 P04 WIP kernels",
+      "run_id": 37099282051,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135455747,
+          "name": "P04 native conservation, matching and remaining timeline",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282033": {
+      "workflow": "CP7 F04 Native Profile and Baseline Targets",
+      "run_id": 37099282033,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456039,
+          "name": "Native history, selected profiles, immutable targets and current authority",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282113": {
+      "workflow": "CP7 F03 E03 Customer Service",
+      "run_id": 37099282113,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456350,
+          "name": "E03 customer custody, accessory cost and ownership separation",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282091": {
+      "workflow": "CP7 F03 Full Retained Components",
+      "run_id": 37099282091,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456443,
+          "name": "Full F03 stack / cash_installments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456512,
+          "name": "Full F03 stack / p13",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456554,
+          "name": "Full F03 stack / p11",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456558,
+          "name": "Full F03 stack / p10",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456565,
+          "name": "Full F03 stack / p09",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456573,
+          "name": "Full F03 stack / p12",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456580,
+          "name": "Full F03 stack / supplier_credit",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111135456630,
+          "name": "Full F03 stack / customer_refund",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282108": {
+      "workflow": "CP7 F05 Native Frozen Analysis",
+      "run_id": 37099282108,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456358,
+          "name": "Frozen analysis.v2 compiler, original archives and current Native Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282096": {
+      "workflow": "CP7 P09 Procurement",
+      "run_id": 37099282096,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456064,
+          "name": "P09 native receipt, value, replay and current access",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282107": {
+      "workflow": "CP7 Owning Historical Note Correction",
+      "run_id": 37099282107,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456171,
+          "name": "Nota correction / Native stock AR cash journal HPP",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099282094": {
+      "workflow": "CP7 F05 Native Durable Attention",
+      "run_id": 37099282094,
+      "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+      "jobs": [
+        {
+          "id": 111135456231,
+          "name": "Original analysis, own-user Native reminders and current Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  },
+  "qualification_scope": "MERGED_SOURCE_AND_EXISTING_DECLARED_PACKAGES_NOT_FULL_CP7_OR_INDEPENDENT_ACCEPTANCE",
+  "overlapping_case_budgets_not_a_unique_sum": true,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "audit_complete": false,
+  "production_go": false,
+  "hosted_main_deployment_changed": false,
+  "final_harness_counts": {
+    "success": 5,
+    "failure": 0,
+    "pending": 0
+  },
+  "effective_required_packages_pass": 51,
+  "no_initial_failed_run_relabelled": true,
+  "final_attention_original_retention": {
+    "receipt": "attention-final-qualified284/RECEIPT.json",
+    "projection": "attention-final-qualified284/PROJECTION.json",
+    "source_run_id": 37099939383,
+    "projection_run_id": 37102637502,
+    "projection_new_execution_case_credit": 0
+  },
+  "verified_final_successful_child_jobs": {
+    "37099939313": {
+      "workflow": "CP7 Shell S0",
+      "run_id": 37099939313,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137476802,
+          "name": "shell",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111137476884,
+          "name": "CP7 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 111137476937,
+          "name": "CP7 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099939343": {
+      "workflow": "CP7 F03 Native Reservation and Size Planner Seams",
+      "run_id": 37099939343,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137336052,
+          "name": "O06 reservation once and O07 same-SKU size arithmetic",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099939323": {
+      "workflow": "CP7 F04 Native Product Bound Netting",
+      "run_id": 37099939323,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137335853,
+          "name": "Native binding, dated netting and one global existing-supply allocation",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099939362": {
+      "workflow": "CP7 F05 Native Frozen Analysis",
+      "run_id": 37099939362,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137335826,
+          "name": "Frozen analysis.v2 compiler, original archives and current Native Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    "37099939383": {
+      "workflow": "CP7 F05 Native Durable Attention",
+      "run_id": 37099939383,
+      "source_commit": "0642d1bcd6df09505be7ea6d030c61a585722c04",
+      "jobs": [
+        {
+          "id": 111137335934,
+          "name": "Original analysis, own-user Native reminders and current Auth",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  },
+  "checkpoint_before_final_evidence": "b5e59f5f67f650b3d49a33d7d66597104fa7e608"
+}

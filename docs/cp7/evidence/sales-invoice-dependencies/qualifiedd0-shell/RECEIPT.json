@@ -1,0 +1,98 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_SHELL_WRITER_QUALIFIED_NOT_FULL_CP7",
+  "status": "PASS",
+  "source_commit": "d0b41469a131bf03a4e39de2a728f4ecf42278df",
+  "source_tree": "93769ad2e396d51ded14cdfe7d22867f90ccc21d",
+  "run_id": 37160834867,
+  "job_id": 111313742577,
+  "artifact_id": 11287459239,
+  "artifact_bytes": 491518,
+  "artifact_sha256": "65c9ee0046b17116e91b1cd464ba6316584e59c2224ae99c3d93e09607145217",
+  "archive_members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53274,
+      "sha256": "4c57a64e5ea2046d46022e1f02136961d88517d06996f145aa1cd5dfcfa23d02"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "results.json": {
+      "bytes": 12208,
+      "sha256": "3aa4a824dbcb31428f7f93a80f62ed5eda9a0783c4fba0a3a1fc4c21c0bf1011"
+    }
+  },
+  "root_reports": {
+    "f04-private-kernels.json": {
+      "file": "docs/cp7/evidence/sales-invoice-dependencies/qualifiedd0-shell/f04-private-kernels.json.gz",
+      "raw_bytes": 53274,
+      "raw_sha256": "4c57a64e5ea2046d46022e1f02136961d88517d06996f145aa1cd5dfcfa23d02",
+      "gzip_bytes": 6845,
+      "gzip_sha256": "5afb1006965ebc8c92d260ad860a448147933fb770b95159196ab53de8b37d02"
+    },
+    "results.json": {
+      "file": "docs/cp7/evidence/sales-invoice-dependencies/qualifiedd0-shell/results.json.gz",
+      "raw_bytes": 12208,
+      "raw_sha256": "3aa4a824dbcb31428f7f93a80f62ed5eda9a0783c4fba0a3a1fc4c21c0bf1011",
+      "gzip_bytes": 1781,
+      "gzip_sha256": "2630be8a0da962737a99b2e89cd83edeb5c25b7d34dd4334fc986cddef0b5163"
+    }
+  },
+  "original_CI_log": {
+    "file": "docs/cp7/evidence/sales-invoice-dependencies/qualifiedd0-shell/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 173796,
+    "raw_sha256": "f5f42dec5795e8019bccb5e67fed6ed797f88cf1565e19b23cd2669998f8fc9d",
+    "gzip_bytes": 34424,
+    "gzip_sha256": "ec76e5cd92db173607ab84e16cb000f8ba9a212a955ffc43766c1c312dcfa47f"
+  },
+  "application_tests": 1436,
+  "application_test_files": 149,
+  "actual_shell_browsers": 6,
+  "build_and_security": "PASS",
+  "runtime_source_files": 258,
+  "owned_RPC_boundaries": 189,
+  "stylesheets": 53,
+  "orphan_or_direct_browser_table_access": false,
+  "both_CodeQL": {
+    "cp7-codeql-actions": {
+      "artifact_id": 11287653743,
+      "archive_bytes": 51487,
+      "archive_sha256": "5e1e378c97271270825897d5fac86dcfe53a94df325126d61b28c12a2c36f960",
+      "member": "actions.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/sales-invoice-dependencies/qualifiedd0-shell/cp7-codeql-actions.sarif.gz",
+        "raw_bytes": 705306,
+        "raw_sha256": "e39d742dcd5f54953d4573203092521479ebbfbf71d2c42d3d354197e440f7d0",
+        "gzip_bytes": 48679,
+        "gzip_sha256": "0698091bf68c7ea458ca1855daafe468a655c9fc94221ccc31bf9e002dd2f85e"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    },
+    "cp7-codeql-javascript-typescript": {
+      "artifact_id": 11287219689,
+      "archive_bytes": 121236,
+      "archive_sha256": "8810dfb9ddb15d3304709704fb531407784ec3f3cd067172853323ca13a4e4bd",
+      "member": "javascript.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/sales-invoice-dependencies/qualifiedd0-shell/cp7-codeql-javascript-typescript.sarif.gz",
+        "raw_bytes": 1321871,
+        "raw_sha256": "9110b7e176d8b12df36f50dff905d7af0ce9f1f04ebe7e1faab1dc5e0375d72f",
+        "gzip_bytes": 118086,
+        "gzip_sha256": "5f357eb2f14bc393a17b6809d20be08ad5a083f78b089b3857321b05c29c87e0"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    }
+  },
+  "private_kernel_scope_only": true,
+  "private_kernel_cases": 138,
+  "first702_ownership_admission_failure_relabelled": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

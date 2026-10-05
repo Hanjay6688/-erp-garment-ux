@@ -1,0 +1,208 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_NATIVE22_WITH_ORIGINAL_AND_DECLARED_CROSS_DATE_CYCLES_WRITER_QUALIFIED",
+  "status": "PASS",
+  "source_commit": "48ed89dfd02fd4588dfabc45861fd0abd5d47d62",
+  "source_tree": "383da40ceb698f84a61160bf463d4bc0541a82ca",
+  "source_bundle_sha256": "59d1ebf6ed44a4b4475515ee54e671362a9118233b9d28a5cf90f2413593c2d5",
+  "provider_sha256": "1c40e03eb015cb15bef5cf0b4bd7fa1df36ac7cd9f05f6ded5beb4aea86a95f9",
+  "run_id": 37143306007,
+  "job_id": 111262033814,
+  "artifact_id": 11281296857,
+  "artifact_bytes": 7061860,
+  "artifact_sha256": "49df31253b02d49c53b215d981fc061507ce993940a2bc55769fc623f7b68d31",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "ca9f44e1c2bfad775e7eafaff8b9d5453945a417f8f8dd47ed6abc330f45e36c"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "ca9f44e1c2bfad775e7eafaff8b9d5453945a417f8f8dd47ed6abc330f45e36c"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "acf8cdf283b2d3530b9dcd2212dde65ba842e7f3cba36d28307cfde4b822b191"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "bytes": 457193,
+      "sha256": "ae6f5e0ce860a582af0e838f0d4bcf48459ff031c407a9b7a4d2678189061037"
+    },
+    "P11_RETURN_DESKTOP.png": {
+      "bytes": 1192322,
+      "sha256": "48dd19c313b8bb43ce924b2ae911035e737e457ef3bbb5926b16099a20869aa9"
+    },
+    "P11_RETURN_MOBILE.png": {
+      "bytes": 801281,
+      "sha256": "b610769a0855a13d9973a775ea2727552726d3785c773264390952b2aca3de59"
+    },
+    "P12_OPENING_DESKTOP.png": {
+      "bytes": 649093,
+      "sha256": "dc297640b1f59253086b28d2a52e310722b12f07fe265c19fa2d43cec090e52b"
+    },
+    "P12_OPENING_MOBILE.png": {
+      "bytes": 422911,
+      "sha256": "bf2827b6e37b8406f6da83f527585584cf68c84f6229b4e73c65eebc4a360872"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1432110,
+      "sha256": "86743d24a7fa1f37439139f8d74734bdf81fac7247837846be7dd3a8649734ac"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1052135,
+      "sha256": "03036f194fe59999142cad40458a3ba3072ef8d601b65180d1b9cc06e7e89dd9"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "87754bc8e9a86b5461048bad0f982ba4995a11d816e24851f9e2e5c428e1e8ff"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360406,
+      "sha256": "a08711dbb389ac7eaa7253eb452a94e396629be7ffd67d663605da105c220d84"
+    }
+  },
+  "root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified48ed/combined/ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified48ed/combined/CP7_F03_COMBINED_STACK.json.gz",
+      "raw_bytes": 457193,
+      "raw_sha256": "ae6f5e0ce860a582af0e838f0d4bcf48459ff031c407a9b7a4d2678189061037",
+      "gzip_sha256": "aba48d53595c2293757c551afd6b5976bc0b799206698b9e0fea136e7565ea29"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified48ed/combined/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10524,
+      "raw_sha256": "87754bc8e9a86b5461048bad0f982ba4995a11d816e24851f9e2e5c428e1e8ff",
+      "gzip_sha256": "50c8752a0f9eb1b8e38056f5330be4862cf904be0c398b48ae191e134a8ad18d"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified48ed/combined/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified48ed/combined/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360406,
+      "raw_sha256": "a08711dbb389ac7eaa7253eb452a94e396629be7ffd67d663605da105c220d84",
+      "gzip_sha256": "34ae36abebf2c4ec5c9ad28741760798ef1aa8f052fd81f4202d61cc3fe5a375"
+    }
+  },
+  "full_original_log_raw_sha256": "d44452574f8b59c3b4bccefc211c088419768b05ff1604ca10a27df5e8c0e9f8",
+  "full_original_log_gzip_sha256": "0a59762c19a9ff381592cd714651c5240d0abc4fa919abb5fba25a52adad34b8",
+  "counts": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "sales_browser": {
+      "PASS": 2
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "finance_browser": {
+      "PASS": 2
+    }
+  },
+  "gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "all_two_cycles_raw_8_deltas_recomputed": {
+    "original": {
+      "all8_actual_raw_deltas": {
+        "financial_position.cash": "-6030.00",
+        "financial_position.customer_ar": "30.00",
+        "financial_position.fg_inventory": "-30.00",
+        "performance.sales_revenue_gl": "60.00",
+        "performance.cogs_gl": "30.00",
+        "performance.gross_profit": "30.00",
+        "performance.operating_and_other_expense": "5.00",
+        "performance.net_profit": "25.00"
+      },
+      "final_financial_and_performance_equal_before": true,
+      "basis": {
+        "period_to": "2026-10-04",
+        "period_from": "2026-10-04",
+        "balance_sheet_as_of": "2026-10-04",
+        "quality_event_basis": "CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF",
+        "supplier_exposure_basis": "CURRENT_OPERATIONAL_STATE",
+        "laundry_outstanding_basis": "IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE",
+        "performance_lifecycle_basis": "SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD",
+        "performance_reconciliation_basis": "OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL"
+      },
+      "actual_sale_physical": "2026-10-04T01:07:06.104317+07:00",
+      "actual_return_physical": "2026-10-04T01:17:06.492662+07:00"
+    },
+    "explicit_prior_day_Native_cycle": {
+      "all8_actual_raw_deltas": {
+        "financial_position.cash": "-6030.00",
+        "financial_position.customer_ar": "30.00",
+        "financial_position.fg_inventory": "-30.00",
+        "performance.sales_revenue_gl": "60.00",
+        "performance.cogs_gl": "30.00",
+        "performance.gross_profit": "30.00",
+        "performance.operating_and_other_expense": "5.00",
+        "performance.net_profit": "25.00"
+      },
+      "final_financial_and_performance_equal_before": true,
+      "basis": {
+        "period_to": "2026-10-04",
+        "period_from": "2026-10-03",
+        "balance_sheet_as_of": "2026-10-04",
+        "quality_event_basis": "CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF",
+        "supplier_exposure_basis": "CURRENT_OPERATIONAL_STATE",
+        "laundry_outstanding_basis": "IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE",
+        "performance_lifecycle_basis": "SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD",
+        "performance_reconciliation_basis": "OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL"
+      },
+      "actual_sale_physical": "2026-10-03T01:07:07.556480+07:00",
+      "actual_return_physical": "2026-10-04T01:17:08.319954+07:00"
+    }
+  },
+  "current_day_only_revenue_minus20_COGS_minus10_recomputed": true,
+  "Original_case_raw_sha256": "90aebbc5835d0ee93c695f5b69717457e88197f49055178ea57a011262c4c669",
+  "Original_case_gzip_sha256": "a8bb038ad0d099de158a1d3971b3549d85ad8aaf482a27480b5066b2b43be631",
+  "first_b5_and180e_failures_cancelled_or_relabelled": false,
+  "precise_b5_missing_dates_not_retroactively_proven": true,
+  "new_unique_case_credit_beyond_original22": 0,
+  "raw_PNGs_hash_pinned_to_archive_not_copied_or_visually_reviewed_this_source": true,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

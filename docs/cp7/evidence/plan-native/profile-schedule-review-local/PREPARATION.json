@@ -1,0 +1,66 @@
+{
+  "contract": "cp7.profile-and-schedule-source-review-with-toolbar-readability.v1",
+  "base_commit": "6a1939d8f42e4d96f375a8878fa766a6a683ece4",
+  "status": "LOCAL_BUILD_SECURITY_CHECKED_NATIVE39_AND_CUTTING19_REQUIRED",
+  "fixture_dependency": "Supply fingerprint includes complete profiles; selecting target one again requires public schedule review before fresh analysis.",
+  "review": "Reuse the existing Native-qualified material fixture review_schedule helper; preserve the full selected work config byte-for-byte and assert exactly one new schedule revision; capture fresh current recommendations and all assumption IDs afterwards.",
+  "preserved_work_fields": [
+    "resource_scope",
+    "work_centre_key",
+    "through_at",
+    "unit_minutes",
+    "windows",
+    "positions",
+    "eligible_input_pcs",
+    "yield_numerator",
+    "yield_denominator",
+    "remaining_steps"
+  ],
+  "shared_material_required_counts": {
+    "native": 25,
+    "races": 8,
+    "http": 2,
+    "browser": 4
+  },
+  "shared_material_required_cases": 39,
+  "cutting_reopen_required_cases": 19,
+  "cutting_reopen_required_counts": {
+    "native": 10,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "old_case_IDs_and_quantities_and_guards_preserved": true,
+  "Native_business_SQL_or_grants_changed": false,
+  "source_caps_changed": false,
+  "statement_timeouts_changed": false,
+  "local_browser_execution": "NOT_RUN_CHROMIUM_UNAVAILABLE; exact CSS computed styles and screenshots remain required from existing two actual Native browser cases",
+  "Native_business_case_credit": 0,
+  "Auth_HTTP_credit": 0,
+  "browser_credit": 0,
+  "source_sha256": {
+    "scripts/cp7_plan_native_cases.py": "b100e27912a570dc03722ae5bc62b4fe4ee3bfa62d5727aa260c3dca165c86ae",
+    "scripts/cp7_material_need_cases.py": "0137d28cee7890b143a8c4c7333466f375eb9d7168e7779bbba550af6f619a83",
+    "scripts/cp7-src/planning/supply-source.sql": "d36feeb7729a174cfcc2a23f6d8bb0c3d35bae44645d90517d92ed73dc342a08",
+    "scripts/cp7-src/planning/schedule.sql": "93ce18465667c763493f1b2643cc96f1013726424a208e10e36a9efda057762a",
+    "src/connected-pickup.css": "40f958bd2b83cbc7d1444a95056e01af8ae2445656682c5490e1b43398b2636e",
+    "scripts/cp7_cutting_correction_browser.mjs": "ee5d05a390e8e70485d935432a64014afcde2b861f58a1be2b4dd30887e19c2e"
+  },
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "security_exit": 0,
+  "security_full_log": {
+    "bytes": 12142,
+    "sha256": "2c386d5113e6594940fd73ebb4069b78e9ac0932da2fdbd927f332f62704fe29"
+  },
+  "frozen_accepted_and_framework_unchanged": true,
+  "build_exit": 0,
+  "build_full_log": {
+    "bytes": 11786,
+    "sha256": "0b2b906e4b01a56a000bfa1410e94b546c75aacdc57f6967ffb07e4012a41e0f"
+  }
+}

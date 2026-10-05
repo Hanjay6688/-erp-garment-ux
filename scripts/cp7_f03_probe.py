@@ -2,9 +2,12 @@
 import hashlib,json,traceback
 import psycopg
 import cp7_restore_state as restore_state
+from cp7_catalog_state import exact_public_catalog
 import cp7_f03_bundle as bundle
 import cp7_f03_cases as cases
 import cp7_note_correction_verify as note_correction
+import cp7_sales_return_correction_bundle as return_correction
+import cp7_sales_chain_bundle as sales_chain
 import cp7_p12_nota_probe as payroll
 import cp7_p13_finance_probe as finance
 import cp7_p09_procurement_probe as p09
@@ -16,7 +19,8 @@ OUT=bundle.ROOT/'cp6-proof/t3/CP7_F03_COMBINED_STACK.json'
 
 def verify(cur):
  payroll.verify(cur,True,True,True,True,True);finance.verify(cur);bundle.journal.verify(cur);bundle.misc.verify(cur);bundle.installment.verify(cur)
- note_correction.verify(cur)
+ note_correction.verify(cur);return_correction.verify(cur);sales_chain.verify(cur);bundle.transaction_source.verify(cur);bundle.misc_correction.verify(cur)
+ bundle.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
@@ -43,7 +47,9 @@ def run():
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_F03_COMBINED',cases.cases,verify)
+  with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+   report['native']=native.strict_group('CP7_F03_COMBINED',cases.cases,verify)
+  report['native_public_catalog_comparison']=catalog_audit
   report['races']=modes.run_races(cases,verify,'cp7_f03_combined')
   report['http']=modes.run_http(cases,verify,'cp7_f03_combined')
   for group,script in [('sales_browser','cp7_p11_returns_browser.mjs'),('opening_payroll_browser','cp7_p12_opening_browser.mjs'),('finance_browser','cp7_p13_finance_browser.mjs')]:report[group]=modes.run_browser(bundle.ROOT/'scripts'/script,verify,'cp7_f03_'+group)

@@ -16,10 +16,13 @@ import {
 import BeReworkTargetFields, { emptyBeTarget } from './BeReworkTargetFields'
 import { validateConversionResult } from './productConversion'
 import ConnectedPatternFilter from './ConnectedPatternFilter'
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import { normalizeClientError } from './lib/clientError'
 import { getUatSupabaseClient } from './lib/supabase'
 import type { Json } from './types/database.preconnect'
 import { useProductionMutation } from './useProductionMutation'
+import { useTransactionSource } from './TransactionSourceNavigation'
+import { parseTransactionSource, type TransactionDocument } from './transactionSource'
 import type { ProductionEnvelope } from './productionRecovery'
 import { parseQuantityInput } from './quantityInput'
 import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
@@ -231,7 +234,9 @@ function ReworkCompletion({ order, workspace, canCreate, canPost, canReverse, ow
   const cumulative = qty(good) >= order.qty_good_returned && qty(bad) >= order.qty_bs_returned
   const newPartial = cumulative && returned > previousReturned && returned < order.qty_sent
   const canCancel = order.qty_good_returned + order.qty_bs_returned === 0
-  if (order.status === 'COMPLETED' && order.cost_posted) return <div className="cbsr-rework-complete"><PackageCheck/><span><strong>{order.qty_good_returned} Good · {order.qty_bs_returned} BS</strong><small>Biaya posted {order.good_fg_lot_id ? '· lot FG terbentuk' : '· tanpa Good FG'}</small></span><button disabled={!canReverse || !ownerAdmin || reason.trim().length < 4} onClick={() => void onAction('REVERSE_REWORK_COMPLETION', { rework_order_id: order.id, change_reason: reason.trim() }, order.row_version)}><Undo2/> Reverse</button><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Alasan reversal Owner/Admin"/></div>
+  const [reverseReview, setReverseReview] = useState(false)
+  const inverseAllowed = canReverse && ownerAdmin && reason.trim().length >= 4
+  if (order.status === 'COMPLETED' && order.cost_posted) return <div className="cbsr-rework-complete"><PackageCheck/><span><strong>{order.qty_good_returned} Good · {order.qty_bs_returned} BS</strong><small>Biaya posted {order.good_fg_lot_id ? '· lot FG terbentuk' : '· tanpa Good FG'}</small></span><input aria-label="Alasan pembatalan hasil rework" value={reason} onChange={(event) => { setReverseReview(false); setReason(event.target.value) }} placeholder="Alasan pembatalan Owner/Admin"/>{reverseReview ? <div className="cbsr-rework-review" role="region" aria-label="Pemeriksaan pembatalan hasil rework"><strong>{order.rework_number}</strong><p>Batalkan hasil {order.qty_good_returned} Good dan {order.qty_bs_returned} BS. Order asal tetap tersimpan. Pemakaian barang atau upah yang masih aktif harus dibatalkan lebih dahulu.</p><button type="button" onClick={() => setReverseReview(false)}>Kembali periksa</button><button type="button" disabled={!inverseAllowed} onClick={() => void onAction('REVERSE_REWORK_COMPLETION', { rework_order_id: order.id, change_reason: reason.trim() }, order.row_version)}><Undo2/> Sahkan pembatalan hasil</button></div> : <button type="button" disabled={!inverseAllowed} onClick={() => setReverseReview(true)}><Undo2/> Periksa pembatalan hasil</button>}</div>
   if (order.status === 'CANCELLED') return <div className="cbsr-muted">Order dibatalkan; histori tetap dipertahankan.</div>
   return <div className="cbsr-completion-form"><header><span>HASIL KUMULATIF · {previousReturned} MASUK · {order.qty_sent - previousReturned} BELUM KEMBALI</span><strong>{order.rework_number}</strong></header><div>
     <label><span>GOOD KUMULATIF</span><input inputMode="numeric" aria-invalid={parseQuantityInput(good, 'COUNT', order.qty_sent) === null} value={good} onChange={(event) => setGood(event.target.value)}/></label>
@@ -343,12 +348,12 @@ function ClaimActionPanel({ row, canCreate, canPost, canReverse, ownerAdmin, onA
   </section>
 }
 
-function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin, onAction }: {
+function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin, onAction, sourceReworkId }: {
   row: BsResolutionRow; workspace: BsResolutionWorkspace; canCreate: boolean; canPost: boolean
-  canReverse: boolean; ownerAdmin: boolean; onAction: RunAction
+  canReverse: boolean; ownerAdmin: boolean; onAction: RunAction; sourceReworkId: string | null
 }) {
   const [reverseReason, setReverseReason] = useState('')
-  return <main className="cbsr-detail"><header><div><span>{row.kind === 'BS' ? 'BARANG BS' : 'LAUNDRY CLAIM'} · ROW VERSION {row.row_version}</span><h2>{row.number}</h2><p>{row.po_number ?? 'Tanpa PO'} · {row.model_name ?? row.product_name ?? 'Identitas produk belum lengkap'}</p></div><em className={row.is_closed ? 'closed' : row.status === 'ON_HOLD' ? 'hold' : 'active'}>{statusLabel(row.status)}</em></header>
+  return <main className="cbsr-detail" data-case-id={row.id}><header><div><span>{row.kind === 'BS' ? 'BARANG BS' : 'LAUNDRY CLAIM'} · ROW VERSION {row.row_version}</span><h2>{row.number}</h2><p>{row.po_number ?? 'Tanpa PO'} · {row.model_name ?? row.product_name ?? 'Identitas produk belum lengkap'}</p></div><em className={row.is_closed ? 'closed' : row.status === 'ON_HOLD' ? 'hold' : 'active'}>{statusLabel(row.status)}</em></header>
     <section className="cbsr-truth"><ShieldCheck/><div><small>POLA · SNAPSHOT SUMBER</small><strong>{bsPatternLabel(row)}</strong></div></section>
     <section className="cbsr-facts"><span><small>QTY KASUS</small><strong>{row.qty_pcs} pcs</strong></span><span><small>RESOLVED</small><strong>{row.resolved_qty} pcs</strong></span><span><small>REWORK AKTIF</small><strong>{row.active_rework_qty} pcs</strong></span><span><small>TERSEDIA</small><strong>{row.available_qty} pcs</strong></span></section>
     <section className="cbsr-lineage"><span><small>POTONGAN</small><strong>{row.group_number ?? 'Tidak terlacak'}</strong></span><span><small>SUMBER / PIHAK</small><strong>{row.contractor_name ?? row.vendor_name ?? row.cause_source}</strong></span><span><small>WAKTU FISIK</small><strong>{new Date(row.opened_at).toLocaleString('id-ID')}</strong></span><span><small>REFERENSI</small><strong>{row.legacy_reference ?? row.laundry_delivery_id ?? row.sku ?? '—'}</strong></span></section>
@@ -356,7 +361,7 @@ function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin
     {row.kind === 'BS' ? <ClassificationPanel key={`classification-${row.id}-${row.row_version}`} row={row} workspace={workspace} canCreate={canCreate} onAction={onAction}/> : null}
     {row.kind === 'BS' ? <BsActionPanel key={`actions-${row.id}-${row.row_version}`} row={row} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/> : <ClaimActionPanel key={`claim-${row.id}-${row.row_version}`} row={row} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/>}
     <section className="cbsr-history"><header><History/><div><span>AUTHORITATIVE HISTORY</span><strong>Rework, resolution, dan HOLD tidak ditimpa</strong></div></header>
-      {row.rework_orders.map((order) => <article key={order.id}><Wrench/><div><small>{order.destination_type} · {new Date(order.physical_sent_at).toLocaleString('id-ID')}</small><strong>{order.rework_number} · {order.qty_sent} pcs</strong><span>{order.contractor_name ?? order.vendor_name} · {statusLabel(order.status)} · {order.components.length} komponen kerja · {order.accessory_decision.selected_item_count} aksesori</span><span>{order.accessory_decision.selected_items.map((item) => item.name).join(', ') || `Pilihan aksesori ${order.accessory_decision.state}`}</span>{order.status === 'COMPLETED' ? <ReworkCompletion order={order} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/> : null}</div></article>)}
+      {row.rework_orders.map((order) => <article key={order.id} data-rework-id={order.id} data-source-focus={sourceReworkId === order.id ? 'true' : undefined}><Wrench/><div><small>{order.destination_type} · {new Date(order.physical_sent_at).toLocaleString('id-ID')}</small><strong>{order.rework_number} · {order.qty_sent} pcs</strong>{sourceReworkId === order.id ? <span role="status">Transaksi asal dari mutasi atau jurnal</span> : null}<span>{order.contractor_name ?? order.vendor_name} · {statusLabel(order.status)} · {order.components.length} komponen kerja · {order.accessory_decision.selected_item_count} aksesori</span><span>{order.accessory_decision.selected_items.map((item) => item.name).join(', ') || `Pilihan aksesori ${order.accessory_decision.state}`}</span>{order.status === 'COMPLETED' ? <ReworkCompletion order={order} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/> : null}</div></article>)}
       {row.resolutions.map((resolution) => <article key={resolution.id}><PackageCheck/><div><small>{new Date(resolution.physical_at).toLocaleString('id-ID')}</small><strong>{statusLabel(resolution.resolution_type)} · {resolution.qty_pcs} pcs</strong><span>{money(resolution.compensation_amount)} · {resolution.notes ?? 'Tanpa catatan'}</span>{row.kind === 'BS' && !resolution.source_rework_order_id ? <div className="cbsr-inline-reverse"><input value={reverseReason} onChange={(event) => setReverseReason(event.target.value)} placeholder="Alasan reversal Owner/Admin"/><button disabled={!canReverse || !ownerAdmin || reverseReason.trim().length < 4} onClick={() => void onAction('REVERSE_DISPOSITION', { resolution_id: resolution.id, change_reason: reverseReason.trim() }, row.row_version)}><Undo2/> Reverse</button></div> : null}</div></article>)}
       {row.hold_events.map((event) => <article key={event.id}><Clock3/><div><small>{event.actor_name ?? 'System'} · {new Date(event.physical_at).toLocaleString('id-ID')}</small><strong>{event.action} · {statusLabel(event.previous_status)} → {statusLabel(event.resulting_status)}</strong><span>{event.reason}</span></div></article>)}
       {row.rework_orders.length + row.resolutions.length + row.hold_events.length === 0 ? <div className="cbsr-empty-history">Belum ada lifecycle event sesudah kasus dibuat.</div> : null}
@@ -366,6 +371,14 @@ function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin
 
 export default function ConnectedBsResolutionPage() {
   const { runtime, identity } = useAuth()
+  const source = useTransactionSource('BS_REWORK')
+  if (!isConnectedRuntime(runtime)) throw new Error('ConnectedBsResolutionPage memerlukan backend terhubung.')
+  if (identity.status !== 'AUTHORIZED' || !identity.permissions.includes('production.bs_rework.view')) return <section className="panel" role="alert"><h1>Barang BS & Rework</h1><p>Hak melihat kasus BS dan rework diperlukan.</p></section>
+  return <BsWorkspace key={`${source?.key ?? 'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`} initialDocument={source?.document ?? null}/>
+}
+
+function BsWorkspace({ initialDocument }: { initialDocument: TransactionDocument | null }) {
+  const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime)) throw new Error('ConnectedBsResolutionPage memerlukan backend terhubung.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const access = identity.status === 'AUTHORIZED' ? identity : null
@@ -374,19 +387,24 @@ export default function ConnectedBsResolutionPage() {
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseBsResolution)
   const ownerAdmin = Boolean(access && ['OWNER', 'ADMIN'].includes(access.profile.role))
   const mutation = useProductionMutation('BS')
-  const { beginRead, finishRead, run, reconcile: reconcileMutation } = mutation
+  const { beginRead, finishRead, isReadCurrent, run, reconcile: reconcileMutation } = mutation
   const { busy, pending: pendingMutation, workspaceStale } = mutation
-  const [filter, setFilter] = useState<BsWorkspaceFilter>('ACTIVE')
-  const [kind, setKind] = useState<BsWorkspaceKind>('ALL')
+  const [filter, setFilter] = useState<BsWorkspaceFilter>(initialDocument ? 'ALL' : 'ACTIVE')
+  const [kind, setKind] = useState<BsWorkspaceKind>(initialDocument ? 'BS' : 'ALL')
   const [patternId, setPatternId] = useState('')
   const [query, setQuery] = useState('')
-  const [offset, setOffset] = useState(0)
+  const [pageOrder,setPageOrder] = useState<RecordPageOrder>('SOURCE')
+  const [offset, setOffset] = useState(initialDocument?.focus?.page_offset ?? 0)
   const [workspace, setWorkspace] = useState<BsResolutionWorkspace | null>(null)
-  const [selectedKey, setSelectedKey] = useState('')
+  const [selectedKey, setSelectedKey] = useState(initialDocument ? `BS:${initialDocument.id}` : '')
+  const [sourceFocus, setSourceFocus] = useState(initialDocument)
+  const sourceFocusRef = useRef(sourceFocus)
+  sourceFocusRef.current = sourceFocus
+  const leaveSourceFocus = () => { sourceFocusRef.current = null; setSourceFocus(null) }
   const [loading, setLoading] = useState(true)
   const loadRequestRef = useRef(0)
-  const viewRef = useRef({ filter, kind, patternId, query })
-  viewRef.current = { filter, kind, patternId, query }
+  const viewRef = useRef({ filter, kind, patternId, query, offset })
+  viewRef.current = { filter, kind, patternId, query, offset }
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [createMode, setCreateMode] = useState<'BS' | 'CLAIM' | null>(null)
@@ -397,36 +415,55 @@ export default function ConnectedBsResolutionPage() {
   ) => {
     const ticket = beginRead()
     const requestId = ++loadRequestRef.current
-    setLoading(true); setError('')
+    setLoading(true); setError(''); setWorkspace(null)
     try {
+      const target = sourceFocusRef.current
+      if (target) {
+        if (target.focus?.kind !== 'REWORK_ORDER') throw new Error('Referensi order rework belum dapat dipastikan.')
+        const reference = { source_type: 'REWORK_ORDER', source_id: target.focus.id }
+        const resolved = await client.rpc('erp_cp7_resolve_transaction_source_v1', { p_source: reference })
+        if (requestId !== loadRequestRef.current || !isReadCurrent(ticket)) return false
+        if (resolved.error) throw resolved.error
+        const current = parseTransactionSource(resolved.data, reference, access?.profile.authUserId ?? '').document
+        if (!current || current.domain !== 'BS_REWORK' || current.id !== target.id || !current.focus || current.focus.id !== target.focus.id) throw new Error('Kasus BS asal belum dapat dipastikan. Muat ulang sumbernya.')
+        // Reversal can move a closed case into the open section of the Native
+        // ordering. Re-resolve its position, keeping both immutable IDs exact.
+        nextFilter = 'ALL'; nextKind = 'BS'; nextPattern = ''; nextQuery = ''; nextOffset = current.focus.page_offset
+      }
       const { data, error: loadError } = await client.rpc('erp_get_bs_resolution_workspace_v1', {
         p_filter: nextFilter, p_kind: nextKind, p_pattern_id: nextPattern || null,
         p_query: nextQuery.trim() || null, p_limit: 50, p_offset: nextOffset,
       })
-      if (requestId !== loadRequestRef.current) return false
+      if (requestId !== loadRequestRef.current || !isReadCurrent(ticket)) return false
       if (loadError) {
         setError(normalizeClientError(loadError).message)
         return false
       }
       try {
         const parsed = parseBsResolutionWorkspace(data)
+        if (target) {
+          const original = parsed.rows.find(row => row.kind === 'BS' && row.id === target.id)
+          if (parsed.filter !== 'ALL' || parsed.kind !== 'BS' || parsed.pattern_id !== null || parsed.query !== null || parsed.limit !== 50 || parsed.offset !== nextOffset || !original?.rework_orders.some(order => order.id === target.focus?.id)) throw new Error('Order rework asal tidak ditemukan pada kasus BS yang tepat. Muat ulang sumbernya.')
+        }
+        const writable=finishRead(ticket)
+        if (!isReadCurrent(ticket)) return false
         setWorkspace(parsed)
         setOffset(parsed.offset)
-        setSelectedKey((current) => parsed.rows.some((row) => row.case_key === current) ? current : parsed.rows[0]?.case_key ?? '')
-        return finishRead(ticket)
+        setSelectedKey((current) => target ? `BS:${target.id}` : parsed.rows.some((row) => row.case_key === current) ? current : parsed.rows[0]?.case_key ?? '')
+        return writable
       } catch (parseError) { setError(parseError instanceof Error ? parseError.message : String(parseError)); return false }
     } catch (loadFailure) {
-      if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
+      if (requestId === loadRequestRef.current && isReadCurrent(ticket)) setError(normalizeClientError(loadFailure).message)
       return false
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
-  }, [beginRead, finishRead, client, filter, kind, offset, patternId, query])
+  }, [beginRead, finishRead, isReadCurrent, client, filter, kind, offset, patternId, query, access?.profile.authUserId])
 
   useEffect(() => {
     void load()
     return () => { loadRequestRef.current += 1 }
-  }, [mutation.scope]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mutation.scope,access?.profile.rowVersion,access?.profile.roleRowVersion,access?.permissions.join('|')]) // eslint-disable-line react-hooks/exhaustive-deps
   const sendExact = useCallback((envelope: ProductionEnvelope) => envelope.action === 'SAVE_REWORK_SKU' || envelope.action === 'SAVE_REDYE_SKU'
     ? client.rpc('erp_save_product_conversion_action_v1', { p_action: envelope.action === 'SAVE_REDYE_SKU' ? 'SAVE_REDYE' : 'SAVE_REWORK', p_payload: envelope.payload, p_client_request_id: envelope.id })
     : client.rpc('erp_save_bs_resolution_action_v1', {
@@ -435,7 +472,7 @@ export default function ConnectedBsResolutionPage() {
   }), [client])
   const reload = () => {
     const view = viewRef.current
-    return load(view.filter, view.kind, view.patternId, view.query, 0)
+    return load(view.filter, view.kind, view.patternId, view.query, view.offset)
   }
   const runAction: RunAction = async (action, payload, expectedVersion) => {
     setError(''); setNotice('')
@@ -483,10 +520,18 @@ export default function ConnectedBsResolutionPage() {
     <div className="cbsr-boundary"><ShieldCheck/><strong>UAT BACKEND CONNECTED</strong><span>Rework, rewash, HOLD, disposition, claim, HPP, dan reversal memakai fungsi kanonik server.</span></div>
     {createMode && workspace ? null : feedback}
     {busy ? <div className="cbsr-busy"><LoaderCircle className="spin"/> Mengunci transaksi dan memuat ulang state…</div> : null}
-    <section className="cbsr-kpis"><article><span>TOTAL KASUS FILTER</span><strong>{workspace?.total ?? 0}</strong><small>{filter === 'ACTIVE' ? 'Closed disembunyikan' : filter}</small></article><article><span>QTY HALAMAN INI</span><strong>{activeQty} pcs</strong><small>Available + active rework</small></article><article><span>ON HOLD · HALAMAN</span><strong>{rows.filter((row) => row.status === 'ON_HOLD').length}</strong><small>Keputusan dibekukan eksplisit</small></article><article><span>CLAIM · HALAMAN</span><strong>{rows.filter((row) => row.kind === 'LAUNDRY_CLAIM').length}</strong><small>Filter halaman aktif</small></article></section>
-    <section className="cbsr-workspace"><aside><header><div className="cbsr-tabs">{(['ACTIVE', 'CLOSED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} key={value} onClick={() => { setFilter(value); setOffset(0); void load(value, kind, patternId, query, 0) }}>{value === 'ACTIVE' ? 'Aktif' : value === 'CLOSED' ? 'Selesai' : 'Semua'}</button>)}</div><select aria-label="Jenis kasus CP5" value={kind} onChange={(event) => { const next = event.target.value as BsWorkspaceKind; setKind(next); setOffset(0); void load(filter, next, patternId, query, 0) }}><option value="ALL">BS + Claim</option><option value="BS">Barang BS</option><option value="LAUNDRY_CLAIM">Claim Laundry</option></select></header><label className="cbsr-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setOffset(0); void load(filter, kind, patternId, query, 0) } }} placeholder="Nomor, PO, model, Pola, pihak…"/><button onClick={() => { setOffset(0); void load(filter, kind, patternId, query, 0) }}>Cari</button></label><ConnectedPatternFilter label="FILTER POLA CP5" value={patternId} onChange={(next) => { setPatternId(next); setOffset(0); void load(filter, kind, next, query, 0) }}/>
-      <div className="cbsr-list">{loading ? <div className="cbsr-empty"><LoaderCircle className="spin"/> Memuat kasus…</div> : rows.map((row) => <button type="button" className={`${row.case_key === selected?.case_key ? 'active ' : ''}${row.status === 'ON_HOLD' ? 'hold' : ''}`} key={row.case_key} onClick={() => setSelectedKey(row.case_key)}><span className={row.kind === 'BS' ? 'bs' : 'claim'}>{row.kind === 'BS' ? <Shirt/> : <Waves/>}</span><div><small>{row.po_number ?? row.legacy_reference ?? 'TANPA PO'} · {row.group_number ?? row.claim_type ?? 'UNTRACKED'}</small><strong>{row.number}</strong><em>{bsPatternLabel(row)}</em><p>{row.available_qty} tersedia · {row.active_rework_qty} rework</p></div><b>{statusLabel(row.status)}</b></button>)}{!loading && rows.length === 0 ? <div className="cbsr-empty"><Search/><strong>Tidak ada kasus pada filter ini</strong><small>Filter tidak mengubah transaksi.</small></div> : null}</div><footer className="cbsr-pagination"><span>{workspace?.total ? `${offset + 1}–${offset + rows.length} dari ${workspace.total}` : '0 kasus'}</span><div><button disabled={loading || !canPageBack} onClick={() => void load(filter, kind, patternId, query, Math.max(0, offset - 50))}>Sebelumnya</button><button disabled={loading || !canPageForward} onClick={() => void load(filter, kind, patternId, query, offset + 50)}>Berikutnya</button></div></footer>
-    </aside>{selected && workspace ? <CaseDetail key={selectedContractKey} row={selected} workspace={workspace} canCreate={effectiveCanCreate} canPost={effectiveCanPost} canReverse={effectiveCanReverse} ownerAdmin={ownerAdmin} onAction={runAction}/> : <main className="cbsr-no-selection"><PackageCheck/><strong>Tidak ada detail</strong><small>Ubah filter atau buat kasus yang memang punya sumber fisik.</small></main>}</section>
+    <section className="cbsr-kpis"><article><span>TOTAL KASUS FILTER</span><strong>{workspace?workspace.total:'—'}</strong><small>{filter === 'ACTIVE' ? 'Closed disembunyikan' : filter}</small></article><article><span>QTY HALAMAN INI</span><strong>{workspace?`${activeQty} pcs`:'—'}</strong><small>Available + active rework</small></article><article><span>ON HOLD · HALAMAN</span><strong>{workspace?rows.filter((row) => row.status === 'ON_HOLD').length:'—'}</strong><small>Keputusan dibekukan eksplisit</small></article><article><span>CLAIM · HALAMAN</span><strong>{workspace?rows.filter((row) => row.kind === 'LAUNDRY_CLAIM').length:'—'}</strong><small>Filter halaman aktif</small></article></section>
+    <section className="cbsr-workspace"><aside>
+      <RecordTools title="BS dan claim" busy={loading||busy} order={pageOrder} onOrder={setPageOrder} submitLabel="Cari kasus"
+        onSubmit={event=>{event.preventDefault();leaveSourceFocus();setOffset(0);void load(filter,kind,patternId,query,0)}}
+        onBrowse={()=>{leaveSourceFocus();setFilter('ALL');setKind('ALL');setPatternId('');setQuery('');setPageOrder('SOURCE');setOffset(0);setSelectedKey('');setCreateMode(null);void load('ALL','ALL','','',0)}}
+        search={<label>Nomor, PO, model atau pihak<input aria-label="Cari BS atau claim"maxLength={200}value={query}onChange={event=>setQuery(event.target.value)}placeholder="Nomor, PO, model, Pola, pihak…"/></label>}
+        filters={<><div className="cbsr-tabs">{(['ACTIVE','CLOSED','ALL']as const).map(value=><button type="button"className={filter===value?'active':''}disabled={loading||busy}key={value}onClick={()=>{leaveSourceFocus();setFilter(value);setOffset(0);void load(value,kind,patternId,query,0)}}>{value==='ACTIVE'?'Aktif':value==='CLOSED'?'Selesai':'Semua'}</button>)}</div>
+          <label>Jenis kasus<select aria-label="Jenis kasus CP5"value={kind}disabled={loading||busy}onChange={event=>{leaveSourceFocus();const next=event.target.value as BsWorkspaceKind;setKind(next);setOffset(0);void load(filter,next,patternId,query,0)}}><option value="ALL">BS + Claim</option><option value="BS">Barang BS</option><option value="LAUNDRY_CLAIM">Claim Laundry</option></select></label>
+          <ConnectedPatternFilter label="FILTER POLA CP5"value={patternId}onChange={next=>{leaveSourceFocus();setPatternId(next);setOffset(0);void load(filter,kind,next,query,0)}}/></>}/>
+
+      <div className="cbsr-list">{loading ? <div className="cbsr-empty"><LoaderCircle className="spin"/> Memuat kasus…</div> : !workspace ? <div className="cbsr-empty"><AlertTriangle/><strong>Kasus belum dapat dipastikan.</strong><small>Muat ulang sebelum melanjutkan.</small></div> : orderRecordPage(rows,pageOrder,row=>row.number).map((row) => <button type="button" className={`${row.case_key === selected?.case_key ? 'active ' : ''}${row.status === 'ON_HOLD' ? 'hold' : ''}`} key={row.case_key} onClick={() => { if (row.id !== sourceFocus?.id) leaveSourceFocus(); setSelectedKey(row.case_key) }}><span className={row.kind === 'BS' ? 'bs' : 'claim'}>{row.kind === 'BS' ? <Shirt/> : <Waves/>}</span><div><small>{row.po_number ?? row.legacy_reference ?? 'TANPA PO'} · {row.group_number ?? row.claim_type ?? 'UNTRACKED'}</small><strong>{row.number}</strong><em>{bsPatternLabel(row)}</em><p>{row.available_qty} tersedia · {row.active_rework_qty} rework</p></div><b>{statusLabel(row.status)}</b></button>)}{!loading && workspace && rows.length === 0 ? <div className="cbsr-empty"><Search/><strong>Tidak ada kasus pada filter ini</strong><small>Filter tidak mengubah transaksi.</small></div> : null}</div><footer className="cbsr-pagination"><span>{!workspace?'— kasus':workspace.total ? `${offset + 1}–${offset + rows.length} dari ${workspace.total}` : '0 kasus'}</span><div><button disabled={!workspace || loading || !canPageBack} onClick={() => { leaveSourceFocus(); void load(filter, kind, patternId, query, Math.max(0, offset - 50)) }}>Sebelumnya</button><button disabled={!workspace || loading || !canPageForward} onClick={() => { leaveSourceFocus(); void load(filter, kind, patternId, query, offset + 50) }}>Berikutnya</button></div></footer>
+    </aside>{selected && workspace ? <CaseDetail key={selectedContractKey} row={selected} workspace={workspace} canCreate={effectiveCanCreate} canPost={effectiveCanPost} canReverse={effectiveCanReverse} ownerAdmin={ownerAdmin} onAction={runAction} sourceReworkId={sourceFocus?.focus?.id ?? null}/> : <main className="cbsr-no-selection"><PackageCheck/><strong>Tidak ada detail</strong><small>Ubah filter atau buat kasus yang memang punya sumber fisik.</small></main>}</section>
     {createMode === 'BS' && workspace ? <CreateManualBs workspace={workspace} canSubmit={effectiveCanCreate} onClose={() => setCreateMode(null)} onAction={runAction} feedback={feedback}/> : null}
     {createMode === 'CLAIM' && workspace ? <CreateClaim workspace={workspace} canSubmit={effectiveCanCreate} onClose={() => setCreateMode(null)} onAction={runAction} feedback={feedback}/> : null}
   </section>

@@ -1,5 +1,8 @@
 # Owning-note correction — exact line identity Native40 candidate
 
+> 3 October 2026 merge review: Claude’s completed `f4049e4f` handoff is merged into `cp7/integration`. Current source and qualification are controlled by [CLAUDE_MERGE_VERIFICATION_20261003.md](CLAUDE_MERGE_VERIFICATION_20261003.md); the source-specific checkpoints below remain historical. Receipt correction now has a fresh 42/42 Native result at `48fe7c2`; whole CP7 and every-submenu transaction controls remain open.
+
+
 ## Current correction source changes and independent finding
 
 Claude reproduced duplicate SKU5+10 corrected to5+6 as -11/0 in the main book. This is a product defect even though the final total is correct. correction-lines.sql now stores an immutable bijection from each new Native item to its previous item. The frontend preserves actual initial line IDs during editing/deleting and labels newly added lines with null. The owning writer strips this private lineage before Native draft validation/save, binds exact new Native values, and anchors each movement to that precise original line. Old held v1 requests without the new field use each reader-ordered SKU occurrence only once. Return replay follows the same exact Native sale allocation; return movement anchoring follows exact old return-item ID, not SKU/time alone. New, reordered, deleted and repeated invoice lines therefore cannot consume another line's anchor. Metadata rolls back together with the owning financial transaction.

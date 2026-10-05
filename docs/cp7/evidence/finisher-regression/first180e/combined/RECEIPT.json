@@ -1,0 +1,157 @@
+{
+  "classification": "FIRST_DATED_NATIVE22_CANDIDATE_INCOMPLETE_ERRONEOUS_FIXTURE_QUERY_TARGET",
+  "status": "INCOMPLETE",
+  "source_commit": "180e9d61d948ce2fdf30d9ce1ceb5ad0a93a228a",
+  "source_tree": "c1cfcc73a18eecd4714209be83105321136e7981",
+  "source_bundle_sha256": "59d1ebf6ed44a4b4475515ee54e671362a9118233b9d28a5cf90f2413593c2d5",
+  "run_id": 37143038064,
+  "job_id": 111261238184,
+  "artifact_id": 11281082234,
+  "artifact_bytes": 7015363,
+  "artifact_sha256": "c5177f8896cf7f5c9bf37a05ce4f127eeb9191fe027736b2528e50572e738873",
+  "all_archive_member_hashes": {
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385617,
+      "sha256": "fd149417b752bf479b783d3a49e9207946d7341e162df5e0cf90075c26f86aaa"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385617,
+      "sha256": "fd149417b752bf479b783d3a49e9207946d7341e162df5e0cf90075c26f86aaa"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "b94ceae9b3e03ae488e7751653abf8b64f035344bdb8e9f1a5d8d7b25d1358bc"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "bytes": 296141,
+      "sha256": "dd3641757301805ce956b76fbbae2cf0bf9e6b732592b36b0e75345baabe7d17"
+    },
+    "P11_RETURN_DESKTOP.png": {
+      "bytes": 1141102,
+      "sha256": "4a6008359ce55b59df39b4a8bad3194b8d4098edc11f00bee1d728cb6e9fd09f"
+    },
+    "P11_RETURN_MOBILE.png": {
+      "bytes": 808457,
+      "sha256": "a14bbacaf7134c025261d7f97ef0ce57980f83e475f5350de5ada1fbc385ceb9"
+    },
+    "P12_OPENING_DESKTOP.png": {
+      "bytes": 651757,
+      "sha256": "76aa1c034da45786de502834e125e83968b72942461a8e8ea87dcf50f2315161"
+    },
+    "P12_OPENING_MOBILE.png": {
+      "bytes": 424122,
+      "sha256": "0667d069f49de29092add2127e9b0ae47d6786815241e339e2b296cb9a9c3ad4"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1431950,
+      "sha256": "725b7c51e8f8b49dbe235321095fc1993ea24d4c79e60c0d3f9d41d84108b0c5"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1052210,
+      "sha256": "cd3f74dcc9091105752d64c6c9a3b41888d5d06c265073e6b3bdbc29f45fc062"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "330261ad3cfe881c7b9178af13c247d5e87fb58a2409c136ceab639bc4899c6f"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360413,
+      "sha256": "cd367d63c96d7d49a71119e1d1b2358beb17e553fd584c431c735453094d86fd"
+    }
+  },
+  "root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_COMBINED_STACK.json": {
+      "raw_bytes": 296141,
+      "raw_sha256": "dd3641757301805ce956b76fbbae2cf0bf9e6b732592b36b0e75345baabe7d17",
+      "gzip_sha256": "3404ec2dbdfbfb4bfdadec531ca86dbe9f7016966c3125ce1a7c2bff54c2538f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "raw_bytes": 10524,
+      "raw_sha256": "330261ad3cfe881c7b9178af13c247d5e87fb58a2409c136ceab639bc4899c6f",
+      "gzip_sha256": "ac07ad043841dc6e12e997b3254352771b05e68242dd86832b9a967cfa92b418"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "raw_bytes": 360413,
+      "raw_sha256": "cd367d63c96d7d49a71119e1d1b2358beb17e553fd584c431c735453094d86fd",
+      "gzip_sha256": "f2f9a7decf6929ae662034134ed3ee2ea9cf4bec86fc24b8e46f6922f8e6cd2c"
+    }
+  },
+  "full_original_log_raw_sha256": "03f110709eb2b0b7f58d9caebc339a007f7fca686a447a90e538b8715a0729b0",
+  "full_original_log_gzip_sha256": "72d09bbbf199a164fff876597fb309276b2054f4275678158c6e9d9994c375fe",
+  "failed_case": {
+    "status": "INCOMPLETE",
+    "error": "relation \"erp.sales\" does not exist\nLINE 1: select sale_date from erp.sales where id=$1\n                              ^",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_cases.py\", line 79, in combined_ledger\n    original['declared_prior_day_Native_cycle']=ledger_cycle(True)\n                                                ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_cases.py\", line 46, in ledger_cycle\n    f=opening.fixture(cur,today);sale=(previous_day_sale_fixture if previous_day else finance.source.fixture)(cur,today);sale['destination']=returns.location(cur);sale['bank']=str(s.cash(cur));before=finance.fixture_read(cur,today,sale['sale_at']);gl=finance.cmd.accounts(cur)\n                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f03_cases.py\", line 39, in previous_day_sale_fixture\n    actual=cur.execute('select sale_date from erp.sales where id=%s',(f['sale'],)).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedTable: relation \"erp.sales\" does not exist\nLINE 1: select sale_date from erp.sales where id=$1\n                              ^\n",
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    }
+  },
+  "group_counts": {
+    "native": {
+      "PASS": 9,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 4
+    },
+    "sales_browser": {
+      "PASS": 2
+    },
+    "opening_payroll_browser": {
+      "PASS": 2
+    },
+    "finance_browser": {
+      "PASS": 2
+    }
+  },
+  "gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "fixture_only_query_target_successor": "erp.sales_headers",
+  "all_original_commands_dates8_expected_deltas22_IDs_unchanged": true,
+  "failure_cancelled_or_relabelled": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

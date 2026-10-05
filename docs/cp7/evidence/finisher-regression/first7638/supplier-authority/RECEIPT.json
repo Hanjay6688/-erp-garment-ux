@@ -1,0 +1,23 @@
+{
+  "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "run_id": 37108983656,
+  "job_id": 111163031712,
+  "artifact_id": 11269291046,
+  "archive_sha256": "fc12e7e378a8b22dfc8e13587c7d758132b18191915501f957aca3114d58419c",
+  "original_sha256": "f2164db55202c94c1500af9704d956f733841cf3b20712eeeb34d03bb142cf5d",
+  "status": "INCOMPLETE",
+  "observed_case_executions": 0,
+  "failure": "Companion current-authority manifest replaces full manifest but lacks literal expected_private_roles; refusal before product install/cases. Add identical reviewed32 names without changing Native rules/case budgets.",
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "outer_gate": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,20 @@
+{
+  "status": "VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY",
+  "source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "source_tree": "d952cd5103f92043475a6e8dcc3fe518c53a52e2",
+  "original_run_id": 37155715155,
+  "observed_case_count": 82,
+  "groups": {
+    "native": 59,
+    "races": 11,
+    "http": 6,
+    "browser": 6
+  },
+  "root_reports": 5,
+  "diagnostic_only": false,
+  "validation_new_Native_execution_credit": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

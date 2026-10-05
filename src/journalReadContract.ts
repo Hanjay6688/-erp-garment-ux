@@ -5,7 +5,10 @@ export type JournalLine={id:string;account_id:string;account_code:string;account
 export type JournalRead={contract_version:'cp7.journal-read.v1';captured_at:string;knowledge_basis:'CURRENT_RECORDED_KNOWLEDGE';historical_knowledge:'NOT_RECONSTRUCTED';basis:JournalDates&{scope:'POSTED_AND_REVERSED_JOURNALS_BY_ACCOUNTING_DATE'};totals:{journal_count:string;line_count:string;debit:string;credit:string;unbalanced_journal_count:string};page:{rows:JournalHeader[];total:string;offset:number;limit:25;next_offset:number|null};detail:(JournalHeader&{lines:JournalLine[]})|null}
 const fail=():never=>{throw Error('Sumber jurnal belum lengkap atau pilihannya berubah. Muat ulang jurnal.')}
 const text=(v:unknown):v is string=>typeof v==='string'
-const uuid=(v:unknown):v is string=>text(v)&&/^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(v)
+// Native D08 identifiers use PostgreSQL's canonical 8-4-4-4-12 format.
+// Existing master IDs can have a legacy version/variant nibble; neither the
+// journal reader nor its source link may silently replace those actual FKs.
+const uuid=(v:unknown):v is string=>text(v)&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(v)
 const whole=(v:unknown):v is string=>text(v)&&/^(0|[1-9][0-9]{0,20})$/.test(v)
 const decimal=(v:unknown):v is string=>text(v)&&/^(0|[1-9][0-9]{0,40})(\.[0-9]{1,2})?$/.test(v)
 const cents=(v:unknown)=>{if(!decimal(v))return fail();const [a,b='']=v.split('.');return BigInt(a)*100n+BigInt(b.padEnd(2,'0'))}

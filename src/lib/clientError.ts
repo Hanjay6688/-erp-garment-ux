@@ -109,6 +109,38 @@ export function normalizeClientError(error: unknown): ClientAppError {
     if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
   }
 
+  const returnCorrectionMessages: Record<string,string> = {
+    cp7_return_correction_stale_review: 'Retur, stok, gudang, atau biaya berubah sejak diperiksa. Muat ulang invoice dan periksa penggantinya.',
+    cp7_return_correction_ineligible: 'Retur ini sudah dibatalkan atau diganti. Buka retur yang berlaku dari riwayat.',
+    cp7_return_correction_not_found: 'Retur tidak ditemukan pada invoice ini. Muat ulang dan pilih retur asal yang benar.',
+    cp7_return_correction_unchanged: 'Isi retur masih sama. Ubah isian yang perlu dibetulkan sebelum menyimpan.',
+    cp7_return_correction_request_changed: 'Isi permintaan pembetulan berubah. Periksa hasil permintaan sebelumnya sebelum membuat tindakan baru.',
+    cp7_return_correction_document_too_large: 'Rincian retur belum dapat dimuat lengkap dalam formulir ini. Periksa dokumen asal sebelum melanjutkan.',
+    cp7_return_correction_source_unavailable: 'Sumber retur pengganti belum dapat dipastikan. Muat ulang invoice; pembetulan ini belum disimpan.',
+    cp7_return_correction_journal_source: 'Jurnal retur belum cocok dengan transaksi asal. Muat ulang dan periksa sumbernya; pembetulan ini belum disimpan.',
+    cp7_sales_return_future_date: 'Waktu barang kembali belum boleh berada di masa depan. Periksa tanggal dan waktu dalam WIB.',
+  }
+  for (const [key,message] of Object.entries(returnCorrectionMessages)) {
+    if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
+  }
+
+  const miscMessages: Record<string,string> = {
+    cp7_misc_review_changed: 'Transaksi atau jurnalnya berubah sejak diperiksa. Muat ulang dan periksa nilai terbaru sebelum melanjutkan.',
+    cp7_misc_options_changed: 'Kategori atau rekening berubah sejak dipilih. Muat ulang, pilih kembali, lalu periksa penggantinya.',
+    cp7_misc_source_unavailable: 'Kategori atau rekening ini belum dapat digunakan. Pilih sumber aktif yang tersedia sebelum menyimpan.',
+    cp7_misc_already_corrected: 'Transaksi sudah dikoreksi. Buka dokumen pengganti dari riwayat untuk tindakan berikutnya.',
+    cp7_misc_posted_only: 'Koreksi atau pembalikan memerlukan transaksi yang masih tercatat. Muat ulang dan buka dokumen yang berlaku.',
+    cp7_misc_draft_only: 'Transaksi ini sudah melewati draft. Gunakan koreksi transaksi tercatat atau pembalikan dari rincian sumbernya.',
+    cp7_misc_future_date: 'Waktu kejadian belum boleh berada di masa depan. Periksa waktu transaksi dalam WIB.',
+    cp7_misc_physical_date: 'Waktu kejadian tidak valid. Periksa tanggal dan waktu transaksi dalam WIB.',
+    cp7_misc_request_changed: 'Isi permintaan berubah. Periksa hasil permintaan sebelumnya sebelum membuat tindakan baru.',
+    cp7_misc_correction_number: 'Nomor asli berubah sejak diperiksa. Muat ulang dokumen asal sebelum mengoreksi.',
+    cp7_misc_journal_source_changed: 'Jurnal sumber berubah atau belum cocok. Muat ulang dan periksa transaksi asal; koreksi ini belum disimpan.',
+  }
+  for (const [key,message] of Object.entries(miscMessages)) {
+    if (rawMessage.includes(key)) return new ClientAppError('REJECTED',message)
+  }
+
   const receiptMessage = typeof candidate.message === 'string' ? receiptCorrectionMessage(candidate.message) : null
   if (receiptMessage) return new ClientAppError('REJECTED', receiptMessage)
 

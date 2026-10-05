@@ -1,5 +1,7 @@
 # F05 P14–P17 — cangkang consumer teruji dengan fixture
 
+> Pintu masuk integrator saat ini,3 Oktober2026: bagian di bawah adalah bukti cangkang/checkpoint20260930. Runtime CP7 sekarang mempunyai reader Native, publikasi/arsip/revisi, attention/policy/episode, proyeksi Tanya AI berizin dan analyzer pada form potong asli, dengan bukti terpisah di ../CURRENT_STATE.json (antara lain analysis152, attention284, learned cutting57 dan E01 bridge9). Mulai dari ../CURRENT_PROGRESS.md dan handoff paket Native yang dirujuk di sana. Status fixture lama di bawah tidak membatalkan bukti yang lebih baru, dan bukti Native terbatas tidak menutup seluruh F05/P18–P21. Jangan menyambungkan lagi port contoh sebagai data asli. WA live, API AI otomatis/writeback dan data/policy yang belum ada tetap tidak dianggap tersedia.
+
 Status: **WRITER_FIXTURE_SHELL_VERIFIED**. Integrasi operasional, penerimaan auditor, dan production GO masih terbuka.
 
 Sumber checkpoint awal: `373a8d64e7f459fe47d142e4bd6a42456462793f`, dari integrasi `8f2d81c0198a1c451314811d074f7c88a9cf793a`. Cabang: `cp7/f05-consumers-shell-20260930`. Hash setiap sumber ada di [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json); hasil dan batas pembuktian ada di [VERIFICATION.json](VERIFICATION.json).

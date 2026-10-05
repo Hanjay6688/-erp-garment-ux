@@ -1,0 +1,140 @@
+{
+  "contract": "cp7.writer-resume-original-verification.v1",
+  "source_commit": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+  "source_tree": "fc01331793570c302db3083aae0107757131ee36",
+  "runtime_bundle_sha256": "4106997229a52cf30175425851483f5178a2fbdd4a9725d956e1aa79fcf8706b",
+  "run_id": 37258209394,
+  "job_id": 111599681265,
+  "artifact_id": 11323861720,
+  "artifact_sha256": "d2aa2c8db6ab2091406b830b2a0b4862d83d88bb1b71250a70e7a4bc67e326aa",
+  "artifact_bytes": 1627407,
+  "artifact_crc": "PASS",
+  "report": "CP7_SALES_CHAIN.json",
+  "reported_status": "INCOMPLETE",
+  "writer_qualified": false,
+  "expected_counts": {
+    "native": 16,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "observed_counts": {
+    "native": 0,
+    "races": 0,
+    "http": 0,
+    "browser": 0
+  },
+  "observed_total": 0,
+  "planned_ids": {
+    "native": [],
+    "races": [],
+    "http": [],
+    "browser": []
+  },
+  "root_originals": "ORIGINAL_REPORTS.json.gz",
+  "root_originals_sha256": "3e1640cf9db0e3727671167f34251d32475a99931521aaac38d4abe6d214b63a",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385615,
+      "crc32": "d13aafa0",
+      "sha256": "15c84901819c49f77ced891e1896ec635f339c3a4bce1b756a18f4f42793eef2"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385615,
+      "crc32": "d13aafa0",
+      "sha256": "15c84901819c49f77ced891e1896ec635f339c3a4bce1b756a18f4f42793eef2"
+    },
+    {
+      "name": "CP7_SALES_CHAIN.json",
+      "bytes": 43581,
+      "crc32": "eaf6d614",
+      "sha256": "c53d7040f93dd5c5c670f057eda526a97d5e91e9c6c52ac83f04909ca3629d38"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "8ba2ce7a",
+      "sha256": "f042c74b0842df747ee25dbca82bf9c9c5ed8a45d76a8548d301b5d37648b082"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "b7bf8ee2",
+      "sha256": "ed1c9537c4363b9e5536452c7c9f740c5e9665ab2797031cbf45da3e0fc115db"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360429,
+      "crc32": "1332b719",
+      "sha256": "de037f566054109bc2e6bd6972d7691a07c9b0b22427f0788cc17caf634dc6d4"
+    }
+  ],
+  "screenshots": [],
+  "original_source_identity": {
+    "label": "T3_PREP",
+    "tool_head": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+    "product_ref": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "37258209394",
+    "run_attempt": "1",
+    "workflow": "CP7 Native Atomic Sales Chain Reversal",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "outer_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": false,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "catalog_verification": null,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_cp7_acceptance": false,
+  "previous_failures_preserved": true
+}

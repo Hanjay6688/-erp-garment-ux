@@ -1,0 +1,62 @@
+{
+  "source_commit": "3729e45aab735abaf8e5b9ae7fcf72bb93e34e27",
+  "source_tree": "bc27d8733bc15c53acbb5302f090f25bc5680e12",
+  "run_id": 37121675086,
+  "job_id": 111198842473,
+  "artifact_id": 11274300669,
+  "archive_sha256": "9cc60e152f1cfc96b757ba5e871a2c4e897e2d2f0477e04f912362c0730dcded",
+  "status": "PASS",
+  "source_sha256": "b444ff3747bc155fde06173ab85ee6f657e42fa679f6d066b40a03cf5816106d",
+  "observed_case_count": 40,
+  "required_case_counts": {
+    "native": 28,
+    "races": 4,
+    "http": 3,
+    "browser": 5
+  },
+  "counts": {
+    "native": {
+      "PASS": 28
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 5
+    }
+  },
+  "members": {
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 307822,
+      "sha256": "d2d229c981e771b9e135fb1c48861ebfc47703a320176d7a01ca88f4cc0dfdac",
+      "compressed_sha256": "a5eca6c48651b3ef116758014d1f3e48f8969a73e5b44e54fc47d4d3a5065d72"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "6203324df1edabe05c6c247f85ecb01f962177bac0ddfdaefce4590a4c8b28ee",
+      "compressed_sha256": "32c5e8617d03d125330f5e9738adc876aec2905fb8f807060aee01a208f8208b"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "console_errors": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false,
+  "derived_measurements_sha256": "7b74f18eff5b86c6c22941d16482c1150bc558d075422c4c30cdd1fa812ad780",
+  "scope": "All40 unchanged cases and original running balance/immutability/Native finance/current authority/UUID recovery controls. Bounded30/364 history observations do not qualify whole P19 or production."
+}

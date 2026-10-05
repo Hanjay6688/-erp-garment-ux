@@ -40,8 +40,16 @@ def measure(cur, query, actor):
             try:
                 raw = cur.execute(sql, args).fetchone()[0]
                 value = json.loads(raw)
-                row = dict(stage=stage, status='MEASURED', elapsed_ms=round((monotonic()-start)*1000),
-                           utf8_bytes=len(raw.encode('UTF8')), source_status=value.get('status'))
+                if stage == 'HISTORY_AVAILABILITY':
+                    assert isinstance(value, list), 'HISTORY_AVAILABILITY_ARRAY_REQUIRED'
+                    row = dict(stage=stage, status='MEASURED', elapsed_ms=round((monotonic()-start)*1000),
+                               utf8_bytes=len(raw.encode('UTF8')), source_status=None,
+                               result_kind='ARRAY', history_rows=len(value))
+                else:
+                    assert isinstance(value, dict), 'NATIVE_READ_OBJECT_REQUIRED:' + stage
+                    row = dict(stage=stage, status='MEASURED', elapsed_ms=round((monotonic()-start)*1000),
+                               utf8_bytes=len(raw.encode('UTF8')), source_status=value.get('status'),
+                               result_kind='OBJECT')
                 if stage.startswith('COMPLETE_NATIVE_SOURCE') or stage == 'OPERATIONS_SOURCE':
                     row.update(product_count=len(value.get('facts', {}).get('products', [])),
                                fact_collections={key: len(items) for key, items in value.get('facts', {}).items()
@@ -78,6 +86,8 @@ def measure(cur, query, actor):
                  (source, q, uuid.uuid4(), access))
             read('COMPOSED_NETTING',
                  'select cp7_netting_native.build(%s::jsonb,cp7_planning.history_query(%s::jsonb))::text', (source, q))
+            read('HISTORY_AVAILABILITY',
+                 'select cp7_planning.history_availability(%s::jsonb,cp7_planning.history_query(%s::jsonb))::text', (source, q))
             read('COMPLETE_NATIVE_SOURCE_AGAIN',
                  'select cp7_analysis_native.source(cp7_planning.history_query(%s::jsonb))::text', (q,))
             read('NATIVE_FINANCIAL_SOURCE',
@@ -120,6 +130,8 @@ def cases_provider(cur, today):
             if target in (4, 12):
                 observation['experimental_pure_compile'] = equivalence.compare(
                     cur, cases.previous.baseline.history.query(today), subject)
+                observation['complete_history_SQL_comparison'] = equivalence.compare_history(
+                    cur, cases.previous.baseline.history.query(today), subject)
             cases.b.api.admin(cur)
             assert cases.b.boundary.snapshot(cur) == before, 'DIAGNOSTIC_CHANGED_NATIVE_BUSINESS'
             assert cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0] == originals_before
@@ -141,6 +153,8 @@ def cases_provider(cur, today):
             observation = measure(cur, cases.previous.baseline.history.query(today), subject)
             if target in (4, 12):
                 observation['experimental_pure_compile'] = equivalence.compare(
+                    cur, cases.previous.baseline.history.query(today), subject)
+                observation['complete_history_SQL_comparison'] = equivalence.compare_history(
                     cur, cases.previous.baseline.history.query(today), subject)
             cases.b.api.admin(cur)
             assert cases.b.boundary.snapshot(cur) == before, 'DIAGNOSTIC_CHANGED_NATIVE_BUSINESS'

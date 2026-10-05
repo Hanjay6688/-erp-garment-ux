@@ -1,0 +1,31 @@
+// @vitest-environment jsdom
+import {act} from 'react'
+import {createRoot,type Root} from 'react-dom/client'
+import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
+import SalesChainReversalPanel from './SalesChainReversalPanel'
+import {chainSource,chainWorkspace} from '../tests/fixtures/salesChain'
+import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
+const mock=vi.hoisted(()=>({auth:null as unknown,rpc:vi.fn()}))
+vi.mock('./auth/AuthProvider',()=>({useAuth:()=>mock.auth}))
+vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>mock}))
+const saved=vi.fn(),invalid=vi.fn(),ticket:{sequence:number;scope:string;signature:string|null;session:object}={sequence:1,scope:'test',signature:'ready',session:{}}
+let root:Root,container:HTMLDivElement,currentTicket:typeof ticket,ready:boolean
+const fence={currentReadTicket:()=>ready?currentTicket:null,isReadCurrent:(t:typeof ticket)=>ready&&t===currentTicket}
+beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});mock.rpc.mockReset();saved.mockReset();invalid.mockReset();ready=true;currentTicket=ticket;const a=structuredClone(recoveryIdentity);a.identity.profile.role='OWNER';a.identity.permissions.push('sales.invoice.view','sales.invoice.reverse','sales.payment.view','sales.payment.reverse','sales.return.view','sales.return.reverse','finance.ar.view','finance.hpp.view');mock.auth=a;mock.rpc.mockResolvedValue({data:chainWorkspace(),error:null});container=document.createElement('div');document.body.append(container);root=createRoot(container)})
+afterEach(async()=>{await act(async()=>root.unmount());container.remove()})
+const flush=async()=>act(async()=>{await new Promise(r=>setTimeout(r,0))})
+async function mount(locked=false,stale=false){await act(async()=>root.render(<SalesChainReversalPanel source={chainSource} locked={locked} stale={stale} readFence={fence} onInvalid={invalid} onClose={()=>{}} onSave={saved}/>));await flush()}
+const input=(label:string)=>container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!
+const button=(label:string)=>[...container.querySelectorAll('button')].find(b=>b.textContent===label)!
+async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
+async function review(){await act(async()=>{const e=input('Alasan pembatalan rantai');Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(e,'Seluruh dokumen dan barang diperiksa');e.dispatchEvent(new Event('input',{bubbles:true}))});await click(input('Seluruh rantai sudah diperiksa'))}
+describe('owning sale-chain form with declared RPC stand-ins',()=>{
+ it('reads every active child without writes and emits one reviewed exact request',async()=>{const w=chainWorkspace();w.source.payments=Array.from({length:26},(_,i)=>({...w.source.payments[0],id:`22222222-2222-4222-8222-${String(i+1).padStart(12,'0')}`,number:`PAY-${i+1}`}));mock.rpc.mockResolvedValue({data:w,error:null});await mount();expect(container.querySelectorAll('ol li')).toHaveLength(28);expect(container.textContent).toContain('PAY-26');expect(button('Batalkan rantai sekaligus').disabled).toBe(true);await review();await click(button('Batalkan rantai sekaligus'));expect(saved).toHaveBeenCalledOnce();expect(saved.mock.calls[0][0].payment_ids).toHaveLength(26);expect(saved.mock.calls[0][1]).toBe(chainSource.row_version);expect(new Set(mock.rpc.mock.calls.map(c=>c[0]))).toEqual(new Set(['erp_cp7_get_sales_chain_v1']))})
+ it('requires all current permissions before reading any private chain',async()=>{const a=mock.auth as typeof recoveryIdentity;a.identity.permissions=a.identity.permissions.filter(p=>p!=='sales.return.reverse');await mount();expect(mock.rpc).not.toHaveBeenCalled();expect(container.textContent).toContain('Izin pembatalan');expect(button('Batalkan rantai sekaligus').disabled).toBe(true)})
+ it('never reads against a retired owning invoice',async()=>{ready=false;await mount();expect(mock.rpc).not.toHaveBeenCalled();expect(button('Batalkan rantai sekaligus').disabled).toBe(true)})
+ it('discards late private facts after the owning ticket is retired',async()=>{let resolve!:(v:unknown)=>void;mock.rpc.mockImplementation(()=>new Promise(r=>{resolve=r}));await mount();ready=false;await act(async()=>resolve({data:chainWorkspace(),error:null}));await flush();expect(container.textContent).not.toContain('PAY-1');expect(invalid).not.toHaveBeenCalled();expect(saved).not.toHaveBeenCalled()})
+ it('requires a fresh leaf read when an equal parent has a different actual ticket',async()=>{await mount();await review();expect(button('Batalkan rantai sekaligus').disabled).toBe(false);currentTicket={...ticket,sequence:2};await mount();expect(container.textContent).not.toContain('PAY-1');expect(button('Batalkan rantai sekaligus').disabled).toBe(true);await click(button('Muat ulang rantai'));expect(input('Seluruh rantai sudah diperiksa').checked).toBe(false);await click(input('Seluruh rantai sudah diperiksa'));expect(button('Batalkan rantai sekaligus').disabled).toBe(false)})
+ it('names pending draft blockers and refuses cancellation',async()=>{const w=chainWorkspace();w.source.pending_children=[{kind:'RETURN',id:'55555555-5555-4555-8555-555555555555',number:'RET-DRAFT-EXACT'}];w.eligible=false;mock.rpc.mockResolvedValue({data:w,error:null});await mount();expect(container.textContent).toContain('RET-DRAFT-EXACT');await review();expect(button('Batalkan rantai sekaligus').disabled).toBe(true);expect(saved).not.toHaveBeenCalled()})
+ it('retires owning facts after failed or unrelated reads and keeps only the operator reason',async()=>{await mount();await review();const w=chainWorkspace();w.source.sale_id='55555555-5555-4555-8555-555555555555';mock.rpc.mockResolvedValue({data:w,error:null});await click(button('Muat ulang rantai'));expect(invalid).toHaveBeenCalledOnce();expect(container.textContent).not.toContain('PAY-1');expect(input('Alasan pembatalan rantai').value).toBe('Seluruh dokumen dan barang diperiksa');expect(button('Batalkan rantai sekaligus').disabled).toBe(true)})
+ it('locks reviewed writes during recovery or a stale source',async()=>{await mount();await review();await mount(true);expect(button('Batalkan rantai sekaligus').disabled).toBe(true);await mount(false,true);expect(button('Batalkan rantai sekaligus').disabled).toBe(true);expect(saved).not.toHaveBeenCalled()})
+})

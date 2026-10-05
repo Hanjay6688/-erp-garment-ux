@@ -1,0 +1,285 @@
+{
+  "status": "EXACT_SOURCE_NATIVE_WRITER_PASS",
+  "source_commit": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+  "source_tree": "6336e647afc25609e4afacdbf1bd2d8bce74cb79",
+  "product_ref": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+  "run_id": 37128855789,
+  "job_id": 111219700310,
+  "artifact_id": 11276097196,
+  "archive_bytes": 13555941,
+  "archive_sha256": "27594d76bc606cb3340cd8d809ff739ceb7245884e01de85eeca9785d1b828e5",
+  "source_bundle_sha256": "24a4a2cb763fddabff9a30fccf57e30a03683f8bc65c301642aebf48a2861b45",
+  "expected_case_count": 9,
+  "observed_case_count": 9,
+  "groups": {
+    "native": {
+      "PASS": 5
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "prior_qualified_case_IDs_identical": true,
+  "case_ids": {
+    "native": [
+      "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+      "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+      "P18_E01_CURRENT_AUTHORITY",
+      "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+      "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL"
+    ],
+    "races": [
+      "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT"
+    ],
+    "http": [
+      "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT"
+    ],
+    "browser": [
+      "P18_E01_BRIDGE_BROWSER_DESKTOP",
+      "P18_E01_BRIDGE_BROWSER_MOBILE"
+    ]
+  },
+  "shared_browser_witnesses": {
+    "P18_E01_BRIDGE_BROWSER_DESKTOP": {
+      "same_Native_Original_across_four_views": true,
+      "filter_does_not_truncate_AI_source": true,
+      "actual_clipboard_denied_complete_manual_fallback": true,
+      "original_question_JSON_not_instruction_or_URL": true,
+      "whole_operational_boundary_unchanged": true
+    },
+    "P18_E01_BRIDGE_BROWSER_MOBILE": {
+      "same_Native_Original_across_four_views": true,
+      "filter_does_not_truncate_AI_source": true,
+      "actual_clipboard_denied_complete_manual_fallback": true,
+      "original_question_JSON_not_instruction_or_URL": true,
+      "whole_operational_boundary_unchanged": true
+    }
+  },
+  "browser_console_errors": 0,
+  "Native_complete_boundary_restored": true,
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "public_catalog_comparison": {
+    "policy": "ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED",
+    "dropped_fields": [],
+    "physical_order_only_changes": [],
+    "snapshots_checked": 12
+  },
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "scope": "Same declared focused9. Shared witness strengthens the existing two browser journeys; no additional unique E08/E18 execution credit. All-original operational snapshot hash equality is asserted by the executed script; the report records true witnesses, not measured hash values. No ERP business write by shared consumers. Full P18/P19, material/P08 and independent/installed exits remain open.",
+  "writer_visual_review": "Original full-page mobile handoff inspected. Current original run, manual clipboard fallback and data-free ChatGPT link visible. Automated desktop/mobile overflow and complete prompt assertions pass. Independent UI acceptance remains open.",
+  "members": {
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "3299f7187975bf0dd80b318d175be3917ed447a5c0a9ff090be5118c3e205510"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "3299f7187975bf0dd80b318d175be3917ed447a5c0a9ff090be5118c3e205510"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "dc7a0ea157362c860aa564daec5e7fd938bf0638cbdd65f3f407fb98eeccee94"
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 282624,
+      "sha256": "305f28575e9323d6bea6ffd28085cf2c71ed9af6ca22144f57e3b30beeabe268"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png": {
+      "bytes": 1991918,
+      "sha256": "f5b1d2cc14dea6e939aa50650ad4f753d913857cc6c494844efbde0375495b16"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_MOBILE.png": {
+      "bytes": 1169118,
+      "sha256": "072ec50da2bbc317a432c729d5a28570625c94c9d6af19a08063433805e4fa54"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png": {
+      "bytes": 862990,
+      "sha256": "96cf8b79b91ed8f81a83d71a491d2dc652c9f4adca2562a613d4bd178b41d0c1"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png": {
+      "bytes": 481083,
+      "sha256": "2a4132f371b154a014921588f3b37df45e0a6d3cc3fa17295696e13801cbd8c1"
+    },
+    "P18_E01_BRIDGE_PREVIEW_DESKTOP.png": {
+      "bytes": 1889223,
+      "sha256": "6374ba012c9d413e853c9640764172bf2a4be818a29fb6941b4a9e0af787fbd3"
+    },
+    "P18_E01_BRIDGE_PREVIEW_MOBILE.png": {
+      "bytes": 1121809,
+      "sha256": "ea56e407cd2a81e10ada4ab25a823ac0d4a8d36b82b5c22d1444fa0648f21447"
+    },
+    "P18_E01_BRIDGE_RECOVERED_DESKTOP.png": {
+      "bytes": 1624150,
+      "sha256": "1a8bb951d9927dff6446d3139dce8dddc1a8f1296dcadce014419ba836b669eb"
+    },
+    "P18_E01_BRIDGE_RECOVERED_MOBILE.png": {
+      "bytes": 743268,
+      "sha256": "7b6c74646f132721532b8c0a0224978b32dea2fcdf66615d36a1b98e360b4e48"
+    },
+    "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png": {
+      "bytes": 1424776,
+      "sha256": "1b7cee6052e787e8d91845daba28df286e84655d943ec246f1ae04f5c5e3b01a"
+    },
+    "P18_E01_E08_SHARED_HANDOFF_MOBILE.png": {
+      "bytes": 943783,
+      "sha256": "949a3db80155f1d7e8d14f5874e1e9cc065e332cdb1f7c7f95a08daaad4d72d3"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "58ff3eab09c1fab58d69602726c833b99a3277f456c14d848b5d982c4bc086b9"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360411,
+      "sha256": "e5cbed51d8a3cb106192c46109afd87c46870b4c60b3a395724b3ced634f56f0"
+    }
+  },
+  "retained_Originals": {
+    "ALIGNED_CHAIN.json.gz": {
+      "bytes": 4731,
+      "sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "Original_member": "ALIGNED_CHAIN.json",
+      "Original_bytes": 17286,
+      "Original_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P18_E01_BRIDGE.json.gz": {
+      "bytes": 17729,
+      "sha256": "be668ace79f9786eede3f104156119c02efaa9e8f9e15cae5986bb3301edd018",
+      "Original_member": "CP7_P18_E01_BRIDGE.json",
+      "Original_bytes": 282624,
+      "Original_sha256": "305f28575e9323d6bea6ffd28085cf2c71ed9af6ca22144f57e3b30beeabe268"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png": {
+      "bytes": 1991918,
+      "sha256": "f5b1d2cc14dea6e939aa50650ad4f753d913857cc6c494844efbde0375495b16",
+      "Original_member": "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png",
+      "Original_bytes": 1991918,
+      "Original_sha256": "f5b1d2cc14dea6e939aa50650ad4f753d913857cc6c494844efbde0375495b16"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_MOBILE.png": {
+      "bytes": 1169118,
+      "sha256": "072ec50da2bbc317a432c729d5a28570625c94c9d6af19a08063433805e4fa54",
+      "Original_member": "P18_E01_BRIDGE_ARCHIVE_MOBILE.png",
+      "Original_bytes": 1169118,
+      "Original_sha256": "072ec50da2bbc317a432c729d5a28570625c94c9d6af19a08063433805e4fa54"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png": {
+      "bytes": 862990,
+      "sha256": "96cf8b79b91ed8f81a83d71a491d2dc652c9f4adca2562a613d4bd178b41d0c1",
+      "Original_member": "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png",
+      "Original_bytes": 862990,
+      "Original_sha256": "96cf8b79b91ed8f81a83d71a491d2dc652c9f4adca2562a613d4bd178b41d0c1"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png": {
+      "bytes": 481083,
+      "sha256": "2a4132f371b154a014921588f3b37df45e0a6d3cc3fa17295696e13801cbd8c1",
+      "Original_member": "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png",
+      "Original_bytes": 481083,
+      "Original_sha256": "2a4132f371b154a014921588f3b37df45e0a6d3cc3fa17295696e13801cbd8c1"
+    },
+    "P18_E01_BRIDGE_PREVIEW_DESKTOP.png": {
+      "bytes": 1889223,
+      "sha256": "6374ba012c9d413e853c9640764172bf2a4be818a29fb6941b4a9e0af787fbd3",
+      "Original_member": "P18_E01_BRIDGE_PREVIEW_DESKTOP.png",
+      "Original_bytes": 1889223,
+      "Original_sha256": "6374ba012c9d413e853c9640764172bf2a4be818a29fb6941b4a9e0af787fbd3"
+    },
+    "P18_E01_BRIDGE_PREVIEW_MOBILE.png": {
+      "bytes": 1121809,
+      "sha256": "ea56e407cd2a81e10ada4ab25a823ac0d4a8d36b82b5c22d1444fa0648f21447",
+      "Original_member": "P18_E01_BRIDGE_PREVIEW_MOBILE.png",
+      "Original_bytes": 1121809,
+      "Original_sha256": "ea56e407cd2a81e10ada4ab25a823ac0d4a8d36b82b5c22d1444fa0648f21447"
+    },
+    "P18_E01_BRIDGE_RECOVERED_DESKTOP.png": {
+      "bytes": 1624150,
+      "sha256": "1a8bb951d9927dff6446d3139dce8dddc1a8f1296dcadce014419ba836b669eb",
+      "Original_member": "P18_E01_BRIDGE_RECOVERED_DESKTOP.png",
+      "Original_bytes": 1624150,
+      "Original_sha256": "1a8bb951d9927dff6446d3139dce8dddc1a8f1296dcadce014419ba836b669eb"
+    },
+    "P18_E01_BRIDGE_RECOVERED_MOBILE.png": {
+      "bytes": 743268,
+      "sha256": "7b6c74646f132721532b8c0a0224978b32dea2fcdf66615d36a1b98e360b4e48",
+      "Original_member": "P18_E01_BRIDGE_RECOVERED_MOBILE.png",
+      "Original_bytes": 743268,
+      "Original_sha256": "7b6c74646f132721532b8c0a0224978b32dea2fcdf66615d36a1b98e360b4e48"
+    },
+    "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png": {
+      "bytes": 1424776,
+      "sha256": "1b7cee6052e787e8d91845daba28df286e84655d943ec246f1ae04f5c5e3b01a",
+      "Original_member": "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png",
+      "Original_bytes": 1424776,
+      "Original_sha256": "1b7cee6052e787e8d91845daba28df286e84655d943ec246f1ae04f5c5e3b01a"
+    },
+    "P18_E01_E08_SHARED_HANDOFF_MOBILE.png": {
+      "bytes": 943783,
+      "sha256": "949a3db80155f1d7e8d14f5874e1e9cc065e332cdb1f7c7f95a08daaad4d72d3",
+      "Original_member": "P18_E01_E08_SHARED_HANDOFF_MOBILE.png",
+      "Original_bytes": 943783,
+      "Original_sha256": "949a3db80155f1d7e8d14f5874e1e9cc065e332cdb1f7c7f95a08daaad4d72d3"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 1828,
+      "sha256": "eac0064bc38e15aa67beccbb7df399610df06ec08f87db46cdd3b2f67ac029ca",
+      "Original_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "Original_bytes": 10524,
+      "Original_sha256": "58ff3eab09c1fab58d69602726c833b99a3277f456c14d848b5d982c4bc086b9"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "Original_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "Original_bytes": 1806,
+      "Original_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11385,
+      "sha256": "6100f2b5aad4d623b7f6fbda4387a0f1146968f8670a614d9d6a69f5a379117b",
+      "Original_member": "T3_PACKAGE_INSTALL.json",
+      "Original_bytes": 360411,
+      "Original_sha256": "e5cbed51d8a3cb106192c46109afd87c46870b4c60b3a395724b3ced634f56f0"
+    }
+  },
+  "full_family_acceptance": false,
+  "full_P18_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

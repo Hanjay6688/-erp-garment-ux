@@ -1,0 +1,98 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_SHELL_WRITER_QUALIFIED_NOT_FULL_CP7",
+  "status": "PASS",
+  "source_commit": "43265e22b723073680a7b3b2acaf698770f8cf14",
+  "source_tree": "6e7e21f34719649d472f4fbabc22265484885d14",
+  "run_id": 37170190969,
+  "job_id": 111341422643,
+  "artifact_id": 11291800077,
+  "artifact_bytes": 491504,
+  "artifact_sha256": "b1bd74c705c50af06f7e666aa9b37769655868eea9d6659980935383f7a508d6",
+  "archive_members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53268,
+      "sha256": "e33fb39e98760010c5b7ccd55c1caf1740023b8c16fcc3a16aab0ddfbb86b4ee"
+    },
+    "results.json": {
+      "bytes": 12263,
+      "sha256": "c98737bc598b0260aa3178dea3d31dce71a91a6b587782cefc0234c05be76dd5"
+    }
+  },
+  "root_reports": {
+    "f04-private-kernels.json": {
+      "file": "docs/cp7/evidence/supplier-payment-correction/qualified432-shell/f04-private-kernels.json.gz",
+      "raw_bytes": 53268,
+      "raw_sha256": "e33fb39e98760010c5b7ccd55c1caf1740023b8c16fcc3a16aab0ddfbb86b4ee",
+      "gzip_bytes": 6820,
+      "gzip_sha256": "53795d68fb9a5fab15f945f5c365bbed031dac59416cd4402e35764fbe23df10"
+    },
+    "results.json": {
+      "file": "docs/cp7/evidence/supplier-payment-correction/qualified432-shell/results.json.gz",
+      "raw_bytes": 12263,
+      "raw_sha256": "c98737bc598b0260aa3178dea3d31dce71a91a6b587782cefc0234c05be76dd5",
+      "gzip_bytes": 1795,
+      "gzip_sha256": "111f4bce128616ca0ca15c671af3f01d301acc71d4cfcc4510a277d07e332d98"
+    }
+  },
+  "original_CI_log": {
+    "file": "docs/cp7/evidence/supplier-payment-correction/qualified432-shell/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 162386,
+    "raw_sha256": "44d284fbb302b7dc090023b1709f5b2d972a7469c73f3fc4c8ae97f1ecb27f3a",
+    "gzip_bytes": 31061,
+    "gzip_sha256": "83f40985091b2108555ea2d24b203af87baf3a122f4c962be7e41eb4505ff845"
+  },
+  "application_tests": 1456,
+  "application_test_files": 151,
+  "actual_shell_browsers": 6,
+  "build_and_security": "PASS",
+  "runtime_source_files": 262,
+  "owned_RPC_boundaries": 193,
+  "stylesheets": 53,
+  "orphan_or_direct_browser_table_access": false,
+  "both_CodeQL": {
+    "cp7-codeql-javascript-typescript": {
+      "artifact_id": 11291007417,
+      "archive_bytes": 121713,
+      "archive_sha256": "a0495478e8881d2a381f559643bbe1af14f48ce6d452d805487e8d22525a53a7",
+      "member": "javascript.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/supplier-payment-correction/qualified432-shell/cp7-codeql-javascript-typescript.sarif.gz",
+        "raw_bytes": 1333492,
+        "raw_sha256": "62526ad7c51dd35fb86768ce5945f3421909e833f29148de88b58f22e3f40dae",
+        "gzip_bytes": 118513,
+        "gzip_sha256": "20b4fdb5314a12b8c56ef3f9061c768e3d35e08f9392756d5fd8b47f51e5b4c4"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    },
+    "cp7-codeql-actions": {
+      "artifact_id": 11290424443,
+      "archive_bytes": 51830,
+      "archive_sha256": "c944dfc5f160c945eed27036fb5bf06b2f41a751f3f25bfad5d2a1014975f8a4",
+      "member": "actions.sarif",
+      "Original": {
+        "file": "docs/cp7/evidence/supplier-payment-correction/qualified432-shell/cp7-codeql-actions.sarif.gz",
+        "raw_bytes": 713714,
+        "raw_sha256": "420b9827b0be9fa1e104bf6c2bea883cd93f9a70c7801fad16a3cbaed4838184",
+        "gzip_bytes": 48966,
+        "gzip_sha256": "3392c42349f04819f3c018cf8ea67458fff4b7279f799329770af00bf4f4c9b8"
+      },
+      "findings": 0,
+      "all_invocations_executionSuccessful": true
+    }
+  },
+  "private_kernel_scope_only": true,
+  "private_kernel_cases": 138,
+  "first702_ownership_admission_failure_relabelled": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

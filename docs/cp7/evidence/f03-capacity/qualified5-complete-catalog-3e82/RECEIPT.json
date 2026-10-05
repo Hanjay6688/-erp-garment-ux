@@ -1,0 +1,186 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "3e82f789326ea18e430d7ed8adf1f8c2cb2435ec",
+  "source_tree": "bf312bd0a59101faf8ee68b6b7c48b1574cff145",
+  "run_id": 37284698793,
+  "job_id": 111680697188,
+  "artifact_id": 11334223851,
+  "artifact_bytes": 4508553,
+  "artifact_sha256": "52b4b05fe9e79e3916f77114afab23f482b65965540661b736bef04483847497",
+  "artifact_CRC": "PASS",
+  "status": "WRITER_QUALIFIED_5_COMPLETE_CASE_BODIES_PASS",
+  "expected_case_count": 5,
+  "observed_case_count": 5,
+  "counts": {
+    "native": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "actual_ids": {
+    "native": [
+      "F03_E20_CAPACITY_30_LOTS_TO_27_SALE_INVERSE",
+      "F03_E14_OPERATIONS_BOTH_PAGES_CARD_AND_WRITE"
+    ],
+    "http": [
+      "F03_E20_E14_HTTP_COMPLETE_SOURCE_CURRENT_AUTH"
+    ],
+    "browser": [
+      "F03_E20_BROWSER_OWNER_PAGES_TO_INVOICE",
+      "F03_E14_BROWSER_OPERATIONS_PAGES_REVOKED"
+    ]
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_F03_CAPACITY.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "E20_E14_REVOKED_OPERATIONS_MOBILE.png",
+    "E20_E14_SOURCE_OPERATIONS_MOBILE.png",
+    "E20_INVOICE_OWNER_DESKTOP.png",
+    "E20_POSTED_STOCK_OWNER_DESKTOP.png",
+    "E20_SOURCE_OWNER_DESKTOP.png"
+  ],
+  "full_job_log_original_sha256": "db636c3e01d92db92a930b1a46899cd821469fad2ce15f21d6e18328528a6be1",
+  "all_original_member_hashes": [
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385622,
+      "crc32": "77c3f862",
+      "sha256": "b02f02dfeb89a1d4503ed1d016a9da5c5e8c09651c8840eb46965880d6e63ab1"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385622,
+      "crc32": "77c3f862",
+      "sha256": "b02f02dfeb89a1d4503ed1d016a9da5c5e8c09651c8840eb46965880d6e63ab1"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "399b1698",
+      "sha256": "71eec0fe42e4395c94994bba20944f213eba0a9f89f28021294f3ca06a9e3197"
+    },
+    {
+      "name": "CP7_F03_CAPACITY.json",
+      "bytes": 419580,
+      "crc32": "3bd3e39f",
+      "sha256": "cd3686a6c528f245e70f1774e93257f6f9476c021bb51b1e5a5c7e5abc64a2b7"
+    },
+    {
+      "name": "E20_E14_REVOKED_OPERATIONS_MOBILE.png",
+      "bytes": 160873,
+      "crc32": "6490c24e",
+      "sha256": "b3f5f186ff4ecce9056135cfa8e72b02959ec91ca17b72b65c8d9251b03a3e4c"
+    },
+    {
+      "name": "E20_E14_SOURCE_OPERATIONS_MOBILE.png",
+      "bytes": 642320,
+      "crc32": "fe8b8e65",
+      "sha256": "ab5b63a6621bba903cc2db90cd503907fc341c7931aff95092504791cd654899"
+    },
+    {
+      "name": "E20_INVOICE_OWNER_DESKTOP.png",
+      "bytes": 655451,
+      "crc32": "f2e08273",
+      "sha256": "753298bf29405bc611a58c1ecfab9e6e96ea569a660c3e637f970c7c70d9a1d2"
+    },
+    {
+      "name": "E20_POSTED_STOCK_OWNER_DESKTOP.png",
+      "bytes": 677690,
+      "crc32": "bc9c5c0e",
+      "sha256": "8f446572d33414d4f37e806eff9e9666fb5835077bb90d0c97217c53f8a8b5f5"
+    },
+    {
+      "name": "E20_SOURCE_OWNER_DESKTOP.png",
+      "bytes": 792906,
+      "crc32": "6254a7e2",
+      "sha256": "f7041cc2f9942ba5aad2b5ab840c7b34159e958e23c5bd878b50c1fdee619f0d"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "871dfcbe",
+      "sha256": "cb96b34864e863bdb59fd5a86b3988e00625b5a5feb4cc7ba3d203e3ac6a8b4b"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360423,
+      "crc32": "732925f3",
+      "sha256": "b341cfec15bf624dfcd3a48f40d9ea48e39cd9d592eeab4b86475ba6925cf9f1"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "installed_status": "ALL_STAGES_INSTALLED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "PASS",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "full_raw_public_catalog_snapshot_count": 6,
+  "read_only_all_field_sensitivity_controls": {
+    "pair_order_only_equal": true,
+    "function_hash_change_refused": true,
+    "function_signature_change_refused": true,
+    "missing_function_member_refused": true,
+    "duplicate_function_member_refused": true,
+    "relation_member_change_refused": true,
+    "public_row_hash_or_member_change_refused": true,
+    "observed_input_not_mutated": true
+  },
+  "original_public_fields_dropped": [],
+  "old861_final_group_failure_exact_cause_proved": false,
+  "new_execution_case_credit": 0
+}

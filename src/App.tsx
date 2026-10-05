@@ -1,3 +1,4 @@
+import {TransactionSourceProvider} from './TransactionSourceNavigation'
 import { alignSizeQuantities } from './sizeQuantities'
 import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
@@ -446,9 +447,11 @@ function ErpApp() {
   const accessBundle = identity.status === 'AUTHORIZED' ? identity : null
   const demoAccess = identity.status === 'DEMO'
   const canSeeNavLabel = (label: string) => demoAccess || isNavLabelAllowed(accessBundle, label)
-  const [page, setPage] = useState<Page>(() => demoAccess
+  const [page, setPageState] = useState<Page>(() => demoAccess
     ? 'dashboard'
     : (firstAllowedPageId(accessBundle) as Page | null) ?? 'dashboard')
+  const [sourceEpoch,setSourceEpoch]=useState(0)
+  const setPage=(next:Page)=>{if(next!==page)setInvoiceSource(null);setSourceEpoch(value=>value+1);setPageState(next)}
   const [invoiceSource,setInvoiceSource] = useState<{saleId:string;scope:string}|null>(null)
   const invoiceSourceScope=runtime.mode==='DISPOSABLE_TEST'&&identity.status==='AUTHORIZED'?`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`:null
   const [expanded, setExpanded] = useState<NavSection | null>(null)
@@ -595,7 +598,7 @@ function ErpApp() {
     setMobileNav(false)
   }
 
-  return <div className="app-shell">
+  return <TransactionSourceProvider scope={invoiceSourceScope} epoch={sourceEpoch} onNavigate={route=>{if(!accessBundle||!isPageAllowed(accessBundle,route))throw Error('Hak membuka transaksi asal belum diberikan.');setInvoiceSource(null);setPageState(route as Page);setMobileNav(false)}}><div className="app-shell">
     <aside className={`sidebar ${mobileNav ? 'sidebar-open' : ''}`}>
       <div className="brand-row"><div className="brand-mark"><Icon name="brand" /></div><div><strong>ATELIER</strong><span>GARMENT ERP</span></div><button className="nav-close" aria-label="Tutup menu" onClick={() => setMobileNav(false)}>×</button></div>
       <div className="nav-caption">MENU UTAMA</div>
@@ -630,7 +633,7 @@ function ErpApp() {
           onToggleReminder={(id)=>setReminders((current)=>current.map((item)=>item.id===id?{...item,status:item.status==='OPEN'?'DONE':'OPEN',completedAt:item.status==='OPEN'?'Sesi ini':undefined}:item))}
         />}
         {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}>{runtime.mode==='DISPOSABLE_TEST'&&(page==='sales-invoice'||page==='sales-allocation'||page==='sales-payments'||page==='sales-returns')?<ConnectedSalesPage view={page} initialSaleId={page==='sales-invoice'&&invoiceSourceScope!==null&&invoiceSource?.scope===invoiceSourceScope?invoiceSource.saleId:null}/>:<SalesPages view={page} onNavigate={(next)=>setPage(next)} />}</Suspense>}
-        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceReportPage/> : page === 'finance-cash' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setInvoiceSource({saleId,scope:invoiceSourceScope});setPage('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
+        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}>{page === 'finance-overview' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceOverviewPage onNavigate={(next)=>setPage(next)}/> : page === 'finance-reports' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedFinanceReportPage/> : page === 'finance-cash' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedCashLedgerPage/> : page === 'finance-journal' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedJournalPage/> : page === 'finance-ar' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedReceivablesPage onOpenInvoice={(saleId)=>{if(invoiceSourceScope!==null){setSourceEpoch(value=>value+1);setInvoiceSource({saleId,scope:invoiceSourceScope});setPageState('sales-invoice')}}}/> : page === 'finance-ap' && runtime.mode !== 'DEMO_SIMULATION' ? <ConnectedSupplierCreditPage onLaundry={()=>setPage('laundry')}/> : page === 'finance-payroll' && runtime.mode === 'DISPOSABLE_TEST' ? <ConnectedPayrollPage/> : <FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} />}</Suspense>}
         {page === 'stock-card' && (runtime.mode === 'DEMO_SIMULATION' ? <StockCard /> : <Suspense fallback={<WorkspaceFallback label="Kartu stok FG"/>}><ConnectedFgStockPage purpose="CARD"/></Suspense>)}
         {page === 'fg-summary' && runtime.mode !== 'DEMO_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang jadi"/>}><ConnectedFgStockPage/></Suspense>}
         {page === 'movements-vivo' && (runtime.mode === 'DEMO_SIMULATION' ? <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} /> : <Suspense fallback={<WorkspaceFallback label="Buku mutasi Vivo"/>}><ConnectedFgBookPage bookName="Vivo"/></Suspense>)}
@@ -758,7 +761,7 @@ function ErpApp() {
         </>}
       </div>
     </main>
-  </div>
+  </div></TransactionSourceProvider>
 }
 
 function WorkspaceFallback({ label }: { label: string }) {

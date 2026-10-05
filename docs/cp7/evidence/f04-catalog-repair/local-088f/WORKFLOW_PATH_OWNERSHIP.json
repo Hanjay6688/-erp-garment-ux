@@ -1,0 +1,98 @@
+{
+  "classification": "READ_ONLY_WORKFLOW_STRUCTURE_COMPARE_NOT_EXECUTION",
+  "adapter_importing_or_wrapping_workflows": 17,
+  "added_trigger_count": 15,
+  "permissions_jobs_timeouts_commands_and_case_budgets_unchanged": true,
+  "workflows": [
+    {
+      "path": ".github/workflows/cp7-f04-history.yml",
+      "before_sha256": "10ffef85715dcf4a4b46354f37a9afb4236cbbb3241de38fc036639b699594f0",
+      "after_sha256": "7920adf98e753e5b1d0d2d86de12d6444e9573c42b47f8eb3fb1dd9649e9bfbc",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-inputs.yml",
+      "before_sha256": "dd5c42a60b35b0f98de9e66de64dc7223bf24a28b96e81f657e87aabb4230fab",
+      "after_sha256": "26bc6b9dbb076a052e2767e0c21244b777ffe1e7950d5fa56445a9cce603ccf7",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-observations.yml",
+      "before_sha256": "e46b231280ad96030bfdad48d238d7e1efc555d8ee5d1cd33981fa7717c954fd",
+      "after_sha256": "286dc8a5337e97f150e7bb850f3a5819f833730dc7db44d620f5f91940e5405b",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-model.yml",
+      "before_sha256": "5d7fe934a5150ebfb918219118ba1da7bb8fe13c9ce119e59f3816f91eb2bcbc",
+      "after_sha256": "96548afa82f91162a3074fc62182a3b326a548e0757b5635ff0e110c6becf193",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-supply.yml",
+      "before_sha256": "b2af2314b62f3b4215acda1379720f28250146b0e6d517abade80ac928f3b8b6",
+      "after_sha256": "3da7cae691e750e8ecdd6515279db5e9bb87d1610f226384ad8a50e88d07d546",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-schedule.yml",
+      "before_sha256": "f0148adb2ef228aebe88543a484dc4c17c56fe90d58e76831514af90386ab421",
+      "after_sha256": "0b04342238d99b3dd7ab708062b670b88e08b3e553193c4a0e64e55d5081388c",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-baseline.yml",
+      "before_sha256": "cdbdb9fbf3be450cda4a6bde07d9542a6981194601a6dc998076a0d222f55509",
+      "after_sha256": "eba60a5dfe3f945b56f8dfd27303c914b7e61e531192428f10bf6dcab9cbf0c9",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-model.yml",
+      "before_sha256": "dc9c62b570954f6b17fc7c753c8d01255ef598d2c5a959423850d8abc86e34bd",
+      "after_sha256": "1abdd2de7aa352ae21f64a004d4b6349bf2f6cff6ca02e3be20ba2b023dc37ec",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-plan.yml",
+      "before_sha256": "4337def7fab0d6efa86a937c1d2c62edb9bd35f09b7e856643d3d10f0a28d19e",
+      "after_sha256": "1b2cb4654da7e082cc7978022e21dbc3ca146c1e0dd0b418fc0eb1b3e81db6ea",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-f04-netting.yml",
+      "before_sha256": "350138dc3218449d7f5db64d77ee40cfa22bd3ca55ae2c4c62526594b604a1ca",
+      "after_sha256": "e0ac53a7a80e465a2d842ec403f9f40fc9c037d01eec06b29c7b2e60436d2c61",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-p18-e01-bridge.yml",
+      "before_sha256": "f6878833d8e800874a63883209c2c6f7d8b48be4e1bf108f2f0d93a1461961c3",
+      "after_sha256": "caef68084ff98a871cde7eef3cf0e9e12c0bd83f1c160b813eba6cbb6d469b03",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-native-read-diagnostic.yml",
+      "before_sha256": "762ebb1fb1c9eb36b2246730fa55708ffdd5c572318723008061490c1edbe856",
+      "after_sha256": "b05a4bd0fad7004cf324de797fab42a6fb5c7168144ab70f11d2dadf43288ee0",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-transaction-source.yml",
+      "before_sha256": "2cb0db192513b4c1e3b4cf41514bd4d05c91ce284c8b87ae36f422b067882775",
+      "after_sha256": "77bf2a205b5ec24064b0fab846d6d65f31afcdb6976831b958090c8302c305a8",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-misc-correction.yml",
+      "before_sha256": "05810e7328659daa0ce68362ac9eeecae1314fd1c7a9c7b1a5ffd5ed0f461d55",
+      "after_sha256": "f0c804d2930001e215548a65cbd9088f86d803bfcb457f827f1f6e817ce082b0",
+      "only_added_path_trigger": true
+    },
+    {
+      "path": ".github/workflows/cp7-rule-lifecycle.yml",
+      "before_sha256": "427ad0e8a67d501d0bc34d1b0aa840f7f9e57e11d354f9186d998d711ebd26de",
+      "after_sha256": "0414fa89c0b6d698d16cc345e839f9fdb06483966abc4646ec062c43829a367e",
+      "only_added_path_trigger": true
+    }
+  ]
+}

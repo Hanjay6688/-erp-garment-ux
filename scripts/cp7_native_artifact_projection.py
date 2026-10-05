@@ -18,6 +18,56 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         return None
 
 
+def retain_requested_images(source, receipt, requested, destination):
+    """Copy bounded exact PNG members after the whole Original ZIP is verified."""
+    assert isinstance(requested, list) and len(requested) <= 8
+    assert all(isinstance(name, str) and name == Path(name).name
+               and name.endswith('.png') for name in requested)
+    assert len(set(requested)) == len(requested)
+    records = {}
+    for name in requested:
+        expected = receipt['all_zip_members'][name]
+        assert 0 < expected['bytes'] <= 2 * 1024 * 1024
+        raw = source.read(name)
+        assert len(raw) == expected['bytes']
+        assert hashlib.sha256(raw).hexdigest() == expected['sha256']
+        assert raw.startswith(b'\x89PNG\r\n\x1a\n')
+        target = Path(destination) / 'images' / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw)
+        records[name] = dict(expected, file='images/' + name,
+                             original_bytes_unchanged=True,
+                             visual_review='NOT_AUTOMATICALLY_QUALIFIED')
+    return records
+
+
+def verify_declared_case_counts(report, manifest):
+    if 'required_case_counts' in report:
+        assert report['required_case_counts'] == manifest['required_case_counts']
+        return
+    if manifest['expected_status'] == 'PASS':
+        # Fixed analysis reports omit the redundant declared budget field.
+        assert {g: report[g]['counts'] for g in manifest['required_case_counts']} == {
+            g: {'PASS': n} for g, n in manifest['required_case_counts'].items()}
+        return
+    # A first incomplete fixed-analysis Original needs exact explicit counts;
+    # preserve its failures rather than admitting it as a qualified report.
+    assert report['status'] == manifest['expected_status'] == 'INCOMPLETE'
+    counts = manifest['incomplete_case_counts']
+    assert set(counts) == set(manifest['required_case_counts'])
+    assert any(c.get('INCOMPLETE', 0) > 0 for c in counts.values())
+    for group, budget in manifest['required_case_counts'].items():
+        observed = report[group]['counts']
+        assert observed == counts[group] and set(observed) <= {'PASS', 'INCOMPLETE'}
+        assert all(type(n) is int and n > 0 for n in observed.values())
+        assert sum(observed.values()) == budget
+        cases = report[group]['races' if group == 'races' else 'cases']
+        actual = {}
+        for case in cases.values():
+            actual[case['status']] = actual.get(case['status'], 0) + 1
+        assert len(cases) == budget and actual == observed
+
+
 def project(manifest_path, destination):
     manifest = json.loads(Path(manifest_path).read_text())
     repository = manifest['repository']
@@ -72,14 +122,7 @@ def project(manifest_path, destination):
     with zipfile.ZipFile(archive) as source:
         report = json.loads(source.read(manifest['runtime_report']))
     assert report['source_sha256'] == manifest['source_bundle_sha256']
-    if 'required_case_counts' in report:
-        assert report['required_case_counts'] == manifest['required_case_counts']
-    else:
-        # Older fixed analysis reports omit this redundant budget field. Pin
-        # their complete successful group counts to the explicit manifest.
-        assert manifest['expected_status'] == 'PASS'
-        assert {g: report[g]['counts'] for g in manifest['required_case_counts']} == {
-            g: {'PASS': n} for g, n in manifest['required_case_counts'].items()}
+    verify_declared_case_counts(report, manifest)
     if manifest['expected_status'] == 'PASS':
         assert report['browser']['console_errors'] == 0
     metadata = {key: manifest[key] for key in (
@@ -89,6 +132,9 @@ def project(manifest_path, destination):
     )}
     metadata['zip_verification_runtime'] = 'GITHUB_ACTIONS_READ_ONLY_ARTIFACT_PROJECTION'
     receipt = retain(archive, metadata, destination)
+    with zipfile.ZipFile(archive) as source:
+        images = retain_requested_images(source, receipt,
+                                         manifest.get('image_members', []), destination)
     diagnostics = {}
     requested = manifest.get('diagnostic_members', [])
     optional = manifest.get('optional_diagnostic_members', [])
@@ -134,6 +180,7 @@ def project(manifest_path, destination):
         Native_product_cases_reexecuted=0, Native_database_access=False,
         full_family_acceptance=False, independent_acceptance=False, production_go=False,
         exact_failure_diagnostics=diagnostics,
+        exact_original_images=images,
     )
     (destination / 'PROJECTION.json').write_text(json.dumps(projection, indent=2) + '\n')
     archive.unlink()

@@ -1,0 +1,32 @@
+{
+  "head": "e133a874c20394f3c86147a8c2ab06112ca5d152",
+  "run_id": 37107850885,
+  "job_id": 111159780645,
+  "artifact_id": 11268922177,
+  "archive_sha256": "5c92f027ca929bfda916b36da51455364e6b288b6cfed77821e2942330d81555",
+  "original_sha256": "4321f679fd319723b1645d5831d30d3ee9dee0988491f7dbb693875b76229ac8",
+  "package_original_sha256": "5c1fc065b809a3e8317bad9cb3934d0bf5be23ca9516ffa74f4e2c17faa4361c",
+  "source_sha256": "b30a286e4e9971587d8f7d271ccbe44ae599c4f6529f42ea623f3ce0412d029a",
+  "status": "INCOMPLETE",
+  "observed_case_count": 18,
+  "groups": {
+    "native": {
+      "INCOMPLETE": 14
+    },
+    "races": {
+      "INCOMPLETE": 2
+    },
+    "http": {
+      "INCOMPLETE": 2
+    },
+    "browser": null
+  },
+  "failure": "Hosted non-superuser postgres driver lacks private validate/link/context/table grants; PGlite superuser concealed them. Browser route callback threw an unhandled assertion on actual HTTP403, bypassing harness Auth cleanup.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": false,
+  "auth_users_before": 0,
+  "auth_users_after": 1,
+  "production_go": false,
+  "independent_acceptance": false
+}

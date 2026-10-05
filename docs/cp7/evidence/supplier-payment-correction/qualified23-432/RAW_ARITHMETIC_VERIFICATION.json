@@ -1,0 +1,76 @@
+{
+  "source_commit": "43265e22b723073680a7b3b2acaf698770f8cf14",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_SUPPLIER_PAYMENT_CORRECTION.json": {
+      "bytes": 382837,
+      "sha256": "01e713738fa14d7b7d48c0315b6bc119d7f25a05cf56fd1269e6634aff01c5cb"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "562b6eeca7548d72ef065cd7a00426b101861e2b22db452bcf28f8715a7253c2"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360429,
+      "sha256": "450c27a880f0b78c05f433831560a626173a2f4104718a046f4e39b511cae50f"
+    }
+  },
+  "groups": {
+    "native": {
+      "rows": 364,
+      "every_later_cash_prefix_delta": "+12.00",
+      "first_before": [
+        "2025-10-03",
+        "-61.00"
+      ],
+      "first_after": [
+        "2025-10-03",
+        "-49.00"
+      ],
+      "last_before": [
+        "2026-10-01",
+        "-424.00"
+      ],
+      "last_after": [
+        "2026-10-01",
+        "-412.00"
+      ],
+      "raw_arrays_independently_recomputed": true,
+      "original_clock_amount_posting_and_stock_HPP_unchanged": true,
+      "actual_HTTP_ms": null,
+      "production_SLA": false
+    },
+    "http": {
+      "rows": 364,
+      "every_later_cash_prefix_delta": "+12.00",
+      "first_before": [
+        "2025-10-03",
+        "-61.00"
+      ],
+      "first_after": [
+        "2025-10-03",
+        "-49.00"
+      ],
+      "last_before": [
+        "2026-10-01",
+        "-424.00"
+      ],
+      "last_after": [
+        "2026-10-01",
+        "-412.00"
+      ],
+      "raw_arrays_independently_recomputed": true,
+      "original_clock_amount_posting_and_stock_HPP_unchanged": true,
+      "actual_HTTP_ms": 54.907,
+      "production_SLA": false
+    }
+  },
+  "production_SLA": false
+}

@@ -1,14 +1,14 @@
 {
   "repository": "Hanjay6688/-erp-garment-ux",
-  "run_id": 37023166457,
-  "job_id": 110891080531,
-  "artifact_id": 11236492033,
+  "run_id": 37140634704,
+  "job_id": 111254173539,
+  "artifact_id": 11280926337,
   "artifact_name": "cp7-f05-attention",
-  "source_commit": "13bafb9897fb2137a26e2eea16b06b0f131aff81",
-  "source_tree": "1c2dddae0fa188932273b4afbb1d24a6349ac0ae",
-  "source_bundle_sha256": "a99e8db22c59cb22926dcc9f828b58885cad79893d0c59593a96f941f8e0b933",
-  "zip_bytes": 348731138,
-  "zip_sha256": "23fcd19857371eeb2c5aa070a02d7afd95e310d7c003bc50e8735d64b5a4a602",
+  "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+  "source_bundle_sha256": "24a4a2cb763fddabff9a30fccf57e30a03683f8bc65c301642aebf48a2861b45",
+  "zip_bytes": 353239084,
+  "zip_sha256": "0e86a17763c5f7c29810acc30ce052afd3495c5f2d34846f9f5e337d0d0aeca5",
   "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
   "expected_status": "PASS",
   "expected_case_count": 284,
@@ -17,5 +17,11 @@
     "races": 40,
     "http": 29,
     "browser": 36
-  }
+  },
+  "image_members": [
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png"
+  ]
 }

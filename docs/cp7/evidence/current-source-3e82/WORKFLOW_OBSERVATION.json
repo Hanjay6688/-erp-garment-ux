@@ -1,0 +1,371 @@
+{
+  "contract": "cp7.exact-source-workflow-observation.v1",
+  "source_commit": "3e82f789326ea18e430d7ed8adf1f8c2cb2435ec",
+  "source_tree": "bf312bd0a59101faf8ee68b6b7c48b1574cff145",
+  "status": "OBSERVED_55_SUCCESS_2_FAILURE_2_PENDING_NOT_FULL_MATRIX_ACCEPTANCE",
+  "total_workflows": 59,
+  "new_unique_oracle_claim": false,
+  "runs": [
+    {
+      "id": 37284698800,
+      "name": "CP7 Completed Native Artifact Projection",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698578,
+      "name": "CP7 F04 Native Demand History",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284697813,
+      "name": "CP7 F04 Global Native Production Supply",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698144,
+      "name": "CP7 F04 Prospective Cutting Inputs",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698756,
+      "name": "CP7 P10 Finished goods",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698384,
+      "name": "CP7 P02 source capture probe",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698793,
+      "name": "CP7 F03 E20 E14 Complete Stock Capacity",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698806,
+      "name": "CP7 P00 accepted-base catalogue",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698789,
+      "name": "CP7 F04 Prospective Native Cutting Model and Consumer",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698855,
+      "name": "CP7 Owning Historical Note Correction",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698807,
+      "name": "CP7 Native Atomic Supplier Payment Correction",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698783,
+      "name": "CP7 F04 Native Cutting Observations",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698349,
+      "name": "CP7 P04 WIP kernels",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698785,
+      "name": "CP7 P13 Period control",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698454,
+      "name": "CP7 Native Atomic Payment Correction",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698804,
+      "name": "CP7 F03 Native Misc Finance",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698122,
+      "name": "CP7 F03 Required Cost Continuations",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698391,
+      "name": "CP7 F03 Supplier Current Authority",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698444,
+      "name": "CP7 F03 Combined Supplier Returns",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698227,
+      "name": "CP7 F03 E06 Year-end Late Invoice",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698681,
+      "name": "CP7 P12 Nota source",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284697692,
+      "name": "CP7 F03 E03 Customer Service",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698540,
+      "name": "CP7 P13 Finance Analysis",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698501,
+      "name": "CP7 P13 HPP recost",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698071,
+      "name": "CP7 P02 actor facade",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284697647,
+      "name": "CP7 P12 Nota and payroll lifecycle",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698795,
+      "name": "CP7 Native Posted Cutting Reopen",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698607,
+      "name": "CP7 F04 Native Model Evaluation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698450,
+      "name": "CP7 F03 Native Reservation and Size Planner Seams",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698308,
+      "name": "CP7 Native Atomic Misc Correction",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284697618,
+      "name": "CP7 F04 Native Profile and Baseline Targets",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698774,
+      "name": "CP7 P03 production policy",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698587,
+      "name": "CP7 P11 Sales",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698725,
+      "name": "CP7 F03 E01 Source Journey",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698696,
+      "name": "CP7 Shell S0",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284697920,
+      "name": "CP7 Native Transaction Source Navigation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698914,
+      "name": "CP7 F03 X04 Source Versions",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698814,
+      "name": "CP7 F03 E24 Material Issue",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698477,
+      "name": "CP7 F03 E05 Payroll Installments",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698901,
+      "name": "CP7 Native Atomic Customer Return Correction",
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "id": 37284698442,
+      "name": "CP7 Retain Existing Native Originals",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698522,
+      "name": "CP7 F04 Native Selected Production Schedule",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698136,
+      "name": "CP7 F03 Combined Stack",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698849,
+      "name": "CP7 P18 E01 Consumer Bridge",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698930,
+      "name": "CP7 F05 Native Durable Attention",
+      "status": "in_progress",
+      "conclusion": null
+    },
+    {
+      "id": 37284698917,
+      "name": "CP7 Native Read Stage Diagnostic",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698744,
+      "name": "CP7 F03 X04 Paid Redye Continuation",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698905,
+      "name": "CP7 Native Inactive Rule Lifecycle",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698755,
+      "name": "CP7 F03 P13 Retained Regression",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698694,
+      "name": "CP7 Note Command Diagnostic",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698880,
+      "name": "CP7 F03 Cash and Native Finance Readers",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698380,
+      "name": "CP7 P09 Procurement",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698834,
+      "name": "CP7 P13 Finance",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698881,
+      "name": "CP7 F04 Native Product Bound Netting",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698722,
+      "name": "CP7 F04 Native Planning Draft Bridge",
+      "status": "completed",
+      "conclusion": "failure"
+    },
+    {
+      "id": 37284698874,
+      "name": "CP7 Owning Receipt Correction",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698931,
+      "name": "CP7 Native Atomic Sales Chain Reversal",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698127,
+      "name": "CP7 F05 Native Frozen Analysis",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37284698499,
+      "name": "CP7 F03 Full Retained Components",
+      "status": "completed",
+      "conclusion": "failure"
+    }
+  ],
+  "independent_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "observed_at_utc": "2026-10-05T09:16:27.593511+00:00"
+}

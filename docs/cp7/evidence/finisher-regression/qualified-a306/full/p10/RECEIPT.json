@@ -1,0 +1,338 @@
+{
+  "classification": "ACTUAL_SOURCE_BOUND_RETAINED_F03_BUCKET_WRITER_QUALIFIED_NOT_FULL_F03_OR_CP7",
+  "status": "PASS",
+  "bucket": "p10",
+  "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+  "source_bundle_sha256": "59d1ebf6ed44a4b4475515ee54e671362a9118233b9d28a5cf90f2413593c2d5",
+  "run_id": 37140634825,
+  "job_id": 111254174237,
+  "artifact_id": 11280381871,
+  "artifact_bytes": 5629251,
+  "artifact_sha256": "48a86af6705d366afea5017be7958ffc1f98527222384157a710cd195c608e8b",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385616,
+      "sha256": "5b5e10f70b3b4eb8d9fb037eab9410623465b6d75539889ba2d20ce7eb9c5a12"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385616,
+      "sha256": "5b5e10f70b3b4eb8d9fb037eab9410623465b6d75539889ba2d20ce7eb9c5a12"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "deefe0cc7b7a24834160aea9392d275c0c7e0468535c2ac383f90b6426f0d0e0"
+    },
+    "P10_ADJUST_DESKTOP.png": {
+      "bytes": 818910,
+      "sha256": "35ce319957b190fa1110ccf08a18131e94eb316cb1151c180e01c4d00225906d"
+    },
+    "CP7_F03_FULL_P10.json": {
+      "bytes": 317547,
+      "sha256": "d1d43be2b1b23e8672616334e33a215e43573b44ab78004ad897fac6b26cd290"
+    },
+    "P10_ADJUST_MOBILE.png": {
+      "bytes": 669879,
+      "sha256": "ba18bab7d2a9e8392ce399963109fd8332504c0359b59c463645934456908908"
+    },
+    "P10_BOOK_DESKTOP.png": {
+      "bytes": 937120,
+      "sha256": "a326288165eba0c2d22ca940019a915045e4668066d9e59df45fb123cd0a7069"
+    },
+    "P10_BOOK_MOBILE.png": {
+      "bytes": 561892,
+      "sha256": "06fac6daff8f4b0c51408f86f742c45889fb7a05eeeebf008533ed7d3fcd7884"
+    },
+    "P10_FG_DESKTOP.png": {
+      "bytes": 659530,
+      "sha256": "0d3666be873f493d89f9b090cb83fe07ecd68e46bb6be2a5f5c654c6cb76ebb2"
+    },
+    "P10_FG_MOBILE.png": {
+      "bytes": 414678,
+      "sha256": "5722147aa0bae2923aaf17856d37d473a12debb8960072387c8244cc7aaa85a4"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "56bb8a1f8bb9deedeff78665e3431bc36c287a39240ae5932ccf24c1a34e12b0"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "f026d8ba2988b99c99aa15bd5191ae0cc998019836d9073f9ce23a815335dde2"
+    }
+  },
+  "root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p10/ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_P10.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p10/CP7_F03_FULL_P10.json.gz",
+      "raw_bytes": 317547,
+      "raw_sha256": "d1d43be2b1b23e8672616334e33a215e43573b44ab78004ad897fac6b26cd290",
+      "gzip_bytes": 20363,
+      "gzip_sha256": "b8421547a1d00f1a53b7f92a169f07e6df9ee5d3977a02b4927d047472c6aff4"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p10/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10524,
+      "raw_sha256": "56bb8a1f8bb9deedeff78665e3431bc36c287a39240ae5932ccf24c1a34e12b0",
+      "gzip_bytes": 1827,
+      "gzip_sha256": "b50953a07c7c31cea65d98d1788beb358284477a1f16faa1beb149e6338bb403"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p10/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "file": "docs/cp7/evidence/finisher-regression/qualified-a306/full/p10/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360416,
+      "raw_sha256": "f026d8ba2988b99c99aa15bd5191ae0cc998019836d9073f9ce23a815335dde2",
+      "gzip_bytes": 11390,
+      "gzip_sha256": "65050346062f2dee61d3bfaca89fe37bebab5b3283e065cb6a0df08938bf4352"
+    }
+  },
+  "expected_case_count": 34,
+  "observed_case_count": 34,
+  "observed_smoke_count": 0,
+  "predeclared_groups": [
+    {
+      "key": "native",
+      "kind": "native",
+      "module": "cp7_fg_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 7
+    },
+    {
+      "key": "http",
+      "kind": "http",
+      "module": "cp7_fg_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "adjustments",
+      "kind": "native",
+      "module": "cp7_fg_adjustment_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "adjustment_races",
+      "kind": "races",
+      "module": "cp7_fg_adjustment_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "adjustment_http",
+      "kind": "http",
+      "module": "cp7_fg_adjustment_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "book",
+      "kind": "native",
+      "module": "cp7_fg_book_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 6
+    },
+    {
+      "key": "book_races",
+      "kind": "races",
+      "module": "cp7_fg_book_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "book_http",
+      "kind": "http",
+      "module": "cp7_fg_book_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p10_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p10_fg_probe.py",
+      "expected_executions": 6
+    }
+  ],
+  "provider_sha256": {
+    "native": "9387f52fe45b0c3d68b11dba21c4b121d5e52f2ab65e966aecdc43f2f85288de",
+    "http": "9387f52fe45b0c3d68b11dba21c4b121d5e52f2ab65e966aecdc43f2f85288de",
+    "adjustments": "fc8b7e19efbed8623c653549241e2274938301170479419be888a09326c04cca",
+    "adjustment_races": "fc8b7e19efbed8623c653549241e2274938301170479419be888a09326c04cca",
+    "adjustment_http": "fc8b7e19efbed8623c653549241e2274938301170479419be888a09326c04cca",
+    "book": "e922ce94866a1af07ecfb0165a8caeb839ccecde6be9bdafb24d80f168f69631",
+    "book_races": "e922ce94866a1af07ecfb0165a8caeb839ccecde6be9bdafb24d80f168f69631",
+    "book_http": "e922ce94866a1af07ecfb0165a8caeb839ccecde6be9bdafb24d80f168f69631",
+    "browser": "2b79511e1bc5748a6c512c6f62ed3b6e5d5b128802bca31826c488b2ad34527b"
+  },
+  "retained_probe_sha256": {
+    "cp7_p10_fg_probe.py": "d3a4d64698a35ed25c162680ace4d096465b0ae67d2143f6b6ead4ede175fa27"
+  },
+  "expected_group_executions": {
+    "native": 7,
+    "http": 1,
+    "adjustments": 8,
+    "adjustment_races": 2,
+    "adjustment_http": 1,
+    "book": 6,
+    "book_races": 2,
+    "book_http": 1,
+    "browser": 6
+  },
+  "counts": {
+    "native": {
+      "PASS": 7
+    },
+    "http": {
+      "PASS": 1
+    },
+    "adjustments": {
+      "PASS": 8
+    },
+    "adjustment_races": {
+      "PASS": 2
+    },
+    "adjustment_http": {
+      "PASS": 1
+    },
+    "book": {
+      "PASS": 6
+    },
+    "book_races": {
+      "PASS": 2
+    },
+    "book_http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "Auth_counts": {
+    "http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "adjustment_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "book_http": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "browser": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    }
+  },
+  "console_errors": 0,
+  "all_original_PNG_member_hashes_retained": true,
+  "raw_PNG_files_not_copied_or_visually_reviewed_this_source": true,
+  "full_CI_job_log_not_retained_this_checkpoint": true,
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

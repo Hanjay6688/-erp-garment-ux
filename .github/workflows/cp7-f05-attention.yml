@@ -4,6 +4,7 @@ name: CP7 F05 Native Durable Attention
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_note_correction_*
     - scripts/cp7-src/sales/**
     - scripts/cp7-src/fg/**
@@ -43,6 +44,7 @@ name: CP7 F05 Native Durable Attention
     - scripts/cp7_f05_history_browser*
     - scripts/cp7_f05_episode_browser.mjs
     - scripts/cp7_f05_ai_browser.mjs
+    - scripts/cp7_f05_ai_offline_browser.mjs
     - scripts/cp7_catalog_state.py
     - src/nativeObligationEpisodes*
     - src/NativeObligationObservationView.tsx
@@ -67,6 +69,9 @@ name: CP7 F05 Native Durable Attention
     - src/native-analysis.css
     - src/cp7/native-analysis.schema.json
     - scripts/cp7_f04_netting_*
+    - src/NativeProductionPlanningPanel*
+    - src/nativeProductionPlanning*
+    - src/native-production-planning.css
     - scripts/cp7_netting_bundle.py
     - scripts/cp7_schedule_bundle.py
     - scripts/cp7_supply_bundle.py
@@ -309,6 +314,13 @@ jobs:
       if: always()
       working-directory: base
       run: supabase stop --workdir cp5-local --no-backup
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7-f05-attention-original-json
+        path: auditor/cp6-proof/t3/*.json
+        retention-days: 30
+        if-no-files-found: error
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:

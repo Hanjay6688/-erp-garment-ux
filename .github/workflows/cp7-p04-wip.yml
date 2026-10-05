@@ -4,6 +4,7 @@ name: CP7 P04 WIP kernels
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_p04_wip_probe.py
     - scripts/cp7-src/wip/**
     - scripts/cp7_wip_bundle.py

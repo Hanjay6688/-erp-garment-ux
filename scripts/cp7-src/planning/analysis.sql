@@ -8,16 +8,17 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
  engine as(select encode(extensions.digest(convert_to(string_agg(
   p.oid::regprocedure::text||':'||pg_get_functiondef(p.oid),E'\n'order by p.oid::regprocedure::text),'UTF8'),'sha256'),'hex')signature
   from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-  where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models','cp7_finance')
+  where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_fabric_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models','cp7_finance')
    or p.oid='erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure)
  select c||jsonb_build_object('analysis_engine_signature',signature,
-  'material_source',cp7_analysis_native.material_source(c->'facts'->'products',(c->>'captured_at')::timestamptz))from native cross join engine
+  'material_source',cp7_analysis_native.material_source(c->'facts'->'products',(c->>'captured_at')::timestamptz),
+  'fabric_source',cp7_fabric_native.source(c->'facts'->'products',(c->>'captured_at')::timestamptz))from native cross join engine
 $$;
 create function cp7_analysis_native.fingerprint(c jsonb)returns text
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
  select encode(extensions.digest(convert_to(jsonb_build_object('source',cp7_netting_native.fingerprint(c),
   'engine',c->'analysis_engine_signature','financial_source',c->'financial_source'->'source_hash',
-  'material_source',(c->'material_source')-'captured_at')::text,'UTF8'),'sha256'),'hex')
+  'material_source',(c->'material_source')-'captured_at','fabric_source',(c->'fabric_source')-'captured_at')::text,'UTF8'),'sha256'),'hex')
 $$;
 create function cp7_analysis_native.fact(value text,unit text,refs jsonb,assumptions jsonb default '[]')returns jsonb
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
@@ -94,7 +95,7 @@ begin
    'selection_reason','Native available-history/manual fallback; no backtest promotion without earlier-known training evidence',
    'validation_fold_ids','[]'::jsonb,'scores','[]'::jsonb));
   end if;
-  materials:=materials||cp7_analysis_native.material_needs(c,r,row_aids);
+  materials:=materials||cp7_analysis_native.material_needs(c,r,row_aids)||cp7_fabric_native.needs(c,r,row_aids);
   metrics:=metrics||jsonb_build_array(jsonb_build_object('metric_id','AVAILABLE_FG_PCS:'||(r->>'target_key'),'version','native-availability-1',
    'value',cp7_analysis_native.fact(r->>'available_fg_pcs','PCS',refs),'formula_ref','NATIVE_PHYSICAL_MINUS_ACTIVE_DRAFT_RESERVATIONS_ONCE',
    'operands',jsonb_build_array(cp7_analysis_native.fact(stock->'availability'->>'physical_fg_pcs','PCS',stock->'refs'),
@@ -153,10 +154,18 @@ begin
    'allocated',cp7_analysis_native.fact(case when allocation_known then coalesce(allocated,0)::text else null end,'PCS',p->'refs'),
    'eta',eta->'eta','eta_basis',case when eta->>'status'='CONDITIONAL'then 'ASSUMED'when eta->>'status'='KNOWN'then 'CONFIRMED_PLAN'else 'UNKNOWN'end,'refs',p->'refs'));
  end loop;
+ for part in select value from jsonb_array_elements(c->'fabric_source'->'selected')loop
+  if known_targets?(part->>'target_key')then
+   assumptions:=assumptions||jsonb_build_array(jsonb_build_object('id',part->>'id',
+    'label','Pemakaian kain per PCS untuk '||(part->>'target_key')||' yang dipilih; bukan konsumsi, pemasangan atau alokasi aktual',
+    'origin','OWNER_INPUT','confirmed_for_operation',false));
+  end if;
+ end loop;
  for k,part in select key,value from jsonb_each(jsonb_build_object('native_operational',c->'facts','native_production',c->'production_sources'->'facts',
   'native_matching',c->'matching_products','planning_profiles',c->'profiles','production_policy',c->'production_policies'->'rows',
   'selected_schedule',c->'schedule','dated_capacity_clock',c->'planning_time_bucket','analysis_engine',c->'analysis_engine_signature',
-  'native_material_requirements',(c->'material_source')-'captured_at'))loop
+  'native_material_requirements',(c->'material_source')-'captured_at',
+  'selected_fabric_requirements',(c->'fabric_source')-'captured_at'))loop
   part_hash:=encode(extensions.digest(convert_to(part::text,'UTF8'),'sha256'),'hex');
   if k in('native_operational','native_production')then
    with recursive objects(value)as(select part union all

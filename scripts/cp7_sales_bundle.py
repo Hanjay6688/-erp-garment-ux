@@ -23,5 +23,5 @@ def admission():
  old_definition:=pg_get_functiondef('erp.require_internal()'::regprocedure);
  execute replace(old_definition,$anchor$"""+ANCHOR+"""$anchor$,$delta$"""+ADMISSION+ANCHOR+"""$delta$);
 end $patch$;"""
-def extension():return '\n'.join((ROOT/'scripts/cp7-src/sales'/p).read_text() for p in ('read.sql','drafts.sql','commands.sql','form.sql','payments.sql','returns.sql'))+'\n'+admission()
+def extension():return '\n'.join((ROOT/'scripts/cp7-src/sales'/p).read_text() for p in ('read.sql','drafts.sql','commands.sql','form.sql','payments.sql','returns.sql','payment-correction.sql'))+'\n'+admission()
 def bundle():return cp7_procurement_bundle.bundle()+'\n'+extension()

@@ -1,4 +1,6 @@
-# Focused E01 consumer bridge: prior Native7 qualified, expanded Native9 pending
+# Focused E01 consumer bridge: Native9 qualified; full P18 open
+
+> Current status: expanded Native9 has its source-bound qualification at45e06d7 in evidence/p18-e01-bridge/qualified9-45e06d7/ and CURRENT_STATE.json. The seven-case description and pending nine-case continuation below remain checkpoint history, not the current decision. Full P18–P21 remain open; consult CURRENT_PROGRESS.md for the integration candidate.
 
 F03 is writer-qualified. This bridge checks the actual connection from its accepted physical/cost/cash worksheet into F04/F05 consumers. It does not reopen F03 or close the complete P18 charter.
 

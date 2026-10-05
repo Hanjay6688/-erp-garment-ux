@@ -1,0 +1,161 @@
+{
+  "classification": "ACTUAL_DIAGNOSTIC2_FUNCTION_PROFILE_AVAILABLE_EXACT_RESTORATION_NO_PRODUCT_EXIT_CREDIT",
+  "status": "PASS_DIAGNOSTIC_ONLY",
+  "source_commit": "3266539801e198de6cdd480fa3156d91b050bf9d",
+  "source_tree": "d67258779c09da36e58552ad9912ebf13a940e65",
+  "source_bundle_sha256": "59d1ebf6ed44a4b4475515ee54e671362a9118233b9d28a5cf90f2413593c2d5",
+  "run_id": 37146790672,
+  "job_id": 111272297734,
+  "artifact_id": 11283151867,
+  "artifact_bytes": 1812133,
+  "artifact_sha256": "891efe858ea5f5bb6656f6bc81be1dbc6f22aa434f7315e8e223747fd8b80e17",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385619,
+      "sha256": "8ec2b2a778a334a80f05c86dae3f83bcc57840829b0c8972b0d34470ab5fdb82"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385619,
+      "sha256": "8ec2b2a778a334a80f05c86dae3f83bcc57840829b0c8972b0d34470ab5fdb82"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "f506e9074d1d420be7fd53135f6f6d37e485799b27ac0c42f04515414a2fb1aa"
+    },
+    "CP7_NOTE_COMMAND_DIAGNOSTIC.json": {
+      "bytes": 3718924,
+      "sha256": "2f479e66c61a643803a3fab7d6401f333e8f2168ef09fe8874887ded08570eea"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "627ff2186c533c330dad4fa29ab2c50838241ec2278b06069708c21de8422448"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360411,
+      "sha256": "501cb4c740db9d9bccf372bc3384f21ba6ee2464e9da05c7849a33890f4196f2"
+    }
+  },
+  "root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "file": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-3266/ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17286,
+      "raw_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_bytes": 4731,
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_NOTE_COMMAND_DIAGNOSTIC.json": {
+      "file": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-3266/CP7_NOTE_COMMAND_DIAGNOSTIC.json.gz",
+      "raw_bytes": 3718924,
+      "raw_sha256": "2f479e66c61a643803a3fab7d6401f333e8f2168ef09fe8874887ded08570eea",
+      "gzip_bytes": 178923,
+      "gzip_sha256": "ca97906fb02820c0e686fea1739fa61527d53fa8e106bda855504e97609d32a4"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "file": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-3266/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10524,
+      "raw_sha256": "627ff2186c533c330dad4fa29ab2c50838241ec2278b06069708c21de8422448",
+      "gzip_bytes": 1826,
+      "gzip_sha256": "808d95a96cfe78130322453e4a5ec86153350a8523712c20a6f1b29fb56324de"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "file": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-3266/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "file": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-3266/T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360411,
+      "raw_sha256": "501cb4c740db9d9bccf372bc3384f21ba6ee2464e9da05c7849a33890f4196f2",
+      "gzip_bytes": 11390,
+      "gzip_sha256": "1af8084b7e08dfe27f6d46ba30ad2dccfca7ad21d018a57ceca9fafb12b0a2ca"
+    }
+  },
+  "original_CI_log": {
+    "file": "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-3266/ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 4600603,
+    "raw_sha256": "87ba3dc94e5c29dd46622b3e7338514b55a293cfafe018d54001c03ae4bd377e",
+    "gzip_bytes": 333098,
+    "gzip_sha256": "9f51d45ece058819adcac90c666ec90cbd7cecfee3901d4b6ff217920f680e03"
+  },
+  "counts": {
+    "native": 1,
+    "http": 1
+  },
+  "actual_HTTP_rows": 6,
+  "Native_exit_case_credit": 0,
+  "product_qualification": false,
+  "function_profile_available": true,
+  "function_profile_available_source_bound_not_sixth_product_case": true,
+  "function_profile_parser_sha256": "6b0bcef8b4030d68452337793c10432d04ccf893010fd6e95c0ef2bfb283343e",
+  "tracker_installation": {
+    "database": "cp6_auditor_http",
+    "temporary_tracking_owner": "cp6_maintenance_admission",
+    "existing_installer_superuser_checked": true,
+    "no_new_role_or_parameter_SET_grant": true,
+    "tracking_definition_and_existing_execute_scope_unchanged": true,
+    "connection_strings_or_passwords_emitted": false,
+    "owning_command_still_original_authenticated_invoker": true
+  },
+  "function_counters_before": 0,
+  "function_counters_after": 55,
+  "year_default_command_elapsed_ms": 3782.345,
+  "year_default_observation_elapsed_ms": 471.377,
+  "year_default_HTTP_elapsed_ms": 4281.872,
+  "year_profile_command_elapsed_ms": 3744.339,
+  "year_profile_observation_elapsed_ms": 455.613,
+  "year_profile_HTTP_elapsed_ms": 4226.266,
+  "all366_after_main_and_lot_closings_recomputed_in_both_modes": true,
+  "all364_before_after_shifts_and_complete_snapshot_restoration_are_Native_assertions_not_extra_raw_recomputation": true,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_raw_public_equal": false,
+  "restore_raw_public_difference_is_only_pair_order_independently_recomputed": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "static_timeout": "8s",
+  "actual_owning_command_invoker": "authenticated",
+  "independent_acceptance": false,
+  "production_go": false,
+  "one_success_does_not_establish_timeout_cause": true
+}

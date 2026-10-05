@@ -1,0 +1,72 @@
+{
+  "source_commit": "a8e5b8e0a76de209d694d0a331153a23ef20082c",
+  "source_tree": "50c35096ff21a4dd25badc03f79a3cbca104471c",
+  "run_id": 37122365977,
+  "jobs": {
+    "shell": 111200850847,
+    "actions": 111200851005,
+    "javascript": 111200851064
+  },
+  "artifacts": {
+    "shell": {
+      "artifact_id": 11273407499,
+      "archive_sha256": "8f3cdf099de665750e170c9c725e69fb0275d5b51314c6f2d225ec1800bdd294"
+    },
+    "javascript": {
+      "artifact_id": 11274206704,
+      "archive_sha256": "b9b5aa5bdf9cce0e7ab64d2f8d0e7817cb3e4e9a7d57f70e98307e35d7280c97"
+    },
+    "actions": {
+      "artifact_id": 11273926685,
+      "archive_sha256": "50b0811f8a6a9c06a865218d982fefa76dedb633982b055941f695279aa80361"
+    }
+  },
+  "status": "PASS",
+  "application_tests_passed": 1390,
+  "application_files_passed": 144,
+  "actual_Shell_browser_passed": 6,
+  "build": true,
+  "security_static_checks": true,
+  "runtime_owned": 254,
+  "RPC_boundaries": 186,
+  "styles_owned": 53,
+  "import_orphans": 0,
+  "direct_browser_table_access": false,
+  "codeql_sarif_findings": {
+    "javascript": 0,
+    "actions": 0
+  },
+  "members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "14542d4789de5f0022e1462e5a6aed394f57238b0d8d47a6338ac91fb8edcd06",
+      "compressed_sha256": "7bd4b0e16c4f5d29952f2c81c98acec38582579f6fbf5fba7d3faa9e72888f9f"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "results.json": {
+      "bytes": 12231,
+      "sha256": "de6c34ee3e73834995a200a6857797dd4d2bcf9157beb2f8af5f683f18b4c718",
+      "compressed_sha256": "df2956522725098511f06cab39d90bdea679eaf2d3b1b25555152c5cb21fb5b8"
+    },
+    "javascript.sarif": {
+      "bytes": 1308448,
+      "sha256": "83523bceb6ada44a1ec8e9084cf1e43b315ee7a7422bc55230ae4226d899f2df",
+      "compressed_sha256": "7210f50a50815f8fef97251e5b764596aba73f0be09afc0045f063395a4813f2"
+    },
+    "actions.sarif": {
+      "bytes": 695668,
+      "sha256": "70f6e5a67eff5b13d073e5ebfa259281b701302c299c4b9218a5cf1f8d76ee39",
+      "compressed_sha256": "457aec7c9ab45df23f0e16ad1182dafb3a9ff1a6b6fa8f7434bb3581b63d64d9"
+    }
+  },
+  "scope": "Application Shell/local kernel/actual Shell browser and static CodeQL only; not business Native source or full CP7 acceptance. Current57 has its own Original. Later Laundry64 is pending.",
+  "independent_acceptance": false,
+  "production_go": false
+}

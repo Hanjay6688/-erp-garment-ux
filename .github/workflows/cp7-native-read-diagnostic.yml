@@ -4,8 +4,12 @@ name: CP7 Native Read Stage Diagnostic
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
+    - scripts/cp7_catalog_state.py
     - scripts/cp7_native_scale_diagnostic_*
     - scripts/cp7_native_compile_equivalence.py
+    - scripts/cp7-src/planning/history.sql
+    - tests/cp7/fixtures/history-availability-before-e206.sql
     - .github/workflows/cp7-native-read-diagnostic.yml
 permissions:
   contents: read

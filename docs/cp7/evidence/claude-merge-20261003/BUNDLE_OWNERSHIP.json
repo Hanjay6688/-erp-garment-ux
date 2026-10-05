@@ -1,0 +1,344 @@
+{
+  "bundle_results": [
+    {
+      "module": "cp7_analysis_bundle",
+      "bytes": 1183535,
+      "sha256": "9a0f73fe33cb09aeca952bed6ce37642065acd58f911485bcef8f0a9240585ef"
+    },
+    {
+      "module": "cp7_attendance_read_bundle",
+      "bytes": 535554,
+      "sha256": "b4349feba1dce9576183402a054efe6a682cd604b4cfd91e900135b0efd6385f"
+    },
+    {
+      "module": "cp7_attendance_write_bundle",
+      "bytes": 567590,
+      "sha256": "cfb7fa2ef6bc0bf7705ed64091c2e0d8aca76d61a379d6ec391353ec9f796850"
+    },
+    {
+      "module": "cp7_baseline_bundle",
+      "bytes": 994406,
+      "sha256": "13778562661178202d6397e848b80c80a0f52a9ba77dfdd3dbe7c4daccf2830c"
+    },
+    {
+      "module": "cp7_cutting_input_bundle",
+      "bytes": 974121,
+      "sha256": "c001dd887f9c44f776976dd0a7ca73625a3f5dfd4339b0c709bba519c4196b44"
+    },
+    {
+      "module": "cp7_cutting_model_bundle",
+      "bytes": 974121,
+      "sha256": "c001dd887f9c44f776976dd0a7ca73625a3f5dfd4339b0c709bba519c4196b44"
+    },
+    {
+      "module": "cp7_cutting_observation_bundle",
+      "bytes": 974121,
+      "sha256": "c001dd887f9c44f776976dd0a7ca73625a3f5dfd4339b0c709bba519c4196b44"
+    },
+    {
+      "module": "cp7_cutting_yield_bundle",
+      "bytes": 10828,
+      "sha256": "44d18786ca17765d83c47fc1a0b0aa1a6b88273bff8b1bc851167a90f1da4c43"
+    },
+    {
+      "module": "cp7_f03_bundle",
+      "bytes": 774574,
+      "sha256": "cf926bd43b6c52de7dd25075fa73791437019aeba25ef4e7e8905a78953bc81a"
+    },
+    {
+      "module": "cp7_fg_bundle",
+      "bytes": 456488,
+      "sha256": "2efe77812b4cc7920eaa906500535c8a78102ca05201f1f8567bf470c1b8db5e"
+    },
+    {
+      "module": "cp7_finance_bundle",
+      "bytes": 455439,
+      "sha256": "df816134d25162113bfe2c717824e591d5de3d6901d47fec9760267a44ec7c3f"
+    },
+    {
+      "module": "cp7_identity_bundle",
+      "bytes": 34030,
+      "sha256": "3950c19cd413a719471ee88a03a1c3308ff13b76ddcbd47c672c052099da64c7"
+    },
+    {
+      "module": "cp7_installment_bundle",
+      "bytes": 54554,
+      "sha256": "3bfb9f74d463b02945e0d6ea7ef64bbd86a020405904f28a47197c0dcffed0ac"
+    },
+    {
+      "module": "cp7_journal_bundle",
+      "bytes": 7593,
+      "sha256": "15ee5f258468b83dbb2d6fdd250dcbcec8616871f99468ff72d0076897a7562e"
+    },
+    {
+      "module": "cp7_misc_bundle",
+      "bytes": 21969,
+      "sha256": "0eb11cc9e21ab914e708c698b3494e65f67b72ba561c5eb47d62d970030fb9a0"
+    },
+    {
+      "module": "cp7_model_bundle",
+      "bytes": 974121,
+      "sha256": "c001dd887f9c44f776976dd0a7ca73625a3f5dfd4339b0c709bba519c4196b44"
+    },
+    {
+      "module": "cp7_netting_bundle",
+      "bytes": 1067045,
+      "sha256": "e4b4fa925d2b0b1c19bb2b971f192d17dcf12511e935221091257b3d56ab3cc1"
+    },
+    {
+      "module": "cp7_nota_bundle",
+      "bytes": 490820,
+      "sha256": "175b61c1614a4e7edbde1e78c9b343c5917d9b71d5643fa0b63daafa3679a405"
+    },
+    {
+      "module": "cp7_note_report_bundle",
+      "bytes": 4551,
+      "sha256": "5a8bea0d6e361f4962908e45858f846d7ae0666f50621958df57f3d2c90e1b10"
+    },
+    {
+      "module": "cp7_obligation_report_bundle",
+      "bytes": 1385505,
+      "sha256": "880d7d413e5c47cb0694c9ffbb57f447bf94b0b6e2a1e2a428160ef7eb7cf4d8"
+    },
+    {
+      "module": "cp7_other_obligation_bundle",
+      "bytes": 1362127,
+      "sha256": "32c514b2074a85e071a0bd5f9fbb925c4cfdd502328a54d851472360cc9231ed"
+    },
+    {
+      "module": "cp7_payroll_bundle",
+      "bytes": 466215,
+      "sha256": "6f6d5538c23dcf3f31f67e792b9587dc257068d860608a87004ba02a0e6586da"
+    },
+    {
+      "module": "cp7_period_bundle",
+      "bytes": 465236,
+      "sha256": "27c8d95cda72dbcf6bf8678bcc949221ef62e3a035b1add44acdaf05ebfecd61"
+    },
+    {
+      "module": "cp7_plan_bundle",
+      "bytes": 1183535,
+      "sha256": "9a0f73fe33cb09aeca952bed6ce37642065acd58f911485bcef8f0a9240585ef"
+    },
+    {
+      "module": "cp7_planning_bundle",
+      "bytes": 974121,
+      "sha256": "c001dd887f9c44f776976dd0a7ca73625a3f5dfd4339b0c709bba519c4196b44"
+    },
+    {
+      "module": "cp7_procurement_bundle",
+      "bytes": 391797,
+      "sha256": "343fd9ae747066aa834fa209ebcca22e57055f7306876a32d95c452695d3ca7d"
+    },
+    {
+      "module": "cp7_receipt_correction_bundle",
+      "bytes": 112028,
+      "sha256": "af35fafc242a28df72f1af5fb0d6564bfa84b6561a248492d9e3c974fb68dad4"
+    },
+    {
+      "module": "cp7_recost_bundle",
+      "bytes": 472982,
+      "sha256": "0e2a1f1aa2dd23a4c4bdc7f5fbb12a4e267d3b2484aaf0ebb4db35216e96add0"
+    },
+    {
+      "module": "cp7_reminder_bundle",
+      "bytes": 1261604,
+      "sha256": "d1f7f8548f894d29598c1816984058f3e6678397d6322c68dcab5f45b8fd23dd"
+    },
+    {
+      "module": "cp7_roster_bundle",
+      "bytes": 545405,
+      "sha256": "ef03178249e3a1c1192ed2833637b55aa9cd784d2aa92251bed92368064d8cce"
+    },
+    {
+      "module": "cp7_rule_source_bundle",
+      "bytes": 1333735,
+      "sha256": "7eac8bcb23f69fc1c4aabe4bb14b28cb2933e5491221d3102964852d6bd2a1ce"
+    },
+    {
+      "module": "cp7_sales_bundle",
+      "bytes": 442482,
+      "sha256": "f38ed027b00df38cb0079536590be322f16a393bfa287169a0d78a0541c15a4a"
+    },
+    {
+      "module": "cp7_schedule_bundle",
+      "bytes": 1040280,
+      "sha256": "ea518ae36e8dd1e6b0930ba0c2cc5a23dc606c6351b898497c53b95d4f89f1f7"
+    },
+    {
+      "module": "cp7_settlement_bundle",
+      "bytes": 522897,
+      "sha256": "ec94a11b463e5a838fdcf81690c0504a94fff418e3fe492f72c1d7d8a84349ed"
+    },
+    {
+      "module": "cp7_settlement_read_bundle",
+      "bytes": 501937,
+      "sha256": "71808078a72134e1aeca2b357330a001571bcf92c883f3fbe32573f7abfb098a"
+    },
+    {
+      "module": "cp7_snapshot_bundle",
+      "bytes": 17578,
+      "sha256": "bfe90effa5af89941a02669b05ed855f54cb2c76ae8433e7cd01ae3b5f5bc9c4"
+    },
+    {
+      "module": "cp7_supply_bundle",
+      "bytes": 1007047,
+      "sha256": "c8f4109099310564a2ea18fb58b6e1919d2095dd5ed9a179efe813b0d5ad93b2"
+    },
+    {
+      "module": "cp7_wip_bundle",
+      "bytes": 122942,
+      "sha256": "bde0745490b055586745c19fa50c01caa32ed1687874f5879ef97422247fe829"
+    }
+  ],
+  "read_sql_files": [
+    "scripts/cp7-src/baseline/allocation.sql",
+    "scripts/cp7-src/baseline/capacity.sql",
+    "scripts/cp7-src/baseline/dependencies.sql",
+    "scripts/cp7-src/baseline/feasibility.sql",
+    "scripts/cp7-src/baseline/target.sql",
+    "scripts/cp7-src/baseline/timeline.sql",
+    "scripts/cp7-src/cutting-yield/inputs.sql",
+    "scripts/cp7-src/cutting-yield/learning-kernel.sql",
+    "scripts/cp7-src/cutting-yield/model-producer.sql",
+    "scripts/cp7-src/cutting-yield/observations.sql",
+    "scripts/cp7-src/cutting-yield/source.sql",
+    "scripts/cp7-src/demand/bootstrap.sql",
+    "scripts/cp7-src/demand/estimate.sql",
+    "scripts/cp7-src/demand/history.sql",
+    "scripts/cp7-src/fg/adjustment-read.sql",
+    "scripts/cp7-src/fg/adjustments.sql",
+    "scripts/cp7-src/fg/book.sql",
+    "scripts/cp7-src/fg/bootstrap.sql",
+    "scripts/cp7-src/fg/corrected-book.sql",
+    "scripts/cp7-src/fg/corrected-ledger.sql",
+    "scripts/cp7-src/fg/ledger.sql",
+    "scripts/cp7-src/fg/ownership.sql",
+    "scripts/cp7-src/fg/read.sql",
+    "scripts/cp7-src/finance/analysis.sql",
+    "scripts/cp7-src/finance/journal.sql",
+    "scripts/cp7-src/finance/misc.sql",
+    "scripts/cp7-src/finance/period.sql",
+    "scripts/cp7-src/finance/read.sql",
+    "scripts/cp7-src/finance/recost.sql",
+    "scripts/cp7-src/identity/bootstrap.sql",
+    "scripts/cp7-src/identity/command.sql",
+    "scripts/cp7-src/identity/history.sql",
+    "scripts/cp7-src/identity/workspace.sql",
+    "scripts/cp7-src/invoices/bootstrap.sql",
+    "scripts/cp7-src/invoices/command.sql",
+    "scripts/cp7-src/invoices/documents.sql",
+    "scripts/cp7-src/invoices/ownership.sql",
+    "scripts/cp7-src/invoices/read.sql",
+    "scripts/cp7-src/materials/bootstrap.sql",
+    "scripts/cp7-src/materials/command.sql",
+    "scripts/cp7-src/materials/count-options.sql",
+    "scripts/cp7-src/materials/count-read.sql",
+    "scripts/cp7-src/materials/counts.sql",
+    "scripts/cp7-src/materials/ownership.sql",
+    "scripts/cp7-src/materials/read.sql",
+    "scripts/cp7-src/materials/transfers.sql",
+    "scripts/cp7-src/model-native/bootstrap.sql",
+    "scripts/cp7-src/model-native/evaluation.sql",
+    "scripts/cp7-src/model-native/ownership.sql",
+    "scripts/cp7-src/model-native/source.sql",
+    "scripts/cp7-src/models/comparison.sql",
+    "scripts/cp7-src/models/evaluation.sql",
+    "scripts/cp7-src/models/kernels.sql",
+    "scripts/cp7-src/models/ownership.sql",
+    "scripts/cp7-src/payroll/attendance-entry.sql",
+    "scripts/cp7-src/payroll/attendance-read.sql",
+    "scripts/cp7-src/payroll/attendance-write.sql",
+    "scripts/cp7-src/payroll/installments.sql",
+    "scripts/cp7-src/payroll/note-ownership.sql",
+    "scripts/cp7-src/payroll/note-read.sql",
+    "scripts/cp7-src/payroll/notes.sql",
+    "scripts/cp7-src/payroll/ownership.sql",
+    "scripts/cp7-src/payroll/roster-write.sql",
+    "scripts/cp7-src/payroll/settlement-read.sql",
+    "scripts/cp7-src/payroll/settlement-write.sql",
+    "scripts/cp7-src/payroll/source.sql",
+    "scripts/cp7-src/plan-native/actual.sql",
+    "scripts/cp7-src/plan-native/bootstrap.sql",
+    "scripts/cp7-src/plan-native/commands.sql",
+    "scripts/cp7-src/plan-native/ownership.sql",
+    "scripts/cp7-src/plan-native/preflight.sql",
+    "scripts/cp7-src/plan-native/read.sql",
+    "scripts/cp7-src/plan-native/source.sql",
+    "scripts/cp7-src/planning/analysis-archive.sql",
+    "scripts/cp7-src/planning/analysis-finance.sql",
+    "scripts/cp7-src/planning/analysis.sql",
+    "scripts/cp7-src/planning/baseline-source.sql",
+    "scripts/cp7-src/planning/bootstrap.sql",
+    "scripts/cp7-src/planning/history-source.sql",
+    "scripts/cp7-src/planning/history.sql",
+    "scripts/cp7-src/planning/material-requirements.sql",
+    "scripts/cp7-src/planning/netting.sql",
+    "scripts/cp7-src/planning/ownership.sql",
+    "scripts/cp7-src/planning/profile.sql",
+    "scripts/cp7-src/planning/report-publication.sql",
+    "scripts/cp7-src/planning/schedule-scenario.sql",
+    "scripts/cp7-src/planning/schedule.sql",
+    "scripts/cp7-src/planning/supply-source.sql",
+    "scripts/cp7-src/procurement/accepted-deltas.sql",
+    "scripts/cp7-src/procurement/bootstrap.sql",
+    "scripts/cp7-src/procurement/command.sql",
+    "scripts/cp7-src/procurement/correction.sql",
+    "scripts/cp7-src/procurement/material-name.sql",
+    "scripts/cp7-src/procurement/ownership.sql",
+    "scripts/cp7-src/procurement/read.sql",
+    "scripts/cp7-src/procurement/reversal.sql",
+    "scripts/cp7-src/procurement/supplier-credit-authority.sql",
+    "scripts/cp7-src/procurement/uom.sql",
+    "scripts/cp7-src/reminders/attention.sql",
+    "scripts/cp7-src/reminders/local-sink.sql",
+    "scripts/cp7-src/reminders/obligation-episodes.sql",
+    "scripts/cp7-src/reminders/obligation-history.sql",
+    "scripts/cp7-src/reminders/obligation-report.sql",
+    "scripts/cp7-src/reminders/other-obligation-source.sql",
+    "scripts/cp7-src/reminders/payable-source.sql",
+    "scripts/cp7-src/reminders/policy-history.sql",
+    "scripts/cp7-src/reminders/receivable-source.sql",
+    "scripts/cp7-src/reminders/rule-condition-source.sql",
+    "scripts/cp7-src/reminders/rule-episodes.sql",
+    "scripts/cp7-src/reminders/rule-policy.sql",
+    "scripts/cp7-src/sales/commands.sql",
+    "scripts/cp7-src/sales/correction-actors.sql",
+    "scripts/cp7-src/sales/correction-lines.sql",
+    "scripts/cp7-src/sales/correction.sql",
+    "scripts/cp7-src/sales/drafts.sql",
+    "scripts/cp7-src/sales/form.sql",
+    "scripts/cp7-src/sales/payments.sql",
+    "scripts/cp7-src/sales/read.sql",
+    "scripts/cp7-src/sales/report.sql",
+    "scripts/cp7-src/sales/returns.sql",
+    "scripts/cp7-src/snapshot/bootstrap.sql",
+    "scripts/cp7-src/snapshot/facades.sql",
+    "scripts/cp7-src/snapshot/sources.sql",
+    "scripts/cp7-src/supplier-returns/bootstrap.sql",
+    "scripts/cp7-src/supplier-returns/command.sql",
+    "scripts/cp7-src/supplier-returns/documents.sql",
+    "scripts/cp7-src/supplier-returns/ownership.sql",
+    "scripts/cp7-src/supplier-returns/read.sql",
+    "scripts/cp7-src/wip/bootstrap.sql",
+    "scripts/cp7-src/wip/bs.sql",
+    "scripts/cp7-src/wip/facade.sql",
+    "scripts/cp7-src/wip/graph.sql",
+    "scripts/cp7-src/wip/matching.sql",
+    "scripts/cp7-src/wip/normalize.sql",
+    "scripts/cp7-src/wip/other-normalize.sql",
+    "scripts/cp7-src/wip/other-source.sql",
+    "scripts/cp7-src/wip/ownership.sql",
+    "scripts/cp7-src/wip/production.sql",
+    "scripts/cp7-src/wip/rewash.sql",
+    "scripts/cp7-src/wip/source.sql",
+    "scripts/cp7-src/wip/timing.sql",
+    "scripts/cp7-src/wip/yield.sql"
+  ],
+  "unread_sql_files": [
+    "scripts/cp7-src/snapshot/capture_probe.sql"
+  ],
+  "source_commit": "48fe7c2246faa5e908d1f5eee5ed2f863b8290fe",
+  "execution": "LOCAL_COMPOSITION_WITH_INSTRUMENTED_PATH_READ_NO_SQL_EXECUTION",
+  "not_a_native_qualification": true
+}

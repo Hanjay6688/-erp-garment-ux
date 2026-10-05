@@ -1,0 +1,286 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "51e9f3fe22326efa9244fd83068c386d5f955edd",
+  "source_tree": "6e8f943335801734f302c64be70d3d7aa2341faa",
+  "run_id": 37291363597,
+  "job_id": 111702268712,
+  "artifact_id": 11337885030,
+  "artifact_bytes": 2453977,
+  "artifact_sha256": "c253ae6b88cca3fc0c78ac125d9cf154cf5de1ead3fc751de80a7345b1ce8243",
+  "artifact_CRC": "PASS",
+  "status": "WRITER_QUALIFIED_19_COMPLETE_CASE_BODIES_PASS",
+  "expected_case_count": 19,
+  "observed_case_count": 19,
+  "counts": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "actual_ids": {
+    "native": [
+      "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+      "CP7_CUTTING_REOPEN_READ_ONLY_CAPABILITIES",
+      "CP7_CUTTING_REOPEN_REPLAY",
+      "CP7_CUTTING_REOPEN_CLOSED_FIELDS",
+      "CP7_CUTTING_REOPEN_STALE_SOURCE",
+      "CP7_CUTTING_REOPEN_PICKUP_DOWNSTREAM",
+      "CP7_CUTTING_REOPEN_ATOMIC_LATE_FAILURE",
+      "CP7_CUTTING_REOPEN_IMMUTABLE_HISTORY",
+      "CP7_CUTTING_REOPEN_CURRENT_AUTH",
+      "CP7_CUTTING_REOPEN_CLOSED_PERIOD"
+    ],
+    "races": [
+      "CP7_CUTTING_REOPEN_RACE_SAME_UUID",
+      "CP7_CUTTING_REOPEN_RACE_COMPETING",
+      "CP7_CUTTING_REOPEN_RACE_GROUP_REVOKE",
+      "CP7_CUTTING_REOPEN_RACE_NATIVE_REVOKE"
+    ],
+    "http": [
+      "CP7_CUTTING_REOPEN_HTTP_COMMIT_REPLAY",
+      "CP7_CUTTING_REOPEN_HTTP_READONLY",
+      "CP7_CUTTING_REOPEN_HTTP_CURRENT_AUTH"
+    ],
+    "browser": [
+      "CP7_CUTTING_REOPEN_BROWSER_DESKTOP",
+      "CP7_CUTTING_REOPEN_BROWSER_MOBILE"
+    ]
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_CUTTING_REOPEN.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "CP7_CUTTING_REOPEN_COMMITTED_DESKTOP.png",
+    "CP7_CUTTING_REOPEN_COMMITTED_MOBILE.png",
+    "CP7_CUTTING_REOPEN_REVIEW_DESKTOP.png",
+    "CP7_CUTTING_REOPEN_REVIEW_MOBILE.png"
+  ],
+  "full_job_log_original_sha256": "a249022a81331a1e91565f4bb5e370f3692de30d8e35ab6b52706ed55649da96",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385623,
+      "crc32": "6436ec13",
+      "sha256": "5c0eade8ce5e80016430f179bb40edb5e664f1abae74a6a84e60e6b99a7da31e"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385623,
+      "crc32": "6436ec13",
+      "sha256": "5c0eade8ce5e80016430f179bb40edb5e664f1abae74a6a84e60e6b99a7da31e"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "af4527ed",
+      "sha256": "66ad70e4f9aa99fa4d68ed2fb619cffd2d251f5fa87b33c1bab2012f1156f750"
+    },
+    {
+      "name": "CP7_CUTTING_REOPEN.json",
+      "bytes": 316449,
+      "crc32": "2546569d",
+      "sha256": "ebe64a4ae6e2f42c44921b48ac211155674ba1fbf2b72e5edb000749e6048686"
+    },
+    {
+      "name": "CP7_CUTTING_REOPEN_COMMITTED_DESKTOP.png",
+      "bytes": 202833,
+      "crc32": "4e08750e",
+      "sha256": "4b783b3b568de041a1da8db4f196ada46df216e11ae37e512247b40dc08b5d6c"
+    },
+    {
+      "name": "CP7_CUTTING_REOPEN_COMMITTED_MOBILE.png",
+      "bytes": 120173,
+      "crc32": "abcb00f5",
+      "sha256": "8e5222f8ff9345e08cd866fa12509575683f6d5f2b2b9cd4167e17592cf035e8"
+    },
+    {
+      "name": "CP7_CUTTING_REOPEN_REVIEW_DESKTOP.png",
+      "bytes": 303572,
+      "crc32": "39678906",
+      "sha256": "8ab0818df7e8b022841d42e2db2ccd517f21042b44ded7b518d99c1e76e16c8d"
+    },
+    {
+      "name": "CP7_CUTTING_REOPEN_REVIEW_MOBILE.png",
+      "bytes": 204979,
+      "crc32": "0eccb674",
+      "sha256": "c6d74cfd6825b793dfeffb841bcee8d5a2f2edaff737b136b8602127deb5659c"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "324e615d",
+      "sha256": "d611d8a3128e8cfac6614c3dff9bc6952c8c34c77262acf3c806364fc5aeaacb"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360416,
+      "crc32": "0d073c19",
+      "sha256": "84c96bdf2251615b51f67a77fad5da147ca1a3886a3f036f07ee5074b9ef7268"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "installed_status": "ALL_STAGES_INSTALLED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "PASS",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "full_exact_movement_pairs": [
+    {
+      "case_id": "CP7_CUTTING_REOPEN_RACE_SAME_UUID",
+      "section": "races",
+      "before_timezone": "Asia/Jakarta",
+      "after_timezone": "UTC",
+      "exact_UTC_text_equal": true,
+      "display_only_difference": true
+    },
+    {
+      "case_id": "CP7_CUTTING_REOPEN_RACE_COMPETING",
+      "section": "races",
+      "before_timezone": "Asia/Jakarta",
+      "after_timezone": "UTC",
+      "exact_UTC_text_equal": true,
+      "display_only_difference": true
+    },
+    {
+      "case_id": "CP7_CUTTING_REOPEN_HTTP_COMMIT_REPLAY",
+      "section": "http",
+      "before_timezone": "Asia/Jakarta",
+      "after_timezone": "UTC",
+      "exact_UTC_text_equal": true,
+      "display_only_difference": true
+    },
+    {
+      "case_id": "CP7_CUTTING_REOPEN_BROWSER_DESKTOP",
+      "section": "browser",
+      "before_timezone": "Asia/Jakarta",
+      "after_timezone": "UTC",
+      "exact_UTC_text_equal": true,
+      "display_only_difference": true
+    },
+    {
+      "case_id": "CP7_CUTTING_REOPEN_BROWSER_MOBILE",
+      "section": "browser",
+      "before_timezone": "Asia/Jakarta",
+      "after_timezone": "UTC",
+      "exact_UTC_text_equal": true,
+      "display_only_difference": true
+    }
+  ],
+  "old_d68_difference_cause_proved": false,
+  "original_movement_fields_dropped": [],
+  "owning_toolbar_native_computed_contrast": {
+    "CP7_CUTTING_REOPEN_BROWSER_DESKTOP": {
+      "mobile": false,
+      "toolbar": {
+        "review": {
+          "observed_visible_enabled_texts_and_empty_placeholders": 21,
+          "minimum_ratio": 6.287528596095884,
+          "kinds": {
+            "TEXT": 20,
+            "PLACEHOLDER": 1
+          },
+          "all_at_least4_5": true
+        },
+        "committed": {
+          "observed_visible_enabled_texts_and_empty_placeholders": 22,
+          "minimum_ratio": 6.287528596095884,
+          "kinds": {
+            "TEXT": 20,
+            "PLACEHOLDER": 2
+          },
+          "all_at_least4_5": true
+        }
+      },
+      "committed_lost_reply_reload_same_UUID": true
+    },
+    "CP7_CUTTING_REOPEN_BROWSER_MOBILE": {
+      "mobile": true,
+      "toolbar": {
+        "review": {
+          "observed_visible_enabled_texts_and_empty_placeholders": 21,
+          "minimum_ratio": 6.287528596095884,
+          "kinds": {
+            "TEXT": 20,
+            "PLACEHOLDER": 1
+          },
+          "all_at_least4_5": true
+        },
+        "committed": {
+          "observed_visible_enabled_texts_and_empty_placeholders": 21,
+          "minimum_ratio": 6.287528596095884,
+          "kinds": {
+            "TEXT": 20,
+            "PLACEHOLDER": 1
+          },
+          "all_at_least4_5": true
+        }
+      },
+      "committed_lost_reply_reload_same_UUID": false
+    }
+  },
+  "correction_and_owning_toolbar_both_phases_both_devices_contrast_at_least4_5": true,
+  "all5_full_exact_Native_original_movement_pairs_preserved": true,
+  "old_toolbar_visual_defect_source": "docs/cp7/evidence/cutting-reopen/qualified19-readable-861/RECEIPT.json",
+  "current_source_after_observed_Original": "767c35f14fa88a52d03053f843492258be56df72",
+  "current_parity_basis": "Only X04 probe and source-bound evidence/state changed after source51e; cutting Native SQL, provider, browser JS and owning CSS are byte-identical.",
+  "actual_Original_committed_desktop_and_mobile_screenshots_inspected": true,
+  "full_product_visual_acceptance": false,
+  "unique_oracle_total_claim": false
+}

@@ -1,6 +1,6 @@
 {
   "schema": "cp7-f03-full-native-manifest-v1",
-  "qualification_scope": "ALL_RETAINED_COMPONENT_CONTROLS_ON_ONE_FULL_31_ROLE_F03_STACK_WITH_HASH_PINNED_SUPPLIER_CURRENT_AUTHORITY",
+  "qualification_scope": "ALL_RETAINED_COMPONENT_CONTROLS_ON_ONE_FULL_34_ROLE_F03_STACK_WITH_HASH_PINNED_SUPPLIER_CURRENT_AUTHORITY",
   "unique_oracle_total_claim": false,
   "full_family_acceptance": false,
   "independent_acceptance": false,
@@ -1152,5 +1152,42 @@
         }
       ]
     }
-  }
+  },
+  "expected_private_roles": [
+    "cp7_cutting_write",
+    "cp7_cutting_read",
+    "cp7_transaction_source_read",
+    "cp7_installment_write",
+    "cp7_installment_read",
+    "cp7_misc_write",
+    "cp7_misc_read",
+    "cp7_journal_read",
+    "cp7_recost_write",
+    "cp7_recost_read",
+    "cp7_period_write",
+    "cp7_period_read",
+    "cp7_finance_read",
+    "cp7_sales_write",
+    "cp7_sales_read",
+    "cp7_attendance_write",
+    "cp7_roster_write",
+    "cp7_attendance_read",
+    "cp7_payroll_write",
+    "cp7_nota_write",
+    "cp7_payroll_header",
+    "cp7_payroll_read",
+    "cp7_fg_write",
+    "cp7_fg_read",
+    "cp7_return_write",
+    "cp7_return_read",
+    "cp7_invoice_write",
+    "cp7_invoice_read",
+    "cp7_material_write",
+    "cp7_material_read",
+    "cp7_procure_write",
+    "cp7_procure_read",
+    "cp7_policy",
+    "cp7_capture"
+  ],
+  "private_role_review": "All original31 roles and the prior qualified readonly transaction source role retained. Two new cutting facade owners cp7_cutting_write/read are NOLOGIN/NOINHERIT, with no ERP table access or direct Native inverse EXEC. Only their closed private command/workspace entrypoints are admitted; exact current authority and original source history required. New role qualification remains pending on the exact current source; all prior business case budgets unchanged."
 }

@@ -1,0 +1,90 @@
+{
+  "head": "51c9647536f008e7ae78e01ec89ca70851675a44",
+  "tree": "0746d5acdd681ee153f672ea3e6d6cc2ed746f76",
+  "run_id": 37116170347,
+  "job_id": 111183306300,
+  "artifact_id": 11271487250,
+  "archive_sha256": "0c84a900a8b4da127606114e79eadee3edbe2372a21e0f765d672cd975389546",
+  "status": "INCOMPLETE",
+  "observed_case_count": 39,
+  "required_case_counts": {
+    "native": 24,
+    "races": 2,
+    "http": 5,
+    "browser": 8
+  },
+  "groups": {
+    "native": {
+      "PASS": 23,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 5
+    },
+    "browser": {
+      "PASS": 6,
+      "INCOMPLETE": 2
+    }
+  },
+  "source_sha256": "87f6a6ed1d890e548af8897c29cc40f1592e4a2e1651022f1af2f6567f3f3291",
+  "members": {
+    "CP7_TRANSACTION_SOURCE.json": {
+      "sha256": "3075af5e36f8faba00bd121e9b2af1e57cdc48fe0cbd1703ad9906c367f9d590",
+      "bytes": 282628
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "sha256": "04a9474bc841e8807596c70a26d41e42cca17e8b3eb6833f65b877b929db15f6",
+      "bytes": 360431
+    },
+    "CP7_SOURCE_REWORK_DESKTOP_FAILURE.json": {
+      "sha256": "c42a45d76575f523990ca37eee37aa61c7cf7e17878c3501845efb2726551fd1",
+      "bytes": 6842818
+    },
+    "CP7_SOURCE_REWORK_MOBILE_FAILURE.json": {
+      "sha256": "50e2971a545fec91da65e210b34419b4b3cdd6bdd1d2a0b6a9c9d72b1fe154c6",
+      "bytes": 6842837
+    },
+    "CP7_SOURCE_REWORK_DESKTOP_FAILURE.png": {
+      "sha256": "13afc51999140b019fee0e57ddf181d6b4d16789df6fdc3d453e26330145f766",
+      "bytes": 339987
+    },
+    "CP7_SOURCE_REWORK_MOBILE_FAILURE.png": {
+      "sha256": "5e91ecb59b629e72a6b850a588f0481b8502b4d510bae8c45253e45d9fe4f677",
+      "bytes": 187625
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "failed_case_ids": {
+    "native": [
+      "CP7_SOURCE_REWORK_DOCUMENTS"
+    ],
+    "races": [],
+    "http": [],
+    "browser": [
+      "CP7_SOURCE_REWORK_BROWSER_DESKTOP",
+      "CP7_SOURCE_REWORK_BROWSER_MOBILE"
+    ]
+  },
+  "successor": {
+    "journal": "Accept actual canonical PostgreSQL legacy master UUIDs, preserving Native FKs, closed fields and exact money/balance controls.",
+    "rework_full_state": "Capture all original order/movement timestamp JSON in UTC before the unchanged full boundary reader sets UTC. Preserve every original member and full no-DML comparison.",
+    "case_budget": "Retain all39 original controls and add two actual Laundry/QC current-read browser cases:41 required24/2/5/10. No timeout, guard or restore gate reduced."
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

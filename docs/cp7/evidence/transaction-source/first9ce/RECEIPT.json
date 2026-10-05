@@ -1,0 +1,30 @@
+{
+  "head": "9ceb02d8c0976a6363be3dd9147e650e6c228e24",
+  "run_id": 37105417738,
+  "job_id": 111152839705,
+  "artifact_id": 11267374304,
+  "archive_sha256": "c9f181a96e2f4af8d55e746130f94044e487299a95ba9abb637d0bd64d3a6f00",
+  "original_sha256": "e3446991505e291b8b96ec3a88b96c7dcd5bc5be77531dd367253fec10d166e4",
+  "source_sha256": "e4f245361ac1e8c8600b7788ecf4cba464b334b1afcd68b43d7b95222beec25e",
+  "status": "INCOMPLETE",
+  "groups": {
+    "native": {
+      "PASS": 11,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "failure": "CP7_SOURCE_AUTHORITY: active custom Native role with authorized procurement read rejected by top-level role-code whitelist",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

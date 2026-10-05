@@ -1,0 +1,106 @@
+{
+  "zip_bytes": 303912,
+  "zip_sha256": "d871283e7c36115aaefcadb8e071863e17644d5bc9b46f96e41accbe866378c0",
+  "run_id": 37134007451,
+  "job_id": 111234688897,
+  "artifact_id": 11278410270,
+  "source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
+  "source_tree": "209b5c835d9c5730e73e74df9fe5bda89f606573",
+  "classification": "EXACT_EXISTING_ORIGINAL_PROJECTION_NO_ERP_ACCESS",
+  "all_zip_members": {
+    "cutting-model53-qualified3c/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 38816,
+      "sha256": "d84fc61f39e1986e08a51d9714e5c21a4810497ccb026b96020758c3c86e5f7e"
+    },
+    "cutting-model53-qualified3c/RECEIPT.json": {
+      "bytes": 7248,
+      "sha256": "e93999f78fbd96d0bf9c34f5aee4f853727529417998a234bb6ecefdb317ae23"
+    },
+    "cutting-model53-qualified3c/PROJECTION.json": {
+      "bytes": 930,
+      "sha256": "05c127f42c0a53b7b3b38b4934b483363ee6a792bdc6a7fa531d70e8ddf45cba"
+    },
+    "cutting-observation44-qualified3c/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 35382,
+      "sha256": "de75ee62658de0e6018925ea47a24cba63ea0652a5e935fdb7b88baeb35f1a47"
+    },
+    "cutting-observation44-qualified3c/PROJECTION.json": {
+      "bytes": 930,
+      "sha256": "40d72efa4bba01a07c8aa0589533cc343877e5d8b088a82eed0896c2dca8e745"
+    },
+    "cutting-observation44-qualified3c/RECEIPT.json": {
+      "bytes": 7276,
+      "sha256": "fada0dda862803c6de8d335901d7187b4455ef0dd94f5955c30faf30c4cbf716"
+    },
+    "native152/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 42619,
+      "sha256": "d18fac79068192bd09bf5edcf0638b38fcb00322c3ccf4e72e332b352c69bb90"
+    },
+    "native152/PROJECTION.json": {
+      "bytes": 930,
+      "sha256": "66af25e63c4c1b598b5d844293f74f342acc4838dc70acf67074d386b708ef0e"
+    },
+    "native152/RECEIPT.json": {
+      "bytes": 14867,
+      "sha256": "ca53023fd1073822d9456df7f596e2a6f8378e0aa7cf66032134406cc9d000b8"
+    },
+    "native284/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 55687,
+      "sha256": "50fa2c742e69fc8545d7893e724b24cb0ab924af3f20e35383816a19aa91592e"
+    },
+    "native284/PROJECTION.json": {
+      "bytes": 1588,
+      "sha256": "deb0bbfa114f32a24dd8a5b7f887163d386759433bf28c0ce7ad8b42c4956fdf"
+    },
+    "native284/RECEIPT.json": {
+      "bytes": 32073,
+      "sha256": "f1b836b4c224bd8aaed1d7c593c7009738452dc9cbbd5e5a053fff4a06761820"
+    },
+    "native284/diagnostics/P15_OBLIGATION_REPORT_DESKTOP_FAILURE.json": {
+      "bytes": 533,
+      "sha256": "7901b8470dd110e05479f4610c326241e188f3818da3cc7686077b06060e683d"
+    },
+    "native284/diagnostics/P15_OBLIGATION_REPORT_DESKTOP_READ_PROFILE.json": {
+      "bytes": 585,
+      "sha256": "15ac655ffdfbb8a424d340368beb3633650c6fd87df008a19aa62cd00969c8eb"
+    },
+    "native284/diagnostics/P15_OBLIGATION_REPORT_MOBILE_FAILURE.json": {
+      "bytes": 533,
+      "sha256": "7901b8470dd110e05479f4610c326241e188f3818da3cc7686077b06060e683d"
+    },
+    "native284/diagnostics/P15_OBLIGATION_REPORT_MOBILE_READ_PROFILE.json": {
+      "bytes": 585,
+      "sha256": "9aa030a77bf913863631ee5c7e22a86673242aee45c2f58d623dcba4841858ed"
+    },
+    "native284-qualified-current/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 58393,
+      "sha256": "b901ab93ab1ba4b1dbd6859da93efdbc38271aed74a712b97312b7b2c861b473"
+    },
+    "native284-qualified-current/PROJECTION.json": {
+      "bytes": 930,
+      "sha256": "0b4da48a745b6a55619f42087da41cc1060c4fc92c03e81ff5972ba3ff0436b7"
+    },
+    "native40-incomplete3c/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 33974,
+      "sha256": "3c395cdd22476aa6f3cac74ac60c0e5f9eb018651fc7448699603010f5b9d17a"
+    },
+    "native284-qualified-current/RECEIPT.json": {
+      "bytes": 35594,
+      "sha256": "a8fefd4f8eca612b0175c90a56803a57ebf41091ea11be3869766f12fd455095"
+    },
+    "native40-incomplete3c/PROJECTION.json": {
+      "bytes": 930,
+      "sha256": "2c29352ddf7db0f8fbb55cc1abaf6743326ec293d321dc72af43c4ef92e927e7"
+    },
+    "native40-incomplete3c/RECEIPT.json": {
+      "bytes": 3958,
+      "sha256": "bb9024b88664f5fcb77db124e33d35baa0f2675f8fc50b96977c2b6b51c54fa2"
+    }
+  },
+  "Native_product_exit_case_credit": 0,
+  "original_CI_log": {
+    "bytes": 26748,
+    "sha256": "d1c017f462de497a79366d772e6bbdd83d9b28c2b033630ea8d81895e06f212a",
+    "gzip_sha256": "92d8e463f56610740d89c20d798ecb8f562952dab69f9a49517c71dd6936a49f"
+  }
+}

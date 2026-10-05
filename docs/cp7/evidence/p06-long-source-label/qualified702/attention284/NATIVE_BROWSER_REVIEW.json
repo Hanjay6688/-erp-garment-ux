@@ -1,0 +1,79 @@
+{
+  "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+  "run_id": 37160029453,
+  "artifact_id": 11288087514,
+  "images": [
+    {
+      "file": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/images/P06_NETTING93_DESKTOP.png",
+      "Original_member": "P06_NETTING93_DESKTOP.png",
+      "sha256": "ba4048d107c1e0a25a01360a2b09402e39ad5490722a4cf8929a996529f28124",
+      "width": 1440,
+      "height": 5682,
+      "actually_viewed_unedited_Original": true
+    },
+    {
+      "file": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/images/P06_NETTING93_MOBILE.png",
+      "Original_member": "P06_NETTING93_MOBILE.png",
+      "sha256": "0ac45364265448de8d4f1574fed3db09bf12c18a775de1a1458da37ba43057ad",
+      "width": 390,
+      "height": 11401,
+      "actually_viewed_unedited_Original": true
+    },
+    {
+      "file": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/images/P06_WORK_UNCERTAIN_DESKTOP.png",
+      "Original_member": "P06_WORK_UNCERTAIN_DESKTOP.png",
+      "sha256": "01845364733ab9b45b1fa657d31b243340ab1444fb4b4b9ccaf08a2765d9f9b1",
+      "width": 1440,
+      "height": 4712,
+      "actually_viewed_unedited_Original": true
+    },
+    {
+      "file": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/images/P06_WORK_UNCERTAIN_MOBILE.png",
+      "Original_member": "P06_WORK_UNCERTAIN_MOBILE.png",
+      "sha256": "7734daf49ac37e48b38d0dde86c81e44b9d2bda06d57d0ac8bf3988f8e32e801",
+      "width": 390,
+      "height": 7735,
+      "actually_viewed_unedited_Original": true
+    },
+    {
+      "file": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+      "Original_member": "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+      "sha256": "89597606b5474b618421572ea118bd4d6a2de2314fb4a55b461a68696417da08",
+      "width": 1440,
+      "height": 3101,
+      "actually_viewed_unedited_Original": true
+    },
+    {
+      "file": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+      "Original_member": "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+      "sha256": "432d827834f63b6d137ec7088e5a6941ed727e2c82f094b1feab8eb44c1fe754",
+      "width": 390,
+      "height": 3824,
+      "actually_viewed_unedited_Original": true
+    },
+    {
+      "file": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/images/P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+      "Original_member": "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+      "sha256": "10a8fdfd46f7da2f7889c376e0602d721e6e55ff3789bd66149042be55ec4a5e",
+      "width": 1440,
+      "height": 5506,
+      "actually_viewed_unedited_Original": true
+    },
+    {
+      "file": "docs/cp7/evidence/p06-long-source-label/qualified702/attention284/images/P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+      "Original_member": "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+      "sha256": "d7988e09785beeba3ae1ecd5efd2fe4b4c3b9ee56a3132264155094d44726535",
+      "width": 390,
+      "height": 6417,
+      "actually_viewed_unedited_Original": true
+    }
+  ],
+  "reviewed_actual_P06_uncertain_and_netting_and_P17_manual_and_automatic_fallback": true,
+  "complete_byte_bound_large_prompts_from_executed_Native_assertions": true,
+  "external_provider_contact": false,
+  "external_model_obedience_credit": false,
+  "projection_reexecution_credit": 0,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

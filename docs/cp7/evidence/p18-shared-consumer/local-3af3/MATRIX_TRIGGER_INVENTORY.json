@@ -1,0 +1,382 @@
+{
+  "classification": "CONFIGURED_WORKFLOW_TRIGGER_INVENTORY_NOT_EXECUTION",
+  "source_parent": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+  "configured_request_workflows": 53,
+  "additional_branch_Shell_workflow": ".github/workflows/cp7-shell.yml",
+  "expected_total_runs": 54,
+  "workflows": [
+    {
+      "path": ".github/workflows/cp7-f03-capacity.yml",
+      "name": "CP7 F03 E20 E14 Complete Stock Capacity",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-cash.yml",
+      "name": "CP7 F03 Cash and Native Finance Readers",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-combined.yml",
+      "name": "CP7 F03 Combined Stack",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-cost-continuation.yml",
+      "name": "CP7 F03 Required Cost Continuations",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e01.yml",
+      "name": "CP7 F03 E01 Source Journey",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e03.yml",
+      "name": "CP7 F03 E03 Customer Service",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e05.yml",
+      "name": "CP7 F03 E05 Payroll Installments",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e06.yml",
+      "name": "CP7 F03 E06 Year-end Late Invoice",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e24-issue.yml",
+      "name": "CP7 F03 E24 Material Issue",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-full.yml",
+      "name": "CP7 F03 Full Retained Components",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-misc.yml",
+      "name": "CP7 F03 Native Misc Finance",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-p13-regression.yml",
+      "name": "CP7 F03 P13 Retained Regression",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-planner-seam.yml",
+      "name": "CP7 F03 Native Reservation and Size Planner Seams",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-redye.yml",
+      "name": "CP7 F03 X04 Paid Redye Continuation",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-return-documents.yml",
+      "name": "CP7 F03 Combined Supplier Returns",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f03-x04.yml",
+      "name": "CP7 F03 X04 Source Versions",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-baseline.yml",
+      "name": "CP7 F04 Native Profile and Baseline Targets",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-inputs.yml",
+      "name": "CP7 F04 Prospective Cutting Inputs",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-model.yml",
+      "name": "CP7 F04 Prospective Native Cutting Model and Consumer",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-observations.yml",
+      "name": "CP7 F04 Native Cutting Observations",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-history.yml",
+      "name": "CP7 F04 Native Demand History",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-model.yml",
+      "name": "CP7 F04 Native Model Evaluation",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-netting.yml",
+      "name": "CP7 F04 Native Product Bound Netting",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-plan.yml",
+      "name": "CP7 F04 Native Planning Draft Bridge",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-schedule.yml",
+      "name": "CP7 F04 Native Selected Production Schedule",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f04-supply.yml",
+      "name": "CP7 F04 Global Native Production Supply",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f05-analysis.yml",
+      "name": "CP7 F05 Native Frozen Analysis",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-f05-attention.yml",
+      "name": "CP7 F05 Native Durable Attention",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-misc-correction.yml",
+      "name": "CP7 Native Atomic Misc Correction",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-native-artifact-projection.yml",
+      "name": "CP7 Completed Native Artifact Projection",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-native-read-diagnostic.yml",
+      "name": "CP7 Native Read Stage Diagnostic",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-note-command-diagnostic.yml",
+      "name": "CP7 Note Command Diagnostic",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-note-correction.yml",
+      "name": "CP7 Owning Historical Note Correction",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p00.yml",
+      "name": "CP7 P00 accepted-base catalogue",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p02-facade.yml",
+      "name": "CP7 P02 actor facade",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p02.yml",
+      "name": "CP7 P02 source capture probe",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p03-identity.yml",
+      "name": "CP7 P03 production policy",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p04-wip.yml",
+      "name": "CP7 P04 WIP kernels",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p09-procurement.yml",
+      "name": "CP7 P09 Procurement",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p10-fg.yml",
+      "name": "CP7 P10 Finished goods",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p11-sales.yml",
+      "name": "CP7 P11 Sales",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p12-nota-source.yml",
+      "name": "CP7 P12 Nota source",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p12-nota.yml",
+      "name": "CP7 P12 Nota and payroll lifecycle",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p13-analysis.yml",
+      "name": "CP7 P13 Finance Analysis",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p13-finance.yml",
+      "name": "CP7 P13 Finance",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p13-period.yml",
+      "name": "CP7 P13 Period control",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p13-recost.yml",
+      "name": "CP7 P13 HPP recost",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-p18-e01-bridge.yml",
+      "name": "CP7 P18 E01 Consumer Bridge",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-receipt-correction.yml",
+      "name": "CP7 Owning Receipt Correction",
+      "branches": [
+        "claude/new-session-deapao",
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-retain-existing-artifact.yml",
+      "name": "CP7 Retain Existing Native Originals",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-rule-lifecycle.yml",
+      "name": "CP7 Native Inactive Rule Lifecycle",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-supplier-credit-authority.yml",
+      "name": "CP7 F03 Supplier Current Authority",
+      "branches": [
+        "cp7/integration"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-transaction-source.yml",
+      "name": "CP7 Native Transaction Source Navigation",
+      "branches": [
+        "cp7/integration"
+      ]
+    }
+  ],
+  "readonly_original_retention_is_not_new_execution": true
+}

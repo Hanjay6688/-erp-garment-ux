@@ -1,0 +1,15 @@
+{
+  "source_commit": "43265e22b723073680a7b3b2acaf698770f8cf14",
+  "run_id": 37170190982,
+  "unchanged23_case_ids_and_budget_14_4_3_2": true,
+  "original_payment_wait_schedule_retained": true,
+  "additional_observed_schedule": {
+    "actual_cash_lock_wait_after_first_review": true,
+    "different_active_replacement_bank": true,
+    "original_bank_retirement_after_first_review_refused_as_stale": true,
+    "complete_retired_source_boundary_unchanged": true
+  },
+  "old38_counterexample_not_executed": true,
+  "independent_acceptance": false,
+  "production_go": false
+}

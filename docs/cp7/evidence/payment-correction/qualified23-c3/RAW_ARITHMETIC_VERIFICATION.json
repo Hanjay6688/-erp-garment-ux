@@ -1,0 +1,76 @@
+{
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_PAYMENT_CORRECTION.json": {
+      "bytes": 381867,
+      "sha256": "f153e6299ed9ad5502fd8f1b53d4074b3c910ca37b748bbd63c3ec3ec15a6109"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "149c34dcc0efa4007344b76b91ee2072986cd98aa467ba1834063d97d0b6e2b6"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "b79da7ce18101571a12c0e47349e03d428450b3e8755daed3af47fb5ac67b367"
+    }
+  },
+  "groups": {
+    "native": {
+      "rows": 364,
+      "every_later_cash_prefix_delta": "-12.00",
+      "first_before": [
+        "2025-10-04",
+        "61.00"
+      ],
+      "first_after": [
+        "2025-10-04",
+        "49.00"
+      ],
+      "last_before": [
+        "2026-10-02",
+        "424.00"
+      ],
+      "last_after": [
+        "2026-10-02",
+        "412.00"
+      ],
+      "raw_arrays_independently_recomputed": true,
+      "original_clock_amount_posting_and_stock_HPP_unchanged": true,
+      "actual_HTTP_ms": null,
+      "production_SLA": false
+    },
+    "http": {
+      "rows": 364,
+      "every_later_cash_prefix_delta": "-12.00",
+      "first_before": [
+        "2025-10-04",
+        "61.00"
+      ],
+      "first_after": [
+        "2025-10-04",
+        "49.00"
+      ],
+      "last_before": [
+        "2026-10-02",
+        "424.00"
+      ],
+      "last_after": [
+        "2026-10-02",
+        "412.00"
+      ],
+      "raw_arrays_independently_recomputed": true,
+      "original_clock_amount_posting_and_stock_HPP_unchanged": true,
+      "actual_HTTP_ms": 75.275,
+      "production_SLA": false
+    }
+  },
+  "production_SLA": false
+}

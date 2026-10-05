@@ -1,0 +1,151 @@
+{
+  "source_commit": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+  "source_tree": "a1253cffcd23df96984eaf1fa096a80424db8135",
+  "classification": "READ_ONLY_GITHUB_WORKFLOW_STATUS_NOT_SUBSTITUTE_FOR_EXACT_NATIVE_ORIGINALS",
+  "observed": 20,
+  "success": 20,
+  "runs": [
+    {
+      "id": 37127410210,
+      "name": "CP7 F03 X04 Source Versions",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410176,
+      "name": "CP7 F03 E06 Year-end Late Invoice",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410141,
+      "name": "CP7 F03 E01 Source Journey",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410177,
+      "name": "CP7 F03 Required Cost Continuations",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410216,
+      "name": "CP7 F03 X04 Paid Redye Continuation",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410194,
+      "name": "CP7 F03 Combined Supplier Returns",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410184,
+      "name": "CP7 F03 Native Misc Finance",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410209,
+      "name": "CP7 Native Atomic Misc Correction",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410119,
+      "name": "CP7 Shell S0",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410224,
+      "name": "CP7 Native Inactive Rule Lifecycle",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410226,
+      "name": "CP7 F03 E24 Material Issue",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410202,
+      "name": "CP7 F03 E20 E14 Complete Stock Capacity",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410208,
+      "name": "CP7 F03 E03 Customer Service",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410158,
+      "name": "CP7 F03 E05 Payroll Installments",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410144,
+      "name": "CP7 Native Transaction Source Navigation",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410142,
+      "name": "CP7 F03 Full Retained Components",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410162,
+      "name": "CP7 F03 Combined Stack",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410137,
+      "name": "CP7 F03 Cash and Native Finance Readers",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410196,
+      "name": "CP7 P18 E01 Consumer Bridge",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 37127410190,
+      "name": "CP7 Owning Historical Note Correction",
+      "head_sha": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

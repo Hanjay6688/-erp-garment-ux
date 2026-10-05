@@ -31,8 +31,8 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=35;out=OUT;phase='cp7_f04_plan';browser_script='cp7_f04_plan_browser.mjs'
- report=dict(label='CP7_F04_NATIVE_PLANS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='NATIVE_DRAFT_INTENT_AND_LINKED_EXACT_SIZE_PHYSICAL_PLAN_ACTUAL_LIFECYCLE_CURRENT_AUTH_MVCC_NO_RESERVATION',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
+ candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=39;out=OUT;phase='cp7_f04_plan';browser_script='cp7_f04_plan_browser.mjs'
+ report=dict(label='CP7_F04_NATIVE_PLANS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,full_P08_acceptance=False,scope='NATIVE_DRAFT_INTENT_LINKED_EXACT_SIZE_PHYSICAL_ACTUAL_AND_GLOBAL_PHYSICAL_ROLL_PLAN_BUDGET_CURRENT_AUTH_MVCC_NO_RESERVATION',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=public_state(cur);accepted_functions_before=p09.functions(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
@@ -78,7 +78,11 @@ def run():
     if restored_functions!=accepted_functions_before:report['restore_function_difference']=dict(before=accepted_functions_before,after=restored_functions)
     report['cp6_restored']=all(report['restore_components'].values());conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice','cp7_receipt_fix')for f in d.get('added',[])))
-  groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  report['required_case_counts']={'native':25,'races':8,'http':2,'browser':4}
+  report['required_case_counts_pass']=all(report.get(k,{}).get('counts')=={'PASS':count}for k,count in report['required_case_counts'].items())
+  declaration=json.loads((bundle.ROOT/'docs/cp7/f04/SHARED_MATERIAL_POOL.json').read_text());report['required_case_ids']=declaration['required_case_ids']
+  report['required_case_ids_pass']=declaration['expected_case_count']==expected and declaration['required_case_counts']==report['required_case_counts'] and all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in report['required_case_ids'].items())
+  groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['required_case_counts_pass'] and report['required_case_ids_pass'] and report['observed_case_count']==expected and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':

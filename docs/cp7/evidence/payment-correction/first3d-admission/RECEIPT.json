@@ -1,0 +1,129 @@
+{
+  "status": "FIRST_SOURCE_INCOMPLETE_PRESERVED_NOT_RELABELLED",
+  "source_commit": "3d9051df367bffa6f6250d5ec8bd2b355ecc9434",
+  "source_tree": "6eaa87fd8da63c29630e839ed4e3f6d980199fdd",
+  "items": [
+    {
+      "family": "shell",
+      "run_id": 37164806993,
+      "job_id": 111325442071,
+      "artifact_id": 11289316495,
+      "archive_bytes": 7209,
+      "archive_sha256": "c902314886b797358c5ae601afa26c8dfdcde41b41b0c47f7bb01bb5531682d2",
+      "archive_members": {
+        "f04-private-kernels.json": {
+          "bytes": 53274,
+          "sha256": "b4a760ef0d54c4bbc70973689e90fdf6a5bef3d0923385bc948cf6bc99222a9c"
+        }
+      },
+      "original_members": {
+        "file": "shell_ORIGINAL_MEMBERS.json.gz",
+        "raw_sha256": "3f5f02968738f88831d20a4b5fbb57afd8ce2dc87cd9af26f5d0b84d321b2dd6",
+        "gzip_sha256": "dd2c5d38afb33947b0dd4d65c8265d98afd6e91fda7b04fbf92599b47b04faee"
+      },
+      "original_full_log": {
+        "file": "shell_ORIGINAL_CI_LOG.txt.gz",
+        "raw_bytes": 123078,
+        "raw_sha256": "8bde606e02c85433834f1f8a1188acafc854f7ea1cc1374cd2cad4ea82431a5f",
+        "gzip_sha256": "4937c27945f7d05313516963bc214206c030b8f756bad2b08d1f4db85faef846"
+      },
+      "classification": "INCOMPLETE_TWO_OWNING_DOM_CASES",
+      "Native_cases_credit": 0
+    },
+    {
+      "family": "cash",
+      "run_id": 37164806943,
+      "job_id": 111325442053,
+      "artifact_id": 11288992476,
+      "archive_bytes": 780,
+      "archive_sha256": "ead76dac61259db27549b804afb380010d0bc07d5915d8e67edccde49a40bbfc",
+      "archive_members": {
+        "CASH_BUILD.txt": {
+          "bytes": 1724,
+          "sha256": "d1a7d2180d01f97facd611f9574ac91514351ce91651c68dce0ea2ee86e9b4c9"
+        }
+      },
+      "original_members": {
+        "file": "cash_ORIGINAL_MEMBERS.json.gz",
+        "raw_sha256": "106248ca4296fe8ec7b3622543ac18f560279390108b005b162b85d6beebeb5e",
+        "gzip_sha256": "f74eceefc841376b2749f6e2cbd9dfca5365596c3b8e94aa18adfe5324de23b7"
+      },
+      "original_full_log": {
+        "file": "cash_ORIGINAL_CI_LOG.txt.gz",
+        "raw_bytes": 167352,
+        "raw_sha256": "620d8975b69bfa1d0f105facba71508642b84faaab9d3b6d28d0bc71dafed243",
+        "gzip_sha256": "4863fa4d07fc6395ee5613bc5cfd1baa77bb2e87ae6b5e26ee8c2c1fb0759214"
+      },
+      "classification": "INCOMPLETE_EXACT_RPC_TYPES_BUILD_ADMISSION_BEFORE_CLI_AND_NATIVE",
+      "Native_cases_credit": 0
+    },
+    {
+      "family": "e05",
+      "run_id": 37164807016,
+      "job_id": 111325442501,
+      "artifact_id": 11288887422,
+      "archive_bytes": 780,
+      "archive_sha256": "bc9b0d6c73c3e2bed024d0aad8ed985fa19405f142f28f108fa5a5cfffcb1dc8",
+      "archive_members": {
+        "CASH_BUILD.txt": {
+          "bytes": 1724,
+          "sha256": "d1a7d2180d01f97facd611f9574ac91514351ce91651c68dce0ea2ee86e9b4c9"
+        }
+      },
+      "original_members": {
+        "file": "e05_ORIGINAL_MEMBERS.json.gz",
+        "raw_sha256": "106248ca4296fe8ec7b3622543ac18f560279390108b005b162b85d6beebeb5e",
+        "gzip_sha256": "f74eceefc841376b2749f6e2cbd9dfca5365596c3b8e94aa18adfe5324de23b7"
+      },
+      "original_full_log": {
+        "file": "e05_ORIGINAL_CI_LOG.txt.gz",
+        "raw_bytes": 167119,
+        "raw_sha256": "644edb37915acbb4a026da9647e6132001156e1725b86b43545b7046fd968dd1",
+        "gzip_sha256": "2a71ffe6e5ae0a97c8dd45cf5449271261bbf1849d3eaed502943e06b068a5ff"
+      },
+      "classification": "INCOMPLETE_EXACT_RPC_TYPES_BUILD_ADMISSION_BEFORE_CLI_AND_NATIVE",
+      "Native_cases_credit": 0
+    },
+    {
+      "family": "misc",
+      "run_id": 37164806983,
+      "job_id": 111325442089,
+      "artifact_id": 11288628027,
+      "archive_bytes": 780,
+      "archive_sha256": "fbb3225d005cf0e3dddd8afad36fe46ee712e3f757aea4862e8373b1845e8081",
+      "archive_members": {
+        "CASH_BUILD.txt": {
+          "bytes": 1724,
+          "sha256": "d1a7d2180d01f97facd611f9574ac91514351ce91651c68dce0ea2ee86e9b4c9"
+        }
+      },
+      "original_members": {
+        "file": "misc_ORIGINAL_MEMBERS.json.gz",
+        "raw_sha256": "106248ca4296fe8ec7b3622543ac18f560279390108b005b162b85d6beebeb5e",
+        "gzip_sha256": "f74eceefc841376b2749f6e2cbd9dfca5365596c3b8e94aa18adfe5324de23b7"
+      },
+      "original_full_log": {
+        "file": "misc_ORIGINAL_CI_LOG.txt.gz",
+        "raw_bytes": 167562,
+        "raw_sha256": "51ead8c189cce546cd2e0fd6d45a17d5454f3cb98900c5741dd273fbb9de36bc",
+        "gzip_sha256": "7617389dfdccf647d1eba08883d2cccfd88536b191e6557b0f02be76d5a7b1be"
+      },
+      "classification": "INCOMPLETE_EXACT_RPC_TYPES_BUILD_ADMISSION_BEFORE_CLI_AND_NATIVE",
+      "Native_cases_credit": 0
+    }
+  ],
+  "Shell_actual_passed": 1444,
+  "Shell_actual_failed": 2,
+  "Shell_expected": 1446,
+  "Shell_files": 150,
+  "all_new_private_panel8_pass": true,
+  "root_cause_owning_DOM": "Exact PAYMENT_CORRECT absent from SALES recovery action whitelist; storage refuses before sending RPC",
+  "root_cause_finance_build": "Two new exact callable RPC argument declarations absent from database.preconnect.ts",
+  "successor_scope": "One exact local SALES recovery action and two exact CP7 RPC type signatures; Native guard, SQL, other actions and case budgets unchanged",
+  "cleanup_CLI_missing_failure_preserved": true,
+  "full_build_security_ownership_browser_credit": false,
+  "new_payment_native_credit": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

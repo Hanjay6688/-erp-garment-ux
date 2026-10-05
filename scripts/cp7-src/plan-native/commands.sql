@@ -51,7 +51,13 @@ begin
  if found then if old.payload<>p then raise exception 'CP7_PLAN_REQUEST_CHANGED';end if;return old.result;end if;
  select *into r from cp7_plan_native.drafts where id=(p->>'draft_id')::uuid and actor=(a->>'actor')::uuid;
  if r.id is null then raise exception using errcode='42501',message='CP7_PLAN_DRAFT_UNAVAILABLE';end if;
- -- Same canonical target lock for every actor, draft, run and UUID. The Native
+  -- Acquire shared physical-roll budgets in one order before target/version
+  -- locks. Distinct targets cannot both offer the same remaining roll in full.
+  for k in select distinct(x->>'roll_id')::uuid from jsonb_array_elements(r.payload->'cutting'->'rolls')x order by 1 loop
+   perform pg_advisory_xact_lock(hashtextextended('CP7:PLAN_MATERIAL_POOL:'||k::text,0));
+  end loop;
+  if cp7_plan_native.access_now('APPLY')is distinct from a then raise exception using errcode='42501',message='CP7_PLAN_ACCESS_CHANGED';end if;
+  -- Same canonical target lock for every actor, draft, run and UUID. The Native
  -- roll locks retain their own unchanged ordering inside the domain command.
  perform pg_advisory_xact_lock(hashtextextended('CP7:PLAN_TARGET:'||r.target_key,0));
  perform pg_advisory_xact_lock(hashtextextended('CP7:PLAN_VERSION:'||r.plan_id::text,0));

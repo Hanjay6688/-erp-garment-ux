@@ -1,0 +1,128 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "e206a2454faddb2734992e4aada6b36b7db69615",
+  "source_tree": "3d04d948ae5540546403630bbf61322d8b3601a2",
+  "run_id": 37277660265,
+  "job_id": 111658184797,
+  "artifact_id": 11331096819,
+  "artifact_bytes": 1648102,
+  "artifact_sha256": "422eff8e7f7b9e29f9a8b401d5d8986eccaa1c655f63c93e9894cb8f02725638",
+  "artifact_CRC": "PASS",
+  "status": "WRITER_QUALIFIED_4_COMPLETE_CASE_BODIES_PASS",
+  "expected_case_count": 4,
+  "observed_case_count": 4,
+  "counts": {
+    "native": {
+      "PASS": 4
+    }
+  },
+  "actual_ids": {
+    "native": [
+      "F03_O18_POCKET_EXACT_AND_P13_REPORT",
+      "F03_E07_RECEIPT_POCKET_ZERO_DELTA_AND_REPRICE",
+      "F03_E07_POCKET_SALE_RETURN_CONVERSION",
+      "F03_E04_CONVERSION_SOLD_CHILD_COST"
+    ]
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_F03_COST_CONTINUATION.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [],
+  "full_job_log_original_sha256": "0ec229a9c2390911ffaeaa3a75785fa6aeab80af055b15902ea43a6fb8b26fdb",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385615,
+      "crc32": "3a8e69be",
+      "sha256": "a25aea48285f164d5769d23e7627d08217cb93a91deaa494ecb8a2f7a03033c6"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385615,
+      "crc32": "3a8e69be",
+      "sha256": "a25aea48285f164d5769d23e7627d08217cb93a91deaa494ecb8a2f7a03033c6"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "328a800b",
+      "sha256": "ff0c529adb96a5e724e16b74405a3e2ff3a9d4d28a5bda94533f74d996e731a2"
+    },
+    {
+      "name": "CP7_F03_COST_CONTINUATION.json",
+      "bytes": 523459,
+      "crc32": "70587fec",
+      "sha256": "58c0ca1a8bb3b767952d2b5db233b51238603eeed718b359832b291147fc5834"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "eed7fa1b",
+      "sha256": "a07774860cd7edb73d099ad37b516c49676ee255d5d3cf7c085a76ff4874ec25"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360419,
+      "crc32": "7131d999",
+      "sha256": "afbdc84f737c1550028be9f756d430d248d286a21c5f390b0da5b14ecc90faf4"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "installed_status": "ALL_STAGES_INSTALLED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "PASS",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "full_raw_public_catalog_snapshot_count": 10,
+  "raw_restore_pair_order_only": true,
+  "old_d68_per_case_difference_cause_proved": false
+}

@@ -1,0 +1,57 @@
+{
+  "contract": "cp7.p08-shared-material-local-preparation.v1",
+  "status": "LOCAL_ONLY_NATIVE39_PENDING",
+  "synthetic_parser_and_DOM_tests_passed": 25,
+  "private_kernel_controls_passed": 12,
+  "local_Vitest_tests_passed": 26,
+  "local_Vitest_files_passed": 4,
+  "security_exit": 0,
+  "typescript_exit": 0,
+  "Native_business_case_credit": 0,
+  "Auth_HTTP_credit": 0,
+  "browser_credit": 0,
+  "source_sha256": {
+    "scripts/cp7-src/plan-native/bootstrap.sql": "7451b79dce7000c69c0251e27b0ebba3894de10a408abf5ee3329a393faa7fd4",
+    "scripts/cp7-src/plan-native/preflight.sql": "e01865519c91fa94b75513155fb2d16af8931d3b65fccafee68ab455a09b604f",
+    "scripts/cp7-src/plan-native/read.sql": "1b1f891cb711242ad38e7af2d312c813849a4b2347f04cb1fd09a4e6d09ae4e7",
+    "scripts/cp7-src/plan-native/commands.sql": "0408e172c65e2a4ce32252c608ee8d2128be11ad9980f4587d3581682d0515fb",
+    "scripts/cp7-src/plan-native/ownership.sql": "c90f0f629f1390470a94416b2ce7d9d45b11f73753208de24d8660479797d1de",
+    "scripts/cp7_plan_bundle.py": "c70b09aee593ec4cb27a05aec68289454d87756f744b016604639fb1259d8487",
+    "scripts/cp7_analysis_bundle.py": "7eca2f9081663b0f8b77c0c57736dbe421f35aa7ea8e16e3ce2bdc1359481131",
+    "scripts/cp7_plan_native_cases.py": "cb655da0856bc6476c4de70b8a995d52b6ffa33b38080838742f33dc9da1365c",
+    "scripts/cp7_f04_plan_probe.py": "3b4e8ee94009e6cb7ed6169ddc1423fa2aab88bbbbb6b4c51afd22983141fe61",
+    "scripts/cp7_f04_plan_browser.mjs": "003fc699a8cc31654e9a81c8b6fd2f1e05ef14badb193f87b96126e8300ddb66",
+    "src/nativePlanDraft.ts": "797334d201eac11f38c75658f57c8ac43a2116b6b6a8aaa983a84399ad95c329",
+    "src/NativePlanDraftPanel.tsx": "84729448dd4d83616e083892bdbe27ffc0b176dfaa3178ce0b80ea3fcb9be7f9",
+    "src/nativePlanDraft.test.ts": "b7cfe94174660cdf8af4bbbab1ec62d7841f47f73423727a9afbb8481626be8f",
+    "tests/fixtures/nativePlan.ts": "0ad7dc4af601ace021f8e877f7a7f7cd0203ec07194c831e3067bb05d3397e84",
+    "tests/cp7/families/f04/material-pool.mjs": "db4bb63bdd839bdf88542aa28b13667fa601c1235bc3a66d46968951d1cfe53b",
+    "tests/cp7/families/material-pool.test.ts": "3cff4ccbd9e517b53976140b05f6d37f39fcea48a68be1d1a4779effca01dd5b"
+  },
+  "full_logs": {
+    "material-pool-final-local.log": {
+      "bytes": 327,
+      "sha256": "d35720969ddebe5136cc6a2d6aa942099d826c638f5c107c94e73bc9d2b6be73"
+    },
+    "material-pool-security.log": {
+      "bytes": 12142,
+      "sha256": "2c386d5113e6594940fd73ebb4069b78e9ac0932da2fdbd927f332f62704fe29"
+    },
+    "material-pool-tsc.log": {
+      "bytes": 99,
+      "sha256": "7125f194612fcff2f454c05d848e7cb71facc1967b4d5017e25b34fdee3ba74f"
+    },
+    "material-pool-final-tsc.log": {
+      "bytes": 99,
+      "sha256": "7125f194612fcff2f454c05d848e7cb71facc1967b4d5017e25b34fdee3ba74f"
+    },
+    "material-pool-final-security.log": {
+      "bytes": 12142,
+      "sha256": "2c386d5113e6594940fd73ebb4069b78e9ac0932da2fdbd927f332f62704fe29"
+    }
+  },
+  "full_P08_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,22 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37155715155,
+  "run_attempt": 2,
+  "job_id": 111302725555,
+  "artifact_id": 11285499349,
+  "artifact_name": "cp7-f04-netting",
+  "source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "source_tree": "d952cd5103f92043475a6e8dcc3fe518c53a52e2",
+  "source_bundle_sha256": "1f0ca52157023eeb7205615302dadb392fe5421c4805191be88bfece1ee539b0",
+  "zip_bytes": 23249212,
+  "zip_sha256": "14124eece070d5fde529eb53bfcc54435e8583ffb443836cb83c353c5409b144",
+  "runtime_report": "CP7_F04_NATIVE_NETTING.json",
+  "expected_status": "PASS",
+  "expected_case_count": 82,
+  "required_case_counts": {
+    "native": 59,
+    "races": 11,
+    "http": 6,
+    "browser": 6
+  }
+}

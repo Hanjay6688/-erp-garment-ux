@@ -1,0 +1,273 @@
+{
+  "status": "FIRST_FAILURE_NATIVE40_INCOMPLETE_UNALTERED",
+  "source_commit": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+  "source_tree": "6336e647afc25609e4afacdbf1bd2d8bce74cb79",
+  "run_id": 37128855701,
+  "job_id": 111219699807,
+  "artifact_id": 11276736305,
+  "archive_bytes": 11627755,
+  "archive_sha256": "3814294e94e57a04811e396ec39d6801e7a7b02554f9423cd9b9f3d6f94a70dc",
+  "source_bundle_sha256": "59d1ebf6ed44a4b4475515ee54e671362a9118233b9d28a5cf90f2413593c2d5",
+  "required_case_counts": {
+    "native": 28,
+    "races": 4,
+    "http": 3,
+    "browser": 5
+  },
+  "expected_case_count": 40,
+  "observed_case_count": 40,
+  "groups": {
+    "native": {
+      "PASS": 28
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 4,
+      "INCOMPLETE": 1
+    }
+  },
+  "failure_case": "NOTE_BROWSER_MOBILE_LOST_REPLY",
+  "actual_HTTP_status": 500,
+  "sqlstate": "57014",
+  "unchanged_real_statement_limit": "8s",
+  "unchanged_after_failure": {
+    "physical": 45,
+    "fg_value": "675.000000",
+    "note_original_qty": "20",
+    "correction_history": []
+  },
+  "actual_command_sample_count": 79,
+  "maximum_observed_command_elapsed_ms": 7902.991,
+  "sampled_waits": "NULL_FOR_ALL79_SAMPLES_NOT_PROOF_NO_SHORT_WAIT",
+  "server_function_frames": [
+    {
+      "function": "erp.require_internal()",
+      "line": 6
+    },
+    {
+      "function": "account_id(text)",
+      "line": 1
+    },
+    {
+      "function": "\"compute_po_hpp_gl_book_v2620e\"",
+      "line": 1
+    },
+    {
+      "function": "erp.refresh_po_hpp_gl_baseline(uuid)",
+      "line": 10
+    },
+    {
+      "function": "post_sales_return(uuid)",
+      "line": 228
+    },
+    {
+      "function": "cp7_note.command(jsonb,uuid,text)",
+      "line": 88
+    },
+    {
+      "function": "\"erp_cp7_correct_note_v1\"",
+      "line": 1
+    }
+  ],
+  "causal_limit": "Actual failed PostgREST command stops at Native account/internal admission during PO HPP refresh. No observed wait; no measured attribution to JIT, permissions, CPU or host contention. Earlier private-session JIT measurements bypass session_user-sensitive guard; they are not equivalent to this failure. Do not raise timeout or remove source/financial/authority guards. Fresh actual Auth measurements are needed; later PASS alone cannot close cause.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "d9ff5f153db32ec71daef79afe67b9380c9b28df5c3470cfe4ed1d43ab8ac43e"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "d9ff5f153db32ec71daef79afe67b9380c9b28df5c3470cfe4ed1d43ab8ac43e"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "fc1b883f5374a96c984cac2ec5b2b0a69af15c29acad9e6110de188825f86777"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 325865,
+      "sha256": "7705122f0e56b88e5b8d9f23d0488509a4f88a759c722da208a809b311223fca"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP.png": {
+      "bytes": 1193547,
+      "sha256": "3909d27a568f56b36eeecb179d50fe2eaf3c9d5569dff8e984d41e76016ce54b"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP_MICROSECOND.png": {
+      "bytes": 1186435,
+      "sha256": "bc28e3901230d6ad987015a6260fc01f93f41efaa1d8127163da7cb1cf404724"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE_MICROSECOND.png": {
+      "bytes": 736503,
+      "sha256": "f5fd9fa82559eb81961c9fcec793a451eb5a45378576542cec8aa2bae9fbd720"
+    },
+    "NOTE_CORRECTED_LOT_DESKTOP.png": {
+      "bytes": 946902,
+      "sha256": "c22e6465026f730db0e1b15e243e59c222c98542e57e499704976172851191ce"
+    },
+    "NOTE_CORRECTED_LOT_DESKTOP_MICROSECOND.png": {
+      "bytes": 938128,
+      "sha256": "a63794f274cd0f10f189ffaf7825fccc114c0ff06d99f38db9bdcbed3f17b60a"
+    },
+    "NOTE_CORRECTED_LOT_MOBILE_MICROSECOND.png": {
+      "bytes": 709265,
+      "sha256": "bf228d05963fc13a2ac5349562a670089d9242ab7872869080ee049a83b5718f"
+    },
+    "NOTE_CORRECTION_DESKTOP.png": {
+      "bytes": 857801,
+      "sha256": "fc3278a0a03734a76fe8522e93418a1650da4be4a438be8bfdf6f75141e5b75e"
+    },
+    "NOTE_CORRECTION_DESKTOP_MICROSECOND.png": {
+      "bytes": 858174,
+      "sha256": "be7fc973a97eb3ff89abaa77f5bf9694eeca10ba4b437bf5cb863c526c2b0d06"
+    },
+    "NOTE_CORRECTION_MOBILE_MICROSECOND.png": {
+      "bytes": 592662,
+      "sha256": "c5c08ac7f737428590fcd0f33d09b42395fac7f18df2ebb368154170e1b28cc6"
+    },
+    "NOTE_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 18259,
+      "sha256": "9ba0d1035d368ddeebeace7050c3c1f056ec568787f5ded9447ff33acb7878d5"
+    },
+    "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 19015,
+      "sha256": "ddcd8400d9bdfef8463448f1243234d0a896260a41d0e05074849cd6ef25406e"
+    },
+    "NOTE_DUPLICATE_SKU_LOT_CARD.png": {
+      "bytes": 796965,
+      "sha256": "a2ebb55f7426e6d7beed63d651552892e60de1114c02a10815d192594f29f620"
+    },
+    "NOTE_DUPLICATE_SKU_MAIN_BOOK.png": {
+      "bytes": 903979,
+      "sha256": "cf863cdb398bba11d1a611004834d7354df8a4c1f54f3e803d211f477924c2ad"
+    },
+    "NOTE_DUPLICATE_SKU_NATIVE_PROOF.json": {
+      "bytes": 37157,
+      "sha256": "bb4e8d05dc6a2a06a45ff38dd811452c67b5a11eeff5010c846f3cd4bc5ff9fd"
+    },
+    "NOTE_MOBILE_FAILURE.json": {
+      "bytes": 22109,
+      "sha256": "ea646f7f23bf6830c8034595131ce57950b15c4cb17802e93363ef129d070ea1"
+    },
+    "NOTE_MOBILE_FAILURE.png": {
+      "bytes": 484581,
+      "sha256": "b4450cd681e035c7336d8672d6fb4987ea85530a153483cfc80596e7cc9748bb"
+    },
+    "NOTE_MOBILE_HTTP_TRACE.json": {
+      "bytes": 27064,
+      "sha256": "c75254fbd093a16156aac47db3e5b5aa81909f02e3aa9f1cfcf71b7173a1e8a2"
+    },
+    "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 20420,
+      "sha256": "d717dd33ebddb3ba186549f823a136c29291d5d021bb7db01664b8490bd206cb"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "fd7a63558d8a6ec4db4f5fa7db0cc7ef62ba004b621695c03507ea9871bdddca"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360428,
+      "sha256": "9f09dd2de8218e14c4920dfbd25c1da2a0678d350aa88da2858b7dc5178587e3"
+    }
+  },
+  "retained_Originals": {
+    "ALIGNED_CHAIN.json.gz": {
+      "Original_sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "bytes": 4731,
+      "sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_NOTE_CORRECTION.json.gz": {
+      "Original_sha256": "7705122f0e56b88e5b8d9f23d0488509a4f88a759c722da208a809b311223fca",
+      "bytes": 23859,
+      "sha256": "474f4106fd483689ec3164024ae022ec356650125f671ed3b17b66a1a67a8c63"
+    },
+    "NOTE_DESKTOP_HTTP_TRACE.json.gz": {
+      "Original_sha256": "9ba0d1035d368ddeebeace7050c3c1f056ec568787f5ded9447ff33acb7878d5",
+      "bytes": 1149,
+      "sha256": "0aa5fcbf9a9ec01670f038c60a00c99aa638f8dff3fbcf26bfee42eb45e12ad8"
+    },
+    "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json.gz": {
+      "Original_sha256": "ddcd8400d9bdfef8463448f1243234d0a896260a41d0e05074849cd6ef25406e",
+      "bytes": 1196,
+      "sha256": "07acd638ba22a6449571866c776ee73e2872b30f9ad833825f0d7c039929e446"
+    },
+    "NOTE_DUPLICATE_SKU_NATIVE_PROOF.json.gz": {
+      "Original_sha256": "bb4e8d05dc6a2a06a45ff38dd811452c67b5a11eeff5010c846f3cd4bc5ff9fd",
+      "bytes": 3410,
+      "sha256": "bddac49b211ba9b906f6caf9bbf905e30457d3035a05af20cf4be29888cde52c"
+    },
+    "NOTE_MOBILE_FAILURE.json.gz": {
+      "Original_sha256": "ea646f7f23bf6830c8034595131ce57950b15c4cb17802e93363ef129d070ea1",
+      "bytes": 4519,
+      "sha256": "60e3d0a47b8d528e128f92fa61ec5852da64e128e8f4c9df94541a3755bbace5"
+    },
+    "NOTE_MOBILE_FAILURE.png": {
+      "Original_sha256": "b4450cd681e035c7336d8672d6fb4987ea85530a153483cfc80596e7cc9748bb",
+      "bytes": 484581,
+      "sha256": "b4450cd681e035c7336d8672d6fb4987ea85530a153483cfc80596e7cc9748bb"
+    },
+    "NOTE_MOBILE_HTTP_TRACE.json.gz": {
+      "Original_sha256": "c75254fbd093a16156aac47db3e5b5aa81909f02e3aa9f1cfcf71b7173a1e8a2",
+      "bytes": 1557,
+      "sha256": "46cd9c094cd4d09dfcf561fbb3d028c12a2f4934d73bbbbb89c213349897436a"
+    },
+    "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json.gz": {
+      "Original_sha256": "d717dd33ebddb3ba186549f823a136c29291d5d021bb7db01664b8490bd206cb",
+      "bytes": 1258,
+      "sha256": "130a4b6c7238c5c162ed09d8a53def8093bcf6866d9b2314b6993d744e6e6b83"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "Original_sha256": "fd7a63558d8a6ec4db4f5fa7db0cc7ef62ba004b621695c03507ea9871bdddca",
+      "bytes": 1827,
+      "sha256": "36e6caa0938a5503f64632a3bdc54d40492e9809c9440bf2d5f915332a9a8c5d"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "Original_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json.gz": {
+      "Original_sha256": "9f09dd2de8218e14c4920dfbd25c1da2a0678d350aa88da2858b7dc5178587e3",
+      "bytes": 11398,
+      "sha256": "d4be05182053beb51d40c84cbbc20d438640f7da6f3180836e3995b0889b641a"
+    },
+    "CI_ORIGINAL.log.gz": {
+      "Original_bytes": 268284,
+      "Original_sha256": "ccff35d7c0bdabe4d3af41550f924d77c12e74da0b941ea3c8393b0c69240ab3",
+      "bytes": 43551,
+      "sha256": "d84206c74f336e4f37e38506380405bb3297a782c3afa93b12f638e4be2f83e1"
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}

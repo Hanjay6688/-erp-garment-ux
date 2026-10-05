@@ -1,0 +1,69 @@
+{
+  "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "source_tree": "8186fba6c39ac9ad897026d2c1763ba3363789a0",
+  "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+  "run_id": 37108983720,
+  "job_id": 111163032118,
+  "artifact_id": 11269675157,
+  "archive_sha256": "c7df523b9d37b3bd6c4e8ab8e2277aa7510b6315dafc8b60b0d8a9b96f840827",
+  "archive_bytes": 3079275,
+  "original_sha256": "808612a0ec22b4838aedbf9cb2267e70bb1f822e458ba4d78d726d283814fe8c",
+  "package_original_sha256": "8783a6b2730f7525b5897a9aadb7328c44eb9d37f7361340bff0e966afd1eff2",
+  "status": "PASS",
+  "expected_case_count": 5,
+  "observed_case_count": 5,
+  "predeclared_groups": [
+    {
+      "key": "native",
+      "kind": "native",
+      "module": "cp7_f03_supplier_credit_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_f03_supplier_credit_cases.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "races",
+      "kind": "races",
+      "module": "cp7_f03_supplier_credit_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_f03_supplier_credit_cases.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "http",
+      "kind": "http",
+      "module": "cp7_f03_supplier_credit_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_f03_supplier_credit_cases.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "browser",
+      "kind": "browser",
+      "module": "scripts/cp7_f03_supplier_credit_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_f03_supplier_credit_cases.py",
+      "expected_executions": 2
+    }
+  ],
+  "private_role_count": 32,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "unique_scenario_total_claim": false
+}

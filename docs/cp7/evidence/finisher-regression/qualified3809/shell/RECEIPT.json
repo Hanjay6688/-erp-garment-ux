@@ -1,0 +1,80 @@
+{
+  "source_commit": "3809968e455486f66eea46b726e276644e845b7c",
+  "source_tree": "ae23ca9195c34bec8d05259099323243558e9a45",
+  "run_id": 37126045730,
+  "jobs": {
+    "shell": 111211423721,
+    "javascript": 111211423824,
+    "actions": 111211423887
+  },
+  "artifacts": {
+    "shell": {
+      "artifact_id": 11275591669,
+      "archive_sha256": "2814742d2d632abec95d9e317b0c0b0298d60258ef709d272f0ea041684e54b2"
+    },
+    "javascript": {
+      "artifact_id": 11275331212,
+      "archive_sha256": "fd9d89a5013d445e0fbd3c51ddc6802ef9bb95f4fc3485cf8e668df58d10a41d"
+    },
+    "actions": {
+      "artifact_id": 11274896550,
+      "archive_sha256": "c52995e2d0772f401863f74b87dd55945b89c9ccbe1cbd4dc4147acab5502d05"
+    }
+  },
+  "status": "PASS",
+  "members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "18b65f484fe0b1b337f5ac381a6502088cd5873368010d1dea5a040145f03d16",
+      "compressed_sha256": "1d96e80c2c74e25a31f9c4dddfaf268c4ac7bc0673786d8141658a48f49fb9d1"
+    },
+    "results.json": {
+      "bytes": 12417,
+      "sha256": "cd4b30866cac4772072b1f5029d4d2c1b59a348397cdda545c828cfe9a34d53f",
+      "compressed_sha256": "e0e2cd5e17d96e6440ad4f829abef92e05fcee41a6c8fd17cc4ce4c93f64b542"
+    },
+    "javascript.sarif": {
+      "bytes": 1311718,
+      "sha256": "12aa3bc8f51bc8976cfe4e2bed41a8eab27c239f8fbe7ab03d6af157420ea8ed",
+      "compressed_sha256": "43441d4c1c9e2617ef55b2e4547aa7b5fb3727da82bc5aa25cef777661a15845"
+    },
+    "actions.sarif": {
+      "bytes": 697628,
+      "sha256": "8755a3287e1f89db4773f6f799947a899931057a4113ad676bd9ad75cec98f1c",
+      "compressed_sha256": "6333d73b488bdc4d96ac29e1fab24a0daff25c80365aa2bf89558a8ef98ccb4e"
+    },
+    "SHELL_CI_ORIGINAL.log": {
+      "bytes": 171218,
+      "sha256": "cc599311014ec51c6c2d7bc9e34b64f99efc9f8c702e4fe958461c4440dfb1c7",
+      "compressed_sha256": "925e8338158feaa86edf97d750fd8e77c2bd0dd8b9e94145e3db933691bcf96f"
+    }
+  },
+  "private_kernel_runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+  "private_kernel_scope": "WRITER_PRIVATE_KERNEL_PROOF_ONLY",
+  "private_kernel_passed": 138,
+  "actual_Shell_browser_passed": 6,
+  "codeql_sarif_findings": {
+    "javascript": 0,
+    "actions": 0
+  },
+  "application_tests_passed": 1403,
+  "application_files_passed": 146,
+  "runtime_owned": 256,
+  "RPC_boundaries": 187,
+  "styles_owned": 53,
+  "import_orphans": 0,
+  "direct_browser_table_access": false,
+  "build": true,
+  "security_static_checks": true,
+  "scope": "Exact application/Shell/static CodeQL/private kernel proof at3809 only; no automatic successor or whole CP7 acceptance.",
+  "independent_acceptance": false,
+  "production_go": false
+}

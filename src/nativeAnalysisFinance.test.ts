@@ -7,7 +7,7 @@ const parse=(e:ReturnType<typeof analysisFinanceFixture>,rights=access)=>parseNa
 it('retains exact huge book values and signed loss from the accepted financial source in all consumers',()=>{
  const r=parse(analysisFinanceFixture()),assets=r.analysis.metrics.find(m=>m.metric_id==='NATIVE_FINANCE:financial_position:assets')!
  expect(assets.value).toMatchObject({state:'KNOWN',value:'9007199254740993.01'})
- expect(r.finance!.report.snapshot.financial_position.current_earnings).toBe('-7.02');expect(analysisReport(r)).toContain('-7,02');expect(analysisPrompt(r,'periksa')).toContain(JSON.stringify(r.finance));expect(r.finance!.report.snapshot.basis.supplier_exposure_basis).toBe('CURRENT_OPERATIONAL_STATE')
+ expect(r.finance!.report.snapshot.financial_position.current_earnings).toBe('-7.02');expect(analysisReport(r)).toContain('-7,02');expect(JSON.parse(analysisPrompt(r,'periksa').split('<DATA_ERP_JSON>\n\n')[1].split('\n\n</DATA_ERP_JSON>')[0]).financial_source).toEqual(r.finance);expect(r.finance!.report.snapshot.basis.supplier_exposure_basis).toBe('CURRENT_OPERATIONAL_STATE')
 })
 it('keeps profit and inventory valuation unknown under blocked HPP while retaining recorded cash for examination',()=>{
  const r=parse(analysisFinanceFixture(true)),find=(key:string)=>r.analysis.metrics.find(m=>m.metric_id.endsWith(':'+key))!

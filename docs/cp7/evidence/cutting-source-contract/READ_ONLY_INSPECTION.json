@@ -1,0 +1,15 @@
+{
+  "classification": "READ_ONLY_FROZEN_NATIVE_SELECTOR_CONTRACT_INSPECTION_NOT_NEW_RUNTIME_EXECUTION",
+  "source_head": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+  "files": {
+    "supabase/migrations/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql": "21ac97ded4ed0cee9175c7fac7ef28ab6713d08b00766e1e5adc86bd38205e6c",
+    "src/ConnectedCuttingPage.tsx": "941dba88299f5a4da35316db9579c2c43c6052538f54061f8d3ff4b53d0dd20f",
+    "src/cuttingSelectors.ts": "691b75117a98645b043407de1935ddf0302effcce3bb1f4cb01a16bf390117de"
+  },
+  "Native_draft_eligibility": "where g.status='CUT' and g.picked_up_at is null and not g.material_issue_posted",
+  "exact_PO_and_group_selections_required": true,
+  "posted_QC_group_will_not_be_a_Native_selected_draft": true,
+  "no_runtime_source_route_added": true,
+  "no_new_grant_or_mutator": true,
+  "production_go": false
+}

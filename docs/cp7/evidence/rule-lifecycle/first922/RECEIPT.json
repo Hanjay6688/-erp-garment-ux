@@ -1,0 +1,20 @@
+{
+  "source_commit": "92203d391c302a5dd39049874b91446958d46314",
+  "run_id": 37103822207,
+  "job_id": 111148384595,
+  "artifact_id": 11267216326,
+  "archive_bytes": 10510033,
+  "archive_sha256": "e76bc5a8a100521af803701025d8cf2dc424ac622d81a45bb57cbe021b716f67",
+  "reports": [
+    {
+      "member": "CP7_RULE_LIFECYCLE.json",
+      "raw_sha256": "53a62dbec6b6737f84282cbef01ed5acb833a87349a5c02b95e6242c4258cbb4",
+      "gzip_sha256": "b2a27ebfc5139f378922500265a73acbdfe6993e34988678b468a8df6cc6e1ee",
+      "bytes": 282288,
+      "file": "docs/cp7/evidence/rule-lifecycle/first922/CP7_RULE_LIFECYCLE.json.gz"
+    }
+  ],
+  "status": "INCOMPLETE_15_PASS_1_FIXTURE_REFUSAL",
+  "reason": "LAST_ACTIVE_OWNER_PROTECTED: test attempted to deactivate the only active Owner; product guard is preserved",
+  "repair": "Use an existing isolated custom actor promoted to ADMIN with its own Original, then revoke that actor; retain all16 cases and gates"
+}

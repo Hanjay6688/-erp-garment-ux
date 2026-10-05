@@ -4,6 +4,9 @@ import {
   RefreshCw, Search, ShieldCheck, Undo2,
 } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
+import TransactionSourceLink, { useTransactionSource } from './TransactionSourceNavigation'
+import { isConnectedRuntime } from './config/runtime'
+import { useRetainedFormInput, useRetainedInput, type RetainedFormInput } from './useRetainedFormInput'
 import { SENSITIVE_ACTION_PERMISSION, hasPermission } from './auth/accessCatalog'
 import { Cp6ActionBlocked, Cp6PermissionNotice } from './Cp6PermissionNotice'
 import { CP6_BUSINESS_TIME_LABEL, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
@@ -187,19 +190,19 @@ export function qcQueueSourceComplete(
       && value.toLowerCase().includes(needle))
 }
 
-function FinalSkuForm({ workspace, transactionQuery, writerLocked, canPost, onAction, searchProducts }: {
+function FinalSkuForm({ workspace, transactionQuery, writerLocked, canPost, onAction, searchProducts, inputs }: {
   workspace: LaundryQcWorkspace; transactionQuery: string; writerLocked: boolean; canPost: boolean; onAction: RunAction
-  searchProducts: SearchProducts
+  searchProducts: SearchProducts; inputs: RetainedFormInput
 }) {
   const groups = useMemo(() => groupQueue(workspace.qc_queue), [workspace.qc_queue])
-  const [groupId, setGroupId] = useState('')
-  const [locationId, setLocationId] = useState('')
-  const [physicalAt, setPhysicalAt] = useState('')
-  const [reason, setReason] = useState('')
+  const [groupId, setGroupId] = useRetainedInput(inputs, 'qc.groupId', '')
+  const [locationId, setLocationId] = useRetainedInput(inputs, 'qc.locationId', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'qc.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'qc.reason', '')
   const [confirmed, setConfirmed] = useState(false)
-  const [good, setGood] = useState<Record<string, string>>({})
-  const [bs, setBs] = useState<Record<string, string>>({})
-  const [products, setProducts] = useState<Record<string, string>>({})
+  const [good, setGood] = useRetainedInput<Record<string, string>>(inputs, 'qc.good', {})
+  const [bs, setBs] = useRetainedInput<Record<string, string>>(inputs, 'qc.bs', {})
+  const [products, setProducts] = useRetainedInput<Record<string, string>>(inputs, 'qc.products', {})
   const [resolvedProducts, setResolvedProducts] = useState<Record<string, Cp6Product>>({})
   useEffect(() => setConfirmed(false), [workspace])
   const actionLocked = writerLocked || !canPost
@@ -288,30 +291,52 @@ function FinalSkuForm({ workspace, transactionQuery, writerLocked, canPost, onAc
   </section>
 }
 
-function QcHistory({ workspace, writerLocked, canReverse, onAction }: {
-  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction
+function QcReceiptSources({ workspace }: { workspace: LaundryQcWorkspace }) {
+  const receipts = [...new Map(workspace.qc_queue.map(row => [row.receipt_id, row])).values()]
+  if (!receipts.length) return null
+  return <section className="clq-history">
+    <header><History/><div><span>PENERIMAAN ASAL</span><h2>Periksa transaksi Laundry yang memasok antrean QC</h2></div></header>
+    {receipts.map(row => <article key={row.receipt_id} data-qc-source-receipt-id={row.receipt_id}>
+      <header><div><strong>{row.receipt_number}</strong><small>{row.delivery_number} · {row.vendor_name}</small></div></header>
+      <TransactionSourceLink sourceType="LAUNDRY_RECEIPT" sourceId={row.receipt_id} label="Buka penerimaan asal"/>
+      <TransactionSourceLink sourceType="CUTTING_GROUP" sourceId={row.cutting_group_id} label="Buka potongan asal"/>
+    </article>)}
+  </section>
+}
+
+function QcHistory({ workspace, writerLocked, canReverse, onAction, inputs, sourceId }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction; inputs: RetainedFormInput; sourceId?: string
 }) {
-  const [reasons, setReasons] = useState<Record<string, string>>({})
+  const [reasons, setReasons] = useRetainedInput<Record<string, string>>(inputs, 'history.reasons', {})
   return <section className="clq-history">
     <header><History/><div><span>RIWAYAT FINAL SKU</span><h2>Stok dan HPP tidak diedit; koreksi membuat catatan pembalik</h2></div></header>
     <Cp6ActionBlocked allowed={canReverse} action="koreksi Final SKU" requirement="izin Reverse Final SKU"/>
-    {workspace.qc_history.length === 0 ? <div className="clq-empty"><History/><strong>Belum ada finalisasi CP6</strong><small>QC lama yang belum punya hubungan lengkap tetap dipisahkan dan tidak ditebak.</small></div> : workspace.qc_history.map((row) => <article key={row.qc_inspection_id}><header><div><small>{formatCp6WibDateTime(row.physical_at)} · versi {row.row_version}</small><strong>{row.inspection_number} · {row.po_number}</strong><span>{row.location_name} · Good {row.good_qty_pcs} · BS {row.bs_qty_pcs}</span></div><em>{status(row.status)}</em></header><div className="clq-reversal"><span><small>KOREKSI TRANSAKSI TERSIMPAN</small><strong>Membalik stok, reimbursement, HPP, jurnal, dan laporan sebagai riwayat baru</strong><small>{row.reversal_blocker ?? 'Siap dibalik secara authoritative.'}</small></span><input aria-label={`Alasan reversal ${row.inspection_number}`} value={reasons[row.qc_inspection_id] ?? ''} disabled={writerLocked || !canReverse || !row.reversible} onChange={(event) => setReasons((current) => ({ ...current, [row.qc_inspection_id]: event.target.value }))} placeholder="Alasan pembatalan · wajib"/><button disabled={writerLocked || !canReverse || !row.reversible || (reasons[row.qc_inspection_id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_FINAL_SKU', { qc_inspection_id: row.qc_inspection_id, reason: reasons[row.qc_inspection_id].trim() }, row.row_version, () => setReasons((current) => ({ ...current, [row.qc_inspection_id]: '' }))) }><Undo2/> Batalkan finalisasi</button></div></article>)}
+    {workspace.qc_history.length === 0 ? <div className="clq-empty"><History/><strong>Belum ada finalisasi CP6</strong><small>QC lama yang belum punya hubungan lengkap tetap dipisahkan dan tidak ditebak.</small></div> : workspace.qc_history.map((row) => <article key={row.qc_inspection_id} data-qc-inspection-id={row.qc_inspection_id} data-source-focus={row.qc_inspection_id === sourceId ? 'true' : undefined}>{row.qc_inspection_id === sourceId ? <strong>Finalisasi asal dari buku transaksi</strong> : null}<header><div><small>{formatCp6WibDateTime(row.physical_at)} · versi {row.row_version}</small><strong>{row.inspection_number} · {row.po_number}</strong><span>{row.location_name} · Good {row.good_qty_pcs} · BS {row.bs_qty_pcs}</span></div><em>{status(row.status)}</em></header><div className="clq-reversal"><span><small>KOREKSI TRANSAKSI TERSIMPAN</small><strong>Membalik stok, reimbursement, HPP, jurnal, dan laporan sebagai riwayat baru</strong><small>{row.reversal_blocker ?? 'Siap dibalik secara authoritative.'}</small></span><input aria-label={`Alasan reversal ${row.inspection_number}`} value={reasons[row.qc_inspection_id] ?? ''} disabled={writerLocked || !canReverse || !row.reversible} onChange={(event) => setReasons((current) => ({ ...current, [row.qc_inspection_id]: event.target.value }))} placeholder="Alasan pembatalan · wajib"/><button disabled={writerLocked || !canReverse || !row.reversible || (reasons[row.qc_inspection_id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_FINAL_SKU', { qc_inspection_id: row.qc_inspection_id, reason: reasons[row.qc_inspection_id].trim() }, row.row_version, () => setReasons((current) => ({ ...current, [row.qc_inspection_id]: '' }))) }><Undo2/> Batalkan finalisasi</button></div></article>)}
   </section>
 }
 
 export default function ConnectedQcFinalPage() {
-  const { identity } = useAuth()
+  const source = useTransactionSource('QC')
+  return <QcWorkspace key={source?.key ?? 'menu'} initialSource={source?.document ?? null}/>
+}
+
+function QcWorkspace({ initialSource }: { initialSource: { id: string; number: string } | null }) {
+  const { runtime, identity } = useAuth()
   const access = identity.status === 'AUTHORIZED' ? identity : null
   const canPost = hasPermission(access, SENSITIVE_ACTION_PERMISSION.postFinalSku)
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseFinalSku)
   const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
-  const bridge = useLaundryQcWorkspace('QC')
+  const bridge = useLaundryQcWorkspace('QC', initialSource?.number ?? '')
+  const inputScope = JSON.stringify([isConnectedRuntime(runtime) ? runtime.projectRef : null,
+    access?.profile.id, access?.profile.authUserId, access?.profile.rowVersion, access?.profile.roleRowVersion, access?.permissions])
+  const inputs = useRetainedFormInput(inputScope, bridge.committedSequence)
   const collectionTruncated = Boolean(bridge.workspace && (
     bridge.workspace.collection_window.qc_queue_truncated
     || bridge.workspace.collection_window.qc_history_truncated
   ))
   const productLookupTruncated = bridge.workspace?.collection_window.products_truncated ?? false
-  const [tab, setTab] = useState<'QUEUE' | 'HISTORY'>('QUEUE')
+  const [tab, setTab] = useState<'QUEUE' | 'HISTORY'>(initialSource ? 'HISTORY' : 'QUEUE')
+  const sourcePresent = !initialSource || Boolean(bridge.workspace?.qc_history.some(row => row.qc_inspection_id === initialSource.id))
   // CP6-06 (M:3825, unknown is not zero): without a loaded workspace every KPI stays unknown instead of 0.
   const kpis = bridge.workspace ? {
     queueQty: bridge.workspace.qc_queue.reduce((sum, row) => sum + row.available_for_qc_qty_pcs, 0),
@@ -342,8 +367,10 @@ export default function ConnectedQcFinalPage() {
     <section className="clq-kpis"><Cp6Kpi label="GOOD SIAP QC" value={kpis?.queueQty} note="pcs dari sumber yang tepat"/><Cp6Kpi label="BARIS UKURAN" value={kpis?.queueRows} note="penerimaan · batch · ukuran"/><Cp6Kpi label="FINALISASI AKTIF" value={kpis?.posted} note="transaksi CP6 tersimpan"/><Cp6Kpi label="DATA LAMA TERPISAH" value={kpis?.legacy} note="tidak ditebak atau digabung"/></section>
     <nav className="clq-tabs qc"><button className={tab === 'QUEUE' ? 'active' : ''} onClick={() => setTab('QUEUE')}>Antrean finalisasi</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, receipt, atau histori…"/></label></nav>
     {bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
-      {tab === 'QUEUE' ? <FinalSkuForm key={`qc-${bridge.committedSequence}`} workspace={bridge.workspace} transactionQuery={bridge.query} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchFinalSkuProducts}/> : null}
-      {tab === 'HISTORY' ? <QcHistory workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
+      {tab === 'QUEUE' ? <FinalSkuForm key={`qc-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} transactionQuery={bridge.query} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchFinalSkuProducts}/> : null}
+      {tab === 'QUEUE' ? <QcReceiptSources workspace={bridge.workspace}/> : null}
+      {initialSource && !sourcePresent ? <p role="alert">Finalisasi asal belum ditemukan pada hasil terbaru. Buka ulang sumber dari buku transaksi sebelum membatalkannya.</p> : null}
+      {tab === 'HISTORY' ? <QcHistory key={`history-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked || !sourcePresent} canReverse={canReverse} onAction={onAction} sourceId={initialSource?.id}/> : null}
     </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}
     <section className="clq-rare-case"><AlertTriangle/><div><strong>Cuci gagal tidak boleh dicatat sebagai hasil QC palsu</strong><p>Cuci gagal berbayar dicatat dari tab Laundry sebagai attempt biaya terpisah; jangan ubah menjadi Good, BS, atau QC palsu. Posisi fisik tetap mengikuti pilihan coba lagi di vendor atau seluruh barang kembali ke Jahit.</p></div></section>
   </div>

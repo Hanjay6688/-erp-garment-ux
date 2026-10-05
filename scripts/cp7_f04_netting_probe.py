@@ -14,6 +14,7 @@ import cp7_p13_finance_probe as finance
 import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
+from cp7_catalog_state import exact_public_catalog
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_F04_NATIVE_NETTING.json'
@@ -51,7 +52,9 @@ def run(contract_seam=False):
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group(label,provider.cases,verify)
+  with exact_public_catalog(native)as catalog_audit:
+   report['native']=native.strict_group(label,provider.cases,verify)
+  report['native_public_catalog_comparison']=catalog_audit
   if not contract_seam:
    report['races']=modes.run_races(provider,verify,'cp7_f04_netting')
    report['http']=modes.run_http(provider,verify,'cp7_f04_netting')

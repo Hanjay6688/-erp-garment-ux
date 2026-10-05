@@ -1,0 +1,140 @@
+{
+  "contract": "cp7.fabric-recipe-local-preparation.v1",
+  "status": "LOCAL_AFFECTED_AND_SECURITY_PASS_NATIVE13_NOT_RUN",
+  "base_source": "3d4948b1598b0fc03490d5615b21b5d9e2926462",
+  "private_controls": {
+    "runtime": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+    "passed": 24,
+    "Native_credit": 0
+  },
+  "affected_vitest": {
+    "files": 6,
+    "total": 66,
+    "passed": 66,
+    "failed": 0
+  },
+  "first_full_local_vitest": {
+    "total": 1535,
+    "passed": 1532,
+    "failed": 3,
+    "failures": [
+      {
+        "file": "/workspace/scratch/9139be4cec06/erp-cp7/tests/cp7/families/internal-guard.test.ts",
+        "tests": [
+          {
+            "name": "fine-only actor requires its exact private context and live permissions",
+            "status": "failed",
+            "failureMessages": [
+              "error: permission denied for table guard_subject\n    at pe.Ue (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)\n    at pe.tt (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)\n    at pe.parse (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)\n    at N.qe (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/index.js:5:1762)\n    at file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at null.<anonymous> (wasm://wasm/0267bb86:1:5922000)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2616044)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2648530)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2649134)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:5569870)"
+            ]
+          },
+          {
+            "name": "inactive subject or role is denied despite a previously matching private context",
+            "status": "failed",
+            "failureMessages": [
+              "error: permission denied for table guard_subject\n    at pe.Ue (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)\n    at pe.tt (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)\n    at pe.parse (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)\n    at N.qe (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/index.js:5:1762)\n    at file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at null.<anonymous> (wasm://wasm/0267bb86:1:5922000)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2616044)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2648530)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2649134)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:5569870)"
+            ]
+          },
+          {
+            "name": "matching sales scope still checks revoked fine rights before legacy fallback",
+            "status": "failed",
+            "failureMessages": [
+              "error: permission denied for table guard_subject\n    at pe.Ue (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:17959)\n    at pe.tt (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:15347)\n    at pe.parse (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/chunk-2BOC2OMW.js:1:14021)\n    at N.qe (file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/index.js:5:1762)\n    at file:///workspace/scratch/9139be4cec06/.cp7-local/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at null.<anonymous> (wasm://wasm/0267bb86:1:5922000)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2616044)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2648530)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:2649134)\n    at null.<anonymous> (wasm://wasm/0267bb86:1:5569870)"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "unchanged_guard_sources_and_tests": {
+    "tests/cp7/families/internal-guard.test.ts": {
+      "unchanged_from_base": true,
+      "sha256": "311d12b1edb765a4a4037605c99679e234c3533a67d2e9103ec6768704142497"
+    },
+    "tests/cp7/families/f04/runtime.mjs": {
+      "unchanged_from_base": true,
+      "sha256": "cb34e27e4e0322c3451046935ddce4b07c571627272feb6f8b0742b26aebbac9"
+    },
+    "scripts/cp7-src/procurement/accepted-deltas.sql": {
+      "unchanged_from_base": true,
+      "sha256": "f2f39d1cafc25d160bf0917cf898770d2c998c65c837a578bde2a1e6fa2163cf"
+    },
+    "scripts/cp7_sales_bundle.py": {
+      "unchanged_from_base": true,
+      "sha256": "e43d1a904cd8048d114904e54a7741bb35ef4d6dfd9da712e25258fc14447690"
+    }
+  },
+  "isolated_local_guard_observation": {
+    "contract": "cp7.local-reset-session-observation.v1",
+    "runtime": "ISOLATED_PGLITE_ONLY",
+    "before": {
+      "current_user": "postgres",
+      "session_user": "postgres",
+      "rolsuper": true
+    },
+    "after": {
+      "current_user": "authenticator",
+      "session_user": "authenticator",
+      "rolsuper": false
+    },
+    "following_update_error": {
+      "message": "permission denied for table fixture_only",
+      "code": "42501"
+    },
+    "Native_credit": 0,
+    "Native_guard_source_changed": false
+  },
+  "preparatory_checks": {
+    "TypeScript": "PASS",
+    "build": "PASS",
+    "source_ownership": "PASS",
+    "access_catalog": "PASS",
+    "CSS": "PASS",
+    "security": "PASS",
+    "client_secret_scan": "PASS"
+  },
+  "raw_receipts": {
+    "private-controls.json.gz": {
+      "original_bytes": 40200,
+      "original_sha256": "13aa015bebf29f96ead27a19526bb21e6734587d332560b0c2d405927362c065",
+      "retained_gzip_bytes": 3414,
+      "retained_gzip_sha256": "31437ba39cb31b23a64714d5358037f9976f4133eeea39b13d28c4e0baea53b0"
+    },
+    "affected-vitest.json.gz": {
+      "original_bytes": 23937,
+      "original_sha256": "7b5c63d804c0b354b1c3d15319a513b77930f387fa60bcb536a11f9c869014f7",
+      "retained_gzip_bytes": 4585,
+      "retained_gzip_sha256": "31cdfb70197c5373fa2d4ad57993a88d90292ef580c0bc94661b96c6ee86baf6"
+    },
+    "first-full-vitest.json.gz": {
+      "original_bytes": 571688,
+      "original_sha256": "f9eff95eaab9fe3110ea6c10647efab6518c8e502e79d0286f86956bd8e4b170",
+      "retained_gzip_bytes": 75603,
+      "retained_gzip_sha256": "a1b8c619df328c11a8f8819cf650c06a3a19c44c7a00a8386185317e9de9dc6f"
+    },
+    "build.log.gz": {
+      "original_bytes": 11786,
+      "original_sha256": "53e4aee063c0969be90411cae9b14c506eacd9e89624e05b9d60fe48792cce49",
+      "retained_gzip_bytes": 3461,
+      "retained_gzip_sha256": "288b6ffff5217ed255c7fff119fc49719df74c6c16a161cf55d0dae0b27afd58"
+    },
+    "security.log.gz": {
+      "original_bytes": 12025,
+      "original_sha256": "8ef18e88f56c92bc62993d837f90ca02fe33d09f5a67692facd1fbef55bdd427",
+      "retained_gzip_bytes": 3395,
+      "retained_gzip_sha256": "2790eb21802a70a93dd320d3eb3f77c176b2bc51c08f88ec84f4bac7e2a58ee5"
+    },
+    "isolated-local-guard-probe.json.gz": {
+      "original_bytes": 490,
+      "original_sha256": "3330480d4f4fb60650503ec3e0ccf43c71605d86dd5d3b252362b53f6d5c93d9",
+      "retained_gzip_bytes": 280,
+      "retained_gzip_sha256": "810619aca0f13980a8a4d3c463e9cf5e431eea14de5cd889be15603a9e21f818"
+    }
+  },
+  "Native_business_credit": 0,
+  "real_Auth_HTTP_credit": 0,
+  "observed_Native_race_credit": 0,
+  "Native_browser_credit": 0,
+  "full_P08_acceptance": false,
+  "production_go": false
+}

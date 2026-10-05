@@ -1,0 +1,28 @@
+{
+  "contract": "cp7.read-only-local-sql-display-control.v1",
+  "status": "PASS",
+  "runtime": "PGlite0.5.8",
+  "Native_qualification_credit": 0,
+  "Auth_HTTP_credit": 0,
+  "browser_credit": 0,
+  "old_failure_cause_proved": false,
+  "full_rows_fields_and_decimal_precision": true,
+  "session_timezone_restored": true,
+  "raw_observations": {
+    "UTC": "[{\"id\": 1, \"qty\": 123456789012345678.123456789012, \"source_id\": \"11111111-1111-4111-8111-111111111111\", \"physical_at\": \"2026-10-02T16:30:00.123456+00:00\", \"system_created_at\": \"2026-10-05T07:04:22.769639+00:00\", \"is_cost_recalculated\": true}]",
+    "WIB": "[{\"id\": 1, \"qty\": 123456789012345678.123456789012, \"source_id\": \"11111111-1111-4111-8111-111111111111\", \"physical_at\": \"2026-10-02T23:30:00.123456+07:00\", \"system_created_at\": \"2026-10-05T14:04:22.769639+07:00\", \"is_cost_recalculated\": true}]",
+    "foreign_device": "[{\"id\": 1, \"qty\": 123456789012345678.123456789012, \"source_id\": \"11111111-1111-4111-8111-111111111111\", \"physical_at\": \"2026-10-02T09:30:00.123456-07:00\", \"system_created_at\": \"2026-10-05T00:04:22.769639-07:00\", \"is_cost_recalculated\": true}]"
+  },
+  "exact_common_UTC_json_text": "[{\"id\": 1, \"qty\": 123456789012345678.123456789012, \"source_id\": \"11111111-1111-4111-8111-111111111111\", \"physical_at\": \"2026-10-02T16:30:00.123456+00:00\", \"system_created_at\": \"2026-10-05T07:04:22.769639+00:00\", \"is_cost_recalculated\": true}]",
+  "all_native_fact_changes_refused": {
+    "precise_numeric_change": true,
+    "physical_timestamp_microsecond_change": true,
+    "recording_timestamp_microsecond_change": true,
+    "native_cost_flag_change": true,
+    "source_uuid_change": true,
+    "missing_row": true,
+    "additional_row": true
+  },
+  "helper_source_sha256": "4fb9c6956f450b6ca9e62418add2e92267aa695658b4f1807a7a7de3befb37cf",
+  "mandatory_next": "Actual Native19 with retained full paired observations"
+}

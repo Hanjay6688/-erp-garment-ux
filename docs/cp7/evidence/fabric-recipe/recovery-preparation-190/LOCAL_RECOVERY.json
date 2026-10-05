@@ -1,0 +1,43 @@
+{
+  "contract": "cp7.fabric-recipe-recovery-preparation.v1",
+  "base_source": "190078a891054b2181d50d12458b9f12721cec59",
+  "status": "LOCAL69_BUILD_SECURITY_PASS_NATIVE13_REQUALIFICATION_REQUIRED",
+  "first_definitive_stale_request_fence_failure_retained": true,
+  "current_source_facts_retired_on_both_refusal_and_unknown": true,
+  "exact_UUID_cleared_only_for_definitive_after_cache_absence_server_refusals": true,
+  "transport_current_general403_and_changed_payload_collision_still_fenced": true,
+  "affected_tests": {
+    "files": 6,
+    "passed": 69,
+    "failed": 0
+  },
+  "TypeScript_build_security_source_access_CSS_client_secret_scan": "PASS",
+  "raw_files": {
+    "fabric-recovery-first-failure.json": {
+      "bytes": 2979,
+      "sha256": "0e0b0dee451f7b4bf9b36573fac1394d98d7eac1a23d2ed8797433194cb14492",
+      "retained": "fabric-recovery-first-failure.json.gz",
+      "retained_sha256": "224c2a855d9bf7d59198632eb8550c6cf643144ae808ce791eac192d2900f0db"
+    },
+    "fabric-recovery-final-vitest.json": {
+      "bytes": 24900,
+      "sha256": "5c98fb1d6fb64377cf1024fdbf93efc2b7cdd9f728e707d76fc11fccd1a9a210",
+      "retained": "fabric-recovery-final-vitest.json.gz",
+      "retained_sha256": "773035de6368c4a8844580f62717703faff6b161c9d66056e0e347027bb20b7e"
+    },
+    "fabric-recovery-build.log": {
+      "bytes": 1413,
+      "sha256": "8e6d9da825c8f9e82e7f79524d18d3d3cda4f5770ff776351744c931b6c1a2c6",
+      "retained": "fabric-recovery-build.log.gz",
+      "retained_sha256": "a3063dee4f62f95fda15b738f5c698dfa35508937e7ec8c6d952433e14c16f6c"
+    },
+    "fabric-recovery-security.log": {
+      "bytes": 12142,
+      "sha256": "f83c4b340dbb8db0a926e34b629b7dc855525a05b8e9906bef9175fc8216520d",
+      "retained": "fabric-recovery-security.log.gz",
+      "retained_sha256": "40c20c46fe515069b41ef2edfd1343a3c63c3fdc3d37b00dfbb385e6fa1ff11b"
+    }
+  },
+  "Native_case_credit": 0,
+  "production_go": false
+}

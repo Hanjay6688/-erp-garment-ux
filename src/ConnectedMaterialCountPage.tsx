@@ -1,3 +1,4 @@
+import {useTransactionSource} from './TransactionSourceNavigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
@@ -30,12 +31,13 @@ type FormLine={source:CountSource;qty:string;cost:string;lineNotes:string|null}
 type Form={lines:FormLine[];at:string;originalAt:string|null;id:string|null;version:string|null;number:string;reason:string;note:string}
 const sourceKey=(source:Pick<CountSource,'material_id'|'roll_id'>)=>`${source.material_id}:${source.roll_id}`
 export default function ConnectedMaterialCountPage(){
+ const source=useTransactionSource('MATERIAL_COUNT')
  const {runtime,identity}=useAuth()
  if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')return <section className="panel">Masuk untuk mencatat hitung fisik bahan.</section>
  if(!identity.permissions.includes('warehouse.material.view')||!identity.permissions.includes('warehouse.stock.adjust'))return <section className="panel" role="alert">Hak melihat bahan dan menyesuaikan stok diperlukan.</section>
- return <CountPage key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
+ return <CountPage key={`${source?.key??'menu'}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`} initialId={source?.document.id??null}/>
 }
-function CountPage(){
+function CountPage({initialId}:{initialId:string|null}){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi hitung fisik belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.hpp.view')
  const mutation=useProductionMutation('MATERIAL_COUNT'),{beginRead,finishRead,isReadCurrent,run,reconcile}=mutation
@@ -44,7 +46,7 @@ function CountPage(){
  const [reason,setReason]=useState('Jumlah fisik sudah dihitung ulang'),[reviewed,setReviewed]=useState(false)
  const [showRegistered,setShowRegistered]=useState(false)
  const [stockOrder,setStockOrder]=useState<RecordPageOrder>('SOURCE'),[docOrder,setDocOrder]=useState<RecordPageOrder>('SOURCE'),[docStatus,setDocStatus]=useState('')
- const request=useRef({q:'',offset:0,docQ:'',docOffset:0,selected:null as string|null}),sequence=useRef(0)
+ const request=useRef({q:'',offset:0,docQ:'',docOffset:0,selected:initialId}),sequence=useRef(0)
  const load=useCallback(async()=>{
   const q={...request.current},s=++sequence.current,ticket=beginRead();setLoading(true);setError('');setPreview(null);setReviewed(false)
   try{

@@ -3,10 +3,12 @@ import {act} from 'react'
 import {createRoot,type Root} from 'react-dom/client'
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
 import ConnectedPayrollPage from './ConnectedPayrollPage'
+import SourceLink,{TransactionSourceProvider} from './TransactionSourceNavigation'
 import {readProductionRecovery} from './productionRecovery'
 import {parsePayrollRead,parsePayrollOutcome,type PayrollHeader} from './payrollContract'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
 import {installmentRead,installmentPayment,paymentId} from '../tests/fixtures/payrollInstallments'
+import type {TransactionDocument} from './transactionSource'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}))
@@ -24,6 +26,34 @@ async function mount(){await act(async()=>root.render(<ConnectedPayrollPage/>));
 async function click(match:string){const button=[...container.querySelectorAll('button')].find(x=>x.textContent?.startsWith(match));if(!button)throw Error(match);await act(async()=>button.click());await flush()}
 function installmentSource(doc=h,pay=false){return{contract_version:'cp7.payroll-installment-read.v1',captured_at:at,document:{payroll_id:doc.id,payroll_number:doc.payroll_number,contractor_id:doc.contractor_id,contractor_name:doc.contractor_name,native_status:doc.status,payment_state:doc.status==='REVERSED'?'REVERSED':doc.status==='PAID'?'PAID':doc.status==='APPROVED'?'UNPAID':'NOT_APPROVED',managed:false,approved_net:doc.net_payable,paid_amount:doc.status==='PAID'?doc.net_payable:'0.00',remaining_amount:doc.status==='PAID'?'0.00':doc.status==='APPROVED'?doc.net_payable:null,row_version:doc.row_version,source_review_token:doc.review_token,review_token:doc.review_token},payments:{rows:[],total:'0',offset:0,limit:25,next_offset:null},cash_accounts:{rows:[],total:'0',offset:0,limit:25,next_offset:null},capabilities:{pay,reverse_payroll:pay}}}
 function server(){client.rpc.mockImplementation(async(name:string,args:{p_section:string})=>({error:null,data:name==='erp_cp7_get_payroll_installments_v1'?installmentSource():payload(args.p_section)}))}
+const sourceActor='44444444-4444-4444-8444-444444444444'
+async function mountSource(epoch=0){const a=state.auth as typeof recoveryIdentity;state.auth={...a,identity:{...a.identity,profile:{...a.identity.profile,authUserId:sourceActor}}};await act(async()=>root.render(<TransactionSourceProvider scope="payroll-source-scope"epoch={epoch}onNavigate={()=>{}}><SourceLink sourceType="PAYROLL_INSTALLMENT"sourceId={paymentId}/><ConnectedPayrollPage/></TransactionSourceProvider>));await flush()}
+function sourceServer(options:{missing?:boolean;wrongPayroll?:boolean;viewer?:boolean;lost?:boolean}={}){
+ const s={current:{...h,status:'APPROVED'},reversed:false,effects:0,lost:options.lost??false},cached=new Map<string,unknown>(),pay=!options.viewer
+ const a=state.auth as typeof recoveryIdentity;a.identity.permissions=pay?['finance.payroll.view','finance.payroll.approve','finance.payroll.pay']:['finance.payroll.view']
+ client.rpc.mockImplementation(async(name,p)=>{
+  if(name==='erp_cp7_resolve_transaction_source_v1'){const document:TransactionDocument={domain:'PAYROLL',route:'finance-payroll',id,number:h.payroll_number,status:'APPROVED',revision:h.row_version,focus:{kind:'PAYROLL_INSTALLMENT',id:paymentId,page_offset:25}};return{error:null,data:{contract_version:'cp7.transaction-source.v1',actor_scope_id:sourceActor,source:p.p_source,status:'AVAILABLE',document,read_at:at,business_DML:false}}}
+  if(name==='erp_cp7_get_payroll_workspace_v1'){const doc=options.wrongPayroll&&p.p_section==='WORK'?{...s.current,id:other}:s.current,r=payload(p.p_section,doc,p.p_section==='PAYROLLS'?[]:work);r.capabilities={approve:pay,pay};return{data:r,error:null}}
+  if(name==='erp_cp7_get_payroll_installments_v1'){
+   const r=installmentSource(s.current,pay),row=installmentPayment('10.00',s.reversed)
+   r.document={...r.document,payment_state:s.reversed?'UNPAID':'PARTIAL',managed:true,paid_amount:s.reversed?'0.00':'10.00',remaining_amount:s.reversed?'6000.00':'5990.00'}
+   const focused={...row,id:options.missing?other:row.id},rows=p.p_query.payment_offset===25?[focused]:Array.from({length:25},(_,i)=>({...row,id:`00000000-0000-4000-8000-${String(i+1).padStart(12,'0')}`,status:'REVERSED' as const,reversal_journal_id:'55555555-5555-4555-8555-555555555555',reversal_journal_number:'JRN-OLD-INVERSE',reversal_economic_date:row.payment_date,reversal_accounting_date:row.accounting_date,reversal_posting_at:row.posting_at}))
+   return{data:{...r,payments:{rows,total:'26',offset:p.p_query.payment_offset,limit:25,next_offset:p.p_query.payment_offset===0?25:null}},error:null}
+  }
+  if(name==='erp_cp7_save_payroll_installment_v1'){
+   if(!cached.has(p.p_request)){s.effects++;s.reversed=true;s.current={...s.current,row_version:(BigInt(s.current.row_version)+1n).toString(),review_token:'b'.repeat(32)};cached.set(p.p_request,{contract_version:'cp7.payroll-installment-outcome.v1',kind:'COMMITTED_OUTCOME',action:p.p_action,request_id:p.p_request,request_payload:structuredClone(p.p_payload),expected_version:p.p_expected,payroll_id:id,payment_id:paymentId,native_status:'APPROVED',payment_state:'UNPAID',row_version:s.current.row_version,review_token:s.current.review_token})}
+   return s.lost?{data:null,error:{status:503,message:'Committed inverse reply lost'}}:{data:cached.get(p.p_request),error:null}
+  }
+  throw Error('Unexpected payroll source RPC '+name)
+ });return s
+}
+describe('payroll owning source from the book',()=>{
+ it('opens an off-list payroll and the exact child on page two without writing or choosing a reversal',async()=>{sourceServer();await mountSource();await click('Buka transaksi asal');expect(client.rpc.mock.calls).toContainEqual(['erp_cp7_get_payroll_workspace_v1',{p_section:'WORK',p_query:{id,limit:25,offset:0}}]);expect(client.rpc.mock.calls).toContainEqual(['erp_cp7_get_payroll_installments_v1',{p_query:{payroll_id:id,payment_offset:25,cash_offset:0,cash_query:''}}]);expect(container.querySelector(`[data-payment-id="${paymentId}"][data-source-focus="true"]`)?.textContent).toContain('Pembayaran asal dari buku');expect(container.querySelector('[aria-label="Periksa pembayaran gaji"]')).toBeNull();expect(client.rpc.mock.calls.some(([n])=>n.startsWith('erp_cp7_save'))).toBe(false)})
+ it('refuses a different payroll or missing focused child instead of showing another payment',async()=>{for(const options of [{wrongPayroll:true},{missing:true}]){sourceServer(options);await mountSource();await click('Buka transaksi asal');expect(container.querySelector('[data-source-focus="true"]')).toBeNull();expect(container.textContent).not.toContain('Rp');expect(client.rpc.mock.calls.some(([n])=>n.startsWith('erp_cp7_save'))).toBe(false);await act(async()=>root.unmount());root=createRoot(container);client.rpc.mockReset()}})
+ it('keeps source viewing separate from payment or payroll reversal rights',async()=>{sourceServer({viewer:true});await mountSource();await click('Buka transaksi asal');expect(container.textContent).toContain('Pembayaran asal dari buku');expect(container.textContent).not.toContain('Balikkan pembayaran JRN-CASH600');expect(container.textContent).not.toContain('Batalkan payroll dan pembayaran');expect(client.rpc.mock.calls.some(([n])=>n.startsWith('erp_cp7_save'))).toBe(false)})
+ it('keeps the exact old inverse envelope across a reload and commits only once',async()=>{const s=sourceServer({lost:true});await mountSource();await click('Buka transaksi asal');await click('Balikkan pembayaran JRN-CASH600');await input('Alasan pembayaran gaji','Balikkan pembayaran asal yang telah diperiksa');await act(async()=>container.querySelector<HTMLInputElement>('[aria-label="Pembayaran gaji sudah diperiksa"]')!.click());await click('Balikkan pembayaran sekarang');const original=structuredClone(client.rpc.mock.calls.find(([n])=>n==='erp_cp7_save_payroll_installment_v1')![1]);expect(original.p_payload.payment_id).toBe(paymentId);expect(container.textContent).not.toContain('Rp');expect(readProductionRecovery('disposable:actor-1').pending.PAYROLL_INSTALLMENT?.id).toBe(original.p_request);await act(async()=>root.unmount());root=createRoot(container);s.lost=false;await mount();await click('Periksa status pembayaran gaji');const writes=client.rpc.mock.calls.filter(([n])=>n==='erp_cp7_save_payroll_installment_v1');expect(writes).toHaveLength(2);expect(writes[1][1]).toEqual(original);expect(s.effects).toBe(1);expect(readProductionRecovery('disposable:actor-1').pending).toEqual({});expect(container.textContent).toContain('Sisa gajiRp6.000')})
+ it('retires the selected payroll and its focused payment when the route generation changes',async()=>{sourceServer();await mountSource();await click('Buka transaksi asal');expect(container.textContent).toContain('Pembayaran asal dari buku');await mountSource(1);expect(container.querySelector('[data-source-focus="true"]')).toBeNull();expect(container.textContent).not.toContain('Rp');expect(client.rpc.mock.calls.some(([n])=>n.startsWith('erp_cp7_save'))).toBe(false)})
+})
 describe('financial payroll review boundary',()=>{
  it('preserves exact high money and row versions and rejects inconsistent totals and line amounts',()=>{
   const large={...h,labor_total:'9007199254740993.01',manual_adjustment:'-0.01',net_payable:'9007199254740993.00'}

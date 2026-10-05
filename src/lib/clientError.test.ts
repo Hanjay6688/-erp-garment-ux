@@ -35,3 +35,16 @@ describe('W11: a refusal keeps its own message', () => {
     expect(isUnansweredFailure(new TypeError('Failed to fetch'))).toBe(true)
   })
 })
+
+describe('owning miscellaneous correction refusals', () => {
+  it('gives the operator the next action after a stale review, changed options, already-corrected source or posted draft', () => {
+    for (const [message, next] of [['CP7_MISC_REVIEW_CHANGED', 'Muat ulang'], ['CP7_MISC_OPTIONS_CHANGED', 'pilih kembali'], ['CP7_MISC_ALREADY_CORRECTED', 'dokumen pengganti'], ['CP7_MISC_DRAFT_ONLY', 'koreksi transaksi tercatat']]) {
+      const result = normalizeClientError({ code: 'P0001', message }); expect(result.code).toBe('REJECTED'); expect(result.retryable).toBe(false); expect(result.message).toContain(next)
+    }
+  })
+  it('keeps authorization and uncertain transport failures distinct from business correction refusals', () => {
+    expect(normalizeClientError({ code: '42501', message: 'CP7_MISC_ACCESS_CHANGED' }).code).toBe('FORBIDDEN')
+    expect(normalizeClientError({ code: 'P0001', message: 'CP7_MISC_REQUEST_CHANGED' }).message).toContain('hasil permintaan sebelumnya')
+    expect(normalizeClientError(new TypeError('Failed to fetch')).code).toBe('BACKEND_UNAVAILABLE')
+  })
+})

@@ -6,6 +6,7 @@ import ConnectedAccessoryIssuePage from './ConnectedAccessoryIssuePage'
 import { parseAccessoryWorkspace, previewAccessoryLine, type AccessoryChoice } from './accessoryIssue'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { persistProductionEnvelope, readProductionRecovery } from './productionRecovery'
+import TransactionSourceLink, { TransactionSourceProvider } from './TransactionSourceNavigation'
 const auth=vi.hoisted(()=>({current:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>auth.current}))
@@ -59,6 +60,73 @@ function server(){
 async function prepare(){await change('Nomor nota aksesori','ACC-NEW');await change('Mandor aksesori',id);await change('Gudang aksesori',id);await click('Perbarui harga dan stok');await change('Tambah aksesori',id);await change('Jumlah PCS 1','7');await change('Harga per PCS 1','3,25')}
 
 describe('connected accessory issue',()=>{
+  it('keeps the original amount on a reversed note without presenting its old collectible value as a current bill',async()=>{
+    const s=server();s.document={...documentFixture(),status:'REVERSED'};Object.assign(s.document.items[0]!,{collectible:'22.75'})
+    await mount();await click('Buka ACC-001')
+    expect(container.textContent).toContain('Tagihan asal');expect(container.textContent).toContain('Total tagihan asal: Rp 22,75')
+    expect(container.textContent).toContain('nota ini tidak lagi ditagih')
+    expect(container.textContent).not.toContain('Sisa ditagih');expect(container.textContent).not.toContain('Periksa pembatalan')
+    expect(writes()).toHaveLength(0)
+  })
+  it('opens an exact stock source outside the50-row history through the owning reader without a write or review',async()=>{
+    const s=server();s.document={...documentFixture(),status:'POSTED'}
+    const a=structuredClone(recoveryIdentity);Object.assign(a.identity.profile,{authUserId:id});a.identity.permissions=['finance.contractor_accessory.view'];auth.current=a
+    const ordinary=client.rpc.getMockImplementation()!,navigate=vi.fn()
+    client.rpc.mockImplementation(async(name,args)=>{
+      if(name==='erp_cp7_resolve_transaction_source_v1')return{data:{contract_version:'cp7.transaction-source.v1',actor_scope_id:id,source:args.p_source,status:'AVAILABLE',business_DML:false,read_at:'2026-10-03T00:00:00Z',document:{domain:'ACCESSORY_ISSUE',route:'contractor-issue',id:doc,number:'ACC-001',status:'POSTED',revision:'1',focus:null}},error:null}
+      const result=await ordinary(name,args)
+      if(name==='erp_get_accessory_issue_workspace_v1')return{...result,data:{...result.data,history_count:51,history:Array.from({length:50},(_,i)=>({...result.data.history[0],id:`99999999-9999-4999-8999-${String(i+1).padStart(12,'0')}`,number:`LATEST-${i}`}))}}
+      return result
+    })
+    await act(async()=>root.render(<TransactionSourceProvider scope="accessory-source" onNavigate={navigate}><TransactionSourceLink sourceType="CONTRACTOR_MATERIAL_ISSUE_ITEM" sourceId={lineId}/><ConnectedAccessoryIssuePage/></TransactionSourceProvider>));await flush()
+    await click('Buka transaksi asal')
+    expect(navigate).toHaveBeenCalledWith('contractor-issue')
+    expect(client.rpc.mock.calls.filter(([name])=>name==='erp_get_accessory_issue_workspace_v1').at(-1)?.[1]).toEqual({p_filters:{query:'',material_query:'',id:doc}})
+    expect(container.querySelector('[aria-label="Form nota aksesori"] h2')?.textContent).toContain('ACC-001 · POSTED')
+    expect(container.querySelector('[aria-label="Riwayat nota aksesori"]')?.textContent).not.toContain('ACC-001')
+    expect(container.querySelector('[aria-label="Konfirmasi nota"]')).toBeNull();expect(writes()).toHaveLength(0);expect(s.effects).toBe(0)
+  })
+  it('does not substitute another document when the exact owning source is missing from its reader',async()=>{
+    const s=server();s.document=documentFixture();Object.assign((auth.current as typeof recoveryIdentity).identity.profile,{authUserId:id})
+    const ordinary=client.rpc.getMockImplementation()!
+    client.rpc.mockImplementation(async(name,args)=>{
+      if(name==='erp_cp7_resolve_transaction_source_v1')return{data:{contract_version:'cp7.transaction-source.v1',actor_scope_id:id,source:args.p_source,status:'AVAILABLE',business_DML:false,read_at:'2026-10-03T00:00:00Z',document:{domain:'ACCESSORY_ISSUE',route:'contractor-issue',id:doc,number:'ACC-001',status:'DRAFT',revision:'1',focus:null}},error:null}
+      const r=await ordinary(name,args);return name==='erp_get_accessory_issue_workspace_v1'&&args.p_filters.id?{...r,data:{...r.data,document:{...r.data.document,id}}}:r
+    })
+    await act(async()=>root.render(<TransactionSourceProvider scope="accessory-source" onNavigate={()=>{}}><TransactionSourceLink sourceType="CONTRACTOR_MATERIAL_ISSUE_ITEM" sourceId={lineId}/><ConnectedAccessoryIssuePage/></TransactionSourceProvider>));await flush();await click('Buka transaksi asal')
+    expect(container.textContent).toContain('Identitas nota tidak cocok.')
+    expect(container.querySelector('[aria-label="Form nota aksesori"] h2')?.textContent).toContain('Status belum dipastikan')
+    expect(button('Simpan draft').disabled).toBe(true);expect(writes()).toHaveLength(0)
+  })
+  it('keeps unsent quantities and the selected note unchanged while ordering its history page',async()=>{
+    const s=server();s.document={...documentFixture(),number:'ACC-10'}
+    const ordinary=client.rpc.getMockImplementation()!
+    client.rpc.mockImplementation(async(name,args)=>{const r=await ordinary(name,args);return name==='erp_get_accessory_issue_workspace_v1'?{...r,data:{...r.data,history_count:3,history:['ACC-10','ACC-2','ACC-1'].map((number,i)=>({...r.data.history[0],number,id:i?`99999999-9999-4999-8999-${String(i).padStart(12,'0')}`:doc}))}}:r})
+    await mount();await click('Buka ACC-10');await change('Jumlah PCS 1','9');const calls=client.rpc.mock.calls.length
+    await change('Urutkan halaman nota aksesori','LABEL_ASC')
+    expect([...container.querySelectorAll('[aria-label="Riwayat nota aksesori"] tbody tr td:first-child')].map(row=>row.textContent)).toEqual(['ACC-1','ACC-2','ACC-10'])
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah PCS 1"]')!.value).toBe('9')
+    expect(container.querySelector('[aria-label="Form nota aksesori"] h2')?.textContent).toContain('ACC-10')
+    expect(client.rpc.mock.calls).toHaveLength(calls);expect(writes()).toHaveLength(0)
+  })
+  it('browses through the unchanged capped Native history reader and keeps unsent form edits',async()=>{
+    server();await mount();await prepare();await change('Cari nota aksesori','ACC lama');await change('Status halaman nota aksesori','POSTED');await change('Urutkan halaman nota aksesori','LABEL_DESC')
+    await click('Browse semua')
+    const request=client.rpc.mock.calls.filter(([name])=>name==='erp_get_accessory_issue_workspace_v1').at(-1)![1].p_filters
+    expect(request.query).toBe('');expect(request.id).toBeNull();expect(request).not.toHaveProperty('limit');expect(request).not.toHaveProperty('status')
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah PCS 1"]')!.value).toBe('7')
+    expect(container.querySelector<HTMLSelectElement>('[aria-label="Status halaman nota aksesori"]')!.value).toBe('ALL')
+    expect(writes()).toHaveLength(0)
+  })
+  it('retires old totals and history on a failed refresh while preserving unsent quantity and price',async()=>{
+    server();await mount();await prepare();expect(container.textContent).toContain('Rp 22,75')
+    client.rpc.mockImplementation(async()=>({data:null,error:{code:'08006',message:'Read unavailable'}}))
+    await click('Muat ulang')
+    expect(container.textContent).not.toContain('Rp 22,75');expect(container.textContent).toContain('Total tagihan: —')
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah PCS 1"]')!.value).toBe('7')
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Harga per PCS 1"]')!.value).toBe('3,25')
+    expect(button('Simpan draft').disabled).toBe(true);expect(writes()).toHaveLength(0)
+  })
   it('keeps preparation inert and posts the latest edited quantity and exact manual price',async()=>{
     server();await mount();await prepare();expect(writes()).toHaveLength(0)
     expect(container.textContent).toContain('Rp 22,75');await click('Simpan draft')

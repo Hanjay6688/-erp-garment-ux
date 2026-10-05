@@ -1,0 +1,181 @@
+{
+  "status": "FIRST_NATIVE_SOURCE_INCOMPLETE_PRESERVED",
+  "source_commit": "3d9051df367bffa6f6250d5ec8bd2b355ecc9434",
+  "source_tree": "6eaa87fd8da63c29630e839ed4e3f6d980199fdd",
+  "source_bundle_sha256": "cc0cc86ad9e46eb51f784f71fa6381bc312e7989137bc7df9ca123bb1235c28f",
+  "run_id": 37164807032,
+  "job_id": 111325442392,
+  "artifact_id": 11289002874,
+  "artifact_bytes": 1646591,
+  "artifact_sha256": "107130dcb4bb817c1b395c4e3113deb91450ae8111785057b409b495b92d6b77",
+  "archive_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385626,
+      "sha256": "132f683f4c19131c3b00cda7f8585551363e1b92e0d1b8966fc276a7a628bb50"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385626,
+      "sha256": "132f683f4c19131c3b00cda7f8585551363e1b92e0d1b8966fc276a7a628bb50"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "811e06d9edc10405601405785d71b96582a8dced7dcf83598aebe23a32739c83"
+    },
+    "CP7_PAYMENT_CORRECTION.json": {
+      "bytes": 382154,
+      "sha256": "277db26e5eefa83ff12fce770d00321a85cfe782706894351f1d8181e3ddaec2"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "1d6fa29c1ec995a6da252f921351e728e12fb9c85e507d52c6475866a6bd27ad"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360427,
+      "sha256": "4b9f445c6dafb7b088fd469e4983a89af83c0d1f3ce8e94c7f9167a0adfae5a8"
+    }
+  },
+  "original_root_names": [
+    "ALIGNED_CHAIN.json",
+    "CP7_PAYMENT_CORRECTION.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "exact_identity": {
+    "label": "T3_PREP",
+    "tool_head": "3d9051df367bffa6f6250d5ec8bd2b355ecc9434",
+    "product_ref": "3d9051df367bffa6f6250d5ec8bd2b355ecc9434",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "37164807032",
+    "run_attempt": "1",
+    "workflow": "CP7 Native Atomic Payment Correction",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "3d9051df367bffa6f6250d5ec8bd2b355ecc9434",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "required_counts": {
+    "native": 14,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "actual_passed_counts": {
+    "native": 14,
+    "races": 4,
+    "http": 3,
+    "browser": 0
+  },
+  "observed21_of23": true,
+  "first_browser_start_build_failed": true,
+  "all23_or_complete_UI_feature_qualified": false,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "Auth0_after0": true,
+  "raw_cash_year_prefixes_recomputed": [
+    {
+      "group": "native",
+      "case": "CP7_PAYMENT_CORRECTION_YEAR_364",
+      "rows": 364,
+      "every_actual_prefix_delta": "-12",
+      "cash_prefix_before_first_last": [
+        [
+          "2025-10-04",
+          "61.00"
+        ],
+        [
+          "2026-10-02",
+          "424.00"
+        ]
+      ],
+      "cash_prefix_after_first_last": [
+        [
+          "2025-10-04",
+          "49.00"
+        ],
+        [
+          "2026-10-02",
+          "412.00"
+        ]
+      ],
+      "actual_HTTP_ms": null
+    },
+    {
+      "group": "http",
+      "case": "CP7_PAYMENT_CORRECTION_HTTP_YEAR_364",
+      "rows": 364,
+      "every_actual_prefix_delta": "-12",
+      "cash_prefix_before_first_last": [
+        [
+          "2025-10-04",
+          "61.00"
+        ],
+        [
+          "2026-10-02",
+          "424.00"
+        ]
+      ],
+      "cash_prefix_after_first_last": [
+        [
+          "2025-10-04",
+          "49.00"
+        ],
+        [
+          "2026-10-02",
+          "412.00"
+        ]
+      ],
+      "actual_HTTP_ms": 61.436
+    }
+  ],
+  "original_envelope": {
+    "file": "ORIGINAL_REPORTS.json.gz",
+    "raw_bytes": 841742,
+    "raw_sha256": "a568fbf9d06643c5f23fba0d1531f8a20ce4ab834254fc89a88d186bdbf702b8",
+    "gzip_sha256": "1012775b0562016f9910491dd6478eacaa871c2a03dd9262f725a8e579b0b994"
+  },
+  "original_full_log": {
+    "file": "ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 280551,
+    "raw_sha256": "ed80e89514603f1356fb30f8e33ff292fdc11cfd676c7a0b1337af4b49915068",
+    "gzip_sha256": "a47e0fbdb4287e53b2759845b1458a54931fd67719a23feac3e1f054301be968"
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

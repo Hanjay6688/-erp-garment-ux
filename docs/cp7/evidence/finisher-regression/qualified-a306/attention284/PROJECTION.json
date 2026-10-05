@@ -1,0 +1,49 @@
+{
+  "contract": "cp7.exact-native-artifact-projection.v1",
+  "status": "EXACT_ORIGINAL_REPORTS_RETAINED",
+  "original_run_id": 37140634704,
+  "original_artifact_id": 11280926337,
+  "original_source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "original_source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+  "original_zip_sha256": "0e86a17763c5f7c29810acc30ce052afd3495c5f2d34846f9f5e337d0d0aeca5",
+  "report_receipt_sha256": "79186a3af7021b42d7d7b9ebf85bfab3903ad2d9f53f9d8e57061247f6105c1e",
+  "original_reports_gzip_sha256": "093d36ccf05ffea7ce7e67eda9b4a9f5d5cc0f4c5ba014dd9c4ff65f11b26d70",
+  "projection_run_id": "37143038142",
+  "projection_source_commit": "180e9d61d948ce2fdf30d9ce1ceb5ad0a93a228a",
+  "Native_product_cases_reexecuted": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "exact_failure_diagnostics": {},
+  "exact_original_images": {
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png": {
+      "bytes": 1151154,
+      "sha256": "375831b72663b3c82b1b7aa5073149378c77a812f1ab3aa5a875ba8eb4d8c39e",
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png": {
+      "bytes": 599547,
+      "sha256": "910278f051be0abfb838ead83dc5203107432a0281b3a8f2a2d4b49b3de0cfd5",
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png": {
+      "bytes": 1640015,
+      "sha256": "61c44d729d07fb967f4bc2248248c1448e1012221bc644a982674568c5238489",
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png": {
+      "bytes": 947484,
+      "sha256": "dd99382195a0de5ec8c25527ce98d652f004c233355cb38511ff5c425e628877",
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    }
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "checked_UTC": "2026-10-04",
+  "runs": [
+    {
+      "id": 37165327261,
+      "name": "CP7 Native Atomic Misc Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327261"
+    },
+    {
+      "id": 37165327297,
+      "name": "CP7 F03 E06 Year-end Late Invoice",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327297"
+    },
+    {
+      "id": 37165327280,
+      "name": "CP7 F03 Combined Supplier Returns",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327280"
+    },
+    {
+      "id": 37165327382,
+      "name": "CP7 Owning Historical Note Correction",
+      "status": "in_progress",
+      "conclusion": null,
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327382"
+    },
+    {
+      "id": 37165327338,
+      "name": "CP7 F03 Cash and Native Finance Readers",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327338"
+    },
+    {
+      "id": 37165327242,
+      "name": "CP7 P13 Period control",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327242"
+    },
+    {
+      "id": 37165327348,
+      "name": "CP7 F03 Combined Stack",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327348"
+    },
+    {
+      "id": 37165327271,
+      "name": "CP7 F03 E20 E14 Complete Stock Capacity",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327271"
+    },
+    {
+      "id": 37165327296,
+      "name": "CP7 F03 E24 Material Issue",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327296"
+    },
+    {
+      "id": 37165327355,
+      "name": "CP7 F03 X04 Paid Redye Continuation",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327355"
+    },
+    {
+      "id": 37165327300,
+      "name": "CP7 F04 Native Planning Draft Bridge",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327300"
+    },
+    {
+      "id": 37165327269,
+      "name": "CP7 F03 Native Misc Finance",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327269"
+    },
+    {
+      "id": 37165327294,
+      "name": "CP7 F03 X04 Source Versions",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327294"
+    },
+    {
+      "id": 37165327317,
+      "name": "CP7 Native Inactive Rule Lifecycle",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327317"
+    },
+    {
+      "id": 37165327316,
+      "name": "CP7 Shell S0",
+      "status": "completed",
+      "conclusion": "cancelled",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327316"
+    },
+    {
+      "id": 37165327259,
+      "name": "CP7 F03 E01 Source Journey",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327259"
+    },
+    {
+      "id": 37165327376,
+      "name": "CP7 P12 Nota and payroll lifecycle",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327376"
+    },
+    {
+      "id": 37165327301,
+      "name": "CP7 P18 E01 Consumer Bridge",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327301"
+    },
+    {
+      "id": 37165327298,
+      "name": "CP7 F04 Prospective Native Cutting Model and Consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327298"
+    },
+    {
+      "id": 37165327266,
+      "name": "CP7 P09 Procurement",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327266"
+    },
+    {
+      "id": 37165327308,
+      "name": "CP7 Native Atomic Payment Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327308"
+    },
+    {
+      "id": 37165327337,
+      "name": "CP7 F03 E03 Customer Service",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327337"
+    },
+    {
+      "id": 37165327347,
+      "name": "CP7 F03 E05 Payroll Installments",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327347"
+    },
+    {
+      "id": 37165327385,
+      "name": "CP7 F03 Required Cost Continuations",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327385"
+    },
+    {
+      "id": 37165327379,
+      "name": "CP7 Owning Receipt Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327379"
+    },
+    {
+      "id": 37165327323,
+      "name": "CP7 Native Transaction Source Navigation",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327323"
+    },
+    {
+      "id": 37165327279,
+      "name": "CP7 F03 Full Retained Components",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37165327279"
+    }
+  ],
+  "counts": {
+    "success": 25,
+    "in_progress": 1,
+    "cancelled": 1
+  },
+  "metadata_success_not_Original_case_qualification": true,
+  "remaining_running_note40_not_labelled_success": true,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

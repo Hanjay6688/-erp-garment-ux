@@ -1,0 +1,57 @@
+{
+  "source_commit": "404252fbf8e4fbea724b727dbf7228ab5466eb96",
+  "source_tree": "fa447667b14049135aa4f62841723e5bcb3349b3",
+  "run_id": 37118026859,
+  "jobs": {
+    "application": 111188518044,
+    "CodeQL_javascript_typescript": 111188518099,
+    "CodeQL_actions": 111188518198
+  },
+  "status": "PASS",
+  "application_tests": 1374,
+  "application_test_files": 143,
+  "Shell_browser_tests": 6,
+  "build": "PASS",
+  "security": "PASS",
+  "CodeQL_findings": 0,
+  "runtime_graph_files": 251,
+  "owned_browser_RPC_boundaries": 184,
+  "stylesheets": 53,
+  "orphans_under_runtime_import_ownership_check": 0,
+  "direct_browser_table_reads": 0,
+  "archives": {
+    "shell": {
+      "artifact_id": 11272113871,
+      "sha256": "d75ee2144e96bc57f4abb0aeacef229e0319634df563037f39fcce4d03790444"
+    },
+    "CodeQL_javascript_typescript": {
+      "artifact_id": 11272556717,
+      "sha256": "f1e5eea22d030c57e4f9a9dca2eb6e5143faaf150e3e324e3787e387ae8ab50f"
+    },
+    "CodeQL_actions": {
+      "artifact_id": 11271634735,
+      "sha256": "847fab9cd837901a277e788c02d7425c8eb43d6ab771e2cc7c9c2767fe1e58d7"
+    }
+  },
+  "members": {
+    "results.json": {
+      "sha256": "41d0a159f82bd2feb48fbe45d5c496177b7add666b9a8c78eb576b8a9e2378b8",
+      "bytes": 12206
+    },
+    "f04-private-kernels.json": {
+      "sha256": "feecee092da76b537a2c41f87244c015e787a8d156dd6a7f7aa04c00014f93f3",
+      "bytes": 53273
+    },
+    "javascript.sarif": {
+      "sha256": "a2ac4e2e83b22b07c72776f8c41675cd71abd19b9c498811999022fb4c6b0a9d",
+      "bytes": 1304835
+    },
+    "actions.sarif": {
+      "sha256": "0aca553d46a7470520e05e5ba5bbb3cb554ddab1fa397afbc6a28cd3b78f2cfd",
+      "bytes": 693352
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "qualification_scope": "Application/Shell only; source Native41 successor is INCOMPLETE and is retained separately."
+}

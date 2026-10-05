@@ -38,6 +38,8 @@ export type PreconnectDatabase = {
       erp_cp7_read_production_supply_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_get_production_schedule_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_save_production_schedule_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_fabric_recipe_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_save_fabric_recipe_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_capture_planning_scenario_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
       erp_cp7_read_planning_scenario_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_capture_netting_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
@@ -95,17 +97,25 @@ export type PreconnectDatabase = {
       erp_cp7_save_payroll_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
       erp_cp7_get_finance_report_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_finance_analysis_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_resolve_transaction_source_v1: { Args: { p_source: Json }; Returns: Json }
+      erp_cp7_get_transaction_dependencies_v1: { Args: { p_source: Json; p_offset: number }; Returns: Json }
       erp_cp7_get_journal_book_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_sales_returns_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_recost_queue_v1: { Args: { p_offset: number }; Returns: Json }
       erp_cp7_get_misc_finance_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_misc_finance_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
+      erp_cp7_correct_misc_finance_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_misc_correction_history_v1: { Args: { p_transaction_id: string }; Returns: Json }
       erp_cp7_process_recost_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_period_control_v1: { Args: { p_through: string }; Returns: Json }
       erp_cp7_save_period_control_v1: { Args: { p_action: string; p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_sales_cash_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_sales_form_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_save_sale_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
+      erp_cp7_get_cutting_correction_v1: { Args: { p_group: string }; Returns: Json }
+      erp_cp7_reopen_cutting_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
+      erp_cp7_get_sales_chain_v1: { Args: { p_sale: string }; Returns: Json }
+      erp_cp7_reverse_sales_chain_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
       erp_cp7_get_sales_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_payroll_workspace_v1: { Args: { p_section: string; p_query: Json }; Returns: Json }
       erp_cp7_get_attendance_entry_v1: { Args: { p_query: Json }; Returns: Json }
@@ -118,6 +128,10 @@ export type PreconnectDatabase = {
       erp_cp7_get_supplier_returns_v1: { Args: { p_purchase: string; p_location: string | null; p_offset: number; p_limit: number }; Returns: Json }
       erp_cp7_save_supplier_return_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string | null }; Returns: Json }
       erp_cp7_get_purchase_invoices_v1: { Args: { p_purchase: string; p_offset: number; p_limit: number }; Returns: Json }
+      erp_cp7_get_supplier_payments_v1: { Args: { p_purchase: string; p_q: string; p_offset: number; p_payment: string|null }; Returns: Json }
+      erp_cp7_reverse_supplier_payment_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_correct_supplier_payment_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_supplier_payment_correction_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_invoice_sources_v1: { Args: { p_purchase: string; p_q: string; p_offset: number; p_limit: number }; Returns: Json }
       erp_cp7_get_supplier_return_sources_v1: { Args: { p_purchase: string; p_q: string; p_offset: number; p_limit: number }; Returns: Json }
       erp_cp7_save_purchase_invoice_v1: { Args: { p_action: string; p_payload: Json; p_request: string; p_expected: string|null }; Returns: Json }
@@ -130,6 +144,10 @@ export type PreconnectDatabase = {
       erp_cp7_get_note_correction_v2: { Args: { p_sale: string }; Returns: Json }
       erp_cp7_get_note_correction_v1: { Args: { p_sale: string }; Returns: Json }
       erp_cp7_correct_note_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
+      erp_cp7_correct_sales_payment_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
+      erp_cp7_get_sales_payment_correction_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_correct_sales_return_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
+      erp_cp7_get_sales_return_correction_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_fg_book_options_v1: { Args: { p_kind: string; p_q: string; p_offset: number; p_limit: number }; Returns: Json }
       erp_cp7_save_fg_book_v1: { Args: { p_action: string; p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_fg_adjustments_v1: { Args: { p_query: Json }; Returns: Json }

@@ -1,0 +1,189 @@
+{
+  "contract": "cp7.writer-resume-original-verification.v1",
+  "source_commit": "fd702d7235d270add2da38143a22d5ed45c47685",
+  "source_tree": "b91e3264ec50b6eea2003cb54f82ab6078799826",
+  "runtime_bundle_sha256": "4106997229a52cf30175425851483f5178a2fbdd4a9725d956e1aa79fcf8706b",
+  "run_id": 37258653978,
+  "job_id": 111600964129,
+  "artifact_id": 11324101920,
+  "artifact_sha256": "a4b6459209344557c76fcf6d05c19f6ab31fbcf68e528ddea6ea521e9ccc6c80",
+  "artifact_bytes": 2532867,
+  "artifact_crc": "PASS",
+  "report": "CP7_SALES_CHAIN.json",
+  "reported_status": "PASS",
+  "writer_qualified": true,
+  "expected_counts": {
+    "native": 16,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "observed_counts": {
+    "native": 16,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "observed_total": 25,
+  "planned_ids": {
+    "native": [
+      "CP7_SALES_CHAIN_EXACT",
+      "CP7_SALES_CHAIN_NO_CHILDREN",
+      "CP7_SALES_CHAIN_FULLY_PAID",
+      "CP7_SALES_CHAIN_ALL_26_PAYMENTS",
+      "CP7_SALES_CHAIN_MULTI_RETURNS",
+      "CP7_SALES_CHAIN_OLD_CLOCKS",
+      "CP7_SALES_CHAIN_FINAL_INVOICE_FAILURE",
+      "CP7_SALES_CHAIN_STALE_CHILD",
+      "CP7_SALES_CHAIN_STALE_STOCK",
+      "CP7_SALES_CHAIN_CURRENT_AUTH",
+      "CP7_SALES_CHAIN_CLOSED_FIELDS",
+      "CP7_SALES_CHAIN_PRIVATE_IMMUTABLE",
+      "CP7_SALES_CHAIN_REPLAY",
+      "CP7_SALES_CHAIN_PENDING_DRAFT",
+      "CP7_SALES_CHAIN_DOWNSTREAM_RETURN",
+      "CP7_SALES_CHAIN_CLOSED_BOOKS"
+    ],
+    "races": [
+      "CP7_SALES_CHAIN_RACE_SAME_UUID",
+      "CP7_SALES_CHAIN_RACE_COMPETING",
+      "CP7_SALES_CHAIN_RACE_AUTH_RETIRE",
+      "CP7_SALES_CHAIN_RACE_STOCK_CHANGE"
+    ],
+    "http": [
+      "CP7_SALES_CHAIN_HTTP_COMMIT_REPLAY",
+      "CP7_SALES_CHAIN_HTTP_ALL26_READONLY",
+      "CP7_SALES_CHAIN_HTTP_CURRENT_AUTH"
+    ],
+    "browser": [
+      "CP7_SALES_CHAIN_BROWSER_DESKTOP",
+      "CP7_SALES_CHAIN_BROWSER_MOBILE"
+    ]
+  },
+  "root_originals": "ORIGINAL_REPORTS.json.gz",
+  "root_originals_sha256": "8c787dcc492aa7c53a55b2650ba741b4f26ddf8b23710322d13c1533401e231a",
+  "all_original_member_hashes": [
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385610,
+      "crc32": "49aa66f5",
+      "sha256": "5588387e96ff1a260f7cd5dfa9f796336c278a18ee52747f66dc036588b13838"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385610,
+      "crc32": "49aa66f5",
+      "sha256": "5588387e96ff1a260f7cd5dfa9f796336c278a18ee52747f66dc036588b13838"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "d9e9235c",
+      "sha256": "8232bc9203f7953c072aad05feb1573abb87dd777d98c0d4d774c94b77883f32"
+    },
+    {
+      "name": "CP7_SALES_CHAIN.json",
+      "bytes": 276091,
+      "crc32": "ad91362a",
+      "sha256": "76179b1332c0ab4b168c134658ee90e6e0b01216bb12cacde0f0a947a5c9823e"
+    },
+    {
+      "name": "CP7_SALES_CHAIN_DESKTOP.png",
+      "bytes": 550092,
+      "crc32": "b0c0abe3",
+      "sha256": "9a8579128c30fa0d57d90b5469e92f4b826ee1ec9fa33049f347a2e87c7f4574"
+    },
+    {
+      "name": "CP7_SALES_CHAIN_MOBILE.png",
+      "bytes": 360835,
+      "crc32": "a227e8f2",
+      "sha256": "cc85efffde3329de7c9e0f07c9407cf45b2ea203384a7b184d2d54f1342e0924"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "6a9b2cda",
+      "sha256": "b07b34200f44700b714e68729107801eb075ca60cea058b399e5a1e1a64200ba"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360422,
+      "crc32": "a5ce4d9e",
+      "sha256": "06241b46598fc9c28f3a5dc6bfaa6c970da6013f812b3154c64c20cd8aafc6cc"
+    }
+  ],
+  "screenshots": [
+    "CP7_SALES_CHAIN_DESKTOP.png",
+    "CP7_SALES_CHAIN_MOBILE.png"
+  ],
+  "original_source_identity": {
+    "label": "T3_PREP",
+    "tool_head": "fd702d7235d270add2da38143a22d5ed45c47685",
+    "product_ref": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "37258653978",
+    "run_attempt": "1",
+    "workflow": "CP7 Native Atomic Sales Chain Reversal",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "fd702d7235d270add2da38143a22d5ed45c47685",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "outer_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "catalog_verification": {
+    "raw_snapshots_retained": false,
+    "snapshots_checked": 34,
+    "dropped_fields": [],
+    "read_only_sensitivity_controls_recomputed": null
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_cp7_acceptance": false,
+  "previous_failures_preserved": true
+}

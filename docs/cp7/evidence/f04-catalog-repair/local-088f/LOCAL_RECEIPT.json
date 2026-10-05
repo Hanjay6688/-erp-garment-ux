@@ -1,0 +1,48 @@
+{
+  "classification": "LOCAL_READ_ONLY_CATALOG_PRESERVATION_CONTROLS_NOT_NATIVE_QUALIFICATION",
+  "source_parent": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+  "Original_failure_run": 37128855585,
+  "Original_failure_archive_sha256": "81c7399ef1392592fb89ce1a6c71a689feb72ca1d196dcee0b1b9d98953f35f3",
+  "controls_from_both_actual_final_catalog_observations": {
+    "before": {
+      "pair_order_only_equal": true,
+      "function_hash_change_refused": true,
+      "function_signature_change_refused": true,
+      "missing_function_member_refused": true,
+      "duplicate_function_member_refused": true,
+      "relation_member_change_refused": true,
+      "public_row_hash_or_member_change_refused": true,
+      "observed_input_not_mutated": true
+    },
+    "after": {
+      "pair_order_only_equal": true,
+      "function_hash_change_refused": true,
+      "function_signature_change_refused": true,
+      "missing_function_member_refused": true,
+      "duplicate_function_member_refused": true,
+      "relation_member_change_refused": true,
+      "public_row_hash_or_member_change_refused": true,
+      "observed_input_not_mutated": true
+    }
+  },
+  "raw_final_order_diff_equal_only_after_all_pair_sort": true,
+  "raw_snapshot_all_fields_retained": true,
+  "changed_function_hash_still_refused": true,
+  "original_reader_restored_after_normal_exit_and_exception": true,
+  "parsed_CP7_scripts": 245,
+  "source_hashes": {
+    "cp7_catalog_state.py": "c5873a1703df6a89ce626ad7518be3bfac453b6c0b32114a4ee74a278edf94fe",
+    "cp7_cutting_model_probe.py": "854aa1dc06ef981e382c8cc399c5d20a34ce870f461348122bb626d05c8c9323",
+    "cp7_cutting_observation_probe.py": "cc491bbeb2ffc33fe4fd2d0d5e452cf7cae5c18cb07210c501f8e78a17555063",
+    "cp7_cutting_input_probe.py": "01eca64a580c2317fcc4368c4f01ec0af9b244550c555b13641b8f963d56b0d2",
+    "cp7_f04_history_probe.py": "4d238e6500f0dabe07a44bd65ff669aea1001f8c1b06b33bf6a8f811c7cec587",
+    "cp7_f04_supply_probe.py": "91c5f76509563a6216c96a05337f12b2ab9bc3bbcb22169c164492d363727358",
+    "cp7_f04_schedule_probe.py": "79f5fefedea35a307c6e7ea4093532128dadf33fbb8e8099077a04186451d7ac"
+  },
+  "budgets_or_case_IDs_changed": false,
+  "product_SQL_or_src_changed": false,
+  "frozen_CP6_reader_runner_changed": false,
+  "Native57_fresh_qualification": "PENDING",
+  "independent_acceptance": false,
+  "production_go": false
+}

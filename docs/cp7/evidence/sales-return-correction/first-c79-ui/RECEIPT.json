@@ -1,0 +1,59 @@
+{
+  "source_commit": "c79f4435d32baa2138bf821917462421453d29df",
+  "source_tree": "907193e87627d8bff832cab4f268c1a5b4c3525c",
+  "classification": "ACTUAL_COMPLETED_FIRST_FRONTEND_COMPILE_FAILURES_NOT_NATIVE_QUALIFICATION",
+  "status": "INCOMPLETE",
+  "logs": {
+    "37173078125": {
+      "run_id": 37173078125,
+      "job_id": 111349864833,
+      "Original_log": "ORIGINAL_37173078125_CI_LOG.txt.gz",
+      "raw_bytes": 169977,
+      "raw_sha256": "24febbf3e9db4c54aa412fdf3d12cb21435515477bf99a902d48dc606aaff430",
+      "gzip_sha256": "9ac432c5351598a1e783185267323e3ca697069e89a10ad546aabf115d54a8da",
+      "compiler_errors_exact": [
+        "2026-10-04T03:07:56.8235030Z ##[error]src/ConnectedSalesPage.tsx(67,172): error TS2322: Type 'unknown' is not assignable to type 'number'.",
+        "2026-10-04T03:07:56.8245392Z ##[error]src/SalesReturnCorrectionPanel.dom.test.tsx(26,495): error TS2339: Property 'createElement' does not exist on type '{ id: string; sale_id: string; number: string; physical_at: string; status: \"POSTED\"; notes: string; items: { id: string; allocation_id: string; product_id: string; product_sku: string; lot_id: string; ... 6 more ...; notes: string; }[]; }'.",
+        "2026-10-04T03:07:56.8249589Z ##[error]src/SalesReturnCorrectionPanel.dom.test.tsx(26,525): error TS2339: Property 'body' does not exist on type '{ id: string; sale_id: string; number: string; physical_at: string; status: \"POSTED\"; notes: string; items: { id: string; allocation_id: string; product_id: string; product_sku: string; lot_id: string; ... 6 more ...; notes: string; }[]; }'.",
+        "2026-10-04T03:07:56.8255649Z ##[error]src/SalesReturnCorrectionPanel.dom.test.tsx(29,260): error TS2322: Type '{ currentReadTicket: () => { sequence: number; scope: string; signature: string; session: {}; } | null; isReadCurrent: (t: typeof ticket) => boolean; }' is not assignable to type 'Pick<{ scope: string; busy: boolean; pending: ProductionEnvelope | null; error: string; notice: string; blockReason: string; committedSequence: number; corruptedEnvelope: boolean; ... 9 more ...; reconcile: (handlers: ProductionMutationHandlers) => Promise<...>; }, \"currentReadTicket\" | \"isReadCurrent\">'.",
+        "2026-10-04T03:07:56.8264573Z ##[error]src/SalesReturnCorrectionPanel.tsx(64,120): error TS2322: Type '{ source: { source_type: string; source_id: string; }; label: string; }' is not assignable to type 'IntrinsicAttributes & { sourceType: string; sourceId: string | null; disabled?: boolean | undefined; label?: string | undefined; }'.",
+        "2026-10-04T03:07:56.8269459Z ##[error]src/SalesReturnCorrectionPanel.tsx(65,100): error TS2322: Type '{ source: { source_type: string; source_id: string; }; label: string; }' is not assignable to type 'IntrinsicAttributes & { sourceType: string; sourceId: string | null; disabled?: boolean | undefined; label?: string | undefined; }'."
+      ],
+      "primary_failure": "TypeScript before disposable provisioning",
+      "secondary_cleanup_error": "supabase command not found because its setup was not reached",
+      "Native_credit": 0,
+      "Native_restore_claimed": false
+    },
+    "37173077938": {
+      "run_id": 37173077938,
+      "job_id": 111349864508,
+      "Original_log": "ORIGINAL_37173077938_CI_LOG.txt.gz",
+      "raw_bytes": 169801,
+      "raw_sha256": "4ae592b918e8bfc162d9955bf190067d6d299fcd28fb434b47e53a91c27ea3eb",
+      "gzip_sha256": "efc7172c5962f2bf443da795618e8d88591703038e72af049c84693655ba1ab2",
+      "compiler_errors_exact": [
+        "2026-10-04T03:08:04.8704005Z ##[error]src/ConnectedSalesPage.tsx(67,172): error TS2322: Type 'unknown' is not assignable to type 'number'.",
+        "2026-10-04T03:08:04.8714245Z ##[error]src/SalesReturnCorrectionPanel.dom.test.tsx(26,495): error TS2339: Property 'createElement' does not exist on type '{ id: string; sale_id: string; number: string; physical_at: string; status: \"POSTED\"; notes: string; items: { id: string; allocation_id: string; product_id: string; product_sku: string; lot_id: string; ... 6 more ...; notes: string; }[]; }'.",
+        "2026-10-04T03:08:04.8719382Z ##[error]src/SalesReturnCorrectionPanel.dom.test.tsx(26,525): error TS2339: Property 'body' does not exist on type '{ id: string; sale_id: string; number: string; physical_at: string; status: \"POSTED\"; notes: string; items: { id: string; allocation_id: string; product_id: string; product_sku: string; lot_id: string; ... 6 more ...; notes: string; }[]; }'.",
+        "2026-10-04T03:08:04.8726746Z ##[error]src/SalesReturnCorrectionPanel.dom.test.tsx(29,260): error TS2322: Type '{ currentReadTicket: () => { sequence: number; scope: string; signature: string; session: {}; } | null; isReadCurrent: (t: typeof ticket) => boolean; }' is not assignable to type 'Pick<{ scope: string; busy: boolean; pending: ProductionEnvelope | null; error: string; notice: string; blockReason: string; committedSequence: number; corruptedEnvelope: boolean; ... 9 more ...; reconcile: (handlers: ProductionMutationHandlers) => Promise<...>; }, \"currentReadTicket\" | \"isReadCurrent\">'.",
+        "2026-10-04T03:08:04.8737085Z ##[error]src/SalesReturnCorrectionPanel.tsx(64,120): error TS2322: Type '{ source: { source_type: string; source_id: string; }; label: string; }' is not assignable to type 'IntrinsicAttributes & { sourceType: string; sourceId: string | null; disabled?: boolean | undefined; label?: string | undefined; }'.",
+        "2026-10-04T03:08:04.8743343Z ##[error]src/SalesReturnCorrectionPanel.tsx(65,100): error TS2322: Type '{ source: { source_type: string; source_id: string; }; label: string; }' is not assignable to type 'IntrinsicAttributes & { sourceType: string; sourceId: string | null; disabled?: boolean | undefined; label?: string | undefined; }'."
+      ],
+      "primary_failure": "TypeScript before disposable provisioning",
+      "secondary_cleanup_error": "supabase command not found because its setup was not reached",
+      "Native_credit": 0,
+      "Native_restore_claimed": false
+    }
+  },
+  "fixes_authored": [
+    "Use actual TransactionSourceLink sourceType/sourceId and pending/stale disablement",
+    "Accept Native nullable ticket signature in declared DOM stand-in",
+    "Avoid DOM global shadowing by business document fixture",
+    "Normalize already-validated exact return page offset at parent outcome union boundary"
+  ],
+  "Native_case_budgets_changed": false,
+  "Native_guards_changed": false,
+  "timeouts_changed": false,
+  "fresh_head_qualification_required": true,
+  "production_go": false
+}

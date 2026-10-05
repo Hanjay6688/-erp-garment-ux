@@ -1,0 +1,79 @@
+{
+  "classification": "LOCAL_EXACT_SOURCE_TARGETED_CONTROLS_NOT_NATIVE69_QUALIFICATION",
+  "base_commit": "7300fe0150531f9352d0e5f65ad6606e09167567",
+  "source_files": {
+    "scripts/cp7-src/transactions/dependencies.sql": "fb31edda40123124d2e719b3eceea48287bceaffb643a6cdeb6cf9c67ab5e3bb",
+    "scripts/cp7_transaction_source_bundle.py": "4293fcba4fb6a8adfeabca25d2eeff15ecc9010a25992132a9a15f1303eee58c",
+    "scripts/cp7_laundry_source_cases.py": "890a369d26f302cf983f10b89e7dd721635267c378fafa58cf30ad44e0406a69",
+    "scripts/cp7_transaction_source_cases.py": "f0979cd57f30417cb96b42b27c8fcad8c4babff187b1674d62baa8f81b1d8993",
+    "scripts/cp7_transaction_source_browser.mjs": "9487957120fb80f5e8445a4f574bad10df1ad508315eb0650efc58dbe0f95ff1",
+    "scripts/cp7_transaction_source_browser_fixture.py": "2349e9adb26e69c93b72540bed28a9deed66960fbbc1bd2efde10b9525eeaef4",
+    "scripts/cp7_f05_analysis_probe.py": "b18f42e81eec91bdc9938fb251cdfcba0ca75b8d76161ac1a38cec27fe9d1d10",
+    "src/LaundryReceiptDependencies.tsx": "e841e2b8e857d0b8d668ca1eff8964878fe7d48e527f4ddff94e7ce46f312ba8",
+    "src/transactionDependencies.ts": "c563cf8bd0c5d791b74fcee3ee995ddc621870547a9acfe28aa34b356ce0f04e",
+    "src/ConnectedLaundryPage.tsx": "40a4f50bdc7495b240264987be1cb3773a2b31caf594352f11cb0ac20f4a1a32",
+    "src/types/database.preconnect.ts": "4a1db633a97ae5ccd465b59b56f31acd47b9cb94edc2d25a699621542d475195",
+    "src/connected-laundry-qc.css": "e70faf90cf2986dc76b2f784f7d2f8abf5a3ec1e7a639cb2a55e7002ab1b9366",
+    "scripts/check-source-ownership.mjs": "5073aecb6c9bc96c7071a946768f021eced5a142116fe648107fd2eed418de22",
+    "scripts/check-access-catalog.mjs": "76c9409d4cd8177b159b316501d9fe9d2fbb31bae7037a26d2ba1a48a9410227"
+  },
+  "local_targeted": {
+    "status": "PASS",
+    "tests": 115,
+    "files": 9
+  },
+  "build": "PASS",
+  "security": "PASS",
+  "syntax": "PASS",
+  "runtime_owned": 256,
+  "RPC_boundaries": 187,
+  "styles": 53,
+  "import_orphans": 0,
+  "application_local_Native_first": {
+    "status": "BLOCKED_NATIVE_RUNTIME",
+    "original": "FIRST_LOCAL_NATIVE_GUARD.json"
+  },
+  "application_local_standin": {
+    "status": "INCOMPLETE",
+    "runtime": "EXPLICIT_LOCAL_PGLITE_0.5.8_NOT_NATIVE",
+    "files_passed": 145,
+    "files_failed": 1,
+    "tests_passed": 1400,
+    "tests_failed": 3,
+    "total": 1403,
+    "reason": "Three existing internal-guard controls refuse mock guard_subject table access in the stand-in. No Native/product guard or fixture grant was changed to obtain green."
+  },
+  "Native69": "PENDING",
+  "required": {
+    "native": 38,
+    "races": 4,
+    "http": 9,
+    "browser": 18
+  },
+  "all64_previous_IDs_required": true,
+  "original_logs": {
+    "laundry-dependencies-final-local.log": {
+      "bytes": 334,
+      "sha256": "1950c34618655d72e8a42b6fa83dc6d4eab1f3a8ecedf46611d372222e612e7c",
+      "gzip_sha256": "a4a3384283bda48d2e0e8e81a1177a194801a108fb5aef44364adab309b1ee2a"
+    },
+    "laundry-dependencies-build.log": {
+      "bytes": 11619,
+      "sha256": "e8aea03a307c74b792a824dcbec0850a79ab1696688db9d67359d6f7cf25b049",
+      "gzip_sha256": "6022de2db78297371d0bf32ef86313793ee32f9a1faaa6a077fd940db3555870"
+    },
+    "laundry-dependencies-security.log": {
+      "bytes": 12142,
+      "sha256": "c9e9e2cd5f738709aa08b4fccb46f986f1737cd9e7ad12e476fa40b3120cc254",
+      "gzip_sha256": "e555f293bc61778826f1cdc40c0977f7d6283e57d8ff9092b5efcb7200ada8a5"
+    },
+    "laundry-dependencies-application-pglite.log": {
+      "bytes": 2061,
+      "sha256": "798b31995c49863f60351a82236a05e8c9564e760283d50a44d3151818dcc36f",
+      "gzip_sha256": "04909d4abaa066c5873b648134397413eb1e27bb4f314543801c21772ac2acd1"
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "Native_fixture_privileged_observation_normalized": true
+}

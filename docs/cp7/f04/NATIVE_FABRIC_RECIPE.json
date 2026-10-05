@@ -1,0 +1,61 @@
+{
+  "contract": "cp7.fabric-recipe-declaration.v1",
+  "base_source": "3d4948b1598b0fc03490d5615b21b5d9e2926462",
+  "expected_case_count": 13,
+  "required_case_counts": {
+    "native": 8,
+    "races": 2,
+    "http": 1,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "P08_FABRIC_MISSING",
+      "P08_FABRIC_GROSS170",
+      "P08_FABRIC_CLOCK",
+      "P08_FABRIC_SUCCESSOR255",
+      "P08_FABRIC_MASTER_CHANGED",
+      "P08_FABRIC_STRICT_CAS",
+      "P08_FABRIC_OWN_ACTOR_PRIVATE",
+      "P08_FABRIC_CATALOG"
+    ],
+    "races": [
+      "P08_FABRIC_REAL_TWO_WRITER_CAS_WAIT",
+      "P08_FABRIC_REAL_WAIT_REVOKED"
+    ],
+    "http": [
+      "P08_FABRIC_REAL_AUTH_HTTP"
+    ],
+    "browser": [
+      "P08_FABRIC_BROWSER_DESKTOP",
+      "P08_FABRIC_BROWSER_MOBILE"
+    ]
+  },
+  "oracles": [
+    "Actual Native gap85 times explicitly selected rate2 gives ASSUMED170; successor rate3 gives ASSUMED255.",
+    "Missing, expired, future, changed full Native master or unproved quantity remain UNKNOWN.",
+    "Installed, eligible unused, additional external and feasibility remain UNKNOWN.",
+    "Same actor/request UUID and payload produce one immutable recipe and command, with no Native business DML.",
+    "Two distinct real backend PIDs must be observed waiting on the same target advisory lock: stale CAS40001 and after-wait revoked authority42501.",
+    "Real Auth HTTP own, foreign, anonymous and deactivated subject boundaries.",
+    "Desktop/mobile committed lost reply, reload and identical UUID recovery produce one recipe; Production, report and AI use the same fresh Original; current403 retires facts.",
+    "Definitive server rejection after current authority and absent same-UUID cache clears only that pending UUID. Transport, general current403 and changed-payload collisions preserve the exact request. Native desktop/mobile prove one-year backdate refusal with no recipe or command, fresh review, then committed lost-reply recovery."
+  ],
+  "preceding_case_budgets": {
+    "analysis": 152,
+    "attention": 284,
+    "plan_native": 39
+  },
+  "Native_SELECT_tables": [
+    "erp.materials",
+    "erp.production_patterns"
+  ],
+  "Native_DML_grants_added": 0,
+  "roles_added": 0,
+  "public_wrappers": [
+    "erp_cp7_get_fabric_recipe_v1(jsonb)",
+    "erp_cp7_save_fabric_recipe_v1(jsonb,uuid)"
+  ],
+  "full_P08_acceptance": false,
+  "production_go": false
+}

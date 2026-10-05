@@ -1,0 +1,326 @@
+{
+  "status": "ACTUAL_SOURCE_BOUND_NATIVE_P11_64_WRITER_QUALIFIED",
+  "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+  "source_tree": "38d54c989af9b0892bdfa367fe0674e745ad0cb0",
+  "source_bundle_sha256": "eb426fcea4144e81f75a6e520f381d53b3c0c227a2e3ee166e4c84fba03ce518",
+  "run_id": 37160029368,
+  "job_id": 111311381886,
+  "artifact_id": 11287502220,
+  "artifact_bytes": 11757343,
+  "artifact_sha256": "af2aebf4a885a6f94bbe80a3ebfe50291586862f19571a14fc2d5dc4267b27d3",
+  "archive_members": {
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385630,
+      "sha256": "63a29f5f6f07e09c23f285f0e681872d023edb1f8c4ea026f4693239ae56973d"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385630,
+      "sha256": "63a29f5f6f07e09c23f285f0e681872d023edb1f8c4ea026f4693239ae56973d"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "16d684f6df0913dc277f9489e8c039f2fe0dfa7bf9412abacb972f4d17f952e9"
+    },
+    "CP7_P11_SALES_READ.json": {
+      "bytes": 316928,
+      "sha256": "450219f70649476490fde21115527fd0392eba4794528bf156dbbe8897989ba1"
+    },
+    "P11_COMMAND_DESKTOP.png": {
+      "bytes": 639090,
+      "sha256": "a73a7f92630d1b9e7becf16d74a22d8d079c4ab180308c8058868ec40620721a"
+    },
+    "P11_COMMAND_MOBILE.png": {
+      "bytes": 532378,
+      "sha256": "d442192233de76ac689e25ebebe3b0fc4e4728932373b7eb27ba656236c49a6a"
+    },
+    "P11_DEPENDENCIES_DESKTOP.png": {
+      "bytes": 944711,
+      "sha256": "288c7c2c46ea6e6b9939d40cf32238ffda120665774c6989e315a78a77c451cd"
+    },
+    "P11_DEPENDENCIES_MOBILE.png": {
+      "bytes": 627617,
+      "sha256": "a8966830fd86219d99af03c3c901868c47976a4f91cd153e9974c838336d253b"
+    },
+    "P11_DRAFT_DESKTOP.png": {
+      "bytes": 1132202,
+      "sha256": "c06bdc2c2c4930371eb6416ce3170e8277c337835dd9784840aa7877dc1eb856"
+    },
+    "P11_DRAFT_MOBILE.png": {
+      "bytes": 853825,
+      "sha256": "84754e3307be5cc72bb9bcae22094a3c0b9a07b1f70a5e0aabbc483d5429d7c5"
+    },
+    "P11_PAYMENT_DESKTOP.png": {
+      "bytes": 1200762,
+      "sha256": "a02262187e26a220cb53b56b55d40bd8bdbd418022064e3a6c6c8e6583e6f8c2"
+    },
+    "P11_PAYMENT_MOBILE.png": {
+      "bytes": 935130,
+      "sha256": "c85156d343344cb1633efd1e4edf248a41baec8a517fac13e7abec519a7ff6e9"
+    },
+    "P11_READ_DESKTOP.png": {
+      "bytes": 765633,
+      "sha256": "656889b2699bc180a7e894ba0ea3547c4658067c7469aca494c3023c09e3de1a"
+    },
+    "P11_READ_MOBILE.png": {
+      "bytes": 281373,
+      "sha256": "02ad3b0aaa43ed797f036efdac8127006356c9e4cf9888c22c8bc13c8ab1f924"
+    },
+    "P11_RETURN_DESKTOP.png": {
+      "bytes": 1344441,
+      "sha256": "d876fe1a856160f406e5885f42434965a2407066a1a64e24665040da90490a3a"
+    },
+    "P11_RETURN_MOBILE.png": {
+      "bytes": 1120952,
+      "sha256": "a031493131bc187b92eb758d1f92c3bb12bc76201f237c2f29a32ae19061bfe1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "4e5e7852b346caa7ab13b3ebcc251877a2fbd25136a689eb05bdb53312e03360"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360360,
+      "sha256": "8b5c2b04c2ca4d6ae120b773bf561c814aa8d350487ef5415468347760b14daa"
+    }
+  },
+  "root_reports": [
+    "ALIGNED_CHAIN.json",
+    "CP7_P11_SALES_READ.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "groups": {
+    "native": {
+      "expected": 8,
+      "actual": 8,
+      "all_original_planned_ids_retained": true
+    },
+    "http": {
+      "expected": 1,
+      "actual": 1,
+      "all_original_planned_ids_retained": true
+    },
+    "commands": {
+      "expected": 6,
+      "actual": 6,
+      "all_original_planned_ids_retained": true
+    },
+    "command_races": {
+      "expected": 2,
+      "actual": 2,
+      "all_original_planned_ids_retained": true
+    },
+    "command_http": {
+      "expected": 1,
+      "actual": 1,
+      "all_original_planned_ids_retained": true
+    },
+    "drafts": {
+      "expected": 7,
+      "actual": 7,
+      "all_original_planned_ids_retained": true
+    },
+    "draft_races": {
+      "expected": 1,
+      "actual": 1,
+      "all_original_planned_ids_retained": true
+    },
+    "draft_http": {
+      "expected": 1,
+      "actual": 1,
+      "all_original_planned_ids_retained": true
+    },
+    "payments": {
+      "expected": 8,
+      "actual": 8,
+      "all_original_planned_ids_retained": true
+    },
+    "payment_races": {
+      "expected": 3,
+      "actual": 3,
+      "all_original_planned_ids_retained": true
+    },
+    "payment_http": {
+      "expected": 1,
+      "actual": 1,
+      "all_original_planned_ids_retained": true
+    },
+    "returns": {
+      "expected": 11,
+      "actual": 11,
+      "all_original_planned_ids_retained": true
+    },
+    "return_races": {
+      "expected": 3,
+      "actual": 3,
+      "all_original_planned_ids_retained": true
+    },
+    "return_http": {
+      "expected": 1,
+      "actual": 1,
+      "all_original_planned_ids_retained": true
+    },
+    "browser": {
+      "expected": 10,
+      "actual": 10,
+      "all_original_planned_ids_retained": true
+    }
+  },
+  "observed_case_count": 64,
+  "all_original_planned_ids_retained": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "Auth_cleanup_before0_after0": true,
+  "browser_console_errors": 0,
+  "Native_R10_witnesses": {
+    "P11_RETURN_BROWSER_R10_DESKTOP_A": {
+      "original": {
+        "status": "PASS",
+        "mobile": false,
+        "only_master_and_FG_stock_are_native_fixtures": true,
+        "real_browser_source_create_post_return_payment_and_full_inverse": true,
+        "dedicated_return_and_payment_navigation_connected": true,
+        "sale80_return20_cash60": true,
+        "grade": "GRADE_A",
+        "destination": "OTHER_ACTIVE_FG_WAREHOUSE",
+        "source_available6_after_sale_total7_after_return_final10": true,
+        "exact_cash_AR_revenue_FG_COGS_assertions": true,
+        "all_final_GL_accounts_neutral": true,
+        "lost_return_response_replay_identical": null,
+        "original_payment_and_return_history_retained": true,
+        "return_history_page_tools": {
+          "actual_Native_posted_original_retained": true,
+          "current_page_search_status_order_and_complete_reset": true,
+          "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+          "additional_browser_RPC_or_writer": 0,
+          "unsent_return_number_and_review_preserved": true,
+          "paid_invoice_new_payment_form_absent": null
+        },
+        "payment_history_page_tools": {
+          "actual_Native_posted_original_retained": true,
+          "current_page_search_status_order_and_complete_reset": true,
+          "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+          "additional_browser_RPC_or_writer": 0,
+          "unsent_return_number_and_review_preserved": null,
+          "paid_invoice_new_payment_form_absent": true
+        },
+        "actual_named_dependencies_preserve_all_Native_source_facts": true,
+        "Native_resolver_opens_exact_payment_and_return_UUIDs_with_focus": null,
+        "source_resolver_scope": "NOT_INSTALLED_IN_STANDALONE_P11_NO_SOURCE_CREDIT",
+        "active_dependency_refresh_excludes_reversed_payment": true,
+        "dependency_screenshot": "P11_DEPENDENCIES_DESKTOP.png",
+        "screenshot": "P11_RETURN_DESKTOP.png"
+      },
+      "dependency_screenshot": {
+        "file": "P11_DEPENDENCIES_DESKTOP.png",
+        "bytes": 944711,
+        "sha256": "288c7c2c46ea6e6b9939d40cf32238ffda120665774c6989e315a78a77c451cd",
+        "actually_viewed": true
+      },
+      "screenshot": {
+        "file": "P11_RETURN_DESKTOP.png",
+        "bytes": 1344441,
+        "sha256": "d876fe1a856160f406e5885f42434965a2407066a1a64e24665040da90490a3a",
+        "actually_viewed": false
+      }
+    },
+    "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY": {
+      "original": {
+        "status": "PASS",
+        "mobile": true,
+        "only_master_and_FG_stock_are_native_fixtures": true,
+        "real_browser_source_create_post_return_payment_and_full_inverse": true,
+        "dedicated_return_and_payment_navigation_connected": true,
+        "sale80_return20_cash60": true,
+        "grade": "GRADE_B",
+        "destination": "OTHER_ACTIVE_FG_WAREHOUSE",
+        "source_available6_after_sale_total7_after_return_final10": true,
+        "exact_cash_AR_revenue_FG_COGS_assertions": true,
+        "all_final_GL_accounts_neutral": true,
+        "lost_return_response_replay_identical": true,
+        "original_payment_and_return_history_retained": true,
+        "return_history_page_tools": {
+          "actual_Native_posted_original_retained": true,
+          "current_page_search_status_order_and_complete_reset": true,
+          "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+          "additional_browser_RPC_or_writer": 0,
+          "unsent_return_number_and_review_preserved": true,
+          "paid_invoice_new_payment_form_absent": null
+        },
+        "payment_history_page_tools": {
+          "actual_Native_posted_original_retained": true,
+          "current_page_search_status_order_and_complete_reset": true,
+          "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+          "additional_browser_RPC_or_writer": 0,
+          "unsent_return_number_and_review_preserved": null,
+          "paid_invoice_new_payment_form_absent": true
+        },
+        "actual_named_dependencies_preserve_all_Native_source_facts": true,
+        "Native_resolver_opens_exact_payment_and_return_UUIDs_with_focus": null,
+        "source_resolver_scope": "NOT_INSTALLED_IN_STANDALONE_P11_NO_SOURCE_CREDIT",
+        "active_dependency_refresh_excludes_reversed_payment": true,
+        "dependency_screenshot": "P11_DEPENDENCIES_MOBILE.png",
+        "screenshot": "P11_RETURN_MOBILE.png"
+      },
+      "dependency_screenshot": {
+        "file": "P11_DEPENDENCIES_MOBILE.png",
+        "bytes": 627617,
+        "sha256": "a8966830fd86219d99af03c3c901868c47976a4f91cd153e9974c838336d253b",
+        "actually_viewed": true
+      },
+      "screenshot": {
+        "file": "P11_RETURN_MOBILE.png",
+        "bytes": 1120952,
+        "sha256": "a031493131bc187b92eb758d1f92c3bb12bc76201f237c2f29a32ae19061bfe1",
+        "actually_viewed": false
+      }
+    }
+  },
+  "original_reports": {
+    "file": "ORIGINAL_REPORTS.json.gz",
+    "raw_bytes": 768263,
+    "raw_sha256": "9c66efad796846f6e168662806752cef98f232b729c6fad940e6091f0cc5f403",
+    "gzip_sha256": "57b071ce844d4e12d631eba58fd90c6bd8293f77e277e434989f64fdccc0979b"
+  },
+  "original_CI_log": {
+    "file": "ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 265857,
+    "raw_sha256": "b18f3fa3131d6a0f6112d15c3705caf827da8a365419c0f7d14aca232245f648",
+    "gzip_sha256": "1d6e6bacc16fb1ae2704f90d87ea18fafe5cefffd7f01c52ceb71a818fbd670d"
+  },
+  "named_invoice_dependency_widget_qualified": true,
+  "full_source_resolver_navigation_qualified": false,
+  "new_payment_or_return_atomic_edit": false,
+  "first702_access_declaration_incomplete_relabelled": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "dependency_visual_review": "Both complete unchanged desktop/mobile dependency captures viewed. Actual Native payment60 and return1line/20 are named, each with its own source button and all-history/page scope. Parent gross80/net60/paid60/open0 and existing Benerin nota and inverse blocker remain. Source buttons are not clicked by the standalone64 package; its resolver is not installed. Existing R10 return captures retain their actually_viewed=false flag on this new source."
+}

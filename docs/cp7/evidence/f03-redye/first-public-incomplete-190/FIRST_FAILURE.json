@@ -1,0 +1,1257 @@
+{
+  "contract": "cp7.retained-public-comparison-first-failure.v1",
+  "source": "190078a891054b2181d50d12458b9f12721cec59",
+  "status": "INCOMPLETE_NOT_RECLASSIFIED",
+  "workflow_run": 37304873181,
+  "job": 111746021640,
+  "artifact_id": 11343963490,
+  "artifact_bytes": 6129514,
+  "artifact_sha256": "c1b2aea8a4e0bbc9127531d68a87ec82665f71804a85fa7d37d6d42aae4f9749",
+  "GitHub_digest_matched": true,
+  "ZIP_CRC_pass": true,
+  "observed": {
+    "expected": 5,
+    "observed": 5,
+    "native_or_admission_status": "INCOMPLETE",
+    "native_or_admission_counts": {
+      "PASS": 2
+    },
+    "cases": {
+      "F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE": {
+        "status": "PASS",
+        "original_group": "BF-SKU-501c8c59",
+        "current_group": "BF-SKU-d50e34d1",
+        "quantity": 4,
+        "vendor_first_rate": "50.00",
+        "redye_cost": "200.00",
+        "future_vendor_rate": "99.00",
+        "UNKNOWN_never_inferred_from_current_group": true,
+        "original_service_fact_immutable": true,
+        "exact_replay": true,
+        "known_overwrite_refusal": {
+          "code": "BE_PRICE_ALREADY_KNOWN",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "BE_PRICE_ALREADY_KNOWN: koreksi harga memakai invoice sumber"
+          },
+          "result": null,
+          "ok": true
+        },
+        "report_FG_delta": "200.00",
+        "source_groups_in_old_movements_preserved": true,
+        "whole_HPP_final_claim": false,
+        "cp7_report_matches_source_GL_delta": {
+          "WIP": "0.00",
+          "FG_INVENTORY": "770.72",
+          "COGS": "0.00"
+        },
+        "cp7_fg_and_cards": [
+          {
+            "product": "de021bf9-9678-4fbd-8951-8bc9a3f5b1af",
+            "sku": "CP6-E-X04-DYE-14a49164",
+            "lot": "4abfaa1f-6876-4a1d-94a2-ee3c399595e2",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "4abfaa1f-6876-4a1d-94a2-ee3c399595e2",
+              "quality": "KNOWN",
+              "size_code": "BF-c37968b6-34",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ADJUSTED",
+                "hpp_version": "2",
+                "calculated_at": "2026-10-05T12:06:29.71109+00:00",
+                "hpp_version_id": "92a0a441-9490-4650-be2b-114b2010336f"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "BE-ec386011-b179-4402-9255-65e63ea188ed-a6b957dd-e6e17b",
+              "product_id": "de021bf9-9678-4fbd-8951-8bc9a3f5b1af",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-X04-DYE-14a49164",
+              "physical_qty": "4",
+              "product_name": "CP6 E X04-DYE-14a49164",
+              "reserved_qty": "0",
+              "available_qty": "4",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-d50e34d1",
+              "last_movement_at": "2026-10-05T12:05:04.985037+00:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "ec5f6390-ea17-4898-8a73-3d75bcde0e1c",
+                    "notes": "SKU conversion IN",
+                    "source_id": "ec386011-b179-4402-9255-65e63ea188ed",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "6",
+                    "qty_signed": "4",
+                    "physical_at": "2026-10-05T12:05:04.985037+00:00",
+                    "recorded_at": "2026-10-05T12:06:29.356554+00:00",
+                    "source_type": "PRODUCT_CONVERSION",
+                    "customer_name": null,
+                    "movement_type": "REBRAND_IN",
+                    "physical_delta": "4",
+                    "reversal_of_id": null,
+                    "physical_balance": "4",
+                    "reserved_balance": "0",
+                    "available_balance": "4",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-501c8c59"
+                  }
+                ],
+                "limit": 100,
+                "total": "1",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T12:06:30.711108+00:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "4",
+                "reserved_qty": "0",
+                "available_qty": "4"
+              },
+              "position": {
+                "lot_id": "4abfaa1f-6876-4a1d-94a2-ee3c399595e2",
+                "size_code": "BF-c37968b6-34",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "BE-ec386011-b179-4402-9255-65e63ea188ed-a6b957dd-e6e17b",
+                "product_id": "de021bf9-9678-4fbd-8951-8bc9a3f5b1af",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-X04-DYE-14a49164",
+                "product_name": "CP6 E X04-DYE-14a49164",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-d50e34d1"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          },
+          {
+            "product": "ae844962-9ec4-4abc-ac89-b01b66d2cd7f",
+            "sku": "CP6-E-BF-c37968b6",
+            "lot": "6a688528-9754-42a8-9222-6be210969553",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "6a688528-9754-42a8-9222-6be210969553",
+              "quality": "KNOWN",
+              "size_code": "BF-c37968b6-31",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ESTIMATED",
+                "hpp_version": "4",
+                "calculated_at": "2026-10-05T12:06:29.71109+00:00",
+                "hpp_version_id": "bb0528e4-7a1f-4271-90ed-3f8d59711a07"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "FGP-261005-2B8A7A69A42C440B84F04C46B157B0D0-CP6EBFc37968b6-098bac49",
+              "product_id": "ae844962-9ec4-4abc-ac89-b01b66d2cd7f",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-BF-c37968b6",
+              "physical_qty": "5",
+              "product_name": "CP6 E BF-c37968b6",
+              "reserved_qty": "0",
+              "available_qty": "5",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-8a276a00",
+              "last_movement_at": "2026-10-05T12:04:46.985037+00:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "9ef72b2f-b7c8-4caa-92f0-8a2f77b153ec",
+                    "notes": "QC good output",
+                    "source_id": "098bac49-ed46-41c9-bfed-6c86962cd059",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "1",
+                    "qty_signed": "5",
+                    "physical_at": "2026-10-05T12:04:46.985037+00:00",
+                    "recorded_at": "2026-10-05T12:06:29.17787+00:00",
+                    "source_type": "QC_ITEM",
+                    "customer_name": null,
+                    "movement_type": "QC_GOOD",
+                    "physical_delta": "5",
+                    "reversal_of_id": null,
+                    "physical_balance": "5",
+                    "reserved_balance": "0",
+                    "available_balance": "5",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-8a276a00"
+                  }
+                ],
+                "limit": 100,
+                "total": "1",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T12:06:30.740954+00:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "5",
+                "reserved_qty": "0",
+                "available_qty": "5"
+              },
+              "position": {
+                "lot_id": "6a688528-9754-42a8-9222-6be210969553",
+                "size_code": "BF-c37968b6-31",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "FGP-261005-2B8A7A69A42C440B84F04C46B157B0D0-CP6EBFc37968b6-098bac49",
+                "product_id": "ae844962-9ec4-4abc-ac89-b01b66d2cd7f",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-BF-c37968b6",
+                "product_name": "CP6 E BF-c37968b6",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-8a276a00"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          },
+          {
+            "product": "6344c8c1-7adb-47e1-994b-d50feda0070c",
+            "sku": "CP6-E-BF-c37968b6",
+            "lot": "a6b957dd-1912-4728-9ad4-d9ce94bbd072",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "a6b957dd-1912-4728-9ad4-d9ce94bbd072",
+              "quality": "KNOWN",
+              "size_code": "BF-c37968b6-34",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ESTIMATED",
+                "hpp_version": "2",
+                "calculated_at": "2026-10-05T12:06:29.71109+00:00",
+                "hpp_version_id": "b3671e4e-0e69-4323-ae06-5afb28e69b02"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "RW-X04-DYE-1d7651417422-9fcb6b0a",
+              "product_id": "6344c8c1-7adb-47e1-994b-d50feda0070c",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-BF-c37968b6",
+              "physical_qty": "0",
+              "product_name": "CP6 E BF-c37968b6",
+              "reserved_qty": "0",
+              "available_qty": "0",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-c370c908",
+              "last_movement_at": "2026-10-05T12:05:04.985037+00:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "b1967aae-c5bf-4722-baca-98d460ea28d8",
+                    "notes": "GOOD returned from rework",
+                    "source_id": "9fcb6b0a-384b-43d0-bc6f-12f834db934f",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "4",
+                    "qty_signed": "4",
+                    "physical_at": "2026-10-05T12:05:04.985037+00:00",
+                    "recorded_at": "2026-10-05T12:06:29.316513+00:00",
+                    "source_type": "REWORK_ORDER",
+                    "customer_name": null,
+                    "movement_type": "REWORK_IN",
+                    "physical_delta": "4",
+                    "reversal_of_id": null,
+                    "physical_balance": "4",
+                    "reserved_balance": "0",
+                    "available_balance": "4",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-c370c908"
+                  },
+                  {
+                    "id": "954f7e6e-16e2-4d87-9dd5-7eb664c1a208",
+                    "notes": "SKU conversion OUT",
+                    "source_id": "ec386011-b179-4402-9255-65e63ea188ed",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "5",
+                    "qty_signed": "-4",
+                    "physical_at": "2026-10-05T12:05:04.985037+00:00",
+                    "recorded_at": "2026-10-05T12:06:29.355647+00:00",
+                    "source_type": "PRODUCT_CONVERSION",
+                    "customer_name": null,
+                    "movement_type": "REBRAND_OUT",
+                    "physical_delta": "-4",
+                    "reversal_of_id": null,
+                    "physical_balance": "0",
+                    "reserved_balance": "0",
+                    "available_balance": "0",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-c370c908"
+                  }
+                ],
+                "limit": 100,
+                "total": "2",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T12:06:30.754753+00:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "0",
+                "reserved_qty": "0",
+                "available_qty": "0"
+              },
+              "position": {
+                "lot_id": "a6b957dd-1912-4728-9ad4-d9ce94bbd072",
+                "size_code": "BF-c37968b6-34",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "RW-X04-DYE-1d7651417422-9fcb6b0a",
+                "product_id": "6344c8c1-7adb-47e1-994b-d50feda0070c",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-BF-c37968b6",
+                "product_name": "CP6 E BF-c37968b6",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-c370c908"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          },
+          {
+            "product": "44d079eb-4d5b-42de-a160-d42d1f0c6ea8",
+            "sku": "CP6-E-BF-c37968b6",
+            "lot": "d4fe76c1-cae2-4957-a2c8-fcc7b09a30c1",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "d4fe76c1-cae2-4957-a2c8-fcc7b09a30c1",
+              "quality": "KNOWN",
+              "size_code": "BF-c37968b6-33",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ESTIMATED",
+                "hpp_version": "4",
+                "calculated_at": "2026-10-05T12:06:29.71109+00:00",
+                "hpp_version_id": "c22a5e50-108a-4867-bff3-716b4ce77ac4"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "FGP-261005-2B8A7A69A42C440B84F04C46B157B0D0-CP6EBFc37968b6-635f4aa5",
+              "product_id": "44d079eb-4d5b-42de-a160-d42d1f0c6ea8",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-BF-c37968b6",
+              "physical_qty": "3",
+              "product_name": "CP6 E BF-c37968b6",
+              "reserved_qty": "0",
+              "available_qty": "3",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-8a276a00",
+              "last_movement_at": "2026-10-05T12:04:46.985037+00:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "50c523bc-54a1-4a6f-b07c-47b1db59be42",
+                    "notes": "QC good output",
+                    "source_id": "635f4aa5-66f2-48a2-bae3-283747afe914",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "2",
+                    "qty_signed": "3",
+                    "physical_at": "2026-10-05T12:04:46.985037+00:00",
+                    "recorded_at": "2026-10-05T12:06:29.190292+00:00",
+                    "source_type": "QC_ITEM",
+                    "customer_name": null,
+                    "movement_type": "QC_GOOD",
+                    "physical_delta": "3",
+                    "reversal_of_id": null,
+                    "physical_balance": "3",
+                    "reserved_balance": "0",
+                    "available_balance": "3",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-8a276a00"
+                  }
+                ],
+                "limit": 100,
+                "total": "1",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T12:06:30.768479+00:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "3",
+                "reserved_qty": "0",
+                "available_qty": "3"
+              },
+              "position": {
+                "lot_id": "d4fe76c1-cae2-4957-a2c8-fcc7b09a30c1",
+                "size_code": "BF-c37968b6-33",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "FGP-261005-2B8A7A69A42C440B84F04C46B157B0D0-CP6EBFc37968b6-635f4aa5",
+                "product_id": "44d079eb-4d5b-42de-a160-d42d1f0c6ea8",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-BF-c37968b6",
+                "product_name": "CP6 E BF-c37968b6",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-8a276a00"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          },
+          {
+            "product": "45302fbf-aad3-45db-b6fa-b29de5cda9e0",
+            "sku": "CP6-E-BF-c37968b6",
+            "lot": "dd1b5342-547f-48bd-96de-0de3ca2017d2",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "dd1b5342-547f-48bd-96de-0de3ca2017d2",
+              "quality": "KNOWN",
+              "size_code": "BF-c37968b6-32",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ESTIMATED",
+                "hpp_version": "4",
+                "calculated_at": "2026-10-05T12:06:29.71109+00:00",
+                "hpp_version_id": "e1d4aec0-e5b9-44df-9ee9-237c66759c13"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "FGP-261005-2B8A7A69A42C440B84F04C46B157B0D0-CP6EBFc37968b6-91be798f",
+              "product_id": "45302fbf-aad3-45db-b6fa-b29de5cda9e0",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-BF-c37968b6",
+              "physical_qty": "8",
+              "product_name": "CP6 E BF-c37968b6",
+              "reserved_qty": "0",
+              "available_qty": "8",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-8a276a00",
+              "last_movement_at": "2026-10-05T12:04:46.985037+00:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "a795fa3a-daea-440b-98ad-9e33cc5a205d",
+                    "notes": "QC good output",
+                    "source_id": "91be798f-d05c-44ac-a7dc-cc588512a7ad",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "3",
+                    "qty_signed": "8",
+                    "physical_at": "2026-10-05T12:04:46.985037+00:00",
+                    "recorded_at": "2026-10-05T12:06:29.195383+00:00",
+                    "source_type": "QC_ITEM",
+                    "customer_name": null,
+                    "movement_type": "QC_GOOD",
+                    "physical_delta": "8",
+                    "reversal_of_id": null,
+                    "physical_balance": "8",
+                    "reserved_balance": "0",
+                    "available_balance": "8",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-8a276a00"
+                  }
+                ],
+                "limit": 100,
+                "total": "1",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T12:06:30.782756+00:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "8",
+                "reserved_qty": "0",
+                "available_qty": "8"
+              },
+              "position": {
+                "lot_id": "dd1b5342-547f-48bd-96de-0de3ca2017d2",
+                "size_code": "BF-c37968b6-32",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "FGP-261005-2B8A7A69A42C440B84F04C46B157B0D0-CP6EBFc37968b6-91be798f",
+                "product_id": "45302fbf-aad3-45db-b6fa-b29de5cda9e0",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-BF-c37968b6",
+                "product_name": "CP6 E BF-c37968b6",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-8a276a00"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          }
+        ],
+        "full_X04_acceptance": false,
+        "production_go": false,
+        "independent_acceptance": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      },
+      "F03_X04_REDYE_GROUP_INVOICE_SOLD_INVERSE": {
+        "status": "PASS",
+        "original_vendor_rate": "50.00",
+        "future_vendor_rate": "99.00",
+        "estimated_redye_cost": "200.00",
+        "invoice": "240.00",
+        "sold_quantity": 1,
+        "stock_quantity": 3,
+        "invoice_FG_delta": "30.00",
+        "invoice_COGS_delta": "10.00",
+        "invoice_AP_delta": "240.00",
+        "original_allocation_immutable": true,
+        "invoice_inverse_exact": true,
+        "grouping_never_reprices_original_service": true,
+        "cp7_report_matches_source_GL_delta": {
+          "WIP": "0.00",
+          "FG_INVENTORY": "678.72",
+          "COGS": "92.00"
+        },
+        "cp7_fg_and_cards": [
+          {
+            "product": "e5a7784f-746d-4690-a1c6-e3b955460a5c",
+            "sku": "CP6-E-BF-089033d8",
+            "lot": "06ed568d-e67b-4dcb-b9fe-6ffeb26b9ed5",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "06ed568d-e67b-4dcb-b9fe-6ffeb26b9ed5",
+              "quality": "KNOWN",
+              "size_code": "BF-089033d8-32",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ESTIMATED",
+                "hpp_version": "5",
+                "calculated_at": "2026-10-05T19:06:32.219426+07:00",
+                "hpp_version_id": "e97db249-b5cf-4412-bd8d-4ef0db8ba61c"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "FGP-261005-B9189ADFD48E4CECA85DA6AD080A6FB7-CP6EBF089033d8-af508860",
+              "product_id": "e5a7784f-746d-4690-a1c6-e3b955460a5c",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-BF-089033d8",
+              "physical_qty": "8",
+              "product_name": "CP6 E BF-089033d8",
+              "reserved_qty": "0",
+              "available_qty": "8",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-e2e03deb",
+              "last_movement_at": "2026-10-05T19:04:49.273763+07:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "c43b28b6-548c-4a90-9a3b-f1fa377bc0a7",
+                    "notes": "QC good output",
+                    "source_id": "af508860-2ecd-46c9-a4a7-18ab1a2a6c81",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "9",
+                    "qty_signed": "8",
+                    "physical_at": "2026-10-05T19:04:49.273763+07:00",
+                    "recorded_at": "2026-10-05T19:06:31.427116+07:00",
+                    "source_type": "QC_ITEM",
+                    "customer_name": null,
+                    "movement_type": "QC_GOOD",
+                    "physical_delta": "8",
+                    "reversal_of_id": null,
+                    "physical_balance": "8",
+                    "reserved_balance": "0",
+                    "available_balance": "8",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-e2e03deb"
+                  }
+                ],
+                "limit": 100,
+                "total": "1",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T19:06:32.576908+07:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "8",
+                "reserved_qty": "0",
+                "available_qty": "8"
+              },
+              "position": {
+                "lot_id": "06ed568d-e67b-4dcb-b9fe-6ffeb26b9ed5",
+                "size_code": "BF-089033d8-32",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "FGP-261005-B9189ADFD48E4CECA85DA6AD080A6FB7-CP6EBF089033d8-af508860",
+                "product_id": "e5a7784f-746d-4690-a1c6-e3b955460a5c",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-BF-089033d8",
+                "product_name": "CP6 E BF-089033d8",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-e2e03deb"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          },
+          {
+            "product": "59422d33-7923-44d5-a4ae-546ce25e3615",
+            "sku": "CP6-E-BF-089033d8",
+            "lot": "bb5e1031-e5b7-484b-815e-ddd354523f8f",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "bb5e1031-e5b7-484b-815e-ddd354523f8f",
+              "quality": "KNOWN",
+              "size_code": "BF-089033d8-31",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ESTIMATED",
+                "hpp_version": "5",
+                "calculated_at": "2026-10-05T19:06:32.219426+07:00",
+                "hpp_version_id": "f7ffd59d-9f17-44b1-bd74-5e7fba9b9e69"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "FGP-261005-B9189ADFD48E4CECA85DA6AD080A6FB7-CP6EBF089033d8-4d98f2a7",
+              "product_id": "59422d33-7923-44d5-a4ae-546ce25e3615",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-BF-089033d8",
+              "physical_qty": "5",
+              "product_name": "CP6 E BF-089033d8",
+              "reserved_qty": "0",
+              "available_qty": "5",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-e2e03deb",
+              "last_movement_at": "2026-10-05T19:04:49.273763+07:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "8051cdeb-8286-4f03-bf09-d3df943aa64f",
+                    "notes": "QC good output",
+                    "source_id": "4d98f2a7-a18c-4fe0-a8a4-28566136eff9",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "8",
+                    "qty_signed": "5",
+                    "physical_at": "2026-10-05T19:04:49.273763+07:00",
+                    "recorded_at": "2026-10-05T19:06:31.422521+07:00",
+                    "source_type": "QC_ITEM",
+                    "customer_name": null,
+                    "movement_type": "QC_GOOD",
+                    "physical_delta": "5",
+                    "reversal_of_id": null,
+                    "physical_balance": "5",
+                    "reserved_balance": "0",
+                    "available_balance": "5",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-e2e03deb"
+                  }
+                ],
+                "limit": 100,
+                "total": "1",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T19:06:32.590882+07:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "5",
+                "reserved_qty": "0",
+                "available_qty": "5"
+              },
+              "position": {
+                "lot_id": "bb5e1031-e5b7-484b-815e-ddd354523f8f",
+                "size_code": "BF-089033d8-31",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "FGP-261005-B9189ADFD48E4CECA85DA6AD080A6FB7-CP6EBF089033d8-4d98f2a7",
+                "product_id": "59422d33-7923-44d5-a4ae-546ce25e3615",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-BF-089033d8",
+                "product_name": "CP6 E BF-089033d8",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-e2e03deb"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          },
+          {
+            "product": "63d1e4ad-ae31-4e50-a375-a4f5cabdf27d",
+            "sku": "CP6-E-BF-089033d8",
+            "lot": "c9a576e3-4252-425b-afa6-becdb72acde5",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "c9a576e3-4252-425b-afa6-becdb72acde5",
+              "quality": "KNOWN",
+              "size_code": "BF-089033d8-34",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ESTIMATED",
+                "hpp_version": "3",
+                "calculated_at": "2026-10-05T19:06:32.219426+07:00",
+                "hpp_version_id": "8ffc8c0d-413a-44d0-bc98-f38aa9d642a1"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "RW-X04-DYE-615e646d6edd-7a94f62d",
+              "product_id": "63d1e4ad-ae31-4e50-a375-a4f5cabdf27d",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-BF-089033d8",
+              "physical_qty": "0",
+              "product_name": "CP6 E BF-089033d8",
+              "reserved_qty": "0",
+              "available_qty": "0",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-2fa3e8d8",
+              "last_movement_at": "2026-10-05T19:05:07.273763+07:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "f36c3006-4006-42ef-8ba0-5e0cc7a63411",
+                    "notes": "GOOD returned from rework",
+                    "source_id": "7a94f62d-4f22-4efa-889a-5ad1bcef7217",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "10",
+                    "qty_signed": "4",
+                    "physical_at": "2026-10-05T19:05:07.273763+07:00",
+                    "recorded_at": "2026-10-05T19:06:31.523045+07:00",
+                    "source_type": "REWORK_ORDER",
+                    "customer_name": null,
+                    "movement_type": "REWORK_IN",
+                    "physical_delta": "4",
+                    "reversal_of_id": null,
+                    "physical_balance": "4",
+                    "reserved_balance": "0",
+                    "available_balance": "4",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-2fa3e8d8"
+                  },
+                  {
+                    "id": "7c1ecdd4-4ede-490d-8cb0-325eaa1424fd",
+                    "notes": "SKU conversion OUT",
+                    "source_id": "3ef60df3-c988-46d5-93e1-2182d4a7ada5",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "11",
+                    "qty_signed": "-4",
+                    "physical_at": "2026-10-05T19:05:07.273763+07:00",
+                    "recorded_at": "2026-10-05T19:06:31.554238+07:00",
+                    "source_type": "PRODUCT_CONVERSION",
+                    "customer_name": null,
+                    "movement_type": "REBRAND_OUT",
+                    "physical_delta": "-4",
+                    "reversal_of_id": null,
+                    "physical_balance": "0",
+                    "reserved_balance": "0",
+                    "available_balance": "0",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-2fa3e8d8"
+                  }
+                ],
+                "limit": 100,
+                "total": "2",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T19:06:32.604712+07:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "0",
+                "reserved_qty": "0",
+                "available_qty": "0"
+              },
+              "position": {
+                "lot_id": "c9a576e3-4252-425b-afa6-becdb72acde5",
+                "size_code": "BF-089033d8-34",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "RW-X04-DYE-615e646d6edd-7a94f62d",
+                "product_id": "63d1e4ad-ae31-4e50-a375-a4f5cabdf27d",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-BF-089033d8",
+                "product_name": "CP6 E BF-089033d8",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-2fa3e8d8"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          },
+          {
+            "product": "356dd830-0c4a-461b-950e-279f1ea20f06",
+            "sku": "CP6-E-BF-089033d8",
+            "lot": "e93d16ce-fef6-4b0d-9d4a-05f4ebacd122",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "e93d16ce-fef6-4b0d-9d4a-05f4ebacd122",
+              "quality": "KNOWN",
+              "size_code": "BF-089033d8-33",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ESTIMATED",
+                "hpp_version": "5",
+                "calculated_at": "2026-10-05T19:06:32.219426+07:00",
+                "hpp_version_id": "e9ef4600-a0fb-46a2-81b2-2d8dedd1b176"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "FGP-261005-B9189ADFD48E4CECA85DA6AD080A6FB7-CP6EBF089033d8-013f0f19",
+              "product_id": "356dd830-0c4a-461b-950e-279f1ea20f06",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-BF-089033d8",
+              "physical_qty": "3",
+              "product_name": "CP6 E BF-089033d8",
+              "reserved_qty": "0",
+              "available_qty": "3",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-e2e03deb",
+              "last_movement_at": "2026-10-05T19:04:49.273763+07:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "d1afc18e-48ea-4919-87d4-0e261433cbe0",
+                    "notes": "QC good output",
+                    "source_id": "013f0f19-a253-43a1-b357-31f01543b5df",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "7",
+                    "qty_signed": "3",
+                    "physical_at": "2026-10-05T19:04:49.273763+07:00",
+                    "recorded_at": "2026-10-05T19:06:31.416831+07:00",
+                    "source_type": "QC_ITEM",
+                    "customer_name": null,
+                    "movement_type": "QC_GOOD",
+                    "physical_delta": "3",
+                    "reversal_of_id": null,
+                    "physical_balance": "3",
+                    "reserved_balance": "0",
+                    "available_balance": "3",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-e2e03deb"
+                  }
+                ],
+                "limit": 100,
+                "total": "1",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T19:06:32.61894+07:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "3",
+                "reserved_qty": "0",
+                "available_qty": "3"
+              },
+              "position": {
+                "lot_id": "e93d16ce-fef6-4b0d-9d4a-05f4ebacd122",
+                "size_code": "BF-089033d8-33",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "FGP-261005-B9189ADFD48E4CECA85DA6AD080A6FB7-CP6EBF089033d8-013f0f19",
+                "product_id": "356dd830-0c4a-461b-950e-279f1ea20f06",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-BF-089033d8",
+                "product_name": "CP6 E BF-089033d8",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-e2e03deb"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          },
+          {
+            "product": "11ad7b9a-bf57-4786-aafd-568a47b3f40c",
+            "sku": "CP6-E-X04-DYE-09311611",
+            "lot": "f3c54fb9-b48a-476d-be2f-045f7c1799f1",
+            "location": "c8c20000-0000-4000-8000-000000000001",
+            "grade": "GRADE_A",
+            "row": {
+              "lot_id": "f3c54fb9-b48a-476d-be2f-045f7c1799f1",
+              "quality": "KNOWN",
+              "size_code": "BF-089033d8-34",
+              "valuation": {
+                "basis": "CURRENT_RESTATED_LOT_VALUE",
+                "state": "UNKNOWN",
+                "value": null,
+                "unit_cost": null,
+                "cost_state": "ADJUSTED",
+                "hpp_version": "3",
+                "calculated_at": "2026-10-05T19:06:32.219426+07:00",
+                "hpp_version_id": "2536982a-09ce-4495-9fdc-27f335381903"
+              },
+              "brand_name": "CP6 Race Brand",
+              "lot_number": "BE-3ef60df3-c988-46d5-93e1-2182d4a7ada5-c9a576e3-dfb8a6",
+              "product_id": "11ad7b9a-bf57-4786-aafd-568a47b3f40c",
+              "location_id": "c8c20000-0000-4000-8000-000000000001",
+              "product_sku": "CP6-E-X04-DYE-09311611",
+              "physical_qty": "3",
+              "product_name": "CP6 E X04-DYE-09311611",
+              "reserved_qty": "0",
+              "available_qty": "3",
+              "location_name": "CP6 Race FG",
+              "quality_grade": "GRADE_A",
+              "commercial_sku": "BF-SKU-b1403d38",
+              "last_movement_at": "2026-10-05T19:05:13.273763+07:00"
+            },
+            "card": {
+              "page": {
+                "rows": [
+                  {
+                    "id": "386b4744-0e45-4da9-9831-c8832c7caf1f",
+                    "notes": "SKU conversion IN",
+                    "source_id": "3ef60df3-c988-46d5-93e1-2182d4a7ada5",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "12",
+                    "qty_signed": "4",
+                    "physical_at": "2026-10-05T19:05:07.273763+07:00",
+                    "recorded_at": "2026-10-05T19:06:31.554851+07:00",
+                    "source_type": "PRODUCT_CONVERSION",
+                    "customer_name": null,
+                    "movement_type": "REBRAND_IN",
+                    "physical_delta": "4",
+                    "reversal_of_id": null,
+                    "physical_balance": "4",
+                    "reserved_balance": "0",
+                    "available_balance": "4",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-82728c33"
+                  },
+                  {
+                    "id": "cfd7d30e-07c5-48b0-a86b-3eee387848b2",
+                    "notes": "Sale posted \u00b7 quantity reserved in Draft; HPP frozen at POST",
+                    "source_id": "1b4b8a6f-eca6-4e9d-a12a-f38a51a70db9",
+                    "valuation": {
+                      "basis": "CURRENT_RESTATED_MOVEMENT_SNAPSHOT",
+                      "state": "UNKNOWN",
+                      "unit_cost": null
+                    },
+                    "book_order": "13",
+                    "qty_signed": "-1",
+                    "physical_at": "2026-10-05T19:05:13.273763+07:00",
+                    "recorded_at": "2026-10-05T19:06:31.588575+07:00",
+                    "source_type": "SALE_ITEM",
+                    "customer_name": "CP6 E BFC-96b7ee95 customer",
+                    "movement_type": "SALE",
+                    "physical_delta": "-1",
+                    "reversal_of_id": null,
+                    "physical_balance": "3",
+                    "reserved_balance": "0",
+                    "available_balance": "3",
+                    "reservation_delta": "0",
+                    "commercial_sku_at_transaction": "BF-SKU-82728c33"
+                  }
+                ],
+                "limit": 100,
+                "total": "2",
+                "offset": 0,
+                "next_offset": null
+              },
+              "purpose": "CARD",
+              "read_at": "2026-10-05T19:06:32.646268+07:00",
+              "balances": {
+                "quality": "KNOWN",
+                "physical_qty": "3",
+                "reserved_qty": "0",
+                "available_qty": "3"
+              },
+              "position": {
+                "lot_id": "f3c54fb9-b48a-476d-be2f-045f7c1799f1",
+                "size_code": "BF-089033d8-34",
+                "brand_name": "CP6 Race Brand",
+                "lot_number": "BE-3ef60df3-c988-46d5-93e1-2182d4a7ada5-c9a576e3-dfb8a6",
+                "product_id": "11ad7b9a-bf57-4786-aafd-568a47b3f40c",
+                "location_id": "c8c20000-0000-4000-8000-000000000001",
+                "product_sku": "CP6-E-X04-DYE-09311611",
+                "product_name": "CP6 E X04-DYE-09311611",
+                "location_name": "CP6 Race FG",
+                "quality_grade": "GRADE_A",
+                "commercial_sku": "BF-SKU-b1403d38"
+              },
+              "knowledge": "CURRENT",
+              "balance_basis": "COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE",
+              "contract_version": "cp7.fg-ledger.v1",
+              "financial_captured": true
+            },
+            "pending_laundry": false
+          }
+        ],
+        "full_X04_acceptance": false,
+        "production_go": false,
+        "independent_acceptance": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        }
+      }
+    },
+    "final": {
+      "F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE": "PASS",
+      "F03_X04_REDYE_GROUP_INVOICE_SOLD_INVERSE": "PASS"
+    }
+  },
+  "exact_public_difference_cause": "UNPROVED: the first per-case raw public catalogs were not retained. Never infer that this first failure was only ordering.",
+  "next_qualification": "Use the existing comparator that sorts every original function signature/hash pair and keeps every other field, with full raw before/after catalogs and all8 read-only preservation controls. Do not modify production code, cases, numerical/financial oracles, counts, cleanup or restoration gates.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "selected_complete_Original_roots": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "CRC32": "a2b4de5a",
+      "retained": "ALIGNED_CHAIN.json.gz",
+      "retained_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    {
+      "name": "CP7_F03_REDYE.json",
+      "bytes": 329307,
+      "sha256": "4914b7a9d8a4c53a0d6a6fc7c8c4c79752c664fa540ce01aa715991411c5cade",
+      "CRC32": "e8633c62",
+      "retained": "CP7_F03_REDYE.json.gz",
+      "retained_sha256": "50995a3c6355873d540235b70f66127a15aa1b84d23fdca2197d3c2e5b0c00fd"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "a1ae64b47081b10355a708e66dd3d292f9c03909401e998d9c4091c762f95010",
+      "CRC32": "d54f01fb",
+      "retained": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "retained_sha256": "b8c72671fb1c164e92e4b62b3eb55f317eec583b551edb4ffaad1c79bb87cd05"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "CRC32": "cfb01269",
+      "retained": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "retained_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360426,
+      "sha256": "5ab3a530a915f14ac148ddf525cbec6ea489bc784334b38a212ffc6756d42518",
+      "CRC32": "f8a868b7",
+      "retained": "T3_PACKAGE_INSTALL.json.gz",
+      "retained_sha256": "030aa779207304892d315ff771d4e59a85912d7ab576ccceb867be570d6ea748"
+    }
+  ],
+  "all_zip_members": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "CRC32": "a2b4de5a"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981",
+      "CRC32": "046ee9c1"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385621,
+      "sha256": "c48716ebe0ad72b8cfb09ce9d219469e0026045603eb966e76ef35743d17031f",
+      "CRC32": "6eade237"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2",
+      "CRC32": "3c2aa92b"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385621,
+      "sha256": "c48716ebe0ad72b8cfb09ce9d219469e0026045603eb966e76ef35743d17031f",
+      "CRC32": "6eade237"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "sha256": "5048e57f87fc9c61f42f377b4f7c8ad1fea1bbfd672c1686a7d69bffde2704f4",
+      "CRC32": "f179bcfe"
+    },
+    {
+      "name": "CP7_F03_REDYE.json",
+      "bytes": 329307,
+      "sha256": "4914b7a9d8a4c53a0d6a6fc7c8c4c79752c664fa540ce01aa715991411c5cade",
+      "CRC32": "e8633c62"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "a1ae64b47081b10355a708e66dd3d292f9c03909401e998d9c4091c762f95010",
+      "CRC32": "d54f01fb"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "CRC32": "cfb01269"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360426,
+      "sha256": "5ab3a530a915f14ac148ddf525cbec6ea489bc784334b38a212ffc6756d42518",
+      "CRC32": "f8a868b7"
+    },
+    {
+      "name": "X04_REDYE_FG_DESKTOP.png",
+      "bytes": 956174,
+      "sha256": "d190055e5fa2d4f904a331c312ddb308efeafe8d8750b17e5d11b4de581239e8",
+      "CRC32": "139d219a"
+    },
+    {
+      "name": "X04_REDYE_FG_MOBILE.png",
+      "bytes": 529403,
+      "sha256": "1425e4257991e4df22a7dc8a19669141e7dd33430f29113b1d8cefcfb6437fec",
+      "CRC32": "300a068f"
+    },
+    {
+      "name": "X04_REDYE_REPORT_DESKTOP.png",
+      "bytes": 1794743,
+      "sha256": "7c2181e7aaea3dabbdc57cec0b7a88b2d2fa897d664ba69f5c73710adf66a654",
+      "CRC32": "af423e4c"
+    },
+    {
+      "name": "X04_REDYE_REPORT_MOBILE.png",
+      "bytes": 1319803,
+      "sha256": "b3a82a151f368af0c596cf82bff399e5edc481cef3fd1c3b4d28b0fc9f565b5e",
+      "CRC32": "955717e9"
+    }
+  ],
+  "raw_clone_SQL_not_exported": true,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

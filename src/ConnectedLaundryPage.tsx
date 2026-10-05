@@ -4,6 +4,8 @@ import {
   RotateCcw, Search, Send, ShieldCheck, Undo2, Waves,
 } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
+import { useTransactionSource } from './TransactionSourceNavigation'
+import type { TransactionDocument } from './transactionSource'
 import { SENSITIVE_ACTION_PERMISSION, hasPermission } from './auth/accessCatalog'
 import { Cp6ActionBlocked, Cp6PermissionNotice } from './Cp6PermissionNotice'
 import { CP6_BUSINESS_TIME_LABEL, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
@@ -17,6 +19,9 @@ import type { Json } from './types/database.preconnect'
 import { parseQuantityInput } from './quantityInput'
 import './connected-laundry-qc.css'
 import { Cp6Kpi } from './components/Cp6Kpi'
+import { isConnectedRuntime } from './config/runtime'
+import { useRetainedFormInput, useRetainedInput, type RetainedFormInput } from './useRetainedFormInput'
+import LaundryReceiptDependencies from './LaundryReceiptDependencies'
 
 const LaundryBdPanel = lazy(() => import('./LaundryBdPanel'))
 
@@ -40,18 +45,18 @@ const statusLabel: Record<string, string> = {
 }
 const status = (value: string) => statusLabel[value] ?? value.replaceAll('_', ' ')
 
-function SendLaundryForm({ workspace, writerLocked, canCreate, canPost, onAction }: {
-  workspace: LaundryQcWorkspace; writerLocked: boolean; canCreate: boolean; canPost: boolean; onAction: RunAction
+function SendLaundryForm({ workspace, writerLocked, canCreate, canPost, onAction, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canCreate: boolean; canPost: boolean; onAction: RunAction; inputs: RetainedFormInput
 }) {
-  const [batchId, setBatchId] = useState('')
-  const [vendorId, setVendorId] = useState('')
-  const [processId, setProcessId] = useState('')
-  const [targetColor, setTargetColor] = useState('')
-  const [physicalAt, setPhysicalAt] = useState('')
-  const [reason, setReason] = useState('')
-  const [notes, setNotes] = useState('')
+  const [batchId, setBatchId] = useRetainedInput(inputs, 'send.batchId', '')
+  const [vendorId, setVendorId] = useRetainedInput(inputs, 'send.vendorId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'send.processId', '')
+  const [targetColor, setTargetColor] = useRetainedInput(inputs, 'send.targetColor', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'send.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'send.reason', '')
+  const [notes, setNotes] = useRetainedInput(inputs, 'send.notes', '')
   const [confirmed, setConfirmed] = useState(false)
-  const [quantities, setQuantities] = useState<Record<string, string>>({})
+  const [quantities, setQuantities] = useRetainedInput<Record<string, string>>(inputs, 'send.quantities', {})
   useEffect(() => setConfirmed(false), [workspace])
   const actionAllowed = canCreate && canPost
   const actionLocked = writerLocked || !actionAllowed
@@ -209,22 +214,22 @@ export function LaundryBsProductSelector({ sourceId, modelId, sizeId, sizeCode, 
   </div>
 }
 
-function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction, searchProducts }: {
+function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction, searchProducts, inputs }: {
   workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction
-  searchProducts: SearchLaundryBsProducts
+  searchProducts: SearchLaundryBsProducts; inputs: RetainedFormInput
 }) {
   const candidates = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
     && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs === 0)
   const blockedByClaim = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
     && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs > 0).length
-  const [deliveryId, setDeliveryId] = useState('')
-  const [processId, setProcessId] = useState('')
-  const [physicalAt, setPhysicalAt] = useState('')
-  const [reason, setReason] = useState('')
+  const [deliveryId, setDeliveryId] = useRetainedInput(inputs, 'return.deliveryId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'return.processId', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'return.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'return.reason', '')
   const [confirmed, setConfirmed] = useState(false)
-  const [good, setGood] = useState<Record<string, string>>({})
-  const [bs, setBs] = useState<Record<string, string>>({})
-  const [products, setProducts] = useState<Record<string, string>>({})
+  const [good, setGood] = useRetainedInput<Record<string, string>>(inputs, 'return.good', {})
+  const [bs, setBs] = useRetainedInput<Record<string, string>>(inputs, 'return.bs', {})
+  const [products, setProducts] = useRetainedInput<Record<string, string>>(inputs, 'return.products', {})
   const [resolvedProducts, setResolvedProducts] = useState<Record<string, Cp6Product>>({})
   useEffect(() => setConfirmed(false), [workspace])
   const actionLocked = writerLocked || !canPost
@@ -294,18 +299,18 @@ function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction, searchP
 
 type FailedWashCustody = '' | 'RETRY_AT_VENDOR' | 'RETURN_UNPROCESSED'
 
-function FailedWashForm({ workspace, writerLocked, canPost, onAction }: {
-  workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction
+function FailedWashForm({ workspace, writerLocked, canPost, onAction, inputs }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction; inputs: RetainedFormInput
 }) {
   const candidates = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
     && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs === 0)
-  const [deliveryId, setDeliveryId] = useState('')
-  const [processId, setProcessId] = useState('')
-  const [custodyOutcome, setCustodyOutcome] = useState<FailedWashCustody>('')
-  const [physicalAt, setPhysicalAt] = useState('')
-  const [reason, setReason] = useState('')
+  const [deliveryId, setDeliveryId] = useRetainedInput(inputs, 'failed.deliveryId', '')
+  const [processId, setProcessId] = useRetainedInput(inputs, 'failed.processId', '')
+  const [custodyOutcome, setCustodyOutcome] = useRetainedInput<FailedWashCustody>(inputs, 'failed.custodyOutcome', '')
+  const [physicalAt, setPhysicalAt] = useRetainedInput(inputs, 'failed.physicalAt', '')
+  const [reason, setReason] = useRetainedInput(inputs, 'failed.reason', '')
   const [confirmed, setConfirmed] = useState(false)
-  const [quantities, setQuantities] = useState<Record<string, string>>({})
+  const [quantities, setQuantities] = useRetainedInput<Record<string, string>>(inputs, 'failed.quantities', {})
   useEffect(() => setConfirmed(false), [workspace])
   const actionLocked = writerLocked || !canPost
   const delivery = candidates.find((row) => row.delivery_id === deliveryId) ?? null
@@ -377,22 +382,23 @@ function FailedWashForm({ workspace, writerLocked, canPost, onAction }: {
   </section>
 }
 
-function LaundryHistory({ workspace, writerLocked, canReverse, onAction }: {
-  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction
+function LaundryHistory({ workspace, writerLocked, canReverse, onAction, inputs, source, current }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction; inputs: RetainedFormInput; source: TransactionDocument | null; current: boolean
 }) {
-  const [reasons, setReasons] = useState<Record<string, string>>({})
+  const [reasons, setReasons] = useRetainedInput<Record<string, string>>(inputs, 'history.reasons', {})
   const setReason = (key: string, value: string) => setReasons((current) => ({ ...current, [key]: value }))
   return <section className="clq-history">
     <header><History/><div><span>RIWAYAT TRANSAKSI</span><h2>Dokumen tidak dihapus; kesalahan dibalik dengan catatan baru</h2></div></header>
     <Cp6ActionBlocked allowed={canReverse} action="koreksi riwayat Laundry" requirement="izin Reverse Laundry"/>
-    {workspace.deliveries.length === 0 ? <div className="clq-empty"><History/><strong>Belum ada pengiriman CP6</strong><small>Data lama yang belum punya hubungan lengkap tetap dipisahkan dan tidak ditebak.</small></div> : workspace.deliveries.map((delivery) => <article key={delivery.delivery_id}>
+    {workspace.deliveries.length === 0 ? <div className="clq-empty"><History/><strong>Belum ada pengiriman CP6</strong><small>Data lama yang belum punya hubungan lengkap tetap dipisahkan dan tidak ditebak.</small></div> : workspace.deliveries.map((delivery) => <article key={delivery.delivery_line_id} data-laundry-delivery-id={delivery.delivery_id} data-source-focus={delivery.delivery_id === source?.id ? 'true' : undefined}>
+      {delivery.delivery_id === source?.id ? <strong>Pengiriman asal dari transaksi produksi</strong> : null}
       <header><div><small>{formatCp6WibDateTime(delivery.physical_at)} · versi {delivery.row_version}</small><strong>{delivery.delivery_number} · {delivery.vendor_name}</strong><span>{delivery.po_number} · {delivery.group_number} · Batch {delivery.batch_no} · {delivery.qty_sent_pcs} pcs</span></div><em>{delivery.returned_unprocessed_qty_pcs > 0 ? 'Kembali tanpa proses' : status(delivery.status)}</em></header>
       <div className="clq-history-facts"><span><small>GOOD / BS KEMBALI</small><b>{delivery.returned_qty_pcs}</b></span><span><small>KEMBALI TANPA PROSES</small><b>{delivery.returned_unprocessed_qty_pcs}</b></span><span><small>MASIH DI VENDOR</small><b>{delivery.physical_outstanding_qty_pcs}</b></span><span><small>KLAIM AKTIF</small><b>{delivery.active_claim_qty_pcs}</b></span><span><small>TARIF SAAT DIKIRIM</small><b>{delivery.estimated_rate_snapshot === null ? 'Belum diketahui' : money(delivery.estimated_rate_snapshot)}</b></span></div>
       {delivery.receipts.map((receipt) => {
         const failedAttempt = receipt.event_kind === 'FAILED_WASH_ATTEMPT'
         const custody = receipt.custody_outcome === 'RETURN_UNPROCESSED'
           ? 'seluruh fisik kembali tanpa diproses' : 'fisik tetap di vendor'
-        return <div className="clq-reversal" key={receipt.id}><span><small>{receipt.number} · versi {receipt.row_version}</small><strong>{failedAttempt ? `Cuci gagal berbayar · ${custody}` : 'Penerimaan fisik'} · {status(receipt.status)} · {formatCp6WibDateTime(receipt.physical_at)}</strong>{failedAttempt ? <small>{receipt.attempted_qty_pcs} pcs · {receipt.process_name} · tarif {receipt.actual_rate === null ? 'tidak ada' : money(receipt.actual_rate)} · biaya {receipt.actual_cost === null ? 'tidak ada' : money(receipt.actual_cost)}</small> : null}<small>{receipt.reversal_blocker ?? (failedAttempt && receipt.custody_outcome === 'RETURN_UNPROCESSED' ? 'Biaya dapat dibalik; fakta fisik kembali tetap dipertahankan.' : 'Siap dibalik secara authoritative.')}</small></span><input aria-label={`Alasan reversal ${receipt.number}`} value={reasons[receipt.id] ?? ''} disabled={writerLocked || !canReverse || !receipt.reversible} onChange={(event) => setReason(receipt.id, event.target.value)} placeholder="Alasan pembatalan · wajib"/><button disabled={writerLocked || !canReverse || !receipt.reversible || (reasons[receipt.id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_RECEIPT', { receipt_id: receipt.id, reason: reasons[receipt.id].trim() }, receipt.row_version, () => setReason(receipt.id, ''))}><Undo2/> {failedAttempt ? 'Batalkan biaya attempt' : 'Batalkan penerimaan'}</button></div>
+        return <div className="clq-reversal" key={receipt.id} data-laundry-receipt-id={receipt.id} data-source-focus={delivery.delivery_id === source?.id && receipt.id === source?.focus?.id ? 'true' : undefined}><span>{delivery.delivery_id === source?.id && receipt.id === source?.focus?.id ? <strong>Penerimaan asal yang dipilih</strong> : null}<small>{receipt.number} · versi {receipt.row_version}</small><strong>{failedAttempt ? `Cuci gagal berbayar · ${custody}` : 'Penerimaan fisik'} · {status(receipt.status)} · {formatCp6WibDateTime(receipt.physical_at)}</strong>{failedAttempt ? <small>{receipt.attempted_qty_pcs} pcs · {receipt.process_name} · tarif {receipt.actual_rate === null ? 'tidak ada' : money(receipt.actual_rate)} · biaya {receipt.actual_cost === null ? 'tidak ada' : money(receipt.actual_cost)}</small> : null}<small>{receipt.reversal_blocker ?? (failedAttempt && receipt.custody_outcome === 'RETURN_UNPROCESSED' ? 'Biaya dapat dibalik; fakta fisik kembali tetap dipertahankan.' : 'Siap dibalik secara authoritative.')}</small>{!failedAttempt && receipt.status === 'POSTED' && !receipt.reversible ? <LaundryReceiptDependencies receiptId={receipt.id} receiptNumber={receipt.number} receiptRevision={receipt.row_version} current={current}/>: null}</span><input aria-label={`Alasan reversal ${receipt.number}`} value={reasons[receipt.id] ?? ''} disabled={writerLocked || !canReverse || !receipt.reversible} onChange={(event) => setReason(receipt.id, event.target.value)} placeholder="Alasan pembatalan · wajib"/><button disabled={writerLocked || !canReverse || !receipt.reversible || (reasons[receipt.id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_RECEIPT', { receipt_id: receipt.id, reason: reasons[receipt.id].trim() }, receipt.row_version, () => setReason(receipt.id, ''))}><Undo2/> {failedAttempt ? 'Batalkan biaya attempt' : 'Batalkan penerimaan'}</button></div>
       })}
       <div className="clq-reversal"><span><small>{delivery.returned_unprocessed_qty_pcs > 0 ? 'FAKTA FISIK SUDAH DIKEMBALIKAN' : 'GAGAL CUCI TANPA TAGIHAN'}</small><strong>{delivery.returned_unprocessed_qty_pcs > 0 ? 'Histori pengiriman lama tetap disimpan; kirim ulang dengan dokumen baru' : 'Batalkan surat kirim, lalu buat pengiriman baru'}</strong><small>{delivery.reversal_blocker ?? 'Siap dibalik secara authoritative.'}</small></span><input aria-label={`Alasan reversal ${delivery.delivery_number}`} value={reasons[delivery.delivery_id] ?? ''} disabled={writerLocked || !canReverse || !delivery.reversible} onChange={(event) => setReason(delivery.delivery_id, event.target.value)} placeholder="Bukti seluruh barang kembali"/><button disabled={writerLocked || !canReverse || !delivery.reversible || (reasons[delivery.delivery_id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_DELIVERY', { delivery_id: delivery.delivery_id, reason: reasons[delivery.delivery_id].trim() }, delivery.row_version, () => setReason(delivery.delivery_id, ''))}><RotateCcw/> Batalkan pengiriman</button></div>
     </article>)}
@@ -400,18 +406,28 @@ function LaundryHistory({ workspace, writerLocked, canReverse, onAction }: {
 }
 
 export default function ConnectedLaundryPage() {
-  const { identity } = useAuth()
+  const source = useTransactionSource('LAUNDRY')
+  return <LaundryWorkspace key={source?.key ?? 'menu'} initialSource={source?.document ?? null}/>
+}
+
+function LaundryWorkspace({ initialSource }: { initialSource: TransactionDocument | null }) {
+  const { runtime, identity } = useAuth()
   const access = identity.status === 'AUTHORIZED' ? identity : null
   const canCreate = hasPermission(access, 'production.laundry.create')
   const canPost = hasPermission(access, SENSITIVE_ACTION_PERMISSION.postLaundry)
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseLaundry)
   const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
-  const bridge = useLaundryQcWorkspace('LAUNDRY')
+  const bridge = useLaundryQcWorkspace('LAUNDRY', initialSource?.number ?? '')
+  const inputScope = JSON.stringify([isConnectedRuntime(runtime) ? runtime.projectRef : null,
+    access?.profile.id, access?.profile.authUserId, access?.profile.rowVersion, access?.profile.roleRowVersion, access?.permissions])
+  const inputs = useRetainedFormInput(inputScope, bridge.committedSequence)
   const collectionTruncated = Boolean(bridge.workspace && (
     bridge.workspace.collection_window.ready_batches_truncated
     || bridge.workspace.collection_window.deliveries_truncated
   ))
-  const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY' | 'PRICING'>('SEND')
+  const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY' | 'PRICING'>(initialSource ? 'HISTORY' : 'SEND')
+  const sourcePresent = !initialSource || Boolean(bridge.workspace?.deliveries.some(row => row.delivery_id === initialSource.id
+    && (!initialSource.focus || row.receipts.some(receipt => receipt.id === initialSource.focus?.id))))
   // CP6-06 (M:3825, unknown is not zero): without a loaded workspace every KPI stays unknown instead of 0.
   const kpis = useMemo(() => bridge.workspace ? {
     ready: totalReadyToSend(bridge.workspace.ready_batches),
@@ -445,10 +461,11 @@ export default function ConnectedLaundryPage() {
     {/* The pricing tab reads its own workspace; a Laundry/QC read that failed or is still loading only locks its priced-send section. */}
     {tab === 'PRICING' ? <Suspense fallback={<div className="clq-loading"><LoaderCircle className="spin"/> Memuat harga laundry…</div>}><LaundryBdPanel laundry={bridge.workspace ?? null} onPosted={() => void bridge.load()}/></Suspense>
       : bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
-      {tab === 'SEND' ? <SendLaundryForm key={`send-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canCreate={canCreate} canPost={canPost} onAction={onAction}/> : null}
-      {tab === 'RETURN' ? <ReturnLaundryForm key={`return-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchLaundryBsProducts}/> : null}
-      {tab === 'FAILED' ? <FailedWashForm key={`failed-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
-      {tab === 'HISTORY' ? <LaundryHistory workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
+      {tab === 'SEND' ? <SendLaundryForm key={`send-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canCreate={canCreate} canPost={canPost} onAction={onAction}/> : null}
+      {tab === 'RETURN' ? <ReturnLaundryForm key={`return-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction} searchProducts={bridge.searchLaundryBsProducts}/> : null}
+      {tab === 'FAILED' ? <FailedWashForm key={`failed-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
+      {initialSource && !sourcePresent ? <p role="alert">Pengiriman atau penerimaan asal belum ditemukan pada hasil terbaru. Buka ulang sumber produksi sebelum membatalkannya.</p> : null}
+      {tab === 'HISTORY' ? <LaundryHistory key={`history-${inputScope}-${bridge.committedSequence}`} inputs={inputs} workspace={bridge.workspace} writerLocked={bridge.writerLocked || !sourcePresent} canReverse={canReverse} onAction={onAction} source={initialSource} current={!bridge.loading && !bridge.workspaceStale && !bridge.busy && !bridge.pending && sourcePresent}/> : null}
     </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}
     <section className="clq-rare-case"><AlertTriangle/><div><strong>Jangan campur dua kejadian cuci gagal.</strong><p>Tanpa tagihan: batalkan surat kirim setelah seluruh fisik kembali. Dengan tagihan: gunakan “Cuci gagal berbayar”; setiap attempt punya biaya sendiri, sementara posisi fisik tetap dicatat terpisah dan tidak pernah dibuat menjadi Good/BS palsu.</p></div></section>
   </div>

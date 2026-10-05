@@ -1,0 +1,29 @@
+{
+  "both_images_pending_actual_view": false,
+  "source_commit": "43265e22b723073680a7b3b2acaf698770f8cf14",
+  "run_id": 37170190982,
+  "images": [
+    {
+      "file": "docs/cp7/evidence/supplier-payment-correction/qualified23-432/images/CP7_SUPPLIER_PAYMENT_CORRECTION_DESKTOP.png",
+      "Original_member": "CP7_SUPPLIER_PAYMENT_CORRECTION_DESKTOP.png",
+      "sha256": "e40773aa1b7df5aa47ba96f4b931634720b1c85d72440f483395a703c251a8b9",
+      "unedited_Original_retained": true,
+      "actually_viewed": true
+    },
+    {
+      "file": "docs/cp7/evidence/supplier-payment-correction/qualified23-432/images/CP7_SUPPLIER_PAYMENT_CORRECTION_MOBILE.png",
+      "Original_member": "CP7_SUPPLIER_PAYMENT_CORRECTION_MOBILE.png",
+      "sha256": "710a544c939c41c94264ac6c4cde39461683f0246eb94ac857303af2d109af1b",
+      "unedited_Original_retained": true,
+      "actually_viewed": true
+    }
+  ],
+  "desktop_actual_lost_committed_reply_same_UUID": true,
+  "mobile_lost_reply_not_executed": true,
+  "amount_original30_01_corrected20_01_restored30_01": true,
+  "Native_microseconds_effects_and_history_from_executed_assertions": true,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "review": "Both actual unedited images viewed: source-focused replacement and retained adjacent history; desktop and mobile columns fit their own viewport. Source amounts30.01\u219220.01\u219230.01 and Native assertions match the capture. Full-page fixed header/sidebar bands are retained Original."
+}

@@ -1,0 +1,294 @@
+{
+  "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "source_tree": "8186fba6c39ac9ad897026d2c1763ba3363789a0",
+  "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+  "run_id": 37108983720,
+  "job_id": 111163032156,
+  "artifact_id": 11269840381,
+  "archive_sha256": "06591e1f106ab19990cd8f332859a8d401288e85c2a038b426388d687f0fd8d4",
+  "archive_bytes": 8814873,
+  "original_sha256": "f333770995a04fca887ea856917701dc68b7c5fc1eb4c8648a9fc83a4d279002",
+  "package_original_sha256": "8783a6b2730f7525b5897a9aadb7328c44eb9d37f7361340bff0e966afd1eff2",
+  "status": "PASS",
+  "expected_case_count": 90,
+  "observed_case_count": 90,
+  "predeclared_groups": [
+    {
+      "key": "native",
+      "kind": "native",
+      "module": "cp7_nota_source_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 5
+    },
+    {
+      "key": "http",
+      "kind": "http",
+      "module": "cp7_nota_source_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "notes",
+      "kind": "native",
+      "module": "cp7_nota_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 7
+    },
+    {
+      "key": "note_races",
+      "kind": "races",
+      "module": "cp7_nota_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "note_http",
+      "kind": "http",
+      "module": "cp7_nota_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "admission_regression",
+      "kind": "http",
+      "module": "cp7_procurement_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p12_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "payroll_review",
+      "kind": "native",
+      "module": "cp7_settlement_read_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 4
+    },
+    {
+      "key": "payroll_review_http",
+      "kind": "http",
+      "module": "cp7_settlement_read_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "payroll_review_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p12_payroll_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "settlement",
+      "kind": "native",
+      "module": "cp7_settlement_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 7
+    },
+    {
+      "key": "settlement_races",
+      "kind": "races",
+      "module": "cp7_settlement_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 4
+    },
+    {
+      "key": "settlement_http",
+      "kind": "http",
+      "module": "cp7_settlement_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "settlement_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p12_settlement_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "attendance_read",
+      "kind": "native",
+      "module": "cp7_attendance_read_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 6
+    },
+    {
+      "key": "attendance_read_http",
+      "kind": "http",
+      "module": "cp7_attendance_read_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "attendance_read_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p12_attendance_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "roster",
+      "kind": "native",
+      "module": "cp7_roster_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 6
+    },
+    {
+      "key": "roster_races",
+      "kind": "races",
+      "module": "cp7_roster_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 3
+    },
+    {
+      "key": "roster_http",
+      "kind": "http",
+      "module": "cp7_roster_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "roster_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p12_roster_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "attendance_write",
+      "kind": "native",
+      "module": "cp7_attendance_write_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 10
+    },
+    {
+      "key": "attendance_write_races",
+      "kind": "races",
+      "module": "cp7_attendance_write_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 4
+    },
+    {
+      "key": "attendance_write_http",
+      "kind": "http",
+      "module": "cp7_attendance_write_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "attendance_write_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p12_attendance_write_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "opening_payroll",
+      "kind": "native",
+      "module": "cp7_opening_payroll_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 5
+    },
+    {
+      "key": "opening_payroll_races",
+      "kind": "races",
+      "module": "cp7_opening_payroll_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "opening_payroll_http",
+      "kind": "http",
+      "module": "cp7_opening_payroll_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "opening_payroll_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p12_opening_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p12_nota_probe.py",
+      "expected_executions": 2
+    }
+  ],
+  "private_role_count": 32,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "unique_scenario_total_claim": false
+}

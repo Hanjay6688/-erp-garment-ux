@@ -1,0 +1,18 @@
+{
+  "classification": "ACTUAL_NATIVE284_JOB_LOG_WITNESSES_NOT_YET_EXACT_ROOT_QUALIFICATION",
+  "source_commit": "a306938cd6bb33b2f231340d7e1b4a91397d1b9c",
+  "source_tree": "f0cfab314b3dbd84bf416829d60b684bee00cdf2",
+  "run_id": 37140634704,
+  "job_id": 111254173539,
+  "artifact_id": 11280926337,
+  "artifact_bytes": 353239084,
+  "artifact_sha256": "0e86a17763c5f7c29810acc30ce052afd3495c5f2d34846f9f5e337d0d0aeca5",
+  "original_log_raw_sha256": "9a7139d2764d3cb9ffe526eab9849bc14122c57283374b0b53c7a6221f7148f9",
+  "original_log_gzip_sha256": "c24f4f042b628fde504fa77c69c5af6e68d697e05e2c9e4db73ee4030f0b353f",
+  "actual_four_P17_witnesses_PASS": true,
+  "exact_Native284_root_inspection": "PENDING_READ_ONLY_PINNED_PROJECTION",
+  "new_unique_case_credit": 0,
+  "provider_outage_measured": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

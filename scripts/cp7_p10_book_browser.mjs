@@ -20,6 +20,14 @@ async function bookFlow(ui,today,mobile){
    await brand.locator('summary').click()
   }
   await chooseSource()
+  const beforeDisplay=fixture('read_book',f),sourceIds=await panel.locator('.cfgb-card').evaluateAll(rows=>rows.map(row=>row.getAttribute('data-movement-id')))
+  await panel.getByLabel(`Urutkan halaman buku mutasi ${book}`,{exact:true}).selectOption('LABEL_DESC')
+  await ui.expect(panel.locator('.cfgb-card').first()).toHaveAttribute('draggable','false')
+  for(const button of await panel.locator('.cfgb-card footer button').all())await ui.expect(button).toBeDisabled()
+  const afterDisplay=fixture('read_book',f);delete beforeDisplay.book.read_at;delete afterDisplay.book.read_at
+  if(JSON.stringify(afterDisplay)!==JSON.stringify(beforeDisplay))throw Error('Display sorting altered Native stored book or balances')
+  await panel.getByLabel(`Urutkan halaman buku mutasi ${book}`,{exact:true}).selectOption('SOURCE')
+  if(JSON.stringify(await panel.locator('.cfgb-card').evaluateAll(rows=>rows.map(row=>row.getAttribute('data-movement-id'))))!==JSON.stringify(sourceIds))throw Error('Standard display did not restore exact stored book order')
   if(!mobile)await p.evaluate(()=>{window.__bookDragEvents=[];for(const type of ['mousedown','mousemove','mouseup','dragstart','dragenter','dragover','drop','dragend'])document.addEventListener(type,e=>{const card=e.target.closest?.('[data-movement-id]');if(card)window.__bookDragEvents.push({type,id:card.getAttribute('data-movement-id'),prevented:e.defaultPrevented})})})
   const card=id=>panel.locator(`.cfgb-card[data-movement-id="${id}"]`)
   await ui.expect(card(f.sale).locator('.cfgb-balances>div').nth(0)).toContainText('15')

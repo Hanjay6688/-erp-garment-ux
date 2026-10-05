@@ -4,6 +4,7 @@ name: CP7 F03 P13 Retained Regression
     branches:
     - cp7/integration
     paths:
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_p13_period_browser.mjs
     - .github/workflows/cp7-f03-p13-regression.yml
 permissions:

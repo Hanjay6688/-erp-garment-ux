@@ -1,0 +1,27 @@
+{
+  "classification": "EXACT_COMPLETED_CI_LOG_ONLY_FULL_NATIVE_ORIGINAL_ROOTS_PENDING",
+  "source_commit": "cbdb02897798221f2bf8dc3eda37989a032551c8",
+  "source_tree": "925fa0e6593d9751d205a1fecfc1614b23fb4e23",
+  "run_id": 37152039101,
+  "job_id": 111287729441,
+  "artifact_id": 11285535114,
+  "archive_bytes": 347567084,
+  "archive_sha256": "0e1e1c549957e8ed1fa32fa3acb52a902f64a4cc1690c47122a03a9daf5e56e3",
+  "log_raw_bytes": 394794,
+  "log_raw_sha256": "2cf539db93ffe566747a98663d4a6f96eb54c0f897c2f0db780d52c90af0ec20",
+  "log_gzip_bytes": 63517,
+  "log_gzip_sha256": "b22c28a2f3edb24d0ada87e9fc3b93a4656bff769f19fe54de9b79aeab8df0d6",
+  "logged_runtime_status": "INCOMPLETE",
+  "logged_observed_case_count": 284,
+  "logged_failed_case_ids": [
+    "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+    "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+    "P14_BROWSER_MOBILE_SHARED_ANALYSIS"
+  ],
+  "Native_full284_credit": false,
+  "overflow_cause_closed": false,
+  "first_result_relabelled": false,
+  "full_CP7": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

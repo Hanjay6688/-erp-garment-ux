@@ -1,0 +1,177 @@
+{
+  "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "source_tree": "8186fba6c39ac9ad897026d2c1763ba3363789a0",
+  "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+  "run_id": 37108983720,
+  "job_id": 111163031920,
+  "artifact_id": 11269670336,
+  "archive_sha256": "c3ebfd300a8d34b426aebd8da7f1cb03fea55250bbd16fdecf7e77947aeaf28e",
+  "archive_bytes": 11403927,
+  "original_sha256": "4b8011bbc32477f35144d1af7d85a03ef6b4a3132011f8a3716a3f5bf5ab0a2f",
+  "package_original_sha256": "8783a6b2730f7525b5897a9aadb7328c44eb9d37f7361340bff0e966afd1eff2",
+  "status": "PASS",
+  "expected_case_count": 50,
+  "observed_case_count": 50,
+  "predeclared_groups": [
+    {
+      "key": "native",
+      "kind": "native",
+      "module": "cp7_finance_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "races",
+      "kind": "races",
+      "module": "cp7_finance_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "http",
+      "kind": "http",
+      "module": "cp7_finance_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p13_finance_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "period_native",
+      "kind": "native",
+      "module": "cp7_period_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "period_races",
+      "kind": "races",
+      "module": "cp7_period_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "period_http",
+      "kind": "http",
+      "module": "cp7_period_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "period_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p13_period_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "analysis_native",
+      "kind": "native",
+      "module": "cp7_finance_analysis_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "analysis_races",
+      "kind": "races",
+      "module": "cp7_finance_analysis_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "analysis_http",
+      "kind": "http",
+      "module": "cp7_finance_analysis_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "analysis_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p13_analysis_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "recost_native",
+      "kind": "native",
+      "module": "cp7_recost_cases",
+      "entry": "cases",
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 8
+    },
+    {
+      "key": "recost_races",
+      "kind": "races",
+      "module": "cp7_recost_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    },
+    {
+      "key": "recost_http",
+      "kind": "http",
+      "module": "cp7_recost_cases",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 1
+    },
+    {
+      "key": "recost_browser",
+      "kind": "browser",
+      "module": "scripts/cp7_p13_recost_browser.mjs",
+      "entry": null,
+      "smoke": false,
+      "retained_probe": "cp7_p13_finance_probe.py",
+      "expected_executions": 2
+    }
+  ],
+  "private_role_count": 32,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "unique_scenario_total_claim": false
+}

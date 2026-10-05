@@ -8,7 +8,7 @@ GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.g
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle() # The analysis bundle owns this extension.
 def verify(cur):
- expected={'analysis_source':('v','cp7_capture',True),'actual_source':('v','cp7_capture',True),'actual':('v','cp7_plan_writer',False),'access_now':('v','cp7_plan_writer',False),'fields':('i','cp7_plan_writer',False),'decimal':('i','cp7_plan_writer',False),'preflight':('v','cp7_plan_writer',False),'options':('v','cp7_plan_writer',False),'read':('v','cp7_plan_writer',False),'save':('v','cp7_plan_writer',False),'preview':('v','cp7_plan_writer',False),'apply':('v','cp7_plan_writer',False)}
+ expected={'analysis_source':('v','cp7_capture',True),'actual_source':('v','cp7_capture',True),'actual':('v','cp7_plan_writer',False),'access_now':('v','cp7_plan_writer',False),'fields':('i','cp7_plan_writer',False),'decimal':('i','cp7_plan_writer',False),'material_pool':('s','cp7_plan_writer',False),'preflight':('v','cp7_plan_writer',False),'options':('v','cp7_plan_writer',False),'read':('v','cp7_plan_writer',False),'save':('v','cp7_plan_writer',False),'preview':('v','cp7_plan_writer',False),'apply':('v','cp7_plan_writer',False)}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,p.provolatile,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_plan_native'").fetchall()
  assert len(rows)==len(expected),rows
  for sig,name,volatility,owner,definer,config in rows:
@@ -27,6 +27,7 @@ def verify(cur):
   triggers=cur.execute("select tgtype,tgenabled,tgfoid='cp7_private.immutable_run()'::regprocedure,tgnargs from pg_trigger where tgrelid=%s::regclass and not tgisinternal",(sig,)).fetchall()
   assert triggers==[(27,'O',True,0)],(sig,triggers)
   for who in('anon','authenticated','service_role'):assert not cur.execute('select has_table_privilege(%s,%s,\'SELECT,INSERT,UPDATE,DELETE\')',(who,sig)).fetchone()[0]
- for table in('erp.material_rolls','erp.material_stock_movements','erp.cutting_groups','erp.production_orders'):
+ for table in('erp.material_rolls','erp.material_stock_movements','erp.cutting_groups','erp.cutting_group_rolls','erp.production_orders'):
+  assert cur.execute("select has_table_privilege('cp7_plan_writer',%s,'SELECT')",(table,)).fetchone()[0]
   assert not cur.execute("select has_table_privilege('cp7_plan_writer',%s,'INSERT,UPDATE,DELETE')",(table,)).fetchone()[0]
  return dict(stage='ONE_NATIVE_SAVE_DRAFT_AND_LINKED_INTENT_ATOMIC_NO_RESERVATION_NO_POST',source_sha256=hashlib.sha256(bundle().encode()).hexdigest(),full_family_acceptance=False)

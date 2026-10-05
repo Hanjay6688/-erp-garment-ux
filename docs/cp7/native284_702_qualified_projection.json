@@ -1,0 +1,31 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "run_id": 37160029453,
+  "job_id": 111311382617,
+  "artifact_id": 11288087514,
+  "artifact_name": "cp7-f05-attention",
+  "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+  "source_tree": "38d54c989af9b0892bdfa367fe0674e745ad0cb0",
+  "source_bundle_sha256": "e6655a83f9514590467d0b31d2e710016ebe3944de67dd212de49926f3ee402f",
+  "zip_bytes": 356920436,
+  "zip_sha256": "726029a0b1fb61a2db9dc4e7bc96c27cecbf1093bd5846e6753f5c97d8499425",
+  "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+  "expected_status": "PASS",
+  "expected_case_count": 284,
+  "required_case_counts": {
+    "native": 179,
+    "races": 40,
+    "http": 29,
+    "browser": 36
+  },
+  "image_members": [
+    "P06_WORK_UNCERTAIN_DESKTOP.png",
+    "P06_WORK_UNCERTAIN_MOBILE.png",
+    "P06_NETTING93_DESKTOP.png",
+    "P06_NETTING93_MOBILE.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+    "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png"
+  ]
+}

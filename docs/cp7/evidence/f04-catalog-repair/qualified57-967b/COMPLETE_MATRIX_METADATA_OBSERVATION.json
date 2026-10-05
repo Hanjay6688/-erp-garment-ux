@@ -1,0 +1,443 @@
+{
+  "source_commit": "967b5087879ea6c076fa1d18574becef88ef4cbc",
+  "source_tree": "b4cf3aa16548920e1d959dcd60151b94913d2f67",
+  "scope": "EXACT54_CONFIGURED_WORKFLOW_METADATA_NOT_ALL_NATIVE_ORIGINALS_OR_FULL_CP7_ACCEPTANCE",
+  "observed_at": "2026-10-03T15:34:26.072Z",
+  "workflows": [
+    {
+      "id": 37130874579,
+      "name": "CP7 P00 accepted-base catalogue",
+      "path": ".github/workflows/cp7-p00.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874650,
+      "name": "CP7 F03 Combined Supplier Returns",
+      "path": ".github/workflows/cp7-f03-return-documents.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874676,
+      "name": "CP7 F04 Prospective Cutting Inputs",
+      "path": ".github/workflows/cp7-f04-cutting-inputs.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875046,
+      "name": "CP7 F03 E01 Source Journey",
+      "path": ".github/workflows/cp7-f03-e01.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874576,
+      "name": "CP7 P04 WIP kernels",
+      "path": ".github/workflows/cp7-p04-wip.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874631,
+      "name": "CP7 F03 E20 E14 Complete Stock Capacity",
+      "path": ".github/workflows/cp7-f03-capacity.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875061,
+      "name": "CP7 P12 Nota source",
+      "path": ".github/workflows/cp7-p12-nota-source.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874629,
+      "name": "CP7 Native Atomic Misc Correction",
+      "path": ".github/workflows/cp7-misc-correction.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874612,
+      "name": "CP7 P13 HPP recost",
+      "path": ".github/workflows/cp7-p13-recost.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874704,
+      "name": "CP7 F04 Native Profile and Baseline Targets",
+      "path": ".github/workflows/cp7-f04-baseline.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874820,
+      "name": "CP7 F03 Cash and Native Finance Readers",
+      "path": ".github/workflows/cp7-f03-cash.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874814,
+      "name": "CP7 Owning Receipt Correction",
+      "path": ".github/workflows/cp7-receipt-correction.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874703,
+      "name": "CP7 F03 P13 Retained Regression",
+      "path": ".github/workflows/cp7-f03-p13-regression.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874832,
+      "name": "CP7 P13 Finance",
+      "path": ".github/workflows/cp7-p13-finance.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874770,
+      "name": "CP7 F04 Native Planning Draft Bridge",
+      "path": ".github/workflows/cp7-f04-plan.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874892,
+      "name": "CP7 P09 Procurement",
+      "path": ".github/workflows/cp7-p09-procurement.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875296,
+      "name": "CP7 Shell S0",
+      "path": ".github/workflows/cp7-shell.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874776,
+      "name": "CP7 F03 Native Misc Finance",
+      "path": ".github/workflows/cp7-f03-misc.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875022,
+      "name": "CP7 F03 E05 Payroll Installments",
+      "path": ".github/workflows/cp7-f03-e05.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875308,
+      "name": "CP7 Note Command Diagnostic",
+      "path": ".github/workflows/cp7-note-command-diagnostic.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874989,
+      "name": "CP7 Native Transaction Source Navigation",
+      "path": ".github/workflows/cp7-transaction-source.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875035,
+      "name": "CP7 F04 Native Model Evaluation",
+      "path": ".github/workflows/cp7-f04-model.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875070,
+      "name": "CP7 F03 X04 Source Versions",
+      "path": ".github/workflows/cp7-f03-x04.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875056,
+      "name": "CP7 F04 Native Selected Production Schedule",
+      "path": ".github/workflows/cp7-f04-schedule.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875000,
+      "name": "CP7 P12 Nota and payroll lifecycle",
+      "path": ".github/workflows/cp7-p12-nota.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874920,
+      "name": "CP7 F04 Native Cutting Observations",
+      "path": ".github/workflows/cp7-f04-cutting-observations.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874970,
+      "name": "CP7 F03 X04 Paid Redye Continuation",
+      "path": ".github/workflows/cp7-f03-redye.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874809,
+      "name": "CP7 Owning Historical Note Correction",
+      "path": ".github/workflows/cp7-note-correction.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874774,
+      "name": "CP7 P13 Finance Analysis",
+      "path": ".github/workflows/cp7-p13-analysis.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875003,
+      "name": "CP7 F03 Supplier Current Authority",
+      "path": ".github/workflows/cp7-supplier-credit-authority.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874998,
+      "name": "CP7 F04 Global Native Production Supply",
+      "path": ".github/workflows/cp7-f04-supply.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874963,
+      "name": "CP7 P02 source capture probe",
+      "path": ".github/workflows/cp7-p02.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875014,
+      "name": "CP7 P10 Finished goods",
+      "path": ".github/workflows/cp7-p10-fg.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874985,
+      "name": "CP7 Completed Native Artifact Projection",
+      "path": ".github/workflows/cp7-native-artifact-projection.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874991,
+      "name": "CP7 F03 E03 Customer Service",
+      "path": ".github/workflows/cp7-f03-e03.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874950,
+      "name": "CP7 F03 Required Cost Continuations",
+      "path": ".github/workflows/cp7-f03-cost-continuation.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874698,
+      "name": "CP7 P18 E01 Consumer Bridge",
+      "path": ".github/workflows/cp7-p18-e01-bridge.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875038,
+      "name": "CP7 F03 Combined Stack",
+      "path": ".github/workflows/cp7-f03-combined.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874584,
+      "name": "CP7 F04 Prospective Native Cutting Model and Consumer",
+      "path": ".github/workflows/cp7-f04-cutting-model.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874864,
+      "name": "CP7 P11 Sales",
+      "path": ".github/workflows/cp7-p11-sales.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874856,
+      "name": "CP7 F03 E06 Year-end Late Invoice",
+      "path": ".github/workflows/cp7-f03-e06.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875080,
+      "name": "CP7 F03 Native Reservation and Size Planner Seams",
+      "path": ".github/workflows/cp7-f03-planner-seam.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875087,
+      "name": "CP7 Native Inactive Rule Lifecycle",
+      "path": ".github/workflows/cp7-rule-lifecycle.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875055,
+      "name": "CP7 Native Read Stage Diagnostic",
+      "path": ".github/workflows/cp7-native-read-diagnostic.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875042,
+      "name": "CP7 F04 Native Demand History",
+      "path": ".github/workflows/cp7-f04-history.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874959,
+      "name": "CP7 F03 E24 Material Issue",
+      "path": ".github/workflows/cp7-f03-e24-issue.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874951,
+      "name": "CP7 Retain Existing Native Originals",
+      "path": ".github/workflows/cp7-retain-existing-artifact.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874983,
+      "name": "CP7 P03 production policy",
+      "path": ".github/workflows/cp7-p03-identity.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874870,
+      "name": "CP7 F04 Native Product Bound Netting",
+      "path": ".github/workflows/cp7-f04-netting.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874868,
+      "name": "CP7 P13 Period control",
+      "path": ".github/workflows/cp7-p13-period.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874945,
+      "name": "CP7 P02 actor facade",
+      "path": ".github/workflows/cp7-p02-facade.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875111,
+      "name": "CP7 F05 Native Frozen Analysis",
+      "path": ".github/workflows/cp7-f05-analysis.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130875012,
+      "name": "CP7 F03 Full Retained Components",
+      "path": ".github/workflows/cp7-f03-full.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    },
+    {
+      "id": 37130874626,
+      "name": "CP7 F05 Native Durable Attention",
+      "path": ".github/workflows/cp7-f05-attention.yml",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "967b5087879ea6c076fa1d18574becef88ef4cbc"
+    }
+  ],
+  "Native_case_credit_from_metadata": 0,
+  "full_family_acceptance": false,
+  "production_go": false
+}

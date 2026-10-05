@@ -1,0 +1,22 @@
+{
+  "status": "PASS_LOCAL_DIAGNOSTIC_CONTROLS_ONLY_NATIVE_PENDING",
+  "base_head": "967b5087879ea6c076fa1d18574becef88ef4cbc",
+  "local_scope": "DECLARED_PGLITE_STANDINS_NOT_NATIVE_AUTH_POSTGREST_TIMER_PROOF",
+  "Native_product_qualification": false,
+  "Native_exit_case_credit": 0,
+  "note40_manifest_sha256_unchanged": "10e399faa375ea543c5edc7b29b7aef8c08ec97ffc0c72f1565e58d9562e89b2",
+  "source_sha256": {
+    "scripts/cp7_note_actual_http_diagnostic_cases.py": "748f67d45090a8676a7d334b8dc6c0545e269dc32fe7b22f5149183f288aa636",
+    "scripts/cp7_note_command_diagnostic_probe.py": "dcb1db326c3130d813d268ed4b6c7091e01628c971e4a334ab90b568b806d6e3",
+    "scripts/cp7_note_correction_probe.py": "653ab01814011c12c4955bfaaabb94c934e2588d28f556c91300a291622ab265",
+    ".github/workflows/cp7-note-command-diagnostic.yml": "b0009080bfdf2c22490cc06631bccc8f2c041d5f056baee9e217b56b83d0d8a7"
+  },
+  "retained_file_sha256": {
+    "LOCAL_CONTROLS.json": "4aa7606493d18afd6bdddccaba66dc565a3408525ad8b5ca2cbeb9947f16a224",
+    "controls-third.log": "85f9cc0a4f99c4a34f5cea6834c6b228d42203bc3c2ab61942cc590cd7d91af9",
+    "controls.mjs": "cce2e7456f5259e762620224039acccf01d70f0a027697aee12ff7826a3aefef",
+    "CP7_SQL_REACHABILITY.json": "296a4250ca6f7e4fbcec5898c4f0b36caeea8eb940b9f358930c6fe704b336a6",
+    "FIRST_LOCAL_FAILURE.json": "105c0627ad9e0a25d440be0f4b57d348dca4953d705aebdc654ae3b664d96ff2"
+  },
+  "production_go": false
+}

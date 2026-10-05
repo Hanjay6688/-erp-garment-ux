@@ -1,0 +1,256 @@
+{
+  "contract": "cp7.writer-resume-original-verification.v1",
+  "source_commit": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+  "source_tree": "fc01331793570c302db3083aae0107757131ee36",
+  "runtime_bundle_sha256": "55d8c4e25397f01c3c42e803069eda5218d3c087c19b4195ab7c079e8cb2fc6e",
+  "run_id": 37258209319,
+  "job_id": 111599681061,
+  "artifact_id": 11323911672,
+  "artifact_sha256": "bc47b5c505f572c520f98886ea91e728bef83ff1b5c2bd911498c0d3317115ce",
+  "artifact_bytes": 8070812,
+  "artifact_crc": "PASS",
+  "report": "CP7_F03_MISC_FINANCE.json",
+  "reported_status": "PASS",
+  "writer_qualified": true,
+  "expected_counts": {
+    "native": 9,
+    "races": 2,
+    "http": 1,
+    "browser": 2
+  },
+  "observed_counts": {
+    "native": 9,
+    "races": 2,
+    "http": 1,
+    "browser": 2
+  },
+  "observed_total": 14,
+  "planned_ids": {
+    "native": [
+      "F03_MISC_DRAFT_EXACT",
+      "F03_MISC_POST_ACCOUNTING",
+      "F03_MISC_INVERSE_DATES",
+      "F03_MISC_STALE_REVIEW",
+      "F03_MISC_FIELDS",
+      "F03_MISC_PROTECTED_ACCOUNTS",
+      "F03_MISC_REPLAY",
+      "F03_MISC_CURRENT_ACCESS_PRIVATE",
+      "F03_MISC_PAGES"
+    ],
+    "races": [
+      "F03_MISC_RACE_REPLAY",
+      "F03_MISC_RACE_CURRENT_REVOKE"
+    ],
+    "http": [
+      "F03_MISC_REAL_HTTP"
+    ],
+    "browser": [
+      "F03_MISC_BROWSER_DESKTOP_LOST_REPLY",
+      "F03_MISC_BROWSER_MOBILE_CURRENT_AUTH"
+    ]
+  },
+  "root_originals": "ORIGINAL_REPORTS.json.gz",
+  "root_originals_sha256": "b7f6e5c37fd452c0f2fd3e7b3f162cf38986fa672acacec5948a48e5bee6b49e",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CASH_LOCAL_TESTS.txt",
+      "bytes": 1448,
+      "crc32": "cfd0c57b",
+      "sha256": "b04e1c06bf5a59587fdee316facc8f9927445fdb11b80030ecdc897607a4d65d"
+    },
+    {
+      "name": "CASH_BUILD.txt",
+      "bytes": 11438,
+      "crc32": "66071613",
+      "sha256": "c13c41aeddf4d9793b3b45aed0f2e53f3590dcdd4702de0d295954ea3e67cbe8"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385620,
+      "crc32": "9c8f767f",
+      "sha256": "f31de5b397d6234ef0fe8fe7baef936f235858946271bda4334a5ad0aecc4fd0"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385620,
+      "crc32": "9c8f767f",
+      "sha256": "f31de5b397d6234ef0fe8fe7baef936f235858946271bda4334a5ad0aecc4fd0"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "87def944",
+      "sha256": "d082ee439594aa12879d2032fe7bc0d96ce436d7f9a78aba1967d212a70ec4f0"
+    },
+    {
+      "name": "CP7_F03_MISC_FINANCE.json",
+      "bytes": 731462,
+      "crc32": "54a9974d",
+      "sha256": "538a98918ae938472d266ad7161f39c3dac0a20ba665febf4f5a745106da5bea"
+    },
+    {
+      "name": "F03_MISC_PENDING_AR_DESKTOP.png",
+      "bytes": 358585,
+      "crc32": "eba7129f",
+      "sha256": "d3472b518a1b9d14d579084857fd944235cad4e195124909073be8bdc01dd8f3"
+    },
+    {
+      "name": "F03_MISC_PENDING_CASH_DESKTOP.png",
+      "bytes": 349988,
+      "crc32": "5a48d7c9",
+      "sha256": "f3948d2a515c9367786bf064bb5950197a1db6cb849ff132c426ca0dc87dc084"
+    },
+    {
+      "name": "F03_MISC_PENDING_OVERVIEW_DESKTOP.png",
+      "bytes": 276117,
+      "crc32": "522b6815",
+      "sha256": "14825be69f9569180810990e35ece0d8ede0a2891e34076f60ac6e66c3a23dc9"
+    },
+    {
+      "name": "F03_MISC_PENDING_REPORT_DESKTOP.png",
+      "bytes": 365913,
+      "crc32": "70f91e2e",
+      "sha256": "d919cf37d7426527e687ad23f4c61ddc5d2f7285854a6f1a663aabcf4a23c983"
+    },
+    {
+      "name": "F03_MISC_POSTED_DESKTOP.png",
+      "bytes": 1046841,
+      "crc32": "772fdbbd",
+      "sha256": "383e5b543b1ec847d170b4ce94e7c996712bbee340881aeabc4e7aa7c832b2c3"
+    },
+    {
+      "name": "F03_MISC_POSTED_MOBILE.png",
+      "bytes": 768343,
+      "crc32": "ce9133a2",
+      "sha256": "b904d1d4308fb69fc7c4c3b2841fa4fc88db0c979780fa3436efa2375720ac0b"
+    },
+    {
+      "name": "F03_MISC_RETIRED_DESKTOP.png",
+      "bytes": 576716,
+      "crc32": "7dde2069",
+      "sha256": "bf05c47a9f05612de706b7fa0741aa237dd5a7b766922fa99052587ee9fe3cc3"
+    },
+    {
+      "name": "F03_MISC_RETIRED_MOBILE.png",
+      "bytes": 339112,
+      "crc32": "b78fc605",
+      "sha256": "45dbd238347fb0a0fc38478babf4d4e5ccda1bd411f12fcf6c90cd0e287c3f55"
+    },
+    {
+      "name": "F03_MISC_REVERSED_DESKTOP.png",
+      "bytes": 1059647,
+      "crc32": "3cbdfea7",
+      "sha256": "09d7793def66186e79050fda223c18888ebb10cf8bd0900c1b9d126832bc531d"
+    },
+    {
+      "name": "F03_MISC_REVERSED_MOBILE.png",
+      "bytes": 794107,
+      "crc32": "4a653373",
+      "sha256": "ceb5fc7529d87efb7f0c33ee8f790052fb159ffb772b678b329b47395f25ab9a"
+    },
+    {
+      "name": "F03_MISC_UNCERTAIN_DESKTOP.png",
+      "bytes": 579984,
+      "crc32": "58b5520c",
+      "sha256": "9ceda2bcf10d6986a43429a806aa212cbb0038c852922ed6ae84065ecd6bd217"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "1f42c181",
+      "sha256": "e126b1edb4b78f2403a95ae4a909edc4c5571df0f26703875d97585b24877357"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360411,
+      "crc32": "d42f8e06",
+      "sha256": "2105d3d49fd59dc26b1a687596481ba40aabfab561014b009dd9b5b9722ceca8"
+    }
+  ],
+  "screenshots": [
+    "F03_MISC_PENDING_AR_DESKTOP.png",
+    "F03_MISC_PENDING_CASH_DESKTOP.png",
+    "F03_MISC_PENDING_OVERVIEW_DESKTOP.png",
+    "F03_MISC_PENDING_REPORT_DESKTOP.png",
+    "F03_MISC_POSTED_DESKTOP.png",
+    "F03_MISC_POSTED_MOBILE.png",
+    "F03_MISC_RETIRED_DESKTOP.png",
+    "F03_MISC_RETIRED_MOBILE.png",
+    "F03_MISC_REVERSED_DESKTOP.png",
+    "F03_MISC_REVERSED_MOBILE.png",
+    "F03_MISC_UNCERTAIN_DESKTOP.png"
+  ],
+  "original_source_identity": {
+    "label": "T3_PREP",
+    "tool_head": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+    "product_ref": "b2159f79a90beb2ad7e6bd06b1827468c1eb5a3a",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "37258209319",
+    "run_attempt": "1",
+    "workflow": "CP7 F03 Native Misc Finance",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "419369a6d89c4bef396868578bd0b7ef74eebd42",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "install"
+  },
+  "outer_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "catalog_verification": {
+    "raw_snapshots_retained": true,
+    "snapshots_checked": 20,
+    "original_canonical_hashes_recomputed": true,
+    "every_snapshot_full_state_equal": true,
+    "independent_read_only_sensitivity_controls_pass": true,
+    "dropped_fields": [],
+    "restoration_order_only_difference_independently_recomputed": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_cp7_acceptance": false,
+  "previous_failures_preserved": true
+}

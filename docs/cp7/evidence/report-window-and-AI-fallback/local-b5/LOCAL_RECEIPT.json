@@ -1,0 +1,44 @@
+{
+  "classification": "OFFLINE_DATE_AND_SOURCE_SYNTAX_CONTROLS_NOT_NATIVE_OR_BROWSER_PROOF",
+  "parent_source_commit": "b5b7da7bd1745ececfd0c2badcb659531f3cafbe",
+  "date_controls": 4,
+  "date_controls_result": {
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n"
+  },
+  "syntax": {
+    "scripts/cp7_f05_ai_browser.mjs": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "scripts/cp7_f05_ai_offline_browser.mjs": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  "all_original_combined_assertions_and_expected_delta_AST_preserved": true,
+  "original_other_functions_AST_preserved": [
+    "pick",
+    "races",
+    "http_cases"
+  ],
+  "all_four_browser_case_IDs_and_automatic_requirement_preserved": true,
+  "helper_has_caller_and_future_workflow_trigger": true,
+  "tested_sha256": {
+    "scripts/cp7_f03_cases.py": "add23adc7f4e20439f7eec37442c69e9df60a3da66ef7b6f2bf40dc2a4c90cae",
+    "scripts/cp7_native_fixture_window.py": "0cccf9af88f10e58d8ed4aa7b2eb401c29f5c860f29a833a44a8941362c2dbab",
+    "scripts/cp7_native_fixture_window_test.py": "c0a371db2ae696cea5d5687c3d88fcb21b51402135f81aa408358f5d0b555517",
+    "scripts/cp7_f05_ai_browser.mjs": "c29629abb5afec11e15c1db6a7d84ef89ecf2bef163b55282af18938be14acde",
+    "scripts/cp7_f05_ai_offline_browser.mjs": "96e94ec6e15324499d8595c9b2fc575b7877c6322084d17cb517a4eda341415b",
+    ".github/workflows/cp7-f05-attention.yml": "a4d4000f678b9f9489bb6439074db10f9812780b8067ac4c51b03a1cfcac262d"
+  },
+  "actual_Native22": "PENDING",
+  "actual_Native284_provider_fault": "PENDING",
+  "local_DOM_and_Chromium": "UNAVAILABLE_DEPENDENCIES_NOT_RESTORED",
+  "new_unique_Native_exit_credit": 0,
+  "full_P19_acceptance": false,
+  "production_go": false
+}

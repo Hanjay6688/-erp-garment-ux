@@ -1,0 +1,70 @@
+{
+  "classification": "LOCAL_READ_ONLY_TOOLING_CHECKS_NOT_NATIVE_EXECUTION",
+  "parent_source_commit": "07ddb3dbca4045769f948f663d64f104d27a37ed",
+  "candidate_not_yet_published": true,
+  "synthetic_controls": 12,
+  "six_actual_retained_receipts_verified": true,
+  "all641_python_modules_parse": true,
+  "tested_source_sha256": {
+    "scripts/cp7_verify_retained_originals.py": "eea6c2962c70d9b4c1e2f8f5b41293ef87d35a6b452850b0a70c314d609e137c",
+    "scripts/cp7_verify_retained_originals_test.py": "e9d258c59c30df9ddffb4f75f3fde5ea22d7428cd6d981ec370ef94c31403c2a",
+    ".github/workflows/cp7-native-artifact-projection.yml": "ac4589e1606d9e1ffccf3d7044c4a4196ace721f2183365107286318ed29c035"
+  },
+  "checks": {
+    "synthetic_corruption_controls": {
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": "............\n----------------------------------------------------------------------\nRan 12 tests in 0.006s\n\nOK\n"
+    },
+    "source_ownership": {
+      "exit_code": 0,
+      "stdout": "Source ownership passed: 256 runtime files, 187 owned RPC boundaries, no orphan or direct table access.\n",
+      "stderr": ""
+    },
+    "access_ownership": {
+      "exit_code": 0,
+      "stdout": "Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.\nAccess ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 187 browser RPC boundaries.\n",
+      "stderr": ""
+    },
+    "docs/cp7/evidence/f04-catalog-repair/qualified57-967b": {
+      "exit_code": 0,
+      "stdout": "{\"status\": \"VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY\", \"source_commit\": \"967b5087879ea6c076fa1d18574becef88ef4cbc\", \"source_tree\": \"b4cf3aa16548920e1d959dcd60151b94913d2f67\", \"original_run_id\": 37130874584, \"observed_case_count\": 57, \"groups\": {\"native\": 34, \"races\": 8, \"http\": 5, \"browser\": 10}, \"root_reports\": 5, \"diagnostic_only\": false, \"validation_new_Native_execution_credit\": 0, \"Native_database_access\": false, \"full_family_acceptance\": false, \"independent_acceptance\": false, \"production_go\": false}\n",
+      "stderr": ""
+    },
+    "docs/cp7/evidence/owning-note-correction/qualified40-967b": {
+      "exit_code": 0,
+      "stdout": "{\"status\": \"VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY\", \"source_commit\": \"967b5087879ea6c076fa1d18574becef88ef4cbc\", \"source_tree\": \"b4cf3aa16548920e1d959dcd60151b94913d2f67\", \"original_run_id\": 37130874809, \"observed_case_count\": 40, \"groups\": {\"native\": 28, \"races\": 4, \"http\": 3, \"browser\": 5}, \"root_reports\": 10, \"diagnostic_only\": false, \"validation_new_Native_execution_credit\": 0, \"Native_database_access\": false, \"full_family_acceptance\": false, \"independent_acceptance\": false, \"production_go\": false}\n",
+      "stderr": ""
+    },
+    "docs/cp7/evidence/transaction-source/qualified69-088f": {
+      "exit_code": 0,
+      "stdout": "{\"status\": \"VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY\", \"source_commit\": \"088f446c7c8955f6e9010e2d0282e51ca606fbbb\", \"source_tree\": \"6336e647afc25609e4afacdbf1bd2d8bce74cb79\", \"original_run_id\": 37128855655, \"observed_case_count\": 69, \"groups\": {\"native\": 38, \"races\": 4, \"http\": 9, \"browser\": 18}, \"root_reports\": 6, \"diagnostic_only\": false, \"validation_new_Native_execution_credit\": 0, \"Native_database_access\": false, \"full_family_acceptance\": false, \"independent_acceptance\": false, \"production_go\": false}\n",
+      "stderr": ""
+    },
+    "docs/cp7/evidence/note-actual-http-diagnostic/qualified2-07dd": {
+      "exit_code": 0,
+      "stdout": "{\"status\": \"VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY\", \"source_commit\": \"07ddb3dbca4045769f948f663d64f104d27a37ed\", \"source_tree\": \"209b5c835d9c5730e73e74df9fe5bda89f606573\", \"original_run_id\": 37134007452, \"observed_case_count\": 2, \"groups\": {\"native\": 1, \"http\": 1}, \"root_reports\": 5, \"diagnostic_only\": true, \"validation_new_Native_execution_credit\": 0, \"Native_database_access\": false, \"full_family_acceptance\": false, \"independent_acceptance\": false, \"production_go\": false}\n",
+      "stderr": ""
+    },
+    "docs/cp7/evidence/finisher-regression/qualified967b/analysis152": {
+      "exit_code": 0,
+      "stdout": "{\"status\": \"VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY\", \"source_commit\": \"967b5087879ea6c076fa1d18574becef88ef4cbc\", \"source_tree\": \"b4cf3aa16548920e1d959dcd60151b94913d2f67\", \"original_run_id\": 37130875111, \"observed_case_count\": 152, \"groups\": {\"native\": 106, \"races\": 20, \"http\": 12, \"browser\": 14}, \"root_reports\": 5, \"diagnostic_only\": false, \"validation_new_Native_execution_credit\": 0, \"Native_database_access\": false, \"full_family_acceptance\": false, \"independent_acceptance\": false, \"production_go\": false}\n",
+      "stderr": ""
+    },
+    "docs/cp7/evidence/finisher-regression/qualified967b/attention284": {
+      "exit_code": 0,
+      "stdout": "{\"status\": \"VERIFIED_QUALIFIED_ORIGINALS_RETENTION_ONLY\", \"source_commit\": \"967b5087879ea6c076fa1d18574becef88ef4cbc\", \"source_tree\": \"b4cf3aa16548920e1d959dcd60151b94913d2f67\", \"original_run_id\": 37130874626, \"observed_case_count\": 284, \"groups\": {\"native\": 179, \"races\": 40, \"http\": 29, \"browser\": 36}, \"root_reports\": 18, \"diagnostic_only\": false, \"validation_new_Native_execution_credit\": 0, \"Native_database_access\": false, \"full_family_acceptance\": false, \"independent_acceptance\": false, \"production_go\": false}\n",
+      "stderr": ""
+    }
+  },
+  "local_environment_limits": {
+    "Native_Postgres_qualification": false,
+    "css_check": "INCOMPLETE_DEPENDENCY_POSTCSS_NOT_RESTORED",
+    "sql_reachability_cli": "INCOMPLETE_PRIOR_P00_CATALOGUE_GZIP_NOT_RESTORED",
+    "actual_source69_SQL_reachability_Original": "docs/cp7/evidence/transaction-source/qualified69-088f/CP7_SQL_REACHABILITY.json.gz"
+  },
+  "Native_product_exit_case_credit": 0,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

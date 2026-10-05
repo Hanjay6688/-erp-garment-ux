@@ -1,0 +1,14 @@
+{
+  "status": "SECOND_INCOMPLETE_ORIGINAL_FAILURE_IMAGE_ACTUALLY_VIEWED",
+  "source": "e52b1df5294ec4001138b498a8379e47b3690318",
+  "run": 37152608958,
+  "job": 111289394536,
+  "image": "images/P06_NETTING_DESKTOP_FAILURE.png",
+  "image_sha256": "5d39f05929be56c9172b6ce0087ff0f421e79e38b8057d66a17764aa2901fc14",
+  "actual_visual_review": true,
+  "observation": "Unselected Native long target selects extend beyond the production panel; no netting result table exists at this first lost-save screenshot.",
+  "product_successor": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "fresh_layout_proof_pending": true,
+  "Original_status_unchanged": true,
+  "Native_credit_added": 0
+}

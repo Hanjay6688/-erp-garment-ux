@@ -1,0 +1,9 @@
+{
+  "source_commit": "c3fd484d1515ba8bc54bb86b4cd89572aab2a2e0",
+  "job_id": 111326940459,
+  "file": "ORIGINAL_CI_LOG.txt.gz",
+  "raw_bytes": 2402644,
+  "raw_sha256": "4e32706fb72c5913b64aa10e20a23ba7ef934515b103239a1489d7716e7e270f",
+  "gzip_sha256": "91ab28c309823208b0dd3fed2a57576110487650226feb175c58993676d2502b",
+  "full_log_retained_without_truncation": true
+}

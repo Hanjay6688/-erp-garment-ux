@@ -16,10 +16,13 @@ def apply(cur,p,key=None,subject=None):return rpc(cur,'erp_cp7_apply_plan_action
 def options(cur,q,subject=None):return rpc(cur,'erp_cp7_get_plan_options_v1',(json.dumps(q),),subject)
 def action(d,**changes):return dict(draft_id=d['draft_id'],expected_revision=d['revision'],explicit_review=True,reason='Explicit operator review: create unposted Native cutting draft only',**changes)
 def monetary_state(cur):
- values={}
- for table in('material_stock_movements','fg_stock_movements','journal_entries','journal_lines','materials'):
-  values[table]=cur.execute('select md5(coalesce(jsonb_agg(to_jsonb(x)order by id),\'[]\'::jsonb)::text)from erp.'+table+' x').fetchone()[0]
- return values
+ values={};zone=cur.execute("select current_setting('TimeZone')").fetchone()[0]
+ cur.execute("select set_config('TimeZone','UTC',true)")
+ try:
+  for table in('material_stock_movements','fg_stock_movements','journal_entries','journal_lines','materials'):
+   values[table]=cur.execute('select md5(coalesce(jsonb_agg(to_jsonb(x)order by id),\'[]\'::jsonb)::text)from erp.'+table+' x').fetchone()[0]
+  return values
+ finally:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
 def source_diagnostic(cur,run):
  stored=cur.execute('select actor,query,facts,dependency_hash from cp7_analysis_native.runs where id=%s',(run,)).fetchone()
  assert stored is not None
@@ -41,7 +44,7 @@ def setup(cur,today,subject=None,new_plan_po=False):
  # through the real receipt SAVE/POST before freezing the analysis dependencies;
  # never inject movements or assume that the production fixture left fabric.
  fabric=receipt.fixture(cur,today,qty='10',price='10')
- receipt.post(cur,receipt.command(cur,'SAVE_DRAFT',fabric['payload']))
+ source_receipt=receipt.post(cur,receipt.command(cur,'SAVE_DRAFT',fabric['payload']))
  if new_plan_po:
   # Master only, before freezing dependencies. A new two-piece plan must not
   # reuse the predecessor PO whose hundred pieces have already been sewn.
@@ -57,14 +60,90 @@ def setup(cur,today,subject=None,new_plan_po=False):
  loc=fabric['location']
  q=dict(run_id=original['run_id'],target_key=target,location_id=loc,po_query='',roll_query='',po_offset='0',roll_offset='0',pattern_offset='0',limit='50');o=options(cur,q,subject)
  assert o['orders']and o['patterns']and o['rolls']and D(o['needed_pcs'])>=2 and D(o['capacity_pcs'])>=2,o
- roll=next(x for x in o['rolls']if D(x['available'])>=1)
+ # Pin the exact newly posted ten-unit receipt at its unique location. Never
+ # borrow another roll or turn a seed balance into this scenario's source.
+ matching_rolls=[x for x in o['rolls']if x['material_id']==fabric['material']]
+ assert len(matching_rolls)==1 and D(matching_rolls[0]['available'])==10,matching_rolls
+ roll=matching_rolls[0]
  payload=dict(run_id=original['run_id'],target_key=target,plan_id=None,expected_revision=None,source_hash=o['source_hash'],
   reason='P08 explicit selected exact-size draft composition; no installed-material or reservation claim',reviewed_assumption_ids=[x['id']for x in o['assumptions']],
   cutting=dict(po_id=o['orders'][0]['id'],pattern_id=o['patterns'][0]['id'],source_location_id=loc,cut_at=cur.execute('select clock_timestamp()').fetchone()[0].isoformat(),notes='P08 unposted reviewed planning intent',
    size_slots=[dict(slot_no='1',size_id=o['size_id'],drawing_no='1')],rolls=[dict(roll_id=roll['id'],qty_issued='1',qty_consumed='0.5',qty_reported_remaining='0.5',yields=[dict(slot_no='1',qty_pcs='2')])]))
  if new_plan_po:
   payload['cutting']['po_id']=po;payload['cutting']['cut_at']=(cur.execute('select clock_timestamp()').fetchone()[0]-timedelta(hours=1)).isoformat()
- return dict(fixture=f,root=root,original=original,query=q,options=o,payload=payload)
+ return dict(fixture=f,root=root,original=original,query=q,options=o,payload=payload,source_receipt=source_receipt)
+
+def current_payload(cur,today,f,issued='6',subject=None):
+ original=analysis.capture(cur,today,subject=subject)
+ payload=copy.deepcopy(f['payload']);payload.update(run_id=original['run_id'],source_hash=original['analysis']['snapshot']['source_hash'],
+  reviewed_assumption_ids=[x['id']for x in original['analysis']['assumptions']])
+ roll=payload['cutting']['rolls'][0]
+ roll.update(qty_issued=issued,qty_consumed=str(D(issued)/2),qty_reported_remaining=str(D(issued)/2))
+ return payload
+
+def shared_material_setup(cur,today):
+ first=setup(cur,today,new_plan_po=True);second=setup(cur,today,new_plan_po=True)
+ # The inherited single-target fixture deliberately sets every other root's
+ # selected mean to zero. After creating target two, explicitly restore target
+ # one's selected profile through the unchanged profile command; otherwise its
+ # legitimate NO_NEW_NEED guard refuses before the shared-roll control starts.
+ profile=previous.baseline.get(cur,[first['root']])['rows'][0]
+ previous.baseline.save(cur,dict(root_id=profile['root_id'],product_version_id=profile['product_version_id'],
+  expected_revision=profile['revision'],reason='P08 explicit two-target fixture: selected daily ten on each target; no factory demand claim',
+  config=dict(profile['config'],daily_pcs='10')))
+ second['payload']['cutting']['source_location_id']=first['payload']['cutting']['source_location_id']
+ second['payload']['cutting']['rolls'][0]['roll_id']=first['payload']['cutting']['rolls'][0]['roll_id']
+ assert first['payload']['target_key']!=second['payload']['target_key']
+ profiles=previous.baseline.get(cur,[first['root'],second['root']])['rows']
+ assert len(profiles)==2 and all(p['config']['daily_pcs']=='10'for p in profiles),profiles
+ # Profiles are operands of the complete supply fingerprint. Review the same
+ # already selected work configuration against the new source via the existing
+ # public schedule CAS; no hash edit, source override or inferred free capacity.
+ retained=cur.execute('select revision,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone()
+ analysis.material_cases.review_schedule(cur,today,analysis)
+ reviewed=cur.execute('select revision,config,source_hash from cp7_schedule_native.plans order by revision desc limit 1').fetchone()
+ assert reviewed[0]==retained[0]+1 and reviewed[1]==retained[1],('SHARED_TARGET_WORK_CONFIG_CHANGED',retained,reviewed)
+ original=analysis.capture(cur,today)
+ needs=[analysis.recommendation(original['analysis'],f['root'])for f in(first,second)]
+ assert all(r['q_conditional']['state']=='ASSUMED'and D(r['q_conditional']['value'])>=2 for r in needs),needs
+ first['shared_target_setup']=dict(selected_profiles=profiles,current_recommendations=needs,
+  schedule_review=dict(before_revision=str(retained[0]),after_revision=str(reviewed[0]),source_hash=reviewed[2],
+   complete_selected_work_config=reviewed[1],complete_config_unchanged=True,public_schedule_CAS=True))
+ return first,second
+
+def material_pool(cur,payload):
+ b.api.admin(cur)
+ return cur.execute('select cp7_plan_native.material_pool(%s,%s)',(payload['cutting']['rolls'][0]['roll_id'],payload['cutting']['source_location_id'])).fetchone()[0]
+
+def material_cases(cur,today):
+ def next_target():
+  first,second=shared_material_setup(cur,today);one=current_payload(cur,today,first);d=save(cur,one);before=monetary_state(cur)
+  out=apply(cur,action(d));pool=material_pool(cur,one)
+  assert [D(pool[k])for k in('native_available','linked_native_draft_qty','free_for_new_plan')]==[D(10),D(6),D(4)],pool
+  assert pool['linked_native_drafts'][0]['group_id']==out['native']['cutting_group_id']
+  p=current_payload(cur,today,second);auth.refused(cur,lambda:save(cur,p),'CP7_PLAN_SHARED_MATERIAL_BUDGET_CHANGED')
+  p=current_payload(cur,today,second,'4');d2=save(cur,p);apply(cur,action(d2));pool=material_pool(cur,p)
+  assert [D(pool[k])for k in('native_available','linked_native_draft_qty','free_for_new_plan')]==[D(10),D(10),D(0)],pool
+  assert monetary_state(cur)==before and cur.execute('select count(*)from cp7_plan_native.intents').fetchone()[0]==2
+  return dict(status='PASS',two_actual_distinct_targets_one_Native_roll10=True,first_linked_draft6_then_second6_refused_and_second4_committed=True,physical_stock_money_HPP_unchanged=True,explicit_current_two_target_setup=first['shared_target_setup'],final_complete_pool=pool)
+ def posted_once():
+  from cp7_plan_actual_cases import post
+  f=setup(cur,today,new_plan_po=True);p=current_payload(cur,today,f);p['cutting']['rolls'][0].update(qty_consumed='6',qty_reported_remaining='0')
+  d=save(cur,p);out=apply(cur,action(d));f.update(payload=p,group=out['native']['cutting_group_id']);post(cur,f)
+  pool=material_pool(cur,p)
+  assert [D(pool[k])for k in('native_available','linked_native_draft_qty','free_for_new_plan')]==[D(4),D(0),D(4)],pool
+  assert pool['linked_native_drafts']==[]
+  return dict(status='PASS',actual_unchanged_Native_POST_issue6_stock10_to4=True,posted_intent_not_second_physical_deduction=True,final_complete_pool=pool)
+ def edited_current():
+  f=setup(cur,today,new_plan_po=True);p=current_payload(cur,today,f);d=save(cur,p);before=monetary_state(cur);out=apply(cur,action(d));gid=out['native']['cutting_group_id']
+  changed=copy.deepcopy(p['cutting']);changed['rolls'][0].update(qty_issued='3',qty_consumed='1.5',qty_reported_remaining='1.5')
+  b.chain.production.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(changed,id=gid,action='SAVE_DRAFT',change_reason='P08 actual Native draft composition correction six to three'),expected_version=int(b.chain.base.group_version(cur,gid)))
+  pool=material_pool(cur,p)
+  assert [D(pool[k])for k in('native_available','linked_native_draft_qty','free_for_new_plan')]==[D(10),D(3),D(7)],pool
+  assert cur.execute('select payload from cp7_plan_native.drafts where id=%s',(d['draft_id'],)).fetchone()[0]['cutting']['rolls'][0]['qty_issued']=='6'
+  assert monetary_state(cur)==before
+  return dict(status='PASS',actual_unchanged_Native_SAVE_DRAFT_edit6_to3=True,current_Native_composition_not_old_immutable_estimate=True,physical_stock_money_HPP_unchanged=True,final_complete_pool=pool)
+ return [('P08_SHARED_FABRIC_NEXT_TARGET',next_target),('P08_SHARED_FABRIC_POSTED_ONCE',posted_once),('P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT',edited_current)]
 
 def cases(cur,today):
  def metadata():
@@ -157,9 +236,41 @@ def cases(cur,today):
   assert not cur.execute("select has_function_privilege('cp7_capture','public.erp_cp7_apply_plan_action_v1(jsonb,uuid)','EXECUTE')or has_function_privilege('cp7_capture','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)','EXECUTE')").fetchone()[0]
   return dict(status='PASS',immutable_draft_and_read_compute_principal_cannot_call_mutators=True)
  from cp7_plan_actual_cases import cases as actual_cases
- return list(zip(['P08_METADATA','P08_SAVE_REPLAY','P08_VERSION','P08_PREVIEW_READONLY','P08_NATIVE_APPLY','P08_APPLY_REPLAY','E09_PLAN_STALE','P08_CURRENT_AUTH','P08_FOREIGN','P08_CLOSED','P08_NATIVE_IDENTITIES','O10_PLAN_QUANTITY','P08_ATOMIC_RECEIPT_FAILURE','E22_PLAN_COMPUTE_SEPARATION'],[metadata,replay_save,revision,readonly_preview,native_apply,apply_replay,stale,current,foreign,strict,identities,quantity,atomic_fault,frozen]))+actual_cases(cur,today)
+ return list(zip(['P08_METADATA','P08_SAVE_REPLAY','P08_VERSION','P08_PREVIEW_READONLY','P08_NATIVE_APPLY','P08_APPLY_REPLAY','E09_PLAN_STALE','P08_CURRENT_AUTH','P08_FOREIGN','P08_CLOSED','P08_NATIVE_IDENTITIES','O10_PLAN_QUANTITY','P08_ATOMIC_RECEIPT_FAILURE','E22_PLAN_COMPUTE_SEPARATION'],[metadata,replay_save,revision,readonly_preview,native_apply,apply_replay,stale,current,foreign,strict,identities,quantity,atomic_fault,frozen]))+actual_cases(cur,today)+material_cases(cur,today)
 
 def races(tools,today):
+ def shared_roll():
+  from queue import Queue
+  with tools.connect()as conn,conn.cursor()as cur:
+   first,second=shared_material_setup(cur,today);one=current_payload(cur,today,first);two=current_payload(cur,today,second)
+   d1=save(cur,one);d2=save(cur,two);before=monetary_state(cur);conn.commit()
+  keys=[uuid.uuid4(),uuid.uuid4()];pids=Queue();gate=threading.Barrier(2);roll=one['cutting']['rolls'][0]['roll_id']
+  def send(d,key):
+   with tools.connect()as conn,conn.cursor()as cur:
+    pids.put(cur.execute('select pg_backend_pid()').fetchone()[0]);gate.wait(timeout=5)
+    try:result=apply(cur,action(d),key);conn.commit();return result
+    except psycopg.Error as error:conn.rollback();return dict(error=error.diag.message_primary,sqlstate=error.sqlstate)
+  with tools.connect()as holder,holder.cursor()as h:
+   h.execute("select pg_advisory_xact_lock(hashtextextended('CP7:PLAN_MATERIAL_POOL:'||%s,0))",(roll,))
+   with ThreadPoolExecutor(max_workers=2)as executor:
+    jobs=[executor.submit(send,d,k)for d,k in zip((d1,d2),keys)];workers=[pids.get(timeout=5),pids.get(timeout=5)];observed=[]
+    try:
+     with tools.connect(autocommit=True)as inspector,inspector.cursor()as c:
+      deadline=time.monotonic()+10
+      while time.monotonic()<deadline:
+       observed=c.execute("select pid,locktype,database,classid,objid,objsubid,granted from pg_locks where pid=any(%s)and locktype='advisory'and not granted order by pid",(workers,)).fetchall()
+       if len(observed)==2:break
+       time.sleep(.05)
+      assert len(observed)==2 and observed[0][1:]==observed[1][1:],('SAME_PHYSICAL_POOL_WAIT_NOT_OBSERVED',observed)
+    finally:holder.commit()
+    results=[job.result(45)for job in jobs]
+  successes=[x for x in results if x.get('kind')=='COMMITTED_OUTCOME'];losers=[x for x in results if x.get('sqlstate')=='40001']
+  assert len(successes)==len(losers)==1 and losers[0]['error']in('CP7_PLAN_SHARED_MATERIAL_BUDGET_CHANGED','CP7_PLAN_SOURCE_CHANGED'),results
+  with tools.connect()as conn,conn.cursor()as cur:
+   pool=material_pool(cur,one);assert monetary_state(cur)==before
+   assert cur.execute('select count(*)from cp7_plan_native.intents').fetchone()[0]==1
+   assert [D(pool[k])for k in('native_available','linked_native_draft_qty','free_for_new_plan')]==[D(10),D(6),D(4)],pool
+  return dict(status='PASS',actual_two_distinct_targets_drafts_UUIDs=True,explicit_current_two_target_setup=first['shared_target_setup'],exact_two_workers_same_physical_pool_wait=observed,one_Native_draft_and_intent_other40001=True,physical_stock_money_HPP_unchanged=True,final_complete_pool=pool)
  def prepared(two=False):
   with tools.connect()as conn,conn.cursor()as cur:
    f=setup(cur,today);d=save(cur,f['payload']);other=None
@@ -217,7 +328,7 @@ def races(tools,today):
    after_money=monetary_state(cur);assert after_money==before_money,dict(before=before_money,after=after_money)
   return dict(status='PASS',observed_real_Native_roll_wait=native_roll,observed_canonical_target_wait=not native_roll,current_authority_after_wait_no_domain_or_receipt_commit=True,exact_authorization_sqlstate='42501',exact_native_refusal=expected,all_Native_drafts_money_stock_and_HPP_unchanged=True)
  from cp7_plan_actual_cases import races as actual_races
- return [('E10_REAL_SAME_UUID',lambda:pair('SAME')),('E10_REAL_SAME_UUID_DIFFERENT_PAYLOAD',lambda:pair('PAYLOAD')),('E11_REAL_DIFFERENT_ACTOR_RUN_DRAFT',lambda:pair('ACTORS')),('P08_REAL_TARGET_WAIT_REVOKED',lambda:revocation()),('P08_REAL_NATIVE_ROLL_WAIT_REVOKED',lambda:revocation(True))]+actual_races(tools,today)
+ return [('E10_REAL_SAME_UUID',lambda:pair('SAME')),('E10_REAL_SAME_UUID_DIFFERENT_PAYLOAD',lambda:pair('PAYLOAD')),('E11_REAL_DIFFERENT_ACTOR_RUN_DRAFT',lambda:pair('ACTORS')),('P08_REAL_TARGET_WAIT_REVOKED',lambda:revocation()),('P08_REAL_NATIVE_ROLL_WAIT_REVOKED',lambda:revocation(True))]+actual_races(tools,today)+[('P08_SHARED_FABRIC_REAL_TWO_TARGET_WAIT',shared_roll)]
 
 def http_cases(http,today):
  def public_chain():

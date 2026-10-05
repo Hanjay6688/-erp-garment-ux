@@ -1,0 +1,251 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "e206a2454faddb2734992e4aada6b36b7db69615",
+  "source_tree": "3d04d948ae5540546403630bbf61322d8b3601a2",
+  "run_id": 37277660296,
+  "job_id": 111658184684,
+  "artifact_id": 11330878142,
+  "artifact_bytes": 17117509,
+  "artifact_sha256": "277e0e2823a26caccb265141edf27909cee3aa1aae6e76c6f9fed0cb9edd2944",
+  "artifact_CRC": "PASS",
+  "status": "WRITER_QUALIFIED_16_COMPLETE_CASE_BODIES_PASS",
+  "expected_case_count": 16,
+  "observed_case_count": 16,
+  "counts": {
+    "native": {
+      "PASS": 10
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "actual_ids": {
+    "native": [
+      "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+      "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+      "P18_E01_CURRENT_AUTHORITY",
+      "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+      "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL",
+      "P16_LIFECYCLE_INVOICE_AND_RECEIPT_INVERSE",
+      "P16_LIFECYCLE_CORRECTED_REPLACEMENT",
+      "P16_LIFECYCLE_PAID_AND_PAYMENT_INVERSE",
+      "P16_LIFECYCLE_MISSING_SOURCE_UNKNOWN",
+      "P16_LIFECYCLE_REPLAY_CURRENT_REVOKE"
+    ],
+    "races": [
+      "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+      "P16_LIFECYCLE_RACE_CORRECTION_WAIT"
+    ],
+    "http": [
+      "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT",
+      "P16_LIFECYCLE_HTTP_ARCHIVED_CURRENT_AUTH"
+    ],
+    "browser": [
+      "P18_E01_BRIDGE_BROWSER_DESKTOP",
+      "P18_E01_BRIDGE_BROWSER_MOBILE"
+    ]
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_RULE_LIFECYCLE.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png",
+    "P18_E01_BRIDGE_ARCHIVE_MOBILE.png",
+    "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png",
+    "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png",
+    "P18_E01_BRIDGE_PREVIEW_DESKTOP.png",
+    "P18_E01_BRIDGE_PREVIEW_MOBILE.png",
+    "P18_E01_BRIDGE_RECOVERED_DESKTOP.png",
+    "P18_E01_BRIDGE_RECOVERED_MOBILE.png",
+    "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png",
+    "P18_E01_E08_SHARED_HANDOFF_MOBILE.png",
+    "P18_SHARED_STOCK_DESKTOP.png",
+    "P18_SHARED_STOCK_MOBILE.png",
+    "P18_SHARED_STOCK_POPUP_DESKTOP.png",
+    "P18_SHARED_STOCK_POPUP_MOBILE.png"
+  ],
+  "full_job_log_original_sha256": "d48ec008580854450cf84dc9a471d4aba86d6d4490080df1582e877e9ca691db",
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385612,
+      "crc32": "51c4e6cc",
+      "sha256": "ec9dc4d0244d5faaf100f4c84e80350e7590bd36896ff7027d6e699cdf02137a"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385612,
+      "crc32": "51c4e6cc",
+      "sha256": "ec9dc4d0244d5faaf100f4c84e80350e7590bd36896ff7027d6e699cdf02137a"
+    },
+    {
+      "name": "CP7_RULE_LIFECYCLE.json",
+      "bytes": 287033,
+      "crc32": "47a8b04e",
+      "sha256": "d8d50c54f61d02cee3c00df9b3180e408f67dfe8fb8454211b07a925eca0e974"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "0112f828",
+      "sha256": "ec05e06d0fed22fac3c5334574720261240cbd010fc463ffb45ff61faee84bd1"
+    },
+    {
+      "name": "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png",
+      "bytes": 2086357,
+      "crc32": "d397760e",
+      "sha256": "34151bd69a1d6f02d0123e0faf9c063c25647d517e600fce599aeaef44742f89"
+    },
+    {
+      "name": "P18_E01_BRIDGE_ARCHIVE_MOBILE.png",
+      "bytes": 1216917,
+      "crc32": "b9a4ba32",
+      "sha256": "0a56f9ed0777a63a3c2c30b3d310f2c594ddc3816b3f2f2cc2e553827f117830"
+    },
+    {
+      "name": "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png",
+      "bytes": 963902,
+      "crc32": "2f1d8b6f",
+      "sha256": "1b431b108bff9fb1dd4d56d6ec2548bfbd3b556d6144222bc3c730fab884177c"
+    },
+    {
+      "name": "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png",
+      "bytes": 535872,
+      "crc32": "2da9b6fa",
+      "sha256": "6aaedffccd71076b10be56ab49e9dfb667000f2a72e8fdd69cb58029a328631a"
+    },
+    {
+      "name": "P18_E01_BRIDGE_PREVIEW_DESKTOP.png",
+      "bytes": 2023273,
+      "crc32": "572b7fc6",
+      "sha256": "99ed2a391404f07a5ebdb47bc9d5741f7feb36cbace488db4674bed7084509bb"
+    },
+    {
+      "name": "P18_E01_BRIDGE_PREVIEW_MOBILE.png",
+      "bytes": 1169011,
+      "crc32": "60049421",
+      "sha256": "8a9ecd800510165576764f4b603d51445490657d17b4ff9d66fdf19271d3e0a0"
+    },
+    {
+      "name": "P18_E01_BRIDGE_RECOVERED_DESKTOP.png",
+      "bytes": 1729667,
+      "crc32": "ea14b3a9",
+      "sha256": "58c4d4472f4b696ce0f2e9353cacba849ef7d7fdbb4137636d20a34664ca3c09"
+    },
+    {
+      "name": "P18_E01_BRIDGE_RECOVERED_MOBILE.png",
+      "bytes": 796797,
+      "crc32": "8bbfe686",
+      "sha256": "ac47c0d585833fc51187ed469e6df70e27f0003cd4bfe1532811b16170ca500f"
+    },
+    {
+      "name": "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png",
+      "bytes": 1640924,
+      "crc32": "5a0873f8",
+      "sha256": "903df8b40220b246747a79b9d491c61392e639dc915be307a986be255d1c53f2"
+    },
+    {
+      "name": "P18_E01_E08_SHARED_HANDOFF_MOBILE.png",
+      "bytes": 978177,
+      "crc32": "9bbacf87",
+      "sha256": "e47db3cbbb534f07b5a87e285a311beea841c4e4c94f2c1fd03ea21aea1d1e4e"
+    },
+    {
+      "name": "P18_SHARED_STOCK_DESKTOP.png",
+      "bytes": 1141337,
+      "crc32": "7817e867",
+      "sha256": "afebd62f79ef6f66be09d4b10ec2851546d0cd230d22965fa1cd0fe45ff4182a"
+    },
+    {
+      "name": "P18_SHARED_STOCK_MOBILE.png",
+      "bytes": 520315,
+      "crc32": "793ac86e",
+      "sha256": "267fc21943ffad1b1ea7fe1ddf914b3e4add953f686ae8dce5c01c445ddc5943"
+    },
+    {
+      "name": "P18_SHARED_STOCK_POPUP_DESKTOP.png",
+      "bytes": 618263,
+      "crc32": "09e8dd17",
+      "sha256": "f83afc816778c8f9d4b35642369282ab677ee14c7e0a66c0eb0c55549597b164"
+    },
+    {
+      "name": "P18_SHARED_STOCK_POPUP_MOBILE.png",
+      "bytes": 457567,
+      "crc32": "20a21315",
+      "sha256": "3bae9b026b00f49dd1e9f4d831faf31efbea881b0ae2d3467d3c8522902c5c71"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "e9ad7ec5",
+      "sha256": "10f5124bb36c6d263ac4de3424e19d823d98d616101ef8419f6dabbccd9b137e"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360418,
+      "crc32": "524cfbd5",
+      "sha256": "738db94ffe6c749c79b89381429ee986bd43fc43cfaaefc300e4596d1dfe9563"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "installed_status": "ALL_STAGES_INSTALLED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "PASS",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

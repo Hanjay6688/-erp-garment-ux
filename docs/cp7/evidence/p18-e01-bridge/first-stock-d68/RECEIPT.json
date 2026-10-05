@@ -1,0 +1,165 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "d68ecc6cdea046522391dcabdeabe34151aec261",
+  "source_tree": "0b3ccdfd3136bde6dd9719779ec27846a8accdb5",
+  "run_id": 37275119434,
+  "job_id": 111650336899,
+  "artifact_id": 11330211565,
+  "artifact_bytes": 3546268,
+  "artifact_sha256": "3ad242426e17b212d74e119dbea69a154452371753f68e62736dfd2211c12b63",
+  "artifact_CRC": "PASS",
+  "status": "SEVEN_PASS_TWO_EMPTY_RECOMMENDATION_BROWSER_INCOMPLETE",
+  "expected_case_count": 9,
+  "observed_case_count": 9,
+  "counts": {
+    "native": {
+      "PASS": 5
+    },
+    "races": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_P18_E01_BRIDGE.json",
+    "P18_E01_BRIDGE_DESKTOP_FAILURE.json",
+    "P18_E01_BRIDGE_MOBILE_FAILURE.json",
+    "P18_E01_BRIDGE_DESKTOP_READ_PROFILE.json",
+    "P18_E01_BRIDGE_MOBILE_READ_PROFILE.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "P18_E01_BRIDGE_DESKTOP_FAILURE.png",
+    "P18_E01_BRIDGE_MOBILE_FAILURE.png"
+  ],
+  "full_job_log_original_sha256": "e3fbd7c499e08956573a328a3a8456df4364dbdb01698fbe50285e5808487db0",
+  "all_original_member_hashes": [
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385614,
+      "crc32": "83934f46",
+      "sha256": "bafa89b6f445532973db7dd235b659d473ddf9596909149fc5e8eeb31164d050"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385614,
+      "crc32": "83934f46",
+      "sha256": "bafa89b6f445532973db7dd235b659d473ddf9596909149fc5e8eeb31164d050"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "090991e7",
+      "sha256": "a77e22ff5e506db635fe5f51198b471a87c99c032e6d86033d820bbe90a4fe38"
+    },
+    {
+      "name": "CP7_P18_E01_BRIDGE.json",
+      "bytes": 282241,
+      "crc32": "b6b0a2a6",
+      "sha256": "7810e6d1558f3f33aff35082269f7707f742e6a20645d381c4ce320048c298b4"
+    },
+    {
+      "name": "P18_E01_BRIDGE_DESKTOP_FAILURE.json",
+      "bytes": 47835,
+      "crc32": "b2a38ea5",
+      "sha256": "05c39660bd98a127ba9988731861dab805777d8130315fde745230f9fa0daf6f"
+    },
+    {
+      "name": "P18_E01_BRIDGE_DESKTOP_FAILURE.png",
+      "bytes": 1108498,
+      "crc32": "299243f2",
+      "sha256": "1377f5de4bff112250e68f3331b8822b9c6abdcf2dc422fda88a85ca277231a4"
+    },
+    {
+      "name": "P18_E01_BRIDGE_MOBILE_FAILURE.json",
+      "bytes": 48898,
+      "crc32": "6f7fd449",
+      "sha256": "11f1636df5a92af0d840dfd43a6d89ccacb6aa15e3aae7ecb2e34e07aa812add"
+    },
+    {
+      "name": "P18_E01_BRIDGE_DESKTOP_READ_PROFILE.json",
+      "bytes": 579,
+      "crc32": "83fd3735",
+      "sha256": "9153ad9d29668f2d4f2d09956e92da67400cf8f87db0ec33fb125feebc8c521e"
+    },
+    {
+      "name": "P18_E01_BRIDGE_MOBILE_FAILURE.png",
+      "bytes": 829772,
+      "crc32": "314fea6a",
+      "sha256": "53dc2528fb32519c31305f77098df7763a0ce2a905ff704bb88c43000386fbf3"
+    },
+    {
+      "name": "P18_E01_BRIDGE_MOBILE_READ_PROFILE.json",
+      "bytes": 579,
+      "crc32": "38db66f9",
+      "sha256": "06946928618c67b724182e7093a33a3d1d7a883e65bd2022d275f4dd30304bdb"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "bc4add95",
+      "sha256": "6fd835819ec73ca4861af33ba64cc9605ff45e44a9bd842e670184095c288157"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360418,
+      "crc32": "cfc8e078",
+      "sha256": "0115f68b10e440e4c3fecb44d44e81eb86f5210a2099f96ff9ff37aff5cab8f1"
+    }
+  ],
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "writer_runtime_status": "INCOMPLETE",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "successor": "Actual E01 sold root/size; preserved Native current economics; explicit disposable Native commercial/policy/forecast scenario. No recommendation DTO or owner default seeded. Fresh9 required."
+}

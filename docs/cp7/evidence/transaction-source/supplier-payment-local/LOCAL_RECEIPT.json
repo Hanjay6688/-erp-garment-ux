@@ -1,0 +1,42 @@
+{
+  "basis": "Actual Native solver/inverse source; local integrated UI fixtures are synthetic and not Native proof.",
+  "impacted_tests": 80,
+  "test_files": 5,
+  "new_supplier_UI_controls": 11,
+  "build": "PASS",
+  "security": "PASS",
+  "Native_budget": 50,
+  "required_case_counts": {
+    "native": 28,
+    "races": 4,
+    "http": 6,
+    "browser": 12
+  },
+  "Native_status": "PENDING",
+  "all41_prior_cases_retained": true,
+  "source_sha256": {
+    "src/SupplierPaymentPanel.tsx": "1404832247ce599632541172271bddcf738913b230a297741e53d1396a8cc284",
+    "src/supplierPaymentContract.ts": "a352a3d98282db0e0aad111edcb8d0763bc6a9f08414523b2ca54674e8351a85",
+    "src/SupplierPaymentPanel.dom.test.tsx": "19c4cb1fa6fb2040ff55947def61bb48c4cceb4373005612aadb7e77ad322689",
+    "tests/fixtures/supplierPayments.ts": "2a380ab7d076ea92e0d41fab68e00c0aa9fbcc55919cb4b2bc6bdab75855efd1",
+    "src/ConnectedProcurementPage.tsx": "8330191999a279930034322c97e5ee3707f1de54f0b91d2deff0cfabb5a6af3b",
+    "scripts/cp7-src/invoices/payments.sql": "0e1d96f253235c58b0685eabc7ece94f498583a96b3f13dfed4cad29f00dc77a",
+    "scripts/cp7-src/invoices/ownership.sql": "4a8f38ce6b1132655ca3916211fa126986be0c4d78e9f3c74e92b76e5c933d1b",
+    "scripts/cp7-src/transactions/source.sql": "8d00d836dd145f3e64f4af24dbc3ea05fbc21338e1b809acc4b421b58d056188",
+    "scripts/cp7_supplier_payment_cases.py": "af96add6b754925c8254d64c08ae9b122fe21c8014ed8d797c7b64dd3c80cb16",
+    "scripts/cp7_transaction_source_cases.py": "1f0c6af9a97654550c724caf108a6753ef40876cffeafa057143db8f36ab606e",
+    "scripts/cp7_transaction_source_browser.mjs": "ce5655a937559874fea1bcbc3095a0049f511ea2ce704c9064737e42c2e5f75e",
+    "scripts/cp7_transaction_source_browser_fixture.py": "260234a9a2b207860e7128c3f065386b225cf36b680e2ba75e35c9d167c8378d",
+    "scripts/cp7_p09_procurement_probe.py": "88aa5281b10309688f21db41d022dbcd98f097d04781376a548a7a4e0a2a51be"
+  },
+  "logs_sha256": {
+    "supplier-payment-targeted.log": "5099cb44c9bd5b857ecc9cb5cad0dcb8a0af41ef3bea5b05ca45b892ed1e28ae",
+    "supplier-payment-build.log": "8628f9ab2ed0d55ea122020e14e3b5c1a0e11639212ee51e283a3eee06e8e5bd",
+    "supplier-payment-security.log": "f44e9c149f5315912cc5324a1dad7189dc2a843e6ef5561f60856b132074d05a"
+  },
+  "runtime_graph_files": 254,
+  "owned_browser_RPC_boundaries": 186,
+  "stylesheets": 53,
+  "production_go": false,
+  "independent_acceptance": false
+}

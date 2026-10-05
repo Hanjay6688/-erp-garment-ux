@@ -1,0 +1,23 @@
+{
+  "classification": "LOCAL_SYNTAX_AND_EXISTING_CONTRACT_INSPECTION_NOT_NATIVE_EXECUTION",
+  "base_commit": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+  "source_sha256": {
+    "scripts/cp7_p18_e01_bridge_browser.mjs": "e0855bf6dea1507747eeb0d69557cbd80816f3001c9b851646aa0ebfc6605bb5",
+    "scripts/cp7_p18_e01_bridge_browser_fixture.py": "44225f836ef0dae87fd0b358c68b59a39cc3f4afdff10ee1aa65d11dcd27e64b"
+  },
+  "node_syntax": "PASS",
+  "python_syntax": "PASS",
+  "native9": "PENDING_CURRENT_SOURCE",
+  "required": {
+    "native": 5,
+    "races": 1,
+    "http": 1,
+    "browser": 2
+  },
+  "all9_previous_case_ids_preserved": true,
+  "scope": "Strengthen the same desktop/mobile E01 executions with exact Native Original across Production/Report/Reminder/AI, local filter parity, current server reread, denied-clipboard full fallback, question JSON and exact whole-operational-boundary fingerprint; no extra execution credit/full E08/full E18/full P18 acceptance.",
+  "no_new_product_SQL_or_Native_writer": true,
+  "no_external_AI_request": true,
+  "independent_acceptance": false,
+  "production_go": false
+}

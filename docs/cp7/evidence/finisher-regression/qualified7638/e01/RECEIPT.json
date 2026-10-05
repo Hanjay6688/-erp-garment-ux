@@ -1,0 +1,36 @@
+{
+  "head": "76385615a5b46c5f35a6cc03976464b7f18b0088",
+  "run_id": 37108983704,
+  "job_id": 111163031781,
+  "artifact_id": 11268719354,
+  "archive_sha256": "c97596cea73cef1d06a614fd2a660fc8464a1e8660f54ecfa9467dcd03844410",
+  "original_sha256": "5000fd69dac6375cfce1f41d7ea5671baeb60aca2d56f6c99ed271fb5cae3e05",
+  "source_sha256": "177707c5d1bb9bb0f5ed58ec4564dc823fad03b5664affae0c92221cd2946e2a",
+  "status": "PASS",
+  "observed_case_count": 4,
+  "groups": {
+    "native": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

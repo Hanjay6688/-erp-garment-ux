@@ -1,0 +1,113 @@
+{
+  "status": "EXACT_SOURCE_NATIVE_SHELL_WRITER_PASS",
+  "source_commit": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+  "source_tree": "6336e647afc25609e4afacdbf1bd2d8bce74cb79",
+  "run_id": 37128855528,
+  "jobs": {
+    "shell": 111219699452,
+    "javascript": 111219699631,
+    "actions": 111219699555
+  },
+  "application_tests": 1404,
+  "test_files": 146,
+  "Shell_browser_expected": 6,
+  "Shell_browser_skipped": 0,
+  "Shell_browser_unexpected": 0,
+  "Shell_browser_flaky": 0,
+  "CodeQL_javascript_results": 0,
+  "CodeQL_actions_results": 0,
+  "runtime_modules": 256,
+  "owned_browser_RPC_boundaries": 187,
+  "stylesheets": 53,
+  "import_orphans": false,
+  "direct_browser_table_access": false,
+  "private_kernel_native_passed": 138,
+  "scope": "Disposable Native private kernels and6 Shell browser checks are separately bounded and do not replace business/Auth Native57/69 or complete CP7 acceptance. All framework/frozen ownership checks pass in Original log.",
+  "archives": {
+    "shell": {
+      "artifact_id": 11276605384,
+      "bytes": 491571,
+      "sha256": "7cc678fb08f8a6025762a42ff0b533d8b12a0ffb647afc2fe0b2514f6e9a2e07",
+      "members": {
+        "desktop-planner.png": {
+          "bytes": 130883,
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+        },
+        "mobile-planner.png": {
+          "bytes": 382780,
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+        },
+        "f04-private-kernels.json": {
+          "bytes": 53274,
+          "sha256": "3922ee28334eadede385e490f2cbd2aeb9909edfc4014c3f0245996c3f743716"
+        },
+        "results.json": {
+          "bytes": 12658,
+          "sha256": "be962ef6fd7e56fda91dd6c003c7e20ff4d316e0d1aa4e45ed6e5b8abe27333c"
+        }
+      }
+    },
+    "javascript": {
+      "artifact_id": 11276635334,
+      "bytes": 120674,
+      "sha256": "e39bf4200b349bc1d71243bf6f2fc045dc0c41978d038643e909de6deec9a4b5",
+      "members": {
+        "javascript.sarif": {
+          "bytes": 1312402,
+          "sha256": "19d9d7140c3eb9f2b50ece00aba18a05839b36c6b31fb14ed465d7e8fd970827"
+        }
+      }
+    },
+    "actions": {
+      "artifact_id": 11275299932,
+      "bytes": 50993,
+      "sha256": "fba280581b47ee10aa0a332b6c8635bfc828af0f29ec23753b4dcee4f1cfe747",
+      "members": {
+        "actions.sarif": {
+          "bytes": 698412,
+          "sha256": "9c813907d6f1c1d46080acc85cfa0736449b2c119f0a2ddf3eb016a2c9bbf06d"
+        }
+      }
+    }
+  },
+  "retained_Originals": {
+    "desktop-planner.png": {
+      "Original_sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8",
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8",
+      "bytes": 130883
+    },
+    "mobile-planner.png": {
+      "Original_sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06",
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06",
+      "bytes": 382780
+    },
+    "f04-private-kernels.json.gz": {
+      "Original_sha256": "3922ee28334eadede385e490f2cbd2aeb9909edfc4014c3f0245996c3f743716",
+      "sha256": "79bfa31820f3a85174fa87126ed73e76951d84f0d52f4a0cd19fff1066c9bb05",
+      "bytes": 6864
+    },
+    "results.json.gz": {
+      "Original_sha256": "be962ef6fd7e56fda91dd6c003c7e20ff4d316e0d1aa4e45ed6e5b8abe27333c",
+      "sha256": "55e7ec61583627fa765e70573bb99567def33a0d436496f81587a48a0fee12f7",
+      "bytes": 1824
+    },
+    "javascript.sarif.gz": {
+      "Original_sha256": "19d9d7140c3eb9f2b50ece00aba18a05839b36c6b31fb14ed465d7e8fd970827",
+      "sha256": "156bd35e9c618814adf8b9d40c0573ea1e69a982fdf98dcd6147466b0dbdad3f",
+      "bytes": 117579
+    },
+    "actions.sarif.gz": {
+      "Original_sha256": "9c813907d6f1c1d46080acc85cfa0736449b2c119f0a2ddf3eb016a2c9bbf06d",
+      "sha256": "7f0ca4b3d38399a1b7ea0c6bd1a3e9d710708a11ffe49e3ef8b73dc9d5b9d4c3",
+      "bytes": 48181
+    },
+    "SHELL_CI_ORIGINAL.log.gz": {
+      "Original_bytes": 171221,
+      "Original_sha256": "a198633c19f6257f481bdb076a2ecedd1f78351faa977f2c5c612be5b803d24d",
+      "sha256": "6b72f2b39257aa483427bafd2fea33ff6c7e6ee267db3c1c00949ef18a7a2206",
+      "bytes": 33969
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}

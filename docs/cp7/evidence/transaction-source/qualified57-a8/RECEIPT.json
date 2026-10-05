@@ -1,0 +1,156 @@
+{
+  "source_commit": "a8e5b8e0a76de209d694d0a331153a23ef20082c",
+  "source_tree": "50c35096ff21a4dd25badc03f79a3cbca104471c",
+  "run_id": 37122365912,
+  "job_id": 111200850592,
+  "artifact_id": 11274446548,
+  "archive_sha256": "f91f7a9f35a0e98809862abdd62bb18213d0c8900459111ceb6c8345f90f2495",
+  "status": "PASS",
+  "observed_case_count": 57,
+  "required_case_counts": {
+    "native": 32,
+    "races": 4,
+    "http": 7,
+    "browser": 14
+  },
+  "source_sha256": "9b88b83d4b31873f9ea8630a622b76e8fb4041956308009e5d9f8fe24348fb1d",
+  "counts": {
+    "native": {
+      "PASS": 32
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 7
+    },
+    "browser": {
+      "PASS": 14
+    }
+  },
+  "members": {
+    "CP7_TRANSACTION_SOURCE.json": {
+      "bytes": 296592,
+      "sha256": "2e9ecfbf819678d549f587a6b6aab1e31e3e417ef4ea2dc7422f2639b2589b1b",
+      "compressed_sha256": "feb8bb2e2d89fb8a6587bf87cfd8a0af170b69bdd39c8d43b52532796e0f1e90"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "b9cb2d5d905b10388b6bb6ab1ff56a1206ce8f3b465461155b66bc32c2a80c78",
+      "compressed_sha256": "4ef3d9c3f87ecf45e5abcd4d716fdfe76a04e0f99cbbec3bef7a269cb616cd61"
+    },
+    "CP7_SOURCE_QC_DESKTOP.png": {
+      "bytes": 254457,
+      "sha256": "2f891ca6d2a1e80c9dad478c8d7eb7df95eb1f1e559510894e094fe3c810d899"
+    },
+    "CP7_SOURCE_QC_INVERSE_DESKTOP.png": {
+      "bytes": 254815,
+      "sha256": "85dd3a14601479c70d9b46992212e78e63d729755e388577a108eb1af938f29a"
+    },
+    "CP7_SOURCE_QC_INVERSE_MOBILE.png": {
+      "bytes": 173598,
+      "sha256": "a42a924da7d0af5597b48daf65fe63f62afbbb0a80c6383b66371d48910765b1"
+    },
+    "CP7_SOURCE_QC_MOBILE.png": {
+      "bytes": 173259,
+      "sha256": "73040b5174e37bd4dd1f179efa77ec824b666d365debf9e13835d85404d3989b"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_DESKTOP.png": {
+      "bytes": 1537357,
+      "sha256": "b4e8b6df75574bf0ca348d3b46ada96f5dc6a8bd7c6b2d60929106c6a41f9173"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_DESKTOP.png": {
+      "bytes": 1523472,
+      "sha256": "2e9ff0a44266f41d05328ba5210c3956da82e869eb1eda26773f0ad4b02e2b16"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_MOBILE.png": {
+      "bytes": 1093431,
+      "sha256": "fb026f39e70225dd88d3ee562283db848bd6acd64bd0dcf79cce6d3200c6f8d6"
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_MOBILE.png": {
+      "bytes": 1071523,
+      "sha256": "a88b15f974b67cd7a906c9617d8241ecd7172e15b703944ac5aeb6d9a559eb6a"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "console_errors": 0,
+  "all57_previous_case_ids_retained": true,
+  "browser_observations": {
+    "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "real_Auth_Native_journal_to_actual26th_payment_and_page25": true,
+      "full_Native_rows_unchanged_by_source_and_review": true,
+      "Native_AP1000_paid260_to250_remaining740_to750_cash260_to250": true,
+      "original_payment_date_cash_and_journal_preserved": true,
+      "inverse_journal_reopens_same_reversed_child": true,
+      "one_Native_inverse_one_request_no_stock_HPP_change": true,
+      "actual_committed_reply_loss_reload_identical_UUID_and_payload": true,
+      "screenshots": [
+        "CP7_SOURCE_SUPPLIER_PAYMENT_DESKTOP.png",
+        "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_DESKTOP.png"
+      ]
+    },
+    "CP7_SOURCE_SUPPLIER_PAYMENT_BROWSER_MOBILE": {
+      "status": "PASS",
+      "mobile": true,
+      "real_Auth_Native_journal_to_actual26th_payment_and_page25": true,
+      "full_Native_rows_unchanged_by_source_and_review": true,
+      "Native_AP1000_paid260_to250_remaining740_to750_cash260_to250": true,
+      "original_payment_date_cash_and_journal_preserved": true,
+      "inverse_journal_reopens_same_reversed_child": true,
+      "one_Native_inverse_one_request_no_stock_HPP_change": true,
+      "actual_committed_reply_loss_reload_identical_UUID_and_payload": false,
+      "screenshots": [
+        "CP7_SOURCE_SUPPLIER_PAYMENT_MOBILE.png",
+        "CP7_SOURCE_SUPPLIER_PAYMENT_INVERSE_MOBILE.png"
+      ]
+    },
+    "CP7_SOURCE_QC_BROWSER_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "actual_Native_QC_GOOD_movement_to_exact_inspection_parent": true,
+      "source_and_own_reason_no_DML": true,
+      "unchanged_Native_owning_inverse_one_PCS_and_original_history": true,
+      "FG_inverse_link_reopens_same_reversed_QC": true,
+      "chronological_physical_balance1_then0": true,
+      "actual_committed_reply_loss_reload_identical_UUID_payload_and_version": true,
+      "screenshots": [
+        "CP7_SOURCE_QC_DESKTOP.png",
+        "CP7_SOURCE_QC_INVERSE_DESKTOP.png"
+      ]
+    },
+    "CP7_SOURCE_QC_BROWSER_MOBILE": {
+      "status": "PASS",
+      "mobile": true,
+      "actual_Native_QC_GOOD_movement_to_exact_inspection_parent": true,
+      "source_and_own_reason_no_DML": true,
+      "unchanged_Native_owning_inverse_one_PCS_and_original_history": true,
+      "FG_inverse_link_reopens_same_reversed_QC": true,
+      "chronological_physical_balance1_then0": true,
+      "actual_committed_reply_loss_reload_identical_UUID_payload_and_version": false,
+      "screenshots": [
+        "CP7_SOURCE_QC_MOBILE.png",
+        "CP7_SOURCE_QC_INVERSE_MOBILE.png"
+      ]
+    }
+  },
+  "first_failure_receipt": "docs/cp7/evidence/transaction-source/first57-fac73/RECEIPT.json",
+  "visual_review": "Writer inspected the current unedited mobile QC inverse capture: long Native inspection number wraps and Dibatalkan badge is fully readable. Both actual existing QC browser journeys also require badge bounding box/scroll-width fit before/after; no extra case budget or dropped controls.",
+  "scope": "Declared Native transaction source families and owning supplier/QC inverses only. Later Laundry source64 is separate pending qualification. No full transaction/material/P08/P18/P19/independent/installed acceptance.",
+  "independent_acceptance": false,
+  "production_go": false,
+  "full_family_acceptance": false
+}

@@ -1,0 +1,153 @@
+{
+  "contract": "cp7.cutting-reopen-handoff.v1",
+  "status": "NATIVE19_PASS_E206_WRITER_VISUAL_CONTRAST_REPAIR_SUCCESSOR19_PENDING",
+  "base_commit": "3fbca363fa39c8a8a248129e20519fb13cf937ce",
+  "base_tree": "1a4b8cf5f6ab2af54a1d9fa058980b27147658f2",
+  "scope": "UNPICKED_POSTED_CUTTING_EXISTING_NATIVE_INVERSE_AND_SEPARATE_FOLLOWING_DRAFT_EDIT",
+  "operation": {
+    "source": "Current exact group/PO/number/version and whole source snapshot token from the explicit owning read.",
+    "eligibility": "CUT, unpicked, material issue posted, material return not posted; no active draft/posted pickup and no Native downstream evidence.",
+    "command": "One unchanged erp.reverse_cutting_material_flow_before_sewing_v2 call; retain full immutable original source, Native result and actor/UUID receipt atomically.",
+    "following_action": "Ordinary existing Native SAVE_DRAFT then explicit POST; these are separate commands and no replacement is claimed.",
+    "clock": "Existing Native current physical inverse clock and original cut clock retained. No historical economic restatement is claimed.",
+    "HPP": "Existing Native recost and queue semantics retained; no new finished/sold HPP qualification is inferred from this bounded inverse."
+  },
+  "payload_fields": [
+    "group_id",
+    "po_id",
+    "review_token",
+    "change_reason"
+  ],
+  "recovery": {
+    "domain": "CUTTING_CORRECTION",
+    "action": "REOPEN_POSTED",
+    "same_UUID_after_lost_commit_reply": true,
+    "independent_from_legacy_draft_CUTTING_domain": true,
+    "global_pending_write_fence": true,
+    "mounted_without_queue_group_for_reconciliation": true
+  },
+  "authority": {
+    "roles": [
+      "OWNER",
+      "ADMIN"
+    ],
+    "current_permissions": [
+      "production.distribution.view",
+      "production.cutting.view",
+      "production.cutting.edit_draft",
+      "production.cutting.post"
+    ],
+    "checks": [
+      "before metadata",
+      "after metadata",
+      "before receipt",
+      "after receipt lock wait including cached outcome",
+      "after group lock wait",
+      "after Native inverse/any Native stock lock wait"
+    ],
+    "no_new_ERP_DML_or_direct_Native_execute_privilege": true,
+    "private_false_RLS": true,
+    "SECURITY_DEFINER_empty_search_path": true,
+    "new_closed_private_roles": [
+      "cp7_cutting_write",
+      "cp7_cutting_read"
+    ],
+    "combined_F03_exact_role_count": 34
+  },
+  "required_counts": {
+    "native": 10,
+    "races": 4,
+    "http": 3,
+    "browser": 2
+  },
+  "expected_case_count": 19,
+  "planned_ids": {
+    "native": [
+      "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+      "CP7_CUTTING_REOPEN_READ_ONLY_CAPABILITIES",
+      "CP7_CUTTING_REOPEN_REPLAY",
+      "CP7_CUTTING_REOPEN_CLOSED_FIELDS",
+      "CP7_CUTTING_REOPEN_STALE_SOURCE",
+      "CP7_CUTTING_REOPEN_PICKUP_DOWNSTREAM",
+      "CP7_CUTTING_REOPEN_ATOMIC_LATE_FAILURE",
+      "CP7_CUTTING_REOPEN_IMMUTABLE_HISTORY",
+      "CP7_CUTTING_REOPEN_CURRENT_AUTH",
+      "CP7_CUTTING_REOPEN_CLOSED_PERIOD"
+    ],
+    "races": [
+      "CP7_CUTTING_REOPEN_RACE_SAME_UUID",
+      "CP7_CUTTING_REOPEN_RACE_COMPETING",
+      "CP7_CUTTING_REOPEN_RACE_GROUP_REVOKE",
+      "CP7_CUTTING_REOPEN_RACE_NATIVE_REVOKE"
+    ],
+    "http": [
+      "CP7_CUTTING_REOPEN_HTTP_COMMIT_REPLAY",
+      "CP7_CUTTING_REOPEN_HTTP_READONLY",
+      "CP7_CUTTING_REOPEN_HTTP_CURRENT_AUTH"
+    ],
+    "browser": [
+      "CP7_CUTTING_REOPEN_BROWSER_DESKTOP",
+      "CP7_CUTTING_REOPEN_BROWSER_MOBILE"
+    ]
+  },
+  "required_screenshots": [
+    "CP7_CUTTING_REOPEN_REVIEW_DESKTOP.png",
+    "CP7_CUTTING_REOPEN_COMMITTED_DESKTOP.png",
+    "CP7_CUTTING_REOPEN_REVIEW_MOBILE.png",
+    "CP7_CUTTING_REOPEN_COMMITTED_MOBILE.png"
+  ],
+  "local_receipt": "docs/cp7/evidence/cutting-reopen/local/RECEIPT.json",
+  "required_gates": [
+    "All exact 19 nonempty planned bodies PASS",
+    "All Original install/runtime/backup/restore/advisor/current Auth/browser cleanup gates PASS",
+    "Pinned product source/tree and artifact CRC/member hashes",
+    "Retained source78 browser/readonly journeys",
+    "Full Shell build/security/CodeQL and affected F03 exact34-role regressions"
+  ],
+  "Native_qualified": true,
+  "full_family_acceptance": false,
+  "whole_CP7_complete": false,
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_P20_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "frozen_permission_nav_route_sensitive_budgets": {
+    "permissions": 111,
+    "nav": 48,
+    "routes": 48,
+    "sensitive_actions": 21
+  },
+  "ownership": {
+    "runtime_files": 269,
+    "named_RPC_boundaries": 199,
+    "stylesheets": 53
+  },
+  "continued_work": [
+    "Complete feasible posted-source owning correction contracts",
+    "Actual fabric recipe/allocation and full P08",
+    "Full six-consumer P18",
+    "Engineering-volume P19 with observed performance and recovery",
+    "Prepare independent P20 and installed P21 gates; never self-award acceptance"
+  ],
+  "first_Native_Original": "docs/cp7/evidence/cutting-reopen/first5fb-native19/RECEIPT.json",
+  "fixture_successor": "Only replace l.journal_id with actual l.journal_entry_id; all nineteen fixed cases required fresh.",
+  "second_Native_Original": "docs/cp7/evidence/cutting-reopen/second-d68-movement/RECEIPT.json",
+  "movement_observer_successor": {
+    "policy": "ALL_NATIVE_ROWS_FIELDS_NUMERIC_AND_TIMESTAMP_PRECISION_EXACT_UTC_TEXT",
+    "raw_before_and_after_timezones_retained": true,
+    "old_difference_cause_proved": false,
+    "Native_business_SQL_changed": false,
+    "required_fresh_case_count": 19,
+    "local_display_control": "docs/cp7/evidence/cutting-reopen/movement-observer-local/SQL_DISPLAY_CONTROL.json"
+  },
+  "qualified_supplier_current_authority": "docs/cp7/evidence/cutting-reopen/qualified-supplier6-d68/RECEIPT.json",
+  "qualified19_Original": "docs/cp7/evidence/cutting-reopen/qualified19-e206/RECEIPT.json",
+  "writer_visual": {
+    "committed_text_readability": "FAIL_DARK_TEXT_INHERITED_ON_DARK_PANEL",
+    "reviewed_original": "CP7_CUTTING_REOPEN_COMMITTED_DESKTOP.png",
+    "successor": "Own actual dark surface/text tokens and enabled text contrast assertions within unchanged desktop/mobile cases",
+    "fresh_case_count": 19
+  }
+}

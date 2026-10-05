@@ -9,6 +9,7 @@ import cp7_sales_command_cases as commands
 import cp7_sales_draft_cases as drafts
 import cp7_sales_payment_cases as payments
 import cp7_sales_return_cases as returns
+import cp7_sales_payment_correction_bundle as payment_correction
 import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
@@ -18,6 +19,7 @@ OUT=bundle.ROOT/'cp6-proof/t3/CP7_P11_SALES_READ.json'
 
 def verify(cur):
  result=p09.verify(cur)
+ payment_correction.verify(cur)
  got=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_sales'").fetchall()
  expected={n:('cp7_sales_read',False,'s') for n in ('access_now','header','workspace','review_token','form_options','cash_workspace','return_workspace')}
  expected['validate_draft']=('cp7_sales_read',False,'i');expected['validate_payment']=('cp7_sales_read',False,'i');expected['validate_return']=('cp7_sales_read',False,'i')

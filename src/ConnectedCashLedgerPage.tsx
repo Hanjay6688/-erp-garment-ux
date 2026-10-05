@@ -8,6 +8,7 @@ import {formatReceiptDecimal as numberText} from './procurementContract'
 import {financeDate} from './financeReportContract'
 import {parseFinanceAnalysis,type AnalysisDates,type FinanceAnalysis} from './financeAnalysisContract'
 import {financialRecoveryBlocked,financialRecoveryMessage,useFinancialRecoveryGate} from './useFinancialRecoveryGate'
+import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import './procurement-connected.css'
 
 const money=(value:string)=>'Rp'+numberText(value)
@@ -16,6 +17,8 @@ function queryFor(from:string,to:string):AnalysisDates{
  const previous=new Date(Date.parse(from+'T00:00:00Z')-86400000).toISOString().slice(0,10)
  return {from,to,as_of:to,compare_from:previous,compare_to:previous}
 }
+
+import TransactionSourceLink from './TransactionSourceNavigation'
 
 export default function ConnectedCashLedgerPage(){
  const {runtime,identity}=useAuth()
@@ -28,12 +31,14 @@ function Workspace(){
  const {runtime,identity}=useAuth();if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi kas belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),today=cp6WibDateTimeInput().slice(0,10)
  const [from,setFrom]=useState(today.slice(0,7)+'-01'),[to,setTo]=useState(today),[data,setData]=useState<FinanceAnalysis|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
+ const [search,setSearch]=useState(''),[appliedSearch,setAppliedSearch]=useState(''),[sourceStatus,setSourceStatus]=useState(''),[order,setOrder]=useState<RecordPageOrder>('SOURCE')
+ const selectedPage=useRef(0)
  const seq=useRef(0),selected=useRef(queryFor(today.slice(0,7)+'-01',today))
  useEffect(()=>()=>{++seq.current},[])
  const retire=useCallback(()=>{++seq.current;setData(null);setBusy(false);setError('')},[])
  const recoveryScope=`${runtime.projectRef}:${identity.profile.id}`,recoveryBlocked=useFinancialRecoveryGate(recoveryScope,retire)
  const load=useCallback(async(query:AnalysisDates,offset=0)=>{
-  const ticket=++seq.current;setData(null);setError('');setBusy(true)
+  const ticket=++seq.current;selectedPage.current=offset;setData(null);setError('');setBusy(true)
   try{
    if(financialRecoveryBlocked(recoveryScope))return
    const response=await client.rpc('erp_cp7_get_finance_analysis_v1',{p_query:{...query,offset,limit:25}})
@@ -48,17 +53,19 @@ function Workspace(){
   if(!financeDate(from)||!financeDate(to)||from>to||to>today){setError('Pilih periode kas yang sah sampai hari ini.');return}
   const query=queryFor(from,to)
   if(!financeDate(query.compare_from)){setError('Awal periode kas berada di luar tanggal yang didukung.');return}
-  selected.current=query;void load(query)
+  const offset=selected.current.from===query.from&&selected.current.to===query.to?selectedPage.current:0
+  selected.current=query;void load(query,offset)
  }
  const cash=data?.cash,page=cash?.entries
+ const visibleRows=orderRecordPage(page?.rows.filter(row=>(!sourceStatus||row.status===sourceStatus)&&(!appliedSearch||[row.journal_number,row.source_type,row.source_id,row.economic_date,row.transaction_date].join(' ').toLocaleLowerCase('id').includes(appliedSearch.toLocaleLowerCase('id')))),order,row=>row.journal_number)
  return <main className="cproc ccash" aria-label="Kas dan bank dari jurnal">
   <header><div><span>KEUANGAN · SALDO BUKU</span><h1>Kas & Bank</h1><p>Saldo dan mutasi rekening menurut tanggal pembukuan.</p></div></header>
   <section className="panel">
-   <form className="cproc-grid" onSubmit={e=>{e.preventDefault();submit()}}>
-    <label>Periode dari<input type="date" aria-label="Periode kas dari" value={from} onChange={e=>{retire();setFrom(e.target.value)}}/></label>
-    <label>Periode sampai<input type="date" aria-label="Periode kas sampai" value={to} onChange={e=>{retire();setTo(e.target.value)}}/></label>
-    <button disabled={busy}>Tampilkan kas</button>
-   </form>
+   <RecordTools title="jurnal kas" busy={busy||recoveryBlocked} order={order} onOrder={setOrder} searchScope="PAGE" filterScope="PAGE" browseLabel="Browse halaman ini" submitLabel="Tampilkan kas"
+    onSubmit={e=>{e.preventDefault();setAppliedSearch(search.trim());submit()}}
+    onBrowse={()=>{setSearch('');setAppliedSearch('');setSourceStatus('');submit()}}
+    search={<label>Cari nomor, jenis atau dokumen di halaman ini<input aria-label="Cari jurnal kas di halaman" value={search} maxLength={120} onChange={e=>setSearch(e.target.value)}/></label>}
+    filters={<><label>Periode dari<input type="date" aria-label="Periode kas dari" value={from} onChange={e=>{retire();setFrom(e.target.value)}}/></label><label>Periode sampai<input type="date" aria-label="Periode kas sampai" value={to} onChange={e=>{retire();setTo(e.target.value)}}/></label><label>Status jurnal di halaman ini<select aria-label="Status jurnal kas di halaman" value={sourceStatus} onChange={e=>setSourceStatus(e.target.value)}><option value="">Semua status</option><option value="POSTED">Tercatat</option><option value="REVERSED">Sudah dibalik</option></select></label></>}/>
    {busy?<p role="status">Membaca saldo dan sumber jurnal kas…</p>:null}
    {error?<p role="alert">{error}</p>:null}
    {recoveryBlocked?<p role="alert">{financialRecoveryMessage}</p>:null}
@@ -69,11 +76,12 @@ function Workspace(){
     <p>Rekening tidak aktif yang memiliki riwayat tetap dihitung. Akun buku yang sama dihitung sekali. Transfer antarrekening masuk debit dan kredit, dengan perubahan kas bersih nol. Penerimaan kas tidak otomatis menjadi penjualan.</p>
     <section aria-label="Sumber jurnal kas">
      <h2>Sumber jurnal kas</h2>
-     {page.rows.length===0?<p>Tidak ada jurnal kas dalam periode ini.</p>:null}
-     {page.rows.map(row=><article className="cproc-item" data-journal-id={row.id} key={row.id}>
+     <p>Menampilkan {visibleRows.length} dari {page.rows.length} baris halaman ini. Saldo dan jumlah jurnal tetap mencakup seluruh periode terpilih.</p>
+     {visibleRows.length===0?<p>Tidak ada jurnal kas yang cocok di halaman ini.</p>:null}
+     {visibleRows.map(row=><article className="cproc-item" data-journal-id={row.id} key={row.id}>
       <strong>{row.journal_number}</strong><p>{row.source_type} · pembukuan {row.transaction_date} · kejadian {row.economic_date}</p>
       <p>Debit {money(row.debit)} · kredit {money(row.credit)} · bersih {money(row.net)}.</p>
-      {row.source_id?<small>Dokumen sumber {row.source_id}</small>:null}
+      <TransactionSourceLink sourceType={row.source_type} sourceId={row.source_id} disabled={busy}/>{row.source_id?<small>Dokumen sumber {row.source_id}</small>:null}
       {row.reversal_of_id?<small>Pembalikan jurnal {row.reversal_of_id}</small>:row.status==='REVERSED'?<small>Jurnal asli sudah dibalik. Catatan asli dan pembalikannya mengikuti tanggal pembukuan masing-masing.</small>:null}
      </article>)}
      <div className="cproc-pagination"><span>Total {page.total} jurnal · halaman mulai {page.offset+1}</span>

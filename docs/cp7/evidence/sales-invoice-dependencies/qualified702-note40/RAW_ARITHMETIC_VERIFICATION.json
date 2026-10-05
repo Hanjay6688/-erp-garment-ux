@@ -1,0 +1,19 @@
+{
+  "classification": "SEPARATE_READ_ONLY_RAW_ARITHMETIC_NOT_NEW_NATIVE_EXECUTION_OR_INDEPENDENT_ACCEPTANCE",
+  "source_commit": "7022148fdd84b92de967fa182b5e69609e7570c5",
+  "run_id": 37160029474,
+  "raw_case_sha256": "6314bdf8c13e48b6d0ba757b111be5999104029179cb4758af0e4b081a36951c",
+  "all4_complete366_row_arrays": true,
+  "entire6_balance_fields_recomputed_from_raw_physical_deltas": true,
+  "all364_later_balances_plus12": true,
+  "original_identity_clock_recorded_time_manual_rank_and_original_delta_unchanged": true,
+  "before_final_pcs": "100",
+  "after_final_pcs": "112",
+  "original_note_pcs24_to12": true,
+  "all16_actual_HTTP_pages_100_100_100_66": true,
+  "command_HTTP_ms": 2577.358,
+  "money_and_replay_scope": "Executed actual Auth assertions retained in actual Native40 provider/report, not independently recalculated from stock arrays",
+  "full_P19_acceptance": false,
+  "production_SLA": false,
+  "new_Native_execution_credit": 0
+}

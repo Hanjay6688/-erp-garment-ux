@@ -1,0 +1,25 @@
+{
+  "head": "e133a874c20394f3c86147a8c2ab06112ca5d152",
+  "run_id": 37107850776,
+  "job_id": 111159780370,
+  "artifact_id": 11268433080,
+  "archive_sha256": "7a86b56c6e6847ab1eb8f97650ffd0b1e21d509f6dd90554aaa8b5dcbbb916d5",
+  "original_sha256": "c57a167fdfeeb0e5aee61d8f8840ddcdbe9d63c9837ea020004542ebc76d52d1",
+  "status": "INCOMPLETE",
+  "failure": "Actual E01 DB/HTTP pass, both browser journeys lose current AR-selected invoice on same submenu click.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "groups": {
+    "native": {
+      "PASS": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true
+}

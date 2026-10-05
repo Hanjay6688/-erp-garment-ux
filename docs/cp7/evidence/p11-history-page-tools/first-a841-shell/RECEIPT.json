@@ -1,0 +1,46 @@
+{
+  "status": "ORIGINAL_APPLICATION_INCOMPLETE",
+  "source_commit": "a8419b502a896446a00ec371eb3aff4fbe33cbf7",
+  "source_tree": "43d4b7e5e741f9f4399286004a9116263a0f44f4",
+  "run_id": 37156578320,
+  "job_id": 111301082345,
+  "application_tests": {
+    "passed": 1428,
+    "failed": 1,
+    "total": 1429
+  },
+  "application_files": {
+    "passed": 147,
+    "failed": 1,
+    "total": 148
+  },
+  "failed_case": "keeps history visible without offering unauthorized write or legacy-only inverse",
+  "received_form": "Cari, browse, urutkan dan filter riwayat retur invoice",
+  "cause": "Inherited broad form selector also matches the new readonly history search form.",
+  "successor_checks": "Exact owning write form, number, review and create/reverse actions absent; authorized readonly search retained with unchanged RPC/write counts.",
+  "product_permission_logic_changed": false,
+  "Original_CI_log": {
+    "file": "ORIGINAL_CI_LOG.txt.gz",
+    "raw_bytes": 135256,
+    "raw_sha256": "168501b4434c72513028a109a7c27d04a32dcce046828f9c53eae5468f360100",
+    "gzip_bytes": 25897,
+    "gzip_sha256": "93336b16f54a92f4789416b925bc545c812d8b1915cd379341b3c78a8bdde909"
+  },
+  "artifact_id": 11285542839,
+  "archive_bytes": 7171,
+  "archive_sha256": "5eeadbd7a3a437abf1c2cb9c3a1b4862391eeafbd3b47be0cbaea7c7f7e0deda",
+  "Original_roots": {
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "b5a9ea3395a0580da224f5117e7a6968617d9089c31420c451646497dc201214",
+      "file": "f04-private-kernels.json.gz",
+      "gzip_sha256": "b9120d5428facbdddd194139c467009fd2740664524d12f6f79f14a8465808b9"
+    }
+  },
+  "private_kernel_passed": 138,
+  "Native_product_credit": 0,
+  "first_failure_relabelled": false,
+  "full_application_build_browser_CodeQL_qualification": false,
+  "full_CP7": false,
+  "production_go": false
+}

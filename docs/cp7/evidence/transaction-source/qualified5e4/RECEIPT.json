@@ -1,0 +1,65 @@
+{
+  "head": "5e4af78f10dfbbe9162d4b99a75f4ee95d25c9f5",
+  "tree": "a3c23c777bb56b0b5ad2bcba0eccac5905f2f2c1",
+  "run_id": 37113905171,
+  "job_id": 111176884410,
+  "artifact_id": 11270812958,
+  "archive_sha256": "42a862333475d774ae71d894a68b8f51ec66b8f78bf40a9afc10e80a83978f64",
+  "originals": {
+    "CP7_TRANSACTION_SOURCE.json": "21de1cecb63e53967687471e7ebd3058a40d75ca41d035d68f715aa92cfb1d1a",
+    "T3_PACKAGE_INSTALL.json": "560eec2cd21593b6cf4cb4e6017efe6d8bab43f776cc35797ca2053481ea4cb3"
+  },
+  "source_sha256": "89195adda48450ca26e35f030ddd624bb150aa9b0d7f5486f15955ca528b3c22",
+  "status": "PASS",
+  "observed_case_count": 25,
+  "groups": {
+    "native": {
+      "PASS": 16
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "console_errors": 0,
+  "visuals": {
+    "CP7_SOURCE_PAYROLL_DESKTOP.png": {
+      "sha256": "19e125bf916ec1d8e0feeb58dbc14bb20264ba7b90f3c54e75655e0c1523bc21",
+      "bytes": 767587
+    },
+    "CP7_SOURCE_PAYROLL_INVERSE_DESKTOP.png": {
+      "sha256": "27dfa2e754e728b18d32851507569e3cea1234db61f6fde3796d43fe01d884a7",
+      "bytes": 766015
+    },
+    "CP7_SOURCE_PAYROLL_INVERSE_MOBILE.png": {
+      "sha256": "be0ef01a2e1ec2979fda21ff677faa5e1d8133c55924aa78fa961f421c871440",
+      "bytes": 530743
+    },
+    "CP7_SOURCE_PAYROLL_MOBILE.png": {
+      "sha256": "db9bc05ae331ed8145306ca3494cd60e049c6a55d641cdbefd9461ef8b8a0ac6",
+      "bytes": 531098
+    }
+  },
+  "writer_visual_review": "Inspected all4 original desktop/mobile payroll captures. Original approved1000 remains, source payment10 is explicitly labelled, paid260\u2192250/remaining740\u2192750, original physical2026-10-02 and inverse booking2026-10-03 visible, no duplicate inverse control. Browser overflow/read/recovery checks PASS; no independent UI acceptance.",
+  "scope": "Declared prior6 source families plus exact Native payroll/installment; no full-family claim",
+  "production_go": false,
+  "independent_acceptance": false
+}

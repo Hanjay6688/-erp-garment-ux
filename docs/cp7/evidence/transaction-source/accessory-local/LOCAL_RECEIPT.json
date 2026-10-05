@@ -1,0 +1,55 @@
+{
+  "basis": "Current uncommitted successor of5e4af78f; exact file hashes identify local source. Not Native or independent qualification.",
+  "local_impacted_tests": 92,
+  "test_files": 5,
+  "new_controls": 7,
+  "build": "PASS",
+  "security": "PASS",
+  "source_sha256": {
+    "src/ConnectedAccessoryIssuePage.tsx": "fd3bdfcf2fe2fa330454de2c5a1accf0cc773648546cb783568ef114f58a9951",
+    "src/ConnectedAccessoryIssuePage.dom.test.tsx": "2b191551fc6db15a02097b1e32d3b674de54aede38a336d8fff12f389eeab237",
+    "src/transactionSource.ts": "8c6ff5d61090e099a25f09b11847fedccd7d607c132126a9a3095857b18cb8e5",
+    "src/transactionSource.test.ts": "022ed606a05b6ab39434a2517d7835271d96393bdbc3ddd9e1826a5182c2f1e8",
+    "scripts/cp7-src/transactions/source.sql": "189119c555078bc89825110211e6afe096b32398746ba7672b12166d54a7421e",
+    "scripts/cp7_transaction_source_bundle.py": "da13a4f6d3732cf62c71444028c338d8221db61f0171e6741cd08f72f4b817e6",
+    "scripts/cp7_transaction_source_cases.py": "c9e733a9352d09461c1d40c1d0d0a060a0bed4a54fd03a7940150e26069c775f",
+    "scripts/cp7_transaction_source_browser.mjs": "f097b3ac4aaf002bcf8373dadc46e2cfb211ed834585fd1a287b7acf9b955e0c",
+    "scripts/cp7_transaction_source_browser_fixture.py": "8ab3472e70b217a03e230a4a39295266862aec6863bf52bcf52e335985a16acf",
+    "scripts/cp7_f05_analysis_probe.py": "700f6e41362367d5c26bc6544147a6b2c26c377fc34ae237a8578c14d87edeb6"
+  },
+  "local_SQL_machine": {
+    "status": "PASS",
+    "runtime": "PGLITE_WASM_WITH_DECLARED_AUTH_TABLE_STANDINS_NOT_NATIVE_PROOF",
+    "checks": [
+      "compile_actual_SQL",
+      "exact_parent_child",
+      "large_revision_string",
+      "page25",
+      "unsupported_no_invented_parent",
+      "current_permission_refusal",
+      "no_business_DML",
+      "payroll_child_native_order_page25",
+      "payroll_header_direct_metadata_only",
+      "accessory_exact_child_and_big_version",
+      "accessory_direct_cost_receivable_headers",
+      "read_role_no_ERP_DML",
+      "non_PCS_material_issue_not_redirected",
+      "missing_accessory_child_refused"
+    ],
+    "checks_passed": 14
+  },
+  "Native_case_budget": 32,
+  "required": {
+    "native": 20,
+    "races": 2,
+    "http": 4,
+    "browser": 6
+  },
+  "Native_status": "PENDING",
+  "existing25_cases_retained": true,
+  "ERP_SELECT_tables": 24,
+  "no_new_Native_writer_EXEC_or_business_DML": true,
+  "Native_definitions_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

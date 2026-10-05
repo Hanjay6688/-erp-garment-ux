@@ -4,6 +4,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ConnectedBsResolutionPage from './ConnectedBsResolutionPage'
+import TransactionSourceLink, { TransactionSourceProvider } from './TransactionSourceNavigation'
 
 const authState = vi.hoisted(() => ({ current: null as unknown }))
 const mockedClient = vi.hoisted(() => ({ current: null as unknown }))
@@ -132,7 +133,158 @@ async function renderPage() {
   await settle(220)
 }
 
+const sourceCaseId='44444444-4444-4444-8444-444444444444',sourceReworkId='55555555-5555-4555-8555-555555555555'
+function sourceReceipt(offset=50,parent=sourceCaseId){return{contract_version:'cp7.transaction-source.v1',actor_scope_id:'auth-user-1',source:{source_type:'REWORK_ORDER',source_id:sourceReworkId},status:'AVAILABLE',document:{domain:'BS_REWORK',route:'bs-rework',id:parent,number:'BS-LAMA',status:'PARTIAL',revision:'4',focus:{kind:'REWORK_ORDER',id:sourceReworkId,page_offset:offset}},read_at:'2026-10-03T04:00:00.123456Z',business_DML:false}}
+function sourceWorkspace(offset=50,cancelled=false){
+ const data=workspace();Object.assign(data,{filter:'ALL',kind:'BS',offset,total:52})
+ const row=data.rows[0]!;Object.assign(row,{id:sourceCaseId,case_key:`BS:${sourceCaseId}`,number:'BS-LAMA',status:'PARTIAL'})
+ row.rework_orders=[{id:sourceReworkId,rework_number:'RW-LAMA',destination_type:'CONTRACTOR',contractor_id:'contractor-1',contractor_name:'Mandor A',vendor_id:null,vendor_name:null,qty_sent:2,qty_good_returned:2,qty_bs_returned:0,physical_sent_at:'2026-09-03T10:00:00Z',completed_at:'2026-09-03T11:00:00Z',status:cancelled?'CANCELLED':'COMPLETED',cost_posted:true,return_fg_location_id:'location-1',return_fg_location_name:'Gudang FG',good_fg_lot_id:'lot-1',row_version:cancelled?3:2,notes:null,components:[],accessory_decision:{state:'NONE',bom_version_id:'bom-1',reimbursement_contractor_id:'contractor-1',selected_item_count:0,selection_sha256:'b'.repeat(64),basis_at:'2026-09-03T10:00:00Z',selected_items:[]}}]
+ return data
+}
+async function openReworkSource(){
+ await act(async()=>root.render(<TransactionSourceProvider scope="bs-source" onNavigate={()=>{}}><TransactionSourceLink sourceType="REWORK_ORDER" sourceId={sourceReworkId}/><ConnectedBsResolutionPage/></TransactionSourceProvider>));await settle(220)
+ await act(async()=>[...container.querySelectorAll<HTMLButtonElement>('button')].find(b=>b.textContent==='Buka transaksi asal')!.click());await settle()
+}
+
 describe('CP5 connected BS Resolution DOM boundary', () => {
+  it('opens the exact rework child on the Native BS50 page and never substitutes its first other case',async()=>{
+    const rpc=vi.fn(async(name:string,args:Record<string,unknown>={})=>{
+      if(name==='erp_list_patterns_v1')return{data:patterns,error:null}
+      if(name==='erp_cp7_resolve_transaction_source_v1')return{data:sourceReceipt(),error:null}
+      if(name==='erp_get_bs_resolution_workspace_v1'){
+        if(args.p_offset!==50)return{data:workspace(null,false),error:null}
+        const data=sourceWorkspace();data.rows.unshift({...data.rows[0]!,id:'other-case',case_key:'BS:other-case',number:'BS-AUTRE',rework_orders:[]});return{data,error:null}
+      }
+      throw Error('Unexpected writer '+name)
+    });mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','master.pattern.view'])
+    await openReworkSource()
+    expect(container.querySelector('.cbsr-detail h2')?.textContent).toBe('BS-LAMA')
+    expect(container.querySelector('[data-source-focus="true"]')?.getAttribute('data-rework-id')).toBe(sourceReworkId)
+    expect(rpc.mock.calls.find(([name,args])=>name==='erp_get_bs_resolution_workspace_v1'&&args?.p_offset===50)?.[1]).toEqual({p_filter:'ALL',p_kind:'BS',p_pattern_id:null,p_query:null,p_limit:50,p_offset:50})
+    expect(rpc.mock.calls.some(([name])=>name==='erp_save_bs_resolution_action_v1')).toBe(false)
+  })
+
+  it('refuses the owner page when the actual rework child is absent without painting a different case',async()=>{
+    const rpc=vi.fn(async(name:string,args:Record<string,unknown>={})=>{
+      if(name==='erp_list_patterns_v1')return{data:patterns,error:null}
+      if(name==='erp_cp7_resolve_transaction_source_v1')return{data:sourceReceipt(),error:null}
+      const data=args.p_offset===50?sourceWorkspace():workspace(null,false);data.rows.forEach(r=>r.rework_orders=[]);return{data,error:null}
+    });mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','production.bs_rework.create','master.pattern.view'])
+    await openReworkSource();expect(container.textContent).toContain('Order rework asal tidak ditemukan')
+    expect(container.querySelector('.cbsr-detail')).toBeNull()
+    expect([...container.querySelectorAll<HTMLButtonElement>('button')].find(b=>b.textContent?.trim()==='BS legacy')?.disabled).toBe(true)
+    expect(rpc.mock.calls.some(([name])=>name==='erp_save_bs_resolution_action_v1')).toBe(false)
+  })
+
+  it('retires source facts when a later resolver points at another BS parent',async()=>{
+    let changed=false
+    const rpc=vi.fn(async(name:string,args:Record<string,unknown>={})=>{
+      if(name==='erp_list_patterns_v1')return{data:patterns,error:null}
+      if(name==='erp_cp7_resolve_transaction_source_v1')return{data:sourceReceipt(50,changed?'66666666-6666-4666-8666-666666666666':sourceCaseId),error:null}
+      return{data:args.p_offset===50?sourceWorkspace():workspace(null,false),error:null}
+    });mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','master.pattern.view'])
+    await openReworkSource();expect(container.querySelector('.cbsr-detail')).not.toBeNull();changed=true
+    await act(async()=>[...container.querySelectorAll<HTMLButtonElement>('button')].find(b=>b.textContent?.trim()==='Refetch')!.click());await settle()
+    expect(container.querySelector('.cbsr-detail')).toBeNull();expect(container.textContent).toContain('Kasus BS asal belum dapat dipastikan')
+  })
+
+  it('reopens the same retained rework after its owning inverse changes the case page',async()=>{
+    let cancelled=false
+    const rpc=vi.fn(async(name:string,args:Record<string,unknown>={})=>{
+      if(name==='erp_list_patterns_v1')return{data:patterns,error:null}
+      if(name==='erp_cp7_resolve_transaction_source_v1')return{data:sourceReceipt(cancelled?0:50),error:null}
+      if(name==='erp_get_bs_resolution_workspace_v1')return{data:args.p_kind==='BS'?sourceWorkspace(cancelled?0:50,cancelled):workspace(null,false),error:null}
+      if(name==='erp_save_bs_resolution_action_v1'){expect(args.p_action).toBe('REVERSE_REWORK_COMPLETION');expect(args.p_payload).toMatchObject({rework_order_id:sourceReworkId});cancelled=true;return{data:{action:args.p_action,result:{rework_order_id:sourceReworkId,status:'CANCELLED',row_version:3}},error:null}}
+      throw Error('Unexpected RPC '+name)
+    });mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','production.bs_rework.reverse','master.pattern.view'])
+    await openReworkSource()
+    await act(async()=>setControlValue(container.querySelector<HTMLInputElement>('.cbsr-rework-complete input')!,'Pemeriksaan barang sebelum pembatalan'))
+    await act(async()=>container.querySelector<HTMLButtonElement>('.cbsr-rework-complete button')!.click());await settle()
+    expect(rpc.mock.calls.some(([name])=>name==='erp_save_bs_resolution_action_v1')).toBe(false)
+    expect(container.querySelector('[aria-label="Pemeriksaan pembatalan hasil rework"]')?.textContent).toContain('2 Good dan 0 BS')
+    await act(async()=>[...container.querySelectorAll<HTMLButtonElement>('button')].find(b=>b.textContent?.trim()==='Sahkan pembatalan hasil')!.click());await settle()
+    expect(container.querySelector('.cbsr-detail h2')?.textContent).toBe('BS-LAMA')
+    expect(container.querySelector(`[data-rework-id="${sourceReworkId}"]`)?.textContent).toContain('CANCELLED')
+    expect(container.querySelector('.cbsr-rework-complete')).toBeNull()
+    expect(rpc.mock.calls.filter(([name])=>name==='erp_save_bs_resolution_action_v1')).toHaveLength(1)
+    const inverseIndex=rpc.mock.calls.findIndex(([name])=>name==='erp_save_bs_resolution_action_v1')
+    const refreshedSourceCalls=rpc.mock.calls.slice(inverseIndex+1).filter(([name])=>name==='erp_get_bs_resolution_workspace_v1')
+    expect(refreshedSourceCalls.length).toBeGreaterThan(0)
+    expect(refreshedSourceCalls.at(-1)?.[1]).toMatchObject({p_filter:'ALL',p_kind:'BS',p_limit:50,p_offset:0})
+  })
+
+  it('clears the source focus when the user browses the whole Native case list',async()=>{
+    const rpc=vi.fn(async(name:string,args:Record<string,unknown>={})=>{
+      if(name==='erp_list_patterns_v1')return{data:patterns,error:null}
+      if(name==='erp_cp7_resolve_transaction_source_v1')return{data:sourceReceipt(),error:null}
+      return{data:args.p_kind==='BS'?sourceWorkspace():workspace(null,false),error:null}
+    });mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','master.pattern.view'])
+    await openReworkSource();const resolved=rpc.mock.calls.filter(([name])=>name==='erp_cp7_resolve_transaction_source_v1').length
+    await act(async()=>[...container.querySelectorAll<HTMLButtonElement>('button')].find(b=>b.textContent==='Browse semua')!.click());await settle()
+    expect(rpc.mock.calls.at(-1)?.[1]).toMatchObject({p_filter:'ALL',p_kind:'ALL',p_offset:0})
+    expect(rpc.mock.calls.filter(([name])=>name==='erp_cp7_resolve_transaction_source_v1')).toHaveLength(resolved)
+    expect(container.querySelector('[data-source-focus="true"]')).toBeNull()
+  })
+  it('orders only the displayed case page without changing the selected original case or writing', async () => {
+    const data=workspace()
+    data.rows=['BS-10','BS-2','BS-1'].map((number,index)=>({...data.rows[0]!,id:`case-${index}`,case_key:`BS:case-${index}`,number}))
+    data.total=3
+    const rpc=vi.fn(async(name:string)=>name==='erp_list_patterns_v1'?{data:patterns,error:null}:{data,error:null})
+    mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','master.pattern.view'])
+    await renderPage()
+    const detail=()=>container.querySelector('.cbsr-detail h2')?.textContent
+    expect(detail()).toBe('BS-10')
+    const reads=rpc.mock.calls.length
+    await act(async()=>setControlValue(container.querySelector<HTMLSelectElement>('[aria-label="Urutkan halaman BS dan claim"]')!,'LABEL_ASC'))
+    expect([...container.querySelectorAll('.cbsr-list button strong')].map(row=>row.textContent)).toEqual(['BS-1','BS-2','BS-10'])
+    expect(detail()).toBe('BS-10');expect(rpc.mock.calls).toHaveLength(reads)
+  })
+
+  it('browses the actual complete case filters from page zero without a writer', async () => {
+    const rpc=vi.fn(async(name:string,args:Record<string,unknown>={})=>{
+      if(name==='erp_list_patterns_v1')return{data:patterns,error:null}
+      if(name==='erp_get_bs_resolution_workspace_v1')return{data:{...workspace(null,false),filter:args.p_filter,kind:args.p_kind,pattern_id:args.p_pattern_id,query:args.p_query,offset:args.p_offset},error:null}
+      throw new Error(`Unexpected writer ${name}`)
+    })
+    mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','master.pattern.view'])
+    await renderPage()
+    await act(async()=>setControlValue(container.querySelector<HTMLInputElement>('[aria-label="Cari BS atau claim"]')!,'BS lama'))
+    await act(async()=>[...container.querySelectorAll<HTMLButtonElement>('button')].find(b=>b.textContent==='Browse semua')!.click());await settle()
+    expect(rpc.mock.calls.filter(([name])=>name==='erp_get_bs_resolution_workspace_v1').at(-1)?.[1]).toEqual({p_filter:'ALL',p_kind:'ALL',p_pattern_id:null,p_query:null,p_limit:50,p_offset:0})
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Cari BS atau claim"]')!.value).toBe('')
+    expect(rpc.mock.calls.every(([name])=>['erp_list_patterns_v1','erp_get_bs_resolution_workspace_v1'].includes(name))).toBe(true)
+  })
+
+  it('keeps failed-refresh facts unknown even after dismissing the error and preserves the search', async () => {
+    let fail=false
+    const rpc=vi.fn(async(name:string)=>name==='erp_list_patterns_v1'?{data:patterns,error:null}:fail?{data:null,error:{code:'08006',message:'Read failed'}}:{data:workspace(),error:null})
+    mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','master.pattern.view'])
+    await renderPage()
+    expect(container.querySelector('.cbsr-detail h2')?.textContent).toBe('BS-1')
+    await act(async()=>setControlValue(container.querySelector<HTMLInputElement>('[aria-label="Cari BS atau claim"]')!,'CATATAN CARI'))
+    fail=true
+    await act(async()=>[...container.querySelectorAll<HTMLButtonElement>('.cbsr-hero button')].find(b=>b.textContent?.includes('Refetch'))!.click());await settle()
+    await act(async()=>container.querySelector<HTMLButtonElement>('.cbsr-alert.error button')!.click())
+    expect(container.querySelector('.cbsr-detail')).toBeNull()
+    expect([...container.querySelectorAll('.cbsr-kpis strong')].map(row=>row.textContent)).toEqual(['—','—','—','—'])
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Cari BS atau claim"]')!.value).toBe('CATATAN CARI')
+  })
+
+  it('rejects an older authorized case response after a new permission generation returns403', async () => {
+    let resolve!:(value:unknown)=>void
+    const rpc=vi.fn((name:string)=>name==='erp_list_patterns_v1'?Promise.resolve({data:patterns,error:null}):new Promise(r=>{resolve=r}))
+    mockedClient.current={rpc};authState.current=identity(['production.bs_rework.view','master.pattern.view'])
+    await renderPage()
+    const oldResolve=resolve
+    rpc.mockImplementation((name:string)=>Promise.resolve(name==='erp_list_patterns_v1'?{data:patterns,error:null}:{data:null,error:{code:'42501',message:'Current view revoked'}}))
+    const next=identity(['production.bs_rework.view','master.pattern.view']);next.identity.profile.roleRowVersion=2;authState.current=next
+    await renderPage()
+    await act(async()=>oldResolve({data:workspace(),error:null}));await settle()
+    expect(container.querySelector('.cbsr-detail')).toBeNull()
+    expect(container.querySelector('[role="alert"]')?.textContent).toContain('Akun tidak memiliki izin untuk operasi ini.')
+    expect([...container.querySelectorAll('.cbsr-kpis strong')].every(row=>row.textContent==='—')).toBe(true)
+  })
+
   it.each(['14.25', '0,25'])('preserves claim money %s at the actual form-to-RPC boundary', async (amount) => {
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }

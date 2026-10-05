@@ -1,0 +1,51 @@
+{
+  "contract": "cp7.stock-popup-shared-Original-handoff.v1",
+  "status": "WRITER_NATIVE9_FULL_SIX_CONSUMER_STOCK_POPUP_E01_BRIDGE_PASS_E206_FULL_P18_OPEN",
+  "base_commit": "5fb7579efa49780ef0229237c4e781291203eb83",
+  "scope": "SAME_VALIDATED_NATIVE_ANALYSIS_IN_STOCK_POPUP_PRODUCTION_REPORT_REMINDER_AND_MANUAL_AI_HANDOFF",
+  "data": "Stock rows and popup render exact validated Native FactValue bodies, run/source/semantic hashes, full source/assumptions and explicit UNKNOWN; no new calculation or recapture.",
+  "authority": "Opening a popup explicitly rechecks existing erp_cp7_read_analysis_v1 under current Auth. Revocation/source retirement/storage invalidation/generation changes clear the popup and source. Archived snapshots cannot open fresh popup.",
+  "filter": "Presentation only. It never changes global physical allocation, report or AI Original.",
+  "clock": "WIB business time; real desktop/mobile qualification remains under America/Los_Angeles device time.",
+  "local_receipt": "docs/cp7/evidence/p18-shared-consumer/local-stock-popup-5fb/RECEIPT.json",
+  "required_counts": {
+    "native": 5,
+    "races": 1,
+    "http": 1,
+    "browser": 2
+  },
+  "expected_case_count": 9,
+  "new_unique_Native_executions": 0,
+  "real_browser": "Strengthen both retained real E01 desktop/mobile journeys with stock/filter/popup exact FactValue bodies and same Original comparisons; keep all previous loss/recovery/inverse/archive/current-403 controls.",
+  "required_new_screenshots": [
+    "P18_SHARED_STOCK_DESKTOP.png",
+    "P18_SHARED_STOCK_POPUP_DESKTOP.png",
+    "P18_SHARED_STOCK_MOBILE.png",
+    "P18_SHARED_STOCK_POPUP_MOBILE.png"
+  ],
+  "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
+  "full_P19_acceptance": false,
+  "whole_CP7_complete": false,
+  "independent_P20_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "first_stock_Native_Original": "docs/cp7/evidence/p18-e01-bridge/first-stock-d68/RECEIPT.json",
+  "retained_lifecycle_first_Original": "docs/cp7/evidence/rule-lifecycle/first-stock-d68/RECEIPT.json",
+  "browser_fixture_successor": {
+    "target": "Exact actual E01 Native sold physical root/size; never first unrelated recommendation",
+    "economics": "Preserve full Native current price/BOM, actual work rates and vendor-authoritative laundry; verify old E01 stock45 value675 HPP15 AR175",
+    "scenario": "Only this disposable root: public Native commercial grouping/current-policy ACTIVE and selected mean10 L3 R7 B0 target100; no owner factory defaults",
+    "unknown": "No capacity, recipe installation or other-root policy assumption; feasible_new remains UNKNOWN",
+    "required_fresh_native9": true,
+    "required_fresh_retained_lifecycle16": true,
+    "new_unique_lifecycle_credit": 0
+  },
+  "qualified9_Original": "docs/cp7/evidence/p18-e01-bridge/qualified9-e206/RECEIPT.json",
+  "retained_lifecycle16_Original": "docs/cp7/evidence/rule-lifecycle/qualified16-e206/RECEIPT.json",
+  "writer_visual": {
+    "reviewed": "P18_SHARED_STOCK_POPUP_MOBILE.png",
+    "exact_stock45_target100_assumption_gap55_UNKNOWN_material_and_feasible_clear": true,
+    "independent_demo_acceptance": false
+  }
+}

@@ -1,0 +1,10 @@
+Exact completed application job111188518044, run37118026859, source404252fbf8e4fbea724b727dbf7228ab5466eb96. Relevant original log lines with ANSI control sequences removed:
+2026-10-03T11:00:47.8327979Z  Test Files  143 passed (143)
+2026-10-03T11:00:47.8333189Z       Tests  1374 passed (1374)
+2026-10-03T11:00:48.1944213Z Source ownership passed: 252 runtime files, 184 owned RPC boundaries, no orphan or direct table access.
+2026-10-03T11:00:48.3718456Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 184 browser RPC boundaries.
+2026-10-03T11:00:52.6545968Z CSS ownership passed: 53 stylesheets have no unowned selector branches.
+2026-10-03T11:00:55.8838242Z Source ownership passed: 252 runtime files, 184 owned RPC boundaries, no orphan or direct table access.
+2026-10-03T11:00:56.0488680Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 184 browser RPC boundaries.
+2026-10-03T11:01:00.3374972Z CSS ownership passed: 53 stylesheets have no unowned selector branches.
+2026-10-03T11:01:37.2885441Z   6 passed (11.1s)

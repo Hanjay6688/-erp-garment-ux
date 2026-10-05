@@ -8,9 +8,85 @@ import hashlib
 import json
 from time import monotonic
 import uuid
+from pathlib import Path
 
 import psycopg
 import cp7_analysis_cases as cases
+
+
+def compare_history(cur, query, actor):
+    """Compare complete old/new history JSON on the same actual Native capture.
+
+    Both observations run under the unchanged read principal and 8s/2s limits.
+    The older definition is confined to a rolled-back diagnostic savepoint.
+    This measures only the private compiler; it is not full P19 acceptance.
+    """
+    previous_path = Path(__file__).resolve().parents[1] / 'tests/cp7/fixtures/history-availability-before-e206.sql'
+    previous = previous_path.read_text()
+    assert hashlib.sha256(previous.encode()).hexdigest() == '82b49380ecb8f0ae61415414fa0cc4fce08718012b795cd19c2c22754fd50c95'
+    signature = 'cp7_planning.history_availability(jsonb,jsonb)'
+    report = dict(diagnostic_only=True, product_qualification=False,
+                  full_P19_acceptance=False, status='DIAGNOSTIC_INCOMPLETE',
+                  observations=[], definition_restored=False,
+                  Native_HTTP_timeout_changed=False, source_caps_changed=False)
+    cases.b.api.admin(cur)
+    original = cur.execute('select pg_get_functiondef(%s::regprocedure)', (signature,)).fetchone()[0]
+    assert 'Parse the whole immutable Native stock collection once.' in original, 'UNEXPECTED_HISTORY_CANDIDATE'
+    report.update(candidate_definition_sha256=hashlib.sha256(original.encode()).hexdigest(),
+                  previous_source_sha256=hashlib.sha256(previous.encode()).hexdigest())
+    cur.execute('savepoint history_compile_equivalence')
+    try:
+        cases.auth.actor(cur, actor)
+        claims = cur.execute("select current_setting('request.jwt.claims',true)").fetchone()[0]
+
+        def principal():
+            cases.b.api.admin(cur)
+            cur.execute("select set_config('request.jwt.claims',%s,true)", (claims,))
+            cur.execute('set local role cp7_capture')
+            cur.execute("set local statement_timeout='8s'")
+            cur.execute("set local lock_timeout='2s'")
+
+        principal()
+        q = json.dumps(query)
+        source = cur.execute('select cp7_analysis_native.source(cp7_planning.history_query(%s::jsonb))::text', (q,)).fetchone()[0]
+        parsed = json.loads(source)
+        report.update(actual_Native_capture_sha256=hashlib.sha256(source.encode()).hexdigest(),
+                      Native_product_count=len(parsed['facts']['products']), Native_stock_count=len(parsed['facts']['stock']))
+
+        def observe(label):
+            start = monotonic()
+            raw = cur.execute('select cp7_planning.history_availability(%s::jsonb,cp7_planning.history_query(%s::jsonb))::text', (source, q)).fetchone()[0]
+            report['observations'].append(dict(label=label, elapsed_ms=round((monotonic()-start)*1000, 3),
+                utf8_bytes=len(raw.encode()), full_JSON_sha256=hashlib.sha256(raw.encode()).hexdigest(),
+                row_count=len(json.loads(raw))))
+            return raw
+
+        candidate_first = observe('INSTALLED_CANDIDATE_FIRST')
+        cases.b.api.admin(cur)
+        cur.execute('savepoint prior_history_definition')
+        cur.execute(previous.replace('create function ', 'create or replace function ', 1), prepare=False)
+        principal()
+        previous_first = observe('PRIOR_COMPLETE_SQL_FIRST')
+        previous_warmed = observe('PRIOR_COMPLETE_SQL_WARMED')
+        cur.execute('rollback to savepoint prior_history_definition')
+        cur.execute('release savepoint prior_history_definition')
+        principal()
+        candidate_warmed = observe('RESTORED_CANDIDATE_WARMED')
+        report['full_paired_Originals'] = dict(actual_Native_capture_SQL_JSON_text=source,
+            candidate_SQL_JSON_text=candidate_first, previous_SQL_JSON_text=previous_first)
+        report['complete_SQL_JSON_text_equal'] = candidate_first == previous_first == previous_warmed == candidate_warmed
+        assert report['complete_SQL_JSON_text_equal'], 'HISTORY_COMPLETE_PRIOR_SQL_DIFFERENCE'
+        report['status'] = 'EXACT_ACTUAL_NATIVE_CAPTURE_HISTORY_COMPILER_EQUIVALENCE'
+    except psycopg.Error as error:
+        report.update(sqlstate=error.sqlstate, error=error.diag.message_primary)
+    finally:
+        cur.execute('rollback to savepoint history_compile_equivalence')
+        cur.execute('release savepoint history_compile_equivalence')
+        cases.b.api.admin(cur)
+        restored = cur.execute('select pg_get_functiondef(%s::regprocedure)', (signature,)).fetchone()[0]
+        assert restored == original, 'DIAGNOSTIC_HISTORY_DEFINITION_NOT_RESTORED'
+        report['definition_restored'] = True
+    return report
 
 
 OLD_MATRIX = """ for p in select value from jsonb_array_elements(wip->'positions')where value->'eligible_company_wip'='true'::jsonb loop

@@ -778,6 +778,8 @@
 }
 
 .clq-history > article > header > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
   display: grid;
   gap: 4px;
 }
@@ -797,6 +799,7 @@
 }
 
 .clq-history article header em {
+  flex-shrink: 0;
   align-self: start;
   padding: 6px 8px;
   border-radius: 8px;
@@ -1007,3 +1010,8 @@
     width: 100%;
   }
 }
+.clq-dependencies { display:grid; gap:8px; min-width:0; margin-top:8px; }
+.clq-dependencies p { margin:0; }
+.clq-dependencies ul { display:grid; gap:8px; margin:0; padding-left:20px; }
+.clq-dependencies li { overflow-wrap:anywhere; }
+.clq-dependency-pages { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
