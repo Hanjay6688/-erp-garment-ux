@@ -317,6 +317,13 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
+        name: cp7-f05-attention-original-json
+        path: auditor/cp6-proof/t3/*.json
+        retention-days: 30
+        if-no-files-found: error
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
         name: cp7-f05-attention
         path: auditor/cp6-proof/t3
         retention-days: 30

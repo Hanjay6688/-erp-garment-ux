@@ -3653,7 +3653,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Qualify updated fabric Native13 at exact changed UI/provider source, then inspect full analysis152, attention284, plan39 and Shell Originals. Requalify unchanged note40+admission3 and redye5 with full raw catalogs and8 preservation controls; retain first unproved public-comparison failures. Continue actual P08/P18 integration and representative P19; independent P20 and installed P21 remain separate. No hosted production authorization.",
+  "next_action": "Finish exact-source Native152/284 and note40+admission3 complete Original qualification. Fabric13/69 affected/1538 Shell and source190 Native152+plan39 are qualified by full roots; first failures remain immutable. The attention workflow exports every full top-level JSON separately to make complete284 Originals accessible. Then continue actual P08 physical installation/eligible-unused/global feasibility, P18 and representative P19. Independent P20 and installed P21 are separate; no hosted production authorization.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -11109,7 +11109,7 @@
     "production_go": false
   },
   "fabric_recipe_candidate": {
-    "status": "NATIVE_FIRST12_PASS_1_FIXTURE_ADMISSION_REFUSAL; SOURCE_RECOVERY_FIX_LOCAL69_BUILD_SECURITY_PASS_REQUALIFY13",
+    "status": "QUALIFIED_BOUNDED_NATIVE13_CURRENT_AUTH_RECOVERY_69_LOCAL_1538_SHELL",
     "base_source": "3d4948b1598b0fc03490d5615b21b5d9e2926462",
     "contract": "docs/cp7/f04/NATIVE_FABRIC_RECIPE.md",
     "declaration": "docs/cp7/f04/NATIVE_FABRIC_RECIPE.json",
@@ -11152,11 +11152,11 @@
         "P08_FABRIC_BROWSER_MOBILE"
       ]
     },
-    "actual_Native_status": "FIRST_INCOMPLETE_NOT_RECLASSIFIED",
+    "actual_Native_status": "SUCCESSOR13_PASS_FIRST190_INCOMPLETE_UNCHANGED",
     "full_P08_acceptance": false,
     "production_go": false,
     "first_native_receipt": "docs/cp7/evidence/fabric-recipe/first13-incomplete-190/FIRST_FAILURE.json",
-    "qualified_shell_receipt": "docs/cp7/evidence/fabric-recipe/qualified-shell-190/QUALIFIED_SHELL.json",
+    "qualified_shell_receipt": "docs/cp7/evidence/fabric-recipe/qualified-shell-e7/QUALIFIED_SHELL.json",
     "recovery_preparation": "docs/cp7/evidence/fabric-recipe/recovery-preparation-190/LOCAL_RECOVERY.json",
     "first_source": "190078a891054b2181d50d12458b9f12721cec59",
     "first_counts": {
@@ -11174,7 +11174,40 @@
         "PASS": 2
       }
     },
-    "fixture_repair": "Initial custom actor also needs production.cutting.view for reused Native85 option fixture; revoke only master.product.manage after its actually observed target wait. No production guard weakened."
+    "fixture_repair": "Initial custom actor also needs production.cutting.view for reused Native85 option fixture; revoke only master.product.manage after its actually observed target wait. No production guard weakened.",
+    "qualified_source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+    "qualified_receipt": "docs/cp7/evidence/fabric-recipe/qualified13-e7/RECEIPT.json",
+    "actual_backdate_refusal_then_fresh_review_lost_reply_recovery_both_viewports": true,
+    "actual_current_auth_after_observed_target_wait": true,
+    "full_raw_catalogs_recomputed": 18,
+    "preservation_controls_recomputed": 8,
+    "retained_regression_originals": {
+      "analysis152": {
+        "source": "190078a891054b2181d50d12458b9f12721cec59",
+        "receipt": "docs/cp7/evidence/f05-analysis/qualified152-190/RECEIPT.json",
+        "counts": {
+          "native": 106,
+          "races": 20,
+          "http": 12,
+          "browser": 14
+        }
+      },
+      "plan39": {
+        "source": "190078a891054b2181d50d12458b9f12721cec59",
+        "receipt": "docs/cp7/evidence/f04-plan/qualified39-190/RECEIPT.json",
+        "counts": {
+          "native": 25,
+          "races": 8,
+          "http": 2,
+          "browser": 4
+        }
+      },
+      "redye5": {
+        "source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+        "receipt": "docs/cp7/evidence/f03-redye/qualified5-e7/RECEIPT.json",
+        "raw_snapshots_recomputed": 6
+      }
+    }
   },
   "retained_public_catalog_requalification_190": {
     "note_first": "docs/cp7/evidence/note-correction/first-admission-incomplete-190/FIRST_FAILURE.json",
@@ -11186,5 +11219,20 @@
       "redye5": 5
     },
     "production_code_changes": 0
+  },
+  "native_attention_complete_original_export": {
+    "status": "SEPARATE_COMPLETE_JSON_ARTIFACT_REQUIRED",
+    "old_source": "190078a891054b2181d50d12458b9f12721cec59",
+    "old_run": 37304873193,
+    "old_artifact": 11343944807,
+    "old_bytes": 367025335,
+    "old_sha256": "c8a0ee36d8a9aa29cd870bf380fa8a116c9c4475020965e8e34b77ac2402e57e",
+    "observed_download_failures": [
+      "HTTP502",
+      "HTTP502"
+    ],
+    "old_284_CI_status": "success",
+    "full_old_284_Original_qualification_awarded": false,
+    "repair": "Additional complete top-level JSON artifact; existing full archive remains. No test/provider/runtime/oracle change."
   }
 }

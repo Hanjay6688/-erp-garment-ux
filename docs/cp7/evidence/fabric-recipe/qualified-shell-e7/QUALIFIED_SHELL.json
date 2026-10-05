@@ -1,0 +1,99 @@
+{
+  "contract": "cp7.qualified-shell-complete-originals.v1",
+  "source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+  "workflow_run": 37310043239,
+  "shell_job": 111762927196,
+  "status": "PASS",
+  "test_files": 161,
+  "unit_tests_passed": 1538,
+  "recipe_private_controls": 24,
+  "private_F04_controls": 138,
+  "synthetic_browser": 6,
+  "CodeQL_execution_successful": true,
+  "CodeQL_results": 0,
+  "whole_original_artifacts": [
+    {
+      "artifact_id": 11345837089,
+      "path": "docs/cp7/evidence/fabric-recipe/qualified-shell-e7/cp7-shell-proof-e7.zip.gz",
+      "original_bytes": 497481,
+      "original_sha256": "c056715d45129da0dc0b828433b873f0b489d7d9e9344123942c3d2086c248d4",
+      "all_zip_members": [
+        {
+          "path": "desktop-planner.png",
+          "bytes": 130883,
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+        },
+        {
+          "path": "fabric-recipe.json",
+          "bytes": 40170,
+          "sha256": "294ff4fc423ad4d81d9ee29c40d0a2d5874587b94f80ec4e5552e60c06186ba2"
+        },
+        {
+          "path": "f04-private-kernels.json",
+          "bytes": 53273,
+          "sha256": "4aa8711c175d60a6ac6b9794013fef08af25f1039b091304f75626027fa377c3"
+        },
+        {
+          "path": "history-availability-parity.json",
+          "bytes": 5502,
+          "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+        },
+        {
+          "path": "material-pool.json",
+          "bytes": 8612,
+          "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+        },
+        {
+          "path": "mobile-planner.png",
+          "bytes": 382780,
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+        },
+        {
+          "path": "results.json",
+          "bytes": 12350,
+          "sha256": "84fb2574f43c5c49aead9758d5330ba5ff7700cf87ab9cea415bf8c7a260a266"
+        }
+      ],
+      "ZIP_CRC_pass": true
+    },
+    {
+      "artifact_id": 11346261425,
+      "path": "docs/cp7/evidence/fabric-recipe/qualified-shell-e7/cp7-codeql-javascript-typescript-e7.zip.gz",
+      "original_bytes": 122990,
+      "original_sha256": "2660a0fa6a9d5d6d2a4236429cf5042376fac51e7e7d4b6b185a5477b39b0c7a",
+      "all_zip_members": [
+        {
+          "path": "javascript.sarif",
+          "bytes": 1361576,
+          "sha256": "308ac9645104c920a92444035c2199044bce232f615b4d0aff7c802b4b6a78e1"
+        }
+      ],
+      "ZIP_CRC_pass": true
+    },
+    {
+      "artifact_id": 11346191944,
+      "path": "docs/cp7/evidence/fabric-recipe/qualified-shell-e7/cp7-codeql-actions-e7.zip.gz",
+      "original_bytes": 52862,
+      "original_sha256": "c784a0e1ae644e23fc19b2acb64aafae32ef4d355c6af918bb5e20994e14b963",
+      "all_zip_members": [
+        {
+          "path": "actions.sarif",
+          "bytes": 732120,
+          "sha256": "0b4b92a5592de19195b09a2bb480f6f6be19827bbcb16b2ccb7e422514d03ccd"
+        }
+      ],
+      "ZIP_CRC_pass": true
+    }
+  ],
+  "complete_job_log": {
+    "path": "docs/cp7/evidence/fabric-recipe/qualified-shell-e7/shell-job.log.gz",
+    "uncompressed_bytes": 179659,
+    "uncompressed_sha256": "e238123ca3cddebdaf635c1e397101e756fbf8547eeca70e598f93d4160fea2e"
+  },
+  "Native_business_credit_from_shell": 0,
+  "Auth_HTTP_credit_from_shell": 0,
+  "Native_browser_credit_from_shell": 0,
+  "full_P08_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

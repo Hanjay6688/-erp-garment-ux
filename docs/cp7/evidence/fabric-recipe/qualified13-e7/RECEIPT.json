@@ -1,0 +1,342 @@
+{
+  "contract": "cp7.complete-native-originals-receipt.v1",
+  "source": "e7e4ddefefcbb603304a43141c71e7fa9bb02122",
+  "workflow_run": 37310043489,
+  "artifact_id": 11346666603,
+  "artifact_sha256": "3e05eeb21eed0c6c6a18adb0f072d5344258ef7db11599b94ffa281b409c9a31",
+  "artifact_bytes": 8833531,
+  "tool_file_id": "file_00000000d880821188bb11702fe4b855",
+  "GitHub_digest_matched": true,
+  "ZIP_CRC_pass": true,
+  "status": "QUALIFIED_BOUNDED_NATIVE_SLICE",
+  "case_counts": {
+    "native": 8,
+    "races": 2,
+    "http": 1,
+    "browser": 2
+  },
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "case_ids": [
+        "P08_FABRIC_MISSING",
+        "P08_FABRIC_GROSS170",
+        "P08_FABRIC_CLOCK",
+        "P08_FABRIC_SUCCESSOR255",
+        "P08_FABRIC_MASTER_CHANGED",
+        "P08_FABRIC_STRICT_CAS",
+        "P08_FABRIC_OWN_ACTOR_PRIVATE",
+        "P08_FABRIC_CATALOG"
+      ],
+      "planned_ids_exact": true
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "case_ids": [
+        "P08_FABRIC_REAL_TWO_WRITER_CAS_WAIT",
+        "P08_FABRIC_REAL_WAIT_REVOKED"
+      ],
+      "planned_ids_exact": true
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "case_ids": [
+        "P08_FABRIC_REAL_AUTH_HTTP"
+      ],
+      "planned_ids_exact": true
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "case_ids": [
+        "P08_FABRIC_BROWSER_DESKTOP",
+        "P08_FABRIC_BROWSER_MOBILE"
+      ],
+      "planned_ids_exact": true
+    }
+  },
+  "complete_Original_roots": [
+    {
+      "path": "docs/cp7/evidence/fabric-recipe/qualified13-e7/ALIGNED_CHAIN.json.gz",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "status": "PASS_ALIGNED_CHAIN_TO_AB"
+    },
+    {
+      "path": "docs/cp7/evidence/fabric-recipe/qualified13-e7/CP7_FABRIC_RECIPE.json.gz",
+      "bytes": 3291088,
+      "sha256": "aeafa64f9b8282195eafc86d7122c1c1e05231416e992661423dd1e9f4692197",
+      "gzip_sha256": "54937b4dd391c405bc098833242f050cd9249b418897de36615269e37f5a38f0",
+      "status": "PASS"
+    },
+    {
+      "path": "docs/cp7/evidence/fabric-recipe/qualified13-e7/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 10524,
+      "sha256": "b47ab8c7d65ae46baf54d581433356c83436191de7f1daba7b80ea8f6ceff2da",
+      "gzip_sha256": "db4f74cb8f1066d2f8a3d64a514d70af1c32d7a94c015f12f61d3bd2425e5823",
+      "status": "RESTORED_SAME_MEANING"
+    },
+    {
+      "path": "docs/cp7/evidence/fabric-recipe/qualified13-e7/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "status": "ALL_FILES_INSTALLED"
+    },
+    {
+      "path": "docs/cp7/evidence/fabric-recipe/qualified13-e7/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 360412,
+      "sha256": "ec5e574736b99d982d002cd9756fd63d78ff5af7d76f8ac6c18d8c81dea6f914",
+      "gzip_sha256": "cd77515bb0e794916ea2fb42c1b8768ef1516ef41e25bbf65606c860b5cc3e70",
+      "status": "ALL_STAGES_INSTALLED"
+    }
+  ],
+  "all_zip_members": [
+    {
+      "path": "CLONE_install.clone-erp.sql",
+      "bytes": 5385625,
+      "crc32": "dd0ec32c",
+      "sha256": "3b69645cbbb36aeac57d28e9fd05e165e8aa98be8e66102ff7f26aa0b62fac07"
+    },
+    {
+      "path": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "path": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "path": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "path": "CLONE_install.source-erp.sql",
+      "bytes": 5385625,
+      "crc32": "dd0ec32c",
+      "sha256": "3b69645cbbb36aeac57d28e9fd05e165e8aa98be8e66102ff7f26aa0b62fac07"
+    },
+    {
+      "path": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "b3d62ca2",
+      "sha256": "7360b231283c9b5fd85b6aa3f44ec4175564c67ed4e32a91ba4d17a4762fa8b9"
+    },
+    {
+      "path": "CP7_FABRIC_RECIPE.json",
+      "bytes": 3291088,
+      "crc32": "ad5b74ce",
+      "sha256": "aeafa64f9b8282195eafc86d7122c1c1e05231416e992661423dd1e9f4692197"
+    },
+    {
+      "path": "P08_FABRIC_CURRENT403_DESKTOP.png",
+      "bytes": 597576,
+      "crc32": "95cb2d52",
+      "sha256": "cb0af7772586e9fbd7d04703ff13d6a01b34861434cde6f0c60a562be1ccd77d"
+    },
+    {
+      "path": "P08_FABRIC_CURRENT403_MOBILE.png",
+      "bytes": 321118,
+      "crc32": "abdd5f8e",
+      "sha256": "5191f2b1da3c7dd15a889909aab4dca7d625086db465ffabdffe011843146dd5"
+    },
+    {
+      "path": "P08_FABRIC_GROSS170_DESKTOP.png",
+      "bytes": 1243904,
+      "crc32": "c73ce0b5",
+      "sha256": "b15e62f961058a516e10489ef564d09313a4d2c9fddce8111bd7dae87b68abd8"
+    },
+    {
+      "path": "P08_FABRIC_GROSS170_MOBILE.png",
+      "bytes": 840417,
+      "crc32": "d6ae474c",
+      "sha256": "9d1854e6bb7f4f102a8b4fff0ee65abce4d879fd7cfac7bf04283e4ba7d5dd07"
+    },
+    {
+      "path": "P08_FABRIC_LOST_REPLY_DESKTOP.png",
+      "bytes": 927945,
+      "crc32": "a70375af",
+      "sha256": "853f456ffc5c6c7eca2bbbf8e1c42c7bbe3eeb7f27e6fa9d2e14541be7b357f8"
+    },
+    {
+      "path": "P08_FABRIC_LOST_REPLY_MOBILE.png",
+      "bytes": 616002,
+      "crc32": "45bdc7f7",
+      "sha256": "9ac5b9ab304d9f43bf83bf76b08613629deefe84cb1afb34ef9be085ef4fb345"
+    },
+    {
+      "path": "P08_FABRIC_REVIEW_DESKTOP.png",
+      "bytes": 1543534,
+      "crc32": "e6144a02",
+      "sha256": "51f0cc24ac3cd1352f99a3dc2bfe72501a1b76ba0230bcbe1be7a275ca5f971b"
+    },
+    {
+      "path": "P08_FABRIC_REVIEW_MOBILE.png",
+      "bytes": 1145475,
+      "crc32": "48602ef1",
+      "sha256": "f61419777115ebfb4e64bdb94fa229bbf3e82d460041805cc1d8ed56f99410b4"
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "e7ceb121",
+      "sha256": "b47ab8c7d65ae46baf54d581433356c83436191de7f1daba7b80ea8f6ceff2da"
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360412,
+      "crc32": "acbcb8e0",
+      "sha256": "ec5e574736b99d982d002cd9756fd63d78ff5af7d76f8ac6c18d8c81dea6f914"
+    }
+  ],
+  "raw_catalog_recomputation": [
+    {
+      "snapshot": 1,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 2,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 3,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 4,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 5,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 6,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 7,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 8,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 9,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 10,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 11,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 12,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 13,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 14,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 15,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 16,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 17,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    },
+    {
+      "snapshot": 18,
+      "exact_canonical_state_sha256": "a5c8e8bb68c49decee6308ebf521474792c51a3e3432ebcbce28cadb09685ea4"
+    }
+  ],
+  "preservation_controls_recomputed": {
+    "pair_order_only_equal": true,
+    "function_hash_change_refused": true,
+    "function_signature_change_refused": true,
+    "missing_function_member_refused": true,
+    "duplicate_function_member_refused": true,
+    "relation_member_change_refused": true,
+    "public_row_hash_or_member_change_refused": true,
+    "observed_input_not_mutated": true
+  },
+  "all_top_level_false_case_flags_preserved": [
+    {
+      "group": "native",
+      "case": "P08_FABRIC_CLOCK",
+      "field": "early_selection"
+    },
+    {
+      "group": "native",
+      "case": "P08_FABRIC_CLOCK",
+      "field": "expired_selection"
+    },
+    {
+      "group": "races",
+      "case": "P08_FABRIC_REAL_TWO_WRITER_CAS_WAIT",
+      "field": "current_authority_after_observed_wait"
+    }
+  ],
+  "catalog_snapshots_checked": 18,
+  "full_package_primary_backup_and_auth_zero_gates_checked": true,
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "browser_screenshots": [
+    "docs/cp7/evidence/fabric-recipe/qualified13-e7/raw-images/P08_FABRIC_CURRENT403_DESKTOP.png",
+    "docs/cp7/evidence/fabric-recipe/qualified13-e7/raw-images/P08_FABRIC_CURRENT403_MOBILE.png",
+    "docs/cp7/evidence/fabric-recipe/qualified13-e7/raw-images/P08_FABRIC_GROSS170_DESKTOP.png",
+    "docs/cp7/evidence/fabric-recipe/qualified13-e7/raw-images/P08_FABRIC_GROSS170_MOBILE.png",
+    "docs/cp7/evidence/fabric-recipe/qualified13-e7/raw-images/P08_FABRIC_LOST_REPLY_DESKTOP.png",
+    "docs/cp7/evidence/fabric-recipe/qualified13-e7/raw-images/P08_FABRIC_LOST_REPLY_MOBILE.png",
+    "docs/cp7/evidence/fabric-recipe/qualified13-e7/raw-images/P08_FABRIC_REVIEW_DESKTOP.png",
+    "docs/cp7/evidence/fabric-recipe/qualified13-e7/raw-images/P08_FABRIC_REVIEW_MOBILE.png"
+  ],
+  "raw_clone_SQL_not_exported": true,
+  "first_failure_source190_not_reclassified": true,
+  "full_P08_acceptance": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
