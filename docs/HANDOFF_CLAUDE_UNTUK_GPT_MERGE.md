@@ -282,7 +282,8 @@ Basis: `cp7/integration` caa1b038 (checkpoint kain + recovery) yang sudah digabu
 | `scripts/cp7-src/plan-native/bootstrap.sql` | `cp7_capture` boleh SELECT kolom `id,target_key,cutting_group_id` pada `cp7_plan_native.intents` (tanpa payload/aktor). |
 | `src/nativeAnalysis.ts`, `src/NativeMaterialNeedsView.tsx` | Penerima menerima angka fisik kain hanya dalam batas kernel; teks menjelaskan "bukan reservasi stok" dan "hanya PO yang tercatat di ERP". |
 | `scripts/cp7_fabric_physical_*`, `scripts/cp7_f05_analysis_probe.py` | Suite Native baru 21 kasus (flag `fabric_physical`). |
-| `scripts/cp7_fabric_recipe_cases.py`, `scripts/cp7_fabric_recipe_browser.mjs`, `tests/cp7/families/f04/fabric-recipe.mjs` | Oracle penerus fabric13 (ID/jumlah tetap); kontrol SQL Shell 24 → 25. |
+| `scripts/cp7_fabric_recipe_cases.py`, `scripts/cp7_fabric_recipe_browser.mjs`, `tests/cp7/families/f04/fabric-recipe.mjs` | Oracle penerus fabric13 (ID/jumlah tetap); kontrol SQL Shell 24 → 26. |
+| `scripts/cp7_analysis_bundle.py` | `TABLE_GRANTS['cp7_capture']` memuat hak kolom P08; `GRANTS['cp7_capture']` mendeklarasikan satu-satunya EXECUTE baru pada fungsi pendahulu: `erp.bb_commitment_line_remaining_v1(uuid,uuid)` (lihat 9.4). |
 | `.github/workflows/claude-p08-*.yml` | Workflow khusus cabang ini (P08 + regresi 152/284/39 + Shell/CodeQL). Tidak mengubah workflow GPT. |
 
 ### 9.2 Keputusan desain yang perlu GPT ketahui
@@ -296,3 +297,23 @@ Basis: `cp7/integration` caa1b038 (checkpoint kain + recovery) yang sudah digabu
 ### 9.3 Status bukti
 
 Lihat tabel CI di `docs/cp7/f04/NATIVE_FABRIC_PHYSICAL.md` (diperbarui setelah run selesai). Hasil lokal hanya LOCAL_PG16_DEV, bukan bukti. `full_P08_acceptance=false`, `production_go=false`.
+
+### 9.4 Riwayat CI dan temuan di luar P08
+
+1. **Run pertama P08 gagal (tetap tercatat FAIL).** Run 37357315101 pada 1850619c: kelima suite matriks (fabric-physical21, fabric13-successor, analysis152, plan39, attention284) berhenti saat pemasangan dengan `F03_UNDECLARED_ACL_DELTA` pada `erp.bb_commitment_line_remaining_v1(uuid,uuid)`. Sumber fisik memberi EXECUTE fungsi BB itu ke `cp7_capture`, tetapi GRANTS gabungan belum mendeklarasikannya. Perbaikan ebf3a394 hanya menambah deklarasi signature itu; guard ACL probe tidak diubah. Itu satu-satunya hak fungsi baru di diff P08 (sisanya SELECT kolom di `TABLE_GRANTS`).
+2. **Build UX merah sejak merge basis (bukan dari P08).** Uji browser CP6 `tests/browser/cp6-laundry-qc.spec.ts:567` ("committed send form stays retired after failed then successful refetch") gagal di desktop dan mobile pada merge 1a030315 (run 37339224171, sebelum perubahan P08) dan pada 1850619c (run 37357314906). Penyebabnya commit GPT 3c7cb2cf ("retire stale Laundry/QC facts"). Setelah aksi tersimpan tetapi refresh gagal, `useLaundryQcWorkspace` kini membuang workspace lama, sehingga form kirim tidak dirender lagi. Yang tampil adalah "Data belum tersedia; semua tombol transaksi tetap terkunci." Uji lama masih mengharapkan form ada dengan nilai batch kosong (`toHaveValue('')`). Perilaku baru lebih aman, tetapi workflow Build UX tidak berjalan di `cp7/integration`, jadi ketidakcocokan ini tidak terlihat di sana. Claude **tidak** mengubah domain Laundry milik GPT di cabang ini. Usulan patch uji di bawah sudah dicoba di lokal: 26/26 PASS (LOCAL, bukan bukti). Patch ini tidak melonggarkan guard: form yang sudah dipakai harus hilang, tidak cukup dikosongkan, dan sisa uji (Refetch → satu opsi, tombol Post nonaktif, tepat satu aksi) tetap sama. Keputusan ada di GPT.
+
+```diff
+--- a/tests/browser/cp6-laundry-qc.spec.ts
++++ b/tests/browser/cp6-laundry-qc.spec.ts
+@@ -578,7 +578,11 @@
+   await expect(page.getByText(/Aksi sudah tersimpan, tetapi refresh authoritative gagal/i)).toBeVisible()
+-  await expect(page.getByLabel('BATCH DISTRIBUSI AUTHORITATIVE')).toHaveValue('')
++  // CP7 3c7cb2cf: a failed post-commit refresh retires the stale workspace, so
++  // the committed form is gone (not merely cleared) until Refetch succeeds.
++  await expect(page.getByText('Data belum tersedia; semua tombol transaksi tetap terkunci.')).toBeVisible()
++  await expect(page.getByLabel('BATCH DISTRIBUSI AUTHORITATIVE')).toHaveCount(0)
++  await expect(page.getByRole('button', { name: /Post pengiriman atomic/ })).toHaveCount(0)
+   await page.getByRole('button', { name: 'Refetch', exact: true }).click()
+```
+
