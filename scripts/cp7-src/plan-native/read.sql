@@ -24,11 +24,13 @@ begin
    and(roll_q=''or strpos(lower(x.roll_number||' '||m.material_name),roll_q)>0)
   group by x.id,x.roll_number,x.material_id,m.material_name,m.unit_code having coalesce(sum(sm.qty_signed),0)>0),
  paged as(select *from balances order by roll_number,id limit n offset roll_off)
- select(select count(*)from balances),coalesce(jsonb_agg(jsonb_build_object('id',id,'number',roll_number,'material_id',material_id,'material_name',material_name,'unit',unit_code,'available',qty::text)order by roll_number,id),'[]')into roll_count,rolls from paged;
+ select(select count(*)from balances),coalesce(jsonb_agg(jsonb_build_object('id',id,'number',roll_number,'material_id',material_id,'material_name',material_name,'unit',unit_code,'available',pool->'native_available',
+  'linked_native_draft_qty',pool->'linked_native_draft_qty','free_for_new_plan',pool->'free_for_new_plan')order by roll_number,id),'[]')into roll_count,rolls
+ from paged cross join lateral(select cp7_plan_native.material_pool(id,loc)pool)budget;
  select coalesce(jsonb_agg(jsonb_build_object('id',id,'name',location_name)order by location_name,id),'[]')into locations from erp.locations where is_active and location_type='RAW_MATERIAL_WAREHOUSE';
  if jsonb_array_length(locations)>1000 then raise exception 'CP7_PLAN_OPTIONS_LOCATION_LIMIT';end if;
  if cp7_plan_native.access_now('READ')is distinct from a then raise exception using errcode='42501',message='CP7_PLAN_ACCESS_CHANGED';end if;
- return jsonb_build_object('contract_version','cp7.plan-options.v1','actor_scope_id',a->>'actor','run_id',q->'run_id','target_key',q->'target_key',
+ return jsonb_build_object('contract_version','cp7.plan-options.v2','actor_scope_id',a->>'actor','run_id',q->'run_id','target_key',q->'target_key',
   'source_hash',s->'source_hash','core_hash',s->'core_hash','model_id',p->'model_id','size_id',p->'size_id','product_sku',p->'sku','product_name',p->'product_name',
   'needed_pcs',r->'conditional_gap_pcs','capacity_pcs',s->'netting'->'new_start_capacity'->'capacity_pcs','production_state',r->'production_policy'->'policy'->'state',
   'assumptions',s->'analysis'->'assumptions','location_id',loc,'orders',orders,'patterns',patterns,'rolls',rolls,'locations',locations,

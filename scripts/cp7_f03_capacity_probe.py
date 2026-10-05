@@ -10,6 +10,7 @@ import cp7_p09_procurement_probe as p09
 import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
 import cp6_t3_package_run as package
+from cp7_catalog_state import exact_public_catalog
 from cp6_t3_aligned_install import advisors,advisor_delta
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_F03_CAPACITY.json'
 
@@ -41,7 +42,9 @@ def run():
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_F03_CAPACITY',cases.cases,verify)
+  with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+   report['native']=native.strict_group('CP7_F03_CAPACITY',cases.cases,verify)
+  report['native_public_catalog_comparison']=catalog_audit
   report['http']=modes.run_http(cases,verify,'cp7_f03_capacity')
   report['browser']=modes.run_browser(bundle.ROOT/'scripts/cp7_f03_capacity_browser.mjs',verify,'cp7_f03_capacity_browser')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())

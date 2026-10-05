@@ -40,8 +40,16 @@ def measure(cur, query, actor):
             try:
                 raw = cur.execute(sql, args).fetchone()[0]
                 value = json.loads(raw)
-                row = dict(stage=stage, status='MEASURED', elapsed_ms=round((monotonic()-start)*1000),
-                           utf8_bytes=len(raw.encode('UTF8')), source_status=value.get('status'))
+                if stage == 'HISTORY_AVAILABILITY':
+                    assert isinstance(value, list), 'HISTORY_AVAILABILITY_ARRAY_REQUIRED'
+                    row = dict(stage=stage, status='MEASURED', elapsed_ms=round((monotonic()-start)*1000),
+                               utf8_bytes=len(raw.encode('UTF8')), source_status=None,
+                               result_kind='ARRAY', history_rows=len(value))
+                else:
+                    assert isinstance(value, dict), 'NATIVE_READ_OBJECT_REQUIRED:' + stage
+                    row = dict(stage=stage, status='MEASURED', elapsed_ms=round((monotonic()-start)*1000),
+                               utf8_bytes=len(raw.encode('UTF8')), source_status=value.get('status'),
+                               result_kind='OBJECT')
                 if stage.startswith('COMPLETE_NATIVE_SOURCE') or stage == 'OPERATIONS_SOURCE':
                     row.update(product_count=len(value.get('facts', {}).get('products', [])),
                                fact_collections={key: len(items) for key, items in value.get('facts', {}).items()

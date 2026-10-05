@@ -8,7 +8,7 @@ grant usage on schema cp7_plan_native to cp7_capture;
 grant execute on function auth.uid(),auth.jwt(),erp.get_my_access_v1(),erp.has_permission(text),extensions.digest(bytea,text),cp7_private.immutable_run() to cp7_plan_writer;
 grant execute on function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) to cp7_plan_writer;
 grant select on erp.production_orders,erp.production_patterns,erp.products,erp.sizes,erp.product_model_sizes,
- erp.materials,erp.material_rolls,erp.material_stock_movements,erp.locations,erp.cutting_groups to cp7_plan_writer;
+ erp.materials,erp.material_rolls,erp.material_stock_movements,erp.locations,erp.cutting_groups,erp.cutting_group_rolls to cp7_plan_writer;
 create table cp7_plan_native.drafts(
  id uuid primary key default gen_random_uuid(),plan_id uuid not null,revision bigint not null check(revision>0),
  actor uuid not null,request_id uuid not null,payload jsonb not null,run_id uuid not null,

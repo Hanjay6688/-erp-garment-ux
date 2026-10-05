@@ -4,6 +4,18 @@ import {parsePlanOptions,planPayload,parsePlanSaved,parsePlanPreview,validatePla
 import * as f from '../tests/fixtures/nativePlan'
 const form={orderId:f.order,patternId:f.pattern,locationId:f.location,cutAt:'2026-10-01T08:00',notes:'Own note',reason:'Reviewed Native draft only',reviewed:true,rolls:[{id:f.roll,issued:'1',consumed:'0.5',remaining:'0.5',pcs:'60'}]}
 it('preserves need100 capacity60 selected60 unresolved40 as distinct server values',()=>{const o=parsePlanOptions(f.options(),f.actor,f.context),s=parsePlanSaved(f.saved(),f.actor,f.draft),p=parsePlanPreview(f.preview(),f.actor,s);expect([o.needed,o.capacity,p.selected,p.unresolved]).toEqual(['100','60','60','40'])})
+it('keeps physical stock10 and linked draft6 separate from future-plan remainder4 without reserving stock',()=>{
+ const o=f.options();Object.assign(o.rolls[0],{available:'10',linked_native_draft_qty:'6',free_for_new_plan:'4'})
+ const p=parsePlanOptions(o,f.actor,f.context);expect([p.rolls[0].available,p.rolls[0].planned,p.rolls[0].free]).toEqual(['10','6','4'])
+ const v=f.preview();Object.assign(v.material_rows[0],{native_available:'10',linked_native_draft_qty:'6',free_for_new_plan:'4'})
+ const r=parsePlanPreview(v,f.actor,parsePlanSaved(f.saved(),f.actor,f.draft));expect([r.materials[0].available,r.materials[0].planned,r.materials[0].free]).toEqual(['10','6','4'])
+})
+it('rejects missing or contradictory pool receipts and preserves tiny exact residuals',()=>{
+ const o=f.options();Object.assign(o.rolls[0],{available:'10.000001',linked_native_draft_qty:'10',free_for_new_plan:'0.000001'})
+ expect(parsePlanOptions(o,f.actor,f.context).rolls[0].free).toBe('0.000001')
+ o.rolls[0].free_for_new_plan='10.000001';expect(()=>parsePlanOptions(o,f.actor,f.context)).toThrow()
+ Object.assign(o.rolls[0],{linked_native_draft_qty:undefined});expect(()=>parsePlanOptions(o,f.actor,f.context)).toThrow()
+})
 it.each(['actor_scope_id','run_id','target_key','source_hash'])('rejects another %s before adopting choices',(key)=>{const o=f.options();Object.assign(o,{[key]:key==='source_hash'?'c'.repeat(64):f.order});expect(()=>parsePlanOptions(o,f.actor,f.context)).toThrow()})
 it('keeps absent capacities unknown and legitimate zero distinct',()=>{const o=f.options();Object.assign(o,{needed_pcs:null,capacity_pcs:'0',production_state:null});const p=parsePlanOptions(o,f.actor,f.context);expect(p.needed).toBeNull();expect(p.capacity).toBe('0');expect(p.state).toBeNull();expect(()=>planPayload(p,form,'2026-10-01T08:00:00Z',null)).toThrow()})
 it('rejects a truncated page or another Native model instead of admitting a partial choice list',()=>{const o=f.options();o.page.po_total='2';expect(()=>parsePlanOptions(o,f.actor,f.context)).toThrow();const wrong=f.options();wrong.orders[0].model_id=f.roll;expect(()=>parsePlanOptions(wrong,f.actor,f.context)).toThrow()})

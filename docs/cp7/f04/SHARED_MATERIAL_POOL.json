@@ -1,0 +1,84 @@
+{
+  "contract": "cp7.p08-shared-material-budget-declaration.v1",
+  "status": "IMPLEMENTED_LOCAL_CHECKED_NATIVE39_REQUIRED",
+  "base_commit": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
+  "expected_case_count": 39,
+  "required_case_counts": {
+    "native": 25,
+    "races": 8,
+    "http": 2,
+    "browser": 4
+  },
+  "required_case_ids": {
+    "native": [
+      "P08_METADATA",
+      "P08_SAVE_REPLAY",
+      "P08_VERSION",
+      "P08_PREVIEW_READONLY",
+      "P08_NATIVE_APPLY",
+      "P08_APPLY_REPLAY",
+      "E09_PLAN_STALE",
+      "P08_CURRENT_AUTH",
+      "P08_FOREIGN",
+      "P08_CLOSED",
+      "P08_NATIVE_IDENTITIES",
+      "O10_PLAN_QUANTITY",
+      "P08_ATOMIC_RECEIPT_FAILURE",
+      "E22_PLAN_COMPUTE_SEPARATION",
+      "P08_ACTUAL_UNPOSTED_ZERO",
+      "P08_ACTUAL_PHYSICAL_CUT",
+      "P08_ACTUAL_PARTIAL_LIFECYCLE",
+      "P08_ACTUAL_OTHER_ROOT",
+      "P08_ACTUAL_NATIVE_DELETED_UNKNOWN",
+      "P08_ACTUAL_CURRENT_PRIVATE_AUTH",
+      "P08_ACTUAL_PROTECTED_ORIGINAL_AUTH",
+      "P08_ACTUAL_FUTURE_CORRUPTION_UNKNOWN",
+      "P08_SHARED_FABRIC_NEXT_TARGET",
+      "P08_SHARED_FABRIC_POSTED_ONCE",
+      "P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT"
+    ],
+    "races": [
+      "E10_REAL_SAME_UUID",
+      "E10_REAL_SAME_UUID_DIFFERENT_PAYLOAD",
+      "E11_REAL_DIFFERENT_ACTOR_RUN_DRAFT",
+      "P08_REAL_TARGET_WAIT_REVOKED",
+      "P08_REAL_NATIVE_ROLL_WAIT_REVOKED",
+      "P08_ACTUAL_MVCC_NATIVE_POST",
+      "P08_ACTUAL_CAPTURE_WAIT_CURRENT_AUTH",
+      "P08_SHARED_FABRIC_REAL_TWO_TARGET_WAIT"
+    ],
+    "http": [
+      "P08_REAL_AUTH_HTTP",
+      "P08_ACTUAL_REAL_AUTH_HTTP"
+    ],
+    "browser": [
+      "P08_BROWSER_DESKTOP_NATIVE_DRAFT",
+      "P08_BROWSER_MOBILE_NATIVE_DRAFT",
+      "P08_BROWSER_DESKTOP_NATIVE_ACTUAL",
+      "P08_BROWSER_MOBILE_NATIVE_ACTUAL"
+    ]
+  },
+  "previous35_controls_retained": true,
+  "new_control_count": 4,
+  "actor_facing_contracts": [
+    "cp7.plan-options.v2",
+    "cp7.plan-preview.v2"
+  ],
+  "basis": "CURRENT_NATIVE_LINKED_UNPOSTED_DRAFT_BUDGET_NOT_STOCK_RESERVATION",
+  "canonical_physical_pool_lock": "CP7:PLAN_MATERIAL_POOL:<roll UUID>; sorted before target/version; global across actors/targets/requests",
+  "Native_physical_source": "exact roll/location physical movements through current capture clock",
+  "planned_source": "current Native unposted cutting-group roll compositions linked by actual CP7 intent; one group counted once",
+  "posted_source": "already represented in Native stock; never deducted again",
+  "operator_UI": "separate Native stock, linked plan quantity, remaining plan budget; explicit no reservation/installed-material claim",
+  "new_Native_DML_grants": [],
+  "new_roles": [],
+  "new_public_RPCs": [],
+  "full_P08_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "remaining_P08_work": [
+    "complete effective-dated fabric recipe binding",
+    "global eligibility and installed/actual material proof through every consumer"
+  ]
+}

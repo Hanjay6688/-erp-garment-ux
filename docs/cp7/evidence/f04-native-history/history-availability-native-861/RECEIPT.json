@@ -1,0 +1,98 @@
+{
+  "contract": "cp7.native-private-kernel-and-shell-evidence.v1",
+  "source_commit": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
+  "source_tree": "da351a2fb2bdd1088890d3373f02a300b0a6b9b9",
+  "run_id": 37280169040,
+  "job_ids": [
+    111666153412,
+    111666153585,
+    111666153682
+  ],
+  "artifact_ids": [
+    11332762722,
+    11332956920,
+    11332019689
+  ],
+  "private_history_SQL_parity_controls": 28,
+  "previous_source_sha256": "82b49380ecb8f0ae61415414fa0cc4fce08718012b795cd19c2c22754fd50c95",
+  "candidate_source_sha256": "53058a964a1aad72bc04400ce5fd47f771b3b1995c7215052c48f7aaa9288d32",
+  "Vitest_files": 157,
+  "Vitest_tests": 1519,
+  "CodeQL_languages": [
+    "actions",
+    "javascript-typescript"
+  ],
+  "CodeQL_findings": 0,
+  "CodeQL_execution_complete": true,
+  "original_artifacts": [
+    {
+      "artifact_sha256": "80808a10712273e9ed6e44dd390ad1737e6bcf450a1615adffabf0506d6f8377",
+      "artifact_bytes": 492643,
+      "artifact_CRC": "PASS",
+      "members": [
+        {
+          "name": "f04-private-kernels.json",
+          "bytes": 53274,
+          "sha256": "418174237289f02369cbff55894fdbd26e2139f036b6b3605215c1aebd7b9f02",
+          "crc32": "8727c149"
+        },
+        {
+          "name": "history-availability-parity.json",
+          "bytes": 5502,
+          "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4",
+          "crc32": "f188678c"
+        },
+        {
+          "name": "desktop-planner.png",
+          "bytes": 130883,
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8",
+          "crc32": "3656a87f"
+        },
+        {
+          "name": "mobile-planner.png",
+          "bytes": 382780,
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06",
+          "crc32": "294dfa75"
+        },
+        {
+          "name": "results.json",
+          "bytes": 12317,
+          "sha256": "016874a225b7c869cf00634908f9fff1196553320faea5b34dabd112f12b849b",
+          "crc32": "9f72d4da"
+        }
+      ]
+    },
+    {
+      "artifact_sha256": "fa96f0560752571433205a40838c456b3bf47a03784b4d045813180b8f70de30",
+      "artifact_bytes": 122603,
+      "artifact_CRC": "PASS",
+      "members": [
+        {
+          "name": "javascript.sarif",
+          "bytes": 1352688,
+          "sha256": "b751b0f9ef485695a2357f5a65823d858336b540cbde346eaa7abf693aeb0ca2",
+          "crc32": "a8a5e999"
+        }
+      ]
+    },
+    {
+      "artifact_sha256": "45eb0a3135e5566b925424f01653996ab9e5d85dac0515f84884f28990835c57",
+      "artifact_bytes": 52587,
+      "artifact_CRC": "PASS",
+      "members": [
+        {
+          "name": "actions.sarif",
+          "bytes": 726710,
+          "sha256": "f0ec736612d63d2fda52426d85ab8ea90a474adfac47e99973df1018fe18ba66",
+          "crc32": "3e5815f2"
+        }
+      ]
+    }
+  ],
+  "full_shell_log_sha256": "2ea4c78bff816b5ad36bede06f66f4846710fda05d0656b602d50915645afa37",
+  "Native_business_case_credit": 0,
+  "Auth_HTTP_credit": 0,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

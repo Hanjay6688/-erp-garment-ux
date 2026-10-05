@@ -10884,8 +10884,7 @@
     "independent_P20_acceptance": false,
     "installed_P21_acceptance": false,
     "production_go": false
-  }
-,
+  },
   "continuation_e206_source_bound_outcomes": {
     "source_commit": "e206a2454faddb2734992e4aada6b36b7db69615",
     "source_tree": "3d04d948ae5540546403630bbf61322d8b3601a2",
@@ -10919,5 +10918,28 @@
     "independent_P20_acceptance": false,
     "installed_P21_acceptance": false,
     "production_go": false
+  },
+  "continuation_861_shared_material_candidate": {
+    "source_commit": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
+    "history_Native23": "QUALIFIED_SOURCE_BOUND_ORIGINALS_RETAINED",
+    "history_private_Native_SQL28": "EXACT_OLD_NEW_KERNEL_PARITY_NOT_NATIVE_BUSINESS_CREDIT",
+    "Shell_tests": 1519,
+    "CodeQL_findings": 0,
+    "cutting_Native19": "QUALIFIED_SAME19_COMPONENT_READABILITY_REPAIRED_AND_PIXELS_CHECKED",
+    "exact_movement_pairs": 5,
+    "diagnostic": "INCOMPLETE_ARRAY_RESULT_REPORTING_REPAIR_PENDING_REPEAT",
+    "capacity5": "FIVE_BODIES_PASS_GROUP_BOUNDARY_INCOMPLETE_RAW_SNAPSHOT_ADAPTER_REPEAT_REQUIRED_OLD_CAUSE_UNPROVED",
+    "shared_material_budget": "IMPLEMENTED_LOCAL_ONLY_NATIVE39_REQUIRED",
+    "Native39_predeclaration": "f04/SHARED_MATERIAL_POOL.json",
+    "local_parser_DOM_tests": 25,
+    "private_kernel_controls": 12,
+    "Native_business_case_credit_from_local": 0,
+    "full_P08_acceptance": false,
+    "full_P18_acceptance": false,
+    "full_P19_acceptance": false,
+    "independent_acceptance": false,
+    "installed_P21_acceptance": false,
+    "production_go": false,
+    "prior_P08_Native35": "QUALIFIED_SOURCE_BOUND_ORIGINALS_RETAINED_NOT_SUCCESSOR39_OR_FULL_P08"
   }
 }

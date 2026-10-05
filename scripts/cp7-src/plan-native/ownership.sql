@@ -5,6 +5,7 @@ alter function cp7_plan_native.access_now(text)owner to cp7_plan_writer;
 alter function cp7_plan_native.fields(jsonb,text[])owner to cp7_plan_writer;
 alter function cp7_plan_native.decimal(jsonb,boolean)owner to cp7_plan_writer;
 alter function cp7_plan_native.preflight(jsonb)owner to cp7_plan_writer;
+alter function cp7_plan_native.material_pool(uuid,uuid)owner to cp7_plan_writer;
 alter function cp7_plan_native.save(jsonb,uuid)owner to cp7_plan_writer;
 alter function cp7_plan_native.preview(uuid)owner to cp7_plan_writer;
 alter function cp7_plan_native.options(jsonb)owner to cp7_plan_writer;

@@ -1,0 +1,159 @@
+{
+  "contract": "cp7.retained-source-bound-Original.v1",
+  "source_commit": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
+  "source_tree": "da351a2fb2bdd1088890d3373f02a300b0a6b9b9",
+  "run_id": 37280168877,
+  "job_id": 111666152728,
+  "artifact_id": 11331679727,
+  "artifact_bytes": 4502965,
+  "artifact_sha256": "a9e2d128cc18c8845bffac47ad22f1f4bc18f91cf08de25cbb52968cef8c72a4",
+  "artifact_CRC": "PASS",
+  "status": "ORIGINAL_INCOMPLETE_NOT_QUALIFIED",
+  "expected_case_count": 5,
+  "observed_case_count": 5,
+  "counts": {
+    "native": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "Original_roots": [
+    "ALIGNED_CHAIN.json",
+    "CP7_F03_CAPACITY.json",
+    "T3_BACKUP_RESTORE_DRILL.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "screenshots": [
+    "E20_E14_REVOKED_OPERATIONS_MOBILE.png",
+    "E20_E14_SOURCE_OPERATIONS_MOBILE.png",
+    "E20_INVOICE_OWNER_DESKTOP.png",
+    "E20_POSTED_STOCK_OWNER_DESKTOP.png",
+    "E20_SOURCE_OWNER_DESKTOP.png"
+  ],
+  "all_original_member_hashes": [
+    {
+      "name": "ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "crc32": "a2b4de5a",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "name": "CLONE_install.connection-fence.txt",
+      "bytes": 494,
+      "crc32": "046ee9c1",
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    {
+      "name": "CLONE_install.clone-erp.sql",
+      "bytes": 5385611,
+      "crc32": "54a84f4d",
+      "sha256": "13af9b2fc0c0eb49dfbd26bed5bd23890f908773991cfc1a3717ef339c45e3c5"
+    },
+    {
+      "name": "CLONE_install.database-identity.txt",
+      "bytes": 3074,
+      "crc32": "3c2aa92b",
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    {
+      "name": "CLONE_install.source-erp.sql",
+      "bytes": 5385611,
+      "crc32": "54a84f4d",
+      "sha256": "13af9b2fc0c0eb49dfbd26bed5bd23890f908773991cfc1a3717ef339c45e3c5"
+    },
+    {
+      "name": "CLONE_install.txt",
+      "bytes": 291,
+      "crc32": "1ce69c3e",
+      "sha256": "1e0fcb02df3dad381f59f5d2222ee86447fded40e31660a6ced9229d75b27440"
+    },
+    {
+      "name": "CP7_F03_CAPACITY.json",
+      "bytes": 284266,
+      "crc32": "791cd0ca",
+      "sha256": "a48d53898c1e81ac4f1af9439289b59d9f9d4f21706f74916ab93594cb89c1da"
+    },
+    {
+      "name": "E20_E14_REVOKED_OPERATIONS_MOBILE.png",
+      "bytes": 161041,
+      "crc32": "094ca8c7",
+      "sha256": "830b28e460e78bcd1b9e9e8b7abba620e11db3f718f33a6190ecbda4ef1a2b41"
+    },
+    {
+      "name": "E20_E14_SOURCE_OPERATIONS_MOBILE.png",
+      "bytes": 645380,
+      "crc32": "14065cc4",
+      "sha256": "527275ae2ef23feafe44d1d388c8d1a677189fd0ffea189579c1b6d72c45fdb6"
+    },
+    {
+      "name": "E20_INVOICE_OWNER_DESKTOP.png",
+      "bytes": 653171,
+      "crc32": "2d09445c",
+      "sha256": "6b4448b1dcfcb7bf18922e633370d0989120c9ef6d97f2c627f6d7fc0415fae2"
+    },
+    {
+      "name": "E20_POSTED_STOCK_OWNER_DESKTOP.png",
+      "bytes": 676956,
+      "crc32": "10f7f1f2",
+      "sha256": "b9743336a4cfa638ad381540b5778e254f75f8a86887b65b42563d2502ad84b7"
+    },
+    {
+      "name": "E20_SOURCE_OWNER_DESKTOP.png",
+      "bytes": 792253,
+      "crc32": "b36acfae",
+      "sha256": "ee449805f5e87c67aabd9dccd273dad84432e4a9e910808f23341b05e6cc72ac"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "crc32": "ac687b86",
+      "sha256": "a2a378523adc68c5f382777ac0117c181107b26f6d575650c02d0273771a414f"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "crc32": "cfb01269",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360430,
+      "crc32": "90e94495",
+      "sha256": "f001ee5d3151122a05d3e6bc3cb40567ae83f255277c75d49a1a025f8bfac42e"
+    }
+  ],
+  "full_job_log_original_sha256": "6d1d3778db191d8aad2bc90d4de49f5894c9c7a36dafd6de459b66587a3b334f",
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "backup_restore_drill": "RESTORED_SAME_MEANING",
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "full_P19_acceptance": false,
+  "production_go": false,
+  "observed_failure": "all five case bodies PASS but Native complete_boundary_restored is false",
+  "later_install_raw_public_difference_only_pair_order": true,
+  "exact_cause_of_old_group_boundary_failure_proved": false,
+  "old_group_paired_raw_catalog_snapshots_available": false,
+  "required_repeat": "same Native2/AuthHTTP1/browser2; retain full raw public snapshots and all eight comparison sensitivity controls"
+}
