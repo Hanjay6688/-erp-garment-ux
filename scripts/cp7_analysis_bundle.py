@@ -2,16 +2,18 @@
 import hashlib
 import cp7_netting_bundle as predecessor
 ROOT=predecessor.ROOT
-FILES=('planning/material-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-archive.sql','planning/report-publication.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql')
+FILES=('planning/material-requirements.sql','planning/fabric-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/fabric-commands.sql','planning/analysis-archive.sql','planning/report-publication.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql')
 ROLES=('cp7_plan_writer',)+predecessor.ROLES
 GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','cp7_private.immutable_run()','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
-MATERIAL_TABLES=('erp.accessory_bom_versions','erp.accessory_bom_items','erp.accessory_categories')
+MATERIAL_TABLES=('erp.accessory_bom_versions','erp.accessory_bom_items','erp.accessory_categories','erp.materials','erp.production_patterns')
 import cp7_transaction_source_bundle as transaction_source
 TABLE_GRANTS={'cp7_capture':{name:'SELECT'for name in MATERIAL_TABLES},'cp7_plan_writer':{'erp.cutting_group_rolls':'SELECT'},transaction_source.ROLE:{'erp.'+name:'SELECT'for name in transaction_source.TABLES}}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  predecessor.verify(cur)
+ from cp7_fabric_verify import verify as verify_fabric
+ verify_fabric(cur)
  from cp7_plan_bundle import verify as verify_plan
  verify_plan(cur)
  expected={'material_source':'s','material_needs':'i','source':'s','fingerprint':'i','fact':'i','build_operational':'i','build':'i','financial_source':'s','financial_fingerprint':'i','serve':'v','capture':'v','archives':'v','report_fact':'i','report_render':'i','report_document':'v','report_command':'v','report_index':'v','report_compare':'v'}

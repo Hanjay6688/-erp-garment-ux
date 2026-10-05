@@ -60,7 +60,10 @@ begin
    'production_state',r->'production_state','business_resolved',resolved,'domain','PRODUCTION','financial_source',null,'economic_state','NOT_APPLICABLE','scope','CURRENT_EXACT_SIZE_ANALYSIS','label',label);
   out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
  end loop;
- for r in select x.value from jsonb_array_elements(e->'analysis'->'material_needs')x loop
+ -- This existing rule is the accessory oracle. Fabric inputs are displayed
+ -- through shared analysis, not relabelled as Native accessory proof.
+ for r in select x.value from jsonb_array_elements(e->'analysis'->'material_needs')x
+  where left(coalesce(x.value->>'material_key',''),7)<>'FABRIC_'loop
   value:=r->'additional_external';known:=value->>'state'in('KNOWN','ASSUMED');resolved:=false;
   if e->>'source_state'<>'UNCHANGED'then state:='SOURCE_CHANGED';reason:='IMMUTABLE_ORIGINAL_REQUIRES_NEW_CAPTURE';
   elsif not known then state:='DATA_REVIEW';reason:='INSTALLATION_AND_ELIGIBLE_UNUSED_SUPPLY_NOT_PROVEN';

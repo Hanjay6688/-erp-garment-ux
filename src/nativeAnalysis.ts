@@ -70,6 +70,18 @@ function assertSemantics(x:AnalysisResult){
    const category=m.material_key.slice('ACCESSORY_CATEGORY:'.length)
    if(!m.gross.refs.some(r=>r.kind==='erp.accessory_categories'&&r.id===category)||!m.gross.refs.some(r=>r.kind==='erp.accessory_bom_items')||!m.gross.refs.some(r=>r.kind==='erp.accessory_bom_versions'))fail()
   }
+  if(m.material_key?.startsWith('FABRIC_')){
+   if(target.target.kind!=='PRODUCT'||[m.installed_proven,m.unused_allocated_proven,m.additional_external].some(numeric))fail()
+   if(m.material_key===`FABRIC_UNREVIEWED:${m.target_key}`){if(facts.some(numeric)||facts.some(f=>f.unit!=='MATERIAL_BASE_UNIT'))fail()}
+   else if(m.material_key.startsWith('FABRIC_MATERIAL:')){
+    const material=uuid(m.material_key.slice('FABRIC_MATERIAL:'.length)),recipe=m.gross.refs.filter(r=>r.kind==='CP7_FABRIC_RECIPE')
+    if(recipe.length!==1||!/^[1-9][0-9]*$/.test(recipe[0].revision??''))fail()
+    uuid(recipe[0].id)
+    if(facts.some(f=>!f.refs.some(r=>r.kind==='CP7_FABRIC_RECIPE'&&r.id===recipe[0].id&&r.revision===recipe[0].revision)))fail()
+    if(numeric(m.gross)&&(m.gross.state!=='ASSUMED'||!m.gross.assumption_ids.includes(recipe[0].id)||!m.gross.refs.some(r=>r.kind==='erp.materials'&&r.id===material&&/^[a-f0-9]{64}$/.test(r.revision??''))))fail()
+    if(!x.assumptions.some(a=>a.id===recipe[0].id&&a.origin==='OWNER_INPUT'&&a.confirmed_for_operation===false))fail()
+   }else fail()
+  }
  }
  for(const a of x.actions){if(a.source_keys.some(k=>!sources.has(k))||a.target_keys.some(k=>!targets.has(k))||a.intent==='START_NEW'&&a.target_keys.some(k=>targets.get(k)?.production_state!=='ACTIVE'))fail()}
  for(const t of x.timeline){if(!targets.has(t.target_key)||t.timing_basis==='DATE_POLICY'&&!t.timing_policy_id||t.timing_basis==='TIMESTAMP_EVIDENCE'&&!t.event_refs.length)fail()}
@@ -123,7 +135,7 @@ export function analysisReport(r:NativeAnalysis){const x=r.analysis;return[
  ...x.metrics.map(m=>`${analysisMetricLabel(m,r)}: ${formatFact(m.value)}; periode ${m.period_start} sampai ${m.period_end}; sumber ${m.value.refs.map(s=>`${s.kind}/${s.id}@${s.revision}`).join('; ')}.`),
  'Barang dalam proses tetap terpisah dari stok jadi. Alokasi memakai satu hasil untuk seluruh produk.',
  ...x.sources.map(s=>`${s.source_key}: fisik ${formatFact(s.physical_remaining)}; proyeksi ${formatFact(s.eligible_projected)}; dibagi ${formatFact(s.allocated)}; siap ${s.eta??'belum diketahui'} (${s.eta_basis}).`),
- ...x.material_needs.map(m=>`${r.labels.find(l=>l.key===m.target_key)?.sku??'Produk'} · ${m.reason} Kebutuhan BOM ${formatFact(m.gross)}; terpasang terbukti ${formatFact(m.installed_proven)}; sisa layak teralokasi ${formatFact(m.unused_allocated_proven)}; tambahan eksternal ${formatFact(m.additional_external)}. Sumber ${m.gross.refs.map(s=>`${s.kind}/${s.id}@${s.revision}`).join('; ')}.`),
+ ...x.material_needs.map(m=>`${r.labels.find(l=>l.key===m.target_key)?.sku??'Produk'} · ${m.reason} Kebutuhan bahan ${formatFact(m.gross)}; terpasang terbukti ${formatFact(m.installed_proven)}; sisa layak teralokasi ${formatFact(m.unused_allocated_proven)}; tambahan eksternal ${formatFact(m.additional_external)}. Sumber ${m.gross.refs.map(s=>`${s.kind}/${s.id}@${s.revision}`).join('; ')}.`),
  'Bahan untuk produksi baru belum terbukti. Issue bahan bukan bukti pemasangan.',
  'Kebutuhan BOM bukan bukti bahan sudah siap.',
  ...(r.finance?[`Keuangan: ${r.finance.report.snapshot.data_confidence.status}. Periode jurnal ${r.finance.dates.from} sampai ${r.finance.dates.to}; posisi buku per ${r.finance.dates.as_of}. Angka berlabel NATIVE_FINANCE berasal dari laporan keuangan ERP yang sama.`,

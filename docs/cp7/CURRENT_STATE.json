@@ -346,7 +346,7 @@
     "source": "Current conversation: approved1000, pay600, remaining400 on the same payroll, then400; owner: ok setuju, lanjutin sisanya ya cp7 sampe beres",
     "status": "IMPLEMENTED_WRITER_NATIVE_AUTH_BROWSER26_PASS"
   },
-  "execution_priority": "Continue supplier payment owning atomic correction after reading actual Native schema/post/inverse/cent and current authority contracts. Preserve qualified payment23 c3 and full Shell2a; remaining note40 regression running. Do not end the CP7 mandate at this bounded green checkpoint.",
+  "execution_priority": "Qualify the new effective-dated fabric recipe Native13 slice and affected unchanged analysis152/attention284/plan39/Shell budgets at the actual changed source. Preserve full first failures and raw Original bodies; continue actual material eligibility, installation proof, model and global capacity integration. No absent-proof substitution or writer self-awarded acceptance.",
   "f02_fix_candidate": "docs/cp7/F02_FIX_HANDOFF.md",
   "f02_fix_verification": "docs/cp7/evidence/f02-fix/VERIFICATION.json",
   "f02_independent_handoff": "https://github.com/Hanjay6688/-erp-garment-ux/blob/09990020355fb7329fbc7b8710692bf1357d2401/audits/cp7_f02_20260929/HANDOFF.md",
@@ -3436,7 +3436,7 @@
     "source_bundle_sha256": "04289ce0fe6d268844217a66437d0e7d08a4c51a7ce5725624f9990f4337fb79",
     "status": "LOCAL_845_PASS_DECLARED_NATIVE21_PENDING"
   },
-  "last_writer_checkpoint": "2026-10-05: original writer chat02:44:40 WIB remains distinct from b215 commit01:19:46 WIB. Authorized continuation qualifies shared-material Native39 and cutting reopen Native19 at source51e, X04 Native7 and Shell158/1522+private kernels+6 synthetic browser+two CodeQL0 at source767, and every unchanged full F03 bucket at source6a (132+3smokes,34,64,90,50,61,5,10;612 full raw catalogs). All first failures and their unproved exact causes remain preserved. Full P08/P18/P19/P20/P21 and production/independent acceptance remain open.",
+  "last_writer_checkpoint": "2026-10-05: original writer chat02:44:40 WIB remains distinct from b215 commit01:19:46 WIB. Authorized continuation qualifies shared-material Native39 and cutting reopen Native19 at source51e, X04 Native7 and Shell158/1522+private kernels+6 synthetic browser+two CodeQL0 at source767, and every unchanged full F03 bucket at source6a (132+3smokes,34,64,90,50,61,5,10;612 full raw catalogs). All first failures and their unproved exact causes remain preserved. Full P08/P18/P19/P20/P21 and production/independent acceptance remain open. Effective-dated fabric recipe source now changes the analysis dependency; local66/SQL24/build/security evidence is preparatory and cannot inherit prior Native qualification by commit parity.",
   "latest_p04_tested_source": "ee8699829bc53799e5f840bb5490059e456fa81a",
   "latest_tested_scope": "Exact source767 X04 Native7 (6 Native/1 real Auth HTTP), all14 full raw catalog snapshots and final group boundary, plus Shell158 files/1522 tests/private Native material12/history28/F04 138/synthetic browser6/two successful CodeQL scans with0 findings. Exact source51e P08 Native39 and cutting19 remain qualified; all8 full F03 buckets are separately qualified at exact source6a with612 full raw catalogs, unchanged budgets and honest source parity. These source-bound case executions overlap earlier controls; no unique-oracle sum, full-product visual acceptance, full P08/P18/P19/P20/P21 or production GO.",
   "latest_tested_source": "767c35f14fa88a52d03053f843492258be56df72",
@@ -3653,7 +3653,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Continue F04/F05 source integration for effective-dated fabric recipe, global material eligibility and actual installed-material proof across all6 consumers; absent real inputs remain explicit UNKNOWN/disabled. Complete full P08/P18 and representative Native P19, retain exact source-bound Originals and replay only changed dependencies. Independent P20 and installed P21 remain separate from writer qualification; no hosted production authorization.",
+  "next_action": "Run and inspect actual Native13 fabric plus affected analysis152, attention284, plan39 and full Native Shell. Resolve actual failures without relaxing numerical or authorization oracles. Continue complete P08/P18 and representative P19 across all6 consumers. Independent P20 and installed P21 remain separate; no hosted production authorization.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -11106,6 +11106,54 @@
     "full_P19_acceptance": false,
     "independent_acceptance": false,
     "installed_P21_acceptance": false,
+    "production_go": false
+  },
+  "fabric_recipe_candidate": {
+    "status": "LOCAL_AFFECTED_AND_SECURITY_PASS_NATIVE13_NOT_RUN",
+    "base_source": "3d4948b1598b0fc03490d5615b21b5d9e2926462",
+    "contract": "docs/cp7/f04/NATIVE_FABRIC_RECIPE.md",
+    "declaration": "docs/cp7/f04/NATIVE_FABRIC_RECIPE.json",
+    "preparation_receipt": "docs/cp7/evidence/fabric-recipe/preparation/LOCAL_RECEIPT.json",
+    "byte_frozen_analysis_v2_unchanged": true,
+    "effective_dated_exact_Native_root_size_input": true,
+    "Native_SELECT_tables_added": [
+      "erp.materials",
+      "erp.production_patterns"
+    ],
+    "Native_DML_added": 0,
+    "roles_added": 0,
+    "installed_unused_external_feasible_remain_UNKNOWN": true,
+    "required_case_counts": {
+      "native": 8,
+      "races": 2,
+      "http": 1,
+      "browser": 2
+    },
+    "required_case_ids": {
+      "native": [
+        "P08_FABRIC_MISSING",
+        "P08_FABRIC_GROSS170",
+        "P08_FABRIC_CLOCK",
+        "P08_FABRIC_SUCCESSOR255",
+        "P08_FABRIC_MASTER_CHANGED",
+        "P08_FABRIC_STRICT_CAS",
+        "P08_FABRIC_OWN_ACTOR_PRIVATE",
+        "P08_FABRIC_CATALOG"
+      ],
+      "races": [
+        "P08_FABRIC_REAL_TWO_WRITER_CAS_WAIT",
+        "P08_FABRIC_REAL_WAIT_REVOKED"
+      ],
+      "http": [
+        "P08_FABRIC_REAL_AUTH_HTTP"
+      ],
+      "browser": [
+        "P08_FABRIC_BROWSER_DESKTOP",
+        "P08_FABRIC_BROWSER_MOBILE"
+      ]
+    },
+    "actual_Native_status": "NOT_RUN",
+    "full_P08_acceptance": false,
     "production_go": false
   }
 }
