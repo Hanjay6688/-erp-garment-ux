@@ -10608,7 +10608,10 @@
       "archive_context_member_occurrences": 1816,
       "archive_context_unique_hashes": 1410,
       "full_chat_transcript_recovered": false,
-      "encrypted_CP2_backup_bytes_recovered": false
+      "encrypted_CP2_backup_bytes_recovered": true,
+      "CP2_decrypted_members_CRC_verified": 149,
+      "CP2_key_values_exported": false,
+      "ERP_source_file_count": 499
     },
     "full_cp7_acceptance": false,
     "independent_acceptance": false,
