@@ -87,7 +87,12 @@ try{
  delete from erp.app_role_permissions where permission_key='finance.ar.view';select public.p19_compare('ADMIN_PROTECTED_AR_REVOKED');
  delete from erp.app_role_permissions;select public.p19_compare('ADMIN_NO_EXPLICIT_PERMISSIONS');
  update erp.app_roles set role_code='OWNER',is_protected=true;
- create function public.p19_time(f text,n integer,a text)returns numeric language plpgsql as $$declare start timestamptz:=clock_timestamp();i integer;v text;begin
+ create function public.p19_time(f text,n integer,a text)returns numeric language plpgsql as $$declare start timestamptz;i integer;v text;begin
+  -- Native query() opens a fresh psql connection. Explicit fixture identity
+  -- belongs to this invocation; settings from the setup connection are gone.
+  perform set_config('kernel.subject','10000000-0000-4000-8000-000000000003',true),set_config('kernel.role','authenticated',true);
+  if auth.uid()<>'10000000-0000-4000-8000-000000000003'::uuid or auth.jwt()->>'role'<>'authenticated' then raise exception 'TIMING_FIXTURE_IDENTITY_MISSING';end if;
+  start:=clock_timestamp();
   for i in 1..n loop v:=public.p19_decision(f,a);if v<>'ALLOW'then raise exception 'TIMING_NOT_ALLOWED';end if;end loop;
   return extract(epoch from clock_timestamp()-start)*1000;end$$;`)
  report.decisions=await db.query('select * from public.p19_comparisons')
@@ -97,6 +102,7 @@ try{
  assert.deepEqual(report.differences,[])
  assert.ok(report.negative_control_differences>0,'WEAKENED_PERMISSION_CONTROL_NOT_DETECTED')
  report.samples=[]
+ report.timing_identity_explicit_per_connection=true
  for(const action of ['POST','SALE_REVERSE']){
   const [v]=await db.query(`select public.p19_time('command_access',4000,${literal(action)}) predecessor_ms,public.p19_time('command_allowed',4000,${literal(action)}) candidate_ms`)
   report.samples.push({action,invocations:4000,current_profile:'NATIVE_PROTECTED_OWNER_NO_EXPLICIT_PERMISSIONS',...v})

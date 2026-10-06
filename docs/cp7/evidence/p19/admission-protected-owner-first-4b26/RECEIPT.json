@@ -1,0 +1,126 @@
+{
+  "status": "FIRST_NATIVE_QUALIFICATION_INCOMPLETE",
+  "source_commit": "4b264493569d1d8854ea7ed0c42e106594711d75",
+  "run_id": 37459891650,
+  "job_id": 112256538253,
+  "artifact_id": 11412576694,
+  "zip_bytes": 11842584,
+  "zip_sha256": "5bf6db3fe48135dc04bdf5ea04b42d03a78644a033b4843bc455201586565e92",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "585e51c2920c3cb9554ec3ab61a025f9770323faff794738b586a3b9ca6a5332"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385615,
+      "sha256": "585e51c2920c3cb9554ec3ab61a025f9770323faff794738b586a3b9ca6a5332"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "124326ca4e6c67b62550f55cb79bb074dbdaf7a4b225d6494b7eadc13a891b58"
+    },
+    "CP7_P11_SALES_READ.json": {
+      "bytes": 317948,
+      "sha256": "b577952200252a38dc05c8dea95b664a8cf3c062ad3f3bafb12d116a0783f9a6"
+    },
+    "P11_COMMAND_DESKTOP.png": {
+      "bytes": 650946,
+      "sha256": "fbed5ae385f45714a3bf1db782b336877f536bb10896cb5eb79d6a6e13ef61d3"
+    },
+    "P11_COMMAND_MOBILE.png": {
+      "bytes": 542978,
+      "sha256": "f1da99d62e1c789fad34f95fd38a03cdd8f79a1dd67a664ba25862d547509f70"
+    },
+    "P11_DEPENDENCIES_DESKTOP.png": {
+      "bytes": 920770,
+      "sha256": "71601b893e6071af0ea82d97c8822971737c665b3108fd82485f7dda15996d15"
+    },
+    "P11_DEPENDENCIES_MOBILE.png": {
+      "bytes": 636122,
+      "sha256": "53074406ffbfd6abd765a6c6b97463034a96b9d53e6a05d5be2668ecfd26d774"
+    },
+    "P11_DRAFT_DESKTOP.png": {
+      "bytes": 1131677,
+      "sha256": "5bcbc2b60ce9109666dacdf5a77b298f8bec5a2e885ef485a76f183aa0727dc0"
+    },
+    "P11_DRAFT_MOBILE.png": {
+      "bytes": 852560,
+      "sha256": "61d05a4c4578311f8b0e5507a0c895b3e78b2ca1916bf052a6f7e96a3dea1582"
+    },
+    "P11_PAYMENT_DESKTOP.png": {
+      "bytes": 1175861,
+      "sha256": "87c239d37aebe7480c80c52c2b08e8caa16497fd2fa4aefdbb40297acee2b4d4"
+    },
+    "P11_PAYMENT_MOBILE.png": {
+      "bytes": 964600,
+      "sha256": "e68e031f8f5b6feedf635e61c92aacfb85e618b11bdfbef7dc7c4b8dec0b0a9c"
+    },
+    "P11_READ_DESKTOP.png": {
+      "bytes": 770947,
+      "sha256": "052259e7e67945928ed074b879c3d9411da9602ab8d4e36108465a765420d613"
+    },
+    "P11_READ_MOBILE.png": {
+      "bytes": 281054,
+      "sha256": "fc9be26664ae2d0b817a19af92a251c3a591329548aa25d598e211fdca1a4fea"
+    },
+    "P11_RETURN_DESKTOP.png": {
+      "bytes": 1399839,
+      "sha256": "c8844485997298382d3be67171ee7147f1671bdb8e9f503d1b9bd34d76f05bdc"
+    },
+    "P11_RETURN_MOBILE.png": {
+      "bytes": 1140193,
+      "sha256": "314c18d62760ef45745282779d1a9e6e175099ea16e3249834aa7aeaae3d08b6"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2628308d6092644e031169e28d893d5b85c0df718a8cdd0c44b67a47ae57d173"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360367,
+      "sha256": "f1ce5f38e05515690117ea5d3028a6bd14767b6c97f528ce4114fa881bc6f802"
+    }
+  },
+  "observed_case_count": 64,
+  "failed_original_cases": {
+    "P11_COMMAND_PRIVATE_FIELDS": {
+      "status": "INCOMPLETE",
+      "error": "PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED\nCONTEXT:  PL/pgSQL function erp.guard_protected_role() line 15 at RAISE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 112, in strict_group\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_command_cases.py\", line 66, in private\n    equivalence=admission.compare(cur,auth,b.api,b.boundary)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_sales_admission_equivalence.py\", line 94, in compare\n    cur.execute('delete from erp.app_role_permissions where role_id=%s',(native_role,))\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED\nCONTEXT:  PL/pgSQL function erp.guard_protected_role() line 15 at RAISE\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  },
+  "source_bundle_sha256": "7dc8f6aeee07b54cc61cbaf31b39076e44602203d841e0e120e17d60ec13c2c9",
+  "complete_restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "first_failure_not_relabelled": true,
+  "full_job_log_sha256": "c448c96cb82d65080ab5ae8140f628ab05b5b2a0dd8ae51183c4ab8e7134cfe8",
+  "successor_is_new_qualification_not_same_head_rerun": true,
+  "Native_case_credit_added": 0
+}

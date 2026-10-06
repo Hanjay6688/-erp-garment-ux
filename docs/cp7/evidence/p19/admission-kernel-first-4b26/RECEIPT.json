@@ -1,0 +1,41 @@
+{
+  "source_commit": "4b264493569d1d8854ea7ed0c42e106594711d75",
+  "run_id": 37459891867,
+  "job_id": 112256541384,
+  "status": "INCOMPLETE",
+  "first_error": "TIMING_NOT_ALLOWED",
+  "comparisons": 385,
+  "negative_control_differences": 36,
+  "samples_completed": 0,
+  "Native_product_case_credit": 0,
+  "artifact_id": 11412712959,
+  "artifact_sha256": "d2ea5b1dbbc76066edd0794ed6a1f2882c1b38a0758f552bcbabb3f4e708d5ad",
+  "members": [
+    {
+      "path": "P19_SALES_ADMISSION_KERNEL.json",
+      "bytes": 92210,
+      "sha256": "ffd84677b3af8ae4f3687be37fb43f7a8cd79af75122acf2863685f70000a948"
+    },
+    {
+      "path": "fabric-recipe.json",
+      "bytes": 60587,
+      "sha256": "8cdf8102dea17e26dce36e225ca77fd2d9999fe1e097f1b4f28b9255427d2919"
+    },
+    {
+      "path": "f04-private-kernels.json",
+      "bytes": 53273,
+      "sha256": "fa1f1de2560eefaec14e188c7371a23714e531228349781dd8fbde7ea5dc96f4"
+    },
+    {
+      "path": "history-availability-parity.json",
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+    },
+    {
+      "path": "material-pool.json",
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+    }
+  ],
+  "reason": "Kernel setup GUC identity belonged to a different psql connection. Every timing invocation must explicitly establish its declared fixture identity."
+}

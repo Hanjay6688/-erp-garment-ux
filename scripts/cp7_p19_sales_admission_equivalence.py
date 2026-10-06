@@ -21,6 +21,7 @@ def compare(cur, auth, api, boundary):
     before = boundary.snapshot(cur)
     cur.execute('savepoint p19_admission_equivalence')
     decisions = []
+    protected_mutation_refusals = []
     try:
         subject, role = auth.custom_actor(cur)
         for permission in PERMISSIONS:
@@ -91,19 +92,31 @@ def compare(cur, auth, api, boundary):
             cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',(native_role,subject))
             pair('NATIVE_ROLE:'+code)
             if code == 'OWNER':
-                cur.execute('delete from erp.app_role_permissions where role_id=%s',(native_role,))
-                pair('OWNER_NO_EXPLICIT_PERMISSIONS')
+                owner_before = cur.execute('select to_jsonb(r) from erp.app_roles r where id=%s',(native_role,)).fetchone()[0]
+                mapping_before = cur.execute('select permission_key from erp.app_role_permissions where role_id=%s order by permission_key',(native_role,)).fetchall()
+                assert owner_before['is_protected'] and mapping_before
+                def protected_refusal(label, sql, args):
+                    cur.execute('savepoint p19_protected_owner_refusal')
+                    try:
+                        cur.execute(sql, args)
+                    except psycopg.Error as error:
+                        assert (error.sqlstate,error.diag.message_primary)==('42501','PROTECTED_OWNER_ROLE_CANNOT_BE_CHANGED')
+                        protected_mutation_refusals.append(dict(attempt=label,sqlstate=error.sqlstate,message=error.diag.message_primary))
+                    else:
+                        raise AssertionError('P19_PROTECTED_OWNER_MUTATION_WAS_ALLOWED:'+label)
+                    finally:
+                        cur.execute('rollback to savepoint p19_protected_owner_refusal')
+                        cur.execute('release savepoint p19_protected_owner_refusal')
+                    assert cur.execute('select to_jsonb(r) from erp.app_roles r where id=%s',(native_role,)).fetchone()[0]==owner_before
+                    assert cur.execute('select permission_key from erp.app_role_permissions where role_id=%s order by permission_key',(native_role,)).fetchall()==mapping_before
+                    pair(label)
+                protected_refusal('OWNER_MAPPING_DELETE_REFUSED','delete from erp.app_role_permissions where role_id=%s',(native_role,))
                 cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(subject,))
                 pair('OWNER_USER_INACTIVE')
                 cur.execute('update erp.app_users set is_active=true where auth_user_id=%s',(subject,))
-                cur.execute('update erp.app_roles set is_active=false where id=%s',(native_role,))
-                pair('OWNER_ROLE_INACTIVE')
-                cur.execute('update erp.app_roles set is_active=true,is_protected=false where id=%s',(native_role,))
-                for permission in PERMISSIONS:
-                    cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(native_role,permission))
-                pair('OWNER_NOT_PROTECTED_ALL_FINE_RIGHTS')
-                cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ar.view'",(native_role,))
-                pair('OWNER_NOT_PROTECTED_AR_REVOKED')
+                protected_refusal('OWNER_ROLE_DEACTIVATION_REFUSED','update erp.app_roles set is_active=false where id=%s',(native_role,))
+                protected_refusal('OWNER_UNPROTECT_REFUSED','update erp.app_roles set is_protected=false where id=%s',(native_role,))
+                protected_refusal('OWNER_AR_REVOKE_REFUSED',"delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ar.view'",(native_role,))
             else:
                 for permission in PERMISSIONS:
                     cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s) on conflict do nothing',(native_role,permission))
@@ -119,7 +132,11 @@ def compare(cur, auth, api, boundary):
         api.admin(cur)
     assert boundary.snapshot(cur) == before, 'P19_ADMISSION_NATIVE_BOUNDARY_CHANGED'
     assert len(decisions) == 35 * len(ACTIONS) == 385
+    assert len(protected_mutation_refusals) == 4
     return dict(status='EXACT_DECISIONS_AND_REFUSALS', comparisons=len(decisions), decisions=decisions,
                 all_actions_and_current_revocations=True, full_boundary_restored=True,
+                protected_OWNER_mutation_refusals=protected_mutation_refusals,
+                protected_OWNER_guards_not_disabled=True,
+                comparison_profiles=31, post_refusal_rechecks=4,
                 Native_case_credit_added=0, Native_money_HPP_engines_changed=False,
                 authority_cached=False)
