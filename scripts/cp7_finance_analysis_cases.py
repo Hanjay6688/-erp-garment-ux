@@ -56,7 +56,16 @@ def cases(cur,today):
  def zero():
   f=fixture(cur,today);q=dict(f['query'],compare_from=str(f['day']-timedelta(days=3)),compare_to=str(f['day']-timedelta(days=3)));r=read(cur,q)
   assert r['comparison']['revenue_growth_pct']is None and r['comparison']['gross_margin_change_pp']is None
-  return dict(status='PASS',O13_baseline_zero_is_null_not_zero_or_infinity=True)
+  # Net-negative revenue (sales revenue debited above sales) is not a ratio base:
+  # growth on it inverts the sign and a gross loss would read as a positive margin.
+  journal(cur,f['day'],[dict(mapping_key='SALES_REVENUE',debit='1500'),dict(mapping_key='OPENING_EQUITY',credit='1500')],'P13_NEGATIVE_REVENUE_FIXTURE')
+  c=read(cur,f['query'])['comparison']
+  assert D(c['current']['performance']['sales_revenue_gl'])==-300 and D(c['baseline']['performance']['sales_revenue_gl'])==1000
+  assert D(c['revenue_growth_pct'])==-130 and c['gross_margin_change_pp']is None
+  journal(cur,f['day']-timedelta(days=1),[dict(mapping_key='SALES_REVENUE',debit='3000'),dict(mapping_key='OPENING_EQUITY',credit='3000')],'P13_NEGATIVE_REVENUE_FIXTURE')
+  c=read(cur,f['query'])['comparison']
+  assert D(c['baseline']['performance']['sales_revenue_gl'])==-2000 and c['revenue_growth_pct']is None and c['gross_margin_change_pp']is None
+  return dict(status='PASS',O13_baseline_zero_is_null_not_zero_or_infinity=True,negative_revenue_base_or_current_is_null_not_inverted=True)
  def cash():
   f=cash_fixture(cur,today);r=read(cur,f['query']);a,z=f['before']['cash'],r['cash']
   assert D(z['net_change'])-D(a['net_change'])==100 and D(z['debit'])-D(a['debit'])==1300 and D(z['credit'])-D(a['credit'])==1200 and z['reconciled']

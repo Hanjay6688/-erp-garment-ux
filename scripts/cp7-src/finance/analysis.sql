@@ -23,9 +23,11 @@ begin
  if current_report is null or baseline_report is null or octet_length(current_report::text)+octet_length(baseline_report::text)>2000000 then raise exception 'CP7_FINANCE_REPORT_INCOMPLETE';end if;
  current_perf:=current_report->'performance';baseline_perf:=baseline_report->'performance';
  revenue:=(current_perf->>'sales_revenue_gl')::numeric;baseline_revenue:=(baseline_perf->>'sales_revenue_gl')::numeric;
- growth:=round((revenue-baseline_revenue)/nullif(baseline_revenue,0)*100,4);
+ -- Growth needs a positive base: a net-negative baseline (returns above sales)
+ -- would invert the sign. Margin points need positive revenue on both sides.
+ growth:=case when baseline_revenue>0 then round((revenue-baseline_revenue)/baseline_revenue*100,4)end;
  -- Aggregate original operands, not rounded row margins or averaged ratios.
- margin_delta:=round(((current_perf->>'gross_profit')::numeric/nullif(revenue,0)-(baseline_perf->>'gross_profit')::numeric/nullif(baseline_revenue,0))*100,4);
+ margin_delta:=case when revenue>0 and baseline_revenue>0 then round(((current_perf->>'gross_profit')::numeric/revenue-(baseline_perf->>'gross_profit')::numeric/baseline_revenue)*100,4)end;
  select array_agg(x.id order by x.id) into cash_ids from(select coa_account_id id from erp.cash_accounts union select erp.account_id('CASH'))x;
  select coalesce(sum(b.debit_total-b.credit_total)filter(where b.balance_date<f),0),coalesce(sum(b.debit_total-b.credit_total),0)
  into opening,closing from erp.account_daily_balances b where b.account_id=any(cash_ids) and b.balance_date<=t;
@@ -42,7 +44,7 @@ begin
  return jsonb_build_object('contract_version','cp7.finance-analysis.v1','captured_at',statement_timestamp(),
   'knowledge_basis','CURRENT_RECORDED_KNOWLEDGE','historical_knowledge','NOT_RECONSTRUCTED',
   'dates',jsonb_build_object('from',f,'to',t,'as_of',a,'compare_from',bf,'compare_to',bt),
-  'comparison',jsonb_build_object('basis','NATIVE_OWNER_REPORT_OPERANDS','formula_version','GROWTH_BASELINE_AND_GROSS_MARGIN_PP_V1','rounding_scale',4,
+  'comparison',jsonb_build_object('basis','NATIVE_OWNER_REPORT_OPERANDS','formula_version','GROWTH_POSITIVE_BASE_AND_GROSS_MARGIN_PP_V2','rounding_scale',4,
    'current',cp7_finance.exact_numbers(current_report),'baseline',cp7_finance.exact_numbers(baseline_report),
    'revenue_growth_pct',growth::text,'gross_margin_change_pp',margin_delta::text),
   'cash',jsonb_build_object('basis','GL_TRANSACTION_DATE_ALL_CONFIGURED_CASH_COA','account_scope','DISTINCT_COA_INCLUDING_INACTIVE_CASH_ACCOUNTS_AND_CASH_MAPPING',
