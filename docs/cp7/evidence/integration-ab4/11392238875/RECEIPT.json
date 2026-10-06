@@ -1,0 +1,265 @@
+{
+  "id": 11392238875,
+  "name": "cp7-p10-fg",
+  "run_id": 37417072031,
+  "workflow_name": "CP7 P10 Finished goods",
+  "workflow_path": ".github/workflows/cp7-p10-fg.yml",
+  "size_in_bytes": 6205475,
+  "digest": "sha256:173c389d29b8fd6ad3c7f2c4da2ed35fdc6ef485492973e52e9139a9321e81ee",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "69fdea60bd59dde452cd046dde7d29a4c93d4ba024249f48adc629e6cf992883"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "69fdea60bd59dde452cd046dde7d29a4c93d4ba024249f48adc629e6cf992883"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "9a9f6927ade113ee0c28855260fef311f4d173cb6c45173e4ef383e1bf4777d9"
+    },
+    "CP7_P10_FG.json": {
+      "bytes": 284115,
+      "sha256": "667bc9d2dfa7e4f3cb5d918b6669cca0f8fe8e507dc6f7137cb798809c70cd3e"
+    },
+    "P10_ADJUST_DESKTOP.png": {
+      "bytes": 818449,
+      "sha256": "01010c1e9293212883567075a4a441bc11e37f0beedefd5c7af41faa55d08e56"
+    },
+    "P10_ADJUST_MOBILE.png": {
+      "bytes": 670399,
+      "sha256": "c0ad9d0e8905e2e76d91cdc46a391872e713e073234649a6ea72b5f012a40530"
+    },
+    "P10_BOOK_DESKTOP.png": {
+      "bytes": 1019364,
+      "sha256": "b495ed3ffa527541c8a9f678fa1e5067441d276e507bc3460d98535a31f8be37"
+    },
+    "P10_BOOK_MOBILE.png": {
+      "bytes": 605184,
+      "sha256": "f4b85c4e76af0eba99e6ce350acc68508a00cb8e0a93c60bd3907df48aeffbf5"
+    },
+    "P10_FG_DESKTOP.png": {
+      "bytes": 1034916,
+      "sha256": "ac53708c97754ebc1c520d6ebdbb6da209c45d4be8c9d6dabda0b9881fa1488d"
+    },
+    "P10_FG_MOBILE.png": {
+      "bytes": 528793,
+      "sha256": "847e39ef5007c34204fd0f4721ba3a8e4a647ab6220b1cb19efd6c7055bfb19e"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "e05e4ddfb4739e7eafac96aba2db2d40d6270f58bc3fb5912c925bd538935262"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360369,
+      "sha256": "94817a7016fc9d735332eecf70d8c1d99de9e4b833045a012344a4179acbed73"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P10_FG.json": {
+      "bytes": 284115,
+      "sha256": "667bc9d2dfa7e4f3cb5d918b6669cca0f8fe8e507dc6f7137cb798809c70cd3e",
+      "file": "CP7_P10_FG.json.gz",
+      "gzip_sha256": "f00b32f44e69ba201bd4ddabf34681309e8c0e682a02d2e50bb376327699b0ee",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "e05e4ddfb4739e7eafac96aba2db2d40d6270f58bc3fb5912c925bd538935262",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "071213407e55c5314fcc3badf2efba8852b5e05b8a8f7f73ecd0a895b8b1d30e",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360369,
+      "sha256": "94817a7016fc9d735332eecf70d8c1d99de9e4b833045a012344a4179acbed73",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "b44171c518e7f36e1f59da8bd8cc6ba37b3fa2d5bc4c8400a97c5d40b06fa3b5",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P10_FG.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 34,
+      "declared_case_count": null,
+      "source_bundle_sha256": "4867d6c7fb05d4cc2f9fc84bcff9c25465571c462f31e6d59e5ca3a9e9aae29c",
+      "groups": {
+        "native": {
+          "case_count": 7,
+          "case_ids": [
+            "P10_FG_NATIVE_SOURCE",
+            "P10_FG_RESERVE_CANCEL_POST",
+            "P10_FG_INVERSE_ZERO",
+            "P10_FG_DEFERRED_UNKNOWN",
+            "P10_FG_AUTH_PRIVATE",
+            "P10_FG_FULL_PAGES",
+            "P10_FG_FILTERED_PREFIX"
+          ],
+          "counts": {
+            "PASS": 7
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P10_FG_HTTP_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "adjustments": {
+          "case_count": 8,
+          "case_ids": [
+            "P10_ADJUST_NEGATIVE_VALUE",
+            "P10_ADJUST_POSITIVE_VALUE",
+            "P10_ADJUST_MULTI_EDIT_VERSION",
+            "P10_ADJUST_REPLAY_DELETE",
+            "P10_ADJUST_FORGED_ATOMIC",
+            "P10_ADJUST_EXTERNAL_DRAFT",
+            "P10_ADJUST_DEFERRED_UNKNOWN",
+            "P10_ADJUST_AUTH_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "adjustment_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P10_ADJUST_RACE_STOCK",
+            "P10_ADJUST_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "adjustment_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P10_ADJUST_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "book": {
+          "case_count": 6,
+          "case_ids": [
+            "P10_BOOK_REORDER_FACTS",
+            "P10_BOOK_RESET",
+            "P10_BOOK_FILTER_PREFIX_PAGES",
+            "P10_BOOK_RESERVATIONS",
+            "P10_BOOK_STALE_ATOMIC",
+            "P10_BOOK_AUTH_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "book_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P10_BOOK_RACE_ORDER",
+            "P10_BOOK_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "book_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P10_BOOK_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 6,
+          "case_ids": [
+            "P10_FG_BROWSER_DESKTOP",
+            "P10_FG_BROWSER_OPERATIONS_MOBILE",
+            "P10_ADJUST_BROWSER_DESKTOP",
+            "P10_ADJUST_BROWSER_MOBILE_RECOVERY",
+            "P10_BOOK_BROWSER_DESKTOP_DRAG",
+            "P10_BOOK_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

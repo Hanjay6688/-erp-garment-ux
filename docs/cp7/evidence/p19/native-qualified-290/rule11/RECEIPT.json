@@ -1,0 +1,148 @@
+{
+  "id": 11392753723,
+  "name": "cp7-p18-fabric-rule11-complete-json",
+  "run_id": 37420039759,
+  "workflow_name": "CP7 P18 Fabric Rule",
+  "workflow_path": ".github/workflows/claude-p18-fabric-rule.yml",
+  "size_in_bytes": 57743,
+  "digest": "sha256:26e29f87cba7425bcd939038cb4dbf849639068af45dac2f21a58a15c700d9db",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "290d30de53f2725bf07be341467c637d0103fd8d",
+  "source_tree": "a107b80f8f2c3fa9a2a5b19ee546b4c8d9135667",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P18_FABRIC_RULE.json": {
+      "bytes": 828574,
+      "sha256": "997de4a457e90fa58ebb82e342c0aec6a5724df78153bb8ff2acd42074235b74"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "305d60b504d115eb6650e7c7072c251ee5347721aa85ce7d2d151faec5cabc06"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "200ba2b1d450cc1e233ceeb4ac998cccd9dfc3b9de2a55c00e29b3327c220933"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P18_FABRIC_RULE.json": {
+      "bytes": 828574,
+      "sha256": "997de4a457e90fa58ebb82e342c0aec6a5724df78153bb8ff2acd42074235b74",
+      "file": "CP7_P18_FABRIC_RULE.json.gz",
+      "gzip_sha256": "3423965990693449200d86c103a07ad3c41ca95e543cb2a4aaa441e3c578066d",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "305d60b504d115eb6650e7c7072c251ee5347721aa85ce7d2d151faec5cabc06",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "af5015502362af04a3e6d48e6667257fb6eb213a9471e6c81a5febb96de332b3",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "200ba2b1d450cc1e233ceeb4ac998cccd9dfc3b9de2a55c00e29b3327c220933",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "295bd64eb579f590485ba787c3c6fe5e13d3e38d19982ea139cb2f50b9f40773",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P18_FABRIC_RULE.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 11,
+      "declared_case_count": 11,
+      "source_bundle_sha256": "199edcaeb3f553ae152e3c47797241cbe1e28b0a24000f6250c928b11bee71fa",
+      "groups": {
+        "native": {
+          "case_count": 7,
+          "case_ids": [
+            "P18_FABRIC_RULE_ACTIVE_FROM_ORIGINAL",
+            "P18_FABRIC_RULE_POLICY_UNIT_EXACT",
+            "P18_FABRIC_RULE_ASSUMED_ZERO_NOT_RESOLVED",
+            "P18_FABRIC_RULE_IDENTITY_UNKNOWN_NO_EPISODE",
+            "P18_FABRIC_RULE_UNREVIEWED_RECIPE",
+            "P18_FABRIC_RULE_SHARED_SPLIT_UNDECIDED",
+            "P18_FABRIC_RULE_LOCAL_PREVIEW"
+          ],
+          "counts": {
+            "PASS": 7
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "P18_FABRIC_RULE_REAL_CONCURRENT_EPISODE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P18_FABRIC_RULE_REAL_AUTH_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P18_FABRIC_RULE_BROWSER_DESKTOP",
+            "P18_FABRIC_RULE_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

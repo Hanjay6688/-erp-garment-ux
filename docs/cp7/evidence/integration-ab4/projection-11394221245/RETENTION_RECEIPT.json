@@ -1,0 +1,82 @@
+{
+  "id": 11394221245,
+  "name": "cp7-checkpoint-ab4-complete-originals",
+  "run_id": 37424385404,
+  "workflow_name": "CP7 Checkpoint Complete Original Retention",
+  "workflow_path": ".github/workflows/cp7-checkpoint-originals.yml",
+  "size_in_bytes": 118503,
+  "digest": "sha256:4e33b478d59eda3a45ed26e9a82e1efbd5dc983c092349eecab830dfb85e8183",
+  "status": "VERIFIED_COMPLETE_ORIGINAL_PROJECTION_RETENTION_ONLY",
+  "retainer_source": "25f68ec78104a15a5ad7ed88fb22a0093910b41b",
+  "all_zip_members": {
+    "analysis152-ab4/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 43097,
+      "sha256": "559ccda8b6b626786b2343817fb332ec4d730be65a1485f7b55ec81040f1034e"
+    },
+    "analysis152-ab4/PROJECTION.json": {
+      "bytes": 961,
+      "sha256": "e05cf93759c26b215c0ff04c0cfa804bae6d08f83b842c8509c9d1e19e50b680"
+    },
+    "analysis152-ab4/RECEIPT.json": {
+      "bytes": 14872,
+      "sha256": "6e67ebac1c45e202853e724afdc0c1c698129f18eeb07f9462fc1577ba450cc0"
+    },
+    "attention284-ab4/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 57887,
+      "sha256": "b9e2150bce6019d1b65cb94955189bd1fb4a47829cf492921e9fe762ce2deed2"
+    },
+    "attention284-ab4/PROJECTION.json": {
+      "bytes": 961,
+      "sha256": "c5e953d13394559a2e03809e4da80f38a4d5cbc69d3c6b650edb1e2a0b0823a9"
+    },
+    "attention284-ab4/RECEIPT.json": {
+      "bytes": 36250,
+      "sha256": "27a18c14b30ad65fd248daa4a515045066b4f25afd0ff1c885fee75b8c69046a"
+    }
+  },
+  "retained_complete_json_members": {
+    "analysis152-ab4/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 43097,
+      "sha256": "559ccda8b6b626786b2343817fb332ec4d730be65a1485f7b55ec81040f1034e"
+    },
+    "analysis152-ab4/PROJECTION.json": {
+      "bytes": 961,
+      "sha256": "e05cf93759c26b215c0ff04c0cfa804bae6d08f83b842c8509c9d1e19e50b680"
+    },
+    "analysis152-ab4/RECEIPT.json": {
+      "bytes": 14872,
+      "sha256": "6e67ebac1c45e202853e724afdc0c1c698129f18eeb07f9462fc1577ba450cc0"
+    },
+    "attention284-ab4/ORIGINAL_REPORTS.json.gz": {
+      "bytes": 57887,
+      "sha256": "b9e2150bce6019d1b65cb94955189bd1fb4a47829cf492921e9fe762ce2deed2"
+    },
+    "attention284-ab4/PROJECTION.json": {
+      "bytes": 961,
+      "sha256": "c5e953d13394559a2e03809e4da80f38a4d5cbc69d3c6b650edb1e2a0b0823a9"
+    },
+    "attention284-ab4/RECEIPT.json": {
+      "bytes": 36250,
+      "sha256": "27a18c14b30ad65fd248daa4a515045066b4f25afd0ff1c885fee75b8c69046a"
+    }
+  },
+  "nested_originals": [
+    {
+      "source": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "original_run": 37417072263,
+      "complete_Originals": 5
+    },
+    {
+      "source": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "original_run": 37417072198,
+      "complete_Originals": 18
+    }
+  ],
+  "Native_product_cases_reexecuted": 0,
+  "Native_database_access": false,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,33 @@
+{
+  "contract": "cp7.exact-native-artifact-projection.v1",
+  "status": "EXACT_ORIGINAL_REPORTS_RETAINED",
+  "original_run_id": 37152608958,
+  "original_artifact_id": 11286370669,
+  "original_source_commit": "e52b1df5294ec4001138b498a8379e47b3690318",
+  "original_source_tree": "f7cf0f41fd55e3d2cbcb0eefbf6d09836d748cae",
+  "original_zip_sha256": "33779cfc355f7ed2bccdd710edbdf4df90f478c8f81b2716aeff724ddf695e5b",
+  "report_receipt_sha256": "e354a7e5f4e4286a4bd8686a4b9b53fa98a74ba9b858846ccc1c70119f9e2ba2",
+  "original_reports_gzip_sha256": "bd91fa20f745f7e690b7a5c4544832bfe5035a361565c001887275d7b995bad9",
+  "projection_run_id": "37417072007",
+  "projection_source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "Native_product_cases_reexecuted": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "exact_failure_diagnostics": {
+    "P06_NETTING_DESKTOP_FAILURE.json": {
+      "bytes": 101589,
+      "sha256": "81590dba5e7fb5abf0c922e371cfd2223cf85366fd0a700f700840a0c789cc80"
+    }
+  },
+  "exact_original_images": {
+    "P06_NETTING_DESKTOP_FAILURE.png": {
+      "bytes": 1445483,
+      "sha256": "5d39f05929be56c9172b6ce0087ff0f421e79e38b8057d66a17764aa2901fc14",
+      "file": "images/P06_NETTING_DESKTOP_FAILURE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    }
+  }
+}

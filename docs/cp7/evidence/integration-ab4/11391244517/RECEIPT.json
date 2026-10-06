@@ -1,0 +1,215 @@
+{
+  "id": 11391244517,
+  "name": "cp7-receipt-correction",
+  "run_id": 37417072055,
+  "workflow_name": "CP7 Owning Receipt Correction",
+  "workflow_path": ".github/workflows/cp7-receipt-correction.yml",
+  "size_in_bytes": 5257163,
+  "digest": "sha256:2163a6cc00e6ad874e6085e3e83d44d7f0cf2045a67eaf502d903cb171a00290",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "6d3791d6742d891409bd017941f5b5b96fd1e3c9fae5a07c6627db37376f5423"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "6d3791d6742d891409bd017941f5b5b96fd1e3c9fae5a07c6627db37376f5423"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "aebfe2a7e4a15cbff3236a21e8d80e896820eac8f95878b5e1b86d563c5d5d29"
+    },
+    "CP7_RECEIPT_CORRECTION.json": {
+      "bytes": 1946291,
+      "sha256": "53ff3e462f967d67cfc25ca51a2dfe49c8a11ffb98dc12ad79cc1ae3ddbf3b93"
+    },
+    "RECEIPT_CORRECTED_CARD_DESKTOP.png": {
+      "bytes": 770547,
+      "sha256": "92d49c7c0c244136bfd8e470b876d00d930227de42e36b89ad3460473d62af86"
+    },
+    "RECEIPT_CORRECTED_CARD_MOBILE.png": {
+      "bytes": 441500,
+      "sha256": "7a1f2b479e785c3a01667f15e6b5b0ef628d8dfd16e6de68cd1e12c270fc4dc5"
+    },
+    "RECEIPT_CORRECTION_DESKTOP.png": {
+      "bytes": 1447029,
+      "sha256": "18de4c24ae3126e874f353f322dd1570cd6d11348bb5ab2dce515089e0c1101f"
+    },
+    "RECEIPT_CORRECTION_MOBILE.png": {
+      "bytes": 983141,
+      "sha256": "d329da3976c36128f58d801099c73866d5516e3ef95ae2ae0f2c647335334c82"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "75386156e487be92e57bcf06470e542fe51e60d9ee637679ef43948b0b5b77f2"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360413,
+      "sha256": "20ce3939c1893ca388418d9ebc9cdd1830002d44c9dfe46a9802e0fb36731e5e"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_RECEIPT_CORRECTION.json": {
+      "bytes": 1946291,
+      "sha256": "53ff3e462f967d67cfc25ca51a2dfe49c8a11ffb98dc12ad79cc1ae3ddbf3b93",
+      "file": "CP7_RECEIPT_CORRECTION.json.gz",
+      "gzip_sha256": "8cc2da552215ac382dbed78c8e0842d8361eb9bf04319b02c56aee5c387c1de7",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "75386156e487be92e57bcf06470e542fe51e60d9ee637679ef43948b0b5b77f2",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "e5c4867b1f3ae7bfc681a8bde7aac02aea1694b818bc7d40f9b522acf5bfec1e",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360413,
+      "sha256": "20ce3939c1893ca388418d9ebc9cdd1830002d44c9dfe46a9802e0fb36731e5e",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "141a4361151375e86523c9eb2b9330548f714fd437958677e89b482158dd1d7a",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_RECEIPT_CORRECTION.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 42,
+      "declared_case_count": 42,
+      "source_bundle_sha256": "af35fafc242a28df72f1af5fb0d6564bfa84b6561a248492d9e3c974fb68dad4",
+      "groups": {
+        "native": {
+          "case_count": 36,
+          "case_ids": [
+            "RF_QTY_DOWN_AFTER_CUTTING",
+            "RF_QTY_UP_AFTER_CUTTING",
+            "RF_PRICE_AFTER_SALE_AND_RETURN",
+            "RF_WRONG_MATERIAL_AFTER_CUTTING",
+            "RF_WRONG_MATERIAL_AND_PRICE",
+            "RF_ROLL_COUNT_TYPO_UNUSED_ROLL",
+            "RF_REMOVED_ROLL_USED_REFUSED",
+            "RF_ROLL_BELOW_USE_REFUSED",
+            "RF_ROLL_NUMBER_TYPO_USED_ROLL",
+            "RF_HEADER_TYPO",
+            "RF_INVOICE_HEADER_TYPO",
+            "RF_ARRIVAL_DATE_TYPO",
+            "RF_WAREHOUSE_TYPO",
+            "RF_SUPPLIER_TYPO",
+            "RF_PAYMENT_REPLAY",
+            "RF_PAID_EXCEEDS_CORRECTED_REFUSED",
+            "RF_OVERPAID_CREDIT_TO_NEXT_NOTA",
+            "RF_OPENING_ADVANCE_PAYMENT_REPLAY",
+            "RF_INVOICE_PRICE_AFTER_SALE",
+            "RF_INVOICED_QTY_DOWN_WITH_PAYMENT",
+            "RF_INVOICE_INCOMPLETE_REFUSED",
+            "RF_SHARED_INVOICE_CORRECTED",
+            "RF_CLOSED_PERIOD_CORRECTION",
+            "RF_REPEATED_REVISIONS",
+            "RF_REPLAY_SAME_REQUEST",
+            "RF_REVIEW_CHANGED_REFUSED",
+            "RF_ACCESS_CURRENT_AUTHORITY",
+            "RF_YEAR_HISTORY_364",
+            "RF_YEAR_FINAL_INVOICE_PRICE",
+            "RF_DRAFT_ROLL_USE_BLOCKS",
+            "RF_DUPLICATE_LINES_KEEP_LOT",
+            "RF_LATE_FAILURE_ATOMIC",
+            "RF_ACCESSORY_LINE_QTY",
+            "RF_MATERIAL_NAME_TYPO",
+            "RF_MATERIAL_SKU_TYPO",
+            "RF_MATERIAL_NAME_REFUSALS"
+          ],
+          "counts": {
+            "PASS": 36
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 3,
+          "case_ids": [
+            "RF_RACE_TWO_REQUESTS",
+            "RF_RACE_SAME_UUID",
+            "RF_RACE_CUTTING_USE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "RF_HTTP_COMMAND_REPLAY_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "RF_BROWSER_DESKTOP",
+            "RF_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

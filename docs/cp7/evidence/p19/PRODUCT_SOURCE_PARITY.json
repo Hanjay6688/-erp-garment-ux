@@ -1,0 +1,89 @@
+{
+  "status": "EXACT_PRODUCT_SQL_PARITY_VERIFIED",
+  "sources": [
+    "3e5ba2571c1ba714d9f0cc2524250a4a4fb46ac7",
+    "290d30de53f2725bf07be341467c637d0103fd8d",
+    "67a23c11edf10573328f4d8cdc185c258fbf2f8a"
+  ],
+  "source67_tree": "3b9667cec3814e3265026d263aae1bd43696eed7",
+  "changed_product_files": [
+    {
+      "path": "scripts/cp7-src/planning/analysis.sql",
+      "bytes": 29707,
+      "sha256": "db42a412203b0cf31010c15ce779fd5ad13fe3845cf3d0f687ddbd93341728c9",
+      "identical_sources": [
+        "3e5ba2571c1ba714d9f0cc2524250a4a4fb46ac7",
+        "290d30de53f2725bf07be341467c637d0103fd8d",
+        "67a23c11edf10573328f4d8cdc185c258fbf2f8a"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/finance/read.sql",
+      "bytes": 6774,
+      "sha256": "02ef8a3bc1c9d652b4fbf4505af2ce0c056e93fb26d8f7aa68657f48d3e05c57",
+      "identical_sources": [
+        "3e5ba2571c1ba714d9f0cc2524250a4a4fb46ac7",
+        "290d30de53f2725bf07be341467c637d0103fd8d",
+        "67a23c11edf10573328f4d8cdc185c258fbf2f8a"
+      ]
+    },
+    {
+      "path": "scripts/cp7-src/finance/analysis.sql",
+      "bytes": 6205,
+      "sha256": "f4f3bd03bf57c1b3d90be6a88fef7ec3939586930cb744cb2012e1bb5b2c7d51",
+      "identical_sources": [
+        "3e5ba2571c1ba714d9f0cc2524250a4a4fb46ac7",
+        "290d30de53f2725bf07be341467c637d0103fd8d",
+        "67a23c11edf10573328f4d8cdc185c258fbf2f8a"
+      ]
+    }
+  ],
+  "between_source_deltas_tool_and_evidence_only": [
+    ".github/workflows/claude-p08-physical.yml",
+    ".github/workflows/claude-p18-fabric-rule.yml",
+    ".github/workflows/cp7-p13-analysis.yml",
+    ".github/workflows/cp7-p13-finance.yml",
+    ".github/workflows/cp7-shell.yml",
+    "docs/cp7/evidence/p19/assembly-290-180s/P19_ASSEMBLY_KERNEL.json.gz",
+    "docs/cp7/evidence/p19/assembly-290-180s/RECEIPT.json",
+    "docs/cp7/evidence/p19/assembly-290-180s/f04-private-kernels.json.gz",
+    "docs/cp7/evidence/p19/assembly-290-180s/fabric-recipe.json.gz",
+    "docs/cp7/evidence/p19/assembly-290-180s/history-availability-parity.json.gz",
+    "docs/cp7/evidence/p19/assembly-290-180s/material-pool.json.gz",
+    "docs/cp7/evidence/p19/assembly-ce-180s/P19_ASSEMBLY_KERNEL.json.gz",
+    "docs/cp7/evidence/p19/assembly-ce-180s/RECEIPT.json",
+    "docs/cp7/evidence/p19/assembly-ce-180s/f04-private-kernels.json.gz",
+    "docs/cp7/evidence/p19/assembly-ce-180s/fabric-recipe.json.gz",
+    "docs/cp7/evidence/p19/assembly-ce-180s/history-availability-parity.json.gz",
+    "docs/cp7/evidence/p19/assembly-ce-180s/material-pool.json.gz",
+    "docs/cp7/evidence/p19/assembly-first-3e5/P19_ASSEMBLY_KERNEL.json.gz",
+    "docs/cp7/evidence/p19/assembly-first-3e5/RECEIPT.json",
+    "docs/cp7/evidence/p19/assembly-first-3e5/f04-private-kernels.json.gz",
+    "docs/cp7/evidence/p19/assembly-first-3e5/fabric-recipe.json.gz",
+    "docs/cp7/evidence/p19/assembly-first-3e5/history-availability-parity.json.gz",
+    "docs/cp7/evidence/p19/assembly-first-3e5/material-pool.json.gz",
+    "docs/cp7/evidence/p19/finance-first-3e5/ALIGNED_CHAIN.json.gz",
+    "docs/cp7/evidence/p19/finance-first-3e5/CP7_P13_FINANCE_ANALYSIS.json.gz",
+    "docs/cp7/evidence/p19/finance-first-3e5/RECEIPT.json",
+    "docs/cp7/evidence/p19/finance-first-3e5/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "docs/cp7/evidence/p19/finance-first-3e5/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "docs/cp7/evidence/p19/finance-first-3e5/T3_PACKAGE_INSTALL.json.gz",
+    "docs/cp7/evidence/p19/finance-qualified-290/ALIGNED_CHAIN.json.gz",
+    "docs/cp7/evidence/p19/finance-qualified-290/CP7_P13_FINANCE_ANALYSIS.json.gz",
+    "docs/cp7/evidence/p19/finance-qualified-290/RECEIPT.json",
+    "docs/cp7/evidence/p19/finance-qualified-290/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "docs/cp7/evidence/p19/finance-qualified-290/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "docs/cp7/evidence/p19/finance-qualified-290/T3_PACKAGE_INSTALL.json.gz",
+    "docs/cp7/p19/P19_ANALYSIS_FINANCE_CONTINUATION.md",
+    "scripts/cp7_f05_analysis_probe.py",
+    "scripts/cp7_p13_finance_probe.py",
+    "scripts/cp7_p19_assembly_benchmark.mjs",
+    "scripts/cp7_probe_evidence_test.py",
+    "tests/cp7/families/f04/runtime.mjs"
+  ],
+  "old_qualification_not_retargeted": true,
+  "Native_execution_credit": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,77 @@
+{
+  "contract": "cp7.exact-native-artifact-projection.v1",
+  "status": "EXACT_ORIGINAL_REPORTS_RETAINED",
+  "original_run_id": 37155715184,
+  "original_artifact_id": 11285924981,
+  "original_source_commit": "7112afdffdc2739d81b86f2763817c88a15ea107",
+  "original_source_tree": "d952cd5103f92043475a6e8dcc3fe518c53a52e2",
+  "original_zip_sha256": "de4281295a0b6596e659c28c03410827bb29ad99c2b6dda2262e0355b75c6b67",
+  "report_receipt_sha256": "728686b49a024604364ec1c409eccb7d336a016955dfdd694d0b98287bc7ed73",
+  "original_reports_gzip_sha256": "67ab254830f080ead57be588669daf825bbdb0eee744167e52973b8de675138b",
+  "projection_run_id": "37417072007",
+  "projection_source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "Native_product_cases_reexecuted": 0,
+  "Native_database_access": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "exact_failure_diagnostics": {},
+  "exact_original_images": {
+    "P06_WORK_UNCERTAIN_DESKTOP.png": {
+      "bytes": 1445753,
+      "sha256": "b773a2294c00351b8cff7e46ea9a3844d5ffa726c1dc3c2b68e83bc071340ce1",
+      "file": "images/P06_WORK_UNCERTAIN_DESKTOP.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P06_WORK_UNCERTAIN_MOBILE.png": {
+      "bytes": 1023182,
+      "sha256": "278193bc7dee73a757b063c1d70e314aaeb2fc21addf6f80afa50b3dce62e5a7",
+      "file": "images/P06_WORK_UNCERTAIN_MOBILE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P06_NETTING93_DESKTOP.png": {
+      "bytes": 1690459,
+      "sha256": "d812402a2b9873742abe8e02bf33d7542ef581f16e7af46dfc590b3d64184241",
+      "file": "images/P06_NETTING93_DESKTOP.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P06_NETTING93_MOBILE.png": {
+      "bytes": 1412532,
+      "sha256": "2c60312a5ed108592dd609f6165dd076de3e632025f96d42ee082a572b37b88e",
+      "file": "images/P06_NETTING93_MOBILE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png": {
+      "bytes": 1270438,
+      "sha256": "dda7f2e92584e4d0938e5db10256b9fd839cf8e4549c72020e99f756528594f4",
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_DESKTOP.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png": {
+      "bytes": 603770,
+      "sha256": "8f50c8a0874178ffa203b2d33dedb943d2d7657de4f554c5f19e9df968f9387a",
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_AUTO_MOBILE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png": {
+      "bytes": 1771297,
+      "sha256": "47415275457bc18ab308611dcaeef1543e9184976a7d6701c1610f7a5d964dce",
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_DESKTOP.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    },
+    "P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png": {
+      "bytes": 954554,
+      "sha256": "d1588eff580a76da3abe512e99e2c20c5ac7c9a6182cf9514156c4a36dd3847c",
+      "file": "images/P17_MANUAL_PROVIDER_OFFLINE_MOBILE.png",
+      "original_bytes_unchanged": true,
+      "visual_review": "NOT_AUTOMATICALLY_QUALIFIED"
+    }
+  }
+}

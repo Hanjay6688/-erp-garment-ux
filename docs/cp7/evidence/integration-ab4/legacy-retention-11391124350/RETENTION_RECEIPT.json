@@ -1,0 +1,19 @@
+{
+  "id": 11391124350,
+  "name": "cp7-retained-f05-9cc70-qualified284",
+  "run_id": 37417072254,
+  "workflow_name": "CP7 Retain Existing Native Originals",
+  "workflow_path": ".github/workflows/cp7-retain-existing-artifact.yml",
+  "size_in_bytes": 68825,
+  "digest": "sha256:bf068887c6b83a23014ae090ec5a99b7d058ca429082ff2c7ad204ed937d9203",
+  "status": "VERIFIED_LEGACY_ORIGINAL_RETENTION_ONLY",
+  "retainer_source": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "original_source": "9cc70e5615e4811f826ddb0f3d15c0540f452220",
+  "original_run_id": 37066670314,
+  "root_originals_unchanged": true,
+  "new_Native_execution_credit": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "nested_Original_UTF8_hashes_verified": 18
+}

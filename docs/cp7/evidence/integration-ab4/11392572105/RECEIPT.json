@@ -1,0 +1,173 @@
+{
+  "id": 11392572105,
+  "name": "cp7-p03-production-policy",
+  "run_id": 37417072304,
+  "workflow_name": "CP7 P03 production policy",
+  "workflow_path": ".github/workflows/cp7-p03-identity.yml",
+  "size_in_bytes": 1640014,
+  "digest": "sha256:18009daee26acf45ae9071c330684c8d05794a1fc28255fb5c8263aa6be1b17a",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385624,
+      "sha256": "e23765513a0606d5774047f12e65879812739bb54ae8ff17611931c15e25ec40"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385624,
+      "sha256": "e23765513a0606d5774047f12e65879812739bb54ae8ff17611931c15e25ec40"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "2d5f559b44237f275875cf3ca0b598408905f602a9837724ba3b04f827986a0c"
+    },
+    "CP7_P03_FACADE.json": {
+      "bytes": 419109,
+      "sha256": "630dee81e1b9d803bc8e0f5364be6e3f0eb1d5f28587ea6784162bc2006268bc"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "35b16594efc852264df9de8c8fa429debb2a88024469a668c0ad107d06c901c4"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360372,
+      "sha256": "5b40042aeda83719e49de843837f31a9b58ddfe69ddf652f3af8c5cba793e4fe"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P03_FACADE.json": {
+      "bytes": 419109,
+      "sha256": "630dee81e1b9d803bc8e0f5364be6e3f0eb1d5f28587ea6784162bc2006268bc",
+      "file": "CP7_P03_FACADE.json.gz",
+      "gzip_sha256": "bd6bcdcd2950ebc98be5c945005d3a3495bb857b76fcdfa0e50448d4a3a6d1d5",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "35b16594efc852264df9de8c8fa429debb2a88024469a668c0ad107d06c901c4",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "eaa37362eb3f188a5c9be94ee14f11a64412bcd30c433bd7eb27ede649703d35",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360372,
+      "sha256": "5b40042aeda83719e49de843837f31a9b58ddfe69ddf652f3af8c5cba793e4fe",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "5b89d0b9aee8dbea3e5281466946891bbf54f53b066c0563092eab1a9e50be83",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P03_FACADE.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 16,
+      "declared_case_count": null,
+      "source_bundle_sha256": "3950c19cd413a719471ee88a03a1c3308ff13b76ddcbd47c672c052099da64c7",
+      "groups": {
+        "fixture_smoke": {
+          "case_count": 1,
+          "case_ids": [
+            "P03_FIXTURE_AND_COMMAND_SMOKE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "native": {
+          "case_count": 10,
+          "case_ids": [
+            "P03_STATUS_DOMAIN_BOUNDARY",
+            "P03_REPLAY_CONFLICT",
+            "P03_BULK_ATOMIC_STALE",
+            "P03_MEMBERSHIP_REVIEW",
+            "P03_PAST_REVIEW_PAUSED",
+            "P03_PRIVILEGES_REVOKE",
+            "P03_MALFORMED_NO_PARTIAL",
+            "P03_PRICE_REVISION_POLICY_STABLE",
+            "P03_FUTURE_MEMBERSHIP_REVIEW",
+            "P03_HISTORICAL_IDENTITY_CONSERVATION"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 4,
+          "case_ids": [
+            "P03_COMPETING_POLICY_REVISIONS",
+            "P03_REVOKE_WHILE_WAITING",
+            "P03_MEMBERSHIP_WHILE_WAITING",
+            "P03_DUPLICATE_REQUEST_RACE"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P03_HTTP_POLICY_AUTH_REPLAY_REVOKE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

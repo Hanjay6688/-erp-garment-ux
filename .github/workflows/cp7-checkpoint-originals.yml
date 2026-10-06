@@ -1,0 +1,36 @@
+name: CP7 Checkpoint Complete Original Retention
+'on':
+  push:
+    branches: [cp7/checkpoint-originals-20261006]
+    paths:
+      - docs/cp7/native152_ab4_completed_projection.json
+      - docs/cp7/native284_ab4_completed_projection.json
+      - .github/workflows/cp7-checkpoint-originals.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  retain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verify archive bytes and retain all complete Original roots without ERP access
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 scripts/cp7_native_artifact_projection_test.py
+          python3 scripts/cp7_verify_retained_originals_test.py
+          python3 scripts/cp7_native_artifact_projection.py docs/cp7/native152_ab4_completed_projection.json cp7-proof/analysis152-ab4
+          python3 scripts/cp7_verify_retained_originals.py cp7-proof/analysis152-ab4 --manifest docs/cp7/native152_ab4_completed_projection.json --projection-head "$GITHUB_SHA"
+          python3 scripts/cp7_native_artifact_projection.py docs/cp7/native284_ab4_completed_projection.json cp7-proof/attention284-ab4
+          python3 scripts/cp7_verify_retained_originals.py cp7-proof/attention284-ab4 --manifest docs/cp7/native284_ab4_completed_projection.json --projection-head "$GITHUB_SHA"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp7-checkpoint-ab4-complete-originals
+          path: cp7-proof/
+          if-no-files-found: error
+          retention-days: 90

@@ -1,0 +1,21 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "expected_status": "PASS",
+  "run_id": 37417072198,
+  "job_id": 112117924540,
+  "artifact_id": 11392674176,
+  "artifact_name": "cp7-f05-attention",
+  "source_bundle_sha256": "18043e14fff44b5a6aff6071085a5d507f3dbb0d100183f0bb57a8266e95f696",
+  "zip_bytes": 375516865,
+  "zip_sha256": "6570374def8a96ccb28128fa7c4a818f7ebb7fb71f872b6f13dfaa4d1c252514",
+  "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+  "expected_case_count": 284,
+  "required_case_counts": {
+    "native": 179,
+    "races": 40,
+    "http": 29,
+    "browser": 36
+  }
+}

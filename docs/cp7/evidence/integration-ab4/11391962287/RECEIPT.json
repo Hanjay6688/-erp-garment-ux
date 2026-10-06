@@ -1,0 +1,40 @@
+{
+  "id": 11391962287,
+  "name": "cp7-codeql-javascript-typescript",
+  "run_id": 37417072183,
+  "workflow_name": "CP7 Shell S0",
+  "workflow_path": ".github/workflows/cp7-shell.yml",
+  "size_in_bytes": 123346,
+  "digest": "sha256:50ba2ea2dacf18c2f0a598e9d77abbf7bec4a0b0b1c7595d269b702d5ea451df",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": null,
+  "all_zip_members": {
+    "javascript.sarif": {
+      "bytes": 1367984,
+      "sha256": "f22fbe9cf588ba2d3107a6a57acca5035d8061ae0afab91ece1d8c28e105337e"
+    }
+  },
+  "root_originals": {
+    "javascript.sarif": {
+      "bytes": 1367984,
+      "sha256": "f22fbe9cf588ba2d3107a6a57acca5035d8061ae0afab91ece1d8c28e105337e",
+      "file": "javascript.sarif.gz",
+      "gzip_sha256": "5033cc7f36857d88936b6c8335e251b0c9c0265aded2405dfee255b126bde96b",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "javascript.sarif": {
+      "kind": "CODEQL",
+      "findings": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

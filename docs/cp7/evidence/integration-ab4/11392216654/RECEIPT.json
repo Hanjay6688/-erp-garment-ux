@@ -1,0 +1,131 @@
+{
+  "id": 11392216654,
+  "name": "cp7-f03-cost-continuation",
+  "run_id": 37417072236,
+  "workflow_name": "CP7 F03 Required Cost Continuations",
+  "workflow_path": ".github/workflows/cp7-f03-cost-continuation.yml",
+  "size_in_bytes": 1645381,
+  "digest": "sha256:ce1c191b214024c821e97353eab6d39e9e06aeb976389c53664e214e583dff57",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "aa55cd2b8be2d0afe1313202d3659db5c1427506fe616b35ef6be01814aba717"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385614,
+      "sha256": "aa55cd2b8be2d0afe1313202d3659db5c1427506fe616b35ef6be01814aba717"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "70573f6ce1d67091d833a4a925a23124a545dc5f33b546ea6ebe993b1745df32"
+    },
+    "CP7_F03_COST_CONTINUATION.json": {
+      "bytes": 505249,
+      "sha256": "e9de6936f7c0f58c7e5f48ffe7a4bc36225c28eac1c98978ff9123a5c1d79dc0"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "10bdea24aa2f0fe692f47f8ae0428bbe60385480c761e8e0348db5f403dc96a3"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "12007b85a48ce89c09b5825180e8e34c644c07c192f771b8a3c9c6e0e4b0c7d3"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F03_COST_CONTINUATION.json": {
+      "bytes": 505249,
+      "sha256": "e9de6936f7c0f58c7e5f48ffe7a4bc36225c28eac1c98978ff9123a5c1d79dc0",
+      "file": "CP7_F03_COST_CONTINUATION.json.gz",
+      "gzip_sha256": "8501c90f4f51acfb0b818f65fdc094d2b5200d73788cab9d129299f2876277c4",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "10bdea24aa2f0fe692f47f8ae0428bbe60385480c761e8e0348db5f403dc96a3",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "c9a7d7402af98dc2e5903e8ebb2d68bb7ed4fcaed8eeb9e396900f63e000aa46",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "12007b85a48ce89c09b5825180e8e34c644c07c192f771b8a3c9c6e0e4b0c7d3",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "0024c4a5311ae57d23e35f1d7fb782b0adbb2ce48c0647d2b0e3df3775af8dc6",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F03_COST_CONTINUATION.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 4,
+      "declared_case_count": 4,
+      "source_bundle_sha256": "70d214afb62660ecd73bbf92a838cc4ff2921f023928df47661b6602247265b6",
+      "groups": {
+        "native": {
+          "case_count": 4,
+          "case_ids": [
+            "F03_O18_POCKET_EXACT_AND_P13_REPORT",
+            "F03_E07_RECEIPT_POCKET_ZERO_DELTA_AND_REPRICE",
+            "F03_E07_POCKET_SALE_RETURN_CONVERSION",
+            "F03_E04_CONVERSION_SOLD_CHILD_COST"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

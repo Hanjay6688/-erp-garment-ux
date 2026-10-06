@@ -1,0 +1,299 @@
+{
+  "id": 11392253339,
+  "name": "cp7-f04-schedule",
+  "run_id": 37417072225,
+  "workflow_name": "CP7 F04 Native Selected Production Schedule",
+  "workflow_path": ".github/workflows/cp7-f04-schedule.yml",
+  "size_in_bytes": 14317121,
+  "digest": "sha256:b9a1d41b70e3460b6ddb6a687608a5c4b14a32ad5e8ce6d199b80397d8adce9c",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385617,
+      "sha256": "034340e18ed2011984af7b6721ae874d6decb3e8fb12dc2829424b9c916e1641"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385617,
+      "sha256": "034340e18ed2011984af7b6721ae874d6decb3e8fb12dc2829424b9c916e1641"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "11b88693577edb754fc6c99b620f354ecb784b9f3aab2286d38fab31b3b0d5d2"
+    },
+    "CP7_F04_NATIVE_SCHEDULE.json": {
+      "bytes": 2996508,
+      "sha256": "46aa2bd8dfb28eae687434d671c5fe6ff6ce296b22c3605c0d34308181c642f6"
+    },
+    "P05_CURRENT_DESKTOP.png": {
+      "bytes": 797443,
+      "sha256": "c61fdbd684c2b4f4e29ac98a8d1cfed53aaf02c6fc2955ae0d39d184e80fd61e"
+    },
+    "P05_CURRENT_MOBILE.png": {
+      "bytes": 506807,
+      "sha256": "ec27484cc3ed0b0b001376e5f50054af11b147101aa90efb3f9c3168d5649b5f"
+    },
+    "P05_POSTED_DESKTOP.png": {
+      "bytes": 795452,
+      "sha256": "e5f52f48757db6baa4f09431ed5c0e2fff933d304a5fab0cd4b2c3a01fb74dfb"
+    },
+    "P05_POSTED_MOBILE.png": {
+      "bytes": 503847,
+      "sha256": "ff4bf5531a7e255afd3d55ab2a2d6b43be19c3fe3c4b52230f863d525863113d"
+    },
+    "P05_REVOKED_MOBILE.png": {
+      "bytes": 263332,
+      "sha256": "3350b00345614b36e4ec4a6bc994a8387ae6a0649ca82a4f75e29507c2b084ee"
+    },
+    "P05_STALE_DESKTOP.png": {
+      "bytes": 799215,
+      "sha256": "4da7c135782403830831a152e0f1160c54ce73364b1c82695aa12de32616ee63"
+    },
+    "P05_STALE_MOBILE.png": {
+      "bytes": 507698,
+      "sha256": "9bd2a3ed5f57f8ae14d8bdd70f4bc8e882dad04aac1dc3a6e14e7a5c565f3495"
+    },
+    "P05_UNCERTAIN_DESKTOP.png": {
+      "bytes": 696943,
+      "sha256": "be304f6951b48cd174ae4114e6a8d6434177cbb23ead16c7266da5579ea32a7d"
+    },
+    "P05_UNCERTAIN_MOBILE.png": {
+      "bytes": 488392,
+      "sha256": "09a1e2d6bd1466d48aa836702ba8294d6193b1880e9d2ef0db871ebdd2514e11"
+    },
+    "P06_REVOKED_MOBILE.png": {
+      "bytes": 404557,
+      "sha256": "1bbd256a83b6d80a384ab8d3f2b33574ed7b2e529471afcce13af98f444f2f2f"
+    },
+    "P06_STALE100_DESKTOP.png": {
+      "bytes": 903058,
+      "sha256": "8ce457e2257d6636f8dcb4a417a6668a8adede489365da0ee1e4be598839d7bd"
+    },
+    "P06_STALE100_MOBILE.png": {
+      "bytes": 491524,
+      "sha256": "55d631852ca11cba3df4e49a12585e63e17a643920aeb7db00fff6a121a89c19"
+    },
+    "P06_TARGET100_DESKTOP.png": {
+      "bytes": 1177336,
+      "sha256": "31575be415f42edaa4a3f0e243088da662bfa9a255a27af3c6b6b8ddd864b922"
+    },
+    "P06_TARGET100_MOBILE.png": {
+      "bytes": 760884,
+      "sha256": "d44ae0cec44f3cb44d5ee465e99234e2d95f746e06b114cdb3b2331fb7b66620"
+    },
+    "P06_TARGET200_DESKTOP.png": {
+      "bytes": 1177814,
+      "sha256": "45a35e7f1442977ed13fb139f68be19ae5895eb51cb2a34aaf736b7b33893f23"
+    },
+    "P06_TARGET200_MOBILE.png": {
+      "bytes": 761491,
+      "sha256": "28cf2ae602a16348dc893bbf133c3f3992e502b611422ddbfe3a937f323f12c9"
+    },
+    "P06_UNCERTAIN_PROFILE_DESKTOP.png": {
+      "bytes": 1108726,
+      "sha256": "48f9adfb451b93a4b7e4006831895c7aee45df5ef2a2126b8c6932a4ff838ecd"
+    },
+    "P06_UNCERTAIN_PROFILE_MOBILE.png": {
+      "bytes": 730422,
+      "sha256": "c29571b6847e2a1aadd8ed32a2e4ff3840deb9de9619044d31e00c7a1aa29b8b"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "797c57e5519b05e5701520e01d75553a35f54bba133adc7ecd218912dece2df1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360427,
+      "sha256": "39a924a453cc1f688d93c8e5899a02a93771b71bed07f1079dab1dbd72aa371a"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F04_NATIVE_SCHEDULE.json": {
+      "bytes": 2996508,
+      "sha256": "46aa2bd8dfb28eae687434d671c5fe6ff6ce296b22c3605c0d34308181c642f6",
+      "file": "CP7_F04_NATIVE_SCHEDULE.json.gz",
+      "gzip_sha256": "4e437a812ec43fe5abecb0beca7592acf5d3e62a4d614136a3ceeb5086b4803a",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "797c57e5519b05e5701520e01d75553a35f54bba133adc7ecd218912dece2df1",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "ee0f0b605d26b775c4a688590d04734775e7d410755b910a02892c58466bff44",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360427,
+      "sha256": "39a924a453cc1f688d93c8e5899a02a93771b71bed07f1079dab1dbd72aa371a",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "3bfbb75d2c6a2850e134c964c229620583ae75e19f4dbebabedd675c2f64c7f9",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F04_NATIVE_SCHEDULE.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 70,
+      "declared_case_count": 70,
+      "source_bundle_sha256": "a463aba2ffce206bfc6f1df44ad9954696ecb83122fd02dcfa147fd229c16367",
+      "groups": {
+        "native": {
+          "case_count": 51,
+          "case_ids": [
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY"
+          ],
+          "counts": {
+            "PASS": 51
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 10,
+          "case_ids": [
+            "P05_RACE_SAME_UUID",
+            "P05_RACE_CURRENT_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_SUPPLY_RACE_UUID",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SCHEDULE_RACE_CACHED_AUTH"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 5,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_SUPPLY_HTTP_AUTH",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED"
+          ],
+          "counts": {
+            "PASS": 5
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 4,
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

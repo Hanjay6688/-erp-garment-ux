@@ -1,0 +1,22 @@
+{
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "artifact_id": 11392192087,
+  "reviewed_original_images": {
+    "P08_PHYSICAL_ALLOCATED30_EXTERNAL106_DESKTOP.png": {
+      "bytes": 1214299,
+      "sha256": "ebbbad7624c4be4e74b78d625b2bec25da9947721d8ff7e91d1ddafb0dbc2ab8",
+      "original_bytes_unchanged": true,
+      "visually_reviewed": true
+    },
+    "P08_PHYSICAL_ALLOCATED30_EXTERNAL106_MOBILE.png": {
+      "bytes": 770935,
+      "sha256": "5c2734f79f1541420193a2cd6b74941050c872f9996f8a3fe985bdbd8f33f7d5",
+      "original_bytes_unchanged": true,
+      "visually_reviewed": true
+    }
+  },
+  "observed": "Desktop and mobile display planned fabric186yd, installed0yd, eligible allocated30yd and external106yd with assumption labels. A missing accessory BOM stays unknown; the financial readiness is BLOCKED. The active product filter shows1 of2 without claiming a global-source reduction. Desktop layout is readable; mobile fields are stacked.",
+  "other_original_images_visually_reviewed": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

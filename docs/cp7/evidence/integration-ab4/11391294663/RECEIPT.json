@@ -1,0 +1,172 @@
+{
+  "id": 11391294663,
+  "name": "cp7-f03-capacity",
+  "run_id": 37417072044,
+  "workflow_name": "CP7 F03 E20 E14 Complete Stock Capacity",
+  "workflow_path": ".github/workflows/cp7-f03-capacity.yml",
+  "size_in_bytes": 4511092,
+  "digest": "sha256:67a6f9b51dbb9c05a632e136fcd82e2187094408e614f7ebbf2dc23819b7c362",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385608,
+      "sha256": "436b94e00b0d85de3021794e5844529d54701d961205b6e99cf6a60ae54027b0"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385608,
+      "sha256": "436b94e00b0d85de3021794e5844529d54701d961205b6e99cf6a60ae54027b0"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "73e6a9bf2cfa8e7c7bc133e88c4163002853f9c4aebc91918e0587010c11cf78"
+    },
+    "CP7_F03_CAPACITY.json": {
+      "bytes": 419579,
+      "sha256": "5e52d9b8cd38f072c3c77976bec7ddff72a99d7c5cc07090a8efa9f457ed7dd5"
+    },
+    "E20_E14_REVOKED_OPERATIONS_MOBILE.png": {
+      "bytes": 161012,
+      "sha256": "48637fe409563b9f5e66dfbff31d00a3a0d5316a6294c8f489a082e1413b5d1b"
+    },
+    "E20_E14_SOURCE_OPERATIONS_MOBILE.png": {
+      "bytes": 645968,
+      "sha256": "de2ee21bfcb332c6d41fb57ddfbb4165234155f7f87b1d90c4ac941698cfc6ad"
+    },
+    "E20_INVOICE_OWNER_DESKTOP.png": {
+      "bytes": 652978,
+      "sha256": "d0e9c057eb259df6a0fe4b13c21f5f77b02b6f08faa6b654b8cacb275f45061a"
+    },
+    "E20_POSTED_STOCK_OWNER_DESKTOP.png": {
+      "bytes": 677551,
+      "sha256": "e80514e97af94d66f89b1ae2cfdcf41616575ef4354c9af3853eb767b1f4aac7"
+    },
+    "E20_SOURCE_OWNER_DESKTOP.png": {
+      "bytes": 793203,
+      "sha256": "a982c6b088f8bed2cab6c1e43267c1c7a321fa3730278d75294a50aa784f81ef"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "cc645a4d7d0b8614490557129bc056b716c7664025bb827e667a8ac346a14b42"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "07566fc097cd4a7829241a5890de7bfa0339c65e2e54f0c20ee8834355335c7b"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F03_CAPACITY.json": {
+      "bytes": 419579,
+      "sha256": "5e52d9b8cd38f072c3c77976bec7ddff72a99d7c5cc07090a8efa9f457ed7dd5",
+      "file": "CP7_F03_CAPACITY.json.gz",
+      "gzip_sha256": "d6bfda6a220b864bfbaf06dba15e471d157257a855521d90ff136d8cf286bdc7",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "cc645a4d7d0b8614490557129bc056b716c7664025bb827e667a8ac346a14b42",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "83d299c5f05d7f8d114f456d6fa6502395177f3d32e79c3e6a2891d05c737ed6",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360423,
+      "sha256": "07566fc097cd4a7829241a5890de7bfa0339c65e2e54f0c20ee8834355335c7b",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "99ef7635e386968214919f6f7490385ba321fc592eafbfbf4857576d572eba0a",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F03_CAPACITY.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 5,
+      "declared_case_count": 5,
+      "source_bundle_sha256": "70d214afb62660ecd73bbf92a838cc4ff2921f023928df47661b6602247265b6",
+      "groups": {
+        "native": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_E20_CAPACITY_30_LOTS_TO_27_SALE_INVERSE",
+            "F03_E14_OPERATIONS_BOTH_PAGES_CARD_AND_WRITE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_E20_E14_HTTP_COMPLETE_SOURCE_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_E20_BROWSER_OWNER_PAGES_TO_INVOICE",
+            "F03_E14_BROWSER_OPERATIONS_PAGES_REVOKED"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

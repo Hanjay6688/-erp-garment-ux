@@ -1,0 +1,146 @@
+{
+  "id": 11393132624,
+  "name": "cp7-p18-p18-e01-9-complete-json",
+  "run_id": 37420039759,
+  "workflow_name": "CP7 P18 Fabric Rule",
+  "workflow_path": ".github/workflows/claude-p18-fabric-rule.yml",
+  "size_in_bytes": 37242,
+  "digest": "sha256:de50d41f81be03a4f63debd1f55a172e080777e053fad6ed50e1525f1ba06a9c",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "290d30de53f2725bf07be341467c637d0103fd8d",
+  "source_tree": "a107b80f8f2c3fa9a2a5b19ee546b4c8d9135667",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 284606,
+      "sha256": "b1e837aa77890686d1bb271706e3a6c0cf04cab279e133c801f709fcecc45ab3"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "0272eb9e4a05930b6e573304c6008180dcd6aec315c5a76948733cea8168fc7a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "200ba2b1d450cc1e233ceeb4ac998cccd9dfc3b9de2a55c00e29b3327c220933"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 284606,
+      "sha256": "b1e837aa77890686d1bb271706e3a6c0cf04cab279e133c801f709fcecc45ab3",
+      "file": "CP7_P18_E01_BRIDGE.json.gz",
+      "gzip_sha256": "14d4554d1ebc4b2bc19e9364aaaaac576a4a1fe7b8aa58030bbb6aa09b5abb74",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "0272eb9e4a05930b6e573304c6008180dcd6aec315c5a76948733cea8168fc7a",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "1a3ef30fb4eba34bd4fb169c181c61af1181078c10a0d1f9ccff606348945375",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "200ba2b1d450cc1e233ceeb4ac998cccd9dfc3b9de2a55c00e29b3327c220933",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "295bd64eb579f590485ba787c3c6fe5e13d3e38d19982ea139cb2f50b9f40773",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P18_E01_BRIDGE.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 9,
+      "declared_case_count": 9,
+      "source_bundle_sha256": "199edcaeb3f553ae152e3c47797241cbe1e28b0a24000f6250c928b11bee71fa",
+      "groups": {
+        "native": {
+          "case_count": 5,
+          "case_ids": [
+            "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "P18_E01_CURRENT_AUTHORITY",
+            "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL"
+          ],
+          "counts": {
+            "PASS": 5
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "P18_E01_BRIDGE_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

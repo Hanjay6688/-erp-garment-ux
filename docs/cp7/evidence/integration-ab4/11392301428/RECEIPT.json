@@ -1,0 +1,190 @@
+{
+  "id": 11392301428,
+  "name": "cp7-sales-chain",
+  "run_id": 37417072003,
+  "workflow_name": "CP7 Native Atomic Sales Chain Reversal",
+  "workflow_path": ".github/workflows/cp7-sales-chain.yml",
+  "size_in_bytes": 2531780,
+  "digest": "sha256:6086db2932aec51a96c32361056ca5b7b463687214f9200f49e54bd60b007b8a",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385623,
+      "sha256": "043ba80f2f8ef1d56248520e444b1a206e2e5340e727c0d063b007ece47b4d15"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385623,
+      "sha256": "043ba80f2f8ef1d56248520e444b1a206e2e5340e727c0d063b007ece47b4d15"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "48413f320b98e270110d586fa7e06dcec4671c3bb398771abb69b880f98975dd"
+    },
+    "CP7_SALES_CHAIN.json": {
+      "bytes": 276941,
+      "sha256": "4c58780f5e527195a1139f51a76205f327590ce2cd53d41fbddb2fde8cb85a3b"
+    },
+    "CP7_SALES_CHAIN_DESKTOP.png": {
+      "bytes": 549614,
+      "sha256": "7ee2c7faa72deda64e5bcceb38baf06f4f0ca20f639dc70dde35e5cfada7761f"
+    },
+    "CP7_SALES_CHAIN_MOBILE.png": {
+      "bytes": 360366,
+      "sha256": "369e8d2c00f8c0f12399484b8999752aef1890dac02a814aaa415fb19a040344"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "bb3fb91f8a68a0fbfc64eea786e1ed44c69b9ef53c72e84d8196b2935b84a47a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360422,
+      "sha256": "06f41b79e2cf1d269b4c59e4adcb5c5fb3f5f12508bd9a6e5fc80b5955e5c049"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_SALES_CHAIN.json": {
+      "bytes": 276941,
+      "sha256": "4c58780f5e527195a1139f51a76205f327590ce2cd53d41fbddb2fde8cb85a3b",
+      "file": "CP7_SALES_CHAIN.json.gz",
+      "gzip_sha256": "495873cbb9a63c5bfd7e6da6590a8d8c8b13c3faa436b38df82025a03e6438c6",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "bb3fb91f8a68a0fbfc64eea786e1ed44c69b9ef53c72e84d8196b2935b84a47a",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "d39463114d5e1d7da2054a43e3f4d32c96695659341e7c4beb18d2a0a5c2a08b",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360422,
+      "sha256": "06f41b79e2cf1d269b4c59e4adcb5c5fb3f5f12508bd9a6e5fc80b5955e5c049",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "00e9a3aa8a9cfb6beab6072847532be85871a2f6e8525dd6808ce3fc33592296",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_SALES_CHAIN.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 25,
+      "declared_case_count": 25,
+      "source_bundle_sha256": "0279601d56c554208fb00c6957ea95991f60661eebb2e30d54092d594739e399",
+      "groups": {
+        "native": {
+          "case_count": 16,
+          "case_ids": [
+            "CP7_SALES_CHAIN_EXACT",
+            "CP7_SALES_CHAIN_NO_CHILDREN",
+            "CP7_SALES_CHAIN_FULLY_PAID",
+            "CP7_SALES_CHAIN_ALL_26_PAYMENTS",
+            "CP7_SALES_CHAIN_MULTI_RETURNS",
+            "CP7_SALES_CHAIN_OLD_CLOCKS",
+            "CP7_SALES_CHAIN_FINAL_INVOICE_FAILURE",
+            "CP7_SALES_CHAIN_STALE_CHILD",
+            "CP7_SALES_CHAIN_STALE_STOCK",
+            "CP7_SALES_CHAIN_CURRENT_AUTH",
+            "CP7_SALES_CHAIN_CLOSED_FIELDS",
+            "CP7_SALES_CHAIN_PRIVATE_IMMUTABLE",
+            "CP7_SALES_CHAIN_REPLAY",
+            "CP7_SALES_CHAIN_PENDING_DRAFT",
+            "CP7_SALES_CHAIN_DOWNSTREAM_RETURN",
+            "CP7_SALES_CHAIN_CLOSED_BOOKS"
+          ],
+          "counts": {
+            "PASS": 16
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 4,
+          "case_ids": [
+            "CP7_SALES_CHAIN_RACE_SAME_UUID",
+            "CP7_SALES_CHAIN_RACE_COMPETING",
+            "CP7_SALES_CHAIN_RACE_AUTH_RETIRE",
+            "CP7_SALES_CHAIN_RACE_STOCK_CHANGE"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 3,
+          "case_ids": [
+            "CP7_SALES_CHAIN_HTTP_COMMIT_REPLAY",
+            "CP7_SALES_CHAIN_HTTP_ALL26_READONLY",
+            "CP7_SALES_CHAIN_HTTP_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "CP7_SALES_CHAIN_BROWSER_DESKTOP",
+            "CP7_SALES_CHAIN_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

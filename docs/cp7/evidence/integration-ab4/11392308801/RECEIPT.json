@@ -1,0 +1,222 @@
+{
+  "id": 11392308801,
+  "name": "claude-p18-p18-e01-9",
+  "run_id": 37417072200,
+  "workflow_name": "CP7 P18 Fabric Rule",
+  "workflow_path": ".github/workflows/claude-p18-fabric-rule.yml",
+  "size_in_bytes": 17547010,
+  "digest": "sha256:0d25acc39d58b1bdfb469e1954a8237276e7599719d61d44578771baf66566aa",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385623,
+      "sha256": "9cf8ba2b1ed1bfa0f7ca54d477bd3ba4bff8cad61af61e1461f064122cd5a1f2"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385623,
+      "sha256": "9cf8ba2b1ed1bfa0f7ca54d477bd3ba4bff8cad61af61e1461f064122cd5a1f2"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "381069b04dfcbc1857c36705a730ce4493ba6ea64ea28a0d615e987befee64d3"
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 284605,
+      "sha256": "e90e8f1435e4adcf9bbded02ce1ce170069900fc27def226c9c139d8593e424d"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png": {
+      "bytes": 2086572,
+      "sha256": "2f0dad82f75ac78e682a3d3bab8ddbdace630648c6e3d165f1d2226ed1b87623"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_MOBILE.png": {
+      "bytes": 1226239,
+      "sha256": "0a55fe56d71ae3dc92ede437904112ed98ed07c99c8571987ab842e08f44ce6a"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png": {
+      "bytes": 963950,
+      "sha256": "b23afc4e9414c51d48d7799feb89b4a32a8def6eb4c94f120f4364c1d04f45d2"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png": {
+      "bytes": 536026,
+      "sha256": "4d328e875fbda96440636f2f5a2da0992d2f00a1dd3ec374242556e35feb3781"
+    },
+    "P18_E01_BRIDGE_PREVIEW_DESKTOP.png": {
+      "bytes": 2023651,
+      "sha256": "f87ef259c2afdc7aeaaa7281fbc0bf897b2f9922052728c5631b1606ea040826"
+    },
+    "P18_E01_BRIDGE_PREVIEW_MOBILE.png": {
+      "bytes": 1178645,
+      "sha256": "852ffbc06cf054ce352a036bd7b4ac4ab63e11288888efaf930abf28ecd484ce"
+    },
+    "P18_E01_BRIDGE_RECOVERED_DESKTOP.png": {
+      "bytes": 1727501,
+      "sha256": "761d024959a8b8cfea259aeee9105956643b3ffb064661631942c2ac27a17c20"
+    },
+    "P18_E01_BRIDGE_RECOVERED_MOBILE.png": {
+      "bytes": 798276,
+      "sha256": "f1cc847b1f510b3672ee96edbab168c831049f79bb27661a77c8784e4a472218"
+    },
+    "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png": {
+      "bytes": 1627771,
+      "sha256": "f49c84d66c6837db00abf6494da1d7ee689d395c4e4afc8faf34a7a536ef68f0"
+    },
+    "P18_E01_E08_SHARED_HANDOFF_MOBILE.png": {
+      "bytes": 986816,
+      "sha256": "7a9d40aecd96092fe9862aa2ebcd317d4c0f9d701027bb1f69680858652c4f5b"
+    },
+    "P18_SHARED_STOCK_DESKTOP.png": {
+      "bytes": 1143568,
+      "sha256": "464b9deb6c03f6caecc795743b7275f2d07419a187cff49d10e88936d893263f"
+    },
+    "P18_SHARED_STOCK_MOBILE.png": {
+      "bytes": 932450,
+      "sha256": "ab2f3e49a793619ff4c836d3ded5df6978b2b9142e2da18667b055f8c16748ff"
+    },
+    "P18_SHARED_STOCK_POPUP_DESKTOP.png": {
+      "bytes": 618095,
+      "sha256": "effbd60e0502f4ae693f2022c7ad6fb170196914092885e8ee0c5d402b32c865"
+    },
+    "P18_SHARED_STOCK_POPUP_MOBILE.png": {
+      "bytes": 464829,
+      "sha256": "8d7f54e0eb4a0d3a06e2c4359679d50fc7dc0577aad2186da3838a40fefe9bb9"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "60f28b09df956fc0a069fd8af17862479c743ccfedc05e35f8094c28a7f6d7df"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "e0c41ec2942a201577477264cb506e0d00d320cee93de13e9db09522b82ed6f5"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 284605,
+      "sha256": "e90e8f1435e4adcf9bbded02ce1ce170069900fc27def226c9c139d8593e424d",
+      "file": "CP7_P18_E01_BRIDGE.json.gz",
+      "gzip_sha256": "07a0dfbbe96b1f67ecb048fc6862c21d515a6772eda41c4e005d463ea75d5d23",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "60f28b09df956fc0a069fd8af17862479c743ccfedc05e35f8094c28a7f6d7df",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "f48a98ab5f5355dcddcd864880cc66ec2d6f9f5c9994fdb4532f175bd7d44ba2",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "e0c41ec2942a201577477264cb506e0d00d320cee93de13e9db09522b82ed6f5",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "b2b92eabf9c469990226e0239ccb8d4edc558cc76530b957bc9ee9b57a6211fd",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P18_E01_BRIDGE.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 9,
+      "declared_case_count": 9,
+      "source_bundle_sha256": "18043e14fff44b5a6aff6071085a5d507f3dbb0d100183f0bb57a8266e95f696",
+      "groups": {
+        "native": {
+          "case_count": 5,
+          "case_ids": [
+            "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "P18_E01_CURRENT_AUTHORITY",
+            "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL"
+          ],
+          "counts": {
+            "PASS": 5
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "P18_E01_BRIDGE_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

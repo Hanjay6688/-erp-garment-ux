@@ -1,0 +1,177 @@
+{
+  "id": 11393106412,
+  "name": "cp7-p13-finance",
+  "run_id": 37420039607,
+  "workflow_name": "CP7 P13 Finance",
+  "workflow_path": ".github/workflows/cp7-p13-finance.yml",
+  "size_in_bytes": 4066410,
+  "digest": "sha256:55d4ce62714c179c9fa3378da99f4e8850bef82f1bbb814aff7bb02f5f04b1c3",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "290d30de53f2725bf07be341467c637d0103fd8d",
+  "source_tree": "a107b80f8f2c3fa9a2a5b19ee546b4c8d9135667",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385622,
+      "sha256": "6d03e3728cf42c0e9ecd2e33b0960feb3e10b54e88d398fc7d63905208ea49e3"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385622,
+      "sha256": "6d03e3728cf42c0e9ecd2e33b0960feb3e10b54e88d398fc7d63905208ea49e3"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "d4d763a5635a876c7e09bbd9f55aa4ffd1308fae27543183207ce2fe3a5f33d0"
+    },
+    "CP7_P13_FINANCE_READ.json": {
+      "bytes": 259604,
+      "sha256": "5e1e075811ff7920e90de3674fa923e0e6e61c73de6535c5c29f27d146ab68f9"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1432153,
+      "sha256": "550785ccbfc508506a52ba06343bdd6a8eaf3a2cecff537ffbbf38394519671f"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1053157,
+      "sha256": "2a834715553971ed461815a3f3bdca9e18f26ec87d9268bc40ebb2e2182c59af"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2afe75d151f13068b2b0b1557a42b97bb4ea16c169dbb07a8fd0e658c0130faa"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360362,
+      "sha256": "37879f6e9d23243dc7239df6afa1d1f975039f3890a57ed00cc8e75e116505ef"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P13_FINANCE_READ.json": {
+      "bytes": 259604,
+      "sha256": "5e1e075811ff7920e90de3674fa923e0e6e61c73de6535c5c29f27d146ab68f9",
+      "file": "CP7_P13_FINANCE_READ.json.gz",
+      "gzip_sha256": "6b6510fd84892f24cf550681b048461a24df77fc9694724780e15fbc359c5428",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2afe75d151f13068b2b0b1557a42b97bb4ea16c169dbb07a8fd0e658c0130faa",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "8b47b331622e0e969314f35dd5aa94c7db446056ada9bb35d849dbae9b9179cf",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360362,
+      "sha256": "37879f6e9d23243dc7239df6afa1d1f975039f3890a57ed00cc8e75e116505ef",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "2a3c81465cc921027da059a6853e6be99352c15f000733d23c1e5ba5affe2224",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P13_FINANCE_READ.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 12,
+      "declared_case_count": 12,
+      "source_bundle_sha256": "5930aa873536dc68ae630e8db09b5cf804544058a8eea5eaa389d900b2858b16",
+      "groups": {
+        "native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_REPORT_LEDGER_LIFECYCLE",
+            "P13_REPORT_EXACT_LARGE",
+            "P13_REPORT_QUERY",
+            "P13_REPORT_ACCESS",
+            "P13_REPORT_FILED_LATE_CORRECTION",
+            "P13_REPORT_FILED_UNCHANGED_CONTROL",
+            "P13_REPORT_FILING_PAGES",
+            "P13_REPORT_READ_ONLY_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_REPORT_CONCURRENT_CASH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_REPORT_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_REPORT_BROWSER_DESKTOP",
+            "P13_REPORT_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

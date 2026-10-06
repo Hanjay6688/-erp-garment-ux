@@ -1,0 +1,94 @@
+{
+  "id": 11393365883,
+  "name": "cp7-p08-attention284-complete-json",
+  "run_id": 37418812713,
+  "workflow_name": "CP7 P08 Physical Fabric",
+  "workflow_path": ".github/workflows/claude-p08-physical.yml",
+  "size_in_bytes": 27244,
+  "digest": "sha256:1978daa621c62c2fb677d0e365ccbaf61a15437a4b6abe0d381f6a6456943a83",
+  "source_commit": "3e5ba2571c1ba714d9f0cc2524250a4a4fb46ac7",
+  "source_tree": "25d4c110915bac5a136d401e471f4e8c169fac0f",
+  "status": "ORIGINAL_INCOMPLETE_RETAINED",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "bytes": 50512,
+      "sha256": "5c27ed7f9474ca88122bbf9c822e65ce872be0d1c13d4eed4b2b44e57958028e"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "45d61c4b96134739ddb0493eebccf9d0566bf3b4516b48e04de63c3599652160"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360414,
+      "sha256": "171f514ed48848ef18c2d1777dfcd4b6af2e44174b4e669002a4d0089e7fb371"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "bytes": 50512,
+      "sha256": "5c27ed7f9474ca88122bbf9c822e65ce872be0d1c13d4eed4b2b44e57958028e",
+      "file": "CP7_F05_NATIVE_ATTENTION.json.gz",
+      "gzip_sha256": "eba383acc135552895b44ec0c1b8b2a1feff018c4f2867bfebddd8b67d6781c1",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "45d61c4b96134739ddb0493eebccf9d0566bf3b4516b48e04de63c3599652160",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "1cb28c7d19927292f8c692df19b2ad344bed77380933138d86010fceb317b783",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360414,
+      "sha256": "171f514ed48848ef18c2d1777dfcd4b6af2e44174b4e669002a4d0089e7fb371",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "b3c1bef130054bfaf77f19783ed11e6b89371faa99a4f2063ce306820ffd0075",
+      "original_bytes_unchanged": true
+    }
+  },
+  "original_checks": {
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "status": "INCOMPLETE",
+      "error": "('workspace', 'cp7_finance_read', False, 's', ['search_path=\"\"', 'TimeZone=UTC', 'jit=off'])",
+      "observed_case_count": 0,
+      "cp6_restored": true,
+      "advisor_gate": false
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "status": "ALL_STAGES_INSTALLED",
+      "error": null
+    }
+  },
+  "qualified_Native_case_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

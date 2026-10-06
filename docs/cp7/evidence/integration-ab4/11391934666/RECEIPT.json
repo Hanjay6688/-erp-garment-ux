@@ -1,0 +1,188 @@
+{
+  "id": 11391934666,
+  "name": "cp7-payment-correction",
+  "run_id": 37417072130,
+  "workflow_name": "CP7 Native Atomic Payment Correction",
+  "workflow_path": ".github/workflows/cp7-payment-correction.yml",
+  "size_in_bytes": 4125096,
+  "digest": "sha256:5bb27b89a4bf6237c5885cbe6ab1f7a53152bd6990fa74181ebfb4ae4309f815",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "bfdc77366f2eb68c3c05b96aa7297979303b76f900fcd27b40027fab834591d7"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "bfdc77366f2eb68c3c05b96aa7297979303b76f900fcd27b40027fab834591d7"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c0b80fed079e0747dd9aaa42ac5754d8168acde2d57711f19e7d90756ac06193"
+    },
+    "CP7_PAYMENT_CORRECTION.json": {
+      "bytes": 382850,
+      "sha256": "565a4aa6c38b0bafbe305cd6751504b0f48c546375b5daa7fb20aeccea25ecee"
+    },
+    "CP7_PAYMENT_CORRECTION_DESKTOP.png": {
+      "bytes": 1487688,
+      "sha256": "83bff8814ea3e4a4d72b38df3c1316d91be77b44f658068f198740c919d5a17c"
+    },
+    "CP7_PAYMENT_CORRECTION_MOBILE.png": {
+      "bytes": 1049142,
+      "sha256": "d03ae362367d12e3402d25a27c5c9f8ea77b221d2afed6b964d02adb83e95f93"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "d59315917e4ee4c43a46426e99e11fd3c197924820aba4bbd510eba58cb8fd6c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "64a9ef0fd55fe4d06f23b54fdcc2ccf37178b367d77074193f796f8a8456dbdd"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_PAYMENT_CORRECTION.json": {
+      "bytes": 382850,
+      "sha256": "565a4aa6c38b0bafbe305cd6751504b0f48c546375b5daa7fb20aeccea25ecee",
+      "file": "CP7_PAYMENT_CORRECTION.json.gz",
+      "gzip_sha256": "859c2ac0c8f560875a885678f20bf6b414f9d84fe7dda99652d791178988bb1f",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "d59315917e4ee4c43a46426e99e11fd3c197924820aba4bbd510eba58cb8fd6c",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "dfece1d810f8e6744b4c21507a56b9d9df0913a731a81d26026261a88dd6f74c",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "64a9ef0fd55fe4d06f23b54fdcc2ccf37178b367d77074193f796f8a8456dbdd",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "064cb4dfded2e200fb87220abb61d92179dbb04f383d5a6d66550cbeff36febb",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_PAYMENT_CORRECTION.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 23,
+      "declared_case_count": 23,
+      "source_bundle_sha256": "0279601d56c554208fb00c6957ea95991f60661eebb2e30d54092d594739e399",
+      "groups": {
+        "native": {
+          "case_count": 14,
+          "case_ids": [
+            "CP7_PAYMENT_CORRECTION_EXACT_CENTS",
+            "CP7_PAYMENT_CORRECTION_FULLY_PAID",
+            "CP7_PAYMENT_CORRECTION_NEW_ACCOUNT_METHOD",
+            "CP7_PAYMENT_CORRECTION_MICROSECONDS",
+            "CP7_PAYMENT_CORRECTION_DATE_MOVE",
+            "CP7_PAYMENT_CORRECTION_YEAR_364",
+            "CP7_PAYMENT_CORRECTION_FINAL_POST_FAILURE",
+            "CP7_PAYMENT_CORRECTION_STALE_FOREIGN_SOURCE",
+            "CP7_PAYMENT_CORRECTION_CLOSED_FIELDS_INACTIVE",
+            "CP7_PAYMENT_CORRECTION_REPLAY_RESTORE_CHAIN",
+            "CP7_PAYMENT_CORRECTION_CURRENT_PERMISSIONS",
+            "CP7_PAYMENT_CORRECTION_ADVANCE_EXCLUSION",
+            "CP7_PAYMENT_CORRECTION_IMMUTABLE_HISTORY_SOURCE",
+            "CP7_PAYMENT_CORRECTION_CLOSED_BOOKS"
+          ],
+          "counts": {
+            "PASS": 14
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 4,
+          "case_ids": [
+            "CP7_PAYMENT_CORRECTION_RACE_SAME_UUID",
+            "CP7_PAYMENT_CORRECTION_RACE_COMPETING",
+            "CP7_PAYMENT_CORRECTION_RACE_AUTH_RETIRE",
+            "CP7_PAYMENT_CORRECTION_RACE_BANK_RETIRE"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 3,
+          "case_ids": [
+            "CP7_PAYMENT_CORRECTION_HTTP_ATOMIC_REPLAY",
+            "CP7_PAYMENT_CORRECTION_HTTP_YEAR_364",
+            "CP7_PAYMENT_CORRECTION_HTTP_CURRENT_RETIRE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "CP7_PAYMENT_CORRECTION_BROWSER_DESKTOP",
+            "CP7_PAYMENT_CORRECTION_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

@@ -28,6 +28,8 @@ jobs:
       - run: python3 scripts/cp7_contract_receipt.py
       - run: python3 scripts/cp7_native_fixture_window_test.py
       - run: python3 scripts/cp7_probe_evidence_test.py
+      - name: Verify complete Original retention and corruption controls
+        run: python3 scripts/cp7_integration_originals_test.py
       - run: npm test
       - name: P19 complete assembler equivalence and native kernel scale
         if: github.ref == 'refs/heads/cp7/p19-20261006' || github.ref == 'refs/heads/cp7/p19-benchmark-20261006' || github.ref == 'refs/heads/cp7/p19-native-20261006' || github.ref == 'refs/heads/cp7/p19-scale-20261006'

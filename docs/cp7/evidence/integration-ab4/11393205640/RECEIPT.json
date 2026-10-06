@@ -1,0 +1,359 @@
+{
+  "id": 11393205640,
+  "name": "cp7-f03-full-p13",
+  "run_id": 37417072273,
+  "workflow_name": "CP7 F03 Full Retained Components",
+  "workflow_path": ".github/workflows/cp7-f03-full.yml",
+  "size_in_bytes": 11449847,
+  "digest": "sha256:06b0877810e5ec72a984edacdbfdbde45abb97e542d4df788ba1e764c232e146",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385611,
+      "sha256": "d72ef0b7d842e7e4a50e018d14d4a7a85e5b155376e5d94c224fc098f4f6ab79"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385611,
+      "sha256": "d72ef0b7d842e7e4a50e018d14d4a7a85e5b155376e5d94c224fc098f4f6ab79"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "d8255b1fcb733d18e1ed4baf6d53940d3317fea0d4be8700692aa780bb4a9da7"
+    },
+    "CP7_F03_FULL_P13.json": {
+      "bytes": 2052184,
+      "sha256": "762aa67255ef213563c2383aa6b7ad140a71e06ffa6407927e7b223753732cbf"
+    },
+    "P13_ANALYSIS_DESKTOP.png": {
+      "bytes": 2549762,
+      "sha256": "3e07705c7393529a2e5c82d325322e2a5c0c76128e526d271c4c1c3cd44abb3e"
+    },
+    "P13_ANALYSIS_MOBILE.png": {
+      "bytes": 1967283,
+      "sha256": "bacefda0cf75cb20afe3c094803efd41e90d6dd10cd3bb194fed5470bc153b51"
+    },
+    "P13_PERIOD_DESKTOP.png": {
+      "bytes": 1353397,
+      "sha256": "e81007df0b189d9741a93a2c3a4f22987d9a0deff95c4c2c60cb326a8c64c972"
+    },
+    "P13_PERIOD_MOBILE.png": {
+      "bytes": 1074747,
+      "sha256": "c901b91024b1bf9d1cbabf91b6b390378ca6a8b4abe6e241a42d6f18f2270cac"
+    },
+    "P13_RECOST_DESKTOP.png": {
+      "bytes": 335191,
+      "sha256": "0359b1a440a618d616c1f87a0b5816e126b94c5c0c0d8967b6cf9e9cfa6ce1ad"
+    },
+    "P13_RECOST_MOBILE.png": {
+      "bytes": 251481,
+      "sha256": "14ade1db106e2b62085eef71681e0d9112422b3b8b2f65c81c8d46ac720e7989"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1432250,
+      "sha256": "449d7b89834139c52b5295ecce02b0a61ed8a0ddca904ccbfb29a3dbf12b7ac1"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1053342,
+      "sha256": "c9278d7334fe6e69a562e3437f2f580b9a51b93403280d7bd29211e15442ef9c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "d658d0d0510c79e2dd7b5f104664735473052eb97c3581a47fe857249ceea998"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "d276532c98bacd147a1b3a727cc1d2bc97505e3f546cf98b702b0e25abb1e248"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F03_FULL_P13.json": {
+      "bytes": 2052184,
+      "sha256": "762aa67255ef213563c2383aa6b7ad140a71e06ffa6407927e7b223753732cbf",
+      "file": "CP7_F03_FULL_P13.json.gz",
+      "gzip_sha256": "34503761567c625d18c9cf261be264b3219a676f14b234e24ee9b10e8fa13b91",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "d658d0d0510c79e2dd7b5f104664735473052eb97c3581a47fe857249ceea998",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "db066f02cbfba26b31d62c5dc496723d16588c6939607d89048aba18c0c1b7f2",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "d276532c98bacd147a1b3a727cc1d2bc97505e3f546cf98b702b0e25abb1e248",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "793b822ecc920e16bd8fa528048c896bdae2b787dbc4764e90edbe149095ba0f",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F03_FULL_P13.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 50,
+      "declared_case_count": 50,
+      "source_bundle_sha256": "70d214afb62660ecd73bbf92a838cc4ff2921f023928df47661b6602247265b6",
+      "groups": {
+        "groups/native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_REPORT_LEDGER_LIFECYCLE",
+            "P13_REPORT_EXACT_LARGE",
+            "P13_REPORT_QUERY",
+            "P13_REPORT_ACCESS",
+            "P13_REPORT_FILED_LATE_CORRECTION",
+            "P13_REPORT_FILED_UNCHANGED_CONTROL",
+            "P13_REPORT_FILING_PAGES",
+            "P13_REPORT_READ_ONLY_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/races": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_REPORT_CONCURRENT_CASH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_REPORT_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_REPORT_BROWSER_DESKTOP",
+            "P13_REPORT_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "groups/period_native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_PERIOD_CLOSE_REOPEN",
+            "P13_PERIOD_REPLAY",
+            "P13_PERIOD_STALE",
+            "P13_PERIOD_BLOCKED",
+            "P13_PERIOD_INVALID",
+            "P13_PERIOD_ACCESS",
+            "P13_PERIOD_PRIVATE",
+            "P13_PERIOD_LATE_ARCHIVE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/period_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_PERIOD_RACE_CLOSE",
+            "P13_PERIOD_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/period_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_PERIOD_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/period_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_PERIOD_BROWSER_DESKTOP",
+            "P13_PERIOD_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "groups/analysis_native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_ANALYSIS_O13",
+            "P13_ANALYSIS_ZERO_BASELINE",
+            "P13_ANALYSIS_O14",
+            "P13_ANALYSIS_INVERSE_DATES",
+            "P13_ANALYSIS_PAGES_COA_SCOPE",
+            "P13_ANALYSIS_DATES_QUERY",
+            "P13_ANALYSIS_EXACT_LARGE",
+            "P13_ANALYSIS_ACCESS"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/analysis_races": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_ANALYSIS_CONCURRENT_CASH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/analysis_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_ANALYSIS_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/analysis_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_ANALYSIS_BROWSER_DESKTOP",
+            "P13_ANALYSIS_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "groups/recost_native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_RECOST_LATE_COST",
+            "P13_RECOST_REPLAY",
+            "P13_RECOST_EMPTY",
+            "P13_RECOST_BOUNDED_FAILURE",
+            "P13_RECOST_RETRY",
+            "P13_RECOST_INVALID",
+            "P13_RECOST_ACCESS",
+            "P13_RECOST_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/recost_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_RECOST_RACE_REPLAY",
+            "P13_RECOST_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/recost_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_RECOST_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/recost_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_RECOST_BROWSER_DESKTOP",
+            "P13_RECOST_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

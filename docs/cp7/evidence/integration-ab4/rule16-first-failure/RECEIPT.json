@@ -1,0 +1,120 @@
+{
+  "id": 11392572365,
+  "name": "cp7-rule-lifecycle",
+  "run_id": 37417072146,
+  "job_id": 112117924110,
+  "size_in_bytes": 17532837,
+  "digest": "sha256:dcc3d3f02384169367af349507152f154761e3398d65d2e8935d2795d77d728f",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "ORIGINAL_OUTER_INCOMPLETE_RETAINED",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "a543ffc00dd9559ac0d891d5808e340182dce05a1f1a519f8fa1692abbb861dc"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "a543ffc00dd9559ac0d891d5808e340182dce05a1f1a519f8fa1692abbb861dc"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "de6122a50642825afc142855ac649dfe72879dfceab9f94b586810fadc760634"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_DESKTOP.png": {
+      "bytes": 2085574,
+      "sha256": "29f9aa7b4791122276c20cdb81d937bc65484400d0a5e60ba726c73edab861e5"
+    },
+    "P18_E01_BRIDGE_ARCHIVE_MOBILE.png": {
+      "bytes": 1225635,
+      "sha256": "855dd5ec5f551ed62936f0049db29fd2cdf05f7ade84c07d98e0bd26ace28ab9"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_DESKTOP.png": {
+      "bytes": 963950,
+      "sha256": "b23afc4e9414c51d48d7799feb89b4a32a8def6eb4c94f120f4364c1d04f45d2"
+    },
+    "P18_E01_BRIDGE_CURRENT_AUTH_MOBILE.png": {
+      "bytes": 536026,
+      "sha256": "4d328e875fbda96440636f2f5a2da0992d2f00a1dd3ec374242556e35feb3781"
+    },
+    "P18_E01_BRIDGE_PREVIEW_DESKTOP.png": {
+      "bytes": 2022758,
+      "sha256": "d66c2193dc38169a443b53abfa47496c5baa731dac50605d361bc3eefeb9481d"
+    },
+    "P18_E01_BRIDGE_PREVIEW_MOBILE.png": {
+      "bytes": 1178455,
+      "sha256": "c3346dcbd0c517717c9f5084d79f5332ea27f7e0319145ed5d1ce2d7a6c6f015"
+    },
+    "P18_E01_BRIDGE_RECOVERED_DESKTOP.png": {
+      "bytes": 1725011,
+      "sha256": "b9d768a5447877de9e803957c7ab36efad830bab3ab6add298953843475634f1"
+    },
+    "P18_E01_BRIDGE_RECOVERED_MOBILE.png": {
+      "bytes": 796502,
+      "sha256": "51e1125f660f18c86228c3d32e90dbffb0fd3e38efa559991aa1100fb7c2a66a"
+    },
+    "P18_E01_E08_SHARED_HANDOFF_DESKTOP.png": {
+      "bytes": 1639134,
+      "sha256": "f8dd7f2ffd1f69632f2c3dfdcf796932dad2e42fd04ae509e26c38f592ebcae0"
+    },
+    "P18_E01_E08_SHARED_HANDOFF_MOBILE.png": {
+      "bytes": 987671,
+      "sha256": "47b516172f9bf0a71dc05b84cb316fe6e881aa6a408cd7f4d5b548dbaa785fe3"
+    },
+    "P18_SHARED_STOCK_DESKTOP.png": {
+      "bytes": 1145326,
+      "sha256": "2b11fecac2a8c6bdd69fb998496961c566fd14d57658269af4f6c95d858c4a0c"
+    },
+    "P18_SHARED_STOCK_MOBILE.png": {
+      "bytes": 932132,
+      "sha256": "66a16b69b89d5dac82b7d059d88bc2c199ec636fe2557d81ceb3111a51ca72b4"
+    },
+    "P18_SHARED_STOCK_POPUP_DESKTOP.png": {
+      "bytes": 618771,
+      "sha256": "7708597a02d94160a4cefdfa82d377d320565b0fe92212d2c23686fc6f2139f2"
+    },
+    "P18_SHARED_STOCK_POPUP_MOBILE.png": {
+      "bytes": 464149,
+      "sha256": "87f7476815e5a459f190fc5c4e029db1b0200ce2b6238e1c518e2cbb32f7b224"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 361305,
+      "sha256": "c20ddc232d1483a53df0be681c4552e9dc7e726c6c2516bcc6a220c3f2dcd95e"
+    }
+  },
+  "root_originals": [
+    "ALIGNED_CHAIN.json",
+    "T3_PACKAGE_FILES_INSTALL.json",
+    "T3_PACKAGE_INSTALL.json"
+  ],
+  "original_job_log_sha256": "366f8e2f252ea976d3c1dcb910d4fc24ee40ef4d78b727501739fb7565db6400",
+  "original_job_log_bytes": 267381,
+  "package_gate": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "Native_case_count_qualified": 0,
+  "full_CP7_acceptance": false,
+  "production_go": false,
+  "original_error": "deadlock detected\nDETAIL:  Process 658 waits for AccessExclusiveLock on relation 18587 of database 25740; blocked by process 655.\nProcess 655 waits for ShareLock on transaction 7750; blocked by process 658.\nHINT:  See server log for query details.",
+  "limits": "The job log emitted16 PASS executions, but a PostgreSQL deadlock during restoration prevented the Native root report and backup/restore gates from being emitted. Log PASS counts do not replace these missing Originals. Exact-source rerun is required; the deadlock cause beyond the observed lock graph remains unproved."
+}

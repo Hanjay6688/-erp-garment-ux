@@ -1,0 +1,192 @@
+{
+  "id": 11392685435,
+  "name": "cp7-cutting-correction",
+  "run_id": 37417072112,
+  "workflow_name": "CP7 Native Posted Cutting Reopen",
+  "workflow_path": ".github/workflows/cp7-cutting-correction.yml",
+  "size_in_bytes": 2453376,
+  "digest": "sha256:a55436367b56d7d2a441aec73adefca8dffd9ab467a5ce2387ea36edbaabbda1",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "a3ee40b80a873d6e7298d14acc98234b62a31fde5ae418ce4d98d29813f6533f"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "a3ee40b80a873d6e7298d14acc98234b62a31fde5ae418ce4d98d29813f6533f"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c2f4ea46fe418e4bf3f885df69dfbcc8924004bc0d13044c11bb994a89475cee"
+    },
+    "CP7_CUTTING_REOPEN.json": {
+      "bytes": 317214,
+      "sha256": "55cf2dd5b0886a4db68956cf2f4d9b7987ac509c78a401c9c5dbf0f5339b307c"
+    },
+    "CP7_CUTTING_REOPEN_COMMITTED_DESKTOP.png": {
+      "bytes": 202541,
+      "sha256": "860f552736332e73de85f167e1f488213d5a3b507df1337916e944d11eb2218c"
+    },
+    "CP7_CUTTING_REOPEN_COMMITTED_MOBILE.png": {
+      "bytes": 120340,
+      "sha256": "f6e642a6287ea6303682114ab76b6789d71f57025938b8eba9d87b00cf3e670c"
+    },
+    "CP7_CUTTING_REOPEN_REVIEW_DESKTOP.png": {
+      "bytes": 303006,
+      "sha256": "caba1bc2dd0e7640eae7863810f2509a38b0fd7f35e8df8be951aa86fb667e36"
+    },
+    "CP7_CUTTING_REOPEN_REVIEW_MOBILE.png": {
+      "bytes": 205361,
+      "sha256": "3841cd8f9f5a7d538ccaef2fca73ad134dc506a18734270bb1ef33cd53f8fba6"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "3dac5f6b5137e5e9272b05ffbe2313ab679e52bd7fe2a0c2e475a314c34ad812"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "91a84fbbbca6e7a31041482a6b970153e57bd3f6c859485dbe000e8c61f0cd50"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_CUTTING_REOPEN.json": {
+      "bytes": 317214,
+      "sha256": "55cf2dd5b0886a4db68956cf2f4d9b7987ac509c78a401c9c5dbf0f5339b307c",
+      "file": "CP7_CUTTING_REOPEN.json.gz",
+      "gzip_sha256": "7bf101a4b055596f7a19bc6eda6d0faa9b6702da4638c7b375eb6ac9ab61ab9e",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "3dac5f6b5137e5e9272b05ffbe2313ab679e52bd7fe2a0c2e475a314c34ad812",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "780c16e04953d394be5635adc4082d2d0f2097da1a76cd55aaa229e8ec1d077e",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "91a84fbbbca6e7a31041482a6b970153e57bd3f6c859485dbe000e8c61f0cd50",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "df7c983f50ad1ad8d9639d21eab9899a86c602376905f2b4041d6873fdb17f70",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_CUTTING_REOPEN.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 19,
+      "declared_case_count": 19,
+      "source_bundle_sha256": "0279601d56c554208fb00c6957ea95991f60661eebb2e30d54092d594739e399",
+      "groups": {
+        "native": {
+          "case_count": 10,
+          "case_ids": [
+            "CP7_CUTTING_REOPEN_EXACT_STOCK_GL_DRAFT",
+            "CP7_CUTTING_REOPEN_READ_ONLY_CAPABILITIES",
+            "CP7_CUTTING_REOPEN_REPLAY",
+            "CP7_CUTTING_REOPEN_CLOSED_FIELDS",
+            "CP7_CUTTING_REOPEN_STALE_SOURCE",
+            "CP7_CUTTING_REOPEN_PICKUP_DOWNSTREAM",
+            "CP7_CUTTING_REOPEN_ATOMIC_LATE_FAILURE",
+            "CP7_CUTTING_REOPEN_IMMUTABLE_HISTORY",
+            "CP7_CUTTING_REOPEN_CURRENT_AUTH",
+            "CP7_CUTTING_REOPEN_CLOSED_PERIOD"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 4,
+          "case_ids": [
+            "CP7_CUTTING_REOPEN_RACE_SAME_UUID",
+            "CP7_CUTTING_REOPEN_RACE_COMPETING",
+            "CP7_CUTTING_REOPEN_RACE_GROUP_REVOKE",
+            "CP7_CUTTING_REOPEN_RACE_NATIVE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 3,
+          "case_ids": [
+            "CP7_CUTTING_REOPEN_HTTP_COMMIT_REPLAY",
+            "CP7_CUTTING_REOPEN_HTTP_READONLY",
+            "CP7_CUTTING_REOPEN_HTTP_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "CP7_CUTTING_REOPEN_BROWSER_DESKTOP",
+            "CP7_CUTTING_REOPEN_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

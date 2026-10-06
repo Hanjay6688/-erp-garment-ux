@@ -1,0 +1,94 @@
+{
+  "id": 11392508506,
+  "name": "cp7-p18-rule-lifecycle16-complete-json",
+  "run_id": 37418812793,
+  "workflow_name": "CP7 P18 Fabric Rule",
+  "workflow_path": ".github/workflows/claude-p18-fabric-rule.yml",
+  "size_in_bytes": 27217,
+  "digest": "sha256:658191ab36efc4d14a59a4adc15993db45f641fa874a256a9c5fddfdf6dbbc8c",
+  "source_commit": "3e5ba2571c1ba714d9f0cc2524250a4a4fb46ac7",
+  "source_tree": "25d4c110915bac5a136d401e471f4e8c169fac0f",
+  "status": "ORIGINAL_INCOMPLETE_RETAINED",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_RULE_LIFECYCLE.json": {
+      "bytes": 50489,
+      "sha256": "5ab3bb60aee6c009a61fd2fdf5341336e5485d54c8ad3744b9bac92e64a47d74"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "42107c8c5eaac29193e5da8c84bc8bc6e09e918e9677da8fe8eefd3c97e73854"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360410,
+      "sha256": "167aa7f06fd8dd051e553aea236f74b45a4233e963e0bfc55677143b7d7e6d41"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_RULE_LIFECYCLE.json": {
+      "bytes": 50489,
+      "sha256": "5ab3bb60aee6c009a61fd2fdf5341336e5485d54c8ad3744b9bac92e64a47d74",
+      "file": "CP7_RULE_LIFECYCLE.json.gz",
+      "gzip_sha256": "ecdc8a928bbae022fb5988ee3c9d5fb07a21e2182565cf82c7108ef8d3f405e1",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "42107c8c5eaac29193e5da8c84bc8bc6e09e918e9677da8fe8eefd3c97e73854",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "91049566bd72b54e9e09381a456767704cb73fd83b178986845dc1c08d9d7d30",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360410,
+      "sha256": "167aa7f06fd8dd051e553aea236f74b45a4233e963e0bfc55677143b7d7e6d41",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "1f1155c205fe7ba46d96d0456609da79ecfd2eaf9923919b33e0a41cadf90c34",
+      "original_bytes_unchanged": true
+    }
+  },
+  "original_checks": {
+    "CP7_RULE_LIFECYCLE.json": {
+      "status": "INCOMPLETE",
+      "error": "('workspace', 'cp7_finance_read', False, 's', ['search_path=\"\"', 'TimeZone=UTC', 'jit=off'])",
+      "observed_case_count": 0,
+      "cp6_restored": true,
+      "advisor_gate": false
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "status": "ALL_STAGES_INSTALLED",
+      "error": null
+    }
+  },
+  "qualified_Native_case_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

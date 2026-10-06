@@ -1,0 +1,148 @@
+{
+  "id": 11391177215,
+  "name": "cp7-p02-native-probe",
+  "run_id": 37417071861,
+  "workflow_name": "CP7 P02 source capture probe",
+  "workflow_path": ".github/workflows/cp7-p02.yml",
+  "size_in_bytes": 2364393,
+  "digest": "sha256:32adba9e7b540f91dc3431effb705cedc263a9b4a751799f6b7cf5f2fe593668",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385616,
+      "sha256": "b10d56ac4f75c19e87c349f43c26c9ab61f58023cc9efcb5ff87685e7f80a650"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385616,
+      "sha256": "b10d56ac4f75c19e87c349f43c26c9ab61f58023cc9efcb5ff87685e7f80a650"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "90d48f05b2e852c794c3a19e887b871f764e671be880bd77c6fc97bff8922022"
+    },
+    "CP7_P00_CATALOGUE.json": {
+      "bytes": 4848856,
+      "sha256": "3b0da37dc2de5fc9389b9a476087da64b2b33c7b3113025b291e2f046a741d57"
+    },
+    "CP7_P00_RESULT.json": {
+      "bytes": 1397,
+      "sha256": "d7d0d65ea18395215cfaadecec3ee4f2d045afbdb7e39f0c10eaf63c6fb8f275"
+    },
+    "CP7_P02_SOURCE_CAPTURE.json": {
+      "bytes": 2158,
+      "sha256": "fd9e5e87835a3f500662f24de688f09eea1a3acb1c60dec67780d0a313dc8a89"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "152e7c8b6bcf732ac6d64f044962bf58079d72e4b941cfb9c9cd3994a4a06d79"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 362581,
+      "sha256": "fd984b1608c857bb885abf1d802623490c3d7a96df37e0748d6b0343453e7d01"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P00_CATALOGUE.json": {
+      "bytes": 4848856,
+      "sha256": "3b0da37dc2de5fc9389b9a476087da64b2b33c7b3113025b291e2f046a741d57",
+      "file": "CP7_P00_CATALOGUE.json.gz",
+      "gzip_sha256": "295a5e95c035dea961d14de3fe7d29245a20157d930a5554754cbdecbcfc7ced",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P00_RESULT.json": {
+      "bytes": 1397,
+      "sha256": "d7d0d65ea18395215cfaadecec3ee4f2d045afbdb7e39f0c10eaf63c6fb8f275",
+      "file": "CP7_P00_RESULT.json.gz",
+      "gzip_sha256": "5c9f9df4371c8124ec35667b97f286cad6dde318507a85369057c4d0d7c6bfb9",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P02_SOURCE_CAPTURE.json": {
+      "bytes": 2158,
+      "sha256": "fd9e5e87835a3f500662f24de688f09eea1a3acb1c60dec67780d0a313dc8a89",
+      "file": "CP7_P02_SOURCE_CAPTURE.json.gz",
+      "gzip_sha256": "b1427ed275793f5a7152cc1f35889103edeb16a098d557d89e0a77baacc2329a",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "152e7c8b6bcf732ac6d64f044962bf58079d72e4b941cfb9c9cd3994a4a06d79",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "70f868db6ad31e4e431815f1f4e0cbd54ae63e7c77a32b98b3b2885a47c4e3cc",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 362581,
+      "sha256": "fd984b1608c857bb885abf1d802623490c3d7a96df37e0748d6b0343453e7d01",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "252c69859264c33331728eefc763a9742a700aece1ea080b8327f59988e320db",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P00_RESULT.json": {
+      "kind": "CATALOGUE_OR_LEGACY_PROBE",
+      "observed_planned_executions": 0,
+      "declared_case_count": null,
+      "source_bundle_sha256": null,
+      "groups": {},
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    },
+    "CP7_P02_SOURCE_CAPTURE.json": {
+      "kind": "CATALOGUE_OR_LEGACY_PROBE",
+      "observed_planned_executions": 0,
+      "declared_case_count": null,
+      "source_bundle_sha256": null,
+      "groups": {},
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

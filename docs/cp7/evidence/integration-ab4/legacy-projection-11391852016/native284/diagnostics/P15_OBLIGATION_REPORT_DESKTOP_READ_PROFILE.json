@@ -1,0 +1,26 @@
+{
+  "status": "READ_ONLY_DIAGNOSTIC_COMPLETE",
+  "diagnostic_only": true,
+  "actual_actor": "35849fab-dda6-4f26-9085-3aa8b0eb8229",
+  "read_only": true,
+  "saved_runs_added": 0,
+  "Native_HTTP_timeout_changed": false,
+  "steps": [
+    {
+      "stage": "COMPLETE_NATIVE_SOURCE",
+      "elapsed_ms": 483,
+      "utf8_bytes": 243094,
+      "product_count": 53
+    },
+    {
+      "stage": "PURE_NATIVE_COMPILER",
+      "elapsed_ms": 1529,
+      "utf8_bytes": 2061231,
+      "status": "PARTIAL"
+    },
+    {
+      "stage": "COMPLETE_NATIVE_SOURCE_AGAIN",
+      "elapsed_ms": 345
+    }
+  ]
+}

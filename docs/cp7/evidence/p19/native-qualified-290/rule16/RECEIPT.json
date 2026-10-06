@@ -1,0 +1,153 @@
+{
+  "id": 11392644153,
+  "name": "cp7-p18-rule-lifecycle16-complete-json",
+  "run_id": 37420039759,
+  "workflow_name": "CP7 P18 Fabric Rule",
+  "workflow_path": ".github/workflows/claude-p18-fabric-rule.yml",
+  "size_in_bytes": 37539,
+  "digest": "sha256:5ce7f4a407834064acc226c8b972b40c8599b4608b7c23f03b6249c0746c3bab",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "290d30de53f2725bf07be341467c637d0103fd8d",
+  "source_tree": "a107b80f8f2c3fa9a2a5b19ee546b4c8d9135667",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_RULE_LIFECYCLE.json": {
+      "bytes": 287496,
+      "sha256": "7ea14248dcc915994d2a7d2f69d8bb76c31b1581bc7c9d90df4bcdcc96281ae6"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "0b573aaf85e417a2709244d6c4b89a4221d9ec57720f44cf2d5dd31211ec9f07"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "200ba2b1d450cc1e233ceeb4ac998cccd9dfc3b9de2a55c00e29b3327c220933"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_RULE_LIFECYCLE.json": {
+      "bytes": 287496,
+      "sha256": "7ea14248dcc915994d2a7d2f69d8bb76c31b1581bc7c9d90df4bcdcc96281ae6",
+      "file": "CP7_RULE_LIFECYCLE.json.gz",
+      "gzip_sha256": "867ddce3de1548f9e9dc0a324b9ec08cf149975fb0d49931bdaa6c8f42bbd8ae",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "0b573aaf85e417a2709244d6c4b89a4221d9ec57720f44cf2d5dd31211ec9f07",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "e7bd494be5336748bda5ed7c070ce4b90131e73310744790f6c919a7af2d044d",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "200ba2b1d450cc1e233ceeb4ac998cccd9dfc3b9de2a55c00e29b3327c220933",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "295bd64eb579f590485ba787c3c6fe5e13d3e38d19982ea139cb2f50b9f40773",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_RULE_LIFECYCLE.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 16,
+      "declared_case_count": 16,
+      "source_bundle_sha256": "199edcaeb3f553ae152e3c47797241cbe1e28b0a24000f6250c928b11bee71fa",
+      "groups": {
+        "native": {
+          "case_count": 10,
+          "case_ids": [
+            "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "P18_E01_CURRENT_AUTHORITY",
+            "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL",
+            "P16_LIFECYCLE_INVOICE_AND_RECEIPT_INVERSE",
+            "P16_LIFECYCLE_CORRECTED_REPLACEMENT",
+            "P16_LIFECYCLE_PAID_AND_PAYMENT_INVERSE",
+            "P16_LIFECYCLE_MISSING_SOURCE_UNKNOWN",
+            "P16_LIFECYCLE_REPLAY_CURRENT_REVOKE"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 2,
+          "case_ids": [
+            "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT",
+            "P16_LIFECYCLE_RACE_CORRECTION_WAIT"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 2,
+          "case_ids": [
+            "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT",
+            "P16_LIFECYCLE_HTTP_ARCHIVED_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "P18_E01_BRIDGE_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}
