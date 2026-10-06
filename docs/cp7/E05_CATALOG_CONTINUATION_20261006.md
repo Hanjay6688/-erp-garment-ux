@@ -1,0 +1,11 @@
+# E05 catalog qualification continuation
+
+Integration source8f326d87 run37440579840/artifact11401512557 finishes INCOMPLETE: Native19 PASS/1 INCOMPLETE, races3 PASS, real-Auth HTTP1 PASS and browsers2 PASS. The failed `E05_REPLAY` still satisfies its exact cached-outcome/one-effect/changed-intent assertions and full Native boundary rollback, but the frozen reader's raw public-catalog equality is false. First case raw catalogs were not captured; their exact difference/cause remains unproved. All first root Originals and the complete decoded job log are retained at `evidence/e05-catalog/first-8f/`.
+
+The final full restore catalogs are independently checked: all69 signature/hash pairs, relation members and row observations are identical after canonical pair sorting, with only physical pair order different. Eight read-only sensitivity controls prove changed/missing/duplicated function members, signatures, hashes, relations and rows still fail. This final witness does not reconstruct the missing first individual-case witness or relabel that case PASS.
+
+The successor wraps only this CP7 Native qualification group with the existing `exact_public_catalog(...,retain_raw=True)` adapter already used for E06. Every raw catalog is retained and every original field/member/hash remains in the equality check; only pair order is canonicalized. The frozen CP6 reader/runner, Native20 provider, races3, actual Auth1, browsers2, all26 IDs, monetary/date/inverse/recovery/assertion budgets, product SQL/ACLs/frontend and timeout remain unchanged. The original reader is restored on every exit.
+
+Fresh actual Native26 qualification on `cp7/e05-catalog-20261006` is required. Save and independently check every new raw per-case catalog, whole Native/private/public/backup/primary/advisor/Auth restore, complete replay and all original financial/source oracles. No product payroll fix or production GO is claimed from a local comparator or the first group's business booleans.
+
+Claude's prepared parallel writer assignment is `PREFREEZE_CLAUDE_PARALLEL_20261006.md`: PRE-03 first and PRE-04 second, isolated branch/files and complete CP7 runtime. It is not an independent P20 audit and has not been sent to or started by Claude through this writer.

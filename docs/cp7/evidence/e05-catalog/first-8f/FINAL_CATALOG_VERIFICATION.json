@@ -1,0 +1,23 @@
+{
+  "status": "FINAL_RESTORE_ORDER_ONLY_INDEPENDENTLY_CHECKED",
+  "first_native_case_raw_snapshots_available": false,
+  "first_native_case_exact_cause": "UNPROVED",
+  "final_restore_functions": 69,
+  "all_final_signature_hash_members_relations_rows_equal": true,
+  "read_only_sensitivity_controls": {
+    "pair_order_only_equal": true,
+    "function_hash_change_refused": true,
+    "function_signature_change_refused": true,
+    "missing_function_member_refused": true,
+    "duplicate_function_member_refused": true,
+    "relation_member_change_refused": true,
+    "public_row_hash_or_member_change_refused": true,
+    "observed_input_not_mutated": true
+  },
+  "first_failed_case": "E05_REPLAY",
+  "first_failed_case_business_assertions": {
+    "exact_cached_outcome_one_effect_and_changed_intent_atomic": true,
+    "cached_outcome_not_repainted_as_current_native_state": true
+  },
+  "production_go": false
+}

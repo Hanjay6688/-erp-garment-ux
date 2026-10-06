@@ -3,6 +3,7 @@ name: CP7 F03 E05 Payroll Installments
   push:
     branches:
     - cp7/integration
+    - cp7/e05-catalog-20261006
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/check-access-catalog.mjs
