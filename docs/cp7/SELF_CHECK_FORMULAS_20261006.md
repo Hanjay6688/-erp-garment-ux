@@ -69,10 +69,18 @@ perencanaan (sebagian; pemeriksa perencanaan dihentikan lebih awal untuk menghin
 
 ## 5. Uji & CI
 
-- Lokal (bukan bukti): DOM/unit yang disebut di atas, `cutting-model-producer.test.ts` (2 uji baru gagal di kode lama, lulus sesudahnya), typecheck.
-- CI cabang Claude: `17ce3f76` — Build UX, Shell, P13 Finance (Claude), Receipt Correction, P18, P21, Supplier Payment Create: **success**.
-- `2d4f5f38` / `3d4cfbea`: P12 Payroll (roster, payroll-review), Supplier Payment Correction, Note Correction, Receipt Correction, Shell — lihat §6 (diisi saat run selesai).
+Lokal (bukan bukti): uji DOM/unit yang disebut di §2, `cutting-model-producer.test.ts` (2 uji baru gagal di kode lama 6≠3 / 4≠3, lulus sesudahnya), typecheck.
 
-## 6. Hasil CI per commit
+## 6. Hasil CI per commit (cabang `claude/new-session-deapao`)
 
-(diisi saat run selesai)
+| Commit | Isi | Hasil |
+|---|---|---|
+| `17ce3f76` | FIN-1/FIN-2 | Build UX, Shell, **P13 Finance (Claude) 37524128572**, Receipt Correction, P18, P21, Supplier Payment Create, CodeQL: **success** |
+| `2d4f5f38` | AP-1..4, SL-1..3, PR-1..3 | **Receipt Correction 37525626638 success** (AP-1/AP-2 + `RF_CREDIT_RESTORED_UNBLOCKS`), **Supplier Payment Correction 37525626741 success** (AP-3), **Note Correction 37525626878 success** (SL-1), P12 `--roster` success (PR-1), P18, P21, Build: success. P12 `--payroll-review`: semua kasus Native/HTTP PASS (termasuk PR-2), browser review lama INCOMPLETE karena oracle masih mencari `.cpay-net` "Bersih payroll" yang dipindah oleh F03 E05 (masalah lama, tidak dilonggarkan; dicatat). Supplier Payment Create: satu kasus INCOMPLETE karena `public_schema_unchanged=false` (semua asersi kasus PASS); run berikut pada kode yang sama + perubahan lain (`3d4cfbea`) **success 37526050957** |
+| `3d4cfbea` | IN-1/IN-2, FIN-3 | Build, CodeQL, Receipt Correction, P18, P21, Shell, Supplier Payment Create: **success** |
+| `bd92ce8e` / `a093c32c` | P19 kernel riwayat permintaan + history_build linear | lihat run Shell `p19-assembly` (paritas byte lama-vs-baru + benchmark) |
+
+## 7. P19 — kernel riwayat permintaan (bukan temuan rumus, tetapi skala)
+
+`cp7_demand.history` dan `cp7_planning.history_build` kuadratik (salinan jsonb per baris, pindai ulang stok per produk). Ditulis ulang linear, **hasil byte-identik** dengan pendahulu `c1f91041` (uji acak lama-vs-baru termasuk urutan penolakan pertama).
+Lokal PG16 (bukan bukti): 100 target × 30 hari 23,8 dtk → 0,64 dtk; 200 × 60 hari 320 dtk → 2,3–3,0 dtk (md5 sama); batas 1000 × 100 hari 20,7 dtk dan 39 MB → tetap ukuran pekerjaan latar belakang, bukan layar <1 dtk. Batas (1000 target, grid 100.000) **tidak** dinaikkan.
