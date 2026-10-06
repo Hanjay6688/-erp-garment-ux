@@ -428,3 +428,71 @@ Kode produk ada di `0bd60f2c073d490e34060305b37709c9b479eeae`, tree `015b6404932
 - Lanjutan penulis: hasil asli P08 terakhir sudah tersimpan; selesaikan transport sumber lengkap/pekerjaan latar P19 dengan pengikatan actor/run/request/hash dan hak terkini, lalu volume Native/konkurensi/pemulihan. Sumber stand-in31MB/5000 target/13.15s belum merupakan capture Native sukses. Batas1/2/3 detik dan8MB/8s tidak dinaikkan.
 
 Full P18/P19/P20/P21, pembekuan resmi dan GO belum selesai. Tidak ada pesan eksternal, perubahan hosted/main/live WA atau nilai owner yang dikarang. Penulis berikutnya membaca head canonical serta checkpoint ini sebelum mengambil alih, dan tidak menggabungkan kasus yang tumpang tindih menjadi jumlah unik/fullCP7.
+
+## 12. P18 siklus penuh, Bayar supplier, latihan P21 (6 Okt 2026 sore, cabang Claude)
+
+Basis: cabang ini di-fast-forward ke `cp7/integration` `ab6f1f97`, lalu ditambah commit berikut. Saya tidak menyentuh P19 transport/latar belakang maupun koreksi nota setahun karena keduanya lane GPT. Pekerjaan GPT juga tidak diubah.
+
+### 12.1 P18 siklus penuh, tanpa perubahan produk
+
+`scripts/cp7_p18_full_cycle_{cases,probe}.py`, workflow `claude-p18-full-cycle.yml`, dokumen `docs/cp7/p18/P18_FULL_CYCLE.md`.
+
+- **Alur:** lembar kerja E01 diteruskan sampai semua hutang lunas:
+  - supplier 1.000;
+  - vendor laundry 120;
+  - upah mandor 180.
+- **Pengecekan batas:** di 8 batas, perubahan buku besar sejak awal sama dengan buku pembantu (bahan, WIP, lot FG, hutang supplier, hutang vendor, hutang mandor, piutang, kas). Pengecekan per dimensi vendor, mandor, dan pelanggan juga dijalankan. Perubahan pada akun di luar daftar membuat kasus gagal. Posisi laporan keuangan dibandingkan di awal, sesudah produksi, dan di akhir.
+- **Hasil:**
+  - Run pertama di 8beab7fe, run 37488624358: PASS dengan posting Native.
+  - Run penerus di 4042235f, run 37490923997: PASS, dengan supplier, vendor, dan payroll dibayar lewat penulis aplikasi.
+  - Angka akhir: bahan 400, FG 675, piutang 175, kas −1.100, laba kotor 150.
+- **Bukti:** `docs/cp7/evidence/p18-full-cycle/`.
+
+### 12.2 Temuan dan penutupan: pembayaran supplier baru dari aplikasi
+
+Sebelumnya CP7 tidak punya cara mencatat pembayaran supplier baru; yang ada hanya baca, koreksi, dan pembalikan. Penutupnya dirinci di `docs/cp7/SUPPLIER_PAYMENT_CREATE_HANDOFF.md`.
+
+**Berkas yang ditambah atau diubah:**
+
+| Jenis | Berkas |
+|---|---|
+| SQL | `scripts/cp7-src/invoices/payment-create.sql`, dipasang lewat `cp7_procurement_bundle.py` sesudah `payment-correction.sql` |
+| Penguji bundel | `cp7_supplier_payment_create_bundle.py` |
+| Frontend | `SupplierPaymentCreatePanel.tsx`, `supplierPaymentCreateContract.ts`, `SupplierPaymentPanel.tsx`, aksi recovery `CREATE` di `productionRecovery.ts`, tipe RPC |
+| Daftar kepemilikan | `check-source-ownership.mjs`, `check-access-catalog.mjs`: dua batas RPC baru |
+
+**Hasil CI:**
+- **Run pertama** 4042235f, run 37490924137: 7 PASS dan 1 INCOMPLETE. Sub-kontrol baru saya salah menganggap `authenticated` tidak bisa INSERT ke `erp.supplier_payments`; di klon setara hosted, INSERT itu bisa. Log aslinya disimpan.
+- **Run f999b502**, run 37491709756: browser desktop dan mobile PASS, termasuk balasan hilang sesudah commit → reload → UUID sama. Sub-kontrol yang sama masih INCOMPLETE.
+- **Run 917ff2b7:** sub-kontrol itu diganti pengamatan yang dicatat sebagai temuan. Hasilnya sedang jalan (lihat §12.4).
+
+**Shell di 4042235f** (run 37490924114): lulus, termasuk 6 kontrol DOM baru dan pemeriksaan kepemilikan dan akses.
+
+**Temuan bawaan hosted untuk GPT dan owner:**
+- `authenticated` punya USAGE pada skema `erp` (dipertahankan G-01).
+- Di klon setara hosted, `authenticated` bisa INSERT DRAFT ke `erp.supplier_payments`.
+- `erp.post_supplier_payment` bisa dieksekusi `authenticated` dan hanya memeriksa peran, tidak memeriksa `finance.ap.pay`.
+- PostgREST hanya membuka `public`, jadi ini bukan rute aplikasi.
+- Hasil pengamatan lengkapnya ada di laporan kasus `CURRENT_ACCESS`. Keputusan menutup jalur ini ada di GPT dan owner.
+
+**Catatan merge:**
+- Bundel P09 kini memuat satu berkas SQL tambahan. Reachability lokal 155/155 lulus.
+- Semua tumpukan yang memakai `cp7_procurement_bundle` ikut memasang modul ini. Receipt-correction, P18, dan E01 composition memasangnya tanpa masalah.
+
+### 12.3 Latihan P21 (klon sekali pakai, bukan hosted)
+
+`scripts/cp7_p21_rehearsal_probe.py`, workflow `claude-p21-rehearsal.yml`.
+
+**Run pertama** 15baeb3e, run 37491648792:
+- Pasang berhasil: 1.407 fungsi, 75 tabel cp7, 34 role, dan 11 baris seed bawaan pemasangan.
+- Rollback sebelum dipakai berhasil, dengan ketiga komponen pemulihan persis.
+- Pasang ulang menghasilkan katalog identik, baik sha256 maupun baris seed.
+- Langkah "pakai" berhenti di fixture karena probe tidak menyiapkan fondasi seperti yang dilakukan runner. Ini kesalahan probe.
+
+**Penerus 0fcc04ac** sedang berjalan.
+
+Ini latihan, bukan receipt P21. Receipt P21 tetap menunggu P20.
+
+### 12.4 Status run terbaru
+
+Diisi sesudah CI selesai.
