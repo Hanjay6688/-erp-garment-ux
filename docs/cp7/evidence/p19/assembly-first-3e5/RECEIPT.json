@@ -1,0 +1,38 @@
+{
+  "source_commit": "3e5ba2571c1ba714d9f0cc2524250a4a4fb46ac7",
+  "source_tree": "25d4c110915bac5a136d401e471f4e8c169fac0f",
+  "run_id": 37418812726,
+  "job_id": 112123349852,
+  "artifact_id": 11392256929,
+  "artifact_name": "cp7-shell-proof",
+  "zip_bytes": 15265,
+  "zip_sha256": "a3bed5f291d2fa22982a257865789d0c267cd89347e60d9b51e595c52e1e82d1",
+  "all_zip_members": {
+    "P19_ASSEMBLY_KERNEL.json": {
+      "bytes": 1789,
+      "sha256": "642d59df0ab927718eb32f4cda6a9ece0da7319ba977203161d358d0d6cb3c1d"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53250,
+      "sha256": "36b4a5e7b3e8d2b7a6370b8a0dc22c688b942539ac35366cd329c061a6ac249b"
+    },
+    "fabric-recipe.json": {
+      "bytes": 60594,
+      "sha256": "007f0eee7892af3047f2d547ca4f9186b26639556c94ac78578804f91788becc"
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+    }
+  },
+  "status": "ORIGINAL_INCOMPLETE_RETAINED",
+  "full_P19_acceptance": false,
+  "production_go": false,
+  "Native_case_credit_added": 0,
+  "cause": "Observed disposable psql child process ETIMEDOUT at its existing 60000ms deadline for the 5000-target old/new comparison. The complete comparison at this size was not emitted; no 5000-target equivalence or speed result is claimed.",
+  "successor": "Increase only the disposable comparison process bound to180000ms; default kernel bound and Native ERP/HTTP bounds unchanged. All three sizes and complete output equality remain required."
+}

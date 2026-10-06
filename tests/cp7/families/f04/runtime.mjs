@@ -31,7 +31,8 @@ export const textArg = value => `${literal(value)}::text`;
 
 // No external DB URL is accepted. Native mode creates an isolated Unix-socket DB;
 // the optional WASM mode must be explicitly selected and is labelled as such.
-export async function openRuntime() {
+export async function openRuntime({ commandTimeoutMs = 60_000 } = {}) {
+  if (!Number.isInteger(commandTimeoutMs) || commandTimeoutMs < 60_000 || commandTimeoutMs > 180_000) throw new Error('F04 disposable command timeout out of bounds');
   let execute, query, close, flavor;
   if (process.env.F04_PGLITE_MODULE) {
     if (process.env.CI) throw new Error('F04 CI requires native PostgreSQL; WASM override refused');
@@ -52,7 +53,7 @@ export async function openRuntime() {
     let started = false;
     // Unrelated PG* credentials/URLs cannot redirect this disposable connection.
     const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('PG')));
-    const command = (name, args, options = {}) => execFileSync(join(bin, name), args, { env, encoding: 'utf8', timeout: 60_000, maxBuffer: 32 * 1024 * 1024, ...options });
+    const command = (name, args, options = {}) => execFileSync(join(bin, name), args, { env, encoding: 'utf8', timeout: commandTimeoutMs, maxBuffer: 32 * 1024 * 1024, ...options });
     close = async () => {
       if (started || existsSync(join(data, 'postmaster.pid'))) { command('pg_ctl', ['-D', data, '-m', 'immediate', '-w', 'stop']); started = false; }
       rmSync(dir, { recursive: true, force: true });
