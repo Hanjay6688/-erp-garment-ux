@@ -1,0 +1,26 @@
+{
+  "status": "RECEIVER_RESOURCE_COUNTEREXAMPLES_REPRODUCED",
+  "product_source_commit": "e724c521de04e9e6c12ef3d799dc3d723f83e37b",
+  "working_tree_changes": "ADDED_ADVERSARIAL_RECEIVER_TEST_ONLY",
+  "observed_tests": 6,
+  "passed": 3,
+  "failed": 3,
+  "first_report_sha256": "a0159e915d361435a084dd46a9add5e18f5a2e6855adddc414ec35a3886f2acf",
+  "first_test_source_sha256": "5b9142825f84b01e53b8c0c3f9780ef40b5d90425d5c2fdedca09464abb1802b",
+  "product_files": {
+    "src/nativeAnalysis.ts": "b4a56688a735839e8521eb37300382c1bff88972313d7d8a9508438eecb83f17",
+    "src/nativeRuleSource.ts": "6081718554fefe5a919b54733cffc5f74254cf91f3f506a036d50eea878923f4"
+  },
+  "Native_case_credit_added": 0,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "declared7_profile": {
+    "observed_tests": 7,
+    "passed": 3,
+    "failed": 4,
+    "first_report_sha256": "05b598597393059bda9e62c65d3345f9d2a1e6e446fa75851ba476259ad3a14b",
+    "test_source_sha256": "8f252431294045cf94d00c1ed4b0950faafb25bb7d7dddb103ac3cbb2a99d596",
+    "added_historical_recovery_case": true
+  }
+}

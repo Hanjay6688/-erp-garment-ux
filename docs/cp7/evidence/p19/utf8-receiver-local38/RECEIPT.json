@@ -1,0 +1,18 @@
+{
+  "status": "LOCAL_RECEIVER38_QUALIFIED",
+  "product_parent": "e724c521de04e9e6c12ef3d799dc3d723f83e37b",
+  "working_tree_changes": "UTF8_RECEIVER_CANDIDATE",
+  "tests": 38,
+  "files": 5,
+  "capacity_cases": 7,
+  "report_sha256": "9d4cc9abb906ca1f98adb8260574447f4bfb4b2fd909453c8fe30f87bdeb0464",
+  "files_sha256": {
+    "src/nativeAnalysis.ts": "68ac6d6766ca14af9fe38a45fbfe02f8edc2ab1eca05e425e1ac5739ee2e5c2e",
+    "src/nativeRuleSource.ts": "1ab20c71d01477a4240aee9687ced9081e6ac2999edc085bc277072391ff8bac",
+    "src/nativeSourceCapacity.test.ts": "8f252431294045cf94d00c1ed4b0950faafb25bb7d7dddb103ac3cbb2a99d596"
+  },
+  "Native_case_credit_added": 0,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

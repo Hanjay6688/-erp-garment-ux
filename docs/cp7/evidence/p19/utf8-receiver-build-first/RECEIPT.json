@@ -1,0 +1,9 @@
+{
+  "status": "LOCAL_BUILD_INCOMPLETE_TEST_HARNESS_TYPES",
+  "product_parent": "e724c521de04e9e6c12ef3d799dc3d723f83e37b",
+  "full_log_sha256": "2cd63782bebdd7d29f0620637f4df3a34b19cae356f2768b917901f6b106fbaa",
+  "missing_browser_project_Node_types": true,
+  "raw_fixture_document_inference_errors": 3,
+  "Native_case_credit_added": 0,
+  "production_go": false
+}

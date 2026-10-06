@@ -1,0 +1,19 @@
+{
+  "status": "LOCAL_RECEIVER38_BUILD_QUALIFIED",
+  "product_parent": "e724c521de04e9e6c12ef3d799dc3d723f83e37b",
+  "tests": 38,
+  "files": 5,
+  "capacity_cases": 7,
+  "report_sha256": "9c1d76b0a23e27f63471cb2bee7cde7115f9f229442a32041259aac1c8f3b997",
+  "files_sha256": {
+    "src/nativeAnalysis.ts": "68ac6d6766ca14af9fe38a45fbfe02f8edc2ab1eca05e425e1ac5739ee2e5c2e",
+    "src/nativeRuleSource.ts": "1ab20c71d01477a4240aee9687ced9081e6ac2999edc085bc277072391ff8bac",
+    "tests/cp7/nativeSourceCapacity.test.ts": "9235fa07e2ead2af9cdcde091ece431087a4792c0396739846f306598b6da276"
+  },
+  "build_source_ownership_typecheck_client_scan_passed": true,
+  "build_log_sha256": "3aaf15e981addab049efa0d189408cfd27b996c3b58d3ea11c3ca87f7fd3280f",
+  "Native_case_credit_added": 0,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

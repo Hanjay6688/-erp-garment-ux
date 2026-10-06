@@ -408,3 +408,11 @@ Paket bukti baru ada di `docs/cp7/WRITER_CHECKPOINT_20261006_QUALIFIED_UI_AND_P1
 - **Head bukti terbaru `56c48b6e`:** browser31/31 (run37468012520), combined22, supplier authority6, Build UX1551/164 dan browser fixture2/2/16/26, Shell385 keputusan persis/kontrol negatif36 plus browser6, dan dua SARIF CodeQL0 juga selesai lulus. Semua tetap source-bound, dengan formula/SQL produk/frontend identik dengan4b; no extra Native credit dari alat pembaca bukti.
 
 Ini kualifikasi penulis pada source tertentu. Penutupan PRE-01/05/06/07 oleh auditor independen, kapasitas pabrik/transport lengkap, full P18/P19, P20, P21 dan GO tetap terpisah. Tidak ada perubahan hosted/main atau nilai operasional owner yang dikarang.
+
+### 11.3 P19 penerima sumber UTF8 — kandidat setelah checkpoint e724c521
+
+Checkpoint §11.2 sudah diterbitkan di e724c521. Lanjutan P19 menemukan empat contoh tandingan nyata di penerima: sumber analisis/dokumen finansial menghitung karakter UTF16, dan penerima seluruh baris kondisi belum memeriksa batas byte produsen. Termasuk dokumen historis yang melebihi8MB ketika sumber terkini kecil. Empat penolakan yang seharusnya terjadi justru diterima oleh versi lama; laporan pertama6 dan profil7 beserta source uji persis dipertahankan.
+
+Kandidat frontend menghitung JSON lengkap sebagai UTF8 di tiga batas itu. Angka batas tetap8,000,000; tidak membuang baris, menaikkan batas, mengubah SQL/rumus Native atau mengizinkan hasil parsial. Lokal38/38 termasuk tujuh kontrol kapasitas, body ASCII/Unicode tepat8MB dan cek hak/uang asli; build/typecheck/ownership/client scan juga lulus. Kesalahan tipe pada penempatan awal oracle Node ikut disimpan; uji kini di lane Node yang sudah ada, tanpa melonggarkan compiler. Kualifikasi Native/Auth/browser yang terdampak tetap wajib di head kandidat. Lihat `docs/cp7/p19/P19_UTF8_SOURCE_RECEIVERS_20261006.md`.
+
+Ini perbaikan cacat penghitung byte; transport sumber31MB/volume5000 dan pekerjaan latar yang benar tetap belum selesai. Bukti lama di source56/e724 tidak dipromosikan menjadi bukti produk frontend baru. Batas layar1/2/3 detik, full P18/P19/P20/P21, owner inputs HOLD dan larangan production GO tetap sama.
