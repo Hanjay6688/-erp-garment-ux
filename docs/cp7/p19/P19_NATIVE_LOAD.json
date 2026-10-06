@@ -1,0 +1,20 @@
+{
+  "contract": "cp7.p19.bounded-native-load.v1",
+  "expected_case_count": 6,
+  "required_case_counts": {"native": 2, "races": 2, "http": 2},
+  "required_case_ids": {
+    "native": ["P19_COMPLETE_CAPTURE_REAL_PROFILE", "P19_COMPLETE_UUID_RECOVERY"],
+    "races": ["P19_FOUR_ACTOR_CAPTURE", "P19_CASH_WRITER_DURING_FOUR_READERS"],
+    "http": ["P19_REAL_AUTH_FOUR_ACTOR_CAPTURE", "P19_REAL_AUTH_ONE_ACTOR_REVOKED"]
+  },
+  "profile_factsets": [0, 1, 4, 12],
+  "users": 4,
+  "reads_per_user": 4,
+  "statement_timeout": "8s",
+  "scope": "Selected complete public captures and recovery on real Native source, plus actual multi-actor SQL and real Auth/PostgREST calls",
+  "full_P19_acceptance": false,
+  "browser_qualification": false,
+  "factory_capacity_or_SLA": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

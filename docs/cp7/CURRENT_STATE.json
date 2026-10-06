@@ -11397,7 +11397,7 @@
     "hosted_installation": "NOT_AUTHORIZED_OR_EXECUTED"
   },
   "e06_integration_continuation_20261006": {
-    "status": "FIRST095_INCOMPLETE_EXACT_CATALOG_ADAPTER_SUCCESSOR_PENDING",
+    "status": "QUALIFIED_NATIVE4_RACE1_AT_875_FIRST095_FAILURE_RETAINED",
     "first_source_commit": "095b33b036312d80d06f897144c2772461ca35ff",
     "run_id": 37425555179,
     "job_id": 112144264054,
@@ -11417,6 +11417,43 @@
     "successor_retains_all_per_case_raw_snapshots": true,
     "product_or_frozen_CP6_runner_changed": false,
     "case_ids_or_budget_or_amount_or_date_or_timeouts_changed": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "qualified_source_commit": "875443d0a0cc5323e314941412f268765ecca055",
+    "qualified_source_tree": "6d5f70dd74ec7b887555c1f5511606fd700202db",
+    "qualified_run_id": 37431903253,
+    "qualified_job_id": 112164478987,
+    "qualified_artifact_id": 11397312840,
+    "qualified_receipt": "docs/cp7/evidence/e06-qualified-875/RECEIPT.json",
+    "per_case_raw_verification": "docs/cp7/evidence/e06-qualified-875/PER_CASE_CATALOG_VERIFICATION.json",
+    "all10_raw_snapshots_and_156_function_pairs_verified": true,
+    "successor_raw_pair_order_changed": false
+  },
+  "p19_bounded_native_load_candidate_20261006": {
+    "status": "LOCAL_TOOLING_CONTROLS_PASS_ACTUAL_NATIVE6_PENDING",
+    "candidate_branch": "cp7/p19-native-load-20261006",
+    "product_source_parent": "875443d0a0cc5323e314941412f268765ecca055",
+    "contract": "docs/cp7/p19/P19_NATIVE_LOAD.json",
+    "handoff": "docs/cp7/p19/P19_NATIVE_LOAD.md",
+    "expected_case_count": 6,
+    "required_case_counts": {
+      "native": 2,
+      "races": 2,
+      "http": 2
+    },
+    "profile_factsets": [
+      0,
+      1,
+      4,
+      12
+    ],
+    "simultaneous_users": 4,
+    "read_samples_during_one_actual_Native_cash_inverse": 16,
+    "actual_finalizer_local_controls": 7,
+    "old_case_budgets_or_product_SQL_or_JS_changed": false,
+    "full_P19_acceptance": false,
+    "browser_qualification": false,
+    "factory_capacity_or_SLA": false,
     "independent_acceptance": false,
     "production_go": false
   }

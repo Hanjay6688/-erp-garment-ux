@@ -1,0 +1,67 @@
+{
+  "source_commit": "875443d0a0cc5323e314941412f268765ecca055",
+  "run_id": 37431903253,
+  "status": "VERIFIED_COMPLETE_PER_CASE_RAW_CATALOGS",
+  "group_case_counts": {
+    "native": {
+      "PASS": 4
+    },
+    "races": {
+      "PASS": 1
+    }
+  },
+  "all_snapshot_digests_valid": true,
+  "observations": [
+    {
+      "before_snapshot": 2,
+      "after_snapshot": 3,
+      "raw_equal": true,
+      "all_original_fields_and_pairs_exact_after_sort": true,
+      "function_pairs": 156
+    },
+    {
+      "before_snapshot": 4,
+      "after_snapshot": 5,
+      "raw_equal": true,
+      "all_original_fields_and_pairs_exact_after_sort": true,
+      "function_pairs": 156
+    },
+    {
+      "before_snapshot": 6,
+      "after_snapshot": 7,
+      "raw_equal": true,
+      "all_original_fields_and_pairs_exact_after_sort": true,
+      "function_pairs": 156
+    },
+    {
+      "before_snapshot": 8,
+      "after_snapshot": 9,
+      "raw_equal": true,
+      "all_original_fields_and_pairs_exact_after_sort": true,
+      "function_pairs": 156
+    },
+    {
+      "before_snapshot": 1,
+      "after_snapshot": 10,
+      "raw_equal": true,
+      "all_original_fields_and_pairs_exact_after_sort": true,
+      "function_pairs": 156
+    }
+  ],
+  "raw_order_changes": [],
+  "preservation_controls": {
+    "pair_order_only_equal": true,
+    "function_hash_change_refused": true,
+    "function_signature_change_refused": true,
+    "missing_function_member_refused": true,
+    "duplicate_function_member_refused": true,
+    "relation_member_change_refused": true,
+    "public_row_hash_or_member_change_refused": true,
+    "observed_input_not_mutated": true
+  },
+  "first095_failed_case_raw_snapshots_available": false,
+  "first095_status_unchanged": "INCOMPLETE",
+  "Native_cases_reexecuted_by_verifier": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,20 @@
+# Bounded complete Native load and recovery continuation
+
+This selected six-case qualifier adds complete public capture/serve/recovery and real multi-user observations to the previously qualified component/kernel speed work. It uses the exact integrated Native284 product stack and the unchanged accepted package installer, restored CP6 boundary, primary, Auth, backup and advisor gates. No product SQL/JS, source cap, financial rule, factory policy default or old Native case budget changes.
+
+The fixed [declaration](P19_NATIVE_LOAD.json) is validated before execution. All six IDs must be present exactly once, with native2/races2/real-Auth-HTTP2 and no browser case credit. Metadata stage witnesses preserve complete individual responses even if a subsequent assertion fails; they receive zero additional case credit. All emitted Original JSON roots remain required for qualification.
+
+| Case | Fixed input and oracle |
+|---|---|
+| Complete capture profile | One actual Native E01 production/sale/cash/return journey plus0/1/4/12 actual planner fixture factsets. Every public capture, entire stored facts/result SQL text and public reread are retained. Current selected target keeps the established100−7=93 oracle; E01 stays FG45/value675/HPP15/AR175/cash200/payroll180. Each capture saves exactly one Original and changes no Native business table. |
+| Complete UUID recovery | Full capture and same-UUID recovery/reread preserve the complete earlier analysis/financial Original and stored facts/result. Changed query refuses without another Original or Native effect. |
+| Four SQL actors | Four actual bound DB actors concurrently call the public capture with the same request UUID. Four actor-bound Originals are required, one per actor, with exact own replay and unchanged business state. These SQL identities are distinct from the actual GoTrue logins in the HTTP cases. |
+| Cash writer with four readers | Four readers each perform four complete public archive reads while one real Native cash inverse commits. Actual operation intervals must overlap. Old bodies/money stay immutable; current AR becomes375 from175 with FG45/HPP15 unchanged. The writer is called once; its latency and all16 read durations are retained. |
+| Four real Auth users | Four separate GoTrue users/sign-ins concurrently capture over one real E01 plus four planner factsets. Complete responses, own exact recovery, one Original per actor and all foreign/anonymous denials are required. |
+| One user revoked | Disable one actual app user after the preceding committed captures. Its old JWT/cached UUID/archive must get403; the other three actual users must still read/recover their own complete Originals, with no new capture or Native effect. |
+
+Every new SQL capture uses a subtransaction with the existing8s statement limit; that subtransaction rolls back on failure and never retries. The other new read/writer calls keep8s. Real HTTP calls retain the frozen Native service timeout. Nearest-rank p95 values include every observed sample and its sample count. They are fixture-specific observations, not an approved factory SLA. Source/input/result sizes and missing/ASSUMED inputs remain visible; fixture selected manual profiles are not promoted into production defaults.
+
+This profile is bounded to12 planner factsets, one actual E01 worksheet and four concurrent users. Larger representative data, complete transport beyond the current8MB caps, browser/iPad/offline behavior, deeper recovery/multi-page acceptance and the rest of P19 remain open. The six new cases do not replace Native152/284, full P18, independent P20 or installed P21. `full_P19_acceptance=false`, `independent_acceptance=false`, `production_go=false`.
+
+Local Python AST/YAML/profile checks and seven actual-finalizer emission/admission controls pass with zero Native execution. Those controls retain the earlier16-case restoration failure behavior, and require the new six-case calculation to reject a substituted ID, missing group, failed restore or earlier error. Fresh source-bound Native execution is pending on `cp7/p19-native-load-20261006`.
