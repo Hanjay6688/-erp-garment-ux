@@ -148,7 +148,12 @@ begin
  if current_slice->'material_issue_posted'='true'::jsonb and w->'input'->'preknown_before_physical'='true'::jsonb then
   select sum(cp7_cutting_learning.number(x->'qty_pcs',false,true))into pcs from jsonb_array_elements(current_slice->'outputs')x;
  end if;
- return cp7_cutting_learning.evaluate(scope->'records',jsonb_build_object('context',policy.context,'current_batch_key',w->>'group_id',
+ -- Fold exactly the required prospective batches selected above. Earlier
+ -- batches of the same context (before the policy) or a later batch whose
+ -- capture time falls inside the last fold are not training/holdout evidence.
+ return cp7_cutting_learning.evaluate((select coalesce(jsonb_agg(x order by n),'[]'::jsonb)from jsonb_array_elements(scope->'records')with ordinality r(x,n)
+   where x->>'batch_key'in(select b->>'key'from jsonb_array_elements(batches)with ordinality k(b,m)where m<=required)),
+  jsonb_build_object('context',policy.context,'current_batch_key',w->>'group_id',
   'policy_known_at',cp7_planning.utc(policy.known_at),'train_through',cp7_planning.utc(cutoffs[1]),'calibration_through',cp7_planning.utc(cutoffs[2]),
   'evaluation_through',cp7_planning.utc(cutoffs[3]),'input_known_at',w->'input'->'record'->'known_at','coverage',policy.coverage::text,
   'consumed',qty::text,'width_cm',w->'feature'->'width_cm','actual_pcs',pcs::text,'source_complete',true))

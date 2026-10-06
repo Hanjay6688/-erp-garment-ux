@@ -71,3 +71,23 @@ test('metadata-only model has no public private-schema access or authenticated b
  const w=(await db.query(`select public.erp_cp7_get_cutting_model_workspace_v1('${group}','${roll}') v`))[0].v
  expect(w.feature).toBeNull();expect(w.policy).toBeNull()
 })
+// Self-check F1: same-context batches observed before the policy are not training evidence.
+test('training uses only prospective batches after the policy, never earlier same-context history',async()=>{
+ for(let i=0;i<3;i++){const g=crypto.randomUUID(),r=crypto.randomUUID();await nativeStub(g,r,crypto.randomUUID(),'30');await input(g,r,'170');await postStub(g)}
+ const {policy,p}=await cohort(),e=(await command(p)).result.model.evaluation,known=Date.parse(policy.known_at)
+ expect(new Set(e.train_rows.map((x:any)=>x.batch_key)).size).toBe(3);expect(e.train_rows.filter((x:any)=>Date.parse(x.physical_at)<=known)).toEqual([])
+ expect(e.train_rows.map((x:any)=>x.rate)).not.toContain('0.5')
+},600_000)
+// Self-check F2: a later batch captured inside the last fold does not join the holdout.
+test('holdout keeps exactly the required batches when a later batch is captured before the last one',async()=>{
+ await input(group,roll,'160');const policy=(await command(policyPayload())).result.policy
+ await db.execute(`update public.control_cutting_slices set slices=jsonb_set(slices,'{0,outputs,0,qty_pcs}','"48"')where group_id='${group}'`);await postStub()
+ for(const width of[170,180,160,170,180,170,160,180]){const g=crypto.randomUUID(),r=crypto.randomUUID();await nativeStub(g,r,crypto.randomUUID(),String(width*0.3));await input(g,r,String(width));await postStub(g)}
+ const last=crypto.randomUUID(),lastRoll=crypto.randomUUID();await nativeStub(last,lastRoll,crypto.randomUUID(),'51');await input(last,lastRoll,'170')
+ await db.execute(`update erp.cutting_groups set row_version=2,cut_at=clock_timestamp(),material_issue_posted=true where id='${last}'`)
+ const extra=crypto.randomUUID(),extraRoll=crypto.randomUUID();await nativeStub(extra,extraRoll,crypto.randomUUID(),'20');await input(extra,extraRoll,'170');await postStub(extra)
+ await observation(last)
+ const g=crypto.randomUUID(),r=crypto.randomUUID();await nativeStub(g,r,crypto.randomUUID(),'51');await input(g,r,'170')
+ const e=(await command({action:'CHECK',group_id:g,roll_id:r,expected_group_version:'1',expected_input_version:'1',policy_id:policy.id})).result.model.evaluation
+ const holdout=new Set(e.holdout_rows.map((x:any)=>x.batch_key));expect(holdout.size).toBe(3);expect(holdout.has(extra)).toBe(false);expect(holdout.has(last)).toBe(true)
+},600_000)
