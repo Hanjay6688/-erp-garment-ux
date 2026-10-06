@@ -1,8 +1,9 @@
-name: CP7 P18 Fabric Rule (Claude branch)
+name: CP7 P18 Fabric Rule
 'on':
   push:
     branches:
     - claude/new-session-deapao
+    - cp7/integration
     paths:
     - scripts/cp7-src/reminders/**
     - scripts/cp7_p18_fabric_rule_*
@@ -13,6 +14,7 @@ name: CP7 P18 Fabric Rule (Claude branch)
     - src/NativeRuleSourcePanel*
     - docs/cp7/p18/P18_FABRIC_RULE.json
     - .github/workflows/claude-p18-fabric-rule.yml
+    - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
   workflow_dispatch: {}
 permissions:
   contents: read
@@ -226,5 +228,13 @@ jobs:
       with:
         name: claude-p18-${{ matrix.suite }}
         path: auditor/cp6-proof/t3
+        retention-days: 30
+        if-no-files-found: error
+    - name: Retain every complete Original JSON independently of the full archive
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7-p18-${{ matrix.suite }}-complete-json
+        path: auditor/cp6-proof/t3/*.json
         retention-days: 30
         if-no-files-found: error

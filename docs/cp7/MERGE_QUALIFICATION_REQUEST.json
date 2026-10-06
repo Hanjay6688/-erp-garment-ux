@@ -1,54 +1,293 @@
 {
   "schema": "cp7.merge-qualification.v1",
-  "request": "cp7-continuation-20261005-two-target39-and-complete-F03-catalog-rerun",
-  "qualified_parent": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+  "request": "cp7-claude-integration-20261006-full-regression",
+  "qualified_parent": "caa1b0383955bde2c5aab7825f6ff17e511fe86d",
   "candidate_source": "CURRENT_WORKFLOW_GITHUB_SHA",
-  "claude_head": "f4049e4f7e0c9d436cce1147ce45d6760ab1d6f8",
-  "claude_final_product_source": "19ff70ee4e2ca9100d7697eda12263c5f36968ff",
-  "scope": "All59 observed configured CP7 integration workflows including Shell and its two CodeQL jobs at the exact current candidate. Retain every prior Native budget and all39 P08 IDs; correct two-target fixture selection and fresh Original assumption IDs. Bind existing complete all-field catalog comparator around every full F03 Native group and retain all raw snapshots plus eight sensitivity controls. Preserve both full 3e82 failed Originals. No writer independent/P20, installed/P21 or full product self-acceptance.",
+  "claude_head": "f10d95153b5ca6095ad05828d6a06d917a19d07b",
+  "claude_final_product_source": "2ae1db92dcf945bbc0c30af59843c888e9fa18d6",
+  "scope": "Fast-forward all21 Claude commits, retain every established Native suite and regression budget, run Build UX on cp7/integration with corrected committed-form retirement oracle, qualify physical-fabric21 and fabric-rule11 and every integration workflow at this exact candidate. Complete Original JSON exports supplement unchanged full artifacts. This is writer regression only; full CP7 acceptance remains open.",
+  "workflow_inventory": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "name": "Build UX"
+    },
+    {
+      "path": ".github/workflows/claude-p08-physical.yml",
+      "name": "CP7 P08 Physical Fabric"
+    },
+    {
+      "path": ".github/workflows/claude-p18-fabric-rule.yml",
+      "name": "CP7 P18 Fabric Rule"
+    },
+    {
+      "path": ".github/workflows/cp7-cutting-correction.yml",
+      "name": "CP7 Native Posted Cutting Reopen"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-capacity.yml",
+      "name": "CP7 F03 E20 E14 Complete Stock Capacity"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-cash.yml",
+      "name": "CP7 F03 Cash and Native Finance Readers"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-combined.yml",
+      "name": "CP7 F03 Combined Stack"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-cost-continuation.yml",
+      "name": "CP7 F03 Required Cost Continuations"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e01.yml",
+      "name": "CP7 F03 E01 Source Journey"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e03.yml",
+      "name": "CP7 F03 E03 Customer Service"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e05.yml",
+      "name": "CP7 F03 E05 Payroll Installments"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e06.yml",
+      "name": "CP7 F03 E06 Year-end Late Invoice"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-e24-issue.yml",
+      "name": "CP7 F03 E24 Material Issue"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-full.yml",
+      "name": "CP7 F03 Full Retained Components"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-misc.yml",
+      "name": "CP7 F03 Native Misc Finance"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-p13-regression.yml",
+      "name": "CP7 F03 P13 Retained Regression"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-planner-seam.yml",
+      "name": "CP7 F03 Native Reservation and Size Planner Seams"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-redye.yml",
+      "name": "CP7 F03 X04 Paid Redye Continuation"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-return-documents.yml",
+      "name": "CP7 F03 Combined Supplier Returns"
+    },
+    {
+      "path": ".github/workflows/cp7-f03-x04.yml",
+      "name": "CP7 F03 X04 Source Versions"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-baseline.yml",
+      "name": "CP7 F04 Native Profile and Baseline Targets"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-inputs.yml",
+      "name": "CP7 F04 Prospective Cutting Inputs"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-model.yml",
+      "name": "CP7 F04 Prospective Native Cutting Model and Consumer"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-cutting-observations.yml",
+      "name": "CP7 F04 Native Cutting Observations"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-fabric.yml",
+      "name": "CP7 F04 Native Fabric Recipe"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-history.yml",
+      "name": "CP7 F04 Native Demand History"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-model.yml",
+      "name": "CP7 F04 Native Model Evaluation"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-netting.yml",
+      "name": "CP7 F04 Native Product Bound Netting"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-plan.yml",
+      "name": "CP7 F04 Native Planning Draft Bridge"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-schedule.yml",
+      "name": "CP7 F04 Native Selected Production Schedule"
+    },
+    {
+      "path": ".github/workflows/cp7-f04-supply.yml",
+      "name": "CP7 F04 Global Native Production Supply"
+    },
+    {
+      "path": ".github/workflows/cp7-f05-analysis.yml",
+      "name": "CP7 F05 Native Frozen Analysis"
+    },
+    {
+      "path": ".github/workflows/cp7-f05-attention.yml",
+      "name": "CP7 F05 Native Durable Attention"
+    },
+    {
+      "path": ".github/workflows/cp7-misc-correction.yml",
+      "name": "CP7 Native Atomic Misc Correction"
+    },
+    {
+      "path": ".github/workflows/cp7-native-artifact-projection.yml",
+      "name": "CP7 Completed Native Artifact Projection"
+    },
+    {
+      "path": ".github/workflows/cp7-native-read-diagnostic.yml",
+      "name": "CP7 Native Read Stage Diagnostic"
+    },
+    {
+      "path": ".github/workflows/cp7-note-command-diagnostic.yml",
+      "name": "CP7 Note Command Diagnostic"
+    },
+    {
+      "path": ".github/workflows/cp7-note-correction.yml",
+      "name": "CP7 Owning Historical Note Correction"
+    },
+    {
+      "path": ".github/workflows/cp7-p00.yml",
+      "name": "CP7 P00 accepted-base catalogue"
+    },
+    {
+      "path": ".github/workflows/cp7-p02-facade.yml",
+      "name": "CP7 P02 actor facade"
+    },
+    {
+      "path": ".github/workflows/cp7-p02.yml",
+      "name": "CP7 P02 source capture probe"
+    },
+    {
+      "path": ".github/workflows/cp7-p03-identity.yml",
+      "name": "CP7 P03 production policy"
+    },
+    {
+      "path": ".github/workflows/cp7-p04-wip.yml",
+      "name": "CP7 P04 WIP kernels"
+    },
+    {
+      "path": ".github/workflows/cp7-p09-procurement.yml",
+      "name": "CP7 P09 Procurement"
+    },
+    {
+      "path": ".github/workflows/cp7-p10-fg.yml",
+      "name": "CP7 P10 Finished goods"
+    },
+    {
+      "path": ".github/workflows/cp7-p11-sales.yml",
+      "name": "CP7 P11 Sales"
+    },
+    {
+      "path": ".github/workflows/cp7-p12-nota-source.yml",
+      "name": "CP7 P12 Nota source"
+    },
+    {
+      "path": ".github/workflows/cp7-p12-nota.yml",
+      "name": "CP7 P12 Nota and payroll lifecycle"
+    },
+    {
+      "path": ".github/workflows/cp7-p13-analysis.yml",
+      "name": "CP7 P13 Finance Analysis"
+    },
+    {
+      "path": ".github/workflows/cp7-p13-finance.yml",
+      "name": "CP7 P13 Finance"
+    },
+    {
+      "path": ".github/workflows/cp7-p13-period.yml",
+      "name": "CP7 P13 Period control"
+    },
+    {
+      "path": ".github/workflows/cp7-p13-recost.yml",
+      "name": "CP7 P13 HPP recost"
+    },
+    {
+      "path": ".github/workflows/cp7-p18-e01-bridge.yml",
+      "name": "CP7 P18 E01 Consumer Bridge"
+    },
+    {
+      "path": ".github/workflows/cp7-payment-correction.yml",
+      "name": "CP7 Native Atomic Payment Correction"
+    },
+    {
+      "path": ".github/workflows/cp7-receipt-correction.yml",
+      "name": "CP7 Owning Receipt Correction"
+    },
+    {
+      "path": ".github/workflows/cp7-retain-existing-artifact.yml",
+      "name": "CP7 Retain Existing Native Originals"
+    },
+    {
+      "path": ".github/workflows/cp7-rule-lifecycle.yml",
+      "name": "CP7 Native Inactive Rule Lifecycle"
+    },
+    {
+      "path": ".github/workflows/cp7-sales-chain.yml",
+      "name": "CP7 Native Atomic Sales Chain Reversal"
+    },
+    {
+      "path": ".github/workflows/cp7-sales-return-correction.yml",
+      "name": "CP7 Native Atomic Customer Return Correction"
+    },
+    {
+      "path": ".github/workflows/cp7-shell.yml",
+      "name": "CP7 Shell S0"
+    },
+    {
+      "path": ".github/workflows/cp7-supplier-credit-authority.yml",
+      "name": "CP7 F03 Supplier Current Authority"
+    },
+    {
+      "path": ".github/workflows/cp7-supplier-payment-correction.yml",
+      "name": "CP7 Native Atomic Supplier Payment Correction"
+    },
+    {
+      "path": ".github/workflows/cp7-transaction-source.yml",
+      "name": "CP7 Native Transaction Source Navigation"
+    }
+  ],
+  "configured_request_workflow_count": 63,
   "compiled_product_changed_since_qualified_parent": true,
+  "compiled_product_changed_since_claude_candidate": false,
   "browser_oracle_strengthened": true,
-  "qualification_comparator_changed": "Existing exact all-field pair-order adapter now bounds each full F03 Native group with retain_raw=True. Every signature/hash/member/field and all eight read-only sensitivity controls retained; frozen CP6 reader/runner untouched.",
-  "prior_complete_matrix_source": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
-  "prior_Native57_first_failure_run": 37128855585,
-  "prior_Native57_first_failure_original_preserved": true,
-  "prior_Native40_first_failure_run": 37128855701,
-  "prior_Native40_timeout_cause_open": true,
-  "prior_Native40_first_failure_original_preserved": true,
   "test_case_budgets_reduced": false,
-  "source69_previous_IDs_preserved": true,
-  "focused9_previous_IDs_preserved": true,
-  "frozen_CP5_CP6_or_framework_changed": false,
-  "independent_acceptance": false,
-  "full_P18_acceptance": false,
-  "production_go": false,
-  "prior_candidate_source": "3e82f789326ea18e430d7ed8adf1f8c2cb2435ec",
-  "P08_required_case_count": 39,
-  "P08_required_case_counts": {
-    "native": 25,
-    "races": 8,
-    "http": 2,
-    "browser": 4
-  },
-  "P08_predeclaration": "docs/cp7/f04/SHARED_MATERIAL_POOL.json",
   "source_caps_changed": false,
   "statement_timeouts_changed": false,
   "Native_business_writers_changed": false,
   "new_Native_DML_grants": [],
+  "frozen_CP5_CP6_or_framework_changed": false,
+  "first_failure_originals_preserved": true,
+  "independent_acceptance": false,
   "full_P08_acceptance": false,
+  "full_P18_acceptance": false,
   "full_P19_acceptance": false,
   "installed_P21_acceptance": false,
+  "production_go": false,
   "previous_request": {
     "schema": "cp7.merge-qualification.v1",
-    "request": "cp7-finisher-complete-matrix-20261003-f04-catalog-repair",
+    "request": "cp7-continuation-20261005-two-target39-and-complete-F03-catalog-rerun",
     "qualified_parent": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
     "candidate_source": "CURRENT_WORKFLOW_GITHUB_SHA",
     "claude_head": "f4049e4f7e0c9d436cce1147ce45d6760ab1d6f8",
     "claude_final_product_source": "19ff70ee4e2ca9100d7697eda12263c5f36968ff",
-    "scope": "All53 configured CP7 integration workflows plus Shell and its CodeQL jobs at the exact current candidate. Preserve Native57 first failure088f and verify fresh all-field catalogue comparison with raw snapshots; retain all Originals and unchanged budgets.",
-    "compiled_product_changed_since_qualified_parent": false,
+    "scope": "All59 observed configured CP7 integration workflows including Shell and its two CodeQL jobs at the exact current candidate. Retain every prior Native budget and all39 P08 IDs; correct two-target fixture selection and fresh Original assumption IDs. Bind existing complete all-field catalog comparator around every full F03 Native group and retain all raw snapshots plus eight sensitivity controls. Preserve both full 3e82 failed Originals. No writer independent/P20, installed/P21 or full product self-acceptance.",
+    "compiled_product_changed_since_qualified_parent": true,
     "browser_oracle_strengthened": true,
-    "qualification_comparator_changed": "Existing exact CP7 all-field pair-order comparator now bounds6 additional F04 strict groups. All raw snapshots and read-only sensitivity controls retained; frozen reader and runner unchanged.",
+    "qualification_comparator_changed": "Existing exact all-field pair-order adapter now bounds each full F03 Native group with retain_raw=True. Every signature/hash/member/field and all eight read-only sensitivity controls retained; frozen CP6 reader/runner untouched.",
     "prior_complete_matrix_source": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
     "prior_Native57_first_failure_run": 37128855585,
     "prior_Native57_first_failure_original_preserved": true,
@@ -61,23 +300,64 @@
     "frozen_CP5_CP6_or_framework_changed": false,
     "independent_acceptance": false,
     "full_P18_acceptance": false,
-    "production_go": false
-  },
-  "previous_candidate_request_original": "docs/cp7/evidence/current-source-3e82/MERGE_QUALIFICATION_REQUEST.json.gz",
-  "compiled_product_changed_since_previous_candidate": false,
-  "qualification_tooling_changed_since_previous_candidate": true,
-  "previous_failures_retained": [
-    "docs/cp7/evidence/plan-native/incomplete39-two-target-setup-3e82/RECEIPT.json",
-    "docs/cp7/evidence/f03-full/incomplete34-final-boundary-3e82/RECEIPT.json"
-  ],
-  "full_F03_bucket_execution_counts_preserved": {
-    "p09": 132,
-    "p10": 34,
-    "p11": 64,
-    "p12": 90,
-    "p13": 50,
-    "cash_installments": 61,
-    "supplier_credit": 5,
-    "customer_refund": 10
+    "production_go": false,
+    "prior_candidate_source": "3e82f789326ea18e430d7ed8adf1f8c2cb2435ec",
+    "P08_required_case_count": 39,
+    "P08_required_case_counts": {
+      "native": 25,
+      "races": 8,
+      "http": 2,
+      "browser": 4
+    },
+    "P08_predeclaration": "docs/cp7/f04/SHARED_MATERIAL_POOL.json",
+    "source_caps_changed": false,
+    "statement_timeouts_changed": false,
+    "Native_business_writers_changed": false,
+    "new_Native_DML_grants": [],
+    "full_P08_acceptance": false,
+    "full_P19_acceptance": false,
+    "installed_P21_acceptance": false,
+    "previous_request": {
+      "schema": "cp7.merge-qualification.v1",
+      "request": "cp7-finisher-complete-matrix-20261003-f04-catalog-repair",
+      "qualified_parent": "3af3be8a90d3e0fb2e177f7f255de780bee8462a",
+      "candidate_source": "CURRENT_WORKFLOW_GITHUB_SHA",
+      "claude_head": "f4049e4f7e0c9d436cce1147ce45d6760ab1d6f8",
+      "claude_final_product_source": "19ff70ee4e2ca9100d7697eda12263c5f36968ff",
+      "scope": "All53 configured CP7 integration workflows plus Shell and its CodeQL jobs at the exact current candidate. Preserve Native57 first failure088f and verify fresh all-field catalogue comparison with raw snapshots; retain all Originals and unchanged budgets.",
+      "compiled_product_changed_since_qualified_parent": false,
+      "browser_oracle_strengthened": true,
+      "qualification_comparator_changed": "Existing exact CP7 all-field pair-order comparator now bounds6 additional F04 strict groups. All raw snapshots and read-only sensitivity controls retained; frozen reader and runner unchanged.",
+      "prior_complete_matrix_source": "088f446c7c8955f6e9010e2d0282e51ca606fbbb",
+      "prior_Native57_first_failure_run": 37128855585,
+      "prior_Native57_first_failure_original_preserved": true,
+      "prior_Native40_first_failure_run": 37128855701,
+      "prior_Native40_timeout_cause_open": true,
+      "prior_Native40_first_failure_original_preserved": true,
+      "test_case_budgets_reduced": false,
+      "source69_previous_IDs_preserved": true,
+      "focused9_previous_IDs_preserved": true,
+      "frozen_CP5_CP6_or_framework_changed": false,
+      "independent_acceptance": false,
+      "full_P18_acceptance": false,
+      "production_go": false
+    },
+    "previous_candidate_request_original": "docs/cp7/evidence/current-source-3e82/MERGE_QUALIFICATION_REQUEST.json.gz",
+    "compiled_product_changed_since_previous_candidate": false,
+    "qualification_tooling_changed_since_previous_candidate": true,
+    "previous_failures_retained": [
+      "docs/cp7/evidence/plan-native/incomplete39-two-target-setup-3e82/RECEIPT.json",
+      "docs/cp7/evidence/f03-full/incomplete34-final-boundary-3e82/RECEIPT.json"
+    ],
+    "full_F03_bucket_execution_counts_preserved": {
+      "p09": 132,
+      "p10": 34,
+      "p11": 64,
+      "p12": 90,
+      "p13": 50,
+      "cash_installments": 61,
+      "supplier_credit": 5,
+      "customer_refund": 10
+    }
   }
 }
