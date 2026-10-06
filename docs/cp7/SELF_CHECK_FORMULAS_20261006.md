@@ -40,6 +40,7 @@ perencanaan (sebagian; pemeriksa perencanaan dihentikan lebih awal untuk menghin
 | PR-1 | Data pekerja | Edit pekerja (`UPDATE_WORKER`) **menghapus kode pekerja** | Kode dari baris terkunci dibawa ke penulis Native | Native roster lifecycle | `2d4f5f38` |
 | PR-2 | Payroll | `totals_match_items` memakai flag absensi master terbaru untuk payroll beku → tombol pelunasan terkunci keliru | Payroll APPROVED/PAID/REVERSED dibandingkan dengan itemnya sendiri | (repro stub; Native fixture absensi>0 belum tersedia) | `2d4f5f38` |
 | PR-3 | Tarif harian | "75.000" tersimpan Rp75 (titik dibaca desimal) | Ditolak dengan pesan jelas; kontrak 6 desimal tetap | DOM test | `2d4f5f38` |
+| AP-6 | Penerimaan, invoice supplier, hitung fisik, koreksi penerimaan | Harga/diskon rupiah "16.000" atau "1,500" diterima sebagai **Rp16 / Rp1,5** (field 6 desimal) | `moneyDecimal`: pola ribuan ambigu ditolak dengan pesan "… akan terbaca sebagai desimal, bukan ribuan. Tulis tanpa titik atau koma, misalnya 16000."; harga tersimpan yang tidak diubah tetap diterima. Pembayaran (2 desimal) sudah menolak sejak awal | `receiptCorrectionContract.test.ts` (gagal di kode lama), DOM `PurchaseInvoicePanel`, unit `moneyDecimal` | (commit ini) |
 | IN-1 | Model hasil potong | Fold latih ikut batch sebelum aturan dicatat (6 batch bukan 3) | Kernel hanya menerima record batch prospektif terpilih | `cutting-model-producer.test.ts` (6≠3) | `3d4cfbea` |
 | IN-2 | Model hasil potong | Batch sesudahnya yang tercatat di dalam fold terakhir masuk holdout (4 bukan 3) | idem | idem (4≠3) | `3d4cfbea` |
 
@@ -67,7 +68,7 @@ perencanaan (sebagian; pemeriksa perencanaan dihentikan lebih awal untuk menghin
 | SL-4 | Koreksi nota menyalin nilai refund retur lama apa adanya setelah harga berubah (harga naik → piutang lebih 25; harga turun → koreksi ditolak) | Tampilkan & minta peninjauan refund pengganti di form koreksi, atau hitung ulang proporsional bila refund lama = porsi neto per pcs |
 | SL-5 | Beberapa pembaca uang mengeluarkan `::text` tanpa `round(…,2)` | Moot bila kolom `numeric(…,2)`; seragamkan bila skala kolom berbeda |
 | AP-5 | Pengingat hutang memakai jatuh tempo invoice paling awal walau sudah lunas | Pakai jatuh tempo invoice pertama yang belum tertutup pembayaran (FIFO) atau nyatakan aturan |
-| AP-6 | Input "16.000" dibaca 16 (harga) | Tolak pola ribuan ambigu di field harga (seperti tarif harian) |
+| AP-6 | ~~Input "16.000" dibaca 16 (harga)~~ | **Diperbaiki** — lihat §2 |
 | AP-7 | Total koreksi dibulatkan sekali vs AP Native per baris | Pastikan skala `net_amount` Native; bila 2 desimal, jumlahkan per baris |
 | PR-5 | "Perkiraan upah" absensi ≠ upah payroll (ikut PIECE/NONE) | Ganti label menjadi nilai absensi, atau hitung hanya DAILY/HYBRID |
 | PR-6 | Payroll APPROVED dengan net minus menyembunyikan detail | Edge legacy; terima net < 0 sebagai tidak dapat dibayar |

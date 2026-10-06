@@ -3,7 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest'
 import ConnectedProcurementPage from './ConnectedProcurementPage'
-import { parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, receiptDecimal } from './procurementContract'
+import { parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, receiptDecimal, moneyDecimal } from './procurementContract'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { readProductionRecovery } from './productionRecovery'
 import { invoiceWorkspaceFixture } from '../tests/fixtures/purchaseInvoices'
@@ -185,6 +185,8 @@ describe('connected procurement recovery and financial boundary',()=>{
   it('rejects partial pagination and keeps exact decimal input without rounding',()=>{
     const {makeDetail:_,...w}=workspace();expect(()=>parseProcurementWorkspace({...w,page:{...w.page,total:'2'}},true)).toThrow()
     expect(receiptDecimal('1,123456',true)).toBe('1.123456');expect(receiptDecimal('1.1234567',true)).toBeNull();expect(receiptDecimal('0')).toBe('0');expect(receiptDecimal('0',true)).toBeNull()
+    // A rupiah value typed with a thousands separator is refused, not read as 16 or 1.5.
+    expect(moneyDecimal('16.000')).toBeNull();expect(moneyDecimal('1,500')).toBeNull();expect(moneyDecimal('16000')).toBe('16000');expect(moneyDecimal('16,5')).toBe('16.5');expect(moneyDecimal('16.0000')).toBe('16.0000');expect(moneyDecimal('1234.567')).toBe('1234.567')
   })
   it('preserves invoice, line, roll and exact physical-time metadata when editing a draft',async()=>{
     server();const original=client.rpc.getMockImplementation()!

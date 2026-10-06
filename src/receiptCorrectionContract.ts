@@ -2,6 +2,7 @@
 // workspace and its committed outcome. Unknown fields or inconsistent lineage
 // are refused instead of rendered.
 import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso } from './cp6BusinessTime'
+import { ambiguousThousands, thousandsWarning } from './procurementContract'
 const fail = (): never => { throw Error('Data pembetulan penerimaan belum cocok dengan sumber yang diperiksa. Muat ulang penerimaan.') }
 const object = (v: unknown) => { if (!v || typeof v !== 'object' || Array.isArray(v)) return fail(); return v as Record<string, unknown> }
 const id = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
@@ -131,7 +132,8 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
   if (!lines.length) return { payload: null, problem: 'Penerimaan harus punya minimal satu barang.' }
   const out = []
   for (const l of lines) {
-    const price = exact(l.price, false)
+    const price = exact(l.price, false), was = w.lines.find(x => x.item_id === l.replaces)
+    if (ambiguousThousands(l.price) && (!was || plain(was.unit_price) !== l.price.trim())) return { payload: null, problem: thousandsWarning(`Harga ${l.materialName}`, l.price) }
     if (price === null) return { payload: null, problem: `Harga ${l.materialName} belum benar.` }
     if (l.materialType === 'FABRIC') {
       if (!l.rolls.length) return { payload: null, problem: `${l.materialName} harus punya minimal satu roll.` }
@@ -167,6 +169,9 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
       const line = lines.find(x => x.replaces === l.itemId), name = line?.materialName ?? 'barang'
       if (!line) return { payload: null, problem: `Barang yang ditagih di invoice ${v.number} tidak boleh dihapus dari penerimaan. Batalkan invoice itu dulu bila barangnya memang tidak ada.` }
       const qty = exact(l.qty, true), price = exact(l.price, false), discount = exact(l.discount || '0', false)
+      const before = doc.lines.find(x => x.invoice_line_id === l.replaces), typed = (raw: string, old: string | undefined) => ambiguousThousands(raw) && (old === undefined || plain(old) !== raw.trim())
+      if (typed(l.price, before?.unit_price)) return { payload: null, problem: thousandsWarning(`Harga final ${name} di invoice ${v.number}`, l.price) }
+      if (typed(l.discount, before?.discount_amount)) return { payload: null, problem: thousandsWarning(`Diskon ${name} di invoice ${v.number}`, l.discount) }
       if (!qty || price === null || discount === null) return { payload: null, problem: `Jumlah, harga final atau diskon ${name} di invoice ${v.number} belum benar.` }
       if (micros(discount) * 1000000n > micros(qty) * micros(price)) return { payload: null, problem: `Diskon ${name} di invoice ${v.number} lebih besar dari nilainya.` }
       invoiced.set(l.itemId, (invoiced.get(l.itemId) ?? 0) + Number(qty))

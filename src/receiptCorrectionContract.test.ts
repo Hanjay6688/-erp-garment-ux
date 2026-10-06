@@ -57,6 +57,21 @@ describe('receipt correction contract', () => {
     expect(correctionPayload(w, lines, 'Diskon penuh', invoices).problem).toContain('Diskon')
     expect(() => parseReceiptCorrectionWorkspace({ ...workspace(false, true), invoices: [{ ...workspace(false, true).invoices[0], lines: [{ ...workspace(false, true).invoices[0].lines[0], purchase_item_id: ids.rev }] }] }, ids.root)).toThrow()
   })
+  it('refuses a typed rupiah value that reads as thousands, but keeps an untouched exact price', () => {
+    const w = parseReceiptCorrectionWorkspace(workspace(false, true), ids.root), lines = correctionDraft(w), invoices = correctionInvoices(w)
+    invoices[0].lines[0].price = '16.000'
+    expect(correctionPayload(w, lines, 'Harga final salah ketik', invoices).problem).toBe('Harga final Kain di invoice INV-7 16.000 akan terbaca sebagai desimal, bukan ribuan. Tulis tanpa titik atau koma, misalnya 16000.')
+    invoices[0].lines[0].price = '16000'
+    expect(correctionPayload(w, lines, 'Harga final salah ketik', invoices).problem).toBeNull()
+    invoices[0].lines[0].discount = '1,500'
+    expect(correctionPayload(w, lines, 'Harga final salah ketik', invoices).problem).toContain('Diskon Kain di invoice INV-7 1,500 akan terbaca sebagai desimal')
+    invoices[0].lines[0].discount = '0'
+    lines[0].price = '12,500'
+    expect(correctionPayload(w, lines, 'Harga salah ketik', invoices).problem).toContain('misalnya 12500')
+    // A stored price with three decimals is the document as it is, not a typo.
+    const exact = parseReceiptCorrectionWorkspace({ ...workspace(), lines: [{ ...workspace().lines[0], unit_price: '16.125000' }] }, ids.root)
+    expect(correctionPayload(exact, correctionDraft(exact), 'Jumlah salah ketik').problem).toBeNull()
+  })
   it('fixes only the name of the same material', () => {
     const w = parseMaterialNameWorkspace({ contract_version: 'cp7.material-name-workspace.v1', read_at: at, material_id: ids.mat, material_sku: 'KAIN', material_name: 'Katun Combad', material_type: 'FABRIC', unit_code: 'yd', row_version: '4',
       history: [], production_go: false }, ids.mat)

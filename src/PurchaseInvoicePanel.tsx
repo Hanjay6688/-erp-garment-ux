@@ -7,7 +7,7 @@ import { normalizeClientError } from './lib/clientError'
 import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
-import { formatReceiptDecimal as numberText, procurementObject, receiptDecimal } from './procurementContract'
+import { formatReceiptDecimal as numberText, procurementObject, receiptDecimal, moneyDecimal, ambiguousThousands, thousandsWarning } from './procurementContract'
 import { hasInvoiceCapacity, parsePurchaseInvoices, parsePurchaseInvoiceOutcome, type PurchaseInvoices, type PurchaseInvoice, parseInvoiceSources, type InvoiceSources, type InvoiceSource } from './purchaseInvoiceContract'
 import type { Json } from './types/database.preconnect'
 type Props={purchaseId:string|null;receiptRevision?:string|null;onReceiptUpdated:(purchaseId:string)=>Promise<boolean>}
@@ -16,7 +16,7 @@ function document(f:Form):Json|null{
  const at=f.combined?.originalAt&&cp6WibDateTimeInput(f.combined.originalAt)===f.at?f.combined.originalAt:cp6WibPhysicalTimeToIso(f.at)
  if(!f.reviewed||!f.number.trim()||!/^\d{4}-\d{2}-\d{2}$/.test(f.date)||!at||!f.reason.trim()||f.due&&!/^\d{4}-\d{2}-\d{2}$/.test(f.due))return null
  const lines:Json[]=[]
- for(const l of f.lines.filter(l=>l.selected)){const qty=receiptDecimal(l.qty,true),price=receiptDecimal(l.price),discount=receiptDecimal(l.discount);if(!qty||price===null||discount===null)return null;lines.push({purchase_item_id:l.id,qty_invoiced:qty,...(f.combined?{unit_price:price,notes:l.notes??null}:{final_unit_price:price}),discount_amount:discount})}
+ for(const l of f.lines.filter(l=>l.selected)){const qty=receiptDecimal(l.qty,true),price=moneyDecimal(l.price),discount=moneyDecimal(l.discount);if(!qty||price===null||discount===null)return null;lines.push({purchase_item_id:l.id,qty_invoiced:qty,...(f.combined?{unit_price:price,notes:l.notes??null}:{final_unit_price:price}),discount_amount:discount})}
  if(f.combined)return lines.length&&lines.length<=100&&f.lines.some(l=>l.selected&&l.purchaseId===f.purchaseId)?{purchase_id:f.purchaseId,...(f.combined.id?{id:f.combined.id}:{}),supplier_id:f.combined.supplier,invoice_number:f.number.trim(),invoice_date:f.date,received_at:at,due_date:f.due||null,change_reason:f.reason.trim(),notes:f.notes.trim()||null,lines}:null
  return lines.length?{purchase_id:f.purchaseId,supplier_invoice_number:f.number.trim(),invoice_date:f.date,received_at:at,due_date:f.due||null,reason:f.reason.trim(),notes:f.notes.trim()||null,lines}:null
 }
@@ -101,8 +101,8 @@ function InvoiceWorkspace({purchaseId,receiptRevision,onReceiptUpdated}:Props){
      {sources?<div className="cproc-pagination"><span>Total {sources.page.total} penerimaan</span><button type="button" disabled={!sources.page.offset} onClick={()=>void loadSources(Math.max(0,sources.page.offset-10))}>Penerimaan invoice sebelumnya</button><button type="button" disabled={sources.page.next_offset===null} onClick={()=>void loadSources(sources.page.next_offset??0)}>Penerimaan invoice berikutnya</button></div>:null}<p>Periksa seluruh baris yang dipilih. Harga harus sesuai dokumen supplier; draft belum mengubah utang atau biaya.</p></section>:null}
     {form.lines.map((l,i)=><section className="cproc-line" key={l.id}><label className="cproc-check"><input type="checkbox" aria-label={`Tagih barang ${i+1}`} checked={l.selected} onChange={e=>updateLine(l.id,{selected:e.target.checked})}/>{l.name}{form.combined?` · ${l.purchaseNumber}`:''}</label><div className="cproc-grid">
      <label>Jumlah ditagih ({l.unit})<input aria-label={`Jumlah invoice ${i+1}`} inputMode="decimal" disabled={!l.selected} value={l.qty} onChange={e=>updateLine(l.id,{qty:e.target.value})}/></label>
-     <label>Harga per {l.unit}<input aria-label={`Harga invoice ${i+1}`} inputMode="decimal" placeholder="Sesuai invoice" disabled={!l.selected} value={l.price} onChange={e=>updateLine(l.id,{price:e.target.value})}/></label>
-     <label>Potongan baris (Rp)<input aria-label={`Potongan invoice ${i+1}`} inputMode="decimal" disabled={!l.selected} value={l.discount} onChange={e=>updateLine(l.id,{discount:e.target.value})}/></label>
+     <label>Harga per {l.unit}<input aria-label={`Harga invoice ${i+1}`} inputMode="decimal" placeholder="Sesuai invoice" disabled={!l.selected} value={l.price} onChange={e=>updateLine(l.id,{price:e.target.value})}/>{ambiguousThousands(l.price)?<span role="alert">{thousandsWarning('Harga',l.price)}</span>:null}</label>
+     <label>Potongan baris (Rp)<input aria-label={`Potongan invoice ${i+1}`} inputMode="decimal" disabled={!l.selected} value={l.discount} onChange={e=>updateLine(l.id,{discount:e.target.value})}/>{ambiguousThousands(l.discount)?<span role="alert">{thousandsWarning('Potongan',l.discount)}</span>:null}</label>
     </div></section>)}
     <div className="cproc-grid"><label>Catatan invoice<input aria-label="Catatan invoice supplier" value={form.notes} onChange={e=>setForm({...form,notes:e.target.value,reviewed:false})}/></label><label>Alasan pencatatan<input aria-label="Alasan invoice supplier" required value={form.reason} onChange={e=>setForm({...form,reason:e.target.value,reviewed:false})}/></label></div>
     <p>Jumlah dapat ditagih bertahap. Harga akan memperbarui biaya persediaan dan perhitungan biaya barang yang telah diproses.</p>

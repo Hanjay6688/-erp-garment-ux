@@ -9,7 +9,7 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import RecordTools,{orderRecordPage,type RecordPageOrder} from './RecordTools'
 import MaterialCountSourcePicker from './MaterialCountSourcePicker'
-import { formatReceiptDecimal as numberText, receiptDecimal } from './procurementContract'
+import { formatReceiptDecimal as numberText, receiptDecimal, moneyDecimal, ambiguousThousands, thousandsWarning } from './procurementContract'
 import { materialObject, parseMaterials, type MaterialBalance, type MaterialsWorkspace } from './materialContract'
 import { parseCountPreview, parseCounts, parseCountOutcome, countPositive, countNonzero, type CountPreview, type CountWorkspace } from './materialCountContract'
 import type { Json } from './types/database.preconnect'
@@ -76,9 +76,9 @@ function CountPage({initialId}:{initialId:string|null}){
  const scope:Json|null=form&&first&&form.lines.length<=100&&at&&form.lines.every(l=>receiptDecimal(l.qty)!==null)?{location_id:first.location_id,physical_at:at,items:form.lines.map(l=>({material_id:l.source.material_id,roll_id:l.source.roll_id,physical_qty:receiptDecimal(l.qty)}))}:null
  const scopeKey=JSON.stringify(scope),scopeCurrent=useRef(scopeKey);scopeCurrent.current=scopeKey
  const checked=preview?.key===scopeKey?preview.value:null,checkedByKey=new Map(checked?.items.map(l=>[sourceKey(l),l]))
- const payload:Json|null=form&&first&&scope&&checked&&checked.items.some(l=>countNonzero(l.qty_signed))&&form.lines.every(l=>{const p=checkedByKey.get(sourceKey(l.source));return p&&(!countPositive(p.qty_signed)||finance&&receiptDecimal(l.cost)!==null)})&&form.number.trim()&&form.note.trim()?{
+ const payload:Json|null=form&&first&&scope&&checked&&checked.items.some(l=>countNonzero(l.qty_signed))&&form.lines.every(l=>{const p=checkedByKey.get(sourceKey(l.source));return p&&(!countPositive(p.qty_signed)||finance&&moneyDecimal(l.cost)!==null)})&&form.number.trim()&&form.note.trim()?{
   ...(form.id?{id:form.id}:{}),adjustment_number:form.number.trim(),location_id:first.location_id,physical_at:at,reason_code:form.reason==='FOUND'?'COUNT_CORRECTION':form.reason,change_reason:form.note.trim(),notes:(form.reason==='FOUND'?'Barang ditemukan. ':'')+form.note.trim(),
-  items:form.lines.map(l=>{const p=checkedByKey.get(sourceKey(l.source))!;return {material_id:p.material_id,roll_id:p.roll_id,physical_qty:receiptDecimal(l.qty),basis_token:p.basis_token,...(countPositive(p.qty_signed)?{input_unit_cost:receiptDecimal(l.cost)}:{}),...(l.lineNotes!==null?{notes:l.lineNotes}:{})}}),
+  items:form.lines.map(l=>{const p=checkedByKey.get(sourceKey(l.source))!;return {material_id:p.material_id,roll_id:p.roll_id,physical_qty:receiptDecimal(l.qty),basis_token:p.basis_token,...(countPositive(p.qty_signed)?{input_unit_cost:moneyDecimal(l.cost)}:{}),...(l.lineNotes!==null?{notes:l.lineNotes}:{})}}),
  }:null
  const inspect=async()=>{
   if(!scope||locked)return;const key=scopeKey,ticket=beginRead(),s=++sequence.current;setLoading(true);setError('');setPreview(null)
@@ -123,7 +123,7 @@ function CountPage({initialId}:{initialId:string|null}){
      <label>Jumlah fisik ({entry.source.unit_code})<input aria-label={form.lines.length===1?'Jumlah fisik bahan':`Jumlah fisik ${label}`} inputMode="decimal" required value={entry.qty} onChange={e=>updateLine(index,{qty:e.target.value})}/></label>
      {form.lines.length>1?<button type="button" aria-label={`Lepas ${label} dari pemeriksaan`} onClick={()=>{setPreview(null);setForm({...form,lines:form.lines.filter((_,i)=>i!==index)})}}>Lepas barang</button>:null}
      {line?<div className="cproc-review"><p>Saldo pada waktu hitung <strong>{numberText(line.system_qty)} {entry.source.unit_code}</strong></p><p>Jumlah fisik <strong>{numberText(line.physical_qty)} {entry.source.unit_code}</strong> · selisih <strong>{numberText(line.qty_signed)} {entry.source.unit_code}</strong></p>
-      {positive?(finance?<label>Harga satuan barang ditemukan (Rp)<input aria-label={form.lines.length===1?'Harga satuan hasil hitung':`Harga satuan hasil hitung ${label}`} inputMode="decimal" value={entry.cost} onChange={e=>updateLine(index,{cost:e.target.value})}/></label>:<p role="alert">Barang tambahan memerlukan harga dari petugas yang memiliki hak nilai persediaan.</p>):null}
+      {positive?(finance?<label>Harga satuan barang ditemukan (Rp)<input aria-label={form.lines.length===1?'Harga satuan hasil hitung':`Harga satuan hasil hitung ${label}`} inputMode="decimal" value={entry.cost} onChange={e=>updateLine(index,{cost:e.target.value})}/>{ambiguousThousands(entry.cost)?<span role="alert">{thousandsWarning('Harga',entry.cost)}</span>:null}</label>:<p role="alert">Barang tambahan memerlukan harga dari petugas yang memiliki hak nilai persediaan.</p>):null}
       {!countNonzero(line.qty_signed)?<p>Jumlah sudah sesuai. Hasil hitung tetap disimpan tanpa mutasi penyesuaian.</p>:null}
      </div>:null}
     </article>})}

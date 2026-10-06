@@ -11,7 +11,7 @@ import PurchaseInvoicePanel from './PurchaseInvoicePanel'
 import SupplierReturnPanel from './SupplierReturnPanel'
 import ReceiptCorrectionPanel from './ReceiptCorrectionPanel'
 import SupplierPaymentPanel from './SupplierPaymentPanel'
-import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, procurementObject, receiptDecimal, receiptEditable, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementUom, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
+import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, procurementObject, receiptDecimal, moneyDecimal, ambiguousThousands, thousandsWarning, receiptEditable, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementUom, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
 import type { Json } from './types/database.preconnect'
 import './procurement-connected.css'
 
@@ -67,7 +67,7 @@ function document(d: Draft, valueAccess: boolean, uoms: Record<string, Procureme
   const lines: Json[] = []
   for (const l of d.lines) {
     if (!l.material) return null
-    const qty = receiptDecimal(l.qty, true), price = receiptDecimal(l.price), fabric = l.material.material_type === 'FABRIC'
+    const qty = receiptDecimal(l.qty, true), price = moneyDecimal(l.price), fabric = l.material.material_type === 'FABRIC'
     const benchmark = fabric && l.priceMode === 'BENCHMARK'
     if (!qty || !benchmark && (!valueAccess || price === null)) return null
     const rolls: Json[] = []
@@ -190,7 +190,7 @@ function ProcurementWorkspace({initialPurchaseId}:{initialPurchaseId:string|null
         </select></label><p>Isi jumlah dan harga per {l.uomCode ?? l.material.unit_code}. {uoms?.[l.material.id]?.rows.filter(u => u.code === (l.uomCode ?? l.material?.unit_code ?? '').toUpperCase()).map(u => <span key={u.code}>1 {u.code} = {numberText(u.factor)} {l.material?.unit_code}. </span>)}Jumlah stok dihitung saat draft disimpan dan diperiksa sebelum penerimaan disahkan.</p></div> : l.material ? <p className="cproc-help">Satuan bahan: <strong>{l.material.unit_code}</strong>. Isi jumlah dan harga dalam satuan ini; Yard dan Meter tidak dikonversi otomatis.</p> : null}
         {l.material?.material_type === 'FABRIC' ? <div className="cproc-rolls"><h4>Rincian roll</h4>{l.rolls.map((r, ri) => <div className="cproc-inline" key={r.key}><label>Nomor roll<input aria-label={`Nomor roll ${index + 1}.${ri + 1}`} required value={r.number} onChange={e => changeLine(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, number: e.target.value } : x) }))}/></label><label>Jumlah ({l.material?.unit_code})<input aria-label={`Jumlah roll ${index + 1}.${ri + 1}`} required inputMode="decimal" value={r.qty} onChange={e => changeLine(l.key, old => ({ ...old, rolls: old.rolls.map(x => x.key === r.key ? { ...x, qty: e.target.value } : x) }))}/></label><button type="button" disabled={l.rolls.length === 1} onClick={() => changeLine(l.key, old => ({ ...old, rolls: old.rolls.filter(x => x.key !== r.key) }))}>Hapus roll {ri + 1}</button></div>)}<button type="button" onClick={() => changeLine(l.key, old => ({ ...old, rolls: [...old.rolls, { key: crypto.randomUUID(), number: '', qty: '' }] }))}>Tambah roll barang {index + 1}</button></div> : null}
         {valueAccess ? <div className="cproc-grid"><label>Dasar harga<select aria-label={`Dasar harga ${index + 1}`} value={l.priceMode} onChange={e => changeLine(l.key, old => ({ ...old, priceMode: e.target.value as Line['priceMode'] }))}>{l.material?.material_type === 'FABRIC' ? <option value="BENCHMARK">Benchmark saat barang datang</option> : null}<option value="MANUAL_ESTIMATE">Perkiraan sementara</option><option value="SUPPLIER_QUOTE">Penawaran supplier</option><option value="SUPPLIER_INVOICE">Harga pada invoice supplier</option></select></label>
-          {l.priceMode !== 'BENCHMARK' ? <label>Harga per {l.uomCode ?? l.material?.unit_code ?? 'satuan'}<input aria-label={`Harga barang ${index + 1}`} inputMode="decimal" value={l.price} onChange={e => changeLine(l.key, old => ({ ...old, price: e.target.value }))}/></label> : <p>Benchmark yang berlaku pada waktu penerimaan diambil saat draft disimpan. Nilainya masih perkiraan sampai invoice final.</p>}</div>
+          {l.priceMode !== 'BENCHMARK' ? <label>Harga per {l.uomCode ?? l.material?.unit_code ?? 'satuan'}<input aria-label={`Harga barang ${index + 1}`} inputMode="decimal" value={l.price} onChange={e => changeLine(l.key, old => ({ ...old, price: e.target.value }))}/>{ambiguousThousands(l.price) ? <span role="alert">{thousandsWarning('Harga', l.price)}</span> : null}</label> : <p>Benchmark yang berlaku pada waktu penerimaan diambil saat draft disimpan. Nilainya masih perkiraan sampai invoice final.</p>}</div>
           : <p className="cproc-help">Penerimaan kain memakai benchmark yang berlaku. Pengisian harga barang lain memerlukan petugas dengan akses nilai pembelian.</p>}
       </section>)}
       <button type="button" disabled={draft.lines.length >= 100} onClick={() => setDraft(d => d ? { ...d, lines: [...d.lines, blankLine()] } : d)}>Tambah barang</button>
