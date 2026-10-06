@@ -17,8 +17,8 @@ auth,b=invoice.auth,invoice.b
 READ='erp_cp7_get_supplier_payment_create_v1'
 WRITE='erp_cp7_create_supplier_payment_v1'
 NOTE='Transfer bank pelunasan supplier'
-EXPECTED=8
-REQUIRED=dict(native=4,races=3,http=1)
+EXPECTED=10
+REQUIRED=dict(native=4,races=3,http=1,browser=2)
 
 def read(cur,f,subject=None,**q):
  auth.actor(cur,subject)
