@@ -570,3 +570,19 @@ GPT sudah berhenti menulis, dan owner meminta P19 diselesaikan di cabang ini. Ca
 - **Transport segmen** baru ada untuk analisis. Kondisi, laporan, dan klaim belum.
 - **Capture aplikasi penuh 5.000 target** di Native nyata dan latensi klik-sampai-tampil di browser belum diukur.
 - **Pindaian jalur langsung lama** untuk P20 (fungsi Native yang bisa dieksekusi `authenticated`) ditambahkan sebagai pengamatan baca-saja di latihan P21. Ringkasannya tercetak di log sebagai `P20_DIRECT_PATH_SCAN`, dan tidak mengubah kriteria PASS.
+
+## 14. Pemeriksaan mandiri rumus & keuangan + P19 kernel permintaan (6–7 Okt 2026)
+
+Persiapan audit, **bukan** audit independen. Rincian lengkap: [docs/cp7/SELF_CHECK_FORMULAS_20261006.md](cp7/SELF_CHECK_FORMULAS_20261006.md).
+
+Untuk penggabungan ke `cp7/integration`, perubahan perilaku yang perlu diketahui:
+- `finance/analysis.sql`: `formula_version` → `GROWTH_POSITIVE_BASE_AND_GROSS_MARGIN_PP_V2`; pertumbuhan & selisih margin `null` bila basis pendapatan ≤ 0 (sebelumnya tanda terbalik). Parser `financeAnalysisContract.ts` ikut.
+- `procurement/correction.sql`: `restate_all` hanya pembalikan dari perintah ini; penghalang kredit supplier memakai netto ≠ 0. Manifest RF 37 native / 43 total (`RF_CREDIT_RESTORED_UNBLOCKS`).
+- `invoices/payment-correction.sql`: tolak waktu masa depan dan waktu yang diubah sebelum barang datang.
+- `sales/correction.sql`: tolak invoice dengan pembayaran realokasi Native (`CP7_NOTE_REALLOCATED_PAYMENT_REVIEW_REQUIRED`).
+- `payroll/roster-write.sql` (kode pekerja dipertahankan), `payroll/settlement-read.sql` (payroll beku dibanding item sendiri).
+- `cutting-yield/model-producer.sql`: kernel hanya menerima record batch prospektif terpilih.
+- `demand/history.sql` + `planning/history.sql` (`history_build`): bentuk linear, byte-identik dengan `c1f91041` (uji lama-vs-baru di job Shell `p19-assembly`).
+- Frontend: refund retur pengganti kosong, saldo kredit pelanggan tidak error, tarif ribuan ambigu ditolak, diskon dibanding eksak, angka demo Keuangan konsisten.
+
+Oracle lama yang tidak diubah: browser P12 payroll-review masih mencari `.cpay-net` "Bersih payroll" (dipindah oleh F03 E05) — perlu pembaruan oleh pemilik oracle.
