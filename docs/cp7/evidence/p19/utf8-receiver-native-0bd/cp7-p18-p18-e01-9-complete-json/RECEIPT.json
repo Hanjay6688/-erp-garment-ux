@@ -1,0 +1,168 @@
+{
+  "id": 11419197902,
+  "name": "cp7-p18-p18-e01-9-complete-json",
+  "run_id": 37474166743,
+  "workflow_name": "CP7 P18 Fabric Rule",
+  "workflow_path": ".github/workflows/claude-p18-fabric-rule.yml",
+  "size_in_bytes": 41029,
+  "digest": "sha256:6baed4d1d352e804e11fbbd182ecb6096e5b3b43532cb7cda89acc7e34263333",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 291371,
+      "sha256": "8b9164c26d6162621c1ed6478155e0f1ecf597dff2950fe5c07cfe29de7271fb"
+    },
+    "P19_BROWSER_LOADING_DESKTOP.json": {
+      "bytes": 4579,
+      "sha256": "b229161ba35b74b99ae429336c203e41db0348fae7ab4d6f3452cbcf1fcf7561"
+    },
+    "P19_BROWSER_LOADING_MOBILE.json": {
+      "bytes": 4650,
+      "sha256": "e722e4587c7917e7bbfccc6d71bce5b33299008ba8d995efd704f730b5dfc987"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "a18192730e7b361e3ef8c3658e52344168d431975c65b9c9e3e66ecd8f07946f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "934dd58d929070d1728acdb1bebccc66a749ceb1d119db208f4d445bf09a9a63"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P18_E01_BRIDGE.json": {
+      "bytes": 291371,
+      "sha256": "8b9164c26d6162621c1ed6478155e0f1ecf597dff2950fe5c07cfe29de7271fb",
+      "file": "CP7_P18_E01_BRIDGE.json.gz",
+      "gzip_sha256": "db5764b7355259e1319f7f3beba9a44643c0cb445f681a9e9fba61313e9115a5",
+      "original_bytes_unchanged": true
+    },
+    "P19_BROWSER_LOADING_DESKTOP.json": {
+      "bytes": 4579,
+      "sha256": "b229161ba35b74b99ae429336c203e41db0348fae7ab4d6f3452cbcf1fcf7561",
+      "file": "P19_BROWSER_LOADING_DESKTOP.json.gz",
+      "gzip_sha256": "fb4743771869254adf5b9d0ffa1966cd84237c149ca82acdb73b70b3ea0e4a30",
+      "original_bytes_unchanged": true
+    },
+    "P19_BROWSER_LOADING_MOBILE.json": {
+      "bytes": 4650,
+      "sha256": "e722e4587c7917e7bbfccc6d71bce5b33299008ba8d995efd704f730b5dfc987",
+      "file": "P19_BROWSER_LOADING_MOBILE.json.gz",
+      "gzip_sha256": "f4b3e27cb7451136cd35e036eb9ba7b1b428cd8f4c324a5cb1bda83a6e373986",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "a18192730e7b361e3ef8c3658e52344168d431975c65b9c9e3e66ecd8f07946f",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "5bdf6159c1c037ba60176edcf71888582f390f44731401767a63b920f07b3a97",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "934dd58d929070d1728acdb1bebccc66a749ceb1d119db208f4d445bf09a9a63",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "4a2a90c1d2915d77a471b9dafed6b7d453972f95bdfd15a62b436719a14ede26",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P18_E01_BRIDGE.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 9,
+      "declared_case_count": 9,
+      "source_bundle_sha256": "506dbeb05e834c820426362a89e981359f9daabc3d45fbdd1cf3e6ccde8bbb69",
+      "groups": {
+        "native": {
+          "case_count": 5,
+          "case_ids": [
+            "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "P18_E01_CURRENT_AUTHORITY",
+            "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS",
+            "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL"
+          ],
+          "counts": {
+            "PASS": 5
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "P18_E01_BRIDGE_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,1156 @@
+{
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "artifacts": {
+    "11417874817": {
+      "name": "cp7-f03-e06",
+      "run_id": 37474166707,
+      "receipt": "cp7-f03-e06/RECEIPT.json",
+      "checks": {
+        "CP7_F03_E06.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 5,
+          "declared_case_count": 5,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 4,
+            "races": 1
+          }
+        }
+      }
+    },
+    "11419145098": {
+      "name": "cp7-f03-x04",
+      "run_id": 37474166662,
+      "receipt": "cp7-f03-x04/RECEIPT.json",
+      "checks": {
+        "CP7_F03_X04.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 7,
+          "declared_case_count": 7,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 6,
+            "http": 1
+          }
+        }
+      }
+    },
+    "11418172930": {
+      "name": "cp7-f03-return-documents",
+      "run_id": 37474166595,
+      "receipt": "cp7-f03-return-documents/RECEIPT.json",
+      "checks": {
+        "CP7_F03_RETURN_DOCUMENTS.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 12,
+          "declared_case_count": 12,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 6,
+            "http": 1,
+            "races": 3,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11419430382": {
+      "name": "cp7-sales-return-correction",
+      "run_id": 37474166712,
+      "receipt": "cp7-sales-return-correction/RECEIPT.json",
+      "checks": {
+        "CP7_RETURN_CORRECTION.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 25,
+          "declared_case_count": 25,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 16,
+            "races": 4,
+            "http": 3,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418397278": {
+      "name": "cp7-f03-cost-continuation",
+      "run_id": 37474167034,
+      "receipt": "cp7-f03-cost-continuation/RECEIPT.json",
+      "checks": {
+        "CP7_F03_COST_CONTINUATION.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 4,
+          "declared_case_count": 4,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 4
+          }
+        }
+      }
+    },
+    "11417634542": {
+      "name": "cp7-f03-e03",
+      "run_id": 37474166521,
+      "receipt": "cp7-f03-e03/RECEIPT.json",
+      "checks": {
+        "CP7_F03_E03.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 10,
+          "declared_case_count": 10,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 1,
+            "refund_native": 2,
+            "refund_races": 1,
+            "refund_http": 1,
+            "refund_browser": 2,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418851510": {
+      "name": "cp7-f03-e24-issue",
+      "run_id": 37474166928,
+      "receipt": "cp7-f03-e24-issue/RECEIPT.json",
+      "checks": {
+        "CP7_F03_E24_ISSUE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 4,
+          "declared_case_count": 4,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 2,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11417574402": {
+      "name": "cp7-supplier-payment-correction",
+      "run_id": 37474166766,
+      "receipt": "cp7-supplier-payment-correction/RECEIPT.json",
+      "checks": {
+        "CP7_SUPPLIER_PAYMENT_CORRECTION.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 23,
+          "declared_case_count": 23,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 14,
+            "races": 4,
+            "http": 3,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11417919693": {
+      "name": "cp7-payment-correction",
+      "run_id": 37474166888,
+      "receipt": "cp7-payment-correction/RECEIPT.json",
+      "checks": {
+        "CP7_PAYMENT_CORRECTION.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 23,
+          "declared_case_count": 23,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 14,
+            "races": 4,
+            "http": 3,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11417579586": {
+      "name": "cp7-f03-e05",
+      "run_id": 37474166664,
+      "receipt": "cp7-f03-e05/RECEIPT.json",
+      "checks": {
+        "CP7_F03_E05_INSTALLMENTS.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 26,
+          "declared_case_count": 26,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 20,
+            "races": 3,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418183120": {
+      "name": "cp7-f03-redye",
+      "run_id": 37474166663,
+      "receipt": "cp7-f03-redye/RECEIPT.json",
+      "checks": {
+        "CP7_F03_REDYE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 5,
+          "declared_case_count": 5,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 2,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418367650": {
+      "name": "cp7-f04-fabric",
+      "run_id": 37474166688,
+      "receipt": "cp7-f04-fabric/RECEIPT.json",
+      "checks": {
+        "CP7_FABRIC_RECIPE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 13,
+          "declared_case_count": 13,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 8,
+            "races": 2,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418747014": {
+      "name": "cp7-f03-combined",
+      "run_id": 37474166747,
+      "receipt": "cp7-f03-combined/RECEIPT.json",
+      "checks": {
+        "CP7_F03_COMBINED_STACK.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 22,
+          "declared_case_count": 22,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 10,
+            "races": 2,
+            "http": 4,
+            "sales_browser": 2,
+            "opening_payroll_browser": 2,
+            "finance_browser": 2
+          }
+        }
+      }
+    },
+    "11419390070": {
+      "name": "cp7-prefreeze-ui-prefreeze_ui",
+      "run_id": 37474166962,
+      "receipt": "cp7-prefreeze-ui-prefreeze_ui/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_PREFREEZE_UI.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 31,
+          "declared_case_count": 31,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/browser": 31
+          }
+        }
+      }
+    },
+    "11418887021": {
+      "name": "cp7-p18-e01-bridge",
+      "run_id": 37474166830,
+      "receipt": "cp7-p18-e01-bridge/RECEIPT.json",
+      "checks": {
+        "CP7_P18_E01_BRIDGE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 9,
+          "declared_case_count": 9,
+          "source_bundle_sha256": "506dbeb05e834c820426362a89e981359f9daabc3d45fbdd1cf3e6ccde8bbb69",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 5,
+            "races": 1,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11419400197": {
+      "name": "cp7-rule-lifecycle",
+      "run_id": 37474166783,
+      "receipt": "cp7-rule-lifecycle/RECEIPT.json",
+      "checks": {
+        "CP7_RULE_LIFECYCLE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 16,
+          "declared_case_count": 16,
+          "source_bundle_sha256": "506dbeb05e834c820426362a89e981359f9daabc3d45fbdd1cf3e6ccde8bbb69",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 10,
+            "races": 2,
+            "http": 2,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418826658": {
+      "name": "cp7-f03-cash",
+      "run_id": 37474166690,
+      "receipt": "cp7-f03-cash/RECEIPT.json",
+      "checks": {
+        "CP7_F03_CASH.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 21,
+          "declared_case_count": 21,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 3,
+            "http": 1,
+            "journal_native": 6,
+            "journal_http": 1,
+            "browser": 10
+          }
+        }
+      }
+    },
+    "11419530587": {
+      "name": "cp7-codeql-javascript-typescript",
+      "run_id": 37474166591,
+      "receipt": "cp7-codeql-javascript-typescript/RECEIPT.json",
+      "checks": {
+        "javascript.sarif": {
+          "kind": "CODEQL",
+          "findings": 0,
+          "groups": {}
+        }
+      }
+    },
+    "11419087012": {
+      "name": "cp7-codeql-actions",
+      "run_id": 37474166591,
+      "receipt": "cp7-codeql-actions/RECEIPT.json",
+      "checks": {
+        "actions.sarif": {
+          "kind": "CODEQL",
+          "findings": 0,
+          "groups": {}
+        }
+      }
+    },
+    "11418957671": {
+      "name": "cp7-shell-proof",
+      "run_id": 37474166591,
+      "receipt": "cp7-shell-proof/RECEIPT.json",
+      "checks": {
+        "results.json": {
+          "kind": "FIXTURE_BROWSER",
+          "expected": 6,
+          "Native_credit": 0,
+          "groups": {}
+        }
+      }
+    },
+    "11418463065": {
+      "name": "cp7-sales-chain",
+      "run_id": 37474167813,
+      "receipt": "cp7-sales-chain/RECEIPT.json",
+      "checks": {
+        "CP7_SALES_CHAIN.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 25,
+          "declared_case_count": 25,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 16,
+            "races": 4,
+            "http": 3,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418144170": {
+      "name": "cp7-f03-capacity",
+      "run_id": 37474166756,
+      "receipt": "cp7-f03-capacity/RECEIPT.json",
+      "checks": {
+        "CP7_F03_CAPACITY.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 5,
+          "declared_case_count": 5,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 2,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418817558": {
+      "name": "cp7-cutting-correction",
+      "run_id": 37474166706,
+      "receipt": "cp7-cutting-correction/RECEIPT.json",
+      "checks": {
+        "CP7_CUTTING_REOPEN.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 19,
+          "declared_case_count": 19,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 10,
+            "races": 4,
+            "http": 3,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418923303": {
+      "name": "cp7-f03-full-customer_refund",
+      "run_id": 37474166739,
+      "receipt": "cp7-f03-full-customer_refund/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_CUSTOMER_REFUND.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 10,
+          "declared_case_count": 10,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/native": 1,
+            "groups/refund_native": 2,
+            "groups/refund_races": 1,
+            "groups/refund_http": 1,
+            "groups/refund_browser": 2,
+            "groups/http": 1,
+            "groups/browser": 2
+          }
+        }
+      }
+    },
+    "11418707815": {
+      "name": "cp7-f03-misc",
+      "run_id": 37474166750,
+      "receipt": "cp7-f03-misc/RECEIPT.json",
+      "checks": {
+        "CP7_F03_MISC_FINANCE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 14,
+          "declared_case_count": 14,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 9,
+            "races": 2,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418349572": {
+      "name": "cp7-f03-full-supplier_credit",
+      "run_id": 37474166739,
+      "receipt": "cp7-f03-full-supplier_credit/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_SUPPLIER_CREDIT.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 5,
+          "declared_case_count": 5,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/native": 1,
+            "groups/races": 1,
+            "groups/http": 1,
+            "groups/browser": 2
+          }
+        }
+      }
+    },
+    "11418443409": {
+      "name": "cp7-misc-correction",
+      "run_id": 37474166698,
+      "receipt": "cp7-misc-correction/RECEIPT.json",
+      "checks": {
+        "CP7_MISC_CORRECTION.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 20,
+          "declared_case_count": 20,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 14,
+            "races": 2,
+            "http": 2,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418034885": {
+      "name": "cp7-f03-e01",
+      "run_id": 37474166626,
+      "receipt": "cp7-f03-e01/RECEIPT.json",
+      "checks": {
+        "CP7_F03_E01.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 4,
+          "declared_case_count": 4,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 1,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418822597": {
+      "name": "cp7-f03-full-p10",
+      "run_id": 37474166739,
+      "receipt": "cp7-f03-full-p10/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_P10.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 34,
+          "declared_case_count": 34,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/native": 7,
+            "groups/http": 1,
+            "groups/adjustments": 8,
+            "groups/adjustment_races": 2,
+            "groups/adjustment_http": 1,
+            "groups/book": 6,
+            "groups/book_races": 2,
+            "groups/book_http": 1,
+            "groups/browser": 6
+          }
+        }
+      }
+    },
+    "11418573800": {
+      "name": "cp7-f03-full-p13",
+      "run_id": 37474166739,
+      "receipt": "cp7-f03-full-p13/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_P13.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 50,
+          "declared_case_count": 50,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/native": 8,
+            "groups/races": 1,
+            "groups/http": 1,
+            "groups/browser": 2,
+            "groups/period_native": 8,
+            "groups/period_races": 2,
+            "groups/period_http": 1,
+            "groups/period_browser": 2,
+            "groups/analysis_native": 8,
+            "groups/analysis_races": 1,
+            "groups/analysis_http": 1,
+            "groups/analysis_browser": 2,
+            "groups/recost_native": 8,
+            "groups/recost_races": 2,
+            "groups/recost_http": 1,
+            "groups/recost_browser": 2
+          }
+        }
+      }
+    },
+    "11418449321": {
+      "name": "cp7-f03-full-p11",
+      "run_id": 37474166739,
+      "receipt": "cp7-f03-full-p11/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_P11.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 64,
+          "declared_case_count": 64,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/native": 8,
+            "groups/http": 1,
+            "groups/commands": 6,
+            "groups/command_races": 2,
+            "groups/command_http": 1,
+            "groups/drafts": 7,
+            "groups/draft_races": 1,
+            "groups/draft_http": 1,
+            "groups/payments": 8,
+            "groups/payment_races": 3,
+            "groups/payment_http": 1,
+            "groups/returns": 11,
+            "groups/return_races": 3,
+            "groups/return_http": 1,
+            "groups/browser": 10
+          }
+        }
+      }
+    },
+    "11418563301": {
+      "name": "cp7-transaction-source",
+      "run_id": 37474166687,
+      "receipt": "cp7-transaction-source/RECEIPT.json",
+      "checks": {
+        "CP7_SQL_REACHABILITY.json": {
+          "kind": "CATALOGUE_OR_LEGACY_PROBE",
+          "observed_planned_executions": 0,
+          "declared_case_count": null,
+          "source_bundle_sha256": null,
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {}
+        },
+        "CP7_TRANSACTION_SOURCE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 78,
+          "declared_case_count": 78,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 41,
+            "races": 4,
+            "http": 11,
+            "browser": 22
+          }
+        }
+      }
+    },
+    "11418369149": {
+      "name": "cp7-p18-rule-lifecycle16-complete-json",
+      "run_id": 37474166743,
+      "receipt": "cp7-p18-rule-lifecycle16-complete-json/RECEIPT.json",
+      "checks": {
+        "CP7_RULE_LIFECYCLE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 16,
+          "declared_case_count": 16,
+          "source_bundle_sha256": "506dbeb05e834c820426362a89e981359f9daabc3d45fbdd1cf3e6ccde8bbb69",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 10,
+            "races": 2,
+            "http": 2,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11419029566": {
+      "name": "cp7-p08-analysis152-complete-json",
+      "run_id": 37474167289,
+      "receipt": "cp7-p08-analysis152-complete-json/RECEIPT.json",
+      "checks": {
+        "CP7_F05_NATIVE_ANALYSIS.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 152,
+          "declared_case_count": 152,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 106,
+            "races": 20,
+            "http": 12,
+            "browser": 14
+          }
+        }
+      }
+    },
+    "11419197902": {
+      "name": "cp7-p18-p18-e01-9-complete-json",
+      "run_id": 37474166743,
+      "receipt": "cp7-p18-p18-e01-9-complete-json/RECEIPT.json",
+      "checks": {
+        "CP7_P18_E01_BRIDGE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 9,
+          "declared_case_count": 9,
+          "source_bundle_sha256": "506dbeb05e834c820426362a89e981359f9daabc3d45fbdd1cf3e6ccde8bbb69",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 5,
+            "races": 1,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11419890067": {
+      "name": "cp7-p08-fabric13-successor-complete-json",
+      "run_id": 37474167289,
+      "receipt": "cp7-p08-fabric13-successor-complete-json/RECEIPT.json",
+      "checks": {
+        "CP7_FABRIC_RECIPE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 13,
+          "declared_case_count": 13,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 8,
+            "races": 2,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418982994": {
+      "name": "cp7-p18-fabric-rule11-complete-json",
+      "run_id": 37474166743,
+      "receipt": "cp7-p18-fabric-rule11-complete-json/RECEIPT.json",
+      "checks": {
+        "CP7_P18_FABRIC_RULE.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 11,
+          "declared_case_count": 11,
+          "source_bundle_sha256": "506dbeb05e834c820426362a89e981359f9daabc3d45fbdd1cf3e6ccde8bbb69",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 7,
+            "races": 1,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11418294812": {
+      "name": "cp7-p08-fabric-physical21-complete-json",
+      "run_id": 37474167289,
+      "receipt": "cp7-p08-fabric-physical21-complete-json/RECEIPT.json",
+      "checks": {
+        "CP7_FABRIC_PHYSICAL.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 21,
+          "declared_case_count": 21,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 16,
+            "races": 2,
+            "http": 1,
+            "browser": 2
+          }
+        }
+      }
+    },
+    "11419209505": {
+      "name": "cp7-p08-plan39-complete-json",
+      "run_id": 37474167289,
+      "receipt": "cp7-p08-plan39-complete-json/RECEIPT.json",
+      "checks": {
+        "CP7_F04_NATIVE_PLANS.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 39,
+          "declared_case_count": 39,
+          "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "native": 25,
+            "races": 8,
+            "http": 2,
+            "browser": 4
+          }
+        }
+      }
+    },
+    "11419970974": {
+      "name": "cp7-f03-full-p12",
+      "run_id": 37474166739,
+      "receipt": "cp7-f03-full-p12/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_P12.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 90,
+          "declared_case_count": 90,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/native": 5,
+            "groups/http": 1,
+            "groups/notes": 7,
+            "groups/note_races": 3,
+            "groups/note_http": 1,
+            "groups/admission_regression": 1,
+            "groups/browser": 2,
+            "groups/payroll_review": 4,
+            "groups/payroll_review_http": 1,
+            "groups/payroll_review_browser": 2,
+            "groups/settlement": 7,
+            "groups/settlement_races": 4,
+            "groups/settlement_http": 1,
+            "groups/settlement_browser": 3,
+            "groups/attendance_read": 6,
+            "groups/attendance_read_http": 1,
+            "groups/attendance_read_browser": 2,
+            "groups/roster": 6,
+            "groups/roster_races": 3,
+            "groups/roster_http": 1,
+            "groups/roster_browser": 2,
+            "groups/attendance_write": 10,
+            "groups/attendance_write_races": 4,
+            "groups/attendance_write_http": 1,
+            "groups/attendance_write_browser": 2,
+            "groups/opening_payroll": 5,
+            "groups/opening_payroll_races": 2,
+            "groups/opening_payroll_http": 1,
+            "groups/opening_payroll_browser": 2
+          }
+        }
+      }
+    },
+    "11419408074": {
+      "name": "cp7-f03-full-p09",
+      "run_id": 37474166739,
+      "receipt": "cp7-f03-full-p09/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_P09.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 132,
+          "declared_case_count": 132,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [
+            "groups/material_smoke",
+            "groups/return_smoke",
+            "groups/smoke"
+          ],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/smoke": 1,
+            "groups/native": 9,
+            "groups/races": 3,
+            "groups/http": 1,
+            "groups/material_smoke": 1,
+            "groups/material": 13,
+            "groups/material_crossflow": 2,
+            "groups/material_races": 3,
+            "groups/material_http": 1,
+            "groups/material_count": 17,
+            "groups/material_count_races": 2,
+            "groups/material_count_http": 2,
+            "groups/invoice": 9,
+            "groups/invoice_races": 3,
+            "groups/invoice_http": 1,
+            "groups/combined_invoice": 6,
+            "groups/combined_invoice_races": 3,
+            "groups/combined_invoice_http": 1,
+            "groups/browser": 22,
+            "groups/return_smoke": 1,
+            "groups/returns": 10,
+            "groups/return_races": 3,
+            "groups/return_http": 1,
+            "groups/receipt_reversal": 7,
+            "groups/receipt_reversal_races": 3,
+            "groups/receipt_reversal_http": 1,
+            "groups/uom": 6,
+            "groups/uom_races": 2,
+            "groups/uom_http": 1
+          }
+        }
+      }
+    },
+    "11419237634": {
+      "name": "cp7-note-correction",
+      "run_id": 37474166732,
+      "receipt": "cp7-note-correction/RECEIPT.json",
+      "checks": {
+        "CP7_NOTE_CORRECTION.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 40,
+          "declared_case_count": 40,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [
+            "composition_smoke"
+          ],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "composition_smoke": 3,
+            "native": 28,
+            "races": 4,
+            "http": 3,
+            "browser": 5
+          }
+        }
+      }
+    },
+    "11418799381": {
+      "name": "cp7-f03-full-cash_installments",
+      "run_id": 37474166739,
+      "receipt": "cp7-f03-full-cash_installments/RECEIPT.json",
+      "checks": {
+        "CP7_F03_FULL_CASH_INSTALLMENTS.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 61,
+          "declared_case_count": 61,
+          "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+          "extra_zero_exit_credit_groups": [],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "groups/cp7_f03_cash_native": 3,
+            "groups/cp7_f03_cash_http": 1,
+            "groups/cp7_f03_cash_journal_native": 6,
+            "groups/cp7_f03_cash_journal_http": 1,
+            "groups/cp7_f03_cash_browser": 10,
+            "groups/cp7_f03_misc_native": 9,
+            "groups/cp7_f03_misc_races": 2,
+            "groups/cp7_f03_misc_http": 1,
+            "groups/cp7_f03_misc_browser": 2,
+            "groups/cp7_f03_e05_native": 20,
+            "groups/cp7_f03_e05_races": 3,
+            "groups/cp7_f03_e05_http": 1,
+            "groups/cp7_f03_e05_browser": 2
+          }
+        }
+      }
+    },
+    "11420584141": {
+      "name": "cp7-f05-attention-original-json",
+      "run_id": 37474166771,
+      "receipt": "cp7-f05-attention-original-json/RECEIPT.json",
+      "checks": {
+        "CP7_F05_NATIVE_ATTENTION.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 284,
+          "declared_case_count": 284,
+          "source_bundle_sha256": "506dbeb05e834c820426362a89e981359f9daabc3d45fbdd1cf3e6ccde8bbb69",
+          "extra_zero_exit_credit_groups": [
+            "source_admission"
+          ],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "source_admission": 3,
+            "native": 179,
+            "races": 40,
+            "http": 29,
+            "browser": 36
+          }
+        }
+      }
+    },
+    "11421962393": {
+      "name": "cp7-p08-attention284-complete-json",
+      "run_id": 37474167289,
+      "receipt": "cp7-p08-attention284-complete-json/RECEIPT.json",
+      "checks": {
+        "CP7_F05_NATIVE_ATTENTION.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "observed_planned_executions": 284,
+          "declared_case_count": 284,
+          "source_bundle_sha256": "506dbeb05e834c820426362a89e981359f9daabc3d45fbdd1cf3e6ccde8bbb69",
+          "extra_zero_exit_credit_groups": [
+            "source_admission"
+          ],
+          "diagnostic_only": false,
+          "unique_full_CP7_credit": 0,
+          "groups": {
+            "source_admission": 3,
+            "native": 179,
+            "races": 40,
+            "http": 29,
+            "browser": 36
+          }
+        }
+      }
+    }
+  },
+  "failures": [],
+  "full_CP7_acceptance": false,
+  "production_go": false,
+  "build_ux": {
+    "run_id": 37474166828,
+    "job_id": 112305109775,
+    "tests": 1558,
+    "files": 165,
+    "fixture_browser_cases": [
+      2,
+      2,
+      16,
+      26
+    ],
+    "receipt": "build-ux/RECEIPT.json"
+  },
+  "analysis152": {
+    "native_run_id": 37474166992,
+    "native_artifact_id": 11418967410,
+    "projection_run_id": 37476452319,
+    "receipt": "analysis152-projection/RECEIPT.json",
+    "case_review": "analysis152-projection/COMPLETE_ORIGINAL_REVIEW.json",
+    "groups": {
+      "native": 106,
+      "races": 20,
+      "http": 12,
+      "browser": 14
+    }
+  },
+  "full_f03_available_components": {
+    "customer_refund": {
+      "case_count": 10,
+      "smoke_count": 0,
+      "native_group_count": 2
+    },
+    "supplier_credit": {
+      "case_count": 5,
+      "smoke_count": 0,
+      "native_group_count": 1
+    },
+    "p10": {
+      "case_count": 34,
+      "smoke_count": 0,
+      "native_group_count": 3
+    },
+    "p13": {
+      "case_count": 50,
+      "smoke_count": 0,
+      "native_group_count": 4
+    },
+    "p11": {
+      "case_count": 64,
+      "smoke_count": 0,
+      "native_group_count": 5
+    },
+    "p12": {
+      "case_count": 90,
+      "smoke_count": 0,
+      "native_group_count": 8
+    },
+    "p09": {
+      "case_count": 132,
+      "smoke_count": 3,
+      "native_group_count": 12
+    },
+    "cash_installments": {
+      "case_count": 61,
+      "smoke_count": 0,
+      "native_group_count": 4
+    }
+  },
+  "full_f03_complete_eight_components": true,
+  "workflow_completion": {
+    "run_count": 32,
+    "all_completed_successfully": true,
+    "metadata": "WORKFLOW_RUNS.json",
+    "metadata_is_not_case_acceptance": true
+  },
+  "final_retention_consistency": {
+    "review": "FINAL_RETENTION_REVIEW.json",
+    "complete_indexed_artifacts": 45,
+    "build_artifact_separate": true,
+    "analysis_original_projection_separate": true,
+    "all_case_checks_reread": true
+  }
+}

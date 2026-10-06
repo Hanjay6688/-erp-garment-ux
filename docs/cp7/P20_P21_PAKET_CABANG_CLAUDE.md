@@ -1,5 +1,7 @@
 # Paket P20/P21 — bagian cabang Claude (P08 fisik kain, P18 pengingat kain)
 
+Catatan integrasi6 Oktober2026: kandidat cabang2ae1db92 dan bukti lama di bawah tetap historis. Build UX merah3c7cb2cf sudah diperbaiki; source0bd kini lulus1,558 tes/165 file. Bukti gabungan aktual, Native/regresi yang sudah dibaca serta pekerjaan P18/P19/P20/P21 yang masih terbuka ada di `p19/P19_UTF8_QUALIFICATION_CHECKPOINT_20261006.md`. Belum ada pembekuan kandidat audit atau pemasangan nyata.
+
 Status: draf persiapan. Belum ada audit independen dan belum ada pemasangan. `independent_acceptance=false`, `production_go=false`, CP6 tetap HOLD. Dokumen ini melengkapi `docs/AUDIT_PANDUAN_PRO_MAX.md` dan handoff (§9, §10). Bukan pengganti paket kandidat gabungan milik GPT.
 
 ## 1. Kandidat dan bukti

@@ -1,0 +1,4654 @@
+{
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "catalogue_groups": {
+    "cp7-f03-e05": {
+      "group": "native",
+      "cases": [
+        {
+          "case_id": "E05_FIXED_1000_600_400_INVERSE",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 2,
+          "after_snapshot": 3
+        },
+        {
+          "case_id": "E05_DEDUCTION_RESERVATION",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 4,
+          "after_snapshot": 5
+        },
+        {
+          "case_id": "E05_WHOLE_PARTIAL_INVERSE",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 6,
+          "after_snapshot": 7
+        },
+        {
+          "case_id": "E05_WHOLE_PAID_INVERSE",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 8,
+          "after_snapshot": 9
+        },
+        {
+          "case_id": "E05_EXACT_LARGE_CENTS",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 10,
+          "after_snapshot": 11
+        },
+        {
+          "case_id": "E05_AMOUNT_CAP",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 12,
+          "after_snapshot": 13
+        },
+        {
+          "case_id": "E05_CLOSED_FIELDS",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 14,
+          "after_snapshot": 15
+        },
+        {
+          "case_id": "E05_REPLAY",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 16,
+          "after_snapshot": 17
+        },
+        {
+          "case_id": "E05_STALE_REVIEW",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 18,
+          "after_snapshot": 19
+        },
+        {
+          "case_id": "E05_CURRENT_CASH",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 20,
+          "after_snapshot": 21
+        },
+        {
+          "case_id": "E05_CURRENT_ACCESS_PRIVATE",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 22,
+          "after_snapshot": 23
+        },
+        {
+          "case_id": "E05_LEGACY_BYPASS",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 24,
+          "after_snapshot": 25
+        },
+        {
+          "case_id": "E05_IMMUTABLE_APPROVED_SOURCE",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 26,
+          "after_snapshot": 27
+        },
+        {
+          "case_id": "E05_NATIVE_DATES_TZ",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 28,
+          "after_snapshot": 29
+        },
+        {
+          "case_id": "E05_COMPLETE_30_PAGES",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 30,
+          "after_snapshot": 31
+        },
+        {
+          "case_id": "E05_LEGACY_FULL_HISTORY",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 32,
+          "after_snapshot": 33
+        },
+        {
+          "case_id": "E05_INACTIVE_NOT_PAYABLE",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 34,
+          "after_snapshot": 35
+        },
+        {
+          "case_id": "E05_OPENING_ADVANCE_CARRY_INSTALLMENTS",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 36,
+          "after_snapshot": 37
+        },
+        {
+          "case_id": "E05_ZERO_NET_NO_CASH",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 38,
+          "after_snapshot": 39
+        },
+        {
+          "case_id": "E05_ACTIVE_HPP_CASH_CORRECTION",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 40,
+          "after_snapshot": 41
+        }
+      ],
+      "raw_snapshots_checked": 42,
+      "exact_identity_transitions": 41,
+      "observed_location_changes": 0,
+      "observed_pair_order_only_changes": 0,
+      "functions_per_snapshot": 156,
+      "every_field_and_multiplicity_preserved": true,
+      "original_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    },
+    "cp7-f03-e06": {
+      "group": "native",
+      "cases": [
+        {
+          "case_id": "F03_E06_YEAR_END_INCREASE_UTC",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 2,
+          "after_snapshot": 3
+        },
+        {
+          "case_id": "F03_E06_YEAR_END_ZERO_DELTA_LA",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 4,
+          "after_snapshot": 5
+        },
+        {
+          "case_id": "F03_E06_MARCH_ECONOMIC_CONTROL",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 6,
+          "after_snapshot": 7
+        },
+        {
+          "case_id": "F03_E06_YEAR_END_PENDING_CLOSE",
+          "status": "PASS",
+          "complete_public_catalog_exact": true,
+          "before_snapshot": 8,
+          "after_snapshot": 9
+        }
+      ],
+      "raw_snapshots_checked": 10,
+      "exact_identity_transitions": 9,
+      "observed_location_changes": 0,
+      "observed_pair_order_only_changes": 0,
+      "functions_per_snapshot": 156,
+      "every_field_and_multiplicity_preserved": true,
+      "original_preservation_controls": {
+        "pair_order_only_equal": true,
+        "function_hash_change_refused": true,
+        "function_signature_change_refused": true,
+        "missing_function_member_refused": true,
+        "duplicate_function_member_refused": true,
+        "relation_member_change_refused": true,
+        "public_row_hash_or_member_change_refused": true,
+        "observed_input_not_mutated": true
+      }
+    }
+  },
+  "new_ERP_executions": 0,
+  "historical_OID_cause_reconstructed": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "P18_legacy_catalogue_summary": {
+    "snapshots_checked": 12,
+    "pair_order_only_transitions": [
+      {
+        "before_snapshot": 8,
+        "after_snapshot": 9,
+        "exact_canonical_state_sha256": "e88a2e151a32e3b40b368b387944abf53444e310ab2e1c622bfe73ccdcc713b1",
+        "before_order_sha256": "668ce0326b28ba3e83972531324fd6485e0dfa9b152d296850dca7bb54f87982",
+        "after_order_sha256": "3315081f7e8f2901262de3f62967c29676d13b5d9db4be496b2bebcfd53e21a2"
+      }
+    ],
+    "raw_snapshots_available": false,
+    "OID_owner_location_witness_available": false,
+    "cannot_infer_drop_create_from_unordered_pair_order": true
+  },
+  "full_f03_available_components": {
+    "customer_refund": {
+      "case_count": 10,
+      "smoke_count": 0,
+      "groups": {
+        "native": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_E03_NATIVE_CUSTODY_SERVICE_INVERSE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "refund_native": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_E03_NATIVE_LEGACY_REFUND",
+            "F03_E03_NATIVE_IMPORTED_REFUND"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "refund_races": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_E03_REAL_REFUND_CAPACITY_RACE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "refund_http": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_E03_REAL_HTTP_SOURCE_REFUND"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "refund_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_E03_REFUND_BROWSER_DESKTOP",
+            "F03_E03_REFUND_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_E03_HTTP_CUSTODY_SERVICE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_E03_BROWSER_DESKTOP",
+            "F03_E03_BROWSER_MOBILE_LOST_SERVICE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "native_catalog_witnesses": {
+        "native": {
+          "group": "native",
+          "cases": [
+            {
+              "case_id": "F03_E03_NATIVE_CUSTODY_SERVICE_INVERSE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            }
+          ],
+          "raw_snapshots_checked": 4,
+          "exact_identity_transitions": 3,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 1,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "refund_native": {
+          "group": "refund_native",
+          "cases": [
+            {
+              "case_id": "F03_E03_NATIVE_LEGACY_REFUND",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "F03_E03_NATIVE_IMPORTED_REFUND",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            }
+          ],
+          "raw_snapshots_checked": 6,
+          "exact_identity_transitions": 5,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        }
+      }
+    },
+    "supplier_credit": {
+      "case_count": 5,
+      "smoke_count": 0,
+      "groups": {
+        "native": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_P09_REAL_SUPPLIER_CREDIT_SOURCE_RACE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_P09_REAL_HTTP_SUPPLIER_CREDIT_CURRENT_AUTHORITY"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_P09_PAID_SUPPLIER_CREDIT_DESKTOP",
+            "F03_P09_PAID_SUPPLIER_CREDIT_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "native_catalog_witnesses": {
+        "native": {
+          "group": "native",
+          "cases": [
+            {
+              "case_id": "F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            }
+          ],
+          "raw_snapshots_checked": 4,
+          "exact_identity_transitions": 3,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        }
+      }
+    },
+    "p10": {
+      "case_count": 34,
+      "smoke_count": 0,
+      "groups": {
+        "native": {
+          "case_count": 7,
+          "case_ids": [
+            "P10_FG_NATIVE_SOURCE",
+            "P10_FG_RESERVE_CANCEL_POST",
+            "P10_FG_INVERSE_ZERO",
+            "P10_FG_DEFERRED_UNKNOWN",
+            "P10_FG_AUTH_PRIVATE",
+            "P10_FG_FULL_PAGES",
+            "P10_FG_FILTERED_PREFIX"
+          ],
+          "counts": {
+            "PASS": 7
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P10_FG_HTTP_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "adjustments": {
+          "case_count": 8,
+          "case_ids": [
+            "P10_ADJUST_NEGATIVE_VALUE",
+            "P10_ADJUST_POSITIVE_VALUE",
+            "P10_ADJUST_MULTI_EDIT_VERSION",
+            "P10_ADJUST_REPLAY_DELETE",
+            "P10_ADJUST_FORGED_ATOMIC",
+            "P10_ADJUST_EXTERNAL_DRAFT",
+            "P10_ADJUST_DEFERRED_UNKNOWN",
+            "P10_ADJUST_AUTH_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "adjustment_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P10_ADJUST_RACE_STOCK",
+            "P10_ADJUST_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "adjustment_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P10_ADJUST_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "book": {
+          "case_count": 6,
+          "case_ids": [
+            "P10_BOOK_REORDER_FACTS",
+            "P10_BOOK_RESET",
+            "P10_BOOK_FILTER_PREFIX_PAGES",
+            "P10_BOOK_RESERVATIONS",
+            "P10_BOOK_STALE_ATOMIC",
+            "P10_BOOK_AUTH_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "book_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P10_BOOK_RACE_ORDER",
+            "P10_BOOK_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "book_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P10_BOOK_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 6,
+          "case_ids": [
+            "P10_FG_BROWSER_DESKTOP",
+            "P10_FG_BROWSER_OPERATIONS_MOBILE",
+            "P10_ADJUST_BROWSER_DESKTOP",
+            "P10_ADJUST_BROWSER_MOBILE_RECOVERY",
+            "P10_BOOK_BROWSER_DESKTOP_DRAG",
+            "P10_BOOK_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "native_catalog_witnesses": {
+        "native": {
+          "group": "native",
+          "cases": [
+            {
+              "case_id": "P10_FG_NATIVE_SOURCE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P10_FG_RESERVE_CANCEL_POST",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P10_FG_INVERSE_ZERO",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P10_FG_DEFERRED_UNKNOWN",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P10_FG_AUTH_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P10_FG_FULL_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P10_FG_FILTERED_PREFIX",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            }
+          ],
+          "raw_snapshots_checked": 16,
+          "exact_identity_transitions": 15,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "adjustments": {
+          "group": "adjustments",
+          "cases": [
+            {
+              "case_id": "P10_ADJUST_NEGATIVE_VALUE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P10_ADJUST_POSITIVE_VALUE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P10_ADJUST_MULTI_EDIT_VERSION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P10_ADJUST_REPLAY_DELETE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P10_ADJUST_FORGED_ATOMIC",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P10_ADJUST_EXTERNAL_DRAFT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P10_ADJUST_DEFERRED_UNKNOWN",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P10_ADJUST_AUTH_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            }
+          ],
+          "raw_snapshots_checked": 18,
+          "exact_identity_transitions": 17,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "book": {
+          "group": "book",
+          "cases": [
+            {
+              "case_id": "P10_BOOK_REORDER_FACTS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P10_BOOK_RESET",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P10_BOOK_FILTER_PREFIX_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P10_BOOK_RESERVATIONS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P10_BOOK_STALE_ATOMIC",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P10_BOOK_AUTH_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            }
+          ],
+          "raw_snapshots_checked": 14,
+          "exact_identity_transitions": 13,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        }
+      }
+    },
+    "p13": {
+      "case_count": 50,
+      "smoke_count": 0,
+      "groups": {
+        "native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_REPORT_LEDGER_LIFECYCLE",
+            "P13_REPORT_EXACT_LARGE",
+            "P13_REPORT_QUERY",
+            "P13_REPORT_ACCESS",
+            "P13_REPORT_FILED_LATE_CORRECTION",
+            "P13_REPORT_FILED_UNCHANGED_CONTROL",
+            "P13_REPORT_FILING_PAGES",
+            "P13_REPORT_READ_ONLY_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_REPORT_CONCURRENT_CASH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_REPORT_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_REPORT_BROWSER_DESKTOP",
+            "P13_REPORT_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "period_native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_PERIOD_CLOSE_REOPEN",
+            "P13_PERIOD_REPLAY",
+            "P13_PERIOD_STALE",
+            "P13_PERIOD_BLOCKED",
+            "P13_PERIOD_INVALID",
+            "P13_PERIOD_ACCESS",
+            "P13_PERIOD_PRIVATE",
+            "P13_PERIOD_LATE_ARCHIVE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "period_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_PERIOD_RACE_CLOSE",
+            "P13_PERIOD_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "period_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_PERIOD_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "period_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_PERIOD_BROWSER_DESKTOP",
+            "P13_PERIOD_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "analysis_native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_ANALYSIS_O13",
+            "P13_ANALYSIS_ZERO_BASELINE",
+            "P13_ANALYSIS_O14",
+            "P13_ANALYSIS_INVERSE_DATES",
+            "P13_ANALYSIS_PAGES_COA_SCOPE",
+            "P13_ANALYSIS_DATES_QUERY",
+            "P13_ANALYSIS_EXACT_LARGE",
+            "P13_ANALYSIS_ACCESS"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "analysis_races": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_ANALYSIS_CONCURRENT_CASH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "analysis_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_ANALYSIS_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "analysis_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_ANALYSIS_BROWSER_DESKTOP",
+            "P13_ANALYSIS_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "recost_native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_RECOST_LATE_COST",
+            "P13_RECOST_REPLAY",
+            "P13_RECOST_EMPTY",
+            "P13_RECOST_BOUNDED_FAILURE",
+            "P13_RECOST_RETRY",
+            "P13_RECOST_INVALID",
+            "P13_RECOST_ACCESS",
+            "P13_RECOST_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "recost_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_RECOST_RACE_REPLAY",
+            "P13_RECOST_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "recost_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_RECOST_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "recost_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_RECOST_BROWSER_DESKTOP",
+            "P13_RECOST_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "native_catalog_witnesses": {
+        "native": {
+          "group": "native",
+          "cases": [
+            {
+              "case_id": "P13_REPORT_LEDGER_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P13_REPORT_EXACT_LARGE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P13_REPORT_QUERY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P13_REPORT_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P13_REPORT_FILED_LATE_CORRECTION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P13_REPORT_FILED_UNCHANGED_CONTROL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P13_REPORT_FILING_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P13_REPORT_READ_ONLY_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            }
+          ],
+          "raw_snapshots_checked": 18,
+          "exact_identity_transitions": 17,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "period_native": {
+          "group": "period_native",
+          "cases": [
+            {
+              "case_id": "P13_PERIOD_CLOSE_REOPEN",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P13_PERIOD_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P13_PERIOD_STALE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P13_PERIOD_BLOCKED",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P13_PERIOD_INVALID",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P13_PERIOD_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P13_PERIOD_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P13_PERIOD_LATE_ARCHIVE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            }
+          ],
+          "raw_snapshots_checked": 18,
+          "exact_identity_transitions": 17,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "analysis_native": {
+          "group": "analysis_native",
+          "cases": [
+            {
+              "case_id": "P13_ANALYSIS_O13",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P13_ANALYSIS_ZERO_BASELINE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P13_ANALYSIS_O14",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P13_ANALYSIS_INVERSE_DATES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P13_ANALYSIS_PAGES_COA_SCOPE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P13_ANALYSIS_DATES_QUERY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P13_ANALYSIS_EXACT_LARGE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P13_ANALYSIS_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            }
+          ],
+          "raw_snapshots_checked": 18,
+          "exact_identity_transitions": 17,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "recost_native": {
+          "group": "recost_native",
+          "cases": [
+            {
+              "case_id": "P13_RECOST_LATE_COST",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P13_RECOST_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P13_RECOST_EMPTY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P13_RECOST_BOUNDED_FAILURE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P13_RECOST_RETRY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P13_RECOST_INVALID",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P13_RECOST_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P13_RECOST_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            }
+          ],
+          "raw_snapshots_checked": 18,
+          "exact_identity_transitions": 17,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        }
+      }
+    },
+    "p11": {
+      "case_count": 64,
+      "smoke_count": 0,
+      "groups": {
+        "native": {
+          "case_count": 8,
+          "case_ids": [
+            "P11_READ_DRAFT_CANCEL",
+            "P11_READ_NATIVE_LIFECYCLE",
+            "P11_READ_EXACT_CENTS",
+            "P11_READ_FINANCIAL_REDACTION",
+            "P11_READ_PRIVATE_READ_ONLY",
+            "P11_READ_COMPLETE_PAGES",
+            "P11_READ_QUERY_REFUSAL",
+            "P11_READ_EMPTY_MISSING"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P11_READ_HTTP_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "commands": {
+          "case_count": 6,
+          "case_ids": [
+            "P11_COMMAND_POST_ONCE",
+            "P11_COMMAND_CANCEL",
+            "P11_COMMAND_CHILD_REVIEW",
+            "P11_COMMAND_VERSION_STATUS",
+            "P11_COMMAND_REPLAY_AUTH",
+            "P11_COMMAND_PRIVATE_FIELDS"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "command_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P11_COMMAND_RACE_POST_CANCEL",
+            "P11_COMMAND_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "command_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P11_COMMAND_HTTP_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "drafts": {
+          "case_count": 7,
+          "case_ids": [
+            "P11_DRAFT_MULTI_CREATE_EDIT_POST",
+            "P11_DRAFT_REPLAY",
+            "P11_DRAFT_INSUFFICIENT_EDIT",
+            "P11_DRAFT_EXACT_FIELDS",
+            "P11_DRAFT_SELECTORS",
+            "P11_DRAFT_MASTER_REFUSAL",
+            "P11_DRAFT_PERMISSIONS"
+          ],
+          "counts": {
+            "PASS": 7
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "draft_races": {
+          "case_count": 1,
+          "case_ids": [
+            "P11_DRAFT_RACE_AVAILABLE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "draft_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P11_DRAFT_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "payments": {
+          "case_count": 8,
+          "case_ids": [
+            "P11_PAYMENT_EXACT_LIFECYCLE",
+            "P11_PAYMENT_REPLAY",
+            "P11_PAYMENT_FIELDS",
+            "P11_PAYMENT_SOURCE_CHANGE",
+            "P11_PAYMENT_PAGES",
+            "P11_PAYMENT_INACTIVE_BANK",
+            "P11_PAYMENT_PERMISSIONS",
+            "P11_PAYMENT_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "payment_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P11_PAYMENT_RACE_SAME_UUID",
+            "P11_PAYMENT_RACE_COMPETING",
+            "P11_PAYMENT_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "payment_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P11_PAYMENT_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "returns": {
+          "case_count": 11,
+          "case_ids": [
+            "P11_RETURN_LIFECYCLE",
+            "P11_RETURN_SPLIT_GRADES",
+            "P11_RETURN_ALLOCATION_CAP",
+            "P11_RETURN_FIELDS",
+            "P11_RETURN_PAID_REFUSAL",
+            "P11_RETURN_DATE_LOCATION",
+            "P11_RETURN_REPLAY",
+            "P11_RETURN_SOURCE_CHANGE",
+            "P11_RETURN_PERMISSIONS",
+            "P11_RETURN_PAGES",
+            "P11_RETURN_CONSUMED"
+          ],
+          "counts": {
+            "PASS": 11
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "return_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P11_RETURN_RACE_CAPACITY",
+            "P11_RETURN_RACE_CASH",
+            "P11_RETURN_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "return_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P11_RETURN_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 10,
+          "case_ids": [
+            "P11_READ_BROWSER_DESKTOP",
+            "P11_READ_BROWSER_MOBILE_OPERATIONS",
+            "P11_COMMAND_BROWSER_DESKTOP",
+            "P11_COMMAND_BROWSER_MOBILE_RECOVERY",
+            "P11_DRAFT_BROWSER_DESKTOP",
+            "P11_DRAFT_BROWSER_MOBILE_RECOVERY",
+            "P11_PAYMENT_BROWSER_DESKTOP",
+            "P11_PAYMENT_BROWSER_MOBILE_RECOVERY",
+            "P11_RETURN_BROWSER_R10_DESKTOP_A",
+            "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "native_catalog_witnesses": {
+        "native": {
+          "group": "native",
+          "cases": [
+            {
+              "case_id": "P11_READ_DRAFT_CANCEL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P11_READ_NATIVE_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P11_READ_EXACT_CENTS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P11_READ_FINANCIAL_REDACTION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P11_READ_PRIVATE_READ_ONLY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P11_READ_COMPLETE_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P11_READ_QUERY_REFUSAL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P11_READ_EMPTY_MISSING",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            }
+          ],
+          "raw_snapshots_checked": 18,
+          "exact_identity_transitions": 17,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "commands": {
+          "group": "commands",
+          "cases": [
+            {
+              "case_id": "P11_COMMAND_POST_ONCE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "extra_internal_snapshots_prevent_index_only_case_attribution": true
+            },
+            {
+              "case_id": "P11_COMMAND_CANCEL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "extra_internal_snapshots_prevent_index_only_case_attribution": true
+            },
+            {
+              "case_id": "P11_COMMAND_CHILD_REVIEW",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "extra_internal_snapshots_prevent_index_only_case_attribution": true
+            },
+            {
+              "case_id": "P11_COMMAND_VERSION_STATUS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "extra_internal_snapshots_prevent_index_only_case_attribution": true
+            },
+            {
+              "case_id": "P11_COMMAND_REPLAY_AUTH",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "extra_internal_snapshots_prevent_index_only_case_attribution": true
+            },
+            {
+              "case_id": "P11_COMMAND_PRIVATE_FIELDS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "extra_internal_snapshots_prevent_index_only_case_attribution": true
+            }
+          ],
+          "raw_snapshots_checked": 16,
+          "exact_identity_transitions": 15,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "drafts": {
+          "group": "drafts",
+          "cases": [
+            {
+              "case_id": "P11_DRAFT_MULTI_CREATE_EDIT_POST",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P11_DRAFT_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P11_DRAFT_INSUFFICIENT_EDIT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P11_DRAFT_EXACT_FIELDS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P11_DRAFT_SELECTORS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P11_DRAFT_MASTER_REFUSAL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P11_DRAFT_PERMISSIONS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            }
+          ],
+          "raw_snapshots_checked": 16,
+          "exact_identity_transitions": 15,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "payments": {
+          "group": "payments",
+          "cases": [
+            {
+              "case_id": "P11_PAYMENT_EXACT_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P11_PAYMENT_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P11_PAYMENT_FIELDS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P11_PAYMENT_SOURCE_CHANGE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P11_PAYMENT_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P11_PAYMENT_INACTIVE_BANK",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P11_PAYMENT_PERMISSIONS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P11_PAYMENT_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            }
+          ],
+          "raw_snapshots_checked": 18,
+          "exact_identity_transitions": 17,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "returns": {
+          "group": "returns",
+          "cases": [
+            {
+              "case_id": "P11_RETURN_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P11_RETURN_SPLIT_GRADES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P11_RETURN_ALLOCATION_CAP",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P11_RETURN_FIELDS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P11_RETURN_PAID_REFUSAL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P11_RETURN_DATE_LOCATION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P11_RETURN_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P11_RETURN_SOURCE_CHANGE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "P11_RETURN_PERMISSIONS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            },
+            {
+              "case_id": "P11_RETURN_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 20,
+              "after_snapshot": 21
+            },
+            {
+              "case_id": "P11_RETURN_CONSUMED",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 22,
+              "after_snapshot": 23
+            }
+          ],
+          "raw_snapshots_checked": 24,
+          "exact_identity_transitions": 23,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        }
+      },
+      "private_admission_exact_decisions": 385,
+      "private_dispatch_comparisons": 75
+    },
+    "p12": {
+      "case_count": 90,
+      "smoke_count": 0,
+      "groups": {
+        "native": {
+          "case_count": 5,
+          "case_ids": [
+            "P12_NOTA_SOURCE_REPAIR_FIXED_VALUE",
+            "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+            "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE",
+            "P12_NOTA_SOURCE_PAGES_ACCESS",
+            "P12_NOTA_SOURCE_CROSS_TIMEZONE"
+          ],
+          "counts": {
+            "PASS": 5
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P12_NOTA_SOURCE_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "notes": {
+          "case_count": 7,
+          "case_ids": [
+            "P12_NOTA_SAVE_POST_REPLAY",
+            "P12_NOTA_DRAFT_EDIT_VOID",
+            "P12_NOTA_TARGET_APPEND",
+            "P12_NOTA_STALE_SOURCE",
+            "P12_NOTA_EXACT_ACCESS",
+            "P12_NOTA_CANCEL_RELEASE",
+            "P12_NOTA_ORDINARY_REWORK"
+          ],
+          "counts": {
+            "PASS": 7
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "note_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P12_NOTA_RACE_CLAIM",
+            "P12_NOTA_RACE_REPLAY",
+            "P12_NOTA_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "note_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P12_NOTA_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "admission_regression": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_HTTP_RECEIPT_REPLAY_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P12_NOTA_BROWSER_DESKTOP_DRAG",
+            "P12_NOTA_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "payroll_review": {
+          "case_count": 4,
+          "case_ids": [
+            "P12_PAYROLL_READ_EXACT_PAGES",
+            "P12_PAYROLL_READ_TOKEN_TIMEZONE",
+            "P12_PAYROLL_READ_ACCESS",
+            "P12_PAYROLL_READ_REVERSED_HISTORY"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "payroll_review_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P12_PAYROLL_READ_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "payroll_review_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P12_PAYROLL_REVIEW_BROWSER_DESKTOP",
+            "P12_PAYROLL_REVIEW_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "settlement": {
+          "case_count": 7,
+          "case_ids": [
+            "P12_SETTLEMENT_FULL_LIFECYCLE",
+            "P12_SETTLEMENT_PRESERVE_SELECTED_WORK",
+            "P12_SETTLEMENT_ATTENDANCE_ACCRUAL",
+            "P12_SETTLEMENT_KASBON_CARRY",
+            "P12_SETTLEMENT_STALE_CHILD",
+            "P12_SETTLEMENT_ACCESS",
+            "P12_SETTLEMENT_INVALID_PAY_CANCEL"
+          ],
+          "counts": {
+            "PASS": 7
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "settlement_races": {
+          "case_count": 4,
+          "case_ids": [
+            "P12_SETTLEMENT_RACE_REPLAY",
+            "P12_SETTLEMENT_RACE_PAY_CANCEL",
+            "P12_SETTLEMENT_RACE_REVOKE",
+            "P12_SETTLEMENT_RACE_SOURCE_CHANGE"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "settlement_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P12_SETTLEMENT_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "settlement_browser": {
+          "case_count": 3,
+          "case_ids": [
+            "P12_SETTLEMENT_BROWSER_DESKTOP",
+            "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY",
+            "P12_SETTLEMENT_BROWSER_UNPAID_CANCEL"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "attendance_read": {
+          "case_count": 6,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_HISTORY",
+            "P12_ATTENDANCE_READ_PAGES",
+            "P12_ATTENDANCE_READ_PERIODS",
+            "P12_ATTENDANCE_READ_TIMEZONE_TOKEN",
+            "P12_ATTENDANCE_READ_ACCESS",
+            "P12_ATTENDANCE_READ_VALIDATION"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "attendance_read_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "attendance_read_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_BROWSER_DESKTOP",
+            "P12_ATTENDANCE_READ_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "roster": {
+          "case_count": 6,
+          "case_ids": [
+            "P12_ROSTER_LIFECYCLE",
+            "P12_ROSTER_POSTED_HISTORY",
+            "P12_ROSTER_FIELDS",
+            "P12_ROSTER_STALE",
+            "P12_ROSTER_ACCESS",
+            "P12_ROSTER_CHANGED_INTENT"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "roster_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P12_ROSTER_RACE_CREATE_REPLAY",
+            "P12_ROSTER_RACE_RATE_VERSION",
+            "P12_ROSTER_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "roster_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P12_ROSTER_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "roster_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P12_ROSTER_BROWSER_DESKTOP",
+            "P12_ROSTER_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "attendance_write": {
+          "case_count": 10,
+          "case_ids": [
+            "P12_ATTENDANCE_WRITE_LIFECYCLE",
+            "P12_ATTENDANCE_WRITE_BLANKS",
+            "P12_ATTENDANCE_WRITE_DATED_RATES",
+            "P12_ATTENDANCE_WRITE_CORRECTION",
+            "P12_ATTENDANCE_WRITE_CONSUMED",
+            "P12_ATTENDANCE_WRITE_ACCESS",
+            "P12_ATTENDANCE_WRITE_STALE",
+            "P12_ATTENDANCE_WRITE_FIELDS_INTENT",
+            "P12_ATTENDANCE_WRITE_MATRIX_PAGES",
+            "P12_ATTENDANCE_WRITE_MATRIX_PERIOD"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "attendance_write_races": {
+          "case_count": 4,
+          "case_ids": [
+            "P12_ATTENDANCE_RACE_SAVE_REPLAY",
+            "P12_ATTENDANCE_RACE_POST_VERSION",
+            "P12_ATTENDANCE_RACE_TWO_PERIODS",
+            "P12_ATTENDANCE_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "attendance_write_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P12_ATTENDANCE_WRITE_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "attendance_write_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE",
+            "P12_ATTENDANCE_BROWSER_MOBILE_POST_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "opening_payroll": {
+          "case_count": 5,
+          "case_ids": [
+            "P12_OPENING_LIFECYCLE",
+            "P12_OPENING_EDIT_RELEASE",
+            "P12_OPENING_STALE_REVIEW",
+            "P12_OPENING_GUARDS",
+            "P12_OPENING_CANCEL"
+          ],
+          "counts": {
+            "PASS": 5
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "opening_payroll_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P12_OPENING_RACE_REPLAY",
+            "P12_OPENING_RACE_RESERVATION"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "opening_payroll_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P12_OPENING_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "opening_payroll_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P12_OPENING_BROWSER_DESKTOP_CYCLE",
+            "P12_OPENING_BROWSER_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "native_catalog_witnesses": {
+        "native": {
+          "group": "native",
+          "cases": [
+            {
+              "case_id": "P12_NOTA_SOURCE_REPAIR_FIXED_VALUE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P12_NOTA_SOURCE_PAGES_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P12_NOTA_SOURCE_CROSS_TIMEZONE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            }
+          ],
+          "raw_snapshots_checked": 12,
+          "exact_identity_transitions": 11,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "notes": {
+          "group": "notes",
+          "cases": [
+            {
+              "case_id": "P12_NOTA_SAVE_POST_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P12_NOTA_DRAFT_EDIT_VOID",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P12_NOTA_TARGET_APPEND",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P12_NOTA_STALE_SOURCE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P12_NOTA_EXACT_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P12_NOTA_CANCEL_RELEASE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P12_NOTA_ORDINARY_REWORK",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            }
+          ],
+          "raw_snapshots_checked": 16,
+          "exact_identity_transitions": 15,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "payroll_review": {
+          "group": "payroll_review",
+          "cases": [
+            {
+              "case_id": "P12_PAYROLL_READ_EXACT_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P12_PAYROLL_READ_TOKEN_TIMEZONE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P12_PAYROLL_READ_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P12_PAYROLL_READ_REVERSED_HISTORY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            }
+          ],
+          "raw_snapshots_checked": 10,
+          "exact_identity_transitions": 9,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "settlement": {
+          "group": "settlement",
+          "cases": [
+            {
+              "case_id": "P12_SETTLEMENT_FULL_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P12_SETTLEMENT_PRESERVE_SELECTED_WORK",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P12_SETTLEMENT_ATTENDANCE_ACCRUAL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P12_SETTLEMENT_KASBON_CARRY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P12_SETTLEMENT_STALE_CHILD",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P12_SETTLEMENT_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P12_SETTLEMENT_INVALID_PAY_CANCEL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            }
+          ],
+          "raw_snapshots_checked": 16,
+          "exact_identity_transitions": 15,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "attendance_read": {
+          "group": "attendance_read",
+          "cases": [
+            {
+              "case_id": "P12_ATTENDANCE_READ_HISTORY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P12_ATTENDANCE_READ_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P12_ATTENDANCE_READ_PERIODS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P12_ATTENDANCE_READ_TIMEZONE_TOKEN",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P12_ATTENDANCE_READ_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P12_ATTENDANCE_READ_VALIDATION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            }
+          ],
+          "raw_snapshots_checked": 14,
+          "exact_identity_transitions": 13,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "roster": {
+          "group": "roster",
+          "cases": [
+            {
+              "case_id": "P12_ROSTER_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P12_ROSTER_POSTED_HISTORY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P12_ROSTER_FIELDS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P12_ROSTER_STALE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P12_ROSTER_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P12_ROSTER_CHANGED_INTENT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            }
+          ],
+          "raw_snapshots_checked": 14,
+          "exact_identity_transitions": 13,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "attendance_write": {
+          "group": "attendance_write",
+          "cases": [
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_BLANKS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_DATED_RATES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_CORRECTION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_CONSUMED",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_STALE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_FIELDS_INTENT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_MATRIX_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            },
+            {
+              "case_id": "P12_ATTENDANCE_WRITE_MATRIX_PERIOD",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 20,
+              "after_snapshot": 21
+            }
+          ],
+          "raw_snapshots_checked": 22,
+          "exact_identity_transitions": 21,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "opening_payroll": {
+          "group": "opening_payroll",
+          "cases": [
+            {
+              "case_id": "P12_OPENING_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P12_OPENING_EDIT_RELEASE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P12_OPENING_STALE_REVIEW",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P12_OPENING_GUARDS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P12_OPENING_CANCEL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            }
+          ],
+          "raw_snapshots_checked": 12,
+          "exact_identity_transitions": 11,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        }
+      }
+    },
+    "p09": {
+      "case_count": 132,
+      "smoke_count": 3,
+      "groups": {
+        "smoke": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_RECEIPT_SMOKE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "native": {
+          "case_count": 9,
+          "case_ids": [
+            "P09_DRAFT_ESTIMATED_GRNI",
+            "P09_FINAL_EXACT_VALUE",
+            "P09_REPLAY_STALE",
+            "P09_OPS_FINANCE_REDACTION",
+            "P09_OPS_BENCHMARK",
+            "P09_PERMISSION_PRINCIPALS",
+            "P09_COMPLETE_PAGES_OPTIONS",
+            "P09_INVALID_ATOMIC",
+            "P09_ZONE_GUARD_REGRESSION"
+          ],
+          "counts": {
+            "PASS": 9
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_RACE_SAME_REQUEST",
+            "P09_RACE_COMPETING_POST",
+            "P09_RACE_REVOKE_WAIT"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_HTTP_RECEIPT_REPLAY_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "material_smoke": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_MATERIAL_SMOKE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "material": {
+          "case_count": 13,
+          "case_ids": [
+            "P09_MATERIAL_DRAFT_NOT_STOCK",
+            "P09_TRANSFER_CONSERVATION",
+            "P09_TRANSFER_HISTORICAL_PREFIX",
+            "P09_TRANSFER_LOCATIONS_LINEAGE",
+            "P09_MATERIAL_REDACTION_ACCESS",
+            "P09_TRANSFER_REPLAY_STALE",
+            "P09_TRANSFER_CONSUMED_REVERSE",
+            "P09_MATERIAL_COMPLETE_PAGES_UNITS",
+            "P09_MATERIAL_PRINCIPALS",
+            "P09_ACCESSORY_LEDGER_TRANSFER",
+            "P09_OTHER_LEDGER_TRANSFER",
+            "P09_UNROLLED_SERVICE_ZONE_REPLAY",
+            "P09_UNROLLED_COMPLETE_PAGES"
+          ],
+          "counts": {
+            "PASS": 13
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "material_crossflow": {
+          "case_count": 2,
+          "case_ids": [
+            "P09_TRANSFER_PRODUCTION_LATE_INVOICE",
+            "P09_TRANSFER_CLOSED_DAY_LATE_INVOICE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "material_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_TRANSFER_RACE_SHARED_ROLL",
+            "P09_TRANSFER_RACE_UNROLLED",
+            "P09_TRANSFER_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "material_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_MATERIAL_HTTP_TRANSFER_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "material_count": {
+          "case_count": 17,
+          "case_ids": [
+            "P09_COUNT_FABRIC",
+            "P09_COUNT_ACCESSORY",
+            "P09_COUNT_POSITIVE",
+            "P09_COUNT_STALE_BASIS",
+            "P09_COUNT_FORGED_ATOMIC",
+            "P09_COUNT_NATIVE_EDIT",
+            "P09_COUNT_REPLAY_DELETE",
+            "P09_COUNT_ACCESS",
+            "P09_COUNT_SCOPE",
+            "P09_COUNT_HISTORICAL",
+            "P09_COUNT_COMPLETE_PAGES",
+            "P09_COUNT_MULTI_EDIT_INVERSE",
+            "P09_COUNT_MULTI_ACCESS",
+            "P09_COUNT_UNMOVED_FABRIC",
+            "P09_COUNT_UNMOVED_ACCESSORY",
+            "P09_COUNT_UNMOVED_STALE",
+            "P09_COUNT_OPTIONS_SCOPE"
+          ],
+          "counts": {
+            "PASS": 17
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "material_count_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P09_COUNT_RACE_PREFIX",
+            "P09_COUNT_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "material_count_http": {
+          "case_count": 2,
+          "case_ids": [
+            "P09_COUNT_HTTP",
+            "P09_COUNT_OPTIONS_HTTP"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "invoice": {
+          "case_count": 9,
+          "case_ids": [
+            "P09_INVOICE_STAGED_AND_REVERSE",
+            "P09_INVOICE_EXACT_DECIMAL",
+            "P09_INVOICE_DISCOUNT",
+            "P09_INVOICE_REPLAY_STALE",
+            "P09_INVOICE_ATOMIC_REFUSALS",
+            "P09_INVOICE_ACCESS_PRINCIPALS",
+            "P09_INVOICE_COMPLETE_MULTI_RECEIPT",
+            "P09_INVOICE_COMPLETE_PAGES",
+            "P09_INVOICE_AFTER_TRANSFER"
+          ],
+          "counts": {
+            "PASS": 9
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "invoice_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_INVOICE_RACE_SAME_REQUEST",
+            "P09_INVOICE_RACE_COMPETING",
+            "P09_INVOICE_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "invoice_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_INVOICE_HTTP_AUTH_REPLAY"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "combined_invoice": {
+          "case_count": 6,
+          "case_ids": [
+            "P09_COMBINED_INVOICE_LIFECYCLE",
+            "P09_COMBINED_INVOICE_REPLAY_DELETE",
+            "P09_COMBINED_INVOICE_ATOMIC",
+            "P09_COMBINED_INVOICE_SOURCES",
+            "P09_COMBINED_INVOICE_ACCESS",
+            "P09_COMBINED_INVOICE_CAPACITY"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "combined_invoice_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_COMBINED_INVOICE_RACE_SAME",
+            "P09_COMBINED_INVOICE_RACE_CAPACITY",
+            "P09_COMBINED_INVOICE_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "combined_invoice_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_COMBINED_INVOICE_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 22,
+          "case_ids": [
+            "P09_BROWSER_RECEIPT_DESKTOP",
+            "P09_BROWSER_LOST_REPLY_MOBILE",
+            "P09_BROWSER_TRANSFER_DESKTOP",
+            "P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE",
+            "P09_BROWSER_INVOICE_DESKTOP",
+            "P09_BROWSER_INVOICE_LOST_REPLY_MOBILE",
+            "P09_BROWSER_RETURN_CREDIT_DESKTOP",
+            "P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE",
+            "P09_BROWSER_RECEIPT_REVERSE_DESKTOP",
+            "P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE",
+            "P09_BROWSER_UOM_DESKTOP",
+            "P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE",
+            "P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP",
+            "P09_BROWSER_OTHER_TRANSFER_MOBILE",
+            "P09_BROWSER_COUNT_DESKTOP",
+            "P09_BROWSER_COUNT_LOST_REPLY_MOBILE",
+            "P09_BROWSER_COMBINED_INVOICE_DESKTOP",
+            "P09_BROWSER_COMBINED_INVOICE_LOST_REPLY_MOBILE",
+            "P09_BROWSER_COUNT_MULTI_DESKTOP",
+            "P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY",
+            "P09_BROWSER_COUNT_UNMOVED_DESKTOP",
+            "P09_BROWSER_COUNT_UNMOVED_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 22
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "return_smoke": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_RETURN_SMOKE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "returns": {
+          "case_count": 10,
+          "case_ids": [
+            "P09_RETURN_TRANSFERRED_GRNI",
+            "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+            "P09_RETURN_ACCESSORY_PORTABLE_CREDIT",
+            "P09_RETURN_PARTIAL_AP_GRNI",
+            "P09_RETURN_EXACT_CENTS",
+            "P09_RETURN_REPLAY_STALE_SOURCE",
+            "P09_RETURN_ATOMIC_LINEAGE",
+            "P09_RETURN_HISTORICAL_PREFIX",
+            "P09_RETURN_ACCESS_PRINCIPALS",
+            "P09_RETURN_COMPLETE_DOCUMENT_PAGES"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "return_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_RETURN_RACE_SAME_REQUEST",
+            "P09_RETURN_RACE_SOURCE_CAPACITY",
+            "P09_RETURN_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "return_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_RETURN_HTTP_AUTH_REPLAY"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "receipt_reversal": {
+          "case_count": 7,
+          "case_ids": [
+            "P09_RECEIPT_REVERSE_ESTIMATED",
+            "P09_RECEIPT_REVERSE_EXACT_FINAL",
+            "P09_RECEIPT_REVERSE_REPLAY",
+            "P09_RECEIPT_REVERSE_INVOICE_RETURN",
+            "P09_RECEIPT_REVERSE_PAYMENT",
+            "P09_RECEIPT_REVERSE_HISTORY",
+            "P09_RECEIPT_REVERSE_ACCESS"
+          ],
+          "counts": {
+            "PASS": 7
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "receipt_reversal_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_RECEIPT_REVERSE_RACE_SAME",
+            "P09_RECEIPT_REVERSE_RACE_DIFFERENT",
+            "P09_RECEIPT_REVERSE_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "receipt_reversal_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_RECEIPT_REVERSE_HTTP_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "uom": {
+          "case_count": 6,
+          "case_ids": [
+            "P09_UOM_DOZEN",
+            "P09_UOM_GROSS_FINAL",
+            "P09_UOM_DATED_MASTER",
+            "P09_UOM_ATOMIC_INVALID",
+            "P09_UOM_REPLAY_ACCESS",
+            "P09_UOM_MIXED_RECEIPT"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "uom_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P09_UOM_RACE_SAME_SAVE",
+            "P09_UOM_RACE_REVOKE_SAVE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "uom_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_UOM_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        }
+      },
+      "native_catalog_witnesses": {
+        "smoke": {
+          "group": "smoke",
+          "cases": [
+            {
+              "case_id": "P09_RECEIPT_SMOKE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            }
+          ],
+          "raw_snapshots_checked": 4,
+          "exact_identity_transitions": 3,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "native": {
+          "group": "native",
+          "cases": [
+            {
+              "case_id": "P09_DRAFT_ESTIMATED_GRNI",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_FINAL_EXACT_VALUE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P09_REPLAY_STALE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P09_OPS_FINANCE_REDACTION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P09_OPS_BENCHMARK",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P09_PERMISSION_PRINCIPALS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P09_COMPLETE_PAGES_OPTIONS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P09_INVALID_ATOMIC",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "P09_ZONE_GUARD_REGRESSION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            }
+          ],
+          "raw_snapshots_checked": 20,
+          "exact_identity_transitions": 19,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "material_smoke": {
+          "group": "material_smoke",
+          "cases": [
+            {
+              "case_id": "P09_MATERIAL_SMOKE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            }
+          ],
+          "raw_snapshots_checked": 4,
+          "exact_identity_transitions": 3,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "material": {
+          "group": "material",
+          "cases": [
+            {
+              "case_id": "P09_MATERIAL_DRAFT_NOT_STOCK",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_TRANSFER_CONSERVATION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P09_TRANSFER_HISTORICAL_PREFIX",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P09_TRANSFER_LOCATIONS_LINEAGE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P09_MATERIAL_REDACTION_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P09_TRANSFER_REPLAY_STALE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P09_TRANSFER_CONSUMED_REVERSE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P09_MATERIAL_COMPLETE_PAGES_UNITS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "P09_MATERIAL_PRINCIPALS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            },
+            {
+              "case_id": "P09_ACCESSORY_LEDGER_TRANSFER",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 20,
+              "after_snapshot": 21
+            },
+            {
+              "case_id": "P09_OTHER_LEDGER_TRANSFER",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 22,
+              "after_snapshot": 23
+            },
+            {
+              "case_id": "P09_UNROLLED_SERVICE_ZONE_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 24,
+              "after_snapshot": 25
+            },
+            {
+              "case_id": "P09_UNROLLED_COMPLETE_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 26,
+              "after_snapshot": 27
+            }
+          ],
+          "raw_snapshots_checked": 28,
+          "exact_identity_transitions": 27,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "material_crossflow": {
+          "group": "material_crossflow",
+          "cases": [
+            {
+              "case_id": "P09_TRANSFER_PRODUCTION_LATE_INVOICE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_TRANSFER_CLOSED_DAY_LATE_INVOICE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            }
+          ],
+          "raw_snapshots_checked": 6,
+          "exact_identity_transitions": 5,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "material_count": {
+          "group": "material_count",
+          "cases": [
+            {
+              "case_id": "P09_COUNT_FABRIC",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_COUNT_ACCESSORY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P09_COUNT_POSITIVE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P09_COUNT_STALE_BASIS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P09_COUNT_FORGED_ATOMIC",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P09_COUNT_NATIVE_EDIT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P09_COUNT_REPLAY_DELETE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P09_COUNT_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "P09_COUNT_SCOPE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            },
+            {
+              "case_id": "P09_COUNT_HISTORICAL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 20,
+              "after_snapshot": 21
+            },
+            {
+              "case_id": "P09_COUNT_COMPLETE_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 22,
+              "after_snapshot": 23
+            },
+            {
+              "case_id": "P09_COUNT_MULTI_EDIT_INVERSE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 24,
+              "after_snapshot": 25
+            },
+            {
+              "case_id": "P09_COUNT_MULTI_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 26,
+              "after_snapshot": 27
+            },
+            {
+              "case_id": "P09_COUNT_UNMOVED_FABRIC",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 28,
+              "after_snapshot": 29
+            },
+            {
+              "case_id": "P09_COUNT_UNMOVED_ACCESSORY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 30,
+              "after_snapshot": 31
+            },
+            {
+              "case_id": "P09_COUNT_UNMOVED_STALE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 32,
+              "after_snapshot": 33
+            },
+            {
+              "case_id": "P09_COUNT_OPTIONS_SCOPE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 34,
+              "after_snapshot": 35
+            }
+          ],
+          "raw_snapshots_checked": 36,
+          "exact_identity_transitions": 35,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "invoice": {
+          "group": "invoice",
+          "cases": [
+            {
+              "case_id": "P09_INVOICE_STAGED_AND_REVERSE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_INVOICE_EXACT_DECIMAL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P09_INVOICE_DISCOUNT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P09_INVOICE_REPLAY_STALE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P09_INVOICE_ATOMIC_REFUSALS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P09_INVOICE_ACCESS_PRINCIPALS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P09_INVOICE_COMPLETE_MULTI_RECEIPT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P09_INVOICE_COMPLETE_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "P09_INVOICE_AFTER_TRANSFER",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            }
+          ],
+          "raw_snapshots_checked": 20,
+          "exact_identity_transitions": 19,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "combined_invoice": {
+          "group": "combined_invoice",
+          "cases": [
+            {
+              "case_id": "P09_COMBINED_INVOICE_LIFECYCLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_COMBINED_INVOICE_REPLAY_DELETE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P09_COMBINED_INVOICE_ATOMIC",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P09_COMBINED_INVOICE_SOURCES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P09_COMBINED_INVOICE_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P09_COMBINED_INVOICE_CAPACITY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            }
+          ],
+          "raw_snapshots_checked": 14,
+          "exact_identity_transitions": 13,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "return_smoke": {
+          "group": "return_smoke",
+          "cases": [
+            {
+              "case_id": "P09_RETURN_SMOKE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            }
+          ],
+          "raw_snapshots_checked": 4,
+          "exact_identity_transitions": 3,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "returns": {
+          "group": "returns",
+          "cases": [
+            {
+              "case_id": "P09_RETURN_TRANSFERRED_GRNI",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P09_RETURN_ACCESSORY_PORTABLE_CREDIT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P09_RETURN_PARTIAL_AP_GRNI",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P09_RETURN_EXACT_CENTS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P09_RETURN_REPLAY_STALE_SOURCE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P09_RETURN_ATOMIC_LINEAGE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "P09_RETURN_HISTORICAL_PREFIX",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "P09_RETURN_ACCESS_PRINCIPALS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            },
+            {
+              "case_id": "P09_RETURN_COMPLETE_DOCUMENT_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 20,
+              "after_snapshot": 21
+            }
+          ],
+          "raw_snapshots_checked": 22,
+          "exact_identity_transitions": 21,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "receipt_reversal": {
+          "group": "receipt_reversal",
+          "cases": [
+            {
+              "case_id": "P09_RECEIPT_REVERSE_ESTIMATED",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_RECEIPT_REVERSE_EXACT_FINAL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P09_RECEIPT_REVERSE_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P09_RECEIPT_REVERSE_INVOICE_RETURN",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P09_RECEIPT_REVERSE_PAYMENT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P09_RECEIPT_REVERSE_HISTORY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "P09_RECEIPT_REVERSE_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            }
+          ],
+          "raw_snapshots_checked": 16,
+          "exact_identity_transitions": 15,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "uom": {
+          "group": "uom",
+          "cases": [
+            {
+              "case_id": "P09_UOM_DOZEN",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "P09_UOM_GROSS_FINAL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "P09_UOM_DATED_MASTER",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "P09_UOM_ATOMIC_INVALID",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "P09_UOM_REPLAY_ACCESS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "P09_UOM_MIXED_RECEIPT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            }
+          ],
+          "raw_snapshots_checked": 14,
+          "exact_identity_transitions": 13,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        }
+      }
+    },
+    "cash_installments": {
+      "case_count": 61,
+      "smoke_count": 0,
+      "groups": {
+        "cp7_f03_cash_native": {
+          "case_count": 3,
+          "case_ids": [
+            "F03_CASH_O14_COMPLETE_33_SOURCE_PAGES",
+            "F03_CASH_E13_LINKED_NATIVE_INVERSE_DATES",
+            "F03_CASH_CURRENT_AUTHORITY_NO_WRITE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "cp7_f03_cash_http": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_CASH_REAL_HTTP_COMPLETE_SOURCE_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "cp7_f03_cash_journal_native": {
+          "case_count": 6,
+          "case_ids": [
+            "F03_JOURNAL_PAGES",
+            "F03_JOURNAL_COMPLETE_DETAIL",
+            "F03_JOURNAL_INVERSE_DATES",
+            "F03_JOURNAL_QUERY",
+            "F03_JOURNAL_EXACT_LARGE",
+            "F03_JOURNAL_CURRENT_ACCESS_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "cp7_f03_cash_journal_http": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_JOURNAL_REAL_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "cp7_f03_cash_browser": {
+          "case_count": 10,
+          "case_ids": [
+            "F03_CASH_BROWSER_DESKTOP",
+            "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH",
+            "F03_REPORT_DATES_BROWSER_DESKTOP",
+            "F03_REPORT_DATES_BROWSER_MOBILE",
+            "F03_FINANCE_OVERVIEW_BROWSER_DESKTOP",
+            "F03_FINANCE_OVERVIEW_BROWSER_MOBILE",
+            "F03_RECEIVABLES_BROWSER_DESKTOP",
+            "F03_RECEIVABLES_BROWSER_MOBILE",
+            "F03_JOURNAL_BROWSER_DESKTOP",
+            "F03_JOURNAL_BROWSER_MOBILE_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "cp7_f03_misc_native": {
+          "case_count": 9,
+          "case_ids": [
+            "F03_MISC_DRAFT_EXACT",
+            "F03_MISC_POST_ACCOUNTING",
+            "F03_MISC_INVERSE_DATES",
+            "F03_MISC_STALE_REVIEW",
+            "F03_MISC_FIELDS",
+            "F03_MISC_PROTECTED_ACCOUNTS",
+            "F03_MISC_REPLAY",
+            "F03_MISC_CURRENT_ACCESS_PRIVATE",
+            "F03_MISC_PAGES"
+          ],
+          "counts": {
+            "PASS": 9
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "cp7_f03_misc_races": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_MISC_RACE_REPLAY",
+            "F03_MISC_RACE_CURRENT_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "cp7_f03_misc_http": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_MISC_REAL_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "cp7_f03_misc_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_MISC_BROWSER_DESKTOP_LOST_REPLY",
+            "F03_MISC_BROWSER_MOBILE_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "cp7_f03_e05_native": {
+          "case_count": 20,
+          "case_ids": [
+            "E05_FIXED_1000_600_400_INVERSE",
+            "E05_DEDUCTION_RESERVATION",
+            "E05_WHOLE_PARTIAL_INVERSE",
+            "E05_WHOLE_PAID_INVERSE",
+            "E05_EXACT_LARGE_CENTS",
+            "E05_AMOUNT_CAP",
+            "E05_CLOSED_FIELDS",
+            "E05_REPLAY",
+            "E05_STALE_REVIEW",
+            "E05_CURRENT_CASH",
+            "E05_CURRENT_ACCESS_PRIVATE",
+            "E05_LEGACY_BYPASS",
+            "E05_IMMUTABLE_APPROVED_SOURCE",
+            "E05_NATIVE_DATES_TZ",
+            "E05_COMPLETE_30_PAGES",
+            "E05_LEGACY_FULL_HISTORY",
+            "E05_INACTIVE_NOT_PAYABLE",
+            "E05_OPENING_ADVANCE_CARRY_INSTALLMENTS",
+            "E05_ZERO_NET_NO_CASH",
+            "E05_ACTIVE_HPP_CASH_CORRECTION"
+          ],
+          "counts": {
+            "PASS": 20
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "cp7_f03_e05_races": {
+          "case_count": 3,
+          "case_ids": [
+            "E05_RACE_SAME_UUID",
+            "E05_RACE_DISTINCT_UUID_CAP",
+            "E05_RACE_CURRENT_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "cp7_f03_e05_http": {
+          "case_count": 1,
+          "case_ids": [
+            "E05_REAL_AUTH_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "cp7_f03_e05_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "E05_BROWSER_DESKTOP_INSTALLMENTS_LOST_REPLY",
+            "E05_BROWSER_MOBILE_CURRENT_AUTH_INSTALLMENTS"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "native_catalog_witnesses": {
+        "cp7_f03_cash_native": {
+          "group": "cp7_f03_cash_native",
+          "cases": [
+            {
+              "case_id": "F03_CASH_O14_COMPLETE_33_SOURCE_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "F03_CASH_E13_LINKED_NATIVE_INVERSE_DATES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "F03_CASH_CURRENT_AUTHORITY_NO_WRITE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            }
+          ],
+          "raw_snapshots_checked": 8,
+          "exact_identity_transitions": 7,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "cp7_f03_cash_journal_native": {
+          "group": "cp7_f03_cash_journal_native",
+          "cases": [
+            {
+              "case_id": "F03_JOURNAL_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "F03_JOURNAL_COMPLETE_DETAIL",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "F03_JOURNAL_INVERSE_DATES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "F03_JOURNAL_QUERY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "F03_JOURNAL_EXACT_LARGE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "F03_JOURNAL_CURRENT_ACCESS_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            }
+          ],
+          "raw_snapshots_checked": 14,
+          "exact_identity_transitions": 13,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "cp7_f03_misc_native": {
+          "group": "cp7_f03_misc_native",
+          "cases": [
+            {
+              "case_id": "F03_MISC_DRAFT_EXACT",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "F03_MISC_POST_ACCOUNTING",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "F03_MISC_INVERSE_DATES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "F03_MISC_STALE_REVIEW",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "F03_MISC_FIELDS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "F03_MISC_PROTECTED_ACCOUNTS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "F03_MISC_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "F03_MISC_CURRENT_ACCESS_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "F03_MISC_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            }
+          ],
+          "raw_snapshots_checked": 20,
+          "exact_identity_transitions": 19,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        },
+        "cp7_f03_e05_native": {
+          "group": "cp7_f03_e05_native",
+          "cases": [
+            {
+              "case_id": "E05_FIXED_1000_600_400_INVERSE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 2,
+              "after_snapshot": 3
+            },
+            {
+              "case_id": "E05_DEDUCTION_RESERVATION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 4,
+              "after_snapshot": 5
+            },
+            {
+              "case_id": "E05_WHOLE_PARTIAL_INVERSE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 6,
+              "after_snapshot": 7
+            },
+            {
+              "case_id": "E05_WHOLE_PAID_INVERSE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 8,
+              "after_snapshot": 9
+            },
+            {
+              "case_id": "E05_EXACT_LARGE_CENTS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 10,
+              "after_snapshot": 11
+            },
+            {
+              "case_id": "E05_AMOUNT_CAP",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 12,
+              "after_snapshot": 13
+            },
+            {
+              "case_id": "E05_CLOSED_FIELDS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 14,
+              "after_snapshot": 15
+            },
+            {
+              "case_id": "E05_REPLAY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 16,
+              "after_snapshot": 17
+            },
+            {
+              "case_id": "E05_STALE_REVIEW",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 18,
+              "after_snapshot": 19
+            },
+            {
+              "case_id": "E05_CURRENT_CASH",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 20,
+              "after_snapshot": 21
+            },
+            {
+              "case_id": "E05_CURRENT_ACCESS_PRIVATE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 22,
+              "after_snapshot": 23
+            },
+            {
+              "case_id": "E05_LEGACY_BYPASS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 24,
+              "after_snapshot": 25
+            },
+            {
+              "case_id": "E05_IMMUTABLE_APPROVED_SOURCE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 26,
+              "after_snapshot": 27
+            },
+            {
+              "case_id": "E05_NATIVE_DATES_TZ",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 28,
+              "after_snapshot": 29
+            },
+            {
+              "case_id": "E05_COMPLETE_30_PAGES",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 30,
+              "after_snapshot": 31
+            },
+            {
+              "case_id": "E05_LEGACY_FULL_HISTORY",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 32,
+              "after_snapshot": 33
+            },
+            {
+              "case_id": "E05_INACTIVE_NOT_PAYABLE",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 34,
+              "after_snapshot": 35
+            },
+            {
+              "case_id": "E05_OPENING_ADVANCE_CARRY_INSTALLMENTS",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 36,
+              "after_snapshot": 37
+            },
+            {
+              "case_id": "E05_ZERO_NET_NO_CASH",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 38,
+              "after_snapshot": 39
+            },
+            {
+              "case_id": "E05_ACTIVE_HPP_CASH_CORRECTION",
+              "status": "PASS",
+              "complete_public_catalog_exact": true,
+              "before_snapshot": 40,
+              "after_snapshot": 41
+            }
+          ],
+          "raw_snapshots_checked": 42,
+          "exact_identity_transitions": 41,
+          "observed_location_changes": 0,
+          "observed_pair_order_only_changes": 0,
+          "functions_per_snapshot": 156,
+          "every_field_and_multiplicity_preserved": true,
+          "original_preservation_controls": {
+            "pair_order_only_equal": true,
+            "function_hash_change_refused": true,
+            "function_signature_change_refused": true,
+            "missing_function_member_refused": true,
+            "duplicate_function_member_refused": true,
+            "relation_member_change_refused": true,
+            "public_row_hash_or_member_change_refused": true,
+            "observed_input_not_mutated": true
+          }
+        }
+      }
+    }
+  }
+}

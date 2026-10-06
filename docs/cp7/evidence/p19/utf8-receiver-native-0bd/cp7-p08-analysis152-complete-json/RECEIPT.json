@@ -1,0 +1,289 @@
+{
+  "id": 11419029566,
+  "name": "cp7-p08-analysis152-complete-json",
+  "run_id": 37474167289,
+  "workflow_name": "CP7 P08 Physical Fabric",
+  "workflow_path": ".github/workflows/claude-p08-physical.yml",
+  "size_in_bytes": 44186,
+  "digest": "sha256:fc2ee9a7e20bc4a88c4ecf15026ab48921a7aaf8ca3b5fa600826f18ed503556",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F05_NATIVE_ANALYSIS.json": {
+      "bytes": 347014,
+      "sha256": "5aaf1d6061decce5598c0fba5e2e35443aab56d528477c3a02a1abcee8e92c6c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b6b82d96cba1b63a670c5bd94677a77acd4e6568a8dfed1cdb9e3d210e7f8152"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360407,
+      "sha256": "ff44a5c0678b4c1ab859ce70101cc25f788919731146b0d5f11911f6c212236e"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F05_NATIVE_ANALYSIS.json": {
+      "bytes": 347014,
+      "sha256": "5aaf1d6061decce5598c0fba5e2e35443aab56d528477c3a02a1abcee8e92c6c",
+      "file": "CP7_F05_NATIVE_ANALYSIS.json.gz",
+      "gzip_sha256": "e701ea5ec9921dd520a44f580975807debaaac5ad1eb7db543c5dc5937025284",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b6b82d96cba1b63a670c5bd94677a77acd4e6568a8dfed1cdb9e3d210e7f8152",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "ddbe453b8a65d035c905486d2503c6b55f05ae4749220f35b4994561475caf9f",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360407,
+      "sha256": "ff44a5c0678b4c1ab859ce70101cc25f788919731146b0d5f11911f6c212236e",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "6285558cc45882989e45b2d7780512bc6427b7f38e0c22c3c6f799087bf33973",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F05_NATIVE_ANALYSIS.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 152,
+      "declared_case_count": 152,
+      "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+      "groups": {
+        "native": {
+          "case_count": 106,
+          "case_ids": [
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY",
+            "P06_NETTING_NATIVE_BOUND_GAP93",
+            "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD",
+            "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE",
+            "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT",
+            "P06_NETTING_NATIVE_LATE_NOT_NETTED",
+            "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK",
+            "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT",
+            "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY",
+            "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_WORK",
+            "P14_NATIVE_ANALYSIS_MISSING_POLICY",
+            "P14_NATIVE_ANALYSIS_REPLAY",
+            "P14_NATIVE_ANALYSIS_CHANGED_QUERY",
+            "P14_NATIVE_ANALYSIS_SOURCE_CHANGE",
+            "P14_NATIVE_ANALYSIS_ACTOR_SCOPE",
+            "P14_NATIVE_ANALYSIS_CURRENT_REVOKE",
+            "P14_NATIVE_ANALYSIS_IMMUTABLE",
+            "P14_NATIVE_ANALYSIS_LATE_SUPPLY",
+            "P14_NATIVE_ANALYSIS_SIGNED_AVAILABLE",
+            "P14_NATIVE_ANALYSIS_PAUSED",
+            "P14_NATIVE_ANALYSIS_ENGINE_CHANGE",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_CAPACITY",
+            "P15_NATIVE_ANALYSIS_FINANCE_SAME_SOURCE",
+            "P15_NATIVE_ANALYSIS_FINANCE_OWNER_BOUNDARY",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_JOURNAL_STALE",
+            "P15_NATIVE_ARCHIVE_DURABLE_PAGES",
+            "P15_NATIVE_ARCHIVE_ACTOR_QUERY_BOUNDARY",
+            "P15_NATIVE_ARCHIVE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_OPS_AUTH",
+            "P15_NATIVE_ARCHIVE_ORIGINAL_SOURCE_CHANGED",
+            "P15_REPORT_NATIVE_TEMPLATES",
+            "P15_REPORT_NATIVE_UUID_REPLAY",
+            "P15_REPORT_NATIVE_ABSENT_FENCE",
+            "P15_REPORT_NATIVE_REVISION",
+            "P15_REPORT_NATIVE_ACTUAL_COMPARISON",
+            "P15_REPORT_NATIVE_UNKNOWN_NOT_ZERO",
+            "P15_REPORT_NATIVE_PERIOD_SCOPE",
+            "P15_REPORT_NATIVE_ENGINE_VERSION",
+            "P15_REPORT_NATIVE_CLOSED_PAYLOAD",
+            "P15_REPORT_NATIVE_CURRENT_OPS_AUTH",
+            "P15_REPORT_NATIVE_ACTOR_SCOPE",
+            "P15_REPORT_NATIVE_CURRENT_FINANCE_AUTH",
+            "P15_REPORT_NATIVE_IMMUTABLE",
+            "P15_REPORT_NATIVE_DURABLE_PAGES",
+            "P06_MATERIAL_NATIVE_MISSING_UNKNOWN",
+            "P06_MATERIAL_NATIVE_EMPTY_EXPLICIT",
+            "P06_MATERIAL_NATIVE_GROSS_ASSUMED",
+            "P06_MATERIAL_NATIVE_BOM_SUCCESSOR",
+            "P06_MATERIAL_NATIVE_ISSUE_NOT_INSTALLED",
+            "P06_MATERIAL_O09_TRUSTED_KERNEL_CONTRACT",
+            "P06_MATERIAL_O10_TRUSTED_KERNEL_CONTRACT",
+            "P06_MATERIAL_NATIVE_CLOCK_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 106
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 20,
+          "case_ids": [
+            "P05_RACE_SAME_UUID",
+            "P05_RACE_CURRENT_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_SUPPLY_RACE_UUID",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "P06_NETTING_RACE_UUID",
+            "P14_ANALYSIS_RACE_UUID",
+            "P14_ANALYSIS_RACE_QUERY",
+            "P14_ANALYSIS_RACE_CURRENT_AUTH",
+            "P15_ANALYSIS_FINANCE_LOCK_CURRENT_AUTH",
+            "P15_REPORT_RACE_UUID",
+            "P15_REPORT_RACE_ABSENT_FENCE",
+            "P15_REPORT_RACE_REVISION",
+            "P15_REPORT_RACE_CURRENT_AUTH",
+            "P06_MATERIAL_RACE_CURRENT_SOURCE_AUTH"
+          ],
+          "counts": {
+            "PASS": 20
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 12,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_SUPPLY_HTTP_AUTH",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "P06_NETTING_HTTP_AUTH",
+            "P14_ANALYSIS_HTTP_AUTH",
+            "P15_ANALYSIS_FINANCE_HTTP_CURRENT_AUTH",
+            "P15_ARCHIVE_HTTP_CURRENT_AUTH",
+            "P15_REPORT_HTTP_CURRENT_AUTH",
+            "P15_REPORT_HTTP_ABSENT_FENCE",
+            "P06_MATERIAL_HTTP_CURRENT_AUTH"
+          ],
+          "counts": {
+            "PASS": 12
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 14,
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+            "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+            "P06_BROWSER_MOBILE_NATIVE_NETTING",
+            "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+            "P14_BROWSER_MOBILE_SHARED_ANALYSIS",
+            "P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_DESKTOP_NATIVE_PUBLICATION",
+            "P15_BROWSER_MOBILE_NATIVE_PUBLICATION",
+            "P06_MATERIAL_BROWSER_DESKTOP",
+            "P06_MATERIAL_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 14
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

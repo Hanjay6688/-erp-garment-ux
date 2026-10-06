@@ -1,0 +1,168 @@
+{
+  "id": 11418183120,
+  "name": "cp7-f03-redye",
+  "run_id": 37474166663,
+  "workflow_name": "CP7 F03 X04 Paid Redye Continuation",
+  "workflow_path": ".github/workflows/cp7-f03-redye.yml",
+  "size_in_bytes": 6137890,
+  "digest": "sha256:f7502ce5ceeb5e59a71e1cebc62ae04319ecbee08da2edfd9d8ef1001248e34a",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "8fecacd481068e7d5430bba0159e741a5f7e6ff9b2b7cacafcb05752eca42088"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "8fecacd481068e7d5430bba0159e741a5f7e6ff9b2b7cacafcb05752eca42088"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c9423ad571455cfcde58eaa73f00844941a5edac7009bb0bb227b3168795b739"
+    },
+    "CP7_F03_REDYE.json": {
+      "bytes": 446424,
+      "sha256": "584a31d812e3f87a6e7976f43529541ef6c3c7e5508d9c34d0d0c9befb12ea9e"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "79aef0ee56a84d83e2ea9d524f660808cab0da4b0c30cd31d6a4cb84fa032c96"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "cdf0abc7c7b4d914ab573f76361c47e21b8b827f70733df8d2823a0c9d6d62d7"
+    },
+    "X04_REDYE_FG_DESKTOP.png": {
+      "bytes": 953543,
+      "sha256": "71d58ba1fb6994f2073cfe3e6a3389c1e264d9e3981addc297b9a11613e5ebad"
+    },
+    "X04_REDYE_FG_MOBILE.png": {
+      "bytes": 530662,
+      "sha256": "576370ee16ffe00b7702d2632c5079c53c90774569e6f3a8ccfd0b5ca1d5216a"
+    },
+    "X04_REDYE_REPORT_DESKTOP.png": {
+      "bytes": 1796651,
+      "sha256": "24bd410dc6403fb55656992da421b553f2f5d3101a1d1751ac61e85167eb9aa9"
+    },
+    "X04_REDYE_REPORT_MOBILE.png": {
+      "bytes": 1321546,
+      "sha256": "4d5bd3eafc0f66f4b7570ad43f53536a354154789d7c10ccc6257d6ed3657483"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F03_REDYE.json": {
+      "bytes": 446424,
+      "sha256": "584a31d812e3f87a6e7976f43529541ef6c3c7e5508d9c34d0d0c9befb12ea9e",
+      "file": "CP7_F03_REDYE.json.gz",
+      "gzip_sha256": "7c5698c37e5da4603a2dec209d936925feef8de47e0f251dc8cfc62a20c75870",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "79aef0ee56a84d83e2ea9d524f660808cab0da4b0c30cd31d6a4cb84fa032c96",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "7fcfcf4771f87b89bd850ad170920db923b8f5c59c1765aa11a4b8fac38ac77b",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "cdf0abc7c7b4d914ab573f76361c47e21b8b827f70733df8d2823a0c9d6d62d7",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "8a5c51b7e95b77e9408b160bb02183fa21e5811a577eb0b4d5effe3da07d2de0",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F03_REDYE.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 5,
+      "declared_case_count": 5,
+      "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+      "groups": {
+        "native": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_X04_REDYE_UNKNOWN_GROUP_FIRST_PRICE",
+            "F03_X04_REDYE_GROUP_INVOICE_SOLD_INVERSE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_X04_REDYE_HTTP_AUTH_SOURCE_PRICE_AND_CP7"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "F03_X04_REDYE_BROWSER_DESKTOP",
+            "F03_X04_REDYE_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

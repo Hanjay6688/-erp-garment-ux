@@ -1,0 +1,274 @@
+{
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "witnesses": [
+    {
+      "artifact": "cp7-f03-full-customer_refund",
+      "group": "native",
+      "before_snapshot": 2,
+      "after_snapshot": 3,
+      "function_count": 156,
+      "moved_members": [
+        {
+          "signature": "erp_cp7_get_production_policy_v1(uuid[])",
+          "definition_md5": "0a393a2e82ffce6eb3f8b400b9792890",
+          "before_position": 5,
+          "after_position": 6
+        },
+        {
+          "signature": "erp_cp7_get_source_identity_v1(uuid)",
+          "definition_md5": "573992de4874ad66a381e3aea0447e5a",
+          "before_position": 6,
+          "after_position": 5
+        },
+        {
+          "signature": "erp_assign_pattern_v1(uuid,uuid,text,uuid,bigint)",
+          "definition_md5": "4c5b64a3cf3c0cbfc611dd4a05c03df1",
+          "before_position": 12,
+          "after_position": 13
+        },
+        {
+          "signature": "erp_deactivate_role_v1(uuid,text,uuid,bigint)",
+          "definition_md5": "3986890c7253dfcfb50c5d2de2666966",
+          "before_position": 13,
+          "after_position": 17
+        },
+        {
+          "signature": "erp_get_access_admin_v1()",
+          "definition_md5": "5e5e3eca13f7df41a1854df9366d14e9",
+          "before_position": 14,
+          "after_position": 18
+        },
+        {
+          "signature": "erp_cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+          "definition_md5": "e85487f2e6e07d003c8a1e971e172a60",
+          "before_position": 15,
+          "after_position": 14
+        },
+        {
+          "signature": "erp_activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+          "definition_md5": "8ed188965bbe2a3e0c1b4a46c393d545",
+          "before_position": 16,
+          "after_position": 12
+        },
+        {
+          "signature": "erp_create_attendance_hpp_pool_v1(jsonb,uuid)",
+          "definition_md5": "60b374e251bf6ff3497cbc485e4cf5df",
+          "before_position": 17,
+          "after_position": 15
+        },
+        {
+          "signature": "erp_deactivate_pattern_v1(uuid,text,uuid,bigint)",
+          "definition_md5": "47d4821ed0b356917c458c45b058dc81",
+          "before_position": 18,
+          "after_position": 16
+        },
+        {
+          "signature": "erp_post_final_sku_allocation_v1(jsonb,uuid,bigint)",
+          "definition_md5": "255b2545995bfb0f0b09341716d243e3",
+          "before_position": 19,
+          "after_position": 20
+        },
+        {
+          "signature": "erp_save_app_user_v3(jsonb,uuid,bigint)",
+          "definition_md5": "4958bf13130ab406323d145cdecbd602",
+          "before_position": 20,
+          "after_position": 24
+        },
+        {
+          "signature": "erp_reverse_sewing_terminal_v1(uuid,text,uuid)",
+          "definition_md5": "9b4f06961d10cd7f6ecf759eaec4e3ad",
+          "before_position": 21,
+          "after_position": 23
+        },
+        {
+          "signature": "erp_save_pattern_v1(jsonb,uuid,bigint)",
+          "definition_md5": "4786af7305a6001f3a5679a6a1aacb1b",
+          "before_position": 22,
+          "after_position": 25
+        },
+        {
+          "signature": "erp_get_my_access_v1()",
+          "definition_md5": "e8c582920a3b929e32c8d1e1da5d2ac5",
+          "before_position": 23,
+          "after_position": 19
+        },
+        {
+          "signature": "erp_preview_attendance_hpp_pool_v1(date,date)",
+          "definition_md5": "f2a0b185e770313bfe3515eb5be5408c",
+          "before_position": 24,
+          "after_position": 21
+        },
+        {
+          "signature": "erp_record_sewing_terminal_v1(jsonb,uuid)",
+          "definition_md5": "915129c66e6d1609480d778cdc63c8b4",
+          "before_position": 25,
+          "after_position": 22
+        },
+        {
+          "signature": "erp_reverse_attendance_period_v1(uuid,text,uuid,bigint)",
+          "definition_md5": "bd57a9b4b05fc2b97fc4743b6c9ed59b",
+          "before_position": 28,
+          "after_position": 31
+        },
+        {
+          "signature": "erp_cancel_my_reminder_v1(uuid,text,uuid,bigint)",
+          "definition_md5": "59bcf3a896a270b1928c319faa1aa588",
+          "before_position": 29,
+          "after_position": 28
+        },
+        {
+          "signature": "erp_list_my_reminders_v1(text,integer)",
+          "definition_md5": "c427cc349899cf903545edc29afc1ed3",
+          "before_position": 30,
+          "after_position": 29
+        },
+        {
+          "signature": "erp_post_attendance_period_v1(uuid,text,uuid,bigint)",
+          "definition_md5": "5016ae6d3e6e1542d1b4ec353e0e9673",
+          "before_position": 31,
+          "after_position": 30
+        },
+        {
+          "signature": "erp_set_my_reminder_done_v1(uuid,boolean,uuid,bigint)",
+          "definition_md5": "b167edbad42236ae2beff6a3fe20bcd7",
+          "before_position": 33,
+          "after_position": 34
+        },
+        {
+          "signature": "erp_set_fg_stock_policy_v1(uuid,uuid,text,numeric,numeric,integer,date,text,uuid,uuid)",
+          "definition_md5": "3c0497c5b58359fd71e4ac4a0607dafa",
+          "before_position": 34,
+          "after_position": 33
+        },
+        {
+          "signature": "erp_cp7_get_sales_return_correction_v1(jsonb)",
+          "definition_md5": "87532af817e09d558cf493b429ad870a",
+          "before_position": 42,
+          "after_position": 43
+        },
+        {
+          "signature": "erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+          "definition_md5": "9812af0fbd93043e13b839c19067be01",
+          "before_position": 43,
+          "after_position": 42
+        },
+        {
+          "signature": "erp_cp7_correct_sales_payment_v1(jsonb,uuid,text)",
+          "definition_md5": "b9da9eab98a9785b4fe97576cc3bb457",
+          "before_position": 50,
+          "after_position": 51
+        },
+        {
+          "signature": "erp_cp7_get_sales_payment_correction_v1(jsonb)",
+          "definition_md5": "e49beae07ee34401290e2a69e1a6e276",
+          "before_position": 51,
+          "after_position": 50
+        },
+        {
+          "signature": "erp_cp7_get_material_counts_v1(jsonb)",
+          "definition_md5": "510c09dd71f1326f03a3d3f5c9f130c7",
+          "before_position": 52,
+          "after_position": 53
+        },
+        {
+          "signature": "erp_cp7_save_material_count_v1(text,jsonb,uuid,text)",
+          "definition_md5": "66f45852fe77b0cea5f6f54f5a12c168",
+          "before_position": 53,
+          "after_position": 52
+        },
+        {
+          "signature": "erp_cp7_get_invoice_sources_v1(uuid,text,integer,integer)",
+          "definition_md5": "3882b0e06b3f31b3a6a1fcf9f09492f4",
+          "before_position": 75,
+          "after_position": 79
+        },
+        {
+          "signature": "erp_cp7_get_purchase_invoices_v1(uuid,integer,integer)",
+          "definition_md5": "f8771347d65bc3672d57897e0212d256",
+          "before_position": 76,
+          "after_position": 75
+        },
+        {
+          "signature": "erp_cp7_save_purchase_invoice_v1(text,jsonb,uuid,text)",
+          "definition_md5": "7a39348e48034b9c3203dadf8e2cec07",
+          "before_position": 77,
+          "after_position": 76
+        },
+        {
+          "signature": "erp_cp7_get_supplier_payments_v1(uuid,text,integer,uuid)",
+          "definition_md5": "7eb214000020de188e2999d91fe05f65",
+          "before_position": 78,
+          "after_position": 77
+        },
+        {
+          "signature": "erp_cp7_reverse_supplier_payment_v1(jsonb,uuid)",
+          "definition_md5": "2e32df684a49e23c920118d7c620d8d2",
+          "before_position": 79,
+          "after_position": 78
+        },
+        {
+          "signature": "erp_cp7_get_fg_v1(jsonb)",
+          "definition_md5": "1f4b02602a48000636bbcf5e29ce39e3",
+          "before_position": 115,
+          "after_position": 116
+        },
+        {
+          "signature": "erp_cp7_get_fg_ledger_v1(jsonb)",
+          "definition_md5": "b2bfa62d76f7d16d1432dbfaa673ff25",
+          "before_position": 116,
+          "after_position": 115
+        },
+        {
+          "signature": "erp_cp7_get_fg_adjustments_v1(jsonb)",
+          "definition_md5": "1ba9a0edca3662b45a0acd0d9bb6b2fb",
+          "before_position": 117,
+          "after_position": 118
+        },
+        {
+          "signature": "erp_cp7_save_fg_adjustment_v1(text,jsonb,uuid,text)",
+          "definition_md5": "2ef212fc4cc3dd20ee6af487b768524d",
+          "before_position": 118,
+          "after_position": 117
+        },
+        {
+          "signature": "erp_cp7_get_fg_book_v1(jsonb)",
+          "definition_md5": "90dac4037c924df2fac23d732ffae439",
+          "before_position": 119,
+          "after_position": 121
+        },
+        {
+          "signature": "erp_cp7_get_fg_book_options_v1(text,text,integer,integer)",
+          "definition_md5": "874d331dfcd8e6fe54b083b4a0bb7046",
+          "before_position": 120,
+          "after_position": 119
+        },
+        {
+          "signature": "erp_cp7_save_fg_book_v1(text,jsonb,uuid)",
+          "definition_md5": "90818696920e487c4fb97e5fc667e7a7",
+          "before_position": 121,
+          "after_position": 120
+        },
+        {
+          "signature": "erp_cp7_get_nota_workspace_v1(text,jsonb)",
+          "definition_md5": "a0d6efa008ae407e09aa73957981561e",
+          "before_position": 126,
+          "after_position": 127
+        },
+        {
+          "signature": "erp_cp7_save_nota_v1(text,jsonb,uuid,text)",
+          "definition_md5": "6fd9257ebc0a54cb634c0bcfac643b19",
+          "before_position": 127,
+          "after_position": 126
+        }
+      ],
+      "complete_location_maps_byte_meaning_equal": true,
+      "changed_signature_oid_owner_tuple_slot_definitions": [],
+      "all_original_catalogue_fields_and_multiplicity_equal": true,
+      "historical_failed_run_cause_reconstructed": false
+    }
+  ],
+  "Native_cases_reexecuted_by_review": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

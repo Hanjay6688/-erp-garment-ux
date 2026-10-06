@@ -1,0 +1,634 @@
+{
+  "id": 11419408074,
+  "name": "cp7-f03-full-p09",
+  "run_id": 37474166739,
+  "workflow_name": "CP7 F03 Full Retained Components",
+  "workflow_path": ".github/workflows/cp7-f03-full.yml",
+  "size_in_bytes": 27116835,
+  "digest": "sha256:6e92d46dfb78e97f6ce1c940a6e81f319e1f1d053cdf63fed18f36eeb8833758",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385621,
+      "sha256": "5c167f79eac8fbcb32a48fc70297b5a87012ed9751dfd3f682733f8663fcc61c"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385621,
+      "sha256": "5c167f79eac8fbcb32a48fc70297b5a87012ed9751dfd3f682733f8663fcc61c"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "11838c663d0017d9231054c1ddc8f54731690f7550f842aa893834e5063a1479"
+    },
+    "CP7_F03_FULL_P09.json": {
+      "bytes": 13286439,
+      "sha256": "87430805ad147ccbc8808925d89e79f27b6ccb5d8137681b288107a889e5bce1"
+    },
+    "P09_COMBINED_INVOICE_DESKTOP.png": {
+      "bytes": 1411433,
+      "sha256": "93cfe25536509f3e4aa6a99a93b4c14828ec07e44765c43c91d86794505529e0"
+    },
+    "P09_COMBINED_INVOICE_MOBILE.png": {
+      "bytes": 1289756,
+      "sha256": "46414011531492b7d68673d4f73c8aee06c957a02d7e74ea9a9a82b84da6ccc7"
+    },
+    "P09_COUNT_DESKTOP.png": {
+      "bytes": 779116,
+      "sha256": "70caba93831f9befaa3410ab1757388d85698a59d232b0a1e05a8113ca399c4b"
+    },
+    "P09_COUNT_MOBILE.png": {
+      "bytes": 1101261,
+      "sha256": "a1401762352b80a0a51b7f48efa929857469ae083ed7b1c96489393489b7a179"
+    },
+    "P09_COUNT_MULTI_DESKTOP.png": {
+      "bytes": 1252126,
+      "sha256": "e5b22c4bffa8c21623df5061025c3789a96cd237d82202ddfb9e82c194ede08d"
+    },
+    "P09_COUNT_MULTI_MOBILE.png": {
+      "bytes": 1458612,
+      "sha256": "26431d8d302f8f5f550ba52bbd317969c38cd90c536080768193681225211b77"
+    },
+    "P09_COUNT_UNMOVED_DESKTOP.png": {
+      "bytes": 1802307,
+      "sha256": "03bc436ba5b1d86d98cda9db2ecddf506830282e1777a9262e72c05b41030702"
+    },
+    "P09_COUNT_UNMOVED_MOBILE.png": {
+      "bytes": 1131536,
+      "sha256": "f2587377212d9338ad33b970a93588ba1f060768399f10dfced8aa8f1808fc4e"
+    },
+    "P09_DESKTOP.png": {
+      "bytes": 1379665,
+      "sha256": "60477b496007db61a69bd84dce831802ff5bfe1d3252965d72ba0e61a5699ea0"
+    },
+    "P09_INVOICE_DESKTOP.png": {
+      "bytes": 1393462,
+      "sha256": "8afe384099ab8c563e2f7f2ebc33a0fb3f93d40132e550807b51ba26857347d5"
+    },
+    "P09_INVOICE_MOBILE.png": {
+      "bytes": 1041992,
+      "sha256": "defc553e164e0e54a671691bd10ccbc8521f6014b3400e6524e14b1b3077dd93"
+    },
+    "P09_MATERIAL_ACCESSORY_DESKTOP.png": {
+      "bytes": 534937,
+      "sha256": "b458cdf312c3b8b94fd75a0ed60dfc30924ec314e75be7c08d64abd09c7fe9b0"
+    },
+    "P09_MATERIAL_DESKTOP.png": {
+      "bytes": 556995,
+      "sha256": "f351e04edaf7510e2d30c9b70356d20ff99abd95e2bda3dd4734cdf3d28c3526"
+    },
+    "P09_MATERIAL_MOBILE.png": {
+      "bytes": 355034,
+      "sha256": "8eeaa7e6ae68493f3275af106e20017b27f7ec039be6434e6a66f318ac49cd14"
+    },
+    "P09_MATERIAL_OTHER_MOBILE.png": {
+      "bytes": 334932,
+      "sha256": "efe38f8b4c4e9039574061838c70772015f238adbb51faad6d825e248097ae2e"
+    },
+    "P09_MOBILE.png": {
+      "bytes": 910410,
+      "sha256": "a7b00666b759c347d89d800d481d871f6572b743c838ce94ef9dd25935f7ae12"
+    },
+    "P09_RECEIPT_REVERSE_DESKTOP.png": {
+      "bytes": 1239569,
+      "sha256": "fa8c2f42580e68dcb2fb8a761060b98424b3fb93ce371b4a703e1f176daac963"
+    },
+    "P09_RECEIPT_REVERSE_MOBILE.png": {
+      "bytes": 1006670,
+      "sha256": "c4aefeee5b63956b00e1c41899d8722c0be452c9136f1b60a505772799a2ce87"
+    },
+    "P09_RETURN_DESKTOP.png": {
+      "bytes": 1531548,
+      "sha256": "e269bad4b846a7482a718d1248333391d3d878ec1d4392638246b7221faaf038"
+    },
+    "P09_RETURN_MOBILE.png": {
+      "bytes": 1177246,
+      "sha256": "f874944355da8a105f832b01993557e7b9bd3a0c5e78947b7332bcebf7f89b13"
+    },
+    "P09_UOM_DESKTOP.png": {
+      "bytes": 1577637,
+      "sha256": "c1d5916806bb2144893e74d9cbc44d98e3aee617c02d9b6245cf6b1a2010e645"
+    },
+    "P09_UOM_MOBILE.png": {
+      "bytes": 1107022,
+      "sha256": "4e03b3a7f6c7111304528fd0d25b3914d9abef54ffee93ab8fc93b8c4fc9ec07"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "090f2ad349696948ae5a437e487dff21d79b612d96fd67272b1831f48e7a7724"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "b4bc009f917de2b383f8ecee5d6854deb79fcd96a9dbb3e68a5f197489bbac46"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F03_FULL_P09.json": {
+      "bytes": 13286439,
+      "sha256": "87430805ad147ccbc8808925d89e79f27b6ccb5d8137681b288107a889e5bce1",
+      "file": "CP7_F03_FULL_P09.json.gz",
+      "gzip_sha256": "5cc2f74dc2a5acea926fcc841859539be977feab0633de60d4f3a5980018dd0a",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "090f2ad349696948ae5a437e487dff21d79b612d96fd67272b1831f48e7a7724",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "431108e865fbd5c1a0429a1e39d7f2a00f9b01d4342f3185a3d3469e600b23b0",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "b4bc009f917de2b383f8ecee5d6854deb79fcd96a9dbb3e68a5f197489bbac46",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "f3f296b1d8ec05bd03ab00588fade7f934b48469f45584fd0bc1f6c38bbeb1b5",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F03_FULL_P09.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 132,
+      "declared_case_count": 132,
+      "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+      "groups": {
+        "groups/smoke": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_RECEIPT_SMOKE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/native": {
+          "case_count": 9,
+          "case_ids": [
+            "P09_DRAFT_ESTIMATED_GRNI",
+            "P09_FINAL_EXACT_VALUE",
+            "P09_REPLAY_STALE",
+            "P09_OPS_FINANCE_REDACTION",
+            "P09_OPS_BENCHMARK",
+            "P09_PERMISSION_PRINCIPALS",
+            "P09_COMPLETE_PAGES_OPTIONS",
+            "P09_INVALID_ATOMIC",
+            "P09_ZONE_GUARD_REGRESSION"
+          ],
+          "counts": {
+            "PASS": 9
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_RACE_SAME_REQUEST",
+            "P09_RACE_COMPETING_POST",
+            "P09_RACE_REVOKE_WAIT"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_HTTP_RECEIPT_REPLAY_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/material_smoke": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_MATERIAL_SMOKE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/material": {
+          "case_count": 13,
+          "case_ids": [
+            "P09_MATERIAL_DRAFT_NOT_STOCK",
+            "P09_TRANSFER_CONSERVATION",
+            "P09_TRANSFER_HISTORICAL_PREFIX",
+            "P09_TRANSFER_LOCATIONS_LINEAGE",
+            "P09_MATERIAL_REDACTION_ACCESS",
+            "P09_TRANSFER_REPLAY_STALE",
+            "P09_TRANSFER_CONSUMED_REVERSE",
+            "P09_MATERIAL_COMPLETE_PAGES_UNITS",
+            "P09_MATERIAL_PRINCIPALS",
+            "P09_ACCESSORY_LEDGER_TRANSFER",
+            "P09_OTHER_LEDGER_TRANSFER",
+            "P09_UNROLLED_SERVICE_ZONE_REPLAY",
+            "P09_UNROLLED_COMPLETE_PAGES"
+          ],
+          "counts": {
+            "PASS": 13
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/material_crossflow": {
+          "case_count": 2,
+          "case_ids": [
+            "P09_TRANSFER_PRODUCTION_LATE_INVOICE",
+            "P09_TRANSFER_CLOSED_DAY_LATE_INVOICE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/material_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_TRANSFER_RACE_SHARED_ROLL",
+            "P09_TRANSFER_RACE_UNROLLED",
+            "P09_TRANSFER_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/material_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_MATERIAL_HTTP_TRANSFER_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/material_count": {
+          "case_count": 17,
+          "case_ids": [
+            "P09_COUNT_FABRIC",
+            "P09_COUNT_ACCESSORY",
+            "P09_COUNT_POSITIVE",
+            "P09_COUNT_STALE_BASIS",
+            "P09_COUNT_FORGED_ATOMIC",
+            "P09_COUNT_NATIVE_EDIT",
+            "P09_COUNT_REPLAY_DELETE",
+            "P09_COUNT_ACCESS",
+            "P09_COUNT_SCOPE",
+            "P09_COUNT_HISTORICAL",
+            "P09_COUNT_COMPLETE_PAGES",
+            "P09_COUNT_MULTI_EDIT_INVERSE",
+            "P09_COUNT_MULTI_ACCESS",
+            "P09_COUNT_UNMOVED_FABRIC",
+            "P09_COUNT_UNMOVED_ACCESSORY",
+            "P09_COUNT_UNMOVED_STALE",
+            "P09_COUNT_OPTIONS_SCOPE"
+          ],
+          "counts": {
+            "PASS": 17
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/material_count_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P09_COUNT_RACE_PREFIX",
+            "P09_COUNT_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/material_count_http": {
+          "case_count": 2,
+          "case_ids": [
+            "P09_COUNT_HTTP",
+            "P09_COUNT_OPTIONS_HTTP"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/invoice": {
+          "case_count": 9,
+          "case_ids": [
+            "P09_INVOICE_STAGED_AND_REVERSE",
+            "P09_INVOICE_EXACT_DECIMAL",
+            "P09_INVOICE_DISCOUNT",
+            "P09_INVOICE_REPLAY_STALE",
+            "P09_INVOICE_ATOMIC_REFUSALS",
+            "P09_INVOICE_ACCESS_PRINCIPALS",
+            "P09_INVOICE_COMPLETE_MULTI_RECEIPT",
+            "P09_INVOICE_COMPLETE_PAGES",
+            "P09_INVOICE_AFTER_TRANSFER"
+          ],
+          "counts": {
+            "PASS": 9
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/invoice_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_INVOICE_RACE_SAME_REQUEST",
+            "P09_INVOICE_RACE_COMPETING",
+            "P09_INVOICE_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/invoice_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_INVOICE_HTTP_AUTH_REPLAY"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/combined_invoice": {
+          "case_count": 6,
+          "case_ids": [
+            "P09_COMBINED_INVOICE_LIFECYCLE",
+            "P09_COMBINED_INVOICE_REPLAY_DELETE",
+            "P09_COMBINED_INVOICE_ATOMIC",
+            "P09_COMBINED_INVOICE_SOURCES",
+            "P09_COMBINED_INVOICE_ACCESS",
+            "P09_COMBINED_INVOICE_CAPACITY"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/combined_invoice_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_COMBINED_INVOICE_RACE_SAME",
+            "P09_COMBINED_INVOICE_RACE_CAPACITY",
+            "P09_COMBINED_INVOICE_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/combined_invoice_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_COMBINED_INVOICE_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/browser": {
+          "case_count": 22,
+          "case_ids": [
+            "P09_BROWSER_RECEIPT_DESKTOP",
+            "P09_BROWSER_LOST_REPLY_MOBILE",
+            "P09_BROWSER_TRANSFER_DESKTOP",
+            "P09_BROWSER_TRANSFER_LOST_REPLY_MOBILE",
+            "P09_BROWSER_INVOICE_DESKTOP",
+            "P09_BROWSER_INVOICE_LOST_REPLY_MOBILE",
+            "P09_BROWSER_RETURN_CREDIT_DESKTOP",
+            "P09_BROWSER_RETURN_CREDIT_LOST_REPLY_MOBILE",
+            "P09_BROWSER_RECEIPT_REVERSE_DESKTOP",
+            "P09_BROWSER_RECEIPT_REVERSE_LOST_REPLY_MOBILE",
+            "P09_BROWSER_UOM_DESKTOP",
+            "P09_BROWSER_UOM_LOST_DRAFT_REPLY_MOBILE",
+            "P09_BROWSER_ACCESSORY_TRANSFER_DESKTOP",
+            "P09_BROWSER_OTHER_TRANSFER_MOBILE",
+            "P09_BROWSER_COUNT_DESKTOP",
+            "P09_BROWSER_COUNT_LOST_REPLY_MOBILE",
+            "P09_BROWSER_COMBINED_INVOICE_DESKTOP",
+            "P09_BROWSER_COMBINED_INVOICE_LOST_REPLY_MOBILE",
+            "P09_BROWSER_COUNT_MULTI_DESKTOP",
+            "P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY",
+            "P09_BROWSER_COUNT_UNMOVED_DESKTOP",
+            "P09_BROWSER_COUNT_UNMOVED_MOBILE_RECOVERY"
+          ],
+          "counts": {
+            "PASS": 22
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "groups/return_smoke": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_RETURN_SMOKE"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/returns": {
+          "case_count": 10,
+          "case_ids": [
+            "P09_RETURN_TRANSFERRED_GRNI",
+            "P09_RETURN_FABRIC_PORTABLE_CREDIT",
+            "P09_RETURN_ACCESSORY_PORTABLE_CREDIT",
+            "P09_RETURN_PARTIAL_AP_GRNI",
+            "P09_RETURN_EXACT_CENTS",
+            "P09_RETURN_REPLAY_STALE_SOURCE",
+            "P09_RETURN_ATOMIC_LINEAGE",
+            "P09_RETURN_HISTORICAL_PREFIX",
+            "P09_RETURN_ACCESS_PRINCIPALS",
+            "P09_RETURN_COMPLETE_DOCUMENT_PAGES"
+          ],
+          "counts": {
+            "PASS": 10
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/return_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_RETURN_RACE_SAME_REQUEST",
+            "P09_RETURN_RACE_SOURCE_CAPACITY",
+            "P09_RETURN_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/return_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_RETURN_HTTP_AUTH_REPLAY"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/receipt_reversal": {
+          "case_count": 7,
+          "case_ids": [
+            "P09_RECEIPT_REVERSE_ESTIMATED",
+            "P09_RECEIPT_REVERSE_EXACT_FINAL",
+            "P09_RECEIPT_REVERSE_REPLAY",
+            "P09_RECEIPT_REVERSE_INVOICE_RETURN",
+            "P09_RECEIPT_REVERSE_PAYMENT",
+            "P09_RECEIPT_REVERSE_HISTORY",
+            "P09_RECEIPT_REVERSE_ACCESS"
+          ],
+          "counts": {
+            "PASS": 7
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/receipt_reversal_races": {
+          "case_count": 3,
+          "case_ids": [
+            "P09_RECEIPT_REVERSE_RACE_SAME",
+            "P09_RECEIPT_REVERSE_RACE_DIFFERENT",
+            "P09_RECEIPT_REVERSE_RACE_REVOKE"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/receipt_reversal_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_RECEIPT_REVERSE_HTTP_AUTH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "groups/uom": {
+          "case_count": 6,
+          "case_ids": [
+            "P09_UOM_DOZEN",
+            "P09_UOM_GROSS_FINAL",
+            "P09_UOM_DATED_MASTER",
+            "P09_UOM_ATOMIC_INVALID",
+            "P09_UOM_REPLAY_ACCESS",
+            "P09_UOM_MIXED_RECEIPT"
+          ],
+          "counts": {
+            "PASS": 6
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/uom_races": {
+          "case_count": 2,
+          "case_ids": [
+            "P09_UOM_RACE_SAME_SAVE",
+            "P09_UOM_RACE_REVOKE_SAVE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "groups/uom_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P09_UOM_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [
+        "groups/material_smoke",
+        "groups/return_smoke",
+        "groups/smoke"
+      ],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

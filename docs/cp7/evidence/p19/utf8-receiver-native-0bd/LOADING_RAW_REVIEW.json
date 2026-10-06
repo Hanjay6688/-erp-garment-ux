@@ -1,0 +1,87 @@
+{
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "run_id": 37474166830,
+  "samples": [
+    {
+      "case_id": "P18_E01_BRIDGE_BROWSER_DESKTOP",
+      "id": "ANALYSIS_CAPTURE_DESKTOP",
+      "elapsed_ms": 964.2000000000116,
+      "budget": {
+        "class": "HEAVY_COMPLETE",
+        "limit_ms": 3000,
+        "inclusive": true,
+        "elapsed_ms": 964.2000000000116,
+        "meets_limit": true
+      },
+      "complete_body_utf8_bytes": 71670,
+      "rendered": {
+        "run_id": "05d5cdf6-5572-4210-af81-84d9635900e7"
+      },
+      "trusted_click_to_render": true
+    },
+    {
+      "case_id": "P18_E01_BRIDGE_BROWSER_DESKTOP",
+      "id": "STOCK_POPUP_DESKTOP",
+      "elapsed_ms": 415.8999999999651,
+      "budget": {
+        "class": "ROUTINE_READ",
+        "limit_ms": 1000,
+        "inclusive": false,
+        "elapsed_ms": 415.8999999999651,
+        "meets_limit": true
+      },
+      "complete_body_utf8_bytes": 71670,
+      "rendered": {
+        "run_id": "05d5cdf6-5572-4210-af81-84d9635900e7",
+        "target": "06b95dfd-4d6f-4fdb-9493-90613aa02d9f:c8c10000-0000-4000-8000-000000000002",
+        "source_hash": "4f1085e0e81522a408e228c4836de0fc0bc662697db88f557280ac360b3eceb5",
+        "semantic_hash": "da5c53ade4c328ccd520260bc2160e94c21c679a6a948acae8cd98618756d927"
+      },
+      "trusted_click_to_render": true
+    },
+    {
+      "case_id": "P18_E01_BRIDGE_BROWSER_MOBILE",
+      "id": "ANALYSIS_CAPTURE_MOBILE",
+      "elapsed_ms": 1221.3000000000466,
+      "budget": {
+        "class": "HEAVY_COMPLETE",
+        "limit_ms": 3000,
+        "inclusive": true,
+        "elapsed_ms": 1221.3000000000466,
+        "meets_limit": true
+      },
+      "complete_body_utf8_bytes": 112375,
+      "rendered": {
+        "run_id": "5c53566c-2282-4634-9833-fd7d96ee2133"
+      },
+      "trusted_click_to_render": true
+    },
+    {
+      "case_id": "P18_E01_BRIDGE_BROWSER_MOBILE",
+      "id": "STOCK_POPUP_MOBILE",
+      "elapsed_ms": 495.70000000001164,
+      "budget": {
+        "class": "ROUTINE_READ",
+        "limit_ms": 1000,
+        "inclusive": false,
+        "elapsed_ms": 495.70000000001164,
+        "meets_limit": true
+      },
+      "complete_body_utf8_bytes": 112375,
+      "rendered": {
+        "run_id": "5c53566c-2282-4634-9833-fd7d96ee2133",
+        "target": "eb2f4cc2-4c50-4ccf-a952-b5b8e5372506:c8c10000-0000-4000-8000-000000000002",
+        "source_hash": "1beaefb71595dc0411415e75a8bea192f438d6909dcfc0458e812c2c8e11b75c",
+        "semantic_hash": "a5fa933e1098b72e5ed2c9637dc255aa955160df8eb3844a94643599cc554771"
+      },
+      "trusted_click_to_render": true
+    }
+  ],
+  "qualification": "BOUNDED_REAL_AUTH_BROWSER_CI_FIXTURE",
+  "new_Native_case_credit": 0,
+  "ordinary_save_2s_qualified_by_these_samples": false,
+  "representative_5000_target_capacity": false,
+  "factory_SLA_acceptance": false,
+  "production_go": false
+}

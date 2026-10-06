@@ -1,0 +1,158 @@
+{
+  "id": 11418294812,
+  "name": "cp7-p08-fabric-physical21-complete-json",
+  "run_id": 37474167289,
+  "workflow_name": "CP7 P08 Physical Fabric",
+  "workflow_path": ".github/workflows/claude-p08-physical.yml",
+  "size_in_bytes": 126180,
+  "digest": "sha256:5437bc66aab7b8983849f1068d6a5f37831422a27a849162d7ab3fd0323865d1",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_FABRIC_PHYSICAL.json": {
+      "bytes": 2691507,
+      "sha256": "d0cfd223b793b3b7c466d4553ea776b79cac54eebf26f9a705295b1f685c113a"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "997e09fa87e842446c05d9efac84df3e25b49a5e9b7d5d11f565baca07040f3c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360407,
+      "sha256": "ff44a5c0678b4c1ab859ce70101cc25f788919731146b0d5f11911f6c212236e"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_FABRIC_PHYSICAL.json": {
+      "bytes": 2691507,
+      "sha256": "d0cfd223b793b3b7c466d4553ea776b79cac54eebf26f9a705295b1f685c113a",
+      "file": "CP7_FABRIC_PHYSICAL.json.gz",
+      "gzip_sha256": "c15facb6d4d3ec5701593f63d186bb98640b929825b5349faaa0ad77ef15b616",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "997e09fa87e842446c05d9efac84df3e25b49a5e9b7d5d11f565baca07040f3c",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "6153e21263b9ea8c4003189646b170a646e0ccfe757c8d99c9625328432f13e3",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360407,
+      "sha256": "ff44a5c0678b4c1ab859ce70101cc25f788919731146b0d5f11911f6c212236e",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "6285558cc45882989e45b2d7780512bc6427b7f38e0c22c3c6f799087bf33973",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_FABRIC_PHYSICAL.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 21,
+      "declared_case_count": 21,
+      "source_bundle_sha256": "d269358c97b5baf46c6d41cd64c190996cef8b53e94e873b8ae2352e15c2e42a",
+      "groups": {
+        "native": {
+          "case_count": 16,
+          "case_ids": [
+            "P08_PHYSICAL_SINGLE_FREE_STOCK",
+            "P08_PHYSICAL_SUFFICIENT_FREE_STOCK",
+            "P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND",
+            "P08_PHYSICAL_LINKED_DRAFT_KNOWN",
+            "P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE",
+            "P08_PHYSICAL_WRONG_MATERIAL_DRAFT",
+            "P08_PHYSICAL_OVERCOMMITTED_DRAFT",
+            "P08_PHYSICAL_UNLINKED_NATIVE_DRAFT",
+            "P08_PHYSICAL_INCOMING_ON_TIME",
+            "P08_PHYSICAL_INCOMING_LATE",
+            "P08_PHYSICAL_INCOMING_NO_DATE",
+            "P08_PHYSICAL_INCOMING_OVERDUE",
+            "P08_PHYSICAL_SHARED_SPLIT_THEN_DRAFTS",
+            "P08_PHYSICAL_RECEIPT_STALES_ORIGINAL",
+            "P08_PHYSICAL_POSTED_ISSUE_ONCE",
+            "P08_PHYSICAL_KERNEL_BRANCHES_SYNTHETIC"
+          ],
+          "counts": {
+            "PASS": 16
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 2,
+          "case_ids": [
+            "P08_PHYSICAL_REAL_MVCC_RECEIPT",
+            "P08_PHYSICAL_REAL_MVCC_NATIVE_POST"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P08_PHYSICAL_REAL_AUTH_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P08_PHYSICAL_BROWSER_DESKTOP",
+            "P08_PHYSICAL_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

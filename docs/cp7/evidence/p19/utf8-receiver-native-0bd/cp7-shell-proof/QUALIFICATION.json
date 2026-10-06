@@ -1,0 +1,16 @@
+{
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "run_id": 37474166591,
+  "job_id": 112305109730,
+  "application_tests": 1558,
+  "test_files": 165,
+  "fixture_browser_cases": 6,
+  "private_admission_decisions": 385,
+  "negative_control_differences": 36,
+  "Native_exit_case_credit_added": 0,
+  "original_job_sha256": "ea64ac2ca7dcff5cc939a4b52bbd2a39a3272d01e28d101f9c600f51295559b4",
+  "source_security_build_client_scan_passed": true,
+  "full_CP7_acceptance": false,
+  "production_go": false
+}

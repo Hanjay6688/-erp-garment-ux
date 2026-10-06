@@ -1,0 +1,288 @@
+{
+  "status": "COMPLETE_RETAINED_ORIGINALS_REVERIFIED",
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "source_workflows": 32,
+  "all_source_workflows_success": true,
+  "complete_indexed_artifacts": 45,
+  "artifact_receipts": [
+    {
+      "artifact_id": 11417874817,
+      "receipt": "cp7-f03-e06/RECEIPT.json",
+      "receipt_sha256": "d6fd639360cdb956ee5661657488ea161ab8aa5699bfd6f8381e9d3d42d5695b",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419145098,
+      "receipt": "cp7-f03-x04/RECEIPT.json",
+      "receipt_sha256": "b0a93ce2b8c4cd4f52e0bc0d0d4de74f35c03a0dfda4a03999635df7825d08dd",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418172930,
+      "receipt": "cp7-f03-return-documents/RECEIPT.json",
+      "receipt_sha256": "72489463326e6bd71b2306e6df5fc764ccb83132163ceeed1e15444f084fd4f9",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419430382,
+      "receipt": "cp7-sales-return-correction/RECEIPT.json",
+      "receipt_sha256": "ede8f5d1303c5835f75407fa4da1d4a7d96d682084a9d4ed58142d9e8213a159",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418397278,
+      "receipt": "cp7-f03-cost-continuation/RECEIPT.json",
+      "receipt_sha256": "009b5787906586566d623e4f18dc094032393d47247e1a8bf522fc7a05d3d600",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11417634542,
+      "receipt": "cp7-f03-e03/RECEIPT.json",
+      "receipt_sha256": "95083a887fbe55afbe2995e9296369c137b98d53256b61733bf32a1740050f55",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418851510,
+      "receipt": "cp7-f03-e24-issue/RECEIPT.json",
+      "receipt_sha256": "a9eeb519a61fddd5800bd5ebf9da09a3656541d6697b99343e22567067c875d1",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11417574402,
+      "receipt": "cp7-supplier-payment-correction/RECEIPT.json",
+      "receipt_sha256": "fe7a34114b0d43318903e3165e4babc7e97a3d3660d41517634ffb85ed0025e0",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11417919693,
+      "receipt": "cp7-payment-correction/RECEIPT.json",
+      "receipt_sha256": "fa0d0c703e71962e18ffd94c36bba1b10cbd0c446107590c38e773fbaf7ba583",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11417579586,
+      "receipt": "cp7-f03-e05/RECEIPT.json",
+      "receipt_sha256": "1d9da7d49971388e7eefb0641b3b6ba2f4a52a78eb81a2da3ee6d25e6555c070",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418183120,
+      "receipt": "cp7-f03-redye/RECEIPT.json",
+      "receipt_sha256": "cdf62bfc6802778a9cfbf7da0b3bb8dfa62f0603943058aeb8ed4de940451db2",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418367650,
+      "receipt": "cp7-f04-fabric/RECEIPT.json",
+      "receipt_sha256": "062fdebca0aa89215e3fc99f1c6261e175c62f88a53855aca826363d819d2d59",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418747014,
+      "receipt": "cp7-f03-combined/RECEIPT.json",
+      "receipt_sha256": "d93a9d103f2e5aa2b9ef6b2889eaf24e901d741a1fe0d4b3a55d25543a06610e",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419390070,
+      "receipt": "cp7-prefreeze-ui-prefreeze_ui/RECEIPT.json",
+      "receipt_sha256": "84f9d08a9d31dc06e3bf8ae7d363f452050d53c1d31aa84ef0daa496bbdc3ac0",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418887021,
+      "receipt": "cp7-p18-e01-bridge/RECEIPT.json",
+      "receipt_sha256": "f162d19accae82976a9671e3bad522210d78c6e4a0a90f096e2546375beec705",
+      "root_original_count": 8
+    },
+    {
+      "artifact_id": 11419400197,
+      "receipt": "cp7-rule-lifecycle/RECEIPT.json",
+      "receipt_sha256": "1b71ad7a71811c1bcb841299baaf8430019da7ad15bb1034fbeec97a707dd20a",
+      "root_original_count": 7
+    },
+    {
+      "artifact_id": 11418826658,
+      "receipt": "cp7-f03-cash/RECEIPT.json",
+      "receipt_sha256": "e9eadc9c3c06d625e0dfe17185a88ad433ae56c0b66dc0aa9034de190af7b8c7",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419530587,
+      "receipt": "cp7-codeql-javascript-typescript/RECEIPT.json",
+      "receipt_sha256": "690160b78bc7dc0f778999e8d1a34ece82d6ccc4dd1c39c2b4f0a157dd025c53",
+      "root_original_count": 1
+    },
+    {
+      "artifact_id": 11419087012,
+      "receipt": "cp7-codeql-actions/RECEIPT.json",
+      "receipt_sha256": "3a85c8d30080dfb28b85a5743b4d1f10fa3ff5ece5c0d73b56160a823f1fd240",
+      "root_original_count": 1
+    },
+    {
+      "artifact_id": 11418957671,
+      "receipt": "cp7-shell-proof/RECEIPT.json",
+      "receipt_sha256": "56ba10456162d1c9b7bd84e0218af3890dd99bc527cd2cdfe4327559738377f6",
+      "root_original_count": 6
+    },
+    {
+      "artifact_id": 11418463065,
+      "receipt": "cp7-sales-chain/RECEIPT.json",
+      "receipt_sha256": "543c30aba73847b8ebdd4ed6cdb5fb271f6ed65600827d96255f70418cc04ae0",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418144170,
+      "receipt": "cp7-f03-capacity/RECEIPT.json",
+      "receipt_sha256": "b23a0b613a3042738ee80e75f40835aa0835966ce1fb9323028138799ceb55b5",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418817558,
+      "receipt": "cp7-cutting-correction/RECEIPT.json",
+      "receipt_sha256": "683247dba9192ab07c5f7a33aa4e548902b357286baf3c71ce0faef9dd16b2ee",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418923303,
+      "receipt": "cp7-f03-full-customer_refund/RECEIPT.json",
+      "receipt_sha256": "d6660dce76ae0ec2ef108f08d2f1ba88a64a8a02f76f0bc4376b5979d0523ee5",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418707815,
+      "receipt": "cp7-f03-misc/RECEIPT.json",
+      "receipt_sha256": "27315933ed413f4391e857b60a003ac6b1b83936c097cf48b8bc06d226da27cc",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418349572,
+      "receipt": "cp7-f03-full-supplier_credit/RECEIPT.json",
+      "receipt_sha256": "2c06e65d1ad1ce1d1e24b71074560471a00515a21baac46445ff1b14e46277e5",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418443409,
+      "receipt": "cp7-misc-correction/RECEIPT.json",
+      "receipt_sha256": "cb18f75bace5645138a3f44c1e4f93e7445850c5993479352870bd9fbcc428c2",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418034885,
+      "receipt": "cp7-f03-e01/RECEIPT.json",
+      "receipt_sha256": "fb6b0e1571762bb78ab5814d74766c07872e5942fac88f141665f2f87e954296",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418822597,
+      "receipt": "cp7-f03-full-p10/RECEIPT.json",
+      "receipt_sha256": "8b3f103dfe1f9ec61cce4945ea6ab8ffde54ea454fd311eb16fdad73868b9cb0",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418573800,
+      "receipt": "cp7-f03-full-p13/RECEIPT.json",
+      "receipt_sha256": "6cff935d2e9f02da6f6b1fd6c42027258c26ac47aceced6a8f9816dbed03b0f0",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418449321,
+      "receipt": "cp7-f03-full-p11/RECEIPT.json",
+      "receipt_sha256": "848a173cc47e841cfaaffe4c81db18b8d14577ee6e68f5b134dfd63e36a1b81e",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418563301,
+      "receipt": "cp7-transaction-source/RECEIPT.json",
+      "receipt_sha256": "2c37da8251a8fadb9cb2c645d479840d7d3c23ec1c87e7db8020ad947893cc3f",
+      "root_original_count": 6
+    },
+    {
+      "artifact_id": 11418369149,
+      "receipt": "cp7-p18-rule-lifecycle16-complete-json/RECEIPT.json",
+      "receipt_sha256": "e4e56358ceca828c494f6175144baafab76ee968fb391d308f64542dab9e9e28",
+      "root_original_count": 7
+    },
+    {
+      "artifact_id": 11419029566,
+      "receipt": "cp7-p08-analysis152-complete-json/RECEIPT.json",
+      "receipt_sha256": "4cf671595ad4f88bf08c1dd07e34527b3689e7f1b58655dfb20a29e410c80e5f",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419197902,
+      "receipt": "cp7-p18-p18-e01-9-complete-json/RECEIPT.json",
+      "receipt_sha256": "a77ded2110de0e0c9d7267720995b683d878344634729c1ef334265ea8eb98bd",
+      "root_original_count": 7
+    },
+    {
+      "artifact_id": 11419890067,
+      "receipt": "cp7-p08-fabric13-successor-complete-json/RECEIPT.json",
+      "receipt_sha256": "b270491bfe6f071332fda7cc34cb0eeb20c59fb86b923ffcc5a2f6cd7276bf11",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418982994,
+      "receipt": "cp7-p18-fabric-rule11-complete-json/RECEIPT.json",
+      "receipt_sha256": "65ff30bdde279af7af2a65e238e3c9d974cf51755ae924271b7e0a23f369f6ba",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11418294812,
+      "receipt": "cp7-p08-fabric-physical21-complete-json/RECEIPT.json",
+      "receipt_sha256": "9a01475b2362e9230aea393d47a8ec9501fc4b719919ea899afaa56938bbdd0e",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419209505,
+      "receipt": "cp7-p08-plan39-complete-json/RECEIPT.json",
+      "receipt_sha256": "8a973b7548478e803173c9e1ee5b7c2e8e0321e9c7e5d35ae79508951a1cd4e4",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419970974,
+      "receipt": "cp7-f03-full-p12/RECEIPT.json",
+      "receipt_sha256": "23a2cd531babfcb2348c9e1a5c98359070728666914b831fb8fd72eec16507ac",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419408074,
+      "receipt": "cp7-f03-full-p09/RECEIPT.json",
+      "receipt_sha256": "d260a2e1880e3a19155ebf2b0c7d1daaa455f7bf82f2532a9ab2c805307c8558",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11419237634,
+      "receipt": "cp7-note-correction/RECEIPT.json",
+      "receipt_sha256": "029df8720ae600ec72d1514cb7d2649889521a05b4d5afa4d82abfd2ff5e3a6f",
+      "root_original_count": 10
+    },
+    {
+      "artifact_id": 11418799381,
+      "receipt": "cp7-f03-full-cash_installments/RECEIPT.json",
+      "receipt_sha256": "ca11ba9769b89c4353ff1dc2be9b2b7995468202c759bb299a2f13da158ad0f9",
+      "root_original_count": 5
+    },
+    {
+      "artifact_id": 11420584141,
+      "receipt": "cp7-f05-attention-original-json/RECEIPT.json",
+      "receipt_sha256": "377e6b0d46cff22ecb67b8939a5e51f7ceca9b88f8d79a3dbc02148050880884",
+      "root_original_count": 18
+    },
+    {
+      "artifact_id": 11421962393,
+      "receipt": "cp7-p08-attention284-complete-json/RECEIPT.json",
+      "receipt_sha256": "35450314d92779898c72ac8993780063cd6a47f4caa3b8d6b3d4e86088734fa7",
+      "root_original_count": 17
+    }
+  ],
+  "build_artifact_separate": "build-ux/RECEIPT.json",
+  "analysis_projection_separate": "analysis152-projection/RECEIPT.json",
+  "case_groups_reread": true,
+  "Native_cases_reexecuted_by_retainer": 0,
+  "unique_full_CP7_case_total_claimed": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

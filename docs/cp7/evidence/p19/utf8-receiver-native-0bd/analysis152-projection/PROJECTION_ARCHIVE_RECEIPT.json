@@ -1,0 +1,30 @@
+{
+  "projection_run_id": 37476452319,
+  "projection_artifact_id": 11419835124,
+  "projection_archive_bytes": 48941,
+  "projection_archive_sha256": "6d357df558890556f8d0289ef9afe03c48c8eecdfee109c39254a0bdc3b35e23",
+  "projection_source_commit": "382429182782b77c1b8359fee798f5f3094fa7d6",
+  "native_source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "native_source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "native_run_id": 37474166992,
+  "native_artifact_id": 11418967410,
+  "native_archive_sha256": "cecbf7a4be26a12b0a09e3982fe737720a7d4a4412b13dcf3cf129096f0b9c7d",
+  "all_projection_members": {
+    "ORIGINAL_REPORTS.json.gz": {
+      "bytes": 43362,
+      "sha256": "32e19da22c3da8f78ba9c4a574719911901b6e49631f70a7b9d2ad29d532fe80"
+    },
+    "PROJECTION.json": {
+      "bytes": 961,
+      "sha256": "4e148b9bc48a216b8ceeca70d8007b694712c8d8eb2bd94cea8ade0405f67eb5"
+    },
+    "RECEIPT.json": {
+      "bytes": 14872,
+      "sha256": "a9047a33b2e528d732aa65d86abf43987eea0b804be08a5e4eee39ca491b8068"
+    }
+  },
+  "new_Native_cases_executed_by_projection": 0,
+  "Native_database_access": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

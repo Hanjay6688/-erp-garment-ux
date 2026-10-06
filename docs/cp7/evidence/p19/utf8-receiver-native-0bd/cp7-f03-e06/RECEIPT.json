@@ -1,0 +1,142 @@
+{
+  "id": 11417874817,
+  "name": "cp7-f03-e06",
+  "run_id": 37474166707,
+  "workflow_name": "CP7 F03 E06 Year-end Late Invoice",
+  "workflow_path": ".github/workflows/cp7-f03-e06.yml",
+  "size_in_bytes": 1721344,
+  "digest": "sha256:75bebf8a88789c9b81842d9bcc1560ff9a4025fc517d1c27515ae6eb6307606c",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "0bd60f2c073d490e34060305b37709c9b479eeae",
+  "source_tree": "015b640493215f562bfde690e3c8b633913550ac",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385621,
+      "sha256": "39a10795433b3a86b41f9d2a455f005ff452896a9f24362e038a57d676d52ed6"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385621,
+      "sha256": "39a10795433b3a86b41f9d2a455f005ff452896a9f24362e038a57d676d52ed6"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "22f2cf872c2f5ae5198536c3138e541259f745d5ab93adec1c9e9be2bec6af4a"
+    },
+    "CP7_F03_E06.json": {
+      "bytes": 933679,
+      "sha256": "6ad9876499eec79c31f01fab0507e0527a40696df40dd17ba5c791439dd33af7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9be82e027b0b4aae2b8ba7f34ddea2d5e703bb6edc205ef0b8994553e6be6b62"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360417,
+      "sha256": "6cd411967cd655a468094d019ca0774ba27ccb248e9abac761cc5196a387b02e"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F03_E06.json": {
+      "bytes": 933679,
+      "sha256": "6ad9876499eec79c31f01fab0507e0527a40696df40dd17ba5c791439dd33af7",
+      "file": "CP7_F03_E06.json.gz",
+      "gzip_sha256": "a7f26f459b2d8396840587dc5394bd3c6034a360fffc695f6f92b328a7844c4d",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "9be82e027b0b4aae2b8ba7f34ddea2d5e703bb6edc205ef0b8994553e6be6b62",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "11e4c7be0affa2382849ba8083aed01675bbd40a4ad64fa0e68b635a1e2bf17b",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360417,
+      "sha256": "6cd411967cd655a468094d019ca0774ba27ccb248e9abac761cc5196a387b02e",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "9a4342a35ddc91906b21625c7b6bf46a73fa08d1f853953106656c21177d6102",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F03_E06.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 5,
+      "declared_case_count": 5,
+      "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+      "groups": {
+        "native": {
+          "case_count": 4,
+          "case_ids": [
+            "F03_E06_YEAR_END_INCREASE_UTC",
+            "F03_E06_YEAR_END_ZERO_DELTA_LA",
+            "F03_E06_MARCH_ECONOMIC_CONTROL",
+            "F03_E06_YEAR_END_PENDING_CLOSE"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "F03_E06_INVOICE_DURING_CLOSE_WAIT"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}
