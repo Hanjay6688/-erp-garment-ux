@@ -1,0 +1,31 @@
+{
+  "contract": "cp7.prefreeze.laundry-refresh.local.v1",
+  "base_source": "38fdb1ad1628791455f17e68a431be18c4257d7b",
+  "pre_fix_tests_failed": 3,
+  "pre_fix_cause": "No fresh parent batch read after master save or confirmed reconciliation",
+  "post_fix_test_files": 5,
+  "post_fix_tests_passed": 61,
+  "build_pass": true,
+  "test_type": "RPC stand-ins with real ConnectedLaundryPage and parent/child recovery hooks",
+  "native_case_credit": 0,
+  "real_Auth_credit": 0,
+  "native_five_unchanged_browser_oracles": "PENDING_ON_FIX_SOURCE",
+  "production_go": false,
+  "logs": {
+    "red": {
+      "original_bytes": 3373,
+      "original_sha256": "186d8f074cd0200dd24d0d9b4a5444143fce1c697e9777d74ddd63c54e3b38bf",
+      "retained_file": "red.log.gz"
+    },
+    "green": {
+      "original_bytes": 327,
+      "original_sha256": "fb0bf59cbcb7c8ed4abef0759bc753da92d407028289cba754c6fd864ebff9c0",
+      "retained_file": "green.log.gz"
+    },
+    "build": {
+      "original_bytes": 11786,
+      "original_sha256": "d9cc63819fcaee7c57b913ef817b2ce6d5cf3c612629c8ce5a740c9be82065fe",
+      "retained_file": "build.log.gz"
+    }
+  }
+}

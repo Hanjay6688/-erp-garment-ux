@@ -74,8 +74,14 @@ export default function LaundryBdPanel({ laundry, onPosted }: { laundry: Laundry
       : client.rpc('erp_save_laundry_bd_action_v1', { p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id }),
     validate: (value, envelope) => envelope.action === 'SET_REDYE_PRICE'
       ? validateConversionResult(value, envelope.action, envelope.id, envelope.payload) : validateBdResult(value, envelope.action, envelope.id),
-    retire: (_value, envelope) => { setData(null); if (envelope.action === 'POST_PRICED_DELIVERY') onPosted() },
-    reload: load,
+    retire: () => { setData(null) },
+    reload: async () => {
+      const refreshed = await load()
+      // Every definite BD result retires the owning Laundry read too. Start its
+      // new read after recovery clears; a ticket captured before that is stale.
+      onPosted()
+      return refreshed
+    },
   }
   const send: Send = (action, payload) => { void run(action, payload, null, handlers) }
   const locked = mutation.writerLocked || loading || mutation.busy
