@@ -71,7 +71,7 @@ Tidak ada role, RPC publik, atau hak tulis bisnis baru.
    - `plan`: periksa agregasi per bahan (`free`, `bad`, `manual`, `incoming`, `hash`), termasuk perilaku saat roll, sel atau baris PO ganda.
    - Pemeriksaan draf: setiap draf unik diperiksa sekali lewat hash join, dan join ke sel memakai `is not distinct from` untuk lokasi kosong.
    - `condition_rows`: aturan "kecocokan pertama" pada label dan dokumen piutang (`order by … desc` di `jsonb_object_agg`).
-   - Pastikan tidak ada jalur yang membuat angka berbeda dari versi lama. Skrip pembanding lama-lawan-baru bisa diminta dari writer.
+   - Pastikan tidak ada jalur yang membuat angka berbeda dari versi lama. Skrip pembanding lama-lawan-baru ada di `scripts/cp7_p19_equivalence.py`, dengan kontrol negatif yang terbukti menangkap beda kecil.
 
 ## 4. Catatan pemasangan (P21) dan rollback
 

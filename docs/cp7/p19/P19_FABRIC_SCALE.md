@@ -106,6 +106,24 @@ Kesetaraan dibuktikan pada 3.000 set data acak, membandingkan versi lama dan bar
    - Perlu dicek apakah `jit` aktif di Supabase hosted. Ini hanya baca pengaturan, tanpa mengubah apa pun.
    - Pilihan perbaikan (keputusan GPT/owner, menyentuh CP6 atau finance): `set jit=off` pada fungsi pemeriksaan tersebut, atau batas biaya JIT yang lebih tinggi, ditambah tanda tangan buku yang inkremental.
 
+## Alat pembanding untuk auditor
+
+`scripts/cp7_p19_equivalence.py DSN BASE_REF [N] [SEED]` membandingkan definisi lama dan baru sebagai teks JSON persis:
+- definisi lama dari `BASE_REF`, misalnya `d443d8c4`, yaitu sebelum perubahan P19;
+- definisi baru dari working tree;
+- tiga kelompok data acak: kain tepi, kain bersih, dan `condition_rows`;
+- semua berjalan di satu transaksi yang di-rollback.
+
+Alat ini hanya untuk DB lokal yang sudah berisi bundel analisis dan pengingat CP7. Hasilnya LOCAL, bukan kualifikasi.
+
+Hasil LOCAL pada 2ae1db92, dengan basis d443d8c4 dan 200 data per kelompok: PASS, 0 beda (kain tepi 200 sama, kain bersih 200 sama, kondisi 184 sama + 16 penolakan sama).
+
+Kontrol negatif: alat yang sama menandai FAIL bila sengaja dibuat beda kecil.
+- Label `condition_rows` diubah menjadi "kecocokan terakhir": 60 beda.
+- Stok bebas kosong diubah menjadi `'1'`: 64 beda di data tepi dan 41 di data bersih.
+
+Perubahan sengaja itu sudah dikembalikan.
+
 ## Riwayat CI
 
 | Head | Hasil |
