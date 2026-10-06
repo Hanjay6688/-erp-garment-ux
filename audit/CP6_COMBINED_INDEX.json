@@ -1747,5 +1747,28 @@
   "unverified": "hosted baseline v2.6.20 (writer read-only preflight; auditor denied hosted read)",
   "report": "out/fable_r15_pr39_review.md",
   "verdict": "PR 39 fit to merge into writer branch; production_go still false pending owner inputs, verified backup, maintenance window, hosted advisor comparison, UI-vs-demo"
+ },
+ "fable_round16_prefreeze_cp7": {
+  "date": "2026-10-06",
+  "label": "PRA_PEMBEKUAN",
+  "heads": [
+   "095b33b036312d80d06f897144c2772461ca35ff",
+   "875443d0a0cc5323e314941412f268765ecca055"
+  ],
+  "product_identical_between_heads": true,
+  "native": "identical to accepted CP6 results (T2 525/181/41, T3 30 stages, rollback, 14 CP6 scenarios)",
+  "browser": "11 CP6 browser cases INCOMPLETE on CP7 UI (PRE-01..05)",
+  "findings_for_writer": [
+   "PRE-01 S2 finance alerts",
+   "PRE-02 S2 laundry cost-detail panel unreachable",
+   "PRE-03 S2 AT WIP field",
+   "PRE-04 S3 stale BS selector",
+   "PRE-05 S3 sales simulation superseded",
+   "PRE-06 S3 legacy CP3/CP5 workflows",
+   "PRE-07 hygiene E06 public schema"
+  ],
+  "report": "out/fable_r16_prefreeze_regression.md",
+  "prep": "audit/cp7_prep/",
+  "runs_dir": "audit/runs_fable/r16/"
  }
 }

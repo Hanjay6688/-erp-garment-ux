@@ -156,3 +156,6 @@
 - #3: gerbang T2/T3/rollback + CP3/CP5 schema (dua terakhir gagal: NOT_APPLICABLE / EXPIRED_ARTIFACT, bukan produk) + 10 skenario CP6 Fable + 3 modes penulis. E06 merah penulis = public_schema_unchanged=false (INV-C06), bukan angka.
 - #2: audit/cp7_prep/ (133 kebutuhan → SKN/INV, matriks koreksi 27 keluarga × 3 syarat owner, manifest 73 kasus draft).
 - #1: out/REQUEST_WRITER_PLANNING_FALLBACK_20261006.md (asumsi global berlabel; tidak mengubah unknown jadi pasti).
+- r16 dibaca per kasus (18 job). Native identik (T2 525/181/41, T3 30 tahap, rollback, 14 skenario CP6). Browser: 11 kasus CP6 INCOMPLETE pada UI CP7 →
+  PRE-01..07 (S2 sementara: alert keuangan, panel laundry rincian biaya, AT WIP; S3: selector BS basi, sales simulasi superseded, workflow CP3/CP5 warisan; hygiene E06).
+  Laporan out/fable_r16_prefreeze_regression.md §3. Dua kebutuhan tak terpetakan (BR-T15, CP7-09) dipetakan manual.
