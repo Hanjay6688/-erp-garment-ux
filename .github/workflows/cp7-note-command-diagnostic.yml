@@ -8,6 +8,9 @@ name: CP7 Note Command Diagnostic
     - scripts/cp7_note_command_diagnostic_*
     - scripts/cp7_note_command_function_profile*
     - scripts/cp7_note_actual_http_diagnostic_*
+    - scripts/cp7_p19_sales_admission_*
+    - scripts/cp7_sales_bundle.py
+    - scripts/cp7-src/sales/commands.sql
     - scripts/cp7_note_correction_probe.py
     - .github/workflows/cp7-note-command-diagnostic.yml
 permissions:

@@ -60,7 +60,11 @@ def cases(cur,today):
   for who in ('anon','authenticated','service_role','cp7_capture'):
    assert not cur.execute("select has_schema_privilege(%s,'cp7_sales','USAGE') or has_function_privilege(%s,'cp7_sales.apply_command(text,jsonb,uuid,text)','EXECUTE')",(who,who)).fetchone()[0]
   assert not cur.execute("select has_function_privilege('cp7_sales_write','erp.post_sale_v2(uuid,uuid,bigint)','EXECUTE')").fetchone()[0]
-  return dict(status='PASS',closed_payload=True,client_hpp_rejected=True,no_business_dml_or_native_writer_grant=True,private_context_unreachable=True)
+  for who in ('anon','authenticated','service_role','cp7_capture','cp7_sales_write'):
+   assert not cur.execute("select has_function_privilege(%s,'cp7_sales.command_allowed(text)','EXECUTE')",(who,)).fetchone()[0]
+  import cp7_p19_sales_admission_equivalence as admission
+  equivalence=admission.compare(cur,auth,b.api,b.boundary)
+  return dict(status='PASS',closed_payload=True,client_hpp_rejected=True,no_business_dml_or_native_writer_grant=True,private_context_unreachable=True,private_admission_equivalence=equivalence)
  return [('P11_COMMAND_'+n,fn) for n,fn in [('POST_ONCE',post),('CANCEL',cancel),('CHILD_REVIEW',child),('VERSION_STATUS',version),('REPLAY_AUTH',replay_access),('PRIVATE_FIELDS',private)]]
 
 def races(tools,today):

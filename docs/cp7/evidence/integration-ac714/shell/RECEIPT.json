@@ -1,0 +1,127 @@
+{
+  "status": "SHELL_AND_TWO_CODEQL_PASS",
+  "source_commit": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d",
+  "source_tree": "3df6bb942ee6a099ecb41adadff7ec896aad9ec0",
+  "run_id": 37454554686,
+  "job_id": 112238850333,
+  "actual_tests": 1550,
+  "actual_test_files": 164,
+  "job_log_utf8_sha256": "518a9f4f4d151a9078391b715d087ee787289c4c381ee61d78802e2be6f2d281",
+  "artifacts": [
+    {
+      "artifact": {
+        "id": 11409675997,
+        "name": "cp7-shell-proof",
+        "size_in_bytes": 498706,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11409675997",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11409675997/zip",
+        "expired": false,
+        "created_at": "2026-10-06T11:13:31Z",
+        "expires_at": "2026-11-05T11:13:31Z",
+        "updated_at": "2026-10-06T11:13:31Z",
+        "digest": "sha256:d4f658dc4f5e0afe9b64e7d0cf0ab25cc81be4abe0abf225f204888b159520c8",
+        "workflow_run": {
+          "id": 37454554686,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "cp7/integration",
+          "head_sha": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d"
+        }
+      },
+      "all_zip_members": {
+        "desktop-planner.png": {
+          "bytes": 130883,
+          "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+        },
+        "f04-private-kernels.json": {
+          "bytes": 53274,
+          "sha256": "58019dbc550e98b9f531a912891ddbf3c1250647ce7d9fccb24c99c9956754d9"
+        },
+        "fabric-recipe.json": {
+          "bytes": 60594,
+          "sha256": "190dffebb117440f6fa9c9359936ead184ba224e7042e8d86687b6b6efc4ab79"
+        },
+        "history-availability-parity.json": {
+          "bytes": 5502,
+          "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+        },
+        "material-pool.json": {
+          "bytes": 8612,
+          "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+        },
+        "mobile-planner.png": {
+          "bytes": 382780,
+          "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+        },
+        "results.json": {
+          "bytes": 13018,
+          "sha256": "1b7920f5120bd8b28f3ecf7020962b2ffcc9dfc90679f2a07e2fd23c36883feb"
+        }
+      },
+      "sarif_members": []
+    },
+    {
+      "artifact": {
+        "id": 11409491206,
+        "name": "cp7-codeql-javascript-typescript",
+        "size_in_bytes": 124067,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11409491206",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11409491206/zip",
+        "expired": false,
+        "created_at": "2026-10-06T11:13:49Z",
+        "expires_at": "2026-11-05T11:13:48Z",
+        "updated_at": "2026-10-06T11:13:49Z",
+        "digest": "sha256:962d23d31457e1c0961a33776d3496a70c4b72a0e23079807200216707ff260d",
+        "workflow_run": {
+          "id": 37454554686,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "cp7/integration",
+          "head_sha": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d"
+        }
+      },
+      "all_zip_members": {
+        "javascript.sarif": {
+          "bytes": 1377427,
+          "sha256": "cfdb7f1de0f161ac389d5166db6a4fb1d1fe1e139d695bb70d75778344be4572"
+        }
+      },
+      "sarif_members": [
+        "javascript.sarif"
+      ]
+    },
+    {
+      "artifact": {
+        "id": 11409425949,
+        "name": "cp7-codeql-actions",
+        "size_in_bytes": 53745,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11409425949",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11409425949/zip",
+        "expired": false,
+        "created_at": "2026-10-06T11:12:09Z",
+        "expires_at": "2026-11-05T11:12:08Z",
+        "updated_at": "2026-10-06T11:12:09Z",
+        "digest": "sha256:30d8bc04a7224ace7d58156e0530437838367041d8bd6a973bcc314e6affce3a",
+        "workflow_run": {
+          "id": 37454554686,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "cp7/integration",
+          "head_sha": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d"
+        }
+      },
+      "all_zip_members": {
+        "actions.sarif": {
+          "bytes": 745246,
+          "sha256": "618144975bac037f5ee6d9275735ada11705a792cbc94df8a74b9d92e2adb944"
+        }
+      },
+      "sarif_members": [
+        "actions.sarif"
+      ]
+    }
+  ],
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

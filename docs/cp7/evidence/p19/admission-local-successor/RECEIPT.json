@@ -1,0 +1,49 @@
+{
+  "status": "LOCAL_KERNEL_SUCCESSOR_253_EXACT_DECISIONS",
+  "classification": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+  "source_head": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d",
+  "working_tree_dirty": true,
+  "files_sha256": {
+    "scripts/cp7-src/sales/commands.sql": "d5d2c35ca9d5001507e9c188cee368fff59219c9a98b04f6971ec02f16e5ed40",
+    "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a",
+    "scripts/cp7_p19_sales_admission_benchmark.mjs": "e93acda9d839ce5b35393866883130a1d33df917dbbe3b491589382a15ace435"
+  },
+  "members": [
+    {
+      "file": "p19-admission-local-successor.json.gz",
+      "raw_bytes": 60610,
+      "raw_sha256": "0136ede9cb5c182b8b5916970c4e4179473128e0ec46521ac927986496e60fe6",
+      "gzip_sha256": "695304da46fa36ecfd2787fe7248b8d4ae178188afd307c3119d52d245bfa82c"
+    },
+    {
+      "file": "p19-admission-local-successor.log.gz",
+      "raw_bytes": 326,
+      "raw_sha256": "c2cd43fadb14eb48dfdc2ef88f27d895cf2d63bf7ced5ac2610fff8feb551744",
+      "gzip_sha256": "cd51a649a70d2a7a821148ccd059a32e9ccc56e492ca6f2370758a35df2d2281"
+    }
+  ],
+  "comparisons": 253,
+  "differences": 0,
+  "negative_control_differences": 9,
+  "local_samples": [
+    {
+      "action": "POST",
+      "invocations": 4000,
+      "predecessor_ms": "1780.000000",
+      "candidate_ms": "395.000000"
+    },
+    {
+      "action": "SALE_REVERSE",
+      "invocations": 4000,
+      "predecessor_ms": "1541.000000",
+      "candidate_ms": "1057.000000"
+    }
+  ],
+  "Native_case_credit_added": 0,
+  "real_Auth_or_Native_financial_qualification": false,
+  "owner_loading_acceptance": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "first_failure": "docs/cp7/evidence/p19/admission-local-first"
+}

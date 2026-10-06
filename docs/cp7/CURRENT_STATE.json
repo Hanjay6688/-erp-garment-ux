@@ -11724,5 +11724,37 @@
     "duplicate_case_counts_not_summed": true,
     "independent_acceptance": false,
     "production_go": false
+  },
+  "p19_sales_admission_candidate_20261006": {
+    "status": "LOCAL_KERNEL_EQUIVALENCE_PASSED_FRESH_NATIVE_PENDING",
+    "base_commit": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d",
+    "scope": "PRIVATE_REQUIRE_INTERNAL_CURRENT_SALES_DECISION_WITHOUT_PERMISSION_DOCUMENT_REASSEMBLY",
+    "local_comparisons": 253,
+    "local_decision_differences": 0,
+    "negative_control_differences": 9,
+    "Native_case_credit_added": 0,
+    "source_helpers_unchanged": [
+      "erp.current_app_role",
+      "erp.has_permission",
+      "erp.role_permission_keys",
+      "erp.get_my_access_v1",
+      "cp7_sales.command_access"
+    ],
+    "Native_money_HPP_engines_changed": false,
+    "full_post_wait_authority_document_preserved": true,
+    "authority_cached": false,
+    "evidence": "docs/cp7/evidence/p19/admission-local-successor",
+    "handoff": "docs/cp7/p19/P19_SALES_ADMISSION_20261006.md",
+    "fresh_qualification_required": [
+      "Shell native kernel/security/build/CodeQL",
+      "P11 Native64 with253 actual-profile comparisons inside existing PRIVATE_FIELDS",
+      "historical Note Native40 and actual year-back Auth HTTP timing",
+      "Full F03 retained components and combined22"
+    ],
+    "owner_loading_acceptance": false,
+    "full_P19_acceptance": false,
+    "full_CP7_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

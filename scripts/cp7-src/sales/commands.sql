@@ -33,6 +33,30 @@ begin
  return a;
 end $$;
 
+-- require_internal only needs an authorization decision. Rebuilding the full
+-- profile/permission-list document for every Native account lookup multiplied
+-- that read thousands of times in one historical correction. Keep the complete
+-- command_access document at every owning command and post-wait comparison.
+-- This private admission still reads Native current permissions on every call:
+-- there is no request/transaction cache, GUC capability or stored authority.
+create function cp7_sales.command_allowed(p_action text) returns boolean
+language plpgsql stable security invoker set search_path='' as $$
+begin
+ if auth.uid() is null or coalesce(auth.jwt()->>'role','')<>'authenticated' then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;
+ -- Native has_permission's positive invoice-view result also requires the
+ -- same unique active app user and active role as get_my_access.allowed.
+ if not erp.has_permission('sales.invoice.view') then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;
+ if not erp.has_permission('finance.ar.view') or p_action is null or p_action not in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE')
+  or not erp.has_permission(case when p_action='POST' then 'sales.invoice.post' when p_action='CREATE' then 'sales.invoice.create' when p_action='PAYMENT' then 'sales.payment.create' when p_action='PAYMENT_REVERSE' then 'sales.payment.reverse' when p_action='RETURN' then 'sales.return.create' when p_action='RETURN_REVERSE' then 'sales.return.reverse' when p_action='SALE_REVERSE' then 'sales.invoice.reverse' else 'sales.invoice.edit_draft' end)
+  or(p_action in('PAYMENT','PAYMENT_REVERSE') and not erp.has_permission('sales.payment.view'))
+  or(p_action='PAYMENT' and not erp.has_permission('sales.payment.post'))
+  or(p_action in('RETURN','RETURN_REVERSE') and not erp.has_permission('sales.return.view'))
+  or(p_action='RETURN' and not erp.has_permission('sales.return.post'))
+ then raise exception using errcode='42501',message='CP7_SALES_WRITE_DENIED';end if;
+ if p_action in('PAYMENT_REVERSE','RETURN_REVERSE','SALE_REVERSE') and coalesce(erp.current_app_role(),'') not in('OWNER','ADMIN') then raise exception using errcode='42501',message='CP7_SALES_OWNER_ADMIN_REQUIRED';end if;
+ return true;
+end $$;
+
 create function cp7_sales.apply_command(p_action text,p_payload jsonb,p_request uuid,p_expected text) returns jsonb
 language plpgsql volatile security definer set search_path='' as $$
 declare a jsonb;h erp.sales_headers;r jsonb;ident uuid:=(p_payload->>'sale_id')::uuid;native_request uuid;payment_id uuid;payment erp.sales_payments;return_id uuid;returned erp.sales_returns;line jsonb;allocation record;
@@ -150,15 +174,18 @@ end $$;
 create function public.erp_cp7_save_sale_v1(p_action text,p_payload jsonb,p_request uuid,p_expected text) returns jsonb
 language sql volatile security definer set search_path='' as $$select cp7_sales.command(p_action,p_payload,p_request,p_expected)$$;
 alter function cp7_sales.command_access(text) owner to cp7_sales_read;
+alter function cp7_sales.command_allowed(text) owner to cp7_sales_read;
 alter function cp7_sales.apply_command(text,jsonb,uuid,text) owner to postgres;
 alter function cp7_sales.command(text,jsonb,uuid,text) owner to cp7_sales_write;
 grant create on schema public to cp7_sales_write;
 alter function public.erp_cp7_save_sale_v1(text,jsonb,uuid,text) owner to cp7_sales_write;
 revoke create on schema public from cp7_sales_write;
 revoke all on function cp7_sales.command_access(text),cp7_sales.apply_command(text,jsonb,uuid,text),cp7_sales.command(text,jsonb,uuid,text) from public,anon,authenticated,service_role,cp7_capture;
+revoke all on function cp7_sales.command_allowed(text) from public,anon,authenticated,service_role,cp7_capture,cp7_sales_write;
 grant execute on function cp7_sales.command_access(text),cp7_sales.apply_command(text,jsonb,uuid,text),cp7_sales.validate_draft(jsonb,boolean) to cp7_sales_write;
 grant usage on schema cp7_sales to postgres;
 grant select on cp7_sales.command_context to postgres;
 grant execute on function cp7_sales.command_access(text),cp7_sales.review_token(uuid) to postgres;
+grant execute on function cp7_sales.command_allowed(text) to postgres;
 revoke all on function public.erp_cp7_save_sale_v1(text,jsonb,uuid,text) from public,anon,authenticated,service_role,cp7_capture;
 grant execute on function public.erp_cp7_save_sale_v1(text,jsonb,uuid,text) to authenticated;

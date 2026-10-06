@@ -23,7 +23,7 @@ def verify(cur):
  got=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_sales'").fetchall()
  expected={n:('cp7_sales_read',False,'s') for n in ('access_now','header','workspace','review_token','form_options','cash_workspace','return_workspace')}
  expected['validate_draft']=('cp7_sales_read',False,'i');expected['validate_payment']=('cp7_sales_read',False,'i');expected['validate_return']=('cp7_sales_read',False,'i')
- expected.update(command_access=('cp7_sales_read',True,'s'),apply_command=('postgres',True,'v'),command=('cp7_sales_write',False,'v'))
+ expected.update(command_access=('cp7_sales_read',True,'s'),command_allowed=('cp7_sales_read',False,'s'),apply_command=('postgres',True,'v'),command=('cp7_sales_write',False,'v'))
  assert {x[0] for x in got}==set(expected)
  for name,owner,secdef,vol,config in got:assert (owner,secdef,vol)==expected[name] and config==['search_path=""'],name
  for sig,who,vol in [('public.erp_cp7_get_sales_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)','cp7_sales_write','v'),('public.erp_cp7_get_sales_form_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_get_sales_cash_v1(jsonb)','cp7_sales_read','s'),('public.erp_cp7_get_sales_returns_v1(jsonb)','cp7_sales_read','s')]:

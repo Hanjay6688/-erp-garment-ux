@@ -1,0 +1,10 @@
+{
+  "status": "FIRST_LOCAL_HARNESS_COUNT_FAILURE_RETAINED",
+  "classification": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+  "observed_comparisons": 253,
+  "incorrect_harness_expected": 264,
+  "reason": "23 declared states times11 actions is253; positive product comparison was not reached before count assertion",
+  "Native_case_credit_added": 0,
+  "product_qualification": false,
+  "production_go": false
+}
