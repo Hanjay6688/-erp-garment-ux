@@ -43,6 +43,13 @@ perencanaan (sebagian; pemeriksa perencanaan dihentikan lebih awal untuk menghin
 | IN-1 | Model hasil potong | Fold latih ikut batch sebelum aturan dicatat (6 batch bukan 3) | Kernel hanya menerima record batch prospektif terpilih | `cutting-model-producer.test.ts` (6≠3) | `3d4cfbea` |
 | IN-2 | Model hasil potong | Batch sesudahnya yang tercatat di dalam fold terakhir masuk holdout (4 bukan 3) | idem | idem (4≠3) | `3d4cfbea` |
 
+### 2b. Perencanaan (pemeriksa perencanaan dilanjutkan sampai selesai)
+
+| ID | Area | Cacat | Perbaikan | Uji | Commit |
+|---|---|---|---|---|---|
+| PL-1 | Estimasi permintaan → target | Laju harian dibulatkan ke atas di 12 desimal; permintaan horizon yang bulat jadi +1 pcs di `ceil` (20 pcs/30 hari × 30 hari → target **21**, bukan 20; 200/30 × 15 → 101). Ikut menimbulkan "gap" palsu 0,000000000001 di timeline netting | `trunc(...,12)`: laju tidak pernah melebihi nilai eksak; karena pecahan sejati ≥ 1/hari, tidak pernah turun di bawah bilangan bulat | `f04-demand-estimate-rounding.test.ts` (gagal di kode lama: 21/3/101) + 120 kasus acak = ceil eksak BigInt | (commit ini) |
+| PL-2 | Netting | Posisi WIP yang sisanya 0 (bukti di graf, mis. saldo awal sudah jadi FG) dimasukkan sebagai suplai dengan qty/ETA tidak diketahui → status target **UNKNOWN selamanya**, gap null, kebutuhan kain/aksesori null | Lewati posisi `remaining_pcs = 0`, sama seperti loop anggaran di atasnya | repro kernel (agen, PG16 lokal); suite Native P08/analisis di CI | (commit ini) |
+
 ## 3. Temuan yang SESUAI DESAIN / tidak diubah (alasan dicatat)
 
 | ID | Temuan | Alasan |
@@ -65,7 +72,13 @@ perencanaan (sebagian; pemeriksa perencanaan dihentikan lebih awal untuk menghin
 | PR-5 | "Perkiraan upah" absensi ≠ upah payroll (ikut PIECE/NONE) | Ganti label menjadi nilai absensi, atau hitung hanya DAILY/HYBRID |
 | PR-6 | Payroll APPROVED dengan net minus menyembunyikan detail | Edge legacy; terima net < 0 sebagai tidak dapat dibayar |
 | IN-4 | Basis label buku FG v2 "movement snapshot" padahal HPP lot terkini | Ganti nama basis & label "HPP lot saat ini" |
-| FIN-4 | Pembanding default bukan bulan kalender sebelumnya | Default ke rentang bulan sebelumnya bila periode mulai tanggal 1 |
+| FIN-4 | ~~Pembanding default bukan bulan kalender sebelumnya~~ | **Diperbaiki** (commit `fd…` FIN-4): bulan penuh → bulan sebelumnya; MTD → hari yang sama bulan sebelumnya |
+| PL-3 | Evaluasi model tidak pernah menyelesaikan fold pada data Native (cutoff latih = akhir hari origin, padahal capture selalu sesudahnya) → selalu `BASELINE_RETAINED` | Keputusan kontrak: cutoff = akhir hari origin+1 (prakiraan diterbitkan sesudah hari tutup) atau latih `lo..origin-1`. Aman sekarang (gagal-tertutup ke baseline) |
+| PL-4 | Kapasitas mengabaikan beban yang melebihi jendela (tidak dibawa ke jendela berikutnya) | Bawa kelebihan ke jendela berikut atau UNKNOWN bila overbooked > 0 |
+| PL-5 | Preflight rencana membandingkan pcs potong dengan gap pcs bagus tanpa yield (gap 100, yield 9/10 → seharusnya potong 112) | Bandingkan dengan `ceil(gap×den/num)` dari yield yang ditinjau, atau laporkan sisa `gap − floor(total×num/den)` |
+| PL-6 | Kebutuhan bahan tetap tampil untuk produk PAUSED/STOPPED | Gross 0 / NOT_APPLICABLE untuk kebijakan berhenti |
+| PL-7 | Rencana yang sudah dipotong tidak mengurangi gap produknya (bisa direncanakan dua kali) | Hitung posisi CUT dari intent rencana sebagai suplai produk itu, atau blok preflight selama grup intent masih punya WIP |
+| PL-8 | `supply-source` mengambil semua grup potong yang pernah ada (batas 1001) | Skala: pangkas grup yang sudah habis |
 
 ## 5. Uji & CI
 

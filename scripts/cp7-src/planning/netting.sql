@@ -231,7 +231,10 @@ begin
   t:=(select x from jsonb_array_elements(targets)x where x->>'key'=r->>'target_key');
   if t is not null then
    raw_need:=cp7_wip.pcs(t->'need_pcs');
-   for p in select value from jsonb_array_elements(wip->'positions')where value->'eligible_company_wip'='true'::jsonb loop
+   -- A fully emptied position stays in the graph as evidence; it is no supply
+   -- (the budget loop above skips it too) and must not make the target UNKNOWN.
+   for p in select value from jsonb_array_elements(wip->'positions')where value->'eligible_company_wip'='true'::jsonb
+    and cp7_wip.pcs(value->'remaining_pcs')>0 loop
     m:=case when match_index_unique then
      match_index->(jsonb_build_array(p->>'key',r->>'target_key')::text)
      else cp7_netting_native.matches(c,p,r,matching)end;eta:=(select x from jsonb_array_elements(etas)x where x->>'position_key'=p->>'key');

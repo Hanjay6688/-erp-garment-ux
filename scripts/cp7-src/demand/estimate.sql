@@ -1,4 +1,6 @@
 -- Cold-start fallback is explicit and evidence-bearing. No default batch or demand.
+-- Rates are truncated, never rounded up, at 12 decimals: a whole horizon demand
+-- (e.g. 20 pcs / 30 days over 30 days) stays whole under ceil() instead of +1 pcs.
 create function cp7_demand.estimate(v jsonb) returns jsonb
 language plpgsql immutable security invoker set search_path='' as $$
 declare own jsonb;analog jsonb;manual jsonb;minimum_days numeric;days numeric;total numeric;mean numeric;
@@ -16,7 +18,7 @@ begin
   perform cp7_wip.fields(own,array['available_total_pcs','available_days','capture_complete','refs']);perform cp7_wip.refs(own->'refs');
   total:=cp7_wip.pcs(own->'available_total_pcs');days:=cp7_wip.pcs(own->'available_days');
   if jsonb_typeof(own->'capture_complete') is distinct from 'boolean' or (days=0 and total>0) then raise exception 'CP7_DEMAND_OWN_HISTORY';end if;
-  if days>=minimum_days and own->'capture_complete'='true'::jsonb then return jsonb_build_object('status','SCENARIO','basis','OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE','daily_pcs',round(total/days,12)::text,'inputs',v);end if;
+  if days>=minimum_days and own->'capture_complete'='true'::jsonb then return jsonb_build_object('status','SCENARIO','basis','OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE','daily_pcs',trunc(total/days,12)::text,'inputs',v);end if;
  end if;
  if analog<>'null'::jsonb then
   perform cp7_wip.fields(analog,array['source_key','source_size_id','available_total_pcs','available_days','scale_factor','reason','reviewed','refs']);
@@ -24,7 +26,7 @@ begin
   total:=cp7_wip.pcs(analog->'available_total_pcs');days:=cp7_wip.pcs(analog->'available_days');mean:=cp7_demand.decimal(analog->'scale_factor');
   if jsonb_typeof(analog->'reviewed') is distinct from 'boolean' or (days=0 and total>0) then raise exception 'CP7_DEMAND_ANALOG';end if;
   if days>0 and analog->'reviewed'='true'::jsonb and analog->>'source_size_id'=v->>'size_id' then
-   return jsonb_build_object('status','SCENARIO','basis','REVIEWED_ANALOG_SAME_PHYSICAL_SIZE_ASSUMPTION','daily_pcs',round(total/days*mean,12)::text,'inputs',v);
+   return jsonb_build_object('status','SCENARIO','basis','REVIEWED_ANALOG_SAME_PHYSICAL_SIZE_ASSUMPTION','daily_pcs',trunc(total/days*mean,12)::text,'inputs',v);
   end if;
  end if;
  return jsonb_build_object('status','UNKNOWN','daily_pcs',null,'reason','OWN_HISTORY_INSUFFICIENT_NO_REVIEWED_ANALOG_OR_SELECTED_MANUAL','inputs',v);
