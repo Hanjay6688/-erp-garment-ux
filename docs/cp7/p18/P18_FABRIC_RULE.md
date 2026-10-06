@@ -46,7 +46,14 @@ LOCAL_PG16_DEV: pemasangan bundel analisis + seluruh rantai pengingat beserta ve
 
 ## Batas skala (catatan P19)
 
-Sumber kondisi menolak seluruhnya (`CP7_RULE_CONDITION_SCOPE_INCOMPLETE`) bila ada lebih dari 15.000 kondisi atau lebih dari 8 MB. Penolakan ini menyeluruh; tidak ada potongan sebagian. Jumlah kondisi kira-kira jumlah target × (1 produksi + baris aksesori + 1 kain), ditambah dokumen piutang/utang. `FABRIC_NEED` menambah satu kondisi per target, sehingga batas efektif jumlah target turun. Contoh: dengan rata-rata satu baris aksesori, batas efektifnya sekitar 5.000 target dikurangi jumlah dokumen tagihan. Uji beban P19 belum dijalankan; angka ini batas desain, bukan bukti kinerja.
+Sumber kondisi menolak seluruhnya (`CP7_RULE_CONDITION_SCOPE_INCOMPLETE`) bila ada lebih dari 15.000 kondisi atau hasilnya lebih dari 8 MB. Penolakan ini menyeluruh; tidak ada potongan sebagian. `FABRIC_NEED` menambah satu kondisi per baris kain.
+
+Catatan lama di bagian ini memperkirakan batas efektif "sekitar 5.000 target". Perkiraan itu keliru, karena batas 8 MB yang tercapai lebih dulu. Ukuran LOCAL dengan data sintetis berisi satu rujukan per fakta:
+- satu kondisi butuh sekitar 1.370 byte;
+- 1.200 target dengan 1 baris aksesori dan 1 baris kain (3.600 kondisi) menghasilkan 4,9 MB dan lolos;
+- 2.000 target sudah ditolak.
+
+Jadi batas 8 MB tercapai di sekitar 5.800 kondisi, atau ±1.900 target dengan satu baris aksesori. Batas ini lebih kecil lagi bila baris aksesori lebih banyak atau rujukannya lebih panjang. Apakah batas ini dinaikkan atau diganti halaman per halaman adalah keputusan kapasitas untuk GPT/owner. Rincian waktu dan perbaikannya ada di `docs/cp7/p19/P19_FABRIC_SCALE.md`.
 
 ## Batas
 

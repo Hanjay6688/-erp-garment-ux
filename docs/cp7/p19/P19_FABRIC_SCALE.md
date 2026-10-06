@@ -62,6 +62,28 @@ Hasil: 3.300 set data (sekitar 18 ribu baris target), 0 beda. Semua kode alasan 
 
 Kualifikasi wajib di CI pada head baru, karena SQL produk berubah: fabric-physical21, fabric13, analysis152, plan39, attention284, fabric-rule11, rule-lifecycle16, p18-e01-9, Shell S0 dan CodeQL.
 
+## Sumber kondisi pengingat (`condition_rows`)
+
+Masalahnya sama dengan hitungan kain:
+- setiap baris menyalin seluruh analisis (`e->'analysis'->>'semantic_hash'`);
+- setiap baris memindai semua label produk dan semua dokumen piutang;
+- hasil digabung dengan `||`.
+
+| Target (1 baris aksesori + 1 kain per target) | Sebelum | Sesudah |
+|---|---|---|
+| 300 (900 kondisi) | 1,3 detik | 0,08 detik |
+| 1.200 (3.600 kondisi) | 17,3 detik | 0,23 detik |
+| 2.500 | ditolak setelah 81 detik | ditolak setelah 0,44 detik |
+
+Perbaikannya:
+- `semantic_hash` dibaca sekali;
+- label dan dokumen piutang dicari lewat peta kunci yang dibangun sekali, dengan aturan "kecocokan pertama yang dipakai", sama seperti `SELECT … INTO` lama;
+- baris dikumpulkan ke larik `jsonb[]` lalu diubah sekali.
+
+Kesetaraan dibuktikan pada 3.000 set data acak, membandingkan versi lama dan baru sebagai teks persis. Data acaknya mencakup label ganda, label tanpa SKU, label tanpa target, dokumen piutang ganda dan hilang, utang tanpa nama pemasok, kebijakan GLOBAL aktif/nonaktif dengan satuan berbeda, dan Original basi. Hasilnya 2.316 hasil sama dan 684 penolakan sama (`CP7_RULE_CONDITION_AR_INCOMPLETE`, `CP7_RULE_CONDITION_SCOPE_INCOMPLETE`), tanpa beda.
+
+**Batas 8 MB tercapai lebih dulu daripada batas 15.000 kondisi:** sekitar 1.370 byte per kondisi, atau ±1.900 target dengan satu baris aksesori (lihat `P18_FABRIC_RULE.md`). Ini keputusan kapasitas untuk GPT/owner, bukan diubah di cabang ini.
+
 ## Temuan di luar kode kain (untuk GPT; tidak diubah di cabang ini)
 
 1. **Loop `cp7_analysis_native.build` menggabungkan hasil per baris dengan `||`.**

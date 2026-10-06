@@ -44,9 +44,17 @@ end $$;
 
 create function cp7_reminder_native.condition_rows(e jsonb,ar jsonb,ap jsonb,policies jsonb,p_at timestamptz)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare out_rows jsonb:='[]';r jsonb;c jsonb;d jsonb;value jsonb;row_source jsonb;label text;
+declare out_rows jsonb;r jsonb;c jsonb;d jsonb;value jsonb;row_source jsonb;label text;
  state text;reason text;source_key text;due date;as_of date;days text;known boolean;resolved boolean;
+ -- P19: rows are appended to an array and converted once; the analysis hash,
+ -- product labels and AR documents are looked up by key. Repeated jsonb
+ -- concatenation and per-row scans copied the growing result and the whole
+ -- analysis for every row. The first matching label/document still wins.
+ acc jsonb[]:='{}';semantic text:=e->'analysis'->>'semantic_hash';labels jsonb;ar_rows jsonb;
 begin
+ select coalesce(jsonb_object_agg(k,v order by o desc),'{}'::jsonb)into labels
+  from(select x.value->>'target_key'k,to_jsonb(x.value->>'sku'||' · '||(x.value->>'product_name'))v,x.ordinality o
+   from jsonb_array_elements(e->'product_labels')with ordinality x where x.value->>'target_key'is not null)l;
  for r in select x.value from jsonb_array_elements(e->'analysis'->'recommendations')x loop
   value:=r->'q_conditional';known:=value->>'state'in('KNOWN','ASSUMED');resolved:=false;
   if e->>'source_state'<>'UNCHANGED'then state:='SOURCE_CHANGED';reason:='IMMUTABLE_ORIGINAL_REQUIRES_NEW_CAPTURE';
@@ -54,12 +62,12 @@ begin
   elsif(value->>'value')::numeric>0 then state:='ACTIVE';reason:='CURRENT_EXACT_SIZE_GAP';
   elsif value->>'state'='ASSUMED'then state:='NO_CURRENT_GAP';reason:='SELECTED_SCENARIO_COVERAGE_NOT_PHYSICAL_RESOLUTION';
   else state:='RESOLVED';reason:='KNOWN_CURRENT_ZERO_GAP';resolved:=true;end if;
-  select x->>'sku'||' · '||(x->>'product_name')into label from jsonb_array_elements(e->'product_labels')x where x->>'target_key'=r->'target'->>'key';
+  label:=labels->>(r->'target'->>'key');
   row_source:=jsonb_build_object('key','PRODUCTION_GAP:'||(r->'target'->>'key'),'rule_id','PRODUCTION_GAP',
    'target_key',r->'target'->'key','source_id',r->'target'->'product_id','material_key',null,
-   'source_hash',e->'analysis'->>'semantic_hash','state',state,'reason',reason,'value',value,
+   'source_hash',semantic,'state',state,'reason',reason,'value',value,
    'production_state',r->'production_state','business_resolved',resolved,'domain','PRODUCTION','financial_source',null,'economic_state','NOT_APPLICABLE','scope','CURRENT_EXACT_SIZE_ANALYSIS','label',label);
-  out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
+  acc:=acc||cp7_reminder_native.condition_policy(row_source,policies,p_at);
  end loop;
  -- This existing rule is the accessory oracle. Fabric inputs are displayed
  -- through shared analysis, not relabelled as Native accessory proof.
@@ -71,12 +79,12 @@ begin
   elsif(value->>'value')::numeric>0 then state:='ACTIVE';reason:='SOURCE_BOUND_ADDITIONAL_EXTERNAL_NEED';
   elsif value->>'state'='ASSUMED'then state:='NO_CURRENT_GAP';reason:='SELECTED_MATERIAL_SCENARIO_NOT_PHYSICAL_RESOLUTION';
   else state:='RESOLVED';reason:='KNOWN_CURRENT_ZERO_ACCESSORY_NEED';resolved:=true;end if;
-  select x->>'sku'||' · '||(x->>'product_name')into label from jsonb_array_elements(e->'product_labels')x where x->>'target_key'=r->>'target_key';
+  label:=labels->>(r->>'target_key');
   row_source:=jsonb_build_object('key','ACCESSORY_NEED:'||(r->>'target_key')||':'||coalesce(r->>'material_key','UNKNOWN_BOM'),
    'rule_id','ACCESSORY_NEED','target_key',r->'target_key','source_id',split_part(r->>'target_key',':',1),
-   'material_key',r->'material_key','source_hash',e->'analysis'->>'semantic_hash','state',state,'reason',reason,
+   'material_key',r->'material_key','source_hash',semantic,'state',state,'reason',reason,
    'value',value,'production_state',null,'business_resolved',resolved,'domain','ACCESSORY','financial_source',null,'economic_state','NOT_APPLICABLE','scope','CURRENT_NATIVE_ACCESSORY_BOM_INSTALLATION_AND_ALLOCATION','label',label);
-  out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
+  acc:=acc||cp7_reminder_native.condition_policy(row_source,policies,p_at);
  end loop;
  -- P18 fabric rule: the same immutable shared-analysis fabric row, copied
  -- exactly. ASSUMED recipe/allocation facts never become business resolution;
@@ -90,17 +98,20 @@ begin
   elsif(value->>'value')::numeric>0 then state:='ACTIVE';reason:='SOURCE_BOUND_ADDITIONAL_EXTERNAL_FABRIC_NEED';
   elsif value->>'state'='ASSUMED'then state:='NO_CURRENT_GAP';reason:='SELECTED_FABRIC_RECIPE_SCENARIO_NOT_PHYSICAL_RESOLUTION';
   else state:='RESOLVED';reason:='KNOWN_CURRENT_ZERO_FABRIC_NEED';resolved:=true;end if;
-  select x->>'sku'||' · '||(x->>'product_name')into label from jsonb_array_elements(e->'product_labels')x where x->>'target_key'=r->>'target_key';
+  label:=labels->>(r->>'target_key');
   row_source:=jsonb_build_object('key','FABRIC_NEED:'||(r->>'target_key')||':'||(r->>'material_key'),
    'rule_id','FABRIC_NEED','target_key',r->'target_key','source_id',split_part(r->>'target_key',':',1),
-   'material_key',r->'material_key','source_hash',e->'analysis'->>'semantic_hash','state',state,'reason',reason,
+   'material_key',r->'material_key','source_hash',semantic,'state',state,'reason',reason,
    'value',value,'production_state',null,'business_resolved',resolved,'domain','FABRIC','financial_source',null,'economic_state','NOT_APPLICABLE','scope','CURRENT_NATIVE_FABRIC_RECIPE_AND_PHYSICAL_ALLOCATION','label',label);
-  out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
+  acc:=acc||cp7_reminder_native.condition_policy(row_source,policies,p_at);
  end loop;
  if ar is not null and ar<>'null'::jsonb then
   as_of:=(ar->>'as_of')::date;
+  select coalesce(jsonb_object_agg(k,v order by po desc,ro desc),'{}'::jsonb)into ar_rows
+   from(select x.value->>'id'k,x.value v,page.ordinality po,x.ordinality ro from jsonb_array_elements(ar->'pages')with ordinality page
+    cross join lateral jsonb_array_elements(page.value->'page'->'rows')with ordinality x where x.value->>'id'is not null)a;
   for c in select x.value from jsonb_array_elements(ar->'conditions')x loop
-   select x into d from jsonb_array_elements(ar->'pages')page cross join lateral jsonb_array_elements(page->'page'->'rows')x where x->>'id'=c->>'source_id';
+   d:=ar_rows->(c->>'source_id');
    if d is null then raise exception 'CP7_RULE_CONDITION_AR_INCOMPLETE';end if;
    due:=(d->>'due_date')::date;days:=case when due is null then null else(as_of-due)::text end;
    state:=case when c->>'state'in('OVERDUE','DUE_TODAY')then'ACTIVE'when c->>'state'='ZERO_BALANCE'then'RESOLVED'
@@ -114,7 +125,7 @@ begin
     'financial_source',jsonb_build_object('remaining',jsonb_build_object('state',case when d->'financial'->>'open_balance'is null then'UNKNOWN'else'KNOWN'end,'unit','IDR','refs',value->'refs')||case when d->'financial'->>'open_balance'is null then jsonb_build_object('reason','ACCEPTED_NATIVE_REMAINING_NOT_AVAILABLE')else jsonb_build_object('value',d->'financial'->>'open_balance')end,
      'recorded_due_date',due,'document',cp7_reminder_native.exact_numbers(d),'document_sha256',encode(pg_catalog.sha256(convert_to(d::text,'UTF8')),'hex'),'revision_basis','NATIVE_ROW_VERSION'),
     'scope','NATIVE_SALES_RECEIVABLE_ONLY','label',d->>'number'||' · '||(d->>'customer_name'));
-   out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
+   acc:=acc||cp7_reminder_native.condition_policy(row_source,policies,p_at);
   end loop;
  end if;
  if ap is not null and ap<>'null'::jsonb then
@@ -132,9 +143,10 @@ begin
     'financial_source',jsonb_build_object('remaining',jsonb_build_object('state',case when c->>'state'='INVOICE_PENDING'or d->'balance'->>'remaining'is null then'UNKNOWN'else'KNOWN'end,'unit','IDR','refs',value->'refs')||case when c->>'state'='INVOICE_PENDING'or d->'balance'->>'remaining'is null then jsonb_build_object('reason','ACCEPTED_FINAL_NATIVE_REMAINING_NOT_AVAILABLE')else jsonb_build_object('value',d->'balance'->>'remaining')end,
      'recorded_due_date',due,'document',cp7_reminder_native.exact_numbers(d),'document_sha256',encode(pg_catalog.sha256(convert_to(d::text,'UTF8')),'hex'),'revision_basis','NATIVE_ROW_VERSION'),
     'scope','NATIVE_MATERIAL_PAYABLE_ONLY','label',d->'liability'->>'purchase_number'||' · '||coalesce(d->'liability'->>'supplier_name','Pemasok'));
-   out_rows:=out_rows||jsonb_build_array(cp7_reminder_native.condition_policy(row_source,policies,p_at));
+   acc:=acc||cp7_reminder_native.condition_policy(row_source,policies,p_at);
   end loop;
  end if;
+ out_rows:=to_jsonb(acc);
  if jsonb_array_length(out_rows)>15000 or octet_length(out_rows::text)>8000000
   or(select count(distinct x->>'key')from jsonb_array_elements(out_rows)x)<>jsonb_array_length(out_rows)then raise exception 'CP7_RULE_CONDITION_SCOPE_INCOMPLETE';end if;
  return out_rows;
