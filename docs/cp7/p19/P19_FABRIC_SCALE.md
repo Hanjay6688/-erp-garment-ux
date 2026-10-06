@@ -106,6 +106,13 @@ Kesetaraan dibuktikan pada 3.000 set data acak, membandingkan versi lama dan bar
    - Perlu dicek apakah `jit` aktif di Supabase hosted. Ini hanya baca pengaturan, tanpa mengubah apa pun.
    - Pilihan perbaikan (keputusan GPT/owner, menyentuh CP6 atau finance): `set jit=off` pada fungsi pemeriksaan tersebut, atau batas biaya JIT yang lebih tinggi, ditambah tanda tangan buku yang inkremental.
 
+## Riwayat CI
+
+| Head | Hasil |
+|---|---|
+| a4ebb6a8 (perbaikan `plan`/`needs`) | Semua PASS: fabric-physical21 21/21, fabric13 13/13, analysis152 152/152, plan39 39/39, attention284 284/284 (run 37404829353); fabric-rule11 11/11, rule-lifecycle16 16/16, p18-e01-9 9/9 (run 37404835115); Shell S0, CodeQL dan receipt-correction PASS. |
+| 882fc40a/2ae1db92 (perbaikan `condition_rows`) | P18 (run 37406898697), Shell S0, CodeQL dan receipt-correction PASS. Suite P08 dijalankan ulang di 2ae1db92 (run 37408720092); 2ae1db92 hanya menambah dokumen di atas 882fc40a. |
+
 ## Batas
 
 Belum ada uji beban multi-pengguna, pemulihan setelah hak dicabut, atau uji ambil analisis penuh pada volume besar dengan data Native. Uji ambil analisis penuh tertahan oleh temuan 1 dan 2 di atas.
