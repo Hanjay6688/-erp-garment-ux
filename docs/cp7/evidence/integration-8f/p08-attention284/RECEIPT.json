@@ -1,0 +1,204 @@
+{
+  "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+  "source_tree": "8fdc7495bd693b1b5ef6d4c020c2be67a01d0fed",
+  "run_id": 37440579756,
+  "job_id": 112193077109,
+  "artifact_id": 11404547003,
+  "artifact_name": "cp7-p08-attention284-complete-json",
+  "zip_bytes": 64765,
+  "zip_sha256": "8c1ca7f99dfc6196bcf84a7d7019f62dbed586c1f7cb97d4e1155bce7f373621",
+  "runtime_report": "CP7_F05_NATIVE_ATTENTION.json",
+  "expected_status": "PASS",
+  "expected_case_count": 284,
+  "required_case_counts": {
+    "native": 179,
+    "races": 40,
+    "http": 29,
+    "browser": 36
+  },
+  "artifact_scope": "COMPLETE_ORIGINAL_JSON_COMPANION_NOT_LARGE_IMAGE_ARCHIVE",
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "source_bundle_sha256": "199edcaeb3f553ae152e3c47797241cbe1e28b0a24000f6250c928b11bee71fa",
+  "observed_case_count": 284,
+  "counts": {
+    "native": {
+      "PASS": 179
+    },
+    "races": {
+      "PASS": 40
+    },
+    "http": {
+      "PASS": 29
+    },
+    "browser": {
+      "PASS": 36
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "607b3ec4375e11f0acf116d756f8b86f1e539ab3d8874809f2c25114fa8faeea",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "bytes": 438939,
+      "sha256": "a10e91c78a8320e32f35ad7048146730f69d1a0810c991d3096f614faae29d05"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "e0e3d1e2de22763e83b3078afccbb8cda1e817364ed73824f8f19f8aafc4260a"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 13415,
+      "sha256": "7e2ed10333680530660496da0280e8440cea7bcde867c5cab034245364048136"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "696ac01cd0ddd9d80f05f83ed00c9db5068421bb784d40b590f61ca51c1165cf"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_TRACE.json": {
+      "bytes": 14995,
+      "sha256": "c8cec4b632e41c57b766bde524781f27da0cec03cdabef20b06021e330f52ef2"
+    },
+    "F05_CAPTURE_OTHER_DESKTOP_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "f0139b8863a3745cc026f6f6dd0835e2198ad4ee721dabcebfb1d147b9e792b7"
+    },
+    "F05_CAPTURE_OTHER_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 10255,
+      "sha256": "367797eec670e0d93025fd9fff880f2d3efcdfacff49d9768ec8ef146fba4ad2"
+    },
+    "F05_CAPTURE_OTHER_MOBILE_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "b4a62277ddb1001002b6488819c7220e4c0fef6eac6be8ad5396c540a6186469"
+    },
+    "F05_CAPTURE_OTHER_MOBILE_HTTP_TRACE.json": {
+      "bytes": 11835,
+      "sha256": "8bbd4a8aa0cf789d6641fb50d180e50d199e546cea6f88fdbae526fdc063ba34"
+    },
+    "F05_LOCAL_CLAIM_DESKTOP_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "f618464b491e3e46acc984f84257e6e5baf6f9b986a7a6abc4f0d39298f24113"
+    },
+    "F05_LOCAL_CLAIM_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 10257,
+      "sha256": "6bd048078204aa47325f08718c0cd6d6c93a263e161bf3e5b838a0349f8ff44d"
+    },
+    "F05_LOCAL_CLAIM_MOBILE_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "d0a22e683d24ad56b217b5cc293abc30b32a9007447601d354afec6015a2df4c"
+    },
+    "F05_LOCAL_CLAIM_MOBILE_HTTP_TRACE.json": {
+      "bytes": 9625,
+      "sha256": "b96deb4bf544f19f42b02a3fabac2e439c4ab0d8921d4bf3ba26d74fcad682fa"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "46628323bce787365d2a616c8636389f87b0ac0fb4fd89ed3809cc7025eb11c0"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360407,
+      "sha256": "1d11e018743270a629f356405eb91f31ebc8ca1ccf0aea6f0eaa1881568b12bc"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F05_NATIVE_ATTENTION.json": {
+      "bytes": 438939,
+      "sha256": "a10e91c78a8320e32f35ad7048146730f69d1a0810c991d3096f614faae29d05"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "e0e3d1e2de22763e83b3078afccbb8cda1e817364ed73824f8f19f8aafc4260a"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 13415,
+      "sha256": "7e2ed10333680530660496da0280e8440cea7bcde867c5cab034245364048136"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "696ac01cd0ddd9d80f05f83ed00c9db5068421bb784d40b590f61ca51c1165cf"
+    },
+    "F05_CAPTURE_OBLIGATION_REPORT_MOBILE_HTTP_TRACE.json": {
+      "bytes": 14995,
+      "sha256": "c8cec4b632e41c57b766bde524781f27da0cec03cdabef20b06021e330f52ef2"
+    },
+    "F05_CAPTURE_OTHER_DESKTOP_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "f0139b8863a3745cc026f6f6dd0835e2198ad4ee721dabcebfb1d147b9e792b7"
+    },
+    "F05_CAPTURE_OTHER_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 10255,
+      "sha256": "367797eec670e0d93025fd9fff880f2d3efcdfacff49d9768ec8ef146fba4ad2"
+    },
+    "F05_CAPTURE_OTHER_MOBILE_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "b4a62277ddb1001002b6488819c7220e4c0fef6eac6be8ad5396c540a6186469"
+    },
+    "F05_CAPTURE_OTHER_MOBILE_HTTP_TRACE.json": {
+      "bytes": 11835,
+      "sha256": "8bbd4a8aa0cf789d6641fb50d180e50d199e546cea6f88fdbae526fdc063ba34"
+    },
+    "F05_LOCAL_CLAIM_DESKTOP_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "f618464b491e3e46acc984f84257e6e5baf6f9b986a7a6abc4f0d39298f24113"
+    },
+    "F05_LOCAL_CLAIM_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 10257,
+      "sha256": "6bd048078204aa47325f08718c0cd6d6c93a263e161bf3e5b838a0349f8ff44d"
+    },
+    "F05_LOCAL_CLAIM_MOBILE_HTTP_RESPONSE.json": {
+      "bytes": 214,
+      "sha256": "d0a22e683d24ad56b217b5cc293abc30b32a9007447601d354afec6015a2df4c"
+    },
+    "F05_LOCAL_CLAIM_MOBILE_HTTP_TRACE.json": {
+      "bytes": 9625,
+      "sha256": "b96deb4bf544f19f42b02a3fabac2e439c4ab0d8921d4bf3ba26d74fcad682fa"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "46628323bce787365d2a616c8636389f87b0ac0fb4fd89ed3809cc7025eb11c0"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360407,
+      "sha256": "1d11e018743270a629f356405eb91f31ebc8ca1ccf0aea6f0eaa1881568b12bc"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

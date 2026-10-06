@@ -1,0 +1,366 @@
+{
+  "source_commit": "92f30e423cfc19c7f60cdfaf5448301ac5d9c076",
+  "product_ref": "56c7558642e74c64117da98bdb6d0502203e859b",
+  "installed_runtime": "T3_PACKAGE_THROUGH_BF_CP6_BASELINE_WITH_CP7_FRONTEND",
+  "full_CP7_Native_runtime_qualified": false,
+  "run_id": 37446319529,
+  "job_id": 112211924351,
+  "artifact_id": 11403641805,
+  "zip_bytes": 2377645,
+  "zip_sha256": "7b887f6f60943aaa43224037de5faf0c080ff55af719bf76e58076ba9afc6754",
+  "all_zip_members": {
+    "AUDITOR_CASES_AFTER.json": {
+      "bytes": 50211,
+      "sha256": "7f6aced85b3826e02eaf849260f9d70e0894c807d149cca8683449befbed3c99"
+    },
+    "CLONE_auditor.clone-erp.sql": {
+      "bytes": 9841867,
+      "sha256": "1b44624929b77b523a3b088733ac3a5dc9fd248254a2ccb453b231a7dfd219ad"
+    },
+    "CLONE_auditor.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_auditor.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_auditor.source-erp.sql": {
+      "bytes": 9841867,
+      "sha256": "1b44624929b77b523a3b088733ac3a5dc9fd248254a2ccb453b231a7dfd219ad"
+    },
+    "CLONE_auditor.txt": {
+      "bytes": 291,
+      "sha256": "b904590ed5b2416d0d4c615f0fd82231cc257b5fb22851e1a6ea63b2268b2b48"
+    }
+  },
+  "original_reports_gzip_sha256": "e2495653b22ba3951ec999e87199df3a70f52b9398ba3e05e1dd4583a5845b1e",
+  "job_log_utf8_sha256": "0da6a172d702c7bdd58c49426ee73a954120fc17ad7ba8e9d27a4f71c4c6de3d",
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "production_go": false,
+  "status": "INCOMPLETE",
+  "zero_native_case_credit": 0,
+  "counts": {
+    "auditor_cases": {},
+    "auditor_races": {
+      "PASS": 9
+    },
+    "auditor_http": {
+      "PASS": 2
+    },
+    "auditor_browser": {
+      "PASS": 5,
+      "INCOMPLETE": 1
+    }
+  },
+  "actual_browser_rows": [
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:CONVERSION_DESKTOP_UTC_REVERSE",
+      "status": "PASS",
+      "checks": {
+        "one_document": true,
+        "quantity": true,
+        "value": true,
+        "wib_date": true,
+        "inverse": true
+      },
+      "mobile": false,
+      "timezoneId": "UTC",
+      "after": {
+        "source_qty": 4,
+        "documents": [
+          [
+            "f494d445-c58a-467b-806f-6e089770184a",
+            "POSTED",
+            "2026-10-03",
+            "15:00:00",
+            "ad92bcc7-2d47-476d-b825-fcf676bdd5f7"
+          ]
+        ],
+        "target_qty": 6,
+        "target_value": "30060.000000"
+      },
+      "inverse": {
+        "source_qty": 10,
+        "documents": [
+          [
+            "f494d445-c58a-467b-806f-6e089770184a",
+            "REVERSED",
+            "2026-10-03",
+            "15:00:00",
+            "ad92bcc7-2d47-476d-b825-fcf676bdd5f7"
+          ]
+        ],
+        "target_qty": 0,
+        "target_value": "30060.000000"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:CONVERSION_MOBILE_HONOLULU_REVERSE",
+      "status": "PASS",
+      "checks": {
+        "one_document": true,
+        "quantity": true,
+        "value": true,
+        "wib_date": true,
+        "inverse": true
+      },
+      "mobile": true,
+      "timezoneId": "Pacific/Honolulu",
+      "after": {
+        "source_qty": 4,
+        "documents": [
+          [
+            "54843e2f-ea0c-4e19-9b92-459b2ca2e14b",
+            "POSTED",
+            "2026-10-03",
+            "15:00:00",
+            "a4fb883a-1bd1-45c8-a771-8bd043a51663"
+          ]
+        ],
+        "target_qty": 6,
+        "target_value": "30060.000000"
+      },
+      "inverse": {
+        "source_qty": 10,
+        "documents": [
+          [
+            "54843e2f-ea0c-4e19-9b92-459b2ca2e14b",
+            "REVERSED",
+            "2026-10-03",
+            "15:00:00",
+            "a4fb883a-1bd1-45c8-a771-8bd043a51663"
+          ]
+        ],
+        "target_qty": 0,
+        "target_value": "30060.000000"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:POCKET_HISTORY_ALLOCATE_CORRECT_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "wip": true,
+        "fg": true,
+        "cogs": true,
+        "cutover": true,
+        "source": true
+      },
+      "after": {
+        "amount": "15.00",
+        "ledger": {
+          "WIP": "1816.50",
+          "FG_INVENTORY": "100234.50",
+          "COGS": "3.00",
+          "OTHER_EXPENSE": "0.00",
+          "OPENING_EQUITY": "-95.00"
+        },
+        "pools": [
+          [
+            "e127369b-18c9-429c-b552-48185b3819d4",
+            "POST",
+            "2026-09-26"
+          ],
+          [
+            "e127369b-18c9-429c-b552-48185b3819d4",
+            "RECOST",
+            "2026-10-06"
+          ]
+        ]
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:REWORK_SKU_PARTIAL_COMPLETE_REVERSE",
+      "status": "INCOMPLETE",
+      "error": "locator.fill: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.cbsr-rework-complete').getByPlaceholder('Alasan reversal Owner/Admin')\n\n    at rework (/home/runner/work/_temp/auditor_browser.mjs:124:66)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "partial_no_fg": true,
+        "completed_once": true,
+        "target": true,
+        "final": true
+      },
+      "partial": {
+        "orders": [
+          [
+            "7db67356-23f4-4ce3-a9a5-a00f6fafeea9",
+            "PARTIAL",
+            1,
+            0,
+            null
+          ]
+        ],
+        "conversions": [],
+        "qty": 0,
+        "product": null,
+        "cost": "0",
+        "rate": "None"
+      },
+      "completed": {
+        "orders": [
+          [
+            "7db67356-23f4-4ce3-a9a5-a00f6fafeea9",
+            "COMPLETED",
+            2,
+            2,
+            "1bfb99ff-ba23-4f20-ba85-d3b2fb5e4cbf"
+          ]
+        ],
+        "conversions": [
+          [
+            "56b1b4a8-59c7-4453-808d-3ef0dcd2b27f",
+            "POSTED",
+            "b11c3f74-ff3a-4dcd-8e0e-aa17b9f38ae7"
+          ]
+        ],
+        "qty": 2,
+        "product": "e701ef84-f0d3-49a1-9530-15370fbc084e",
+        "cost": "0",
+        "rate": "None"
+      },
+      "final": {
+        "orders": [
+          [
+            "7db67356-23f4-4ce3-a9a5-a00f6fafeea9",
+            "COMPLETED",
+            2,
+            2,
+            "1bfb99ff-ba23-4f20-ba85-d3b2fb5e4cbf"
+          ]
+        ],
+        "conversions": [
+          [
+            "56b1b4a8-59c7-4453-808d-3ef0dcd2b27f",
+            "POSTED",
+            "b11c3f74-ff3a-4dcd-8e0e-aa17b9f38ae7"
+          ]
+        ],
+        "qty": 2,
+        "product": "e701ef84-f0d3-49a1-9530-15370fbc084e",
+        "cost": "200.00",
+        "rate": "50.000000"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:POCKET_CSV_IMPORT_DRAFT_VALIDATE_POST",
+      "status": "PASS",
+      "checks": {
+        "draft_no_facts": true,
+        "usage": true,
+        "denominator": true,
+        "once": true,
+        "no_fake_movements": true
+      },
+      "responses": [
+        {
+          "action": "SAVE_FILE",
+          "status": 200,
+          "body": {
+            "action": "SAVE_FILE",
+            "status": "DRAFT",
+            "batch_id": "4120bd07-7be5-4b0e-9846-c09c5cc765bb",
+            "revision": "e7cae488f645a143e1626caea909fbfd5f55ed401ec155812842b159fd96fc24",
+            "error_rows": null,
+            "request_id": "761248e6-5fba-42cc-bb5c-1b315711d9e8",
+            "total_rows": null,
+            "valid_rows": null
+          }
+        },
+        {
+          "action": "SAVE_FILE",
+          "status": 200,
+          "body": {
+            "action": "SAVE_FILE",
+            "status": "DRAFT",
+            "batch_id": "4120bd07-7be5-4b0e-9846-c09c5cc765bb",
+            "revision": "0406dbab81afdc984353c23b49b88f8f3369bf914c1123630895a61d6230b0da",
+            "error_rows": null,
+            "request_id": "3cd8e8b6-f17b-4356-b776-7f7126358dab",
+            "total_rows": null,
+            "valid_rows": null
+          }
+        },
+        {
+          "action": "VALIDATE",
+          "status": 200,
+          "body": {
+            "action": "VALIDATE",
+            "status": "READY",
+            "batch_id": "4120bd07-7be5-4b0e-9846-c09c5cc765bb",
+            "revision": "2a2d65602e64732073cc44e7ca1346cd2550783ba129ef98d16f32cf6373b774",
+            "error_rows": 0,
+            "request_id": "4bf1f863-588f-42f9-ba1c-599ce05d999e",
+            "total_rows": 17,
+            "valid_rows": 17
+          }
+        },
+        {
+          "action": "FINALIZE",
+          "status": 200,
+          "body": {
+            "action": "FINALIZE",
+            "status": "POSTED",
+            "batch_id": "4120bd07-7be5-4b0e-9846-c09c5cc765bb",
+            "revision": "b75c02f9ccc2a223823ead1a6ee6d9f7befda4e8d1a91da90e3b1a52d9fa3836",
+            "error_rows": 0,
+            "request_id": "7e077027-f74c-45af-8244-5b430a2325d1",
+            "total_rows": 17,
+            "valid_rows": 17
+          }
+        }
+      ],
+      "after": {
+        "status": "POSTED",
+        "usage": [
+          [
+            "KELUAR-BW033fe6780afb",
+            "1",
+            "5.000000",
+            "11.25"
+          ]
+        ],
+        "sewing": [
+          [
+            "JAHIT-BW033fe6780afb",
+            "1",
+            5,
+            "WIP"
+          ],
+          [
+            "JAHIT-BW033fe6780afb",
+            "2",
+            3,
+            "FINISHED_GOODS"
+          ],
+          [
+            "JAHIT-BW033fe6780afb",
+            "3",
+            2,
+            "COGS"
+          ]
+        ],
+        "ledger": {
+          "WIP": "2034.50",
+          "FG_INVENTORY": "100636.50",
+          "COGS": "3.00",
+          "OTHER_EXPENSE": "11.25",
+          "OPENING_EQUITY": "-186.25"
+        },
+        "stock_moves": 8,
+        "sewing_events": 13
+      }
+    }
+  ],
+  "primary_unchanged": true,
+  "clone_remaining": 0
+}

@@ -67,8 +67,11 @@ async function rework(ui,today,redye){
     await navigate(p,'Barang BS & Rework','Produksi')
     await ui.expect(p.getByRole('button',{name:'Refetch',exact:true})).toBeEnabled({timeout:20000})
     await p.locator('.cbsr-tabs').getByRole('button',{name:'Semua',exact:true}).click()
-    await p.getByPlaceholder('Nomor, PO, model, Pola, pihak…').fill(f.bs_number)
-    await p.locator('.cbsr-search').getByRole('button',{name:'Cari',exact:true}).click()
+    // CP7 (5e4af78f) moved the BS search into the shared RecordTools form. Its
+    // "Cari" button only focuses the field; "Cari kasus" submits the search.
+    const search=p.getByRole('form',{name:'Cari, browse, urutkan dan filter BS dan claim',exact:true})
+    await search.getByLabel('Cari BS atau claim',{exact:true}).fill(f.bs_number)
+    await search.getByRole('button',{name:'Cari kasus',exact:true}).click()
     await p.locator('.cbsr-list button').filter({hasText:f.bs_number}).click()
     await p.locator('.cbsr-route-tabs').getByRole('button',{name:redye?'Rewash':'Rework',exact:true}).click()
     const form=p.locator('.cbsr-route-form')
@@ -117,9 +120,16 @@ async function rework(ui,today,redye){
       await ui.expect.poll(()=>fixture('read',f).cost,{timeout:20000}).toBe('200.00')
       final=fixture('read',f)
     }else{
+      // CP7 (51c96475) makes the completed-rework inverse a reviewed step: the
+      // reason, "Periksa pembatalan hasil", the review naming the order and the
+      // returned quantities, then "Sahkan pembatalan hasil".
       const done=p.locator('.cbsr-rework-complete')
-      await done.getByPlaceholder('Alasan reversal Owner/Admin').fill('BE inverse hasil fisik')
-      await done.getByRole('button',{name:'Reverse',exact:true}).click()
+      await done.getByLabel('Alasan pembatalan hasil rework',{exact:true}).fill('BE inverse hasil fisik')
+      await done.getByRole('button',{name:'Periksa pembatalan hasil',exact:true}).click()
+      const review=done.getByRole('region',{name:'Pemeriksaan pembatalan hasil rework',exact:true})
+      await ui.expect(review).toContainText(f.number)
+      await ui.expect(review).toContainText('Batalkan hasil 2 Good dan 2 BS')
+      await review.getByRole('button',{name:'Sahkan pembatalan hasil',exact:true}).click()
       await ui.expect.poll(()=>fixture('read',f).qty,{timeout:20000}).toBe(0)
       final=fixture('read',f)
     }

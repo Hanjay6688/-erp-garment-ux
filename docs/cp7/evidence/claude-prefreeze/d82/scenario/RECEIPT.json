@@ -1,0 +1,430 @@
+{
+  "source_commit": "d82fa58385dc12187735d08e2a2272086962cc55",
+  "product_ref": "56c7558642e74c64117da98bdb6d0502203e859b",
+  "installed_runtime": "T3_PACKAGE_THROUGH_BF_CP6_BASELINE_WITH_CP7_FRONTEND",
+  "full_CP7_Native_runtime_qualified": false,
+  "run_id": 37447896631,
+  "job_id": 112217047294,
+  "artifact_id": 11404547592,
+  "zip_bytes": 2377604,
+  "zip_sha256": "7cd52c90655247256323550fe67c33b32e1b2706ff2a28bf83f0be5fbe0aef44",
+  "all_zip_members": {
+    "AUDITOR_CASES_AFTER.json": {
+      "bytes": 50204,
+      "sha256": "b40c20142ef5a1f6eb0988adc731f80a9f721d0f4f3e3e5351409a9c33dc469b"
+    },
+    "CLONE_auditor.clone-erp.sql": {
+      "bytes": 9841871,
+      "sha256": "5835b3c5f8a9b0545a3bc2d6daf209d3c7e8255a6e86864df5eb980aebdf1854"
+    },
+    "CLONE_auditor.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_auditor.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_auditor.source-erp.sql": {
+      "bytes": 9841871,
+      "sha256": "5835b3c5f8a9b0545a3bc2d6daf209d3c7e8255a6e86864df5eb980aebdf1854"
+    },
+    "CLONE_auditor.txt": {
+      "bytes": 291,
+      "sha256": "729312b0926f4e0bf38308e3354b31cf92f3066a970e8e74be2ebab6ea1abc4f"
+    }
+  },
+  "original_reports_gzip_sha256": "c9b5cb8388b7926081049abde898e4e2a726212fb8d784cbfdd6b58e6e78d902",
+  "job_log_utf8_sha256": "492383148818ab06c09261130e837b301344d5c4ddf30a793e07fc0c7b5e6672",
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "production_go": false,
+  "status": "RUN_COMPLETE",
+  "zero_native_case_credit": 0,
+  "counts": {
+    "auditor_cases": {},
+    "auditor_races": {
+      "PASS": 9
+    },
+    "auditor_http": {
+      "PASS": 2
+    },
+    "auditor_browser": {
+      "PASS": 6
+    }
+  },
+  "actual_browser_rows": [
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:CONVERSION_DESKTOP_UTC_REVERSE",
+      "status": "PASS",
+      "checks": {
+        "one_document": true,
+        "quantity": true,
+        "value": true,
+        "wib_date": true,
+        "inverse": true
+      },
+      "mobile": false,
+      "timezoneId": "UTC",
+      "after": {
+        "source_qty": 4,
+        "documents": [
+          [
+            "bb5943f4-216b-4034-98eb-ee3c5557726a",
+            "POSTED",
+            "2026-10-03",
+            "15:00:00",
+            "8afb920b-78ba-4196-89da-36d5ab323b82"
+          ]
+        ],
+        "target_qty": 6,
+        "target_value": "30060.000000"
+      },
+      "inverse": {
+        "source_qty": 10,
+        "documents": [
+          [
+            "bb5943f4-216b-4034-98eb-ee3c5557726a",
+            "REVERSED",
+            "2026-10-03",
+            "15:00:00",
+            "8afb920b-78ba-4196-89da-36d5ab323b82"
+          ]
+        ],
+        "target_qty": 0,
+        "target_value": "30060.000000"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:CONVERSION_MOBILE_HONOLULU_REVERSE",
+      "status": "PASS",
+      "checks": {
+        "one_document": true,
+        "quantity": true,
+        "value": true,
+        "wib_date": true,
+        "inverse": true
+      },
+      "mobile": true,
+      "timezoneId": "Pacific/Honolulu",
+      "after": {
+        "source_qty": 4,
+        "documents": [
+          [
+            "6793f244-165a-4a7a-9a01-473a84849e46",
+            "POSTED",
+            "2026-10-03",
+            "15:00:00",
+            "46920ff4-e285-4b20-b330-01e095b71793"
+          ]
+        ],
+        "target_qty": 6,
+        "target_value": "30060.000000"
+      },
+      "inverse": {
+        "source_qty": 10,
+        "documents": [
+          [
+            "6793f244-165a-4a7a-9a01-473a84849e46",
+            "REVERSED",
+            "2026-10-03",
+            "15:00:00",
+            "46920ff4-e285-4b20-b330-01e095b71793"
+          ]
+        ],
+        "target_qty": 0,
+        "target_value": "30060.000000"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:POCKET_HISTORY_ALLOCATE_CORRECT_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "wip": true,
+        "fg": true,
+        "cogs": true,
+        "cutover": true,
+        "source": true
+      },
+      "after": {
+        "amount": "15.00",
+        "ledger": {
+          "WIP": "1816.50",
+          "FG_INVENTORY": "100234.50",
+          "COGS": "3.00",
+          "OTHER_EXPENSE": "0.00",
+          "OPENING_EQUITY": "-95.00"
+        },
+        "pools": [
+          [
+            "c0edd48f-db74-4a11-b491-ea4a09a292b2",
+            "POST",
+            "2026-09-26"
+          ],
+          [
+            "c0edd48f-db74-4a11-b491-ea4a09a292b2",
+            "RECOST",
+            "2026-10-06"
+          ]
+        ]
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:REWORK_SKU_PARTIAL_COMPLETE_REVERSE",
+      "status": "PASS",
+      "checks": {
+        "partial_no_fg": true,
+        "completed_once": true,
+        "target": true,
+        "final": true
+      },
+      "partial": {
+        "orders": [
+          [
+            "9e31f8c4-cf6b-4038-9a99-237d8c72428f",
+            "PARTIAL",
+            1,
+            0,
+            null
+          ]
+        ],
+        "conversions": [],
+        "qty": 0,
+        "product": null,
+        "cost": null,
+        "rate": null
+      },
+      "completed": {
+        "orders": [
+          [
+            "9e31f8c4-cf6b-4038-9a99-237d8c72428f",
+            "COMPLETED",
+            2,
+            2,
+            "80c47547-cb7f-401a-938a-da1e72567e3b"
+          ]
+        ],
+        "conversions": [
+          [
+            "8f6e6715-0d31-4227-afab-a7d5eefa5795",
+            "POSTED",
+            "0d4f54ea-b4b3-47d0-940d-2936527d3316"
+          ]
+        ],
+        "qty": 2,
+        "product": "23ad7392-b65a-4a6d-900e-760683c94bc1",
+        "cost": null,
+        "rate": null
+      },
+      "final": {
+        "orders": [
+          [
+            "9e31f8c4-cf6b-4038-9a99-237d8c72428f",
+            "CANCELLED",
+            2,
+            2,
+            "80c47547-cb7f-401a-938a-da1e72567e3b"
+          ]
+        ],
+        "conversions": [
+          [
+            "8f6e6715-0d31-4227-afab-a7d5eefa5795",
+            "REVERSED",
+            "0d4f54ea-b4b3-47d0-940d-2936527d3316"
+          ]
+        ],
+        "qty": 0,
+        "product": "23ad7392-b65a-4a6d-900e-760683c94bc1",
+        "cost": null,
+        "rate": null
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+      "status": "PASS",
+      "checks": {
+        "partial_no_fg": true,
+        "completed_once": true,
+        "target": true,
+        "final": true
+      },
+      "partial": {
+        "orders": [
+          [
+            "6a462726-8e21-4021-bc43-2bb16defa7c1",
+            "PARTIAL",
+            1,
+            0,
+            null
+          ]
+        ],
+        "conversions": [],
+        "qty": 0,
+        "product": null,
+        "cost": "0",
+        "rate": "None"
+      },
+      "completed": {
+        "orders": [
+          [
+            "6a462726-8e21-4021-bc43-2bb16defa7c1",
+            "COMPLETED",
+            2,
+            2,
+            "93c40892-2119-4962-9b07-ba0326aa080c"
+          ]
+        ],
+        "conversions": [
+          [
+            "dd44c885-32af-4f2d-92c0-2e9f47250cee",
+            "POSTED",
+            "ff448982-9d21-4e6f-b5e3-a6596b4ffa96"
+          ]
+        ],
+        "qty": 2,
+        "product": "cbac304c-7a9c-479a-a607-d9fe04d76c84",
+        "cost": "0",
+        "rate": "None"
+      },
+      "final": {
+        "orders": [
+          [
+            "6a462726-8e21-4021-bc43-2bb16defa7c1",
+            "COMPLETED",
+            2,
+            2,
+            "93c40892-2119-4962-9b07-ba0326aa080c"
+          ]
+        ],
+        "conversions": [
+          [
+            "dd44c885-32af-4f2d-92c0-2e9f47250cee",
+            "POSTED",
+            "ff448982-9d21-4e6f-b5e3-a6596b4ffa96"
+          ]
+        ],
+        "qty": 2,
+        "product": "cbac304c-7a9c-479a-a607-d9fe04d76c84",
+        "cost": "200.00",
+        "rate": "50.000000"
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_AFTER",
+      "case": "BE_BROWSER:POCKET_CSV_IMPORT_DRAFT_VALIDATE_POST",
+      "status": "PASS",
+      "checks": {
+        "draft_no_facts": true,
+        "usage": true,
+        "denominator": true,
+        "once": true,
+        "no_fake_movements": true
+      },
+      "responses": [
+        {
+          "action": "SAVE_FILE",
+          "status": 200,
+          "body": {
+            "action": "SAVE_FILE",
+            "status": "DRAFT",
+            "batch_id": "fb29c4a0-bb57-4aa5-b388-fd66d313eed0",
+            "revision": "dca7b5c6d229d3eb13c88db30fbb2bbc4e91bccef2d965b13ec88fac8a14af88",
+            "error_rows": null,
+            "request_id": "cf73401e-6e58-410d-b225-0f8a4a25f300",
+            "total_rows": null,
+            "valid_rows": null
+          }
+        },
+        {
+          "action": "SAVE_FILE",
+          "status": 200,
+          "body": {
+            "action": "SAVE_FILE",
+            "status": "DRAFT",
+            "batch_id": "fb29c4a0-bb57-4aa5-b388-fd66d313eed0",
+            "revision": "d54691e8fa2142d8db28b7fc2938ca3b7d6d121bec19c852024c63ada66a25ed",
+            "error_rows": null,
+            "request_id": "4220edf9-8802-4fec-b5b2-361e9eb87b50",
+            "total_rows": null,
+            "valid_rows": null
+          }
+        },
+        {
+          "action": "VALIDATE",
+          "status": 200,
+          "body": {
+            "action": "VALIDATE",
+            "status": "READY",
+            "batch_id": "fb29c4a0-bb57-4aa5-b388-fd66d313eed0",
+            "revision": "34123d632af560cb8453a14dc1cb4edd0621bfb91069c0319160ae23ac73cee9",
+            "error_rows": 0,
+            "request_id": "84a49843-7247-4f7f-beed-b35547d160a8",
+            "total_rows": 17,
+            "valid_rows": 17
+          }
+        },
+        {
+          "action": "FINALIZE",
+          "status": 200,
+          "body": {
+            "action": "FINALIZE",
+            "status": "POSTED",
+            "batch_id": "fb29c4a0-bb57-4aa5-b388-fd66d313eed0",
+            "revision": "7ad6c7829ad4d3143e33369b0167b4d1d5ec5fe96d826442e007dfaf5fbdceb0",
+            "error_rows": 0,
+            "request_id": "6fae9c57-e3aa-45d9-9566-d3e0f3051507",
+            "total_rows": 17,
+            "valid_rows": 17
+          }
+        }
+      ],
+      "after": {
+        "status": "POSTED",
+        "usage": [
+          [
+            "KELUAR-BW0c97f25d1c90",
+            "1",
+            "5.000000",
+            "11.25"
+          ]
+        ],
+        "sewing": [
+          [
+            "JAHIT-BW0c97f25d1c90",
+            "1",
+            5,
+            "WIP"
+          ],
+          [
+            "JAHIT-BW0c97f25d1c90",
+            "2",
+            3,
+            "FINISHED_GOODS"
+          ],
+          [
+            "JAHIT-BW0c97f25d1c90",
+            "3",
+            2,
+            "COGS"
+          ]
+        ],
+        "ledger": {
+          "WIP": "2068.50",
+          "FG_INVENTORY": "100602.50",
+          "COGS": "3.00",
+          "OTHER_EXPENSE": "11.25",
+          "OPENING_EQUITY": "-186.25"
+        },
+        "stock_moves": 8,
+        "sewing_events": 13
+      }
+    }
+  ],
+  "primary_unchanged": true,
+  "clone_remaining": 0
+}

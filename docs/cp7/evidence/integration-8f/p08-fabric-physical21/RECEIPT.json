@@ -1,0 +1,108 @@
+{
+  "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+  "source_tree": "8fdc7495bd693b1b5ef6d4c020c2be67a01d0fed",
+  "run_id": 37440579756,
+  "job_id": 112193076868,
+  "artifact_id": 11402195924,
+  "artifact_name": "cp7-p08-fabric-physical21-complete-json",
+  "zip_bytes": 126659,
+  "zip_sha256": "b2d7fbb66c62ac48ab36304e96b3fa3374ec395bf148770018eb786e9c7a728a",
+  "runtime_report": "CP7_FABRIC_PHYSICAL.json",
+  "expected_status": "PASS",
+  "expected_case_count": 21,
+  "required_case_counts": {
+    "native": 16,
+    "races": 2,
+    "http": 1,
+    "browser": 2
+  },
+  "artifact_scope": "COMPLETE_ORIGINAL_JSON_COMPANION_NOT_LARGE_IMAGE_ARCHIVE",
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "source_bundle_sha256": "4da9fb7d9d0f54f70f84e620fa2a63fb1e790a4946528d3536a5537381dbb5fd",
+  "observed_case_count": 21,
+  "counts": {
+    "native": {
+      "PASS": 16
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "c099558e649428561b44c3cc69d9688abd7a1a9c5834232a3ba6286dac3c4b36",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_FABRIC_PHYSICAL.json": {
+      "bytes": 2691510,
+      "sha256": "1b75fde7f5f683215d1f25c70cd1cce71b9ce8effa8900ffb95229a82291ed14"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c5b0806fea6b597de2a80745242c154027e40b6c94c677d94d7ed5e45cdb0be8"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360407,
+      "sha256": "1d11e018743270a629f356405eb91f31ebc8ca1ccf0aea6f0eaa1881568b12bc"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_FABRIC_PHYSICAL.json": {
+      "bytes": 2691510,
+      "sha256": "1b75fde7f5f683215d1f25c70cd1cce71b9ce8effa8900ffb95229a82291ed14"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c5b0806fea6b597de2a80745242c154027e40b6c94c677d94d7ed5e45cdb0be8"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360407,
+      "sha256": "1d11e018743270a629f356405eb91f31ebc8ca1ccf0aea6f0eaa1881568b12bc"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -190,3 +190,8 @@ Owner asks routine current figures/filter/page under1s, ordinary confirmed saves
 
 
 External Claude source92f and successor d311 are now observed on claude/new-session-deapao: only inherited AU/BE browser adapters and P19_FABRIC_SCALE.md differ from8f; no product or file overlap with GPT changes. T3/auditor scenarios run37446316844/37446319529 remain pending. Only Claude duplicate P08/P18 runs37446319535/37446319692 were cancelled; canonical P08 source8f still runs. Prepared handoff status is updated to observed external candidate, not sent/started by GPT and not yet integrated or Native-qualified.
+
+
+##6 October2026 WIB — e76 Originals and Claude compatibility merge
+
+Read and retained exact e76 E0526/26, Combined22/22, UI5/5 and all eight Full F03 component Originals; Shell1550/164 and both zero-finding CodeQL SARIFs verified. Source8f P08 five components and attention284 completed and their complete JSON companions were independently read per case. Reviewed Claude138/d82 four-file compatibility merge without product edits or conflict: scenario17/17 and WIP10/10; retained first92 and both overall T3 failures (27 PASS/4 INCOMPLETE other browser cases). This is writer verification before freezing, not independent P20 acceptance. Continue current-authority admission profiling for bounded Note performance and owner1/2/3 targets; full capacity/P18/P20/P21 remain open. See `WRITER_CHECKPOINT_20261006_ERP_CONTINUATION.md`.

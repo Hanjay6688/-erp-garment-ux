@@ -125,11 +125,22 @@ async function flow(f,index){
       const response=await route.fetch();assert.equal(response.status(),200);committed=await response.json()
       await route.abort('connectionreset')
     },{times:1})
+    // CP7 (5eb4ad20) retires the stale opening balances while the committed
+    // result is unknown, so the brand field is removed instead of disabled.
+    // The CP6 lock still holds: no editable brand and no WIP write until the
+    // saved UUID/payload is reconciled, also after a reload. The same locators
+    // first find the editable field and the enabled write, so zero is real.
+    const editableBrand=page.getByRole('textbox',{name:'Merek hasil WIP',exact:true,disabled:false})
+    const enabledWrite=page.getByRole('button',{name:'Sahkan hasil WIP awal',exact:true,disabled:false})
+    await expect(editableBrand).toHaveCount(1);await expect(enabledWrite).toHaveCount(1)
+    const locked=async()=>{await expect(editableBrand).toHaveCount(0);await expect(enabledWrite).toHaveCount(0)}
     await page.getByRole('button',{name:'Sahkan hasil WIP awal',exact:true}).click()
     await expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
-    await expect(page.getByLabel('Merek hasil WIP',{exact:true})).toBeDisabled()
+    await locked()
     const posted=native('boundary')
     await page.reload();await nav(page,'Impor data awal','Pengaturan & Audit')
+    await expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
+    await locked()
     const retry=page.waitForResponse(r=>matches(r.request()))
     await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
     const response=await retry

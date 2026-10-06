@@ -11651,5 +11651,78 @@
     "product_source_changes_in_external_diff": false,
     "file_conflict_with_current_GPT_branch": false,
     "Native_browser_qualification": false
+  },
+  "writer_continuation_e76_20261006": {
+    "status": "ACTUAL_ORIGINALS_REVIEWED_CLAUDE_COMPATIBILITY_MERGE_PREPARED",
+    "source_commit": "e76bf72115a5ba9c8fdd91af0d98bb59c089f89f",
+    "source_tree": "fce9cbf275ccc10dcc325ac13760db7a53320b51",
+    "actual_e05_counts": {
+      "native": 20,
+      "races": 3,
+      "http": 1,
+      "browser": 2
+    },
+    "actual_combined": 22,
+    "actual_prefreeze_ui": 5,
+    "full_components": {
+      "p09": 132,
+      "p09_extra_smokes": 3,
+      "p10": 34,
+      "p11": 64,
+      "p12": 90,
+      "p13": 50,
+      "cash_installments": 61,
+      "supplier_credit": 5,
+      "customer_refund": 10
+    },
+    "shell_tests": 1550,
+    "shell_files": 164,
+    "actual_CodeQL_findings": 0,
+    "evidence": "docs/cp7/evidence/integration-e76",
+    "handoff": "docs/cp7/WRITER_CHECKPOINT_20261006_ERP_CONTINUATION.md",
+    "independent_acceptance": false,
+    "full_CP7_acceptance": false,
+    "production_go": false
+  },
+  "claude_prefreeze_merge_20261006": {
+    "branch_head": "138139fa28464cb6fd303c655adb2bf414efab1d",
+    "test_source": "d82fa58385dc12187735d08e2a2272086962cc55",
+    "scope": "FOUR_FILE_COMPATIBILITY_TEST_AND_DOCUMENT_MERGE",
+    "product_changed": false,
+    "no_file_conflict": true,
+    "actual_scenario_run": 37447896631,
+    "actual_scenario_counts": {
+      "native": 0,
+      "races": 9,
+      "http": 2,
+      "browser": 6
+    },
+    "actual_WIP_browser_run": 37447893656,
+    "actual_WIP_cases": 10,
+    "T3_overall": "INCOMPLETE_27_PASS_4_INCOMPLETE_OTHER_BROWSER_CASES",
+    "installed_runtime": "CP6_THROUGH_BF_CP7_FRONTEND",
+    "full_CP7_Native_runtime_qualified": false,
+    "first_failure_retained": true,
+    "evidence": "docs/cp7/evidence/claude-prefreeze",
+    "GPT_sent_or_started_external_work": false,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "integration8f_P08_attention_final_20261006": {
+    "source": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+    "P08_run": 37440579756,
+    "attention_run": 37440580274,
+    "actual_per_case_PASS": {
+      "physical": 21,
+      "recipe": 13,
+      "analysis": 152,
+      "plan": 39,
+      "attention": 284
+    },
+    "complete_Original_JSON_companions_retained": true,
+    "large_image_ZIPs_downloaded": false,
+    "duplicate_case_counts_not_summed": true,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

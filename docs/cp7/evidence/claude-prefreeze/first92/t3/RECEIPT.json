@@ -1,0 +1,139 @@
+{
+  "source_commit": "92f30e423cfc19c7f60cdfaf5448301ac5d9c076",
+  "product_ref": "56c7558642e74c64117da98bdb6d0502203e859b",
+  "installed_runtime": "T3_PACKAGE_THROUGH_BF_CP6_BASELINE_WITH_CP7_FRONTEND",
+  "full_CP7_Native_runtime_qualified": false,
+  "run_id": 37446316844,
+  "job_id": 112211909204,
+  "artifact_id": 11403991584,
+  "zip_bytes": 3622646,
+  "zip_sha256": "ec05616513c0106bd56386648129611e13b77ddc48fe3199190767a2b37ce3e7",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_browser.clone-erp.sql": {
+      "bytes": 5385611,
+      "sha256": "4404bed74f14940ebb0c8a48c5f72529f9c024c3dd02dec645aa3ddfa5527807"
+    },
+    "CLONE_browser.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_browser.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_browser.source-erp.sql": {
+      "bytes": 5385611,
+      "sha256": "4404bed74f14940ebb0c8a48c5f72529f9c024c3dd02dec645aa3ddfa5527807"
+    },
+    "CLONE_browser.txt": {
+      "bytes": 291,
+      "sha256": "53ad420e905327f0eafc68d448b7f79703a1dde7aa6dc73887a2347607da6112"
+    },
+    "T3_BROWSER.json": {
+      "bytes": 750,
+      "sha256": "465e324ebff02900a85bd5fd36913b362fbcae42307c029a0568ec4900883781"
+    },
+    "T3_BROWSER_FLOW.json": {
+      "bytes": 1826,
+      "sha256": "ab1a6cc89512788fd9bfa1316ec346661927fa978b9bb1e9eeb55bf4d115ab2e"
+    },
+    "T3_PACKAGE_BROWSER.json": {
+      "bytes": 8167,
+      "sha256": "c2e76647ea3ea2fab8f6e10ca7f12139aca570ac3d6bb767098b9c7f660fe224"
+    },
+    "T3_PACKAGE_FILES_BROWSER.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "readiness-ui/desktop-laundry-pending.png": {
+      "bytes": 454826,
+      "sha256": "c6d2abe9cf399b229a6664fb76dbd9e7aa233c81d88ab4fc99b70d8dbfacba2f"
+    },
+    "readiness-ui/desktop-accessory-decision.png": {
+      "bytes": 307207,
+      "sha256": "5f4ecdcdcb228d7a235bbca1c050b8c281522ce63fb65d4fc4a469faeb9774c4"
+    },
+    "readiness-ui/desktop-laundry-ready.png": {
+      "bytes": 449274,
+      "sha256": "4ffd4f097d18634dea1232be9e4801bf9cbf9d2d397c900d38a59338bd9e98a8"
+    },
+    "readiness-ui/mobile-accessory-decision.png": {
+      "bytes": 237115,
+      "sha256": "256f2f7f89d375350d744d30b53ebea20046bf38e674384bc087b2e4db35d65d"
+    },
+    "readiness-ui/mobile-laundry-pending.png": {
+      "bytes": 309161,
+      "sha256": "2493019bfc36ccccb627f4dacd571c423f13f4515a2050e50414ec59824fe9ca"
+    },
+    "readiness-ui/mobile-laundry-ready.png": {
+      "bytes": 313834,
+      "sha256": "c31954eac86eeb83583b53dbfae3a2b441940af9ad8a58d55fe6be4f23eada8a"
+    }
+  },
+  "original_reports_gzip_sha256": "decff7d11309c14e4553403a15311fe2fa66ea71e21773a179ca738bb3ce0556",
+  "job_log_utf8_sha256": "2762852a71aba288f8386e1cbd88be23ca7fc5148ff0ccb7395088dc5ebb31dc",
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "production_go": false,
+  "status": "T3_OVERALL_INCOMPLETE_AT10_PASS_RETAINED",
+  "at_cases": {
+    "REAL_LOGIN_PAGE": "PASS",
+    "ANONYMOUS_REFUSED": "PASS",
+    "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+    "AMBIGUOUS_REFUSED_0": "PASS",
+    "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+    "EXACT_BRAND_STOCK_HPP_0": "PASS",
+    "LINKED_INVERSE_0": "PASS",
+    "AMBIGUOUS_REFUSED_1": "PASS",
+    "EXACT_BRAND_STOCK_HPP_1": "PASS",
+    "LINKED_INVERSE_1": "PASS"
+  },
+  "writer_case_statuses": {
+    "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE": "INCOMPLETE",
+    "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE": "INCOMPLETE",
+    "VENDOR_FREE_BROWSER:DESKTOP_SAVE_RELOAD": "PASS",
+    "VENDOR_FREE_BROWSER:MOBILE_SAVE_RELOAD": "PASS",
+    "VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP": "PASS",
+    "VENDOR_BROWSER:EMPTY_DETAILS_MOBILE": "PASS",
+    "SUPPLIER_BROWSER:FABRIC_SPLIT_INVERSE_DESKTOP": "PASS",
+    "SUPPLIER_BROWSER:ACCESSORY_SPLIT_INVERSE_MOBILE": "PASS",
+    "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE": "PASS",
+    "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM": "PASS",
+    "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM": "PASS",
+    "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS": "PASS",
+    "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR": "PASS",
+    "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE": "PASS",
+    "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN": "PASS",
+    "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN": "PASS",
+    "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST": "PASS",
+    "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE": "PASS",
+    "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP": "PASS",
+    "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE": "PASS",
+    "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP": "PASS",
+    "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE": "PASS",
+    "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE": "PASS",
+    "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP": "PASS",
+    "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE": "PASS",
+    "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE": "PASS",
+    "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE": "PASS",
+    "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP": "PASS",
+    "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE": "PASS",
+    "BF_BROWSER:SALES_MANUAL_13_DESKTOP": "INCOMPLETE",
+    "BF_BROWSER:SALES_MANUAL_13_MOBILE": "INCOMPLETE"
+  },
+  "remaining4": [
+    "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+    "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+    "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+    "BF_BROWSER:SALES_MANUAL_13_MOBILE"
+  ],
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "writer_runtime": false
+  }
+}

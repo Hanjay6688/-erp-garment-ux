@@ -124,6 +124,30 @@ Kontrol negatif: alat yang sama menandai FAIL bila sengaja dibuat beda kecil.
 
 Perubahan sengaja itu sudah dikembalikan.
 
+## Anggaran waktu layar (diteruskan owner, 6 Okt 2026)
+
+Batas dibuat ketat. Pekerjaan yang lebih lama dibuat sebagai pengecualian bernama, tidak dengan menaikkan batas umum. Alasannya:
+- di atas 3 detik orang mulai mengklik dua kali;
+- batas yang longgar selalu akan terpakai.
+
+| Jenis | Batas |
+|---|---|
+| Angka di layar, filter, buka halaman | 1 detik |
+| Simpan transaksi biasa | 2 detik |
+| Laporan periode, koreksi setahun ke belakang, rekalkulasi, impor ratusan baris | 3 detik, dengan indikator progres |
+| Pekerjaan berat (shadow run, pemasangan, rebuild snapshot setahun) | boleh lebih dari 3 detik, tetapi berjalan di latar, layar tetap bisa dipakai, dan ada tanda "sedang dihitung sejak jam X" |
+
+Bila sesuatu butuh 5 detik, jawabannya bukan menaikkan batas. Pekerjaan itu dipindah ke latar dan diberi tanda progres. Operator tidak boleh menatap layar diam lebih dari 3 detik tanpa tahu apa yang terjadi.
+
+Kasus khusus saat ini: perintah koreksi nota setahun ke belakang yang terkena timeout 8 detik adalah kandidat pengecualian. Penyebab lambatnya harus diselidiki dulu, dan batasnya tidak dinaikkan sebelum sebabnya diketahui.
+
+Posisi angka kain dan pengingat terhadap anggaran ini (LOCAL, 1.200 target):
+- hitung kain (`plan` + `needs`) sekitar 0,6 detik;
+- sumber kondisi pengingat 0,23 detik;
+- baca stok roll 0,16–0,27 detik.
+
+Ketiganya bagian dari ambil analisis, jadi yang menentukan adalah total ambil analisis pada data Native penuh. Total itu belum diukur di cabang ini, dan temuan GPT pada snapshot keuangan serta loop analisis masih berlaku.
+
 ## Riwayat CI
 
 | Head | Hasil |
