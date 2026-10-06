@@ -17,7 +17,7 @@ OUT=bundle.ROOT/'cp6-proof/t3/CP7_P13_FINANCE_READ.json'
 def verify(cur):
  result=sales.verify(cur)
  got=cur.execute("select p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.provolatile::text,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_finance'").fetchall();assert {r[0]for r in got}=={'access_now','exact_numbers','workspace','analysis'}
- for name,owner,secdef,vol,config in got:assert (owner,secdef,vol,config)==('cp7_finance_read',False,'i' if name=='exact_numbers' else 's',['search_path=""']+(['TimeZone=UTC'] if name in('workspace','analysis') else [])),(name,owner,secdef,vol,config)
+ for name,owner,secdef,vol,config in got:assert (owner,secdef,vol,config)==('cp7_finance_read',False,'i' if name=='exact_numbers' else 's',['search_path=""']+(['TimeZone=UTC','jit=off'] if name in('workspace','analysis') else [])),(name,owner,secdef,vol,config)
  assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid='public.erp_cp7_get_finance_report_v1(jsonb)'::regprocedure").fetchone()==('cp7_finance_read',True,'s',['search_path=""'])
  assert cur.execute("select pg_get_userbyid(proowner),prosecdef,provolatile::text,proconfig from pg_proc where oid='public.erp_cp7_get_finance_analysis_v1(jsonb)'::regprocedure").fetchone()==('cp7_finance_read',True,'s',['search_path=""'])
  periods.verify(cur);recost.verify(cur)

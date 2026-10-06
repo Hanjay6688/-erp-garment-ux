@@ -5,6 +5,7 @@ name: CP7 P08 Physical Fabric
     - claude/new-session-deapao
     - cp7/integration
     - cp7/p19-20261006
+    - cp7/p19-native-20261006
     paths:
     - scripts/cp7-src/planning/**
     - scripts/cp7-src/plan-native/**

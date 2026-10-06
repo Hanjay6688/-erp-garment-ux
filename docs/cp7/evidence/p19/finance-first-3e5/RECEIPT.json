@@ -1,0 +1,70 @@
+{
+  "source_commit": "3e5ba2571c1ba714d9f0cc2524250a4a4fb46ac7",
+  "source_tree": "25d4c110915bac5a136d401e471f4e8c169fac0f",
+  "run_id": 37418812683,
+  "job_id": 112123349616,
+  "artifact_id": 11393210246,
+  "artifact_name": "cp7-p13-analysis",
+  "zip_bytes": 1628829,
+  "zip_sha256": "7196fbb42ac8c754dccb353074033693d0deadad161b0ade0ea9eacc077ab5e6",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "d44ee7baf27c9070e9548cba64bf69c7556cf6882cf583478e84961c1555a00d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "d44ee7baf27c9070e9548cba64bf69c7556cf6882cf583478e84961c1555a00d"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "1070bbed2be90576ea9e18e4fd11acc43fcb84e5820c1b144295605fb5f6ac70"
+    },
+    "CP7_P13_FINANCE_ANALYSIS.json": {
+      "bytes": 47691,
+      "sha256": "9e64350ad074f4cac681cf6c2a8f9a97218934cd1cfbb2d98f506f097885335a"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "f01a8ac9f9d7dc03f659566b5d1609114cda4dcb2ea064b32379d54d4cdc039c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360378,
+      "sha256": "dad3b80eaf46a1e18c58b51b4d0c894166e5a9c520e74466f980e41461729ed3"
+    }
+  },
+  "status": "ORIGINAL_INCOMPLETE_RETAINED",
+  "full_P19_acceptance": false,
+  "production_go": false,
+  "Native_case_credit_added": 0,
+  "expected_case_count": 24,
+  "observed_case_count": 0,
+  "source_bundle_sha256": "5930aa873536dc68ae630e8db09b5cf804544058a8eea5eaa389d900b2858b16",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": false,
+  "cause": "The unchanged P13 installation verifier required the previous exact reader proconfig and rejected the deliberately added function-scoped jit=off before any business cases ran.",
+  "successor": "Require exactly search_path=\"\",TimeZone=UTC,jit=off for workspace and analysis; retain previous owners, definer flags, volatility, grants and all24 business executions. The first advisor_gate=false is preserved; it is not relabelled."
+}
