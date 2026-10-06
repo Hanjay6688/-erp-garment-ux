@@ -120,9 +120,16 @@ async function rework(ui,today,redye){
       await ui.expect.poll(()=>fixture('read',f).cost,{timeout:20000}).toBe('200.00')
       final=fixture('read',f)
     }else{
+      // CP7 (51c96475) makes the completed-rework inverse a reviewed step: the
+      // reason, "Periksa pembatalan hasil", the review naming the order and the
+      // returned quantities, then "Sahkan pembatalan hasil".
       const done=p.locator('.cbsr-rework-complete')
-      await done.getByPlaceholder('Alasan reversal Owner/Admin').fill('BE inverse hasil fisik')
-      await done.getByRole('button',{name:'Reverse',exact:true}).click()
+      await done.getByLabel('Alasan pembatalan hasil rework',{exact:true}).fill('BE inverse hasil fisik')
+      await done.getByRole('button',{name:'Periksa pembatalan hasil',exact:true}).click()
+      const review=done.getByRole('region',{name:'Pemeriksaan pembatalan hasil rework',exact:true})
+      await ui.expect(review).toContainText(f.number)
+      await ui.expect(review).toContainText('Batalkan hasil 2 Good dan 2 BS')
+      await review.getByRole('button',{name:'Sahkan pembatalan hasil',exact:true}).click()
       await ui.expect.poll(()=>fixture('read',f).qty,{timeout:20000}).toBe(0)
       final=fixture('read',f)
     }
