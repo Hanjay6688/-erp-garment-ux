@@ -26,6 +26,8 @@ Kandidat final untuk audit ditetapkan setelah seluruh baris di atas PASS pada sa
 | `cp7_plan_native.apply` | fungsi berubah (milik GPT) | Sisip penanda → preflight ulang → hapus penanda. |
 | `cp7_reminder_native.rule_policies` | cek `rule_id` dan lingkup TARGET berubah | Menambah `FABRIC_NEED`. CP7 belum terpasang di mana pun; bila kelak sudah terpasang, perubahan cek ini perlu `ALTER TABLE … DROP/ADD CONSTRAINT`. |
 | `policy_validate`, `policy_scope_access`, `policy_workspace`, `policy-history`, `local-sink`, `condition_domain/_access/_rows/_source` | fungsi berubah (milik GPT) | Aturan kelima, domain `FABRIC`, cakupan `fabric`. |
+| `cp7_fabric_native.plan/needs/recipe_state` (P19) | fungsi berubah, signature tetap | Hitungan sekali per bahan/draf dan baca path tanpa salinan. Keluaran `plan` datar (kunci indeks di tingkat atas), konsumennya hanya `needs`. Kesetaraan lokal 3.300 set data. |
+| `cp7_reminder_native.condition_rows` (P19) | fungsi berubah (milik GPT), signature tetap | Hash analisis dibaca sekali, label dan dokumen piutang lewat peta kunci (kecocokan pertama), larik `jsonb[]`. Kesetaraan lokal 3.000 set data. |
 
 Hak baru untuk `cp7_capture`:
 - **SELECT kolom tertentu saja, tanpa harga atau biaya:**
@@ -65,6 +67,11 @@ Tidak ada role, RPC publik, atau hak tulis bisnis baru.
    - Satuan ambang dibandingkan persis. Huruf kecil diterima hanya untuk `FABRIC_NEED`; aturan lama tidak berubah.
 7. **Laporan.** Baris kebutuhan bahan mengutip sumber keempat fakta tanpa duplikat. Baris tanpa sumber fisik tidak berubah teksnya.
 8. **Penerima frontend.** Angka fisik kain hanya diterima dalam batas kernel: gross − terpasang − sisa layak ≥ tambahan dari luar ≥ 0, dengan asumsi resep yang benar.
+9. **Perubahan P19 (kecepatan, hasil wajib sama).**
+   - `plan`: periksa agregasi per bahan (`free`, `bad`, `manual`, `incoming`, `hash`), termasuk perilaku saat roll, sel atau baris PO ganda.
+   - Pemeriksaan draf: setiap draf unik diperiksa sekali lewat hash join, dan join ke sel memakai `is not distinct from` untuk lokasi kosong.
+   - `condition_rows`: aturan "kecocokan pertama" pada label dan dokumen piutang (`order by … desc` di `jsonb_object_agg`).
+   - Pastikan tidak ada jalur yang membuat angka berbeda dari versi lama. Skrip pembanding lama-lawan-baru bisa diminta dari writer.
 
 ## 4. Catatan pemasangan (P21) dan rollback
 
