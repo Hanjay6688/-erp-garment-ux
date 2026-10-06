@@ -150,3 +150,9 @@
   regrouping, pemasangan dari hosted nyata, lintas CP1–7, regresi baseline), §8 klasifikasi non-temuan, §9 empat bagian wajib (merah bukan temuan, label per klaim,
   pertanyaan owner + rekomendasi, ringkasan owner), §10.8–10.10, §12.8–12.11. Log revisi §15 diisi.
 - Berkas: docs/AUDIT_PANDUAN_PRO_MAX.md (versi Fable, cabang audit) + out/fable_panduan_additions_20261003.patch (diff terhadap 31ee23f0) untuk digabung Opus ke cabang penulis.
+
+## 2026-10-06 — putaran 16 PRA_PEMBEKUAN + persiapan audit CP7 (#2, #3 paralel; #1 diperketat)
+- Dasar aturan: panduan versi PR 42 (belum merged). Head cp7/integration bergerak 095b33b0 → 875443d0 (docs) selama dispatch; produk identik.
+- #3: gerbang T2/T3/rollback + CP3/CP5 schema (dua terakhir gagal: NOT_APPLICABLE / EXPIRED_ARTIFACT, bukan produk) + 10 skenario CP6 Fable + 3 modes penulis. E06 merah penulis = public_schema_unchanged=false (INV-C06), bukan angka.
+- #2: audit/cp7_prep/ (133 kebutuhan → SKN/INV, matriks koreksi 27 keluarga × 3 syarat owner, manifest 73 kasus draft).
+- #1: out/REQUEST_WRITER_PLANNING_FALLBACK_20261006.md (asumsi global berlabel; tidak mengubah unknown jadi pasti).
