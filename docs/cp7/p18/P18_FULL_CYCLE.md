@@ -139,4 +139,8 @@ Oracle-nya hanya diturunkan dari jumlah E01, tidak ada angka kebijakan yang dika
 - Buku besar: bahan 440, barang jadi 720, piutang 175, pendapatan 375, HPP 240, kas −1.200.
 - Laporan posisi keuangan: aset dan laba berjalan masing-masing naik 135.
 
-Hasil CI dicatat di bawah sesudah run selesai. Kegagalan pertama tetap disimpan.
+**Hasil run pertama di `7d9041fa`** (run 37520306094, job 112463707456): **PASS 2/2**, yaitu siklus penuh dan E13. `cp6_restored=true`, `advisor_gate=true`.
+- B9 dan B10 sama persis dengan tabel di atas, dan buku besar sama dengan buku pembantu di setiap batas.
+- Kedua pembayaran supplier diputar ulang dengan tanggal dan jumlah aslinya.
+- Cek integritas tidak berubah.
+- Laba kotor akhir 135.

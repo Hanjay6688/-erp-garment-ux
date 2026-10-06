@@ -173,3 +173,26 @@ Rincian: `p19/P19_KERNEL_JOB_TRANSPORT_CLAUDE.md` dan handoff §13.
 - konfigurasi skema PostgREST.
 
 Klasifikasinya heuristik teks dan bukan temuan yang diterima. Setiap kandidat perlu dibaca isinya oleh auditor P20.
+
+**Hasil pindaian pertama** (latihan P21 di `7d9041fa`, run 37520305963, job 112463706478, PASS). Ringkasannya ada di `evidence/p20-direct-path-scan-7d9041fa/SCAN_SUMMARY.json`. Ini pengamatan heuristik, bukan temuan yang diterima.
+
+| Pengamatan | Jumlah |
+|---|---|
+| Fungsi `erp` | 940 |
+| Bisa dieksekusi `authenticated` | 160 |
+| Bisa dieksekusi `anon` (semuanya fungsi trigger penjaga) | 8 |
+| Penulis definer yang bisa dieksekusi `authenticated`, tanpa `has_permission` di badan fungsinya (semuanya hanya memakai penjaga peran seperti `require_internal`) | 82 |
+| Tabel `erp` dengan DML untuk `authenticated` | 55 |
+| Tabel tanpa RLS di antara 55 itu | 0 |
+| Tabel yang bisa diakses `anon` | 0 |
+
+Keadaan role: `authenticated` punya USAGE pada skema `erp` (G-01), sedangkan `anon` tidak. Role `authenticator` memakai `statement_timeout=8s` dan `lock_timeout=8s`.
+
+Ke-82 penulis itu antara lain posting dan pembalikan pembayaran (`post_supplier_payment`, `post_vendor_payment`, `post_sales_payment`, `post_payroll_payment`, `reverse_*`), `approve_payroll`, `close_accounting_through`/`reopen_accounting_through`, `process_cost_recalc_queue`, impor migrasi, dan simpan draf `*_v2`.
+
+**Yang perlu dibaca auditor P20:**
+1. Apakah pemeriksaan hak terjadi di fungsi pembantu yang dipanggil, sehingga heuristik ini tidak menangkapnya.
+2. Kebijakan RLS pada ke-55 tabel itu.
+3. Apakah ada endpoint selain PostgREST `public` yang bisa mencapai skema `erp` untuk `authenticated`. Contohnya GraphQL (`graphql_public`/pg_graphql) atau koneksi database langsung, dan ini harus diperiksa pada konfigurasi hosted.
+
+Pembayaran supplier lewat jalur langsung sudah terbukti pada kasus `CURRENT_ACCESS` (lihat `SUPPLIER_PAYMENT_CREATE_HANDOFF.md`). Menutupnya mengubah ACL atau definisi Native di hosted, jadi itu keputusan owner/GPT.
