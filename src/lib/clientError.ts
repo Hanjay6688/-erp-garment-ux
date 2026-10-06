@@ -103,6 +103,8 @@ export function normalizeClientError(error: unknown): ClientAppError {
     cp7_note_pending_child_review_required: 'Masih ada draft pembayaran atau retur pada nota ini. Selesaikan atau batalkan draft tersebut terlebih dahulu.',
     cp7_note_return_allocation_changed: 'Barang yang sudah diretur belum cocok dengan jumlah atau SKU pengganti. Periksa barang dan retur asal; pembetulan ini belum disimpan.',
     cp7_note_prepayment_owning_reallocation_required: 'Nota memakai uang muka impor yang perlu dipindahkan melalui alur uang muka. Pembetulan ini belum disimpan.',
+    cp7_note_returned_line_price_changed: 'Harga barang yang sudah diretur berubah, sedangkan refund retur dihitung dari harga lama. Betulkan atau batalkan returnya dulu, lalu betulkan harga nota; pembetulan ini belum disimpan.',
+    cp7_note_reallocated_payment_review_required: 'Ada pembayaran yang sudah dipindahkan dari nota lain. Betulkan pembayaran itu lewat koreksi pembayaran dulu; pembetulan nota ini belum disimpan.',
     cp7_note_request_changed: 'Permintaan pembetulan berubah. Periksa hasil permintaan sebelumnya sebelum mengirim tindakan baru.',
   }
   for (const [key,message] of Object.entries(correctionMessages)) {

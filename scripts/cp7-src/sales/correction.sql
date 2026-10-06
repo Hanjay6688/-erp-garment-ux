@@ -290,6 +290,15 @@ begin
       (line->>'qty_pcs')::integer+coalesce((select sum(z.qty_pcs)from erp.sales_return_items z where z.sale_stock_allocation_id=x.id),0)
     order by x.id limit 1;
    if allocation is null then raise exception 'CP7_NOTE_RETURN_ALLOCATION_CHANGED';end if;
+   -- The refund was agreed for the old net price of each returned piece.
+   -- Replaying it onto a line sold at another net price would overstate (or
+   -- refuse) receivable without anyone seeing it: correct the return first.
+   if exists(select 1 from erp.sale_stock_allocations old_x join erp.sales_items o on o.id=old_x.sale_item_id,
+     erp.sale_stock_allocations new_x join erp.sales_items n on n.id=new_x.sale_item_id
+    where old_x.id=(line->>'sale_stock_allocation_id')::uuid and new_x.id=allocation
+     and(o.qty_pcs*o.unit_price_snapshot-coalesce(o.discount_amount,0))*n.qty_pcs
+      <>(n.qty_pcs*n.unit_price_snapshot-coalesce(n.discount_amount,0))*o.qty_pcs)then
+    raise exception 'CP7_NOTE_RETURNED_LINE_PRICE_CHANGED';end if;
    insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)
    values(new_return,allocation,(line->>'product_id')::uuid,(line->>'lot_id')::uuid,(line->>'location_id')::uuid,
     (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')returning id into new_return_item;

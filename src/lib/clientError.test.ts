@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { isUnansweredFailure, normalizeClientError } from './clientError'
 
 describe('backend conflict messages', () => {
+  it('explains note corrections refused for a re-priced returned line or a reallocated payment', () => {
+    expect(normalizeClientError({ code: 'P0001', message: 'CP7_NOTE_RETURNED_LINE_PRICE_CHANGED' }).message).toContain('Betulkan atau batalkan returnya dulu')
+    expect(normalizeClientError({ code: 'P0001', message: 'CP7_NOTE_REALLOCATED_PAYMENT_REVIEW_REQUIRED' }).message).toContain('koreksi pembayaran')
+  })
   it('does not claim a different rework order has already been processed', () => {
     const result = normalizeClientError({ code: '23505', message: 'duplicate key value violates unique constraint "uq_fg_lots_qc_item"' })
     expect(result.code).toBe('DATA_CONFLICT')

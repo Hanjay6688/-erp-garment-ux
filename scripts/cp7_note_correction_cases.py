@@ -215,12 +215,16 @@ def cases(cur,today):
   return dict(status='PASS',two_revisions_24_to12_to18=True,latest_correction_wins=True,old_request_receipt_replayed_without_second_effect=True,original_facts_preserved=True)
  def financial():
   f=e01.production(cur,today);before=cmd.accounts(cur);posted(cur,f,'20','25');paid=returned.payments.pay(cur,f,'200');f['allocations']=returned.read(cur,f)['page']['rows'];payload,v=returned.payload(cur,f,qty='5',refund='125',destination=f['location']);ret=cmd.command(cur,'RETURN',payload,v)
-  original=f['sale'];facts=unchanged_facts(cur,original);p,v=edit(cur,f,'16');out=correct(cur,p,v);f['sale']=out['sale_id'];detail=source.read(cur,f)['detail'];assert detail['financial']['net_total']=='275.00'and detail['financial']['paid_total']=='200.00'and detail['financial']['open_balance']=='75.00'and detail['returned_qty']=='5'
+  original=f['sale'];facts=unchanged_facts(cur,original)
+  # Return 5 refunded 125 at 25/pcs. Re-pricing that returned line must not replay the old refund silently.
+  for price in('30','20'):
+   bad,bv=edit(cur,f,None,price);frozen=snapshot(cur);auth.refused(cur,lambda:correct(cur,bad,bv),'CP7_NOTE_RETURNED_LINE_PRICE_CHANGED');assert snapshot(cur)==frozen
+  p,v=edit(cur,f,'16');out=correct(cur,p,v);f['sale']=out['sale_id'];detail=source.read(cur,f)['detail'];assert detail['financial']['net_total']=='275.00'and detail['financial']['paid_total']=='200.00'and detail['financial']['open_balance']=='75.00'and detail['returned_qty']=='5'
   assert e01.physical(cur,f)==49;e01.expect_delta(cur,f,before,75,275,-165,165,200)
   assert unchanged_facts(cur,original)==facts and cur.execute('select status from erp.sales_payments where id=%s',(paid['payment_id'],)).fetchone()[0]=='REVERSED'and cur.execute('select status from erp.sales_returns where id=%s',(ret['return_id'],)).fetchone()[0]=='REVERSED'
   assert len(history(cur,original)['history'])==1
   inverse_date_truth(cur)
-  return dict(status='PASS',actual_native_receipt_cut_sewing_accessory_laundry_QC_cost_source=True,invoice_500_to400=True,retur125_and_cash200_preserved=True,net275_AR75_cash200_COGS165_FG49_value735=True,original_posted_items_immutable=True,atomic_nota_stock_AR_journal_HPP=True)
+  return dict(status='PASS',actual_native_receipt_cut_sewing_accessory_laundry_QC_cost_source=True,returned_line_reprice_25_to_30_or_20_refused_atomically=True,invoice_500_to400=True,retur125_and_cash200_preserved=True,net275_AR75_cash200_COGS165_FG49_value735=True,original_posted_items_immutable=True,atomic_nota_stock_AR_journal_HPP=True)
  def other_warehouse():
   f=returned.fixture(cur,today);ret=returned.returned(cur,f,grade='GRADE_B');returned.payments.pay(cur,f,'30');p,v=edit(cur,f,'3');out=correct(cur,p,v);f['sale']=out['sale_id']
   assert source.read(cur,f)['detail']['financial']['open_balance']=='10.00'and returned.positions(cur,f)=={(f['location'],'GRADE_A'):7,(f['destination'],'GRADE_B'):1}
