@@ -19,7 +19,7 @@ async function lifecycle(ui,today,mobile){
  }
  async function select(number){await panel.locator('.cproc-receipt').filter({has:p.getByText(number,{exact:true})}).click();await ui.expect(detail).toContainText(number)}
  async function act(label,commit){await detail.getByRole('button',{name:label,exact:true}).click();await ui.expect(editor.getByRole('button',{name:commit,exact:true})).toBeDisabled();await editor.getByLabel('Alasan tindakan absensi',{exact:true}).fill('P12 pemeriksaan seluruh sumber melalui browser');await editor.getByLabel('Absensi sudah diperiksa',{exact:true}).check();await editor.getByRole('button',{name:commit,exact:true}).click();await ui.expect(editor).toHaveCount(0)}
- async function previewSave(amount){await editor.getByLabel('Alasan tindakan absensi',{exact:true}).fill('P12 catatan harian eksplisit melalui browser');await editor.getByRole('button',{name:'Pratinjau hitungan absensi',exact:true}).click();await ui.expect(editor.locator('.catt-review')).toContainText('Perkiraan upah Rp'+amount)}
+ async function previewSave(amount){await editor.getByLabel('Alasan tindakan absensi',{exact:true}).fill('P12 catatan harian eksplisit melalui browser');await editor.getByRole('button',{name:'Pratinjau hitungan absensi',exact:true}).click();await ui.expect(editor.locator('.catt-review')).toContainText('Nilai absensi Rp'+amount)}
  try{
   await openAttendance()
   for(const [name,rate] of [['Pekerja Harian','100'],['Pekerja Setengah','50']]){

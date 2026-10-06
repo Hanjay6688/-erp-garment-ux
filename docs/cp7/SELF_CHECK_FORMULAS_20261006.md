@@ -41,6 +41,8 @@ perencanaan (sebagian; pemeriksa perencanaan dihentikan lebih awal untuk menghin
 | PR-2 | Payroll | `totals_match_items` memakai flag absensi master terbaru untuk payroll beku → tombol pelunasan terkunci keliru | Payroll APPROVED/PAID/REVERSED dibandingkan dengan itemnya sendiri | (repro stub; Native fixture absensi>0 belum tersedia) | `2d4f5f38` |
 | PR-3 | Tarif harian | "75.000" tersimpan Rp75 (titik dibaca desimal) | Ditolak dengan pesan jelas; kontrak 6 desimal tetap | DOM test | `2d4f5f38` |
 | AP-6 | Penerimaan, invoice supplier, hitung fisik, koreksi penerimaan | Harga/diskon rupiah "16.000" atau "1,500" diterima sebagai **Rp16 / Rp1,5** (field 6 desimal) | `moneyDecimal`: pola ribuan ambigu ditolak dengan pesan "… akan terbaca sebagai desimal, bukan ribuan. Tulis tanpa titik atau koma, misalnya 16000."; harga tersimpan yang tidak diubah tetap diterima. Pembayaran (2 desimal) sudah menolak sejak awal | `receiptCorrectionContract.test.ts` (gagal di kode lama), DOM `PurchaseInvoicePanel`, unit `moneyDecimal` | (commit ini) |
+| PR-5 | Absensi | Pratinjau absensi menulis "Perkiraan upah Rp…" padahal angkanya hari dibayar × tarif harian, termasuk pekerja borongan/tanpa tarif harian; upah sebenarnya dihitung payroll | Label "Nilai absensi" + keterangan "bukan upah payroll"; angka Native tidak diubah | DOM `AttendanceEntryEditor`, oracle browser P12 memakai label baru dengan angka yang sama | (commit ini) |
+| IN-4 | Kartu stok FG (buku v2 terkoreksi) | Tiap mutasi tertulis "HPP tercatat Rp…" padahal v2 memakai **HPP lot saat ini** (sama di semua baris), bukan HPP saat mutasi | Layar v2: "HPP lot saat ini"; v1 tetap "HPP tercatat" (snapshot per mutasi). String `basis` kontrak tidak diubah (kompatibilitas parser/oracle) | DOM `ConnectedFgStockPage` (gagal di kode lama) | (commit ini) |
 | IN-1 | Model hasil potong | Fold latih ikut batch sebelum aturan dicatat (6 batch bukan 3) | Kernel hanya menerima record batch prospektif terpilih | `cutting-model-producer.test.ts` (6≠3) | `3d4cfbea` |
 | IN-2 | Model hasil potong | Batch sesudahnya yang tercatat di dalam fold terakhir masuk holdout (4 bukan 3) | idem | idem (4≠3) | `3d4cfbea` |
 
@@ -70,9 +72,9 @@ perencanaan (sebagian; pemeriksa perencanaan dihentikan lebih awal untuk menghin
 | AP-5 | Pengingat hutang memakai jatuh tempo invoice paling awal walau sudah lunas | Pakai jatuh tempo invoice pertama yang belum tertutup pembayaran (FIFO) atau nyatakan aturan |
 | AP-6 | ~~Input "16.000" dibaca 16 (harga)~~ | **Diperbaiki** — lihat §2 |
 | AP-7 | Total koreksi dibulatkan sekali vs AP Native per baris | Pastikan skala `net_amount` Native; bila 2 desimal, jumlahkan per baris |
-| PR-5 | "Perkiraan upah" absensi ≠ upah payroll (ikut PIECE/NONE) | Ganti label menjadi nilai absensi, atau hitung hanya DAILY/HYBRID |
+| PR-5 | ~~"Perkiraan upah" absensi ≠ upah payroll (ikut PIECE/NONE)~~ **Diperbaiki (label)** — lihat §2 | Ganti label menjadi nilai absensi, atau hitung hanya DAILY/HYBRID |
 | PR-6 | Payroll APPROVED dengan net minus menyembunyikan detail | Edge legacy; terima net < 0 sebagai tidak dapat dibayar |
-| IN-4 | Basis label buku FG v2 "movement snapshot" padahal HPP lot terkini | Ganti nama basis & label "HPP lot saat ini" |
+| IN-4 | ~~Basis label buku FG v2 "movement snapshot" padahal HPP lot terkini~~ **Diperbaiki (label layar)** — lihat §2 | Ganti nama basis & label "HPP lot saat ini" |
 | FIN-4 | ~~Pembanding default bukan bulan kalender sebelumnya~~ | **Diperbaiki** (commit `8b5b6c21`): bulan penuh → bulan sebelumnya; MTD → hari yang sama bulan sebelumnya |
 | PL-3 | Evaluasi model tidak pernah menyelesaikan fold pada data Native (cutoff latih = akhir hari origin, padahal capture selalu sesudahnya) → selalu `BASELINE_RETAINED` | Keputusan kontrak: cutoff = akhir hari origin+1 (prakiraan diterbitkan sesudah hari tutup) atau latih `lo..origin-1`. Aman sekarang (gagal-tertutup ke baseline) |
 | PL-4 | Kapasitas mengabaikan beban yang melebihi jendela (tidak dibawa ke jendela berikutnya) | Bawa kelebihan ke jendela berikut atau UNKNOWN bila overbooked > 0 |
