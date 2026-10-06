@@ -36,7 +36,8 @@ $$;
 create function cp7_planning.history_build(c jsonb,q jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC' as $$
 declare input jsonb;result jsonb;p jsonb;stock jsonb;target text;refs jsonb;drafts jsonb;
- current_physical numeric;native_available numeric;availability jsonb;current_rows jsonb:='[]';hash text;
+ current_physical numeric;native_available numeric;availability jsonb;current_rows jsonb[]:='{}';hash text;
+ available_by_root jsonb;physical_by_root jsonb;drafts_by_root jsonb;
 begin
  if c->>'status'is distinct from 'COMPLETE'then raise exception 'CP7_PLANNING_CAPTURE_INCOMPLETE';end if;
  if jsonb_array_length(c->'facts'->'products')*((q->>'through_date')::date-(q->>'from_date')::date+1)>100000 then raise exception 'CP7_PLANNING_HISTORY_GRID_LIMIT';end if;
@@ -49,35 +50,43 @@ begin
    'refs',jsonb_build_array(jsonb_build_object('kind','PRODUCT','id',value->>'id','revision','1')))order by value->>'root_id'),'[]')from jsonb_array_elements(c->'facts'->'products')),
   'events',cp7_planning.history_events(c),'availability',cp7_planning.history_availability(c,q));
  result:=cp7_demand.history(input);
+ -- P19: per-root stock sums and draft lists are built once (each product used
+ -- to rescan every stock row, and every reversal against every stock row).
+ -- Sums keep their numeric scale through jsonb; an absent root is zero as before.
+ with stock as materialized(select value m from jsonb_array_elements(c->'facts'->'stock')),
+ reserves as materialized(select distinct m->>'id' id from stock where m->>'movement_type'='SALE_RESERVE')
+ select coalesce((select jsonb_object_agg(x.root_id,x.total)from(select m->>'root_id' root_id,sum((m->>'qty_signed')::numeric)total
+   from stock where m->>'quality_grade'in('GRADE_A','GRADE_B')and m->>'root_id' is not null group by 1)x),'{}'),
+  coalesce((select jsonb_object_agg(x.root_id,x.total)from(select s.m->>'root_id' root_id,sum((s.m->>'qty_signed')::numeric)total
+   from stock s where s.m->>'quality_grade'in('GRADE_A','GRADE_B')and s.m->>'movement_type'<>'SALE_RESERVE'and s.m->>'root_id' is not null
+    and not exists(select 1 from reserves r where r.id=s.m->>'reversal_of_id')group by 1)x),'{}')
+ into available_by_root,physical_by_root;
+ select coalesce(jsonb_object_agg(x.root_id,x.drafts),'{}')into drafts_by_root from(
+  select value->>'root_id' root_id,jsonb_agg(jsonb_build_object('lineage_key',value->>'id','qty_pcs',value->>'qty_pcs',
+   'refs',jsonb_build_array(jsonb_build_object('kind','SALE_ITEM','id',value->>'id','revision',value->>'revision')))order by value->>'id')drafts
+  from jsonb_array_elements(c->'facts'->'sales')where value->>'status'='DRAFT'and value->>'root_id' is not null group by 1)x;
  for p in select value from jsonb_array_elements(c->'facts'->'products')order by value->>'root_id'loop
   target:=(p->>'root_id')||':'||(p->>'size_id');
   refs:=jsonb_build_array(jsonb_build_object('kind','PRODUCT','id',p->>'id','revision','1'));
-  select coalesce(sum((value->>'qty_signed')::numeric),0)into native_available from jsonb_array_elements(c->'facts'->'stock')
-   where value->>'root_id'=p->>'root_id'and value->>'quality_grade'in('GRADE_A','GRADE_B');
+  native_available:=coalesce((available_by_root->>(p->>'root_id'))::numeric,0);
   -- Native draft reservation movements already reduce sellable stock. Remove
   -- those movements AND their linked releases before the single kernel draft
   -- subtraction. Posted SALE movements remain in FG; never subtract twice.
-  select coalesce(sum((m.value->>'qty_signed')::numeric),0)into current_physical from jsonb_array_elements(c->'facts'->'stock')m
-   where m.value->>'root_id'=p->>'root_id'and m.value->>'quality_grade'in('GRADE_A','GRADE_B')
-    and m.value->>'movement_type'<>'SALE_RESERVE'
-    and not exists(select 1 from jsonb_array_elements(c->'facts'->'stock')orig
-     where orig.value->>'id'=m.value->>'reversal_of_id'and orig.value->>'movement_type'='SALE_RESERVE');
-  select coalesce(jsonb_agg(jsonb_build_object('lineage_key',value->>'id','qty_pcs',value->>'qty_pcs',
-   'refs',jsonb_build_array(jsonb_build_object('kind','SALE_ITEM','id',value->>'id','revision',value->>'revision')))order by value->>'id'),'[]')into drafts
-   from jsonb_array_elements(c->'facts'->'sales')where value->>'root_id'=p->>'root_id'and value->>'status'='DRAFT';
+  current_physical:=coalesce((physical_by_root->>(p->>'root_id'))::numeric,0);
+  drafts:=coalesce(drafts_by_root->(p->>'root_id'),'[]');
   availability:=cp7_demand.availability(jsonb_build_object('contract_version','cp7.available-input.v1',
    'snapshot_id',hash,'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','target_key',target,'size_id',p->>'size_id',
    'fg_basis','ON_HAND_AFTER_POSTED','fg_pcs',current_physical::text,'open_drafts',drafts,
    'residual_future_pcs','0','refs',refs));
   if(availability->>'available_fg_pcs')::numeric<>native_available or native_available<0 then raise exception 'CP7_PLANNING_NATIVE_RESERVATION_MISMATCH';end if;
-  current_rows:=current_rows||jsonb_build_array(jsonb_build_object('target_key',target,'root_id',p->>'root_id',
+  current_rows:=array_append(current_rows,jsonb_build_object('target_key',target,'root_id',p->>'root_id',
    'size_id',p->>'size_id','sku',p->>'sku','product_name',p->>'product_name',
    'is_active',(p->>'is_active')::boolean,'grade_basis','NATIVE_SELLABLE_GRADE_A_AND_B','availability',availability,
    'projection_basis','CURRENT_STOCK_ONLY_NO_FORECAST','native_available_pcs',native_available::text,'refs',refs));
  end loop;
  return jsonb_build_object('contract_version','cp7.native-demand-history.v1','scope','GLOBAL_CURRENT_PHYSICAL_ROOTS',
   'capture_complete',true,'captured_at',c->'captured_at','source_hash',hash,'history',result,
-  'current_stock',current_rows,'availability_knowledge_basis','CURRENT_CAPTURE_RESTATED_LEDGER',
+  'current_stock',to_jsonb(current_rows),'availability_knowledge_basis','CURRENT_CAPTURE_RESTATED_LEDGER',
   'training_known_at',c->'captured_at','model_eligibility','HISTORICAL_AVAILABILITY_KNOWLEDGE_NOT_BACKFILLED',
   'versions',jsonb_build_object('producer','native-demand-1','history','demand-1','availability','availability-1'),
   'production_go',false);
