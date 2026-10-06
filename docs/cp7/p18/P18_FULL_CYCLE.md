@@ -76,6 +76,21 @@ Persamaan neraca juga tertutup. Aset berubah +150, yaitu 400 + 675 + 175 − 1.1
 - Pengulangan dengan UUID yang sama, baik untuk pembayaran vendor maupun upah, mengembalikan hasil yang sama tanpa efek kedua.
 - Dalam semua kasus di atas, buku besar tidak berubah.
 
+## Hasil penerus (sumber 4042235f): semua hutang dibayar lewat aplikasi
+
+Run 37490923997, job 112363128079: `status=PASS`, 1/1 kasus, `cp6_restored=true`, `advisor_gate=true`. Log dan receipt ada di `../evidence/p18-full-cycle/qualified-4042235f/`.
+
+- Penulis yang dipakai:
+  - supplier: `erp_cp7_create_supplier_payment_v1`;
+  - vendor laundry: `PAY_VENDOR_DOCUMENT`;
+  - upah mandor: payroll `PAY`.
+- Kedelapan batas dan angka akhir sama persis dengan run pertama.
+- Pengecekan pembayaran supplier:
+  - pengulangan UUID tanpa efek kedua;
+  - token tinjauan basi ditolak `CP7_SUPPLIER_PAYMENT_STALE_REVIEW`;
+  - pembayaran sesudah lunas ditolak `CP7_SUPPLIER_PAYMENT_NOTHING_PAYABLE`;
+  - buku besar tidak berubah pada semua tolakan.
+
 ## Temuan produk: pembayaran supplier belum ada di aplikasi
 
 Sebelum perbaikan ini, aplikasi hanya bisa **melihat, membetulkan, dan membatalkan** pembayaran supplier. Pembayaran baru tidak bisa dicatat. Akibatnya hutang supplier tidak pernah bisa dilunasi dari ERP, sehingga angka hutang dan kas pasti salah.

@@ -1,0 +1,38 @@
+{
+ "label": "CP7_P18_FULL_CYCLE",
+ "source_commit": "4042235f",
+ "run_id": 37490923997,
+ "job_id": 112363128079,
+ "conclusion": "success",
+ "probe_status": "PASS",
+ "observed_case_count": 1,
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "writers": {
+  "supplier_payment": "APP_erp_cp7_create_supplier_payment_v1",
+  "vendor_payment": "APP_erp_save_laundry_bd_action_v1_PAY_VENDOR_DOCUMENT",
+  "payroll_payment": "APP_erp_cp7_save_payroll_v1_PAY"
+ },
+ "final": {
+  "raw": 400,
+  "fg": 675,
+  "wip": 0,
+  "supplier_ap": 0,
+  "vendor_ap": 0,
+  "contractor_payable": 0,
+  "ar": 175,
+  "cash": -1100,
+  "revenue": 375,
+  "cogs": 225,
+  "gross_profit": 150
+ },
+ "refusals": {
+  "supplier_stale_review": "CP7_SUPPLIER_PAYMENT_STALE_REVIEW",
+  "supplier_nothing_payable": "CP7_SUPPLIER_PAYMENT_NOTHING_PAYABLE",
+  "vendor_overpay": "Vendor invoice must be posted and still unpaid"
+ },
+ "job_log_sha256": "6a68f161c0231b9287669c554ef0a8f59f6a9af21b0d516e268727913d368a86",
+ "full_P18_acceptance": false,
+ "independent_acceptance": false,
+ "production_go": false
+}
