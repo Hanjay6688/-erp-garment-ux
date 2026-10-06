@@ -14,7 +14,7 @@ Status: draf persiapan. Belum ada audit independen dan belum ada pemasangan. `in
 | P18 regresi | rule-lifecycle16, p18-e01-9 | PASS run 37366015710 (7b89f767) | |
 | Shell + CodeQL | Shell S0 (28 kontrol kain), CodeQL | PASS run 37387866583 / 37387866362 (b292ae4c) | |
 
-Kandidat untuk audit ditetapkan setelah seluruh baris di atas PASS pada satu head. Head a4ebb6a8 sudah memenuhi ini: kedelapan suite Native PASS dengan jumlah kasus penuh, ditambah Shell S0, CodeQL dan receipt-correction (run 37404829353, 37404835115, 37404829371, 37404829367, 37404829416). Perubahan `condition_rows` sesudahnya (882fc40a) sedang dikualifikasi ulang. Hasil LOCAL_PG16_DEV tidak dihitung sebagai bukti.
+Kandidat untuk audit ditetapkan setelah seluruh baris di atas PASS pada satu head. Head a4ebb6a8 sudah memenuhi ini: kedelapan suite Native PASS dengan jumlah kasus penuh, ditambah Shell S0, CodeQL dan receipt-correction (run 37404829353, 37404835115, 37404829371, 37404829367, 37404829416). Perubahan `condition_rows` sesudahnya juga sudah PASS penuh di 882fc40a/2ae1db92 (run 37406898697 dan 37408720092). Hash sumber pengingat sama di kedua run, dan 2ae1db92 hanya menambah dokumen. **Kandidat audit cabang Claude saat ini: 2ae1db92** (sumber produk sama dengan 882fc40a). Hasil LOCAL_PG16_DEV tidak dihitung sebagai bukti.
 
 ## 2. Objek database baru atau berubah
 

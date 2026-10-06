@@ -390,5 +390,6 @@ Rincian ada di `docs/cp7/p19/P19_FABRIC_SCALE.md`. Ringkasnya:
   - Shell S0, CodeQL dan receipt-correction PASS.
 - **882fc40a (perbaikan `condition_rows`):**
   - P18 PASS (run 37406898697); Shell S0, CodeQL dan receipt-correction PASS.
-  - Suite P08 lengkap dijalankan di 2ae1db92 (run 37408720092). 2ae1db92 hanya menambah dokumen.
+  - Suite P08 lengkap di 2ae1db92 juga PASS (run 37408720092): 21/21, 13/13, 152/152, 39/39, 284/284. 2ae1db92 hanya menambah dokumen.
+  - **Kandidat merge/audit dari cabang Claude saat ini: 2ae1db92.**
 - **Kegagalan pertama tetap tercatat.** fabric13 di 7dad62c9 gagal karena fixture waktu WIB, dan sudah diperbaiki di fixture.
