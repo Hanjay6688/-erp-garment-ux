@@ -3,11 +3,13 @@ name: CP7 P13 Finance Analysis
   push:
     branches:
     - cp7/integration
+    - cp7/p19-20261006
     paths:
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7-src/finance/**
     - scripts/cp7_finance_*
     - scripts/cp7_p13_*
+    - scripts/cp7_p19_*
     - src/ConnectedFinanceReportPage*
     - src/financeReportContract.ts
     - src/FinanceAnalysisPanel*

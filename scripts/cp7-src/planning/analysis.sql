@@ -39,14 +39,33 @@ declare n jsonb:=cp7_netting_native.build(c,q);scenario jsonb:=n->'schedule_run_
  allocation_known boolean:=n->'allocation'->>'status'='SCENARIO';allocated numeric;load numeric;captured text:=c->>'captured_at';
  supply_match text;scenario_revision bigint:=coalesce((c->'schedule'->>'revision')::bigint,0);
  fabric_plan jsonb:=cp7_fabric_native.plan(c,n);
+ -- Keep ordered result chunks in SQL arrays and flatten once. Growing jsonb
+ -- concatenations repeatedly copied all previously compiled targets.
+ assumptions_acc jsonb[]:='{}';sources_acc jsonb[]:='{}';recommendations_acc jsonb[]:='{}';
+ edges_acc jsonb[]:='{}';actions_acc jsonb[]:='{}';timeline_acc jsonb[]:='{}';models_acc jsonb[]:='{}';
+ materials_acc jsonb[]:='{}';metrics_acc jsonb[]:='{}';warnings_acc jsonb[];
+ materials_null boolean:=false;assembled jsonb;known_keys text[]:='{}';
+ products_by_root jsonb;stock_by_target jsonb;history_by_target jsonb;
 begin
  if scenario_revision>9007199254740991 then raise exception 'CP7_ANALYSIS_REVISION_RANGE';end if;
+ warnings_acc:=array[warnings];
+ -- Retain duplicates instead of silently choosing a row. Each original scalar
+ -- lookup still refuses an ambiguous *visited* key with SQLSTATE 21000.
+ select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)into products_by_root from(
+  select x->>'root_id'k,jsonb_agg(x)items from jsonb_array_elements(c->'facts'->'products')x
+  where x->>'root_id'is not null group by x->>'root_id')i;
+ select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)into stock_by_target from(
+  select x->>'target_key'k,jsonb_agg(x)items from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'history_run_result'->'current_stock')x
+  where x->>'target_key'is not null group by x->>'target_key')i;
+ select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)into history_by_target from(
+  select x->>'target_key'k,jsonb_agg(x)items from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'history_run_result'->'history'->'rows')x
+  where x->>'target_key'is not null group by x->>'target_key')i;
  if c->'schedule'<>'null'::jsonb then
   plan_aids:=jsonb_build_array(c->'schedule'->>'plan_id');
   plan_refs:=jsonb_build_array(cp7_wip.ref('PLANNING_SCHEDULE',c->'schedule'->>'plan_id',c->'schedule'->>'revision'));
-  assumptions:=assumptions||jsonb_build_array(jsonb_build_object('id',c->'schedule'->>'plan_id',
+  assumptions_acc:=array_append(assumptions_acc,jsonb_build_array(jsonb_build_object('id',c->'schedule'->>'plan_id',
    'label','Jadwal, waktu sisa dan perkiraan hasil bagus yang dipilih; bukan hasil produksi aktual',
-   'origin','OWNER_INPUT','confirmed_for_operation',false));
+   'origin','OWNER_INPUT','confirmed_for_operation',false)));
  end if;
  -- Retained result rows without an authoritative production state cannot be
  -- relabelled ACTIVE to fit the frozen contract. Keep the missing root visible
@@ -54,24 +73,27 @@ begin
  for r in select value from jsonb_array_elements(n->'rows')order by value->>'target_key'loop
   refs:=r->'refs';policy:=r->'production_policy'->'policy'->>'state';
   if policy is null then
-   warnings:=warnings||jsonb_build_array('PRODUCTION_POLICY_UNREVIEWED:'||(r->>'target_key'));
-   actions:=actions||jsonb_build_array(jsonb_build_object('key','review-policy-'||(r->>'target_key'),
+   warnings_acc:=array_append(warnings_acc,jsonb_build_array('PRODUCTION_POLICY_UNREVIEWED:'||(r->>'target_key')));
+   actions_acc:=array_append(actions_acc,jsonb_build_array(jsonb_build_object('key','review-policy-'||(r->>'target_key'),
     'intent','REVIEW_SOURCE','source_keys','[]'::jsonb,'target_keys','[]'::jsonb,'primary_reason','PRODUCTION_POLICY_UNREVIEWED',
     'conditional',false,'source_links',refs,'display_priority',jsonb_build_object('rank',null,'lane','REVIEW_DATA',
-     'basis',jsonb_build_array('Status produksi produk perlu diperiksa'),'rule_version','native-review-1')));continue;
+     'basis',jsonb_build_array('Status produksi produk perlu diperiksa'),'rule_version','native-review-1'))));continue;
   end if;
-  product:=(select x from jsonb_array_elements(c->'facts'->'products')x where x->>'root_id'=split_part(r->>'target_key',':',1));
-  stock:=(select x from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'history_run_result'->'current_stock')x where x->>'target_key'=r->>'target_key');
-  hist:=(select x from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'history_run_result'->'history'->'rows')x where x->>'target_key'=r->>'target_key');
+  product:=products_by_root->split_part(r->>'target_key',':',1);
+  stock:=stock_by_target->(r->>'target_key');hist:=history_by_target->(r->>'target_key');
+  if jsonb_array_length(product)>1 or jsonb_array_length(stock)>1 or jsonb_array_length(hist)>1 then
+   raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';
+  end if;
+  product:=product->0;stock:=stock->0;hist:=hist->0;
   row_aids:=plan_aids;
   if r->'profile'->>'quality'='SELECTED_ASSUMPTION'then
    row_aids:=row_aids||jsonb_build_array(r->'profile'->>'profile_id');
-   assumptions:=assumptions||jsonb_build_array(jsonb_build_object('id',r->'profile'->>'profile_id',
+   assumptions_acc:=array_append(assumptions_acc,jsonb_build_array(jsonb_build_object('id',r->'profile'->>'profile_id',
     'label','Aturan permintaan dan target yang dipilih untuk '||(r->>'sku'),
-    'origin','OWNER_INPUT','confirmed_for_operation',false));
+    'origin','OWNER_INPUT','confirmed_for_operation',false)));
   end if;
-  commercial:=product->'commercial'->0;known_targets:=known_targets||jsonb_build_object(r->>'target_key',true);
-  recommendations:=recommendations||jsonb_build_array(jsonb_build_object(
+  commercial:=product->'commercial'->0;known_keys:=array_append(known_keys,r->>'target_key');
+  recommendations_acc:=array_append(recommendations_acc,jsonb_build_array(jsonb_build_object(
    'target',jsonb_build_object('kind','PRODUCT','key',r->'target_key','brand_id',product->'brand_id',
     'product_id',product->'root_id','product_version_id',product->'id','size_id',r->'size_id',
     'commercial_identity',jsonb_build_object('state',case when commercial is null then 'LEGACY_UNMAPPED'else 'RESOLVED'end,
@@ -86,28 +108,32 @@ begin
    'rounding_extra',cp7_analysis_native.fact(null,'PCS',refs),
    'feasible_new',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then '0'else null end,'PCS',refs),
    'unresolved_qty',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then r->>'base_gap_pcs'else null end,'PCS',refs,row_aids),
-   'reason_codes',jsonb_build_array('MATERIAL_FEASIBILITY_NOT_PROVEN'),'assumption_ids',row_aids));
+   'reason_codes',jsonb_build_array('MATERIAL_FEASIBILITY_NOT_PROVEN'),'assumption_ids',row_aids)));
   if r->'demand_estimate'->>'daily_pcs'is not null and r->'target'->>'horizon_days'is not null then
-  models:=models||jsonb_build_array(jsonb_build_object('target_key',r->'target_key','method_id',coalesce(r->'demand_estimate'->>'basis','NATIVE_AVAILABLE_HISTORY'),
+  models_acc:=array_append(models_acc,jsonb_build_array(jsonb_build_object('target_key',r->'target_key','method_id',coalesce(r->'demand_estimate'->>'basis','NATIVE_AVAILABLE_HISTORY'),
    'version','native-available-history-fallback-1','mode','FALLBACK',
    'demand_rate',cp7_analysis_native.fact(r->'demand_estimate'->>'daily_pcs','PCS/DAY',refs,row_aids),
    'observed_days',hist->'available_days','stockout_days',hist->'stockout_days','unknown_days',hist->'unknown_days',
    'horizon_days',ceil((r->'target'->>'horizon_days')::numeric),
    'selection_reason','Native available-history/manual fallback; no backtest promotion without earlier-known training evidence',
-   'validation_fold_ids','[]'::jsonb,'scores','[]'::jsonb));
+   'validation_fold_ids','[]'::jsonb,'scores','[]'::jsonb)));
   end if;
-  materials:=materials||cp7_analysis_native.material_needs(c,r,row_aids)||cp7_fabric_native.needs(c,r,row_aids,fabric_plan);
-  metrics:=metrics||jsonb_build_array(jsonb_build_object('metric_id','AVAILABLE_FG_PCS:'||(r->>'target_key'),'version','native-availability-1',
+  v:=cp7_analysis_native.material_needs(c,r,row_aids);
+  if v is null then materials_null:=true;elsif not materials_null then materials_acc:=array_append(materials_acc,'[]'::jsonb||v);end if;
+  v:=cp7_fabric_native.needs(c,r,row_aids,fabric_plan);
+  if v is null then materials_null:=true;elsif not materials_null then materials_acc:=array_append(materials_acc,'[]'::jsonb||v);end if;
+  metrics_acc:=array_append(metrics_acc,jsonb_build_array(jsonb_build_object('metric_id','AVAILABLE_FG_PCS:'||(r->>'target_key'),'version','native-availability-1',
    'value',cp7_analysis_native.fact(r->>'available_fg_pcs','PCS',refs),'formula_ref','NATIVE_PHYSICAL_MINUS_ACTIVE_DRAFT_RESERVATIONS_ONCE',
    'operands',jsonb_build_array(cp7_analysis_native.fact(stock->'availability'->>'physical_fg_pcs','PCS',stock->'refs'),
     cp7_analysis_native.fact(stock->'availability'->>'reserved_pcs','PCS',stock->'refs')),
    'readiness','READY','scope_kind','TARGET','scope_key',r->'target_key',
    'period_start',((captured::timestamptz)at time zone 'Asia/Jakarta')::date::text,
-   'period_end',((captured::timestamptz)at time zone 'Asia/Jakarta')::date::text,'knowledge_mode','CURRENT'));
-  actions:=actions||jsonb_build_array(jsonb_build_object('key','review-material-'||(r->>'target_key'),'intent','REVIEW_SOURCE',
+   'period_end',((captured::timestamptz)at time zone 'Asia/Jakarta')::date::text,'knowledge_mode','CURRENT')));
+  actions_acc:=array_append(actions_acc,jsonb_build_array(jsonb_build_object('key','review-material-'||(r->>'target_key'),'intent','REVIEW_SOURCE',
    'source_keys','[]'::jsonb,'target_keys',jsonb_build_array(r->'target_key'),'primary_reason','MATERIAL_FEASIBILITY_NOT_PROVEN',
    'conditional',true,'source_links',refs,'display_priority',jsonb_build_object('rank',null,'lane','REVIEW_DATA',
-    'basis',jsonb_build_array('Periksa bahan dan batas produksi baru'),'rule_version','native-review-1')));
+    'basis',jsonb_build_array('Periksa bahan dan batas produksi baru'),'rule_version','native-review-1'))));
+  timeline:='[]';
   -- Build each chronological row once in original event order. Repeated
   -- concatenation copied the entire growing multi-target timeline per event.
   -- This aggregate retains every row, field, reference and decimal operand.
@@ -134,32 +160,36 @@ begin
     'first_gap_at',r->'timeline'->'first_known_gap'->'at','timing_basis','DATE_POLICY',
     'timing_policy_id','selected-native-each24h-from-capture-1','event_refs',t.e->'refs')order by t.ordinal),'[]'::jsonb)into target_timeline from classified t;
   timeline:=timeline||target_timeline;
+  timeline_acc:=array_append(timeline_acc,timeline);
  end loop;
+ select coalesce(jsonb_object_agg(t.key,true),'{}'::jsonb)into known_targets from unnest(known_keys)t(key);
  for e in select value from jsonb_array_elements(coalesce(n->'allocation'->'allocation'->'edges','[]'))loop
   if not(known_targets? (e->>'target_key'))then raise exception 'CP7_ANALYSIS_EDGE_TARGET_UNPROVEN';end if;
   eta:=(select x->'result'from jsonb_array_elements(scenario->'etas')x where x->>'position_key'=e->>'position_key');
-  edges:=edges||jsonb_build_array(jsonb_build_object('source_key',e->'position_key','target_key',e->'target_key','size_id',e->'size_id',
+  edges_acc:=array_append(edges_acc,jsonb_build_array(jsonb_build_object('source_key',e->'position_key','target_key',e->'target_key','size_id',e->'size_id',
    'input_qty',cp7_analysis_native.fact(e->>'input_pcs','PCS',e->'refs'),
    'projected_output_qty',cp7_analysis_native.fact(e->>'projected_good_pcs','PCS',e->'refs',plan_aids),
-   'match',e->'match','eligible_at',eta->'eta','assumption_ids',plan_aids,'refs',e->'refs'));
+   'match',e->'match','eligible_at',eta->'eta','assumption_ids',plan_aids,'refs',e->'refs')));
  end loop;
+ select coalesce(jsonb_agg(x.value order by p.ordinality,x.ordinality),'[]'::jsonb)into edges
+  from unnest(edges_acc)with ordinality p(items,ordinality)cross join lateral jsonb_array_elements(p.items)with ordinality x;
  for p in select value from jsonb_array_elements(coalesce(wip->'positions','[]'))
   where value->'eligible_company_wip'='true'::jsonb and cp7_wip.pcs(value->'remaining_pcs')>0 loop
   eta:=(select x->'result'from jsonb_array_elements(scenario->'etas')x where x->>'position_key'=p->>'key');
   select sum((x->'input_qty'->>'value')::numeric)into allocated from jsonb_array_elements(edges)x where x->>'source_key'=p->>'key';
-  sources:=sources||jsonb_build_array(jsonb_build_object('source_key',p->'key','size_id',p->'size_id','stage',p->'stage',
+  sources_acc:=array_append(sources_acc,jsonb_build_array(jsonb_build_object('source_key',p->'key','size_id',p->'size_id','stage',p->'stage',
    'supply_kind',case when exists(select 1 from jsonb_array_elements(n->'matching'->'sources')x where x->>'key'=p->>'key'and x->>'confirmed_target'is not null)then 'DIRECTED'else 'CANDIDATE'end,
    'physical_remaining',cp7_analysis_native.fact(p->>'remaining_pcs','PCS',p->'refs'),
    'eligible_input',cp7_analysis_native.fact(p->'projection'->>'eligible_input_pcs','PCS',p->'refs',plan_aids),
    'eligible_projected',cp7_analysis_native.fact(p->'projection'->>'projected_good_pcs','PCS',p->'refs',plan_aids),
    'allocated',cp7_analysis_native.fact(case when allocation_known then coalesce(allocated,0)::text else null end,'PCS',p->'refs'),
-   'eta',eta->'eta','eta_basis',case when eta->>'status'='CONDITIONAL'then 'ASSUMED'when eta->>'status'='KNOWN'then 'CONFIRMED_PLAN'else 'UNKNOWN'end,'refs',p->'refs'));
+   'eta',eta->'eta','eta_basis',case when eta->>'status'='CONDITIONAL'then 'ASSUMED'when eta->>'status'='KNOWN'then 'CONFIRMED_PLAN'else 'UNKNOWN'end,'refs',p->'refs')));
  end loop;
  for part in select value from jsonb_array_elements(c->'fabric_source'->'selected')loop
   if known_targets?(part->>'target_key')then
-   assumptions:=assumptions||jsonb_build_array(jsonb_build_object('id',part->>'id',
+   assumptions_acc:=array_append(assumptions_acc,jsonb_build_array(jsonb_build_object('id',part->>'id',
     'label','Pemakaian kain per PCS untuk '||(part->>'target_key')||' yang dipilih; bukan konsumsi, pemasangan atau alokasi aktual',
-    'origin','OWNER_INPUT','confirmed_for_operation',false));
+    'origin','OWNER_INPUT','confirmed_for_operation',false)));
   end if;
  end loop;
  for k,part in select key,value from jsonb_each(jsonb_build_object('native_operational',c->'facts','native_production',c->'production_sources'->'facts',
@@ -181,6 +211,16 @@ begin
    'completeness',case when complete then 'COMPLETE'else 'PARTIAL'end,'fact_count',part_count,'source_hash',part_hash));
  end loop;
  select sum((x->>'existing_load_minutes')::numeric)into load from jsonb_array_elements(coalesce(scenario->'capacity'->'inputs'->'windows','[]'))x;
+ with chunks(kind,items)as(values
+  ('assumptions',to_jsonb(assumptions_acc)),('sources',to_jsonb(sources_acc)),('recommendations',to_jsonb(recommendations_acc)),
+  ('actions',to_jsonb(actions_acc)),('timeline',to_jsonb(timeline_acc)),('models',to_jsonb(models_acc)),
+  ('materials',to_jsonb(materials_acc)),('metrics',to_jsonb(metrics_acc)),('warnings',to_jsonb(warnings_acc)))
+ select jsonb_object_agg(kind,coalesce((select jsonb_agg(x.value order by p.ordinality,x.ordinality)
+  from jsonb_array_elements(items)with ordinality p cross join lateral jsonb_array_elements(p.value)with ordinality x),'[]'::jsonb))into assembled from chunks;
+ assumptions:=assembled->'assumptions';sources:=assembled->'sources';recommendations:=assembled->'recommendations';
+ actions:=assembled->'actions';timeline:=assembled->'timeline';models:=assembled->'models';
+ materials:=case when materials_null then null else assembled->'materials'end;
+ metrics:=assembled->'metrics';warnings:=assembled->'warnings';
  v:=jsonb_build_object('contract_version','cp7.analysis.v2','run_id',p_run,'status',case when complete then 'PARTIAL'else 'BLOCKED'end,
   'snapshot',jsonb_build_object('snapshot_id',captured,'effective_as_of',captured,'known_as_of',captured,'generated_at',captured,'timezone','Asia/Jakarta',
    'knowledge_mode','CURRENT','capture_complete',complete,'fact_count',count_facts,'source_hash',hash),

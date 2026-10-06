@@ -4,12 +4,16 @@ name: CP7 P08 Physical Fabric
     branches:
     - claude/new-session-deapao
     - cp7/integration
+    - cp7/p19-20261006
     paths:
     - scripts/cp7-src/planning/**
     - scripts/cp7-src/plan-native/**
     - scripts/cp7_fabric_*
     - scripts/cp7_analysis_bundle.py
     - scripts/cp7_f05_analysis_probe.py
+    - scripts/cp7_p19_*
+    - scripts/cp7_analysis_cases.py
+    - scripts/cp7_analysis_finance_cases.py
     - src/nativeAnalysis*
     - src/NativeMaterialNeedsView.tsx
     - docs/cp7/f04/NATIVE_FABRIC_*

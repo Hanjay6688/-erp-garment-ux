@@ -33,7 +33,11 @@ jobs:
       - run: npm run test:security
       - run: npm run build
       - run: npm run test:browser:cp45
+      - name: Retain CP4.5 Original before the shared reporter directory is reused
+        run: cp -a cp45-browser-proof cp45-browser-original
       - run: npm run test:browser:precp5
+      - name: Retain Pre-CP5 Original independently
+        run: cp -a cp45-browser-proof precp5-browser-original
       - run: npm run test:browser:cp5
       - run: npm run test:browser:cp6
       - name: Upload non-secret browser proof
@@ -43,6 +47,8 @@ jobs:
           name: erp-desktop-mobile-browser-proof
           path: |
             cp45-browser-proof
+            cp45-browser-original
+            precp5-browser-original
             cp5-browser-contract-proof
             cp6-browser-contract-proof
           if-no-files-found: warn

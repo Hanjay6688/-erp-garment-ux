@@ -30,7 +30,9 @@ def cases(cur,today):
   assert unpaid['snapshot']['performance']==paid['snapshot']['performance'] and paid['snapshot']['performance']['sales_revenue_reconciled']
   source.native(cur,'select erp.reverse_sales_payment(%s,%s)',(pid,'P13 native inverse payment'));source.native(cur,'select erp.reverse_sales_return(%s,%s)',(rid,'P13 native inverse return'));source.native(cur,'select erp.reverse_sale(%s,%s)',(f['sale'],'P13 native inverse invoice'))
   after=fixture_read(cur,today,f['sale_at']);assert after['snapshot']['financial_position']==before['snapshot']['financial_position'] and after['snapshot']['performance']==before['snapshot']['performance'] and cmd.accounts(cur)==gl
-  return dict(status='PASS',native_sale80_return20_cash30=True,AR30_cash30_FG_minus30_revenue60_COGS30_profit30=True,payment_does_not_repeat_revenue_or_HPP=True,all_GL_and_report_amounts_restored_after_inverse=True,read_has_no_business_effect=True)
+  from cp7_p19_finance_equivalence import compare as p19_compare
+  p19_equivalence=p19_compare(cur,query(today,**native_window(cur,today,f['sale_at'])),b.api,auth)
+  return dict(status='PASS',native_sale80_return20_cash30=True,AR30_cash30_FG_minus30_revenue60_COGS30_profit30=True,payment_does_not_repeat_revenue_or_HPP=True,all_GL_and_report_amounts_restored_after_inverse=True,read_has_no_business_effect=True,p19_full_financial_equivalence=p19_equivalence)
  def exact_large():
   f=source.fixture(cur,today,qty=1000,stock=1001,price='9007199254741.01',discount='0.01');before=fixture_read(cur,today,f['sale_at']);source.fg.post_sale(cur,f['draft']);after=fixture_read(cur,today,f['sale_at']);expected=D('9007199254741009.99')
   assert change(before,after,'financial_position','customer_ar')==expected and change(before,after,'performance','sales_revenue_gl')==expected

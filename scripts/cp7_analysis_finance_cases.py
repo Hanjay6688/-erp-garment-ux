@@ -26,6 +26,8 @@ def cases(cur,today,parent):
   assert fingerprint(native,f['book_signature'])==f['source_hash']
   for section in('performance','financial_position','basis'):
    assert f['report']['snapshot'][section]==native['snapshot'][section]
+  from cp7_p19_finance_equivalence import compare as p19_compare
+  p19_finance_equivalence=p19_compare(cur,f['dates'],b.api,auth)
   assert datetime.fromisoformat(f['report']['captured_at'])==datetime.fromisoformat(e['analysis']['snapshot']['effective_as_of'])
   # A pure perturbation of the actual Native report proves set-order stability,
   # not another Native event. Keep every raw archived member and duplicate.
@@ -83,7 +85,7 @@ def cases(cur,today,parent):
   assert schedule_hash(at(captured+timedelta(days=1)))!=schedule_hash(c),'BUSINESS_DAY_CLOCK_GUARD_LOST'
   horizon=datetime.fromisoformat(c['schedule']['config']['through_at'])
   assert schedule_hash(at(horizon-timedelta(seconds=1)))!=schedule_hash(at(horizon+timedelta(seconds=1))),'HORIZON_CLOCK_GUARD_LOST'
-  return dict(status='PASS',actual_Owner_financial_Original_40_public_reads_under_different_SQL_plans=True,accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True,unordered_Native_checks_multiset_hash_stable=True,actual_report_pure_permutation_not_Native_event=True,money_check_content_duplicate_and_book_provenance_changes_detected=True,pure_actual_Native_clock_counterfixtures_not_business_events=True,future_window_clock_stable_active_window_business_day_and_horizon_expire=True)
+  return dict(status='PASS',actual_Owner_financial_Original_40_public_reads_under_different_SQL_plans=True,accepted_native_owner_report_identical_no_second_money_or_HPP_engine=True,one_source_clock=True,no_business_DML=True,unordered_Native_checks_multiset_hash_stable=True,actual_report_pure_permutation_not_Native_event=True,money_check_content_duplicate_and_book_provenance_changes_detected=True,pure_actual_Native_clock_counterfixtures_not_business_events=True,future_window_clock_stable_active_window_business_day_and_horizon_expire=True,p19_financial_full_body_equivalence=p19_finance_equivalence)
  def ops_redaction():
   parent.setup(cur,today);subject,role=auth.custom_actor(cur)
   cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.reports.view')",(role,))

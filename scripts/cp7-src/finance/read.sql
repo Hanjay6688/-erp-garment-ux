@@ -32,7 +32,7 @@ begin
 end $$;
 
 create function cp7_finance.workspace(p_query jsonb) returns jsonb
-language plpgsql stable security invoker set search_path='' set TimeZone='UTC' as $$
+language plpgsql stable security invoker set search_path='' set TimeZone='UTC' set jit=off as $$
 declare from_day date;to_day date;as_of date;chosen uuid;off integer;n integer;total bigint;rows jsonb;f erp.accounting_close_filings_v1;detail jsonb:=null;snapshot jsonb;preflight jsonb:=null;
 begin
  perform cp7_finance.access_now();

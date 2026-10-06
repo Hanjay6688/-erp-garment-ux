@@ -49,7 +49,10 @@ def cases(cur,today):
   assert D(c['current']['performance']['gross_margin_pct'])==24 and D(c['baseline']['performance']['gross_margin_pct'])==27
   assert D(c['revenue_growth_pct'])==20 and D(c['gross_margin_change_pp'])==-3 and b.boundary.snapshot(cur)==before
   assert c['current']==finance.read(cur,f['day'])['snapshot'] and c['baseline']==finance.read(cur,f['day']-timedelta(days=1))['snapshot']
-  return dict(status='PASS',O13_native_found_stock_and_sale=True,revenue=[1000,1200],margin=[27,24],growth_pct='20',margin_change_pp='-3',same_native_readiness_not_fabricated=True,no_read_side_effect=True)
+  from cp7_p19_finance_equivalence import compare as p19_compare
+  p19_equivalence=p19_compare(cur,f['query'],b.api,auth,kind='analysis')
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',O13_native_found_stock_and_sale=True,revenue=[1000,1200],margin=[27,24],growth_pct='20',margin_change_pp='-3',same_native_readiness_not_fabricated=True,no_read_side_effect=True,p19_full_financial_equivalence=p19_equivalence)
  def zero():
   f=fixture(cur,today);q=dict(f['query'],compare_from=str(f['day']-timedelta(days=3)),compare_to=str(f['day']-timedelta(days=3)));r=read(cur,q)
   assert r['comparison']['revenue_growth_pct']is None and r['comparison']['gross_margin_change_pp']is None

@@ -3,7 +3,7 @@ grant select on erp.cash_accounts,erp.account_daily_balances,erp.journal_entries
 grant execute on function erp.account_id(text) to cp7_finance_read;
 
 create function cp7_finance.analysis(p_query jsonb) returns jsonb
-language plpgsql stable security invoker set search_path='' set TimeZone='UTC' as $$
+language plpgsql stable security invoker set search_path='' set TimeZone='UTC' set jit=off as $$
 declare f date;t date;a date;bf date;bt date;off integer;n integer;current_report jsonb;baseline_report jsonb;
  current_perf jsonb;baseline_perf jsonb;revenue numeric;baseline_revenue numeric;growth numeric; margin_delta numeric;
  cash_ids uuid[];opening numeric;closing numeric;debits numeric;credits numeric;total bigint;rows jsonb;

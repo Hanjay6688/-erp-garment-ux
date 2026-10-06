@@ -4,10 +4,12 @@ name: CP7 P18 Fabric Rule
     branches:
     - claude/new-session-deapao
     - cp7/integration
+    - cp7/p19-20261006
     paths:
     - scripts/cp7-src/reminders/**
     - scripts/cp7_p18_fabric_rule_*
     - scripts/cp7_rule_*
+    - scripts/cp7_p19_*
     - src/nativeRuleSource*
     - src/nativeReminderPolicy*
     - src/NativeReminderPolicyPanel*

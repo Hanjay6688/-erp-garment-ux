@@ -64,8 +64,10 @@ def cases(cur,today):
   assert b.boundary.snapshot(cur)==before
   from cp7_timeline_compile_equivalence import compare
   equivalence=compare(cur,e['run_id'],b.api)
+  from cp7_p19_analysis_equivalence import compare as p19_compare
+  p19_equivalence=p19_compare(cur,e['run_id'],b.api)
   assert b.boundary.snapshot(cur)==before
-  return dict(status='PASS',unchanged_frozen_schema_and_semantic_validator=True,native8_projected7_target100_gap93_no_business_DML=True,complete_compiler_exact_predecessor_equivalence=equivalence)
+  return dict(status='PASS',unchanged_frozen_schema_and_semantic_validator=True,native8_projected7_target100_gap93_no_business_DML=True,complete_compiler_exact_predecessor_equivalence=equivalence,p19_full_compiler_exact_equivalence=p19_equivalence)
  def unreviewed():
   f,root,s,p=setup(cur,today,False);x=checked(capture(cur,today));r=recommendation(x,root)
   assert r['q_base']['state']=='UNKNOWN'and not x['allocation_edges']

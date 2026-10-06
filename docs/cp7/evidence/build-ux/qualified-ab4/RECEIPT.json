@@ -1,0 +1,94 @@
+{
+  "status": "WRITER_BUILD_AND_BROWSER_REGRESSION_QUALIFIED",
+  "source_commit": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "source_tree": "262eae67469b28d62caa456660a1e94f2b299046",
+  "run_id": 37417072250,
+  "job_id": 112117924453,
+  "artifact_id": 11391196904,
+  "archive_bytes": 658776,
+  "archive_sha256": "8609981aef38b703873f72fe488935deb54dc30604eb356a7dcf96bee8777e83",
+  "member_hashes": {
+    "cp45-browser-proof/results.json": {
+      "bytes": 9496,
+      "sha256": "e0d04a55bcf6ef65241299e4acbaaea8fa787c27e86a18a5d481512aedbb28b8"
+    },
+    "cp5-browser-contract-proof/results.json": {
+      "bytes": 30045,
+      "sha256": "4c42a26dc3b5be8595c2af3bbda9bfb5fe9a6f9722a2a1c1f8f3cbed53ff0dec"
+    },
+    "cp45-browser-proof/html/index.html": {
+      "bytes": 521227,
+      "sha256": "5af27c3781343cacff2d2d3eee983a64635571ad0f1b1273a708d4d7d1087a11"
+    },
+    "cp5-browser-contract-proof/html/index.html": {
+      "bytes": 548723,
+      "sha256": "d12308bad96ccd6e2d7d23d152b82b7491849ae90c90c8e5d3badbee2240ef16"
+    },
+    "cp6-browser-contract-proof/html/index.html": {
+      "bytes": 572323,
+      "sha256": "769dacc4af94bce70b0edb7c829a140b1fb85c2b8b2736bc323bda81380a4063"
+    },
+    "cp6-browser-contract-proof/results.json": {
+      "bytes": 34865,
+      "sha256": "dec235dcc61e1abb934f75429e898894683e0aba3505f13c3e365b3ca40332f4"
+    }
+  },
+  "complete_json_roots": {
+    "cp45-browser-proof/results.json": {
+      "bytes": 9496,
+      "sha256": "e0d04a55bcf6ef65241299e4acbaaea8fa787c27e86a18a5d481512aedbb28b8",
+      "gzip_file": "cp45-browser-proof__results.json.gz",
+      "gzip_sha256": "7fb4d5419c6fa47a176cccc195999376ea355db7c10efa242ca5292dbc13faf0",
+      "stats": {
+        "startTime": "2026-10-06T05:11:47.091Z",
+        "duration": 5955.878,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cp5-browser-contract-proof/results.json": {
+      "bytes": 30045,
+      "sha256": "4c42a26dc3b5be8595c2af3bbda9bfb5fe9a6f9722a2a1c1f8f3cbed53ff0dec",
+      "gzip_file": "cp5-browser-contract-proof__results.json.gz",
+      "gzip_sha256": "3d706d2b58cf4f845541c7004cb3b07e91c39316ff172c5f32db1b3a82db118e",
+      "stats": {
+        "startTime": "2026-10-06T05:11:53.503Z",
+        "duration": 31773.446,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    "cp6-browser-contract-proof/results.json": {
+      "bytes": 34865,
+      "sha256": "dec235dcc61e1abb934f75429e898894683e0aba3505f13c3e365b3ca40332f4",
+      "gzip_file": "cp6-browser-contract-proof__results.json.gz",
+      "gzip_sha256": "9fe80c38c3df527de090b2eb400fd5b24871191e360b8842c87cd2f7e7ebbe1e",
+      "stats": {
+        "startTime": "2026-10-06T05:12:25.743Z",
+        "duration": 43020.106999999996,
+        "expected": 26,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  },
+  "suite_counts": {
+    "application_tests": 1546,
+    "cp45_log_only": 2,
+    "precp5_complete_original": 2,
+    "cp5_complete_original": 16,
+    "cp6_complete_original": 26
+  },
+  "CP45_reporter_overwrite_limitation": "CP45 and Pre-CP5 share cp45-browser-proof; artifact retains the latter. CP45 PASS is established by its exact job step/log, not a separately retained Original. Successor workflow retains both reporter directories independently.",
+  "retired_committed_form_desktop_mobile_cases_pass": true,
+  "Cloudflare_package_dry_run_only": true,
+  "hosted_installation": false,
+  "Native_business_case_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

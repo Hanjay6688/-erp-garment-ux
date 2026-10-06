@@ -1,0 +1,47 @@
+{
+  "classification": "LOCAL_WASM_NOT_NATIVE_AUTH_BUSINESS_QUALIFICATION",
+  "runtime": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+  "status": "PASS",
+  "working_tree_dirty": true,
+  "git_parent_at_run": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "candidate_is_bound_by_original_file_hashes_not_parent_SHA": true,
+  "original_report_gzip_sha256": "d4441389a2f209901822339643e4f94cb74ed52e045add31d2ba8ffa24f5e6fc",
+  "original_file_sha256": "cb8a0559864826e9c4a66f35494cc9c712988b43d3fdefd4dd4ad45b2ea0365d",
+  "source_file_hashes": {
+    "scripts/cp7-src/planning/analysis.sql": "db42a412203b0cf31010c15ce779fd5ad13fe3845cf3d0f687ddbd93341728c9",
+    "tests/cp7/families/f04/analysis-assembly-fixture.mjs": "00e984206d4e90abec0051a609c60e4b798dade67bc0c09676675647a4565e06",
+    "scripts/cp7_p19_assembly_benchmark.mjs": "d6538b1b05ef14bda0b8c05b541be591dab9dcf329cf3305aca6333796ad2d7a"
+  },
+  "original_unqualified_parent_SHA_field_retained_unchanged": true,
+  "vectors": [
+    {
+      "targets": 100,
+      "input_sha256": "674fce7315c4ffd921a9b341d5a36b4df31cc140a48f5bee7031116b0133acf7",
+      "predecessor_ms": "216.000000",
+      "candidate_ms": "115.000000",
+      "byte_identical": true,
+      "bytes": 628806,
+      "sha256": "63d94efcabdcc6e4072207ca21ab7bf0c09f4efb781a2480f88584b5e48145cd"
+    },
+    {
+      "targets": 400,
+      "input_sha256": "6bad9175437490c06e1c49d6f58eaa3d6faf820394fe1a06b189de191687e484",
+      "predecessor_ms": "1915.000000",
+      "candidate_ms": "467.000000",
+      "byte_identical": true,
+      "bytes": 2482851,
+      "sha256": "a8bb40ad46fdaeb35607d88be741d9743908a7fa1f7abb000af05af3f68a5d66"
+    },
+    {
+      "targets": 1200,
+      "input_sha256": "5a300e733519ed188be27e521e87e3842bd1665393f8926988e0157a3b36c9cf",
+      "predecessor_ms": "15120.000000",
+      "candidate_ms": "1495.000000",
+      "byte_identical": true,
+      "bytes": 7436505,
+      "sha256": "8750f2c6a2cfad161d54be45f528d0c4fe615c08e08729c4b67c18d37f6453b5"
+    }
+  ],
+  "full_P19_acceptance": false,
+  "production_go": false
+}
