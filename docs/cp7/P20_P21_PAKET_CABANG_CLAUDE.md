@@ -128,3 +128,11 @@ Tidak ada role baru, perubahan definisi Native, atau hak DML ERP untuk role App.
 6. Pemulihan oleh harness.
 
 Ini latihan, bukan receipt P21. P21 tetap butuh kandidat yang diterima P20 dan T2 pada hasil pasang.
+
+**Hasil latihan P21.** Penerus 0fcc04ac (run 37492771185) PASS:
+- pasang dan pasang ulang menghasilkan katalog identik `e75968e2…`;
+- rollback sebelum dipakai memulihkan keadaan persis;
+- rollback sesudah dipakai ditolak;
+- pemulihan berhasil.
+
+Run pertama 15baeb3e INCOMPLETE di langkah pakai karena fixture probe; buktinya disimpan.

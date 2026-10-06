@@ -1,0 +1,23 @@
+{
+ "label": "CP7_P21_REHEARSAL",
+ "source_commit": "0fcc04ac",
+ "run_id": 37492771185,
+ "job_id": 112369494740,
+ "conclusion": "success",
+ "probe_status": "PASS",
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "steps": {
+  "INSTALL_1": "catalog sha256 e75968e2585876054d118131e2d72bfd9df4daff96435d7f882d8e8b294f434e; 1407 functions; 75 cp7 tables; 34 cp7 roles; install seeds 11 rows",
+  "PREUSE_ROLLBACK": "ROLLED_BACK; erp/platform/auth ACL, public catalog/rows, function definitions/owners/ACLs all restored exactly",
+  "REINSTALL": "identical catalog sha256 and identical install seeds",
+  "USE": "real supplier payment 100 of 1000 through the CP7 command; transaction held open then rolled back",
+  "POSTUSE_ROLLBACK": "REFUSED CP7_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE; rows since install cp7_procurement.draft_requests 1, cp7_supplier_payment_create.requests 1; catalog unchanged",
+  "HARNESS_RESTORE_AFTER_USE": "catalog restored; T3 backup/restore drill RESTORED_SAME_MEANING"
+ },
+ "job_log_sha256": "934021b20bef503a5142050dfc2ba373a48d61c7c76558cac63b98dde2b35213",
+ "rehearsal_only": true,
+ "installed_P21_acceptance": false,
+ "hosted": false,
+ "production_go": false
+}

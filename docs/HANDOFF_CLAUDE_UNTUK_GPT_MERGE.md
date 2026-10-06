@@ -498,4 +498,12 @@ Ini latihan, bukan receipt P21. Receipt P21 tetap menunggu P20.
 - **Bayar supplier, 917ff2b7** (run 37492084385, job 112367128931): **10/10 PASS** (Native 4, race 3, HTTP 1, browser 2), `cp6_restored=true`, `advisor_gate=true`.
 - **Pengamatan jalur lama hosted:** ADMIN tanpa `finance.ap.pay` bisa INSERT DRAFT dan memposting lewat Native, tetapi hanya dengan koneksi database langsung karena PostgREST hanya membuka `public`. Ini perlu keputusan GPT/owner; rinciannya di `SUPPLIER_PAYMENT_CREATE_HANDOFF.md`.
 - **P18 siklus penuh, 4042235f:** PASS.
-- **Latihan P21 penerus (0fcc04ac):** lihat pembaruan berikutnya.
+- **Latihan P21 penerus, 0fcc04ac** (run 37492771185, job 112369494740): **PASS**, `cp6_restored=true`, `advisor_gate=true`.
+  - Pasang sekali menghasilkan katalog `e75968e2…`.
+  - Rollback sebelum dipakai memulihkan keadaan persis.
+  - Pasang ulang menghasilkan katalog dan baris seed yang identik.
+  - Langkah pakai berupa satu pembayaran supplier nyata.
+  - Rollback sesudah dipakai **ditolak** (`CP7_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE`) karena ada 2 baris request CP7 baru.
+  - Pemulihan harness berhasil, dan drill backup/restore T3 hasilnya `RESTORED_SAME_MEANING`.
+  - Bukti: `docs/cp7/evidence/p21-rehearsal/`.
+  - Ini latihan, bukan receipt P21.
