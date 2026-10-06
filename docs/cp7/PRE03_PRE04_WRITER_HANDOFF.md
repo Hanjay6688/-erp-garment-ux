@@ -4,7 +4,8 @@ Dasar: job desc Fable 6 Okt 2026 (`out/JOBDESC_WRITER_PRE03_PRE04_20261006.md`, 
 
 ## SHA perbaikan
 
-- **SHA perbaikan final: `d82fa583`.** Isinya hanya uji, di atas 8f326d87.
+- **SHA perbaikan final: `d82fa583`.** Isinya hanya uji, di atas 8f326d87. Kedua suite sudah lulus di SHA ini (lihat tabel run).
+- `REWORK_SKU_PARTIAL_COMPLETE_REVERSE` hanya ada di skenario auditor; job browser T3 tidak memuat kasus itu. Di job T3, kasus BE yang ada hanya `REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE`.
 - Commit yang membentuknya:
   - `92f30e42`: PRE-03 dan langkah cari PRE-04.
   - `d311ba8a`: hanya dokumen P19.
@@ -72,8 +73,8 @@ Kegagalan asli Fable tetap tercatat:
 |---|---|---|---|
 | 92f30e42 | Job browser T3 | 37446316844 / 112211909204 | Alur AT PASS 10/10. `BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE` PASS. Paket browser lain 27 PASS / 4 INCOMPLETE (di luar lingkup, lihat bawah). |
 | 92f30e42 | Skenario auditor after (`cp6_be_modes.py` + `cp6_be_browser.mjs`) | 37446319529 / 112211924351 | 16/17. Kasus: 0/0; race 9/9; HTTP 2/2; browser 5/6. `REWORK_SKU_PARTIAL_COMPLETE_REVERSE` INCOMPLETE di langkah pembatalan; diperbaiki di d82fa583. |
-| d82fa583 | Job browser T3 | 37447893656 / (diisi) | (menunggu) |
-| d82fa583 | Skenario auditor after | 37447896631 / (diisi) | (menunggu) |
+| **d82fa583** | Job browser T3 | 37447893656 / 112217039805 | **Alur AT PASS 10/10** (`T3_PREP_BROWSER` PASS, `console_errors=0`, `candidate_verified_after_flow=T3_PACKAGE_THROUGH_BF`). **`BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE` PASS.** Paket browser lain 27 PASS / 4 INCOMPLETE (di luar lingkup, sama dengan sebelumnya). |
+| **d82fa583** | Skenario auditor after | 37447896631 / 112217047294 | **17/17 PASS**, status `RUN_COMPLETE`, job sukses. Kasus: 0/0; race 9/9; HTTP 2/2; browser 6/6, termasuk `REWORK_SKU_PARTIAL_COMPLETE_REVERSE` dan `REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE`. |
 
 Detail alur AT di 92f30e42, semua PASS:
 - REAL_LOGIN_PAGE, ANONYMOUS_REFUSED, REAL_PASSWORD_BROWSER_LOGIN;
