@@ -91,7 +91,21 @@ Hasilnya dicatat di bagian 3. Kegagalan pertama disimpan apa adanya.
 
 ## 3. Hasil suite Native
 
-Menunggu run pertama untuk `c1f91041`.
+**Run pertama di `c1f91041`** (run 37519405092, job 112460621181): **11/11 PASS**, terdiri dari Native 4, race 3, HTTP Auth nyata 2, dan browser 2. `cp6_restored=true`, `advisor_gate=true`, console browser 0, dan pembersihan Auth tanpa kegagalan. Bukti ada di `../evidence/p19/transport-c1f91041/` (baris kasus dari log job lengkap beserta sha256-nya).
+
+| Kasus | Yang terbukti |
+|---|---|
+| `P19T_JOB_COMPLETE_ORIGINAL` | <ul><li>Request → run → get → manifest → segmen.</li><li>Dokumen rakitan sama persis dengan `serve` dan dengan teks tersimpan (170.004 byte, 1 segmen).</li><li>Job selesai dalam 423,8 ms.</li><li>Capture biasa dengan UUID yang sama menghasilkan Original yang sama.</li><li>Satu run, satu dokumen, satu job; bisnis Native tidak berubah.</li></ul> |
+| `P19T_MULTI_SEGMENT_EXACT` | <ul><li>Run sintetis eksplisit (khusus transport, tanpa kredit analisis) menghasilkan 3 segmen.</li><li>Potongan multibyte tepat, dan setiap segmen ≤ 8.000.000 byte.</li><li>Dokumen imutabel.</li></ul> |
+| `P19T_SEGMENT_AUTHORITY` | <ul><li>Aktor lain ditolak.</li><li>Epoch akses yang berubah ditolak.</li><li>Hak yang hilang ditolak di kelima RPC.</li><li>Penolakan keuangan dan status basi sama dengan `serve`.</li><li>Tidak ada jalur API langsung.</li></ul> |
+| `P19T_JOB_IDENTITY_REFUSALS` | <ul><li>UUID milik capture biasa diadopsi tanpa hitung ulang.</li><li>Query yang berubah ditolak.</li><li>UUID yang tidak dikenal atau kosong ditolak.</li></ul> |
+| `P19T_RACE_TWO_RUNS_ONE_ORIGINAL` | Dua worker bersamaan menghasilkan satu komputasi dan satu Original. |
+| `P19T_RACE_LIMIT_STOPS_THEN_CONTINUES` | <ul><li>Status terbaca RUNNING selama worker menunggu kunci nyata.</li><li>Batas statement menghentikan worker dengan status FAILED `CP7_ANALYSIS_JOB_STOPPED`/57014.</li><li>Tidak ada run atau dokumen yang tersimpan.</li><li>UUID yang sama dilanjutkan sebagai attempt 2 sampai DONE.</li></ul> |
+| `P19T_RACE_REVOKE_WHILE_WAITING` | Hak dicabut saat worker menunggu kunci: ditolak sebelum ada efek, dan job tetap WAITING. |
+| `P19T_HTTP_JOB_TRANSPORT` | <ul><li>Alur lengkap lewat PostgREST dan Auth nyata; run selesai dalam 610 ms.</li><li>Dokumen rakitan sama dengan `serve` lewat HTTP.</li><li>Aktor lain mendapat 403, dan job miliknya tidak dikenal oleh aktor lain.</li><li>Anonim mendapat 401 di kelima RPC.</li></ul> |
+| `P19T_HTTP_REVOKED` | Pengguna dinonaktifkan mendapat 403 di kelima RPC, tanpa efek baru. |
+| `P19T_BROWSER_DESKTOP_RELOAD_RECOVERY` | <ul><li>"Sedang dihitung sejak jam 02.36.49 WIB" tampil.</li><li>Balasan run hilang sesudah commit, lalu reload memulihkan hasil lewat status server, manifest, dan segmen.</li><li>Tidak ada worker kedua; satu Original; bisnis tidak berubah; tidak ada geser horizontal.</li></ul> |
+| `P19T_BROWSER_MOBILE_BACKGROUND` | <ul><li>Perangkat di zona America/Los_Angeles tetap menampilkan jam WIB.</li><li>Hasil lengkap tampil; satu Original; tidak ada geser horizontal.</li></ul> |
 
 ## 4. Yang masih terbuka
 

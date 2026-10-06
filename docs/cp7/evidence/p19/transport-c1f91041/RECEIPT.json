@@ -1,0 +1,45 @@
+{
+  "label": "CP7_P19_TRANSPORT",
+  "status": "PASS",
+  "source_commit": "c1f91041035941edded57da13482176701b2bfb6",
+  "workflow": "CP7 P19 Analysis Job Transport",
+  "run_id": 37519405092,
+  "job_id": 112460621181,
+  "first_run": true,
+  "source_sha256": "991167445db6fbd958bc24a9c07255d1993366f6afd9d05c7998b985ea4abf86",
+  "observed_case_count": 11,
+  "counts": {
+    "native": 4,
+    "races": 3,
+    "http": 2,
+    "browser": 2
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "console_errors": 0,
+  "auth_cleanup_failures": [],
+  "notable": {
+    "job_elapsed_ms_native": 423.794,
+    "actual_HTTP_run_ms": 609.96,
+    "stopped_failure": {
+      "code": "CP7_ANALYSIS_JOB_STOPPED",
+      "sqlstate": "57014"
+    },
+    "multi_segment": 3,
+    "anonymous_refused": [
+      401,
+      401,
+      401,
+      401,
+      401
+    ],
+    "desktop_status": "Sedang dihitung sejak jam 02.36.49 WIB (7 Okt 2026).",
+    "mobile_status_device_tz_America_Los_Angeles": "Sedang dihitung sejak jam 02.36.58 WIB (7 Okt 2026)."
+  },
+  "read_from": "complete job log via GitHub job-log API (artifact download blocked in this session); case lines in CASE_LINES.log",
+  "job_log_sha256": "bffa70f2ee993ed5dd5cd2718f19c8fc1dcd204d9e8b2dba7f08d21b6f716eba",
+  "job_log_characters": 91574,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
