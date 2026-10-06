@@ -16,7 +16,7 @@ The installed product is the explicitly qualified combined F03 stack (the same c
 Rehearsal evidence only: not the P21 release receipt (that needs the P20-accepted candidate and installed T2 parity).
 """
 import hashlib,json,traceback
-from datetime import datetime,timedelta,timezone
+from datetime import date
 import psycopg
 from psycopg import sql
 import cp7_restore_state as restore_state
@@ -105,11 +105,18 @@ def run():
                 report['reinstall_difference']={k:dict(first=first[k],second=second[k])for k in('tables','policies','roles')if first[k]!=second[k]}
                 report['reinstall_function_difference']=sorted(k for k in set(first['functions'])|set(second['functions'])if first['functions'].get(k)!=second['functions'].get(k))
             assert same,'P21_REINSTALL_NOT_IDENTICAL'
-            today=datetime.now(timezone(timedelta(hours=7))).date()
-            f=create.fixture(cur,today);r=create.command(cur,create.payload(cur,f,'100.00'));conn.commit()
+            # The same foundation preparation the Native runner performs before any case. The use transaction stays
+            # open: the guard reads the real CP7 rows of a real write, then everything is rolled back so the disposable
+            # clone can still be proved restored. A committed use differs only in durability, not in what the guard reads.
+            if not cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]:cur.execute('grant usage on schema erp to authenticated')
+            if not cur.execute('select count(*) from erp.app_users').fetchone()[0]:native.api.seed(cur)
+            cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
+            today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+            native.boundary.historical.prior.set_open_period(cur,date(2026,8,31))
+            f=create.fixture(cur,today);r=create.command(cur,create.payload(cur,f,'100.00'))
             assert r['status']=='POSTED' and r['remaining_after']=='900.00',r
-            report['steps'].append(dict(step='USE',supplier_payment_created=r['payment_id'],remaining_after=r['remaining_after']))
-            held=used(cur);post=guarded_rollback(cur,originals,reseeded);conn.rollback()
+            report['steps'].append(dict(step='USE',supplier_payment_created=r['payment_id'],remaining_after=r['remaining_after'],transaction='HELD_OPEN_THEN_ROLLED_BACK'))
+            cur.execute('savepoint p21_guard');held=used(cur);post=guarded_rollback(cur,originals,reseeded);cur.execute('rollback to savepoint p21_guard')
             assert post['status']=='REFUSED' and post['cp7_rows_since_install'].get('cp7_supplier_payment_create.requests')==1,('P21_POSTUSE_REFUSAL',post)
             assert used(cur)==held,'P21_REFUSAL_CHANGED_STATE'
             report['steps'].append(dict(step='POSTUSE_ROLLBACK',**post,catalog_unchanged=catalog(cur)==second))

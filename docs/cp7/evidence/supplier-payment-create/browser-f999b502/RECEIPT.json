@@ -1,0 +1,31 @@
+{
+ "label": "CP7_SUPPLIER_PAYMENT_CREATE",
+ "source_commit": "f999b502",
+ "run_id": 37491709756,
+ "job_id": 112365828821,
+ "conclusion": "failure",
+ "probe_status": "INCOMPLETE",
+ "observed_case_count": 10,
+ "cases": {
+  "EXACT_REPLAY_SETTLE": "PASS",
+  "REFUSALS_ZERO_EFFECT": "PASS",
+  "CURRENT_ACCESS": "INCOMPLETE (same known 4042235f sub-control; replaced in 917ff2b7)",
+  "PRIVATE_BOUNDARY": "PASS",
+  "RACE_SAME_REQUEST": "PASS",
+  "RACE_DOUBLE_PAY": "PASS",
+  "RACE_CURRENT_REVOKE": "PASS",
+  "HTTP_CURRENT_REPLAY": "PASS",
+  "BROWSER_DESKTOP": "PASS (actual committed lost reply, reload, same UUID)",
+  "BROWSER_MOBILE": "PASS"
+ },
+ "browser": {
+  "console_errors": 0,
+  "users_created": 2,
+  "auth_cleanup_failures": []
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "job_log_sha256": "ec313e33887bad058a64fac7346b5a08b97f27481491c90bd63d5737c5dc9dd8",
+ "independent_acceptance": false,
+ "production_go": false
+}

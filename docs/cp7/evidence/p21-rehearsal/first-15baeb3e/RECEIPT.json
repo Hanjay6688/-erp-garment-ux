@@ -1,0 +1,23 @@
+{
+ "label": "CP7_P21_REHEARSAL",
+ "source_commit": "15baeb3e",
+ "run_id": 37491648792,
+ "job_id": 112365626340,
+ "conclusion": "failure",
+ "probe_status": "INCOMPLETE",
+ "passed_steps": {
+  "INSTALL_1": "catalog e75968e2\u2026, 1407 functions, 75 cp7 tables, 34 cp7 roles, install seeds 11 rows in three cp7 helper tables",
+  "PREUSE_ROLLBACK": "ROLLED_BACK, all three restore components true",
+  "REINSTALL": "identical catalog sha256 and identical seeded rows"
+ },
+ "first_failure": {
+  "step": "USE",
+  "error": "Z_EXPANDED_BASE_MATERIAL_MISSING",
+  "cause": "The rehearsal called the receipt fixture outside the Native runner, which seeds the foundation (app users, base material) and sets the open period first. Probe defect, not product.",
+  "classification": "FIXTURE_DEFECT"
+ },
+ "cp6_restored": true,
+ "job_log_sha256": "71f2c0997f5e8dadb54d0c8f886742e07eef322003598a182b445684f5721db6",
+ "installed_P21_acceptance": false,
+ "production_go": false
+}
