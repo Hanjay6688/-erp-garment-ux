@@ -1,0 +1,329 @@
+{
+  "status": "BUILD_UX_WRITER_QUALIFIED",
+  "source_commit": "4b264493569d1d8854ea7ed0c42e106594711d75",
+  "run_id": 37459891580,
+  "job_id": 112256538074,
+  "artifact_id": 11411667230,
+  "zip_bytes": 23871027,
+  "zip_sha256": "990047686d2a9697e3cfa4d4f9b16c0fe53c13a19ab6bc26548d13d9866041c4",
+  "application_tests": 1551,
+  "test_files": 164,
+  "browser_fixture_cases": {
+    "cp45-browser-original/results.json": [
+      {
+        "title": "CP4.5 Master Pola grows from operational need with fail-closed Potongan selection",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP4.5 Master Pola grows from operational need with fail-closed Potongan selection",
+        "project": "mobile-chromium",
+        "status": "expected"
+      }
+    ],
+    "precp5-browser-original/results.json": [
+      {
+        "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, and QC",
+        "project": "mobile-chromium",
+        "status": "expected"
+      }
+    ],
+    "cp5-browser-contract-proof/results.json": [
+      {
+        "title": "CP5 local mocked-UAT contract keeps server-side Pattern truth and one mutation",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 lost commit response survives reload and reconciles the exact persisted request",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 BS dialog keeps exact recovery reachable after an uncertain save",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 CLAIM dialog keeps exact recovery reachable after an uncertain save",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 committed claim cannot be submitted again after failed then successful refetch",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 committed manual BS cannot be submitted again after failed then successful refetch",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 local mocked-UAT contract saves cumulative partial return without posting completion",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 local mocked-UAT contract keeps view-only identity non-executable",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 local mocked-UAT contract keeps server-side Pattern truth and one mutation",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 lost commit response survives reload and reconciles the exact persisted request",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 BS dialog keeps exact recovery reachable after an uncertain save",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 CLAIM dialog keeps exact recovery reachable after an uncertain save",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 committed claim cannot be submitted again after failed then successful refetch",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 committed manual BS cannot be submitted again after failed then successful refetch",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 local mocked-UAT contract saves cumulative partial return without posting completion",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP5 local mocked-UAT contract keeps view-only identity non-executable",
+        "project": "mobile-chromium",
+        "status": "expected"
+      }
+    ],
+    "cp6-browser-contract-proof/results.json": [
+      {
+        "title": "CP6 Laundry send starts at zero and posts one exact batch-size mutation",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 Laundry view-only role sees server facts but every mutation control starts locked",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 two live tabs serialize one global envelope and send at most one operator intent",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 authoritative refetch expires an earlier physical acknowledgement",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 Laundry receipt records only Good and BS while Stuck stays derived",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 paid failed-wash retry posts cost without inventing a physical receipt",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 paid full return is exact, all-or-nothing, and retires the committed form",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 committed send form stays retired after failed then successful refetch",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 lost response reconciles the exact persisted UUID and payload",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 QC binds exact receipt batch-size and lets server own stock and HPP",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 QC finds an SKU beyond the initial catalog without hiding its source queue",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 reversal buttons obey authoritative downstream blockers",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 blocks the legacy browser Nota writer in connected UAT",
+        "project": "desktop-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 Laundry send starts at zero and posts one exact batch-size mutation",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 Laundry view-only role sees server facts but every mutation control starts locked",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 two live tabs serialize one global envelope and send at most one operator intent",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 authoritative refetch expires an earlier physical acknowledgement",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 Laundry receipt records only Good and BS while Stuck stays derived",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 paid failed-wash retry posts cost without inventing a physical receipt",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 paid full return is exact, all-or-nothing, and retires the committed form",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 committed send form stays retired after failed then successful refetch",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 lost response reconciles the exact persisted UUID and payload",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 QC binds exact receipt batch-size and lets server own stock and HPP",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 QC finds an SKU beyond the initial catalog without hiding its source queue",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 reversal buttons obey authoritative downstream blockers",
+        "project": "mobile-chromium",
+        "status": "expected"
+      },
+      {
+        "title": "CP6 blocks the legacy browser Nota writer in connected UAT",
+        "project": "mobile-chromium",
+        "status": "expected"
+      }
+    ]
+  },
+  "all_zip_members": {
+    "cp45-browser-original/html/data/12db969af554e6df012a76364e14c31a9b004a8b.png": {
+      "bytes": 425655,
+      "sha256": "652a38e5bf682826ce4c1fb1cf8087e12aa997cf12509fa0e9bd877039844fcd"
+    },
+    "cp45-browser-original/html/data/28709dcd5901b01cfdb9a141dc3a83a1f010b76d.png": {
+      "bytes": 159053,
+      "sha256": "17006d177c3b5b0d6e0d94df86b8b898a3f724b87f42faec7c2df68c9055038b"
+    },
+    "cp45-browser-original/html/data/46f6fbc846db3a014d0241c3e19ff8502848e968.png": {
+      "bytes": 1802364,
+      "sha256": "0316278f452b8d11c59fac467f2ad4d046ee8d0b718e9f32fa3ca4677e99db95"
+    },
+    "cp45-browser-original/html/data/5d7e706527c7713a347211df5fcc6db6ae6fd52e.png": {
+      "bytes": 211172,
+      "sha256": "f88c4b74c6a44a3fa5f59c6c53838c14153f59d95dad4903ce33c13113a9ae1b"
+    },
+    "cp45-browser-original/html/data/6641658333ccf418b75197782cbfb17e3846d676.png": {
+      "bytes": 208946,
+      "sha256": "1a877d4d1aa7931d3208f207e0671a0b3a0c268755b9be23d42fff3c4bd0533c"
+    },
+    "cp45-browser-original/html/data/734e89eacb699f8cb350da58e5e7b2e6820b1bf3.png": {
+      "bytes": 6860833,
+      "sha256": "dd1be4be52e5494727f8ada9066f272a8f561af87be7abca58c674d95ce9b767"
+    },
+    "cp45-browser-original/html/data/cdb7f6cf6307baa1288a4c7b10139ee5cbc9e26e.png": {
+      "bytes": 479816,
+      "sha256": "fe71ded2e2c1bdd01c986258d0dad01903f375e02885fc3b678547e7204bb6ed"
+    },
+    "cp45-browser-original/html/data/d1353edf735d26caadac834826099e12768e03b8.png": {
+      "bytes": 1329451,
+      "sha256": "9069a226508e4107e1303077bc9e3db6c8587d3a890eef4483a1b4ab5c137a62"
+    },
+    "cp45-browser-original/html/index.html": {
+      "bytes": 529343,
+      "sha256": "ce8fe3c84677b8ac485b95036327757d707425b5fd45617aaae74115928b18dc"
+    },
+    "cp45-browser-original/results.json": {
+      "bytes": 15314827,
+      "sha256": "957e3cca46504753bdacaf663326c0773e9ebfc48e7029250e3bd61031264095"
+    },
+    "cp45-browser-proof/html/index.html": {
+      "bytes": 521467,
+      "sha256": "18a4cd47a9309dcbb4f611722411fe388a027fa7f4afd4b2c50a8e58bdcb5751"
+    },
+    "cp45-browser-proof/results.json": {
+      "bytes": 10519,
+      "sha256": "b75db4562f52affb3f0437cc8898b3966bdfcb49217be2ec5d48766e07d12232"
+    },
+    "cp5-browser-contract-proof/html/index.html": {
+      "bytes": 549363,
+      "sha256": "c938d4a6cb9ef7b9e50d1b2498f03c20fc13ad043848a466168f4ee2a6d0b724"
+    },
+    "cp5-browser-contract-proof/results.json": {
+      "bytes": 31078,
+      "sha256": "aa0e5e6ffbc86c4c005a633c4816f5a9c0bfc01dd51d48a315cdfab90504a958"
+    },
+    "cp6-browser-contract-proof/html/index.html": {
+      "bytes": 572991,
+      "sha256": "f7340b247d6f7cbbb0c61a5cf7fc097c1639a65ec541d3b29574886b8f4a9fb4"
+    },
+    "cp6-browser-contract-proof/results.json": {
+      "bytes": 35880,
+      "sha256": "5183274365b1122e4096536543c57859a26b8994bf8d55dec0b3814ed56661cd"
+    },
+    "precp5-browser-original/html/index.html": {
+      "bytes": 521467,
+      "sha256": "18a4cd47a9309dcbb4f611722411fe388a027fa7f4afd4b2c50a8e58bdcb5751"
+    },
+    "precp5-browser-original/results.json": {
+      "bytes": 10519,
+      "sha256": "b75db4562f52affb3f0437cc8898b3966bdfcb49217be2ec5d48766e07d12232"
+    }
+  },
+  "source_security_build_client_scan_passed": true,
+  "full_job_log_sha256": "ea3f69e343c913cd28513856bd4b9bde90a617b1cf542616c06e047c6b35dd3b",
+  "Native_Auth_business_exit_credit_added": 0,
+  "full_CP7_acceptance": false
+}

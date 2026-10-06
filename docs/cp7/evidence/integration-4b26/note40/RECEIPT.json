@@ -1,0 +1,323 @@
+{
+  "id": 11412892943,
+  "name": "cp7-note-correction",
+  "run_id": 37459891540,
+  "workflow_name": "CP7 Owning Historical Note Correction",
+  "workflow_path": ".github/workflows/cp7-note-correction.yml",
+  "size_in_bytes": 15123491,
+  "digest": "sha256:79940e0d9a8591808cf1b9f1a302fc0ecfce96e3b1c33d27a48881957426d474",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "4b264493569d1d8854ea7ed0c42e106594711d75",
+  "source_tree": "8c74280a2e6dce7d209822737e67435cabbc7c21",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385623,
+      "sha256": "0d2c266db7d41e3532f71c222b763d52a458d062b3cc77657999ee74cfb5e127"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385623,
+      "sha256": "0d2c266db7d41e3532f71c222b763d52a458d062b3cc77657999ee74cfb5e127"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "2959623e1be154b67f841d5910c1cb1dceef34fd9a3ffbdae7953e4444369a63"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 4921547,
+      "sha256": "76a8cba5559c6c29b45e4c388ecb5ddfcf09a1197dcbb3ac9573e212d0e2390f"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP.png": {
+      "bytes": 1277484,
+      "sha256": "30980fd5b23ffa1ffc87a68422126fa542e17c7f8a204d0b66c8187619a5aa33"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP_MICROSECOND.png": {
+      "bytes": 1264750,
+      "sha256": "2c55793999e7dd4a4a1b2d1bf792bab039e9956d642f0dd5076e30e2c2b2c458"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE.png": {
+      "bytes": 775269,
+      "sha256": "be63fa11a762815be83dd0a9f135fa8c23d050cff93b2d3430e3b35780d853b8"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE_MICROSECOND.png": {
+      "bytes": 776314,
+      "sha256": "22e2b0f18f8acb425f51df91c0b4d4506c8a10b294b3fa962a883de8e5974201"
+    },
+    "NOTE_CORRECTED_LOT_DESKTOP.png": {
+      "bytes": 1310567,
+      "sha256": "357628e023b729c77267e445f4b2ef07395f8f7c12b27c89e3ad92d56480a26d"
+    },
+    "NOTE_CORRECTED_LOT_DESKTOP_MICROSECOND.png": {
+      "bytes": 1297846,
+      "sha256": "f6b8faefd74a2031a7f10e380c3aa9abd2b97439026cd8224ad17699943e587c"
+    },
+    "NOTE_CORRECTED_LOT_MOBILE.png": {
+      "bytes": 823791,
+      "sha256": "3943723b4f2d447566f216088a8c5cf59a9ee0fe4ad29e1ace1ec1dbe74b2785"
+    },
+    "NOTE_CORRECTED_LOT_MOBILE_MICROSECOND.png": {
+      "bytes": 823787,
+      "sha256": "47eb37b85f144999c376115066c31c8b52f92c265defc38a9cdce42c1c0a4c0d"
+    },
+    "NOTE_CORRECTION_DESKTOP.png": {
+      "bytes": 922768,
+      "sha256": "5e7d0e79646a9501d55372194a2bb4d50864485e0bf7046b274d36fd88f18d33"
+    },
+    "NOTE_CORRECTION_DESKTOP_MICROSECOND.png": {
+      "bytes": 918649,
+      "sha256": "453c6f75f990a883597433203800ac004c82362a6ce5adcc04bd85cc4ea6da84"
+    },
+    "NOTE_CORRECTION_MOBILE.png": {
+      "bytes": 692184,
+      "sha256": "231158ecf777e0e1dca65b7c29049cd2c49e732433f61fe7ffe6ce82ce900a28"
+    },
+    "NOTE_CORRECTION_MOBILE_MICROSECOND.png": {
+      "bytes": 648162,
+      "sha256": "546ae882cc20c43d6e2295368f00675d504b160957408a373221136e6636b921"
+    },
+    "NOTE_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 5371,
+      "sha256": "1d03b7d8aa79d4d78480a4646155e80f678c25e21c8c2f44bfa3fc325d12c250"
+    },
+    "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 6187,
+      "sha256": "294f33e84f7c17f2752809f12e82f3d7f53f5fdc6055eeea6477bc4465fa80a4"
+    },
+    "NOTE_DUPLICATE_SKU_LOT_CARD.png": {
+      "bytes": 1131386,
+      "sha256": "1f3cbf87987c94c783662fbefb8c39332f36086fa99c1897eb0c5c0734f8ccd2"
+    },
+    "NOTE_DUPLICATE_SKU_MAIN_BOOK.png": {
+      "bytes": 984964,
+      "sha256": "7441f4ac7b421f9b3da59f3795c1b8b9ae2a98e5a4aeca3bf19a6cbce87e480c"
+    },
+    "NOTE_DUPLICATE_SKU_NATIVE_PROOF.json": {
+      "bytes": 37218,
+      "sha256": "2ab9934c677c0d983a8468e3a60e479a48cf07e3ddc7fa9665b762902194de93"
+    },
+    "NOTE_MOBILE_HTTP_TRACE.json": {
+      "bytes": 5915,
+      "sha256": "621493a98e5cb6988a2da2f7518c4cbb06e993c55eacf4ec9ea4d26bdd247d00"
+    },
+    "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 5847,
+      "sha256": "0d5bf0f1f9f96c88c7e1f18ad0cdf6f5e6cc60cf4da757c785e8cd890c135f5b"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "f00f97cc90bb74326f22a88a14f54c3f5140f626e01ffaa9c422c13343ea1953"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "905d8286f0913a107f91bd2e5eba13935ee8e0a80f3bca30366003bd9d8bcb13"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 4921547,
+      "sha256": "76a8cba5559c6c29b45e4c388ecb5ddfcf09a1197dcbb3ac9573e212d0e2390f",
+      "file": "CP7_NOTE_CORRECTION.json.gz",
+      "gzip_sha256": "b76d2bc08a5f26f6118ad9132ad8c337ae431542775411c1fcfa9f5b99275dc6",
+      "original_bytes_unchanged": true
+    },
+    "NOTE_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 5371,
+      "sha256": "1d03b7d8aa79d4d78480a4646155e80f678c25e21c8c2f44bfa3fc325d12c250",
+      "file": "NOTE_DESKTOP_HTTP_TRACE.json.gz",
+      "gzip_sha256": "8302d190a3e4b6cd59c9fc291936d852621f69e5893ac9434bf2f4dba2af98b9",
+      "original_bytes_unchanged": true
+    },
+    "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 6187,
+      "sha256": "294f33e84f7c17f2752809f12e82f3d7f53f5fdc6055eeea6477bc4465fa80a4",
+      "file": "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json.gz",
+      "gzip_sha256": "f82905246ab92183ca8d88e5b36477456f173514ef1be160ca71e61be8d49ff8",
+      "original_bytes_unchanged": true
+    },
+    "NOTE_DUPLICATE_SKU_NATIVE_PROOF.json": {
+      "bytes": 37218,
+      "sha256": "2ab9934c677c0d983a8468e3a60e479a48cf07e3ddc7fa9665b762902194de93",
+      "file": "NOTE_DUPLICATE_SKU_NATIVE_PROOF.json.gz",
+      "gzip_sha256": "dce7339eb5b0053b7296a2078fc814ba99551e1bcc8956e0162a50ae66968143",
+      "original_bytes_unchanged": true
+    },
+    "NOTE_MOBILE_HTTP_TRACE.json": {
+      "bytes": 5915,
+      "sha256": "621493a98e5cb6988a2da2f7518c4cbb06e993c55eacf4ec9ea4d26bdd247d00",
+      "file": "NOTE_MOBILE_HTTP_TRACE.json.gz",
+      "gzip_sha256": "78230317062ddb9ae0eb61ad05015d5f9a9c75c4a8a377ae0141dde33b4a5b87",
+      "original_bytes_unchanged": true
+    },
+    "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 5847,
+      "sha256": "0d5bf0f1f9f96c88c7e1f18ad0cdf6f5e6cc60cf4da757c785e8cd890c135f5b",
+      "file": "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json.gz",
+      "gzip_sha256": "7fb8c66a349c2397392497649337b97d9d59ccb56e6fbd6cc829820080dd2986",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "f00f97cc90bb74326f22a88a14f54c3f5140f626e01ffaa9c422c13343ea1953",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "8ac93e20f6b2df0e99ec79d1ee7a8ddff2f25f1804c5e252792c481ae25515a1",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "905d8286f0913a107f91bd2e5eba13935ee8e0a80f3bca30366003bd9d8bcb13",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "7923dcbae7a23659990cc0e59fd2dec62378710bbde7cd4d52d847458fedaad5",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_NOTE_CORRECTION.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 40,
+      "declared_case_count": 40,
+      "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+      "groups": {
+        "composition_smoke": {
+          "case_count": 3,
+          "case_ids": [
+            "NOTE_FULL_NATIVE_FINANCIAL",
+            "NOTE_PREPAYMENT_REPLAY",
+            "NOTE_ECONOMIC_REPORT_RESTATEMENT"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "native": {
+          "case_count": 28,
+          "case_ids": [
+            "NOTE_YEAR_30",
+            "NOTE_YEAR_364",
+            "NOTE_REPEATED_REVISIONS",
+            "NOTE_FULL_NATIVE_FINANCIAL",
+            "NOTE_RETURN_OTHER_WAREHOUSE",
+            "NOTE_EXACT_CENTS",
+            "NOTE_ADDED_SKU_MAIN_BOOK",
+            "NOTE_HISTORICAL_NEGATIVE",
+            "NOTE_CLOSED_PERIOD_NATIVE_RULE",
+            "NOTE_LATE_FAILURE_ATOMIC",
+            "NOTE_OVERPAYMENT_ATOMIC",
+            "NOTE_RETURN_CAPACITY_ATOMIC",
+            "NOTE_CHILD_REVIEW_CHANGED",
+            "NOTE_REPLAY_CURRENT_AUTHORITY",
+            "NOTE_PRIVATE_CLOSED_FIELDS",
+            "NOTE_SAME_DAY_CHRONOLOGY",
+            "NOTE_PREPAYMENT_REPLAY",
+            "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC",
+            "NOTE_ECONOMIC_REPORT_RESTATEMENT",
+            "NOTE_EXACT_TIME_SOURCE_ORDER",
+            "NOTE_OLD_CASH_RETURN_REPORT",
+            "NOTE_OLD_ADVANCE_CASH_REPORT",
+            "NOTE_MULTI_LOT_CARD",
+            "NOTE_MULTI_LINE_ATOMIC",
+            "NOTE_CORRECTION_ACTOR",
+            "NOTE_DUPLICATE_SKU_LINES",
+            "NOTE_DUPLICATE_SKU_DELETE_REORDER",
+            "NOTE_DUPLICATE_SKU_RETURN_ATOMIC"
+          ],
+          "counts": {
+            "PASS": 28
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 4,
+          "case_ids": [
+            "NOTE_RACE_TWO_REQUESTS",
+            "NOTE_RACE_SAME_UUID",
+            "NOTE_RACE_PAYMENT",
+            "NOTE_RACE_REVOKE_DURING_WAIT"
+          ],
+          "counts": {
+            "PASS": 4
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 3,
+          "case_ids": [
+            "NOTE_HTTP_COMMAND_REPLAY_AUTH",
+            "NOTE_HTTP_CORRECTED_BOOK",
+            "NOTE_HTTP_LOT_AND_ACTOR"
+          ],
+          "counts": {
+            "PASS": 3
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 5,
+          "case_ids": [
+            "NOTE_BROWSER_DESKTOP",
+            "NOTE_BROWSER_MOBILE_LOST_REPLY",
+            "NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD",
+            "NOTE_BROWSER_MOBILE_MICROSECOND_GUARD",
+            "NOTE_BROWSER_DUPLICATE_SKU_LINES"
+          ],
+          "counts": {
+            "PASS": 5
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [
+        "composition_smoke"
+      ],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

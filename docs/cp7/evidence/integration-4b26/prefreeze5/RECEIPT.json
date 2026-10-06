@@ -1,0 +1,164 @@
+{
+  "id": 11413037560,
+  "name": "cp7-prefreeze-ui-prefreeze_ui",
+  "run_id": 37459891774,
+  "workflow_name": "CP7 Pre-freeze UI Regression",
+  "workflow_path": ".github/workflows/cp7-prefreeze-ui.yml",
+  "size_in_bytes": 4105618,
+  "digest": "sha256:d5aac403162d91ef451507a25ffe7e600d87674ef31cb53175faf9ecc8c6ccf0",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "4b264493569d1d8854ea7ed0c42e106594711d75",
+  "source_tree": "8c74280a2e6dce7d209822737e67435cabbc7c21",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385611,
+      "sha256": "080acd373ce9b43b37e618f4f805579931566c340d0f67a9c25d9fb7ce513b2e"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385611,
+      "sha256": "080acd373ce9b43b37e618f4f805579931566c340d0f67a9c25d9fb7ce513b2e"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "b56e85b11f27b930a638925b3998910c26203fac6985228577eb32abb164a972"
+    },
+    "CP7_F03_FULL_PREFREEZE_UI.json": {
+      "bytes": 294158,
+      "sha256": "40c6cec4f3fa48487a4c81691339b2a48a456bc60ae0b3314a7da74767e02270"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "1c0288bc2440379be9a37d298616082c10621b087b9e1639fbf092d76ba03254"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360412,
+      "sha256": "41266b5d7b72b518d0eda0e51ee22ce844821eb9166dc89dcc0b726e9ff65c97"
+    },
+    "readiness-ui/desktop-accessory-decision.png": {
+      "bytes": 306534,
+      "sha256": "b40078fc2d691aaed275f392e5b88e9caeacfce8fe7ae6ab013a566117d2dbfc"
+    },
+    "readiness-ui/desktop-hpp-rounding.png": {
+      "bytes": 281337,
+      "sha256": "12a2526b19d2658a58188ad85341e54f861b0d83162aede76c13dd2d1f52fcfc"
+    },
+    "readiness-ui/desktop-laundry-pending.png": {
+      "bytes": 454826,
+      "sha256": "c6d2abe9cf399b229a6664fb76dbd9e7aa233c81d88ab4fc99b70d8dbfacba2f"
+    },
+    "readiness-ui/desktop-laundry-ready.png": {
+      "bytes": 449274,
+      "sha256": "4ffd4f097d18634dea1232be9e4801bf9cbf9d2d397c900d38a59338bd9e98a8"
+    },
+    "readiness-ui/mobile-accessory-decision.png": {
+      "bytes": 236473,
+      "sha256": "bed606d5caae94275d654f306346ae16fd6fc5f8da7bf7c53a85b6f11c5c0544"
+    },
+    "readiness-ui/mobile-hpp-rounding.png": {
+      "bytes": 200098,
+      "sha256": "bde2857cbce28138c8b8e486e6615a7bafe77c33f7f2cfe87b26c186f9750691"
+    },
+    "readiness-ui/mobile-laundry-pending.png": {
+      "bytes": 309161,
+      "sha256": "2493019bfc36ccccb627f4dacd571c423f13f4515a2050e50414ec59824fe9ca"
+    },
+    "readiness-ui/mobile-laundry-ready.png": {
+      "bytes": 305716,
+      "sha256": "c85320945a7b3a901009c6d009fe32bb371c28cd0b23af027b6a03e3259d432c"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F03_FULL_PREFREEZE_UI.json": {
+      "bytes": 294158,
+      "sha256": "40c6cec4f3fa48487a4c81691339b2a48a456bc60ae0b3314a7da74767e02270",
+      "file": "CP7_F03_FULL_PREFREEZE_UI.json.gz",
+      "gzip_sha256": "7246485f47d39e4492779fbc77ae00e5c96656edca6c4619a5f59c13a4034952",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "1c0288bc2440379be9a37d298616082c10621b087b9e1639fbf092d76ba03254",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "1fc940906a65a5dbdc9c5f83df479f0065f1b9479807abd31a8d6d141f3a753f",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360412,
+      "sha256": "41266b5d7b72b518d0eda0e51ee22ce844821eb9166dc89dcc0b726e9ff65c97",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "16c0236a80e502fcb1cb9fbaeaabec973778241a11724e8c5f60ba9cff7bca48",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_F03_FULL_PREFREEZE_UI.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 5,
+      "declared_case_count": 5,
+      "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+      "groups": {
+        "groups/browser": {
+          "case_count": 5,
+          "case_ids": [
+            "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+            "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+            "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+            "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+            "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE"
+          ],
+          "counts": {
+            "PASS": 5
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}
