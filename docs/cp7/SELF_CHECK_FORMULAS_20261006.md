@@ -79,8 +79,8 @@ perencanaan (sebagian; pemeriksa perencanaan dihentikan lebih awal untuk menghin
 | FIN-4 | ~~Pembanding default bukan bulan kalender sebelumnya~~ | **Diperbaiki** (commit `8b5b6c21`): bulan penuh → bulan sebelumnya; MTD → hari yang sama bulan sebelumnya |
 | PL-3 | Evaluasi model tidak pernah menyelesaikan fold pada data Native (cutoff latih = akhir hari origin, padahal capture selalu sesudahnya) → selalu `BASELINE_RETAINED` | Keputusan kontrak: cutoff = akhir hari origin+1 (prakiraan diterbitkan sesudah hari tutup) atau latih `lo..origin-1`. Aman sekarang (gagal-tertutup ke baseline) |
 | PL-4 | Kapasitas mengabaikan beban yang melebihi jendela (tidak dibawa ke jendela berikutnya) | Bawa kelebihan ke jendela berikut atau UNKNOWN bila overbooked > 0 |
-| PL-5 | Preflight rencana membandingkan pcs potong dengan gap pcs bagus tanpa yield (gap 100, yield 9/10 → seharusnya potong 112) | Bandingkan dengan `ceil(gap×den/num)` dari yield yang ditinjau, atau laporkan sisa `gap − floor(total×num/den)` |
-| PL-6 | Kebutuhan bahan tetap tampil untuk produk PAUSED/STOPPED | Gross 0 / NOT_APPLICABLE untuk kebijakan berhenti |
+| PL-5 | Preflight rencana membandingkan pcs potong dengan gap pcs bagus tanpa yield (gap 100, yield 9/10 → seharusnya potong 112) | Bandingkan dengan `ceil(gap×den/num)` dari yield yang ditinjau, atau laporkan sisa `gap − floor(total×num/den)` Yield mana yang berlaku untuk start baru adalah nilai kebijakan → tetap PENDING_POLICY_VALUE, tidak dikarang |
+| PL-6 | Kebutuhan bahan tetap tampil untuk produk PAUSED/STOPPED | **Sesuai desain (diperiksa ulang)**: kernel kain menandai baris itu `disabled=true` dan `claimant=false`, sehingga produk tersebut tidak mengambil stok/komitmen kain bersama dan tidak menimbulkan baris tak-terselesaikan; angka gross hanya informasi resep |
 | PL-7 | Rencana yang sudah dipotong tidak mengurangi gap produknya (bisa direncanakan dua kali) | Hitung posisi CUT dari intent rencana sebagai suplai produk itu, atau blok preflight selama grup intent masih punya WIP |
 | PL-8 | `supply-source` mengambil semua grup potong yang pernah ada (batas 1001) | Skala: pangkas grup yang sudah habis |
 

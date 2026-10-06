@@ -8,6 +8,7 @@ name: CP7 P12 Payroll (Claude branch)
     - scripts/cp7_settlement_read_cases.py
     - src/RosterEditor.tsx
     - src/AttendanceEntryEditor.tsx
+    - scripts/cp7_p12_attendance_write_browser.mjs
     - .github/workflows/claude-p12-payroll.yml
   workflow_dispatch: {}
 permissions:
@@ -22,7 +23,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        flag: ['--roster', '--payroll-review']
+        flag: ['--roster', '--payroll-review', '--attendance-write']
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:

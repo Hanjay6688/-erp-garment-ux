@@ -584,5 +584,8 @@ Untuk penggabungan ke `cp7/integration`, perubahan perilaku yang perlu diketahui
 - `cutting-yield/model-producer.sql`: kernel hanya menerima record batch prospektif terpilih.
 - `demand/history.sql` + `planning/history.sql` (`history_build`): bentuk linear, byte-identik dengan `c1f91041` (uji lama-vs-baru di job Shell `p19-assembly`).
 - Frontend: refund retur pengganti kosong, saldo kredit pelanggan tidak error, tarif ribuan ambigu ditolak, diskon dibanding eksak, angka demo Keuangan konsisten.
+- `demand/estimate.sql`: laju harian `trunc(…,12)` (bukan dibulatkan ke atas) — target tidak lagi +1 pcs; `planning/netting.sql`: posisi WIP sisa 0 bukan suplai.
+- `sales/correction.sql` (7 Okt): koreksi yang mengubah harga bersih per pcs baris yang **sudah diretur** ditolak `CP7_NOTE_RETURNED_LINE_PRICE_CHANGED` (refund lama tidak diputar ulang diam-diam). Kasus Native `NOTE_FINANCIAL` diperkuat tanpa mengubah jumlah kasus.
+- Frontend (7 Okt): field rupiah 6 desimal (penerimaan, invoice supplier, hitung fisik, koreksi penerimaan) menolak "16.000"/"1,500" (`moneyDecimal`); label "Nilai absensi" menggantikan "Perkiraan upah" (oracle browser P12 attendance ikut label, angka sama); kartu FG v2 menulis "HPP lot saat ini"; pesan Indonesia untuk dua kode penolakan nota.
 
 Oracle lama yang tidak diubah: browser P12 payroll-review masih mencari `.cpay-net` "Bersih payroll" (dipindah oleh F03 E05) — perlu pembaruan oleh pemilik oracle.
