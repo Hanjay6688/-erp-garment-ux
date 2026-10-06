@@ -1,0 +1,41 @@
+{
+  "contract": "cp7.p19.analysis-job-transport.v1",
+  "expected_case_count": 11,
+  "required_case_counts": {
+    "native": 4,
+    "races": 3,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "P19T_JOB_COMPLETE_ORIGINAL",
+      "P19T_MULTI_SEGMENT_EXACT",
+      "P19T_SEGMENT_AUTHORITY",
+      "P19T_JOB_IDENTITY_REFUSALS"
+    ],
+    "races": [
+      "P19T_RACE_TWO_RUNS_ONE_ORIGINAL",
+      "P19T_RACE_LIMIT_STOPS_THEN_CONTINUES",
+      "P19T_RACE_REVOKE_WHILE_WAITING"
+    ],
+    "http": [
+      "P19T_HTTP_JOB_TRANSPORT",
+      "P19T_HTTP_REVOKED"
+    ],
+    "browser": [
+      "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY",
+      "P19T_BROWSER_MOBILE_BACKGROUND"
+    ]
+  },
+  "segment_characters": 2000000,
+  "segment_utf8_bytes_bound": 8000000,
+  "client_document_utf8_bytes_bound": 64000000,
+  "statement_timeout": "existing 8s authenticated limit; never raised",
+  "scope": "Background analysis job (request/run/get) under the existing statement limit, and the complete Original as a manifest plus immutable segments bound to actor, run, current access epoch, per-segment and whole-document SHA256 and UTF8 byte counts",
+  "synthetic_case": "P19T_MULTI_SEGMENT_EXACT stores one explicit synthetic run for multi-segment transport proof only; no analysis or capacity credit",
+  "full_P19_acceptance": false,
+  "factory_capacity_or_SLA": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
