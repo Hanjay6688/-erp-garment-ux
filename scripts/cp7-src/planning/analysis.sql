@@ -44,8 +44,13 @@ declare n jsonb:=cp7_netting_native.build(c,q);scenario jsonb:=n->'schedule_run_
  assumptions_acc jsonb[]:='{}';sources_acc jsonb[]:='{}';recommendations_acc jsonb[]:='{}';
  edges_acc jsonb[]:='{}';actions_acc jsonb[]:='{}';timeline_acc jsonb[]:='{}';models_acc jsonb[]:='{}';
  materials_acc jsonb[]:='{}';metrics_acc jsonb[]:='{}';warnings_acc jsonb[];
- materials_null boolean:=false;assembled jsonb;known_keys text[]:='{}';
+ materials_null boolean:=false;known_keys text[]:='{}';
  products_by_root jsonb;stock_by_target jsonb;history_by_target jsonb;
+ -- P19: maps built once. A non-simple per-row query that references a large
+ -- jsonb variable copies it into each custom plan, so the per-target timeline
+ -- query referencing n was quadratic. Per-row queries now see only small values.
+ edges_by_target jsonb;match_results_by_target jsonb;
+ etas_by_position jsonb;inputs_by_source jsonb;directed_source_keys jsonb;source_inputs jsonb;
 begin
  if scenario_revision>9007199254740991 then raise exception 'CP7_ANALYSIS_REVISION_RANGE';end if;
  warnings_acc:=array[warnings];
@@ -60,6 +65,23 @@ begin
  select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)into history_by_target from(
   select x->>'target_key'k,jsonb_agg(x)items from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'history_run_result'->'history'->'rows')x
   where x->>'target_key'is not null group by x->>'target_key')i;
+ -- Every edge and match result of one target, in original array order. The
+ -- frozen timeline query reads only this subset, so its first-edge and
+ -- CONFIRMED_TARGET lookups give exactly what the whole arrays gave.
+ select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)into edges_by_target from(
+  select x->>'target_key'k,jsonb_agg(x order by o)items from jsonb_array_elements(coalesce(n->'allocation'->'allocation'->'edges','[]'))with ordinality e(x,o)
+  where x->>'target_key'is not null group by x->>'target_key')i;
+ select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)into match_results_by_target from(
+  select x->>'target_key'k,jsonb_agg(x order by o)items from jsonb_array_elements(n->'match_results')with ordinality e(x,o)
+  where x->>'target_key'is not null group by x->>'target_key')i;
+ -- Every result per position is kept; a visited ambiguous position still
+ -- refuses with SQLSTATE 21000 like the former scalar subquery.
+ select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)into etas_by_position from(
+  select x->>'position_key'k,jsonb_agg(x->'result'order by o)items from jsonb_array_elements(coalesce(scenario->'etas','[]'))with ordinality e(x,o)
+  where x->>'position_key'is not null group by x->>'position_key')i;
+ select coalesce(jsonb_object_agg(i.k,true),'{}'::jsonb)into directed_source_keys from(
+  select distinct x->>'key'k from jsonb_array_elements(coalesce(n->'matching'->'sources','[]'))x
+  where x->>'key'is not null and x->>'confirmed_target'is not null)i;
  if c->'schedule'<>'null'::jsonb then
   plan_aids:=jsonb_build_array(c->'schedule'->>'plan_id');
   plan_refs:=jsonb_build_array(cp7_wip.ref('PLANNING_SCHEDULE',c->'schedule'->>'plan_id',c->'schedule'->>'revision'));
@@ -134,6 +156,11 @@ begin
    'conditional',true,'source_links',refs,'display_priority',jsonb_build_object('rank',null,'lane','REVIEW_DATA',
     'basis',jsonb_build_array('Periksa bahan dan batas produksi baru'),'rule_version','native-review-1'))));
   timeline:='[]';
+  -- P19: n below is only this target's edges and match results (see
+  -- edges_by_target); the frozen timeline text is unchanged.
+  declare n jsonb:=jsonb_build_object('allocation',jsonb_build_object('allocation',jsonb_build_object('edges',
+   coalesce(edges_by_target->(r->>'target_key'),'[]'::jsonb))),'match_results',coalesce(match_results_by_target->(r->>'target_key'),'[]'::jsonb));
+  begin
   -- Build each chronological row once in original event order. Repeated
   -- concatenation copied the entire growing multi-target timeline per event.
   -- This aggregate retains every row, field, reference and decimal operand.
@@ -160,12 +187,15 @@ begin
     'first_gap_at',r->'timeline'->'first_known_gap'->'at','timing_basis','DATE_POLICY',
     'timing_policy_id','selected-native-each24h-from-capture-1','event_refs',t.e->'refs')order by t.ordinal),'[]'::jsonb)into target_timeline from classified t;
   timeline:=timeline||target_timeline;
+  end;
   timeline_acc:=array_append(timeline_acc,timeline);
  end loop;
  select coalesce(jsonb_object_agg(t.key,true),'{}'::jsonb)into known_targets from unnest(known_keys)t(key);
  for e in select value from jsonb_array_elements(coalesce(n->'allocation'->'allocation'->'edges','[]'))loop
   if not(known_targets? (e->>'target_key'))then raise exception 'CP7_ANALYSIS_EDGE_TARGET_UNPROVEN';end if;
-  eta:=(select x->'result'from jsonb_array_elements(scenario->'etas')x where x->>'position_key'=e->>'position_key');
+  eta:=etas_by_position->(e->>'position_key');
+  if jsonb_array_length(eta)>1 then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  eta:=eta->0;
   edges_acc:=array_append(edges_acc,jsonb_build_array(jsonb_build_object('source_key',e->'position_key','target_key',e->'target_key','size_id',e->'size_id',
    'input_qty',cp7_analysis_native.fact(e->>'input_pcs','PCS',e->'refs'),
    'projected_output_qty',cp7_analysis_native.fact(e->>'projected_good_pcs','PCS',e->'refs',plan_aids),
@@ -173,12 +203,16 @@ begin
  end loop;
  select coalesce(jsonb_agg(x.value order by p.ordinality,x.ordinality),'[]'::jsonb)into edges
   from unnest(edges_acc)with ordinality p(items,ordinality)cross join lateral jsonb_array_elements(p.items)with ordinality x;
+ select coalesce(jsonb_object_agg(i.k,i.v),'{}'::jsonb)into inputs_by_source from(
+  select x->>'source_key'k,jsonb_agg(x->'input_qty'->'value')v from jsonb_array_elements(edges)x where x->>'source_key'is not null group by x->>'source_key')i;
  for p in select value from jsonb_array_elements(coalesce(wip->'positions','[]'))
   where value->'eligible_company_wip'='true'::jsonb and cp7_wip.pcs(value->'remaining_pcs')>0 loop
-  eta:=(select x->'result'from jsonb_array_elements(scenario->'etas')x where x->>'position_key'=p->>'key');
-  select sum((x->'input_qty'->>'value')::numeric)into allocated from jsonb_array_elements(edges)x where x->>'source_key'=p->>'key';
+  eta:=etas_by_position->(p->>'key');
+  if jsonb_array_length(eta)>1 then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  eta:=eta->0;source_inputs:=inputs_by_source->(p->>'key');
+  select sum(i.qty::numeric)into allocated from jsonb_array_elements_text(coalesce(source_inputs,'[]'))i(qty);
   sources_acc:=array_append(sources_acc,jsonb_build_array(jsonb_build_object('source_key',p->'key','size_id',p->'size_id','stage',p->'stage',
-   'supply_kind',case when exists(select 1 from jsonb_array_elements(n->'matching'->'sources')x where x->>'key'=p->>'key'and x->>'confirmed_target'is not null)then 'DIRECTED'else 'CANDIDATE'end,
+   'supply_kind',case when directed_source_keys?(p->>'key')then 'DIRECTED'else 'CANDIDATE'end,
    'physical_remaining',cp7_analysis_native.fact(p->>'remaining_pcs','PCS',p->'refs'),
    'eligible_input',cp7_analysis_native.fact(p->'projection'->>'eligible_input_pcs','PCS',p->'refs',plan_aids),
    'eligible_projected',cp7_analysis_native.fact(p->'projection'->>'projected_good_pcs','PCS',p->'refs',plan_aids),
@@ -211,16 +245,19 @@ begin
    'completeness',case when complete then 'COMPLETE'else 'PARTIAL'end,'fact_count',part_count,'source_hash',part_hash));
  end loop;
  select sum((x->>'existing_load_minutes')::numeric)into load from jsonb_array_elements(coalesce(scenario->'capacity'->'inputs'->'windows','[]'))x;
- with chunks(kind,items)as(values
-  ('assumptions',to_jsonb(assumptions_acc)),('sources',to_jsonb(sources_acc)),('recommendations',to_jsonb(recommendations_acc)),
-  ('actions',to_jsonb(actions_acc)),('timeline',to_jsonb(timeline_acc)),('models',to_jsonb(models_acc)),
-  ('materials',to_jsonb(materials_acc)),('metrics',to_jsonb(metrics_acc)),('warnings',to_jsonb(warnings_acc)))
- select jsonb_object_agg(kind,coalesce((select jsonb_agg(x.value order by p.ordinality,x.ordinality)
-  from jsonb_array_elements(items)with ordinality p cross join lateral jsonb_array_elements(p.value)with ordinality x),'[]'::jsonb))into assembled from chunks;
- assumptions:=assembled->'assumptions';sources:=assembled->'sources';recommendations:=assembled->'recommendations';
- actions:=assembled->'actions';timeline:=assembled->'timeline';models:=assembled->'models';
- materials:=case when materials_null then null else assembled->'materials'end;
- metrics:=assembled->'metrics';warnings:=assembled->'warnings';
+ -- Flatten each ordered chunk array once, straight from the SQL array (no
+ -- jsonb[] -> jsonb round trip). Order stays chunk order, then element order.
+ select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into assumptions from unnest(assumptions_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
+ select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into sources from unnest(sources_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
+ select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into recommendations from unnest(recommendations_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
+ select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into actions from unnest(actions_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
+ select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into timeline from unnest(timeline_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
+ select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into models from unnest(models_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
+ if materials_null then materials:=null;else
+  select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into materials from unnest(materials_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
+ end if;
+ select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into metrics from unnest(metrics_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
+ select coalesce(jsonb_agg(x.value order by p.o,x.o),'[]'::jsonb)into warnings from unnest(warnings_acc)with ordinality p(v,o)cross join lateral jsonb_array_elements(p.v)with ordinality x(value,o);
  v:=jsonb_build_object('contract_version','cp7.analysis.v2','run_id',p_run,'status',case when complete then 'PARTIAL'else 'BLOCKED'end,
   'snapshot',jsonb_build_object('snapshot_id',captured,'effective_as_of',captured,'known_as_of',captured,'generated_at',captured,'timezone','Asia/Jakarta',
    'knowledge_mode','CURRENT','capture_complete',complete,'fact_count',count_facts,'source_hash',hash),

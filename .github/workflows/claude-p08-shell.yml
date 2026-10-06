@@ -38,6 +38,31 @@ jobs:
           path: test-results/cp7-shell-proof
           if-no-files-found: warn
           retention-days: 30
+  p19-assembly:
+    # Complete compiler vs the exact ab4 predecessor on source stand-ins. Its
+    # 600s deadline is the comparator's own; no Native/HTTP limit changes.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx --no-install vitest run tests/cp7/families/f05-assembly.test.ts tests/cp7/families/f05-timeline.test.ts tests/cp7/families/f05-kernel-maps.test.ts
+      - run: node scripts/cp7_p19_assembly_benchmark.mjs test-results/cp7-shell-proof/P19_ASSEMBLY_KERNEL.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp7-p19-assembly
+          path: test-results/cp7-shell-proof/P19_ASSEMBLY_KERNEL.json
+          if-no-files-found: warn
+          retention-days: 30
   codeql:
     name: CP7 CodeQL ${{ matrix.language }}
     runs-on: ubuntu-latest
