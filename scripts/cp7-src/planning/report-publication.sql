@@ -37,7 +37,7 @@ $$;
 
 create function cp7_analysis_native.report_render(e jsonb,p_kind text,p_title text)returns text
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare x jsonb:=e->'analysis';r jsonb;s jsonb;m jsonb;a jsonb;label jsonb;lines text[];name text;metric_label text;financial_labels jsonb:='{"sales_revenue_gl": "Pendapatan penjualan tercatat", "cogs_gl": "HPP penjualan tercatat", "gross_profit": "Laba kotor", "other_income": "Pendapatan lain tercatat", "operating_and_other_expense": "Beban tercatat", "net_profit": "Laba bersih", "gross_sales_before_discount": "Penjualan sebelum diskon", "line_discounts": "Diskon penjualan", "posted_sales_returns": "Retur penjualan tercatat", "operational_net_sales": "Penjualan bersih operasional", "sales_revenue_bridge_delta": "Selisih penjualan operasional dan jurnal", "assets": "Aset", "cash": "Saldo kas tercatat", "customer_ar": "Piutang pelanggan tercatat", "material_inventory": "Nilai persediaan bahan", "wip_inventory": "Nilai barang dalam proses", "fg_inventory": "Nilai persediaan barang jadi", "liabilities": "Kewajiban", "supplier_final_ap": "Utang pemasok final tercatat", "grni_estimated_liability": "Kewajiban penerimaan belum ditagih tercatat", "recorded_equity": "Ekuitas tercatat", "current_earnings": "Laba berjalan", "liabilities_plus_equity": "Kewajiban dan ekuitas", "balance_difference": "Selisih neraca"}'::jsonb;
+declare x jsonb:=e->'analysis';r jsonb;s jsonb;m jsonb;a jsonb;label jsonb;lines text[];labels_by_target jsonb;action_basis text;name text;metric_label text;financial_labels jsonb:='{"sales_revenue_gl": "Pendapatan penjualan tercatat", "cogs_gl": "HPP penjualan tercatat", "gross_profit": "Laba kotor", "other_income": "Pendapatan lain tercatat", "operating_and_other_expense": "Beban tercatat", "net_profit": "Laba bersih", "gross_sales_before_discount": "Penjualan sebelum diskon", "line_discounts": "Diskon penjualan", "posted_sales_returns": "Retur penjualan tercatat", "operational_net_sales": "Penjualan bersih operasional", "sales_revenue_bridge_delta": "Selisih penjualan operasional dan jurnal", "assets": "Aset", "cash": "Saldo kas tercatat", "customer_ar": "Piutang pelanggan tercatat", "material_inventory": "Nilai persediaan bahan", "wip_inventory": "Nilai barang dalam proses", "fg_inventory": "Nilai persediaan barang jadi", "liabilities": "Kewajiban", "supplier_final_ap": "Utang pemasok final tercatat", "grni_estimated_liability": "Kewajiban penerimaan belum ditagih tercatat", "recorded_equity": "Ekuitas tercatat", "current_earnings": "Laba berjalan", "liabilities_plus_equity": "Kewajiban dan ekuitas", "balance_difference": "Selisih neraca"}'::jsonb;
 begin
  lines:=array[p_title,case p_kind when'DAILY'then'BRIEFING HARIAN'when'PERIOD'then'REVIEW PERIODE'
   when'EXCEPTIONS'then'ANALISIS DAN PENGECUALIAN'else'ARSIP LAPORAN'end,
@@ -47,8 +47,16 @@ begin
    ' WIB; diketahui '||to_char((x->'snapshot'->>'known_as_of')::timestamptz at time zone'Asia/Jakarta','YYYY-MM-DD HH24:MI:SS')||' WIB.',
   'Kesiapan keuangan: '||(x->>'financial_readiness')||'; analisis '||(e->>'run_id')||'.',
   'KONDISI PRODUK DAN SIZE'];
+ -- P19: labels grouped once. A per-row query over the whole outcome copied it
+ -- into every plan (quadratic). Every label per key is kept, so a duplicated
+ -- key still refuses with SQLSTATE 21000 like the former scalar subquery.
+ select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)into labels_by_target from(
+  select value->>'target_key'k,jsonb_agg(value order by o)items from jsonb_array_elements(e->'product_labels')with ordinality l(value,o)
+  where value->>'target_key'is not null group by value->>'target_key')i;
  for r in select value from jsonb_array_elements(x->'recommendations')order by value->'target'->>'key'loop
-  label:=(select value from jsonb_array_elements(e->'product_labels')where value->>'target_key'=r->'target'->>'key');
+  label:=labels_by_target->(r->'target'->>'key');
+  if jsonb_array_length(label)>1 then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  label:=label->0;
   name:=coalesce(label->>'sku',r->'target'->>'key')||' · '||coalesce(label->>'product_name','')||
    ' · size '||(r->'target'->>'size_id');
   lines:=array_append(lines,name||' · '||case r->>'production_state'when'ACTIVE'then'Aktif'when'PAUSED'then'Ditunda'else'Dihentikan'end||': FG '||cp7_analysis_native.report_fact(r->'actual_fg')||
@@ -62,8 +70,10 @@ begin
  lines:=array_append(lines,'TINDAKAN DAN ALASAN');
  for a in select value from jsonb_array_elements(x->'actions')
   order by(value->'display_priority'->>'rank')::numeric nulls first,value->>'key'loop
-  lines:=array_append(lines,(a->>'intent')||' · '||(a->>'key')||': '||
-   (select string_agg(value,'; 'order by ord)from jsonb_array_elements_text(a->'display_priority'->'basis')with ordinality b(value,ord))||
+  -- P19: the basis subquery is evaluated on its own. Inside the append it made
+  -- the whole statement non-simple, passing the growing lines array per row.
+  action_basis:=(select string_agg(value,'; 'order by ord)from jsonb_array_elements_text(a->'display_priority'->'basis')with ordinality b(value,ord));
+  lines:=array_append(lines,(a->>'intent')||' · '||(a->>'key')||': '||action_basis||
    '; alasan '||(a->>'primary_reason')||'; sumber '||(a->'source_links')::text||'.');
  end loop;
  lines:=array_append(lines,'STOK PROSES, BAHAN DAN KAPASITAS');

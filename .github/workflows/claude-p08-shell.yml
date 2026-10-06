@@ -54,13 +54,14 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx --no-install vitest run tests/cp7/families/f05-assembly.test.ts tests/cp7/families/f05-timeline.test.ts tests/cp7/families/f05-kernel-maps.test.ts
+      - run: npx --no-install vitest run tests/cp7/families/f05-assembly.test.ts tests/cp7/families/f05-timeline.test.ts tests/cp7/families/f05-kernel-maps.test.ts tests/cp7/families/f05-report-render.test.ts
       - run: node scripts/cp7_p19_assembly_benchmark.mjs test-results/cp7-shell-proof/P19_ASSEMBLY_KERNEL.json
+      - run: node scripts/cp7_p19_report_render_benchmark.mjs test-results/cp7-shell-proof/P19_REPORT_RENDER_KERNEL.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: cp7-p19-assembly
-          path: test-results/cp7-shell-proof/P19_ASSEMBLY_KERNEL.json
+          path: test-results/cp7-shell-proof/P19_*_KERNEL.json
           if-no-files-found: warn
           retention-days: 30
   codeql:
