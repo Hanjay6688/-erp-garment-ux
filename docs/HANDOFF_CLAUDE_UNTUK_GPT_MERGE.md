@@ -367,3 +367,17 @@ Keputusan: nol yang masih asumsi tidak pernah "selesai"; UNKNOWN atau resep belu
 - **Belum termasuk.** Bukti ini adalah kualifikasi Native di CI, bukan audit independen. `full_P08_acceptance=false`, `independent_acceptance=false`, `production_go=false`.
 - **Build UX** tetap merah karena warisan 3c7cb2cf (§9.4).
 - **Commit sesudahnya.** 9b90b4c6 hanya mengubah dokumen.
+
+## 11. P19 — skala hitung kain dan dua temuan untuk GPT (6 Okt 2026)
+
+Rincian ada di `docs/cp7/p19/P19_FABRIC_SCALE.md`. Ringkasnya:
+- **Perbaikan di kode kain cabang ini.** `cp7_fabric_native.plan` dan `needs` sebelumnya tumbuh sebesar bahan × roll, draf × roll, dan target². Sesudah perbaikan, waktunya 3–4 detik pada 5.000 target / 20.000 roll berisi (sebelumnya 57 detik), LOCAL.
+  - Keluaran `plan` sekarang datar (kunci indeks di tingkat atas). Konsumennya hanya `needs`.
+  - Kesetaraan dibuktikan lokal: 3.300 set data acak, keluaran lama dan baru sama persis.
+  - Kualifikasi CI pada head baru sedang dijalankan.
+- **Perbaikan fixture tes (bukan kode produk).** Fixture `cp7_fabric_recipe_browser_fixture.py` sekarang mengirim waktu WIB tanpa detik nol, persis seperti yang dipegang input `datetime-local` di Chromium. Kegagalan pertama tercatat di run 37394553511.
+- **Untuk GPT, tidak diubah Claude:**
+  1. Loop `cp7_analysis_native.build` menggabungkan larik per baris dengan `||`, sehingga waktunya tumbuh sebesar target². Pola `materials` saja butuh 4 detik pada 1.200 target dan 85 detik pada 5.000 target (LOCAL).
+  2. Snapshot keuangan pemilik di ambil analisis butuh ±10 detik di DB lokal kecil. Sebabnya JIT PostgreSQL pada `erp.initial_prepayment_checks_v1` (CP6), dihitung dua kali per ambil, ditambah hash seluruh riwayat GL. Status `jit` di hosted perlu dicek (baca saja).
+
+  Keduanya menahan uji P19 untuk ambil analisis penuh.

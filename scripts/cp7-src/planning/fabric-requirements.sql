@@ -177,14 +177,15 @@ $$;
 
 create function cp7_fabric_native.recipe_state(ix jsonb,r jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare recipe jsonb:=ix->'selected'->(r->>'target_key');cfg jsonb;m jsonb;p jsonb;refs jsonb:='[]';valid boolean:=false;
+declare recipe jsonb:=ix#>array['selected',r->>'target_key'];cfg jsonb;m jsonb;p jsonb;refs jsonb:='[]';valid boolean:=false;
 begin
+ -- P19: #> walks the containers; ix->'selected' would copy every recipe per row.
  if recipe is null then return jsonb_build_object('recipe',null,'valid',false,'refs',refs,'gross',null);end if;
  cfg:=recipe->'config';refs:=jsonb_build_array(cp7_wip.ref('CP7_FABRIC_RECIPE',recipe->>'id',recipe->>'revision'));
- m:=ix->'materials'->(cfg->>'material_id');
+ m:=ix#>array['materials',cfg->>'material_id'];
  if m is not null then refs:=refs||jsonb_build_array(cp7_wip.ref('erp.materials',m->>'id',cp7_fabric_native.material_hash(m)));end if;
  if cfg->'pattern_id'<>'null'::jsonb then
-  p:=ix->'patterns'->(cfg->>'pattern_id');
+  p:=ix#>array['patterns',cfg->>'pattern_id'];
   if p is not null then refs:=refs||jsonb_build_array(cp7_wip.ref('erp.production_patterns',p->>'id',
    encode(extensions.digest(convert_to(p::text,'UTF8'),'sha256'),'hex')));end if;
  end if;
@@ -213,7 +214,7 @@ declare ph jsonb:=c->'fabric_source'->'physical';ix jsonb:=cp7_fabric_native.ind
  upper text;captured timestamptz:=(c->>'captured_at')::timestamptz;today date:=((c->>'captured_at')::timestamptz at time zone 'Asia/Jakarta')::date;
 begin
  if ph is null or ph->>'contract_version'is distinct from'cp7.fabric-physical.v1'then
-  return jsonb_build_object('index',ix,'targets','{}'::jsonb,'physical_source',false);end if;
+  return ix||jsonb_build_object('targets','{}'::jsonb,'physical_source',false);end if;
  select coalesce(jsonb_object_agg(k,true),'{}'::jsonb)into unresolved_targets from(select distinct x->>'target_key'k
   from jsonb_array_elements(coalesce(n->'match_results','[]'))x where x->'result'->>'match'in('UNKNOWN','NEEDS_CHECK'))s;
  -- Coverage is evaluated over every unposted composition on the same roll and
@@ -230,19 +231,27 @@ begin
  cell as materialized(select coalesce(s.roll,d.roll)roll,coalesce(s.loc,d.loc)loc,coalesce(s.qty,0)stock,coalesce(d.qty,0)drafted
    from stock s full join drafted d on d.roll=s.roll and d.loc is not distinct from s.loc),
  linked as(select distinct i->>'target_key'tkey,d from jsonb_array_elements(ph->'drafts')d cross join jsonb_array_elements(d->'intents')i),
- checked as(select l.tkey,l.d->>'id'gid,l.d->>'revision'rev,
+ -- P19: each distinct linked draft is checked once with hash joins. A
+ -- per-draft correlated scan of every roll and cell grew as drafts x rolls.
+ dline as materialized(select x.d,l->>'roll_id'roll from(select distinct d from linked)x cross join jsonb_array_elements(x.d->'lines')l),
+ dcheck as materialized(select dl.d,
+   bool_or(ro.id is null or ro.status not in('AVAILABLE','HALF_USED')or not ro.consistent or ce.roll is null or ce.stock<0 or ce.stock<ce.drafted)bad,
+   jsonb_agg(distinct ro.material)materials
+  from dline dl left join roll ro on ro.id=dl.roll
+   left join cell ce on ce.roll=dl.roll and ce.loc is not distinct from dl.d->>'source_location_id'
+  group by dl.d),
+ checked as materialized(select l.tkey,l.d->>'id'gid,l.d->>'revision'rev,
    (select coalesce(sum((x->>'qty_issued')::numeric),0)from jsonb_array_elements(l.d->'lines')x)qty,
    not exists(select 1 from jsonb_array_elements(l.d->'intents')i where i->>'target_key'<>l.tkey)
    and coalesce((select ok from loc where id=l.d->>'source_location_id'),false)
    and jsonb_array_length(l.d->'lines')>0
-   and not exists(select 1 from jsonb_array_elements(l.d->'lines')x left join roll ro on ro.id=x->>'roll_id'
-    left join cell ce on ce.roll=x->>'roll_id'and ce.loc is not distinct from l.d->>'source_location_id'
-    where ro.id is null or ro.status not in('AVAILABLE','HALF_USED')or not ro.consistent or ce.roll is null or ce.stock<0 or ce.stock<ce.drafted)ok,
-   (select coalesce(jsonb_agg(distinct ro.material),'[]'::jsonb)from jsonb_array_elements(l.d->'lines')x left join roll ro on ro.id=x->>'roll_id')materials
-  from linked l)
- select coalesce(jsonb_object_agg(tkey,body),'{}'::jsonb)into drafts from(select c0.tkey,jsonb_build_object('qty',trim_scale(sum(qty))::text,'ok',bool_and(ok),
-   'materials',(select coalesce(jsonb_agg(distinct m),'[]'::jsonb)from checked k cross join jsonb_array_elements(k.materials)m where k.tkey=c0.tkey),
-   'refs',jsonb_agg(cp7_wip.ref('erp.cutting_groups',gid,rev)order by gid))body from checked c0 group by c0.tkey)a;
+   and not coalesce(k.bad,false)ok,
+   coalesce(k.materials,'[]'::jsonb)materials
+  from linked l left join dcheck k on k.d=l.d),
+ tmats as(select k.tkey,jsonb_agg(distinct m)materials from checked k cross join jsonb_array_elements(k.materials)m group by k.tkey)
+ select coalesce(jsonb_object_agg(a.tkey,jsonb_build_object('qty',a.qty,'ok',a.ok,'materials',coalesce(t.materials,'[]'::jsonb),'refs',a.refs)),'{}'::jsonb)
+  into drafts from(select c0.tkey,trim_scale(sum(qty))::text qty,bool_and(ok)ok,
+   jsonb_agg(cp7_wip.ref('erp.cutting_groups',gid,rev)order by gid)refs from checked c0 group by c0.tkey)a left join tmats t on t.tkey=a.tkey;
  with loc as(select x->>'id'id,(x->>'location_type'='RAW_MATERIAL_WAREHOUSE'and x->'is_active'='true'::jsonb)ok
    from jsonb_array_elements(ph->'locations')x),
  roll as(select x->>'id'id,x->>'material_id'material,x->>'status'status,x->'consistent'='true'::jsonb consistent,x
@@ -255,22 +264,31 @@ begin
  cell as materialized(select coalesce(s.roll,d.roll)roll,coalesce(s.loc,d.loc)loc,coalesce(s.qty,0)stock,coalesce(d.qty,0)drafted
    from stock s full join drafted d on d.roll=s.roll and d.loc is not distinct from s.loc),
  pending_lines as(select x from jsonb_array_elements(ph->'commitments')x where(x->>'remaining')::numeric>0),
- mats as(select distinct x->'config'->>'material_id'material from jsonb_array_elements(c->'fabric_source'->'selected')x)
+ mats as(select distinct x->'config'->>'material_id'material from jsonb_array_elements(c->'fabric_source'->'selected')x),
+ -- P19: every per-material fact is one grouped pass joined to mats; a
+ -- correlated scan per material grew as materials x rolls.
+ free as(select ro.material,trim_scale(sum(greatest(0,ce.stock-ce.drafted)))::text qty from cell ce join roll ro on ro.id=ce.roll join loc on loc.id=ce.loc
+   where ro.status in('AVAILABLE','HALF_USED')and ro.consistent and loc.ok group by ro.material),
+ by_roll as(select ro.material,bool_or(not ro.consistent)bad,jsonb_agg(ro.x order by ro.id)rolls from roll ro group by ro.material),
+ negative as(select distinct ro.material from cell ce join roll ro on ro.id=ce.roll where ce.stock<0),
+ by_line as(select ro.material,bool_or(li.manual)manual,jsonb_agg(distinct li.d)drafts from line li join roll ro on ro.id=li.roll group by ro.material),
+ incoming as(select o.x->>'material_id'material,jsonb_agg(o.x order by o.x->>'id')lines,
+   bool_or(not coalesce((select ok from loc where id=o.x->>'location_id'),false))bad_location from pending_lines o group by o.x->>'material_id'),
+ committed as(select x->>'material_id'material,jsonb_agg(x order by x->>'id')lines from jsonb_array_elements(ph->'commitments')x group by x->>'material_id')
  select coalesce(jsonb_object_agg(m.material,jsonb_build_object(
-   'free',(select trim_scale(coalesce(sum(greatest(0,ce.stock-ce.drafted)),0))::text from cell ce join roll ro on ro.id=ce.roll join loc on loc.id=ce.loc
-    where ro.material=m.material and ro.status in('AVAILABLE','HALF_USED')and ro.consistent and loc.ok),
-   'bad',exists(select 1 from roll ro where ro.material=m.material and not ro.consistent)
-    or exists(select 1 from cell ce join roll ro on ro.id=ce.roll where ro.material=m.material and ce.stock<0),
-   'manual',exists(select 1 from line li join roll ro on ro.id=li.roll where ro.material=m.material and li.manual),
-   'incoming',(select coalesce(jsonb_agg(o.x order by o.x->>'id'),'[]'::jsonb)from pending_lines o where o.x->>'material_id'=m.material),
-   'incoming_location_ok',not exists(select 1 from pending_lines o where o.x->>'material_id'=m.material
-    and not coalesce((select ok from loc where id=o.x->>'location_id'),false)),
+   'free',coalesce(f.qty,'0'),
+   'bad',coalesce(br.bad,false)or ng.material is not null,
+   'manual',coalesce(bl.manual,false),
+   'incoming',coalesce(i.lines,'[]'::jsonb),
+   'incoming_location_ok',not coalesce(i.bad_location,false),
    'hash',encode(extensions.digest(convert_to(jsonb_build_object(
-    'rolls',(select coalesce(jsonb_agg(ro.x order by ro.id),'[]'::jsonb)from roll ro where ro.material=m.material),
-    'drafts',(select coalesce(jsonb_agg(distinct li.d),'[]'::jsonb)from line li join roll ro on ro.id=li.roll where ro.material=m.material),
+    'rolls',coalesce(br.rolls,'[]'::jsonb),
+    'drafts',coalesce(bl.drafts,'[]'::jsonb),
     'locations',ph->'locations',
-    'commitments',(select coalesce(jsonb_agg(x order by x->>'id'),'[]'::jsonb)from jsonb_array_elements(ph->'commitments')x where x->>'material_id'=m.material))::text,'UTF8'),'sha256'),'hex'))),'{}'::jsonb)
-  into pools from mats m;
+    'commitments',coalesce(cm.lines,'[]'::jsonb))::text,'UTF8'),'sha256'),'hex'))),'{}'::jsonb)
+  into pools from mats m left join free f on f.material=m.material left join by_roll br on br.material=m.material
+   left join negative ng on ng.material=m.material left join by_line bl on bl.material=m.material
+   left join incoming i on i.material=m.material left join committed cm on cm.material=m.material;
  -- Claimants consume fabric for a new start. A known zero gap or a paused or
  -- stopped policy consumes none. Any other row without a proved recipe could
  -- need any fabric, so every shared stock/commitment split becomes uncertain.
@@ -363,13 +381,15 @@ begin
    'free',pool->'free','incoming_lines',coalesce(jsonb_array_length(pool->'incoming'),0),'unresolved_other_rows',unresolved,
    'material_claimants',coalesce((stat->>'claimants')::integer,0)));
  end loop;
- return jsonb_build_object('index',ix,'physical_source',true,
+ -- The result carries the index keys at top level; needs() passes it to
+ -- recipe_state unchanged, so no row copies the whole index or target map.
+ return ix||jsonb_build_object('physical_source',true,
   'targets',coalesce((select jsonb_object_agg(x->>'target_key',x)from unnest(results)x),'{}'::jsonb));
 end $$;
 
 create function cp7_fabric_native.needs(c jsonb,r jsonb,assumptions jsonb,plan jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare st jsonb:=cp7_fabric_native.recipe_state(plan->'index',r);recipe jsonb:=nullif(st->'recipe','null'::jsonb);
+declare st jsonb:=cp7_fabric_native.recipe_state(plan,r);recipe jsonb:=nullif(st->'recipe','null'::jsonb);
  m jsonb:=nullif(st->'material','null'::jsonb);p jsonb:=nullif(st->'pattern','null'::jsonb);
  refs jsonb:=(r->'refs')||(st->'refs');ids jsonb:=assumptions;gross text:=st->>'gross';x jsonb;
  unit text:='MATERIAL_BASE_UNIT';material text:='FABRIC_UNREVIEWED:'||(r->>'target_key');
@@ -381,7 +401,7 @@ begin
   unit:=st->>'unit';material:='FABRIC_MATERIAL:'||(st->>'material_id');ids:=ids||jsonb_build_array(recipe->>'id');
   installed:=cp7_analysis_native.fact(null,unit,refs);unused:=installed;external:=installed;
   if gross is not null then
-   x:=plan->'targets'->(r->>'target_key');
+   x:=plan#>array['targets',r->>'target_key'];
    reason:=(m->>'material_name')||': kebutuhan kain memakai pemakaian per PCS yang dipilih, bukan pemakaian aktual. '
     ||case when p is null then 'Pola belum dipilih. 'else 'Pola '||(p->>'pattern_code')||' versi '||(p->>'revision')||'. 'end;
    if x is null then
