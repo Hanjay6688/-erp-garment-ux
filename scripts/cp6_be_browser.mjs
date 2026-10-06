@@ -67,8 +67,11 @@ async function rework(ui,today,redye){
     await navigate(p,'Barang BS & Rework','Produksi')
     await ui.expect(p.getByRole('button',{name:'Refetch',exact:true})).toBeEnabled({timeout:20000})
     await p.locator('.cbsr-tabs').getByRole('button',{name:'Semua',exact:true}).click()
-    await p.getByPlaceholder('Nomor, PO, model, Pola, pihak…').fill(f.bs_number)
-    await p.locator('.cbsr-search').getByRole('button',{name:'Cari',exact:true}).click()
+    // CP7 (5e4af78f) moved the BS search into the shared RecordTools form. Its
+    // "Cari" button only focuses the field; "Cari kasus" submits the search.
+    const search=p.getByRole('form',{name:'Cari, browse, urutkan dan filter BS dan claim',exact:true})
+    await search.getByLabel('Cari BS atau claim',{exact:true}).fill(f.bs_number)
+    await search.getByRole('button',{name:'Cari kasus',exact:true}).click()
     await p.locator('.cbsr-list button').filter({hasText:f.bs_number}).click()
     await p.locator('.cbsr-route-tabs').getByRole('button',{name:redye?'Rewash':'Rework',exact:true}).click()
     const form=p.locator('.cbsr-route-form')
