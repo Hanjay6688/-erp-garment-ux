@@ -44,7 +44,7 @@ def run():
   report['advisors_with_cp7']=advisors(package.boundary.PG)
   # Keep the frozen reader/runner and every member/hash intact. Retain the raw
   # catalogs too so physical pair order is distinguishable from any real delta.
-  with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+  with exact_public_catalog(native,retain_raw=True,retain_locations=True)as catalog_audit:
    report['native_public_catalog_comparison']=catalog_audit
    report['native']=native.strict_group('CP7_F03_E05',installment_cases.cases,verify)
   report['races']=modes.run_races(installment_cases,verify,'cp7_f03_e05')

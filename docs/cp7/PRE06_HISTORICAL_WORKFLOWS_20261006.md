@@ -1,0 +1,11 @@
+# PRE-06: historical dispatchers are explicitly historical
+
+Fable's prefreeze round16 classifies run37431681102 (`cp3-r4-full-schema-validation.yml`) as INFRA/EXPIRED_ARTIFACT: the encrypted CP2 backup and separate key in CI run33430989888 are gone. Run37431684320 (`cp5-full-schema-validation.yml`) is AUDITOR_TOOL/NOT_APPLICABLE: its historical branch ancestry, no-merge and current-head contract cannot be applied to `cp7/integration`. These are retained historical failures, not failed business regressions.
+
+Both workflow display names now say **Historical Snapshot Qualification** and identify their snapshot dates. An early source-branch refusal explicitly states `HISTORICAL_WORKFLOW_NOT_APPLICABLE` and zero CP7 regression credit before checkout, dependency installation or database work. The original historical source, ancestry, rollback, business and restoration checks remain unchanged. A mismatched dispatch fails; it is not skipped or converted to green. The old branches retain their original workflows in their historical commits.
+
+The CP3 artifact is not repinned to an invented replacement. The encrypted CP2 source and recovery key were recovered separately and the149-member archive verified, as recorded in `RESUME_QUALIFICATION_20261005.md` and `evidence/writer-resume-20261005/CP2_ENCRYPTED_RECOVERY.json`. That recovery does not resurrect the expired Actions artifact or constitute a fresh CP3 run. No private backup or recovery key is published by this change.
+
+Applicable inherited numerical regression is `.github/workflows/cp6-t2-regression.yml`: original326 plus AS34, AR174 and AT16/AU15 with actual race/control executions and their existing per-case dispositions. Fable round16 already compared those at its declared prefreeze source; that result is not relabelled for a newer product commit. Applicable CP7 UI migration is `.github/workflows/cp7-prefreeze-ui.yml`, with29 unchanged cases and two declared connected P11 replacements on the full Native F03 stack. A run always belongs to its exact source commit.
+
+Writer disposition: PRE-06 resolved by explicit historical classification and a truthful source refusal, as allowed by the auditor's requested remedy. Independent auditor closure remains theirs. No product rule, ERP SQL, current T2 oracle or historical result changes.

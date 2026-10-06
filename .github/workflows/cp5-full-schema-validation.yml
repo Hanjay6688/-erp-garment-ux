@@ -1,4 +1,6 @@
-name: CP5 BS Resolution and Cutting Bridge Full-Schema Validation
+name: CP5 Historical Snapshot Qualification (2026-09-03)
+# Historical ancestry/identity contract retained; it is not a CP7 regression dispatcher.
+# Current regression uses cp6-t2-regression.yml; see docs/cp7/PRE06_HISTORICAL_WORKFLOWS_20261006.md.
 
 on:
   push:
@@ -28,6 +30,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 65
     steps:
+      - name: Refuse a nonhistorical source before starting the old runtime
+        shell: bash
+        run: |
+          if [ "$GITHUB_REF_NAME" != 'pre-cp5/cutting-persistence-pickup-wip-r1-20260903' ]; then
+            echo '::error title=HISTORICAL_WORKFLOW_NOT_APPLICABLE::This CP5 snapshot workflow adds zero CP7 regression credit. Use cp6-t2-regression.yml on the CP7 candidate.'
+            exit 1
+          fi
       - name: Checkout exact CP5 candidate
         uses: actions/checkout@v4
         with:

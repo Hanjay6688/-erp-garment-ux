@@ -1,4 +1,6 @@
-name: CP3 R5 Current-Main Integration Validation
+name: CP3 R5 Historical Snapshot Qualification (2026-09-01)
+# Historical source only. The referenced CI recovery artifact has expired.
+# CP7 regression uses cp6-t2-regression.yml; see docs/cp7/PRE06_HISTORICAL_WORKFLOWS_20261006.md.
 
 on:
   push:
@@ -43,6 +45,13 @@ jobs:
       CP3_R3_CONCURRENCY_REPORT: cp3-r3-concurrency-report.json
       CP3_R4_CONCURRENCY_REPORT: cp3-r4-concurrency-report.json
     steps:
+      - name: Refuse a nonhistorical source before starting the old runtime
+        shell: bash
+        run: |
+          if [ "$GITHUB_REF_NAME" != 'cp3/hpp-attendance-sewing-terminal-r5-integration-20260901' ]; then
+            echo '::error title=HISTORICAL_WORKFLOW_NOT_APPLICABLE::This CP3 snapshot workflow adds zero CP7 regression credit. Use cp6-t2-regression.yml on the CP7 candidate.'
+            exit 1
+          fi
       - name: Checkout exact R5 integration candidate
         uses: actions/checkout@v4
 

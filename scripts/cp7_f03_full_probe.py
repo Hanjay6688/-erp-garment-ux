@@ -85,7 +85,7 @@ def run():
       # Retain each complete raw public catalog while comparing every original
       # signature/hash/member in canonical pair order. The frozen CP6 runner
       # and reader remain unchanged, including every strict group gate.
-      with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+      with exact_public_catalog(native,retain_raw=True,retain_locations=True)as catalog_audit:
        try:result=native.strict_group(phase.upper(),getattr(module,g['entry']),verify)
        finally:report.setdefault('native_public_catalog_comparisons',{})[key]=catalog_audit
      elif g['kind']=='races':result=modes.run_races(module,verify,phase)

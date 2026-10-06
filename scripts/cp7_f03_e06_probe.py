@@ -42,7 +42,7 @@ def run():
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+  with exact_public_catalog(native,retain_raw=True,retain_locations=True)as catalog_audit:
    report['native_public_catalog_comparison']=catalog_audit
    report['native']=native.strict_group('CP7_F03_E06',cases.cases,verify)
   report['races']=modes.run_races(cases,verify,'cp7_f03_e06')
