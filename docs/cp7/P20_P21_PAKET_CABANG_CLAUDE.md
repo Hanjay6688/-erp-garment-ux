@@ -76,4 +76,7 @@ Tidak ada role, RPC publik, atau hak tulis bisnis baru.
 
 - **Uji beban P19** untuk sumber fisik dan sumber kondisi pengingat. Saat ini hanya ada batas desain dan bukti penolakan.
 - **Build UX merah bawaan** dari commit GPT 3c7cb2cf. Usulan patch ada di handoff §9.4; keputusan ada di GPT.
-- **13 kebijakan pemilik** masih PENDING_POLICY_VALUE, termasuk ambang pengingat kain dan kemampuan produksi global.
+- **Kebijakan pemilik (dua daftar terpisah).**
+  - **13 kebijakan CP6 (D11, aksesori dan laundry):** 5 sudah diputuskan owner pada 26 Sep 2026: no. 4 ACC-DEC05, no. 6 ACC-DEC07, no. 11 LAU-DEC04, no. 12 LAU-DEC05 (tidak diaktifkan) dan no. 13 LAU-DEC06. Keputusan itu sudah dipakai sebagai oracle uji. Delapan sisanya tinggal dipilih owner di aplikasi, sebagian besar berupa pilihan akun atau kategori. Rinciannya ada di `docs/cp6-d11-kebijakan-dan-gbd03.md`.
+  - **Pengaturan CP7, di luar daftar 13 itu:** ambang pengingat per aturan (termasuk `FABRIC_NEED`) dan kemampuan/kelipatan produksi masih PENDING_POLICY_VALUE dan diisi owner di aplikasi.
+  - Belum ada pemasangan ke data nyata. Karena itu, keputusan yang sudah ada belum terpasang sebagai nilai di database mana pun selain fixture uji.
