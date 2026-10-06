@@ -50,6 +50,11 @@ describe('receipt correction contract', () => {
     expect(correctionPayload(w, lines, 'Jumlah salah ketik', invoices).problem).toBeNull()
     invoices[0].lines[0].discount = '5000'
     expect(correctionPayload(w, lines, 'Jumlah salah ketik', invoices).problem).toContain('Diskon')
+    // A full discount is compared exactly: 2.3 x 15750.5 is 36226.149999999994 in binary floating point.
+    Object.assign(invoices[0].lines[0], { qty: '2.3', price: '15750.5', discount: '36226.15' })
+    expect(correctionPayload(w, lines, 'Diskon penuh', invoices).problem).toBeNull()
+    invoices[0].lines[0].discount = '36226.151'
+    expect(correctionPayload(w, lines, 'Diskon penuh', invoices).problem).toContain('Diskon')
     expect(() => parseReceiptCorrectionWorkspace({ ...workspace(false, true), invoices: [{ ...workspace(false, true).invoices[0], lines: [{ ...workspace(false, true).invoices[0].lines[0], purchase_item_id: ids.rev }] }] }, ids.root)).toThrow()
   })
   it('fixes only the name of the same material', () => {

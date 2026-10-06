@@ -7,7 +7,7 @@ import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
 import {cp6WibDateTimeInput,cp6WibPhysicalTimeToIso,formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal as numberText} from './procurementContract'
-import {parseSalesCash,salesCashAmount,salesCashCents,type SalesCash,type SalesCashAccount,type SalesPayment} from './salesCashContract'
+import {parseSalesCash,salesCashAmount,salesCashCents,signedSalesCashCents,type SalesCash,type SalesCashAccount,type SalesPayment} from './salesCashContract'
 import type {SalesRead} from './salesReadContract'
 import type {Json} from './types/database.preconnect'
 import SalesPaymentCorrectionPanel from './SalesPaymentCorrectionPanel'
@@ -31,7 +31,7 @@ export default function SalesPaymentPanel({source,locked,stale,onClose,onSave}:P
  const canPay=identity.permissions.includes('sales.payment.create')&&identity.permissions.includes('sales.payment.post'),canReverse=identity.permissions.includes('sales.payment.reverse')&&['OWNER','ADMIN'].includes(identity.profile.role)
  const canCorrect=canPay&&canReverse
  const disabled=locked||stale||busy||!data,physical=cp6WibPhysicalTimeToIso(at),exact=salesCashAmount(amount),balance=source.financial?.open_balance
- const validAmount=exact!==null&&salesCashCents(exact)>0n&&balance!==null&&balance!==undefined&&salesCashCents(exact)<=salesCashCents(balance)
+ const validAmount=exact!==null&&salesCashCents(exact)>0n&&balance!==null&&balance!==undefined&&salesCashCents(exact)<=signedSalesCashCents(balance)
  const valid=review&&reason.trim().length>=5&&(reverse?reverse.status==='POSTED':canPay&&number.trim()&&physical&&bank&&validAmount&&['POSTED','PARTIAL_PAID'].includes(source.status))
  const save=()=>{if(disabled||!valid||!source.review_token)return
   const base={sale_id:source.id,review_token:source.review_token,change_reason:reason.trim()}

@@ -321,6 +321,10 @@ def cases(cur,today):
     def overpaid_credit():
         f=roll_receipt(cur,today,rolls=('100',),day_offset=10);t=roll_receipt(cur,today,rolls=('100',),day_offset=2)
         masters=bc.fixture(cur,today,purchase=False,zones=False);pay_day=f['day']+timedelta(days=1)
+        # A payment cancelled before the correction keeps its own cancellation date.
+        early=bc.supplier_payment(cur,f['purchase'],'50',masters['cash'],pay_day);bc.internal(cur,'post_supplier_payment',early)
+        bc.internal(cur,'reverse_supplier_payment',early,'RF payment cancelled before the correction');b.api.admin(cur)
+        cancel=cur.execute("select v.id,v.economic_date from erp.journal_entries v join erp.journal_entries o on o.id=v.reversal_of_id where v.source_type='JOURNAL_REVERSAL' and o.source_type='SUPPLIER_PAYMENT' and o.source_id=%s",(early,)).fetchone()
         payment=bc.supplier_payment(cur,f['purchase'],'1000',masters['cash'],pay_day);bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
         cash=lambda:cur.execute("select sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id join erp.cash_accounts c on c.coa_account_id=l.account_id where c.id=%s and j.status in('POSTED','REVERSED')",(masters['cash'],)).fetchone()[0]
         state=lambda pid:cur.execute("select round(erp.material_purchase_payable_total(h.id),2),coalesce((select sum(amount) from erp.supplier_payments where purchase_id=h.id and status='POSTED'),0),h.payment_status from erp.material_purchase_headers h where h.id=%s",(pid,)).fetchone()
@@ -338,9 +342,21 @@ def cases(cur,today):
         delta=ledger_delta(before,ledger(cur));assert delta=={'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)},delta
         dd=dated_delta(dated,by_date(cur));assert dd=={f['day']:{'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)}},dd
         same_checks(chk,checks(cur));reversal_dates(cur)
-        return dict(status='PASS',paid_1000_corrected_800=True,credit_200_cut_from_next_nota=True,next_nota_received_later_paid_200_partial=True,
+        assert cur.execute('select economic_date from erp.journal_entries where id=%s',(cancel[0],)).fetchone()[0]==cancel[1]
+        assert not cur.execute('select exists(select 1 from cp7_receipt_fix.journal_restatements where inverse_journal_id=%s)',(cancel[0],)).fetchone()[0]
+        return dict(status='PASS',paid_1000_corrected_800=True,earlier_cancellation_keeps_its_own_date=True,credit_200_cut_from_next_nota=True,next_nota_received_later_paid_200_partial=True,
           same_cash_account_and_original_date=True,note_retur_bayangan_barang_tidak_pernah_diterima=True,cash_unchanged=True,
           effects_on_receipt_date_only=True,all_integrity_checks_unchanged=True)
+    def credit_restored():
+        """A supplier credit moved onto a receipt and later moved back no longer blocks correcting it."""
+        import cp6_bf_supplier_probe as bfs
+        f=bfs.fixture(cur,today);a,z,k=f['purchases'];code='CP7_RECEIPT_FIX_SUPPLIER_CREDIT_ACTIVE'
+        codes=lambda pid:[x['code'] for x in ws(cur,pid)['blockers']]
+        bfs.call(cur,bfs.payload(cur,f,[(z,'20.00')]));b.api.admin(cur);assert code in codes(z),codes(z)
+        bfs.call(cur,bfs.payload(cur,f,[]));b.api.admin(cur)
+        assert cur.execute('select count(*) from erp.bf_supplier_credit_moves_v1 where target_purchase_id=%s',(z,)).fetchone()[0]==2
+        assert code not in codes(z),codes(z)
+        return dict(status='PASS',moved_credit_blocks=True,restored_credit_net_zero_unblocks=True,append_only_history_kept=True)
     def opening_advance():
         """Receipt paid 60 from the supplier's opening advance (uang muka saldo awal) and 400 cash, corrected twice."""
         # Every date is in the past at any hour (a receipt at today 10:00 WIB is
@@ -824,7 +840,7 @@ def cases(cur,today):
       ('RF_INVOICE_PRICE_AFTER_SALE',invoice_price_after_sale),('RF_INVOICED_QTY_DOWN_WITH_PAYMENT',invoiced_qty_down),
       ('RF_INVOICE_INCOMPLETE_REFUSED',invoice_refusals),('RF_SHARED_INVOICE_CORRECTED',shared_invoice),('RF_CLOSED_PERIOD_CORRECTION',closed_period),('RF_REPEATED_REVISIONS',repeated),('RF_REPLAY_SAME_REQUEST',replay),
       ('RF_REVIEW_CHANGED_REFUSED',review_changed),('RF_ACCESS_CURRENT_AUTHORITY',access),('RF_YEAR_HISTORY_364',year_history),('RF_YEAR_FINAL_INVOICE_PRICE',year_final_invoice),
-      ('RF_DRAFT_ROLL_USE_BLOCKS',draft_roll_use),('RF_DUPLICATE_LINES_KEEP_LOT',duplicate_lines),
+      ('RF_DRAFT_ROLL_USE_BLOCKS',draft_roll_use),('RF_CREDIT_RESTORED_UNBLOCKS',credit_restored),('RF_DUPLICATE_LINES_KEEP_LOT',duplicate_lines),
       ('RF_LATE_FAILURE_ATOMIC',late_failure),('RF_ACCESSORY_LINE_QTY',accessory),('RF_MATERIAL_NAME_TYPO',name_typo),('RF_MATERIAL_SKU_TYPO',sku_typo),('RF_MATERIAL_NAME_REFUSALS',name_refusals)]
     assert [n for n,_ in tests]==MANIFEST['groups']['native']
     return tests

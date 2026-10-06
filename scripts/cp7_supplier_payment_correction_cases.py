@@ -134,10 +134,14 @@ def cases(cur,today):
         for change in [{'extra':'unowned'},{'amount':'0.00'},{'amount':'1.001'},{'payment_date':None}]:
             bad=copy.deepcopy(p);bad['replacement'].update(change);auth.refused(cur,lambda:correct(cur,bad),'CP7_SUPPLIER_PAYMENT_CORRECTION_FIELDS');assert b.boundary.snapshot(cur)==before
         bad=payload(cur,f,f['original']['amount']);auth.refused(cur,lambda:correct(cur,bad),'CP7_SUPPLIER_PAYMENT_CORRECTION_UNCHANGED');assert b.boundary.snapshot(cur)==before
+        # Same dating rules as a new payment: not in the future, not moved before the goods arrived.
+        now,arrived=cur.execute('select statement_timestamp(),h.physical_at from erp.material_purchase_headers h where h.id=%s',(p['purchase_id'],)).fetchone()
+        for when,code in ((now+timedelta(days=1),'CP7_SUPPLIER_PAYMENT_DATE_FUTURE'),(arrived-timedelta(hours=1),'CP7_SUPPLIER_PAYMENT_BEFORE_RECEIPT')):
+            bad=copy.deepcopy(p);bad['replacement']['payment_date']=when.isoformat();auth.refused(cur,lambda:correct(cur,bad),code);assert b.boundary.snapshot(cur)==before
         bank=bc.bank_account(cur,'SUP-INACTIVE-'+uuid.uuid4().hex[:8]);cur.execute('update erp.cash_accounts set is_active=false where id=%s',(bank,));p['replacement']['cash_account_id']=bank;before=b.boundary.snapshot(cur)
         auth.refused(cur,lambda:correct(cur,p),'');assert b.boundary.snapshot(cur)==before
         p=payload(cur,f,'1000.01');auth.refused(cur,lambda:correct(cur,p),'');assert b.boundary.snapshot(cur)==before
-        return dict(status='PASS',closed_fields_positive_exact_cents_noop_inactive_bank_overpayment_all_atomic=True)
+        return dict(status='PASS',closed_fields_positive_exact_cents_noop_inactive_bank_overpayment_all_atomic=True,future_or_before_receipt_time_refused=True)
     def replay():
         f=fixture(cur,today,historical=True);p=payload(cur,f);key=uuid.uuid4();one=correct(cur,p,key);check(cur,f,p,one,key);before=b.boundary.snapshot(cur);private=private_state(cur);assert correct(cur,p,key)==one and b.boundary.snapshot(cur)==before and private_state(cur)==private
         changed=copy.deepcopy(p);changed['replacement']['amount']='21.01';auth.refused(cur,lambda:correct(cur,changed,key),'CP7_SUPPLIER_PAYMENT_REQUEST_CHANGED')

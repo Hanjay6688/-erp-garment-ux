@@ -165,6 +165,10 @@ begin
  -- Rebind the full Native source/AP/journal token to the now-locked rows.
  ap:=cp7_invoice.payment_ap(h.id);d:=cp7_invoice.payment_detail(original.id,ap);
  if d->>'review_token'is distinct from p->>'review_token'then raise exception 'CP7_SUPPLIER_PAYMENT_STALE_REVIEW';end if;
+ -- The create path's dating rules: never in the future, and a changed time never
+ -- before the goods arrived (money paid earlier is an advance, another document).
+ if(p->'replacement'->>'payment_date')::timestamptz>statement_timestamp()then raise exception 'CP7_SUPPLIER_PAYMENT_DATE_FUTURE';end if;
+ if(p->'replacement'->>'payment_date')::timestamptz<>original.payment_date and(p->'replacement'->>'payment_date')::timestamptz<h.physical_at then raise exception 'CP7_SUPPLIER_PAYMENT_BEFORE_RECEIPT';end if;
  if(p->'replacement'->>'amount')::numeric=original.amount and(p->'replacement'->>'payment_date')::timestamptz=original.payment_date
   and(p->'replacement'->>'cash_account_id')::uuid=original.cash_account_id then raise exception 'CP7_SUPPLIER_PAYMENT_CORRECTION_UNCHANGED';end if;
  perform erp.reverse_supplier_payment(original.id,btrim(p->>'change_reason'));

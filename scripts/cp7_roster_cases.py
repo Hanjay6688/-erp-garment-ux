@@ -22,18 +22,20 @@ def admin_actor(cur):
 
 def cases(cur,today):
     def lifecycle():
-        f=source.repair(cur,today);start=today-timedelta(days=6);before=n.facts(cur);doc=initial(f,start);p=envelope(view(cur,f,start,today),doc);key=uuid.uuid4()
+        f=source.repair(cur,today);start=today-timedelta(days=6);before=n.facts(cur);code='P12-'+uuid.uuid4().hex[:8];doc=initial(f,start,worker_code=code);p=envelope(view(cur,f,start,today),doc);key=uuid.uuid4()
         created=command(cur,'CREATE_WORKER',p,key=key);assert command(cur,'CREATE_WORKER',p,key=key)==created;wid=created['worker_id'];w=current(cur,f,start,today)
         assert created['status']=='ACTIVE' and created['row_version']==w['row_version'] and w['daily_rate_at_date']=='100.123456'
         rate=dict(worker_id=wid,daily_rate='200.654321',effective_from=str(today-timedelta(days=4)),reason='P12 dated immutable rate')
         save(cur,'SET_RATE',f,start,rate,w['row_version'],end=today)
         old=a.read(cur,'RATES',worker_id=wid,**a.scope(f,start,start));new=a.read(cur,'RATES',worker_id=wid,**a.scope(f,today));assert old['page']['rows'][0]['daily_rate']=='100.123456' and new['page']['rows'][0]['daily_rate']=='200.654321'
-        edit={k:v for k,v in doc.items() if k not in('initial_daily_rate','rate_effective_from')};edit.update(worker_id=wid,is_active=False,left_at=str(today-timedelta(days=2)),reason='P12 stop employment episode');w=current(cur,f,start,today)
+        edit={k:v for k,v in doc.items() if k not in('initial_daily_rate','rate_effective_from','worker_code')};edit.update(worker_id=wid,is_active=False,left_at=str(today-timedelta(days=2)),reason='P12 stop employment episode');w=current(cur,f,start,today)
         stopped=save(cur,'UPDATE_WORKER',f,start,edit,w['row_version'],end=today);assert stopped['status']=='INACTIVE'
         edit.update(is_active=True,left_at=None,reactivated_at=str(today),reason='P12 restart with preserved gap');w=current(cur,f,start,today);save(cur,'UPDATE_WORKER',f,start,edit,w['row_version'],end=today)
+        # An ordinary edit never erases the worker code the native writer would otherwise null.
+        assert cur.execute('select worker_code from erp.contractor_workers where id=%s',(wid,)).fetchone()[0]==code
         episodes=a.read(cur,'EMPLOYMENT',worker_id=wid,**a.scope(f,start,today))['page']['rows'];assert len(episodes)==2 and episodes[0]['date_to']==str(today-timedelta(days=2)) and episodes[1]['date_from']==str(today)
         assert view(cur,f,today-timedelta(days=1))['page']['total']=='0' and n.facts(cur)==before
-        return dict(status='PASS',ordinary_native_create_and_exact_replay=True,earlier_rate='100.123456',later_rate='200.654321',stop_reactivate_preserves_gap=True,no_stock_hpp_gl_effect=True)
+        return dict(status='PASS',ordinary_native_create_and_exact_replay=True,worker_code_kept_after_update=True,earlier_rate='100.123456',later_rate='200.654321',stop_reactivate_preserves_gap=True,no_stock_hpp_gl_effect=True)
     def history_guard():
         f=source.repair(cur,today);created=save(cur,'CREATE_WORKER',f,today,initial(f,today));wid=created['worker_id']
         period=s.native(cur,'select public.erp_save_attendance_period_v1(%s::jsonb,%s,null,false)',(json.dumps(dict(contractor_id=f['contractor'],period_number='P12-ROSTER-'+uuid.uuid4().hex[:8],period_start=str(today),period_end=str(today),pay_date=str(today),reason='P12 ordinary attendance chronology',attendance=[dict(worker_id=wid,attendance_date=str(today),status='PRESENT')])),uuid.uuid4()))

@@ -40,7 +40,9 @@ begin
   native:=erp.set_worker_daily_rate_v1(wid,(d->>'daily_rate')::numeric,(d->>'effective_from')::date,d->>'reason',p_request,p_expected::bigint);
  else
   if(d->>'contractor_id')::uuid is distinct from cid then raise exception 'CP7_ROSTER_CONTRACTOR_CHANGED';end if;
-  native:=erp.save_worker_roster_v1(d,p_request,p_expected::bigint);
+  -- The native writer always sets worker_code from the payload; an update
+  -- carries the locked row's code so a rename never erases it.
+  native:=erp.save_worker_roster_v1(case when p_action='UPDATE_WORKER' then d||jsonb_build_object('worker_code',w.worker_code) else d end,p_request,p_expected::bigint);
   wid:=(native->>'worker_id')::uuid;
  end if;
  select * into w from erp.contractor_workers where id=wid;

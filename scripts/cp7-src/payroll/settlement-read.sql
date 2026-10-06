@@ -26,8 +26,10 @@ language sql stable security invoker set search_path='' as $$
   'settled_at',to_char(p.settled_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),
   'created_at',to_char(p.created_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),
   'updated_at',to_char(p.updated_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"'),
+  -- A frozen payroll is compared with its own items; the contractor flag is
+  -- editable master data and only describes what a new calculation would build.
   'totals_match_items',p.labor_total=(select coalesce(sum(i.amount),0) from erp.payroll_work_items i where i.payroll_id=p.id)
-   and p.attendance_total=case when c.attendance_required then(select coalesce(sum(i.amount),0) from erp.payroll_attendance_items i where i.payroll_id=p.id) else 0 end
+   and p.attendance_total=case when c.attendance_required or p.status in('APPROVED','PAID','REVERSED') then(select coalesce(sum(i.amount),0) from erp.payroll_attendance_items i where i.payroll_id=p.id) else 0 end
    and p.reimburse_total=(select coalesce(sum(i.amount),0) from erp.payroll_reimbursements i where i.payroll_id=p.id)
    and p.deduction_total=(select coalesce(sum(i.amount),0) from erp.payroll_deductions i where i.payroll_id=p.id),
   'counts',jsonb_build_object(

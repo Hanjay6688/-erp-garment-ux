@@ -168,7 +168,7 @@ export function correctionPayload(w: ReceiptCorrectionWorkspace, lines: DraftLin
       if (!line) return { payload: null, problem: `Barang yang ditagih di invoice ${v.number} tidak boleh dihapus dari penerimaan. Batalkan invoice itu dulu bila barangnya memang tidak ada.` }
       const qty = exact(l.qty, true), price = exact(l.price, false), discount = exact(l.discount || '0', false)
       if (!qty || price === null || discount === null) return { payload: null, problem: `Jumlah, harga final atau diskon ${name} di invoice ${v.number} belum benar.` }
-      if (Number(discount) > Number(qty) * Number(price)) return { payload: null, problem: `Diskon ${name} di invoice ${v.number} lebih besar dari nilainya.` }
+      if (micros(discount) * 1000000n > micros(qty) * micros(price)) return { payload: null, problem: `Diskon ${name} di invoice ${v.number} lebih besar dari nilainya.` }
       invoiced.set(l.itemId, (invoiced.get(l.itemId) ?? 0) + Number(qty))
       outLines.push({ replaces_invoice_line_id: l.replaces, qty_invoiced: qty, unit_price: price, discount_amount: discount })
     }

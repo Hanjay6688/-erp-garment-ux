@@ -10,6 +10,8 @@ const nullableText=(v:unknown)=>v===null||text(v)
 function closed(v:unknown,keys:string[]){if(!v||typeof v!=='object'||Array.isArray(v))return fail();const r=v as Record<string,unknown>;if(keys.some(k=>!(k in r))||Object.keys(r).some(k=>!keys.includes(k)))fail();return r}
 export const salesCashAmount=(v:string)=>{const n=v.trim().replace(',','.');return /^(0|[1-9][0-9]{0,17})(\.[0-9]{1,2})?$/.test(n)?n:null}
 export const salesCashCents=(v:string)=>{if(salesCashAmount(v)!==v)return fail();const [a,b='']=v.split('.');return BigInt(a)*100n+BigInt(b.padEnd(2,'0'))}
+// Open balance may be a customer credit (negative); amounts themselves never are.
+export const signedSalesCashCents=(v:string)=>v.startsWith('-')?-salesCashCents(v.slice(1)):salesCashCents(v)
 export function parseSalesPayment(value:unknown):SalesPayment{
  const x=closed(value,['id','number','physical_at','amount','cash_account_id','cash_account_name','method','reference','notes','status','replaces_payment_id'])
  if(!id(x.id)||!text(x.number)||!text(x.physical_at)||!Number.isFinite(Date.parse(x.physical_at))||!text(x.amount)||salesCashAmount(x.amount)!==x.amount||salesCashCents(x.amount)<=0n||x.cash_account_id!==null&&!id(x.cash_account_id)||![x.cash_account_name,x.method,x.reference,x.notes].every(nullableText)||!['DRAFT','POSTED','REVERSED'].includes(String(x.status))||x.replaces_payment_id!==null&&!id(x.replaces_payment_id))fail()

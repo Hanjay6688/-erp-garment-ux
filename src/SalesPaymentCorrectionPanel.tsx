@@ -5,7 +5,7 @@ import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
 import {cp6WibDateTimeInput,cp6WibPhysicalTimeToIso,formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal} from './procurementContract'
-import {salesCashAmount,salesCashCents,type SalesPayment} from './salesCashContract'
+import {salesCashAmount,salesCashCents,signedSalesCashCents,type SalesPayment} from './salesCashContract'
 import {parsePaymentCorrectionWorkspace,type PaymentCorrectionWorkspace} from './salesPaymentCorrectionContract'
 import TransactionSourceLink from './TransactionSourceNavigation'
 import type {SalesRead} from './salesReadContract'
@@ -31,7 +31,7 @@ export default function SalesPaymentCorrectionPanel({source,payment,edit:initial
  const canCorrect=['OWNER','ADMIN'].includes(identity.profile.role)&&['sales.invoice.view','finance.ar.view','sales.payment.view','sales.payment.create','sales.payment.post','sales.payment.reverse'].every(p=>identity.permissions.includes(p))
  const disabled=locked||stale||busy||!data,original=data?.document,exact=salesCashAmount(amount)
  const physical=timeEdited?cp6WibPhysicalTimeToIso(at):restoredAt??original?.physical_at??null
- const available=source.financial?.open_balance,maximum=available!==null&&available!==undefined&&original?salesCashCents(available)+salesCashCents(original.amount):null
+ const available=source.financial?.open_balance,maximum=available!==null&&available!==undefined&&original?signedSalesCashCents(available)+salesCashCents(original.amount):null
  const validAmount=exact!==null&&salesCashCents(exact)>0n&&maximum!==null&&salesCashCents(exact)<=maximum
  const changed=original&&(exact!==null&&salesCashCents(exact)!==salesCashCents(original.amount)||physical!==original.physical_at||bank?.id!==original.cash_account_id||method!==original.method||(reference||null)!==original.reference||(notes||null)!==original.notes)
  const valid=!disabled&&canCorrect&&data?.eligible&&Boolean(changed)&&validAmount&&physical&&bank&&['CASH','BANK_TRANSFER'].includes(method)&&reason.trim().length>=5&&review

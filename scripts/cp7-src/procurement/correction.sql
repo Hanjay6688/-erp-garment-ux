@@ -261,9 +261,12 @@ language sql stable security definer set search_path=''as $$
     where i.purchase_id=p_purchase and s.status='POSTED'
    union all select 'CP7_RECEIPT_FIX_COST_CORRECTION_ACTIVE','COST_CORRECTION',k.correction_number from erp.material_purchase_cost_corrections k
     where k.purchase_id=p_purchase and k.status='POSTED'
-   union all select 'CP7_RECEIPT_FIX_SUPPLIER_CREDIT_ACTIVE','MATERIAL_PURCHASE',o.purchase_number from erp.bf_supplier_credit_moves_v1 b
+   -- Moves are append-only: a restored move adds its negative row, so only a
+   -- non-zero net per return and receipt pair is still an active credit.
+   union all select 'CP7_RECEIPT_FIX_SUPPLIER_CREDIT_ACTIVE','MATERIAL_PURCHASE',o.purchase_number from(select m.source_purchase_id,m.target_purchase_id
+     from erp.bf_supplier_credit_moves_v1 m where p_purchase in(m.source_purchase_id,m.target_purchase_id)
+     group by m.return_id,m.source_purchase_id,m.target_purchase_id having sum(m.amount)<>0)b
     join erp.material_purchase_headers o on o.id=case when b.source_purchase_id=p_purchase then b.target_purchase_id else b.source_purchase_id end
-    where p_purchase in(b.source_purchase_id,b.target_purchase_id)
    union all select 'CP7_RECEIPT_FIX_POCKET_ORIGIN_ACTIVE','POCKET_USE',coalesce(u.document_number,o.usage_id::text)from erp.be_pocket_receipt_origins_v1 o
     join erp.material_purchase_items i on i.id=o.purchase_item_id left join erp.be_pocket_usage_v1 u on u.id=o.usage_id where i.purchase_id=p_purchase
    union all select 'CP7_RECEIPT_FIX_OPENING_IMPORT_USE_IMPORT_WORKFLOW','OPENING_IMPORT',h.receipt_number from erp.initial_import_receipt_headers h
@@ -380,6 +383,9 @@ begin
    and(o.source_type in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS')and o.source_id=src
     or o.source_type='SUPPLIER_PAYMENT'and exists(select 1 from erp.supplier_payments p where p.id=o.source_id and(p.purchase_id=src or p.purchase_id=any(related))))
    and not exists(select 1 from cp7_receipt_fix.journal_restatements r where r.inverse_journal_id=v.id)
+   -- Only inverses posted by this command. Earlier payment cancellations or
+   -- payment corrections keep the dates their own commands gave them.
+   and v.created_at=statement_timestamp()
   order by v.id loop
   perform cp7_receipt_fix.restate(j,p_reason);
  end loop;

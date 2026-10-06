@@ -270,7 +270,14 @@ def cases(cur,today):
   f=posted(cur,drafts.fixture(cur,today));p,v=edit(cur,f,'3');cur.execute("insert into erp.sales_returns(return_number,sale_id,customer_id,physical_at,status)values(%s,%s,%s,%s,'DRAFT')",('NOTE-PENDING-'+uuid.uuid4().hex,f['sale'],f['customer'],source.fg.ax.r1.now(cur)));before=snapshot(cur)
   assert source.read(cur,f)['detail']['row_version']==v;auth.refused(cur,lambda:correct(cur,p,v),'CP7_NOTE_REVIEW_CHANGED');assert snapshot(cur)==before
   p,v=edit(cur,f,'3');auth.refused(cur,lambda:correct(cur,p,v),'CP7_NOTE_PENDING_CHILD_REVIEW_REQUIRED');assert snapshot(cur)==before
-  return dict(status='PASS',draft_child_invalidates_review_without_header_version_change=True,pending_child_never_silently_abandoned=True)
+  # A payment reallocated here by Native is dated at its predecessor's reversal; it is not replayed.
+  import cp7_payment_correction_cases as pc
+  ordinary=pc.fixture(cur,today);target=dict(ordinary,tag='NOTE-REALLOC-'+uuid.uuid4().hex[:8],sale_at=source.fg.ax.r1.now(cur).isoformat());posted(cur,target,'1','80')
+  pc.payments.inverse(cur,ordinary,ordinary['payment'])
+  moved=str(cur.execute("insert into erp.sales_payments(sale_id,payment_number,payment_date,amount,cash_account_id,payment_method,replaces_payment_id,status)select %s,%s,payment_date,amount,cash_account_id,payment_method,id,'DRAFT'from erp.sales_payments where id=%s returning id",(target['sale'],'NOTE-REALLOC-'+uuid.uuid4().hex,ordinary['payment'])).fetchone()[0])
+  source.native(cur,'select erp.post_sales_payment(%s)',(moved,))
+  p,v=edit(cur,target,'3');before=snapshot(cur);auth.refused(cur,lambda:correct(cur,p,v),'CP7_NOTE_REALLOCATED_PAYMENT_REVIEW_REQUIRED');assert snapshot(cur)==before
+  return dict(status='PASS',draft_child_invalidates_review_without_header_version_change=True,pending_child_never_silently_abandoned=True,reallocated_payment_not_replayed_at_wrong_date=True)
  def request_access():
   f=posted(cur,drafts.fixture(cur,today));p,v=edit(cur,f,'3');key=uuid.uuid4();out=correct(cur,p,v,key);before=snapshot(cur);bad=copy.deepcopy(p);bad['items'][0]['qty_pcs']='2';auth.refused(cur,lambda:correct(cur,bad,v,key),'CP7_NOTE_REQUEST_CHANGED');assert snapshot(cur)==before
   cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active)select %s,%s,'Note second owner fixture',role,role_id,true from erp.app_users where auth_user_id=%s",(uuid.uuid4(),uuid.uuid4(),auth.base.OPERATOR_AUTH));cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(auth.base.OPERATOR_AUTH,));after_deactivation=snapshot(cur);auth.refused(cur,lambda:correct(cur,p,v,key),'CP7_SALES_ACCESS_DENIED');assert snapshot(cur)==after_deactivation

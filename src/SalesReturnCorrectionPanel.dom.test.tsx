@@ -33,6 +33,11 @@ async function fill(label:string,value:string){await act(async()=>{const e=input
 async function click(e:HTMLElement){await act(async()=>e.click());await flush()}
 async function review(){await fill('Alasan pembetulan retur','Barang dan invoice diperiksa ulang');await click(input('Pembetulan retur sudah diperiksa'))}
 describe('return correction source boundaries and declared UI stand-ins',()=>{
+ it('starts an added allocation with blank quantity and value, never a zero refund',async()=>{const w=response();w.allocations.rows.push({...structuredClone(choice),allocation_id:other});w.allocations.total='2';mock.rpc.mockResolvedValue({data:w,error:null})
+  await mount();await click(button('FG'));const add=[...container.querySelectorAll('button')].find(b=>b.textContent==='Tambah JEANS-31 · lot LOT-1'&&!b.disabled)!;await click(add)
+  expect([input('Jumlah pembetulan retur 2').value,input('Nilai pembetulan retur 2').value]).toEqual(['',''])
+  await review();expect(button('Simpan pembetulan retur').disabled).toBe(true)
+  await fill('Jumlah pembetulan retur 2','1');await fill('Nilai pembetulan retur 2','20');await review();expect(button('Simpan pembetulan retur').disabled).toBe(false)})
  it('emits one reviewed replacement bound to original allocation and exact microseconds',async()=>{
   await mount();await fill('Jumlah pembetulan retur 1','1');await fill('Nilai pembetulan retur 1','20,01');await review();expect(input('Pembetulan retur sudah diperiksa').checked).toBe(true);await click(button('Simpan pembetulan retur'))
   expect(saved).toHaveBeenCalledOnce();expect(saved).toHaveBeenCalledWith('RETURN_CORRECT',{sale_id:sale,return_id:ret,review_token:source.review_token,return_review_token:'b'.repeat(32),change_reason:'Barang dan invoice diperiksa ulang',replacement:{physical_at:document.physical_at,notes:'Catatan asli',items:[{allocation_id:allocation,location_id:location,qty_pcs:'1',quality_grade:'GRADE_A',refund_amount:'20.01',notes:'Barang asal'}]}},source.row_version);expect(new Set(mock.rpc.mock.calls.map(c=>c[0]))).toEqual(new Set(['erp_cp7_get_sales_return_correction_v1']))

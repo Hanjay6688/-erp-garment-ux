@@ -239,6 +239,11 @@ begin
  if exists(select 1 from erp.sales_payments where sale_id=leaf and status='DRAFT')
   or exists(select 1 from erp.sales_returns where sale_id=leaf and status='DRAFT')then
   raise exception 'CP7_NOTE_PENDING_CHILD_REVIEW_REQUIRED';end if;
+ -- A native cash reallocation is journaled at its predecessor's reversal date.
+ -- Replaying it here would move that cash back to the original receipt clock;
+ -- like payment correction, such a payment stays outside this command.
+ if exists(select 1 from erp.sales_payments where sale_id=leaf and status='POSTED'and replaces_payment_id is not null)then
+  raise exception 'CP7_NOTE_REALLOCATED_PAYMENT_REVIEW_REQUIRED';end if;
  select coalesce(jsonb_agg(to_jsonb(p)||jsonb_build_object('advance_id',l.advance_id)order by p.payment_date,p.id),'[]')into paid
  from erp.sales_payments p left join erp.initial_import_prepayment_payments l on l.payment_id=p.id
  where p.sale_id=leaf and p.status='POSTED';
