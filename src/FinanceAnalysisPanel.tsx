@@ -5,7 +5,13 @@ import {formatReceiptDecimal as numberText} from './procurementContract'
 import {financeDate,type FinanceDates} from './financeReportContract'
 import {parseFinanceAnalysis,type AnalysisDates,type FinanceAnalysis} from './financeAnalysisContract'
 const money=(v:string)=>'Rp'+numberText(v)
-function prior(dates:FinanceDates){const day=86400000,start=Date.parse(dates.from+'T00:00:00Z'),end=Date.parse(dates.to+'T00:00:00Z');return {from:new Date(start-(end-start+day)).toISOString().slice(0,10),to:new Date(start-day).toISOString().slice(0,10)}}
+// A period starting on the 1st compares with the previous calendar month: the whole
+// month for a whole-month report, else the same days (month to date). Otherwise the
+// same number of days immediately before.
+export function prior(dates:FinanceDates){const day=86400000,start=Date.parse(dates.from+'T00:00:00Z'),end=Date.parse(dates.to+'T00:00:00Z'),iso=(t:number)=>new Date(t).toISOString().slice(0,10)
+ if(dates.from.endsWith('-01')){const s=new Date(start),previous=Date.UTC(s.getUTCFullYear(),s.getUTCMonth()-1,1),last=start-day,whole=new Date(end+day).getUTCDate()===1
+  return {from:iso(previous),to:iso(whole?last:Math.min(previous+(end-start),last))}}
+ return {from:iso(start-(end-start+day)),to:iso(start-day)}}
 export default function FinanceAnalysisPanel({client,dates}:{client:ReturnType<typeof getUatSupabaseClient>;dates:FinanceDates}){
  const [open,setOpen]=useState(false),[from,setFrom]=useState(()=>prior(dates).from),[to,setTo]=useState(()=>prior(dates).to),[data,setData]=useState<FinanceAnalysis|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
  const seq=useRef(0),selected=useRef<AnalysisDates|null>(null)

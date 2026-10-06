@@ -2,7 +2,7 @@
 import {act} from 'react'
 import {createRoot,type Root} from 'react-dom/client'
 import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
-import FinanceAnalysisPanel from './FinanceAnalysisPanel'
+import FinanceAnalysisPanel,{prior} from './FinanceAnalysisPanel'
 import {parseFinanceAnalysis} from './financeAnalysisContract'
 import {financeAnalysisFixture} from '../tests/fixtures/financeAnalysis'
 import type {getUatSupabaseClient} from './lib/supabase'
@@ -17,6 +17,9 @@ async function mount(){await act(async()=>root.render(<FinanceAnalysisPanel clie
 async function fill(label:string,value:string){await act(async()=>{const e=container.querySelector<HTMLInputElement>(`[aria-label="${label}"]`)!;Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event('input',{bubbles:true}))});await flush()}
 describe('P13 recorded comparison and native cash source boundaries',()=>{
  it('keeps growth percent, margin points and internal-transfer net as separate values',()=>{const r=parseFinanceAnalysis(financeAnalysisFixture(dates),dates);expect(r.comparison.revenue_growth_pct).toBe('20.0000');expect(r.comparison.gross_margin_change_pp).toBe('-3.0000');expect(r.cash.entries.rows[0].net).toBe('0.00');expect(r.cash.net_change).toBe('100.00')})
+ it('defaults a calendar-month report to the previous calendar month',()=>{const d=(from:string,to:string)=>prior({from,to,as_of:to})
+  expect(d('2026-03-01','2026-03-31')).toEqual({from:'2026-02-01',to:'2026-02-28'});expect(d('2026-10-01','2026-10-06')).toEqual({from:'2026-09-01',to:'2026-09-06'})
+  expect(d('2026-03-01','2026-03-30')).toEqual({from:'2026-02-01',to:'2026-02-28'});expect(d('2026-09-28','2026-09-28')).toEqual({from:'2026-09-27',to:'2026-09-27'})})
  it('requires unavailable ratios on a negative revenue base instead of an inverted sign',()=>{const r=financeAnalysisFixture(dates);Object.assign(r.comparison.baseline.performance,{sales_revenue_gl:'-1000.00'});r.comparison.revenue_growth_pct='-600.0000';expect(()=>parseFinanceAnalysis(r,dates)).toThrow();r.comparison.revenue_growth_pct=null;r.comparison.gross_margin_change_pp=null;expect(parseFinanceAnalysis(r,dates).comparison.revenue_growth_pct).toBeNull()
   const c=financeAnalysisFixture(dates);Object.assign(c.comparison.current.performance,{sales_revenue_gl:'-100.00'});c.comparison.revenue_growth_pct='-110.0000';expect(()=>parseFinanceAnalysis(c,dates)).toThrow();c.comparison.gross_margin_change_pp=null;const parsed=parseFinanceAnalysis(c,dates).comparison;expect([parsed.revenue_growth_pct,parsed.gross_margin_change_pp]).toEqual(['-110.0000',null])})
  it('requires unavailable ratios when the baseline is zero',()=>{const r=financeAnalysisFixture(dates);Object.assign(r.comparison.baseline.performance,{sales_revenue_gl:'0'});expect(()=>parseFinanceAnalysis(r,dates)).toThrow();r.comparison.revenue_growth_pct=null;r.comparison.gross_margin_change_pp=null;expect(parseFinanceAnalysis(r,dates).comparison.revenue_growth_pct).toBeNull()})
