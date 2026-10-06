@@ -1,0 +1,45 @@
+{
+  "id": 11393185932,
+  "name": "cp7-shell-proof",
+  "run_id": 37420039544,
+  "job_id": 112127132470,
+  "size_in_bytes": 15454,
+  "digest": "sha256:9448a9bb5cb0d9d6bccd06c06a7ad2ab48aa185ae05a31346e03de68b5c1baca",
+  "source_commit": "290d30de53f2725bf07be341467c637d0103fd8d",
+  "source_tree": "a107b80f8f2c3fa9a2a5b19ee546b4c8d9135667",
+  "status": "ORIGINAL_INCOMPLETE_RETAINED",
+  "all_zip_members": {
+    "P19_ASSEMBLY_KERNEL.json": {
+      "bytes": 1988,
+      "sha256": "86498675e348403dbd6a88f976f30825b2e6d39f4ee6e59db6a485768953d92c"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "a194d3fea15229cbf704f7a582838ed3624cd1a090e93769aa375f8731f841e8"
+    },
+    "fabric-recipe.json": {
+      "bytes": 60594,
+      "sha256": "f32fbbe875f24b3ff2b562ae6addcdabb2c4c86fae77867158deee0cab5f5b2a"
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+    }
+  },
+  "root_originals": [
+    "P19_ASSEMBLY_KERNEL.json",
+    "f04-private-kernels.json",
+    "fabric-recipe.json",
+    "history-availability-parity.json",
+    "material-pool.json"
+  ],
+  "Native_case_credit_added": 0,
+  "full_P19_acceptance": false,
+  "production_go": false,
+  "original_error": "Error: spawnSync /usr/lib/postgresql/16/bin/psql ETIMEDOUT",
+  "cause": "The actual5000-target old/new statement still exceeded the180s disposable process deadline. Only the two emitted exact comparisons are measured; no5000-target success is inferred."
+}

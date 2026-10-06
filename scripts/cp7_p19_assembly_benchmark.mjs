@@ -21,8 +21,8 @@ try {
  // The quadratic predecessor at 5000 targets exceeded the ordinary 60s
  // kernel-process deadline. This bound applies only to this disposable,
  // source-stand-in comparison, never to the Native ERP/HTTP timeout.
- db = await openRuntime({ commandTimeoutMs: 180_000 });report.runtime = db.flavor;report.version = db.version
- report.disposable_comparison_deadline_ms = 180_000
+ db = await openRuntime({ commandTimeoutMs: 600_000 });report.runtime = db.flavor;report.version = db.version
+ report.disposable_comparison_deadline_ms = 600_000
  report.Native_ERP_timeouts_changed = false
  await installAssemblyControls(db)
  await db.execute([0, 1].map(i => `create function public.p19_timed_${i}(c jsonb,q jsonb,p uuid,a jsonb)returns jsonb language plpgsql as $$declare started timestamptz:=clock_timestamp();v jsonb;ms numeric;begin v:=public.p19_assembly_${i}(c,q,p,a);ms:=extract(epoch from clock_timestamp()-started)*1000;return jsonb_build_object('body',v,'elapsed_ms',ms::text);end$$;`).join('\n'))

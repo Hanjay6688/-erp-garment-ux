@@ -175,17 +175,24 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
   if installed:
-   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
-    for definition in originals.values():cur.execute(definition,prepare=False)
-    for role in candidate.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
-    conn.commit();restored_boundary=package.boundary.snapshot(cur);restored_public=public_state(cur)
-    restored_functions=p09.functions(cur)
-    report['restore_components']=dict(erp_platform_auth_schema_acl=restored_boundary==before,public_catalog_and_rows=restored_public==public_before,erp_public_auth_function_definitions_owners_acls=restored_functions==accepted_functions_before)
-    if restored_boundary!=before:report['restore_boundary_difference']=dict(before=before,after=restored_boundary)
-    if restored_public!=public_before:report['restore_public_difference']=dict(before=public_before,after=restored_public)
-    if restored_functions!=accepted_functions_before:report['restore_function_difference']=dict(before=accepted_functions_before,after=restored_functions)
-    report['cp6_restored']=all(report['restore_components'].values());conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
-   report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice','cp7_receipt_fix')for f in d.get('added',[])))
+   try:
+    with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
+     for definition in originals.values():cur.execute(definition,prepare=False)
+     for role in candidate.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
+     conn.commit();restored_boundary=package.boundary.snapshot(cur);restored_public=public_state(cur)
+     restored_functions=p09.functions(cur)
+     report['restore_components']=dict(erp_platform_auth_schema_acl=restored_boundary==before,public_catalog_and_rows=restored_public==public_before,erp_public_auth_function_definitions_owners_acls=restored_functions==accepted_functions_before)
+     if restored_boundary!=before:report['restore_boundary_difference']=dict(before=before,after=restored_boundary)
+     if restored_public!=public_before:report['restore_public_difference']=dict(before=public_before,after=restored_public)
+     if restored_functions!=accepted_functions_before:report['restore_function_difference']=dict(before=accepted_functions_before,after=restored_functions)
+     report['cp6_restored']=all(report['restore_components'].values());conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
+    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice','cp7_receipt_fix')for f in d.get('added',[])))
+   except Exception as restoration_error:
+    # Retain all case results even when restoration itself raises. Its
+    # transaction is rolled back by the connection context; no successful
+    # restore/advisor/qualification gate may be inferred from passing cases.
+    report.update(restore_error=str(restoration_error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
+    report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
   if fabric_any:
    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
   groups=[report.get(k,{})for k in('native','races','http','browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not fabric_any or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'

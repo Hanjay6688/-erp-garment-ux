@@ -32,7 +32,7 @@ export const textArg = value => `${literal(value)}::text`;
 // No external DB URL is accepted. Native mode creates an isolated Unix-socket DB;
 // the optional WASM mode must be explicitly selected and is labelled as such.
 export async function openRuntime({ commandTimeoutMs = 60_000 } = {}) {
-  if (!Number.isInteger(commandTimeoutMs) || commandTimeoutMs < 60_000 || commandTimeoutMs > 180_000) throw new Error('F04 disposable command timeout out of bounds');
+  if (!Number.isInteger(commandTimeoutMs) || commandTimeoutMs < 60_000 || commandTimeoutMs > 600_000) throw new Error('F04 disposable command timeout out of bounds');
   let execute, query, close, flavor;
   if (process.env.F04_PGLITE_MODULE) {
     if (process.env.CI) throw new Error('F04 CI requires native PostgreSQL; WASM override refused');

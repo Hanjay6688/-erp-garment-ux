@@ -1,0 +1,237 @@
+{
+  "id": 11392443550,
+  "name": "cp7-p13-analysis",
+  "run_id": 37420039662,
+  "workflow_name": "CP7 P13 Finance Analysis",
+  "workflow_path": ".github/workflows/cp7-p13-analysis.yml",
+  "size_in_bytes": 8476607,
+  "digest": "sha256:660d9897b52b38af1ac141c8276fad9779bd025d1008099a08bc747f00e9204f",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "290d30de53f2725bf07be341467c637d0103fd8d",
+  "source_tree": "a107b80f8f2c3fa9a2a5b19ee546b4c8d9135667",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385603,
+      "sha256": "788353e8433e8f9285b9ccf28172b532e11ab9a168da03a8ae07687d9aef782c"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385603,
+      "sha256": "788353e8433e8f9285b9ccf28172b532e11ab9a168da03a8ae07687d9aef782c"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "bb5bc7a8fa75746dc45611e5d2e2531ae38bdbf2e58526c9fbf27213342e8296"
+    },
+    "CP7_P13_FINANCE_ANALYSIS.json": {
+      "bytes": 275601,
+      "sha256": "188fa589b70a6a34fbaa687fdca01d98daa02f6d5c4213a778c4e52bbb93fe2a"
+    },
+    "P13_ANALYSIS_DESKTOP.png": {
+      "bytes": 2548668,
+      "sha256": "e71ff1a090b5198f25a6cefbe25ceffa1ea669eba0af588e37844550db3a1bd9"
+    },
+    "P13_ANALYSIS_MOBILE.png": {
+      "bytes": 1967212,
+      "sha256": "0f2cb1bef2dd4e88bf10ead1afa3b6ef2cef27f49b8606409f4c2ff6bfac9414"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1432555,
+      "sha256": "14903a85f829ecae48ac60786a1d850c718713dc36fc8af86b482d708a981150"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1053546,
+      "sha256": "74b66838e63724d6c15f5fd262d43915f9b615e51611a76f4938d648c78c0511"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "1feb49b700023affeb929551f944725088e1535f7f96677d041b9cb6331b4c1e"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360371,
+      "sha256": "419d4f29e87f6389cb4692662dd754d4569bc88c06eafd5bfb144f61263eaf45"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P13_FINANCE_ANALYSIS.json": {
+      "bytes": 275601,
+      "sha256": "188fa589b70a6a34fbaa687fdca01d98daa02f6d5c4213a778c4e52bbb93fe2a",
+      "file": "CP7_P13_FINANCE_ANALYSIS.json.gz",
+      "gzip_sha256": "16c55a6cef941aba03bdbf1f385899952bf642b48757420dd07c78b34eaccaf7",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "1feb49b700023affeb929551f944725088e1535f7f96677d041b9cb6331b4c1e",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "5b16133cf5684dec4ff52608f48829082a7a475ccf2ab810514148703d0b03d5",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360371,
+      "sha256": "419d4f29e87f6389cb4692662dd754d4569bc88c06eafd5bfb144f61263eaf45",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "c2569be28acfa45904aec776279bbdff5b80a1531287036addbfed6b0d29c259",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "CP7_P13_FINANCE_ANALYSIS.json": {
+      "kind": "WRITER_NATIVE_CASES",
+      "observed_planned_executions": 24,
+      "declared_case_count": 24,
+      "source_bundle_sha256": "5930aa873536dc68ae630e8db09b5cf804544058a8eea5eaa389d900b2858b16",
+      "groups": {
+        "native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_REPORT_LEDGER_LIFECYCLE",
+            "P13_REPORT_EXACT_LARGE",
+            "P13_REPORT_QUERY",
+            "P13_REPORT_ACCESS",
+            "P13_REPORT_FILED_LATE_CORRECTION",
+            "P13_REPORT_FILED_UNCHANGED_CONTROL",
+            "P13_REPORT_FILING_PAGES",
+            "P13_REPORT_READ_ONLY_PRIVATE"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "races": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_REPORT_CONCURRENT_CASH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_REPORT_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_REPORT_BROWSER_DESKTOP",
+            "P13_REPORT_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        },
+        "analysis_native": {
+          "case_count": 8,
+          "case_ids": [
+            "P13_ANALYSIS_O13",
+            "P13_ANALYSIS_ZERO_BASELINE",
+            "P13_ANALYSIS_O14",
+            "P13_ANALYSIS_INVERSE_DATES",
+            "P13_ANALYSIS_PAGES_COA_SCOPE",
+            "P13_ANALYSIS_DATES_QUERY",
+            "P13_ANALYSIS_EXACT_LARGE",
+            "P13_ANALYSIS_ACCESS"
+          ],
+          "counts": {
+            "PASS": 8
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "analysis_races": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_ANALYSIS_CONCURRENT_CASH"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": null
+        },
+        "analysis_http": {
+          "case_count": 1,
+          "case_ids": [
+            "P13_ANALYSIS_HTTP"
+          ],
+          "counts": {
+            "PASS": 1
+          },
+          "console_errors": null,
+          "actual_auth": true
+        },
+        "analysis_browser": {
+          "case_count": 2,
+          "case_ids": [
+            "P13_ANALYSIS_BROWSER_DESKTOP",
+            "P13_ANALYSIS_BROWSER_MOBILE"
+          ],
+          "counts": {
+            "PASS": 2
+          },
+          "console_errors": 0,
+          "actual_auth": true
+        }
+      },
+      "extra_zero_exit_credit_groups": [],
+      "diagnostic_only": false,
+      "unique_full_CP7_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}
