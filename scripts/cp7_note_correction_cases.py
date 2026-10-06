@@ -218,7 +218,9 @@ def cases(cur,today):
   original=f['sale'];facts=unchanged_facts(cur,original)
   # Return 5 refunded 125 at 25/pcs. Re-pricing that returned line must not replay the old refund silently.
   for price in('30','20'):
-   bad,bv=edit(cur,f,None,price);frozen=snapshot(cur);auth.refused(cur,lambda:correct(cur,bad,bv),'CP7_NOTE_RETURNED_LINE_PRICE_CHANGED');assert snapshot(cur)==frozen
+   frozen=snapshot(cur);bad,bv=edit(cur,f,None,price)
+   assert source.read(cur,f)['detail']['review_token']==bad['review_token'],('NOTE_REPRICE_TOKEN_MOVED_BEFORE_COMMAND',price)
+   auth.refused(cur,lambda:correct(cur,bad,bv),'CP7_NOTE_RETURNED_LINE_PRICE_CHANGED');assert snapshot(cur)==frozen,('NOTE_REPRICE_EFFECT',price)
   p,v=edit(cur,f,'16');out=correct(cur,p,v);f['sale']=out['sale_id'];detail=source.read(cur,f)['detail'];assert detail['financial']['net_total']=='275.00'and detail['financial']['paid_total']=='200.00'and detail['financial']['open_balance']=='75.00'and detail['returned_qty']=='5'
   assert e01.physical(cur,f)==49;e01.expect_delta(cur,f,before,75,275,-165,165,200)
   assert unchanged_facts(cur,original)==facts and cur.execute('select status from erp.sales_payments where id=%s',(paid['payment_id'],)).fetchone()[0]=='REVERSED'and cur.execute('select status from erp.sales_returns where id=%s',(ret['return_id'],)).fetchone()[0]=='REVERSED'
