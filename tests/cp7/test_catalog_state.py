@@ -30,5 +30,35 @@ class ExactCatalog(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             with exact_public_catalog(runner):raise RuntimeError('Controlled failure')
         self.assertIs(runner.public_state,reader)
+    def test_full_locations_distinguish_tuple_movement_from_new_oid(self):
+        raws=[deepcopy(self.raw),deepcopy(self.raw)];raws[1]['functions'].reverse()
+        reader=lambda _cur:raws.pop(0);runner=SimpleNamespace(public_state=reader)
+        class Cur:
+            rows=[('101','a()','(1,1)','aaa','owner'),('102','b()','(1,2)','bbb','owner')]
+            def execute(self,_query):return self
+            def fetchall(self):return deepcopy(self.rows)
+        cur=Cur()
+        with exact_public_catalog(runner,retain_raw=True,retain_locations=True)as audit:
+            before=runner.public_state(cur);cur.rows[0]=('101','a()','(2,1)','aaa','owner')
+            self.assertEqual(before,runner.public_state(cur))
+        self.assertIs(runner.public_state,reader)
+        self.assertEqual(len(audit['raw_snapshots'][0]['public_function_locations']),2)
+        pair=audit['function_location_comparisons'][0]
+        self.assertTrue(pair['exact_signature_oid_owner_unchanged']);self.assertEqual(len(pair['changed_locations']),1)
+    def test_unchanged_hash_never_excuses_new_oid_owner_or_missing_location(self):
+        for replacement in [('201','a()','(1,1)','aaa','owner'),('101','a()','(1,1)','aaa','foreign-owner'),None]:
+            reader=lambda _cur:deepcopy(self.raw);runner=SimpleNamespace(public_state=reader)
+            class Cur:
+                rows=[('101','a()','(1,1)','aaa','owner'),('102','b()','(1,2)','bbb','owner')]
+                def execute(self,_query):return self
+                def fetchall(self):return deepcopy(self.rows)
+            cur=Cur()
+            with self.assertRaises(AssertionError):
+                with exact_public_catalog(runner,retain_raw=True,retain_locations=True):
+                    runner.public_state(cur)
+                    if replacement is None:cur.rows.pop(0)
+                    else:cur.rows[0]=replacement
+                    runner.public_state(cur)
+            self.assertIs(runner.public_state,reader)
 
 if __name__=='__main__':unittest.main()

@@ -88,7 +88,9 @@ def cases(cur,today):
    for role in (*bundle.ROLES,'anon','authenticated','service_role'):
     if role not in owners:assert not cur.execute("select has_table_privilege(%s,%s,'INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')",(role,table)).fetchone()[0],(role,table)
   before=finance.b.boundary.snapshot(cur);finance.auth.refused(cur,lambda:cur.execute(bundle.sales.admission(),prepare=False),'CP7_SALES_ADMISSION_PREDECESSOR_CHANGED');assert finance.b.boundary.snapshot(cur)==before
-  return dict(status='PASS',combined_roles_cannot_forge_another_command_context=True,no_cross_family_private_write_admission=True,standalone_guard_refuses_wrong_combined_predecessor_atomically=True)
+  import cp7_p19_sales_dispatch_equivalence as dispatch
+  precedence=dispatch.compare(cur,finance.auth,finance.b.api,finance.b.boundary)
+  return dict(status='PASS',combined_roles_cannot_forge_another_command_context=True,no_cross_family_private_write_admission=True,standalone_guard_refuses_wrong_combined_predecessor_atomically=True,private_dispatch_equivalence=precedence)
  selected=[(procurement,'P09_FINAL_EXACT_VALUE'),(fg,'P10_ADJUST_NEGATIVE_VALUE'),(nota,'P12_NOTA_EXACT_ACCESS'),(s,'P12_SETTLEMENT_ACCESS'),(attendance,'P12_ATTENDANCE_WRITE_ACCESS'),(returns,'P11_RETURN_PERMISSIONS'),(finance,'P13_REPORT_READ_ONLY_PRIVATE'),(finance,'P13_REPORT_FILED_LATE_CORRECTION')]
  return [('F03_'+name,pick(module.cases(cur,today),name)) for module,name in selected]+[('F03_COMBINED_LEDGER',combined_ledger),('F03_PRIVATE_CONTEXT_ISOLATION',contexts)]
 

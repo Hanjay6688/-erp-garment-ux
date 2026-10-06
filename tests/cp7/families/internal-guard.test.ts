@@ -1,5 +1,6 @@
 // @vitest-environment node
 import {readFileSync} from 'node:fs'
+import {execFileSync} from 'node:child_process'
 import {beforeEach,afterEach,test} from 'vitest'
 import {openRuntime} from './f04/runtime.mjs'
 
@@ -8,8 +9,7 @@ let db:Awaited<ReturnType<typeof openRuntime>>
 const actor='11000000-0000-4000-8000-000000000001'
 const foreign='11000000-0000-4000-8000-000000000002'
 const base=readFileSync('scripts/cp7-src/procurement/accepted-deltas.sql','utf8').split('create or replace function erp.require_internal()',2)[1].split('$function$;',1)[0]
-const sales=readFileSync('scripts/cp7_sales_bundle.py','utf8').split('ADMISSION="""',2)[1].split('"""',1)[0]
-const guard=base.replace(' v_app_role:=erp.current_app_role();',sales+' v_app_role:=erp.current_app_role();')
+const guard=execFileSync('python3',['-c',"import sys;sys.path.insert(0,'scripts');import cp7_sales_bundle as b;print(b.patched_internal(sys.stdin.read()),end='')"],{input:base,encoding:'utf8'})
 beforeEach(async()=>{
  db=await openRuntime()
  await db.execute(`do $$begin if not exists(select 1 from pg_roles where rolname='postgres')then create role postgres nologin;end if;end$$;
@@ -33,6 +33,9 @@ beforeEach(async()=>{
  create table cp7_sales.command_context(backend_pid integer,transaction_id bigint,actor uuid,action text);
  create function cp7_sales.command_access(action text)returns jsonb language plpgsql stable security definer set search_path='' as $$begin
   if not erp.has_permission('sales.invoice.post')then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;return'{"allowed":true}'::jsonb;end$$;
+ -- Boolean admission delegates to this isolated permission stand-in. These
+ -- context/fallback controls do not benchmark the real Native access helper.
+ create function cp7_sales.command_allowed(action text)returns boolean language sql stable security invoker set search_path='' as $$select cp7_sales.command_access(action) is not null$$;
  create or replace function erp.require_internal()${guard}$function$;
  create function public.guard_allow()returns void language plpgsql security definer set search_path='' as $$begin perform erp.require_internal();end$$;
  create function public.guard_deny()returns void language plpgsql security definer set search_path='' as $$begin
@@ -78,4 +81,20 @@ test('matching sales scope still checks revoked fine rights before legacy fallba
   set session authorization authenticator;select public.guard_allow();reset session authorization;
   update public.guard_subject set permissions=array[]::text[];
   set session authorization authenticator;select public.guard_scope_deny();reset session authorization;rollback;`)
+})
+
+test('every preceding context keeps its priority over a refused matching sales scope',async()=>{
+ const contexts=[
+  ['erp.cutting_bridge_execution_context',`pg_backend_pid(),txid_current(),'${actor}','POST_CUTTING','production.cutting.post'`,'production.cutting.post'],
+  ['erp.bs_resolution_execution_context',`pg_backend_pid(),txid_current(),'${actor}','SAVE_REWORK','production.bs_rework.create'`,'production.bs_rework.create'],
+  ['erp.cp6_laundry_qc_execution_context',`pg_backend_pid(),txid_current(),'${actor}','POST_RECEIPT','production.laundry.post'`,'production.laundry.post'],
+  ['cp7_procurement.execution_context',`pg_backend_pid(),txid_current(),'${actor}','POST','warehouse.procurement.post'`,'warehouse.procurement.view,warehouse.procurement.post'],
+  ['cp7_material.execution_context',`pg_backend_pid(),txid_current(),'${actor}','POST_COUNT','warehouse.stock.adjust'`,'warehouse.material.view,warehouse.stock.adjust'],
+  ['cp7_supplier_return.execution_context',`pg_backend_pid(),txid_current(),'${actor}','POST','warehouse.procurement.reverse'`,'warehouse.procurement.view,warehouse.procurement.reverse'],
+ ]
+ for(const [table,row,permissions] of contexts)await db.execute(`begin;${claims}
+  update public.guard_subject set permissions=string_to_array('${permissions}',',');
+  insert into ${table} values(${row});
+  insert into cp7_sales.command_context values(pg_backend_pid(),txid_current(),'${actor}','POST');
+  set session authorization authenticator;select public.guard_allow();reset session authorization;rollback;`)
 })

@@ -1,0 +1,11 @@
+{
+  "source_commit": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3",
+  "run_id": 37455930630,
+  "job_id": 112243413321,
+  "status": "ORIGINAL_WORKFLOW_FAILURE_RETAINED",
+  "failed_step": "Run npm test",
+  "artifacts_available": 0,
+  "full_job_log_sha256": "e4dcfa5b9d632fe20ba2674a74296553750c73d1770e6321c6a5afcdb87ba6f7",
+  "original_refusals_preserved": true,
+  "Native_case_credit_added": 0
+}

@@ -2,9 +2,10 @@ import assert from'node:assert/strict'
 import{assertQuotedNativePrompt}from'./cp7_f05_ai_offline_browser.mjs'
 import{execFileSync}from'node:child_process'
 import{mkdirSync,writeFileSync}from'node:fs'
+import{beginClickMeasurement,readClickMeasurement,currentClickMeasurements,clearClickMeasurements}from'./cp7_p19_browser_latency.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p18_e01_bridge_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
-async function sharedConsumers(ui,page,panel,original,native,user,shot,mobile,beforeCapture){
+async function sharedConsumers(ui,page,panel,original,native,user,shot,mobile,beforeCapture,loading){
  // The same real Native E01 execution additionally witnesses E08/E18. It is
  // not counted as another lifecycle, a full planner/apply or an AI call.
  const state=()=>fixture('state',{fixture:native.fixture,actor:user.user.id})
@@ -27,10 +28,13 @@ async function sharedConsumers(ui,page,panel,original,native,user,shot,mobile,be
  for(const key of['actual_fg','target_qty','q_base','q_conditional'])assert.deepEqual(JSON.parse(await ownRow.locator(`[data-fact="${key}"]`).getAttribute('data-native-fact')),target[key])
  await shot('P18_SHARED_STOCK_'+(mobile?'MOBILE':'DESKTOP')+'.png')
  const popupReply=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_read_analysis_v1'))
- await ownRow.getByRole('button').click();const reviewed=await popupReply;assert.equal(reviewed.status(),200);assert.equal(reviewed.request().postDataJSON().p_run,original.run_id);assert.deepEqual((await reviewed.json()).analysis,original.analysis)
+ const popupButton=ownRow.getByRole('button'),popupTiming='STOCK_POPUP_'+(mobile?'MOBILE':'DESKTOP')
+ await ui.expect(popupButton).toBeEnabled();await beginClickMeasurement(popupButton,{id:popupTiming,mode:'STOCK_POPUP',kind:'ROUTINE_READ',target:target.target.key,run:original.run_id})
+ await popupButton.click();const reviewed=await popupReply;assert.equal(reviewed.status(),200);assert.equal(reviewed.request().postDataJSON().p_run,original.run_id);assert.deepEqual((await reviewed.json()).analysis,original.analysis)
  const popup=page.getByRole('dialog');await ui.expect(popup).toBeVisible();await ui.expect(popup).toHaveAttribute('data-analysis-target',target.target.key)
  for(const [attribute,value]of[['data-run-id',original.run_id],['data-source-hash',original.analysis.snapshot.source_hash],['data-semantic-hash',original.analysis.semantic_hash]])await ui.expect(popup).toHaveAttribute(attribute,value)
  for(const key of['actual_fg','target_qty','q_base','q_conditional','feasible_new'])assert.deepEqual(JSON.parse(await popup.locator(`[data-fact="${key}"]`).getAttribute('data-native-fact')),target[key])
+ const popupSample=await readClickMeasurement(page,popupTiming,reviewed,'ROUTINE_READ');assert.equal(popupSample.rendered.source_hash,original.analysis.snapshot.source_hash);assert.equal(popupSample.rendered.semantic_hash,original.analysis.semantic_hash);loading.push(popupSample)
  await ui.expect(popup).toContainText('Bahan yang dikeluarkan belum tentu terpasang');await shot('P18_SHARED_STOCK_POPUP_'+(mobile?'MOBILE':'DESKTOP')+'.png')
  await popup.getByRole('button',{name:'Tutup rincian stok',exact:true}).click();await ui.expect(page.getByRole('dialog')).toHaveCount(0);await sameRun()
  await panel.getByRole('tab',{name:'Laporan',exact:true}).click()
@@ -69,14 +73,17 @@ async function sharedConsumers(ui,page,panel,original,native,user,shot,mobile,be
 }
 async function journey(ui,today,mobile){
  const native=fixture('prepare',{today}),user=await ui.login('OWNER',{label:'p18-e01-bridge-'+mobile,mobile,timezoneId:'America/Los_Angeles'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP'
- const panel=page.getByRole('region',{name:'Analisis ERP bersama',exact:true}),reports=panel.getByRole('region',{name:'Laporan ERP tersimpan',exact:true}),appendix=reports.getByRole('region',{name:'Lampiran tagihan laporan ERP',exact:true}),history=page.getByRole('region',{name:'Data permintaan ERP',exact:true}),shots=[]
+ const panel=page.getByRole('region',{name:'Analisis ERP bersama',exact:true}),reports=panel.getByRole('region',{name:'Laporan ERP tersimpan',exact:true}),appendix=reports.getByRole('region',{name:'Lampiran tagihan laporan ERP',exact:true}),history=page.getByRole('region',{name:'Data permintaan ERP',exact:true}),shots=[],loading=[]
  let original=null,base=null,preview=null,one=null,lost=null,routeError=null,sharedWitness=null
  const shot=async name=>{await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});shots.push(name)}
  try{
   mkdirSync('cp6-proof/t3',{recursive:true});await navigate(page);const dirty=page.getByLabel('Cari barang jadi',{exact:true});await dirty.fill('P18 E01 ISIAN GUDANG');await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()
   const beforeCapture=fixture('state',{fixture:native.fixture,actor:user.user.id})
-  const capture=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();const c=await capture;assert.equal(c.status(),200);original=await c.json()
-  sharedWitness=await sharedConsumers(ui,page,panel,original,native,user,shot,mobile,beforeCapture)
+  const capture=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1')),captureButton=panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}),captureTiming='ANALYSIS_CAPTURE_'+suffix
+  await ui.expect(captureButton).toBeEnabled();await beginClickMeasurement(captureButton,{id:captureTiming,mode:'CAPTURE',kind:'HEAVY_COMPLETE'})
+  await captureButton.click();const c=await capture;assert.equal(c.status(),200);original=await c.json();await ui.expect(panel.locator('.native-analysis-run span')).toHaveText(original.run_id);await ui.expect(captureButton).toBeEnabled()
+  const captureSample=await readClickMeasurement(page,captureTiming,c,'HEAVY_COMPLETE');assert.equal(captureSample.rendered.run_id,original.run_id);loading.push(captureSample)
+  sharedWitness=await sharedConsumers(ui,page,panel,original,native,user,shot,mobile,beforeCapture,loading)
   await reports.getByLabel('Jenis laporan tersimpan',{exact:true}).selectOption('PERIOD');await reports.getByLabel('Judul laporan tersimpan',{exact:true}).fill('Laporan dasar untuk lampiran');await reports.getByLabel('Alasan laporan tersimpan',{exact:true}).fill('Sumber Native ditinjau');await reports.getByLabel('Laporan sudah ditinjau',{exact:true}).check()
   const savingBase=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_publish_report_v1'));await reports.getByRole('button',{name:'Simpan laporan yang ditinjau',exact:true}).click();const saved=await savingBase;assert.equal(saved.status(),200);base=(await saved.json()).document
   await appendix.getByLabel('Judul lampiran tagihan',{exact:true}).fill('Lampiran tagihan Native');await appendix.getByLabel('Alasan lampiran tagihan',{exact:true}).fill('Tanggal dan angka yang diketahui sekarang ditinjau')
@@ -91,8 +98,13 @@ async function journey(ui,today,mobile){
   // Bind the post-deactivation requests themselves; an older in-flight200
   // must never satisfy the current-authority403 witness.
   fixture('deactivate',{actor:user.user.id});const denied=page.waitForRequest(r=>r.url().endsWith('/rpc/erp_cp7_read_obligation_report_v1')),parent=page.waitForRequest(r=>r.url().endsWith('/rpc/erp_cp7_get_fg_v1'));await appendix.getByRole('button',{name:'Periksa & salin lampiran tagihan',exact:true}).click();const deniedReply=await(await denied).response(),parentReply=await(await parent).response();assert.ok(deniedReply&&parentReply);assert.equal(deniedReply.status(),403);assert.equal(parentReply.status(),403);await ui.expect(appendix.getByLabel('Teks lampiran tagihan tersimpan',{exact:true})).toHaveCount(0);await ui.expect(appendix.getByLabel('Salinan manual lampiran tagihan',{exact:true})).toHaveCount(0);await ui.expect(panel.locator('.native-analysis-result')).toHaveCount(0);await ui.expect(page.locator('.cfg-totals')).toHaveCount(0);assert.equal(await dirty.inputValue(),'P18 E01 ISIAN GUDANG');assert.equal(await appendix.getByLabel('Alasan lampiran tagihan',{exact:true}).inputValue(),'Alasan belum dikirim');await shot('P18_E01_BRIDGE_CURRENT_AUTH_'+suffix+'.png')
-  return{status:'PASS',real_Auth_E01_60_to_sale20_cash200_return5_and_same_Native_report_AR175_payroll180:true,lost_committed_reply_identical_UUID_recovery_one_archive:true,actual_public_cash_inverse_AR375_stock45_HPP15_old_body_and_snapshot_retained:true,current403_retires_body_clipboard_Original_and_parent_FG_HPP:true,dirty_operator_and_stock_fields_preserved_under_foreign_device_timezone:true,shared_four_view_witness:sharedWitness,screenshots:shots}
+  return{status:'PASS',real_Auth_E01_60_to_sale20_cash200_return5_and_same_Native_report_AR175_payroll180:true,lost_committed_reply_identical_UUID_recovery_one_archive:true,actual_public_cash_inverse_AR375_stock45_HPP15_old_body_and_snapshot_retained:true,current403_retires_body_clipboard_Original_and_parent_FG_HPP:true,dirty_operator_and_stock_fields_preserved_under_foreign_device_timezone:true,shared_four_view_witness:sharedWitness,p19_loading_samples:loading,screenshots:shots}
  }catch(e){try{const diagnostic=JSON.parse(execFileSync('python',['../auditor/scripts/cp7_native_read_profile.py'],{input:JSON.stringify({actor:user.user.id,today}),cwd:'../writer',encoding:'utf8',timeout:30000,maxBuffer:1024*1024}).trim());writeFileSync('cp6-proof/t3/P18_E01_BRIDGE_'+suffix+'_READ_PROFILE.json',JSON.stringify(diagnostic,null,2))}catch{};writeFileSync('cp6-proof/t3/P18_E01_BRIDGE_'+suffix+'_FAILURE.json',JSON.stringify({error:String(e),text:await panel.innerText().catch(()=>''),original,base,preview,one,lost},null,2));await page.screenshot({path:'cp6-proof/t3/P18_E01_BRIDGE_'+suffix+'_FAILURE.png',fullPage:true}).catch(()=>{});throw e}
- finally{await page.unrouteAll({behavior:'wait'});fixture('restore',{actor:user.user.id});await user.context.close()}
+ finally{
+  const incomplete=await currentClickMeasurements(page).catch(()=>[])
+  const context=await page.evaluate(()=>({viewport:{width:innerWidth,height:innerHeight},timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,user_agent:navigator.userAgent})).catch(()=>null)
+  writeFileSync('cp6-proof/t3/P19_BROWSER_LOADING_'+suffix+'.json',JSON.stringify({classification:'BOUNDED_CI_LOOPBACK_REAL_AUTH_CLICK_TO_RENDER',device:suffix,context,network:'DISPOSABLE_SUPABASE_LOOPBACK_NO_THROTTLING',samples:loading,raw_click_witnesses:incomplete,source_run:original?.run_id,complete_Native_Original_verified:Boolean(sharedWitness),Native_case_credit_added:0,factory_SLA_acceptance:false},null,2))
+  await clearClickMeasurements(page).catch(()=>{});await page.unrouteAll({behavior:'wait'});fixture('restore',{actor:user.user.id});await user.context.close()
+ }
 }
 export function cases(ui,today){return[['P18_E01_BRIDGE_BROWSER_DESKTOP',()=>journey(ui,today,false)],['P18_E01_BRIDGE_BROWSER_MOBILE',()=>journey(ui,today,true)]]}

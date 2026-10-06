@@ -72,13 +72,26 @@ try{
  select set_config('kernel.role','service_role',false);select public.p19_compare('SERVICE_JWT_REJECTED');
  select set_config('kernel.role','anon',false);select public.p19_compare('ANON_JWT_REJECTED');select set_config('kernel.role','authenticated',false);
  select set_config('kernel.subject','',false);select public.p19_compare('AUTH_SUBJECT_ABSENT');select set_config('kernel.subject','10000000-0000-4000-8000-000000000003',false);
+ select set_config('kernel.subject','10000000-0000-4000-8000-000000000009',false);select public.p19_compare('APP_USER_UNMAPPED');select set_config('kernel.subject','10000000-0000-4000-8000-000000000003',false);
+ select set_config('kernel.role','OWNER',false);select public.p19_compare('CLAIM_ROLE_OWNER_REJECTED');select set_config('kernel.role','authenticated',false);
+ update erp.app_roles set is_protected=true;select public.p19_compare('CUSTOM_ROLE_PROTECTED_HAS_NO_UNIVERSAL_GRANT');update erp.app_roles set is_protected=false;
+ update erp.app_permissions set is_active=false where permission_key='finance.ar.view';select public.p19_compare('PERMISSION_CATALOG_INACTIVE');update erp.app_permissions set is_active=true where permission_key='finance.ar.view';
  update erp.app_roles set role_code='OWNER',is_protected=true;select public.p19_compare('NATIVE_ROLE:OWNER');
+ delete from erp.app_role_permissions;select public.p19_compare('OWNER_NO_EXPLICIT_PERMISSIONS');
+ update erp.app_users set is_active=false;select public.p19_compare('OWNER_USER_INACTIVE');update erp.app_users set is_active=true;
+ update erp.app_roles set is_active=false;select public.p19_compare('OWNER_ROLE_INACTIVE');update erp.app_roles set is_active=true,is_protected=false;
+ insert into erp.app_role_permissions select '10000000-0000-4000-8000-000000000001',permission_key from erp.app_permissions;select public.p19_compare('OWNER_NOT_PROTECTED_ALL_FINE_RIGHTS');
+ delete from erp.app_role_permissions where permission_key='finance.ar.view';select public.p19_compare('OWNER_NOT_PROTECTED_AR_REVOKED');insert into erp.app_role_permissions values('10000000-0000-4000-8000-000000000001','finance.ar.view');
  update erp.app_roles set role_code='ADMIN',is_protected=false;select public.p19_compare('NATIVE_ROLE:ADMIN');
+ update erp.app_roles set is_protected=true;select public.p19_compare('ADMIN_PROTECTED_HAS_NO_UNIVERSAL_GRANT');
+ delete from erp.app_role_permissions where permission_key='finance.ar.view';select public.p19_compare('ADMIN_PROTECTED_AR_REVOKED');
+ delete from erp.app_role_permissions;select public.p19_compare('ADMIN_NO_EXPLICIT_PERMISSIONS');
+ update erp.app_roles set role_code='OWNER',is_protected=true;
  create function public.p19_time(f text,n integer,a text)returns numeric language plpgsql as $$declare start timestamptz:=clock_timestamp();i integer;v text;begin
   for i in 1..n loop v:=public.p19_decision(f,a);if v<>'ALLOW'then raise exception 'TIMING_NOT_ALLOWED';end if;end loop;
   return extract(epoch from clock_timestamp()-start)*1000;end$$;`)
  report.decisions=await db.query('select * from public.p19_comparisons')
- assert.equal(report.decisions.length,23*actions.length)
+ assert.equal(report.decisions.length,35*actions.length)
  report.differences=report.decisions.filter(r=>r.old_decision!==r.candidate_decision)
  report.negative_control_differences=report.decisions.filter(r=>r.old_decision!==r.negative_decision).length
  assert.deepEqual(report.differences,[])
@@ -86,7 +99,7 @@ try{
  report.samples=[]
  for(const action of ['POST','SALE_REVERSE']){
   const [v]=await db.query(`select public.p19_time('command_access',4000,${literal(action)}) predecessor_ms,public.p19_time('command_allowed',4000,${literal(action)}) candidate_ms`)
-  report.samples.push({action,invocations:4000,...v})
+  report.samples.push({action,invocations:4000,current_profile:'NATIVE_PROTECTED_OWNER_NO_EXPLICIT_PERMISSIONS',...v})
  }
  report.ledger_canary_unchanged=(await db.query('select amount::text amount from public.f04_ledger_canary'))[0].amount==='12345.67'
  assert.ok(report.ledger_canary_unchanged)

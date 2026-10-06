@@ -1,0 +1,101 @@
+{
+  "source_commit": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3",
+  "source_tree": "21af609ddde0b75746e80d767378bfe526d6b5fa",
+  "artifact": {
+    "id": 11410600381,
+    "name": "cp7-note-command-diagnostic",
+    "size_in_bytes": 1819471,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11410600381",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11410600381/zip",
+    "expired": false,
+    "created_at": "2026-10-06T11:35:23Z",
+    "expires_at": "2026-11-05T11:35:22Z",
+    "updated_at": "2026-10-06T11:35:23Z",
+    "digest": "sha256:56b1b6ce022ac7a1962fb9aff680a420e21017b2001c3ceba87fa93e4e8ad09d",
+    "workflow_run": {
+      "id": 37455930747,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "cp7/integration",
+      "head_sha": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3"
+    }
+  },
+  "zip_all_members_verified": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385605,
+      "sha256": "3bb98278373e505e48803a32a95635f4da67cfd5b31085a11885a0a15f0ce80b"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385605,
+      "sha256": "3bb98278373e505e48803a32a95635f4da67cfd5b31085a11885a0a15f0ce80b"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "90fc10a6eb0046cf49207cdb06fd48729c61695de4df9e79a6833dd2b1df8856"
+    },
+    "CP7_NOTE_COMMAND_DIAGNOSTIC.json": {
+      "bytes": 3809703,
+      "sha256": "8c76f9bdd11704c3d7b5b7e209d3c73d273d36c3c3bd1332f09376bc0feadc4a"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "b1dbe08e3c8931bf79e1c2dc93158d5cb9bb7119e14b13757b2879cd38201ad0"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360411,
+      "sha256": "24585a581c0801f93bc46206f33a3a2c4f38baec546a96fbf724be851c5ba339"
+    }
+  },
+  "original_reports_gzip_sha256": "be776e9fa36f657a64e510eb8160c696fc00b1ceae51dd56c758682436477218",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "status": "DIAGNOSTIC_EMISSION_COMPLETE",
+  "runtime_report": "CP7_NOTE_COMMAND_DIAGNOSTIC.json",
+  "expected_case_count": 2,
+  "cases": {
+    "native": [
+      "NOTE_COMMAND_TIMING_AND_EXACT_ROLLBACK"
+    ],
+    "http": [
+      "NOTE_ACTUAL_AUTH_POSTGREST_DEFAULT_VS_JIT_EMISSION"
+    ]
+  },
+  "counts": {
+    "native": 1,
+    "http": 1
+  },
+  "source_bundle_sha256": "dc0337a8c0aef820fd4784b8c61f586f33fe2d03faa250149c999572f674c23d",
+  "Native_case_credit_added": 0,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0
+}

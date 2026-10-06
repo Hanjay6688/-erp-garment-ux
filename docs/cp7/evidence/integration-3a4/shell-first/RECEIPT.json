@@ -1,0 +1,49 @@
+{
+  "source_commit": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3",
+  "source_tree": "21af609ddde0b75746e80d767378bfe526d6b5fa",
+  "artifact": {
+    "id": 11410245150,
+    "name": "cp7-shell-proof",
+    "size_in_bytes": 14221,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11410245150",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11410245150/zip",
+    "expired": false,
+    "created_at": "2026-10-06T11:32:49Z",
+    "expires_at": "2026-11-05T11:32:49Z",
+    "updated_at": "2026-10-06T11:32:49Z",
+    "digest": "sha256:0be523aeee27faa4210fa7bde929a330eefa062429c6fc84c252f64e65e92089",
+    "workflow_run": {
+      "id": 37455930498,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "cp7/integration",
+      "head_sha": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3"
+    }
+  },
+  "zip_all_members_verified": {
+    "f04-private-kernels.json": {
+      "bytes": 53273,
+      "sha256": "9f65480683f46760c531be59e87c0463445e56fd87ee314e9712f2fe293123c5"
+    },
+    "fabric-recipe.json": {
+      "bytes": 60594,
+      "sha256": "8c9fc43b2faad0e6f535a047d13de5fe295b79463996f66767a6bdf8ff79564f"
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+    }
+  },
+  "original_reports_gzip_sha256": "09c71a949de1f74d41f2db77afc8efad0dbdb3cbb28a4e248660707142030cea",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "status": "ORIGINAL_WORKFLOW_FAILURE_RETAINED",
+  "failed_step": "Run npm test",
+  "Native_case_credit_added": 0,
+  "full_job_log_sha256": "22a8f95d010aa6acd908934cfc30daf32f8d540ddc72283096a42a2c1a3dd9fc"
+}

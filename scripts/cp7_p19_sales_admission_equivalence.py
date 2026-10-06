@@ -5,6 +5,7 @@ This strengthens the existing P11 private-fields case; it adds no case credit.
 Every temporary profile/permission change is rolled back before returning.
 """
 import json
+import uuid
 import psycopg
 
 ACTIONS = ('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE',
@@ -73,17 +74,51 @@ def compare(cur, auth, api, boundary):
         pair('SERVICE_JWT_REJECTED',jwt_role='service_role')
         pair('ANON_JWT_REJECTED',jwt_role='anon')
         pair('AUTH_SUBJECT_ABSENT',subject_id=None)
+        pair('APP_USER_UNMAPPED',subject_id=str(uuid.uuid4()))
+        pair('CLAIM_ROLE_OWNER_REJECTED',jwt_role='OWNER')
+        api.admin(cur)
+        cur.execute('update erp.app_roles set is_protected=true where id=%s',(role,))
+        pair('CUSTOM_ROLE_PROTECTED_HAS_NO_UNIVERSAL_GRANT')
+        api.admin(cur)
+        cur.execute('update erp.app_roles set is_protected=false where id=%s',(role,))
+        cur.execute("update erp.app_permissions set is_active=false where permission_key='finance.ar.view'")
+        pair('PERMISSION_CATALOG_INACTIVE')
+        api.admin(cur)
+        cur.execute("update erp.app_permissions set is_active=true where permission_key='finance.ar.view'")
         for code in ('OWNER','ADMIN'):
             api.admin(cur)
             native_role = cur.execute('select id from erp.app_roles where role_code=%s and is_active',(code,)).fetchone()[0]
             cur.execute('update erp.app_users set role_id=%s where auth_user_id=%s',(native_role,subject))
             pair('NATIVE_ROLE:'+code)
+            if code == 'OWNER':
+                cur.execute('delete from erp.app_role_permissions where role_id=%s',(native_role,))
+                pair('OWNER_NO_EXPLICIT_PERMISSIONS')
+                cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(subject,))
+                pair('OWNER_USER_INACTIVE')
+                cur.execute('update erp.app_users set is_active=true where auth_user_id=%s',(subject,))
+                cur.execute('update erp.app_roles set is_active=false where id=%s',(native_role,))
+                pair('OWNER_ROLE_INACTIVE')
+                cur.execute('update erp.app_roles set is_active=true,is_protected=false where id=%s',(native_role,))
+                for permission in PERMISSIONS:
+                    cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s)',(native_role,permission))
+                pair('OWNER_NOT_PROTECTED_ALL_FINE_RIGHTS')
+                cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ar.view'",(native_role,))
+                pair('OWNER_NOT_PROTECTED_AR_REVOKED')
+            else:
+                for permission in PERMISSIONS:
+                    cur.execute('insert into erp.app_role_permissions(role_id,permission_key) values(%s,%s) on conflict do nothing',(native_role,permission))
+                cur.execute('update erp.app_roles set is_protected=true where id=%s',(native_role,))
+                pair('ADMIN_PROTECTED_HAS_NO_UNIVERSAL_GRANT')
+                cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ar.view'",(native_role,))
+                pair('ADMIN_PROTECTED_AR_REVOKED')
+                cur.execute('delete from erp.app_role_permissions where role_id=%s',(native_role,))
+                pair('ADMIN_NO_EXPLICIT_PERMISSIONS')
     finally:
         cur.execute('rollback to savepoint p19_admission_equivalence')
         cur.execute('release savepoint p19_admission_equivalence')
         api.admin(cur)
     assert boundary.snapshot(cur) == before, 'P19_ADMISSION_NATIVE_BOUNDARY_CHANGED'
-    assert len(decisions) == 23 * len(ACTIONS) == 253
+    assert len(decisions) == 35 * len(ACTIONS) == 385
     return dict(status='EXACT_DECISIONS_AND_REFUSALS', comparisons=len(decisions), decisions=decisions,
                 all_actions_and_current_revocations=True, full_boundary_restored=True,
                 Native_case_credit_added=0, Native_money_HPP_engines_changed=False,

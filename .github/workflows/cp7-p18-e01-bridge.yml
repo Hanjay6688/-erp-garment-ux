@@ -7,6 +7,7 @@ name: CP7 P18 E01 Consumer Bridge
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_catalog_state.py
     - scripts/cp7_p18_e01_bridge_*
+    - scripts/cp7_p19_browser_*
     - scripts/cp7_f03_e01_*
     - scripts/cp7_f05_analysis_probe.py
     - scripts/cp7_f05_obligation_report_browser.mjs
@@ -204,6 +205,10 @@ jobs:
     - name: Install accepted package and qualify the focused E01 consumer bridge
       working-directory: writer
       run: python '../auditor/scripts/cp7_p18_e01_bridge_probe.py'
+    - name: Require all four declared real browser loading samples within owner limits
+      if: always()
+      working-directory: auditor
+      run: python scripts/cp7_p19_browser_loading_verify.py cp6-proof/t3
     - name: Remove disposable database
       if: always()
       working-directory: base

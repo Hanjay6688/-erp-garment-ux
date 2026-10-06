@@ -46,21 +46,44 @@ def preservation_controls(raw):
     return controls
 
 @contextmanager
-def exact_public_catalog(runner,retain_raw=False):
+def exact_public_catalog(runner,retain_raw=False,retain_locations=False):
     original=runner.public_state
     audit=dict(policy='ALL_ORIGINAL_FIELDS_AND_FUNCTION_SIGNATURE_HASH_PAIRS_EXACT_SORTED',dropped_fields=[],physical_order_only_changes=[])
     if retain_raw:
         audit['raw_snapshots']=[]
     previous=None
+    previous_locations=None
     count=0
     def read(cur):
-        nonlocal previous,count
+        nonlocal previous,previous_locations,count
         raw=original(cur);state=canonical_public_state(raw);count+=1
         fingerprint=lambda value:hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest()
         if retain_raw:
             if count==1:
                 audit['read_only_preservation_controls']=preservation_controls(raw)
             audit['raw_snapshots'].append(dict(snapshot=count,raw=deepcopy(raw),exact_canonical_state_sha256=fingerprint(state)))
+        if retain_locations:
+            assert retain_raw, 'CP7_CATALOG_LOCATIONS_REQUIRE_COMPLETE_RAW_STATE'
+            rows=cur.execute("""select p.oid::text,p.oid::regprocedure::text,p.ctid::text,
+              md5(pg_get_functiondef(p.oid)),pg_get_userbyid(p.proowner)
+              from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+              where n.nspname='public' and p.prokind in('f','p') order by p.oid""").fetchall()
+            locations=[dict(oid=oid,signature=signature,tuple_slot=slot,definition_hash=digest,owner=owner)
+                       for oid,signature,slot,digest,owner in rows]
+            assert sorted((r['signature'],r['definition_hash'])for r in locations)==sorted(map(tuple,raw['functions'])), 'CP7_CATALOG_LOCATION_MEMBERS_MUST_MATCH_EVERY_RAW_PAIR'
+            audit['raw_snapshots'][-1]['public_function_locations']=locations
+            current={r['signature']:r for r in locations}
+            assert len(current)==len(locations), 'CP7_CATALOG_LOCATION_SIGNATURE_DUPLICATE'
+            if previous_locations is not None:
+                same=set(current)==set(previous_locations)
+                changed=[dict(signature=k,before=previous_locations.get(k),after=current.get(k))
+                         for k in sorted(set(current)|set(previous_locations))
+                         if previous_locations.get(k)!=current.get(k)]
+                identities=same and all(current[k]['oid']==previous_locations[k]['oid'] and current[k]['owner']==previous_locations[k]['owner']for k in current)
+                audit.setdefault('function_location_comparisons',[]).append(dict(before_snapshot=count-1,after_snapshot=count,
+                    exact_signature_oid_owner_unchanged=identities,changed_locations=changed))
+                assert identities, 'CP7_PUBLIC_FUNCTION_IDENTITY_OR_OWNER_CHANGED'
+            previous_locations=current
         if previous is not None and previous[1]==state and previous[0]['functions']!=raw['functions']:
             audit['physical_order_only_changes'].append(dict(before_snapshot=count-1,after_snapshot=count,exact_canonical_state_sha256=fingerprint(state),before_order_sha256=fingerprint(previous[0]['functions']),after_order_sha256=fingerprint(raw['functions'])))
         previous=(deepcopy(raw),state)

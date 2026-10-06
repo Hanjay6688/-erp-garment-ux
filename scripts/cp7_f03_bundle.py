@@ -25,12 +25,15 @@ def attendance_internal_body():
 def sales_after_attendance():
  # The standalone P11 guard requires exactly P09. In this one declared order,
  # require exactly P09 + Nota + settlement + attendance instead. Preserve all
- # admission predicates and the entire P11 extension; change only that hash.
+ # admission predicates and the entire P11 extension. The early dispatch must
+ # additionally decline when any of the three preceding F03 contexts is set.
  base=(ROOT/'scripts/cp7-src/procurement/accepted-deltas.sql').read_text().split('as $function$',1)[1].split('$function$',1)[0]
  old_hash=hashlib.sha256(base.encode()).hexdigest();new_hash=hashlib.sha256(attendance_internal_body().encode()).hexdigest();sql=sales.extension()
  assert old_hash!=new_hash and sql.count(old_hash)==1
  assert all(s in attendance_internal_body() for s in ('cp7_payroll.execution_context','cp7_payroll.settlement_context','cp7_attendance.command_context'))
- return sql.replace(old_hash,new_hash,1)
+ standalone_early=sales.early_admission(base);combined_early=sales.early_admission(attendance_internal_body())
+ assert sql.count(standalone_early)==1 and standalone_early!=combined_early
+ return sql.replace(old_hash,new_hash,1).replace(standalone_early,combined_early,1)
 
 def extension():
  prefix=procurement.bundle();full=attendance.bundle();assert full.startswith(prefix+'\n')

@@ -1,0 +1,226 @@
+{
+  "source_commit": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3",
+  "source_tree": "21af609ddde0b75746e80d767378bfe526d6b5fa",
+  "artifact": {
+    "id": 11410256119,
+    "name": "cp7-note-correction",
+    "size_in_bytes": 15140836,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11410256119",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11410256119/zip",
+    "expired": false,
+    "created_at": "2026-10-06T11:39:25Z",
+    "expires_at": "2026-11-05T11:39:23Z",
+    "updated_at": "2026-10-06T11:39:25Z",
+    "digest": "sha256:de76bbe4d0859b0aa4dc4b4db8f2e2b67784a81656b2e4e5af3e127da2b898bf",
+    "workflow_run": {
+      "id": 37455930324,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "cp7/integration",
+      "head_sha": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3"
+    }
+  },
+  "zip_all_members_verified": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385619,
+      "sha256": "1ace3707c42662c7d5993c7ee5cc47384a4f6657847bcce93ff855246fdf526d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385619,
+      "sha256": "1ace3707c42662c7d5993c7ee5cc47384a4f6657847bcce93ff855246fdf526d"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "80b1f94061c7415338226e2a9bdd182ae3c24997b59a42630de189cf5ea1195e"
+    },
+    "CP7_NOTE_CORRECTION.json": {
+      "bytes": 4939677,
+      "sha256": "92ec72a55ddc430204968589f3d65edd718dd04ce03680a661c6f20fcf9d662b"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP.png": {
+      "bytes": 1272093,
+      "sha256": "dd4c856ff7f36e50bc8e2edada735a81928f9003528b80ea56281bc5dcb78573"
+    },
+    "NOTE_CORRECTED_BOOK_DESKTOP_MICROSECOND.png": {
+      "bytes": 1273826,
+      "sha256": "f6ccf09f60031c784c4650e7bdff3997e6b144e1d5e03c554b005fe9f8d1a298"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE.png": {
+      "bytes": 775185,
+      "sha256": "958e18931d5016098bf2f5eb6f59455acd94cb19a3414d80499a1ef9c95078e0"
+    },
+    "NOTE_CORRECTED_BOOK_MOBILE_MICROSECOND.png": {
+      "bytes": 776520,
+      "sha256": "7e073908c59495a80d37bee5a200cc6ed45b059b9604bd386b6174d79b130d91"
+    },
+    "NOTE_CORRECTED_LOT_DESKTOP.png": {
+      "bytes": 1306996,
+      "sha256": "9581bdb9f0d093329af6d7a9b2d88811c413d0a2477a5d360d6d63e9cc5cd899"
+    },
+    "NOTE_CORRECTED_LOT_DESKTOP_MICROSECOND.png": {
+      "bytes": 1310283,
+      "sha256": "d6bcd2e43ab45088e7bf5b0c8bf29ecd1b7613c85a10ed18553f94cf97cada50"
+    },
+    "NOTE_CORRECTED_LOT_MOBILE.png": {
+      "bytes": 821164,
+      "sha256": "858330d6b696bb3430da9eb2998434325069c892005ba3bba0b0d3a9fc3adeeb"
+    },
+    "NOTE_CORRECTED_LOT_MOBILE_MICROSECOND.png": {
+      "bytes": 824237,
+      "sha256": "a56f8eedcf0b52e36d7f1e3301d06310f5dd88991cb512230f34a5a0c9fe930e"
+    },
+    "NOTE_CORRECTION_DESKTOP.png": {
+      "bytes": 923593,
+      "sha256": "9e1151a0c0e1a1e04bf76589fdc4981981ca422d2454df6ea4f4ee7c09da600b"
+    },
+    "NOTE_CORRECTION_DESKTOP_MICROSECOND.png": {
+      "bytes": 926022,
+      "sha256": "009eed945866a9c6dfbcf6fe553d4ff00a440bed24fa474747dde7f12b13e486"
+    },
+    "NOTE_CORRECTION_MOBILE.png": {
+      "bytes": 688922,
+      "sha256": "2a0e98715eef0b06ce26ec50c13d42740f01ce2b79ac75fd9c529d2e19954445"
+    },
+    "NOTE_CORRECTION_MOBILE_MICROSECOND.png": {
+      "bytes": 649124,
+      "sha256": "6eecf61228b443f202d6e3c21054a5fde719bafbeb3c6286284057a0e3e3ca8e"
+    },
+    "NOTE_DESKTOP_HTTP_TRACE.json": {
+      "bytes": 5734,
+      "sha256": "db47d0ce73415c92b8dae3becb8afc37876a6b691d830679a63ac68355d6a6df"
+    },
+    "NOTE_DESKTOP_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 6278,
+      "sha256": "d16b72af6e3c31689cd92a94e16ef8e0bf3095138d9ab19a9f9ee4db48bace37"
+    },
+    "NOTE_DUPLICATE_SKU_LOT_CARD.png": {
+      "bytes": 1130938,
+      "sha256": "ca2d80e11cb58d3340ba775db51e4ab66eee3a698ef416b4fd90c6cac20c0074"
+    },
+    "NOTE_DUPLICATE_SKU_MAIN_BOOK.png": {
+      "bytes": 984747,
+      "sha256": "ffd663add9ac38c6a71c9d4d8f542ee3da741b6e149e8021869a76ce53f31bb7"
+    },
+    "NOTE_DUPLICATE_SKU_NATIVE_PROOF.json": {
+      "bytes": 37212,
+      "sha256": "f332bb70f92940d43d2437fcf02796382a424ddf6ca13029cf559d5d91963a5e"
+    },
+    "NOTE_MOBILE_HTTP_TRACE.json": {
+      "bytes": 6550,
+      "sha256": "af2f74281c76e860bf73e658b9736dca0128613a0e417157d803b973b5055963"
+    },
+    "NOTE_MOBILE_MICROSECOND_HTTP_TRACE.json": {
+      "bytes": 6135,
+      "sha256": "42c9037a4e20b842a6cf04bcb842f417e1a2b94acf03be7709410b9f128929f1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "4b93c7b0a0194a180b239bb801bb1092d731a981d8614bd8f9c77182602e4d6f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "879a9a68686918f2f3decf36e865ed2844884a9ae7ce71a592c21348d4c710b6"
+    }
+  },
+  "original_reports_gzip_sha256": "91db77d3f94ac46ab19030029a28d8bfca5a53bad97f3f19944c6dc0009b9539",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "runtime_report": "CP7_NOTE_CORRECTION.json",
+  "expected_case_count": 40,
+  "cases": {
+    "composition_smoke": [
+      "NOTE_FULL_NATIVE_FINANCIAL",
+      "NOTE_PREPAYMENT_REPLAY",
+      "NOTE_ECONOMIC_REPORT_RESTATEMENT"
+    ],
+    "native": [
+      "NOTE_YEAR_30",
+      "NOTE_YEAR_364",
+      "NOTE_REPEATED_REVISIONS",
+      "NOTE_FULL_NATIVE_FINANCIAL",
+      "NOTE_RETURN_OTHER_WAREHOUSE",
+      "NOTE_EXACT_CENTS",
+      "NOTE_ADDED_SKU_MAIN_BOOK",
+      "NOTE_HISTORICAL_NEGATIVE",
+      "NOTE_CLOSED_PERIOD_NATIVE_RULE",
+      "NOTE_LATE_FAILURE_ATOMIC",
+      "NOTE_OVERPAYMENT_ATOMIC",
+      "NOTE_RETURN_CAPACITY_ATOMIC",
+      "NOTE_CHILD_REVIEW_CHANGED",
+      "NOTE_REPLAY_CURRENT_AUTHORITY",
+      "NOTE_PRIVATE_CLOSED_FIELDS",
+      "NOTE_SAME_DAY_CHRONOLOGY",
+      "NOTE_PREPAYMENT_REPLAY",
+      "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC",
+      "NOTE_ECONOMIC_REPORT_RESTATEMENT",
+      "NOTE_EXACT_TIME_SOURCE_ORDER",
+      "NOTE_OLD_CASH_RETURN_REPORT",
+      "NOTE_OLD_ADVANCE_CASH_REPORT",
+      "NOTE_MULTI_LOT_CARD",
+      "NOTE_MULTI_LINE_ATOMIC",
+      "NOTE_CORRECTION_ACTOR",
+      "NOTE_DUPLICATE_SKU_LINES",
+      "NOTE_DUPLICATE_SKU_DELETE_REORDER",
+      "NOTE_DUPLICATE_SKU_RETURN_ATOMIC"
+    ],
+    "races": [
+      "NOTE_RACE_TWO_REQUESTS",
+      "NOTE_RACE_SAME_UUID",
+      "NOTE_RACE_PAYMENT",
+      "NOTE_RACE_REVOKE_DURING_WAIT"
+    ],
+    "http": [
+      "NOTE_HTTP_COMMAND_REPLAY_AUTH",
+      "NOTE_HTTP_CORRECTED_BOOK",
+      "NOTE_HTTP_LOT_AND_ACTOR"
+    ],
+    "browser": [
+      "NOTE_BROWSER_DESKTOP",
+      "NOTE_BROWSER_MOBILE_LOST_REPLY",
+      "NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD",
+      "NOTE_BROWSER_MOBILE_MICROSECOND_GUARD",
+      "NOTE_BROWSER_DUPLICATE_SKU_LINES"
+    ]
+  },
+  "counts": {
+    "native": 28,
+    "races": 4,
+    "http": 3,
+    "browser": 5
+  },
+  "source_bundle_sha256": "dc0337a8c0aef820fd4784b8c61f586f33fe2d03faa250149c999572f674c23d",
+  "Native_case_credit_added": 40,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0
+}

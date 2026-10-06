@@ -1,0 +1,147 @@
+{
+  "status": "FIRST_E03_INCOMPLETE_RETAINED_NOT_RECLASSIFIED",
+  "finding": "CAT01_EXISTING_E05_E06_PLUS_NEW_E03_SYMPTOM",
+  "source_commit": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3",
+  "source_tree": "21af609ddde0b75746e80d767378bfe526d6b5fa",
+  "run_id": 37455930675,
+  "job_id": 112243413567,
+  "artifact": {
+    "id": 11408998993,
+    "name": "cp7-f03-e03",
+    "size_in_bytes": 3606190,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11408998993",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11408998993/zip",
+    "expired": false,
+    "created_at": "2026-10-06T11:27:27Z",
+    "expires_at": "2026-11-05T11:27:26Z",
+    "updated_at": "2026-10-06T11:27:27Z",
+    "digest": "sha256:d48c91c6738b9dfaf179fc4ba4dbdde9931a3d472298e5e964323462d22ea1a7",
+    "workflow_run": {
+      "id": 37455930675,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "cp7/integration",
+      "head_sha": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385609,
+      "sha256": "2d8f80f50046cce05cb67d85b4470a79ea2bc0e08e654edd8192fa9bd8c327d2"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385609,
+      "sha256": "2d8f80f50046cce05cb67d85b4470a79ea2bc0e08e654edd8192fa9bd8c327d2"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "fb85403eff25d7439b75c7c4f070175825694b974149dc3331a9bf4d20c65fd7"
+    },
+    "CP7_F03_E03.json": {
+      "bytes": 308182,
+      "sha256": "1bc44b90a6080c392f68195a6e49386a03e71a94e10a26da9cc6148f93de1932"
+    },
+    "E03_CUSTOMER_CUSTODY_DESKTOP.png": {
+      "bytes": 221782,
+      "sha256": "46fb787547e9957b990178c7cbfa7a5f36f1da3877449f4c4cdb385a82f08e7c"
+    },
+    "E03_CUSTOMER_CUSTODY_MOBILE.png": {
+      "bytes": 130840,
+      "sha256": "34cea194f5489333ab84158e60d48891edda9835a7fff7a245b015caefd597f6"
+    },
+    "F03_E03_REFUND_DESKTOP_CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED.png": {
+      "bytes": 166154,
+      "sha256": "e9f465e893f26e845c2e27a6758c3e2bb06e7160728088d9efe1ca7034d3ef63"
+    },
+    "F03_E03_REFUND_DESKTOP_EXACT_UUID_RECONCILED.png": {
+      "bytes": 334816,
+      "sha256": "c52998f768b9bda345b85589a52665e285d4deeded54ac338a820045b584ff82"
+    },
+    "F03_E03_REFUND_DESKTOP_REVIEWED_SOURCE.png": {
+      "bytes": 318896,
+      "sha256": "92b391bb9c2a32ea750de2091bc76d1a739ca3d3b34754e36c92b11d6daced22"
+    },
+    "F03_E03_REFUND_DESKTOP_UNCERTAIN_REPLY_FACTS_RETIRED.png": {
+      "bytes": 164738,
+      "sha256": "473e8416d64681f6d83edb83d43bac094b20f2a2fb9e6f32d91bdc52bf6f3ac2"
+    },
+    "F03_E03_REFUND_MOBILE_CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED.png": {
+      "bytes": 89295,
+      "sha256": "7b81c133b7448c7ecc426cc0180b6b227c5617101760e8f113c26f38e1c16290"
+    },
+    "F03_E03_REFUND_MOBILE_EXACT_UUID_RECONCILED.png": {
+      "bytes": 252301,
+      "sha256": "a7c9788e31aada520b17b61ab0eaa2a11fd78c5e94e6f554d6e2ecd482df21c6"
+    },
+    "F03_E03_REFUND_MOBILE_REVIEWED_SOURCE.png": {
+      "bytes": 235236,
+      "sha256": "fa8cf2f5ce45fc1ff183055eb54bdc182a70efb8b02839dfc26d42c7699e8711"
+    },
+    "F03_E03_REFUND_MOBILE_UNCERTAIN_REPLY_FACTS_RETIRED.png": {
+      "bytes": 98275,
+      "sha256": "91c84a8a93ef5f4a2e61248edcb105b7e0f67ebfd19b07f6fdfa547f21a7f356"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "5d76fbff2835b997c8a2eec3bc807585b1f06ef42c2949f9b4fbd1ae810344da"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "0f497d0ff6276dfb6638487dd3304627203d10caf885c1bd389a73571ee09c03"
+    }
+  },
+  "original_reports_gzip_sha256": "84460a04c8cb4b19d5c018b1fdbc5faecba93c6d4eb4bf77039b98674bdaca36",
+  "job_log_utf8_sha256": "d17a7ba7d3b8b1af9c7a70d153307dd087862b9fe435c5a86c94cbeeb35d0825",
+  "native_case_statuses": {
+    "F03_E03_NATIVE_CUSTODY_SERVICE_INVERSE": "INCOMPLETE"
+  },
+  "groups": {
+    "native": {
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    },
+    "refund_native": {
+      "PASS": 2
+    },
+    "refund_races": {
+      "PASS": 1
+    },
+    "refund_http": {
+      "PASS": 1
+    },
+    "refund_browser": {
+      "PASS": 2
+    }
+  },
+  "observed_case_count": 10,
+  "expected_case_count": 10,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "raw_per_case_public_catalog_and_oid_witness_absent": true,
+  "exact_first_failure_root_cause_proved": false,
+  "qualification_credit": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

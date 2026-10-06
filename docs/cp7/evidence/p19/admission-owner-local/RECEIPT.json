@@ -1,0 +1,14 @@
+{
+  "status": "LOCAL_WASM_CONTROL_ONLY",
+  "admission_comparisons": 385,
+  "admission_differences": 0,
+  "deliberately_wrong_differences": 36,
+  "guard_unit_counts": {
+    "PASS": 8,
+    "FAIL": 3
+  },
+  "guard_failure": "WASM reset session authorization leaves fixture without UPDATE permission; Native CI still required",
+  "grants_not_widened": true,
+  "Native_case_credit_added": 0,
+  "factory_SLA_acceptance": false
+}

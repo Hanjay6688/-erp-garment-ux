@@ -7,6 +7,7 @@ name: CP7 F03 E03 Customer Service
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
     - scripts/cp7_f03_e03_*
     - scripts/cp7_f03_refund_*
+    - scripts/cp7_catalog_state.py
     - src/ConnectedInitialImportPage*
     - src/InitialImportContinuations*
     - scripts/cp7-src/**

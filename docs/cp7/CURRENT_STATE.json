@@ -11756,5 +11756,42 @@
     "full_CP7_acceptance": false,
     "independent_acceptance": false,
     "production_go": false
+  },
+  "writer_sales_dispatch_successor_20261006": {
+    "baseline_commit": "3a4f01e5b7d8cb8fcf98af6d1541d2dd44fb87a3",
+    "status": "CANDIDATE_REQUIRES_FRESH_NATIVE_QUALIFICATION",
+    "actual_baseline": {
+      "P11_planned_executions": 64,
+      "actual_permission_comparisons": 253,
+      "historical_note_planned_executions": 40,
+      "year364_command_ms": 4596.946,
+      "year364_total_http_ms": 5491.544,
+      "owner_3000ms_limit_met": false
+    },
+    "candidate_local_only": {
+      "exact_helper_decision_comparisons": 385,
+      "differences": 0,
+      "deliberately_wrong_differences": 36,
+      "WASM_existing_guard_fixture_failures": 3,
+      "Native_case_credit_added": 0
+    },
+    "candidate_declared_existing_case_controls": {
+      "P11_dispatch_comparisons": 51,
+      "combined_F03_dispatch_comparisons": 75,
+      "P11_case_budget": 64,
+      "combined_case_budget": 22,
+      "four_strict_browser_observations": 4
+    },
+    "Native_financial_helper_formulas_unchanged": true,
+    "authority_cached": false,
+    "full_current_authority_document_preserved": true,
+    "handoff": "docs/cp7/p19/P19_SALES_DISPATCH_20261006.md",
+    "browser_handoff": "docs/cp7/p19/P19_BROWSER_LOADING_DIAGNOSTIC_20261006.md",
+    "baseline_evidence": "docs/cp7/evidence/integration-3a4",
+    "owner_loading_acceptance": false,
+    "full_P19_acceptance": false,
+    "full_CP7_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

@@ -43,6 +43,12 @@ create function cp7_sales.command_allowed(p_action text) returns boolean
 language plpgsql stable security invoker set search_path='' as $$
 begin
  if auth.uid() is null or coalesce(auth.jwt()->>'role','')<>'authenticated' then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;
+ -- Native has_permission(NULL) can only be true for its current active,
+ -- protected OWNER universal grant here: service JWTs were refused above and
+ -- a SQL NULL cannot equal a stored permission key. Read that Native decision
+ -- anew; do not duplicate its role formula or cache authority. Invalid actions
+ -- still follow the unchanged exact refusal checks below.
+ if p_action in('CREATE','EDIT','POST','CANCEL','PAYMENT','PAYMENT_REVERSE','RETURN','RETURN_REVERSE','SALE_REVERSE') and erp.has_permission(null::text) then return true;end if;
  -- Native has_permission's positive invoice-view result also requires the
  -- same unique active app user and active role as get_my_access.allowed.
  if not erp.has_permission('sales.invoice.view') then raise exception using errcode='42501',message='CP7_SALES_ACCESS_DENIED';end if;
