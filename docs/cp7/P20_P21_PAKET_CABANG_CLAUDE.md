@@ -6,13 +6,13 @@ Status: draf persiapan. Belum ada audit independen dan belum ada pemasangan. `in
 
 | Lingkup | Suite | Bukti CI terakhir | Catatan |
 |---|---|---|---|
-| P08 fisik kain | NATIVE_FABRIC_PHYSICAL (21) | run 37387866413 (b292ae4c) — menunggu hasil | Kegagalan pertama 37357315101, 37360628807, 37366015511 dan 37374383973 tetap tercatat. |
-| P08 penerus resep | NATIVE_FABRIC_RECIPE (13) | PASS run 37374383973 (7c7f90db) | ID dan jumlah tetap. |
+| P08 fisik kain | NATIVE_FABRIC_PHYSICAL (21) | PASS 21/21 run 37387866413 (b292ae4c) | Kegagalan pertama 37357315101, 37360628807, 37366015511 dan 37374383973 tetap tercatat. |
+| P08 penerus resep | NATIVE_FABRIC_RECIPE (13) | PASS 13/13 run 37387866413 (b292ae4c) | ID dan jumlah tetap. |
 | Regresi analisis | analysis152, plan39 | PASS run 37366015511 (7b89f767) | Sumber produk SQL sama dengan head berikutnya. |
-| Rantai pengingat | attention284 | PASS run 37374383973 (7c7f90db) | Termasuk SQL pengingat `FABRIC_NEED`. |
+| Rantai pengingat | attention284 | PASS 284/284 run 37387866413 (b292ae4c) | Termasuk SQL pengingat `FABRIC_NEED`. |
 | P18 pengingat kain | CP7_P18_FABRIC_RULE (11) | PASS run 37374231262 (6f3216e2) | 7 DB, 1 race, 1 Auth/HTTP, 2 browser. |
 | P18 regresi | rule-lifecycle16, p18-e01-9 | PASS run 37366015710 (7b89f767) | |
-| Shell + CodeQL | Shell S0 (28 kontrol kain), CodeQL | PASS run 37374384031 / 37374231260 | Rerun di b292ae4c sedang berjalan. |
+| Shell + CodeQL | Shell S0 (28 kontrol kain), CodeQL | PASS run 37387866583 / 37387866362 (b292ae4c) | |
 
 Kandidat final untuk audit ditetapkan setelah seluruh baris di atas PASS pada satu head. Hasil LOCAL_PG16_DEV tidak dihitung sebagai bukti.
 

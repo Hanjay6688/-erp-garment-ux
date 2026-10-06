@@ -1,6 +1,6 @@
 # P08 — Bukti fisik kain (pemasangan, sisa layak, tambahan dari luar)
 
-Status: kandidat sumber di cabang `claude/new-session-deapao`, belum dikualifikasi Native. `full_P08_acceptance=false`, `independent_acceptance=false`, `production_go=false`. CP6 tetap HOLD.
+Status: kandidat sumber di cabang `claude/new-session-deapao`, sudah dikualifikasi Native di CI pada head b292ae4c (run 37387866413: fabric-physical21 21/21, fabric13 13/13, attention284 284/284). Belum diaudit independen. `full_P08_acceptance=false`, `independent_acceptance=false`, `production_go=false`. CP6 tetap HOLD.
 
 ## Tujuan
 
@@ -70,7 +70,8 @@ LOCAL_PG16_DEV (5 Okt 2026): kontrol SQL Shell kain 28/28 PASS (kontrol batas sk
 | 37360628807 | ebf3a394 | fabric13 PASS, analysis152 PASS, plan39 PASS, attention284 PASS; fabric-physical21 INCOMPLETE 13/21 | Native 11/16 dan race 1/2: `CP7_PLAN_SOURCE_CHANGED` karena apply memeriksa ulang drafnya sendiri (diperbaiki di 0cb8994d). Browser 0/2: fixture `state` tanpa `today` (`KeyError`). |
 | 37366015511 | 7b89f767 | analysis152 PASS, plan39 PASS; fabric-physical21 INCOMPLETE 17/21; fabric13 dan attention284 tidak dijalankan | Perbaikan apply terbukti (semua kasus draf bertaut lulus). Sisa: `P08_PHYSICAL_POSTED_ISSUE_ONCE` dan race `NATIVE_POST`, karena fixture memanggil helper `post` milik GPT saat sesi masih berperan `authenticated` (izin baca `erp.cutting_groups`). Browser 0/2: `KeyError: 'today'` yang sama. Diperbaiki di fixture saja (kembali ke admin sebelum `post`; `today` dikirim pada setiap panggilan fixture); oracle tidak diubah. fabric13/attention284: "job was not acquired by Runner" (kapasitas runner, bukan kode), dijalankan ulang. |
 | 37374383973 | 7c7f90db | fabric13 PASS, attention284 PASS; fabric-physical21 INCOMPLETE 17/21 | Fixture sudah benar; sisa dua hal. (1) `POSTED_ISSUE_ONCE` dan race `NATIVE_POST`: setelah POST potong nyata, identitas WIP hasil potong belum terbukti sehingga celah rencana bersama menjadi UNKNOWN dan baris kain ikut UNKNOWN. Ini fail-closed dan benar; oracle lama keliru mengira celah tetap diketahui. Oracle penerus (ID tetap) memeriksa: celah dan seluruh fakta kain UNKNOWN tanpa angka, grup yang sudah diposting tidak lagi tercatat sebagai draf, dan roll memegang tepat 10−6=4 di lokasinya (pengeluaran terhitung sekali). (2) Browser: teks Laporan hanya mengutip sumber `gross`, jadi rujukan stok bebas dan PO terbuka tidak tampil. Laporan diperbaiki agar mengutip sumber keempat fakta (tanpa duplikat; baris tanpa sumber fisik tidak berubah). |
+| 37387866413 | b292ae4c | **fabric-physical21 PASS 21/21** (16 DB, 2 race, 1 Auth/HTTP, 2 browser), **fabric13 PASS 13/13**, **attention284 PASS 284/284** | Sumber produk sama untuk fabric21/fabric13 (`source_sha256` a52a8680…). `cp6_restored=true`, `advisor_gate=true`. Pada head yang sama: Shell S0 PASS (run 37387866583, 28 kontrol kain) dan CodeQL PASS (run 37387866362). Kegagalan pertama di atas tetap tercatat. |
 
 ## Batas
 
-Belum ada: aktivasi reminder kain (P18), skala representatif (P19), audit independen (P20), pemasangan (P21). Aksesori BOM tetap terpisah (terpasang/sisa/tambahan aksesori masih UNKNOWN).
+Pengingat kain (P18, `FABRIC_NEED`) sudah ada di `docs/cp7/p18/P18_FABRIC_RULE.md`. Belum ada: skala representatif (P19), audit independen (P20), pemasangan (P21). Aksesori BOM tetap terpisah (terpasang/sisa/tambahan aksesori masih UNKNOWN).

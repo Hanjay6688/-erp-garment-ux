@@ -27,6 +27,7 @@ jobs:
     timeout-minutes: ${{ matrix.timeout }}
     strategy:
       fail-fast: false
+      max-parallel: 3
       matrix:
         include:
         - suite: fabric-physical21
@@ -35,8 +36,14 @@ jobs:
         - suite: fabric13-successor
           probe: cp7_fabric_recipe_probe.py
           timeout: 90
-        # analysis152 and plan39 passed on the identical product source at
-        # 7b89f767 (run 37366015511); restore them when product SQL changes.
+        # Candidate head for P20: every suite runs on one head. max-parallel
+        # keeps the request within runner capacity ("job was not acquired").
+        - suite: analysis152
+          probe: cp7_f05_analysis_probe.py
+          timeout: 90
+        - suite: plan39
+          probe: cp7_f04_plan_probe.py
+          timeout: 90
         - suite: attention284
           probe: cp7_f05_attention_probe.py
           timeout: 180

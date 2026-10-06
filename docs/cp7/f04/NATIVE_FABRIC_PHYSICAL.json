@@ -143,5 +143,26 @@
   "P08_PHYSICAL_POSTED_ISSUE_ONCE": "after an actual Native POST the cut WIP identity is unproven: planning gap and every fabric fact UNKNOWN (no number); the posted group is not a draft and the roll holds 10-6=4 (counted once). First oracle (gross known, allocated 4) failed in CI run 37374383973 and is retained.",
   "P08_PHYSICAL_REAL_MVCC_NATIVE_POST": "same post-commit successor oracle; pre-commit invisibility unchanged",
   "browser_report": "shared report now cites the sources of all four facts, so CP7_FABRIC_FREE_STOCK and CP7_FABRIC_OPEN_COMMITMENTS appear"
+ },
+ "native_qualification": {
+  "status": "PASS",
+  "head": "b292ae4c",
+  "runs": {
+   "claude-p08-physical": 37387866413,
+   "shell_s0": 37387866583,
+   "codeql": 37387866362
+  },
+  "observed": {
+   "CP7_FABRIC_PHYSICAL": 21,
+   "CP7_FABRIC_RECIPE": 13,
+   "CP7_F05_NATIVE_ATTENTION": 284
+  },
+  "first_failures_retained": [
+   37357315101,
+   37360628807,
+   37366015511,
+   37374383973
+  ],
+  "note": "CI evidence on one head; not independent acceptance."
  }
 }

@@ -354,3 +354,16 @@ Keputusan: nol yang masih asumsi tidak pernah "selesai"; UNKNOWN atau resep belu
 
   `src/nativeAnalysis.ts` (`analysisReport`) berubah. Konsumen pembanding laporan memakai fungsi yang sama, jadi tetap konsisten.
 
+
+### 10.3 Status CI (6 Okt 2026, 00:35 UTC) — P08 dan P18 hijau pada b292ae4c
+
+- **P08 lulus penuh.** Run 37387866413:
+  - fabric-physical21 PASS 21/21 (16 DB, 2 race, 1 Auth/HTTP, 2 browser);
+  - fabric13-successor PASS 13/13;
+  - attention284 PASS 284/284.
+  Semua dengan `cp6_restored=true` dan `advisor_gate=true`.
+- **Shell S0 dan CodeQL.** Shell S0 PASS dengan 28 kontrol kain (run 37387866583). CodeQL PASS (run 37387866362).
+- **Kegagalan pertama tetap tercatat.** Run 37357315101, 37360628807, 37366015511 dan 37374383973 ada di tabel `NATIVE_FABRIC_PHYSICAL.md`.
+- **Belum termasuk.** Bukti ini adalah kualifikasi Native di CI, bukan audit independen. `full_P08_acceptance=false`, `independent_acceptance=false`, `production_go=false`.
+- **Build UX** tetap merah karena warisan 3c7cb2cf (§9.4).
+- **Commit sesudahnya.** 9b90b4c6 hanya mengubah dokumen.
