@@ -21,6 +21,7 @@ from decimal import Decimal as D
 import uuid
 
 import cp7_f03_e01_cases as e01
+import cp7_receipt_correction_cases as receipt_fix
 import cp7_supplier_payment_create_cases as pay_create
 
 b, prod, cmd, finance, settlement, laundry = e01.b, e01.prod, e01.cmd, e01.finance, e01.settlement, e01.laundry
@@ -114,7 +115,7 @@ def supplier_payment(cur, f, amount, at, key=None):
     return pay_create.command(cur, p, key), p
 
 
-def journey(cur, today):
+def cycle(cur, today):
     # Clear foundation obligations first, so after the start snapshot only this fixture writes.
     b.api.admin(cur)
     e01.procurement.aa.prior.set_open_period(cur, today-timedelta(days=4))
@@ -197,7 +198,7 @@ def journey(cur, today):
     assert moved(p0, p9) == dict(cash=D(-1100), customer_ar=D(175), material_inventory=D(400), fg_inventory=D(675), assets=D(150), current_earnings=D(150)), ('P18_FINAL_REPORT', moved(p0, p9))
     journals = balanced_since(cur, known)
     e01.step('P18_FINAL', raw=400, fg=675, wip=0, supplier_ap=0, vendor_ap=0, contractor_payable=0, ar=175, cash=-1100, revenue=375, cogs=225, gross_profit=150)
-    return dict(status='PASS', journey='P18_FULL_CYCLE', execution='E01_QUALIFIED_PATH_PLUS_PAYABLES_TO_CASH',
+    return f, gl0, p0, known, dict(status='PASS', journey='P18_FULL_CYCLE', execution='E01_QUALIFIED_PATH_PLUS_PAYABLES_TO_CASH',
                 boundaries=f['boundaries'], journals_by_source=journals, report_position_change={k: str(v) for k, v in moved(p0, p9).items()},
                 refusals=dict(supplier_stale_review=replay, supplier_nothing_payable=over, vendor_overpay=vendor_over),
                 writers=dict(supplier_payment='APP_erp_cp7_create_supplier_payment_v1', vendor_payment='APP_erp_save_laundry_bd_action_v1_PAY_VENDOR_DOCUMENT', payroll_payment='APP_erp_cp7_save_payroll_v1_PAY'),
@@ -205,5 +206,57 @@ def journey(cur, today):
                 full_P18_acceptance=False, full_family_acceptance=False)
 
 
+def journey(cur, today):
+    return cycle(cur, today)[4]
+
+
+def late_price(cur, today):
+    """E13 on the same cycle: the supplier price was 11, not 10, found after cutting, sale, return and full payment.
+
+    Corrected through the owning receipt-correction command. The oracle follows from the E01 quantities only:
+    remaining 40 m +40, 60 pcs HPP 15->16 so remaining FG 45 pcs +45 and net sold 15 pcs COGS +15, supplier AP +100.
+    Paid supplier cash is replayed with its own dates, so cash stays -1100 until the difference is paid.
+    """
+    f, gl0, p0, known, _ = cycle(cur, today)
+    checks_before = receipt_fix.checks(cur)
+    old_purchase = f['purchase']
+    paid_before = [r[0] for r in cur.execute("select id::text from erp.supplier_payments where purchase_id=%s and status='POSTED' order by payment_date", (old_purchase,)).fetchall()]
+    assert len(paid_before) == 2, ('P18_E13_PAYMENTS_BEFORE', paid_before)
+    w = receipt_fix.ws(cur, old_purchase)
+    fixed = receipt_fix.fix(cur, receipt_fix.payload(w, reason='Harga bahan pada nota supplier 11, bukan 10; dicek dengan nota asli',
+                                                     line=lambda n, item: item.update(unit_price='11')), w['purchase']['row_version'])
+    f['purchase'] = fixed['purchase_id']
+    s = boundary(cur, f, 'B9_LATE_PRICE_AFTER_FULL_CYCLE', -1100)
+    assert (s['material'], s['wip'], s['fg'], s['fg_pcs'], s['supplier_ap'], s['vendor_ap'], s['contractor_payable'], s['ar']) == (440, 0, 720, 45, 100, 0, 0, 175), ('P18_B9', s)
+    replays = cur.execute('''select o.id::text,o.status,n.status,n.amount=o.amount,n.payment_date=o.payment_date,n.purchase_id::text
+        from cp7_receipt_fix.payment_replays r join erp.supplier_payments o on o.id=r.previous_payment_id
+        join erp.supplier_payments n on n.id=r.replacement_payment_id where r.previous_payment_id::text=any(%s) order by o.payment_date''', (paid_before,)).fetchall()
+    assert [r[1:] for r in replays] == [('REVERSED', 'POSTED', True, True, f['purchase'])] * 2, ('P18_E13_PAYMENT_REPLAY', replays)
+    assert one(cur, 'select payment_status from erp.material_purchase_headers where id=%s', (f['purchase'],)) == 'PARTIAL'
+    receipt_fix.same_checks(checks_before, receipt_fix.checks(cur))
+    receipt_fix.reversal_dates(cur)
+    difference, _ = supplier_payment(cur, f, '100.00', one(cur, 'select clock_timestamp()')-timedelta(minutes=1))
+    assert difference['remaining_after'] == '0.00', ('P18_E13_DIFFERENCE', difference)
+    s = boundary(cur, f, 'B10_SUPPLIER_DIFFERENCE_PAID', -1200)
+    assert s['supplier_ap'] == 0 and one(cur, 'select payment_status from erp.material_purchase_headers where id=%s', (f['purchase'],)) == 'PAID', ('P18_B10', s)
+    final = change(gl0, ledger(cur))
+    a = f['accounts']
+    wanted = {a['MATERIAL_INVENTORY']: D(440), a['FG_INVENTORY']: D(720), a['AR_CUSTOMER']: D(175), a['SALES_REVENUE']: D(-375), a['COGS']: D(240), f['cash_coa']: D(-1200)}
+    assert final == wanted, ('P18_E13_FINAL_LEDGER', {k: str(v) for k, v in final.items()})
+    p_end = position(cur, today)
+    assert moved(p0, p_end) == dict(cash=D(-1200), customer_ar=D(175), material_inventory=D(440), fg_inventory=D(720), assets=D(135), current_earnings=D(135)), ('P18_E13_REPORT', moved(p0, p_end))
+    journals = balanced_since(cur, known)
+    e01.step('P18_E13_FINAL', raw=440, fg=720, wip=0, supplier_ap=0, ar=175, cash=-1200, revenue=375, cogs=240, gross_profit=135)
+    return dict(status='PASS', journey='P18_E13_LATE_SUPPLIER_PRICE_AFTER_FULL_CYCLE', boundaries=f['boundaries'][-2:],
+                corrected_purchase=f['purchase'], previous_purchase=old_purchase, payments_replayed_same_date_amount=len(replays),
+                integrity_checks_unchanged=True, journals_by_source=journals, report_position_change={k: str(v) for k, v in moved(p0, p_end).items()},
+                writers=dict(price_correction='APP_erp_cp7_correct_receipt_v1', difference_payment='APP_erp_cp7_create_supplier_payment_v1'),
+                full_P18_acceptance=False, full_family_acceptance=False)
+
+
+IDS = ['P18_FULL_CYCLE_STOCK_WIP_HPP_GL_PAYABLES_CASH', 'P18_E13_LATE_SUPPLIER_PRICE_AFTER_FULL_CYCLE']
+EXPECTED = len(IDS)
+
+
 def cases(cur, today):
-    return [('P18_FULL_CYCLE_STOCK_WIP_HPP_GL_PAYABLES_CASH', lambda: journey(cur, today))]
+    return list(zip(IDS, (lambda: journey(cur, today), lambda: late_price(cur, today))))

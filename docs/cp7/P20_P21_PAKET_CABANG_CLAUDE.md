@@ -136,3 +136,40 @@ Ini latihan, bukan receipt P21. P21 tetap butuh kandidat yang diterima P20 dan T
 - pemulihan berhasil.
 
 Run pertama 15baeb3e INCOMPLETE di langkah pakai karena fixture probe; buktinya disimpan.
+
+## 7. Tambahan 6 Okt 2026 malam: P19 kernel, hitung latar belakang, transport segmen
+
+Rincian: `p19/P19_KERNEL_JOB_TRANSPORT_CLAUDE.md` dan handoff §13.
+
+### 7.1 Objek database baru
+
+| Objek | Jenis | Catatan untuk auditor |
+|---|---|---|
+| Skema `cp7_analysis_jobs` (`jobs`, `documents`, `segments`) | skema dan tabel baru (pemilik `cp7_capture`, RLS + kebijakan `false`) | `documents` dan `segments` imutabel (trigger `cp7_private.immutable_run`). Indeks `jobs(run_id)`. |
+| `compute_key`, `worker_active`, `status`, `original`, `store`, `request`, `run`, `get`, `manifest`, `segment` | fungsi invoker baru (pemilik `cp7_capture`, `search_path=''`, `TimeZone=UTC`) | `run` memakai kunci per-UUID yang sama dengan capture biasa. Pembatalan statement ditangkap, dan hanya status FAILED yang di-commit. |
+| `public.erp_cp7_{request,run,get}_analysis_job_v1`, `public.erp_cp7_read_analysis_{manifest,segment}_v1` | RPC publik baru (definer `cp7_capture`, hanya `authenticated`) | `manifest` = pemeriksaan setara `serve` sekali. `segment` mensyaratkan epoch akses yang sama dan run milik aktor. |
+
+### 7.2 Titik audit prioritas
+
+1. **Kesetaraan kernel.** Pastikan peta per target, per posisi, dan per sumber memberi hasil yang sama dengan pencarian lama untuk:
+   - edge ganda dengan match JSON null atau tanpa match;
+   - ETA ganda, hilang, atau tanpa `result`;
+   - input null;
+   - target null.
+
+   Ujinya `f05-kernel-maps` dan analysis152.
+2. **Satu komputasi per UUID.** Dua worker, ditambah capture biasa dengan UUID yang sama, harus menghasilkan tepat satu Original.
+3. **Batas tidak dinaikkan.** Job memakai batas statement yang ada. Pembatalan meninggalkan hanya status FAILED (tanpa run atau dokumen), dan attempt berikutnya memakai UUID yang sama.
+4. **Otoritas per segmen.** Epoch akses yang berubah, aktor lain, akses keuangan yang dicabut (harus sama dengan `serve`), dan source basi (harus sama dengan `serve`) semuanya harus tertangani.
+5. **Klien.** Pengecekan code point per segmen, sha256 per segmen dan seluruh dokumen, batas dokumen 64 MB (teknis, bukan kebijakan), dan validator lengkap yang tidak dilonggarkan.
+
+### 7.3 Pindaian jalur langsung lama (pengamatan P20)
+
+`scripts/cp7_p20_direct_path_scan.py` dijalankan baca-saja di dalam latihan P21. Hasilnya:
+- fungsi `erp` yang bisa dieksekusi `authenticated`/`anon`;
+- penulis definer tanpa pemeriksaan `has_permission`;
+- penulis yang hanya memakai penjaga peran;
+- tabel `erp` dengan DML untuk `authenticated`;
+- konfigurasi skema PostgREST.
+
+Klasifikasinya heuristik teks dan bukan temuan yang diterima. Setiap kandidat perlu dibaca isinya oleh auditor P20.

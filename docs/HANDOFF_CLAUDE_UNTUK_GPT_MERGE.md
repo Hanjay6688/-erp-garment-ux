@@ -507,3 +507,66 @@ Ini latihan, bukan receipt P21. Receipt P21 tetap menunggu P20.
   - Pemulihan harness berhasil, dan drill backup/restore T3 hasilnya `RESTORED_SAME_MEANING`.
   - Bukti: `docs/cp7/evidence/p21-rehearsal/`.
   - Ini latihan, bukan receipt P21.
+
+## 13. P19 dikerjakan di cabang Claude (6 Okt 2026 malam)
+
+GPT sudah berhenti menulis, dan owner meminta P19 diselesaikan di cabang ini. Catatan §12 yang menyebut "lane GPT" berlaku untuk saat itu. Rincian lengkap: `docs/cp7/p19/P19_KERNEL_JOB_TRANSPORT_CLAUDE.md`.
+
+### 13.1 Kernel analisis linear (`90615b4c`)
+
+- **Penyebab:** `n` utuh dirujuk dari query per baris, sehingga di-copy ke setiap custom plan PL/pgSQL. Akibatnya waktu tumbuh kuadratik.
+- **Perbaikan:**
+  - peta dibangun sekali (edge dan `match_results` per target, ETA per posisi, input per sumber, sumber berarah);
+  - teks timeline beku GPT tidak diubah dan berjalan dengan `n` berisi subset target itu.
+- **Kontrol yang lulus:**
+  - `f05-assembly` dan `f05-timeline` (keduanya milik GPT, tidak diubah);
+  - `f05-kernel-maps` baru, yang mendeteksi semua mutan tidak setara;
+  - analysis152 Native PASS (run 37515388149).
+- **Angka CI** (run 37515388418, job p19-assembly):
+  - 5.000 target: **3.265 ms**, dibanding pendahulu 247.659 ms dan kandidat GPT 13.152 ms;
+  - 1.200 target: 784 ms;
+  - 300 target: 202 ms;
+  - semuanya byte-identik.
+- **Bukti:** `docs/cp7/evidence/p19/kernel-maps-90615b4c/`.
+
+### 13.2 Hitung latar belakang dan transport segmen (`c1f91041`)
+
+**SQL** `planning/analysis-jobs.sql` (skema privat `cp7_analysis_jobs`, dipasang lewat `cp7_analysis_bundle.py` sesudah `analysis-finance.sql`; inventaris katalog di `cp7_analysis_jobs_bundle.py`) menambah lima RPC:
+- `erp_cp7_request_analysis_job_v1`, `erp_cp7_run_analysis_job_v1`, `erp_cp7_get_analysis_job_v1`;
+- `erp_cp7_read_analysis_manifest_v1`, `erp_cp7_read_analysis_segment_v1`.
+
+**Sifat utama:**
+- Job berjalan di bawah batas statement 8 s yang ada. Pembatalan dicatat FAILED/STOPPED.
+- Pembacaan RUNNING dilakukan dari `pg_locks` tanpa mengambil kunci.
+- Segmen berisi 2.000.000 code point, jadi body-nya ≤ 8 MB.
+- Manifest mengikat epoch akses aktor.
+
+**Frontend:**
+- `nativeAnalysisTransport.ts` (baru).
+- Parameter batas byte opsional di `parseNativeAnalysis`; default tetap 8.000.000.
+- Panel diubah aditif:
+  - capture biasa tidak berubah;
+  - status "Sedang dihitung sejak jam X WIB" muncul sesudah 3 s;
+  - fallback segmen untuk hasil di atas 8 MB;
+  - tombol "Hitung di latar belakang" dengan pemulihan sesudah reload.
+- Ke-18 skrip browser GPT yang memakai capture tetap berlaku.
+
+**Uji lokal:** 1.578/1.578 lulus, build dan security lulus. Suite Native baru `claude-p19-transport.yml` (11 kasus, deklarasi `docs/cp7/p19/P19_TRANSPORT.json`) dan hasilnya dicatat di dokumen P19.
+
+**Perubahan berkas milik GPT (perlu dibaca saat merge):**
+
+| Berkas | Perubahan |
+|---|---|
+| `scripts/cp7-src/planning/analysis.sql` | Peta kernel. Teks timeline beku tidak berubah. |
+| `scripts/cp7_analysis_bundle.py` | Satu berkas SQL tambahan, ditambah panggilan verifikasi job. |
+| `scripts/cp7_f05_analysis_probe.py` | Mode `p19_transport`. Mode lain tidak berubah. |
+| `src/nativeAnalysis.ts` | Parameter batas opsional. |
+| `src/NativeAnalysisPanel.tsx` | Perubahan aditif seperti di atas. |
+| `src/types/database.preconnect.ts`, `scripts/check-source-ownership.mjs`, `scripts/check-access-catalog.mjs` | Lima batas RPC baru. |
+
+### 13.3 Yang tetap terbuka (tidak dikarang)
+
+- **Perhitungan lebih dari 8 s** perlu worker database di luar request HTTP (misalnya pg_cron) dan batas waktu job tersendiri. Itu keputusan instalasi/owner untuk P21.
+- **Transport segmen** baru ada untuk analisis. Kondisi, laporan, dan klaim belum.
+- **Capture aplikasi penuh 5.000 target** di Native nyata dan latensi klik-sampai-tampil di browser belum diukur.
+- **Pindaian jalur langsung lama** untuk P20 (fungsi Native yang bisa dieksekusi `authenticated`) ditambahkan sebagai pengamatan baca-saja di latihan P21. Ringkasannya tercetak di log sebagai `P20_DIRECT_PATH_SCAN`, dan tidak mengubah kriteria PASS.

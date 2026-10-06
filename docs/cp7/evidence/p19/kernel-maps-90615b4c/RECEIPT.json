@@ -1,0 +1,25 @@
+{
+  "classification": "DISPOSABLE_PURE_COMPILER_KERNEL_EXPLICIT_SOURCE_STAND_INS",
+  "source_commit": "90615b4c7b97d1265a89eececd3703070cb371f0",
+  "workflow": "CP7 Shell S0 (Claude branch)",
+  "run_id": 37515388418,
+  "job": {"id": 112446871602, "name": "p19-assembly", "conclusion": "success"},
+  "artifact": {"name": "cp7-p19-assembly", "id": 11436504496, "downloaded": false},
+  "read_from": "complete job log via GitHub job-log API; artifact download is blocked in this session",
+  "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+  "predecessor": "ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5",
+  "vectors": [
+    {"targets": 300, "predecessor_ms": "904.651000", "candidate_ms": "201.670000", "byte_identical": true, "bytes": 1869020, "sha256": "1abcf56961475a37dbc01b072ca338f01afa6e4af3c028bb7bcd331763a09585"},
+    {"targets": 1200, "predecessor_ms": "13196.076000", "candidate_ms": "784.237000", "byte_identical": true, "bytes": 7436505, "sha256": "8750f2c6a2cfad161d54be45f528d0c4fe615c08e08729c4b67c18d37f6453b5"},
+    {"targets": 5000, "predecessor_ms": "247659.252000", "candidate_ms": "3265.476000", "byte_identical": true, "bytes": 30970077, "sha256": "a1718d3dd91f5a441b140748a83babb0db9e8d6559bafec6e7ba67898cfce6bb"}
+  ],
+  "status": "PASS",
+  "largest_ratio": 0.013185358405265635,
+  "same_job_vitest": {"f05-assembly": "pass", "f05-timeline": "pass", "f05-kernel-maps": "pass"},
+  "previous_writer_candidate_5000_ms": "13152.527 (P19_QUALIFICATION_20261006.md, source 67a23c11)",
+  "native_analysis152_same_source": {"run_id": 37515388149, "job_id": 112446873695, "conclusion": "success"},
+  "Native_ERP_timeouts_changed": false,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

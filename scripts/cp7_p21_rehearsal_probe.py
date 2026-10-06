@@ -93,6 +93,14 @@ def run():
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
             p09.wip.policy.bf.verified(cur);before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);conn.rollback()
             originals,installation=install(cur);conn.commit();installed=True;verify(cur);first=catalog(cur);seeded=used(cur);conn.rollback()
+            # P20 input, observation only: read-only catalog scan of legacy direct paths. No PASS criterion changes.
+            import cp7_p20_direct_path_scan as direct_scan
+            cur.execute('savepoint p20_scan')
+            try:
+                report['p20_direct_path_scan']=direct_scan.scan(cur);print('P20_DIRECT_PATH_SCAN '+direct_scan.summary(report['p20_direct_path_scan']),flush=True)
+                OUT.parent.mkdir(parents=True,exist_ok=True);(OUT.parent/'P20_DIRECT_PATH_SCAN.json').write_text(json.dumps(report['p20_direct_path_scan'],indent=2,default=str)+'\n')
+            except Exception as scan_error:report['p20_direct_path_scan_error']=str(scan_error);print('P20_DIRECT_PATH_SCAN_ERROR '+str(scan_error),flush=True)
+            cur.execute('rollback to savepoint p20_scan');conn.rollback()
             report['installation']=installation;report['steps'].append(dict(step='INSTALL_1',catalog_sha256=first['sha256'],functions=len(first['functions']),cp7_tables=len(first['tables']),cp7_roles=len(first['roles']),rows_seeded_by_install=seeded))
             pre=guarded_rollback(cur,originals,seeded);conn.commit();installed=pre['status']!='ROLLED_BACK'
             assert pre['status']=='ROLLED_BACK',('P21_PREUSE_ROLLBACK',pre)

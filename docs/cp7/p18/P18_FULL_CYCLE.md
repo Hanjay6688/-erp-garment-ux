@@ -113,3 +113,30 @@ Penutupnya ada di `../SUPPLIER_PAYMENT_CREATE_HANDOFF.md`, berupa perintah ownin
 - Langkah produksi di skenario ini masih lewat fixture Native E01. Belum ada perjalanan browser untuk produksi.
 - Kasus P18 lain (E02–E08, E12–E14, E22, E24) punya suite F03 masing-masing. Hasil suite itu tidak dijumlahkan menjadi penerimaan P18 penuh.
 - P19 kapasitas, P20 audit independen, P21 paket pemasangan dan GO tetap terbuka. CP6 tetap HOLD.
+
+## Kasus kedua: harga supplier terlambat sesudah siklus penuh (E13)
+
+Kasus `P18_E13_LATE_SUPPLIER_PRICE_AFTER_FULL_CYCLE` menjalankan siklus yang sama sampai B8. Setelah itu ternyata harga bahan di nota supplier 11, bukan 10. Pada saat itu bahan sudah dipotong, barang jadi sudah dijual dan diretur, dan semua hutang sudah lunas.
+
+Koreksinya memakai penulis aplikasi "Benerin penerimaan" (`erp_cp7_correct_receipt_v1`), lalu selisihnya dibayar lewat `erp_cp7_create_supplier_payment_v1`.
+
+Oracle-nya hanya diturunkan dari jumlah E01, tidak ada angka kebijakan yang dikarang:
+- sisa bahan 40 m naik 40;
+- HPP 60 pcs naik dari 15 ke 16, sehingga sisa barang jadi 45 pcs naik 45;
+- HPP penjualan untuk 15 pcs bersih naik 15;
+- hutang supplier naik 100.
+
+| Batas | Bahan | WIP | Barang jadi (pcs) | Hutang supplier | Hutang vendor | Hutang mandor | Piutang | Kas |
+|---|---|---|---|---|---|---|---|---|
+| B9 harga 10→11 sesudah lunas | 440 | 0 | 720 (45) | 100 | 0 | 0 | 175 | −1.100 |
+| B10 selisih 100 dibayar | 440 | 0 | 720 (45) | 0 | 0 | 0 | 175 | −1.200 |
+
+**Pengecekan di batas ini:**
+- Kedua pembayaran supplier lama dibalik dan diputar ulang ke penerimaan yang benar, dengan tanggal dan jumlah aslinya. Karena itu kas tidak berubah di B9.
+- Semua `erp.run_v*_checks()` tidak berubah, dan `V2620U_JOURNAL_REVERSAL_BUSINESS_DATE` tetap 0.
+
+**Akhir siklus:**
+- Buku besar: bahan 440, barang jadi 720, piutang 175, pendapatan 375, HPP 240, kas −1.200.
+- Laporan posisi keuangan: aset dan laba berjalan masing-masing naik 135.
+
+Hasil CI dicatat di bawah sesudah run selesai. Kegagalan pertama tetap disimpan.
