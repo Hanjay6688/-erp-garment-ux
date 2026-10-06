@@ -1,5 +1,5 @@
 // Current UI + actual Auth/PostgREST. Responses and policy reads are Native.
-import { mkdirSync } from 'node:fs'
+import { mkdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 async function open(p,ui,group,item) {
   await ui.expect(p.locator('.sidebar')).toBeAttached({timeout:20000})
@@ -12,6 +12,16 @@ async function readiness(ui,mobile) {
   const user=await ui.login('OWNER',{label:'cp6-readiness-'+mobile,mobile}),p=user.page
   const dir=resolve('cp6-proof/t3/readiness-ui');mkdirSync(dir,{recursive:true})
   const prefix=mobile?'mobile':'desktop',checks={}
+  let financeOpened=false
+  const financeRpcErrors=[],financeRpcReads=[]
+  const onResponse=response=>{
+    if(!financeOpened||response.status()<400||!response.url().includes('/rest/v1/rpc/'))return
+    financeRpcReads.push((async()=>{
+      const body=await response.json().catch(()=>({message:'Non-JSON RPC error'}))
+      financeRpcErrors.push({rpc:new URL(response.url()).pathname.split('/').at(-1),status:response.status(),code:body?.code??null,message:String(body?.message??'').slice(0,1000)})
+    })())
+  }
+  p.on('response',onResponse)
   const screenshot=async name=>{
     await p.evaluate(()=>window.scrollTo(0,0))
     await p.screenshot({path:resolve(dir,prefix+'-'+name+'.png'),fullPage:true})
@@ -64,6 +74,7 @@ async function readiness(ui,mobile) {
     await ui.expect(p.getByLabel('Persetujuan owner biaya aksesori',{exact:true})).toHaveValue('NONE')
     checks.approval_none_is_not_zero=version('bc','ACC_DEC07')===accessoryBefore
     await screenshot('accessory-decision')
+    financeOpened=true
     await open(p,ui,'Keuangan','HPP & Rekalkulasi')
     await ui.expect(p.getByLabel('Catatan pembulatan biaya')).toContainText('tidak ada batas selisih sen per PO')
     await ui.expect(p.getByRole('button',{name:'Tampilkan',exact:true})).toBeEnabled({timeout:20000})
@@ -73,8 +84,19 @@ async function readiness(ui,mobile) {
     await screenshot('hpp-rounding')
     checks.finance_rounding_visible=true
     if(mobile)checks.mobile_width=await p.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1)
-    return {status:Object.values(checks).every(Boolean)?'PASS':'FAIL',checks,mobile,screenshots:4}
+    await Promise.all(financeRpcReads)
+    return {status:Object.values(checks).every(Boolean)?'PASS':'FAIL',checks,mobile,screenshots:4,finance_alerts:await p.getByRole('alert').allTextContents(),finance_rpc_errors:financeRpcErrors}
+  } catch(error) {
+    if(financeOpened){
+      await Promise.all(financeRpcReads)
+      const observation={mobile,alerts:await p.getByRole('alert').allTextContents(),rpc_errors:financeRpcErrors}
+      writeFileSync(resolve(dir,prefix+'-finance-failure.json'),JSON.stringify(observation,null,2)+'\n')
+      await screenshot('finance-failure').catch(()=>{})
+      throw new Error('READINESS_FINANCE_OBSERVATION '+JSON.stringify(observation),{cause:error})
+    }
+    throw error
   } finally {
+    p.off('response',onResponse)
     for(const key of ['LAU_DEC02','LAU_DEC06'])await apply('bd',key,null)
     await user.context.close()
   }

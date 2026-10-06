@@ -33,15 +33,27 @@ def run():
   production_go=False,independent_acceptance=False,full_family_acceptance=False,unique_oracle_total_claim=False,
   source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),
   source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=bundle.ROOT,text=True).strip(),
-  source_tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=bundle.ROOT,text=True).strip(),
+ source_tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=bundle.ROOT,text=True).strip(),
   manifest_sha256=hashlib.sha256(MANIFEST.read_bytes()).hexdigest(),
   provider_sha256={g['key']:hashlib.sha256((bundle.ROOT/(g['module']if g['kind']=='browser'else'scripts/'+g['module']+'.py')).read_bytes()).hexdigest()for g in spec['groups']},
   retained_probe_sha256={p:hashlib.sha256((bundle.ROOT/'scripts'/p).read_bytes()).hexdigest()for p in sorted({g['retained_probe']for g in spec['groups']})},
-  scope=manifest['qualification_scope'],expected_case_count=spec['expected_case_executions'],
+ scope=manifest['qualification_scope'],expected_case_count=spec['expected_case_executions'],
   expected_smoke_count=spec['expected_smoke_executions'],expected_group_executions={g['key']:g['expected_executions']for g in spec['groups']},predeclared_groups=spec['groups'],
   private_role_count=len(bundle.ROLES),groups={});installed=False
  assert len(manifest['expected_private_roles'])==34 and len(set(manifest['expected_private_roles']))==34 and tuple(bundle.ROLES)==tuple(manifest['expected_private_roles']),'FULL_F03_ROLE_STACK_CHANGED_REQUIRES_EXPLICIT_REVIEW'
  try:
+  if BUCKET=='prefreeze_ui':
+   # Preserve the observed CP6-only runtime failure before installing CP7.
+   # These two diagnostic executions add zero product/acceptance case credit.
+   diagnostic=modes.run_browser(bundle.ROOT/'scripts/cp6_readiness_browser.mjs',p09.wip.policy.bf.verified,'cp7_prefreeze_legacy_runtime_gap')
+   report['runtime_diagnostics']={'legacy_CP6_readiness':{'classification':'LEGACY_RUNTIME_OBSERVATION_ONLY','product_case_credit':0,'result':diagnostic}}
+   assert diagnostic.get('database_remaining')==0 and not diagnostic.get('cleanup_failures') and not diagnostic.get('auth_cleanup_failures') and diagnostic.get('auth_counts',{}).get('restored') is True,'LEGACY_RUNTIME_DIAGNOSTIC_CLEANUP_FAILED'
+   report['browser_migration']={
+    'unchanged_legacy_cases':29,
+    'retired_simulation_cases':['BF_BROWSER:SALES_MANUAL_13_DESKTOP','BF_BROWSER:SALES_MANUAL_13_MOBILE'],
+    'connected_replacements':['P11_DRAFT_BROWSER_DESKTOP','P11_DRAFT_BROWSER_MOBILE_RECOVERY'],
+    'frozen_CP6_package_oracles_changed':False,
+    'historical_failures_relabelled':False}
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]

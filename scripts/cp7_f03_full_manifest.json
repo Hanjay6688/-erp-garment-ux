@@ -1153,7 +1153,7 @@
       ]
     },
     "prefreeze_ui": {
-      "expected_case_executions": 5,
+      "expected_case_executions": 31,
       "expected_smoke_executions": 0,
       "groups": [
         {
@@ -1163,7 +1163,7 @@
           "entry": null,
           "smoke": false,
           "retained_probe": "cp7_f03_full_probe.py",
-          "expected_executions": 5
+          "expected_executions": 31
         }
       ]
     }

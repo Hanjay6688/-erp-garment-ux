@@ -9,6 +9,7 @@ name: CP7 Pre-freeze UI Regression
     - scripts/cp7_f03_*
     - scripts/cp7_prefreeze_*
     - scripts/cp6_auditor_browser_host.mjs
+    - scripts/cp6_readiness_browser.mjs
     - scripts/cp7-src/**
     - scripts/cp7_*bundle.py
     - src/**
