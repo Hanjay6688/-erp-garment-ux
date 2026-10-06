@@ -1,0 +1,25 @@
+{
+  "source_commit": "56c7558642e74c64117da98bdb6d0502203e859b",
+  "source_tree": "cd4aa0b59c9b926185fcded9392f6421f0875c73",
+  "run_id": 37438940232,
+  "artifact_id": 11401051405,
+  "artifact_name": "cp7-codeql-actions",
+  "zip_sha256": "b081d181d9e8c3e13dac99a1b60ee374f3eb8f8602b90fdabd0273afa763bdf3",
+  "zip_bytes": 53681,
+  "originals": {
+    "actions.sarif": {
+      "bytes": 744852,
+      "sha256": "eec3d8f4e29c0995b1ab22b47146dda85f04cc17b56e5af4dc165bd244370004",
+      "file": "actions.sarif.gz"
+    }
+  },
+  "all_zip_members": {
+    "actions.sarif": {
+      "bytes": 744852,
+      "sha256": "eec3d8f4e29c0995b1ab22b47146dda85f04cc17b56e5af4dc165bd244370004"
+    }
+  },
+  "native_execution_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

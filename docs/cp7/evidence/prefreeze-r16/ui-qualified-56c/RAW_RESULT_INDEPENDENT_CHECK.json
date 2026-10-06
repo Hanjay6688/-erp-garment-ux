@@ -1,0 +1,17 @@
+{
+  "source_commit": "56c7558642e74c64117da98bdb6d0502203e859b",
+  "checks": {
+    "mixed_known_part_10000": true,
+    "unknown_component_preserved_then_total_13000": true,
+    "matched_accrual_13000": true,
+    "FREE_13_physical_PCS_6_and7_while_known_price_zero": true,
+    "WAIVED_13_physical_PCS_6_and7_while_known_price_zero": true
+  },
+  "same_five_unchanged_case_IDs": true,
+  "backend_bundle_and_provider_manifest_probe_hashes_equal_first": true,
+  "only_product_frontend_change": "src/LaundryBdPanel.tsx",
+  "Native_money_oracle_changed": false,
+  "backend_SQL_changed": false,
+  "full_CP7_acceptance": false,
+  "production_go": false
+}

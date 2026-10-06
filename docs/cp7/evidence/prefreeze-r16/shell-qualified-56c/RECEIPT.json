@@ -1,0 +1,26 @@
+{
+  "status": "SOURCE_PINNED_COMPLETE_SHELL_WRITER_PASS",
+  "source_commit": "56c7558642e74c64117da98bdb6d0502203e859b",
+  "source_tree": "cd4aa0b59c9b926185fcded9392f6421f0875c73",
+  "run_id": 37438940232,
+  "job_ids": [
+    112187594561,
+    112187594239,
+    112187594557
+  ],
+  "test_files": 164,
+  "application_tests": 1550,
+  "fixture_browser_tests": 6,
+  "build": true,
+  "security": true,
+  "CodeQL_actions_findings": 0,
+  "CodeQL_JS_findings": 0,
+  "artifacts": [
+    11401051405,
+    11400342671,
+    11400097763
+  ],
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

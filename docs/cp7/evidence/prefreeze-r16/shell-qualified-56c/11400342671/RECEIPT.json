@@ -1,0 +1,69 @@
+{
+  "source_commit": "56c7558642e74c64117da98bdb6d0502203e859b",
+  "source_tree": "cd4aa0b59c9b926185fcded9392f6421f0875c73",
+  "run_id": 37438940232,
+  "artifact_id": 11400342671,
+  "artifact_name": "cp7-shell-proof",
+  "zip_sha256": "d9ca6f344a12ecda7d2bb75bc198afcfa89490afbfbe431605261fd55dfd1702",
+  "zip_bytes": 498516,
+  "originals": {
+    "f04-private-kernels.json": {
+      "bytes": 53274,
+      "sha256": "563721f3cb6aca8fee8771ac38a54a08d0efea44cd1003781d0bf63ca2f3093a",
+      "file": "f04-private-kernels.json.gz"
+    },
+    "fabric-recipe.json": {
+      "bytes": 60594,
+      "sha256": "fd6b475aa1d121d01b3f956d6b2c8451042db6d069add33472de517e446a9ef3",
+      "file": "fabric-recipe.json.gz"
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4",
+      "file": "history-availability-parity.json.gz"
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6",
+      "file": "material-pool.json.gz"
+    },
+    "results.json": {
+      "bytes": 12143,
+      "sha256": "b6a99b79aba8ae4bf6eef276a2851d688de19290d2ff52ef0f50aa20d4da9867",
+      "file": "results.json.gz"
+    }
+  },
+  "all_zip_members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53274,
+      "sha256": "563721f3cb6aca8fee8771ac38a54a08d0efea44cd1003781d0bf63ca2f3093a"
+    },
+    "fabric-recipe.json": {
+      "bytes": 60594,
+      "sha256": "fd6b475aa1d121d01b3f956d6b2c8451042db6d069add33472de517e446a9ef3"
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "results.json": {
+      "bytes": 12143,
+      "sha256": "b6a99b79aba8ae4bf6eef276a2851d688de19290d2ff52ef0f50aa20d4da9867"
+    }
+  },
+  "native_execution_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

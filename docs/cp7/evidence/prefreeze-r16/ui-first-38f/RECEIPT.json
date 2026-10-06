@@ -1,0 +1,227 @@
+{
+  "contract": "cp7.prefreeze.unchanged-five-browser-oracles.v1",
+  "status": "FIRST_INCOMPLETE_RETAINED",
+  "source_commit": "38fdb1ad1628791455f17e68a431be18c4257d7b",
+  "source_tree": "4aeb8c0f6c4f052d990b1cb9443fa109c02e9ffd",
+  "run_id": 37438221653,
+  "job_id": 112185209468,
+  "artifact_id": 11400272123,
+  "zip_bytes": 4121195,
+  "zip_sha256": "42034fbada418f416c321e0c22162da2387f7fb508493d2ceb3562d2db23c3d3",
+  "source_bundle_sha256": "1a4838b4d0a7e1d78bd87c2be1bfa64500ad644e937b9606d85d79bda6274115",
+  "manifest_sha256": "1827548ffd88834dbc98c6ee80d51eda17c0c0fd663fc04e74696e14a188ed46",
+  "provider_sha256": {
+    "browser": "dd6a91f3fc7155f874b9b7ca1e161d24e9d684237f1f5cb32f72a64cce50e5e0"
+  },
+  "retained_probe_sha256": {
+    "cp7_f03_full_probe.py": "4be881ede125b4180aed4c0b989cf942fbc718ed5edc9764241caeb90cee5d34"
+  },
+  "expected_case_count": 5,
+  "observed_case_count": 5,
+  "counts": {
+    "PASS": 2,
+    "INCOMPLETE": 3
+  },
+  "cases": {
+    "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE": {
+      "status": "PASS",
+      "checks": {
+        "pending_explained_before_post": true,
+        "prefill_does_not_write": true,
+        "one_setting_does_not_make_invoice_ready": true,
+        "both_applied_remove_warning": true,
+        "approval_none_is_not_zero": true,
+        "finance_native_report_loaded": true,
+        "finance_rounding_visible": true
+      },
+      "error": null
+    },
+    "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE": {
+      "status": "PASS",
+      "checks": {
+        "pending_explained_before_post": true,
+        "prefill_does_not_write": true,
+        "one_setting_does_not_make_invoice_ready": true,
+        "both_applied_remove_warning": true,
+        "approval_none_is_not_zero": true,
+        "finance_native_report_loaded": true,
+        "finance_rounding_visible": true,
+        "mobile_width": true
+      },
+      "error": null
+    },
+    "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE": {
+      "status": "INCOMPLETE",
+      "checks": null,
+      "error": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByLabel('Pilihan rincian biaya', { exact: true })\n\n    at /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bd_browser.mjs:201:66\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+    },
+    "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP": {
+      "status": "INCOMPLETE",
+      "checks": null,
+      "error": "Error: TimeoutError: locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByLabel('Pilihan rincian biaya', { exact: true })\n; alerts=[]; replies=[{\"request\":{\"p_action\":\"SAVE_COMPONENT_RATE\",\"p_payload\":{\"component_id\":\"3507b942-f9c8-488f-aefa-2e4b62ae9fbf\",\"rate_status\":\"FREE\",\"effective_from\":\"2026-10-03T10:00:00+07:00\",\"reason\":\"Owner documented browser FREE\",\"rate_per_pcs\":\"0.00\"},\"p_client_request_id\":\"4f802944-be00-4d35-858c-25bea96037c5\"},\"status\":200,\"body\":{\"action\":\"SAVE_COMPONENT_RATE\",\"status\":\"SAVED\",\"rate_id\":\"9a220eaa-ed17-4275-afb3-47a637b219a8\",\"request_id\":\"4f802944-be00-4d35-858c-25bea96037c5\"}}]\n    at priced (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bd_revision_browser.mjs:73:23)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+    },
+    "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE": {
+      "status": "INCOMPLETE",
+      "checks": null,
+      "error": "Error: TimeoutError: locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByLabel('Pilihan rincian biaya', { exact: true })\n; alerts=[]; replies=[{\"request\":{\"p_action\":\"SAVE_COMPONENT_RATE\",\"p_payload\":{\"component_id\":\"dac2c0be-0425-488e-8763-32d7202515dd\",\"rate_status\":\"WAIVED\",\"effective_from\":\"2026-10-03T10:00:00+07:00\",\"reason\":\"Owner documented browser WAIVED\",\"rate_per_pcs\":\"0.00\"},\"p_client_request_id\":\"47907d7a-256e-41b6-bd23-75ca7a4c777c\"},\"status\":200,\"body\":{\"action\":\"SAVE_COMPONENT_RATE\",\"status\":\"SAVED\",\"rate_id\":\"f6512fd1-66d2-415b-982c-88c6dd84fe63\",\"request_id\":\"47907d7a-256e-41b6-bd23-75ca7a4c777c\"}}]\n    at priced (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bd_revision_browser.mjs:73:23)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "primary_unchanged": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "backup_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "browser_auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "browser_cleanup_failures": false,
+  "console_errors": 0,
+  "original_roots": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "CP7_F03_FULL_PREFREEZE_UI.json": {
+      "bytes": 278048,
+      "sha256": "bf0f7efce6d91569a725357ee762beeca4a278170bfb585d5639a7da1b074b42",
+      "file": "CP7_F03_FULL_PREFREEZE_UI.json.gz",
+      "gzip_sha256": "5ea501427ea5e02edb6530f634ce8911a8b10e4bd3eb5046d21acbdede44a6d1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ec472ad069b170d3c61f9cddd6c6f4b1d0ce9f199c25cae177ab8735c6858cdf",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "0ac9f718a2e3e688baeb8afb7095d3673b32bd83c08ae88669c36bf2de08bf4c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "f90ca30f5a2346a80e41d4620f900625a11f0eeb962421754a1d0a01a190437a",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "7938e01907d353202601b9c4ef734b3a2007e1645537bd496a2227524e3648f8"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "8491f4ff2abb36ba7208291a740e075fd8cfb76876f224106027a13c4e3a8854"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "8491f4ff2abb36ba7208291a740e075fd8cfb76876f224106027a13c4e3a8854"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "7c9a183df4096494e643b81ab3eb83c90af272093cab5750d974d0388011671b"
+    },
+    "CP7_F03_FULL_PREFREEZE_UI.json": {
+      "bytes": 278048,
+      "sha256": "bf0f7efce6d91569a725357ee762beeca4a278170bfb585d5639a7da1b074b42"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "ec472ad069b170d3c61f9cddd6c6f4b1d0ce9f199c25cae177ab8735c6858cdf"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360419,
+      "sha256": "f90ca30f5a2346a80e41d4620f900625a11f0eeb962421754a1d0a01a190437a"
+    },
+    "readiness-ui/desktop-accessory-decision.png": {
+      "bytes": 306988,
+      "sha256": "2f31e48f48e811131daef3f98668a23185e5035143afdef4fef04b06de21a255"
+    },
+    "readiness-ui/desktop-hpp-rounding.png": {
+      "bytes": 281465,
+      "sha256": "f1b89706e8805ac4994f364a1ef8331b1206ce2a73a087f01e325f7ea5823d34"
+    },
+    "readiness-ui/desktop-laundry-pending.png": {
+      "bytes": 454826,
+      "sha256": "c6d2abe9cf399b229a6664fb76dbd9e7aa233c81d88ab4fc99b70d8dbfacba2f"
+    },
+    "readiness-ui/desktop-laundry-ready.png": {
+      "bytes": 456593,
+      "sha256": "1a14e74930a7627d6cdcbe362e82067b46329b367a4776e04b49493cecb12872"
+    },
+    "readiness-ui/mobile-accessory-decision.png": {
+      "bytes": 236919,
+      "sha256": "3c358dd105067e64db1e768e4015e17cc7be4080b7a960ce753de90e1d9ad47b"
+    },
+    "readiness-ui/mobile-hpp-rounding.png": {
+      "bytes": 200015,
+      "sha256": "484815ba675712f221792fb7add8a2b8a61c6cf9db5868985e5907114966edc1"
+    },
+    "readiness-ui/mobile-laundry-pending.png": {
+      "bytes": 309161,
+      "sha256": "2493019bfc36ccccb627f4dacd571c423f13f4515a2050e50414ec59824fe9ca"
+    },
+    "readiness-ui/mobile-laundry-ready.png": {
+      "bytes": 312771,
+      "sha256": "fca126af6d783b9cc6c3a09047809e80860aa4f53e49cd0a35e0ecce234989ad"
+    }
+  },
+  "all_pngs_retained_unedited": true,
+  "images_visually_reviewed": [],
+  "retention_is_new_execution": false,
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "production_go": false,
+  "original_job_log": {
+    "file": "ORIGINAL_JOB.log.gz",
+    "original_bytes": 241060,
+    "original_sha256": "0babd0cdcb8c1ef26155b5dfb485aeaae8e588d183717b882d3f97870cfe4a92"
+  }
+}

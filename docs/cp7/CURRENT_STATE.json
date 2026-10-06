@@ -11523,15 +11523,39 @@
     "production_go": false
   },
   "prefreeze_r16_writer_response_20261006": {
-    "status": "SOURCE_AND_COMPLETE_FAILURE_ORIGINALS_REVIEWED_COMPLETE_CP7_UI_REPRO_PENDING",
+    "status": "UNCHANGED_FULL_CP7_BROWSER5_AND_SHELL_QUALIFIED_AT56C_FIRST38F_RETAINED",
     "external_report_commit": "f29cdf897584becf72326be57a00d07caf6f6bd5",
     "response": "docs/cp7/PREFREEZE_R16_WRITER_RESPONSE.md",
     "originals": "docs/cp7/evidence/prefreeze-r16/",
     "candidate_branch": "cp7/prefreeze-ui-20261006",
     "priority": "PRE01_COMPLETE_PACKAGE_WIRING_AND_PRE02_LAUNDRY_PARENT_REFRESH",
     "E06_qualified_source": "875443d0a0cc5323e314941412f268765ecca055",
-    "new_qualified_case_claim": false,
+    "new_qualified_case_claim": "FIVE_PREDECLARED_SOURCE_BOUND_BROWSER_EXECUTIONS_ONLY",
     "official_P20_round": false,
-    "production_go": false
+    "production_go": false,
+    "qualified_source_commit": "56c7558642e74c64117da98bdb6d0502203e859b",
+    "qualified_source_tree": "cd4aa0b59c9b926185fcded9392f6421f0875c73",
+    "qualified_UI_run_id": 37438940338,
+    "qualified_UI_artifact_id": 11400466769,
+    "first_UI_run_id": 37438221653,
+    "first_UI_artifact_id": 11400272123,
+    "first_UI_counts": {
+      "PASS": 2,
+      "INCOMPLETE": 3
+    },
+    "qualified_UI_counts": {
+      "PASS": 5
+    },
+    "qualified_Shell_run_id": 37438940232,
+    "application_tests": 1550,
+    "fixture_browser_tests": 6,
+    "CodeQL_findings": 0,
+    "PRE01": "SELECTED_OLD_READINESS_ORACLES_PASS_ON_COMPLETE_CP7_PACKAGE_NO_FINANCE_FRONTEND_CHANGE",
+    "PRE02": "PARENT_BATCH_REFRESH_FIXED_THREE_UNCHANGED_NATIVE_COST_QUANTITY_ORACLES_PASS",
+    "PRE03": "OLD_LOST_REPLY_ASSERTION_INCOMPLETE_FULL_REPLACEMENT_PENDING",
+    "PRE04": "NEW_SEARCH_SELECTOR_EXISTS_FULL_NATIVE_REWORK_REDYE_REQUALIFICATION_PENDING",
+    "PRE05": "ACTUAL_CONNECTED_MANUAL13_QUALIFIED_OLD_HELPER_ORACLE_MAPPING_INCOMPLETE",
+    "PRE06": "LEGACY_PREREQUISITES_NOT_PRODUCT_EXECUTIONS",
+    "PRE07": "E06_NATIVE4_RACE1_QUALIFIED_AT875_FIRST095_RETAINED"
   }
 }

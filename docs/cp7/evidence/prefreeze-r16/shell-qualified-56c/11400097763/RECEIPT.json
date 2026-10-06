@@ -1,0 +1,25 @@
+{
+  "source_commit": "56c7558642e74c64117da98bdb6d0502203e859b",
+  "source_tree": "cd4aa0b59c9b926185fcded9392f6421f0875c73",
+  "run_id": 37438940232,
+  "artifact_id": 11400097763,
+  "artifact_name": "cp7-codeql-javascript-typescript",
+  "zip_sha256": "6aad804ca9950d5167219ed652f23dd931e28dddb7c5710d93e6665145202839",
+  "zip_bytes": 124019,
+  "originals": {
+    "javascript.sarif": {
+      "bytes": 1377033,
+      "sha256": "0a93519377747877841ba75b76d020a9c0c1354f5c3e9dd6f6c80e26aaf25bcc",
+      "file": "javascript.sarif.gz"
+    }
+  },
+  "all_zip_members": {
+    "javascript.sarif": {
+      "bytes": 1377033,
+      "sha256": "0a93519377747877841ba75b76d020a9c0c1354f5c3e9dd6f6c80e26aaf25bcc"
+    }
+  },
+  "native_execution_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}
