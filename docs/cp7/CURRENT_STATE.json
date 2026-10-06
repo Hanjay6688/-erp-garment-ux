@@ -11430,7 +11430,7 @@
     "successor_raw_pair_order_changed": false
   },
   "p19_bounded_native_load_candidate_20261006": {
-    "status": "LOCAL_TOOLING_CONTROLS_PASS_ACTUAL_NATIVE6_PENDING",
+    "status": "FIRST_NATIVE5_OF6_RETAINED_CALENDAR_SUCCESSOR_PENDING",
     "candidate_branch": "cp7/p19-native-load-20261006",
     "product_source_parent": "875443d0a0cc5323e314941412f268765ecca055",
     "contract": "docs/cp7/p19/P19_NATIVE_LOAD.json",
@@ -11455,6 +11455,49 @@
     "browser_qualification": false,
     "factory_capacity_or_SLA": false,
     "independent_acceptance": false,
+    "production_go": false,
+    "first_source_commit": "4b0fb2cf8177a370753f67cd667e15f1f6c8b102",
+    "first_source_tree": "2dd1d9daff1c7269c59c32267a188867f9f9aeb2",
+    "first_run_id": 37433491224,
+    "first_job_id": 112169593862,
+    "first_artifact_id": 11398491168,
+    "first_case_counts": {
+      "native": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "races": {
+        "PASS": 2
+      },
+      "http": {
+        "PASS": 2
+      }
+    },
+    "first_failure_receipt": "docs/cp7/evidence/p19/native-load-first-4b0/RECEIPT.json",
+    "fixture_calendar_derivation": "docs/cp7/evidence/p19/native-load-first-4b0/FIXTURE_CALENDAR_DERIVATION.json",
+    "first_overall_qualification_credit": 0,
+    "first_real_Auth_cleanup_complete": true,
+    "first_Native_boundary_restore_complete": true,
+    "successor_calendar_review": {
+      "rule": "max(120, sum(all declared remaining-work minutes)+60)",
+      "margin_minutes": 60,
+      "largest_actual_declared_work_minutes": 540,
+      "largest_prior_capacity_minutes": 120,
+      "overloaded_counter_retains_UNKNOWN_ETAs": true,
+      "positive_gap_oracle": 93,
+      "product_SQL_and_source_caps_unchanged": true
+    },
+    "successor_execution_pending": true
+  },
+  "f03_integration_875_fresh_originals_20261006": {
+    "status": "QUALIFIED_EXACT875_COMBINED22_AND_EIGHT_COMPONENT_BUCKETS",
+    "source_commit": "875443d0a0cc5323e314941412f268765ecca055",
+    "source_tree": "6d5f70dd74ec7b887555c1f5511606fd700202db",
+    "combined_run_id": 37431903173,
+    "component_run_id": 37431903267,
+    "complete_originals_index": "docs/cp7/evidence/f03-qualified-875/INDEX.json",
+    "counts_are_overlapping_executions_not_unique_oracles": true,
+    "full_P18_or_P20_acceptance": false,
     "production_go": false
   }
 }

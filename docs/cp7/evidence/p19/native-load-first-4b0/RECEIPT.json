@@ -1,0 +1,254 @@
+{
+  "contract": "cp7.failed-original-retention.v1",
+  "status": "RETAINED_FIRST_FAILURE_NOT_QUALIFIED",
+  "artifact": {
+    "id": 11398491168,
+    "name": "cp7-p19-native-load",
+    "size_in_bytes": 2102887,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11398491168",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11398491168/zip",
+    "expired": false,
+    "created_at": "2026-10-06T08:09:28Z",
+    "expires_at": "2026-11-05T08:09:27Z",
+    "updated_at": "2026-10-06T08:09:28Z",
+    "digest": "sha256:e7c1cf43faf6ae114a48efa8e540559bd59c09484eea2979c4c9ca3fa819f2d4",
+    "workflow_run": {
+      "id": 37433491224,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "cp7/p19-native-load-20261006",
+      "head_sha": "4b0fb2cf8177a370753f67cd667e15f1f6c8b102"
+    },
+    "run_id": 37433491224,
+    "job_id": 112169593862,
+    "workflow_name": "CP7 P19 Bounded Native Load",
+    "workflow_path": ".github/workflows/cp7-p19-native-load.yml"
+  },
+  "source_commit": "4b0fb2cf8177a370753f67cd667e15f1f6c8b102",
+  "source_tree": "2dd1d9daff1c7269c59c32267a188867f9f9aeb2",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385624,
+      "sha256": "9412b5489b4b452a488db4466f5e867b11eb0e0596e42b52502096053def4cfd"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385624,
+      "sha256": "9412b5489b4b452a488db4466f5e867b11eb0e0596e42b52502096053def4cfd"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "c226d253fe6dee289d40f9323e325b61d1057d7939304ef49f7cd653fa5c22a8"
+    },
+    "CP7_P19_NATIVE_LOAD.json": {
+      "bytes": 5030966,
+      "sha256": "28304cf1ad36f1b2c7c375d1cc2bac9e4297c1f8bc0b33231967ee13085adcbd"
+    },
+    "P19_LOAD_HTTP_CAPTURE_0.json": {
+      "bytes": 578856,
+      "sha256": "32388dc1e947c83b1080f2887f0b4e5e31dad35d061508ad88ccc97f2aeb090c"
+    },
+    "P19_LOAD_HTTP_CAPTURE_1.json": {
+      "bytes": 578856,
+      "sha256": "ccb542aa3fc92d4d981e8388e730756dff287f09b4c0d211c5bf49fa4d4c3adb"
+    },
+    "P19_LOAD_HTTP_CAPTURE_2.json": {
+      "bytes": 578856,
+      "sha256": "b9818204502543f8241acb0430e6045af9854838a9968cc1552dfdffb54cffb3"
+    },
+    "P19_LOAD_HTTP_CAPTURE_3.json": {
+      "bytes": 578856,
+      "sha256": "ba9de546c146423bc9e95e1f0a875235d8f322f9ed6583eecfbec9a09877c0ca"
+    },
+    "P19_LOAD_PROFILE_0.json": {
+      "bytes": 102014,
+      "sha256": "832d996b0c262b33a5930be1faa2e847b89c0ccab6ffb479c010a4bbdb482193"
+    },
+    "P19_LOAD_PROFILE_1.json": {
+      "bytes": 520024,
+      "sha256": "422ffa1e52ed8880d283bc83038cadeb82a4279bf660c7bdb7dd70ac37e7e7a5"
+    },
+    "P19_LOAD_PROFILE_12.json": {
+      "bytes": 1966805,
+      "sha256": "09d9786a3765edac23f1ed91c643c9a1aa304b92d554e5af3b8ed34bc21a9bc0"
+    },
+    "P19_LOAD_PROFILE_4.json": {
+      "bytes": 917186,
+      "sha256": "6cbe12fe5b96e7ead5b422797a405d85c5266719a2e408acefaa922ef80feaf2"
+    },
+    "P19_LOAD_SQL_CAPTURE_0.json": {
+      "bytes": 306064,
+      "sha256": "efe4702f924d41ace20ac6cb45cecedb16fef52146e72952d528f78d0d41b9b6"
+    },
+    "P19_LOAD_SQL_CAPTURE_1.json": {
+      "bytes": 306064,
+      "sha256": "8e90ff7e1b90c56554e4e8f7ee6efd62f3cec874fd0563b4db0ad5e040a2690f"
+    },
+    "P19_LOAD_SQL_CAPTURE_2.json": {
+      "bytes": 306064,
+      "sha256": "4d7f4d31700b459cf7c9042ba05aa3f87f48da866da7a65a6ea6435bdbd49930"
+    },
+    "P19_LOAD_SQL_CAPTURE_3.json": {
+      "bytes": 306062,
+      "sha256": "7b79e8eacf860b025a5cd1b0734a51192be9d1668bd6bce15fa5656136820b17"
+    },
+    "P19_LOAD_WRITER_AND_READERS.json": {
+      "bytes": 1295259,
+      "sha256": "f685ecf433ce808cfa0e1917e8d722409056cc44dff1c0094765370ecb35a686"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "949f80f3cccf79fcd1075129a34dafb9c8f57358b37b5d84cfbc0b9445d44a0c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360418,
+      "sha256": "60ad56565cc256546b5f9b4d89ffafa7ade735aad2f619ca35cb25a73ce2dcb4"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_P19_NATIVE_LOAD.json": {
+      "bytes": 5030966,
+      "sha256": "28304cf1ad36f1b2c7c375d1cc2bac9e4297c1f8bc0b33231967ee13085adcbd",
+      "file": "CP7_P19_NATIVE_LOAD.json.gz",
+      "gzip_sha256": "e3f6f1059f85888cc81587af97f3b99067844c10fc4937dadf4b624a578aa2e3",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_HTTP_CAPTURE_0.json": {
+      "bytes": 578856,
+      "sha256": "32388dc1e947c83b1080f2887f0b4e5e31dad35d061508ad88ccc97f2aeb090c",
+      "file": "P19_LOAD_HTTP_CAPTURE_0.json.gz",
+      "gzip_sha256": "cf604744bfd6fbdb146d032a7cc484e1ff1a92d188101ece55e8e75775241c5f",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_HTTP_CAPTURE_1.json": {
+      "bytes": 578856,
+      "sha256": "ccb542aa3fc92d4d981e8388e730756dff287f09b4c0d211c5bf49fa4d4c3adb",
+      "file": "P19_LOAD_HTTP_CAPTURE_1.json.gz",
+      "gzip_sha256": "090ea35a11c3695eb1b1b7600e50bd056e003409ba569479d330801dcc1b384c",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_HTTP_CAPTURE_2.json": {
+      "bytes": 578856,
+      "sha256": "b9818204502543f8241acb0430e6045af9854838a9968cc1552dfdffb54cffb3",
+      "file": "P19_LOAD_HTTP_CAPTURE_2.json.gz",
+      "gzip_sha256": "17543d55075e572dcacaed5be7780026f7b601fac5221396e235a74d3ef6922e",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_HTTP_CAPTURE_3.json": {
+      "bytes": 578856,
+      "sha256": "ba9de546c146423bc9e95e1f0a875235d8f322f9ed6583eecfbec9a09877c0ca",
+      "file": "P19_LOAD_HTTP_CAPTURE_3.json.gz",
+      "gzip_sha256": "6be9ee6573dcf660a455b5633a67515acec372dad52ac0b627b0c9653047ee50",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_PROFILE_0.json": {
+      "bytes": 102014,
+      "sha256": "832d996b0c262b33a5930be1faa2e847b89c0ccab6ffb479c010a4bbdb482193",
+      "file": "P19_LOAD_PROFILE_0.json.gz",
+      "gzip_sha256": "5bc86e6a10b7c88f338e61a28c5d137eadc2014e0610768819d537a1023da885",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_PROFILE_1.json": {
+      "bytes": 520024,
+      "sha256": "422ffa1e52ed8880d283bc83038cadeb82a4279bf660c7bdb7dd70ac37e7e7a5",
+      "file": "P19_LOAD_PROFILE_1.json.gz",
+      "gzip_sha256": "d3e1bf43004d801b2273a3d13ee2cd3d61fe7c73a189dc0814b3c4995ee0652b",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_PROFILE_12.json": {
+      "bytes": 1966805,
+      "sha256": "09d9786a3765edac23f1ed91c643c9a1aa304b92d554e5af3b8ed34bc21a9bc0",
+      "file": "P19_LOAD_PROFILE_12.json.gz",
+      "gzip_sha256": "25f51e6645ba71261df30437847d1989334306885ea1b308969c1dade2b71704",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_PROFILE_4.json": {
+      "bytes": 917186,
+      "sha256": "6cbe12fe5b96e7ead5b422797a405d85c5266719a2e408acefaa922ef80feaf2",
+      "file": "P19_LOAD_PROFILE_4.json.gz",
+      "gzip_sha256": "799f5762981d938cf3fbcd36e2b9539a0b85e564e0ac4d40418ec1039e98f1e2",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_SQL_CAPTURE_0.json": {
+      "bytes": 306064,
+      "sha256": "efe4702f924d41ace20ac6cb45cecedb16fef52146e72952d528f78d0d41b9b6",
+      "file": "P19_LOAD_SQL_CAPTURE_0.json.gz",
+      "gzip_sha256": "53de3d6b70a32bf4160b4c99c9455c1c683e47e6ae1de94714c7d04f06cfe05f",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_SQL_CAPTURE_1.json": {
+      "bytes": 306064,
+      "sha256": "8e90ff7e1b90c56554e4e8f7ee6efd62f3cec874fd0563b4db0ad5e040a2690f",
+      "file": "P19_LOAD_SQL_CAPTURE_1.json.gz",
+      "gzip_sha256": "8da6d0bb02ca4a643ca12afff0dac83f4632a20cd0636ebf2106caf182aef46c",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_SQL_CAPTURE_2.json": {
+      "bytes": 306064,
+      "sha256": "4d7f4d31700b459cf7c9042ba05aa3f87f48da866da7a65a6ea6435bdbd49930",
+      "file": "P19_LOAD_SQL_CAPTURE_2.json.gz",
+      "gzip_sha256": "a80823259119f29aee5dcef8522c386da23858407a70e4a61f9621b3c7905eb2",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_SQL_CAPTURE_3.json": {
+      "bytes": 306062,
+      "sha256": "7b79e8eacf860b025a5cd1b0734a51192be9d1668bd6bce15fa5656136820b17",
+      "file": "P19_LOAD_SQL_CAPTURE_3.json.gz",
+      "gzip_sha256": "af195caa2e8b1a83614b1b2228808afd9f3286abae7786791af9e29f429ec10e",
+      "original_bytes_unchanged": true
+    },
+    "P19_LOAD_WRITER_AND_READERS.json": {
+      "bytes": 1295259,
+      "sha256": "f685ecf433ce808cfa0e1917e8d722409056cc44dff1c0094765370ecb35a686",
+      "file": "P19_LOAD_WRITER_AND_READERS.json.gz",
+      "gzip_sha256": "cb74dfba8f839c1105c521454abfa71c9acdac71c1712655b929ea7f386291ef",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "949f80f3cccf79fcd1075129a34dafb9c8f57358b37b5d84cfbc0b9445d44a0c",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "c783abc8fda678f57881cddaed5c8b327a9436cd5a2966d763950700a9e7477d",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360418,
+      "sha256": "60ad56565cc256546b5f9b4d89ffafa7ade735aad2f619ca35cb25a73ce2dcb4",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "859aec233b9d9adb27db9f7383808174eaad537ea84aef8b2a053722dbf3afbd",
+      "original_bytes_unchanged": true
+    }
+  },
+  "Native_qualification_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

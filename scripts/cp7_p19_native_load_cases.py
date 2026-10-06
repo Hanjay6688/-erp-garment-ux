@@ -5,6 +5,7 @@ Fixture inputs, policies and work reviews stay explicitly synthetic; production,
 sale, cash and inverse outcomes come only from the ordinary Native writers.
 """
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta
 from math import ceil
 from pathlib import Path
 from time import monotonic
@@ -20,6 +21,7 @@ import cp7_p18_e01_bridge_cases as bridge
 PROFILE_FACTSETS = (0, 1, 4, 12)
 USERS = 4
 READS_PER_USER = 4
+CALENDAR_MARGIN_MINUTES = 60
 IDS = dict(
     native=['P19_COMPLETE_CAPTURE_REAL_PROFILE', 'P19_COMPLETE_UUID_RECOVERY'],
     races=['P19_FOUR_ACTOR_CAPTURE', 'P19_CASH_WRITER_DURING_FOUR_READERS'],
@@ -94,6 +96,29 @@ def real_workload(cur, today, factsets=1):
     return f, trace
 
 
+def reviewed_workload_calendar(cur, today):
+    # The one-fixture helper declares a two-hour centre. Twelve45-minute jobs
+    # cannot all fit there. Review sufficient synthetic capacity from every
+    # declared remaining-work input; never fabricate an ETA or alter a result.
+    source = analysis.previous.supply.capture(cur, today)
+    revision = str(cur.execute('select coalesce(max(revision),0) from cp7_schedule_native.plans').fetchone()[0])
+    proposal = analysis.schedule.payload(cur, source, revision)
+    work_minutes = sum(int(step['remaining_minutes']) for position in proposal['config']['positions']
+                       for step in position['remaining_steps'])
+    assert work_minutes > 0
+    capacity = max(120, work_minutes + CALENDAR_MARGIN_MINUTES)
+    window = proposal['config']['windows'][0]
+    start = datetime.fromisoformat(window['starts_at'].replace('Z', '+00:00'))
+    end = start + timedelta(minutes=capacity)
+    window['ends_at'] = analysis.schedule.stamp(end)
+    proposal['config']['through_at'] = analysis.schedule.stamp(end + timedelta(hours=1))
+    proposal['reason'] = 'P19 synthetic reviewed complete work minutes plus60 margin; no factory calendar default'
+    result = analysis.schedule.save(cur, proposal)
+    return dict(reviewed_position_count=len(proposal['config']['positions']),
+                selected_total_work_minutes=work_minutes, reviewed_capacity_minutes=capacity,
+                margin_minutes=CALENDAR_MARGIN_MINUTES, proposal=proposal, result=result)
+
+
 def cases(cur, today):
     def profile():
         f, trace = bridge.prepare(cur, today)
@@ -105,6 +130,20 @@ def cases(cur, today):
                 prepared += 1
             before = analysis.b.boundary.snapshot(cur)
             old_count = cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0]
+            counter = None
+            if count == PROFILE_FACTSETS[-1]:
+                # Retain the overloaded input and require honest missing ETAs.
+                # The happy path then uses an explicit, sufficient review.
+                limited, limited_elapsed = sql_capture(cur, today)
+                uncertain = [source for source in limited['analysis']['sources']
+                             if source['eta'] is None and source['eta_basis'] == 'UNKNOWN']
+                assert uncertain and all(source['physical_remaining']['value'] == '8' for source in uncertain)
+                assert all(source['eligible_projected']['value'] == '7' for source in uncertain)
+                counter = dict(original=limited, stored=stored(cur, limited['run_id']),
+                               elapsed_ms=limited_elapsed, insufficient_work_window_minutes=120,
+                               missing_ETA_not_invented=True)
+                witness('UNDERPROVISIONED_' + str(count), counter)
+            review = reviewed_workload_calendar(cur, today) if count else None
             result, elapsed = sql_capture(cur, today)
             retained = stored(cur, result['run_id'])
             witness('PROFILE_' + str(count), dict(actual_Native_factsets=count,
@@ -115,11 +154,12 @@ def cases(cur, today):
             reread = analysis.read(cur, result['run_id'])
             unchanged(result, reread)
             assert stored(cur, result['run_id']) == retained
-            assert cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0] == old_count + 1
+            assert cur.execute('select count(*) from cp7_analysis_native.runs').fetchone()[0] == old_count + 1 + (1 if counter else 0)
             assert analysis.b.boundary.snapshot(cur) == before
             bridge.literal(cur, f, '175.00')
             observations.append(dict(actual_Native_factsets=count, actual_E01_journeys=1,
-                                     complete_public_capture_ms=elapsed, original=result, stored=retained))
+                                     complete_public_capture_ms=elapsed, original=result, stored=retained,
+                                     explicit_workload_calendar=review, underprovisioned_counter=counter))
         return dict(status='PASS', profile_factsets=list(PROFILE_FACTSETS),
                     complete_public_capture_and_read_all_profiles=True,
                     fixed_E01_FG45_value675_HPP15_AR175_cash200_payroll180=True,

@@ -10,6 +10,8 @@
   "profile_factsets": [0, 1, 4, 12],
   "users": 4,
   "reads_per_user": 4,
+  "workload_calendar_margin_minutes": 60,
+  "profile_calendar": "Positive profiles use a reviewed window of max120, complete selected remaining-work minutes plus60; the12-factset overloaded120-minute counter keeps UNKNOWN ETAs",
   "statement_timeout": "8s",
   "scope": "Selected complete public captures and recovery on real Native source, plus actual multi-actor SQL and real Auth/PostgREST calls",
   "full_P19_acceptance": false,

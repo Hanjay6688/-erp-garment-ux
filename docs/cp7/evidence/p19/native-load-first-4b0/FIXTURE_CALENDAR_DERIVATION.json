@@ -1,0 +1,51 @@
+{
+  "source_commit": "4b0fb2cf8177a370753f67cd667e15f1f6c8b102",
+  "status": "ACTUAL_INPUTS_INDEPENDENT_SUM_AND_RETAINED_UNKNOWN_WITNESS",
+  "rows": [
+    {
+      "factsets": 1,
+      "facts_SQL_text_sha256": "eb07e0724c28274f16777c267a820f38dcb4047ec604580b541fb97332ce0333",
+      "positions": 1,
+      "selected_remaining_work_minutes": 45,
+      "old_capacity_minutes": 120,
+      "positive_fixture_capacity_minutes": 120,
+      "unknown_ETA_sources": 0,
+      "physical_values": [],
+      "projected_values": []
+    },
+    {
+      "factsets": 4,
+      "facts_SQL_text_sha256": "8cd662d61fcacd06137c67586d4c28d3397aaf715e5e87940db557a9fec14788",
+      "positions": 4,
+      "selected_remaining_work_minutes": 180,
+      "old_capacity_minutes": 120,
+      "positive_fixture_capacity_minutes": 240,
+      "unknown_ETA_sources": 2,
+      "physical_values": [
+        "8"
+      ],
+      "projected_values": [
+        "7"
+      ]
+    },
+    {
+      "factsets": 12,
+      "facts_SQL_text_sha256": "c21be849a6d57d8f5db10b0de6ac2f9051da1a674a38b7cd3c815537a477d473",
+      "positions": 12,
+      "selected_remaining_work_minutes": 540,
+      "old_capacity_minutes": 120,
+      "positive_fixture_capacity_minutes": 600,
+      "unknown_ETA_sources": 10,
+      "physical_values": [
+        "8"
+      ],
+      "projected_values": [
+        "7"
+      ]
+    }
+  ],
+  "first_status_unchanged": "INCOMPLETE",
+  "Native_cases_reexecuted": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

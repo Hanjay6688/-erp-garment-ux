@@ -1,0 +1,266 @@
+{
+  "source_commit": "875443d0a0cc5323e314941412f268765ecca055",
+  "source_tree": "6d5f70dd74ec7b887555c1f5511606fd700202db",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "artifacts": [
+    {
+      "artifact_id": 11397756679,
+      "name": "cp7-f03-combined",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_COMBINED_STACK.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 22,
+          "groups": {
+            "native": 10,
+            "races": 2,
+            "http": 4,
+            "sales_browser": 2,
+            "opening_payroll_browser": 2,
+            "finance_browser": 2
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11397756679/RECEIPT.json"
+    },
+    {
+      "artifact_id": 11398161527,
+      "name": "cp7-f03-full-p11",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_FULL_P11.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 64,
+          "groups": {
+            "groups/native": 8,
+            "groups/http": 1,
+            "groups/commands": 6,
+            "groups/command_races": 2,
+            "groups/command_http": 1,
+            "groups/drafts": 7,
+            "groups/draft_races": 1,
+            "groups/draft_http": 1,
+            "groups/payments": 8,
+            "groups/payment_races": 3,
+            "groups/payment_http": 1,
+            "groups/returns": 11,
+            "groups/return_races": 3,
+            "groups/return_http": 1,
+            "groups/browser": 10
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11398161527/RECEIPT.json"
+    },
+    {
+      "artifact_id": 11398110748,
+      "name": "cp7-f03-full-p13",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_FULL_P13.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 50,
+          "groups": {
+            "groups/native": 8,
+            "groups/races": 1,
+            "groups/http": 1,
+            "groups/browser": 2,
+            "groups/period_native": 8,
+            "groups/period_races": 2,
+            "groups/period_http": 1,
+            "groups/period_browser": 2,
+            "groups/analysis_native": 8,
+            "groups/analysis_races": 1,
+            "groups/analysis_http": 1,
+            "groups/analysis_browser": 2,
+            "groups/recost_native": 8,
+            "groups/recost_races": 2,
+            "groups/recost_http": 1,
+            "groups/recost_browser": 2
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11398110748/RECEIPT.json"
+    },
+    {
+      "artifact_id": 11397985753,
+      "name": "cp7-f03-full-p10",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_FULL_P10.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 34,
+          "groups": {
+            "groups/native": 7,
+            "groups/http": 1,
+            "groups/adjustments": 8,
+            "groups/adjustment_races": 2,
+            "groups/adjustment_http": 1,
+            "groups/book": 6,
+            "groups/book_races": 2,
+            "groups/book_http": 1,
+            "groups/browser": 6
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11397985753/RECEIPT.json"
+    },
+    {
+      "artifact_id": 11397792500,
+      "name": "cp7-f03-full-p12",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_FULL_P12.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 90,
+          "groups": {
+            "groups/native": 5,
+            "groups/http": 1,
+            "groups/notes": 7,
+            "groups/note_races": 3,
+            "groups/note_http": 1,
+            "groups/admission_regression": 1,
+            "groups/browser": 2,
+            "groups/payroll_review": 4,
+            "groups/payroll_review_http": 1,
+            "groups/payroll_review_browser": 2,
+            "groups/settlement": 7,
+            "groups/settlement_races": 4,
+            "groups/settlement_http": 1,
+            "groups/settlement_browser": 3,
+            "groups/attendance_read": 6,
+            "groups/attendance_read_http": 1,
+            "groups/attendance_read_browser": 2,
+            "groups/roster": 6,
+            "groups/roster_races": 3,
+            "groups/roster_http": 1,
+            "groups/roster_browser": 2,
+            "groups/attendance_write": 10,
+            "groups/attendance_write_races": 4,
+            "groups/attendance_write_http": 1,
+            "groups/attendance_write_browser": 2,
+            "groups/opening_payroll": 5,
+            "groups/opening_payroll_races": 2,
+            "groups/opening_payroll_http": 1,
+            "groups/opening_payroll_browser": 2
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11397792500/RECEIPT.json"
+    },
+    {
+      "artifact_id": 11397746330,
+      "name": "cp7-f03-full-customer_refund",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_FULL_CUSTOMER_REFUND.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 10,
+          "groups": {
+            "groups/native": 1,
+            "groups/refund_native": 2,
+            "groups/refund_races": 1,
+            "groups/refund_http": 1,
+            "groups/refund_browser": 2,
+            "groups/http": 1,
+            "groups/browser": 2
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11397746330/RECEIPT.json"
+    },
+    {
+      "artifact_id": 11397482746,
+      "name": "cp7-f03-full-p09",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_FULL_P09.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 132,
+          "groups": {
+            "groups/smoke": 1,
+            "groups/native": 9,
+            "groups/races": 3,
+            "groups/http": 1,
+            "groups/material_smoke": 1,
+            "groups/material": 13,
+            "groups/material_crossflow": 2,
+            "groups/material_races": 3,
+            "groups/material_http": 1,
+            "groups/material_count": 17,
+            "groups/material_count_races": 2,
+            "groups/material_count_http": 2,
+            "groups/invoice": 9,
+            "groups/invoice_races": 3,
+            "groups/invoice_http": 1,
+            "groups/combined_invoice": 6,
+            "groups/combined_invoice_races": 3,
+            "groups/combined_invoice_http": 1,
+            "groups/browser": 22,
+            "groups/return_smoke": 1,
+            "groups/returns": 10,
+            "groups/return_races": 3,
+            "groups/return_http": 1,
+            "groups/receipt_reversal": 7,
+            "groups/receipt_reversal_races": 3,
+            "groups/receipt_reversal_http": 1,
+            "groups/uom": 6,
+            "groups/uom_races": 2,
+            "groups/uom_http": 1
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11397482746/RECEIPT.json"
+    },
+    {
+      "artifact_id": 11397377647,
+      "name": "cp7-f03-full-supplier_credit",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_FULL_SUPPLIER_CREDIT.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 5,
+          "groups": {
+            "groups/native": 1,
+            "groups/races": 1,
+            "groups/http": 1,
+            "groups/browser": 2
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11397377647/RECEIPT.json"
+    },
+    {
+      "artifact_id": 11397299207,
+      "name": "cp7-f03-full-cash_installments",
+      "roots": 5,
+      "reports": {
+        "CP7_F03_FULL_CASH_INSTALLMENTS.json": {
+          "kind": "WRITER_NATIVE_CASES",
+          "declared": 61,
+          "groups": {
+            "groups/cp7_f03_cash_native": 3,
+            "groups/cp7_f03_cash_http": 1,
+            "groups/cp7_f03_cash_journal_native": 6,
+            "groups/cp7_f03_cash_journal_http": 1,
+            "groups/cp7_f03_cash_browser": 10,
+            "groups/cp7_f03_misc_native": 9,
+            "groups/cp7_f03_misc_races": 2,
+            "groups/cp7_f03_misc_http": 1,
+            "groups/cp7_f03_misc_browser": 2,
+            "groups/cp7_f03_e05_native": 20,
+            "groups/cp7_f03_e05_races": 3,
+            "groups/cp7_f03_e05_http": 1,
+            "groups/cp7_f03_e05_browser": 2
+          }
+        }
+      },
+      "receipt": "docs/cp7/evidence/f03-qualified-875/11397299207/RECEIPT.json"
+    }
+  ],
+  "Native_cases_reexecuted_by_retainer": 0,
+  "unique_full_CP7_case_total": null,
+  "full_P18_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

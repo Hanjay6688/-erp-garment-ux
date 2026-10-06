@@ -1,0 +1,93 @@
+{
+  "id": 11398082731,
+  "name": "cp7-shell-proof",
+  "run_id": 37433491127,
+  "workflow_name": "CP7 Shell S0",
+  "workflow_path": ".github/workflows/cp7-shell.yml",
+  "size_in_bytes": 498538,
+  "digest": "sha256:161a8585b5ee3472b07c6de73c131d88b9671edd4cae5defb224e2dac999543c",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "4b0fb2cf8177a370753f67cd667e15f1f6c8b102",
+  "source_tree": "2dd1d9daff1c7269c59c32267a188867f9f9aeb2",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": null,
+  "all_zip_members": {
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53268,
+      "sha256": "987a47660d0dfe15b2b23762fb6eac57f0b446ff5308af25b367546d71531e08"
+    },
+    "fabric-recipe.json": {
+      "bytes": 60590,
+      "sha256": "e515265a61dee32aaab341788b6bbfc2686568544fcb265856e81711140b2d71"
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "results.json": {
+      "bytes": 12382,
+      "sha256": "fefe7157e923601887c0b1ff61da86ea2893cba4906bbf986dde0a8d844528f5"
+    }
+  },
+  "root_originals": {
+    "f04-private-kernels.json": {
+      "bytes": 53268,
+      "sha256": "987a47660d0dfe15b2b23762fb6eac57f0b446ff5308af25b367546d71531e08",
+      "file": "f04-private-kernels.json.gz",
+      "gzip_sha256": "645c4ee6f64a9da277519e94654e9cc028d72b2b9f8d1660ddf6b3c2f47c4c9e",
+      "original_bytes_unchanged": true
+    },
+    "fabric-recipe.json": {
+      "bytes": 60590,
+      "sha256": "e515265a61dee32aaab341788b6bbfc2686568544fcb265856e81711140b2d71",
+      "file": "fabric-recipe.json.gz",
+      "gzip_sha256": "adda673f3cd10695a4b48fd55b9476d3820acaece9035556cfdfc4c47bad7acc",
+      "original_bytes_unchanged": true
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4",
+      "file": "history-availability-parity.json.gz",
+      "gzip_sha256": "40b00315e0116cde3ec12739e9aa526c9183eccffc13db26ea822b85b020e124",
+      "original_bytes_unchanged": true
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6",
+      "file": "material-pool.json.gz",
+      "gzip_sha256": "eabfa4c1971cf93cfdb6e20b3657f3e5fa1f4901122d0272ede7b00f026ddaa9",
+      "original_bytes_unchanged": true
+    },
+    "results.json": {
+      "bytes": 12382,
+      "sha256": "fefe7157e923601887c0b1ff61da86ea2893cba4906bbf986dde0a8d844528f5",
+      "file": "results.json.gz",
+      "gzip_sha256": "b6c796dc703fa1f3851d4ad4481184bbed847606ad6bddbad589514c2d6dc9ef",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "results.json": {
+      "kind": "FIXTURE_BROWSER",
+      "expected": 6,
+      "Native_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,23 @@
+{
+  "id": 11398491168,
+  "name": "cp7-p19-native-load",
+  "size_in_bytes": 2102887,
+  "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11398491168",
+  "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11398491168/zip",
+  "expired": false,
+  "created_at": "2026-10-06T08:09:28Z",
+  "expires_at": "2026-11-05T08:09:27Z",
+  "updated_at": "2026-10-06T08:09:28Z",
+  "digest": "sha256:e7c1cf43faf6ae114a48efa8e540559bd59c09484eea2979c4c9ca3fa819f2d4",
+  "workflow_run": {
+    "id": 37433491224,
+    "repository_id": 1348063690,
+    "head_repository_id": 1348063690,
+    "head_branch": "cp7/p19-native-load-20261006",
+    "head_sha": "4b0fb2cf8177a370753f67cd667e15f1f6c8b102"
+  },
+  "run_id": 37433491224,
+  "job_id": 112169593862,
+  "workflow_name": "CP7 P19 Bounded Native Load",
+  "workflow_path": ".github/workflows/cp7-p19-native-load.yml"
+}
