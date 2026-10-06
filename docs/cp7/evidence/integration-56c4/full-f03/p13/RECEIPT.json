@@ -1,0 +1,384 @@
+{
+  "status": "NATIVE_WRITER_PASS",
+  "source_commit": "56c48b6e2e8e2dabdc10311aa55b113826d25622",
+  "source_tree": "c0d41bc53ee2bdeab3fbea4eab082c9fdec1db6b",
+  "run_id": 37468011716,
+  "job_id": 112283847887,
+  "artifact_id": 11416480004,
+  "artifact_name": "cp7-f03-full-p13",
+  "original_file_id": "file_00000000d0dc8207ba802ea98b28779d",
+  "zip_bytes": 12000308,
+  "zip_sha256": "ba51e2301e644d368f31b5a0e25cc4fb9a7137ae5197ac33f57cfcf04fd12225",
+  "bucket": "p13",
+  "expected_case_count": 50,
+  "observed_case_count": 50,
+  "expected_smoke_count": 0,
+  "observed_smoke_count": 0,
+  "source_bundle_sha256": "a6ff9571719c88e3ca6464b2948c7f5a813a02d83db6f23a265464b0f5ab7027",
+  "manifest_sha256": "fcce2422718d129c2b8daa9180ae8878b09e1aea6837a34b66469b180da8a157",
+  "provider_sha256": {
+    "native": "bd53d120b67e5fd5f39ea42f20271c1a3a054a62fa4cf8794f562bf8205dc593",
+    "races": "bd53d120b67e5fd5f39ea42f20271c1a3a054a62fa4cf8794f562bf8205dc593",
+    "http": "bd53d120b67e5fd5f39ea42f20271c1a3a054a62fa4cf8794f562bf8205dc593",
+    "browser": "efd6093afd8efcf2c668158f55caf006f167cdfe4dccae17f2336671f17c6b39",
+    "period_native": "a01f568bab12465ef0b71a005f0eddb73574c3e259c1fd3b020f35ea39087bb3",
+    "period_races": "a01f568bab12465ef0b71a005f0eddb73574c3e259c1fd3b020f35ea39087bb3",
+    "period_http": "a01f568bab12465ef0b71a005f0eddb73574c3e259c1fd3b020f35ea39087bb3",
+    "period_browser": "bcc7604f430927fffbd7ce06e04740f03bc85fe6fc1fdc5df6174f06fe8a97a5",
+    "analysis_native": "11e364a0109a91456af40aefea0ec646b0cd5860d77b248c3d1b8bd864a4a899",
+    "analysis_races": "11e364a0109a91456af40aefea0ec646b0cd5860d77b248c3d1b8bd864a4a899",
+    "analysis_http": "11e364a0109a91456af40aefea0ec646b0cd5860d77b248c3d1b8bd864a4a899",
+    "analysis_browser": "1af1b258202e775122e97252ccc844b61dac6918f14f5be3772e2fe674beec91",
+    "recost_native": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "recost_races": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "recost_http": "376929543a52204e7553019293539c52ce464fa5c250cd60f971a1a803b7fe2a",
+    "recost_browser": "7164a93fa92a7bf7651d240e0bdd8d8082b846ab0ac9312022ee12d9f481bf59"
+  },
+  "retained_probe_sha256": {
+    "cp7_p13_finance_probe.py": "ac940d04978cfcecc051d774eaf735f75de39e68cd6963a8b3c4a96184455d21"
+  },
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "complete_boundary_restored": true
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      }
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "period_native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "complete_boundary_restored": true
+    },
+    "period_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      }
+    },
+    "period_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "period_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "analysis_native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "complete_boundary_restored": true
+    },
+    "analysis_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      }
+    },
+    "analysis_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "analysis_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "recost_native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 8
+      },
+      "complete_boundary_restored": true
+    },
+    "recost_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      }
+    },
+    "recost_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "recost_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "backup_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F03_FULL_P13.json": "ba4e5ec49500856f6258ab34dcb6bfeb4d4419169aee9c0c4bf20c491af57e7a",
+    "T3_BACKUP_RESTORE_DRILL.json": "99baad72c0be9b2ddeddf75d94d7118c15c2ad3164aa56caaf13efe6115b91e3",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "92ff5b8372bf51bcb5fdc012e68cafd54924b8316d3d0e6921e255a8d30c1d75"
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "cc77c14f005930e13ae1c9d3eb7febc74757e60ab1e302ea3c0737b9cded817d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385612,
+      "sha256": "cc77c14f005930e13ae1c9d3eb7febc74757e60ab1e302ea3c0737b9cded817d"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "dd2d80cbbd73dcfd38bbc1226f7115ec735cccfb40ebe8f39202ba4914b526a9"
+    },
+    "CP7_F03_FULL_P13.json": {
+      "bytes": 5219696,
+      "sha256": "ba4e5ec49500856f6258ab34dcb6bfeb4d4419169aee9c0c4bf20c491af57e7a"
+    },
+    "P13_ANALYSIS_DESKTOP.png": {
+      "bytes": 2549551,
+      "sha256": "355c99aed910ee142ad98f6b86bc75dd128a8a9ece78ca4afe9ae1201e58d782"
+    },
+    "P13_ANALYSIS_MOBILE.png": {
+      "bytes": 1967499,
+      "sha256": "ae24b8097cc7da1055f7d90a776b9f648e3ad035c13f162630ddcf6ad9d0c710"
+    },
+    "P13_PERIOD_DESKTOP.png": {
+      "bytes": 1353260,
+      "sha256": "8dcdd286941ff7d1031a69697cfa33b0513a46b1be06db44787a2e48b29bf5a0"
+    },
+    "P13_PERIOD_MOBILE.png": {
+      "bytes": 1074192,
+      "sha256": "20aac396992c629d7d67931409669430cc05085db41e8c994922de7fe81105c7"
+    },
+    "P13_RECOST_DESKTOP.png": {
+      "bytes": 334686,
+      "sha256": "81b49b45addfb19cbd6cc4232aa276f4835712ff23847a7b276ee31d465f18cb"
+    },
+    "P13_RECOST_MOBILE.png": {
+      "bytes": 250866,
+      "sha256": "f23cb2621022817aa04dd278c6a05b9bed9dca8268fe1952dae9714366daebac"
+    },
+    "P13_REPORT_DESKTOP.png": {
+      "bytes": 1431882,
+      "sha256": "54000703a3670da0ed24359993c117ab9125422b52e117a04497d8137cd32154"
+    },
+    "P13_REPORT_MOBILE.png": {
+      "bytes": 1053373,
+      "sha256": "c90c96567f81b01462f0375675a3528c6b374d45857bbec26e44292f2f6819e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "99baad72c0be9b2ddeddf75d94d7118c15c2ad3164aa56caaf13efe6115b91e3"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "92ff5b8372bf51bcb5fdc012e68cafd54924b8316d3d0e6921e255a8d30c1d75"
+    }
+  },
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

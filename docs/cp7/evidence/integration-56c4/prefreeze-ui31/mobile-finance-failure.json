@@ -1,0 +1,15 @@
+{
+  "mobile": true,
+  "alerts": [
+    "Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.",
+    "Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache"
+  ],
+  "rpc_errors": [
+    {
+      "rpc": "erp_cp7_get_recost_queue_v1",
+      "status": 404,
+      "code": "PGRST202",
+      "message": "Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache"
+    }
+  ]
+}

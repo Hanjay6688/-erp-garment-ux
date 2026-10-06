@@ -1,0 +1,26 @@
+{
+  "status": "EXACT385_NEGATIVE36_KERNEL_VERIFIED",
+  "source_commit": "56c48b6e2e8e2dabdc10311aa55b113826d25622",
+  "classification": "DISPOSABLE_ADMISSION_KERNEL_EXACT_NATIVE_HELPERS_EXPLICIT_AUTH_PROFILE_FIXTURES",
+  "exact_decisions": 385,
+  "negative_control_differences": 36,
+  "observed_samples": [
+    {
+      "action": "POST",
+      "invocations": 4000,
+      "current_profile": "NATIVE_PROTECTED_OWNER_NO_EXPLICIT_PERMISSIONS",
+      "predecessor_ms": 1070.912,
+      "candidate_ms": 143.045
+    },
+    {
+      "action": "SALE_REVERSE",
+      "invocations": 4000,
+      "current_profile": "NATIVE_PROTECTED_OWNER_NO_EXPLICIT_PERMISSIONS",
+      "predecessor_ms": 1070.676,
+      "candidate_ms": 143.87
+    }
+  ],
+  "Native_case_credit_added": 0,
+  "full_P19_acceptance": false,
+  "production_go": false
+}

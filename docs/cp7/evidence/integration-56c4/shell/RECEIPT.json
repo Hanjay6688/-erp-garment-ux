@@ -1,0 +1,106 @@
+{
+  "id": 11414639589,
+  "name": "cp7-shell-proof",
+  "run_id": 37468011761,
+  "workflow_name": "CP7 Shell S0",
+  "workflow_path": ".github/workflows/cp7-shell.yml",
+  "size_in_bytes": 502172,
+  "digest": "sha256:b6e5d3cbba6c546f2fa439706069a208262aabedfa58aea0ca57ace433a2d3ad",
+  "contract": "cp7.integration-original-retention.v1",
+  "source_commit": "56c48b6e2e8e2dabdc10311aa55b113826d25622",
+  "source_tree": "c0d41bc53ee2bdeab3fbea4eab082c9fdec1db6b",
+  "status": "VERIFIED_COMPLETE_ORIGINALS_RETAINED",
+  "package_gate": null,
+  "all_zip_members": {
+    "P19_SALES_ADMISSION_KERNEL.json": {
+      "bytes": 92451,
+      "sha256": "6b80a493f234ed0ead1392be16664320fb6ae207d781119190249089d613aafa"
+    },
+    "desktop-planner.png": {
+      "bytes": 130883,
+      "sha256": "af2dcc00ba5a5165f2afde6e33ac411426e319b05af2c409073371404f13dbb8"
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53275,
+      "sha256": "b3296e3f72ef5c964c0a072832d38814272deff2edac703dba98784fb02eebd1"
+    },
+    "fabric-recipe.json": {
+      "bytes": 60590,
+      "sha256": "4905b4f8b9abfa7e9fda8cfe562ece191ffa3cdc7a21dd666369660ee2ba5a66"
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4"
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6"
+    },
+    "mobile-planner.png": {
+      "bytes": 382780,
+      "sha256": "6b6c9a2e214a2fc5fd04333f148c986f34e2000beae196b67991032df2659a06"
+    },
+    "results.json": {
+      "bytes": 13391,
+      "sha256": "bc4de83632193f695fd16e61ffd3014ac4d68570fb35c51bd6d2b8328502ed61"
+    }
+  },
+  "root_originals": {
+    "P19_SALES_ADMISSION_KERNEL.json": {
+      "bytes": 92451,
+      "sha256": "6b80a493f234ed0ead1392be16664320fb6ae207d781119190249089d613aafa",
+      "file": "P19_SALES_ADMISSION_KERNEL.json.gz",
+      "gzip_sha256": "0b36dc8529608a8cc422bf2c2916b3778cbd8f2d9c4aaf52f3d0823e263399a2",
+      "original_bytes_unchanged": true
+    },
+    "f04-private-kernels.json": {
+      "bytes": 53275,
+      "sha256": "b3296e3f72ef5c964c0a072832d38814272deff2edac703dba98784fb02eebd1",
+      "file": "f04-private-kernels.json.gz",
+      "gzip_sha256": "a20bc11b9a5c8eba509964c5ed2938aa6f5ed748d23174c81d235e1906ab92c6",
+      "original_bytes_unchanged": true
+    },
+    "fabric-recipe.json": {
+      "bytes": 60590,
+      "sha256": "4905b4f8b9abfa7e9fda8cfe562ece191ffa3cdc7a21dd666369660ee2ba5a66",
+      "file": "fabric-recipe.json.gz",
+      "gzip_sha256": "1b4d57f2980e5a5ea160cf66c21e23546ce47b09e6679dee8ad45db4609602e9",
+      "original_bytes_unchanged": true
+    },
+    "history-availability-parity.json": {
+      "bytes": 5502,
+      "sha256": "504ec4d453f4a6e783f3e23222305dd6accca88c38b7fa383e2657fa92c7d4d4",
+      "file": "history-availability-parity.json.gz",
+      "gzip_sha256": "40b00315e0116cde3ec12739e9aa526c9183eccffc13db26ea822b85b020e124",
+      "original_bytes_unchanged": true
+    },
+    "material-pool.json": {
+      "bytes": 8612,
+      "sha256": "70853eb39566a2cafd748681bd8b0596e78f5c44be630f92a67bdb80f85642e6",
+      "file": "material-pool.json.gz",
+      "gzip_sha256": "eabfa4c1971cf93cfdb6e20b3657f3e5fa1f4901122d0272ede7b00f026ddaa9",
+      "original_bytes_unchanged": true
+    },
+    "results.json": {
+      "bytes": 13391,
+      "sha256": "bc4de83632193f695fd16e61ffd3014ac4d68570fb35c51bd6d2b8328502ed61",
+      "file": "results.json.gz",
+      "gzip_sha256": "6679f741fa07d1db712e912f051703176fd97e4f1f549dc489ce3914a0559ce7",
+      "original_bytes_unchanged": true
+    }
+  },
+  "report_checks": {
+    "results.json": {
+      "kind": "FIXTURE_BROWSER",
+      "expected": 6,
+      "Native_credit": 0
+    }
+  },
+  "Native_cases_reexecuted_by_retainer": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false,
+  "original_job_log_sha256": "bb68e31e27c0d44457f2eed6801049fcdb4502f4278ae3d56ef3d36868b72049",
+  "job_id": 112283849077
+}

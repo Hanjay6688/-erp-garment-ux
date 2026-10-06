@@ -1,0 +1,95 @@
+{
+  "status": "COMPLETE_RUNTIME_MIGRATION_VERIFIED",
+  "source_commit": "56c48b6e2e8e2dabdc10311aa55b113826d25622",
+  "source_tree": "c0d41bc53ee2bdeab3fbea4eab082c9fdec1db6b",
+  "actual_case_ids": [
+    "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+    "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+    "VENDOR_FREE_BROWSER:DESKTOP_SAVE_RELOAD",
+    "VENDOR_FREE_BROWSER:MOBILE_SAVE_RELOAD",
+    "VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP",
+    "VENDOR_BROWSER:EMPTY_DETAILS_MOBILE",
+    "SUPPLIER_BROWSER:FABRIC_SPLIT_INVERSE_DESKTOP",
+    "SUPPLIER_BROWSER:ACCESSORY_SPLIT_INVERSE_MOBILE",
+    "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+    "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+    "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+    "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+    "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+    "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+    "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+    "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+    "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+    "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+    "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+    "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+    "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+    "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+    "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+    "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+    "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+    "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+    "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+    "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+    "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+    "P11_DRAFT_BROWSER_DESKTOP",
+    "P11_DRAFT_BROWSER_MOBILE_RECOVERY"
+  ],
+  "migration": {
+    "unchanged_legacy_cases": 29,
+    "retired_simulation_cases": [
+      "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+      "BF_BROWSER:SALES_MANUAL_13_MOBILE"
+    ],
+    "connected_replacements": [
+      "P11_DRAFT_BROWSER_DESKTOP",
+      "P11_DRAFT_BROWSER_MOBILE_RECOVERY"
+    ],
+    "frozen_CP6_package_oracles_changed": false,
+    "historical_failures_relabelled": false
+  },
+  "finance_cases": {
+    "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE": {
+      "status": "PASS",
+      "checks": {
+        "pending_explained_before_post": true,
+        "prefill_does_not_write": true,
+        "one_setting_does_not_make_invoice_ready": true,
+        "both_applied_remove_warning": true,
+        "approval_none_is_not_zero": true,
+        "finance_native_report_loaded": true,
+        "finance_rounding_visible": true
+      },
+      "mobile": false,
+      "screenshots": 4,
+      "finance_alerts": [],
+      "finance_rpc_errors": []
+    },
+    "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE": {
+      "status": "PASS",
+      "checks": {
+        "pending_explained_before_post": true,
+        "prefill_does_not_write": true,
+        "one_setting_does_not_make_invoice_ready": true,
+        "both_applied_remove_warning": true,
+        "approval_none_is_not_zero": true,
+        "finance_native_report_loaded": true,
+        "finance_rounding_visible": true,
+        "mobile_width": true
+      },
+      "mobile": true,
+      "screenshots": 4,
+      "finance_alerts": [],
+      "finance_rpc_errors": []
+    }
+  },
+  "CP6_only_diagnostic_credit": 0,
+  "CP6_only_diagnostic_counts": {
+    "INCOMPLETE": 2
+  },
+  "diagnostic_copy_removed": true,
+  "diagnostic_auth_restored": true,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

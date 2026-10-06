@@ -393,3 +393,18 @@ Rincian ada di `docs/cp7/p19/P19_FABRIC_SCALE.md`. Ringkasnya:
   - Suite P08 lengkap di 2ae1db92 juga PASS (run 37408720092): 21/21, 13/13, 152/152, 39/39, 284/284. 2ae1db92 hanya menambah dokumen.
   - **Kandidat merge/audit dari cabang Claude saat ini: 2ae1db92.**
 - **Kegagalan pertama tetap tercatat.** fabric13 di 7dad62c9 gagal karena fixture waktu WIB, dan sudah diperbaiki di fixture.
+
+
+### 11.2 Bukti integrasi GPT dan penutupan regresi layar oleh penulis (6 Okt 2026)
+
+Paket bukti baru ada di `docs/cp7/WRITER_CHECKPOINT_20261006_QUALIFIED_UI_AND_P19.md`. Cabang Claude telah digabung di `ac714a5b`; Fable independen menutup PRE-02/03/04 di audit `db8c057`. GPT tidak mengirim pesan kepada auditor atau memulai pekerjaan mereka.
+
+- **PRE-01 diketahui sebabnya:** layar CP7 memakai `erp_cp7_get_recost_queue_v1`, tetapi paket T3 CP6-BF tidak memasangnya. Run `a3aabd1d` merekam HTTP404/PGRST202 dan kedua teks alert, lalu membuktikan keduanya hilang sesudah stack CP7 lengkap dipasang. Assertion nol alert tetap.
+- **PRE-05 punya pengganti terhubung:** 29 kasus CP6 tetap, dua simulasi penjualan hanya dipensiunkan dari komposisi CP7 dan diganti dua lifecycle invoice P11 (manual13 PCS, create/edit/post; mobile kehilangan balasan dan reconcile sesudah reload). Browser **31/31**, run37466200640. Hasil lama27/4 tidak diubah menjadi hijau.
+- **P19 hasil terukur:** popup stok desktop/mobile415.4/529.1ms; analisis952.5/1195ms. Koreksi nota year364 yang benar-benar commit1810.595ms, sebelumnya2982.830ms di3a4. Forced-rollback diagnostic adalah jalur terpisah; angka4596.946ms/5491.544ms lama bukan waktu command commit Native40.
+- **Regresi integrasi:** `ca37884d` mengkualifikasi Native P11 terpisah64/64 dan delapan komponen F03 penuh132(+3 smoke),34,64,90,50,61,5,10. Semua kasus, pemulihan penuh, backup, primary, advisor dan Auth0→0 dibaca.385 keputusan/penolakan izin persis dan empat penolakan mutasi OWNER dilindungi terbukti; dispatch51/75 mempertahankan urutan konteks Native. Shell Native385 plus kontrol negatif36, browser fixture6 dan SARIF CodeQL0 disimpan terpisah dari bukti bisnis.
+- **PRE-06:** workflow CP3/CP5 ditandai historis dan menolak cabang yang tidak cocok sebelum menjalankan runtime lama. Regresi numerik warisan tetap memakai T2; tidak ada klaim backup Actions yang kedaluwarsa hidup kembali.
+- **CAT-01/PRE-07:** komparator lengkap yang sama dipakai E05/E06. E03 Native10 sudah mempertahankan OID/owner/tuple; successor tool `56c48b6e` memperluas saksi ini ke E05/E06 dan seluruh grup Native F03. Kualifikasi successor sudah dibaca dari Originals: E0526/26, E065/5 dan seluruh delapan komponen F03 lulus;39 grup Native mempertahankan614 snapshot katalog lengkap/575 transisi OID/owner yang sama, tanpa perubahan tuple. Penyebab OID pada kegagalan pertama yang tidak merekam OID tetap tidak diketahui.
+- **Head bukti terbaru `56c48b6e`:** browser31/31 (run37468012520), combined22, supplier authority6, Build UX1551/164 dan browser fixture2/2/16/26, Shell385 keputusan persis/kontrol negatif36 plus browser6, dan dua SARIF CodeQL0 juga selesai lulus. Semua tetap source-bound, dengan formula/SQL produk/frontend identik dengan4b; no extra Native credit dari alat pembaca bukti.
+
+Ini kualifikasi penulis pada source tertentu. Penutupan PRE-01/05/06/07 oleh auditor independen, kapasitas pabrik/transport lengkap, full P18/P19, P20, P21 dan GO tetap terpisah. Tidak ada perubahan hosted/main atau nilai operasional owner yang dikarang.
