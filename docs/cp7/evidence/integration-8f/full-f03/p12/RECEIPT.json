@@ -1,0 +1,634 @@
+{
+  "status": "NATIVE_WRITER_PASS",
+  "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+  "source_tree": "8fdc7495bd693b1b5ef6d4c020c2be67a01d0fed",
+  "run_id": 37440579572,
+  "job_id": 112193073955,
+  "artifact_id": 11401599415,
+  "artifact_name": "cp7-f03-full-p12",
+  "original_file_id": "file_00000000778c82078c8ba2ad416f05d5",
+  "zip_bytes": 8866382,
+  "zip_sha256": "778abb28b4823fe7280c897d6c0afaa8c10a9a19408aca300a39e3d3f04444f4",
+  "bucket": "p12",
+  "expected_case_count": 90,
+  "observed_case_count": 90,
+  "expected_smoke_count": 0,
+  "observed_smoke_count": 0,
+  "source_bundle_sha256": "1a4838b4d0a7e1d78bd87c2be1bfa64500ad644e937b9606d85d79bda6274115",
+  "manifest_sha256": "1827548ffd88834dbc98c6ee80d51eda17c0c0fd663fc04e74696e14a188ed46",
+  "provider_sha256": {
+    "native": "136cf7c0132258fe3b1967ec9046abdba82b06f535c2e790975357e3a237b679",
+    "http": "136cf7c0132258fe3b1967ec9046abdba82b06f535c2e790975357e3a237b679",
+    "notes": "4a1a4934e1f63098813798ac52b8ab34f0177d837c21f8d833477c4b51050ad4",
+    "note_races": "4a1a4934e1f63098813798ac52b8ab34f0177d837c21f8d833477c4b51050ad4",
+    "note_http": "4a1a4934e1f63098813798ac52b8ab34f0177d837c21f8d833477c4b51050ad4",
+    "admission_regression": "460b4541154ba2950425c5fbaa1c0872f941cfc4646a9810841802ce72e9f3d1",
+    "browser": "c0d2c2ffa082f7c61149d3501e035c0f3316c439c488e15d4c374e36ce3ec8bc",
+    "payroll_review": "817b3c0faa868992ba65bb5a4c77fb74dfe528802a36d3a68b100fbb64d81c83",
+    "payroll_review_http": "817b3c0faa868992ba65bb5a4c77fb74dfe528802a36d3a68b100fbb64d81c83",
+    "payroll_review_browser": "90913df8dcdf0d2441321380bd3842c64b8e0a4a475d054a94d5e006ae03c29e",
+    "settlement": "1a8ae0fbc3c42127bb0584d5c2a9515166b15ed392693c75131c728ee8be4f57",
+    "settlement_races": "1a8ae0fbc3c42127bb0584d5c2a9515166b15ed392693c75131c728ee8be4f57",
+    "settlement_http": "1a8ae0fbc3c42127bb0584d5c2a9515166b15ed392693c75131c728ee8be4f57",
+    "settlement_browser": "c19c455e8557aa2238e680056e99bfd9d98c5ea1eeac785b06fbea2a5fb0113a",
+    "attendance_read": "f878fb85a2343387d13ad4278d11c63cb1c1734a6949420de87eac82fdc4551a",
+    "attendance_read_http": "f878fb85a2343387d13ad4278d11c63cb1c1734a6949420de87eac82fdc4551a",
+    "attendance_read_browser": "90a7c04649bd273229908080127a30a7f0cefd47562fb193088906e05b59373f",
+    "roster": "8865e6f7465bc2620831ec1ed6a856f1e52c2e91b15e0d29b3ccb83f9a284700",
+    "roster_races": "8865e6f7465bc2620831ec1ed6a856f1e52c2e91b15e0d29b3ccb83f9a284700",
+    "roster_http": "8865e6f7465bc2620831ec1ed6a856f1e52c2e91b15e0d29b3ccb83f9a284700",
+    "roster_browser": "74d7a3562bf4d8f2be7d245ee6feee8d6627008d026a32ba3eba3dbb5cc603ec",
+    "attendance_write": "0acb84852197eff8f8e3b19727cdd1dd1409bc686d5026a090800b0198beed68",
+    "attendance_write_races": "0acb84852197eff8f8e3b19727cdd1dd1409bc686d5026a090800b0198beed68",
+    "attendance_write_http": "0acb84852197eff8f8e3b19727cdd1dd1409bc686d5026a090800b0198beed68",
+    "attendance_write_browser": "a51e5976d8eb3b197f03b88aa82c50fd9aea6fe7756120b74c62a18ccacbecff",
+    "opening_payroll": "d799a52a417c710b90cffbfb9d1775754b93cf9e480683374515d1e33748bc3a",
+    "opening_payroll_races": "d799a52a417c710b90cffbfb9d1775754b93cf9e480683374515d1e33748bc3a",
+    "opening_payroll_http": "d799a52a417c710b90cffbfb9d1775754b93cf9e480683374515d1e33748bc3a",
+    "opening_payroll_browser": "89ef95648d4635cd82342a521196bee7946e7205e1322470d6bf8f5bd6aca0f9"
+  },
+  "retained_probe_sha256": {
+    "cp7_p12_nota_probe.py": "d193a47c1bd5351e0c9b52ab9025e8f23a7e6bf1018a7385cef9a433f4a36645"
+  },
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 5
+      },
+      "complete_boundary_restored": true
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "notes": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "complete_boundary_restored": true
+    },
+    "note_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      }
+    },
+    "note_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "admission_regression": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "payroll_review": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 4
+      },
+      "complete_boundary_restored": true
+    },
+    "payroll_review_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "payroll_review_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "settlement": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 7
+      },
+      "complete_boundary_restored": true
+    },
+    "settlement_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 4
+      }
+    },
+    "settlement_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "settlement_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "attendance_read": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "complete_boundary_restored": true
+    },
+    "attendance_read_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "attendance_read_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "roster": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 6
+      },
+      "complete_boundary_restored": true
+    },
+    "roster_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      }
+    },
+    "roster_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "roster_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "attendance_write": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 10
+      },
+      "complete_boundary_restored": true
+    },
+    "attendance_write_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 4
+      }
+    },
+    "attendance_write_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "attendance_write_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    },
+    "opening_payroll": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 5
+      },
+      "complete_boundary_restored": true
+    },
+    "opening_payroll_races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      }
+    },
+    "opening_payroll_http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 1
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    "opening_payroll_browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "host_status": "RUN_COMPLETE"
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "backup_restore_status": "RESTORED_SAME_MEANING",
+  "backup_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+    "CP7_F03_FULL_P12.json": "9a65181b0b066cc02d2ab8211aca7d0860f5c6939486ede70964e93dec582d2a",
+    "T3_BACKUP_RESTORE_DRILL.json": "0a2b28ef99b1b08a8566c8b88f4d6435ecf8c692ab980d8b270c6360b9fc9389",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "T3_PACKAGE_INSTALL.json": "24192a2bf786cd862fca9f733e071cc2ef35fd4ead35ef30b6ed20498e42bbb7"
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385609,
+      "sha256": "3d03f70c90cc928587744e59f075a2d1cf8e6da39bfaa8d0a430a3f625c9e8ca"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385609,
+      "sha256": "3d03f70c90cc928587744e59f075a2d1cf8e6da39bfaa8d0a430a3f625c9e8ca"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "73ebb8ac2a43f0444a320f5c36e3423b38394d53a259724169465ebcbc025cbf"
+    },
+    "CP7_F03_FULL_P12.json": {
+      "bytes": 3167428,
+      "sha256": "9a65181b0b066cc02d2ab8211aca7d0860f5c6939486ede70964e93dec582d2a"
+    },
+    "P12_ATTENDANCE_ENTRY_DESKTOP.png": {
+      "bytes": 738505,
+      "sha256": "af655461016b1c2e9768ae0324148141dfed1c7827897e4361817df449274836"
+    },
+    "P12_ATTENDANCE_ENTRY_MOBILE.png": {
+      "bytes": 503940,
+      "sha256": "ffedc1422238b539730810a11c3996aed29e7208399cf92cc8bf670b23d0ff48"
+    },
+    "P12_ATTENDANCE_READ_DESKTOP.png": {
+      "bytes": 468941,
+      "sha256": "29540a9838b8e2213507851f424e19b83f46b9f596dadfde60bd43bfefe4f41f"
+    },
+    "P12_ATTENDANCE_READ_MOBILE.png": {
+      "bytes": 337379,
+      "sha256": "a049623e5ebd6024189cec13f0ab0c08b3205f2e84f4535295f9c8472d4c1812"
+    },
+    "P12_NOTA_DESKTOP.png": {
+      "bytes": 616765,
+      "sha256": "d0043776202c6ea3e7db4a0f2e409bde7701d781e6e001e1185417afd9a68c3d"
+    },
+    "P12_NOTA_MOBILE.png": {
+      "bytes": 378748,
+      "sha256": "cae653d221054d88bd911088e8dbb53459e23bd2e6fad550e419d214cb913881"
+    },
+    "P12_OPENING_DESKTOP.png": {
+      "bytes": 651746,
+      "sha256": "7be6f2269aa47954dd350f28efbb00f4bb7e40a45f5cc8d7103b171b9133563e"
+    },
+    "P12_OPENING_MOBILE.png": {
+      "bytes": 424120,
+      "sha256": "62fd2ecf5cbf1154b79d901d5c10593f6f81fd4aaa73076f9be409b939e6e95d"
+    },
+    "P12_PAYROLL_REVIEW_DESKTOP.png": {
+      "bytes": 603229,
+      "sha256": "59e0c065d4adba57c7dee6a64f748c4fba49141b41d582d10938ec31aa526816"
+    },
+    "P12_PAYROLL_REVIEW_MOBILE.png": {
+      "bytes": 409202,
+      "sha256": "f9ce448692986005a24b09e18c7a41c5b72fec2be4c9f2565ec696233aa8c1cc"
+    },
+    "P12_PAYROLL_SETTLEMENT_DESKTOP.png": {
+      "bytes": 667973,
+      "sha256": "c6603eea7cc1d3e0b99cd5deba86d007fe91f483de50d7ee636b0dac5e1e76ee"
+    },
+    "P12_PAYROLL_SETTLEMENT_MOBILE.png": {
+      "bytes": 451696,
+      "sha256": "f0e191ffa860f76bf69dc53db58181d7b26687186296903de94c9c23584284ef"
+    },
+    "P12_ROSTER_DESKTOP.png": {
+      "bytes": 621818,
+      "sha256": "e2c1b1d6948ca5d8436ad15138d72051c0d2c79858278ba63f273bc5115f2d56"
+    },
+    "P12_ROSTER_MOBILE.png": {
+      "bytes": 425661,
+      "sha256": "a2df796b614b8811b1e2f3169a10f10adcd4c429b5821aef81f55589ccd40707"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10525,
+      "sha256": "0a2b28ef99b1b08a8566c8b88f4d6435ecf8c692ab980d8b270c6360b9fc9389"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360416,
+      "sha256": "24192a2bf786cd862fca9f733e071cc2ef35fd4ead35ef30b6ed20498e42bbb7"
+    }
+  },
+  "unique_oracle_total_claim": false,
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

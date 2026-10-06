@@ -1,0 +1,333 @@
+{
+  "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+  "run_count": 36,
+  "metadata_only": true,
+  "metadata_does_not_qualify_unread_cases": true,
+  "runs": [
+    {
+      "id": 37440579665,
+      "name": "CP7 Native Atomic Sales Chain Reversal",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:12:21Z"
+    },
+    {
+      "id": 37440579249,
+      "name": "CP7 F03 Combined Stack",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:12:55Z"
+    },
+    {
+      "id": 37440579601,
+      "name": "CP7 F03 E24 Material Issue",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:12:31Z"
+    },
+    {
+      "id": 37440579776,
+      "name": "CP7 Native Atomic Supplier Payment Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:12:46Z"
+    },
+    {
+      "id": 37440579252,
+      "name": "CP7 P18 E01 Consumer Bridge",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:13:39Z"
+    },
+    {
+      "id": 37440580080,
+      "name": "CP7 F03 E01 Source Journey",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:16:13Z"
+    },
+    {
+      "id": 37440579632,
+      "name": "CP7 F04 Native Fabric Recipe",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:18:07Z"
+    },
+    {
+      "id": 37440580251,
+      "name": "CP7 Native Atomic Misc Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:18:01Z"
+    },
+    {
+      "id": 37440579986,
+      "name": "CP7 Native Posted Cutting Reopen",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:18:05Z"
+    },
+    {
+      "id": 37440579726,
+      "name": "Build UX",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:18:02Z"
+    },
+    {
+      "id": 37440579840,
+      "name": "CP7 F03 E05 Payroll Installments",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:17:52Z"
+    },
+    {
+      "id": 37440579549,
+      "name": "CP7 Shell S0",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:18:16Z"
+    },
+    {
+      "id": 37440580050,
+      "name": "CP7 Native Inactive Rule Lifecycle",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:18:20Z"
+    },
+    {
+      "id": 37440579584,
+      "name": "CP7 F03 Combined Supplier Returns",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:10:14Z"
+    },
+    {
+      "id": 37440579660,
+      "name": "CP7 P13 Finance",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:11:09Z"
+    },
+    {
+      "id": 37440579630,
+      "name": "CP7 F03 E06 Year-end Late Invoice",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:10:32Z"
+    },
+    {
+      "id": 37440579908,
+      "name": "CP7 F03 X04 Paid Redye Continuation",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:11:13Z"
+    },
+    {
+      "id": 37440579583,
+      "name": "CP7 F03 Required Cost Continuations",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:11:05Z"
+    },
+    {
+      "id": 37440579408,
+      "name": "CP7 F03 Native Misc Finance",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:11:36Z"
+    },
+    {
+      "id": 37440579664,
+      "name": "CP7 F03 X04 Source Versions",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:14:10Z"
+    },
+    {
+      "id": 37440580274,
+      "name": "CP7 F05 Native Durable Attention",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:14:11Z"
+    },
+    {
+      "id": 37440579667,
+      "name": "CP7 Pre-freeze UI Regression",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:23:22Z"
+    },
+    {
+      "id": 37440579649,
+      "name": "CP7 P18 Fabric Rule",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:24:08Z"
+    },
+    {
+      "id": 37440580021,
+      "name": "CP7 P13 Finance Analysis",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:19:16Z"
+    },
+    {
+      "id": 37440579615,
+      "name": "CP7 F03 Cash and Native Finance Readers",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:20:30Z"
+    },
+    {
+      "id": 37440579513,
+      "name": "CP7 F03 Supplier Current Authority",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:18:34Z"
+    },
+    {
+      "id": 37440579618,
+      "name": "CP7 F03 E20 E14 Complete Stock Capacity",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:18:31Z"
+    },
+    {
+      "id": 37440579530,
+      "name": "CP7 Owning Historical Note Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:20:58Z"
+    },
+    {
+      "id": 37440579777,
+      "name": "CP7 P19 Bounded Native Load",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:24:54Z"
+    },
+    {
+      "id": 37440579775,
+      "name": "CP7 F03 E03 Customer Service",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:24:52Z"
+    },
+    {
+      "id": 37440579778,
+      "name": "CP7 Native Atomic Payment Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:24:10Z"
+    },
+    {
+      "id": 37440579756,
+      "name": "CP7 P08 Physical Fabric",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:26:18Z"
+    },
+    {
+      "id": 37440579712,
+      "name": "CP7 F05 Native Frozen Analysis",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:27:06Z"
+    },
+    {
+      "id": 37440579572,
+      "name": "CP7 F03 Full Retained Components",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:27:54Z"
+    },
+    {
+      "id": 37440579735,
+      "name": "CP7 Native Atomic Customer Return Correction",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:33:47Z"
+    },
+    {
+      "id": 37440579734,
+      "name": "CP7 Native Transaction Source Navigation",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+      "head_branch": "cp7/integration",
+      "updated_at": "2026-10-06T09:35:00Z"
+    }
+  ],
+  "recorded_at_UTC": "2026-10-06T09:54:16.552244+00:00"
+}

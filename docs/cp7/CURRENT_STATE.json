@@ -11557,5 +11557,99 @@
     "PRE05": "ACTUAL_CONNECTED_MANUAL13_QUALIFIED_OLD_HELPER_ORACLE_MAPPING_INCOMPLETE",
     "PRE06": "LEGACY_PREREQUISITES_NOT_PRODUCT_EXECUTIONS",
     "PRE07": "E06_NATIVE4_RACE1_QUALIFIED_AT875_FIRST095_RETAINED"
+  },
+  "catalog_unified_e05_e06_20261006": {
+    "status": "ONE_TOOL_FINDING_E05_NEW_NATIVE26_AND_E06_NATIVE5_QUALIFIED_HISTORICAL_PER_CASE_CAUSE_UNPROVED",
+    "finding": "docs/cp7/CATALOG_COMPARISON_FINDING_20261006.md",
+    "source_commit": "d7a3f15a42aea60f91757223947ef2fc33cc8143",
+    "source_tree": "1e43d4452e3f65b359600d459c0e01d084768d45",
+    "E05_run_id": 37443617960,
+    "E05_counts": {
+      "native": 20,
+      "races": 3,
+      "http": 1,
+      "browser": 2
+    },
+    "E05_raw_snapshots": 42,
+    "E06_source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+    "E06_run_id": 37440579630,
+    "E06_raw_snapshots": 10,
+    "functions_per_snapshot": 156,
+    "first_E05_run_id": 37440579840,
+    "first_failure_not_relabelled": true,
+    "first_failed_case_raw_catalog_and_OIDs_available": false,
+    "complete_list_preserves_duplicates_and_all_fields": true,
+    "frozen_CP6_reader_runner_unchanged": true,
+    "product_SQL_frontend_unchanged": true,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "integration8f_core_review_20261006": {
+    "status": "EXACT_ORIGINALS_EIGHT_F03_BUCKETS_COMBINED22_UI5_P19_NATIVE6_E06_NATIVE5_QUALIFIED_E05_FIRST_FAILURE_RETAINED",
+    "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+    "source_tree": "8fdc7495bd693b1b5ef6d4c020c2be67a01d0fed",
+    "evidence": "docs/cp7/evidence/integration-8f/",
+    "workflow_metadata": "docs/cp7/evidence/integration-8f/WORKFLOW_STATUS.json",
+    "counts_are_overlapping_executions": true,
+    "all36_cases_reviewed": false,
+    "full_CP7_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "owner_loading_budget_20261006": {
+    "status": "OWNER_TARGET_RECORDED_FRESH_NATIVE_HTTP_BASELINE_RETAINED_BROWSER_ACCEPTANCE_OPEN",
+    "contract": "docs/cp7/p19/P19_LOADING_BUDGET_20261006.md",
+    "baseline": "docs/cp7/evidence/integration-8f/p19-native-load/OWNER_LOADING_BASELINE.json",
+    "routine_fresh_numbers_strictly_under_ms": 1000,
+    "heavy_complete_loading_at_most_ms": 3000,
+    "end_to_end_includes_network_and_render": true,
+    "stale_or_partial_numbers_do_not_complete_loading": true,
+    "max_sample_not_average_required": true,
+    "bounded_DB_capture_max_ms": 939.893,
+    "bounded_four_Auth_HTTP_max_ms": 1354.327,
+    "click_to_render_proved": false,
+    "large_kernel_5000_and_committed_year364_over_budget_open": true,
+    "full_P19_acceptance": false,
+    "production_SLA_qualified": false,
+    "production_go": false,
+    "ordinary_confirmed_save_at_most_ms": 2000,
+    "complex_work_progress_required": true,
+    "named_background_exceptions": [
+      "SHADOW_RUN",
+      "INSTALLATION",
+      "FULL_YEAR_SNAPSHOT_REBUILD"
+    ],
+    "background_screen_remains_usable": true,
+    "background_actual_since_time_required": true,
+    "general_5_second_allowance": false,
+    "year_back_note_exception": "CANDIDATE_ONLY_CAUSE_INVESTIGATION_REQUIRED_TIMEOUT8S_UNCHANGED"
+  },
+  "claude_parallel_prefreeze_20261006": {
+    "status": "EXTERNAL_CLAUDE_PRE03_PRE04_CANDIDATE_OBSERVED_SUITE_RESULTS_PENDING",
+    "handoff": "docs/cp7/PREFREEZE_CLAUDE_PARALLEL_20261006.md",
+    "order": [
+      "PRE03_OPENING_WIP_BRAND_EXACT_UUID_RECONCILE_AND_INVERSE",
+      "PRE04_BS_SEARCH_COMPLETE_REWORK_AND_REDYE"
+    ],
+    "separate_branch_and_file_ownership": true,
+    "operator_loading_timings_requested": true,
+    "shared_GPT_P19_and_integration_work_continues": true,
+    "independent_P20_acceptance": false,
+    "external_branch": "claude/new-session-deapao",
+    "test_adapter_source": "92f30e423cfc19c7f60cdfaf5448301ac5d9c076",
+    "latest_observed_head": "d311ba8a468219a8ed3bd96e54822ea1a368eec2",
+    "test_files": [
+      "scripts/cp6_au_browser_ui.mjs",
+      "scripts/cp6_be_browser.mjs"
+    ],
+    "T3_run_id": 37446316844,
+    "auditor_scenario_run_id": 37446319529,
+    "Claude_duplicate_P08_cancelled_run": 37446319535,
+    "Claude_duplicate_P18_cancelled_run": 37446319692,
+    "integration_P08_run_still_running": 37440579756,
+    "GPT_sent_message_or_started_Claude": false,
+    "product_source_changes_in_external_diff": false,
+    "file_conflict_with_current_GPT_branch": false,
+    "Native_browser_qualification": false
   }
 }

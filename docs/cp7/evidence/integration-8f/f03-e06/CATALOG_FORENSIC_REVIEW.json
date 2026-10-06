@@ -1,0 +1,93 @@
+{
+  "contract": "cp7.catalog.retained-independent-review.v1",
+  "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+  "report": "CP7_F03_E06.json",
+  "retained_gzip_sha256": "cddc579e4ab47f88ac645b457c7d0ec6bbd252d6e0120b9f5ddb5780d2ae292f",
+  "original_status": "PASS",
+  "native_case_ids": [
+    "F03_E06_YEAR_END_INCREASE_UTC",
+    "F03_E06_YEAR_END_ZERO_DELTA_LA",
+    "F03_E06_MARCH_ECONOMIC_CONTROL",
+    "F03_E06_YEAR_END_PENDING_CLOSE"
+  ],
+  "historical_missing_raws_reconstructed": false,
+  "new_Native_execution_credit": 0,
+  "independent_P20_acceptance": false,
+  "production_go": false,
+  "status": "EVERY_RETAINED_NATIVE_CATALOG_EXACT",
+  "raw_snapshots_checked": 10,
+  "functions_per_snapshot": 156,
+  "cases": [
+    {
+      "case_id": "F03_E06_YEAR_END_INCREASE_UTC",
+      "status": "PASS",
+      "before_snapshot": 2,
+      "after_snapshot": 3,
+      "raw_order_equal": true,
+      "all_original_fields_and_members_equal": true,
+      "functions": 156,
+      "moved_members": []
+    },
+    {
+      "case_id": "F03_E06_YEAR_END_ZERO_DELTA_LA",
+      "status": "PASS",
+      "before_snapshot": 4,
+      "after_snapshot": 5,
+      "raw_order_equal": true,
+      "all_original_fields_and_members_equal": true,
+      "functions": 156,
+      "moved_members": []
+    },
+    {
+      "case_id": "F03_E06_MARCH_ECONOMIC_CONTROL",
+      "status": "PASS",
+      "before_snapshot": 6,
+      "after_snapshot": 7,
+      "raw_order_equal": true,
+      "all_original_fields_and_members_equal": true,
+      "functions": 156,
+      "moved_members": []
+    },
+    {
+      "case_id": "F03_E06_YEAR_END_PENDING_CLOSE",
+      "status": "PASS",
+      "before_snapshot": 8,
+      "after_snapshot": 9,
+      "raw_order_equal": true,
+      "all_original_fields_and_members_equal": true,
+      "functions": 156,
+      "moved_members": []
+    }
+  ],
+  "original_sensitivity_controls": {
+    "pair_order_only_equal": true,
+    "function_hash_change_refused": true,
+    "function_signature_change_refused": true,
+    "missing_function_member_refused": true,
+    "duplicate_function_member_refused": true,
+    "relation_member_change_refused": true,
+    "public_row_hash_or_member_change_refused": true,
+    "observed_input_not_mutated": true
+  },
+  "OID_or_storage_identity_captured": false,
+  "no_inference_of_historical_DDL_from_pair_order": true,
+  "final_restore": {
+    "all_original_fields_and_members_equal": true,
+    "function_members": 69,
+    "moved_members": [
+      {
+        "signature": "erp_get_supplier_credit_v1(jsonb)",
+        "definition_md5": "86b080c4b83e7c5df1558cae2faba1b3",
+        "before_position": 66,
+        "after_position": 67
+      },
+      {
+        "signature": "erp_save_supplier_credit_v1(jsonb,uuid)",
+        "definition_md5": "4412723b42ab9f62ab82078b0b50f20e",
+        "before_position": 67,
+        "after_position": 66
+      }
+    ],
+    "witness_is_final_restore_not_individual_failed_case": true
+  }
+}

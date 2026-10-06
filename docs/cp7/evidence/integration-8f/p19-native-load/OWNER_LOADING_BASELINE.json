@@ -1,0 +1,106 @@
+{
+  "contract": "cp7.owner-loading-baseline.v1",
+  "status": "BACKEND_HTTP_BASELINE_ONLY_NEW_BROWSER_LATENCY_ACCEPTANCE_OPEN",
+  "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+  "source_tree": "8fdc7495bd693b1b5ef6d4c020c2be67a01d0fed",
+  "run_id": 37440579777,
+  "artifact_id": 11401553862,
+  "owner_targets": {
+    "routine_current_numbers_ms_strictly_below": 1000,
+    "heavy_complete_loading_ms_at_most": 3000,
+    "ordinary_committed_save_ms_at_most": 2000,
+    "complex_progress_required": true,
+    "general_5_second_allowance": false,
+    "named_background_exceptions": [
+      "SHADOW_RUN",
+      "INSTALLATION",
+      "FULL_YEAR_SNAPSHOT_REBUILD"
+    ]
+  },
+  "measured_phase": "complete Native public capture and actual Auth HTTP; not click-to-render",
+  "profiles": [
+    {
+      "actual_Native_factsets": 0,
+      "complete_public_capture_ms": 439.431,
+      "analysis_utf8_bytes": 28027,
+      "facts_utf8_bytes": 18999
+    },
+    {
+      "actual_Native_factsets": 1,
+      "complete_public_capture_ms": 541.201,
+      "analysis_utf8_bytes": 157793,
+      "facts_utf8_bytes": 33378
+    },
+    {
+      "actual_Native_factsets": 4,
+      "complete_public_capture_ms": 634.575,
+      "analysis_utf8_bytes": 294370,
+      "facts_utf8_bytes": 43784
+    },
+    {
+      "actual_Native_factsets": 12,
+      "complete_public_capture_ms": 939.893,
+      "analysis_utf8_bytes": 659117,
+      "facts_utf8_bytes": 71539
+    }
+  ],
+  "four_actor_DB_capture_timings": {
+    "sample_count": 4,
+    "milliseconds": [
+      1111.41,
+      1130.296,
+      1296.195,
+      1271.232
+    ],
+    "p95_nearest_rank_ms": 1296.195,
+    "maximum_ms": 1296.195,
+    "factory_SLA_claim": false
+  },
+  "four_actual_Auth_HTTP_capture_timings": {
+    "sample_count": 4,
+    "milliseconds": [
+      1354.327,
+      1152.294,
+      1188.433,
+      1120.861
+    ],
+    "p95_nearest_rank_ms": 1354.327,
+    "maximum_ms": 1354.327,
+    "factory_SLA_claim": false
+  },
+  "four_readers_during_real_Native_cash_inverse": {
+    "sample_count": 16,
+    "milliseconds": [
+      712.289,
+      412.803,
+      580.863,
+      382.095,
+      706.974,
+      386.044,
+      484.425,
+      467.408,
+      542.941,
+      526.628,
+      362.534,
+      473.046,
+      531.51,
+      421.351,
+      383.147,
+      353.995
+    ],
+    "p95_nearest_rank_ms": 712.289,
+    "maximum_ms": 712.289,
+    "factory_SLA_claim": false
+  },
+  "real_cash_inverse_commit_ms": 128.316,
+  "click_to_fresh_render_measured": false,
+  "routine_browser_latency_qualified": false,
+  "heavy_browser_latency_qualified": false,
+  "factory_capacity_qualified": false,
+  "full_P19_acceptance": false,
+  "new_Native_case_credit": 0,
+  "production_SLA_qualified": false,
+  "production_go": false,
+  "ordinary_save_browser_latency_qualified": false,
+  "background_exception_implemented_or_qualified": false
+}

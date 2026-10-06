@@ -1,0 +1,187 @@
+{
+  "contract": "cp7.catalog.retained-independent-review.v1",
+  "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+  "report": "CP7_F03_E05_INSTALLMENTS.json",
+  "retained_gzip_sha256": "311cc13e2f016e860f223786183fbff2ded8b61a99d5ed45bc6f50993ab01bb2",
+  "original_status": "INCOMPLETE",
+  "native_case_ids": [
+    "E05_FIXED_1000_600_400_INVERSE",
+    "E05_DEDUCTION_RESERVATION",
+    "E05_WHOLE_PARTIAL_INVERSE",
+    "E05_WHOLE_PAID_INVERSE",
+    "E05_EXACT_LARGE_CENTS",
+    "E05_AMOUNT_CAP",
+    "E05_CLOSED_FIELDS",
+    "E05_REPLAY",
+    "E05_STALE_REVIEW",
+    "E05_CURRENT_CASH",
+    "E05_CURRENT_ACCESS_PRIVATE",
+    "E05_LEGACY_BYPASS",
+    "E05_IMMUTABLE_APPROVED_SOURCE",
+    "E05_NATIVE_DATES_TZ",
+    "E05_COMPLETE_30_PAGES",
+    "E05_LEGACY_FULL_HISTORY",
+    "E05_INACTIVE_NOT_PAYABLE",
+    "E05_OPENING_ADVANCE_CARRY_INSTALLMENTS",
+    "E05_ZERO_NET_NO_CASH",
+    "E05_ACTIVE_HPP_CASH_CORRECTION"
+  ],
+  "historical_missing_raws_reconstructed": false,
+  "new_Native_execution_credit": 0,
+  "independent_P20_acceptance": false,
+  "production_go": false,
+  "status": "HISTORICAL_PER_CASE_RAW_CATALOGS_UNAVAILABLE",
+  "exact_failed_case_catalog_delta": "UNPROVED",
+  "OID_or_storage_identity_captured": false,
+  "final_restore": {
+    "all_original_fields_and_members_equal": true,
+    "function_members": 69,
+    "moved_members": [
+      {
+        "signature": "erp_cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "definition_md5": "e85487f2e6e07d003c8a1e971e172a60",
+        "before_position": 5,
+        "after_position": 7
+      },
+      {
+        "signature": "erp_deactivate_pattern_v1(uuid,text,uuid,bigint)",
+        "definition_md5": "47d4821ed0b356917c458c45b058dc81",
+        "before_position": 6,
+        "after_position": 9
+      },
+      {
+        "signature": "erp_get_access_admin_v1()",
+        "definition_md5": "5e5e3eca13f7df41a1854df9366d14e9",
+        "before_position": 7,
+        "after_position": 11
+      },
+      {
+        "signature": "erp_deactivate_role_v1(uuid,text,uuid,bigint)",
+        "definition_md5": "3986890c7253dfcfb50c5d2de2666966",
+        "before_position": 8,
+        "after_position": 10
+      },
+      {
+        "signature": "erp_activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "definition_md5": "8ed188965bbe2a3e0c1b4a46c393d545",
+        "before_position": 9,
+        "after_position": 5
+      },
+      {
+        "signature": "erp_create_attendance_hpp_pool_v1(jsonb,uuid)",
+        "definition_md5": "60b374e251bf6ff3497cbc485e4cf5df",
+        "before_position": 10,
+        "after_position": 8
+      },
+      {
+        "signature": "erp_assign_pattern_v1(uuid,uuid,text,uuid,bigint)",
+        "definition_md5": "4c5b64a3cf3c0cbfc611dd4a05c03df1",
+        "before_position": 11,
+        "after_position": 6
+      },
+      {
+        "signature": "erp_post_final_sku_allocation_v1(jsonb,uuid,bigint)",
+        "definition_md5": "255b2545995bfb0f0b09341716d243e3",
+        "before_position": 12,
+        "after_position": 13
+      },
+      {
+        "signature": "erp_save_app_user_v3(jsonb,uuid,bigint)",
+        "definition_md5": "4958bf13130ab406323d145cdecbd602",
+        "before_position": 13,
+        "after_position": 17
+      },
+      {
+        "signature": "erp_reverse_sewing_terminal_v1(uuid,text,uuid)",
+        "definition_md5": "9b4f06961d10cd7f6ecf759eaec4e3ad",
+        "before_position": 14,
+        "after_position": 16
+      },
+      {
+        "signature": "erp_save_pattern_v1(jsonb,uuid,bigint)",
+        "definition_md5": "4786af7305a6001f3a5679a6a1aacb1b",
+        "before_position": 15,
+        "after_position": 18
+      },
+      {
+        "signature": "erp_get_my_access_v1()",
+        "definition_md5": "e8c582920a3b929e32c8d1e1da5d2ac5",
+        "before_position": 16,
+        "after_position": 12
+      },
+      {
+        "signature": "erp_preview_attendance_hpp_pool_v1(date,date)",
+        "definition_md5": "f2a0b185e770313bfe3515eb5be5408c",
+        "before_position": 17,
+        "after_position": 14
+      },
+      {
+        "signature": "erp_record_sewing_terminal_v1(jsonb,uuid)",
+        "definition_md5": "915129c66e6d1609480d778cdc63c8b4",
+        "before_position": 18,
+        "after_position": 15
+      },
+      {
+        "signature": "erp_reverse_attendance_period_v1(uuid,text,uuid,bigint)",
+        "definition_md5": "bd57a9b4b05fc2b97fc4743b6c9ed59b",
+        "before_position": 21,
+        "after_position": 24
+      },
+      {
+        "signature": "erp_cancel_my_reminder_v1(uuid,text,uuid,bigint)",
+        "definition_md5": "59bcf3a896a270b1928c319faa1aa588",
+        "before_position": 22,
+        "after_position": 21
+      },
+      {
+        "signature": "erp_list_my_reminders_v1(text,integer)",
+        "definition_md5": "c427cc349899cf903545edc29afc1ed3",
+        "before_position": 23,
+        "after_position": 22
+      },
+      {
+        "signature": "erp_post_attendance_period_v1(uuid,text,uuid,bigint)",
+        "definition_md5": "5016ae6d3e6e1542d1b4ec353e0e9673",
+        "before_position": 24,
+        "after_position": 23
+      },
+      {
+        "signature": "erp_set_my_reminder_done_v1(uuid,boolean,uuid,bigint)",
+        "definition_md5": "b167edbad42236ae2beff6a3fe20bcd7",
+        "before_position": 26,
+        "after_position": 27
+      },
+      {
+        "signature": "erp_set_fg_stock_policy_v1(uuid,uuid,text,numeric,numeric,integer,date,text,uuid,uuid)",
+        "definition_md5": "3c0497c5b58359fd71e4ac4a0607dafa",
+        "before_position": 27,
+        "after_position": 26
+      },
+      {
+        "signature": "erp_get_cutting_pickup_queue_v1(text,uuid,text,integer,integer)",
+        "definition_md5": "1ec037b0174e79211db59d9dae838bbb",
+        "before_position": 35,
+        "after_position": 36
+      },
+      {
+        "signature": "erp_save_cutting_pickup_v1(jsonb,uuid,bigint)",
+        "definition_md5": "3a7fb5f0f6b182a9c836365e6996d2b3",
+        "before_position": 36,
+        "after_position": 35
+      },
+      {
+        "signature": "erp_get_laundry_qc_workspace_v1(text,text)",
+        "definition_md5": "ed9e29b99122ab64b75a2044ef006543",
+        "before_position": 41,
+        "after_position": 42
+      },
+      {
+        "signature": "erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+        "definition_md5": "4e79373b9a63efbe6b003fa483b3c23b",
+        "before_position": 42,
+        "after_position": 41
+      }
+    ],
+    "witness_is_final_restore_not_individual_failed_case": true
+  }
+}
