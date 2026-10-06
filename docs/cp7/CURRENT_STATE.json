@@ -11430,7 +11430,7 @@
     "successor_raw_pair_order_changed": false
   },
   "p19_bounded_native_load_candidate_20261006": {
-    "status": "FIRST_NATIVE5_OF6_RETAINED_CALENDAR_SUCCESSOR_PENDING",
+    "status": "QUALIFIED_NATIVE2_RACE2_REAL_AUTH_HTTP2_AT_435_FIRST4B0_FAILURE_RETAINED",
     "candidate_branch": "cp7/p19-native-load-20261006",
     "product_source_parent": "875443d0a0cc5323e314941412f268765ecca055",
     "contract": "docs/cp7/p19/P19_NATIVE_LOAD.json",
@@ -11487,7 +11487,29 @@
       "positive_gap_oracle": 93,
       "product_SQL_and_source_caps_unchanged": true
     },
-    "successor_execution_pending": true
+    "successor_execution_pending": false,
+    "qualified_source_commit": "4358464f58724f3bf5dce2d49a988bb47c765ab2",
+    "qualified_source_tree": "298e76c27a198b612fa62ddac3957db71430195d",
+    "qualified_run_id": 37435845920,
+    "qualified_job_id": 112177320574,
+    "qualified_artifact_id": 11398619579,
+    "qualified_receipt": "docs/cp7/evidence/p19/native-load-qualified-435/RECEIPT.json",
+    "complete_root_originals": 19,
+    "profile_verification": "docs/cp7/evidence/p19/native-load-qualified-435/PROFILE_INDEPENDENT_VERIFICATION.json",
+    "largest_analysis_utf8_bytes": 659117,
+    "largest_actual_product_rows": 14,
+    "largest_positive_capacity_minutes": 600,
+    "largest_positive_capture_ms": 1371.775,
+    "selected_gap93_remains_ASSUMED": true,
+    "overloaded10_ETAs_remain_UNKNOWN": true,
+    "qualified_shell": {
+      "run_id": 37435845897,
+      "application_tests": 1547,
+      "fixture_browser_tests": 6,
+      "CodeQL_actions_findings": 0,
+      "CodeQL_JS_TS_findings": 0,
+      "all_originals": "docs/cp7/evidence/p19/native-load-shell-435/"
+    }
   },
   "f03_integration_875_fresh_originals_20261006": {
     "status": "QUALIFIED_EXACT875_COMBINED22_AND_EIGHT_COMPONENT_BUCKETS",
@@ -11498,6 +11520,18 @@
     "complete_originals_index": "docs/cp7/evidence/f03-qualified-875/INDEX.json",
     "counts_are_overlapping_executions_not_unique_oracles": true,
     "full_P18_or_P20_acceptance": false,
+    "production_go": false
+  },
+  "prefreeze_r16_writer_response_20261006": {
+    "status": "SOURCE_AND_COMPLETE_FAILURE_ORIGINALS_REVIEWED_COMPLETE_CP7_UI_REPRO_PENDING",
+    "external_report_commit": "f29cdf897584becf72326be57a00d07caf6f6bd5",
+    "response": "docs/cp7/PREFREEZE_R16_WRITER_RESPONSE.md",
+    "originals": "docs/cp7/evidence/prefreeze-r16/",
+    "candidate_branch": "cp7/prefreeze-ui-20261006",
+    "priority": "PRE01_COMPLETE_PACKAGE_WIRING_AND_PRE02_LAUNDRY_PARENT_REFRESH",
+    "E06_qualified_source": "875443d0a0cc5323e314941412f268765ecca055",
+    "new_qualified_case_claim": false,
+    "official_P20_round": false,
     "production_go": false
   }
 }

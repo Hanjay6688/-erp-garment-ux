@@ -1,0 +1,120 @@
+{
+  "status": "UNCHANGED_EXTERNAL_FIRST_FAILURE_ORIGINALS_RETAINED_NO_QUALIFICATION",
+  "artifact": {
+    "id": 11397532058,
+    "name": "cp6-t3-release-package-browser",
+    "size_in_bytes": 3628420,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11397532058",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11397532058/zip",
+    "expired": false,
+    "created_at": "2026-10-06T07:54:55Z",
+    "expires_at": "2026-11-05T07:54:53Z",
+    "updated_at": "2026-10-06T07:54:55Z",
+    "digest": "sha256:f6610bf77a292b09abe31fa90d772d600050fbdd41668edf44a6d29ed70dd98a",
+    "workflow_run": {
+      "id": 37431675640,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "cp7/integration",
+      "head_sha": "095b33b036312d80d06f897144c2772461ca35ff"
+    },
+    "run_id": 37431675640
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_browser.clone-erp.sql": {
+      "bytes": 5385606,
+      "sha256": "5c70992979c6d5ae43a568afee6708bb51c36ed634a8210349b9a99d38ca2347"
+    },
+    "CLONE_browser.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_browser.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_browser.source-erp.sql": {
+      "bytes": 5385606,
+      "sha256": "5c70992979c6d5ae43a568afee6708bb51c36ed634a8210349b9a99d38ca2347"
+    },
+    "CLONE_browser.txt": {
+      "bytes": 291,
+      "sha256": "5016718045f96aa919f282190416ef6c08c4ed6a8300e9cfdbae354727a56021"
+    },
+    "T3_BROWSER.json": {
+      "bytes": 533,
+      "sha256": "09a9b49a5d490ecf0480bd63608b63dfe058f9d0dd945d7d0b1f58ecf5ed9962"
+    },
+    "T3_BROWSER_FLOW.json": {
+      "bytes": 2863,
+      "sha256": "6ff17f9cdc028393324b140a56e721fee8ada4a729e7e422de978d1666ff7850"
+    },
+    "T3_PACKAGE_BROWSER.json": {
+      "bytes": 7939,
+      "sha256": "0e4300a66fc0ab063cdbfc5fab777ba09781aa251606d9162c3ff5544d090aa5"
+    },
+    "T3_PACKAGE_FILES_BROWSER.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "readiness-ui/desktop-accessory-decision.png": {
+      "bytes": 306053,
+      "sha256": "daf8ba72f5a3b16204318992fcaee629bb43c6221f32db117e908a33be61b071"
+    },
+    "readiness-ui/desktop-laundry-pending.png": {
+      "bytes": 454826,
+      "sha256": "c6d2abe9cf399b229a6664fb76dbd9e7aa233c81d88ab4fc99b70d8dbfacba2f"
+    },
+    "readiness-ui/desktop-laundry-ready.png": {
+      "bytes": 456593,
+      "sha256": "1a14e74930a7627d6cdcbe362e82067b46329b367a4776e04b49493cecb12872"
+    },
+    "readiness-ui/mobile-accessory-decision.png": {
+      "bytes": 236326,
+      "sha256": "f950ac1d840bfbd4cc6913134158bcd87cae2a663891022d42d4ee5ebdc57173"
+    },
+    "readiness-ui/mobile-laundry-pending.png": {
+      "bytes": 309161,
+      "sha256": "2493019bfc36ccccb627f4dacd571c423f13f4515a2050e50414ec59824fe9ca"
+    },
+    "readiness-ui/mobile-laundry-ready.png": {
+      "bytes": 312771,
+      "sha256": "fca126af6d783b9cc6c3a09047809e80860aa4f53e49cd0a35e0ecce234989ad"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "file": "ALIGNED_CHAIN.json.gz",
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a"
+    },
+    "T3_BROWSER.json": {
+      "file": "T3_BROWSER.json.gz",
+      "sha256": "09a9b49a5d490ecf0480bd63608b63dfe058f9d0dd945d7d0b1f58ecf5ed9962",
+      "gzip_sha256": "a7767455680c56de761ed7ab7f9e4536eb8f13a444dadf9800f08eec8cfcf0cf"
+    },
+    "T3_BROWSER_FLOW.json": {
+      "file": "T3_BROWSER_FLOW.json.gz",
+      "sha256": "6ff17f9cdc028393324b140a56e721fee8ada4a729e7e422de978d1666ff7850",
+      "gzip_sha256": "6c708db820399d7568430511a61443ece34396686067c785a5bfe923c9bef8f3"
+    },
+    "T3_PACKAGE_BROWSER.json": {
+      "file": "T3_PACKAGE_BROWSER.json.gz",
+      "sha256": "0e4300a66fc0ab063cdbfc5fab777ba09781aa251606d9162c3ff5544d090aa5",
+      "gzip_sha256": "e8cf605bf1efd664ca642ac25d60158e54329d3276bab78dfd16619973da9dad"
+    },
+    "T3_PACKAGE_FILES_BROWSER.json": {
+      "file": "T3_PACKAGE_FILES_BROWSER.json.gz",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  },
+  "Native_cases_reexecuted": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

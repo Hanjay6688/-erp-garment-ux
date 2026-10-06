@@ -1,0 +1,12 @@
+{
+  "source_commit": "4358464f58724f3bf5dce2d49a988bb47c765ab2",
+  "source_tree": "298e76c27a198b612fa62ddac3957db71430195d",
+  "run_id": 37435845897,
+  "job_id": 112177320894,
+  "decoded_original_log_bytes": 183976,
+  "decoded_original_log_characters": 180608,
+  "decoded_original_log_sha256": "f195940177e6543a4974ac7ca476a60fb1a869beb4d617144d00602a447d76ab",
+  "gzip_sha256": "c6d8d6aa47f091ced2e4da0f0cadcf175494a3bb44aef69f9c085b9da8831346",
+  "Native_case_credit": 0,
+  "production_go": false
+}

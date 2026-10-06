@@ -1,0 +1,55 @@
+{
+  "source_commit": "4358464f58724f3bf5dce2d49a988bb47c765ab2",
+  "source_tree": "298e76c27a198b612fa62ddac3957db71430195d",
+  "status": "COMPLETE_STORED_BODIES_HASHES_ACTUAL_WORKLOAD_ETA_AND_DECLARED_SELECTED_GAP_VERIFIED",
+  "rows": [
+    {
+      "factsets": 0,
+      "product_rows": 2,
+      "complete_analysis_utf8_bytes": 28027,
+      "complete_public_capture_ms": 621.642,
+      "selected_gap93_count": 0,
+      "selected_gap_and_ETA_state": null,
+      "actual_work_minutes": 0,
+      "reviewed_capacity_minutes": null,
+      "unknown_counter_sources": 0
+    },
+    {
+      "factsets": 1,
+      "product_rows": 3,
+      "complete_analysis_utf8_bytes": 157793,
+      "complete_public_capture_ms": 764.387,
+      "selected_gap93_count": 1,
+      "selected_gap_and_ETA_state": "ASSUMED",
+      "actual_work_minutes": 45,
+      "reviewed_capacity_minutes": 120,
+      "unknown_counter_sources": 0
+    },
+    {
+      "factsets": 4,
+      "product_rows": 6,
+      "complete_analysis_utf8_bytes": 294370,
+      "complete_public_capture_ms": 909.462,
+      "selected_gap93_count": 1,
+      "selected_gap_and_ETA_state": "ASSUMED",
+      "actual_work_minutes": 180,
+      "reviewed_capacity_minutes": 240,
+      "unknown_counter_sources": 0
+    },
+    {
+      "factsets": 12,
+      "product_rows": 14,
+      "complete_analysis_utf8_bytes": 659117,
+      "complete_public_capture_ms": 1371.775,
+      "selected_gap93_count": 1,
+      "selected_gap_and_ETA_state": "ASSUMED",
+      "actual_work_minutes": 540,
+      "reviewed_capacity_minutes": 600,
+      "unknown_counter_sources": 10
+    }
+  ],
+  "Native_cases_reexecuted": 0,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,13 @@
+{
+  "status": "LOCAL_EXPLORATORY_EXTRA_ORACLE_REJECTED",
+  "source_commit": "4358464f58724f3bf5dce2d49a988bb47c765ab2",
+  "declared_Native_status_unchanged": "PASS",
+  "attempted_extra_condition": "Every earlier fixture root has the selected last-root gap93",
+  "first_factset_level": 4,
+  "expected_extra_gap_count": 4,
+  "actual_gap93_count": 1,
+  "reason": "The declared Native oracle is the last selected root, not every earlier fixture root. All complete source/results remain unchanged.",
+  "Native_case_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

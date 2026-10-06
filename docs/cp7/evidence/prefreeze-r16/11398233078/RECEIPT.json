@@ -1,0 +1,60 @@
+{
+  "status": "UNCHANGED_EXTERNAL_FIRST_FAILURE_ORIGINALS_RETAINED_NO_QUALIFICATION",
+  "artifact": {
+    "id": 11398233078,
+    "name": "cp6-auditor-scenario-37432475448-auditor",
+    "size_in_bytes": 2377530,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11398233078",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11398233078/zip",
+    "expired": false,
+    "created_at": "2026-10-06T08:08:01Z",
+    "expires_at": "2026-11-05T08:08:00Z",
+    "updated_at": "2026-10-06T08:08:01Z",
+    "digest": "sha256:431ff08bb35b6602caf70f1dcb3e43176d2faf9097f2b7b043aa849edc0edaad",
+    "workflow_run": {
+      "id": 37432475448,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "cp7/integration",
+      "head_sha": "875443d0a0cc5323e314941412f268765ecca055"
+    },
+    "run_id": 37432475448
+  },
+  "all_zip_members": {
+    "AUDITOR_CASES_AFTER.json": {
+      "bytes": 50212,
+      "sha256": "447b22dc124a8686bdc8a2850cbc33f8e994bb466ee6bcc2734500fe11dfb294"
+    },
+    "CLONE_auditor.clone-erp.sql": {
+      "bytes": 9841871,
+      "sha256": "0220a2d488b9131b4bc1fdf3347c4b7da02face6828a3001b53335846229df9f"
+    },
+    "CLONE_auditor.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_auditor.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_auditor.txt": {
+      "bytes": 291,
+      "sha256": "898ece968e952fdafea3b10860d932b6f8796272d1db145b52ea89761f816bba"
+    },
+    "CLONE_auditor.source-erp.sql": {
+      "bytes": 9841871,
+      "sha256": "0220a2d488b9131b4bc1fdf3347c4b7da02face6828a3001b53335846229df9f"
+    }
+  },
+  "root_originals": {
+    "AUDITOR_CASES_AFTER.json": {
+      "file": "AUDITOR_CASES_AFTER.json.gz",
+      "sha256": "447b22dc124a8686bdc8a2850cbc33f8e994bb466ee6bcc2734500fe11dfb294",
+      "gzip_sha256": "86174e3fb0bc751d635f6f1033c7738f29ce8cfba0450a97d85bf1cb3f44922e"
+    }
+  },
+  "Native_cases_reexecuted": 0,
+  "full_CP7_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

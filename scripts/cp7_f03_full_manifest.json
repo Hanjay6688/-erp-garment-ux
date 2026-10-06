@@ -1151,6 +1151,21 @@
           "retained_probe": "cp7_f03_e03_probe.py"
         }
       ]
+    },
+    "prefreeze_ui": {
+      "expected_case_executions": 5,
+      "expected_smoke_executions": 0,
+      "groups": [
+        {
+          "key": "browser",
+          "kind": "browser",
+          "module": "scripts/cp7_prefreeze_legacy_browser.mjs",
+          "entry": null,
+          "smoke": false,
+          "retained_probe": "cp7_f03_full_probe.py",
+          "expected_executions": 5
+        }
+      ]
     }
   },
   "expected_private_roles": [
