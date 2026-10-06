@@ -433,3 +433,7 @@ export const exactReworkCompletion = (qtyGood: number, qtyBs: number, qtySent: n
 export const bsPatternLabel = (row: Pick<BsResolutionRow, 'patterns'>) => row.patterns.length > 0
   ? row.patterns.map((pattern) => `${pattern.code} · ${pattern.revision} · ${pattern.name}`).join(' / ')
   : 'Histori lama · Pola belum tercatat'
+
+export const bsSkuLabel = (row: Pick<BsResolutionRow, 'sku' | 'product_name'>) => row.sku
+  ? `SKU ${row.sku}${row.product_name ? ` · ${row.product_name}` : ''}`
+  : 'SKU belum teridentifikasi'

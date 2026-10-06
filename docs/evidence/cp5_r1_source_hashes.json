@@ -240,12 +240,20 @@
       "sha256": "23f854de26c66ee8bb0d5e9aa98684da31471aadd98d63c303d31e135f7d0cf9"
     },
     ".gitignore": {
-      "bytes": 345,
-      "sha256": "b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4"
+      "bytes": 455,
+      "sha256": "a12f84ce4bf56b6fc7d1bc9b0a317d09d71c2b7caeab353ca5ff57f689eb68a1"
     },
     "README.md": {
       "bytes": 4528,
       "sha256": "7d2ec85d4269116c32bb475be60098f223f0382427e75ecde575ff2e356c2359"
+    },
+    "docs/UX_BASELINE.md": {
+      "bytes": 1661,
+      "sha256": "16f2861112b01045ff0b42168cd0a4abccc9444bd5c59211fe2a8c25c35011dd"
+    },
+    "docs/UX_STANDARD.md": {
+      "bytes": 8262,
+      "sha256": "ea2ce4ff90b2ddf329a03e46360156e8ce5f68f43dc4efa4173b0701fdd36891"
     },
     "docs/erp-reliability-invariants.md": {
       "bytes": 4095,
@@ -279,9 +287,57 @@
       "bytes": 9157,
       "sha256": "26413816186bf130db28927c96145f3879ba5ad1de9dffd47dac633abf1937de"
     },
+    "docs/ux/after-bs-rework-desktop.jpg": {
+      "bytes": 144805,
+      "sha256": "edcecc08ea66bc895ab4e4b730a1a9d9c14c4afb25db226c80e93ea6f1cdf74e"
+    },
+    "docs/ux/after-bs-sku-baru-desktop.jpg": {
+      "bytes": 176877,
+      "sha256": "f5f76a62572e487e7999297801ddf59d2303c22dea294caed3251b44f2ebacad"
+    },
+    "docs/ux/after-dropdown-filter.png": {
+      "bytes": 34368,
+      "sha256": "0e3c958307ea6adb8fafd10a0d19cc396498cc2df411d1c5c177412edcd00980"
+    },
+    "docs/ux/after-dropdown-native-options.png": {
+      "bytes": 10528,
+      "sha256": "ecc2d476e1fde808fc9a088dd2fc904c338d6683586f4cfba284f405e1c49764"
+    },
+    "docs/ux/after-laundry-desktop.jpg": {
+      "bytes": 72508,
+      "sha256": "a205d07d7566afee9bc8b9117333bb7ab771289e6e00558e2bbda362b74dcfaf"
+    },
+    "docs/ux/after-wip-sewing-desktop.jpg": {
+      "bytes": 158413,
+      "sha256": "bf2dfcea381af2b0ba6524cb9544f7b565c602d45dca0f8dc034e819d51bc154"
+    },
+    "docs/ux/before-bs-rework-desktop.jpg": {
+      "bytes": 93762,
+      "sha256": "0c0c132e8bf77f5bb6bb475e9fe13859f5a10384b99442f1994ad6feefb4bda2"
+    },
+    "docs/ux/before-dropdown-filter.png": {
+      "bytes": 31782,
+      "sha256": "71d676ef9f5493a8b0a94af9737fb36fe89c123f853af66683a204a75e2b1d14"
+    },
+    "docs/ux/before-dropdown-native-options.png": {
+      "bytes": 5990,
+      "sha256": "44c835d4a5efa4ae2ae8a1aa4a9caf2c082b954283ed97f281e52fc20c152383"
+    },
+    "docs/ux/before-laundry-desktop.jpg": {
+      "bytes": 72824,
+      "sha256": "f893072c5e48636e045f66ba2303b5d07bb8cf856ba6f6ec9206e57a9a14173a"
+    },
+    "docs/ux/before-wip-sewing-desktop.jpg": {
+      "bytes": 109956,
+      "sha256": "fd43b9d7dc24db795306c4f03247284baab0b066ca4884f5a3c68f7a559103bf"
+    },
+    "docs/ux/palette.png": {
+      "bytes": 113160,
+      "sha256": "e41f99fa269c5574410c61d7a842146dda493acce2e37d2a1290821cb9237fb6"
+    },
     "package.json": {
-      "bytes": 3064,
-      "sha256": "5fe6bbc87cdd1d8d7519a77d1816dc7688daeef84a8a012320ca1d4ec662b9c2"
+      "bytes": 3216,
+      "sha256": "080aaa758a53cd116b592ece4e761e5328e542facaf2629436d0062a7f151449"
     },
     "playwright.config.ts": {
       "bytes": 1055,
@@ -319,6 +375,10 @@
       "bytes": 45282,
       "sha256": "a9f117aa10abf23627fb5f6eacfe5e5d0675fc1461d21786d88994003663b33b"
     },
+    "scripts/generate-ux-rapih.mjs": {
+      "bytes": 14151,
+      "sha256": "19e8633d665878dcd2b69eeb446802122c07fe89fa5a6dd0bdc1a30985f41d41"
+    },
     "scripts/render-cp5-source-hashes.mjs": {
       "bytes": 26437,
       "sha256": "4a1ff071137abdfe3f3e3b0ad19f0ba4bbd0ea73ac8b135d71aaf94f65ce78f5"
@@ -328,16 +388,24 @@
       "sha256": "9f06b969b41e8aecc74dccdf248002b43d5a9f30e3452221fddf8f1381333b88"
     },
     "src/App.tsx": {
-      "bytes": 214021,
-      "sha256": "c5446f42e6cec8c35f0a1e343f22ac4b4bc2edcf400acc1c7b2ebafdc9eba632"
+      "bytes": 218074,
+      "sha256": "b11446be8d975d6b4d704d458640e2604537d3cb178c3728445a56df35e08aca"
+    },
+    "src/BsReworkPage.test.tsx": {
+      "bytes": 9099,
+      "sha256": "71f62f9821debff142fc7a09a84545275160d98f52acc8c66476aa847292ae5b"
+    },
+    "src/BsReworkPage.tsx": {
+      "bytes": 70229,
+      "sha256": "c812ca743337caabb5946209d46b36c88d711a7674237ea1533d814c135148cb"
     },
     "src/ConnectedBsResolutionPage.dom.test.tsx": {
       "bytes": 30749,
       "sha256": "6cdc09cbc97c091698077d782c8792f8ddb4a41f044fb2fd5f10b2e2d2c191d9"
     },
     "src/ConnectedBsResolutionPage.tsx": {
-      "bytes": 61037,
-      "sha256": "1b64c953eec8adee2e24aa09e93ce11a38e10be5e38644aaeec031d9f80a8193"
+      "bytes": 61145,
+      "sha256": "244a2095263b20eb0e45e49ecedf76b4c26b5846056e1f6907700c5795aba85e"
     },
     "src/ConnectedCuttingPage.tsx": {
       "bytes": 22008,
@@ -358,6 +426,10 @@
     "src/CuttingPatternPicker.tsx": {
       "bytes": 8315,
       "sha256": "b7f2bd0edd3a21a3254c691119ba278de84be1e1f2ecc93653b9d413d0d6360b"
+    },
+    "src/LaundryMandorFilter.test.tsx": {
+      "bytes": 5332,
+      "sha256": "3720b60e482b59d582c2f2a3079c81e136b2523d9fe28fa32e40500cb39174ad"
     },
     "src/MasterDataPages.tsx": {
       "bytes": 49346,
@@ -391,13 +463,17 @@
       "bytes": 5901,
       "sha256": "eec4e6a3c1e1352846eab50a3cf319af90f6e5100fa100a614bbc90111a59a88"
     },
+    "src/bs-rework.css": {
+      "bytes": 47024,
+      "sha256": "fe1fd08571b0cbf5c39f1ec7d8476550b0c2fd5a5eb50c1d57191574cdc283bc"
+    },
     "src/bsResolutionModel.test.ts": {
-      "bytes": 8954,
-      "sha256": "58a297de0cc49e65bddc70ec50a4e33cbe230869ab21902f7ed6f4c5337aa38e"
+      "bytes": 9371,
+      "sha256": "6c47fb3a2584ceb82035f06a6a74575f4c54d003787fc634f5813b4d4133cef6"
     },
     "src/bsResolutionModel.ts": {
-      "bytes": 27650,
-      "sha256": "3e200a2a7c8ac5304ca2d90cbe79153d47233c143bf16b54efbe3e88ae6551d7"
+      "bytes": 27846,
+      "sha256": "264c0c7f3ca440d935391bfdb509d19be1f2d72d797edea08f8af30abc59b788"
     },
     "src/components/RuntimeIdentity.tsx": {
       "bytes": 1911,
@@ -412,8 +488,8 @@
       "sha256": "159cee894aa1411543130c6c7e2d85ba891f83f1e80df8a406b19fca5c68f680"
     },
     "src/connected-bs-resolution.css": {
-      "bytes": 17851,
-      "sha256": "b133a41505406b12d753c75525b3a5e2fd2738327dc00b10f74f738f9dfc8f87"
+      "bytes": 18014,
+      "sha256": "792dbfeca93e7fc9144c92846da10cf4a2eb4bba7f5c26e2ec1e3ea6c61dfb7a"
     },
     "src/connected-cutting.css": {
       "bytes": 5917,
@@ -431,9 +507,33 @@
       "bytes": 8510,
       "sha256": "b10c3a1a921c98d44259f007368d14a785427d0c2f71ed5406b2ad152529e7c6"
     },
+    "src/laundry.css": {
+      "bytes": 49989,
+      "sha256": "da8efb71667c3b180d878c27f91f2e64b4feccf09c12360349f0a37a9f4a2760"
+    },
+    "src/main.tsx": {
+      "bytes": 3142,
+      "sha256": "be362605e81356043e1d7c0791dbcaf09d194d375a2f4244325d2624cf42f3f6"
+    },
+    "src/styles.css": {
+      "bytes": 36878,
+      "sha256": "7f21d1ac98cef7d4b01a8f532c6ed8cf8af134707bb91bf38a132c66e0524c13"
+    },
     "src/types/database.preconnect.ts": {
       "bytes": 3995,
       "sha256": "bed30f7318bfa111c0176a97b3b91819d89439ea0d43fe8b094d5670e33019ca"
+    },
+    "src/ux-rapih.css": {
+      "bytes": 354601,
+      "sha256": "660220948af7c970be6673af408d5e85d9ef667af98ce9c4818eba8ca964dd0d"
+    },
+    "src/uxTampilan.test.ts": {
+      "bytes": 1555,
+      "sha256": "3bd3fc0c03e4b4f1a25532e5c2d03436e2bcae73ad67700793f86aa50481f7dc"
+    },
+    "src/uxTampilan.ts": {
+      "bytes": 1202,
+      "sha256": "091d57c5365f5d24b53cadce3727b429ebba7077b81b169249e35ed8521fe435"
     },
     "supabase/migrations/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql": {
       "bytes": 21350,
@@ -497,9 +597,9 @@
     }
   },
   "visual_demo_followup": {
-    "base_sha": "bf17dd84c85d7b0ace7987de55cb3b27c4a5a0af",
-    "scope": "Pengguna & Hak Akses dark blue cards, forms, role editor, and readable states",
-    "source_path": "src/access-control-cp45.css",
+    "base_sha": "557005e6674058f1e5e966b350cba05501e06182",
+    "scope": "UX rapih: scoped visual layer (src/ux-rapih.css, toggle Tampilan baru/lama), Laundry mandor filter, BS SKU identity and simulated BS to new SKU, SKU label on connected BS list",
+    "source_path": "src/ux-rapih.css",
     "backend_runtime_changed": false,
     "hosted_uat_retested": false,
     "historical_evidence_status": "REUSED_EVIDENCE",
