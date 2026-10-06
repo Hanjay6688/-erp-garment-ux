@@ -1,0 +1,26 @@
+{
+ "label": "CP7_SUPPLIER_PAYMENT_CREATE",
+ "source_commit": "917ff2b7",
+ "run_id": 37492084385,
+ "job_id": 112367128931,
+ "conclusion": "success",
+ "probe_status": "PASS",
+ "observed_case_count": 10,
+ "required": {
+  "native": 4,
+  "races": 3,
+  "http": 1,
+  "browser": 2
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "legacy_hosted_direct_path_observation": {
+  "authenticated_direct_draft_insert": "ALLOWED",
+  "native_post_without_finance_ap_pay": "POSTED",
+  "rolled_back": true,
+  "app_http_surface": "PostgREST exposes public only"
+ },
+ "job_log_sha256": "2a154f4e6e5bd8fb6ece368935178f7105268af66214c137aedc091439cf7e23",
+ "independent_acceptance": false,
+ "production_go": false
+}

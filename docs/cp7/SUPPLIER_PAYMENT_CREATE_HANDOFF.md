@@ -63,9 +63,31 @@ Kedua browser memastikan sisa hutang 750, kas −250, dan catatan tersimpan, ser
 
 **P18:** `cp7_p18_full_cycle_cases.py` kini membayar supplier lewat perintah ini. Hasil run pertama yang memakai posting Native tetap tercatat.
 
-## Hasil
+## Hasil (dibaca dari log job CI asli; LOCAL_PG16_DEV tidak dihitung)
 
-Diisi dari log job CI asli. Hasil LOCAL_PG16_DEV tidak dihitung.
+| Sumber | Run / job | Hasil |
+|---|---|---|
+| 4042235f | 37490924137 / 112363127748 | 7 PASS, 1 INCOMPLETE (sub-kontrol baru `CURRENT_ACCESS` salah anggapan, lihat di bawah). Kegagalan pertama disimpan di `evidence/supplier-payment-create/first-4042235f/`. |
+| f999b502 | 37491709756 / 112365828821 | 9 PASS, 1 INCOMPLETE (sub-kontrol yang sama). Browser desktop PASS (balasan hilang sesudah commit → reload → UUID sama) dan browser mobile PASS; console 0. Disimpan di `browser-f999b502/`. |
+| **917ff2b7** | **37492084385 / 112367128931** | **10/10 PASS**: Native 4, race 3, HTTP 1, browser 2. `cp6_restored=true`, `advisor_gate=true`. Disimpan di `qualified-917ff2b7/`. |
+
+Shell di 4042235f (run 37490924114) lulus, termasuk kontrol DOM baru. Build UX dan CodeQL juga lulus.
+
+**Kenapa run pertama INCOMPLETE.** Sub-kontrol baru menganggap role `authenticated` tidak bisa INSERT ke `erp.supplier_payments`. Di klon setara hosted, INSERT itu bisa, karena G-01 mempertahankan USAGE `erp` untuk `authenticated`. Sub-kontrol itu sekarang hanya mencatat pengamatan di dalam savepoint yang di-rollback. Kontrol perintah baru tidak dilonggarkan.
+
+## Temuan bawaan hosted (perlu keputusan GPT/owner)
+
+Pengamatan di 917ff2b7, dengan aktor ADMIN tanpa `finance.ap.pay`:
+- INSERT DRAFT langsung ke `erp.supplier_payments`: **ALLOWED**.
+- Native `erp.post_supplier_payment` atas baris itu: **POSTED**. Fungsi ini bisa dieksekusi `authenticated`, dan pengamannya `require_internal` hanya memeriksa peran OWNER/ADMIN/STAFF.
+
+Jalur ini tidak bisa dicapai dari aplikasi, karena PostgREST hanya membuka skema `public`. Jalur ini baru bisa dipakai dengan koneksi database langsung sebagai `authenticated`, atau bila skema `erp` kelak dibuka ke API.
+
+Penutupnya ada dua kemungkinan:
+- mencabut INSERT/EXECUTE dari `authenticated` pada objek Native ini;
+- menambah pemeriksaan `finance.ap.pay` di Native.
+
+Keduanya mengubah Native atau ACL hosted, jadi tidak dilakukan writer tanpa keputusan.
 
 ## Batasan
 
