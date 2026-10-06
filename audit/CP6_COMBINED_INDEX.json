@@ -1770,5 +1770,26 @@
   "report": "out/fable_r16_prefreeze_regression.md",
   "prep": "audit/cp7_prep/",
   "runs_dir": "audit/runs_fable/r16/"
+ },
+ "fable_round17_pre_fixes": {
+  "date": "2026-10-06",
+  "head": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d",
+  "runs": {
+   "be_modes": 37455461404,
+   "bd_modes": 37455472929,
+   "t3_package": 37455505705
+  },
+  "closed": [
+   "PRE-02",
+   "PRE-03",
+   "PRE-04"
+  ],
+  "open": [
+   "PRE-01",
+   "PRE-05",
+   "PRE-06",
+   "PRE-07"
+  ],
+  "report": "out/fable_r17_pre_fixes_verification.md"
  }
 }

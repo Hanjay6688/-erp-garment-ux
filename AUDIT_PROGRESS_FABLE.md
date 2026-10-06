@@ -159,3 +159,5 @@
 - r16 dibaca per kasus (18 job). Native identik (T2 525/181/41, T3 30 tahap, rollback, 14 skenario CP6). Browser: 11 kasus CP6 INCOMPLETE pada UI CP7 →
   PRE-01..07 (S2 sementara: alert keuangan, panel laundry rincian biaya, AT WIP; S3: selector BS basi, sales simulasi superseded, workflow CP3/CP5 warisan; hygiene E06).
   Laporan out/fable_r16_prefreeze_regression.md §3. Dua kebutuhan tak terpetakan (BR-T15, CP7-09) dipetakan manual.
+- r17 (ac714a5b): perbaikan Claude PRE-03/04 (tests only) + GPT LaundryBdPanel ditinjau dan dijalankan ulang: BE 17/17, BD 20/20, T3 browser AT 10/10 + 27/31.
+  PRE-02/03/04 CLOSED. Sisa browser: PRE-01 (2 alert keuangan), PRE-05 (sales simulasi). Laporan out/fable_r17_pre_fixes_verification.md.

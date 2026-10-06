@@ -1,0 +1,2891 @@
+[
+ {
+  "run_identity": {
+   "label": "T3_PREP",
+   "tool_head": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d",
+   "product_ref": "56c7558642e74c64117da98bdb6d0502203e859b",
+   "product_paths": [
+    "supabase/migrations",
+    "supabase/dev",
+    "supabase/release",
+    "supabase/rollbacks",
+    "src"
+   ],
+   "run_id": "37455505705",
+   "run_attempt": "1",
+   "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+   "job": "phase",
+   "event": "workflow_dispatch",
+   "github_sha": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d",
+   "release_evidence": false,
+   "production_go": false,
+   "mode": "browser"
+  }
+ },
+ {
+  "group": "T3_HOSTED_CAPSULES",
+  "equal": true,
+  "capsules": {
+   "bs_resolution_v2619_rollback_capsule": {
+    "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+    "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+    "equal": true
+   },
+   "bs_resolution_v2619a_rollback_capsule": {
+    "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+    "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+    "equal": true
+   },
+   "bs_resolution_v2619b_rollback_capsule": {
+    "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+    "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+    "equal": true
+   },
+   "bs_resolution_v2619c_rollback_capsule": {
+    "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+    "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+    "equal": true
+   },
+   "cp3_r4_rollback_capsule": {
+    "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+    "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+    "equal": true
+   },
+   "cp45_v2617_rollback_capsule": {
+    "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+    "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+    "equal": true
+   },
+   "cp45_v2617a_rollback_capsule": {
+    "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+    "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+    "equal": true
+   },
+   "cp4_v2616_rollback_capsule": {
+    "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+    "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+    "equal": true
+   },
+   "cp6_v2620_rollback_capsule": {
+    "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+    "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+    "equal": true
+   },
+   "cutting_bridge_v2618_rollback_capsule": {
+    "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+    "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+    "equal": true
+   },
+   "cutting_bridge_v2618a_rollback_capsule": {
+    "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+    "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+    "equal": true
+   }
+  },
+  "cp6_v2620_rows_differing": []
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AC",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AD",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AE",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AF",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AG",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AH",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AI",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AJ",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AK",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AL",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AM",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AN",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AO",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AP",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AQ",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AR",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AS",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AT",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AU",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AV",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AW",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AX",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AY",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "AZ",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "BA",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "BB",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "BC",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "BD",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "BE",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_INSTALL",
+  "key": "BF",
+  "status": "PASS"
+ },
+ {
+  "group": "T3_PACKAGE_RUN",
+  "stage": "PACKAGE",
+  "status": "PASS",
+  "result": "ALL_FILES_INSTALLED"
+ },
+ {
+  "group": "T3_PACKAGE_RUN",
+  "stage": "AW_AX_AY_AZ_VERIFY",
+  "status": "PASS",
+  "result": {
+   "stage": "BE_PLUS_BF_T1",
+   "functions": 9,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9",
+   "ba_sql_sha256": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+   "bb_sql_sha256": "a423268697f9290d7278bd98a364f9207562769c277d036ccf1c31902bbdf142",
+   "bc_sql_sha256": "f72f72d38ed8d44cd24002e94733f55473760244686296a3970961d7aa4a9ec7",
+   "bd_sql_sha256": "f480f8dd7dc2620e19994e328b971ef159ba81dca1b8272ae42b59e0d370f947",
+   "be_sql_sha256": "695475db3719617bd2c10d82c4dee2eaa567f4c10f322697a1714b17b60d29f6",
+   "bf_sql_sha256": "d5e66d221878db1ba34b0c159e05c13f6b12bac3acc2b3066fcff514ef876ffd"
+  }
+ },
+ {
+  "auditor_browser_script_sha256": "eaefed8be0e58ddb5df620ccf7eab054225e8daeb50e34652933110fb6c1206c",
+  "bytes": 3540
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+  "status": "INCOMPLETE",
+  "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByRole('alert')\nExpected: 0\nReceived: 2\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for getByRole('alert')\n    14 \u00d7 locator resolved to 2 elements\n       - unexpected value \"2\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at readiness (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_readiness_browser.mjs:71:43)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+  "status": "INCOMPLETE",
+  "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByRole('alert')\nExpected: 0\nReceived: 2\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for getByRole('alert')\n    14 \u00d7 locator resolved to 2 elements\n       - unexpected value \"2\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at readiness (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_readiness_browser.mjs:71:43)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "VENDOR_FREE_BROWSER:DESKTOP_SAVE_RELOAD",
+  "status": "PASS",
+  "checks": {
+   "three_physical_members": true,
+   "once": true,
+   "no_stock": true,
+   "sku_laundry_empty": true,
+   "vendor_free_waived": true,
+   "reload_preserves_vendor_reason": true
+  },
+  "mobile": false
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "VENDOR_FREE_BROWSER:MOBILE_SAVE_RELOAD",
+  "status": "PASS",
+  "checks": {
+   "three_physical_members": true,
+   "once": true,
+   "no_stock": true,
+   "sku_laundry_empty": true,
+   "vendor_free_waived": true,
+   "reload_preserves_vendor_reason": true,
+   "mobile_width": true
+  },
+  "mobile": true
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP",
+  "status": "PASS",
+  "checks": {
+   "no_fake_charge": true,
+   "unknown": true,
+   "physical_qty": true
+  },
+  "mobile": false
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "VENDOR_BROWSER:EMPTY_DETAILS_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "no_fake_charge": true,
+   "unknown": true,
+   "physical_qty": true
+  },
+  "mobile": true
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "SUPPLIER_BROWSER:FABRIC_SPLIT_INVERSE_DESKTOP",
+  "status": "PASS",
+  "checks": {
+   "split": true,
+   "original": true,
+   "history": true
+  },
+  "mobile": false
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "SUPPLIER_BROWSER:ACCESSORY_SPLIT_INVERSE_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "split": true,
+   "original": true,
+   "history": true
+  },
+  "mobile": true
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+  "status": "PASS",
+  "checks": {
+   "send_known_part_only": true,
+   "mixed_coverage": true,
+   "labels_from_server_components": true,
+   "unknown_listed_on_phone": true,
+   "filled_complete": true,
+   "accrual_matches": true,
+   "no_sideways_scroll": true
+  },
+  "batch": "c8e40000-0000-4000-8000-000000000008",
+  "size": "CP6-RACE-S",
+  "delivery": "f0a72744-d3a6-4b46-909b-12d50679ec56",
+  "after_send": {
+   "state": "10000.00|false",
+   "charges": "T36 GAR:2:KNOWN,T36 SPR:1:UNKNOWN"
+  },
+  "after_fill": {
+   "state": "13000.00|true",
+   "charges": "T36 GAR:2:KNOWN,T36 SPR:1:KNOWN",
+   "accrual": "13000.00|13000.00"
+  },
+  "component_link": "GAR=T36 GAR:SAME,SPR=T36 SPR:SAME",
+  "spr_name": "T36 SPR",
+  "unknown_label": "T36 SPR",
+  "widths": {
+   "open": {
+    "viewport": 390,
+    "page": 390,
+    "ok": true,
+    "wide": []
+   },
+   "master": {
+    "viewport": 390,
+    "page": 390,
+    "ok": true,
+    "wide": []
+   },
+   "send": {
+    "viewport": 390,
+    "page": 390,
+    "ok": true,
+    "wide": []
+   },
+   "unknown": {
+    "viewport": 390,
+    "page": 390,
+    "ok": true,
+    "wide": []
+   },
+   "filled": {
+    "viewport": 390,
+    "page": 390,
+    "ok": true,
+    "wide": []
+   }
+  },
+  "hit": {
+   "rect": [
+    241,
+    486,
+    132,
+    42
+   ],
+   "hits_self": true,
+   "top": "BUTTON. Isi harga T36 SPR",
+   "inner": [
+    390,
+    844
+   ],
+   "visual": [
+    390,
+    844,
+    0,
+    0,
+    1
+   ],
+   "scroll": [
+    0,
+    2216
+   ]
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+  "status": "PASS",
+  "invoice": "INV-D12b3809ffe07",
+  "claim": "KL-D12b3809ffe07",
+  "screen": {
+   "before": {
+    "ledger": "Cocok: saldo utang = sisa tagihan \u2212 kredit belum dipakai",
+    "ap": "Rp 8.000.000,00",
+    "row": "INV-D12b3809ffe07 2026-10-06 Rp 10.000.000,00 Rp 0,00 Rp 0,00 Rp 0,00 Rp 10.000.000,00 POSTED"
+   },
+   "middle": {
+    "ledger": "Cocok: saldo utang = sisa tagihan \u2212 kredit belum dipakai",
+    "ap": "Rp 8.000.000,00",
+    "row": "INV-D12b3809ffe07 2026-10-06 Rp 10.000.000,00 Rp 0,00 Rp 2.000.000,00 Rp 0,00 Rp 8.000.000,00 PARTIAL_PAID"
+   },
+   "after": {
+    "ledger": "Cocok: saldo utang = sisa tagihan \u2212 kredit belum dipakai",
+    "ap": "Rp 0,00",
+    "row": "INV-D12b3809ffe07 2026-10-06 Rp 10.000.000,00 Rp 8.000.000,00 Rp 2.000.000,00 Rp 0,00 Rp 0,00 Lunas"
+   },
+   "width": {
+    "viewport": 1440,
+    "page": 1440,
+    "ok": true,
+    "wide": []
+   }
+  },
+  "state": "PAID|0.00"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+  "status": "PASS",
+  "payable": "INV-LAMA-BDBf4563f82d93",
+  "screen": {
+   "before": {
+    "ledger": "Cocok: saldo utang = sisa tagihan \u2212 kredit belum dipakai",
+    "ap": "Rp 8.000.000,00",
+    "row": "INV-LAMA-BDBf4563f82d93 (saldo awal) 2026-08-27 Rp 10.000.000,00 Rp 0,00 Rp 0,00 Rp 0,00 Rp 10.000.000,00 OPEN"
+   },
+   "middle": {
+    "ledger": "Cocok: saldo utang = sisa tagihan \u2212 kredit belum dipakai",
+    "ap": "Rp 8.000.000,00",
+    "row": "INV-LAMA-BDBf4563f82d93 (saldo awal) 2026-08-27 Rp 10.000.000,00 Rp 0,00 Rp 2.000.000,00 Rp 0,00 Rp 8.000.000,00 PARTIAL"
+   },
+   "after": {
+    "ledger": "Cocok: saldo utang = sisa tagihan \u2212 kredit belum dipakai",
+    "ap": "Rp 0,00",
+    "row": "INV-LAMA-BDBf4563f82d93 (saldo awal) 2026-08-27 Rp 10.000.000,00 Rp 8.000.000,00 Rp 2.000.000,00 Rp 0,00 Rp 0,00 Lunas"
+   },
+   "width": {
+    "viewport": 1440,
+    "page": 1440,
+    "ok": true,
+    "wide": []
+   }
+  },
+  "state": "SETTLED|0.00"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+  "status": "PASS",
+  "seeds_active_before_after": [
+   "6|1",
+   "6|1"
+  ],
+  "laundry_read_ids": {
+   "status": 200,
+   "non_rfc": 2,
+   "v4": 78,
+   "non_rfc_sample": [
+    "a1000000-0000-0000-0000-000000000001",
+    "a2000000-0000-0000-0000-000000000001"
+   ]
+  },
+  "qc_read_ids_before_flow": {
+   "status": 200,
+   "non_rfc": 1,
+   "v4": 32,
+   "non_rfc_sample": [
+    "a2000000-0000-0000-0000-000000000001"
+   ]
+  },
+  "qc_read_ids": {
+   "status": 200,
+   "non_rfc": 1,
+   "v4": 40,
+   "non_rfc_sample": [
+    "a2000000-0000-0000-0000-000000000001"
+   ]
+  },
+  "flow": {
+   "ready_batch": "c8e40000-0000-4000-8000-000000000008",
+   "delivery": "8daecbef-2f6a-4ecf-9b45-35bc8ebbf054",
+   "sizes": "CP6-RACE-S=6",
+   "receipts": "1",
+   "contractor": "a1000000-0000-0000-0000-000000000001"
+  },
+  "laundry": {
+   "loaded": true,
+   "error": "OK",
+   "uuid_error_text": 0
+  },
+  "qc": {
+   "loaded": true,
+   "error": "OK",
+   "uuid_error_text": 0
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+  "status": "PASS",
+  "before": "PENDING_POLICY_VALUE|3",
+  "after": "PENDING_POLICY_VALUE|5",
+  "laundry_qc_read": "OK"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+  "status": "PASS",
+  "before": "1|0",
+  "after": "1|0",
+  "claim_listed": true
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+  "status": "PASS",
+  "blocked_before": "1",
+  "qc_estimate_inputs": 0,
+  "invoice_hidden": true,
+  "estimated": "8000.00|1",
+  "blocked_after": "0",
+  "laundry_qc_read": "OK"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+  "status": "PASS",
+  "checks": {
+   "linked_documents": true,
+   "screen_row": true,
+   "credit_row": true,
+   "ledger_matches": true,
+   "origin_untouched": true,
+   "no_sideways_scroll": true
+  },
+  "links": "KN-D139e7a7ba7ab:2000.00:true,KT-D139e7a7ba7ab:-1500.00:true",
+  "row": "KN-D139e7a7ba7ab (koreksi naik atas INV-D139e7a7ba7ab) 2026-10-06 Rp 2.000,00 Rp 500,00 Rp 0,00 Rp 1.500,00 Rp 0,00 Lunas",
+  "credit_row": "KT-D139e7a7ba7ab (koreksi turun atas INV-D139e7a7ba7ab) 2026-10-06 Rp 1.500,00 Rp 1.500,00 Rp 0,00",
+  "ledger": "Cocok: saldo utang = sisa tagihan \u2212 kredit belum dipakai",
+  "ap": "0.00",
+  "origin": "PAID|CASH:7000.00:POSTED"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+  "status": "PASS",
+  "checks": {
+   "pending_visible": true,
+   "original_close_blocked": true,
+   "lot_adds_10000": true,
+   "remaining_fg_adds_8000": true,
+   "sold_cogs_adds_2000": true,
+   "blocker_clears": true,
+   "sale_snapshot_immutable": true,
+   "sale_recosted": true,
+   "no_pending_goods": true
+  },
+  "fixture_setup": "native sale commands; browser sale posting NOT covered",
+  "before_screen": {
+   "goods": "CP6-E-BD-638cc66b \u00b7 CP6 E BD-638cc66b\tFGP-261003-81BCF9B15CA54E06BCF166E505594B81-CP6EBD638cc66b-5e308932\tAA-INV-PO-acd22e6b-bc1b-466a-81e1-60e2771419dc\t8\t2\tRp 5.010,00\tHPP belum final",
+   "sales": "BD-SALE-e38f7d313a\t2026-10-03\tCP6-E-BD-638cc66b \u00b7 CP6 E BD-638cc66b\t2\tRp 5.010,00\tHPP belum final"
+  },
+  "before": {
+   "lot_value": "50100.000000",
+   "fg": "40080.00",
+   "cogs": "10020.00",
+   "blockers": [
+    "BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN"
+   ],
+   "sale": [
+    [
+     "2",
+     "5010.000000"
+    ]
+   ],
+   "view": {
+    "goods": [
+     {
+      "sku": "CP6-E-BD-638cc66b",
+      "lot_id": "b497095b-d980-420d-a6ba-d1e1c8f5f7ad",
+      "qty_now": 8,
+      "qty_sold": 2,
+      "hpp_state": "NOT_FINAL",
+      "po_number": "AA-INV-PO-acd22e6b-bc1b-466a-81e1-60e2771419dc",
+      "lot_number": "FGP-261003-81BCF9B15CA54E06BCF166E505594B81-CP6EBD638cc66b-5e308932",
+      "product_name": "CP6 E BD-638cc66b",
+      "hpp_per_pcs_so_far": "5010.00"
+     }
+    ],
+    "sales": [
+     {
+      "id": "f54d18a6-afff-4540-929e-de187f09f8a4",
+      "qty": 2,
+      "sku": "CP6-E-BD-638cc66b",
+      "sale_id": "c4ff8ca2-a5e0-433c-a2e2-0f5ccf352646",
+      "hpp_state": "NOT_FINAL",
+      "sale_date": "2026-10-03",
+      "lot_number": "FGP-261003-81BCF9B15CA54E06BCF166E505594B81-CP6EBD638cc66b-5e308932",
+      "recorded_at": "2026-10-06T18:24:06",
+      "sale_number": "BD-SALE-e38f7d313a",
+      "product_name": "CP6 E BD-638cc66b",
+      "policy_version": "6",
+      "unit_hpp_at_sale": "5010.00"
+     }
+    ]
+   }
+  },
+  "after": {
+   "lot_value": "60100.000000",
+   "fg": "48080.00",
+   "cogs": "12020.00",
+   "blockers": [],
+   "sale": [
+    [
+     "2",
+     "5010.000000"
+    ]
+   ],
+   "view": {
+    "goods": [],
+    "sales": [
+     {
+      "id": "f54d18a6-afff-4540-929e-de187f09f8a4",
+      "qty": 2,
+      "sku": "CP6-E-BD-638cc66b",
+      "sale_id": "c4ff8ca2-a5e0-433c-a2e2-0f5ccf352646",
+      "hpp_state": "RECOSTED",
+      "sale_date": "2026-10-03",
+      "lot_number": "FGP-261003-81BCF9B15CA54E06BCF166E505594B81-CP6EBD638cc66b-5e308932",
+      "recorded_at": "2026-10-06T18:24:06",
+      "sale_number": "BD-SALE-e38f7d313a",
+      "product_name": "CP6 E BD-638cc66b",
+      "policy_version": "6",
+      "unit_hpp_at_sale": "5010.00"
+     }
+    ]
+   }
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "partial_no_fg": true,
+   "completed_once": true,
+   "target": true,
+   "final": true
+  },
+  "partial": {
+   "orders": [
+    [
+     "02e91a79-dbad-4292-9877-4367a476c06e",
+     "PARTIAL",
+     1,
+     0,
+     null
+    ]
+   ],
+   "conversions": [],
+   "qty": 0,
+   "product": null,
+   "cost": "0",
+   "rate": "None"
+  },
+  "completed": {
+   "orders": [
+    [
+     "02e91a79-dbad-4292-9877-4367a476c06e",
+     "COMPLETED",
+     2,
+     2,
+     "20ce3c42-0f56-4238-a63a-06dd259196b1"
+    ]
+   ],
+   "conversions": [
+    [
+     "fde3c55b-2092-4bdf-b0df-518e62baffea",
+     "POSTED",
+     "03302c80-8a18-446d-9ffe-53b734d857ea"
+    ]
+   ],
+   "qty": 2,
+   "product": "8b316b91-f0ae-4f01-961b-1e93c640422b",
+   "cost": "0",
+   "rate": "None"
+  },
+  "final": {
+   "orders": [
+    [
+     "02e91a79-dbad-4292-9877-4367a476c06e",
+     "COMPLETED",
+     2,
+     2,
+     "20ce3c42-0f56-4238-a63a-06dd259196b1"
+    ]
+   ],
+   "conversions": [
+    [
+     "fde3c55b-2092-4bdf-b0df-518e62baffea",
+     "POSTED",
+     "03302c80-8a18-446d-9ffe-53b734d857ea"
+    ]
+   ],
+   "qty": 2,
+   "product": "8b316b91-f0ae-4f01-961b-1e93c640422b",
+   "cost": "200.00",
+   "rate": "50.000000"
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+  "status": "PASS",
+  "checks": {
+   "complete": true,
+   "qty": true,
+   "response": true,
+   "amount": true,
+   "one_delivery": true,
+   "coverage": true
+  },
+  "mobile": false,
+  "kind": "package",
+  "freeStatus": null,
+  "delivery": {
+   "mode": "PACKAGE",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "size_id": "21ee865b-0d97-4ec6-b65f-20cd43ce81f7",
+     "complete": true,
+     "qty_sent": 6,
+     "known_amount": "29321.09",
+     "delivery_batch_size_line_id": "d4fe32a8-53a1-4671-8a6a-27d9802da114"
+    },
+    {
+     "size_id": "c8c10000-0000-4000-8000-000000000002",
+     "complete": true,
+     "qty_sent": 7,
+     "known_amount": "30247.63",
+     "delivery_batch_size_line_id": "27f2759d-96f9-44ab-827f-767ca9026fe7"
+    }
+   ],
+   "status": "SENT",
+   "charges": [
+    {
+     "id": "e1007add-5d69-4cc0-ae29-fb8f519e9438",
+     "kind": "PACKAGE",
+     "label": "Paket Audit package",
+     "amount": "56174.17",
+     "ref_id": "c841a656-867e-42fd-b5ad-ceb78ab87cf5",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 6,
+       "size_id": "21ee865b-0d97-4ec6-b65f-20cd43ce81f7"
+      },
+      {
+       "qty": 7,
+       "size_id": "c8c10000-0000-4000-8000-000000000002"
+      }
+     ],
+     "unit_rate": "4321.09",
+     "covered_qty": 13,
+     "rate_status": "KNOWN",
+     "price_reason": null,
+     "included_components": [
+      "ad77e7a7-baa0-42eb-bf62-e7013f63879b"
+     ]
+    },
+    {
+     "id": "3e432098-58e6-4e07-8325-7d40f302fd8a",
+     "kind": "EXTRA",
+     "label": "BD REV_FINISH",
+     "amount": "3394.55",
+     "ref_id": "63905fc9-c3da-4059-b151-49f594403d6e",
+     "line_no": 2,
+     "coverage": [
+      {
+       "qty": 5,
+       "size_id": "21ee865b-0d97-4ec6-b65f-20cd43ce81f7"
+      }
+     ],
+     "unit_rate": "678.91",
+     "covered_qty": 5,
+     "rate_status": "KNOWN",
+     "price_reason": "BD probe synthetic price",
+     "included_components": null
+    }
+   ],
+   "qty_sent": 13,
+   "delivery_id": "68695b85-91d3-4dfc-a578-5c89b2b6c3c0",
+   "has_invoice": false,
+   "total_known": "59568.72",
+   "cost_invoiced": false,
+   "physical_local": "2026-10-03T11:00:00",
+   "total_complete": true,
+   "delivery_number": "LDR-261003-68695B8591D34DFCA5785C89B2B6C3C0",
+   "policy_versions": {
+    "LAU_DEC03": 4
+   },
+   "delivery_line_id": "0aa3096a-7e12-47af-8353-229d258d6992"
+  },
+  "replies": [
+   {
+    "request": {
+     "p_action": "POST_PRICED_DELIVERY",
+     "p_payload": {
+      "expected_version": "6",
+      "pricing": {
+       "package_id": "c841a656-867e-42fd-b5ad-ceb78ab87cf5",
+       "extras": [
+        {
+         "component_id": "63905fc9-c3da-4059-b151-49f594403d6e",
+         "covered_qty": 5,
+         "coverage": [
+          {
+           "size_id": "21ee865b-0d97-4ec6-b65f-20cd43ce81f7",
+           "qty": 5
+          }
+         ],
+         "reason": "Only five second-size pieces need finishing"
+        }
+       ]
+      },
+      "delivery": {
+       "distribution_batch_id": "10a0d476-42d4-4abe-8f7f-d4dc985c2eda",
+       "vendor_id": "96df3b1f-c62d-41f8-a1b7-e2db6dc24e29",
+       "wash_process_id": "b834bc7d-e49e-4433-b0e2-935bfaf8f930",
+       "target_dyeing_color": "REV-NAVY",
+       "physical_at": "2026-10-03T11:00:00+07:00",
+       "reason": "Browser audited explicit service recipient",
+       "notes": null,
+       "lines": [
+        {
+         "size_id": "21ee865b-0d97-4ec6-b65f-20cd43ce81f7",
+         "qty_sent_pcs": 6
+        },
+        {
+         "size_id": "c8c10000-0000-4000-8000-000000000002",
+         "qty_sent_pcs": 7
+        }
+       ]
+      }
+     },
+     "p_client_request_id": "b65da5ed-6018-4001-b073-cfb57c0d377c"
+    },
+    "status": 200,
+    "body": {
+     "action": "POST_DELIVERY",
+     "status": "SENT",
+     "pricing": {
+      "mode": "PACKAGE",
+      "unit": "PCS",
+      "sizes": [
+       {
+        "size_id": "21ee865b-0d97-4ec6-b65f-20cd43ce81f7",
+        "complete": true,
+        "qty_sent": 6,
+        "known_amount": "29321.09",
+        "delivery_batch_size_line_id": "d4fe32a8-53a1-4671-8a6a-27d9802da114"
+       },
+       {
+        "size_id": "c8c10000-0000-4000-8000-000000000002",
+        "complete": true,
+        "qty_sent": 7,
+        "known_amount": "30247.63",
+        "delivery_batch_size_line_id": "27f2759d-96f9-44ab-827f-767ca9026fe7"
+       }
+      ],
+      "charges": [
+       {
+        "id": "e1007add-5d69-4cc0-ae29-fb8f519e9438",
+        "kind": "PACKAGE",
+        "label": "Paket Audit package",
+        "amount": "56174.17",
+        "ref_id": "c841a656-867e-42fd-b5ad-ceb78ab87cf5",
+        "line_no": 1,
+        "coverage": [
+         {
+          "qty": 6,
+          "size_id": "21ee865b-0d97-4ec6-b65f-20cd43ce81f7"
+         },
+         {
+          "qty": 7,
+          "size_id": "c8c10000-0000-4000-8000-000000000002"
+         }
+        ],
+        "unit_rate": "4321.09",
+        "covered_qty": 13,
+        "rate_status": "KNOWN",
+        "price_reason": null,
+        "included_components": [
+         "ad77e7a7-baa0-42eb-bf62-e7013f63879b"
+        ]
+       },
+       {
+        "id": "3e432098-58e6-4e07-8325-7d40f302fd8a",
+        "kind": "EXTRA",
+        "label": "BD REV_FINISH",
+        "amount": "3394.55",
+        "ref_id": "63905fc9-c3da-4059-b151-49f594403d6e",
+        "line_no": 2,
+        "coverage": [
+         {
+          "qty": 5,
+          "size_id": "21ee865b-0d97-4ec6-b65f-20cd43ce81f7"
+         }
+        ],
+        "unit_rate": "678.91",
+        "covered_qty": 5,
+        "rate_status": "KNOWN",
+        "price_reason": "BD probe synthetic price",
+        "included_components": null
+       }
+      ],
+      "qty_sent": 13,
+      "delivery_id": "68695b85-91d3-4dfc-a578-5c89b2b6c3c0",
+      "has_invoice": false,
+      "total_known": "59568.72",
+      "cost_invoiced": false,
+      "total_complete": true,
+      "policy_versions": {
+       "LAU_DEC03": 4
+      },
+      "delivery_line_id": "0aa3096a-7e12-47af-8353-229d258d6992"
+     },
+     "committed": true,
+     "hpp_effect": "LAUNDRY_ACCRUAL_REBUILT",
+     "request_id": "b65da5ed-6018-4001-b073-cfb57c0d377c",
+     "delivery_id": "68695b85-91d3-4dfc-a578-5c89b2b6c3c0",
+     "row_version": 2,
+     "qty_sent_pcs": 13,
+     "rate_per_pcs": 4582.21,
+     "stock_effect": "SEWING_TO_LAUNDRY",
+     "estimated_cost": 59568.72,
+     "delivery_number": "LDR-261003-68695B8591D34DFCA5785C89B2B6C3C0",
+     "contract_version": "CP6_V2620",
+     "cutting_group_id": "8dec81b3-fa26-4bf0-bceb-ed6faa284e87",
+     "client_request_id": "b65da5ed-6018-4001-b073-cfb57c0d377c",
+     "cutting_group_row_version": 7
+    }
+   }
+  ]
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "complete": true,
+   "qty": true,
+   "response": true,
+   "amount": true,
+   "one_delivery": true,
+   "coverage": true
+  },
+  "mobile": true,
+  "kind": "package",
+  "freeStatus": null,
+  "delivery": {
+   "mode": "PACKAGE",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "size_id": "38de816b-f42a-47ce-9c91-7ed23c88920c",
+     "complete": true,
+     "qty_sent": 6,
+     "known_amount": "29321.09",
+     "delivery_batch_size_line_id": "7c67ab4a-41f8-4147-9c58-566756cd3b30"
+    },
+    {
+     "size_id": "c8c10000-0000-4000-8000-000000000002",
+     "complete": true,
+     "qty_sent": 7,
+     "known_amount": "30247.63",
+     "delivery_batch_size_line_id": "2afc666f-561d-4a9d-aad1-0fe687b44d26"
+    }
+   ],
+   "status": "SENT",
+   "charges": [
+    {
+     "id": "3b67aac3-504c-4838-aabe-28510e7fd9bf",
+     "kind": "PACKAGE",
+     "label": "Paket Audit package",
+     "amount": "56174.17",
+     "ref_id": "ccaaae68-c126-4054-a6f4-3280773b4f4f",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 6,
+       "size_id": "38de816b-f42a-47ce-9c91-7ed23c88920c"
+      },
+      {
+       "qty": 7,
+       "size_id": "c8c10000-0000-4000-8000-000000000002"
+      }
+     ],
+     "unit_rate": "4321.09",
+     "covered_qty": 13,
+     "rate_status": "KNOWN",
+     "price_reason": null,
+     "included_components": [
+      "28646bc0-ecd9-42bb-b25e-c78b0137e334"
+     ]
+    },
+    {
+     "id": "8840dc49-f1ca-4354-a9e8-814de69d0400",
+     "kind": "EXTRA",
+     "label": "BD REV_FINISH",
+     "amount": "3394.55",
+     "ref_id": "a58de7cb-198d-4eab-99a9-bdebef00c961",
+     "line_no": 2,
+     "coverage": [
+      {
+       "qty": 5,
+       "size_id": "38de816b-f42a-47ce-9c91-7ed23c88920c"
+      }
+     ],
+     "unit_rate": "678.91",
+     "covered_qty": 5,
+     "rate_status": "KNOWN",
+     "price_reason": "BD probe synthetic price",
+     "included_components": null
+    }
+   ],
+   "qty_sent": 13,
+   "delivery_id": "88f4ee0a-7400-4ebf-bf41-04b3fd689b9d",
+   "has_invoice": false,
+   "total_known": "59568.72",
+   "cost_invoiced": false,
+   "physical_local": "2026-10-03T11:00:00",
+   "total_complete": true,
+   "delivery_number": "LDR-261003-88F4EE0A74004EBFBF4104B3FD689B9D",
+   "policy_versions": {
+    "LAU_DEC03": 5
+   },
+   "delivery_line_id": "cd93c6f5-b826-4a61-a4e9-12d5e677bc73"
+  },
+  "replies": [
+   {
+    "request": {
+     "p_action": "POST_PRICED_DELIVERY",
+     "p_payload": {
+      "expected_version": "6",
+      "pricing": {
+       "package_id": "ccaaae68-c126-4054-a6f4-3280773b4f4f",
+       "extras": [
+        {
+         "component_id": "a58de7cb-198d-4eab-99a9-bdebef00c961",
+         "covered_qty": 5,
+         "coverage": [
+          {
+           "size_id": "38de816b-f42a-47ce-9c91-7ed23c88920c",
+           "qty": 5
+          }
+         ],
+         "reason": "Only five second-size pieces need finishing"
+        }
+       ]
+      },
+      "delivery": {
+       "distribution_batch_id": "3dd0913e-86e0-4426-9bb8-eaad313cbb83",
+       "vendor_id": "bb5f3ea9-5290-421a-9ee6-e3f68c273eda",
+       "wash_process_id": "efd7df45-cbe3-47aa-829e-8bdbd06a2dad",
+       "target_dyeing_color": "REV-NAVY",
+       "physical_at": "2026-10-03T11:00:00+07:00",
+       "reason": "Browser audited explicit service recipient",
+       "notes": null,
+       "lines": [
+        {
+         "size_id": "38de816b-f42a-47ce-9c91-7ed23c88920c",
+         "qty_sent_pcs": 6
+        },
+        {
+         "size_id": "c8c10000-0000-4000-8000-000000000002",
+         "qty_sent_pcs": 7
+        }
+       ]
+      }
+     },
+     "p_client_request_id": "6b4a6b86-df27-4532-84f0-31ff7c87110e"
+    },
+    "status": 200,
+    "body": {
+     "action": "POST_DELIVERY",
+     "status": "SENT",
+     "pricing": {
+      "mode": "PACKAGE",
+      "unit": "PCS",
+      "sizes": [
+       {
+        "size_id": "38de816b-f42a-47ce-9c91-7ed23c88920c",
+        "complete": true,
+        "qty_sent": 6,
+        "known_amount": "29321.09",
+        "delivery_batch_size_line_id": "7c67ab4a-41f8-4147-9c58-566756cd3b30"
+       },
+       {
+        "size_id": "c8c10000-0000-4000-8000-000000000002",
+        "complete": true,
+        "qty_sent": 7,
+        "known_amount": "30247.63",
+        "delivery_batch_size_line_id": "2afc666f-561d-4a9d-aad1-0fe687b44d26"
+       }
+      ],
+      "charges": [
+       {
+        "id": "3b67aac3-504c-4838-aabe-28510e7fd9bf",
+        "kind": "PACKAGE",
+        "label": "Paket Audit package",
+        "amount": "56174.17",
+        "ref_id": "ccaaae68-c126-4054-a6f4-3280773b4f4f",
+        "line_no": 1,
+        "coverage": [
+         {
+          "qty": 6,
+          "size_id": "38de816b-f42a-47ce-9c91-7ed23c88920c"
+         },
+         {
+          "qty": 7,
+          "size_id": "c8c10000-0000-4000-8000-000000000002"
+         }
+        ],
+        "unit_rate": "4321.09",
+        "covered_qty": 13,
+        "rate_status": "KNOWN",
+        "price_reason": null,
+        "included_components": [
+         "28646bc0-ecd9-42bb-b25e-c78b0137e334"
+        ]
+       },
+       {
+        "id": "8840dc49-f1ca-4354-a9e8-814de69d0400",
+        "kind": "EXTRA",
+        "label": "BD REV_FINISH",
+        "amount": "3394.55",
+        "ref_id": "a58de7cb-198d-4eab-99a9-bdebef00c961",
+        "line_no": 2,
+        "coverage": [
+         {
+          "qty": 5,
+          "size_id": "38de816b-f42a-47ce-9c91-7ed23c88920c"
+         }
+        ],
+        "unit_rate": "678.91",
+        "covered_qty": 5,
+        "rate_status": "KNOWN",
+        "price_reason": "BD probe synthetic price",
+        "included_components": null
+       }
+      ],
+      "qty_sent": 13,
+      "delivery_id": "88f4ee0a-7400-4ebf-bf41-04b3fd689b9d",
+      "has_invoice": false,
+      "total_known": "59568.72",
+      "cost_invoiced": false,
+      "total_complete": true,
+      "policy_versions": {
+       "LAU_DEC03": 5
+      },
+      "delivery_line_id": "cd93c6f5-b826-4a61-a4e9-12d5e677bc73"
+     },
+     "committed": true,
+     "hpp_effect": "LAUNDRY_ACCRUAL_REBUILT",
+     "request_id": "6b4a6b86-df27-4532-84f0-31ff7c87110e",
+     "delivery_id": "88f4ee0a-7400-4ebf-bf41-04b3fd689b9d",
+     "row_version": 2,
+     "qty_sent_pcs": 13,
+     "rate_per_pcs": 4582.21,
+     "stock_effect": "SEWING_TO_LAUNDRY",
+     "estimated_cost": 59568.72,
+     "delivery_number": "LDR-261003-88F4EE0A74004EBFBF4104B3FD689B9D",
+     "contract_version": "CP6_V2620",
+     "cutting_group_id": "c9927558-3810-4b88-ae74-20f40b68dd5d",
+     "client_request_id": "6b4a6b86-df27-4532-84f0-31ff7c87110e",
+     "cutting_group_row_version": 7
+    }
+   }
+  ]
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+  "status": "PASS",
+  "checks": {
+   "complete": true,
+   "qty": true,
+   "response": true,
+   "amount": true,
+   "one_delivery": true,
+   "coverage": true
+  },
+  "mobile": false,
+  "kind": "free",
+  "freeStatus": "FREE",
+  "delivery": {
+   "mode": "COMPONENTS",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "size_id": "c8c10000-0000-4000-8000-000000000002",
+     "complete": true,
+     "qty_sent": 7,
+     "known_amount": "0.00",
+     "delivery_batch_size_line_id": "526e093a-d434-44da-8244-56eba70beca3"
+    },
+    {
+     "size_id": "ebb1df73-191b-4ebd-9396-d7af474c017b",
+     "complete": true,
+     "qty_sent": 6,
+     "known_amount": "0.00",
+     "delivery_batch_size_line_id": "bb42f27b-29ae-4480-9c59-c129ee7cdcbb"
+    }
+   ],
+   "status": "SENT",
+   "charges": [
+    {
+     "id": "343f9b73-e849-46c0-bf6c-6e42925bf23d",
+     "kind": "COMPONENT",
+     "label": "BD REV_WASH",
+     "amount": "0.00",
+     "ref_id": "809e7f73-9d70-47bf-81f6-6448642ccdfb",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 7,
+       "size_id": "c8c10000-0000-4000-8000-000000000002"
+      },
+      {
+       "qty": 6,
+       "size_id": "ebb1df73-191b-4ebd-9396-d7af474c017b"
+      }
+     ],
+     "unit_rate": "0.00",
+     "covered_qty": 13,
+     "rate_status": "FREE",
+     "price_reason": "Owner documented browser FREE",
+     "included_components": null
+    }
+   ],
+   "qty_sent": 13,
+   "delivery_id": "0df0cbfb-a64d-4a20-a595-a30797340fd9",
+   "has_invoice": false,
+   "total_known": "0.00",
+   "cost_invoiced": false,
+   "physical_local": "2026-10-03T11:00:00",
+   "total_complete": true,
+   "delivery_number": "LDR-261003-0DF0CBFBA64D4A20A595A30797340FD9",
+   "policy_versions": {},
+   "delivery_line_id": "4b5f9b17-ee0b-4038-a203-14eae250fbb2"
+  },
+  "replies": [
+   {
+    "request": {
+     "p_action": "SAVE_COMPONENT_RATE",
+     "p_payload": {
+      "component_id": "809e7f73-9d70-47bf-81f6-6448642ccdfb",
+      "rate_status": "FREE",
+      "effective_from": "2026-10-03T10:00:00+07:00",
+      "reason": "Owner documented browser FREE",
+      "rate_per_pcs": "0.00"
+     },
+     "p_client_request_id": "772eb0c1-4bdf-4170-bb15-cb03d0481ac9"
+    },
+    "status": 200,
+    "body": {
+     "action": "SAVE_COMPONENT_RATE",
+     "status": "SAVED",
+     "rate_id": "5b6e254f-eaca-44ee-8e82-4a0db7b747cc",
+     "request_id": "772eb0c1-4bdf-4170-bb15-cb03d0481ac9"
+    }
+   },
+   {
+    "request": {
+     "p_action": "POST_PRICED_DELIVERY",
+     "p_payload": {
+      "expected_version": "6",
+      "pricing": {
+       "components": [
+        {
+         "component_id": "809e7f73-9d70-47bf-81f6-6448642ccdfb",
+         "covered_qty": 13,
+         "coverage": [
+          {
+           "size_id": "ebb1df73-191b-4ebd-9396-d7af474c017b",
+           "qty": 6
+          },
+          {
+           "size_id": "c8c10000-0000-4000-8000-000000000002",
+           "qty": 7
+          }
+         ]
+        }
+       ]
+      },
+      "delivery": {
+       "distribution_batch_id": "fc7137cc-6951-43b6-bfe3-cd78432e659c",
+       "vendor_id": "13ee32f6-166e-4b55-b2d5-e80a80dbd4b5",
+       "wash_process_id": "e41632cb-3eaf-4f12-8d81-faa8085621c0",
+       "target_dyeing_color": "REV-NAVY",
+       "physical_at": "2026-10-03T11:00:00+07:00",
+       "reason": "Browser audited explicit service recipient",
+       "notes": null,
+       "lines": [
+        {
+         "size_id": "ebb1df73-191b-4ebd-9396-d7af474c017b",
+         "qty_sent_pcs": 6
+        },
+        {
+         "size_id": "c8c10000-0000-4000-8000-000000000002",
+         "qty_sent_pcs": 7
+        }
+       ]
+      }
+     },
+     "p_client_request_id": "f267f354-ed93-4c22-b860-8a2940a84cc1"
+    },
+    "status": 200,
+    "body": {
+     "action": "POST_DELIVERY",
+     "status": "SENT",
+     "pricing": {
+      "mode": "COMPONENTS",
+      "unit": "PCS",
+      "sizes": [
+       {
+        "size_id": "c8c10000-0000-4000-8000-000000000002",
+        "complete": true,
+        "qty_sent": 7,
+        "known_amount": "0.00",
+        "delivery_batch_size_line_id": "526e093a-d434-44da-8244-56eba70beca3"
+       },
+       {
+        "size_id": "ebb1df73-191b-4ebd-9396-d7af474c017b",
+        "complete": true,
+        "qty_sent": 6,
+        "known_amount": "0.00",
+        "delivery_batch_size_line_id": "bb42f27b-29ae-4480-9c59-c129ee7cdcbb"
+       }
+      ],
+      "charges": [
+       {
+        "id": "343f9b73-e849-46c0-bf6c-6e42925bf23d",
+        "kind": "COMPONENT",
+        "label": "BD REV_WASH",
+        "amount": "0.00",
+        "ref_id": "809e7f73-9d70-47bf-81f6-6448642ccdfb",
+        "line_no": 1,
+        "coverage": [
+         {
+          "qty": 7,
+          "size_id": "c8c10000-0000-4000-8000-000000000002"
+         },
+         {
+          "qty": 6,
+          "size_id": "ebb1df73-191b-4ebd-9396-d7af474c017b"
+         }
+        ],
+        "unit_rate": "0.00",
+        "covered_qty": 13,
+        "rate_status": "FREE",
+        "price_reason": "Owner documented browser FREE",
+        "included_components": null
+       }
+      ],
+      "qty_sent": 13,
+      "delivery_id": "0df0cbfb-a64d-4a20-a595-a30797340fd9",
+      "has_invoice": false,
+      "total_known": "0.00",
+      "cost_invoiced": false,
+      "total_complete": true,
+      "policy_versions": {},
+      "delivery_line_id": "4b5f9b17-ee0b-4038-a203-14eae250fbb2"
+     },
+     "committed": true,
+     "hpp_effect": "LAUNDRY_ACCRUAL_REBUILT",
+     "request_id": "f267f354-ed93-4c22-b860-8a2940a84cc1",
+     "delivery_id": "0df0cbfb-a64d-4a20-a595-a30797340fd9",
+     "row_version": 2,
+     "qty_sent_pcs": 13,
+     "rate_per_pcs": 0,
+     "stock_effect": "SEWING_TO_LAUNDRY",
+     "estimated_cost": 0,
+     "delivery_number": "LDR-261003-0DF0CBFBA64D4A20A595A30797340FD9",
+     "contract_version": "CP6_V2620",
+     "cutting_group_id": "fccad45b-ab91-4f41-b2c7-b12f1ed40fb1",
+     "client_request_id": "f267f354-ed93-4c22-b860-8a2940a84cc1",
+     "cutting_group_row_version": 7
+    }
+   }
+  ]
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "complete": true,
+   "qty": true,
+   "response": true,
+   "amount": true,
+   "one_delivery": true,
+   "coverage": true
+  },
+  "mobile": true,
+  "kind": "free",
+  "freeStatus": "WAIVED",
+  "delivery": {
+   "mode": "COMPONENTS",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "size_id": "1d3ef81a-34e2-4c3a-be3c-c11117b0a73a",
+     "complete": true,
+     "qty_sent": 6,
+     "known_amount": "0.00",
+     "delivery_batch_size_line_id": "e4d70ebe-2fa7-4ef7-910f-83d307495bb1"
+    },
+    {
+     "size_id": "c8c10000-0000-4000-8000-000000000002",
+     "complete": true,
+     "qty_sent": 7,
+     "known_amount": "0.00",
+     "delivery_batch_size_line_id": "c4dae699-7cc0-4978-aa12-07151f71d013"
+    }
+   ],
+   "status": "SENT",
+   "charges": [
+    {
+     "id": "3811a822-67e9-4f4a-8a31-86cba1a8fdff",
+     "kind": "COMPONENT",
+     "label": "BD REV_WASH",
+     "amount": "0.00",
+     "ref_id": "57048eee-3c42-4bd7-bd29-13f38a2eac25",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 6,
+       "size_id": "1d3ef81a-34e2-4c3a-be3c-c11117b0a73a"
+      },
+      {
+       "qty": 7,
+       "size_id": "c8c10000-0000-4000-8000-000000000002"
+      }
+     ],
+     "unit_rate": "0.00",
+     "covered_qty": 13,
+     "rate_status": "WAIVED",
+     "price_reason": "Owner documented browser WAIVED",
+     "included_components": null
+    }
+   ],
+   "qty_sent": 13,
+   "delivery_id": "8bfe8c79-07dc-45b0-95f8-860322fb3af4",
+   "has_invoice": false,
+   "total_known": "0.00",
+   "cost_invoiced": false,
+   "physical_local": "2026-10-03T11:00:00",
+   "total_complete": true,
+   "delivery_number": "LDR-261003-8BFE8C7907DC45B095F8860322FB3AF4",
+   "policy_versions": {},
+   "delivery_line_id": "84cb812e-3681-425f-aae0-beeb1b0aca6f"
+  },
+  "replies": [
+   {
+    "request": {
+     "p_action": "SAVE_COMPONENT_RATE",
+     "p_payload": {
+      "component_id": "57048eee-3c42-4bd7-bd29-13f38a2eac25",
+      "rate_status": "WAIVED",
+      "effective_from": "2026-10-03T10:00:00+07:00",
+      "reason": "Owner documented browser WAIVED",
+      "rate_per_pcs": "0.00"
+     },
+     "p_client_request_id": "44d1ab68-b32b-48d1-9be4-454a7f450341"
+    },
+    "status": 200,
+    "body": {
+     "action": "SAVE_COMPONENT_RATE",
+     "status": "SAVED",
+     "rate_id": "de8fc51e-1f9f-457b-83ba-f37a2c851c2f",
+     "request_id": "44d1ab68-b32b-48d1-9be4-454a7f450341"
+    }
+   },
+   {
+    "request": {
+     "p_action": "POST_PRICED_DELIVERY",
+     "p_payload": {
+      "expected_version": "6",
+      "pricing": {
+       "components": [
+        {
+         "component_id": "57048eee-3c42-4bd7-bd29-13f38a2eac25",
+         "covered_qty": 13,
+         "coverage": [
+          {
+           "size_id": "1d3ef81a-34e2-4c3a-be3c-c11117b0a73a",
+           "qty": 6
+          },
+          {
+           "size_id": "c8c10000-0000-4000-8000-000000000002",
+           "qty": 7
+          }
+         ]
+        }
+       ]
+      },
+      "delivery": {
+       "distribution_batch_id": "e8866b4e-527a-435f-a82a-9355a683f30a",
+       "vendor_id": "4dc5132b-d1c9-4610-b983-4b02105b10b3",
+       "wash_process_id": "1824b9c5-1b74-4869-9d43-0684ce04288c",
+       "target_dyeing_color": "REV-NAVY",
+       "physical_at": "2026-10-03T11:00:00+07:00",
+       "reason": "Browser audited explicit service recipient",
+       "notes": null,
+       "lines": [
+        {
+         "size_id": "1d3ef81a-34e2-4c3a-be3c-c11117b0a73a",
+         "qty_sent_pcs": 6
+        },
+        {
+         "size_id": "c8c10000-0000-4000-8000-000000000002",
+         "qty_sent_pcs": 7
+        }
+       ]
+      }
+     },
+     "p_client_request_id": "ae8a5c94-f652-4425-be9a-ca3d7024a3ff"
+    },
+    "status": 200,
+    "body": {
+     "action": "POST_DELIVERY",
+     "status": "SENT",
+     "pricing": {
+      "mode": "COMPONENTS",
+      "unit": "PCS",
+      "sizes": [
+       {
+        "size_id": "1d3ef81a-34e2-4c3a-be3c-c11117b0a73a",
+        "complete": true,
+        "qty_sent": 6,
+        "known_amount": "0.00",
+        "delivery_batch_size_line_id": "e4d70ebe-2fa7-4ef7-910f-83d307495bb1"
+       },
+       {
+        "size_id": "c8c10000-0000-4000-8000-000000000002",
+        "complete": true,
+        "qty_sent": 7,
+        "known_amount": "0.00",
+        "delivery_batch_size_line_id": "c4dae699-7cc0-4978-aa12-07151f71d013"
+       }
+      ],
+      "charges": [
+       {
+        "id": "3811a822-67e9-4f4a-8a31-86cba1a8fdff",
+        "kind": "COMPONENT",
+        "label": "BD REV_WASH",
+        "amount": "0.00",
+        "ref_id": "57048eee-3c42-4bd7-bd29-13f38a2eac25",
+        "line_no": 1,
+        "coverage": [
+         {
+          "qty": 6,
+          "size_id": "1d3ef81a-34e2-4c3a-be3c-c11117b0a73a"
+         },
+         {
+          "qty": 7,
+          "size_id": "c8c10000-0000-4000-8000-000000000002"
+         }
+        ],
+        "unit_rate": "0.00",
+        "covered_qty": 13,
+        "rate_status": "WAIVED",
+        "price_reason": "Owner documented browser WAIVED",
+        "included_components": null
+       }
+      ],
+      "qty_sent": 13,
+      "delivery_id": "8bfe8c79-07dc-45b0-95f8-860322fb3af4",
+      "has_invoice": false,
+      "total_known": "0.00",
+      "cost_invoiced": false,
+      "total_complete": true,
+      "policy_versions": {},
+      "delivery_line_id": "84cb812e-3681-425f-aae0-beeb1b0aca6f"
+     },
+     "committed": true,
+     "hpp_effect": "LAUNDRY_ACCRUAL_REBUILT",
+     "request_id": "ae8a5c94-f652-4425-be9a-ca3d7024a3ff",
+     "delivery_id": "8bfe8c79-07dc-45b0-95f8-860322fb3af4",
+     "row_version": 2,
+     "qty_sent_pcs": 13,
+     "rate_per_pcs": 0,
+     "stock_effect": "SEWING_TO_LAUNDRY",
+     "estimated_cost": 0,
+     "delivery_number": "LDR-261003-8BFE8C7907DC45B095F8860322FB3AF4",
+     "contract_version": "CP6_V2620",
+     "cutting_group_id": "8e3ae79a-88dc-4f50-a340-86534ae3d891",
+     "client_request_id": "ae8a5c94-f652-4425-be9a-ca3d7024a3ff",
+     "cutting_group_row_version": 7
+    }
+   }
+  ]
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "sources_reachable_once": true,
+   "unchanged_invoice_count": true,
+   "form_preserved_and_saved": true
+  },
+  "mobile": true,
+  "invoice_count": 55,
+  "source_count": 201
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+  "status": "PASS",
+  "checks": {
+   "full_service_without_reentering_sizes": true,
+   "batch_reset": true,
+   "actual_quantities_only": true,
+   "quantity": true,
+   "same_component_price": true,
+   "charge_count": true,
+   "complete": true,
+   "response": true
+  },
+  "mode": "all",
+  "mobile": false,
+  "expectedAmount": "56174.17",
+  "delivery": {
+   "mode": "COMPONENTS",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+     "complete": true,
+     "qty_sent": 7,
+     "known_amount": "30247.63",
+     "delivery_batch_size_line_id": "595d5ee9-b03f-43da-a648-e46644d8c91c"
+    },
+    {
+     "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c",
+     "complete": true,
+     "qty_sent": 2,
+     "known_amount": "8642.18",
+     "delivery_batch_size_line_id": "21953bad-f00c-44f0-bd56-13512a015735"
+    },
+    {
+     "size_id": "66292024-c899-4202-91a8-a32a3d021bc2",
+     "complete": true,
+     "qty_sent": 4,
+     "known_amount": "17284.36",
+     "delivery_batch_size_line_id": "f7b4ade2-9edd-48f7-b0e9-b222c5143fb8"
+    }
+   ],
+   "status": "SENT",
+   "charges": [
+    {
+     "id": "55694cc3-c6cb-48dc-9079-18a65e791559",
+     "kind": "COMPONENT",
+     "label": "BD REV_WASH",
+     "amount": "56174.17",
+     "ref_id": "81353262-d675-491b-95cc-8635436ded44",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 7,
+       "size_id": "03069f7c-4566-489e-b0db-4bab26e20695"
+      },
+      {
+       "qty": 2,
+       "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c"
+      },
+      {
+       "qty": 4,
+       "size_id": "66292024-c899-4202-91a8-a32a3d021bc2"
+      }
+     ],
+     "unit_rate": "4321.09",
+     "covered_qty": 13,
+     "rate_status": "KNOWN",
+     "price_reason": "BD probe synthetic price",
+     "included_components": null
+    }
+   ],
+   "qty_sent": 13,
+   "delivery_id": "1259e0f6-6b21-4b29-a1b2-0d4dcd090a1f",
+   "has_invoice": false,
+   "total_known": "56174.17",
+   "cost_invoiced": false,
+   "physical_local": "2026-10-03T11:00:00",
+   "total_complete": true,
+   "delivery_number": "LDR-261003-1259E0F66B214B29A1B20D4DCD090A1F",
+   "policy_versions": {},
+   "delivery_line_id": "27934975-32b5-48a8-96c4-7dc8f146d61c"
+  },
+  "request": {
+   "request": {
+    "p_action": "POST_PRICED_DELIVERY",
+    "p_payload": {
+     "expected_version": "6",
+     "pricing": {
+      "components": [
+       {
+        "component_id": "81353262-d675-491b-95cc-8635436ded44",
+        "covered_qty": 13,
+        "coverage": [
+         {
+          "size_id": "66292024-c899-4202-91a8-a32a3d021bc2",
+          "qty": 4
+         },
+         {
+          "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+          "qty": 7
+         },
+         {
+          "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c",
+          "qty": 2
+         }
+        ]
+       }
+      ]
+     },
+     "delivery": {
+      "distribution_batch_id": "dc7c0e0b-6cfb-4502-857e-a7817429907f",
+      "vendor_id": "c714212e-b66c-4bc4-945d-fa55e2c58b3e",
+      "wash_process_id": "0d3459c1-cbe7-42e7-9d05-d3d0bd533fff",
+      "target_dyeing_color": "RANGE-NAVY",
+      "physical_at": "2026-10-03T11:00:00+07:00",
+      "reason": "Owner SKU range batch service",
+      "notes": null,
+      "lines": [
+       {
+        "size_id": "66292024-c899-4202-91a8-a32a3d021bc2",
+        "qty_sent_pcs": 4
+       },
+       {
+        "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+        "qty_sent_pcs": 7
+       },
+       {
+        "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c",
+        "qty_sent_pcs": 2
+       }
+      ]
+     }
+    },
+    "p_client_request_id": "4192c350-82d2-4df6-ac4e-18a7459dd313"
+   },
+   "status": 200,
+   "body": {
+    "action": "POST_DELIVERY",
+    "status": "SENT",
+    "pricing": {
+     "mode": "COMPONENTS",
+     "unit": "PCS",
+     "sizes": [
+      {
+       "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+       "complete": true,
+       "qty_sent": 7,
+       "known_amount": "30247.63",
+       "delivery_batch_size_line_id": "595d5ee9-b03f-43da-a648-e46644d8c91c"
+      },
+      {
+       "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c",
+       "complete": true,
+       "qty_sent": 2,
+       "known_amount": "8642.18",
+       "delivery_batch_size_line_id": "21953bad-f00c-44f0-bd56-13512a015735"
+      },
+      {
+       "size_id": "66292024-c899-4202-91a8-a32a3d021bc2",
+       "complete": true,
+       "qty_sent": 4,
+       "known_amount": "17284.36",
+       "delivery_batch_size_line_id": "f7b4ade2-9edd-48f7-b0e9-b222c5143fb8"
+      }
+     ],
+     "charges": [
+      {
+       "id": "55694cc3-c6cb-48dc-9079-18a65e791559",
+       "kind": "COMPONENT",
+       "label": "BD REV_WASH",
+       "amount": "56174.17",
+       "ref_id": "81353262-d675-491b-95cc-8635436ded44",
+       "line_no": 1,
+       "coverage": [
+        {
+         "qty": 7,
+         "size_id": "03069f7c-4566-489e-b0db-4bab26e20695"
+        },
+        {
+         "qty": 2,
+         "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c"
+        },
+        {
+         "qty": 4,
+         "size_id": "66292024-c899-4202-91a8-a32a3d021bc2"
+        }
+       ],
+       "unit_rate": "4321.09",
+       "covered_qty": 13,
+       "rate_status": "KNOWN",
+       "price_reason": "BD probe synthetic price",
+       "included_components": null
+      }
+     ],
+     "qty_sent": 13,
+     "delivery_id": "1259e0f6-6b21-4b29-a1b2-0d4dcd090a1f",
+     "has_invoice": false,
+     "total_known": "56174.17",
+     "cost_invoiced": false,
+     "total_complete": true,
+     "policy_versions": {},
+     "delivery_line_id": "27934975-32b5-48a8-96c4-7dc8f146d61c"
+    },
+    "committed": true,
+    "hpp_effect": "LAUNDRY_ACCRUAL_REBUILT",
+    "request_id": "4192c350-82d2-4df6-ac4e-18a7459dd313",
+    "delivery_id": "1259e0f6-6b21-4b29-a1b2-0d4dcd090a1f",
+    "row_version": 2,
+    "qty_sent_pcs": 13,
+    "rate_per_pcs": 4321.09,
+    "stock_effect": "SEWING_TO_LAUNDRY",
+    "estimated_cost": 56174.17,
+    "delivery_number": "LDR-261003-1259E0F66B214B29A1B20D4DCD090A1F",
+    "contract_version": "CP6_V2620",
+    "cutting_group_id": "c2e2f30f-e825-4890-b760-d00f7ed6cb4f",
+    "client_request_id": "4192c350-82d2-4df6-ac4e-18a7459dd313",
+    "cutting_group_row_version": 7
+   }
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "full_service_without_reentering_sizes": true,
+   "qty_change_updates_full_coverage": true,
+   "actual_quantities_only": true,
+   "quantity": true,
+   "same_component_price": true,
+   "charge_count": true,
+   "complete": true,
+   "response": true,
+   "mobile_width": true
+  },
+  "mode": "32",
+  "mobile": true,
+  "expectedAmount": "25926.54",
+  "delivery": {
+   "mode": "COMPONENTS",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+     "complete": true,
+     "qty_sent": 6,
+     "known_amount": "25926.54",
+     "delivery_batch_size_line_id": "d13f95ef-6d7d-4f49-a2a5-22ca2f055438"
+    }
+   ],
+   "status": "SENT",
+   "charges": [
+    {
+     "id": "14ef1dcd-7e09-40b0-b6fa-372a8ef62f6b",
+     "kind": "COMPONENT",
+     "label": "BD REV_WASH",
+     "amount": "25926.54",
+     "ref_id": "a6bfd4df-1886-4e5e-a33f-dc9e03c5585f",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 6,
+       "size_id": "03069f7c-4566-489e-b0db-4bab26e20695"
+      }
+     ],
+     "unit_rate": "4321.09",
+     "covered_qty": 6,
+     "rate_status": "KNOWN",
+     "price_reason": "BD probe synthetic price",
+     "included_components": null
+    }
+   ],
+   "qty_sent": 6,
+   "delivery_id": "3261b4f2-d3f8-4d73-911b-8b08de1d2061",
+   "has_invoice": false,
+   "total_known": "25926.54",
+   "cost_invoiced": false,
+   "physical_local": "2026-10-03T11:00:00",
+   "total_complete": true,
+   "delivery_number": "LDR-261003-3261B4F2D3F84D73911B8B08DE1D2061",
+   "policy_versions": {},
+   "delivery_line_id": "a0192f17-6cd7-497d-ba00-896ca0f3b748"
+  },
+  "request": {
+   "request": {
+    "p_action": "POST_PRICED_DELIVERY",
+    "p_payload": {
+     "expected_version": "6",
+     "pricing": {
+      "components": [
+       {
+        "component_id": "a6bfd4df-1886-4e5e-a33f-dc9e03c5585f",
+        "covered_qty": 6,
+        "coverage": [
+         {
+          "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+          "qty": 6
+         }
+        ]
+       }
+      ]
+     },
+     "delivery": {
+      "distribution_batch_id": "d8b23bd1-75ef-4f16-9d3b-e7e8a88ff66a",
+      "vendor_id": "78171bdb-769d-4d7c-9205-772ea80870d1",
+      "wash_process_id": "08d34749-c52c-435f-bbc3-59661f892059",
+      "target_dyeing_color": "RANGE-NAVY",
+      "physical_at": "2026-10-03T11:00:00+07:00",
+      "reason": "Owner SKU range batch service",
+      "notes": null,
+      "lines": [
+       {
+        "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+        "qty_sent_pcs": 6
+       }
+      ]
+     }
+    },
+    "p_client_request_id": "17c39628-6098-4703-b9de-4f1957d06945"
+   },
+   "status": 200,
+   "body": {
+    "action": "POST_DELIVERY",
+    "status": "SENT",
+    "pricing": {
+     "mode": "COMPONENTS",
+     "unit": "PCS",
+     "sizes": [
+      {
+       "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+       "complete": true,
+       "qty_sent": 6,
+       "known_amount": "25926.54",
+       "delivery_batch_size_line_id": "d13f95ef-6d7d-4f49-a2a5-22ca2f055438"
+      }
+     ],
+     "charges": [
+      {
+       "id": "14ef1dcd-7e09-40b0-b6fa-372a8ef62f6b",
+       "kind": "COMPONENT",
+       "label": "BD REV_WASH",
+       "amount": "25926.54",
+       "ref_id": "a6bfd4df-1886-4e5e-a33f-dc9e03c5585f",
+       "line_no": 1,
+       "coverage": [
+        {
+         "qty": 6,
+         "size_id": "03069f7c-4566-489e-b0db-4bab26e20695"
+        }
+       ],
+       "unit_rate": "4321.09",
+       "covered_qty": 6,
+       "rate_status": "KNOWN",
+       "price_reason": "BD probe synthetic price",
+       "included_components": null
+      }
+     ],
+     "qty_sent": 6,
+     "delivery_id": "3261b4f2-d3f8-4d73-911b-8b08de1d2061",
+     "has_invoice": false,
+     "total_known": "25926.54",
+     "cost_invoiced": false,
+     "total_complete": true,
+     "policy_versions": {},
+     "delivery_line_id": "a0192f17-6cd7-497d-ba00-896ca0f3b748"
+    },
+    "committed": true,
+    "hpp_effect": "LAUNDRY_ACCRUAL_REBUILT",
+    "request_id": "17c39628-6098-4703-b9de-4f1957d06945",
+    "delivery_id": "3261b4f2-d3f8-4d73-911b-8b08de1d2061",
+    "row_version": 2,
+    "qty_sent_pcs": 6,
+    "rate_per_pcs": 4321.09,
+    "stock_effect": "SEWING_TO_LAUNDRY",
+    "estimated_cost": 25926.54,
+    "delivery_number": "LDR-261003-3261B4F2D3F84D73911B8B08DE1D2061",
+    "contract_version": "CP6_V2620",
+    "cutting_group_id": "6b2a8466-10e0-4a30-9228-31c21dc47457",
+    "client_request_id": "17c39628-6098-4703-b9de-4f1957d06945",
+    "cutting_group_row_version": 7
+   }
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "full_service_without_reentering_sizes": true,
+   "actual_quantities_only": true,
+   "quantity": true,
+   "same_component_price": true,
+   "charge_count": true,
+   "complete": true,
+   "response": true,
+   "mobile_width": true
+  },
+  "mode": "27",
+  "mobile": true,
+  "expectedAmount": "12963.27",
+  "delivery": {
+   "mode": "COMPONENTS",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "size_id": "1de89670-c224-4e3e-a52a-a32d22fd446c",
+     "complete": true,
+     "qty_sent": 3,
+     "known_amount": "12963.27",
+     "delivery_batch_size_line_id": "841a2351-fedd-4143-9a46-828d333e9c58"
+    }
+   ],
+   "status": "SENT",
+   "charges": [
+    {
+     "id": "fc8e2eb2-251d-4757-8016-59a90ecc32b6",
+     "kind": "COMPONENT",
+     "label": "BD REV_WASH",
+     "amount": "12963.27",
+     "ref_id": "1e680c48-5ba7-4c38-adc1-10f77024ce20",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 3,
+       "size_id": "1de89670-c224-4e3e-a52a-a32d22fd446c"
+      }
+     ],
+     "unit_rate": "4321.09",
+     "covered_qty": 3,
+     "rate_status": "KNOWN",
+     "price_reason": "BD probe synthetic price",
+     "included_components": null
+    }
+   ],
+   "qty_sent": 3,
+   "delivery_id": "f926a981-f4ef-4c1f-ad6b-b59923a7f2a4",
+   "has_invoice": false,
+   "total_known": "12963.27",
+   "cost_invoiced": false,
+   "physical_local": "2026-10-03T11:00:00",
+   "total_complete": true,
+   "delivery_number": "LDR-261003-F926A981F4EF4C1FAD6BB59923A7F2A4",
+   "policy_versions": {},
+   "delivery_line_id": "07ad5757-7a49-4aab-8c7d-138e357761ec"
+  },
+  "request": {
+   "request": {
+    "p_action": "POST_PRICED_DELIVERY",
+    "p_payload": {
+     "expected_version": "6",
+     "pricing": {
+      "components": [
+       {
+        "component_id": "1e680c48-5ba7-4c38-adc1-10f77024ce20",
+        "covered_qty": 3,
+        "coverage": [
+         {
+          "size_id": "1de89670-c224-4e3e-a52a-a32d22fd446c",
+          "qty": 3
+         }
+        ]
+       }
+      ]
+     },
+     "delivery": {
+      "distribution_batch_id": "b8720310-1e38-4fcc-b67f-9b3f5adb1185",
+      "vendor_id": "3f8fe7bd-0be5-4155-94f3-b86a1237f36b",
+      "wash_process_id": "69d90f4a-4188-4663-a9de-37656e95f767",
+      "target_dyeing_color": "RANGE-NAVY",
+      "physical_at": "2026-10-03T11:00:00+07:00",
+      "reason": "Owner SKU range batch service",
+      "notes": null,
+      "lines": [
+       {
+        "size_id": "1de89670-c224-4e3e-a52a-a32d22fd446c",
+        "qty_sent_pcs": 3
+       }
+      ]
+     }
+    },
+    "p_client_request_id": "20d44ffa-350c-4796-99a6-49e3dba097e9"
+   },
+   "status": 200,
+   "body": {
+    "action": "POST_DELIVERY",
+    "status": "SENT",
+    "pricing": {
+     "mode": "COMPONENTS",
+     "unit": "PCS",
+     "sizes": [
+      {
+       "size_id": "1de89670-c224-4e3e-a52a-a32d22fd446c",
+       "complete": true,
+       "qty_sent": 3,
+       "known_amount": "12963.27",
+       "delivery_batch_size_line_id": "841a2351-fedd-4143-9a46-828d333e9c58"
+      }
+     ],
+     "charges": [
+      {
+       "id": "fc8e2eb2-251d-4757-8016-59a90ecc32b6",
+       "kind": "COMPONENT",
+       "label": "BD REV_WASH",
+       "amount": "12963.27",
+       "ref_id": "1e680c48-5ba7-4c38-adc1-10f77024ce20",
+       "line_no": 1,
+       "coverage": [
+        {
+         "qty": 3,
+         "size_id": "1de89670-c224-4e3e-a52a-a32d22fd446c"
+        }
+       ],
+       "unit_rate": "4321.09",
+       "covered_qty": 3,
+       "rate_status": "KNOWN",
+       "price_reason": "BD probe synthetic price",
+       "included_components": null
+      }
+     ],
+     "qty_sent": 3,
+     "delivery_id": "f926a981-f4ef-4c1f-ad6b-b59923a7f2a4",
+     "has_invoice": false,
+     "total_known": "12963.27",
+     "cost_invoiced": false,
+     "total_complete": true,
+     "policy_versions": {},
+     "delivery_line_id": "07ad5757-7a49-4aab-8c7d-138e357761ec"
+    },
+    "committed": true,
+    "hpp_effect": "LAUNDRY_ACCRUAL_REBUILT",
+    "request_id": "20d44ffa-350c-4796-99a6-49e3dba097e9",
+    "delivery_id": "f926a981-f4ef-4c1f-ad6b-b59923a7f2a4",
+    "row_version": 2,
+    "qty_sent_pcs": 3,
+    "rate_per_pcs": 4321.09,
+    "stock_effect": "SEWING_TO_LAUNDRY",
+    "estimated_cost": 12963.27,
+    "delivery_number": "LDR-261003-F926A981F4EF4C1FAD6BB59923A7F2A4",
+    "contract_version": "CP6_V2620",
+    "cutting_group_id": "21af77bd-a6e2-4358-8a7f-f96089447653",
+    "client_request_id": "20d44ffa-350c-4796-99a6-49e3dba097e9",
+    "cutting_group_row_version": 7
+   }
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "full_service_without_reentering_sizes": true,
+   "partial_empty_and_over_qty_refused": true,
+   "actual_quantities_only": true,
+   "quantity": true,
+   "same_component_price": true,
+   "charge_count": true,
+   "complete": true,
+   "response": true,
+   "partial_only_32": true,
+   "mobile_width": true
+  },
+  "mode": "partial",
+  "mobile": true,
+  "expectedAmount": "59568.72",
+  "delivery": {
+   "mode": "COMPONENTS",
+   "unit": "PCS",
+   "sizes": [
+    {
+     "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+     "complete": true,
+     "qty_sent": 7,
+     "known_amount": "33642.18",
+     "delivery_batch_size_line_id": "4dcbe3cc-a0e1-4dee-b65e-eed1cac0922f"
+    },
+    {
+     "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c",
+     "complete": true,
+     "qty_sent": 2,
+     "known_amount": "8642.18",
+     "delivery_batch_size_line_id": "3a02fc8d-831a-40dc-8e30-2480e9241c34"
+    },
+    {
+     "size_id": "66292024-c899-4202-91a8-a32a3d021bc2",
+     "complete": true,
+     "qty_sent": 4,
+     "known_amount": "17284.36",
+     "delivery_batch_size_line_id": "d21169bc-fa9f-49a3-9a2d-20439489812c"
+    }
+   ],
+   "status": "SENT",
+   "charges": [
+    {
+     "id": "d5d59e90-f14f-4653-a5f7-1cad4a99ecf4",
+     "kind": "COMPONENT",
+     "label": "BD REV_FINISH",
+     "amount": "3394.55",
+     "ref_id": "3af84d3b-7686-40db-8992-8ccc1127db66",
+     "line_no": 1,
+     "coverage": [
+      {
+       "qty": 5,
+       "size_id": "03069f7c-4566-489e-b0db-4bab26e20695"
+      }
+     ],
+     "unit_rate": "678.91",
+     "covered_qty": 5,
+     "rate_status": "KNOWN",
+     "price_reason": "BD probe synthetic price",
+     "included_components": null
+    },
+    {
+     "id": "305003fd-cc8d-4548-b682-a309a81742ca",
+     "kind": "COMPONENT",
+     "label": "BD REV_WASH",
+     "amount": "56174.17",
+     "ref_id": "62a1e2d2-8f90-44b4-924b-f054114b5e5a",
+     "line_no": 2,
+     "coverage": [
+      {
+       "qty": 7,
+       "size_id": "03069f7c-4566-489e-b0db-4bab26e20695"
+      },
+      {
+       "qty": 2,
+       "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c"
+      },
+      {
+       "qty": 4,
+       "size_id": "66292024-c899-4202-91a8-a32a3d021bc2"
+      }
+     ],
+     "unit_rate": "4321.09",
+     "covered_qty": 13,
+     "rate_status": "KNOWN",
+     "price_reason": "BD probe synthetic price",
+     "included_components": null
+    }
+   ],
+   "qty_sent": 13,
+   "delivery_id": "566ec4f0-c721-4f41-997f-7b891d136a32",
+   "has_invoice": false,
+   "total_known": "59568.72",
+   "cost_invoiced": false,
+   "physical_local": "2026-10-03T11:00:00",
+   "total_complete": true,
+   "delivery_number": "LDR-261003-566EC4F0C7214F41997F7B891D136A32",
+   "policy_versions": {},
+   "delivery_line_id": "26971892-7827-4d72-b87e-d3fb9d4c829e"
+  },
+  "request": {
+   "request": {
+    "p_action": "POST_PRICED_DELIVERY",
+    "p_payload": {
+     "expected_version": "6",
+     "pricing": {
+      "components": [
+       {
+        "component_id": "3af84d3b-7686-40db-8992-8ccc1127db66",
+        "covered_qty": 5,
+        "coverage": [
+         {
+          "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+          "qty": 5
+         }
+        ]
+       },
+       {
+        "component_id": "62a1e2d2-8f90-44b4-924b-f054114b5e5a",
+        "covered_qty": 13,
+        "coverage": [
+         {
+          "size_id": "66292024-c899-4202-91a8-a32a3d021bc2",
+          "qty": 4
+         },
+         {
+          "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+          "qty": 7
+         },
+         {
+          "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c",
+          "qty": 2
+         }
+        ]
+       }
+      ]
+     },
+     "delivery": {
+      "distribution_batch_id": "4f6cff38-67e9-4b0e-9b74-9cadfd866f10",
+      "vendor_id": "8f660d04-00e4-4351-b610-a21a8724080a",
+      "wash_process_id": "233b408b-e097-4526-bae7-ccc118c92b23",
+      "target_dyeing_color": "RANGE-NAVY",
+      "physical_at": "2026-10-03T11:00:00+07:00",
+      "reason": "Owner SKU range batch service",
+      "notes": null,
+      "lines": [
+       {
+        "size_id": "66292024-c899-4202-91a8-a32a3d021bc2",
+        "qty_sent_pcs": 4
+       },
+       {
+        "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+        "qty_sent_pcs": 7
+       },
+       {
+        "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c",
+        "qty_sent_pcs": 2
+       }
+      ]
+     }
+    },
+    "p_client_request_id": "57dabd53-dfd7-4f98-bda7-a8592f7443a6"
+   },
+   "status": 200,
+   "body": {
+    "action": "POST_DELIVERY",
+    "status": "SENT",
+    "pricing": {
+     "mode": "COMPONENTS",
+     "unit": "PCS",
+     "sizes": [
+      {
+       "size_id": "03069f7c-4566-489e-b0db-4bab26e20695",
+       "complete": true,
+       "qty_sent": 7,
+       "known_amount": "33642.18",
+       "delivery_batch_size_line_id": "4dcbe3cc-a0e1-4dee-b65e-eed1cac0922f"
+      },
+      {
+       "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c",
+       "complete": true,
+       "qty_sent": 2,
+       "known_amount": "8642.18",
+       "delivery_batch_size_line_id": "3a02fc8d-831a-40dc-8e30-2480e9241c34"
+      },
+      {
+       "size_id": "66292024-c899-4202-91a8-a32a3d021bc2",
+       "complete": true,
+       "qty_sent": 4,
+       "known_amount": "17284.36",
+       "delivery_batch_size_line_id": "d21169bc-fa9f-49a3-9a2d-20439489812c"
+      }
+     ],
+     "charges": [
+      {
+       "id": "d5d59e90-f14f-4653-a5f7-1cad4a99ecf4",
+       "kind": "COMPONENT",
+       "label": "BD REV_FINISH",
+       "amount": "3394.55",
+       "ref_id": "3af84d3b-7686-40db-8992-8ccc1127db66",
+       "line_no": 1,
+       "coverage": [
+        {
+         "qty": 5,
+         "size_id": "03069f7c-4566-489e-b0db-4bab26e20695"
+        }
+       ],
+       "unit_rate": "678.91",
+       "covered_qty": 5,
+       "rate_status": "KNOWN",
+       "price_reason": "BD probe synthetic price",
+       "included_components": null
+      },
+      {
+       "id": "305003fd-cc8d-4548-b682-a309a81742ca",
+       "kind": "COMPONENT",
+       "label": "BD REV_WASH",
+       "amount": "56174.17",
+       "ref_id": "62a1e2d2-8f90-44b4-924b-f054114b5e5a",
+       "line_no": 2,
+       "coverage": [
+        {
+         "qty": 7,
+         "size_id": "03069f7c-4566-489e-b0db-4bab26e20695"
+        },
+        {
+         "qty": 2,
+         "size_id": "172c7f44-978b-4f42-ae2e-9d380c0ae64c"
+        },
+        {
+         "qty": 4,
+         "size_id": "66292024-c899-4202-91a8-a32a3d021bc2"
+        }
+       ],
+       "unit_rate": "4321.09",
+       "covered_qty": 13,
+       "rate_status": "KNOWN",
+       "price_reason": "BD probe synthetic price",
+       "included_components": null
+      }
+     ],
+     "qty_sent": 13,
+     "delivery_id": "566ec4f0-c721-4f41-997f-7b891d136a32",
+     "has_invoice": false,
+     "total_known": "59568.72",
+     "cost_invoiced": false,
+     "total_complete": true,
+     "policy_versions": {},
+     "delivery_line_id": "26971892-7827-4d72-b87e-d3fb9d4c829e"
+    },
+    "committed": true,
+    "hpp_effect": "LAUNDRY_ACCRUAL_REBUILT",
+    "request_id": "57dabd53-dfd7-4f98-bda7-a8592f7443a6",
+    "delivery_id": "566ec4f0-c721-4f41-997f-7b891d136a32",
+    "row_version": 2,
+    "qty_sent_pcs": 13,
+    "rate_per_pcs": 4582.21,
+    "stock_effect": "SEWING_TO_LAUNDRY",
+    "estimated_cost": 59568.72,
+    "delivery_number": "LDR-261003-566EC4F0C7214F41997F7B891D136A32",
+    "contract_version": "CP6_V2620",
+    "cutting_group_id": "ecbef1a9-6766-49f3-b54e-50858fe0fcd3",
+    "client_request_id": "57dabd53-dfd7-4f98-bda7-a8592f7443a6",
+    "cutting_group_row_version": 7
+   }
+  }
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+  "status": "PASS",
+  "checks": {
+   "members": true,
+   "revision": true,
+   "no_stock_mutation": true,
+   "price": true,
+   "bom": true,
+   "hpp_no_invented_stock": true
+  },
+  "singleton": false,
+  "mobile": false
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+  "status": "PASS",
+  "checks": {
+   "members": true,
+   "revision": true,
+   "no_stock_mutation": true,
+   "price": true,
+   "bom": true,
+   "mobile_width": true,
+   "hpp_no_invented_stock": true
+  },
+  "singleton": true,
+  "mobile": true
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+  "status": "INCOMPLETE",
+  "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\nExpected: 3\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\n    14 \u00d7 locator resolved to 0 elements\n       - unexpected value \"0\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at salesManual (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_browser.mjs:42:31)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "case": "BF_BROWSER:SALES_MANUAL_13_MOBILE",
+  "status": "INCOMPLETE",
+  "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\nExpected: 3\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for locator('.biz-invoice-lines > article').first().locator('.biz-size-entry input')\n    14 \u00d7 locator resolved to 0 elements\n       - unexpected value \"0\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toHaveCount (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at salesManual (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_bf_browser.mjs:42:31)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3"
+ },
+ {
+  "group": "AUDITOR_BROWSER_PACKAGE",
+  "planned": [
+   "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+   "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+   "VENDOR_FREE_BROWSER:DESKTOP_SAVE_RELOAD",
+   "VENDOR_FREE_BROWSER:MOBILE_SAVE_RELOAD",
+   "VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP",
+   "VENDOR_BROWSER:EMPTY_DETAILS_MOBILE",
+   "SUPPLIER_BROWSER:FABRIC_SPLIT_INVERSE_DESKTOP",
+   "SUPPLIER_BROWSER:ACCESSORY_SPLIT_INVERSE_MOBILE",
+   "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+   "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+   "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+   "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+   "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+   "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+   "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+   "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+   "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+   "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+   "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+   "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+   "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+   "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+   "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+   "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+   "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+   "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+   "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+   "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+   "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+   "BF_BROWSER:SALES_MANUAL_13_DESKTOP",
+   "BF_BROWSER:SALES_MANUAL_13_MOBILE"
+  ],
+  "final": {
+   "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE": "INCOMPLETE",
+   "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE": "INCOMPLETE",
+   "VENDOR_FREE_BROWSER:DESKTOP_SAVE_RELOAD": "PASS",
+   "VENDOR_FREE_BROWSER:MOBILE_SAVE_RELOAD": "PASS",
+   "VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP": "PASS",
+   "VENDOR_BROWSER:EMPTY_DETAILS_MOBILE": "PASS",
+   "SUPPLIER_BROWSER:FABRIC_SPLIT_INVERSE_DESKTOP": "PASS",
+   "SUPPLIER_BROWSER:ACCESSORY_SPLIT_INVERSE_MOBILE": "PASS",
+   "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE": "PASS",
+   "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM": "PASS",
+   "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM": "PASS",
+   "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS": "PASS",
+   "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR": "PASS",
+   "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE": "PASS",
+   "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN": "PASS",
+   "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN": "PASS",
+   "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST": "PASS",
+   "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE": "PASS",
+   "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP": "PASS",
+   "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE": "PASS",
+   "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP": "PASS",
+   "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE": "PASS",
+   "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE": "PASS",
+   "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP": "PASS",
+   "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE": "PASS",
+   "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE": "PASS",
+   "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE": "PASS",
+   "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP": "PASS",
+   "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE": "PASS",
+   "BF_BROWSER:SALES_MANUAL_13_DESKTOP": "INCOMPLETE",
+   "BF_BROWSER:SALES_MANUAL_13_MOBILE": "INCOMPLETE"
+  },
+  "status": "RUN_COMPLETE",
+  "console_errors": 0,
+  "users_created": 32,
+  "auth_cleanup_failures": []
+ },
+ {
+  "group": "WRITER_PACKAGE_RUNTIME",
+  "status": "INCOMPLETE",
+  "browser_mode": true,
+  "counts": {
+   "browser": {
+    "INCOMPLETE": 4,
+    "PASS": 27
+   }
+  }
+ },
+ {
+  "group": "T3_RUNTIME_SCHEMA_PROFILE",
+  "authenticated_usage": true,
+  "acl_unchanged": true
+ },
+ {
+  "t3_browser": {
+   "label": "T3_PREP_BROWSER",
+   "status": "PASS",
+   "frontend": "candidate branch checkout (auditor)",
+   "production_go": false,
+   "release_evidence": false,
+   "seed": {
+    "exit": 0,
+    "stderr": ""
+   },
+   "flow_exit_code": 0,
+   "cases": {
+    "REAL_LOGIN_PAGE": "PASS",
+    "ANONYMOUS_REFUSED": "PASS",
+    "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+    "AMBIGUOUS_REFUSED_0": "PASS",
+    "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+    "EXACT_BRAND_STOCK_HPP_0": "PASS",
+    "LINKED_INVERSE_0": "PASS",
+    "AMBIGUOUS_REFUSED_1": "PASS",
+    "EXACT_BRAND_STOCK_HPP_1": "PASS",
+    "LINKED_INVERSE_1": "PASS"
+   },
+   "flow_status": "PASS",
+   "console_errors": 0,
+   "candidate_verified_after_flow": "T3_PACKAGE_THROUGH_BF",
+   "rest_remaining": false
+  }
+ },
+ {
+  "t3_package_run": {
+   "label": "T3_PREP",
+   "mode": "browser",
+   "status": "BROWSER_PASS",
+   "production_go": false,
+   "release_evidence": false,
+   "run_identity": {
+    "label": "T3_PREP",
+    "tool_head": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d",
+    "product_ref": "56c7558642e74c64117da98bdb6d0502203e859b",
+    "product_paths": [
+     "supabase/migrations",
+     "supabase/dev",
+     "supabase/release",
+     "supabase/rollbacks",
+     "src"
+    ],
+    "run_id": "37455505705",
+    "run_attempt": "1",
+    "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+    "job": "phase",
+    "event": "workflow_dispatch",
+    "github_sha": "ac714a5b8d371f3adecaf53ba7c9b7643ce5046d",
+    "release_evidence": false,
+    "production_go": false,
+    "mode": "browser"
+   },
+   "auth_users_before": 0,
+   "ledger_start": {
+    "app": [
+     "v2.6.20aa",
+     "v2.6.20ab"
+    ],
+    "platform_last": "20260914190500"
+   },
+   "fingerprint_AB": {
+    "view": {
+     "n": 51,
+     "md5": "68b2fbf688881496413307954006bdbe"
+    },
+    "index": {
+     "n": 605,
+     "md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+    },
+    "policy": {
+     "n": 190,
+     "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+    },
+    "schema": {
+     "n": 2,
+     "md5": "6ee1ffa742c0945434188ce249e139ca"
+    },
+    "trigger": {
+     "n": 448,
+     "md5": "971341de44cfecc9a587fc140c6cf30a"
+    },
+    "function": {
+     "n": 574,
+     "md5": "5e235119482f9767a74ba3fe7fbd2619"
+    },
+    "relation": {
+     "n": 272,
+     "md5": "5a8c31607ad25d70808ba9f7699bf690"
+    },
+    "sequence": {
+     "n": 6,
+     "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+    },
+    "extension": {
+     "n": 6,
+     "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+    },
+    "app_ledger": {
+     "n": 83,
+     "md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+    },
+    "constraint": {
+     "n": 1308,
+     "md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+    },
+    "config_hash": {
+     "n": 6,
+     "md5": "2193b4becca1d4d89e40b444b0a8af29"
+    },
+    "default_acl": {
+     "n": 6,
+     "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+    },
+    "platform_ledger": {
+     "n": 98,
+     "md5": "39e21c0d5d36ef100d312dd736898487"
+    },
+    "function_owner_acl": {
+     "n": 574,
+     "md5": "12a9878282b3db31bec2d8e34eb57c59"
+    },
+    "relation_owner_acl": {
+     "n": 272,
+     "md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+    }
+   },
+   "hosted_capsules": {
+    "equal": true,
+    "capsules": {
+     "bs_resolution_v2619_rollback_capsule": {
+      "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+      "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+      "equal": true
+     },
+     "bs_resolution_v2619a_rollback_capsule": {
+      "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+      "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+      "equal": true
+     },
+     "bs_resolution_v2619b_rollback_capsule": {
+      "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+      "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+      "equal": true
+     },
+     "bs_resolution_v2619c_rollback_capsule": {
+      "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+      "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+      "equal": true
+     },
+     "cp3_r4_rollback_capsule": {
+      "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+      "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+      "equal": true
+     },
+     "cp45_v2617_rollback_capsule": {
+      "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+      "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+      "equal": true
+     },
+     "cp45_v2617a_rollback_capsule": {
+      "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+      "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+      "equal": true
+     },
+     "cp4_v2616_rollback_capsule": {
+      "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+      "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+      "equal": true
+     },
+     "cp6_v2620_rollback_capsule": {
+      "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+      "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+      "equal": true
+     },
+     "cutting_bridge_v2618_rollback_capsule": {
+      "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+      "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+      "equal": true
+     },
+     "cutting_bridge_v2618a_rollback_capsule": {
+      "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+      "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+      "equal": true
+     }
+    },
+    "cp6_v2620_rows_differing": []
+   },
+   "writer_runtime": {
+    "label": "WRITER_PACKAGE_RUNTIME",
+    "status": "INCOMPLETE",
+    "independent_acceptance": false,
+    "groups": {
+     "browser": {
+      "status": "INCOMPLETE",
+      "counts": {
+       "INCOMPLETE": 4,
+       "PASS": 27
+      },
+      "database_remaining": 0,
+      "error": null,
+      "cleanup": {
+       "users_created": 0,
+       "cleanup_failures": [],
+       "rest_remaining": false
+      },
+      "auth_counts": {
+       "before": [
+        0,
+        0,
+        0,
+        0
+       ],
+       "after": [
+        0,
+        0,
+        0,
+        0
+       ],
+       "restored": true
+      },
+      "console_errors": 0
+     }
+    },
+    "schema_profile": "HOSTED_USAGE_UNCHANGED"
+   },
+   "browser": {
+    "label": "T3_PREP_BROWSER",
+    "status": "PASS",
+    "frontend": "candidate branch checkout (auditor)",
+    "production_go": false,
+    "release_evidence": false,
+    "seed": {
+     "exit": 0,
+     "stderr": ""
+    },
+    "flow_exit_code": 0,
+    "cases": {
+     "REAL_LOGIN_PAGE": "PASS",
+     "ANONYMOUS_REFUSED": "PASS",
+     "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+     "AMBIGUOUS_REFUSED_0": "PASS",
+     "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+     "EXACT_BRAND_STOCK_HPP_0": "PASS",
+     "LINKED_INVERSE_0": "PASS",
+     "AMBIGUOUS_REFUSED_1": "PASS",
+     "EXACT_BRAND_STOCK_HPP_1": "PASS",
+     "LINKED_INVERSE_1": "PASS"
+    },
+    "flow_status": "PASS",
+    "console_errors": 0,
+    "candidate_verified_after_flow": "T3_PACKAGE_THROUGH_BF",
+    "rest_remaining": false
+   },
+   "primary_unchanged": true,
+   "auth_users_after": 0,
+   "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "writer_runtime": false
+   }
+  }
+ }
+]
