@@ -89,3 +89,42 @@ Tidak ada role, RPC publik, atau hak tulis bisnis baru.
   - **13 kebijakan CP6 (D11, aksesori dan laundry):** 5 sudah diputuskan owner pada 26 Sep 2026: no. 4 ACC-DEC05, no. 6 ACC-DEC07, no. 11 LAU-DEC04, no. 12 LAU-DEC05 (tidak diaktifkan) dan no. 13 LAU-DEC06. Keputusan itu sudah dipakai sebagai oracle uji. Delapan sisanya tinggal dipilih owner di aplikasi, sebagian besar berupa pilihan akun atau kategori. Rinciannya ada di `docs/cp6-d11-kebijakan-dan-gbd03.md`.
   - **Pengaturan CP7, di luar daftar 13 itu:** ambang pengingat per aturan (termasuk `FABRIC_NEED`) dan kemampuan/kelipatan produksi masih PENDING_POLICY_VALUE dan diisi owner di aplikasi.
   - Belum ada pemasangan ke data nyata. Karena itu, keputusan yang sudah ada belum terpasang sebagai nilai di database mana pun selain fixture uji.
+
+## 6. Tambahan 6 Okt 2026 sore: P18 siklus penuh, Bayar supplier, latihan P21
+
+Basis cabang: fast-forward ke `cp7/integration` `ab6f1f97` (checkpoint UTF8 GPT), lalu commit cabang ini. Rinciannya ada di `p18/P18_FULL_CYCLE.md`, `SUPPLIER_PAYMENT_CREATE_HANDOFF.md` dan handoff §12.
+
+### 6.1 Objek database baru
+
+| Objek | Jenis | Catatan untuk auditor |
+|---|---|---|
+| Skema `cp7_supplier_payment_create` (`requests`, `context`) | skema dan tabel baru (pemilik `cp7_invoice_read`/`cp7_invoice_write`, RLS + kebijakan `false`) | `context` hanya hidup di dalam satu transaksi dan wajib kosong sesudah commit. |
+| `access_now`, `validate` (invoker, pemilik `cp7_invoice_read`); `review`, `workspace`, `apply` (definer `postgres`, `TimeZone=UTC`); `command` (invoker, pemilik `cp7_invoice_write`) | fungsi baru | `apply` adalah satu-satunya penulis: baris DRAFT, lalu Native `erp.post_supplier_payment` yang tidak diubah. |
+| `public.erp_cp7_get_supplier_payment_create_v1(jsonb)`, `public.erp_cp7_create_supplier_payment_v1(jsonb,uuid)` | RPC publik baru, hanya `authenticated` | Hak: OWNER/ADMIN + `finance.ap.pay` + `finance.ap.view` + `warehouse.procurement.view`. |
+
+Tidak ada role baru, perubahan definisi Native, atau hak DML ERP untuk role App.
+
+### 6.2 Titik audit prioritas
+
+1. **Bayar dua kali.** Coba dari dua tab, dua sesi, replay, atau UUID sama dengan isi berbeda. Token tinjauan mencakup penerimaan, jawaban hutang Native, dan semua baris pembayaran. Hasil yang diharapkan: satu pembayaran, dan yang lain `STALE_REVIEW` atau `REQUEST_CHANGED`.
+2. **Melebihi sisa hutang.** Termasuk ketika kredit retur, koreksi harga, atau pembalikan pembayaran terjadi di antara tinjauan dan sahkan.
+3. **Tanggal.**
+   - Masa depan ditolak.
+   - Sebelum barang datang ditolak; itu alur uang muka.
+   - Periode tertutup mengikuti Native `post_journal`.
+4. **Hak berubah saat menunggu kunci.** Harus ditolak sebelum ada efek.
+5. **P18:** di setiap batas, buku besar sama dengan buku pembantu. Periksa apakah ada akun yang berubah tanpa dijelaskan subledger, dan apakah laporan posisi keuangan cocok di awal, sesudah produksi, dan di akhir.
+6. **Temuan bawaan hosted (bukan bagian perintah baru).** Role `authenticated` punya USAGE pada skema `erp` (dipertahankan G-01) dan pada klon setara hosted bisa menyisipkan baris DRAFT `erp.supplier_payments` secara langsung. Native `erp.post_supplier_payment` bisa dieksekusi `authenticated` dan hanya memeriksa peran OWNER/ADMIN/STAFF, tidak memeriksa `finance.ap.pay`. PostgREST hanya membuka `public`, jadi ini bukan rute aplikasi. Hasil pengamatan lengkapnya ada di laporan kasus `CURRENT_ACCESS`. Keputusan menutup jalur ini ada di GPT dan owner.
+
+### 6.3 Latihan P21
+
+`scripts/cp7_p21_rehearsal_probe.py` (workflow `claude-p21-rehearsal.yml`) berjalan hanya di klon sekali pakai:
+
+1. Pasang tumpukan F03 gabungan.
+2. Rollback sebelum dipakai dengan bukti pemulihan persis.
+3. Pasang ulang; katalog terpasang harus identik.
+4. Satu penulisan CP7 nyata.
+5. Rollback sesudah dipakai harus ditolak.
+6. Pemulihan oleh harness.
+
+Ini latihan, bukan receipt P21. P21 tetap butuh kandidat yang diterima P20 dan T2 pada hasil pasang.
