@@ -68,6 +68,23 @@ def admin(cur,pay=True):
  if not pay:cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.ap.pay'",(role,))
  return subject,role
 
+def legacy_direct_path(cur,f,subject):
+ """Observation, not a control of the new command. The hosted-faithful clone keeps authenticated USAGE on erp
+ (G-01). First run 4042235f showed a direct DRAFT insert by role authenticated does not raise. Record whether that
+ role, without finance.ap.pay, could also post it through Native; always rolled back. PostgREST exposes only public."""
+ out={}
+ b.api.admin(cur);cur.execute('savepoint legacy_direct')
+ try:
+  auth.actor(cur,subject)
+  ident=cur.execute("insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id)values(%s,%s,now(),1,%s)returning id",(f['receipt']['purchase_id'],'LEGACY-'+uuid.uuid4().hex[:8],f['cash'])).fetchone()[0]
+  out['authenticated_direct_draft_insert']='ALLOWED'
+  try:cur.execute('select erp.post_supplier_payment(%s)',(ident,));out['native_post_without_finance_ap_pay']='POSTED'
+  except psycopg.Error as e:out['native_post_without_finance_ap_pay']='REFUSED: '+str(e).splitlines()[0]
+ except psycopg.Error as e:out['authenticated_direct_draft_insert']='REFUSED: '+str(e).splitlines()[0]
+ finally:cur.execute('rollback to savepoint legacy_direct');cur.execute('release savepoint legacy_direct');b.api.admin(cur)
+ out['rolled_back']=True;out['app_http_surface']='PostgREST exposes public only; erp tables are not an application route'
+ return out
+
 def cases(cur,today):
  refused=auth.refused
  def exact():
@@ -117,10 +134,10 @@ def cases(cur,today):
    cur.execute('select public.erp_cp7_create_supplier_payment_v1(%s::jsonb,%s)',(json.dumps(p),uuid.uuid4()))
   service=refused(cur,as_service,'CP7_INVOICE_ACCESS_DENIED')
   private=refused(cur,lambda:(auth.actor(cur),cur.execute('select cp7_supplier_payment_create.apply(%s::jsonb,%s)',(json.dumps(p),uuid.uuid4()))),'permission denied')
-  direct=refused(cur,lambda:(auth.actor(cur),cur.execute("insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id)values(%s,'X',now(),1,%s)",(f['receipt']['purchase_id'],f['cash']))),'permission denied')
+  legacy=legacy_direct_path(cur,f,viewer)
   assert state(cur,f)==before
   allowed,_=admin(cur);r=command(cur,payload(cur,f,'5.00',allowed),subject=allowed);assert r['status']=='POSTED';observe(cur,f,5)
-  return dict(status='PASS',ADMIN_without_pay_reads_but_cannot_pay=denied,service_role_refused=service,private_apply_not_executable=private,direct_table_write_refused=direct,ADMIN_with_pay_records=True)
+  return dict(status='PASS',ADMIN_without_pay_reads_but_cannot_pay=denied,service_role_refused=service,private_apply_not_executable=private,legacy_hosted_direct_path_observation=legacy,ADMIN_with_pay_records=True)
  def boundary():
   f=fixture(cur,today);r=command(cur,payload(cur,f,'25.00'))
   assert not cur.execute('select exists(select 1 from cp7_supplier_payment_create.context)').fetchone()[0],'SUPPLIER_PAYMENT_CREATE_CONTEXT_LEFT'

@@ -1,0 +1,31 @@
+{
+ "label": "CP7_SUPPLIER_PAYMENT_CREATE",
+ "source_commit": "4042235f",
+ "run_id": 37490924137,
+ "job_id": 112363127748,
+ "conclusion": "failure",
+ "probe_status": "INCOMPLETE",
+ "observed_case_count": 8,
+ "declared": 8,
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "cases": {
+  "EXACT_REPLAY_SETTLE": "PASS",
+  "REFUSALS_ZERO_EFFECT": "PASS",
+  "CURRENT_ACCESS": "INCOMPLETE",
+  "PRIVATE_BOUNDARY": "PASS",
+  "RACE_SAME_REQUEST": "PASS",
+  "RACE_DOUBLE_PAY": "PASS",
+  "RACE_CURRENT_REVOKE": "PASS",
+  "HTTP_CURRENT_REPLAY": "PASS"
+ },
+ "first_failure": {
+  "case": "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS",
+  "error": "EXPECTED_REFUSAL:permission denied",
+  "cause": "The control assumed role authenticated cannot INSERT into erp.supplier_payments. On the hosted-faithful aligned clone it can (G-01 preserves authenticated USAGE on erp). The insert did not raise. This is a pre-existing CP6/hosted ACL, not part of the new command; PostgREST exposes only public, so the app HTTP surface does not reach it.",
+  "classification": "FIXTURE_DEFECT_IN_NEW_CONTROL_PLUS_PREEXISTING_ACL_FINDING"
+ },
+ "job_log_sha256": "0c3d05cd883c7d5e2274dc773733a7891a1de12a7f411e8cc8185543d5d32fdf",
+ "independent_acceptance": false,
+ "production_go": false
+}
