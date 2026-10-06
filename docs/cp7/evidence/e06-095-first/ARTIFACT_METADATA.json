@@ -1,0 +1,23 @@
+{
+  "id": 11394997817,
+  "name": "cp7-f03-e06",
+  "size_in_bytes": 1638291,
+  "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11394997817",
+  "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11394997817/zip",
+  "expired": false,
+  "created_at": "2026-10-06T06:49:15Z",
+  "expires_at": "2026-11-05T06:49:14Z",
+  "updated_at": "2026-10-06T06:49:15Z",
+  "digest": "sha256:c05d3d1f290c087379e3f60076cea336a6dbde99bf2a661ba2a1e6cfbe8064d0",
+  "workflow_run": {
+    "id": 37425555179,
+    "repository_id": 1348063690,
+    "head_repository_id": 1348063690,
+    "head_branch": "cp7/integration",
+    "head_sha": "095b33b036312d80d06f897144c2772461ca35ff"
+  },
+  "run_id": 37425555179,
+  "job_id": 112144264054,
+  "workflow_name": "CP7 F03 E06 Year-end Late Invoice",
+  "workflow_path": ".github/workflows/cp7-f03-e06.yml"
+}

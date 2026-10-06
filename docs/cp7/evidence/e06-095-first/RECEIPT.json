@@ -1,0 +1,118 @@
+{
+  "contract": "cp7.failed-original-retention.v1",
+  "status": "RETAINED_FIRST_FAILURE_NOT_QUALIFIED",
+  "source_commit": "095b33b036312d80d06f897144c2772461ca35ff",
+  "source_tree": "5f1495100ba21b776402a40d02e4714b996f2676",
+  "artifact": {
+    "id": 11394997817,
+    "name": "cp7-f03-e06",
+    "size_in_bytes": 1638291,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11394997817",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11394997817/zip",
+    "expired": false,
+    "created_at": "2026-10-06T06:49:15Z",
+    "expires_at": "2026-11-05T06:49:14Z",
+    "updated_at": "2026-10-06T06:49:15Z",
+    "digest": "sha256:c05d3d1f290c087379e3f60076cea336a6dbde99bf2a661ba2a1e6cfbe8064d0",
+    "workflow_run": {
+      "id": 37425555179,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "cp7/integration",
+      "head_sha": "095b33b036312d80d06f897144c2772461ca35ff"
+    },
+    "run_id": 37425555179,
+    "job_id": 112144264054,
+    "workflow_name": "CP7 F03 E06 Year-end Late Invoice",
+    "workflow_path": ".github/workflows/cp7-f03-e06.yml"
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "40937b674d1a005ee276c90d3b3bfe2c1e3d3a410af38e6df7235d7ae34c46ff"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "40937b674d1a005ee276c90d3b3bfe2c1e3d3a410af38e6df7235d7ae34c46ff"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "d3fce4e66c925a4be2bd8807447c5d067151c32e21a0969066eb0ce040540347"
+    },
+    "CP7_F03_E06.json": {
+      "bytes": 288287,
+      "sha256": "a36b989f1779aaefeb1d5da87ee1c696d340cccd18364088ecb1b11a081de87c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c7b787e3b0531ff1e00ca17235dac9f5bf1b5adc81d28f26bdb4ff90a03cdc56"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "970a992cf3ce271c95cb31c376b394928be6661247176d6aae89223dc4a555af"
+    }
+  },
+  "root_originals": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "gzip_sha256": "402d1c9d63f060a34471ce8af4d5dd16adaa27243cf2c740f912ae9ed427fe7a",
+      "original_bytes_unchanged": true
+    },
+    "CP7_F03_E06.json": {
+      "bytes": 288287,
+      "sha256": "a36b989f1779aaefeb1d5da87ee1c696d340cccd18364088ecb1b11a081de87c",
+      "file": "CP7_F03_E06.json.gz",
+      "gzip_sha256": "da75f8c429680f1ddcf317412d7422b87c57b64a66cfdb388bcd554421e0db8d",
+      "original_bytes_unchanged": true
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c7b787e3b0531ff1e00ca17235dac9f5bf1b5adc81d28f26bdb4ff90a03cdc56",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "ad6315bbe3ad66d33705ece5911c01fe4f3fe46347eb73ab1d7a742f23e6de31",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "original_bytes_unchanged": true
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360424,
+      "sha256": "970a992cf3ce271c95cb31c376b394928be6661247176d6aae89223dc4a555af",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "4e2dc8a9de68a27e95f83f95badd7c90314e3cf1b5462c6d74b5c3f8076dc5c4",
+      "original_bytes_unchanged": true
+    }
+  },
+  "Native_qualification_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "complete_decoded_job_log": {
+    "file": "JOB_LOG.txt.gz",
+    "job_id": 112144264054,
+    "bytes": 233697,
+    "sha256": "95886bcd84ee5adf1d7ef9833d867f9c21122496b5022f6a318b7f6b466037f8",
+    "gzip_sha256": "7723a0d19c1c8ad2ee66e66a363a20418a9208ae79271726666d32b258f5079c"
+  }
+}

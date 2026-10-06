@@ -22,6 +22,14 @@ The invoice can recost synchronously. Pending is asserted iff a real pending que
 
 Sources: `scripts/cp7_f03_e06_cases.py`, `scripts/cp7_f03_e06_probe.py`, `.github/workflows/cp7-f03-e06.yml`. The E01 helper keeps FINAL as its default; only this declared fixture selects ESTIMATED. Frozen framework and product SQL are unchanged.
 
+## Integration continuation · 6 October 2026
+
+The exact `095b33b036312d80d06f897144c2772461ca35ff` integration run [37425555179](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37425555179), job112144264054, finishes INCOMPLETE: three native cases and the one race PASS; `F03_E06_MARCH_ECONOMIC_CONTROL` reaches all monetary, physical, replay/inverse and immutable-filing assertions but fails its post-savepoint `public_schema_unchanged` check. The full original package and all five top-level JSON reports, complete decoded job log, ZIP CRC/member hashes and API source/digest are preserved in [e06-095-first/RECEIPT.json](evidence/e06-095-first/RECEIPT.json). This failure receives zero qualified Native credit and is never relabelled by a successor.
+
+Its final restoration diagnostics retain both raw public catalog snapshots: all69 signature/hash pairs, relations and public row hashes are exactly equal after sorting only the function pairs; raw pair order differs. The frozen CP6 reader uses `jsonb_agg(... order by 1)`, a constant inside the aggregate. The failing individual case did not retain its two raw snapshots, so its exact first-run difference cannot be independently reconstructed. The observed final order difference and the known reader ordering defect support a catalog-order diagnosis, not a proven alteration of ERP business state.
+
+The successor applies the already used `cp7_catalog_state.exact_public_catalog` adapter only around this E06 native group and retains every raw snapshot in the main Original. It sorts every original function signature/hash pair while retaining duplicates, all other fields, relation members and public row hashes. The frozen runner/reader, product SQL, five case IDs, amount/date/physical/archive oracles, timeouts, race and install/backup/restore/advisor/cleanup gates remain unchanged. Raw observed preservation controls must refuse hash/signature/member/duplicate/relation/row changes; the reader is restored on normal and exceptional exits. Four existing adapter controls and eight controls on the actual failed-run restoration catalog pass locally, with zero Native case credit. Fresh E06 qualification and retained per-case raw catalog comparisons remain pending.
+
 
 ## First result and oracle correction
 

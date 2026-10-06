@@ -11395,5 +11395,29 @@
     ],
     "owner_inputs": "Eight CP6 values and separate CP7 threshold/calendar/batch settings remain pending; five recorded CP6 decisions stay approved",
     "hosted_installation": "NOT_AUTHORIZED_OR_EXECUTED"
+  },
+  "e06_integration_continuation_20261006": {
+    "status": "FIRST095_INCOMPLETE_EXACT_CATALOG_ADAPTER_SUCCESSOR_PENDING",
+    "first_source_commit": "095b33b036312d80d06f897144c2772461ca35ff",
+    "run_id": 37425555179,
+    "job_id": 112144264054,
+    "artifact_id": 11394997817,
+    "first_case_counts": {
+      "native": {
+        "PASS": 3,
+        "INCOMPLETE": 1
+      },
+      "races": {
+        "PASS": 1
+      }
+    },
+    "first_failure_receipt": "docs/cp7/evidence/e06-095-first/RECEIPT.json",
+    "first_case_raw_public_snapshots_retained": false,
+    "final_restore_only_function_pair_order_changed": true,
+    "successor_retains_all_per_case_raw_snapshots": true,
+    "product_or_frozen_CP6_runner_changed": false,
+    "case_ids_or_budget_or_amount_or_date_or_timeouts_changed": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
