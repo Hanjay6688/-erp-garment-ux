@@ -8,9 +8,9 @@ Writers used:
 - E01 production, sale, payment and return: exactly the existing qualified E01 path.
 - Laundry vendor payment: the application writer erp_save_laundry_bd_action_v1 PAY_VENDOR_DOCUMENT (owner).
 - Mandor payroll payment: the application writer erp_cp7_save_payroll_v1 PAY (owner).
-- Material supplier payment: Native erp.post_supplier_payment on a DRAFT row. The application has no supplier
-  cash-payment entry (CP7 only reads/corrects/reverses existing payments); this is recorded as an open P18 gap,
-  not hidden. The DRAFT row is fixture setup exactly as the existing supplier-payment cases do.
+- Material supplier payment: the application writer erp_cp7_create_supplier_payment_v1 (owner), which posts
+  through the unchanged Native erp.post_supplier_payment. Before it existed, the first qualified run (8beab7fe)
+  used Native posting on a DRAFT row and recorded the missing application entry as a P18 gap; that result stays.
 
 At every boundary the global GL change since the start equals the fixture subledgers: material stock value,
 WIP, FG lots, supplier AP, laundry vendor AP, contractor payable, customer AR and cash. Only this fixture writes
@@ -21,6 +21,7 @@ from decimal import Decimal as D
 import uuid
 
 import cp7_f03_e01_cases as e01
+import cp7_supplier_payment_create_cases as pay_create
 
 b, prod, cmd, finance, settlement, laundry = e01.b, e01.prod, e01.cmd, e01.finance, e01.settlement, e01.laundry
 refused = settlement.auth.refused
@@ -106,12 +107,11 @@ def moved(a, z):
     return {k: D(z[k])-D(a[k]) for k in POSITION if D(z[k]) != D(a[k])}
 
 
-def supplier_payment(cur, f, amount, at):
-    b.api.admin(cur)
-    ident = str(one(cur, 'insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id) values(%s,%s,%s,%s,%s) returning id',
-                    (f['purchase'], 'P18-SP-'+uuid.uuid4().hex[:10], at, amount, f['bank'])))
-    e01.native(cur, 'select erp.post_supplier_payment(%s)', (ident,))
-    return ident
+def supplier_payment(cur, f, amount, at, key=None):
+    """The application entry: current review token, owner authority, Native posting."""
+    w = pay_create.read(cur, dict(receipt=dict(purchase_id=f['purchase'])))
+    p = dict(purchase_id=f['purchase'], review_token=w['review_token'], amount=amount, cash_account_id=f['bank'], payment_date=at.isoformat(), note='P18 pelunasan hutang bahan')
+    return pay_create.command(cur, p, key), p
 
 
 def journey(cur, today):
@@ -155,15 +155,18 @@ def journey(cur, today):
         assert finance.change(report_before, report_after, section, name) == expected, ('P18_PERFORMANCE', section, name)
 
     now = one(cur, 'select clock_timestamp()')
-    supplier_payment(cur, f, '400.00', now-timedelta(minutes=3))
+    first, _ = supplier_payment(cur, f, '400.00', now-timedelta(minutes=3))
+    assert first['remaining_after'] == '600.00', ('P18_SUPPLIER_PAY', first)
     s = boundary(cur, f, 'B5_SUPPLIER_PARTIAL', -200)
     assert s['supplier_ap'] == 600 and one(cur, 'select payment_status from erp.material_purchase_headers where id=%s', (f['purchase'],)) == 'PARTIAL', ('P18_B5', s)
-    last = supplier_payment(cur, f, '600.00', now-timedelta(minutes=2))
+    paykey = uuid.uuid4()
+    last, sent = supplier_payment(cur, f, '600.00', now-timedelta(minutes=2), paykey)
     s = boundary(cur, f, 'B6_SUPPLIER_PAID', -800)
     assert s['supplier_ap'] == 0 and one(cur, 'select payment_status from erp.material_purchase_headers where id=%s', (f['purchase'],)) == 'PAID', ('P18_B6', s)
     gl = ledger(cur)
-    replay = refused(cur, lambda: e01.native(cur, 'select erp.post_supplier_payment(%s)', (last,)), 'Supplier payment must be DRAFT')
-    over = refused(cur, lambda: supplier_payment(cur, f, '0.01', now-timedelta(minutes=1)), 'exceeds remaining payable')
+    assert pay_create.command(cur, sent, paykey) == last and ledger(cur) == gl, 'P18_SUPPLIER_REPLAY_SECOND_EFFECT'
+    replay = refused(cur, lambda: pay_create.command(cur, dict(sent, amount='0.01')), 'CP7_SUPPLIER_PAYMENT_STALE_REVIEW')
+    over = refused(cur, lambda: supplier_payment(cur, f, '0.01', now-timedelta(minutes=1)), 'CP7_SUPPLIER_PAYMENT_NOTHING_PAYABLE')
     assert ledger(cur) == gl, 'P18_REFUSED_SUPPLIER_PAYMENT_CHANGED_GL'
 
     key = uuid.uuid4()
@@ -196,9 +199,9 @@ def journey(cur, today):
     e01.step('P18_FINAL', raw=400, fg=675, wip=0, supplier_ap=0, vendor_ap=0, contractor_payable=0, ar=175, cash=-1100, revenue=375, cogs=225, gross_profit=150)
     return dict(status='PASS', journey='P18_FULL_CYCLE', execution='E01_QUALIFIED_PATH_PLUS_PAYABLES_TO_CASH',
                 boundaries=f['boundaries'], journals_by_source=journals, report_position_change={k: str(v) for k, v in moved(p0, p9).items()},
-                refusals=dict(supplier_replay=replay, supplier_overpay=over, vendor_overpay=vendor_over),
-                writers=dict(supplier_payment='NATIVE_post_supplier_payment_NO_APPLICATION_ENTRY', vendor_payment='APP_erp_save_laundry_bd_action_v1_PAY_VENDOR_DOCUMENT', payroll_payment='APP_erp_cp7_save_payroll_v1_PAY'),
-                open_gap='SUPPLIER_CASH_PAYMENT_HAS_NO_APPLICATION_ENTRY', source_ids={k: f[k] for k in ('po', 'purchase', 'group', 'laundry_invoice', 'note', 'payroll', 'sale')},
+                refusals=dict(supplier_stale_review=replay, supplier_nothing_payable=over, vendor_overpay=vendor_over),
+                writers=dict(supplier_payment='APP_erp_cp7_create_supplier_payment_v1', vendor_payment='APP_erp_save_laundry_bd_action_v1_PAY_VENDOR_DOCUMENT', payroll_payment='APP_erp_cp7_save_payroll_v1_PAY'),
+                source_ids={k: f[k] for k in ('po', 'purchase', 'group', 'laundry_invoice', 'note', 'payroll', 'sale')},
                 full_P18_acceptance=False, full_family_acceptance=False)
 
 

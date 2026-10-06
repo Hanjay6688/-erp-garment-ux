@@ -1,0 +1,25 @@
+{
+ "label": "CP7_P18_FULL_CYCLE",
+ "source_commit": "8beab7feaa1ab2a2e140e61436e05742f78a2ed5",
+ "run_id": 37488624358,
+ "job_id": 112355139471,
+ "workflow": "CP7 P18 Full Cycle",
+ "conclusion": "success",
+ "probe_status": "PASS",
+ "observed_case_count": 1,
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "job_log_sha256": "886d2e62ffdb69e7e0c32d6fc631b242ddd9e31d400860e14a5dbb36fb4d3b7d",
+ "job_log_bytes": 83323,
+ "artifact": {
+  "id": 11425165413,
+  "name": "cp7-p18-full-cycle",
+  "size_in_bytes": 1638114,
+  "downloaded": false,
+  "reason": "artifact host not reachable from this session; the complete job log carries every boundary checkpoint and the probe summary"
+ },
+ "supplier_payment_writer": "NATIVE_post_supplier_payment_ON_DRAFT_ROW (no application entry existed at this source)",
+ "full_P18_acceptance": false,
+ "independent_acceptance": false,
+ "production_go": false
+}

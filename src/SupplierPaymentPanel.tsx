@@ -11,7 +11,10 @@ import { financialRecoveryBlocked, useFinancialRecoveryGate } from './useFinanci
 import { useRetainedFormInput, useRetainedInput } from './useRetainedFormInput'
 import { parseSupplierPaymentRead, parseSupplierPaymentOutcome, type SupplierPaymentRead } from './supplierPaymentContract'
 import { parseSupplierPaymentCorrectionOutcome } from './supplierPaymentCorrectionContract'
+import { parseSupplierPaymentCreateOutcome } from './supplierPaymentCreateContract'
 import SupplierPaymentCorrectionPanel from './SupplierPaymentCorrectionPanel'
+import SupplierPaymentCreatePanel from './SupplierPaymentCreatePanel'
+import { signedSupplierSourceCents } from './supplierCredit'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import RecordTools, { orderRecordPage, type RecordPageOrder } from './RecordTools'
 import type { Json } from './types/database.preconnect'
@@ -54,10 +57,10 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
   const [query, setQuery] = useState(''), [order, setOrder] = useState<RecordPageOrder>('SOURCE')
   const [capture, setCapture] = useState<{ authority: string; ticket: ReturnType<typeof beginRead>; data: SupplierPaymentRead } | null>(null)
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [review, setReview] = useState<Review | null>(null)
-  const [correction, setCorrection] = useState<{ id: string; edit: boolean } | null>(null)
+  const [correction, setCorrection] = useState<{ id: string; edit: boolean } | null>(null), [creating, setCreating] = useState(false)
   const sequence = useRef(0), requested = useRef({ id: selected, q: '', offset: focus?.page_offset ?? 0, payment: focus?.id ?? recoveryPayment })
   if (requested.current.id !== selected) requested.current = { id: selected, q: '', offset: focus?.page_offset ?? 0, payment: focus?.id ?? recoveryPayment }
-  const retire = useCallback(() => { ++sequence.current; setCapture(null); setReview(null); setCorrection(null); setBusy(false) }, [])
+  const retire = useCallback(() => { ++sequence.current; setCapture(null); setReview(null); setCorrection(null); setCreating(false); setBusy(false) }, [])
   const blocked = useFinancialRecoveryGate(mutation.scope, retire)
   const canReverse = ['OWNER', 'ADMIN'].includes(identity.profile.role) && identity.permissions.includes('finance.ap.pay')
   const load = useCallback(async () => {
@@ -95,16 +98,19 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
     send: envelope => {
       const p = envelope.payload as { document: Json }
       if (envelope.action === 'CORRECT') return client.rpc('erp_cp7_correct_supplier_payment_v1', { p_payload: p.document, p_request: envelope.id })
+      if (envelope.action === 'CREATE') return client.rpc('erp_cp7_create_supplier_payment_v1', { p_payload: p.document, p_request: envelope.id })
       return client.rpc('erp_cp7_reverse_supplier_payment_v1', { p_payload: p.document, p_request: envelope.id })
     },
     validate: (value, envelope) => {
       const payload = (envelope.payload as { document: Json }).document
       if (envelope.action === 'CORRECT') parseSupplierPaymentCorrectionOutcome(value, envelope.id, payload)
+      else if (envelope.action === 'CREATE') parseSupplierPaymentCreateOutcome(value, envelope.id, payload)
       else parseSupplierPaymentOutcome(value, envelope.id, payload)
     },
     retire: (value, envelope) => {
       const payload = (envelope.payload as { document: Json }).document
-      const result = envelope.action === 'CORRECT' ? parseSupplierPaymentCorrectionOutcome(value, envelope.id, payload) : parseSupplierPaymentOutcome(value, envelope.id, payload)
+      const result = envelope.action === 'CORRECT' ? parseSupplierPaymentCorrectionOutcome(value, envelope.id, payload)
+        : envelope.action === 'CREATE' ? parseSupplierPaymentCreateOutcome(value, envelope.id, payload) : parseSupplierPaymentOutcome(value, envelope.id, payload)
       requested.current.id = result.purchase_id; requested.current.payment = result.payment_id
       setCommittedTarget({ purchase: result.purchase_id, payment: result.payment_id }); setReasons({}); retire()
     },
@@ -137,6 +143,12 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
       <p><strong>{data.purchase.number} · {data.purchase.supplier_name}</strong></p>
       {data.Native_AP ? <dl className="cproc-grid"><div><dt>Utang final</dt><dd>{money(data.Native_AP.final_ap)}</dd></div><div><dt>Sudah dibayar</dt><dd>{money(data.Native_AP.paid)}</dd></div><div><dt>Sisa utang</dt><dd>{money(data.Native_AP.remaining)}</dd></div></dl>
         : <p>Saldo utang saat ini belum tersedia untuk penerimaan ini.</p>}
+      {data.capabilities.reverse && data.purchase.status === 'POSTED' && data.Native_AP && signedSupplierSourceCents(data.Native_AP.remaining) > 0n && !creating
+        ? <button disabled={locked} onClick={() => { setReview(null); setCorrection(null); setCreating(true) }}>Bayar supplier {data.purchase.number}</button> : null}
+      {creating ? <SupplierPaymentCreatePanel key={JSON.stringify([data.purchase.id, data.captured_at])} source={data} locked={locked} inputs={inputs}
+        currentReadTicket={mutation.currentReadTicket} isReadCurrent={isReadCurrent} onClose={() => setCreating(false)}
+        onInvalid={message => { retire(); mutation.invalidate(); setError(message) }}
+        onSave={document => { if (locked || !canReverse) return; retire(); void run('CREATE', { document }, null, handlers) }}/> : null}
       {orderRecordPage(data.page.rows, order, p => p.number).map(p => <article className="cproc-item" key={p.id}
         data-supplier-payment-id={p.id} data-source-focus={p.id === visiblePayment ? 'true' : undefined}>
         <h3>{p.number} · {money(p.amount)}</h3>
@@ -145,7 +157,7 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
         <p>{p.cash_code && p.cash_name ? `${p.cash_code} · ${p.cash_name}` : 'Nama sumber kas belum tercatat'}</p>
         {p.journal ? <p>{p.journal.number} · Tanggal pembukuan {p.journal.accounting_date}{p.journal.period_shifted ? ' · Beralih ke periode terbuka' : ''}</p> : null}
         {p.inverse ? <p>Pembalik {p.inverse.number} · Tanggal pembukuan {p.inverse.accounting_date}. Catatan dan tanggal pembayaran asli tetap disimpan.</p> : null}
-        <button disabled={locked} onClick={() => { setReview(null); setCorrection({ id: p.id, edit: false }) }}>Lihat perubahan pembayaran supplier {p.number}</button>
+        <button disabled={locked} onClick={() => { setReview(null); setCreating(false); setCorrection({ id: p.id, edit: false }) }}>Lihat perubahan pembayaran supplier {p.number}</button>
         {data.capabilities.reverse && data.purchase.status === 'POSTED' && p.status === 'POSTED'
           ? <button disabled={locked} onClick={() => { setReview(null); setCorrection({ id: p.id, edit: true }) }}>Edit pembayaran supplier {p.number}</button> : null}
         {data.capabilities.reverse && data.purchase.status === 'POSTED' && p.status === 'POSTED'

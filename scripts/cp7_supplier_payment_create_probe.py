@@ -1,9 +1,9 @@
-"""P18 full cycle (E01 worksheet through every payable to cash) on the explicitly qualified combined F03 stack."""
+"""New supplier cash/bank payment (CP7 owning command over Native posting) on the explicitly qualified combined F03 stack."""
 import hashlib,json,traceback
 import psycopg
 import cp7_restore_state as restore_state
 import cp7_f03_bundle as bundle
-import cp7_p18_full_cycle_cases as cases
+import cp7_supplier_payment_create_cases as cases
 import cp7_supplier_payment_create_bundle as create_bundle
 import cp7_p12_nota_probe as payroll
 import cp7_p13_finance_probe as finance
@@ -12,14 +12,14 @@ import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
-OUT=bundle.ROOT/'cp6-proof/t3/CP7_P18_FULL_CYCLE.json'
+OUT=bundle.ROOT/'cp6-proof/t3/CP7_SUPPLIER_PAYMENT_CREATE.json'
 
 def verify(cur):
  payroll.verify(cur,True,True,True,True,True);finance.verify(cur);create_bundle.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- report=dict(label='CP7_P18_FULL_CYCLE',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,full_P18_acceptance=False,scope='E01_WORKSHEET_THROUGH_SUPPLIER_VENDOR_PAYROLL_CASH_WITH_GL_SUBLEDGER_RECONCILIATION_AT_EVERY_BOUNDARY',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=1);installed=False
+ report=dict(label='CP7_SUPPLIER_PAYMENT_CREATE',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='NEW_SUPPLIER_PAYMENT_OWNING_COMMAND_NATIVE_POST_RACES_REAL_AUTH_HTTP',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=cases.EXPECTED,required_case_counts=cases.REQUIRED);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
@@ -42,7 +42,9 @@ def run():
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_P18_FULL_CYCLE',cases.cases,verify)
+  report['native']=native.strict_group('CP7_SUPPLIER_PAYMENT_CREATE',cases.cases,verify)
+  report['races']=modes.run_races(cases,verify,'cp7_supplier_payment_create')
+  report['http']=modes.run_http(cases,verify,'cp7_supplier_payment_create')
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
   if installed:
@@ -51,7 +53,7 @@ def run():
     for role in bundle.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
     conn.commit();report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,native.public_state,p09.functions,report);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice','cp7_receipt_fix')for f in d.get('added',[])))
-  groups=[report.get(k,{})for k in('native',)];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==1 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{})for k in('native','races','http')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in cases.REQUIRED.items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['required_case_counts_pass'] and report['observed_case_count']==cases.EXPECTED and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':
