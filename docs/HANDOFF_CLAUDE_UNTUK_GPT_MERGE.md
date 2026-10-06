@@ -381,3 +381,14 @@ Rincian ada di `docs/cp7/p19/P19_FABRIC_SCALE.md`. Ringkasnya:
   2. Snapshot keuangan pemilik di ambil analisis butuh ±10 detik di DB lokal kecil. Sebabnya JIT PostgreSQL pada `erp.initial_prepayment_checks_v1` (CP6), dihitung dua kali per ambil, ditambah hash seluruh riwayat GL. Status `jit` di hosted perlu dicek (baca saja).
 
   Keduanya menahan uji P19 untuk ambil analisis penuh.
+
+### 11.1 Status CI (6 Okt 2026, 03:50 UTC)
+
+- **a4ebb6a8 (perbaikan `plan`/`needs`):** semua suite cabang PASS pada satu head.
+  - fabric-physical21 21/21, fabric13 13/13, analysis152 152/152, plan39 39/39, attention284 284/284 (run 37404829353).
+  - fabric-rule11 11/11, rule-lifecycle16 16/16, p18-e01-9 9/9 (run 37404835115).
+  - Shell S0, CodeQL dan receipt-correction PASS.
+- **882fc40a (perbaikan `condition_rows`):**
+  - P18 PASS (run 37406898697); Shell S0, CodeQL dan receipt-correction PASS.
+  - Suite P08 lengkap dijalankan di 2ae1db92 (run 37408720092). 2ae1db92 hanya menambah dokumen.
+- **Kegagalan pertama tetap tercatat.** fabric13 di 7dad62c9 gagal karena fixture waktu WIB, dan sudah diperbaiki di fixture.
