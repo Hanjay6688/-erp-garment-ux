@@ -196,7 +196,12 @@ async function sizeCase(ui,today,size,state){
     request_to_result_ms:p.request_to_result_ms??null,request_to_terminal_ms:p.request_to_terminal_ms??null,
     manifest_and_segments_ms:p.manifest_and_segments_ms??null,original_utf8_bytes:p.original?.original_utf8_bytes??null})),
    dominant_layer_by_days:Object.fromEntries(Object.entries(sql.phase_profile||{}).map(([d,v])=>[d,{layer:v.summary?.dominant_layer??null,own_ms:v.summary?.dominant_own_ms??null,
-    first_stopped_phase:v.summary?.first_stopped_phase??null,original_bytes_per_target:v.original_bytes_per_target??null}])),
+    first_stopped_phase:v.summary?.first_stopped_phase??null,original_bytes_per_target:v.original_bytes_per_target??null,
+    // Diagnostic only (PHASE_PROFILE_NOT_APP_LATENCY): every layer's own cost and every returned phase's server time,
+    // so the log carries the whole profile and not only the dominant layer.
+    own_ms_by_layer:Object.fromEntries((v.summary?.own_costs||[]).map(r=>[r.layer,r.own_ms])),
+    server_ms_by_phase:Object.fromEntries((v.phases||[]).filter(p=>p.outcome==='RETURNED').map(p=>[p.name,p.server_ms])),
+    capture_path_estimate_ms:v.summary?.capture_path_estimate_ms??null}])),
    step_attribution:Object.fromEntries(Object.entries(sql.step_attribution||{}).map(([d,v])=>[d,v.attribution])),witness:sql.witness}:null,
   sql_ladder_error:sqlError,
   seed:{total_targets:seed.total_targets,preexisting_targets:seed.preexisting_targets,seeded_targets:seed.seeded_targets,seed_ms_not_app_latency:seed.seed_ms,
