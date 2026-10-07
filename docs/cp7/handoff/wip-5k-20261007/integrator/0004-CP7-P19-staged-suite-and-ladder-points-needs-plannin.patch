@@ -1,0 +1,1497 @@
+From 0e4dc8e9883979b04a68f5b84cdfb4e52449977f Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 7 Oct 2026 16:54:52 +0000
+Subject: [PATCH 4/5] CP7 P19 staged suite and ladder points (needs
+ planning/analysis-stages.sql; not yet runnable)
+
+Native suite CP7_P19_STAGED (12 predeclared cases: 5 native, 3 races, 2 HTTP,
+2 browser; docs/cp7/p19/P19_STAGED.json) through the six staged public RPCs:
+reassembled staged analysis equals cp7_analysis_native.build on the job's own
+stored reference; authority (foreign actor, epoch change, permission loss, no
+direct API path, immutable pages); identity (same UUID same job, changed
+query, UUIDs owned by the single path, missing/foreign runs, out-of-range
+page); source check UNCHANGED -> ARCHIVED_STALE with unchanged pages; the
+single path's grid refusal is the same refusal on the staged path with nothing
+paged; races (locked job -> worker_active, concurrent steps never run one unit
+twice, statement-limit stops recorded as attempts, access change mid-job
+fails the job); real Auth/PostgREST flow and revocation; browser: the staged
+button, real progress, reload resumes the same request, pages "Target a-b
+dari N", Cek sumber, whole readers never called. Probe cp7_p19_staged_probe.py;
+P19 Transport workflow matrix entry p19-staged12.
+
+Scale ladder: a STAGED point per history-days value at every size (also in the
+rolled-back native case at 100) and a STAGED browser control; declared staged
+bounds read back against the installed bounds(); the reassembled analysis is
+checked by the frozen contract with its semantic_hash recomputed server side;
+witnesses keep header text and every page's bytes/sha256, never one whole
+document. P19_SCALE.json: staged caps, control and the recorded staged
+exception (owner items 3 and 5; the 3 s target is still measured, never
+marked met).
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01VB4ZAg51aZLCtb68iza18N
+---
+ .github/workflows/claude-p19-transport.yml  |   8 +
+ docs/cp7/p19/P19_SCALE.json                 |  78 ++-
+ docs/cp7/p19/P19_STAGED.json                |  51 ++
+ scripts/cp7_f05_analysis_browser_fixture.py |   5 +
+ scripts/cp7_f05_analysis_probe.py           |  25 +-
+ scripts/cp7_p19_scale_browser.mjs           |  75 ++-
+ scripts/cp7_p19_scale_browser_fixture.py    |   4 +-
+ scripts/cp7_p19_scale_cases.py              | 244 ++++++++-
+ scripts/cp7_p19_staged_browser.mjs          |  71 +++
+ scripts/cp7_p19_staged_cases.py             | 532 ++++++++++++++++++++
+ scripts/cp7_p19_staged_probe.py             |   5 +
+ 11 files changed, 1054 insertions(+), 44 deletions(-)
+ create mode 100644 docs/cp7/p19/P19_STAGED.json
+ create mode 100644 scripts/cp7_p19_staged_browser.mjs
+ create mode 100644 scripts/cp7_p19_staged_cases.py
+ create mode 100644 scripts/cp7_p19_staged_probe.py
+
+diff --git a/.github/workflows/claude-p19-transport.yml b/.github/workflows/claude-p19-transport.yml
+index a102ed3c..932e7502 100644
+--- a/.github/workflows/claude-p19-transport.yml
++++ b/.github/workflows/claude-p19-transport.yml
+@@ -13,6 +13,11 @@ name: CP7 P19 Analysis Job Transport
+     - docs/cp7/p19/P19_TRANSPORT.json
+     - scripts/cp7_p19_scale_*
+     - docs/cp7/p19/P19_SCALE.json
++    - scripts/cp7_p19_staged_*
++    - docs/cp7/p19/P19_STAGED.json
++    - scripts/cp7-src/planning/analysis-stages.sql
++    - src/nativeAnalysisPages.ts
++    - src/NativeStagedAnalysisView.tsx
+     - .github/workflows/claude-p19-transport.yml
+   workflow_dispatch: {}
+ permissions:
+@@ -37,6 +42,9 @@ jobs:
+         - suite: p19-scale5
+           probe: cp7_p19_scale_probe.py
+           timeout: 330
++        - suite: p19-staged12
++          probe: cp7_p19_staged_probe.py
++          timeout: 150
+     env:
+       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+       CP6_AC_INDEPENDENT_CONFIRM: postgres
+diff --git a/docs/cp7/p19/P19_SCALE.json b/docs/cp7/p19/P19_SCALE.json
+index fbd62c4f..2aade9b9 100644
+--- a/docs/cp7/p19/P19_SCALE.json
++++ b/docs/cp7/p19/P19_SCALE.json
+@@ -119,6 +119,46 @@
+       "codes": [],
+       "where": "src/nativeAnalysisTransport.ts ANALYSIS_DOCUMENT_UTF8_BYTES; the client refuses the whole document",
+       "predicted_by_size_model": false
++    },
++    "STAGED_TARGETS_5000": {
++      "value": 5000,
++      "codes": [
++        "CP7_ANALYSIS_STAGED_TARGET_LIMIT"
++      ],
++      "where": "planning/analysis-stages.sql bounds job_targets: more planned products at capture refuse the staged job",
++      "predicted_by_size_model": true
++    },
++    "STAGED_HISTORY_CELLS_500000": {
++      "value": 500000,
++      "codes": [
++        "CP7_PLANNING_HISTORY_GRID_LIMIT"
++      ],
++      "where": "planning/analysis-stages.sql bounds job_history_cells: planned products x history days (the single path refuses at 100000)",
++      "predicted_by_size_model": true
++    },
++    "STAGED_MATCH_10000": {
++      "value": 10000,
++      "codes": [
++        "CP7_NETTING_MATCH_SOURCE_LIMIT"
++      ],
++      "where": "planning/analysis-stages.sql bounds job_matching_products (the single path keeps 5000)",
++      "predicted_by_size_model": false
++    },
++    "STAGED_UNIT_STOPPED_8S": {
++      "value": "8s, 3 attempts",
++      "codes": [
++        "CP7_ANALYSIS_STAGE_STOPPED"
++      ],
++      "where": "planning/analysis-stages.sql step: a unit stopped by the existing 8 s limit three times fails the job",
++      "predicted_by_size_model": true
++    },
++    "STAGED_PAGE_BODY_8000000": {
++      "value": 8000000,
++      "codes": [
++        "CP7_ANALYSIS_PAGE_BODY_LIMIT"
++      ],
++      "where": "planning/analysis-stages.sql pages: one target whose items alone exceed a page body; a page is never cut inside a target",
++      "predicted_by_size_model": false
+     }
+   },
+   "synthetic_inputs": {
+@@ -183,6 +223,18 @@
+         "complete Original or explicit refusal; nothing truncated or sampled"
+       ],
+       "not_awarded": "owner latency acceptance; 3 s heavy-complete target for this journey"
++    },
++    "staged_exception": {
++      "id": "P19_PLANNING_ANALYSIS_STAGED_20261007",
++      "decided": "2026-10-07 owner items 3 (5,000 targets as a supported capacity through background/staged processing) and 5 (background exception recorded)",
++      "scope": "Analisis bertahap (hingga 5.000 target): request/step/get, page set + pages + source check",
++      "conditions": [
++        "first visible acknowledgement within the 1 s routine target",
++        "real status from the stored job: stage index/count, units done/count, start time; RUNNING/DONE/FAILED; unit attempts",
++        "safe to leave and reopen: request UUID persisted, server job state read on reload, the same job continued (never a second request)",
++        "complete pages or explicit refusal; nothing truncated or sampled; never presented as the whole"
++      ],
++      "not_awarded": "owner latency acceptance; 3 s heavy-complete target for this journey"
+     }
+   },
+   "browser": {
+@@ -190,10 +242,12 @@
+     "controls": [
+       "Ambil analisis ERP terbaru",
+       "Hitung di latar belakang",
+-      "Sertakan angka keuangan (menunggu buku besar) + Ambil analisis ERP terbaru"
++      "Sertakan angka keuangan (menunggu buku besar) + Ambil analisis ERP terbaru",
++      "Analisis bertahap (hingga 5.000 target)"
+     ],
+     "context": "fresh signed-in browser context per click (cold client state, warm database)",
+-    "finance_on_demand": "Owner decision 7 Oct 2026: the two default controls run the operational-only analysis (no owner report, no all-book provenance scan; financial figures not loaded, never zero). CAPTURE_WITH_FINANCE ticks the finance choice and runs the unchanged full capture. Earlier runs (through a68abf1e) measured the full capture under CAPTURE/BACKGROUND."
++    "finance_on_demand": "Owner decision 7 Oct 2026: the two default controls run the operational-only analysis (no owner report, no all-book provenance scan; financial figures not loaded, never zero). CAPTURE_WITH_FINANCE ticks the finance choice and runs the unchanged full capture. Earlier runs (through a68abf1e) measured the full capture under CAPTURE/BACKGROUND.",
++    "staged_control": "STAGED clicks the staged job: request, one unit per step with real progress, header + byte-adaptive pages read as \"Target a-b dari N\"; operational only (finance never read). Its observation window is a driver bound (30 min), never a latency figure."
+   },
+   "kernel_evidence_kept_separate": [
+     "scripts/cp7_p19_assembly_benchmark.mjs",
+@@ -378,5 +432,25 @@
+     "native_case": "one rolled-back savepoint in the closed harness: first size only, its measured points and a grid-cap refusal",
+     "limits_changed": false,
+     "every_declared_size_and_day_measured": "sizes 100/300/1000/5000 x days 1/30/100 (and 1000x101) on the committed browser copy; the native case adds 100x1 and 100x1001 in the closed harness"
++  },
++  "staged": {
++    "path": "STAGED_JOB_PAGES",
++    "bounds": {
++      "job_targets": 5000,
++      "job_matching_products": 10000,
++      "job_history_cells": 500000
++    },
++    "public_rpcs": [
++      "erp_cp7_request_staged_analysis_v1",
++      "erp_cp7_step_staged_analysis_v1",
++      "erp_cp7_get_staged_analysis_v1",
++      "erp_cp7_read_staged_analysis_pages_v1",
++      "erp_cp7_read_staged_analysis_page_v1",
++      "erp_cp7_check_staged_analysis_source_v1"
++    ],
++    "sql_ladder": "one staged point per declared history-days value at every size (also in the rolled-back native case at 100): request, one step per unit, get, page set, every page, source check; each call under the unchanged 8 s",
++    "evidence": "the reassembled analysis (header prefix + every page's items per paged array) is checked by the frozen analysis contract with its semantic_hash recomputed server side from the reassembled text; parity with the single build on the same reference is proven by the kernel tests (f05-staged-*) and the staged suite (P19G_STAGED_EQUALS_SINGLE), not by this ladder",
++    "witness_retention": "header text, every page's bytes and sha256, identity_hash and the reassembled analysis sha256; per-target items are not retained",
++    "installed_bounds_read_back": "every staged point reads cp7_analysis_stage.bounds() (admin) and records declared_match"
+   }
+ }
+diff --git a/docs/cp7/p19/P19_STAGED.json b/docs/cp7/p19/P19_STAGED.json
+new file mode 100644
+index 00000000..44181473
+--- /dev/null
++++ b/docs/cp7/p19/P19_STAGED.json
+@@ -0,0 +1,51 @@
++{
++  "contract": "cp7.p19.analysis-staged.v1",
++  "expected_case_count": 12,
++  "required_case_counts": {
++    "native": 5,
++    "races": 3,
++    "http": 2,
++    "browser": 2
++  },
++  "required_case_ids": {
++    "native": [
++      "P19G_STAGED_EQUALS_SINGLE",
++      "P19G_STAGED_AUTHORITY",
++      "P19G_STAGED_IDENTITY",
++      "P19G_STAGED_SOURCE_CHECK",
++      "P19G_STAGED_REFUSAL_EQUALS_SINGLE"
++    ],
++    "races": [
++      "P19G_RACE_TWO_STEPS_ONE_UNIT",
++      "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
++      "P19G_RACE_ACCESS_CHANGED_MID_JOB"
++    ],
++    "http": [
++      "P19G_HTTP_STAGED_FLOW",
++      "P19G_HTTP_REVOKED"
++    ],
++    "browser": [
++      "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
++      "P19G_BROWSER_MOBILE_STAGED"
++    ]
++  },
++  "page_utf8_bytes_bound": 8000000,
++  "statement_timeout": "existing 8s authenticated limit; never raised",
++  "public_rpcs": [
++    "erp_cp7_request_staged_analysis_v1",
++    "erp_cp7_step_staged_analysis_v1",
++    "erp_cp7_get_staged_analysis_v1",
++    "erp_cp7_read_staged_analysis_pages_v1",
++    "erp_cp7_read_staged_analysis_page_v1",
++    "erp_cp7_check_staged_analysis_source_v1"
++  ],
++  "scope": "Staged background analysis (request, one unit per step, status) under the existing statement limit; the reference captured once in one statement through the bounded sources (operational, finance DEFERRED); a staged run kept apart from cp7_analysis_native.runs (every whole reader refuses it) and read as a header plus byte-adaptive pages bound by identity_hash, actor, run and current access epoch; refusal equality with the single path; source check UNCHANGED/ARCHIVED_STALE",
++  "parity": "P19G_STAGED_EQUALS_SINGLE compares the reassembled analysis (header prefix plus every page's items) with cp7_analysis_native.build on the job's own stored reference, query, run id and access (semantic_hash excluded: the staged path does not compute it); byte identity of the analysis text and the Original is proven by the kernel tests (f05-staged-api)",
++  "five_thousand_point": "measured by the scale ladder (P19 Scale, p19-scale5) through the same public RPCs and the browser control, recorded as a background exception, never as a met 3 s target",
++  "synthetic_case": "none; P19G_STAGED_REFUSAL_EQUALS_SINGLE seeds 100 current targets through the scale ladder's ordinary writers inside its rolled-back case",
++  "full_P19_acceptance": false,
++  "owner_latency_acceptance": false,
++  "factory_capacity_or_SLA": false,
++  "independent_acceptance": false,
++  "production_go": false
++}
+diff --git a/scripts/cp7_f05_analysis_browser_fixture.py b/scripts/cp7_f05_analysis_browser_fixture.py
+index 08be73f3..3695abf5 100644
+--- a/scripts/cp7_f05_analysis_browser_fixture.py
++++ b/scripts/cp7_f05_analysis_browser_fixture.py
+@@ -29,6 +29,11 @@ def main():
+     out['untrusted_product_name']=text
+   elif op=='state':
+    out=dict(analysis_count=cur.execute('select count(*)from cp7_analysis_native.runs where actor=%s',(p['actor'],)).fetchone()[0],business=cases.b.boundary.snapshot(cur))
++  elif op=='staged_state':
++   # P19 staged runs live apart from cp7_analysis_native.runs (read only here).
++   jobs=cur.execute("select coalesce(jsonb_agg(jsonb_build_object('request_id',j.request_id,'state',j.state,'run_id',j.run_id)order by j.created_at),'[]')from cp7_analysis_stage.jobs j where j.actor=%s",(p['actor'],)).fetchone()[0]
++   pages=cur.execute('select count(*)from cp7_analysis_stage.pages p join cp7_analysis_stage.jobs j on j.run_id=p.run_id where j.actor=%s',(p['actor'],)).fetchone()[0]
++   out=dict(jobs=jobs,pages=pages,analysis_count=cur.execute('select count(*)from cp7_analysis_native.runs where actor=%s',(p['actor'],)).fetchone()[0],business=cases.b.boundary.snapshot(cur))
+   elif op=='update_schedule':
+    plan=cur.execute('select revision,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone();s=cases.previous.supply.capture(cur,date.fromisoformat(p['today']));payload=cases.schedule.payload(cur,s,str(plan[0]));payload['config']=plan[1];payload['config']['unit_minutes']='4';payload['reason']='Explicit separate Native browser metadata change';out=cases.schedule.save(cur,payload)
+   elif op in('deactivate','restore'):
+diff --git a/scripts/cp7_f05_analysis_probe.py b/scripts/cp7_f05_analysis_probe.py
+index 8d0e18bc..11d544a2 100644
+--- a/scripts/cp7_f05_analysis_probe.py
++++ b/scripts/cp7_f05_analysis_probe.py
+@@ -39,21 +39,26 @@ def verify(cur):
+  f03.cutting_correction.verify(cur)
+  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
+ 
+-def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False):
+- assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_scale)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
++def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False):
++ assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_scale,p19_staged)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
+  fabric_any=fabric_recipe or fabric_physical or fabric_reminder
+  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=153;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
+  if p19_transport:
+   # P19 job/segment transport: its own predeclared IDs on the same closed harness.
+-  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_scale)),'P19_TRANSPORT_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
++  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_scale,p19_staged)),'P19_TRANSPORT_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
+   import cp7_p19_transport_cases as case_provider
+   expected=case_provider.EXPECTED;assert expected==15;out=OUT.with_name('CP7_P19_TRANSPORT.json');phase='cp7_p19_transport';browser_script='cp7_p19_transport_browser.mjs'
+  if p19_scale:
+   # P19 full-application scale ladder: own predeclared IDs on the same closed
+   # harness. Measurement only; native SQL ladder plus real Auth browser clicks.
+-  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport)),'P19_SCALE_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
++  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_staged)),'P19_SCALE_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
+   import cp7_p19_scale_cases as case_provider
+   expected=case_provider.EXPECTED;assert expected==5;out=OUT.with_name('CP7_P19_SCALE.json');phase='cp7_p19_scale';browser_script='cp7_p19_scale_browser.mjs'
++ if p19_staged:
++  # P19 staged analysis (5,000 targets): its own predeclared IDs on the same closed harness.
++  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale)),'P19_STAGED_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
++  import cp7_p19_staged_cases as case_provider
++  expected=case_provider.EXPECTED;assert expected==12;out=OUT.with_name('CP7_P19_STAGED.json');phase='cp7_p19_staged';browser_script='cp7_p19_staged_browser.mjs'
+  if p19_load:
+   import cp7_obligation_report_bundle as candidate
+   import cp7_p19_native_load_cases as case_provider
+@@ -147,6 +152,10 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
+   declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_TRANSPORT.json').read_bytes();declaration=json.loads(declaration_bytes)
+   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'P19_TRANSPORT_PREDECLARED_CASE_BUDGET_CHANGED'
+   report.update(label='CP7_P19_TRANSPORT',scope='BACKGROUND_ANALYSIS_JOB_UNDER_EXISTING_STATEMENT_LIMIT_AND_SEGMENTED_COMPLETE_ORIGINAL_ACTOR_ACCESS_HASH_BOUND',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False)
++ if p19_staged:
++  declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_STAGED.json').read_bytes();declaration=json.loads(declaration_bytes)
++  assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS) and declaration['page_utf8_bytes_bound']==case_provider.PAGE_BYTES,'P19_STAGED_PREDECLARED_CASE_BUDGET_CHANGED'
++  report.update(label='CP7_P19_STAGED',scope='STAGED_BACKGROUND_ANALYSIS_ONE_UNIT_PER_REQUEST_UNDER_EXISTING_STATEMENT_LIMIT_HEADER_AND_BYTE_ADAPTIVE_PAGES_IDENTITY_HASH_ACTOR_ACCESS_BOUND_APART_FROM_WHOLE_READERS',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False,owner_latency_acceptance=False)
+  if p19_scale:
+   declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_SCALE.json').read_bytes();declaration=json.loads(declaration_bytes)
+   assert declaration['contract']==case_provider.CONTRACT and declaration['evidence_kind']==case_provider.EVIDENCE_KIND and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'P19_SCALE_PREDECLARED_CASE_BUDGET_CHANGED'
+@@ -196,8 +205,8 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
+    report['source_admission_public_catalog_comparison']=admission_catalog_audit
+    report['source_admission_required_case_credit']=0
+    assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
+-  with exact_public_catalog(native,retain_raw=fabric_any or p19_load or p19_transport or p19_scale)as catalog_audit:
+-   report['native']=native.strict_group('CP7_P19_SCALE'if p19_scale else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
++  with exact_public_catalog(native,retain_raw=fabric_any or p19_load or p19_transport or p19_scale or p19_staged)as catalog_audit:
++   report['native']=native.strict_group('CP7_P19_SCALE'if p19_scale else'CP7_P19_STAGED'if p19_staged else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+   report['native_public_catalog_comparison']=catalog_audit
+   if not p19_scale:
+    # The scale ladder declares no race/HTTP group: real Auth/PostgREST is
+@@ -230,10 +239,10 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
+     # restore/advisor/qualification gate may be inferred from passing cases.
+     report.update(restore_error=str(restoration_error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
+     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
+-  if fabric_any or p19_load or p19_transport or p19_scale:
++  if fabric_any or p19_load or p19_transport or p19_scale or p19_staged:
+    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
+   group_names=('native','races','http')if p19_load else('native','browser')if p19_scale else('native','races','http','browser')
+-  groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
++  groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale or p19_staged)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale or p19_staged)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
+  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
+ if __name__=='__main__':
+diff --git a/scripts/cp7_p19_scale_browser.mjs b/scripts/cp7_p19_scale_browser.mjs
+index 9edf9a0a..f7b8f29a 100644
+--- a/scripts/cp7_p19_scale_browser.mjs
++++ b/scripts/cp7_p19_scale_browser.mjs
+@@ -23,17 +23,22 @@ assert.deepEqual(ids,sizes.map(n=>'P19S_BROWSER_DESKTOP_'+n))
+ // The stock screen's default analysis is operational-only (no ledger read);
+ // the owner's explicit choice of financial figures is measured as its own control.
+ const FINANCE='Sertakan angka keuangan (menunggu buku besar)'
+-const CONTROLS=[['CAPTURE','Ambil analisis ERP terbaru',false],['BACKGROUND','Hitung di latar belakang',false],['CAPTURE_WITH_FINANCE','Ambil analisis ERP terbaru',true]]
++// STAGED: the staged job (request/step/get, header + byte-adaptive pages); operational only, finance never read.
++const CONTROLS=[['CAPTURE','Ambil analisis ERP terbaru',false],['BACKGROUND','Hitung di latar belakang',false],['CAPTURE_WITH_FINANCE','Ambil analisis ERP terbaru',true],['STAGED','Analisis bertahap (hingga 5.000 target)',false]]
+ assert.deepEqual(CONTROLS.map(c=>(c[2]?FINANCE+' + ':'')+c[1]),declaration.browser.controls)
+ // Driver bounds only. Neither is an application limit nor enters a latency figure.
+-const OBSERVATION_WINDOW_MS=180000,SEED_PROCESS_MS=3600000,FIXTURE_PROCESS_MS=600000,MEASURE_PROCESS_MS=2700000
+-const RPCS=['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1']
+-const SMALL=new Set(['erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1'])
++// The staged job steps one unit per request (about 150 units at 5,000 targets); its window is a driver bound too.
++const OBSERVATION_WINDOW_MS=180000,STAGED_WINDOW_MS=1800000,SEED_PROCESS_MS=3600000,FIXTURE_PROCESS_MS=600000,MEASURE_PROCESS_MS=5400000
++const STAGED_RPCS=['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_check_staged_analysis_source_v1']
++const RPCS=['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1',...STAGED_RPCS]
++const SMALL=new Set(['erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_check_staged_analysis_source_v1'])
++const WHOLE_READERS=['erp_cp7_read_analysis_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1']
+ const fixture=(op,p,timeout=FIXTURE_PROCESS_MS)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p19_scale_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:64*1024*1024,timeout}).trim())
+ const dir='cp6-proof/t3/'
+ const save=(name,observed)=>{mkdirSync(dir,{recursive:true});writeFileSync(dir+'P19S_BROWSER_'+name+'.json',JSON.stringify({contract:declaration.contract,evidence_kind:'FULL_APPLICATION_NATIVE',stage_witness_only:true,Native_case_credit:0,kernel_evidence_reused:false,limits_raised:false,owner_latency_acceptance:false,production_go:false,observed},null,2)+'\n');return 'P19S_BROWSER_'+name+'.json'}
+ const shift=(day,n)=>{const d=new Date(day+'T00:00:00Z');d.setUTCDate(d.getUTCDate()-n);return d.toISOString().slice(0,10)}
+-const capOf=code=>Object.entries(caps).find(([,c])=>c.codes.includes(code))?.[0]??null
++// Shared codes (history grid, matching bound) belong to the staged bounds on the staged path only.
++const capOf=(code,staged=false)=>[...Object.entries(caps).filter(([k])=>staged&&k.startsWith('STAGED_')),...Object.entries(caps).filter(([k])=>!k.startsWith('STAGED_'))].find(([,c])=>c.codes.includes(code))?.[0]??null
+ 
+ async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
+ async function openPanel(page,from,through){
+@@ -56,14 +61,14 @@ async function arm(button,id){
+   const r=all[id]={id,status:'NOT_CLICKED',clock:'BROWSER_PERFORMANCE_MONOTONIC',marks:{},status_texts:[]}
+   const texts=sel=>[...root.querySelectorAll(sel)].map(n=>(n.textContent||'').trim()).filter(Boolean)
+   const busy=()=>{const close=[...root.querySelectorAll('header button')].find(b=>b.textContent==='Tutup analisis bersama');return!close||close.disabled}
+-  const run=()=>root.querySelector('.native-analysis-result .native-analysis-run span')?.textContent||null
++  const run=()=>root.querySelector('.native-analysis-result .native-analysis-run span, .native-analysis-staged .native-analysis-run span')?.textContent||null
+   const mark=(k,text)=>{if(!(k in r.marks)){r.marks[k]=performance.now()-r.t0;r.marks[k+'_text']=text}}
+   let observer,queued=false
+   const final=()=>{
+    if(busy())return null
+    const alerts=texts('[role="alert"]'),current=run()
+    if(alerts.length)return{status:'REFUSAL_RENDERED',alerts,run_id:current!==r.previous_run?current:null}
+-   const summary=texts('p').find(t=>/^\d+ dari \d+ produk\./.test(t))
++   const summary=texts('p').find(t=>/^\d+ dari \d+ produk\./.test(t)||/^[\d.]+ target dalam \d+ halaman\./.test(t))
+    return current&&current!==r.previous_run&&summary?{status:'RESULT_RENDERED',run_id:current,summary}:null
+   }
+   const inspect=()=>{
+@@ -72,6 +77,7 @@ async function arm(button,id){
+    if(busy()&&statuses.length)mark('acknowledged_ms',statuses[0])
+    const since=statuses.find(t=>t.startsWith('Sedang dihitung sejak jam'));if(since)mark('computing_since_ms',since)
+    const progress=statuses.find(t=>t.startsWith('Mengambil hasil lengkap'));if(progress)mark('segment_progress_ms',progress)
++   const staged=statuses.find(t=>t.startsWith('Analisis bertahap: tahap'));if(staged)mark('staged_progress_ms',staged)
+    if(queued||!final())return
+    queued=true
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{queued=false;const f=final();if(!f||r.status!=='RUNNING')return
+@@ -86,6 +92,7 @@ async function record(request,rpc){
+  const response=await request.response(),body=response?await response.body():Buffer.alloc(0),status=response?.status()??null
+  let small=null;if(SMALL.has(rpc)||status>=400){try{small=JSON.parse(body.toString('utf8'))}catch{small=null}}
+  if(rpc==='erp_cp7_read_analysis_manifest_v1'&&small)small={document:small.document,source_state:small.source_state,run_id:small.run_id}
++ if(rpc==='erp_cp7_read_staged_analysis_pages_v1'&&small)small={run_id:small.run_id,request_id:small.request_id,page_count:small.page_count,targets_total:small.targets_total,identity_hash:small.identity_hash,access_epoch:small.access_epoch,header_utf8_bytes:small.header?.utf8_bytes,header_sha256:small.header?.sha256,pages:small.pages}
+  // The panel switches to segments when JSON.stringify(analysis) exceeds the
+  // single-body bound; Node's JSON.stringify gives the same compact bytes.
+  let analysisBytes=null;if(status===200&&(rpc==='erp_cp7_capture_operational_analysis_v1'||rpc==='erp_cp7_capture_analysis_v1'||rpc==='erp_cp7_read_analysis_v1')){try{analysisBytes=Buffer.byteLength(JSON.stringify(JSON.parse(body.toString('utf8')).analysis??null))}catch{analysisBytes=null}}
+@@ -97,13 +104,13 @@ function serverRefusal(network){
+  for(const n of network){
+   if(n.failed)return{rpc:n.rpc,code:'NETWORK_FAILED',detail:n.failed}
+   if(n.status>=400){const m=typeof n.body?.message==='string'?n.body.message:'';return{rpc:n.rpc,http_status:n.status,code:/^CP7_[A-Z0-9_]+/.exec(m)?.[0]??n.body?.code??null,sqlstate:n.body?.code??null,message:m.slice(0,2000)}}
+-  if(n.rpc==='erp_cp7_run_analysis_job_v1'&&n.body?.state==='FAILED')return{rpc:n.rpc,http_status:n.status,code:n.body.failure.code,sqlstate:n.body.failure.sqlstate}
++  if(['erp_cp7_run_analysis_job_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1'].includes(n.rpc)&&n.body?.state==='FAILED')return{rpc:n.rpc,http_status:n.status,code:n.body.failure.code,sqlstate:n.body.failure.sqlstate}
+  }
+  return null
+ }
+ 
+ function verdict(m,expected){
+- const structural=expected.filter(c=>c!=='STATEMENT_TIMEOUT_8S'),refused=m.server_refusal
++ const staged=m.control==='STAGED',structural=expected.filter(c=>c!=='STATEMENT_TIMEOUT_8S'&&c!=='STAGED_UNIT_STOPPED_8S'),refused=m.server_refusal
+  if(m.ui.status==='RESULT_RENDERED'){
+   if(refused)return{kind:'RESULT_RENDERED_DESPITE_SERVER_REFUSAL',acceptable:false,counterexample:true}
+   if(structural.length)return{kind:'BEYOND_CAP_NOT_REFUSED',caps:structural,acceptable:false,counterexample:true}
+@@ -111,11 +118,11 @@ function verdict(m,expected){
+   return failed.length?{kind:'RESULT_DEFECT',failed,acceptable:false,counterexample:true}:{kind:'COMPLETE_RESULT',acceptable:true,counterexample:false}
+  }
+  if(!refused){
+-  const tooLarge=m.db.original?.client_document_bound_exceeded===true
++  const tooLarge=!staged&&m.db.original?.client_document_bound_exceeded===true
+   return tooLarge?{kind:'HONEST_CAP_REFUSAL',cap:'CLIENT_DOCUMENT_64000000_BYTES',acceptable:true,counterexample:false}
+    :{kind:'CLIENT_REFUSED_SERVER_RESULT',alerts:m.ui.alerts,acceptable:false,counterexample:true}
+  }
+- const cap=capOf(refused.code),base={phase:refused.rpc,code:refused.code,cap,time_to_refusal_rendered_ms:m.ui.elapsed_ms}
++ const cap=capOf(refused.code,staged),base={phase:refused.rpc,code:refused.code,cap,time_to_refusal_rendered_ms:m.ui.elapsed_ms}
+  if(m.checks.no_result_saved_for_refused_compute===false)return{...base,kind:'REFUSAL_SAVED_A_RESULT',acceptable:false,counterexample:true}
+  if(expected.includes(cap))return{...base,kind:'HONEST_CAP_REFUSAL',structural_caps_also_apply:structural.filter(c=>c!==cap),acceptable:true,counterexample:false}
+  if(cap)return{...base,kind:'DECLARED_CAP_NOT_PREDICTED',acceptable:false,counterexample:false}
+@@ -123,7 +130,7 @@ function verdict(m,expected){
+ }
+ 
+ async function measure(ui,today,size,days,[control,label,finance],seed){
+- const name=`${size}_${days}_${control}`,from=shift(today,days),through=shift(today,1),expected=seed.expected_caps_by_days[String(days)]
++ const staged=control==='STAGED',name=`${size}_${days}_${control}`,from=shift(today,days),through=shift(today,1),expected=(staged?seed.staged_expected_caps_by_days:seed.expected_caps_by_days)[String(days)]
+  const user=await ui.login('OWNER',{label:`p19s-${size}-${days}-${control.toLowerCase()}`}),page=user.page,network=[],pending=[]
+  page.on('requestfinished',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)pending.push(record(request,rpc).then(r=>network.push(r)))})
+  page.on('requestfailed',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)network.push({rpc,failed:request.failure()?.errorText??'FAILED',request:request.postDataJSON(),timing:request.timing()})})
+@@ -133,45 +140,60 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
+   if(finance)await panel.getByRole('checkbox',{name:FINANCE,exact:true}).check()
+   const button=panel.getByRole('button',{name:label,exact:true})
+   await arm(button,name);await button.click()
+-  await page.waitForFunction(id=>{const r=window.__p19Scale?.[id];return Boolean(r)&&!['NOT_CLICKED','RUNNING'].includes(r.status)},name,{timeout:OBSERVATION_WINDOW_MS,polling:250})
++  await page.waitForFunction(id=>{const r=window.__p19Scale?.[id];return Boolean(r)&&!['NOT_CLICKED','RUNNING'].includes(r.status)},name,{timeout:staged?STAGED_WINDOW_MS:OBSERVATION_WINDOW_MS,polling:250})
+   sample=await page.evaluate(id=>window.__p19Scale[id],name)
+   await Promise.all(pending);network.sort((a,b)=>a.timing.startTime-b.timing.startTime)
+   assert.equal(sample.trusted_click,true,'P19S_TRUSTED_CLICK_REQUIRED')
+   const requests=[...new Set(network.map(n=>n.request?.p_request).filter(Boolean))]
+   const queries=network.map(n=>n.request?.p_query).filter(Boolean)
+-  const db=fixture('observe',{actor:user.user.id,requests,run_id:sample.run_id??null,label:name})
+-  const refused=serverRefusal(network),computeRefused=refused&&['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1'].includes(refused.rpc)
+-  const recommendations=sample.summary?Number(/dari (\d+) produk/.exec(sample.summary)[1]):null
++  const db=fixture('observe',{actor:user.user.id,requests,run_id:sample.run_id??null,label:name,staged})
++  const refused=serverRefusal(network),computeRefused=refused&&['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1'].includes(refused.rpc)
++  const recommendations=sample.summary&&!staged?Number(/dari (\d+) produk/.exec(sample.summary)[1]):null
++  const stagedSummary=sample.summary&&staged?/^([\d.]+) target dalam (\d+) halaman\./.exec(sample.summary):null
++  const stagedTotals=stagedSummary?{targets_total:Number(stagedSummary[1].replace(/\./g,'')),page_count:Number(stagedSummary[2])}:null
++  const stagedJob=staged?(db.staged_jobs||[]).find(j=>requests.includes(j.request_id))??null:null
+   const checks={
+    query_is_declared_window:queries.length>0&&queries.every(q=>q.from_date===from&&q.through_date===through&&q.group_mode==='AS_SOLD'),
+-   ...(sample.status==='RESULT_RENDERED'?{
++   ...(sample.status==='RESULT_RENDERED'&&staged?{
++    rendered_run_is_stored:Boolean(stagedJob)&&stagedJob.state==='DONE'&&stagedJob.run_id===sample.run_id,
++    rendered_totals_equal_stored:Boolean(stagedTotals)&&stagedTotals.targets_total===db.original?.targets_total&&stagedTotals.page_count===db.original?.page_count,
++    stored_source_equals_current_targets:db.coverage?.complete===true&&db.original?.source_products===seed.total_targets,
++    reassembled_pages_pass_frozen_contract:db.frozen_contract_valid===true,
++    every_page_read_once:network.filter(n=>n.rpc==='erp_cp7_read_staged_analysis_page_v1').length===db.original?.page_count,
++    whole_reader_never_called:!network.some(n=>WHOLE_READERS.includes(n.rpc)),
++    one_request_uuid:requests.length===1}:{}),
++   ...(sample.status==='RESULT_RENDERED'&&!staged?{
+     rendered_run_is_stored:db.runs.some(r=>r.run_id===sample.run_id&&requests.includes(r.request_id)),
+     rendered_count_equals_stored_recommendations:recommendations===db.original?.recommendations,
+     stored_source_equals_current_targets:db.coverage?.complete===true&&db.original?.source_products===seed.total_targets,
+     segments_read_when_single_body_exceeded:!network.some(n=>n.analysis_json_utf8_bytes>caps.BODY_8000000_BYTES.value)||network.some(n=>n.rpc==='erp_cp7_read_analysis_segment_v1')}:{}),
+-   ...(computeRefused?{no_result_saved_for_refused_compute:requests.every(r=>db.requests[r]?.runs===0)}:{})}
++   ...(computeRefused?{no_result_saved_for_refused_compute:staged?(db.staged_jobs||[]).filter(j=>requests.includes(j.request_id)).every(j=>j.pages===0&&j.state!=='DONE'):requests.every(r=>db.requests[r]?.runs===0)}:{})}
+   const ack=sample.marks?.acknowledged_ms
+   assert.ok(Number.isFinite(ack),'P19S_FIRST_VISIBLE_ACKNOWLEDGEMENT_NOT_OBSERVED')
+   // The control's own path: the operational RPCs without the finance choice, the full ones with it.
+   const capturedBy=network.filter(n=>/^erp_cp7_(capture|request)_/.test(n.rpc)).map(n=>n.rpc)
+-  checks.finance_path_matches_control=capturedBy.length>0&&capturedBy.every(n=>n.includes('_operational_')!==finance)
++  checks.finance_path_matches_control=capturedBy.length>0&&capturedBy.every(n=>(n.includes('_operational_')||n.includes('_staged_'))!==finance)
+   const m={size,history_days:days,control,financial_figures:finance,button:label,query:{from_date:from,through_date:through,group_mode:'AS_SOLD'},
+    ui:{status:sample.status,elapsed_ms:sample.elapsed_ms,marks:sample.marks,status_texts:sample.status_texts,alerts:sample.alerts??[],run_id:sample.run_id??null,summary:sample.summary??null},
+    owner_budgets:{first_visible_acknowledgement:budgetResult('ROUTINE_READ',ack),complete_or_refusal_rendered:budgetResult('HEAVY_COMPLETE',sample.elapsed_ms),
+-    progress_status_visible_by_3000ms:Number.isFinite(sample.marks?.computing_since_ms)&&sample.marks.computing_since_ms<=3000,
++    progress_status_visible_by_3000ms:Number.isFinite(sample.marks?.computing_since_ms??sample.marks?.staged_progress_ms)&&(sample.marks?.computing_since_ms??sample.marks?.staged_progress_ms)<=3000,
+     // Owner decision 7 Oct 2026: the heavy planning analysis may run as a
+     // recorded background exception. The 3 s HEAVY_COMPLETE result above is
+     // still reported as measured; the exception never turns it into a pass.
+-    owner_named_background_exception:control==='BACKGROUND'?declaration.owner_latency_targets.background_exception.id:false,
++    owner_named_background_exception:control==='BACKGROUND'?declaration.owner_latency_targets.background_exception.id:staged?declaration.owner_latency_targets.staged_exception.id:false,
+     owner_latency_acceptance:false},
+    network,server_refusal:refused,db,checks,
+    device:declaration.browser.device,context:declaration.browser.context,expected_caps:expected,evidence_kind:'FULL_APPLICATION_NATIVE'}
+   m.verdict=verdict(m,expected)
+   // Explicit server refusal: the RPC, HTTP status, code, SQLSTATE, the job's own
+   // FAILED state and the stored job row, and which declared cap it is.
+-  const job=network.filter(n=>['erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1'].includes(n.rpc)&&n.body).map(n=>n.body).pop()??null
++  const job=network.filter(n=>['erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1'].includes(n.rpc)&&n.body).map(n=>n.body).pop()??null
++  m.staged=staged?{steps:network.filter(n=>n.rpc==='erp_cp7_step_staged_analysis_v1').length,pages_read:network.filter(n=>n.rpc==='erp_cp7_read_staged_analysis_page_v1').length,
++   targets_total:db.original?.targets_total??stagedTotals?.targets_total??null,page_count:db.original?.page_count??stagedTotals?.page_count??null,identity_hash:db.identity_hash??null,
++   reassembled_analysis_sha256:db.reassembled_analysis_sha256??null,header_witness:db.header_witness??null,job_state:job?.state??null,unit_count:job?.unit_count??null,units_done:job?.units_done??null,
++   click_to_staged_progress_ms:sample.marks?.staged_progress_ms??null}:null
+   m.refusal=refused?{...refused,job_state:job?.state??null,job_failure:job?.failure??null,
+-   stored_job:(db.jobs||[]).find(j=>requests.includes(j.request_id))??null,cap:m.verdict.cap??null}:null
++   stored_job:(staged?db.staged_jobs:db.jobs||[]).find(j=>requests.includes(j.request_id))??null,cap:m.verdict.cap??null}:null
+   Object.assign(m,{refusal_code:refused?.code??null,refusal_sqlstate:refused?.sqlstate??null,refused_by_rpc:refused?.rpc??null,
+    refusal_http_status:refused?.http_status??null,cap:m.verdict.cap??null})
+   m.screenshot=`P19S_${name}.png`;await page.screenshot({path:dir+m.screenshot})
+@@ -205,7 +227,10 @@ async function sizeCase(ui,today,size,state){
+    phase_profile_complete:sql.phase_profile_complete,Native_business_unchanged_by_measurement:sql.Native_business_unchanged_by_measurement,
+    points:sql.points.map(p=>({path:p.path,history_days:p.history_days,grid_boundary_witness:p.grid_boundary_witness??false,verdict:p.verdict,
+     request_to_result_ms:p.request_to_result_ms??null,request_to_terminal_ms:p.request_to_terminal_ms??null,
+-    manifest_and_segments_ms:p.manifest_and_segments_ms??null,original_utf8_bytes:p.original?.original_utf8_bytes??null})),
++    manifest_and_segments_ms:p.manifest_and_segments_ms??null,original_utf8_bytes:p.original?.original_utf8_bytes??null,
++    // Staged path: units stepped, the slowest unit, pages read and their bytes; never one whole document.
++    steps:p.steps??null,slowest_step_ms:p.slowest_step_ms??null,pages_ms:p.pages_ms??null,page_count:p.page_count??null,
++    pages_utf8_bytes:p.original?.pages_utf8_bytes??null,page_utf8_bytes_max:p.original?.page_utf8_bytes_max??null,bounds_declared_match:p.bounds?.declared_match??null})),
+    dominant_layer_by_days:Object.fromEntries(Object.entries(sql.phase_profile||{}).map(([d,v])=>[d,{layer:v.summary?.dominant_layer??null,own_ms:v.summary?.dominant_own_ms??null,
+     first_stopped_phase:v.summary?.first_stopped_phase??null,original_bytes_per_target:v.original_bytes_per_target??null,
+     // Diagnostic only (PHASE_PROFILE_NOT_APP_LATENCY): every layer's own cost and every returned phase's server time,
+@@ -225,7 +250,7 @@ async function sizeCase(ui,today,size,state){
+    click_to_computing_since_ms:r.ui.marks.computing_since_ms??null,click_to_segment_progress_ms:r.ui.marks.segment_progress_ms??null,click_to_complete_ms:r.ui.elapsed_ms,
+    owner_budgets:r.owner_budgets,verdict:r.verdict,refusal:r.refusal,refusal_code:r.refusal_code,refusal_sqlstate:r.refusal_sqlstate,
+    refused_by_rpc:r.refused_by_rpc,refusal_http_status:r.refusal_http_status,cap:r.cap,original_sha256:r.db.original?.original_sha256??null,original_utf8_bytes:r.db.original?.original_utf8_bytes??null,
+-   segments_read:r.network.filter(n=>n.rpc==='erp_cp7_read_analysis_segment_v1').length,
++   segments_read:r.network.filter(n=>n.rpc==='erp_cp7_read_analysis_segment_v1').length,staged:r.staged??null,
+    response_utf8_bytes:r.network.reduce((s,n)=>s+(n.complete_body_utf8_bytes||0),0),witness:r.witness})),
+   limits_raised:false,data_sampled_or_truncated:false,owner_latency_acceptance:false,full_P19_acceptance:false,production_go:false}
+ }
+diff --git a/scripts/cp7_p19_scale_browser_fixture.py b/scripts/cp7_p19_scale_browser_fixture.py
+index ac1f1553..f430fb4c 100644
+--- a/scripts/cp7_p19_scale_browser_fixture.py
++++ b/scripts/cp7_p19_scale_browser_fixture.py
+@@ -40,12 +40,14 @@ def main():
+                 out['history_source'] = scale.source_cap(cur)
+                 out['expected_caps_by_days'] = {str(days): scale.expected_caps(out['total_targets'], days)
+                                                 for days in scale.HISTORY_DAYS}
++                out['staged_expected_caps_by_days'] = {str(days): scale.staged_expected_caps(out['total_targets'], days)
++                                                       for days in scale.HISTORY_DAYS}
+                 out['caps'] = scale.CAPS
+             elif op == 'measure':
+                 # Production privileges: no test-only grant for the measured calls.
+                 out = scale.measure(cur, date.fromisoformat(p['today']), int(p['size']))
+             elif op == 'observe':
+-                out = scale.observe(cur, p['actor'], p['requests'], p.get('run_id'), p['label'])
++                out = scale.observe(cur, p['actor'], p['requests'], p.get('run_id'), p['label'], bool(p.get('staged')))
+             else:
+                 raise ValueError('UNKNOWN_P19_SCALE_BROWSER_ACTION')
+         finally:
+diff --git a/scripts/cp7_p19_scale_cases.py b/scripts/cp7_p19_scale_cases.py
+index f3d9e79e..90faef76 100644
+--- a/scripts/cp7_p19_scale_cases.py
++++ b/scripts/cp7_p19_scale_cases.py
+@@ -27,6 +27,7 @@ import cp6_bf_probe as bf
+ import cp7_analysis_cases as analysis
+ import cp7_p19_native_load_cases as load
+ import cp7_p19_transport_cases as transport
++import cp7_p19_staged_cases as staged
+ 
+ baseline = analysis.previous.baseline
+ history = baseline.history
+@@ -87,7 +88,25 @@ CAPS = {
+     'CLIENT_DOCUMENT_64000000_BYTES': dict(value=64000000, codes=[],
+         where='src/nativeAnalysisTransport.ts ANALYSIS_DOCUMENT_UTF8_BYTES; the client refuses the whole document',
+         predicted_by_size_model=False),
++    # Staged path (P19 5,000 targets): its own bounds, declared once in planning/analysis-stages.sql bounds().
++    'STAGED_TARGETS_5000': dict(value=5000, codes=['CP7_ANALYSIS_STAGED_TARGET_LIMIT'],
++        where='planning/analysis-stages.sql bounds job_targets: more planned products at capture refuse the staged job',
++        predicted_by_size_model=True),
++    'STAGED_HISTORY_CELLS_500000': dict(value=500000, codes=['CP7_PLANNING_HISTORY_GRID_LIMIT'],
++        where='planning/analysis-stages.sql bounds job_history_cells: planned products x history days (the single path refuses at 100000)',
++        predicted_by_size_model=True),
++    'STAGED_MATCH_10000': dict(value=10000, codes=['CP7_NETTING_MATCH_SOURCE_LIMIT'],
++        where='planning/analysis-stages.sql bounds job_matching_products (the single path keeps 5000)', predicted_by_size_model=False),
++    'STAGED_UNIT_STOPPED_8S': dict(value='8s, 3 attempts', codes=['CP7_ANALYSIS_STAGE_STOPPED'],
++        where='planning/analysis-stages.sql step: a unit stopped by the existing 8 s limit three times fails the job',
++        predicted_by_size_model=True),
++    'STAGED_PAGE_BODY_8000000': dict(value=8000000, codes=['CP7_ANALYSIS_PAGE_BODY_LIMIT'],
++        where='planning/analysis-stages.sql pages: one target whose items alone exceed a page body; a page is never cut inside a target',
++        predicted_by_size_model=False),
+ }
++STAGED_PATH = 'STAGED_JOB_PAGES'
++# Declared staged bounds; the installed bounds() are read back and compared in every staged point.
++STAGED_BOUNDS = dict(job_targets=5000, job_matching_products=10000, job_history_cells=500000)
+ SYNTHETIC = dict(
+     label='P19_SCALE_SYNTHETIC_NOT_FACTORY_DEFAULT', sizes_per_model=10, products_per_import_batch=250, cutover_days=10,
+     opening_fg_pcs='50', opening_unit_cost='6.00', color_name='Blue',
+@@ -192,8 +211,29 @@ def expected_caps(total, days):
+     return caps
+ 
+ 
+-def cap_of(code):
+-    return next((name for name, cap in CAPS.items() if code in cap['codes']), None)
++def cap_of(code, staged=False):
++    # Shared codes (the history grid, the matching bound) belong to the staged bounds on the staged path only.
++    names = [n for n in CAPS if n.startswith('STAGED_')] if staged else []
++    names += [n for n in CAPS if not n.startswith('STAGED_')]
++    return next((name for name in names if code in CAPS[name]['codes']), None)
++
++
++def staged_expected_caps(total, days):
++    """Caps the declared counts meet on the staged path. A unit stopped by the existing 8 s limit may stop any point."""
++    caps = ['STATEMENT_TIMEOUT_8S', 'STAGED_UNIT_STOPPED_8S']
++    if total > STAGED_BOUNDS['job_targets']:
++        caps.append('STAGED_TARGETS_5000')
++    if min(total, STAGED_BOUNDS['job_targets'] + 1) * days > STAGED_BOUNDS['job_history_cells']:
++        caps.append('STAGED_HISTORY_CELLS_500000')
++    return caps
++
++
++def staged_bounds(cur):
++    """Installed staged bounds (admin read) against the declared ones."""
++    b.api.admin(cur)
++    installed = cur.execute('select cp7_analysis_stage.bounds()').fetchone()[0]
++    return dict(installed={k: installed.get(k) for k in STAGED_BOUNDS}, declared=STAGED_BOUNDS,
++                declared_match=all(installed.get(k) == v for k, v in STAGED_BOUNDS.items()))
+ 
+ 
+ def source_cap(cur):
+@@ -291,7 +331,7 @@ def verdict(point):
+         if failed:
+             return dict(kind='RESULT_DEFECT', failed=failed, acceptable=False, counterexample=True)
+         return dict(kind='COMPLETE_RESULT', acceptable=True, counterexample=False)
+-    cap = cap_of(stopped.get('code'))
++    cap = cap_of(stopped.get('code'), point['path'] == STAGED_PATH)
+     base = dict(phase=stopped['name'], code=stopped.get('code'), sqlstate=stopped.get('sqlstate'), cap=cap,
+                 time_to_refusal_ms=point.get('elapsed_to_stop_ms'))
+     if point.get('result_saved_after_refusal'):
+@@ -403,6 +443,154 @@ def transfer(cur, point, run, step, expected):
+     point['complete_original'] = assembled
+ 
+ 
++REASSEMBLE_SQL = """with h as(select %s::jsonb x),p as(select ord-1 idx,x::jsonb x from unnest(%s::text[])with ordinality t(x,ord)),
++ arrays as(select k.key,(h.x->'analysis_header'->k.key)||coalesce((select jsonb_agg(t.e order by p.idx,t.ord)
++   from p,jsonb_array_elements(p.x->'items'->k.key)with ordinality t(e,ord)),'[]'::jsonb)v from h,jsonb_each(h.x->'paged')k),
++ a as(select(h.x->'analysis_header')||coalesce((select jsonb_object_agg(key,v)from arrays),'{}'::jsonb)v from h)
++ select(v||jsonb_build_object('semantic_hash',encode(pg_catalog.sha256(convert_to(v::text,'UTF8')),'hex'))::text from a"""
++
++
++def staged_reassemble(cur, header_body, page_bodies):
++    """Header prefix plus every page's items per paged array, with the single path's semantic_hash
++    formula recomputed server side over the reassembled text (admin read, not app latency)."""
++    b.api.admin(cur)
++    text = cur.execute(REASSEMBLE_SQL, (header_body, page_bodies)).fetchone()[0]
++    return json.loads(text), digest(text)
++
++
++def staged_original(cur, run, ps, analysis_rows):
++    """Digests of the stored staged run: header and pages, never one whole document (admin read)."""
++    b.api.admin(cur)
++    count, total, largest, smallest = cur.execute(
++        'select count(*),coalesce(sum(p.utf8_bytes),0),coalesce(max(p.utf8_bytes),0),coalesce(min(p.utf8_bytes),0) from cp7_analysis_stage.pages p where p.run_id=%s',
++        (run,)).fetchone()
++    products = cur.execute("select jsonb_array_length(j.reference->'facts'->'products') from cp7_analysis_stage.jobs j where j.run_id=%s",
++                           (run,)).fetchone()[0]
++    assert count == ps['page_count'], ('P19S_STAGED_PAGES_NOT_STORED', run, count, ps['page_count'])
++    return dict(run_id=str(run), page_count=count, pages_utf8_bytes=int(total), page_utf8_bytes_max=int(largest),
++                page_utf8_bytes_min=int(smallest), header_utf8_bytes=ps['header']['utf8_bytes'], identity_hash=ps['identity_hash'],
++                targets_total=ps['targets_total'], source_products=products, recommendations=analysis_rows,
++                single_body_bound_exceeded=int(largest) > BODY_BYTES, client_document_bound_exceeded=None,
++                whole_document_stored=False)
++
++
++def staged_evidence(cur, envelope, expected, ps, reassembled_sha256):
++    started = monotonic()
++    try:
++        analysis.checked(envelope)
++        valid, error = True, None
++    except Exception as failure:  # the frozen validator's own refusal is the evidence
++        valid, error = False, str(failure)[:2000]
++    x = envelope['analysis']
++    cover = coverage([label['target_key'] for label in envelope['product_labels']],
++                     [r['target']['key'] for r in x['recommendations']], x['generation_warnings'], x['status'], expected)
++    return dict(run_id=envelope['run_id'], frozen_contract_valid=valid, frozen_contract_error=error,
++                frozen_validator_ms_not_app_latency=ms(started), coverage=cover, coverage_complete=cover['complete'],
++                original=staged_original(cur, envelope['run_id'], ps, len(x['recommendations'])), original_recorded=True,
++                source_state=envelope.get('source_state'), reassembled_analysis_sha256=reassembled_sha256,
++                semantic_hash_recomputed_from_reassembly=True,
++                parity_with_single_build='kernel tests f05-staged-* and P19G_STAGED_EQUALS_SINGLE, not this point')
++
++
++def staged_transfer(cur, point, run, step, expected):
++    """Page set, then every page; each call under 8 s; verified exactly as the client does."""
++    read = step('pages', lambda: staged.limited(cur, 'erp_cp7_read_staged_analysis_pages_v1', (run,)))
++    if read['outcome'] != 'RETURNED':
++        return
++    ps = read['value']
++    h = ps['header']
++    header_raw = h['body'].encode('UTF8')
++    exact = len(header_raw) == h['utf8_bytes'] <= BODY_BYTES and hashlib.sha256(header_raw).hexdigest() == h['sha256'] \
++        and ps['identity_hash'] == digest(h['sha256'] + '\n' + '\n'.join(p['sha256'] for p in ps['pages'])) \
++        and [p['index'] for p in ps['pages']] == list(range(ps['page_count'])) and 'document' not in ps and 'semantic_hash' not in ps
++    header = json.loads(h['body'])
++    point['page_set'] = dict(page_count=ps['page_count'], targets_total=ps['targets_total'], identity_hash=ps['identity_hash'],
++                             header_utf8_bytes=h['utf8_bytes'], header_sha256=h['sha256'], pages=ps['pages'], paged=ps['paged'])
++    bodies, nxt = [], 1
++    for entry in ps['pages']:
++        got = step('page', lambda: staged.limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (run, entry['index'], ps['access_epoch'])),
++                   index=entry['index'])
++        if got['outcome'] != 'RETURNED':
++            return
++        e = got['value']
++        raw = e['body'].encode('UTF8')
++        ok = (e['index'], e['identity_hash'], e['header_sha256'], e['target_lo'], e['target_hi'], e['page_count']) == (
++            entry['index'], ps['identity_hash'], h['sha256'], entry['target_lo'], entry['target_hi'], ps['page_count']) \
++            and len(raw) == e['utf8_bytes'] == entry['utf8_bytes'] <= BODY_BYTES \
++            and hashlib.sha256(raw).hexdigest() == e['sha256'] == entry['sha256'] and entry['target_lo'] == nxt <= entry['target_hi']
++        nxt = entry['target_hi'] + 1
++        point['phases'][-1].update(utf8_bytes=e['utf8_bytes'], targets=entry['target_hi'] - entry['target_lo'] + 1, page_exact=ok)
++        exact = exact and ok
++        bodies.append(e['body'])
++    exact = exact and nxt - 1 == ps['targets_total']
++    point['pages_ms'] = round(sum(p['ms'] for p in point['phases'] if p['name'] in ('pages', 'page')), 3)
++    checked = step('check', lambda: staged.limited(cur, 'erp_cp7_check_staged_analysis_source_v1', (run,)))
++    reassembled, reassembled_sha256 = staged_reassemble(cur, h['body'], bodies)
++    envelope = dict(contract_version='cp7.native-analysis-run.v1', run_id=header['run_id'], request_id=header['request_id'],
++                    analysis=reassembled, product_labels=header['product_labels'], query=header['query'],
++                    financial_source=header['financial_source'], apply_enabled=False, production_go=False,
++                    source_state=(checked.get('value') or {}).get('source_state'))
++    point['transport_exact'] = exact and header['run_id'] == str(run) and header['financial_source'] is None
++    point.update(staged_evidence(cur, envelope, expected, ps, reassembled_sha256))
++
++
++def staged_point(cur, today, size, days, expected, tag=''):
++    """Request -> one unit per step -> get, then page set -> every page -> source check; each call under 8 s.
++    Per-target items are not retained in the witness; every page's bytes and sha256 are."""
++    key, q = uuid.uuid4(), history.query(today, days)
++    point = dict(size=size, history_days=days, path=STAGED_PATH, request_id=str(key), query=q,
++                 expected_caps=staged_expected_caps(len(expected), days),
++                 grid_cells=min(len(expected), STAGED_BOUNDS['job_targets'] + 1) * days, statement_timeout=STATEMENT_TIMEOUT,
++                 public_rpcs=list(staged.FUNCTIONS), bounds=staged_bounds(cur), phases=[], steps=0, step_ms=[])
++    elapsed = [0.0]
++
++    def step(name, op, **extra):
++        call = public(cur, op)
++        elapsed[0] = round(elapsed[0] + call['ms'], 3)
++        if name != 'step' or call['outcome'] != 'RETURNED':
++            point['phases'].append(phase(name, call, **extra))
++        if call['outcome'] != 'RETURNED' and 'elapsed_to_stop_ms' not in point:
++            point['elapsed_to_stop_ms'] = elapsed[0]
++        return call
++    requested = step('request', lambda: staged.request(cur, today, key, q=q))
++    if requested['outcome'] == 'RETURNED':
++        job = requested['value']
++        point.update(requested_state=job['state'], unit_count=job['unit_count'], stage_count=job['stage_count'],
++                     reference=job['reference'], request_ms=requested['ms'])
++        while job['state'] == 'RUNNING':
++            assert point['steps'] < staged.DRIVER_CALLS, 'P19S_STAGED_DRIVER_BOUND'
++            call = step('step', lambda: staged.step(cur, key))
++            point['steps'] += 1
++            if call['outcome'] != 'RETURNED':
++                job = None
++                break
++            point['step_ms'].append(call['ms'])
++            job = call['value']
++        if job is not None:
++            point['job'] = job
++            point['request_to_terminal_ms'] = elapsed[0]
++            point['slowest_step_ms'] = max(point['step_ms'], default=0.0)
++            point['unit_attempts_recorded'] = job.get('unit_attempts')
++            got = step('get', lambda: staged.status(cur, key))
++            point['get_equals_step'] = got.get('value') == job
++            if job['state'] == 'FAILED':
++                point['phases'].append(dict(name='job', outcome='JOB_FAILED', ms=0.0, **job['failure']))
++                point.setdefault('elapsed_to_stop_ms', point['request_to_terminal_ms'])
++            elif job['state'] == 'DONE':
++                staged_transfer(cur, point, job['run_id'], step, expected)
++            else:
++                point['job_not_terminal'] = True
++    stop = next((p['name'] for p in point['phases'] if p['outcome'] != 'RETURNED'), None)
++    if stop in ('request', 'step', 'job'):
++        b.api.admin(cur)
++        point['result_saved_after_refusal'] = cur.execute(
++            'select count(*) from cp7_analysis_stage.pages p join cp7_analysis_stage.jobs j on j.run_id=p.run_id where j.request_id=%s',
++            (key,)).fetchone()[0] != 0
++    point['verdict'] = verdict(point)
++    point['witness'] = witness(tag + 'STAGED_%d_%d' % (size, days), dict(point), True)
++    return point
++
++
+ def diagnostics(cur, today, days):
+     """PL-8 attribution: each step alone through its own public RPC under the same 8 s."""
+     out = {}
+@@ -567,9 +755,11 @@ def ensure(cur, today, size, wip_done, commit=None):
+                 seed_is_application_latency=False, direct_business_inserts=False)
+ 
+ 
+-def observe(cur, actor, requests, run, label):
++def observe(cur, actor, requests, run, label, staged_control=False):
+     """Read-back of one browser click on the disposable copy (admin read, not app latency)."""
+     b.api.admin(cur)
++    if staged_control:
++        return observe_staged(cur, actor, requests, run, label)
+     out = dict(actor_runs=cur.execute('select count(*) from cp7_analysis_native.runs where actor=%s', (actor,)).fetchone()[0],
+                requests={str(r): dict(zip(('runs', 'documents', 'jobs'), transport.counts(cur, r))) for r in requests},
+                jobs=[dict(zip(('request_id', 'state', 'attempts', 'failure_sqlstate', 'failure_code', 'run_id'), row))
+@@ -590,6 +780,41 @@ def observe(cur, actor, requests, run, label):
+     return out
+ 
+ 
++def observe_staged(cur, actor, requests, run, label):
++    """Read-back of one staged click: the actor's staged jobs (admin read) and, for a DONE run, the page set
++    and every page through the actor's own public readers, reassembled and checked as the SQL ladder does."""
++    b.api.admin(cur)
++    out = dict(actor_runs=cur.execute('select count(*) from cp7_analysis_native.runs where actor=%s', (actor,)).fetchone()[0],
++               requests={str(r): dict(zip(('runs', 'documents', 'jobs'), transport.counts(cur, r))) for r in requests},
++               staged_jobs=[dict(zip(('request_id', 'state', 'units_done', 'unit_count', 'failure_code', 'run_id', 'pages'), row))
++                            for row in cur.execute("""select j.request_id::text,j.state,j.units_done,j.unit_count,j.failure_code,j.run_id::text,
++                               (select count(*) from cp7_analysis_stage.pages p where p.run_id=j.run_id)
++                               from cp7_analysis_stage.jobs j where j.actor=%s order by j.created_at""", (actor,)).fetchall()])
++    if run:
++        ps = staged.limited(cur, 'erp_cp7_read_staged_analysis_pages_v1', (run,), actor)
++        bodies = [staged.limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (run, i, ps['access_epoch']), actor)['body']
++                  for i in range(ps['page_count'])]
++        header = json.loads(ps['header']['body'])
++        reassembled, reassembled_sha256 = staged_reassemble(cur, ps['header']['body'], bodies)
++        checked = staged.limited(cur, 'erp_cp7_check_staged_analysis_source_v1', (run,), actor)
++        envelope = dict(contract_version='cp7.native-analysis-run.v1', run_id=header['run_id'], request_id=header['request_id'],
++                        analysis=reassembled, product_labels=header['product_labels'], query=header['query'],
++                        financial_source=header['financial_source'], apply_enabled=False, production_go=False,
++                        source_state=checked['source_state'])
++        evidence_row = staged_evidence(cur, envelope, current_targets(cur), ps, reassembled_sha256)
++        out.update(original=evidence_row['original'], coverage=evidence_row['coverage'], frozen_contract_valid=evidence_row['frozen_contract_valid'],
++                   frozen_contract_error=evidence_row['frozen_contract_error'], source_state=evidence_row['source_state'],
++                   reassembled_analysis_sha256=reassembled_sha256, identity_hash=ps['identity_hash'],
++                   pages=[{k: p[k] for k in ('index', 'target_lo', 'target_hi', 'utf8_bytes', 'sha256')} for p in ps['pages']])
++        root = Path(__file__).resolve().parents[1] / 'cp6-proof/t3'
++        root.mkdir(parents=True, exist_ok=True)
++        name = 'P19_SCALE_BROWSER_STAGED_HEADER_' + label + '.json'
++        (root / name).write_text(ps['header']['body'])  # the exact stored header text; pages are kept as bytes + sha256
++        assert digest((root / name).read_text()) == ps['header']['sha256']
++        out['header_witness'] = name
++    return out
++
++
+ # ---------------------------------------------------------------- server-side phase profile
+ # Diagnostic only, never application latency. It runs after every measured
+ # point of a size, inside its own rolled-back savepoint, one private call at a
+@@ -861,8 +1086,9 @@ def scaling(rows):
+ 
+ 
+ def compact(point):
+-    return {k: v for k, v in point.items() if k not in ('manifest', 'job')} | dict(
+-        job_state=(point.get('job') or {}).get('state'), segment_count=(point.get('manifest') or {}).get('document', {}).get('segment_count'))
++    return {k: v for k, v in point.items() if k not in ('manifest', 'job', 'page_set', 'step_ms')} | dict(
++        job_state=(point.get('job') or {}).get('state'), segment_count=(point.get('manifest') or {}).get('document', {}).get('segment_count'),
++        page_count=(point.get('page_set') or {}).get('page_count'))
+ 
+ 
+ def declared():
+@@ -903,7 +1129,8 @@ def measure(cur, today, size):
+     before = b.boundary.snapshot(cur)
+     measured, attribution, profiles = [], {}, {}
+     for days in HISTORY_DAYS:
+-        measured += [ordinary(cur, today, size, days, expected), background(cur, today, size, days, expected)]
++        measured += [ordinary(cur, today, size, days, expected), background(cur, today, size, days, expected),
++                     staged_point(cur, today, size, days, expected)]
+     if size == GRID_BOUNDARY['size']:
+         measured.append(ordinary(cur, today, size, GRID_BOUNDARY['days'], expected, True))
+     for days in HISTORY_DAYS:
+@@ -954,7 +1181,8 @@ def cases(cur, today):
+         measured = []
+         for d in days:
+             measured += [ordinary(cur, today, size, d, expected, tag='NATIVE_'),
+-                         background(cur, today, size, d, expected, tag='NATIVE_')]
++                         background(cur, today, size, d, expected, tag='NATIVE_'),
++                         staged_point(cur, today, size, d, expected, tag='NATIVE_')]
+         boundary = ordinary(cur, today, size, grid, expected, True, tag='NATIVE_')
+         measured.append(boundary)
+         unchanged = b.boundary.snapshot(cur) == before
+diff --git a/scripts/cp7_p19_staged_browser.mjs b/scripts/cp7_p19_staged_browser.mjs
+new file mode 100644
+index 00000000..629a79d4
+--- /dev/null
++++ b/scripts/cp7_p19_staged_browser.mjs
+@@ -0,0 +1,71 @@
++import assert from 'node:assert/strict'
++import {execFileSync} from 'node:child_process'
++import {mkdirSync,writeFileSync} from 'node:fs'
++// P19 staged analysis in the real UI: one trusted click starts the staged job,
++// the page steps it one unit per request with real progress, a reload resumes
++// the same job (never a second request UUID), and the result is read as pages
++// "Target a–b dari N" with whole-run totals from the server. Real Native
++// fixture commands of the accepted analysis browser suite; no business DML.
++const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f05_analysis_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
++const names=['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_check_staged_analysis_source_v1','erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_read_analysis_v1','erp_cp7_read_analysis_manifest_v1']
++const STAGED='Analisis bertahap (hingga 5.000 target)',KEY_PREFIX='erp.cp7.analysis-staged.v1:'
++const DOWNSTREAM=/pengingat|laporan|AI/i
++async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
++async function openPanel(page){await navigate(page);const history=page.getByRole('region',{name:'Data permintaan ERP',exact:true});await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click();return page.getByRole('region',{name:'Analisis ERP bersama',exact:true})}
++async function shot(ui,page,name){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});return name}
++const stagedKeys=page=>page.evaluate(prefix=>Object.keys(localStorage).filter(k=>k.startsWith(prefix)),KEY_PREFIX)
++async function journey(ui,today,mobile){
++ fixture('prepare',{today});const user=await ui.login('OWNER',{label:'p19g-'+(mobile?'mobile':'desktop'),mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',calls=[],replies=[],shots=[]
++ const state=()=>fixture('staged_state',{actor:user.user.id})
++ page.on('request',r=>{const name=names.find(n=>r.url().endsWith('/rpc/'+n));if(name)calls.push({name,body:r.postDataJSON()})})
++ page.on('response',async r=>{const name=names.find(n=>r.url().endsWith('/rpc/'+n));if(name&&name.includes('staged')){try{replies.push({name,status:r.status(),body:await r.json()})}catch{replies.push({name,status:r.status(),body:null})}}})
++ let panel,progress=null
++ try{
++  mkdirSync('cp6-proof/t3',{recursive:true});panel=await openPanel(page);const before=state();assert.equal(before.jobs.length,0)
++  await panel.getByRole('button',{name:STAGED,exact:true}).click()
++  // Real progress from the stored job: stage and unit counts, start time in WIB.
++  const status=panel.getByRole('status').filter({hasText:'Analisis bertahap: tahap'})
++  await ui.expect(status).toBeVisible({timeout:30000});progress=await status.innerText()
++  assert.match(progress,/^Analisis bertahap: tahap \d+ dari \d+/);assert.match(progress,/unit \d+ dari \d+/);assert.match(progress,/dimulai jam \d{2}[.:]\d{2}[.:]\d{2} WIB/)
++  const requested=calls.filter(c=>c.name==='erp_cp7_request_staged_analysis_v1');assert.equal(requested.length,1);const requestId=requested[0].body.p_request
++  assert.equal(calls.filter(c=>/^erp_cp7_(capture|request)_(operational_)?analysis(_job)?_v1$/.test(c.name)).length,0,'P19G_STAGED_CLICK_STARTED_A_SINGLE_PATH_CALL')
++  let resumed=false
++  if(!mobile){
++   // Leave mid-job: the stored request resumes after a reload, never a new UUID.
++   await ui.expect.poll(()=>replies.filter(r=>r.name==='erp_cp7_step_staged_analysis_v1'&&r.status===200).length).toBeGreaterThan(0)
++   assert.equal((await stagedKeys(page)).length,1)
++   const mark=calls.length
++   await page.reload();panel=await openPanel(page);resumed=true
++   await ui.expect(page.getByRole('region',{name:'Hasil analisis bertahap',exact:true})).toBeVisible({timeout:120000})
++   const after=calls.slice(mark).filter(c=>c.name.includes('_staged_'))
++   // The reload reads the stored job's status first, then continues the same job.
++   assert.equal(after[0]?.name,'erp_cp7_get_staged_analysis_v1');assert.deepEqual(after[0].body,{p_request:requestId})
++   assert.ok(calls.filter(c=>c.name==='erp_cp7_request_staged_analysis_v1').every(c=>c.body.p_request===requestId),'P19G_RELOAD_STARTED_A_NEW_REQUEST')
++   assert.ok(after.filter(c=>c.body?.p_request).every(c=>c.body.p_request===requestId))
++  }
++  const region=page.getByRole('region',{name:'Hasil analisis bertahap',exact:true})
++  await ui.expect(region).toBeVisible({timeout:120000})
++  const done=replies.filter(r=>r.body?.state==='DONE').pop()?.body;assert.ok(done&&done.run_id,'P19G_DONE_NOT_OBSERVED');assert.equal(done.request_id,requestId)
++  const set=replies.find(r=>r.name==='erp_cp7_read_staged_analysis_pages_v1')?.body;assert.ok(set,'P19G_PAGE_SET_NOT_READ');assert.equal(set.run_id,done.run_id)
++  const pageCalls=calls.filter(c=>c.name==='erp_cp7_read_staged_analysis_page_v1');assert.ok(pageCalls.length>=1&&pageCalls.every(c=>c.body.p_run===done.run_id&&c.body.p_access===set.access_epoch))
++  const total=set.targets_total,first=set.pages[0]
++  await ui.expect(region).toContainText(`Target ${first.target_lo.toLocaleString('id-ID')}–${first.target_hi.toLocaleString('id-ID')} dari ${total.toLocaleString('id-ID')}`)
++  const next=region.getByRole('button',{name:'Halaman berikutnya',exact:true}),prev=region.getByRole('button',{name:'Halaman sebelumnya',exact:true})
++  await ui.expect(prev).toBeDisabled();if(set.page_count===1)await ui.expect(next).toBeDisabled();else{await next.click();await ui.expect(region).toContainText(`Target ${set.pages[1].target_lo.toLocaleString('id-ID')}–`)}
++  // Downstream features are stated unavailable for a staged run (no fake buttons).
++  const text=await region.innerText();assert.match(text,/tidak tersedia/i);assert.match(text,DOWNSTREAM)
++  await region.getByRole('button',{name:'Cek sumber',exact:true}).click();await ui.expect(region).toContainText('Sumber belum berubah sejak')
++  assert.equal(calls.filter(c=>c.name==='erp_cp7_check_staged_analysis_source_v1').length,1)
++  // A staged run is never read through a whole reader.
++  assert.equal(calls.filter(c=>c.name==='erp_cp7_read_analysis_v1'||c.name==='erp_cp7_read_analysis_manifest_v1').length,0)
++  assert.equal((await stagedKeys(page)).length,0,'P19G_STORED_REQUEST_LEFT_AFTER_DONE')
++  const after=state();assert.equal(after.jobs.length,1);assert.equal(after.jobs[0].state,'DONE');assert.equal(after.jobs[0].request_id,requestId)
++  assert.equal(after.pages,set.page_count);assert.equal(after.analysis_count,before.analysis_count);assert.deepEqual(after.business,before.business)
++  shots.push(await shot(ui,page,`P19G_${suffix}_STAGED_RESULT.png`))
++  const steps=calls.filter(c=>c.name==='erp_cp7_step_staged_analysis_v1').length
++  return{status:'PASS',progress_text:progress,reload_resumed_same_request:resumed,one_job_one_request:true,steps,page_count:set.page_count,targets_total:total,
++   identity_hash:set.identity_hash,whole_readers_not_called:true,downstream_unavailable_stated:true,source_check_unchanged:true,business_unchanged:true,no_horizontal_scroll:true,screenshots:shots}
++ }catch(e){writeFileSync(`cp6-proof/t3/P19G_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),progress,calls:calls.map(c=>c.name),replies:replies.map(r=>({name:r.name,status:r.status,state:r.body?.state,failure:r.body?.failure})),text:await panel?.innerText().catch(()=>'')},null,2));await page.screenshot({path:`cp6-proof/t3/P19G_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
++ finally{fixture('restore',{actor:user.user.id});await user.context.close()}
++}
++export function cases(ui,today){return[['P19G_BROWSER_DESKTOP_STAGED_RELOAD',()=>journey(ui,today,false)],['P19G_BROWSER_MOBILE_STAGED',()=>journey(ui,today,true)]]}
+diff --git a/scripts/cp7_p19_staged_cases.py b/scripts/cp7_p19_staged_cases.py
+new file mode 100644
+index 00000000..d6aff405
+--- /dev/null
++++ b/scripts/cp7_p19_staged_cases.py
+@@ -0,0 +1,532 @@
++"""P19 staged analysis (5,000 targets as supported capacity): request, step, status, page set, pages, source check.
++
++Every call is one ordinary authenticated request under the existing 8 s
++statement limit; no limit is raised. The staged run lives apart from
++cp7_analysis_native.runs (no whole reader can serve it) and is read as a
++header plus byte-adaptive pages bound by identity_hash. Real Native E01 and
++planner facts, real concurrent sessions and real Auth/PostgREST calls. The
++5,000-target point itself is measured by the scale ladder (P19 Scale); this
++suite proves the contract and its authority on the closed harness.
++"""
++from concurrent.futures import ThreadPoolExecutor
++from decimal import Decimal
++from time import monotonic
++import hashlib
++import json
++import threading
++import time
++import uuid
++
++import psycopg
++
++import cp7_analysis_cases as analysis
++import cp7_p19_native_load_cases as load
++import cp7_p18_e01_bridge_cases as bridge
++
++IDS = dict(
++    native=['P19G_STAGED_EQUALS_SINGLE', 'P19G_STAGED_AUTHORITY', 'P19G_STAGED_IDENTITY', 'P19G_STAGED_SOURCE_CHECK',
++            'P19G_STAGED_REFUSAL_EQUALS_SINGLE'],
++    races=['P19G_RACE_TWO_STEPS_ONE_UNIT', 'P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES', 'P19G_RACE_ACCESS_CHANGED_MID_JOB'],
++    http=['P19G_HTTP_STAGED_FLOW', 'P19G_HTTP_REVOKED'],
++    browser=['P19G_BROWSER_DESKTOP_STAGED_RELOAD', 'P19G_BROWSER_MOBILE_STAGED'],
++)
++REQUIRED = {key: len(value) for key, value in IDS.items()}
++EXPECTED = sum(REQUIRED.values())
++CONTRACT = 'cp7.p19.analysis-staged.v1'
++PAGE_BYTES = 8000000
++STATEMENT_TIMEOUT = '8s'
++# Driver bound only (calls per job); never an application limit.
++DRIVER_CALLS = 20000
++auth, b, schedule = analysis.auth, analysis.b, analysis.schedule
++FUNCTIONS = ('erp_cp7_request_staged_analysis_v1', 'erp_cp7_step_staged_analysis_v1', 'erp_cp7_get_staged_analysis_v1',
++             'erp_cp7_read_staged_analysis_pages_v1', 'erp_cp7_read_staged_analysis_page_v1',
++             'erp_cp7_check_staged_analysis_source_v1')
++SIGNATURES = ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)', 'public.erp_cp7_step_staged_analysis_v1(uuid)',
++              'public.erp_cp7_get_staged_analysis_v1(uuid)', 'public.erp_cp7_read_staged_analysis_pages_v1(uuid)',
++              'public.erp_cp7_read_staged_analysis_page_v1(uuid,integer,text)',
++              'public.erp_cp7_check_staged_analysis_source_v1(uuid)')
++STATES = ('RUNNING', 'DONE', 'FAILED')
++
++
++def query(today):
++    return analysis.previous.baseline.history.query(today)
++
++
++def limited(cur, name, args, subject=None, timeout=STATEMENT_TIMEOUT):
++    """One public call as the actor under the ordinary authenticated statement limit."""
++    prior = cur.execute('show statement_timeout').fetchone()[0]
++    auth.actor(cur, subject)
++    cur.execute("select set_config('statement_timeout',%s,true),set_config('lock_timeout','0',true)", (timeout,))
++    placeholders = ','.join('%s' for _ in args)
++    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]
++    b.api.admin(cur)
++    cur.execute("select set_config('statement_timeout',%s,true)", (prior,))
++    return result
++
++
++def request(cur, today, key, subject=None, q=None):
++    return limited(cur, 'erp_cp7_request_staged_analysis_v1', (json.dumps(q or query(today)), key), subject)
++
++
++def step(cur, key, subject=None, timeout=STATEMENT_TIMEOUT):
++    return limited(cur, 'erp_cp7_step_staged_analysis_v1', (key,), subject, timeout)
++
++
++def status(cur, key, subject=None):
++    return limited(cur, 'erp_cp7_get_staged_analysis_v1', (key,), subject)
++
++
++def checked(job, key, state=None):
++    assert job['contract_version'] == 'cp7.native-analysis-staged-job.v1' and job['request_id'] == str(key), job
++    assert job['state'] in STATES and (state is None or job['state'] == state), job
++    assert job['apply_enabled'] is False and job['production_go'] is False, job
++    assert (job.get('run_id') is not None) == (job['state'] == 'DONE'), job
++    assert (job.get('failure') is not None) == (job['state'] == 'FAILED'), job
++    assert 0 <= job['units_done'] <= job['unit_count'] and 0 <= job['stage_index'] <= job['stage_count'], job
++    assert set(job['reference']) == {'captured_at', 'source_hash'} and len(job['reference']['source_hash']) == 64, job
++    return job
++
++
++def drive(cur, key, subject=None):
++    """Step until terminal, one call per unit, each under 8 s. Returns the final status and the call log."""
++    calls, last = [], checked(status(cur, key, subject), key)
++    while last['state'] == 'RUNNING':
++        assert len(calls) < DRIVER_CALLS, 'P19G_DRIVER_BOUND'
++        started = monotonic()
++        nxt = checked(step(cur, key, subject), key)
++        calls.append(dict(ms=round((monotonic() - started) * 1000, 3), stage=last['stage'], units_done=nxt['units_done'],
++                          unit_attempts=nxt.get('unit_attempts')))
++        # Progress is never claimed without a stored unit: each RUNNING step
++        # either completes a unit or records an attempt of the same unit.
++        assert nxt['units_done'] >= last['units_done'], (last, nxt)
++        assert nxt['state'] != 'RUNNING' or nxt['units_done'] > last['units_done'] or nxt.get('unit_attempts', 0) > last.get('unit_attempts', 0), (last, nxt)
++        last = nxt
++    return last, calls
++
++
++def sha(text):
++    return hashlib.sha256(text.encode('utf8')).hexdigest()
++
++
++def parse(text):
++    return json.loads(text, parse_float=Decimal)
++
++
++def fetch(cur, run_id, subject=None):
++    """Page set plus every page, verified exactly as the client does; returns the reassembled Original."""
++    ps = limited(cur, 'erp_cp7_read_staged_analysis_pages_v1', (run_id,), subject)
++    assert ps['contract_version'] == 'cp7.native-analysis-pages.v1' and ps['run_id'] == str(run_id), ps.get('contract_version')
++    assert ps['apply_enabled'] is False and ps['production_go'] is False and len(ps['access_epoch']) == 64
++    assert 'document' not in ps and 'semantic_hash' not in ps, 'P19G_STAGED_RUN_CLAIMS_A_WHOLE_DOCUMENT'
++    h = ps['header']
++    assert len(h['body'].encode('utf8')) == h['utf8_bytes'] <= PAGE_BYTES and sha(h['body']) == h['sha256']
++    header = parse(h['body'])
++    assert header['contract_version'] == 'cp7.native-analysis-header.v1' and header['run_id'] == str(run_id)
++    assert header['request_id'] == ps['request_id'] and header['financial_source'] is None
++    assert (header['targets_total'], header['page_count'], header['paged']) == (ps['targets_total'], ps['page_count'], ps['paged'])
++    assert header['apply_enabled'] is False and header['production_go'] is False
++    pages = ps['pages']
++    assert [p['index'] for p in pages] == list(range(ps['page_count'])) and ps['page_count'] >= 1
++    assert ps['identity_hash'] == sha(h['sha256'] + '\n' + '\n'.join(p['sha256'] for p in pages)), 'P19G_IDENTITY_HASH'
++    nxt, bodies, sizes = 1, [], []
++    for entry in pages:
++        assert entry['target_lo'] == nxt and entry['target_hi'] >= entry['target_lo'], entry
++        nxt = entry['target_hi'] + 1
++        e = limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (run_id, entry['index'], ps['access_epoch']), subject)
++        assert (e['contract_version'], e['run_id'], e['index'], e['page_count'], e['target_lo'], e['target_hi'], e['header_sha256'],
++                e['identity_hash']) == ('cp7.native-analysis-page-read.v1', str(run_id), entry['index'], ps['page_count'],
++                                        entry['target_lo'], entry['target_hi'], h['sha256'], ps['identity_hash']), e.get('index')
++        raw = e['body'].encode('utf8')
++        assert len(raw) == e['utf8_bytes'] == entry['utf8_bytes'] <= PAGE_BYTES and sha(e['body']) == e['sha256'] == entry['sha256']
++        page = parse(e['body'])
++        assert page['contract_version'] == 'cp7.native-analysis-page.v1' and page['run_id'] == str(run_id)
++        assert (page['index'], page['target_lo'], page['target_hi'], page['targets_total'], page['header_sha256']) == (
++            entry['index'], entry['target_lo'], entry['target_hi'], ps['targets_total'], h['sha256'])
++        assert page['counts'] == entry['counts'] and page['apply_enabled'] is False and page['production_go'] is False
++        bodies.append(page)
++        sizes.append(len(raw))
++    assert nxt - 1 == ps['targets_total'], ('P19G_PAGES_DO_NOT_COVER_EVERY_TARGET', nxt - 1, ps['targets_total'])
++    # Reassemble: each paged array is its header prefix followed by every
++    # page's items in page order; everything else is the header's.
++    whole = dict(header['analysis_header'])
++    for name, layout in header['paged'].items():
++        prefix = whole[name]
++        assert len(prefix) == layout['prefix'], (name, len(prefix), layout)
++        items = [x for page in bodies for x in page['items'].get(name, [])]
++        assert len(items) == layout['items'], (name, len(items), layout)
++        whole[name] = prefix + items
++    original = dict(contract_version='cp7.native-analysis-run.v1', run_id=header['run_id'], request_id=header['request_id'],
++                    analysis=whole, product_labels=header['product_labels'], query=header['query'],
++                    financial_source=header['financial_source'], apply_enabled=False, production_go=False)
++    return original, ps, dict(page_count=ps['page_count'], targets_total=ps['targets_total'], header_utf8_bytes=h['utf8_bytes'],
++                              page_utf8_bytes_max=max(sizes), page_utf8_bytes_total=sum(sizes),
++                              uneven_ranges=len({p['target_hi'] - p['target_lo'] for p in pages}) > 1)
++
++
++def job_row(cur, key, subject=None):
++    b.api.admin(cur)
++    # actor is auth.uid() (cp7_private.access_now), as in cp7_analysis_native.runs.
++    return cur.execute("""select row_to_json(j)::jsonb from cp7_analysis_stage.jobs j where j.request_id=%s
++        and (%s::uuid is null or j.actor=%s::uuid)""", (key, subject, subject)).fetchone()[0]
++
++
++def single_on_reference(cur, job):
++    """The single path's compiler on the staged job's own stored reference (admin; immutable build)."""
++    b.api.admin(cur)
++    r = cur.execute('select cp7_analysis_native.build(%s::jsonb,%s::jsonb,%s,%s::jsonb)::text',
++                    (json.dumps(job['reference']), json.dumps(job['query']), job['run_id'],
++                     json.dumps(job['access_at_capture']))).fetchone()[0]
++    built = parse(r)
++    assert 'semantic_hash' in built
++    return built
++
++
++def counts(cur, key):
++    b.api.admin(cur)
++    return cur.execute("""select (select count(*) from cp7_analysis_native.runs where request_id=%s),
++        (select count(*) from cp7_analysis_jobs.jobs where request_id=%s),
++        (select count(*) from cp7_analysis_stage.jobs where request_id=%s),
++        (select count(*) from cp7_analysis_stage.pages p join cp7_analysis_stage.jobs j on j.run_id=p.run_id where j.request_id=%s)""",
++                       (key, key, key, key)).fetchone()
++
++
++def refused(cur, op, code):
++    return auth.refused(cur, op, code)
++
++
++def staged_done(cur, today, key=None, subject=None, q=None):
++    key = key or uuid.uuid4()
++    first = checked(request(cur, today, key, subject, q), key, 'RUNNING')
++    assert first['units_done'] == 0 and first.get('run_id') is None
++    done, calls = drive(cur, key, subject)
++    checked(done, key, 'DONE')
++    return key, first, done, calls
++
++
++def cases(cur, today):
++    def equals_single():
++        f, _ = load.real_workload(cur, today)
++        before = b.boundary.snapshot(cur)
++        started = monotonic()
++        key, first, done, calls = staged_done(cur, today)
++        elapsed = round((monotonic() - started) * 1000, 3)
++        assert checked(status(cur, key), key, 'DONE') == done and checked(request(cur, today, key), key, 'DONE') == done
++        assert checked(step(cur, key), key, 'DONE') == done, 'P19G_STEP_AFTER_DONE_CHANGED_THE_JOB'
++        original, ps, shape = fetch(cur, done['run_id'])
++        job = job_row(cur, key)
++        built = single_on_reference(cur, job)
++        expected = {k: v for k, v in built.items() if k != 'semantic_hash'}
++        assert original['analysis'] == expected, 'P19G_STAGED_ANALYSIS_DIFFERS_FROM_SINGLE_ON_SAME_REFERENCE'
++        # No whole reader serves a staged run (fail closed by construction).
++        for name, args in (('erp_cp7_read_analysis_v1', (done['run_id'],)), ('erp_cp7_read_analysis_manifest_v1', (done['run_id'],))):
++            refused(cur, lambda: schedule.rpc(cur, name, args), 'CP7_ANALYSIS_RUN_UNAVAILABLE')
++        assert counts(cur, key)[:3] == (0, 0, 1)
++        assert b.boundary.snapshot(cur) == before
++        bridge.literal(cur, f, '175.00')
++        return dict(status='PASS', request_steps_status_pages_exact=True, units=len(calls), job_elapsed_ms=elapsed,
++                    slowest_call_ms=max(c['ms'] for c in calls), statement_timeout=STATEMENT_TIMEOUT, pages=shape,
++                    identity_hash=ps['identity_hash'], reassembled_analysis_equals_single_build_on_same_reference=True,
++                    whole_readers_refuse_staged_run=True, finance_deferred=True, Native_business_unchanged=True)
++
++    def authority():
++        f, _ = load.real_workload(cur, today)
++        key, _, done, _ = staged_done(cur, today)
++        other, other_role = auth.custom_actor(cur)
++        for op in (lambda: status(cur, key, other), lambda: step(cur, key, other)):
++            refused(cur, op, 'CP7_ANALYSIS_JOB_UNAVAILABLE')
++        for name, args in (('erp_cp7_read_staged_analysis_pages_v1', (done['run_id'],)),
++                           ('erp_cp7_check_staged_analysis_source_v1', (done['run_id'],))):
++            refused(cur, lambda: limited(cur, name, args, other), 'CP7_ANALYSIS_RUN_UNAVAILABLE')
++        own = uuid.uuid4()
++        _, _, mine, _ = staged_done(cur, today, own, other)
++        _, ps, _ = fetch(cur, mine['run_id'], other)
++        refused(cur, lambda: limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (done['run_id'], 0, ps['access_epoch']), other),
++                'CP7_ANALYSIS_RUN_UNAVAILABLE')
++        # Any change of the actor's current access retires the page-set epoch.
++        b.api.admin(cur)
++        cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.hpp.view')", (other_role,))
++        refused(cur, lambda: limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (mine['run_id'], 0, ps['access_epoch']), other),
++                'CP7_ANALYSIS_ACCESS_CHANGED')
++        renewed = fetch(cur, mine['run_id'], other)[1]
++        assert renewed['access_epoch'] != ps['access_epoch'] and renewed['identity_hash'] == ps['identity_hash']
++        b.api.admin(cur)
++        cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='production.wip.view'", (other_role,))
++        for name, args in (('erp_cp7_request_staged_analysis_v1', (json.dumps(query(today)), own)), ('erp_cp7_step_staged_analysis_v1', (own,)),
++                           ('erp_cp7_get_staged_analysis_v1', (own,)), ('erp_cp7_read_staged_analysis_pages_v1', (mine['run_id'],)),
++                           ('erp_cp7_read_staged_analysis_page_v1', (mine['run_id'], 0, renewed['access_epoch'])),
++                           ('erp_cp7_check_staged_analysis_source_v1', (mine['run_id'],))):
++            refused(cur, lambda: limited(cur, name, args, other), 'CP7_ACCESS_DENIED')
++        # No direct table or private function path for API roles; the six
++        # public functions are authenticated only.
++        b.api.admin(cur)
++        tables = [r[0] for r in cur.execute("select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace "
++                                            "where n.nspname='cp7_analysis_stage' and c.relkind in ('r','p')").fetchall()]
++        assert tables, 'P19G_STAGE_TABLES_NOT_FOUND'
++        for who in ('anon', 'authenticated', 'service_role'):
++            assert not cur.execute("select has_schema_privilege(%s,'cp7_analysis_stage','USAGE')", (who,)).fetchone()[0], who
++            for table in tables:
++                assert not cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE')",
++                                       (who, 'cp7_analysis_stage.' + table)).fetchone()[0], (who, table)
++            for sig in SIGNATURES:
++                assert cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (who, sig)).fetchone()[0] == (who == 'authenticated'), (who, sig)
++        for table in tables:
++            assert cur.execute("select relrowsecurity from pg_class where oid=%s::regclass", ('cp7_analysis_stage.' + table,)).fetchone()[0], table
++        # Outputs are immutable.
++        for table in ('pages',):
++            refused(cur, lambda: cur.execute('update cp7_analysis_stage.' + table + ' set run_id=run_id'), 'CP7_RUN_IMMUTABLE')
++        bridge.literal(cur, f, '175.00')
++        return dict(status='PASS', foreign_actor_job_pages_source_refused=True, access_epoch_change_refused=True,
++                    current_permission_loss_refuses_all_six=True, no_direct_API_path=True, pages_immutable=True,
++                    stage_tables=sorted(tables))
++
++    def identity():
++        f, _ = load.real_workload(cur, today)
++        key = uuid.uuid4()
++        first = checked(request(cur, today, key), key, 'RUNNING')
++        assert checked(request(cur, today, key), key, 'RUNNING') == first, 'P19G_SAME_UUID_NOT_SAME_JOB'
++        changed = query(today)
++        changed['group_mode'] = 'RESTATED'
++        refused(cur, lambda: request(cur, today, key, q=changed), 'CP7_ANALYSIS_REQUEST_CHANGED')
++        # A UUID the actor's ordinary capture or analysis job owns is refused here, and vice versa none is adopted.
++        captured = uuid.uuid4()
++        analysis.capture(cur, today, captured)
++        refused(cur, lambda: request(cur, today, captured), 'CP7_ANALYSIS_REQUEST_CHANGED')
++        jobbed = uuid.uuid4()
++        schedule.rpc(cur, 'erp_cp7_request_operational_analysis_job_v1', (json.dumps(query(today)), jobbed))
++        refused(cur, lambda: request(cur, today, jobbed), 'CP7_ANALYSIS_REQUEST_CHANGED')
++        missing = uuid.uuid4()
++        for op in (lambda: step(cur, missing), lambda: status(cur, missing)):
++            refused(cur, op, 'CP7_ANALYSIS_JOB_UNAVAILABLE')
++        refused(cur, lambda: limited(cur, 'erp_cp7_request_staged_analysis_v1', (json.dumps(query(today)), None)), 'CP7_ANALYSIS_REQUEST_REQUIRED')
++        for name, args in (('erp_cp7_read_staged_analysis_pages_v1', (uuid.uuid4(),)),
++                           ('erp_cp7_read_staged_analysis_page_v1', (uuid.uuid4(), 0, '0' * 64)),
++                           ('erp_cp7_check_staged_analysis_source_v1', (uuid.uuid4(),))):
++            refused(cur, lambda: limited(cur, name, args), 'CP7_ANALYSIS_RUN_UNAVAILABLE')
++        # A running job exposes no page.
++        assert first.get('run_id') is None and counts(cur, key)[2:] == (1, 0)
++        done, _ = drive(cur, key)
++        _, ps, _ = fetch(cur, done['run_id'])
++        for index in (ps['page_count'], -1):
++            refused(cur, lambda: limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (done['run_id'], index, ps['access_epoch'])),
++                    'CP7_ANALYSIS_PAGE_UNAVAILABLE')
++        assert counts(cur, missing) == (0, 0, 0, 0)
++        bridge.literal(cur, f, '175.00')
++        return dict(status='PASS', same_UUID_same_job=True, changed_query_refused=True, ordinary_capture_or_job_UUID_refused=True,
++                    missing_UUID_refused=True, foreign_or_missing_run_refused=True, running_job_exposes_no_page=True,
++                    out_of_range_page_refused=True)
++
++    def source_check():
++        f, _ = load.real_workload(cur, today)
++        key, _, done, _ = staged_done(cur, today)
++        first = limited(cur, 'erp_cp7_check_staged_analysis_source_v1', (done['run_id'],))
++        assert first['source_state'] == 'UNCHANGED' and set(first) >= {'source_state', 'checked_at'}, first
++        original, ps, _ = fetch(cur, done['run_id'])
++        analysis.setup(cur, today)
++        stale = limited(cur, 'erp_cp7_check_staged_analysis_source_v1', (done['run_id'],))
++        assert stale['source_state'] == 'ARCHIVED_STALE', stale
++        again, ps2, _ = fetch(cur, done['run_id'])
++        assert again == original and ps2['identity_hash'] == ps['identity_hash'], 'P19G_ARCHIVED_RUN_CHANGED'
++        bridge.literal(cur, f, '175.00')
++        return dict(status='PASS', unchanged_then_archived_stale=True, archived_pages_unchanged=True, one_statement_check=True)
++
++    def refusal_equals_single():
++        # The single path's grid refusal (targets x history days above 100,000)
++        # is the same refusal on the staged path: the job fails at its unit
++        # with the same code and SQLSTATE, and nothing is paged. Seeded with
++        # the scale ladder's own writer seeding inside this rolled-back case.
++        import cp7_p19_scale_cases as scale
++        size, days = scale.NATIVE_CASE['size'], scale.NATIVE_CASE['grid_cap_days']
++        seed = scale.ensure(cur, today, size, False)
++        targets = len(scale.current_targets(cur))
++        assert targets == size and targets * days > 100000, (targets, days)
++        q = analysis.previous.baseline.history.query(today, days)
++        single = refused(cur, lambda: schedule.rpc(cur, 'erp_cp7_capture_operational_analysis_v1', (json.dumps(q), uuid.uuid4())),
++                         'CP7_PLANNING_HISTORY_GRID_LIMIT')
++        key = uuid.uuid4()
++        started = checked(request(cur, today, key, q=q), key, 'RUNNING')
++        failed, calls = drive(cur, key)
++        checked(failed, key, 'FAILED')
++        assert failed['failure']['code'] == 'CP7_PLANNING_HISTORY_GRID_LIMIT' and failed['failure']['sqlstate'] == 'P0001', failed
++        assert counts(cur, key)[3] == 0 and failed.get('run_id') is None, 'P19G_FAILED_JOB_EXPOSED_PAGES'
++        assert checked(step(cur, key), key, 'FAILED') == failed, 'P19G_STEP_AFTER_FAILED_CHANGED_THE_JOB'
++        return dict(status='PASS', targets=targets, history_days=days, single_refusal=single, staged_failure=failed['failure'],
++                    staged_units_before_refusal=len(calls), started_units=started['unit_count'], same_refusal=True,
++                    nothing_paged=True, seed_ms_not_app_latency=seed.get('seed_ms'))
++
++    return list(zip(IDS['native'], (equals_single, authority, identity, source_check, refusal_equals_single)))
++
++
++def races(tools, today):
++    def prepared(subject=None):
++        key = uuid.uuid4()
++        with tools.connect() as conn, conn.cursor() as cur:
++            f, _ = load.real_workload(cur, today)
++            if subject == 'custom':
++                subject, role = auth.custom_actor(cur)
++            else:
++                role = None
++            checked(request(cur, today, key, subject), key, 'RUNNING')
++            conn.commit()
++        return key, f, subject, role
++
++    def two_steps():
++        key, f, _, _ = prepared()
++        with tools.connect() as conn, conn.cursor() as cur:
++            before = checked(status(cur, key), key, 'RUNNING')
++            conn.commit()
++        with tools.connect() as holder, holder.cursor() as h:
++            # The first worker holds the job row exactly as a running unit does.
++            h.execute('select 1 from cp7_analysis_stage.jobs where request_id=%s for update', (key,))
++
++            def send():
++                with tools.connect() as conn, conn.cursor() as cur:
++                    result = step(cur, key)
++                    conn.commit()
++                    return result
++            with ThreadPoolExecutor(max_workers=1) as pool:
++                skipped = pool.submit(send).result(30)
++            holder.rollback()
++        assert skipped['worker_active'] is True and skipped['units_done'] == before['units_done'], skipped
++        gate = threading.Barrier(2)
++
++        def racing():
++            with tools.connect() as conn, conn.cursor() as cur:
++                gate.wait(timeout=8)
++                result = step(cur, key)
++                conn.commit()
++                return result
++        with ThreadPoolExecutor(max_workers=2) as pool:
++            results = [job.result(60) for job in [pool.submit(racing), pool.submit(racing)]]
++        with tools.connect() as conn, conn.cursor() as cur:
++            after = checked(status(cur, key), key)
++            conn.commit()
++        ran = [r for r in results if not r.get('worker_active')]
++        assert after['units_done'] - before['units_done'] == len(ran) and len(ran) in (1, 2), (before, results, after)
++        assert len(ran) == 2 or any(r.get('worker_active') for r in results), results
++        with tools.connect() as conn, conn.cursor() as cur:
++            done, _ = drive(cur, key)
++            conn.commit()
++            assert done['state'] == 'DONE'
++            bridge.literal(cur, f, '175.00')
++        return dict(status='PASS', locked_job_step_runs_nothing_worker_active=True, concurrent_steps_never_run_one_unit_twice=True,
++                    results=results)
++
++    def limit():
++        key, f, _, _ = prepared()
++        stops = []
++        with tools.connect() as holder, holder.cursor() as h:
++            # The next unit's source read waits on a real lock until the
++            # existing kind of statement limit stops it; the step records the
++            # attempt and leaves the job RUNNING.
++            h.execute('lock table erp.products in access exclusive mode')
++
++            def send():
++                with tools.connect() as conn, conn.cursor() as cur:
++                    result = step(cur, key, timeout='3s')
++                    conn.commit()
++                    return result
++            with ThreadPoolExecutor(max_workers=1) as pool:
++                for _ in range(2):
++                    stops.append(pool.submit(send).result(30))
++            holder.rollback()
++        assert all(s['state'] == 'RUNNING' for s in stops) and [s['unit_attempts'] for s in stops] == [1, 2], stops
++        with tools.connect() as conn, conn.cursor() as cur:
++            done, calls = drive(cur, key)
++            conn.commit()
++            assert done['state'] == 'DONE'
++            bridge.literal(cur, f, '175.00')
++        return dict(status='PASS', statement_limit_stop_recorded_as_attempt=True, job_continues_after_lock_release=True,
++                    stops=stops, units_after=len(calls))
++
++    def access_changed():
++        key, f, subject, role = prepared('custom')
++        with tools.connect() as conn, conn.cursor() as cur:
++            first = checked(step(cur, key, subject), key)
++            conn.commit()
++        with tools.connect() as conn, conn.cursor() as cur:
++            cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'finance.hpp.view')", (role,))
++            conn.commit()
++        with tools.connect() as conn, conn.cursor() as cur:
++            failed = checked(step(cur, key, subject), key, 'FAILED')
++            conn.commit()
++        assert failed['failure']['code'] == 'CP7_ANALYSIS_ACCESS_CHANGED' and failed['units_done'] == first['units_done'], failed
++        with tools.connect() as conn, conn.cursor() as cur:
++            assert checked(status(cur, key, subject), key, 'FAILED') == failed
++            assert counts(cur, key)[3] == 0
++            bridge.literal(cur, f, '175.00')
++        return dict(status='PASS', access_change_between_units_fails_job=True, no_mixed_access_pages=True, failed=failed['failure'])
++
++    return list(zip(IDS['races'], (two_steps, limit, access_changed)))
++
++
++def http_cases(http, today):
++    state = {}
++
++    def ok(user, name, payload):
++        r = user.rpc(name, payload)
++        assert r['status'] == 200, (name, r)
++        return r['body']
++
++    def flow():
++        owner = http.login('OWNER', 'p19g-owner')
++        other = http.login('OWNER', 'p19g-other')
++        with http.connect() as conn, conn.cursor() as cur:
++            f, _ = load.real_workload(cur, today)
++            conn.commit()
++        key = str(uuid.uuid4())
++        args = dict(p_query=query(today), p_request=key)
++        job = ok(owner, 'erp_cp7_request_staged_analysis_v1', args)
++        assert job['state'] == 'RUNNING'
++        started, calls = monotonic(), 0
++        while job['state'] == 'RUNNING':
++            assert calls < DRIVER_CALLS
++            job = ok(owner, 'erp_cp7_step_staged_analysis_v1', dict(p_request=key))
++            calls += 1
++        elapsed = round((monotonic() - started) * 1000, 3)
++        assert job['state'] == 'DONE' and ok(owner, 'erp_cp7_get_staged_analysis_v1', dict(p_request=key)) == job
++        ps = ok(owner, 'erp_cp7_read_staged_analysis_pages_v1', dict(p_run=job['run_id']))
++        bodies = [ok(owner, 'erp_cp7_read_staged_analysis_page_v1', dict(p_run=job['run_id'], p_index=i, p_access=ps['access_epoch']))
++                  for i in range(ps['page_count'])]
++        assert all(sha(e['body']) == e['sha256'] and e['identity_hash'] == ps['identity_hash'] for e in bodies)
++        assert ps['identity_hash'] == sha(ps['header']['sha256'] + '\n' + '\n'.join(e['sha256'] for e in bodies))
++        checked_source = ok(owner, 'erp_cp7_check_staged_analysis_source_v1', dict(p_run=job['run_id']))
++        assert checked_source['source_state'] == 'UNCHANGED'
++        foreign = [other.rpc('erp_cp7_read_staged_analysis_pages_v1', dict(p_run=job['run_id']))['status'],
++                   other.rpc('erp_cp7_read_staged_analysis_page_v1', dict(p_run=job['run_id'], p_index=0, p_access=ps['access_epoch']))['status'],
++                   other.rpc('erp_cp7_check_staged_analysis_source_v1', dict(p_run=job['run_id']))['status']]
++        assert foreign == [403, 403, 403], foreign
++        missing = other.rpc('erp_cp7_get_staged_analysis_v1', dict(p_request=key))
++        assert missing['status'] == 400 and 'CP7_ANALYSIS_JOB_UNAVAILABLE' in json.dumps(missing['body']), missing
++        whole = owner.rpc('erp_cp7_read_analysis_v1', dict(p_run=job['run_id']))
++        assert whole['status'] == 403 and 'CP7_ANALYSIS_RUN_UNAVAILABLE' in json.dumps(whole['body']), whole
++        anonymous = [http.anon_rpc(name, payload)['status'] for name, payload in (
++            ('erp_cp7_request_staged_analysis_v1', args), ('erp_cp7_step_staged_analysis_v1', dict(p_request=key)),
++            ('erp_cp7_get_staged_analysis_v1', dict(p_request=key)), ('erp_cp7_read_staged_analysis_pages_v1', dict(p_run=job['run_id'])),
++            ('erp_cp7_read_staged_analysis_page_v1', dict(p_run=job['run_id'], p_index=0, p_access=ps['access_epoch'])),
++            ('erp_cp7_check_staged_analysis_source_v1', dict(p_run=job['run_id'])))]
++        assert all(code in (401, 403) for code in anonymous), anonymous
++        with http.connect() as conn, conn.cursor() as cur:
++            assert counts(cur, key)[:3] == (0, 0, 1)
++            bridge.literal(cur, f, '175.00')
++        state.update(owner=owner, key=key, run=job['run_id'], epoch=ps['access_epoch'], args=args)
++        return dict(status='PASS', real_Auth_request_steps_get_pages_check=True, actual_HTTP_steps=calls, actual_HTTP_job_ms=elapsed,
++                    page_count=ps['page_count'], foreign_403=True, foreign_job_unknown=True, whole_reader_refuses_staged_run=True,
++                    anonymous_refused=anonymous)
++
++    def revoked():
++        assert state, 'P19G_REQUIRED_PRIOR_HTTP_CASE'
++        owner = state['owner']
++        with http.connect() as conn, conn.cursor() as cur:
++            cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (owner.auth_user_id,))
++            conn.commit()
++        codes = [owner.rpc(name, payload)['status'] for name, payload in (
++            ('erp_cp7_request_staged_analysis_v1', state['args']), ('erp_cp7_step_staged_analysis_v1', dict(p_request=state['key'])),
++            ('erp_cp7_get_staged_analysis_v1', dict(p_request=state['key'])), ('erp_cp7_read_staged_analysis_pages_v1', dict(p_run=state['run'])),
++            ('erp_cp7_read_staged_analysis_page_v1', dict(p_run=state['run'], p_index=0, p_access=state['epoch'])),
++            ('erp_cp7_check_staged_analysis_source_v1', dict(p_run=state['run'])))]
++        assert codes == [403] * 6, codes
++        with http.connect() as conn, conn.cursor() as cur:
++            assert counts(cur, state['key'])[:3] == (0, 0, 1)
++        return dict(status='PASS', deactivated_user_all_six_403=True, no_new_effect=True)
++
++    return list(zip(IDS['http'], (flow, revoked)))
+diff --git a/scripts/cp7_p19_staged_probe.py b/scripts/cp7_p19_staged_probe.py
+new file mode 100644
+index 00000000..666c29ed
+--- /dev/null
++++ b/scripts/cp7_p19_staged_probe.py
+@@ -0,0 +1,5 @@
++"""P19 staged analysis (5,000 targets as supported capacity) on the closed Native analysis harness."""
++import cp7_f05_analysis_probe as probe
++if __name__=='__main__':
++ probe.package._writer_runtime=lambda browser_mode=False:probe.run(p19_staged=True)
++ probe.package.run('install')
+-- 
+2.43.0
+

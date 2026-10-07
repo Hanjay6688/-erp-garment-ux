@@ -1,0 +1,1467 @@
+From 4346b9b190615f14d5f45807bbf5ab4046e1ca80 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 7 Oct 2026 17:20:55 +0000
+Subject: [PATCH] =?UTF-8?q?CP7=205,000=20targets=20(P19=20=C2=A710):=20sta?=
+ =?UTF-8?q?ged=20analysis=20path=20in=20the=20frontend?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Client-driven staged job (src/nativeStagedJob.ts): request with a fresh UUID
+kept under "erp.cp7.analysis-staged.v1:<scope>", step while RUNNING, back off
+and poll get on worker_active, stop on DONE (page set read) or FAILED (code
+shown verbatim), resume after reload (get first), abort on unmount without a
+timer left behind; strict parser for cp7.native-analysis-staged-job.v1.
+
+Page set / header / page / envelope parsers (src/nativeAnalysisPages.ts)
+adapted to §10: no document, no semantic_hash, no source_state; identity_hash
+recomputed from header and page sha256 (sha256(header || "\n" || pages...))
+and required on every page envelope; header body verified by size and hash;
+uneven (byte-adaptive) pages; financial_source must be null. Source check via
+erp_cp7_check_staged_analysis_source_v1.
+
+Panel: always-available "Analisis bertahap (hingga 5.000 target)", progress
+"Analisis bertahap: tahap i dari n (STAGE) · unit x dari y · dimulai jam …",
+"Analisis bertahap dijeda sejak jam …" + "Lanjutkan analisis bertahap",
+role=alert with the failure code, finance note, busy signal on "Tutup analisis
+bersama"; region "Hasil analisis bertahap" (.native-analysis-staged, run id in
+.native-analysis-run span, "N target dalam K halaman.", "Target a–b dari N",
+"Halaman sebelumnya/berikutnya", "Cek sumber"); downstream features stated
+unavailable. A single capture refused for its target bound releases its
+request and offers the staged path; every other single-path behaviour kept.
+
+RPC registrations: erp_cp7_request/step/get_staged_analysis_v1,
+erp_cp7_read_staged_analysis_pages_v1, erp_cp7_read_staged_analysis_page_v1,
+erp_cp7_check_staged_analysis_source_v1 replace the phase D prototype names in
+database.preconnect.ts, check-access-catalog.mjs, check-source-ownership.mjs.
+
+Tests: parser (8), job/driver (8), panel DOM (9), all with real SHA-256.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01VB4ZAg51aZLCtb68iza18N
+---
+ scripts/check-access-catalog.mjs           |   2 +-
+ scripts/check-source-ownership.mjs         |   8 +-
+ src/NativeAnalysisPanel.pages.dom.test.tsx | 221 +++++++++++++--------
+ src/NativeAnalysisPanel.tsx                | 143 ++++++++-----
+ src/NativeStagedAnalysisView.tsx           |  34 ++--
+ src/native-analysis.css                    |   2 +
+ src/nativeAnalysis.ts                      |   4 +
+ src/nativeAnalysisArchive.ts               |   7 +-
+ src/nativeAnalysisPages.test.ts            | 109 ++++++----
+ src/nativeAnalysisPages.ts                 | 114 ++++++-----
+ src/nativeAnalysisTransport.ts             |   5 +-
+ src/nativeStagedJob.test.ts                | 109 ++++++++++
+ src/nativeStagedJob.ts                     | 126 ++++++++++++
+ src/types/database.preconnect.ts           |   8 +-
+ tests/fixtures/nativeAnalysisPages.ts      |  60 ++++--
+ 15 files changed, 683 insertions(+), 269 deletions(-)
+ create mode 100644 src/nativeStagedJob.test.ts
+ create mode 100644 src/nativeStagedJob.ts
+
+diff --git a/scripts/check-access-catalog.mjs b/scripts/check-access-catalog.mjs
+index 9d950395..3a13e7fc 100644
+--- a/scripts/check-access-catalog.mjs
++++ b/scripts/check-access-catalog.mjs
+@@ -168,7 +168,7 @@ for(const name of cp7PlanningBoundaries) assert.ok(rpcBoundaries.has(`src/Native
+ const cp7ProductionPlanningBoundaries=['erp_cp7_capture_production_supply_v1','erp_cp7_read_production_supply_v1','erp_cp7_get_production_schedule_v1','erp_cp7_save_production_schedule_v1','erp_cp7_capture_netting_v1','erp_cp7_read_netting_v1']
+ const cp7FabricBoundaries=['erp_cp7_get_fabric_recipe_v1','erp_cp7_save_fabric_recipe_v1']
+ for(const name of cp7FabricBoundaries)assert.ok(rpcBoundaries.has(`src/NativeFabricRecipePanel.tsx:${name}`))
+-const cp7AnalysisBoundaries=['erp_cp7_capture_analysis_v1','erp_cp7_capture_operational_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1','erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1','erp_cp7_get_analysis_attention_v1','erp_cp7_save_analysis_attention_v1','erp_cp7_get_analysis_attention_request_v1','erp_cp7_list_analysis_archives_v1','erp_cp7_get_analysis_receivable_conditions_v1','erp_cp7_get_analysis_payable_conditions_v1','erp_cp7_evaluate_obligation_episodes_v1','erp_cp7_get_obligation_episode_request_v1','erp_cp7_get_obligation_episode_history_v1']
++const cp7AnalysisBoundaries=['erp_cp7_capture_analysis_v1','erp_cp7_capture_operational_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1','erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_check_staged_analysis_source_v1','erp_cp7_get_analysis_attention_v1','erp_cp7_save_analysis_attention_v1','erp_cp7_get_analysis_attention_request_v1','erp_cp7_list_analysis_archives_v1','erp_cp7_get_analysis_receivable_conditions_v1','erp_cp7_get_analysis_payable_conditions_v1','erp_cp7_evaluate_obligation_episodes_v1','erp_cp7_get_obligation_episode_request_v1','erp_cp7_get_obligation_episode_history_v1']
+ const cp7PolicyBoundaries=['erp_cp7_get_reminder_policy_history_v1','erp_cp7_get_reminder_policy_v1','erp_cp7_save_reminder_policy_v1','erp_cp7_get_reminder_policy_request_v1']
+ for(const name of cp7PolicyBoundaries) assert.ok(rpcBoundaries.has(`src/NativeReminderPolicyPanel.tsx:${name}`))
+ const cp7RuleBoundaries=['erp_cp7_get_rule_conditions_v1', 'erp_cp7_evaluate_rule_episodes_v1', 'erp_cp7_get_rule_episode_request_v1', 'erp_cp7_get_local_reminders_v1', 'erp_cp7_save_local_binding_v1', 'erp_cp7_claim_local_preview_v1', 'erp_cp7_finish_local_preview_v1', 'erp_cp7_resolve_local_preview_v1', 'erp_cp7_get_local_reminder_request_v1']
+diff --git a/scripts/check-source-ownership.mjs b/scripts/check-source-ownership.mjs
+index 796e646c..cc922753 100644
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -138,8 +138,12 @@ assert.deepEqual([...rpcOwnership].sort(), [
+   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_job_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_manifest_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_segment_v1',
+-  'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_pages_v1',
+-  'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_page_v1',
++  'src/NativeAnalysisPanel.tsx:erp_cp7_request_staged_analysis_v1',
++  'src/NativeAnalysisPanel.tsx:erp_cp7_step_staged_analysis_v1',
++  'src/NativeAnalysisPanel.tsx:erp_cp7_get_staged_analysis_v1',
++  'src/NativeAnalysisPanel.tsx:erp_cp7_read_staged_analysis_pages_v1',
++  'src/NativeAnalysisPanel.tsx:erp_cp7_read_staged_analysis_page_v1',
++  'src/NativeAnalysisPanel.tsx:erp_cp7_check_staged_analysis_source_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_save_analysis_attention_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_request_v1',
+diff --git a/src/NativeAnalysisPanel.pages.dom.test.tsx b/src/NativeAnalysisPanel.pages.dom.test.tsx
+index e7271aa5..d0f24d27 100644
+--- a/src/NativeAnalysisPanel.pages.dom.test.tsx
++++ b/src/NativeAnalysisPanel.pages.dom.test.tsx
+@@ -4,131 +4,190 @@ import {createRoot,type Root} from 'react-dom/client'
+ import {beforeEach,afterEach,it,expect,vi} from 'vitest'
+ import NativeAnalysisPanel from './NativeAnalysisPanel'
+ import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
+-import {job} from '../tests/fixtures/nativeAnalysisTransport'
+ import {stagedRun,rehash} from '../tests/fixtures/nativeAnalysisPages'
+-import {readAnalysisJobRequest} from './nativeAnalysisTransport'
+-import {readAnalysisArchive,rememberAnalysis} from './nativeAnalysisArchive'
++import {readStagedRequest,stagedRequestKey} from './nativeStagedJob'
++import {readNativeDemandRequest} from './nativeDemandHistory'
+ import type {NativeDemandQuery} from './nativeDemandHistory'
+ const state=vi.hoisted(()=>({auth:null as unknown}))
+ const client=vi.hoisted(()=>({rpc:vi.fn()}))
+ vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}));vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
+ let root:Root,container:HTMLDivElement
+-const scope='analysis:cp6-disposable:actor-1',PAGED={data:null,error:{code:'P0001',message:'CP7_ANALYSIS_RUN_PAGED',details:null,hint:null}}
++// Byte-adaptive pages are uneven: 500, 450 and 250 targets of 1,200.
++const scope='analysis:cp6-disposable:actor-1',SIZES=[500,450,250],STAGED='Analisis bertahap (hingga 5.000 target)'
+ type Args={p_request?:string;p_run?:string;p_index?:number;p_access?:string;p_query?:unknown}
+ type Staged=Awaited<ReturnType<typeof stagedRun>>
+ let s:Staged
+ beforeEach(async()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client.rpc.mockReset();localStorage.clear()
+- s=await stagedRun({targets:1200,perPage:500,unreviewed:7})
++ s=await stagedRun({targets:1200,pageSizes:SIZES,unreviewed:7})
+  const a=structuredClone(recoveryIdentity);Object.assign(a.runtime,{mode:'DISPOSABLE_TEST',projectRef:'cp6-disposable'});Object.assign(a.identity.profile,{authUserId:s.actor})
+  a.identity.permissions.push('master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view');state.auth=a;container=document.createElement('div');document.body.append(container);root=createRoot(container)})
+ afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();vi.restoreAllMocks()})
+ const q=()=>s.query as NativeDemandQuery
+ async function render(){await act(async()=>root.render(<NativeAnalysisPanel query={q()} onSourceReadStart={vi.fn()} onSourceReadEnd={vi.fn()} onClose={vi.fn()}/>))}
+ const button=(text:string)=>[...container.querySelectorAll('button')].find(b=>b.textContent===text)
+-async function click(text:string){const b=button(text)!;expect(b).toBeTruthy();await act(async()=>b.click())}
++async function click(text:string){const b=button(text)!;expect(b,text).toBeTruthy();await act(async()=>b.click())}
++async function tick(text:string){const b=[...container.querySelectorAll('label')].find(l=>l.textContent===text)?.querySelector('input');expect(b).toBeTruthy();await act(async()=>b!.click())}
+ const names=()=>client.rpc.mock.calls.map(c=>c[0])
+ const macrotask=()=>new Promise<void>(r=>(globalThis as unknown as {setImmediate:(f:()=>void)=>void}).setImmediate(r))
+-async function until(done:()=>boolean){for(let i=0;i<2000&&!done();i++)await act(async()=>{await macrotask()});expect(done()).toBe(true)}
+-const view=()=>container.querySelector('[aria-label="Analisis bertahap per halaman target"]')
++async function until(done:()=>boolean){const started=Date.now();while(!done()&&Date.now()-started<20000)await act(async()=>{await macrotask()});expect(done()).toBe(true)}
++const region=()=>container.querySelector('[role="region"][aria-label="Hasil analisis bertahap"]')
+ const heading=()=>container.querySelector('[aria-label="Target per halaman"] h3')?.textContent
+ const rows=()=>container.querySelectorAll('[data-analysis-target]').length
+-const statusText=()=>[...container.querySelectorAll('[role="status"]')].map(e=>e.textContent).join(' | ')
++const statuses=()=>[...container.querySelectorAll('[role="status"]')].map(e=>e.textContent??'')
+ const alertText=()=>container.querySelector('[role="alert"]')?.textContent??''
+-// A background job whose finished run the server reads only by page.
+-function server(page:(i:number,args:Args)=>unknown=i=>({data:s.page(i),error:null})){
+- let id=''
++const RUNNING=(units_done:number,extra:Record<string,unknown>={})=>({data:s.job('RUNNING',{units_done,...extra}),error:null})
++// The staged job as the server answers it: request → RUNNING, `steps` steps
++// until DONE, status reads, then the page set, pages and the source check.
++function server(opts:{steps?:number;page?:(i:number,args:Args)=>unknown;source?:'UNCHANGED'|'ARCHIVED_STALE'}={}){
++ let id='',stepped=0;const steps=opts.steps??2
+  return async(name:string,args:Args)=>{
+   // The run's request id is the job's UUID: the fixture is rebuilt for it.
+-  if(name==='erp_cp7_request_operational_analysis_job_v1'){id=args.p_request!;s=await stagedRun({targets:1200,perPage:500,unreviewed:7,requestId:id});return{data:job(id,q(),'WAITING'),error:null}}
+-  if(name==='erp_cp7_run_analysis_job_v1')return{data:job(id,q(),'DONE',s.runId),error:null}
+-  if(name==='erp_cp7_read_analysis_manifest_v1'){expect(args).toEqual({p_run:s.runId});return PAGED}
+-  if(name==='erp_cp7_read_analysis_v1'){expect(args).toEqual({p_run:s.runId});return PAGED}
+-  if(name==='erp_cp7_read_analysis_pages_v1'){expect(args).toEqual({p_run:s.runId});return{data:s.manifest,error:null}}
+-  if(name==='erp_cp7_read_analysis_page_v1'){expect(args.p_access).toBe(s.manifest.access_epoch);return page(args.p_index!,args)}
++  if(name==='erp_cp7_request_staged_analysis_v1'){id=args.p_request!;expect(args.p_query).toEqual(q());s=await stagedRun({targets:1200,pageSizes:SIZES,unreviewed:7,requestId:id});return RUNNING(12)}
++  if(name==='erp_cp7_get_staged_analysis_v1'){expect(args).toEqual({p_request:id});return RUNNING(12+stepped)}
++  if(name==='erp_cp7_step_staged_analysis_v1'){expect(args).toEqual({p_request:id});stepped++;return stepped<steps?RUNNING(12+stepped):{data:s.job('DONE'),error:null}}
++  if(name==='erp_cp7_read_staged_analysis_pages_v1'){expect(args).toEqual({p_run:s.runId});return{data:s.pageSet,error:null}}
++  if(name==='erp_cp7_read_staged_analysis_page_v1'){expect(args.p_access).toBe(s.pageSet.access_epoch);return(opts.page??(i=>({data:s.page(i),error:null})))(args.p_index!,args)}
++  if(name==='erp_cp7_check_staged_analysis_source_v1'){expect(args).toEqual({p_run:s.runId});return{data:{source_state:opts.source??'UNCHANGED',checked_at:'2026-10-07T10:30:00.000000Z'},error:null}}
+   throw Error('unexpected '+name)
+  }
+ }
+-it('shows a staged run as whole-run totals from the server first, then labelled target pages with navigation and progress',async()=>{
+- let release:(v:unknown)=>void=()=>{}
+- const base=server()
++
++it('drives a staged job to DONE with the server progress as the busy signal, then shows whole-run totals and uneven target pages with a source check',async()=>{
++ let release:(v:unknown)=>void=()=>{};const base=server({steps:1})
+  client.rpc.mockImplementation(async(name:string,args:Args)=>{
+-  if(name==='erp_cp7_read_analysis_page_v1'&&args.p_index===1)return new Promise(r=>{release=r})
++  if(name==='erp_cp7_step_staged_analysis_v1'&&names().filter(n=>n===name).length===1)return new Promise(r=>{release=r})
+   return base(name,args)
+  })
+- await render();await click('Hitung di latar belakang');await until(()=>Boolean(view())&&rows()>0)
+- expect(names()).toEqual(['erp_cp7_request_operational_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1'])
++ await render();expect(button(STAGED)!.disabled).toBe(false);expect(button('Hitung di latar belakang')).toBeTruthy()
++ await click(STAGED);await until(()=>names().includes('erp_cp7_step_staged_analysis_v1'))
++ // Busy exactly like the single background job; the progress is the server's.
++ expect(button('Tutup analisis bersama')!.disabled).toBe(true);expect(button(STAGED)!.disabled).toBe(true)
++ const progress=statuses().find(t=>t.startsWith('Analisis bertahap: tahap '))!
++ expect(progress.startsWith('Analisis bertahap: tahap 3 dari 9 (HIST_ROWS) · unit 12 dari 55')).toBe(true);expect(progress).toContain('dimulai jam 16.00.00 WIB')
++ const id=client.rpc.mock.calls[0][1].p_request;expect(readStagedRequest(scope).pending).toEqual({id,q:q()});expect(localStorage.getItem('erp.cp7.analysis-staged.v1:'+scope)).toContain(id);expect(region()).toBeNull()
++ await act(async()=>{release(RUNNING(13))});await until(()=>Boolean(region())&&rows()>0)
++ expect(names()).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1'])
+  expect(client.rpc.mock.calls.at(-1)![1]).toEqual({p_run:s.runId,p_index:0,p_access:'a'.repeat(64)})
++ expect(button('Tutup analisis bersama')!.disabled).toBe(false);expect(readStagedRequest(scope).pending).toBeNull();expect(localStorage.getItem(stagedRequestKey(scope))).toBeNull()
++ // The region, its run id and summary line as the browser measurement reads them.
++ const r=region()!;expect(r.classList.contains('native-analysis-staged')).toBe(true);expect(container.querySelector('.native-analysis-staged .native-analysis-run span')!.textContent).toBe(s.runId)
++ expect([...r.querySelectorAll('p')].some(p=>p.textContent!.startsWith('1.200 target dalam 3 halaman.'))).toBe(true)
+  // Summary first; every whole-run number is the server's total.
+- const summary=container.querySelector('[aria-label="Ringkasan seluruh analisis bertahap"]')!,totals=s.manifest.totals
+- expect(summary.compareDocumentPosition(container.querySelector('[aria-label="Target per halaman"]')!)&Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
++ const summary=r.querySelector('[aria-label="Ringkasan seluruh analisis bertahap"]')!,totals=s.pageSet.totals
++ expect(summary.compareDocumentPosition(r.querySelector('[aria-label="Target per halaman"]')!)&Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  expect(summary.querySelector('h3')!.textContent).toBe('Ringkasan seluruh analisis · 1.200 target')
+  expect(summary.querySelector('[data-total="ACTIVE"]')!.textContent).toBe(`Status produksi aktif: ${totals.recommendations.ACTIVE} target`)
+  expect(summary.querySelector('[data-total="POLICY_UNREVIEWED"]')!.textContent).toBe(`Status produksi belum diperiksa: ${totals.policy_unreviewed} target`)
+- const first=JSON.parse(s.page(0).body)
+- expect(first.summary.recommendations.ACTIVE).not.toBe(totals.recommendations.ACTIVE)
++ const first=JSON.parse(s.page(0).body);expect(first.summary.recommendations.ACTIVE).not.toBe(totals.recommendations.ACTIVE)
+  expect(heading()).toBe('Target 1–500 dari 1.200');expect(rows()).toBe(first.items.recommendations.length)
+- expect(container.textContent).toContain(`Halaman ini hanya memuat target 1–500 dari 1.200: ${first.items.recommendations.length} rekomendasi dan ${first.summary.policy_unreviewed} target`)
+- // Nothing presents the page as the whole: no whole-analysis tabs, report or
+- // prompt, and no "x dari y produk" count from the visible rows.
+- expect(container.querySelector('[aria-label="Tampilan analisis bersama"]')).toBeNull();expect(container.querySelector('[aria-label="Isi laporan ERP"]')).toBeNull()
+- expect(container.textContent).not.toMatch(/\d dari \d+ produk/)
+- expect(button('Target sebelumnya')!.disabled).toBe(true)
++ expect(r.textContent).toContain(`Halaman ini hanya memuat target 1–500 dari 1.200: ${first.items.recommendations.length} rekomendasi dan ${first.summary.policy_unreviewed} target`)
++ // Nothing presents the page as the whole, and the whole-Original features
++ // are stated unavailable: no tabs, report, prompt, plan, stock or finance.
++ expect(r.textContent).toContain('belum tersedia untuk analisis bertahap');expect(r.textContent).toContain('Angka keuangan tidak termasuk analisis bertahap')
++ expect(container.querySelector('[aria-label="Tampilan analisis bersama"]')).toBeNull();expect(container.querySelector('[aria-label="Isi laporan ERP"]')).toBeNull();expect(container.querySelector('article.native-analysis-result')).toBeNull()
++ expect(r.textContent).not.toMatch(/\d dari \d+ produk/);expect(r.textContent).not.toContain('Rencanakan Potongan');expect(r.textContent).not.toContain('Periksa sumber analisis')
++ expect(button('Halaman sebelumnya')!.disabled).toBe(true)
+  // Next page: progress names the range while it loads, then the new range.
+- await click('Target berikutnya')
+- expect(statusText()).toContain('Mengambil target 501–1.000 dari 1.200…');expect(rows()).toBe(0);expect(button('Target berikutnya')!.disabled).toBe(true)
+- await act(async()=>{release({data:s.page(1),error:null})});await until(()=>heading()==='Target 501–1.000 dari 1.200'&&rows()>0)
+- expect(statusText()).not.toContain('Mengambil');expect(container.querySelector('[data-page-index]')!.getAttribute('data-page-index')).toBe('1')
+- // Any range by choice; the last page has no next.
++ let hold:(v:unknown)=>void=()=>{};client.rpc.mockImplementation(async(name:string,args:Args)=>name==='erp_cp7_read_staged_analysis_page_v1'&&args.p_index===1?new Promise(r=>{hold=r}):base(name,args))
++ await click('Halaman berikutnya')
++ expect(statuses().join(' | ')).toContain('Mengambil target 501–950 dari 1.200…');expect(rows()).toBe(0);expect(button('Halaman berikutnya')!.disabled).toBe(true)
++ await act(async()=>{hold({data:s.page(1),error:null})});await until(()=>heading()==='Target 501–950 dari 1.200'&&rows()>0)
++ expect(statuses().join(' | ')).not.toContain('Mengambil');expect(container.querySelector('[data-page-index]')!.getAttribute('data-page-index')).toBe('1')
++ // Any range by choice; the last, uneven page has no next.
+  const select=container.querySelector<HTMLSelectElement>('[aria-label="Pilih rentang target"]')!
+- expect([...select.options].map(o=>o.textContent)).toEqual(['Target 1–500 dari 1.200','Target 501–1.000 dari 1.200','Target 1.001–1.200 dari 1.200'])
+- await act(async()=>{select.value='2';select.dispatchEvent(new Event('change',{bubbles:true}))});await until(()=>heading()==='Target 1.001–1.200 dari 1.200'&&rows()>0)
+- expect(button('Target berikutnya')!.disabled).toBe(true);expect(button('Target sebelumnya')!.disabled).toBe(false)
+- expect(names().filter(n=>n==='erp_cp7_read_analysis_page_v1')).toHaveLength(3)
+- // The background request is finished and the run is remembered by its identity.
+- expect(readAnalysisJobRequest(scope).pending).toBeNull();expect(readAnalysisArchive(scope).rows[0]).toMatchObject({runId:s.runId,requestId:s.manifest.request_id})
+- expect(container.querySelector('[role="alert"]')).toBeNull()
++ expect([...select.options].map(o=>o.textContent)).toEqual(['Target 1–500 dari 1.200','Target 501–950 dari 1.200','Target 951–1.200 dari 1.200'])
++ await act(async()=>{select.value='2';select.dispatchEvent(new Event('change',{bubbles:true}))});await until(()=>heading()==='Target 951–1.200 dari 1.200'&&rows()>0)
++ expect(button('Halaman berikutnya')!.disabled).toBe(true);expect(button('Halaman sebelumnya')!.disabled).toBe(false)
++ expect(names().filter(n=>n==='erp_cp7_read_staged_analysis_page_v1')).toHaveLength(3)
++ // Cek sumber: both outcomes come from the server, the pages stay.
++ await click('Cek sumber');await until(()=>Boolean(region()!.textContent?.includes('Sumber belum berubah sejak')))
++ expect(names().at(-1)).toBe('erp_cp7_check_staged_analysis_source_v1');expect(region()!.querySelector('.native-demand-current')!.textContent).toContain('Sumber belum berubah sejak');expect(rows()).toBeGreaterThan(0)
++ client.rpc.mockImplementation(server({source:'ARCHIVED_STALE'}));await click('Cek sumber');await until(()=>Boolean(region()!.textContent?.includes('Sumber sudah berubah; hasil ini arsip')))
++ expect(region()!.querySelector('.native-demand-stale')).toBeTruthy();expect(heading()).toBe('Target 951–1.200 dari 1.200');expect(container.querySelector('[role="alert"]')).toBeNull()
+ },30000)
+ 
+-it('refuses a tampered page: nothing of it is shown, the summary stays the whole-run summary',async()=>{
+- client.rpc.mockImplementation(server(async(i)=>{const p=s.page(i);return{data:i===0?await rehash(p,p.body.replace('SOURCE_INPUT_NOT_PROVEN','SOURCE_INPUT_NOT_PROVEX')):p,error:null}}))
+- await render();await click('Hitung di latar belakang');await until(()=>alertText().includes('belum sesuai'))
+- expect(rows()).toBe(0);expect(container.querySelector('[data-page-index]')).toBeNull();expect(view()).toBeTruthy()
+- expect(container.querySelector('[aria-label="Ringkasan seluruh analisis bertahap"] h3')!.textContent).toBe('Ringkasan seluruh analisis · 1.200 target')
+- await click('Target berikutnya');await until(()=>rows()>0);expect(heading()).toBe('Target 501–1.000 dari 1.200')
++it('surfaces a FAILED job with its code verbatim, ends the busy state and drops the stored request',async()=>{
++ const base=server();client.rpc.mockImplementation(async(name:string,args:Args)=>name==='erp_cp7_step_staged_analysis_v1'?{data:s.job('FAILED',{failure:{unit:12,sqlstate:'42501',code:'CP7_ANALYSIS_ACCESS_CHANGED'}}),error:null}:base(name,args))
++ await render();await click(STAGED);await until(()=>alertText().includes('CP7_ANALYSIS_ACCESS_CHANGED'))
++ expect(alertText()).toContain('Hak akses berubah');expect(alertText()).toContain('unit 12');expect(button('Tutup analisis bersama')!.disabled).toBe(false);expect(button(STAGED)!.disabled).toBe(false)
++ expect(readStagedRequest(scope).pending).toBeNull();expect(region()).toBeNull();expect(button('Lanjutkan analisis bertahap')).toBeUndefined();expect(statuses().some(t=>t.startsWith('Analisis bertahap: tahap'))).toBe(false)
++ expect(names()).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1'])
+ },30000)
+ 
+-it('drops the staged view when the access epoch is refused for a page',async()=>{
+- client.rpc.mockImplementation(server(async(i)=>i===0?{data:s.page(0),error:null}:{data:null,error:{code:'42501',message:'CP7_ANALYSIS_ACCESS_CHANGED'}}))
+- await render();await click('Hitung di latar belakang');await until(()=>rows()>0)
+- await click('Target berikutnya');await until(()=>Boolean(container.querySelector('[role="alert"]')))
+- expect(view()).toBeNull();expect(rows()).toBe(0)
++it('resumes a stored job on mount by reading status, shows "dijeda sejak" with Lanjutkan after a lost step, and continues from there',async()=>{
++ const id='0b7e3c2a-1d4f-4a6b-9c8d-7e6f5a4b3c2d';s=await stagedRun({targets:1200,pageSizes:SIZES,unreviewed:7,requestId:id})
++ localStorage.setItem(stagedRequestKey(scope),JSON.stringify({id,q:q()}))
++ let lost=true;const base=server()
++ client.rpc.mockImplementation(async(name:string,args:Args)=>{
++  if(name==='erp_cp7_request_staged_analysis_v1')throw Error('a resume never requests again')
++  if(name==='erp_cp7_get_staged_analysis_v1'){expect(args).toEqual({p_request:id});return RUNNING(20)}
++  if(name==='erp_cp7_step_staged_analysis_v1'&&lost){lost=false;throw new TypeError('Failed to fetch')}
++  if(name==='erp_cp7_step_staged_analysis_v1')return{data:s.job('DONE'),error:null}
++  return base(name,args)
++ })
++ await render();await until(()=>statuses().some(t=>t.startsWith('Analisis bertahap dijeda sejak jam 16.05.30 WIB')))
++ expect(names()).toEqual(['erp_cp7_get_staged_analysis_v1','erp_cp7_step_staged_analysis_v1']);expect(button('Tutup analisis bersama')!.disabled).toBe(false)
++ expect(readStagedRequest(scope).pending?.id).toBe(id);expect(region()).toBeNull();expect(button(STAGED)!.disabled).toBe(true);expect(button('Lanjutkan analisis bertahap')!.disabled).toBe(false)
++ await click('Lanjutkan analisis bertahap');await until(()=>Boolean(region())&&rows()>0)
++ expect(names().slice(2)).toEqual(['erp_cp7_get_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1'])
++ expect(readStagedRequest(scope).pending).toBeNull();expect(container.querySelector('[role="alert"]')).toBeNull();expect(button('Lanjutkan analisis bertahap')).toBeUndefined();expect(heading()).toBe('Target 1–500 dari 1.200')
+ },30000)
+ 
+-it('refuses a staged run whose header does not match its hash; the background request is kept',async()=>{
++it('offers the staged path when the single capture refuses for its target bound, showing the code as it is',async()=>{
+  const base=server()
+- client.rpc.mockImplementation(async(name:string,args:Args)=>{
+-  const r=await base(name,args) as {data:Record<string,any>|null;error:unknown}
+-  if(name==='erp_cp7_read_analysis_pages_v1')return{data:{...r.data,header:{...r.data!.header,body:r.data!.header.body.replace('"TEST"','"TESX"')}},error:null}
+-  return r
+- })
+- await render();await click('Hitung di latar belakang');await until(()=>alertText().includes('belum sesuai'))
+- expect(view()).toBeNull();expect(names()).not.toContain('erp_cp7_read_analysis_page_v1');expect(readAnalysisJobRequest(scope).pending).not.toBeNull()
++ client.rpc.mockImplementation(async(name:string,args:Args)=>name==='erp_cp7_capture_operational_analysis_v1'?{data:null,error:{code:'P0001',message:'CP7_NETTING_MATCH_SOURCE_LIMIT',details:null,hint:null}}:base(name,args))
++ await render();await click('Ambil analisis ERP terbaru');await until(()=>alertText().includes('CP7_NETTING_MATCH_SOURCE_LIMIT'))
++ expect(statuses().some(t=>t.includes(`"${STAGED}"`))).toBe(true);expect(readNativeDemandRequest(scope).pending).toBeNull();expect(button(STAGED)!.disabled).toBe(false);expect(button('Ambil analisis ERP terbaru')!.disabled).toBe(false)
++ await click(STAGED);await until(()=>Boolean(region())&&rows()>0)
++ expect(names().slice(1)).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1'])
++ expect(container.querySelector('[role="alert"]')).toBeNull();expect(statuses().some(t=>t.includes(`"${STAGED}"`))).toBe(false)
++ // Any other refusal keeps the single path's protocol: the request is held.
++ await act(async()=>root.unmount());root=createRoot(container);localStorage.clear();client.rpc.mockReset()
++ client.rpc.mockImplementation(async()=>({data:null,error:{code:'P0001',message:'CP7_ANALYSIS_ACCESS_DENIED',details:null,hint:null}}))
++ await render();await click('Ambil analisis ERP terbaru');await until(()=>alertText().includes('CP7_ANALYSIS_ACCESS_DENIED'))
++ expect(readNativeDemandRequest(scope).pending).not.toBeNull();expect(button('Ulangi analisis yang sama')).toBeTruthy();expect(statuses().some(t=>t.includes(`"${STAGED}"`))).toBe(false)
+ },30000)
+ 
+-it('opens an archived staged run by page and re-checks it with the current access epoch',async()=>{
+- const h=JSON.parse(s.manifest.header.body)
+- rememberAnalysis(scope,{runId:s.runId,requestId:s.manifest.request_id,query:q(),analysis:h.analysis_header})
+- let epoch='a'.repeat(64)
+- client.rpc.mockImplementation(async(name:string,args:Args)=>{
+-  if(name==='erp_cp7_read_analysis_v1')return PAGED
+-  if(name==='erp_cp7_read_analysis_pages_v1')return{data:{...s.manifest,access_epoch:epoch},error:null}
+-  if(name==='erp_cp7_read_analysis_page_v1'){expect(args.p_access).toBe(epoch);return{data:s.page(args.p_index!),error:null}}
+-  throw Error('unexpected '+name)
+- })
+- await render();await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip analisis 1"]')!.click());await until(()=>rows()>0)
+- expect(names()).toEqual(['erp_cp7_read_analysis_v1','erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1'])
+- await click('Target berikutnya');await until(()=>heading()==='Target 501–1.000 dari 1.200'&&rows()>0)
+- epoch='b'.repeat(64);await click('Periksa sumber analisis');await until(()=>heading()==='Target 501–1.000 dari 1.200'&&rows()>0)
+- expect(names().slice(-2)).toEqual(['erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1']);expect(client.rpc.mock.calls.at(-1)![1]).toEqual({p_run:s.runId,p_index:1,p_access:'b'.repeat(64)})
+- expect(container.querySelector('[role="alert"]')).toBeNull()
++it('refuses a page set whose identity is not that of its header and pages; the request is kept for a later read',async()=>{
++ const base=server();client.rpc.mockImplementation(async(name:string,args:Args)=>{const r=await base(name,args) as {data:Record<string,any>|null;error:unknown};if(name==='erp_cp7_read_staged_analysis_pages_v1')return{data:{...r.data,identity_hash:'0'.repeat(64)},error:null};return r})
++ await render();await click(STAGED);await until(()=>alertText().includes('belum sesuai'))
++ expect(region()).toBeNull();expect(names()).not.toContain('erp_cp7_read_staged_analysis_page_v1');expect(readStagedRequest(scope).pending).not.toBeNull();expect(button('Lanjutkan analisis bertahap')).toBeTruthy();expect(button('Tutup analisis bersama')!.disabled).toBe(false)
++ // The same for a header body that is not the one listed.
++ await act(async()=>root.unmount());root=createRoot(container);localStorage.clear();client.rpc.mockReset()
++ const again=server();client.rpc.mockImplementation(async(name:string,args:Args)=>{const r=await again(name,args) as {data:Record<string,any>|null;error:unknown};if(name==='erp_cp7_read_staged_analysis_pages_v1')return{data:{...r.data,header:{...r.data!.header,body:r.data!.header.body.replace('"TEST"','"TESX"')}},error:null};return r})
++ await render();await click(STAGED);await until(()=>alertText().includes('belum sesuai'));expect(region()).toBeNull();expect(readStagedRequest(scope).pending).not.toBeNull()
++},30000)
++
++it('refuses a tampered page: nothing of it is shown, the summary stays the whole-run summary',async()=>{
++ client.rpc.mockImplementation(server({page:async(i)=>{const p=s.page(i);return{data:i===0?await rehash(p,p.body.replace('SOURCE_INPUT_NOT_PROVEN','SOURCE_INPUT_NOT_PROVEX')):p,error:null}}}))
++ await render();await click(STAGED);await until(()=>alertText().includes('belum sesuai'))
++ expect(rows()).toBe(0);expect(container.querySelector('[data-page-index]')).toBeNull();expect(region()).toBeTruthy();expect(readStagedRequest(scope).pending).toBeNull()
++ expect(region()!.querySelector('[aria-label="Ringkasan seluruh analisis bertahap"] h3')!.textContent).toBe('Ringkasan seluruh analisis · 1.200 target')
++ await click('Halaman berikutnya');await until(()=>rows()>0);expect(heading()).toBe('Target 501–950 dari 1.200')
++},30000)
++
++it('drops the staged view when the access epoch is refused for a page or the source check',async()=>{
++ client.rpc.mockImplementation(server({page:async(i)=>i===0?{data:s.page(0),error:null}:{data:null,error:{code:'42501',message:'CP7_ANALYSIS_ACCESS_CHANGED'}}}))
++ await render();await click(STAGED);await until(()=>rows()>0)
++ await click('Halaman berikutnya');await until(()=>Boolean(container.querySelector('[role="alert"]')))
++ expect(region()).toBeNull();expect(rows()).toBe(0)
++},30000)
++
++it('states that financial figures are not part of a staged run when the finance choice is ticked, and still runs the operational job',async()=>{
++ const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')
++ client.rpc.mockImplementation(server())
++ await render();expect(container.textContent).not.toContain('Angka keuangan tidak termasuk analisis bertahap')
++ await tick('Sertakan angka keuangan (menunggu buku besar)');expect(container.textContent).toContain('Angka keuangan tidak termasuk analisis bertahap.')
++ await click(STAGED);await until(()=>Boolean(region())&&rows()>0)
++ expect(names()[0]).toBe('erp_cp7_request_staged_analysis_v1');expect(Object.keys(client.rpc.mock.calls[0][1]).sort()).toEqual(['p_query','p_request']);expect(region()!.textContent).toContain('Angka keuangan tidak termasuk analisis bertahap')
++ expect(region()!.textContent).not.toContain('Rp');expect(button('Muat angka keuangan')).toBeUndefined()
++},30000)
++
++it('abandons the loop on unmount: a late step reply drives nothing further and the request stays for a resume',async()=>{
++ let release:(v:unknown)=>void=()=>{};const base=server()
++ client.rpc.mockImplementation(async(name:string,args:Args)=>name==='erp_cp7_step_staged_analysis_v1'?new Promise(r=>{release=r}):base(name,args))
++ await render();await click(STAGED);await until(()=>names().includes('erp_cp7_step_staged_analysis_v1'))
++ await act(async()=>root.unmount());root=createRoot(container)
++ await act(async()=>{release(RUNNING(13))});for(let i=0;i<5;i++)await act(async()=>{await macrotask()})
++ expect(names()).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1']);expect(readStagedRequest(scope).pending).not.toBeNull()
+ },30000)
+diff --git a/src/NativeAnalysisPanel.tsx b/src/NativeAnalysisPanel.tsx
+index ba6a1279..e8e79993 100644
+--- a/src/NativeAnalysisPanel.tsx
++++ b/src/NativeAnalysisPanel.tsx
+@@ -8,7 +8,8 @@ import {readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequ
+ import {parseAnalysisJob,parseAnalysisManifest,assembleAnalysisOriginal,readAnalysisJobRequest,persistAnalysisJobRequest,clearAnalysisJobRequest,analysisJobKey,analysisJobFailureText,analysisSinceText,analysisOversized,ANALYSIS_DOCUMENT_UTF8_BYTES,type AnalysisJob} from './nativeAnalysisTransport'
+ import {parseNativeAnalysis,assertSameAnalysis,analysisProductLabel,analysisReport,analysisPrompt,analysisWarningLabel,type NativeAnalysis} from './nativeAnalysis'
+ import {analysisArchiveKey,readAnalysisArchive,rememberAnalysis,checkAnalysisPointer,parseNativeArchivePage,type NativeArchivePage,type AnalysisPointer} from './nativeAnalysisArchive'
+-import {parseAnalysisPagesManifest,parseAnalysisHeader,parseAnalysisPage,analysisRunPaged,type StagedAnalysis,type AnalysisPage} from './nativeAnalysisPages'
++import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,type StagedAnalysis,type AnalysisPage,type StagedSourceCheck} from './nativeAnalysisPages'
++import {driveStagedJob,readStagedRequest,persistStagedRequest,clearStagedRequest,stagedRequestKey,stagedFailureText,stagedProgressText,stagedPausedText,stagedCapRefusal,STAGED_CAP_HINT,type StagedJob,type StagedRequest,type StagedRpc} from './nativeStagedJob'
+ import NativeStagedAnalysisView from './NativeStagedAnalysisView'
+ import {parseNativeAttention,readAttentionRequest,persistAttentionRequest,clearAttentionRequest,attentionRequestKey,type NativeAttention,type AttentionAction,type AttentionRequest} from './nativeAnalysisAttention'
+ import {parseNativeReceivableConditions,receivableStateLabel,type NativeReceivableConditions} from './nativeReceivableConditions'
+@@ -54,7 +55,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+  const sameFinance=(r:NativeDemandRequest,a:NativeAnalysis)=>{if(requestFinance(r)==='DEFERRED'&&a.finance)throw Error('Analisis tanpa keuangan dari server memuat angka keuangan.');return a}
+  const[fabricRecovery,setFabricRecovery]=useState(()=>readFabricRequest(scope))
+  const[stockDetail,setStockDetail]=useState<string|null>(null)
+- const planReadStart=useCallback(()=>{++sequence.current;++pageSequence.current;setStockDetail(null);setData(null);setStaged(null);setStagedPage(null);setPageLoading(null);setAttention(null);setReceivables(null);setPayables(null);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);onSourceReadStart()},[onSourceReadStart])
++ const planReadStart=useCallback(()=>{++sequence.current;setStockDetail(null);setData(null);setAttention(null);setReceivables(null);setPayables(null);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);onSourceReadStart()},[onSourceReadStart])
+  const[data,setData]=useState<NativeAnalysis|null>(null),[recovery,setRecovery]=useState(()=>readNativeDemandRequest(scope)),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState(''),[view,setView]=useState<View>('PRODUCTION'),[search,setSearch]=useState(''),[question,setQuestion]=useState('Apa yang perlu diperiksa sebelum rencana produksi diterapkan?')
+  const[handoff,setHandoff]=useState<{kind:'REPORT'|'AI';text:string}|null>(null)
+  const[archive,setArchive]=useState(()=>readAnalysisArchive(scope))
+@@ -67,37 +68,25 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+  const[ruleRecovery,setRuleRecovery]=useState(()=>readRuleRequest(scope))
+  const[policyRecovery,setPolicyRecovery]=useState(()=>readReminderPolicyRequest(scope))
+  const[serverArchive,setServerArchive]=useState<NativeArchivePage|null>(null)
+- // P19: a staged run is shown as its header plus one verified page of targets.
+- const[staged,setStaged]=useState<StagedAnalysis|null>(null),[stagedPage,setStagedPage]=useState<AnalysisPage|null>(null),[pageLoading,setPageLoading]=useState<number|null>(null),pageSequence=useRef(0)
++ // P19 staged path (§10): the client drives the job step by step under its
++ // own stored request; the DONE run is shown as its verified header plus one
++ // page of targets at a time, never assembled, never as a runs row.
++ const[stagedRecovery,setStagedRecovery]=useState(()=>readStagedRequest(scope)),[stagedJob,setStagedJob]=useState<StagedJob|null>(null),[stagedHint,setStagedHint]=useState('')
++ const[staged,setStaged]=useState<StagedAnalysis|null>(null),[stagedPage,setStagedPage]=useState<AnalysisPage|null>(null),[pageLoading,setPageLoading]=useState<number|null>(null),[sourceCheck,setSourceCheck]=useState<StagedSourceCheck|null>(null),[sourceChecking,setSourceChecking]=useState(false)
++ const pageSequence=useRef(0),checkSequence=useRef(0),sleeps=useRef(new Set<{timer:ReturnType<typeof setTimeout>;wake:()=>void}>())
++ const resetStaged=()=>{++pageSequence.current;++checkSequence.current;setStaged(null);setStagedPage(null);setPageLoading(null);setSourceCheck(null);setSourceChecking(false);setStagedJob(null);setStagedHint('')}
+  const[attention,setAttention]=useState<NativeAttention|null>(null),[attentionRecovery,setAttentionRecovery]=useState(()=>readAttentionRequest(scope)),[attentionDrafts,setAttentionDrafts]=useState<Record<string,AttentionDraft>>({})
+- const begin=()=>{const n=++sequence.current;++pageSequence.current;active.current=true;setBusy(true);setStockDetail(null);setData(null);setStaged(null);setStagedPage(null);setPageLoading(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setError('');setMessage('');setJob(null);setComputingSince(null);setProgress('');onSourceReadStart();return n}
+- const end=(n:number)=>{if(n===sequence.current){active.current=false;setBusy(false);setComputingSince(null);setProgress('');setJobRecovery(readAnalysisJobRequest(scope));setPolicyRecovery(readReminderPolicyRequest(scope));setRuleRecovery(readRuleRequest(scope));setFabricRecovery(readFabricRequest(scope));onSourceReadEnd()}}
+- useEffect(()=>()=>{++sequence.current;if(active.current){active.current=false;onSourceReadEnd()}},[onSourceReadEnd])
+- useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||[nativeDemandRequestKey(scope),analysisArchiveKey(scope),attentionRequestKey(scope),obligationRequestKey(scope),obligationReportRequestKey(scope),reportRequestKey(scope),reminderPolicyRequestKey(scope),ruleRequestKey(scope),fabricRequestKey(scope),analysisJobKey(scope)].includes(e.key)){setJob(null);setJobRecovery(readAnalysisJobRequest(scope));++sequence.current;++pageSequence.current;active.current=false;setBusy(false);setStockDetail(null);setData(null);setStaged(null);setStagedPage(null);setPageLoading(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setEpisodeRecovery(readObligationRequest(scope));setPolicyRecovery(readReminderPolicyRequest(scope));setRuleRecovery(readRuleRequest(scope));setRecovery(readNativeDemandRequest(scope));setFabricRecovery(readFabricRequest(scope));setAttentionRecovery(readAttentionRequest(scope));setArchive(readAnalysisArchive(scope));onSourceReadStart();onSourceReadEnd()}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope,onSourceReadStart,onSourceReadEnd])
++ const begin=()=>{const n=++sequence.current;active.current=true;setBusy(true);setStockDetail(null);setData(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setError('');setMessage('');setJob(null);setComputingSince(null);setProgress('');resetStaged();onSourceReadStart();return n}
++ const end=(n:number)=>{if(n===sequence.current){active.current=false;setBusy(false);setComputingSince(null);setProgress('');setJobRecovery(readAnalysisJobRequest(scope));setPolicyRecovery(readReminderPolicyRequest(scope));setRuleRecovery(readRuleRequest(scope));setFabricRecovery(readFabricRequest(scope));setStagedRecovery(readStagedRequest(scope));onSourceReadEnd()}}
++ // Unmount retires every read; a staged back-off wait is woken so its loop
++ // sees the retired generation and stops without a timer left behind.
++ useEffect(()=>()=>{++sequence.current;for(const s of sleeps.current){clearTimeout(s.timer);s.wake()}sleeps.current.clear();if(active.current){active.current=false;onSourceReadEnd()}},[onSourceReadEnd])
++ useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||[nativeDemandRequestKey(scope),analysisArchiveKey(scope),attentionRequestKey(scope),obligationRequestKey(scope),obligationReportRequestKey(scope),reportRequestKey(scope),reminderPolicyRequestKey(scope),ruleRequestKey(scope),fabricRequestKey(scope),analysisJobKey(scope),stagedRequestKey(scope)].includes(e.key)){setJob(null);setJobRecovery(readAnalysisJobRequest(scope));resetStaged();setStagedRecovery(readStagedRequest(scope));++sequence.current;active.current=false;setBusy(false);setStockDetail(null);setData(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setEpisodeRecovery(readObligationRequest(scope));setPolicyRecovery(readReminderPolicyRequest(scope));setRuleRecovery(readRuleRequest(scope));setRecovery(readNativeDemandRequest(scope));setFabricRecovery(readFabricRequest(scope));setAttentionRecovery(readAttentionRequest(scope));setArchive(readAnalysisArchive(scope));onSourceReadStart();onSourceReadEnd()}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope,onSourceReadStart,onSourceReadEnd])
+  const requireNoAttentionRequest=(allowPolicy=false,allowRule=false,allowFabric=false)=>{const fabric=readFabricRequest(scope);setFabricRecovery(fabric);if(!allowFabric&&(fabric.pending||fabric.error))throw Error(fabric.error??'Pastikan hasil resep kain yang tertunda terlebih dahulu.');const appendix=readObligationReportRequest(scope);if(appendix.pending||appendix.error)throw Error(appendix.error??'Pastikan hasil lampiran yang tertunda terlebih dahulu.');const rule=readRuleRequest(scope);setRuleRecovery(rule);if(!allowRule&&(rule.error||rule.pending))throw Error(rule.error??'Pastikan hasil pemeriksaan kondisi atau pratinjau lokal yang tertunda terlebih dahulu.');const policy=readReminderPolicyRequest(scope);setPolicyRecovery(policy);if(!allowPolicy&&(policy.error||policy.pending))throw Error(policy.error??'Pastikan hasil pengaturan pengingat yang tertunda terlebih dahulu.');const report=readReportRequest(scope);if(report.error||report.pending)throw Error(report.error??'Pastikan hasil laporan tersimpan terlebih dahulu.');const ep=readObligationRequest(scope);setEpisodeRecovery(ep);if(ep.error||ep.pending)throw Error(ep.error??'Pastikan hasil pemeriksaan tagihan tersimpan terlebih dahulu.');const held=readAttentionRequest(scope);setAttentionRecovery(held);if(held.error||held.pending)throw Error(held.error??'Pastikan hasil perhatian tersimpan terlebih dahulu.')}
+  // P19: an Original above the single-body bound is read as a verified manifest
+  // plus segments of the same run; nothing partial is ever shown.
+- // A staged run refuses whole reads (CP7_ANALYSIS_RUN_PAGED); it is read as
+- // its verified header and pages instead, never assembled.
+- const fetchStaged=async(runId:string,q:NativeDemandQuery,n:number,requestId:string|null):Promise<StagedAnalysis|null>=>{
+-  const r=await client.rpc('erp_cp7_read_analysis_pages_v1',{p_run:runId});if(n!==sequence.current)return null;if(r.error)throw r.error
+-  const manifest=parseAnalysisPagesManifest(r.data,runId,requestId),header=await parseAnalysisHeader(manifest,q,actor,financeAccess)
+-  return n===sequence.current?{kind:'STAGED',manifest,header}:null
+- }
+- const isStaged=(v:NativeAnalysis|StagedAnalysis):v is StagedAnalysis=>(v as StagedAnalysis).kind==='STAGED'
+- const loadPage=async(s:StagedAnalysis,index:number)=>{
+-  const generation=sequence.current,k=++pageSequence.current,current=()=>generation===sequence.current&&k===pageSequence.current
+-  setPageLoading(index);setStagedPage(null);setError('')
+-  try{
+-   const r=await client.rpc('erp_cp7_read_analysis_page_v1',{p_run:s.manifest.runId,p_index:index,p_access:s.manifest.accessEpoch});if(!current())return;if(r.error)throw r.error
+-   const page=await parseAnalysisPage(r.data,s.manifest,s.header,index);if(current())setStagedPage(page)
+-  }catch(e){if(current()){const failure=normalizeClientError(e);setStagedPage(null);setError(failure.message);if(failure.code==='FORBIDDEN')setStaged(null)}}
+-  finally{if(current())setPageLoading(null)}
+- }
+- const showStaged=async(s:StagedAnalysis)=>{setStaged(s);setStagedPage(null);if(s.manifest.pageCount)await loadPage(s,0)}
+- const stagedIdentity=(s:StagedAnalysis)=>({runId:s.manifest.runId,requestId:s.manifest.requestId,query:s.header.query,analysis:s.header.analysisHeader})
+- const fetchOriginal=async(runId:string,q:NativeDemandQuery,n:number,requestId:string|null):Promise<NativeAnalysis|StagedAnalysis|null>=>{
+-  const m=await client.rpc('erp_cp7_read_analysis_manifest_v1',{p_run:runId});if(n!==sequence.current)return null;if(m.error){if(analysisRunPaged(m.error))return fetchStaged(runId,q,n,requestId);throw m.error}
++ const fetchOriginal=async(runId:string,q:NativeDemandQuery,n:number,requestId:string|null):Promise<NativeAnalysis|null>=>{
++  const m=await client.rpc('erp_cp7_read_analysis_manifest_v1',{p_run:runId});if(n!==sequence.current)return null;if(m.error)throw m.error
+   const manifest=parseAnalysisManifest(m.data,runId,requestId)
+   const original=await assembleAnalysisOriginal(manifest,async index=>{const s=await client.rpc('erp_cp7_read_analysis_segment_v1',{p_run:runId,p_index:index,p_access:manifest.accessEpoch});if(n!==sequence.current)throw Error('Pembacaan diganti permintaan yang lebih baru.');if(s.error)throw s.error;return s.data},(done,total)=>{if(n===sequence.current)setProgress(`Mengambil hasil lengkap: bagian ${done} dari ${total}.`)})
+   if(n!==sequence.current)return null
+@@ -106,11 +95,10 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+  const largeCapture=async(r:NativeDemandRequest,n:number)=>{
+   const j=await requestJob(r);if(n!==sequence.current)return null;if(j.error)throw j.error
+   const status=parseAnalysisJob(j.data,r.id,r.q);if(status.state!=='DONE'||!status.runId)throw Error('Hasil analisis besar belum tersedia di server.')
+-  const full=await fetchOriginal(status.runId,r.q,n,r.id);if(full&&isStaged(full))throw Error('Hasil pengambilan biasa tidak boleh berupa analisis bertahap.')
+-  return full&&sameFinance(r,full)
++  const full=await fetchOriginal(status.runId,r.q,n,r.id);return full&&sameFinance(r,full)
+  }
+- const readRun=async(runId:string,q:NativeDemandQuery,n:number,large=false):Promise<NativeAnalysis|StagedAnalysis|null>=>{
+-  if(!large){const response=await client.rpc('erp_cp7_read_analysis_v1',{p_run:runId});if(n!==sequence.current)return null;if(response.error){if(analysisRunPaged(response.error))return fetchStaged(runId,q,n,null);throw response.error}if(!analysisOversized(response.data))return parseNativeAnalysis(response.data,q,actor,financeAccess)}
++ const readRun=async(runId:string,q:NativeDemandQuery,n:number,large=false):Promise<NativeAnalysis|null>=>{
++  if(!large){const response=await client.rpc('erp_cp7_read_analysis_v1',{p_run:runId});if(n!==sequence.current)return null;if(response.error)throw response.error;if(!analysisOversized(response.data))return parseNativeAnalysis(response.data,q,actor,financeAccess)}
+   return fetchOriginal(runId,q,n,null)
+  }
+  const largeAnalysis=(a:NativeAnalysis)=>new TextEncoder().encode(JSON.stringify(a.analysis)).byteLength>8000000
+@@ -121,12 +109,9 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+   let status=parseAnalysisJob(first.data,r.id,r.q);setJob(status)
+   if(start&&status.state==='WAITING'){const ran=await client.rpc('erp_cp7_run_analysis_job_v1',{p_request:r.id});if(n!==sequence.current)return;if(ran.error)throw ran.error;status=parseAnalysisJob(ran.data,r.id,r.q);setJob(status)}
+   while(status.state==='RUNNING'){await new Promise(done=>setTimeout(done,2000));if(n!==sequence.current)return;const next=await client.rpc('erp_cp7_get_analysis_job_v1',{p_request:r.id});if(n!==sequence.current)return;if(next.error)throw next.error;status=parseAnalysisJob(next.data,r.id,r.q);setJob(status)}
+-  if(status.state==='FAILED'){setError(analysisJobFailureText(status.failure!));return}
++  if(status.state==='FAILED'){setError(analysisJobFailureText(status.failure!));if(stagedCapRefusal(status.failure))setStagedHint(STAGED_CAP_HINT);return}
+   if(status.state!=='DONE'||!status.runId)return
+-  const full=await fetchOriginal(status.runId,r.q,n,r.id);if(!full)return
+-  if(isStaged(full)){if(requestFinance(r)==='DEFERRED'&&full.header.finance)throw Error('Analisis tanpa keuangan dari server memuat angka keuangan.')
+-   rememberAnalysis(scope,stagedIdentity(full));setArchive(readAnalysisArchive(scope));clearAnalysisJobRequest(scope,r.id);setJobRecovery(readAnalysisJobRequest(scope));setJob(null);await showStaged(full);return}
+-  sameFinance(r,full)
++  const full=await fetchOriginal(status.runId,r.q,n,r.id);if(!full)return;sameFinance(r,full)
+   rememberAnalysis(scope,full);setArchive(readAnalysisArchive(scope));clearAnalysisJobRequest(scope,r.id);setJobRecovery(readAnalysisJobRequest(scope));setJob(null);setData(full)
+  }
+  const startBackground=async()=>{const n=begin();try{
+@@ -137,33 +122,80 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+   const held=readAnalysisJobRequest(scope);setJobRecovery(held);if(held.error)throw Error(held.error);if(!held.pending)throw Error('Perhitungan latar belakang tersimpan tidak tersedia.');await runBackground(held.pending,n,start)
+  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+  useEffect(()=>{if(readAnalysisJobRequest(scope).pending)void resumeBackground(false)},[])// eslint-disable-line react-hooks/exhaustive-deps
+- const load=async(retry=false,include=withFinance)=>{const n=begin();try{
++ // P19 staged path: the six RPCs of cp7_analysis_stage. The driver gets them
++ // injected so its loop stays testable; the names stay literal here.
++ const stagedRpc:StagedRpc={request:async r=>client.rpc('erp_cp7_request_staged_analysis_v1',{p_query:r.q,p_request:r.id}),step:async id=>client.rpc('erp_cp7_step_staged_analysis_v1',{p_request:id}),get:async id=>client.rpc('erp_cp7_get_staged_analysis_v1',{p_request:id})}
++ const sleep=(ms:number)=>new Promise<void>(wake=>{const entry={timer:setTimeout(()=>{sleeps.current.delete(entry);wake()},ms),wake};sleeps.current.add(entry)})
++ const fetchStaged=async(runId:string,q:NativeDemandQuery,n:number,requestId:string|null,reference:StagedJob['reference']|null):Promise<StagedAnalysis|null>=>{
++  const r=await client.rpc('erp_cp7_read_staged_analysis_pages_v1',{p_run:runId});if(n!==sequence.current)return null;if(r.error)throw r.error
++  const set=await parseAnalysisPageSet(r.data,runId,requestId)
++  // The page set belongs to the job that was driven: same reference.
++  if(reference&&(set.reference.sourceHash!==reference.sourceHash||Date.parse(set.reference.capturedAt)!==Date.parse(reference.capturedAt)))throw Error('Acuan analisis bertahap server berubah.')
++  const header=await parseAnalysisHeader(set,q,actor,financeAccess)
++  return n===sequence.current?{kind:'STAGED',set,header}:null
++ }
++ const loadPage=async(s:StagedAnalysis,index:number)=>{
++  const generation=sequence.current,k=++pageSequence.current,current=()=>generation===sequence.current&&k===pageSequence.current
++  setPageLoading(index);setStagedPage(null);setError('')
++  try{
++   const r=await client.rpc('erp_cp7_read_staged_analysis_page_v1',{p_run:s.set.runId,p_index:index,p_access:s.set.accessEpoch});if(!current())return;if(r.error)throw r.error
++   const page=await parseAnalysisPage(r.data,s.set,s.header,index);if(current())setStagedPage(page)
++  }catch(e){if(current()){const failure=normalizeClientError(e);setStagedPage(null);setError(failure.message);if(failure.code==='FORBIDDEN')setStaged(null)}}
++  finally{if(current())setPageLoading(null)}
++ }
++ const checkStagedSource=async()=>{
++  const s=staged;if(!s)return;const generation=sequence.current,k=++checkSequence.current,current=()=>generation===sequence.current&&k===checkSequence.current
++  setSourceCheck(null);setSourceChecking(true);setError('')
++  try{const r=await client.rpc('erp_cp7_check_staged_analysis_source_v1',{p_run:s.set.runId});if(!current())return;if(r.error)throw r.error;setSourceCheck(parseStagedSourceCheck(r.data,s.set.runId))}
++  catch(e){if(current()){const failure=normalizeClientError(e);setError(failure.message);if(failure.code==='FORBIDDEN')setStaged(null)}}
++  finally{if(current())setSourceChecking(false)}
++ }
++ const showStaged=async(s:StagedAnalysis)=>{setStaged(s);setStagedPage(null);setSourceCheck(null);if(s.set.pageCount)await loadPage(s,0)}
++ const runStaged=async(r:StagedRequest,n:number,start:boolean)=>{
++  const seen={last:null as StagedJob|null};let status:StagedJob|null
++  try{status=await driveStagedJob({rpc:stagedRpc,request:r,start,aborted:()=>n!==sequence.current,sleep,onStatus:s=>{seen.last=s;if(n===sequence.current)setStagedJob(s)}})}
++  catch(e){if(n===sequence.current&&seen.last&&seen.last.state!=='RUNNING')setStagedJob(null);throw e}
++  if(!status||n!==sequence.current)return
++  if(status.state==='FAILED'){clearStagedRequest(scope,r.id);setStagedRecovery(readStagedRequest(scope));setError(stagedFailureText(status.failure!));return}
++  if(status.state!=='DONE'||!status.runId)throw Error('Analisis bertahap belum selesai di server.')
++  const s=await fetchStaged(status.runId,r.q,n,r.id,status.reference);if(!s)return
++  clearStagedRequest(scope,r.id);setStagedRecovery(readStagedRequest(scope));setStagedJob(null);await showStaged(s)
++ }
++ const startStaged=async()=>{const n=begin();try{
++  requireNoAttentionRequest();const held=readStagedRequest(scope);if(held.error)throw Error(held.error);if(held.pending)throw Error('Selesaikan analisis bertahap yang tersimpan terlebih dahulu.')
++  const r={id:crypto.randomUUID(),q:query};persistStagedRequest(scope,r);setStagedRecovery(readStagedRequest(scope));await runStaged(r,n,true)
++ }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
++ const resumeStaged=async()=>{const n=begin();try{
++  const held=readStagedRequest(scope);setStagedRecovery(held);if(held.error)throw Error(held.error);if(!held.pending)throw Error('Analisis bertahap tersimpan tidak tersedia.');await runStaged(held.pending,n,false)
++ }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
++ // A stored staged job resumes on mount like the single background job (a
++ // single job pending at the same time goes first; the staged one waits).
++ useEffect(()=>{if(!readAnalysisJobRequest(scope).pending&&readStagedRequest(scope).pending)void resumeStaged()},[])// eslint-disable-line react-hooks/exhaustive-deps
++ const load=async(retry=false,include=withFinance)=>{const n=begin();let r:NativeDemandRequest|null=null;try{
+   requireNoAttentionRequest()
+   const held=readNativeDemandRequest(scope);if(held.error)throw Error(held.error);if(retry&&!held.pending)throw Error('Permintaan analisis tersimpan tidak tersedia.');if(!retry&&held.pending)throw Error('Pastikan permintaan analisis yang sama terlebih dahulu.')
+-  const r=retry?held.pending!:{id:crypto.randomUUID(),q:query,finance:financeMode(include)};if(!retry)persistNativeDemandRequest(scope,r);setRecovery(readNativeDemandRequest(scope))
++  r=retry?held.pending!:{id:crypto.randomUUID(),q:query,finance:financeMode(include)};if(!retry)persistNativeDemandRequest(scope,r);setRecovery(readNativeDemandRequest(scope))
+   const since=new Date().toISOString(),slow=setTimeout(()=>{if(n===sequence.current)setComputingSince(since)},3000)
+   const response=await captureAnalysis(r).then(v=>{clearTimeout(slow);return v},(e:unknown)=>{clearTimeout(slow);throw e});if(n!==sequence.current)return;if(response.error)throw response.error
+   const parsed=analysisOversized(response.data)?await largeCapture(r,n):sameFinance(r,parseNativeAnalysis(response.data,r.q,actor,financeAccess));if(!parsed)return;if(parsed.requestId!==r.id)throw Error('Permintaan analisis server berubah.');rememberAnalysis(scope,parsed);setArchive(readAnalysisArchive(scope));clearNativeDemandRequest(scope,r.id);setRecovery(readNativeDemandRequest(scope));setData(parsed)
+- }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
++ }catch(e){if(n===sequence.current){setError(normalizeClientError(e).message)
++  // A refusal for the single path's target bound is a definite answer (the
++  // capture rolled back, no run exists), so its request is released and the
++  // staged path is offered for the same query. Every other refusal keeps the
++  // single path's protocol unchanged.
++  if(stagedCapRefusal(e)){setStagedHint(STAGED_CAP_HINT);if(r)try{clearNativeDemandRequest(scope,r.id);setRecovery(readNativeDemandRequest(scope))}catch{/* the record stays and its hold is shown */}}}}finally{end(n)}}
+  const check=async(copy:'REPORT'|'AI'|null=null):Promise<NativeAnalysis|null>=>{if(!data)return null;const previous=data,n=begin();try{
+-  const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return null;if(isStaged(parsed))throw Error('Bentuk analisis server berubah.');assertSameAnalysis(previous,parsed);setData(parsed)
++  const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return null;assertSameAnalysis(previous,parsed);setData(parsed)
+   if(copy){if(parsed.state!=='UNCHANGED')throw Error('Sumber sudah berubah. Ambil analisis baru sebelum menyalin laporan atau pertanyaan.');const text=copy==='REPORT'?analysisReport(parsed):analysisPrompt(parsed,question);setHandoff({kind:copy,text});if(new TextEncoder().encode(text).byteLength>1000000){setMessage('Data lengkap sudah diperiksa. Salinan otomatis terlalu besar; pilih teks dan salin manual.');return parsed}try{await navigator.clipboard.writeText(text);if(n===sequence.current)setMessage(copy==='REPORT'?'Laporan disalin.':'Pertanyaan dan data sumber disalin; siap ditinjau di AI pilihanmu.')}catch{if(n===sequence.current)setMessage('Salin otomatis gagal. Pilih teks yang sudah diperiksa dan salin manual.')}}
+   return parsed
+  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message);return null}finally{end(n)}}
+  const openAi=async()=>{if(!data||!handoff||handoff.kind!=='AI')return;const previous=data,n=begin();let popup:Window|null=null;try{
+   try{popup=window.open('about:blank','_blank');if(popup)popup.opener=null}catch{popup=null}
+-  const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return;if(isStaged(parsed))throw Error('Bentuk analisis server berubah.');assertSameAnalysis(previous,parsed);setData(parsed)
++  const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return;assertSameAnalysis(previous,parsed);setData(parsed)
+   if(parsed.state!=='UNCHANGED')throw Error('Sumber sudah berubah. Ambil analisis baru sebelum membuka AI.');setHandoff({kind:'AI',text:analysisPrompt(parsed,question)})
+   if(popup){popup.location.href='https://chatgpt.com/';popup=null;setMessage('ChatGPT dibuka. Tempel data yang sudah diperiksa secara manual.')}else setMessage('Tab diblokir. Gunakan tautan manual ChatGPT, lalu tempel data yang sudah diperiksa.')
+  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{if(popup)try{popup.close()}catch{}end(n)}}
+- const openArchive=async(p:AnalysisPointer)=>{const n=begin();try{const parsed=await readRun(p.runId,p.query,n);if(!parsed)return;if(isStaged(parsed)){checkAnalysisPointer(p,stagedIdentity(parsed));await showStaged(parsed);return}checkAnalysisPointer(p,parsed);setData(parsed)}catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+- // Re-reads the staged run's page set under current access: the same header,
+- // document and pages, then the page that was open, with the new access epoch.
+- const checkStaged=async()=>{if(!staged)return;const previous=staged,index=stagedPage?.index??0,n=begin();try{
+-  const s=await fetchStaged(previous.manifest.runId,previous.header.query,n,previous.manifest.requestId);if(!s)return
+-  if(s.manifest.header.sha256!==previous.manifest.header.sha256||s.manifest.document.sha256!==previous.manifest.document.sha256||JSON.stringify(s.manifest.pages)!==JSON.stringify(previous.manifest.pages))throw Error('Analisis bertahap server berubah.')
+-  setStaged(s);if(s.manifest.pageCount)await loadPage(s,Math.min(index,s.manifest.pageCount-1))
+- }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
++ const openArchive=async(p:AnalysisPointer)=>{const n=begin();try{const parsed=await readRun(p.runId,p.query,n);if(!parsed)return;checkAnalysisPointer(p,parsed);setData(parsed)}catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+  const listServerArchives=async(before:string|null=null)=>{const n=begin();try{requireNoAttentionRequest();const response=await client.rpc('erp_cp7_list_analysis_archives_v1',{p_query:{before_run:before,limit:25}});if(n!==sequence.current)return;if(response.error)throw response.error;const parsed=parseNativeArchivePage(response.data,actor,25);if(before&&parsed.rows.some(p=>p.runId===before))throw Error('Halaman arsip server berulang.');setServerArchive(parsed);setView('REPORT')}catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+  const close=useCallback(()=>{++sequence.current;if(active.current){active.current=false;onSourceReadEnd()}onClose()},[onSourceReadEnd,onClose])
+  const loadAttention=async()=>{if(!data)return;const previous=data,n=begin();try{requireNoAttentionRequest();const response=await client.rpc('erp_cp7_get_analysis_attention_v1',{p_run:previous.runId});if(n!==sequence.current)return;if(response.error)throw response.error;const parsed=parseNativeAttention(response.data,previous.query,actor,financeAccess);assertSameAnalysis(previous,parsed.analysis);if(parsed.result)throw Error('Jawaban perhatian tidak sesuai permintaan baca.');setAttention(parsed);setData(parsed.analysis)}catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+@@ -205,10 +237,13 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+  const heldAppendix=readObligationReportRequest(scope),heldReport=readReportRequest(scope)
+  const blocked=busy||Boolean(fabricRecovery.pending||fabricRecovery.error)||Boolean(ruleRecovery.pending||ruleRecovery.error)||Boolean(policyRecovery.pending||policyRecovery.error)||Boolean(heldReport.pending||heldReport.error||recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error),x=data?.analysis,rows=x?.recommendations.filter(r=>analysisProductLabel(r,data??undefined).toLowerCase().includes(search.toLowerCase()))??[]
+  return<section className="native-analysis panel" aria-label="Analisis ERP bersama"><header><div><div className="eyebrow">PERENCANAAN · DATA ERP</div><h2>Analisis, laporan & pengingat</h2><p>Stok, rincian, produksi, laporan, pengingat dan Tanya AI memakai hasil analisis yang sama untuk seluruh produk.</p></div><button disabled={busy} onClick={close}>Tutup analisis bersama</button></header>
+-  <div className="native-analysis-actions">{financeAccess.ownerReports?<label><input type="checkbox" checked={withFinance} disabled={blocked} onChange={e=>setWithFinance(e.target.checked)}/>Sertakan angka keuangan (menunggu buku besar)</label>:null}<button disabled={blocked} onClick={()=>void load()}>Ambil analisis ERP terbaru</button><button disabled={blocked||Boolean(jobRecovery.pending||jobRecovery.error)} onClick={()=>void startBackground()}>Hitung di latar belakang</button>{data?<button disabled={blocked} onClick={()=>void check()}>Periksa sumber analisis</button>:staged?<button disabled={blocked||pageLoading!==null} onClick={()=>void checkStaged()}>Periksa sumber analisis</button>:null}</div>
+-  {busy?<p role="status">{job&&(job.state==='RUNNING'||job.state==='WAITING')?analysisSinceText(job.startedAt)+(job.attempts>1?` Percobaan ke-${job.attempts}.`:''):computingSince?analysisSinceText(computingSince):'Memeriksa sumber ERP dan hak akses saat ini…'}</p>:null}{busy&&progress?<p role="status">{progress}</p>:null}{error||recovery.error?<p role="alert">{error||recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
++  <div className="native-analysis-actions">{financeAccess.ownerReports?<label><input type="checkbox" checked={withFinance} disabled={blocked} onChange={e=>setWithFinance(e.target.checked)}/>Sertakan angka keuangan (menunggu buku besar)</label>:null}<button disabled={blocked} onClick={()=>void load()}>Ambil analisis ERP terbaru</button><button disabled={blocked||Boolean(jobRecovery.pending||jobRecovery.error)} onClick={()=>void startBackground()}>Hitung di latar belakang</button><button disabled={blocked||Boolean(stagedRecovery.pending||stagedRecovery.error)} onClick={()=>void startStaged()}>Analisis bertahap (hingga 5.000 target)</button>{data?<button disabled={blocked} onClick={()=>void check()}>Periksa sumber analisis</button>:null}</div>
++  {withFinance&&financeAccess.ownerReports?<p>Angka keuangan tidak termasuk analisis bertahap.</p>:null}
++  {busy?<p role="status">{stagedJob&&stagedJob.state==='RUNNING'?stagedProgressText(stagedJob):job&&(job.state==='RUNNING'||job.state==='WAITING')?analysisSinceText(job.startedAt)+(job.attempts>1?` Percobaan ke-${job.attempts}.`:''):computingSince?analysisSinceText(computingSince):'Memeriksa sumber ERP dan hak akses saat ini…'}</p>:null}{busy&&progress?<p role="status">{progress}</p>:null}{error||recovery.error?<p role="alert">{error||recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
+   {recovery.pending?<div role="status"><p>Hasil permintaan analisis belum dipastikan.</p><button disabled={busy} onClick={()=>void load(true)}>Ulangi analisis yang sama</button></div>:null}
+   {jobRecovery.error?<p role="alert">{jobRecovery.error}</p>:null}{jobRecovery.pending&&!busy?<div role="status"><p>{job?.state==='WAITING'?'Perhitungan latar belakang belum berjalan atau terhenti sebelum selesai. Tidak ada hasil yang disimpan.':job?.state==='FAILED'?'Perhitungan latar belakang belum berhasil.':'Perhitungan latar belakang tersimpan belum dipastikan.'}</p><button disabled={busy} onClick={()=>void resumeBackground(true)}>Lanjutkan perhitungan yang sama</button></div>:null}
++  {stagedRecovery.error?<p role="alert">{stagedRecovery.error}</p>:null}{stagedRecovery.pending&&!busy?<><p role="status">{stagedJob&&stagedJob.state==='RUNNING'?stagedPausedText(stagedJob):'Analisis bertahap tersimpan belum dipastikan. Permintaan yang sama dipertahankan.'}</p><button disabled={busy} onClick={()=>void resumeStaged()}>Lanjutkan analisis bertahap</button></>:null}
++  {stagedHint?<p role="status">{stagedHint}</p>:null}
+   {fabricRecovery.error?<p role="alert">{fabricRecovery.error}</p>:null}
+   {attentionRecovery.error?<p role="alert">{attentionRecovery.error}</p>:null}
+   {attentionRecovery.pending?<div role="status"><p>Hasil perhatian tersimpan belum dipastikan. Permintaan yang sama dipertahankan.</p><button disabled={busy} onClick={()=>retryAttention(true)}>Periksa hasil perhatian tersimpan</button><button disabled={busy} onClick={()=>retryAttention(false)}>Ulangi perhatian yang sama</button></div>:null}
+@@ -232,7 +267,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+     {view==='AI'?<><h3>Tanya AI dengan sumber yang diperiksa</h3><label>Pertanyaanmu<textarea aria-label="Pertanyaan analisis ERP" value={question} maxLength={10000} disabled={busy} onChange={e=>{setQuestion(e.target.value);setHandoff(null);setMessage('')}}/></label><button disabled={blocked||data.state!=='UNCHANGED'||!question.trim()} onClick={()=>void check('AI')}>Periksa & salin pertanyaan untuk AI</button><p>Salin pertanyaan dan sumber, lalu buka AI pilihanmu. Jawaban AI tetap perlu ditinjau.</p>{handoff?.kind==='AI'?<><label>Data lengkap yang sudah diperiksa<textarea readOnly rows={16} aria-label="Salinan manual pertanyaan dan sumber ERP" value={handoff.text} onFocus={e=>e.currentTarget.select()}/></label><button disabled={blocked||data.state!=='UNCHANGED'} onClick={()=>void openAi()}>Periksa sumber & buka ChatGPT</button><a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Tautan manual ChatGPT</a><p>Data ikut lengkap dan tidak dipotong. Pertanyaan dan data tidak dimasukkan ke tautan.</p></>:null}<pre aria-label="Pertanyaan dan sumber ERP">{analysisPrompt(data,question)}</pre></>:null}
+    </div><details><summary>Asumsi dan batas data</summary>{x.assumptions.map(a=><p key={a.id}>{a.label} · {a.confirmed_for_operation?'Dikonfirmasi untuk operasi':'Belum dikonfirmasi untuk operasi'}.</p>)}{x.generation_warnings.map((w,i)=><p key={`${w}:${i}`}>{analysisWarningLabel(w)}</p>)}<p>Hash hasil {x.semantic_hash}</p></details>
+   </article>:null}
+-  {staged?<NativeStagedAnalysisView staged={staged} page={stagedPage} loading={pageLoading} blocked={blocked||pageLoading!==null} ownerReports={financeAccess.ownerReports} onPage={index=>void loadPage(staged,index)}/>:null}
++  {staged?<NativeStagedAnalysisView staged={staged} page={stagedPage} loading={pageLoading} blocked={blocked||pageLoading!==null||sourceChecking} sourceCheck={sourceCheck} checking={sourceChecking} onPage={index=>void loadPage(staged,index)} onCheckSource={()=>void checkStagedSource()}/>:null}
+  <div hidden={view!=='PRODUCTION'&&!fabricRecovery.pending&&!fabricRecovery.error}><NativeFabricRecipePanel context={data} generation={sequence.current} blocked={busy||Boolean(ruleRecovery.pending||ruleRecovery.error||policyRecovery.pending||policyRecovery.error||heldReport.pending||heldReport.error||heldAppendix.pending||heldAppendix.error||recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('PRODUCTION')}}} requireClear={()=>{requireNoAttentionRequest(false,false,true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>
+  <div hidden={view!=='REMINDER'&&!ruleRecovery.pending&&!ruleRecovery.error}><NativeRuleSourcePanel context={data} generation={sequence.current} blocked={busy||Boolean(recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error||policyRecovery.pending||policyRecovery.error||heldReport.pending||heldReport.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('REMINDER');setRuleRecovery(readRuleRequest(scope))}}} requireClear={()=>{requireNoAttentionRequest(false,true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>
+  <div hidden={view!=='REMINDER'&&!policyRecovery.pending&&!policyRecovery.error}><NativeReminderPolicyPanel context={data} generation={sequence.current} blocked={busy||Boolean(ruleRecovery.pending||ruleRecovery.error)||Boolean(recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error||heldReport.pending||heldReport.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('REMINDER');setPolicyRecovery(readReminderPolicyRequest(scope))}}} requireClear={()=>{requireNoAttentionRequest(true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>
+diff --git a/src/NativeStagedAnalysisView.tsx b/src/NativeStagedAnalysisView.tsx
+index 21f86712..7298e1da 100644
+--- a/src/NativeStagedAnalysisView.tsx
++++ b/src/NativeStagedAnalysisView.tsx
+@@ -1,20 +1,26 @@
+ import {formatCp6WibDateTime} from './cp6BusinessTime'
+ import {formatFact} from './cp7/workspace'
+ import {analysisWarningLabel} from './nativeAnalysis'
+-import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage} from './nativeAnalysisPages'
++import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage,type StagedSourceCheck} from './nativeAnalysisPages'
+ 
+ // A staged run (up to 5,000 targets) shown as its header plus ONE page of
+-// targets at a time. Every whole-run number below comes from the server's page
+-// set; the page only ever speaks for its own target range.
+-type Props={staged:StagedAnalysis;page:AnalysisPage|null;loading:number|null;blocked:boolean;ownerReports:boolean;onPage:(index:number)=>void}
++// targets at a time. Every whole-run number below comes from the server's
++// page set; the page only ever speaks for its own target range. The run has
++// no financial figures (operational path), and the features that read a whole
++// Original (reports, reminders, AI, stock detail, fabric workspace, plan
++// draft, archives) are stated unavailable rather than offered.
++type Props={staged:StagedAnalysis;page:AnalysisPage|null;loading:number|null;blocked:boolean;sourceCheck:StagedSourceCheck|null;checking:boolean;onPage:(index:number)=>void;onCheckSource:()=>void}
+ const stateLabel=(s:string)=>s==='ACTIVE'?'Aktif':s==='PAUSED'?'Ditunda':s==='STOPPED'?'Dihentikan':'Status lain'
+-export default function NativeStagedAnalysisView({staged,page,loading,blocked,ownerReports,onPage}:Props){
+- const m=staged.manifest,h=staged.header,x=h.analysisHeader,t=m.totals,n=stagedNumber
++export default function NativeStagedAnalysisView({staged,page,loading,blocked,sourceCheck,checking,onPage,onCheckSource}:Props){
++ const m=staged.set,h=staged.header,x=h.analysisHeader,t=m.totals,n=stagedNumber
+  const current=loading??page?.index??0,range=(i:number)=>stagedRangeLabel(m.pages[i].targetLo,m.pages[i].targetHi,m.targetsTotal)
+  const label=(key:string)=>{const l=h.labels.find(l=>l.key===key);return l?`${l.sku} · ${l.name}`:key}
+- return<article className="native-analysis-result" aria-label="Analisis bertahap per halaman target" data-run-id={m.runId} data-semantic-hash={m.semanticHash}>
+-  <p className={m.sourceState==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{m.sourceState==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: sumber berubah. Ambil analisis baru.'} Diambil {formatCp6WibDateTime(x.snapshot.generated_at)}.</p>
+-  <p className="native-analysis-run">Analisis bertahap <span>{m.runId}</span> · jadwal versi {x.scenario.version}.</p>
++ return<section className="native-analysis-staged native-analysis-result" role="region" aria-label="Hasil analisis bertahap" data-run-id={m.runId} data-identity-hash={m.identityHash}>
++  <p className="native-analysis-run">Run <span>{m.runId}</span></p>
++  <p>{n(m.targetsTotal)} target dalam {n(m.pageCount)} halaman. Acuan diambil {formatCp6WibDateTime(m.reference.capturedAt)}; jadwal versi {x.scenario.version}. Angka keuangan tidak termasuk analisis bertahap.</p>
++  <div className="native-analysis-actions"><button disabled={blocked||checking} onClick={onCheckSource}>Cek sumber</button></div>
++  {checking?<p>Memeriksa sumber acuan…</p>:null}
++  {sourceCheck?<p className={sourceCheck.sourceState==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{sourceCheck.sourceState==='UNCHANGED'?`Sumber belum berubah sejak ${formatCp6WibDateTime(m.reference.capturedAt)}.`:'Sumber sudah berubah; hasil ini arsip.'} Diperiksa {formatCp6WibDateTime(sourceCheck.checkedAt)}.</p>:null}
+   <section aria-label="Ringkasan seluruh analisis bertahap">
+    <h3>Ringkasan seluruh analisis · {n(m.targetsTotal)} target</h3>
+    <p>Angka di bagian ini dihitung server dari seluruh {n(m.targetsTotal)} target, bukan dari halaman target yang sedang dibuka.</p>
+@@ -26,12 +32,12 @@ export default function NativeStagedAnalysisView({staged,page,loading,blocked,ow
+     <li data-total="POLICY_UNREVIEWED">Status produksi belum diperiksa: {n(t.policyUnreviewed)} target</li>
+     <li data-total="TIMELINE">Baris linimasa seluruh target: {n(t.items.timeline??0)} · kebutuhan bahan seluruh target: {n(t.items.material_needs??0)}</li>
+    </ul>
+-   <p>Bahan dan produksi baru belum dipastikan. {h.finance?`Laporan keuangan ERP disertakan; kesiapan ${h.finance.report.snapshot.data_confidence.status}.`:ownerReports?'Angka keuangan belum dimuat pada hasil ini. Keuangan dan HPP tidak dianggap nol.':'Keuangan dan HPP belum tercakup.'} Angka belum diketahui tetap ditampilkan apa adanya.</p>
+-   <p>Laporan, pengingat, Tanya AI, rincian stok dan rencana potong memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
++   <p>Bahan dan produksi baru belum dipastikan. Keuangan dan HPP tidak tercakup pada analisis bertahap dan tidak dianggap nol. Angka belum diketahui tetap ditampilkan apa adanya.</p>
++   <p>Laporan, pengingat, Tanya AI, rincian stok, ruang kerja kain, draf rencana dan arsip memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
+   </section>
+   {m.pageCount===0?<p>Analisis ini tidak memuat rincian per target.</p>:<section aria-label="Target per halaman">
+    <h3>{range(current)}</h3>
+-   <nav aria-label="Halaman target analisis"><button disabled={blocked||current===0} onClick={()=>onPage(current-1)}>Target sebelumnya</button><span>Halaman {n(current+1)} dari {n(m.pageCount)}</span><button disabled={blocked||current>=m.pageCount-1} onClick={()=>onPage(current+1)}>Target berikutnya</button></nav>
++   <nav aria-label="Halaman target analisis"><button disabled={blocked||current===0} onClick={()=>onPage(current-1)}>Halaman sebelumnya</button><span>Halaman {n(current+1)} dari {n(m.pageCount)}</span><button disabled={blocked||current>=m.pageCount-1} onClick={()=>onPage(current+1)}>Halaman berikutnya</button></nav>
+    <label>Pilih rentang target<select aria-label="Pilih rentang target" value={current} disabled={blocked} onChange={e=>onPage(Number(e.target.value))}>{m.pages.map(p=><option key={p.index} value={p.index}>{range(p.index)}</option>)}</select></label>
+    {loading!==null?<p role="status">Mengambil {range(loading).replace(/^Target/,'target')}…</p>:null}
+    {page&&loading===null?<div aria-label={`Isi ${range(page.index)}`} data-page-index={page.index}>
+@@ -41,6 +47,6 @@ export default function NativeStagedAnalysisView({staged,page,loading,blocked,ow
+     {page.items.generation_warnings.length?<details><summary>Target pada halaman ini dengan status produksi belum diperiksa</summary>{page.items.generation_warnings.map(w=><p key={w}>{label(w.slice('PRODUCTION_POLICY_UNREVIEWED:'.length))} · {analysisWarningLabel(w)}</p>)}</details>:null}
+    </div>:null}
+   </section>}
+-  <details><summary>Asumsi dan batas data</summary>{x.assumptions.map(a=><p key={a.id}>{a.label} · {a.confirmed_for_operation?'Dikonfirmasi untuk operasi':'Belum dikonfirmasi untuk operasi'}.</p>)}{x.generation_warnings.map((w,i)=><p key={`${w}:${i}`}>{analysisWarningLabel(w)}</p>)}<p>Asumsi per target ada pada halaman targetnya.</p><p>Hash hasil {m.semanticHash}</p><p>Dokumen lengkap {n(m.document.utf8Bytes)} byte dalam {n(m.document.segmentCount)} bagian; hash {m.document.sha256}.</p></details>
+- </article>
++  <details><summary>Asumsi dan batas data</summary>{x.assumptions.map(a=><p key={a.id}>{a.label} · {a.confirmed_for_operation?'Dikonfirmasi untuk operasi':'Belum dikonfirmasi untuk operasi'}.</p>)}{x.generation_warnings.map((w,i)=><p key={`${w}:${i}`}>{analysisWarningLabel(w)}</p>)}<p>Asumsi per target ada pada halaman targetnya.</p><p>Hash identitas {m.identityHash}</p><p>Hash sumber acuan {m.reference.sourceHash}; {n(m.pageCount)} halaman, masing-masing paling besar 8.000.000 byte.</p></details>
++ </section>
+ }
+diff --git a/src/native-analysis.css b/src/native-analysis.css
+index 40e7d531..e9222f9f 100644
+--- a/src/native-analysis.css
++++ b/src/native-analysis.css
+@@ -5,5 +5,7 @@
+ 
+ .native-analysis-popup h3{overflow-wrap:anywhere}
+ 
++.native-analysis-staged nav{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-block:10px}.native-analysis-staged select{width:100%;min-width:0;box-sizing:border-box;padding:10px 12px;background:var(--surface,#151b2c);color:var(--text,#e8ecf6);border:1px solid var(--border,#293047);border-radius:8px;font:inherit}
++
+ .native-analysis [aria-label="Review pemakaian kain"] fieldset{min-width:0;margin-block:14px;border:1px solid var(--border,#293047);border-radius:8px;padding:12px}.native-analysis [aria-label="Review pemakaian kain"] select,.native-analysis [aria-label="Review pemakaian kain"] input:not([type=checkbox]){width:100%;min-width:0;box-sizing:border-box;padding:10px 12px;background:var(--surface,#151b2c);color:var(--text,#e8ecf6);border:1px solid var(--border,#293047);border-radius:8px;font:inherit}.native-analysis [aria-label="Review pemakaian kain"] input[type=checkbox]{width:auto;justify-self:start}.native-analysis [aria-label="Review pemakaian kain"] select:focus-visible,.native-analysis [aria-label="Review pemakaian kain"] input:focus-visible{outline:2px solid var(--accent,#8894e8);outline-offset:2px}
+ .native-analysis [aria-label="Review pemakaian kain"] input[type=datetime-local]{color-scheme:dark}
+diff --git a/src/nativeAnalysis.ts b/src/nativeAnalysis.ts
+index 73bc872c..fee8db22 100644
+--- a/src/nativeAnalysis.ts
++++ b/src/nativeAnalysis.ts
+@@ -34,6 +34,10 @@ function matches(s:Schema,v:unknown):boolean{
+ }
+ // The frozen analysis schema, whole or for one array's items (staged pages).
+ export const analysisSchemaMatches=(v:unknown,arrayField?:string)=>{const root=frozenSchema as unknown as Schema,s=arrayField===undefined?root:root.properties?.[arrayField]?.items;return s!==undefined&&matches(s,v)}
++// A staged run's analysis header: the frozen schema without `semantic_hash`
++// (a staged run is identified by its identity hash over header and pages; the
++// header must not carry a semantic hash at all).
++export const analysisHeaderSchemaMatches=(v:unknown)=>{const root=frozenSchema as unknown as Schema,properties={...root.properties};delete properties.semantic_hash;return matches({...root,properties,required:root.required?.filter(k=>k!=='semantic_hash')},v)}
+ const numeric=(f:FactValue)=>'value'in f
+ // Exact decimal quantity scaled to the kernel's twelve fractional digits.
+ function quantity(v:string):bigint{const m=/^(0|[1-9][0-9]{0,29})(?:\.([0-9]{1,12}))?$/.exec(v);if(!m)fail();return BigInt(m[1])*10n**12n+BigInt((m[2]??'').padEnd(12,'0'))}
+diff --git a/src/nativeAnalysisArchive.ts b/src/nativeAnalysisArchive.ts
+index 2d997298..975088c9 100644
+--- a/src/nativeAnalysisArchive.ts
++++ b/src/nativeAnalysisArchive.ts
+@@ -23,14 +23,11 @@ function pointer(v:unknown):AnalysisPointer{
+  return structuredClone(p)as AnalysisPointer
+ }
+ export function readAnalysisArchive(scope:string):{rows:AnalysisPointer[];error:string}{try{const raw=localStorage.getItem(analysisArchiveKey(scope));if(raw===null)return{rows:[],error:''};const p=JSON.parse(raw);if(!Array.isArray(p)||p.length>50)throw Error('Invalid archive index');const rows=p.map(pointer);if(new Set(rows.map(p=>p.runId)).size!==rows.length)throw Error('Duplicate archive');return{rows,error:''}}catch{return{rows:[],error:'Daftar arsip tersimpan belum dapat dibaca. Catatan lama dipertahankan.'}}}
+-// The identity a pointer keeps: a whole analysis or a staged run's header
+-// (whose snapshot and semantic hash are the run's).
+-export type AnalysisIdentity=Pick<NativeAnalysis,'runId'|'requestId'|'query'>&{analysis:{snapshot:{generated_at:string;source_hash:string};semantic_hash:string}}
+-export function rememberAnalysis(scope:string,r:AnalysisIdentity){const current=readAnalysisArchive(scope);if(current.error)throw Error(current.error);const p=pointer({runId:r.runId,requestId:r.requestId,query:r.query,capturedAt:r.analysis.snapshot.generated_at,sourceHash:r.analysis.snapshot.source_hash,semanticHash:r.analysis.semantic_hash}),old=current.rows.find(x=>x.runId===p.runId)
++export function rememberAnalysis(scope:string,r:NativeAnalysis){const current=readAnalysisArchive(scope);if(current.error)throw Error(current.error);const p=pointer({runId:r.runId,requestId:r.requestId,query:r.query,capturedAt:r.analysis.snapshot.generated_at,sourceHash:r.analysis.snapshot.source_hash,semanticHash:r.analysis.semantic_hash}),old=current.rows.find(x=>x.runId===p.runId)
+  if(old&&JSON.stringify(old)!==JSON.stringify(p))throw Error('Penunjuk arsip lama berubah. Periksa sumber sebelum melanjutkan.')
+  const raw=JSON.stringify([p,...current.rows.filter(x=>x.runId!==p.runId)].slice(0,50));localStorage.setItem(analysisArchiveKey(scope),raw);if(localStorage.getItem(analysisArchiveKey(scope))!==raw)throw Error('Daftar arsip belum tersimpan. Ulangi analisis yang sama.')
+ }
+-export function checkAnalysisPointer(p:AnalysisPointer,r:AnalysisIdentity){if(p.runId!==r.runId||p.requestId!==r.requestId||p.capturedAt!==r.analysis.snapshot.generated_at||p.sourceHash!==r.analysis.snapshot.source_hash||p.semanticHash!==r.analysis.semantic_hash)throw Error('Arsip server tidak sesuai penunjuk aslinya.')}
++export function checkAnalysisPointer(p:AnalysisPointer,r:NativeAnalysis){if(p.runId!==r.runId||p.requestId!==r.requestId||p.capturedAt!==r.analysis.snapshot.generated_at||p.sourceHash!==r.analysis.snapshot.source_hash||p.semanticHash!==r.analysis.semantic_hash)throw Error('Arsip server tidak sesuai penunjuk aslinya.')}
+ 
+ export type NativeArchivePage={rows:AnalysisPointer[];totalVisible:string;nextBeforeRun:string|null;readAt:string}
+ export function parseNativeArchivePage(v:unknown,actor:string,requestedLimit:number):NativeArchivePage{
+diff --git a/src/nativeAnalysisPages.test.ts b/src/nativeAnalysisPages.test.ts
+index 7610f82e..02426d58 100644
+--- a/src/nativeAnalysisPages.test.ts
++++ b/src/nativeAnalysisPages.test.ts
+@@ -1,97 +1,120 @@
+ // @vitest-environment jsdom
+ import {expect,it} from 'vitest'
+-import {parseAnalysisPagesManifest,parseAnalysisHeader,parseAnalysisPage,stagedRangeLabel,analysisRunPaged,ANALYSIS_STAGED_TARGETS,ANALYSIS_PAGE_UTF8_BYTES} from './nativeAnalysisPages'
++import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,stagedRangeLabel,stagedIdentityHash,ANALYSIS_STAGED_TARGETS,ANALYSIS_PAGE_UTF8_BYTES} from './nativeAnalysisPages'
+ import {stagedRun,rehash} from '../tests/fixtures/nativeAnalysisPages'
+ import {sha} from '../tests/fixtures/nativeAnalysisTransport'
+ const other='33333333-3333-4333-8333-333333333333',none={ownerReports:false,preflight:false}
+ type J=Record<string,any>
+ const clone=<T,>(v:T):T=>structuredClone(v)
++// The fixtures' own digest (WebCrypto), apart from the parser's.
++const nodeSha=(text:string)=>sha(text)
++// Restates a tampered page set's identity from its listed hashes, so a
++// structural refusal is proven apart from the identity check.
++const reidentified=async(m:J)=>({...m,identity_hash:await nodeSha([m.header.sha256,...m.pages.map((p:J)=>p.sha256)].join('\n'))})
+ 
+-it('reads a staged run as a verified header and pages; ranges, counts and offsets follow the manifest',async()=>{
+- const s=await stagedRun({targets:23,perPage:5,unreviewed:4})
+- const m=parseAnalysisPagesManifest(s.manifest,s.runId,s.manifest.request_id)
+- expect(m.pageCount).toBe(5);expect(m.pages.map(p=>[p.targetLo,p.targetHi])).toEqual([[1,5],[6,10],[11,15],[16,20],[21,23]])
++it('reads a staged run as a verified page set, header and uneven pages; ranges, counts and offsets follow the page set',async()=>{
++ const s=await stagedRun({targets:23,pageSizes:[5,9,4,5],unreviewed:4})
++ const m=await parseAnalysisPageSet(s.pageSet,s.runId,s.pageSet.request_id)
++ expect(m.pageCount).toBe(4);expect(m.pages.map(p=>[p.targetLo,p.targetHi])).toEqual([[1,5],[6,14],[15,18],[19,23]])
++ expect(m.identityHash).toBe(await nodeSha([s.headerSha,...s.pageSet.pages.map(p=>p.sha256)].join('\n')));expect(m.reference).toEqual({capturedAt:s.reference.captured_at,sourceHash:s.reference.source_hash})
+  expect(m.totals).toMatchObject({targets:23,policyUnreviewed:5});expect(m.totals.recommendations.ACTIVE+m.totals.recommendations.PAUSED+m.totals.recommendations.STOPPED).toBe(18)
+  const h=await parseAnalysisHeader(m,s.query,s.actor,none)
+- expect(h.analysisHeader.recommendations).toEqual([]);expect(h.analysisHeader.assumptions).toHaveLength(1);expect(h.labels).toHaveLength(23)
++ expect(h.analysisHeader.recommendations).toEqual([]);expect(h.analysisHeader.assumptions).toHaveLength(1);expect(h.labels).toHaveLength(23);expect('semantic_hash'in h.analysisHeader).toBe(false)
+  let seen=0
+  for(let i=0;i<m.pageCount;i++){const p=await parseAnalysisPage(s.page(i),m,h,i);expect([p.targetLo,p.targetHi]).toEqual([m.pages[i].targetLo,m.pages[i].targetHi]);seen+=p.items.actions.length
+   expect(p.items.recommendations.length+p.summary.policyUnreviewed).toBe(p.targetHi-p.targetLo+1)}
+  expect(seen).toBe(23)
+  // The pages, in order, are the per-target items of the whole analysis.
+- const whole=s.original.analysis.timeline.slice(0),pages=[] as unknown[]
++ const whole=(s.original.analysis as J).timeline.slice(0),pages=[] as unknown[]
+  for(let i=0;i<m.pageCount;i++)pages.push(...(await parseAnalysisPage(s.page(i),m,h,i)).items.timeline)
+  expect(pages).toEqual(whole)
+ })
+ 
+-it('labels the visible range against the whole run and recognises the paged refusal',()=>{
+- expect(stagedRangeLabel(501,1000,5000)).toBe('Target 501–1.000 dari 5.000');expect(stagedRangeLabel(1,500,5000)).toBe('Target 1–500 dari 5.000')
+- expect(analysisRunPaged({code:'P0001',message:'CP7_ANALYSIS_RUN_PAGED'})).toBe(true);expect(analysisRunPaged({message:'CP7_ANALYSIS_RUN_UNAVAILABLE'})).toBe(false);expect(analysisRunPaged(null)).toBe(false)
++it('labels the visible range against the whole run and states the identity hash as §10 defines it',async()=>{
++ expect(stagedRangeLabel(501,1000,5000)).toBe('Target 501–1.000 dari 5.000');expect(stagedRangeLabel(1,500,5000)).toBe('Target 1–500 dari 5.000');expect(stagedRangeLabel(4951,5000,5000)).toBe('Target 4.951–5.000 dari 5.000')
++ const h='a'.repeat(64),p=['b'.repeat(64),'c'.repeat(64)]
++ expect(await stagedIdentityHash(h,p)).toBe(await nodeSha(`${h}\n${p[0]}\n${p[1]}`));expect(await stagedIdentityHash(h,[])).toBe(await nodeSha(h))
+ })
+ 
+-it('refuses manifests that misstate the run, ranges, counts, totals or bounds',async()=>{
+- const s=await stagedRun({targets:12,perPage:5,unreviewed:3}),ok=s.manifest as J
+- expect(()=>parseAnalysisPagesManifest(ok,s.runId,other)).toThrow();expect(()=>parseAnalysisPagesManifest(ok,other,null)).toThrow()
+- expect(parseAnalysisPagesManifest(ok,s.runId,null).requestId).toBe(ok.request_id)
++it('refuses page sets that misstate the run, identity, reference, header, ranges, counts, totals or bounds',async()=>{
++ const s=await stagedRun({targets:12,pageSizes:[5,3,4],unreviewed:3}),ok=s.pageSet as J
++ await expect(parseAnalysisPageSet(ok,s.runId,other)).rejects.toThrow();await expect(parseAnalysisPageSet(ok,other,null)).rejects.toThrow()
++ expect((await parseAnalysisPageSet(ok,s.runId,null)).requestId).toBe(ok.request_id)
+  const edit=(f:(m:J)=>void)=>{const m=clone(ok);f(m);return m}
++ // Identity: a stated hash that is not the one over the listed hashes; a
++ // listed page or header hash that is not the body's.
++ await expect(parseAnalysisPageSet(edit(m=>{m.identity_hash='0'.repeat(64)}),s.runId,null)).rejects.toThrow('belum sesuai');await expect(parseAnalysisPageSet(edit(m=>{m.identity_hash='A'.repeat(64)}),s.runId,null)).rejects.toThrow()
++ await expect(parseAnalysisPageSet(edit(m=>{m.pages[1].sha256='1'.repeat(64)}),s.runId,null)).rejects.toThrow()
++ await expect(parseAnalysisPageSet(edit(m=>{m.header.sha256='2'.repeat(64)}),s.runId,null)).rejects.toThrow()
++ await expect(parseAnalysisPageSet(await reidentified(edit(m=>{m.header.sha256='2'.repeat(64)})),s.runId,null)).rejects.toThrow()
++ await expect(parseAnalysisPageSet(edit(m=>{m.header.body=m.header.body.replace('"TEST"','"TESX"')}),s.runId,null)).rejects.toThrow()
++ await expect(parseAnalysisPageSet(edit(m=>{m.header.utf8_bytes+=1}),s.runId,null)).rejects.toThrow()
++ // Structure, each also with a consistent identity over its tampered hashes.
+  const bad=[
+-  edit(m=>{m.contract_version='cp7.native-analysis-manifest.v1'}),edit(m=>{m.apply_enabled=true}),edit(m=>{m.extra=1}),edit(m=>{m.source_state='LIVE'}),
+-  edit(m=>{m.pages[1].target_lo=7}),edit(m=>{m.pages[1].target_lo=5}),edit(m=>{m.pages[2].target_hi=11}),edit(m=>{m.pages[1].index=2}),edit(m=>{m.pages.pop()}),
++  edit(m=>{m.contract_version='cp7.native-analysis-manifest.v1'}),edit(m=>{m.apply_enabled=true}),edit(m=>{m.production_go=true}),edit(m=>{m.extra=1}),
++  edit(m=>{m.document={utf8_bytes:1,characters:1,sha256:'a'.repeat(64),segment_count:1,segment_characters:2000000}}),edit(m=>{m.semantic_hash='a'.repeat(64)}),edit(m=>{m.source_state='UNCHANGED'}),
++  edit(m=>{delete m.reference}),edit(m=>{m.reference={captured_at:'kemarin',source_hash:m.reference.source_hash}}),edit(m=>{m.reference.source_hash='zz'}),edit(m=>{m.reference.extra=1}),
++  edit(m=>{m.pages[1].target_lo=7}),edit(m=>{m.pages[1].target_lo=5}),edit(m=>{m.pages[2].target_hi=11}),edit(m=>{m.pages[2].target_hi=13}),edit(m=>{m.pages[1].index=2}),edit(m=>{m.pages.pop();m.page_count=2}),edit(m=>{m.pages.pop()}),
+   edit(m=>{m.pages[0].counts.timeline+=1}),edit(m=>{delete m.pages[0].counts.timeline}),edit(m=>{m.pages[0].utf8_bytes=ANALYSIS_PAGE_UTF8_BYTES+1}),edit(m=>{m.pages[0].sha256='x'}),
+   edit(m=>{m.totals.targets=13}),edit(m=>{m.totals.recommendations.ACTIVE+=1}),edit(m=>{m.totals.policy_unreviewed+=1}),edit(m=>{m.totals.items.actions+=1}),
+   edit(m=>{m.paged.timeline.items+=1}),edit(m=>{m.paged.unknown_field={prefix:0,items:1}}),edit(m=>{m.targets_total=13}),edit(m=>{m.page_count=2}),
+-  edit(m=>{m.targets_total=ANALYSIS_STAGED_TARGETS+1}),edit(m=>{m.header.utf8_bytes=8000001}),edit(m=>{m.document.segment_count+=1}),edit(m=>{m.access_epoch='a'})]
+- for(const m of bad)expect(()=>parseAnalysisPagesManifest(m,s.runId,ok.request_id)).toThrow()
++  edit(m=>{m.targets_total=ANALYSIS_STAGED_TARGETS+1}),edit(m=>{m.header.utf8_bytes=8000001}),edit(m=>{m.access_epoch='a'})]
++ for(const m of bad){await expect(parseAnalysisPageSet(m,s.runId,ok.request_id)).rejects.toThrow();await expect(parseAnalysisPageSet(await reidentified(m),s.runId,ok.request_id)).rejects.toThrow()}
+ })
+ 
+-it('refuses a tampered, foreign or whole-Original header',async()=>{
+- const s=await stagedRun({targets:12,perPage:5}),m=parseAnalysisPagesManifest(s.manifest,s.runId,null)
++it('refuses a tampered, foreign, financial or whole-Original header',async()=>{
++ const s=await stagedRun({targets:12,pageSizes:[7,5]}),m=await parseAnalysisPageSet(s.pageSet,s.runId,null)
+  const withBody=async(h:J)=>{const body=JSON.stringify(h);return{...m,header:{utf8Bytes:new TextEncoder().encode(body).byteLength,sha256:await sha(body),body}}}
+  await expect(parseAnalysisHeader({...m,header:{...m.header,body:m.header.body.replace('TEST','TESX')}},s.query,s.actor,none)).rejects.toThrow('belum sesuai')
+  const h=clone(s.headerDoc) as J
+- for(const change of [(x:J)=>{x.run_id=other},(x:J)=>{x.contract_version='cp7.native-analysis-run.v1'},(x:J)=>{x.analysis=x.analysis_header},(x:J)=>{x.semantic_hash='b'.repeat(64)},
+-  (x:J)=>{x.document_sha256='c'.repeat(64)},(x:J)=>{x.paged.timeline.prefix=1},(x:J)=>{x.query.group_mode='RESTATED'},(x:J)=>{x.analysis_header.scope.actor_scope_id=other},
+-  (x:J)=>{x.product_labels.push({...x.product_labels[0]})},(x:J)=>{x.analysis_header.sources[0].allocated.value='999999'}]){
++ for(const change of [(x:J)=>{x.run_id=other},(x:J)=>{x.request_id=other},(x:J)=>{x.contract_version='cp7.native-analysis-run.v1'},(x:J)=>{x.analysis=x.analysis_header},(x:J)=>{x.semantic_hash='b'.repeat(64)},
++  (x:J)=>{x.document_sha256='c'.repeat(64)},(x:J)=>{x.analysis_header.semantic_hash='d'.repeat(64)},(x:J)=>{x.financial_source={contract_version:'cp7.native-analysis-finance.v1'}},(x:J)=>{x.paged.timeline.prefix=1},
++  (x:J)=>{x.query.group_mode='RESTATED'},(x:J)=>{x.analysis_header.scope.actor_scope_id=other},(x:J)=>{x.product_labels.push({...x.product_labels[0]})},(x:J)=>{x.analysis_header.sources[0].allocated.value='999999'},
++  (x:J)=>{x.targets_total=13},(x:J)=>{x.page_count=3},(x:J)=>{x.apply_enabled=true},(x:J)=>{x.production_go=true}]){
+   const y=clone(h);change(y);await expect(parseAnalysisHeader(await withBody(y),s.query,s.actor,none)).rejects.toThrow()
+  }
+  await expect(parseAnalysisHeader(m,{...s.query,from_date:'2026-01-01'},s.actor,none)).rejects.toThrow();await expect(parseAnalysisHeader(m,s.query,other,none)).rejects.toThrow()
+ })
+ 
+ it('refuses tampered, reordered, foreign, shifted and internally inconsistent pages',async()=>{
+- const s=await stagedRun({targets:12,perPage:5,unreviewed:3}),m=parseAnalysisPagesManifest(s.manifest,s.runId,null),h=await parseAnalysisHeader(m,s.query,s.actor,none)
++ const s=await stagedRun({targets:12,pageSizes:[5,3,4],unreviewed:3}),m=await parseAnalysisPageSet(s.pageSet,s.runId,null),h=await parseAnalysisHeader(m,s.query,s.actor,none)
+  const refuse=async(v:unknown,i=1)=>expect(parseAnalysisPage(v,m,h,i)).rejects.toThrow('belum sesuai')
+  const p1=s.page(1) as J,body=JSON.parse(p1.body) as J
+  // Envelope: changed body under the listed hash, another page for this index,
+- // another run, another header/document, a size or hash not listed.
++ // another run, another header or identity, a size or hash not listed.
+  await refuse({...p1,body:p1.body.replace('SOURCE_INPUT_NOT_PROVEN','SOURCE_INPUT_NOT_PROVEX')})
+- await refuse(s.page(2));await refuse(s.page(1),0);await refuse({...p1,run_id:other});await refuse({...p1,header_sha256:'d'.repeat(64)});await refuse({...p1,document_sha256:'d'.repeat(64)})
++ await refuse(s.page(2));await refuse(s.page(1),0);await refuse({...p1,run_id:other});await refuse({...p1,header_sha256:'d'.repeat(64)});await refuse({...p1,identity_hash:'d'.repeat(64)});await refuse({...p1,document_sha256:'d'.repeat(64)})
+  await refuse({...p1,extra:1});await refuse({...p1,target_lo:7});await refuse(await rehash(p1,p1.body+' '))
+- // A consistent envelope around a changed body: only the manifest's page hash
+- // and the page's own content can catch it.
+- const forged=async(change:(b:J)=>void)=>{const b=clone(body);change(b);const env=await rehash(p1,JSON.stringify(b));return parseAnalysisPage(env,{...m,pages:m.pages.map((p,i)=>i===1?{...p,utf8Bytes:env.utf8_bytes,sha256:env.sha256}:p)},h,1)}
+- await expect(forged(()=>{})).resolves.toMatchObject({targetLo:6,targetHi:10})
+- for(const change of [(b:J)=>{b.run_id=other},(b:J)=>{b.request_id=other},(b:J)=>{b.index=2},(b:J)=>{b.target_lo=5},(b:J)=>{b.targets_total=13},(b:J)=>{b.semantic_hash='e'.repeat(64)},
++ // A consistent envelope around a changed body, with the page set restated
++ // over the new page hash: only the page's own content can catch it.
++ const forged=async(change:(b:J)=>void)=>{const b=clone(body);change(b);const env=await rehash(p1,JSON.stringify(b)),pages=m.pages.map((p,i)=>i===1?{...p,utf8Bytes:env.utf8_bytes,sha256:env.sha256}:p),identityHash=await stagedIdentityHash(m.header.sha256,pages.map(p=>p.sha256));return parseAnalysisPage({...env,identity_hash:identityHash},{...m,pages,identityHash},h,1)}
++ await expect(forged(()=>{})).resolves.toMatchObject({targetLo:6,targetHi:8})
++ for(const change of [(b:J)=>{b.run_id=other},(b:J)=>{b.request_id=other},(b:J)=>{b.index=2},(b:J)=>{b.target_lo=5},(b:J)=>{b.targets_total=13},(b:J)=>{b.header_sha256='e'.repeat(64)},(b:J)=>{b.semantic_hash='e'.repeat(64)},(b:J)=>{b.document_sha256='e'.repeat(64)},
+   (b:J)=>{b.counts.timeline-=1},(b:J)=>{b.offsets.timeline+=1},(b:J)=>{b.totals.timeline+=1},(b:J)=>{b.items.timeline.pop()},(b:J)=>{b.items.recommendations.pop();b.counts.recommendations-=1},
+-  (b:J)=>{b.summary.recommendations.ACTIVE+=1},(b:J)=>{b.summary.policy_unreviewed+=1},(b:J)=>{b.items.timeline[0].target_key=s.manifest.pages[0]&&JSON.parse(s.page(0).body).items.recommendations[0].target.key},
++  (b:J)=>{b.summary.recommendations.ACTIVE+=1},(b:J)=>{b.summary.policy_unreviewed+=1},(b:J)=>{b.items.timeline[0].target_key=JSON.parse(s.page(0).body).items.recommendations[0].target.key},
+   (b:J)=>{b.items.material_needs[0].target_key='nowhere'},(b:J)=>{b.items.metrics[0].scope_key='nowhere'},(b:J)=>{b.items.actions[0].source_keys=['nowhere']},
+   (b:J)=>{b.items.recommendations[0].target_qty.assumption_ids=['missing']},(b:J)=>{b.items.recommendations[1]=b.items.recommendations[0]},(b:J)=>{b.items.timeline[0].extra=1},
+-  (b:J)=>{b.apply_enabled=true},(b:J)=>{b.items.analysis=[]}])
++  (b:J)=>{b.apply_enabled=true},(b:J)=>{b.production_go=true},(b:J)=>{b.items.analysis=[]}])
+   await expect(forged(change)).rejects.toThrow()
+- // A run whose source state changed is still read, and stays marked.
+- const stale=await stagedRun({targets:12,perPage:5,sourceState:'ARCHIVED_STALE'})
+- expect(parseAnalysisPagesManifest(stale.manifest,stale.runId,null).sourceState).toBe('ARCHIVED_STALE')
+ })
+ 
+ it('refuses pages whose items belong to targets outside the range they claim, even when every hash and total agrees',async()=>{
+- const s=await stagedRun({targets:12,perPage:5,unreviewed:3,itemRanges:[[1,5],[6,9],[10,12]]}),m=parseAnalysisPagesManifest(s.manifest,s.runId,null),h=await parseAnalysisHeader(m,s.query,s.actor,none)
++ const s=await stagedRun({targets:12,perPage:5,unreviewed:3,itemRanges:[[1,5],[6,9],[10,12]]}),m=await parseAnalysisPageSet(s.pageSet,s.runId,null),h=await parseAnalysisHeader(m,s.query,s.actor,none)
+  await expect(parseAnalysisPage(s.page(0),m,h,0)).resolves.toMatchObject({targetLo:1,targetHi:5})
+  await expect(parseAnalysisPage(s.page(1),m,h,1)).rejects.toThrow('belum sesuai');await expect(parseAnalysisPage(s.page(2),m,h,2)).rejects.toThrow('belum sesuai')
+ })
+ 
+-it('a run without per-target items has a header and no page; any page index is refused',async()=>{
+- const s=await stagedRun({targets:3,perPage:5}),ok=clone(s.manifest) as J
+- const empty={...ok,targets_total:0,page_count:0,paged:{},pages:[],totals:{targets:0,items:{},recommendations:{ACTIVE:0,PAUSED:0,STOPPED:0,OTHER:0},policy_unreviewed:0}}
+- const m=parseAnalysisPagesManifest(empty,s.runId,null);expect(m.pages).toEqual([])
+- await expect(parseAnalysisPage(s.page(0),m,{} as never,0)).rejects.toThrow('belum sesuai')
+- expect(()=>parseAnalysisPagesManifest({...empty,paged:{actions:{prefix:0,items:1}}},s.runId,null)).toThrow()
++it('a run without per-target items has a header and no page; its identity is the header hash alone; any page index is refused',async()=>{
++ const s=await stagedRun({targets:0})
++ const m=await parseAnalysisPageSet(s.pageSet,s.runId,null);expect(m.pages).toEqual([]);expect(m.identityHash).toBe(await nodeSha(s.headerSha))
++ await expect(parseAnalysisPage({},m,{} as never,0)).rejects.toThrow('belum sesuai')
++ await expect(parseAnalysisPageSet(await reidentified({...s.pageSet,paged:{actions:{prefix:0,items:1}}}),s.runId,null)).rejects.toThrow()
++})
++
++it('reads the source check and refuses other runs, states or shapes',()=>{
++ const run='f0165dc7-18c0-41f3-9ed5-ff0f28154197'
++ expect(parseStagedSourceCheck({source_state:'UNCHANGED',checked_at:'2026-10-07T10:00:00.000000Z'},run)).toEqual({sourceState:'UNCHANGED',checkedAt:'2026-10-07T10:00:00.000000Z'})
++ expect(parseStagedSourceCheck({contract_version:'cp7.native-analysis-staged-source.v1',run_id:run,source_state:'ARCHIVED_STALE',checked_at:'2026-10-07T10:00:00+00:00'},run).sourceState).toBe('ARCHIVED_STALE')
++ for(const v of [{source_state:'LIVE',checked_at:'2026-10-07T10:00:00Z'},{source_state:'UNCHANGED'},{source_state:'UNCHANGED',checked_at:'besok'},{source_state:'UNCHANGED',checked_at:'2026-10-07T10:00:00Z',run_id:other},
++  {source_state:'UNCHANGED',checked_at:'2026-10-07T10:00:00Z',extra:1},{source_state:'UNCHANGED',checked_at:'2026-10-07T10:00:00Z',contract_version:7},null,[],'UNCHANGED'])expect(()=>parseStagedSourceCheck(v,run)).toThrow()
+ })
+diff --git a/src/nativeAnalysisPages.ts b/src/nativeAnalysisPages.ts
+index d8d5cc2d..1dd391cc 100644
+--- a/src/nativeAnalysisPages.ts
++++ b/src/nativeAnalysisPages.ts
+@@ -1,36 +1,41 @@
+ import type {AnalysisResult} from './cp7/contract'
+ import type {NativeDemandQuery} from './nativeDemandHistory'
+-import {analysisSchemaMatches,assertAnalysisFacts,assertMaterialNeed,financeSource,pcs,type AnalysisFinanceAccess,type NativeAnalysisFinance} from './nativeAnalysis'
+-import {ANALYSIS_SEGMENT_CHARACTERS} from './nativeAnalysisTransport'
++import {analysisSchemaMatches,analysisHeaderSchemaMatches,assertAnalysisFacts,assertMaterialNeed,financeSource,pcs,type AnalysisFinanceAccess} from './nativeAnalysis'
+ 
+-// P19 staged run read BY TARGET RANGE. A staged run (up to 5,000 targets, a
+-// real Original of about 210 MB) is never assembled in the browser: the server
+-// refuses whole reads (CP7_ANALYSIS_RUN_PAGED) and serves a page set instead:
+-// one header (the Original without its per-target items) and pages of target
+-// ranges, each bound to the run, its document and semantic hashes. A page is
+-// only ever shown as "Target a–b dari N"; whole-run totals come from the
+-// server's page set, never from the visible page.
++// P19 staged run (schema cp7_analysis_stage; P19 plan §10) read BY TARGET
++// RANGE. A staged run is NOT a cp7_analysis_native.runs row: it has no
++// document, no segments and no semantic hash. Its identity is
++//   identity_hash = sha256(header_sha256 || "\n" || page_sha256_0 || "\n" || …)
++// over the header and the pages in index order. The client recomputes that
++// hash from the listed hashes, verifies the header body against its listed
++// size and hash, every page body against the page set, and refuses whatever
++// disagrees. Pages are byte-adaptive (≤ 8,000,000 UTF-8 bytes each), so the
++// target ranges are uneven; a page is only ever shown as "Target a–b dari N"
++// and every whole-run number comes from the server's page set, never from the
++// visible page. Source freshness is a separate RPC (no source_state here).
+ export const ANALYSIS_PAGE_UTF8_BYTES=8000000
+ export const ANALYSIS_HEADER_UTF8_BYTES=8000000
+-// The staged job's declared capacity (CP7_ANALYSIS_STAGED_TARGET_LIMIT).
++// The staged job's declared capacity.
+ export const ANALYSIS_STAGED_TARGETS=5000
+ export const ANALYSIS_PAGED_FIELDS=['assumptions','generation_warnings','actions','recommendations','demand_models','material_needs','metrics','timeline'] as const
+ export type PagedField=typeof ANALYSIS_PAGED_FIELDS[number]
+ type States={ACTIVE:number;PAUSED:number;STOPPED:number;OTHER:number}
++export type StagedReference={capturedAt:string;sourceHash:string}
+ export type AnalysisPageEntry={index:number;targetLo:number;targetHi:number;utf8Bytes:number;sha256:string;counts:Partial<Record<PagedField,number>>;offsets:Partial<Record<PagedField,number>>}
+-export type AnalysisPagesManifest={runId:string;requestId:string;sourceState:'UNCHANGED'|'ARCHIVED_STALE';accessEpoch:string
+- document:{utf8Bytes:number;characters:number;sha256:string;segmentCount:number;segmentCharacters:number};semanticHash:string
++export type AnalysisPageSet={runId:string;requestId:string;reference:StagedReference;accessEpoch:string;identityHash:string
+  targetsTotal:number;pageCount:number;paged:Partial<Record<PagedField,{prefix:number;items:number}>>
+  totals:{targets:number;items:Partial<Record<PagedField,number>>;recommendations:States;policyUnreviewed:number}
+  header:{utf8Bytes:number;sha256:string;body:string};pages:AnalysisPageEntry[]}
+-// The analysis without its per-target items: every paged array holds only its
+-// global items. It is NOT an analysis of the whole run and is never passed to
+-// the whole-run views, reports or prompts.
+-export type AnalysisHeader={runId:string;requestId:string;query:NativeDemandQuery;analysisHeader:AnalysisResult;labels:{key:string;sku:string;name:string}[];finance:NativeAnalysisFinance|null}
+-export type StagedAnalysis={kind:'STAGED';manifest:AnalysisPagesManifest;header:AnalysisHeader}
++// The analysis without its per-target items and without a semantic hash:
++// every paged array holds only its global items. It is NOT an analysis of
++// the whole run and is never passed to the whole-run views, reports or prompts.
++export type AnalysisHeaderResult=Omit<AnalysisResult,'semantic_hash'>
++export type AnalysisHeader={runId:string;requestId:string;query:NativeDemandQuery;analysisHeader:AnalysisHeaderResult;labels:{key:string;sku:string;name:string}[]}
++export type StagedAnalysis={kind:'STAGED';set:AnalysisPageSet;header:AnalysisHeader}
+ export type AnalysisPageItems={assumptions:AnalysisResult['assumptions'];generation_warnings:string[];actions:AnalysisResult['actions'];recommendations:AnalysisResult['recommendations']
+  demand_models:AnalysisResult['demand_models'];material_needs:AnalysisResult['material_needs'];metrics:AnalysisResult['metrics'];timeline:AnalysisResult['timeline']}
+ export type AnalysisPage={runId:string;index:number;targetLo:number;targetHi:number;items:AnalysisPageItems;summary:{recommendations:States;policyUnreviewed:number}}
++export type StagedSourceCheck={sourceState:'UNCHANGED'|'ARCHIVED_STALE';checkedAt:string}
+ 
+ function fail():never{throw Error('Halaman analisis server belum sesuai sumber dan kontrak CP7.')}
+ const object=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
+@@ -38,9 +43,11 @@ const uuid=(v:unknown):string=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0
+ const exact=(v:Record<string,unknown>,keys:readonly string[])=>{if(Object.keys(v).length!==keys.length||keys.some(k=>!Object.hasOwn(v,k)))fail()}
+ const hex64=(v:unknown)=>typeof v==='string'&&/^[0-9a-f]{64}$/.test(v)?v:fail()
+ const count=(v:unknown,min:number,max:number)=>typeof v==='number'&&Number.isSafeInteger(v)&&v>=min&&v<=max?v:fail()
++// A server instant: ISO 8601 with an explicit offset, parseable.
++export const stagedInstant=(v:unknown):string=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$/.test(v)&&Number.isFinite(Date.parse(v))?v:fail()
+ const sha256=async(bytes:Uint8Array<ArrayBuffer>)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('')
+ const STATES=['ACTIVE','PAUSED','STOPPED','OTHER'] as const
+-const pagedKeys=(m:AnalysisPagesManifest)=>ANALYSIS_PAGED_FIELDS.filter(k=>m.paged[k]!==undefined)
++const pagedKeys=(m:AnalysisPageSet)=>ANALYSIS_PAGED_FIELDS.filter(k=>m.paged[k]!==undefined)
+ const sameKeys=(v:Record<string,unknown>,keys:readonly string[])=>exact(v,keys)
+ function states(v:unknown):States{const s=object(v);exact(s,STATES);return{ACTIVE:count(s.ACTIVE,0,ANALYSIS_STAGED_TARGETS),PAUSED:count(s.PAUSED,0,ANALYSIS_STAGED_TARGETS),STOPPED:count(s.STOPPED,0,ANALYSIS_STAGED_TARGETS),OTHER:count(s.OTHER,0,ANALYSIS_STAGED_TARGETS)}}
+ const stateSum=(s:States)=>s.ACTIVE+s.PAUSED+s.STOPPED+s.OTHER
+@@ -48,21 +55,18 @@ const group=(n:number)=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')
+ // "Target 501–1.000 dari 5.000": the visible range and the whole run's count.
+ export const stagedRangeLabel=(lo:number,hi:number,total:number)=>`Target ${group(lo)}–${group(hi)} dari ${group(total)}`
+ export const stagedNumber=group
+-// The server's way of saying "this run is read by page".
+-export const analysisRunPaged=(error:unknown)=>error!==null&&typeof error==='object'&&(error as {message?:unknown}).message==='CP7_ANALYSIS_RUN_PAGED'
++export function parseStagedReference(v:unknown):StagedReference{const r=object(v);exact(r,['captured_at','source_hash']);return{capturedAt:stagedInstant(r.captured_at),sourceHash:hex64(r.source_hash)}}
++// The run's identity over its header and pages, in index order (§10).
++export const stagedIdentityHash=(headerSha256:string,pageSha256s:readonly string[])=>sha256(new TextEncoder().encode([headerSha256,...pageSha256s].join('\n')))
+ 
+-export function parseAnalysisPagesManifest(v:unknown,runId:string,expectedRequestId:string|null):AnalysisPagesManifest{
+- const e=object(v);exact(e,['contract_version','run_id','request_id','source_state','access_epoch','document','semantic_hash','targets_total','page_count','paged','totals','header','pages','apply_enabled','production_go'])
++export async function parseAnalysisPageSet(v:unknown,runId:string,expectedRequestId:string|null):Promise<AnalysisPageSet>{
++ const e=object(v);exact(e,['contract_version','run_id','request_id','reference','access_epoch','identity_hash','targets_total','page_count','paged','totals','header','pages','apply_enabled','production_go'])
+  const requestId=uuid(e.request_id)
+  if(e.contract_version!=='cp7.native-analysis-pages.v1'||e.apply_enabled!==false||e.production_go!==false||uuid(e.run_id)!==runId||(expectedRequestId!==null&&requestId!==expectedRequestId))fail()
+- if(e.source_state!=='UNCHANGED'&&e.source_state!=='ARCHIVED_STALE')fail()
+- // The run's whole document (its segments) is named, never assembled here.
+- const d=object(e.document);exact(d,['utf8_bytes','characters','sha256','segment_count','segment_characters'])
+- const utf8Bytes=count(d.utf8_bytes,1,Number.MAX_SAFE_INTEGER),characters=count(d.characters,1,utf8Bytes)
+- if(d.segment_characters!==ANALYSIS_SEGMENT_CHARACTERS||utf8Bytes>characters*4||d.segment_count!==Math.ceil(characters/ANALYSIS_SEGMENT_CHARACTERS))fail()
++ const reference=parseStagedReference(e.reference),accessEpoch=hex64(e.access_epoch),identityHash=hex64(e.identity_hash)
+  const targetsTotal=count(e.targets_total,0,ANALYSIS_STAGED_TARGETS),pageCount=count(e.page_count,0,targetsTotal)
+  if((pageCount===0)!==(targetsTotal===0))fail()
+- const pagedRaw=object(e.paged),paged:AnalysisPagesManifest['paged']={}
++ const pagedRaw=object(e.paged),paged:AnalysisPageSet['paged']={}
+  for(const[k,raw]of Object.entries(pagedRaw)){if(!(ANALYSIS_PAGED_FIELDS as readonly string[]).includes(k))fail();const p=object(raw);exact(p,['prefix','items']);paged[k as PagedField]={prefix:count(p.prefix,0,Number.MAX_SAFE_INTEGER),items:count(p.items,1,Number.MAX_SAFE_INTEGER)}}
+  const keys=ANALYSIS_PAGED_FIELDS.filter(k=>paged[k]!==undefined)
+  if(targetsTotal===0?keys.length!==0:paged.actions===undefined)fail()
+@@ -73,10 +77,12 @@ export function parseAnalysisPagesManifest(v:unknown,runId:string,expectedReques
+  for(const k of keys){if(items[k]!==paged[k]!.items)fail();totalItems[k]=paged[k]!.items}
+  const recommendations=states(t.recommendations),policyUnreviewed=count(t.policy_unreviewed,0,targetsTotal)
+  if(t.targets!==targetsTotal||stateSum(recommendations)!==(paged.recommendations?.items??0)||stateSum(recommendations)+policyUnreviewed!==targetsTotal||(paged.actions?.items??0)!==targetsTotal)fail()
++ // The header is inline: its listed size and hash must be the body's.
+  const h=object(e.header);exact(h,['utf8_bytes','sha256','body']);if(typeof h.body!=='string')fail()
+  const header={utf8Bytes:count(h.utf8_bytes,1,ANALYSIS_HEADER_UTF8_BYTES),sha256:hex64(h.sha256),body:h.body}
+- // Pages: indexes 0..n-1, target ranges contiguous over 1..total, counts
+- // summing to the whole-run items; offsets follow from the counts.
++ const headerBytes=new TextEncoder().encode(header.body);if(headerBytes.byteLength!==header.utf8Bytes||await sha256(headerBytes)!==header.sha256)fail()
++ // Pages: indexes 0..n-1, target ranges contiguous over 1..total (uneven
++ // sizes allowed), counts summing to the whole-run items; offsets follow.
+  if(!Array.isArray(e.pages)||e.pages.length!==pageCount)fail()
+  let next=1;const running:Partial<Record<PagedField,number>>={}
+  const pages=e.pages.map((raw,i):AnalysisPageEntry=>{
+@@ -89,8 +95,9 @@ export function parseAnalysisPagesManifest(v:unknown,runId:string,expectedReques
+   next=targetHi+1;return entry
+  })
+  if(next!==targetsTotal+1||keys.some(k=>running[k]!==paged[k]!.items))fail()
+- return{runId,requestId,sourceState:e.source_state,accessEpoch:hex64(e.access_epoch),document:{utf8Bytes,characters,sha256:hex64(d.sha256),segmentCount:d.segment_count as number,segmentCharacters:ANALYSIS_SEGMENT_CHARACTERS},
+-  semanticHash:hex64(e.semantic_hash),targetsTotal,pageCount,paged,totals:{targets:targetsTotal,items:totalItems,recommendations,policyUnreviewed},header,pages}
++ // The identity the server states must be the one the listed hashes give.
++ if(await stagedIdentityHash(header.sha256,pages.map(p=>p.sha256))!==identityHash)fail()
++ return{runId,requestId,reference,accessEpoch,identityHash,targetsTotal,pageCount,paged,totals:{targets:targetsTotal,items:totalItems,recommendations,policyUnreviewed},header,pages}
+ }
+ 
+ async function verifiedText(body:unknown,utf8Bytes:number,hash:string){
+@@ -99,16 +106,16 @@ async function verifiedText(body:unknown,utf8Bytes:number,hash:string){
+  try{return JSON.parse(body) as unknown}catch{return fail()}
+ }
+ 
+-export async function parseAnalysisHeader(m:AnalysisPagesManifest,q:NativeDemandQuery,actor:string,access:AnalysisFinanceAccess):Promise<AnalysisHeader>{
++export async function parseAnalysisHeader(m:AnalysisPageSet,q:NativeDemandQuery,actor:string,access:AnalysisFinanceAccess):Promise<AnalysisHeader>{
+  const e=object(await verifiedText(m.header.body,m.header.utf8Bytes,m.header.sha256))
+- exact(e,['contract_version','run_id','request_id','query','financial_source','product_labels','analysis_header','paged','targets_total','page_count','document_sha256','semantic_hash','apply_enabled','production_go'])
+- if(e.contract_version!=='cp7.native-analysis-header.v1'||e.apply_enabled!==false||e.production_go!==false||e.run_id!==m.runId||e.request_id!==m.requestId
+-  ||e.targets_total!==m.targetsTotal||e.page_count!==m.pageCount||e.document_sha256!==m.document.sha256||e.semantic_hash!==m.semanticHash)fail()
++ exact(e,['contract_version','run_id','request_id','query','financial_source','product_labels','analysis_header','paged','targets_total','page_count','apply_enabled','production_go'])
++ if(e.contract_version!=='cp7.native-analysis-header.v1'||e.apply_enabled!==false||e.production_go!==false||e.run_id!==m.runId||e.request_id!==m.requestId||e.targets_total!==m.targetsTotal||e.page_count!==m.pageCount)fail()
+  const query=object(e.query);exact(query,['from_date','through_date','group_mode']);if(query.from_date!==q.from_date||query.through_date!==q.through_date||query.group_mode!==q.group_mode)fail()
+  const p=object(e.paged);exact(p,pagedKeys(m));for(const k of pagedKeys(m)){const x=object(p[k]);exact(x,['prefix','items']);if(x.prefix!==m.paged[k]!.prefix||x.items!==m.paged[k]!.items)fail()}
+- if(!analysisSchemaMatches(e.analysis_header))fail()
+- const a=e.analysis_header as AnalysisResult
+- if(a.run_id!==m.runId||a.semantic_hash!==m.semanticHash||a.scope.actor_scope_id!==actor||a.scope.allocation_scope_id!=='GLOBAL_NATIVE_PLANNING'||a.scope.display_filter!=='ALL'||!/^[0-9a-f]{64}$/.test(a.snapshot.source_hash))fail()
++ // The frozen schema without semantic_hash: a staged header carries none.
++ if(!analysisHeaderSchemaMatches(e.analysis_header))fail()
++ const a=e.analysis_header as AnalysisHeaderResult
++ if(a.run_id!==m.runId||a.scope.actor_scope_id!==actor||a.scope.allocation_scope_id!=='GLOBAL_NATIVE_PLANNING'||a.scope.display_filter!=='ALL'||!/^[0-9a-f]{64}$/.test(a.snapshot.source_hash))fail()
+  // Every paged array holds its global items and the place of the per-target ones.
+  for(const k of pagedKeys(m)){const arr=(a as unknown as Record<string,unknown>)[k];if(!Array.isArray(arr)||m.paged[k]!.prefix>arr.length)fail()}
+  if(!Array.isArray(e.product_labels))fail()
+@@ -126,19 +133,22 @@ export async function parseAnalysisHeader(m:AnalysisPagesManifest,q:NativeDemand
+   const t=inputs.get(x.source_key)??{input:0n,output:0n};inputs.set(x.source_key,{input:t.input+i,output:t.output+o})}
+  for(const s of a.sources){const ph=pcs(s.physical_remaining),el=pcs(s.eligible_input),g=pcs(s.eligible_projected),al=pcs(s.allocated),t=inputs.get(s.source_key)??{input:0n,output:0n}
+   if(ph!==null&&el!==null&&el>ph||al!==null&&el!==null&&al>el||al!==null&&al!==t.input||g!==null&&t.output>g||al===null&&t.input>0n)fail()}
+- const finance=financeSource(e.financial_source,a,q,access)
+- return{runId:m.runId,requestId:m.requestId,query:{...q},analysisHeader:structuredClone(a),labels,finance}
++ // The staged path is operational (financial capture DEFERRED): the header
++ // names no financial source and the analysis carries no financial figure.
++ if(e.financial_source!==null)fail()
++ financeSource(null,a as AnalysisResult,q,access)
++ return{runId:m.runId,requestId:m.requestId,query:{...q},analysisHeader:structuredClone(a),labels}
+ }
+ 
+-export async function parseAnalysisPage(v:unknown,m:AnalysisPagesManifest,h:AnalysisHeader,index:number):Promise<AnalysisPage>{
++export async function parseAnalysisPage(v:unknown,m:AnalysisPageSet,h:AnalysisHeader,index:number):Promise<AnalysisPage>{
+  const entry=m.pages[index];if(!entry)fail()
+- const e=object(v);exact(e,['contract_version','run_id','index','page_count','target_lo','target_hi','header_sha256','document_sha256','utf8_bytes','sha256','body'])
++ const e=object(v);exact(e,['contract_version','run_id','index','page_count','target_lo','target_hi','header_sha256','identity_hash','utf8_bytes','sha256','body'])
+  if(e.contract_version!=='cp7.native-analysis-page-read.v1'||e.run_id!==m.runId||e.index!==index||e.page_count!==m.pageCount||e.target_lo!==entry.targetLo||e.target_hi!==entry.targetHi
+-  ||e.header_sha256!==m.header.sha256||e.document_sha256!==m.document.sha256||e.utf8_bytes!==entry.utf8Bytes||e.sha256!==entry.sha256)fail()
++  ||e.header_sha256!==m.header.sha256||e.identity_hash!==m.identityHash||e.utf8_bytes!==entry.utf8Bytes||e.sha256!==entry.sha256)fail()
+  const p=object(await verifiedText(e.body,entry.utf8Bytes,entry.sha256))
+- exact(p,['contract_version','run_id','request_id','index','page_count','target_lo','target_hi','targets_total','document_sha256','semantic_hash','header_sha256','counts','offsets','totals','summary','items','apply_enabled','production_go'])
++ exact(p,['contract_version','run_id','request_id','index','page_count','target_lo','target_hi','targets_total','header_sha256','counts','offsets','totals','summary','items','apply_enabled','production_go'])
+  if(p.contract_version!=='cp7.native-analysis-page.v1'||p.apply_enabled!==false||p.production_go!==false||p.run_id!==m.runId||p.request_id!==m.requestId||p.index!==index||p.page_count!==m.pageCount
+-  ||p.target_lo!==entry.targetLo||p.target_hi!==entry.targetHi||p.targets_total!==m.targetsTotal||p.document_sha256!==m.document.sha256||p.semantic_hash!==m.semanticHash||p.header_sha256!==m.header.sha256)fail()
++  ||p.target_lo!==entry.targetLo||p.target_hi!==entry.targetHi||p.targets_total!==m.targetsTotal||p.header_sha256!==m.header.sha256)fail()
+  const keys=pagedKeys(m),counts=object(p.counts),offsets=object(p.offsets),totals=object(p.totals),raw=object(p.items)
+  sameKeys(counts,keys);sameKeys(offsets,keys);sameKeys(totals,keys);sameKeys(raw,keys)
+  const items={assumptions:[],generation_warnings:[],actions:[],recommendations:[],demand_models:[],material_needs:[],metrics:[],timeline:[]} as unknown as AnalysisPageItems
+@@ -171,3 +181,15 @@ export async function parseAnalysisPage(v:unknown,m:AnalysisPagesManifest,h:Anal
+  for(const x of h.analysisHeader.allocation_edges){const r=recs.get(x.target_key);if(r&&r.target.size_id!==x.size_id)fail()}
+  return{runId:m.runId,index,targetLo:entry.targetLo,targetHi:entry.targetHi,items,summary:{recommendations:byState,policyUnreviewed}}
+ }
++
++// erp_cp7_check_staged_analysis_source_v1: the current source fingerprint
++// against the run's reference, in one statement (§10). Only the two stated
++// fields are required; a contract version or the run id may accompany them.
++export function parseStagedSourceCheck(v:unknown,runId:string):StagedSourceCheck{
++ const e=object(v),keys=Object.keys(e)
++ if(keys.some(k=>!['contract_version','run_id','source_state','checked_at'].includes(k))||!Object.hasOwn(e,'source_state')||!Object.hasOwn(e,'checked_at'))fail()
++ if(Object.hasOwn(e,'contract_version')&&(typeof e.contract_version!=='string'||!/^cp7\.[a-z0-9.-]+\.v[0-9]+$/.test(e.contract_version)))fail()
++ if(Object.hasOwn(e,'run_id')&&e.run_id!==runId)fail()
++ if(e.source_state!=='UNCHANGED'&&e.source_state!=='ARCHIVED_STALE')fail()
++ return{sourceState:e.source_state,checkedAt:stagedInstant(e.checked_at)}
++}
+diff --git a/src/nativeAnalysisTransport.ts b/src/nativeAnalysisTransport.ts
+index bcc0a876..5cfc50c9 100644
+--- a/src/nativeAnalysisTransport.ts
++++ b/src/nativeAnalysisTransport.ts
+@@ -105,6 +105,9 @@ const failureText:Record<string,string>={
+  CP7_ANALYSIS_JOB_ERROR:'Perhitungan gagal di server. Tidak ada hasil yang disimpan.'}
+ export const analysisJobFailureText=(f:{code:string})=>failureText[f.code]??`Perhitungan ditolak server (${f.code}). Tidak ada hasil yang disimpan.`
+ const wib=(iso:string,o:Intl.DateTimeFormatOptions)=>new Date(iso).toLocaleString('id-ID',{timeZone:'Asia/Jakarta',...o})
+-export const analysisSinceText=(iso:string)=>`Sedang dihitung sejak jam ${wib(iso,{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})} WIB (${wib(iso,{day:'numeric',month:'short',year:'numeric'})}).`
++// "HH.MM.SS" in WIB, the clock the background-job status lines use.
++export const analysisWibClock=(iso:string)=>wib(iso,{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})
++export const analysisWibDate=(iso:string)=>wib(iso,{day:'numeric',month:'short',year:'numeric'})
++export const analysisSinceText=(iso:string)=>`Sedang dihitung sejak jam ${analysisWibClock(iso)} WIB (${analysisWibDate(iso)}).`
+ // Characters above the single-body bound are read through the segment transport.
+ export const analysisOversized=(v:unknown)=>{try{return new TextEncoder().encode(JSON.stringify((v as {analysis?:unknown}|null)?.analysis??null)).byteLength>ANALYSIS_SEGMENT_UTF8_BYTES}catch{return false}}
+diff --git a/src/nativeStagedJob.test.ts b/src/nativeStagedJob.test.ts
+new file mode 100644
+index 00000000..afd68ec2
+--- /dev/null
++++ b/src/nativeStagedJob.test.ts
+@@ -0,0 +1,109 @@
++// @vitest-environment jsdom
++import {expect,it} from 'vitest'
++import {parseStagedJob,driveStagedJob,readStagedRequest,persistStagedRequest,clearStagedRequest,stagedRequestKey,stagedProgressText,stagedPausedText,stagedFailureText,stagedCapRefusal,STAGED_WORKER_BACKOFF_MS,type StagedJob,type StagedReply} from './nativeStagedJob'
++import {stagedJobFixture,type StagedJobState} from '../tests/fixtures/nativeAnalysisPages'
++import fixture from '../tests/fixtures/nativeAnalysisStandin.json'
++const id='00000000-0000-4000-8000-000000000095',other='33333333-3333-4333-8333-333333333333'
++type J=Record<string,any>
++const q={from_date:'2026-09-01',through_date:'2026-09-30',group_mode:'AS_SOLD' as const}
++const ok=(data:unknown):StagedReply=>({data,error:null})
++const running=(units_done:number,extra:J={})=>ok(stagedJobFixture(id,'RUNNING',{units_done,...extra}))
++
++it('reads every job state strictly: run_id only with DONE, failure only with FAILED, worker_active only when stated',()=>{
++ const r=parseStagedJob(stagedJobFixture(id,'RUNNING'),id)
++ expect(r).toMatchObject({requestId:id,state:'RUNNING',stage:'HIST_ROWS',stageIndex:3,stageCount:9,unitsDone:12,unitCount:55,planFinal:false,targetsTotal:5000,targetsDoneInStage:1200,unitAttempts:0,runId:null,failure:null,workerActive:false})
++ expect(r.reference).toEqual({capturedAt:'2026-10-07T09:00:00.000000Z',sourceHash:fixture.analysis.snapshot.source_hash});expect(r.lastProgressAt).toBe('2026-10-07T09:05:30.000000Z')
++ expect(parseStagedJob(stagedJobFixture(id,'RUNNING',{worker_active:true}),id).workerActive).toBe(true)
++ const {run_id:_run,failure:_failure,...absent}=stagedJobFixture(id,'RUNNING');expect(parseStagedJob(absent,id)).toMatchObject({runId:null,failure:null})
++ expect(parseStagedJob(stagedJobFixture(id,'RUNNING',{targets_total:null,targets_done_in_stage:0}),id).targetsTotal).toBeNull()
++ expect(parseStagedJob(stagedJobFixture(id,'RUNNING',{reference:{captured_at:'2026-10-07T09:00:00+00:00',source_hash:'f'.repeat(64)},last_progress_at:'2026-10-07T16:05:30+07:00'}),id).reference.sourceHash).toBe('f'.repeat(64))
++ expect(parseStagedJob(stagedJobFixture(id,'DONE'),id)).toMatchObject({state:'DONE',runId:fixture.run_id,stage:null,unitsDone:55,planFinal:true})
++ const f=parseStagedJob(stagedJobFixture(id,'FAILED'),id);expect(f.failure).toEqual({unit:12,sqlstate:'42501',code:'CP7_ANALYSIS_ACCESS_CHANGED'});expect(f.runId).toBeNull()
++ expect(parseStagedJob(stagedJobFixture(id,'FAILED',{failure:{unit:12,sqlstate:'57014',code:'CP7_ANALYSIS_STAGE_STOPPED',message:'canceling statement due to statement timeout'}}),id).failure?.code).toBe('CP7_ANALYSIS_STAGE_STOPPED')
++ expect(()=>parseStagedJob(stagedJobFixture(id,'RUNNING'),other)).toThrow()
++ const bad:[StagedJobState,J][]=[
++  ['RUNNING',{state:'WAITING'}],['RUNNING',{state:'running'}],['RUNNING',{run_id:fixture.run_id}],['RUNNING',{failure:{unit:1,sqlstate:'P0001',code:'CP7_ANALYSIS_JOB_ERROR'}}],['RUNNING',{stage:null}],['RUNNING',{stage:'hist rows'}],
++  ['RUNNING',{stage_index:10}],['RUNNING',{stage_index:0}],['RUNNING',{stage_count:0}],['RUNNING',{units_done:56}],['RUNNING',{units_done:-1}],['RUNNING',{unit_count:0}],['RUNNING',{targets_done_in_stage:5001}],['RUNNING',{targets_total:5001}],
++  ['RUNNING',{plan_final:'no'}],['RUNNING',{apply_enabled:true}],['RUNNING',{production_go:true}],['RUNNING',{document:{}}],['RUNNING',{job_id:id}],['RUNNING',{contract_version:'cp7.native-analysis-staged-job.v0'}],
++  ['RUNNING',{worker_active:'yes'}],['RUNNING',{reference:null}],['RUNNING',{reference:{captured_at:'2026-10-07T09:00:00.000000Z'}}],['RUNNING',{reference:{captured_at:'kemarin',source_hash:'f'.repeat(64)}}],['RUNNING',{last_progress_at:'2026-10-07'}],['RUNNING',{unit_attempts:-1}],['RUNNING',{request_id:other}],
++  ['DONE',{run_id:null}],['DONE',{run_id:undefined}],['DONE',{run_id:'bukan-uuid'}],['DONE',{units_done:54}],['DONE',{plan_final:false}],['DONE',{targets_total:null}],['DONE',{failure:{unit:1,sqlstate:'P0001',code:'CP7_ANALYSIS_JOB_ERROR'}}],
++  ['FAILED',{failure:null}],['FAILED',{failure:undefined}],['FAILED',{failure:{unit:12,sqlstate:'42501'}}],['FAILED',{failure:{unit:12,sqlstate:'42501',code:'OOPS'}}],['FAILED',{failure:{unit:12,sqlstate:'4250',code:'CP7_ANALYSIS_ACCESS_CHANGED'}}],
++  ['FAILED',{failure:{unit:12,sqlstate:'42501',code:'CP7_ANALYSIS_ACCESS_CHANGED',extra:1}}],['FAILED',{failure:{unit:12,sqlstate:'42501',code:'CP7_ANALYSIS_ACCESS_CHANGED',message:7}}],['FAILED',{failure:{unit:56,sqlstate:'42501',code:'CP7_ANALYSIS_ACCESS_CHANGED'}}],['FAILED',{run_id:fixture.run_id}]]
++ for(const[state,extra]of bad)expect(()=>parseStagedJob(stagedJobFixture(id,state,extra),id),JSON.stringify(extra)).toThrow()
++ for(const v of [null,[],'RUNNING',{}])expect(()=>parseStagedJob(v,id)).toThrow()
++})
++
++it('keeps the staged request under its own key with the single job request protocol, never trusting a broken record',()=>{
++ localStorage.clear();const scope='analysis:cp6-disposable:actor-1'
++ expect(stagedRequestKey(scope)).toBe('erp.cp7.analysis-staged.v1:'+scope);expect(readStagedRequest(scope)).toEqual({pending:null,error:''})
++ persistStagedRequest(scope,{id,q});expect(readStagedRequest(scope).pending).toEqual({id,q});expect(localStorage.getItem('erp.cp7.analysis-job.v1:'+scope)).toBeNull();expect(localStorage.getItem('erp.cp7.native-demand-request.v1:'+scope)).toBeNull()
++ expect(()=>persistStagedRequest(scope,{id:other,q})).toThrow();expect(()=>clearStagedRequest(scope,other)).toThrow();expect(readStagedRequest(scope).pending?.id).toBe(id)
++ clearStagedRequest(scope,id);expect(readStagedRequest(scope).pending).toBeNull();expect(()=>clearStagedRequest(scope,id)).toThrow()
++ localStorage.setItem(stagedRequestKey(scope),'{broken');expect(readStagedRequest(scope).error).toContain('belum bisa dibaca');expect(()=>persistStagedRequest(scope,{id,q})).toThrow();expect(localStorage.getItem(stagedRequestKey(scope))).toBe('{broken')
++ for(const v of [{id,q,finance:'INCLUDED'},{id:'x',q},{id,q:{...q,group_mode:'ALL'}},{id,q:{...q,through_date:'2026-08-01'}}]){localStorage.setItem(stagedRequestKey(scope),JSON.stringify(v));expect(readStagedRequest(scope)).toMatchObject({pending:null});expect(readStagedRequest(scope).error).toBeTruthy()}
++ localStorage.clear()
++})
++
++it('states progress, pause and failure from the server status, with the failure code verbatim',()=>{
++ const r=parseStagedJob(stagedJobFixture(id,'RUNNING'),id)
++ expect(stagedProgressText(r).startsWith('Analisis bertahap: tahap 3 dari 9 (HIST_ROWS) · unit 12 dari 55')).toBe(true);expect(stagedProgressText(r)).toContain('target 1.200 dari 5.000');expect(stagedProgressText(r)).toContain('dimulai jam 16.00.00 WIB')
++ expect(stagedProgressText(parseStagedJob(stagedJobFixture(id,'RUNNING',{unit_attempts:2,worker_active:true}),id))).toContain('percobaan ulang 2')
++ expect(stagedPausedText(r).startsWith('Analisis bertahap dijeda sejak jam 16.05.30 WIB')).toBe(true)
++ const f=parseStagedJob(stagedJobFixture(id,'FAILED'),id);expect(stagedFailureText(f.failure!)).toContain('CP7_ANALYSIS_ACCESS_CHANGED');expect(stagedFailureText(f.failure!)).toContain('SQLSTATE 42501');expect(stagedFailureText(f.failure!)).toContain('Hak akses berubah')
++ expect(stagedFailureText({unit:3,sqlstate:'P0001',code:'CP7_SOMETHING_NEW'})).toContain('CP7_SOMETHING_NEW');expect(stagedFailureText({unit:3,sqlstate:'P0001',code:'CP7_ANALYSIS_STAGE_STOPPED'})).toContain('batas waktu server')
++ expect(stagedCapRefusal({code:'P0001',message:'CP7_NETTING_MATCH_SOURCE_LIMIT'})).toBe(true);expect(stagedCapRefusal({code:'CP7_NETTING_WORK_LIMIT'})).toBe(true);expect(stagedCapRefusal({sqlstate:'P0001',code:'CP7_PLANNING_CAPTURE_INCOMPLETE'})).toBe(true)
++ expect(stagedCapRefusal({message:'CP7_ANALYSIS_ACCESS_CHANGED'})).toBe(false);expect(stagedCapRefusal(null)).toBe(false);expect(stagedCapRefusal(Error('fetch failed'))).toBe(false)
++})
++
++// A scripted server: each RPC answers from its queue, in order, and refuses
++// whatever was not scripted.
++function server(script:{request?:unknown[];step?:unknown[];get?:unknown[]}){
++ const calls:string[]=[],queues={request:[...(script.request??[])],step:[...(script.step??[])],get:[...(script.get??[])]}
++ const take=(k:'request'|'step'|'get')=>{calls.push(k);const next=queues[k].shift();if(next===undefined)throw Error('unexpected '+k);return next instanceof Error?Promise.reject(next):Promise.resolve(next as StagedReply)}
++ return{calls,rpc:{request:()=>take('request'),step:()=>take('step'),get:()=>take('get')}}
++}
++const noSleep=async(_ms:number)=>{throw Error('no wait expected')}
++
++it('drives request → step × n → DONE, reporting each server status as it comes, without waiting between steps',async()=>{
++ const s=server({request:[running(12)],step:[running(13),running(14),ok(stagedJobFixture(id,'DONE'))]}),seen:StagedJob[]=[]
++ const done=await driveStagedJob({rpc:s.rpc,request:{id,q},start:true,sleep:noSleep,onStatus:j=>seen.push(j)})
++ expect(done?.state).toBe('DONE');expect(done?.runId).toBe(fixture.run_id);expect(s.calls).toEqual(['request','step','step','step'])
++ expect(seen.map(j=>[j.state,j.unitsDone])).toEqual([['RUNNING',12],['RUNNING',13],['RUNNING',14],['DONE',55]])
++})
++
++it('backs off and polls get instead of stepping while another session holds the job',async()=>{
++ const waits:number[]=[]
++ const s=server({request:[running(12,{worker_active:true})],get:[running(13,{worker_active:true}),running(14)],step:[ok(stagedJobFixture(id,'DONE'))]})
++ const done=await driveStagedJob({rpc:s.rpc,request:{id,q},start:true,sleep:async ms=>{waits.push(ms)}})
++ expect(done?.state).toBe('DONE');expect(s.calls).toEqual(['request','get','get','step']);expect(waits).toEqual([STAGED_WORKER_BACKOFF_MS,STAGED_WORKER_BACKOFF_MS])
++})
++
++it('stops on FAILED with the server failure, never claiming a run',async()=>{
++ const s=server({request:[running(12)],step:[running(13),ok(stagedJobFixture(id,'FAILED',{units_done:13,failure:{unit:13,sqlstate:'57014',code:'CP7_ANALYSIS_STAGE_STOPPED'}}))]})
++ const failed=await driveStagedJob({rpc:s.rpc,request:{id,q},start:true,sleep:noSleep})
++ expect(failed).toMatchObject({state:'FAILED',runId:null,failure:{unit:13,sqlstate:'57014',code:'CP7_ANALYSIS_STAGE_STOPPED'}});expect(s.calls).toEqual(['request','step','step'])
++})
++
++it('resumes a stored request by reading status first, then stepping; a DONE status reads nothing more',async()=>{
++ const s=server({get:[running(30)],step:[ok(stagedJobFixture(id,'DONE'))]})
++ expect((await driveStagedJob({rpc:s.rpc,request:{id,q},start:false,sleep:noSleep}))?.state).toBe('DONE');expect(s.calls).toEqual(['get','step'])
++ const t=server({get:[ok(stagedJobFixture(id,'DONE'))]})
++ expect((await driveStagedJob({rpc:t.rpc,request:{id,q},start:false,sleep:noSleep}))?.runId).toBe(fixture.run_id);expect(t.calls).toEqual(['get'])
++})
++
++it('abandons the loop once aborted: no further call, no result, even from inside a back-off wait',async()=>{
++ const seen:StagedJob[]=[],s=server({request:[running(12)],step:[running(13),running(14)]})
++ expect(await driveStagedJob({rpc:s.rpc,request:{id,q},start:true,sleep:noSleep,aborted:()=>seen.length>=2,onStatus:j=>seen.push(j)})).toBeNull();expect(s.calls).toEqual(['request','step'])
++ let aborted=false;const t=server({request:[running(12,{worker_active:true})],get:[running(13)]})
++ expect(await driveStagedJob({rpc:t.rpc,request:{id,q},start:true,aborted:()=>aborted,sleep:async()=>{aborted=true}})).toBeNull();expect(t.calls).toEqual(['request'])
++ const u=server({request:[running(12)]});expect(await driveStagedJob({rpc:u.rpc,request:{id,q},start:true,aborted:()=>true,sleep:noSleep})).toBeNull();expect(u.calls).toEqual([])
++})
++
++it('throws a server refusal or a lost reply after reporting the last known status, and refuses a status of another request',async()=>{
++ const seen:StagedJob[]=[],s=server({request:[running(12)],step:[{data:null,error:{code:'42501',message:'CP7_ANALYSIS_ACCESS_CHANGED'}}]})
++ await expect(driveStagedJob({rpc:s.rpc,request:{id,q},start:true,sleep:noSleep,onStatus:j=>seen.push(j)})).rejects.toMatchObject({message:'CP7_ANALYSIS_ACCESS_CHANGED'});expect(seen).toHaveLength(1);expect(seen[0].state).toBe('RUNNING')
++ const t=server({get:[running(12)],step:[new TypeError('Failed to fetch')]})
++ await expect(driveStagedJob({rpc:t.rpc,request:{id,q},start:false,sleep:noSleep})).rejects.toThrow('Failed to fetch');expect(t.calls).toEqual(['get','step'])
++ const u=server({request:[ok(stagedJobFixture(other,'RUNNING'))]})
++ await expect(driveStagedJob({rpc:u.rpc,request:{id,q},start:true,sleep:noSleep})).rejects.toThrow('belum sesuai kontrak')
++})
+diff --git a/src/nativeStagedJob.ts b/src/nativeStagedJob.ts
+new file mode 100644
+index 00000000..4248996e
+--- /dev/null
++++ b/src/nativeStagedJob.ts
+@@ -0,0 +1,126 @@
++import type {NativeDemandQuery} from './nativeDemandHistory'
++import {analysisWibClock,analysisWibDate} from './nativeAnalysisTransport'
++import {parseStagedReference,stagedInstant,stagedNumber,ANALYSIS_STAGED_TARGETS,type StagedReference} from './nativeAnalysisPages'
++
++// P19 staged job (schema cp7_analysis_stage; P19 plan §10). The job is
++// CLIENT-DRIVEN: the page requests it once (a fresh UUID kept per actor and
++// query so a reload resumes the same job), then calls step while the server
++// says RUNNING, one unit per call under the unchanged 8 s limit. Progress is
++// what the server reports from its rows, never a client estimate. A step the
++// server skipped because another session holds the job (worker_active) is
++// followed by a short wait and a status read instead of another step. The
++// loop stops on DONE (then the page set is read) or FAILED (shown with its
++// code), and abandons every call when its generation is retired.
++export type StagedJobState='RUNNING'|'DONE'|'FAILED'
++export type StagedJobFailure={unit:number;sqlstate:string;code:string}
++export type StagedJob={requestId:string;state:StagedJobState;stage:string|null;stageIndex:number;stageCount:number;unitsDone:number;unitCount:number;planFinal:boolean
++ targetsTotal:number|null;targetsDoneInStage:number;reference:StagedReference;lastProgressAt:string;unitAttempts:number;runId:string|null;failure:StagedJobFailure|null;workerActive:boolean}
++export type StagedRequest={id:string;q:NativeDemandQuery}
++
++function fail():never{throw Error('Status analisis bertahap server belum sesuai kontrak CP7.')}
++const object=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
++const uuid=(v:unknown):string=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v)?v:fail()
++const count=(v:unknown,min:number,max:number)=>typeof v==='number'&&Number.isSafeInteger(v)&&v>=min&&v<=max?v:fail()
++const REQUIRED=['contract_version','request_id','state','stage','stage_index','stage_count','units_done','unit_count','plan_final','targets_total','targets_done_in_stage','reference','last_progress_at','unit_attempts','apply_enabled','production_go']
++// run_id comes only with DONE, failure only with FAILED and worker_active
++// only on a skipped step; a field that does not apply is absent or null.
++const OPTIONAL=['run_id','failure','worker_active']
++
++export function parseStagedJob(v:unknown,requestId:string):StagedJob{
++ const e=object(v),keys=Object.keys(e)
++ if(REQUIRED.some(k=>!Object.hasOwn(e,k))||keys.some(k=>!REQUIRED.includes(k)&&!OPTIONAL.includes(k)))fail()
++ if(e.contract_version!=='cp7.native-analysis-staged-job.v1'||e.apply_enabled!==false||e.production_go!==false||uuid(e.request_id)!==requestId)fail()
++ const state=e.state;if(state!=='RUNNING'&&state!=='DONE'&&state!=='FAILED')fail()
++ const unitCount=count(e.unit_count,1,Number.MAX_SAFE_INTEGER),unitsDone=count(e.units_done,0,unitCount),stageCount=count(e.stage_count,1,unitCount),stageIndex=count(e.stage_index,1,stageCount)
++ if(typeof e.plan_final!=='boolean')fail()
++ const stage=e.stage===null?null:typeof e.stage==='string'&&/^[A-Z][A-Z0-9_]*$/.test(e.stage)?e.stage:fail()
++ if(state==='RUNNING'&&stage===null)fail()
++ const targetsTotal=e.targets_total===null?null:count(e.targets_total,0,ANALYSIS_STAGED_TARGETS)
++ const targetsDoneInStage=count(e.targets_done_in_stage,0,targetsTotal??ANALYSIS_STAGED_TARGETS)
++ const reference=parseStagedReference(e.reference),lastProgressAt=stagedInstant(e.last_progress_at),unitAttempts=count(e.unit_attempts,0,Number.MAX_SAFE_INTEGER)
++ const runId=state==='DONE'?uuid(e.run_id):e.run_id===undefined||e.run_id===null?null:fail()
++ let failure:StagedJobFailure|null=null
++ if(state==='FAILED'){
++  const f=object(e.failure)
++  if(['unit','sqlstate','code'].some(k=>!Object.hasOwn(f,k))||Object.keys(f).some(k=>!['unit','sqlstate','code','message'].includes(k))||typeof f.sqlstate!=='string'||!/^[0-9A-Z]{5}$/.test(f.sqlstate)
++   ||typeof f.code!=='string'||!/^CP7_[A-Z0-9_]+$/.test(f.code)||Object.hasOwn(f,'message')&&typeof f.message!=='string')fail()
++  failure={unit:count(f.unit,0,unitCount),sqlstate:f.sqlstate,code:f.code}
++ }else if(e.failure!==undefined&&e.failure!==null)fail()
++ if(state==='DONE'&&(unitsDone!==unitCount||e.plan_final!==true||targetsTotal===null))fail()
++ const workerActive=e.worker_active===undefined?false:typeof e.worker_active==='boolean'?e.worker_active:fail()
++ return{requestId,state,stage,stageIndex,stageCount,unitsDone,unitCount,planFinal:e.plan_final,targetsTotal,targetsDoneInStage,reference,lastProgressAt,unitAttempts,runId,failure,workerActive}
++}
++
++// The staged request is kept apart from the single job's request
++// ("erp.cp7.analysis-job.v1:") so a reload resumes the same job UUID; it is
++// removed once the job is DONE and its page set loaded, or FAILED and shown.
++export const stagedRequestKey=(scope:string)=>'erp.cp7.analysis-staged.v1:'+scope
++const day=(v:unknown)=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&new Date(v+'T00:00:00Z').toISOString().slice(0,10)===v?v:fail()
++const stored=(key:string)=>{try{return localStorage.getItem(key)}catch{return null}}
++export function readStagedRequest(scope:string):{pending:StagedRequest|null;error:string}{
++ try{
++  const raw=localStorage.getItem(stagedRequestKey(scope));if(raw===null)return{pending:null,error:''}
++  const v=object(JSON.parse(raw)),q=object(v.q)
++  if(Object.keys(v).sort().join('|')!=='id|q'||Object.keys(q).sort().join('|')!=='from_date|group_mode|through_date'||(q.group_mode!=='AS_SOLD'&&q.group_mode!=='RESTATED'))fail()
++  const from=day(q.from_date),through=day(q.through_date);if(from>through)fail()
++  return{pending:{id:uuid(v.id),q:{from_date:from,through_date:through,group_mode:q.group_mode}},error:''}
++ }catch{return{pending:null,error:'Catatan analisis bertahap belum bisa dibaca. Jangan hapus catatan ini; pulihkan penyimpanan sebelum membuat analisis bertahap baru.'}}
++}
++export function persistStagedRequest(scope:string,r:StagedRequest){
++ const before=readStagedRequest(scope);if(before.error||before.pending)throw Error('Selesaikan analisis bertahap yang tersimpan terlebih dahulu.')
++ const raw=JSON.stringify({id:r.id,q:r.q});try{localStorage.setItem(stagedRequestKey(scope),raw)}catch{throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')}
++ if(stored(stagedRequestKey(scope))!==raw||readStagedRequest(scope).pending?.id!==r.id)throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')
++}
++export function clearStagedRequest(scope:string,id:string){
++ const held=readStagedRequest(scope);if(held.error||held.pending?.id!==id)throw Error('Catatan analisis bertahap berubah. Periksa analisis bertahap tersimpan.')
++ try{localStorage.removeItem(stagedRequestKey(scope))}catch{/* checked below */}
++ if(stored(stagedRequestKey(scope))!==null)throw Error('Catatan analisis bertahap belum bisa diselesaikan.')
++}
++
++// Refusal codes of the staged job, in the words of the single path's job
++// failures where the code is shared; an unknown code is shown as it is.
++const failureText:Record<string,string>={
++ CP7_ANALYSIS_STAGE_STOPPED:'Unit dihentikan oleh batas waktu server tiga kali berturut-turut. Tidak ada hasil yang disimpan.',
++ CP7_ANALYSIS_ACCESS_CHANGED:'Hak akses berubah selama perhitungan. Tidak ada hasil yang disimpan.',
++ CP7_ANALYSIS_PAGE_BODY_LIMIT:'Satu target melampaui batas ukuran halaman server dan tidak dipotong. Tidak ada hasil yang disimpan.',
++ CP7_ANALYSIS_JOB_ERROR:'Perhitungan gagal di server. Tidak ada hasil yang disimpan.',
++ CP7_PLANNING_CAPTURE_INCOMPLETE:'Sumber ERP melampaui batas acuan analisis bertahap dan tidak dipotong. Tidak ada hasil yang disimpan.',
++ CP7_NETTING_MATCH_SOURCE_LIMIT:'Sumber pencocokan netting melampaui batas unit server. Tidak ada hasil yang disimpan.',
++ CP7_NETTING_WORK_LIMIT:'Beban pencocokan netting melampaui batas unit server. Tidak ada hasil yang disimpan.'}
++export const stagedFailureText=(f:StagedJobFailure)=>`Analisis bertahap gagal pada unit ${f.unit} (${f.code}, SQLSTATE ${f.sqlstate}). ${failureText[f.code]??'Server menolak unit ini. Tidak ada hasil yang disimpan.'}`
++// "Analisis bertahap: tahap 3 dari 9 (HIST_ROWS) · unit 12 dari 55 · …"
++export const stagedProgressText=(j:StagedJob)=>`Analisis bertahap: tahap ${j.stageIndex} dari ${j.stageCount} (${j.stage??'SELESAI'}) · unit ${j.unitsDone} dari ${j.unitCount}`
++ +(j.targetsTotal===null?'':` · target ${stagedNumber(j.targetsDoneInStage)} dari ${stagedNumber(j.targetsTotal)} pada tahap ini`)
++ +(j.unitAttempts>0?` · percobaan ulang ${j.unitAttempts}`:'')+(j.workerActive?' · sesi lain sedang menjalankan unit':'')
++ +` · dimulai jam ${analysisWibClock(j.reference.capturedAt)} WIB (${analysisWibDate(j.reference.capturedAt)}).`
++export const stagedPausedText=(j:StagedJob)=>`Analisis bertahap dijeda sejak jam ${analysisWibClock(j.lastProgressAt)} WIB (${analysisWibDate(j.lastProgressAt)}). Lanjutkan untuk meneruskan unit berikutnya; tidak ada hasil yang disimpan sebelum selesai.`
++// Refusals of the single path that come from its target count being above
++// its bounds (history source 1000 products; netting match/work limits seen
++// at 5,000 on CI; grid/scope/allocation bounds): the staged path is offered.
++export const STAGED_CAP_REFUSALS=['CP7_PLANNING_CAPTURE_INCOMPLETE','CP7_PLANNING_HISTORY_GRID_LIMIT','CP7_NETTING_MATCH_SOURCE_LIMIT','CP7_NETTING_WORK_LIMIT','CP7_SUPPLY_GLOBAL_SCOPE_LIMIT','CP7_BASELINE_ALLOCATION_LIMIT'] as const
++export const stagedCapRefusal=(v:unknown)=>{const e=v!==null&&typeof v==='object'?v as {code?:unknown;message?:unknown}:{};return[e.code,e.message].some(x=>typeof x==='string'&&(STAGED_CAP_REFUSALS as readonly string[]).includes(x))}
++export const STAGED_CAP_HINT='Analisis tunggal ditolak karena jumlah target melampaui batasnya. Gunakan "Analisis bertahap (hingga 5.000 target)" untuk kueri yang sama; angka keuangan tidak termasuk.'
++
++export type StagedReply={data:unknown;error:unknown}
++export type StagedRpc={request:(r:StagedRequest)=>Promise<StagedReply>;step:(id:string)=>Promise<StagedReply>;get:(id:string)=>Promise<StagedReply>}
++export type StagedDriveOptions={rpc:StagedRpc;request:StagedRequest;start:boolean;aborted?:()=>boolean;sleep?:(ms:number)=>Promise<void>;onStatus?:(s:StagedJob)=>void;workerBackoffMs?:number}
++export const STAGED_WORKER_BACKOFF_MS=2000
++// Returns the final status (DONE or FAILED), or null once aborted; a server
++// refusal or a lost reply is thrown with the last known status already
++// reported through onStatus, so the caller can show "paused since".
++export async function driveStagedJob(o:StagedDriveOptions):Promise<StagedJob|null>{
++ const aborted=o.aborted??(()=>false),sleep=o.sleep??(ms=>new Promise<void>(r=>setTimeout(r,ms))),backoff=o.workerBackoffMs??STAGED_WORKER_BACKOFF_MS
++ const read=(r:StagedReply)=>{if(r.error)throw r.error;const s=parseStagedJob(r.data,o.request.id);o.onStatus?.(s);return s}
++ if(aborted())return null
++ const first=await(o.start?o.rpc.request(o.request):o.rpc.get(o.request.id));if(aborted())return null
++ let status=read(first)
++ while(status.state==='RUNNING'){
++  if(aborted())return null
++  let reply:StagedReply
++  if(status.workerActive){await sleep(backoff);if(aborted())return null;reply=await o.rpc.get(o.request.id)}
++  else reply=await o.rpc.step(o.request.id)
++  if(aborted())return null
++  status=read(reply)
++ }
++ return status
++}
+diff --git a/src/types/database.preconnect.ts b/src/types/database.preconnect.ts
+index 3b6f8336..1f9ba045 100644
+--- a/src/types/database.preconnect.ts
++++ b/src/types/database.preconnect.ts
+@@ -52,8 +52,12 @@ export type PreconnectDatabase = {
+       erp_cp7_get_analysis_job_v1: { Args: { p_request: string }; Returns: Json }
+       erp_cp7_read_analysis_manifest_v1: { Args: { p_run: string }; Returns: Json }
+       erp_cp7_read_analysis_segment_v1: { Args: { p_run: string; p_index: number; p_access: string }; Returns: Json }
+-      erp_cp7_read_analysis_pages_v1: { Args: { p_run: string }; Returns: Json }
+-      erp_cp7_read_analysis_page_v1: { Args: { p_run: string; p_index: number; p_access: string }; Returns: Json }
++      erp_cp7_request_staged_analysis_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
++      erp_cp7_step_staged_analysis_v1: { Args: { p_request: string }; Returns: Json }
++      erp_cp7_get_staged_analysis_v1: { Args: { p_request: string }; Returns: Json }
++      erp_cp7_read_staged_analysis_pages_v1: { Args: { p_run: string }; Returns: Json }
++      erp_cp7_read_staged_analysis_page_v1: { Args: { p_run: string; p_index: number; p_access: string }; Returns: Json }
++      erp_cp7_check_staged_analysis_source_v1: { Args: { p_run: string }; Returns: Json }
+       erp_cp7_get_analysis_attention_v1: { Args: { p_run: string }; Returns: Json }
+       erp_cp7_save_analysis_attention_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+       erp_cp7_get_analysis_attention_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+diff --git a/tests/fixtures/nativeAnalysisPages.ts b/tests/fixtures/nativeAnalysisPages.ts
+index eddce96c..61f8b081 100644
+--- a/tests/fixtures/nativeAnalysisPages.ts
++++ b/tests/fixtures/nativeAnalysisPages.ts
+@@ -1,17 +1,29 @@
+ import fixture from './nativeAnalysisStandin.json'
+ import {sha} from './nativeAnalysisTransport'
+-// A staged run built from the one-target stand-in: every target gets its own
+-// recommendation, action, metric, timeline items, demand model, material need
+-// and profile assumption (the stand-in's items with the keys swapped); every
+-// `unreviewed`-th target has an unreviewed production policy instead (one
+-// warning and one review-policy action). Served as the server shapes it: a
+-// pages manifest with the header body, and page reads with canonical bodies.
++// A staged run (P19 §10) built from the one-target stand-in: every target gets
++// its own recommendation, action, metric, timeline items, demand model,
++// material need and profile assumption (the stand-in's items with the keys
++// swapped); every `unreviewed`-th target has an unreviewed production policy
++// instead (one warning and one review-policy action). Served as the server
++// shapes it: a page set with the inline header body, page reads with
++// canonical bodies, and job statuses. Hashes are real SHA-256 values; the
++// identity hash is sha256(header_sha256 "\n" page_sha256_0 "\n" …).
++// `pageSizes` gives uneven, byte-adaptive-like pages; `perPage` even ones.
+ const bytes=(text:string)=>new TextEncoder().encode(text)
+ type Json=Record<string,any>
+ const FIELDS=['assumptions','generation_warnings','actions','recommendations','demand_models','material_needs','metrics','timeline'] as const
++export const STAGED_CAPTURED_AT='2026-10-07T09:00:00.000000Z',STAGED_PROGRESS_AT='2026-10-07T09:05:30.000000Z'
++export type StagedJobState='RUNNING'|'DONE'|'FAILED'
++// A job status as erp_cp7_request/step/get_staged_analysis_v1 return it.
++export function stagedJobFixture(requestId:string,state:StagedJobState,extra:Json={}){
++ return{contract_version:'cp7.native-analysis-staged-job.v1',request_id:requestId,state,stage:state==='DONE'?null:'HIST_ROWS',stage_index:state==='DONE'?9:3,stage_count:9,
++  units_done:state==='DONE'?55:12,unit_count:55,plan_final:state==='DONE',targets_total:5000,targets_done_in_stage:state==='DONE'?0:1200,
++  reference:{captured_at:STAGED_CAPTURED_AT,source_hash:fixture.analysis.snapshot.source_hash},last_progress_at:STAGED_PROGRESS_AT,unit_attempts:0,
++  run_id:state==='DONE'?fixture.run_id:null,failure:state==='FAILED'?{unit:12,sqlstate:'42501',code:'CP7_ANALYSIS_ACCESS_CHANGED'}:null,apply_enabled:false,production_go:false,...extra}
++}
+ // itemRanges: a server defect where page p holds the items of other targets
+ // than the range it claims (hashes, counts and totals all consistent).
+-export async function stagedRun({targets,perPage,unreviewed=0,requestId=fixture.request_id,sourceState='UNCHANGED' as 'UNCHANGED'|'ARCHIVED_STALE',itemRanges}:{targets:number;perPage:number;unreviewed?:number;requestId?:string;sourceState?:'UNCHANGED'|'ARCHIVED_STALE';itemRanges?:[number,number][]}){
++export async function stagedRun({targets,perPage,pageSizes,unreviewed=0,requestId=fixture.request_id,itemRanges,capturedAt=STAGED_CAPTURED_AT}:{targets:number;perPage?:number;pageSizes?:number[];unreviewed?:number;requestId?:string;itemRanges?:[number,number][];capturedAt?:string}){
+  const base=structuredClone(fixture) as Json,a=base.analysis as Json,key0:string=a.recommendations[0].target.key,[root0,size]=key0.split(':'),profile0:string=a.assumptions[1].id
+  const states=['ACTIVE','ACTIVE','PAUSED','STOPPED']
+  const per:Record<string,unknown[]>[]=[],labels:Json[]=[]
+@@ -29,24 +41,30 @@ export async function stagedRun({targets,perPage,unreviewed=0,requestId=fixture.
+    demand_models:[swap(a.demand_models[0])],material_needs:[swap(a.material_needs[0])],metrics:[swap(a.metrics[0])],timeline:a.timeline.slice(0,2).map(swap)})
+  }
+  // Global items stay in the header: the schedule assumption before the
+- // per-target assumptions and the three run warnings before the per-target ones.
++ // per-target assumptions and the three run warnings before the per-target
++ // ones. The header carries no semantic hash (a staged run has none).
+  const prefix:Record<string,number>={assumptions:1,generation_warnings:3}
+  const header:Json={...a,assumptions:[a.assumptions[0]],generation_warnings:a.generation_warnings,actions:[],recommendations:[],demand_models:[],material_needs:[],metrics:[],timeline:[]}
++ delete header.semantic_hash
+  const paged:Json={}
+  for(const k of FIELDS){const n=per.reduce((s,t)=>s+t[k].length,0);if(n>0)paged[k]={prefix:prefix[k]??0,items:n}}
+  const keys=FIELDS.filter(k=>paged[k])
+- const analysis={...header};for(const k of keys)analysis[k]=[...header[k].slice(0,paged[k].prefix),...per.flatMap(t=>t[k]),...header[k].slice(paged[k].prefix)]
++ // The whole analysis the pages reassemble (the single build's shape, with
++ // its semantic hash), kept for parity checks only.
++ const analysis:Json={...header,semantic_hash:a.semantic_hash};for(const k of keys)analysis[k]=[...header[k].slice(0,paged[k].prefix),...per.flatMap(t=>t[k]),...header[k].slice(paged[k].prefix)]
+  labels.sort((x,y)=>x.target_key<y.target_key?-1:1)
+  const original={contract_version:'cp7.native-analysis-run.v1',run_id:base.run_id,request_id:requestId,analysis,product_labels:labels,query:base.query,financial_source:null,apply_enabled:false,production_go:false}
+- const doc=JSON.stringify(original),chars=Array.from(doc).length,documentSha=await sha(doc)
+- const pageCount=Math.ceil(targets/perPage)
++ const sizes=pageSizes??Array.from({length:Math.ceil(targets/(perPage??(targets||1)))},(_,p)=>Math.min(perPage??targets,targets-p*(perPage??targets)))
++ if(sizes.reduce((s,x)=>s+x,0)!==targets||sizes.some(s=>s<1))throw Error('page sizes must cover the targets')
++ const ranges:[number,number][]=[];let at=1;for(const s of sizes){ranges.push([at,at+s-1]);at+=s}
++ const pageCount=ranges.length
+  const headerDoc={contract_version:'cp7.native-analysis-header.v1',run_id:base.run_id,request_id:requestId,query:base.query,financial_source:null,product_labels:labels,analysis_header:header,
+-  paged,targets_total:targets,page_count:pageCount,document_sha256:documentSha,semantic_hash:a.semantic_hash,apply_enabled:false,production_go:false}
++  paged,targets_total:targets,page_count:pageCount,apply_enabled:false,production_go:false}
+  const headerBody=JSON.stringify(headerDoc),headerSha=await sha(headerBody)
+  const pages:Json[]=[],bodies:string[]=[],running:Record<string,number>={}
+  const rec={ACTIVE:0,PAUSED:0,STOPPED:0,OTHER:0} as Record<string,number>;let policy=0
+  for(let p=0;p<pageCount;p++){
+-  const lo=p*perPage+1,hi=Math.min(targets,(p+1)*perPage),slice=itemRanges?per.slice(itemRanges[p][0]-1,itemRanges[p][1]):per.slice(lo-1,hi)
++  const[lo,hi]=ranges[p],slice=itemRanges?per.slice(itemRanges[p][0]-1,itemRanges[p][1]):per.slice(lo-1,hi)
+   const items:Json={},counts:Json={},offsets:Json={},totals:Json={}
+   for(const k of keys){items[k]=slice.flatMap(t=>t[k]);counts[k]=items[k].length;offsets[k]=running[k]??0;running[k]=(running[k]??0)+counts[k];totals[k]=paged[k].items}
+   const summary={recommendations:{ACTIVE:0,PAUSED:0,STOPPED:0,OTHER:0} as Record<string,number>,policy_unreviewed:0}
+@@ -54,18 +72,20 @@ export async function stagedRun({targets,perPage,unreviewed=0,requestId=fixture.
+   summary.policy_unreviewed=(items.actions??[]).filter((x:Json)=>x.primary_reason==='PRODUCTION_POLICY_UNREVIEWED').length
+   for(const s of Object.keys(rec))rec[s]+=summary.recommendations[s];policy+=summary.policy_unreviewed
+   const body=JSON.stringify({contract_version:'cp7.native-analysis-page.v1',run_id:base.run_id,request_id:requestId,index:p,page_count:pageCount,target_lo:lo,target_hi:hi,targets_total:targets,
+-   document_sha256:documentSha,semantic_hash:a.semantic_hash,header_sha256:headerSha,counts,offsets,totals,summary,items,apply_enabled:false,production_go:false})
++   header_sha256:headerSha,counts,offsets,totals,summary,items,apply_enabled:false,production_go:false})
+   bodies.push(body);pages.push({index:p,target_lo:lo,target_hi:hi,utf8_bytes:bytes(body).byteLength,sha256:await sha(body),counts})
+  }
+- const manifest={contract_version:'cp7.native-analysis-pages.v1',run_id:base.run_id,request_id:requestId,source_state:sourceState,access_epoch:'a'.repeat(64),
+-  document:{utf8_bytes:bytes(doc).byteLength,characters:chars,sha256:documentSha,segment_count:Math.ceil(chars/2000000),segment_characters:2000000},
+-  semantic_hash:a.semantic_hash,targets_total:targets,page_count:pageCount,paged,
++ const identityHash=await sha([headerSha,...pages.map(p=>p.sha256 as string)].join('\n'))
++ const reference={captured_at:capturedAt,source_hash:a.snapshot.source_hash as string}
++ const pageSet={contract_version:'cp7.native-analysis-pages.v1',run_id:base.run_id,request_id:requestId,reference,access_epoch:'a'.repeat(64),identity_hash:identityHash,
++  targets_total:targets,page_count:pageCount,paged,
+   totals:{targets,items:Object.fromEntries(keys.map(k=>[k,paged[k].items])),recommendations:rec,policy_unreviewed:policy},
+   header:{utf8_bytes:bytes(headerBody).byteLength,sha256:headerSha,body:headerBody},pages,apply_enabled:false,production_go:false}
+  const page=(i:number)=>({contract_version:'cp7.native-analysis-page-read.v1',run_id:base.run_id,index:i,page_count:pageCount,target_lo:pages[i].target_lo,target_hi:pages[i].target_hi,
+-  header_sha256:headerSha,document_sha256:documentSha,utf8_bytes:pages[i].utf8_bytes,sha256:pages[i].sha256,body:bodies[i]})
+- return{manifest,page,headerDoc,bodies,original,query:base.query as {from_date:string;through_date:string;group_mode:'AS_SOLD'|'RESTATED'},actor:a.scope.actor_scope_id as string,runId:base.run_id as string}
++  header_sha256:headerSha,identity_hash:identityHash,utf8_bytes:pages[i].utf8_bytes,sha256:pages[i].sha256,body:bodies[i]})
++ const job=(state:StagedJobState,extra:Json={})=>stagedJobFixture(requestId,state,{targets_total:targets,reference,run_id:state==='DONE'?base.run_id:null,...extra})
++ return{pageSet,page,headerDoc,bodies,original,query:base.query as {from_date:string;through_date:string;group_mode:'AS_SOLD'|'RESTATED'},actor:a.scope.actor_scope_id as string,runId:base.run_id as string,identityHash,headerSha,reference,job}
+ }
+ // Re-serves a changed page body with a consistent envelope hash and size, so
+-// only the manifest or the page's own content can catch the change.
++// only the page set or the page's own content can catch the change.
+ export async function rehash(envelope:Json,body:string){return{...envelope,body,utf8_bytes:bytes(body).byteLength,sha256:await sha(body)}}
+-- 
+2.43.0
+

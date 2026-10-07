@@ -1,0 +1,196 @@
+From 86ae95bb3b335c719a225481b13975e5d63ec3cd Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 7 Oct 2026 16:59:56 +0000
+Subject: [PATCH 5/5] CP7 P19 staged suite: bounds-vs-single case; limit race
+ locks the stage tables; plan note for the window cut
+
+P19G_STAGED_BOUNDS_VS_SINGLE replaces the refusal-equality case: the staged
+bounds are read back against the declared ones; at 100 targets x 1001 days
+(100,100 cells) the single path refuses its unchanged grid cap while the
+staged job completes with complete coverage and a reassembled analysis that
+passes the frozen contract (semantic_hash recomputed server side); at 140
+targets x 3660 days (512,400 cells, beyond job_history_cells) both paths
+refuse with CP7_PLANNING_HISTORY_GRID_LIMIT and nothing is paged. The
+statement-limit race locks every stage table but the job row, since units
+read the stored reference and never the live tables.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01VB4ZAg51aZLCtb68iza18N
+---
+ docs/cp7/p19/P19_STAGED.json             |  4 +-
+ docs/cp7/p19/P19_STAGED_5000_20261007.md |  2 +-
+ scripts/cp7_p19_staged_cases.py          | 97 ++++++++++++++++++------
+ 3 files changed, 75 insertions(+), 28 deletions(-)
+
+diff --git a/docs/cp7/p19/P19_STAGED.json b/docs/cp7/p19/P19_STAGED.json
+index 44181473..5a812df8 100644
+--- a/docs/cp7/p19/P19_STAGED.json
++++ b/docs/cp7/p19/P19_STAGED.json
+@@ -13,7 +13,7 @@
+       "P19G_STAGED_AUTHORITY",
+       "P19G_STAGED_IDENTITY",
+       "P19G_STAGED_SOURCE_CHECK",
+-      "P19G_STAGED_REFUSAL_EQUALS_SINGLE"
++      "P19G_STAGED_BOUNDS_VS_SINGLE"
+     ],
+     "races": [
+       "P19G_RACE_TWO_STEPS_ONE_UNIT",
+@@ -42,7 +42,7 @@
+   "scope": "Staged background analysis (request, one unit per step, status) under the existing statement limit; the reference captured once in one statement through the bounded sources (operational, finance DEFERRED); a staged run kept apart from cp7_analysis_native.runs (every whole reader refuses it) and read as a header plus byte-adaptive pages bound by identity_hash, actor, run and current access epoch; refusal equality with the single path; source check UNCHANGED/ARCHIVED_STALE",
+   "parity": "P19G_STAGED_EQUALS_SINGLE compares the reassembled analysis (header prefix plus every page's items) with cp7_analysis_native.build on the job's own stored reference, query, run id and access (semantic_hash excluded: the staged path does not compute it); byte identity of the analysis text and the Original is proven by the kernel tests (f05-staged-api)",
+   "five_thousand_point": "measured by the scale ladder (P19 Scale, p19-scale5) through the same public RPCs and the browser control, recorded as a background exception, never as a met 3 s target",
+-  "synthetic_case": "none; P19G_STAGED_REFUSAL_EQUALS_SINGLE seeds 100 current targets through the scale ladder's ordinary writers inside its rolled-back case",
++  "synthetic_case": "none; P19G_STAGED_BOUNDS_VS_SINGLE seeds 100 then 140 current targets through the scale ladder's ordinary writers inside its rolled-back case",
+   "full_P19_acceptance": false,
+   "owner_latency_acceptance": false,
+   "factory_capacity_or_SLA": false,
+diff --git a/docs/cp7/p19/P19_STAGED_5000_20261007.md b/docs/cp7/p19/P19_STAGED_5000_20261007.md
+index d363e31e..06bee3d2 100644
+--- a/docs/cp7/p19/P19_STAGED_5000_20261007.md
++++ b/docs/cp7/p19/P19_STAGED_5000_20261007.md
+@@ -6,7 +6,7 @@ The owner decision (item 3) is **not met yet**. This file is the plan and the re
+ 
+ | Phase | Content | State |
+ |---|---|---|
+-| A | Product changes the staged path needs, each byte-identical to its predecessor: `cp7_wip.check_allocations` linear duplicate check; `cp7_netting_native.matching_models_within(c,wip,limit)` (the single call keeps 5000 through `matching_models`); `cp7_analysis_native.finance_apply` / `finance_overlay` split out of `build`; `cp7_analysis_jobs.store()` cuts segments in one pass (same cut as `substr(body,i*n+1,n)`, which counted every earlier character again: 25.5 s at 65 MB locally). The staged kernel itself is a **test prototype** (`tests/cp7/families/f04/staged-analysis.prototype.sql`), not installed: its SCENARIO, fabric and accessory inputs are still stand-ins. Parity test `f05-staged-analysis` and benchmark `P19_STAGED_ANALYSIS_KERNEL.json` run in the Shell workflow job `p19-staged`. | integrated at `d2c98812`; CI below |
++| A | Product changes the staged path needs, each byte-identical to its predecessor: `cp7_wip.check_allocations` linear duplicate check; `cp7_netting_native.matching_models_within(c,wip,limit)` (the single call keeps 5000 through `matching_models`); `cp7_analysis_native.finance_apply` / `finance_overlay` split out of `build`; `cp7_analysis_jobs.store()` cuts segments in one pass (same cut as `substr(body,i*n+1,n)`, which counted every earlier character again: 25.5 s at 65 MB locally); the one-pass `left()/right(s,-n)` loop still copied the whole remaining tail per segment (owner support [PR #46](https://github.com/Hanjay6688/-erp-garment-ux/pull/46): 10.9 GB of copies at 210 MB), so the cut now runs through a bounded UTF-8 byte window (at most 4·n bytes per segment, trimmed to a character boundary; PR #46 Native run 37653417613 on PostgreSQL 16.15: 817/817 parity, two mutants caught, 210 MB 4.40 → 2.11 s). Local kernel evidence for the port: f05-analysis-jobs 1/1, f05-staged-pages 2/2, f05-staged-analysis 4/4 (logs 40–42). The staged kernel itself is a **test prototype** (`tests/cp7/families/f04/staged-analysis.prototype.sql`), not installed: its SCENARIO, fabric and accessory inputs are still stand-ins. Parity test `f05-staged-analysis` and benchmark `P19_STAGED_ANALYSIS_KERNEL.json` run in the Shell workflow job `p19-staged`. | integrated at `d2c98812`; CI below |
+ | B | Real units for HISTORY / BASELINE / SUPPLY+WIP / SCHEDULE / FABRIC instead of the SCENARIO stand-in, byte-identical to the single path incl. first refusal | open |
+ | C | Capture at 5,000 measured on CI (operational, finance DEFERRED); job RPCs request/step/status with the actor's access re-checked per unit; expiry/cleanup; freshness by part fingerprints | capture measured (below); bounded sources installed (`history_source_within`, `source_within` of baseline/supply/schedule/netting/analysis; the no-argument sources are wrappers at 1000/5000, single path unchanged); RPCs, cleanup, freshness open |
+ | D | The 5,000-target Original (≈210 MB real) exceeds the client's 64 MB document cap and jsonb parse of `runs.result` exceeds 8 s: storage and reading by target range (pages bound to the run and segment hashes), UI that never presents a page as the whole | prototype done (pages, readers, client parser, staged view; `f05-staged-pages`); integrator decisions below; product move open |
+diff --git a/scripts/cp7_p19_staged_cases.py b/scripts/cp7_p19_staged_cases.py
+index d6aff405..b37c49cc 100644
+--- a/scripts/cp7_p19_staged_cases.py
++++ b/scripts/cp7_p19_staged_cases.py
+@@ -13,6 +13,7 @@ from decimal import Decimal
+ from time import monotonic
+ import hashlib
+ import json
++import re
+ import threading
+ import time
+ import uuid
+@@ -25,7 +26,7 @@ import cp7_p18_e01_bridge_cases as bridge
+ 
+ IDS = dict(
+     native=['P19G_STAGED_EQUALS_SINGLE', 'P19G_STAGED_AUTHORITY', 'P19G_STAGED_IDENTITY', 'P19G_STAGED_SOURCE_CHECK',
+-            'P19G_STAGED_REFUSAL_EQUALS_SINGLE'],
++            'P19G_STAGED_BOUNDS_VS_SINGLE'],
+     races=['P19G_RACE_TWO_STEPS_ONE_UNIT', 'P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES', 'P19G_RACE_ACCESS_CHANGED_MID_JOB'],
+     http=['P19G_HTTP_STAGED_FLOW', 'P19G_HTTP_REVOKED'],
+     browser=['P19G_BROWSER_DESKTOP_STAGED_RELOAD', 'P19G_BROWSER_MOBILE_STAGED'],
+@@ -329,31 +330,72 @@ def cases(cur, today):
+         bridge.literal(cur, f, '175.00')
+         return dict(status='PASS', unchanged_then_archived_stale=True, archived_pages_unchanged=True, one_statement_check=True)
+ 
+-    def refusal_equals_single():
+-        # The single path's grid refusal (targets x history days above 100,000)
+-        # is the same refusal on the staged path: the job fails at its unit
+-        # with the same code and SQLSTATE, and nothing is paged. Seeded with
+-        # the scale ladder's own writer seeding inside this rolled-back case.
++    def bounds_vs_single():
++        """The staged bounds are declared once and read back; within them the staged job completes where the
++        single path refuses (its grid cap is unchanged); beyond them both paths refuse with the same code and
++        nothing is paged. Seeded through the scale ladder's ordinary writers inside this rolled-back case."""
+         import cp7_p19_scale_cases as scale
++        bounds = scale.staged_bounds(cur)
++        assert bounds['declared_match'], ('P19G_STAGED_BOUNDS_DIFFER_FROM_DECLARED', bounds)
+         size, days = scale.NATIVE_CASE['size'], scale.NATIVE_CASE['grid_cap_days']
+         seed = scale.ensure(cur, today, size, False)
+-        targets = len(scale.current_targets(cur))
+-        assert targets == size and targets * days > 100000, (targets, days)
++        targets = scale.current_targets(cur)
++        cells = len(targets) * days
++        assert len(targets) == size and 100000 < cells <= scale.STAGED_BOUNDS['job_history_cells'], (len(targets), days)
+         q = analysis.previous.baseline.history.query(today, days)
+-        single = refused(cur, lambda: schedule.rpc(cur, 'erp_cp7_capture_operational_analysis_v1', (json.dumps(q), uuid.uuid4())),
+-                         'CP7_PLANNING_HISTORY_GRID_LIMIT')
++        single = refused(cur, lambda: schedule.rpc(cur, 'erp_cp7_capture_operational_analysis_v1', (json.dumps(q), uuid.uuid4())), '_GRID_LIMIT')
++        single_code = re.search(r'CP7_[A-Z0-9_]+', single).group(0)
+         key = uuid.uuid4()
+-        started = checked(request(cur, today, key, q=q), key, 'RUNNING')
+-        failed, calls = drive(cur, key)
+-        checked(failed, key, 'FAILED')
+-        assert failed['failure']['code'] == 'CP7_PLANNING_HISTORY_GRID_LIMIT' and failed['failure']['sqlstate'] == 'P0001', failed
+-        assert counts(cur, key)[3] == 0 and failed.get('run_id') is None, 'P19G_FAILED_JOB_EXPOSED_PAGES'
+-        assert checked(step(cur, key), key, 'FAILED') == failed, 'P19G_STEP_AFTER_FAILED_CHANGED_THE_JOB'
+-        return dict(status='PASS', targets=targets, history_days=days, single_refusal=single, staged_failure=failed['failure'],
+-                    staged_units_before_refusal=len(calls), started_units=started['unit_count'], same_refusal=True,
+-                    nothing_paged=True, seed_ms_not_app_latency=seed.get('seed_ms'))
+-
+-    return list(zip(IDS['native'], (equals_single, authority, identity, source_check, refusal_equals_single)))
++        checked(request(cur, today, key, q=q), key, 'RUNNING')
++        done, calls = drive(cur, key)
++        checked(done, key, 'DONE')
++        original, ps, shape = fetch(cur, done['run_id'])
++        x = original['analysis']
++        cover = scale.coverage([label['target_key'] for label in original['product_labels']],
++                               [r['target']['key'] for r in x['recommendations']], x['generation_warnings'], x['status'], targets)
++        assert cover['complete'] and ps['targets_total'] == size, ('P19G_STAGED_COVERAGE_INCOMPLETE', cover)
++        # The reassembled analysis passes the frozen contract with its semantic_hash recomputed server side.
++        b.api.admin(cur)
++        pages = [cur.execute('select p.body from cp7_analysis_stage.pages p where p.run_id=%s and p.idx=%s', (done['run_id'], i)).fetchone()[0]
++                 for i in range(ps['page_count'])]
++        reassembled, _ = scale.staged_reassemble(cur, ps['header']['body'], pages)
++        analysis.checked({**original, 'analysis': reassembled, 'source_state': 'UNCHANGED'})
++        assert {k: v for k, v in reassembled.items() if k != 'semantic_hash'} == x, 'P19G_SERVER_REASSEMBLY_DIFFERS_FROM_CLIENT_REASSEMBLY'
++        # Beyond the staged bound: more cells than job_history_cells.
++        beyond_days = 3660
++        beyond_size = scale.STAGED_BOUNDS['job_history_cells'] // beyond_days + 4
++        scale.ensure(cur, today, beyond_size, True)
++        beyond = scale.current_targets(cur)
++        assert len(beyond) == beyond_size and len(beyond) * beyond_days > scale.STAGED_BOUNDS['job_history_cells'], (len(beyond), beyond_days)
++        q2 = analysis.previous.baseline.history.query(today, beyond_days)
++        single2 = refused(cur, lambda: schedule.rpc(cur, 'erp_cp7_capture_operational_analysis_v1', (json.dumps(q2), uuid.uuid4())), '_GRID_LIMIT')
++        single2_code = re.search(r'CP7_[A-Z0-9_]+', single2).group(0)
++        key2 = uuid.uuid4()
++        b.api.admin(cur)
++        cur.execute('savepoint p19g_beyond')
++        try:
++            started = checked(request(cur, today, key2, q=q2), key2)
++            cur.execute('release savepoint p19g_beyond')
++            failed, _ = drive(cur, key2) if started['state'] == 'RUNNING' else (started, [])
++            checked(failed, key2, 'FAILED')
++            staged_code, where = failed['failure']['code'], 'unit ' + str(failed['failure']['unit'])
++            assert counts(cur, key2)[3] == 0 and failed.get('run_id') is None, 'P19G_FAILED_JOB_EXPOSED_PAGES'
++            assert checked(step(cur, key2), key2, 'FAILED') == failed, 'P19G_STEP_AFTER_FAILED_CHANGED_THE_JOB'
++        except psycopg.Error as error:
++            detail = (error.diag.message_primary or str(error)).strip()
++            cur.execute('rollback to savepoint p19g_beyond')
++            b.api.admin(cur)
++            staged_code, where = re.search(r'CP7_[A-Z0-9_]+', detail).group(0), 'request'
++            assert counts(cur, key2) == (0, 0, 0, 0)
++        assert staged_code == 'CP7_PLANNING_HISTORY_GRID_LIMIT' == single2_code, (staged_code, single2_code)
++        return dict(status='PASS', bounds=bounds, within=dict(targets=size, history_days=days, cells=cells, single_refusal=single_code,
++                    staged_state='DONE', units=len(calls), slowest_call_ms=max(c['ms'] for c in calls), pages=shape, coverage=cover,
++                    frozen_contract_valid=True, semantic_hash_recomputed_from_reassembly=True),
++                    beyond=dict(targets=beyond_size, history_days=beyond_days, cells=beyond_size * beyond_days, single_refusal=single2_code,
++                                staged_refusal=staged_code, staged_refused_at=where, nothing_paged=True),
++                    single_path_caps_unchanged=True, seed_ms_not_app_latency=seed.get('seed_ms'))
++
++    return list(zip(IDS['native'], (equals_single, authority, identity, source_check, bounds_vs_single)))
+ 
+ 
+ def races(tools, today):
+@@ -415,10 +457,15 @@ def races(tools, today):
+         key, f, _, _ = prepared()
+         stops = []
+         with tools.connect() as holder, holder.cursor() as h:
+-            # The next unit's source read waits on a real lock until the
+-            # existing kind of statement limit stops it; the step records the
+-            # attempt and leaves the job RUNNING.
+-            h.execute('lock table erp.products in access exclusive mode')
++            # Units read the stored reference, never the live tables: the next
++            # unit's own write waits on a real lock (every stage table but the
++            # job row) until the existing kind of statement limit stops it; the
++            # step records the attempt and leaves the job RUNNING.
++            locks = h.execute("""select string_agg(format('lock table %I.%I in access exclusive mode',n.nspname,c.relname),';')
++                from pg_class c join pg_namespace n on n.oid=c.relnamespace
++                where n.nspname='cp7_analysis_stage' and c.relkind in('r','p') and c.relname<>'jobs'""").fetchone()[0]
++            assert locks, 'P19G_STAGE_TABLES_NOT_FOUND'
++            h.execute(locks)
+ 
+             def send():
+                 with tools.connect() as conn, conn.cursor() as cur:
+-- 
+2.43.0
+

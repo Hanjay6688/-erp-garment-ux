@@ -1,0 +1,206 @@
+From 05727af5fdb7eda4a6135a8ba2ef757921b8f4b9 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 7 Oct 2026 16:01:34 +0000
+Subject: [PATCH 3/5] =?UTF-8?q?docs:=20staged=205,000=20plan=20=E2=80=94?=
+ =?UTF-8?q?=20phase=20D=20decisions,=20product=20contracts=20for=20the=20s?=
+ =?UTF-8?q?taged=20path,=20CI=20evidence=20for=205e8bb513;=20API=20prototy?=
+ =?UTF-8?q?pe=20(request/step/get)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01VB4ZAg51aZLCtb68iza18N
+---
+ docs/cp7/SELF_CHECK_FORMULAS_20261006.md      |  3 +-
+ docs/cp7/p19/P19_STAGED_5000_20261007.md      | 51 +++++++++-
+ .../cp7/families/f04/staged-api.prototype.sql | 92 +++++++++++++++++++
+ 3 files changed, 144 insertions(+), 2 deletions(-)
+ create mode 100644 tests/cp7/families/f04/staged-api.prototype.sql
+
+diff --git a/docs/cp7/SELF_CHECK_FORMULAS_20261006.md b/docs/cp7/SELF_CHECK_FORMULAS_20261006.md
+index 1e3783a3..90758009 100644
+--- a/docs/cp7/SELF_CHECK_FORMULAS_20261006.md
++++ b/docs/cp7/SELF_CHECK_FORMULAS_20261006.md
+@@ -128,7 +128,8 @@ Lokal (bukan bukti): uji DOM/unit yang disebut di §2, `cutting-model-producer.t
+ | `c7fca470` | Pengecualian latar belakang tercatat (butir 5) | Build UX, CodeQL, P19 (`p19-scale5`, `p19-transport11`), P18 Fabric Rule, `plan39`, `rule-lifecycle16`, `fabric-physical21`, `fabric13-successor`, `p18-e01-9`: **success**. **Kegagalan pertama dicatat:** P08 Physical run 37606883277, job 112744422388 (`analysis152`, 153 kasus teramati) dan 112744422358 (`attention284`, 286 kasus teramati) — keduanya INCOMPLETE hanya karena `P15_BROWSER_DESKTOP/MOBILE_NATIVE_PUBLICATION`: `assert.ok(comparison.rows.some(r=>r.difference.state==='UNKNOWN'&&!('value'in r.difference)))`. Sebab: di `a1244553` alur publikasi dipindah ke jalur operasional (tanpa keuangan), padahal baris selisih `UNKNOWN` yang diperiksa oracle berasal dari metrik keuangan yang belum diketahui; tanpa keuangan metrik itu tidak ikut, jadi tidak ada baris `UNKNOWN`. Ini salah klasifikasi saya, bukan cacat produk. Perbaikan: alur publikasi kembali mencentang "Sertakan angka keuangan" dan menunggu `erp_cp7_capture_analysis_v1`, sama seperti alur analisis; oracle tidak diubah |
+ | `8ed82748` | Perbaikan alur publikasi (centang keuangan) | **P08 Physical 37618782222 success** (dipicu manual karena path filter tidak mencakup skrip browser): `analysis152`, `attention284`, `plan39`, `fabric-physical21`, `fabric13-successor` semua success |
+ | `e7542cf8` | PL-8 bagian 3 (bukti habis tersimpan) | **9/9 success:** Shell 37629207310 (`p19-assembly`: `f04-supply-proofs` 3/3 + `f04-supply-exhausted` 6/6 + benchmark PL-8), **PL Native 37629207362** (model, jadwal, netting, **supply 53** — suite baru di cabang ini: Native/race/HTTP/browser), **P08 Physical 37629207452** (fabric-physical21, fabric13-successor, analysis152, plan39, attention284), P21 37629207242 (rollback ikut menghapus tabel bukti), Build UX 37629207383, P18 Full Cycle 37629207346, Supplier Payment Create 37629207505, Receipt Correction 37629207267, CodeQL 37629207377. Kegagalan pertama lokal (hook tutup DB) dicatat di §2b |
+-| `d2c98812` | 5.000 target fase A + ukuran capture 5.000 (harness) | Shell 37632330081 (**job baru `p19-staged`**: `f05-staged-analysis` 4/4 + `f05-analysis-jobs`; benchmark runner: 1000×1 dan 1000×100 **byte-identik** dengan build tunggal; 5000×1 50 unit, unit terlama 1,24 dtk, total 28,6 dtk; 5000×100 55 unit, unit terlama 1,36 dtk, total 41,6 dtk; jalur tunggal menolak `CP7_NETTING_MATCH_SOURCE_LIMIT`/`CP7_NETTING_WORK_LIMIT`), PL Native 37632330054, Build UX 37632329909, P21 37632330056, P18 Full Cycle 37632329931, P18 Fabric Rule 37632330010, Supplier Payment Create 37632330101, Receipt Correction 37632330133, CodeQL 37632329929: success. **P19 Transport 37632330032 success** (`p19-transport11`, `p19-scale5`; capture operasional satu statement di 5.000 produk dengan batas dilonggarkan di savepoint yang dibatalkan: 4.593 ms / 23,5 MB, COMPLETE; batas terpasang tetap 1000). P08 37632329871: berjalan |
++| `d2c98812` | 5.000 target fase A + ukuran capture 5.000 (harness) | Shell 37632330081 (**job baru `p19-staged`**: `f05-staged-analysis` 4/4 + `f05-analysis-jobs`; benchmark runner: 1000×1 dan 1000×100 **byte-identik** dengan build tunggal; 5000×1 50 unit, unit terlama 1,24 dtk, total 28,6 dtk; 5000×100 55 unit, unit terlama 1,36 dtk, total 41,6 dtk; jalur tunggal menolak `CP7_NETTING_MATCH_SOURCE_LIMIT`/`CP7_NETTING_WORK_LIMIT`), PL Native 37632330054, Build UX 37632329909, P21 37632330056, P18 Full Cycle 37632329931, P18 Fabric Rule 37632330010, Supplier Payment Create 37632330101, Receipt Correction 37632330133, CodeQL 37632329929: success. **P19 Transport 37632330032 success** (`p19-transport11`, `p19-scale5`; capture operasional satu statement di 5.000 produk dengan batas dilonggarkan di savepoint yang dibatalkan: 4.593 ms / 23,5 MB, COMPLETE; batas terpasang tetap 1000). **P08 37632329871 success** (5 suite) → **11/11 success** |
++| `5e8bb513` | 5.000 target fase C bagian 1: sumber capture berbatas (`*_within`) | **11/11 success:** PL Native 37638175435 (model, jadwal, netting, supply 53), P08 Physical 37638175513 (5 suite), Shell 37638175479 (`p19-staged`, `p19-assembly`), P19 Transport 37638175395 (`p19-scale5`: capture operasional satu statement lewat fungsi produk `analysis_native.source_within(5000,10000)` 4.374 ms / 23,5 MB, `history_source_within(5000)` 3.508 ms, COMPLETE; jalur tunggal tetap 1000/5000), P21 37638175535, Build UX 37638175440, P18 Full Cycle 37638175330, P18 Fabric Rule 37638175600, Supplier Payment Create 37638175575, Receipt Correction 37638175437, CodeQL 37638175356. Klik-sampai-tampil browser (bukan target 3 dtk): 100 target operasional 1,8–2,3 dtk; 300 target operasional kini **lengkap** 6,5–8,2 dtk; jalur dengan keuangan 7,0–8,4 dtk di 100 target |
+ 
+ ## 7. P19 — kernel riwayat permintaan (bukan temuan rumus, tetapi skala)
+ 
+diff --git a/docs/cp7/p19/P19_STAGED_5000_20261007.md b/docs/cp7/p19/P19_STAGED_5000_20261007.md
+index 342d8890..d363e31e 100644
+--- a/docs/cp7/p19/P19_STAGED_5000_20261007.md
++++ b/docs/cp7/p19/P19_STAGED_5000_20261007.md
+@@ -9,12 +9,27 @@ The owner decision (item 3) is **not met yet**. This file is the plan and the re
+ | A | Product changes the staged path needs, each byte-identical to its predecessor: `cp7_wip.check_allocations` linear duplicate check; `cp7_netting_native.matching_models_within(c,wip,limit)` (the single call keeps 5000 through `matching_models`); `cp7_analysis_native.finance_apply` / `finance_overlay` split out of `build`; `cp7_analysis_jobs.store()` cuts segments in one pass (same cut as `substr(body,i*n+1,n)`, which counted every earlier character again: 25.5 s at 65 MB locally). The staged kernel itself is a **test prototype** (`tests/cp7/families/f04/staged-analysis.prototype.sql`), not installed: its SCENARIO, fabric and accessory inputs are still stand-ins. Parity test `f05-staged-analysis` and benchmark `P19_STAGED_ANALYSIS_KERNEL.json` run in the Shell workflow job `p19-staged`. | integrated at `d2c98812`; CI below |
+ | B | Real units for HISTORY / BASELINE / SUPPLY+WIP / SCHEDULE / FABRIC instead of the SCENARIO stand-in, byte-identical to the single path incl. first refusal | open |
+ | C | Capture at 5,000 measured on CI (operational, finance DEFERRED); job RPCs request/step/status with the actor's access re-checked per unit; expiry/cleanup; freshness by part fingerprints | capture measured (below); bounded sources installed (`history_source_within`, `source_within` of baseline/supply/schedule/netting/analysis; the no-argument sources are wrappers at 1000/5000, single path unchanged); RPCs, cleanup, freshness open |
+-| D | The 5,000-target Original (≈210 MB real) exceeds the client's 64 MB document cap and jsonb parse of `runs.result` exceeds 8 s: storage and reading by target range (pages bound to the run and segment hashes), UI that never presents a page as the whole | open (contract decision needed, §8.1–8.2) |
++| D | The 5,000-target Original (≈210 MB real) exceeds the client's 64 MB document cap and jsonb parse of `runs.result` exceeds 8 s: storage and reading by target range (pages bound to the run and segment hashes), UI that never presents a page as the whole | prototype done (pages, readers, client parser, staged view; `f05-staged-pages`); integrator decisions below; product move open |
+ | E | CI end-to-end at 5,000 through the app; recorded as a background exception, not as a met 3 s target | open |
+ 
+ 
+ Status of the measurements below: kernel prototype on a private clone (base `a68abf1e`). Every number here is **LOCAL_PG16_DEV** (PostgreSQL 16.13, disposable kernel runtime, source/schedule/fabric/accessory stand-ins, shared machine with other local Postgres instances running). None of it is CI, Native, Auth, HTTP or browser evidence. Owner latency targets are **not** met and not claimed met.
+ 
++### Phase D findings and integrator decisions (7 Oct 2026)
++
++Measured (LOCAL_PG16_DEV unless stated; full notes and logs of the phase D prototype are summarised here):
++- Real Originals are 45–50 KB per target (retained Native Originals of 3–14 targets) and 42 KB per target on CI at 100 targets; `timeline` is 77–78 % (about 11 items per target, one per horizon day, about 3.2 KB each because real refs are UUIDs).
++- One jsonb `runs.result` at 5,000 real-shaped targets: 218.9 MB of text, **237.9 MB of jsonb = 88.6 % of PostgreSQL's hard jsonb limit** (a 251 MB text is refused with 54000); parse + insert 7.8–13.5 s locally (about 5–9 s on CI-class hardware). A single jsonb result is therefore not a supportable home for a 5,000-target run.
++- Every whole reader (`serve`, manifest, reminders' `access_now`, archives, reports, fabric workspace, plan draft, AI handoff) would build or detoast the whole ≈210 MB result.
++
++Decisions taken as integrator (no earlier owner decision reopened; new contracts listed for auditor acceptance):
++1. **Storage C:** a staged run keeps a header (all non-per-target fields) plus pages bound to the run and to the semantic hash; it is never stored as one jsonb result. It lives apart from `cp7_analysis_native.runs`, so every existing whole reader finds no such run and refuses (fail closed by construction), instead of mistaking a header for a whole result.
++2. **Byte-adaptive pages:** a page is cut at a target boundary by size (≤ 8,000,000 bytes, the existing segment body bound), not by a fixed 500 targets: at the real 45 KB per target a fixed 500-target page (≈22.7 MB) would be refused.
++3. **Semantic hash unchanged:** one sha256 over the whole analysis text, computed in its own unit.
++4. New contracts `cp7.native-analysis-pages.v1`, `-header.v1`, `-page.v1`, `-page-read.v1` and the refusal `CP7_ANALYSIS_RUN_PAGED` are additions; auditor acceptance pending.
++
++Open (owner priority needed, stated as unavailable in the UI until then): reminders/attention, reports, fabric workspace, plan draft and AI handoff on a staged run each need a target-range or target-key reader.
++
+ ### CI evidence so far
+ 
+ **Staged kernel on the GitHub runner** (Shell run 37632330081, job `p19-staged`, `P19_STAGED_ANALYSIS_KERNEL.json`; kernel with stand-ins for scenario/fabric/accessories, not Native):
+@@ -180,3 +195,37 @@ Files (phase A locations):
+ - `scripts/cp7_p19_staged_benchmark.mjs` (new)
+ - `scripts/cp7-src/planning/analysis-jobs.sql` (`store()` one-pass segment cut; `f05-analysis-jobs` now pins every segment but the last to exactly 2,000,000 code points)
+ - Wired into CI (Shell workflow job `p19-staged`); not into `cp7_analysis_bundle.py` or the frontend.
++
++## 10. Product contracts for the staged path (phase C2; integrator decision, auditor acceptance pending)
++
++Binding for the product move. Nothing here changes the single path (`cp7_analysis_native.runs`, `serve`, `capture`, jobs, manifest, segments, their contracts and caps).
++
++**Where a staged run lives.** Schema `cp7_analysis_stage` (owner `cp7_capture`, no USAGE for `public/anon/authenticated/service_role`). A staged run is the job row (`run_id` fixed at request) plus its header and pages; it is **never** inserted into `cp7_analysis_native.runs`, so every existing whole reader (serve, manifest, archives, reminders, reports, fabric workspace, plan draft) finds no such run and refuses as for an unknown run. All tables: RLS deny-all policy, no grants, owner `cp7_capture`; reference, units, outputs and every intermediate row immutable (`cp7_private.immutable_run`), except the job row's progress columns.
++
++**Units.** Phase B scenario units, phase A netting/allocation units, `FABRIC_PLAN`, `ANA_TARGETS` (fragments per chunk **and** the UTF-8 size of every target's items per array), `ANA_META` (header skeleton), `PAGES` × k, `PAGE_INDEX`. No unit builds the whole analysis text or the whole Original (`ANA_TEXT`, `RUN_INSERT`, `DOC_RENDER`, `DOC_SEGMENTS` are not part of the product path). Per-unit and per-job bounds as in phase B. Every unit under the unchanged 8 s.
++
++**Pages are byte-adaptive.** A page is a contiguous range of targets in the job's loop order whose page body is ≤ 8,000,000 UTF-8 bytes (the existing segment body bound); a single target whose items exceed it fails the job (`CP7_ANALYSIS_PAGE_BODY_LIMIT`), never cut. The page index is written last; a job without it exposes no page.
++
++**Identity.** `identity_hash = sha256(header_sha256 || E'\n' || string_agg(page_sha256, E'\n' order by index))` (hex). The single path's `semantic_hash` (one sha256 over the whole analysis text) is not computed for staged runs; tests prove that header + pages reassemble, byte for byte, the analysis text and the Original of the single build on the same reference, and recompute its `semantic_hash` from the reassembled text.
++
++**Public RPCs** (all `authenticated` only, `SECURITY DEFINER`, owner `cp7_capture`, `search_path=''`, read committed required where the single job requires it):
++
++| RPC | Does | Returns |
++|---|---|---|
++| `erp_cp7_request_staged_analysis_v1(p_query jsonb, p_request uuid)` | same request UUID + same query → same job; a UUID the actor's ordinary capture or analysis job owns → `CP7_ANALYSIS_REQUEST_CHANGED`; else captures the reference in ONE statement: `cp7_analysis_native.source_within(job_targets, job_matching_products)` + `financial_source:null`, `financial_capture:'DEFERRED'` (operational path; the owner report and the books are never read), access re-read after the capture | job status |
++| `erp_cp7_step_staged_analysis_v1(p_request uuid)` | re-reads the actor's access; different from the access at capture → job `FAILED` `CP7_ANALYSIS_ACCESS_CHANGED`; else runs the next unit (`FOR UPDATE SKIP LOCKED`: a concurrent caller runs nothing and gets `worker_active:true`); statement-limit stop retried up to 3 times, then `FAILED CP7_ANALYSIS_STAGE_STOPPED`; any other refusal `FAILED` with the single path's code, SQLSTATE and message | job status |
++| `erp_cp7_get_staged_analysis_v1(p_request uuid)` | status from rows; never runs a unit | job status |
++| `erp_cp7_read_staged_analysis_pages_v1(p_run uuid)` | actor's own DONE run; access epoch | page set |
++| `erp_cp7_read_staged_analysis_page_v1(p_run uuid, p_index integer, p_access text)` | same checks as the segment reader (epoch, actor/run binding) | page envelope |
++| `erp_cp7_check_staged_analysis_source_v1(p_run uuid)` | one statement: current `source_within` fingerprint vs the reference | `{source_state: UNCHANGED or ARCHIVED_STALE, checked_at}` |
++
++**Job status** `cp7.native-analysis-staged-job.v1`: `request_id`, `state` (`RUNNING`/`DONE`/`FAILED`), `stage`, `stage_index`, `stage_count`, `units_done`, `unit_count`, `plan_final`, `targets_total`, `targets_done_in_stage`, `reference {captured_at, source_hash}`, `last_progress_at`, `unit_attempts`, `run_id` (DONE only), `failure {unit, sqlstate, code}` (FAILED only), `worker_active` (only on a skipped step), `apply_enabled:false`, `production_go:false`.
++
++**Page set** `cp7.native-analysis-pages.v1`: `run_id`, `request_id`, `reference {captured_at, source_hash}`, `access_epoch`, `identity_hash`, `targets_total`, `page_count`, `paged {array: {prefix, items}}`, `totals`, `header {utf8_bytes, sha256, body}`, `pages [{index, target_lo, target_hi, utf8_bytes, sha256, counts}]`, `apply_enabled:false`, `production_go:false`.
++**Header** `cp7.native-analysis-header.v1` (the `header.body` string): `run_id`, `request_id`, `query`, `financial_source` (null), `product_labels`, `analysis_header` (the analysis without per-target items and without `semantic_hash`), `paged`, `targets_total`, `page_count`, `apply_enabled:false`, `production_go:false`.
++**Page** `cp7.native-analysis-page.v1` (the envelope's `body` string): `run_id`, `request_id`, `index`, `page_count`, `target_lo`, `target_hi`, `targets_total`, `header_sha256`, `counts`, `offsets`, `totals`, `summary`, `items`, `apply_enabled:false`, `production_go:false`.
++**Page envelope** `cp7.native-analysis-page-read.v1`: `run_id`, `index`, `page_count`, `target_lo`, `target_hi`, `header_sha256`, `identity_hash`, `utf8_bytes`, `sha256`, `body`.
++
++**Retention.** Intermediate rows (fragments, target/pair rows, outputs) are needed only until `PAGE_INDEX`; a private admin function may remove them for a finished job (no grants; no automatic retention: the value is an owner decision, PENDING_POLICY_VALUE). The reference, header, pages and job row stay.
++
++**Driver.** Client-driven: the page calls step in a loop and resumes after a reload by reading status; a job left alone reports "paused since T" and continues when any session of the actor calls step. A server-side driver is an open infra decision.
+diff --git a/tests/cp7/families/f04/staged-api.prototype.sql b/tests/cp7/families/f04/staged-api.prototype.sql
+new file mode 100644
+index 00000000..e5fce9bb
+--- /dev/null
++++ b/tests/cp7/families/f04/staged-api.prototype.sql
+@@ -0,0 +1,92 @@
++-- P19 5,000 targets, phase C (PROTOTYPE, test runtime; loaded after
++-- staged-analysis.prototype.sql): the staged job's request, step and status as
++-- ordinary requests of the measured actor.
++--
++-- request: one statement captures the reference through the bounded sources
++--   at the job's declared bounds (job_targets planned products, one product
++--   per size being one target, and job_matching_products matching products;
++--   the single capture keeps 1000 / 5000) on the operational path (finance DEFERRED: the protected owner
++--   report and the books are never read), and stores it as the job's only
++--   reference. A source above the bounds is not cut: it is INCOMPLETE and the
++--   job fails at its unit with the single path's own refusal.
++-- step: runs the job's next unit (one per call) after re-reading the actor's
++--   access; access that differs from the access at capture fails the job
++--   (CP7_ANALYSIS_ACCESS_CHANGED) instead of mixing two access states.
++-- get: the job's status from its rows; never runs a unit.
++-- One request UUID is one request: a UUID an ordinary capture or analysis job
++-- of the actor already owns is refused here (CP7_ANALYSIS_REQUEST_CHANGED).
++create function cp7_analysis_stage.job_of(p_actor uuid,p_request uuid)returns cp7_analysis_stage.jobs
++language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
++ select j from cp7_analysis_stage.jobs j where j.actor=p_actor and j.request_id=p_request
++$$;
++
++create function cp7_analysis_stage.request(p_query jsonb,p_request uuid)returns jsonb
++language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
++declare a jsonb;q jsonb;j cp7_analysis_stage.jobs%rowtype;c jsonb;b jsonb:=cp7_analysis_stage.bounds();id uuid;
++begin
++ if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
++ a:=cp7_schedule_native.access_now(false);q:=cp7_planning.history_query(p_query);
++ if p_request is null then raise exception 'CP7_ANALYSIS_REQUEST_REQUIRED';end if;
++ perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS-STAGED:'||(a->>'actor')||':'||p_request::text,0));
++ j:=cp7_analysis_stage.job_of((a->>'actor')::uuid,p_request);
++ if j.id is not null then
++  if j.query<>q then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;
++  return cp7_analysis_stage.status(j.id);
++ end if;
++ if exists(select 1 from cp7_analysis_native.runs x where x.actor=(a->>'actor')::uuid and x.request_id=p_request)
++  or exists(select 1 from cp7_analysis_jobs.jobs x where x.actor=(a->>'actor')::uuid and x.request_id=p_request)then
++  raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';
++ end if;
++ c:=cp7_analysis_native.source_within((b->>'job_targets')::integer,(b->>'job_matching_products')::integer)
++  ||jsonb_build_object('financial_source',null,'financial_capture','DEFERRED');
++ if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
++ id:=cp7_analysis_stage.create_job((a->>'actor')::uuid,p_request,q,a,c);
++ return cp7_analysis_stage.status(id);
++end $$;
++
++create function cp7_analysis_stage.step_request(p_request uuid)returns jsonb
++language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
++declare a jsonb;j cp7_analysis_stage.jobs%rowtype;
++begin
++ if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
++ a:=cp7_schedule_native.access_now(false);
++ j:=cp7_analysis_stage.job_of((a->>'actor')::uuid,p_request);
++ if j.id is null then raise exception 'CP7_ANALYSIS_JOB_UNAVAILABLE';end if;
++ if j.state='RUNNING'and a is distinct from j.access_at_capture then
++  update cp7_analysis_stage.jobs set state='FAILED',failure_unit=units_done,failure_sqlstate='42501',
++   failure_code='CP7_ANALYSIS_ACCESS_CHANGED',updated_at=clock_timestamp()where id=j.id and state='RUNNING';
++  return cp7_analysis_stage.status(j.id);
++ end if;
++ return cp7_analysis_stage.step(j.id);
++end $$;
++
++create function cp7_analysis_stage.get(p_request uuid)returns jsonb
++language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
++declare a jsonb;j cp7_analysis_stage.jobs%rowtype;
++begin
++ a:=cp7_schedule_native.access_now(false);
++ j:=cp7_analysis_stage.job_of((a->>'actor')::uuid,p_request);
++ if j.id is null then raise exception 'CP7_ANALYSIS_JOB_UNAVAILABLE';end if;
++ return cp7_analysis_stage.status(j.id);
++end $$;
++
++alter function cp7_analysis_stage.job_of(uuid,uuid)owner to cp7_capture;
++alter function cp7_analysis_stage.request(jsonb,uuid)owner to cp7_capture;
++alter function cp7_analysis_stage.step_request(uuid)owner to cp7_capture;
++alter function cp7_analysis_stage.get(uuid)owner to cp7_capture;
++revoke all on all functions in schema cp7_analysis_stage from public,anon,authenticated,service_role;
++grant create on schema public to cp7_capture;
++create function public.erp_cp7_request_staged_analysis_v1(p_query jsonb,p_request uuid)returns jsonb
++language sql volatile security definer set search_path=''as $$select cp7_analysis_stage.request(p_query,p_request)$$;
++create function public.erp_cp7_step_staged_analysis_v1(p_request uuid)returns jsonb
++language sql volatile security definer set search_path=''as $$select cp7_analysis_stage.step_request(p_request)$$;
++create function public.erp_cp7_get_staged_analysis_v1(p_request uuid)returns jsonb
++language sql stable security definer set search_path=''as $$select cp7_analysis_stage.get(p_request)$$;
++alter function public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)owner to cp7_capture;
++alter function public.erp_cp7_step_staged_analysis_v1(uuid)owner to cp7_capture;
++alter function public.erp_cp7_get_staged_analysis_v1(uuid)owner to cp7_capture;
++revoke create on schema public from cp7_capture;
++revoke all on function public.erp_cp7_request_staged_analysis_v1(jsonb,uuid),public.erp_cp7_step_staged_analysis_v1(uuid),
++ public.erp_cp7_get_staged_analysis_v1(uuid)from public,anon,authenticated,service_role;
++grant execute on function public.erp_cp7_request_staged_analysis_v1(jsonb,uuid),public.erp_cp7_step_staged_analysis_v1(uuid),
++ public.erp_cp7_get_staged_analysis_v1(uuid)to authenticated;
+-- 
+2.43.0
+

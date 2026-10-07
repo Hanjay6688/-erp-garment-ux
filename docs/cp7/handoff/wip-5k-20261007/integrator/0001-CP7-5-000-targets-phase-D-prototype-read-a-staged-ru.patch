@@ -1,0 +1,1749 @@
+From a4246e36820a205e854adc9c3bf48e5aae6f2d92 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Wed, 7 Oct 2026 14:37:34 +0000
+Subject: [PATCH 1/5] CP7 5,000 targets, phase D (prototype): read a staged run
+ by target range
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Pages (one per staged analysis chunk, each <= 8,000,000 bytes, sha256-bound to
+the run's document and semantic hashes) plus a header, written after the
+segments; the page index is written last so a failed or half-paged job cannot
+be read. Readers erp_cp7_read_analysis_pages_v1 / _page_v1 (authenticated,
+SECURITY DEFINER, owner cp7_capture, same access-epoch and actor checks as the
+segment reader); refuse_paged guard (CP7_ANALYSIS_RUN_PAGED) for whole reads.
+Prototype SQL stays under tests (not installed).
+
+Proof f05-staged-pages (2 tests): over the staged parity corpus with pages of
+1, 3 and 7 targets, header + pages reproduce the analysis, its text and the
+Original byte for byte (191 runs, 1,982 pages, 1,812 page edges, 80/80 single
+builds identical); readers' refusals, privileges and immutability.
+
+Frontend: strict page-set/header/page parser (sizes, hashes, run binding, range
+continuity, totals, item membership) and a staged view that shows whole-run
+totals from the server, then "Target 501–1.000 dari 5.000" pages; reports,
+reminders and AI are stated unavailable for staged runs. Single runs unchanged.
+Measurement scripts for Original composition and result storage.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01VB4ZAg51aZLCtb68iza18N
+---
+ scripts/check-access-catalog.mjs              |   2 +-
+ scripts/check-source-ownership.mjs            |   2 +
+ scripts/cp7_p19_original_bytes.mjs            | 153 +++++++++
+ scripts/cp7_p19_result_storage.mjs            |  76 +++++
+ src/NativeAnalysisPanel.pages.dom.test.tsx    | 134 ++++++++
+ src/NativeAnalysisPanel.tsx                   |  61 +++-
+ src/NativeStagedAnalysisView.tsx              |  46 +++
+ src/nativeAnalysis.ts                         |  42 +--
+ src/nativeAnalysisArchive.ts                  |   7 +-
+ src/nativeAnalysisPages.test.ts               |  97 ++++++
+ src/nativeAnalysisPages.ts                    | 173 ++++++++++
+ src/types/database.preconnect.ts              |   2 +
+ .../families/f04/staged-analysis-fixture.mjs  |   4 +-
+ .../families/f04/staged-pages.prototype.sql   | 295 ++++++++++++++++++
+ tests/cp7/families/f05-staged-pages.test.ts   | 288 +++++++++++++++++
+ tests/fixtures/nativeAnalysisPages.ts         |  71 +++++
+ 16 files changed, 1418 insertions(+), 35 deletions(-)
+ create mode 100644 scripts/cp7_p19_original_bytes.mjs
+ create mode 100644 scripts/cp7_p19_result_storage.mjs
+ create mode 100644 src/NativeAnalysisPanel.pages.dom.test.tsx
+ create mode 100644 src/NativeStagedAnalysisView.tsx
+ create mode 100644 src/nativeAnalysisPages.test.ts
+ create mode 100644 src/nativeAnalysisPages.ts
+ create mode 100644 tests/cp7/families/f04/staged-pages.prototype.sql
+ create mode 100644 tests/cp7/families/f05-staged-pages.test.ts
+ create mode 100644 tests/fixtures/nativeAnalysisPages.ts
+
+diff --git a/scripts/check-access-catalog.mjs b/scripts/check-access-catalog.mjs
+index 1600295f..9d950395 100644
+--- a/scripts/check-access-catalog.mjs
++++ b/scripts/check-access-catalog.mjs
+@@ -168,7 +168,7 @@ for(const name of cp7PlanningBoundaries) assert.ok(rpcBoundaries.has(`src/Native
+ const cp7ProductionPlanningBoundaries=['erp_cp7_capture_production_supply_v1','erp_cp7_read_production_supply_v1','erp_cp7_get_production_schedule_v1','erp_cp7_save_production_schedule_v1','erp_cp7_capture_netting_v1','erp_cp7_read_netting_v1']
+ const cp7FabricBoundaries=['erp_cp7_get_fabric_recipe_v1','erp_cp7_save_fabric_recipe_v1']
+ for(const name of cp7FabricBoundaries)assert.ok(rpcBoundaries.has(`src/NativeFabricRecipePanel.tsx:${name}`))
+-const cp7AnalysisBoundaries=['erp_cp7_capture_analysis_v1','erp_cp7_capture_operational_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1','erp_cp7_get_analysis_attention_v1','erp_cp7_save_analysis_attention_v1','erp_cp7_get_analysis_attention_request_v1','erp_cp7_list_analysis_archives_v1','erp_cp7_get_analysis_receivable_conditions_v1','erp_cp7_get_analysis_payable_conditions_v1','erp_cp7_evaluate_obligation_episodes_v1','erp_cp7_get_obligation_episode_request_v1','erp_cp7_get_obligation_episode_history_v1']
++const cp7AnalysisBoundaries=['erp_cp7_capture_analysis_v1','erp_cp7_capture_operational_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1','erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1','erp_cp7_get_analysis_attention_v1','erp_cp7_save_analysis_attention_v1','erp_cp7_get_analysis_attention_request_v1','erp_cp7_list_analysis_archives_v1','erp_cp7_get_analysis_receivable_conditions_v1','erp_cp7_get_analysis_payable_conditions_v1','erp_cp7_evaluate_obligation_episodes_v1','erp_cp7_get_obligation_episode_request_v1','erp_cp7_get_obligation_episode_history_v1']
+ const cp7PolicyBoundaries=['erp_cp7_get_reminder_policy_history_v1','erp_cp7_get_reminder_policy_v1','erp_cp7_save_reminder_policy_v1','erp_cp7_get_reminder_policy_request_v1']
+ for(const name of cp7PolicyBoundaries) assert.ok(rpcBoundaries.has(`src/NativeReminderPolicyPanel.tsx:${name}`))
+ const cp7RuleBoundaries=['erp_cp7_get_rule_conditions_v1', 'erp_cp7_evaluate_rule_episodes_v1', 'erp_cp7_get_rule_episode_request_v1', 'erp_cp7_get_local_reminders_v1', 'erp_cp7_save_local_binding_v1', 'erp_cp7_claim_local_preview_v1', 'erp_cp7_finish_local_preview_v1', 'erp_cp7_resolve_local_preview_v1', 'erp_cp7_get_local_reminder_request_v1']
+diff --git a/scripts/check-source-ownership.mjs b/scripts/check-source-ownership.mjs
+index 70d5dc4d..796e646c 100644
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -138,6 +138,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
+   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_job_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_manifest_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_segment_v1',
++  'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_pages_v1',
++  'src/NativeAnalysisPanel.tsx:erp_cp7_read_analysis_page_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_save_analysis_attention_v1',
+   'src/NativeAnalysisPanel.tsx:erp_cp7_get_analysis_attention_request_v1',
+diff --git a/scripts/cp7_p19_original_bytes.mjs b/scripts/cp7_p19_original_bytes.mjs
+new file mode 100644
+index 00000000..28fa673d
+--- /dev/null
++++ b/scripts/cp7_p19_original_bytes.mjs
+@@ -0,0 +1,153 @@
++#!/usr/bin/env node
++// P19 phase D: where the bytes of an analysis Original are, per top-level
++// field, per analysis array and per per-target item; what a 5,000-target
++// staged run's pages and header weigh; and what one jsonb runs.result costs as
++// the Original grows. Three sources, labelled separately:
++//  - RETAINED_NATIVE_ORIGINALS: real Native Originals retained by the P19 load
++//    suite (docs/cp7/evidence/integration-8f/p19-native-load, source 8f326d87;
++//    0/1/4/12 factsets). Bytes only; no timing.
++//  - LOCAL_PG16_DEV assembly fixture (analysis-assembly-fixture.mjs) and staged
++//    fixture (staged-analysis-fixture.mjs + phase D page units). Stand-ins for
++//    the schedule build, fabric and accessories; never Native/Auth/HTTP evidence.
++//  - LOCAL_PG16_DEV storage costs of a jsonb runs.result at 1x / 2x / 3.2x /
++//    4.2x the staged 5,000-target analysis text (the larger ones SYNTHETIC: the
++//    run's own timeline items repeated).
++import { gunzipSync } from 'node:zlib'
++import { readFileSync, mkdirSync, writeFileSync } from 'node:fs'
++import { dirname } from 'node:path'
++import { openRuntime, jsonArg } from '../tests/cp7/families/f04/runtime.mjs'
++import { installAssemblyControls, assemblyInput, assemblyArgs } from '../tests/cp7/families/f04/analysis-assembly-fixture.mjs'
++import { installStagedControls, runJob, stagedInput } from '../tests/cp7/families/f04/staged-analysis-fixture.mjs'
++
++const out = process.argv[2] ?? 'test-results/cp7-shell-proof/P19_ORIGINAL_BYTES.json'
++const sizes = (process.env.CP7_P19_BYTES_SIZES || '100,300,1000').split(',').map(Number)
++const big = Number(process.env.CP7_P19_BYTES_BIG || 5000)
++const PAGED = ['recommendations', 'timeline', 'actions', 'demand_models', 'material_needs', 'metrics', 'assumptions', 'generation_warnings']
++const report = { contract: 'cp7.p19.original-bytes.v0', labels: { retained: 'RETAINED_NATIVE_ORIGINALS_8f326d87_BYTES_ONLY', local: 'LOCAL_PG16_DEV_KERNEL_STAND_INS_NOT_EVIDENCE' },
++  retained: [], assembly: [], staged: [], storage: [], status: 'INCOMPLETE', production_go: false }
++
++// PostgreSQL's jsonb text: ', ' and ': ' separators, keys in stored order.
++const pg = v => v === null || typeof v !== 'object' ? JSON.stringify(v) : Array.isArray(v) ? '[' + v.map(pg).join(', ') + ']'
++  : '{' + Object.entries(v).map(([k, x]) => JSON.stringify(k) + ': ' + pg(x)).join(', ') + '}'
++const bytes = v => Buffer.byteLength(pg(v), 'utf8')
++function breakdownJs(doc) {
++  const a = doc.analysis, targets = a.recommendations.length + a.generation_warnings.filter(w => String(w).startsWith('PRODUCTION_POLICY_UNREVIEWED:')).length
++  const refs = []; const walk = v => { if (Array.isArray(v)) v.forEach(walk); else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) { if (k === 'refs' || k === 'event_refs' || k === 'source_links') refs.push(x); else walk(x) } }
++  walk(a)
++  return summarize({ utf8_bytes: bytes(doc), targets, top: Object.fromEntries(Object.entries(doc).map(([k, v]) => [k, bytes(v)])),
++    analysis: Object.fromEntries(Object.entries(a).map(([k, v]) => [k, { bytes: bytes(v), items: Array.isArray(v) ? v.length : null }])), refs_bytes: refs.reduce((n, r) => n + bytes(r), 0),
++    timeline_item_keys: a.timeline.length ? Object.fromEntries(Object.entries(a.timeline[0]).map(([k, v]) => [k, bytes(v)])) : null })
++}
++// Per-target share: the eight arrays a staged run pages, divided by targets.
++function summarize(b) {
++  const per = {}; let paged = 0
++  for (const [k, v] of Object.entries(b.analysis)) {
++    if (v.items !== null) Object.assign(v, { bytes_per_item: v.items ? Math.round((v.bytes - 2 - 2 * (v.items - 1)) / v.items) : null,
++      items_per_target: b.targets ? +(v.items / b.targets).toFixed(2) : null, bytes_per_target: b.targets ? Math.round(v.bytes / b.targets) : null })
++    if (PAGED.includes(k)) { paged += v.bytes; per[k] = v.bytes_per_target }
++  }
++  return { ...b, paged_arrays_bytes: paged, paged_bytes_per_target: b.targets ? Math.round(paged / b.targets) : null,
++    rest_bytes: b.utf8_bytes - paged, refs_share_of_analysis: +(b.refs_bytes / b.top.analysis).toFixed(3),
++    extrapolated_5000_bytes: b.targets ? Math.round(b.utf8_bytes - paged + (paged / b.targets) * 5000) : null }
++}
++const BREAKDOWN_SQL = `create function public.ob_breakdown(doc jsonb)returns jsonb language sql as $$
++ select jsonb_build_object('utf8_bytes',octet_length(doc::text),
++  'targets',jsonb_array_length(doc->'analysis'->'recommendations')+(select count(*)from jsonb_array_elements_text(doc->'analysis'->'generation_warnings')w where w like 'PRODUCTION_POLICY_UNREVIEWED:%'),
++  'top',(select jsonb_object_agg(key,octet_length(value::text))from jsonb_each(doc)),
++  'analysis',(select jsonb_object_agg(key,jsonb_build_object('bytes',octet_length(value::text),'items',case when jsonb_typeof(value)='array'then jsonb_array_length(value)end))
++    from jsonb_each(doc->'analysis')),
++  'refs_bytes',(select coalesce(sum(octet_length(v::text)),0)from jsonb_path_query(doc->'analysis','strict $.**.refs')v)
++   +(select coalesce(sum(octet_length(v::text)),0)from jsonb_path_query(doc->'analysis','strict $.**.event_refs')v)
++   +(select coalesce(sum(octet_length(v::text)),0)from jsonb_path_query(doc->'analysis','strict $.**.source_links')v),
++  'timeline_item_keys',(select jsonb_object_agg(key,octet_length(value::text))from jsonb_each(doc->'analysis'->'timeline'->0)))
++$$;`
++
++// ---------------------------------------------------------- retained real --
++const retained = JSON.parse(gunzipSync(readFileSync('docs/cp7/evidence/integration-8f/p19-native-load/ORIGINAL_REPORTS.json.gz')).toString('utf8'))
++for (const name of ['P19_LOAD_PROFILE_0.json', 'P19_LOAD_PROFILE_1.json', 'P19_LOAD_PROFILE_4.json', 'P19_LOAD_PROFILE_12.json']) {
++  const doc = { ...JSON.parse(retained.root_json_utf8[name]).observed.original }; delete doc.source_state
++  report.retained.push({ name, source_commit: retained.source_commit, ...breakdownJs(doc) })
++}
++console.log(JSON.stringify(report.retained.map(r => ({ name: r.name, targets: r.targets, utf8_bytes: r.utf8_bytes, paged_bytes_per_target: r.paged_bytes_per_target, extrapolated_5000_bytes: r.extrapolated_5000_bytes }))))
++
++const time = async (db, sql) => { const t0 = Date.now(); const r = await db.query(sql); return { ms: Date.now() - t0, rows: r } }
++try {
++  // --------------------------------------------------------------- assembly --
++  let db = await openRuntime({ commandTimeoutMs: 600_000 })
++  try {
++    report.runtime = db.flavor; report.version = db.version
++    await installAssemblyControls(db); await db.execute(BREAKDOWN_SQL)
++    for (const n of sizes) {
++      const c = assemblyInput(n, 2)
++      const [row] = (await db.query(`with a as materialized(select public.p19_assembly_1(${assemblyArgs(c)}) r)
++        select public.ob_breakdown(jsonb_build_object('contract_version','cp7.native-analysis-run.v1','run_id',r->'run_id','request_id','02000000-0000-4000-8000-000000000009',
++         'analysis',r,'product_labels',(select coalesce(jsonb_agg(jsonb_build_object('target_key',x->>'root_id'||':'||(x->>'size_id'),'sku',coalesce(x->'commercial'->0->>'sku',x->>'sku'),
++           'product_name',x->>'product_name')order by x->>'root_id'),'[]')from jsonb_array_elements(${jsonArg(c)}->'facts'->'products')x),
++         'query',${jsonArg({ from_date: '2026-10-01', through_date: '2026-10-06' })},'financial_source',null,'apply_enabled',false,'production_go',false)) b from a`))
++      report.assembly.push({ fixture: 'analysis-assembly-fixture assemblyInput(n,2)', requested_targets: n, ...summarize(row.b) })
++      console.log(JSON.stringify({ assembly: n, utf8_bytes: row.b.utf8_bytes, targets: row.b.targets, paged_bytes_per_target: report.assembly.at(-1).paged_bytes_per_target }))
++    }
++  } finally { await db.close() }
++
++  // ----------------------------------------------------------------- staged --
++  db = await openRuntime({ commandTimeoutMs: 600_000 })
++  try {
++    await installStagedControls(db); await db.execute(BREAKDOWN_SQL)
++    report.bounds = (await db.query('select cp7_analysis_stage.bounds() b, cp7_analysis_stage.page_bounds() p'))[0]
++    let k = 0
++    for (const n of [...sizes, big]) {
++      const roots = Math.ceil(n / 3.3), shape = { targets: n, positions: 100, roots, models: Math.max(3, Math.round(roots / 5)), complete: true }
++      const c = stagedInput(9000 + n, shape), units = []
++      const t0 = Date.now()
++      const job = await runJob(db, c, { request: `03000000-0000-4000-8000-${String(++k).padStart(12, '0')}`, oneCallPerUnit: n === big, timeout: '8s',
++        onStep: (s, ms) => units.push({ client_ms: ms, state: s.state }) })
++      const wall = Date.now() - t0
++      if (job.status.state !== 'DONE') throw new Error(`staged ${n}: ${JSON.stringify(job.status.failure)}`)
++      const [row] = await db.query(`select public.ob_breakdown(cp7_analysis_jobs.original(r)) b from cp7_analysis_native.runs r where r.id='${job.run_id}'`)
++      const [pages] = await db.query(`select s.targets_total,s.page_count,s.header_utf8_bytes,s.document_utf8_bytes,s.totals,
++        (select min(utf8_bytes) from cp7_analysis_jobs.pages p where p.run_id=s.run_id) min_page_bytes,(select max(utf8_bytes) from cp7_analysis_jobs.pages p where p.run_id=s.run_id) max_page_bytes,
++        (select sum(utf8_bytes) from cp7_analysis_jobs.pages p where p.run_id=s.run_id) sum_page_bytes
++        from cp7_analysis_jobs.page_sets s where s.run_id='${job.run_id}'`)
++      const server = await db.query(`select u.kind stage,count(*) n,max(o.server_ms) max_ms,sum(o.server_ms) sum_ms from cp7_analysis_stage.units u join cp7_analysis_stage.outputs o using(job_id,idx)
++        where u.job_id='${job.job}' group by u.kind order by min(u.idx)`)
++      report.staged.push({ fixture: 'staged-analysis-fixture stagedInput', targets: n, positions: 100, wall_ms: wall, one_call_per_unit: n === big, ...summarize(row.b),
++        pages, server_ms_by_stage: server })
++      console.log(JSON.stringify({ staged: n, utf8_bytes: row.b.utf8_bytes, paged_bytes_per_target: report.staged.at(-1).paged_bytes_per_target, pages,
++        page_units: server.filter(s => s.stage.startsWith('PAGE')) }))
++      if (n === big) {
++        // ------------------------------------------------- jsonb runs.result --
++        await db.execute(`create table public.ob_store(r jsonb);
++         create function public.ob_storage(p_job uuid,k numeric)returns jsonb language plpgsql as $s$
++         declare s text;tl text;t0 timestamptz;j jsonb;r jsonb:='{}';reps integer;
++         begin
++          select body into s from cp7_analysis_stage.texts where job_id=p_job and kind='ANALYSIS';
++          if k>1 then
++           select string_agg(body,', 'order by idx)into tl from cp7_analysis_stage.fragments where job_id=p_job and field='timeline'and items>0;
++           reps:=ceil((k-1)*octet_length(s)/octet_length(tl));
++           s:=replace(s,'"timeline": [','"timeline": ['||repeat(tl||', ',reps));
++          end if;
++          r:=jsonb_build_object('k',k,'synthetic',k>1,'text_utf8_bytes',octet_length(s));
++          t0:=clock_timestamp();perform encode(sha256(convert_to(s,'UTF8')),'hex');r:=r||jsonb_build_object('sha256_ms',round(extract(epoch from clock_timestamp()-t0)*1000));
++          begin
++           t0:=clock_timestamp();j:=s::jsonb;r:=r||jsonb_build_object('parse_ms',round(extract(epoch from clock_timestamp()-t0)*1000),'jsonb_datum_bytes',pg_column_size(j));
++           t0:=clock_timestamp();insert into public.ob_store values(j);r:=r||jsonb_build_object('insert_ms',round(extract(epoch from clock_timestamp()-t0)*1000),
++            'stored_bytes',(select pg_column_size(x.r)from public.ob_store x limit 1));
++           t0:=clock_timestamp();perform octet_length(j::text);r:=r||jsonb_build_object('render_text_ms',round(extract(epoch from clock_timestamp()-t0)*1000));
++          exception when others then r:=r||jsonb_build_object('refused',sqlstate||':'||sqlerrm);end;
++          truncate public.ob_store;
++          return r;
++         end $s$;`)
++        for (const f of [1, 2, 3.2, 4.2]) {
++          const [s] = await db.query(`select public.ob_storage('${job.job}',${f}) s`)
++          report.storage.push(s.s); console.log(JSON.stringify(s.s))
++        }
++      }
++    }
++  } finally { await db.close() }
++  report.status = 'COMPLETE'
++} catch (error) {
++  report.error = String(error?.stack ?? error); process.exitCode = 1
++} finally {
++  mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, JSON.stringify(report, null, 1) + '\n')
++  console.log(JSON.stringify({ status: report.status, out, error: report.error }))
++}
+diff --git a/scripts/cp7_p19_result_storage.mjs b/scripts/cp7_p19_result_storage.mjs
+new file mode 100644
+index 00000000..ce339271
+--- /dev/null
++++ b/scripts/cp7_p19_result_storage.mjs
+@@ -0,0 +1,76 @@
++#!/usr/bin/env node
++// P19 phase D: can one jsonb `runs.result` hold a REAL-SHAPED 5,000-target
++// analysis, and what does one statement pay for it? The analysis text is built
++// from a retained real Native Original (P19_LOAD_PROFILE_12, 14 targets,
++// source 8f326d87; ~45 KB per target, 78 % timeline): its per-target items are
++// repeated k times (key repetition does not change jsonb parse or size cost;
++// SYNTHETIC from real items). Timings are LOCAL_PG16_DEV, one session, no
++// statement limit (measurement only); never Native/Auth/HTTP evidence.
++import { gunzipSync } from 'node:zlib'
++import { readFileSync, writeFileSync, mkdirSync, rmSync, chmodSync } from 'node:fs'
++import { dirname, join } from 'node:path'
++import { tmpdir } from 'node:os'
++import { openRuntime } from '../tests/cp7/families/f04/runtime.mjs'
++
++const out = process.argv[2] ?? 'test-results/cp7-shell-proof/P19_RESULT_STORAGE.json'
++const targetsList = (process.env.CP7_P19_STORAGE_TARGETS || '14,1000,2500,4650,5000').split(',').map(Number)
++const PER_TARGET = ['recommendations', 'timeline', 'actions', 'demand_models', 'material_needs']
++const pg = v => v === null || typeof v !== 'object' ? JSON.stringify(v) : Array.isArray(v) ? '[' + v.map(pg).join(', ') + ']'
++  : '{' + Object.entries(v).map(([k, x]) => JSON.stringify(k) + ': ' + pg(x)).join(', ') + '}'
++const retained = JSON.parse(gunzipSync(readFileSync('docs/cp7/evidence/integration-8f/p19-native-load/ORIGINAL_REPORTS.json.gz')).toString('utf8'))
++const real = JSON.parse(retained.root_json_utf8['P19_LOAD_PROFILE_12.json']).observed.original.analysis
++const base = real.recommendations.length
++const report = { contract: 'cp7.p19.result-storage.v0', label: 'LOCAL_PG16_DEV_SYNTHETIC_FROM_REAL_ITEMS_NOT_EVIDENCE', source: { name: 'P19_LOAD_PROFILE_12.json', commit: retained.source_commit, targets: base },
++  jsonb_limit_bytes: 268435455, rows: [], status: 'INCOMPLETE', production_go: false }
++// Repeat every per-target item k times; per-target metrics (scope TARGET) and
++// assumptions after the schedule assumption likewise; global items once.
++function scaled(k) {
++  const a = { ...real }
++  for (const f of PER_TARGET) a[f] = Array.from({ length: k }, () => real[f]).flat()
++  const tm = real.metrics.filter(m => m.scope_kind === 'TARGET'), gm = real.metrics.filter(m => m.scope_kind !== 'TARGET')
++  a.metrics = [...Array.from({ length: k }, () => tm).flat(), ...gm]
++  a.assumptions = [real.assumptions[0], ...Array.from({ length: k }, () => real.assumptions.slice(1)).flat()]
++  return pg(a)
++}
++const dir = join(tmpdir(), `cp7-p19-storage-${process.pid}`); mkdirSync(dir, { recursive: true }); chmodSync(dir, 0o755)
++const db = await openRuntime({ commandTimeoutMs: 600_000 })
++try {
++  report.runtime = db.flavor; report.version = db.version
++  await db.execute(`create table public.src(body text);create table public.as_jsonb(r jsonb);create table public.as_text(r text);
++   create function public.measure()returns jsonb language plpgsql as $s$
++   declare s text;j jsonb;t0 timestamptz;r jsonb;ms numeric;
++   begin
++    select body into s from public.src;r:=jsonb_build_object('text_utf8_bytes',octet_length(s));
++    t0:=clock_timestamp();perform encode(sha256(convert_to(s,'UTF8')),'hex');r:=r||jsonb_build_object('sha256_ms',round(extract(epoch from clock_timestamp()-t0)*1000));
++    t0:=clock_timestamp();insert into public.as_text values(s);r:=r||jsonb_build_object('insert_text_ms',round(extract(epoch from clock_timestamp()-t0)*1000),
++     'text_stored_bytes',(select pg_column_size(x.r)from public.as_text x limit 1));
++    begin
++     for i in 1..2 loop
++      t0:=clock_timestamp();j:=s::jsonb;ms:=round(extract(epoch from clock_timestamp()-t0)*1000);r:=r||jsonb_build_object('parse_ms_'||i,ms);
++     end loop;
++     r:=r||jsonb_build_object('jsonb_datum_bytes',pg_column_size(j),'jsonb_to_text_ratio',round(pg_column_size(j)::numeric/octet_length(s),3));
++     t0:=clock_timestamp();insert into public.as_jsonb values(j);r:=r||jsonb_build_object('insert_jsonb_ms',round(extract(epoch from clock_timestamp()-t0)*1000),
++      'jsonb_stored_bytes',(select pg_column_size(x.r)from public.as_jsonb x limit 1));
++     t0:=clock_timestamp();perform octet_length(j::text);r:=r||jsonb_build_object('render_text_ms',round(extract(epoch from clock_timestamp()-t0)*1000));
++     t0:=clock_timestamp();perform jsonb_array_length(x.r->'recommendations')from public.as_jsonb x;r:=r||jsonb_build_object('stored_jsonb_one_key_read_ms',round(extract(epoch from clock_timestamp()-t0)*1000));
++    exception when others then r:=r||jsonb_build_object('refused',sqlstate||':'||sqlerrm);end;
++    truncate public.as_jsonb,public.as_text;
++    return r;
++   end $s$;`)
++  for (const n of targetsList) {
++    const k = Math.max(1, Math.round(n / base)), text = scaled(k), file = join(dir, 'analysis.csv')
++    writeFileSync(file, text); chmodSync(file, 0o644)
++    await db.execute(`truncate public.src;\n\\copy public.src(body) from '${file}' with (format csv, quote E'\\x01', delimiter E'\\x02')`)
++    rmSync(file)
++    const [row] = await db.query('select public.measure() m')
++    const r = { targets: k * base, k, ...row.m }
++    report.rows.push(r); console.log(JSON.stringify(r))
++  }
++  report.status = 'COMPLETE'
++} catch (error) {
++  report.error = String(error?.stack ?? error); process.exitCode = 1
++} finally {
++  await db.close(); rmSync(dir, { recursive: true, force: true })
++  mkdirSync(dirname(out), { recursive: true }); writeFileSync(out, JSON.stringify(report, null, 1) + '\n')
++  console.log(JSON.stringify({ status: report.status, out, error: report.error }))
++}
+diff --git a/src/NativeAnalysisPanel.pages.dom.test.tsx b/src/NativeAnalysisPanel.pages.dom.test.tsx
+new file mode 100644
+index 00000000..e7271aa5
+--- /dev/null
++++ b/src/NativeAnalysisPanel.pages.dom.test.tsx
+@@ -0,0 +1,134 @@
++// @vitest-environment jsdom
++import {act} from 'react'
++import {createRoot,type Root} from 'react-dom/client'
++import {beforeEach,afterEach,it,expect,vi} from 'vitest'
++import NativeAnalysisPanel from './NativeAnalysisPanel'
++import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
++import {job} from '../tests/fixtures/nativeAnalysisTransport'
++import {stagedRun,rehash} from '../tests/fixtures/nativeAnalysisPages'
++import {readAnalysisJobRequest} from './nativeAnalysisTransport'
++import {readAnalysisArchive,rememberAnalysis} from './nativeAnalysisArchive'
++import type {NativeDemandQuery} from './nativeDemandHistory'
++const state=vi.hoisted(()=>({auth:null as unknown}))
++const client=vi.hoisted(()=>({rpc:vi.fn()}))
++vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}));vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
++let root:Root,container:HTMLDivElement
++const scope='analysis:cp6-disposable:actor-1',PAGED={data:null,error:{code:'P0001',message:'CP7_ANALYSIS_RUN_PAGED',details:null,hint:null}}
++type Args={p_request?:string;p_run?:string;p_index?:number;p_access?:string;p_query?:unknown}
++type Staged=Awaited<ReturnType<typeof stagedRun>>
++let s:Staged
++beforeEach(async()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client.rpc.mockReset();localStorage.clear()
++ s=await stagedRun({targets:1200,perPage:500,unreviewed:7})
++ const a=structuredClone(recoveryIdentity);Object.assign(a.runtime,{mode:'DISPOSABLE_TEST',projectRef:'cp6-disposable'});Object.assign(a.identity.profile,{authUserId:s.actor})
++ a.identity.permissions.push('master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view');state.auth=a;container=document.createElement('div');document.body.append(container);root=createRoot(container)})
++afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();vi.restoreAllMocks()})
++const q=()=>s.query as NativeDemandQuery
++async function render(){await act(async()=>root.render(<NativeAnalysisPanel query={q()} onSourceReadStart={vi.fn()} onSourceReadEnd={vi.fn()} onClose={vi.fn()}/>))}
++const button=(text:string)=>[...container.querySelectorAll('button')].find(b=>b.textContent===text)
++async function click(text:string){const b=button(text)!;expect(b).toBeTruthy();await act(async()=>b.click())}
++const names=()=>client.rpc.mock.calls.map(c=>c[0])
++const macrotask=()=>new Promise<void>(r=>(globalThis as unknown as {setImmediate:(f:()=>void)=>void}).setImmediate(r))
++async function until(done:()=>boolean){for(let i=0;i<2000&&!done();i++)await act(async()=>{await macrotask()});expect(done()).toBe(true)}
++const view=()=>container.querySelector('[aria-label="Analisis bertahap per halaman target"]')
++const heading=()=>container.querySelector('[aria-label="Target per halaman"] h3')?.textContent
++const rows=()=>container.querySelectorAll('[data-analysis-target]').length
++const statusText=()=>[...container.querySelectorAll('[role="status"]')].map(e=>e.textContent).join(' | ')
++const alertText=()=>container.querySelector('[role="alert"]')?.textContent??''
++// A background job whose finished run the server reads only by page.
++function server(page:(i:number,args:Args)=>unknown=i=>({data:s.page(i),error:null})){
++ let id=''
++ return async(name:string,args:Args)=>{
++  // The run's request id is the job's UUID: the fixture is rebuilt for it.
++  if(name==='erp_cp7_request_operational_analysis_job_v1'){id=args.p_request!;s=await stagedRun({targets:1200,perPage:500,unreviewed:7,requestId:id});return{data:job(id,q(),'WAITING'),error:null}}
++  if(name==='erp_cp7_run_analysis_job_v1')return{data:job(id,q(),'DONE',s.runId),error:null}
++  if(name==='erp_cp7_read_analysis_manifest_v1'){expect(args).toEqual({p_run:s.runId});return PAGED}
++  if(name==='erp_cp7_read_analysis_v1'){expect(args).toEqual({p_run:s.runId});return PAGED}
++  if(name==='erp_cp7_read_analysis_pages_v1'){expect(args).toEqual({p_run:s.runId});return{data:s.manifest,error:null}}
++  if(name==='erp_cp7_read_analysis_page_v1'){expect(args.p_access).toBe(s.manifest.access_epoch);return page(args.p_index!,args)}
++  throw Error('unexpected '+name)
++ }
++}
++it('shows a staged run as whole-run totals from the server first, then labelled target pages with navigation and progress',async()=>{
++ let release:(v:unknown)=>void=()=>{}
++ const base=server()
++ client.rpc.mockImplementation(async(name:string,args:Args)=>{
++  if(name==='erp_cp7_read_analysis_page_v1'&&args.p_index===1)return new Promise(r=>{release=r})
++  return base(name,args)
++ })
++ await render();await click('Hitung di latar belakang');await until(()=>Boolean(view())&&rows()>0)
++ expect(names()).toEqual(['erp_cp7_request_operational_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1'])
++ expect(client.rpc.mock.calls.at(-1)![1]).toEqual({p_run:s.runId,p_index:0,p_access:'a'.repeat(64)})
++ // Summary first; every whole-run number is the server's total.
++ const summary=container.querySelector('[aria-label="Ringkasan seluruh analisis bertahap"]')!,totals=s.manifest.totals
++ expect(summary.compareDocumentPosition(container.querySelector('[aria-label="Target per halaman"]')!)&Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
++ expect(summary.querySelector('h3')!.textContent).toBe('Ringkasan seluruh analisis · 1.200 target')
++ expect(summary.querySelector('[data-total="ACTIVE"]')!.textContent).toBe(`Status produksi aktif: ${totals.recommendations.ACTIVE} target`)
++ expect(summary.querySelector('[data-total="POLICY_UNREVIEWED"]')!.textContent).toBe(`Status produksi belum diperiksa: ${totals.policy_unreviewed} target`)
++ const first=JSON.parse(s.page(0).body)
++ expect(first.summary.recommendations.ACTIVE).not.toBe(totals.recommendations.ACTIVE)
++ expect(heading()).toBe('Target 1–500 dari 1.200');expect(rows()).toBe(first.items.recommendations.length)
++ expect(container.textContent).toContain(`Halaman ini hanya memuat target 1–500 dari 1.200: ${first.items.recommendations.length} rekomendasi dan ${first.summary.policy_unreviewed} target`)
++ // Nothing presents the page as the whole: no whole-analysis tabs, report or
++ // prompt, and no "x dari y produk" count from the visible rows.
++ expect(container.querySelector('[aria-label="Tampilan analisis bersama"]')).toBeNull();expect(container.querySelector('[aria-label="Isi laporan ERP"]')).toBeNull()
++ expect(container.textContent).not.toMatch(/\d dari \d+ produk/)
++ expect(button('Target sebelumnya')!.disabled).toBe(true)
++ // Next page: progress names the range while it loads, then the new range.
++ await click('Target berikutnya')
++ expect(statusText()).toContain('Mengambil target 501–1.000 dari 1.200…');expect(rows()).toBe(0);expect(button('Target berikutnya')!.disabled).toBe(true)
++ await act(async()=>{release({data:s.page(1),error:null})});await until(()=>heading()==='Target 501–1.000 dari 1.200'&&rows()>0)
++ expect(statusText()).not.toContain('Mengambil');expect(container.querySelector('[data-page-index]')!.getAttribute('data-page-index')).toBe('1')
++ // Any range by choice; the last page has no next.
++ const select=container.querySelector<HTMLSelectElement>('[aria-label="Pilih rentang target"]')!
++ expect([...select.options].map(o=>o.textContent)).toEqual(['Target 1–500 dari 1.200','Target 501–1.000 dari 1.200','Target 1.001–1.200 dari 1.200'])
++ await act(async()=>{select.value='2';select.dispatchEvent(new Event('change',{bubbles:true}))});await until(()=>heading()==='Target 1.001–1.200 dari 1.200'&&rows()>0)
++ expect(button('Target berikutnya')!.disabled).toBe(true);expect(button('Target sebelumnya')!.disabled).toBe(false)
++ expect(names().filter(n=>n==='erp_cp7_read_analysis_page_v1')).toHaveLength(3)
++ // The background request is finished and the run is remembered by its identity.
++ expect(readAnalysisJobRequest(scope).pending).toBeNull();expect(readAnalysisArchive(scope).rows[0]).toMatchObject({runId:s.runId,requestId:s.manifest.request_id})
++ expect(container.querySelector('[role="alert"]')).toBeNull()
++},30000)
++
++it('refuses a tampered page: nothing of it is shown, the summary stays the whole-run summary',async()=>{
++ client.rpc.mockImplementation(server(async(i)=>{const p=s.page(i);return{data:i===0?await rehash(p,p.body.replace('SOURCE_INPUT_NOT_PROVEN','SOURCE_INPUT_NOT_PROVEX')):p,error:null}}))
++ await render();await click('Hitung di latar belakang');await until(()=>alertText().includes('belum sesuai'))
++ expect(rows()).toBe(0);expect(container.querySelector('[data-page-index]')).toBeNull();expect(view()).toBeTruthy()
++ expect(container.querySelector('[aria-label="Ringkasan seluruh analisis bertahap"] h3')!.textContent).toBe('Ringkasan seluruh analisis · 1.200 target')
++ await click('Target berikutnya');await until(()=>rows()>0);expect(heading()).toBe('Target 501–1.000 dari 1.200')
++},30000)
++
++it('drops the staged view when the access epoch is refused for a page',async()=>{
++ client.rpc.mockImplementation(server(async(i)=>i===0?{data:s.page(0),error:null}:{data:null,error:{code:'42501',message:'CP7_ANALYSIS_ACCESS_CHANGED'}}))
++ await render();await click('Hitung di latar belakang');await until(()=>rows()>0)
++ await click('Target berikutnya');await until(()=>Boolean(container.querySelector('[role="alert"]')))
++ expect(view()).toBeNull();expect(rows()).toBe(0)
++},30000)
++
++it('refuses a staged run whose header does not match its hash; the background request is kept',async()=>{
++ const base=server()
++ client.rpc.mockImplementation(async(name:string,args:Args)=>{
++  const r=await base(name,args) as {data:Record<string,any>|null;error:unknown}
++  if(name==='erp_cp7_read_analysis_pages_v1')return{data:{...r.data,header:{...r.data!.header,body:r.data!.header.body.replace('"TEST"','"TESX"')}},error:null}
++  return r
++ })
++ await render();await click('Hitung di latar belakang');await until(()=>alertText().includes('belum sesuai'))
++ expect(view()).toBeNull();expect(names()).not.toContain('erp_cp7_read_analysis_page_v1');expect(readAnalysisJobRequest(scope).pending).not.toBeNull()
++},30000)
++
++it('opens an archived staged run by page and re-checks it with the current access epoch',async()=>{
++ const h=JSON.parse(s.manifest.header.body)
++ rememberAnalysis(scope,{runId:s.runId,requestId:s.manifest.request_id,query:q(),analysis:h.analysis_header})
++ let epoch='a'.repeat(64)
++ client.rpc.mockImplementation(async(name:string,args:Args)=>{
++  if(name==='erp_cp7_read_analysis_v1')return PAGED
++  if(name==='erp_cp7_read_analysis_pages_v1')return{data:{...s.manifest,access_epoch:epoch},error:null}
++  if(name==='erp_cp7_read_analysis_page_v1'){expect(args.p_access).toBe(epoch);return{data:s.page(args.p_index!),error:null}}
++  throw Error('unexpected '+name)
++ })
++ await render();await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip analisis 1"]')!.click());await until(()=>rows()>0)
++ expect(names()).toEqual(['erp_cp7_read_analysis_v1','erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1'])
++ await click('Target berikutnya');await until(()=>heading()==='Target 501–1.000 dari 1.200'&&rows()>0)
++ epoch='b'.repeat(64);await click('Periksa sumber analisis');await until(()=>heading()==='Target 501–1.000 dari 1.200'&&rows()>0)
++ expect(names().slice(-2)).toEqual(['erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1']);expect(client.rpc.mock.calls.at(-1)![1]).toEqual({p_run:s.runId,p_index:1,p_access:'b'.repeat(64)})
++ expect(container.querySelector('[role="alert"]')).toBeNull()
++},30000)
+diff --git a/src/NativeAnalysisPanel.tsx b/src/NativeAnalysisPanel.tsx
+index 720ab2c0..ba6a1279 100644
+--- a/src/NativeAnalysisPanel.tsx
++++ b/src/NativeAnalysisPanel.tsx
+@@ -8,6 +8,8 @@ import {readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequ
+ import {parseAnalysisJob,parseAnalysisManifest,assembleAnalysisOriginal,readAnalysisJobRequest,persistAnalysisJobRequest,clearAnalysisJobRequest,analysisJobKey,analysisJobFailureText,analysisSinceText,analysisOversized,ANALYSIS_DOCUMENT_UTF8_BYTES,type AnalysisJob} from './nativeAnalysisTransport'
+ import {parseNativeAnalysis,assertSameAnalysis,analysisProductLabel,analysisReport,analysisPrompt,analysisWarningLabel,type NativeAnalysis} from './nativeAnalysis'
+ import {analysisArchiveKey,readAnalysisArchive,rememberAnalysis,checkAnalysisPointer,parseNativeArchivePage,type NativeArchivePage,type AnalysisPointer} from './nativeAnalysisArchive'
++import {parseAnalysisPagesManifest,parseAnalysisHeader,parseAnalysisPage,analysisRunPaged,type StagedAnalysis,type AnalysisPage} from './nativeAnalysisPages'
++import NativeStagedAnalysisView from './NativeStagedAnalysisView'
+ import {parseNativeAttention,readAttentionRequest,persistAttentionRequest,clearAttentionRequest,attentionRequestKey,type NativeAttention,type AttentionAction,type AttentionRequest} from './nativeAnalysisAttention'
+ import {parseNativeReceivableConditions,receivableStateLabel,type NativeReceivableConditions} from './nativeReceivableConditions'
+ import {parseNativePayableConditions,payableStateLabel,payableDueBasisLabel,type NativePayableConditions} from './nativePayableConditions'
+@@ -52,7 +54,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+  const sameFinance=(r:NativeDemandRequest,a:NativeAnalysis)=>{if(requestFinance(r)==='DEFERRED'&&a.finance)throw Error('Analisis tanpa keuangan dari server memuat angka keuangan.');return a}
+  const[fabricRecovery,setFabricRecovery]=useState(()=>readFabricRequest(scope))
+  const[stockDetail,setStockDetail]=useState<string|null>(null)
+- const planReadStart=useCallback(()=>{++sequence.current;setStockDetail(null);setData(null);setAttention(null);setReceivables(null);setPayables(null);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);onSourceReadStart()},[onSourceReadStart])
++ const planReadStart=useCallback(()=>{++sequence.current;++pageSequence.current;setStockDetail(null);setData(null);setStaged(null);setStagedPage(null);setPageLoading(null);setAttention(null);setReceivables(null);setPayables(null);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);onSourceReadStart()},[onSourceReadStart])
+  const[data,setData]=useState<NativeAnalysis|null>(null),[recovery,setRecovery]=useState(()=>readNativeDemandRequest(scope)),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState(''),[view,setView]=useState<View>('PRODUCTION'),[search,setSearch]=useState(''),[question,setQuestion]=useState('Apa yang perlu diperiksa sebelum rencana produksi diterapkan?')
+  const[handoff,setHandoff]=useState<{kind:'REPORT'|'AI';text:string}|null>(null)
+  const[archive,setArchive]=useState(()=>readAnalysisArchive(scope))
+@@ -65,16 +67,37 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+  const[ruleRecovery,setRuleRecovery]=useState(()=>readRuleRequest(scope))
+  const[policyRecovery,setPolicyRecovery]=useState(()=>readReminderPolicyRequest(scope))
+  const[serverArchive,setServerArchive]=useState<NativeArchivePage|null>(null)
++ // P19: a staged run is shown as its header plus one verified page of targets.
++ const[staged,setStaged]=useState<StagedAnalysis|null>(null),[stagedPage,setStagedPage]=useState<AnalysisPage|null>(null),[pageLoading,setPageLoading]=useState<number|null>(null),pageSequence=useRef(0)
+  const[attention,setAttention]=useState<NativeAttention|null>(null),[attentionRecovery,setAttentionRecovery]=useState(()=>readAttentionRequest(scope)),[attentionDrafts,setAttentionDrafts]=useState<Record<string,AttentionDraft>>({})
+- const begin=()=>{const n=++sequence.current;active.current=true;setBusy(true);setStockDetail(null);setData(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setError('');setMessage('');setJob(null);setComputingSince(null);setProgress('');onSourceReadStart();return n}
++ const begin=()=>{const n=++sequence.current;++pageSequence.current;active.current=true;setBusy(true);setStockDetail(null);setData(null);setStaged(null);setStagedPage(null);setPageLoading(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setError('');setMessage('');setJob(null);setComputingSince(null);setProgress('');onSourceReadStart();return n}
+  const end=(n:number)=>{if(n===sequence.current){active.current=false;setBusy(false);setComputingSince(null);setProgress('');setJobRecovery(readAnalysisJobRequest(scope));setPolicyRecovery(readReminderPolicyRequest(scope));setRuleRecovery(readRuleRequest(scope));setFabricRecovery(readFabricRequest(scope));onSourceReadEnd()}}
+  useEffect(()=>()=>{++sequence.current;if(active.current){active.current=false;onSourceReadEnd()}},[onSourceReadEnd])
+- useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||[nativeDemandRequestKey(scope),analysisArchiveKey(scope),attentionRequestKey(scope),obligationRequestKey(scope),obligationReportRequestKey(scope),reportRequestKey(scope),reminderPolicyRequestKey(scope),ruleRequestKey(scope),fabricRequestKey(scope),analysisJobKey(scope)].includes(e.key)){setJob(null);setJobRecovery(readAnalysisJobRequest(scope));++sequence.current;active.current=false;setBusy(false);setStockDetail(null);setData(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setEpisodeRecovery(readObligationRequest(scope));setPolicyRecovery(readReminderPolicyRequest(scope));setRuleRecovery(readRuleRequest(scope));setRecovery(readNativeDemandRequest(scope));setFabricRecovery(readFabricRequest(scope));setAttentionRecovery(readAttentionRequest(scope));setArchive(readAnalysisArchive(scope));onSourceReadStart();onSourceReadEnd()}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope,onSourceReadStart,onSourceReadEnd])
++ useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||[nativeDemandRequestKey(scope),analysisArchiveKey(scope),attentionRequestKey(scope),obligationRequestKey(scope),obligationReportRequestKey(scope),reportRequestKey(scope),reminderPolicyRequestKey(scope),ruleRequestKey(scope),fabricRequestKey(scope),analysisJobKey(scope)].includes(e.key)){setJob(null);setJobRecovery(readAnalysisJobRequest(scope));++sequence.current;++pageSequence.current;active.current=false;setBusy(false);setStockDetail(null);setData(null);setStaged(null);setStagedPage(null);setPageLoading(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setEpisodeRecovery(readObligationRequest(scope));setPolicyRecovery(readReminderPolicyRequest(scope));setRuleRecovery(readRuleRequest(scope));setRecovery(readNativeDemandRequest(scope));setFabricRecovery(readFabricRequest(scope));setAttentionRecovery(readAttentionRequest(scope));setArchive(readAnalysisArchive(scope));onSourceReadStart();onSourceReadEnd()}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope,onSourceReadStart,onSourceReadEnd])
+  const requireNoAttentionRequest=(allowPolicy=false,allowRule=false,allowFabric=false)=>{const fabric=readFabricRequest(scope);setFabricRecovery(fabric);if(!allowFabric&&(fabric.pending||fabric.error))throw Error(fabric.error??'Pastikan hasil resep kain yang tertunda terlebih dahulu.');const appendix=readObligationReportRequest(scope);if(appendix.pending||appendix.error)throw Error(appendix.error??'Pastikan hasil lampiran yang tertunda terlebih dahulu.');const rule=readRuleRequest(scope);setRuleRecovery(rule);if(!allowRule&&(rule.error||rule.pending))throw Error(rule.error??'Pastikan hasil pemeriksaan kondisi atau pratinjau lokal yang tertunda terlebih dahulu.');const policy=readReminderPolicyRequest(scope);setPolicyRecovery(policy);if(!allowPolicy&&(policy.error||policy.pending))throw Error(policy.error??'Pastikan hasil pengaturan pengingat yang tertunda terlebih dahulu.');const report=readReportRequest(scope);if(report.error||report.pending)throw Error(report.error??'Pastikan hasil laporan tersimpan terlebih dahulu.');const ep=readObligationRequest(scope);setEpisodeRecovery(ep);if(ep.error||ep.pending)throw Error(ep.error??'Pastikan hasil pemeriksaan tagihan tersimpan terlebih dahulu.');const held=readAttentionRequest(scope);setAttentionRecovery(held);if(held.error||held.pending)throw Error(held.error??'Pastikan hasil perhatian tersimpan terlebih dahulu.')}
+  // P19: an Original above the single-body bound is read as a verified manifest
+  // plus segments of the same run; nothing partial is ever shown.
+- const fetchOriginal=async(runId:string,q:NativeDemandQuery,n:number,requestId:string|null):Promise<NativeAnalysis|null>=>{
+-  const m=await client.rpc('erp_cp7_read_analysis_manifest_v1',{p_run:runId});if(n!==sequence.current)return null;if(m.error)throw m.error
++ // A staged run refuses whole reads (CP7_ANALYSIS_RUN_PAGED); it is read as
++ // its verified header and pages instead, never assembled.
++ const fetchStaged=async(runId:string,q:NativeDemandQuery,n:number,requestId:string|null):Promise<StagedAnalysis|null>=>{
++  const r=await client.rpc('erp_cp7_read_analysis_pages_v1',{p_run:runId});if(n!==sequence.current)return null;if(r.error)throw r.error
++  const manifest=parseAnalysisPagesManifest(r.data,runId,requestId),header=await parseAnalysisHeader(manifest,q,actor,financeAccess)
++  return n===sequence.current?{kind:'STAGED',manifest,header}:null
++ }
++ const isStaged=(v:NativeAnalysis|StagedAnalysis):v is StagedAnalysis=>(v as StagedAnalysis).kind==='STAGED'
++ const loadPage=async(s:StagedAnalysis,index:number)=>{
++  const generation=sequence.current,k=++pageSequence.current,current=()=>generation===sequence.current&&k===pageSequence.current
++  setPageLoading(index);setStagedPage(null);setError('')
++  try{
++   const r=await client.rpc('erp_cp7_read_analysis_page_v1',{p_run:s.manifest.runId,p_index:index,p_access:s.manifest.accessEpoch});if(!current())return;if(r.error)throw r.error
++   const page=await parseAnalysisPage(r.data,s.manifest,s.header,index);if(current())setStagedPage(page)
++  }catch(e){if(current()){const failure=normalizeClientError(e);setStagedPage(null);setError(failure.message);if(failure.code==='FORBIDDEN')setStaged(null)}}
++  finally{if(current())setPageLoading(null)}
++ }
++ const showStaged=async(s:StagedAnalysis)=>{setStaged(s);setStagedPage(null);if(s.manifest.pageCount)await loadPage(s,0)}
++ const stagedIdentity=(s:StagedAnalysis)=>({runId:s.manifest.runId,requestId:s.manifest.requestId,query:s.header.query,analysis:s.header.analysisHeader})
++ const fetchOriginal=async(runId:string,q:NativeDemandQuery,n:number,requestId:string|null):Promise<NativeAnalysis|StagedAnalysis|null>=>{
++  const m=await client.rpc('erp_cp7_read_analysis_manifest_v1',{p_run:runId});if(n!==sequence.current)return null;if(m.error){if(analysisRunPaged(m.error))return fetchStaged(runId,q,n,requestId);throw m.error}
+   const manifest=parseAnalysisManifest(m.data,runId,requestId)
+   const original=await assembleAnalysisOriginal(manifest,async index=>{const s=await client.rpc('erp_cp7_read_analysis_segment_v1',{p_run:runId,p_index:index,p_access:manifest.accessEpoch});if(n!==sequence.current)throw Error('Pembacaan diganti permintaan yang lebih baru.');if(s.error)throw s.error;return s.data},(done,total)=>{if(n===sequence.current)setProgress(`Mengambil hasil lengkap: bagian ${done} dari ${total}.`)})
+   if(n!==sequence.current)return null
+@@ -83,10 +106,11 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+  const largeCapture=async(r:NativeDemandRequest,n:number)=>{
+   const j=await requestJob(r);if(n!==sequence.current)return null;if(j.error)throw j.error
+   const status=parseAnalysisJob(j.data,r.id,r.q);if(status.state!=='DONE'||!status.runId)throw Error('Hasil analisis besar belum tersedia di server.')
+-  const full=await fetchOriginal(status.runId,r.q,n,r.id);return full&&sameFinance(r,full)
++  const full=await fetchOriginal(status.runId,r.q,n,r.id);if(full&&isStaged(full))throw Error('Hasil pengambilan biasa tidak boleh berupa analisis bertahap.')
++  return full&&sameFinance(r,full)
+  }
+- const readRun=async(runId:string,q:NativeDemandQuery,n:number,large=false):Promise<NativeAnalysis|null>=>{
+-  if(!large){const response=await client.rpc('erp_cp7_read_analysis_v1',{p_run:runId});if(n!==sequence.current)return null;if(response.error)throw response.error;if(!analysisOversized(response.data))return parseNativeAnalysis(response.data,q,actor,financeAccess)}
++ const readRun=async(runId:string,q:NativeDemandQuery,n:number,large=false):Promise<NativeAnalysis|StagedAnalysis|null>=>{
++  if(!large){const response=await client.rpc('erp_cp7_read_analysis_v1',{p_run:runId});if(n!==sequence.current)return null;if(response.error){if(analysisRunPaged(response.error))return fetchStaged(runId,q,n,null);throw response.error}if(!analysisOversized(response.data))return parseNativeAnalysis(response.data,q,actor,financeAccess)}
+   return fetchOriginal(runId,q,n,null)
+  }
+  const largeAnalysis=(a:NativeAnalysis)=>new TextEncoder().encode(JSON.stringify(a.analysis)).byteLength>8000000
+@@ -99,7 +123,10 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+   while(status.state==='RUNNING'){await new Promise(done=>setTimeout(done,2000));if(n!==sequence.current)return;const next=await client.rpc('erp_cp7_get_analysis_job_v1',{p_request:r.id});if(n!==sequence.current)return;if(next.error)throw next.error;status=parseAnalysisJob(next.data,r.id,r.q);setJob(status)}
+   if(status.state==='FAILED'){setError(analysisJobFailureText(status.failure!));return}
+   if(status.state!=='DONE'||!status.runId)return
+-  const full=await fetchOriginal(status.runId,r.q,n,r.id);if(!full)return;sameFinance(r,full)
++  const full=await fetchOriginal(status.runId,r.q,n,r.id);if(!full)return
++  if(isStaged(full)){if(requestFinance(r)==='DEFERRED'&&full.header.finance)throw Error('Analisis tanpa keuangan dari server memuat angka keuangan.')
++   rememberAnalysis(scope,stagedIdentity(full));setArchive(readAnalysisArchive(scope));clearAnalysisJobRequest(scope,r.id);setJobRecovery(readAnalysisJobRequest(scope));setJob(null);await showStaged(full);return}
++  sameFinance(r,full)
+   rememberAnalysis(scope,full);setArchive(readAnalysisArchive(scope));clearAnalysisJobRequest(scope,r.id);setJobRecovery(readAnalysisJobRequest(scope));setJob(null);setData(full)
+  }
+  const startBackground=async()=>{const n=begin();try{
+@@ -119,17 +146,24 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+   const parsed=analysisOversized(response.data)?await largeCapture(r,n):sameFinance(r,parseNativeAnalysis(response.data,r.q,actor,financeAccess));if(!parsed)return;if(parsed.requestId!==r.id)throw Error('Permintaan analisis server berubah.');rememberAnalysis(scope,parsed);setArchive(readAnalysisArchive(scope));clearNativeDemandRequest(scope,r.id);setRecovery(readNativeDemandRequest(scope));setData(parsed)
+  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+  const check=async(copy:'REPORT'|'AI'|null=null):Promise<NativeAnalysis|null>=>{if(!data)return null;const previous=data,n=begin();try{
+-  const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return null;assertSameAnalysis(previous,parsed);setData(parsed)
++  const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return null;if(isStaged(parsed))throw Error('Bentuk analisis server berubah.');assertSameAnalysis(previous,parsed);setData(parsed)
+   if(copy){if(parsed.state!=='UNCHANGED')throw Error('Sumber sudah berubah. Ambil analisis baru sebelum menyalin laporan atau pertanyaan.');const text=copy==='REPORT'?analysisReport(parsed):analysisPrompt(parsed,question);setHandoff({kind:copy,text});if(new TextEncoder().encode(text).byteLength>1000000){setMessage('Data lengkap sudah diperiksa. Salinan otomatis terlalu besar; pilih teks dan salin manual.');return parsed}try{await navigator.clipboard.writeText(text);if(n===sequence.current)setMessage(copy==='REPORT'?'Laporan disalin.':'Pertanyaan dan data sumber disalin; siap ditinjau di AI pilihanmu.')}catch{if(n===sequence.current)setMessage('Salin otomatis gagal. Pilih teks yang sudah diperiksa dan salin manual.')}}
+   return parsed
+  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message);return null}finally{end(n)}}
+  const openAi=async()=>{if(!data||!handoff||handoff.kind!=='AI')return;const previous=data,n=begin();let popup:Window|null=null;try{
+   try{popup=window.open('about:blank','_blank');if(popup)popup.opener=null}catch{popup=null}
+-  const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return;assertSameAnalysis(previous,parsed);setData(parsed)
++  const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return;if(isStaged(parsed))throw Error('Bentuk analisis server berubah.');assertSameAnalysis(previous,parsed);setData(parsed)
+   if(parsed.state!=='UNCHANGED')throw Error('Sumber sudah berubah. Ambil analisis baru sebelum membuka AI.');setHandoff({kind:'AI',text:analysisPrompt(parsed,question)})
+   if(popup){popup.location.href='https://chatgpt.com/';popup=null;setMessage('ChatGPT dibuka. Tempel data yang sudah diperiksa secara manual.')}else setMessage('Tab diblokir. Gunakan tautan manual ChatGPT, lalu tempel data yang sudah diperiksa.')
+  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{if(popup)try{popup.close()}catch{}end(n)}}
+- const openArchive=async(p:AnalysisPointer)=>{const n=begin();try{const parsed=await readRun(p.runId,p.query,n);if(!parsed)return;checkAnalysisPointer(p,parsed);setData(parsed)}catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
++ const openArchive=async(p:AnalysisPointer)=>{const n=begin();try{const parsed=await readRun(p.runId,p.query,n);if(!parsed)return;if(isStaged(parsed)){checkAnalysisPointer(p,stagedIdentity(parsed));await showStaged(parsed);return}checkAnalysisPointer(p,parsed);setData(parsed)}catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
++ // Re-reads the staged run's page set under current access: the same header,
++ // document and pages, then the page that was open, with the new access epoch.
++ const checkStaged=async()=>{if(!staged)return;const previous=staged,index=stagedPage?.index??0,n=begin();try{
++  const s=await fetchStaged(previous.manifest.runId,previous.header.query,n,previous.manifest.requestId);if(!s)return
++  if(s.manifest.header.sha256!==previous.manifest.header.sha256||s.manifest.document.sha256!==previous.manifest.document.sha256||JSON.stringify(s.manifest.pages)!==JSON.stringify(previous.manifest.pages))throw Error('Analisis bertahap server berubah.')
++  setStaged(s);if(s.manifest.pageCount)await loadPage(s,Math.min(index,s.manifest.pageCount-1))
++ }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+  const listServerArchives=async(before:string|null=null)=>{const n=begin();try{requireNoAttentionRequest();const response=await client.rpc('erp_cp7_list_analysis_archives_v1',{p_query:{before_run:before,limit:25}});if(n!==sequence.current)return;if(response.error)throw response.error;const parsed=parseNativeArchivePage(response.data,actor,25);if(before&&parsed.rows.some(p=>p.runId===before))throw Error('Halaman arsip server berulang.');setServerArchive(parsed);setView('REPORT')}catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+  const close=useCallback(()=>{++sequence.current;if(active.current){active.current=false;onSourceReadEnd()}onClose()},[onSourceReadEnd,onClose])
+  const loadAttention=async()=>{if(!data)return;const previous=data,n=begin();try{requireNoAttentionRequest();const response=await client.rpc('erp_cp7_get_analysis_attention_v1',{p_run:previous.runId});if(n!==sequence.current)return;if(response.error)throw response.error;const parsed=parseNativeAttention(response.data,previous.query,actor,financeAccess);assertSameAnalysis(previous,parsed.analysis);if(parsed.result)throw Error('Jawaban perhatian tidak sesuai permintaan baca.');setAttention(parsed);setData(parsed.analysis)}catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
+@@ -171,7 +205,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+  const heldAppendix=readObligationReportRequest(scope),heldReport=readReportRequest(scope)
+  const blocked=busy||Boolean(fabricRecovery.pending||fabricRecovery.error)||Boolean(ruleRecovery.pending||ruleRecovery.error)||Boolean(policyRecovery.pending||policyRecovery.error)||Boolean(heldReport.pending||heldReport.error||recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error),x=data?.analysis,rows=x?.recommendations.filter(r=>analysisProductLabel(r,data??undefined).toLowerCase().includes(search.toLowerCase()))??[]
+  return<section className="native-analysis panel" aria-label="Analisis ERP bersama"><header><div><div className="eyebrow">PERENCANAAN · DATA ERP</div><h2>Analisis, laporan & pengingat</h2><p>Stok, rincian, produksi, laporan, pengingat dan Tanya AI memakai hasil analisis yang sama untuk seluruh produk.</p></div><button disabled={busy} onClick={close}>Tutup analisis bersama</button></header>
+-  <div className="native-analysis-actions">{financeAccess.ownerReports?<label><input type="checkbox" checked={withFinance} disabled={blocked} onChange={e=>setWithFinance(e.target.checked)}/>Sertakan angka keuangan (menunggu buku besar)</label>:null}<button disabled={blocked} onClick={()=>void load()}>Ambil analisis ERP terbaru</button><button disabled={blocked||Boolean(jobRecovery.pending||jobRecovery.error)} onClick={()=>void startBackground()}>Hitung di latar belakang</button>{data?<button disabled={blocked} onClick={()=>void check()}>Periksa sumber analisis</button>:null}</div>
++  <div className="native-analysis-actions">{financeAccess.ownerReports?<label><input type="checkbox" checked={withFinance} disabled={blocked} onChange={e=>setWithFinance(e.target.checked)}/>Sertakan angka keuangan (menunggu buku besar)</label>:null}<button disabled={blocked} onClick={()=>void load()}>Ambil analisis ERP terbaru</button><button disabled={blocked||Boolean(jobRecovery.pending||jobRecovery.error)} onClick={()=>void startBackground()}>Hitung di latar belakang</button>{data?<button disabled={blocked} onClick={()=>void check()}>Periksa sumber analisis</button>:staged?<button disabled={blocked||pageLoading!==null} onClick={()=>void checkStaged()}>Periksa sumber analisis</button>:null}</div>
+   {busy?<p role="status">{job&&(job.state==='RUNNING'||job.state==='WAITING')?analysisSinceText(job.startedAt)+(job.attempts>1?` Percobaan ke-${job.attempts}.`:''):computingSince?analysisSinceText(computingSince):'Memeriksa sumber ERP dan hak akses saat ini…'}</p>:null}{busy&&progress?<p role="status">{progress}</p>:null}{error||recovery.error?<p role="alert">{error||recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
+   {recovery.pending?<div role="status"><p>Hasil permintaan analisis belum dipastikan.</p><button disabled={busy} onClick={()=>void load(true)}>Ulangi analisis yang sama</button></div>:null}
+   {jobRecovery.error?<p role="alert">{jobRecovery.error}</p>:null}{jobRecovery.pending&&!busy?<div role="status"><p>{job?.state==='WAITING'?'Perhitungan latar belakang belum berjalan atau terhenti sebelum selesai. Tidak ada hasil yang disimpan.':job?.state==='FAILED'?'Perhitungan latar belakang belum berhasil.':'Perhitungan latar belakang tersimpan belum dipastikan.'}</p><button disabled={busy} onClick={()=>void resumeBackground(true)}>Lanjutkan perhitungan yang sama</button></div>:null}
+@@ -198,6 +232,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+     {view==='AI'?<><h3>Tanya AI dengan sumber yang diperiksa</h3><label>Pertanyaanmu<textarea aria-label="Pertanyaan analisis ERP" value={question} maxLength={10000} disabled={busy} onChange={e=>{setQuestion(e.target.value);setHandoff(null);setMessage('')}}/></label><button disabled={blocked||data.state!=='UNCHANGED'||!question.trim()} onClick={()=>void check('AI')}>Periksa & salin pertanyaan untuk AI</button><p>Salin pertanyaan dan sumber, lalu buka AI pilihanmu. Jawaban AI tetap perlu ditinjau.</p>{handoff?.kind==='AI'?<><label>Data lengkap yang sudah diperiksa<textarea readOnly rows={16} aria-label="Salinan manual pertanyaan dan sumber ERP" value={handoff.text} onFocus={e=>e.currentTarget.select()}/></label><button disabled={blocked||data.state!=='UNCHANGED'} onClick={()=>void openAi()}>Periksa sumber & buka ChatGPT</button><a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Tautan manual ChatGPT</a><p>Data ikut lengkap dan tidak dipotong. Pertanyaan dan data tidak dimasukkan ke tautan.</p></>:null}<pre aria-label="Pertanyaan dan sumber ERP">{analysisPrompt(data,question)}</pre></>:null}
+    </div><details><summary>Asumsi dan batas data</summary>{x.assumptions.map(a=><p key={a.id}>{a.label} · {a.confirmed_for_operation?'Dikonfirmasi untuk operasi':'Belum dikonfirmasi untuk operasi'}.</p>)}{x.generation_warnings.map((w,i)=><p key={`${w}:${i}`}>{analysisWarningLabel(w)}</p>)}<p>Hash hasil {x.semantic_hash}</p></details>
+   </article>:null}
++  {staged?<NativeStagedAnalysisView staged={staged} page={stagedPage} loading={pageLoading} blocked={blocked||pageLoading!==null} ownerReports={financeAccess.ownerReports} onPage={index=>void loadPage(staged,index)}/>:null}
+  <div hidden={view!=='PRODUCTION'&&!fabricRecovery.pending&&!fabricRecovery.error}><NativeFabricRecipePanel context={data} generation={sequence.current} blocked={busy||Boolean(ruleRecovery.pending||ruleRecovery.error||policyRecovery.pending||policyRecovery.error||heldReport.pending||heldReport.error||heldAppendix.pending||heldAppendix.error||recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('PRODUCTION')}}} requireClear={()=>{requireNoAttentionRequest(false,false,true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>
+  <div hidden={view!=='REMINDER'&&!ruleRecovery.pending&&!ruleRecovery.error}><NativeRuleSourcePanel context={data} generation={sequence.current} blocked={busy||Boolean(recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error||policyRecovery.pending||policyRecovery.error||heldReport.pending||heldReport.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('REMINDER');setRuleRecovery(readRuleRequest(scope))}}} requireClear={()=>{requireNoAttentionRequest(false,true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>
+  <div hidden={view!=='REMINDER'&&!policyRecovery.pending&&!policyRecovery.error}><NativeReminderPolicyPanel context={data} generation={sequence.current} blocked={busy||Boolean(ruleRecovery.pending||ruleRecovery.error)||Boolean(recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error||heldReport.pending||heldReport.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('REMINDER');setPolicyRecovery(readReminderPolicyRequest(scope))}}} requireClear={()=>{requireNoAttentionRequest(true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>
+diff --git a/src/NativeStagedAnalysisView.tsx b/src/NativeStagedAnalysisView.tsx
+new file mode 100644
+index 00000000..21f86712
+--- /dev/null
++++ b/src/NativeStagedAnalysisView.tsx
+@@ -0,0 +1,46 @@
++import {formatCp6WibDateTime} from './cp6BusinessTime'
++import {formatFact} from './cp7/workspace'
++import {analysisWarningLabel} from './nativeAnalysis'
++import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage} from './nativeAnalysisPages'
++
++// A staged run (up to 5,000 targets) shown as its header plus ONE page of
++// targets at a time. Every whole-run number below comes from the server's page
++// set; the page only ever speaks for its own target range.
++type Props={staged:StagedAnalysis;page:AnalysisPage|null;loading:number|null;blocked:boolean;ownerReports:boolean;onPage:(index:number)=>void}
++const stateLabel=(s:string)=>s==='ACTIVE'?'Aktif':s==='PAUSED'?'Ditunda':s==='STOPPED'?'Dihentikan':'Status lain'
++export default function NativeStagedAnalysisView({staged,page,loading,blocked,ownerReports,onPage}:Props){
++ const m=staged.manifest,h=staged.header,x=h.analysisHeader,t=m.totals,n=stagedNumber
++ const current=loading??page?.index??0,range=(i:number)=>stagedRangeLabel(m.pages[i].targetLo,m.pages[i].targetHi,m.targetsTotal)
++ const label=(key:string)=>{const l=h.labels.find(l=>l.key===key);return l?`${l.sku} · ${l.name}`:key}
++ return<article className="native-analysis-result" aria-label="Analisis bertahap per halaman target" data-run-id={m.runId} data-semantic-hash={m.semanticHash}>
++  <p className={m.sourceState==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{m.sourceState==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: sumber berubah. Ambil analisis baru.'} Diambil {formatCp6WibDateTime(x.snapshot.generated_at)}.</p>
++  <p className="native-analysis-run">Analisis bertahap <span>{m.runId}</span> · jadwal versi {x.scenario.version}.</p>
++  <section aria-label="Ringkasan seluruh analisis bertahap">
++   <h3>Ringkasan seluruh analisis · {n(m.targetsTotal)} target</h3>
++   <p>Angka di bagian ini dihitung server dari seluruh {n(m.targetsTotal)} target, bukan dari halaman target yang sedang dibuka.</p>
++   <ul>
++    <li data-total="ACTIVE">Status produksi aktif: {n(t.recommendations.ACTIVE)} target</li>
++    <li data-total="PAUSED">Ditunda: {n(t.recommendations.PAUSED)} target</li>
++    <li data-total="STOPPED">Dihentikan: {n(t.recommendations.STOPPED)} target</li>
++    {t.recommendations.OTHER?<li data-total="OTHER">Status produksi lain: {n(t.recommendations.OTHER)} target</li>:null}
++    <li data-total="POLICY_UNREVIEWED">Status produksi belum diperiksa: {n(t.policyUnreviewed)} target</li>
++    <li data-total="TIMELINE">Baris linimasa seluruh target: {n(t.items.timeline??0)} · kebutuhan bahan seluruh target: {n(t.items.material_needs??0)}</li>
++   </ul>
++   <p>Bahan dan produksi baru belum dipastikan. {h.finance?`Laporan keuangan ERP disertakan; kesiapan ${h.finance.report.snapshot.data_confidence.status}.`:ownerReports?'Angka keuangan belum dimuat pada hasil ini. Keuangan dan HPP tidak dianggap nol.':'Keuangan dan HPP belum tercakup.'} Angka belum diketahui tetap ditampilkan apa adanya.</p>
++   <p>Laporan, pengingat, Tanya AI, rincian stok dan rencana potong memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
++  </section>
++  {m.pageCount===0?<p>Analisis ini tidak memuat rincian per target.</p>:<section aria-label="Target per halaman">
++   <h3>{range(current)}</h3>
++   <nav aria-label="Halaman target analisis"><button disabled={blocked||current===0} onClick={()=>onPage(current-1)}>Target sebelumnya</button><span>Halaman {n(current+1)} dari {n(m.pageCount)}</span><button disabled={blocked||current>=m.pageCount-1} onClick={()=>onPage(current+1)}>Target berikutnya</button></nav>
++   <label>Pilih rentang target<select aria-label="Pilih rentang target" value={current} disabled={blocked} onChange={e=>onPage(Number(e.target.value))}>{m.pages.map(p=><option key={p.index} value={p.index}>{range(p.index)}</option>)}</select></label>
++   {loading!==null?<p role="status">Mengambil {range(loading).replace(/^Target/,'target')}…</p>:null}
++   {page&&loading===null?<div aria-label={`Isi ${range(page.index)}`} data-page-index={page.index}>
++    <p>Halaman ini hanya memuat {range(page.index).replace(/^Target/,'target')}: {n(page.items.recommendations.length)} rekomendasi dan {n(page.summary.policyUnreviewed)} target dengan status produksi belum diperiksa.</p>
++    <div className="responsive-table"><table><thead><tr><th>Produk</th><th>Status produksi</th><th>Stok fisik</th><th>Target</th><th>Kurang setelah stok proses terikat</th><th>Kurang setelah pembagian global</th><th>Produksi baru layak</th></tr></thead>
++     <tbody>{page.items.recommendations.map(r=><tr key={r.target.key} data-analysis-target={r.target.key}><td><strong>{label(r.target.key)}</strong></td><td data-label="Status produksi">{stateLabel(r.production_state)}</td><td data-label="Stok fisik">{formatFact(r.actual_fg)}</td><td data-label="Target">{formatFact(r.target_qty)}</td><td data-label="Kurang setelah stok proses terikat">{formatFact(r.q_base)}</td><td data-label="Kurang setelah pembagian global">{formatFact(r.q_conditional)}</td><td data-label="Produksi baru layak">{formatFact(r.feasible_new)}</td></tr>)}</tbody></table></div>
++    {page.items.generation_warnings.length?<details><summary>Target pada halaman ini dengan status produksi belum diperiksa</summary>{page.items.generation_warnings.map(w=><p key={w}>{label(w.slice('PRODUCTION_POLICY_UNREVIEWED:'.length))} · {analysisWarningLabel(w)}</p>)}</details>:null}
++   </div>:null}
++  </section>}
++  <details><summary>Asumsi dan batas data</summary>{x.assumptions.map(a=><p key={a.id}>{a.label} · {a.confirmed_for_operation?'Dikonfirmasi untuk operasi':'Belum dikonfirmasi untuk operasi'}.</p>)}{x.generation_warnings.map((w,i)=><p key={`${w}:${i}`}>{analysisWarningLabel(w)}</p>)}<p>Asumsi per target ada pada halaman targetnya.</p><p>Hash hasil {m.semanticHash}</p><p>Dokumen lengkap {n(m.document.utf8Bytes)} byte dalam {n(m.document.segmentCount)} bagian; hash {m.document.sha256}.</p></details>
++ </article>
++}
+diff --git a/src/nativeAnalysis.ts b/src/nativeAnalysis.ts
+index c6bd3e19..73bc872c 100644
+--- a/src/nativeAnalysis.ts
++++ b/src/nativeAnalysis.ts
+@@ -32,24 +32,18 @@ function matches(s:Schema,v:unknown):boolean{
+  }
+  return true
+ }
++// The frozen analysis schema, whole or for one array's items (staged pages).
++export const analysisSchemaMatches=(v:unknown,arrayField?:string)=>{const root=frozenSchema as unknown as Schema,s=arrayField===undefined?root:root.properties?.[arrayField]?.items;return s!==undefined&&matches(s,v)}
+ const numeric=(f:FactValue)=>'value'in f
+ // Exact decimal quantity scaled to the kernel's twelve fractional digits.
+ function quantity(v:string):bigint{const m=/^(0|[1-9][0-9]{0,29})(?:\.([0-9]{1,12}))?$/.exec(v);if(!m)fail();return BigInt(m[1])*10n**12n+BigInt((m[2]??'').padEnd(12,'0'))}
+-function pcs(f:FactValue):bigint|null{if(!numeric(f))return null;if(f.unit!=='PCS'||!/^(0|[1-9][0-9]*)$/.test(f.value)||f.value.length>39)fail();return BigInt(f.value)}
++export function pcs(f:FactValue):bigint|null{if(!numeric(f))return null;if(f.unit!=='PCS'||!/^(0|[1-9][0-9]*)$/.test(f.value)||f.value.length>39)fail();return BigInt(f.value)}
+ function assertSemantics(x:AnalysisResult){
+  const unique=(a:string[])=>new Set(a).size===a.length
+  if(x.fixture_kind!==undefined||x.snapshot.knowledge_mode!=='CURRENT'||x.stale.is_stale||x.status==='COMPLETE'&&(!x.snapshot.capture_complete||Object.values(x.quality).some(q=>['UNKNOWN','CONFLICT','PARTIAL'].includes(q))))fail()
+  if(!unique(x.sources.map(s=>s.source_key))||!unique(x.recommendations.map(r=>r.target.key))||!unique(x.assumptions.map(a=>a.id))||!unique(x.actions.map(a=>a.key))||!unique(x.dependencies.map(d=>d.domain)))fail()
+  if(x.snapshot.fact_count!==x.dependencies.reduce((n,d)=>n+d.fact_count,0))fail()
+- const aids=new Set(x.assumptions.map(a=>a.id))
+- function visit(v:unknown):void{
+-  if(Array.isArray(v)){v.forEach(visit);return}if(v===null||typeof v!=='object')return
+-  const o=object(v)
+-  if((o.state==='KNOWN'||o.state==='ASSUMED')&&'value'in o){if(typeof o.value!=='string'||!Array.isArray(o.refs)||!o.refs.length)fail()}
+-  if(Array.isArray(o.assumption_ids)&&o.assumption_ids.some(id=>typeof id!=='string'||!aids.has(id)))fail()
+-  Object.values(o).forEach(visit)
+- }
+- visit(x)
++ assertAnalysisFacts(x,new Set(x.assumptions.map(a=>a.id)))
+  const sources=new Map(x.sources.map(s=>[s.source_key,s])),targets=new Map(x.recommendations.map(r=>[r.target.key,r])),totals=new Map<string,{input:bigint;output:bigint}>()
+  for(const e of x.allocation_edges){const s=sources.get(e.source_key),r=targets.get(e.target_key),a=pcs(e.input_qty),b=pcs(e.projected_output_qty)
+   if(!s||!r||s.size_id!==e.size_id||r.target.size_id!==e.size_id||a===null||b===null||b>a||a>0n&&!['CONFIRMED_TARGET','CANDIDATE_MATCH'].includes(e.match))fail()
+@@ -62,8 +56,24 @@ function assertSemantics(x:AnalysisResult){
+   if(r.production_state!=='ACTIVE'&&[r.suggested_new,r.feasible_new].some(f=>numeric(f)&&pcs(f)!==0n))fail()
+  }
+  if(!unique(x.material_needs.map(m=>JSON.stringify([m.target_key,m.material_key]))))fail()
+- for(const m of x.material_needs){
+-  const target=targets.get(m.target_key),facts=[m.gross,m.installed_proven,m.unused_allocated_proven,m.additional_external]
++ for(const m of x.material_needs)assertMaterialNeed(m,targets.get(m.target_key),x.assumptions)
++ for(const a of x.actions){if(a.source_keys.some(k=>!sources.has(k))||a.target_keys.some(k=>!targets.has(k))||a.intent==='START_NEW'&&a.target_keys.some(k=>targets.get(k)?.production_state!=='ACTIVE'))fail()}
++ for(const t of x.timeline){if(!targets.has(t.target_key)||t.timing_basis==='DATE_POLICY'&&!t.timing_policy_id||t.timing_basis==='TIMESTAMP_EVIDENCE'&&!t.event_refs.length)fail()}
++ for(const m of x.metrics){if(m.scope_kind==='TARGET'&&!targets.has(m.scope_key)||m.period_start>m.period_end)fail()}
++}
++// Every KNOWN/ASSUMED fact carries its value and sources; every assumption id
++// names a stated assumption. Shared with the staged page reader.
++export function assertAnalysisFacts(v:unknown,aids:Set<string>):void{
++ if(Array.isArray(v)){v.forEach(a=>assertAnalysisFacts(a,aids));return}if(v===null||typeof v!=='object')return
++ const o=object(v)
++ if((o.state==='KNOWN'||o.state==='ASSUMED')&&'value'in o){if(typeof o.value!=='string'||!Array.isArray(o.refs)||!o.refs.length)fail()}
++ if(Array.isArray(o.assumption_ids)&&o.assumption_ids.some(id=>typeof id!=='string'||!aids.has(id)))fail()
++ Object.values(o).forEach(a=>assertAnalysisFacts(a,aids))
++}
++// One material need against its target and the stated assumptions. Shared
++// with the staged page reader, which holds the target's page.
++export function assertMaterialNeed(m:AnalysisResult['material_needs'][number],target:AnalysisResult['recommendations'][number]|undefined,assumptions:AnalysisResult['assumptions']){
++  const facts=[m.gross,m.installed_proven,m.unused_allocated_proven,m.additional_external]
+   if(!target||new Set(facts.map(f=>f.unit)).size!==1||m.material_key===null&&facts.some(numeric))fail()
+   if(m.material_key?.startsWith('NO_ACCESSORY:')){
+    if(target.target.kind!=='PRODUCT'||m.material_key!==`NO_ACCESSORY:${target.target.product_id}`||facts.some(f=>f.state!=='KNOWN'||!numeric(f)||!/^0(?:\.0+)?$/.test(f.value)||f.unit!=='ACCESSORY_BASE_UNIT'||!f.refs.some(r=>r.kind==='erp.accessory_bom_versions')))fail()
+@@ -81,7 +91,7 @@ function assertSemantics(x:AnalysisResult){
+     uuid(recipe[0].id)
+     if(facts.some(f=>!f.refs.some(r=>r.kind==='CP7_FABRIC_RECIPE'&&r.id===recipe[0].id&&r.revision===recipe[0].revision)))fail()
+     if(numeric(m.gross)&&(m.gross.state!=='ASSUMED'||!m.gross.assumption_ids.includes(recipe[0].id)||!m.gross.refs.some(r=>r.kind==='erp.materials'&&r.id===material&&/^[a-f0-9]{64}$/.test(r.revision??''))))fail()
+-    if(!x.assumptions.some(a=>a.id===recipe[0].id&&a.origin==='OWNER_INPUT'&&a.confirmed_for_operation===false))fail()
++    if(!assumptions.some(a=>a.id===recipe[0].id&&a.origin==='OWNER_INPUT'&&a.confirmed_for_operation===false))fail()
+     // P08 physical facts follow the shared material kernel: installed is only
+     // zero for unstarted conditional PCS, allocated is never negative, and the
+     // external addition can never exceed gross - installed - allocated.
+@@ -93,12 +103,8 @@ function assertSemantics(x:AnalysisResult){
+     if(e!==null&&(g===null||i===null||u===null||e<0n||e>(g-i-u>0n?g-i-u:0n)||!assumed(m.additional_external)))fail()
+    }else fail()
+   }
+- }
+- for(const a of x.actions){if(a.source_keys.some(k=>!sources.has(k))||a.target_keys.some(k=>!targets.has(k))||a.intent==='START_NEW'&&a.target_keys.some(k=>targets.get(k)?.production_state!=='ACTIVE'))fail()}
+- for(const t of x.timeline){if(!targets.has(t.target_key)||t.timing_basis==='DATE_POLICY'&&!t.timing_policy_id||t.timing_basis==='TIMESTAMP_EVIDENCE'&&!t.event_refs.length)fail()}
+- for(const m of x.metrics){if(m.scope_kind==='TARGET'&&!targets.has(m.scope_key)||m.period_start>m.period_end)fail()}
+ }
+-function financeSource(raw:unknown,x:AnalysisResult,q:NativeDemandQuery,access:AnalysisFinanceAccess):NativeAnalysisFinance|null{
++export function financeSource(raw:unknown,x:AnalysisResult,q:NativeDemandQuery,access:AnalysisFinanceAccess):NativeAnalysisFinance|null{
+  const metrics=x.metrics.filter(m=>m.metric_id.startsWith('NATIVE_FINANCE:'))
+  if(raw===null||raw===undefined){if(metrics.length||x.metrics.some(m=>m.value.unit==='IDR')||x.quality.financial!=='UNKNOWN'||x.financial_readiness!=='BLOCKED')fail();return null}
+  if(!access.ownerReports)fail()
+diff --git a/src/nativeAnalysisArchive.ts b/src/nativeAnalysisArchive.ts
+index 975088c9..2d997298 100644
+--- a/src/nativeAnalysisArchive.ts
++++ b/src/nativeAnalysisArchive.ts
+@@ -23,11 +23,14 @@ function pointer(v:unknown):AnalysisPointer{
+  return structuredClone(p)as AnalysisPointer
+ }
+ export function readAnalysisArchive(scope:string):{rows:AnalysisPointer[];error:string}{try{const raw=localStorage.getItem(analysisArchiveKey(scope));if(raw===null)return{rows:[],error:''};const p=JSON.parse(raw);if(!Array.isArray(p)||p.length>50)throw Error('Invalid archive index');const rows=p.map(pointer);if(new Set(rows.map(p=>p.runId)).size!==rows.length)throw Error('Duplicate archive');return{rows,error:''}}catch{return{rows:[],error:'Daftar arsip tersimpan belum dapat dibaca. Catatan lama dipertahankan.'}}}
+-export function rememberAnalysis(scope:string,r:NativeAnalysis){const current=readAnalysisArchive(scope);if(current.error)throw Error(current.error);const p=pointer({runId:r.runId,requestId:r.requestId,query:r.query,capturedAt:r.analysis.snapshot.generated_at,sourceHash:r.analysis.snapshot.source_hash,semanticHash:r.analysis.semantic_hash}),old=current.rows.find(x=>x.runId===p.runId)
++// The identity a pointer keeps: a whole analysis or a staged run's header
++// (whose snapshot and semantic hash are the run's).
++export type AnalysisIdentity=Pick<NativeAnalysis,'runId'|'requestId'|'query'>&{analysis:{snapshot:{generated_at:string;source_hash:string};semantic_hash:string}}
++export function rememberAnalysis(scope:string,r:AnalysisIdentity){const current=readAnalysisArchive(scope);if(current.error)throw Error(current.error);const p=pointer({runId:r.runId,requestId:r.requestId,query:r.query,capturedAt:r.analysis.snapshot.generated_at,sourceHash:r.analysis.snapshot.source_hash,semanticHash:r.analysis.semantic_hash}),old=current.rows.find(x=>x.runId===p.runId)
+  if(old&&JSON.stringify(old)!==JSON.stringify(p))throw Error('Penunjuk arsip lama berubah. Periksa sumber sebelum melanjutkan.')
+  const raw=JSON.stringify([p,...current.rows.filter(x=>x.runId!==p.runId)].slice(0,50));localStorage.setItem(analysisArchiveKey(scope),raw);if(localStorage.getItem(analysisArchiveKey(scope))!==raw)throw Error('Daftar arsip belum tersimpan. Ulangi analisis yang sama.')
+ }
+-export function checkAnalysisPointer(p:AnalysisPointer,r:NativeAnalysis){if(p.runId!==r.runId||p.requestId!==r.requestId||p.capturedAt!==r.analysis.snapshot.generated_at||p.sourceHash!==r.analysis.snapshot.source_hash||p.semanticHash!==r.analysis.semantic_hash)throw Error('Arsip server tidak sesuai penunjuk aslinya.')}
++export function checkAnalysisPointer(p:AnalysisPointer,r:AnalysisIdentity){if(p.runId!==r.runId||p.requestId!==r.requestId||p.capturedAt!==r.analysis.snapshot.generated_at||p.sourceHash!==r.analysis.snapshot.source_hash||p.semanticHash!==r.analysis.semantic_hash)throw Error('Arsip server tidak sesuai penunjuk aslinya.')}
+ 
+ export type NativeArchivePage={rows:AnalysisPointer[];totalVisible:string;nextBeforeRun:string|null;readAt:string}
+ export function parseNativeArchivePage(v:unknown,actor:string,requestedLimit:number):NativeArchivePage{
+diff --git a/src/nativeAnalysisPages.test.ts b/src/nativeAnalysisPages.test.ts
+new file mode 100644
+index 00000000..7610f82e
+--- /dev/null
++++ b/src/nativeAnalysisPages.test.ts
+@@ -0,0 +1,97 @@
++// @vitest-environment jsdom
++import {expect,it} from 'vitest'
++import {parseAnalysisPagesManifest,parseAnalysisHeader,parseAnalysisPage,stagedRangeLabel,analysisRunPaged,ANALYSIS_STAGED_TARGETS,ANALYSIS_PAGE_UTF8_BYTES} from './nativeAnalysisPages'
++import {stagedRun,rehash} from '../tests/fixtures/nativeAnalysisPages'
++import {sha} from '../tests/fixtures/nativeAnalysisTransport'
++const other='33333333-3333-4333-8333-333333333333',none={ownerReports:false,preflight:false}
++type J=Record<string,any>
++const clone=<T,>(v:T):T=>structuredClone(v)
++
++it('reads a staged run as a verified header and pages; ranges, counts and offsets follow the manifest',async()=>{
++ const s=await stagedRun({targets:23,perPage:5,unreviewed:4})
++ const m=parseAnalysisPagesManifest(s.manifest,s.runId,s.manifest.request_id)
++ expect(m.pageCount).toBe(5);expect(m.pages.map(p=>[p.targetLo,p.targetHi])).toEqual([[1,5],[6,10],[11,15],[16,20],[21,23]])
++ expect(m.totals).toMatchObject({targets:23,policyUnreviewed:5});expect(m.totals.recommendations.ACTIVE+m.totals.recommendations.PAUSED+m.totals.recommendations.STOPPED).toBe(18)
++ const h=await parseAnalysisHeader(m,s.query,s.actor,none)
++ expect(h.analysisHeader.recommendations).toEqual([]);expect(h.analysisHeader.assumptions).toHaveLength(1);expect(h.labels).toHaveLength(23)
++ let seen=0
++ for(let i=0;i<m.pageCount;i++){const p=await parseAnalysisPage(s.page(i),m,h,i);expect([p.targetLo,p.targetHi]).toEqual([m.pages[i].targetLo,m.pages[i].targetHi]);seen+=p.items.actions.length
++  expect(p.items.recommendations.length+p.summary.policyUnreviewed).toBe(p.targetHi-p.targetLo+1)}
++ expect(seen).toBe(23)
++ // The pages, in order, are the per-target items of the whole analysis.
++ const whole=s.original.analysis.timeline.slice(0),pages=[] as unknown[]
++ for(let i=0;i<m.pageCount;i++)pages.push(...(await parseAnalysisPage(s.page(i),m,h,i)).items.timeline)
++ expect(pages).toEqual(whole)
++})
++
++it('labels the visible range against the whole run and recognises the paged refusal',()=>{
++ expect(stagedRangeLabel(501,1000,5000)).toBe('Target 501–1.000 dari 5.000');expect(stagedRangeLabel(1,500,5000)).toBe('Target 1–500 dari 5.000')
++ expect(analysisRunPaged({code:'P0001',message:'CP7_ANALYSIS_RUN_PAGED'})).toBe(true);expect(analysisRunPaged({message:'CP7_ANALYSIS_RUN_UNAVAILABLE'})).toBe(false);expect(analysisRunPaged(null)).toBe(false)
++})
++
++it('refuses manifests that misstate the run, ranges, counts, totals or bounds',async()=>{
++ const s=await stagedRun({targets:12,perPage:5,unreviewed:3}),ok=s.manifest as J
++ expect(()=>parseAnalysisPagesManifest(ok,s.runId,other)).toThrow();expect(()=>parseAnalysisPagesManifest(ok,other,null)).toThrow()
++ expect(parseAnalysisPagesManifest(ok,s.runId,null).requestId).toBe(ok.request_id)
++ const edit=(f:(m:J)=>void)=>{const m=clone(ok);f(m);return m}
++ const bad=[
++  edit(m=>{m.contract_version='cp7.native-analysis-manifest.v1'}),edit(m=>{m.apply_enabled=true}),edit(m=>{m.extra=1}),edit(m=>{m.source_state='LIVE'}),
++  edit(m=>{m.pages[1].target_lo=7}),edit(m=>{m.pages[1].target_lo=5}),edit(m=>{m.pages[2].target_hi=11}),edit(m=>{m.pages[1].index=2}),edit(m=>{m.pages.pop()}),
++  edit(m=>{m.pages[0].counts.timeline+=1}),edit(m=>{delete m.pages[0].counts.timeline}),edit(m=>{m.pages[0].utf8_bytes=ANALYSIS_PAGE_UTF8_BYTES+1}),edit(m=>{m.pages[0].sha256='x'}),
++  edit(m=>{m.totals.targets=13}),edit(m=>{m.totals.recommendations.ACTIVE+=1}),edit(m=>{m.totals.policy_unreviewed+=1}),edit(m=>{m.totals.items.actions+=1}),
++  edit(m=>{m.paged.timeline.items+=1}),edit(m=>{m.paged.unknown_field={prefix:0,items:1}}),edit(m=>{m.targets_total=13}),edit(m=>{m.page_count=2}),
++  edit(m=>{m.targets_total=ANALYSIS_STAGED_TARGETS+1}),edit(m=>{m.header.utf8_bytes=8000001}),edit(m=>{m.document.segment_count+=1}),edit(m=>{m.access_epoch='a'})]
++ for(const m of bad)expect(()=>parseAnalysisPagesManifest(m,s.runId,ok.request_id)).toThrow()
++})
++
++it('refuses a tampered, foreign or whole-Original header',async()=>{
++ const s=await stagedRun({targets:12,perPage:5}),m=parseAnalysisPagesManifest(s.manifest,s.runId,null)
++ const withBody=async(h:J)=>{const body=JSON.stringify(h);return{...m,header:{utf8Bytes:new TextEncoder().encode(body).byteLength,sha256:await sha(body),body}}}
++ await expect(parseAnalysisHeader({...m,header:{...m.header,body:m.header.body.replace('TEST','TESX')}},s.query,s.actor,none)).rejects.toThrow('belum sesuai')
++ const h=clone(s.headerDoc) as J
++ for(const change of [(x:J)=>{x.run_id=other},(x:J)=>{x.contract_version='cp7.native-analysis-run.v1'},(x:J)=>{x.analysis=x.analysis_header},(x:J)=>{x.semantic_hash='b'.repeat(64)},
++  (x:J)=>{x.document_sha256='c'.repeat(64)},(x:J)=>{x.paged.timeline.prefix=1},(x:J)=>{x.query.group_mode='RESTATED'},(x:J)=>{x.analysis_header.scope.actor_scope_id=other},
++  (x:J)=>{x.product_labels.push({...x.product_labels[0]})},(x:J)=>{x.analysis_header.sources[0].allocated.value='999999'}]){
++  const y=clone(h);change(y);await expect(parseAnalysisHeader(await withBody(y),s.query,s.actor,none)).rejects.toThrow()
++ }
++ await expect(parseAnalysisHeader(m,{...s.query,from_date:'2026-01-01'},s.actor,none)).rejects.toThrow();await expect(parseAnalysisHeader(m,s.query,other,none)).rejects.toThrow()
++})
++
++it('refuses tampered, reordered, foreign, shifted and internally inconsistent pages',async()=>{
++ const s=await stagedRun({targets:12,perPage:5,unreviewed:3}),m=parseAnalysisPagesManifest(s.manifest,s.runId,null),h=await parseAnalysisHeader(m,s.query,s.actor,none)
++ const refuse=async(v:unknown,i=1)=>expect(parseAnalysisPage(v,m,h,i)).rejects.toThrow('belum sesuai')
++ const p1=s.page(1) as J,body=JSON.parse(p1.body) as J
++ // Envelope: changed body under the listed hash, another page for this index,
++ // another run, another header/document, a size or hash not listed.
++ await refuse({...p1,body:p1.body.replace('SOURCE_INPUT_NOT_PROVEN','SOURCE_INPUT_NOT_PROVEX')})
++ await refuse(s.page(2));await refuse(s.page(1),0);await refuse({...p1,run_id:other});await refuse({...p1,header_sha256:'d'.repeat(64)});await refuse({...p1,document_sha256:'d'.repeat(64)})
++ await refuse({...p1,extra:1});await refuse({...p1,target_lo:7});await refuse(await rehash(p1,p1.body+' '))
++ // A consistent envelope around a changed body: only the manifest's page hash
++ // and the page's own content can catch it.
++ const forged=async(change:(b:J)=>void)=>{const b=clone(body);change(b);const env=await rehash(p1,JSON.stringify(b));return parseAnalysisPage(env,{...m,pages:m.pages.map((p,i)=>i===1?{...p,utf8Bytes:env.utf8_bytes,sha256:env.sha256}:p)},h,1)}
++ await expect(forged(()=>{})).resolves.toMatchObject({targetLo:6,targetHi:10})
++ for(const change of [(b:J)=>{b.run_id=other},(b:J)=>{b.request_id=other},(b:J)=>{b.index=2},(b:J)=>{b.target_lo=5},(b:J)=>{b.targets_total=13},(b:J)=>{b.semantic_hash='e'.repeat(64)},
++  (b:J)=>{b.counts.timeline-=1},(b:J)=>{b.offsets.timeline+=1},(b:J)=>{b.totals.timeline+=1},(b:J)=>{b.items.timeline.pop()},(b:J)=>{b.items.recommendations.pop();b.counts.recommendations-=1},
++  (b:J)=>{b.summary.recommendations.ACTIVE+=1},(b:J)=>{b.summary.policy_unreviewed+=1},(b:J)=>{b.items.timeline[0].target_key=s.manifest.pages[0]&&JSON.parse(s.page(0).body).items.recommendations[0].target.key},
++  (b:J)=>{b.items.material_needs[0].target_key='nowhere'},(b:J)=>{b.items.metrics[0].scope_key='nowhere'},(b:J)=>{b.items.actions[0].source_keys=['nowhere']},
++  (b:J)=>{b.items.recommendations[0].target_qty.assumption_ids=['missing']},(b:J)=>{b.items.recommendations[1]=b.items.recommendations[0]},(b:J)=>{b.items.timeline[0].extra=1},
++  (b:J)=>{b.apply_enabled=true},(b:J)=>{b.items.analysis=[]}])
++  await expect(forged(change)).rejects.toThrow()
++ // A run whose source state changed is still read, and stays marked.
++ const stale=await stagedRun({targets:12,perPage:5,sourceState:'ARCHIVED_STALE'})
++ expect(parseAnalysisPagesManifest(stale.manifest,stale.runId,null).sourceState).toBe('ARCHIVED_STALE')
++})
++
++it('refuses pages whose items belong to targets outside the range they claim, even when every hash and total agrees',async()=>{
++ const s=await stagedRun({targets:12,perPage:5,unreviewed:3,itemRanges:[[1,5],[6,9],[10,12]]}),m=parseAnalysisPagesManifest(s.manifest,s.runId,null),h=await parseAnalysisHeader(m,s.query,s.actor,none)
++ await expect(parseAnalysisPage(s.page(0),m,h,0)).resolves.toMatchObject({targetLo:1,targetHi:5})
++ await expect(parseAnalysisPage(s.page(1),m,h,1)).rejects.toThrow('belum sesuai');await expect(parseAnalysisPage(s.page(2),m,h,2)).rejects.toThrow('belum sesuai')
++})
++
++it('a run without per-target items has a header and no page; any page index is refused',async()=>{
++ const s=await stagedRun({targets:3,perPage:5}),ok=clone(s.manifest) as J
++ const empty={...ok,targets_total:0,page_count:0,paged:{},pages:[],totals:{targets:0,items:{},recommendations:{ACTIVE:0,PAUSED:0,STOPPED:0,OTHER:0},policy_unreviewed:0}}
++ const m=parseAnalysisPagesManifest(empty,s.runId,null);expect(m.pages).toEqual([])
++ await expect(parseAnalysisPage(s.page(0),m,{} as never,0)).rejects.toThrow('belum sesuai')
++ expect(()=>parseAnalysisPagesManifest({...empty,paged:{actions:{prefix:0,items:1}}},s.runId,null)).toThrow()
++})
+diff --git a/src/nativeAnalysisPages.ts b/src/nativeAnalysisPages.ts
+new file mode 100644
+index 00000000..d8d5cc2d
+--- /dev/null
++++ b/src/nativeAnalysisPages.ts
+@@ -0,0 +1,173 @@
++import type {AnalysisResult} from './cp7/contract'
++import type {NativeDemandQuery} from './nativeDemandHistory'
++import {analysisSchemaMatches,assertAnalysisFacts,assertMaterialNeed,financeSource,pcs,type AnalysisFinanceAccess,type NativeAnalysisFinance} from './nativeAnalysis'
++import {ANALYSIS_SEGMENT_CHARACTERS} from './nativeAnalysisTransport'
++
++// P19 staged run read BY TARGET RANGE. A staged run (up to 5,000 targets, a
++// real Original of about 210 MB) is never assembled in the browser: the server
++// refuses whole reads (CP7_ANALYSIS_RUN_PAGED) and serves a page set instead:
++// one header (the Original without its per-target items) and pages of target
++// ranges, each bound to the run, its document and semantic hashes. A page is
++// only ever shown as "Target a–b dari N"; whole-run totals come from the
++// server's page set, never from the visible page.
++export const ANALYSIS_PAGE_UTF8_BYTES=8000000
++export const ANALYSIS_HEADER_UTF8_BYTES=8000000
++// The staged job's declared capacity (CP7_ANALYSIS_STAGED_TARGET_LIMIT).
++export const ANALYSIS_STAGED_TARGETS=5000
++export const ANALYSIS_PAGED_FIELDS=['assumptions','generation_warnings','actions','recommendations','demand_models','material_needs','metrics','timeline'] as const
++export type PagedField=typeof ANALYSIS_PAGED_FIELDS[number]
++type States={ACTIVE:number;PAUSED:number;STOPPED:number;OTHER:number}
++export type AnalysisPageEntry={index:number;targetLo:number;targetHi:number;utf8Bytes:number;sha256:string;counts:Partial<Record<PagedField,number>>;offsets:Partial<Record<PagedField,number>>}
++export type AnalysisPagesManifest={runId:string;requestId:string;sourceState:'UNCHANGED'|'ARCHIVED_STALE';accessEpoch:string
++ document:{utf8Bytes:number;characters:number;sha256:string;segmentCount:number;segmentCharacters:number};semanticHash:string
++ targetsTotal:number;pageCount:number;paged:Partial<Record<PagedField,{prefix:number;items:number}>>
++ totals:{targets:number;items:Partial<Record<PagedField,number>>;recommendations:States;policyUnreviewed:number}
++ header:{utf8Bytes:number;sha256:string;body:string};pages:AnalysisPageEntry[]}
++// The analysis without its per-target items: every paged array holds only its
++// global items. It is NOT an analysis of the whole run and is never passed to
++// the whole-run views, reports or prompts.
++export type AnalysisHeader={runId:string;requestId:string;query:NativeDemandQuery;analysisHeader:AnalysisResult;labels:{key:string;sku:string;name:string}[];finance:NativeAnalysisFinance|null}
++export type StagedAnalysis={kind:'STAGED';manifest:AnalysisPagesManifest;header:AnalysisHeader}
++export type AnalysisPageItems={assumptions:AnalysisResult['assumptions'];generation_warnings:string[];actions:AnalysisResult['actions'];recommendations:AnalysisResult['recommendations']
++ demand_models:AnalysisResult['demand_models'];material_needs:AnalysisResult['material_needs'];metrics:AnalysisResult['metrics'];timeline:AnalysisResult['timeline']}
++export type AnalysisPage={runId:string;index:number;targetLo:number;targetHi:number;items:AnalysisPageItems;summary:{recommendations:States;policyUnreviewed:number}}
++
++function fail():never{throw Error('Halaman analisis server belum sesuai sumber dan kontrak CP7.')}
++const object=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
++const uuid=(v:unknown):string=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v)?v:fail()
++const exact=(v:Record<string,unknown>,keys:readonly string[])=>{if(Object.keys(v).length!==keys.length||keys.some(k=>!Object.hasOwn(v,k)))fail()}
++const hex64=(v:unknown)=>typeof v==='string'&&/^[0-9a-f]{64}$/.test(v)?v:fail()
++const count=(v:unknown,min:number,max:number)=>typeof v==='number'&&Number.isSafeInteger(v)&&v>=min&&v<=max?v:fail()
++const sha256=async(bytes:Uint8Array<ArrayBuffer>)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('')
++const STATES=['ACTIVE','PAUSED','STOPPED','OTHER'] as const
++const pagedKeys=(m:AnalysisPagesManifest)=>ANALYSIS_PAGED_FIELDS.filter(k=>m.paged[k]!==undefined)
++const sameKeys=(v:Record<string,unknown>,keys:readonly string[])=>exact(v,keys)
++function states(v:unknown):States{const s=object(v);exact(s,STATES);return{ACTIVE:count(s.ACTIVE,0,ANALYSIS_STAGED_TARGETS),PAUSED:count(s.PAUSED,0,ANALYSIS_STAGED_TARGETS),STOPPED:count(s.STOPPED,0,ANALYSIS_STAGED_TARGETS),OTHER:count(s.OTHER,0,ANALYSIS_STAGED_TARGETS)}}
++const stateSum=(s:States)=>s.ACTIVE+s.PAUSED+s.STOPPED+s.OTHER
++const group=(n:number)=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.')
++// "Target 501–1.000 dari 5.000": the visible range and the whole run's count.
++export const stagedRangeLabel=(lo:number,hi:number,total:number)=>`Target ${group(lo)}–${group(hi)} dari ${group(total)}`
++export const stagedNumber=group
++// The server's way of saying "this run is read by page".
++export const analysisRunPaged=(error:unknown)=>error!==null&&typeof error==='object'&&(error as {message?:unknown}).message==='CP7_ANALYSIS_RUN_PAGED'
++
++export function parseAnalysisPagesManifest(v:unknown,runId:string,expectedRequestId:string|null):AnalysisPagesManifest{
++ const e=object(v);exact(e,['contract_version','run_id','request_id','source_state','access_epoch','document','semantic_hash','targets_total','page_count','paged','totals','header','pages','apply_enabled','production_go'])
++ const requestId=uuid(e.request_id)
++ if(e.contract_version!=='cp7.native-analysis-pages.v1'||e.apply_enabled!==false||e.production_go!==false||uuid(e.run_id)!==runId||(expectedRequestId!==null&&requestId!==expectedRequestId))fail()
++ if(e.source_state!=='UNCHANGED'&&e.source_state!=='ARCHIVED_STALE')fail()
++ // The run's whole document (its segments) is named, never assembled here.
++ const d=object(e.document);exact(d,['utf8_bytes','characters','sha256','segment_count','segment_characters'])
++ const utf8Bytes=count(d.utf8_bytes,1,Number.MAX_SAFE_INTEGER),characters=count(d.characters,1,utf8Bytes)
++ if(d.segment_characters!==ANALYSIS_SEGMENT_CHARACTERS||utf8Bytes>characters*4||d.segment_count!==Math.ceil(characters/ANALYSIS_SEGMENT_CHARACTERS))fail()
++ const targetsTotal=count(e.targets_total,0,ANALYSIS_STAGED_TARGETS),pageCount=count(e.page_count,0,targetsTotal)
++ if((pageCount===0)!==(targetsTotal===0))fail()
++ const pagedRaw=object(e.paged),paged:AnalysisPagesManifest['paged']={}
++ for(const[k,raw]of Object.entries(pagedRaw)){if(!(ANALYSIS_PAGED_FIELDS as readonly string[]).includes(k))fail();const p=object(raw);exact(p,['prefix','items']);paged[k as PagedField]={prefix:count(p.prefix,0,Number.MAX_SAFE_INTEGER),items:count(p.items,1,Number.MAX_SAFE_INTEGER)}}
++ const keys=ANALYSIS_PAGED_FIELDS.filter(k=>paged[k]!==undefined)
++ if(targetsTotal===0?keys.length!==0:paged.actions===undefined)fail()
++ // Whole-run totals: every target is one recommendation or one unreviewed
++ // production policy; item totals equal the paged counts.
++ const t=object(e.totals);exact(t,['targets','items','recommendations','policy_unreviewed'])
++ const items=object(t.items);sameKeys(items,keys);const totalItems:Partial<Record<PagedField,number>>={}
++ for(const k of keys){if(items[k]!==paged[k]!.items)fail();totalItems[k]=paged[k]!.items}
++ const recommendations=states(t.recommendations),policyUnreviewed=count(t.policy_unreviewed,0,targetsTotal)
++ if(t.targets!==targetsTotal||stateSum(recommendations)!==(paged.recommendations?.items??0)||stateSum(recommendations)+policyUnreviewed!==targetsTotal||(paged.actions?.items??0)!==targetsTotal)fail()
++ const h=object(e.header);exact(h,['utf8_bytes','sha256','body']);if(typeof h.body!=='string')fail()
++ const header={utf8Bytes:count(h.utf8_bytes,1,ANALYSIS_HEADER_UTF8_BYTES),sha256:hex64(h.sha256),body:h.body}
++ // Pages: indexes 0..n-1, target ranges contiguous over 1..total, counts
++ // summing to the whole-run items; offsets follow from the counts.
++ if(!Array.isArray(e.pages)||e.pages.length!==pageCount)fail()
++ let next=1;const running:Partial<Record<PagedField,number>>={}
++ const pages=e.pages.map((raw,i):AnalysisPageEntry=>{
++  const p=object(raw);exact(p,['index','target_lo','target_hi','utf8_bytes','sha256','counts'])
++  if(p.index!==i||p.target_lo!==next)fail()
++  const targetHi=count(p.target_hi,next,targetsTotal),c=object(p.counts);sameKeys(c,keys)
++  const counts:AnalysisPageEntry['counts']={},offsets:AnalysisPageEntry['offsets']={}
++  for(const k of keys){counts[k]=count(c[k],0,Number.MAX_SAFE_INTEGER);offsets[k]=running[k]??0;running[k]=(running[k]??0)+counts[k]!}
++  const entry={index:i,targetLo:next,targetHi,utf8Bytes:count(p.utf8_bytes,1,ANALYSIS_PAGE_UTF8_BYTES),sha256:hex64(p.sha256),counts,offsets}
++  next=targetHi+1;return entry
++ })
++ if(next!==targetsTotal+1||keys.some(k=>running[k]!==paged[k]!.items))fail()
++ return{runId,requestId,sourceState:e.source_state,accessEpoch:hex64(e.access_epoch),document:{utf8Bytes,characters,sha256:hex64(d.sha256),segmentCount:d.segment_count as number,segmentCharacters:ANALYSIS_SEGMENT_CHARACTERS},
++  semanticHash:hex64(e.semantic_hash),targetsTotal,pageCount,paged,totals:{targets:targetsTotal,items:totalItems,recommendations,policyUnreviewed},header,pages}
++}
++
++async function verifiedText(body:unknown,utf8Bytes:number,hash:string){
++ if(typeof body!=='string')fail()
++ const bytes=new TextEncoder().encode(body);if(bytes.byteLength!==utf8Bytes||await sha256(bytes)!==hash)fail()
++ try{return JSON.parse(body) as unknown}catch{return fail()}
++}
++
++export async function parseAnalysisHeader(m:AnalysisPagesManifest,q:NativeDemandQuery,actor:string,access:AnalysisFinanceAccess):Promise<AnalysisHeader>{
++ const e=object(await verifiedText(m.header.body,m.header.utf8Bytes,m.header.sha256))
++ exact(e,['contract_version','run_id','request_id','query','financial_source','product_labels','analysis_header','paged','targets_total','page_count','document_sha256','semantic_hash','apply_enabled','production_go'])
++ if(e.contract_version!=='cp7.native-analysis-header.v1'||e.apply_enabled!==false||e.production_go!==false||e.run_id!==m.runId||e.request_id!==m.requestId
++  ||e.targets_total!==m.targetsTotal||e.page_count!==m.pageCount||e.document_sha256!==m.document.sha256||e.semantic_hash!==m.semanticHash)fail()
++ const query=object(e.query);exact(query,['from_date','through_date','group_mode']);if(query.from_date!==q.from_date||query.through_date!==q.through_date||query.group_mode!==q.group_mode)fail()
++ const p=object(e.paged);exact(p,pagedKeys(m));for(const k of pagedKeys(m)){const x=object(p[k]);exact(x,['prefix','items']);if(x.prefix!==m.paged[k]!.prefix||x.items!==m.paged[k]!.items)fail()}
++ if(!analysisSchemaMatches(e.analysis_header))fail()
++ const a=e.analysis_header as AnalysisResult
++ if(a.run_id!==m.runId||a.semantic_hash!==m.semanticHash||a.scope.actor_scope_id!==actor||a.scope.allocation_scope_id!=='GLOBAL_NATIVE_PLANNING'||a.scope.display_filter!=='ALL'||!/^[0-9a-f]{64}$/.test(a.snapshot.source_hash))fail()
++ // Every paged array holds its global items and the place of the per-target ones.
++ for(const k of pagedKeys(m)){const arr=(a as unknown as Record<string,unknown>)[k];if(!Array.isArray(arr)||m.paged[k]!.prefix>arr.length)fail()}
++ if(!Array.isArray(e.product_labels))fail()
++ const labels=e.product_labels.map(raw=>{const l=object(raw);exact(l,['target_key','sku','product_name']);if(typeof l.target_key!=='string'||typeof l.sku!=='string'||!l.sku||typeof l.product_name!=='string'||!l.product_name)fail();return{key:l.target_key,sku:l.sku,name:l.product_name}})
++ if(new Set(labels.map(l=>l.key)).size!==labels.length||labels.length<m.totals.recommendations.ACTIVE+m.totals.recommendations.PAUSED+m.totals.recommendations.STOPPED+m.totals.recommendations.OTHER)fail()
++ // Checks the header can settle alone: snapshot, uniqueness, fact refs and
++ // global assumptions, sources against their allocated edge inputs.
++ const unique=(v:string[])=>new Set(v).size===v.length
++ if(a.fixture_kind!==undefined||a.snapshot.knowledge_mode!=='CURRENT'||a.stale.is_stale||a.status==='COMPLETE'&&(!a.snapshot.capture_complete||Object.values(a.quality).some(x=>['UNKNOWN','CONFLICT','PARTIAL'].includes(x))))fail()
++ if(!unique(a.sources.map(s=>s.source_key))||!unique(a.assumptions.map(x=>x.id))||!unique(a.dependencies.map(d=>d.domain))||a.snapshot.fact_count!==a.dependencies.reduce((n,d)=>n+d.fact_count,0))fail()
++ assertAnalysisFacts(a,new Set(a.assumptions.map(x=>x.id)))
++ const sources=new Map(a.sources.map(s=>[s.source_key,s])),inputs=new Map<string,{input:bigint;output:bigint}>()
++ for(const x of a.allocation_edges){const s=sources.get(x.source_key),i=pcs(x.input_qty),o=pcs(x.projected_output_qty)
++  if(!s||s.size_id!==x.size_id||i===null||o===null||o>i||i>0n&&!['CONFIRMED_TARGET','CANDIDATE_MATCH'].includes(x.match))fail()
++  const t=inputs.get(x.source_key)??{input:0n,output:0n};inputs.set(x.source_key,{input:t.input+i,output:t.output+o})}
++ for(const s of a.sources){const ph=pcs(s.physical_remaining),el=pcs(s.eligible_input),g=pcs(s.eligible_projected),al=pcs(s.allocated),t=inputs.get(s.source_key)??{input:0n,output:0n}
++  if(ph!==null&&el!==null&&el>ph||al!==null&&el!==null&&al>el||al!==null&&al!==t.input||g!==null&&t.output>g||al===null&&t.input>0n)fail()}
++ const finance=financeSource(e.financial_source,a,q,access)
++ return{runId:m.runId,requestId:m.requestId,query:{...q},analysisHeader:structuredClone(a),labels,finance}
++}
++
++export async function parseAnalysisPage(v:unknown,m:AnalysisPagesManifest,h:AnalysisHeader,index:number):Promise<AnalysisPage>{
++ const entry=m.pages[index];if(!entry)fail()
++ const e=object(v);exact(e,['contract_version','run_id','index','page_count','target_lo','target_hi','header_sha256','document_sha256','utf8_bytes','sha256','body'])
++ if(e.contract_version!=='cp7.native-analysis-page-read.v1'||e.run_id!==m.runId||e.index!==index||e.page_count!==m.pageCount||e.target_lo!==entry.targetLo||e.target_hi!==entry.targetHi
++  ||e.header_sha256!==m.header.sha256||e.document_sha256!==m.document.sha256||e.utf8_bytes!==entry.utf8Bytes||e.sha256!==entry.sha256)fail()
++ const p=object(await verifiedText(e.body,entry.utf8Bytes,entry.sha256))
++ exact(p,['contract_version','run_id','request_id','index','page_count','target_lo','target_hi','targets_total','document_sha256','semantic_hash','header_sha256','counts','offsets','totals','summary','items','apply_enabled','production_go'])
++ if(p.contract_version!=='cp7.native-analysis-page.v1'||p.apply_enabled!==false||p.production_go!==false||p.run_id!==m.runId||p.request_id!==m.requestId||p.index!==index||p.page_count!==m.pageCount
++  ||p.target_lo!==entry.targetLo||p.target_hi!==entry.targetHi||p.targets_total!==m.targetsTotal||p.document_sha256!==m.document.sha256||p.semantic_hash!==m.semanticHash||p.header_sha256!==m.header.sha256)fail()
++ const keys=pagedKeys(m),counts=object(p.counts),offsets=object(p.offsets),totals=object(p.totals),raw=object(p.items)
++ sameKeys(counts,keys);sameKeys(offsets,keys);sameKeys(totals,keys);sameKeys(raw,keys)
++ const items={assumptions:[],generation_warnings:[],actions:[],recommendations:[],demand_models:[],material_needs:[],metrics:[],timeline:[]} as unknown as AnalysisPageItems
++ for(const k of keys){
++  const list=raw[k];if(!Array.isArray(list)||counts[k]!==entry.counts[k]||list.length!==entry.counts[k]||offsets[k]!==entry.offsets[k]||totals[k]!==m.paged[k]!.items)fail()
++  if(list.some(x=>!analysisSchemaMatches(x,k)))fail()
++  ;(items as unknown as Record<string,unknown[]>)[k]=structuredClone(list)
++ }
++ // Per page: each target is one recommendation or one unreviewed policy, and
++ // has exactly one action; every per-target item belongs to a target of this
++ // page; facts, assumptions, materials and edges are checked as for a whole run.
++ const targets=entry.targetHi-entry.targetLo+1,recs=new Map(items.recommendations.map(r=>[r.target.key,r])),labels=new Set(h.labels.map(l=>l.key))
++ const unreviewed=items.generation_warnings.filter(w=>typeof w==='string'&&w.startsWith('PRODUCTION_POLICY_UNREVIEWED:'))
++ const summary=object(p.summary);exact(summary,['recommendations','policy_unreviewed'])
++ const byState=states(summary.recommendations),policyUnreviewed=count(summary.policy_unreviewed,0,targets)
++ const actual={ACTIVE:0,PAUSED:0,STOPPED:0,OTHER:0};for(const r of items.recommendations)actual[(['ACTIVE','PAUSED','STOPPED'] as string[]).includes(r.production_state)?r.production_state as 'ACTIVE':'OTHER']++
++ if(STATES.some(s=>actual[s]!==byState[s])||policyUnreviewed!==items.actions.filter(a=>a.primary_reason==='PRODUCTION_POLICY_UNREVIEWED').length)fail()
++ if(recs.size!==items.recommendations.length||recs.size+policyUnreviewed!==targets||items.actions.length!==targets||unreviewed.length!==policyUnreviewed||unreviewed.length!==items.generation_warnings.length
++  ||items.recommendations.some(r=>!labels.has(r.target.key)))fail()
++ if(new Set(items.actions.map(a=>a.key)).size!==items.actions.length||new Set(items.material_needs.map(x=>JSON.stringify([x.target_key,x.material_key]))).size!==items.material_needs.length)fail()
++ const all=[...h.analysisHeader.assumptions,...items.assumptions],sources=new Set(h.analysisHeader.sources.map(s=>s.source_key))
++ if(new Set(all.map(a=>a.id)).size!==all.length)fail()
++ assertAnalysisFacts(items,new Set(all.map(a=>a.id)))
++ for(const r of items.recommendations){for(const f of[r.actual_fg,r.target_qty,r.q_base,r.q_conditional,r.suggested_new,r.rounding_extra,r.feasible_new,r.unresolved_qty])pcs(f)
++  if(r.production_state!=='ACTIVE'&&[r.suggested_new,r.feasible_new].some(f=>'value'in f&&pcs(f)!==0n))fail()}
++ for(const x of items.material_needs)assertMaterialNeed(x,recs.get(x.target_key),all)
++ for(const a of items.actions){if(a.source_keys.some(k=>!sources.has(k))||a.target_keys.some(k=>!recs.has(k))||a.intent==='START_NEW'&&a.target_keys.some(k=>recs.get(k)?.production_state!=='ACTIVE'))fail()}
++ for(const t of items.timeline){if(!recs.has(t.target_key)||t.timing_basis==='DATE_POLICY'&&!t.timing_policy_id||t.timing_basis==='TIMESTAMP_EVIDENCE'&&!t.event_refs.length)fail()}
++ for(const x of items.metrics){if(x.scope_kind!=='TARGET'||!recs.has(x.scope_key)||x.period_start>x.period_end||x.value.unit==='IDR')fail()}
++ for(const x of h.analysisHeader.allocation_edges){const r=recs.get(x.target_key);if(r&&r.target.size_id!==x.size_id)fail()}
++ return{runId:m.runId,index,targetLo:entry.targetLo,targetHi:entry.targetHi,items,summary:{recommendations:byState,policyUnreviewed}}
++}
+diff --git a/src/types/database.preconnect.ts b/src/types/database.preconnect.ts
+index 87484660..3b6f8336 100644
+--- a/src/types/database.preconnect.ts
++++ b/src/types/database.preconnect.ts
+@@ -52,6 +52,8 @@ export type PreconnectDatabase = {
+       erp_cp7_get_analysis_job_v1: { Args: { p_request: string }; Returns: Json }
+       erp_cp7_read_analysis_manifest_v1: { Args: { p_run: string }; Returns: Json }
+       erp_cp7_read_analysis_segment_v1: { Args: { p_run: string; p_index: number; p_access: string }; Returns: Json }
++      erp_cp7_read_analysis_pages_v1: { Args: { p_run: string }; Returns: Json }
++      erp_cp7_read_analysis_page_v1: { Args: { p_run: string; p_index: number; p_access: string }; Returns: Json }
+       erp_cp7_get_analysis_attention_v1: { Args: { p_run: string }; Returns: Json }
+       erp_cp7_save_analysis_attention_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+       erp_cp7_get_analysis_attention_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+diff --git a/tests/cp7/families/f04/staged-analysis-fixture.mjs b/tests/cp7/families/f04/staged-analysis-fixture.mjs
+index a5cd46dd..ca530ba7 100644
+--- a/tests/cp7/families/f04/staged-analysis-fixture.mjs
++++ b/tests/cp7/families/f04/staged-analysis-fixture.mjs
+@@ -8,7 +8,8 @@ import { rng } from './demand-history-fixture.mjs'
+ // build_operational, finance overlay, run table and the job store/segments.
+ // Stand-ins, as in the netting and assembly fixtures: the schedule build
+ // (c->'stub_scenario'), fabric plan/needs and accessory needs. These are
+-// kernel comparisons, never Native/Auth/HTTP qualification.
++// kernel comparisons, never Native/Auth/HTTP qualification. Phase D adds the
++// page units and readers (staged-pages.prototype.sql) after the prototype.
+ export const ACTOR = '03000000-0000-4000-8000-000000000001'
+ export const ACCESS = { actor: ACTOR, profile: { role_code: 'OWNER' } }
+ export const QUERY = { from_date: '2026-05-01', through_date: '2026-05-30', group_mode: 'AS_SOLD' }
+@@ -41,6 +42,7 @@ export async function installStagedControls(db, { bounds = null } = {}) {
+    ${jobTables}
+    ${pick(jobs, 'cp7_analysis_jobs.original', 'cp7_analysis_jobs.store')}
+    ${read('tests/cp7/families/f04/staged-analysis.prototype.sql')}
++   ${read('tests/cp7/families/f04/staged-pages.prototype.sql')}
+    ${bounds ? `create or replace function cp7_analysis_stage.bounds()returns jsonb language sql immutable as $$select '${JSON.stringify(bounds)}'::jsonb$$;` : ''}
+    -- Single path and staged path on one input; both refusals as sqlstate:code.
+    create function public.st_single(c jsonb,q jsonb,p_run uuid,a jsonb)returns jsonb language plpgsql as $s$
+diff --git a/tests/cp7/families/f04/staged-pages.prototype.sql b/tests/cp7/families/f04/staged-pages.prototype.sql
+new file mode 100644
+index 00000000..81a98eab
+--- /dev/null
++++ b/tests/cp7/families/f04/staged-pages.prototype.sql
+@@ -0,0 +1,295 @@
++-- P19 phase D PROTOTYPE (test runtime only, not installed): reading a staged
++-- analysis run BY TARGET RANGE. Loaded after staged-analysis.prototype.sql.
++--
++-- A 5,000-target Original is about 210 MB in the real app (42 KB per target,
++-- 78 % of it the per-target timeline). The client refuses documents above
++-- 64 MB and must never show a part as the whole. A finished staged run is
++-- therefore also stored as
++--   * one HEADER: the Original without the per-target array items (contract
++--     cp7.native-analysis-header.v1), with, per paged analysis array, where
++--     the per-target items start (prefix) and how many there are (items);
++--   * PAGES, one per ANA_TARGETS chunk (target ordinals lo..hi in the job's
++--     loop order): the per-target items of that range for every paged array
++--     (contract cp7.native-analysis-page.v1), each a canonical jsonb text with
++--     its UTF8 size and sha256;
++--   * one PAGE SET row (written last, so a partly paged run is unreadable)
++--     listing whole-run totals, the header and every page hash, bound to the
++--     run's document (segments) sha256 and semantic hash.
++-- Pages are cut from the fragments the job already stored (no recompute):
++-- the per-target items of page k are exactly the text ANA_TEXT put in place of
++-- the sentinels, chunk k. The parity test (f05-staged-pages) proves, byte for
++-- byte, that header + pages reproduce the Original.
++--
++-- Changes to existing prototype objects: NONE of the existing unit bodies is
++-- changed. cp7_analysis_stage.run_unit is renamed run_unit_core and wrapped by
++-- a new run_unit that (a) after NET_PREP appends the page units to the fixed
++-- plan, (b) runs the three page unit kinds:
++--   ... DOC_SEGMENTS*k -> PAGE_HEADER -> PAGES*k -> PAGE_INDEX
++-- step() resolves run_unit by name, so it calls the wrapper unchanged.
++
++-- ------------------------------------------------------------------ tables --
++-- Immutable, deny-all, owned by cp7_capture like documents/segments.
++create table cp7_analysis_jobs.page_sets(run_id uuid primary key references cp7_analysis_jobs.documents(run_id),
++ contract_version text not null check(contract_version='cp7.native-analysis-pages.v1'),
++ targets_total integer not null check(targets_total>=0),page_count integer not null check(page_count>=0),
++ paged jsonb not null,totals jsonb not null,
++ header_body text not null,header_utf8_bytes integer not null check(header_utf8_bytes between 1 and 8000000),header_sha256 text not null,
++ document_sha256 text not null,document_utf8_bytes bigint not null,semantic_hash text not null,created_at timestamptz not null,
++ check((page_count=0)=(targets_total=0)));
++create table cp7_analysis_jobs.pages(run_id uuid not null references cp7_analysis_jobs.documents(run_id),idx integer not null check(idx>=0),
++ target_lo integer not null,target_hi integer not null,counts jsonb not null,offsets jsonb not null,summary jsonb not null,
++ body text not null,utf8_bytes integer not null check(utf8_bytes between 1 and 8000000),sha256 text not null,
++ primary key(run_id,idx),check(target_lo between 1 and target_hi));
++alter table cp7_analysis_jobs.page_sets owner to cp7_capture;
++alter table cp7_analysis_jobs.pages owner to cp7_capture;
++alter table cp7_analysis_jobs.page_sets enable row level security;
++alter table cp7_analysis_jobs.pages enable row level security;
++create policy cp7_analysis_page_sets_no_access on cp7_analysis_jobs.page_sets for all to public using(false)with check(false);
++create policy cp7_analysis_pages_no_access on cp7_analysis_jobs.pages for all to public using(false)with check(false);
++revoke all on cp7_analysis_jobs.page_sets,cp7_analysis_jobs.pages from public,anon,authenticated,service_role;
++create trigger immutable_analysis_page_set before update or delete on cp7_analysis_jobs.page_sets for each row execute function cp7_private.immutable_run();
++create trigger immutable_analysis_page before update or delete on cp7_analysis_jobs.pages for each row execute function cp7_private.immutable_run();
++
++-- ------------------------------------------------------------- page units --
++-- The existing per-unit body bound (8,000,000 UTF8 bytes) per page and for
++-- the header; above it the unit refuses loudly (no truncation).
++create function cp7_analysis_stage.page_bounds()returns jsonb
++language sql immutable security invoker set search_path=''as $$
++ select jsonb_build_object('page_utf8_bytes',8000000,'header_utf8_bytes',8000000)
++$$;
++-- Fragment field -> analysis array key.
++create function cp7_analysis_stage.page_field(f text)returns text
++language sql immutable security invoker set search_path=''as $$
++ select case f when 'warnings'then 'generation_warnings'when 'models'then 'demand_models'when 'materials'then 'material_needs'else f end
++$$;
++-- The paged arrays of a finished analysis: an array is paged iff its sentinel
++-- survived ANA_META (it has per-target items and, for material_needs, is not
++-- null); prefix = the sentinel's index (global items before the per-target
++-- items), items = the per-target item count over all chunks.
++create function cp7_analysis_stage.page_layout(p_job uuid)returns jsonb
++language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
++declare skel jsonb:=cp7_analysis_stage.output(p_job,'ANA_META')->'skeleton';tag text:=cp7_analysis_stage.tag(p_job);
++ f text;k text;pos bigint;hits bigint;n bigint;paged jsonb:='{}';
++begin
++ foreach f in array cp7_analysis_stage.fragment_fields()loop
++  k:=cp7_analysis_stage.page_field(f);
++  if jsonb_typeof(skel->k)='array'then
++   select min(x.o)-1,count(*)into pos,hits from jsonb_array_elements(skel->k)with ordinality x(v,o)where x.v=to_jsonb(tag||f);
++   if hits>1 then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
++   if hits=1 then
++    select coalesce(sum(x.items),0)into n from cp7_analysis_stage.fragments x where x.job_id=p_job and x.field=f;
++    if n<1 then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
++    paged:=paged||jsonb_build_object(k,jsonb_build_object('field',f,'prefix',pos,'items',n));
++   end if;
++  end if;
++ end loop;
++ return paged;
++end $$;
++-- Per page: recommendations by production state and targets whose production
++-- policy is unreviewed (their only item is the review-policy action).
++create function cp7_analysis_stage.page_summary(items jsonb)returns jsonb
++language sql immutable security invoker set search_path=''as $$
++ select jsonb_build_object('recommendations',jsonb_build_object(
++   'ACTIVE',count(*)filter(where r->>'production_state'='ACTIVE'),'PAUSED',count(*)filter(where r->>'production_state'='PAUSED'),
++   'STOPPED',count(*)filter(where r->>'production_state'='STOPPED'),
++   'OTHER',count(*)filter(where r->>'production_state'is null or r->>'production_state'not in('ACTIVE','PAUSED','STOPPED'))),
++  'policy_unreviewed',(select count(*)from jsonb_array_elements(coalesce(items->'actions','[]'))x where x->>'primary_reason'='PRODUCTION_POLICY_UNREVIEWED'))
++ from jsonb_array_elements(coalesce(items->'recommendations','[]'))r
++$$;
++create function cp7_analysis_stage.page_unit(j cp7_analysis_stage.jobs,u cp7_analysis_stage.units)returns jsonb
++language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
++declare layout jsonb:=cp7_analysis_stage.page_layout(j.id);tag text:=cp7_analysis_stage.tag(j.id);b jsonb:=cp7_analysis_stage.page_bounds();
++ hash text:=cp7_analysis_stage.output(j.id,'ANA_TEXT')->>'semantic_hash';d cp7_analysis_jobs.documents%rowtype;
++ ntargets integer;npages integer;k text;v jsonb;body text;h cp7_analysis_stage.texts%rowtype;
++begin
++ select *into d from cp7_analysis_jobs.documents where run_id=j.run_id;
++ if d.run_id is null then raise exception 'CP7_ANALYSIS_PAGE_DOCUMENT_MISSING';end if;
++ select coalesce(sum(y.hi-y.lo+1),0),count(*)into ntargets,npages from cp7_analysis_stage.units y where y.job_id=j.id and y.kind='ANA_TARGETS';
++ if u.kind='PAGE_HEADER'then
++  -- The Original's non-analysis fields exactly as original() renders them,
++  -- and the analysis without the per-target items (each sentinel removed).
++  declare skel jsonb:=cp7_analysis_stage.output(j.id,'ANA_META')->'skeleton';c jsonb;header jsonb;
++  begin
++   for k,v in select key,value from jsonb_each(layout)loop
++    skel:=jsonb_set(skel,array[k],(select coalesce(jsonb_agg(x.e order by x.o),'[]'::jsonb)
++     from jsonb_array_elements(skel->k)with ordinality x(e,o)where x.e<>to_jsonb(tag||(v->>'field'))));
++   end loop;
++   select s.facts into c from cp7_analysis_stage.snapshots s where s.job_id=j.id;
++   header:=(cp7_analysis_jobs.original(row(j.run_id,j.actor,j.request_id,j.query,j.captured_at,j.access_at_capture,c,
++     to_jsonb(tag||'analysis'),j.source_hash)::cp7_analysis_native.runs)-'analysis'-'contract_version')
++    ||jsonb_build_object('contract_version','cp7.native-analysis-header.v1','analysis_header',skel||jsonb_build_object('semantic_hash',hash),
++     'paged',(select coalesce(jsonb_object_agg(x.key,x.value-'field'),'{}'::jsonb)from jsonb_each(layout)x),
++     'targets_total',ntargets,'page_count',npages,'document_sha256',d.sha256,'semantic_hash',hash);
++   body:=header::text;
++   if octet_length(body)>(b->>'header_utf8_bytes')::integer then raise exception 'CP7_ANALYSIS_PAGE_HEADER_LIMIT';end if;
++   insert into cp7_analysis_stage.texts values(j.id,'PAGE_HEADER',body,encode(pg_catalog.sha256(convert_to(body,'UTF8')),'hex'));
++   return jsonb_build_object('utf8_bytes',octet_length(body),'paged',layout);
++  end;
++ end if;
++ select *into h from cp7_analysis_stage.texts t where t.job_id=j.id and t.kind='PAGE_HEADER';
++ if h.job_id is null then raise exception 'CP7_ANALYSIS_PAGE_HEADER_MISSING';end if;
++ if u.kind='PAGES'then
++  -- Page u.chunk: the stored fragments of ANA_TARGETS chunk u.chunk.
++  declare a cp7_analysis_stage.units%rowtype;items jsonb:='{}';counts jsonb:='{}';offsets jsonb:='{}';totals jsonb:='{}';
++   frag cp7_analysis_stage.fragments%rowtype;off bigint;page jsonb;summary jsonb;
++  begin
++   select *into a from cp7_analysis_stage.units y where y.job_id=j.id and y.kind='ANA_TARGETS'and y.chunk=u.chunk;
++   if a.job_id is null or a.lo is distinct from u.lo or a.hi is distinct from u.hi then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
++   for k,v in select key,value from jsonb_each(layout)loop
++    select *into frag from cp7_analysis_stage.fragments x where x.job_id=j.id and x.field=v->>'field'and x.idx=a.idx;
++    if frag.job_id is null then raise exception 'CP7_ANALYSIS_PAGE_FRAGMENT_MISSING';end if;
++    select coalesce(sum(x.items),0)into off from cp7_analysis_stage.fragments x join cp7_analysis_stage.units y on y.job_id=x.job_id and y.idx=x.idx
++     where x.job_id=j.id and x.field=v->>'field'and y.kind='ANA_TARGETS'and y.chunk<u.chunk;
++    items:=items||jsonb_build_object(k,('['||frag.body||']')::jsonb);
++    if jsonb_array_length(items->k)<>frag.items then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
++    counts:=counts||jsonb_build_object(k,frag.items);offsets:=offsets||jsonb_build_object(k,off);totals:=totals||jsonb_build_object(k,v->'items');
++   end loop;
++   summary:=cp7_analysis_stage.page_summary(items);
++   page:=jsonb_build_object('contract_version','cp7.native-analysis-page.v1','run_id',j.run_id,'request_id',j.request_id,
++    'index',u.chunk,'page_count',npages,'target_lo',a.lo,'target_hi',a.hi,'targets_total',ntargets,
++    'document_sha256',d.sha256,'semantic_hash',hash,'header_sha256',h.sha256,
++    'counts',counts,'offsets',offsets,'totals',totals,'summary',summary,'items',items,'apply_enabled',false,'production_go',false);
++   body:=page::text;
++   if octet_length(body)>(b->>'page_utf8_bytes')::integer then raise exception 'CP7_ANALYSIS_PAGE_BODY_LIMIT';end if;
++   insert into cp7_analysis_jobs.pages(run_id,idx,target_lo,target_hi,counts,offsets,summary,body,utf8_bytes,sha256)
++   values(j.run_id,u.chunk,a.lo,a.hi,counts,offsets,summary,body,octet_length(body),encode(pg_catalog.sha256(convert_to(body,'UTF8')),'hex'));
++   return jsonb_build_object('index',u.chunk,'utf8_bytes',octet_length(body));
++  end;
++ end if;
++ if u.kind='PAGE_INDEX'then
++  -- Written last: every page present, contiguous over 1..total, counts
++  -- summing to the layout; then the run is readable by page.
++  declare p record;expect integer:=1;i integer:=0;sums jsonb:='{}';
++   rec jsonb:=jsonb_build_object('ACTIVE',0,'PAUSED',0,'STOPPED',0,'OTHER',0);unreviewed bigint:=0;
++  begin
++   for p in select *from cp7_analysis_jobs.pages x where x.run_id=j.run_id order by x.idx loop
++    if p.idx<>i or p.target_lo<>expect then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
++    expect:=p.target_hi+1;i:=i+1;
++    for k in select key from jsonb_each(layout)loop
++     sums:=sums||jsonb_build_object(k,coalesce((sums->>k)::bigint,0)+(p.counts->>k)::bigint);
++    end loop;
++    for k in select key from jsonb_each(rec)loop
++     rec:=rec||jsonb_build_object(k,(rec->>k)::bigint+(p.summary->'recommendations'->>k)::bigint);
++    end loop;
++    unreviewed:=unreviewed+(p.summary->>'policy_unreviewed')::bigint;
++   end loop;
++   if i<>npages or expect<>ntargets+1 then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
++   for k,v in select key,value from jsonb_each(layout)loop
++    if (sums->>k)::bigint is distinct from (v->>'items')::bigint then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
++   end loop;
++   insert into cp7_analysis_jobs.page_sets(run_id,contract_version,targets_total,page_count,paged,totals,header_body,header_utf8_bytes,header_sha256,
++    document_sha256,document_utf8_bytes,semantic_hash,created_at)
++   values(j.run_id,'cp7.native-analysis-pages.v1',ntargets,npages,(select coalesce(jsonb_object_agg(x.key,x.value-'field'),'{}'::jsonb)from jsonb_each(layout)x),
++    jsonb_build_object('targets',ntargets,'items',(select coalesce(jsonb_object_agg(x.key,x.value->'items'),'{}'::jsonb)from jsonb_each(layout)x),
++     'recommendations',rec,'policy_unreviewed',unreviewed),
++    h.body,octet_length(h.body),h.sha256,d.sha256,d.utf8_bytes,hash,clock_timestamp());
++   return jsonb_build_object('pages',npages,'targets',ntargets);
++  end;
++ end if;
++ raise exception 'CP7_ANALYSIS_STAGE_UNKNOWN_UNIT';
++end $$;
++
++alter function cp7_analysis_stage.run_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units)rename to run_unit_core;
++create function cp7_analysis_stage.run_unit(j cp7_analysis_stage.jobs,u cp7_analysis_stage.units)returns jsonb
++language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
++declare out jsonb;n integer;k integer;
++begin
++ if u.kind in('PAGE_HEADER','PAGES','PAGE_INDEX')then return cp7_analysis_stage.page_unit(j,u);end if;
++ out:=cp7_analysis_stage.run_unit_core(j,u);
++ if u.kind='NET_PREP'then
++  -- The plan NET_PREP just fixed, plus the page units after DOC_SEGMENTS.
++  select x.unit_count into n from cp7_analysis_stage.jobs x where x.id=j.id;
++  if exists(select 1 from cp7_analysis_stage.units y where y.job_id=j.id and y.idx>=n)then raise exception 'CP7_ANALYSIS_STAGE_PLAN_MISMATCH';end if;
++  insert into cp7_analysis_stage.units values(j.id,n,'PAGE_HEADER',0,null,null);k:=n+1;
++  insert into cp7_analysis_stage.units select j.id,k+(row_number()over(order by y.chunk))::integer-1,'PAGES',y.chunk,y.lo,y.hi
++   from cp7_analysis_stage.units y where y.job_id=j.id and y.kind='ANA_TARGETS';
++  select count(*)+k into k from cp7_analysis_stage.units y where y.job_id=j.id and y.kind='ANA_TARGETS';
++  insert into cp7_analysis_stage.units values(j.id,k,'PAGE_INDEX',0,null,null);
++  update cp7_analysis_stage.jobs set unit_count=k+1 where id=j.id;
++ end if;
++ return out;
++end $$;
++
++-- ---------------------------------------------------------------- readers --
++-- Same refusals as manifest(): fresh access, actor-bound run, protected
++-- finance still visible; the full check runs once and returns the access
++-- epoch every page read must present. Returns the page index, the whole-run
++-- totals and the header body (<= 8,000,000 bytes) in one response.
++create function cp7_analysis_jobs.pages_manifest(p_run uuid)returns jsonb
++language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
++declare a jsonb;r cp7_analysis_native.runs%rowtype;c jsonb;d cp7_analysis_jobs.documents%rowtype;s cp7_analysis_jobs.page_sets%rowtype;pages jsonb;
++begin
++ if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
++ a:=cp7_schedule_native.access_now(false);select *into r from cp7_analysis_native.runs where id=p_run and actor=(a->>'actor')::uuid;
++ if r.id is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
++ c:=cp7_analysis_native.source_for(r.query,cp7_analysis_native.finance_mode(r.facts));
++ if r.facts->'financial_source' is not null and r.facts->'financial_source'<>'null'::jsonb and coalesce(c->'financial_source','null')='null'::jsonb then
++  raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';
++ end if;
++ if coalesce(r.facts->'financial_source'->'report'->'close_preflight','null')<>'null'::jsonb
++  and coalesce(c->'financial_source'->'report'->'close_preflight','null')='null'::jsonb then
++  raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';
++ end if;
++ select *into s from cp7_analysis_jobs.page_sets where run_id=r.id;
++ if s.run_id is null then raise exception 'CP7_ANALYSIS_PAGES_UNAVAILABLE';end if;
++ select *into d from cp7_analysis_jobs.documents where run_id=r.id;
++ select coalesce(jsonb_agg(jsonb_build_object('index',x.idx,'target_lo',x.target_lo,'target_hi',x.target_hi,'utf8_bytes',x.utf8_bytes,
++   'sha256',x.sha256,'counts',x.counts)order by x.idx),'[]'::jsonb)into pages from cp7_analysis_jobs.pages x where x.run_id=r.id;
++ if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
++ return jsonb_build_object('contract_version','cp7.native-analysis-pages.v1','run_id',r.id,'request_id',r.request_id,
++  'source_state',case when cp7_analysis_native.fingerprint(c)=r.dependency_hash then 'UNCHANGED'else 'ARCHIVED_STALE'end,
++  'access_epoch',encode(pg_catalog.sha256(convert_to(a::text,'UTF8')),'hex'),
++  'document',jsonb_build_object('utf8_bytes',d.utf8_bytes,'characters',d.characters,'sha256',d.sha256,
++   'segment_count',d.segment_count,'segment_characters',d.segment_characters),
++  'semantic_hash',s.semantic_hash,'targets_total',s.targets_total,'page_count',s.page_count,'paged',s.paged,'totals',s.totals,
++  'header',jsonb_build_object('utf8_bytes',s.header_utf8_bytes,'sha256',s.header_sha256,'body',s.header_body),
++  'pages',pages,'apply_enabled',false,'production_go',false);
++end $$;
++-- Same checks as segment(): the unchanged access epoch, the actor's own run.
++create function cp7_analysis_jobs.page(p_run uuid,p_index integer,p_access text)returns jsonb
++language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
++declare a jsonb;s cp7_analysis_jobs.page_sets%rowtype;p cp7_analysis_jobs.pages%rowtype;
++begin
++ if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
++ a:=cp7_schedule_native.access_now(false);
++ if p_access is distinct from encode(pg_catalog.sha256(convert_to(a::text,'UTF8')),'hex')then
++  raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';
++ end if;
++ if not exists(select 1 from cp7_analysis_native.runs where id=p_run and actor=(a->>'actor')::uuid)then
++  raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';
++ end if;
++ select *into s from cp7_analysis_jobs.page_sets where run_id=p_run;
++ if s.run_id is null then raise exception 'CP7_ANALYSIS_PAGES_UNAVAILABLE';end if;
++ select *into p from cp7_analysis_jobs.pages where run_id=p_run and idx=p_index;
++ if p.run_id is null then raise exception 'CP7_ANALYSIS_PAGE_UNAVAILABLE';end if;
++ return jsonb_build_object('contract_version','cp7.native-analysis-page-read.v1','run_id',p_run,'index',p.idx,'page_count',s.page_count,
++  'target_lo',p.target_lo,'target_hi',p.target_hi,'header_sha256',s.header_sha256,'document_sha256',s.document_sha256,
++  'utf8_bytes',p.utf8_bytes,'sha256',p.sha256,'body',p.body);
++end $$;
++-- Proposal for serve() and manifest(): a paged run is never read whole. The
++-- refusal comes after the actor check (a foreign run stays UNAVAILABLE) and
++-- tells the client to read by page; an old client gets a refusal, not a part.
++create function cp7_analysis_jobs.refuse_paged(p_run uuid)returns void
++language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
++declare a jsonb:=cp7_schedule_native.access_now(false);
++begin
++ if exists(select 1 from cp7_analysis_native.runs r join cp7_analysis_jobs.page_sets s on s.run_id=r.id where r.id=p_run and r.actor=(a->>'actor')::uuid)then
++  raise exception 'CP7_ANALYSIS_RUN_PAGED';
++ end if;
++end $$;
++alter function cp7_analysis_jobs.pages_manifest(uuid)owner to cp7_capture;
++alter function cp7_analysis_jobs.page(uuid,integer,text)owner to cp7_capture;
++alter function cp7_analysis_jobs.refuse_paged(uuid)owner to cp7_capture;
++revoke all on function cp7_analysis_jobs.pages_manifest(uuid),cp7_analysis_jobs.page(uuid,integer,text),cp7_analysis_jobs.refuse_paged(uuid)
++ from public,anon,authenticated,service_role;
++grant create on schema public to cp7_capture;
++create function public.erp_cp7_read_analysis_pages_v1(p_run uuid)returns jsonb
++language sql volatile security definer set search_path=''as $$select cp7_analysis_jobs.pages_manifest(p_run)$$;
++create function public.erp_cp7_read_analysis_page_v1(p_run uuid,p_index integer,p_access text)returns jsonb
++language sql volatile security definer set search_path=''as $$select cp7_analysis_jobs.page(p_run,p_index,p_access)$$;
++alter function public.erp_cp7_read_analysis_pages_v1(uuid)owner to cp7_capture;
++alter function public.erp_cp7_read_analysis_page_v1(uuid,integer,text)owner to cp7_capture;
++revoke create on schema public from cp7_capture;
++revoke all on function public.erp_cp7_read_analysis_pages_v1(uuid),public.erp_cp7_read_analysis_page_v1(uuid,integer,text)
++ from public,anon,authenticated,service_role;
++grant execute on function public.erp_cp7_read_analysis_pages_v1(uuid),public.erp_cp7_read_analysis_page_v1(uuid,integer,text)to authenticated;
+diff --git a/tests/cp7/families/f05-staged-pages.test.ts b/tests/cp7/families/f05-staged-pages.test.ts
+new file mode 100644
+index 00000000..59f2b968
+--- /dev/null
++++ b/tests/cp7/families/f05-staged-pages.test.ts
+@@ -0,0 +1,288 @@
++// @vitest-environment node
++import { createHash } from 'node:crypto'
++import { readFileSync } from 'node:fs'
++import { expect, test } from 'vitest'
++import { openRuntime, jsonArg } from './f04/runtime.mjs'
++import { DEFECTS as NETTING_DEFECTS } from './f04/netting-fixture.mjs'
++import { functionBlocks } from './f04/schedule-scenario-fixture.mjs'
++import { ACTOR, QUERY, ACCESS, STAGED_DEFECTS, installStagedControls, runJob, stagedInput } from './f04/staged-analysis-fixture.mjs'
++
++// P19 phase D PROTOTYPE: a staged run read BY TARGET RANGE. Over the staged
++// parity corpus, with tiny chunk bounds so page edges fall everywhere, the
++// header plus the pages reproduce the run's analysis and Original byte for
++// byte; the readers keep the segment reader's access-epoch and actor/run
++// binding. Kernel stand-ins only (schedule build, fabric, accessories); LOCAL.
++const SMALL = { targets_per_chunk: 7, pairs_per_chunk: 45, visits_per_allocation_step: 100000, allocation_targets_per_step: 4, targets_per_segment_unit: 10,
++  job_targets: 5000, job_pairs: 1000000, job_matching_products: 10000 }
++const bounds = (b: Record<string, number>) => `create or replace function cp7_analysis_stage.bounds()returns jsonb language sql immutable as $$select '${JSON.stringify(b)}'::jsonb$$;`
++const uuid = (n: number) => `03000000-0000-4000-8000-${n.toString(16).padStart(12, '0')}`
++type Row = Record<string, any>
++type Db = Awaited<ReturnType<typeof openRuntime>>
++const sha = (text: string) => createHash('sha256').update(Buffer.from(text, 'utf8')).digest('hex')
++
++// Independent of the page builder: reads the run's stored analysis (jsonb),
++// the Original as the segments hold it, and every page and header body.
++const VERIFY = `
++create function public.sp_verify(p_job uuid)returns jsonb language plpgsql as $s$
++declare j cp7_analysis_stage.jobs%rowtype;ps cp7_analysis_jobs.page_sets%rowtype;res jsonb;doc text;hdr jsonb;pj jsonb;k text;v jsonb;p record;
++ i integer:=0;expect integer:=1;pref bigint;n bigint;full_text text;paged_text text;without jsonb;rebuilt jsonb;running jsonb:='{}';bad text[]:='{}';
++ header_keys text[]:=array['contract_version','analysis_header','paged','targets_total','page_count','document_sha256','semantic_hash'];
++begin
++ select *into j from cp7_analysis_stage.jobs where id=p_job;
++ if j.state<>'DONE'then
++  return jsonb_build_object('state',j.state,'page_set',exists(select 1 from cp7_analysis_jobs.page_sets where run_id=j.run_id),
++   'pages',(select count(*)from cp7_analysis_jobs.pages where run_id=j.run_id));
++ end if;
++ select result into res from cp7_analysis_native.runs where id=j.run_id;
++ select string_agg(body,''order by idx)into doc from cp7_analysis_jobs.segments where run_id=j.run_id;
++ select *into ps from cp7_analysis_jobs.page_sets where run_id=j.run_id;
++ if ps.run_id is null then return jsonb_build_object('state',j.state,'page_set',false);end if;
++ hdr:=ps.header_body::jsonb;
++ if ps.header_body<>hdr::text then bad:=bad||'header_not_canonical'::text;end if;
++ if ps.header_sha256<>encode(sha256(convert_to(ps.header_body,'UTF8')),'hex')or ps.header_utf8_bytes<>octet_length(ps.header_body)then bad:=bad||'header_hash'::text;end if;
++ if hdr->>'contract_version'<>'cp7.native-analysis-header.v1'or hdr->'paged'<>ps.paged or (hdr->>'targets_total')::integer<>ps.targets_total
++  or (hdr->>'page_count')::integer<>ps.page_count or hdr->>'semantic_hash'<>res->>'semantic_hash'or ps.semantic_hash<>res->>'semantic_hash'
++  or hdr->>'document_sha256'<>encode(sha256(convert_to(doc,'UTF8')),'hex')or ps.document_sha256<>hdr->>'document_sha256'then bad:=bad||'header_binding'::text;end if;
++ -- Every page: canonical, hashed, bound, contiguous, counts and offsets.
++ for p in select *from cp7_analysis_jobs.pages x where x.run_id=j.run_id order by x.idx loop
++  pj:=p.body::jsonb;
++  if p.body<>pj::text then bad:=bad||('page_not_canonical:'||p.idx);end if;
++  if p.sha256<>encode(sha256(convert_to(p.body,'UTF8')),'hex')or p.utf8_bytes<>octet_length(p.body)then bad:=bad||('page_hash:'||p.idx);end if;
++  if pj->>'contract_version'<>'cp7.native-analysis-page.v1'or pj->>'run_id'<>j.run_id::text or pj->>'request_id'<>j.request_id::text
++   or (pj->>'index')::integer<>i or p.idx<>i or (pj->>'target_lo')::integer<>expect or p.target_lo<>expect or (pj->>'target_hi')::integer<>p.target_hi
++   or (pj->>'page_count')::integer<>ps.page_count or (pj->>'targets_total')::integer<>ps.targets_total or pj->>'document_sha256'<>ps.document_sha256
++   or pj->>'semantic_hash'<>ps.semantic_hash or pj->>'header_sha256'<>ps.header_sha256 or pj->'apply_enabled'<>'false'or pj->'production_go'<>'false'
++   or pj->'counts'<>p.counts or pj->'offsets'<>p.offsets or pj->'summary'<>p.summary
++   or (select array_agg(x order by x)from jsonb_object_keys(pj->'items')x)is distinct from(select array_agg(x order by x)from jsonb_object_keys(hdr->'paged')x)
++  then bad:=bad||('page_binding:'||p.idx);end if;
++  for k,v in select key,value from jsonb_each(hdr->'paged')loop
++   if (pj->'counts'->>k)::bigint<>jsonb_array_length(pj->'items'->k)or (pj->'offsets'->>k)::bigint<>coalesce((running->>k)::bigint,0)
++    or pj->'totals'->k<>v->'items'then bad:=bad||('page_counts:'||p.idx||':'||k);end if;
++   running:=running||jsonb_build_object(k,coalesce((running->>k)::bigint,0)+jsonb_array_length(pj->'items'->k));
++  end loop;
++  expect:=p.target_hi+1;i:=i+1;
++ end loop;
++ if i<>ps.page_count or expect<>ps.targets_total+1 then bad:=bad||'page_range'::text;end if;
++ -- Per paged array: the pages, in page order, are exactly the per-target
++ -- items of the analysis; the header holds exactly the other items.
++ without:=res;rebuilt:=hdr->'analysis_header';
++ for k,v in select key,value from jsonb_each(hdr->'paged')loop
++  pref:=(v->>'prefix')::bigint;n:=(v->>'items')::bigint;
++  if (running->>k)::bigint is distinct from n then bad:=bad||('items_total:'||k);end if;
++  select string_agg(x.e::text,', 'order by x.o)into full_text from jsonb_array_elements(res->k)with ordinality x(e,o)where x.o>pref and x.o<=pref+n;
++  select string_agg(y.e::text,', 'order by q.idx,y.o)into paged_text from cp7_analysis_jobs.pages q
++   cross join lateral jsonb_array_elements(q.body::jsonb->'items'->k)with ordinality y(e,o)where q.run_id=j.run_id;
++  if full_text is distinct from paged_text or jsonb_array_length(res->k)<>jsonb_array_length(hdr->'analysis_header'->k)+n then bad:=bad||('items:'||k);end if;
++  without:=jsonb_set(without,array[k],(select coalesce(jsonb_agg(x.e order by x.o),'[]'::jsonb)from jsonb_array_elements(res->k)with ordinality x(e,o)where x.o<=pref or x.o>pref+n));
++  rebuilt:=jsonb_set(rebuilt,array[k],(select coalesce(jsonb_agg(z.e order by z.g,z.o),'[]'::jsonb)from(
++   select 0 g,x.o,x.e from jsonb_array_elements(hdr->'analysis_header'->k)with ordinality x(e,o)where x.o<=pref
++   union all select 1+q.idx,y.o,y.e from cp7_analysis_jobs.pages q cross join lateral jsonb_array_elements(q.body::jsonb->'items'->k)with ordinality y(e,o)where q.run_id=j.run_id
++   union all select 1000000000,x.o,x.e from jsonb_array_elements(hdr->'analysis_header'->k)with ordinality x(e,o)where x.o>pref)z));
++ end loop;
++ if (hdr->'analysis_header')::text<>without::text then bad:=bad||'header_analysis'::text;end if;
++ if (hdr-header_keys)::text<>((select cp7_analysis_jobs.original(r)from cp7_analysis_native.runs r where r.id=j.run_id)-'contract_version'-'analysis')::text then bad:=bad||'header_original'::text;end if;
++ -- The whole Original rebuilt from header + pages = the segments, byte for byte,
++ -- and = the analysis text the semantic hash was computed over.
++ if rebuilt::text<>(select t.body from cp7_analysis_stage.texts t where t.job_id=j.id and t.kind='ANALYSIS')then bad:=bad||'rebuilt_analysis'::text;end if;
++ if ((hdr-header_keys)||jsonb_build_object('contract_version','cp7.native-analysis-run.v1','analysis',rebuilt))::text<>doc then bad:=bad||'rebuilt_document'::text;end if;
++ -- Whole-run totals from the server equal the analysis.
++ if ps.totals<>jsonb_build_object('targets',ps.targets_total,'items',(select coalesce(jsonb_object_agg(x.key,x.value->'items'),'{}'::jsonb)from jsonb_each(ps.paged)x),
++   'recommendations',(select jsonb_build_object('ACTIVE',count(*)filter(where r->>'production_state'='ACTIVE'),'PAUSED',count(*)filter(where r->>'production_state'='PAUSED'),
++     'STOPPED',count(*)filter(where r->>'production_state'='STOPPED'),'OTHER',count(*)filter(where r->>'production_state'is null or r->>'production_state'not in('ACTIVE','PAUSED','STOPPED')))
++     from jsonb_array_elements(res->'recommendations')r),
++   'policy_unreviewed',(select count(*)from jsonb_array_elements(res->'actions')x where x->>'primary_reason'='PRODUCTION_POLICY_UNREVIEWED'))
++  or ps.targets_total<>(select coalesce(sum(y.hi-y.lo+1),0)from cp7_analysis_stage.units y where y.job_id=j.id and y.kind='ANA_TARGETS')
++  then bad:=bad||'totals'::text;end if;
++ return jsonb_build_object('state',j.state,'page_set',true,'bad',to_jsonb(bad),'pages',ps.page_count,'targets',ps.targets_total,'paged',ps.paged,
++  'header_bytes',ps.header_utf8_bytes,'max_page_bytes',(select max(utf8_bytes)from cp7_analysis_jobs.pages where run_id=j.run_id),'document_bytes',octet_length(doc));
++end $s$;
++create function public.sp_case(c jsonb,p_request uuid,with_single boolean)returns jsonb language plpgsql as $s$
++declare job uuid;st jsonb;rid uuid;single jsonb;
++begin
++ job:=cp7_analysis_stage.create_job('${ACTOR}',p_request,'${JSON.stringify(QUERY)}'::jsonb,'${JSON.stringify(ACCESS)}'::jsonb,c);
++ loop st:=cp7_analysis_stage.step(job);exit when st->>'state'<>'RUNNING';end loop;
++ select run_id into rid from cp7_analysis_stage.jobs where id=job;
++ if with_single then single:=public.st_single(c,'${JSON.stringify(QUERY)}'::jsonb,rid,'${JSON.stringify(ACCESS)}'::jsonb);end if;
++ return public.sp_verify(job)||jsonb_build_object('failure',st->'failure','single',single->>'state',
++  'single_same',(select r.result::text from cp7_analysis_native.runs r where r.id=rid)=(single->'body')::text,
++  'stages',(select jsonb_agg(distinct kind)from cp7_analysis_stage.units where job_id=job and kind like 'PAGE%'));
++end $s$;`
++
++function corpus() {
++  const cases: { seed: number, defect: string | null, c: unknown }[] = []
++  const shapes = [{ targets: 40, positions: 16, roots: 14, models: 3, complete: true }, { targets: 30, positions: 24, roots: 9, models: 2, complete: false },
++    { targets: 9, positions: 3, roots: 4, models: 2, complete: true }]
++  // The f05-staged-analysis parity corpus (same seeds, shapes and defects).
++  for (let seed = 1; seed <= 3; seed++) for (const defect of [...NETTING_DEFECTS, ...STAGED_DEFECTS])
++    cases.push({ seed, defect, c: stagedInput(4000 + seed * 100 + cases.length, shapes[seed - 1], defect) })
++  for (let seed = 10; seed < 22; seed++) cases.push({ seed, defect: null, c: stagedInput(5000 + seed, shapes[seed % 3]) })
++  return cases
++}
++
++test('P19 staged pages: header + pages reproduce the analysis and the Original byte for byte; page edges everywhere', async () => {
++  const db = await openRuntime({ commandTimeoutMs: 600_000 })
++  try {
++    await installStagedControls(db, { bounds: SMALL })
++    await db.execute(VERIFY)
++    const cases = corpus()
++    const stats = { variants: [] as Row[], refusals: new Set<string>() }
++    // Pages of 7 targets with the single build compared (whole corpus), then
++    // pages of 1 and of 3 targets over two thirds of the corpus.
++    for (const [per, pick, single] of [[7, () => true, true], [1, (i: number) => i % 3 !== 0, false], [3, (i: number) => i % 3 !== 1, false]] as const) {
++      await db.execute(bounds({ ...SMALL, targets_per_chunk: per }))
++      const chosen = cases.filter((_, i) => pick(i))
++      const v = { per, cases: chosen.length, done: 0, failed: 0, pages: 0, multi_page: 0, zero_target: 0, page_edges: 0, single_same: 0, max_page_bytes: 0,
++        paged: {} as Record<string, number>, unpaged_material_null: 0 }
++      for (let i = 0; i < chosen.length; i += 10) {
++        const batch = chosen.slice(i, i + 10)
++        const rows = (await db.query(`select public.sp_case(x.value,('03000000-0000-4000-8${per}00-'||lpad(to_hex(${i}+x.ordinality::integer),12,'0'))::uuid,${single}) r
++          from jsonb_array_elements(${jsonArg(batch.map(k => k.c))}) with ordinality x order by x.ordinality`)).map((r: Row) => r.r)
++        rows.forEach((row: Row, k: number) => {
++          const id = [per, batch[k].seed, batch[k].defect]
++          if (row.state !== 'DONE') {
++            // A failed job exposes no page set and no page.
++            expect([...id, row.state, row.page_set, row.pages]).toEqual([...id, 'FAILED', false, 0])
++            v.failed++; stats.refusals.add(row.failure?.code); return
++          }
++          expect([...id, row.page_set, row.bad]).toEqual([...id, true, []])
++          expect([...id, row.stages]).toEqual([...id, ['PAGES', 'PAGE_HEADER', 'PAGE_INDEX'].filter(s => s !== 'PAGES' || row.pages > 0).sort()])
++          if (single) { if (row.single === 'DONE') { expect([...id, row.single_same]).toEqual([...id, true]); v.single_same++ } }
++          v.done++; v.pages += row.pages; if (row.pages > 1) v.multi_page++; if (row.targets === 0) v.zero_target++
++          v.page_edges += Math.max(0, row.pages - 1); v.max_page_bytes = Math.max(v.max_page_bytes, row.max_page_bytes ?? 0)
++          for (const key of Object.keys(row.paged)) v.paged[key] = (v.paged[key] ?? 0) + 1
++          if (!('material_needs' in row.paged) && row.targets > 0) v.unpaged_material_null++
++        })
++      }
++      stats.variants.push(v)
++    }
++    process.stdout.write(JSON.stringify({ variants: stats.variants, refusals: [...stats.refusals] }) + '\n')
++    const [seven, one, three] = stats.variants
++    expect(seven.done).toBeGreaterThanOrEqual(75); expect(seven.single_same).toBeGreaterThanOrEqual(70); expect(seven.multi_page).toBeGreaterThanOrEqual(40)
++    expect(one.page_edges).toBeGreaterThan(1000); expect(three.page_edges).toBeGreaterThan(300)
++    // Every paged array kind occurs, incl. the warnings of unreviewed policies,
++    // runs whose material needs are null (not paged) and runs without targets.
++    for (const v of stats.variants) {
++      for (const key of ['recommendations', 'actions', 'timeline', 'metrics', 'demand_models', 'material_needs', 'assumptions', 'generation_warnings'])
++        expect([v.per, key, (v.paged[key] ?? 0) > 0]).toEqual([v.per, key, true])
++      expect(v.zero_target).toBeGreaterThan(0)
++    }
++  } finally { await db.close() }
++}, 1_800_000)
++
++// Explicit stand-ins for the access reader and the source, as in
++// f05-analysis-jobs: the actor and its permissions come from settings.
++const ACCESS_STANDINS = `
++ create function cp7_schedule_native.access_now(writing boolean)returns jsonb language plpgsql stable set search_path='' as $$
++  begin
++   if coalesce(current_setting('test.actor',true),'')='' then raise exception using errcode='42501',message='CP7_ACCESS_DENIED';end if;
++   return jsonb_build_object('actor',current_setting('test.actor'),'permissions',coalesce(current_setting('test.perm',true),'view'));
++  end $$;
++ create function cp7_analysis_native.finance_mode(facts jsonb)returns text language sql immutable set search_path='' as $$
++  select case when facts->>'financial_capture'='DEFERRED'then 'DEFERRED'else 'INCLUDED'end$$;
++ -- The current source: the run's own facts (UNCHANGED), changed facts
++ -- (test.stale) or without the owner report (test.finance='hidden').
++ create function cp7_analysis_native.source_for(q jsonb,p_finance text)returns jsonb language sql stable set search_path='' as $$
++  select case when current_setting('test.finance',true)='hidden'then x.facts||'{"financial_source":null}'::jsonb else x.facts end
++   ||case when current_setting('test.stale',true)='1'then '{"analysis_engine_signature":"changed"}'::jsonb else '{}'::jsonb end
++  from cp7_analysis_native.runs x where x.id=current_setting('test.run')::uuid$$;`
++
++test('P19 page readers: segment-equal access epoch and actor/run binding, whole reads of a paged run refused, privileges, immutability', async () => {
++  const db = await openRuntime({ commandTimeoutMs: 600_000 })
++  try {
++    await installStagedControls(db, { bounds: SMALL })
++    const jobs = readFileSync('scripts/cp7-src/planning/analysis-jobs.sql', 'utf8'), blocks = functionBlocks(jobs)
++    // The product manifest/segment readers and their RPCs; the manifest gets
++    // the proposed guard (refuse_paged first, then the unchanged body).
++    await db.execute(`${ACCESS_STANDINS}
++     ${['cp7_analysis_jobs.manifest', 'cp7_analysis_jobs.segment', 'public.erp_cp7_read_analysis_manifest_v1', 'public.erp_cp7_read_analysis_segment_v1'].map(n => blocks.get(n)).join('\n')}
++     alter function cp7_analysis_jobs.manifest(uuid)rename to manifest_whole;
++     create function cp7_analysis_jobs.manifest(p_run uuid)returns jsonb language plpgsql volatile security invoker set search_path=''as $$
++      begin perform cp7_analysis_jobs.refuse_paged(p_run);return cp7_analysis_jobs.manifest_whole(p_run);end $$;
++     alter function cp7_analysis_jobs.manifest(uuid)owner to cp7_capture;alter function cp7_analysis_jobs.manifest_whole(uuid)owner to cp7_capture;
++     alter function cp7_analysis_jobs.segment(uuid,integer,text)owner to cp7_capture;
++     alter function public.erp_cp7_read_analysis_manifest_v1(uuid)owner to cp7_capture;alter function public.erp_cp7_read_analysis_segment_v1(uuid,integer,text)owner to cp7_capture;
++     revoke all on function public.erp_cp7_read_analysis_manifest_v1(uuid),public.erp_cp7_read_analysis_segment_v1(uuid,integer,text)from public,anon,service_role;
++     grant execute on function public.erp_cp7_read_analysis_manifest_v1(uuid),public.erp_cp7_read_analysis_segment_v1(uuid,integer,text)to authenticated;`)
++    // A run with the owner report (seed % 3 !== 0) and 40 targets: 6 pages.
++    const c = stagedInput(7004, { targets: 40, positions: 16, roots: 14, models: 3, complete: true }) as Row
++    expect(c.financial_source).not.toBeNull()
++    const r = await runJob(db, c, { request: uuid(0x801), oneCallPerUnit: true })
++    expect(r.status.state).toBe('DONE')
++    const run = r.run_id, other = '03000000-0000-4000-8000-0000000000b2'
++    // A whole-read run of the same facts without pages (a single-path run).
++    const plain = '03000000-0000-4000-8000-00000000d0c1'
++    await db.execute(`insert into cp7_analysis_native.runs select '${plain}'::uuid,actor,'${uuid(0x802)}'::uuid,query,captured_at,access_at_capture,facts,result,dependency_hash
++       from cp7_analysis_native.runs where id='${run}';select cp7_analysis_jobs.store('${plain}');`)
++    const as = (actor: string, extra = '') => `set role authenticated;set test.actor='${actor}';set test.run='${run}';${extra}`
++    const call = async (actor: string, sql: string, extra = '') =>
++      JSON.parse(String(await db.execute(`${as(actor, extra)}select (${sql})::text;`)).trim().split('\n').at(-1) as string)
++    const refused = async (actor: string, sql: string, code: string, extra = '') => {
++      let message = ''
++      try { await db.execute(`${as(actor, extra)}select (${sql})::text;`) } catch (error) { message = String((error as { stderr?: string }).stderr ?? error) }
++      expect(message).toContain(code)
++    }
++    const m = await call(ACTOR, `public.erp_cp7_read_analysis_pages_v1('${run}')`)
++    expect(Object.keys(m).sort()).toEqual(['access_epoch', 'apply_enabled', 'contract_version', 'document', 'header', 'page_count', 'paged', 'pages', 'production_go',
++      'request_id', 'run_id', 'semantic_hash', 'source_state', 'targets_total', 'totals'])
++    expect(m).toMatchObject({ contract_version: 'cp7.native-analysis-pages.v1', run_id: run, request_id: uuid(0x801), source_state: 'UNCHANGED', targets_total: 40,
++      page_count: 6, apply_enabled: false, production_go: false })
++    expect(sha(m.header.body)).toBe(m.header.sha256); expect(Buffer.byteLength(m.header.body, 'utf8')).toBe(m.header.utf8_bytes)
++    const header = JSON.parse(m.header.body)
++    expect(header).toMatchObject({ contract_version: 'cp7.native-analysis-header.v1', run_id: run, request_id: uuid(0x801), targets_total: 40, page_count: 6,
++      semantic_hash: m.semantic_hash, document_sha256: m.document.sha256, apply_enabled: false, production_go: false })
++    expect(header).not.toHaveProperty('analysis')
++    expect(header.financial_source).toEqual(c.financial_source)
++    // Every page, read with the manifest's epoch, is the listed page.
++    const seen: number[] = []
++    for (const entry of m.pages) {
++      const p = await call(ACTOR, `public.erp_cp7_read_analysis_page_v1('${run}',${entry.index},'${m.access_epoch}')`)
++      expect(Object.keys(p).sort()).toEqual(['body', 'contract_version', 'document_sha256', 'header_sha256', 'index', 'page_count', 'run_id', 'sha256', 'target_hi',
++        'target_lo', 'utf8_bytes'])
++      expect(p).toMatchObject({ contract_version: 'cp7.native-analysis-page-read.v1', run_id: run, index: entry.index, page_count: 6, target_lo: entry.target_lo,
++        target_hi: entry.target_hi, header_sha256: m.header.sha256, document_sha256: m.document.sha256, utf8_bytes: entry.utf8_bytes, sha256: entry.sha256 })
++      expect(sha(p.body)).toBe(p.sha256); expect(Buffer.byteLength(p.body, 'utf8')).toBe(p.utf8_bytes)
++      const body = JSON.parse(p.body)
++      expect(body).toMatchObject({ contract_version: 'cp7.native-analysis-page.v1', run_id: run, index: entry.index, counts: entry.counts, header_sha256: m.header.sha256 })
++      seen.push(body.target_lo, body.target_hi)
++    }
++    expect(seen[0]).toBe(1); expect(seen.at(-1)).toBe(40)
++    // Refusals: changed access epoch, another actor (with its own epoch),
++    // missing page, no actor, hidden owner report, a run without pages.
++    await refused(ACTOR, `public.erp_cp7_read_analysis_page_v1('${run}',0,'${m.access_epoch}')`, 'CP7_ANALYSIS_ACCESS_CHANGED', `set test.perm='view,revoked-one';`)
++    await refused(other, `public.erp_cp7_read_analysis_page_v1('${run}',0,'${m.access_epoch}')`, 'CP7_ANALYSIS_ACCESS_CHANGED')
++    const epochOther = String(await db.execute(`set test.actor='${other}';select encode(sha256(convert_to(cp7_schedule_native.access_now(false)::text,'UTF8')),'hex');`)).trim()
++    await refused(other, `public.erp_cp7_read_analysis_page_v1('${run}',0,'${epochOther}')`, 'CP7_ANALYSIS_RUN_UNAVAILABLE')
++    await refused(other, `public.erp_cp7_read_analysis_pages_v1('${run}')`, 'CP7_ANALYSIS_RUN_UNAVAILABLE')
++    await refused(ACTOR, `public.erp_cp7_read_analysis_page_v1('${run}',6,'${m.access_epoch}')`, 'CP7_ANALYSIS_PAGE_UNAVAILABLE')
++    await refused(ACTOR, `public.erp_cp7_read_analysis_page_v1('${run}',-1,'${m.access_epoch}')`, 'CP7_ANALYSIS_PAGE_UNAVAILABLE')
++    await refused('', `public.erp_cp7_read_analysis_pages_v1('${run}')`, 'CP7_ACCESS_DENIED')
++    await refused(ACTOR, `public.erp_cp7_read_analysis_pages_v1('${run}')`, 'CP7_ANALYSIS_FINANCE_ACCESS_DENIED', `set test.finance='hidden';`)
++    await refused(ACTOR, `public.erp_cp7_read_analysis_pages_v1('${plain}')`, 'CP7_ANALYSIS_PAGES_UNAVAILABLE', `set test.run='${plain}';`)
++    await refused(ACTOR, `public.erp_cp7_read_analysis_page_v1('${plain}',0,'${m.access_epoch}')`, 'CP7_ANALYSIS_PAGES_UNAVAILABLE')
++    expect((await call(ACTOR, `public.erp_cp7_read_analysis_pages_v1('${run}')`, `set test.stale='1';`)).source_state).toBe('ARCHIVED_STALE')
++    // Whole reads: the paged run is refused by name (after the actor check);
++    // a run without pages keeps the unchanged manifest; segments still serve.
++    await refused(ACTOR, `public.erp_cp7_read_analysis_manifest_v1('${run}')`, 'CP7_ANALYSIS_RUN_PAGED')
++    await refused(other, `public.erp_cp7_read_analysis_manifest_v1('${run}')`, 'CP7_ANALYSIS_RUN_UNAVAILABLE')
++    const whole = await call(ACTOR, `public.erp_cp7_read_analysis_manifest_v1('${plain}')`, `set test.run='${plain}';`)
++    expect(Object.keys(whole).sort()).toEqual(['access_epoch', 'apply_enabled', 'contract_version', 'document', 'production_go', 'request_id', 'run_id', 'source_state'])
++    expect(whole).toMatchObject({ contract_version: 'cp7.native-analysis-manifest.v1', run_id: plain, source_state: 'UNCHANGED' })
++    const s0 = await call(ACTOR, `public.erp_cp7_read_analysis_segment_v1('${run}',0,'${m.access_epoch}')`)
++    expect(s0).toMatchObject({ contract_version: 'cp7.native-analysis-segment.v1', run_id: run, index: 0, document_sha256: m.document.sha256 })
++    // Privileges, owner, definer rights and search_path; immutable tables.
++    const execute = await db.query(`select p.proname,has_function_privilege('authenticated',p.oid,'EXECUTE')a,has_function_privilege('anon',p.oid,'EXECUTE')n,
++      has_function_privilege('service_role',p.oid,'EXECUTE')s,pg_get_userbyid(p.proowner)o,p.prosecdef d,p.proconfig c
++      from pg_proc p where p.pronamespace='public'::regnamespace and p.proname in('erp_cp7_read_analysis_pages_v1','erp_cp7_read_analysis_page_v1') order by 1`)
++    expect(execute).toEqual(['erp_cp7_read_analysis_page_v1', 'erp_cp7_read_analysis_pages_v1'].map(proname => ({ proname, a: true, n: false, s: false, o: 'cp7_capture', d: true, c: ['search_path=""'] })))
++    const privileges = (await db.query(`select bool_or(has_table_privilege(r,t,'SELECT,INSERT,UPDATE,DELETE'))tables,
++      bool_or(has_function_privilege(r,f,'EXECUTE'))private
++      from unnest(array['anon','authenticated','service_role'])r,unnest(array['cp7_analysis_jobs.page_sets','cp7_analysis_jobs.pages'])t,
++       unnest(array['cp7_analysis_jobs.pages_manifest(uuid)','cp7_analysis_jobs.page(uuid,integer,text)','cp7_analysis_jobs.refuse_paged(uuid)'])f`))[0]
++    expect(privileges).toEqual({ tables: false, private: false })
++    for (const table of ['page_sets', 'pages']) for (const sql of [`update cp7_analysis_jobs.${table} set run_id=run_id`, `delete from cp7_analysis_jobs.${table}`]) {
++      let message = ''
++      try { await db.execute(sql) } catch (error) { message = String((error as { stderr?: string }).stderr) }
++      expect(message).toContain('CP7_RUN_IMMUTABLE')
++    }
++  } finally { await db.close() }
++}, 900_000)
+diff --git a/tests/fixtures/nativeAnalysisPages.ts b/tests/fixtures/nativeAnalysisPages.ts
+new file mode 100644
+index 00000000..eddce96c
+--- /dev/null
++++ b/tests/fixtures/nativeAnalysisPages.ts
+@@ -0,0 +1,71 @@
++import fixture from './nativeAnalysisStandin.json'
++import {sha} from './nativeAnalysisTransport'
++// A staged run built from the one-target stand-in: every target gets its own
++// recommendation, action, metric, timeline items, demand model, material need
++// and profile assumption (the stand-in's items with the keys swapped); every
++// `unreviewed`-th target has an unreviewed production policy instead (one
++// warning and one review-policy action). Served as the server shapes it: a
++// pages manifest with the header body, and page reads with canonical bodies.
++const bytes=(text:string)=>new TextEncoder().encode(text)
++type Json=Record<string,any>
++const FIELDS=['assumptions','generation_warnings','actions','recommendations','demand_models','material_needs','metrics','timeline'] as const
++// itemRanges: a server defect where page p holds the items of other targets
++// than the range it claims (hashes, counts and totals all consistent).
++export async function stagedRun({targets,perPage,unreviewed=0,requestId=fixture.request_id,sourceState='UNCHANGED' as 'UNCHANGED'|'ARCHIVED_STALE',itemRanges}:{targets:number;perPage:number;unreviewed?:number;requestId?:string;sourceState?:'UNCHANGED'|'ARCHIVED_STALE';itemRanges?:[number,number][]}){
++ const base=structuredClone(fixture) as Json,a=base.analysis as Json,key0:string=a.recommendations[0].target.key,[root0,size]=key0.split(':'),profile0:string=a.assumptions[1].id
++ const states=['ACTIVE','ACTIVE','PAUSED','STOPPED']
++ const per:Record<string,unknown[]>[]=[],labels:Json[]=[]
++ for(let i=0;i<targets;i++){
++  const root=i===0?root0:`00000000-0000-4000-8000-1${i.toString(16).padStart(11,'0')}`,key=`${root}:${size}`,profile=i===0?profile0:`ce000000-0000-4000-8000-${i.toString(16).padStart(12,'0')}`
++  const swap=(v:unknown)=>JSON.parse(JSON.stringify(v).replaceAll(key0,key).replaceAll(root0,root).replaceAll(profile0,profile))
++  labels.push({target_key:key,sku:i===0?'TEST':`SKU-${i}`,product_name:i===0?'TEST':`Produk ${i}`})
++  if(i>0&&unreviewed>0&&i%unreviewed===unreviewed-1){
++   per.push({assumptions:[],generation_warnings:[`PRODUCTION_POLICY_UNREVIEWED:${key}`],recommendations:[],demand_models:[],material_needs:[],metrics:[],timeline:[],
++    actions:[{...swap(a.actions[0]),key:`review-policy-${key}`,target_keys:[],primary_reason:'PRODUCTION_POLICY_UNREVIEWED',conditional:false,
++     display_priority:{lane:'REVIEW_DATA',rank:null,basis:['Status produksi produk perlu diperiksa'],rule_version:'native-review-1'}}]})
++   continue
++  }
++  per.push({assumptions:[swap(a.assumptions[1])],generation_warnings:[],actions:[swap(a.actions[0])],recommendations:[{...swap(a.recommendations[0]),production_state:states[i%4]}],
++   demand_models:[swap(a.demand_models[0])],material_needs:[swap(a.material_needs[0])],metrics:[swap(a.metrics[0])],timeline:a.timeline.slice(0,2).map(swap)})
++ }
++ // Global items stay in the header: the schedule assumption before the
++ // per-target assumptions and the three run warnings before the per-target ones.
++ const prefix:Record<string,number>={assumptions:1,generation_warnings:3}
++ const header:Json={...a,assumptions:[a.assumptions[0]],generation_warnings:a.generation_warnings,actions:[],recommendations:[],demand_models:[],material_needs:[],metrics:[],timeline:[]}
++ const paged:Json={}
++ for(const k of FIELDS){const n=per.reduce((s,t)=>s+t[k].length,0);if(n>0)paged[k]={prefix:prefix[k]??0,items:n}}
++ const keys=FIELDS.filter(k=>paged[k])
++ const analysis={...header};for(const k of keys)analysis[k]=[...header[k].slice(0,paged[k].prefix),...per.flatMap(t=>t[k]),...header[k].slice(paged[k].prefix)]
++ labels.sort((x,y)=>x.target_key<y.target_key?-1:1)
++ const original={contract_version:'cp7.native-analysis-run.v1',run_id:base.run_id,request_id:requestId,analysis,product_labels:labels,query:base.query,financial_source:null,apply_enabled:false,production_go:false}
++ const doc=JSON.stringify(original),chars=Array.from(doc).length,documentSha=await sha(doc)
++ const pageCount=Math.ceil(targets/perPage)
++ const headerDoc={contract_version:'cp7.native-analysis-header.v1',run_id:base.run_id,request_id:requestId,query:base.query,financial_source:null,product_labels:labels,analysis_header:header,
++  paged,targets_total:targets,page_count:pageCount,document_sha256:documentSha,semantic_hash:a.semantic_hash,apply_enabled:false,production_go:false}
++ const headerBody=JSON.stringify(headerDoc),headerSha=await sha(headerBody)
++ const pages:Json[]=[],bodies:string[]=[],running:Record<string,number>={}
++ const rec={ACTIVE:0,PAUSED:0,STOPPED:0,OTHER:0} as Record<string,number>;let policy=0
++ for(let p=0;p<pageCount;p++){
++  const lo=p*perPage+1,hi=Math.min(targets,(p+1)*perPage),slice=itemRanges?per.slice(itemRanges[p][0]-1,itemRanges[p][1]):per.slice(lo-1,hi)
++  const items:Json={},counts:Json={},offsets:Json={},totals:Json={}
++  for(const k of keys){items[k]=slice.flatMap(t=>t[k]);counts[k]=items[k].length;offsets[k]=running[k]??0;running[k]=(running[k]??0)+counts[k];totals[k]=paged[k].items}
++  const summary={recommendations:{ACTIVE:0,PAUSED:0,STOPPED:0,OTHER:0} as Record<string,number>,policy_unreviewed:0}
++  for(const r of items.recommendations??[])summary.recommendations[['ACTIVE','PAUSED','STOPPED'].includes(r.production_state)?r.production_state:'OTHER']++
++  summary.policy_unreviewed=(items.actions??[]).filter((x:Json)=>x.primary_reason==='PRODUCTION_POLICY_UNREVIEWED').length
++  for(const s of Object.keys(rec))rec[s]+=summary.recommendations[s];policy+=summary.policy_unreviewed
++  const body=JSON.stringify({contract_version:'cp7.native-analysis-page.v1',run_id:base.run_id,request_id:requestId,index:p,page_count:pageCount,target_lo:lo,target_hi:hi,targets_total:targets,
++   document_sha256:documentSha,semantic_hash:a.semantic_hash,header_sha256:headerSha,counts,offsets,totals,summary,items,apply_enabled:false,production_go:false})
++  bodies.push(body);pages.push({index:p,target_lo:lo,target_hi:hi,utf8_bytes:bytes(body).byteLength,sha256:await sha(body),counts})
++ }
++ const manifest={contract_version:'cp7.native-analysis-pages.v1',run_id:base.run_id,request_id:requestId,source_state:sourceState,access_epoch:'a'.repeat(64),
++  document:{utf8_bytes:bytes(doc).byteLength,characters:chars,sha256:documentSha,segment_count:Math.ceil(chars/2000000),segment_characters:2000000},
++  semantic_hash:a.semantic_hash,targets_total:targets,page_count:pageCount,paged,
++  totals:{targets,items:Object.fromEntries(keys.map(k=>[k,paged[k].items])),recommendations:rec,policy_unreviewed:policy},
++  header:{utf8_bytes:bytes(headerBody).byteLength,sha256:headerSha,body:headerBody},pages,apply_enabled:false,production_go:false}
++ const page=(i:number)=>({contract_version:'cp7.native-analysis-page-read.v1',run_id:base.run_id,index:i,page_count:pageCount,target_lo:pages[i].target_lo,target_hi:pages[i].target_hi,
++  header_sha256:headerSha,document_sha256:documentSha,utf8_bytes:pages[i].utf8_bytes,sha256:pages[i].sha256,body:bodies[i]})
++ return{manifest,page,headerDoc,bodies,original,query:base.query as {from_date:string;through_date:string;group_mode:'AS_SOLD'|'RESTATED'},actor:a.scope.actor_scope_id as string,runId:base.run_id as string}
++}
++// Re-serves a changed page body with a consistent envelope hash and size, so
++// only the manifest or the page's own content can catch the change.
++export async function rehash(envelope:Json,body:string){return{...envelope,body,utf8_bytes:bytes(body).byteLength,sha256:await sha(body)}}
+-- 
+2.43.0
+
