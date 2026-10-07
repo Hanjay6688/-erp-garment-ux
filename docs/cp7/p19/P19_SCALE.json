@@ -207,5 +207,131 @@
       "zero-quantity WIP positions"
     ],
     "known_finding": "PL-8: wip normalize_cutting is quadratic in historical cutting groups (local 250 groups 8.6 s, 500 groups 31.6 s); exhausted groups still emit zero-quantity positions; netting refuses more than 1000 positions. The ladder seeds no cutting group; pre-existing groups are counted, never removed."
+  },
+  "phase_profile": {
+    "label": "PHASE_PROFILE_NOT_APP_LATENCY",
+    "application_latency": false,
+    "order": "after every measured point and step diagnostic of the size, so no measured call is warmed or delayed by it",
+    "role": "cp7_capture",
+    "actor": "the measured capture's actor claims (seeded owner), as inside the security-definer public RPC",
+    "statement_timeout_per_phase": "8s",
+    "isolation": "own rolled-back savepoint; intermediates in a temporary table; nothing survives",
+    "timing": "server clock_timestamp() around the call only; inputs are read before the clock starts",
+    "build_input": "stored facts of the measured ordinary run when it completed (rebuild compared with the stored result), else the profile's own live source",
+    "phases": [
+      "history_source",
+      "baseline_source",
+      "wip_source_at",
+      "supply_source",
+      "schedule_source",
+      "netting_source",
+      "material_source",
+      "fabric_source",
+      "analysis_source_operational",
+      "financial_source",
+      "analysis_source",
+      "history_build",
+      "baseline_build",
+      "wip_normalize",
+      "supply_build",
+      "schedule_build",
+      "netting_build",
+      "fabric_plan",
+      "analysis_build_operational",
+      "analysis_build",
+      "dependency_fingerprint",
+      "serve",
+      "original_document",
+      "report_render_not_in_capture_path"
+    ],
+    "own_cost_layers": [
+      {
+        "layer": "history_source",
+        "wraps": null,
+        "meaning": "history source read (products, stock, sales, journals)"
+      },
+      {
+        "layer": "baseline_source",
+        "wraps": "history_source",
+        "meaning": "planning profiles + production policies"
+      },
+      {
+        "layer": "supply_source",
+        "wraps": "baseline_source",
+        "meaning": "WIP production source (wip_source_at)"
+      },
+      {
+        "layer": "schedule_source",
+        "wraps": "supply_source",
+        "meaning": "reviewed schedule plan read"
+      },
+      {
+        "layer": "netting_source",
+        "wraps": "schedule_source",
+        "meaning": "matching products"
+      },
+      {
+        "layer": "analysis_source_operational",
+        "wraps": "netting_source",
+        "meaning": "engine signature + material + fabric sources"
+      },
+      {
+        "layer": "analysis_source",
+        "wraps": "analysis_source_operational",
+        "meaning": "protected owner financial source"
+      },
+      {
+        "layer": "history_build",
+        "wraps": null,
+        "meaning": "demand history build (grid, events, availability)"
+      },
+      {
+        "layer": "baseline_build",
+        "wraps": "history_build",
+        "meaning": "baseline per-target demand/target"
+      },
+      {
+        "layer": "supply_build",
+        "wraps": "baseline_build",
+        "meaning": "WIP normalisation"
+      },
+      {
+        "layer": "schedule_build",
+        "wraps": "supply_build",
+        "meaning": "schedule scenario (calendar, capacity, ETA)"
+      },
+      {
+        "layer": "netting_build",
+        "wraps": "schedule_build",
+        "meaning": "matching, netting and timelines"
+      },
+      {
+        "layer": "analysis_build_operational",
+        "wraps": "netting_build",
+        "meaning": "fabric plan + per-target analysis assembly"
+      },
+      {
+        "layer": "analysis_build",
+        "wraps": "analysis_build_operational",
+        "meaning": "financial metrics + semantic hash"
+      },
+      {
+        "layer": "serve",
+        "wraps": null,
+        "meaning": "serve: source re-read for freshness + labels"
+      }
+    ],
+    "recorded_per_phase": [
+      "server_ms",
+      "client_ms",
+      "utf8_bytes of the jsonb text",
+      "top-level array lengths",
+      "facts collection lengths",
+      "WIP positions",
+      "history rows",
+      "refusal code"
+    ],
+    "original_breakdown": "Original, analysis and stored-facts top-level keys by PostgreSQL text bytes, with bytes per target",
+    "scaling": "own cost per layer across sizes: ms per target and growth exponent between consecutive sizes"
   }
 }

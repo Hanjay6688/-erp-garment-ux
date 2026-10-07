@@ -12,7 +12,7 @@ explicit stand-in kernel benchmarks (cp7_p19_*_benchmark.mjs) stay separate.
 """
 from datetime import timedelta
 from decimal import Decimal
-from math import ceil
+from math import ceil, log as ln
 from pathlib import Path
 from time import monotonic
 import hashlib
@@ -566,6 +566,243 @@ def observe(cur, actor, requests, run, label):
     return out
 
 
+# ---------------------------------------------------------------- server-side phase profile
+# Diagnostic only, never application latency. It runs after every measured
+# point of a size, inside its own rolled-back savepoint, one private call at a
+# time as the capture principal (cp7_capture with the measured actor's claims,
+# as the compiler-equivalence control does) under the same 8 s per call. Each
+# intermediate stays server side in a temporary table; timing is
+# clock_timestamp() around the call alone. Nested sources/builds are timed as
+# composed by the capture; a layer's own cost is its time minus the layer below.
+PROFILE_LABEL = 'PHASE_PROFILE_NOT_APP_LATENCY'
+PROFILE_ROLE = 'cp7_capture'
+# (phase, SQL with $1 inputs jsonb[], $2 query, $3 run, $4 access, inputs, kind)
+PROFILE = (
+    ('history_source', 'select cp7_planning.history_source()', (), 'SOURCE'),
+    ('baseline_source', 'select cp7_baseline_native.source()', (), 'SOURCE'),
+    ('wip_source_at', 'select cp7_supply_native.wip_source_at(clock_timestamp())', (), 'SOURCE_LEAF'),
+    ('supply_source', 'select cp7_supply_native.source()', (), 'SOURCE'),
+    ('schedule_source', 'select cp7_schedule_native.source()', (), 'SOURCE'),
+    ('netting_source', 'select cp7_netting_native.source()', (), 'SOURCE'),
+    ('material_source', "select cp7_analysis_native.material_source($1[1]->'facts'->'products',($1[1]->>'captured_at')::timestamptz)",
+     ('netting_source',), 'SOURCE_LEAF'),
+    ('fabric_source', "select cp7_fabric_native.source($1[1]->'facts'->'products',($1[1]->>'captured_at')::timestamptz)",
+     ('netting_source',), 'SOURCE_LEAF'),
+    ('analysis_source_operational', 'select cp7_analysis_native.source()', (), 'SOURCE'),
+    ('financial_source', 'select cp7_analysis_native.financial_source($2,clock_timestamp())', (), 'SOURCE_LEAF'),
+    ('analysis_source', 'select cp7_analysis_native.source($2)', (), 'SOURCE'),
+    ('history_build', 'select cp7_planning.history_build($1[1],$2)', ('input',), 'BUILD'),
+    ('baseline_build', 'select cp7_baseline_native.build($1[1],$2)', ('input',), 'BUILD'),
+    ('wip_normalize', "select cp7_wip.normalize_production($1[1]->'production_sources')", ('input',), 'BUILD_LEAF'),
+    ('supply_build', 'select cp7_supply_native.build($1[1],$2)', ('input',), 'BUILD'),
+    ('schedule_build', 'select cp7_schedule_native.build($1[1],$2)', ('input',), 'BUILD'),
+    ('netting_build', 'select cp7_netting_native.build($1[1],$2)', ('input',), 'BUILD'),
+    ('fabric_plan', 'select cp7_fabric_native.plan($1[1],$1[2])', ('input', 'netting_build'), 'BUILD_LEAF'),
+    ('analysis_build_operational', 'select cp7_analysis_native.build_operational($1[1],$2,$3,coalesce($4,cp7_schedule_native.access_now(false)))',
+     ('input',), 'BUILD'),
+    ('analysis_build', 'select cp7_analysis_native.build($1[1],$2,$3,coalesce($4,cp7_schedule_native.access_now(false)))',
+     ('input',), 'BUILD'),
+    ('dependency_fingerprint', 'select to_jsonb(cp7_analysis_native.fingerprint($1[1]))', ('input',), 'BUILD_LEAF'),
+    ('serve', 'select cp7_analysis_native.serve($3)', (), 'SERVE'),
+    ('original_document', 'select cp7_analysis_jobs.original(r) from cp7_analysis_native.runs r where r.id=$3', (), 'SERVE'),
+    ('report_render_not_in_capture_path', "select to_jsonb(cp7_analysis_native.report_render($1[1],'DAILY','P19 scale profile'))",
+     ('serve',), 'NOT_IN_CAPTURE_PATH'),
+)
+# Own cost of a composed layer = its time minus the layer it wraps.
+PROFILE_LAYERS = (
+    ('history_source', None, 'history source read (products, stock, sales, journals)'),
+    ('baseline_source', 'history_source', 'planning profiles + production policies'),
+    ('supply_source', 'baseline_source', 'WIP production source (wip_source_at)'),
+    ('schedule_source', 'supply_source', 'reviewed schedule plan read'),
+    ('netting_source', 'schedule_source', 'matching products'),
+    ('analysis_source_operational', 'netting_source', 'engine signature + material + fabric sources'),
+    ('analysis_source', 'analysis_source_operational', 'protected owner financial source'),
+    ('history_build', None, 'demand history build (grid, events, availability)'),
+    ('baseline_build', 'history_build', 'baseline per-target demand/target'),
+    ('supply_build', 'baseline_build', 'WIP normalisation'),
+    ('schedule_build', 'supply_build', 'schedule scenario (calendar, capacity, ETA)'),
+    ('netting_build', 'schedule_build', 'matching, netting and timelines'),
+    ('analysis_build_operational', 'netting_build', 'fabric plan + per-target analysis assembly'),
+    ('analysis_build', 'analysis_build_operational', 'financial metrics + semantic hash'),
+    ('serve', None, 'serve: source re-read for freshness + labels'),
+)
+PROFILE_SETUP = """create temp table p19s_profile(k text primary key,v jsonb not null,server_ms numeric not null);
+grant select,insert,update on pg_temp.p19s_profile to cp7_capture;
+create function pg_temp.p19s_phase(p_name text,p_sql text,p_inputs text[],p_q jsonb,p_run uuid,p_a jsonb)returns numeric
+language plpgsql as $f$
+declare inputs jsonb[];v jsonb;started timestamptz;elapsed numeric;
+begin
+ -- Inputs are read and detoasted before the clock starts; only the call is timed.
+ select coalesce(array_agg(x.v order by i.n),'{}')into inputs
+  from unnest(p_inputs)with ordinality i(k,n)join pg_temp.p19s_profile x on x.k=i.k;
+ if cardinality(inputs)<>cardinality(p_inputs)then raise exception 'P19S_PROFILE_INPUT_UNAVAILABLE';end if;
+ started:=clock_timestamp();
+ execute p_sql into v using inputs,p_q,p_run,p_a;
+ elapsed:=round(extract(epoch from clock_timestamp()-started)*1000,3);
+ insert into pg_temp.p19s_profile values(p_name,coalesce(v,'null'::jsonb),elapsed)
+  on conflict(k)do update set v=excluded.v,server_ms=excluded.server_ms;
+ return elapsed;
+end $f$"""
+PROFILE_METRICS = """select server_ms,octet_length(v::text),jsonb_typeof(v),
+ case when jsonb_typeof(v)='object'then(select jsonb_object_agg(key,jsonb_array_length(value))from jsonb_each(v)where jsonb_typeof(value)='array')end,
+ case when jsonb_typeof(v->'facts')='object'then(select jsonb_object_agg(key,jsonb_array_length(value))from jsonb_each(v->'facts')where jsonb_typeof(value)='array')end,
+ case when jsonb_typeof(v#>'{wip,positions}')='array'then jsonb_array_length(v#>'{wip,positions}')end,
+ case when jsonb_typeof(v#>'{history,rows}')='array'then jsonb_array_length(v#>'{history,rows}')end,
+ case when jsonb_typeof(v)='object'then v->>'status'end
+ from pg_temp.p19s_profile where k=%s"""
+
+
+def profile_phase(cur, name, sql, inputs, q, run, access, claims):
+    started = monotonic()
+    try:
+        with cur.connection.transaction():
+            cur.execute("set local statement_timeout='8s'")
+            cur.execute("select set_config('request.jwt.claim.sub','',true),set_config('request.jwt.claims',%s,true)", (claims,))
+            cur.execute('set local role ' + PROFILE_ROLE)
+            server = cur.execute('select pg_temp.p19s_phase(%s,%s,%s::text[],%s::jsonb,%s,%s::jsonb)',
+                                 (name, sql, list(inputs), json.dumps(q), run, access)).fetchone()[0]
+        client = ms(started)
+        b.api.admin(cur)
+        keys = ('server_ms', 'utf8_bytes', 'json_type', 'top_level_arrays', 'facts_arrays', 'wip_positions', 'history_rows', 'status')
+        row = dict(zip(keys, cur.execute(PROFILE_METRICS, (name,)).fetchone()))
+        row['server_ms'] = float(server)
+        return dict(name=name, outcome='RETURNED', client_ms=client, **{k: v for k, v in row.items() if v is not None})
+    except psycopg.Error as error:
+        elapsed = ms(started)
+        b.api.admin(cur)
+        return dict(name=name, outcome='REFUSED', client_ms=elapsed, **refusal(error))
+
+
+def ranked(parts, total, targets):
+    rows = sorted(((key, value if isinstance(value, int) else value['utf8_bytes'], None if isinstance(value, int) else value.get('items'))
+                   for key, value in (parts or {}).items()), key=lambda row: -row[1])
+    return [dict(key=key, utf8_bytes=size, items=items, share=round(size / total, 4) if total else None,
+                 bytes_per_target=round(size / targets, 1) if targets else None) for key, size, items in rows]
+
+
+def original_breakdown(cur, run, targets):
+    """What the stored Original is made of (PostgreSQL text bytes; admin read)."""
+    b.api.admin(cur)
+    top, keys, facts, collections = cur.execute("""select
+        (select jsonb_object_agg(key,octet_length(value::text))from cp7_analysis_native.runs x,jsonb_each(cp7_analysis_jobs.original(x))where x.id=%(r)s),
+        (select jsonb_object_agg(key,jsonb_build_object('utf8_bytes',octet_length(value::text),'items',
+          case when jsonb_typeof(value)='array'then jsonb_array_length(value)end))from cp7_analysis_native.runs x,jsonb_each(x.result)where x.id=%(r)s),
+        (select jsonb_object_agg(key,octet_length(value::text))from cp7_analysis_native.runs x,jsonb_each(x.facts)where x.id=%(r)s),
+        (select jsonb_object_agg(key,jsonb_build_object('utf8_bytes',octet_length(value::text),'items',jsonb_array_length(value)))
+          from cp7_analysis_native.runs x,jsonb_each(x.facts->'facts')where x.id=%(r)s and jsonb_typeof(value)='array')""",
+                                            dict(r=run)).fetchone()
+    stored = original(cur, run)
+    total = stored['original_utf8_bytes']
+    return dict(byte_basis='POSTGRESQL_JSONB_TEXT_UTF8', targets=targets, original_utf8_bytes=total,
+                original_bytes_per_target=round(total / targets, 1) if targets else None,
+                original_top_level=ranked(top, total, targets),
+                analysis_keys=ranked(keys, stored['analysis_sql_text_utf8_bytes'], targets),
+                stored_facts_top_level_not_in_original=ranked(facts, stored['facts_sql_text_utf8_bytes'], targets),
+                stored_facts_collections=ranked(collections, None, targets))
+
+
+def own_costs(phases):
+    """Each composed layer's own cost; derived by subtraction, so small negatives are noise."""
+    by = {p['name']: p for p in phases if p['outcome'] == 'RETURNED'}
+    out = []
+    for name, parent, meaning in PROFILE_LAYERS:
+        if name in by and (parent is None or parent in by):
+            out.append(dict(layer=name, meaning=meaning, own_ms=round(by[name]['server_ms'] - (by[parent]['server_ms'] if parent else 0), 3),
+                            composed_ms=by[name]['server_ms'], derived_by_subtraction=parent is not None))
+    return out
+
+
+def phase_profile(cur, today, size, days, run, targets):
+    """Phase profile of one point, after its measured calls; nothing survives the savepoint."""
+    b.api.admin(cur)
+    q = history.query(today, days)
+    claims = json.dumps(dict(sub=analysis.auth.base.OPERATOR_AUTH, role='authenticated'))
+    out = dict(size=size, history_days=days, label=PROFILE_LABEL, application_latency=False, role=PROFILE_ROLE,
+               actor_claims_of_measured_capture=True, statement_timeout_per_phase=STATEMENT_TIMEOUT, measured_run=run, phases=[])
+    access, run_id, available = None, run or str(uuid.uuid4()), set()
+    cur.execute('savepoint p19s_profile')
+    try:
+        cur.execute(PROFILE_SETUP, prepare=False)
+        if run:
+            access = json.dumps(cur.execute('select access_at_capture from cp7_analysis_native.runs where id=%s', (run,)).fetchone()[0])
+        for name, sql, inputs, kind in PROFILE:
+            if kind.startswith('BUILD') and 'input' not in available:
+                # The exact facts of the measured run when it was stored, else this profile's own source.
+                b.api.admin(cur)
+                source = 'analysis_source' if 'analysis_source' in available else None
+                if run:
+                    cur.execute("insert into pg_temp.p19s_profile select 'input',facts,0 from cp7_analysis_native.runs where id=%s", (run,))
+                    out['build_input'] = 'STORED_FACTS_OF_MEASURED_RUN'
+                elif source:
+                    cur.execute("insert into pg_temp.p19s_profile select 'input',v,0 from pg_temp.p19s_profile where k=%s", (source,))
+                    out['build_input'] = 'LIVE_PROFILE_SOURCE'
+                if run or source:
+                    available.add('input')
+            if kind in ('SERVE', 'NOT_IN_CAPTURE_PATH') and not run:
+                out['phases'].append(dict(name=name, kind=kind, outcome='SKIPPED_NO_STORED_RUN'))
+                continue
+            if not set(inputs) <= available:
+                out['phases'].append(dict(name=name, kind=kind, outcome='SKIPPED_INPUT_UNAVAILABLE', inputs=list(inputs)))
+                continue
+            row = profile_phase(cur, name, sql, inputs, q, run_id, access, claims)
+            row['kind'] = kind
+            out['phases'].append(row)
+            if row['outcome'] == 'RETURNED':
+                available.add(name)
+        b.api.admin(cur)
+        if run and 'analysis_build' in available:
+            out['rebuild_identical_to_stored_result'] = cur.execute(
+                """select(select v from pg_temp.p19s_profile where k='analysis_build')=r.result
+                   from cp7_analysis_native.runs r where r.id=%s""", (run,)).fetchone()[0]
+        if 'analysis_source' in available:
+            out['financial_source_in_capture'] = cur.execute(
+                "select coalesce(v->'financial_source','null'::jsonb)<>'null'::jsonb from pg_temp.p19s_profile where k='analysis_source'").fetchone()[0]
+        if run and 'analysis_source' in available:
+            out['profile_source_fingerprint_equals_measured'] = cur.execute(
+                """select cp7_analysis_native.fingerprint((select v from pg_temp.p19s_profile where k='analysis_source'))=r.dependency_hash
+                   from cp7_analysis_native.runs r where r.id=%s""", (run,)).fetchone()[0]
+    except Exception as failure:  # a profiler failure is missing evidence, never a measured result
+        out['harness_error'] = str(failure)[:2000]
+    finally:
+        cur.execute('rollback to savepoint p19s_profile')
+        cur.execute('release savepoint p19s_profile')
+        b.api.admin(cur)
+    if run:
+        out['original_breakdown'] = original_breakdown(cur, run, targets)
+    layers = own_costs(out['phases'])
+    stopped = [dict(name=p['name'], code=p.get('code'), client_ms=p.get('client_ms')) for p in out['phases'] if p['outcome'] == 'REFUSED']
+    dominant = max(layers, key=lambda row: row['own_ms'], default=None)
+    by = {p['name']: p['server_ms'] for p in out['phases'] if p['outcome'] == 'RETURNED'}
+    out['summary'] = dict(
+        own_costs=layers, dominant_layer=dominant and dominant['layer'], dominant_own_ms=dominant and dominant['own_ms'],
+        stopped_phases=stopped, first_stopped_phase=stopped[0] if stopped else None,
+        capture_path_estimate_ms=round(sum(by.get(k, 0) for k in ('analysis_source', 'analysis_build', 'serve')), 3)
+        if all(k in by for k in ('analysis_source', 'analysis_build', 'serve')) else None,
+        capture_path_note='source(q) + build + serve(run, which reads source(q) again); the run insert is not separated',
+        financial_source_in_capture=out.get('financial_source_in_capture'))
+    return out
+
+
+def scaling(rows):
+    """Own cost per layer across sizes: ms per target and the growth exponent between sizes (1 linear, 2 quadratic)."""
+    out = {}
+    for days in HISTORY_DAYS:
+        series = {}
+        for row in rows:
+            summary = (row.get('phase_profile') or {}).get(days, {}).get('summary') or {}
+            for layer in summary.get('own_costs', []):
+                series.setdefault(layer['layer'], []).append((row['total_targets'], layer['own_ms']))
+        table = {}
+        for layer, points in series.items():
+            steps = [dict(from_targets=a[0], to_targets=c[0],
+                          exponent=round(ln(c[1] / a[1]) / ln(c[0] / a[0]), 2) if a[1] > 5 and c[1] > 5 and c[0] > a[0] else None)
+                     for a, c in zip(points, points[1:])]
+            table[layer] = dict(points=[dict(targets=n, own_ms=t, ms_per_target=round(t / n, 3) if n else None) for n, t in points],
+                                growth=steps)
+        out[days] = table
+    return out
+
+
 def compact(point):
     return {k: v for k, v in point.items() if k not in ('manifest', 'job')} | dict(
         job_state=(point.get('job') or {}).get('state'), segment_count=(point.get('manifest') or {}).get('document', {}).get('segment_count'))
@@ -573,6 +810,9 @@ def compact(point):
 
 def cases(cur, today):
     def ladder():
+        declared = json.loads((Path(__file__).resolve().parents[1] / 'docs/cp7/p19/P19_SCALE.json').read_text())['phase_profile']
+        assert declared['phases'] == [name for name, _, _, _ in PROFILE] and declared['label'] == PROFILE_LABEL \
+            and declared['role'] == PROFILE_ROLE and declared['statement_timeout_per_phase'] == STATEMENT_TIMEOUT, 'P19S_PHASE_PROFILE_DECLARATION'
         rows, points, wip = [], [], False
         products = CAPS['HISTORY_SOURCE_PRODUCTS_1000']['value']
         for size in SIZES:
@@ -582,12 +822,27 @@ def cases(cur, today):
             cap = source_cap(cur)
             witness('SEED_%d' % size, dict(seed, history_source=cap))
             before = b.boundary.snapshot(cur)
-            measured, attribution = [], {}
+            measured, attribution, profiles = [], {}, {}
+            # Every measured point of the size runs first; the unmeasured step
+            # diagnostics and the phase profile follow, so neither can warm or
+            # delay a measured call of this size.
             for days in HISTORY_DAYS:
                 measured += [ordinary(cur, today, size, days, expected), background(cur, today, size, days, expected)]
-                attribution[days] = diagnostics(cur, today, days)
             if size == GRID_BOUNDARY['size']:
                 measured.append(ordinary(cur, today, size, GRID_BOUNDARY['days'], expected, True))
+            for days in HISTORY_DAYS:
+                attribution[days] = diagnostics(cur, today, days)
+            for days in HISTORY_DAYS:
+                run = next((p.get('run_id') for p in measured if p['path'] == 'ORDINARY_CAPTURE' and p['history_days'] == days
+                            and p['verdict']['kind'] == 'COMPLETE_RESULT'), None)
+                full = phase_profile(cur, today, size, days, run, len(expected))
+                full['witness'] = witness('PROFILE_%d_%d' % (size, days), full)
+                profiles[days] = dict(witness=full['witness'], summary=full['summary'], build_input=full.get('build_input'),
+                                      harness_error=full.get('harness_error'),
+                                      rebuild_identical_to_stored_result=full.get('rebuild_identical_to_stored_result'),
+                                      original_breakdown_top=(full.get('original_breakdown') or {}).get('original_top_level', [])[:3],
+                                      analysis_keys_top=(full.get('original_breakdown') or {}).get('analysis_keys', [])[:6],
+                                      original_bytes_per_target=(full.get('original_breakdown') or {}).get('original_bytes_per_target'))
             unchanged = b.boundary.snapshot(cur) == before
             row = dict(size=size, total_targets=len(expected), seed_ms_not_app_latency=seed['seed_ms'],
                        writer_phases=seed['writer_phases'], calendar_review=seed['calendar_review'],
@@ -595,7 +850,7 @@ def cases(cur, today):
                        source_model_consistent=cap['history_source_products_read'] == min(size, products + 1)
                        and cap['other_collections_within_50000']
                        and (cap['history_source_status'] == 'COMPLETE') == (size <= products),
-                       step_attribution=attribution, Native_business_unchanged_by_measurement=unchanged,
+                       step_attribution=attribution, phase_profile=profiles, Native_business_unchanged_by_measurement=unchanged,
                        points=[compact(p) for p in measured])
             witness('SIZE_%d' % size, row)
             rows.append(row)
@@ -603,9 +858,14 @@ def cases(cur, today):
             assert unchanged, ('P19S_MEASUREMENT_CHANGED_NATIVE_BUSINESS', size)
         verdicts = [p['verdict'] for p in points]
         consistent = all(row['source_model_consistent'] for row in rows)
+        # A profiler failure is missing evidence; it never alters a verdict or a measured time.
+        profiled = all(not p['harness_error'] for row in rows for p in row['phase_profile'].values())
         status = ('COUNTEREXAMPLE' if any(v['counterexample'] for v in verdicts)
-                  else 'PASS' if consistent and all(v['acceptable'] for v in verdicts) else 'INCOMPLETE')
+                  else 'PASS' if consistent and profiled and all(v['acceptable'] for v in verdicts) else 'INCOMPLETE')
+        growth = scaling(rows)
+        witness('PHASE_SCALING', growth)
         return dict(status=status, evidence_kind=EVIDENCE_KIND, contract=CONTRACT, sizes=rows,
+                    phase_profile_complete=profiled, phase_scaling=growth, phase_profile_label=PROFILE_LABEL,
                     verdict_counts={k: sum(v['kind'] == k for v in verdicts) for k in sorted({v['kind'] for v in verdicts})},
                     source_model_consistent=consistent, statement_timeout=STATEMENT_TIMEOUT, limits_raised=False,
                     data_sampled_or_truncated=False, seed_time_reported_apart=True, kernel_evidence_reused=False,
