@@ -1,0 +1,18 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /home/user/s5k-wt
+
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  16:51:00
+   Duration  136.39s (transform 297ms, setup 0ms, import 343ms, tests 135.87s, environment 0ms)
+
+exit 0

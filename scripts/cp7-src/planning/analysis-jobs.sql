@@ -76,26 +76,34 @@ $$;
 create function cp7_analysis_jobs.store(p_run uuid)returns cp7_analysis_jobs.documents
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare d cp7_analysis_jobs.documents%rowtype;r cp7_analysis_native.runs%rowtype;body text;n constant integer:=2000000;
- rest text;part text;
+ data bytea;total integer;pos integer:=0;finish integer;part text;
 begin
  perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS-DOCUMENT:'||p_run::text,0));
  select *into d from cp7_analysis_jobs.documents where run_id=p_run;
  if found then return d;end if;
  select *into r from cp7_analysis_native.runs where id=p_run;
  if r.id is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
- body:=cp7_analysis_jobs.original(r)::text;
+ body:=cp7_analysis_jobs.original(r)::text;data:=convert_to(body,'UTF8');total:=octet_length(data);
  insert into cp7_analysis_jobs.documents(run_id,utf8_bytes,characters,sha256,segment_count,segment_characters)
- values(p_run,octet_length(body),length(body),encode(pg_catalog.sha256(convert_to(body,'UTF8')),'hex'),(length(body)+n-1)/n,n)
+ values(p_run,total,length(body),encode(pg_catalog.sha256(data),'hex'),(length(body)+n-1)/n,n)
  returning *into d;
- -- P19: the same cut as substr(body,i*n+1,n), in one pass. substr counts the
- -- characters before every segment again (quadratic: 25 s at 65 MB); left()
- -- and right(s,-n) only scan the n characters they cut.
- rest:=body;
+ -- P19: the same cut as substr(body,i*n+1,n) (every segment but the last holds
+ -- exactly n code points), through a bounded UTF-8 byte window. substr counted
+ -- the characters before every segment again (quadratic: 25 s at 65 MB);
+ -- left()/right(s,-n) still copied the whole remaining tail per segment
+ -- (10.9 GB at 210 MB; owner support PR #46, Native parity 817/817). A code
+ -- point is at most 4 UTF-8 bytes: decode at most 4*n bytes from the byte
+ -- offset, trimmed back (at most three continuation bytes) to a character
+ -- boundary, take n code points, and advance by the part's own bytes.
  for i in 0..d.segment_count-1 loop
-  part:=left(rest,n);rest:=right(rest,-n);
+  finish:=least(total,pos+4*n);
+  while finish<total and get_byte(data,finish)between 128 and 191 loop finish:=finish-1;end loop;
+  part:=left(convert_from(substr(data,pos+1,finish-pos),'UTF8'),n);
+  pos:=pos+octet_length(part);
   insert into cp7_analysis_jobs.segments(run_id,idx,body,utf8_bytes,sha256)
   values(p_run,i,part,octet_length(part),encode(pg_catalog.sha256(convert_to(part,'UTF8')),'hex'));
  end loop;
+ if pos<>total then raise exception 'CP7_ANALYSIS_SEGMENT_CUT';end if;
  return d;
 end $$;
 create function cp7_analysis_jobs.request(p_query jsonb,p_request uuid,p_finance text)returns jsonb
