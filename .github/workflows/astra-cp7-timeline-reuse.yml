@@ -1,0 +1,41 @@
+name: CP7 Astra Timeline Reuse
+on:
+  push:
+    branches: [cp7/astra-netting-timeline-reuse-20261007]
+    paths:
+      - scripts/cp7-src/planning/netting.sql
+      - scripts/cp7_astra_timeline_reuse_probe.mjs
+      - .github/workflows/astra-cp7-timeline-reuse.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: astra-timeline-reuse-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  isolated-kernel-parity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+      - name: Install native PostgreSQL for an isolated Unix-socket runtime
+        run: |
+          if ! test -x /usr/lib/postgresql/16/bin/initdb; then
+            sudo apt-get update -qq
+            sudo apt-get install -y postgresql-16
+          fi
+      - name: Compare complete results and refusals, check negative controls, measure A B B A
+        run: node scripts/cp7_astra_timeline_reuse_probe.mjs test-results/astra-timeline-reuse/NATIVE_REPORT.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: astra-timeline-reuse-native
+          path: test-results/astra-timeline-reuse/NATIVE_REPORT.json
+          if-no-files-found: error
+          retention-days: 30

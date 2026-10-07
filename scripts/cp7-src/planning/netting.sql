@@ -242,8 +242,9 @@ declare scenario jsonb;wip jsonb;matching jsonb;models jsonb;p jsonb;t jsonb;m j
  matches jsonb;hash text;policy text;ready timestamptz;model text;compatible jsonb;
  deadline timestamptz;helps timestamptz;raw_need numeric;directed numeric;candidate numeric;gap numeric;
  budget numeric:=0;all_targets_known boolean:=true;supplies_complete boolean:=true;refs jsonb;production_status text;
- supplies jsonb;net jsonb;raw_net jsonb;directed_edges jsonb;
+ supplies jsonb;net jsonb;raw_net jsonb;directed_edges jsonb;line_edges jsonb;
  eta_list jsonb[]:='{}';target_list jsonb[]:='{}';review_list jsonb[]:='{}';row_list jsonb[]:='{}';
+ baseline_lines jsonb[]:='{}';planned_index jsonb;
  pair_rows jsonb[]:='{}';eligible jsonb[]:='{}';open_work jsonb[];open_index integer[];supply_list jsonb[];edge_list jsonb[];
  row_keys text[];row_target_keys jsonb[];row_at jsonb;model_targets jsonb;candidates jsonb;leaders integer[];
  eta_at jsonb;eta_repeated jsonb;source_at jsonb;source_repeated jsonb;target_at jsonb;target_repeated jsonb;
@@ -308,6 +309,7 @@ begin
    'need_pcs',raw_need::text,'deadline',cp7_planning.utc(deadline),
    'risk_at',coalesce(line->'first_known_gap'->'at',to_jsonb(cp7_planning.utc(deadline))),
    'helps_at',cp7_planning.utc(helps),'production_status',production_status,'refs',refs));
+  baseline_lines:=array_append(baseline_lines,line);
  end loop;
  targets:=to_jsonb(target_list);
  -- Model is an additional Native hard constraint absent from the retained
@@ -380,8 +382,9 @@ begin
    where value->>'target_key'is not null and value->>'match'='CANDIDATE_MATCH'group by 1)f;
  select coalesce(jsonb_object_agg(f.k,f.j),'{}')into row_at
   from(select u.k,min(u.j)j from unnest(row_keys)with ordinality u(k,j)where u.k is not null group by 1)f;
- select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into planned_at,planned_repeated
-  from(select value->>'key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(targets)
+ select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}'),
+  coalesce(jsonb_object_agg(f.k,f.j),'{}')into planned_at,planned_repeated,planned_index
+  from(select value->>'key' k,count(*)n,(array_agg(value))[1] v,min(o)j from jsonb_array_elements(targets)with ordinality a(value,o)
    where value->>'key'is not null group by 1)f;
  for r in select value from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'rows')order by value->>'target_key'loop
   directed:=0;candidate:=0;raw_need:=null;gap:=null;supplies:='[]';directed_edges:='[]';net:=null;
@@ -434,7 +437,14 @@ begin
   end if;
   -- The timeline reads only this target's edges, in the same order.
   if t is null then line:=jsonb_build_object('status','UNKNOWN','reason','TARGET_NEEDS_OR_POLICY_UNREVIEWED');
-  else line:=cp7_netting_native.timeline(c,r,etas,directed_edges||coalesce(candidates->(r->>'target_key'),'[]'::jsonb),matching,wip);end if;
+  else
+   line_edges:=directed_edges||coalesce(candidates->(r->>'target_key'),'[]'::jsonb);
+   -- With no supply edges all six immutable arguments equal the first call.
+   -- Reuse only that invocation's result; no persisted cache or guard removal.
+   -- planned_repeated above rejects duplicate target keys before this lookup.
+   if line_edges='[]'::jsonb then line:=baseline_lines[(planned_index->>(r->>'target_key'))::integer];
+   else line:=cp7_netting_native.timeline(c,r,etas,line_edges,matching,wip);end if;
+  end if;
   row_list:=array_append(row_list,r||jsonb_build_object('raw_gap_pcs',raw_need::text,'directed_on_time_good_pcs',net->'directed_on_time_pcs',
    'base_gap_pcs',net->'q_base_pcs','conditional_gap_pcs',case when alloc->>'status'='SCENARIO'then net->'q_conditional_pcs'else null end,
    'net',net,
