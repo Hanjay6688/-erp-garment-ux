@@ -12,6 +12,7 @@ import cp6_auditor_modes as modes
 import cp6_auditor_runner as native
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
+from cp7_catalog_state import exact_public_catalog
 OUT=bundle.ROOT/'cp6-proof/t3/CP7_P18_FULL_CYCLE.json'
 
 def verify(cur):
@@ -42,7 +43,11 @@ def run():
    p09.INSTALLED_FUNCTIONS=after;report['combined_declared_execute_grants']={k:sorted(v)for k,v in grants.items()};report['exact_guard_sha256']={k:hashlib.sha256(v.encode()).hexdigest()for k,v in expected_definitions.items()};report['all_other_predecessor_definitions_and_owners_unchanged']=True
    conn.commit();installed=True;verify(cur);conn.rollback()
   report['advisors_with_cp7']=advisors(package.boundary.PG)
-  report['native']=native.strict_group('CP7_P18_FULL_CYCLE',cases.cases,verify)
+  # CAT-01: the frozen reader orders function signature/hash pairs by a
+  # constant; compare every original field with exact sorted pairs instead.
+  with exact_public_catalog(native,retain_raw=True)as catalog_audit:
+   report['native_public_catalog_comparison']=catalog_audit
+   report['native']=native.strict_group('CP7_P18_FULL_CYCLE',cases.cases,verify)
  except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
  finally:
   if installed:
