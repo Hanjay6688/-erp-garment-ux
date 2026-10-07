@@ -4,7 +4,7 @@ import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime,cp6WibPhysicalTimeToIso} from './cp6BusinessTime'
 import {formatFact} from './cp7/workspace'
-import {readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequest,nativeDemandRequestKey,type NativeDemandQuery,type NativeDemandRequest} from './nativeDemandHistory'
+import {readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequest,nativeDemandRequestKey,requestFinance,type NativeDemandQuery,type NativeDemandRequest,type AnalysisFinanceMode} from './nativeDemandHistory'
 import {parseAnalysisJob,parseAnalysisManifest,assembleAnalysisOriginal,readAnalysisJobRequest,persistAnalysisJobRequest,clearAnalysisJobRequest,analysisJobKey,analysisJobFailureText,analysisSinceText,analysisOversized,ANALYSIS_DOCUMENT_UTF8_BYTES,type AnalysisJob} from './nativeAnalysisTransport'
 import {parseNativeAnalysis,assertSameAnalysis,analysisProductLabel,analysisReport,analysisPrompt,analysisWarningLabel,type NativeAnalysis} from './nativeAnalysis'
 import {analysisArchiveKey,readAnalysisArchive,rememberAnalysis,checkAnalysisPointer,parseNativeArchivePage,type NativeArchivePage,type AnalysisPointer} from './nativeAnalysisArchive'
@@ -42,6 +42,14 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),scope='analysis:'+runtime.projectRef+':'+identity.profile.id,actor=identity.profile.authUserId,sequence=useRef(0),active=useRef(false)
  const financeAccess={ownerReports:['OWNER','ADMIN'].includes(identity.profile.role)&&identity.permissions.includes('finance.reports.view'),preflight:identity.permissions.includes('finance.period_close.manage')}
  const[planContext,setPlanContext]=useState<PlanContext|null>(null)
+ // Stock and planning do not wait for the ledger: by default the analysis is
+ // operational-only (DEFERRED) and carries no financial amount. Financial
+ // figures come only from the existing full capture of the owner report.
+ const[withFinance,setWithFinance]=useState(false)
+ const financeMode=(include:boolean):AnalysisFinanceMode=>financeAccess.ownerReports&&include?'INCLUDED':'DEFERRED'
+ const captureAnalysis=(r:NativeDemandRequest)=>requestFinance(r)==='DEFERRED'?client.rpc('erp_cp7_capture_operational_analysis_v1',{p_query:r.q,p_request:r.id}):client.rpc('erp_cp7_capture_analysis_v1',{p_query:r.q,p_request:r.id})
+ const requestJob=(r:NativeDemandRequest)=>requestFinance(r)==='DEFERRED'?client.rpc('erp_cp7_request_operational_analysis_job_v1',{p_query:r.q,p_request:r.id}):client.rpc('erp_cp7_request_analysis_job_v1',{p_query:r.q,p_request:r.id})
+ const sameFinance=(r:NativeDemandRequest,a:NativeAnalysis)=>{if(requestFinance(r)==='DEFERRED'&&a.finance)throw Error('Analisis tanpa keuangan dari server memuat angka keuangan.');return a}
  const[fabricRecovery,setFabricRecovery]=useState(()=>readFabricRequest(scope))
  const[stockDetail,setStockDetail]=useState<string|null>(null)
  const planReadStart=useCallback(()=>{++sequence.current;setStockDetail(null);setData(null);setAttention(null);setReceivables(null);setPayables(null);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);onSourceReadStart()},[onSourceReadStart])
@@ -73,9 +81,9 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   return parseNativeAnalysis(original,q,actor,financeAccess,ANALYSIS_DOCUMENT_UTF8_BYTES)
  }
  const largeCapture=async(r:NativeDemandRequest,n:number)=>{
-  const j=await client.rpc('erp_cp7_request_analysis_job_v1',{p_query:r.q,p_request:r.id});if(n!==sequence.current)return null;if(j.error)throw j.error
+  const j=await requestJob(r);if(n!==sequence.current)return null;if(j.error)throw j.error
   const status=parseAnalysisJob(j.data,r.id,r.q);if(status.state!=='DONE'||!status.runId)throw Error('Hasil analisis besar belum tersedia di server.')
-  return fetchOriginal(status.runId,r.q,n,r.id)
+  const full=await fetchOriginal(status.runId,r.q,n,r.id);return full&&sameFinance(r,full)
  }
  const readRun=async(runId:string,q:NativeDemandQuery,n:number,large=false):Promise<NativeAnalysis|null>=>{
   if(!large){const response=await client.rpc('erp_cp7_read_analysis_v1',{p_run:runId});if(n!==sequence.current)return null;if(response.error)throw response.error;if(!analysisOversized(response.data))return parseNativeAnalysis(response.data,q,actor,financeAccess)}
@@ -85,30 +93,30 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
  // Background calculation: the same capture compiler in its own request under
  // the unchanged server limit; its state survives a reload on the server.
  const runBackground=async(r:NativeDemandRequest,n:number,start:boolean)=>{
-  const first=start?await client.rpc('erp_cp7_request_analysis_job_v1',{p_query:r.q,p_request:r.id}):await client.rpc('erp_cp7_get_analysis_job_v1',{p_request:r.id});if(n!==sequence.current)return;if(first.error)throw first.error
+  const first=start?await requestJob(r):await client.rpc('erp_cp7_get_analysis_job_v1',{p_request:r.id});if(n!==sequence.current)return;if(first.error)throw first.error
   let status=parseAnalysisJob(first.data,r.id,r.q);setJob(status)
   if(start&&status.state==='WAITING'){const ran=await client.rpc('erp_cp7_run_analysis_job_v1',{p_request:r.id});if(n!==sequence.current)return;if(ran.error)throw ran.error;status=parseAnalysisJob(ran.data,r.id,r.q);setJob(status)}
   while(status.state==='RUNNING'){await new Promise(done=>setTimeout(done,2000));if(n!==sequence.current)return;const next=await client.rpc('erp_cp7_get_analysis_job_v1',{p_request:r.id});if(n!==sequence.current)return;if(next.error)throw next.error;status=parseAnalysisJob(next.data,r.id,r.q);setJob(status)}
   if(status.state==='FAILED'){setError(analysisJobFailureText(status.failure!));return}
   if(status.state!=='DONE'||!status.runId)return
-  const full=await fetchOriginal(status.runId,r.q,n,r.id);if(!full)return
+  const full=await fetchOriginal(status.runId,r.q,n,r.id);if(!full)return;sameFinance(r,full)
   rememberAnalysis(scope,full);setArchive(readAnalysisArchive(scope));clearAnalysisJobRequest(scope,r.id);setJobRecovery(readAnalysisJobRequest(scope));setJob(null);setData(full)
  }
  const startBackground=async()=>{const n=begin();try{
   requireNoAttentionRequest();const held=readAnalysisJobRequest(scope);if(held.error)throw Error(held.error);if(held.pending)throw Error('Selesaikan perhitungan latar belakang yang tersimpan terlebih dahulu.')
-  const r={id:crypto.randomUUID(),q:query};persistAnalysisJobRequest(scope,r);setJobRecovery(readAnalysisJobRequest(scope));await runBackground(r,n,true)
+  const r={id:crypto.randomUUID(),q:query,finance:financeMode(withFinance)};persistAnalysisJobRequest(scope,r);setJobRecovery(readAnalysisJobRequest(scope));await runBackground(r,n,true)
  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
  const resumeBackground=async(start:boolean)=>{const n=begin();try{
   const held=readAnalysisJobRequest(scope);setJobRecovery(held);if(held.error)throw Error(held.error);if(!held.pending)throw Error('Perhitungan latar belakang tersimpan tidak tersedia.');await runBackground(held.pending,n,start)
  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
  useEffect(()=>{if(readAnalysisJobRequest(scope).pending)void resumeBackground(false)},[])// eslint-disable-line react-hooks/exhaustive-deps
- const load=async(retry=false)=>{const n=begin();try{
+ const load=async(retry=false,include=withFinance)=>{const n=begin();try{
   requireNoAttentionRequest()
   const held=readNativeDemandRequest(scope);if(held.error)throw Error(held.error);if(retry&&!held.pending)throw Error('Permintaan analisis tersimpan tidak tersedia.');if(!retry&&held.pending)throw Error('Pastikan permintaan analisis yang sama terlebih dahulu.')
-  const r=retry?held.pending!:{id:crypto.randomUUID(),q:query};if(!retry)persistNativeDemandRequest(scope,r);setRecovery(readNativeDemandRequest(scope))
+  const r=retry?held.pending!:{id:crypto.randomUUID(),q:query,finance:financeMode(include)};if(!retry)persistNativeDemandRequest(scope,r);setRecovery(readNativeDemandRequest(scope))
   const since=new Date().toISOString(),slow=setTimeout(()=>{if(n===sequence.current)setComputingSince(since)},3000)
-  const response=await client.rpc('erp_cp7_capture_analysis_v1',{p_query:r.q,p_request:r.id}).then(v=>{clearTimeout(slow);return v},(e:unknown)=>{clearTimeout(slow);throw e});if(n!==sequence.current)return;if(response.error)throw response.error
-  const parsed=analysisOversized(response.data)?await largeCapture(r,n):parseNativeAnalysis(response.data,r.q,actor,financeAccess);if(!parsed)return;if(parsed.requestId!==r.id)throw Error('Permintaan analisis server berubah.');rememberAnalysis(scope,parsed);setArchive(readAnalysisArchive(scope));clearNativeDemandRequest(scope,r.id);setRecovery(readNativeDemandRequest(scope));setData(parsed)
+  const response=await captureAnalysis(r).then(v=>{clearTimeout(slow);return v},(e:unknown)=>{clearTimeout(slow);throw e});if(n!==sequence.current)return;if(response.error)throw response.error
+  const parsed=analysisOversized(response.data)?await largeCapture(r,n):sameFinance(r,parseNativeAnalysis(response.data,r.q,actor,financeAccess));if(!parsed)return;if(parsed.requestId!==r.id)throw Error('Permintaan analisis server berubah.');rememberAnalysis(scope,parsed);setArchive(readAnalysisArchive(scope));clearNativeDemandRequest(scope,r.id);setRecovery(readNativeDemandRequest(scope));setData(parsed)
  }catch(e){if(n===sequence.current)setError(normalizeClientError(e).message)}finally{end(n)}}
  const check=async(copy:'REPORT'|'AI'|null=null):Promise<NativeAnalysis|null>=>{if(!data)return null;const previous=data,n=begin();try{
   const parsed=await readRun(previous.runId,previous.query,n,largeAnalysis(previous));if(!parsed)return null;assertSameAnalysis(previous,parsed);setData(parsed)
@@ -163,7 +171,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
  const heldAppendix=readObligationReportRequest(scope),heldReport=readReportRequest(scope)
  const blocked=busy||Boolean(fabricRecovery.pending||fabricRecovery.error)||Boolean(ruleRecovery.pending||ruleRecovery.error)||Boolean(policyRecovery.pending||policyRecovery.error)||Boolean(heldReport.pending||heldReport.error||recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error),x=data?.analysis,rows=x?.recommendations.filter(r=>analysisProductLabel(r,data??undefined).toLowerCase().includes(search.toLowerCase()))??[]
  return<section className="native-analysis panel" aria-label="Analisis ERP bersama"><header><div><div className="eyebrow">PERENCANAAN · DATA ERP</div><h2>Analisis, laporan & pengingat</h2><p>Stok, rincian, produksi, laporan, pengingat dan Tanya AI memakai hasil analisis yang sama untuk seluruh produk.</p></div><button disabled={busy} onClick={close}>Tutup analisis bersama</button></header>
-  <div className="native-analysis-actions"><button disabled={blocked} onClick={()=>void load()}>Ambil analisis ERP terbaru</button><button disabled={blocked||Boolean(jobRecovery.pending||jobRecovery.error)} onClick={()=>void startBackground()}>Hitung di latar belakang</button>{data?<button disabled={blocked} onClick={()=>void check()}>Periksa sumber analisis</button>:null}</div>
+  <div className="native-analysis-actions">{financeAccess.ownerReports?<label><input type="checkbox" checked={withFinance} disabled={blocked} onChange={e=>setWithFinance(e.target.checked)}/>Sertakan angka keuangan (menunggu buku besar)</label>:null}<button disabled={blocked} onClick={()=>void load()}>Ambil analisis ERP terbaru</button><button disabled={blocked||Boolean(jobRecovery.pending||jobRecovery.error)} onClick={()=>void startBackground()}>Hitung di latar belakang</button>{data?<button disabled={blocked} onClick={()=>void check()}>Periksa sumber analisis</button>:null}</div>
   {busy?<p role="status">{job&&(job.state==='RUNNING'||job.state==='WAITING')?analysisSinceText(job.startedAt)+(job.attempts>1?` Percobaan ke-${job.attempts}.`:''):computingSince?analysisSinceText(computingSince):'Memeriksa sumber ERP dan hak akses saat ini…'}</p>:null}{busy&&progress?<p role="status">{progress}</p>:null}{error||recovery.error?<p role="alert">{error||recovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
   {recovery.pending?<div role="status"><p>Hasil permintaan analisis belum dipastikan.</p><button disabled={busy} onClick={()=>void load(true)}>Ulangi analisis yang sama</button></div>:null}
   {jobRecovery.error?<p role="alert">{jobRecovery.error}</p>:null}{jobRecovery.pending&&!busy?<div role="status"><p>{job?.state==='WAITING'?'Perhitungan latar belakang belum berjalan atau terhenti sebelum selesai. Tidak ada hasil yang disimpan.':job?.state==='FAILED'?'Perhitungan latar belakang belum berhasil.':'Perhitungan latar belakang tersimpan belum dipastikan.'}</p><button disabled={busy} onClick={()=>void resumeBackground(true)}>Lanjutkan perhitungan yang sama</button></div>:null}
@@ -175,7 +183,8 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   <details><summary>Semua arsip laporan ERP</summary><p>Daftar dari server mengikuti izin saat ini. Pilih arsip untuk memeriksa isi dan sumber aslinya.</p><button disabled={blocked} onClick={()=>void listServerArchives()}>Muat arsip laporan dari server</button>{serverArchive?<><p>{serverArchive.rows.length} pada halaman ini · {serverArchive.totalVisible} arsip yang dapat diakses.</p>{serverArchive.rows.map((p,i)=><button key={p.runId} disabled={blocked} aria-label={`Buka arsip server ${i+1}`} onClick={()=>void openArchive(p)}>Analisis {formatCp6WibDateTime(p.capturedAt)} · riwayat {p.query.from_date} sampai {p.query.through_date}</button>)}{serverArchive.nextBeforeRun?<button disabled={blocked} onClick={()=>void listServerArchives(serverArchive.nextBeforeRun)}>Halaman arsip berikutnya</button>:null}{!serverArchive.rows.length?<p>Belum ada arsip yang dapat dibuka dengan izin saat ini.</p>:null}</>:null}</details>
   {archive.error?<p role="alert">{archive.error}</p>:null}{archive.rows.length?<details><summary>Arsip analisis yang pernah dibuka</summary><p>Isi arsip dibaca kembali dari server dengan izin saat ini.</p>{archive.rows.map((p,i)=><button key={p.runId} disabled={blocked} aria-label={`Buka arsip analisis ${i+1}`} onClick={()=>void openArchive(p)}>Analisis {formatCp6WibDateTime(p.capturedAt)} · riwayat {p.query.from_date} sampai {p.query.through_date}</button>)}</details>:null}
   {data&&x?<article className="native-analysis-result"><p className={data.state==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{data.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: sumber berubah. Ambil analisis baru.'} Diambil {formatCp6WibDateTime(x.snapshot.generated_at)}.</p><p className="native-analysis-run">Analisis <span>{data.runId}</span> · jadwal versi {x.scenario.version}.</p>
-   <p>Bahan dan produksi baru belum dipastikan. {data.finance?`Laporan keuangan ERP disertakan; kesiapan ${data.finance.report.snapshot.data_confidence.status}.`:'Keuangan dan HPP belum tercakup.'} Angka belum diketahui tetap ditampilkan apa adanya.</p>
+   <p>Bahan dan produksi baru belum dipastikan. {data.finance?`Laporan keuangan ERP disertakan; kesiapan ${data.finance.report.snapshot.data_confidence.status}.`:financeAccess.ownerReports?'Angka keuangan belum dimuat pada hasil ini, jadi stok dan produksi tidak menunggu buku besar. Keuangan dan HPP tidak dianggap nol.':'Keuangan dan HPP belum tercakup.'} Angka belum diketahui tetap ditampilkan apa adanya.</p>
+   {!data.finance&&financeAccess.ownerReports?<p><button disabled={blocked} onClick={()=>void load(false,true)}>Muat angka keuangan</button> Mengambil analisis baru bersama laporan keuangan ERP; menunggu buku besar.</p>:null}
    <div role="tablist" aria-label="Tampilan analisis bersama">{views.map(v=><button role="tab" key={v.id} aria-selected={view===v.id} id={`native-analysis-${v.id}`} aria-controls="native-analysis-content" onClick={()=>setView(v.id)}>{v.label}</button>)}</div>
    <div role="tabpanel" id="native-analysis-content" aria-labelledby={`native-analysis-${view}`}>
     {view==='STOCK'?<><label>Cari stok pada hasil analisis<input aria-label="Cari stok dari analisis bersama" value={search} onChange={e=>setSearch(e.target.value)}/></label><NativeStockAnalysisView data={data} visibleTargets={rows.map(r=>r.target.key)} detailTarget={stockDetail} blocked={blocked} onInspect={key=>{void check().then(current=>{if(current?.state==='UNCHANGED'&&current.analysis.recommendations.some(r=>r.target.key===key))setStockDetail(key)})}} onClose={()=>setStockDetail(null)}/></>:null}

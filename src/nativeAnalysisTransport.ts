@@ -85,9 +85,9 @@ export function readAnalysisJobRequest(scope:string):{pending:NativeDemandReques
  try{
   const raw=localStorage.getItem(analysisJobKey(scope));if(raw===null)return{pending:null,error:''}
   const v=object(JSON.parse(raw)),q=object(v.q)
-  if(Object.keys(v).sort().join('|')!=='id|q'||Object.keys(q).sort().join('|')!=='from_date|group_mode|through_date'||(q.group_mode!=='AS_SOLD'&&q.group_mode!=='RESTATED'))fail()
+  const keys=Object.keys(v).sort().join('|');if(keys!=='id|q'&&!(keys==='finance|id|q'&&(v.finance==='INCLUDED'||v.finance==='DEFERRED'))||Object.keys(q).sort().join('|')!=='from_date|group_mode|through_date'||(q.group_mode!=='AS_SOLD'&&q.group_mode!=='RESTATED'))fail()
   const from=day(q.from_date),through=day(q.through_date);if(from>through)fail()
-  return{pending:{id:uuid(v.id),q:{from_date:from,through_date:through,group_mode:q.group_mode}},error:''}
+  return{pending:{id:uuid(v.id),q:{from_date:from,through_date:through,group_mode:q.group_mode},...(keys==='id|q'?{}:{finance:v.finance as 'INCLUDED'|'DEFERRED'})},error:''}
  }catch{return{pending:null,error:'Catatan perhitungan latar belakang belum bisa dibaca. Jangan hapus catatan ini; pulihkan penyimpanan sebelum membuat perhitungan baru.'}}
 }
 export function persistAnalysisJobRequest(scope:string,r:NativeDemandRequest){

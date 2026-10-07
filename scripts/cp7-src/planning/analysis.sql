@@ -20,6 +20,13 @@ language sql immutable security invoker set search_path=''set TimeZone='UTC'as $
   'engine',c->'analysis_engine_signature','financial_source',c->'financial_source'->'source_hash',
   'material_source',(c->'material_source')-'captured_at','fabric_source',(c->'fabric_source')-'captured_at')::text,'UTF8'),'sha256'),'hex')
 $$;
+-- Finance on demand. A run captured without the protected owner report is
+-- marked in its facts; every later read compares it with the same
+-- operational-only source, never with the ledger. Older runs carry no mark.
+create function cp7_analysis_native.finance_mode(facts jsonb)returns text
+language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+ select case when facts->>'financial_capture'='DEFERRED'then 'DEFERRED'else 'INCLUDED'end
+$$;
 create function cp7_analysis_native.fact(value text,unit text,refs jsonb,assumptions jsonb default '[]')returns jsonb
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
  select case when value is null then jsonb_build_object('state','UNKNOWN','unit',unit,'reason','SOURCE_INPUT_NOT_PROVEN','refs',refs)
@@ -299,7 +306,7 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(false);select *into r from cp7_analysis_native.runs where id=p_run and actor=(a->>'actor')::uuid;
  if r.id is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
- c:=cp7_analysis_native.source(r.query);
+ c:=cp7_analysis_native.source_for(r.query,cp7_analysis_native.finance_mode(r.facts));
  if r.facts->'financial_source' is not null and r.facts->'financial_source'<>'null'::jsonb and coalesce(c->'financial_source','null')='null'::jsonb then
   raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';
  end if;
@@ -316,17 +323,19 @@ begin
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  return outcome;
 end $$;
-create function cp7_analysis_native.capture(p_query jsonb,p_request uuid)returns jsonb
+create function cp7_analysis_native.capture(p_query jsonb,p_request uuid,p_finance text)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;q jsonb;r cp7_analysis_native.runs%rowtype;run_id uuid:=gen_random_uuid();
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
+ if p_finance is null or p_finance not in('INCLUDED','DEFERRED')then raise exception 'CP7_ANALYSIS_FINANCE_MODE';end if;
  a:=cp7_schedule_native.access_now(false);q:=cp7_planning.history_query(p_query);if p_request is null then raise exception 'CP7_ANALYSIS_REQUEST_REQUIRED';end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS:'||(a->>'actor')||':'||p_request::text,0));
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  select *into r from cp7_analysis_native.runs where actor=(a->>'actor')::uuid and request_id=p_request;
- if found then if r.query<>q then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;return cp7_analysis_native.serve(r.id);end if;
- with source as materialized(select cp7_analysis_native.source(q)c),calculated as materialized(select c,cp7_analysis_native.build(c,q,run_id,a)result from source)
+ -- One UUID is one request: the same query and the same finance mode.
+ if found then if r.query<>q or cp7_analysis_native.finance_mode(r.facts)<>p_finance then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;return cp7_analysis_native.serve(r.id);end if;
+ with source as materialized(select cp7_analysis_native.source_for(q,p_finance)c),calculated as materialized(select c,cp7_analysis_native.build(c,q,run_id,a)result from source)
  insert into cp7_analysis_native.runs(id,actor,request_id,query,captured_at,access_at_capture,facts,result,dependency_hash)
  select run_id,(a->>'actor')::uuid,p_request,q,(c->>'captured_at')::timestamptz,a,c,result,cp7_analysis_native.fingerprint(c)from calculated returning *into r;
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
@@ -336,18 +345,24 @@ alter function cp7_analysis_native.source()owner to cp7_capture;
 alter function cp7_analysis_native.material_source(jsonb,timestamptz)owner to cp7_capture;
 alter function cp7_analysis_native.material_needs(jsonb,jsonb,jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.fingerprint(jsonb)owner to cp7_capture;
+alter function cp7_analysis_native.finance_mode(jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.fact(text,text,jsonb,jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.serve(uuid)owner to cp7_capture;
-alter function cp7_analysis_native.capture(jsonb,uuid)owner to cp7_capture;
+alter function cp7_analysis_native.capture(jsonb,uuid,text)owner to cp7_capture;
 revoke all on all functions in schema cp7_analysis_native from public,anon,authenticated,service_role;
 grant create on schema public to cp7_capture;
 create function public.erp_cp7_capture_analysis_v1(p_query jsonb,p_request uuid)returns jsonb
-language sql volatile security definer set search_path=''as $$select cp7_analysis_native.capture(p_query,p_request)$$;
+language sql volatile security definer set search_path=''as $$select cp7_analysis_native.capture(p_query,p_request,'INCLUDED')$$;
+-- Stock and planning screens: the same compiler without the owner report or
+-- the all-book provenance scan. No financial amount is substituted.
+create function public.erp_cp7_capture_operational_analysis_v1(p_query jsonb,p_request uuid)returns jsonb
+language sql volatile security definer set search_path=''as $$select cp7_analysis_native.capture(p_query,p_request,'DEFERRED')$$;
 create function public.erp_cp7_read_analysis_v1(p_run uuid)returns jsonb
 language sql volatile security definer set search_path=''as $$select cp7_analysis_native.serve(p_run)$$;
 alter function public.erp_cp7_capture_analysis_v1(jsonb,uuid)owner to cp7_capture;
+alter function public.erp_cp7_capture_operational_analysis_v1(jsonb,uuid)owner to cp7_capture;
 alter function public.erp_cp7_read_analysis_v1(uuid)owner to cp7_capture;
 revoke create on schema public from cp7_capture;
-revoke all on function public.erp_cp7_capture_analysis_v1(jsonb,uuid),public.erp_cp7_read_analysis_v1(uuid)from public,anon,authenticated,service_role;
-grant execute on function public.erp_cp7_capture_analysis_v1(jsonb,uuid),public.erp_cp7_read_analysis_v1(uuid)to authenticated;
+revoke all on function public.erp_cp7_capture_analysis_v1(jsonb,uuid),public.erp_cp7_capture_operational_analysis_v1(jsonb,uuid),public.erp_cp7_read_analysis_v1(uuid)from public,anon,authenticated,service_role;
+grant execute on function public.erp_cp7_capture_analysis_v1(jsonb,uuid),public.erp_cp7_capture_operational_analysis_v1(jsonb,uuid),public.erp_cp7_read_analysis_v1(uuid)to authenticated;

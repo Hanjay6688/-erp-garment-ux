@@ -62,6 +62,13 @@ it('keeps the background UUID and query until the same request is cleared, and r
  localStorage.setItem(analysisJobKey(scope),'{"id":"x"}');expect(readAnalysisJobRequest(scope).error).toContain('Jangan hapus')
 })
 
+it('keeps the finance mode a background request was sent with and refuses an unknown mode',()=>{
+ const scope='analysis:p:f'
+ for(const finance of ['DEFERRED','INCLUDED'] as const){persistAnalysisJobRequest(scope,{id:request,q,finance});expect(readAnalysisJobRequest(scope).pending).toEqual({id:request,q,finance});clearAnalysisJobRequest(scope,request)}
+ for(const raw of [{id:request,q,finance:'MAYBE'},{id:request,q,finance:null},{id:request,q,finance:'DEFERRED',extra:1}]){localStorage.setItem(analysisJobKey(scope),JSON.stringify(raw));expect(readAnalysisJobRequest(scope).pending).toBeNull();expect(readAnalysisJobRequest(scope).error).toContain('Jangan hapus')}
+ localStorage.removeItem(analysisJobKey(scope))
+})
+
 it('measures the single-body bound in UTF8 bytes and states the WIB start clock',()=>{
  expect(analysisOversized({analysis:{pad:'é'.repeat(4000000)}})).toBe(true);expect(analysisOversized({analysis:{pad:'x'.repeat(4000000)}})).toBe(false)
  expect(analysisOversized(null)).toBe(false);expect(analysisSinceText('2026-10-06T12:00:00.000000Z')).toMatch(/^Sedang dihitung sejak jam 19[.:]00[.:]00 WIB \(6 Okt 2026\)\.$/)

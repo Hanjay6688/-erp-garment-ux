@@ -1,7 +1,12 @@
 export type NativeDemandRow={targetKey:string;rootId:string;sizeId:string;sku:string;productName:string;active:boolean;physical:string;reserved:string;available:string;gross:string;returns:string;availableDays:number;unknownDays:number;stockoutDays:number;trainingAvailable:boolean}
 export type NativeDemandHistory={runId:string;requestId:string;capturedAt:string;sourceHash:string;state:'UNCHANGED'|'ARCHIVED_STALE';from:string;through:string;basis:'AS_SOLD'|'RESTATED';rows:NativeDemandRow[]}
 export type NativeDemandQuery={from_date:string;through_date:string;group_mode:'AS_SOLD'|'RESTATED'}
-export type NativeDemandRequest={id:string;q:NativeDemandQuery}
+// INCLUDED reads the protected owner report with the analysis; DEFERRED is the
+// operational-only analysis (no ledger read, no financial amount). A stored
+// request without the field predates the choice and was INCLUDED.
+export type AnalysisFinanceMode='INCLUDED'|'DEFERRED'
+export type NativeDemandRequest={id:string;q:NativeDemandQuery;finance?:AnalysisFinanceMode}
+export const requestFinance=(r:NativeDemandRequest):AnalysisFinanceMode=>r.finance??'INCLUDED'
 const fail=():never=>{throw Error('Data permintaan dari server belum lengkap atau berubah. Muat ulang.')}
 const object=(v:unknown):Record<string,unknown>=>v&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
 const text=(v:unknown)=>typeof v==='string'&&v.length>0?v:fail()
@@ -64,9 +69,9 @@ export function readNativeDemandRequest(scope:string):{pending:NativeDemandReque
  try{
   const raw=localStorage.getItem(nativeDemandRequestKey(scope));if(raw===null)return{pending:null,error:''}
   const v=object(JSON.parse(raw)),q=object(v.q)
-  if(Object.keys(v).sort().join('|')!=='id|q'||Object.keys(q).sort().join('|')!=='from_date|group_mode|through_date'||!['AS_SOLD','RESTATED'].includes(text(q.group_mode)))fail()
+  const keys=Object.keys(v).sort().join('|');if(keys!=='id|q'&&!(keys==='finance|id|q'&&(v.finance==='INCLUDED'||v.finance==='DEFERRED'))||Object.keys(q).sort().join('|')!=='from_date|group_mode|through_date'||!['AS_SOLD','RESTATED'].includes(text(q.group_mode)))fail()
   const from=day(q.from_date),through=day(q.through_date);if(from>through)fail()
-  return{pending:{id:uuid(v.id),q:{from_date:from,through_date:through,group_mode:q.group_mode as NativeDemandQuery['group_mode']}},error:''}
+  return{pending:{id:uuid(v.id),q:{from_date:from,through_date:through,group_mode:q.group_mode as NativeDemandQuery['group_mode']},...(keys==='id|q'?{}:{finance:v.finance as AnalysisFinanceMode})},error:''}
  }catch{return{pending:null,error:'Permintaan tersimpan belum bisa dibaca. Jangan hapus catatan ini; pulihkan penyimpanan sebelum membuat analisis baru.'}}
 }
 export function persistNativeDemandRequest(scope:string,r:NativeDemandRequest){

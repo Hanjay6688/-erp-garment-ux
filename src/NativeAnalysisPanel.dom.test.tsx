@@ -27,12 +27,13 @@ beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client
 afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();vi.restoreAllMocks()})
 async function render(query=q){await act(async()=>root.render(<NativeAnalysisPanel query={query} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
 async function click(text:string){const b=[...container.querySelectorAll('button')].find(b=>b.textContent===text)!;expect(b).toBeTruthy();await act(async()=>b.click())}
+async function tick(text:string){const b=[...container.querySelectorAll('label')].find(l=>l.textContent===text)?.querySelector('input');expect(b).toBeTruthy();await act(async()=>b!.click())}
 async function fill(text:string){const e=container.querySelector<HTMLTextAreaElement>('[aria-label="Pertanyaan analisis ERP"]')!;await act(async()=>{Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype,'value')!.set!.call(e,text);e.dispatchEvent(new Event('input',{bubbles:true}))})}
 function mockDialog(){if(!HTMLDialogElement.prototype.showModal)Object.defineProperty(HTMLDialogElement.prototype,'showModal',{configurable:true,writable:true,value:function(this:HTMLDialogElement){this.open=true}});vi.spyOn(HTMLDialogElement.prototype,'showModal').mockImplementation(function(this:HTMLDialogElement){this.open=true})}
 async function inspectStock(){const b=[...container.querySelectorAll('button')].find(b=>b.textContent?.startsWith('Periksa rincian stok '))!;expect(b).toBeTruthy();await act(async()=>b.click())}
 it('binds stock and its popup to the exact global Original, rechecks before popup and preserves unknown material facts',async()=>{
  mockDialog()
- let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1')id=args.p_request;return{data:materialAnalysisStandin(wire(id)),error:null}})
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1')id=args.p_request;return{data:materialAnalysisStandin(wire(id)),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Stok');expect(client.rpc).toHaveBeenCalledTimes(1)
  const stock=container.querySelector('[aria-label="Stok dari analisis bersama"]')!;expect(stock.getAttribute('data-run-id')).toBe(fixture.run_id);expect(stock.getAttribute('data-source-hash')).toBe(fixture.analysis.snapshot.source_hash)
  expect(stock.querySelector('[data-fact="actual_fg"]')!.textContent).toBe('76 PCS');await inspectStock()
@@ -43,7 +44,7 @@ it('binds stock and its popup to the exact global Original, rechecks before popu
  await click('Tutup rincian stok');expect(container.querySelector('dialog')).toBeNull();expect(client.rpc).toHaveBeenCalledTimes(2)
 })
 it('stock filtering changes no receipt, global count or source request and preserves the complete report',async()=>{
- let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1')id=args.p_request;return{data:wire(id),error:null}})
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1')id=args.p_request;return{data:wire(id),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Stok');const input=container.querySelector<HTMLInputElement>('[aria-label="Cari stok dari analisis bersama"]')!
  await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,'NO_MATCH');input.dispatchEvent(new Event('input',{bubbles:true}))})
  expect(container.querySelector('[aria-label="Stok dari analisis bersama"]')!.textContent).toContain('0 dari 1 produk.');expect(container.querySelector('[data-analysis-target]')).toBeNull();expect(client.rpc).toHaveBeenCalledTimes(1)
@@ -51,14 +52,14 @@ it('stock filtering changes no receipt, global count or source request and prese
 })
 it('retires stock and popup during a held read and current403 while retaining the unsent operator question',async()=>{
  mockDialog()
- let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1')id=args.p_request;return{data:wire(id),error:null}})
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1')id=args.p_request;return{data:wire(id),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Tanya AI');await fill('Pertanyaan operator stok');await click('Stok');await inspectStock();expect(container.querySelector('dialog')).toBeTruthy()
  let finish!:(v:unknown)=>void;client.rpc.mockImplementation(()=>new Promise(r=>{finish=r}));await click('Periksa sumber analisis');expect(container.querySelector('dialog')).toBeNull();expect(container.querySelector('[aria-label="Stok dari analisis bersama"]')).toBeNull()
  await act(async()=>finish({data:null,error:{code:'42501',message:'CP7_ACCESS_DENIED'}}));expect(container.querySelector('dialog')).toBeNull();expect(container.querySelector('.native-analysis-result')).toBeNull()
  client.rpc.mockResolvedValue({data:wire(id),error:null});await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip analisis 1"]')!.click());await click('Tanya AI');expect((container.querySelector('[aria-label="Pertanyaan analisis ERP"]')as HTMLTextAreaElement).value).toBe('Pertanyaan operator stok');expect(container.querySelector('dialog')).toBeNull()
 })
 it('a delayed popup source reply cannot revive detail after cross-tab invalidation or use an archived source',async()=>{
- let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1')id=args.p_request;return{data:wire(id),error:null}})
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1')id=args.p_request;return{data:wire(id),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Stok');let finish!:(v:unknown)=>void;client.rpc.mockImplementation(()=>new Promise(r=>{finish=r}));await inspectStock()
  await act(async()=>window.dispatchEvent(new StorageEvent('storage',{key:analysisArchiveKey(scope)})));await act(async()=>finish({data:wire(id),error:null}));expect(container.querySelector('dialog')).toBeNull();expect(container.querySelector('.native-analysis-result')).toBeNull()
  client.rpc.mockResolvedValue({data:{...wire(id),source_state:'ARCHIVED_STALE'},error:null});await act(async()=>container.querySelector<HTMLButtonElement>('[aria-label="Buka arsip analisis 1"]')!.click());const b=[...container.querySelectorAll('button')].find(b=>b.textContent?.startsWith('Periksa rincian stok '))!;expect(b.disabled).toBe(true);expect(container.querySelector('dialog')).toBeNull()
@@ -132,7 +133,7 @@ it('preserves the Native internal-role boundary for saved attention while keepin
 })
 it('loads the actual Native AR source explicitly, retains its original analysis, and retires all sources on AR-only403',async()=>{
  const a=state.auth as typeof recoveryIdentity;a.identity.permissions.push('finance.ar.view');let id=''
- client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}return{data:nativeReceivableFixture(wire(id)),error:null}})
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}return{data:nativeReceivableFixture(wire(id)),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Tanya AI');await fill('Pertanyaan tetap milik operator');await click('Pengingat');expect(client.rpc).toHaveBeenCalledTimes(1);expect(container.textContent).toContain('Sumber piutang belum dimuat.')
  await click('Periksa piutang pelanggan dari ERP');expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_analysis_receivable_conditions_v1',{p_run:fixture.run_id}]);expect(container.textContent).toContain('Sisa tagihan Rp300');expect(container.textContent).toContain('Sudah lewat jatuh tempo');expect(localStorage.getItem(analysisArchiveKey(scope))).not.toContain('300.00')
  client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_REMINDER_AR_ACCESS_DENIED'}});await click('Periksa piutang pelanggan dari ERP');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Sisa tagihan Rp300');expect(clipboard).not.toHaveBeenCalled()
@@ -141,7 +142,7 @@ it('loads the actual Native AR source explicitly, retains its original analysis,
 it('pages all complete AR documents locally without another read, capture, or hidden first-page total',async()=>{
  const a=state.auth as typeof recoveryIdentity;a.identity.permissions.push('finance.ar.view');let id=''
  client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{
-  if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}
+  if(name==='erp_cp7_capture_operational_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}
   const e=nativeReceivableFixture(wire(id)),s=e.source,seed=s.pages[0].page.rows[0],c=s.conditions[0]
   const rows=Array.from({length:26},(_,i)=>({...structuredClone(seed),id:'00000000-0000-4000-8000-'+String(i+1).padStart(12,'0'),number:'AR-PAGE-'+String(i+1)}));s.total='26'
   s.pages=[{...structuredClone(s.pages[0]),page:{rows:rows.slice(0,25),total:'26',offset:0,limit:25,next_offset:25}},{...structuredClone(s.pages[0]),page:{rows:rows.slice(25),total:'26',offset:25,limit:25,next_offset:null}}]
@@ -151,7 +152,7 @@ it('pages all complete AR documents locally without another read, capture, or hi
 })
 it('loads Native supplier AP explicitly, retires both AR and AP during a held read and AP-only403, and preserves operator fields',async()=>{
  const a=state.auth as typeof recoveryIdentity;a.identity.permissions.push('finance.ar.view','finance.ap.view');let id=''
- client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}return{data:nativeReceivableFixture(wire(id)),error:null}})
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}return{data:nativeReceivableFixture(wire(id)),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Tanya AI');await fill('Pertanyaan utang tetap milik operator');await click('Pengingat');expect(client.rpc).toHaveBeenCalledTimes(1);expect(container.textContent).toContain('Sumber utang bahan belum dimuat.')
  await click('Periksa piutang pelanggan dari ERP');expect(container.textContent).toContain('Sisa tagihan Rp300')
  let resolve!:(value:unknown)=>void;client.rpc.mockImplementation(()=>new Promise(r=>{resolve=r}));await click('Periksa utang bahan pemasok dari ERP');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Sisa tagihan Rp300');expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_analysis_payable_conditions_v1',{p_run:fixture.run_id}]);await act(async()=>resolve({data:nativePayableFixture(wire(id)),error:null}));expect(container.textContent).toContain('Saldo tagihan final Rp300');expect(container.textContent).toContain('Sudah lewat jatuh tempo');expect(localStorage.getItem(analysisArchiveKey(scope))).not.toContain('300.00')
@@ -161,18 +162,18 @@ it('loads Native supplier AP explicitly, retires both AR and AP during a held re
 it('shows the exact financial source under current report rights and stores only an archive pointer',async()=>{
  const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view');const e=analysisFinanceFixture()
  client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:{...analysisFinanceFixture(),request_id:args.p_request},error:null}))
- await render();await click('Ambil analisis ERP terbaru');await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01');expect(container.textContent).toContain('Rp-7,02')
+ await render();await tick('Sertakan angka keuangan (menunggu buku besar)');await click('Ambil analisis ERP terbaru');expect(client.rpc.mock.calls.map(c=>c[0])).toEqual(['erp_cp7_capture_analysis_v1']);expect(readNativeDemandRequest(scope).pending).toBeNull();await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01');expect(container.textContent).toContain('Rp-7,02')
  await click('Tanya AI');const prompt=container.querySelector('[aria-label="Pertanyaan dan sumber ERP"]')!.textContent!;const quoted=JSON.parse(prompt.split('<DATA_ERP_JSON>\n\n')[1].split('\n\n</DATA_ERP_JSON>')[0]);expect(quoted.financial_source).toEqual(e.financial_source);expect(quoted.analysis).toEqual(e.analysis);const stored=localStorage.getItem(analysisArchiveKey(scope))!;expect(stored).not.toContain('9007199254740993');expect(stored).not.toContain('financial_source');expect(stored).not.toContain('report')
 })
 it('retires financial and operational analysis on report-only403 and on a permissions remount while keeping four Ops rights',async()=>{
  const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')
  client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:{...analysisFinanceFixture(),request_id:args.p_request},error:null}))
- await render();await click('Ambil analisis ERP terbaru');await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01')
+ await render();await tick('Sertakan angka keuangan (menunggu buku besar)');await click('Ambil analisis ERP terbaru');await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01')
  client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_ANALYSIS_FINANCE_ACCESS_DENIED'}});await click('Periksa sumber analisis');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Rp');expect(clipboard).not.toHaveBeenCalled()
  auth.identity.permissions=auth.identity.permissions.filter(p=>p!=='finance.reports.view');await render();expect(container.querySelector('.native-analysis')).toBeTruthy();expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Rp')
 })
 it('persists the attention intent before send and recovers its lost reply after remount with original query and UUID',async()=>{
- let captureId='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){captureId=args.p_request;return{data:wire(captureId),error:null}}return{data:attentionFixture(wire(captureId)),error:null}})
+ let captureId='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1'){captureId=args.p_request;return{data:wire(captureId),error:null}}return{data:attentionFixture(wire(captureId)),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Pengingat');expect(container.textContent).toContain('Belum dimuat');await click('Muat perhatian tersimpan')
  client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{expect(name).toBe('erp_cp7_save_analysis_attention_v1');expect(readAttentionRequest(scope).pending?.id).toBe(args.p_request);throw Error('lost reply')})
  await click('Sudah dibaca');const sent=client.rpc.mock.calls.at(-1)!;expect(readAttentionRequest(scope).pending).toBeTruthy();expect(container.querySelector('.native-analysis-result')).toBeNull()
@@ -181,14 +182,14 @@ it('persists the attention intent before send and recovers its lost reply after 
  await click('Ulangi perhatian yang sama');expect(client.rpc.mock.calls.at(-1)).toEqual(sent);expect(readAttentionRequest(scope).pending).toBeNull();expect(container.textContent).toContain('Sudah dibaca');expect(container.textContent).toContain('masih perlu diperiksa')
 })
 it('keeps an unknown attention outcome after403 and retires it only after the server seals NOT_COMMITTED',async()=>{
- let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}return{data:attentionFixture(wire(id)),error:null}})
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}return{data:attentionFixture(wire(id)),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Pengingat');await click('Muat perhatian tersimpan');client.rpc.mockRejectedValue(Error('network lost'));await click('Selesai ditinjau');const held=readAttentionRequest(scope).pending!
  client.rpc.mockResolvedValue({data:null,error:{code:'42501',message:'CP7_REMINDER_ACCESS_DENIED'}});await click('Periksa hasil perhatian tersimpan');expect(readAttentionRequest(scope).pending).toEqual(held);expect(container.querySelector('.native-analysis-result')).toBeNull()
  client.rpc.mockResolvedValue({data:{...attentionFixture(wire(id)),request_result:{request_id:held.id,run_id:fixture.run_id,action_key:held.payload.action_key,revision:null,status:'NOT_COMMITTED'}},error:null});await click('Periksa hasil perhatian tersimpan')
  expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_get_analysis_attention_request_v1',{p_payload:held.payload,p_request:held.id}]);expect(readAttentionRequest(scope).pending).toBeNull();expect(container.textContent).toContain('Server memastikan permintaan ini belum tersimpan');expect(container.textContent).not.toContain('Tugas ditandai selesai')
 })
 it('keeps dirty own-user schedule fields across a denied read and converts the entered time in WIB',async()=>{
- let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}if(name==='erp_cp7_read_analysis_v1')return{data:wire(id),error:null};return{data:attentionFixture(wire(id)),error:null}})
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{if(name==='erp_cp7_capture_operational_analysis_v1'){id=args.p_request;return{data:wire(id),error:null}}if(name==='erp_cp7_read_analysis_v1')return{data:wire(id),error:null};return{data:attentionFixture(wire(id)),error:null}})
  await render();await click('Ambil analisis ERP terbaru');await click('Pengingat');await click('Muat perhatian tersimpan')
  const fillInput=async(text:string,value:string)=>{const label=[...container.querySelectorAll('label')].find(l=>l.textContent===text)!,input=label.querySelector('input')!;await act(async()=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!.call(input,value);input.dispatchEvent(new Event('input',{bubbles:true}))})}
  await fillInput('Judul pengingat','Cek bahan besok');await fillInput('Waktu pengingat · WIB','2026-10-05T08:30')
@@ -225,4 +226,29 @@ it('a complete prompt over the clipboard byte bound stays intact for manual copy
 })
 it('only a fresh unchanged Native Original permits the fixed provider URL and a changed source closes the blank tab',async()=>{
  let captureId='';client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>{captureId=args.p_request;return{data:wire(captureId),error:null}});await render();await click('Ambil analisis ERP terbaru');await click('Tanya AI');client.rpc.mockResolvedValue({data:wire(captureId),error:null});await click('Periksa & salin pertanyaan untuk AI');const popup={opener:window,location:{href:'about:blank'},close:vi.fn()};vi.spyOn(window,'open').mockReturnValue(popup as unknown as Window);await click('Periksa sumber & buka ChatGPT');expect(popup.opener).toBeNull();expect(popup.location.href).toBe('https://chatgpt.com/');expect(popup.close).not.toHaveBeenCalled();expect(client.rpc.mock.calls.at(-1)).toEqual(['erp_cp7_read_analysis_v1',{p_run:fixture.run_id}]);await click('Periksa & salin pertanyaan untuk AI');popup.location.href='about:blank';const stale=wire(captureId);stale.source_state='ARCHIVED_STALE';client.rpc.mockResolvedValue({data:stale,error:null});await click('Periksa sumber & buka ChatGPT');expect(popup.location.href).toBe('about:blank');expect(popup.close).toHaveBeenCalledTimes(1);expect(container.textContent).toContain('Sumber sudah berubah. Ambil analisis baru sebelum membuka AI.');expect(container.querySelector('[aria-label="Salinan manual pertanyaan dan sumber ERP"]')).toBeNull()
+})
+it('stock and planning read the operational analysis without the ledger; financial figures load only on request',async()=>{
+ const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')
+ // Two captures are two runs: the operational one gets its own run UUID.
+ const operational=(requestId:string)=>{const w=wire(requestId),run='5f0e9a7c-3b1d-4e2f-8a6b-1c2d3e4f5a6b';w.run_id=run;w.analysis.run_id=run;return w}
+ let id='';client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>{id=args.p_request;if(name==='erp_cp7_capture_operational_analysis_v1')return{data:operational(id),error:null};if(name==='erp_cp7_capture_analysis_v1')return{data:{...analysisFinanceFixture(),request_id:id},error:null};throw Error('unexpected '+name)})
+ await render();await click('Ambil analisis ERP terbaru');expect(client.rpc.mock.calls.map(c=>c[0])).toEqual(['erp_cp7_capture_operational_analysis_v1'])
+ // Not loaded is stated, never shown as zero.
+ expect(container.textContent).toContain('Angka keuangan belum dimuat');expect(container.textContent).toContain('tidak dianggap nol');expect(container.textContent).not.toContain('Rp')
+ await click('Laporan');expect(container.textContent).not.toContain('Rp')
+ await click('Muat angka keuangan');expect(client.rpc.mock.calls.map(c=>c[0])).toEqual(['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1']);expect(client.rpc.mock.calls[1][1].p_request).not.toBe(client.rpc.mock.calls[0][1].p_request)
+ await click('Laporan');expect(container.textContent).toContain('Rp9.007.199.254.740.993,01');expect(container.textContent).not.toContain('Angka keuangan belum dimuat')
+})
+it('refuses an operational-only reply that carries financial figures and keeps the request for the same UUID',async()=>{
+ const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')
+ client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:{...analysisFinanceFixture(),request_id:args.p_request},error:null}))
+ await render();await click('Ambil analisis ERP terbaru');expect(container.querySelector('.native-analysis-result')).toBeNull();expect(container.textContent).not.toContain('Rp')
+ expect(readNativeDemandRequest(scope).pending?.finance).toBe('DEFERRED');expect(container.textContent).toContain('Analisis tanpa keuangan dari server memuat angka keuangan.')
+ client.rpc.mockClear();client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:wire(args.p_request),error:null}));await click('Ulangi analisis yang sama')
+ expect(client.rpc.mock.calls.map(c=>c[0])).toEqual(['erp_cp7_capture_operational_analysis_v1']);expect(container.querySelector('.native-analysis-result')).toBeTruthy();expect(readNativeDemandRequest(scope).pending).toBeNull()
+})
+it('a stored request from before the finance choice is retried on the full path it was sent on',async()=>{
+ const legacy={id:'0b7e3c2a-1d4f-4a6b-9c8d-7e6f5a4b3c2d',q};localStorage.setItem('erp.cp7.native-demand-request.v1:'+scope,JSON.stringify(legacy))
+ client.rpc.mockImplementation(async(_n:string,args:{p_request:string})=>({data:wire(args.p_request),error:null}));await render();await click('Ulangi analisis yang sama')
+ expect(client.rpc.mock.calls).toEqual([['erp_cp7_capture_analysis_v1',{p_query:q,p_request:legacy.id}]]);expect(readNativeDemandRequest(scope).pending).toBeNull()
 })

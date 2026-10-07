@@ -2,7 +2,8 @@
 FUNCTIONS = {
     'compute_key': 'i', 'worker_active': 's', 'status': 's', 'original': 'i', 'store': 'v',
     'request': 'v', 'run': 'v', 'get': 'v', 'manifest': 'v', 'segment': 's'}
-PUBLIC = ('public.erp_cp7_request_analysis_job_v1(jsonb,uuid)', 'public.erp_cp7_run_analysis_job_v1(uuid)',
+PUBLIC = ('public.erp_cp7_request_analysis_job_v1(jsonb,uuid)', 'public.erp_cp7_request_operational_analysis_job_v1(jsonb,uuid)',
+          'public.erp_cp7_run_analysis_job_v1(uuid)',
           'public.erp_cp7_get_analysis_job_v1(uuid)', 'public.erp_cp7_read_analysis_manifest_v1(uuid)',
           'public.erp_cp7_read_analysis_segment_v1(uuid,integer,text)')
 TABLES = ('jobs', 'documents', 'segments')

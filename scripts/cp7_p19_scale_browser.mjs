@@ -20,12 +20,15 @@ assert.equal(declaration.contract,'cp7.p19.full-application-scale.v1')
 assert.equal(declaration.evidence_kind,'FULL_APPLICATION_NATIVE')
 const {sizes,history_days:historyDays,caps}=declaration,ids=declaration.required_case_ids.browser
 assert.deepEqual(ids,sizes.map(n=>'P19S_BROWSER_DESKTOP_'+n))
-const CONTROLS=[['CAPTURE','Ambil analisis ERP terbaru'],['BACKGROUND','Hitung di latar belakang']]
-assert.deepEqual(CONTROLS.map(c=>c[1]),declaration.browser.controls)
+// The stock screen's default analysis is operational-only (no ledger read);
+// the owner's explicit choice of financial figures is measured as its own control.
+const FINANCE='Sertakan angka keuangan (menunggu buku besar)'
+const CONTROLS=[['CAPTURE','Ambil analisis ERP terbaru',false],['BACKGROUND','Hitung di latar belakang',false],['CAPTURE_WITH_FINANCE','Ambil analisis ERP terbaru',true]]
+assert.deepEqual(CONTROLS.map(c=>(c[2]?FINANCE+' + ':'')+c[1]),declaration.browser.controls)
 // Driver bounds only. Neither is an application limit nor enters a latency figure.
 const OBSERVATION_WINDOW_MS=180000,SEED_PROCESS_MS=3600000,FIXTURE_PROCESS_MS=600000,MEASURE_PROCESS_MS=2700000
-const RPCS=['erp_cp7_capture_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1']
-const SMALL=new Set(['erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1'])
+const RPCS=['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1']
+const SMALL=new Set(['erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1'])
 const fixture=(op,p,timeout=FIXTURE_PROCESS_MS)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p19_scale_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:64*1024*1024,timeout}).trim())
 const dir='cp6-proof/t3/'
 const save=(name,observed)=>{mkdirSync(dir,{recursive:true});writeFileSync(dir+'P19S_BROWSER_'+name+'.json',JSON.stringify({contract:declaration.contract,evidence_kind:'FULL_APPLICATION_NATIVE',stage_witness_only:true,Native_case_credit:0,kernel_evidence_reused:false,limits_raised:false,owner_latency_acceptance:false,production_go:false,observed},null,2)+'\n');return 'P19S_BROWSER_'+name+'.json'}
@@ -85,7 +88,7 @@ async function record(request,rpc){
  if(rpc==='erp_cp7_read_analysis_manifest_v1'&&small)small={document:small.document,source_state:small.source_state,run_id:small.run_id}
  // The panel switches to segments when JSON.stringify(analysis) exceeds the
  // single-body bound; Node's JSON.stringify gives the same compact bytes.
- let analysisBytes=null;if(status===200&&(rpc==='erp_cp7_capture_analysis_v1'||rpc==='erp_cp7_read_analysis_v1')){try{analysisBytes=Buffer.byteLength(JSON.stringify(JSON.parse(body.toString('utf8')).analysis??null))}catch{analysisBytes=null}}
+ let analysisBytes=null;if(status===200&&(rpc==='erp_cp7_capture_operational_analysis_v1'||rpc==='erp_cp7_capture_analysis_v1'||rpc==='erp_cp7_read_analysis_v1')){try{analysisBytes=Buffer.byteLength(JSON.stringify(JSON.parse(body.toString('utf8')).analysis??null))}catch{analysisBytes=null}}
  return{rpc,status,request:request.postDataJSON(),complete_body_utf8_bytes:body.length,body_sha256:createHash('sha256').update(body).digest('hex'),analysis_json_utf8_bytes:analysisBytes,timing:request.timing(),body:small}
 }
 
@@ -119,7 +122,7 @@ function verdict(m,expected){
  return{...base,kind:'REFUSAL_OUTSIDE_DECLARED_CAPS',acceptable:false,counterexample:true}
 }
 
-async function measure(ui,today,size,days,[control,label],seed){
+async function measure(ui,today,size,days,[control,label,finance],seed){
  const name=`${size}_${days}_${control}`,from=shift(today,days),through=shift(today,1),expected=seed.expected_caps_by_days[String(days)]
  const user=await ui.login('OWNER',{label:`p19s-${size}-${days}-${control.toLowerCase()}`}),page=user.page,network=[],pending=[]
  page.on('requestfinished',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)pending.push(record(request,rpc).then(r=>network.push(r)))})
@@ -127,6 +130,7 @@ async function measure(ui,today,size,days,[control,label],seed){
  let panel,sample=null
  try{
   panel=await openPanel(page,from,through)
+  if(finance)await panel.getByRole('checkbox',{name:FINANCE,exact:true}).check()
   const button=panel.getByRole('button',{name:label,exact:true})
   await arm(button,name);await button.click()
   await page.waitForFunction(id=>{const r=window.__p19Scale?.[id];return Boolean(r)&&!['NOT_CLICKED','RUNNING'].includes(r.status)},name,{timeout:OBSERVATION_WINDOW_MS,polling:250})
@@ -136,7 +140,7 @@ async function measure(ui,today,size,days,[control,label],seed){
   const requests=[...new Set(network.map(n=>n.request?.p_request).filter(Boolean))]
   const queries=network.map(n=>n.request?.p_query).filter(Boolean)
   const db=fixture('observe',{actor:user.user.id,requests,run_id:sample.run_id??null,label:name})
-  const refused=serverRefusal(network),computeRefused=refused&&['erp_cp7_capture_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1'].includes(refused.rpc)
+  const refused=serverRefusal(network),computeRefused=refused&&['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1'].includes(refused.rpc)
   const recommendations=sample.summary?Number(/dari (\d+) produk/.exec(sample.summary)[1]):null
   const checks={
    query_is_declared_window:queries.length>0&&queries.every(q=>q.from_date===from&&q.through_date===through&&q.group_mode==='AS_SOLD'),
@@ -148,7 +152,10 @@ async function measure(ui,today,size,days,[control,label],seed){
    ...(computeRefused?{no_result_saved_for_refused_compute:requests.every(r=>db.requests[r]?.runs===0)}:{})}
   const ack=sample.marks?.acknowledged_ms
   assert.ok(Number.isFinite(ack),'P19S_FIRST_VISIBLE_ACKNOWLEDGEMENT_NOT_OBSERVED')
-  const m={size,history_days:days,control,button:label,query:{from_date:from,through_date:through,group_mode:'AS_SOLD'},
+  // The control's own path: the operational RPCs without the finance choice, the full ones with it.
+  const capturedBy=network.filter(n=>/^erp_cp7_(capture|request)_/.test(n.rpc)).map(n=>n.rpc)
+  checks.finance_path_matches_control=capturedBy.length>0&&capturedBy.every(n=>n.includes('_operational_')!==finance)
+  const m={size,history_days:days,control,financial_figures:finance,button:label,query:{from_date:from,through_date:through,group_mode:'AS_SOLD'},
    ui:{status:sample.status,elapsed_ms:sample.elapsed_ms,marks:sample.marks,status_texts:sample.status_texts,alerts:sample.alerts??[],run_id:sample.run_id??null,summary:sample.summary??null},
    owner_budgets:{first_visible_acknowledgement:budgetResult('ROUTINE_READ',ack),complete_or_refusal_rendered:budgetResult('HEAVY_COMPLETE',sample.elapsed_ms),
     progress_status_visible_by_3000ms:Number.isFinite(sample.marks?.computing_since_ms)&&sample.marks.computing_since_ms<=3000,

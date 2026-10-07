@@ -12,6 +12,7 @@
 create schema cp7_analysis_jobs authorization cp7_capture;
 revoke all on schema cp7_analysis_jobs from public,anon,authenticated,service_role;
 create table cp7_analysis_jobs.jobs(actor uuid not null,request_id uuid not null,query jsonb not null,
+ finance text not null check(finance in('INCLUDED','DEFERRED')),
  requested_at timestamptz not null,started_at timestamptz not null,attempts integer not null check(attempts>0),
  state text not null check(state in('WAITING','DONE','FAILED')),finished_at timestamptz,
  run_id uuid references cp7_analysis_native.runs(id),failure_sqlstate text,failure_code text,
@@ -90,22 +91,24 @@ begin
  from(select g.i,substr(body,g.i*n+1,n)part from generate_series(0,d.segment_count-1)g(i))s;
  return d;
 end $$;
-create function cp7_analysis_jobs.request(p_query jsonb,p_request uuid)returns jsonb
+create function cp7_analysis_jobs.request(p_query jsonb,p_request uuid,p_finance text)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;q jsonb;j cp7_analysis_jobs.jobs%rowtype;r cp7_analysis_native.runs%rowtype;now_at timestamptz:=clock_timestamp();
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
+ if p_finance is null or p_finance not in('INCLUDED','DEFERRED')then raise exception 'CP7_ANALYSIS_FINANCE_MODE';end if;
  a:=cp7_schedule_native.access_now(false);q:=cp7_planning.history_query(p_query);
  if p_request is null then raise exception 'CP7_ANALYSIS_REQUEST_REQUIRED';end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS-JOB:'||(a->>'actor')||':'||p_request::text,0));
  select *into j from cp7_analysis_jobs.jobs where actor=(a->>'actor')::uuid and request_id=p_request;
- if found and j.query<>q then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;
- -- An ordinary capture may already own this UUID; its Original is the result.
+ if found and(j.query<>q or j.finance<>p_finance)then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;
+ -- An ordinary capture may already own this UUID; its Original is the result
+ -- only for the same query and the same finance mode.
  select *into r from cp7_analysis_native.runs where actor=(a->>'actor')::uuid and request_id=p_request;
- if r.id is not null and r.query<>q then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;
+ if r.id is not null and(r.query<>q or cp7_analysis_native.finance_mode(r.facts)<>p_finance)then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;
  if j.actor is null then
-  insert into cp7_analysis_jobs.jobs(actor,request_id,query,requested_at,started_at,attempts,state,finished_at,run_id)
-  values((a->>'actor')::uuid,p_request,q,now_at,now_at,1,case when r.id is null then 'WAITING'else 'DONE'end,
+  insert into cp7_analysis_jobs.jobs(actor,request_id,query,finance,requested_at,started_at,attempts,state,finished_at,run_id)
+  values((a->>'actor')::uuid,p_request,q,p_finance,now_at,now_at,1,case when r.id is null then 'WAITING'else 'DONE'end,
    case when r.id is not null then now_at end,r.id)returning *into j;
  elsif j.state<>'DONE'then
   if r.id is not null then
@@ -137,12 +140,12 @@ begin
  begin
   select *into r from cp7_analysis_native.runs where actor=j.actor and request_id=p_request;
   if r.id is null then
-   with source as materialized(select cp7_analysis_native.source(j.query)c),
+   with source as materialized(select cp7_analysis_native.source_for(j.query,j.finance)c),
     calculated as materialized(select c,cp7_analysis_native.build(c,j.query,run_id,a)result from source)
    insert into cp7_analysis_native.runs(id,actor,request_id,query,captured_at,access_at_capture,facts,result,dependency_hash)
    select run_id,j.actor,p_request,j.query,(c->>'captured_at')::timestamptz,a,c,result,cp7_analysis_native.fingerprint(c)from calculated
    returning *into r;
-  elsif r.query<>j.query then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';
+  elsif r.query<>j.query or cp7_analysis_native.finance_mode(r.facts)<>j.finance then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';
   end if;
   perform cp7_analysis_jobs.store(r.id);
   if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
@@ -179,7 +182,7 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(false);select *into r from cp7_analysis_native.runs where id=p_run and actor=(a->>'actor')::uuid;
  if r.id is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
- c:=cp7_analysis_native.source(r.query);
+ c:=cp7_analysis_native.source_for(r.query,cp7_analysis_native.finance_mode(r.facts));
  if r.facts->'financial_source' is not null and r.facts->'financial_source'<>'null'::jsonb and coalesce(c->'financial_source','null')='null'::jsonb then
   raise exception using errcode='42501',message='CP7_ANALYSIS_FINANCE_ACCESS_DENIED';
  end if;
@@ -220,7 +223,7 @@ alter function cp7_analysis_jobs.worker_active(uuid,uuid)owner to cp7_capture;
 alter function cp7_analysis_jobs.status(cp7_analysis_jobs.jobs)owner to cp7_capture;
 alter function cp7_analysis_jobs.original(cp7_analysis_native.runs)owner to cp7_capture;
 alter function cp7_analysis_jobs.store(uuid)owner to cp7_capture;
-alter function cp7_analysis_jobs.request(jsonb,uuid)owner to cp7_capture;
+alter function cp7_analysis_jobs.request(jsonb,uuid,text)owner to cp7_capture;
 alter function cp7_analysis_jobs.run(uuid)owner to cp7_capture;
 alter function cp7_analysis_jobs.get(uuid)owner to cp7_capture;
 alter function cp7_analysis_jobs.manifest(uuid)owner to cp7_capture;
@@ -228,7 +231,9 @@ alter function cp7_analysis_jobs.segment(uuid,integer,text)owner to cp7_capture;
 revoke all on all functions in schema cp7_analysis_jobs from public,anon,authenticated,service_role;
 grant create on schema public to cp7_capture;
 create function public.erp_cp7_request_analysis_job_v1(p_query jsonb,p_request uuid)returns jsonb
-language sql volatile security definer set search_path=''as $$select cp7_analysis_jobs.request(p_query,p_request)$$;
+language sql volatile security definer set search_path=''as $$select cp7_analysis_jobs.request(p_query,p_request,'INCLUDED')$$;
+create function public.erp_cp7_request_operational_analysis_job_v1(p_query jsonb,p_request uuid)returns jsonb
+language sql volatile security definer set search_path=''as $$select cp7_analysis_jobs.request(p_query,p_request,'DEFERRED')$$;
 create function public.erp_cp7_run_analysis_job_v1(p_request uuid)returns jsonb
 language sql volatile security definer set search_path=''as $$select cp7_analysis_jobs.run(p_request)$$;
 create function public.erp_cp7_get_analysis_job_v1(p_request uuid)returns jsonb
@@ -238,14 +243,15 @@ language sql volatile security definer set search_path=''as $$select cp7_analysi
 create function public.erp_cp7_read_analysis_segment_v1(p_run uuid,p_index integer,p_access text)returns jsonb
 language sql volatile security definer set search_path=''as $$select cp7_analysis_jobs.segment(p_run,p_index,p_access)$$;
 alter function public.erp_cp7_request_analysis_job_v1(jsonb,uuid)owner to cp7_capture;
+alter function public.erp_cp7_request_operational_analysis_job_v1(jsonb,uuid)owner to cp7_capture;
 alter function public.erp_cp7_run_analysis_job_v1(uuid)owner to cp7_capture;
 alter function public.erp_cp7_get_analysis_job_v1(uuid)owner to cp7_capture;
 alter function public.erp_cp7_read_analysis_manifest_v1(uuid)owner to cp7_capture;
 alter function public.erp_cp7_read_analysis_segment_v1(uuid,integer,text)owner to cp7_capture;
 revoke create on schema public from cp7_capture;
-revoke all on function public.erp_cp7_request_analysis_job_v1(jsonb,uuid),public.erp_cp7_run_analysis_job_v1(uuid),
+revoke all on function public.erp_cp7_request_analysis_job_v1(jsonb,uuid),public.erp_cp7_request_operational_analysis_job_v1(jsonb,uuid),public.erp_cp7_run_analysis_job_v1(uuid),
  public.erp_cp7_get_analysis_job_v1(uuid),public.erp_cp7_read_analysis_manifest_v1(uuid),
  public.erp_cp7_read_analysis_segment_v1(uuid,integer,text)from public,anon,authenticated,service_role;
-grant execute on function public.erp_cp7_request_analysis_job_v1(jsonb,uuid),public.erp_cp7_run_analysis_job_v1(uuid),
+grant execute on function public.erp_cp7_request_analysis_job_v1(jsonb,uuid),public.erp_cp7_request_operational_analysis_job_v1(jsonb,uuid),public.erp_cp7_run_analysis_job_v1(uuid),
  public.erp_cp7_get_analysis_job_v1(uuid),public.erp_cp7_read_analysis_manifest_v1(uuid),
  public.erp_cp7_read_analysis_segment_v1(uuid,integer,text)to authenticated;

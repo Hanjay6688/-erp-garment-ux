@@ -1,18 +1,20 @@
 {
   "contract": "cp7.p19.analysis-job-transport.v1",
-  "expected_case_count": 11,
+  "expected_case_count": 15,
   "required_case_counts": {
-    "native": 4,
+    "native": 6,
     "races": 3,
-    "http": 2,
-    "browser": 2
+    "http": 3,
+    "browser": 3
   },
   "required_case_ids": {
     "native": [
       "P19T_JOB_COMPLETE_ORIGINAL",
       "P19T_MULTI_SEGMENT_EXACT",
       "P19T_SEGMENT_AUTHORITY",
-      "P19T_JOB_IDENTITY_REFUSALS"
+      "P19T_JOB_IDENTITY_REFUSALS",
+      "P19T_FINANCE_DEFERRED_NO_BOOK_READ",
+      "P19T_FINANCE_MODE_IDENTITY"
     ],
     "races": [
       "P19T_RACE_TWO_RUNS_ONE_ORIGINAL",
@@ -21,11 +23,13 @@
     ],
     "http": [
       "P19T_HTTP_JOB_TRANSPORT",
-      "P19T_HTTP_REVOKED"
+      "P19T_HTTP_REVOKED",
+      "P19T_HTTP_FINANCE_ON_DEMAND"
     ],
     "browser": [
       "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY",
-      "P19T_BROWSER_MOBILE_BACKGROUND"
+      "P19T_BROWSER_MOBILE_BACKGROUND",
+      "P19T_BROWSER_FINANCE_ON_DEMAND"
     ]
   },
   "segment_characters": 2000000,
@@ -37,5 +41,6 @@
   "full_P19_acceptance": false,
   "factory_capacity_or_SLA": false,
   "independent_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "finance_on_demand": "Owner decision 7 Oct 2026: stock/planning screens do not wait for the books. erp_cp7_capture_operational_analysis_v1 and erp_cp7_request_operational_analysis_job_v1 run the same compiler without the protected owner report or the all-book provenance scan; the run is marked financial_capture=DEFERRED and every later serve/manifest compares it with the same operational-only source. Financial figures come only from the unchanged full path (erp_cp7_capture_analysis_v1 / erp_cp7_request_analysis_job_v1). Not loaded is UNKNOWN/BLOCKED with no IDR figure, never zero."
 }

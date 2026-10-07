@@ -177,9 +177,11 @@
     "device": "desktop Chromium 1440x1000, Asia/Jakarta, loopback API, no throttling",
     "controls": [
       "Ambil analisis ERP terbaru",
-      "Hitung di latar belakang"
+      "Hitung di latar belakang",
+      "Sertakan angka keuangan (menunggu buku besar) + Ambil analisis ERP terbaru"
     ],
-    "context": "fresh signed-in browser context per click (cold client state, warm database)"
+    "context": "fresh signed-in browser context per click (cold client state, warm database)",
+    "finance_on_demand": "Owner decision 7 Oct 2026: the two default controls run the operational-only analysis (no owner report, no all-book provenance scan; financial figures not loaded, never zero). CAPTURE_WITH_FINANCE ticks the finance choice and runs the unchanged full capture. Earlier runs (through a68abf1e) measured the full capture under CAPTURE/BACKGROUND."
   },
   "kernel_evidence_kept_separate": [
     "scripts/cp7_p19_assembly_benchmark.mjs",

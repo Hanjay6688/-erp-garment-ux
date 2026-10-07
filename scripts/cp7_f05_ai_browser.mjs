@@ -14,7 +14,7 @@ async function journey(ui,today,mobile,automaticRequired=false){
   // A real minute boundary may archive the Original. The operator explicitly
   // captures again; the handoff itself must never silently recapture/recalculate.
   for(let attempt=0;attempt<3;attempt++){
-   const before=state(),response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();const r=await response;assert.equal(r.status(),200);original=await r.json();explicitCaptures++;assert.equal(state().analysis_count,before.analysis_count+1);assert.deepEqual(state().business,before.business)
+   const before=state(),response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('checkbox',{name:'Sertakan angka keuangan (menunggu buku besar)',exact:true}).check();await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();const r=await response;assert.equal(r.status(),200);original=await r.json();explicitCaptures++;assert.equal(state().analysis_count,before.analysis_count+1);assert.deepEqual(state().business,before.business)
    // Native capture itself can cross the minute boundary before its final
    // current-source read. The correctly disabled handoff must not be clicked.
    if(original.source_state==='ARCHIVED_STALE'){clockArchives++;await ui.expect(manual()).toHaveCount(0);await ui.expect(panel).toContainText('Arsip lama: sumber berubah.');continue}

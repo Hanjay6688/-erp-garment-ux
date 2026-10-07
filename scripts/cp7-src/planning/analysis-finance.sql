@@ -64,6 +64,18 @@ begin
  return c||jsonb_build_object('financial_source',financial);
 end $$;
 alter function cp7_analysis_native.source(jsonb)owner to cp7_capture;
+-- INCLUDED is the unchanged full source above. DEFERRED never calls the
+-- protected owner report and never scans the books: the run carries no
+-- financial source, exactly as an operations-only actor's run, plus the mark
+-- that keeps every later read on the same operational-only source.
+create function cp7_analysis_native.source_for(q jsonb,p_finance text)returns jsonb
+language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
+begin
+ if p_finance='INCLUDED'then return cp7_analysis_native.source(q);end if;
+ if p_finance is distinct from 'DEFERRED'then raise exception 'CP7_ANALYSIS_FINANCE_MODE';end if;
+ return cp7_analysis_native.source()||jsonb_build_object('financial_source',null,'financial_capture','DEFERRED');
+end $$;
+alter function cp7_analysis_native.source_for(jsonb,text)owner to cp7_capture;
 
 alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)rename to build_operational;
 create function cp7_analysis_native.build(c jsonb,q jsonb,p_run uuid,a jsonb)returns jsonb
@@ -107,4 +119,4 @@ begin
  return v||jsonb_build_object('semantic_hash',encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex'));
 end $$;
 alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)owner to cp7_capture;
-revoke all on function cp7_analysis_native.source(jsonb),cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)from public,anon,authenticated,service_role;
+revoke all on function cp7_analysis_native.source(jsonb),cp7_analysis_native.source_for(jsonb,text),cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)from public,anon,authenticated,service_role;

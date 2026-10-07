@@ -15,7 +15,7 @@ async function journey(ui,today,mobile){
  try{
   mkdirSync('cp6-proof/t3',{recursive:true});await navigate(page);await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()
   const before=fixture('state',{today,actor:user.user.id})
-  captured=await click(panel,'Ambil analisis ERP terbaru','erp_cp7_capture_analysis_v1')
+  captured=await click(panel,'Ambil analisis ERP terbaru','erp_cp7_capture_operational_analysis_v1')
   const need=captured.analysis.material_needs.find(m=>m.target_key===f.target&&m.material_key===`FABRIC_MATERIAL:${f.material}`);assert.ok(need);assert.equal(need.additional_external.state,'ASSUMED');assert.equal(need.additional_external.value,f.expected.external)
   const unit=need.additional_external.unit,key=`FABRIC_NEED:${f.target}:FABRIC_MATERIAL:${f.material}`
   await panel.getByRole('tab',{name:'Pengingat',exact:true}).click()

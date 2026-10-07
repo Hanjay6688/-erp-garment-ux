@@ -9,7 +9,7 @@ async function journey(ui,today,mobile){
  const state=()=>fixture('state',{actor:user.user.id});let lost=null,original=null,fresh=null,firstOriginal=null,rejection=null
  async function open(){await navigate(page);await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()}
  async function shot(name){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});shots.push(name)}
- async function capture(){const pending=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();const response=await pending;assert.equal(response.status(),200);return response.json()}
+ async function capture(){const pending=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_operational_analysis_v1'));await panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}).click();const response=await pending;assert.equal(response.status(),200);return response.json()}
  function row(e){const m=e.analysis.material_needs.find(m=>m.target_key===f.target&&(m.material_key??'').startsWith('FABRIC_'));assert.ok(m);const keys=['installed_proven','unused_allocated_proven','additional_external']
   // P08 successor: unreviewed stays UNKNOWN; the reviewed rate2 row on the
   // fixture's single free ten-unit roll is allocated10; its unbound same-model

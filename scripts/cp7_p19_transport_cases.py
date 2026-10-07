@@ -22,10 +22,11 @@ import cp7_p19_native_load_cases as load
 import cp7_p18_e01_bridge_cases as bridge
 
 IDS = dict(
-    native=['P19T_JOB_COMPLETE_ORIGINAL', 'P19T_MULTI_SEGMENT_EXACT', 'P19T_SEGMENT_AUTHORITY', 'P19T_JOB_IDENTITY_REFUSALS'],
+    native=['P19T_JOB_COMPLETE_ORIGINAL', 'P19T_MULTI_SEGMENT_EXACT', 'P19T_SEGMENT_AUTHORITY', 'P19T_JOB_IDENTITY_REFUSALS',
+            'P19T_FINANCE_DEFERRED_NO_BOOK_READ', 'P19T_FINANCE_MODE_IDENTITY'],
     races=['P19T_RACE_TWO_RUNS_ONE_ORIGINAL', 'P19T_RACE_LIMIT_STOPS_THEN_CONTINUES', 'P19T_RACE_REVOKE_WHILE_WAITING'],
-    http=['P19T_HTTP_JOB_TRANSPORT', 'P19T_HTTP_REVOKED'],
-    browser=['P19T_BROWSER_DESKTOP_RELOAD_RECOVERY', 'P19T_BROWSER_MOBILE_BACKGROUND'],
+    http=['P19T_HTTP_JOB_TRANSPORT', 'P19T_HTTP_REVOKED', 'P19T_HTTP_FINANCE_ON_DEMAND'],
+    browser=['P19T_BROWSER_DESKTOP_RELOAD_RECOVERY', 'P19T_BROWSER_MOBILE_BACKGROUND', 'P19T_BROWSER_FINANCE_ON_DEMAND'],
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
 EXPECTED = sum(REQUIRED.values())
@@ -34,6 +35,27 @@ SEGMENT_CHARACTERS = 2000000
 auth, b, schedule = analysis.auth, analysis.b, analysis.schedule
 FUNCTIONS = ('erp_cp7_request_analysis_job_v1', 'erp_cp7_run_analysis_job_v1', 'erp_cp7_get_analysis_job_v1',
              'erp_cp7_read_analysis_manifest_v1', 'erp_cp7_read_analysis_segment_v1')
+
+
+# The books: what the protected owner report and its all-book provenance scan
+# read. The operational demand source reads only the journal headers of sales
+# and returns (their posting state), so erp.journal_entries is not listed.
+BOOK_TABLES = ('journal_lines', 'account_daily_balances', 'cash_accounts')
+
+
+def book_reads(cur):
+    # Pending counters of this transaction; every reader runs in it.
+    rows = cur.execute("""select relname,coalesce(seq_scan,0)+coalesce(idx_scan,0) from pg_stat_xact_user_tables
+        where schemaname='erp' and relname=any(%s)""", (list(BOOK_TABLES),)).fetchall()
+    return {**{t: 0 for t in BOOK_TABLES}, **dict(rows)}
+
+
+def operational(cur, today, key, subject=None, q=None):
+    return rpc(cur, 'erp_cp7_capture_operational_analysis_v1', (json.dumps(q or query(today)), key), subject)
+
+
+def request_operational(cur, today, key, subject=None, q=None):
+    return rpc(cur, 'erp_cp7_request_operational_analysis_job_v1', (json.dumps(q or query(today)), key), subject)
 
 
 def query(today):
@@ -240,7 +262,94 @@ def cases(cur, today):
         return dict(status='PASS', ordinary_capture_UUID_adopted_without_recompute=True, changed_query_refused=True,
                     unknown_UUID_refused=True, missing_UUID_refused=True, foreign_or_missing_run_refused=True)
 
-    return list(zip(IDS['native'], (complete, multi_segment, authority, identity)))
+    def deferred_no_books():
+        f, _ = load.real_workload(cur, today)
+        subject, role = financial.admin_actor(cur, analysis)
+        before = b.boundary.snapshot(cur)
+        start = book_reads(cur)
+        key = uuid.uuid4()
+        e = operational(cur, today, key, subject)
+        analysis.checked(e)
+        # Not loaded is never zero: no financial source, no IDR figure, the
+        # existing not-captured warning and BLOCKED financial readiness.
+        assert e['financial_source'] is None and 'FINANCIAL_DOMAIN_NOT_CAPTURED' in e['analysis']['generation_warnings']
+        assert e['analysis']['financial_readiness'] == 'BLOCKED' and e['analysis']['quality']['financial'] == 'UNKNOWN'
+        facts = cur.execute('select facts from cp7_analysis_native.runs where id=%s', (e['run_id'],)).fetchone()[0]
+        assert facts['financial_capture'] == 'DEFERRED' and facts['financial_source'] is None
+        served = analysis.read(cur, e['run_id'], subject)
+        assert served == e and served['source_state'] == 'UNCHANGED'
+        job_key = uuid.uuid4()
+        checked_job(request_operational(cur, today, job_key, subject), job_key, 'WAITING')
+        done = checked_job(run(cur, job_key, subject), job_key, 'DONE')
+        assembled, manifest, _ = fetch(cur, done['run_id'], subject)
+        assert assembled == analysis.read(cur, done['run_id'], subject) and assembled['financial_source'] is None
+        assert manifest['source_state'] == 'UNCHANGED'
+        after = book_reads(cur)
+        assert after == start, ('P19T_OPERATIONAL_ANALYSIS_READ_THE_BOOKS', start, after)
+        # Positive control under the same counters: the full path reads them.
+        full = analysis.capture(cur, today, uuid.uuid4(), subject)
+        analysis.checked(full)
+        assert full['financial_source'] is not None
+        control = book_reads(cur)
+        assert all(control[t] > after[t] for t in BOOK_TABLES), ('P19T_BOOK_COUNTER_BLIND', after, control)
+        assert b.boundary.snapshot(cur) == before
+        # Operational rights suffice for an operational-only run; the run with
+        # financial figures still refuses without the report permission.
+        b.api.admin(cur)
+        cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.reports.view'", (role,))
+        assert analysis.read(cur, e['run_id'], subject)['analysis'] == e['analysis']
+        assert fetch(cur, done['run_id'], subject)[0]['analysis'] == assembled['analysis']
+        refused(cur, lambda: analysis.read(cur, full['run_id'], subject), 'CP7_ANALYSIS_FINANCE_ACCESS_DENIED')
+        bridge.literal(cur, f, '175.00')
+        return dict(status='PASS', operational_capture_serve_job_manifest_segments_read_no_book_table=True,
+                    book_tables=list(BOOK_TABLES), book_reads_operational=after, book_reads_after_full_control=control,
+                    not_loaded_is_unknown_not_zero=True, full_path_unchanged_and_still_protected=True,
+                    operational_rights_suffice_for_operational_run=True, Native_business_unchanged=True)
+
+    def mode_identity():
+        f, _ = load.real_workload(cur, today)
+        subject, _ = financial.admin_actor(cur, analysis)
+        key = uuid.uuid4()
+        e = operational(cur, today, key, subject)
+        assert operational(cur, today, key, subject) == e
+        # One UUID is one request: same query and same finance mode.
+        refused(cur, lambda: analysis.capture(cur, today, key, subject), 'CP7_ANALYSIS_REQUEST_CHANGED')
+        refused(cur, lambda: request(cur, today, key, subject), 'CP7_ANALYSIS_REQUEST_CHANGED')
+        adopted = checked_job(request_operational(cur, today, key, subject), key, 'DONE')
+        assert adopted['run_id'] == e['run_id'] and counts(cur, key) == (1, 0, 1)
+        full_key = uuid.uuid4()
+        full = analysis.capture(cur, today, full_key, subject)
+        assert full['financial_source'] is not None
+        refused(cur, lambda: operational(cur, today, full_key, subject), 'CP7_ANALYSIS_REQUEST_CHANGED')
+        refused(cur, lambda: request_operational(cur, today, full_key, subject), 'CP7_ANALYSIS_REQUEST_CHANGED')
+        waiting = uuid.uuid4()
+        checked_job(request_operational(cur, today, waiting, subject), waiting, 'WAITING')
+        refused(cur, lambda: request(cur, today, waiting, subject), 'CP7_ANALYSIS_REQUEST_CHANGED')
+        # An ordinary capture does not consult jobs; a run of the other mode on
+        # the same UUID makes the job fail instead of adopting a mixed result.
+        analysis.capture(cur, today, waiting, subject)
+        failed = checked_job(run(cur, waiting, subject), waiting, 'FAILED')
+        assert failed['failure']['code'] == 'CP7_ANALYSIS_REQUEST_CHANGED', failed
+        # Only the two modes exist, at every private entry.
+        b.api.admin(cur)
+        q = json.dumps(query(today))
+        for sql, args in (('select cp7_analysis_native.source_for(%s::jsonb,%s)', (q, 'MAYBE')),
+                          ('select cp7_analysis_native.source_for(%s::jsonb,%s)', (q, None)),
+                          ('select cp7_analysis_native.capture(%s::jsonb,%s,%s)', (q, uuid.uuid4(), 'MAYBE')),
+                          ('select cp7_analysis_jobs.request(%s::jsonb,%s,%s)', (q, uuid.uuid4(), None))):
+            refused(cur, lambda: cur.execute(sql, args).fetchone(), 'CP7_ANALYSIS_FINANCE_MODE')
+        for who in ('anon', 'authenticated', 'service_role'):
+            for sig in ('cp7_analysis_native.capture(jsonb,uuid,text)', 'cp7_analysis_native.source_for(jsonb,text)',
+                        'cp7_analysis_native.finance_mode(jsonb)', 'cp7_analysis_jobs.request(jsonb,uuid,text)'):
+                assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (who, sig)).fetchone()[0], (who, sig)
+        for sig in ('public.erp_cp7_capture_operational_analysis_v1(jsonb,uuid)', 'public.erp_cp7_request_operational_analysis_job_v1(jsonb,uuid)'):
+            assert cur.execute("select has_function_privilege('authenticated',%s,'EXECUTE')", (sig,)).fetchone()[0]
+            assert not any(cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (who, sig)).fetchone()[0] for who in ('anon', 'service_role'))
+        bridge.literal(cur, f, '175.00')
+        return dict(status='PASS', one_UUID_one_mode_capture_and_job=True, same_mode_UUID_adopted=True,
+                    other_mode_run_fails_job_not_mixed=True, only_two_modes=True, no_direct_API_path=True)
+
+    return list(zip(IDS['native'], (complete, multi_segment, authority, identity, deferred_no_books, mode_identity)))
 
 
 def races(tools, today):
@@ -416,4 +525,33 @@ def http_cases(http, today):
             assert counts(cur, state['key']) == (1, 1, 1)
         return dict(status='PASS', deactivated_user_all_five_403=True, no_new_effect=True)
 
-    return list(zip(IDS['http'], (flow, revoked)))
+    def finance_on_demand():
+        assert state, 'P19T_REQUIRED_PRIOR_HTTP_CASE'
+        admin = http.login('ADMIN', 'p19t-finance-admin')
+        q = query(today)
+
+        def ok(name, payload):
+            r = admin.rpc(name, payload)
+            assert r['status'] == 200, (name, r)
+            return r['body']
+        ops = ok('erp_cp7_capture_operational_analysis_v1', dict(p_query=q, p_request=str(uuid.uuid4())))
+        analysis.checked(ops)
+        assert ops['financial_source'] is None
+        full = ok('erp_cp7_capture_analysis_v1', dict(p_query=q, p_request=str(uuid.uuid4())))
+        analysis.checked(full)
+        assert full['financial_source'] is not None
+        key = str(uuid.uuid4())
+        assert ok('erp_cp7_request_operational_analysis_job_v1', dict(p_query=q, p_request=key))['state'] == 'WAITING'
+        done = ok('erp_cp7_run_analysis_job_v1', dict(p_request=key))
+        assert done['state'] == 'DONE' and ok('erp_cp7_read_analysis_v1', dict(p_run=done['run_id']))['financial_source'] is None
+        changed = admin.rpc('erp_cp7_capture_analysis_v1', dict(p_query=q, p_request=key))
+        assert changed['status'] == 400 and 'CP7_ANALYSIS_REQUEST_CHANGED' in json.dumps(changed['body']), changed
+        anonymous = [http.anon_rpc(name, dict(p_query=q, p_request=str(uuid.uuid4())))['status']
+                     for name in ('erp_cp7_capture_operational_analysis_v1', 'erp_cp7_request_operational_analysis_job_v1')]
+        assert all(code in (401, 403) for code in anonymous), anonymous
+        with http.connect() as conn, conn.cursor() as cur:
+            assert counts(cur, key) == (1, 1, 1)
+        return dict(status='PASS', real_Auth_operational_capture_and_job_without_finance=True,
+                    full_capture_still_carries_owner_report=True, one_UUID_one_mode=True, anonymous_refused=anonymous)
+
+    return list(zip(IDS['http'], (flow, revoked, finance_on_demand)))

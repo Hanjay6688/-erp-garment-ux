@@ -23,13 +23,13 @@ def verify(cur):
  verify_fabric(cur)
  from cp7_plan_bundle import verify as verify_plan
  verify_plan(cur)
- expected={'material_source':'s','material_needs':'i','source':'s','fingerprint':'i','fact':'i','build_operational':'i','build':'i','financial_source':'s','financial_fingerprint':'i','serve':'v','capture':'v','archives':'v','report_fact':'i','report_render':'i','report_document':'v','report_command':'v','report_index':'v','report_compare':'v'}
+ expected={'material_source':'s','material_needs':'i','source':'s','fingerprint':'i','finance_mode':'i','source_for':'s','fact':'i','build_operational':'i','build':'i','financial_source':'s','financial_fingerprint':'i','serve':'v','capture':'v','archives':'v','report_fact':'i','report_render':'i','report_document':'v','report_command':'v','report_index':'v','report_compare':'v'}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_analysis_native'").fetchall()
  assert len(rows)==len(expected)+1,rows # source() and source(jsonb)
  for sig,name,owner,definer,config,volatility in rows:
   assert (owner,definer)==(('cp7_finance_read',True)if name=='financial_source'else('cp7_finance_read',False)if name=='financial_fingerprint'else('cp7_capture',False))and expected.get(name)==volatility and 'search_path=\"\"'in(config or[])and'TimeZone=UTC'in(config or[]),(sig,owner,definer,config,volatility)
   for who in('anon','authenticated','service_role'):assert not cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0]
- for sig in('public.erp_cp7_capture_analysis_v1(jsonb,uuid)','public.erp_cp7_read_analysis_v1(uuid)','public.erp_cp7_list_analysis_archives_v1(jsonb)','public.erp_cp7_publish_report_v1(jsonb,uuid)','public.erp_cp7_get_report_request_v1(jsonb,uuid)','public.erp_cp7_read_report_v1(uuid)','public.erp_cp7_list_reports_v1(jsonb)','public.erp_cp7_compare_reports_v1(uuid,uuid)'):
+ for sig in('public.erp_cp7_capture_analysis_v1(jsonb,uuid)','public.erp_cp7_capture_operational_analysis_v1(jsonb,uuid)','public.erp_cp7_read_analysis_v1(uuid)','public.erp_cp7_list_analysis_archives_v1(jsonb)','public.erp_cp7_publish_report_v1(jsonb,uuid)','public.erp_cp7_get_report_request_v1(jsonb,uuid)','public.erp_cp7_read_report_v1(uuid)','public.erp_cp7_list_reports_v1(jsonb)','public.erp_cp7_compare_reports_v1(uuid,uuid)'):
   assert cur.execute('select pg_get_userbyid(proowner),prosecdef,proconfig from pg_proc where oid=%s::regprocedure',(sig,)).fetchone()==('cp7_capture',True,['search_path=\"\"'])
   assert cur.execute('select has_function_privilege(\'authenticated\',%s,\'EXECUTE\')',(sig,)).fetchone()[0]
   for who in('anon','service_role'):assert not cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0]

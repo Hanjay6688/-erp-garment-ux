@@ -39,11 +39,11 @@ const statusText=()=>[...container.querySelectorAll('[role="status"]')].map(e=>e
 it('reads an Original above the single-body bound as the verified segments of the same run and UUID',async()=>{
  let id=''
  client.rpc.mockImplementation(server(()=>id,(name,args)=>{
-  if(name==='erp_cp7_capture_analysis_v1'){id=args.p_request!;return{...structuredClone(fixture),request_id:id,analysis:{oversized:'x'.repeat(8000001)}}}
-  if(name==='erp_cp7_request_analysis_job_v1'){expect(args).toEqual({p_query:q,p_request:id});return job(id,q,'DONE',fixture.run_id)}
+  if(name==='erp_cp7_capture_operational_analysis_v1'){id=args.p_request!;return{...structuredClone(fixture),request_id:id,analysis:{oversized:'x'.repeat(8000001)}}}
+  if(name==='erp_cp7_request_operational_analysis_job_v1'){expect(args).toEqual({p_query:q,p_request:id});return job(id,q,'DONE',fixture.run_id)}
   throw Error('unexpected '+name)}))
  await render();await click('Ambil analisis ERP terbaru');await until(result)
- expect(names()).toEqual(['erp_cp7_capture_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1'])
+ expect(names()).toEqual(['erp_cp7_capture_operational_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1'])
  expect(container.querySelector('.native-analysis-result')).toBeTruthy();expect(readNativeDemandRequest(scope).pending).toBeNull()
  expect(container.querySelector('[role="alert"]')).toBeNull()
 })
@@ -51,21 +51,21 @@ it('reads an Original above the single-body bound as the verified segments of th
 it('runs a background calculation once, shows when it started, then displays the complete Original and clears the request',async()=>{
  let id='',finish:(v:unknown)=>void=()=>{}
  client.rpc.mockImplementation(server(()=>id,(name,args)=>{
-  if(name==='erp_cp7_request_analysis_job_v1'){id=args.p_request!;expect(readAnalysisJobRequest(scope).pending).toEqual({id,q});return job(id,q,'WAITING')}
+  if(name==='erp_cp7_request_operational_analysis_job_v1'){id=args.p_request!;expect(readAnalysisJobRequest(scope).pending).toEqual({id,q,finance:'DEFERRED'});return job(id,q,'WAITING')}
   if(name==='erp_cp7_run_analysis_job_v1')return new Promise(r=>{finish=r})
   throw Error('unexpected '+name)}))
  await render();await click('Hitung di latar belakang')
  expect(statusText()).toMatch(/Sedang dihitung sejak jam 19[.:]00[.:]00 WIB/)
  expect([...container.querySelectorAll('button')].find(b=>b.textContent==='Ambil analisis ERP terbaru')!.hasAttribute('disabled')).toBe(true)
  await act(async()=>{finish(job(id,q,'DONE',fixture.run_id))});await until(result)
- expect(names()).toEqual(['erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1'])
+ expect(names()).toEqual(['erp_cp7_request_operational_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1'])
  expect(container.querySelector('.native-analysis-result')).toBeTruthy();expect(readAnalysisJobRequest(scope).pending).toBeNull()
 })
 
 it('keeps the same UUID after a stopped calculation and continues it on request without inventing a result',async()=>{
  let id='',attempt=0
  client.rpc.mockImplementation(server(()=>id,(name,args)=>{
-  if(name==='erp_cp7_request_analysis_job_v1'){if(!id)id=args.p_request!;expect(args.p_request).toBe(id);attempt++;return job(id,q,'WAITING',null,{attempts:attempt})}
+  if(name==='erp_cp7_request_operational_analysis_job_v1'){if(!id)id=args.p_request!;expect(args.p_request).toBe(id);attempt++;return job(id,q,'WAITING',null,{attempts:attempt})}
   if(name==='erp_cp7_run_analysis_job_v1')return attempt===1?job(id,q,'FAILED'):job(id,q,'DONE',fixture.run_id,{attempts:2})
   throw Error('unexpected '+name)}))
  await render();await click('Hitung di latar belakang');await until(alerted)
@@ -101,10 +101,27 @@ it('after a reload states a calculation that no worker holds and offers only the
 it('states the WIB start clock while an ordinary capture is still computing after three seconds',async()=>{
  vi.useFakeTimers({toFake:['setTimeout','Date']});vi.setSystemTime(new Date('2026-10-06T12:00:00.000Z'))
  let id='',finish:(v:unknown)=>void=()=>{}
- client.rpc.mockImplementation(async(name:string,args:Args)=>{if(name!=='erp_cp7_capture_analysis_v1')throw Error('unexpected '+name);id=args.p_request!;return new Promise(r=>{finish=r})})
+ client.rpc.mockImplementation(async(name:string,args:Args)=>{if(name!=='erp_cp7_capture_operational_analysis_v1')throw Error('unexpected '+name);id=args.p_request!;return new Promise(r=>{finish=r})})
  await render();await click('Ambil analisis ERP terbaru')
  expect(statusText()).toContain('Memeriksa sumber ERP');await act(async()=>{await vi.advanceTimersByTimeAsync(3000)})
  expect(statusText()).toMatch(/Sedang dihitung sejak jam 19[.:]00[.:]00 WIB/)
  await act(async()=>{finish({data:{...structuredClone(fixture),request_id:id},error:null})});await until(result)
  expect(container.querySelector('.native-analysis-result')).toBeTruthy();expect(statusText()).not.toContain('Sedang dihitung')
+})
+
+it('a background calculation with financial figures is sent, stored and continued on the full path only when chosen',async()=>{
+ const a=state.auth as {identity:{permissions:string[]}};a.identity.permissions.push('finance.reports.view')
+ let id='',attempt=0
+ client.rpc.mockImplementation(server(()=>id,(name,args)=>{
+  if(name==='erp_cp7_request_analysis_job_v1'){if(!id)id=args.p_request!;expect(readAnalysisJobRequest(scope).pending).toEqual({id,q,finance:'INCLUDED'});attempt++;return job(id,q,'WAITING',null,{attempts:attempt})}
+  if(name==='erp_cp7_run_analysis_job_v1')return attempt===1?job(id,q,'FAILED'):job(id,q,'DONE',fixture.run_id,{attempts:2})
+  throw Error('unexpected '+name)}))
+ await render()
+ const box=[...container.querySelectorAll('label')].find(l=>l.textContent==='Sertakan angka keuangan (menunggu buku besar)')!.querySelector('input')!;await act(async()=>box.click())
+ await click('Hitung di latar belakang');await until(alerted)
+ // A remount forgets the checkbox; the stored request keeps the mode it was sent with.
+ await act(async()=>root.unmount());root=createRoot(container);await render()
+ expect(([...container.querySelectorAll('label')].find(l=>l.textContent==='Sertakan angka keuangan (menunggu buku besar)')!.querySelector('input') as HTMLInputElement).checked).toBe(false)
+ await click('Lanjutkan perhitungan yang sama');await until(result)
+ expect(names().filter(n=>n.startsWith('erp_cp7_request')).every(n=>n==='erp_cp7_request_analysis_job_v1')).toBe(true);expect(readAnalysisJobRequest(scope).pending).toBeNull()
 })

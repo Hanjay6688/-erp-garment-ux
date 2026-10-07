@@ -80,6 +80,8 @@ async function journey(ui,today,mobile){
   mkdirSync('cp6-proof/t3',{recursive:true});await navigate(page);const dirty=page.getByLabel('Cari barang jadi',{exact:true});await dirty.fill('P18 E01 ISIAN GUDANG');await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()
   const beforeCapture=fixture('state',{fixture:native.fixture,actor:user.user.id})
   const capture=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_capture_analysis_v1')),captureButton=panel.getByRole('button',{name:'Ambil analisis ERP terbaru',exact:true}),captureTiming='ANALYSIS_CAPTURE_'+suffix
+  // This flow checks the protected owner report through AR conditions: the financial figures are chosen explicitly.
+  await panel.getByRole('checkbox',{name:'Sertakan angka keuangan (menunggu buku besar)',exact:true}).check()
   await ui.expect(captureButton).toBeEnabled();await beginClickMeasurement(captureButton,{id:captureTiming,mode:'CAPTURE',kind:'HEAVY_COMPLETE'})
   await captureButton.click();const c=await capture;assert.equal(c.status(),200);original=await c.json();await ui.expect(panel.locator('.native-analysis-run span')).toHaveText(original.run_id);await ui.expect(captureButton).toBeEnabled()
   const captureSample=await readClickMeasurement(page,captureTiming,c,'HEAVY_COMPLETE');assert.equal(captureSample.rendered.run_id,original.run_id);loading.push(captureSample)
