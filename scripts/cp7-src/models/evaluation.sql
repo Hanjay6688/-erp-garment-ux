@@ -82,7 +82,10 @@ begin
   if model_ids ? k or cp7_demand.instant(model->'registered_at')>first_cutoff then raise exception 'CP7_MODEL_CONFIG_AFTER_VALIDATION_START';end if;model_ids:=model_ids||jsonb_build_object(k,true);
   count_complete:=0;mae:=0;bias:=0;tail:=0;fold_results:='[]';
   for fold in select value from jsonb_array_elements(v->'folds') order by value->>'origin',value->>'id' loop
-   origin:=cp7_demand.day(fold->'origin');h:=cp7_wip.pcs(fold->'horizon');cutoff:=((origin+1)::timestamp at time zone 'Asia/Jakarta')-interval '1 microsecond';
+   -- A day's total is capturable only after it closes (WIB), so a forecast from
+   -- origin O is issued on O+1: training admits revisions known by the end of O+1.
+   -- The configuration guard above stays at the end of O (before the first target).
+   origin:=cp7_demand.day(fold->'origin');h:=cp7_wip.pcs(fold->'horizon');cutoff:=((origin+2)::timestamp at time zone 'Asia/Jakarta')-interval '1 microsecond';
    train:=cp7_models.window(v->'series',lo,origin,cutoff);actual:=cp7_models.window(v->'series',origin+1,origin+h,known);
    prediction:=cp7_models.predict(model->>'method',train->'values',model->'params',h);score:=null;
    if prediction->>'status'='ELIGIBLE' and not (actual->'values' @> '[null]'::jsonb) then
@@ -108,14 +111,14 @@ begin
   models_with_decision:=models_with_decision||jsonb_build_array(candidate||jsonb_build_object('decision',decision));
  end loop;
  -- Holdout is read only AFTER selection. It never influences parameters/selection.
- cutoff:=((holdout_origin+1)::timestamp at time zone 'Asia/Jakarta')-interval '1 microsecond';
+ cutoff:=((holdout_origin+2)::timestamp at time zone 'Asia/Jakarta')-interval '1 microsecond';
  train:=cp7_models.window(v->'series',lo,holdout_origin,cutoff);actual:=cp7_models.window(v->'series',holdout_origin+1,holdout_origin+holdout_h,known);
  for model in select value from jsonb_array_elements(models) where value->>'id' in (selected,v->'baseline'->>'id') loop
   prediction:=cp7_models.predict(model->>'method',train->'values',model->'params',holdout_h);score:=null;
   if prediction->>'status'='ELIGIBLE' and not (actual->'values' @> '[null]'::jsonb) then score:=cp7_models.score(actual->'values',prediction->'forecasts',train->'values',cp7_wip.pcs(v->'policy'->'season_lag')::int);end if;
   holdout_results:=holdout_results||jsonb_build_array(jsonb_build_object('model_id',model->'id','prediction',prediction,'score',score,'actual',actual,'training',train));
  end loop;
- return jsonb_build_object('contract_version','cp7.model-evaluation-result.v1','kernel_version','rolling-evaluation-1','snapshot_id',v->'snapshot_id','scope_id',v->'scope_id',
+ return jsonb_build_object('contract_version','cp7.model-evaluation-result.v1','kernel_version','rolling-evaluation-2','snapshot_id',v->'snapshot_id','scope_id',v->'scope_id',
   'target_key',v->'target_key','size_id',v->'size_id','known_as_of',v->'known_as_of','selected_model_id',selected,'baseline',b,'challengers',models_with_decision,
   'selection_basis','COMPLETE_PAIRED_CHRONOLOGICAL_VALIDATION_ONLY','selection_status',case when selected=v->'baseline'->>'id' then 'BASELINE_RETAINED' else 'CHALLENGER_RECOMMENDED' end,
   'activation_status','REVIEW_REQUIRED','automatic_activation',false,

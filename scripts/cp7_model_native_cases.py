@@ -1,4 +1,4 @@
-"""Six Native adapter controls plus three explicit installed-kernel oracles.
+"""Six Native adapter controls plus four explicit installed-kernel oracles.
 
 No historical Native capture/configuration timestamp is backdated. Positive
 rolling vectors are labelled synthetic private-kernel evidence, never Native
@@ -91,7 +91,18 @@ def cases(cur,today):
    assert a['summary']==z['summary']and all(x['training']==y['training']for x,y in zip(a['folds'],z['folds']))
   blank=copy.deepcopy(d);blank['series']=[];missing=build(cur,blank);assert missing['reason']=='HISTORICAL_NATIVE_KNOWLEDGE_INSUFFICIENT'and missing['evaluation']['baseline']['summary']['fold_count']=='0'and missing['forecast']['status']=='INELIGIBLE'
   return dict(status='PASS',evidence_kind='SYNTHETIC_INSTALLED_PRIVATE_KNOWLEDGE_ORACLE',known_later_changes_no_old_training_or_model_selection=True,missing_not_zero_no_fake_fold=True,Native_history_promotion_claim=False)
- return previous.cases(cur,today)+[(name,fn)for name,fn in[('P07_NATIVE_SHORT',short),('P07_NATIVE_REGISTRY_TIME',registry_time),('P07_NATIVE_LATE_SOURCE',late_source),('P07_NATIVE_CURRENT_AUTH',current_auth),('P07_NATIVE_CLOSED_QUERY',closed),('P07_NATIVE_PRIVATE',private),('X13_PRIVATE_SES_ORACLE',ses),('X14_X15_PRIVATE_POSITIVE_HOLDOUT',positive),('M03_PRIVATE_KNOWLEDGE_LEAKAGE',no_leakage)]]
+ def next_day_knowledge():
+  # PL-3: a Native capture holds day D only from 00:00 WIB on D+1. The same
+  # oracle with each day first known 08:00 WIB the next morning must still
+  # complete its folds; the predecessor cutoff (end of origin) gave 0 folds.
+  d=kernel_input(cur)
+  for x in d['series']:x['known_at']=f"2026-01-{int(x['date'][8:])+1:02}T01:00:00.000000Z"
+  one=build(cur,d);base=one['evaluation']['baseline']
+  assert one['selection_status']=='CHALLENGER_RECOMMENDED'and base['summary']['fold_count']=='3',(one['selection_status'],base['summary'])
+  assert [x['training_known_cutoff']for x in base['folds']]==['2026-01-09T16:59:59.999999Z','2026-01-10T16:59:59.999999Z','2026-01-11T16:59:59.999999Z']
+  assert all(y['known_at']<=x['training_known_cutoff']for x in base['folds']for y in x['training']['sources'])
+  return dict(status='PASS',evidence_kind='SYNTHETIC_INSTALLED_PRIVATE_KNOWLEDGE_ORACLE',next_morning_knowledge_completes_three_folds=True,training_never_after_origin_plus_one=True,Native_history_promotion_claim=False)
+ return previous.cases(cur,today)+[(name,fn)for name,fn in[('P07_NATIVE_SHORT',short),('P07_NATIVE_REGISTRY_TIME',registry_time),('P07_NATIVE_LATE_SOURCE',late_source),('P07_NATIVE_CURRENT_AUTH',current_auth),('P07_NATIVE_CLOSED_QUERY',closed),('P07_NATIVE_PRIVATE',private),('X13_PRIVATE_SES_ORACLE',ses),('X14_X15_PRIVATE_POSITIVE_HOLDOUT',positive),('M03_PRIVATE_KNOWLEDGE_LEAKAGE',no_leakage),('PL3_PRIVATE_NEXT_DAY_KNOWLEDGE',next_day_knowledge)]]
 def races(tools,today):
  def same_uuid():
   with tools.connect()as conn,conn.cursor()as cur:_,_,q=prepared(cur,today);conn.commit()

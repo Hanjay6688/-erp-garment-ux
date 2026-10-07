@@ -87,8 +87,10 @@ search, learn holiday effects, or invent training data.
 - Null/censored periods make these dense-series candidates ineligible; they are
   neither compressed out nor interpreted as zero. Two complete cycles are a
   conservative technical eligibility rule for seasonal naive, not proof of seasonality.
-- Configurations must predate the first validation target. Every fold trains using
-  only revisions known by that origin's Jakarta day-end. Later backdated revisions
+- Configurations must predate the first validation target (registered by the end
+  of the first origin's Jakarta day). A fold trains on days through its origin O;
+  because a day is complete only after it closes, the forecast is issued on O+1 and
+  admits only revisions known by the end of O+1 (Jakarta). Later backdated revisions
   cannot enter that training window. Actual scoring uses the declared evaluation cutoff.
 - All requested folds must be complete and share the same horizon. Fold count is
   an explicit technical policy, not a statistical guarantee. Primary MAE must improve
