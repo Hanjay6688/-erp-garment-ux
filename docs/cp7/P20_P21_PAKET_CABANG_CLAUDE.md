@@ -274,7 +274,7 @@ Frontend: pratinjau rencana menyebut asumsi yield 100% dan bahwa yield start bar
 - **PL-5 dan AP-5:** menunggu pilihan owner; tidak ada angka dikarang.
 
 
-## 10. Tambahan 7 Okt 2026 (siang): PL-8 bagian 1, netting dan alokasi linear, kasus Native PL-4
+## 10. Tambahan 7 Okt 2026 (siang): PL-8 bagian 1, netting, alokasi dan baseline linear, kasus Native PL-4
 
 Ketiga perubahan kernel di bawah ini **byte-identik terhadap pendahulunya termasuk penolakan pertama** (kode SQLSTATE dan pesan sama, di posisi baris yang sama), diuji pada mode plan cache auto/custom/generic, dan setiap uji paritas membuktikan diri dengan mutasi yang sengaja salah. Tidak ada batas yang dinaikkan (1000 target/produk per capture, 100.000 pasangan, 1000 posisi, 8 dtk per request tetap). Lokal PG16 bukan bukti; bukti CI ada di `SELF_CHECK_FORMULAS_20261006.md` §6.
 
@@ -286,6 +286,7 @@ Ketiga perubahan kernel di bawah ini **byte-identik terhadap pendahulunya termas
 | `planning/netting.sql` | `cp7_netting_native.build`, `matching`, `timeline` | Linear terhadap posisi × target; posisi dengan fakta sumber+model sama memakai ulang hasil pemimpin sesudah panggilan `match_target` sendiri | `f04-netting-linear` (`d7548eb8`; 885 kasus build, 225 `timeline`) |
 | `planning/netting.sql` | **baru:** `cp7_netting_native.matching_models(jsonb,jsonb)` | Helper privat `immutable security invoker`, owner `cp7_capture`, di skema yang USAGE-nya dicabut dari `public/anon/authenticated/service_role`; terdaftar di `cp7_netting_bundle.py` (`'i'`) | ikut `f04-netting-linear` |
 | `baseline/allocation.sql` | `cp7_baseline.allocate` | Linear terhadap pasangan; vonis `match_target` dipakai ulang per pasangan fakta hanya sesudah pasangan itu lolos validasinya sendiri | `f04-allocation-linear` (`083c90e3`; 1.187 kasus × 3 mode, 8 mutasi) |
+| `planning/baseline-source.sql` | `cp7_baseline_native.build` | Linear terhadap target; peta profil/stok/kebijakan dibangun malas, `21000` untuk dua profil per root (`IDENTITY_CONFLICT`) atau dua stok per target ditiru, kebijakan `LIMIT 1` urutan array dengan semantik `jsonb ?` | `f04-baseline-build-linear` (`9e3394e3`; 503 capture × 3 mode, 7 mutasi) |
 
 Tidak ada tabel, role, RPC, grant, atau batas baru. Hasil yang sama berarti hash mesin Original yang ada tidak berubah karena isi, tetapi hash definisi fungsi berubah — lihat 10.3.
 
@@ -294,12 +295,13 @@ Tidak ada tabel, role, RPC, grant, atau batas baru. Hasil yang sama berarti hash
 1. **Memo vonis di `allocate` dan `build`.** Kunci memo harus memuat *semua* fakta yang dibaca `match_target` (constraint, `confirmed_target`, kualitas, bukti, target). Mutasi `MEMO_WITHOUT_PROOF/CONSTRAINTS/CONFIRMED/TARGET` membuktikan uji menangkap kunci yang kurang; periksa juga bahwa tidak ada fakta lain yang dibaca `match_target` di luar daftar itu (kopling pemeliharaan: bila `cp7_wip.match_target` kelak membaca kolom baru, kunci memo wajib ikut).
 2. **Penolakan pertama.** Sumber/target dengan fakta sama tetapi ref tidak sah harus ditolak di pasangannya sendiri, bukan memakai vonis pasangan sebelumnya (kasus `MEMO_PROBE_BAD_SOURCE/BAD_TARGET` → `22023 CP7_WIP_DUPLICATE_REF`).
 3. **Subquery skalar.** Bentuk linear meniru penolakan `21000` (subquery mengembalikan >1 baris) dari pendahulu; periksa setiap tempat `SELECT INTO` (ambil baris pertama) vs subquery skalar (tolak) tetap sesuai pendahulu.
-4. **Sisa biaya.** Bila setiap sumber/target punya fakta unik, biaya tetap didominasi satu `match_target` per pasangan (lokal 300×100: 3,5 → 2,1 dtk). Ini bukan regresi, tetapi batas atas yang jujur.
+4. **Baseline `IDENTITY_CONFLICT`.** `cp7_profile.source` mengeluarkan satu baris per versi produk; root dengan dua versi aktif membuat build menolak `21000` (perilaku lama yang dipertahankan, bukan diperbaiki). Periksa apakah penolakan seluruh capture ini yang diinginkan, atau root tersebut seharusnya `UNKNOWN` — keputusan kontrak, bukan optimasi.
+5. **Sisa biaya.** Bila setiap sumber/target punya fakta unik, biaya tetap didominasi satu `match_target` per pasangan (lokal 300×100: 3,5 → 2,1 dtk). Ini bukan regresi, tetapi batas atas yang jujur.
 
 ### 10.3 Catatan pemasangan/rollback (P21)
 
 - Badan fungsi berubah → hash mesin berubah; Original lama terbaca `ARCHIVED_STALE` dan tetap utuh. Jadwal/netting perlu ditinjau ulang sekali sesudah pemasangan bila sumbernya berubah.
-- Rollback tetap mekanisme §4: `drop owned by <role CP7> cascade` + `drop role`, lalu definisi Native (erp/public) pendahulu dikembalikan dari salinan aslinya. Semua fungsi di 10.1, termasuk `cp7_netting_native.matching_models` yang baru, dimiliki `cp7_capture`/role CP7 sehingga ikut terhapus; tidak ada langkah rollback tambahan. Belum ada pemasangan CP7 hosted, jadi tidak ada jalur "CP7 lama → CP7 baru" yang perlu di-rollback ke definisi kernel CP7 sebelumnya; bila kelak ada, definisi kernel sebelumnya diambil dari commit pendahulu yang dipakai uji paritas (WIP `3c0aca7f`, netting `d7548eb8`, alokasi `083c90e3`) dan `matching_models` di-drop sesudah `build`/`matching` lama terpasang (pendahulu tidak memanggilnya).
+- Rollback tetap mekanisme §4: `drop owned by <role CP7> cascade` + `drop role`, lalu definisi Native (erp/public) pendahulu dikembalikan dari salinan aslinya. Semua fungsi di 10.1, termasuk `cp7_netting_native.matching_models` yang baru, dimiliki `cp7_capture`/role CP7 sehingga ikut terhapus; tidak ada langkah rollback tambahan. Belum ada pemasangan CP7 hosted, jadi tidak ada jalur "CP7 lama → CP7 baru" yang perlu di-rollback ke definisi kernel CP7 sebelumnya; bila kelak ada, definisi kernel sebelumnya diambil dari commit pendahulu yang dipakai uji paritas (WIP `3c0aca7f`, netting `d7548eb8`, alokasi `083c90e3`, baseline `9e3394e3`) dan `matching_models` di-drop sesudah `build`/`matching` lama terpasang (pendahulu tidak memanggilnya).
 - Jumlah kasus suite berubah: jadwal **70 → 71** (`PL4_OVERFLOW_CARRIED`), netting **82 → 83** (suite netting ikut menjalankan kasus jadwal). Kegagalan pertama dengan deklarasi lama (run 37568940391) tetap tercatat.
 
 ### 10.4 Masih terbuka

@@ -619,6 +619,7 @@ Oracle browser P12 payroll-review (`.cpay-net` "Bersih payroll") **tidak diubah 
 | `a634296e` | P19 skala: harness commit per panggilan writer (seperti aplikasi: satu RPC per transaksi); tangga SQL dan profil fase pada salinan yang sudah di-commit |
 | `3b14f02f` | PL-4: kasus Native `PL4_OVERFLOW_CARRIED` (jadwal 71) |
 | `9e3394e3` | P19: `cp7_baseline.allocate` linear, byte-identik (1000×100 lokal 22,2 → 0,74 dtk); deklarasi suite netting 83 (kegagalan pertama 82 dicatat) |
+| `2c6884ea` | P19: `cp7_baseline_native.build` linear, byte-identik (lapisan dominan 1000 target di run skala 4; biaya sendiri lokal 7,5 → 0,9 dtk) |
 | sisanya | dokumen (`SELF_CHECK_FORMULAS_20261006.md`, `P20_P21_PAKET_CABANG_CLAUDE.md` §9, `p19/P19_FULL_APP_SCALE.md`) dan jalur workflow |
 
 **Perubahan belum di-push:** tidak ada (pohon kerja bersih; `HEAD` = `origin/claude/new-session-deapao`).
@@ -631,7 +632,8 @@ Per commit: `docs/cp7/SELF_CHECK_FORMULAS_20261006.md` §6. Bukti satu head untu
 
 - **PL-8 bagian 2:** posisi qty 0 dari grup potong yang sudah habis tetap menghabiskan batas netting (1000 posisi; dengan 300 target batas 100.000 pasangan tercapai di 333 posisi). Pemangkasan grup habis butuh kenaikan versi kontrak dan tinjau ulang jadwal sekali (dampak per konsumen dicatat di §4 dokumen pemeriksaan mandiri).
 - **P19 skala aplikasi penuh:** 100 target sudah ±7,5 dtk di server dan 7,7–9,9 dtk klik-sampai-tampil (target 3 dtk belum terpenuhi). 300/1000/5000 dan profil per fase sedang diukur. 5.000 target per capture ditolak batas 1.000 produk — butuh keputusan kapasitas (batas tidak dinaikkan sepihak).
-- **Netting dan alokasi kuadratik:** sudah linear dengan paritas byte (`083c90e3`, `9e3394e3`); dampaknya pada alur aplikasi penuh diukur ulang di run skala berikutnya.
+- **Netting, alokasi, dan baseline kuadratik:** sudah linear dengan paritas byte (`083c90e3`, `9e3394e3`, `2c6884ea`). Run skala 4 (`a634296e`, sebelum alokasi/baseline): 100 target 4,4–4,9 dtk klik sampai tampil; 300 target selesai di latar belakang (11,5–11,8 dtk); 1000/5000 ditolak jujur di 8 dtk. Run 5 mengukur ulang.
+- **Sisa skala:** `cp7_demand.history` di grid panjang (1000 × 100 hari, lokal 9,7 dtk, output 23 MB) dan `financial_source` (fingerprint seluruh jurnal/baris/saldo harian, ikut ukuran buku besar, berhenti di 8 dtk pada data 5.000 target). Batas 1.000 produk per capture tetap; 5.000 target butuh keputusan kapasitas owner.
 - **Keputusan owner:** PL-5 (pilihan A/B yield start baru), AP-5, delapan konfigurasi nyata, ambang pengingat/kelipatan produksi CP7 (PENDING_POLICY_VALUE).
 - **Audit independen P20** dan **pemasangan P21**: belum; penerimaan akhir mengikuti kandidat yang lolos audit.
 
