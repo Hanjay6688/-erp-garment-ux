@@ -32,8 +32,12 @@ function position(raw:unknown):WorkPosition{
  return{key:str(p.key??p.position_key),poolKey:str(p.pool_key),stage:str(p.stage),sizeId:uuid(p.size_id),ownership:p.ownership as WorkPosition['ownership'],eligible:p.eligible_company_wip as boolean,remaining:pcs(p.remaining_pcs)}
 }
 function positions(raw:unknown){const w=obj(raw);if(w.status!=='COMPLETE')return{complete:false,rows:[] as WorkPosition[]};if(w.contract_version!=='cp7.wip-position.v1'||w.scope!=='GLOBAL_NATIVE_POSTED_PRODUCTION_ORIGINS')fail();const rows=list(w.positions,20000).map(position);unique(rows.map(p=>p.key));return{complete:true,rows}}
+// v2 (PL-8): posted cutting groups proven exhausted are listed in
+// production_scope.exhausted_cutting_groups instead of carrying zero positions.
+// v1 remains readable for runs archived before it.
+const SUPPLY_CONTRACTS=['cp7.native-supply.v1','cp7.native-supply.v2']
 export function parseNativeSupply(raw:unknown,q:NativeDemandQuery):NativeSupply{
- const v=obj(raw);if(v.contract_version!=='cp7.native-supply.v1'||v.scope!=='GLOBAL_CURRENT_PHYSICAL_ROOTS_AND_POSTED_PRODUCTION_ORIGINS'||v.apply_enabled!==false||v.production_go!==false)fail()
+ const v=obj(raw);if(!SUPPLY_CONTRACTS.includes(str(v.contract_version))||v.scope!=='GLOBAL_CURRENT_PHYSICAL_ROOTS_AND_POSTED_PRODUCTION_ORIGINS'||v.apply_enabled!==false||v.production_go!==false)fail()
  const run=uuid(v.run_id),request=uuid(v.request_id),sourceHash=hash(v.source_hash),capturedAt=instant(v.captured_at),s=state(v.source_state)
  const baseline=parseNativeBaseline({...obj(v.baseline_run_result),run_id:run,request_id:request,source_state:s},q),w=positions(v.wip)
  if(baseline.capturedAt!==capturedAt)fail()

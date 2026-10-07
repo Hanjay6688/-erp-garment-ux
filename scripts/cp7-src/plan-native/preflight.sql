@@ -86,7 +86,7 @@ begin
    and(not g.material_issue_posted
     or s#>>'{netting,schedule_run_result,wip,status}'is distinct from 'COMPLETE'
     or(not(coalesce(s#>'{netting,schedule_run_result,supply_run_result,production_scope,cutting_groups}','[]'::jsonb)?(i.cutting_group_id::text))
-     and not(coalesce(s#>'{netting,schedule_run_result,supply_run_result,exhausted_cutting_groups}','[]'::jsonb)?(i.cutting_group_id::text)))
+     and not(coalesce(s#>'{netting,schedule_run_result,supply_run_result,production_scope,exhausted_cutting_groups}','[]'::jsonb)?(i.cutting_group_id::text)))
     or exists(select 1 from jsonb_array_elements(s#>'{netting,schedule_run_result,wip,totals}')t
      where t->>'pool_key'like 'CUT:'||i.cutting_group_id::text||':%'
       and(t->>'input_pcs')::numeric>(t->>'fg_pcs')::numeric+(t->>'exited_pcs')::numeric)))

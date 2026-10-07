@@ -169,7 +169,41 @@ def material_cases(cur,today):
   assert cur.execute('select count(*)from cp7_plan_native.intents').fetchone()[0]==1
   return dict(status='PASS',posted_cut_two_still_in_gap_as_NEEDS_CHECK=True,second_plan_refused_while_cut_pieces_unproven=True,
    one_FG_one_WIP_still_refused=True,no_second_intent_or_money_effect=True,needed_pcs=o['needed_pcs'])
- return [('P08_SHARED_FABRIC_NEXT_TARGET',next_target),('P08_SHARED_FABRIC_POSTED_ONCE',posted_once),('P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT',edited_current),('PL7_POSTED_CUT_NOT_PLANNED_TWICE',posted_not_replanned)]
+ def exhausted_history():
+  # PL-8 (supply v2): one real open group and one real spent group through
+  # ordinary Native postings, then 1100 SYNTHETIC administrative clones of the
+  # spent group (labelled; never an ordinary posting) as historical production.
+  netting=previous;supply=netting.supply;production=netting.production
+  c=production.cut.fixture(cur,today);s=production.ax.stocked_product(cur,today);b.api.admin(cur)
+  netting.select_profiles(cur,str(c['product']),True)
+  first=supply.capture(cur,today);n0=netting.capture(cur,today)
+  assert first['contract_version']=='cp7.native-supply.v2'and supply.vector(first)==[100,80,15,5,0,0],first['production_scope']
+  assert first['production_scope']['cutting_groups']==[str(c['group'])]and first['production_scope']['exhausted_cutting_groups']==[str(s['group'])]
+  clones=supply.clone_groups(cur,s['group'],1100,'PL8 SYNTHETIC spent cutting history')
+  started=time.monotonic();second=supply.capture(cur,today);supply_ms=round((time.monotonic()-started)*1000)
+  started=time.monotonic();n1=netting.capture(cur,today);netting_ms=round((time.monotonic()-started)*1000)
+  listed=second['production_scope']['exhausted_cutting_groups']
+  assert second['production_scope']['cutting_groups']==[str(c['group'])]and listed==sorted([str(s['group'])]+clones,key=uuid.UUID)
+  assert second['wip']['positions']==first['wip']['positions']and second['wip']['totals']==first['wip']['totals']
+  assert second['source_hash']!=first['source_hash']and n1['source_hash']!=n0['source_hash']
+  numbers=lambda n:{r['target_key']:[r.get(k)for k in('available_fg_pcs','raw_gap_pcs','directed_on_time_good_pcs','base_gap_pcs','conditional_gap_pcs','candidate_allocated_good_pcs','start_new_pcs')]for r in n['rows']}
+  assert numbers(n0)and n1['status']==n0['status']and numbers(n1)==numbers(n0),(numbers(n0),numbers(n1))
+  assert n1['match_results']==n0['match_results']and n1['allocation']['status']==n0['allocation']['status']
+  return dict(status='PASS',synthetic_administrative_spent_clones=len(clones),listed_exhausted=len(listed),one_real_open_group_wip_and_per_target_numbers_unchanged=True,
+   supply_capture_ms=supply_ms,netting_capture_ms=netting_ms,limits_raised=False)
+ def open_scope_refused():
+  # PL-8 keeps the 1000-group scope for groups that are not proven exhausted:
+  # 1001 open groups (one real, 1000 SYNTHETIC clones) still refuse, whatever
+  # spent history is listed beside them.
+  netting=previous;supply=netting.supply;production=netting.production
+  c=production.cut.fixture(cur,today);s=production.ax.stocked_product(cur,today);b.api.admin(cur)
+  supply.clone_groups(cur,s['group'],50,'PL8 SYNTHETIC spent cutting history')
+  supply.clone_groups(cur,c['group'],1000,'PL8 SYNTHETIC open cutting work')
+  for operation in(lambda:supply.capture(cur,today),lambda:netting.capture(cur,today)):auth.refused(cur,operation,'CP7_SUPPLY_GLOBAL_SCOPE_LIMIT')
+  assert cur.execute('select count(*)from cp7_supply_native.runs').fetchone()[0]==0
+  return dict(status='PASS',open_groups=1001,still_refused='CP7_SUPPLY_GLOBAL_SCOPE_LIMIT',limits_raised=False)
+ return [('P08_SHARED_FABRIC_NEXT_TARGET',next_target),('P08_SHARED_FABRIC_POSTED_ONCE',posted_once),('P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT',edited_current),('PL7_POSTED_CUT_NOT_PLANNED_TWICE',posted_not_replanned),
+  ('PL8_SPENT_HISTORY_1100_NETTED_AS_OPEN_WORK_ALONE',exhausted_history),('PL8_OPEN_SCOPE_1001_STILL_REFUSED',open_scope_refused)]
 
 def cases(cur,today):
  def metadata():

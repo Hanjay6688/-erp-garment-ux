@@ -274,7 +274,7 @@ Frontend: pratinjau rencana menyebut asumsi yield 100% dan bahwa yield start bar
 - **PL-5 dan AP-5:** menunggu pilihan owner; tidak ada angka dikarang.
 
 
-## 10. Tambahan 7 Okt 2026 (siang): PL-8 bagian 1, netting, alokasi dan baseline linear, kasus Native PL-4
+## 10. Tambahan 7 Okt 2026 (siang): PL-8 bagian 1 dan 2, netting, alokasi dan baseline linear, kasus Native PL-4
 
 Ketiga perubahan kernel di bawah ini **byte-identik terhadap pendahulunya termasuk penolakan pertama** (kode SQLSTATE dan pesan sama, di posisi baris yang sama), diuji pada mode plan cache auto/custom/generic, dan setiap uji paritas membuktikan diri dengan mutasi yang sengaja salah. Tidak ada batas yang dinaikkan (1000 target/produk per capture, 100.000 pasangan, 1000 posisi, 8 dtk per request tetap). Lokal PG16 bukan bukti; bukti CI ada di `SELF_CHECK_FORMULAS_20261006.md` §6.
 
@@ -287,6 +287,8 @@ Ketiga perubahan kernel di bawah ini **byte-identik terhadap pendahulunya termas
 | `planning/netting.sql` | **baru:** `cp7_netting_native.matching_models(jsonb,jsonb)` | Helper privat `immutable security invoker`, owner `cp7_capture`, di skema yang USAGE-nya dicabut dari `public/anon/authenticated/service_role`; terdaftar di `cp7_netting_bundle.py` (`'i'`) | ikut `f04-netting-linear` |
 | `baseline/allocation.sql` | `cp7_baseline.allocate` | Linear terhadap pasangan; vonis `match_target` dipakai ulang per pasangan fakta hanya sesudah pasangan itu lolos validasinya sendiri | `f04-allocation-linear` (`083c90e3`; 1.187 kasus × 3 mode, 8 mutasi) |
 | `planning/baseline-source.sql` | `cp7_baseline_native.build` | Linear terhadap target; peta profil/stok/kebijakan dibangun malas, `21000` untuk dua profil per root (`IDENTITY_CONFLICT`) atau dua stok per target ditiru, kebijakan `LIMIT 1` urutan array dengan semantik `jsonb ?` | `f04-baseline-build-linear` (`9e3394e3`; 503 capture × 3 mode, 7 mutasi) |
+| `planning/supply-source.sql` | **baru:** `cp7_supply_native.exhausted_groups(jsonb)`; `wip_source_at` (kini plpgsql, tetap STABLE); `build` | **Kontrak `cp7.native-supply.v2` (PL-8 bagian 2):** grup potong yang terbukti habis per batch 50 keluar dari fakta produksi dan dicantumkan di `production_scope.exhausted_cutting_groups`; batas 1000 berlaku pada grup tidak habis; >20000 grup terposting ditolak sebelum klasifikasi. `exhausted_groups` immutable, security invoker, owner `cp7_capture`, terdaftar di `cp7_supply_bundle.py` | `f04-supply-exhausted` (6 uji, 11/12 mutasi) + Native `PL8_*` |
+| `plan-native/preflight.sql` | `cp7_plan_native.preflight` | Jalur daftar grup habis PL-7 dibetulkan ke `production_scope.exhausted_cutting_groups` (jalur lama tidak pernah dikeluarkan siapa pun) | `f04-supply-exhausted` (intent PL-7) |
 
 Tidak ada tabel, role, RPC, grant, atau batas baru. Hasil yang sama berarti hash mesin Original yang ada tidak berubah karena isi, tetapi hash definisi fungsi berubah — lihat 10.3.
 
@@ -302,10 +304,11 @@ Tidak ada tabel, role, RPC, grant, atau batas baru. Hasil yang sama berarti hash
 
 - Badan fungsi berubah → hash mesin berubah; Original lama terbaca `ARCHIVED_STALE` dan tetap utuh. Jadwal/netting perlu ditinjau ulang sekali sesudah pemasangan bila sumbernya berubah.
 - Rollback tetap mekanisme §4: `drop owned by <role CP7> cascade` + `drop role`, lalu definisi Native (erp/public) pendahulu dikembalikan dari salinan aslinya. Semua fungsi di 10.1, termasuk `cp7_netting_native.matching_models` yang baru, dimiliki `cp7_capture`/role CP7 sehingga ikut terhapus; tidak ada langkah rollback tambahan. Belum ada pemasangan CP7 hosted, jadi tidak ada jalur "CP7 lama → CP7 baru" yang perlu di-rollback ke definisi kernel CP7 sebelumnya; bila kelak ada, definisi kernel sebelumnya diambil dari commit pendahulu yang dipakai uji paritas (WIP `3c0aca7f`, netting `d7548eb8`, alokasi `083c90e3`, baseline `9e3394e3`) dan `matching_models` di-drop sesudah `build`/`matching` lama terpasang (pendahulu tidak memanggilnya).
-- Jumlah kasus suite berubah: jadwal **70 → 71** (`PL4_OVERFLOW_CARRIED`), netting **82 → 83** (suite netting ikut menjalankan kasus jadwal). Kegagalan pertama dengan deklarasi lama (run 37568940391) tetap tercatat.
+- Jumlah kasus suite berubah: jadwal **70 → 71** (`PL4_OVERFLOW_CARRIED`), netting **82 → 83** (suite netting ikut menjalankan kasus jadwal). Rencana **40 → 42** (`PL8_SPENT_HISTORY_1100_NETTED_AS_OPEN_WORK_ALONE`, `PL8_OPEN_SCOPE_1001_STILL_REFUSED`).
+- **Supply v2 mengubah fingerprint sekali:** fingerprint supply → jadwal → netting → analisis. Run supply/jadwal/netting/analisis lama terbaca `ARCHIVED_STALE`, jadwal tersimpan perlu ditinjau ulang sekali, draf rencana ditolak `CP7_PLAN_SOURCE_CHANGED` sampai di-capture ulang, ruang kerja kain dan publikasi laporan basi, perbandingan laporan lintas mesin menampilkan UNKNOWN. Karena CP7 belum pernah dipasang di hosted, dampak ini hanya ada di lingkungan uji. Frontend tetap membaca arsip supply v1. Kegagalan pertama dengan deklarasi lama (run 37568940391) tetap tercatat.
 
 ### 10.4 Masih terbuka
 
-- **PL-8 bagian 2** (pangkas grup potong yang terbukti habis): butuh kenaikan versi kontrak; rancangan dan dampaknya sedang disiapkan, belum masuk.
+- **PL-8 bagian 2** masuk sebagai supply v2. Batas jujur yang tersisa: klasifikasi per request ±1,6 ms/grup satu ukuran, ±4,4 ms/grup tiga ukuran (lokal), jadi ±1500 / ±550 grup historis muat 8 dtk; bukti habis yang dipersistenkan dan di-hash isi adalah keputusan berikutnya.
 - **Skala aplikasi penuh:** run `p19-scale5` dengan harness commit-per-writer sedang berjalan (head `a634296e`, sebelum alokasi linear); hasil 300/1000/5000 dan profil fase dicatat di `p19/P19_FULL_APP_SCALE.md` setelah selesai.
 - **Bukti satu head** untuk kandidat P20: setelah kode final, semua suite CP7 di-dispatch pada satu head; tabelnya ditulis di handoff §15.5.

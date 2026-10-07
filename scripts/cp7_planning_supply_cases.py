@@ -22,6 +22,69 @@ def read(cur,run,subject=None):
  r=cur.execute('select public.erp_cp7_read_production_supply_v1(%s)',(run,)).fetchone()[0]
  b.api.admin(cur);return r
 
+# PL-8: SYNTHETIC administrative clones of one posted cutting group and the
+# rows the CP7 capture reads for it. Labelled; never an ordinary Native posting
+# and never a business fixture. Triggers (and so FK checks) are off only while
+# the rows are copied inside the case transaction; every id of the copied
+# closure is mapped per clone, and one column of each other unique key is made
+# distinct, so no Native row is shared or changed.
+CLONE_TABLES=(
+ ('cutting_groups','id=%(g)s'),
+ ('cutting_group_rolls','cutting_group_id=%(g)s'),
+ ('cutting_group_size_slots','id in(select y.size_slot_id from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id where r.cutting_group_id=%(g)s)'),
+ ('cutting_roll_yields','cutting_group_roll_id in(select id from erp.cutting_group_rolls where cutting_group_id=%(g)s)'),
+ ('cutting_pickups','cutting_group_id=%(g)s'),
+ ('cutting_distribution_batches','pickup_id in(select id from erp.cutting_pickups where cutting_group_id=%(g)s)'),
+ ('cutting_distribution_allocations','batch_id in(select b.id from erp.cutting_distribution_batches b join erp.cutting_pickups p on p.id=b.pickup_id where p.cutting_group_id=%(g)s)'),
+ ('laundry_deliveries','id in(select delivery_id from erp.laundry_delivery_lines where cutting_group_id=%(g)s)'),
+ ('laundry_delivery_lines','cutting_group_id=%(g)s'),
+ ('laundry_delivery_batch_size_lines','delivery_line_id in(select id from erp.laundry_delivery_lines where cutting_group_id=%(g)s)'),
+ ('laundry_receipts','id in(select l.receipt_id from erp.laundry_receipt_lines l join erp.laundry_delivery_lines d on d.id=l.delivery_line_id where d.cutting_group_id=%(g)s)'),
+ ('laundry_receipt_lines','delivery_line_id in(select id from erp.laundry_delivery_lines where cutting_group_id=%(g)s)'),
+ ('laundry_receipt_batch_size_lines','receipt_line_id in(select l.id from erp.laundry_receipt_lines l join erp.laundry_delivery_lines d on d.id=l.delivery_line_id where d.cutting_group_id=%(g)s)'),
+ ('qc_inspections','id in(select inspection_id from erp.qc_inspection_items where cutting_group_id=%(g)s)'),
+ ('qc_inspection_items','cutting_group_id=%(g)s'),
+ ('bs_cases','cutting_group_id=%(g)s'),
+)
+
+def clone_groups(cur,group,n,label):
+ """n SYNTHETIC clones of posted group `group`; returns the clone group ids (text)."""
+ assert label and 1<=n<=5000
+ g=dict(g=str(group))
+ ids=[r[0] for t,where in CLONE_TABLES for r in cur.execute(f'select id::text from erp.{t} where {where}',g).fetchall()]
+ assert len(ids)==len(set(ids)) and str(group) in ids,('PL8_CLONE_CLOSURE',len(ids))
+ cur.execute("select set_config('session_replication_role','replica',true)")
+ try:
+  for table,where in CLONE_TABLES:
+   rows=cur.execute(f'select to_jsonb(x) from erp.{table} x where {where}',g).fetchall()
+   if not rows:continue
+   cols=cur.execute("""select attname,format_type(atttypid,atttypmod),attidentity<>'' from pg_attribute
+     where attrelid=%s::regclass and attnum>0 and not attisdropped and attgenerated='' order by attnum""",('erp.'+table,)).fetchall()
+   kinds={c:t for c,t,_ in cols}
+   # One column of every unique key that holds no mapped id is made distinct.
+   distinct=set()
+   for keys,expression in cur.execute("""select array_agg(a.attname order by k.o),i.indexprs is not null from pg_index i
+     cross join lateral unnest(i.indkey)with ordinality k(n,o) left join pg_attribute a on a.attrelid=i.indrelid and a.attnum=k.n
+     where i.indrelid=%s::regclass and i.indisunique and not i.indisprimary group by i.indexrelid,i.indexprs""",('erp.'+table,)).fetchall():
+    keys=[k for k in keys if k]
+    if any(all(str(r[0].get(k)) in ids for r in rows) for k in keys) and not expression:continue
+    pick=next((k for k in keys if kinds[k] in('text','character varying')or kinds[k].startswith('character varying')),None) \
+     or next((k for k in keys if kinds[k]=='uuid'),None)
+    if expression and pick is None:pick=next((c for c,t,_ in cols if t=='text'),None)
+    assert pick,('PL8_CLONE_UNIQUE_KEY_UNHANDLED',table,keys)
+    distinct.add(pick)
+   names=[c for c,_,_ in cols];identity=any(i for _,_,i in cols)
+   cur.execute(f"""insert into erp.{table}({','.join('"'+c+'"' for c in names)}){' overriding system value' if identity else ''}
+    select {','.join('(r)."'+c+'"' for c in names)} from(select jsonb_populate_record(null::erp.{table},(select jsonb_object_agg(e.key,
+      case when e.value#>>'{{}}'=any(%(ids)s)then to_jsonb(md5((e.value#>>'{{}}')||':PL8:'||k)::uuid)
+       when e.key=any(%(distinct)s)and jsonb_typeof(e.value)='string'and %(kinds)s::jsonb->>e.key='uuid'then to_jsonb(md5((e.value#>>'{{}}')||':PL8U:'||k)::uuid)
+       when e.key=any(%(distinct)s)and jsonb_typeof(e.value)='string'then to_jsonb((e.value#>>'{{}}')||'-SX'||k)
+       else e.value end)from jsonb_each(x.v)e))r
+     from(select to_jsonb(t) v from erp.{table} t where {where})x cross join generate_series(1,%(n)s)k)s""",
+    dict(g,ids=ids,distinct=list(distinct),kinds=json.dumps(kinds),n=n))
+ finally:cur.execute("select set_config('session_replication_role','origin',true)")
+ return [r[0] for r in cur.execute("select md5(%s||':PL8:'||k)::uuid::text from generate_series(1,%s)k",(str(group),n)).fetchall()]
+
 def vector(r):
  assert r['wip']['status']=='COMPLETE',r
  return [production.total(r['wip'],k+'_pcs')for k in('input','wip','fg','bs','withheld','exited')]
@@ -56,19 +119,22 @@ def cases(cur,today):
  def unsourced():
   f=production.ax.stocked_product(cur,today);at=production.ax.r1.now(cur)
   # This factory posts real cutting/laundry/QC10 before creating the found BS.
-  # A global capture must retain that original production, unlike selected P04.
+  # Supply v2 (PL-8): every one of those 10 cut pieces reached FG, so the global
+  # capture lists the group as exhausted; its zero positions are not netted.
   b.api.admin(cur);cut_qty=cur.execute('select sum(y.qty_pcs)from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id where r.cutting_group_id=%s',(f['group'],)).fetchone()[0]
-  assert cut_qty>=10
+  assert cut_qty==10
   case=production.ax.manual_bs(cur,f['product'],'OUT_OF_NOWHERE',5,at-timedelta(minutes=15))['result']['bs_case_id']
-  first=capture(cur,today);expected=[int(cut_qty)+5,int(cut_qty)-10,10,5,0,0]
+  first=capture(cur,today);expected=[5,0,0,5,0,0]
   assert vector(first)==expected and first['production_scope']['unsourced_bs']==[str(case)],(vector(first),expected,first['production_scope'])
-  assert first['production_scope']['cutting_groups']==[str(f['group'])]
+  assert first['contract_version']=='cp7.native-supply.v2'and first['production_scope']['cutting_groups']==[]
+  assert first['production_scope']['exhausted_cutting_groups']==[str(f['group'])]
+  assert not any(t['pool_key'].startswith('CUT:')for t in first['wip']['totals'])
   out=production.ax.post(cur,dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=case,location_id=production.base.LOCATION,
    qty_pcs=3,physical_at=(at-timedelta(minutes=5)).isoformat(),reason='P06 native global unsourced recovery'))
-  assert vector(capture(cur,today))==[int(cut_qty)+5,int(cut_qty)-10,13,2,0,0]
+  assert vector(capture(cur,today))==[5,0,3,2,0,0]
   production.ax.reverse(cur,out['receipt_id'],'P06 retain original BS lineage')
   assert vector(capture(cur,today))==expected
-  return dict(status='PASS',native_unsourced_original5_good3_then_inverse_not_duplicate_supply=True,native_stocked_production_retained=True,independent_native_cut_yield=int(cut_qty),expected_initial_global=expected)
+  return dict(status='PASS',native_unsourced_original5_good3_then_inverse_not_duplicate_supply=True,native_spent_production_listed_exhausted_not_netted=True,independent_native_cut_yield=int(cut_qty),expected_initial_global=expected)
  def global56():
   fs=[]
   for _ in range(56):

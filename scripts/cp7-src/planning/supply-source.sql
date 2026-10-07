@@ -1,6 +1,8 @@
 -- Authoritative global production source. Batches are source-reading windows,
--- never independent pools or separately normalized balances. One stable caller
--- statement supplies every batch the same MVCC snapshot and capture clock.
+-- never independent pools or separately normalized balances: a batch's own graph
+-- only proves which groups are exhausted (PL-8); every netted balance comes from
+-- the one global graph. One stable caller statement supplies every batch the
+-- same MVCC snapshot and capture clock.
 create schema cp7_supply_native authorization cp7_capture;
 revoke all on schema cp7_supply_native from public,anon,authenticated,service_role;
 
@@ -68,32 +70,88 @@ begin
   'status','COMPLETE','scope',s,'facts',jsonb_build_object('cutting',cut->'facts','other',other->'facts'));
 end $$;
 
+-- PL-8: a posted group is exhausted when its own batch's conserved graph is
+-- COMPLETE and every pool of the group holds no WIP, BS or withheld piece (all
+-- of its input reached FG or EXIT), and nothing about it is still open: no
+-- unresolved WIP flag, no failed laundry attempt, no rework or laundry claim
+-- outside a closed status, no BS case on hold. A batch whose graph is not
+-- COMPLETE, or that refuses, proves nothing: every group of it stays in scope.
+-- A group's pools, nodes and events never touch another group's pool, and the
+-- review signals (open flags, failed attempts) are excluded above, so dropping
+-- a proven group leaves every other pool, position and signal as it was.
+create function cp7_supply_native.exhausted_groups(capture jsonb)returns uuid[]
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+declare f jsonb:=capture->'facts';norm jsonb;spent uuid[];
+begin
+ begin
+  norm:=cp7_wip.normalize_cutting(capture);
+ exception when others then return '{}'::uuid[];
+ end;
+ if norm->>'status'is distinct from 'COMPLETE'then return '{}'::uuid[];end if;
+ with pools as(
+  select split_part(t->>'pool_key',':',2)k,
+   bool_and((t->>'wip_pcs')::numeric=0 and(t->>'bs_pcs')::numeric=0 and(t->>'withheld_pcs')::numeric=0)spent
+  from jsonb_array_elements(norm->'totals')t where split_part(t->>'pool_key',':',1)='CUT'group by 1
+ ),cases as(select x->>'id'id,x->>'group_id'g,x->>'status'status from jsonb_array_elements(f->'bs')x),
+ open as(
+  select x->>'group_id'g from jsonb_array_elements(f->'flags')x where x->>'status'is distinct from 'RESOLVED'
+  union all select r->>'group_id'from jsonb_array_elements(f->'failed')a
+   join jsonb_array_elements(f->'receipts')r on r->>'id'=a->>'receipt_line_id'
+  union all select g from cases where status='ON_HOLD'
+  union all select b.g from jsonb_array_elements(f->'reworks')w join cases b on b.id=w->>'bs_case_id'
+   where w->>'status'is null or w->>'status'not in('COMPLETED','CANCELLED')
+  union all select d->>'group_id'from jsonb_array_elements(f->'claims')x
+   join jsonb_array_elements(f->'deliveries')d on d->>'delivery_id'=x->>'delivery_id'
+   where x->>'status'is null or x->>'status'not in('REJECTED','SETTLED','WRITTEN_OFF')
+ )
+ select coalesce(array_agg(x.id order by x.id),'{}'::uuid[])into spent
+ from(select(value->>'id')::uuid id,value->>'id'k from jsonb_array_elements(f->'groups'))x
+ join pools p on p.k=x.k and p.spent
+ where not exists(select 1 from open o where o.g=x.k);
+ return spent;
+end $$;
+
+-- Every posted group at this clock is read in batches of the unchanged capture;
+-- this STABLE function's statements share the caller's snapshot. A group proven
+-- exhausted leaves the production facts and is listed, never dropped, in
+-- scope.exhausted_cutting_groups. The 1000-id scope applies to the rest; more
+-- than 20000 posted groups is refused before any is classified.
 create function cp7_supply_native.wip_source_at(p_at timestamptz)returns jsonb
-language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
- with groups as materialized(
-  select g.id from erp.cutting_groups g
-  where g.material_issue_posted and g.cut_at<=p_at order by g.id limit 1001
- ),opening as materialized(
+language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
+declare ids uuid[];kept uuid[]:='{}';spent uuid[]:='{}';proved uuid[];part jsonb;opening jsonb;nonpo jsonb;n integer;i integer:=1;
+begin
+ select coalesce(jsonb_agg(x.id order by x.id),'[]'::jsonb)into opening from(
   select s.opening_item_id id from erp.initial_import_production_sources s
   join erp.opening_balance_items i on i.id=s.opening_item_id
   join erp.opening_balance_headers h on h.id=i.opening_id
   join erp.migration_batches m on m.id=s.batch_id
   where h.status='POSTED'and m.status='POSTED'
    and h.opening_date<=(p_at at time zone 'Asia/Jakarta')::date
-  order by s.opening_item_id limit 1001
- ),nonpo as materialized(
+  order by s.opening_item_id limit 1001)x;
+ select coalesce(jsonb_agg(x.id order by x.id),'[]'::jsonb)into nonpo from(
   select b.id from erp.bs_cases b where b.cutting_group_id is null
    and b.qc_item_id is null and b.source_laundry_receipt_line_id is null
    and b.po_id is null and b.untracked_type in('OUT_OF_NOWHERE','LEGACY')and b.physical_at<=p_at
    and not exists(select 1 from erp.initial_import_production_sources s where s.bs_case_id=b.id)
    and not exists(select 1 from erp.bb_wip_bs_splits_v1 s where s.bs_case_id=b.id)
-  order by b.id limit 1001
- ),scope as(select jsonb_build_object(
-  'cutting_groups',coalesce((select jsonb_agg(id order by id)from groups),'[]'::jsonb),
-  'opening_items',coalesce((select jsonb_agg(id order by id)from opening),'[]'::jsonb),
-  'unsourced_bs',coalesce((select jsonb_agg(id order by id)from nonpo),'[]'::jsonb))s)
- select cp7_supply_native.capture_at(s,p_at)from scope
-$$;
+  order by b.id limit 1001)x;
+ if jsonb_array_length(opening)>1000 or jsonb_array_length(nonpo)>1000 then raise exception 'CP7_SUPPLY_GLOBAL_SCOPE_LIMIT';end if;
+ select coalesce(array_agg(x.id order by x.id),'{}'::uuid[])into ids from(
+  select g.id from erp.cutting_groups g
+  where g.material_issue_posted and g.cut_at<=p_at order by g.id limit 20001)x;
+ n:=cardinality(ids);
+ if n>20000 then raise exception 'CP7_SUPPLY_GLOBAL_SCOPE_LIMIT';end if;
+ while i<=n loop
+  part:=cp7_wip.capture_cutting_sources(ids[i:least(i+49,n)],p_at);
+  if part->>'status'is distinct from 'COMPLETE'then raise exception 'CP7_SUPPLY_NATIVE_BATCH_INCOMPLETE';end if;
+  proved:=cp7_supply_native.exhausted_groups(part);spent:=spent||proved;
+  kept:=kept||array(select x from unnest(ids[i:least(i+49,n)])x where not x=any(proved)order by x);
+  i:=i+50;
+ end loop;
+ if cardinality(kept)>1000 then raise exception 'CP7_SUPPLY_GLOBAL_SCOPE_LIMIT';end if;
+ return jsonb_set(cp7_supply_native.capture_at(jsonb_build_object('cutting_groups',to_jsonb(kept),
+  'opening_items',opening,'unsourced_bs',nonpo),p_at),'{scope,exhausted_cutting_groups}',to_jsonb(spent));
+end $$;
 
 create function cp7_supply_native.source()returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
@@ -122,10 +180,11 @@ begin
   wip:=wip||jsonb_build_object('scope','GLOBAL_NATIVE_POSTED_PRODUCTION_ORIGINS',
    'source_basis','ONE_CLOCK_ONE_MVCC_SOURCE_BATCHES_ONE_CONSERVED_GRAPH');
  end if;
- return jsonb_build_object('contract_version','cp7.native-supply.v1',
+ return jsonb_build_object('contract_version','cp7.native-supply.v2',
   'captured_at',c->>'captured_at','source_hash',hash,
   'scope','GLOBAL_CURRENT_PHYSICAL_ROOTS_AND_POSTED_PRODUCTION_ORIGINS',
   'baseline_run_result',baseline,'production_scope',c->'production_sources'->'scope',
+  'production_scope_basis','POSTED_CUTTING_GROUPS_NOT_PROVEN_EXHAUSTED_EXHAUSTED_LISTED',
   'wip',wip,'matching_state','UNKNOWN','yield_state','UNKNOWN','calendar_state','UNKNOWN',
   'capacity_state','UNKNOWN','allocation_state','UNKNOWN',
   'reason','NATIVE_PHYSICAL_WIP_KNOWN_ONLY_WHEN_CONSERVED_NOT_FUTURE_SELLABLE_SUPPLY',
@@ -184,6 +243,7 @@ end $$;
 
 alter function cp7_supply_native.merge_facts(jsonb,jsonb)owner to cp7_capture;
 alter function cp7_supply_native.capture_at(jsonb,timestamptz)owner to cp7_capture;
+alter function cp7_supply_native.exhausted_groups(jsonb)owner to cp7_capture;
 alter function cp7_supply_native.wip_source_at(timestamptz)owner to cp7_capture;
 alter function cp7_supply_native.source()owner to cp7_capture;
 alter function cp7_supply_native.fingerprint(jsonb)owner to cp7_capture;

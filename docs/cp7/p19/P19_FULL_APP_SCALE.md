@@ -71,3 +71,18 @@ Tanda terima pertama tampil dalam 2,8–4,6 ms di semua ukuran (< 1 dtk terpenuh
 **Tindak lanjut yang sudah dikerjakan dari profil ini:** `baseline_build` di 1000 target adalah `cp7_baseline_native.build` yang kuadratik. Lapisan itu dilinearkan byte-identik di `2c6884ea` (lokal, profil dan kebijakan untuk setiap root: biaya sendiri 7,5 → 0,9 dtk). `cp7_baseline.allocate` dilinearkan di `9e3394e3`. Run kelima (37571509670, head `2c6884ea`) mengukur ulang. Kandidat berikutnya: `history_build` (4,25 dtk di 1000 × 100 hari) dan, untuk 5.000 target, `financial_source`. Batas struktural 1.000 produk per capture tetap berlaku; 5.000 target per capture butuh keputusan kapasitas owner, bukan pemotongan data.
 
 **Pengamatan (belum diperbaiki):** di 300 target, job server selesai ±6,3 dtk, tetapi progres segmen pertama baru tampil di browser ±11 dtk. Selisih itu adalah polling job + manifest + transfer 12,5 MB Original, bukan kernel. Rinciannya belum terukur per langkah.
+
+## 4. Run kelima — 37571509670 (head `2c6884ea`, sesudah alokasi dan baseline linear): runner ±2× lebih lambat
+
+Suite `p19-scale5` **PASS** (5/5). **Angka absolut tidak sebanding dengan run keempat:** waktu pengisian lewat writer yang tidak diubah naik ±2× di semua ukuran (100 → 6,4 dtk vs 3,2; 1000 → 47,8 vs 29,6; 5000 → 301 vs 140), dan lapisan sumber yang juga tidak diubah naik sama (`history_source` di 5000: 612 vs 315 ms). Jadi runner kali ini ±2× lebih lambat; kegagalan pertama dan hasil dicatat apa adanya.
+
+| Target | Hasil di runner ini | Lapisan dominan (biaya sendiri) |
+|---|---|---|
+| 100 | lengkap: biasa 7,3–7,9 dtk klik sampai tampil; latar belakang 7,5–8,1 dtk (server: biasa 6,5–7,2 dtk, job 4,1–4,9 dtk, manifest+segmen ±2,5 dtk) | netting_build 728–764 ms |
+| 300 | ditolak jujur 8 dtk (biasa dan latar belakang) | netting_build 2,36–2,39 dtk |
+| 1000 | ditolak jujur 8 dtk; 101 hari juga `HISTORY_GRID_100000` | **1 & 30 hari: `analysis_source` 5,0–5,1 dtk** (fingerprint keuangan); 100 hari: history_build 7,7 dtk |
+| 5000 | ditolak jujur 8 dtk; batas struktural `HISTORY_SOURCE_PRODUCTS_1000` | history_source 612–645 ms; `financial_source` berhenti di 8 dtk |
+
+**Sinyal yang tidak bergantung pada kecepatan runner:** di 1000 target, `baseline_build` (dominan 4,8–5,6 dtk di run keempat) tidak lagi dominan sesudah `2c6884ea`; yang kini dominan adalah biaya sendiri `analysis_source` = `cp7_analysis_native.financial_source` (laporan keuangan + fingerprint setiap jurnal, baris jurnal, saldo harian, dan kas). Biaya itu mengikuti **ukuran buku besar**, bukan jumlah target, sehingga juga mengenai pabrik dengan sedikit target tetapi riwayat jurnal panjang. Belum diubah: fingerprint ini adalah hash sumber yang dikunci kontrak (perubahan = keputusan kontrak).
+
+Mulai run berikutnya, log memuat biaya sendiri setiap lapisan dan waktu server setiap fase (`own_ms_by_layer`, `server_ms_by_phase`), bukan hanya lapisan dominan, sehingga perbandingan antar run bisa memakai rasio lapisan yang tidak diubah.
