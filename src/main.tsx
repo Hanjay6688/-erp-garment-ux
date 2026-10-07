@@ -27,6 +27,11 @@ import './layout-resilience.css'
 import './cutting-reminders.css'
 import './quick-ui-layout-fixes.css'
 import './wip-roll-operational.css'
+import './ux-rapih.css'
+import { applyUxTampilan, readUxTampilan } from './uxTampilan'
+
+// Apply the saved look before the first paint (default: Tampilan baru).
+applyUxTampilan(readUxTampilan())
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 

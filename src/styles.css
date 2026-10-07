@@ -254,3 +254,12 @@ h2 { margin:5px 0 4px; font-size:20px; letter-spacing:-.025em; font-weight:630; 
 .total-book-step strong{display:block;margin-top:4px;font-size:13px}.total-book-step small{display:block;margin-top:3px;color:#8a95aa;font-size:8px;line-height:1.35}
 .total-book-step.change{background:rgba(255,255,255,.018)}.total-book-step.closing{background:linear-gradient(115deg,rgba(103,215,171,.1),rgba(124,141,255,.055));border-top-color:rgba(103,215,171,.15)}.total-book-step.closing label{color:#79d4b1}.total-book-step.closing strong{font-size:15px;color:#eefaf5}
 @media(max-width:620px){.size-book-title{padding:9px}.book-step{display:grid;grid-template-columns:72px 1fr;gap:2px 8px;padding:9px}.book-step label{grid-row:1/3;align-self:center}.book-step strong{margin-top:0!important;text-align:right}.book-step small{text-align:right}.total-book-step{display:grid;grid-template-columns:76px 1fr;gap:2px 8px}.total-book-step label{grid-row:1/3;align-self:center}.total-book-step strong,.total-book-step small{text-align:right}}
+
+/* Tampilan baru / lama switch (works in both looks). */
+.ux-tampilan-toggle { display:flex; align-items:center; gap:2px; padding:3px; border:1px solid rgba(255,255,255,.14); border-radius:999px; background:rgba(255,255,255,.03); }
+.ux-tampilan-toggle button { min-height:28px; padding:0 10px; border:0; border-radius:999px; background:transparent; color:#aab3c8; font-size:11.5px; font-weight:650; white-space:nowrap; cursor:pointer; }
+.ux-tampilan-toggle button.active { background:#2c3557; color:#f2f4ff; box-shadow:inset 0 0 0 1px rgba(140,155,255,.35); }
+.ux-tampilan-toggle button:focus-visible { outline:2px solid #8f9cff; outline-offset:1px; }
+.ux-tampilan-toggle.in-sidebar { display:none; margin-top:12px; justify-content:center; }
+.ux-tampilan-toggle.in-sidebar button { flex:1; }
+@media (max-width: 860px) { .top-actions .ux-tampilan-toggle { display:none; } .ux-tampilan-toggle.in-sidebar { display:flex; } }

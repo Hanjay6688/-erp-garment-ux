@@ -2,28 +2,35 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, CircleMinus, CirclePlus,
   ClipboardCheck, Clock3, FilePlus2, Filter, History,
-  Inbox, PackageCheck, ReceiptText, Search, ShieldCheck,
+  Inbox, PackageCheck, PackagePlus, ReceiptText, Search, ShieldCheck, Tag,
   UserRound, UsersRound, Waves, Wrench, X,
 } from 'lucide-react'
 import type { QcFinalResult } from './QcFinalPage'
 import type { ReadyFgNotaCard } from './fgNota'
+import { productCatalog } from './productCatalog'
 import './bs-rework.css'
 
 export type SizeValues = [number, number, number]
 type SizeInputs = [string, string, string]
 type BsSource = 'QC_AUTO' | 'LEGACY_IMPORT' | 'HOLD_RESOLUTION'
-type BsStatus = 'OPEN' | 'ASSIGNED' | 'IN_REWORK' | 'QC_REWORK' | 'GOOD_RESTORED' | 'BS_FINAL'
+type BsStatus = 'OPEN' | 'ASSIGNED' | 'IN_REWORK' | 'QC_REWORK' | 'GOOD_RESTORED' | 'BS_FINAL' | 'CONVERTED_SKU'
 type StuckStatus = 'OUTSIDE' | 'PARTIAL' | 'RESOLVED'
-type LedgerKind = 'BS_DEDUCTION' | 'REWORK_RELEASE' | 'STUCK_HOLD' | 'STUCK_RELEASE' | 'STUCK_TO_BS'
+type LedgerKind = 'BS_DEDUCTION' | 'REWORK_RELEASE' | 'STUCK_HOLD' | 'STUCK_RELEASE' | 'STUCK_TO_BS' | 'BS_TO_NEW_SKU'
 export type ResolutionRoute = 'REWORK' | 'REWASH' | 'HOLD' | 'SCRAP'
 
 type WorkComponent = { id: string; name: string; note: string; rate: number }
+
+/** Simulasi lokal: sebagian/seluruh fisik BS dipindah ke SKU baru (mis. grade B). */
+export type BsSkuConversion = {
+  id: string; newSku: string; newName: string; gradeNote: string; qtyBySize: SizeValues; reason: string; createdAt: string
+}
 
 type BsCase = {
   kind: 'BS'; id: string; source: BsSource; sourceNote: string; parentId: string; batchId: string
   originalMandor: string; reworkMandor: string | null; brand: string; sku: string; material: string
   sizes: [string, string, string]; qtyBySize: SizeValues; origin: 'QC' | 'LEGACY' | 'HOLD'; reason: string
   status: BsStatus; componentIds: string[]; createdAt: string; deductionOriginId?: string; fixedDeductionRate?: number
+  conversions?: BsSkuConversion[]
 }
 
 type StuckCase = {
@@ -65,6 +72,7 @@ const bsStatusSteps: Array<{ id: Exclude<BsStatus, 'BS_FINAL'>; label: string }>
 const bsStatusLabels: Record<BsStatus, string> = {
   OPEN: 'Butuh penugasan', ASSIGNED: 'Sudah ditugaskan', IN_REWORK: 'Sedang bikin bagus',
   QC_REWORK: 'Menunggu hasil QC ulang', GOOD_RESTORED: 'Bikin bagus selesai', BS_FINAL: 'BS final',
+  CONVERTED_SKU: 'Sudah jadi SKU baru',
 }
 const stuckStatusLabels: Record<StuckStatus, string> = {
   OUTSIDE: 'Masih di Laundry', PARTIAL: 'Balik sebagian', RESOLVED: 'Susulan selesai',
@@ -100,9 +108,43 @@ const firstPositiveUnit = (values: SizeValues): SizeValues => {
 const subtractSizes = (source: SizeValues, used: SizeValues): SizeValues => asSizeValues(source.map((value, index) => Math.max(0, value - used[index])))
 const addSizes = (left: SizeValues, right: SizeValues): SizeValues => asSizeValues(left.map((value, index) => value + right[index]))
 const caseStatusLabel = (item: OperationalCase) => item.kind === 'BS' ? bsStatusLabels[item.status] : stuckStatusLabels[item.status]
-const caseIsDone = (item: OperationalCase) => item.kind === 'BS' ? ['GOOD_RESTORED', 'BS_FINAL'].includes(item.status) : item.status === 'RESOLVED'
+const bsClosedStatuses: BsStatus[] = ['GOOD_RESTORED', 'BS_FINAL', 'CONVERTED_SKU']
+const caseIsDone = (item: OperationalCase) => item.kind === 'BS' ? bsClosedStatuses.includes(item.status) : item.status === 'RESOLVED'
 const caseSourceValue = (item: OperationalCase) => item.kind === 'STUCK' ? 'LAUNDRY' : item.source
 const caseMandors = (item: OperationalCase) => item.kind === 'BS' ? [item.originalMandor, item.reworkMandor ?? ''] : [item.mandor]
+
+/** Identitas SKU dari katalog demo (merek + kode). Null bila kode belum ada di katalog. */
+export const bsSkuProduct = (brand: string, sku: string) => productCatalog.find((product) => product.brand === brand && product.code === sku) ?? null
+export const bsSkuName = (brand: string, sku: string) => {
+  const product = bsSkuProduct(brand, sku)
+  return product ? `${product.name} · ${product.color}` : 'Nama produk belum ada di katalog demo'
+}
+const sizeSummary = (sizes: [string, string, string], qty: SizeValues) => sizes.map((size, index) => qty[index] > 0 ? `${size}: ${qty[index]}` : null).filter(Boolean).join(' · ') || 'Tanpa qty'
+export const convertedSizes = (item: BsCase): SizeValues => (item.conversions ?? []).reduce<SizeValues>((total, conversion) => addSizes(total, conversion.qtyBySize), [0, 0, 0])
+export const normalizeSkuCode = (raw: string) => raw.trim().toUpperCase().replace(/\s+/g, '-')
+export const usedSkuCodes = (cases: OperationalCase[]) => new Set([
+  ...productCatalog.map((product) => product.code.toUpperCase()),
+  ...cases.flatMap((item) => item.kind === 'BS' ? (item.conversions ?? []).map((conversion) => conversion.newSku.toUpperCase()) : []),
+])
+
+export type NewSkuDraft = { code: string; name: string; gradeNote: string; qty: SizeInputs; reason: string }
+export type NewSkuErrors = Partial<Record<'code' | 'name' | 'gradeNote' | 'qty' | 'reason', string>>
+
+export function validateNewSkuDraft(draft: NewSkuDraft, available: SizeValues, sizes: [string, string, string], usedCodes: Set<string>): NewSkuErrors {
+  const errors: NewSkuErrors = {}
+  const code = normalizeSkuCode(draft.code)
+  if (!code) errors.code = 'Kode SKU baru wajib diisi.'
+  else if (!/^[A-Z0-9][A-Z0-9-]{2,23}$/.test(code)) errors.code = 'Pakai 3–24 huruf/angka/tanda minus, contoh 73001-B.'
+  else if (usedCodes.has(code)) errors.code = `Kode ${code} sudah dipakai di katalog demo. Pilih kode lain.`
+  if (!draft.name.trim()) errors.name = 'Nama produk SKU baru wajib diisi.'
+  if (!draft.gradeNote.trim()) errors.gradeNote = 'Catatan size / grade wajib diisi.'
+  const quantities = draft.qty.map((value) => Number(value) || 0)
+  const over = quantities.map((qty, index) => qty > available[index] ? `Size ${sizes[index]} maks ${available[index]} pcs` : null).filter(Boolean)
+  if (over.length > 0) errors.qty = `Qty melebihi sisa BS: ${over.join(' · ')}.`
+  else if (quantities.reduce((total, qty) => total + qty, 0) <= 0) errors.qty = 'Isi minimal 1 pcs yang dipindah ke SKU baru.'
+  if (!draft.reason.trim()) errors.reason = 'Alasan wajib diisi supaya jejak audit jelas.'
+  return errors
+}
 
 export function calculateSusulanResolution(qtySusulan: number[], qtyBsSusulan: number[], outstanding: number[]) {
   const safeOutstanding = asSizeValues(outstanding.map((value) => Math.max(0, Math.floor(Number.isFinite(value) ? value : 0))))
@@ -224,6 +266,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const [susulanQtyInputs, setSusulanQtyInputs] = useState<SizeInputs>(['', '', ''])
   const [susulanBsInputs, setSusulanBsInputs] = useState<SizeInputs>(['', '', ''])
   const [resolutionByCase, setResolutionByCase] = useState<Record<string, ResolutionRoute>>({})
+  const [newSkuCaseId, setNewSkuCaseId] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
 
   useEffect(() => {
@@ -246,8 +289,8 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const mandors = Array.from(new Set(cases.flatMap(caseMandors).filter(Boolean)))
   const visibleCases = useMemo(() => cases.filter((item) => {
     const people = caseMandors(item).join(' ')
-    const sourceText = item.kind === 'BS' ? `${item.sourceNote} ${item.source}` : `${item.laundry} ${item.deliveryRef} ${item.receiptRef}`
-    const haystack = `${item.id} ${item.parentId} ${item.batchId} ${people} ${item.brand} ${item.sku} ${item.material} ${sourceText}`.toLowerCase()
+    const sourceText = item.kind === 'BS' ? `${item.sourceNote} ${item.source} ${(item.conversions ?? []).map((conversion) => `${conversion.newSku} ${conversion.newName}`).join(' ')}` : `${item.laundry} ${item.deliveryRef} ${item.receiptRef}`
+    const haystack = `${item.id} ${item.parentId} ${item.batchId} ${people} ${item.brand} ${item.sku} ${bsSkuName(item.brand, item.sku)} ${item.material} ${sourceText}`.toLowerCase()
     return haystack.includes(query.toLowerCase())
       && (kindFilter === 'ALL' || item.kind === kindFilter)
       && (mandorFilter === 'Semua mandor' || caseMandors(item).includes(mandorFilter))
@@ -267,7 +310,12 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const releasedForCase: SizeValues = selectedBs && caseDeduction
     ? ledger.filter((item) => item.kind === 'REWORK_RELEASE' && item.originId === caseDeduction.id).reduce<SizeValues>((total, item) => addSizes(total, item.qtyBySize), [0, 0, 0])
     : [0, 0, 0]
-  const reworkRemaining: SizeValues = selectedBs ? subtractSizes(selectedBs.qtyBySize, releasedForCase) : [0, 0, 0]
+  const convertedForCase: SizeValues = selectedBs ? convertedSizes(selectedBs) : [0, 0, 0]
+  const minusRemaining: SizeValues = selectedBs ? subtractSizes(selectedBs.qtyBySize, releasedForCase) : [0, 0, 0]
+  // Fisik BS yang masih bisa dikerjakan ulang atau dijadikan SKU baru.
+  const reworkRemaining: SizeValues = subtractSizes(minusRemaining, convertedForCase)
+  const caseHistory = selectedBs ? ledger.filter((item) => item.caseId === selectedBs.id) : []
+  const newSkuOpen = Boolean(selectedBs && newSkuCaseId === selectedBs.id)
   const selectedHold = selectedStuck ? ledger.find((item) => item.kind === 'STUCK_HOLD' && item.caseId === selectedStuck.id) : undefined
   const holdReleased: SizeValues = selectedHold
     ? ledger.filter((item) => ['STUCK_RELEASE', 'STUCK_TO_BS'].includes(item.kind) && item.originId === selectedHold.id).reduce<SizeValues>((total, item) => addSizes(total, item.qtyBySize), [0, 0, 0])
@@ -314,6 +362,35 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const setSelectedCase = (id: string) => {
     const target=cases.find((item):item is BsCase=>item.kind==='BS'&&item.id===id)
     setSelectedId(id); setReworkInputs(['', '', '']); setSusulanQtyInputs(['', '', '']); setSusulanBsInputs(['', '', '']); setReworkComponentIds(target?.componentIds??[])
+    setNewSkuCaseId(null)
+  }
+  const convertToNewSku = (draft: NewSkuDraft) => {
+    if (!selectedBs) return
+    const errors = validateNewSkuDraft(draft, reworkRemaining, selectedBs.sizes, usedSkuCodes(cases))
+    if (Object.keys(errors).length > 0) return
+    const qtyBySize = asSizeValues(draft.qty.map((value) => Number(value) || 0))
+    const qty = sum(qtyBySize)
+    const code = normalizeSkuCode(draft.code)
+    const ordinal = (selectedBs.conversions ?? []).length + 1
+    const conversion: BsSkuConversion = {
+      id: `SKU-${selectedBs.id.replace(/^BS-/, '').replace(/[^a-z0-9-]/gi, '')}-${String(ordinal).padStart(2, '0')}`,
+      newSku: code, newName: draft.name.trim(), gradeNote: draft.gradeNote.trim(), qtyBySize, reason: draft.reason.trim(), createdAt: '28 Agu 2026 · baru saja',
+    }
+    const remainingAfter = subtractSizes(reworkRemaining, qtyBySize)
+    const historyItem: LedgerItem = {
+      id: conversion.id, kind: 'BS_TO_NEW_SKU', label: `BS → SKU baru ${code} · ${conversion.newName}`, sign: 0, qtyBySize, rate: 0, amount: 0,
+      payee: selectedBs.originalMandor, caseId: selectedBs.id,
+      sourceLabel: `Dari ${selectedBs.brand} SKU ${selectedBs.sku} · ${conversion.gradeNote} · ${conversion.reason}`, createdAt: '28 Agu · baru saja',
+    }
+    setCases((current) => current.map((entry) => entry.kind === 'BS' && entry.id === selectedBs.id ? {
+      ...entry,
+      conversions: [...(entry.conversions ?? []), conversion],
+      status: sum(remainingAfter) === 0 && !['GOOD_RESTORED', 'BS_FINAL'].includes(entry.status) ? 'CONVERTED_SKU' : entry.status,
+    } : entry))
+    setLedger((current) => [...current, historyItem])
+    setReworkInputs(['', '', ''])
+    setNewSkuCaseId(null)
+    setNotice(`${qty} pcs ${selectedBs.id} (SKU ${selectedBs.sku}) dipindah ke SKU baru ${code} · ${conversion.newName}. Sisa BS fisik ${sum(remainingAfter)} pcs. Simulasi lokal — master Produk & SKU belum berubah.`)
   }
   const updateReworkMandor = (mandor: string) => {
     if (!selectedBs) return
@@ -437,7 +514,9 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
         <header><div><span>BROWSE SEMUA KASUS</span><strong>{visibleCases.length} ditemukan</strong></div><ClipboardCheck/></header>
         <div className="bsr-case-list">{visibleCases.map((item, index) => <button type="button" className={selected?.id === item.id ? 'active' : ''} onClick={() => setSelectedCase(item.id)} key={item.id}>
           <span className="bsr-case-index">{String(index + 1).padStart(2, '0')}</span>
-          <span className="bsr-case-copy"><small><b className={`bsr-kind ${item.kind.toLowerCase()}`}>{item.kind === 'BS' ? 'BS' : 'STUCK'}</b> {item.brand} · SKU {item.sku}</small><strong>{item.id}</strong>
+          <span className="bsr-case-copy"><small><b className={`bsr-kind ${item.kind.toLowerCase()}`}>{item.kind === 'BS' ? 'BS' : 'STUCK'}</b> {item.brand} · {item.createdAt}</small><strong>{item.id}</strong>
+            <span className="bsr-case-sku" data-testid="bs-case-sku"><Tag/><b>SKU {item.sku}</b><i>{bsSkuName(item.brand, item.sku)}</i><i>Size {item.sizes.join('/')} · {sum(item.qtyBySize)} pcs</i></span>
+            {item.kind === 'BS' && (item.conversions ?? []).length > 0 && <span className="bsr-case-converted"><PackagePlus/>Jadi SKU {(item.conversions ?? []).map((conversion) => conversion.newSku).join(', ')} · {(item.conversions ?? []).reduce((total, conversion) => total + sum(conversion.qtyBySize), 0)} pcs</span>}
             {item.kind === 'BS' ? <><em><UserRound/>{item.originalMandor}</em><span>{item.source === 'QC_AUTO' ? 'QC otomatis' : item.source === 'HOLD_RESOLUTION' ? 'Reklasifikasi Hold' : 'Legacy'} · {item.parentId} · {item.batchId}</span></> : <><em><Waves/>{item.laundry}</em><span>{item.mandor} · {item.parentId} · {item.batchId}</span></>}
           </span><span className={`bsr-status ${caseIsDone(item) ? 'done' : item.kind.toLowerCase()}`}>{caseStatusLabel(item)}</span><ChevronRight/>
         </button>)}{visibleCases.length === 0 && <div className="bsr-empty"><Search/><strong>Kasus tidak ketemu</strong><small>Ubah filter atau kata pencarian.</small></div>}</div>
@@ -446,7 +525,17 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
       <div className="bsr-detail-stack">
         {selectedBs && <article className="panel bsr-case-detail">
           <header className="bsr-detail-head"><span className="bsr-detail-icon"><Wrench/></span><div><small>{selectedBs.source === 'QC_AUTO' ? 'BS OTOMATIS DARI QC' : selectedBs.source === 'HOLD_RESOLUTION' ? `BS DARI HOLD · ${selectedBs.sourceNote}` : `IMPOR LEGACY · ${selectedBs.sourceNote}`}</small><h2>{selectedBs.id} · {selectedBs.brand} SKU {selectedBs.sku}</h2><p>{selectedBs.parentId} · Batch {selectedBs.batchId} · {selectedBs.material}</p></div><strong className="bsr-case-total">{sum(selectedBs.qtyBySize)} BS</strong></header>
-          <ResolutionRoutePicker value={selectedResolution} disabled={['GOOD_RESTORED', 'BS_FINAL'].includes(selectedBs.status)} onChange={(route) => {
+          <section className="bsr-sku-identity" aria-label="Identitas SKU barang BS" data-testid="bs-sku-identity">
+            <div className="bsr-sku-code"><Tag/><span><small>SKU BARANG BS</small><strong>{selectedBs.brand} · SKU {selectedBs.sku}</strong><em>{bsSkuName(selectedBs.brand, selectedBs.sku)}</em></span></div>
+            <div className="bsr-sku-meta"><span><small>SIZE & QTY BS</small><strong>{sizeSummary(selectedBs.sizes, selectedBs.qtyBySize)}</strong></span><span><small>SISA FISIK BS</small><strong>{sum(reworkRemaining)} pcs</strong></span><span><small>GRADE KATALOG</small><strong>{bsSkuProduct(selectedBs.brand, selectedBs.sku)?.grade ?? '—'}</strong></span></div>
+            <div className="bsr-sku-action">
+              <button type="button" className="soft-btn bsr-new-sku-trigger" aria-expanded={newSkuOpen} disabled={sum(reworkRemaining) <= 0 || bsClosedStatuses.includes(selectedBs.status)} onClick={() => { setNewSkuCaseId(newSkuOpen ? null : selectedBs.id); setNotice(null) }}><PackagePlus/> Jadikan SKU baru</button>
+              <small>{sum(reworkRemaining) > 0 && !bsClosedStatuses.includes(selectedBs.status) ? `${sum(reworkRemaining)} pcs bisa dipindah ke SKU baru` : 'Tidak ada sisa fisik BS'}</small>
+            </div>
+            {(selectedBs.conversions ?? []).length > 0 && <ul className="bsr-sku-conversions" aria-label="SKU baru dari kasus ini">{(selectedBs.conversions ?? []).map((conversion) => <li key={conversion.id}><PackagePlus/><span><strong>Sudah jadi SKU {conversion.newSku} · {conversion.newName}</strong><small>{sum(conversion.qtyBySize)} pcs ({sizeSummary(selectedBs.sizes, conversion.qtyBySize)}) · {conversion.gradeNote} · {conversion.createdAt}</small></span></li>)}</ul>}
+          </section>
+          {newSkuOpen && <NewSkuForm key={selectedBs.id} item={selectedBs} available={reworkRemaining} usedCodes={usedSkuCodes(cases)} onCancel={() => setNewSkuCaseId(null)} onConfirm={convertToNewSku}/>}
+          <ResolutionRoutePicker value={selectedResolution} disabled={bsClosedStatuses.includes(selectedBs.status)} onChange={(route) => {
             setResolutionByCase((current) => ({ ...current, [selectedBs.id]: route }))
             setReworkInputs(['', '', ''])
             setNotice(null)
@@ -454,16 +543,16 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
           {selectedResolution === 'REWORK' && <>
           <section className="bsr-responsibility-grid">
             <article className="origin"><UserRound/><div><span>MANDOR ASAL · PEMILIK MINUS</span><strong>{selectedBs.originalMandor}</strong><small>Minus BS tetap tercatat ke Mandor ini.</small></div></article>
-            <article className="reworker"><Wrench/><div><span>MANDOR REWORK · PENERIMA PLUS</span><select value={selectedBs.reworkMandor ?? ''} disabled={['GOOD_RESTORED', 'BS_FINAL'].includes(selectedBs.status)} onChange={(event) => updateReworkMandor(event.target.value)}><option value="">Belum ditugaskan</option>{reworkMandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><small>Boleh berbeda dari Mandor asal.</small></div></article>
+            <article className="reworker"><Wrench/><div><span>MANDOR REWORK · PENERIMA PLUS</span><select value={selectedBs.reworkMandor ?? ''} disabled={bsClosedStatuses.includes(selectedBs.status)} onChange={(event) => updateReworkMandor(event.target.value)}><option value="">Belum ditugaskan</option>{reworkMandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><small>Boleh berbeda dari Mandor asal.</small></div></article>
           </section>
-          <div className={`bsr-timeline ${selectedBs.status === 'BS_FINAL' ? 'is-final' : ''}`}>{bsStatusSteps.map((step, index) => {
+          <div className={`bsr-timeline ${selectedBs.status === 'BS_FINAL' || selectedBs.status === 'CONVERTED_SKU' ? 'is-final' : ''}`}>{bsStatusSteps.map((step, index) => {
             const activeIndex = bsStatusSteps.findIndex((item) => item.id === selectedBs.status)
-            const done = selectedBs.status === 'BS_FINAL' ? false : index <= activeIndex
+            const done = selectedBs.status === 'BS_FINAL' || selectedBs.status === 'CONVERTED_SKU' ? false : index <= activeIndex
             return <div className={done ? 'done' : ''} key={step.id}><span>{done ? <Check/> : index + 1}</span><strong>{step.label}</strong>{index < bsStatusSteps.length - 1 && <i/>}</div>
-          })}{selectedBs.status === 'BS_FINAL' && <em><CircleMinus/> BS final</em>}</div>
+          })}{selectedBs.status === 'BS_FINAL' && <em><CircleMinus/> BS final</em>}{selectedBs.status === 'CONVERTED_SKU' && <em className="converted"><PackagePlus/> Jadi SKU baru</em>}</div>
           </>}
           <section className="bsr-case-facts"><div><span>SUMBER KASUS</span><strong>{selectedBs.source === 'QC_AUTO' ? 'Dibuat otomatis saat QC diposting' : selectedBs.source === 'HOLD_RESOLUTION' ? 'Reklasifikasi hasil susulan Laundry' : 'Impor arsip BS legacy'}</strong></div><div><span>REFERENSI</span><strong>{selectedBs.sourceNote}</strong></div><div><span>DICATAT</span><strong>{selectedBs.createdAt}</strong></div><div className="wide"><span>ALASAN</span><strong>{selectedBs.reason}</strong></div></section>
-          <section className="bsr-size-table"><header><span>SIZE</span><span>BS AWAL</span><span>SUDAH DIPULIHKAN</span><span>SISA MINUS</span></header>{selectedBs.sizes.map((size, index) => <div key={size}><strong>{size}</strong><span>{selectedBs.qtyBySize[index]} pcs</span><span className="plus">{releasedForCase[index]} pcs</span><strong className={reworkRemaining[index] > 0 ? 'minus' : 'done'}>{reworkRemaining[index]} pcs</strong></div>)}</section>
+          <section className="bsr-size-table with-sku"><header><span>SIZE</span><span>BS AWAL</span><span>SUDAH DIPULIHKAN</span><span>JADI SKU BARU</span><span>SISA MINUS</span></header>{selectedBs.sizes.map((size, index) => <div key={size}><strong>{size}</strong><span>{selectedBs.qtyBySize[index]} pcs</span><span className="plus">{releasedForCase[index]} pcs</span><span className="converted">{convertedForCase[index]} pcs</span><strong className={minusRemaining[index] > 0 ? 'minus' : 'done'}>{minusRemaining[index]} pcs</strong></div>)}</section>
           {selectedResolution !== 'REWORK' && <section className={`bsr-resolution-preview ${selectedResolution.toLowerCase()}`} aria-live="polite">
             <span>{selectedResolution} · REQUIREMENT PREVIEW</span>
             <h3>{resolutionOptions.find((option) => option.id === selectedResolution)?.label}</h3>
@@ -478,9 +567,11 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
           {selectedResolution === 'REWORK' && ['OPEN', 'ASSIGNED', 'IN_REWORK'].includes(selectedBs.status) && <div className="bsr-next-action"><div><Clock3/><span><strong>{bsStatusLabels[selectedBs.status]}</strong><small>Simulasi lokal; riwayat UAT belum ditulis.</small></span></div><button type="button" className="primary-btn" onClick={nextBsStatus}>{selectedBs.status === 'OPEN' ? 'Tugaskan rework' : selectedBs.status === 'ASSIGNED' ? 'Mulai bikin bagus' : 'Kirim ke QC ulang'} <ArrowRight/></button></div>}
           {selectedResolution === 'REWORK' && selectedBs.status === 'GOOD_RESTORED' && <div className="bsr-closed good"><CheckCircle2/><div><strong>Seluruh minus kasus sudah dipulihkan</strong><span>Mandor asal dan Mandor pelaksana tetap terlihat terpisah.</span></div></div>}
           {selectedResolution === 'REWORK' && selectedBs.status === 'BS_FINAL' && <div className="bsr-closed final"><CircleMinus/><div><strong>Riwayat BS final</strong><span>Status lama hanya ditampilkan; halaman ini tidak lagi menyediakan bypass penetapan BS final.</span></div></div>}
+          {selectedBs.status === 'CONVERTED_SKU' && <div className="bsr-closed converted"><PackagePlus/><div><strong>Seluruh sisa fisik BS sudah jadi SKU baru</strong><span>Minus Mandor asal tetap tercatat; SKU baru bukan hasil bikin bagus.</span></div></div>}
+          {caseHistory.length > 0 && <section className="bsr-case-history" aria-label="Riwayat kasus"><header><History/><span>RIWAYAT KASUS</span></header><ol>{caseHistory.map((entry) => <li key={entry.id} className={entry.kind === 'BS_TO_NEW_SKU' ? 'sku' : entry.sign > 0 ? 'plus' : entry.sign < 0 ? 'minus' : ''}><span><strong>{entry.label}</strong><small>{entry.createdAt} · {entry.id} · {entry.sourceLabel}</small></span><b>{sum(entry.qtyBySize)} pcs{entry.amount > 0 ? ` · ${entry.sign < 0 ? '−' : entry.sign > 0 ? '+' : ''}${money(entry.amount)}` : ''}</b></li>)}</ol></section>}
         </article>}
 
-        {selectedStuck && <article className="panel bsr-stuck-card selected-case"><header><Waves/><div><span>STUCK LAUNDRY · BUKAN BS</span><h2>{selectedStuck.id} · {selectedStuck.laundry}</h2><p>{selectedStuck.parentId} · Batch {selectedStuck.batchId} · {selectedStuck.brand} SKU {selectedStuck.sku}</p></div><strong>{sum(holdRemaining)} pcs di luar</strong></header>
+        {selectedStuck && <article className="panel bsr-stuck-card selected-case"><header><Waves/><div><span>STUCK LAUNDRY · BUKAN BS</span><h2>{selectedStuck.id} · {selectedStuck.laundry}</h2><p>{selectedStuck.parentId} · Batch {selectedStuck.batchId} · {selectedStuck.brand} SKU {selectedStuck.sku} · {bsSkuName(selectedStuck.brand, selectedStuck.sku)}</p></div><strong>{sum(holdRemaining)} pcs di luar</strong></header>
           <section className="bsr-responsibility-grid stuck"><article className="origin"><UserRound/><div><span>MANDOR PENERIMA FISIK</span><strong>{selectedStuck.mandor}</strong><small>Mandor mengonfirmasi susulan benar-benar kembali.</small></div></article><article className="laundry"><Waves/><div><span>LAUNDRY & REFERENSI</span><strong>{selectedStuck.laundry}</strong><small>{selectedStuck.deliveryRef} · {selectedStuck.receiptRef}</small></div></article></section>
           <div className="bsr-stuck-body">
             <section className="bsr-stuck-sizes">{selectedStuck.sizes.map((size, index) => <div key={size}><span>Size {size}</span><strong>{holdRemaining[index]} pcs</strong><small>dari {selectedStuck.qtyBySize[index]} hold</small></div>)}</section>
@@ -508,7 +599,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
 
     <article className="panel bsr-ready-nota">
       <header><div><span>PLUS DARI SUSULAN & BIKIN BAGUS</span><h2>Card siap disusun pada Nota FG</h2><p>Susulan Good melepas Hold. Hasil Bikin Bagus memulihkan pengurang asal; reklasifikasi Hold → BS sendiri tidak membuat card nominal baru.</p></div><ReceiptText/></header>
-      <div className="bsr-ready-grid">{reworkReadyItems.map((item) => {const posted=postedFgCardIds.includes(item.id);return <button type="button" disabled={posted} onClick={() => onOpenNota?.(toNotaCard(item))} aria-label={posted?`${item.id} sudah masuk Nota FG`:`Susun ${item.id} ke Nota FG`} key={item.id}><span className="bsr-ready-icon"><PackageCheck/></span><span className="bsr-ready-copy"><small>{item.id} · {item.sourceLabel}</small><strong>{item.label}</strong><em><UserRound/>{item.payee}</em><p>{item.kind === 'STUCK_RELEASE' ? 'Pemulihan nilai Hold' : (item.componentSnapshots??[]).map((component)=>component.name).join(' · ')||(item.componentIds??[]).map((id)=>components.find((component)=>component.id===id)?.name??(id==='hold-value'?'Nilai Hold / BS Nota FG':undefined)).filter(Boolean).join(' · ')}</p></span><span className="bsr-ready-amount"><small>{sum(item.qtyBySize)} pcs × {money(item.rate)}</small><strong>{money(item.amount)}</strong><em>{posted?'SUDAH MASUK NOTA':'SUSUN NOTA FG'} {!posted&&<ArrowRight/>}</em></span></button>})}</div>
+      <div className="bsr-ready-grid">{reworkReadyItems.map((item) => {const posted=postedFgCardIds.includes(item.id);return <button type="button" disabled={posted} onClick={() => onOpenNota?.(toNotaCard(item))} aria-label={posted?`${item.id} sudah masuk Nota FG`:`Susun ${item.id} ke Nota FG`} key={item.id}><span className="bsr-ready-icon"><PackageCheck/></span><span className="bsr-ready-copy"><small>{item.id} · {item.sourceLabel}</small><strong>{item.label}</strong>{(() => { const sourceCase = cases.find((entry) => entry.id === item.caseId); return sourceCase ? <i className="bsr-ready-sku">SKU {sourceCase.sku} · {bsSkuName(sourceCase.brand, sourceCase.sku)}</i> : null })()}<em><UserRound/>{item.payee}</em><p>{item.kind === 'STUCK_RELEASE' ? 'Pemulihan nilai Hold' : (item.componentSnapshots??[]).map((component)=>component.name).join(' · ')||(item.componentIds??[]).map((id)=>components.find((component)=>component.id===id)?.name??(id==='hold-value'?'Nilai Hold / BS Nota FG':undefined)).filter(Boolean).join(' · ')}</p></span><span className="bsr-ready-amount"><small>{sum(item.qtyBySize)} pcs × {money(item.rate)}</small><strong>{money(item.amount)}</strong><em>{posted?'SUDAH MASUK NOTA':'SUSUN NOTA FG'} {!posted&&<ArrowRight/>}</em></span></button>})}</div>
       <footer><ShieldCheck/><span><strong>Penyusunan tetap dilakukan di Nota FG</strong><small>Card FG Reguler dan Bikin Bagus dipisahkan jelas. Setelah Nota FG posted, barulah dokumen muncul pada Payroll.</small></span></footer>
     </article>
     {showLegacyForm && <LegacyBsDialog result={initialResult} onClose={() => setShowLegacyForm(false)} onCreate={(createdCase, deduction) => {
@@ -517,6 +608,51 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
       setNotice(`${createdCase.id} diimpor sebagai BS legacy. BS operasional baru tetap hanya berasal dari QC.`)
     }}/>} 
   </>
+}
+
+function NewSkuForm({ item, available, usedCodes, onCancel, onConfirm }: {
+  item: BsCase
+  available: SizeValues
+  usedCodes: Set<string>
+  onCancel: () => void
+  onConfirm: (draft: NewSkuDraft) => void
+}) {
+  const [draft, setDraft] = useState<NewSkuDraft>(() => ({
+    code: '', name: '', gradeNote: `Grade B · eks-BS ${item.brand} ${item.sku} · size ${item.sizes.join('/')}`,
+    qty: asSizeInputs(available.map(String)), reason: '',
+  }))
+  const [step, setStep] = useState<'FORM' | 'REVIEW'>('FORM')
+  const [attempted, setAttempted] = useState(false)
+  const errors = validateNewSkuDraft(draft, available, item.sizes, usedCodes)
+  const quantities = asSizeValues(draft.qty.map((value) => Number(value) || 0))
+  const qty = sum(quantities)
+  const code = normalizeSkuCode(draft.code)
+  const valid = Object.keys(errors).length === 0
+  // Kode duplikat ditampilkan langsung; error lain setelah tombol review ditekan.
+  const visibleError = (field: keyof NewSkuErrors) => (attempted || (field === 'code' && draft.code.trim() !== '') || field === 'qty') ? errors[field] : undefined
+  const update = (patch: Partial<NewSkuDraft>) => { setDraft((current) => ({ ...current, ...patch })); setStep('FORM') }
+  const review = () => { setAttempted(true); if (valid) setStep('REVIEW') }
+  const fieldError = (field: keyof NewSkuErrors) => visibleError(field) ? <small className="bsr-field-error" role="alert">{visibleError(field)}</small> : null
+
+  return <section className="bsr-new-sku" data-testid="bs-new-sku-form" data-keyboard-scope aria-labelledby={`new-sku-title-${item.id}`}>
+    <header><PackagePlus/><div><span>BS → SKU BARU · SIMULASI LOKAL</span><h3 id={`new-sku-title-${item.id}`}>Jadikan SKU baru dari {item.brand} SKU {item.sku}</h3><p>Seperti Ganti Merek: <b>BS keluar = SKU baru masuk</b>. Barang fisik yang sama diberi identitas SKU baru (mis. grade B); SKU asal tetap punya history sendiri.</p></div><button type="button" className="bsr-icon-btn" onClick={onCancel} aria-label="Tutup form SKU baru"><X/></button></header>
+    {step === 'FORM' ? <div className="bsr-new-sku-body">
+      <div className="bsr-new-sku-route"><span><small>1 · SUMBER BS</small><strong>{item.brand} · SKU {item.sku}</strong><em>{bsSkuName(item.brand, item.sku)}</em><em>Sisa fisik {sum(available)} pcs · {sizeSummary(item.sizes, available)}</em></span><i><ArrowRight/></i><span className="target"><small>2 · SKU BARU</small><strong>{code || 'Kode belum diisi'}</strong><em>{draft.name.trim() || 'Nama belum diisi'}</em><em>{draft.gradeNote.trim() || 'Catatan grade belum diisi'}</em></span></div>
+      <div className="bsr-new-sku-fields">
+        <label><span>KODE SKU BARU · WAJIB</span><input aria-label="Kode SKU baru" value={draft.code} placeholder={`Contoh: ${item.sku}-B`} aria-invalid={Boolean(visibleError('code'))} onChange={(event) => update({ code: event.target.value })}/>{fieldError('code')}</label>
+        <label><span>NAMA PRODUK BARU · WAJIB</span><input aria-label="Nama produk SKU baru" value={draft.name} placeholder={`Contoh: ${bsSkuProduct(item.brand, item.sku)?.name ?? item.brand} Grade B`} aria-invalid={Boolean(visibleError('name'))} onChange={(event) => update({ name: event.target.value })}/>{fieldError('name')}</label>
+        <label className="wide"><span>CATATAN SIZE / GRADE · WAJIB</span><input aria-label="Catatan size atau grade" value={draft.gradeNote} aria-invalid={Boolean(visibleError('gradeNote'))} onChange={(event) => update({ gradeNote: event.target.value })}/>{fieldError('gradeNote')}</label>
+      </div>
+      <div className="bsr-new-sku-qty"><span>3 · QTY DIPINDAH PER SIZE (DARI SISA BS)</span><div data-keyboard-grid>{item.sizes.map((size, index) => <label key={size} className={quantities[index] > available[index] ? 'invalid' : ''}><small>SIZE {size} · maks {available[index]}</small><input aria-label={`Qty SKU baru size ${size}`} inputMode="numeric" data-grid-row={0} data-grid-col={index} value={draft.qty[index]} placeholder="0" onFocus={(event) => event.currentTarget.select()} onChange={(event) => update({ qty: asSizeInputs(draft.qty.map((value, row) => row === index ? cleanQuantity(event.target.value) : value)) })}/></label>)}</div>{fieldError('qty')}</div>
+      <label className="bsr-reason"><span>4 · ALASAN · WAJIB</span><textarea aria-label="Alasan jadi SKU baru" value={draft.reason} placeholder="Contoh: Noda kecil permanen, masih layak jual sebagai grade B." aria-invalid={Boolean(visibleError('reason'))} onChange={(event) => update({ reason: event.target.value })}/>{fieldError('reason')}</label>
+      <footer><div className="bsr-new-sku-balance"><span><small>BS KELUAR</small><strong>− {qty} pcs</strong></span><i>=</i><span><small>SKU BARU MASUK</small><strong>+ {qty} pcs</strong></span></div><div><button type="button" className="soft-btn" onClick={onCancel}>Batal</button><button type="button" className="primary-btn" onClick={review}>Review SKU baru <ArrowRight/></button></div></footer>
+    </div> : <div className="bsr-new-sku-review" role="group" aria-label="Konfirmasi SKU baru">
+      <div className="bsr-new-sku-confirm"><ShieldCheck/><div><span>KONFIRMASI · BELUM TERSIMPAN</span><strong>{qty} pcs {item.brand} SKU {item.sku} jadi SKU baru {code}</strong><small>{draft.name.trim()} · {draft.gradeNote.trim()}</small></div></div>
+      <dl><div><dt>Per size</dt><dd>{sizeSummary(item.sizes, quantities)}</dd></div><div><dt>Sisa BS sesudah</dt><dd>{sum(subtractSizes(available, quantities))} pcs</dd></div><div><dt>Alasan</dt><dd>{draft.reason.trim()}</dd></div><div><dt>Kasus asal</dt><dd>{item.id} · {item.parentId} · Batch {item.batchId}</dd></div></dl>
+      <ul className="bsr-new-sku-guards"><li><Check/> Minus Mandor asal ({item.originalMandor}) tidak berubah — SKU baru bukan hasil bikin bagus.</li><li><Check/> SKU asal {item.sku} tetap punya history; kasus BS mencatat jejak konversi.</li><li><Check/> Simulasi lokal: master Produk & SKU dan stok UAT belum disentuh.</li></ul>
+      <footer><button type="button" className="soft-btn" onClick={() => setStep('FORM')}>Ubah lagi</button><button type="button" className="primary-btn" disabled={!valid} onClick={() => onConfirm(draft)}>Ya, jadikan SKU baru <ArrowRight/></button></footer>
+    </div>}
+  </section>
 }
 
 function LegacyBsDialog({ result, onClose, onCreate }: { result?: QcFinalResult | null; onClose: () => void; onCreate: (item: BsCase, deduction: LedgerItem) => void }) {

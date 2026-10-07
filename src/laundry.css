@@ -18,10 +18,10 @@
 .laundry-search svg{width:15px;height:15px;flex:0 0 auto}
 .laundry-search input{width:100%;border:0;outline:0;background:transparent;color:#e7eaf3;font-size:11px}
 .laundry-search input::placeholder{color:#687389}
-.laundry-pattern-filter{min-width:190px;padding:6px 9px;border:1px solid var(--line);border-radius:11px;background:#171d2e;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px}
-.laundry-pattern-filter>span{grid-column:1/-1;color:#7f8aa1;font-size:8px;font-weight:760;letter-spacing:.1em}
-.laundry-pattern-filter select{min-width:0;border:0;outline:0;background:transparent;color:#cbd3e4;font-size:10px;font-weight:700;color-scheme:dark}
-.laundry-pattern-filter small{color:#7b88a0;font-size:7px;white-space:nowrap}
+.laundry-pattern-filter,.laundry-mandor-filter{min-width:190px;padding:6px 9px;border:1px solid var(--line);border-radius:11px;background:#171d2e;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px}
+.laundry-pattern-filter>span,.laundry-mandor-filter>span{grid-column:1/-1;color:#7f8aa1;font-size:8px;font-weight:760;letter-spacing:.1em}
+.laundry-pattern-filter select,.laundry-mandor-filter select{min-width:0;border:0;outline:0;background:transparent;color:#cbd3e4;font-size:10px;font-weight:700;color-scheme:dark}
+.laundry-pattern-filter small,.laundry-mandor-filter small{color:#7b88a0;font-size:7px;white-space:nowrap}
 .laundry-vendors{display:flex;gap:6px;flex-wrap:wrap}
 .laundry-vendors button{height:34px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.018);color:#8c97ab;font-size:9px}
 .laundry-vendors button.active{border-color:rgba(124,141,255,.3);background:rgba(124,141,255,.13);color:#c9d0ff}
@@ -136,7 +136,7 @@
 }
 @media(max-width:700px){
   .laundry-toolbar{align-items:stretch}
-  .laundry-tabs,.laundry-search,.laundry-pattern-filter{width:100%;max-width:none}
+  .laundry-tabs,.laundry-search,.laundry-pattern-filter,.laundry-mandor-filter{width:100%;max-width:none}
   .laundry-tabs button{flex:1;justify-content:center}
   .laundry-vendors{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
   .laundry-vendors button{flex:0 0 auto}
@@ -237,3 +237,11 @@
 .nota-repair-lineage{margin:8px 9px 0;padding:8px 9px;border:1px solid rgba(74,190,143,.16);border-radius:9px;background:rgba(41,102,77,.05);display:flex;align-items:center;gap:8px;color:#77c7a5}.nota-repair-lineage>svg{width:15px;flex:0 0 auto}.nota-repair-lineage>span{display:flex;flex-direction:column;gap:3px}.nota-repair-lineage small{font-size:7px;font-weight:900;letter-spacing:.07em}.nota-repair-lineage strong{color:#88998f;font-size:8px}.nota-bs-components em>svg,.nota-repair-components>span>svg{width:13px}.nota-repair-components>span>svg{color:#dba96f}.handoff-mandor-hero>svg{width:15px}.handoff-output p>svg{width:13px;color:#7ea1f4}.handoff-success>svg{flex:0 0 auto}
 @media(max-width:760px){.handoff-page-actions{width:100%;justify-content:stretch}.handoff-page-actions button{flex:1}.handoff-queue-banner>.nota-mandor-filter{grid-column:2;justify-self:start}.nota-source-empty{padding:22px 16px}.nota-source-empty>svg{display:none}.handoff-success{align-items:flex-start;flex-wrap:wrap}.handoff-success>button{width:100%;margin-left:31px;justify-content:center}}
 @media(max-width:480px){.handoff-page-actions{display:grid;grid-template-columns:1fr 1fr}.handoff-page-actions .handoff-back{grid-column:1/-1}.handoff-queue-banner>.nota-mandor-filter{grid-column:auto;width:100%}.nota-source-empty{text-align:center}.nota-mandor-filter{min-width:0}}
+
+/* Filter mandor + penanda ringkasan yang sedang difilter. */
+.laundry-summary-scope{min-height:40px;margin-bottom:12px;padding:8px 13px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02);display:flex;align-items:center;gap:9px;flex-wrap:wrap;color:#a9b3c8;font-size:12px;line-height:1.4}
+.laundry-summary-scope>svg{width:15px;height:15px;flex:0 0 auto;color:#8f9cff}
+.laundry-summary-scope b{color:#e6eaf6}
+.laundry-summary-scope.filtered{border-color:rgba(124,141,255,.38);background:rgba(124,141,255,.1);color:#d3daf8}
+.laundry-summary-scope button{margin-left:auto;min-height:30px;padding:0 11px;border:1px solid rgba(124,141,255,.36);border-radius:9px;background:rgba(124,141,255,.14);color:#e3e8ff;font-size:12px;cursor:pointer}
+@media(max-width:760px){.laundry-summary-scope button{margin-left:0}}

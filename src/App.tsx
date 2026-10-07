@@ -1,4 +1,4 @@
-import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
 import {
   ArrowLeft, ArrowRight, Boxes, CalendarDays, Check, ChevronDown, ChevronUp,
@@ -28,6 +28,7 @@ import type { ReminderItem } from './reminders'
 import { initialReminders, reminderDueLabel, reminderPriorityLabel } from './reminders'
 import { deriveWipControlStatus } from './wipControlPolicy'
 import CuttingPatternPicker, { hasCanonicalPattern } from './CuttingPatternPicker'
+import { applyUxTampilan, readUxTampilan, saveUxTampilan, type UxTampilan } from './uxTampilan'
 import type { CuttingPatternChoice } from './CuttingPatternPicker'
 
 const SalesPages = lazy(() => import('./SalesPages'))
@@ -62,8 +63,8 @@ type WipAdjustmentHistoryEntry = {
   after: QtyTuple
 }
 type ReceiptMode = 'fabric' | 'accessory'
-type LaundryView = 'send' | 'return'
-type LaundryPrefill = { batchId: string; vendor: string; view: LaundryView }
+export type LaundryView = 'send' | 'return'
+export type LaundryPrefill = { batchId: string; vendor: string; view: LaundryView }
 type NotaFocus = { kind: 'REGULAR' | 'REPAIR'; id: string }
 type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK'
 
@@ -441,6 +442,8 @@ function App() {
   const [regularFgNotaSnapshots,setRegularFgNotaSnapshots] = useState<Record<string,RegularFgNotaSnapshot>>({})
   const [bsWorkspace,setBsWorkspace] = useState<BsReworkWorkspace|null>(null)
   const [reminders,setReminders] = useState<ReminderItem[]>(()=>initialReminders.map((item)=>({...item})))
+  const [uxTampilan,setUxTampilan] = useState<UxTampilan>(readUxTampilan)
+  const chooseUxTampilan = (value: UxTampilan) => { setUxTampilan(value); saveUxTampilan(value) }
 
   const rememberFgNotaCard = (card: ReadyFgNotaCard) => {
     setReadyFgNotaCards((current) => current.some((item) => item.id === card.id) ? current : [card, ...current])
@@ -459,6 +462,7 @@ function App() {
   useEffect(()=>{
     window.scrollTo({top:0,left:0,behavior:'auto'})
   },[page])
+  useLayoutEffect(()=>{ applyUxTampilan(uxTampilan) },[uxTampilan])
 
   const title = page === 'dashboard' ? 'Ringkasan bisnis'
     : page === 'sales-invoice' ? 'Penjualan & Invoice'
@@ -567,10 +571,11 @@ function App() {
         {adminExpanded&&<div className="submenu">{adminNav.filter(canSeeNavLabel).map((item)=>{const target=item==='Pengguna & Hak Akses'?'admin-access':operationsPageByLabel[item];return <button key={item} className={page===target?'sub-active':''} onClick={()=>chooseSubmenu(item)}>• {item}</button>})}</div>}
       </div>}
       <RuntimeEnvironmentCard/>
+      <UxTampilanToggle value={uxTampilan} onChange={chooseUxTampilan} placement="sidebar"/>
     </aside>
 
     <main className="main-panel">
-      <header className="topbar"><button className="mobile-menu" aria-label="Buka menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><RuntimeBadge/><button className="round-btn" aria-label="Cari"><Icon name="search" /></button><RuntimeIdentity/></div></header>
+      <header className="topbar"><button className="mobile-menu" aria-label="Buka menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><RuntimeBadge/><UxTampilanToggle value={uxTampilan} onChange={chooseUxTampilan}/><button className="round-btn" aria-label="Cari"><Icon name="search" /></button><RuntimeIdentity/></div></header>
       <div className="page-wrap" data-keyboard-scope onKeyDown={handleErgonomicKeyboard}>
         {!(demoAccess || isPageAllowed(accessBundle, page)) ? <AccessDenied permission={PAGE_PERMISSION_BY_ID[page] ?? 'route.unowned'} roleName={identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tidak diketahui'} /> : <>
         {page === 'dashboard' && <Dashboard
@@ -698,6 +703,13 @@ function App() {
         </>}
       </div>
     </main>
+  </div>
+}
+
+export function UxTampilanToggle({ value, onChange, placement = 'topbar' }: { value: UxTampilan; onChange: (value: UxTampilan) => void; placement?: 'topbar' | 'sidebar' }) {
+  return <div className={`ux-tampilan-toggle ${placement === 'sidebar' ? 'in-sidebar' : ''}`} role="group" aria-label={placement === 'sidebar' ? 'Pilih tampilan (menu)' : 'Pilih tampilan'} title="Tampilan lama tetap tersedia kalau tampilan baru kurang cocok">
+    <button type="button" aria-label="Tampilan baru" aria-pressed={value==='baru'} className={value==='baru'?'active':''} onClick={()=>onChange('baru')}><span className="ux-tampilan-prefix">Tampilan </span>baru</button>
+    <button type="button" aria-label="Tampilan lama" aria-pressed={value==='lama'} className={value==='lama'?'active':''} onClick={()=>onChange('lama')}><span className="ux-tampilan-prefix">Tampilan </span>lama</button>
   </div>
 }
 
@@ -1765,12 +1777,12 @@ const laborBomComponents = [
   {id:'lipat',name:'Lipat akhir',rate:400,required:false,note:'Lipat dan susun serah gudang'},
 ]
 
-type LaundryReadyBatch = {
+export type LaundryReadyBatch = {
   id:string; parentId:string; sequence:number; plannedBrand?:string; model:string; material:string; mandor:string;
   pattern:ProductionPatternSnapshot|null; pickupAt:string; sewingDoneAt:string; vendor:string; process:string; qty:number; sizes:QtyTuple; sizeLabels:SizeTuple; note:string
 }
 
-type LaundryDelivery = {
+export type LaundryDelivery = {
   id:string; parentId:string; sequence:number; batchId:string; plannedBrand?:string; model:string; material:string; mandor:string;
   pattern:ProductionPatternSnapshot|null; vendor:string; process:string; sentAt:string; qty:number; sizes:QtyTuple; sizeLabels:SizeTuple;
   good:number; bs:number; goodSizes:QtyTuple; bsSizes:QtyTuple; reversed:number; reversedSizes:QtyTuple; reverseNote?:string
@@ -1779,13 +1791,13 @@ type LaundryDelivery = {
 const laundryProcesses = ['Stone Wash','Bio Wash','Enzyme Wash']
 const laundryRates:Record<string,number> = {'Stone Wash':6500,'Bio Wash':5500,'Enzyme Wash':6000}
 
-const laundryReadySeeds:LaundryReadyBatch[] = [
+export const laundryReadySeeds:LaundryReadyBatch[] = [
   {id:'042-02',parentId:'POT-260827-042',sequence:42,plannedBrand:'Widie',pattern:simulationPatternSnapshots.lucyRegular,model:'Kulot Lucy',material:'Lucy',mandor:'Mandor Afat',pickupAt:'27 Agu 2026 · 10:30',sewingDoneAt:'27 Agu 2026 · 15:20',vendor:'Laundry Berkah',process:'Stone Wash',qty:225,sizes:[0,225,0],sizeLabels:['31','32','33'],note:'Maroon · obras rapat'},
   {id:'041-01',parentId:'POT-260826-041',sequence:41,pattern:simulationPatternSnapshots.malibuRegular,model:'Malibu Regular',material:'Malibu',mandor:'Mandor Asep',pickupAt:'26 Agu 2026 · 14:15',sewingDoneAt:'26 Agu 2026 · 18:10',vendor:'Laundry Intan',process:'Bio Wash',qty:244,sizes:[82,81,81],sizeLabels:['28','29','30'],note:'Biru muda · benang senada · obras rapat'},
   {id:'039-01',parentId:'POT-260825-039',sequence:39,plannedBrand:'Vivo',pattern:simulationPatternSnapshots.zodiakJumbo,model:'Zodiak Jumbo',material:'Zodiak KW',mandor:'Mandor Dedi',pickupAt:'25 Agu 2026 · 09:40',sewingDoneAt:'25 Agu 2026 · 17:45',vendor:'Cemerlang Wash',process:'Enzyme Wash',qty:114,sizes:[38,38,38],sizeLabels:['34','35','36'],note:'Stone · stik bawah 2 jalur'},
 ]
 
-const laundryDeliverySeeds:LaundryDelivery[] = [
+export const laundryDeliverySeeds:LaundryDelivery[] = [
   {id:'LDR-260827-011',parentId:'POT-260826-041',sequence:41,batchId:'041-02',pattern:simulationPatternSnapshots.malibuRegular,model:'Malibu Regular',material:'Malibu',mandor:'Mandor Asep',vendor:'Laundry Intan',process:'Bio Wash',sentAt:'27 Agu 2026 · 08:30',qty:244,sizes:[81,81,82],sizeLabels:['28','29','30'],good:174,bs:6,goodSizes:[58,58,58],bsSizes:[2,2,2],reversed:0,reversedSizes:[0,0,0]},
   {id:'LDR-260826-010',parentId:'POT-260825-039',sequence:39,batchId:'039-02',plannedBrand:'Vivo',pattern:simulationPatternSnapshots.zodiakJumbo,model:'Zodiak Jumbo',material:'Zodiak KW',mandor:'Mandor Dedi',vendor:'Cemerlang Wash',process:'Enzyme Wash',sentAt:'26 Agu 2026 · 13:10',qty:114,sizes:[38,38,38],sizeLabels:['34','35','36'],good:112,bs:2,goodSizes:[37,37,38],bsSizes:[0,1,1],reversed:0,reversedSizes:[0,0,0]},
   {id:'LDR-260825-009',parentId:'POT-260824-038',sequence:38,batchId:'038-01',plannedBrand:'Vivo',pattern:null,model:'Vivo Regular',material:'Denim 12 Oz',mandor:'Mandor Afat',vendor:'Laundry Berkah',process:'Stone Wash',sentAt:'25 Agu 2026 · 11:00',qty:180,sizes:[60,60,60],sizeLabels:['31','32','33'],good:176,bs:4,goodSizes:[59,59,58],bsSizes:[1,1,2],reversed:0,reversedSizes:[0,0,0]},
@@ -1872,7 +1884,20 @@ const laundryDeliveryStatus = (delivery:LaundryDelivery) => {
   return received===0?'Di laundry':outstanding>0?'Kembali sebagian':'Selesai'
 }
 
-function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliveries,onPosted,onReturnToWip,onOpenQc}:{
+export const LAUNDRY_ALL_MANDORS = 'Semua mandor'
+export const LAUNDRY_NO_MANDOR = 'Tanpa mandor'
+
+/** Mandor penanggung jawab batch laundry: pakai data batch, lalu Batch Produksi asal, lalu label eksplisit. */
+export const laundryMandorOf = (row:{mandor?:string|null;parentId:string}) =>
+  row.mandor?.trim() || sewingWipSeeds.find((parent)=>parent.id===row.parentId)?.mandor?.trim() || LAUNDRY_NO_MANDOR
+
+export const laundryMandorOptions = (rows:Array<{mandor?:string|null;parentId:string}>) =>
+  Array.from(new Set(rows.map(laundryMandorOf))).sort((left,right)=>left===LAUNDRY_NO_MANDOR?1:right===LAUNDRY_NO_MANDOR?-1:left.localeCompare(right,'id'))
+
+export const matchesLaundryMandor = (row:{mandor?:string|null;parentId:string},mandorFilter:string) =>
+  mandorFilter===LAUNDRY_ALL_MANDORS||laundryMandorOf(row)===mandorFilter
+
+export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliveries,onPosted,onReturnToWip,onOpenQc}:{
   prefill:LaundryPrefill|null
   readyBatches:LaundryReadyBatch[]
   setReadyBatches:(value:LaundryReadyBatch[]|((current:LaundryReadyBatch[])=>LaundryReadyBatch[]))=>void
@@ -1886,6 +1911,7 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
   const [activeTab,setActiveTab]=useState<LaundryView>(prefill?.view??'send')
   const [vendorFilter,setVendorFilter]=useState(prefill?.vendor??'Semua laundry')
   const [patternFilter,setPatternFilter]=useState('')
+  const [mandorFilter,setMandorFilter]=useState(LAUNDRY_ALL_MANDORS)
   const [query,setQuery]=useState('')
   const [selectedIds,setSelectedIds]=useState<string[]>(initialBatch?[initialBatch.id]:[])
   const [sendSizeInputs,setSendSizeInputs]=useState<Record<string,[string,string,string]>>(()=>Object.fromEntries(readyBatches.map((batch)=>[batch.id,batch.sizes.map(String) as [string,string,string]])))
@@ -1902,18 +1928,22 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
     ;[...readyBatches,...deliveries].forEach((row)=>{if(row.pattern)patterns.set(row.pattern.id,row.pattern)})
     return [...patterns.values()].sort((left,right)=>left.code.localeCompare(right.code)||left.revision.localeCompare(right.revision))
   },[readyBatches,deliveries])
+  const mandorOptions=useMemo(()=>laundryMandorOptions([...readyBatches,...deliveries]),[readyBatches,deliveries])
+  const mandorFiltered=mandorFilter!==LAUNDRY_ALL_MANDORS
+  const scopedReady=readyBatches.filter((batch)=>matchesLaundryMandor(batch,mandorFilter))
+  const scopedDeliveries=deliveries.filter((delivery)=>matchesLaundryMandor(delivery,mandorFilter))
 
-  const visibleReady=readyBatches.filter((batch)=>batch.vendor!=='Belum dipilih').filter((batch)=>vendorFilter==='Semua laundry'||batch.vendor===vendorFilter).filter((batch)=>!patternFilter||batch.pattern?.id===patternFilter).filter((batch)=>`${batch.parentId} ${batch.id} ${batch.model} ${batch.material} ${batch.mandor} ${batch.vendor} ${batch.note} ${patternSnapshotLabel(batch.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
+  const visibleReady=scopedReady.filter((batch)=>batch.vendor!=='Belum dipilih').filter((batch)=>vendorFilter==='Semua laundry'||batch.vendor===vendorFilter).filter((batch)=>!patternFilter||batch.pattern?.id===patternFilter).filter((batch)=>`${batch.parentId} ${batch.id} ${batch.model} ${batch.material} ${batch.mandor} ${batch.vendor} ${batch.note} ${patternSnapshotLabel(batch.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
   const groupedReady=Array.from(visibleReady.reduce((groups,batch)=>groups.set(batch.parentId,[...(groups.get(batch.parentId)??[]),batch]),new Map<string,LaundryReadyBatch[]>()).entries())
   const selectedBatches=readyBatches.filter((batch)=>selectedIds.includes(batch.id))
   const selectedParent=selectedBatches[0]?.parentId??''
   const selectedVendor=selectedBatches[0]?.vendor??''
   const selectedTotal=selectedBatches.reduce((sum,batch)=>sum+(sendSizeInputs[batch.id]??batch.sizes.map(String)).reduce((subtotal,value)=>subtotal+cellQuantity(value),0),0)
   const estimatedCost=selectedTotal*(laundryRates[selectedProcess]??0)
-  const visibleDeliveries=deliveries.filter((delivery)=>vendorFilter==='Semua laundry'||delivery.vendor===vendorFilter).filter((delivery)=>!patternFilter||delivery.pattern?.id===patternFilter).filter((delivery)=>`${delivery.id} ${delivery.parentId} ${delivery.batchId} ${delivery.model} ${delivery.material} ${delivery.mandor} ${delivery.vendor} ${patternSnapshotLabel(delivery.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
-  const outsideQty=deliveries.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)
-  const partialCount=deliveries.filter((delivery)=>laundryDeliveryStatus(delivery)==='Kembali sebagian').length
-  const totalBs=deliveries.reduce((sum,delivery)=>sum+delivery.bs,0)
+  const visibleDeliveries=scopedDeliveries.filter((delivery)=>vendorFilter==='Semua laundry'||delivery.vendor===vendorFilter).filter((delivery)=>!patternFilter||delivery.pattern?.id===patternFilter).filter((delivery)=>`${delivery.id} ${delivery.parentId} ${delivery.batchId} ${delivery.model} ${delivery.material} ${delivery.mandor} ${delivery.vendor} ${patternSnapshotLabel(delivery.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
+  const outsideQty=scopedDeliveries.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)
+  const partialCount=scopedDeliveries.filter((delivery)=>laundryDeliveryStatus(delivery)==='Kembali sebagian').length
+  const totalBs=scopedDeliveries.reduce((sum,delivery)=>sum+delivery.bs,0)
 
   const toggleBatch=(batch:LaundryReadyBatch)=>{
     setNotice('')
@@ -1998,9 +2028,13 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
 
   return <>
     <section className="hero-copy compact laundry-hero"><div className="eyebrow">PRODUKSI · SETELAH SEWING</div><h1>Laundry</h1><p>Kirim Batch Distribusi yang jahitannya sudah penuh, lalu catat Good dan BS ketika kembali. Urutannya tetap mengikuti Batch Produksi.</p></section>
-    <section className="laundry-kpi-grid">
-      <div className="panel"><span>SIAP DIKIRIM</span><strong>{readyBatches.reduce((sum,batch)=>sum+batch.qty,0)} pcs</strong><small>{readyBatches.length} batch jahit</small></div>
-      <div className="panel"><span>SEDANG DI LUAR</span><strong>{outsideQty} pcs</strong><small>{deliveries.filter((item)=>laundryOutstanding(item)>0).length} surat kirim aktif</small></div>
+    <div className={`laundry-summary-scope ${mandorFiltered?'filtered':''}`} role="status" aria-live="polite"><Icon name={mandorFiltered?'filter':'user'}/>{mandorFiltered
+      ?<span>Ringkasan &amp; daftar difilter untuk <b>{mandorFilter}</b> · {scopedReady.length} batch siap · {scopedDeliveries.length} surat kirim</span>
+      :<span>Ringkasan untuk <b>semua mandor</b> ({mandorOptions.length} mandor)</span>}
+      {mandorFiltered&&<button type="button" onClick={()=>setMandorFilter(LAUNDRY_ALL_MANDORS)}>Tampilkan semua mandor</button>}</div>
+    <section className="laundry-kpi-grid" aria-label={mandorFiltered?`Ringkasan Laundry · ${mandorFilter}`:'Ringkasan Laundry · semua mandor'}>
+      <div className="panel"><span>SIAP DIKIRIM</span><strong>{scopedReady.reduce((sum,batch)=>sum+batch.qty,0)} pcs</strong><small>{scopedReady.length} batch jahit</small></div>
+      <div className="panel"><span>SEDANG DI LUAR</span><strong>{outsideQty} pcs</strong><small>{scopedDeliveries.filter((item)=>laundryOutstanding(item)>0).length} surat kirim aktif</small></div>
       <div className="panel"><span>KEMBALI SEBAGIAN</span><strong>{partialCount} kiriman</strong><small>tetap terbuka sampai habis</small></div>
       <div className="panel alert"><span>LAUNDRY BS</span><strong>{totalBs} pcs</strong><small>langsung masuk kasus BS</small></div>
     </section>
@@ -2010,6 +2044,7 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
         <div className="laundry-tabs"><button className={activeTab==='send'?'active':''} onClick={()=>{setActiveTab('send');setNotice('')}}><Icon name="arrow"/> Kirim ke laundry</button><button className={activeTab==='return'?'active':''} onClick={()=>{setActiveTab('return');setNotice('')}}><Icon name="boxes"/> Terima kembali</button></div>
         <label className="laundry-search"><Icon name="search"/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari Potongan, batch, Pola, bahan..."/></label>
         <label className="laundry-pattern-filter"><span>POLA</span><select aria-label="Filter Pola Laundry" value={patternFilter} onChange={(event)=>setPatternFilter(event.target.value)}><option value="">Semua Pola</option>{patternOptions.map((pattern)=><option value={pattern.id} key={pattern.id}>{pattern.code} · {pattern.revision}</option>)}</select><small>DATA SIMULASI</small></label>
+        <label className="laundry-mandor-filter"><span>MANDOR</span><select aria-label="Filter Mandor Laundry" value={mandorFilter} onChange={(event)=>setMandorFilter(event.target.value)}><option value={LAUNDRY_ALL_MANDORS}>{LAUNDRY_ALL_MANDORS}</option>{mandorOptions.map((mandor)=><option value={mandor} key={mandor}>{mandor}</option>)}</select><small>{mandorFiltered?'FILTER AKTIF':'PENANGGUNG JAWAB'}</small></label>
         <div className="laundry-vendors">{vendorOptions.map((vendor)=><button type="button" className={vendorFilter===vendor?'active':''} onClick={()=>setVendorFilter(vendor)} key={vendor}>{vendor}</button>)}</div>
       </div>
 
@@ -2017,14 +2052,14 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
         <div className="laundry-ready-pane">
           <div className="laundry-section-head"><div><span>SIAP BERANGKAT</span><h2>Pilih batch selesai jahit</h2><p>Satu surat kirim hanya berisi satu Batch Produksi dan satu laundry.</p></div><b>{visibleReady.length} batch</b></div>
           <div className="laundry-parent-list" data-keyboard-grid>{groupedReady.map(([parentId,batches],groupIndex)=>{const first=batches[0];return <article className="laundry-parent-card" key={parentId}>
-            <header><span>{String(groupIndex+1).padStart(2,'0')}</span><div><small>{first.plannedBrand ? `MEREK RENCANA · OPSIONAL · ${first.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · BATCH PRODUKSI</small><h3>{parentId} · {first.model}</h3><p className="laundry-pattern-snapshot">POLA · {patternSnapshotLabel(first.pattern)}</p><p className="laundry-mandor-line"><Icon name="user"/><span><small>MANDOR</small><strong>{first.mandor}</strong></span><em>{first.material}</em></p></div><div><strong>{batches.reduce((sum,batch)=>sum+batch.qty,0)} pcs</strong><small>{first.vendor}</small></div></header>
+            <header><span>{String(groupIndex+1).padStart(2,'0')}</span><div><small>{first.plannedBrand ? `MEREK RENCANA · OPSIONAL · ${first.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · BATCH PRODUKSI</small><h3>{parentId} · {first.model}</h3><p className="laundry-pattern-snapshot">POLA · {patternSnapshotLabel(first.pattern)}</p><p className="laundry-mandor-line"><Icon name="user"/><span><small>MANDOR</small><strong>{laundryMandorOf(first)}</strong></span><em>{first.material}</em></p></div><div><strong>{batches.reduce((sum,batch)=>sum+batch.qty,0)} pcs</strong><small>{first.vendor}</small></div></header>
             <div className="laundry-batch-rows">{batches.map((batch,batchIndex)=>{const selected=selectedIds.includes(batch.id);const foreign=selectedBatches.length>0&&(selectedParent!==batch.parentId||selectedVendor!==batch.vendor);return <div className={`laundry-batch-row ${selected?'selected':''}`} key={batch.id}>
               <button type="button" className="laundry-batch-select" onClick={()=>toggleBatch(batch)}><span className="laundry-check">{selected&&<Icon name="check"/>}</span><div><span>BATCH {batch.id}</span><strong>{batch.note}</strong><small>Selesai {batch.sewingDoneAt}</small></div><b>{batch.qty} pcs</b></button>
               <div className="laundry-size-pills">{batch.sizeLabels.map((size,index)=>batch.sizes[index]>0&&<span key={size}>Size <b>{size}</b> · {batch.sizes[index]}</span>)}</div>
               {selected&&<div className="laundry-send-by-size"><span>QTY DIKIRIM PER SIZE</span><div>{batch.sizeLabels.map((size,sizeIndex)=><label key={size}><small>SIZE {size}</small><input inputMode="numeric" data-grid-row={groupIndex*100+batchIndex} data-grid-col={sizeIndex} value={(sendSizeInputs[batch.id]??batch.sizes.map(String))[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setSendSizeInputs((current)=>{const row=[...(current[batch.id]??batch.sizes.map(String))] as [string,string,string];row[sizeIndex]=laundryDigits(event.target.value,batch.sizes[sizeIndex]);return{...current,[batch.id]:row}})}/><em>/ {batch.sizes[sizeIndex]}</em></label>)}</div></div>}
               {foreign&&!selected&&<small className="laundry-switch-note">Memilih ini akan pindah ke surat kirim Potongan tersebut.</small>}
             </div>})}</div>
-          </article>})}{groupedReady.length===0&&<div className="laundry-empty"><Icon name="search"/><strong>Batch tidak ditemukan</strong><small>Coba ganti laundry atau kata pencarian.</small></div>}</div>
+          </article>})}{groupedReady.length===0&&<div className="laundry-empty"><Icon name="search"/><strong>Batch tidak ditemukan</strong><small>Coba ganti laundry, mandor, Pola, atau kata pencarian.</small></div>}</div>
         </div>
         <aside className="laundry-ticket"><div className="laundry-section-head"><div><span>SURAT KIRIM</span><h2>Review sebelum keluar</h2></div></div>
           {selectedBatches.length>0?<div className="laundry-ticket-content">
@@ -2053,10 +2088,10 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
           const reversedStatus=status==='Kembali ke WIP'||status==='Sisa kembali WIP'
           return <article className={`laundry-return-card ${reversedStatus?'reversed':''}`} key={delivery.id}>
           <header><span>{String(index+1).padStart(2,'0')}</span><div><small>{delivery.plannedBrand ? `MEREK RENCANA · ${delivery.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · {delivery.id}</small><h3>{delivery.parentId} · Batch {delivery.batchId}</h3><p>{delivery.model} · {delivery.material}</p><p className="laundry-pattern-snapshot">POLA · {patternSnapshotLabel(delivery.pattern)}</p></div><em className={status==='Selesai'?'done':status==='Kembali sebagian'?'partial':reversedStatus?'reversed':''}>{status}</em><div><strong>{delivery.vendor}</strong><small>{delivery.process}</small></div></header>
-          <div className="laundry-return-body"><div className="laundry-return-facts"><div className="laundry-mandor-hero"><Icon name="user"/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{delivery.mandor}</strong></span></div><div className="laundry-counts"><span><small>DIKIRIM</small><strong>{delivery.qty} pcs</strong></span><span><small>SUDAH KEMBALI</small><strong>{received} pcs</strong></span><span><small>MASIH DI LUAR</small><strong>{outstanding} pcs</strong></span></div><div className="laundry-progress"><span style={{width:`${progress}%`}}/></div><p><Icon name="calendar"/> Dikirim {delivery.sentAt}</p>{received>0&&<><small>Akumulasi: <b className="good">{delivery.good} Good</b> · <b className="bs">{delivery.bs} BS</b></small><button type="button" className="laundry-open-qc" onClick={()=>onOpenQc(delivery.parentId,delivery.batchId)}><Icon name="audit"/><span><strong>Buka QC & Final SKU</strong><small>{received} pcs sudah bisa diperiksa sekarang</small></span><Icon name="arrow"/></button></>}{delivery.reversed>0&&<small className="reversed-note"><b>{delivery.reversed} pcs kembali ke WIP</b> · {delivery.reverseNote}</small>}{outstanding>0&&<button type="button" className="laundry-reverse-btn" onClick={()=>setPendingReverse(delivery)}><Icon name="reset"/><span><strong>Kembalikan ke WIP</strong><small>{outstanding} pcs bisa pilih laundry lain</small></span></button>}</div>
+          <div className="laundry-return-body"><div className="laundry-return-facts"><div className="laundry-mandor-hero"><Icon name="user"/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{laundryMandorOf(delivery)}</strong></span></div><div className="laundry-counts"><span><small>DIKIRIM</small><strong>{delivery.qty} pcs</strong></span><span><small>SUDAH KEMBALI</small><strong>{received} pcs</strong></span><span><small>MASIH DI LUAR</small><strong>{outstanding} pcs</strong></span></div><div className="laundry-progress"><span style={{width:`${progress}%`}}/></div><p><Icon name="calendar"/> Dikirim {delivery.sentAt}</p>{received>0&&<><small>Akumulasi: <b className="good">{delivery.good} Good</b> · <b className="bs">{delivery.bs} BS</b></small><button type="button" className="laundry-open-qc" onClick={()=>onOpenQc(delivery.parentId,delivery.batchId)}><Icon name="audit"/><span><strong>Buka QC & Final SKU</strong><small>{received} pcs sudah bisa diperiksa sekarang</small></span><Icon name="arrow"/></button></>}{delivery.reversed>0&&<small className="reversed-note"><b>{delivery.reversed} pcs kembali ke WIP</b> · {delivery.reverseNote}</small>}{outstanding>0&&<button type="button" className="laundry-reverse-btn" onClick={()=>setPendingReverse(delivery)}><Icon name="reset"/><span><strong>Kembalikan ke WIP</strong><small>{outstanding} pcs bisa pilih laundry lain</small></span></button>}</div>
             {outstanding>0?<div className="laundry-return-entry size-mode" data-keyboard-grid><div className="laundry-return-entry-head"><span>TERIMA PER SIZE</span><small>Good ke QC dan Stuck dihitung persis per ukuran.</small></div><div className="laundry-return-size-head"><span>Size</span><span>Dikirim</span><span>Kembali</span><span>Good → QC</span><span>BS</span><span>Stuck sesudah</span></div><div className="laundry-return-size-rows">{delivery.sizeLabels.map((size,sizeIndex)=><div className="laundry-return-size-row" key={size}><strong>{size}</strong><span>{delivery.sizes[sizeIndex]}</span><span>{returnedSizes[sizeIndex]}</span><label><input inputMode="numeric" data-grid-row={sizeIndex} data-grid-col={0} value={values.good[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateReturn(delivery,sizeIndex,'good',event.target.value)} placeholder="0"/></label><label className="bs"><input inputMode="numeric" data-grid-row={sizeIndex} data-grid-col={1} value={values.bs[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateReturn(delivery,sizeIndex,'bs',event.target.value)} placeholder="0"/></label><strong className="stuck">{Math.max(0,outstandingSizes[sizeIndex]-inputGood[sizeIndex]-inputBs[sizeIndex])}</strong></div>)}</div><label className="return-time"><span>WAKTU FISIK KEMBALI</span><input type="datetime-local" value={returnTimes[delivery.id]??'2026-08-27T17:30'} onChange={(event)=>setReturnTimes((current)=>({...current,[delivery.id]:event.target.value}))}/></label><div className="laundry-return-action"><span>Total input <b>{inputTotal} pcs</b> · sisa <b>{Math.max(0,outstanding-inputTotal)} pcs</b></span><button type="button" className="primary-btn" disabled={inputTotal<=0} onClick={()=>postReturn(delivery)}>Catat kembali <Icon name="arrow"/></button></div></div>:<div className="laundry-return-done"><Icon name={delivery.reversed>0?'reset':'check'}/><strong>{delivery.reversed>0?'Qty aktif sudah kembali ke WIP':'Pengiriman selesai'}</strong><small>{delivery.reversed>0?`${delivery.reversed} pcs siap dipilihkan laundry baru · histori lama tetap ada`:`${delivery.good} Good sudah bisa dibuka di QC · ${delivery.bs} BS tercatat`}</small></div>}
           </div>
-        </article>})}</div>
+        </article>})}{visibleDeliveries.length===0&&<div className="laundry-empty"><Icon name="search"/><strong>Surat kirim tidak ditemukan</strong><small>Coba ganti laundry, mandor, Pola, atau kata pencarian.</small></div>}</div>
       </div>}
     </section>
     {pendingReverse&&<div className="wip-confirm-layer" role="presentation"><section className="wip-confirm-dialog laundry-reverse-dialog" role="alertdialog" aria-modal="true" aria-labelledby="reverse-laundry-title"><div className="wip-confirm-icon reverse"><Icon name="reset"/></div><div><span>REVERSE PENGIRIMAN</span><h2 id="reverse-laundry-title">Kembalikan ke WIP?</h2><p><strong>{laundryOutstanding(pendingReverse)} pcs</strong> yang masih di {pendingReverse.vendor} akan muncul lagi di WIP dan bisa langsung dipilihkan laundry lain. {pendingReverse.good+pendingReverse.bs>0&&`${pendingReverse.good+pendingReverse.bs} pcs yang sudah kembali tetap tercatat.`}</p><small>Jejak surat kirim lama tidak dihapus; statusnya berubah menjadi Kembali ke WIP.</small></div><div className="wip-confirm-actions"><button type="button" className="soft-btn" onClick={()=>setPendingReverse(null)}>Jangan</button><button type="button" className="primary-btn reverse" onClick={confirmReverse}>Ya, kembali ke WIP <Icon name="arrow"/></button></div></section></div>}

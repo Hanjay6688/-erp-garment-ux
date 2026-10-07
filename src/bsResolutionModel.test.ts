@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  bsPatternLabel, cleanBsQuantity, exactReworkCompletion, parseBsResolutionWorkspace,
+  bsPatternLabel, bsSkuLabel, cleanBsQuantity, exactReworkCompletion, parseBsResolutionWorkspace,
 } from './bsResolutionModel'
 
 const baseResponse = () => ({
@@ -98,5 +98,13 @@ describe('CP5 authoritative response boundary', () => {
     expect(cleanBsQuantity('12.9', 10)).toBe('10')
     expect(cleanBsQuantity('-3', 10)).toBe('0')
     expect(cleanBsQuantity('abc', 10)).toBe('')
+  })
+})
+
+describe('bsSkuLabel', () => {
+  it('shows the SKU code with the product name, or says it is not identified yet', () => {
+    expect(bsSkuLabel({ sku: 'SKU-1', product_name: 'Produk 1' })).toBe('SKU SKU-1 · Produk 1')
+    expect(bsSkuLabel({ sku: 'SKU-1', product_name: null })).toBe('SKU SKU-1')
+    expect(bsSkuLabel({ sku: null, product_name: 'Produk 1' })).toBe('SKU belum teridentifikasi')
   })
 })
