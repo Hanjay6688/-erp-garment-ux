@@ -1,0 +1,330 @@
+{
+  "source_commit": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+  "run_id": 37672809074,
+  "artifact_id": 11505793632,
+  "zip_bytes": 1199947,
+  "zip_sha256": "d63fb8661f2aa85b8f14e27af6833dbdca124adb87b13edef66778bd72c1f732",
+  "runtime_report": "CP7_P19_SCALE.json",
+  "expected_status": "INCOMPLETE",
+  "expected_case_count": 5,
+  "evidence_scope": "scale5-first-failure",
+  "independent_acceptance": false,
+  "production_go": false,
+  "status": "NATIVE_WRITER_INCOMPLETE",
+  "source_bundle_sha256": "155259c05ba3d7fc65781a51429bcf4df31138eb0ef3d50d8a0739ba05f713cf",
+  "observed_case_count": 5,
+  "required_case_counts": {
+    "native": 1,
+    "browser": 4
+  },
+  "counts": {
+    "native": {
+      "INCOMPLETE": 1
+    },
+    "races": null,
+    "http": null,
+    "browser": {
+      "INCOMPLETE": 4
+    }
+  },
+  "failures": {
+    "native": {
+      "P19S_NATIVE_ROLLED_BACK_100_GRID_CAP": "INCOMPLETE"
+    },
+    "races": {},
+    "http": {},
+    "browser": {
+      "P19S_BROWSER_DESKTOP_100": "INCOMPLETE",
+      "P19S_BROWSER_DESKTOP_300": "INCOMPLETE",
+      "P19S_BROWSER_DESKTOP_1000": "INCOMPLETE",
+      "P19S_BROWSER_DESKTOP_5000": "INCOMPLETE"
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "bbd3a034e93a9a5343cdf43d4dbdbe334599da39533cd8e4c916bfa3fc0b2045",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P19_SCALE.json": {
+      "bytes": 419065,
+      "sha256": "65c2ea900286658a4fbd1ce719aa674fc35a9e154d62037e5693eab7d83aefa6"
+    },
+    "P19S_BROWSER_1000_1_BACKGROUND.json": {
+      "bytes": 7346,
+      "sha256": "8f78d0c9f29d837bcfbe92cb14050e987c37350477423f13e7121a7b85825f41"
+    },
+    "P19S_BROWSER_1000_1_CAPTURE.json": {
+      "bytes": 4863,
+      "sha256": "83bf37095474b8ec5e2568c347c9ed3752da68cb1743af5c062bee626b455b23"
+    },
+    "P19S_BROWSER_1000_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 4810,
+      "sha256": "9666191eb4683e9264bd59247e0db75b7c706df5fa188fef7b7286747f3b306e"
+    },
+    "P19S_BROWSER_1000_1_STAGED_FAILURE.json": {
+      "bytes": 22216,
+      "sha256": "cc0cfa3fb781bc4d7480acd400c5b99dfaed2f0ffaceb7032fb28e6584f1e538"
+    },
+    "P19S_BROWSER_100_1_BACKGROUND.json": {
+      "bytes": 11456,
+      "sha256": "57f432e05827a4b45b91dbc51a114fbb195dacc2fb440b1d2e35c1a153e16f16"
+    },
+    "P19S_BROWSER_100_1_CAPTURE.json": {
+      "bytes": 5215,
+      "sha256": "526d1da4e9f8183151bd9be1f81b29bf36541f4bd8725c44ad2ce6f5c654afca"
+    },
+    "P19S_BROWSER_100_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 5475,
+      "sha256": "2761df9612c6f443a0897a1a88cb4bd48267855d436bb80dbd83c78ccf49bebb"
+    },
+    "P19S_BROWSER_100_1_STAGED_FAILURE.json": {
+      "bytes": 25689,
+      "sha256": "69ac750f778c32ff58064078acb8060d17a326b28e794797e907bb5c2dc60040"
+    },
+    "P19S_BROWSER_300_1_BACKGROUND.json": {
+      "bytes": 15020,
+      "sha256": "57b0a038c471dc3ce62547f8689f340fca92e46836047ea586a2b708f3554cb4"
+    },
+    "P19S_BROWSER_300_1_CAPTURE.json": {
+      "bytes": 14396,
+      "sha256": "6083ea8b24613496de2e4ef891a4333c3c1f1a6bb05141ca62aa5d1652453df1"
+    },
+    "P19S_BROWSER_300_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 4839,
+      "sha256": "2bb91692eb59999a7b468d703afddff305c23b098274d7af234392a686c744e5"
+    },
+    "P19S_BROWSER_300_1_STAGED_FAILURE.json": {
+      "bytes": 28151,
+      "sha256": "c2fbb05af9b719661ba2b2262ff5b8abc61b308feb610c7503e3e42c5e111e28"
+    },
+    "P19S_BROWSER_5000_1_BACKGROUND.json": {
+      "bytes": 7620,
+      "sha256": "5d4a4e55c3aa498f69acbba22a75e3f962d3a776ac34e6cc47d12ae245e65c90"
+    },
+    "P19S_BROWSER_5000_1_CAPTURE.json": {
+      "bytes": 4964,
+      "sha256": "9c880f39132f1576b31befc246302320a03a028e2f5ed5c8df897a5bddc1f43b"
+    },
+    "P19S_BROWSER_5000_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 4921,
+      "sha256": "ac3fd3c7e9e68afb8fc1ba3df51d974393627074ccb5dba90fd068b32f87fb34"
+    },
+    "P19S_BROWSER_5000_1_STAGED_FAILURE.json": {
+      "bytes": 68473,
+      "sha256": "d69a81f4ae8e9169c074b14c50923cf0fa3b19a0cca7560594ab0aa9f29349fa"
+    },
+    "P19S_BROWSER_SEED_100.json": {
+      "bytes": 8815,
+      "sha256": "28ecd3e284b9d545c9e5c2a04725628d5e159ab3e21c6b130ca3c89686394d07"
+    },
+    "P19S_BROWSER_SEED_1000.json": {
+      "bytes": 8749,
+      "sha256": "5667a464f950db9c0ba2fa92f76fd03a99e4f8b1563629a84564b0ad265ab743"
+    },
+    "P19S_BROWSER_SEED_300.json": {
+      "bytes": 8731,
+      "sha256": "7100802a5399bbe3f68fb43fd1737eec754751986d374b3512910711d6073245"
+    },
+    "P19S_BROWSER_SEED_5000.json": {
+      "bytes": 8938,
+      "sha256": "36342348baf21b1e955739460461dcaff86621e7a5e8208fb31ae639b84b0a71"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_100_1_BACKGROUND.json": {
+      "bytes": 4164978,
+      "sha256": "110138d8b1e4c876381d3d7e46f1cd0b3d6acd378b5bb0824de925b6730b94cb"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE.json": {
+      "bytes": 4164978,
+      "sha256": "17fa5c49d5a53afc1b3f8beb78cb6499e8edbdbd2a5bd4071e300ad98a488b1f"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 4204466,
+      "sha256": "349d639e3d194b30faee9709bd0c6a6d005d771143442d28f74843df63c90866"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_300_1_BACKGROUND.json": {
+      "bytes": 12470380,
+      "sha256": "e167b18f8d4b703bb1337a8de6588894b3f4ad2ddce7ead1c7b747206ec26e77"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_300_1_CAPTURE.json": {
+      "bytes": 12470380,
+      "sha256": "b00ff1383feb2bc244dfe694ec565432539df68bad50930ff665b61c86f22716"
+    },
+    "P19_SCALE_NATIVE_ORIGINAL_100_1_BACKGROUND.json": {
+      "bytes": 4208470,
+      "sha256": "73679b7a0833ed553b1217e46fdd473c9189d1844464c0334618ee91a993b9bd"
+    },
+    "P19_SCALE_NATIVE_ORIGINAL_100_1_ORDINARY.json": {
+      "bytes": 4206534,
+      "sha256": "59b2b7714abc57a6eea6f56afd8ff2ee28b79db76bc469487a9041f48c10f317"
+    },
+    "P19_SCALE_NATIVE_SEED_100.json": {
+      "bytes": 3624,
+      "sha256": "cbea48c5ccff93f7d0acbe40637e5da25322836e8058d90c8c1d5b5ef06976dc"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "763446873ca75fd9ccac107dd2938ba61c6b9d78249591acc0d7235e9c25274c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "d36031852fb339f840ef805b5352ab5f828f9d4d9b3bfb04abda406c78f2a5a7"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P19_SCALE.json": {
+      "bytes": 419065,
+      "sha256": "65c2ea900286658a4fbd1ce719aa674fc35a9e154d62037e5693eab7d83aefa6"
+    },
+    "P19S_BROWSER_1000_1_BACKGROUND.json": {
+      "bytes": 7346,
+      "sha256": "8f78d0c9f29d837bcfbe92cb14050e987c37350477423f13e7121a7b85825f41"
+    },
+    "P19S_BROWSER_1000_1_CAPTURE.json": {
+      "bytes": 4863,
+      "sha256": "83bf37095474b8ec5e2568c347c9ed3752da68cb1743af5c062bee626b455b23"
+    },
+    "P19S_BROWSER_1000_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 4810,
+      "sha256": "9666191eb4683e9264bd59247e0db75b7c706df5fa188fef7b7286747f3b306e"
+    },
+    "P19S_BROWSER_1000_1_STAGED_FAILURE.json": {
+      "bytes": 22216,
+      "sha256": "cc0cfa3fb781bc4d7480acd400c5b99dfaed2f0ffaceb7032fb28e6584f1e538"
+    },
+    "P19S_BROWSER_100_1_BACKGROUND.json": {
+      "bytes": 11456,
+      "sha256": "57f432e05827a4b45b91dbc51a114fbb195dacc2fb440b1d2e35c1a153e16f16"
+    },
+    "P19S_BROWSER_100_1_CAPTURE.json": {
+      "bytes": 5215,
+      "sha256": "526d1da4e9f8183151bd9be1f81b29bf36541f4bd8725c44ad2ce6f5c654afca"
+    },
+    "P19S_BROWSER_100_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 5475,
+      "sha256": "2761df9612c6f443a0897a1a88cb4bd48267855d436bb80dbd83c78ccf49bebb"
+    },
+    "P19S_BROWSER_100_1_STAGED_FAILURE.json": {
+      "bytes": 25689,
+      "sha256": "69ac750f778c32ff58064078acb8060d17a326b28e794797e907bb5c2dc60040"
+    },
+    "P19S_BROWSER_300_1_BACKGROUND.json": {
+      "bytes": 15020,
+      "sha256": "57b0a038c471dc3ce62547f8689f340fca92e46836047ea586a2b708f3554cb4"
+    },
+    "P19S_BROWSER_300_1_CAPTURE.json": {
+      "bytes": 14396,
+      "sha256": "6083ea8b24613496de2e4ef891a4333c3c1f1a6bb05141ca62aa5d1652453df1"
+    },
+    "P19S_BROWSER_300_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 4839,
+      "sha256": "2bb91692eb59999a7b468d703afddff305c23b098274d7af234392a686c744e5"
+    },
+    "P19S_BROWSER_300_1_STAGED_FAILURE.json": {
+      "bytes": 28151,
+      "sha256": "c2fbb05af9b719661ba2b2262ff5b8abc61b308feb610c7503e3e42c5e111e28"
+    },
+    "P19S_BROWSER_5000_1_BACKGROUND.json": {
+      "bytes": 7620,
+      "sha256": "5d4a4e55c3aa498f69acbba22a75e3f962d3a776ac34e6cc47d12ae245e65c90"
+    },
+    "P19S_BROWSER_5000_1_CAPTURE.json": {
+      "bytes": 4964,
+      "sha256": "9c880f39132f1576b31befc246302320a03a028e2f5ed5c8df897a5bddc1f43b"
+    },
+    "P19S_BROWSER_5000_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 4921,
+      "sha256": "ac3fd3c7e9e68afb8fc1ba3df51d974393627074ccb5dba90fd068b32f87fb34"
+    },
+    "P19S_BROWSER_5000_1_STAGED_FAILURE.json": {
+      "bytes": 68473,
+      "sha256": "d69a81f4ae8e9169c074b14c50923cf0fa3b19a0cca7560594ab0aa9f29349fa"
+    },
+    "P19S_BROWSER_SEED_100.json": {
+      "bytes": 8815,
+      "sha256": "28ecd3e284b9d545c9e5c2a04725628d5e159ab3e21c6b130ca3c89686394d07"
+    },
+    "P19S_BROWSER_SEED_1000.json": {
+      "bytes": 8749,
+      "sha256": "5667a464f950db9c0ba2fa92f76fd03a99e4f8b1563629a84564b0ad265ab743"
+    },
+    "P19S_BROWSER_SEED_300.json": {
+      "bytes": 8731,
+      "sha256": "7100802a5399bbe3f68fb43fd1737eec754751986d374b3512910711d6073245"
+    },
+    "P19S_BROWSER_SEED_5000.json": {
+      "bytes": 8938,
+      "sha256": "36342348baf21b1e955739460461dcaff86621e7a5e8208fb31ae639b84b0a71"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_100_1_BACKGROUND.json": {
+      "bytes": 4164978,
+      "sha256": "110138d8b1e4c876381d3d7e46f1cd0b3d6acd378b5bb0824de925b6730b94cb"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE.json": {
+      "bytes": 4164978,
+      "sha256": "17fa5c49d5a53afc1b3f8beb78cb6499e8edbdbd2a5bd4071e300ad98a488b1f"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_100_1_CAPTURE_WITH_FINANCE.json": {
+      "bytes": 4204466,
+      "sha256": "349d639e3d194b30faee9709bd0c6a6d005d771143442d28f74843df63c90866"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_300_1_BACKGROUND.json": {
+      "bytes": 12470380,
+      "sha256": "e167b18f8d4b703bb1337a8de6588894b3f4ad2ddce7ead1c7b747206ec26e77"
+    },
+    "P19_SCALE_BROWSER_ORIGINAL_300_1_CAPTURE.json": {
+      "bytes": 12470380,
+      "sha256": "b00ff1383feb2bc244dfe694ec565432539df68bad50930ff665b61c86f22716"
+    },
+    "P19_SCALE_NATIVE_ORIGINAL_100_1_BACKGROUND.json": {
+      "bytes": 4208470,
+      "sha256": "73679b7a0833ed553b1217e46fdd473c9189d1844464c0334618ee91a993b9bd"
+    },
+    "P19_SCALE_NATIVE_ORIGINAL_100_1_ORDINARY.json": {
+      "bytes": 4206534,
+      "sha256": "59b2b7714abc57a6eea6f56afd8ff2ee28b79db76bc469487a9041f48c10f317"
+    },
+    "P19_SCALE_NATIVE_SEED_100.json": {
+      "bytes": 3624,
+      "sha256": "cbea48c5ccff93f7d0acbe40637e5da25322836e8058d90c8c1d5b5ef06976dc"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "763446873ca75fd9ccac107dd2938ba61c6b9d78249591acc0d7235e9c25274c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "d36031852fb339f840ef805b5352ab5f828f9d4d9b3bfb04abda406c78f2a5a7"
+    }
+  },
+  "full_family_acceptance": false
+}

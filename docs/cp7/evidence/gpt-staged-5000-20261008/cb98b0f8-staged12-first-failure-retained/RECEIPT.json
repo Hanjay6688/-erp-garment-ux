@@ -1,0 +1,131 @@
+{
+  "source_commit": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+  "run_id": 37672809074,
+  "artifact_id": 11506075763,
+  "zip_bytes": 55211,
+  "zip_sha256": "e426974b90f3bfa51bb730db5fb3fbbca764b24ad9b6c0e6ee65d212542808b1",
+  "runtime_report": "CP7_P19_STAGED.json",
+  "expected_status": "INCOMPLETE",
+  "expected_case_count": 12,
+  "evidence_scope": "staged12-first-failure",
+  "independent_acceptance": false,
+  "production_go": false,
+  "status": "NATIVE_WRITER_INCOMPLETE",
+  "source_bundle_sha256": "155259c05ba3d7fc65781a51429bcf4df31138eb0ef3d50d8a0739ba05f713cf",
+  "observed_case_count": 12,
+  "required_case_counts": {
+    "native": 5,
+    "races": 3,
+    "http": 2,
+    "browser": 2
+  },
+  "counts": {
+    "native": {
+      "PASS": 3,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 2,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "failures": {
+    "native": {
+      "P19G_STAGED_IDENTITY": "INCOMPLETE",
+      "P19G_STAGED_BOUNDS_VS_SINGLE": "INCOMPLETE"
+    },
+    "races": {
+      "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES": "INCOMPLETE"
+    },
+    "http": {},
+    "browser": {
+      "P19G_BROWSER_DESKTOP_STAGED_RELOAD": "INCOMPLETE",
+      "P19G_BROWSER_MOBILE_STAGED": "INCOMPLETE"
+    }
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "1f6e0dcf935744b16ef251dae3e6cb2b193de39643c77794ab3e7fa79dc329fa",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P19_STAGED.json": {
+      "bytes": 649012,
+      "sha256": "3ee765278809671d8863ab2c280de5554339c7b7242404068690e783d7e5b7f0"
+    },
+    "P19G_DESKTOP_FAILURE.json": {
+      "bytes": 6486,
+      "sha256": "1c68b812803757dfd4d399f60cd5c02c52cd4508bd49664dd0a23fa19126d24a"
+    },
+    "P19G_MOBILE_FAILURE.json": {
+      "bytes": 8693,
+      "sha256": "498bea780175e7fb3c3d21cec541e4e82257a1003cd66211dc12e520e551dcd1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "0188a750d04edc66e5bca692be43093bb3df175ca18eedd7a52678de185c1cec"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "d36031852fb339f840ef805b5352ab5f828f9d4d9b3bfb04abda406c78f2a5a7"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P19_STAGED.json": {
+      "bytes": 649012,
+      "sha256": "3ee765278809671d8863ab2c280de5554339c7b7242404068690e783d7e5b7f0"
+    },
+    "P19G_DESKTOP_FAILURE.json": {
+      "bytes": 6486,
+      "sha256": "1c68b812803757dfd4d399f60cd5c02c52cd4508bd49664dd0a23fa19126d24a"
+    },
+    "P19G_MOBILE_FAILURE.json": {
+      "bytes": 8693,
+      "sha256": "498bea780175e7fb3c3d21cec541e4e82257a1003cd66211dc12e520e551dcd1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "0188a750d04edc66e5bca692be43093bb3df175ca18eedd7a52678de185c1cec"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360421,
+      "sha256": "d36031852fb339f840ef805b5352ab5f828f9d4d9b3bfb04abda406c78f2a5a7"
+    }
+  },
+  "full_family_acceptance": false
+}

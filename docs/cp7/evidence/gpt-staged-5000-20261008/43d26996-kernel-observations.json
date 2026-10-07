@@ -1,0 +1,132 @@
+{
+  "contract": "cp7.p19.kernel-observations.v1",
+  "evidence_scope": "CI_POSTGRES_KERNEL_GENERATED_CAPTURE_NOT_FULL_APPLICATION",
+  "observations": [
+    {
+      "source_commit": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "original_zip": "cb98b0f8-staged-kernel-original.zip",
+      "zip_sha256": "87eae5efaa9cd0649535fbe6c58998caf3ab6bcbb1a7f559c164194eb3f70b3c",
+      "original_label": "LOCAL_PG16_DEV_KERNEL_GENERATED_CAPTURES_NOT_EVIDENCE",
+      "vectors": [
+        {
+          "targets": 1000,
+          "days": 30,
+          "state": "DONE",
+          "wall_ms": 24951,
+          "max_unit_server_ms": 1804.5,
+          "retries": 0,
+          "unit_count": 45,
+          "pages": null,
+          "coverage": null,
+          "single": {
+            "state": "DONE",
+            "sha256": "e95fa64fcfcd1ce86d37cd340a8f2d8a276a422d96ad6e50a44b4d78a4d33e92",
+            "client_ms": 19449,
+            "note": "single analysis build in ONE call without a statement limit (measurement only)"
+          }
+        },
+        {
+          "targets": 5000,
+          "days": 30,
+          "state": "DONE",
+          "wall_ms": 134464,
+          "max_unit_server_ms": 2021.1,
+          "retries": 0,
+          "unit_count": 165,
+          "pages": null,
+          "coverage": null,
+          "single": {
+            "state": "REFUSED",
+            "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+            "sqlstate": "P0001",
+            "client_ms": 40,
+            "note": "single analysis build in ONE call without a statement limit (measurement only)"
+          }
+        },
+        {
+          "targets": 5000,
+          "days": 100,
+          "state": "DONE",
+          "wall_ms": 148808,
+          "max_unit_server_ms": 2100.6,
+          "retries": 0,
+          "unit_count": 193,
+          "pages": null,
+          "coverage": null,
+          "single": {
+            "state": "REFUSED",
+            "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+            "sqlstate": "P0001",
+            "client_ms": 42,
+            "note": "single analysis build in ONE call without a statement limit (measurement only)"
+          }
+        }
+      ]
+    },
+    {
+      "source_commit": "43d26996d767f47bb21d86e988b92c9dcf994703",
+      "original_zip": "43d26996-staged-kernel-original.zip",
+      "zip_sha256": "35c19ad308a5fc6fd6528f75050387a6b30a37f3a950958eda69f74d2bac7b3d",
+      "original_label": "LOCAL_PG16_DEV_KERNEL_GENERATED_CAPTURES_NOT_EVIDENCE",
+      "vectors": [
+        {
+          "targets": 1000,
+          "days": 30,
+          "state": "DONE",
+          "wall_ms": 23258,
+          "max_unit_server_ms": 1688.4,
+          "retries": 0,
+          "unit_count": 45,
+          "pages": null,
+          "coverage": null,
+          "single": {
+            "state": "DONE",
+            "sha256": "30521ef4479f73c8981a113f83656e53c06f3e8bca501d9ec1263eccde49cf18",
+            "client_ms": 17520,
+            "note": "single analysis build in ONE call without a statement limit (measurement only)"
+          }
+        },
+        {
+          "targets": 5000,
+          "days": 30,
+          "state": "DONE",
+          "wall_ms": 123245,
+          "max_unit_server_ms": 1786.1,
+          "retries": 0,
+          "unit_count": 165,
+          "pages": null,
+          "coverage": null,
+          "single": {
+            "state": "REFUSED",
+            "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+            "sqlstate": "P0001",
+            "client_ms": 40,
+            "note": "single analysis build in ONE call without a statement limit (measurement only)"
+          }
+        },
+        {
+          "targets": 5000,
+          "days": 100,
+          "state": "DONE",
+          "wall_ms": 135670,
+          "max_unit_server_ms": 1825.3,
+          "retries": 0,
+          "unit_count": 193,
+          "pages": null,
+          "coverage": null,
+          "single": {
+            "state": "REFUSED",
+            "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+            "sqlstate": "P0001",
+            "client_ms": 41,
+            "note": "single analysis build in ONE call without a statement limit (measurement only)"
+          }
+        }
+      ]
+    }
+  ],
+  "controlled_speedup_claim": false,
+  "owner_3s_load_goal_mandatory": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

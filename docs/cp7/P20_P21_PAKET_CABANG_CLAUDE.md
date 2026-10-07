@@ -410,6 +410,9 @@ kualifikasi penuh; seluruh bukti hijau dan kegagalan pertamanya dicatat di
 `evidence/gpt-staged-5000-20261008/README.md`, dengan Original dan hash ZIP.
 `independent_acceptance=false`, `production_go=false`.
 
+Writer aktif GPT atas mandat owner. Rujukan takeover seluruh ERP, otoritas
+dan kelanjutan: `handoff/GPT_WRITER_STAGED_5000_20261008.md`.
+
 ### 14.1 Objek dan prioritas auditor
 
 | Objek | Perilaku dan batas yang harus diaudit |
@@ -456,3 +459,18 @@ P21 rehearsal sudah lulus di head pertama tetapi **bukan receipt pemasangan**.
 Paket final harus dibekukan sesudah bukti 15 workflow pada satu head, lalu
 P20 audit independen. Integrasi, hosted, main, Cloudflare, pemasangan dan GO
 belum dilakukan. PL-5 B dan konfigurasi owner yang masih pending tetap terbuka.
+
+### 14.4 Rehearsal kandidat perbaikan 43d26996
+
+Run `37677705173`, artifact `11508795699`: PASS. Pemasangan memuat 1.407
+fungsi, 75 tabel CP7 dan 34 role CP7; pasang ulang memiliki hash katalog
+persis sama `691c0eff044b0c606e489ac449593ab7431e389499d701cb8fb15e5f1a1e1b1d`.
+Rollback sebelum penggunaan dan pemulihan katalog terverifikasi, advisor
+gate lulus, Native CP6 dipulihkan.
+
+Batas bukti yang penting: langkah USE runtime berlabel
+`HELD_OPEN_THEN_ROLLED_BACK`, walaupun docstring lama skrip menyebut commit.
+Penolakan rollback sesudah USE dibuktikan dalam transaksi terbuka tersebut;
+ini bukan bukti restore pemasangan yang sudah dipakai dan di-commit.
+P21 nyata tetap menunggu kandidat diterima P20 dan bukti pemasangan/T2/
+backup-restore yang sesuai cakupan nyata. `installed_P21_acceptance=false`.

@@ -112,16 +112,75 @@ attempt**, not accepted capacity or load proof. The later candidate must
 complete all frozen-contract/coverage checks and separately record page and
 completed-open load times. The raw failure is retained, never overwritten.
 
-### Subsequent product optimisation awaiting CI
+### Subsequent product optimisation
 
 PAGES and PAGE_INDEX now execute before loading the full reference and earlier
 scenario/netting/allocation results they never read. Their exact page-building
 bodies are unchanged. Existing parity/access/multibyte tests and the exact
 evidence reassembly SQL pass locally (`36-pages-early-dispatch.log`, one
 selected test, two unselected); the full Native corpus and benchmarks must
-prove the subsequent head. No speedup is claimed before its measurements.
+prove the subsequent head. Its complete CI kernel measurements are below;
+these are not application loading measurements or a controlled speedup claim.
 
 P20/P21 packaging, integration merge and auditor acceptance remain pending.
 Open owner policy values remain open; no invented yield/retention/driver or
 downstream staged feature policy is included. No hosted database, main or
 deployment is changed by this work.
+
+## Repaired candidate: 43d26996 (qualification in progress)
+
+Source: `43d26996d767f47bb21d86e988b92c9dcf994703`. The four T3 CodeQL
+languages and both Shell CodeQL jobs passed with zero findings. The
+Native/Auth/HTTP/browser staged suite passed **12/12** (5 Native, 3 races,
+2 HTTP, 2 browser); ordinary transport passed **15/15** again.
+Receipts and lossless root reports are in `43d26996-staged12-retained/` and
+`43d26996-transport15-retained/`. They bind exact source/run/artifact hashes
+and require complete case counts, package gates and restored boundaries.
+
+Completed-open measurements in the small staged browser fixture were
+152.4 ms desktop and 102.7 ms mobile, trusted click to verified first page
+plus two paint frames, with no request/step/recompute. These are **not** the
+5,000-target measurements. The product kernel passed 14 tests and all three
+benchmark vectors. Complete Originals: `43d26996-staged-kernel-original.zip`;
+exact log: `38-native-staged-kernel-optimised.log.gz`.
+
+| Generated-capture kernel vector | Background wall time | Slowest server unit | Retries |
+|---|---:|---:|---:|
+| 1,000 × 30 days | 23,258 ms | 1,688.4 ms | 0 |
+| 5,000 × 30 days | 123,245 ms | 1,786.1 ms | 0 |
+| 5,000 × 100 days | 135,670 ms | 1,825.3 ms | 0 |
+
+Both 5,000 vectors cover all 5,000 distinct targets and generate 37 pages;
+the 1,000 vector remains byte-identical to the single chain. The observation
+receipt preserves both heads in `43d26996-kernel-observations.json`.
+
+### Scale evidence failures on this head
+
+The full application scale job is **INCOMPLETE**, not qualified. Its exact
+root reports and failed gates are retained in
+`43d26996-scale5-first-failure-retained/`; exact job log:
+`37-native-scale-evidence-first-failure.log.gz`.
+
+1. Python wrongly treated `STAGED_UNIT_STOPPED_8S` as a structural refusal
+   requirement, even when the real result completed with all coverage,
+   frozen-contract and transport checks true. Timeouts are possible stopping
+   conditions, not mandatory refusals. The regression exercises this retained
+   Native point and still rejects structural-cap, missing-evidence, corrupt
+   result and result-saved-after-refusal counterexamples. Originals unchanged.
+2. At 1,000 targets, Playwright's default inspector evicted a response body.
+   An unhandled promise ended the browser process before harness cleanup;
+   `primary_unchanged=false` and 25 remaining Auth users are preserved as failed
+   gates. A passive, separately bounded CDP session now reads each **original**
+   request's body, without RPC replay. Evidence errors are caught and raised
+   inside the case so cleanup runs. Diagnostic buffers do not raise product
+   page/document/call bounds. CORS preflights are excluded from RPC evidence.
+
+At 100/300 targets the first attempt measured staged completion and reopening,
+but this failed overall run is not promoted to accepted capacity evidence.
+The corrected full application ladder and all ERP suites require a subsequent
+same-source run. Local recorder/verdict/frontend checks passed 1,476 tests
+(`39-recorder-frontend-regression.log.gz`); these are not Native browser proof.
+
+P21 rehearsal run 37677705173 also passed. Its runtime USE witness says
+`HELD_OPEN_THEN_ROLLED_BACK`; do not promote the old script docstring's
+“committed” description into proof. Rehearsal is not installed acceptance.

@@ -320,7 +320,7 @@ def evidence(cur, envelope, expected):
 def verdict(point):
     """The probe fails only on app misbehaviour; an honest cap or 8 s refusal is the measured result."""
     expected = point['expected_caps']
-    structural = [c for c in expected if c != 'STATEMENT_TIMEOUT_8S']
+    structural = [c for c in expected if c not in ('STATEMENT_TIMEOUT_8S', 'STAGED_UNIT_STOPPED_8S')]
     stopped = next((p for p in point['phases'] if p['outcome'] in ('REFUSED', 'JOB_FAILED')), None)
     if stopped is None:
         if point.get('job_not_terminal') or not point.get('original_recorded'):

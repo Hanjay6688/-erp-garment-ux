@@ -1,0 +1,66 @@
+{
+  "source_commit": "43d26996d767f47bb21d86e988b92c9dcf994703",
+  "run_id": 37677705173,
+  "artifact_id": 11508795699,
+  "zip_bytes": 1668524,
+  "zip_sha256": "fa270e7467b2c4cbb6b5a13e2c5d3eb7d9c1438bc540232caed9b060984caa11",
+  "original_reports_gzip_sha256": "48561bf950140090d4a70d1b73084ead46281c6c4539e1ecf8dcf7029eea42b4",
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "9d6ecbaca80a73dadfdbbb9682b09d40e8934c00865dd31fb811b3cfb49b2a23"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385618,
+      "sha256": "9d6ecbaca80a73dadfdbbb9682b09d40e8934c00865dd31fb811b3cfb49b2a23"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "5ffc993168407d1c0c036369420de5dd346c38c14cef1a601077f13c813554b6"
+    },
+    "CP7_P21_REHEARSAL.json": {
+      "bytes": 700241,
+      "sha256": "8d70664dc99708a2f7e3552057b771347b358e885e072a821a62e51fd42161fd"
+    },
+    "P20_DIRECT_PATH_SCAN.json": {
+      "bytes": 405176,
+      "sha256": "6c08f87d324dde870e13754e89d2408f026b961cb4efb56ef76cf1999889aef5"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2bf2ae7730d8defc902a9fec35f76aa8a65d018caaf90e2ce43a1dcd70d41193"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360403,
+      "sha256": "73e96349302bea8de3ee6bdbc1e6e6f366f98c6b448bfdd03e9f1bcd287c6a7a"
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "runtime_use_transaction": "HELD_OPEN_THEN_ROLLED_BACK",
+  "committed_used_installation_restoration_proven": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "installed_P21_acceptance": false
+}

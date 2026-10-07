@@ -1,0 +1,105 @@
+{
+  "source_commit": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+  "run_id": 37672809074,
+  "artifact_id": 11506605084,
+  "zip_bytes": 50497,
+  "zip_sha256": "27251a660f40dce165642a9f330c762971aa3cdad4f376c83676fe638c0f96e8",
+  "runtime_report": "CP7_P19_TRANSPORT.json",
+  "expected_status": "PASS",
+  "expected_case_count": 15,
+  "evidence_scope": "transport15",
+  "independent_acceptance": false,
+  "production_go": false,
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "source_bundle_sha256": "155259c05ba3d7fc65781a51429bcf4df31138eb0ef3d50d8a0739ba05f713cf",
+  "observed_case_count": 15,
+  "required_case_counts": {
+    "native": 6,
+    "races": 3,
+    "http": 3,
+    "browser": 3
+  },
+  "counts": {
+    "native": {
+      "PASS": 6
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 3
+    },
+    "browser": {
+      "PASS": 3
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "8d4ae33d06a0f87db48c7f1c7ea5c0cc71763e810b36d93eadbc61988204d540",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P19_TRANSPORT.json": {
+      "bytes": 703892,
+      "sha256": "62d5bae364d813896077ac6ae21bcde0fd6182f61880d773e0162d9a61b6ebfb"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7a8fb9b708012bbbfbadc997d4aa53c50bbea824f2b26052946d5bf6775dfb61"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360414,
+      "sha256": "da4459769cb71548db9989610f78ba8f37c582575b0338b6306d0a4e4ccbf6a4"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P19_TRANSPORT.json": {
+      "bytes": 703892,
+      "sha256": "62d5bae364d813896077ac6ae21bcde0fd6182f61880d773e0162d9a61b6ebfb"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7a8fb9b708012bbbfbadc997d4aa53c50bbea824f2b26052946d5bf6775dfb61"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360414,
+      "sha256": "da4459769cb71548db9989610f78ba8f37c582575b0338b6306d0a4e4ccbf6a4"
+    }
+  },
+  "full_family_acceptance": false
+}

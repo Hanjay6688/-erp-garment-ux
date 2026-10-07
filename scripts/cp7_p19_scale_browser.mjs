@@ -15,6 +15,7 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,readFileSync,writeFileSync} from 'node:fs'
 import {budgetResult} from './cp7_p19_browser_latency.mjs'
 import {armStagedResultOpen,readStagedResultOpen} from './cp7_p19_staged_load_browser.mjs'
+import {attachP19NetworkCapture,P19_INSPECTOR_CAPTURE} from './cp7_p19_network_capture.mjs'
 
 const declaration=JSON.parse(readFileSync('docs/cp7/p19/P19_SCALE.json','utf8'))
 assert.equal(declaration.contract,'cp7.p19.full-application-scale.v1')
@@ -91,15 +92,15 @@ async function arm(button,id){
  },id)
 }
 
-async function record(request,rpc){
- const response=await request.response(),body=response?await response.body():Buffer.alloc(0),status=response?.status()??null
+function record(meta,body){
+ const {rpc,request,status,timing}=meta
  let small=null;if(SMALL.has(rpc)||status>=400){try{small=JSON.parse(body.toString('utf8'))}catch{small=null}}
  if(rpc==='erp_cp7_read_analysis_manifest_v1'&&small)small={document:small.document,source_state:small.source_state,run_id:small.run_id}
  if(rpc==='erp_cp7_read_staged_analysis_pages_v1'&&small)small={run_id:small.run_id,request_id:small.request_id,page_count:small.page_count,targets_total:small.targets_total,identity_hash:small.identity_hash,access_epoch:small.access_epoch,header_utf8_bytes:small.header?.utf8_bytes,header_sha256:small.header?.sha256,pages:small.pages}
  // The panel switches to segments when JSON.stringify(analysis) exceeds the
  // single-body bound; Node's JSON.stringify gives the same compact bytes.
  let analysisBytes=null;if(status===200&&(rpc==='erp_cp7_capture_operational_analysis_v1'||rpc==='erp_cp7_capture_analysis_v1'||rpc==='erp_cp7_read_analysis_v1')){try{analysisBytes=Buffer.byteLength(JSON.stringify(JSON.parse(body.toString('utf8')).analysis??null))}catch{analysisBytes=null}}
- return{rpc,status,request:request.postDataJSON(),complete_body_utf8_bytes:body.length,body_sha256:createHash('sha256').update(body).digest('hex'),analysis_json_utf8_bytes:analysisBytes,timing:request.timing(),body:small}
+ return{rpc,status,request,complete_body_utf8_bytes:body.length,body_sha256:createHash('sha256').update(body).digest('hex'),analysis_json_utf8_bytes:analysisBytes,timing,body:small}
 }
 
 // The first server refusal in request order: an HTTP error body or a FAILED job.
@@ -157,24 +158,23 @@ async function measureStagedPage(page,region,index){
 async function measure(ui,today,size,days,[control,label,finance],seed){
  const staged=control==='STAGED',name=`${size}_${days}_${control}`,from=shift(today,days),through=shift(today,1),expected=(staged?seed.staged_expected_caps_by_days:seed.expected_caps_by_days)[String(days)]
  const user=await ui.login('OWNER',{label:`p19s-${size}-${days}-${control.toLowerCase()}`}),page=user.page,network=[],pending=[]
- page.on('requestfinished',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)pending.push(record(request,rpc).then(r=>network.push(r)))})
- page.on('requestfailed',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)network.push({rpc,failed:request.failure()?.errorText??'FAILED',request:request.postDataJSON(),timing:request.timing()})})
- let panel,sample=null,pageLoads=null
+ let capture,panel,sample=null,pageLoads=null
  try{
+  capture=await attachP19NetworkCapture(page,RPCS,network,pending,record)
   panel=await openPanel(page,from,through)
   if(finance)await panel.getByRole('checkbox',{name:FINANCE,exact:true}).check()
   const button=panel.getByRole('button',{name:label,exact:true})
   await arm(button,name);await button.click()
   await page.waitForFunction(id=>{const r=window.__p19Scale?.[id];return Boolean(r)&&!['NOT_CLICKED','RUNNING'].includes(r.status)},name,{timeout:staged?STAGED_WINDOW_MS:OBSERVATION_WINDOW_MS,polling:250})
   sample=await page.evaluate(id=>window.__p19Scale[id],name)
-  await Promise.all(pending)
+  await capture.flush()
   if(staged&&sample.status==='RESULT_RENDERED'){
    const set=network.find(n=>n.rpc==='erp_cp7_read_staged_analysis_pages_v1')?.body
    assert.ok(set&&set.targets_total===seed.total_targets,'P19_STAGED_FULL_TARGET_COUNT_REQUIRED')
    const region=panel.getByRole('region',{name:'Hasil analisis bertahap',exact:true})
    pageLoads=[]
    for(let i=1;i<set.page_count;i++)pageLoads.push(await measureStagedPage(page,region,i))
-   await Promise.all(pending)
+   await capture.flush()
   }
   network.sort((a,b)=>a.timing.startTime-b.timing.startTime)
   assert.equal(sample.trusted_click,true,'P19S_TRUSTED_CLICK_REQUIRED')
@@ -217,6 +217,7 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
     owner_named_background_exception:control==='BACKGROUND'?declaration.owner_latency_targets.background_exception.id:staged?declaration.owner_latency_targets.staged_exception.id:false,
     owner_latency_acceptance:false},
    page_loads:pageLoads,page_load_target_ms:3000,load_target_mandatory:false,network,server_refusal:refused,db,checks,
+   diagnostic_inspector_buffers:P19_INSPECTOR_CAPTURE,product_caps_unchanged:true,
    device:declaration.browser.device,context:declaration.browser.context,expected_caps:expected,evidence_kind:'FULL_APPLICATION_NATIVE'}
   m.verdict=verdict(m,expected)
   // Explicit server refusal: the RPC, HTTP status, code, SQLSTATE, the job's own
@@ -233,7 +234,7 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
   if(staged&&sample.status==='RESULT_RENDERED'){
    const mark=network.length;await page.reload()
    panel=await openPanel(page,from,through,{key:'completed-'+name,runId:sample.run_id})
-   m.completed_open=await readStagedResultOpen(page,'completed-'+name);await Promise.all(pending)
+   m.completed_open=await readStagedResultOpen(page,'completed-'+name);await capture.flush()
    const reopened=network.slice(mark).filter(n=>STAGED_RPCS.includes(n.rpc))
    assert.equal(reopened[0]?.rpc,'erp_cp7_get_staged_analysis_v1')
    assert.equal(reopened[0]?.request.p_request,requests[0])
@@ -245,8 +246,8 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
   m.screenshot=`P19S_${name}.png`;await page.screenshot({path:dir+m.screenshot})
   m.witness=save(name,m)
   return m
- }catch(e){save(name+'_FAILURE',{error:String(e?.stack||e).slice(0,4000),sample,page_loads:pageLoads,network:network.map(n=>({rpc:n.rpc,status:n.status,failed:n.failed,bytes:n.complete_body_utf8_bytes})),text:await panel?.innerText().catch(()=>'')});await page.screenshot({path:dir+`P19S_${name}_FAILURE.png`}).catch(()=>{});throw e}
- finally{await user.context.close()}
+ }catch(e){save(name+'_FAILURE',{error:String(e?.stack||e).slice(0,4000),sample,page_loads:pageLoads,network:network.map(n=>({rpc:n.rpc,status:n.status,failed:n.failed,recorder_error:n.recorder_error,bytes:n.complete_body_utf8_bytes})),text:await panel?.innerText().catch(()=>'')});await page.screenshot({path:dir+`P19S_${name}_FAILURE.png`}).catch(()=>{});throw e}
+ finally{await capture?.close();await user.context.close()}
 }
 
 async function sizeCase(ui,today,size,state){
