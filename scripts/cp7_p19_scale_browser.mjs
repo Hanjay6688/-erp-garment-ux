@@ -212,7 +212,11 @@ async function sizeCase(ui,today,size,state){
     // so the log carries the whole profile and not only the dominant layer.
     own_ms_by_layer:Object.fromEntries((v.summary?.own_costs||[]).map(r=>[r.layer,r.own_ms])),
     server_ms_by_phase:Object.fromEntries((v.phases||[]).filter(p=>p.outcome==='RETURNED').map(p=>[p.name,p.server_ms])),
-    capture_path_estimate_ms:v.summary?.capture_path_estimate_ms??null}])),
+    capture_path_estimate_ms:v.summary?.capture_path_estimate_ms??null,
+    // What the Original is made of (bytes per top-level field and per analysis key).
+    original_breakdown_top:v.original_breakdown_top??null,analysis_keys_top:v.analysis_keys_top??null}])),
+   // 5,000 targets phase C: one operational capture statement with the source bound lifted in a rolled-back savepoint.
+   capture_cap_lifted:sql.capture_cap_lifted??null,
    step_attribution:Object.fromEntries(Object.entries(sql.step_attribution||{}).map(([d,v])=>[d,v.attribution])),witness:sql.witness}:null,
   sql_ladder_error:sqlError,
   seed:{total_targets:seed.total_targets,preexisting_targets:seed.preexisting_targets,seeded_targets:seed.seeded_targets,seed_ms_not_app_latency:seed.seed_ms,
