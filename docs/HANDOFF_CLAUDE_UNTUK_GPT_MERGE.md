@@ -10,7 +10,7 @@ Dokumen ini adalah pintu masuk tunggal untuk GPT. Isinya mencakup semua perubaha
 
 - Cabang: `claude/new-session-deapao`. Sejak 3 Okt sudah memuat `cp7/integration` `40c4127c` (merge `eabfec75`). Commit kode Claude terakhir `19ff70ee`; bukti CI-nya ada di §8.2 dan §8.5. Bukti sebelum merge: `cp7-receipt-correction` run 37083713960 (39/39 PASS di `dda66b9a`).
 - Commit buatan Claude di cabang ini: **279**, dari 23 Sep sampai 3 Okt 2026. Cara melihatnya: `git log origin/main..HEAD --author=Claude`.
-- Status tetap: `production_go=false`, CP6 HOLD, `audit_complete=false`. Semua pekerjaan Claude berstatus **kandidat** dan belum diterima auditor independen.
+- Status tetap: `production_go=false`, `audit_complete=false`. CP6 ditutup sesuai cakupannya; HOLD operasional/pemasangan CP6 tetap berlaku (GBD-03 dan lima keputusan D11 sudah disetujui dan tidak dibuka ulang; delapan konfigurasi nyata masih pending). Audit independen CP7 dan `production_go=false` terpisah dari status CP6. Semua pekerjaan Claude berstatus **kandidat** dan belum diterima auditor independen.
 - Tidak pernah dimutasi oleh Claude: `main`, deployment Cloudflare, Supabase hosted Enteng (`siimvrusnzxexizpyoib`), legacy ERP-Garment (`vlxdhpkjeevubjxexnfo`), dan production.
   - Akses ke hosted hanya baca, tercatat di `docs/evidence/hosted_access_log_20260924.json`.
   - Cabang kompetisi `competition/cp6-j-closure-20260911` tetap `ca7f09556397801c50a2277bdb65b1bf019f9a05`; ini dicek sebelum setiap push.

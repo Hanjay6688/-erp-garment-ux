@@ -1,6 +1,6 @@
 # CP7 — Pemeriksaan mandiri rumus & keuangan (6 Okt 2026)
 
-**Status: persiapan audit, BUKAN audit independen.** `independent_acceptance=false`, `production_go=false`, CP6 tetap HOLD.
+**Status: persiapan audit, BUKAN audit independen.** `independent_acceptance=false`, `production_go=false`. CP6 ditutup sesuai cakupannya; HOLD operasional/pemasangan CP6 tetap berlaku (GBD-03 dan lima keputusan D11 sudah disetujui dan tidak dibuka ulang; delapan konfigurasi nyata masih pending). Audit independen CP7 dan `production_go=false` terpisah dari status CP6.
 Semua temuan di bawah berasal dari pembacaan kode + reproduksi lokal (PostgreSQL 16 sekali pakai / node), lalu diperbaiki di
 cabang `claude/new-session-deapao` dengan uji yang **gagal pada kode lama** dan lulus sesudahnya (kecuali disebut lain).
 Hasil lokal LOCAL_PG16_DEV bukan bukti; bukti adalah run CI yang dicatat per baris.

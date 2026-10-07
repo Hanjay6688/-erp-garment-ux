@@ -1,6 +1,6 @@
 # P19 — Skala sumber dan hitungan kain (cabang Claude)
 
-Status: perbaikan kandidat di cabang `claude/new-session-deapao`, belum dikualifikasi Native. `full_P19_acceptance=false`, `independent_acceptance=false`, `production_go=false`. CP6 tetap HOLD. Semua angka waktu di bawah adalah LOCAL_PG16_DEV pada data sintetis. Angka ini bukan bukti kinerja dan bukan SLA. Volume nyata pemilik belum diketahui; titik uji di bawah dipilih sebagai grid, bukan perkiraan bisnis.
+Status: perbaikan kandidat di cabang `claude/new-session-deapao`, belum dikualifikasi Native. `full_P19_acceptance=false`, `independent_acceptance=false`, `production_go=false`. CP6 ditutup sesuai cakupannya; HOLD operasional/pemasangan CP6 tetap berlaku. Semua angka waktu di bawah adalah LOCAL_PG16_DEV pada data sintetis. Angka ini bukan bukti kinerja dan bukan SLA. Volume nyata pemilik belum diketahui; titik uji di bawah dipilih sebagai grid, bukan perkiraan bisnis.
 
 ## Masalah yang ditemukan
 

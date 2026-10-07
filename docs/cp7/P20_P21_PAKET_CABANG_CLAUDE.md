@@ -2,7 +2,7 @@
 
 Catatan integrasi6 Oktober2026: kandidat cabang2ae1db92 dan bukti lama di bawah tetap historis. Build UX merah3c7cb2cf sudah diperbaiki; source0bd kini lulus1,558 tes/165 file. Bukti gabungan aktual, Native/regresi yang sudah dibaca serta pekerjaan P18/P19/P20/P21 yang masih terbuka ada di `p19/P19_UTF8_QUALIFICATION_CHECKPOINT_20261006.md`. Belum ada pembekuan kandidat audit atau pemasangan nyata.
 
-Status: draf persiapan. Belum ada audit independen dan belum ada pemasangan. `independent_acceptance=false`, `production_go=false`, CP6 tetap HOLD. Dokumen ini melengkapi `docs/AUDIT_PANDUAN_PRO_MAX.md` dan handoff (§9, §10). Bukan pengganti paket kandidat gabungan milik GPT.
+Status: draf persiapan. Belum ada audit independen dan belum ada pemasangan. `independent_acceptance=false`, `production_go=false`. CP6 ditutup sesuai cakupannya; HOLD operasional/pemasangan CP6 tetap berlaku (GBD-03 dan lima keputusan D11 sudah disetujui dan tidak dibuka ulang; delapan konfigurasi nyata masih pending). Audit independen CP7 dan `production_go=false` terpisah dari status CP6. Dokumen ini melengkapi `docs/AUDIT_PANDUAN_PRO_MAX.md` dan handoff (§9, §10). Bukan pengganti paket kandidat gabungan milik GPT.
 
 ## 1. Kandidat dan bukti
 
