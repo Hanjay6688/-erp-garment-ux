@@ -1,0 +1,201 @@
+{
+ "P05_NATIVE_DRAFT_ONCE": {
+  "status": "PASS",
+  "native_draft": [
+   100,
+   24,
+   76
+  ],
+  "gross": 0,
+  "no_native_business_write": true
+ },
+ "P05_NATIVE_POSTED_ONCE": {
+  "status": "PASS",
+  "native_posted": [
+   76,
+   0,
+   76
+  ],
+  "gross": 24,
+  "no_second_stock_subtraction": true
+ },
+ "P05_NATIVE_RETURN_SEPARATE": {
+  "status": "PASS",
+  "gross": 24,
+  "returns_separate": 1,
+  "native_fg": 77
+ },
+ "P05_NATIVE_NATIVE_INVERSES": {
+  "status": "PASS",
+  "native_inverse_fg": 100,
+  "cancelled_gross": 0,
+  "WIB_inverse_date": true
+ },
+ "P05_NATIVE_IMMUTABLE_REPLAY_STALE": {
+  "status": "PASS",
+  "exact_UUID_one_immutable_run": true,
+  "native_post_makes_archive_stale": true,
+  "changed_payload_refused": true
+ },
+ "P05_NATIVE_OPERATIONAL_REDACTION": {
+  "status": "PASS",
+  "four_operational_permissions_suffice": true,
+  "no_financial_operands": true
+ },
+ "P05_NATIVE_CURRENT_REVOKE": {
+  "status": "PASS",
+  "current_revocation_precedes_cached_UUID_and_archive": true
+ },
+ "P05_NATIVE_CLOSED_QUERY": {
+  "status": "PASS",
+  "client_scope_completeness_filters_refused": true,
+  "current_incomplete_day_refused": true,
+  "invalid_day_refused": true
+ },
+ "P05_NATIVE_PRIVATE_CAPS": {
+  "status": "PASS",
+  "private_metadata_immutable": true,
+  "native_read_principal_no_business_DML_or_writer_EXEC": true
+ },
+ "P05_NATIVE_TIMEZONES": {
+  "status": "PASS",
+  "three_caller_timezones_same_immutable_result_and_source_hash": true,
+  "WIB_sale_day": true
+ },
+ "P05_NATIVE_UNKNOWN_HISTORY": {
+  "status": "PASS",
+  "backdated_stock_not_fake_historical_training": true,
+  "unknown_not_zero_or_forecast": true
+ },
+ "P05_NATIVE_GLOBAL_30_ROOTS": {
+  "status": "PASS",
+  "actual_native_roots": 30,
+  "global_scope_has_all30_not_first25": true
+ },
+ "P06_NATIVE_PROFILE_METADATA": {
+  "status": "PASS",
+  "native_source_identity_reviewed": true,
+  "one_immutable_metadata_revision_no_native_business_write": true
+ },
+ "P06_NATIVE_PROFILE_UUID": {
+  "status": "PASS",
+  "same_UUID_same_outcome_one_revision": true,
+  "changed_payload_refused": true
+ },
+ "P06_NATIVE_STALE_REVISION": {
+  "status": "PASS",
+  "stale_expected_revision_atomic": true
+ },
+ "P06_NATIVE_NATIVE_VERSION": {
+  "status": "PASS",
+  "wrong_native_version_and_unknown_root_refused": true
+ },
+ "P06_NATIVE_STRICT_CONFIG": {
+  "status": "PASS",
+  "strict_decimal_closed_config_and_scope": true,
+  "all_invalid_inputs_atomic": true
+ },
+ "P06_NATIVE_UNREVIEWED_UNKNOWN": {
+  "status": "PASS",
+  "no_profile_no_default_mean_or_lead": true,
+  "native_FG76_known_missing_supply_unknown": true
+ },
+ "P06_NATIVE_SELECTED_TARGET100": {
+  "status": "PASS",
+  "selected_mean10_lead3_review7_buffer0_target100": true,
+  "native_FG76_not_fake_final_gap24": true,
+  "private_single_target_kernel": true
+ },
+ "P06_NATIVE_OWN_HISTORY_UNKNOWN": {
+  "status": "PASS",
+  "insufficient_actual_historical_availability_unknown_not_zero": true
+ },
+ "P06_NATIVE_LEAD_UNKNOWN": {
+  "status": "PASS",
+  "missing_lead_never_defaulted_or_imputed": true
+ },
+ "P06_NATIVE_IMMUTABLE_ARCHIVE200": {
+  "status": "PASS",
+  "profile_revision_stales_immutable_prior_target": true,
+  "new_capture200_prior_target100": true,
+  "exact_baseline_UUID_one_run": true
+ },
+ "P06_NATIVE_CURRENT_AUTHORITY": {
+  "status": "PASS",
+  "current_native_authority_before_cached_profile_and_baseline_and_archive": true
+ },
+ "P06_NATIVE_PRIVATE_CAPS": {
+  "status": "PASS",
+  "immutable_metadata_and_read_principals_no_native_DML_or_writer_EXEC": true
+ },
+ "P06_NATIVE_TIMEZONES": {
+  "status": "PASS",
+  "three_caller_zones_same_native_capture_profile_and_hash": true
+ },
+ "P06_NATIVE_STOP_NATIVE_STOCK": {
+  "status": "PASS",
+  "known_STOP_new_production0_existing_native_stock_still_sellable": true,
+  "native_post_allowed_stop_not_sales_cancellation": true
+ },
+ "P06_SUPPLY_NATIVE_MIXED": {
+  "status": "PASS",
+  "native_global_mixed108_wip88_fg15_bs5": true,
+  "one_graph_no_native_write": true
+ },
+ "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE": {
+  "status": "PASS",
+  "native_opening_pickup_good_bs_and_inverse_conserve_original8": true
+ },
+ "P06_SUPPLY_NATIVE_CLAIMS": {
+  "status": "PASS",
+  "native_claim_recovery_writeoff_not_free_good": true
+ },
+ "P06_SUPPLY_NATIVE_UNSOURCED_BS": {
+  "status": "PASS",
+  "native_unsourced_original5_good3_then_inverse_not_duplicate_supply": true,
+  "native_spent_production_listed_exhausted_not_netted": true,
+  "independent_native_cut_yield": 10,
+  "expected_initial_global": [
+   5,
+   0,
+   0,
+   5,
+   0,
+   0
+  ]
+ },
+ "P06_SUPPLY_NATIVE_GLOBAL56": {
+  "status": "PASS",
+  "native56_origins_two_read_batches_one_global448_graph": true,
+  "no_first50_or_double_pool": true
+ },
+ "P06_SUPPLY_NATIVE_NO_ALIAS": {
+  "status": "PASS",
+  "native_cutting_BS_not_recaptured_as_nonPO": true
+ },
+ "P06_SUPPLY_NATIVE_IMMUTABLE_UUID": {
+  "status": "PASS",
+  "one_UUID_run_prior_graph_immutable_native_changes_stale": true
+ },
+ "P06_SUPPLY_NATIVE_CURRENT_AUTH": {
+  "status": "PASS",
+  "current_native_authority_before_cached_UUID_and_archive_actor_bound": true
+ },
+ "P06_SUPPLY_NATIVE_PRIVATE_CAPS": {
+  "status": "PASS",
+  "immutable_private_native_read_principal_no_business_DML": true
+ },
+ "P06_SUPPLY_NATIVE_CLOSED_QUERY": {
+  "status": "PASS",
+  "client_scope_match_capacity_and_completeness_not_trusted": true
+ },
+ "P06_SUPPLY_NATIVE_TIMEZONES": {
+  "status": "PASS",
+  "three_caller_timezones_same_immutable_native_source_hash": true
+ },
+ "P06_SUPPLY_NATIVE_ONE_CLOCK": {
+  "status": "PASS",
+  "one_native_clock_target_and_all_production_origins": true,
+  "unknown_future_good_ETA_calendar_capacity_not_zero": true
+ }
+}

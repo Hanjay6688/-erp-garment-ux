@@ -16,6 +16,9 @@ name: CP7 PL Native Planning (Claude branch)
     - scripts/cp7_f04_model_probe.py
     - scripts/cp7_f04_schedule_probe.py
     - scripts/cp7_f04_netting_probe.py
+    - scripts/cp7_f04_supply_probe.py
+    - scripts/cp7_planning_supply_cases.py
+    - scripts/cp7_supply_bundle.py
     - .github/workflows/claude-pl-native.yml
   workflow_dispatch: {}
 permissions:
@@ -44,6 +47,11 @@ jobs:
           timeout: 60
         - suite: netting
           probe: cp7_f04_netting_probe.py
+          timeout: 60
+        # PL-8 stored exhaustion proofs live in the supply source: its 53
+        # Native/race/HTTP/browser cases otherwise run only on cp7/integration.
+        - suite: supply
+          probe: cp7_f04_supply_probe.py
           timeout: 60
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

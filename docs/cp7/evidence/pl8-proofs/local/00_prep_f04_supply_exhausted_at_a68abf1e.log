@@ -1,0 +1,22 @@
+
+ RUN  v4.1.11 /tmp/p19bench/pl8p/repo
+
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > below the old caps, data with no exhausted group: same source, WIP and supply build except the declared v2 fields 9818ms
+stdout | tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > generated lifecycles and planted faults: only spent groups leave, every kept position, total and signal is the predecessor's, every refusal too
+{"pl8_lifecycle_parity":{"compared":216,"complete":76,"pruned_groups":1126,"pruned_pools":1507,"none_pruned":92,"source_refused":0,"refused_graphs_with_other_batches_pruned":48,"outcomes":["COMPLETE:","CONFLICT:BS_SOURCE_LINEAGE_MISMATCH","CONFLICT:CANCELLED_BS_SOURCE_UNPROVEN","CONFLICT:DELIVERY_SIZE_TOTAL_MISMATCH","CONFLICT:DUPLICATE_BS_FG_DISPOSITION","CONFLICT:FAILED_ATTEMPT_IS_NOT_PHYSICAL_RECEIPT","CONFLICT:MISSING_STUCK_CLAIM_REQUIRES_DELIVERY_SOURCE","CONFLICT:NEGATIVE_PREFIX","CONFLICT:QC_RECEIPT_LINEAGE_MISMATCH","CONFLICT:QC_RECEIPT_PARENT_MISSING","CONFLICT:RECEIPT_DELIVERY_LINEAGE_MISMATCH","CONFLICT:RECEIPT_SIZE_TOTAL_MISMATCH","CONFLICT:REDISPATCH_RANGE_LINEAGE_CONFLICT","CONFLICT:REWORK_COMPLETION_MISMATCH","CONFLICT:REWORK_RESOLUTION_LINEAGE_MISMATCH","CP7_WIP_KEY","CP7_WIP_TRANSITION_QUANTITY","UNKNOWN:BS_EXACT_SIZE_UNPROVEN","UNKNOWN:BS_HOLD_STATE_UNPROVEN","UNKNOWN:CANCELLED_BS_SOURCE_UNPROVEN","UNKNOWN:CUTTING_YIELDS_MISSING","UNKNOWN:DELIVERY_EXACT_SIZE_UNPROVEN","UNKNOWN:DISPOSITION_TYPE_UNPROVEN","UNKNOWN:LEGACY_RECEIPT_CUSTODY_REQUIRES_RECONCILIATION","UNKNOWN:RECEIPT_EXACT_SIZE_UNPROVEN","UNKNOWN:REWORK_COMPLETION_NOT_POSTED"]}}
+
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > generated lifecycles and planted faults: only spent groups leave, every kept position, total and signal is the predecessor's, every refusal too 244525ms
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > spent kinds are pruned and listed; open, flagged, failed-attempt, held, open-rework and open-claim groups never are 3069ms
+stdout | tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > more than 1000 SYNTHETIC spent groups plus open work: completes with the per-target numbers of the open work alone; the predecessor refuses
+{"pl8_mixed_netting_ms":4596,"spent_clones":1120,"open_positions":84}
+
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > more than 1000 SYNTHETIC spent groups plus open work: completes with the per-target numbers of the open work alone; the predecessor refuses 11639ms
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > fail-closed: a batch whose graph is not COMPLETE prunes nothing; capture and scope refusals stay 9513ms
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > open intents are never pruned; a spent intent group closes through production_scope.exhausted_cutting_groups 487ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  10:55:50
+   Duration  282.70s (transform 330ms, setup 0ms, import 388ms, tests 282.02s, environment 0ms)
+
+exit=0

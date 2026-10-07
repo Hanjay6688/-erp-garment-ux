@@ -313,6 +313,16 @@ begin
   'old_path_absent',not(b1?'exhausted_cutting_groups'),'new_path',b1#>'{production_scope,exhausted_cutting_groups}');
 end $$;`
 
+// PL-8 part 3: the working tree's exhaustion-proof table (with the CP7
+// immutability trigger) precedes the functions that read it.
+export function proofStore(text) {
+  const start = text.indexOf('create table cp7_supply_native.exhaustion_proofs('), trigger = text.indexOf('create trigger immutable_exhaustion_proof')
+  if (start < 0 || trigger < start) throw new Error('working tree has no exhaustion proof store')
+  return `create schema if not exists cp7_private;
+   ${pick(now('scripts/cp7-src/snapshot/bootstrap.sql'), 'cp7_private.immutable_run')}
+   ${text.slice(start, text.indexOf(';', trigger) + 1)}`
+}
+
 export async function installSupplyControls(db) {
   const head = git('scripts/cp7-src/planning/supply-source.sql'), tree = now('scripts/cp7-src/planning/supply-source.sql')
   const old = pick(head, 'cp7_supply_native.wip_source_at', 'cp7_supply_native.build')
@@ -342,6 +352,7 @@ export async function installSupplyControls(db) {
    create function cp7_baseline_native.build(c jsonb,q jsonb)returns jsonb language sql immutable as $$
     select jsonb_build_object('captured_at',c->>'captured_at','rows',c->'stub_rows')$$;
    create function cp7_schedule_native.source_at(p_at timestamptz)returns jsonb language sql stable as $$select 'null'::jsonb$$;
+   ${proofStore(tree)}
    ${pick(tree, ...fresh)}
    ${old}
    ${pick(now('scripts/cp7-src/planning/schedule.sql'), 'cp7_schedule_native.route', 'cp7_schedule_native.position_model')}

@@ -1,0 +1,238 @@
+{
+ "contract": "cp7.pl8.exhaustion-proofs.v1",
+ "predecessor": "cb201edf39e65ab88ed54f4daa5b501ed774957f",
+ "synthetic": "PL8_SYNTHETIC_CLONES_NOT_FACTORY_DATA",
+ "evidence": "LOCAL_TIMING_NOT_EVIDENCE",
+ "rows": [
+  {
+   "groups": 1000,
+   "sizes_per_group": 1,
+   "mix": {
+    "direct": 576,
+    "laundry": 288,
+    "bs_scrap": 48,
+    "rework_fg": 48
+   },
+   "predecessor": {
+    "ms": 1985,
+    "state": "NO_ERROR",
+    "exhausted": 960
+   },
+   "cold": {
+    "ms": 2013,
+    "state": "NO_ERROR",
+    "exhausted": 960
+   },
+   "prove": {
+    "ms_including_client": 2322,
+    "proofs": 960,
+    "windows_of_1000": 1
+   },
+   "warm": {
+    "ms": 491,
+    "state": "NO_ERROR",
+    "exhausted": 960
+   },
+   "warm_layers": {
+    "reused": 960,
+    "kernel_ms": 6.1,
+    "capture_ms": 271,
+    "verdict_ms": 204,
+    "slice_hash_lookup_ms": 84
+   },
+   "warm_1pct_changed": {
+    "ms": 800,
+    "state": "NO_ERROR",
+    "exhausted": 671
+   },
+   "predecessor_after_change": {
+    "ms": 2112,
+    "state": "NO_ERROR",
+    "exhausted": 671
+   },
+   "identical": {
+    "cold": true,
+    "warm": true,
+    "changed": true
+   },
+   "ms_per_group": {
+    "predecessor": 1.99,
+    "cold": 2.01,
+    "warm": 0.49
+   }
+  },
+  {
+   "groups": 5000,
+   "sizes_per_group": 1,
+   "mix": {
+    "direct": 2976,
+    "laundry": 1488,
+    "bs_scrap": 248,
+    "rework_fg": 248
+   },
+   "predecessor": {
+    "ms": 9828,
+    "state": "NO_ERROR",
+    "exhausted": 4960
+   },
+   "cold": {
+    "ms": 10331,
+    "state": "NO_ERROR",
+    "exhausted": 4960
+   },
+   "prove": {
+    "ms_including_client": 10834,
+    "proofs": 4960,
+    "windows_of_1000": 5
+   },
+   "warm": {
+    "ms": 1815,
+    "state": "NO_ERROR",
+    "exhausted": 4960
+   },
+   "warm_layers": {
+    "reused": 4960,
+    "kernel_ms": 6.2,
+    "capture_ms": 1286,
+    "verdict_ms": 528,
+    "slice_hash_lookup_ms": 373
+   },
+   "warm_1pct_changed": {
+    "ms": 2030,
+    "state": "CP7_SUPPLY_GLOBAL_SCOPE_LIMIT",
+    "exhausted": null
+   },
+   "predecessor_after_change": {
+    "ms": 8181,
+    "state": "CP7_SUPPLY_GLOBAL_SCOPE_LIMIT",
+    "exhausted": null
+   },
+   "identical": {
+    "cold": true,
+    "warm": true,
+    "changed": true
+   },
+   "ms_per_group": {
+    "predecessor": 1.97,
+    "cold": 2.07,
+    "warm": 0.36
+   }
+  },
+  {
+   "groups": 1000,
+   "sizes_per_group": 3,
+   "mix": {
+    "direct": 576,
+    "laundry": 288,
+    "bs_scrap": 48,
+    "rework_fg": 48
+   },
+   "predecessor": {
+    "ms": 5762,
+    "state": "NO_ERROR",
+    "exhausted": 960
+   },
+   "cold": {
+    "ms": 5808,
+    "state": "NO_ERROR",
+    "exhausted": 960
+   },
+   "prove": {
+    "ms_including_client": 5889,
+    "proofs": 960,
+    "windows_of_1000": 1
+   },
+   "warm": {
+    "ms": 856,
+    "state": "NO_ERROR",
+    "exhausted": 960
+   },
+   "warm_layers": {
+    "reused": 960,
+    "kernel_ms": 6.2,
+    "capture_ms": 532,
+    "verdict_ms": 350,
+    "slice_hash_lookup_ms": 168
+   },
+   "warm_1pct_changed": {
+    "ms": 1659,
+    "state": "NO_ERROR",
+    "exhausted": 580
+   },
+   "predecessor_after_change": {
+    "ms": 5903,
+    "state": "NO_ERROR",
+    "exhausted": 580
+   },
+   "identical": {
+    "cold": true,
+    "warm": true,
+    "changed": true
+   },
+   "ms_per_group": {
+    "predecessor": 5.76,
+    "cold": 5.81,
+    "warm": 0.86
+   }
+  },
+  {
+   "groups": 5000,
+   "sizes_per_group": 3,
+   "mix": {
+    "direct": 2976,
+    "laundry": 1488,
+    "bs_scrap": 248,
+    "rework_fg": 248
+   },
+   "predecessor": {
+    "ms": 30152,
+    "state": "NO_ERROR",
+    "exhausted": 4960
+   },
+   "cold": {
+    "ms": 28598,
+    "state": "NO_ERROR",
+    "exhausted": 4960
+   },
+   "prove": {
+    "ms_including_client": 30096,
+    "proofs": 4960,
+    "windows_of_1000": 5
+   },
+   "warm": {
+    "ms": 4085,
+    "state": "NO_ERROR",
+    "exhausted": 4960
+   },
+   "warm_layers": {
+    "reused": 4960,
+    "kernel_ms": 5.5,
+    "capture_ms": 2771,
+    "verdict_ms": 1054,
+    "slice_hash_lookup_ms": 845
+   },
+   "warm_1pct_changed": {
+    "ms": 4185,
+    "state": "CP7_SUPPLY_GLOBAL_SCOPE_LIMIT",
+    "exhausted": null
+   },
+   "predecessor_after_change": {
+    "ms": 25243,
+    "state": "CP7_SUPPLY_GLOBAL_SCOPE_LIMIT",
+    "exhausted": null
+   },
+   "identical": {
+    "cold": true,
+    "warm": true,
+    "changed": true
+   },
+   "ms_per_group": {
+    "predecessor": 6.03,
+    "cold": 5.72,
+    "warm": 0.82
+   }
+  }
+ ],
+ "status": "COMPLETE",
+ "production_go": false
+}

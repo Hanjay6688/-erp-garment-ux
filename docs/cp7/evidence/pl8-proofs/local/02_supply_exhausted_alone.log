@@ -1,0 +1,12 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /home/user/-erp-garment-ux
+
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  13:21:59
+   Duration  253.15s (transform 331ms, setup 0ms, import 414ms, tests 252.44s, environment 0ms)
+
+exit 0

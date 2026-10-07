@@ -344,3 +344,34 @@ Keputusan owner 7 Okt dijalankan tanpa membuka ulang keputusan sebelumnya. Pemis
 
 - **B (yield histori) belum aktif:** paket usulan jendela 180 hari, ≥5 grup dan ≥200 PCS, batas bawah Wilson 90% di `PL5_YIELD_POLICY_PROPOSAL_20261007.md` menunggu persetujuan owner; penyimpanan kebijakan bertanda tangan dan pembaca histori dibuat sesudahnya.
 - **Target 3 dtk** untuk analisis berat tidak tercapai dan tidak ditandai tercapai; berjalan sebagai pengecualian latar tercatat `P19_PLANNING_ANALYSIS_BACKGROUND_20261007`.
+
+## 12. Tambahan 7 Okt 2026 (malam): PL-8 bagian 3 — bukti grup habis tersimpan (butir 4)
+
+Status terpisah: **fitur selesai** (kode + uji kernel + kasus Native lokal; CI di head berikutnya), **batas terbuka** di 12.4, **penerimaan auditor** belum ada. `production_go: false`.
+
+### 12.1 Objek yang berubah
+
+| Berkas SQL | Fungsi / objek | Perubahan | Bukti |
+|---|---|---|---|
+| `planning/supply-source.sql` | **tabel baru** `cp7_supply_native.exhaustion_proofs` | Append-only (trigger `cp7_private.immutable_run`), RLS dengan kebijakan tanpa akses, owner `cp7_capture`, semua hak dicabut dari `public/anon/authenticated/service_role`. Satu baris = grup + `facts_hash` + `kernel_version` + jam capture + vonis `EXHAUSTED` + ukuran graf | `cp7_supply_bundle.verify` memeriksa RLS, kebijakan, owner, trigger dan hak kedua tabel |
+| `planning/supply-source.sql` | **baru:** `classify(jsonb)` (i), `proof_kernel()` (s), `batch_reuse(jsonb,text)` (s), `batch_verdict(jsonb,text)` (s), `wip_source_parts(timestamptz)` (s), `source_parts()` (s), `store_proofs(jsonb,timestamptz)` (v), `prove_exhausted(timestamptz,uuid,integer)` (v); `exhausted_groups`, `wip_source_at`, `source` kini pembungkus; `capture` menyimpan bukti baru dalam statement yang sama | Semua owner `cp7_capture`, `security invoker`, `search_path=''`; **tanpa RPC dan tanpa grant baru** (`prove_exhausted` tidak bisa dipanggil authenticated). Kontrak keluaran tetap `cp7.native-supply.v2` | `f04-supply-proofs` (3 uji, 25/25 mutan), `f04-supply-exhausted` 6/6, Native supply 38 (lokal) |
+
+### 12.2 Titik audit prioritas tambahan
+
+1. **Isi hash lengkap?** Hash memuat setiap baris fakta milik grup dari 19 array capture (urutan capture), status selesai rework terhadap jam capture, `contract_version` dan `knowledge_mode`. Periksa bahwa `classify` tidak membaca fakta lain di luar 19 array itu (kopling pemeliharaan: kolom fakta baru di `cp7_wip.capture_cutting_sources` wajib masuk daftar `own`, kalau tidak batch_reuse menolak memakai ulang karena baris tanpa grup → aman, tetapi periksa).
+2. **Isolasi grup.** Bukti hanya dipakai bila tidak ada tautan (14 kolom referensi) atau baris bersama (selain klaim) ke grup lain di batch yang sama. Mutan `outgoing/incoming_link_not_isolated` membuktikan uji menangkap isolasi yang kurang.
+3. **Versi kernel.** `proof_kernel()` meng-hash definisi fungsi yang dijangkau secara rekursif dari capture/klasifikasi + `server_version_num`; perubahan fungsi apa pun di jalur itu atau upgrade PostgreSQL membuat semua bukti tidak terpakai (dihitung ulang, bukan salah). Periksa pola regex pemanggilan (`skema.fungsi(`) menangkap semua panggilan di jalur itu.
+4. **Batch yang menolak.** Bila sisa batch tidak COMPLETE atau graf melewati batas `reconcile`, batch tidak memangkas apa pun, termasuk grup berbukti (sama seperti bagian 2; mutan `refused_batch_still_prunes`).
+
+### 12.3 Catatan pemasangan/rollback (P21)
+
+- Tabel dan fungsi baru dimiliki `cp7_capture` → ikut `drop owned by cp7_capture cascade`; tidak ada objek Native yang diubah. Pemasangan ulang mulai dengan tabel kosong: capture pertama membayar biaya klasifikasi penuh lalu menyimpan bukti.
+- Hasil supply byte-identik dengan pendahulu (dengan atau tanpa bukti), tetapi definisi fungsi berubah → hash mesin berubah → run supply/jadwal/netting/analisis lama `ARCHIVED_STALE` sekali.
+- Jumlah kasus suite tidak berubah (supply 53, rencana 43).
+
+### 12.4 Batas terbuka (keputusan, bukan cacat)
+
+- **Siapa menjalankan `prove_exhausted`** untuk riwayat besar (job admin, pg_cron, atau facade berizin owner). Sampai diputuskan, bukti hanya bertambah lewat capture biasa (yang tetap dibatasi 8 dtk/1000 grup tidak habis).
+- **Bukti dari capture netting/analisis/jadwal:** sekarang hanya `cp7_supply_native.capture` yang menyimpan; jalur lain memakai bukti tetapi tidak menulis.
+- **Upgrade PostgreSQL atau perubahan kernel** membatalkan semua bukti sekaligus (aman, tetapi capture pertama sesudahnya lambat). Belum ada sinyal perubahan berbasis trigger di tabel Native (sengaja: Native tidak diubah).
+- **Baca riwayat bukti** (bukti lama yang tergantikan) hanya untuk admin; belum ada layar.

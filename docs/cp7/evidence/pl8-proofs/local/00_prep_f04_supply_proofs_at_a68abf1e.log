@@ -1,0 +1,19 @@
+
+ RUN  v4.1.11 /tmp/p19bench/pl8p/repo
+
+stdout | tests/cp7/families/f04-supply-proofs.test.ts > PL-8 stored exhaustion proofs > generated lifecycles: no proof, every proof, any mix and every later correction, reversal or backdated row give the predecessor's source byte for byte
+{"pl8_proof_parity":{"compared":324,"reused_groups":4441,"reused_at_earlier_clock":475,"reused_at_later_clock":904,"mixed_batches":368,"refused_batches_with_proofs":268,"mutations":359,"reproven":89,"kinds":["batches","bs","bs_fg","claims","deliveries","delivery_reversal","delivery_sizes","failed","flags","groups","holds","qc","qc_backdated","qc_reversal","receipt_reversal","receipt_sizes","receipts","redispatch","resolutions","rework_late","reworks","sewing","unpost","yields"]}}
+
+ ✓ tests/cp7/families/f04-supply-proofs.test.ts > PL-8 stored exhaustion proofs > generated lifecycles: no proof, every proof, any mix and every later correction, reversal or backdated row give the predecessor's source byte for byte 206960ms
+stdout | tests/cp7/families/f04-supply-proofs.test.ts > PL-8 stored exhaustion proofs > a weaker design is caught: every fact array, the group row alone, the kernel, the clock, isolation, batch refusal and graph limits
+{"pl8_proof_mutants":{"hash_omits_yields":true,"hash_omits_batches":true,"hash_omits_deliveries":true,"hash_omits_delivery_sizes":true,"hash_omits_receipts":true,"hash_omits_receipt_sizes":true,"hash_omits_qc":true,"hash_omits_bs":true,"hash_omits_reworks":true,"hash_omits_resolutions":true,"hash_omits_holds":true,"hash_omits_bs_fg":true,"hash_omits_failed":true,"hash_omits_redispatch":true,"hash_omits_claims":true,"hash_omits_flags":true,"group_row_version_only":true,"lookup_ignores_kernel":true,"kernel_names_not_definitions":true,"rework_clock_not_hashed":true,"outgoing_link_not_isolated":true,"incoming_link_not_isolated":true,"refused_batch_still_prunes":true,"graph_limits_ignored_mixed":true,"graph_limits_ignored_all_proven":true}}
+
+ ✓ tests/cp7/families/f04-supply-proofs.test.ts > PL-8 stored exhaustion proofs > a weaker design is caught: every fact array, the group row alone, the kernel, the clock, isolation, batch refusal and graph limits 35993ms
+ ✓ tests/cp7/families/f04-supply-proofs.test.ts > PL-8 stored exhaustion proofs > the store: append-only history, readers never write, any batching gives the same proofs, and the guards fail closed 5654ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  10:51:14
+   Duration  251.94s (transform 348ms, setup 0ms, import 414ms, tests 251.34s, environment 0ms)
+
+exit=0
