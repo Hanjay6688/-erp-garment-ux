@@ -9,7 +9,7 @@ language plpgsql immutable security invoker set search_path='' as $$
 -- built once after validation and the daily grid is one grouped statement.
 declare k text; r jsonb; t jsonb; targets jsonb; i bigint; known timestamptz; effective timestamptz; lo date; hi date;
  qty numeric; returns_qty numeric; target_duplicate boolean[]; event_conflict boolean[]; event_identity boolean[];
- availability_conflict boolean[]; clean boolean; latest jsonb; av jsonb; rows_out jsonb; groups_out jsonb; selected_events jsonb;
+ availability_conflict boolean[]; clean boolean; latest jsonb; rows_out jsonb; groups_out jsonb; selected_events jsonb;
 begin
  perform cp7_wip.fields(v,array['contract_version','snapshot_id','scope_id','known_as_of','effective_as_of','from_date','through_date','history_complete','group_mode','targets','events','availability']);
  perform cp7_demand.context(v,'cp7.demand-input.v1');
@@ -96,12 +96,13 @@ begin
   select distinct on(x.r->>'lineage_key') x.r->>'lineage_key' k,x.r from jsonb_array_elements(v->'events')with ordinality x(r,n)
   where not((x.r->>'known_at')::timestamptz>known or (x.r->>'effective_at')::timestamptz>effective)
   order by x.r->>'lineage_key',(x.r->>'revision')::numeric desc,x.n)z;
- select coalesce(jsonb_object_agg(z.k,z.r),'{}') into av from(
-  select distinct on(jsonb_build_array(x.r->>'target_key',x.r->>'date')::text) jsonb_build_array(x.r->>'target_key',x.r->>'date')::text k,x.r
-  from jsonb_array_elements(v->'availability')with ordinality x(r,n) where not (x.r->>'known_at')::timestamptz>known
-  order by jsonb_build_array(x.r->>'target_key',x.r->>'date')::text,(x.r->>'revision')::numeric desc,x.n)z;
  select coalesce(jsonb_agg(e.value order by e.key),'[]') into selected_events from jsonb_each(latest)e;
  with ev as materialized(select e.value ev_row from jsonb_each(latest)e),
+ -- The kept availability row per target day (highest revision within the
+ -- cutoff, first row on ties), joined directly instead of through a map.
+ avs as materialized(select distinct on(jsonb_build_array(x.r->>'target_key',x.r->>'date')::text) jsonb_build_array(x.r->>'target_key',x.r->>'date')::text key,x.r value
+  from jsonb_array_elements(v->'availability')with ordinality x(r,n) where not (x.r->>'known_at')::timestamptz>known
+  order by jsonb_build_array(x.r->>'target_key',x.r->>'date')::text,(x.r->>'revision')::numeric desc,x.n),
  posted as(select ev.ev_row->>'target_key' tk,((ev.ev_row->>'posted_at')::timestamptz at time zone 'Asia/Jakarta')::date d,
    sum((ev.ev_row->>'qty_pcs')::numeric) q,sum((ev.ev_row->>'returned_pcs')::numeric) rq from ev where ev.ev_row->>'status'='POSTED' group by 1,2),
  drafts as(select ev.ev_row->>'target_key' tk,sum((ev.ev_row->>'qty_pcs')::numeric) q from ev where ev.ev_row->>'status'='DRAFT' group by 1),
@@ -110,7 +111,7 @@ begin
    coalesce(p.q,0) day_qty,coalesce(p.rq,0) day_returns
   from jsonb_array_elements(v->'targets')with ordinality x(target,n)
   cross join lateral(select lo+s d from generate_series(0,hi-lo)s)g
-  left join jsonb_each(av)a on a.key=jsonb_build_array(x.target->>'key',g.d::text)::text
+  left join avs a on a.key=jsonb_build_array(x.target->>'key',g.d::text)::text
   left join posted p on p.tk=x.target->>'key' and p.d=g.d),
  per_target as(select days.n,days.target,sum(days.day_qty) total,coalesce(sum(days.day_qty)filter(where days.day_state='AVAILABLE'),0) observed_total,
    count(*)filter(where days.day_state='AVAILABLE') available_count,count(*)filter(where days.day_state='STOCKOUT') stockout_count,
