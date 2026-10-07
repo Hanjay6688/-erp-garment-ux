@@ -9,6 +9,7 @@ name: CP7 PL Native Planning (Claude branch)
     - scripts/cp7-src/baseline/**
     - scripts/cp7-src/planning/**
     - scripts/cp7-src/demand/**
+    - scripts/cp7-src/wip/**
     - scripts/cp7_model_native_cases.py
     - scripts/cp7_planning_schedule_cases.py
     - scripts/cp7_planning_netting_cases.py
