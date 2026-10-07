@@ -311,4 +311,4 @@ Tidak ada tabel, role, RPC, grant, atau batas baru. Hasil yang sama berarti hash
 
 - **PL-8 bagian 2** masuk sebagai supply v2. Batas jujur yang tersisa: klasifikasi per request ±1,6 ms/grup satu ukuran, ±4,4 ms/grup tiga ukuran (lokal), jadi ±1500 / ±550 grup historis muat 8 dtk; bukti habis yang dipersistenkan dan di-hash isi adalah keputusan berikutnya.
 - **Skala aplikasi penuh:** run `p19-scale5` dengan harness commit-per-writer sedang berjalan (head `a634296e`, sebelum alokasi linear); hasil 300/1000/5000 dan profil fase dicatat di `p19/P19_FULL_APP_SCALE.md` setelah selesai.
-- **Bukti satu head** untuk kandidat P20: setelah kode final, semua suite CP7 di-dispatch pada satu head; tabelnya ditulis di handoff §15.5.
+- **Bukti satu head** untuk kandidat P20: `0b3806b5`, 15/15 workflow success (tabel run di handoff §15.5). Bukti penulis; penerimaan akhir mengikuti kandidat yang lolos audit independen P20.

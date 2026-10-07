@@ -634,7 +634,7 @@ Oracle browser P12 payroll-review (`.cpay-net` "Bersih payroll") **tidak diubah 
 
 ### 15.2 Bukti CI
 
-Per commit: `docs/cp7/SELF_CHECK_FORMULAS_20261006.md` §6. Bukti satu head untuk kandidat P20 ditulis di §15.5 setelah semua suite selesai pada head final.
+Per commit: `docs/cp7/SELF_CHECK_FORMULAS_20261006.md` §6 (termasuk setiap kegagalan pertama). Bukti satu head untuk kandidat P20: §15.5 — `0b3806b5`, 15/15 success. Commit sesudahnya hanya dokumen.
 
 ### 15.3 Pekerjaan terbuka (bukan nilai kebijakan kecuali disebut)
 
@@ -669,7 +669,26 @@ Per commit: `docs/cp7/SELF_CHECK_FORMULAS_20261006.md` §6. Bukti satu head untu
 4. Untuk PR Dependabot (#41): periksa Settings → Code security → Dependabot dan izin Actions untuk PR Dependabot.
 5. Bila default setup tetap tidak memicu pada `opened`, alternatifnya *advanced setup* (workflow `codeql.yml` dengan `pull_request: [opened, synchronize, reopened]`) lewat PR biasa — tetap memenuhi aturan yang sama.
 
-### 15.5 Bukti satu head (diisi setelah run final)
+### 15.5 Bukti satu head
 
-_Menunggu run final._
+Head kandidat: `0b3806b5` (`0b3806b5f2a4e35bb5d64306817381a32c3551d5`). Setiap workflow CP7 cabang Claude dijalankan pada head ini (push atau `workflow_dispatch`); tabel memuat run terakhir per workflow.
 
+| Workflow | Pemicu | Run | Hasil |
+|---|---|---|---|
+| Build UX | push | 37583516549 | success |
+| CP6 Candidate CodeQL (T3) | push | 37583516618 | success |
+| CP7 Note Correction (Claude branch) | workflow_dispatch | 37583526692 | success |
+| CP7 Owning Receipt Correction | workflow_dispatch | 37583546966 | success |
+| CP7 P08 Physical Fabric | push | 37583516545 | success |
+| CP7 P12 Payroll (Claude branch) | workflow_dispatch | 37583531330 | success |
+| CP7 P13 Finance (Claude branch) | workflow_dispatch | 37583533336 | success |
+| CP7 P18 Fabric Rule | workflow_dispatch | 37583535185 | success |
+| CP7 P18 Full Cycle | workflow_dispatch | 37583537191 | success |
+| CP7 P19 Analysis Job Transport | push | 37583516587 | success |
+| CP7 P21 Rehearsal | workflow_dispatch | 37583539143 | success |
+| CP7 PL Native Planning (Claude branch) | workflow_dispatch | 37583541069 | success |
+| CP7 Shell S0 (Claude branch) | workflow_dispatch | 37583529003 | success |
+| CP7 Supplier Payment Correction (Claude branch) | workflow_dispatch | 37583542877 | success |
+| CP7 Supplier Payment Create | workflow_dispatch | 37583544965 | success |
+
+**Status:** semua success pada satu head. Bukti penulis, bukan audit independen; `independent_acceptance=false`, `production_go=false`.
