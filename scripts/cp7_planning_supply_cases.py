@@ -78,10 +78,16 @@ def clone_groups(cur,group,n,label):
     select {','.join('(r)."'+c+'"' for c in names)} from(select jsonb_populate_record(null::erp.{table},(select jsonb_object_agg(e.key,
       case when e.value#>>'{{}}'=any(%(ids)s)then to_jsonb(md5((e.value#>>'{{}}')||':PL8:'||k)::uuid)
        when e.key=any(%(distinct)s)and jsonb_typeof(e.value)='string'and %(kinds)s::jsonb->>e.key='uuid'then to_jsonb(md5((e.value#>>'{{}}')||':PL8U:'||k)::uuid)
+       when e.key=any(%(distinct)s)and jsonb_typeof(e.value)='string'and length((e.value#>>'{{}}')||'-SX'||k)>coalesce((%(limits)s::jsonb->>e.key)::int,2147483647)
+        then to_jsonb(left(e.value#>>'{{}}',greatest((%(limits)s::jsonb->>e.key)::int-11,0))||'-'||left(md5((e.value#>>'{{}}')||':PL8T:'||k),10))
        when e.key=any(%(distinct)s)and jsonb_typeof(e.value)='string'then to_jsonb((e.value#>>'{{}}')||'-SX'||k)
        else e.value end)from jsonb_each(x.v)e))r
      from(select to_jsonb(t) v from erp.{table} t where {where})x cross join generate_series(1,%(n)s)k)s""",
-    dict(g,ids=ids,distinct=list(distinct),kinds=json.dumps(kinds),n=n))
+    dict(g,ids=ids,distinct=list(distinct),kinds=json.dumps(kinds),n=n,
+     # A distinct text value keeps the column's varchar(n) limit: when the
+     # plain suffix would not fit, the value is cut and a 10-hex hash suffix
+     # of (value, clone) keeps it unique.
+     limits=json.dumps({c:int(t[len('character varying('):-1])for c,t in kinds.items()if t.startswith('character varying(')})))
  finally:cur.execute("select set_config('session_replication_role','origin',true)")
  return [r[0] for r in cur.execute("select md5(%s||':PL8:'||k)::uuid::text from generate_series(1,%s)k",(str(group),n)).fetchall()]
 
