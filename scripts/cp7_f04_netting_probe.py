@@ -25,7 +25,7 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run(contract_seam=False):
- provider=history_cases;expected=82;out=OUT;label='CP7_F04_NATIVE_NETTING';scope='GLOBAL_NATIVE_TARGET_WIP_SELECTED_WORK_YIELD_NATIVE_PRODUCT_BOUND_MATCHING_DATED_NETTING_SHARED_EXISTING_SUPPLY_MATERIAL_APPLY_UNKNOWN'
+ provider=history_cases;expected=83;out=OUT;label='CP7_F04_NATIVE_NETTING';scope='GLOBAL_NATIVE_TARGET_WIP_SELECTED_WORK_YIELD_NATIVE_PRODUCT_BOUND_MATCHING_DATED_NETTING_SHARED_EXISTING_SUPPLY_MATERIAL_APPLY_UNKNOWN'
  if contract_seam:
   import cp7_f03_planner_seam_cases as provider
   expected=2;out=OUT.with_name('CP7_F03_NATIVE_PLANNER_SEAMS.json');label='CP7_F03_NATIVE_PLANNER_SEAMS';scope='FROZEN_O06_O07_ACTUAL_NATIVE_STOCK_SALE_RESERVATION_AND_SHARED_PLANNER_SELECTED_FUTURE_DEMAND'
