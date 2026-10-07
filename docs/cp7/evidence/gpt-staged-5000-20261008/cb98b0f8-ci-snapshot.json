@@ -1,0 +1,144 @@
+{
+  "contract": "cp7.gpt.writer-ci-snapshot.v1",
+  "source_commit": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+  "qualification_complete": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "workflows": [
+    {
+      "workflow": "CP7 P21 Rehearsal",
+      "run_id": 37672809220,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809220",
+      "updated_at": "2026-10-07T19:23:15Z"
+    },
+    {
+      "workflow": "Build UX",
+      "run_id": 37672809362,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809362",
+      "updated_at": "2026-10-07T19:26:46Z"
+    },
+    {
+      "workflow": "CP7 PL Native Planning (Claude branch)",
+      "run_id": 37672809145,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809145",
+      "updated_at": "2026-10-07T19:31:01Z"
+    },
+    {
+      "workflow": "CP7 Shell S0 (Claude branch)",
+      "run_id": 37672809307,
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809307",
+      "updated_at": "2026-10-07T19:43:06Z"
+    },
+    {
+      "workflow": "CP7 P18 Fabric Rule",
+      "run_id": 37672809382,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809382",
+      "updated_at": "2026-10-07T19:30:54Z"
+    },
+    {
+      "workflow": "CP7 P08 Physical Fabric",
+      "run_id": 37672809171,
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809171",
+      "updated_at": "2026-10-07T19:32:06Z"
+    },
+    {
+      "workflow": "CP7 Note Correction (Claude branch)",
+      "run_id": 37672809356,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809356",
+      "updated_at": "2026-10-07T19:39:37Z"
+    },
+    {
+      "workflow": "CP7 P18 Full Cycle",
+      "run_id": 37672809024,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809024",
+      "updated_at": "2026-10-07T19:19:56Z"
+    },
+    {
+      "workflow": "CP7 Supplier Payment Correction (Claude branch)",
+      "run_id": 37672809063,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809063",
+      "updated_at": "2026-10-07T19:22:31Z"
+    },
+    {
+      "workflow": "CP7 P13 Finance (Claude branch)",
+      "run_id": 37672809210,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809210",
+      "updated_at": "2026-10-07T19:20:18Z"
+    },
+    {
+      "workflow": "CP7 P19 Analysis Job Transport",
+      "run_id": 37672809074,
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809074",
+      "updated_at": "2026-10-07T19:25:58Z"
+    },
+    {
+      "workflow": "CP7 Supplier Payment Create",
+      "run_id": 37672809272,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809272",
+      "updated_at": "2026-10-07T19:21:55Z"
+    },
+    {
+      "workflow": "CP6 Candidate CodeQL (T3)",
+      "run_id": 37672809073,
+      "status": "completed",
+      "conclusion": "failure",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809073",
+      "updated_at": "2026-10-07T19:17:28Z"
+    },
+    {
+      "workflow": "CP7 Owning Receipt Correction",
+      "run_id": 37672809172,
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809172",
+      "updated_at": "2026-10-07T19:26:02Z"
+    },
+    {
+      "workflow": "CP7 P12 Payroll (Claude branch)",
+      "run_id": 37672809106,
+      "status": "in_progress",
+      "conclusion": null,
+      "head_sha": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37672809106",
+      "updated_at": "2026-10-07T19:13:23Z"
+    }
+  ]
+}

@@ -59,6 +59,69 @@ real-chain regression in log 26 passes without loosening the bound.
 - The four previously path-filtered ERP workflows run on this head too;
   one-head qualification remains pending until their actual results exist.
 
+## First Native CI head: cb98b0f8
+
+All results below belong to `cb98b0f816d0a63e9d023a81140603558e9a423b`,
+not to the subsequent repaired candidate. This head is **not qualified**.
+`cb98b0f8-ci-snapshot.json` binds the 15 workflow observations to that source.
+
+- Shell: all 1,659 tests in 189 files passed on Native PostgreSQL; security,
+  build and browser checks passed. Exact log: `33-native-shell.log.gz`.
+- Product staged kernel: 14/14 tests across five files passed, including
+  independent sessions and locks. Generated-capture benchmarks completed
+  without a retry; they are kernel measurements, not Auth/HTTP capacity proof.
+  Exact log/report: `32-native-product-kernel.log.gz` and
+  `cb98b0f8-staged-kernel-original.zip` (artifact 11507163454).
+- Existing analysis transport: 15/15 cases passed with Native/Auth/HTTP and
+  desktop/mobile browser evidence. Exact log and complete root JSON reports:
+  `27-native-transport.log.gz`, `cb98b0f8-p19-transport-originals.zip`
+  (artifact 11506605084).
+- Build UX, planning, P18, finance and correction workflows passed. Payroll
+  review and attendance jobs passed; roster and P08 attention were still
+  running at the recorded snapshot. No all-green claim is made.
+
+| Generated-capture kernel vector | Background wall time | Slowest unit server time | Full target keys | Pages |
+|---|---:|---:|---:|---:|
+| 1,000 × 30 days | 24,951 ms | 1,804.5 ms | 1,000 | 8 |
+| 5,000 × 30 days | 134,464 ms | 2,021.1 ms | 5,000 | 37 |
+| 5,000 × 100 days | 148,808 ms | 2,100.6 ms | 5,000 | 37 |
+
+The 1,000-target result is byte-identical to the single chain. At 5,000 the
+single chain refuses its existing grid bound; it is not promoted into a
+5,000-target oracle. History, baseline, netting and distinct target coverage
+all equal 5,000. Per-call 8 s and all product bounds remain unchanged.
+
+### First CI failures and their repairs
+
+The unmodified first reports and screenshots are retained in the ZIP files
+below; `.log.gz` files decompress to their exact original text. ZIP SHA-256s
+and GitHub artifact IDs are in `cb98b0f8-artifacts.json`.
+
+| First failure | Cause and repair | Retained evidence |
+|---|---|---|
+| Staged identity | The reader checks access epoch before run lookup. Separate tests now require ACCESS_CHANGED for an invalid epoch and RUN_UNAVAILABLE for an unknown run with the valid epoch; guard unchanged. | `28-native-staged-first-failure.log.gz`, staged Originals/full ZIPs |
+| Staged bounds and scale ladder | Reassembly SQL lacked a closing parenthesis. It also needed global prefix/page items/global suffix order. The exact Python SQL is now run against product pages and compared to the independent single Original, including a suffix example. | scale/staged first-failure ZIPs; local `29-scale-reassembly.log` |
+| Lock/retry race | Locking every stage table blocked function argument compilation before the handler. Locking output INSERT inside the handler tests real retries and asserts no partial unit was saved. | staged first-failure ZIPs |
+| Desktop reload | The old browser driver could issue a step before navigation. Pause it before the reload boundary; first new call must GET the same UUID, with no replacement request. | staged full ZIP browser report/screenshot |
+| Mobile copy oracle | Product says “belum tersedia untuk analisis bertahap.” The test now matches that exact existing copy and still requires the downstream names. | staged full ZIP browser report/screenshot |
+| Both JavaScript CodeQL jobs | `cp7_p19_result_storage.mjs` used a predictable shared temporary directory and permissive file modes. Use an atomically created private directory and exclusive mode-0600 file. No rule is waived. | `30-codeql-first-failure.log.gz`, `34-cp6-codeql-first-failure.log.gz`, CodeQL SARIF ZIP |
+
+Before final reassembly failed, the 5,000-target one-day browser case rendered
+26 pages in 60,045.6 ms and visited every page. This is an **incomplete first
+attempt**, not accepted capacity or load proof. The later candidate must
+complete all frozen-contract/coverage checks and separately record page and
+completed-open load times. The raw failure is retained, never overwritten.
+
+### Subsequent product optimisation awaiting CI
+
+PAGES and PAGE_INDEX now execute before loading the full reference and earlier
+scenario/netting/allocation results they never read. Their exact page-building
+bodies are unchanged. Existing parity/access/multibyte tests and the exact
+evidence reassembly SQL pass locally (`36-pages-early-dispatch.log`, one
+selected test, two unselected); the full Native corpus and benchmarks must
+prove the subsequent head. No speedup is claimed before its measurements.
+
 P20/P21 packaging, integration merge and auditor acceptance remain pending.
 Open owner policy values remain open; no invented yield/retention/driver or
-downstream staged feature policy is included.
+downstream staged feature policy is included. No hosted database, main or
+deployment is changed by this work.

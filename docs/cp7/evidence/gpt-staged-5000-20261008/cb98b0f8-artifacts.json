@@ -1,0 +1,59 @@
+{
+  "contract": "cp7.writer.retained-artifacts.v1",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "source_commit": "cb98b0f816d0a63e9d023a81140603558e9a423b",
+  "all_download_digests_match": true,
+  "independent_acceptance": false,
+  "production_go": false,
+  "artifacts": [
+    {
+      "file": "cb98b0f8-p19-transport-originals.zip",
+      "run_id": 37672809074,
+      "artifact_id": 11506605084,
+      "zip_sha256": "27251a660f40dce165642a9f330c762971aa3cdad4f376c83676fe638c0f96e8",
+      "size_bytes": 50497
+    },
+    {
+      "file": "cb98b0f8-staged-first-failure-originals.zip",
+      "run_id": 37672809074,
+      "artifact_id": 11506075763,
+      "zip_sha256": "e426974b90f3bfa51bb730db5fb3fbbca764b24ad9b6c0e6ee65d212542808b1",
+      "size_bytes": 55211
+    },
+    {
+      "file": "cb98b0f8-staged-first-failure-full.zip",
+      "run_id": 37672809074,
+      "artifact_id": 11506280535,
+      "zip_sha256": "b548293ec3519df437026f43a4514502b2f8241beff52f566199f126b2a209cc",
+      "size_bytes": 3441846
+    },
+    {
+      "file": "cb98b0f8-scale-first-failure-originals.zip",
+      "run_id": 37672809074,
+      "artifact_id": 11505793632,
+      "zip_sha256": "d63fb8661f2aa85b8f14e27af6833dbdca124adb87b13edef66778bd72c1f732",
+      "size_bytes": 1199947
+    },
+    {
+      "file": "cb98b0f8-codeql-first-failure.zip",
+      "run_id": 37672809307,
+      "artifact_id": 11505802991,
+      "zip_sha256": "6454137fd099cb31e48dece995cd80c08b05d033348d42461faeb2609d144c73",
+      "size_bytes": 128212
+    },
+    {
+      "file": "cb98b0f8-staged-kernel-original.zip",
+      "run_id": 37672809307,
+      "artifact_id": 11507163454,
+      "zip_sha256": "87eae5efaa9cd0649535fbe6c58998caf3ab6bcbb1a7f559c164194eb3f70b3c",
+      "size_bytes": 8530
+    },
+    {
+      "file": "cb98b0f8-shell-originals.zip",
+      "run_id": 37672809307,
+      "artifact_id": 11506432732,
+      "zip_sha256": "7acf4bb7ea42d31eb0e4fbde4e737998ac1504b5aa84ea31dcae20d3dbfb031b",
+      "size_bytes": 499473
+    }
+  ]
+}

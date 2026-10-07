@@ -33,6 +33,10 @@ async function journey(ui,today,mobile){
   let resumed=false
   if(!mobile){
    // Leave mid-job: the stored request resumes after a reload, never a new UUID.
+   // Stop the old page's driver before marking the reload boundary. A step
+   // already sent can commit; it must never be counted as the reload's call.
+   await panel.getByRole('button',{name:'Jeda analisis bertahap',exact:true}).click()
+   await ui.expect(panel.getByRole('button',{name:'Tutup analisis bersama',exact:true})).toBeEnabled()
    await ui.expect.poll(()=>replies.filter(r=>r.name==='erp_cp7_step_staged_analysis_v1'&&r.status===200).length).toBeGreaterThan(0)
    assert.equal((await stagedKeys(page)).length,1)
    const mark=calls.length
@@ -54,7 +58,7 @@ async function journey(ui,today,mobile){
   const next=region.getByRole('button',{name:'Halaman berikutnya',exact:true}),prev=region.getByRole('button',{name:'Halaman sebelumnya',exact:true})
   await ui.expect(prev).toBeDisabled();if(set.page_count===1)await ui.expect(next).toBeDisabled();else{await next.click();await ui.expect(region).toContainText(`Target ${set.pages[1].target_lo.toLocaleString('id-ID')}–`)}
   // Downstream features are stated unavailable for a staged run (no fake buttons).
-  const text=await region.innerText();assert.match(text,/tidak tersedia/i);assert.match(text,DOWNSTREAM)
+  const text=await region.innerText();assert.match(text,/belum tersedia untuk analisis bertahap\./);assert.match(text,DOWNSTREAM)
   await region.getByRole('button',{name:'Cek sumber',exact:true}).click();await ui.expect(region).toContainText('Sumber belum berubah sejak')
   assert.equal(calls.filter(c=>c.name==='erp_cp7_check_staged_analysis_source_v1').length,1)
   // A staged run is never read through a whole reader.

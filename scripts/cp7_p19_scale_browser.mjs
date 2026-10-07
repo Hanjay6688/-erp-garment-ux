@@ -159,7 +159,7 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
  const user=await ui.login('OWNER',{label:`p19s-${size}-${days}-${control.toLowerCase()}`}),page=user.page,network=[],pending=[]
  page.on('requestfinished',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)pending.push(record(request,rpc).then(r=>network.push(r)))})
  page.on('requestfailed',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)network.push({rpc,failed:request.failure()?.errorText??'FAILED',request:request.postDataJSON(),timing:request.timing()})})
- let panel,sample=null
+ let panel,sample=null,pageLoads=null
  try{
   panel=await openPanel(page,from,through)
   if(finance)await panel.getByRole('checkbox',{name:FINANCE,exact:true}).check()
@@ -168,7 +168,6 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
   await page.waitForFunction(id=>{const r=window.__p19Scale?.[id];return Boolean(r)&&!['NOT_CLICKED','RUNNING'].includes(r.status)},name,{timeout:staged?STAGED_WINDOW_MS:OBSERVATION_WINDOW_MS,polling:250})
   sample=await page.evaluate(id=>window.__p19Scale[id],name)
   await Promise.all(pending)
-  let pageLoads=null
   if(staged&&sample.status==='RESULT_RENDERED'){
    const set=network.find(n=>n.rpc==='erp_cp7_read_staged_analysis_pages_v1')?.body
    assert.ok(set&&set.targets_total===seed.total_targets,'P19_STAGED_FULL_TARGET_COUNT_REQUIRED')
@@ -240,11 +239,13 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
    assert.equal(reopened[0]?.request.p_request,requests[0])
    assert.equal(reopened.filter(n=>['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1'].includes(n.rpc)).length,0,'P19_STAGED_REOPEN_RECOMPUTED')
    m.completed_open_target_ms=3000
+   m.completed_open_network=network.slice(mark)
+   m.network=network.slice(0,mark)
   }
   m.screenshot=`P19S_${name}.png`;await page.screenshot({path:dir+m.screenshot})
   m.witness=save(name,m)
   return m
- }catch(e){save(name+'_FAILURE',{error:String(e?.stack||e).slice(0,4000),sample,network:network.map(n=>({rpc:n.rpc,status:n.status,failed:n.failed,bytes:n.complete_body_utf8_bytes})),text:await panel?.innerText().catch(()=>'')});await page.screenshot({path:dir+`P19S_${name}_FAILURE.png`}).catch(()=>{});throw e}
+ }catch(e){save(name+'_FAILURE',{error:String(e?.stack||e).slice(0,4000),sample,page_loads:pageLoads,network:network.map(n=>({rpc:n.rpc,status:n.status,failed:n.failed,bytes:n.complete_body_utf8_bytes})),text:await panel?.innerText().catch(()=>'')});await page.screenshot({path:dir+`P19S_${name}_FAILURE.png`}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
 
@@ -296,6 +297,7 @@ async function sizeCase(ui,today,size,state){
    owner_budgets:r.owner_budgets,verdict:r.verdict,refusal:r.refusal,refusal_code:r.refusal_code,refusal_sqlstate:r.refusal_sqlstate,
    refused_by_rpc:r.refused_by_rpc,refusal_http_status:r.refusal_http_status,cap:r.cap,original_sha256:r.db.original?.original_sha256??null,original_utf8_bytes:r.db.original?.original_utf8_bytes??null,
    segments_read:r.network.filter(n=>n.rpc==='erp_cp7_read_analysis_segment_v1').length,staged:r.staged??null,
+   page_loads:r.page_loads,completed_open:r.completed_open??null,page_load_target_ms:r.page_load_target_ms,load_target_mandatory:r.load_target_mandatory,
    response_utf8_bytes:r.network.reduce((s,n)=>s+(n.complete_body_utf8_bytes||0),0),witness:r.witness})),
   limits_raised:false,data_sampled_or_truncated:false,owner_latency_acceptance:false,full_P19_acceptance:false,production_go:false}
 }

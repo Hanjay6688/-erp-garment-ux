@@ -1577,6 +1577,68 @@ declare c jsonb;scenario jsonb;g jsonb;out jsonb;rows jsonb;b jsonb:=cp7_analysi
  m integer;t integer:=(b->>'targets_per_chunk')::integer;k integer;p integer;s0 jsonb;carry jsonb;plan jsonb;alloc jsonb;v jsonb;
  alloc_runs boolean;keys text[];small jsonb;wip jsonb;ek jsonb;rk jsonb;rtk jsonb;
 begin
+ -- Final pages read only the stored header and fragments. Skip detoasting
+ -- the full source and loading scenario/netting/allocation for every page.
+ if u.kind='PAGES'then
+  -- Page u.chunk: the stored items of targets lo..hi, per paged array, with
+  -- counts, offsets (items before this page), whole-run totals and summary.
+  declare h cp7_analysis_stage.headers%rowtype;items jsonb:='{}';counts jsonb:='{}';offsets jsonb:='{}';totals jsonb:='{}';
+   kk text;vv jsonb;f text;frag text;n bigint;off bigint;page jsonb;body text;
+  begin
+   select *into h from cp7_analysis_stage.headers where run_id=j.run_id;
+   if h.run_id is null then raise exception 'CP7_ANALYSIS_PAGE_HEADER_MISSING';end if;
+   if h.cuts->u.chunk is distinct from jsonb_build_array(u.lo,u.hi)then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
+   for kk,vv in select key,value from jsonb_each(h.paged)loop
+    f:=cp7_analysis_stage.fragment_field(kk);
+    select string_agg(x.body,', 'order by x.ord),coalesce(sum(x.items),0)into frag,n from cp7_analysis_stage.fragments x
+     where x.job_id=j.id and x.field=f and x.ord between u.lo and u.hi;
+    select coalesce(sum(x.items),0)into off from cp7_analysis_stage.fragments x where x.job_id=j.id and x.field=f and x.ord<u.lo;
+    items:=items||jsonb_build_object(kk,('['||coalesce(frag,'')||']')::jsonb);
+    if jsonb_array_length(items->kk)<>n then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
+    counts:=counts||jsonb_build_object(kk,n);offsets:=offsets||jsonb_build_object(kk,off);totals:=totals||jsonb_build_object(kk,vv->'items');
+   end loop;
+   page:=jsonb_build_object('contract_version','cp7.native-analysis-page.v1','run_id',j.run_id,'request_id',j.request_id,
+    'index',u.chunk,'page_count',h.page_count,'target_lo',u.lo,'target_hi',u.hi,'targets_total',h.targets_total,'header_sha256',h.sha256,
+    'counts',counts,'offsets',offsets,'totals',totals,'summary',cp7_analysis_stage.page_summary(items),'items',items,'apply_enabled',false,'production_go',false);
+   body:=page::text;
+   if octet_length(body)>(b->>'page_utf8_bytes')::integer then raise exception 'CP7_ANALYSIS_PAGE_BODY_LIMIT';end if;
+   insert into cp7_analysis_stage.pages(run_id,idx,target_lo,target_hi,counts,offsets,summary,body,utf8_bytes,sha256)
+   values(j.run_id,u.chunk,u.lo,u.hi,counts,offsets,page->'summary',body,octet_length(body),encode(pg_catalog.sha256(convert_to(body,'UTF8')),'hex'));
+   return jsonb_build_object('index',u.chunk,'utf8_bytes',octet_length(body));
+  end;
+ end if;
+ if u.kind='PAGE_INDEX'then
+  -- Written last: every page present, contiguous over 1..total, counts
+  -- summing to the layout; the identity hash binds the header and every page.
+  declare h cp7_analysis_stage.headers%rowtype;p record;expect integer:=1;i integer:=0;sums jsonb:='{}';kk text;vv jsonb;identity text;
+   rec jsonb:=jsonb_build_object('ACTIVE',0,'PAUSED',0,'STOPPED',0,'OTHER',0);unreviewed bigint:=0;
+  begin
+   select *into h from cp7_analysis_stage.headers where run_id=j.run_id;
+   if h.run_id is null then raise exception 'CP7_ANALYSIS_PAGE_HEADER_MISSING';end if;
+   for p in select *from cp7_analysis_stage.pages x where x.run_id=j.run_id order by x.idx loop
+    if p.idx<>i or p.target_lo<>expect then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
+    expect:=p.target_hi+1;i:=i+1;
+    for kk in select key from jsonb_each(h.paged)loop
+     sums:=sums||jsonb_build_object(kk,coalesce((sums->>kk)::bigint,0)+(p.counts->>kk)::bigint);
+    end loop;
+    for kk in select key from jsonb_each(rec)loop
+     rec:=rec||jsonb_build_object(kk,(rec->>kk)::bigint+(p.summary->'recommendations'->>kk)::bigint);
+    end loop;
+    unreviewed:=unreviewed+(p.summary->>'policy_unreviewed')::bigint;
+   end loop;
+   if i<>h.page_count or expect<>h.targets_total+1 then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
+   for kk,vv in select key,value from jsonb_each(h.paged)loop
+    if (sums->>kk)::bigint is distinct from(vv->>'items')::bigint then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
+   end loop;
+   -- identity_hash = sha256(header_sha256 || '\n' || page sha256s joined by '\n' in index order).
+   select encode(pg_catalog.sha256(convert_to(h.sha256||E'\n'||coalesce(string_agg(x.sha256,E'\n'order by x.idx),''),'UTF8')),'hex')into identity
+    from cp7_analysis_stage.pages x where x.run_id=j.run_id;
+   insert into cp7_analysis_stage.page_sets(run_id,identity_hash,totals,created_at)
+   values(j.run_id,identity,jsonb_build_object('targets',h.targets_total,'items',(select coalesce(jsonb_object_agg(x.key,x.value->'items'),'{}'::jsonb)from jsonb_each(h.paged)x),
+    'recommendations',rec,'policy_unreviewed',unreviewed),clock_timestamp());
+   return jsonb_build_object('pages',h.page_count,'targets',h.targets_total,'identity_hash',identity);
+  end;
+ end if;
  -- The reference, detoasted once (a per-row query over a toasted value
  -- copies it again and again).
  c:=j.reference||'{}'::jsonb;
@@ -1791,66 +1853,6 @@ begin
    insert into cp7_analysis_stage.units values(j.id,idx,'PAGE_INDEX',0,null,null);
    update cp7_analysis_stage.jobs set unit_count=idx+1,plan_final=true where id=j.id;
    return jsonb_build_object('paged',layout,'targets',ntargets,'pages',npages,'header_utf8_bytes',octet_length(body));
-  end;
- end if;
- if u.kind='PAGES'then
-  -- Page u.chunk: the stored items of targets lo..hi, per paged array, with
-  -- counts, offsets (items before this page), whole-run totals and summary.
-  declare h cp7_analysis_stage.headers%rowtype;items jsonb:='{}';counts jsonb:='{}';offsets jsonb:='{}';totals jsonb:='{}';
-   kk text;vv jsonb;f text;frag text;n bigint;off bigint;page jsonb;body text;
-  begin
-   select *into h from cp7_analysis_stage.headers where run_id=j.run_id;
-   if h.run_id is null then raise exception 'CP7_ANALYSIS_PAGE_HEADER_MISSING';end if;
-   if h.cuts->u.chunk is distinct from jsonb_build_array(u.lo,u.hi)then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
-   for kk,vv in select key,value from jsonb_each(h.paged)loop
-    f:=cp7_analysis_stage.fragment_field(kk);
-    select string_agg(x.body,', 'order by x.ord),coalesce(sum(x.items),0)into frag,n from cp7_analysis_stage.fragments x
-     where x.job_id=j.id and x.field=f and x.ord between u.lo and u.hi;
-    select coalesce(sum(x.items),0)into off from cp7_analysis_stage.fragments x where x.job_id=j.id and x.field=f and x.ord<u.lo;
-    items:=items||jsonb_build_object(kk,('['||coalesce(frag,'')||']')::jsonb);
-    if jsonb_array_length(items->kk)<>n then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
-    counts:=counts||jsonb_build_object(kk,n);offsets:=offsets||jsonb_build_object(kk,off);totals:=totals||jsonb_build_object(kk,vv->'items');
-   end loop;
-   page:=jsonb_build_object('contract_version','cp7.native-analysis-page.v1','run_id',j.run_id,'request_id',j.request_id,
-    'index',u.chunk,'page_count',h.page_count,'target_lo',u.lo,'target_hi',u.hi,'targets_total',h.targets_total,'header_sha256',h.sha256,
-    'counts',counts,'offsets',offsets,'totals',totals,'summary',cp7_analysis_stage.page_summary(items),'items',items,'apply_enabled',false,'production_go',false);
-   body:=page::text;
-   if octet_length(body)>(b->>'page_utf8_bytes')::integer then raise exception 'CP7_ANALYSIS_PAGE_BODY_LIMIT';end if;
-   insert into cp7_analysis_stage.pages(run_id,idx,target_lo,target_hi,counts,offsets,summary,body,utf8_bytes,sha256)
-   values(j.run_id,u.chunk,u.lo,u.hi,counts,offsets,page->'summary',body,octet_length(body),encode(pg_catalog.sha256(convert_to(body,'UTF8')),'hex'));
-   return jsonb_build_object('index',u.chunk,'utf8_bytes',octet_length(body));
-  end;
- end if;
- if u.kind='PAGE_INDEX'then
-  -- Written last: every page present, contiguous over 1..total, counts
-  -- summing to the layout; the identity hash binds the header and every page.
-  declare h cp7_analysis_stage.headers%rowtype;p record;expect integer:=1;i integer:=0;sums jsonb:='{}';kk text;vv jsonb;identity text;
-   rec jsonb:=jsonb_build_object('ACTIVE',0,'PAUSED',0,'STOPPED',0,'OTHER',0);unreviewed bigint:=0;
-  begin
-   select *into h from cp7_analysis_stage.headers where run_id=j.run_id;
-   if h.run_id is null then raise exception 'CP7_ANALYSIS_PAGE_HEADER_MISSING';end if;
-   for p in select *from cp7_analysis_stage.pages x where x.run_id=j.run_id order by x.idx loop
-    if p.idx<>i or p.target_lo<>expect then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
-    expect:=p.target_hi+1;i:=i+1;
-    for kk in select key from jsonb_each(h.paged)loop
-     sums:=sums||jsonb_build_object(kk,coalesce((sums->>kk)::bigint,0)+(p.counts->>kk)::bigint);
-    end loop;
-    for kk in select key from jsonb_each(rec)loop
-     rec:=rec||jsonb_build_object(kk,(rec->>kk)::bigint+(p.summary->'recommendations'->>kk)::bigint);
-    end loop;
-    unreviewed:=unreviewed+(p.summary->>'policy_unreviewed')::bigint;
-   end loop;
-   if i<>h.page_count or expect<>h.targets_total+1 then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
-   for kk,vv in select key,value from jsonb_each(h.paged)loop
-    if (sums->>kk)::bigint is distinct from(vv->>'items')::bigint then raise exception 'CP7_ANALYSIS_PAGE_LAYOUT';end if;
-   end loop;
-   -- identity_hash = sha256(header_sha256 || '\n' || page sha256s joined by '\n' in index order).
-   select encode(pg_catalog.sha256(convert_to(h.sha256||E'\n'||coalesce(string_agg(x.sha256,E'\n'order by x.idx),''),'UTF8')),'hex')into identity
-    from cp7_analysis_stage.pages x where x.run_id=j.run_id;
-   insert into cp7_analysis_stage.page_sets(run_id,identity_hash,totals,created_at)
-   values(j.run_id,identity,jsonb_build_object('targets',h.targets_total,'items',(select coalesce(jsonb_object_agg(x.key,x.value->'items'),'{}'::jsonb)from jsonb_each(h.paged)x),
-    'recommendations',rec,'policy_unreviewed',unreviewed),clock_timestamp());
-   return jsonb_build_object('pages',h.page_count,'targets',h.targets_total,'identity_hash',identity);
   end;
  end if;
  raise exception 'CP7_ANALYSIS_STAGE_UNKNOWN_UNIT';

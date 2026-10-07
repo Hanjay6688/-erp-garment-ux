@@ -444,10 +444,14 @@ def transfer(cur, point, run, step, expected):
 
 
 REASSEMBLE_SQL = """with h as(select %s::jsonb x),p as(select ord-1 idx,x::jsonb x from unnest(%s::text[])with ordinality t(x,ord)),
- arrays as(select k.key,(h.x->'analysis_header'->k.key)||coalesce((select jsonb_agg(t.e order by p.idx,t.ord)
-   from p,jsonb_array_elements(p.x->'items'->k.key)with ordinality t(e,ord)),'[]'::jsonb)v from h,jsonb_each(h.x->'paged')k),
+ arrays as(select k.key,coalesce((select jsonb_agg(t.e order by t.ord)
+   from jsonb_array_elements(h.x->'analysis_header'->k.key)with ordinality t(e,ord)where t.ord<=(k.value->>'prefix')::integer),'[]'::jsonb)
+  ||coalesce((select jsonb_agg(t.e order by p.idx,t.ord)
+   from p,jsonb_array_elements(p.x->'items'->k.key)with ordinality t(e,ord)),'[]'::jsonb)
+  ||coalesce((select jsonb_agg(t.e order by t.ord)
+   from jsonb_array_elements(h.x->'analysis_header'->k.key)with ordinality t(e,ord)where t.ord>(k.value->>'prefix')::integer),'[]'::jsonb)v from h,jsonb_each(h.x->'paged')k),
  a as(select(h.x->'analysis_header')||coalesce((select jsonb_object_agg(key,v)from arrays),'{}'::jsonb)v from h)
- select(v||jsonb_build_object('semantic_hash',encode(pg_catalog.sha256(convert_to(v::text,'UTF8')),'hex'))::text from a"""
+ select(v||jsonb_build_object('semantic_hash',encode(pg_catalog.sha256(convert_to(v::text,'UTF8')),'hex')))::text from a"""
 
 
 def staged_reassemble(cur, header_body, page_bodies):

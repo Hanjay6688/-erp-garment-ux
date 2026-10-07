@@ -300,13 +300,18 @@ def cases(cur, today):
             refused(cur, op, 'CP7_ANALYSIS_JOB_UNAVAILABLE')
         refused(cur, lambda: limited(cur, 'erp_cp7_request_staged_analysis_v1', (json.dumps(query(today)), None)), 'CP7_ANALYSIS_REQUEST_REQUIRED')
         for name, args in (('erp_cp7_read_staged_analysis_pages_v1', (uuid.uuid4(),)),
-                           ('erp_cp7_read_staged_analysis_page_v1', (uuid.uuid4(), 0, '0' * 64)),
                            ('erp_cp7_check_staged_analysis_source_v1', (uuid.uuid4(),))):
             refused(cur, lambda: limited(cur, name, args), 'CP7_ANALYSIS_RUN_UNAVAILABLE')
+        # Epoch validation precedes run lookup, like the ordinary segment
+        # reader. Test a bad epoch and an unknown run separately.
+        refused(cur, lambda: limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (uuid.uuid4(), 0, '0' * 64)),
+                'CP7_ANALYSIS_ACCESS_CHANGED')
         # A running job exposes no page.
         assert first.get('run_id') is None and counts(cur, key)[2:] == (1, 0)
         done, _ = drive(cur, key)
         _, ps, _ = fetch(cur, done['run_id'])
+        refused(cur, lambda: limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (uuid.uuid4(), 0, ps['access_epoch'])),
+                'CP7_ANALYSIS_RUN_UNAVAILABLE')
         for index in (ps['page_count'], -1):
             refused(cur, lambda: limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (done['run_id'], index, ps['access_epoch'])),
                     'CP7_ANALYSIS_PAGE_UNAVAILABLE')
@@ -458,12 +463,13 @@ def races(tools, today):
         stops = []
         with tools.connect() as holder, holder.cursor() as h:
             # Units read the stored reference, never the live tables: the next
-            # unit's own write waits on a real lock (every stage table but the
-            # job row) until the existing kind of statement limit stops it; the
-            # step records the attempt and leaves the job RUNNING.
-            locks = h.execute("""select string_agg(format('lock table %I.%I in access exclusive mode',n.nspname,c.relname),';')
+            # unit's output INSERT waits on a real lock until the existing
+            # kind of statement limit stops it inside the unit handler.
+            # Locking units/headers also blocks compilation of the function's
+            # composite argument types before the handler can even be entered.
+            locks = h.execute("""select string_agg(format('lock table %I.%I in exclusive mode',n.nspname,c.relname),';')
                 from pg_class c join pg_namespace n on n.oid=c.relnamespace
-                where n.nspname='cp7_analysis_stage' and c.relkind in('r','p') and c.relname<>'jobs'""").fetchone()[0]
+                where n.nspname='cp7_analysis_stage' and c.relkind in('r','p') and c.relname='outputs'""").fetchone()[0]
             assert locks, 'P19G_STAGE_TABLES_NOT_FOUND'
             h.execute(locks)
 
@@ -477,6 +483,7 @@ def races(tools, today):
                     stops.append(pool.submit(send).result(30))
             holder.rollback()
         assert all(s['state'] == 'RUNNING' for s in stops) and [s['unit_attempts'] for s in stops] == [1, 2], stops
+        assert all(s['units_done'] == 0 for s in stops), 'P19G_STOP_SAVED_A_PARTIAL_UNIT'
         with tools.connect() as conn, conn.cursor() as cur:
             done, calls = drive(cur, key)
             conn.commit()

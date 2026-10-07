@@ -7,7 +7,7 @@
 // SYNTHETIC from real items). Timings are LOCAL_PG16_DEV, one session, no
 // statement limit (measurement only); never Native/Auth/HTTP evidence.
 import { gunzipSync } from 'node:zlib'
-import { readFileSync, writeFileSync, mkdirSync, rmSync, chmodSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { openRuntime } from '../tests/cp7/families/f04/runtime.mjs'
@@ -32,7 +32,7 @@ function scaled(k) {
   a.assumptions = [real.assumptions[0], ...Array.from({ length: k }, () => real.assumptions.slice(1)).flat()]
   return pg(a)
 }
-const dir = join(tmpdir(), `cp7-p19-storage-${process.pid}`); mkdirSync(dir, { recursive: true }); chmodSync(dir, 0o755)
+const dir = mkdtempSync(join(tmpdir(), 'cp7-p19-storage-'))
 const db = await openRuntime({ commandTimeoutMs: 600_000 })
 try {
   report.runtime = db.flavor; report.version = db.version
@@ -59,7 +59,7 @@ try {
    end $s$;`)
   for (const n of targetsList) {
     const k = Math.max(1, Math.round(n / base)), text = scaled(k), file = join(dir, 'analysis.csv')
-    writeFileSync(file, text); chmodSync(file, 0o644)
+    writeFileSync(file, text, { flag: 'wx', mode: 0o600 })
     await db.execute(`truncate public.src;\n\\copy public.src(body) from '${file}' with (format csv, quote E'\\x01', delimiter E'\\x02')`)
     rmSync(file)
     const [row] = await db.query('select public.measure() m')

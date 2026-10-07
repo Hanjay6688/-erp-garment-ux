@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { createHash } from 'node:crypto'
+import { readFileSync } from 'node:fs'
 import { expect, test } from 'vitest'
 import { openRuntime, jsonArg } from './f04/runtime.mjs'
 import { DEFECTS } from './f04/netting-fixture.mjs'
@@ -81,6 +82,16 @@ test('P19 product pages: access epoch, actor binding, no partial/whole reads, im
    expect(sha(p.body)).toBe(e.sha256);expect(Buffer.byteLength(p.body)).toBe(e.utf8_bytes);expect(e.utf8_bytes).toBeLessThanOrEqual(160000);hi=e.target_hi;sawMultibyte ||= p.body.includes('☃😀')
   }
   expect(hi).toBe(40);expect(sawMultibyte).toBe(true)
+  // Exercise the exact SQL used by Native/scale evidence, independently of
+  // sv_verify: syntax, prefix/suffix placement and semantic hash must agree.
+  await db.execute('reset role;')
+  const reassemble=readFileSync('scripts/cp7_p19_scale_cases.py','utf8').match(/REASSEMBLE_SQL = """([\s\S]*?)"""/)![1]
+  const sql=reassemble.replace('%s',jsonArg(h)).replace('%s',`array(select body from cp7_analysis_stage.pages where run_id='${run}'order by idx)`)
+  const [{body,expected}]=await db.query(`select (${sql}) body,(public.st_single(reference,query,run_id,access_at_capture)->'body')::text expected
+   from cp7_analysis_stage.jobs where run_id='${run}'`)
+  expect(body).toBe(expected)
+  const synthetic=reassemble.replace('%s',jsonArg({analysis_header:{a:['prefix','suffix']},paged:{a:{prefix:1,items:1}}})).replace('%s',`array[${jsonArg({items:{a:['target']}})}::text]`)
+  expect(JSON.parse((await db.query(`select (${synthetic}) body`))[0].body).a).toEqual(['prefix','target','suffix'])
   await refuseAs(db,ACTOR,`public.erp_cp7_read_staged_analysis_page_v1('${run}',0,'${m.access_epoch}')`,'CP7_ANALYSIS_ACCESS_CHANGED',"set test.perm='changed';")
   await refuseAs(db,other,`public.erp_cp7_read_staged_analysis_pages_v1('${run}')`,'CP7_ANALYSIS_RUN_UNAVAILABLE')
   const [{epoch}]=await db.query(`select encode(sha256(convert_to(jsonb_build_object('actor','${other}','permissions','view')::text,'UTF8')),'hex') epoch`)

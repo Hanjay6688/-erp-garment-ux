@@ -378,6 +378,8 @@ Status terpisah: **fitur selesai** (kode + uji kernel + kasus Native lokal; CI d
 
 ## 13. Tambahan 7 Okt 2026 (malam): 5.000 target fase A (butir 3) — belum memenuhi keputusan owner
 
+Catatan historis fase A; lanjutan produk dan bukti penulis terkini ada di §14.
+
 Status terpisah: **fitur selesai** hanya untuk perubahan di 13.1 (paritas byte-identik, CI di head `d2c98812`); **batas terbuka**: kapasitas 5.000 target belum didukung (fase B–E di `p19/P19_STAGED_5000_20261007.md`); **penerimaan auditor** belum ada. `production_go: false`.
 
 ### 13.1 Objek yang berubah
@@ -399,3 +401,58 @@ Kernel job bertahap ada di `tests/cp7/families/f04/staged-analysis.prototype.sql
 ### 13.3 Catatan pemasangan/rollback (P21)
 
 Fungsi baru milik `cp7_capture` → ikut `drop owned by`. Definisi berubah → hash mesin netting/analisis berubah → run lama `ARCHIVED_STALE` sekali; hasil sama.
+
+## 14. Takeover writer GPT: produk bertahap 5.000 target
+
+Seluruh patch checkpoint `7927b42c` dipasang bersama. Kontrak mengikat tetap
+`p19/P19_STAGED_5000_20261007.md` §10. Head pertama `cb98b0f8` belum lulus
+kualifikasi penuh; seluruh bukti hijau dan kegagalan pertamanya dicatat di
+`evidence/gpt-staged-5000-20261008/README.md`, dengan Original dan hash ZIP.
+`independent_acceptance=false`, `production_go=false`.
+
+### 14.1 Objek dan prioritas auditor
+
+| Objek | Perilaku dan batas yang harus diaudit |
+|---|---|
+| `cp7_analysis_stage` | Sepuluh tabel privat milik `cp7_capture`, RLS deny-all, tanpa hak publik; satu acuan MVCC, UUID run tetap, unit/intermediate/header/halaman immutable. Job hanya boleh memperbarui kemajuan. |
+| Enam RPC staged v1 | Request/step/get, indeks halaman, satu halaman, pemeriksaan sumber; authenticated saja, definer, `search_path=''`, hak diperiksa lagi setelah kunci. Batas unit tetap 8 detik; tiga penghentian membuat FAILED tanpa hasil parsial. |
+| Identitas hasil | SHA-256 hash header + newline + hash halaman berurutan, termasuk daftar kosong. Klien memverifikasi byte UTF-8, rentang, jumlah, identitas, hak, header dan setiap halaman. Uji menyusun ulang analisis/Original persis dari header dan seluruh halaman. |
+| UUID lintas jalur | Satu kunci actor/request untuk capture biasa, job biasa dan staged. Pemakaian UUID yang sama oleh jalur lain ditolak dua arah; tidak ada transaksi baru saat pemulihan. |
+| Pembaca hasil lama | Run staged tidak masuk `cp7_analysis_native.runs`; pembaca seluruh hasil tetap menolak UUID staged. Laporan/pengingat/AI/rincian stok/kain/draf/arsip belum tersedia untuk staged dan tidak diberi hasil halaman sebagai hasil lengkap. |
+| Driver dan klien | Pause menghentikan driver klien; reload GET UUID yang sama. Pointer hasil selesai hanya menyimpan UUID/query; buka ulang DONE memeriksa hak/hash dan membaca halaman, tanpa request/step/hitung ulang. |
+
+Kapasitas/batas: 5.000 target, 500.000 sel riwayat, 1.000.000 pasangan,
+10.000 produk pencocokan; header/halaman maksimal 8.000.000 byte UTF-8.
+Batas jalur tunggal dan dokumen klien 64.000.000 byte tetap. UNKNOWN tetap
+UNKNOWN, keuangan staged DEFERRED dan tidak dianggap nol. Tidak ada yield,
+retensi otomatis, driver server atau fungsi downstream baru yang dikarang.
+
+### 14.2 Bukti dan latensi
+
+Head `cb98b0f8`: seluruh 1.659 uji Shell dan 14 uji kernel staged lulus;
+transport Native/Auth/HTTP/browser lama 15/15 lulus. Kernel capture sintetis
+5.000×100 selesai 148,808 detik, unit terlama 2,1006 detik, semua 5.000
+target tercakup, tanpa retry. Ini pengukuran kernel, bukan SLA pabrik.
+Uji browser pertama 5.000 target/1 hari memuat 26 halaman dalam 60,0456
+detik tetapi pemeriksaan akhir gagal di SQL bukti; belum diterima penuh.
+
+Koreksi harness dan berkas sementara benchmark yang ditandai CodeQL sedang
+dikualifikasi pada head berikutnya. PAGES/PAGE_INDEX juga berhenti membaca
+acuan dan hasil kernel yang tidak dipakai. Waktu buka hasil selesai dan
+tiap halaman harus diukur dari klik asli sampai hasil terverifikasi dan dua
+frame paint. Arahan owner 8 Okt 02:09 WIB: **3 detik menjadi sasaran,
+bukan gerbang wajib; optimalkan semaksimal mungkin**. Waktu akumulasi job,
+capture, acknowledgement dan load hasil dicatat terpisah.
+
+### 14.3 Pemasangan dan rollback
+
+Skema, tabel dan fungsi staged dimiliki `cp7_capture`; rollback `drop owned
+by cp7_capture cascade` menghapusnya bersama objek CP7. Tidak ada role/grant
+Native permanen tambahan. Pemeriksaan bundle mencakup katalog tepat,
+RLS/trigger/hak, enam RPC dan larangan menulis run/dokumen jalur tunggal.
+Hash mesin berubah; Original lama tetap utuh dan bisa ARCHIVED_STALE.
+
+P21 rehearsal sudah lulus di head pertama tetapi **bukan receipt pemasangan**.
+Paket final harus dibekukan sesudah bukti 15 workflow pada satu head, lalu
+P20 audit independen. Integrasi, hosted, main, Cloudflare, pemasangan dan GO
+belum dilakukan. PL-5 B dan konfigurasi owner yang masih pending tetap terbuka.

@@ -1,4 +1,4 @@
-# Qualify the staged-analysis writer head against the complete ERP contracts.
+# Qualify the product and repaired staged evidence on the same ERP writer head.
 name: CP7 P12 Payroll (Claude branch)
 'on':
   push:
