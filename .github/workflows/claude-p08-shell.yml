@@ -54,7 +54,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx --no-install vitest run tests/cp7/families/f05-assembly.test.ts tests/cp7/families/f05-timeline.test.ts tests/cp7/families/f05-kernel-maps.test.ts tests/cp7/families/f05-report-render.test.ts tests/cp7/families/f04-demand-history-linear.test.ts tests/cp7/families/f04-history-build-linear.test.ts tests/cp7/families/f04-demand-estimate-rounding.test.ts tests/cp7/families/f04-schedule-scenario-linear.test.ts tests/cp7/families/f04-wip-normalize-linear.test.ts tests/cp7/families/f04-netting-linear.test.ts tests/cp7/families/f04-allocation-linear.test.ts tests/cp7/families/f04-baseline-build-linear.test.ts tests/cp7/families/f04-supply-exhausted.test.ts tests/cp7/families/f04-supply-proofs.test.ts tests/cp7/families/f04-model-knowledge-cutoff.test.ts tests/cp7/families/f05-staged-analysis.test.ts
+      - run: npx --no-install vitest run tests/cp7/families/f05-assembly.test.ts tests/cp7/families/f05-timeline.test.ts tests/cp7/families/f05-kernel-maps.test.ts tests/cp7/families/f05-report-render.test.ts tests/cp7/families/f04-demand-history-linear.test.ts tests/cp7/families/f04-history-build-linear.test.ts tests/cp7/families/f04-demand-estimate-rounding.test.ts tests/cp7/families/f04-schedule-scenario-linear.test.ts tests/cp7/families/f04-wip-normalize-linear.test.ts tests/cp7/families/f04-netting-linear.test.ts tests/cp7/families/f04-allocation-linear.test.ts tests/cp7/families/f04-baseline-build-linear.test.ts tests/cp7/families/f04-supply-exhausted.test.ts tests/cp7/families/f04-supply-proofs.test.ts tests/cp7/families/f04-model-knowledge-cutoff.test.ts
       - run: node scripts/cp7_p19_assembly_benchmark.mjs test-results/cp7-shell-proof/P19_ASSEMBLY_KERNEL.json
       - run: node scripts/cp7_p19_report_render_benchmark.mjs test-results/cp7-shell-proof/P19_REPORT_RENDER_KERNEL.json
       - run: node scripts/cp7_p19_demand_history_benchmark.mjs test-results/cp7-shell-proof/P19_DEMAND_HISTORY_KERNEL.json
@@ -65,12 +65,40 @@ jobs:
       - run: node scripts/cp7_p19_baseline_benchmark.mjs test-results/cp7-shell-proof/P19_BASELINE_BUILD_KERNEL.json
       - run: node scripts/cp7_pl8_exhausted_benchmark.mjs test-results/cp7-shell-proof/PL8_EXHAUSTED_CLASSIFICATION.json
       - run: node scripts/cp7_pl8_proof_benchmark.mjs test-results/cp7-shell-proof/PL8_EXHAUSTION_PROOFS.json
-      - run: node scripts/cp7_p19_staged_benchmark.mjs test-results/cp7-shell-proof/P19_STAGED_ANALYSIS_KERNEL.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: cp7-p19-assembly
-          path: test-results/cp7-shell-proof/P19_*_KERNEL.json
+          path: |
+            test-results/cp7-shell-proof/P19_*_KERNEL.json
+            test-results/cp7-shell-proof/PL8_*.json
+          if-no-files-found: warn
+          retention-days: 30
+  p19-staged:
+    # 5,000 targets phase A: the staged job kernel (test prototype, stand-ins for
+    # the scenario, fabric and accessories) against the single build, and its
+    # per-unit timings under the unchanged 8 s. Own job: p19-assembly already
+    # uses most of its 30 minutes.
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx --no-install vitest run tests/cp7/families/f05-staged-analysis.test.ts tests/cp7/families/f05-analysis-jobs.test.ts
+      - run: node scripts/cp7_p19_staged_benchmark.mjs test-results/cp7-shell-proof/P19_STAGED_ANALYSIS_KERNEL.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp7-p19-staged
+          path: test-results/cp7-shell-proof/P19_STAGED_ANALYSIS_KERNEL.json
           if-no-files-found: warn
           retention-days: 30
   codeql:
