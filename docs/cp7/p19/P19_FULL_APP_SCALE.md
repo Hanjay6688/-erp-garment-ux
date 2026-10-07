@@ -39,3 +39,35 @@ Status "Sedang dihitung sejak jam …" pada mode latar belakang tampil dalam 18�
 
 **Kesimpulan saat ini:** pada batas 8 dtk yang tidak diubah dan tanpa worker di luar request, alur aplikasi penuh menghasilkan analisis untuk ±100 target; 300 dan 1000 target ditolak jujur di 8 dtk. Langkah yang dominan sedang diukur dengan profil fase. Perbaikan kernel yang sudah masuk sesudah head run ini (PL-8 normalisasi `b001bf4f`, netting `083c90e3`) dan yang sedang dikerjakan (`allocate`) diukur ulang di run berikutnya.
 
+
+## 3. Run keempat — 37568797220 (head `a634296e`): harness commit per writer, 5.000 target terukur
+
+Suite `p19-scale5` **PASS** (5/5 kasus, `cp6_restored=true`, `advisor_gate=true`). Head ini sudah memuat PL-8 normalisasi (`b001bf4f`) dan netting linear (`083c90e3`), **belum** memuat alokasi linear (`9e3394e3`) dan baseline linear (`2c6884ea`). Data diisi lewat writer biasa, satu RPC per transaksi seperti aplikasi (waktu isi, bukan latensi: 100 → 3,2 dtk; 300 → 7,4 dtk; 1000 → 29,6 dtk; **5000 → 140,3 dtk**). Batas tidak dinaikkan dan data tidak dipotong.
+
+**Browser desktop, login Auth nyata (klik sampai tampil):**
+
+| Target | Riwayat | Ambil analisis (biasa) | Hitung di latar belakang: status → progres segmen → hasil | Sisi server (tangga SQL) |
+|---|---|---|---|---|
+| 100 | 1 hari | **4.416 ms**, hasil lengkap | 19 ms → 4.295 ms → **4.554 ms** | biasa 3.931 ms; job 2.426 ms |
+| 100 | 30 hari | **4.358 ms** | 18 ms → 4.251 ms → **4.499 ms** | biasa 3.894 ms; job 2.524 ms |
+| 100 | 100 hari | **4.688 ms** | 19 ms → 4.662 ms → **4.927 ms** | biasa 4.167 ms; job 2.701 ms |
+| 300 | 1 hari | ditolak jujur 8.030 ms (57014) | 20 ms → 11.008 ms → **11.820 ms, hasil lengkap** (Original 12,5 MB) | biasa ditolak 8 dtk; job 6.288 ms |
+| 300 | 30 hari | ditolak jujur 8.032 ms | 18 ms → 10.765 ms → **11.505 ms, hasil lengkap** | biasa ditolak; job 6.708 ms |
+| 300 | 100 hari | ditolak jujur 8.032 ms | 17 ms → ditolak jujur 8.046 ms | biasa ditolak; job 7.769 ms (selesai di tangga SQL, di browser lewat 8 dtk) |
+| 1000 | 1 / 30 / 100 hari | ditolak jujur 8.029–8.032 ms | 19–37 ms → ditolak jujur 8.037–8.052 ms | semua ditolak 8 dtk; 101 hari juga kena `HISTORY_GRID_100000` |
+| 5000 | 1 / 30 / 100 hari | ditolak jujur 8.029–8.030 ms | 22–31 ms → ditolak jujur 8.045–8.063 ms | semua ditolak 8 dtk; batas struktural `HISTORY_SOURCE_PRODUCTS_1000` (dan grid di 100 hari) juga berlaku |
+
+Tanda terima pertama tampil dalam 2,8–4,6 ms di semua ukuran (< 1 dtk terpenuhi). Hasil lengkap ≤ 3 dtk **belum** terpenuhi (100 target: 4,4–4,9 dtk). Mode latar belakang menampilkan "Sedang dihitung sejak jam …" dalam 17–37 ms dan kini **menyelesaikan 300 target** (11,5–11,8 dtk klik sampai tampil, 1 dan 30 hari); itu masih di atas 3 dtk, dan apakah pekerjaan latar belakang dengan progres terlihat diterima sebagai pengecualian adalah keputusan owner (`owner_named_background_exception=false`, `owner_latency_acceptance=false`). Dibanding run ketiga: 100 target 5,3–5,9 → 4,4–4,9 dtk; 300 target latar belakang dari ditolak menjadi selesai.
+
+**Lapisan dominan (profil fase server, `PHASE_PROFILE_NOT_APP_LATENCY`, biaya sendiri lapisan):**
+
+| Target | 1 hari | 30 hari | 100 hari | Fase pertama yang berhenti di 8 dtk |
+|---|---|---|---|---|
+| 100 | netting_build 346 ms | analysis_build_operational 389 ms | history_build 392 ms | — |
+| 300 | netting_build 1.028 ms | netting_build 1.021 ms | history_build 1.269 ms | — |
+| 1000 | **baseline_build 5.564 ms** | **baseline_build 4.779 ms** | history_build 4.250 ms | netting_build (1, 30 hari); baseline_build (100 hari) |
+| 5000 | history_source 315 ms | history_source 310 ms | history_source 375 ms | **financial_source** (sebelum build mana pun) |
+
+**Tindak lanjut yang sudah dikerjakan dari profil ini:** `baseline_build` di 1000 target adalah `cp7_baseline_native.build` yang kuadratik. Lapisan itu dilinearkan byte-identik di `2c6884ea` (lokal, profil dan kebijakan untuk setiap root: biaya sendiri 7,5 → 0,9 dtk). `cp7_baseline.allocate` dilinearkan di `9e3394e3`. Run kelima (37571509670, head `2c6884ea`) mengukur ulang. Kandidat berikutnya: `history_build` (4,25 dtk di 1000 × 100 hari) dan, untuk 5.000 target, `financial_source`. Batas struktural 1.000 produk per capture tetap berlaku; 5.000 target per capture butuh keputusan kapasitas owner, bukan pemotongan data.
+
+**Pengamatan (belum diperbaiki):** di 300 target, job server selesai ±6,3 dtk, tetapi progres segmen pertama baru tampil di browser ±11 dtk. Selisih itu adalah polling job + manifest + transfer 12,5 MB Original, bukan kernel. Rinciannya belum terukur per langkah.
