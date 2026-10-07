@@ -1,4 +1,5 @@
 import { execFileSync } from 'node:child_process'
+import { readFileSync } from 'node:fs'
 // Exact predecessor of the linear demand-1 kernel, read from git and installed
 // next to it under another name. Nothing else in the runtime changes.
 export const historyBase = 'c1f91041035941edded57da13482176701b2bfb6'
@@ -10,6 +11,23 @@ export async function installHistoryControls(db) {
   await db.execute(`create function public.dh_state(fn text,v jsonb) returns text language plpgsql as $$
    begin execute format('select %s($1)',fn) using v;return 'NO_ERROR';
    exception when others then return sqlstate||':'||sqlerrm;end $$;`)
+}
+// Deliberately loosened availability fast paths: each skips one field check, so
+// a row the validation loop refuses would pass as clean. Each must still apply.
+export const MUTANTS = {
+  AV_DATE_UNCHECKED: ['coalesce(d.ok,false)', 'true'],
+  AV_REVISION_UNCHECKED: ['coalesce(rv.ok,false)', 'true'],
+  AV_REFS_UNCHECKED: ['coalesce(rf.ok,false)', 'true'],
+  AV_KNOWN_UNCHECKED: ['coalesce(ka.ok,false)', 'true'],
+}
+export async function installHistoryMutants(db) {
+  const source = readFileSync('scripts/cp7-src/demand/history.sql', 'utf8')
+  const start = source.indexOf('create function cp7_demand.history(v jsonb)'), end = source.indexOf('create function cp7_demand.availability(v jsonb)')
+  const fresh = source.slice(start, end)
+  for (const [name, [from, to]] of Object.entries(MUTANTS)) {
+    if (fresh.split(from).length !== 2) throw new Error(`mutant ${name} no longer applies`)
+    await db.execute(fresh.replace(from, to).replace('create function cp7_demand.history(v jsonb)', `create function cp7_demand.history_m_${name.toLowerCase()}(v jsonb)`))
+  }
 }
 // Deterministic generator: valid histories plus one injected defect at a random row.
 export function rng(seed) { let x = seed >>> 0 || 1; return () => { x = (x * 1664525 + 1013904223) >>> 0; return x / 4294967296 } }

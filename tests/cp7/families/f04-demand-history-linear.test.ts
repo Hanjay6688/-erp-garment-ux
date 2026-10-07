@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { expect, test } from 'vitest'
 import { openRuntime, jsonArg } from './f04/runtime.mjs'
-import { defects, demandInput, installHistoryControls } from './f04/demand-history-fixture.mjs'
+import { MUTANTS, defects, demandInput, installHistoryControls, installHistoryMutants } from './f04/demand-history-fixture.mjs'
 
 async function compare(db: any, v: unknown) {
   // Immutable calls with constant arguments are folded at plan time, so the
@@ -33,5 +33,16 @@ test('P19 linear demand-1 history equals the predecessor byte for byte, includin
     // The comparison sees a real difference.
     const a = demandInput(3, { targets: 3, days: 5, events: 12 }), b = structuredClone(a); b.snapshot_id = 'other'
     expect((await db.query(`select cp7_demand.history_0(${jsonArg(a)})::text=cp7_demand.history(${jsonArg(b)})::text same`))[0].same).toBe(false)
+    // A loosened availability fast path is caught by the same defect inputs.
+    await installHistoryMutants(db)
+    for (const name of Object.keys(MUTANTS)) {
+      let caught = 0
+      for (let seed = 1; seed <= 40 && caught === 0; seed++) for (const defect of defects) {
+        const arg = jsonArg(demandInput(seed * 31 + defects.indexOf(defect), { targets: 5, days: 12, events: 40, defect }))
+        const row = (await db.query(`select public.dh_state('cp7_demand.history_0',${arg}) s0,public.dh_state('cp7_demand.history_m_${name.toLowerCase()}',${arg}) s1`))[0]
+        if (row.s0 !== row.s1) caught++
+      }
+      expect([name, caught > 0]).toEqual([name, true])
+    }
   } finally { await db.close() }
 }, 600_000)
