@@ -427,6 +427,14 @@
       "bytes": 8315,
       "sha256": "b7f2bd0edd3a21a3254c691119ba278de84be1e1f2ecc93653b9d413d0d6360b"
     },
+    "src/FinancePages.dom.test.tsx": {
+      "bytes": 4416,
+      "sha256": "24e3dbf32f6d8190361f9afea8fb59046de1c11f8e5edd4fe1b408fe030a0856"
+    },
+    "src/FinancePages.tsx": {
+      "bytes": 66063,
+      "sha256": "52d48d360419f8fd347942a1d94b8e904c4b4a0ed225748f54cb51d0de423831"
+    },
     "src/LaundryMandorFilter.test.tsx": {
       "bytes": 5332,
       "sha256": "3720b60e482b59d582c2f2a3079c81e136b2523d9fe28fa32e40500cb39174ad"
