@@ -3,12 +3,14 @@ import {
   ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, CircleMinus, CirclePlus,
   ClipboardCheck, Clock3, FilePlus2, Filter, History,
   Inbox, PackageCheck, PackagePlus, ReceiptText, Search, ShieldCheck, Tag,
-  UserRound, UsersRound, Waves, Wrench, X,
+  UserRound, Waves, Wrench, X,
 } from 'lucide-react'
 import type { QcFinalResult } from './QcFinalPage'
 import type { ReadyFgNotaCard } from './fgNota'
 import { productCatalog } from './productCatalog'
 import './bs-rework.css'
+import { matchesSearch, searchValues } from './lib/search'
+import BrowsePicker from './components/BrowsePicker'
 
 export type SizeValues = [number, number, number]
 type SizeInputs = [string, string, string]
@@ -291,7 +293,8 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     const people = caseMandors(item).join(' ')
     const sourceText = item.kind === 'BS' ? `${item.sourceNote} ${item.source} ${(item.conversions ?? []).map((conversion) => `${conversion.newSku} ${conversion.newName}`).join(' ')}` : `${item.laundry} ${item.deliveryRef} ${item.receiptRef}`
     const haystack = `${item.id} ${item.parentId} ${item.batchId} ${people} ${item.brand} ${item.sku} ${bsSkuName(item.brand, item.sku)} ${item.material} ${sourceText}`.toLowerCase()
-    return haystack.includes(query.toLowerCase())
+    const statusLabel = (bsStatusLabels as Record<string, string>)[item.status] ?? (stuckStatusLabels as Record<string, string>)[item.status]
+    return matchesSearch(query, haystack, searchValues(item), statusLabel)
       && (kindFilter === 'ALL' || item.kind === kindFilter)
       && (mandorFilter === 'Semua mandor' || caseMandors(item).includes(mandorFilter))
       && (statusFilter === 'ALL' || (statusFilter === 'ACTIVE' ? !caseIsDone(item) : caseIsDone(item)))
@@ -504,7 +507,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     <section className="panel bsr-toolbar">
       <label className="bsr-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari kasus, PO, batch, Mandor, Laundry, SKU..."/></label>
       <label><Filter/><select value={kindFilter} onChange={(event) => setKindFilter(event.target.value)}><option value="ALL">Semua kasus</option><option value="BS">Barang BS</option><option value="STUCK">Stuck Laundry</option></select></label>
-      <label><UsersRound/><select value={mandorFilter} onChange={(event) => setMandorFilter(event.target.value)}><option>Semua mandor</option>{mandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select></label>
+      <div className="bsr-toolbar-picker"><BrowsePicker label="Mandor" hideLabel aria-label="Filter mandor" size="compact" value={mandorFilter} options={[{ id: 'Semua mandor', label: 'Semua mandor', pinned: true }, ...mandors.map((mandor) => ({ id: mandor, label: mandor }))]} onChange={setMandorFilter} searchPlaceholder="Cari mandor…" emptyText="Mandor tidak ditemukan."/></div>
       <label><select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}><option value="ALL">Semua status</option><option value="ACTIVE">Butuh tindakan</option><option value="DONE">Selesai</option></select></label>
       <label><select value={sourceFilter} onChange={(event) => setSourceFilter(event.target.value)}><option value="ALL">Semua sumber</option><option value="QC_AUTO">QC otomatis</option><option value="HOLD_RESOLUTION">BS dari Hold</option><option value="LEGACY_IMPORT">BS legacy</option><option value="LAUNDRY">Laundry</option></select></label>
     </section>
@@ -543,7 +546,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
           {selectedResolution === 'REWORK' && <>
           <section className="bsr-responsibility-grid">
             <article className="origin"><UserRound/><div><span>MANDOR ASAL · PEMILIK MINUS</span><strong>{selectedBs.originalMandor}</strong><small>Minus BS tetap tercatat ke Mandor ini.</small></div></article>
-            <article className="reworker"><Wrench/><div><span>MANDOR REWORK · PENERIMA PLUS</span><select value={selectedBs.reworkMandor ?? ''} disabled={bsClosedStatuses.includes(selectedBs.status)} onChange={(event) => updateReworkMandor(event.target.value)}><option value="">Belum ditugaskan</option>{reworkMandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><small>Boleh berbeda dari Mandor asal.</small></div></article>
+            <article className="reworker"><Wrench/><div><span aria-hidden="true">MANDOR REWORK · PENERIMA PLUS</span><BrowsePicker label="Mandor rework · penerima plus" hideLabel size="compact" value={selectedBs.reworkMandor ?? ''} options={[{ id: '', label: 'Belum ditugaskan', pinned: true }, ...reworkMandors.map((mandor) => ({ id: mandor, label: mandor }))]} disabled={bsClosedStatuses.includes(selectedBs.status)} onChange={updateReworkMandor} searchPlaceholder="Cari mandor rework…" emptyText="Mandor tidak ditemukan."/><small>Boleh berbeda dari Mandor asal.</small></div></article>
           </section>
           <div className={`bsr-timeline ${selectedBs.status === 'BS_FINAL' || selectedBs.status === 'CONVERTED_SKU' ? 'is-final' : ''}`}>{bsStatusSteps.map((step, index) => {
             const activeIndex = bsStatusSteps.findIndex((item) => item.id === selectedBs.status)
@@ -692,7 +695,7 @@ function LegacyBsDialog({ result, onClose, onCreate }: { result?: QcFinalResult 
     <header><div><span>IMPOR BS LEGACY · PENGECUALIAN</span><h2 id="legacy-bs-title">Masukkan kasus lama yang belum lahir dari QC sistem</h2><p>BS hari ini otomatis dari QC. Form ini hanya memindahkan arsip lama dan wajib membawa identitas asal.</p></div><button type="button" onClick={onClose} aria-label="Tutup"><X/></button></header>
     <div className="bsr-dialog-body">
       <section><div className="bsr-legacy-warning"><ShieldCheck/><div><strong>Bukan tombol BS operasional</strong><span>Gunakan hanya untuk saldo/kasus sebelum ERP. Setelah go-live, hasil BS baru datang dari posting QC.</span></div></div></section>
-      <section><div className="bsr-form-title"><b>01</b><span><strong>Jejak arsip lama</strong><small>Referensi dan tanggal tidak boleh kosong.</small></span></div><div className="bsr-identity-grid legacy"><label><span>NO. NOTA / CATATAN LAMA</span><input value={legacyRef} onChange={(event) => setLegacyRef(event.target.value)}/></label><label><span>TANGGAL FISIK</span><input type="date" value={physicalDate} onChange={(event) => setPhysicalDate(event.target.value)}/></label><label><span>MANDOR ASAL · PEMILIK MINUS</span><select value={originalMandor} onChange={(event) => setOriginalMandor(event.target.value)}>{reworkMandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select></label></div></section>
+      <section><div className="bsr-form-title"><b>01</b><span><strong>Jejak arsip lama</strong><small>Referensi dan tanggal tidak boleh kosong.</small></span></div><div className="bsr-identity-grid legacy"><label><span>NO. NOTA / CATATAN LAMA</span><input value={legacyRef} onChange={(event) => setLegacyRef(event.target.value)}/></label><label><span>TANGGAL FISIK</span><input type="date" value={physicalDate} onChange={(event) => setPhysicalDate(event.target.value)}/></label><div className="bsr-identity-picker"><BrowsePicker label="MANDOR ASAL · PEMILIK MINUS" size="compact" value={originalMandor} options={(reworkMandors.includes(originalMandor) ? reworkMandors : [originalMandor, ...reworkMandors]).map((mandor) => ({ id: mandor, label: mandor }))} onChange={setOriginalMandor} searchPlaceholder="Cari mandor asal…" emptyText="Mandor tidak ditemukan."/></div></div></section>
       <section><div className="bsr-form-title"><b>02</b><span><strong>Identitas barang & jumlah per size</strong><small>PO, batch, dan SKU dipakai untuk mengembalikan lineage legacy.</small></span></div><div className="bsr-identity-grid"><label><span>BATCH PRODUKSI</span><input value={parentId} onChange={(event) => setParentId(event.target.value)}/></label><label><span>BATCH DISTRIBUSI</span><input value={batchId} onChange={(event) => setBatchId(event.target.value)}/></label><label><span>MEREK</span><input value={brand} onChange={(event) => setBrand(event.target.value)}/></label><label><span>SKU</span><input value={sku} onChange={(event) => setSku(event.target.value)}/></label></div><div className="bsr-new-size-grid" data-keyboard-grid>{sizes.map((size, index) => <label key={size}><span>SIZE {size}</span><input inputMode="numeric" data-grid-row={0} data-grid-col={index} value={qtyInputs[index]} placeholder="0" onFocus={(event) => event.currentTarget.select()} onChange={(event) => setQtyInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(event.target.value) : value)))}/></label>)}</div></section>
       <section><div className="bsr-form-title"><b>03</b><span><strong>Komponen yang dahulu belum diterima</strong><small>Snapshot menentukan nilai minus dan batas bikin bagus.</small></span></div><div className="bsr-component-picker">{components.map((component) => { const active = selectedComponents.includes(component.id); return <button type="button" className={active ? 'active' : ''} onClick={() => setSelectedComponents((current) => active ? current.filter((id) => id !== component.id) : [...current, component.id])} key={component.id}><span>{active && <Check/>}</span><div><strong>{component.name}</strong><small>{component.note}</small></div><b>{money(component.rate)}</b></button> })}</div></section>
       <section><div className="bsr-form-title"><b>04</b><span><strong>Alasan & preview minus</strong><small>Rework nanti hanya boleh memulihkan nilai yang berasal dari kasus ini.</small></span></div><label className="bsr-reason"><span>CATATAN ARSIP / KONDISI FISIK</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Contoh: Sisa BS dari nota Agustus, obras bawah lepas..."/></label><div className="bsr-minus-preview"><CircleMinus/><span><small>{qty} pcs × {money(rate)} · {selectedComponents.length} komponen · {originalMandor}</small><strong>− {money(qty * rate)}</strong></span></div></section>

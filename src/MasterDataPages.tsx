@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import './master-data-pages.css'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
+import { matchesSearch, searchValues } from './lib/search'
 
 export type BusinessMasterView='master-products'|'master-customers'|'master-partners'|'master-workforce'|'master-locations'
 
@@ -214,7 +215,7 @@ function MasterWorkspace({config}:{config:MasterConfig}){
   const [categoryRates,setCategoryRates]=useState(categoryRateSeeds)
   const isProduct=config.view==='master-products'
   const selected=entities.find((item)=>item.id===selectedId)??entities[0]
-  const visible=useMemo(()=>entities.filter((item)=>`${item.code} ${item.name} ${Object.values(item.values).join(' ')}`.toLowerCase().includes(query.toLowerCase())&&(status==='ALL'||item.active===(status==='ACTIVE'))),[entities,query,status])
+  const visible=useMemo(()=>entities.filter((item)=>matchesSearch(query, searchValues(item), `${item.code} ${item.name} ${Object.values(item.values).join(' ')}`)&&(status==='ALL'||item.active===(status==='ACTIVE'))),[entities,query,status])
   const visibleActiveIds=visible.filter((item)=>item.active).map((item)=>item.id)
   const allVisibleSelected=visibleActiveIds.length>0&&visibleActiveIds.every((id)=>bulkSelectedIds.includes(id))
   const metrics=config.metrics(entities)

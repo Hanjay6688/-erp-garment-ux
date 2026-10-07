@@ -4,6 +4,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import AttendancePage from './AttendancePage'
+import { choosePickerOption, pickerTrigger } from '../components/browsePickerDom.test.support'
 
 let container: HTMLDivElement
 let root: Root
@@ -96,12 +97,9 @@ describe('AttendancePage guarded interactions', () => {
     await click(buttonContaining('Simulasikan posting'))
     expect(container.textContent).toContain('POSTED')
 
-    const contractor = container.querySelector<HTMLSelectElement>('.attendance2-controls select')
+    const contractor = pickerTrigger('Mandor', container.querySelector('.attendance2-controls')!)
     expect(contractor).not.toBeNull()
-    await act(async () => {
-      if (contractor) contractor.value = 'selo'
-      contractor?.dispatchEvent(new Event('change', {bubbles: true}))
-    })
+    await choosePickerOption(contractor, 'Selo', 'selo')
 
     expect(container.textContent).toContain('DRAFT')
     expect(container.querySelectorAll('.attendance2-present')).toHaveLength(0)

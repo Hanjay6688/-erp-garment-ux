@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import './hpp.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 type CostState = 'ESTIMATED' | 'ACTUAL' | 'ADJUSTED'
 type DisplayStatus = 'SEMENTARA' | 'BELUM_LENGKAP' | 'LENGKAP_BERDASARKAN_DATA_SAAT_INI'
@@ -188,7 +189,7 @@ function HppPage() {
 
   const visibleLots = useMemo(() => hppLots.filter((lot) => {
     const haystack = `${lot.po} ${lot.id} ${lot.brand} ${lot.sku} ${lot.product} ${lot.color} ${lot.material}`.toLowerCase()
-    const matchesQuery = haystack.includes(query.toLowerCase())
+    const matchesQuery = matchesSearch(query, haystack, searchValues(lot))
     const matchesBrand = brand === 'Semua merek' || lot.brand === brand
     const matchesStatus = status === 'Semua status' || lot.displayStatus === status
     return matchesQuery && matchesBrand && matchesStatus

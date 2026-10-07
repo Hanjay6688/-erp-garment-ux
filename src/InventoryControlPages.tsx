@@ -6,7 +6,10 @@ import {
 } from 'lucide-react'
 import { productCatalog } from './productCatalog'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
+import BrowsePicker from './components/BrowsePicker'
+import type { BrowseOption } from './components/BrowsePicker'
 import './inventory-control.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 type AdjustmentScope = 'Kain & Roll' | 'Aksesori' | 'Barang Jadi'
 type AdjustmentStatus = 'Draft' | 'Menunggu review' | 'Posted' | 'Perlu koreksi sumber'
@@ -36,6 +39,13 @@ type CountItem = {
   systemQty: number
   location: string
   origin?: 'PURCHASE' | 'PRODUCTION' | 'CONVERSION'
+  // Browse identity: one picker row per roll / accessory / FG SKU; FG sizes
+  // are chosen afterwards, never listed as separate rows.
+  group: string
+  pick: string
+  pickLabel: string
+  pickDetail: string
+  size?: string
 }
 
 const number = (value: number, digits = 1) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: digits }).format(value)
@@ -45,6 +55,14 @@ const parseNumber = (value: string) => {
   return Number.isFinite(parsed) ? parsed : 0
 }
 const productKey = (brand: string, code: string) => `${brand}::${code}`
+const conversionOption = (item: (typeof productCatalog)[number], withGrade: boolean): BrowseOption => ({
+  id:productKey(item.brand, item.code),
+  label:`${item.brand} · ${item.code} · ${item.name}`,
+  detail:`${withGrade ? `Grade ${item.grade} · ` : ''}${item.color} · ${item.location}`,
+  meta:`${item.stocks.reduce((sum, qty) => sum + qty, 0)} pcs`,
+  group:item.brand,
+  keywords:`${item.range} ${item.sizes.map((size) => `size ${size}`).join(' ')}`,
+})
 
 const inventoryCases: InventoryCase[] = [
   { id:'ADJ-RM-260828-007', scope:'Kain & Roll', status:'Draft', item:'Lucy · Roll LCY-030', detail:'Sinaran · 96,5 yd tercatat', location:'Rak Kain A-02-02', reason:'Kerusakan hama', source:'Hitung fisik OPN-260828-C', actor:'Nina · Gudang', happenedAt:'28 Agu 2026 · 11:18', systemQty:96.5, physicalQty:89, unit:'yd', note:'Tepi kain berlubang dan tidak dapat dipakai. Foto fisik wajib sebelum review.' },
@@ -53,10 +71,10 @@ const inventoryCases: InventoryCase[] = [
 ]
 
 const countItems: CountItem[] = [
-  { id:'LCY-030', scope:'Kain & Roll', label:'Lucy · Roll LCY-030', detail:'Sinaran · Rak A-02-02', unit:'yd', systemQty:96.5, location:'Rak Kain A-02-02', origin:'PURCHASE' },
-  { id:'LCY-029', scope:'Kain & Roll', label:'Lucy · Roll LCY-029', detail:'Sinaran · Area Retur', unit:'yd', systemQty:18.5, location:'Area Retur', origin:'PURCHASE' },
-  { id:'ACC-KNC-17', scope:'Aksesori', label:'Kancing Jeans 17 mm', detail:'Inti Metal · Aksesori A-01', unit:'pcs', systemQty:12480, location:'Aksesori A-01', origin:'PURCHASE' },
-  { id:'ACC-KRT-32', scope:'Aksesori', label:'Karet Pinggang 32 mm', detail:'Maju Elastik · Aksesori B-03', unit:'meter', systemQty:1860, location:'Aksesori B-03', origin:'PURCHASE' },
+  { id:'LCY-030', scope:'Kain & Roll', label:'Lucy · Roll LCY-030', detail:'Sinaran · Rak A-02-02', unit:'yd', systemQty:96.5, location:'Rak Kain A-02-02', origin:'PURCHASE', group:'Lucy', pick:'LCY-030', pickLabel:'Roll LCY-030', pickDetail:'Sinaran · Rak Kain A-02-02' },
+  { id:'LCY-029', scope:'Kain & Roll', label:'Lucy · Roll LCY-029', detail:'Sinaran · Area Retur', unit:'yd', systemQty:18.5, location:'Area Retur', origin:'PURCHASE', group:'Lucy', pick:'LCY-029', pickLabel:'Roll LCY-029', pickDetail:'Sinaran · Area Retur' },
+  { id:'ACC-KNC-17', scope:'Aksesori', label:'Kancing Jeans 17 mm', detail:'Inti Metal · Aksesori A-01', unit:'pcs', systemQty:12480, location:'Aksesori A-01', origin:'PURCHASE', group:'Kancing', pick:'ACC-KNC-17', pickLabel:'Kancing Jeans 17 mm', pickDetail:'ACC-KNC-17 · Inti Metal · Aksesori A-01' },
+  { id:'ACC-KRT-32', scope:'Aksesori', label:'Karet Pinggang 32 mm', detail:'Maju Elastik · Aksesori B-03', unit:'meter', systemQty:1860, location:'Aksesori B-03', origin:'PURCHASE', group:'Karet', pick:'ACC-KRT-32', pickLabel:'Karet Pinggang 32 mm', pickDetail:'ACC-KRT-32 · Maju Elastik · Aksesori B-03' },
   ...productCatalog.flatMap((product) => product.sizes.map((size, index) => ({
     id:`${product.brand}-${product.code}-${size}-${product.grade}`,
     scope:'Barang Jadi' as AdjustmentScope,
@@ -66,8 +84,36 @@ const countItems: CountItem[] = [
     systemQty:product.stocks[index],
     location:product.location,
     origin:'PRODUCTION' as const,
+    group:product.brand,
+    pick:`${product.brand}::${product.code}::${product.grade}`,
+    pickLabel:`${product.brand} · ${product.code} · ${product.name}`,
+    pickDetail:`Grade ${product.grade} · ${product.color} · ${product.location}`,
+    size,
   }))),
 ]
+
+const adjustmentScopes: AdjustmentScope[] = ['Kain & Roll', 'Aksesori', 'Barang Jadi']
+
+// One browse row per pick (roll, accessory, FG SKU+grade); the row's total and
+// its sizes come from the count items it groups.
+function countPickOptions(items: CountItem[]): BrowseOption[] {
+  const options = new Map<string, BrowseOption>()
+  for (const item of items) {
+    if (options.has(item.pick)) continue
+    const members = items.filter((other) => other.pick === item.pick)
+    const total = members.reduce((sum, member) => sum + member.systemQty, 0)
+    const sizes = members.flatMap((member) => member.size ? [member.size] : [])
+    options.set(item.pick, {
+      id:item.pick,
+      label:item.pickLabel,
+      detail:sizes.length > 0 ? `${item.pickDetail} · Size ${sizes.join(', ')}` : item.pickDetail,
+      meta:`${number(total)} ${item.unit}`,
+      group:item.group,
+      keywords:[item.id, item.location, ...sizes.map((size) => `size ${size}`)].join(' '),
+    })
+  }
+  return [...options.values()]
+}
 
 const adjustmentReasons = [
   ['Hilang / dicuri', 'Barang tidak ditemukan setelah pencarian dan hitung ulang.'],
@@ -96,6 +142,7 @@ export function StockAdjustmentPage() {
   const [scopeFilter, setScopeFilter] = useState('Semua')
   const [selectedId, setSelectedId] = useState(inventoryCases[0].id)
   const [scope, setScope] = useState<AdjustmentScope>('Kain & Roll')
+  const [pick, setPick] = useState('LCY-030')
   const [itemId, setItemId] = useState('LCY-030')
   const [physicalText, setPhysicalText] = useState('')
   const [reason, setReason] = useState('Kerusakan hama')
@@ -105,21 +152,40 @@ export function StockAdjustmentPage() {
 
   const visibleCases = useMemo(() => inventoryCases.filter((item) => {
     const haystack = `${item.id} ${item.scope} ${item.item} ${item.reason} ${item.source} ${item.actor}`.toLowerCase()
-    return haystack.includes(query.toLowerCase()) && (scopeFilter === 'Semua' || item.scope === scopeFilter)
+    return matchesSearch(query, haystack, searchValues(item)) && (scopeFilter === 'Semua' || item.scope === scopeFilter)
   }), [query, scopeFilter])
   const selectedCase = inventoryCases.find((item) => item.id === selectedId) ?? inventoryCases[0]
-  const scopedItems = countItems.filter((item) => item.scope === scope)
-  const draftItem = scopedItems.find((item) => item.id === itemId) ?? scopedItems[0]
+  const scopedItems = useMemo(() => countItems.filter((item) => item.scope === scope), [scope])
+  const pickOptions = useMemo(() => countPickOptions(scopedItems), [scopedItems])
+  const pickMembers = scopedItems.filter((item) => item.pick === pick)
+  const needsSize = pickMembers.some((item) => item.size !== undefined)
+  // No silent default: the counted item (and its size) is always an explicit choice.
+  const draftItem = pickMembers.find((item) => item.id === itemId)
   const physical = parseNumber(physicalText)
-  const delta = physical - draftItem.systemQty
-  const hasPhysical = physicalText.trim() !== ''
+  const hasPhysical = draftItem !== undefined && physicalText.trim() !== ''
+  const delta = hasPhysical ? physical - draftItem.systemQty : 0
   const blockedPositiveFg = hasPhysical && delta > 0 && scope === 'Barang Jadi' && (draftItem.origin === 'PRODUCTION' || draftItem.origin === 'CONVERSION')
+  const missingChoice = !pick ? (scope === 'Barang Jadi' ? 'Pilih merek · SKU dulu, lalu size yang dihitung.' : scope === 'Kain & Roll' ? 'Pilih roll yang dihitung dulu.' : 'Pilih aksesori yang dihitung dulu.') : !draftItem ? 'Pilih size yang dihitung.' : ''
   const reasonCopy = adjustmentReasons.find(([label]) => label === reason)?.[1] ?? ''
   const accounting = delta < 0 ? 'Inventory Shrinkage / Other Expense' : delta > 0 ? 'Inventory Gain / Other Income' : 'Tidak ada jurnal'
 
   const changeScope = (next: AdjustmentScope) => {
+    if (next === scope) return
     setScope(next)
-    setItemId(countItems.find((item) => item.scope === next)?.id ?? '')
+    setPick('')
+    setItemId('')
+    setPhysicalText('')
+    setNotice('')
+  }
+  const changePick = (next: string) => {
+    const members = countItems.filter((item) => item.scope === scope && item.pick === next)
+    setPick(next)
+    setItemId(members.length === 1 ? members[0].id : '')
+    setPhysicalText('')
+    setNotice('')
+  }
+  const changeSize = (nextId: string) => {
+    setItemId(nextId)
     setPhysicalText('')
     setNotice('')
   }
@@ -155,18 +221,30 @@ export function StockAdjustmentPage() {
         <header><div><span>CATAT HASIL CEK FISIK · STOCK ADJUSTMENT</span><h2>Masukkan saldo nyata, bukan angka koreksi</h2><p>Pilih barang yang dihitung, isi jumlah fisik sebenarnya, lalu sistem otomatis membuat selisih plus atau minus terhadap ledger.</p></div><div className="ic-step-rail"><b className="active">1 · Hitung</b><i/><b>2 · Review</b><i/><b>3 · Post</b></div></header>
         <div className="ic-draft-grid">
           <section className="ic-form-card">
-            <div className="ic-field-grid two"><label><span>1 · AREA STOK</span><select value={scope} onChange={(event) => changeScope(event.target.value as AdjustmentScope)}><option>Kain & Roll</option><option>Aksesori</option><option>Barang Jadi</option></select></label><label><span>2 · ITEM / ROLL / SKU + SIZE</span><select value={draftItem.id} onChange={(event) => { setItemId(event.target.value); setPhysicalText(''); setNotice('') }}>{scopedItems.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label></div>
-            <div className="ic-selected-item"><Warehouse/><div><span>ITEM TERPILIH</span><strong>{draftItem.label}</strong><small>{draftItem.detail} · {draftItem.location}</small></div></div>
-            <div className="ic-count-entry"><label className="locked"><span>SYSTEM QTY · LOCKED</span><div><strong>{number(draftItem.systemQty)} </strong><b>{draftItem.unit}</b><ShieldCheck/></div><small>Diambil dari stock ledger saat draft dibuat.</small></label><i>→</i><label><span>JUMLAH FISIK SEBENARNYA · INPUT</span><div><input inputMode="decimal" value={physicalText} placeholder="Ketik hasil hitung" onChange={(event) => setPhysicalText(event.target.value.replace(/[^0-9.,]/g, ''))} onFocus={(event) => event.currentTarget.select()}/><b>{draftItem.unit}</b></div><small>Bukan angka plus/minus. Isi hasil hitung total; selisih dibuat otomatis.</small></label></div>
-            <BalanceEquation system={draftItem.systemQty} physical={hasPhysical ? physical : draftItem.systemQty} unit={draftItem.unit}/>
+            <div className="ic-item-pick">
+              <div className="ic-scope-tabs"><span id="ic-scope-label">1 · AREA STOK</span><div role="radiogroup" aria-labelledby="ic-scope-label">{adjustmentScopes.map((item) => <button key={item} type="button" role="radio" aria-checked={scope === item} className={scope === item ? 'active' : ''} onClick={() => changeScope(item)}>{item}</button>)}</div></div>
+              <BrowsePicker
+                label={scope === 'Barang Jadi' ? '2 · MEREK · SKU YANG DIHITUNG' : scope === 'Kain & Roll' ? '2 · ROLL KAIN YANG DIHITUNG' : '2 · AKSESORI YANG DIHITUNG'}
+                value={pick || null}
+                options={pickOptions}
+                onChange={changePick}
+                placeholder={scope === 'Barang Jadi' ? 'Pilih merek · SKU…' : scope === 'Kain & Roll' ? 'Pilih roll kain…' : 'Pilih aksesori…'}
+                searchPlaceholder={scope === 'Barang Jadi' ? 'Cari merek, SKU, nama, warna, size…' : 'Cari kode, nama, supplier, lokasi…'}
+              />
+              {needsSize ? <div className="ic-size-pick"><span id="ic-size-label">SIZE YANG DIHITUNG</span><div role="radiogroup" aria-labelledby="ic-size-label">{pickMembers.map((item) => <button key={item.id} type="button" role="radio" aria-checked={item.id === itemId} className={item.id === itemId ? 'active' : ''} onClick={() => changeSize(item.id)}><strong>Size {item.size}</strong><small>{number(item.systemQty)} {item.unit} tercatat</small></button>)}</div></div> : null}
+            </div>
+            {draftItem ? <div className="ic-selected-item"><Warehouse/><div><span>ITEM TERPILIH</span><strong>{draftItem.label}</strong><small>{draftItem.detail} · {draftItem.location}</small></div></div>
+              : <div className="ic-selected-item pending" role="status"><Warehouse/><div><span>ITEM BELUM DIPILIH</span><strong>{missingChoice}</strong><small>System Qty dan selisih baru muncul setelah barang yang dihitung jelas.</small></div></div>}
+            <div className="ic-count-entry"><label className="locked"><span>SYSTEM QTY · LOCKED</span><div><strong>{draftItem ? number(draftItem.systemQty) : '—'} </strong><b>{draftItem?.unit ?? ''}</b><ShieldCheck/></div><small>Diambil dari stock ledger saat draft dibuat.</small></label><i>→</i><label><span>JUMLAH FISIK SEBENARNYA · INPUT</span><div><input inputMode="decimal" disabled={!draftItem} value={physicalText} placeholder={draftItem ? 'Ketik hasil hitung' : 'Pilih barang dulu'} onChange={(event) => setPhysicalText(event.target.value.replace(/[^0-9.,]/g, ''))} onFocus={(event) => event.currentTarget.select()}/><b>{draftItem?.unit ?? ''}</b></div><small>Bukan angka plus/minus. Isi hasil hitung total; selisih dibuat otomatis.</small></label></div>
+            {draftItem ? <BalanceEquation system={draftItem.systemQty} physical={hasPhysical ? physical : draftItem.systemQty} unit={draftItem.unit}/> : null}
             <div className="ic-reason-select"><span>3 · KENAPA BERBEDA?</span><div>{adjustmentReasons.map(([label, copy]) => <button key={label} className={reason === label ? 'active' : ''} onClick={() => setReason(label)}><strong>{label}</strong><small>{copy}</small><Check/></button>)}</div><p>{reasonCopy}</p></div>
-            <div className="ic-field-grid three"><label><span>TANGGAL KEJADIAN / CEK</span><input type="date" defaultValue="2026-08-28"/></label><label><span>REFERENSI OPNAME / LAPORAN</span><input value={reference} onChange={(event) => setReference(event.target.value)} placeholder="Contoh: OPN-260828-C"/></label><label><span>LOKASI</span><input value={draftItem.location} readOnly/></label></div>
+            <div className="ic-field-grid three"><label><span>TANGGAL KEJADIAN / CEK</span><input type="date" defaultValue="2026-08-28"/></label><label><span>REFERENSI OPNAME / LAPORAN</span><input value={reference} onChange={(event) => setReference(event.target.value)} placeholder="Contoh: OPN-260828-C"/></label><label><span>LOKASI</span><input value={draftItem?.location ?? ''} placeholder="Ikut barang terpilih" readOnly/></label></div>
             <label className="ic-note-field"><span>CATATAN WAJIB</span><textarea value={note} onChange={(event) => setNote(event.target.value)} placeholder="Ceritakan apa yang terjadi, siapa yang cek ulang, dan kondisi barang..."/></label>
             <button className="ic-evidence"><ImagePlus/><span><strong>Tambah foto / bukti</strong><small>Kerusakan, lokasi, hasil hitung, atau laporan kejadian</small></span><b>Browse</b></button>
           </section>
-          <aside className="ic-review-card"><span>REVIEW IMPACT</span><h3>{hasPhysical ? delta === 0 ? 'Tidak ada selisih' : `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : 'Isi jumlah fisik'}</h3><p>{draftItem.label}</p><div><article><small>SYSTEM QTY</small><strong>{number(draftItem.systemQty)} {draftItem.unit}</strong></article><article><small>JUMLAH FISIK</small><strong>{hasPhysical ? number(physical) : '—'} {hasPhysical ? draftItem.unit : ''}</strong></article><article className={delta < 0 ? 'danger' : delta > 0 ? 'good' : ''}><small>LEDGER DELTA</small><strong>{hasPhysical ? `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : '—'}</strong></article></div><section><small>ACCOUNTING PREVIEW</small><strong>{hasPhysical ? accounting : 'Menunggu angka fisik'}</strong><p>Jurnal baru terbentuk setelah review dan posting.</p></section>
+          <aside className="ic-review-card"><span>REVIEW IMPACT</span><h3>{!draftItem ? 'Pilih barang' : hasPhysical ? delta === 0 ? 'Tidak ada selisih' : `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : 'Isi jumlah fisik'}</h3><p>{draftItem?.label ?? missingChoice}</p><div><article><small>SYSTEM QTY</small><strong>{draftItem ? `${number(draftItem.systemQty)} ${draftItem.unit}` : '—'}</strong></article><article><small>JUMLAH FISIK</small><strong>{hasPhysical ? `${number(physical)} ${draftItem.unit}` : '—'}</strong></article><article className={delta < 0 ? 'danger' : delta > 0 ? 'good' : ''}><small>LEDGER DELTA</small><strong>{hasPhysical ? `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : '—'}</strong></article></div><section><small>ACCOUNTING PREVIEW</small><strong>{hasPhysical ? accounting : 'Menunggu angka fisik'}</strong><p>Jurnal baru terbentuk setelah review dan posting.</p></section>
             {blockedPositiveFg ? <div className="ic-guard danger"><AlertTriangle/><div><strong>Adjustment positif diblokir.</strong><small>Koreksi QC/FG receipt sumber lot produksi ini.</small></div></div> : <div className="ic-guard"><ShieldCheck/><div><strong>Saldo belum berubah.</strong><small>Draft ini hanya menyiapkan bukti untuk reviewer.</small></div></div>}
-            <button className="primary-btn" disabled={!hasPhysical || delta === 0 || !note.trim() || !reference.trim() || blockedPositiveFg} onClick={() => setNotice('Draft simulasi siap direview. Belum ada data yang dikirim ke backend.')}>Review adjustment <ArrowRight/></button>
+            <button className="primary-btn" disabled={!draftItem || !hasPhysical || delta === 0 || !note.trim() || !reference.trim() || blockedPositiveFg} onClick={() => setNotice('Draft simulasi siap direview. Belum ada data yang dikirim ke backend.')}>Review adjustment <ArrowRight/></button>
             {notice && <em className="ic-notice"><Check/> {notice}</em>}
           </aside>
         </div>
@@ -214,7 +292,7 @@ export function BrandConversionPage() {
   const [note, setNote] = useState('Ganti label merek untuk memenuhi alokasi penjualan tanpa mengubah konstruksi produk.')
   const [notice, setNotice] = useState('')
   const selectedCase = conversionCases.find((item) => item.id === selectedCaseId) ?? conversionCases[0]
-  const visibleCases = conversionCases.filter((item) => `${item.id} ${item.source} ${item.target} ${item.reason} ${item.actor}`.toLowerCase().includes(query.toLowerCase()) && (statusFilter === 'Semua' || item.status === statusFilter))
+  const visibleCases = conversionCases.filter((item) => matchesSearch(query, searchValues(item), `${item.id} ${item.source} ${item.target} ${item.reason} ${item.actor}`) && (statusFilter === 'Semua' || item.status === statusFilter))
   const qtyValues = quantities.map(parseNumber)
   const totalQty = qtyValues.reduce((sum, qty) => sum + qty, 0)
   const stockEnough = qtyValues.every((qty, index) => qty <= source.stocks[index])
@@ -238,7 +316,7 @@ export function BrandConversionPage() {
     <div className="ic-conversion-layout">
       <aside className="panel ic-conversion-browser"><header><div><span>BROWSE CONVERSIONS</span><strong>Riwayat ganti merek</strong></div><small>{visibleCases.length} tampil</small></header><div className="ic-browser-tools"><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari merek, SKU, ref..."/></label><div><select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}><option>Semua</option><option>Draft</option><option>Posted</option><option>Reversed</option></select><button onClick={() => { setQuery(''); setStatusFilter('Semua') }}><RotateCcw/></button></div></div><div className="ic-conversion-case-list">{visibleCases.map((item) => <button key={item.id} className={selectedCase.id === item.id ? 'active' : ''} onClick={() => setSelectedCaseId(item.id)}><span><strong>{item.source}</strong><ArrowRight/><strong>{item.target}</strong></span><small>{item.id} · {item.reason} · {item.happenedAt}</small><em>{item.sizes}</em><b>{item.qty} pcs</b><i className={item.status.toLowerCase()}>{item.status}</i></button>)}</div><section className="ic-history-preview"><span>KASUS TERPILIH</span><strong>{selectedCase.id}</strong><p>{selectedCase.source} → {selectedCase.target}</p><small>{selectedCase.qty} pcs · {selectedCase.actor}</small></section></aside>
       <main className="panel ic-conversion-form"><header><div><span>NEW STOCK CONVERSION</span><h2>Ganti identitas merek, bukan barang fisiknya</h2><p>Produk yang sama dipindahkan antarmerek dengan ukuran dan grade tetap.</p></div><Repeat2/></header>
-        <section className="ic-conversion-route"><label><span>1 · SOURCE STOCK</span><select value={sourceKey} onChange={(event) => changeSource(event.target.value)}>{pairable.map((item) => <option key={productKey(item.brand, item.code)} value={productKey(item.brand, item.code)}>{item.brand} · {item.code} · {item.name} · {item.grade}</option>)}</select><small>{source.location} · Range {source.range}</small></label><i><ArrowRight/></i><label><span>2 · TARGET BRAND / SKU</span><select value={productKey(target.brand, target.code)} onChange={(event) => setTargetKey(event.target.value)}>{targets.map((item) => <option key={productKey(item.brand, item.code)} value={productKey(item.brand, item.code)}>{item.brand} · {item.code} · {item.name}</option>)}</select><small>Masuk {target.location} · grade mengikuti sumber: <b>{source.grade}</b></small></label></section>
+        <section className="ic-conversion-route"><div className="ic-route-field"><BrowsePicker label="1 · SOURCE STOCK" value={sourceKey} options={pairable.map((item) => conversionOption(item, true))} onChange={changeSource} searchPlaceholder="Cari merek, SKU, nama, grade…"/><small>{source.location} · Range {source.range}</small></div><i><ArrowRight/></i><div className="ic-route-field"><BrowsePicker label="2 · TARGET BRAND / SKU" value={productKey(target.brand, target.code)} options={targets.map((item) => conversionOption(item, false))} onChange={setTargetKey} searchPlaceholder="Cari merek tujuan…"/><small>Masuk {target.location} · grade mengikuti sumber: <b>{source.grade}</b></small></div></section>
         <div className="ic-identity-lock"><ShieldCheck/><div><strong>Master SKU tidak diubah</strong><small>{source.brand} · {source.code} tetap punya history sendiri. Dokumen ini membuat stock-out sumber dan stock-in tujuan yang saling menyeimbangkan.</small></div></div>
         <section className="ic-size-transfer"><header><div><span>3 · QTY PER SIZE</span><strong>Tentukan jumlah yang benar-benar diganti labelnya</strong></div><small>Enter / panah untuk pindah sel</small></header><div className="ic-size-head"><span>Size</span><span>Source On Hand</span><span>Transfer Qty</span><span>Source After</span><span>Target +</span></div>{source.sizes.map((size, index) => {
           const qty = qtyValues[index]

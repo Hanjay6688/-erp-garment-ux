@@ -6,6 +6,7 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import './access-control.css'
 import './access-control-cp45.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 type PermissionRow = {
   key: string
@@ -140,7 +141,7 @@ export default function AccessControlPage() {
 
   useEffect(() => { void load() }, [client]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const roles = data?.roles.filter((role) => `${role.name} ${role.code}`.toLowerCase().includes(query.toLowerCase())) ?? []
+  const roles = data?.roles.filter((role) => matchesSearch(query, searchValues(role), `${role.name} ${role.code}`)) ?? []
   const selectedRole = data?.roles.find((role) => role.id === selectedRoleId) ?? null
   const isDuplicate = selectedRoleId?.startsWith('duplicate:') ?? false
   const editorSource = isDuplicate
@@ -168,7 +169,7 @@ export default function AccessControlPage() {
     setHighRiskConfirmed(false)
   }
 
-  const grouped = groupPermissionRows(data?.permissions ?? []).filter((module) => `${module.label} ${module.key}`.toLowerCase().includes(moduleQuery.toLowerCase()))
+  const grouped = groupPermissionRows(data?.permissions ?? []).filter((module) => matchesSearch(moduleQuery, searchValues(module), `${module.label} ${module.key}`))
   const selectedHasHighRisk = (data?.permissions ?? []).some((permission) => permission.high_risk && draftPermissions.includes(permission.key))
 
   const togglePermission = (key: string) => setDraftPermissions((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key])

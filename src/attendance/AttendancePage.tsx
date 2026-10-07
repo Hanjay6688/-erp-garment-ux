@@ -21,6 +21,7 @@ import {
   XCircle,
 } from 'lucide-react'
 import { cleanMoneyInput, formatMoneyInput } from '../moneyInput'
+import BrowsePicker from '../components/BrowsePicker'
 import {
   addRateVersion,
   applyBulkAttendance,
@@ -542,7 +543,7 @@ export default function AttendancePage({onNavigate}: AttendancePageProps) {
           <small>Tanggal gajian {shortDate(payDate)} · hari libur ditandai pada kolom.</small>
         </div>
         <div className="attendance2-controls">
-          <label><span>MANDOR</span><select value={selectedContractorId} onChange={(event) => {setSelectedContractorId(event.target.value); setBulkPreview(null); setWorkerEditor(null); setRateEditor(null); setEmploymentEditor(null)}}>{contractors.map((contractor) => <option key={contractor.id} value={contractor.id}>{contractor.name}{!contractor.attendanceRequired ? ' · absensi tidak wajib' : ''}</option>)}</select></label>
+          <label className="attendance2-mandor"><span>MANDOR</span><BrowsePicker label="Mandor" hideLabel size="compact" value={selectedContractorId} options={contractors.map((contractor) => ({id: contractor.id, label: contractor.name, detail: contractor.attendanceRequired ? undefined : 'Absensi tidak wajib', meta: contractor.attendanceRequired ? undefined : 'tidak wajib', keywords: contractor.attendanceRequired ? undefined : 'absensi tidak wajib'}))} onChange={(next) => {if (next === selectedContractorId) return; setSelectedContractorId(next); setBulkPreview(null); setWorkerEditor(null); setRateEditor(null); setEmploymentEditor(null)}} searchPlaceholder="Cari mandor…" emptyText="Mandor tidak ditemukan."/></label>
           <label><span>AWAL PERIODE</span><input type="date" value={periodStart} onChange={(event) => {setPeriodStart(event.target.value); setBulkPreview(null)}}/></label>
           <label><span>AKHIR PERIODE</span><input type="date" value={periodEnd} onChange={(event) => {setPeriodEnd(event.target.value); setBulkPreview(null)}}/></label>
           <label><span>TANGGAL GAJIAN</span><input type="date" value={payDate} disabled={!mutable} onChange={(event) => setPeriodPayDates((current) => ({...current, [periodKey]: event.target.value}))}/></label>

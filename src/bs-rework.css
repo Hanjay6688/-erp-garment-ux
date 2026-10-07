@@ -183,3 +183,5 @@
 .bsr-ready-sku{display:block;font-style:normal;font-size:11px;color:#b8c3e6}
 @media(max-width:560px){.bsr-sku-identity{grid-template-columns:1fr}.bsr-sku-meta{grid-row:auto}.bsr-sku-action{align-items:flex-start}.bsr-sku-action small{text-align:left}}
 @media(max-width:720px){.bsr-sku-meta{grid-template-columns:1fr 1fr}.bsr-new-sku-fields{grid-template-columns:1fr}.bsr-new-sku-route{grid-template-columns:1fr}.bsr-new-sku-route>i{transform:rotate(90deg)}.bsr-new-sku-review dl{grid-template-columns:1fr}.bsr-size-table.with-sku>header,.bsr-size-table.with-sku>div{grid-template-columns:48px repeat(4,minmax(78px,1fr));min-width:430px}.bsr-case-history li{flex-direction:column;align-items:flex-start}}
+.bsr-toolbar-picker{min-width:150px;flex:1}.bsr-toolbar .browse-picker.size-compact>.browse-picker-trigger{min-height:42px;border-radius:11px}.bsr-identity-picker{min-width:0}
+@media(max-width:720px){.bsr-toolbar-picker{min-width:calc(50% - 4px)}}@media(max-width:480px){.bsr-toolbar-picker{min-width:100%}}

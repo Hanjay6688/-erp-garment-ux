@@ -4,6 +4,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ConnectedBsResolutionPage from './ConnectedBsResolutionPage'
+import { choosePickerOption, pickerTrigger } from './components/browsePickerDom.test.support'
 
 const authState = vi.hoisted(() => ({ current: null as unknown }))
 const mockedClient = vi.hoisted(() => ({ current: null as unknown }))
@@ -170,8 +171,8 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     await act(async () => { finishAction!({ data: { ok: true }, error: null }) })
     await settle()
 
-    const patternFilter = container.querySelector<HTMLSelectElement>('select[aria-label="FILTER POLA CP5"]')!
-    await act(async () => { setControlValue(patternFilter, 'pattern-2') })
+    const patternFilter = pickerTrigger('FILTER POLA CP5', container)
+    await choosePickerOption(patternFilter, 'SLIM · R1')
     await settle()
     expect(rpc.mock.calls.filter(([name, args]) => name === 'erp_get_bs_resolution_workspace_v1' && args.p_pattern_id === 'pattern-2')).toHaveLength(1)
     expect(container.textContent).toContain('Tidak ada kasus pada filter ini')
@@ -195,11 +196,11 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     await renderPage()
     const routeForm = container.querySelector<HTMLElement>('.cbsr-route-form')!
     const number = routeForm.querySelector<HTMLInputElement>('input[placeholder="RW-BS-1"]')!
-    const party = routeForm.querySelector<HTMLSelectElement>('select')!
+    const party = pickerTrigger('MANDOR REWORK', routeForm)
     const reason = routeForm.querySelector<HTMLTextAreaElement>('textarea')!
+    await choosePickerOption(party, 'Mandor A')
     await act(async () => {
       setControlValue(number, 'RW-BS-1-A')
-      setControlValue(party, 'contractor-1')
       setControlValue(reason, 'Pasang kancing saja sesuai fisik')
       routeForm.querySelectorAll<HTMLInputElement>('.cbsr-accessories input[type="checkbox"]')[1]!.click()
     })
@@ -245,9 +246,9 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     const accessories = routeForm.querySelectorAll<HTMLInputElement>('.cbsr-accessories input[type="checkbox"]')
     expect(accessories[0]?.checked).toBe(false)
     expect(accessories[1]?.checked).toBe(false)
+    await choosePickerOption(pickerTrigger('MANDOR REWORK', routeForm), 'Mandor A')
     await act(async () => {
       setControlValue(routeForm.querySelector<HTMLInputElement>('input[placeholder="RW-BS-1"]')!, 'RW-BS-1-REPLACE')
-      setControlValue(routeForm.querySelector<HTMLSelectElement>('select')!, 'contractor-1')
       setControlValue(routeForm.querySelector<HTMLTextAreaElement>('textarea')!, 'Label benar-benar diganti ulang')
       accessories[1]!.click()
     })

@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import './material-master.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 export type MaterialMasterView='master-fabric'|'master-accessory'
 type Props={view:MaterialMasterView}
@@ -77,7 +78,7 @@ function FabricWorkspace(){
   const [note,setNote]=useState('')
   const [notice,setNotice]=useState('')
   const selected=fabrics.find((item)=>item.id===selectedId)??fabrics[0]
-  const visible=useMemo(()=>fabrics.filter((item)=>`${item.code} ${item.name} ${item.family}`.toLowerCase().includes(query.toLowerCase())),[fabrics,query])
+  const visible=useMemo(()=>fabrics.filter((item)=>matchesSearch(query, searchValues(item), `${item.code} ${item.name} ${item.family}`, currentPrice(item.benchmark)>0?`${money(currentPrice(item.benchmark))}/${item.defaultUom}`:'Benchmark belum ada')),[fabrics,query])
   const benchmark=currentPrice(selected.benchmark)
   const saveBenchmark=()=>{
     const amount=Number(price.replace(/\D/g,''))
@@ -143,7 +144,7 @@ function AccessoryWorkspace(){
   const [notice,setNotice]=useState('')
   const selected=items.find((item)=>item.id===selectedId)??items[0]
   const categories=Array.from(new Set([...rates.map((item)=>item.category),...items.map((item)=>item.category),...extraCategories]))
-  const visible=useMemo(()=>items.filter((item)=>`${item.code} ${item.name} ${item.category}`.toLowerCase().includes(query.toLowerCase())&&(category==='ALL'||item.category===category)),[items,query,category])
+  const visible=useMemo(()=>items.filter((item)=>matchesSearch(query, searchValues(item), `${item.code} ${item.name} ${item.category}`)&&(category==='ALL'||item.category===category)),[items,query,category])
   const selectedRate=rates.find((item)=>item.category===selected.category)??{category:selected.category,sellingPrices:[],reimbursementPrices:[]}
   const sellingEntry=currentPriceEntry(selectedRate.sellingPrices)
   const reimbursementEntry=currentPriceEntry(selectedRate.reimbursementPrices)
@@ -227,7 +228,7 @@ function UomWorkspace(){
   const [notice,setNotice]=useState('')
   const selected=uoms.find((item)=>item.code===selectedCode)??uoms[0]
   const conversion=currentConversion(selected)
-  const visible=useMemo(()=>uoms.filter((item)=>`${item.code} ${item.name} ${item.family}`.toLowerCase().includes(query.toLowerCase())&&(family==='ALL'||item.family===family)),[uoms,query,family])
+  const visible=useMemo(()=>uoms.filter((item)=>matchesSearch(query, searchValues(item), `${item.code} ${item.name} ${item.family}`)&&(family==='ALL'||item.family===family)),[uoms,query,family])
   const sourceQty=Math.max(0,Number(qty.replace(',','.'))||0)
   const previewFactor=selected.mode==='VARIABLE'?Math.max(0,Number(transactionFactor.replace(',','.'))||0):(conversion?.factor??0)
   const preview=sourceQty*previewFactor

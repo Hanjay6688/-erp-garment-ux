@@ -18,6 +18,10 @@
 //   color       mid-tone text (contrast 1.8–4.7 on the lighter card #212a42) is
 //               lightened, hue kept, until it reaches 4.7:1. Near-black text
 //               (meant for light chips/avatars) is left alone.
+//   letter-spacing  positive tracking is capped at 0.02em: the .08–.18em on small
+//               uppercase labels spreads letters apart and costs width (and is
+//               inherited by whole sentences inside those labels). Negative
+//               tracking on large display text is kept.
 //
 //   node scripts/generate-ux-rapih.mjs          rewrite the block
 //   node scripts/generate-ux-rapih.mjs --check  fail when the block is stale
@@ -35,7 +39,8 @@ const END = '/* @generated ux-rapih-mirror:end */'
 const ROOT_CLASS = '.ux-rapih'
 const SCALE = [[12, 'xs'], [13, 'sm'], [14, 'base'], [16, 'md'], [20, 'lg'], [24, 'xl']]
 const DISPLAY_FROM_PX = 28
-const MIRRORED = new Set(['font-size', 'font', 'line-height', 'font-weight', 'font-family', 'color'])
+const MIRRORED = new Set(['font-size', 'font', 'line-height', 'font-weight', 'font-family', 'color', 'letter-spacing'])
+const TRACKING_MAX_EM = 0.02
 const BORDER_PROP = /^border(-(top|right|bottom|left))?(-color)?$/
 const TEXT_REFERENCE_BG = [0x21, 0x2a, 0x42]
 const TEXT_TARGET_RATIO = 4.7
@@ -182,6 +187,15 @@ function boostBorderColor(color) {
   const mixed = [r, g, b].map((channel, index) => Math.round(channel + (target[index] - channel) * 0.22))
   return `#${mixed.map((channel) => channel.toString(16).padStart(2, '0')).join('')}`
 }
+// px tracking is judged against the 12px floor of the type scale.
+function snapTracking(value) {
+  const match = /^\s*(-?\d*\.?\d+)(em|rem|px)\s*$/.exec(value)
+  if (!match) return value
+  const amount = Number(match[1])
+  if (amount <= 0) return value
+  const em = match[2] === 'px' ? amount / 12 : amount
+  return em > TRACKING_MAX_EM ? `${TRACKING_MAX_EM}em` : value
+}
 function boostBorder(value) {
   return value.replace(/rgba?\([^)]*\)|#[0-9a-f]{3,6}\b/gi, (color) => boostBorderColor(color))
 }
@@ -227,6 +241,7 @@ function mirroredValue(prop, value, sizePx) {
   if (prop === 'line-height') return snapLineHeight(value, sizePx)
   if (prop === 'font-weight') return snapWeight(value)
   if (prop === 'font-family') return snapFamily(value)
+  if (prop === 'letter-spacing') return snapTracking(value)
   return snapFontShorthand(value)
 }
 
@@ -241,6 +256,12 @@ function contextOf(node) {
   return chain
 }
 
+// Inputs drawn borderless inside a framed wrapper (search boxes, "qty | pcs"
+// fields). The global focus ring would draw a second box inside the frame, so
+// the ring moves to the input's parent frame instead.
+const EMBEDDED_INPUT = /(^|[\s>+~])(input|textarea)(\[[^\]]*\])?(:[\w-]+(\([^)]*\))?)*$/
+const embeddedInputs = new Set()
+
 const output = []
 let mirroredDeclarations = 0
 let normalisedDeclarations = 0
@@ -250,6 +271,10 @@ for (const file of await orderedStylesheets()) {
   sheet.walkRules((rule) => {
     const context = contextOf(rule)
     if (!context) return
+    const borderless = rule.nodes.some((node) => node.type === 'decl' && node.prop.toLowerCase() === 'border' && /^(0|none)\b/.test(node.value.trim()))
+    if (borderless && context.length === 0) {
+      for (const selector of splitSelectors(rule.selector)) if (EMBEDDED_INPUT.test(selector) && !selector.includes(':')) embeddedInputs.add(selector)
+    }
     const declarations = rule.nodes.filter((node) => node.type === 'decl' && (MIRRORED.has(node.prop.toLowerCase()) || BORDER_PROP.test(node.prop.toLowerCase())))
     if (declarations.length === 0) return
     const sizePx = ruleFontSizePx(declarations)
@@ -266,7 +291,13 @@ for (const file of await orderedStylesheets()) {
   if (blocks.length) output.push(`/* ${path.relative(sourceRoot, file)} */`, ...blocks)
 }
 
-const generated = [START, `/* ${mirroredDeclarations} declarations mirrored, ${normalisedDeclarations} normalised (type scale / visible borders / text contrast). */`, ...output, END].join('\n')
+const embeddedList = [...embeddedInputs].sort().join(',')
+const focusFrames = embeddedInputs.size === 0 ? [] : [
+  `/* ${embeddedInputs.size} borderless inputs inside a framed wrapper: the wrapper shows focus, not a second box inside it */`,
+  `${ROOT_CLASS} :is(${embeddedList}):focus-visible{outline:none}`,
+  `${ROOT_CLASS} :has(> :is(${embeddedList}):focus-visible){outline:2px solid var(--accent);outline-offset:2px}`,
+]
+const generated = [START, `/* ${mirroredDeclarations} declarations mirrored, ${normalisedDeclarations} normalised (type scale / visible borders / text contrast / letter-spacing). */`, ...output, ...focusFrames, END].join('\n')
 const current = await readFile(targetFile, 'utf8')
 const startIndex = current.indexOf(START)
 const endIndex = current.indexOf(END)

@@ -10,6 +10,7 @@ import AttendancePage from './attendance/AttendancePage'
 import type { ReminderItem, ReminderPriority } from './reminders'
 import { reminderDueLabel, reminderPriorityLabel } from './reminders'
 import './operations-admin.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 export type OperationsAdminView = 'operations-attendance' | 'admin-reminders' | 'admin-settings' | 'admin-period-close' | 'admin-audit'
 
@@ -236,7 +237,7 @@ function AuditTrailPage({onNavigate}:{onNavigate:OperationsAdminProps['onNavigat
   const [notice,setNotice]=useState('')
   const visible=useMemo(()=>auditExampleEvents.filter((event)=>{
     const haystack=`${event.id} ${event.module} ${event.action} ${event.reference} ${event.actor} ${event.reason}`.toLowerCase()
-    return haystack.includes(query.toLowerCase())&&(module==='Semua modul'||event.module===module)&&(priority==='Semua prioritas'||event.priority===priority)
+    return matchesSearch(query, haystack, searchValues(event))&&(module==='Semua modul'||event.module===module)&&(priority==='Semua prioritas'||event.priority===priority)
   }),[module,priority,query])
   const p0=auditExampleEvents.filter((event)=>event.priority==='P0').length
   const blocked=auditExampleEvents.filter((event)=>event.result==='DIBLOKIR').length
