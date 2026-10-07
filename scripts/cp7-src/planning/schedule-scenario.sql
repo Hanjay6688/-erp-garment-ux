@@ -34,6 +34,7 @@ declare supply jsonb;plan jsonb:=c->'schedule';cfg jsonb;wip jsonb;p jsonb;selec
  etas jsonb[]:='{}';rows jsonb:='[]';by_position jsonb;repeated jsonb;capacity jsonb;eta jsonb;source_state text;hash text;ready timestamptz;cursor_at timestamptz;
  through_at timestamptz;starts timestamptz;ends timestamptz;load numeric:=0;remaining_load numeric;
  minutes numeric;external_load numeric;used numeric;queue_known boolean:=true;other_load_placed boolean:=true;
+ window_start timestamptz[]:='{}';window_end timestamptz[]:='{}';wi integer:=1;wj integer;need numeric;covered numeric;usable jsonb;
 begin
  supply:=cp7_supply_native.build(c,q);wip:=supply->'wip';hash:=cp7_schedule_native.fingerprint(c);
  source_state:=case when plan='null'::jsonb then 'UNREVIEWED'
@@ -84,6 +85,7 @@ begin
   starts:=greatest(ready,cp7_demand.instant(win->'starts_at'));ends:=cp7_demand.instant(win->'ends_at');
   if ends<=starts then continue;end if;
   window_acc:=array_append(window_acc,jsonb_build_object('start',cp7_planning.utc(starts),'end',cp7_planning.utc(ends)));
+  window_start:=array_append(window_start,starts);window_end:=array_append(window_end,ends);
   minutes:=extract(epoch from ends-starts)/60;
   if win->'other_load_minutes'='null'::jsonb then
    external_load:=null;other_load_placed:=false;
@@ -129,11 +131,27 @@ begin
     case when not queue_known then 'SHARED_NATIVE_REMAINING_QUEUE_NOT_FULLY_REVIEWED'
      when not other_load_placed then 'OTHER_LOAD_DATED_PLACEMENT_NOT_SELECTED'else 'SELECTED_CALENDAR_EXPIRED'end);
   else
+   -- The ETA kernel skips every window that ends at or before the cursor and
+   -- every window after the minutes run out, and these windows were built
+   -- above and passed the capacity checks. So it is handed the usable part:
+   -- from the first window ending after the cursor through the window that
+   -- covers this position's minutes with a minute to spare, plus one. A
+   -- calendar over the kernel's 1000-window limit goes whole, refused as before.
+   if cardinality(window_acc)>1000 then usable:=windows;
+   else
+    while wi<=cardinality(window_end)and window_end[wi]<=cursor_at loop wi:=wi+1;end loop;
+    select coalesce(sum(cp7_wip.pcs(value->'remaining_minutes')),0)into need from jsonb_array_elements(selected->'remaining_steps');
+    wj:=wi;covered:=0;
+    while wj<=cardinality(window_end)and covered<=need+1 loop
+     covered:=covered+extract(epoch from window_end[wj]-greatest(window_start[wj],cursor_at))/60;wj:=wj+1;
+    end loop;
+    usable:=to_jsonb(window_acc[wi:wj]);
+   end if;
    work:='[]';
    for step in select value from jsonb_array_elements(selected->'remaining_steps')with ordinality order by ordinality loop
     work:=work||jsonb_build_array(jsonb_build_object('stage',step->'stage','remaining_minutes',step->'remaining_minutes',
      'basis','ASSUMED','assumption_id',plan->>'plan_id','calendar_version',(plan->>'plan_id')||':'||(plan->>'revision'),
-     'windows',windows,'refs',refs));
+     'windows',usable,'refs',refs));
    end loop;
    eta:=cp7_wip.remaining_eta(cursor_at,through_at,work);
    if eta->>'status'in('KNOWN','CONDITIONAL')then cursor_at:=(eta->>'eta')::timestamptz;

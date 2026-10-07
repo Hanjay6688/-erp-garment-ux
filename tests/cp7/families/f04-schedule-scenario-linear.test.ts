@@ -21,7 +21,7 @@ test('P19 schedule scenario and project_yield equal their predecessors byte for 
       compared++; if (out.status === 'SCENARIO') scenarios++; known += out.known
     }
     expect(compared).toBeGreaterThan(300); expect(scenarios).toBeGreaterThan(200); expect(known).toBeGreaterThan(500)
-    for (const code of ['CP7_WIP_PCS', 'CP7_WIP_YIELD_POLICY', 'more than one row returned by a subquery used as an expression']) expect(refusals).toContain(code)
+    for (const code of ['CP7_WIP_PCS', 'CP7_WIP_YIELD_POLICY', 'more than one row returned by a subquery used as an expression', 'CP7_WIP_TIMING_WINDOWS']) expect(refusals).toContain(code)
     let yielded = 0
     const yieldRefusals = new Set<string>()
     for (let seed = 1; seed <= 40; seed++) for (const defect of YIELD_DEFECTS) {

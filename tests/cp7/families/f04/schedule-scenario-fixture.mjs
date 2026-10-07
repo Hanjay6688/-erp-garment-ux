@@ -63,7 +63,7 @@ export function scheduleInput(seed, { positions = 20, windows = 12, defect = nul
   if (defect === 'ZERO_DENOMINATOR') { const y = cfgPositions.find(p => p.yield_denominator); if (y) y.yield_denominator = '0' }
   const win = []
   let cursor = at - 90 * minute
-  for (let i = 0; i < windows; i++) {
+  for (let i = 0; i < (defect === 'MANY_WINDOWS' ? 1001 : windows); i++) {
     const start = cursor + Math.floor(r() * 120) * minute, end = start + (30 + Math.floor(r() * 400)) * minute + (r() < 0.2 ? 500 : 0)
     win.push({ key: `win-${String(i).padStart(3, '0')}`, starts_at: iso(start), ends_at: iso(end),
       other_load_minutes: defect === 'OTHER_LOAD' && r() < 0.3 ? String(1 + Math.floor(r() * 30)) : defect === 'NULL_LOAD' && r() < 0.3 ? null : '0' })
@@ -77,7 +77,7 @@ export function scheduleInput(seed, { positions = 20, windows = 12, defect = nul
     stub_supply: { status: 'COMPLETE', wip: { contract_version: 'cp7.wip-position.v1', status: defect === 'WIP_INCOMPLETE' ? 'INCOMPLETE' : 'COMPLETE', snapshot_id: `snap-${seed}`, positions: wip } },
     schedule: defect === 'UNREVIEWED' ? null : plan }
 }
-export const DEFECTS = [null, null, null, 'PARTIAL_CONFIG', 'MISMATCH', 'NULL_MINUTES', 'DUPLICATE_CONFIG', 'ZERO_DENOMINATOR', 'BAD_PCS', 'OTHER_LOAD', 'NULL_LOAD', 'EXPIRED', 'SOURCE_CHANGED', 'NO_UNIT', 'WIP_INCOMPLETE', 'UNREVIEWED']
+export const DEFECTS = [null, null, null, 'PARTIAL_CONFIG', 'MISMATCH', 'NULL_MINUTES', 'DUPLICATE_CONFIG', 'ZERO_DENOMINATOR', 'BAD_PCS', 'OTHER_LOAD', 'NULL_LOAD', 'EXPIRED', 'SOURCE_CHANGED', 'NO_UNIT', 'WIP_INCOMPLETE', 'UNREVIEWED', 'MANY_WINDOWS']
 // project_yield on its own: duplicate, missing, invalid and repeated-position inputs.
 export function yieldInput(seed, { positions = 15, defect = null } = {}) {
   const r = rng(seed), rows = [], key = i => `p-${i}`
