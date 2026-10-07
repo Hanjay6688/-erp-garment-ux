@@ -624,6 +624,8 @@ Oracle browser P12 payroll-review (`.cpay-net` "Bersih payroll") **tidak diubah 
 | `42611b56` | P19 skala: log memuat biaya sendiri setiap lapisan dan waktu server setiap fase (diagnostik saja) |
 | `9e6d9bce` | P19: riwayat permintaan menggabungkan baris ketersediaan langsung ke grid (5–10%, md5 sama) |
 | `cb201edf` | **PL-8 bagian 2:** grup potong yang terbukti habis keluar dari cakupan supply dan dicantumkan (`cp7.native-supply.v2`); jalur PL-7 dibetulkan; suite rencana 42 |
+| `ee966484` | Deklarasi suite analisis 153 dan attention 285 (keduanya ikut menjalankan kasus jadwal PL-4; kegagalan pertama P08 37570105099 dicatat) |
+| `a0d81bc0` | Deklarasi `P19_SCALE.json` mengikuti batas supply v2 (kegagalan pertama skala 37574636528 dicatat; batas ditambah, tidak dilonggarkan) |
 | sisanya | dokumen (`SELF_CHECK_FORMULAS_20261006.md`, `P20_P21_PAKET_CABANG_CLAUDE.md` §9, `p19/P19_FULL_APP_SCALE.md`) dan jalur workflow |
 
 **Perubahan belum di-push:** tidak ada (pohon kerja bersih; `HEAD` = `origin/claude/new-session-deapao`).
