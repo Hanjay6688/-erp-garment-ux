@@ -1,0 +1,49 @@
+name: CP7 Claude Support Segment Diagnostic
+
+on:
+  push:
+    branches: [cp7/claude-support-review-20261007]
+    paths:
+      - scripts/cp7_analysis_segment_probe.mjs
+      - tests/cp7/families/f04/segment-cut-probe.sql
+      - .github/workflows/cp7-claude-support-review.yml
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cp7-claude-support-segments-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-segments:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+      - name: Ensure a disposable native PostgreSQL runtime is available
+        run: |
+          if ! test -x /usr/lib/postgresql/16/bin/initdb; then
+            sudo apt-get update -qq
+            sudo apt-get install -y postgresql-16
+          fi
+      - name: Exact code-point parity, negative controls, and A-B-B-A measurements
+        run: |
+          set -o pipefail
+          node scripts/cp7_analysis_segment_probe.mjs test-results/cp7-support/SEGMENT_CUT_PROBE_NATIVE.json 4000003 16000003 65000003 210000003 | tee segment-probe-native.log
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp7-claude-support-segment-probe
+          path: |
+            test-results/cp7-support/SEGMENT_CUT_PROBE_NATIVE.json
+            segment-probe-native.log
+          if-no-files-found: error
+          retention-days: 30
