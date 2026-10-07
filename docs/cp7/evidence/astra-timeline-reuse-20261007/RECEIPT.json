@@ -1,0 +1,99 @@
+{
+  "kind": "WRITER_ASSISTANCE_NATIVE_KERNEL_PARITY",
+  "source_commit": "1c4028d8e804c61a555a0343ae42403ca64fd694",
+  "predecessor": "aa638356e13aeffe7b2a2aa96f17dbe19676db1f",
+  "run_id": 37585398848,
+  "job_id": 112674235997,
+  "artifact_id": 11465674012,
+  "artifact_zip_sha256": "f82819071c64c83d65b38623228c29ab15b4721ff93aaefbbdbea7030dd6db63",
+  "report_sha256": "8aeedc41805fcec0873bac664a9967525b8babfa703894526c229e4f30aaa01f",
+  "compressed_report_sha256": "1dddfaf96b76deb50087cb05b566c614b93b4a576194135bdf3e80a38b9d4076",
+  "runtime": {
+    "flavor": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+    "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit"
+  },
+  "counts": {
+    "declared": 571,
+    "executed": 571,
+    "successes": 288,
+    "refusals": 283,
+    "distinct_refusals": 16,
+    "supply_events": 404
+  },
+  "mutations_caught": 2,
+  "source_sha256": {
+    "original": "4d7490a422ab2915c3871b5d468cc4ad4577cad19cf9304d8a48d92971c773a9",
+    "candidate": "1d1b5133ace242df5fe09f873e6ca7dddcdb10ad33a65795bd93d6874d181117"
+  },
+  "benchmark": [
+    {
+      "requested_targets": 100,
+      "positions": 0,
+      "actual_targets": 100,
+      "old_ms": 457.113,
+      "new_ms": 270.904,
+      "reduction_percent": 40.735879312117575
+    },
+    {
+      "requested_targets": 300,
+      "positions": 0,
+      "actual_targets": 300,
+      "old_ms": 1373.9805000000001,
+      "new_ms": 811.7925,
+      "reduction_percent": 40.9167379013021
+    },
+    {
+      "requested_targets": 1000,
+      "positions": 0,
+      "actual_targets": 1000,
+      "old_ms": 4648.089,
+      "new_ms": 2786.2945,
+      "reduction_percent": 40.055052732424016
+    },
+    {
+      "requested_targets": 100,
+      "positions": 100,
+      "actual_targets": 100,
+      "old_ms": 965.7860000000001,
+      "new_ms": 853.9525,
+      "reduction_percent": 11.579532111668637
+    },
+    {
+      "requested_targets": 300,
+      "positions": 100,
+      "actual_targets": 300,
+      "old_ms": 2103.6274999999996,
+      "new_ms": 1616.3955,
+      "reduction_percent": 23.16151504959883
+    },
+    {
+      "requested_targets": 1000,
+      "positions": 100,
+      "actual_targets": 1000,
+      "old_ms": 5834.4,
+      "new_ms": 4060.6605,
+      "reduction_percent": 30.4014037433155
+    }
+  ],
+  "complete_case_ledger_checked": true,
+  "full_application": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "retained_files": {
+    "FINALIZER_FIX_LOCAL.log.gz": "c3c7c546f2fa5377ea1a2760eb8dc37ec11d9f5bb58ef57aa920f134193285ff",
+    "NATIVE_JOB.log.gz": "0cf80154832b14c6f8c1a8ace766aba17e76b99f31a6fae292fd3b07b5dcf04f",
+    "NATIVE_REPORT.json.gz": "1dddfaf96b76deb50087cb05b566c614b93b4a576194135bdf3e80a38b9d4076",
+    "LOCAL_FIRST_PGCRYPTO_MISSING.log.gz": "e96e38f438fc85f9de31425e88eddade95cfeb925a65d1f7e2a6b07b1b15d360",
+    "SHELL_FIRST.log.gz": "b2922caca24c033d8578a6deccdfd9e434c66311b71bc87864278b5e3b2edf38"
+  },
+  "inherited_shell_failure": {
+    "run_id": 37585398642,
+    "job_id": 112674235620,
+    "cause": "test fixture omitted p19_transport and p19_scale defaults",
+    "old_finalizer_test_sha256": "833b7c52c4bf3b107db022e98d475ebe5ae4566b25d3e04b423a84146a03bb22",
+    "unchanged_probe_sha256": "c815983afa7624e593afff645473f8fa563567038622fe014f2f44e7d2e38713",
+    "local_reproduction": true,
+    "fixed_local_controls_pass": 7,
+    "full_shell_acceptance": false
+  }
+}

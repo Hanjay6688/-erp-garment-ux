@@ -25,7 +25,8 @@ def main():
             connection.connect.side_effect = RuntimeError('deliberate restoration lock failure')
             output = Path(temporary) / ('earlier.json' if initial_error else 'restore.json')
             environment = dict(installed=True, psycopg=connection, package=Mock(), report=report,
-                               traceback=traceback, fabric_any=False, p19_load=False, attention=False, p18_e01=False,
+                               traceback=traceback, fabric_any=False, p19_load=False, p19_transport=False, p19_scale=False,
+                               attention=False, p18_e01=False,
                                rule_lifecycle=False, source_navigation=False, misc_correction=False,
                                payment_correction=False, supplier_payment_correction=False,
                                return_correction=False, sales_chain=False, cutting_correction=False,
