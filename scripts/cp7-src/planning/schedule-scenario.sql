@@ -30,8 +30,8 @@ $$;
 create function cp7_schedule_native.build(c jsonb,q jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
 declare supply jsonb;plan jsonb:=c->'schedule';cfg jsonb;wip jsonb;p jsonb;selected jsonb;step jsonb;win jsonb;
- refs jsonb;plans_refs jsonb;yield_inputs jsonb:='[]';work jsonb;windows jsonb:='[]';capacity_windows jsonb:='[]';
- etas jsonb:='[]';rows jsonb:='[]';capacity jsonb;eta jsonb;source_state text;hash text;ready timestamptz;cursor_at timestamptz;
+ refs jsonb;plans_refs jsonb;yield_inputs jsonb[]:='{}';work jsonb;windows jsonb;window_acc jsonb[]:='{}';capacity_windows jsonb[]:='{}';
+ etas jsonb[]:='{}';rows jsonb:='[]';by_position jsonb;repeated jsonb;capacity jsonb;eta jsonb;source_state text;hash text;ready timestamptz;cursor_at timestamptz;
  through_at timestamptz;starts timestamptz;ends timestamptz;load numeric:=0;remaining_load numeric;
  minutes numeric;external_load numeric;used numeric;queue_known boolean:=true;other_load_placed boolean:=true;
 begin
@@ -55,7 +55,15 @@ begin
  -- remaining work is unknown load, not a free slot for some other SKU.
  for p in select value from jsonb_array_elements(wip->'positions')
   where cp7_schedule_native.route(value->>'stage')is not null and cp7_wip.pcs(value->'remaining_pcs')>0 loop
-  selected:=(select value from jsonb_array_elements(cfg->'positions')where value->>'position_key'=p->>'key');
+  -- One selected row per captured position. The map is built where the
+  -- per-position scan first ran; a repeated key fails as that scan did.
+  if by_position is null then
+   select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into by_position,repeated
+    from(select value->>'position_key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(cfg->'positions')
+     where value->>'position_key'is not null group by 1)f;
+  end if;
+  if repeated?(p->>'key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  selected:=by_position->(p->>'key');
   if selected is null or cp7_wip.pcs(selected->'eligible_input_pcs')<>cp7_wip.pcs(p->'remaining_pcs')then
    queue_known:=false;
   elsif exists(select 1 from jsonb_array_elements(selected->'remaining_steps')where value->'remaining_minutes'='null'::jsonb)then
@@ -65,17 +73,17 @@ begin
     from jsonb_array_elements(selected->'remaining_steps');
   end if;
   if p->'eligible_company_wip'='true'::jsonb and selected is not null and selected->'yield_numerator'<>'null'::jsonb then
-   yield_inputs:=yield_inputs||jsonb_build_array(jsonb_build_object('position_key',p->>'key',
+   yield_inputs:=array_append(yield_inputs,jsonb_build_object('position_key',p->>'key',
     'eligible_input_pcs',selected->'eligible_input_pcs','numerator',selected->'yield_numerator',
     'denominator',selected->'yield_denominator','basis','ASSUMED','assumption_id',plan->>'plan_id',
     'refs',(p->'refs')||plans_refs));
   end if;
  end loop;
- wip:=cp7_wip.project_yield(wip,yield_inputs);remaining_load:=load;
+ wip:=cp7_wip.project_yield(wip,to_jsonb(yield_inputs));remaining_load:=load;
  for win in select value from jsonb_array_elements(cfg->'windows')order by cp7_demand.instant(value->'starts_at'),value->>'key'loop
   starts:=greatest(ready,cp7_demand.instant(win->'starts_at'));ends:=cp7_demand.instant(win->'ends_at');
   if ends<=starts then continue;end if;
-  windows:=windows||jsonb_build_array(jsonb_build_object('start',cp7_planning.utc(starts),'end',cp7_planning.utc(ends)));
+  window_acc:=array_append(window_acc,jsonb_build_object('start',cp7_planning.utc(starts),'end',cp7_planning.utc(ends)));
   minutes:=extract(epoch from ends-starts)/60;
   if win->'other_load_minutes'='null'::jsonb then
    external_load:=null;other_load_placed:=false;
@@ -84,7 +92,7 @@ begin
   end if;
   used:=least(remaining_load,greatest(0,minutes-coalesce(external_load,minutes)));
   remaining_load:=remaining_load-used;
-  capacity_windows:=capacity_windows||jsonb_build_array(jsonb_build_object('key',win->'key',
+  capacity_windows:=array_append(capacity_windows,jsonb_build_object('key',win->'key',
    'starts_at',cp7_planning.utc(starts),'ends_at',cp7_planning.utc(ends),
    -- The retained decimal kernel admits twelve decimal places. Duration/60
    -- can recur; round LOAD upward so serialization never creates free time.
@@ -92,6 +100,7 @@ begin
     then(ceil((external_load+used)*1000000000000)/1000000000000)::numeric(42,12)::text else null end,
    'refs',plans_refs));
  end loop;
+ windows:=to_jsonb(window_acc);
  if through_at<=ready then
   capacity:=jsonb_build_object('status','UNKNOWN','capacity_pcs',null,'reason','SELECTED_CALENDAR_EXPIRED');
  else
@@ -99,13 +108,22 @@ begin
    'snapshot_id',wip->>'snapshot_id','scope_id','GLOBAL_NATIVE_POSTED_PRODUCTION_ORIGINS',
    'work_centre_id',cfg->>'work_centre_key','from_at',cp7_planning.utc(ready),'through_at',cfg->'through_at',
    'unit_minutes',cfg->'unit_minutes','unit_time_basis',case when cfg->'unit_minutes'='null'::jsonb then 'UNKNOWN'else 'SELECTED_ASSUMPTION'end,
-   'windows',capacity_windows,'refs',plans_refs));
+   'windows',to_jsonb(capacity_windows),'refs',plans_refs));
   if remaining_load>0 then capacity:=capacity||jsonb_build_object('status','UNKNOWN','capacity_pcs',null,
    'reason','CAPTURED_REMAINING_WORK_EXCEEDS_SELECTED_CALENDAR');end if;
  end if;
  for p in select value from jsonb_array_elements(wip->'positions')
   where cp7_schedule_native.route(value->>'stage')is not null and cp7_wip.pcs(value->'remaining_pcs')>0 order by value->>'key'loop
-  selected:=(select value from jsonb_array_elements(cfg->'positions')where value->>'position_key'=p->>'key');refs:=(p->'refs')||plans_refs;
+  -- One selected row per captured position. The map is built where the
+  -- per-position scan first ran; a repeated key fails as that scan did.
+  if by_position is null then
+   select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into by_position,repeated
+    from(select value->>'position_key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(cfg->'positions')
+     where value->>'position_key'is not null group by 1)f;
+  end if;
+  if repeated?(p->>'key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  selected:=by_position->(p->>'key');
+  refs:=(p->'refs')||plans_refs;
   if not queue_known or not other_load_placed or through_at<=ready then
    eta:=jsonb_build_object('status','UNKNOWN','eta',null,'on_time',null,'reason',
     case when not queue_known then 'SHARED_NATIVE_REMAINING_QUEUE_NOT_FULLY_REVIEWED'
@@ -121,12 +139,12 @@ begin
    if eta->>'status'in('KNOWN','CONDITIONAL')then cursor_at:=(eta->>'eta')::timestamptz;
    else queue_known:=false;end if;
   end if;
-  etas:=etas||jsonb_build_array(jsonb_build_object('position_key',p->'key','target_key',selected->'target_key',
+  etas:=array_append(etas,jsonb_build_object('position_key',p->'key','target_key',selected->'target_key',
    'result',eta,'refs',refs));
  end loop;
  return jsonb_build_object('contract_version','cp7.native-planning-scenario.v1','captured_at',c->>'captured_at',
   'source_hash',hash,'planning_time_bucket',c->'planning_time_bucket','supply_run_result',supply,
-  'schedule',plan,'schedule_state',source_state,'status','SCENARIO','wip',wip,'etas',etas,'capacity',capacity,
+  'schedule',plan,'schedule_state',source_state,'status','SCENARIO','wip',wip,'etas',to_jsonb(etas),'capacity',capacity,
   'resource_basis','SINGLE_HOMOGENEOUS_SELECTED_CENTRE_ALL_CAPTURED_REMAINING_WORK_BEFORE_NEW_STARTS',
   'queue_order','STABLE_NATIVE_POSITION_KEY_SELECTED_SCENARIO_NOT_FACTORY_OPTIMIZER',
   'allocation',jsonb_build_object('status','UNKNOWN','reason','AUTHORITATIVE_REVIEWED_GLOBAL_MATCHING_NOT_COMPOSED'),
