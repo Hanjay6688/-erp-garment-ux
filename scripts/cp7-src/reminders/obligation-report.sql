@@ -80,7 +80,8 @@ begin
    else 'Belum diketahui ('||coalesce(f->'remaining'->>'reason','sumber belum terbukti')||')'end;
   due:=coalesce(f->>'recorded_due_date','Belum diketahui');
   lines:=array_append(lines,coalesce(labels->>(r->>'domain'),r->>'domain')||' · '||(r->>'label')||
-   ': sisa '||remaining||'; jatuh tempo tercatat '||due||'; keadaan ekonomi '||(r->>'economic_state')||
+   ': sisa '||remaining||case when left(coalesce(f->'document'->>'due_basis',''),5)='RULE_'
+    then'; jatuh tempo menurut aturan tertua-dulu dalam penerimaan (bukan bukti per invoice) 'else'; jatuh tempo tercatat 'end||due||'; keadaan ekonomi '||(r->>'economic_state')||
    '; pemeriksaan '||(r->>'reason')||'; sumber '||(r->>'key')||'.');
   lines:=array_append(lines,'Revisi sumber '||(f->>'revision_basis')||'; hash dokumen '||
    (f->>'document_sha256')||'. Referensi lengkap dipertahankan bersama sumber lampiran.');

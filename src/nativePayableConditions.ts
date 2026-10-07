@@ -8,7 +8,14 @@ type Balance=SupplierCreditWorkspace['purchases'][number]
 type Liability={purchase_id:string;purchase_number:string;supplier_id:string|null;supplier_code:string|null;supplier_name:string|null;physical_at:string;status:'DRAFT'|'POSTED'|'REVERSED';payment_status:string;receipt_estimate_amount:string;final_ap_amount:string;grni_estimated_amount:string;total_liability_amount:string;paid_amount:string;final_ap_outstanding:string;liability_state:string;active_invoice_numbers:string|null;earliest_due_date:string|null;unfinalized_days:string;row_version:string;created_at:string;updated_at:string;search_text:string}
 type Coverage={id:string;price_state:string;invoice_match_state:string;capacity:string;invoiced_qty:string}
 type Condition={key:string;source_revision:string;native_source_hash:string;state:State;invoice_pending:boolean;business_resolved:boolean}
-export type PayableRow={liability:Liability;balance:Balance|null;receipt_due_date:string|null;due_date:string|null;due_basis:'NATIVE_POSTED_INVOICE_EARLIEST'|'NATIVE_RECEIPT_HEADER'|'MISSING';invoice_coverage:Coverage[];condition:Condition}
+type RecordedBasis='NATIVE_POSTED_INVOICE_EARLIEST'|'NATIVE_RECEIPT_HEADER'|'MISSING'
+// AP-5: payments are receipt-bound in Native (no recorded invoice allocation),
+// so the reminder applies them to the receipt's portions oldest due first.
+// A rule result, never per-invoice payment evidence.
+export type DueBasis=RecordedBasis|'RULE_OLDEST_DUE_FIRST_WITHIN_RECEIPT'|'RULE_OPEN_PORTION_DUE_MISSING'
+type Portion={kind:'POSTED_INVOICE'|'RECEIPT_DIRECT_FINAL';invoice_id:string|null;invoice_number:string|null;invoice_date:string|null;due_date:string|null;amount:string}
+export type DueRule={rule:'OLDEST_DUE_FIRST_WITHIN_RECEIPT';evidence:'RULE_RESULT_NOT_PER_INVOICE_PAYMENT_EVIDENCE';recorded_invoice_allocation:'NONE_IN_NATIVE_PAYMENTS_ARE_RECEIPT_BOUND';payments_applied:string|null;recorded_due_date:string|null;recorded_due_basis:RecordedBasis;portions:Portion[];outcome:'NOT_APPLICABLE'|'OPEN_PORTION'|'OPEN_PORTION_DUE_MISSING'|'UNATTRIBUTED';open_portion:number|null}
+export type PayableRow={liability:Liability;balance:Balance|null;receipt_due_date:string|null;due_date:string|null;due_basis:DueBasis;due_rule:DueRule;invoice_coverage:Coverage[];condition:Condition}
 export type NativePayableConditions={analysis:NativeAnalysis;rows:PayableRow[];sourceHash:string;asOf:string;readAt:string;source:Record<string,unknown>}
 const uuid=(v:unknown):v is string=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
 const text=(v:unknown):v is string=>typeof v==='string',nullableText=(v:unknown)=>v===null||text(v)
@@ -20,15 +27,24 @@ const version=(v:unknown)=>integer(v)&&BigInt(v)>0n&&BigInt(v)<=9223372036854775
 // Native quantity × unit-price products retain twelve fractional places.
 // Preserve that source precision; no rounding or another money calculation.
 const decimal=(v:unknown):v is string=>text(v)&&/^-?(0|[1-9][0-9]{0,23})(?:\.[0-9]{1,12})?$/.test(v)
+// PostgreSQL round(x,2): half away from zero, at 12-place source precision.
+const cents=(u:bigint)=>u<0n?-((-u+5000000000n)/10000000000n):(u+5000000000n)/10000000000n
 const units=(s:string)=>{const negative=s.startsWith('-'),[whole,fraction='']=(negative?s.slice(1):s).split('.'),n=BigInt(whole)*1000000000000n+BigInt(fraction.padEnd(12,'0'));return negative?-n:n}
 function fail():never{throw Error('Sumber utang bahan pemasok belum lengkap atau tidak sesuai hak akses saat ini.')}
 function closed(v:unknown,keys:string[]):Record<string,unknown>{if(!v||typeof v!=='object'||Array.isArray(v)||Object.keys(v).sort().join('|')!==[...keys].sort().join('|'))return fail();return v as Record<string,unknown>}
 const liabilityKeys=['purchase_id','purchase_number','supplier_id','supplier_code','supplier_name','physical_at','status','payment_status','receipt_estimate_amount','final_ap_amount','grni_estimated_amount','total_liability_amount','paid_amount','final_ap_outstanding','liability_state','active_invoice_numbers','earliest_due_date','unfinalized_days','row_version','created_at','updated_at','search_text']
 function parseRow(v:unknown,asOf:string):PayableRow{
- const r=closed(v,['liability','balance','receipt_due_date','due_date','due_basis','invoice_coverage','condition']),l=closed(r.liability,liabilityKeys)
+ const r=closed(v,['liability','balance','receipt_due_date','due_date','due_basis','due_rule','invoice_coverage','condition']),l=closed(r.liability,liabilityKeys)
  if(!uuid(l.purchase_id)||!text(l.purchase_number)||l.supplier_id!==null&&!uuid(l.supplier_id)||![l.supplier_code,l.supplier_name,l.active_invoice_numbers].every(nullableText)||![l.physical_at,l.created_at,l.updated_at].every(instant)||!['DRAFT','POSTED','REVERSED'].includes(String(l.status))||![l.payment_status,l.liability_state,l.search_text].every(text)||!integer(l.unfinalized_days)||!version(l.row_version)||!['receipt_estimate_amount','final_ap_amount','grni_estimated_amount','total_liability_amount','paid_amount','final_ap_outstanding'].every(k=>decimal(l[k]))||l.earliest_due_date!==null&&!day(l.earliest_due_date)||r.receipt_due_date!==null&&!day(r.receipt_due_date))return fail()
- const due=l.earliest_due_date??r.receipt_due_date,basis=l.earliest_due_date!==null?'NATIVE_POSTED_INVOICE_EARLIEST':r.receipt_due_date!==null?'NATIVE_RECEIPT_HEADER':'MISSING'
- if(r.due_date!==due||r.due_basis!==basis||!Array.isArray(r.invoice_coverage)||r.invoice_coverage.length>10000)return fail()
+ const recorded=l.earliest_due_date??r.receipt_due_date,recordedBasis=l.earliest_due_date!==null?'NATIVE_POSTED_INVOICE_EARLIEST':r.receipt_due_date!==null?'NATIVE_RECEIPT_HEADER':'MISSING'
+ const u=closed(r.due_rule,['rule','evidence','recorded_invoice_allocation','payments_applied','recorded_due_date','recorded_due_basis','portions','outcome','open_portion'])
+ if(u.rule!=='OLDEST_DUE_FIRST_WITHIN_RECEIPT'||u.evidence!=='RULE_RESULT_NOT_PER_INVOICE_PAYMENT_EVIDENCE'||u.recorded_invoice_allocation!=='NONE_IN_NATIVE_PAYMENTS_ARE_RECEIPT_BOUND'||u.recorded_due_date!==recorded||u.recorded_due_basis!==recordedBasis||!Array.isArray(u.portions)||u.portions.length>10000)return fail()
+ const portions=u.portions.map(x=>{const p=closed(x,['kind','invoice_id','invoice_number','invoice_date','due_date','amount']),invoice=p.kind==='POSTED_INVOICE'
+  if(!['POSTED_INVOICE','RECEIPT_DIRECT_FINAL'].includes(String(p.kind))||(invoice?!uuid(p.invoice_id)||!text(p.invoice_number)||p.invoice_date!==null&&!day(p.invoice_date):p.invoice_id!==null||p.invoice_number!==null||p.invoice_date!==null||p.due_date!==r.receipt_due_date)||p.due_date!==null&&!day(p.due_date)||!decimal(p.amount))return fail()
+  return p as unknown as Portion})
+ // Oldest due first, undated last; ties keep any order (the due found is the same).
+ if(portions.some((p,i)=>i>0&&(portions[i-1].due_date===null?p.due_date!==null:p.due_date!==null&&p.due_date<portions[i-1].due_date!)))return fail()
+ if(!Array.isArray(r.invoice_coverage)||r.invoice_coverage.length>10000)return fail()
  const ids=new Set<string>();let pending=units(l.grni_estimated_amount as string)>0n
  for(const value of r.invoice_coverage){const c=closed(value,['id','price_state','invoice_match_state','capacity','invoiced_qty']);if(!uuid(c.id)||ids.has(c.id)||!text(c.price_state)||!text(c.invoice_match_state)||!decimal(c.capacity)||!decimal(c.invoiced_qty)||units(c.capacity)<0n||units(c.invoiced_qty)<0n)return fail();ids.add(c.id);pending||=c.invoice_match_state!=='DIRECT_FINAL'&&units(c.capacity)>units(c.invoiced_qty)}
  pending&&=l.status==='POSTED'
@@ -40,6 +56,16 @@ function parseRow(v:unknown,asOf:string):PayableRow{
   balance=parseSupplierCredit({supplier_id:l.supplier_id,page:1,total:0,can_manage:false,suppliers:[],credits:[],purchases:[b]}).purchases[0]
  }else if(r.balance!==null)return fail()
  const remaining=balance?units(balance.remaining):null
+ if(u.payments_applied!==(balance?balance.paid:null))return fail()
+ let outcome:DueRule['outcome']='NOT_APPLICABLE',open:number|null=null
+ if(l.status==='POSTED'&&balance&&remaining!==null&&remaining>0n&&portions.length){
+  const paid=units(balance.paid);let running=0n;outcome='UNATTRIBUTED'
+  for(const [i,p] of portions.entries()){running+=units(p.amount);if(cents(running)*10000000000n>paid){outcome=p.due_date===null?'OPEN_PORTION_DUE_MISSING':'OPEN_PORTION';open=i;break}}
+ }
+ if(u.outcome!==outcome||u.open_portion!==open)return fail()
+ const due=outcome==='OPEN_PORTION'?portions[open!].due_date:outcome==='OPEN_PORTION_DUE_MISSING'?null:recorded
+ const basis:DueBasis=outcome==='OPEN_PORTION'?'RULE_OLDEST_DUE_FIRST_WITHIN_RECEIPT':outcome==='OPEN_PORTION_DUE_MISSING'?'RULE_OPEN_PORTION_DUE_MISSING':recordedBasis
+ if(r.due_date!==due||r.due_basis!==basis)return fail()
  const state:State=l.status==='DRAFT'?'DRAFT_ONLY':l.status!=='POSTED'?'INACTIVE_DOCUMENT':remaining===null?'UNKNOWN_BALANCE':remaining<0n?'CREDIT_REVIEW':remaining===0n&&pending?'INVOICE_PENDING':remaining===0n?'ZERO_BALANCE':due===null?'MISSING_DUE_DATE':String(due)<asOf?'OVERDUE':due===asOf?'DUE_TODAY':'NOT_DUE_YET'
  const c=closed(r.condition,['key','source_revision','native_source_hash','state','invoice_pending','business_resolved'])
  if(c.key!=='AP_MATERIAL:'+l.purchase_id||c.source_revision!==l.row_version||!hash(c.native_source_hash)||c.state!==state||c.invoice_pending!==pending||c.business_resolved!==(state==='ZERO_BALANCE'))return fail()
@@ -50,9 +76,13 @@ export function parseNativePayableConditions(v:unknown,q:NativeDemandQuery,actor
  const e=closed(v,['contract_version','actor_scope_id','analysis','source'])
  if(e.contract_version!=='cp7.native-material-ap-conditions.v1'||e.actor_scope_id!==actor)return fail()
  const analysis=parseNativeAnalysis(e.analysis,q,actor,finance),s=closed(e.source,['contract_version','basis','as_of','read_at','rows','suppliers','page_complete','total','source_hash'])
- if(s.contract_version!=='cp7.native-material-ap-source.v1'||s.basis!=='ACCEPTED_BF_SIGNED_BALANCE_NATIVE_LIABILITY_AND_RECORDED_DUE'||!day(s.as_of)||!instant(s.read_at)||cp6WibDateTimeInput(s.read_at).slice(0,10)!==s.as_of||s.page_complete!==true||!hash(s.source_hash)||!integer(s.total)||BigInt(s.total)>5000n||!Array.isArray(s.rows)||s.rows.length!==Number(s.total)||new TextEncoder().encode(JSON.stringify(s.rows)).byteLength>4000000||!Array.isArray(s.suppliers)||s.suppliers.length>5000)return fail()
+ if(s.contract_version!=='cp7.native-material-ap-source.v2'||s.basis!=='ACCEPTED_BF_SIGNED_BALANCE_NATIVE_LIABILITY_AND_OLDEST_DUE_FIRST_RULE'||!day(s.as_of)||!instant(s.read_at)||cp6WibDateTimeInput(s.read_at).slice(0,10)!==s.as_of||s.page_complete!==true||!hash(s.source_hash)||!integer(s.total)||BigInt(s.total)>5000n||!Array.isArray(s.rows)||s.rows.length!==Number(s.total)||new TextEncoder().encode(JSON.stringify(s.rows)).byteLength>4000000||!Array.isArray(s.suppliers)||s.suppliers.length>5000)return fail()
  const suppliers=new Set<string>();for(const value of s.suppliers){const p=closed(value,['id','code','name']);if(!uuid(p.id)||suppliers.has(p.id)||!text(p.code)||!text(p.name))return fail();suppliers.add(p.id)}
  const rows=s.rows.map(r=>parseRow(r,s.as_of as string));if(new Set(rows.map(r=>r.liability.purchase_id)).size!==rows.length||rows.some(r=>r.liability.status==='POSTED'&&!suppliers.has(r.liability.supplier_id!))||[...suppliers].some(id=>!rows.some(r=>r.liability.status==='POSTED'&&r.liability.supplier_id===id)))return fail()
  return{analysis,rows,sourceHash:s.source_hash as string,asOf:s.as_of,readAt:s.read_at,source:structuredClone(s)}
 }
 export const payableStateLabel:Record<State,string>={DRAFT_ONLY:'Draft, belum menjadi utang',INACTIVE_DOCUMENT:'Penerimaan tidak aktif',UNKNOWN_BALANCE:'Sisa utang belum diketahui',CREDIT_REVIEW:'Kredit pemasok, perlu pemeriksaan',INVOICE_PENDING:'Invoice penerimaan belum lengkap',ZERO_BALANCE:'Tagihan final tersisa nol',MISSING_DUE_DATE:'Jatuh tempo belum tercatat',OVERDUE:'Sudah lewat jatuh tempo',DUE_TODAY:'Jatuh tempo hari ini',NOT_DUE_YET:'Belum jatuh tempo'}
+export const payableDueBasisLabel:Record<DueBasis,string>={
+ RULE_OLDEST_DUE_FIRST_WITHIN_RECEIPT:'Menurut aturan: pembayaran penerimaan dihitung ke jatuh tempo tertua dulu (bukan bukti pembayaran per invoice)',
+ RULE_OPEN_PORTION_DUE_MISSING:'Menurut aturan: bagian yang masih terbuka belum punya jatuh tempo tercatat',
+ NATIVE_POSTED_INVOICE_EARLIEST:'Jatuh tempo invoice terposting paling awal (tercatat)',NATIVE_RECEIPT_HEADER:'Jatuh tempo penerimaan (tercatat)',MISSING:'Jatuh tempo belum tercatat'}

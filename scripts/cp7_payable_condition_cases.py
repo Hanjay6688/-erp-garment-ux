@@ -11,7 +11,7 @@ def get(cur,run,subject=None):return ar.attention.rpc(cur,'erp_cp7_get_analysis_
 def row(e,purchase):return next(x for x in e['source']['rows']if x['liability']['purchase_id']==purchase)
 def checked(e,original):
  assert e['contract_version']=='cp7.native-material-ap-conditions.v1'and e['analysis']['analysis']==original['analysis']and e['analysis']['financial_source']==original['financial_source']
- s=e['source'];assert s['contract_version']=='cp7.native-material-ap-source.v1'and s['page_complete']and len(s['rows'])==int(s['total'])and len({r['liability']['purchase_id']for r in s['rows']})==int(s['total'])
+ s=e['source'];assert s['contract_version']=='cp7.native-material-ap-source.v2'and s['page_complete']and len(s['rows'])==int(s['total'])and len({r['liability']['purchase_id']for r in s['rows']})==int(s['total'])
  return e
 def native_balance(cur,f):
  auth.actor(cur);e=cur.execute('select public.erp_get_supplier_credit_v1(%s::jsonb)',(json.dumps(dict(supplier_id=f['payload']['supplier_id'],page=1)),)).fetchone()[0];b.api.admin(cur)
@@ -56,7 +56,32 @@ def cases(cur,today):
   assert ids<={r['liability']['purchase_id']for r in e['source']['rows']}and all(row(e,id)['condition']['state']=='INVOICE_PENDING'and not row(e,id)['condition']['business_resolved']for id in ids)
   assert b.boundary.snapshot(cur)==before
   return dict(status='PASS',actual26_posted_receipts_complete_current_balances_beyond25_display_rows=True,pending_uninvoiced_receipts_not_healthy_zero=True,read_only_current_statement_source=True)
- return ar.cases(cur,today)+[('P16_NATIVE_AP_CONDITION_'+n,f)for n,f in [('GRNI_FINAL_PAYMENT_INVERSE',lifecycle),('SIGNED_RETURN_CREDIT',credit),('CURRENT_ACTOR_AP_AUTH',authority),('COMPLETE_SOURCE26',complete)]]
+ def oldest_due_rule():
+  # AP-5 (owner decision 7 Oct 2026): Native records supplier payments against
+  # the receipt only. The reminder applies them to the receipt's invoices oldest
+  # due first, labels the result as a rule and changes no payment or journal.
+  parent.setup(cur,today);f=invoice.fixture(cur,today,qty='20',price='25');original=parent.capture(cur,today);ident=f['receipt']['purchase_id']
+  old=invoice.payload(f,'10','25');old['due_date']=(today-timedelta(days=3)).isoformat();invoice.finalize(cur,f,'10','25',p=old)
+  new=invoice.payload(f,'10','25');new['due_date']=(today+timedelta(days=5)).isoformat();invoice.finalize(cur,f,'10','25',p=new)
+  payment(cur,f,today,'249.99');r=row(checked(get(cur,original['run_id']),original),ident);u=r['due_rule']
+  assert r['balance']==native_balance(cur,f)and r['balance']['remaining']=='250.01'
+  assert(u['rule'],u['evidence'],u['recorded_invoice_allocation'])==('OLDEST_DUE_FIRST_WITHIN_RECEIPT','RULE_RESULT_NOT_PER_INVOICE_PAYMENT_EVIDENCE','NONE_IN_NATIVE_PAYMENTS_ARE_RECEIPT_BOUND')
+  assert[(p['kind'],p['due_date'],Decimal(p['amount']))for p in u['portions']]==[('POSTED_INVOICE',old['due_date'],Decimal('250')),('POSTED_INVOICE',new['due_date'],Decimal('250'))],u
+  assert(u['payments_applied'],u['outcome'],u['open_portion'],u['recorded_due_date'])==('249.99','OPEN_PORTION',0,old['due_date'])
+  assert(r['due_date'],r['due_basis'],r['condition']['state'])==(old['due_date'],'RULE_OLDEST_DUE_FIRST_WITHIN_RECEIPT','OVERDUE')
+  # One more cent settles the older invoice under the rule: the newer one is not yet due.
+  cent=payment(cur,f,today,'0.01');books=cur.execute('select(select count(*)from erp.journal_entries),(select count(*)from erp.journal_lines),(select count(*)from erp.supplier_payments where purchase_id=%s)',(ident,)).fetchone()
+  before=b.boundary.snapshot(cur);r=row(checked(get(cur,original['run_id']),original),ident);u=r['due_rule']
+  assert(u['payments_applied'],u['outcome'],u['open_portion'],u['recorded_due_date'])==('250.00','OPEN_PORTION',1,old['due_date'])
+  assert(r['due_date'],r['due_basis'],r['condition']['state'],r['balance']['remaining'])==(new['due_date'],'RULE_OLDEST_DUE_FIRST_WITHIN_RECEIPT','NOT_DUE_YET','250.00')
+  assert b.boundary.snapshot(cur)==before and cur.execute('select(select count(*)from erp.journal_entries),(select count(*)from erp.journal_lines),(select count(*)from erp.supplier_payments where purchase_id=%s)',(ident,)).fetchone()==books
+  # Reversing the cent reopens the older invoice under the same rule.
+  inverse(cur,cent);r=row(checked(get(cur,original['run_id']),original),ident)
+  assert(r['due_date'],r['condition']['state'],r['due_rule']['open_portion'])==(old['due_date'],'OVERDUE',0)
+  return dict(status='PASS',payments_receipt_bound_no_recorded_invoice_allocation=True,oldest_due_first_within_receipt=True,
+   cent_boundary_exact=True,rule_result_labelled_not_per_invoice_evidence=True,recorded_earliest_due_kept_alongside=True,
+   no_payment_journal_or_business_change=True,payment_inverse_reopens_older_due=True)
+ return ar.cases(cur,today)+[('P16_NATIVE_AP_CONDITION_'+n,f)for n,f in [('GRNI_FINAL_PAYMENT_INVERSE',lifecycle),('SIGNED_RETURN_CREDIT',credit),('CURRENT_ACTOR_AP_AUTH',authority),('COMPLETE_SOURCE26',complete),('AP5_OLDEST_DUE_FIRST',oldest_due_rule)]]
 def races(tools,today):return ar.races(tools,today)
 def http_cases(http,today):
  def actual():

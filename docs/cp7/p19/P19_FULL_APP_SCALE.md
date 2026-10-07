@@ -101,3 +101,26 @@ Suite `p19-scale5` **PASS** (5/5). Runner ini juga lebih lambat dari run keempat
 **Bukti perbaikan di aplikasi penuh:** `baseline_build` di 1000 target turun dari 4.779–5.564 ms (run keempat, runner lebih cepat) ke 512–723 ms. **Lapisan dominan kini:** `netting_build` (±6,4 ms per target, linear tetapi berat) dan `analysis_source` = `financial_source` (laporan keuangan CP6 + fingerprint buku besar, mengikuti ukuran buku besar). Keduanya diperlukan agar 300–1000 target muat 8 dtk; batas tidak dinaikkan.
 
 **Rincian `netting_build` (lokal PG16, bukan bukti; fixture netting 1000 target × 100 posisi, ±5,3 dtk):** loop target pertama 1,4 dtk (`cp7_baseline.net` + `timeline` per target), loop baris 1,7 dtk (`net` + `timeline` per target sekali lagi dengan supply nyata), `allocate` 0,73 dtk, pasangan posisi×target 0,53 dtk, `match_results` 0,47 dtk (100.000 objek hasil), sisanya < 0,3 dtk. Semua linear. Eksperimen membaca hanya pasangan CONFIRMED_TARGET di loop baris (paritas byte dan mutasi lulus) **tidak** memberi perbaikan terukur di A/B satu sesi (300×100 1,83 → 1,76 dtk; 1000×100 dan 100×1000 dalam derau), jadi tidak dimasukkan. Sisa biaya netting adalah dua panggilan kernel `net` dan dua `timeline` per target; mengurangi itu berarti mengubah kernel bersama, bukan sekadar menyusun ulang loop.
+
+## 6. Run kedelapan — 37601082186 (head `a68abf1e`: PR #44 Astra digabung + penjaga baris kembar)
+
+Suite `p19-scale5` **PASS** (5/5). Runner lebih lambat lagi (alokasi kernel yang tidak berubah: 686 vs 382 ms di 1000×100 pada Shell `0b3806b5`), jadi angka absolut tidak dibandingkan langsung dengan run sebelumnya. CAPTURE/BACKGROUND di run ini masih jalur penuh (dengan laporan keuangan); jalur operasional bawaan baru masuk di `a1244553`.
+
+| Target | Hasil | Biaya sendiri per lapisan (riwayat 1 hari) |
+|---|---|---|
+| 100 | lengkap: capture biasa 6,9–7,3 dtk klik sampai tampil, latar belakang 7,2–9,0 dtk; tangga SQL biasa 7,8 dtk (100 hari: ditolak jujur 8 dtk), job 4,6–5,2 dtk + manifest/segmen 3,3 dtk | serve 601, analysis_source 498, netting_build 433, analysis_build_operational 313 ms |
+| 300 | ditolak jujur 8 dtk | netting_build 1.488, analysis_source 1.071, analysis_build_operational 1.032 ms |
+| 1000 | ditolak jujur 8 dtk | **analysis_source 5.052**, **netting_build 4.366** (30 hari 4.494), history_build 609 ms (100 hari 6.201) |
+| 5000 | ditolak jujur 8 dtk; fase yang berhenti: **`financial_source`** (pembacaan laporan pemilik + fingerprint seluruh buku besar) | history_source 622 ms |
+
+**Efek PR #44 pada kernel, runner yang sama** (`cp7_p19_netting_benchmark.mjs`, Shell p19-assembly; md5 keluaran identik sebelum dan sesudah, mis. 1000×100 `035bc08d…`):
+
+| Ukuran | Sebelum (`0b3806b5`, job 112668386658) | Sesudah (`a68abf1e`, job 112725199972) | Dinormalisasi ke predecessor / alokasi yang tidak berubah |
+|---|---|---|---|
+| 100×100 | linear 496,7 ms (predecessor 1.592,7) | 738,5 ms (2.477,1) | ±5% lebih cepat |
+| 300×100 | 947,9 ms (6.853,5) | 1.374 ms (11.287,7) | ±12% lebih cepat |
+| 1000×100 | 2.513,8 ms (55.272,1; alokasi 382,2) | 3.261,5 ms (89.554,7; alokasi 686,2) | **±20% (rasio predecessor) – 28% (rasio alokasi)** |
+
+Klaim Astra ±30% pada skenario yang ia uji konsisten dengan ujung atas rentang ini; pengukuran kami yang dinormalisasi memberi 20–28% di 1000×100 dan lebih kecil di ukuran kecil. Di aplikasi penuh `netting_build` 1000 target turun ke 4,4–4,5 dtk (run ketujuh 6,4 dtk, runner berbeda). Penjaga baris kembar (`a68abf1e`) mempertahankan paritas byte terhadap predecessor dan ditangkap mutan `REUSE_BY_KEY_ONLY`.
+
+**Kesimpulan untuk butir 2:** di 1000 target `analysis_source` (= laporan keuangan + fingerprint buku besar) 5,05 dtk adalah lapisan terbesar, dan di 5000 target fase itulah yang menabrak batas 8 dtk. Jalur operasional bawaan (`a1244553`) melewati fase ini sepenuhnya; angka keuangan tetap lewat jalur penuh bila dipilih.

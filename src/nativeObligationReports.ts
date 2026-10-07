@@ -1,6 +1,6 @@
 import {parseNativeReport,assertSameReport,type NativeReport} from './nativeAnalysisReports'
 import {assertSameAnalysis,type AnalysisFinanceAccess} from './nativeAnalysis'
-import {parseRuleSource,type RuleSource,type RuleRights} from './nativeRuleSource'
+import {parseRuleSource,ruleDerivedDue,type RuleSource,type RuleRights} from './nativeRuleSource'
 import {financeDate} from './financeReportContract'
 
 export type ObligationReportPayload={publication_id:string;run_id:string;source_hash:string;title:string;reason:string;explicit_review:true;series_id:string|null;expected_revision:string|null}
@@ -25,7 +25,7 @@ export function renderObligationReport(base:NativeReport,source:RuleSource,title
   'CAKUPAN IZIN DAN SUMBER',...Object.keys(source.coverage).sort().map(k=>`${k}: ${source.coverage[k]}.`)]
  for(const r of [...source.rows].filter(r=>r.financial_source!==null).sort((a,b)=>a.key<b.key?-1:a.key>b.key?1:0)){
   const f=r.financial_source!,remaining='value'in f.remaining?f.remaining.value+' IDR':`Belum diketahui (${f.remaining.reason})`
-  lines.push(`${labels[r.domain]??r.domain} · ${r.label}: sisa ${remaining}; jatuh tempo tercatat ${f.recorded_due_date??'Belum diketahui'}; keadaan ekonomi ${r.economic_state}; pemeriksaan ${r.reason}; sumber ${r.key}.`,
+  lines.push(`${labels[r.domain]??r.domain} · ${r.label}: sisa ${remaining}${ruleDerivedDue(f)?'; jatuh tempo menurut aturan tertua-dulu dalam penerimaan (bukan bukti per invoice) ':'; jatuh tempo tercatat '}${f.recorded_due_date??'Belum diketahui'}; keadaan ekonomi ${r.economic_state}; pemeriksaan ${r.reason}; sumber ${r.key}.`,
    `Revisi sumber ${f.revision_basis}; hash dokumen ${f.document_sha256}. Referensi lengkap dipertahankan bersama sumber lampiran.`)
  }
  lines.push(`Arsip dasar ${base.id}; hash isi ${base.bodyHash}; sumber lampiran ${source.hash}; template native-obligation-report-1. Tidak memposting transaksi.`)

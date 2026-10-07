@@ -169,7 +169,10 @@ begin
     coalesce(r->'value'->>'value','Belum diketahui')||' '||(r->'value'->>'unit')||chr(10)||
     case when r->'financial_source'is not null and r->'financial_source'<>'null'::jsonb then
      'Sisa tagihan: '||coalesce(r->'financial_source'->'remaining'->>'value','Belum diketahui')||' IDR'||chr(10)||
-     'Jatuh tempo tercatat: '||coalesce(r->'financial_source'->>'recorded_due_date','Belum diketahui')||chr(10)else''end||
+     -- AP-5: a rule-derived due is never presented as a recorded per-invoice fact.
+     case when left(coalesce(r->'financial_source'->'document'->>'due_basis',''),5)='RULE_'
+      then'Jatuh tempo menurut aturan (pembayaran penerimaan ke jatuh tempo tertua dulu; bukan bukti per invoice): 'else'Jatuh tempo tercatat: 'end||
+     coalesce(r->'financial_source'->>'recorded_due_date','Belum diketahui')||chr(10)else''end||
     case r->'value'->>'state'when'ASSUMED'then'Berdasarkan skenario yang dipilih.'else'Berdasarkan sumber ERP yang diperiksa.'end||chr(10)||
     'Ini pratinjau lokal. Masalah tetap diperiksa dari transaksi ERP.';
    insert into cp7_reminder_native.local_claims(actor,run_id,binding_id,condition_key,rule_id,episode_id,occurrence_key,environment,

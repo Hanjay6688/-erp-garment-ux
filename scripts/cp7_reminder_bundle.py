@@ -11,18 +11,18 @@ GRANTS['cp7_reminder']={
  'public.erp_save_my_reminder_v1(jsonb,uuid,bigint)',
  'public.erp_set_my_reminder_done_v1(uuid,boolean,uuid,bigint)',
  'public.erp_cancel_my_reminder_v1(uuid,text,uuid,bigint)','public.erp_cp7_get_sales_v1(jsonb)'}
-GRANTS['cp7_payable_read']={'auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','public.erp_get_supplier_credit_v1(jsonb)','erp.material_purchase_final_ap_total(uuid)','erp.material_purchase_grni_total(uuid)','erp.material_purchase_total_liability(uuid)','erp.material_purchase_invoice_capacity(uuid)','erp.material_purchase_posted_invoice_qty(uuid)'}
+GRANTS['cp7_payable_read']={'auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','public.erp_get_supplier_credit_v1(jsonb)','erp.material_purchase_final_ap_total(uuid)','erp.material_purchase_grni_total(uuid)','erp.material_purchase_total_liability(uuid)','erp.material_purchase_invoice_capacity(uuid)','erp.material_purchase_posted_invoice_qty(uuid)','erp.material_purchase_current_unit_cost(uuid)'}
 AP_TABLES=('erp.v_material_purchase_liability_status','erp.material_purchase_headers','erp.material_purchase_items','erp.suppliers','erp.supplier_payments','erp.material_supplier_invoices','erp.material_supplier_invoice_lines')
 TABLE_GRANTS={**predecessor.TABLE_GRANTS,'cp7_reminder':{'erp.manual_reminders':'SELECT'},'cp7_payable_read':{name:'SELECT'for name in AP_TABLES}}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur,extension_functions=None,extension_tables=(),extension_public=(),extension_function_contracts=None):
  predecessor.verify(cur)
- expected={'immutable_request':'v','guard_attention':'v','exact_numbers':'i','access_now':'v','recheck':'v','workspace':'v','command':'v','manual_source':'v','request_status':'v','receivable_source':'s','receivable_conditions':'v','payable_exact_numbers':'i','payable_source':'s','payable_conditions':'v','guard_obligation_episode':'v','obligation_access':'v','obligation_evaluate':'v','obligation_history':'v'}
+ expected={'immutable_request':'v','guard_attention':'v','exact_numbers':'i','access_now':'v','recheck':'v','workspace':'v','command':'v','manual_source':'v','request_status':'v','receivable_source':'s','receivable_conditions':'v','payable_exact_numbers':'i','payable_due_rule':'i','payable_source':'s','payable_conditions':'v','guard_obligation_episode':'v','obligation_access':'v','obligation_evaluate':'v','obligation_history':'v'}
  expected.update(policy_validate='i',policy_scope_access='v',policy_rows='s',policy_workspace='v',policy_resolve='i',policy_timing='i',policy_command='v')
  expected['original_authority']='v'
  expected.update(extension_functions or{})
- contracts={name:('cp7_payable_read'if name in('payable_source','payable_exact_numbers')else'cp7_reminder',name=='payable_source')for name in expected}
+ contracts={name:('cp7_payable_read'if name in('payable_source','payable_exact_numbers','payable_due_rule')else'cp7_reminder',name=='payable_source')for name in expected}
  contracts['original_authority']=('cp7_capture',True)
  for name,contract in(extension_function_contracts or{}).items():
   assert name in(extension_functions or{})and len(contract)==2,(name,contract)
