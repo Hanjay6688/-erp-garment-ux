@@ -597,3 +597,64 @@ Oracle browser P12 payroll-review (`.cpay-net` "Bersih payroll") **tidak diubah 
 - `plan-native/preflight.sql` (PL-7, `2dd150f4`): rencana kedua untuk target yang grup potong rencananya sudah diposting ditolak (`40001 CP7_PLAN_LINKED_INTENT_CONFLICT`, kode lama) sampai Original yang sama membuktikan semua potongan grup itu FG/EXIT. Suite rencana kini **40** kasus (`PL7_POSTED_CUT_NOT_PLANNED_TWICE`; `docs/cp7/f04/SHARED_MATERIAL_POOL.json`).
 - Frontend PL-5 (`71c04736`): label pratinjau rencana saja ("bila semua hasil potong menjadi barang bagus", "Yield untuk start baru belum ditentukan"); angka/kontrak tetap. Pilihan yield (A/B) menunggu owner.
 - Workflow baru cabang Claude `claude-pl-native.yml` (suite F04 Native model/schedule/netting); driver P18 memakai pembanding katalog CP7 (CAT-01) seperti driver receipt/E24.
+
+## 15. Handoff penggabungan (7 Okt 2026) — satu writer aktif
+
+**Writer:** hanya sesi Claude yang menulis ke `claude/new-session-deapao`. GPT tidak menulis. `cp7/integration` (`ab6f1f97`) adalah leluhur penuh cabang ini, jadi penggabungan ke sana bisa **fast-forward** tanpa konflik. Status: persiapan audit, **bukan** audit independen; `independent_acceptance=false`, `production_go=false`. CP6 ditutup sesuai cakupannya; HOLD operasional/pemasangan tetap; GBD-03 dan lima keputusan D11 sudah disetujui (tidak dibuka ulang); delapan konfigurasi nyata tetap pending.
+
+### 15.1 Commit sejak §13 (urut lama → baru)
+
+| Commit | Isi |
+|---|---|
+| `117732fb` | P12: mode payroll-review memasang paket settlement + buku kas E05 (oracle "Bersih payroll" tidak diubah, lulus) |
+| `5baa1d90` | P19: jadwal skenario dan proyeksi yield linear, byte-identik |
+| `8e0319e4` | P19: ETA jadwal hanya membaca kalender terpakai, byte-identik |
+| `b56462c0` | PL-3 (fold model selesai pada pengetahuan Native) dan PL-4 (kapasitas membawa beban berlebih) |
+| `71c04736` | P19 jalur cepat validasi riwayat permintaan (byte-identik), label PL-5, deklarasi model 32 |
+| `2dd150f4` | PL-7: grup potong terposting tidak bisa direncanakan dua kali; suite rencana 40 |
+| `c6bdc8fe` | P18: driver memakai pembanding katalog CP7 (CAT-01) |
+| `20da4de4`, `3eafa83e`, `eb2e0927` | P19: suite skala aplikasi penuh 100/300/1000/5000 + klik-sampai-tampil + profil fase server |
+| `b001bf4f` | PL-8 bagian 1: normalisasi WIP linear terhadap jumlah grup potong, byte-identik |
+| sisanya | dokumen (`SELF_CHECK_FORMULAS_20261006.md`, `P20_P21_PAKET_CABANG_CLAUDE.md` §9, `p19/P19_FULL_APP_SCALE.md`) dan jalur workflow |
+
+**Perubahan belum di-push:** tidak ada (pohon kerja bersih; `HEAD` = `origin/claude/new-session-deapao`).
+
+### 15.2 Bukti CI
+
+Per commit: `docs/cp7/SELF_CHECK_FORMULAS_20261006.md` §6. Bukti satu head untuk kandidat P20 ditulis di §15.5 setelah semua suite selesai pada head final.
+
+### 15.3 Pekerjaan terbuka (bukan nilai kebijakan kecuali disebut)
+
+- **PL-8 bagian 2:** posisi qty 0 dari grup potong yang sudah habis tetap menghabiskan batas netting (1000 posisi; dengan 300 target batas 100.000 pasangan tercapai di 333 posisi). Pemangkasan grup habis butuh kenaikan versi kontrak dan tinjau ulang jadwal sekali (dampak per konsumen dicatat di §4 dokumen pemeriksaan mandiri).
+- **P19 skala aplikasi penuh:** 100 target sudah ±7,5 dtk di server dan 7,7–9,9 dtk klik-sampai-tampil (target 3 dtk belum terpenuhi). 300/1000/5000 dan profil per fase sedang diukur. 5.000 target per capture ditolak batas 1.000 produk — butuh keputusan kapasitas (batas tidak dinaikkan sepihak).
+- **Netting kuadratik:** linearisasi dengan paritas sedang disiapkan.
+- **Keputusan owner:** PL-5 (pilihan A/B yield start baru), AP-5, delapan konfigurasi nyata, ambang pengingat/kelipatan produksi CP7 (PENDING_POLICY_VALUE).
+- **Audit independen P20** dan **pemasangan P21**: belum; penerimaan akhir mengikuti kandidat yang lolos audit.
+
+### 15.4 CodeQL untuk PR ke `main` (PR #43) — diagnosis dan langkah admin
+
+**Fakta yang terbukti (dari daftar run `dynamic/github-code-scanning/codeql`):**
+
+| Peristiwa | Run CodeQL default setup |
+|---|---|
+| PR #24/#26/#27/#28 (Sep 2026) dibuka | ada run pada saat PR dibuka (mis. #28: PR 03:48:17, run 36091844649 03:48:19) |
+| PR #41 (Dependabot, dibuka 3 Okt 06:55) | **tidak ada run** |
+| PR #43 dibuka 6 Okt 20:59, head `095efa66` | **tidak ada run**; pemeriksaan wajib main menunggu hasil code scanning |
+| Push nyata ke head PR #43: `43dd8c24` (perbaikan FIN-3) dan `c77b7ece` | run 37556351699 dan 37556654289 **success** → syarat terpenuhi → merge `a58385e4` (7 Okt 01:24) |
+| Push ke main `a58385e4` | run 37556944924 success; jadwal mingguan (37493425338, 6 Okt) tetap jalan |
+
+**Belum terbukti:** penyebab tidak adanya analisis saat PR dibuka. Sesi ini tidak bisa membaca konfigurasi default setup (`GET /code-scanning/default-setup` dan daftar analisis → 403 "Resource not accessible by integration"). Dugaan (belum diverifikasi): pengiriman event `pull_request: opened` ke default setup, PR yang dibuka lewat integrasi aplikasi, atau penanganan PR Dependabot.
+
+**Jalur sah yang dipakai:** commit kode nyata (perbaikan FIN-3 yang memang diminta) ke head PR memicu analisis `synchronize`. Aturan main ("main required security gates": build, code scanning CodeQL, aturan PR) **tidak dilonggarkan**, tanpa commit kosong, tanpa tutup-buka PR.
+
+**Langkah owner/admin (perbaikan permanen):**
+1. Settings → Advanced Security (Code security) → Code scanning → **CodeQL analysis**: periksa status default setup, bahasa (JavaScript/TypeScript, Python, Actions), dan apakah ada peringatan/kesalahan konfigurasi; buka "View last scan log".
+2. Bila status tidak sehat atau tidak ada pemindaian PR: **Disable** lalu **Enable** default setup (menyediakan ulang konfigurasi), tanpa mengubah ruleset.
+3. Uji dengan PR kecil ke `main`: pastikan check "CodeQL" muncul saat PR **dibuka** (bukan hanya sesudah push).
+4. Untuk PR Dependabot (#41): periksa Settings → Code security → Dependabot dan izin Actions untuk PR Dependabot.
+5. Bila default setup tetap tidak memicu pada `opened`, alternatifnya *advanced setup* (workflow `codeql.yml` dengan `pull_request: [opened, synchronize, reopened]`) lewat PR biasa — tetap memenuhi aturan yang sama.
+
+### 15.5 Bukti satu head (diisi setelah run final)
+
+_Menunggu run final._
+
