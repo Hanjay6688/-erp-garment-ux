@@ -34,7 +34,9 @@ The demand-history source still reads the journal **headers** of sales and retur
 | DOM and unit tests | Default RPCs, finance checkbox, remount continuation of a background request with finance, legacy stored request on the full path, refusal of a finance-bearing operational reply, storage validation of the mode. |
 | P19 scale | Third browser control `CAPTURE_WITH_FINANCE`; `finance_path_matches_control` check per click. CAPTURE/BACKGROUND now measure the operational default (runs through `a68abf1e` measured the full capture). |
 
-Existing browser flows that assert the owner report through other readers (analysis, AI, attention, episode, history, payable, policy, receivable, E01 bridge) now tick the finance choice explicitly, so their oracles are unchanged. Flows without a financial assertion (material, plan, fabric physical/recipe, rule, P18 fabric rule, publication, obligation report, other obligations) now run on the operational default.
+Existing browser flows that assert the owner report or a finance-derived fact through other readers (analysis, AI, attention, episode, history, payable, policy, receivable, E01 bridge, publication) now tick the finance choice explicitly, so their oracles are unchanged. Flows without a financial assertion (material, plan, fabric physical/recipe, rule, P18 fabric rule, obligation report, other obligations) now run on the operational default.
+
+Correction (run 37606883277 on `c7fca470`, first failure kept in `SELF_CHECK_FORMULAS_20261006.md` §6): publication was first moved to the operational default, but its period comparison asserts a difference row in state `UNKNOWN`, and that row comes from a financial metric whose value is not yet known. Without finance the metric is absent and the oracle failed on desktop and mobile. The publication flow ticks the finance choice again; the oracle is unchanged.
 
 Local runs on PostgreSQL 16 (`LOCAL_PG16_DEV`) are development checks only; CI results are recorded in `SELF_CHECK_FORMULAS_20261006.md` §6.
 
