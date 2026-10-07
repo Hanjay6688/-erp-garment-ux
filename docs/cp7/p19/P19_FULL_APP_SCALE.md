@@ -86,3 +86,16 @@ Suite `p19-scale5` **PASS** (5/5). **Angka absolut tidak sebanding dengan run ke
 **Sinyal yang tidak bergantung pada kecepatan runner:** di 1000 target, `baseline_build` (dominan 4,8–5,6 dtk di run keempat) tidak lagi dominan sesudah `2c6884ea`; yang kini dominan adalah biaya sendiri `analysis_source` = `cp7_analysis_native.financial_source` (laporan keuangan + fingerprint setiap jurnal, baris jurnal, saldo harian, dan kas). Biaya itu mengikuti **ukuran buku besar**, bukan jumlah target, sehingga juga mengenai pabrik dengan sedikit target tetapi riwayat jurnal panjang. Belum diubah: fingerprint ini adalah hash sumber yang dikunci kontrak (perubahan = keputusan kontrak).
 
 Mulai run berikutnya, log memuat biaya sendiri setiap lapisan dan waktu server setiap fase (`own_ms_by_layer`, `server_ms_by_phase`), bukan hanya lapisan dominan, sehingga perbandingan antar run bisa memakai rasio lapisan yang tidak diubah.
+
+## 5. Run ketujuh — 37575279451 (head `a0d81bc0`: alokasi, baseline, riwayat permintaan linear + PL-8 supply v2), pertama dengan biaya setiap lapisan di log
+
+Suite `p19-scale5` **PASS** (5/5). Runner ini juga lebih lambat dari run keempat (`history_source` 5000: 577 vs 315 ms; pengisian 100 → 5,3 dtk), sehingga waktu absolut dibandingkan lewat rasio lapisan yang tidak diubah. Run keenam (`cb201edf`) berhenti sebelum mengukur karena deklarasi batas belum mengikuti supply v2 (dicatat di `SELF_CHECK` §6).
+
+| Target | Hasil | Biaya sendiri per lapisan (riwayat 1 hari; server, `PHASE_PROFILE_NOT_APP_LATENCY`) |
+|---|---|---|
+| 100 | lengkap di latar belakang 8,6–8,9 dtk klik sampai tampil; capture biasa di browser lengkap (30 hari, 8,4 dtk) atau ditolak jujur di 8 dtk (1/100 hari) di runner ini; tangga SQL biasa 7,2–7,7 dtk, job 4,4–4,9 dtk, manifest+segmen ±2,9 dtk | netting_build 645, serve 537, analysis_source 447, analysis_build_operational 302, analysis_build 167, history_build 64, baseline_build 46 ms |
+| 300 | ditolak jujur 8 dtk | netting_build 2.184, analysis_build_operational 1.074, analysis_source 914, analysis_build 473, history_build 178, baseline_build 148 ms |
+| 1000 | ditolak jujur 8 dtk | **netting_build 6.377**, **analysis_source 4.249**, history_build 577, baseline_build 512 ms (100 hari: history_build 5.782 ms) |
+| 5000 | ditolak jujur 8 dtk (batas struktural 1.000 produk) | history_source 577 ms; `financial_source` berhenti di 8 dtk |
+
+**Bukti perbaikan di aplikasi penuh:** `baseline_build` di 1000 target turun dari 4.779–5.564 ms (run keempat, runner lebih cepat) ke 512–723 ms. **Lapisan dominan kini:** `netting_build` (±6,4 ms per target, linear tetapi berat) dan `analysis_source` = `financial_source` (laporan keuangan CP6 + fingerprint buku besar, mengikuti ukuran buku besar). Keduanya diperlukan agar 300–1000 target muat 8 dtk; batas tidak dinaikkan.
