@@ -4,10 +4,13 @@ Owner meminta "cek kerjaan Claude dan bantu dia kalo bisa". Claude tetap satu pe
 
 Source yang diperiksa: `5e8bb51385ba96c442ad717cd265e2be27e6ed87`, cabang `claude/new-session-deapao`. Hash `planning/analysis-jobs.sql`: `c22fb092edbffdc354c1444d0ca3e9461b457b2bbbc38a3b853073b18f684a60`.
 
+**Bantuan tersedia di PR #46. Probe Native selesai:** PostgreSQL 16.15, 817/817 paritas, dua mutan tertangkap, segmen 210 MB identik; median 4,404 → 2,109 dtk. Bukti asli dan receipt ada di 4.1. SQL produk tetap belum diubah.
+
 ## 1. Kemajuan terverifikasi
 
 - PR UX [#43](https://github.com/Hanjay6688/-erp-garment-ux/pull/43) sudah merge (7 Okt 01:24 UTC), termasuk FIN-3; penghalang merge demo sebelumnya sudah selesai. Default CodeQL berjalan sesudah push nyata, dan aturan main tidak dilonggarkan menurut handoff §15.4. Diagnosis event `opened` tetap belum terbukti.
 - PR bantuan netting [#44](https://github.com/Hanjay6688/-erp-garment-ux/pull/44) sudah merge ke cabang Claude (7 Okt 09:30 UTC), dengan guard tambahan pada baris target identik. Jangan kerjakan ulang optimasi itu.
+- Revisi UX lanjutan [#45](https://github.com/Hanjay6688/-erp-garment-ux/pull/45), head `049bb792`, masih OPEN. Build, preview Workers dan CodeQL success; `validate-full-schema` masih failure. PR ini merapikan spasi, drawer, picker, kolom, pencarian dan pecah batch **mode DEMO**. Pemilih Connected masih lama dan pecah batch Native belum dibuat menurut body PR; jangan menganggap simulasi itu sebagai fitur backend selesai. Cabang UX ini tidak disentuh bantuan #46.
 - `0b3806b5` benar-benar punya 15/15 workflow success, termasuk P12 payroll-review. API GitHub untuk head itu diperiksa; ini bukti penulis pada source tersebut.
 - Head produk terbaru `5e8bb513` punya **11/11 workflow terpicu success**. P08 Physical, PL Native, Shell, P19 Transport, P18, P21 rehearsal, Build UX dan CodeQL ikut lulus.
 - Empat workflow belum punya run pada head `5e8bb513`: **P12 Payroll, P13 Finance, Note Correction, Supplier Payment Correction**. Ini bukan kegagalan tes: filter `paths` memang tidak memicu semuanya. Bila kandidat P20 harus 15 suite pada satu head, dispatch keempatnya pada head final dan perbarui §15.5. Jangan menempelkan hasil head lama pada produk baru: sejak `0b3806b5` sudah ada perubahan SQL dan UI.
@@ -29,7 +32,7 @@ Status kasus browser PASS membuktikan hasil atau penolakan yang sesuai kontrak. 
 
 Prototype bertahap pada [Shell run 37638175479](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37638175479), job `112849786073`:
 
-| Ukuran | Unit | Unit terlambat | Wall | Status |
+| Ukuran | Unit | Unit terlama | Wall | Status |
 |---|---:|---:|---:|---|
 | 1000 × 1 | 19 | 0,922 dtk | 5,750 dtk | Byte-identik dengan single build |
 | 1000 × 100 | 19 | 1,252 dtk | 8,573 dtk | Byte-identik dengan single build |
@@ -52,7 +55,7 @@ Penguji: `scripts/cp7_analysis_segment_probe.mjs`; SQL diagnosis: `tests/cp7/fam
 
 Paritas lokal: **817/817**, melawan pemotong lama `substr(body,i*n+1,n)`, loop saat ini dan oracle JavaScript berbasis Unicode code point. Termasuk batas 2.000.000 karakter, UTF8 2/3/4 byte, karakter non-BMP, combining marks, null/kosong, dan data acak. Dua mutan (`BAD_SIZE`, `SKIP_LAST`) tertangkap. Hash, jumlah karakter, bytes dan urutan tiap segmen diperiksa.
 
-Runtime lokal: **PGlite 0.5.8 / PostgreSQL 18.3 WASM**, bukan Native PostgreSQL 16, Auth, HTTP atau browser. Receipt: `SEGMENT_CUT_PROBE_WASM.json`. Pengukuran A/B/B/A synthetic ASCII + emoji:
+Runtime lokal: **PGlite 0.5.8 / PostgreSQL 18.3 WASM**, bukan Native PostgreSQL 16, Auth, HTTP atau browser. Receipt: `SEGMENT_CUT_PROBE_WASM.json`; angka pengukuran pertama di bawah disimpan di `SEGMENT_CUT_FIRST_WASM.log` (pengujian ulang dengan oracle pattern terpisah juga lulus). Pengukuran A/B/B/A synthetic ASCII + emoji:
 
 | Karakter | Current (ms) | Window (ms) | Byte ekor current | Byte window didecode |
 |---|---|---|---:|---:|
@@ -62,7 +65,24 @@ Runtime lokal: **PGlite 0.5.8 / PostgreSQL 18.3 WASM**, bukan Native PostgreSQL 
 
 Semua metadata segmen identik. Angka WASM hanya membantu diagnosis, tidak diekstrapolasi menjadi manfaat Native atau SLA. Instalasi PostgreSQL lokal tidak tersedia; percobaan pengelola paket gagal karena operasi sistem tidak diizinkan. Verifikasi Native disiapkan lewat workflow **CP7 Claude Support Segment Diagnostic** pada cabang bantuan, memakai data synthetic sampai 210 MB dan menyimpan penolakan timeout apa adanya.
 
-Sesudah hasil Native dibaca, Claude bisa menilai apakah inline pengganti loop `store` perlu diambil. Integrasi oleh Claude tetap membutuhkan uji `f05-analysis-jobs`, paritas Original/hash Unicode, transport P19, dan bukti di head gabungan. Probe ini sendiri tidak membuktikan penyimpanan 210 MB, parse `runs.result`, paging klien, atau proses 5000 selesai.
+Claude bisa menilai inline pengganti loop `store` dari hasil Native berikut. Integrasi oleh Claude tetap membutuhkan uji `f05-analysis-jobs`, paritas Original/hash Unicode, transport P19, dan bukti di head gabungan. Probe ini sendiri tidak membuktikan penyimpanan 210 MB, parse `runs.result`, paging klien, atau proses 5000 selesai.
+
+### 4.1 Verifikasi Native — selesai
+
+[Run 37653417613](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37653417613) **success**, job `112902330530`, source probe `3f88bc9f7c43d7bf6fdb7e63ea663ed5b0014ef9`. PostgreSQL **16.15**, Ubuntu 24.04, database sekali pakai lewat Unix socket. Runtime dan semua angka dibaca dari ZIP artefak asli, bukan dari badge saja. Hash ZIP `a9841c19ae46008b77e847615e923b163ffd3099707177808b3605a3489f6d44`; CRC lulus.
+
+**817/817** perbandingan serta kedua mutan lulus. Semua 16 panggilan benchmark (A/B/B/A × empat ukuran) selesai di bawah timeout 8 dtk; setiap segmen dibandingkan juga dengan oracle pola ASCII+emoji yang dihitung terpisah, sehingga timeout pada pembanding pun tidak akan membuat metode lain lulus dengan membandingkan dirinya sendiri.
+
+| Dokumen synthetic | Current median | Window median | Pengurangan waktu | Segmen identik |
+|---|---:|---:|---:|---:|
+| 4 MB | 44,623 ms | 40,576 ms | 9,1% | 3 |
+| 16 MB | 178,727 ms | 146,163 ms | 18,2% | 9 |
+| 65 MB | 904,850 ms | 664,673 ms | 26,5% | 33 |
+| 210 MB | 4404,059 ms | 2109,126 ms | 52,1% | 106 |
+
+Yang diukur adalah pemotongan serta hash/metadata segmen oleh probe, setelah fixture dibuat; bukan seluruh `store()`, insert dokumen, compiler Native, atau browser. Keduanya menjalankan logika potongan atas data yang sama dalam sesi terpisah, dengan timeout 8 dtk tiap sesi. Memori puncak belum diukur. Tidak ada cap yang dinaikkan. Angka ini tidak dijadikan SLA maupun dukungan 5000 terpasang.
+
+Bukti permanen di `docs/cp7/evidence/claude-support-20261007/`: `NATIVE_ORIGINAL.zip`, `SEGMENT_CUT_PROBE_NATIVE.json`, `SEGMENT_CUT_NATIVE.log`, `NATIVE_RECEIPT.json`. Receipt mencatat hash ketiga berkas probe/workflow dan SQL produk yang diperiksa. Pada penambahan bukti ini ketiga berkas executable tidak berubah dari run Native.
 
 ## 5. Urutan bantuan yang langsung berguna
 
