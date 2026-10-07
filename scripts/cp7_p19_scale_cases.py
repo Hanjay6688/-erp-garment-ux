@@ -410,7 +410,9 @@ def diagnostics(cur, today, days):
 
 
 def import_batch(cur, today, count, log):
-    """One BB opening-balance batch: masters, opening FG and one customer (no cutting group)."""
+    """One BB opening-balance batch: masters, opening FG and one customer (no cutting group).
+    Every master name carries the batch code: erp.brands.brand_name is unique, so a
+    second batch with the same name was refused (first run 37560925773)."""
     s = SYNTHETIC
     code = 'P19S' + uuid.uuid4().hex[:7]
     sizes = min(count, s['sizes_per_model'])
@@ -419,13 +421,13 @@ def import_batch(cur, today, count, log):
     sku = lambda m, z: '{C}M%03dS%02d' % (m, z)
     total_pcs = count * int(s['opening_fg_pcs'])
     rows = dict(
-        MODEL=[dict(model_code=model(m), model_name='P19 skala model %03d' % m) for m in sorted({m for m, _ in pairs})],
+        MODEL=[dict(model_code=model(m), model_name='P19 skala model {C} %03d' % m) for m in sorted({m for m, _ in pairs})],
         SIZE=[dict(size_code=size_code(z)) for z in range(sizes)],
-        BRAND=[dict(brand_code='{C}', brand_name='P19 skala merek')],
-        PRODUCT=[dict(sku=sku(m, z), product_name='P19 skala %03d-%02d' % (m, z), model_code=model(m), brand_code='{C}',
+        BRAND=[dict(brand_code='{C}', brand_name='P19 skala merek {C}')],
+        PRODUCT=[dict(sku=sku(m, z), product_name='P19 skala {C} %03d-%02d' % (m, z), model_code=model(m), brand_code='{C}',
                       color_name=s['color_name'], size_code=size_code(z)) for m, z in pairs],
-        LOCATION=[dict(location_code='{C}G', location_name='P19 skala gudang FG', location_type='FG_WAREHOUSE')],
-        CUSTOMER=[dict(customer_code='{C}C', customer_name='P19 skala pelanggan')],
+        LOCATION=[dict(location_code='{C}G', location_name='P19 skala gudang FG {C}', location_type='FG_WAREHOUSE')],
+        CUSTOMER=[dict(customer_code='{C}C', customer_name='P19 skala pelanggan {C}')],
         OPENING_BALANCE_ITEM=[dict(balance_type='FINISHED_GOODS', product_sku=sku(m, z), brand_code='{C}', model_code=model(m),
                                    color_name=s['color_name'], size_code=size_code(z), location_code='{C}G', qty=s['opening_fg_pcs'],
                                    unit_cost=s['opening_unit_cost'], control_key='FG') for m, z in pairs],
