@@ -54,7 +54,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx --no-install vitest run tests/cp7/families/f05-assembly.test.ts tests/cp7/families/f05-timeline.test.ts tests/cp7/families/f05-kernel-maps.test.ts tests/cp7/families/f05-report-render.test.ts tests/cp7/families/f04-demand-history-linear.test.ts tests/cp7/families/f04-history-build-linear.test.ts tests/cp7/families/f04-demand-estimate-rounding.test.ts tests/cp7/families/f04-schedule-scenario-linear.test.ts tests/cp7/families/f04-wip-normalize-linear.test.ts tests/cp7/families/f04-netting-linear.test.ts tests/cp7/families/f04-allocation-linear.test.ts tests/cp7/families/f04-model-knowledge-cutoff.test.ts
+      - run: npx --no-install vitest run tests/cp7/families/f05-assembly.test.ts tests/cp7/families/f05-timeline.test.ts tests/cp7/families/f05-kernel-maps.test.ts tests/cp7/families/f05-report-render.test.ts tests/cp7/families/f04-demand-history-linear.test.ts tests/cp7/families/f04-history-build-linear.test.ts tests/cp7/families/f04-demand-estimate-rounding.test.ts tests/cp7/families/f04-schedule-scenario-linear.test.ts tests/cp7/families/f04-wip-normalize-linear.test.ts tests/cp7/families/f04-netting-linear.test.ts tests/cp7/families/f04-allocation-linear.test.ts tests/cp7/families/f04-baseline-build-linear.test.ts tests/cp7/families/f04-model-knowledge-cutoff.test.ts
       - run: node scripts/cp7_p19_assembly_benchmark.mjs test-results/cp7-shell-proof/P19_ASSEMBLY_KERNEL.json
       - run: node scripts/cp7_p19_report_render_benchmark.mjs test-results/cp7-shell-proof/P19_REPORT_RENDER_KERNEL.json
       - run: node scripts/cp7_p19_demand_history_benchmark.mjs test-results/cp7-shell-proof/P19_DEMAND_HISTORY_KERNEL.json
@@ -62,6 +62,7 @@ jobs:
       - run: node scripts/cp7_p19_wip_normalize_benchmark.mjs test-results/cp7-shell-proof/P19_WIP_NORMALIZE_KERNEL.json
       - run: node scripts/cp7_p19_netting_benchmark.mjs test-results/cp7-shell-proof/P19_NETTING_KERNEL.json
       - run: node scripts/cp7_p19_allocation_benchmark.mjs test-results/cp7-shell-proof/P19_ALLOCATION_KERNEL.json
+      - run: node scripts/cp7_p19_baseline_benchmark.mjs test-results/cp7-shell-proof/P19_BASELINE_BUILD_KERNEL.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
