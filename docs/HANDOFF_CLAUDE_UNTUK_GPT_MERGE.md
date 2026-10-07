@@ -626,7 +626,8 @@ Oracle browser P12 payroll-review (`.cpay-net` "Bersih payroll") **tidak diubah 
 | `cb201edf` | **PL-8 bagian 2:** grup potong yang terbukti habis keluar dari cakupan supply dan dicantumkan (`cp7.native-supply.v2`); jalur PL-7 dibetulkan; suite rencana 42 |
 | `ee966484` | Deklarasi suite analisis 153 dan attention 285 (keduanya ikut menjalankan kasus jadwal PL-4; kegagalan pertama P08 37570105099 dicatat) |
 | `a0d81bc0` | Deklarasi `P19_SCALE.json` mengikuti batas supply v2 (kegagalan pertama skala 37574636528 dicatat; batas ditambah, tidak dilonggarkan) |
-| `03bf0fba` | Helper klon kasus Native PL-8 menjaga batas `varchar(n)` kunci unik (kegagalan pertama P08 37574849004 dicatat; hanya harness). **Head kandidat bukti satu-head** |
+| `03bf0fba` | Helper klon kasus Native PL-8 menjaga batas `varchar(n)` kunci unik (kegagalan pertama P08 37574849004 dicatat; hanya harness). Bukti satu-head pertama: 14/15 success, attention gagal di jumlah wajib per grup |
+| `0b3806b5` | Attention mewajibkan 180 kasus native per grup (kasus jadwal PL-4; total 285 tetap). **Head kandidat bukti satu-head (§15.5)** |
 | sisanya | dokumen (`SELF_CHECK_FORMULAS_20261006.md`, `P20_P21_PAKET_CABANG_CLAUDE.md` §9, `p19/P19_FULL_APP_SCALE.md`) dan jalur workflow |
 
 **Perubahan belum di-push:** tidak ada (pohon kerja bersih; `HEAD` = `origin/claude/new-session-deapao`).
