@@ -43,6 +43,18 @@ export function demandInput(seed, { targets = 6, days = 20, events = 60, availab
   return v
 }
 export const defects = ['conflict', 'identity', 'size', 'field', 'instant', 'duplicate_target', 'availability_conflict', 'availability_target', 'lifecycle', 'unposted_return', 'state']
+// Every validator the set-based fast path restates (P19): one defect each, so a
+// fast path that accepted what the row loop refuses would differ from the predecessor.
+const EVENT_FIELDS = { key_space: ['lineage_key', ' L1'], key_empty: ['target_key', ''], key_number: ['sold_group_key', 5], key_long: ['size_id', 'X'.repeat(201)],
+  pcs_zero_led: ['revision', '01'], pcs_decimal: ['qty_pcs', '1.5'], pcs_number: ['returned_pcs', 0], pcs_negative: ['qty_pcs', '-1'],
+  refs_empty: ['refs', []], refs_object: ['refs', { kind: 'SALE_ITEM', id: 's', revision: '1' }], refs_extra: ['refs', [{ kind: 'SALE_ITEM', id: 's', revision: '1', x: 1 }]],
+  refs_duplicate: ['refs', [{ kind: 'SALE_ITEM', id: 's', revision: '1' }, { kind: 'SALE_ITEM', id: 's', revision: '1' }]], refs_key: ['refs', [{ kind: 'SALE_ITEM', id: 's ', revision: '1' }]],
+  hour_24: ['known_at', '2026-05-01T24:00:00Z'], minute_60: ['effective_at', '2026-05-01T10:60:00Z'], no_zulu: ['known_at', '2026-05-01T10:00:00'], micro_7: ['effective_at', '2026-05-01T10:00:00.1234567Z'],
+  month_13: ['known_at', '2026-13-01T10:00:00Z'], instant_number: ['effective_at', 20260501], status_void: ['status', 'VOID'], status_null: ['status', null] }
+const AVAILABILITY_FIELDS = { av_day_invalid: ['date', '2026-02-30'], av_day_short: ['date', '2026-5-01'], av_day_number: ['date', 20260501], av_revision: ['revision', '1.0'],
+  av_known: ['known_at', '2026-05-01T23:59:60Z'], av_refs: ['refs', []], av_key: ['target_key', 7], av_state_null: ['state', null] }
+defects.push(...Object.keys(EVENT_FIELDS), ...Object.keys(AVAILABILITY_FIELDS), 'posted_after_effective', 'draft_posted_at', 'event_extra_field', 'event_not_object',
+  'availability_extra_field', 'availability_not_object', 'late_event_unknown_target', 'late_availability_unknown_target')
 function injectDefect(v, kind, r) {
   const n = Math.floor(r() * v.events.length), e = v.events[n], a = v.availability[Math.floor(r() * v.availability.length)]
   if (kind === 'conflict' && e) v.events.push({ ...e, qty_pcs: String(Number(e.qty_pcs) + 1) })
@@ -56,4 +68,15 @@ function injectDefect(v, kind, r) {
   if (kind === 'lifecycle' && e) e.returned_pcs = String(Number(e.qty_pcs) + 1)
   if (kind === 'unposted_return' && e) { e.status = 'DRAFT'; e.posted_at = null; e.returned_pcs = '1' }
   if (kind === 'state' && a) a.state = 'MAYBE'
+  if (EVENT_FIELDS[kind] && e) e[EVENT_FIELDS[kind][0]] = EVENT_FIELDS[kind][1]
+  if (AVAILABILITY_FIELDS[kind] && a) a[AVAILABILITY_FIELDS[kind][0]] = AVAILABILITY_FIELDS[kind][1]
+  if (kind === 'posted_after_effective' && e) { e.status = 'POSTED'; e.posted_at = '2026-06-01T00:00:00Z'; e.effective_at = '2026-05-31T00:00:00Z' }
+  if (kind === 'draft_posted_at' && e) { e.status = 'DRAFT'; e.returned_pcs = '0'; e.posted_at = e.effective_at }
+  if (kind === 'event_extra_field' && e) e.note = 'x'
+  if (kind === 'event_not_object' && e) v.events[n] = 'row'
+  if (kind === 'availability_extra_field' && a) a.note = 'x'
+  if (kind === 'availability_not_object' && a) v.availability[v.availability.indexOf(a)] = ['row']
+  // Rows known after the cutoff are skipped before the target lookup: legal.
+  if (kind === 'late_event_unknown_target' && e) { e.lineage_key = 'LATE-ONLY'; e.revision = '1'; e.target_key = 'NO-SUCH-TARGET'; e.known_at = '2026-06-01T05:00:00Z' }
+  if (kind === 'late_availability_unknown_target' && a) { a.target_key = 'NO-SUCH-TARGET'; a.known_at = '2026-06-01T05:00:00Z' }
 }
