@@ -46,7 +46,12 @@ describe('StockHealthExplainability', () => {
     badge?.focus()
     act(() => badge?.dispatchEvent(new MouseEvent('click', { bubbles: true })))
 
-    const dialog = container.querySelector<HTMLElement>('[role="dialog"]')
+    // Rendered at the end of <body>, outside the host list: a sticky or
+    // transformed host cannot trap it under its neighbours, and the host's
+    // descendant selectors (e.g. letter-spacing on `header span`) cannot reach it.
+    const dialog = document.querySelector<HTMLElement>('[role="dialog"]')
+    expect(container.contains(dialog)).toBe(false)
+    expect(dialog?.closest('.wh-stock-drawer-backdrop')?.parentElement).toBe(document.body)
     const recommendationRow = [...(dialog?.querySelectorAll<HTMLElement>('.wh-stock-calc-grid > div') ?? [])]
       .find((row) => row.textContent?.includes('Recommended qty'))
     expect(dialog).not.toBeNull()
@@ -58,7 +63,7 @@ describe('StockHealthExplainability', () => {
 
     act(() => document.dispatchEvent(new KeyboardEvent('keydown', { key:'Escape', bubbles:true })))
 
-    expect(container.querySelector('[role="dialog"]')).toBeNull()
+    expect(document.querySelector('[role="dialog"]')).toBeNull()
     expect(document.activeElement).toBe(badge)
     expect(badge?.getAttribute('aria-expanded')).toBe('false')
   })

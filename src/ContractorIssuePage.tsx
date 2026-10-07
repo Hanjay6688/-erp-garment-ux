@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import EnterpriseSelect from './EnterpriseSelect'
 import './contractor-issue.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 type IssueStatus = 'DRAFT' | 'POSTED' | 'REVERSED'
 type PeriodFilter = 'Hari ini' | '7 hari terakhir' | 'Bulan ini' | 'Semua tanggal' | 'Custom'
@@ -84,7 +85,7 @@ export default function ContractorIssuePage() {
   const visible = useMemo(() => documents.filter((document) => {
     const searchable = `${document.number} ${document.mandor} ${document.productionBatch} ${document.distributionBatch}`.toLowerCase()
     const statusMatches = statusFilter === 'Semua status' || document.status === statusFilter.toUpperCase()
-    return searchable.includes(query.toLowerCase())
+    return matchesSearch(query, searchable, searchValues(document))
       && statusMatches
       && (mandorFilter === 'Semua mandor' || document.mandor === mandorFilter)
       && (!effectiveFrom || document.issuedOn >= effectiveFrom)
@@ -93,7 +94,7 @@ export default function ContractorIssuePage() {
   }), [documents,effectiveFrom,effectiveTo,mandorFilter,query,showSettled,statusFilter])
   const selected = visible.find((document)=>document.number===selectedNumber) ?? visible[0] ?? null
   const availableCatalog = catalog.filter((item) => {
-    const searchMatches = `${item.id} ${item.item} ${item.category}`.toLowerCase().includes(catalogQuery.toLowerCase())
+    const searchMatches = matchesSearch(catalogQuery, searchValues(item), `${item.id} ${item.item} ${item.category}`)
     return searchMatches && (catalogCategory === 'Semua kategori' || item.category === catalogCategory)
   })
   const settledCount = documents.filter((document)=>Boolean(document.settledAt)).length

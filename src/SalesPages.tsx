@@ -11,6 +11,7 @@ import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import { distributeDozensEvenly } from './sales/distributeDozensEvenly'
 import { isSellableGoodAtLocation, parseManualPieceQuantity } from './sales/salesEligibility'
 import './business-pages.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 export type SalesView = 'sales-invoice' | 'sales-allocation' | 'sales-returns' | 'sales-payments' | 'sales-history'
 
@@ -141,7 +142,7 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
 
   const visibleProducts = useMemo(()=>productCatalog.filter((product)=>{
     const haystack=`${product.brand} ${product.code} ${product.name} ${product.color} ${product.range}`.toLowerCase()
-    return isSellableGoodAtLocation(product,location) && haystack.includes(query.toLowerCase()) && (brand==='Semua merek'||product.brand===brand)
+    return isSellableGoodAtLocation(product,location) && matchesSearch(query, haystack, searchValues(product)) && (brand==='Semua merek'||product.brand===brand)
   }),[query,brand,location])
   const totalQty=lines.reduce((sum,line)=>sum+lineQty(line),0)
   const gross=lines.reduce((sum,line)=>sum+lineGross(line),0)
@@ -237,7 +238,7 @@ function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNav
   const [selectedInvoice,setSelectedInvoice]=useState<(typeof allInvoices)[number]|null>(null)
   const [notice,setNotice]=useState('')
   const customers=[...new Set(invoices.map((invoice)=>invoice.customer))]
-  const visible=useMemo(()=>invoices.filter((invoice)=>`${invoice.number} ${invoice.customer} ${invoice.sku}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||invoice.customer===customer)&&(status==='ALL'||invoice.status===status)).sort((a,b)=>sort==='VALUE_DESC'?b.gross-a.gross:sort==='STORE'?a.customer.localeCompare(b.customer)||b.dateKey.localeCompare(a.dateKey)||b.time.localeCompare(a.time):b.dateKey.localeCompare(a.dateKey)||b.time.localeCompare(a.time)),[invoices,query,customer,status,sort])
+  const visible=useMemo(()=>invoices.filter((invoice)=>matchesSearch(query, searchValues(invoice), `${invoice.number} ${invoice.customer} ${invoice.sku}`, qtyLabel(invoice.qty), `${invoice.qty} pcs`)&&(customer==='ALL'||invoice.customer===customer)&&(status==='ALL'||invoice.status===status)).sort((a,b)=>sort==='VALUE_DESC'?b.gross-a.gross:sort==='STORE'?a.customer.localeCompare(b.customer)||b.dateKey.localeCompare(a.dateKey)||b.time.localeCompare(a.time):b.dateKey.localeCompare(a.dateKey)||b.time.localeCompare(a.time)),[invoices,query,customer,status,sort])
   const counted=visible.filter((invoice)=>['POSTED','PAID'].includes(invoice.status))
   const gross=counted.reduce((sum,invoice)=>sum+invoice.gross,0)
   const returns=counted.reduce((sum,invoice)=>sum+invoice.returns,0)
@@ -300,7 +301,7 @@ function ReturnsWorkspace() {
   const [reason,setReason]=useState('Ukuran tidak sesuai pesanan toko')
   const [reviewOpen,setReviewOpen]=useState(false)
   const [notice,setNotice]=useState('')
-  const visible=returnableInvoices.filter((invoice)=>`${invoice.number} ${invoice.customer}`.toLowerCase().includes(query.toLowerCase()))
+  const visible=returnableInvoices.filter((invoice)=>matchesSearch(query, searchValues(invoice), `${invoice.number} ${invoice.customer}`))
   const selected=returnableInvoices.find((invoice)=>invoice.number===selectedNumber)??returnableInvoices[0]
   const returnQty=selected.lines.reduce((sum,line)=>sum+(quantities[line.key]??0),0)
   const refund=selected.lines.reduce((sum,line)=>sum+(quantities[line.key]??0)*line.price,0)
@@ -315,7 +316,7 @@ function ReturnsWorkspace() {
 function PaymentsWorkspace() {
   const [query,setQuery]=useState('')
   const [customer,setCustomer]=useState('ALL')
-  const filtered=receivables.filter((item)=>`${item.invoice} ${item.customer}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||item.customer===customer))
+  const filtered=receivables.filter((item)=>matchesSearch(query, searchValues(item), `${item.invoice} ${item.customer}`)&&(customer==='ALL'||item.customer===customer))
   const [selectedInvoice,setSelectedInvoice]=useState(receivables[0].invoice)
   const selected=receivables.find((item)=>item.invoice===selectedInvoice)??receivables[0]
   const outstanding=Math.max(0,selected.gross-selected.returns-selected.paid)
@@ -340,7 +341,7 @@ function CustomerHistoryWorkspace() {
   const [type,setType]=useState('ALL')
   const [query,setQuery]=useState('')
   const [period,setPeriod]=useState('30D')
-  const visible=customerEvents.filter((event)=>`${event.customer} ${event.number} ${event.description} ${event.sku}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||event.customer===customer)&&(type==='ALL'||event.type===type))
+  const visible=customerEvents.filter((event)=>matchesSearch(query, searchValues(event), `${event.customer} ${event.number} ${event.description} ${event.sku}`)&&(customer==='ALL'||event.customer===customer)&&(type==='ALL'||event.type===type))
   const sales=visible.filter((event)=>event.type==='SALE').reduce((sum,event)=>sum+event.amount,0)
   const payments=visible.filter((event)=>event.type==='PAYMENT').reduce((sum,event)=>sum+event.amount,0)
   const returns=Math.abs(visible.filter((event)=>event.type==='RETURN').reduce((sum,event)=>sum+event.amount,0))

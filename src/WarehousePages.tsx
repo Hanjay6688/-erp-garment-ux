@@ -9,6 +9,7 @@ import { productCatalog } from './productCatalog'
 import { StockHealthExplainability, getStockHealthLabel, type StockLineageLink } from './stock/StockHealthExplainability'
 import { calculateStockHealth, createUnconfiguredPrototypeStock, type StockHealthResult } from './stock/stockHealth'
 import './warehouse.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 const StockAdjustmentPage = lazy(() => import('./InventoryControlPages').then((module) => ({ default: module.StockAdjustmentPage })))
 const BrandConversionPage = lazy(() => import('./InventoryControlPages').then((module) => ({ default: module.BrandConversionPage })))
@@ -266,7 +267,7 @@ function MaterialsRollsPage() {
   const selectedHealth = prototypeStockHealth('FABRIC', selected.stockOnHandYards, 'yd', selected.id)
   const visibleMaterials = useMemo(()=>materials.filter((item)=>{
     const health = prototypeStockHealth('FABRIC', item.stockOnHandYards, 'yd', item.id)
-    return `${item.material} ${item.supplier} ${item.location}`.toLowerCase().includes(query.toLowerCase()) && (supplier==='Semua'||item.supplier===supplier) && (status==='Semua'||getStockHealthLabel(health)===status)
+    return matchesSearch(query, searchValues(item), `${item.material} ${item.supplier} ${item.location}`) && (supplier==='Semua'||item.supplier===supplier) && (status==='Semua'||getStockHealthLabel(health)===status)
   }),[query,supplier,status])
   const visibleRolls = fabricRolls.filter((roll)=>roll.material===selected.material)
   const estimatedCount = visibleRolls.filter((roll)=>roll.costState==='ESTIMATED').length
@@ -300,7 +301,7 @@ function AccessoriesPage() {
   const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
   const visible = useMemo(()=>accessories.filter((item)=>{
     const health = prototypeStockHealth('ACCESSORY', item.physical, item.unit, item.id)
-    return `${item.name} ${item.category} ${item.supplier} ${item.id}`.toLowerCase().includes(query.toLowerCase()) && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
+    return matchesSearch(query, searchValues(item), `${item.name} ${item.category} ${item.supplier} ${item.id}`) && (category==='Semua'||item.category===category) && (status==='Semua'||getStockHealthLabel(health)===status)
   }),[query,category,status])
   const selected = accessories.find((item)=>item.id===selectedId) ?? accessories[0]
   const available = selected.physical
@@ -341,7 +342,7 @@ function FinishedGoodsSummaryPage() {
   const [grade,setGrade] = useState('Semua')
   const [location,setLocation] = useState('Semua')
   const [selectedKey,setSelectedKey] = useState(`${productCatalog[0].brand}::${productCatalog[0].code}`)
-  const visible = useMemo(()=>productCatalog.filter((item)=>`${item.brand} ${item.code} ${item.name} ${item.color} ${item.range}`.toLowerCase().includes(query.toLowerCase()) && (brand==='Semua'||item.brand===brand) && (grade==='Semua'||item.grade===grade) && (location==='Semua'||item.location===location)),[query,brand,grade,location])
+  const visible = useMemo(()=>productCatalog.filter((item)=>matchesSearch(query, searchValues(item), `${item.brand} ${item.code} ${item.name} ${item.color} ${item.range}`) && (brand==='Semua'||item.brand===brand) && (grade==='Semua'||item.grade===grade) && (location==='Semua'||item.location===location)),[query,brand,grade,location])
   const selected = productCatalog.find((item)=>`${item.brand}::${item.code}`===selectedKey) ?? productCatalog[0]
   const total = selected.stocks.reduce((sum,qty)=>sum+qty,0)
   const selectedHealth = prototypeStockHealth('FG', total, 'pcs', `${selected.brand}-${selected.code}`)

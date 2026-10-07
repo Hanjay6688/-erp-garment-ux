@@ -9,6 +9,7 @@ import type { QcFinalResult } from './QcFinalPage'
 import type { ReadyFgNotaCard } from './fgNota'
 import { productCatalog } from './productCatalog'
 import './bs-rework.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 export type SizeValues = [number, number, number]
 type SizeInputs = [string, string, string]
@@ -291,7 +292,8 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     const people = caseMandors(item).join(' ')
     const sourceText = item.kind === 'BS' ? `${item.sourceNote} ${item.source} ${(item.conversions ?? []).map((conversion) => `${conversion.newSku} ${conversion.newName}`).join(' ')}` : `${item.laundry} ${item.deliveryRef} ${item.receiptRef}`
     const haystack = `${item.id} ${item.parentId} ${item.batchId} ${people} ${item.brand} ${item.sku} ${bsSkuName(item.brand, item.sku)} ${item.material} ${sourceText}`.toLowerCase()
-    return haystack.includes(query.toLowerCase())
+    const statusLabel = (bsStatusLabels as Record<string, string>)[item.status] ?? (stuckStatusLabels as Record<string, string>)[item.status]
+    return matchesSearch(query, haystack, searchValues(item), statusLabel)
       && (kindFilter === 'ALL' || item.kind === kindFilter)
       && (mandorFilter === 'Semua mandor' || caseMandors(item).includes(mandorFilter))
       && (statusFilter === 'ALL' || (statusFilter === 'ACTIVE' ? !caseIsDone(item) : caseIsDone(item)))

@@ -15,6 +15,7 @@ import SupplierInvoiceMatchModal from './SupplierInvoiceMatchModal'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import { calculateRegularWorkEntitlement } from './payroll/regularWorkEntitlement'
 import './business-pages.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 export type FinanceView = 'finance-overview' | 'finance-cash' | 'finance-ap' | 'finance-ar' | 'finance-payroll' | 'finance-journal' | 'finance-reports'
 type FinanceProps = { view: FinanceView; onNavigate: (view: FinanceView) => void; onSalesPayment: () => void; onAttendance: () => void }
@@ -135,7 +136,7 @@ function CashWorkspace({onNavigate}:{onNavigate:FinanceProps['onNavigate']}) {
   const [account,setAccount]=useState('ALL')
   const [source,setSource]=useState('ALL')
   const [query,setQuery]=useState('')
-  const visible=useMemo(()=>cashMovements.filter((movement)=>`${movement.number} ${movement.counterparty} ${movement.description} ${movement.account}`.toLowerCase().includes(query.toLowerCase())&&(account==='ALL'||movement.account===account)&&(source==='ALL'||movement.source===source)),[query,account,source])
+  const visible=useMemo(()=>cashMovements.filter((movement)=>matchesSearch(query, searchValues(movement), `${movement.number} ${movement.counterparty} ${movement.description} ${movement.account}`)&&(account==='ALL'||movement.account===account)&&(source==='ALL'||movement.source===source)),[query,account,source])
   const totalCash=cashAccounts.reduce((sum,item)=>sum+item.balance,0)
   return <>
     <FinanceHero eyebrow="KEUANGAN · CASH LEDGER" title="Kas & Bank" description="Browser semua uang masuk dan keluar berdasarkan jurnal posted. Tidak ada edit saldo; koreksi selalu lewat reversal transaksi sumber." icon={Landmark}/>
@@ -158,7 +159,7 @@ function PayablesWorkspace() {
   const [account,setAccount]=useState('BCA Operasional')
   const [reference,setReference]=useState('')
   const [notice,setNotice]=useState('')
-  const visible=payables.filter((item)=>`${item.number} ${item.party} ${item.reference}`.toLowerCase().includes(query.toLowerCase())&&(kind==='ALL'||item.kind===kind)&&(state==='ALL'||(state==='OPEN'?!['PAID'].includes(item.status):item.status===state)))
+  const visible=payables.filter((item)=>matchesSearch(query, searchValues(item), `${item.number} ${item.party} ${item.reference}`)&&(kind==='ALL'||item.kind===kind)&&(state==='ALL'||(state==='OPEN'?!['PAID'].includes(item.status):item.status===state)))
   const selected=payables.find((item)=>item.number===selectedNumber)??payables[0]
   const outstanding=outstandingPayable(selected)
   const payAmount=Math.max(0,Number(amount.replace(/\D/g,''))||0)
@@ -177,7 +178,7 @@ function ReceivablesWorkspace({onSalesPayment}:{onSalesPayment:()=>void}) {
   const [status,setStatus]=useState('OPEN')
   const [query,setQuery]=useState('')
   const [selectedInvoice,setSelectedInvoice]=useState(receivables[0].invoice)
-  const visible=receivables.filter((item)=>`${item.invoice} ${item.customer}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||item.customer===customer)&&(status==='ALL'||(status==='OPEN'?!['PAID'].includes(item.status):item.status===status)))
+  const visible=receivables.filter((item)=>matchesSearch(query, searchValues(item), `${item.invoice} ${item.customer}`)&&(customer==='ALL'||item.customer===customer)&&(status==='ALL'||(status==='OPEN'?!['PAID'].includes(item.status):item.status===status)))
   const selected=receivables.find((item)=>item.invoice===selectedInvoice)??receivables[0]
   const outstanding=outstandingReceivable(selected)
   return <>
@@ -205,7 +206,7 @@ function PayrollWorkspace({onAttendance}:{onAttendance:()=>void}) {
     const statusMatches=statusFilter==='Semua status'
       || (statusFilter==='Aktif · lunas disembunyikan'&&!['PAID','REVERSED'].includes(item.status))
       || item.status===statusFilter.toUpperCase()
-    return `${item.number} ${item.contractor} ${item.period}`.toLowerCase().includes(query.toLowerCase())
+    return matchesSearch(query, searchValues(item), `${item.number} ${item.contractor} ${item.period}`)
       && (mandorFilter==='Semua mandor'||item.contractor===mandorFilter)
       && statusMatches
   }),[mandorFilter,notes,query,statusFilter])
@@ -259,7 +260,7 @@ function JournalWorkspace() {
   const [reverseReason,setReverseReason]=useState('')
   const [notice,setNotice]=useState('')
   const typedAmount=Math.max(0,Number(amount.replace(/\D/g,''))||0)
-  const visible=journals.filter((item)=>`${item.number} ${item.source} ${item.description}`.toLowerCase().includes(query.toLowerCase()))
+  const visible=journals.filter((item)=>matchesSearch(query, searchValues(item), `${item.number} ${item.source} ${item.description}`))
   const selected=journals.find((item)=>item.number===selectedJournal)??journals[0]
   return <>
     <FinanceHero eyebrow="KEUANGAN · JOURNAL GATEWAY" title="Jurnal & Transaksi Lain-lain" description="Owner boleh mencatat pemasukan/pengeluaran non-inti lewat kategori aman. Jurnal sale, purchase, laundry, payroll, dan stok hanya dibaca di sini—bukan diedit manual." icon={FileClock}/>

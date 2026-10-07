@@ -2,8 +2,8 @@ import { Fragment, lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, 
 import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
 import {
   ArrowLeft, ArrowRight, Boxes, CalendarDays, Check, ChevronDown, ChevronUp,
-  CircleDollarSign, Database, Factory, FileText, GripVertical, History,
-  LayoutDashboard, Layers3, Link2, ListFilter, Menu, Package, Plus, ReceiptText,
+  CircleDollarSign, Database, Factory, FileText, GitMerge, GripVertical, History,
+  LayoutDashboard, Layers3, Link2, ListFilter, Menu, Package, PencilLine, Plus, ReceiptText,
   RotateCcw, Ruler, Scissors, Search, ShieldCheck, SlidersHorizontal, Trash2,
   UserRound, WalletCards, Warehouse, X,
 } from 'lucide-react'
@@ -27,6 +27,9 @@ import { PAGE_PERMISSION_BY_ID, SENSITIVE_ACTION_PERMISSION, hasPermission, isNa
 import type { ReminderItem } from './reminders'
 import { initialReminders, reminderDueLabel, reminderPriorityLabel } from './reminders'
 import { deriveWipControlStatus } from './wipControlPolicy'
+import { matchesSearch, normalizeSearch, searchTokens } from './lib/search'
+import { addSizes, batchesWithSplits, batchLabel, initialCompleted, nextSplitSuffix, sizeTotal, splitPieceId, subtractSizes, WIP_SPLIT_BLOCK_LABEL, wipSplitBlock } from './wipSplit'
+import type { WipSplitPiece } from './wipSplit'
 import CuttingPatternPicker, { hasCanonicalPattern } from './CuttingPatternPicker'
 import { applyUxTampilan, readUxTampilan, saveUxTampilan, type UxTampilan } from './uxTampilan'
 import type { CuttingPatternChoice } from './CuttingPatternPicker'
@@ -56,7 +59,7 @@ type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
 type WipAdjustmentHistoryEntry = {
   id: string
-  operation: 'REDISTRIBUTION' | 'PHYSICAL_RECOUNT'
+  operation: 'REDISTRIBUTION' | 'PHYSICAL_RECOUNT' | 'SPLIT' | 'MERGE' | 'NOTE'
   note: string
   at: string
   before: QtyTuple
@@ -340,7 +343,7 @@ function MultiCheckFilter({ label, options, selected, onChange }: {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const allSelected = selected.length === options.length
-  const shownOptions = options.filter((option) => option.toLowerCase().includes(query.toLowerCase()))
+  const shownOptions = options.filter((option) => matchesSearch(query, option))
   const toggle = (option: string) => onChange(selected.includes(option) ? selected.filter((value) => value !== option) : [...selected, option])
 
   return <div className={`multi-filter ${open ? 'is-open' : ''}`}>
@@ -426,6 +429,10 @@ function App() {
     'Warna hitam · cek sambungan samping',
   ])
   const [laundryPrefill,setLaundryPrefill] = useState<LaundryPrefill|null>(null)
+  // Batch Distribusi pieces and edited mandor instructions live at app level so
+  // Laundry/QC can follow a piece after the WIP page unmounts.
+  const [wipSplits,setWipSplits] = useState<WipSplitPiece[]>([])
+  const [wipNoteOverrides,setWipNoteOverrides] = useState<Record<string,string>>({})
   const [laundryReadyBatches,setLaundryReadyBatches] = useState<LaundryReadyBatch[]>(laundryReadySeeds)
   const [laundryDeliveries,setLaundryDeliveries] = useState<LaundryDelivery[]>(laundryDeliverySeeds)
   const [laundryDrafts,setLaundryDrafts] = useState<Record<string,string>>({})
@@ -599,6 +606,10 @@ function App() {
         {page === 'sewing-wip' && runtime.wipStatusMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="WIP authoritative"/>}><ConnectedWipStatusPage/></Suspense>}
         {page === 'sewing-wip' && runtime.wipStatusMode === 'SIMULATION' && <SewingWipPage
           batchNotes={mandorBatchNotes}
+          splits={wipSplits}
+          onSplitsChange={setWipSplits}
+          noteOverrides={wipNoteOverrides}
+          onNoteOverridesChange={setWipNoteOverrides}
           deliveries={laundryDeliveries}
           finalizedResults={finalizedQcResults}
           laundryDrafts={laundryDrafts}
@@ -613,7 +624,7 @@ function App() {
             setLaundryReadyBatches((current)=>{
               const existing=current.find((batch)=>batch.id===batchId)
               if(existing)return current.map((batch)=>batch.id===batchId?{...batch,vendor,...snapshot}:batch)
-              const restored=laundryReadyFromSewingBatch(batchId,vendor,snapshot)
+              const restored=laundryReadyFromSewingBatch(batchId,vendor,snapshot,wipSplits)
               return restored?[restored,...current]:current
             })
             setLaundryPrefill({batchId,vendor,view:'send'})
@@ -623,7 +634,7 @@ function App() {
           onOpenLaundry={(batchId,vendor,view)=>{setLaundryPrefill({batchId,vendor,view});setPage('laundry')}}
           onOpenQc={(parentId,batchId)=>{
             const parent=sewingWipSeeds.find((item)=>item.id===parentId)
-            const batch=parent?.batches.find((item)=>item.id===batchId)
+            const batch=parent?.batches.find((item)=>item.id===batchId)??wipSplits.find((piece)=>piece.parentId===parentId&&piece.id===batchId)
             if(!parent||!batch)return
             setQcSeedId(`${parentId}::${batchId}`)
             setPage('qc')
@@ -827,9 +838,9 @@ function CuttingRollPage() {
   const columnFillDraggedRef=useRef(false)
   const selectedIdSet=useMemo(()=>new Set(selectedRollIds),[selectedRollIds])
   const visibleRolls=useMemo(()=>fabricRollCatalog.filter((roll)=>{
-    const matchesQuery=`${roll.id} roll ${roll.sequence} ${roll.supplier} ${roll.material} ${roll.yards}`.toLowerCase().includes(query.toLowerCase())
+    const matchesQuery=matchesSearch(query,roll.id,`roll ${roll.sequence}`,String(roll.sequence).padStart(2,'0'),roll.supplier,roll.material,roll.yards,`${formatQuantity(roll.yards,2)} yd`,`masuk ${roll.receivedAt}`,selectedIdSet.has(roll.id)?'Masuk pembagian':'Siap dipilih')
     return matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
-  }),[query,selectedSuppliers,selectedMaterials])
+  }),[query,selectedSuppliers,selectedMaterials,selectedIdSet])
   const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))
   const rollUsageRows=selectedRolls.map((roll)=>{
     const input=rollYardUsage[roll.id]??''
@@ -1299,10 +1310,12 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
       ],
     },
   ]
-  const normalizedQueueQuery=queueQuery.trim().toLowerCase()
   const visibleQueueItems=queueItems.filter((item)=>{
     const statusMatch=queueFilter==='ALL'||(queueFilter==='PICKED'?item.status==='PICKED':item.status!=='PICKED')
-    const queryMatch=!normalizedQueueQuery||`${item.id} ${item.model} ${item.material} ${item.supplier} ${item.mandor??''} ${item.pattern?.code??''} ${item.pattern?.revision??''} ${item.pattern?.name??''}`.toLowerCase().includes(normalizedQueueQuery)
+    const queryMatch=matchesSearch(queueQuery,item.id,item.model,item.material,item.supplier,item.mandor,item.pickupAt,item.pattern?.code,item.pattern?.revision,item.pattern?.name,patternSnapshotLabel(item.pattern),
+      item.status==='PICKED'?'Sudah diambil':item.status==='REVIEW'?'Menunggu review':'Siap diambil',
+      `${pickupItemTotal(item)} pcs`,`${item.rolls.length} roll sumber`,`${formatQuantity(pickupItemUsedYards(item),2)} yd`,item.sizes.map((size)=>`size ${size}`),item.sizes.join(' · '),
+      item.status==='PICKED'?'batch distribusi':'Belum masuk Sewing')
     const patternMatch=!queuePatternId||item.pattern?.id===queuePatternId
     return statusMatch&&patternMatch&&queryMatch
   })
@@ -1551,6 +1564,25 @@ type SewingBatchSeed = {
   note: string
 }
 
+type LaundrySendSnapshot = { qty:number; sizes:QtyTuple; note?:string }
+
+type SewingBatchView = SewingBatchSeed & {
+  label: string
+  rootId: string
+  suffix?: string
+  sourceId?: string
+  isPiece: boolean
+  hasPieces: boolean
+}
+
+const wipHistoryTitle: Record<WipAdjustmentHistoryEntry['operation'],string> = {
+  REDISTRIBUTION:'Redistribusi Batch',
+  PHYSICAL_RECOUNT:'Koreksi hasil fisik',
+  SPLIT:'Pecah batch',
+  MERGE:'Gabung kembali',
+  NOTE:'Ubah arahan',
+}
+
 type SewingParentSeed = {
   id: string
   sequence: number
@@ -1584,17 +1616,22 @@ const sewingWipSeeds: SewingParentSeed[] = [
 const laundryVendorNames = ['Laundry Berkah', 'Laundry Intan', 'Cemerlang Wash']
 
 export function SewingWipPage({
-  batchNotes, deliveries, finalizedResults, laundryDrafts, reverseNotice, onClearReverseNotice,
+  batchNotes, splits, onSplitsChange, noteOverrides, onNoteOverridesChange,
+  deliveries, finalizedResults, laundryDrafts, reverseNotice, onClearReverseNotice,
   onClearLaundryDraft, onConfirmLaundry, onOpenLaundry, onOpenQc,
 }: {
   batchNotes: string[]
+  splits?: WipSplitPiece[]
+  onSplitsChange?: (next: WipSplitPiece[]) => void
+  noteOverrides?: Record<string,string>
+  onNoteOverridesChange?: (next: Record<string,string>) => void
   deliveries: LaundryDelivery[]
   finalizedResults: QcFinalResult[]
   laundryDrafts: Record<string,string>
   reverseNotice: string|null
   onClearReverseNotice: () => void
   onClearLaundryDraft: (batchId:string) => void
-  onConfirmLaundry: (batchId:string,vendor:string,snapshot?:{qty:number;sizes:QtyTuple}) => void
+  onConfirmLaundry: (batchId:string,vendor:string,snapshot?:LaundrySendSnapshot) => void
   onOpenLaundry: (batchId:string,vendor:string,view:LaundryView) => void
   onOpenQc: (parentId:string,batchId:string) => void
 }) {
@@ -1603,21 +1640,37 @@ export function SewingWipPage({
   const [controlTarget,setControlTarget] = useState<{parentId:string;batchId:string;mode:WipControlMode}|null>(null)
   const [controlNotice,setControlNotice] = useState<{title:string;message:string}|null>(null)
   const [adjustmentHistory,setAdjustmentHistory] = useState<Record<string,WipAdjustmentHistoryEntry[]>>({})
-  const parentGroups = useMemo(() => sewingWipSeeds.map((parent) => ({
-    ...parent,
-    batches:parent.batches
-      .filter((batch)=>!reversedBatchIds.includes(batch.id))
-      .map((batch)=>{
-        const sizes=batchOverrides[batch.id]??batch.sizes
-        const noteIndex=parent.batches.findIndex((source)=>source.id===batch.id)
-        return {...batch,sizes,qty:sizes.reduce((sum,qty)=>sum+qty,0),note:parent.id==='POT-260827-042'?(batchNotes[noteIndex]||batch.note):batch.note}
-      }),
-  })), [batchNotes,batchOverrides,reversedBatchIds])
+  // Controlled by the app when it passes `splits` / `noteOverrides`; a bare page keeps its own.
+  const [localSplits,setLocalSplits] = useState<WipSplitPiece[]>([])
+  const [localNotes,setLocalNotes] = useState<Record<string,string>>({})
+  const splitList = splits ?? localSplits
+  const noteMap = noteOverrides ?? localNotes
+  const setSplitList = (next: WipSplitPiece[]) => { if (onSplitsChange) onSplitsChange(next); else setLocalSplits(next) }
+  const setNoteMap = (next: Record<string,string>) => { if (onNoteOverridesChange) onNoteOverridesChange(next); else setLocalNotes(next) }
+  const parentGroups = useMemo(() => sewingWipSeeds.map((parent) => {
+    const views = batchesWithSplits(parent.id, parent.batches.map((batch, noteIndex) => ({
+      id:batch.id, number:batch.number, sizes:batch.sizes,
+      note:parent.id==='POT-260827-042'?(batchNotes[noteIndex]||batch.note):batch.note,
+    })), splitList, batchOverrides)
+    const seedCompleted = new Map([...parent.batches.map((batch) => [batch.id, batch.completed] as const), ...splitList.map((piece) => [piece.id, piece.completed] as const)])
+    return {
+      ...parent,
+      batches:views
+        .filter((batch)=>!reversedBatchIds.includes(batch.id))
+        .map((batch):SewingBatchView=>({
+          ...batch,
+          qty:sizeTotal(batch.sizes),
+          completed:initialCompleted(batch.id, seedCompleted.get(batch.id) ?? 0, splitList),
+          note:noteMap[batch.id] ?? batch.note,
+          label:batchLabel(batch.number, batch.suffix),
+        })),
+    }
+  }), [batchNotes,batchOverrides,reversedBatchIds,splitList,noteMap])
   const mandorOptions = Array.from(new Set(parentGroups.map((parent) => parent.mandor)))
   const [selectedMandors,setSelectedMandors] = useState([...mandorOptions])
   const [query,setQuery] = useState('')
   const [patternFilter,setPatternFilter] = useState('')
-  const [completedInputs,setCompletedInputs] = useState<Record<string,string>>(() => Object.fromEntries(sewingWipSeeds.flatMap((parent) => parent.batches.map((batch) => [batch.id,String(batch.completed)]))))
+  const [completedInputs,setCompletedInputs] = useState<Record<string,string>>(() => Object.fromEntries(parentGroups.flatMap((parent) => parent.batches.map((batch) => [batch.id,String(batch.completed)]))))
   const [statusFilter,setStatusFilter] = useState<'ACTIVE'|'COMPLETED'|'ALL'>('ACTIVE')
   const [pendingLaundry,setPendingLaundry] = useState<{batchId:string;vendor:string;qty:number}|null>(null)
   const completedBatchIds = new Set(finalizedResults.filter((result)=>result.completionStatus==='COMPLETE').map((result)=>result.batchId))
@@ -1639,13 +1692,40 @@ export function SewingWipPage({
   }))
   const parentIsCompleted=(parent:SewingParentSeed)=>parentControlStatus(parent)==='COMPLETED'
   const completedParentCount=parentGroups.filter(parentIsCompleted).length
+  // One place for a batch's live state: the card, the actions and the search all read it.
+  const batchFacts=(batch:SewingBatchSeed)=>{
+    const completed=Math.min(batch.qty,cellQuantity(completedInputs[batch.id]))
+    const summary=summarizeLaundryBatch(deliveries,batch.id)
+    const draftLaundry=laundryDrafts[batch.id]
+    const inLaundry=summary.outside>0
+    const returnedToQc=summary.returned>0
+    const isReady=completed===batch.qty
+    const locked=inLaundry||returnedToQc
+    const preSewing=completed===0&&!locked&&!draftLaundry
+    const status=returnedToQc?(summary.outside>0?'Kembali sebagian · siap QC':'Kembali · siap QC'):inLaundry?'Di laundry':draftLaundry?'Draft laundry':isReady?'Siap laundry':completed>0?'Sedang dijahit':'Menunggu jahit · Pre-sewing'
+    return {completed,summary,draftLaundry,inLaundry,returnedToQc,isReady,locked,preSewing,status,finalSkuComplete:completedBatchIds.has(batch.id)}
+  }
+  // Search reads what the card shows: batch label, pcs, sizes, status, instruction, laundry.
+  const queryTokens=searchTokens(query)
+  const parentSearchText=(parent:SewingParentSeed)=>normalizeSearch([parent.id,parent.model,parent.material,parent.mandor,parent.plannedBrand?`merek ${parent.plannedBrand}`:'merek belum ditentukan',parent.pattern?.code,parent.pattern?.revision,parent.pattern?.name,`pickup ${parent.pickupAt}`,'batch produksi'].filter(Boolean).join(' '))
+  const batchSearchText=(parent:SewingParentSeed,batch:SewingBatchView)=>{
+    const facts=batchFacts(batch)
+    return normalizeSearch([`batch distribusi ${batch.label}`,`batch ${batch.label}`,batch.id,`${batch.qty} pcs`,facts.status,batch.note,`${facts.completed} pcs selesai dijahit`,...parent.sizes.flatMap((size,index)=>batch.sizes[index]>0?[`size ${size}`,`${batch.sizes[index]} pcs`]:[]),...facts.summary.activeVendors,...facts.summary.returnedVendors,facts.draftLaundry??'',batch.isPiece?'pecahan pecah batch':'',facts.isReady?'pilih nama laundry':`laundry terkunci selesaikan ${batch.qty-facts.completed} pcs lagi`].join(' '))
+  }
   const visibleGroups = parentGroups
     .filter((parent) => selectedMandors.includes(parent.mandor))
     .filter((parent)=>!patternFilter||parent.pattern?.id===patternFilter)
-    .filter((parent) => `${parent.id} ${parent.model} ${parent.material} ${parent.mandor} ${parent.pattern?.code??''} ${parent.pattern?.revision??''} ${parent.pattern?.name??''} ${parent.batches.map((batch) => `${batch.number} ${batch.note}`).join(' ')}`.toLowerCase().includes(query.toLowerCase()))
     .filter((parent)=>statusFilter==='ALL'||(statusFilter==='COMPLETED'?parentIsCompleted(parent):!parentIsCompleted(parent)))
+    .map((parent)=>{
+      if(queryTokens.length===0)return {...parent,shownBatches:parent.batches}
+      const parentText=parentSearchText(parent)
+      const missing=queryTokens.filter((token)=>!parentText.includes(token))
+      if(missing.length===0)return {...parent,shownBatches:parent.batches}
+      return {...parent,shownBatches:parent.batches.filter((batch)=>{const text=batchSearchText(parent,batch);return missing.every((token)=>text.includes(token))})}
+    })
+    .filter((parent)=>parent.shownBatches.length>0)
     .sort((a,b) => b.sequence-a.sequence)
-  const visibleBatches = visibleGroups.flatMap((parent) => parent.batches)
+  const visibleBatches = visibleGroups.flatMap((parent) => parent.shownBatches)
   const visibleQty = visibleBatches.reduce((sum,batch) => sum+batch.qty,0)
   const visibleCompleted = visibleBatches.reduce((sum,batch) => sum+Math.min(batch.qty,cellQuantity(completedInputs[batch.id])),0)
   const readyLaundryCount = visibleBatches.filter((batch) => {
@@ -1666,11 +1746,65 @@ export function SewingWipPage({
       const summary=summarizeLaundryBatch(deliveries,batch.id)
       const draft=laundryDrafts[batch.id]
       const lockLabel=summary.returned>0?'Sudah kembali':summary.outside>0?'Di Laundry':draft?'Draft Laundry':completed>0?`${completed} pcs dijahit`:'Pre-sewing'
-      return {...batch,completed,locked:completed>0||summary.returned>0||summary.outside>0||Boolean(draft),lockLabel}
+      const source=batch.sourceId?controlParent.batches.find((item)=>item.id===batch.sourceId):undefined
+      const splitLabels={source:batch.suffix?batch.label:batchLabel(batch.number,'A'),piece:batchLabel(batch.number,nextSplitSuffix(batch.rootId,splitList))}
+      return {...batch,completed,locked:completed>0||summary.returned>0||summary.outside>0||Boolean(draft),lockLabel,label:batch.label,sourceLabel:source?.label,splitLabels}
     }),
   }:null
+  const historyEntry=(operation:WipAdjustmentHistoryEntry['operation'],note:string,before:QtyTuple,after:QtyTuple,key:string):WipAdjustmentHistoryEntry=>({id:`${operation}-${Date.now()}-${key}`,operation,note,at:'28 Agu 2026 · baru saja',before:[...before] as QtyTuple,after:[...after] as QtyTuple})
+  const pushHistory=(entries:Array<[string,WipAdjustmentHistoryEntry]>)=>setAdjustmentHistory((current)=>{
+    const next={...current}
+    entries.forEach(([batchId,entry])=>{next[batchId]=[entry,...(next[batchId]??[])]})
+    return next
+  })
   const applyWipControl=(result:WipControlResult)=>{
     if(!controlParent)return
+    if(result.kind==='SPLIT'){
+      const source=controlPayload?.batches.find((batch)=>batch.id===result.batchId)
+      const sourceView=controlParent.batches.find((batch)=>batch.id===result.batchId)
+      if(!source||!sourceView)return
+      const suffix=nextSplitSuffix(sourceView.rootId,splitList)
+      const pieceId=splitPieceId(sourceView.rootId,suffix)
+      const moved=sizeTotal(result.moveSizes)
+      const remaining=subtractSizes(source.sizes,result.moveSizes)
+      setSplitList([...splitList,{id:pieceId,parentId:controlParent.id,rootId:sourceView.rootId,sourceId:source.id,number:source.number,suffix,sizes:result.moveSizes,completed:result.completedMoved,note:result.newNote,reason:result.note,at:'28 Agu 2026 · baru saja'}])
+      if(batchOverrides[source.id])setBatchOverrides((current)=>({...current,[source.id]:remaining}))
+      setNoteMap({...noteMap,...(result.sourceNote!==source.note?{[source.id]:result.sourceNote}:{})})
+      setCompletedInputs((current)=>({...current,[source.id]:String(source.completed-result.completedMoved),[pieceId]:String(result.completedMoved)}))
+      const pieceLabel=batchLabel(source.number,suffix)
+      const sourceLabel=sourceView.suffix?sourceView.label:batchLabel(source.number,'A')
+      pushHistory([
+        [source.id,historyEntry('SPLIT',`${result.note} · ${moved} pcs pindah ke Batch ${pieceLabel}`,source.sizes,remaining,'source')],
+        [pieceId,historyEntry('SPLIT',`${result.note} · dipecah dari Batch ${sourceLabel}`,[0,0,0],result.moveSizes,'piece')],
+      ])
+      setControlNotice({title:`Batch ${sourceLabel} dipecah`,message:`${moved} pcs (${result.completedMoved} sudah dijahit) pindah ke Batch Distribusi ${pieceLabel} dengan arahan “${result.newNote}”. Total Batch Produksi ${controlParent.id} tetap.`})
+      setControlTarget(null)
+      return
+    }
+    if(result.kind==='MERGE'){
+      const piece=controlPayload?.batches.find((batch)=>batch.id===result.batchId)
+      const pieceView=controlParent.batches.find((batch)=>batch.id===result.batchId)
+      const source=pieceView?.sourceId?controlPayload?.batches.find((batch)=>batch.id===pieceView.sourceId):undefined
+      if(!piece||!pieceView||!source)return
+      const merged=addSizes(source.sizes,piece.sizes)
+      setSplitList(splitList.filter((item)=>item.id!==piece.id))
+      setBatchOverrides((current)=>{const next={...current};delete next[piece.id];if(current[source.id])next[source.id]=merged;return next})
+      const nextNotes={...noteMap};delete nextNotes[piece.id];setNoteMap(nextNotes)
+      setCompletedInputs((current)=>{const next={...current,[source.id]:String(source.completed+piece.completed)};delete next[piece.id];return next})
+      pushHistory([[source.id,historyEntry('MERGE',`${result.note} · Batch ${piece.label} digabung kembali (${piece.qty} pcs)`,source.sizes,merged,'merge')]])
+      setControlNotice({title:`Batch ${piece.label} digabung kembali`,message:`${piece.qty} pcs dan ${piece.completed} pcs sudah dijahit kembali ke Batch ${source.label}.`})
+      setControlTarget(null)
+      return
+    }
+    if(result.kind==='NOTE'){
+      const batch=controlPayload?.batches.find((item)=>item.id===result.batchId)
+      if(!batch)return
+      setNoteMap({...noteMap,[batch.id]:result.nextNote})
+      pushHistory([[batch.id,historyEntry('NOTE',`${result.note} · arahan “${batch.note}” → “${result.nextNote}”`,batch.sizes,batch.sizes,'note')]])
+      setControlNotice({title:`Arahan Batch ${batch.label} diperbarui`,message:`Arahan baru: ${result.nextNote}.`})
+      setControlTarget(null)
+      return
+    }
     if(result.kind==='ADJUST'){
       const before=controlParent.batches.reduce((sum,batch)=>sum+batch.qty,0)
       const after=Object.values(result.sizesByBatch).reduce((sum,sizes)=>sum+sizes.reduce((lineTotal,qty)=>lineTotal+qty,0),0)
@@ -1730,25 +1864,37 @@ export function SewingWipPage({
         return <article className="sewing-parent-card" key={parent.id}>
           <header className="sewing-parent-head"><span className="sewing-parent-order">{String(parentIndex+1).padStart(2,'0')}</span><div><small>{parent.plannedBrand ? `MEREK RENCANA · OPSIONAL · ${parent.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · BATCH PRODUKSI</small><h2>{parent.id} · {parent.model}</h2><p>{parent.material} · pickup {parent.pickupAt}</p><div className="sewing-parent-pattern" data-pattern-snapshot={parent.pattern?.id??'legacy-null'}><Icon name="audit"/><span><small>POLA SNAPSHOT</small><strong>{patternSnapshotLabel(parent.pattern)}</strong></span></div></div><span className="sewing-mandor-pill"><Icon name="user"/><span><small>MANDOR</small><strong>{parent.mandor}</strong></span></span><div className="sewing-parent-total"><strong>{parentCompleted}/{parentQty} pcs</strong><small>{parentVendors.length>0?`${parentVendors.join(' & ')} · ${parentOutside} di luar · ${parentReturned} kembali`:`${parent.batches.length} Batch Distribusi · ${parentProgress}%`}</small></div></header>
           <div className="sewing-parent-progress"><span style={{width:`${parentProgress}%`}}/></div>
-          <div className="sewing-child-grid">{parent.batches.map((batch,batchIndex)=>{
-            const completed=Math.min(batch.qty,cellQuantity(completedInputs[batch.id]))
+          {parent.shownBatches.length<parent.batches.length&&<p className="sewing-search-hit"><Search/><span>Menampilkan {parent.shownBatches.length} dari {parent.batches.length} Batch Distribusi yang cocok dengan “{query.trim()}”.</span><button type="button" onClick={()=>setQuery('')}>Tampilkan semua</button></p>}
+          <div className="sewing-child-grid">{parent.shownBatches.map((batch,batchIndex)=>{
+            const {completed,summary,draftLaundry,inLaundry,returnedToQc,isReady,locked,preSewing,status,finalSkuComplete}=batchFacts(batch)
             const progress=Math.round((completed/Math.max(1,batch.qty))*100)
-            const isReady=completed===batch.qty
-            const summary=summarizeLaundryBatch(deliveries,batch.id)
-            const draftLaundry=laundryDrafts[batch.id]
-            const inLaundry=summary.outside>0
-            const returnedToQc=summary.returned>0
             const availableLaundryQty=Math.max(0,batch.qty-summary.returned-summary.outside)
-            const locked=inLaundry||returnedToQc
-            const preSewing=completed===0&&!locked&&!draftLaundry
             const batchHistory=adjustmentHistory[batch.id]??[]
-            const status=returnedToQc?(summary.outside>0?'Kembali sebagian · siap QC':'Kembali · siap QC'):inLaundry?'Di laundry':draftLaundry?'Draft laundry':isReady?'Siap laundry':completed>0?'Sedang dijahit':'Menunggu jahit · Pre-sewing'
+            const splitBlock=wipSplitBlock({qty:batch.qty,laundryOutside:summary.outside,laundryReturned:summary.returned,laundryDraft:Boolean(draftLaundry),finalSkuComplete})
+            const noteBlock=inLaundry||returnedToQc?'Arahan terkunci: pcs sudah dikirim ke Laundry.':draftLaundry?'Hapus draft laundry dulu untuk mengubah arahan.':null
+            const lockReason=returnedToQc?'hasil laundry sudah kembali':inLaundry?'pcs sedang di Laundry':draftLaundry?'ada draft surat kirim Laundry':`${completed} pcs sudah dijahit`
+            const source=batch.sourceId?parent.batches.find((item)=>item.id===batch.sourceId):undefined
+            const sourceFacts=source?batchFacts(source):null
+            const mergeBlock=!batch.isPiece?null:batch.hasPieces?'Gabungkan dulu pecahan dari batch ini.':!source||!sourceFacts?'Batch asal sudah tidak ada.':locked||draftLaundry?'Batch ini sudah punya dokumen Laundry.':sourceFacts.locked||sourceFacts.draftLaundry?`Batch ${source.label} sudah punya dokumen Laundry.`:null
+            const reverseBlock=batch.hasPieces?'Gabungkan dulu pecahan dari batch ini.':!preSewing?`Terkunci: ${lockReason}.`:null
+            const actionNotes=[splitBlock?`Pecah batch: ${WIP_SPLIT_BLOCK_LABEL[splitBlock]}`:null,noteBlock?`Ubah arahan: ${noteBlock}`:null,batch.isPiece&&mergeBlock?`Gabungkan kembali: ${mergeBlock}`:null].filter(Boolean)
             return <section className={`sewing-batch-card ${isReady&&!locked?'ready':''} ${draftLaundry?'laundry-draft':''} ${inLaundry?'laundry-in-transit':''} ${returnedToQc?'laundry-returned':''} ${reverseNotice?.includes(batch.id)?'reverse-focus':''}`} key={batch.id}>
-              <div className="sewing-batch-head"><div><span>BATCH DISTRIBUSI {String(batch.number).padStart(2,'0')}</span><strong>{batch.qty} pcs</strong></div><em>{status}</em></div>
+              <div className="sewing-batch-head"><div><span>BATCH DISTRIBUSI {batch.label}{batch.isPiece&&source?<b className="sewing-piece-tag">pecahan dari {source.label}</b>:null}</span><strong>{batch.qty} pcs</strong></div><em>{status}</em></div>
               <div className="sewing-batch-sizes">{parent.sizes.map((size,sizeIndex)=><span className={batch.sizes[sizeIndex]>0?'active':''} key={size}><small>SIZE {size}</small><strong>{batch.sizes[sizeIndex]}</strong></span>)}</div>
               <div className="sewing-batch-note"><Icon name="document"/><div><span>ARAHAN MANDOR</span><strong>{batch.note}</strong></div></div>
-              <div className={`wip-child-controls ${preSewing?'editable':''}`}>{preSewing?<><span><ShieldCheck/> Belum ada bukti jahit; distribusi masih aman dikoreksi.</span><button type="button" onClick={()=>setControlTarget({parentId:parent.id,batchId:batch.id,mode:'adjust'})}><SlidersHorizontal/> Koreksi</button><button type="button" className="reverse" onClick={()=>setControlTarget({parentId:parent.id,batchId:batch.id,mode:'reverse'})}><RotateCcw/> Batalkan</button></>:<span><ShieldCheck/> Kontrol distribusi terkunci oleh {returnedToQc?'hasil return':inLaundry?'Laundry':draftLaundry?'draft Laundry':`${completed} pcs selesai dijahit`}.</span>}</div>
-              {batchHistory.length>0&&<details className="wip-adjust-history"><summary><Icon name="history"/><span><strong>Riwayat koreksi batch</strong><small>{batchHistory[0].operation==='REDISTRIBUTION'?'Redistribusi terakhir':'Koreksi fisik terakhir'} · {batchHistory[0].at}</small></span><b>{batchHistory.length}</b></summary><div>{batchHistory.map((entry)=><article key={entry.id}><header><strong>{entry.operation==='REDISTRIBUTION'?'Redistribusi Batch':'Koreksi hasil fisik'}</strong><span>{entry.at}</span></header><div>{parent.sizes.map((size,sizeIndex)=><span key={size}><small>SIZE {size}</small><strong>{entry.before[sizeIndex]} → {entry.after[sizeIndex]}</strong></span>)}</div><p>{entry.note}</p></article>)}</div></details>}
+              <div className={`wip-child-controls ${preSewing?'editable':''}`}>
+                <span><ShieldCheck/> {preSewing?'Belum ada bukti jahit; distribusi masih aman dikoreksi.':`Koreksi & batalkan distribusi terkunci: ${lockReason}.`}</span>
+                <div className="wip-child-actions" role="group" aria-label={`Aksi Batch Distribusi ${batch.label}`}>
+                  <button type="button" disabled={Boolean(splitBlock)} title={splitBlock?WIP_SPLIT_BLOCK_LABEL[splitBlock]:'Pisahkan sebagian pcs ke batch baru dengan arahan sendiri'} onClick={()=>setControlTarget({parentId:parent.id,batchId:batch.id,mode:'split'})}><Scissors/> Pecah batch</button>
+                  <button type="button" disabled={Boolean(noteBlock)} title={noteBlock??'Ubah arahan mandor batch ini'} onClick={()=>setControlTarget({parentId:parent.id,batchId:batch.id,mode:'note'})}><PencilLine/> Ubah arahan</button>
+                  <button type="button" disabled={!preSewing} title={preSewing?'Koreksi jumlah per size':`Terkunci: ${lockReason}`} onClick={()=>setControlTarget({parentId:parent.id,batchId:batch.id,mode:'adjust'})}><SlidersHorizontal/> Koreksi</button>
+                  {batch.isPiece
+                    ?<button type="button" className="reverse" disabled={Boolean(mergeBlock)} title={mergeBlock??`Gabungkan kembali ke Batch ${source?.label??'asal'}`} onClick={()=>setControlTarget({parentId:parent.id,batchId:batch.id,mode:'merge'})}><GitMerge/> Gabungkan kembali</button>
+                    :<button type="button" className="reverse" disabled={Boolean(reverseBlock)} title={reverseBlock??'Batalkan distribusi batch ini'} onClick={()=>setControlTarget({parentId:parent.id,batchId:batch.id,mode:'reverse'})}><RotateCcw/> Batalkan</button>}
+                </div>
+                {actionNotes.length>0&&<ul className="wip-action-notes">{actionNotes.map((note)=><li key={note}>{note}</li>)}</ul>}
+              </div>
+              {batchHistory.length>0&&<details className="wip-adjust-history"><summary><Icon name="history"/><span><strong>Riwayat batch</strong><small>{wipHistoryTitle[batchHistory[0].operation]} terakhir · {batchHistory[0].at}</small></span><b>{batchHistory.length}</b></summary><div>{batchHistory.map((entry)=><article key={entry.id}><header><strong>{wipHistoryTitle[entry.operation]}</strong><span>{entry.at}</span></header><div>{parent.sizes.map((size,sizeIndex)=><span key={size}><small>SIZE {size}</small><strong>{entry.before[sizeIndex]} → {entry.after[sizeIndex]}</strong></span>)}</div><p>{entry.note}</p></article>)}</div></details>}
               <label className={`sewing-completed-input ${locked?'disabled':''}`}><span>SELESAI DIJAHIT</span><div><input disabled={locked} type="text" pattern="[0-9]*" inputMode="numeric" data-grid-row={parentIndex*100+batchIndex} data-grid-col={0} value={completedInputs[batch.id]??''} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={(event)=>updateCompleted(batch,event.target.value)}/><b>/ {batch.qty} pcs</b></div></label>
               <div className="sewing-batch-progress"><span style={{width:`${progress}%`}}/></div>
               {returnedToQc?<div className="sewing-laundry-gate returned"><div><span>{summary.outside>0?'KEMBALI SEBAGIAN · SIAP QC':'SUDAH KEMBALI · SIAP QC'}</span><small>{summary.returned} pcs kembali · {summary.outside} pcs otomatis Stuck Laundry saat review.</small></div><div className="laundry-name-grid">{[...new Set([...summary.activeVendors,...summary.returnedVendors])].map((name)=><button type="button" className="active jump" onClick={()=>onOpenLaundry(batch.id,name,'return')} key={name}><Icon name="arrow"/>{name}</button>)}</div><p><Icon name="check"/><span>{summary.good} Good · {summary.bs} BS tercatat. Riwayat laundry tetap terlihat.</span></p><button type="button" className="wip-review-finishing" onClick={()=>onOpenQc(parent.id,batch.id)}>Review finishing <Icon name="arrow"/></button></div>
@@ -1760,7 +1906,7 @@ export function SewingWipPage({
       })}{visibleGroups.length===0&&<div className="sewing-empty"><Icon name={statusFilter==='ACTIVE'&&completedParentCount>0?'check':'search'}/><strong>{statusFilter==='ACTIVE'&&completedParentCount>0?'Semua hasil yang cocok sudah selesai':'Tidak ada jahitan yang cocok'}</strong><small>{statusFilter==='ACTIVE'&&completedParentCount>0?'Buka tab “Selesai” atau “Semua” untuk melihat riwayat.':'Cek status, pilihan mandor, atau kata pencarian.'}</small></div>}</div>
     </section>
     {controlTarget&&controlPayload&&<Suspense fallback={null}><WipBatchControlLayer key={`${controlTarget.parentId}-${controlTarget.batchId}-${controlTarget.mode}`} mode={controlTarget.mode} parent={controlPayload} targetBatchId={controlTarget.batchId} onClose={()=>setControlTarget(null)} onApply={applyWipControl}/></Suspense>}
-    {pendingLaundry&&<div className="wip-confirm-layer" role="presentation"><section className="wip-confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-laundry-title"><div className="wip-confirm-icon"><Icon name="boxes"/></div><div><span>PINDAH KE HALAMAN LAUNDRY</span><h2 id="confirm-laundry-title">Siapkan ke {pendingLaundry.vendor}?</h2><p>Batch {pendingLaundry.batchId} · {pendingLaundry.qty} pcs. Ini baru membuat draft tujuan; stok belum berpindah sampai lu menekan <strong>Catat dikirim</strong> di halaman Laundry.</p></div><div className="wip-confirm-actions"><button type="button" className="soft-btn" onClick={()=>setPendingLaundry(null)}>Batal</button><button type="button" className="primary-btn" onClick={()=>{const source=parentGroups.flatMap((parent)=>parent.batches).find((batch)=>batch.id===pendingLaundry.batchId);onConfirmLaundry(pendingLaundry.batchId,pendingLaundry.vendor,source?{qty:source.qty,sizes:source.sizes}:undefined);setPendingLaundry(null)}}>Buka Laundry <Icon name="arrow"/></button></div></section></div>}
+    {pendingLaundry&&<div className="wip-confirm-layer" role="presentation"><section className="wip-confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-laundry-title"><div className="wip-confirm-icon"><Icon name="boxes"/></div><div><span>PINDAH KE HALAMAN LAUNDRY</span><h2 id="confirm-laundry-title">Siapkan ke {pendingLaundry.vendor}?</h2><p>Batch {pendingLaundry.batchId} · {pendingLaundry.qty} pcs. Ini baru membuat draft tujuan; stok belum berpindah sampai lu menekan <strong>Catat dikirim</strong> di halaman Laundry.</p></div><div className="wip-confirm-actions"><button type="button" className="soft-btn" onClick={()=>setPendingLaundry(null)}>Batal</button><button type="button" className="primary-btn" onClick={()=>{const source=parentGroups.flatMap((parent)=>parent.batches).find((batch)=>batch.id===pendingLaundry.batchId);onConfirmLaundry(pendingLaundry.batchId,pendingLaundry.vendor,source?{qty:source.qty,sizes:source.sizes,note:source.note}:undefined);setPendingLaundry(null)}}>Buka Laundry <Icon name="arrow"/></button></div></section></div>}
   </>
 }
 
@@ -1854,11 +2000,12 @@ function buildQcSeeds(deliveries:LaundryDelivery[]):QcSeed[] {
 
 const vendorProcess = (vendor:string) => vendor==='Laundry Intan'?'Bio Wash':vendor==='Cemerlang Wash'?'Enzyme Wash':'Stone Wash'
 
-function laundryReadyFromSewingBatch(batchId:string,vendor:string,snapshot?:{qty:number;sizes:QtyTuple}):LaundryReadyBatch|null {
-  const parent=sewingWipSeeds.find((item)=>item.batches.some((batch)=>batch.id===batchId))
-  const batch=parent?.batches.find((item)=>item.id===batchId)
+function laundryReadyFromSewingBatch(batchId:string,vendor:string,snapshot?:LaundrySendSnapshot,splits:readonly WipSplitPiece[]=[]):LaundryReadyBatch|null {
+  const piece=splits.find((item)=>item.id===batchId)
+  const parent=sewingWipSeeds.find((item)=>piece?item.id===piece.parentId:item.batches.some((batch)=>batch.id===batchId))
+  const batch:SewingBatchSeed|undefined=piece?{id:piece.id,number:piece.number,qty:sizeTotal(piece.sizes),sizes:piece.sizes,completed:piece.completed,note:piece.note}:parent?.batches.find((item)=>item.id===batchId)
   if(!parent||!batch)return null
-  return {id:batch.id,parentId:parent.id,sequence:parent.sequence,plannedBrand:parent.plannedBrand,pattern:parent.pattern,model:parent.model,material:parent.material,mandor:parent.mandor,pickupAt:parent.pickupAt,sewingDoneAt:'27 Agu 2026 · siap kirim',vendor,process:vendorProcess(vendor),qty:snapshot?.qty??batch.qty,sizes:snapshot?.sizes??batch.sizes,sizeLabels:parent.sizes,note:batch.note}
+  return {id:batch.id,parentId:parent.id,sequence:parent.sequence,plannedBrand:parent.plannedBrand,pattern:parent.pattern,model:parent.model,material:parent.material,mandor:parent.mandor,pickupAt:parent.pickupAt,sewingDoneAt:'27 Agu 2026 · siap kirim',vendor,process:vendorProcess(vendor),qty:snapshot?.qty??batch.qty,sizes:snapshot?.sizes??batch.sizes,sizeLabels:parent.sizes,note:snapshot?.note??batch.note}
 }
 
 const proportionalLaundrySizes = (sizes:QtyTuple,total:number,qty:number):QtyTuple => {
@@ -1933,14 +2080,14 @@ export function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,set
   const scopedReady=readyBatches.filter((batch)=>matchesLaundryMandor(batch,mandorFilter))
   const scopedDeliveries=deliveries.filter((delivery)=>matchesLaundryMandor(delivery,mandorFilter))
 
-  const visibleReady=scopedReady.filter((batch)=>batch.vendor!=='Belum dipilih').filter((batch)=>vendorFilter==='Semua laundry'||batch.vendor===vendorFilter).filter((batch)=>!patternFilter||batch.pattern?.id===patternFilter).filter((batch)=>`${batch.parentId} ${batch.id} ${batch.model} ${batch.material} ${batch.mandor} ${batch.vendor} ${batch.note} ${patternSnapshotLabel(batch.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
+  const visibleReady=scopedReady.filter((batch)=>batch.vendor!=='Belum dipilih').filter((batch)=>vendorFilter==='Semua laundry'||batch.vendor===vendorFilter).filter((batch)=>!patternFilter||batch.pattern?.id===patternFilter).filter((batch)=>matchesSearch(query,batch.parentId,batch.id,batch.model,batch.material,batch.mandor,batch.vendor,batch.process,batch.note,patternSnapshotLabel(batch.pattern),batch.plannedBrand,batch.pickupAt,batch.sewingDoneAt,`${batch.qty} pcs`,batch.sizeLabels.flatMap((size,index)=>batch.sizes[index]>0?[`size ${size}`,`${batch.sizes[index]} pcs`]:[]))).sort((a,b)=>b.sequence-a.sequence)
   const groupedReady=Array.from(visibleReady.reduce((groups,batch)=>groups.set(batch.parentId,[...(groups.get(batch.parentId)??[]),batch]),new Map<string,LaundryReadyBatch[]>()).entries())
   const selectedBatches=readyBatches.filter((batch)=>selectedIds.includes(batch.id))
   const selectedParent=selectedBatches[0]?.parentId??''
   const selectedVendor=selectedBatches[0]?.vendor??''
   const selectedTotal=selectedBatches.reduce((sum,batch)=>sum+(sendSizeInputs[batch.id]??batch.sizes.map(String)).reduce((subtotal,value)=>subtotal+cellQuantity(value),0),0)
   const estimatedCost=selectedTotal*(laundryRates[selectedProcess]??0)
-  const visibleDeliveries=scopedDeliveries.filter((delivery)=>vendorFilter==='Semua laundry'||delivery.vendor===vendorFilter).filter((delivery)=>!patternFilter||delivery.pattern?.id===patternFilter).filter((delivery)=>`${delivery.id} ${delivery.parentId} ${delivery.batchId} ${delivery.model} ${delivery.material} ${delivery.mandor} ${delivery.vendor} ${patternSnapshotLabel(delivery.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
+  const visibleDeliveries=scopedDeliveries.filter((delivery)=>vendorFilter==='Semua laundry'||delivery.vendor===vendorFilter).filter((delivery)=>!patternFilter||delivery.pattern?.id===patternFilter).filter((delivery)=>matchesSearch(query,delivery.id,delivery.parentId,delivery.batchId,delivery.model,delivery.material,delivery.mandor,delivery.vendor,delivery.process,patternSnapshotLabel(delivery.pattern),delivery.plannedBrand,delivery.sentAt,`${delivery.qty} pcs`,`${delivery.good} good`,`${delivery.bs} bs`,delivery.sizeLabels.flatMap((size,index)=>delivery.sizes[index]>0?[`size ${size}`,`${delivery.sizes[index]} pcs`]:[]))).sort((a,b)=>b.sequence-a.sequence)
   const outsideQty=scopedDeliveries.reduce((sum,delivery)=>sum+laundryOutstanding(delivery),0)
   const partialCount=scopedDeliveries.filter((delivery)=>laundryDeliveryStatus(delivery)==='Kembali sebagian').length
   const totalBs=scopedDeliveries.reduce((sum,delivery)=>sum+delivery.bs,0)
@@ -2110,7 +2257,8 @@ function StockCard() {
   const [selectedLocations, setSelectedLocations] = useState([...stockLocations])
   const [selectedGrades, setSelectedGrades] = useState([...stockGrades])
   const visibleSkus = useMemo(() => productCatalog.filter((product) => {
-    const matchesQuery = `${product.brand} ${product.code} ${product.range} ${product.name} ${product.color}`.toLowerCase().includes(skuQuery.toLowerCase())
+    const stock = product.stocks.reduce((sum, qty) => sum + qty, 0)
+    const matchesQuery = matchesSearch(skuQuery, product.brand, product.code, product.range, product.name, product.color, product.grade, product.location, product.sizes.map((size, index) => [`size ${size}`, `${product.stocks[index]} pcs`, dozenPieces(product.stocks[index])]), `${stock} pcs`, dozenPieces(stock))
     const matchesSize = product.sizes.some((size) => selectedSizes.includes(size))
     return matchesQuery && selectedBrands.includes(product.brand) && matchesSize && selectedLocations.includes(product.location) && selectedGrades.includes(product.grade)
   }), [skuQuery, selectedBrands, selectedSizes, selectedLocations, selectedGrades])
@@ -2251,7 +2399,7 @@ function Movements({ bookName, bookBrands, setBookBrands, movements, setMovement
   const runningByProduct = new Map<string, QtyTuple>()
   finalByProduct.forEach((final,key)=>{ const delta=totalDeltaByProduct.get(key)??[0,0,0]; runningByProduct.set(key,final.map((qty,index)=>qty-delta[index]) as QtyTuple) })
   const bookRows = movements.map((movement)=>{ const key=movementProductKey(movement); const before=[...(runningByProduct.get(key)??[0,0,0])] as QtyTuple; const after=before.map((qty,index)=>qty+movement.delta[index]) as QtyTuple; runningByProduct.set(key,after); return {...movement,before,after} })
-  const visibleRows = bookRows.filter((movement)=>{ const customer=movement.customer??'Tanpa toko'; const product=productCatalog.find((item)=>productKey(item)===movementProductKey(movement)); const matchesQuery=`${movement.brand} ${movement.sku} ${product?.name??''} ${product?.color??''} ${movement.ref} ${movement.note} ${customer}`.toLowerCase().includes(movementQuery.toLowerCase()); return bookBrands.includes(movement.brand)&&matchesQuery&&selectedCustomers.includes(customer)&&selectedTypes.includes(movement.type) })
+  const visibleRows = bookRows.filter((movement)=>{ const customer=movement.customer??'Tanpa toko'; const product=productCatalog.find((item)=>productKey(item)===movementProductKey(movement)); const deltaTotal=movement.delta.reduce((sum,qty)=>sum+qty,0); const afterTotal=movement.after.reduce((sum,qty)=>sum+qty,0); const beforeTotal=movement.before.reduce((sum,qty)=>sum+qty,0); const matchesQuery=matchesSearch(movementQuery,`${beforeTotal} pcs`,dozenPieces(beforeTotal),movement.brand,movement.sku,product?.name,product?.color,product?`${product.name} · ${product.color}`:null,movement.ref,movement.note,customer,movement.type,movement.date,`${deltaTotal>0?'+':''}${deltaTotal} pcs`,`${afterTotal} pcs`,dozenPieces(Math.abs(deltaTotal)),dozenPieces(afterTotal)); return bookBrands.includes(movement.brand)&&matchesQuery&&selectedCustomers.includes(customer)&&selectedTypes.includes(movement.type) })
   const visibleIds=visibleRows.map((movement)=>movement.id)
 
   return <>

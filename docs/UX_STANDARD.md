@@ -24,10 +24,13 @@ hierarki tombol, dan dropdown.
 - Line-height teks ≤ 16px: **1.4–1.5**; teks ≥ 20px: minimal 1.15.
 - Angka: `font-variant-numeric: tabular-nums` di seluruh aplikasi (kolom angka lurus).
 - **Tidak ada teks di bawah 12px.** Sebelumnya ada ±1.500 deklarasi 6–11px.
+- **Spasi huruf maksimal 0,02em.** Label huruf besar dulu memakai .08–.18em;
+  selain makan tempat, spasi itu ikut diwariskan ke kalimat di dalamnya
+  (mis. "SIMULASI — fixture frontend…"). Tracking negatif pada judul besar tetap.
 
 Penerapan: `scripts/generate-ux-rapih.mjs` membaca semua stylesheet dan
 menulis "mirror" setiap deklarasi `font-size / font / line-height /
-font-weight / font-family` di bawah `.ux-rapih`, nilai dibulatkan ke skala di
+font-weight / font-family / letter-spacing` di bawah `.ux-rapih`, nilai dibulatkan ke skala di
 atas (px < 28 → langkah terdekat, minimal 12px). Mirror memakai urutan
 bundle yang sama dan +1 class specificity, sehingga aturan yang menang tetap
 sama — hanya nilainya yang dirapikan. `npm run build` gagal
@@ -151,10 +154,71 @@ Gambar di atas dikompres (JPEG lebar 1000px). Set lengkap resolusi penuh
 32 file) dibuat ulang lokal di `docs/ux/full/` — folder itu di-`.gitignore`
 supaya repo tidak membengkak.
 
-## 10. Merawat standar ini
+## 10. Revisi 7 Okt 2026 (masukan owner)
+
+| Masalah yang dilaporkan / ditemukan | Perbaikan | Bukti |
+|---|---|---|
+| Spasi antar huruf terlalu lebar | Mirror `letter-spacing` dibatasi 0,02em (§1) | 46 halaman: **1.026 → 0** elemen teks bertracking > 0,03em (maks dulu 0,18em) |
+| "Bahan & Roll": kartu *Bahan terpilih* menimpa drawer saat dibuka dari daftar browse | Drawer/modal dirender di akhir `<body>` (`components/OverlayPortal`): tidak lagi terjebak di kolom daftar yang `sticky`, dan tidak mewarisi gaya `header span` milik daftar | Crawler membuka setiap tombol di 46 halaman (desktop + HP): drawer tertutup di Bahan & Roll dan Ringkasan Gudang → 0 |
+| Pilih barang di Stock Adjustment berupa satu dropdown datar "Merek · SKU · Size" | `components/BrowsePicker`: popdown dengan pencarian, dikelompokkan per merek/bahan, panah + Enter; size dipilih **sesudahnya** sebagai tombol berisi qty tercatat. Barang dan size tidak pernah dipilih otomatis. Area stok jadi tab. Ganti Merek memakai picker yang sama | Uji browser: cari "73002" → pilih → Size 32 → fisik 30 → delta −6 pcs; aturan lama (System Qty terkunci, adjustment positif lot produksi diblokir) tetap |
+| Kolom daftar terlalu sempit, batas antar entri tidak jelas (WIP Potongan) | Kolom browse 300–380px (`--list-pane`, 24vw) di semua master-detail; setiap entri kartu berbingkai, jarak 8px, entri terpilih berbingkai aksen | WIP Potongan 226 → 328px di 1366px; Bahan & Roll, QC, BS, HPP, Master Data, Aksesori ikut |
+| Cari pcs/batch di WIP & Sewing tidak muncul | Pencarian berbasis kata (`lib/search.ts`): setiap kata harus ada di isi yang tampil (label batch, pcs, size, status, arahan, laundry). Batch yang cocok saja yang ditampilkan, dengan keterangan "Menampilkan n dari m" + "Tampilkan semua". Diterapkan ke ±36 pencarian di 15 halaman | Audit "teks tampil tapi tak bisa dicari": sisa temuan hanya label/tombol (BAHAN, Edit, …) |
+| Kotak pencarian dobel saat fokus | Cincin fokus pindah ke bingkai pembungkus untuk 52 input tanpa border (dibuat otomatis oleh generator) | Screenshot fokus WIP & Sewing / picker |
+| Konten meluber keluar panel (ditemukan audit) | Grid ber-lebar tetap diganti kolom yang bisa menyusut/melipat: Penjualan & Invoice (ringkasan terpotong di 1366/1440), Aksesori, Stock Adjustment, Ganti Merek, HPP, QC, toolbar WIP/Potong, matriks harga Mandor, dan master-detail di HP | Audit 46 halaman × 6 lebar (1280/1366/1440/1536/1920/390): **14 kombinasi halaman-lebar rusak → 0**; "Tampilan lama" tidak berubah (309 = 309) |
+| Batch distribusi perlu bisa dipecah lagi; opsi ubah/hapus tidak terlihat | WIP & Sewing: tombol **Pecah batch**, **Ubah arahan**, **Koreksi**, **Batalkan / Gabungkan kembali** selalu terlihat; yang terkunci diberi alasan | Lihat §11 |
+
+| | Sebelum | Sesudah |
+|---|---|---|
+| Sumber & jejak angka (drawer) | ![](ux/r2-before-lineage.jpg) | ![](ux/r2-after-lineage.jpg) |
+| Drawer dibuka dari daftar browse | ![](ux/r2-before-drawer-browse.jpg) | ![](ux/r2-after-drawer-browse.jpg) |
+| Kolom WIP Potongan (1366px) | ![](ux/r2-before-potongan-pane.jpg) | ![](ux/r2-after-potongan-pane.jpg) |
+| Daftar Produk & SKU (1366px) | ![](ux/r2-before-md-pane.jpg) | ![](ux/r2-after-md-pane.jpg) |
+| Penjualan & Invoice (1366px) | ![](ux/r2-before-sales-1366.jpg) | ![](ux/r2-after-sales-1366.jpg) |
+
+Stock Adjustment: ![](ux/r2-after-adjustment-picker.jpg) ![](ux/r2-after-adjustment-size.jpg)
+
+Belum diubah (dicatat jujur): pemilih di halaman mode backend (*Connected*:
+produk BS legacy, sumber klaim laundry, PO potong) masih dropdown biasa —
+halaman itu bertema terang sendiri dan diuji kontrak; picker perlu varian
+terang dulu.
+
+## 11. Pecah batch distribusi (WIP & Sewing)
+
+Kasus: sebagian pcs satu Batch Distribusi perlu jalur lain (mis. BS bahan
+dicuci hitam, sisanya putih). Aturan (`src/wipSplit.ts`, diuji
+`wipSplit.test.ts`):
+
+- **Pcs tidak bertambah/hilang.** Per size: tinggal + baru = asal. Batch asal
+  tidak boleh kosong (pindahkan sebagian saja).
+- **Hasil jahit ikut terbagi.** Pcs sudah dijahit yang pindah dibatasi
+  `max(0, sudah dijahit − sisa) … min(pindah, sudah dijahit)`, jadi tidak ada
+  batch dengan hasil jahit melebihi isinya; total hasil jahit mandor tetap.
+- **Penamaan:** batch asal jadi `02A`, pecahan `02B`, `02C`, … (huruf unik per
+  batch asal, termasuk pecahan dari pecahan). Pecahan berarahan sendiri.
+- **Dikunci** bila sudah ada pcs di laundry, hasil laundry kembali, draft surat
+  kirim (hapus draft dulu), atau Final SKU lengkap — alasan ditampilkan.
+- **Gabungkan kembali** mengembalikan pcs + hasil jahit ke batch asal selama
+  keduanya belum punya dokumen laundry.
+- Setiap pecah/gabung/ubah arahan tercatat di riwayat batch dengan catatan wajib.
+- Pecahan dapat dikirim ke laundry (lookup laundry/QC mengenali pecahan; arahan
+  ikut ke surat kirim).
+
+Ini simulasi frontend (mode DEMO). Di backend Native, pecah batch belum ada:
+butuh perintah baru dengan jejak stok, laundry dan payroll, serta keputusan
+owner atas aturannya.
+
+![](ux/r2-after-split-modal.jpg)
+![](ux/r2-after-split-result.jpg)
+
+## 12. Merawat standar ini
 
 - Tambah/ubah CSS seperti biasa di file komponen, lalu `npm run gen:ux-rapih`.
   `prebuild` menjalankan `check:ux-rapih` dan gagal kalau mirror basi.
 - Aturan tangan (kartu, tombol, dropdown, perbaikan tabrakan) ada di bagian
   "3. Hand-written" `src/ux-rapih.css`; selalu diawali `.ux-rapih`.
 - Teks baru: pakai token (`var(--fs-sm)`, `var(--text-muted)`), jangan px < 12.
+- Modal/drawer/popdown baru: bungkus dengan `OverlayPortal`.
+- Pilih barang dari katalog (SKU, roll, aksesori): pakai `BrowsePicker`, jangan
+  satu `<select>` datar; size dipilih terpisah.
+- Pencarian daftar: `matchesSearch(query, searchValues(row), …label tampil)`.
+- Kolom browse master-detail: `var(--list-pane)`.

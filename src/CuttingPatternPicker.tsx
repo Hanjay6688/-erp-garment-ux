@@ -6,6 +6,7 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { parsePatternRows, type PatternRow } from './patternModel'
 import './cutting-pattern-picker.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 export type CuttingPatternChoice = Pick<PatternRow, 'id' | 'code' | 'revision' | 'name'>
 
@@ -84,7 +85,7 @@ export default function CuttingPatternPicker({ value, onChange }: {
   }, [client, query])
 
   const visible = connected ? rows : rows.filter((row) =>
-    `${row.code} ${row.revision} ${row.name}`.toLowerCase().includes(query.toLowerCase()))
+    matchesSearch(query, row.code, row.revision, row.name, searchValues(row)))
 
   const openQuick = () => {
     if (!canManage) return

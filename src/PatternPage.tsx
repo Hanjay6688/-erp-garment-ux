@@ -6,6 +6,7 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { parsePatternRows, parsePatternTotal, sortPatternRows, type PatternRow } from './patternModel'
 import './pattern-page.css'
+import { matchesSearch, searchValues } from './lib/search'
 
 const demoPatterns: PatternRow[] = [
   { id: 'demo-1', code: 'REG', revision: 'R1', name: 'Regular', sort_order: 10, is_active: true, row_version: 1, updated_at: '2026-09-02T00:00:00Z', updated_by: 'Owner', usage_count: 3 },
@@ -66,7 +67,7 @@ export default function PatternPage() {
 
   const visible = sortPatternRows(connected ? rows : rows
     .filter((row) => stateFilter === 'ALL' || (stateFilter === 'ACTIVE' ? row.is_active : !row.is_active))
-    .filter((row) => `${row.code} ${row.revision} ${row.name}`.toLowerCase().includes(query.toLowerCase())))
+    .filter((row) => matchesSearch(query, searchValues(row), `${row.code} ${row.revision} ${row.name}`)))
 
   const openEditor = (row: PatternRow | 'NEW') => {
     setEditing(row)

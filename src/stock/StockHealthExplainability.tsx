@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { ArrowRight, Calculator, Database, Link2, ShieldAlert, X } from 'lucide-react'
+import OverlayPortal from '../components/OverlayPortal'
 import {
   StockCalculationBasis,
   StockHealthStatus,
@@ -137,7 +138,7 @@ function StockCalculationDrawer({
         ? 'Rekomendasi qty belum dapat dihitung dari data yang tersedia.'
         : `Projected stock berada di bawah target. Rekomendasi tambahan ${quantity(result.recommendedQty, result.uom)}.`
 
-  return <div className="wh-stock-drawer-backdrop" role="presentation" onMouseDown={onClose}>
+  return <OverlayPortal><div className="wh-stock-drawer-backdrop" role="presentation" onMouseDown={onClose}>
     <aside
       ref={drawerRef}
       id={dialogId}
@@ -196,7 +197,7 @@ function StockCalculationDrawer({
       {result.validationIssues.length > 0 ? <div className="wh-stock-missing danger"><strong>Data tidak konsisten:</strong> {result.validationIssues.join(', ')}.</div> : null}
       <footer><ShieldAlert/><span>Rekomendasi hanya informasi. Sistem tidak otomatis membuat PO atau perintah produksi.</span></footer>
     </aside>
-  </div>
+  </div></OverlayPortal>
 }
 
 function CalculationRow({ label, value, source, formula, emphasis = false }: { label: string; value: string; source?: string; formula?: string; emphasis?: boolean }) {

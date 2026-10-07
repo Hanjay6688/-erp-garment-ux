@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardCheck, Clock3, Filter, In
 import './finalization-flow.css'
 import { regularFgNotaCardId } from './fgNota'
 import { productCatalog } from './productCatalog'
+import { matchesSearch, searchValues } from './lib/search'
 
 type NumberTuple = [number, number, number]
 type StringTuple = [string, string, string]
@@ -77,7 +78,7 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
   const visible=useMemo(()=>seeds.filter((seed)=>{
     const patternLabel=seed.pattern?`${seed.pattern.code} ${seed.pattern.revision} ${seed.pattern.name}`:'Pola belum tercatat'
     const haystack=`${seed.parentId} ${seed.batchId} ${seed.model} ${seed.material} ${seed.mandor} ${seed.laundry} ${patternLabel}`.toLowerCase()
-    return haystack.includes(query.toLowerCase())&&(mandorFilter==='Semua mandor'||seed.mandor===mandorFilter)&&(laundryFilter==='Semua laundry'||seed.laundry===laundryFilter)&&(!patternFilter||seed.pattern?.id===patternFilter)
+    return matchesSearch(query, haystack, searchValues(seed), seed.plannedBrand?`Merek rencana · ${seed.plannedBrand}`:'Merek belum ditentukan')&&(mandorFilter==='Semua mandor'||seed.mandor===mandorFilter)&&(laundryFilter==='Semua laundry'||seed.laundry===laundryFilter)&&(!patternFilter||seed.pattern?.id===patternFilter)
   }),[seeds,query,mandorFilter,laundryFilter,patternFilter])
   const selected=visible.find((seed)=>keyOf(seed)===selectedId)??visible[0]
   const finalizedById=useMemo(()=>{
