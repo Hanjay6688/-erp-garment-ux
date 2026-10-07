@@ -15,14 +15,18 @@ revoke all on cp7_baseline_native.runs from public,anon,authenticated,service_ro
 create trigger immutable_baseline_run before update or delete on cp7_baseline_native.runs
  for each row execute function cp7_private.immutable_run();
 
-create function cp7_baseline_native.source()returns jsonb
+create function cp7_baseline_native.source_within(p_products integer)returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
- with c as materialized(select cp7_planning.history_source()value),
+ with c as materialized(select cp7_planning.history_source_within(p_products)value),
  roots as(select array_agg((p->>'root_id')::uuid order by p->>'root_id')ids from c,jsonb_array_elements(value->'facts'->'products')p)
  select value||jsonb_build_object('profiles',cp7_profile.source(coalesce(ids,array[]::uuid[]),(value->>'captured_at')::timestamptz),
   'production_policies',cp7_identity.workspace_data(coalesce((select array_agg(distinct(s->>'sku_id')::uuid)
    from jsonb_array_elements(value->'facts'->'products')p cross join lateral jsonb_array_elements(p->'commercial')s),array[]::uuid[]),
    (value->>'captured_at')::timestamptz))from c cross join roots
+$$;
+create function cp7_baseline_native.source()returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select cp7_baseline_native.source_within(1000)
 $$;
 
 -- One pass over the history rows. Profiles, current stock and production
@@ -130,6 +134,7 @@ begin
  return cp7_baseline_native.serve(r.id);
 end $$;
 
+alter function cp7_baseline_native.source_within(integer)owner to cp7_capture;
 alter function cp7_baseline_native.source()owner to cp7_capture;
 alter function cp7_baseline_native.build(jsonb,jsonb)owner to cp7_capture;
 alter function cp7_baseline_native.serve(uuid)owner to cp7_capture;

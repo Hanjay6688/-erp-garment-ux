@@ -321,15 +321,23 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
  select cp7_supply_native.wip_source_parts(p_at)->'source'
 $$;
 
-create function cp7_supply_native.source_parts()returns jsonb
+create function cp7_supply_native.source_parts_within(p_products integer)returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
- with source as materialized(select cp7_baseline_native.source()c),
+ with source as materialized(select cp7_baseline_native.source_within(p_products)c),
  parts as materialized(select c,cp7_supply_native.wip_source_parts((c->>'captured_at')::timestamptz)p from source)
  select jsonb_build_object('c',c||jsonb_build_object('production_sources',p->'source'),'proofs',p->'proofs')from parts
 $$;
+create function cp7_supply_native.source_parts()returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select cp7_supply_native.source_parts_within(1000)
+$$;
+create function cp7_supply_native.source_within(p_products integer)returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select cp7_supply_native.source_parts_within(p_products)->'c'
+$$;
 create function cp7_supply_native.source()returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
- select cp7_supply_native.source_parts()->'c'
+ select cp7_supply_native.source_within(1000)
 $$;
 
 -- Appends the proofs not stored yet. No unique key, so concurrent writers never
@@ -462,7 +470,9 @@ alter function cp7_supply_native.batch_reuse(jsonb,text)owner to cp7_capture;
 alter function cp7_supply_native.batch_verdict(jsonb,text)owner to cp7_capture;
 alter function cp7_supply_native.wip_source_parts(timestamptz)owner to cp7_capture;
 alter function cp7_supply_native.wip_source_at(timestamptz)owner to cp7_capture;
+alter function cp7_supply_native.source_parts_within(integer)owner to cp7_capture;
 alter function cp7_supply_native.source_parts()owner to cp7_capture;
+alter function cp7_supply_native.source_within(integer)owner to cp7_capture;
 alter function cp7_supply_native.source()owner to cp7_capture;
 alter function cp7_supply_native.store_proofs(jsonb,timestamptz)owner to cp7_capture;
 alter function cp7_supply_native.prove_exhausted(timestamptz,uuid,integer)owner to cp7_capture;

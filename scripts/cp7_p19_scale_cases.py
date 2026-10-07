@@ -807,39 +807,35 @@ def phase_profile(cur, today, size, days, run, targets):
     return out
 
 
-CAP_LIFTED_LABEL = 'CAP_LIFTED_MEASUREMENT_ONLY_ROLLED_BACK_NOT_INSTALLED'
-CAP_LIFTED_PRODUCTS = 5000
+CAPTURE_5000_LABEL = 'BOUNDED_SOURCE_5000_PRODUCT_FUNCTIONS_ROLLED_BACK'
+CAPTURE_5000 = dict(products=5000, matching_products=10000)
 
 
-def capture_cap_lifted(cur, size):
-    """5,000 targets, phase C: what ONE operational capture statement costs when
-    the 1000-product history-source bound is lifted to 5000 inside a savepoint
-    that is rolled back (the installed product keeps 1000; nothing survives).
-    Other bounds in the chain are left as they are and show up as returned
-    statuses or refusals. Diagnostic, never application latency."""
+def capture_5000(cur, size):
+    """5,000 targets, phase C: what ONE operational capture statement costs at
+    the staged job's declared bounds (5000 planned products, 10000 matching
+    products), through the installed bounded sources (history_source_within /
+    analysis source_within). The single capture keeps 1000/5000. Timed as the
+    capture principal under the same 8 s inside a rolled-back savepoint.
+    Diagnostic, never application latency."""
     b.api.admin(cur)
     claims = json.dumps(dict(sub=analysis.auth.base.OPERATOR_AUTH, role='authenticated'))
-    out = dict(size=size, label=CAP_LIFTED_LABEL, products_bound=CAP_LIFTED_PRODUCTS, role=PROFILE_ROLE,
+    out = dict(size=size, label=CAPTURE_5000_LABEL, bounds=CAPTURE_5000, role=PROFILE_ROLE,
                statement_timeout_per_phase=STATEMENT_TIMEOUT, phases=[])
-    cur.execute('savepoint p19s_cap_lifted')
+    cur.execute('savepoint p19s_capture_5000')
     try:
         cur.execute(PROFILE_SETUP, prepare=False)
-        d = cur.execute("select pg_get_functiondef('cp7_planning.history_source()'::regprocedure)").fetchone()[0]
-        assert d.count('limit 1001') == 1 and d.count('<=1000') == 1, 'P19S_CAP_LIFT_PATTERN_CHANGED'
-        cur.execute(d.replace('limit 1001', 'limit %d' % (CAP_LIFTED_PRODUCTS + 1)).replace('<=1000', '<=%d' % CAP_LIFTED_PRODUCTS),
-                    prepare=False)
-        for name, sql in (('history_source', 'select cp7_planning.history_source()'),
-                          ('analysis_source_operational', 'select cp7_analysis_native.source()')):
+        for name, sql in (('history_source_within', 'select cp7_planning.history_source_within(%d)' % CAPTURE_5000['products']),
+                          ('analysis_source_within', 'select cp7_analysis_native.source_within(%d,%d)'
+                           % (CAPTURE_5000['products'], CAPTURE_5000['matching_products']))):
             row = profile_phase(cur, name, sql, (), {}, str(uuid.uuid4()), None, claims)
             out['phases'].append(row)
     except Exception as failure:  # missing evidence, never a measured result
         out['harness_error'] = str(failure)[:2000]
     finally:
-        cur.execute('rollback to savepoint p19s_cap_lifted')
-        cur.execute('release savepoint p19s_cap_lifted')
+        cur.execute('rollback to savepoint p19s_capture_5000')
+        cur.execute('release savepoint p19s_capture_5000')
         b.api.admin(cur)
-    out['installed_bound_unchanged'] = "limit 1001" in cur.execute(
-        "select pg_get_functiondef('cp7_planning.history_source()'::regprocedure)").fetchone()[0]
     return out
 
 
@@ -923,14 +919,14 @@ def measure(cur, today, size):
                               original_breakdown_top=(full.get('original_breakdown') or {}).get('original_top_level', [])[:3],
                               analysis_keys_top=(full.get('original_breakdown') or {}).get('analysis_keys', [])[:6],
                               original_bytes_per_target=(full.get('original_breakdown') or {}).get('original_bytes_per_target'))
-    lifted = capture_cap_lifted(cur, size) if size > CAPS['HISTORY_SOURCE_PRODUCTS_1000']['value'] else None
+    lifted = capture_5000(cur, size) if size > CAPS['HISTORY_SOURCE_PRODUCTS_1000']['value'] else None
     unchanged = b.boundary.snapshot(cur) == before
     consistent = source_consistent(cap, size)
     profiled = all(not p['harness_error'] for p in profiles.values())
     row = dict(size=size, total_targets=len(expected), where='COMMITTED_BROWSER_COPY_ROLLED_BACK_TRANSACTION',
                history_source=cap, source_model_consistent=consistent, step_attribution=attribution, phase_profile=profiles,
                phase_profile_complete=profiled, Native_business_unchanged_by_measurement=unchanged,
-               capture_cap_lifted=lifted, points=[compact(p) for p in measured])
+               capture_5000=lifted, points=[compact(p) for p in measured])
     row['status'] = ladder_status(measured, consistent and unchanged, profiled)
     row['verdict_counts'] = {k: sum(p['verdict']['kind'] == k for p in measured) for k in sorted({p['verdict']['kind'] for p in measured})}
     row['witness'] = witness('SIZE_%d' % size, row)

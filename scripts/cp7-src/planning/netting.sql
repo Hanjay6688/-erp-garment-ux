@@ -3,9 +3,12 @@
 create schema cp7_netting_native authorization cp7_capture;
 revoke all on schema cp7_netting_native from public,anon,authenticated,service_role;
 
-create function cp7_netting_native.source()returns jsonb
+-- p_products bounds the planned products (history source); p_match bounds the
+-- matching products read (one more is read, so the build refuses a larger set
+-- instead of seeing a cut one). The single capture keeps 1000 and 5000.
+create function cp7_netting_native.source_within(p_products integer,p_match integer)returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
- with source as materialized(select cp7_schedule_native.source()c),
+ with source as materialized(select cp7_schedule_native.source_within(p_products)c),
  wanted as materialized(
   select x->>'id'id from source,jsonb_array_elements(c->'facts'->'products')x
   union select x->>'product_id'from source,jsonb_array_elements(c->'production_sources'->'facts'->'other'->'origins')x
@@ -15,8 +18,12 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
   select p.id,coalesce(p.identity_root_id,p.id)root_id,p.model_id,p.size_id,p.brand_id,p.color_name,
    p.effective_from,p.effective_to,p.created_at
   from erp.products p join wanted w on w.id=p.id::text cross join source
-  where p.created_at<=(c->>'captured_at')::timestamptz order by p.id limit 5001
+  where p.created_at<=(c->>'captured_at')::timestamptz order by p.id limit p_match+1
  )select c||jsonb_build_object('matching_products',coalesce((select jsonb_agg(to_jsonb(p)order by p.id)from products p),'[]'))from source
+$$;
+create function cp7_netting_native.source()returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select cp7_netting_native.source_within(1000,5000)
 $$;
 
 create function cp7_netting_native.fingerprint(c jsonb)returns text
@@ -519,6 +526,7 @@ begin
  return cp7_netting_native.serve(r.id);
 end $$;
 
+alter function cp7_netting_native.source_within(integer,integer)owner to cp7_capture;
 alter function cp7_netting_native.source()owner to cp7_capture;
 alter function cp7_netting_native.fingerprint(jsonb)owner to cp7_capture;
 alter function cp7_netting_native.bound_product(jsonb,jsonb)owner to cp7_capture;

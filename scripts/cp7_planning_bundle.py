@@ -50,7 +50,7 @@ def verify(cur):
  assert cur.execute("select count(*)from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('cp7_demand','cp7_baseline','cp7_models')and(pg_get_userbyid(p.proowner)<>'cp7_capture'or p.prosecdef or p.provolatile<>'i' or has_function_privilege('authenticated',p.oid,'EXECUTE')or has_function_privilege('anon',p.oid,'EXECUTE')or has_function_privilege('service_role',p.oid,'EXECUTE'))").fetchone()[0]==0
  assert cur.execute("select count(*)from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('cp7_demand','cp7_baseline','cp7_models')").fetchone()[0]==22
  rows=cur.execute("select p.oid::regprocedure::text,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_planning'order by p.proname").fetchall()
- assert len(rows)==8,rows
+ assert len(rows)==9,rows
  for sig,owner,definer,config in rows:
   assert owner=='cp7_capture'and not definer and 'search_path=\"\"'in(config or[]),(sig,owner,definer,config)
   assert any(x.startswith('TimeZone=')for x in config),(sig,config)
@@ -67,4 +67,4 @@ def verify(cur):
    assert not cur.execute('select has_schema_privilege(%s,%s,\'USAGE\')',(who,schema)).fetchone()[0]
  assert cur.execute("select relrowsecurity from pg_class where oid='cp7_planning.history_runs'::regclass").fetchone()[0]
  assert cur.execute("select count(*)from pg_policy where polrelid='cp7_planning.history_runs'::regclass and pg_get_expr(polqual,polrelid)='false'and pg_get_expr(polwithcheck,polrelid)='false'").fetchone()[0]==1
- return dict(stage='F04_NATIVE_SOURCE_ADAPTERS',source_sha256=hashlib.sha256(bundle().encode()).hexdigest(),source_files_sha256=source_hashes(),private_kernels=22,private_adapters=8,full_family_acceptance=False)
+ return dict(stage='F04_NATIVE_SOURCE_ADAPTERS',source_sha256=hashlib.sha256(bundle().encode()).hexdigest(),source_files_sha256=source_hashes(),private_kernels=22,private_adapters=9,full_family_acceptance=False)

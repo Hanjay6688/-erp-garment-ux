@@ -13,14 +13,14 @@ def verify(cur):
  predecessor.verify(cur)
  expected={
   'cp7_profile':{'source':('cp7_policy',False),'workspace':('cp7_capture',False),'apply':('cp7_policy',False)},
-  'cp7_baseline_native':{n:('cp7_capture',False)for n in('source','build','serve','capture')},
+  'cp7_baseline_native':{n:('cp7_capture',False)for n in('source_within','source','build','serve','capture')},
  }
  for schema,functions in expected.items():
   rows=cur.execute('select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s',(schema,)).fetchall()
   assert len(rows)==len(functions),(schema,rows)
   for sig,name,owner,definer,config,volatility in rows:
    assert functions.get(name)==(owner,definer)and 'search_path=""'in(config or[])and'TimeZone=UTC'in(config or[]),(sig,owner,definer,config)
-   assert volatility==('s'if name=='source'else'i'if name=='build'else'v'),(sig,volatility)
+   assert volatility==('s'if name in('source','source_within')else'i'if name=='build'else'v'),(sig,volatility)
    for who in('anon','authenticated','service_role'):
     assert not cur.execute('select has_function_privilege(%s,%s,\'EXECUTE\')',(who,sig)).fetchone()[0]
   for who in('anon','authenticated','service_role'):

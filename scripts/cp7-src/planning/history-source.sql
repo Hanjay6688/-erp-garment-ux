@@ -1,6 +1,9 @@
 -- One statement snapshot, one server clock, and the entire declared ERP scope.
 -- Monetary columns never enter these operational source projections.
-create function cp7_planning.history_source()returns jsonb
+-- p_products bounds the current products read (one more is read so a larger
+-- universe is INCOMPLETE, never cut). The single capture keeps 1000
+-- (history_source below); the staged 5,000-target job passes its own bound.
+create function cp7_planning.history_source_within(p_products integer)returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC' as $$
 with clock as materialized(select clock_timestamp()at),
 products as materialized(
@@ -14,7 +17,7 @@ products as materialized(
     and(v.effective_to is null or v.effective_to>c.at)),'[]')commercial
  from erp.products p cross join clock c where p.effective_from<=c.at
   and(p.effective_to is null or p.effective_to>c.at)
- order by coalesce(p.identity_root_id,p.id),p.id limit 1001
+ order by coalesce(p.identity_root_id,p.id),p.id limit p_products+1
 ),
 stock as materialized(
  select m.id,coalesce(p.identity_root_id,p.id)root_id,p.size_id,m.product_id,m.lot_id,m.location_id,
@@ -70,7 +73,7 @@ source as(select jsonb_build_object(
  'return_journals',coalesce((select jsonb_agg(to_jsonb(j)order by j.id)from return_journals j),'[]'))facts)
 select jsonb_build_object('contract_version','cp7.native-demand-facts.v1',
  'captured_at',cp7_planning.utc(c.at),'scope','GLOBAL_CURRENT_PHYSICAL_ROOTS',
- 'status',case when jsonb_array_length(facts->'products')<=1000
+ 'status',case when jsonb_array_length(facts->'products')<=p_products
   and not exists(select 1 from jsonb_each(facts)where key<>'products'and jsonb_array_length(value)>50000)
   and(select count(*)from products)=(select count(distinct root_id)from products)
   and not exists(select 1 from products where jsonb_array_length(commercial)>1)
@@ -78,6 +81,10 @@ select jsonb_build_object('contract_version','cp7.native-demand-facts.v1',
   and not exists(select 1 from sales s where s.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')
    and(select count(*)from sale_journals j where j.sale_id=s.sale_id and j.reversal_of_id is null)<>1)
  then 'COMPLETE'else 'INCOMPLETE'end,'facts',facts)from source cross join clock c
+$$;
+create function cp7_planning.history_source()returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC' as $$
+ select cp7_planning.history_source_within(1000)
 $$;
 
 -- Translate immutable native posting/inverse instants, not the mutable current

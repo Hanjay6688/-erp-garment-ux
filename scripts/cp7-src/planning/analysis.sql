@@ -2,9 +2,9 @@
 -- quantities come from the Native composed result, never a client calculator.
 -- The material-requirements module creates the private compiler schema.
 
-create function cp7_analysis_native.source()returns jsonb
+create function cp7_analysis_native.source_within(p_products integer,p_match integer)returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
- with native as materialized(select cp7_netting_native.source()c),
+ with native as materialized(select cp7_netting_native.source_within(p_products,p_match)c),
  engine as(select encode(extensions.digest(convert_to(string_agg(
   p.oid::regprocedure::text||':'||pg_get_functiondef(p.oid),E'\n'order by p.oid::regprocedure::text),'UTF8'),'sha256'),'hex')signature
   from pg_proc p join pg_namespace n on n.oid=p.pronamespace
@@ -13,6 +13,10 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
  select c||jsonb_build_object('analysis_engine_signature',signature,
   'material_source',cp7_analysis_native.material_source(c->'facts'->'products',(c->>'captured_at')::timestamptz),
   'fabric_source',cp7_fabric_native.source(c->'facts'->'products',(c->>'captured_at')::timestamptz))from native cross join engine
+$$;
+create function cp7_analysis_native.source()returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select cp7_analysis_native.source_within(1000,5000)
 $$;
 create function cp7_analysis_native.fingerprint(c jsonb)returns text
 language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
@@ -341,6 +345,7 @@ begin
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  return cp7_analysis_native.serve(r.id);
 end $$;
+alter function cp7_analysis_native.source_within(integer,integer)owner to cp7_capture;
 alter function cp7_analysis_native.source()owner to cp7_capture;
 alter function cp7_analysis_native.material_source(jsonb,timestamptz)owner to cp7_capture;
 alter function cp7_analysis_native.material_needs(jsonb,jsonb,jsonb)owner to cp7_capture;

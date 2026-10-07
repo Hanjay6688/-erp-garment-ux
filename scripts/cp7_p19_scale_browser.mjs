@@ -215,8 +215,8 @@ async function sizeCase(ui,today,size,state){
     capture_path_estimate_ms:v.summary?.capture_path_estimate_ms??null,
     // What the Original is made of (bytes per top-level field and per analysis key).
     original_breakdown_top:v.original_breakdown_top??null,analysis_keys_top:v.analysis_keys_top??null}])),
-   // 5,000 targets phase C: one operational capture statement with the source bound lifted in a rolled-back savepoint.
-   capture_cap_lifted:sql.capture_cap_lifted??null,
+   // 5,000 targets phase C: one operational capture statement through the installed bounded sources (5000/10000).
+   capture_5000:sql.capture_5000??null,
    step_attribution:Object.fromEntries(Object.entries(sql.step_attribution||{}).map(([d,v])=>[d,v.attribution])),witness:sql.witness}:null,
   sql_ladder_error:sqlError,
   seed:{total_targets:seed.total_targets,preexisting_targets:seed.preexisting_targets,seeded_targets:seed.seeded_targets,seed_ms_not_app_latency:seed.seed_ms,

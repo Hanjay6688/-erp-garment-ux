@@ -12,7 +12,7 @@ def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):
  predecessor.verify(cur)
  expected={'access_now':'s','route':'i','position_model':'i','validate':'i',
-  'source_at':'s','workspace':'v','save':'v','source':'s','fingerprint':'i',
+  'source_at':'s','workspace':'v','save':'v','source_within':'s','source':'s','fingerprint':'i',
   'build':'i','serve':'v','capture':'v'}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_schedule_native'").fetchall()
  assert len(rows)==len(expected),rows

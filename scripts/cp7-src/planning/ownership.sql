@@ -1,5 +1,6 @@
 alter function cp7_planning.utc(timestamptz)owner to cp7_capture;
 alter function cp7_planning.history_query(jsonb)owner to cp7_capture;
+alter function cp7_planning.history_source_within(integer)owner to cp7_capture;
 alter function cp7_planning.history_source()owner to cp7_capture;
 alter function cp7_planning.history_events(jsonb)owner to cp7_capture;
 alter function cp7_planning.history_availability(jsonb,jsonb)owner to cp7_capture;

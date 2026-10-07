@@ -375,3 +375,27 @@ Status terpisah: **fitur selesai** (kode + uji kernel + kasus Native lokal; CI d
 - **Bukti dari capture netting/analisis/jadwal:** sekarang hanya `cp7_supply_native.capture` yang menyimpan; jalur lain memakai bukti tetapi tidak menulis.
 - **Upgrade PostgreSQL atau perubahan kernel** membatalkan semua bukti sekaligus (aman, tetapi capture pertama sesudahnya lambat). Belum ada sinyal perubahan berbasis trigger di tabel Native (sengaja: Native tidak diubah).
 - **Baca riwayat bukti** (bukti lama yang tergantikan) hanya untuk admin; belum ada layar.
+
+## 13. Tambahan 7 Okt 2026 (malam): 5.000 target fase A (butir 3) — belum memenuhi keputusan owner
+
+Status terpisah: **fitur selesai** hanya untuk perubahan di 13.1 (paritas byte-identik, CI di head `d2c98812`); **batas terbuka**: kapasitas 5.000 target belum didukung (fase B–E di `p19/P19_STAGED_5000_20261007.md`); **penerimaan auditor** belum ada. `production_go: false`.
+
+### 13.1 Objek yang berubah
+
+| Berkas SQL | Fungsi | Perubahan | Uji paritas (pendahulu) |
+|---|---|---|---|
+| `wip/matching.sql` | `cp7_wip.check_allocations` | Cek kunci kembar sumber/target: satu penanda jendela (posisi kembar pertama) menggantikan objek yang disalin per entri (kuadratik di 5.000 target). Kunci setiap entri tetap divalidasi sebelum cek kembar di entri itu, jadi penolakan pertama sama | `f05-staged-analysis` uji 2 (1.890 perbandingan vs `a68abf1e`, termasuk kunci berulang/non-string/null) |
+| `planning/netting.sql` | **baru:** `cp7_netting_native.matching_models_within(jsonb,jsonb,integer)` (i); `matching_models` kini membungkus dengan 5000 | Panggilan tunggal tetap 5000 | `f04-netting-linear` vs `d7548eb8` |
+| `planning/analysis-finance.sql` | **baru:** `finance_apply(jsonb,jsonb)` (i), `finance_overlay(jsonb,jsonb)` (i); `build` = `finance_overlay(build_operational(...)-'semantic_hash', c)` | Pemisahan murni, isi sama | Native analisis (P08 `analysis152`, attention) dan `f05-staged-analysis` uji 3 |
+| `planning/analysis-jobs.sql` | `cp7_analysis_jobs.store` | Potongan segmen satu lintasan (`left`/`right(s,-n)`), potongan sama dengan `substr(body,i*n+1,n)` yang menghitung ulang semua karakter sebelumnya (lokal 25,5 dtk di 65 MB) | `f05-analysis-jobs`: setiap segmen kecuali terakhir tepat 2.000.000 code point; gabungan = Original; hash per segmen |
+| `planning/history-source.sql`, `baseline-source.sql`, `supply-source.sql`, `schedule-scenario.sql`, `netting.sql`, `analysis.sql` | **baru:** `cp7_planning.history_source_within(integer)`, `cp7_baseline_native.source_within(integer)`, `cp7_supply_native.source_parts_within(integer)` / `source_within(integer)`, `cp7_schedule_native.source_within(integer)`, `cp7_netting_native.source_within(integer,integer)`, `cp7_analysis_native.source_within(integer,integer)` (semua `s`) | Batas produk yang dibaca menjadi parameter; fungsi tanpa argumen kini pembungkus dengan batas lama (1000 produk, 5000 produk pencocokan), jadi isi capture tunggal sama. Disiapkan untuk capture job bertahap (5000/10000); belum ada pemanggil produk selain pembungkus | Native semua suite (memanggil pembungkus); `f04-supply-exhausted`/`f04-supply-proofs` dengan stub `source_within` |
+
+Semua fungsi baru `security invoker`, `search_path=''`, owner `cp7_capture`, tanpa grant; terdaftar di verifikasi bundle masing-masing (planning, baseline, supply, schedule, netting, analysis). Tidak ada tabel, RPC, role, grant, atau batas baru.
+
+### 13.2 Bukan produk
+
+Kernel job bertahap ada di `tests/cp7/families/f04/staged-analysis.prototype.sql` (tidak dipasang; skenario, kain, dan aksesori masih stand-in). Ia diuji paritas terhadap `build` tunggal di job CI `p19-staged`. Pengukuran capture satu statement di 5.000 produk dilakukan oleh harness skala P19 dengan batas sumber dilonggarkan **hanya di savepoint yang dibatalkan** (`CAP_LIFTED_MEASUREMENT_ONLY_ROLLED_BACK_NOT_INSTALLED`); produk tetap 1000.
+
+### 13.3 Catatan pemasangan/rollback (P21)
+
+Fungsi baru milik `cp7_capture` → ikut `drop owned by`. Definisi berubah → hash mesin netting/analisis berubah → run lama `ARCHIVED_STALE` sekali; hasil sama.

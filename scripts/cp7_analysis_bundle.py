@@ -23,7 +23,7 @@ def verify(cur):
  verify_fabric(cur)
  from cp7_plan_bundle import verify as verify_plan
  verify_plan(cur)
- expected={'material_source':'s','material_needs':'i','source':'s','fingerprint':'i','finance_mode':'i','source_for':'s','fact':'i','build_operational':'i','finance_apply':'i','finance_overlay':'i','build':'i','financial_source':'s','financial_fingerprint':'i','serve':'v','capture':'v','archives':'v','report_fact':'i','report_render':'i','report_document':'v','report_command':'v','report_index':'v','report_compare':'v'}
+ expected={'material_source':'s','material_needs':'i','source_within':'s','source':'s','fingerprint':'i','finance_mode':'i','source_for':'s','fact':'i','build_operational':'i','finance_apply':'i','finance_overlay':'i','build':'i','financial_source':'s','financial_fingerprint':'i','serve':'v','capture':'v','archives':'v','report_fact':'i','report_render':'i','report_document':'v','report_command':'v','report_index':'v','report_compare':'v'}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_analysis_native'").fetchall()
  assert len(rows)==len(expected)+1,rows # source() and source(jsonb)
  for sig,name,owner,definer,config,volatility in rows:

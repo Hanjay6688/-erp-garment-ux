@@ -1,10 +1,14 @@
 -- Server-owned composition of selected calendar/yield metadata with captured
 -- native physical positions. Unknown remaining work blocks shared free capacity.
-create function cp7_schedule_native.source()returns jsonb
+create function cp7_schedule_native.source_within(p_products integer)returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
- with source as materialized(select cp7_supply_native.source()c)
+ with source as materialized(select cp7_supply_native.source_within(p_products)c)
  select c||jsonb_build_object('schedule',cp7_schedule_native.source_at((c->>'captured_at')::timestamptz),
   'planning_time_bucket',cp7_planning.utc(date_trunc('minute',(c->>'captured_at')::timestamptz)))from source
+$$;
+create function cp7_schedule_native.source()returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select cp7_schedule_native.source_within(1000)
 $$;
 
 create function cp7_schedule_native.fingerprint(c jsonb)returns text
@@ -216,6 +220,7 @@ begin
  return cp7_schedule_native.serve(r.id);
 end $$;
 
+alter function cp7_schedule_native.source_within(integer)owner to cp7_capture;
 alter function cp7_schedule_native.source()owner to cp7_capture;
 alter function cp7_schedule_native.fingerprint(jsonb)owner to cp7_capture;
 alter function cp7_schedule_native.build(jsonb,jsonb)owner to cp7_capture;

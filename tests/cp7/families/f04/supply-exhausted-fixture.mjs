@@ -349,6 +349,7 @@ export async function installSupplyControls(db) {
    create schema cp7_baseline_native;create schema cp7_supply_native;create schema cp7_schedule_native;create schema cp7_netting_native;
    create table public.sx_baseline(c jsonb not null);
    create function cp7_baseline_native.source()returns jsonb language sql stable as $$select c from public.sx_baseline$$;
+   create function cp7_baseline_native.source_within(p_products integer)returns jsonb language sql stable as $$select c from public.sx_baseline$$;
    create function cp7_baseline_native.build(c jsonb,q jsonb)returns jsonb language sql immutable as $$
     select jsonb_build_object('captured_at',c->>'captured_at','rows',c->'stub_rows')$$;
    create function cp7_schedule_native.source_at(p_at timestamptz)returns jsonb language sql stable as $$select 'null'::jsonb$$;
@@ -356,8 +357,8 @@ export async function installSupplyControls(db) {
    ${pick(tree, ...fresh)}
    ${old}
    ${pick(now('scripts/cp7-src/planning/schedule.sql'), 'cp7_schedule_native.route', 'cp7_schedule_native.position_model')}
-   ${pick(schedule, 'cp7_schedule_native.source', 'cp7_schedule_native.fingerprint', 'cp7_schedule_native.build')}
-   ${pick(netting, 'cp7_netting_native.source', 'cp7_netting_native.fingerprint', 'cp7_netting_native.bound_product', 'cp7_netting_native.matching_models_within', 'cp7_netting_native.matching_models',
+   ${pick(schedule, 'cp7_schedule_native.source_within', 'cp7_schedule_native.source', 'cp7_schedule_native.fingerprint', 'cp7_schedule_native.build')}
+   ${pick(netting, 'cp7_netting_native.source_within', 'cp7_netting_native.source', 'cp7_netting_native.fingerprint', 'cp7_netting_native.bound_product', 'cp7_netting_native.matching_models_within', 'cp7_netting_native.matching_models',
      'cp7_netting_native.matching', 'cp7_netting_native.matches', 'cp7_netting_native.timeline', 'cp7_netting_native.build')}
    ${LOADER}
    ${CHECKS}`)
