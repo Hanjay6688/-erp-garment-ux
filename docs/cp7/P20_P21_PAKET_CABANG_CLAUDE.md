@@ -196,3 +196,44 @@ Ke-82 penulis itu antara lain posting dan pembalikan pembayaran (`post_supplier_
 3. Apakah ada endpoint selain PostgREST `public` yang bisa mencapai skema `erp` untuk `authenticated`. Contohnya GraphQL (`graphql_public`/pg_graphql) atau koneksi database langsung, dan ini harus diperiksa pada konfigurasi hosted.
 
 Pembayaran supplier lewat jalur langsung sudah terbukti pada kasus `CURRENT_ACCESS` (lihat `SUPPLIER_PAYMENT_CREATE_HANDOFF.md`). Menutupnya mengubah ACL atau definisi Native di hosted, jadi itu keputusan owner/GPT.
+
+## 8. Tambahan 7 Okt 2026: pemeriksaan mandiri rumus/keuangan dan P19 bagian 2
+
+Rinciannya ada di `SELF_CHECK_FORMULAS_20261006.md`; nomor run CI per commit dicatat di §6 dokumen itu. Ini persiapan audit, bukan audit independen.
+
+### 8.1 Objek yang berubah
+
+Tidak ada role, RPC publik, tabel, atau hak baru. Semua perubahan ada di badan fungsi yang sudah ada (signature tetap).
+
+| Berkas SQL | Fungsi | Perubahan perilaku |
+|---|---|---|
+| `finance/analysis.sql` | analisis keuangan | Pertumbuhan dan selisih margin `null` bila basis pendapatan ≤ 0; `formula_version` → `GROWTH_POSITIVE_BASE_AND_GROSS_MARGIN_PP_V2` |
+| `procurement/correction.sql` | `restate_all`, penghalang kredit | Hanya pembalikan yang dibuat perintah ini yang dipindah tanggalnya; kredit supplier dianggap aktif bila netto ≠ 0 |
+| `invoices/payment-correction.sql` | koreksi pembayaran supplier | Tolak tanggal masa depan dan tanggal yang diubah ke sebelum barang datang |
+| `sales/correction.sql` | `cp7_note.command` | Tolak bila ada pembayaran realokasi Native (`…REALLOCATED_PAYMENT…`) atau bila harga bersih per pcs baris yang sudah diretur berubah (`CP7_NOTE_RETURNED_LINE_PRICE_CHANGED`) |
+| `payroll/roster-write.sql`, `payroll/settlement-read.sql` | ubah pekerja, `totals_match_items` | Kode pekerja dipertahankan; payroll beku dibandingkan dengan itemnya sendiri |
+| `cutting-yield/model-producer.sql` | evaluasi model | Hanya record batch prospektif terpilih |
+| `demand/estimate.sql` | laju harian | `trunc(…,12)`, bukan dibulatkan ke atas |
+| `planning/netting.sql` | suplai terarah | Posisi WIP dengan sisa 0 bukan suplai |
+| `demand/history.sql`, `planning/history.sql` | `cp7_demand.history`, `history_build` | Bentuk linear, byte-identik dengan `c1f91041` |
+| `planning/schedule-scenario.sql`, `wip/yield.sql` | `cp7_schedule_native.build`, `cp7_wip.project_yield` | Bentuk linear, byte-identik dengan `117732fb` |
+
+Frontend: field rupiah 6 desimal menolak pola ribuan ambigu (`moneyDecimal`), label "Nilai absensi" dan "HPP lot saat ini", pesan Indonesia untuk dua kode penolakan nota.
+
+Harness: mode `--payroll-review` P12 kini memasang paket settlement + buku kas E05 yang dibutuhkan layar payroll sejak F03 E05. Asersi oracle tidak berubah.
+
+### 8.2 Titik audit prioritas
+
+1. **Pertumbuhan dan margin.** Pembanding nol atau minus harus `null` (N/A), bukan persen bertanda terbalik. Pendapatan minus pada salah satu periode membuat selisih margin `null`.
+2. **Ruang lingkup restate (AP-1).** Saring `created_at = statement_timestamp()` mengandalkan satu pernyataan per perintah. Periksa apakah ada pembalikan lain yang dibuat dalam pernyataan yang sama, misalnya oleh trigger Native.
+3. **Retur pada koreksi nota (SL-4).** Perbandingan harga bersih per pcs memakai perkalian silang eksak `(q·p−d)·q' ≠ (q'·p'−d')·q`. Periksa diskon null, qty berubah dengan harga sama, dan baris ganda dengan SKU sama.
+4. **Target perencanaan (PL-1).** `trunc` laju 12 desimal tidak pernah melebihi nilai eksak. Karena pecahan sejati ≥ 1/hari, `ceil` tetap sama dengan ceil eksak (uji acak 120 kasus vs BigInt).
+5. **Kesetaraan P19.** Semua bentuk linear memakai peta yang dibangun di titik pemindaian lama, sehingga error pertama sama. Kunci ganda di konfigurasi jadwal tetap gagal `21000` seperti subquery skalar lama. Kebijakan yield ganda tetap `CP7_WIP_YIELD_DUPLICATE` pada urutan yang sama. `project_yield` mengambil posisi pertama dengan kunci itu. Uji paritas: `f04-demand-history-linear`, `f04-history-build-linear`, `f04-schedule-scenario-linear` (job Shell `p19-assembly`).
+6. **Input rupiah.** Aturan "16.000" ditolak hanya di layar. Server tetap menerima desimal seperti sebelumnya; harga tersimpan yang tidak diubah tetap diterima.
+
+### 8.3 Masih terbuka
+
+- **Skala aplikasi penuh.** Capture aplikasi 5.000 target end-to-end (sumber Native nyata, serve, render browser) dan latensi klik-sampai-tampil belum diukur.
+- **ETA skenario jadwal.** Biaya tersisa O(posisi × langkah × jendela kalender). Lokal (bukan bukti): 5.000 posisi yang semuanya mendapat ETA butuh 10,9 dtk, jadi termasuk pekerjaan latar belakang. Batas tidak dinaikkan.
+- **Kebijakan pemilik.** PL-3, PL-4, PL-5, PL-7, PL-8 dan AP-5 tetap tercatat di `SELF_CHECK_FORMULAS_20261006.md` §4; nilainya tidak dikarang.
+- **PR UX #43 ke `main`.** Tertahan aturan CodeQL repo (analisis PR bawaan GitHub tidak berjalan sejak sekitar 3 Okt).
