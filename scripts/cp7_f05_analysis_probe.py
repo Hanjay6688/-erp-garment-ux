@@ -39,15 +39,21 @@ def verify(cur):
  f03.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False):
- assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
+def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False):
+ assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_scale)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
  fabric_any=fabric_recipe or fabric_physical or fabric_reminder
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=152;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if p19_transport:
   # P19 job/segment transport: its own predeclared IDs on the same closed harness.
-  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load)),'P19_TRANSPORT_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
+  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_scale)),'P19_TRANSPORT_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_p19_transport_cases as case_provider
   expected=case_provider.EXPECTED;assert expected==11;out=OUT.with_name('CP7_P19_TRANSPORT.json');phase='cp7_p19_transport';browser_script='cp7_p19_transport_browser.mjs'
+ if p19_scale:
+  # P19 full-application scale ladder: own predeclared IDs on the same closed
+  # harness. Measurement only; native SQL ladder plus real Auth browser clicks.
+  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport)),'P19_SCALE_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
+  import cp7_p19_scale_cases as case_provider
+  expected=case_provider.EXPECTED;assert expected==5;out=OUT.with_name('CP7_P19_SCALE.json');phase='cp7_p19_scale';browser_script='cp7_p19_scale_browser.mjs'
  if p19_load:
   import cp7_obligation_report_bundle as candidate
   import cp7_p19_native_load_cases as case_provider
@@ -141,6 +147,12 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_TRANSPORT.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'P19_TRANSPORT_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_P19_TRANSPORT',scope='BACKGROUND_ANALYSIS_JOB_UNDER_EXISTING_STATEMENT_LIMIT_AND_SEGMENTED_COMPLETE_ORIGINAL_ACTOR_ACCESS_HASH_BOUND',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False)
+ if p19_scale:
+  declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_SCALE.json').read_bytes();declaration=json.loads(declaration_bytes)
+  assert declaration['contract']==case_provider.CONTRACT and declaration['evidence_kind']==case_provider.EVIDENCE_KIND and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'P19_SCALE_PREDECLARED_CASE_BUDGET_CHANGED'
+  assert declaration['sizes']==list(case_provider.SIZES)and declaration['history_days']==list(case_provider.HISTORY_DAYS)and declaration['grid_boundary']==case_provider.GRID_BOUNDARY and declaration['statement_timeout']==case_provider.STATEMENT_TIMEOUT,'P19_SCALE_PREDECLARED_PROFILE_CHANGED'
+  assert declaration['caps']==case_provider.CAPS and declaration['synthetic_inputs']==case_provider.SYNTHETIC and declaration['limits_raised']is False and declaration['data_sampled_or_truncated']is False,'P19_SCALE_PREDECLARED_CAPS_OR_INPUTS_CHANGED'
+  report.update(label='CP7_P19_SCALE',scope='FULL_APPLICATION_NATIVE_SCALE_LADDER_100_300_1000_5000_WRITER_SEEDED_PUBLIC_CAPTURE_BACKGROUND_JOB_SEGMENTS_AND_REAL_AUTH_BROWSER_CLICK_TO_RENDER_UNDER_UNCHANGED_CAPS',evidence_kind=case_provider.EVIDENCE_KIND,required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False,owner_latency_acceptance=False,factory_capacity_or_SLA=False)
  if fabric_reminder:report.update(label='CP7_P18_FABRIC_RULE',scope='P18_FABRIC_NEED_RULE_EXACT_SHARED_FABRIC_ROW_ASSUMED_NEVER_RESOLVES_UNKNOWN_NEVER_ZERO_SAME_UNIT_POLICY_LOCAL_SINK_ONLY_NO_DELIVERY',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P18_acceptance=False)
  if fabric_physical:report.update(label='CP7_FABRIC_PHYSICAL',scope='P08_PHYSICAL_FABRIC_INSTALLED_UNSTARTED_ZERO_LINKED_DRAFT_OR_UNIQUE_FREE_STOCK_ON_TIME_OPEN_COMMITMENT_FAIL_CLOSED_NO_RESERVATION_OR_FEASIBILITY_CREDIT',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P08_acceptance=False)
  if fabric_recipe:report.update(label='CP7_FABRIC_RECIPE',scope='EXPLICIT_EFFECTIVE_DATED_EXACT_ROOT_SIZE_NATIVE_FABRIC_RECIPE_ASSUMPTIONS_SHARED_ANALYSIS_NO_INSTALLATION_ALLOCATION_OR_FEASIBILITY_CREDIT',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P08_acceptance=False)
@@ -184,11 +196,14 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    report['source_admission_public_catalog_comparison']=admission_catalog_audit
    report['source_admission_required_case_credit']=0
    assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
-  with exact_public_catalog(native,retain_raw=fabric_any or p19_load or p19_transport)as catalog_audit:
-   report['native']=native.strict_group('CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+  with exact_public_catalog(native,retain_raw=fabric_any or p19_load or p19_transport or p19_scale)as catalog_audit:
+   report['native']=native.strict_group('CP7_P19_SCALE'if p19_scale else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
   report['native_public_catalog_comparison']=catalog_audit
-  report['races']=modes.run_races(case_provider,checker,phase)
-  report['http']=modes.run_http(case_provider,checker,phase)
+  if not p19_scale:
+   # The scale ladder declares no race/HTTP group: real Auth/PostgREST is
+   # measured inside its browser cases on the same seeded copy.
+   report['races']=modes.run_races(case_provider,checker,phase)
+   report['http']=modes.run_http(case_provider,checker,phase)
   if not p19_load:
    # Keep port ownership evidence before opening the native browser host.
    import subprocess
@@ -215,10 +230,10 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
     # restore/advisor/qualification gate may be inferred from passing cases.
     report.update(restore_error=str(restoration_error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
-  if fabric_any or p19_load or p19_transport:
+  if fabric_any or p19_load or p19_transport or p19_scale:
    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
-  group_names=('native','races','http')if p19_load else('native','races','http','browser')
-  groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  group_names=('native','races','http')if p19_load else('native','browser')if p19_scale else('native','races','http','browser')
+  groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':

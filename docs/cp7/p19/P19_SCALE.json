@@ -1,0 +1,211 @@
+{
+  "contract": "cp7.p19.full-application-scale.v1",
+  "evidence_kind": "FULL_APPLICATION_NATIVE",
+  "expected_case_count": 5,
+  "required_case_counts": {
+    "native": 1,
+    "browser": 4
+  },
+  "required_case_ids": {
+    "native": [
+      "P19S_NATIVE_SCALE_LADDER"
+    ],
+    "browser": [
+      "P19S_BROWSER_DESKTOP_100",
+      "P19S_BROWSER_DESKTOP_300",
+      "P19S_BROWSER_DESKTOP_1000",
+      "P19S_BROWSER_DESKTOP_5000"
+    ]
+  },
+  "sizes": [
+    100,
+    300,
+    1000,
+    5000
+  ],
+  "size_meaning": "Total current Native planning targets (product root:size) in the global source after seeding, including pre-existing products and the one WIP fixture target. Seeding adds size minus current; it never removes or hides a target.",
+  "history_days": [
+    1,
+    30,
+    100
+  ],
+  "grid_boundary": {
+    "size": 1000,
+    "days": 101
+  },
+  "statement_timeout": "8s",
+  "caps": {
+    "STATEMENT_TIMEOUT_8S": {
+      "value": "8s",
+      "codes": [
+        "57014",
+        "CP7_ANALYSIS_JOB_STOPPED"
+      ],
+      "where": "existing authenticated statement limit (PostgREST role setting); SQL path sets the same 8s per public call",
+      "predicted_by_size_model": true
+    },
+    "HISTORY_SOURCE_PRODUCTS_1000": {
+      "value": 1000,
+      "codes": [
+        "CP7_PLANNING_CAPTURE_INCOMPLETE"
+      ],
+      "where": "scripts/cp7-src/planning/history-source.sql (more than 1000 current products: status INCOMPLETE); planning/history.sql history_build refuses",
+      "predicted_by_size_model": true
+    },
+    "HISTORY_GRID_100000": {
+      "value": 100000,
+      "codes": [
+        "CP7_PLANNING_HISTORY_GRID_LIMIT",
+        "CP7_DEMAND_GRID_LIMIT"
+      ],
+      "where": "planning/history.sql and demand/history.sql: products x history days",
+      "predicted_by_size_model": true
+    },
+    "DEMAND_ARRAYS": {
+      "value": "targets 1000, events 50000, availability 100000",
+      "codes": [
+        "CP7_F04_ARRAY_LIMIT"
+      ],
+      "where": "demand/history.sql cp7_demand.items",
+      "predicted_by_size_model": false
+    },
+    "BASELINE_ALLOCATION_100000": {
+      "value": "positions x targets 100000, each list 1000",
+      "codes": [
+        "CP7_BASELINE_ALLOCATION_LIMIT"
+      ],
+      "where": "baseline/allocation.sql",
+      "predicted_by_size_model": false
+    },
+    "NETTING_WORK_100000": {
+      "value": "positions 1000, positions x baseline rows 100000",
+      "codes": [
+        "CP7_NETTING_WORK_LIMIT"
+      ],
+      "where": "planning/netting.sql: more than 1000 WIP positions or positions x baseline rows above 100000",
+      "predicted_by_size_model": false
+    },
+    "NETTING_MATCH_5000": {
+      "value": 5000,
+      "codes": [
+        "CP7_NETTING_MATCH_SOURCE_LIMIT"
+      ],
+      "where": "planning/netting.sql matching_products",
+      "predicted_by_size_model": false
+    },
+    "SUPPLY_SCOPE_1000": {
+      "value": "1000 scope ids per kind, 20000 facts",
+      "codes": [
+        "CP7_SUPPLY_GLOBAL_SCOPE_LIMIT",
+        "CP7_SUPPLY_FACT_LIMIT"
+      ],
+      "where": "planning/supply-source.sql",
+      "predicted_by_size_model": false
+    },
+    "SEGMENT_2000000_CODE_POINTS": {
+      "value": 2000000,
+      "codes": [],
+      "where": "planning/analysis-jobs.sql segment cut; a cut, never a refusal",
+      "predicted_by_size_model": false
+    },
+    "BODY_8000000_BYTES": {
+      "value": 8000000,
+      "codes": [],
+      "where": "per segment; above it the panel switches from the single body to the same run's segments",
+      "predicted_by_size_model": false
+    },
+    "CLIENT_DOCUMENT_64000000_BYTES": {
+      "value": 64000000,
+      "codes": [],
+      "where": "src/nativeAnalysisTransport.ts ANALYSIS_DOCUMENT_UTF8_BYTES; the client refuses the whole document",
+      "predicted_by_size_model": false
+    }
+  },
+  "synthetic_inputs": {
+    "label": "P19_SCALE_SYNTHETIC_NOT_FACTORY_DEFAULT",
+    "sizes_per_model": 10,
+    "products_per_import_batch": 250,
+    "cutover_days": 10,
+    "opening_fg_pcs": "50",
+    "opening_unit_cost": "6.00",
+    "color_name": "Blue",
+    "sale_rounds": [
+      {
+        "days_before_today": 3,
+        "qty_pcs": 3
+      },
+      {
+        "days_before_today": 2,
+        "qty_pcs": 2
+      }
+    ],
+    "sale_unit_price": "20",
+    "sale_lines_per_note": 100,
+    "profile": {
+      "mean_mode": "SELECTED_MANUAL",
+      "daily_pcs": "1",
+      "minimum_available_days": "20",
+      "lead_days": "3",
+      "review_days": "7",
+      "buffer_days": "0"
+    },
+    "profile_reason": "P19 scale synthetic selected profile; not a factory default",
+    "policy_state": "ACTIVE",
+    "policy_reason": "P19 scale synthetic ACTIVE review; not a factory default",
+    "sale_reason": "P19 scale synthetic sale history through the ordinary Native sale writer",
+    "workload_calendar_margin_minutes": 60,
+    "wip_fixture": "one accepted cp7_analysis_cases.setup fixture: BB opening WIP 8 pcs, reviewed 9/10 yield, 45 work minutes",
+    "cutting_groups_seeded": 0
+  },
+  "writers": {
+    "products_and_opening_fg": "BB opening-balance importer (erp_save_initial_import_action_v1 CREATE/SAVE_FILE/VALIDATE/FINALIZE), at most 5000 rows per batch",
+    "sales": "erp.save_sale_draft_v2 then erp.post_sale_v2, at most 100 lines per note (the CP7 sale form bound)",
+    "profiles": "erp_cp7_get_planning_profiles_v1 (200 roots per read) and erp_cp7_save_planning_profile_v1",
+    "commercial_skus": "erp_save_sku_action_v1 SAVE_GROUPS (30 groups per call, one model's sizes per group)",
+    "policies": "erp_cp7_get_production_policy_v1 (200 per read) and erp_cp7_set_production_policy_v1 (100 per call)",
+    "calendar": "erp_cp7_save_production_schedule_v1 through the P19 native-load reviewed workload calendar",
+    "direct_business_inserts": false
+  },
+  "owner_latency_targets": {
+    "routine_screen_ms_exclusive": 1000,
+    "ordinary_save_ms_inclusive": 2000,
+    "heavy_complete_with_progress_ms_inclusive": 3000,
+    "heavier": "background job only as an owner-named exception; the analysis job is not a named exception",
+    "source": "docs/cp7/p19/P19_LOADING_BUDGET_20261006.md"
+  },
+  "browser": {
+    "device": "desktop Chromium 1440x1000, Asia/Jakarta, loopback API, no throttling",
+    "controls": [
+      "Ambil analisis ERP terbaru",
+      "Hitung di latar belakang"
+    ],
+    "context": "fresh signed-in browser context per click (cold client state, warm database)"
+  },
+  "kernel_evidence_kept_separate": [
+    "scripts/cp7_p19_assembly_benchmark.mjs",
+    "scripts/cp7_p19_schedule_benchmark.mjs",
+    "scripts/cp7_p19_demand_history_benchmark.mjs",
+    "docs/cp7/p19/P19_KERNEL_JOB_TRANSPORT_CLAUDE.md"
+  ],
+  "limits_raised": false,
+  "data_sampled_or_truncated": false,
+  "full_P19_acceptance": false,
+  "owner_latency_acceptance": false,
+  "factory_capacity_or_SLA": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "phase_diagnostics": {
+    "public_rpcs": [
+      "erp_cp7_capture_demand_history_v1",
+      "erp_cp7_capture_production_supply_v1"
+    ],
+    "statement_timeout": "8s",
+    "purpose": "Attribute which step stops a size: demand history alone, then supply (baseline+history+WIP normalisation) alone, under the same 8 s. Not the latency of the analysis click.",
+    "reported_per_size": [
+      "supply scope cutting_groups/opening_items/unsourced_bs",
+      "WIP positions",
+      "zero-quantity WIP positions"
+    ],
+    "known_finding": "PL-8: wip normalize_cutting is quadratic in historical cutting groups (local 250 groups 8.6 s, 500 groups 31.6 s); exhausted groups still emit zero-quantity positions; netting refuses more than 1000 positions. The ladder seeds no cutting group; pre-existing groups are counted, never removed."
+  }
+}

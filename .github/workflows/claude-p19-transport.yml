@@ -11,6 +11,8 @@ name: CP7 P19 Analysis Job Transport
     - src/nativeAnalysisTransport.ts
     - src/NativeAnalysisPanel.tsx
     - docs/cp7/p19/P19_TRANSPORT.json
+    - scripts/cp7_p19_scale_*
+    - docs/cp7/p19/P19_SCALE.json
     - .github/workflows/claude-p19-transport.yml
   workflow_dispatch: {}
 permissions:
@@ -32,6 +34,9 @@ jobs:
         - suite: p19-transport11
           probe: cp7_p19_transport_probe.py
           timeout: 120
+        - suite: p19-scale5
+          probe: cp7_p19_scale_probe.py
+          timeout: 330
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
