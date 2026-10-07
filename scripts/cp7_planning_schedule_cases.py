@@ -114,6 +114,20 @@ def cases(cur,today):
   opening(cur,today);r=supply.capture(cur,today);p=payload(cur,r);p['config']['windows'][0]['other_load_minutes']='20';save(cur,p);s=capture(cur,today)
   assert s['capacity']['capacity_pcs']=='27'and s['etas'][0]['result']['reason']=='OTHER_LOAD_DATED_PLACEMENT_NOT_SELECTED'
   return dict(status='PASS',selected_other_load20_reduces_capacity_but_unplaced_load_never_fakes_exact_ETA=True)
+ def overflow_carried():
+  # PL-4: other load a window cannot hold is still owed and carries into the
+  # next window (120 - 40 carried - 45 captured = 35 min -> 17 pcs at 2 min);
+  # load left after the last window makes capacity UNKNOWN, never '0' or free.
+  opening(cur,today);r=supply.capture(cur,today);p=payload(cur,r)
+  start=datetime.fromisoformat(p['config']['windows'][0]['starts_at'].replace('Z','+00:00'))
+  p['config']['windows']=[dict(key='work-1',starts_at=stamp(start),ends_at=stamp(start+timedelta(minutes=60)),other_load_minutes='100'),
+   dict(key='work-2',starts_at=stamp(start+timedelta(minutes=60)),ends_at=stamp(start+timedelta(minutes=180)),other_load_minutes='0')]
+  save(cur,p);s=capture(cur,today);c=s['capacity']
+  assert c['status']=='SCENARIO'and c['capacity_pcs']=='17'and c['kernel_version']=='calendar-capacity-2',c
+  assert int(c['inputs']['windows'][0]['existing_load_minutes'].split('.')[0])==100,c['inputs']['windows']
+  late=deepcopy(p);late['expected_revision']='1';late['config']['windows'][0]['other_load_minutes']='200';save(cur,late);s=capture(cur,today);c=s['capacity']
+  assert c['status']=='UNKNOWN'and c['capacity_pcs']is None and c['reason']=='EXISTING_LOAD_EXCEEDS_CALENDAR',c
+  return dict(status='PASS',overflow40_carried_into_next_window_capacity17_not_37=True,load_left_after_calendar_unknown_not_zero=True)
  def shared():
   opening(cur,today);opening(cur,today);r=supply.capture(cur,today);p=payload(cur,r);assert len(p['config']['positions'])==2
   missing=deepcopy(p);missing['config']['positions']=missing['config']['positions'][:1];save(cur,missing);s=capture(cur,today)
@@ -157,7 +171,7 @@ def cases(cur,today):
   bad=deepcopy(p);bad['expected_revision']='2';x=next(x for x in bad['config']['positions']if x['yield_numerator']is None);x['yield_numerator']='1';x['yield_denominator']='1'
   auth.refused(cur,lambda:save(cur,bad),'CP7_SCHEDULE_CUSTOMER_WORK_ONLY')
   return dict(status='PASS',administrative_native_ownership_source_fixture=True,customer8_consumes45_minutes_shared_capacity15_never_company_good=True)
- added=[('UNREVIEWED',absent),('UUID_METADATA',metadata),('STRICT_SOURCE_ROUTE',strict),('SOURCE_STALE',source_stale),('REVISION_STALE',revision),('YIELD7',yield7),('REMAINING45_CAPACITY37',remaining),('NULL_LOAD',missing_load),('OTHER_LOAD_PLACEMENT',placed_load),('SHARED_QUEUE',shared),('PRIVATE_CAPABILITIES',private),('CURRENT_AUTH',authority),('CUSTOMER_WORK_ONLY',customer_work)]
+ added=[('UNREVIEWED',absent),('UUID_METADATA',metadata),('STRICT_SOURCE_ROUTE',strict),('SOURCE_STALE',source_stale),('REVISION_STALE',revision),('YIELD7',yield7),('REMAINING45_CAPACITY37',remaining),('NULL_LOAD',missing_load),('OTHER_LOAD_PLACEMENT',placed_load),('PL4_OVERFLOW_CARRIED',overflow_carried),('SHARED_QUEUE',shared),('PRIVATE_CAPABILITIES',private),('CURRENT_AUTH',authority),('CUSTOMER_WORK_ONLY',customer_work)]
  return supply.cases(cur,today)+[('P06_SCHEDULE_NATIVE_'+n,f)for n,f in added]
 
 def races(tools,today):
