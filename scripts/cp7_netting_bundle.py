@@ -11,7 +11,7 @@ def bundle():return predecessor.bundle()+'\n'+extension()
 
 def verify(cur):
  predecessor.verify(cur)
- expected={'source':'s','fingerprint':'i','bound_product':'i','matching':'i','matches':'i','timeline':'i','build':'i','serve':'v','capture':'v'}
+ expected={'source':'s','fingerprint':'i','bound_product':'i','matching_models':'i','matching':'i','matches':'i','timeline':'i','build':'i','serve':'v','capture':'v'}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_netting_native'").fetchall()
  assert len(rows)==len(expected),rows
  for sig,name,owner,definer,config,volatility in rows:

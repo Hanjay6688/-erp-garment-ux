@@ -134,6 +134,14 @@ def compare(cur, query, actor):
     cases.b.api.admin(cur)
     signature = 'cp7_netting_native.build(jsonb,jsonb)'
     original = cur.execute('select pg_get_functiondef(%s::regprocedure)', (signature,)).fetchone()[0]
+    if 'cp7_netting_native.matching_models(c,wip)' in original and 'pair_rows' in original:
+        # P19 linear build: its byte and first-refusal equality with the
+        # one-pass predecessor is retained by tests/cp7/families/
+        # f04-netting-linear.test.ts and scripts/cp7_p19_netting_benchmark.mjs.
+        report.update(status='P19_LINEAR_INSTALLED_USE_RETAINED_COMPARISON',
+                      definition_restored=True, comparison_rerun=False,
+                      retained_comparison_source='tests/cp7/families/f04-netting-linear.test.ts')
+        return report
     if NEW_MATRIX in original and NEW_REPEAT in original:
         # The complete retained comparison belongs to the pre-repair source.
         # Later measurements must not relabel the installed candidate as an

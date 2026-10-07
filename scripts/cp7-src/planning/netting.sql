@@ -44,36 +44,115 @@ begin
  return(select x from jsonb_array_elements(c->'matching_products')x where x->>'id'=id);
 end $$;
 
-create function cp7_netting_native.matching(c jsonb,wip jsonb)returns jsonb
+-- The matching facts plus, per captured position text, the model matches()
+-- derives: coalesce(bound_product model, position_model). bound_product and
+-- cp7_schedule_native.position_model are evaluated here from lazy id maps,
+-- each built where that function's first scan of the array ran, so a
+-- non-array still fails at the same position. A scalar subquery that could
+-- see two rows (matching product, position_model's group/origin/NONPO join)
+-- refuses as that subquery did; SELECT INTO lookups keep the first row.
+create function cp7_netting_native.matching_models(c jsonb,wip jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare p jsonb;product jsonb;g jsonb;constraints jsonb;refs jsonb;sources jsonb:='[]';targets jsonb:='[]';model text;confirmed text;quality text;
+declare p jsonb;product jsonb;g jsonb;rw jsonb;constraints jsonb;refs jsonb;sources jsonb[]:='{}';targets jsonb[]:='{}';
+ model text;bound_model text;confirmed text;quality text;id text;kind text;part text;facts jsonb:=c->'production_sources'->'facts';
+ by_id jsonb;by_id_repeated jsonb;origins jsonb;origins_repeated jsonb;other_bs jsonb;reworks jsonb;all_bs jsonb;
+ groups jsonb;groups_repeated jsonb;nonpo jsonb;root_models jsonb;position_texts text[]:='{}';position_models text[]:='{}';
 begin
  if jsonb_array_length(c->'matching_products')>5000 then raise exception 'CP7_NETTING_MATCH_SOURCE_LIMIT';end if;
  for product in select value from jsonb_array_elements(c->'facts'->'products')order by value->>'root_id'loop
-  select x into g from jsonb_array_elements(c->'matching_products')x where x->>'id'=product->>'id';
+  if by_id is null then
+   select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into by_id,by_id_repeated
+    from(select x->>'id' k,count(*)n,(array_agg(x order by o))[1] v from jsonb_array_elements(c->'matching_products')with ordinality a(x,o)
+     where x->>'id'is not null group by 1)f;
+  end if;
+  g:=by_id->(product->>'id');
   if g is null then raise exception 'CP7_NETTING_NATIVE_PRODUCT_MISSING';end if;
   refs:=jsonb_build_array(cp7_wip.ref('erp.products',g->>'id',g->>'effective_from'));
   constraints:=jsonb_build_array(
    jsonb_build_object('field','brand','value',g->'brand_id','required',true,'basis','FACT'),
    jsonb_build_object('field','color','value',g->'color_name','required',true,'basis','FACT'));
-  targets:=targets||jsonb_build_array(jsonb_build_object('key',(g->>'root_id')||':'||(g->>'size_id'),
+  targets:=array_append(targets,jsonb_build_object('key',(g->>'root_id')||':'||(g->>'size_id'),
    'size_id',g->'size_id','constraints',constraints,'refs',refs));
  end loop;
  for p in select value from jsonb_array_elements(wip->'positions')order by value->>'key'loop
-  product:=cp7_netting_native.bound_product(c,p);model:=cp7_schedule_native.position_model(c,p);quality:=null;
+  -- cp7_netting_native.bound_product(c,p)
+  id:=null;kind:=split_part(p->>'pool_key',':',1);part:=split_part(p->>'pool_key',':',2);
+  if kind='OPEN'then
+   if origins is null then
+    select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into origins,origins_repeated
+     from(select x->>'id' k,count(*)n,(array_agg(x order by o))[1] v from jsonb_array_elements(facts->'other'->'origins')with ordinality a(x,o)
+      where x->>'id'is not null group by 1)f;
+   end if;
+   id:=origins->part->>'product_id';
+  elsif kind='NONPO'then
+   if other_bs is null then
+    select coalesce(jsonb_object_agg(f.k,f.v),'{}')into other_bs
+     from(select x->>'id' k,(array_agg(x order by o))[1] v from jsonb_array_elements(facts->'other'->'bs')with ordinality a(x,o)
+      where x->>'id'is not null group by 1)f;
+   end if;
+   id:=other_bs->part->>'product_id';
+  elsif p->>'stage'='REWORK'then
+   if reworks is null then
+    select coalesce(jsonb_object_agg(f.k,f.v),'{}')into reworks
+     from(select x->>'id' k,(array_agg(x order by o))[1] v from jsonb_array_elements((facts->'cutting'->'reworks')||(facts->'other'->'reworks'))with ordinality a(x,o)
+      where x->>'id'is not null group by 1)f;
+   end if;
+   rw:=reworks->split_part(p->>'key',':',2);
+   if all_bs is null then
+    select coalesce(jsonb_object_agg(f.k,f.v),'{}')into all_bs
+     from(select x->>'id' k,(array_agg(x order by o))[1] v from jsonb_array_elements((facts->'cutting'->'bs')||(facts->'other'->'bs'))with ordinality a(x,o)
+      where x->>'id'is not null group by 1)f;
+   end if;
+   id:=all_bs->(rw->>'bs_case_id')->>'product_id';
+  end if;
+  if by_id is null then
+   select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into by_id,by_id_repeated
+    from(select x->>'id' k,count(*)n,(array_agg(x order by o))[1] v from jsonb_array_elements(c->'matching_products')with ordinality a(x,o)
+     where x->>'id'is not null group by 1)f;
+  end if;
+  if by_id_repeated?id then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  product:=by_id->id;
+  -- cp7_schedule_native.position_model(c,p)
+  model:=null;
+  if kind='CUT'then
+   if groups is null then
+    select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into groups,groups_repeated
+     from(select x->>'id' k,count(*)n,(array_agg(x order by o))[1] v from jsonb_array_elements(facts->'cutting'->'groups')with ordinality a(x,o)
+      where x->>'id'is not null group by 1)f;
+   end if;
+   if groups_repeated?part then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+   model:=groups->part->>'model_id';
+  elsif kind='OPEN'then
+   if origins_repeated?part then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+   model:=origins->part->>'model_id';
+  elsif kind='NONPO'then
+   if nonpo is null then
+    select coalesce(jsonb_object_agg(f.k,jsonb_build_object('n',f.n,'model_id',f.m)),'{}')into nonpo
+     from(select x->>'id' k,count(*)n,(array_agg(y->>'model_id'))[1] m from jsonb_array_elements(facts->'other'->'bs')x
+      join jsonb_array_elements(c->'facts'->'products')y on y->>'id'=x->>'product_id' where x->>'id'is not null group by 1)f;
+   end if;
+   if(nonpo->part->>'n')::bigint>1 then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+   model:=nonpo->part->>'model_id';
+  end if;
+  bound_model:=coalesce(product->>'model_id',model);quality:=null;
   constraints:='[]';refs:=p->'refs';confirmed:=null;
   if product is not null then
    if product->>'size_id'<>p->>'size_id'then raise exception 'CP7_NETTING_NATIVE_SOURCE_SIZE';end if;
    model:=product->>'model_id';confirmed:=(product->>'root_id')||':'||(product->>'size_id');
-   if exists(select 1 from jsonb_array_elements(c->'facts'->'products')x
-    where x->>'root_id'=product->>'root_id'and x->>'model_id'<>model)then quality:='CONFLICT';end if;
+   -- Another captured product of this root with a different model: the
+   -- lowest and highest model of the root bound every model it has.
+   if root_models is null then
+    select coalesce(jsonb_object_agg(f.k,jsonb_build_array(f.lo,f.hi)),'{}')into root_models
+     from(select x->>'root_id' k,min(x->>'model_id')lo,max(x->>'model_id')hi from jsonb_array_elements(c->'facts'->'products')x
+      where x->>'root_id'is not null and x->>'model_id'is not null group by 1)f;
+   end if;
+   if root_models->(product->>'root_id')->>0<>model or root_models->(product->>'root_id')->>1<>model then quality:='CONFLICT';end if;
    constraints:=jsonb_build_array(
     jsonb_build_object('field','brand','value',product->'brand_id','required',true,'basis','FACT'),
     jsonb_build_object('field','color','value',product->'color_name','required',true,'basis','FACT'));
    refs:=refs||jsonb_build_array(cp7_wip.ref('erp.products',product->>'id',product->>'effective_from'));
-  elsif split_part(p->>'pool_key',':',1)='CUT'then
-   select x into g from jsonb_array_elements(c->'production_sources'->'facts'->'cutting'->'groups')x
-    where x->>'id'=split_part(p->>'pool_key',':',2);
+  elsif kind='CUT'then
+   g:=groups->part;
    if g->>'pattern_id'is not null and g->>'pattern_revision_snapshot'is not null then
     constraints:=constraints||jsonb_build_array(jsonb_build_object('field','pattern_revision',
      'value',(g->>'pattern_id')||':'||(g->>'pattern_revision_snapshot'),'required',false,'basis','FACT'));
@@ -81,11 +160,19 @@ begin
   end if;
   -- Brand/color are critical target attributes. An unbound cut cannot acquire
   -- them from a tariff SKU, a similar name or the user's target selection.
-  sources:=sources||jsonb_build_array(jsonb_build_object('key',p->'key','size_id',p->'size_id',
+  sources:=array_append(sources,jsonb_build_object('key',p->'key','size_id',p->'size_id',
    'quality',coalesce(quality,case when model is null then 'UNKNOWN'else 'COMPLETE'end),
    'confirmed_target',confirmed,'constraints',constraints,'refs',refs));
+  position_texts:=array_append(position_texts,p::text);position_models:=array_append(position_models,bound_model);
  end loop;
- return jsonb_build_object('snapshot_id',wip->'snapshot_id','sources',sources,'targets',targets);
+ return jsonb_build_object('matching',jsonb_build_object('snapshot_id',wip->'snapshot_id','sources',to_jsonb(sources),'targets',to_jsonb(targets)),
+  'models',(select coalesce(jsonb_object_agg(u.k,u.m),'{}')from unnest(position_texts,position_models)u(k,m)));
+end $$;
+
+create function cp7_netting_native.matching(c jsonb,wip jsonb)returns jsonb
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+begin
+ return cp7_netting_native.matching_models(c,wip)->'matching';
 end $$;
 
 create function cp7_netting_native.matches(c jsonb,p jsonb,t jsonb,matching jsonb)returns jsonb
@@ -107,7 +194,7 @@ create function cp7_netting_native.timeline(c jsonb,r jsonb,etas jsonb,edges jso
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
 declare cfg jsonb:=r->'profile'->'config';rate numeric;horizon numeric;remaining numeric;duration numeric;qty numeric;
  ready timestamptz:=(c->>'captured_at')::timestamptz;deadline timestamptz;at_time timestamptz;
- events jsonb:='[]';e jsonb;eta jsonb;i integer:=0;seq integer:=0;
+ events jsonb[]:='{}';e jsonb;eta jsonb;i integer:=0;seq integer:=0;eta_at jsonb;eta_repeated jsonb;
 begin
  if r->'target'->>'status'is distinct from 'SCENARIO'or r->'demand_estimate'->>'daily_pcs'is null then
   return jsonb_build_object('status','UNKNOWN','reason','SELECTED_TARGET_OR_DEMAND_UNKNOWN');end if;
@@ -120,34 +207,49 @@ begin
   duration:=least(1,remaining);i:=i+1;
   if i>3660 then raise exception 'CP7_NETTING_TIMELINE_HORIZON_LIMIT';end if;
   at_time:=least(deadline,ready+(i::text||' days')::interval);qty:=ceil(rate*duration*1000000000000)/1000000000000;
-  events:=events||jsonb_build_array(jsonb_build_object('key','forecast-day-'||i,'at',cp7_planning.utc(at_time),
+  events:=array_append(events,jsonb_build_object('key','forecast-day-'||i,'at',cp7_planning.utc(at_time),
    'sequence',(10000+i)::text,'kind','DEMAND','qty_pcs',qty::numeric(42,12)::text,'refs',r->'refs'));
   remaining:=remaining-duration;
  end loop;
  for e in select value from jsonb_array_elements(edges)where value->>'target_key'=r->>'target_key'order by value->>'key'loop
-  eta:=(select x from jsonb_array_elements(etas)x where x->>'position_key'=e->>'position_key');
+  -- One ETA per edge position. The map is built where the per-edge scan
+  -- first ran; a repeated position key fails as that scan did.
+  if eta_at is null then
+   select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into eta_at,eta_repeated
+    from(select value->>'position_key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(etas)
+     where value->>'position_key'is not null group by 1)f;
+  end if;
+  if eta_repeated?(e->>'position_key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  eta:=eta_at->(e->>'position_key');
   if eta->'at'='null'::jsonb then continue;end if;
   at_time:=cp7_demand.instant(eta->'at');
   if at_time>deadline then continue;end if;
-  seq:=seq+1;events:=events||jsonb_build_array(jsonb_build_object('key','supply-'||(e->>'key'),
+  seq:=seq+1;events:=array_append(events,jsonb_build_object('key','supply-'||(e->>'key'),
    'at',cp7_planning.utc(at_time),'sequence',seq::text,'kind','SUPPLY','qty_pcs',e->'projected_good_pcs','refs',e->'refs'));
  end loop;
  return cp7_baseline.timeline(jsonb_build_object('contract_version','cp7.timeline-input.v1',
   'snapshot_id',wip->'snapshot_id','scope_id','GLOBAL_NATIVE_PLANNING','target_key',r->'target_key',
   'size_id',r->'size_id','mode','BACKLOG','initial_fg_pcs',r->'available_fg_pcs',
-  'from_at',cp7_planning.utc(ready),'through_at',cp7_planning.utc(deadline),'events',events,'refs',r->'refs'))
+  'from_at',cp7_planning.utc(ready),'through_at',cp7_planning.utc(deadline),'events',to_jsonb(events),'refs',r->'refs'))
   ||jsonb_build_object('timing_basis','SELECTED_DAILY_RESIDUAL_AT_EACH_24H_END_FROM_CAPTURE',
    'unmet_mode_basis','EXPLICIT_TECHNICAL_BACKLOG_SCENARIO','buffer_consumed_as_demand',false);
 end $$;
 
 create function cp7_netting_native.build(c jsonb,q jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare scenario jsonb;wip jsonb;matching jsonb;p jsonb;t jsonb;m jsonb;s jsonb;tf jsonb;eta jsonb;
- r jsonb;cfg jsonb;line jsonb;alloc jsonb;allocrow jsonb;edges jsonb:='[]';etas jsonb:='[]';targets jsonb:='[]';
- matches jsonb:='[]';rows jsonb:='[]';reviews jsonb:='[]';hash text;policy text;ready timestamptz;
+declare scenario jsonb;wip jsonb;matching jsonb;models jsonb;p jsonb;t jsonb;m jsonb;s jsonb;tf jsonb;eta jsonb;
+ r jsonb;cfg jsonb;line jsonb;alloc jsonb;edges jsonb:='[]';etas jsonb;targets jsonb;
+ matches jsonb;hash text;policy text;ready timestamptz;model text;compatible jsonb;
  deadline timestamptz;helps timestamptz;raw_need numeric;directed numeric;candidate numeric;gap numeric;
- budget numeric:=0;all_targets_known boolean:=true;supplies_complete boolean:=true;refs jsonb;production_status text;needs jsonb:='{}';
- supplies jsonb;net jsonb;net_input jsonb;raw_net jsonb;directed_edges jsonb;match_index jsonb;match_index_unique boolean;
+ budget numeric:=0;all_targets_known boolean:=true;supplies_complete boolean:=true;refs jsonb;production_status text;
+ supplies jsonb;net jsonb;raw_net jsonb;directed_edges jsonb;
+ eta_list jsonb[]:='{}';target_list jsonb[]:='{}';review_list jsonb[]:='{}';row_list jsonb[]:='{}';
+ pair_rows jsonb[]:='{}';eligible jsonb[]:='{}';open_work jsonb[];open_index integer[];supply_list jsonb[];edge_list jsonb[];
+ row_keys text[];row_target_keys jsonb[];row_at jsonb;model_targets jsonb;candidates jsonb;leaders integer[];
+ eta_at jsonb;eta_repeated jsonb;source_at jsonb;source_repeated jsonb;target_at jsonb;target_repeated jsonb;
+ planned_at jsonb;planned_repeated jsonb;i integer;j integer;n integer;first_repeated integer;
+ unknown_model jsonb:=jsonb_build_object('match','UNKNOWN','reasons',jsonb_build_array('NATIVE_SOURCE_MODEL_UNPROVEN'));
+ model_mismatch jsonb:=jsonb_build_object('match','INCOMPATIBLE','reasons',jsonb_build_array('NATIVE_MODEL_MISMATCH'));
 begin
  scenario:=cp7_schedule_native.build(c,q);wip:=scenario->'wip';hash:=cp7_netting_native.fingerprint(c);
  ready:=(c->>'captured_at')::timestamptz;
@@ -159,25 +261,37 @@ begin
  end if;
  if jsonb_array_length(wip->'positions')*jsonb_array_length(scenario->'supply_run_result'->'baseline_run_result'->'rows')>100000
   or jsonb_array_length(wip->'positions')>1000 then raise exception 'CP7_NETTING_WORK_LIMIT';end if;
- matching:=cp7_netting_native.matching(c,wip);
+ m:=cp7_netting_native.matching_models(c,wip);matching:=m->'matching';models:=m->'models';
  for eta in select value from jsonb_array_elements(scenario->'etas')loop
-  etas:=etas||jsonb_build_array(jsonb_build_object('position_key',eta->'position_key',
+  eta_list:=array_append(eta_list,jsonb_build_object('position_key',eta->'position_key',
    'at',case when eta->'result'->>'status'in('KNOWN','CONDITIONAL')then cp7_planning.utc((eta->'result'->>'eta')::timestamptz)else null end,
    'refs',eta->'refs'));
  end loop;
+ etas:=to_jsonb(eta_list);
+ -- Every per-row scan of an array this function composed (ETAs, matching
+ -- sources/targets, its own targets) is one map of that array. A key held
+ -- twice refuses where the scalar subquery over that array refused; a single
+ -- key reads the same element. Composed arrays cannot fail to unnest.
+ select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into eta_at,eta_repeated
+  from(select value->>'position_key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(etas)
+   where value->>'position_key'is not null group by 1)f;
  -- Existing work is timed in one shared queue. Its projected supply budget is
  -- separate from AFTER-existing-work free capacity for new starts.
  for p in select value from jsonb_array_elements(wip->'positions')where value->'eligible_company_wip'='true'::jsonb loop
-  eta:=(select x from jsonb_array_elements(etas)x where x->>'position_key'=p->>'key');
+  if eta_repeated?(p->>'key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  eta:=eta_at->(p->>'key');eligible:=array_append(eligible,p);
   if p->'projection'->>'quality'='SCENARIO'and eta->>'at'is not null then
    budget:=budget+cp7_wip.pcs(p->'projection'->'projected_good_pcs');
   elsif cp7_wip.pcs(p->'remaining_pcs')>0 then supplies_complete:=false;end if;
  end loop;
+ select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into target_at,target_repeated
+  from(select value->>'key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(matching->'targets')
+   where value->>'key'is not null group by 1)f;
  for r in select value from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'rows')order by value->>'target_key'loop
   cfg:=r->'profile'->'config';policy:=r->'production_policy'->'policy'->>'state';
   if r->'target'->>'status'is distinct from 'SCENARIO'or r->>'available_fg_pcs'is null then
-   all_targets_known:=false;reviews:=reviews||jsonb_build_array(jsonb_build_object('target_key',r->'target_key','reason','DEMAND_TARGET_STOCK_OR_PRODUCTION_POLICY_UNREVIEWED'));continue;end if;
-  if policy is null then all_targets_known:=false;reviews:=reviews||jsonb_build_array(jsonb_build_object('target_key',r->'target_key','reason','PRODUCTION_POLICY_UNREVIEWED'));end if;
+   all_targets_known:=false;review_list:=array_append(review_list,jsonb_build_object('target_key',r->'target_key','reason','DEMAND_TARGET_STOCK_OR_PRODUCTION_POLICY_UNREVIEWED'));continue;end if;
+  if policy is null then all_targets_known:=false;review_list:=array_append(review_list,jsonb_build_object('target_key',r->'target_key','reason','PRODUCTION_POLICY_UNREVIEWED'));end if;
   production_status:=case when policy='ACTIVE'then 'ACTIVE'when policy in('PAUSED','STOPPED')then 'STOP'else 'UNKNOWN'end;
   raw_net:=cp7_baseline.net(jsonb_build_object('contract_version','cp7.net-input.v1','snapshot_id',wip->'snapshot_id',
    'scope_id','GLOBAL_NATIVE_PLANNING','scenario_id',coalesce(c->'schedule'->'plan_id',to_jsonb('unreviewed-'||hash)),
@@ -187,32 +301,67 @@ begin
   deadline:=ready+((cp7_demand.decimal(cfg->'lead_days')+cp7_demand.decimal(cfg->'review_days'))::text||' days')::interval;
   helps:=ready+(cp7_demand.decimal(cfg->'lead_days')::text||' days')::interval;
   line:=cp7_netting_native.timeline(c,r,etas,'[]'::jsonb,matching,wip);
-  tf:=(select x from jsonb_array_elements(matching->'targets')x where x->>'key'=r->>'target_key');
+  if target_repeated?(r->>'target_key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  tf:=target_at->(r->>'target_key');
   select jsonb_agg(x order by x::text)into refs from(select distinct value x from jsonb_array_elements((r->'refs')||(tf->'refs')))u;
-  targets:=targets||jsonb_build_array(jsonb_build_object('key',r->'target_key','size_id',r->'size_id',
+  target_list:=array_append(target_list,jsonb_build_object('key',r->'target_key','size_id',r->'size_id',
    'need_pcs',raw_need::text,'deadline',cp7_planning.utc(deadline),
    'risk_at',coalesce(line->'first_known_gap'->'at',to_jsonb(cp7_planning.utc(deadline))),
    'helps_at',cp7_planning.utc(helps),'production_status',production_status,'refs',refs));
-  needs:=needs||jsonb_build_object(r->>'target_key',raw_need::text);
  end loop;
+ targets:=to_jsonb(target_list);
  -- Model is an additional Native hard constraint absent from the retained
  -- five-field pure matcher. A source with a Native product binding can only
  -- match that root; unbound critical brand/color remains NEEDS_CHECK.
- -- Evaluate each immutable pair once and aggregate in the original array
- -- order. The local index never enters the returned matching/result contract.
- with pair_results as materialized(
-  select pp.position->'key' position_key,rr.target->'target_key' target_key,
-   pp.p_ordinal,rr.t_ordinal,
-   jsonb_build_array(pp.position->>'key',rr.target->>'target_key')::text pair_key,
-   cp7_netting_native.matches(c,pp.position,rr.target,matching) pair_result
-  from jsonb_array_elements(wip->'positions')with ordinality pp(position,p_ordinal)
-  cross join jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'rows')with ordinality rr(target,t_ordinal)
-  where pp.position->'eligible_company_wip'='true'::jsonb)
- select coalesce(jsonb_agg(jsonb_build_object('position_key',pr.position_key,'target_key',pr.target_key,
-   'result',pr.pair_result)order by pr.p_ordinal,pr.t_ordinal),'[]'::jsonb),
-  coalesce(jsonb_object_agg(pr.pair_key,pr.pair_result),'{}'::jsonb),
-  count(*)=count(distinct pr.pair_key)
- into matches,match_index,match_index_unique from pair_results pr;
+ -- Evaluate each immutable pair once, in matches() order: eligible positions
+ -- outer, targets inner, each in array order. Per position the source and its
+ -- model, per target the matching target are read once; a pair keeps only
+ -- the model test and the five-field match. A target key repeated among the
+ -- matching targets refuses at its first row, after the rows before it.
+ -- Results are kept per position in target order; the index never enters
+ -- the returned contract.
+ select coalesce(array_agg(value->>'target_key' order by o),'{}'),coalesce(array_agg(value->'target_key' order by o),'{}')into row_keys,row_target_keys
+  from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'rows')with ordinality a(value,o);
+ n:=cardinality(row_keys);
+ select coalesce(min(u.j),n+1)into first_repeated from unnest(row_keys)with ordinality u(k,j)where target_repeated?u.k;
+ select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into source_at,source_repeated
+  from(select value->>'key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(matching->'sources')
+   where value->>'key'is not null group by 1)f;
+ select coalesce(jsonb_object_agg(f.m,f.ks),'{}')into model_targets
+  from(select x->>'model_id' m,jsonb_object_agg((x->>'root_id')||':'||(x->>'size_id'),true)ks from jsonb_array_elements(c->'facts'->'products')x
+   where x->>'model_id'is not null and(x->>'root_id')||':'||(x->>'size_id')is not null group by 1)f;
+ -- cp7_wip.match_target checks the source and the target independently, and
+ -- its verdict reads only the source's quality, size, confirmed target and
+ -- constraints. A position with the same source facts and model as an earlier
+ -- one (its leader) therefore has the leader's verdicts once one call of its
+ -- own has proven its source; that call refuses as its first pair would.
+ select coalesce(array_agg(f.leader order by f.i),'{}')into leaders
+  from(select g.i,case when g.facts is null then g.i else min(g.i)over(partition by g.facts)end leader
+   from(select e.i,case when e.s is not null and e.model is not null then
+      jsonb_build_array(e.s->'quality',e.s->'size_id',e.s->'confirmed_target',e.s->'constraints',e.model)::text end facts
+     from(select x.i,source_at->(x.p->>'key') s,models->>(x.p::text) model from unnest(eligible)with ordinality x(p,i))e)g)f;
+ i:=0;
+ foreach p in array eligible loop
+  exit when n=0;
+  i:=i+1;
+  if source_repeated?(p->>'key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  s:=source_at->(p->>'key');model:=models->>(p::text);compatible:=model_targets->model;
+  if leaders[i]<i then
+   select min(u.j)into j from unnest(row_keys)with ordinality u(k,j)where coalesce(compatible?u.k,false);
+   if j is not null then m:=cp7_wip.match_target(s,target_at->row_keys[j]);end if;
+   pair_rows:=array_append(pair_rows,pair_rows[leaders[i]]);
+  else
+   select coalesce(jsonb_agg(case when model is null then unknown_model when not coalesce(compatible?u.k,false)then model_mismatch
+     else cp7_wip.match_target(s,target_at->u.k)end order by u.j),'[]')into m
+    from unnest(row_keys)with ordinality u(k,j)where u.j<first_repeated;
+   pair_rows:=array_append(pair_rows,m);
+   if first_repeated<=n then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  end if;
+ end loop;
+ select coalesce(jsonb_agg(jsonb_build_object('position_key',e.p->'key','target_key',k.tk,'result',x.m)order by e.i,x.j),'[]')into matches
+  from unnest(eligible,pair_rows)with ordinality e(p,pr,i)
+  cross join lateral jsonb_array_elements(e.pr)with ordinality x(m,j)
+  join unnest(row_target_keys)with ordinality k(tk,j)on k.j=x.j;
  if not all_targets_known then alloc:=jsonb_build_object('status','UNKNOWN','reason','GLOBAL_TARGET_NEEDS_OR_POLICY_NOT_FULLY_REVIEWED');
  elsif scenario->>'schedule_state'<>'SELECTED_ASSUMPTIONS'then alloc:=jsonb_build_object('status','UNKNOWN','reason','SOURCE_BOUND_WORK_YIELD_NOT_REVIEWED');
  elsif not supplies_complete then alloc:=jsonb_build_object('status','UNKNOWN','reason','EXISTING_SUPPLY_YIELD_OR_SHARED_ETA_UNKNOWN');
@@ -226,35 +375,56 @@ begin
    'capacity_pcs',budget::text,'refs',jsonb_build_array(cp7_wip.ref('PLANNING_SCHEDULE',c->'schedule'->>'plan_id',c->'schedule'->>'revision'))));
   edges:=coalesce(alloc->'allocation'->'edges','[]'::jsonb);
  end if;
+ select coalesce(jsonb_object_agg(f.k,f.v),'{}')into candidates
+  from(select value->>'target_key' k,jsonb_agg(value order by o)v from jsonb_array_elements(edges)with ordinality a(value,o)
+   where value->>'target_key'is not null and value->>'match'='CANDIDATE_MATCH'group by 1)f;
+ select coalesce(jsonb_object_agg(f.k,f.j),'{}')into row_at
+  from(select u.k,min(u.j)j from unnest(row_keys)with ordinality u(k,j)where u.k is not null group by 1)f;
+ select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into planned_at,planned_repeated
+  from(select value->>'key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(targets)
+   where value->>'key'is not null group by 1)f;
  for r in select value from jsonb_array_elements(scenario->'supply_run_result'->'baseline_run_result'->'rows')order by value->>'target_key'loop
   directed:=0;candidate:=0;raw_need:=null;gap:=null;supplies:='[]';directed_edges:='[]';net:=null;
-  t:=(select x from jsonb_array_elements(targets)x where x->>'key'=r->>'target_key');
+  if planned_repeated?(r->>'target_key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  t:=planned_at->(r->>'target_key');
   if t is not null then
    raw_need:=cp7_wip.pcs(t->'need_pcs');
    -- A fully emptied position stays in the graph as evidence; it is no supply
    -- (the budget loop above skips it too) and must not make the target UNKNOWN.
-   for p in select value from jsonb_array_elements(wip->'positions')where value->'eligible_company_wip'='true'::jsonb
-    and cp7_wip.pcs(value->'remaining_pcs')>0 loop
-    m:=case when match_index_unique then
-     match_index->(jsonb_build_array(p->>'key',r->>'target_key')::text)
-     else cp7_netting_native.matches(c,p,r,matching)end;eta:=(select x from jsonb_array_elements(etas)x where x->>'position_key'=p->>'key');
+   -- The open eligible positions are the same for every target: they are
+   -- read once, at the first target that reads them, in array order.
+   if open_work is null then
+    open_work:='{}';open_index:='{}';i:=0;
+    foreach p in array eligible loop
+     i:=i+1;
+     if cp7_wip.pcs(p->'remaining_pcs')>0 then open_work:=array_append(open_work,p);open_index:=array_append(open_index,i);end if;
+    end loop;
+   end if;
+   -- A pair result depends on the target only through its key.
+   j:=(row_at->>(r->>'target_key'))::integer;supply_list:='{}';edge_list:='{}';i:=0;
+   foreach p in array open_work loop
+    i:=i+1;m:=pair_rows[open_index[i]]->(j-1);
+    if eta_repeated?(p->>'key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+    eta:=eta_at->(p->>'key');
     if m->>'match'='CONFIRMED_TARGET'then
-     supplies:=supplies||jsonb_build_array(jsonb_build_object('physical_key',p->'key','snapshot_id',wip->'snapshot_id',
+     supply_list:=array_append(supply_list,jsonb_build_object('physical_key',p->'key','snapshot_id',wip->'snapshot_id',
       'target_key',r->'target_key','size_id',r->'size_id','kind','DIRECTED',
       'qty_pcs',case when p->'projection'->>'quality'='SCENARIO'then p->'projection'->'projected_good_pcs'else null end,
       'eta',coalesce(eta->'at','null'::jsonb),'eligible',true,'refs',p->'refs'));
      if p->'projection'->>'quality'='SCENARIO'and eta->>'at'is not null then
-      directed_edges:=directed_edges||jsonb_build_array(jsonb_build_object('key',p->'key','position_key',p->'key',
+      edge_list:=array_append(edge_list,jsonb_build_object('key',p->'key','position_key',p->'key',
        'target_key',r->'target_key','projected_good_pcs',p->'projection'->'projected_good_pcs','refs',p->'refs'));
      end if;
     end if;
    end loop;
-   for p in select value from jsonb_array_elements(edges)where value->>'target_key'=r->>'target_key'and value->>'match'='CANDIDATE_MATCH'loop
-    eta:=(select x from jsonb_array_elements(etas)x where x->>'position_key'=p->>'position_key');
-    supplies:=supplies||jsonb_build_array(jsonb_build_object('physical_key',p->'position_key','snapshot_id',wip->'snapshot_id',
+   for p in select value from jsonb_array_elements(candidates->(r->>'target_key'))loop
+    if eta_repeated?(p->>'position_key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+    eta:=eta_at->(p->>'position_key');
+    supply_list:=array_append(supply_list,jsonb_build_object('physical_key',p->'position_key','snapshot_id',wip->'snapshot_id',
      'target_key',r->'target_key','size_id',r->'size_id','kind','ALLOCATED_CANDIDATE','qty_pcs',p->'projected_good_pcs',
      'eta',eta->'at','eligible',true,'refs',p->'refs'));
    end loop;
+   supplies:=to_jsonb(supply_list);directed_edges:=to_jsonb(edge_list);
    net:=cp7_baseline.net(jsonb_build_object('contract_version','cp7.net-input.v1','snapshot_id',wip->'snapshot_id',
     'scope_id','GLOBAL_NATIVE_PLANNING','scenario_id',coalesce(c->'schedule'->'plan_id',to_jsonb('unreviewed-'||hash)),
     'target_key',r->'target_key','size_id',r->'size_id','deadline',t->'deadline',
@@ -262,9 +432,10 @@ begin
    gap:=(net->>'q_base_pcs')::numeric;directed:=coalesce((net->>'directed_on_time_pcs')::numeric,0);
    candidate:=coalesce((net->>'candidate_on_time_pcs')::numeric,0);
   end if;
-  line:=case when t is null then jsonb_build_object('status','UNKNOWN','reason','TARGET_NEEDS_OR_POLICY_UNREVIEWED')
-   else cp7_netting_native.timeline(c,r,etas,directed_edges||(select coalesce(jsonb_agg(value),'[]')from jsonb_array_elements(edges)where value->>'match'='CANDIDATE_MATCH'),matching,wip)end;
-  rows:=rows||jsonb_build_array(r||jsonb_build_object('raw_gap_pcs',raw_need::text,'directed_on_time_good_pcs',net->'directed_on_time_pcs',
+  -- The timeline reads only this target's edges, in the same order.
+  if t is null then line:=jsonb_build_object('status','UNKNOWN','reason','TARGET_NEEDS_OR_POLICY_UNREVIEWED');
+  else line:=cp7_netting_native.timeline(c,r,etas,directed_edges||coalesce(candidates->(r->>'target_key'),'[]'::jsonb),matching,wip);end if;
+  row_list:=array_append(row_list,r||jsonb_build_object('raw_gap_pcs',raw_need::text,'directed_on_time_good_pcs',net->'directed_on_time_pcs',
    'base_gap_pcs',net->'q_base_pcs','conditional_gap_pcs',case when alloc->>'status'='SCENARIO'then net->'q_conditional_pcs'else null end,
    'net',net,
    'candidate_allocated_good_pcs',case when alloc->>'status'='SCENARIO'then candidate::text else null end,
@@ -275,8 +446,8 @@ begin
  end loop;
  return jsonb_build_object('contract_version','cp7.native-netting.v1','captured_at',c->>'captured_at',
   'source_hash',hash,'status',case when all_targets_known and alloc->>'status'='SCENARIO'then 'SCENARIO'else 'PARTIAL'end,
-  'schedule_run_result',scenario,'matching',matching,'match_results',matches,'rows',rows,'allocation',alloc,
-  'review_queue',reviews,'existing_timed_projected_good_budget_pcs',budget::text,
+  'schedule_run_result',scenario,'matching',matching,'match_results',matches,'rows',to_jsonb(row_list),'allocation',alloc,
+  'review_queue',to_jsonb(review_list),'existing_timed_projected_good_budget_pcs',budget::text,
   'new_start_capacity',scenario->'capacity','material_state','UNKNOWN','apply_enabled',false,'production_go',false);
 end $$;
 
@@ -330,6 +501,7 @@ end $$;
 alter function cp7_netting_native.source()owner to cp7_capture;
 alter function cp7_netting_native.fingerprint(jsonb)owner to cp7_capture;
 alter function cp7_netting_native.bound_product(jsonb,jsonb)owner to cp7_capture;
+alter function cp7_netting_native.matching_models(jsonb,jsonb)owner to cp7_capture;
 alter function cp7_netting_native.matching(jsonb,jsonb)owner to cp7_capture;
 alter function cp7_netting_native.matches(jsonb,jsonb,jsonb,jsonb)owner to cp7_capture;
 alter function cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)owner to cp7_capture;
