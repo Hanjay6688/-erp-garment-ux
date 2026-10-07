@@ -91,7 +91,11 @@ def run(with_review=False,with_settlement=False,with_attendance=False,with_roste
     with_attendance_write=with_attendance_write or with_opening
     with_roster=with_roster or with_attendance_write
     with_attendance=with_attendance or with_roster
-    with_settlement=with_settlement or with_attendance
+    # The connected payroll review screen reads the E05 cash ledger before it
+    # shows a payroll (see verify). That ledger derives from the settlement
+    # writer, so review is qualified on the package that carries it rather than
+    # on a read-only subset where the current screen can never open a payroll.
+    with_settlement=with_settlement or with_attendance or with_review
     with_review=with_review or with_settlement
     verifier=partial(verify,with_review=with_review,with_settlement=with_settlement,with_attendance=with_attendance,with_roster=with_roster,with_attendance_write=with_attendance_write)
     runtime=bundle

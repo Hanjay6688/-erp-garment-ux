@@ -9,6 +9,7 @@ name: CP7 P12 Payroll (Claude branch)
     - src/RosterEditor.tsx
     - src/AttendanceEntryEditor.tsx
     - scripts/cp7_p12_attendance_write_browser.mjs
+    - scripts/cp7_p12_nota_probe.py
     - .github/workflows/claude-p12-payroll.yml
   workflow_dispatch: {}
 permissions:
