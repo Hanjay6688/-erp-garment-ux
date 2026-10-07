@@ -81,6 +81,15 @@ def current_payload(cur,today,f,issued='6',subject=None):
  roll.update(qty_issued=issued,qty_consumed=str(D(issued)/2),qty_reported_remaining=str(D(issued)/2))
  return payload
 
+def review_work(cur,today):
+ # The setup's schedule review, repeated on a fresh supply capture after a
+ # Native production change made the reviewed schedule SOURCE_CHANGED.
+ supply=previous.supply.capture(cur,today);p=schedule.payload(cur,supply,str(cur.execute('select coalesce(max(revision),0)from cp7_schedule_native.plans').fetchone()[0]))
+ load=sum(int(step['remaining_minutes'])for pos in p['config']['positions']for step in pos['remaining_steps'])
+ start=cur.execute('select clock_timestamp()').fetchone()[0].replace(microsecond=0)+timedelta(hours=1)
+ p['config']['windows']=[dict(key='p08-whole-retained-queue',starts_at=schedule.stamp(start),ends_at=schedule.stamp(start+timedelta(minutes=load+120)),other_load_minutes='0')]
+ p['config']['through_at']=schedule.stamp(start+timedelta(minutes=load+180));return schedule.save(cur,p)
+
 def shared_material_setup(cur,today):
  first=setup(cur,today,new_plan_po=True);second=setup(cur,today,new_plan_po=True)
  # The inherited single-target fixture deliberately sets every other root's
@@ -143,7 +152,24 @@ def material_cases(cur,today):
   assert cur.execute('select payload from cp7_plan_native.drafts where id=%s',(d['draft_id'],)).fetchone()[0]['cutting']['rolls'][0]['qty_issued']=='6'
   assert monetary_state(cur)==before
   return dict(status='PASS',actual_unchanged_Native_SAVE_DRAFT_edit6_to3=True,current_Native_composition_not_old_immutable_estimate=True,physical_stock_money_HPP_unchanged=True,final_complete_pool=pool)
- return [('P08_SHARED_FABRIC_NEXT_TARGET',next_target),('P08_SHARED_FABRIC_POSTED_ONCE',posted_once),('P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT',edited_current)]
+ def posted_not_replanned():
+  # PL-7: a posted linked cut is not directed supply for its target (its
+  # brand/colour stays NEEDS_CHECK), so the next Original's gap still holds
+  # those pieces. A second plan for the target waits until this Original
+  # proves every piece of the group reached FG or EXIT.
+  from cp7_plan_actual_cases import post,complete_one
+  f=setup(cur,today,new_plan_po=True);d=save(cur,f['payload']);out=apply(cur,action(d))
+  f.update(group=out['native']['cutting_group_id']);post(cur,f);review_work(cur,today)
+  again=current_payload(cur,today,f,issued='1');o=options(cur,dict(f['query'],run_id=again['run_id']))
+  assert D(o['needed_pcs'])==D(f['options']['needed_pcs']),(o['needed_pcs'],f['options']['needed_pcs'])
+  before=monetary_state(cur);auth.refused(cur,lambda:save(cur,again),'CP7_PLAN_LINKED_INTENT_CONFLICT');assert monetary_state(cur)==before
+  complete_one(cur,f);review_work(cur,today)
+  partial=current_payload(cur,today,f,issued='1');partial['cutting']['rolls'][0]['yields'][0]['qty_pcs']='1'
+  before=monetary_state(cur);auth.refused(cur,lambda:save(cur,partial),'CP7_PLAN_LINKED_INTENT_CONFLICT');assert monetary_state(cur)==before
+  assert cur.execute('select count(*)from cp7_plan_native.intents').fetchone()[0]==1
+  return dict(status='PASS',posted_cut_two_still_in_gap_as_NEEDS_CHECK=True,second_plan_refused_while_cut_pieces_unproven=True,
+   one_FG_one_WIP_still_refused=True,no_second_intent_or_money_effect=True,needed_pcs=o['needed_pcs'])
+ return [('P08_SHARED_FABRIC_NEXT_TARGET',next_target),('P08_SHARED_FABRIC_POSTED_ONCE',posted_once),('P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT',edited_current),('PL7_POSTED_CUT_NOT_PLANNED_TWICE',posted_not_replanned)]
 
 def cases(cur,today):
  def metadata():

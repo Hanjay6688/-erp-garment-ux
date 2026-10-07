@@ -77,7 +77,19 @@ begin
    'native_status',native_roll.status,'basis','OPERATOR_SELECTED_DRAFT_COMPOSITION_NOT_PROVEN_INSTALLED_OR_RESERVED'));
  end loop;
  if total>ceil(gap)or total>capacity then raise exception 'CP7_PLAN_QUANTITY_EXCEEDS_NEED_OR_CAPACITY';end if;
- if exists(select 1 from cp7_plan_native.intents i join erp.cutting_groups g on g.id=i.cutting_group_id where i.target_key=target and not g.material_issue_posted)
+ -- PL-7: a posted linked cut is not directed supply for its target (unbound cut
+ -- brand/color stays NEEDS_CHECK), so this Original's gap still contains it.
+ -- The intent stays open until this same Original proves every cut piece of
+ -- its group reached FG or EXIT. A posted group outside the Original's scope
+ -- that the Original did not prove exhausted is unproven, never closed.
+ if exists(select 1 from cp7_plan_native.intents i join erp.cutting_groups g on g.id=i.cutting_group_id where i.target_key=target
+   and(not g.material_issue_posted
+    or s#>>'{netting,schedule_run_result,wip,status}'is distinct from 'COMPLETE'
+    or(not(coalesce(s#>'{netting,schedule_run_result,supply_run_result,production_scope,cutting_groups}','[]'::jsonb)?(i.cutting_group_id::text))
+     and not(coalesce(s#>'{netting,schedule_run_result,supply_run_result,exhausted_cutting_groups}','[]'::jsonb)?(i.cutting_group_id::text)))
+    or exists(select 1 from jsonb_array_elements(s#>'{netting,schedule_run_result,wip,totals}')t
+     where t->>'pool_key'like 'CUT:'||i.cutting_group_id::text||':%'
+      and(t->>'input_pcs')::numeric>(t->>'fg_pcs')::numeric+(t->>'exited_pcs')::numeric)))
   or exists(select 1 from cp7_plan_native.intents i join erp.cutting_groups g on g.id=i.cutting_group_id where i.target_key=target and i.core_hash=s->>'core_hash')then raise exception using errcode='40001',message='CP7_PLAN_LINKED_INTENT_CONFLICT';end if;
  if exists(select 1 from cp7_plan_native.intents where target_key=target and recorded_at>=(s->>'captured_at')::timestamptz)then raise exception using errcode='40001',message='CP7_PLAN_INTENT_EPOCH_CHANGED';end if;
  native_payload:=cut||jsonb_build_object('action','SAVE_DRAFT','change_reason',btrim(p->>'reason'));

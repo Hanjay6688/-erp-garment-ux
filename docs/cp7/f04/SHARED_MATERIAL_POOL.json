@@ -2,9 +2,9 @@
   "contract": "cp7.p08-shared-material-budget-declaration.v1",
   "status": "NATIVE39_ALL_COMPLETE_CASE_BODIES_QUALIFIED_AT_51E",
   "base_commit": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
-  "expected_case_count": 39,
+  "expected_case_count": 40,
   "required_case_counts": {
-    "native": 25,
+    "native": 26,
     "races": 8,
     "http": 2,
     "browser": 4
@@ -35,7 +35,8 @@
       "P08_ACTUAL_FUTURE_CORRUPTION_UNKNOWN",
       "P08_SHARED_FABRIC_NEXT_TARGET",
       "P08_SHARED_FABRIC_POSTED_ONCE",
-      "P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT"
+      "P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT",
+      "PL7_POSTED_CUT_NOT_PLANNED_TWICE"
     ],
     "races": [
       "E10_REAL_SAME_UUID",
@@ -83,7 +84,7 @@
   ],
   "first39_original": "docs/cp7/evidence/plan-native/incomplete39-two-target-setup-3e82/RECEIPT.json",
   "two_target_fixture_repair": "Explicit current daily-ten profiles for both distinct targets through unchanged public profile command; fresh exact Original assumption IDs; positive need guard unchanged",
-  "current_rerun_expected_case_count": 39,
+  "current_rerun_expected_case_count": 40,
   "profile_schedule_review": "Complete profiles are supply fingerprint operands. Reuse existing public source capture/schedule CAS review; assert all original work config exactly unchanged and revision increment1, then capture two current positive recommendations and exact fresh assumption IDs.",
   "dependency_review_of_source6a": "Detected by exact current source before its Native39 result; preserve later actual source6a Original without relabelling or granting qualification.",
   "successor_local_preparation": "docs/cp7/evidence/plan-native/profile-schedule-review-local/PREPARATION.json",
@@ -108,5 +109,6 @@
   "source6a_actual_outcome": {
     "status": "INCOMPLETE_37_PASS_2_SETUP_REFUSALS",
     "receipt": "docs/cp7/evidence/plan-native/incomplete39-profile-schedule-6a/RECEIPT.json"
-  }
+  },
+  "pl7_successor": "Self-check PL-7 (Oct 7 2026): one added Native case. A posted linked cut stays NEEDS_CHECK for its target, so the next Original's gap still holds it; preflight now refuses a second plan (CP7_PLAN_LINKED_INTENT_CONFLICT, unchanged code) until the same Original proves every piece of the group reached FG or EXIT. Native39 history above is retained unchanged."
 }
