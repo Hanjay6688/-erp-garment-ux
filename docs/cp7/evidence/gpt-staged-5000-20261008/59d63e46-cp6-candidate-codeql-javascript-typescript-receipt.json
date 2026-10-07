@@ -1,0 +1,24 @@
+{
+  "artifact_id": 11510666736,
+  "artifact_name": "cp6-candidate-codeql-javascript-typescript",
+  "run_id": 37681766017,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 128626,
+  "zip_sha256": "c6d43a4eaa20f3e61b2ac99f29b96a074e22d446936be8fe120bed74d73d6e93",
+  "status": "ZERO_SARIF_RESULTS",
+  "sarif_results": {
+    "sarif/javascript.sarif": 0
+  },
+  "all_zip_members": {
+    "manifest.json": {
+      "bytes": 1190,
+      "sha256": "133c7c9201b7421006dbfda01298bcac5f6cac23c7a9ffa2858c8cf044a59bd6"
+    },
+    "sarif/javascript.sarif": {
+      "bytes": 1447109,
+      "sha256": "1d4026fef0973c92c47b5706125775fe2413862e06586c88836ead4c31d82586"
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}

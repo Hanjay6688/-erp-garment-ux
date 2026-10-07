@@ -700,3 +700,71 @@ Head kandidat: `0b3806b5` (`0b3806b5f2a4e35bb5d64306817381a32c3551d5`). Setiap w
 | CP7 Supplier Payment Create | workflow_dispatch | 37583544965 | success |
 
 **Status:** semua success pada satu head. Bukti penulis, bukan audit independen; `independent_acceptance=false`, `production_go=false`.
+
+## 16. Writer GPT meneruskan checkpoint 7927b42c — 8 Okt WIB
+
+Atas mandat owner, GPT menjadi satu writer penerus di
+`claude/new-session-deapao`. Seluruh patch WIP 5.000 dipasang bersama dan
+ketidakcocokan identity_hash hasil tanpa halaman diselesaikan. Konteks
+seluruh ERP serta dua master pemulihan yang tersedia telah dipulihkan;
+ringkasan tidak mengganti otoritas owner/addendum/framework. Handoff utama:
+`docs/cp7/handoff/GPT_WRITER_STAGED_5000_20261008.md`.
+
+Source produk/alat uji yang dibekukan:
+`59d63e46ea5b109101a4e0a2eff7d27a8f3541f8`, tree
+`2ac496cbacca2fe9ed1a924d0ffcc93bdb2b8844`. **15/15 workflow dan 35/35 job
+success pada satu source.** Commit penutupan dokumentasi/bukti sesudahnya
+memiliki HEAD berbeda; tidak menerima klaim bahwa CI dijalankan pada HEAD itu.
+
+| Workflow | Pemicu | Run | Hasil |
+|---|---|---:|---|
+| Build UX | push | 37681765943 | success |
+| CP6 Candidate CodeQL (T3) | push | 37681766017 | success |
+| CP7 Note Correction (Claude branch) | push | 37681765946 | success |
+| CP7 Owning Receipt Correction | push | 37681765938 | success |
+| CP7 P08 Physical Fabric | push | 37681766279 | success |
+| CP7 P12 Payroll (Claude branch) | push | 37681765861 | success |
+| CP7 P13 Finance (Claude branch) | push | 37681766300 | success |
+| CP7 P18 Fabric Rule | push | 37681765955 | success |
+| CP7 P18 Full Cycle | push | 37681766219 | success |
+| CP7 P19 Analysis Job Transport | push | 37681766021 | success |
+| CP7 P21 Rehearsal | push | 37681765951 | success |
+| CP7 PL Native Planning (Claude branch) | push | 37681766328 | success |
+| CP7 Shell S0 (Claude branch) | push | 37681765840 | success |
+| CP7 Supplier Payment Correction (Claude branch) | push | 37681766362 | success |
+| CP7 Supplier Payment Create | push | 37681766257 | success |
+
+**5.000 target staged operasional teruji penuh:** semua target pada 1/30/100
+hari DONE, semua 26 halaman dibaca, hash/cakupan/kontrak beku cocok, Native
+boundary dan Auth dipulihkan (0→0). Buka DONE 1,003–1,074 dtk; 75 klik halaman
+0,554–0,723 dtk. Hitung baru sampai halaman pertama 83,030–110,541 dtk di
+latar belakang, progres pertama 5,212–7,258 dtk; acknowledgement bukan hasil
+siap dipakai. Tiga detik sasaran optimasi owner, bukan gerbang wajib. Batas
+8 dtk/RPC tetap. Angka loopback/disposable satu kali per vektor bukan SLA pabrik.
+
+Native/Auth/HTTP/browser staged12, transport15 dan scale5 semuanya lulus;
+Shell/Build 1.666 uji/191 berkas, kernel staged 14 + tiga vektor, enam SARIF
+CodeQL tanpa temuan. P12 review/roster/absensi seluruhnya hijau. Seluruh
+kegagalan pertama cb98/43d, root Original dan log lossless tetap tersimpan.
+Schema/label laporan lama model/schedule/P18 dicatat eksplisit, tidak ditulis
+ulang. Cakupan keluarga agregat/P12 tumpang tindih, tidak dihitung kasus baru.
+
+Paket source review `docs/cp7/audit-candidate/staged-5000-20261008/` memuat
+manifest 2.098 berkas/hash/Git blob, framework/acuan seluruh ERP, seluruh uji
+serta kompilasi F03/full-staged. Bukti lengkap dan receipt/manifest:
+`docs/cp7/evidence/gpt-staged-5000-20261008/`. SELF_CHECK §6 dan P20/P21 §14
+sudah memuat kualifikasi serta batasnya.
+
+**Kelanjutan:** integrasi terkendali ke `cp7/integration`, audit independen
+P20 pada source kandidat yang dipin, kemudian P21 komposisi penuh/T2/
+backup-restore/rollback sesudah pemakaian sesuai cakupan nyata. P21 hijau
+saat ini hanya F03 tanpa staged, USE HELD_OPEN_THEN_ROLLED_BACK; bukan proof
+pemasangan gabungan yang sudah dipakai dan di-commit. Kompilasi SQL full
+bukan izin memasang ke hosted atau produksi.
+
+PL-5 B, konfigurasi nyata CP6, retensi staged, driver server, prioritas fitur
+downstream/capture dan runner PL-8 masih nilai owner. Keputusan GBD-03 opsi 1
+serta D11 tetap disahkan. `independent_acceptance=false`,
+`installed_P21_acceptance=false`, `production_go=false`. Tidak ada merge
+integration/main, perubahan Cloudflare/deployment, hosted Enteng, legacy,
+produksi atau pengiriman pesan ke orang lain dalam penutupan ini.

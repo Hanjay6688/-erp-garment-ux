@@ -1,0 +1,11 @@
+{
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "run_id": 37681766021,
+  "job_id": 112999325720,
+  "status": "SUCCESS",
+  "utf8_bytes": 374165,
+  "raw_sha256": "f8b483f0e87ecdbdb255a0fd252f3a3192ffa5e0a4a5ab7b97a123377b2733b3",
+  "gzip_sha256": "bd7d056a93fe298f560130db00b32bcc4cc5689cff8575aaa7b4e2855ebe8968",
+  "lossless": true,
+  "filename": "43-final-native-scale.log.gz"
+}

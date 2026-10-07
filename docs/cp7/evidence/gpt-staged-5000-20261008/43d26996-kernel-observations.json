@@ -16,14 +16,25 @@
           "max_unit_server_ms": 1804.5,
           "retries": 0,
           "unit_count": 45,
-          "pages": null,
-          "coverage": null,
           "single": {
             "state": "DONE",
             "sha256": "e95fa64fcfcd1ce86d37cd340a8f2d8a276a422d96ad6e50a44b4d78a4d33e92",
             "client_ms": 19449,
             "note": "single analysis build in ONE call without a statement limit (measurement only)"
-          }
+          },
+          "completeness": {
+            "recommendations": 1000,
+            "history_rows": 1000,
+            "baseline_rows": 1000,
+            "netting_rows": 1000,
+            "target_keys_covered": 1000,
+            "page_count": 8,
+            "pages_utf8_bytes": 59634530,
+            "max_page_utf8_bytes": 7987597,
+            "header_utf8_bytes": 367243,
+            "identity_hash": "1a3c78128b5894d449ec2ae4b9f9d3144cfacbb9c42328076429550379a9d514"
+          },
+          "byte_identical": true
         },
         {
           "targets": 5000,
@@ -33,15 +44,26 @@
           "max_unit_server_ms": 2021.1,
           "retries": 0,
           "unit_count": 165,
-          "pages": null,
-          "coverage": null,
           "single": {
             "state": "REFUSED",
             "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
             "sqlstate": "P0001",
             "client_ms": 40,
             "note": "single analysis build in ONE call without a statement limit (measurement only)"
-          }
+          },
+          "completeness": {
+            "recommendations": 5000,
+            "history_rows": 5000,
+            "baseline_rows": 5000,
+            "netting_rows": 5000,
+            "target_keys_covered": 5000,
+            "page_count": 37,
+            "pages_utf8_bytes": 293494866,
+            "max_page_utf8_bytes": 7994313,
+            "header_utf8_bytes": 1582621,
+            "identity_hash": "4bc1dae6f70726e1f8b2f3d73d84c888732dcf20c6999096bb5ed9c4fb94def4"
+          },
+          "byte_identical": null
         },
         {
           "targets": 5000,
@@ -51,15 +73,26 @@
           "max_unit_server_ms": 2100.6,
           "retries": 0,
           "unit_count": 193,
-          "pages": null,
-          "coverage": null,
           "single": {
             "state": "REFUSED",
             "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
             "sqlstate": "P0001",
             "client_ms": 42,
             "note": "single analysis build in ONE call without a statement limit (measurement only)"
-          }
+          },
+          "completeness": {
+            "recommendations": 5000,
+            "history_rows": 5000,
+            "baseline_rows": 5000,
+            "netting_rows": 5000,
+            "target_keys_covered": 5000,
+            "page_count": 37,
+            "pages_utf8_bytes": 294566061,
+            "max_page_utf8_bytes": 7994343,
+            "header_utf8_bytes": 1560406,
+            "identity_hash": "5483363024c954b7398d65576a17d3b67e2af6341beb6d840502704e19318417"
+          },
+          "byte_identical": null
         }
       ]
     },
@@ -77,14 +110,25 @@
           "max_unit_server_ms": 1688.4,
           "retries": 0,
           "unit_count": 45,
-          "pages": null,
-          "coverage": null,
           "single": {
             "state": "DONE",
             "sha256": "30521ef4479f73c8981a113f83656e53c06f3e8bca501d9ec1263eccde49cf18",
             "client_ms": 17520,
             "note": "single analysis build in ONE call without a statement limit (measurement only)"
-          }
+          },
+          "completeness": {
+            "recommendations": 1000,
+            "history_rows": 1000,
+            "baseline_rows": 1000,
+            "netting_rows": 1000,
+            "target_keys_covered": 1000,
+            "page_count": 8,
+            "pages_utf8_bytes": 59634530,
+            "max_page_utf8_bytes": 7987597,
+            "header_utf8_bytes": 367243,
+            "identity_hash": "ffdeb4b5d592b2bfddb9efb085a8147d9251c7b95ff85670976411504a5f4b52"
+          },
+          "byte_identical": true
         },
         {
           "targets": 5000,
@@ -94,15 +138,26 @@
           "max_unit_server_ms": 1786.1,
           "retries": 0,
           "unit_count": 165,
-          "pages": null,
-          "coverage": null,
           "single": {
             "state": "REFUSED",
             "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
             "sqlstate": "P0001",
             "client_ms": 40,
             "note": "single analysis build in ONE call without a statement limit (measurement only)"
-          }
+          },
+          "completeness": {
+            "recommendations": 5000,
+            "history_rows": 5000,
+            "baseline_rows": 5000,
+            "netting_rows": 5000,
+            "target_keys_covered": 5000,
+            "page_count": 37,
+            "pages_utf8_bytes": 293494866,
+            "max_page_utf8_bytes": 7994313,
+            "header_utf8_bytes": 1582621,
+            "identity_hash": "0b3971235de5262a4f35674f1ebfe87672c135b9668a70d910bb0a91ba1c3f01"
+          },
+          "byte_identical": null
         },
         {
           "targets": 5000,
@@ -112,15 +167,26 @@
           "max_unit_server_ms": 1825.3,
           "retries": 0,
           "unit_count": 193,
-          "pages": null,
-          "coverage": null,
           "single": {
             "state": "REFUSED",
             "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
             "sqlstate": "P0001",
             "client_ms": 41,
             "note": "single analysis build in ONE call without a statement limit (measurement only)"
-          }
+          },
+          "completeness": {
+            "recommendations": 5000,
+            "history_rows": 5000,
+            "baseline_rows": 5000,
+            "netting_rows": 5000,
+            "target_keys_covered": 5000,
+            "page_count": 37,
+            "pages_utf8_bytes": 294566061,
+            "max_page_utf8_bytes": 7994343,
+            "header_utf8_bytes": 1560406,
+            "identity_hash": "f8ca12407d5952b0e49ac64772ffcd87490df0aae53cbfde2937d3820b7bc20c"
+          },
+          "byte_identical": null
         }
       ]
     }

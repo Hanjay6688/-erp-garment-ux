@@ -1,0 +1,94 @@
+{
+  "artifact_id": 11510548283,
+  "artifact_name": "erp-desktop-mobile-browser-proof",
+  "run_id": 37681765943,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 23870675,
+  "zip_sha256": "8c1ae192d2e5a167b83c11b9aa97228d9f16ccfbbb28d4e8a68e8ee3f1e58247",
+  "status": "SOURCE_BOUND_BUILD_BROWSER_CHECKS_GREEN",
+  "scope": "BUILD_AND_DEMO_BROWSER_NOT_NATIVE_AUTH_SCALE",
+  "all_zip_members": {
+    "cp45-browser-original/html/data/12db969af554e6df012a76364e14c31a9b004a8b.png": {
+      "bytes": 425655,
+      "sha256": "652a38e5bf682826ce4c1fb1cf8087e12aa997cf12509fa0e9bd877039844fcd"
+    },
+    "cp45-browser-original/html/data/28709dcd5901b01cfdb9a141dc3a83a1f010b76d.png": {
+      "bytes": 159053,
+      "sha256": "17006d177c3b5b0d6e0d94df86b8b898a3f724b87f42faec7c2df68c9055038b"
+    },
+    "cp45-browser-original/html/data/46f6fbc846db3a014d0241c3e19ff8502848e968.png": {
+      "bytes": 1802364,
+      "sha256": "0316278f452b8d11c59fac467f2ad4d046ee8d0b718e9f32fa3ca4677e99db95"
+    },
+    "cp45-browser-original/html/data/5d7e706527c7713a347211df5fcc6db6ae6fd52e.png": {
+      "bytes": 211172,
+      "sha256": "f88c4b74c6a44a3fa5f59c6c53838c14153f59d95dad4903ce33c13113a9ae1b"
+    },
+    "cp45-browser-original/html/data/6641658333ccf418b75197782cbfb17e3846d676.png": {
+      "bytes": 208946,
+      "sha256": "1a877d4d1aa7931d3208f207e0671a0b3a0c268755b9be23d42fff3c4bd0533c"
+    },
+    "cp45-browser-original/html/data/734e89eacb699f8cb350da58e5e7b2e6820b1bf3.png": {
+      "bytes": 6860833,
+      "sha256": "dd1be4be52e5494727f8ada9066f272a8f561af87be7abca58c674d95ce9b767"
+    },
+    "cp45-browser-original/html/data/cdb7f6cf6307baa1288a4c7b10139ee5cbc9e26e.png": {
+      "bytes": 479816,
+      "sha256": "fe71ded2e2c1bdd01c986258d0dad01903f375e02885fc3b678547e7204bb6ed"
+    },
+    "cp45-browser-original/html/data/d1353edf735d26caadac834826099e12768e03b8.png": {
+      "bytes": 1329451,
+      "sha256": "9069a226508e4107e1303077bc9e3db6c8587d3a890eef4483a1b4ab5c137a62"
+    },
+    "cp45-browser-original/html/index.html": {
+      "bytes": 529259,
+      "sha256": "817c8eb12cba16cec08ec6735b9a71a4f5cea611cdbec2c00c7e210607576764"
+    },
+    "cp45-browser-original/results.json": {
+      "bytes": 15314863,
+      "sha256": "4dc56e25f8c13cd59780f923973ecce2144c43cf9a6dd3c6b682bd81b8d2e23d"
+    },
+    "cp45-browser-proof/html/index.html": {
+      "bytes": 521499,
+      "sha256": "52a1f8b82c9b92db8c6b35baec4326495164764c7a2a1cd5f9fe0ddb56536c99"
+    },
+    "cp45-browser-proof/results.json": {
+      "bytes": 10574,
+      "sha256": "d96a05bc11babc8cdcbe714779b7292496d33eead5ddade23dc4b418d989d000"
+    },
+    "cp5-browser-contract-proof/html/index.html": {
+      "bytes": 549107,
+      "sha256": "dd92d5183e6fa8e681bab19b9fb819fa9d348c54bb8ae3c4456be98c18896667"
+    },
+    "cp5-browser-contract-proof/results.json": {
+      "bytes": 31113,
+      "sha256": "7b8fcb07616da3f54a8213b9a638f37add1547c7f1a2b09915ed3cbb3b02668a"
+    },
+    "cp6-browser-contract-proof/html/index.html": {
+      "bytes": 572711,
+      "sha256": "097ed63325638dd61448bbc955be68236a0fe61e75959004272c718f6bb126d5"
+    },
+    "cp6-browser-contract-proof/results.json": {
+      "bytes": 35925,
+      "sha256": "748b99a006c7f51ace0d0095fd307092b5d3b23d43e87de4b92ac5f5c3f4644b"
+    },
+    "precp5-browser-original/html/index.html": {
+      "bytes": 521499,
+      "sha256": "52a1f8b82c9b92db8c6b35baec4326495164764c7a2a1cd5f9fe0ddb56536c99"
+    },
+    "precp5-browser-original/results.json": {
+      "bytes": 10574,
+      "sha256": "d96a05bc11babc8cdcbe714779b7292496d33eead5ddade23dc4b418d989d000"
+    }
+  },
+  "original_json_members": [
+    "cp45-browser-original/results.json",
+    "cp45-browser-proof/results.json",
+    "cp5-browser-contract-proof/results.json",
+    "cp6-browser-contract-proof/results.json",
+    "precp5-browser-original/results.json"
+  ],
+  "independent_acceptance": false,
+  "production_go": false,
+  "original_json_gzip_sha256": "dd5d80e93f662c90d18b48e65f5c69b50b946899f2b99b70021ced1bf3333776"
+}

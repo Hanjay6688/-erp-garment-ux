@@ -6,6 +6,12 @@ All WIP patches from the checkpoint were applied together in their documented
 order. No hosted database, deployment, main or integration branch is changed.
 `production_go=false`; `independent_acceptance=false`.
 
+**Final writer qualification:** source `59d63e46ea5b109101a4e0a2eff7d27a8f3541f8`,
+tree `2ac496cbacca2fe9ed1a924d0ffcc93bdb2b8844`, **15/15 declared workflows and
+35/35 jobs success**. All 5,000 targets complete for 1/30/100 days through the
+real Native/Auth/browser staged product. See the final qualification below;
+earlier pending/failed observations retain their historical source and scope.
+
 ## Local validation (not Native/Auth/HTTP/browser proof)
 
 Runtime: explicitly selected PGlite with pgcrypto, labelled
@@ -184,3 +190,101 @@ same-source run. Local recorder/verdict/frontend checks passed 1,476 tests
 P21 rehearsal run 37677705173 also passed. Its runtime USE witness says
 `HELD_OPEN_THEN_ROLLED_BACK`; do not promote the old script docstring's
 “committed” description into proof. Rehearsal is not installed acceptance.
+
+## Candidate 59d63e46: observation before scale finished
+
+Source `59d63e46ea5b109101a4e0a2eff7d27a8f3541f8`, tree
+`2ac496cbacca2fe9ed1a924d0ffcc93bdb2b8844`. The passive CDP recorder and
+timeout classification repairs run on this head; numerical, coverage, hash,
+access, page/document and per-call time bounds are unchanged. All 15 ERP
+workflows were triggered. Final same-source qualification remains pending
+until the complete application scale ladder and the remaining jobs finish.
+
+Exact root JSON reports from completed suites are retained in the
+`59d63e46-*-retained/` directories. Each receipt pins source, run, artifact,
+ZIP size/SHA-256 and member hashes. Native/Auth suites restore their boundary,
+pass all package gates and leave zero Auth users. Both ordinary transport
+(15) and staged analysis (12) pass again. P12 review, roster and attendance
+all pass; overlapping P12 case groups are not summed as independent cases.
+Six CodeQL SARIF artifacts (four T3 languages and two Shell languages) have
+zero results and are kept byte for byte.
+
+Existing report-schema details are preserved explicitly:
+
+- The model report uses `cp6_restored` from exact CP6 boundary and public-state
+  equality rather than emitting `restore_components`; its existing source
+  predicate, all 32 planned cases, Native boundary and package gates pass.
+  No missing field is invented in the Original.
+- Schedule's Original still labels `expected_case_count=70`, whereas its
+  existing PASS predicate strictly requires 71. All planned cases are present:
+  52 Native (including PL-4 capacity carry), 10 races, 5 HTTP and 4 browser.
+  The receipt records both numbers and verifies planned IDs and exact counts;
+  the Original and active predicate are not modified or relaxed.
+- P18 Full Cycle similarly retains a historical label of one case. Its active
+  predicate and planned Native IDs require both E01 and E13; both pass, with
+  exact boundary restoration. The receipt preserves the label and records
+  two observed/required cases. This Native cycle adds no HTTP/browser case
+  credit and is not full P18 acceptance.
+
+The existing P21 rehearsal is qualified only for its F03 scope. The source
+review packet records that this composition does not include staged analysis
+and that USE was held open then rolled back. It is not a receipt for a used,
+committed installation of the full staged ERP package.
+
+## Final same-source writer qualification: 59d63e46
+
+All 15 declared branch workflows and all 35 jobs succeeded on the pinned
+source above. `59d63e46-same-source-ci.json` contains the run/job/step records;
+qualified product source remains that SHA when a documentation commit follows.
+Shell and Build each passed 1,666 tests in 191 files; product staged kernel
+14/14 and three full-chain generated-capture benchmarks passed. Kernel
+measurements are kept separately in `59d63e46-kernel-observations.json`.
+
+The full application ladder run **37681766021**, job **112999325720**, is
+**PASS 5/5** (1 Native, 4 real Auth/browser cases at 100/300/1,000/5,000).
+The source was grown through ordinary committed Native writers. All twelve
+staged size/day combinations returned COMPLETE_RESULT; every 5,000-target
+combination completed all targets, reassembled the frozen whole contract,
+read every page once and verified its hashes. No whole reader was used for
+the staged product; completed reopening made no request/step/recompute.
+
+| 5,000-target history | New computation to verified first page + two paints | Completed open | Subsequent page clicks, min–max | Pages read |
+|---|---:|---:|---:|---:|
+| 1 day | 83,030.3 ms | 1,057.3 ms | 553.6–693.0 ms | 26/26 |
+| 30 days | 92,311.3 ms | 1,003.2 ms | 575.3–709.4 ms | 26/26 |
+| 100 days | 110,541.1 ms | 1,074.3 ms | 581.3–722.9 ms | 26/26 |
+
+These are single observations per vector on Chromium desktop/disposable
+loopback, not repeated factory/hosted SLA proof. There are 75 subsequent-page
+clicks in the three 5,000 vectors. Acknowledgement was 5.7–6.5 ms; initial
+stage progress took 5,212.3–7,258.4 ms. Full computation and stage progress do
+not meet 3 s; the owner's relaxed goal and the actual values remain explicit.
+The separate SQL ladder's slowest 5,000-target step was 1,410.212 ms, with
+126/138/165 completed units; each public RPC retains its original 8 s limit.
+Pages total about 206 MB per vector; each is at most 7,969,585 bytes, below
+the unchanged 8,000,000-byte bound. The browser reads one bounded page.
+
+Positive Originals are losslessly retained in `59d63e46-scale5-retained/`:
+complete-JSON artifact **11512784649**, ZIP SHA-256
+`13425c503450957a0399de48bdb1f4272a5e430e4e5430af78693161ce2578e3`.
+Every JSON byte matches full artifact **11513442498**, SHA-256
+`af5132530cbf7c0915c3b77cc0d1f2706b8d0fa7fe0e8b8f9c622d725ffa724e`;
+its member hashes and three unchanged 5,000-target PNGs are retained.
+The 100-day Original PNG was visually inspected. Exact full job log:
+`43-final-native-scale.log.gz`. Coverage, hashes and all raw times are
+indexed by `59d63e46-full-app-observations.json`, without rewriting Originals.
+All package gates, Native restoration, public/function/schema boundaries,
+advisors and Auth cleanup pass; Auth users return 0 → 0.
+
+All other completed 59d runtime groups have exact root-JSON receipts too,
+including P12 review/roster/attendance, P13, note/receipt/supplier payment,
+planning, P08 and P18. Report-label/schema errata above remain explicit;
+P12 overlap and aggregate-family overlap are never summed as new cases.
+P21 success remains F03 rehearsal only. The full review source package and
+compiled F03/full-staged scope are in `audit-candidate/staged-5000-20261008/`.
+
+**Status:** staged 5,000 product writer-qualified; ordinary single-path caps
+unchanged. Integration merge, independent P20, full installed P21, downstream
+staged features and pending owner policy/configuration remain separate exits.
+`independent_acceptance=false`, `installed_P21_acceptance=false`,
+`full_P19_acceptance=false`, `production_go=false`.

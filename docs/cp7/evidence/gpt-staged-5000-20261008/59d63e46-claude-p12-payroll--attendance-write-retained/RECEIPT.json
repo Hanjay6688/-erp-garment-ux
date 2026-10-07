@@ -1,0 +1,400 @@
+{
+  "artifact_id": 11509367863,
+  "artifact_name": "claude-p12-payroll--attendance-write",
+  "run_id": 37681765861,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 7778527,
+  "zip_sha256": "03bb7331d216ac610499b6302f81a1dfd47910434cd7ae3c26be6573813c52b8",
+  "status": "NATIVE_WRITER_QUALIFIED_EXISTING_P12_SCOPE",
+  "runtime_report": "CP7_P12_ATTENDANCE_WRITE.json",
+  "source_bundle_sha256": "1c85fb64e8edf9f07568c90e6b100467e5364fb59af1e42302cd55d1ad2b140a",
+  "original_reports_gzip_sha256": "52faaac2fe5fd4a74d4f26629c51ce13c463821b0dc63386f7540c61151f8fd5",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P12_ATTENDANCE_WRITE.json": {
+      "bytes": 372802,
+      "sha256": "3c9eae102af5f1f97381fa03a62e97315eac93b1af37b0fb7e3dce2e80d708e1"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "57c5f73835735f7f926b479a4041351d0d4429b9e5ecce545508f191045355ac"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360378,
+      "sha256": "65bd2b8351e797a103a2915371fcf016902ce7e08d88e0a3ac770a00be313a1d"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385622,
+      "sha256": "df5ffa6f648945ca03ba28303e13a8f3d897a76f4a0226b5cb017c08b36b82ac"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385622,
+      "sha256": "df5ffa6f648945ca03ba28303e13a8f3d897a76f4a0226b5cb017c08b36b82ac"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "f12dc64f140d98385ab508aecff43d9d04d0a12b71efd14806f1e170f0f898fa"
+    },
+    "CP7_P12_ATTENDANCE_WRITE.json": {
+      "bytes": 372802,
+      "sha256": "3c9eae102af5f1f97381fa03a62e97315eac93b1af37b0fb7e3dce2e80d708e1"
+    },
+    "P12_ATTENDANCE_ENTRY_DESKTOP.png": {
+      "bytes": 746516,
+      "sha256": "08dbd5ee2e3d51a2c135acbf295b338d4b3e6b906076ca4a76f2da632c83d673"
+    },
+    "P12_ATTENDANCE_ENTRY_MOBILE.png": {
+      "bytes": 514950,
+      "sha256": "caf779d26ab7b075c0163b9db8f46acc48020b26f5486dd8326c070257c8d80f"
+    },
+    "P12_ATTENDANCE_READ_DESKTOP.png": {
+      "bytes": 468586,
+      "sha256": "964e6b9b2a636a6ce109dc56908e91c9a30c00ebbf0775431a9ec450ca24e073"
+    },
+    "P12_ATTENDANCE_READ_MOBILE.png": {
+      "bytes": 337201,
+      "sha256": "80384543ad4e14713e46cf44824b5b1c7a89e4b967efda0022bbe69ae7d3ce10"
+    },
+    "P12_NOTA_DESKTOP.png": {
+      "bytes": 619330,
+      "sha256": "f1564eaae2cea4adc332fbe03c1adecf53aa8550c7dda61ee2c188fa4585a6c3"
+    },
+    "P12_NOTA_MOBILE.png": {
+      "bytes": 379249,
+      "sha256": "938d698ad90cff123f98fcf901e93571e7ba059a65ad02f0ef936c4dcf7b027b"
+    },
+    "P12_PAYROLL_REVIEW_DESKTOP.png": {
+      "bytes": 602544,
+      "sha256": "c0e5ecd4c6c74aa2a10e10759f2f8dbb44f9c57618b4a1c88a518a081e85d3ec"
+    },
+    "P12_PAYROLL_REVIEW_MOBILE.png": {
+      "bytes": 408153,
+      "sha256": "12760eee95a2e6a11c5e66077fd626a14ac9e8e77fd2f22d173f048fcbb25c57"
+    },
+    "P12_PAYROLL_SETTLEMENT_DESKTOP.png": {
+      "bytes": 667594,
+      "sha256": "34adae19c142bf12bd801133ec13da3f3b8f8fc478af6b2a16aade6c5b5c54a6"
+    },
+    "P12_PAYROLL_SETTLEMENT_MOBILE.png": {
+      "bytes": 451292,
+      "sha256": "9ea1b5e61b3f9bad2e082573b267899dff5f502c341e28fbf0eae7f3c538947a"
+    },
+    "P12_ROSTER_DESKTOP.png": {
+      "bytes": 621761,
+      "sha256": "99d29b23a9e634558a85e1573fcd82b557bd0d344c10635903a09d66ebcff4b9"
+    },
+    "P12_ROSTER_MOBILE.png": {
+      "bytes": 425743,
+      "sha256": "ada5b89bea4f89d0d44ea107e2fc421853dd5c38068df99db2a2f832b3d7a0d2"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "57c5f73835735f7f926b479a4041351d0d4429b9e5ecce545508f191045355ac"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360378,
+      "sha256": "65bd2b8351e797a103a2915371fcf016902ce7e08d88e0a3ac770a00be313a1d"
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "groups": {
+    "native": {
+      "counts": {
+        "PASS": 5
+      },
+      "cases": {
+        "P12_NOTA_SOURCE_REPAIR_FIXED_VALUE": "PASS",
+        "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING": "PASS",
+        "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE": "PASS",
+        "P12_NOTA_SOURCE_PAGES_ACCESS": "PASS",
+        "P12_NOTA_SOURCE_CROSS_TIMEZONE": "PASS"
+      }
+    },
+    "http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_NOTA_SOURCE_HTTP": "PASS"
+      }
+    },
+    "notes": {
+      "counts": {
+        "PASS": 7
+      },
+      "cases": {
+        "P12_NOTA_SAVE_POST_REPLAY": "PASS",
+        "P12_NOTA_DRAFT_EDIT_VOID": "PASS",
+        "P12_NOTA_TARGET_APPEND": "PASS",
+        "P12_NOTA_STALE_SOURCE": "PASS",
+        "P12_NOTA_EXACT_ACCESS": "PASS",
+        "P12_NOTA_CANCEL_RELEASE": "PASS",
+        "P12_NOTA_ORDINARY_REWORK": "PASS"
+      }
+    },
+    "note_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "cases": {
+        "P12_NOTA_RACE_CLAIM": "PASS",
+        "P12_NOTA_RACE_REPLAY": "PASS",
+        "P12_NOTA_RACE_REVOKE": "PASS"
+      }
+    },
+    "note_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_NOTA_HTTP": "PASS"
+      }
+    },
+    "admission_regression": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P09_HTTP_RECEIPT_REPLAY_AUTH": "PASS"
+      }
+    },
+    "browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "cases": {
+        "P12_NOTA_BROWSER_DESKTOP_DRAG": "PASS",
+        "P12_NOTA_BROWSER_MOBILE_RECOVERY": "PASS"
+      }
+    },
+    "payroll_review": {
+      "counts": {
+        "PASS": 4
+      },
+      "cases": {
+        "P12_PAYROLL_READ_EXACT_PAGES": "PASS",
+        "P12_PAYROLL_READ_TOKEN_TIMEZONE": "PASS",
+        "P12_PAYROLL_READ_ACCESS": "PASS",
+        "P12_PAYROLL_READ_REVERSED_HISTORY": "PASS"
+      }
+    },
+    "payroll_review_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_PAYROLL_READ_HTTP": "PASS"
+      }
+    },
+    "payroll_review_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "cases": {
+        "P12_PAYROLL_REVIEW_BROWSER_DESKTOP": "PASS",
+        "P12_PAYROLL_REVIEW_BROWSER_MOBILE": "PASS"
+      }
+    },
+    "settlement": {
+      "counts": {
+        "PASS": 7
+      },
+      "cases": {
+        "P12_SETTLEMENT_FULL_LIFECYCLE": "PASS",
+        "P12_SETTLEMENT_PRESERVE_SELECTED_WORK": "PASS",
+        "P12_SETTLEMENT_ATTENDANCE_ACCRUAL": "PASS",
+        "P12_SETTLEMENT_KASBON_CARRY": "PASS",
+        "P12_SETTLEMENT_STALE_CHILD": "PASS",
+        "P12_SETTLEMENT_ACCESS": "PASS",
+        "P12_SETTLEMENT_INVALID_PAY_CANCEL": "PASS"
+      }
+    },
+    "settlement_races": {
+      "counts": {
+        "PASS": 4
+      },
+      "cases": {
+        "P12_SETTLEMENT_RACE_REPLAY": "PASS",
+        "P12_SETTLEMENT_RACE_PAY_CANCEL": "PASS",
+        "P12_SETTLEMENT_RACE_REVOKE": "PASS",
+        "P12_SETTLEMENT_RACE_SOURCE_CHANGE": "PASS"
+      }
+    },
+    "settlement_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_SETTLEMENT_HTTP": "PASS"
+      }
+    },
+    "settlement_browser": {
+      "counts": {
+        "PASS": 3
+      },
+      "cases": {
+        "P12_SETTLEMENT_BROWSER_DESKTOP": "PASS",
+        "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY": "PASS",
+        "P12_SETTLEMENT_BROWSER_UNPAID_CANCEL": "PASS"
+      }
+    },
+    "attendance_read": {
+      "counts": {
+        "PASS": 6
+      },
+      "cases": {
+        "P12_ATTENDANCE_READ_HISTORY": "PASS",
+        "P12_ATTENDANCE_READ_PAGES": "PASS",
+        "P12_ATTENDANCE_READ_PERIODS": "PASS",
+        "P12_ATTENDANCE_READ_TIMEZONE_TOKEN": "PASS",
+        "P12_ATTENDANCE_READ_ACCESS": "PASS",
+        "P12_ATTENDANCE_READ_VALIDATION": "PASS"
+      }
+    },
+    "attendance_read_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_ATTENDANCE_READ_HTTP": "PASS"
+      }
+    },
+    "attendance_read_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "cases": {
+        "P12_ATTENDANCE_READ_BROWSER_DESKTOP": "PASS",
+        "P12_ATTENDANCE_READ_BROWSER_MOBILE": "PASS"
+      }
+    },
+    "roster": {
+      "counts": {
+        "PASS": 6
+      },
+      "cases": {
+        "P12_ROSTER_LIFECYCLE": "PASS",
+        "P12_ROSTER_POSTED_HISTORY": "PASS",
+        "P12_ROSTER_FIELDS": "PASS",
+        "P12_ROSTER_STALE": "PASS",
+        "P12_ROSTER_ACCESS": "PASS",
+        "P12_ROSTER_CHANGED_INTENT": "PASS"
+      }
+    },
+    "roster_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "cases": {
+        "P12_ROSTER_RACE_CREATE_REPLAY": "PASS",
+        "P12_ROSTER_RACE_RATE_VERSION": "PASS",
+        "P12_ROSTER_RACE_REVOKE": "PASS"
+      }
+    },
+    "roster_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_ROSTER_HTTP": "PASS"
+      }
+    },
+    "roster_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "cases": {
+        "P12_ROSTER_BROWSER_DESKTOP": "PASS",
+        "P12_ROSTER_BROWSER_MOBILE_RECOVERY": "PASS"
+      }
+    },
+    "attendance_write": {
+      "counts": {
+        "PASS": 10
+      },
+      "cases": {
+        "P12_ATTENDANCE_WRITE_LIFECYCLE": "PASS",
+        "P12_ATTENDANCE_WRITE_BLANKS": "PASS",
+        "P12_ATTENDANCE_WRITE_DATED_RATES": "PASS",
+        "P12_ATTENDANCE_WRITE_CORRECTION": "PASS",
+        "P12_ATTENDANCE_WRITE_CONSUMED": "PASS",
+        "P12_ATTENDANCE_WRITE_ACCESS": "PASS",
+        "P12_ATTENDANCE_WRITE_STALE": "PASS",
+        "P12_ATTENDANCE_WRITE_FIELDS_INTENT": "PASS",
+        "P12_ATTENDANCE_WRITE_MATRIX_PAGES": "PASS",
+        "P12_ATTENDANCE_WRITE_MATRIX_PERIOD": "PASS"
+      }
+    },
+    "attendance_write_races": {
+      "counts": {
+        "PASS": 4
+      },
+      "cases": {
+        "P12_ATTENDANCE_RACE_SAVE_REPLAY": "PASS",
+        "P12_ATTENDANCE_RACE_POST_VERSION": "PASS",
+        "P12_ATTENDANCE_RACE_TWO_PERIODS": "PASS",
+        "P12_ATTENDANCE_RACE_REVOKE": "PASS"
+      }
+    },
+    "attendance_write_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_ATTENDANCE_WRITE_HTTP": "PASS"
+      }
+    },
+    "attendance_write_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "cases": {
+        "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE": "PASS",
+        "P12_ATTENDANCE_BROWSER_MOBILE_POST_RECOVERY": "PASS"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

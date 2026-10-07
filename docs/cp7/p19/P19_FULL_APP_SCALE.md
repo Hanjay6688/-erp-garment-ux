@@ -1,5 +1,9 @@
 # P19 — skala aplikasi penuh (sumber Native nyata, Auth nyata, klik sampai tampil)
 
+Latest writer-qualified result: **source59d63e46, section 7**. Full staged
+5,000-target 1/30/100-day results complete with all pages/hashes/coverage.
+Earlier runs below retain their historical source/path/limits.
+
 Status: bukti penulis di cabang `claude/new-session-deapao`; bukan audit independen. `full_P19_acceptance=false`, `production_go=false`. Tidak ada batas yang dinaikkan dan tidak ada data yang dicuplik/dipotong (`limits_raised=false`, `data_sampled_or_truncated=false`). Bukti di sini berjenis `FULL_APPLICATION_NATIVE`; benchmark kernel (`P19_KERNEL_JOB_TRANSPORT_CLAUDE.md`, job Shell `p19-assembly`) **tidak** dipakai sebagai bukti aplikasi.
 
 Suite: `p19-scale5` di workflow `claude-p19-transport.yml` (deklarasi `P19_SCALE.json`, kasus `cp7_p19_scale_cases.py`, browser `cp7_p19_scale_browser.mjs`). Target diisi hanya lewat writer biasa (importer BB, draf/posting penjualan, perintah profil/SKU/kebijakan/kalender publik); waktu pengisian dicatat terpisah dari latensi.
@@ -124,3 +128,50 @@ Suite `p19-scale5` **PASS** (5/5). Runner lebih lambat lagi (alokasi kernel yang
 Klaim Astra ±30% pada skenario yang ia uji konsisten dengan ujung atas rentang ini; pengukuran kami yang dinormalisasi memberi 20–28% di 1000×100 dan lebih kecil di ukuran kecil. Di aplikasi penuh `netting_build` 1000 target turun ke 4,4–4,5 dtk (run ketujuh 6,4 dtk, runner berbeda). Penjaga baris kembar (`a68abf1e`) mempertahankan paritas byte terhadap predecessor dan ditangkap mutan `REUSE_BY_KEY_ONLY`.
 
 **Kesimpulan untuk butir 2:** di 1000 target `analysis_source` (= laporan keuangan + fingerprint buku besar) 5,05 dtk adalah lapisan terbesar, dan di 5000 target fase itulah yang menabrak batas 8 dtk. Jalur operasional bawaan (`a1244553`) melewati fase ini sepenuhnya; angka keuangan tetap lewat jalur penuh bila dipilih.
+
+## 7. Kualifikasi produk staged penuh — 37681766021, source 59d63e46
+
+**PASS 5/5**, job `112999325720`: 1 Native + 4 browser ukuran 100/300/1000/5000
+pada sumber yang diisi lewat writer Native nyata. Seluruh kontrol lama juga
+mengukur penolakan jujur pada batasnya sendiri; PASS tangga tidak otomatis
+berarti jalur tunggal mendukung 5.000. Untuk staged, semua dua belas vektor
+ukuran×riwayat 1/30/100 hari benar-benar COMPLETE_RESULT, bukan penolakan.
+
+| Target | Hitung baru → halaman pertama, riwayat 1 / 30 / 100 hari | Buka DONE, min–maks | Halaman per vektor | Klik halaman lanjutan, min–maks |
+|---|---:|---:|---:|---:|
+| 100 | 2,270 / 2,293 / 2,664 dtk | 0,499–0,553 dtk | 1 | tidak ada halaman kedua |
+| 300 | 5,625 / 5,791 / 6,755 dtk | 0,827–0,870 dtk | 2 | 0,373–0,410 dtk |
+| 1000 | 15,938 / 17,681 / 20,595 dtk | 0,871–0,927 dtk | 6 | 0,149–0,724 dtk |
+| 5000 | 83,030 / 92,311 / 110,541 dtk | 1,003–1,074 dtk | 26 | 0,554–0,723 dtk |
+
+Klik asli → data terverifikasi + dua frame paint; setiap halaman diambil
+sekali. Tiga run 5.000 mencakup semua 5.000 target, 26/26 halaman, hash identitas
+/header/halaman, kontrak beku, query dan sumber. Setelah reload, buka DONE
+hanya GET/header/halaman pertama, tanpa request/step/hitung ulang. Ada 75
+pengukuran klik halaman lanjutan pada tiga vektor 5.000; satu pembukaan DONE
+per vektor. Pengukuran satu kali Chromium desktop/loopback bukan SLA pabrik.
+
+Acknowledgement 5.000: 5,7–6,5 ms. Progres tahap pertama: 5,212–7,258 dtk;
+ini tetap di atas sasaran 3 dtk dan tidak disamakan dengan hasil siap dipakai.
+Arahan owner terakhir: tiga detik sasaran optimasi, bukan gerbang wajib.
+
+Pengukuran SQL terpisah pada salinan committed yang kemudian di-rollback:
+
+| Riwayat 5.000 | Request → DONE | Unit terlama | Unit selesai | Baca semua halaman | Byte halaman total / maks |
+|---|---:|---:|---:|---:|---:|
+| 1 hari | 78,860 dtk | 1,251 dtk | 126/126 | 1,780 dtk | 206.443.568 / 7.969.199 |
+| 30 hari | 87,732 dtk | 1,305 dtk | 138/138 | 1,838 dtk | 206.448.568 / 7.969.392 |
+| 100 hari | 104,919 dtk | 1,410 dtk | 165/165 | 1,823 dtk | 206.453.568 / 7.969.585 |
+
+Batas setiap RPC tetap 8 dtk, setiap halaman 8.000.000 byte; client tidak
+mengunduh/parse satu dokumen 206 MB. Angka SQL bukan latensi aplikasi. Kernel
+3-vektor memakai capture generated yang berbeda (37 halaman di 5.000),
+sehingga ukurannya tidak dipertukarkan dengan 26 halaman dari sumber Native ini.
+Tidak ada klaim speedup A/B terkendali antar mesin CI.
+
+Original eksak dan receipt: `../evidence/gpt-staged-5000-20261008/59d63e46-scale5-retained/`.
+Indeks observasi: `59d63e46-full-app-observations.json` di direktori bukti.
+Restore seluruh batas Native/function/public/Auth, package/advisor gate lulus;
+Auth 0 → 0. Bukti 15/15 workflow pada source yang sama disimpan terpisah.
+Kapasitas writer-qualified untuk staged operasional dalam batas yang dinyatakan;
+P20 independen, installed P21 penuh, factory/hosted SLA dan GO tetap belum ada.

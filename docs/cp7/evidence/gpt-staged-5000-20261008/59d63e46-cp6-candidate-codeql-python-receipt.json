@@ -1,0 +1,24 @@
+{
+  "artifact_id": 11509842679,
+  "artifact_name": "cp6-candidate-codeql-python",
+  "run_id": 37681766017,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 89148,
+  "zip_sha256": "f541b09697094fbd9c4f150e3a486fb8c29554bcae2139a1d753c8ed2ed2021e",
+  "status": "ZERO_SARIF_RESULTS",
+  "sarif_results": {
+    "sarif/python.sarif": 0
+  },
+  "all_zip_members": {
+    "sarif/python.sarif": {
+      "bytes": 1138523,
+      "sha256": "07947c742ae50e7b8d9371316fc8d2b135d4b4328fe1e247bf6700305fe0c743"
+    },
+    "manifest.json": {
+      "bytes": 1161,
+      "sha256": "ac9051ad82fe77f9140aefe20782395974d6c376ab5c47d3a22dc01ab833a4d7"
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}

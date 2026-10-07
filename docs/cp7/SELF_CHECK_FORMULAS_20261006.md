@@ -131,6 +131,32 @@ Lokal (bukan bukti): uji DOM/unit yang disebut di §2, `cutting-model-producer.t
 | `d2c98812` | 5.000 target fase A + ukuran capture 5.000 (harness) | Shell 37632330081 (**job baru `p19-staged`**: `f05-staged-analysis` 4/4 + `f05-analysis-jobs`; benchmark runner: 1000×1 dan 1000×100 **byte-identik** dengan build tunggal; 5000×1 50 unit, unit terlama 1,24 dtk, total 28,6 dtk; 5000×100 55 unit, unit terlama 1,36 dtk, total 41,6 dtk; jalur tunggal menolak `CP7_NETTING_MATCH_SOURCE_LIMIT`/`CP7_NETTING_WORK_LIMIT`), PL Native 37632330054, Build UX 37632329909, P21 37632330056, P18 Full Cycle 37632329931, P18 Fabric Rule 37632330010, Supplier Payment Create 37632330101, Receipt Correction 37632330133, CodeQL 37632329929: success. **P19 Transport 37632330032 success** (`p19-transport11`, `p19-scale5`; capture operasional satu statement di 5.000 produk dengan batas dilonggarkan di savepoint yang dibatalkan: 4.593 ms / 23,5 MB, COMPLETE; batas terpasang tetap 1000). **P08 37632329871 success** (5 suite) → **11/11 success** |
 | `5e8bb513` | 5.000 target fase C bagian 1: sumber capture berbatas (`*_within`) | **11/11 success:** PL Native 37638175435 (model, jadwal, netting, supply 53), P08 Physical 37638175513 (5 suite), Shell 37638175479 (`p19-staged`, `p19-assembly`), P19 Transport 37638175395 (`p19-scale5`: capture operasional satu statement lewat fungsi produk `analysis_native.source_within(5000,10000)` 4.374 ms / 23,5 MB, `history_source_within(5000)` 3.508 ms, COMPLETE; jalur tunggal tetap 1000/5000), P21 37638175535, Build UX 37638175440, P18 Full Cycle 37638175330, P18 Fabric Rule 37638175600, Supplier Payment Create 37638175575, Receipt Correction 37638175437, CodeQL 37638175356. Klik-sampai-tampil browser (bukan target 3 dtk): 100 target operasional 1,8–2,3 dtk; 300 target operasional kini **lengkap** 6,5–8,2 dtk; jalur dengan keuangan 7,0–8,4 dtk di 100 target |
 
+### 6.1 Kelanjutan writer GPT dari checkpoint — 8 Okt WIB
+
+| Source | Isi | Hasil dan cakupan |
+|---|---|---|
+| `013ea062` / `7927b42c` | Checkpoint Claude dan handover patch 5.000 | Laporan checkpoint: 10/10 workflow yang terpicu hijau pada `013ea062`; P12/P13/Note/Supplier Payment Correction belum terpicu filter. `7927b42c` hanya dokumen. Semua patch dipasang bersama oleh writer penerus; bukti final berikut mencakup keempat workflow itu. |
+| `cb98b0f8` | Kandidat Native staged pertama | Kernel 14/14 dan vektor 5.000×30/100 penuh, transport15 lulus. Kandidat **belum qualified**: staged/scale harness dan JS CodeQL gagal; semua Original/log/screenshot pertama disimpan. Perbaikan reassembly/epoch/lock/reload/oracle copy dan private temporary directory benchmark tidak melonggarkan aturan angka/hak. |
+| `43d26996` | Perbaikan Native pertama | Staged12 dan transport15 lulus, kernel 14 + tiga vektor lulus, enam SARIF CodeQL nol temuan. Skala aplikasi tetap **INCOMPLETE**: timeout unit salah diklasifikasi sebagai wajib gagal; respons Playwright evicted menghentikan cleanup (Auth 0→25, gate gagal tetap utuh). Perekam CDP pasif dan pengelompokan timeout diperbaiki dengan kontrol negatif; Original tidak diubah. |
+| `59d63e46` | **Kualifikasi writer satu source selesai** | **15/15 workflow, 35/35 job success**. Shell 37681765840 dan Build 37681765943 masing-masing 1.666 uji/191 berkas; kernel staged 14/14 + tiga vektor; CodeQL 37681766017 dan kedua job Shell, SARIF nol temuan. P19 37681766021: transport15, staged12, scale5 semua PASS. Seluruh 5.000 target staged 1/30/100 hari DONE, 26/26 halaman/hash/kontrak beku; buka DONE 1,003–1,074 dtk, 75 klik halaman 0,554–0,723 dtk, hitung baru 83,030–110,541 dtk. P12 roster/review/absensi 37681765861, P13 37681766300, Note 37681765946, Receipt 37681765938, Supplier Create 37681766257, Supplier Correction 37681766362, PL 37681766328, P08 37681766279, P18 Fabric 37681765955, P18 Full Cycle 37681766219, P21 37681765951: success. |
+
+Source lengkap `59d63e46ea5b109101a4e0a2eff7d27a8f3541f8`, tree
+`2ac496cbacca2fe9ed1a924d0ffcc93bdb2b8844`. Receipt seluruh run/job,
+Original/root JSON byte-identik, log lossless, scope Native/Auth dan kegagalan
+sebelumnya ada di `evidence/gpt-staged-5000-20261008/`. Rincian waktu aktual
+ada di `p19/P19_FULL_APP_SCALE.md` §7. Tiga detik sasaran optimasi owner,
+bukan gerbang wajib; hitung penuh/progres pertama masih di atasnya.
+
+Errata schema/label laporan lama dicatat eksplisit: model tidak mengeluarkan
+`restore_components` tetapi pembanding Native-nya lulus; label schedule 70
+sementara predicate/ID mewajibkan dan meluluskan 71; P18 Full Cycle label 1
+sementara kedua ID E01/E13 wajib dan PASS. Original/predicate tidak ditulis
+ulang. P12 dan keluarga agregat punya kasus tumpang tindih, tidak dijumlahkan
+sebagai kasus baru. P21 success hanya latihan F03, bukan paket penuh staged
+atau committed-use restore. Writer-qualified bukan audit independen;
+`independent_acceptance=false`, `installed_P21_acceptance=false`,
+`production_go=false`. Merge integration belum dilakukan.
+
 ## 7. P19 — kernel riwayat permintaan (bukan temuan rumus, tetapi skala)
 
 `cp7_demand.history` dan `cp7_planning.history_build` kuadratik (salinan jsonb per baris, pindai ulang stok per produk). Ditulis ulang linear, **hasil byte-identik** dengan pendahulu `c1f91041` (uji acak lama-vs-baru termasuk urutan penolakan pertama).

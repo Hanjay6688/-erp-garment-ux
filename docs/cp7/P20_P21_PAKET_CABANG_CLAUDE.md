@@ -1,5 +1,15 @@
 # Paket P20/P21 — bagian cabang Claude (P08 fisik kain, P18 pengingat kain)
 
+Tambahan writer GPT 8 Okt: paket sumber kandidat gabungan, manifest seluruh
+ERP dan kompilasi F03/full-staged ada di
+`audit-candidate/staged-5000-20261008/README.md`. Source `59d63e46` sudah
+lulus kualifikasi writer: 15/15 workflow, 35/35 job, seluruh 5.000 target
+staged pada 1/30/100 hari dan semua halaman terverifikasi (rincian 14.5).
+Latihan P21 saat ini memasang F03, yang tidak memuat
+`cp7_analysis_stage`; pemasangan keluarga staged bukan otomatis receipt P21
+paket penuh. USE ditahan lalu di-rollback, bukan committed-use restore proof.
+Status historis di bawah tetap dibaca sesuai SHA/cakupannya.
+
 Catatan integrasi6 Oktober2026: kandidat cabang2ae1db92 dan bukti lama di bawah tetap historis. Build UX merah3c7cb2cf sudah diperbaiki; source0bd kini lulus1,558 tes/165 file. Bukti gabungan aktual, Native/regresi yang sudah dibaca serta pekerjaan P18/P19/P20/P21 yang masih terbuka ada di `p19/P19_UTF8_QUALIFICATION_CHECKPOINT_20261006.md`. Belum ada pembekuan kandidat audit atau pemasangan nyata.
 
 Status: draf persiapan. Belum ada audit independen dan belum ada pemasangan. `independent_acceptance=false`, `production_go=false`. CP6 ditutup sesuai cakupannya; HOLD operasional/pemasangan CP6 tetap berlaku (GBD-03 dan lima keputusan D11 sudah disetujui dan tidak dibuka ulang; delapan konfigurasi nyata masih pending). Audit independen CP7 dan `production_go=false` terpisah dari status CP6. Dokumen ini melengkapi `docs/AUDIT_PANDUAN_PRO_MAX.md` dan handoff (§9, §10). Bukan pengganti paket kandidat gabungan milik GPT.
@@ -474,3 +484,54 @@ Penolakan rollback sesudah USE dibuktikan dalam transaksi terbuka tersebut;
 ini bukan bukti restore pemasangan yang sudah dipakai dan di-commit.
 P21 nyata tetap menunggu kandidat diterima P20 dan bukti pemasangan/T2/
 backup-restore yang sesuai cakupan nyata. `installed_P21_acceptance=false`.
+
+### 14.5 Kandidat writer final 59d63e46 — bukti, paket, batas penerimaan
+
+**Fitur selesai dalam cakupan writer:** source
+`59d63e46ea5b109101a4e0a2eff7d27a8f3541f8`, tree
+`2ac496cbacca2fe9ed1a924d0ffcc93bdb2b8844`, 15/15 workflow / 35/35 job sukses.
+Semua patch checkpoint 7927b42c terintegrasi, enam RPC staged v1 dan sepuluh
+tabel privat/RLS/immutable diuji; Native/Auth/HTTP/browser staged12 12/12,
+transport15 15/15, tangga aplikasi scale5 5/5. Seluruh 5.000 target pada
+1/30/100 hari selesai, kontrak beku/hash/cakupan penuh dan semua 26 halaman
+terbaca. P12 review lama sudah hijau bersama roster/absensi. Seluruh suite
+keuangan/koreksi/pembayaran/planning/P08/P18 terpicu pada source yang sama.
+
+Buka DONE 1,003–1,074 dtk tanpa hitung ulang; 75 klik halaman lanjutan
+0,554–0,723 dtk. Hitung baru sampai halaman pertama 83,030–110,541 dtk;
+progres pertama 5,212–7,258 dtk, acknowledgement 5,7–6,5 ms. Ketiganya dicatat
+terpisah. Tiga detik sasaran optimasi owner, bukan gerbang wajib. Semua waktu
+merupakan observasi disposable/loopback sekali per vektor, bukan SLA hosted.
+Batas 8 dtk/RPC dan 8.000.000 byte/header/halaman tetap. Jalur tunggal tetap
+berbatas lama; kapasitas 5.000 adalah jalur staged operasional dalam §10.
+
+**Paket source review P20 tersedia:** `audit-candidate/staged-5000-20261008/`.
+Manifest 2.098 berkas Git/source, hash/ukuran, seluruh framework dan acuan
+keputusan ERP, seluruh uji/fixture serta kompilasi deterministik F03 dan
+full-rule-source-with-staged. Receipt/source/run/Original disimpan di
+`evidence/gpt-staged-5000-20261008/`. Seluruh kegagalan cb98/43d tetap utuh;
+errata schema/label model/schedule/P18 tercatat dan tidak ditulis ulang.
+Auditor dapat memeriksa sumber yang dipin meski HEAD dokumentasi berikutnya
+berbeda. Manifest ini bukan klaim acceptance seluruh requirement framework.
+
+**P21 rehearsal 59d:** run `37681765951` sukses, exact Original/receipt
+`59d63e46-cp7-p21-rehearsal-retained/`. Cakupannya F03: 988.746 byte SQL,
+SHA-256 `d64ae6edbd881b5e915647d98138c3b206c25d3fc318044546ba20d7175daa79`.
+Tidak memuat `cp7_analysis_stage`. Kompilasi full-rule-source-with-staged
+1.892.844 byte, hash
+`1db3baf8f810c7c74bdbd076104c8a0d4a63d345a570bb4ec903e5dc802b44c3`,
+tersedia untuk review; belum memiliki receipt pemasangan gabungan P21.
+USE di Original F03 adalah HELD_OPEN_THEN_ROLLED_BACK. Tidak dipromosikan
+menjadi bukti restore setelah pemasangan penuh yang dipakai dan di-commit.
+
+**Batas terbuka:** integration merge, audit independen P20, lalu P21 komposisi
+penuh/T2/pins/advisors/CodeQL/backup-restore/rollback sesudah pemakaian sesuai
+cakupan nyata. Laporan/pengingat/AI/rincian stok/workspace kain/draf/arsip
+whole-result tidak otomatis tersedia untuk staged. Retensi, server driver,
+prioritas downstream, PL-5 B, konfigurasi nyata CP6 dan runner PL-8 masih
+keputusan owner; tidak diisi diam-diam. GBD-03 opsi 1 dan D11 tetap disahkan.
+
+**Penerimaan auditor:** belum ada untuk CP7 atau installed P21.
+`independent_acceptance=false`, `installed_P21_acceptance=false`,
+`full_P19_acceptance=false`, `production_go=false`. Tidak ada perubahan
+main, Cloudflare/deployment, hosted Enteng/Supabase, legacy atau produksi.

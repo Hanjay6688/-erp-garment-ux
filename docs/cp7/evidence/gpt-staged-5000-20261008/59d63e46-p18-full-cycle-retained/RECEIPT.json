@@ -1,0 +1,108 @@
+{
+  "artifact_id": 11510791884,
+  "artifact_name": "cp7-p18-full-cycle",
+  "run_id": 37681766219,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 1645591,
+  "zip_sha256": "e47b5b370523cbfca2a2568ab09fc9ee2b4876ed5cb33decc0982df83d3e0d8c",
+  "status": "NATIVE_WRITER_PASS_EXISTING_LABEL_MISMATCH_PRESERVED",
+  "runtime_report": "CP7_P18_FULL_CYCLE.json",
+  "original_report_expected_case_count": 1,
+  "active_runtime_pass_count": 2,
+  "observed_case_count": 2,
+  "existing_scope_label_mismatch": "Original expected_case_count=1; existing runtime PASS predicate strictly requires both 2 declared Native cases. Original unchanged.",
+  "counts": {
+    "native": {
+      "PASS": 2
+    }
+  },
+  "case_ids": [
+    "P18_FULL_CYCLE_STOCK_WIP_HPP_GL_PAYABLES_CASH",
+    "P18_E13_LATE_SUPPLIER_PRICE_AFTER_FULL_CYCLE"
+  ],
+  "source_bundle_sha256": "d64ae6edbd881b5e915647d98138c3b206c25d3fc318044546ba20d7175daa79",
+  "original_reports_gzip_sha256": "28b59e3bfb5c80b256283cf95914248abc64ff30121dd0f752759d7e74b51ad0",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P18_FULL_CYCLE.json": {
+      "bytes": 429815,
+      "sha256": "35ab2514431a7070b384757f50e0fb81fb5dc8adf8cd16aaab6b293f6295e7de"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2c58c6cdd569022cd0643a32897bc3aea4a0dc5707bd56c12c58df3203a86505"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360402,
+      "sha256": "cd5c50742b74e1f69b715a900aad4b16e2cad660979f06a164d82061fdec6294"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "7659b5c6b236111112fa87402bdc35833d406da211ca9b6c7a8bd6effdf0d830"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385613,
+      "sha256": "7659b5c6b236111112fa87402bdc35833d406da211ca9b6c7a8bd6effdf0d830"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "2ff6147d4f0e26fff19d1b069e157928828802d7ad28aef21fbc8d27f5f962fc"
+    },
+    "CP7_P18_FULL_CYCLE.json": {
+      "bytes": 429815,
+      "sha256": "35ab2514431a7070b384757f50e0fb81fb5dc8adf8cd16aaab6b293f6295e7de"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "2c58c6cdd569022cd0643a32897bc3aea4a0dc5707bd56c12c58df3203a86505"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360402,
+      "sha256": "cd5c50742b74e1f69b715a900aad4b16e2cad660979f06a164d82061fdec6294"
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_P18_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

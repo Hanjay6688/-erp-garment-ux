@@ -34,6 +34,26 @@ GBD-03 opsi 1 dan lima keputusan D11 sudah disahkan; jangan dibuka ulang.
 Delapan konfigurasi CP6 nyata, PL-5 B, retensi staged, driver server,
 prioritas fitur downstream staged dan runner PL-8 tetap keputusan owner.
 
+Master induk `ERP_GARMENT_MASTER_CONTEXT_2026-09-06.md` sudah dibaca lengkap
+(1.138 baris), berikut dua master pemulihan 23 Sep yang dirujuk framework.
+Konteksnya mencakup CP1/backup, CP3 attendance-HPP, CP4/Auth, CP4.5/identitas,
+CP5/potong-pickup-BS, CP6/seluruh physical-financial lifecycle, lalu CP7,
+cleanup CP7.5, operasi CP7C dan audit/cutover CP8. Status kandidat September
+di bagian awal master adalah historis; CP6 CLOSED menurut receipt 29 Sep,
+HOLD operasional/konfigurasi dan production GO tetap terpisah.
+
+Detail utama yang ikut dibawa: HPP absensi diakui APPROVED sekali dan PAID
+hanya settlement; denominator selesai dijahit; FG parsial tetap menyisakan
+biaya WIP; Susulan tidak masuk QC kedua kali; Rework/rewash tidak membuka
+entitlement lama; PO/invoice/retur/kredit serta biaya late invoice menjaga
+lineage dan tanggal. Versi lama WIP exact-SKU-only telah diperluas CP7 rev3
+menjadi kandidat bersyarat, tanpa mengubahnya menjadi FG pasti.
+
+Paket source review `audit-candidate/staged-5000-20261008/README.md` memuat
+manifest 2.098 berkas, hash kompilasi F03/full-staged, acuan seluruh ERP dan
+batas P21 yang sebenarnya. Tidak ada klaim bahwa seluruh chat historis
+dari semua akun telah diperoleh.
+
 ## 2. Produk yang dilanjutkan
 
 Seluruh lima patch integrator, patch SQL P dan patch frontend F dipasang
@@ -75,7 +95,40 @@ pembacaan timeout sebagai batas struktural dan respons browser terhapus dari
 cache inspector. Original/gate gagal tetap disimpan. Perekam pasif CDP dan
 vonis batas sudah diperbaiki, dengan regresi angka/hash/refusal tetap ketat;
 kandidat berikutnya harus lulus seluruh 15 workflow pada satu source.
-Kualifikasi belum diterima sebelum seluruh hasil dan Original dibaca.
+
+**Kualifikasi writer selesai di source `59d63e46ea5b109101a4e0a2eff7d27a8f3541f8`,
+tree `2ac496cbacca2fe9ed1a924d0ffcc93bdb2b8844`: 15/15 workflow, 35/35 job sukses.**
+Receipt `59d63e46-same-source-ci.json` mencatat setiap run/job. Shell dan Build
+masing-masing lulus 1.666 uji/191 berkas, suite kernel staged 14 uji dan tiga
+vektor, enam SARIF CodeQL tanpa temuan. Native/Auth/HTTP/browser staged 12/12,
+transport 15/15 dan tangga aplikasi skala 5/5 lulus. P12 roster/review/absensi
+semuanya hijau. Seluruh Original dan kegagalan sebelumnya tetap utuh.
+
+Tangga aplikasi menggunakan sumber yang diisi lewat writer Native, real Auth,
+PostgREST dan Chromium. Semua 5.000 target selesai pada 1/30/100 hari, 26
+halaman per vektor; semua halaman dibaca dan diperiksa hash/kontrak beku,
+cakupan penuh, hak serta pemulihannya. Buka DONE tidak request/step ulang.
+
+| Riwayat 5.000 target | Hitung baru sampai halaman pertama | Buka hasil DONE | Pindah halaman, min–maks |
+|---|---:|---:|---:|
+| 1 hari | 83,030 dtk | 1,057 dtk | 0,554–0,693 dtk |
+| 30 hari | 92,311 dtk | 1,003 dtk | 0,575–0,709 dtk |
+| 100 hari | 110,541 dtk | 1,074 dtk | 0,581–0,723 dtk |
+
+Waktu load berasal dari klik asli sampai data terverifikasi dan dua frame
+paint. Ada 75 klik halaman lanjutan pada ketiga vektor 5.000. Ini satu
+observasi per vektor di lingkungan disposable/loopback, bukan SLA pabrik.
+Acknowledgement 5,7–6,5 ms dan progres pertama 5,21–7,26 dtk tetap dicatat
+terpisah; keduanya tidak berarti hitungan selesai. Unit SQL terlama di
+vektor aplikasi 5.000 adalah 1,410 dtk; batas RPC tetap 8 dtk. Observasi eksak
+ada di `59d63e46-full-app-observations.json` dan Original scale5.
+
+Kapasitas tersebut untuk jalur **staged operasional**. Jalur tunggal tetap
+memiliki batas lama; fitur downstream staged dan keuangan tetap sesuai §2.
+Tiga detail schema laporan lama (model tanpa `restore_components`, label
+jadwal 70 meski predicate/ID mewajibkan 71, label P18 Full Cycle 1 meski dua
+ID E01/E13 diwajibkan) disimpan dengan receipt khusus, tanpa menulis ulang
+Original atau melonggarkan predicate. Ini titik review auditor yang eksplisit.
 P20/P21 §14 mencatat
 objek, prioritas auditor, pemasangan dan rollback; bukan acceptance independen.
 
@@ -87,11 +140,16 @@ Pengukuran loopback Chromium/disposable Native bukan SLA pabrik/hosted.
 
 ## 4. Batas kelanjutan
 
-Setelah CI selesai: simpan receipt/bukti source yang tepat, catat kinerja
-sebelum/sesudah, lengkapi SELF_CHECK §6 dan P20/P21 dengan status terpisah
-fitur/batas terbuka/penerimaan auditor. Bekukan kandidat yang benar-benar
-lulus untuk pemeriksaan independen. Penggabungan integration dan audit
-independen belum dilakukan dalam checkpoint ini.
+Source di atas sudah dibekukan sebagai kandidat review writer; dokumentasi
+penutupan berikutnya tidak mengubah sumber produk/alat uji yang dikualifikasi.
+Paket `audit-candidate/staged-5000-20261008/`, SELF_CHECK §6, kontrak P19 §11
+dan P20/P21 §14 memisahkan fitur selesai, batas terbuka dan penerimaan auditor.
+
+Kelanjutan yang belum dilakukan: integrasi terkendali ke `cp7/integration`,
+P20 audit independen atas kandidat yang dipin, kemudian P21 untuk komposisi
+penuh yang memuat staged serta T2/backup/restore/rollback sesudah pemakaian
+sesuai cakupan nyata. P21 hijau saat ini hanya latihan F03, USE ditahan lalu
+di-rollback; jangan menganggapnya penerimaan pemasangan seluruh paket.
 
 Tidak mengirim pesan ke orang lain, meminta kredensial atau mengubah hosted/
 main/deployment/produksi. Tidak melonggarkan rumus, oracle angka, hak,

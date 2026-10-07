@@ -1,0 +1,100 @@
+{
+  "artifact_id": 11509927640,
+  "artifact_name": "cp7-pl-netting-complete-json",
+  "run_id": 37681766328,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 41320,
+  "zip_sha256": "b1166870f75f130c5d181405b6ba7739ef95f01d6d39a0b0666156aa870a56ba",
+  "runtime_report": "CP7_F04_NATIVE_NETTING.json",
+  "expected_status": "PASS",
+  "expected_case_count": 83,
+  "required_case_counts": null,
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "source_bundle_sha256": "8679650ab49277b7431aaac5989fe8b19ef96b502406b3cd0d53c4cd6f991eea",
+  "observed_case_count": 83,
+  "counts": {
+    "native": {
+      "PASS": 60
+    },
+    "races": {
+      "PASS": 11
+    },
+    "http": {
+      "PASS": 6
+    },
+    "browser": {
+      "PASS": 6
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "9ace05d321bf47bfe23465afca9e43af2c9785027be67c346446a3e9eec7e603",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F04_NATIVE_NETTING.json": {
+      "bytes": 322057,
+      "sha256": "3051606ed480b2de3a18c60dfce73c2d47b102855994dff9b54189025ec75d80"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "5f9be06ea395fb6451520e3dcf20fe9d4230612acd0223ba0604b0d4c710632c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360422,
+      "sha256": "6626fe90232e9fb7e31e8ec9f2e8ebebeee67138cc176f7d9232d6e8e8945dac"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F04_NATIVE_NETTING.json": {
+      "bytes": 322057,
+      "sha256": "3051606ed480b2de3a18c60dfce73c2d47b102855994dff9b54189025ec75d80"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "5f9be06ea395fb6451520e3dcf20fe9d4230612acd0223ba0604b0d4c710632c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360422,
+      "sha256": "6626fe90232e9fb7e31e8ec9f2e8ebebeee67138cc176f7d9232d6e8e8945dac"
+    }
+  },
+  "full_family_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

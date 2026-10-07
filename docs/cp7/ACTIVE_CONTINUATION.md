@@ -1,3 +1,25 @@
+Current writer continuation — 8 Oct 2026 WIB: GPT took over the Claude
+checkpoint 7927b42c on canonical branch `claude/new-session-deapao`. Read
+[GPT_WRITER_STAGED_5000_20261008](handoff/GPT_WRITER_STAGED_5000_20261008.md).
+Product source **59d63e46**, tree **2ac496cb**, passes all **15 workflows / 35
+jobs**. Actual Native/Auth/browser Originals prove every 5,000 target and all
+26 pages for 1/30/100 days. Opening DONE 1.003–1.074 s, page clicks 0.554–0.723 s;
+new computation to first page 83.030–110.541 s. Three seconds is the owner's
+optimisation goal, not a mandatory gate. The old 8 s RPC bound remains.
+
+Frozen source review, full ERP references, exact source manifest and compiled
+F03/full-staged scope are in [audit-candidate/staged-5000-20261008](audit-candidate/staged-5000-20261008/README.md).
+Exact positive Originals, first failures and the 15-workflow receipt are in
+[evidence/gpt-staged-5000-20261008](evidence/gpt-staged-5000-20261008/README.md).
+P12 review/roster/attendance are green. P21 success is F03 rehearsal only,
+without staged; USE is held open then rolled back. Integration merge,
+independent P20, full-composition installed P21 and production GO remain open.
+Owner policy/configuration values are not auto-filled. Later documentation
+HEADs do not receive CI qualification automatically from source59d.
+
+The checkpoints below are historical and retain their source/scope. Their
+old active-writer/branch descriptions are superseded by this continuation.
+
 Source-qualified continuation · 5 October 2026: [RESUME_QUALIFICATION_20261005](RESUME_QUALIFICATION_20261005.md). Actual fd702d7 Originals qualify SalesChain25, SupplierReturns12 and MiscFinance14; Native PostgreSQL Shell passes 1492 application tests, 138 private kernel cases and six fixture browser tests. All first b215/419 failures remain retained. The last recovered original writer chat is 02:44:40 WIB; b215 author time is 01:19:46 WIB. The expanded archive context index and the damaged archive recovery limits are recorded. Whole CP7/P08/P18/P19/P20/P21 and independent/production acceptance remain open.
 
 Historical preparation checkpoint (superseded by the source-qualified receipt above):

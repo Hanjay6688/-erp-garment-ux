@@ -1,0 +1,13 @@
+{
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "run_id": 37681765840,
+  "job_id": 112999326007,
+  "raw_bytes": 217557,
+  "raw_sha256": "69f6f7e3f7642825d50df06233632a70f387570fe4c6019043449665f70292ed",
+  "gzip_bytes": 44603,
+  "gzip_sha256": "ea419bd732e4c549394fba7375c6118d097c7ad2285d7248045b04eff3b33183",
+  "tests": 1666,
+  "test_files": 191,
+  "independent_acceptance": false,
+  "production_go": false
+}

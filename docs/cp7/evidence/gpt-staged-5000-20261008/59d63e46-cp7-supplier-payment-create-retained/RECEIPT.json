@@ -1,0 +1,133 @@
+{
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "run_id": 37681766257,
+  "artifact_id": 11510350443,
+  "zip_bytes": 4013809,
+  "zip_sha256": "9848f5e3a35d6007d417f0fb88c36f9a87509e1815ca1361ce935a2b7c27f928",
+  "runtime_report": "CP7_SUPPLIER_PAYMENT_CREATE.json",
+  "expected_status": "PASS",
+  "expected_case_count": 10,
+  "evidence_scope": "cp7-supplier-payment-create",
+  "independent_acceptance": false,
+  "production_go": false,
+  "status": "NATIVE_WRITER_QUALIFIED",
+  "source_bundle_sha256": "d64ae6edbd881b5e915647d98138c3b206c25d3fc318044546ba20d7175daa79",
+  "observed_case_count": 10,
+  "required_case_counts": {
+    "native": 4,
+    "races": 3,
+    "http": 1,
+    "browser": 2
+  },
+  "counts": {
+    "native": {
+      "PASS": 4
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 1
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "failures": {
+    "native": {},
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "original_reports_gzip_sha256": "71e9f5894c4cd696271c5be765aac96417f2d4da85149694ef974aa346189515",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_SUPPLIER_PAYMENT_CREATE.json": {
+      "bytes": 286042,
+      "sha256": "b0561bf403d8cb46ce3461df5b7112e31c5e75f83246bc56e84e0cafb115aceb"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7b164dc35f3ed9b8621966d3f36e1a8c95efb9a3aa0dd2bff0f61d555725977f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360411,
+      "sha256": "fafdb08c883d0d5fea5acee8aaac743e4b89ad3215a5fff6ff0fd2231d66becc"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385616,
+      "sha256": "c8aa22d6b6e79d25aa60a9ce5dd78a09b6c92fe08f862d552e0669f18e324a33"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385616,
+      "sha256": "c8aa22d6b6e79d25aa60a9ce5dd78a09b6c92fe08f862d552e0669f18e324a33"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "f9433296ddda8bb9b590d91acd96777db01990dd624210eda3141b5acd44f235"
+    },
+    "CP7_SUPPLIER_PAYMENT_CREATE.json": {
+      "bytes": 286042,
+      "sha256": "b0561bf403d8cb46ce3461df5b7112e31c5e75f83246bc56e84e0cafb115aceb"
+    },
+    "CP7_SUPPLIER_PAYMENT_CREATE_DESKTOP.png": {
+      "bytes": 1473998,
+      "sha256": "f0569dce64115261054a74986468f08eb4e3007e6dafd8a96053fdbee630c9a5"
+    },
+    "CP7_SUPPLIER_PAYMENT_CREATE_MOBILE.png": {
+      "bytes": 940047,
+      "sha256": "6f7ad2db7b4d4e487203462fca15088a286243886a98d441b009b84868e2d1b3"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "7b164dc35f3ed9b8621966d3f36e1a8c95efb9a3aa0dd2bff0f61d555725977f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360411,
+      "sha256": "fafdb08c883d0d5fea5acee8aaac743e4b89ad3215a5fff6ff0fd2231d66becc"
+    }
+  },
+  "full_family_acceptance": false
+}

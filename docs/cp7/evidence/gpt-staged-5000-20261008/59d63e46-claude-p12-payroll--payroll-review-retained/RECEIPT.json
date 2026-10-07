@@ -1,0 +1,261 @@
+{
+  "artifact_id": 11510131357,
+  "artifact_name": "claude-p12-payroll--payroll-review",
+  "run_id": 37681765861,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 4716794,
+  "zip_sha256": "062403a4afcc76cf15047158a50f9de5c78be71cd9eaea104f83452607228331",
+  "status": "NATIVE_WRITER_QUALIFIED_EXISTING_P12_SCOPE",
+  "runtime_report": "CP7_P12_SETTLEMENT.json",
+  "source_bundle_sha256": "789d6bb534650c8d691e922fd4c76d7552204350121d42cf4ae0e4e2f3e6cd4a",
+  "original_reports_gzip_sha256": "bd7cc35f68469e7e34872fd7ceb65e406865a0fc0b4e3ccda812405c0fe6ffd7",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_P12_SETTLEMENT.json": {
+      "bytes": 316907,
+      "sha256": "62a3d4d0456bb138e61a9665820f170e9f413d03dd157b3e776a984040d87f10"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c02bf3658ea2c04740385e1a20e38c0aa6e94e69fa75a3ce73368df8b608217a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360378,
+      "sha256": "65bd2b8351e797a103a2915371fcf016902ce7e08d88e0a3ac770a00be313a1d"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CLONE_install.clone-erp.sql": {
+      "bytes": 5385601,
+      "sha256": "113a8c860ddf56004851be61f8be24d9b12b5c21d1b04a0312b251114bcd725a"
+    },
+    "CLONE_install.connection-fence.txt": {
+      "bytes": 494,
+      "sha256": "ee2ee7f60ac95e61e332b009186861168979ec2f9315b4c064325df3aee2a981"
+    },
+    "CLONE_install.database-identity.txt": {
+      "bytes": 3074,
+      "sha256": "91fc6e97ce6108973edd048d774d72d41d06c7accdbcd2736f1e1259ac343ee2"
+    },
+    "CLONE_install.source-erp.sql": {
+      "bytes": 5385601,
+      "sha256": "113a8c860ddf56004851be61f8be24d9b12b5c21d1b04a0312b251114bcd725a"
+    },
+    "CLONE_install.txt": {
+      "bytes": 291,
+      "sha256": "ede5ea9a8f610531b02c1f28b28331dd2bbf736410323e8918fda8763ab956d0"
+    },
+    "CP7_P12_SETTLEMENT.json": {
+      "bytes": 316907,
+      "sha256": "62a3d4d0456bb138e61a9665820f170e9f413d03dd157b3e776a984040d87f10"
+    },
+    "P12_NOTA_DESKTOP.png": {
+      "bytes": 617494,
+      "sha256": "2216ab359c85e9efb3089aef6b67d35f22eccc80a010f2715983cc902b524486"
+    },
+    "P12_NOTA_MOBILE.png": {
+      "bytes": 378781,
+      "sha256": "4d33a904537b5f9264ff56f750bc6e3c3bc8243d5ab5d1275b110f8cb3b30fe7"
+    },
+    "P12_PAYROLL_REVIEW_DESKTOP.png": {
+      "bytes": 601609,
+      "sha256": "933aee11b6fe338f85f6cd97be1cae2a3217f316f6baf7d8bb8d337187b3a8aa"
+    },
+    "P12_PAYROLL_REVIEW_MOBILE.png": {
+      "bytes": 410359,
+      "sha256": "ec83f74e22052a3eb90f559f73e9506c03c2148e5144b2f7f5c26efc15822e9c"
+    },
+    "P12_PAYROLL_SETTLEMENT_DESKTOP.png": {
+      "bytes": 669302,
+      "sha256": "671fe8da5863e1cec93125d5291a5df3db2174d7bd3cbbf5ff6213693d901196"
+    },
+    "P12_PAYROLL_SETTLEMENT_MOBILE.png": {
+      "bytes": 451051,
+      "sha256": "41da37969a29a4a2b33b1443d7072fa7b11abe6f7642f99356feedd9131f9225"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c02bf3658ea2c04740385e1a20e38c0aa6e94e69fa75a3ce73368df8b608217a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360378,
+      "sha256": "65bd2b8351e797a103a2915371fcf016902ce7e08d88e0a3ac770a00be313a1d"
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "groups": {
+    "native": {
+      "counts": {
+        "PASS": 5
+      },
+      "cases": {
+        "P12_NOTA_SOURCE_REPAIR_FIXED_VALUE": "PASS",
+        "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING": "PASS",
+        "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE": "PASS",
+        "P12_NOTA_SOURCE_PAGES_ACCESS": "PASS",
+        "P12_NOTA_SOURCE_CROSS_TIMEZONE": "PASS"
+      }
+    },
+    "http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_NOTA_SOURCE_HTTP": "PASS"
+      }
+    },
+    "notes": {
+      "counts": {
+        "PASS": 7
+      },
+      "cases": {
+        "P12_NOTA_SAVE_POST_REPLAY": "PASS",
+        "P12_NOTA_DRAFT_EDIT_VOID": "PASS",
+        "P12_NOTA_TARGET_APPEND": "PASS",
+        "P12_NOTA_STALE_SOURCE": "PASS",
+        "P12_NOTA_EXACT_ACCESS": "PASS",
+        "P12_NOTA_CANCEL_RELEASE": "PASS",
+        "P12_NOTA_ORDINARY_REWORK": "PASS"
+      }
+    },
+    "note_races": {
+      "counts": {
+        "PASS": 3
+      },
+      "cases": {
+        "P12_NOTA_RACE_CLAIM": "PASS",
+        "P12_NOTA_RACE_REPLAY": "PASS",
+        "P12_NOTA_RACE_REVOKE": "PASS"
+      }
+    },
+    "note_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_NOTA_HTTP": "PASS"
+      }
+    },
+    "admission_regression": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P09_HTTP_RECEIPT_REPLAY_AUTH": "PASS"
+      }
+    },
+    "browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "cases": {
+        "P12_NOTA_BROWSER_DESKTOP_DRAG": "PASS",
+        "P12_NOTA_BROWSER_MOBILE_RECOVERY": "PASS"
+      }
+    },
+    "payroll_review": {
+      "counts": {
+        "PASS": 4
+      },
+      "cases": {
+        "P12_PAYROLL_READ_EXACT_PAGES": "PASS",
+        "P12_PAYROLL_READ_TOKEN_TIMEZONE": "PASS",
+        "P12_PAYROLL_READ_ACCESS": "PASS",
+        "P12_PAYROLL_READ_REVERSED_HISTORY": "PASS"
+      }
+    },
+    "payroll_review_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_PAYROLL_READ_HTTP": "PASS"
+      }
+    },
+    "payroll_review_browser": {
+      "counts": {
+        "PASS": 2
+      },
+      "cases": {
+        "P12_PAYROLL_REVIEW_BROWSER_DESKTOP": "PASS",
+        "P12_PAYROLL_REVIEW_BROWSER_MOBILE": "PASS"
+      }
+    },
+    "settlement": {
+      "counts": {
+        "PASS": 7
+      },
+      "cases": {
+        "P12_SETTLEMENT_FULL_LIFECYCLE": "PASS",
+        "P12_SETTLEMENT_PRESERVE_SELECTED_WORK": "PASS",
+        "P12_SETTLEMENT_ATTENDANCE_ACCRUAL": "PASS",
+        "P12_SETTLEMENT_KASBON_CARRY": "PASS",
+        "P12_SETTLEMENT_STALE_CHILD": "PASS",
+        "P12_SETTLEMENT_ACCESS": "PASS",
+        "P12_SETTLEMENT_INVALID_PAY_CANCEL": "PASS"
+      }
+    },
+    "settlement_races": {
+      "counts": {
+        "PASS": 4
+      },
+      "cases": {
+        "P12_SETTLEMENT_RACE_REPLAY": "PASS",
+        "P12_SETTLEMENT_RACE_PAY_CANCEL": "PASS",
+        "P12_SETTLEMENT_RACE_REVOKE": "PASS",
+        "P12_SETTLEMENT_RACE_SOURCE_CHANGE": "PASS"
+      }
+    },
+    "settlement_http": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "P12_SETTLEMENT_HTTP": "PASS"
+      }
+    },
+    "settlement_browser": {
+      "counts": {
+        "PASS": 3
+      },
+      "cases": {
+        "P12_SETTLEMENT_BROWSER_DESKTOP": "PASS",
+        "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY": "PASS",
+        "P12_SETTLEMENT_BROWSER_UNPAID_CANCEL": "PASS"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "independent_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,102 @@
+{
+  "artifact_id": 11509728050,
+  "artifact_name": "cp7-pl-schedule-complete-json",
+  "run_id": 37681766328,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 82867,
+  "zip_sha256": "97d5457d825563f22e585967f58e8b1bf2b46fe23ab2d61fbc4ae89169339135",
+  "runtime_report": "CP7_F04_NATIVE_SCHEDULE.json",
+  "expected_status": "PASS",
+  "expected_case_count": 71,
+  "required_case_counts": {
+    "native": 52,
+    "races": 10,
+    "http": 5,
+    "browser": 4
+  },
+  "status": "NATIVE_WRITER_PASS_EXISTING_LABEL_MISMATCH_PRESERVED",
+  "original_report_expected_case_count": 70,
+  "active_runtime_pass_count": 71,
+  "observed_case_count": 71,
+  "source_bundle_sha256": "7c6c7f02b1dfd5f02fb25358e2d9e9ab99fe3f485e1c5911e234755884d99339",
+  "original_reports_gzip_sha256": "15d83731bf3ff0a2baa3ae71eb81e202c3e4cf8b18436b5f9395068ada38576d",
+  "counts": {
+    "native": {
+      "PASS": 52
+    },
+    "races": {
+      "PASS": 10
+    },
+    "http": {
+      "PASS": 5
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "cp6_restored": true,
+  "original_restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "advisor_gate": true,
+  "restoration_witness": "Exact restore_components equality",
+  "original_root_reports": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F04_NATIVE_SCHEDULE.json": {
+      "bytes": 3079030,
+      "sha256": "ae444c9c7bbfd1ca58cb5ab126495384dc09d3e2d2aa1b2bc1fa4caa6ed135de"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c9c7679842ebc4f6d19ea6a07ffa9c5cd199e4d49b0123bf7f4782d81b71b93c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360422,
+      "sha256": "6626fe90232e9fb7e31e8ec9f2e8ebebeee67138cc176f7d9232d6e8e8945dac"
+    }
+  },
+  "all_zip_members": {
+    "ALIGNED_CHAIN.json": {
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    "CP7_F04_NATIVE_SCHEDULE.json": {
+      "bytes": 3079030,
+      "sha256": "ae444c9c7bbfd1ca58cb5ab126495384dc09d3e2d2aa1b2bc1fa4caa6ed135de"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 10524,
+      "sha256": "c9c7679842ebc4f6d19ea6a07ffa9c5cd199e4d49b0123bf7f4782d81b71b93c"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360422,
+      "sha256": "6626fe90232e9fb7e31e8ec9f2e8ebebeee67138cc176f7d9232d6e8e8945dac"
+    }
+  },
+  "independent_acceptance": false,
+  "full_family_acceptance": false,
+  "production_go": false,
+  "existing_scope_label_mismatch": "Original expected_case_count=70; existing runtime PASS predicate strictly requires 71, including PL4 capacity carry. Original unchanged."
+}

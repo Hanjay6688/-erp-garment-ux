@@ -1,0 +1,470 @@
+{
+  "contract": "cp7.writer-qualified-source-package.v1",
+  "status": "WRITER_QUALIFIED_15_WORKFLOWS_STAGED_5000",
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "source_tree": "2ac496cbacca2fe9ed1a924d0ffcc93bdb2b8844",
+  "binding_contract": "docs/cp7/p19/P19_STAGED_5000_20261007.md#10",
+  "workflow_count": 15,
+  "job_count": 35,
+  "same_source_CI_receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-same-source-ci.json",
+  "same_source_CI_receipt_sha256": "94bdbb3075155f7be760e2ec3b66f4cede9cd27d71e4d8da808c5118b2f818d7",
+  "retained_runtime_packages": [
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-claude-note-correction-retained/RECEIPT.json",
+      "receipt_sha256": "dc52c16bad405eaa4201ba9d3f21425ab22cbf9f9928df4d52b8b42773e2f3f5",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681765946,
+      "artifact_id": 11509682136,
+      "observed_case_count": 40,
+      "required_case_counts": {
+        "native": 28,
+        "races": 4,
+        "http": 3,
+        "browser": 5
+      },
+      "exact_root_report_count": 10,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-claude-p12-payroll--attendance-write-retained/RECEIPT.json",
+      "receipt_sha256": "15c64f9f8bf9c86fd8f8e64a0a5c8f60cd7bdd06035d2c9296af372dbd1c55f3",
+      "status": "NATIVE_WRITER_QUALIFIED_EXISTING_P12_SCOPE",
+      "run_id": 37681765861,
+      "artifact_id": 11509367863,
+      "observed_case_count": null,
+      "required_case_counts": null,
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-claude-p12-payroll--payroll-review-retained/RECEIPT.json",
+      "receipt_sha256": "c626cb021bf46ef3d3eca60a7ccab36c0fca49b4c5d7c8b3021dd8300d32144e",
+      "status": "NATIVE_WRITER_QUALIFIED_EXISTING_P12_SCOPE",
+      "run_id": 37681765861,
+      "artifact_id": 11510131357,
+      "observed_case_count": null,
+      "required_case_counts": null,
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-claude-p12-payroll--roster-retained/RECEIPT.json",
+      "receipt_sha256": "361bd2535b3d140476ea864a02569e486f75abbe2b3401794a67130e8cf063fa",
+      "status": "NATIVE_WRITER_QUALIFIED_EXISTING_P12_SCOPE",
+      "run_id": 37681765861,
+      "artifact_id": 11510641056,
+      "observed_case_count": null,
+      "required_case_counts": null,
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-claude-p13-finance-retained/RECEIPT.json",
+      "receipt_sha256": "e6f6a49f850e1cdb925b05d70a7e1aa4fbb696b2992e264511ebc31bd0886909",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766300,
+      "artifact_id": 11509276764,
+      "observed_case_count": 12,
+      "required_case_counts": null,
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-claude-supplier-payment-correction-retained/RECEIPT.json",
+      "receipt_sha256": "9403b655c74fd5f76cc26fafe15b8ce669a82d7f5a40f600d4fce02a75dc0056",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766362,
+      "artifact_id": 11510490716,
+      "observed_case_count": 23,
+      "required_case_counts": {
+        "native": 14,
+        "races": 4,
+        "http": 3,
+        "browser": 2
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p08-analysis152-retained/RECEIPT.json",
+      "receipt_sha256": "0ff6c1d378f4f9f17854e81ae0c8b60c079801ac034acb3dc67e6b858cccaac5",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766279,
+      "artifact_id": 11510421567,
+      "observed_case_count": 153,
+      "required_case_counts": null,
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p08-attention284-retained/RECEIPT.json",
+      "receipt_sha256": "6344f045e73435318cb1c0e0215e9cacd255d520b14380d8019dcbde8ba9ea00",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766279,
+      "artifact_id": 11511504796,
+      "observed_case_count": 286,
+      "required_case_counts": {
+        "native": 181,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "exact_root_report_count": 17,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p08-fabric-physical21-retained/RECEIPT.json",
+      "receipt_sha256": "46c496de4895cbb6e9b5fda5a072d0b5f106e89b3645b02a2408bf05a086c849",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766279,
+      "artifact_id": 11510600792,
+      "observed_case_count": 21,
+      "required_case_counts": {
+        "native": 16,
+        "races": 2,
+        "http": 1,
+        "browser": 2
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p08-fabric13-successor-retained/RECEIPT.json",
+      "receipt_sha256": "8432caff1a94e4cafd151539ab650ca692d6fdf34129dddf9f7d5c8fdcff9943",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766279,
+      "artifact_id": 11509562827,
+      "observed_case_count": 13,
+      "required_case_counts": {
+        "native": 8,
+        "races": 2,
+        "http": 1,
+        "browser": 2
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p08-plan39-retained/RECEIPT.json",
+      "receipt_sha256": "5203616e0e40b3bb4356c8ac4e4febd9bf3a0981ac87af82761f6f5c2df47b80",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766279,
+      "artifact_id": 11509589704,
+      "observed_case_count": 43,
+      "required_case_counts": {
+        "native": 29,
+        "races": 8,
+        "http": 2,
+        "browser": 4
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p18-fabric-rule11-retained/RECEIPT.json",
+      "receipt_sha256": "84acd0a899941756d35f0cd8b1572452ad68976562cb24a847c4f443deecd10e",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681765955,
+      "artifact_id": 11510736014,
+      "observed_case_count": 11,
+      "required_case_counts": {
+        "native": 7,
+        "races": 1,
+        "http": 1,
+        "browser": 2
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p18-p18-e01-9-retained/RECEIPT.json",
+      "receipt_sha256": "e51839b7712bd79430e79569d3f55eba921eb525055af35ea42ff7050fd985d7",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681765955,
+      "artifact_id": 11509999052,
+      "observed_case_count": 9,
+      "required_case_counts": {
+        "native": 5,
+        "races": 1,
+        "http": 1,
+        "browser": 2
+      },
+      "exact_root_report_count": 7,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p18-rule-lifecycle16-retained/RECEIPT.json",
+      "receipt_sha256": "9b90e803efaa608e515b9df4e1ac9bbd5d6cc3fd95045802ab7b606796bd0b4f",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681765955,
+      "artifact_id": 11510161373,
+      "observed_case_count": 16,
+      "required_case_counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "exact_root_report_count": 7,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-p21-rehearsal-retained/RECEIPT.json",
+      "receipt_sha256": "2677d66b802a54cda54ee9a76555adf20022470e56e845e52cb91799a5426412",
+      "status": "NATIVE_WRITER_QUALIFIED_F03_REHEARSAL_ONLY",
+      "run_id": 37681765951,
+      "artifact_id": 11510776016,
+      "observed_case_count": null,
+      "required_case_counts": null,
+      "exact_root_report_count": 6,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-pl-model-retained/RECEIPT.json",
+      "receipt_sha256": "d4626c2ecc85c9ecd67ee7b9ca5e3c2b75002dcb55b8f47c0513f9a7a5d08b93",
+      "status": "NATIVE_WRITER_QUALIFIED_LEGACY_MODEL_REPORT_SCHEMA",
+      "run_id": 37681766328,
+      "artifact_id": 11509746610,
+      "observed_case_count": 32,
+      "required_case_counts": {
+        "native": 22,
+        "races": 4,
+        "http": 2,
+        "browser": 4
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-pl-netting-retained/RECEIPT.json",
+      "receipt_sha256": "1639e40194e4c39a66e59ddb43abbc9992524bac7cf3096b75d87603a55f9789",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766328,
+      "artifact_id": 11509927640,
+      "observed_case_count": 83,
+      "required_case_counts": null,
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-pl-schedule-retained/RECEIPT.json",
+      "receipt_sha256": "06e4f792079cf8833c03382b33e038dff0108987362ee8a1cf8d55cb86cb40a2",
+      "status": "NATIVE_WRITER_PASS_EXISTING_LABEL_MISMATCH_PRESERVED",
+      "run_id": 37681766328,
+      "artifact_id": 11509728050,
+      "observed_case_count": 71,
+      "required_case_counts": {
+        "native": 52,
+        "races": 10,
+        "http": 5,
+        "browser": 4
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-pl-supply-retained/RECEIPT.json",
+      "receipt_sha256": "f4d41372f48602500979aa05223d3420660e5857cb42c71e214c323b9160fd8f",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766328,
+      "artifact_id": 11509659241,
+      "observed_case_count": 53,
+      "required_case_counts": null,
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-receipt-correction-retained/RECEIPT.json",
+      "receipt_sha256": "20939ef5d1f908c063b321ffca796fc2901ee00df8cc375f37989fc2c1750fd9",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681765938,
+      "artifact_id": 11510017007,
+      "observed_case_count": 43,
+      "required_case_counts": {
+        "native": 37,
+        "races": 3,
+        "http": 1,
+        "browser": 2
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-cp7-supplier-payment-create-retained/RECEIPT.json",
+      "receipt_sha256": "3f211dc4d2053c0d4599cddb6819d0ea895c26a1bc66347f32947a114a707058",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766257,
+      "artifact_id": 11510350443,
+      "observed_case_count": 10,
+      "required_case_counts": {
+        "native": 4,
+        "races": 3,
+        "http": 1,
+        "browser": 2
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-p18-full-cycle-retained/RECEIPT.json",
+      "receipt_sha256": "66058d90391cada3340df0afe73ec0eb06ce6f66daa4a201d9edf69f98b935c5",
+      "status": "NATIVE_WRITER_PASS_EXISTING_LABEL_MISMATCH_PRESERVED",
+      "run_id": 37681766219,
+      "artifact_id": 11510791884,
+      "observed_case_count": 2,
+      "required_case_counts": null,
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-scale5-retained/RECEIPT.json",
+      "receipt_sha256": "04c1fec4586f64e7e390c1d61bb82512f920ae32af5d1e1b342f2046323122ca",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766021,
+      "artifact_id": 11512784649,
+      "observed_case_count": 5,
+      "required_case_counts": {
+        "native": 1,
+        "browser": 4
+      },
+      "exact_root_report_count": 126,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-staged12-retained/RECEIPT.json",
+      "receipt_sha256": "84330dd0473fa6dc679386a237c9f9cf3854fef9a7dea139ef0ec21b6a3d6d24",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766021,
+      "artifact_id": 11509288201,
+      "observed_case_count": 12,
+      "required_case_counts": {
+        "native": 5,
+        "races": 3,
+        "http": 2,
+        "browser": 2
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    },
+    {
+      "receipt": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-transport15-retained/RECEIPT.json",
+      "receipt_sha256": "d9c6f16685aa78f6aa4b25c07c5ba8ce7c2e0c338f04e30f13f54a0144944e00",
+      "status": "NATIVE_WRITER_QUALIFIED",
+      "run_id": 37681766021,
+      "artifact_id": 11510111816,
+      "observed_case_count": 15,
+      "required_case_counts": {
+        "native": 6,
+        "races": 3,
+        "http": 3,
+        "browser": 3
+      },
+      "exact_root_report_count": 5,
+      "all_package_gates": true,
+      "complete_Native_restore": true,
+      "Auth_0_to_0": true,
+      "counts_overlap_not_summed": true
+    }
+  ],
+  "retained_runtime_package_count": 25,
+  "retained_exact_root_JSON_count": 268,
+  "full_application_observations": "docs/cp7/evidence/gpt-staged-5000-20261008/59d63e46-full-app-observations.json",
+  "full_application_observations_sha256": "204ee7c2333918aaec18cdfdd2597ea682b77128e5b176b2006870206749b913",
+  "all_5000_target_vectors_done": [
+    1,
+    30,
+    100
+  ],
+  "staged_operational_capacity_conditional_on_declared_bounds": true,
+  "3s_load_goal_mandatory": false,
+  "RPC_statement_timeout": "8s",
+  "page_header_max_utf8_bytes": 8000000,
+  "report_schema_label_errata_preserved": [
+    "model: legacy report omits restore_components; exact active CP6/public-state/Native and package predicates verified",
+    "schedule: historical label70, active required71 and every planned52/10/5/4 ID PASS",
+    "P18 Full Cycle: historical label1, active IDs E01/E13 both mandatory and PASS"
+  ],
+  "P21_rehearsal_scope": "F03_ONLY_WITHOUT_STAGED_HELD_OPEN_USE_THEN_ROLLBACK",
+  "first_failures_retained": [
+    "cb98b0f8",
+    "43d26996"
+  ],
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "full_rule_source_committed_use_restore_proven": false,
+  "production_go": false
+}

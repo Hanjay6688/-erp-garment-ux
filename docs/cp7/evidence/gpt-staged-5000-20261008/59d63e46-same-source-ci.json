@@ -1,0 +1,4623 @@
+{
+  "contract": "cp7.writer-same-source-ci.v1",
+  "status": "ALL_15_DECLARED_WORKFLOWS_SUCCESS",
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "source_tree": "2ac496cbacca2fe9ed1a924d0ffcc93bdb2b8844",
+  "canonical_branch": "claude/new-session-deapao",
+  "workflow_count": 15,
+  "job_count": 35,
+  "workflow_runs": [
+    {
+      "run_id": 37681765951,
+      "workflow_name": "CP7 P21 Rehearsal",
+      "path": ".github/workflows/claude-p21-rehearsal.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681765951",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:38:01Z",
+      "jobs": [
+        {
+          "id": 112999325220,
+          "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rehearse install, rollback and reinstall",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681765861,
+      "workflow_name": "CP7 P12 Payroll (Claude branch)",
+      "path": ".github/workflows/claude-p12-payroll.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681765861",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:38:37Z",
+      "jobs": [
+        {
+          "id": 112999324872,
+          "name": "P12 payroll --payroll-review",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and qualify P12 selected-card Nota",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325085,
+          "name": "P12 payroll --attendance-write",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and qualify P12 selected-card Nota",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325377,
+          "name": "P12 payroll --roster",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and qualify P12 selected-card Nota",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681766257,
+      "workflow_name": "CP7 Supplier Payment Create",
+      "path": ".github/workflows/claude-supplier-payment-create.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681766257",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:29:25Z",
+      "jobs": [
+        {
+          "id": 112999325974,
+          "name": "New supplier payment through the owning command, races and real Auth HTTP",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and qualify the new supplier payment entry",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681766300,
+      "workflow_name": "CP7 P13 Finance (Claude branch)",
+      "path": ".github/workflows/claude-p13-finance.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681766300",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:30:36Z",
+      "jobs": [
+        {
+          "id": 112999325902,
+          "name": "P13 native dated report and immutable archive reader",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and qualify P13 report source and archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681766362,
+      "workflow_name": "CP7 Supplier Payment Correction (Claude branch)",
+      "path": ".github/workflows/claude-supplier-payment-correction.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681766362",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:32:11Z",
+      "jobs": [
+        {
+          "id": 112999326687,
+          "name": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and qualify atomic ordinary payment correction",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681765946,
+      "workflow_name": "CP7 Note Correction (Claude branch)",
+      "path": ".github/workflows/claude-note-correction.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681765946",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:33:40Z",
+      "jobs": [
+        {
+          "id": 112999325027,
+          "name": "Nota correction / Native stock AR cash journal HPP",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Offline complete-history pager refusal controls / zero Native credit",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and qualify owning note correction",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681766017,
+      "workflow_name": "CP6 Candidate CodeQL (T3)",
+      "path": ".github/workflows/cp6-candidate-codeql.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681766017",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:40:18Z",
+      "jobs": [
+        {
+          "id": 112999325020,
+          "name": "CodeQL c-cpp",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile isolated PostgreSQL clock fixture for analysis",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify analysis and bind SARIF to candidate",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325420,
+          "name": "CodeQL python",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile isolated PostgreSQL clock fixture for analysis",
+              "status": "completed",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify analysis and bind SARIF to candidate",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325464,
+          "name": "CodeQL actions",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile isolated PostgreSQL clock fixture for analysis",
+              "status": "completed",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify analysis and bind SARIF to candidate",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325469,
+          "name": "CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Compile isolated PostgreSQL clock fixture for analysis",
+              "status": "completed",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify analysis and bind SARIF to candidate",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681765938,
+      "workflow_name": "CP7 Owning Receipt Correction",
+      "path": ".github/workflows/cp7-receipt-correction.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681765938",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:35:04Z",
+      "jobs": [
+        {
+          "id": 112999325201,
+          "name": "Receipt correction / Native stock cost HPP AP journal",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and qualify owning receipt correction",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681766328,
+      "workflow_name": "CP7 PL Native Planning (Claude branch)",
+      "path": ".github/workflows/claude-pl-native.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681766328",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:45:49Z",
+      "jobs": [
+        {
+          "id": 112999325942,
+          "name": "model",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326215,
+          "name": "netting",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326289,
+          "name": "schedule",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326320,
+          "name": "supply",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681766219,
+      "workflow_name": "CP7 P18 Full Cycle",
+      "path": ".github/workflows/claude-p18-full-cycle.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681766219",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:48:24Z",
+      "jobs": [
+        {
+          "id": 112999326045,
+          "name": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install accepted package and run the P18 full cycle",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681765943,
+      "workflow_name": "Build UX",
+      "path": ".github/workflows/ci.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681765943",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:48:29Z",
+      "jobs": [
+        {
+          "id": 112999325005,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Chromium test runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm test",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:security",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run build",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:browser:cp45",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain CP4.5 Original before the shared reporter directory is reused",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:browser:precp5",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain Pre-CP5 Original independently",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:browser:cp5",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:browser:cp6",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload non-secret browser proof",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run scan:dist",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify Cloudflare package",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681765955,
+      "workflow_name": "CP7 P18 Fabric Rule",
+      "path": ".github/workflows/claude-p18-fabric-rule.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681765955",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:45:58Z",
+      "jobs": [
+        {
+          "id": 112999325418,
+          "name": "rule-lifecycle16",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325664,
+          "name": "p18-e01-9",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325835,
+          "name": "fabric-rule11",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681765840,
+      "workflow_name": "CP7 Shell S0 (Claude branch)",
+      "path": ".github/workflows/claude-p08-shell.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681765840",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T20:54:07Z",
+      "jobs": [
+        {
+          "id": 112999326007,
+          "name": "shell",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 scripts/cp7_contract_receipt.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run python3 scripts/cp7_native_fixture_window_test.py",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm test",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run test:security",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm run build",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npx --no-install playwright install --with-deps chromium",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npx --no-install playwright test --config playwright.cp7.config.ts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326241,
+          "name": "p19-assembly",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npx --no-install vitest run tests/cp7/families/f05-assembly.test.ts tests/cp7/families/f05-timeline.test.ts tests/cp7/families/f05-kernel-maps.test.ts tests/cp7/families/f05-report-render.test.ts tests/cp7/families/f04-demand-history-linear.test.ts tests/cp7/families/f04-history-build-linear.test.ts tests/cp7/families/f04-demand-estimate-rounding.test.ts tests/cp7/families/f04-schedule-scenario-linear.test.ts tests/cp7/families/f04-wip-normalize-linear.test.ts tests/cp7/families/f04-netting-linear.test.ts tests/cp7/families/f04-allocation-linear.test.ts tests/cp7/families/f04-baseline-build-linear.test.ts tests/cp7/families/f04-supply-exhausted.test.ts tests/cp7/families/f04-supply-proofs.test.ts tests/cp7/families/f04-model-knowledge-cutoff.test.ts",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_p19_assembly_benchmark.mjs test-results/cp7-shell-proof/P19_ASSEMBLY_KERNEL.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_p19_report_render_benchmark.mjs test-results/cp7-shell-proof/P19_REPORT_RENDER_KERNEL.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_p19_demand_history_benchmark.mjs test-results/cp7-shell-proof/P19_DEMAND_HISTORY_KERNEL.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_p19_schedule_benchmark.mjs test-results/cp7-shell-proof/P19_SCHEDULE_SCENARIO_KERNEL.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_p19_wip_normalize_benchmark.mjs test-results/cp7-shell-proof/P19_WIP_NORMALIZE_KERNEL.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_p19_netting_benchmark.mjs test-results/cp7-shell-proof/P19_NETTING_KERNEL.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_p19_allocation_benchmark.mjs test-results/cp7-shell-proof/P19_ALLOCATION_KERNEL.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_p19_baseline_benchmark.mjs test-results/cp7-shell-proof/P19_BASELINE_BUILD_KERNEL.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_pl8_exhausted_benchmark.mjs test-results/cp7-shell-proof/PL8_EXHAUSTED_CLASSIFICATION.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run node scripts/cp7_pl8_proof_benchmark.mjs test-results/cp7-shell-proof/PL8_EXHAUSTION_PROOFS.json",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326420,
+          "name": "p19-staged",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npm ci",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run npx --no-install vitest run tests/cp7/families/f05-staged-analysis.test.ts tests/cp7/families/f05-staged-scenario.test.ts tests/cp7/families/f05-staged-pages.test.ts tests/cp7/families/f05-staged-api.test.ts tests/cp7/families/f05-analysis-jobs.test.ts --maxWorkers=1",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Measure all 5,000 targets with the real product kernels",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326569,
+          "name": "CP7 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Reject CodeQL findings or incomplete runs",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326597,
+          "name": "CP7 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Reject CodeQL findings or incomplete runs",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681766279,
+      "workflow_name": "CP7 P08 Physical Fabric",
+      "path": ".github/workflows/claude-p08-physical.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681766279",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T21:26:39Z",
+      "jobs": [
+        {
+          "id": 112999325815,
+          "name": "attention284",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326231,
+          "name": "analysis152",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326305,
+          "name": "fabric-physical21",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326310,
+          "name": "fabric13-successor",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999326408,
+          "name": "plan39",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 37681766021,
+      "workflow_name": "CP7 P19 Analysis Job Transport",
+      "path": ".github/workflows/claude-p19-transport.yml",
+      "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+      "source_branch": "claude/new-session-deapao",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37681766021",
+      "event": "push",
+      "run_status": "completed",
+      "run_conclusion": "success",
+      "created_at": "2026-10-07T20:24:34Z",
+      "updated_at": "2026-10-07T21:45:28Z",
+      "jobs": [
+        {
+          "id": 112999325225,
+          "name": "p19-transport11",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325631,
+          "name": "p19-staged12",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 112999325720,
+          "name": "p19-scale5",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned disposable runtime",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install candidate browser dependencies",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned Supabase CLI",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Record proposed source and prepare isolated proof paths",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Provision isolated rollback authority",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Clone the aligned AB state for install",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Qualify the declared Native suite",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove disposable database",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Retain every complete Original JSON independently of the full archive",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+              "status": "completed",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "originals_scope": "Exact source/run-bound Originals and separate scope-specific receipts, including every prior failure; overlapping cases are never summed.",
+  "qualification_receipt_directory": "docs/cp7/evidence/gpt-staged-5000-20261008",
+  "independent_acceptance": false,
+  "full_CP7_acceptance": false,
+  "full_P19_acceptance": false,
+  "installed_P21_acceptance": false,
+  "production_go": false
+}

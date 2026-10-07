@@ -1,0 +1,130 @@
+{
+  "artifact_id": 11511520081,
+  "artifact_name": "cp7-p19-staged",
+  "run_id": 37681765840,
+  "job_id": 112999326420,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 8515,
+  "zip_sha256": "3407c0d485a1e18bc45ec32fc2888e49894cd0b783305e4dcf690c08ef66e236",
+  "status": "COMPLETE_CI_KERNEL_GENERATED_CAPTURES_NOT_AUTH_APP_CAPACITY",
+  "original_label": "LOCAL_PG16_DEV_KERNEL_GENERATED_CAPTURES_NOT_EVIDENCE",
+  "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+  "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+  "stand_ins": [],
+  "all_zip_members": {
+    "P19_STAGED_ANALYSIS_KERNEL.json": {
+      "bytes": 66208,
+      "sha256": "c389663ebe07fa973aba053ac962732179f6178a09d155c38e0c8642f632e301"
+    }
+  },
+  "vectors": [
+    {
+      "targets": 1000,
+      "days": 30,
+      "state": "DONE",
+      "unit_count": 45,
+      "wall_ms": 24277,
+      "max_unit_server_ms": 1735.4,
+      "retries": 0,
+      "completeness": {
+        "recommendations": 1000,
+        "history_rows": 1000,
+        "baseline_rows": 1000,
+        "netting_rows": 1000,
+        "target_keys_covered": 1000,
+        "page_count": 8,
+        "pages_utf8_bytes": 59634530,
+        "max_page_utf8_bytes": 7987597,
+        "header_utf8_bytes": 367243,
+        "identity_hash": "c3c78ed685c015cb3b45f83b41e3cbe13b37f0c65fa4e82b04a878b4dbd48068"
+      },
+      "capture": {
+        "bytes": 9109114,
+        "sales": 3000,
+        "stock": 7194,
+        "scheduled_positions": 47,
+        "prepared_ms": 707
+      },
+      "single": {
+        "state": "DONE",
+        "sha256": "20f2f0c82b81724a6f5276f8b915b3635b334be4090d37cb5aaee0c419bb5374",
+        "client_ms": 18858,
+        "note": "single analysis build in ONE call without a statement limit (measurement only)"
+      }
+    },
+    {
+      "targets": 5000,
+      "days": 30,
+      "state": "DONE",
+      "unit_count": 165,
+      "wall_ms": 128438,
+      "max_unit_server_ms": 2009.6,
+      "retries": 0,
+      "completeness": {
+        "recommendations": 5000,
+        "history_rows": 5000,
+        "baseline_rows": 5000,
+        "netting_rows": 5000,
+        "target_keys_covered": 5000,
+        "page_count": 37,
+        "pages_utf8_bytes": 293494866,
+        "max_page_utf8_bytes": 7994313,
+        "header_utf8_bytes": 1582621,
+        "identity_hash": "a5037f806b04c8b8780e4d13d947485012de216cec4e76938b1c26b1013b3a0f"
+      },
+      "capture": {
+        "bytes": 45379716,
+        "sales": 15000,
+        "stock": 36124,
+        "scheduled_positions": 36,
+        "prepared_ms": 2906
+      },
+      "single": {
+        "state": "REFUSED",
+        "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+        "sqlstate": "P0001",
+        "client_ms": 39,
+        "note": "single analysis build in ONE call without a statement limit (measurement only)"
+      }
+    },
+    {
+      "targets": 5000,
+      "days": 100,
+      "state": "DONE",
+      "unit_count": 193,
+      "wall_ms": 143401,
+      "max_unit_server_ms": 2089.5,
+      "retries": 0,
+      "completeness": {
+        "recommendations": 5000,
+        "history_rows": 5000,
+        "baseline_rows": 5000,
+        "netting_rows": 5000,
+        "target_keys_covered": 5000,
+        "page_count": 37,
+        "pages_utf8_bytes": 294566061,
+        "max_page_utf8_bytes": 7994343,
+        "header_utf8_bytes": 1560406,
+        "identity_hash": "915a24116ff61289a86a23b3b76ecd0528dd8f15df3baa3c294a82b07cfbf578"
+      },
+      "capture": {
+        "bytes": 45294946,
+        "sales": 15000,
+        "stock": 36104,
+        "scheduled_positions": 40,
+        "prepared_ms": 2965
+      },
+      "single": {
+        "state": "REFUSED",
+        "message": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+        "sqlstate": "P0001",
+        "client_ms": 41,
+        "note": "single analysis build in ONE call without a statement limit (measurement only)"
+      }
+    }
+  ],
+  "Native_case_credit_added": 0,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

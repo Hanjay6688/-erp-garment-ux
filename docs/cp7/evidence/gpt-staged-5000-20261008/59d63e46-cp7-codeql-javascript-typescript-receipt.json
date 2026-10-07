@@ -1,0 +1,20 @@
+{
+  "artifact_id": 11509209099,
+  "artifact_name": "cp7-codeql-javascript-typescript",
+  "run_id": 37681765840,
+  "source_commit": "59d63e46ea5b109101a4e0a2eff7d27a8f3541f8",
+  "zip_bytes": 127923,
+  "zip_sha256": "262f03fe61104d7b62c482864c016e21713aad32d0c586d3caf9e9badaecbbed",
+  "status": "ZERO_SARIF_RESULTS",
+  "sarif_results": {
+    "javascript.sarif": 0
+  },
+  "all_zip_members": {
+    "javascript.sarif": {
+      "bytes": 1447047,
+      "sha256": "307eddb32c435caf9172d90010892b7f8dd047d6b550ec329e3fb1ad667dd4ef"
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}
