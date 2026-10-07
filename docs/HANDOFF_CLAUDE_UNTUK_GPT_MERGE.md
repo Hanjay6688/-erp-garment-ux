@@ -626,6 +626,7 @@ Oracle browser P12 payroll-review (`.cpay-net` "Bersih payroll") **tidak diubah 
 | `cb201edf` | **PL-8 bagian 2:** grup potong yang terbukti habis keluar dari cakupan supply dan dicantumkan (`cp7.native-supply.v2`); jalur PL-7 dibetulkan; suite rencana 42 |
 | `ee966484` | Deklarasi suite analisis 153 dan attention 285 (keduanya ikut menjalankan kasus jadwal PL-4; kegagalan pertama P08 37570105099 dicatat) |
 | `a0d81bc0` | Deklarasi `P19_SCALE.json` mengikuti batas supply v2 (kegagalan pertama skala 37574636528 dicatat; batas ditambah, tidak dilonggarkan) |
+| `03bf0fba` | Helper klon kasus Native PL-8 menjaga batas `varchar(n)` kunci unik (kegagalan pertama P08 37574849004 dicatat; hanya harness). **Head kandidat bukti satu-head** |
 | sisanya | dokumen (`SELF_CHECK_FORMULAS_20261006.md`, `P20_P21_PAKET_CABANG_CLAUDE.md` §9, `p19/P19_FULL_APP_SCALE.md`) dan jalur workflow |
 
 **Perubahan belum di-push:** tidak ada (pohon kerja bersih; `HEAD` = `origin/claude/new-session-deapao`).
@@ -640,6 +641,7 @@ Per commit: `docs/cp7/SELF_CHECK_FORMULAS_20261006.md` §6. Bukti satu head untu
 - **P19 skala aplikasi penuh:** 100 target sudah ±7,5 dtk di server dan 7,7–9,9 dtk klik-sampai-tampil (target 3 dtk belum terpenuhi). 300/1000/5000 dan profil per fase sedang diukur. 5.000 target per capture ditolak batas 1.000 produk — butuh keputusan kapasitas (batas tidak dinaikkan sepihak).
 - **Netting, alokasi, dan baseline kuadratik:** sudah linear dengan paritas byte (`083c90e3`, `9e3394e3`, `2c6884ea`). Run skala 4 (`a634296e`, sebelum alokasi/baseline): 100 target 4,4–4,9 dtk klik sampai tampil; 300 target selesai di latar belakang (11,5–11,8 dtk); 1000/5000 ditolak jujur di 8 dtk. Run 5 mengukur ulang.
 - **Sisa skala:** `cp7_demand.history` di grid panjang (1000 × 100 hari, lokal 9,7 dtk, output 23 MB) dan `financial_source` (fingerprint seluruh jurnal/baris/saldo harian, ikut ukuran buku besar, berhenti di 8 dtk pada data 5.000 target). Batas 1.000 produk per capture tetap; 5.000 target butuh keputusan kapasitas owner.
+- **P19 lapisan dominan sesudah perbaikan (run skala 7, `a0d81bc0`):** di 1000 target `netting_build` ±6,4 dtk (linear, dua panggilan kernel `net` + `timeline` per target) dan `analysis_source`/`financial_source` ±4,2 dtk (laporan keuangan CP6 + fingerprint buku besar). Pilihan untuk keuangan (muat saat diminta / cache fingerprint / terima) adalah keputusan desain owner; tidak ada batas yang dinaikkan.
 - **Keputusan owner:** PL-5 (pilihan A/B yield start baru), AP-5, delapan konfigurasi nyata, ambang pengingat/kelipatan produksi CP7 (PENDING_POLICY_VALUE).
 - **Audit independen P20** dan **pemasangan P21**: belum; penerimaan akhir mengikuti kandidat yang lolos audit.
 
