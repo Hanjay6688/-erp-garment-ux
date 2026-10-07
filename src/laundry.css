@@ -245,3 +245,5 @@
 .laundry-summary-scope.filtered{border-color:rgba(124,141,255,.38);background:rgba(124,141,255,.1);color:#d3daf8}
 .laundry-summary-scope button{margin-left:auto;min-height:30px;padding:0 11px;border:1px solid rgba(124,141,255,.36);border-radius:9px;background:rgba(124,141,255,.14);color:#e3e8ff;font-size:12px;cursor:pointer}
 @media(max-width:760px){.laundry-summary-scope button{margin-left:0}}
+/* Pola / Mandor filters: the framed box is the field, the picker trigger sits inside it unframed */
+:is(.laundry-pattern-filter,.laundry-mandor-filter,.nota-mandor-filter) .browse-picker.size-compact>.browse-picker-trigger{min-height:30px;padding:2px 4px 2px 0;border-color:transparent;background:transparent}

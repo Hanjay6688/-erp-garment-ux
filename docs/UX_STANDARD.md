@@ -177,10 +177,78 @@ supaya repo tidak membengkak.
 
 Stock Adjustment: ![](ux/r2-after-adjustment-picker.jpg) ![](ux/r2-after-adjustment-size.jpg)
 
-Belum diubah (dicatat jujur): pemilih di halaman mode backend (*Connected*:
-produk BS legacy, sumber klaim laundry, PO potong) masih dropdown biasa —
-halaman itu bertema terang sendiri dan diuji kontrak; picker perlu varian
-terang dulu.
+### Lanjutan: picker di halaman *Connected* dan menu lain
+
+Catatan sebelumnya ("pemilih di halaman mode backend masih dropdown biasa,
+picker perlu varian terang dulu") sudah dikerjakan:
+
+- **`BrowsePicker` varian terang** — `tone="light"`: field putih, garis hangat
+  `#d9cec7`, teks `#342c27`, aksen hijau `#315e48` seperti kartu halaman
+  *Connected* (Buat Potongan, Bagi Potongan, WIP & Sewing). Warna ditulis
+  sebagai custom property supaya mirror "Tampilan baru" (yang mencerahkan teks
+  untuk tema gelap) tidak mengubahnya. Perilaku, ARIA (combobox/listbox),
+  keyboard (panah, Home/End, Enter, Esc, Tab), portal ke `<body>` dan buka ke
+  atas saat ruang sempit sama dengan varian gelap. Tambahan: `size="compact"`
+  untuk toolbar/filter, `hideLabel` + `aria-label` bila caption sudah ada di
+  halaman, baris `pinned` ("Semua Pola", "Belum dapat diidentifikasi") yang
+  tetap terlihat saat mencari, dan pencarian server (`onQueryChange`,
+  `filterOptions={false}`) untuk Master Pola. **Varian gelap tidak berubah**:
+  computed style + ukuran picker Stock Adjustment & Ganti Merek dibandingkan
+  sebelum/sesudah (baru/lama × 1366/390 × tertutup/terbuka) → 0 perbedaan.
+- **Audit 86 `<select>`** di `src/`: 28 diganti picker, 58 tetap `<select>`
+  (enumerasi tetap: status, jenis, mode, UOM, prioritas, termin, metode,
+  grade, alasan, urutan; daftar konfigurasi pendek: gudang 2–3, akun kas/bank
+  3, merek 2, role, kategori BOM, batch per roll 1..N).
+
+| Halaman | Picker baru (searchable, dikelompokkan, info di baris) |
+|---|---|
+| Buat Potongan *Connected* | Production Order (per model; Mandor & tahap di baris) |
+| Bagi Potongan *Connected* | Mandor; Filter Pola (cari di server) |
+| WIP & Sewing *Connected* | Filter Pola (cari di server) |
+| Barang BS & Rework *Connected* (tema gelap halaman itu) | Produk BS legacy; sumber claim Laundry (surat kirim / baris penerimaan, per Laundry, sisa pcs bisa diclaim); Mandor / Laundry penanggung jawab; Mandor rework / vendor rewash; claim settled (saldo pcs / Rp); Filter Pola CP5 |
+| Bagi Potongan, WIP & Sewing, Laundry, QC (demo) | Filter Pola; Mandor (pickup, filter Laundry, filter QC); Laundry (QC); **SKU final** (QC, per merek, nama · warna · range) |
+| Barang BS & Rework, Susun Nota FG, Absensi (demo) | Mandor (filter, rework, asal legacy, nota, absensi) |
+| Penjualan & Invoice, Semua Invoice, Pembayaran, Riwayat, Piutang (demo) | Pelanggan / toko |
+
+- **Aturan lama tetap**: nilai yang dikirim sama (dicek per RPC/payload di
+  tes DOM); default lama tetap (PO pertama, Mandor aktif pertama, surat kirim
+  pertama yang masih bisa diclaim, SKU pertama merek, merek rencana) dan tidak
+  ada pilihan otomatis baru; kunci tetap beserta alasannya (Mandor dari PO,
+  PO pada draft tersimpan — kini dengan teks alasan, Nota FG yang sudah
+  posted, kasus BS tertutup); Mandor nonaktif pada draft tampil "TIDAK AKTIF"
+  dan tidak bisa dipilih; ganti sumber claim / claim tetap mengosongkan qty;
+  memilih ulang nilai yang sama tidak mereset form (sama seperti `<select>`).
+- **Ditemukan saat cek visual dan diperbaiki**: (1) kartu "Identitas kanonik"
+  Buat Potongan *Connected* terjepit ~120px (PO terbaca "PO-:") karena kotak
+  Pola `grid-column: span 2` membuat kolom implisit; (2) WIP & Sewing
+  *Connected*: angka KPI, judul kartu dan Pola snapshot putih di atas putih
+  (kedua tampilan); (3) Tampilan baru: input/select di halaman *Connected*
+  terang ("Waktu fisik diambil", "Urutan WIP") putih di atas putih karena
+  `color-scheme: dark` → halaman itu kini `color-scheme: light`.
+- **Bukti**: tes 196 → 235 (+39: 8 komponen picker, 16 picker *Connected*, 15 picker
+  demo; tes lama yang memakai `<select>` diadaptasi tanpa melemahkan
+  assertion); kontrak browser CP5 12/12, cutting-bridge + CP4.5 4/4;
+  screenshot 31 pemilih × 1366/390 (tertutup + terbuka): popdown tidak
+  terpotong, 0 scroll horizontal, 0 error konsol.
+
+| | Sebelum | Sesudah |
+|---|---|---|
+| Bagi Potongan *Connected* (Tampilan baru) | ![](ux/r3-before-connected-pickup.jpg) | ![](ux/r3-after-connected-pickup-mandor.jpg) |
+
+PO potong: ![](ux/r3-after-connected-po-picker.jpg) Claim Laundry: ![](ux/r3-after-bs-claim-source.jpg) Filter Laundry: ![](ux/r3-after-laundry-filter.jpg)
+
+Belum diubah (dicatat jujur):
+
+- **Produk BS legacy belum bisa "produk dulu, lalu size"**: lookup
+  `erp_get_bs_resolution_workspace_v1` hanya mengirim `{id, sku, name}` per
+  SKU-size (`erp.products.size_id` tidak ikut). Memisah size butuh perubahan
+  RPC CP5 (di luar perubahan UI); sementara picker mencari SKU/nama.
+- **`EnterpriseSelect`** (menu kustom, bukan `<select>`) untuk Mandor di Nota
+  Ambil Aksesori dan Payroll belum diganti picker yang bisa dicari.
+- **Tema halaman *Connected* di atas shell gelap**: judul hero Buat/Bagi
+  Potongan coklat gelap di atas latar gelap, dan teks abu-coklat di kartu
+  putih ikut dicerahkan mirror "Tampilan baru" (±3 : 1). Ini keputusan tema
+  halaman, bukan picker.
 
 ## 11. Pecah batch distribusi (WIP & Sewing)
 
@@ -218,7 +286,12 @@ owner atas aturannya.
   "3. Hand-written" `src/ux-rapih.css`; selalu diawali `.ux-rapih`.
 - Teks baru: pakai token (`var(--fs-sm)`, `var(--text-muted)`), jangan px < 12.
 - Modal/drawer/popdown baru: bungkus dengan `OverlayPortal`.
-- Pilih barang dari katalog (SKU, roll, aksesori): pakai `BrowsePicker`, jangan
-  satu `<select>` datar; size dipilih terpisah.
+- Pilih barang dari katalog (SKU, roll, aksesori) atau entitas yang terus
+  bertambah (PO, Pola, Mandor, Laundry, pelanggan, claim): pakai
+  `BrowsePicker`, jangan satu `<select>` datar; size dipilih terpisah.
+  `<select>` hanya untuk enumerasi tetap yang pendek. Halaman terang
+  (*Connected*): `tone="light"`; toolbar/filter: `size="compact"`; caption
+  sudah ada di halaman: `hideLabel` + `aria-label`. Handler yang mereset form
+  dijaga agar memilih ulang nilai yang sama tidak mengubah apa pun.
 - Pencarian daftar: `matchesSearch(query, searchValues(row), …label tampil)`.
 - Kolom browse master-detail: `var(--list-pane)`.

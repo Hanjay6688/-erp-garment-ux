@@ -12,6 +12,9 @@ export type BrowseOption = {
   group?: string
   keywords?: string
   disabled?: boolean
+  // Always listed whatever is typed: "Semua …" / "Belum dapat diidentifikasi"
+  // style choices that must stay reachable while the list is narrowed.
+  pinned?: boolean
 }
 
 type BrowsePickerProps = {
@@ -24,6 +27,23 @@ type BrowsePickerProps = {
   emptyText?: string
   disabled?: boolean
   className?: string
+  // 'light' matches the backend-mode (Connected) pages: white fields, warm
+  // borders, green accent. The default stays the dark ERP look.
+  tone?: 'dark' | 'light'
+  // 'compact' fits toolbars and filter rows (one line, ~36px).
+  size?: 'regular' | 'compact'
+  // The visible label stays the accessible name; hide it when the host already
+  // prints the same caption next to the field.
+  hideLabel?: boolean
+  // Accessible name for the trigger and list when it must differ from `label`
+  // (e.g. "Filter Pola Laundry" while the caption reads "POLA").
+  'aria-label'?: string
+  // Server-side search: the host is told what was typed and supplies options.
+  onQueryChange?: (query: string) => void
+  // false when options are already narrowed by the host (server search).
+  filterOptions?: boolean
+  // Replaces the "n / m" counter in the search row (e.g. loading state).
+  status?: string
 }
 
 const PANEL_GAP = 6
@@ -50,6 +70,13 @@ export default function BrowsePicker({
   emptyText = 'Tidak ada yang cocok. Coba kata lain.',
   disabled = false,
   className = '',
+  tone = 'dark',
+  size = 'regular',
+  hideLabel = false,
+  'aria-label': ariaLabel,
+  onQueryChange,
+  filterOptions = true,
+  status,
 }: BrowsePickerProps) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -65,7 +92,22 @@ export default function BrowsePicker({
   const optionDomId = (id: string) => `${baseId}-opt-${id.replace(/[^A-Za-z0-9_-]/g, '_')}`
 
   const selected = options.find((option) => option.id === value) ?? null
-  const filtered = useMemo(() => options.filter((option) => matchesBrowseQuery(option, query)), [options, query])
+  const filtered = useMemo(
+    () => filterOptions ? options.filter((option) => option.pinned || matchesBrowseQuery(option, query)) : options,
+    [options, query, filterOptions],
+  )
+  const matchCount = filtered.filter((option) => !option.pinned).length
+  const totalCount = options.filter((option) => !option.pinned).length
+  const toneClass = tone === 'light' ? ' tone-light' : ''
+  const sizeClass = size === 'compact' ? ' size-compact' : ''
+  const searchLabel = `Cari ${(ariaLabel ?? label).toLowerCase()}`
+  const queryRef = useRef('')
+  const updateQuery = useCallback((next: string) => {
+    if (next === queryRef.current) return
+    queryRef.current = next
+    setQuery(next)
+    onQueryChange?.(next)
+  }, [onQueryChange])
   const selectable = useMemo(() => filtered.filter((option) => !option.disabled), [filtered])
   const groups = useMemo(() => {
     const result: { name: string; items: BrowseOption[] }[] = []
@@ -95,9 +137,9 @@ export default function BrowsePicker({
 
   const close = useCallback((refocus: boolean) => {
     setOpen(false)
-    setQuery('')
+    updateQuery('')
     if (refocus) triggerRef.current?.focus()
-  }, [])
+  }, [updateQuery])
 
   const choose = (option: BrowseOption) => {
     if (option.disabled) return
@@ -129,13 +171,18 @@ export default function BrowsePicker({
     }
   }, [open, place, close])
 
-  // Keep the highlighted row valid while the list narrows.
+  // Keep the highlighted row valid while the list narrows. While typing, a
+  // pinned row ("Semua …") never keeps the highlight from the first real match.
   useEffect(() => {
     if (!open) return
-    if (activeId && selectable.some((option) => option.id === activeId)) return
-    const preferred = selectable.find((option) => option.id === value) ?? selectable[0]
+    const active = selectable.find((option) => option.id === activeId)
+    const firstMatch = query.trim() && selectable.some((option) => option.pinned)
+      ? selectable.find((option) => !option.pinned)
+      : undefined
+    if (active && !(active.pinned && firstMatch)) return
+    const preferred = firstMatch ?? selectable.find((option) => option.id === value) ?? selectable[0]
     setActiveId(preferred?.id ?? null)
-  }, [open, selectable, activeId, value])
+  }, [open, selectable, activeId, value, query])
 
   useEffect(() => {
     if (!open || !activeId) return
@@ -163,15 +210,16 @@ export default function BrowsePicker({
     else if (event.key === 'Tab') close(false)
   }
 
-  return <div className={`browse-picker ${open ? 'open' : ''} ${className}`.trim()}>
-    <span className="browse-picker-label" id={labelId}>{label}</span>
+  return <div className={`browse-picker ${open ? 'open' : ''}${toneClass}${sizeClass} ${className}`.replace(/\s+/g, ' ').trim()}>
+    <span className={`browse-picker-label${hideLabel ? ' is-hidden' : ''}`} id={labelId}>{label}</span>
     <button
       ref={triggerRef}
       type="button"
       className="browse-picker-trigger"
       aria-haspopup="listbox"
       aria-expanded={open}
-      aria-labelledby={labelId}
+      aria-labelledby={ariaLabel ? undefined : labelId}
+      aria-label={ariaLabel}
       aria-describedby={selected ? `${baseId}-value` : undefined}
       disabled={disabled}
       onClick={() => (open ? close(false) : setOpen(true))}
@@ -186,7 +234,7 @@ export default function BrowsePicker({
       <ChevronDown aria-hidden="true"/>
     </button>
     {open ? <OverlayPortal>
-      <div ref={panelRef} className="browse-picker-panel" style={panelStyle}>
+      <div ref={panelRef} className={`browse-picker-panel${toneClass}${sizeClass}`} style={panelStyle}>
         <label className="browse-picker-search">
           <Search aria-hidden="true"/>
           <input
@@ -196,15 +244,15 @@ export default function BrowsePicker({
             aria-controls={listId}
             aria-autocomplete="list"
             aria-activedescendant={activeId ? optionDomId(activeId) : undefined}
-            aria-label={`Cari ${label.toLowerCase()}`}
+            aria-label={searchLabel}
             value={query}
             placeholder={searchPlaceholder}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => updateQuery(event.target.value)}
             onKeyDown={onSearchKey}
           />
-          <small>{filtered.length} / {options.length}</small>
+          <small>{status ?? <>{matchCount} / {totalCount}</>}</small>
         </label>
-        <ul ref={listRef} id={listId} role="listbox" aria-labelledby={labelId} className="browse-picker-list">
+        <ul ref={listRef} id={listId} role="listbox" aria-labelledby={ariaLabel ? undefined : labelId} aria-label={ariaLabel} className="browse-picker-list">
           {groups.map((group) => <li key={group.name || '—'} role="presentation" className="browse-picker-group">
             {group.name ? <span className="browse-picker-group-name" aria-hidden="true">{group.name}</span> : null}
             <ul role="group" aria-label={group.name || undefined}>
@@ -228,7 +276,7 @@ export default function BrowsePicker({
               })}
             </ul>
           </li>)}
-          {filtered.length === 0 ? <li role="presentation" className="browse-picker-empty">{emptyText}</li> : null}
+          {matchCount === 0 ? <li role="presentation" className="browse-picker-empty">{emptyText}</li> : null}
         </ul>
       </div>
     </OverlayPortal> : null}

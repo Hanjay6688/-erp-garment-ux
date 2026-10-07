@@ -229,13 +229,15 @@ test('CP5 local mocked-UAT contract keeps server-side Pattern truth and one muta
   await expect(page.getByText('UAT BACKEND CONNECTED', { exact: true })).toBeVisible()
   await expect(page.getByText('REG · R2 · Regular', { exact: true }).first()).toBeVisible()
 
-  await page.getByLabel('FILTER POLA CP5').selectOption('pattern-2')
+  await page.getByRole('button', { name: 'FILTER POLA CP5' }).click()
+  await page.locator('[role="option"][id$="-opt-pattern-2"]').click()
   await expect(page.getByText('Tidak ada kasus pada filter ini')).toBeVisible()
   await expect(page.getByText('Tidak ada detail')).toBeVisible()
   await expect(page.getByText('BS-1', { exact: true })).toHaveCount(0)
   expect(calls.workspace.filter((args) => args.p_pattern_id === 'pattern-2')).toHaveLength(1)
 
-  await page.getByLabel('FILTER POLA CP5').selectOption('pattern-1')
+  await page.getByRole('button', { name: 'FILTER POLA CP5' }).click()
+  await page.locator('[role="option"][id$="-opt-pattern-1"]').click()
   await expect(page.locator('.cbsr-detail').getByRole('heading', { name: 'BS-1', exact: true })).toBeVisible()
   const accessoryChoice = page.getByRole('group', { name: /AKSESORI YANG BENAR-BENAR DIPASANG/ })
   await expect(accessoryChoice.getByText('KANCING · Kancing')).toBeVisible()

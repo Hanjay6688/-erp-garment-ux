@@ -15,6 +15,7 @@ import {
   type LaundryDelivery,
   type LaundryReadyBatch,
 } from './App'
+import { choosePickerOption, openPicker, pickerOptionLabels, pickerTrigger, pickerValue, pressInPicker } from './components/browsePickerDom.test.support'
 
 let container: HTMLDivElement
 let root: Root
@@ -46,12 +47,8 @@ function Harness() {
   />
 }
 
-const mandorSelect = () => container.querySelector<HTMLSelectElement>('select[aria-label="Filter Mandor Laundry"]')!
-const chooseMandor = (value: string) => act(() => {
-  const select = mandorSelect()
-  Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')!.set!.call(select, value)
-  select.dispatchEvent(new Event('change', { bubbles: true }))
-})
+const mandorPicker = () => pickerTrigger('Filter Mandor Laundry', container)
+const chooseMandor = (value: string) => choosePickerOption(mandorPicker(), value)
 const parentTitles = () => [...container.querySelectorAll('.laundry-parent-card h3')].map((node) => node.textContent)
 const returnTitles = () => [...container.querySelectorAll('.laundry-return-card h3')].map((node) => node.textContent)
 const kpi = (label: string) => [...container.querySelectorAll('.laundry-kpi-grid > .panel')]
@@ -76,15 +73,17 @@ describe('laundry mandor helpers', () => {
 })
 
 describe('LaundryPage mandor filter', () => {
-  it('filters the send list, the return list and the summary by mandor', () => {
+  it('filters the send list, the return list and the summary by mandor', async () => {
     act(() => root.render(<Harness/>))
 
-    expect([...mandorSelect().options].map((option) => option.textContent)).toEqual(['Semua mandor', 'Mandor Afat', 'Mandor Asep', 'Mandor Dedi'])
+    await openPicker(mandorPicker())
+    expect(pickerOptionLabels()).toEqual(['Semua mandor', 'Mandor Afat', 'Mandor Asep', 'Mandor Dedi'])
+    await pressInPicker('Escape')
     expect(parentTitles()).toHaveLength(3)
     expect(container.querySelector('.laundry-summary-scope')?.textContent).toContain('semua mandor')
     expect(kpi('SIAP DIKIRIM')).toBe('583 pcs')
 
-    chooseMandor('Mandor Asep')
+    await chooseMandor('Mandor Asep')
     expect(parentTitles()).toEqual(['POT-260826-041 · Malibu Regular'])
     expect(kpi('SIAP DIKIRIM')).toBe('244 pcs')
     expect(kpi('SEDANG DI LUAR')).toBe('64 pcs')
@@ -97,12 +96,12 @@ describe('LaundryPage mandor filter', () => {
     clickButton('Terima kembali')
     expect(returnTitles()).toEqual(['POT-260826-041 · Batch 041-02'])
 
-    chooseMandor('Mandor Afat')
+    await chooseMandor('Mandor Afat')
     expect(returnTitles()).toEqual(['POT-260824-038 · Batch 038-01'])
     expect(kpi('LAUNDRY BS')).toBe('4 pcs')
 
     clickButton('Tampilkan semua mandor')
-    expect(mandorSelect().value).toBe(LAUNDRY_ALL_MANDORS)
+    expect(pickerValue(mandorPicker())).toBe(LAUNDRY_ALL_MANDORS)
     expect(returnTitles()).toHaveLength(3)
     expect(kpi('LAUNDRY BS')).toBe('12 pcs')
   })

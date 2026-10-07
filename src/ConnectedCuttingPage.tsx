@@ -3,6 +3,8 @@ import { AlertTriangle, Check, Database, FilePenLine, LoaderCircle, RefreshCw, S
 import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
 import CuttingPatternPicker from './CuttingPatternPicker'
+import BrowsePicker from './components/BrowsePicker'
+import type { BrowseOption } from './components/BrowsePicker'
 import type { CuttingPatternChoice } from './CuttingPatternPicker'
 import {
   parseCuttingSaveResult,
@@ -123,6 +125,19 @@ export default function ConnectedCuttingPage() {
   const selected = Object.values(selectedRolls)
   const selectedIds = new Set(Object.keys(selectedRolls))
   const availableSizes = sizesForOrder(workspace, orderId)
+  // PO picker: grouped per model (same order the backend returns), Mandor and stage in the row.
+  const orderOptions: BrowseOption[] = useMemo(() => {
+    const orders = workspace?.orders ?? []
+    const models = [...new Set(orders.map((order) => order.model_id))]
+    return [...orders].sort((a, b) => models.indexOf(a.model_id) - models.indexOf(b.model_id)).map((order) => ({
+      id: order.id,
+      label: order.po_number,
+      detail: `${order.model_code} · ${order.model_name} · ${order.contractor_name ?? 'Mandor belum dikunci'}`,
+      meta: order.current_stage,
+      group: `${order.model_code} · ${order.model_name}`,
+      keywords: `${order.po_number} ${order.model_code} ${order.model_name} ${order.contractor_name ?? ''} ${order.status}`,
+    }))
+  }, [workspace])
   const totalIssued = selected.reduce((sum, item) => sum + item.issued, 0)
   const totalConsumed = selected.reduce((sum, item) => sum + numeric(item.consumed), 0)
   const totalRemaining = selected.reduce((sum, item) => sum + Math.max(0, item.issued - numeric(item.consumed)), 0)
@@ -310,7 +325,7 @@ export default function ConnectedCuttingPage() {
       <aside className="ccut-drafts"><header><div><span>DRAFT BACKEND</span><strong>{workspace?.drafts.length ?? 0} Potongan</strong></div><button onClick={resetForm}>Baru</button></header>{workspace?.drafts.map((draft) => <button key={draft.cutting_group_id} className={draftId === draft.cutting_group_id ? 'active' : ''} onClick={() => resumeDraft(draft)}><FilePenLine/><span><strong>{draft.group_number}</strong><small>{draft.po_number} · {draft.pattern_code ? `${draft.pattern_code} ${draft.pattern_revision}` : 'Pola belum diikat'}</small></span><em>v{draft.row_version}</em></button>)}{!loading && workspace?.drafts.length === 0 && <p>Belum ada draft Potongan.</p>}</aside>
 
       <main className="ccut-form">
-        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-fields"><label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{workspace?.orders.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong<input type="datetime-local" value={cutAt} max={datetimeLocal(new Date())} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
+        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-fields"><div className="ccut-picker-field"><BrowsePicker tone="light" label="Production Order" value={orderId || null} options={orderOptions} disabled={draftId !== null} onChange={(next) => { if (next !== orderId) changeOrder(next) }} placeholder="Pilih PO…" searchPlaceholder="Cari nomor PO, model, Mandor…" emptyText="PO tidak ditemukan. Coba nomor PO atau kode model lain."/>{draftId !== null ? <small>PO dikunci pada draft yang sudah tersimpan.</small> : null}</div><label>Waktu potong<input type="datetime-local" value={cutAt} max={datetimeLocal(new Date())} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
 
         <section className="ccut-card"><header><span>02 · UKURAN AKTIF</span><strong>Kolom hasil potong sesuai model PO</strong></header><div className="ccut-size-list">{availableSizes.map((size) => <button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} key={size.id}>{size.code}</button>)}{orderId && availableSizes.length === 0 ? <span>Model PO ini belum memiliki ukuran aktif.</span> : null}</div></section>
 

@@ -36,3 +36,51 @@
   .browse-picker-option{grid-template-columns:minmax(0,1fr) auto}
   .browse-picker-option>svg,.browse-picker-option>i{display:none}
 }
+/* Host pages style `.x button` generically (padding, flex, small font, own
+   colours). The trigger keeps its own box wherever it is placed; the values
+   are the ones above, restated one class stronger. */
+.browse-picker>.browse-picker-trigger{width:100%;min-height:48px;margin:0;padding:7px 10px 7px 12px;border-style:solid;border-width:1px;border-color:#44527c;border-radius:12px;background:#161e33;color:#e6ebf6;display:grid;grid-template-columns:minmax(0,1fr) auto 18px;align-items:center;justify-content:normal;gap:10px;text-align:left;box-shadow:none}
+.browse-picker>.browse-picker-trigger:hover{border-color:#5d6fb4}
+.browse-picker>.browse-picker-trigger:focus-visible,.browse-picker.open>.browse-picker-trigger{border-color:#8fa0ff;box-shadow:0 0 0 3px rgba(143,160,255,.3)}
+.browse-picker>.browse-picker-trigger:disabled{opacity:.6;cursor:not-allowed}
+.browse-picker>.browse-picker-trigger>svg{width:18px;height:18px;margin:0}
+.browse-picker .browse-picker-label{color:#8e9ab0;font-size:12px;font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.browse-picker .browse-picker-value strong{font-size:14px;font-weight:600;color:#f3f5fb}
+.browse-picker .browse-picker-value small{font-size:12px;font-weight:400;color:#a7b0c4}
+.browse-picker .browse-picker-value em{font-size:14px;font-weight:400;color:#a7b0c4}
+.browse-picker .browse-picker-meta{font-size:13px;font-weight:600;color:#c9d2ff}
+.browse-picker-label.is-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Compact: one-line trigger for toolbars and filter rows */
+.browse-picker.size-compact{gap:5px}
+.browse-picker.size-compact .browse-picker-trigger{min-height:38px;padding:4px 8px 4px 10px;border-radius:10px;gap:8px}
+.browse-picker.size-compact .browse-picker-value small{display:none}
+.browse-picker.size-compact .browse-picker-value strong,.browse-picker.size-compact .browse-picker-value em{font-size:13px}
+.browse-picker.size-compact .browse-picker-trigger>svg{width:16px;height:16px}
+/* Light tone: the backend-mode (Connected) pages — white fields, warm borders,
+   green accent. Colours are custom properties so the "Tampilan baru" mirror
+   (which lifts mid-tone text for the dark theme) leaves them as designed. */
+.browse-picker.tone-light,.browse-picker-panel.tone-light{--bp-surface:#fff;--bp-surface-soft:#faf8f6;--bp-border:#d9cec7;--bp-border-strong:#b9aaa0;--bp-text:#342c27;--bp-muted:#6e6058;--bp-label:#74675e;--bp-placeholder:#7d7068;--bp-group:#806858;--bp-accent:#315e48;--bp-accent-soft:#70927f;--bp-ring:rgba(49,94,72,.2);--bp-hover:#f4efeb;--bp-selected:#eaf6ef;--bp-selected-text:#285c43;--bp-disabled:#f4f0ed;color-scheme:light}
+.browse-picker.tone-light .browse-picker-label{color:var(--bp-label)}
+.browse-picker.tone-light .browse-picker-trigger{border-color:var(--bp-border);background:var(--bp-surface);color:var(--bp-text);box-shadow:none}
+.browse-picker.tone-light .browse-picker-trigger:hover{border-color:var(--bp-border-strong)}
+.browse-picker.tone-light .browse-picker-trigger:focus-visible,.browse-picker.tone-light.open .browse-picker-trigger{outline:none;border-color:var(--bp-accent);box-shadow:0 0 0 3px var(--bp-ring)}
+.browse-picker.tone-light .browse-picker-trigger:disabled{background:var(--bp-disabled)}
+.browse-picker.tone-light .browse-picker-value strong{color:var(--bp-text)}
+.browse-picker.tone-light .browse-picker-value small,.browse-picker.tone-light .browse-picker-value em{color:var(--bp-muted)}
+.browse-picker.tone-light .browse-picker-meta{color:var(--bp-accent)}
+.browse-picker.tone-light .browse-picker-trigger>svg{color:var(--bp-muted)}
+.browse-picker-panel.tone-light{border-color:var(--bp-border);background:var(--bp-surface);color:var(--bp-text);box-shadow:0 18px 48px rgba(67,45,30,.18),0 2px 6px rgba(67,45,30,.08)}
+.browse-picker-panel.tone-light .browse-picker-search{border-bottom-color:var(--bp-border);background:var(--bp-surface-soft)}
+.browse-picker-panel.tone-light .browse-picker-search:focus-within{outline-color:var(--bp-accent)!important}
+.browse-picker-panel.tone-light .browse-picker-search svg,.browse-picker-panel.tone-light .browse-picker-search small{color:var(--bp-muted)}
+.browse-picker-panel.tone-light .browse-picker-search input{color:var(--bp-text)}
+.browse-picker-panel.tone-light .browse-picker-search input::placeholder{color:var(--bp-placeholder)}
+.browse-picker-panel.tone-light .browse-picker-group-name{background:var(--bp-surface);color:var(--bp-group)}
+.browse-picker-panel.tone-light .browse-picker-option strong{color:var(--bp-text)}
+.browse-picker-panel.tone-light .browse-picker-option small{color:var(--bp-muted)}
+.browse-picker-panel.tone-light .browse-picker-option>b{color:var(--bp-accent)}
+.browse-picker-panel.tone-light .browse-picker-option>svg{color:var(--bp-accent)}
+.browse-picker-panel.tone-light .browse-picker-option.active{background:var(--bp-hover)}
+.browse-picker-panel.tone-light .browse-picker-option.selected{border-color:var(--bp-accent-soft);background:var(--bp-selected)}
+.browse-picker-panel.tone-light .browse-picker-option.selected strong{color:var(--bp-selected-text)}
+.browse-picker-panel.tone-light .browse-picker-empty{color:var(--bp-muted)}

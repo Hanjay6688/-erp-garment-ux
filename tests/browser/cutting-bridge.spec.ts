@@ -1,8 +1,16 @@
 import { expect, test, type Page } from '@playwright/test'
 
 const patterns = {
-  lucy: 'b4500000-0000-0000-0000-000000000042',
-  zodiak: 'b4500000-0000-0000-0000-000000000039',
+  lucy: { id: 'b4500000-0000-0000-0000-000000000042', code: 'LCY-REG' },
+  zodiak: { id: 'b4500000-0000-0000-0000-000000000039', code: 'ZDK-JUMBO' },
+}
+
+// Pola filters are searchable popdowns (BrowsePicker): open, narrow by code,
+// then pick the row that carries the pattern identity.
+async function pickPattern(page: Page, filter: string, pattern: { id: string; code: string }) {
+  await page.getByRole('button', { name: filter, exact: true }).click()
+  await page.getByRole('combobox', { name: `Cari ${filter.toLowerCase()}` }).fill(pattern.code)
+  await page.locator(`[role="option"][id$="-opt-${pattern.id}"]`).click()
 }
 
 async function openNavigation(page: Page, projectName: string, section: string, item: string) {
@@ -21,18 +29,18 @@ test('pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, a
   await page.goto('/')
 
   await openNavigation(page, testInfo.project.name, 'Produksi', 'Bagi Potongan')
-  await page.getByLabel('Filter Pola Bagi Potongan').selectOption(patterns.lucy)
+  await pickPattern(page, 'Filter Pola Bagi Potongan', patterns.lucy)
   await expect(page.locator('.wip-queue-card')).toHaveCount(1)
   await expect(page.locator('.wip-queue-pattern')).toContainText('LCY-REG · R1 · Kulot Lucy Regular')
   await expect(page.locator('.simulation-pattern-filter')).toContainText('DATA SIMULASI')
 
   await openNavigation(page, testInfo.project.name, 'Produksi', 'WIP & Sewing')
-  await page.getByLabel('Filter Pola WIP').selectOption(patterns.lucy)
+  await pickPattern(page, 'Filter Pola WIP', patterns.lucy)
   await expect(page.locator('.sewing-parent-card')).toHaveCount(1)
   await expect(page.locator('.sewing-parent-pattern')).toContainText('LCY-REG · R1 · Kulot Lucy Regular')
 
   await openNavigation(page, testInfo.project.name, 'Produksi', 'Laundry')
-  await page.getByLabel('Filter Pola Laundry').selectOption(patterns.zodiak)
+  await pickPattern(page, 'Filter Pola Laundry', patterns.zodiak)
   await expect(page.locator('.laundry-parent-card')).toHaveCount(1)
   await expect(page.locator('.laundry-pattern-snapshot').first()).toContainText('ZDK-JUMBO · R3 · Zodiak Jumbo')
   await page.getByRole('button', { name: /Terima kembali/ }).click()
@@ -40,7 +48,7 @@ test('pre-CP5 Pola filters preserve one identity through pickup, WIP, Laundry, a
   await expect(page.locator('.laundry-pattern-filter')).toContainText('DATA SIMULASI')
 
   await openNavigation(page, testInfo.project.name, 'Produksi', 'QC & Final SKU')
-  await page.getByLabel('Filter Pola QC').selectOption(patterns.zodiak)
+  await pickPattern(page, 'Filter Pola QC', patterns.zodiak)
   await expect(page.locator('.qc-browser-list > button')).toHaveCount(1)
   await expect(page.locator('.qc-browser-pattern')).toContainText('ZDK-JUMBO · R3')
   await expect(page.getByText('POLA · DATA SIMULASI', { exact: true })).toBeVisible()

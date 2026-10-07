@@ -4,6 +4,7 @@ import './finalization-flow.css'
 import { regularFgNotaCardId } from './fgNota'
 import { productCatalog } from './productCatalog'
 import { matchesSearch, searchValues } from './lib/search'
+import BrowsePicker from './components/BrowsePicker'
 
 type NumberTuple = [number, number, number]
 type StringTuple = [string, string, string]
@@ -106,9 +107,9 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
         <header><div><span>BROWSE ANTREAN QC</span><strong>{visible.length} Batch Distribusi</strong></div><Filter/></header>
         <label className="qc-browser-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari produksi, model, Pola, Mandor, bahan..."/></label>
         <div className="qc-browser-filters">
-          <label><span>MANDOR</span><select value={mandorFilter} onChange={(event)=>setMandorFilter(event.target.value)}><option>Semua mandor</option>{mandors.map((mandor)=><option key={mandor}>{mandor}</option>)}</select></label>
-          <label><span>LAUNDRY</span><select value={laundryFilter} onChange={(event)=>setLaundryFilter(event.target.value)}><option>Semua laundry</option>{laundries.map((laundry)=><option key={laundry}>{laundry}</option>)}</select></label>
-          <label><span>POLA · DATA SIMULASI</span><select aria-label="Filter Pola QC" value={patternFilter} onChange={(event)=>setPatternFilter(event.target.value)}><option value="">Semua Pola</option>{patterns.map((pattern)=><option value={pattern.id} key={pattern.id}>{pattern.code} · {pattern.revision}</option>)}</select></label>
+          <BrowsePicker label="MANDOR" size="compact" value={mandorFilter} options={[{id:'Semua mandor',label:'Semua mandor',pinned:true},...mandors.map((mandor)=>({id:mandor,label:mandor}))]} onChange={setMandorFilter} searchPlaceholder="Cari mandor…" emptyText="Mandor tidak ditemukan."/>
+          <BrowsePicker label="LAUNDRY" size="compact" value={laundryFilter} options={[{id:'Semua laundry',label:'Semua laundry',pinned:true},...laundries.map((laundry)=>({id:laundry,label:laundry}))]} onChange={setLaundryFilter} searchPlaceholder="Cari laundry…" emptyText="Laundry tidak ditemukan."/>
+          <BrowsePicker label="POLA · DATA SIMULASI" aria-label="Filter Pola QC" size="compact" value={patternFilter} options={[{id:'',label:'Semua Pola',detail:'Tanpa filter Pola',pinned:true},...patterns.map((pattern)=>({id:pattern.id,label:`${pattern.code} · ${pattern.revision}`,detail:pattern.name,keywords:`${pattern.code} ${pattern.revision} ${pattern.name}`}))]} onChange={setPatternFilter} placeholder="Semua Pola" searchPlaceholder="Cari kode, revisi, nama Pola…" emptyText="Pola tidak ditemukan."/>
         </div>
         <div className="qc-browser-list">{visible.map((seed,index)=>{
           const returned=total(seed.returnedGoodBySize)+total(seed.returnedBsBySize)
@@ -215,7 +216,7 @@ function QcEditor({seed,previous,canPostFinalSku,onFinish}:{seed:QcSeed;previous
         {totalStuck>0&&<div className="qc-auto-stuck"><Waves/><div><strong>{totalStuck} pcs masih di {seed.laundry}</strong><span>{seed.sizes.map((size,index)=>`Size ${size}: ${seed.stuckBySize[index]}`).join(' · ')}. Belum boleh berubah menjadi BS sebelum fisiknya kembali.</span></div></div>}
         <section className="qc-final-product"><header><span>02 · IDENTITAS BARANG JADI</span><strong>Pilih merek, lalu SKU</strong><small>SKU yang tampil sudah dibatasi ke range Size {sizeRange} supaya posting FG tidak salah produk.</small></header><div className="qc-final-fields" data-keyboard-scope>
           <label><span>1 · MEREK</span><select value={selectedBrand} onChange={(event)=>chooseBrand(event.target.value)}>{brandOptions.map((brand)=><option key={brand}>{brand}</option>)}</select></label>
-          <label><span>2 · SKU</span><select value={finalSku} onChange={(event)=>{setFinalSku(event.target.value);setReviewing(false)}}>{productsForBrand.map((product)=><option value={product.code} key={product.code}>{product.code}</option>)}</select></label>
+          <BrowsePicker label="2 · SKU" value={finalSku||null} options={productsForBrand.map((product)=>({id:product.code,label:product.code,detail:`${product.name} · ${product.color}`,meta:`Range ${product.range}`,keywords:`${product.code} ${product.name} ${product.color} ${product.range}`}))} onChange={(next)=>{if(next===finalSku)return;setFinalSku(next);setReviewing(false)}} placeholder="Pilih SKU…" searchPlaceholder={`Cari SKU ${selectedBrand}, nama, warna…`} emptyText="SKU tidak ditemukan untuk merek ini."/>
           <article className="qc-product-preview"><Shirt/><span><small>3 · BARANG TERPILIH</small><strong>{selectedProduct?.name??'Produk belum tersedia'} · {selectedProduct?.color??'—'}</strong><em>{selectedBrand} · Range {selectedProduct?.range??sizeRange} · {seed.material}</em></span></article>
           <label><span>4 · TUJUAN FG</span><select value={destination} onChange={(event)=>{setDestination(event.target.value);setReviewing(false)}}><option>Gudang FG Utama</option><option>Gudang FG Cadangan</option></select></label>
         </div></section>

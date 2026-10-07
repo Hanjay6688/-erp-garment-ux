@@ -74,7 +74,7 @@
 .ux-rapih :is(select, textarea, input, button) { font-family: inherit; }
 
 /* @generated ux-rapih-mirror:start — do not edit by hand; run `npm run gen:ux-rapih` */
-/* 7470 declarations mirrored, 4901 normalised (type scale / visible borders / text contrast / letter-spacing). */
+/* 7512 declarations mirrored, 4904 normalised (type scale / visible borders / text contrast / letter-spacing). */
 /* cutting-pattern-picker.css */
 .ux-rapih .cutting-pattern-picker{border:1px solid rgba(124,141,255,0.28)}
 .ux-rapih .cutting-pattern-picker>header span{color:#9ca8ff;font-size:var(--fs-xs);font-weight:700;letter-spacing:0.02em}
@@ -98,6 +98,61 @@
 .ux-rapih .cutting-pattern-quick button:last-child{border-color:rgba(103,215,171,0.36);color:#a9ddc8}
 .ux-rapih .cutting-pattern-picker>footer{border-top:1px solid var(--line-soft);color:#8d97aa;font-size:var(--fs-xs);line-height:1.4}
 .ux-rapih .cutting-pattern-picker>footer::first-line{color:#9aa6ff;font-weight:700}
+/* components/browse-picker.css */
+.ux-rapih .browse-picker-label{color:#8e9ab0;font-size:var(--fs-xs);font-weight:700;letter-spacing:.02em}
+.ux-rapih .browse-picker-trigger{border:1px solid #44527c;color:#e6ebf6}
+.ux-rapih .browse-picker-trigger:hover{border-color:#5d6fb4}
+.ux-rapih .browse-picker-trigger:focus-visible,.ux-rapih .browse-picker.open .browse-picker-trigger{border-color:#8fa0ff}
+.ux-rapih .browse-picker-value strong{font-size:var(--fs-base);font-weight:600;color:#f3f5fb}
+.ux-rapih .browse-picker-value small{font-size:var(--fs-xs);color:#a7b0c4}
+.ux-rapih .browse-picker-value em{font-size:var(--fs-base);color:#a7b0c4}
+.ux-rapih .browse-picker-meta{font-size:var(--fs-sm);font-weight:600;color:#c9d2ff}
+.ux-rapih .browse-picker-trigger>svg{color:#a9b7d0}
+.ux-rapih .browse-picker-panel{border:1px solid #44527c;color:#eef1f8}
+.ux-rapih .browse-picker-search{border-bottom:1px solid #2f3b5a}
+.ux-rapih .browse-picker-search svg{color:#a7b0c4}
+.ux-rapih .browse-picker-search input{border:0;color:#f3f5fb;font-size:var(--fs-base)}
+.ux-rapih .browse-picker-search input::placeholder{color:#8f99b2}
+.ux-rapih .browse-picker-search small{font-size:var(--fs-xs);color:#a7b0c4}
+.ux-rapih .browse-picker-group-name{color:#8fa0ff;font-size:var(--fs-xs);font-weight:700;letter-spacing:.02em}
+.ux-rapih .browse-picker-option{border:1px solid transparent}
+.ux-rapih .browse-picker-option strong{font-size:var(--fs-base);font-weight:600;color:#eef1f8}
+.ux-rapih .browse-picker-option small{font-size:var(--fs-xs);color:#a7b0c4}
+.ux-rapih .browse-picker-option>b{font-size:var(--fs-sm);font-weight:600;color:#c9d2ff}
+.ux-rapih .browse-picker-option>svg{color:#93e2c2}
+.ux-rapih .browse-picker-option.selected{border-color:rgba(143,160,255,.45)}
+.ux-rapih .browse-picker-empty{color:#a7b0c4;font-size:var(--fs-sm)}
+.ux-rapih .browse-picker>.browse-picker-trigger{border-color:#44527c;color:#e6ebf6}
+.ux-rapih .browse-picker>.browse-picker-trigger:hover{border-color:#5d6fb4}
+.ux-rapih .browse-picker>.browse-picker-trigger:focus-visible,.ux-rapih .browse-picker.open>.browse-picker-trigger{border-color:#8fa0ff}
+.ux-rapih .browse-picker .browse-picker-label{color:#8e9ab0;font-size:var(--fs-xs);font-weight:700;letter-spacing:.02em}
+.ux-rapih .browse-picker .browse-picker-value strong{font-size:var(--fs-base);font-weight:600;color:#f3f5fb}
+.ux-rapih .browse-picker .browse-picker-value small{font-size:var(--fs-xs);font-weight:400;color:#a7b0c4}
+.ux-rapih .browse-picker .browse-picker-value em{font-size:var(--fs-base);font-weight:400;color:#a7b0c4}
+.ux-rapih .browse-picker .browse-picker-meta{font-size:var(--fs-sm);font-weight:600;color:#c9d2ff}
+.ux-rapih .browse-picker-label.is-hidden{border:0}
+.ux-rapih .browse-picker.size-compact .browse-picker-value strong,.ux-rapih .browse-picker.size-compact .browse-picker-value em{font-size:var(--fs-sm)}
+.ux-rapih .browse-picker.tone-light .browse-picker-label{color:var(--bp-label)}
+.ux-rapih .browse-picker.tone-light .browse-picker-trigger{border-color:var(--bp-border);color:var(--bp-text)}
+.ux-rapih .browse-picker.tone-light .browse-picker-trigger:hover{border-color:var(--bp-border-strong)}
+.ux-rapih .browse-picker.tone-light .browse-picker-trigger:focus-visible,.ux-rapih .browse-picker.tone-light.open .browse-picker-trigger{border-color:var(--bp-accent)}
+.ux-rapih .browse-picker.tone-light .browse-picker-value strong{color:var(--bp-text)}
+.ux-rapih .browse-picker.tone-light .browse-picker-value small,.ux-rapih .browse-picker.tone-light .browse-picker-value em{color:var(--bp-muted)}
+.ux-rapih .browse-picker.tone-light .browse-picker-meta{color:var(--bp-accent)}
+.ux-rapih .browse-picker.tone-light .browse-picker-trigger>svg{color:var(--bp-muted)}
+.ux-rapih .browse-picker-panel.tone-light{border-color:var(--bp-border);color:var(--bp-text)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-search{border-bottom-color:var(--bp-border)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-search svg,.ux-rapih .browse-picker-panel.tone-light .browse-picker-search small{color:var(--bp-muted)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-search input{color:var(--bp-text)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-search input::placeholder{color:var(--bp-placeholder)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-group-name{color:var(--bp-group)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-option strong{color:var(--bp-text)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-option small{color:var(--bp-muted)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-option>b{color:var(--bp-accent)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-option>svg{color:var(--bp-accent)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-option.selected{border-color:var(--bp-accent-soft)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-option.selected strong{color:var(--bp-selected-text)}
+.ux-rapih .browse-picker-panel.tone-light .browse-picker-empty{color:var(--bp-muted)}
 /* styles.css */
 :root.ux-rapih{font-family:var(--font-sans);color:#f4f6fb}
 .ux-rapih button,.ux-rapih input{font:inherit}
@@ -1363,6 +1418,7 @@
 .ux-rapih .laundry-summary-scope b{color:#e6eaf6}
 .ux-rapih .laundry-summary-scope.filtered{border-color:rgba(124,141,255,.38);color:#d3daf8}
 .ux-rapih .laundry-summary-scope button{border:1px solid rgba(124,141,255,.36);color:#e3e8ff;font-size:var(--fs-xs)}
+.ux-rapih :is(.laundry-pattern-filter,.laundry-mandor-filter,.nota-mandor-filter) .browse-picker.size-compact>.browse-picker-trigger{border-color:transparent}
 /* workspace-refinements.css */
 .ux-rapih :is(.wh-browser,.qc-browser,.bsr-case-browser,.hpp-lot-browser,.wip-queue-panel,.roll-catalog-panel,.sku-browser,.product-picker.catalog-picker,.laundry-ready-pane){border-color:rgba(124,145,189,0.36)!important}
 .ux-rapih :is(.wh-browser,.qc-browser,.bsr-case-browser,.hpp-lot-browser,.wip-queue-panel,.roll-catalog-panel)>header,.ux-rapih .roll-catalog-panel>.cutting-panel-head,.ux-rapih .sku-browser>.stock-browser-toolbar,.ux-rapih .product-picker.catalog-picker>.catalog-toolbar,.ux-rapih .laundry-ready-pane>.laundry-section-head{border-bottom-color:rgba(145,163,204,0.28)!important}
@@ -4083,12 +4139,8 @@
 .ux-rapih .ccut-pagination{border-top:1px solid #eee6e1}
 .ux-rapih .ccut-pagination>span{color:#9d9591;font-size:var(--fs-xs)}
 .ux-rapih .ccut-pagination button{font-size:var(--fs-xs)}
+.ux-rapih .ccut-fields>.ccut-picker-field{color:var(--ccut-picker-note);font-size:var(--fs-xs);font-weight:700}
 /* connected-pattern-filter.css */
-.ux-rapih .connected-pattern-filter>span{color:#a3948c;font-size:var(--fs-xs);font-weight:700;letter-spacing:0.02em}
-.ux-rapih .connected-pattern-filter>label{border:1px solid #d9ccc4}
-.ux-rapih .connected-pattern-filter>label svg{color:#a29389}
-.ux-rapih .connected-pattern-filter input{border:0;font-size:var(--fs-xs)}
-.ux-rapih .connected-pattern-filter select{border:1px solid #d9ccc4;color:#463a33;font-size:var(--fs-xs)}
 .ux-rapih .connected-pattern-filter>small{color:#9e938c;font-size:var(--fs-xs)}
 .ux-rapih .connected-pattern-filter>small[role=alert]{color:#c08781}
 /* connected-pickup.css */
@@ -4141,6 +4193,7 @@
 .ux-rapih .cpick-pagination{border-top:1px solid #eee6e1}
 .ux-rapih .cpick-pagination>span{color:#9d9591;font-size:var(--fs-xs)}
 .ux-rapih .cpick-pagination button{font-size:var(--fs-xs)}
+.ux-rapih .cpick-setup>.cpick-mandor{color:var(--cpick-mandor-note);font-size:var(--fs-xs);font-weight:700}
 /* connected-wip-status.css */
 .ux-rapih .cwip-hero span{font-size:var(--fs-xs);font-weight:700;letter-spacing:0.02em;color:#a59289}
 .ux-rapih .cwip-hero h1{font-family:var(--font-sans);font-size:clamp(32px,4vw,48px)}
@@ -4190,6 +4243,7 @@
 .ux-rapih .cwip-distribution article em{font-size:var(--fs-xs);font-weight:700;color:#5d4d44}
 @media (max-width:650px){.ux-rapih .cwip-hero p{font-size:var(--fs-xs)}}
 @media (max-width:650px){.ux-rapih .cwip-facts span{border-right:0;border-bottom:1px solid #eee6e1}}
+.ux-rapih .cwip-kpis article,.ux-rapih .cwip-workspace{color:#2f2925}
 /* connected-bs-resolution.css */
 .ux-rapih .connected-bs-resolution-page{color:#dce4f0}
 .ux-rapih .cbsr-hero span,.ux-rapih .cbsr-actions>header span,.ux-rapih .cbsr-fold summary span,.ux-rapih .cbsr-history>header span{font-size:var(--fs-xs);font-weight:700;letter-spacing:0.02em;color:#8495b5}
@@ -4309,30 +4363,6 @@
 .ux-rapih .cbsr-partial-note{color:#91a6df;font-size:var(--fs-xs);line-height:1.45}
 .ux-rapih .cbsr-sku{color:#c9d3f5;font-size:var(--fs-xs);font-weight:700;line-height:1.4}
 .ux-rapih .cbsr-detail>header .cbsr-sku{font-size:var(--fs-xs)}
-/* components/browse-picker.css */
-.ux-rapih .browse-picker-label{color:#8e9ab0;font-size:var(--fs-xs);font-weight:700;letter-spacing:.02em}
-.ux-rapih .browse-picker-trigger{border:1px solid #44527c;color:#e6ebf6}
-.ux-rapih .browse-picker-trigger:hover{border-color:#5d6fb4}
-.ux-rapih .browse-picker-trigger:focus-visible,.ux-rapih .browse-picker.open .browse-picker-trigger{border-color:#8fa0ff}
-.ux-rapih .browse-picker-value strong{font-size:var(--fs-base);font-weight:600;color:#f3f5fb}
-.ux-rapih .browse-picker-value small{font-size:var(--fs-xs);color:#a7b0c4}
-.ux-rapih .browse-picker-value em{font-size:var(--fs-base);color:#a7b0c4}
-.ux-rapih .browse-picker-meta{font-size:var(--fs-sm);font-weight:600;color:#c9d2ff}
-.ux-rapih .browse-picker-trigger>svg{color:#a9b7d0}
-.ux-rapih .browse-picker-panel{border:1px solid #44527c;color:#eef1f8}
-.ux-rapih .browse-picker-search{border-bottom:1px solid #2f3b5a}
-.ux-rapih .browse-picker-search svg{color:#a7b0c4}
-.ux-rapih .browse-picker-search input{border:0;color:#f3f5fb;font-size:var(--fs-base)}
-.ux-rapih .browse-picker-search input::placeholder{color:#8f99b2}
-.ux-rapih .browse-picker-search small{font-size:var(--fs-xs);color:#a7b0c4}
-.ux-rapih .browse-picker-group-name{color:#8fa0ff;font-size:var(--fs-xs);font-weight:700;letter-spacing:.02em}
-.ux-rapih .browse-picker-option{border:1px solid transparent}
-.ux-rapih .browse-picker-option strong{font-size:var(--fs-base);font-weight:600;color:#eef1f8}
-.ux-rapih .browse-picker-option small{font-size:var(--fs-xs);color:#a7b0c4}
-.ux-rapih .browse-picker-option>b{font-size:var(--fs-sm);font-weight:600;color:#c9d2ff}
-.ux-rapih .browse-picker-option>svg{color:#93e2c2}
-.ux-rapih .browse-picker-option.selected{border-color:rgba(143,160,255,.45)}
-.ux-rapih .browse-picker-empty{color:#a7b0c4;font-size:var(--fs-sm)}
 /* inventory-control.css */
 .ux-rapih .ic-hero-rule{border:1px solid rgba(98,213,168,0.3)}
 .ux-rapih .ic-hero-rule.brand{border-color:rgba(124,141,255,0.32)}
@@ -4510,9 +4540,9 @@
 .ux-rapih .ic-selected-item.pending svg{color:#f3cd8c}
 .ux-rapih .ic-route-field>small{color:#8b97a9;font-size:var(--fs-xs)}
 .ux-rapih .ic-route-field>small b{color:#c9d2e3}
-/* 52 borderless inputs inside a framed wrapper: the wrapper shows focus, not a second box inside it */
-.ux-rapih :is(.access-panel>header input,.audit-toolbar input,.batch-count-control input,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-payment-form label>div input,.biz-return-lines label input,.biz-search input,.biz-size-entry input,.browse-picker-search input,.bsr-search input,.catalog-search input,.cbsr-search input,.ccut-search input,.ci-custom-range>label input,.ci-lines article>label input,.ci-search input,.connected-pattern-filter input,.cpick-search input,.cutting-pattern-picker>label input,.cwip-search input,.filter-option-search input,.hpp-recost-inputs input,.hpp-search input,.ic-browser-tools input,.ic-conversion-meta label>div input,.ic-count-entry label input,.ic-size-transfer article input,.laundry-search input,.md-browser-tools input,.md-bulk-fields .md-money-input>input,.md-category-editor .md-money-input>input,.md-editor-grid label>div>input,.mm-form-grid label>div input,.mm-search input,.money-input input,.pattern-workspace>header input,.qc-browser-search input,.qty-unit-input input,.roll-search input,.roll-used-input input,.sewing-completed-input input,.sewing-search input,.simatch-lines article>label>div input,.sku-search-field input,.split-batch-grid input,.wh-search input,.wip-child-list label input,.wip-free-input input,.wip-search input,.wip-split-grid label input,.yard-input input):focus-visible{outline:none}
-.ux-rapih :has(> :is(.access-panel>header input,.audit-toolbar input,.batch-count-control input,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-payment-form label>div input,.biz-return-lines label input,.biz-search input,.biz-size-entry input,.browse-picker-search input,.bsr-search input,.catalog-search input,.cbsr-search input,.ccut-search input,.ci-custom-range>label input,.ci-lines article>label input,.ci-search input,.connected-pattern-filter input,.cpick-search input,.cutting-pattern-picker>label input,.cwip-search input,.filter-option-search input,.hpp-recost-inputs input,.hpp-search input,.ic-browser-tools input,.ic-conversion-meta label>div input,.ic-count-entry label input,.ic-size-transfer article input,.laundry-search input,.md-browser-tools input,.md-bulk-fields .md-money-input>input,.md-category-editor .md-money-input>input,.md-editor-grid label>div>input,.mm-form-grid label>div input,.mm-search input,.money-input input,.pattern-workspace>header input,.qc-browser-search input,.qty-unit-input input,.roll-search input,.roll-used-input input,.sewing-completed-input input,.sewing-search input,.simatch-lines article>label>div input,.sku-search-field input,.split-batch-grid input,.wh-search input,.wip-child-list label input,.wip-free-input input,.wip-search input,.wip-split-grid label input,.yard-input input):focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+/* 51 borderless inputs inside a framed wrapper: the wrapper shows focus, not a second box inside it */
+.ux-rapih :is(.access-panel>header input,.audit-toolbar input,.batch-count-control input,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-payment-form label>div input,.biz-return-lines label input,.biz-search input,.biz-size-entry input,.browse-picker-search input,.bsr-search input,.catalog-search input,.cbsr-search input,.ccut-search input,.ci-custom-range>label input,.ci-lines article>label input,.ci-search input,.cpick-search input,.cutting-pattern-picker>label input,.cwip-search input,.filter-option-search input,.hpp-recost-inputs input,.hpp-search input,.ic-browser-tools input,.ic-conversion-meta label>div input,.ic-count-entry label input,.ic-size-transfer article input,.laundry-search input,.md-browser-tools input,.md-bulk-fields .md-money-input>input,.md-category-editor .md-money-input>input,.md-editor-grid label>div>input,.mm-form-grid label>div input,.mm-search input,.money-input input,.pattern-workspace>header input,.qc-browser-search input,.qty-unit-input input,.roll-search input,.roll-used-input input,.sewing-completed-input input,.sewing-search input,.simatch-lines article>label>div input,.sku-search-field input,.split-batch-grid input,.wh-search input,.wip-child-list label input,.wip-free-input input,.wip-search input,.wip-split-grid label input,.yard-input input):focus-visible{outline:none}
+.ux-rapih :has(> :is(.access-panel>header input,.audit-toolbar input,.batch-count-control input,.biz-inline-filters input,.biz-invoice-lines footer input,.biz-payment-form label>div input,.biz-return-lines label input,.biz-search input,.biz-size-entry input,.browse-picker-search input,.bsr-search input,.catalog-search input,.cbsr-search input,.ccut-search input,.ci-custom-range>label input,.ci-lines article>label input,.ci-search input,.cpick-search input,.cutting-pattern-picker>label input,.cwip-search input,.filter-option-search input,.hpp-recost-inputs input,.hpp-search input,.ic-browser-tools input,.ic-conversion-meta label>div input,.ic-count-entry label input,.ic-size-transfer article input,.laundry-search input,.md-browser-tools input,.md-bulk-fields .md-money-input>input,.md-category-editor .md-money-input>input,.md-editor-grid label>div>input,.mm-form-grid label>div input,.mm-search input,.money-input input,.pattern-workspace>header input,.qc-browser-search input,.qty-unit-input input,.roll-search input,.roll-used-input input,.sewing-completed-input input,.sewing-search input,.simatch-lines article>label>div input,.sku-search-field input,.split-batch-grid input,.wh-search input,.wip-child-list label input,.wip-free-input input,.wip-search input,.wip-split-grid label input,.yard-input input):focus-visible){outline:2px solid var(--accent);outline-offset:2px}
 /* @generated ux-rapih-mirror:end */
 
 /* ── 3. Hand-written rules (after the mirror so they win ties) ─────────── */
@@ -4652,14 +4682,18 @@
 .ux-rapih .pattern-editor :is(input, textarea) { border-color: #3d4a6e; background: var(--card-bg-inset); color: var(--text-strong); }
 .ux-rapih .pattern-editor aside { border-color: rgba(241,190,104,.38); background: rgba(241,190,104,.1); color: #f3cd8c; }
 .ux-rapih .pattern-editor aside :is(svg, small) { color: #e8c182; }
-/* connected Pola filter (UAT pages) follows the same dark inputs */
-.ux-rapih .connected-pattern-filter > span,
-.ux-rapih .connected-pattern-filter > small { color: var(--text-muted); }
-.ux-rapih .connected-pattern-filter > label,
-.ux-rapih .connected-pattern-filter select { border-color: #3d4a6e; background: var(--card-bg-inset); color: var(--text-strong); }
-.ux-rapih .connected-pattern-filter > label svg { color: var(--text-muted); }
-.ux-rapih .connected-pattern-filter input { color: var(--text-strong); }
-.ux-rapih .connected-pattern-filter > small[role=alert] { color: #ffadb9; }
+/* connected Pola filter (UAT pages): a BrowsePicker in the host page's tone
+   (dark on the CP5 BS page, light on pickup / WIP); the caption follows it */
+.ux-rapih .connected-pattern-filter.tone-dark > small { color: var(--text-muted); }
+.ux-rapih .connected-pattern-filter.tone-dark > small[role=alert] { color: #ffadb9; }
+.ux-rapih .connected-pattern-filter.tone-light > small { color: #6e6058; }
+.ux-rapih .connected-pattern-filter.tone-light > small[role=alert] { color: #9c3b2d; }
+
+/* Backend-mode (Connected) light pages keep light form controls: the dark
+   color-scheme on :root drew their inputs/selects as white text on the white
+   fields (e.g. "Waktu fisik diambil", "Urutan WIP"). */
+.ux-rapih :is(.connected-cutting-page, .connected-pickup-page, .connected-wip-page) { color-scheme: light; }
+:root.ux-rapih :is(.connected-cutting-page, .connected-pickup-page, .connected-wip-page) select { color-scheme: light; }
 
 /* 3.8 Remaining low-contrast text on tinted/selected surfaces (audit) */
 :root.ux-rapih .stock-roll-row.selected .stock-roll-seq { color: #eef1ff !important; }

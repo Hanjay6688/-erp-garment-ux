@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Check, CheckCircle2, FileText, ShieldCheck, User
 import type { QcFinalResult } from './QcFinalPage'
 import { regularFgNotaCardId, selectRegularFgNotaSources, type ReadyFgNotaCard, type RegularFgNotaSnapshot } from './fgNota'
 import { calculateRegularWorkEntitlement } from './payroll/regularWorkEntitlement'
+import BrowsePicker from './components/BrowsePicker'
 
 type NotaFocus = { kind: 'REGULAR' | 'REPAIR'; id: string }
 type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK'
@@ -207,7 +208,7 @@ export default function FgNotaPage({
       <div className="handoff-page-actions">{origin !== 'MENU' && <button type="button" className="soft-btn handoff-back" onClick={onReturn}><ArrowLeft/> {returnLabel}</button>}<button type="button" className="soft-btn" onClick={onOpenQc}>Buka QC</button><button type="button" className="soft-btn" onClick={onOpenBs}>Buka Bikin Bagus</button></div>
     </section>
     <div className="handoff-flow-strip"><span className="done"><b>1</b>QC / rework terkunci</span><i/><span className="done"><b>2</b>Card siap</span><i/><span className="active"><b>3</b>Susun Nota FG</span><i/><span><b>4</b>Payroll</span></div>
-    <div className={`handoff-queue-banner ${queueCount === 0 ? 'empty' : ''}`}><FileText/><div><strong>{focusedId ? `${focusedId} dibuka dari sumbernya` : 'Antrean Nota FG mandiri'}</strong><span>Card yang sudah masuk Nota tetap terkunci. Ganti Mandor akan mengosongkan draft supaya nota tidak mencampur penerima.</span></div>{mandors.length > 0 ? <label className="nota-mandor-filter"><span>MANDOR NOTA</span><select value={selectedMandor} disabled={!editable} onChange={(event) => changeMandor(event.target.value)}>{mandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><small>{availableCount} siap · {queueCount - availableCount} posted</small></label> : <em>Belum ada card</em>}</div>
+    <div className={`handoff-queue-banner ${queueCount === 0 ? 'empty' : ''}`}><FileText/><div><strong>{focusedId ? `${focusedId} dibuka dari sumbernya` : 'Antrean Nota FG mandiri'}</strong><span>Card yang sudah masuk Nota tetap terkunci. Ganti Mandor akan mengosongkan draft supaya nota tidak mencampur penerima.</span></div>{mandors.length > 0 ? <div className="nota-mandor-filter"><span aria-hidden="true">MANDOR NOTA</span><BrowsePicker label="Mandor nota" hideLabel size="compact" value={selectedMandor} options={mandors.map((mandor) => ({ id: mandor, label: mandor }))} disabled={!editable} onChange={(mandor) => { if (mandor !== selectedMandor) changeMandor(mandor) }} searchPlaceholder="Cari mandor…" emptyText="Mandor tidak ditemukan."/><small>{availableCount} siap · {queueCount - availableCount} posted</small></div> : <em>Belum ada card</em>}</div>
     {noteStatus === 'POSTED' && <div className="handoff-success"><CheckCircle2/><div><strong>Nota FG sudah posted dan card terkunci</strong><span>NFG-260828-NEW · {money(displayTotal)} · masuk antrean Payroll, belum mengubah kas.</span></div><button type="button" className="soft-btn" onClick={startNextNota}>Susun nota berikutnya <ArrowRight/></button></div>}
     <section className="handoff-layout">
       <div className="panel handoff-workbench">
