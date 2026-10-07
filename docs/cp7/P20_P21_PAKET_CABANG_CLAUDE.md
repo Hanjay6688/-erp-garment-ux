@@ -237,3 +237,39 @@ Harness: mode `--payroll-review` P12 kini memasang paket settlement + buku kas E
 - **ETA skenario jadwal.** Biaya tersisa O(posisi × langkah × jendela kalender). Lokal (bukan bukti): 5.000 posisi yang semuanya mendapat ETA butuh 10,9 dtk, jadi termasuk pekerjaan latar belakang. Batas tidak dinaikkan.
 - **Kebijakan pemilik.** PL-3, PL-4, PL-5, PL-7, PL-8 dan AP-5 tetap tercatat di `SELF_CHECK_FORMULAS_20261006.md` §4; nilainya tidak dikarang.
 - **PR UX #43 ke `main`.** Tertahan aturan CodeQL repo (analisis PR bawaan GitHub tidak berjalan sejak sekitar 3 Okt).
+
+## 9. Tambahan 7 Okt 2026 (pagi): PL-3/4/5/7, P19 riwayat permintaan, P18 pembanding katalog
+
+Status §8.3 diperbarui: ETA jadwal sudah hanya membaca jendela terpakai (`8e0319e4`); PL-3, PL-4 dan PL-7 diperbaiki sebagai masalah implementasi/kontrak (bukan nilai kebijakan); PL-5 diberi label jujur dan pilihan untuk owner; PR UX #43 sudah di-merge ke `main` (`a58385e4`) lewat jalur CodeQL yang sah. Rincian dan bukti uji ada di `SELF_CHECK_FORMULAS_20261006.md` §2b/§4/§6/§7.
+
+### 9.1 Objek yang berubah (signature tetap, tanpa role/RPC/tabel/hak baru)
+
+| Berkas SQL | Fungsi | Perubahan |
+|---|---|---|
+| `models/evaluation.sql` | `cp7_models.evaluate` | **Kontrak:** pengetahuan latih fold ditutup akhir hari origin+1 WIB (`rolling-evaluation-2`); jendela latih, aktual, dan penjaga registrasi tetap |
+| `baseline/capacity.sql` | `cp7_baseline.capacity` | **Perilaku:** beban berlebih dibawa ke jendela berikut; sisa sesudah jendela terakhir → `UNKNOWN`/`EXISTING_LOAD_EXCEEDS_CALENDAR` (`calendar-capacity-2`); beban 12 desimal yang sama dengan menit jendela dibulatkan ke atas dianggap pas |
+| `plan-native/preflight.sql` | `cp7_plan_native.preflight` | **Perilaku:** rencana kedua untuk target ditolak (`40001 CP7_PLAN_LINKED_INTENT_CONFLICT`) sampai Original yang sama membuktikan semua potongan grup rencana yang terposting sudah FG/EXIT |
+| `demand/history.sql` | `cp7_demand.history` | Jalur cepat validasi berbasis himpunan; byte-identik termasuk penolakan pertama |
+| `planning/schedule-scenario.sql` | `cp7_schedule_native.build` | ETA hanya membaca jendela terpakai; byte-identik |
+
+Frontend: pratinjau rencana menyebut asumsi yield 100% dan bahwa yield start baru belum ditentukan (PL-5 opsi C, label saja).
+
+### 9.2 Catatan pemasangan/rollback (P21)
+
+- Perubahan badan fungsi mengubah hash mesin; Original model/analisis/jadwal yang dibuat sebelum pemasangan akan terbaca `ARCHIVED_STALE` dan tetap utuh (tidak ditulis ulang). Jadwal perlu ditinjau ulang sekali sesudah pemasangan bila sumbernya berubah — perilaku yang sama dengan pemasangan sebelumnya.
+- Rollback mengembalikan definisi pendahulu dari salinan asli seperti §4; tidak ada objek baru yang perlu dihapus.
+- Suite yang jumlah kasusnya berubah: model **31 → 32** (`PL3_PRIVATE_NEXT_DAY_KNOWLEDGE`), rencana **39 → 40** (`PL7_POSTED_CUT_NOT_PLANNED_TWICE`). Deklarasi lama dan kegagalan pertama tetap tercatat.
+
+### 9.3 Titik audit prioritas tambahan
+
+1. **PL-3 kontrak.** Revisi hari ≤ O yang baru diketahui selama O+1 (mis. retur yang diposting O+1 atas penjualan lama) ikut latih; nilai hari target (O+1..O+h) tidak pernah masuk jendela latih. Periksa apakah ini dapat diterima untuk prakiraan harian yang diterbitkan pagi O+1.
+2. **PL-4 resolusi.** Aturan "≤ menit jendela dibulatkan ke atas 12 desimal dianggap pas" hanya menyerap pembulatan representasi (< 1e-12 menit); periksa tidak ada beban nyata yang hilang karena aturan ini.
+3. **PL-7 predikat.** Intent tetap terbuka bila status WIP Original bukan COMPLETE, grup tidak ada di cakupan Original, atau input > FG + EXIT pada pool `CUT:<grup>:%`. Periksa `NOT` dan operator JSON diberi kurung (riwayat bug `1a6196d3`).
+4. **Jalur cepat riwayat.** Predikat himpunan harus *cukup* (bila menyatakan bersih, loop pasti tidak menolak). Uji mutasi membuktikan pelonggaran regex pcs atau aturan kolom ekstra langsung terdeteksi.
+
+### 9.4 Masih terbuka
+
+- **PL-8 / skala grup potong:** normalisasi potong kuadratik (lokal: 250 grup 8,6 dtk; 500 grup 31,6 dtk) dan posisi qty 0 dari grup yang sudah habis menghabiskan batas netting 1000 posisi. Linearisasi dengan paritas sedang dikerjakan; pemangkasan grup habis butuh kenaikan versi kontrak.
+- **Skala aplikasi penuh 5.000 target:** batas desain (1000 target per capture, grid 100.000, 8 dtk per request, tanpa worker di luar request) membuat 5.000 target tidak bisa lewat satu capture tanpa keputusan kapasitas; pengukuran alur penuh dan klik-sampai-tampil di 100/300/1000 target sedang disiapkan. Bukti kernel dan bukti aplikasi dipisahkan.
+- **PL-5 dan AP-5:** menunggu pilihan owner; tidak ada angka dikarang.
+
