@@ -32,3 +32,19 @@ First profile real routine read paths and complete heavy paths with phase timing
 For analysis/reminders retain `P19_COMPLETE_SOURCE_CAPACITY.md`: bounded complete assembly, actor/run/scenario identity, row/byte/hash totals and current authority for each segment. Missing/duplicate/mixed/stale segments refuse action. Never make a selected subset look like a complete factory decision. Separate immutable historical Originals from live refreshed balances. Cache only with explicit freshness/source/authority invalidation; zero-effect replay and lost-reply recovery remain exact.
 
 Do not increase body limits/timeouts or remove stock/HPP/GL/debt/cash/UNKNOWN checks to obtain a fast number. User business policies and planning fallback values remain separate from this latency target. Full P19, factory capacity, browser latency, many-user loading, complete-source transport and production SLA remain unqualified.
+
+## Recorded background exception — owner decision 7 October 2026
+
+Owner (item 5): "Latensi: pekerjaan berat boleh berjalan di latar belakang sebagai pengecualian yang dicatat. Layar tetap responsif, status/progres nyata, aman ditinggal dan dibuka kembali. Jangan menandai target selesai 3 detik sebagai tercapai kalau memang belum."
+
+| Field | Value |
+|---|---|
+| Exception id | `P19_PLANNING_ANALYSIS_BACKGROUND_20261007` (declared in `P19_SCALE.json` → `owner_latency_targets.background_exception`) |
+| Journey | Analisis, laporan & pengingat seluruh produk → "Hitung di latar belakang" (`erp_cp7_request_operational_analysis_job_v1` / `erp_cp7_request_analysis_job_v1`, `erp_cp7_run_analysis_job_v1`, `erp_cp7_get_analysis_job_v1`, manifest + segments) |
+| Screen responsive | First visible acknowledgement is measured against the 1 s routine target (`first_visible_acknowledgement`); the panel never blocks other views. |
+| Real status | Server job state: requested/started time ("Sedang dihitung sejak jam … WIB"), WAITING/RUNNING/DONE/FAILED, attempt number, failure code; segment progress "bagian x dari y" comes from the server manifest. No manufactured percentage. |
+| Safe to leave and reopen | Request UUID and finance mode persisted before sending; on reopen the panel reads the server job, waits on a held worker without starting a second one, and continues the same UUID. Proven by `P19T_BROWSER_DESKTOP_RELOAD_RECOVERY`, `P19T_RACE_*` and the DOM recovery tests. |
+| Completeness | Complete Original or an explicit refusal (declared cap or the unchanged 8 s statement limit). Nothing is sampled, truncated or raised. |
+| Not awarded | The 3 s heavy-complete target for this journey and owner latency acceptance. The scale suite keeps reporting `complete_or_refusal_rendered` against 3 000 ms as measured (e.g. run 8: 100 targets 7,2–9,0 s → not met), and `owner_latency_acceptance` stays `false`. |
+
+Staged processing for 5 000 targets (owner item 3) runs under this same exception once implemented; its stage progress must also come from persisted server state.

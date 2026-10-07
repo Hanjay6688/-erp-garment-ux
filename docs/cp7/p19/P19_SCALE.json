@@ -170,8 +170,20 @@
     "routine_screen_ms_exclusive": 1000,
     "ordinary_save_ms_inclusive": 2000,
     "heavy_complete_with_progress_ms_inclusive": 3000,
-    "heavier": "background job only as an owner-named exception; the analysis job is not a named exception",
-    "source": "docs/cp7/p19/P19_LOADING_BUDGET_20261006.md"
+    "heavier": "background job only as an owner-named, recorded exception; the 3 s heavy-complete target is still measured and reported, never marked met by the exception",
+    "source": "docs/cp7/p19/P19_LOADING_BUDGET_20261006.md",
+    "background_exception": {
+      "id": "P19_PLANNING_ANALYSIS_BACKGROUND_20261007",
+      "decided": "2026-10-07 owner item 5",
+      "scope": "Analisis, laporan & pengingat seluruh produk: Hitung di latar belakang (request/run/get, manifest + segments)",
+      "conditions": [
+        "first visible acknowledgement within the 1 s routine target",
+        "real status: requested/started time, WAITING/RUNNING/DONE/FAILED, attempts, segment progress from the server",
+        "safe to leave and reopen: request UUID persisted, server job state read on reload, no second worker",
+        "complete Original or explicit refusal; nothing truncated or sampled"
+      ],
+      "not_awarded": "owner latency acceptance; 3 s heavy-complete target for this journey"
+    }
   },
   "browser": {
     "device": "desktop Chromium 1440x1000, Asia/Jakarta, loopback API, no throttling",

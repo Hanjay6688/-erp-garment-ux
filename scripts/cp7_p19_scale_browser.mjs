@@ -159,7 +159,11 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
    ui:{status:sample.status,elapsed_ms:sample.elapsed_ms,marks:sample.marks,status_texts:sample.status_texts,alerts:sample.alerts??[],run_id:sample.run_id??null,summary:sample.summary??null},
    owner_budgets:{first_visible_acknowledgement:budgetResult('ROUTINE_READ',ack),complete_or_refusal_rendered:budgetResult('HEAVY_COMPLETE',sample.elapsed_ms),
     progress_status_visible_by_3000ms:Number.isFinite(sample.marks?.computing_since_ms)&&sample.marks.computing_since_ms<=3000,
-    owner_named_background_exception:false,owner_latency_acceptance:false},
+    // Owner decision 7 Oct 2026: the heavy planning analysis may run as a
+    // recorded background exception. The 3 s HEAVY_COMPLETE result above is
+    // still reported as measured; the exception never turns it into a pass.
+    owner_named_background_exception:control==='BACKGROUND'?declaration.owner_latency_targets.background_exception.id:false,
+    owner_latency_acceptance:false},
    network,server_refusal:refused,db,checks,
    device:declaration.browser.device,context:declaration.browser.context,expected_caps:expected,evidence_kind:'FULL_APPLICATION_NATIVE'}
   m.verdict=verdict(m,expected)
