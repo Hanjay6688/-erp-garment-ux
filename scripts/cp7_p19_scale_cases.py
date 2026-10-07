@@ -35,7 +35,7 @@ policies = analysis.previous.policies
 b = analysis.b
 
 IDS = dict(
-    native=['P19S_NATIVE_SCALE_LADDER'],
+    native=['P19S_NATIVE_ROLLED_BACK_100_GRID_CAP'],
     browser=['P19S_BROWSER_DESKTOP_100', 'P19S_BROWSER_DESKTOP_300', 'P19S_BROWSER_DESKTOP_1000', 'P19S_BROWSER_DESKTOP_5000'],
 )
 REQUIRED = {key: len(value) for key, value in IDS.items()}
@@ -45,6 +45,13 @@ EVIDENCE_KIND = 'FULL_APPLICATION_NATIVE'
 SIZES = (100, 300, 1000, 5000)
 HISTORY_DAYS = (1, 30, 100)
 GRID_BOUNDARY = dict(size=1000, days=101)
+# The closed harness keeps one rolled-back transaction per case; seeding past the
+# first size plus measurements there exceeds one transaction's lock table, so the
+# full ladder runs on the committed browser copy (one writer call per transaction).
+NATIVE_CASE = dict(size=100, history_days=[1], grid_cap_days=1001)
+SQL_LADDER = dict(where='committed browser copy, after the measured clicks of each size',
+                  transaction='one per size, rolled back; captures and Originals are not kept',
+                  fixture_command='measure', sizes=list(SIZES), history_days=list(HISTORY_DAYS))
 STATEMENT_TIMEOUT = '8s'
 BODY_BYTES = 8000000
 SEGMENT_CHARACTERS = 2000000
@@ -147,9 +154,18 @@ def phase(name, call, **extra):
     return row
 
 
+class Phases(dict):
+    """Writer-phase timings. On the committed copy `commit` ends the transaction
+    after every writer call, as the real app runs one RPC per transaction, so
+    advisory and relation locks never accumulate. None inside a rolled-back case."""
+    commit = None
+
+
 def timed(log, name, op):
     started = monotonic()
     value = op()
+    if getattr(log, 'commit', None):
+        log.commit()
     row = log.setdefault(name, dict(calls=0, ms=0.0))
     row['calls'] += 1
     row['ms'] = round(row['ms'] + (monotonic() - started) * 1000, 3)
@@ -296,7 +312,7 @@ def new_point(today, size, days, path, expected, **extra):
                         phases=[], **extra)
 
 
-def ordinary(cur, today, size, days, expected, boundary=False):
+def ordinary(cur, today, size, days, expected, boundary=False, tag=''):
     key, q, point = new_point(today, size, days, 'ORDINARY_CAPTURE', expected,
                               public_rpc='erp_cp7_capture_analysis_v1', grid_boundary_witness=boundary)
     captured = public(cur, lambda: analysis.capture(cur, today, key, q=q))
@@ -305,7 +321,7 @@ def ordinary(cur, today, size, days, expected, boundary=False):
     if captured['outcome'] == 'RETURNED':
         envelope = captured['value']
         point.update(evidence(cur, envelope, expected))
-        point['original_witness'] = witness('ORIGINAL_%d_%d_ORDINARY' % (size, days),
+        point['original_witness'] = witness(tag + 'ORIGINAL_%d_%d_ORDINARY' % (size, days),
                                             dict(point=dict(point), complete_original=envelope), True)
     else:
         point['elapsed_to_stop_ms'] = captured['ms']
@@ -314,7 +330,7 @@ def ordinary(cur, today, size, days, expected, boundary=False):
     return point
 
 
-def background(cur, today, size, days, expected):
+def background(cur, today, size, days, expected, tag=''):
     """Request -> run -> get, then manifest -> every segment -> serve; each call under 8 s."""
     key, q, point = new_point(today, size, days, 'BACKGROUND_JOB_SEGMENTS', expected, public_rpcs=list(transport.FUNCTIONS))
     elapsed = [0.0]
@@ -348,7 +364,7 @@ def background(cur, today, size, days, expected):
     point['verdict'] = verdict(point)
     if point.get('complete_original') is not None:
         document = point.pop('complete_original')
-        point['original_witness'] = witness('ORIGINAL_%d_%d_BACKGROUND' % (size, days),
+        point['original_witness'] = witness(tag + 'ORIGINAL_%d_%d_BACKGROUND' % (size, days),
                                             dict(point=dict(point), complete_original=document), True)
     return point
 
@@ -515,13 +531,19 @@ def calendar(cur, today, log):
         b.api.admin(cur)
         outcome = dict(outcome='REFUSED', cap=None, **refusal(error))
         outcome['cap'] = cap_of(outcome['code'])
+    if getattr(log, 'commit', None):
+        log.commit()
     log['calendar_review'] = dict(calls=1, ms=ms(started))
     return outcome
 
 
-def ensure(cur, today, size, wip_done):
-    """Grow the global current Native target set to `size` through ordinary writers only."""
-    started, log = monotonic(), {}
+def ensure(cur, today, size, wip_done, commit=None):
+    """Grow the global current Native target set to `size` through ordinary writers only.
+
+    With `commit` (committed browser copy) every writer call is its own
+    transaction; without it (rolled-back native case) nothing is committed."""
+    started, log = monotonic(), Phases()
+    log.commit = commit
     if not wip_done:
         timed(log, 'wip_fixture_analysis_setup', lambda: analysis.setup(cur, today))
     before = current_targets(cur)
@@ -538,7 +560,8 @@ def ensure(cur, today, size, wip_done):
     assert len(after) == size and set(before) <= set(after), ('P19S_TARGET_COUNT', size, len(after))
     assert {row['target'] for row in seeded} == set(after) - set(before), 'P19S_SEEDED_TARGETS_DIFFER'
     return dict(size=size, preexisting_targets=len(before), seeded_targets=len(seeded), total_targets=len(after),
-                target_keys_sha256=digest('\n'.join(after)), seed_ms=ms(started), writer_phases=log,
+                target_keys_sha256=digest('\n'.join(after)), seed_ms=ms(started), writer_phases=dict(log),
+                transaction_per_writer_call=commit is not None,
                 calendar_review=review, supply_scope=supply_scope(cur), synthetic_inputs=SYNTHETIC,
                 seed_is_application_latency=False, direct_business_inserts=False)
 
@@ -789,7 +812,8 @@ def scaling(rows):
     for days in HISTORY_DAYS:
         series = {}
         for row in rows:
-            summary = (row.get('phase_profile') or {}).get(days, {}).get('summary') or {}
+            profiles = row.get('phase_profile') or {}
+            summary = (profiles.get(days) or profiles.get(str(days)) or {}).get('summary') or {}
             for layer in summary.get('own_costs', []):
                 series.setdefault(layer['layer'], []).append((row['total_targets'], layer['own_ms']))
         table = {}
@@ -808,70 +832,114 @@ def compact(point):
         job_state=(point.get('job') or {}).get('state'), segment_count=(point.get('manifest') or {}).get('document', {}).get('segment_count'))
 
 
+def declared():
+    return json.loads((Path(__file__).resolve().parents[1] / 'docs/cp7/p19/P19_SCALE.json').read_text())
+
+
+def check_declaration():
+    d = declared()
+    profile_d, native_d = d['phase_profile'], d['native_case']
+    assert profile_d['phases'] == [name for name, _, _, _ in PROFILE] and profile_d['label'] == PROFILE_LABEL \
+        and profile_d['role'] == PROFILE_ROLE and profile_d['statement_timeout_per_phase'] == STATEMENT_TIMEOUT, 'P19S_PHASE_PROFILE_DECLARATION'
+    assert native_d == NATIVE_CASE and d['sql_ladder'] == SQL_LADDER, 'P19S_NATIVE_OR_LADDER_DECLARATION'
+    return d
+
+
+def source_consistent(cap, size):
+    products = CAPS['HISTORY_SOURCE_PRODUCTS_1000']['value']
+    return (cap['history_source_products_read'] == min(size, products + 1) and cap['other_collections_within_50000']
+            and (cap['history_source_status'] == 'COMPLETE') == (size <= products))
+
+
+def ladder_status(points, consistent, profiled=True):
+    verdicts = [p['verdict'] for p in points]
+    return ('COUNTEREXAMPLE' if any(v['counterexample'] for v in verdicts)
+            else 'PASS' if consistent and profiled and verdicts and all(v['acceptable'] for v in verdicts) else 'INCOMPLETE')
+
+
+def measure(cur, today, size):
+    """One declared size of the SQL ladder on the committed browser copy, after
+    that size's measured clicks, in one transaction the caller rolls back.
+
+    Every measured point runs first; the step diagnostics and the phase
+    profile follow, so neither can warm or delay a measured call."""
+    check_declaration()
+    expected = current_targets(cur)
+    assert len(expected) == size, ('P19S_MEASURE_SIZE_NOT_PREPARED', size, len(expected))
+    cap = source_cap(cur)
+    before = b.boundary.snapshot(cur)
+    measured, attribution, profiles = [], {}, {}
+    for days in HISTORY_DAYS:
+        measured += [ordinary(cur, today, size, days, expected), background(cur, today, size, days, expected)]
+    if size == GRID_BOUNDARY['size']:
+        measured.append(ordinary(cur, today, size, GRID_BOUNDARY['days'], expected, True))
+    for days in HISTORY_DAYS:
+        attribution[days] = diagnostics(cur, today, days)
+    for days in HISTORY_DAYS:
+        run = next((p.get('run_id') for p in measured if p['path'] == 'ORDINARY_CAPTURE' and p['history_days'] == days
+                    and p['verdict']['kind'] == 'COMPLETE_RESULT'), None)
+        full = phase_profile(cur, today, size, days, run, len(expected))
+        full['witness'] = witness('PROFILE_%d_%d' % (size, days), full)
+        profiles[days] = dict(witness=full['witness'], summary=full['summary'], build_input=full.get('build_input'),
+                              harness_error=full.get('harness_error'),
+                              rebuild_identical_to_stored_result=full.get('rebuild_identical_to_stored_result'),
+                              original_breakdown_top=(full.get('original_breakdown') or {}).get('original_top_level', [])[:3],
+                              analysis_keys_top=(full.get('original_breakdown') or {}).get('analysis_keys', [])[:6],
+                              original_bytes_per_target=(full.get('original_breakdown') or {}).get('original_bytes_per_target'))
+    unchanged = b.boundary.snapshot(cur) == before
+    consistent = source_consistent(cap, size)
+    profiled = all(not p['harness_error'] for p in profiles.values())
+    row = dict(size=size, total_targets=len(expected), where='COMMITTED_BROWSER_COPY_ROLLED_BACK_TRANSACTION',
+               history_source=cap, source_model_consistent=consistent, step_attribution=attribution, phase_profile=profiles,
+               phase_profile_complete=profiled, Native_business_unchanged_by_measurement=unchanged,
+               points=[compact(p) for p in measured])
+    row['status'] = ladder_status(measured, consistent and unchanged, profiled)
+    row['verdict_counts'] = {k: sum(p['verdict']['kind'] == k for p in measured) for k in sorted({p['verdict']['kind'] for p in measured})}
+    row['witness'] = witness('SIZE_%d' % size, row)
+    # Scaling across every size measured so far, rebuilt from the per-size witnesses.
+    root = Path(__file__).resolve().parents[1] / 'cp6-proof/t3'
+    rows = [json.loads((root / ('P19_SCALE_SIZE_%d.json' % n)).read_text())['observed'] for n in SIZES
+            if (root / ('P19_SCALE_SIZE_%d.json' % n)).exists()]
+    row['phase_scaling_witness'] = witness('PHASE_SCALING', dict(sizes=[r['size'] for r in rows], scaling=scaling(rows)))
+    return row
+
+
 def cases(cur, today):
-    def ladder():
-        declared = json.loads((Path(__file__).resolve().parents[1] / 'docs/cp7/p19/P19_SCALE.json').read_text())['phase_profile']
-        assert declared['phases'] == [name for name, _, _, _ in PROFILE] and declared['label'] == PROFILE_LABEL \
-            and declared['role'] == PROFILE_ROLE and declared['statement_timeout_per_phase'] == STATEMENT_TIMEOUT, 'P19S_PHASE_PROFILE_DECLARATION'
-        rows, points, wip = [], [], False
-        products = CAPS['HISTORY_SOURCE_PRODUCTS_1000']['value']
-        for size in SIZES:
-            seed = ensure(cur, today, size, wip)
-            wip = True
-            expected = current_targets(cur)
-            cap = source_cap(cur)
-            witness('SEED_%d' % size, dict(seed, history_source=cap))
-            before = b.boundary.snapshot(cur)
-            measured, attribution, profiles = [], {}, {}
-            # Every measured point of the size runs first; the unmeasured step
-            # diagnostics and the phase profile follow, so neither can warm or
-            # delay a measured call of this size.
-            for days in HISTORY_DAYS:
-                measured += [ordinary(cur, today, size, days, expected), background(cur, today, size, days, expected)]
-            if size == GRID_BOUNDARY['size']:
-                measured.append(ordinary(cur, today, size, GRID_BOUNDARY['days'], expected, True))
-            for days in HISTORY_DAYS:
-                attribution[days] = diagnostics(cur, today, days)
-            for days in HISTORY_DAYS:
-                run = next((p.get('run_id') for p in measured if p['path'] == 'ORDINARY_CAPTURE' and p['history_days'] == days
-                            and p['verdict']['kind'] == 'COMPLETE_RESULT'), None)
-                full = phase_profile(cur, today, size, days, run, len(expected))
-                full['witness'] = witness('PROFILE_%d_%d' % (size, days), full)
-                profiles[days] = dict(witness=full['witness'], summary=full['summary'], build_input=full.get('build_input'),
-                                      harness_error=full.get('harness_error'),
-                                      rebuild_identical_to_stored_result=full.get('rebuild_identical_to_stored_result'),
-                                      original_breakdown_top=(full.get('original_breakdown') or {}).get('original_top_level', [])[:3],
-                                      analysis_keys_top=(full.get('original_breakdown') or {}).get('analysis_keys', [])[:6],
-                                      original_bytes_per_target=(full.get('original_breakdown') or {}).get('original_bytes_per_target'))
-            unchanged = b.boundary.snapshot(cur) == before
-            row = dict(size=size, total_targets=len(expected), seed_ms_not_app_latency=seed['seed_ms'],
-                       writer_phases=seed['writer_phases'], calendar_review=seed['calendar_review'],
-                       supply_scope=seed['supply_scope'], history_source=cap,
-                       source_model_consistent=cap['history_source_products_read'] == min(size, products + 1)
-                       and cap['other_collections_within_50000']
-                       and (cap['history_source_status'] == 'COMPLETE') == (size <= products),
-                       step_attribution=attribution, phase_profile=profiles, Native_business_unchanged_by_measurement=unchanged,
-                       points=[compact(p) for p in measured])
-            witness('SIZE_%d' % size, row)
-            rows.append(row)
-            points += measured
-            assert unchanged, ('P19S_MEASUREMENT_CHANGED_NATIVE_BUSINESS', size)
-        verdicts = [p['verdict'] for p in points]
-        consistent = all(row['source_model_consistent'] for row in rows)
-        # A profiler failure is missing evidence; it never alters a verdict or a measured time.
-        profiled = all(not p['harness_error'] for row in rows for p in row['phase_profile'].values())
-        status = ('COUNTEREXAMPLE' if any(v['counterexample'] for v in verdicts)
-                  else 'PASS' if consistent and profiled and all(v['acceptable'] for v in verdicts) else 'INCOMPLETE')
-        growth = scaling(rows)
-        witness('PHASE_SCALING', growth)
-        return dict(status=status, evidence_kind=EVIDENCE_KIND, contract=CONTRACT, sizes=rows,
-                    phase_profile_complete=profiled, phase_scaling=growth, phase_profile_label=PROFILE_LABEL,
-                    verdict_counts={k: sum(v['kind'] == k for v in verdicts) for k in sorted({v['kind'] for v in verdicts})},
-                    source_model_consistent=consistent, statement_timeout=STATEMENT_TIMEOUT, limits_raised=False,
-                    data_sampled_or_truncated=False, seed_time_reported_apart=True, kernel_evidence_reused=False,
-                    synthetic_inputs=SYNTHETIC, owner_latency_acceptance=False, full_P19_acceptance=False,
-                    factory_capacity_or_SLA=False, production_go=False)
-    return [(IDS['native'][0], ladder)]
+    def rolled_back():
+        """What fits honestly in the closed harness's one rolled-back transaction:
+        the first declared size seeded without commits, its measured points and a
+        grid-cap refusal at that size. Every declared size/day point (100-5000)
+        is measured on the committed browser copy by `measure` (browser cases)."""
+        check_declaration()
+        size, days, grid = NATIVE_CASE['size'], NATIVE_CASE['history_days'], NATIVE_CASE['grid_cap_days']
+        seed = ensure(cur, today, size, False)
+        expected = current_targets(cur)
+        cap = source_cap(cur)
+        witness('NATIVE_SEED_%d' % size, dict(seed, history_source=cap))
+        before = b.boundary.snapshot(cur)
+        measured = []
+        for d in days:
+            measured += [ordinary(cur, today, size, d, expected, tag='NATIVE_'),
+                         background(cur, today, size, d, expected, tag='NATIVE_')]
+        boundary = ordinary(cur, today, size, grid, expected, True, tag='NATIVE_')
+        measured.append(boundary)
+        unchanged = b.boundary.snapshot(cur) == before
+        consistent = source_consistent(cap, size)
+        grid_cap_refused = boundary['verdict']['kind'] == 'HONEST_CAP_REFUSAL'
+        row = dict(size=size, total_targets=len(expected), where='CLOSED_HARNESS_ROLLED_BACK_SAVEPOINT', history_source=cap,
+                   seed_ms_not_app_latency=seed['seed_ms'], writer_phases=seed['writer_phases'],
+                   grid_cap_witness=dict(history_days=grid, grid_cells=boundary['grid_cells'], verdict=boundary['verdict']),
+                   source_model_consistent=consistent, Native_business_unchanged_by_measurement=unchanged,
+                   points=[compact(p) for p in measured])
+        witness('NATIVE_%d' % size, row)
+        assert unchanged, ('P19S_MEASUREMENT_CHANGED_NATIVE_BUSINESS', size)
+        status = ladder_status(measured, consistent and grid_cap_refused)
+        return dict(row, status=status, evidence_kind=EVIDENCE_KIND, contract=CONTRACT, statement_timeout=STATEMENT_TIMEOUT,
+                    full_ladder_measured_in='browser cases via the committed-copy measure command',
+                    limits_raised=False, data_sampled_or_truncated=False, seed_time_reported_apart=True,
+                    kernel_evidence_reused=False, synthetic_inputs=SYNTHETIC, owner_latency_acceptance=False,
+                    full_P19_acceptance=False, factory_capacity_or_SLA=False, production_go=False)
+    return [(IDS['native'][0], rolled_back)]
 
 
 def races(tools, today):

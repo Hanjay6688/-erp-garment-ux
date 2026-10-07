@@ -8,7 +8,7 @@
   },
   "required_case_ids": {
     "native": [
-      "P19S_NATIVE_SCALE_LADDER"
+      "P19S_NATIVE_ROLLED_BACK_100_GRID_CAP"
     ],
     "browser": [
       "P19S_BROWSER_DESKTOP_100",
@@ -333,5 +333,36 @@
     ],
     "original_breakdown": "Original, analysis and stored-facts top-level keys by PostgreSQL text bytes, with bytes per target",
     "scaling": "own cost per layer across sizes: ms per target and growth exponent between consecutive sizes"
+  },
+  "native_case": {
+    "size": 100,
+    "history_days": [
+      1
+    ],
+    "grid_cap_days": 1001
+  },
+  "sql_ladder": {
+    "where": "committed browser copy, after the measured clicks of each size",
+    "transaction": "one per size, rolled back; captures and Originals are not kept",
+    "fixture_command": "measure",
+    "sizes": [
+      100,
+      300,
+      1000,
+      5000
+    ],
+    "history_days": [
+      1,
+      30,
+      100
+    ]
+  },
+  "harness_transactions": {
+    "reason": "The first full runs stopped with 'out of shared memory / max_locks_per_transaction' because thousands of writer calls (each CP7 writer takes pg_advisory_xact_lock per request) ran in one transaction. The real app runs one RPC per transaction.",
+    "browser_copy_prepare": "one committed transaction per writer call (BB batch, each sale draft and post, each profile/SKU/policy call, calendar review)",
+    "browser_copy_measure": "one rolled-back transaction per size, after that size's measured clicks",
+    "native_case": "one rolled-back savepoint in the closed harness: first size only, its measured points and a grid-cap refusal",
+    "limits_changed": false,
+    "every_declared_size_and_day_measured": "sizes 100/300/1000/5000 x days 1/30/100 (and 1000x101) on the committed browser copy; the native case adds 100x1 and 100x1001 in the closed harness"
   }
 }

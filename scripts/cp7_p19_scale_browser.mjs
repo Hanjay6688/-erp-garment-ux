@@ -6,6 +6,9 @@
 // page's monotonic clock. A refusal rendered by the panel (a declared cap or
 // the existing 8 s limit) is the measured result for that size. Nothing is
 // raised, sampled or cut. Kernel stand-in benchmarks are separate evidence.
+// After a size's clicks the fixture's `measure` runs that size's SQL ladder and
+// phase profile on the same committed copy in a rolled-back transaction, so no
+// profiling ever precedes a measured click.
 import assert from 'node:assert/strict'
 import {createHash} from 'node:crypto'
 import {execFileSync} from 'node:child_process'
@@ -20,7 +23,7 @@ assert.deepEqual(ids,sizes.map(n=>'P19S_BROWSER_DESKTOP_'+n))
 const CONTROLS=[['CAPTURE','Ambil analisis ERP terbaru'],['BACKGROUND','Hitung di latar belakang']]
 assert.deepEqual(CONTROLS.map(c=>c[1]),declaration.browser.controls)
 // Driver bounds only. Neither is an application limit nor enters a latency figure.
-const OBSERVATION_WINDOW_MS=180000,SEED_PROCESS_MS=3600000,FIXTURE_PROCESS_MS=600000
+const OBSERVATION_WINDOW_MS=180000,SEED_PROCESS_MS=3600000,FIXTURE_PROCESS_MS=600000,MEASURE_PROCESS_MS=2700000
 const RPCS=['erp_cp7_capture_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1']
 const SMALL=new Set(['erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1'])
 const fixture=(op,p,timeout=FIXTURE_PROCESS_MS)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p19_scale_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:64*1024*1024,timeout}).trim())
@@ -153,6 +156,13 @@ async function measure(ui,today,size,days,[control,label],seed){
    network,server_refusal:refused,db,checks,
    device:declaration.browser.device,context:declaration.browser.context,expected_caps:expected,evidence_kind:'FULL_APPLICATION_NATIVE'}
   m.verdict=verdict(m,expected)
+  // Explicit server refusal: the RPC, HTTP status, code, SQLSTATE, the job's own
+  // FAILED state and the stored job row, and which declared cap it is.
+  const job=network.filter(n=>['erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1'].includes(n.rpc)&&n.body).map(n=>n.body).pop()??null
+  m.refusal=refused?{...refused,job_state:job?.state??null,job_failure:job?.failure??null,
+   stored_job:(db.jobs||[]).find(j=>requests.includes(j.request_id))??null,cap:m.verdict.cap??null}:null
+  Object.assign(m,{refusal_code:refused?.code??null,refusal_sqlstate:refused?.sqlstate??null,refused_by_rpc:refused?.rpc??null,
+   refusal_http_status:refused?.http_status??null,cap:m.verdict.cap??null})
   m.screenshot=`P19S_${name}.png`;await page.screenshot({path:dir+m.screenshot})
   m.witness=save(name,m)
   return m
@@ -161,22 +171,40 @@ async function measure(ui,today,size,days,[control,label],seed){
 }
 
 async function sizeCase(ui,today,size,state){
+ // A size whose seeding stopped part-way leaves committed writer calls behind;
+ // no later size is measured on that data.
+ if(state.seed_failed)throw Error(`P19S_PRIOR_SIZE_SEED_INCOMPLETE_${state.seed_failed}`)
  let seed
  try{seed=fixture('prepare',{today,size,wip_done:state.wip_done},SEED_PROCESS_MS)}
- catch(e){save(`SEED_${size}_FAILURE`,{error:String(e?.stack||e).slice(0,4000)});throw e}
+ catch(e){state.seed_failed=size;save(`SEED_${size}_FAILURE`,{error:String(e?.stack||e).slice(0,4000)});throw e}
  state.wip_done=true;save(`SEED_${size}`,seed)
  const rows=[]
  for(const days of historyDays)for(const control of CONTROLS)rows.push(await measure(ui,today,size,days,control,seed))
+ // Every click of this size is done; only now the SQL ladder and its phase profile.
+ let sql=null,sqlError=null
+ try{sql=fixture('measure',{today,size},MEASURE_PROCESS_MS);save(`SQL_LADDER_${size}`,sql)}
+ catch(e){sqlError=String(e?.stack||e).slice(0,4000);save(`SQL_LADDER_${size}_FAILURE`,{error:sqlError})}
  const verdicts=rows.map(r=>r.verdict),cap=caps.HISTORY_SOURCE_PRODUCTS_1000.value,h=seed.history_source
  // The shared refusal code is attributed only when the source read proves which bound was met.
  const sourceConsistent=h.history_source_products_read===Math.min(size,cap+1)&&h.other_collections_within_50000===true&&(h.history_source_status==='COMPLETE')===(size<=cap)
- return{status:verdicts.some(v=>v.counterexample)?'COUNTEREXAMPLE':sourceConsistent&&verdicts.every(v=>v.acceptable)?'PASS':'INCOMPLETE',
+ const counterexample=verdicts.some(v=>v.counterexample)||sql?.status==='COUNTEREXAMPLE'
+ return{status:counterexample?'COUNTEREXAMPLE':sourceConsistent&&verdicts.every(v=>v.acceptable)&&sql?.status==='PASS'?'PASS':'INCOMPLETE',
   evidence_kind:'FULL_APPLICATION_NATIVE',size,source_model_consistent:sourceConsistent,
+  sql_ladder:sql?{status:sql.status,where:sql.where,verdict_counts:sql.verdict_counts,source_model_consistent:sql.source_model_consistent,
+   phase_profile_complete:sql.phase_profile_complete,Native_business_unchanged_by_measurement:sql.Native_business_unchanged_by_measurement,
+   points:sql.points.map(p=>({path:p.path,history_days:p.history_days,grid_boundary_witness:p.grid_boundary_witness??false,verdict:p.verdict,
+    request_to_result_ms:p.request_to_result_ms??null,request_to_terminal_ms:p.request_to_terminal_ms??null,
+    manifest_and_segments_ms:p.manifest_and_segments_ms??null,original_utf8_bytes:p.original?.original_utf8_bytes??null})),
+   dominant_layer_by_days:Object.fromEntries(Object.entries(sql.phase_profile||{}).map(([d,v])=>[d,{layer:v.summary?.dominant_layer??null,own_ms:v.summary?.dominant_own_ms??null,
+    first_stopped_phase:v.summary?.first_stopped_phase??null,original_bytes_per_target:v.original_bytes_per_target??null}])),
+   step_attribution:Object.fromEntries(Object.entries(sql.step_attribution||{}).map(([d,v])=>[d,v.attribution])),witness:sql.witness}:null,
+  sql_ladder_error:sqlError,
   seed:{total_targets:seed.total_targets,preexisting_targets:seed.preexisting_targets,seeded_targets:seed.seeded_targets,seed_ms_not_app_latency:seed.seed_ms,
    writer_phases:seed.writer_phases,calendar_review:seed.calendar_review,supply_scope:seed.supply_scope,history_source:seed.history_source},
   measurements:rows.map(r=>({history_days:r.history_days,control:r.control,ui_status:r.ui.status,click_to_first_status_ms:r.ui.marks.acknowledged_ms,
    click_to_computing_since_ms:r.ui.marks.computing_since_ms??null,click_to_segment_progress_ms:r.ui.marks.segment_progress_ms??null,click_to_complete_ms:r.ui.elapsed_ms,
-   owner_budgets:r.owner_budgets,verdict:r.verdict,original_sha256:r.db.original?.original_sha256??null,original_utf8_bytes:r.db.original?.original_utf8_bytes??null,
+   owner_budgets:r.owner_budgets,verdict:r.verdict,refusal:r.refusal,refusal_code:r.refusal_code,refusal_sqlstate:r.refusal_sqlstate,
+   refused_by_rpc:r.refused_by_rpc,refusal_http_status:r.refusal_http_status,cap:r.cap,original_sha256:r.db.original?.original_sha256??null,original_utf8_bytes:r.db.original?.original_utf8_bytes??null,
    segments_read:r.network.filter(n=>n.rpc==='erp_cp7_read_analysis_segment_v1').length,
    response_utf8_bytes:r.network.reduce((s,n)=>s+(n.complete_body_utf8_bytes||0),0),witness:r.witness})),
   limits_raised:false,data_sampled_or_truncated:false,owner_latency_acceptance:false,full_P19_acceptance:false,production_go:false}
