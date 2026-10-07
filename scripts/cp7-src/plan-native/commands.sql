@@ -7,7 +7,8 @@ begin
  if cp7_plan_native.access_now('DRAFT')is distinct from a then raise exception using errcode='42501',message='CP7_PLAN_ACCESS_CHANGED';end if;
  select *into r from cp7_plan_native.drafts where actor=(a->>'actor')::uuid and request_id=p_request;
  if found then if r.payload<>p then raise exception 'CP7_PLAN_REQUEST_CHANGED';end if;return jsonb_build_object('contract_version','cp7.plan-draft.v1','actor_scope_id',a->>'actor','draft_id',r.id,'plan_id',r.plan_id,'revision',r.revision::text,'run_id',r.run_id,'target_key',r.target_key,'request_id',p_request,'state','SAVED','reservation_created',false,'production_go',false);end if;
- perform cp7_plan_native.fields(p,array['run_id','target_key','plan_id','expected_revision','source_hash','cutting','reviewed_assumption_ids','reason']);
+ perform cp7_plan_native.fields(p,array['run_id','target_key','plan_id','expected_revision','source_hash','cutting','reviewed_assumption_ids','reason']
+  ||case when p?'new_start_yield'then array['new_start_yield']else'{}'::text[]end);
  if p->'plan_id'='null'::jsonb then
   if p->'expected_revision'<>'null'::jsonb then raise exception 'CP7_PLAN_REVISION';end if;plan:=gen_random_uuid();revision:=1;
  else

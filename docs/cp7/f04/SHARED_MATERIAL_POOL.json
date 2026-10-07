@@ -2,9 +2,9 @@
   "contract": "cp7.p08-shared-material-budget-declaration.v1",
   "status": "NATIVE39_ALL_COMPLETE_CASE_BODIES_QUALIFIED_AT_51E",
   "base_commit": "86103b7e5d1e9f0d6add8f9c4aa7c6af4827f691",
-  "expected_case_count": 42,
+  "expected_case_count": 43,
   "required_case_counts": {
-    "native": 28,
+    "native": 29,
     "races": 8,
     "http": 2,
     "browser": 4
@@ -25,6 +25,7 @@
       "O10_PLAN_QUANTITY",
       "P08_ATOMIC_RECEIPT_FAILURE",
       "E22_PLAN_COMPUTE_SEPARATION",
+      "PL5_NEW_START_YIELD",
       "P08_ACTUAL_UNPOSTED_ZERO",
       "P08_ACTUAL_PHYSICAL_CUT",
       "P08_ACTUAL_PARTIAL_LIFECYCLE",
@@ -86,7 +87,7 @@
   ],
   "first39_original": "docs/cp7/evidence/plan-native/incomplete39-two-target-setup-3e82/RECEIPT.json",
   "two_target_fixture_repair": "Explicit current daily-ten profiles for both distinct targets through unchanged public profile command; fresh exact Original assumption IDs; positive need guard unchanged",
-  "current_rerun_expected_case_count": 42,
+  "current_rerun_expected_case_count": 43,
   "profile_schedule_review": "Complete profiles are supply fingerprint operands. Reuse existing public source capture/schedule CAS review; assert all original work config exactly unchanged and revision increment1, then capture two current positive recommendations and exact fresh assumption IDs.",
   "dependency_review_of_source6a": "Detected by exact current source before its Native39 result; preserve later actual source6a Original without relabelling or granting qualification.",
   "successor_local_preparation": "docs/cp7/evidence/plan-native/profile-schedule-review-local/PREPARATION.json",
@@ -113,5 +114,6 @@
     "receipt": "docs/cp7/evidence/plan-native/incomplete39-profile-schedule-6a/RECEIPT.json"
   },
   "pl7_successor": "Self-check PL-7 (Oct 7 2026): one added Native case. A posted linked cut stays NEEDS_CHECK for its target, so the next Original's gap still holds it; preflight now refuses a second plan (CP7_PLAN_LINKED_INTENT_CONFLICT, unchanged code) until the same Original proves every piece of the group reached FG or EXIT. Native39 history above is retained unchanged.",
-  "pl8_successor": "Self-check PL-8 part 2 (Oct 7 2026): two added Native cases. Supply v2 lists posted cutting groups proven exhausted (own batch graph COMPLETE, every pool WIP/BS/withheld 0, nothing open) in production_scope.exhausted_cutting_groups and nets the rest; 1100 SYNTHETIC spent clones of a real spent group leave positions, totals and netting identical to the open work alone, and 1001 open groups are still refused CP7_SUPPLY_GLOBAL_SCOPE_LIMIT. Native40 history above is retained unchanged."
+  "pl8_successor": "Self-check PL-8 part 2 (Oct 7 2026): two added Native cases. Supply v2 lists posted cutting groups proven exhausted (own batch graph COMPLETE, every pool WIP/BS/withheld 0, nothing open) in production_scope.exhausted_cutting_groups and nets the rest; 1100 SYNTHETIC spent clones of a real spent group leave positions, totals and netting identical to the open work alone, and 1001 open groups are still refused CP7_SUPPLY_GLOBAL_SCOPE_LIMIT. Native40 history above is retained unchanged.",
+  "pl5_successor": "Owner decision 7 Oct 2026: a new start's good-piece yield is never assumed to be 100%. cp7.plan-preview.v3 states new_start_yield.basis: HISTORY_NATIVE (main direction B; PENDING_POLICY_VALUE until the owner approves window, minimum sample and lower bound, see docs/cp7/PL5_YIELD_POLICY_PROPOSAL_20261007.md), PLAN_ESTIMATE_REVIEWED (A: planner numerator/denominator, reviewed assumption PLAN_NEW_START_YIELD) or UNKNOWN (cut capped at the need, good pieces and unresolved gap null). P08_PREVIEW_READONLY now asserts the unknown state instead of need-minus-cut; PL5_NEW_START_YIELD adds the estimate path and refusals."
 }

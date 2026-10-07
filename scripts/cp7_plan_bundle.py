@@ -8,7 +8,7 @@ GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.g
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle() # The analysis bundle owns this extension.
 def verify(cur):
- expected={'analysis_source':('v','cp7_capture',True),'actual_source':('v','cp7_capture',True),'actual':('v','cp7_plan_writer',False),'access_now':('v','cp7_plan_writer',False),'fields':('i','cp7_plan_writer',False),'decimal':('i','cp7_plan_writer',False),'material_pool':('s','cp7_plan_writer',False),'preflight':('v','cp7_plan_writer',False),'options':('v','cp7_plan_writer',False),'read':('v','cp7_plan_writer',False),'save':('v','cp7_plan_writer',False),'preview':('v','cp7_plan_writer',False),'apply':('v','cp7_plan_writer',False)}
+ expected={'analysis_source':('v','cp7_capture',True),'actual_source':('v','cp7_capture',True),'actual':('v','cp7_plan_writer',False),'access_now':('v','cp7_plan_writer',False),'fields':('i','cp7_plan_writer',False),'history_yield':('s','cp7_plan_writer',False),'decimal':('i','cp7_plan_writer',False),'material_pool':('s','cp7_plan_writer',False),'preflight':('v','cp7_plan_writer',False),'options':('v','cp7_plan_writer',False),'read':('v','cp7_plan_writer',False),'save':('v','cp7_plan_writer',False),'preview':('v','cp7_plan_writer',False),'apply':('v','cp7_plan_writer',False)}
  rows=cur.execute("select p.oid::regprocedure::text,p.proname,p.provolatile,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='cp7_plan_native'").fetchall()
  assert len(rows)==len(expected),rows
  for sig,name,volatility,owner,definer,config in rows:

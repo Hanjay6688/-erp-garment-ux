@@ -2,9 +2,13 @@ import type {ProductionEnvelope} from './productionRecovery'
 import {parseCuttingSaveResult} from './cuttingPersistence'
 export type PlanContext={runId:string;targetKey:string;sourceHash:string}
 export type PlanOptions={runId:string;targetKey:string;sourceHash:string;coreHash:string;modelId:string;sizeId:string;sku:string;name:string;needed:string|null;capacity:string|null;state:'ACTIVE'|'PAUSED'|'STOPPED'|null;locationId:string|null;assumptions:{id:string;label:string}[];orders:{id:string;number:string;modelId:string}[];patterns:{id:string;code:string;name:string;revision:string}[];rolls:{id:string;number:string;materialId:string;materialName:string;unit:string;available:string;planned:string;free:string}[];locations:{id:string;name:string}[];page:{limit:number;poOffset:number;poTotal:string;patternOffset:number;patternTotal:string;rollOffset:number;rollTotal:string}}
-export type PlanForm={orderId:string;patternId:string;locationId:string;cutAt:string;notes:string;reason:string;reviewed:boolean;rolls:{id:string;issued:string;consumed:string;remaining:string;pcs:string}[]}
+// PL-5: an optional planner estimate of good pieces per cut pieces for this
+// plan (A). Empty means no estimate: the yield stays unknown, never 100%.
+export type PlanForm={orderId:string;patternId:string;locationId:string;cutAt:string;notes:string;reason:string;reviewed:boolean;yieldGood?:string;yieldCut?:string;rolls:{id:string;issued:string;consumed:string;remaining:string;pcs:string}[]}
 export type PlanSaved={id:string;planId:string;revision:string;runId:string;targetKey:string;sourceHash:string;state:string;native:{id:string;groupId:string;number:string|null;posted:boolean|null}|null}
-export type PlanPreview={draftId:string;revision:string;targetKey:string;needed:string;selected:string;capacity:string;unresolved:string;roundingExtra:string;patternRevision:string;materials:{rollId:string;materialId:string;available:string;planned:string;free:string;issued:string;consumed:string;remaining:string}[]}
+export type YieldBasis='HISTORY_NATIVE'|'PLAN_ESTIMATE_REVIEWED'|'UNKNOWN'
+export type PlanPreview={draftId:string;revision:string;targetKey:string;needed:string;selected:string;capacity:string;unresolved:string|null;roundingExtra:string|null;
+ yield:{basis:YieldBasis;numerator:string|null;denominator:string|null;historyStatus:string};cutLimit:string;expectedGood:string|null;patternRevision:string;materials:{rollId:string;materialId:string;available:string;planned:string;free:string;issued:string;consumed:string;remaining:string}[]}
 const fail=():never=>{throw Error('Rencana belum sesuai sumber ERP, pilihan, atau hak aksesnya.')}
 const rec=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
 const text=(v:unknown):string=>typeof v==='string'&&v.length>0&&v.length<=4000?v:fail()
@@ -40,8 +44,10 @@ export function parsePlanOptions(v:unknown,actor:string,c:PlanContext):PlanOptio
 export function planPayload(o:PlanOptions,f:PlanForm,cutAt:string,saved:PlanSaved|null){
  if(!f.reviewed||o.state!=='ACTIVE'||o.needed===null||o.capacity===null||!o.orders.some(x=>x.id===f.orderId)||!o.patterns.some(x=>x.id===f.patternId)||o.locationId!==f.locationId||!f.reason.trim()||f.reason.length>1000||!f.rolls.length||f.rolls.length>100||!Number.isFinite(Date.parse(cutAt)))fail()
  if(new Set(f.rolls.map(x=>x.id)).size!==f.rolls.length)fail()
+ const good=(f.yieldGood??'').trim(),cut=(f.yieldCut??'').trim();if(Boolean(good)!==Boolean(cut))fail()
+ if(good&&(!/^[1-9][0-9]{0,5}$/.test(good)||!/^[1-9][0-9]{0,5}$/.test(cut)||Number(good)>Number(cut)))fail()
  const rolls=f.rolls.map(x=>{if(!o.rolls.some(r=>r.id===x.id))fail();[x.issued,x.consumed,x.remaining,x.pcs].forEach(qty);if(!/^[1-9][0-9]{0,8}$/.test(x.pcs))fail();return{roll_id:x.id,qty_issued:x.issued,qty_consumed:x.consumed,qty_reported_remaining:x.remaining,yields:[{slot_no:'1',qty_pcs:x.pcs}]}})
- return{run_id:o.runId,target_key:o.targetKey,plan_id:saved?.planId??null,expected_revision:saved?.revision??null,source_hash:o.sourceHash,reviewed_assumption_ids:o.assumptions.map(x=>x.id),reason:f.reason.trim(),cutting:{po_id:f.orderId,pattern_id:f.patternId,source_location_id:f.locationId,cut_at:cutAt,notes:f.notes.trim()||null,size_slots:[{slot_no:'1',size_id:o.sizeId,drawing_no:'1'}],rolls}}
+ return{run_id:o.runId,target_key:o.targetKey,plan_id:saved?.planId??null,expected_revision:saved?.revision??null,source_hash:o.sourceHash,reviewed_assumption_ids:[...o.assumptions.map(x=>x.id),...(good?['PLAN_NEW_START_YIELD']:[])],reason:f.reason.trim(),new_start_yield:good?{numerator:good,denominator:cut}:null,cutting:{po_id:f.orderId,pattern_id:f.patternId,source_location_id:f.locationId,cut_at:cutAt,notes:f.notes.trim()||null,size_slots:[{slot_no:'1',size_id:o.sizeId,drawing_no:'1'}],rolls}}
 }
 export function validatePlanCommit(v:unknown,e:ProductionEnvelope,actor:string):PlanSaved{
  const r=rec(v),p=rec(e.payload);flags(r,actor,e.action==='SAVE_DRAFT'?'cp7.plan-draft.v1':'cp7.plan-apply-outcome.v1');if(r.request_id!==e.id)fail()
@@ -62,9 +68,27 @@ export function parsePlanSaved(v:unknown,actor:string,id:string):PlanSaved{
  return{id:guid(r.draft_id),planId:guid(r.plan_id),revision:revision(r.revision),runId:guid(r.run_id),targetKey:target(r.target_key),sourceHash:hash(r.source_hash),state:String(r.state),native:native?{id:guid(native.id),groupId:guid(native.cutting_group_id),number:native.group_number===null?null:text(native.group_number),posted:native.material_issue_posted as boolean|null}:null}
 }
 export function parsePlanPreview(v:unknown,actor:string,s:PlanSaved):PlanPreview{
- const r=rec(v);flags(r,actor,'cp7.plan-preview.v2');if(r.draft_id!==s.id||r.revision!==s.revision||r.plan_id!==s.planId||r.target_key!==s.targetKey||r.source_hash!==s.sourceHash||r.status!=='READY_FOR_EXPLICIT_NATIVE_DRAFT'||r.physical_production_confirmed!==false||r.command!=='erp_save_cutting_group_before_sewing_v2:SAVE_DRAFT')fail()
+ const r=rec(v);flags(r,actor,'cp7.plan-preview.v3');if(r.draft_id!==s.id||r.revision!==s.revision||r.plan_id!==s.planId||r.target_key!==s.targetKey||r.source_hash!==s.sourceHash||r.status!=='READY_FOR_EXPLICIT_NATIVE_DRAFT'||r.physical_production_confirmed!==false||r.command!=='erp_save_cutting_group_before_sewing_v2:SAVE_DRAFT')fail()
  hash(r.core_hash);hash(r.composition_hash)
- return{draftId:guid(r.draft_id),revision:revision(r.revision),targetKey:target(r.target_key),needed:qty(r.needed_pcs),selected:qty(r.selected_new_pcs),capacity:qty(r.free_capacity_pcs),unresolved:qty(r.unresolved_pcs),roundingExtra:qty(r.rounding_extra_pcs),patternRevision:text(r.pattern_revision),materials:rows(r.material_rows,100).map(x=>{if(x.basis!=='OPERATOR_SELECTED_DRAFT_COMPOSITION_NOT_PROVEN_INSTALLED_OR_RESERVED')fail();return{rollId:guid(x.roll_id),materialId:guid(x.material_id),available:qty(x.native_available),...materialBudget(x.native_available,x.linked_native_draft_qty,x.free_for_new_plan),issued:qty(x.selected_issued),consumed:qty(x.selected_consumption),remaining:qty(x.selected_remaining)}})}
+ // PL-5: recompute the cut limit and the good pieces from the stated yield;
+ // without a yield the good pieces and the unresolved gap must stay unknown.
+ const y=rec(r.new_start_yield),h=rec(y.history),basis=y.basis as YieldBasis,needed=qty(r.needed_pcs),selected=qty(r.selected_new_pcs),limit=qty(r.cut_limit_pcs)
+ if(!['HISTORY_NATIVE','PLAN_ESTIMATE_REVIEWED','UNKNOWN'].includes(basis)||typeof h.status!=='string'||(h.status==='AVAILABLE')!==(basis==='HISTORY_NATIVE')||y.assumption_id!==(basis==='PLAN_ESTIMATE_REVIEWED'?'PLAN_NEW_START_YIELD':null))fail()
+ // Exact rationals: no float, no rounding beyond the stated ceil/floor.
+ type Q={n:bigint;d:bigint};const dec=(v:string):Q=>{const[a,b='']=v.split('.');return{n:BigInt(a+b),d:10n**BigInt(b.length)}},eq=(x:Q,z:Q)=>x.n*z.d===z.n*x.d,max0=(x:Q):Q=>x.n<0n?{n:0n,d:1n}:x
+ const need=dec(needed),pcs=dec(selected),cap=dec(limit),ceilQ=(n:bigint,d:bigint)=>(n+d-1n)/d
+ let good:string|null=null
+ if(basis==='UNKNOWN'){if(y.numerator!==null||y.denominator!==null||r.expected_good_pcs!==null||r.unresolved_pcs!==null||r.rounding_extra_pcs!==null||r.cut_limit_basis!=='NEED_CAP_YIELD_UNKNOWN_NOT_ASSUMED_100_PERCENT'||!eq(cap,{n:ceilQ(need.n,need.d),d:1n}))fail()}
+ else{
+  if(typeof y.numerator!=='string'||typeof y.denominator!=='string'||!/^[1-9][0-9]*$/.test(y.numerator)||!/^[1-9][0-9]*$/.test(y.denominator)||BigInt(y.numerator)>BigInt(y.denominator)||r.cut_limit_basis!=='NEED_AT_STATED_YIELD')fail()
+  const num=BigInt(y.numerator as string),den=BigInt(y.denominator as string),g:Q={n:pcs.n*num/(pcs.d*den),d:1n}
+  if(!eq(cap,{n:ceilQ(need.n*den,need.d*num),d:1n})||!eq(dec(qty(r.expected_good_pcs)),g)
+   ||!eq(dec(qty(r.unresolved_pcs)),max0({n:need.n-g.n*need.d,d:need.d}))||!eq(dec(qty(r.rounding_extra_pcs)),max0({n:g.n*need.d-need.n,d:need.d})))fail()
+  good=g.n.toString()
+ }
+ if(pcs.n*cap.d>cap.n*pcs.d)fail()
+ return{draftId:guid(r.draft_id),revision:revision(r.revision),targetKey:target(r.target_key),needed,selected,capacity:qty(r.free_capacity_pcs),unresolved:r.unresolved_pcs===null?null:qty(r.unresolved_pcs),roundingExtra:r.rounding_extra_pcs===null?null:qty(r.rounding_extra_pcs),
+  yield:{basis,numerator:y.numerator as string|null,denominator:y.denominator as string|null,historyStatus:h.status as string},cutLimit:limit,expectedGood:good,patternRevision:text(r.pattern_revision),materials:rows(r.material_rows,100).map(x=>{if(x.basis!=='OPERATOR_SELECTED_DRAFT_COMPOSITION_NOT_PROVEN_INSTALLED_OR_RESERVED')fail();return{rollId:guid(x.roll_id),materialId:guid(x.material_id),available:qty(x.native_available),...materialBudget(x.native_available,x.linked_native_draft_qty,x.free_for_new_plan),issued:qty(x.selected_issued),consumed:qty(x.selected_consumption),remaining:qty(x.selected_remaining)}})}
 }
 export const planPointerKey=(scope:string)=>'erp.cp7.plan-pointer.v1:'+scope
 export function readPlanPointer(scope:string):{id:string|null;error:string}{try{const raw=localStorage.getItem(planPointerKey(scope));if(raw===null)return{id:null,error:''};const p=rec(JSON.parse(raw));if(Object.keys(p).join('|')!=='id')fail();return{id:guid(p.id),error:''}}catch{return{id:null,error:'Penunjuk rencana tersimpan belum dapat dibaca. Jejak lama dipertahankan.'}}}

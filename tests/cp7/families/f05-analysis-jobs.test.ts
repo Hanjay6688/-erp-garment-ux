@@ -40,6 +40,18 @@ const STANDINS = `
   select jsonb_build_object('run_id',p_run,'scope',a->>'actor','body',
    repeat(coalesce(nullif(current_setting('test.unit',true),''),'x'),coalesce(nullif(current_setting('test.repeat',true),'')::integer,10)))$$;
  create function cp7_analysis_native.fingerprint(c jsonb)returns text language sql immutable set search_path='' as $$select md5(c::text)$$;
+ -- The finance-mode pair as in analysis.sql / analysis-finance.sql: DEFERRED
+ -- adds no financial source and marks the facts; only two modes exist.
+ create function cp7_analysis_native.finance_mode(facts jsonb)returns text language sql immutable set search_path='' as $$
+  select case when facts->>'financial_capture'='DEFERRED'then 'DEFERRED'else 'INCLUDED'end$$;
+ create function cp7_analysis_native.source_for(q jsonb,p_finance text)returns jsonb language plpgsql volatile set search_path='' as $$
+  begin
+   if p_finance='INCLUDED'then return cp7_analysis_native.source(q);end if;
+   if p_finance is distinct from 'DEFERRED'then raise exception 'CP7_ANALYSIS_FINANCE_MODE';end if;
+   return cp7_analysis_native.source(q)||jsonb_build_object('financial_source',null,'financial_capture','DEFERRED');
+  end $$;
+ alter function cp7_analysis_native.finance_mode(jsonb)owner to cp7_capture;
+ alter function cp7_analysis_native.source_for(jsonb,text)owner to cp7_capture;
  alter function cp7_analysis_native.source(jsonb)owner to cp7_capture;
  alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)owner to cp7_capture;
  alter function cp7_analysis_native.fingerprint(jsonb)owner to cp7_capture;`
@@ -132,6 +144,17 @@ test('P19 analysis job states, exact segmented Original, refusals and privileges
   expect(await call(db, A, `public.erp_cp7_request_analysis_job_v1(${q()},'${r3}')`)).toMatchObject({ state: 'DONE', run_id: run3 })
   await refused(db, A, `public.erp_cp7_request_analysis_job_v1(${q('RESTATED')},'${r3}')`, 'CP7_ANALYSIS_REQUEST_CHANGED')
   await refused(db, A, `public.erp_cp7_run_analysis_job_v1('00000000-0000-4000-8000-000000000199')`, 'CP7_ANALYSIS_JOB_UNAVAILABLE')
+  // Finance on demand: an operational job stores the DEFERRED mark; one UUID is one mode.
+  const r4 = '00000000-0000-4000-8000-000000000106'
+  expect((await call(db, A, `public.erp_cp7_request_operational_analysis_job_v1(${q()},'${r4}')`)).state).toBe('WAITING')
+  await refused(db, A, `public.erp_cp7_request_analysis_job_v1(${q()},'${r4}')`, 'CP7_ANALYSIS_REQUEST_CHANGED')
+  const ops = await call(db, A, `public.erp_cp7_run_analysis_job_v1('${r4}')`)
+  expect(ops.state).toBe('DONE')
+  expect((await db.query(`select facts->>'financial_capture' mode,(select finance from cp7_analysis_jobs.jobs where request_id='${r4}') job from cp7_analysis_native.runs where id='${ops.run_id}'`))[0]).toEqual({ mode: 'DEFERRED', job: 'DEFERRED' })
+  expect((await call(db, A, `public.erp_cp7_read_analysis_manifest_v1('${ops.run_id}')`)).source_state).toBe('UNCHANGED')
+  expect((await call(db, A, `public.erp_cp7_request_operational_analysis_job_v1(${q()},'${r4}')`)).run_id).toBe(ops.run_id)
+  await refused(db, A, `public.erp_cp7_request_operational_analysis_job_v1(${q()},'${r1}')`, 'CP7_ANALYSIS_REQUEST_CHANGED')
+  await refused(db, A, `public.erp_cp7_request_operational_analysis_job_v1(${q()},'${r3}')`, 'CP7_ANALYSIS_REQUEST_CHANGED')
   // Privileges and immutability.
   const privileges = (await db.query(`select bool_or(has_table_privilege(r,t,'SELECT,INSERT,UPDATE,DELETE'))tables,
    bool_or(has_schema_privilege(r,'cp7_analysis_jobs','USAGE'))schema,
@@ -140,7 +163,7 @@ test('P19 analysis job states, exact segmented Original, refusals and privileges
   expect(privileges).toEqual({ tables: false, schema: false, private_run: false })
   const execute = (await db.query(`select p.proname,has_function_privilege('authenticated',p.oid,'EXECUTE')a,has_function_privilege('anon',p.oid,'EXECUTE')n,
    pg_get_userbyid(p.proowner)o,p.prosecdef d from pg_proc p where p.pronamespace='public'::regnamespace and p.proname like 'erp_cp7_%analysis_%' order by 1`))
-  expect(execute).toEqual(['erp_cp7_get_analysis_job_v1', 'erp_cp7_read_analysis_manifest_v1', 'erp_cp7_read_analysis_segment_v1', 'erp_cp7_request_analysis_job_v1', 'erp_cp7_run_analysis_job_v1']
+  expect(execute).toEqual(['erp_cp7_get_analysis_job_v1', 'erp_cp7_read_analysis_manifest_v1', 'erp_cp7_read_analysis_segment_v1', 'erp_cp7_request_analysis_job_v1', 'erp_cp7_request_operational_analysis_job_v1', 'erp_cp7_run_analysis_job_v1']
    .map(proname => ({ proname, a: true, n: false, o: 'cp7_capture', d: true })))
   for (const table of ['segments', 'documents']) {
    let message = ''

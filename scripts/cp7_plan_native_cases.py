@@ -224,7 +224,10 @@ def cases(cur,today):
   return dict(status='PASS',immutable_draft_revisions_and_stale_version_atomic_refusal=True)
  def readonly_preview():
   f=setup(cur,today);d=save(cur,f['payload']);before=b.boundary.snapshot(cur);r=preview(cur,d['draft_id'])
-  assert b.boundary.snapshot(cur)==before and D(r['selected_new_pcs'])==2 and D(r['needed_pcs'])==D(f['options']['needed_pcs'])and D(r['unresolved_pcs'])==D(r['needed_pcs'])-2
+  # PL-5 (owner decision 7 Oct 2026): without a yield the good pieces and the
+  # unresolved gap are unknown; the old need-minus-cut figure assumed 100%.
+  assert b.boundary.snapshot(cur)==before and D(r['selected_new_pcs'])==2 and D(r['needed_pcs'])==D(f['options']['needed_pcs'])
+  assert r['new_start_yield']['basis']=='UNKNOWN'and r['unresolved_pcs']is None and r['expected_good_pcs']is None and D(r['cut_limit_pcs'])==-(-D(r['needed_pcs'])//1)
   assert r['material_rows'][0]['basis']=='OPERATOR_SELECTED_DRAFT_COMPOSITION_NOT_PROVEN_INSTALLED_OR_RESERVED'and'qty_reserved'not in json.dumps(r)and'native_payload'not in r
   return dict(status='PASS',Native_needed_selected_feasible_and_unresolved_kept_distinct=True,preview_no_reservation_post_or_counter_change=True)
  def native_apply():
@@ -278,6 +281,26 @@ def cases(cur,today):
   bad=copy.deepcopy(f['payload']);bad['cutting']['rolls'][0]['roll_id']=str(uuid.uuid4());auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_NATIVE_ROLL')
   assert b.boundary.snapshot(cur)==before
   return dict(status='PASS',Native_PO_model_exact_size_location_roll_identity_not_labels=True)
+ def new_start_yield():
+  # PL-5: history (B) has no approved policy yet, so it reports pending and no
+  # value; a planner estimate (A) is reviewed as an assumption and labelled.
+  f=setup(cur,today);needed=D(f['options']['needed_pcs']);before=b.boundary.snapshot(cur)
+  none=preview(cur,save(cur,{**f['payload'],'new_start_yield':None})['draft_id'])
+  assert none['new_start_yield']['basis']=='UNKNOWN'and none['new_start_yield']['history']['status']=='PENDING_POLICY_VALUE'and none['unresolved_pcs']is None
+  assert none['cut_limit_basis']=='NEED_CAP_YIELD_UNKNOWN_NOT_ASSUMED_100_PERCENT'
+  est={**f['payload'],'new_start_yield':{'numerator':'1','denominator':'2'}}
+  auth.refused(cur,lambda:save(cur,est),'CP7_PLAN_ASSUMPTIONS_NOT_REVIEWED')
+  est['reviewed_assumption_ids']=f['payload']['reviewed_assumption_ids']+['PLAN_NEW_START_YIELD'];r=preview(cur,save(cur,est)['draft_id'])
+  y=r['new_start_yield'];assert(y['basis'],y['numerator'],y['denominator'],y['assumption_id'])==('PLAN_ESTIMATE_REVIEWED','1','2','PLAN_NEW_START_YIELD'),y
+  assert D(r['cut_limit_pcs'])==-(-needed*2//1)and r['cut_limit_basis']=='NEED_AT_STATED_YIELD'and D(r['expected_good_pcs'])==1 and D(r['unresolved_pcs'])==max(0,needed-1),r
+  for bad,code in(({'numerator':'3','denominator':'2'},'CP7_PLAN_NEW_START_YIELD'),({'numerator':'0','denominator':'2'},'CP7_PLAN_NEW_START_YIELD'),
+   ({'numerator':'0.9','denominator':'1'},'CP7_PLAN_NEW_START_YIELD'),({'numerator':'1','denominator':'2','basis':'HISTORY'},'CP7_PLAN_FIELDS')):
+   auth.refused(cur,lambda:save(cur,{**est,'new_start_yield':bad}),code)
+  # A reviewed id without an estimate is not an unreviewed estimate: refused as a changed review set.
+  auth.refused(cur,lambda:save(cur,{**est,'new_start_yield':None}),'CP7_PLAN_ASSUMPTIONS_NOT_REVIEWED')
+  assert b.boundary.snapshot(cur)==before
+  return dict(status='PASS',history_yield_pending_owner_policy_no_value=True,no_yield_unknown_never_100_percent=True,
+   planner_estimate_reviewed_assumption_labelled=True,cut_limit_ceil_need_den_over_num=True,invalid_estimates_refused=True,read_only=True)
  def quantity():
   f=setup(cur,today);bad=copy.deepcopy(f['payload']);bad['cutting']['rolls'][0]['yields'][0]['qty_pcs']=str(max(D(f['options']['needed_pcs']),D(f['options']['capacity_pcs']))+1)
   auth.refused(cur,lambda:save(cur,bad),'CP7_PLAN_QUANTITY_EXCEEDS_NEED_OR_CAPACITY')
@@ -296,7 +319,7 @@ def cases(cur,today):
   assert not cur.execute("select has_function_privilege('cp7_capture','public.erp_cp7_apply_plan_action_v1(jsonb,uuid)','EXECUTE')or has_function_privilege('cp7_capture','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)','EXECUTE')").fetchone()[0]
   return dict(status='PASS',immutable_draft_and_read_compute_principal_cannot_call_mutators=True)
  from cp7_plan_actual_cases import cases as actual_cases
- return list(zip(['P08_METADATA','P08_SAVE_REPLAY','P08_VERSION','P08_PREVIEW_READONLY','P08_NATIVE_APPLY','P08_APPLY_REPLAY','E09_PLAN_STALE','P08_CURRENT_AUTH','P08_FOREIGN','P08_CLOSED','P08_NATIVE_IDENTITIES','O10_PLAN_QUANTITY','P08_ATOMIC_RECEIPT_FAILURE','E22_PLAN_COMPUTE_SEPARATION'],[metadata,replay_save,revision,readonly_preview,native_apply,apply_replay,stale,current,foreign,strict,identities,quantity,atomic_fault,frozen]))+actual_cases(cur,today)+material_cases(cur,today)
+ return list(zip(['P08_METADATA','P08_SAVE_REPLAY','P08_VERSION','P08_PREVIEW_READONLY','P08_NATIVE_APPLY','P08_APPLY_REPLAY','E09_PLAN_STALE','P08_CURRENT_AUTH','P08_FOREIGN','P08_CLOSED','P08_NATIVE_IDENTITIES','O10_PLAN_QUANTITY','P08_ATOMIC_RECEIPT_FAILURE','E22_PLAN_COMPUTE_SEPARATION','PL5_NEW_START_YIELD'],[metadata,replay_save,revision,readonly_preview,native_apply,apply_replay,stale,current,foreign,strict,identities,quantity,atomic_fault,frozen,new_start_yield]))+actual_cases(cur,today)+material_cases(cur,today)
 
 def races(tools,today):
  def shared_roll():

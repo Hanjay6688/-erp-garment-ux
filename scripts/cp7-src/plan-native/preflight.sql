@@ -19,14 +19,30 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
   'basis','CURRENT_NATIVE_LINKED_UNPOSTED_DRAFT_BUDGET_NOT_STOCK_RESERVATION')from stock s cross join planned p
 $$;
 
+-- PL-5 (owner decision 7 Oct 2026): the good-piece yield of a new start is
+-- never assumed to be 100%. Main direction B is the factory's own completed
+-- production history, under an owner-approved window, minimum sample and lower
+-- bound; no such policy is approved yet (docs/cp7/PL5_YIELD_POLICY_PROPOSAL_20261007.md),
+-- so history reports PENDING_POLICY_VALUE and no value. Meanwhile A: an
+-- explicit planner estimate for this plan, reviewed as an assumption and
+-- labelled. Without either the yield is UNKNOWN: the cut stays capped at the
+-- need, and the good pieces and the unresolved gap are unknown, not computed.
+create function cp7_plan_native.history_yield(p_target text)returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select jsonb_build_object('status','PENDING_POLICY_VALUE','reason','OWNER_HISTORY_YIELD_POLICY_NOT_APPROVED',
+  'window_days',null,'minimum_sample',null,'lower_bound',null,'numerator',null,'denominator',null,'target_key',p_target)
+$$;
 create function cp7_plan_native.preflight(p jsonb)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare s jsonb;r jsonb;product jsonb;cut jsonb;slot jsonb;roll jsonb;y jsonb;review jsonb;
  po erp.production_orders%rowtype;pattern erp.production_patterns%rowtype;native_roll erp.material_rolls%rowtype;
  target text;size uuid;total numeric:=0;roll_total numeric;issued numeric;consumed numeric;remaining numeric;available numeric;
  gap numeric;capacity numeric;seen uuid[]:='{}';material_rows jsonb:='[]';assumptions jsonb;native_payload jsonb;pool jsonb;
+ estimate jsonb;history jsonb;yield_basis text;num numeric;den numeric;cut_limit numeric;good numeric;
 begin
- perform cp7_plan_native.fields(p,array['run_id','target_key','plan_id','expected_revision','source_hash','cutting','reviewed_assumption_ids','reason']);
+ -- new_start_yield is optional: a payload without it has no planner estimate.
+ perform cp7_plan_native.fields(p,array['run_id','target_key','plan_id','expected_revision','source_hash','cutting','reviewed_assumption_ids','reason']
+  ||case when p?'new_start_yield'then array['new_start_yield']else'{}'::text[]end);
  if jsonb_typeof(p->'run_id')<>'string'or jsonb_typeof(p->'target_key')<>'string'or jsonb_typeof(p->'source_hash')<>'string'
   or p->>'source_hash'!~'^[0-9a-f]{64}$'or jsonb_typeof(p->'reason')<>'string'or length(btrim(p->>'reason'))not between 1 and 1000
   or jsonb_typeof(p->'reviewed_assumption_ids')is distinct from'array'then raise exception 'CP7_PLAN_REVIEW';end if;
@@ -41,6 +57,17 @@ begin
  gap:=(r->>'conditional_gap_pcs')::numeric;capacity:=(s->'netting'->'new_start_capacity'->>'capacity_pcs')::numeric;
  if gap<=0 or capacity is null then raise exception 'CP7_PLAN_NO_NEW_NEED';end if;
  select coalesce(jsonb_agg(x->'id'order by x->>'id'),'[]'::jsonb)into assumptions from jsonb_array_elements(s->'analysis'->'assumptions')x;
+ estimate:=coalesce(p->'new_start_yield','null'::jsonb);history:=cp7_plan_native.history_yield(target);
+ if estimate<>'null'::jsonb then
+  perform cp7_plan_native.fields(estimate,array['numerator','denominator']);
+  if jsonb_typeof(estimate->'numerator')<>'string'or jsonb_typeof(estimate->'denominator')<>'string'
+   or estimate->>'numerator'!~'^[1-9][0-9]{0,5}$'or estimate->>'denominator'!~'^[1-9][0-9]{0,5}$'
+   or(estimate->>'numerator')::numeric>(estimate->>'denominator')::numeric then raise exception 'CP7_PLAN_NEW_START_YIELD';end if;
+  -- History is the main direction: an estimate is accepted only while it is unavailable.
+  if history->>'status'='AVAILABLE'then raise exception 'CP7_PLAN_NEW_START_YIELD_HISTORY_AVAILABLE';end if;
+  -- The estimate is an assumption of this plan and is reviewed with the others.
+  assumptions:=assumptions||jsonb_build_array('PLAN_NEW_START_YIELD');
+ end if;
  if exists(select 1 from jsonb_array_elements(p->'reviewed_assumption_ids')x where jsonb_typeof(x)<>'string')
   or(select count(distinct value)from jsonb_array_elements(p->'reviewed_assumption_ids'))<>jsonb_array_length(p->'reviewed_assumption_ids')
   or not ((p->'reviewed_assumption_ids')@>assumptions)
@@ -76,7 +103,14 @@ begin
    'linked_native_drafts',pool->'linked_native_drafts','selected_issued',issued::text,'selected_consumption',consumed::text,'selected_remaining',remaining::text,
    'native_status',native_roll.status,'basis','OPERATOR_SELECTED_DRAFT_COMPOSITION_NOT_PROVEN_INSTALLED_OR_RESERVED'));
  end loop;
- if total>ceil(gap)or total>capacity then raise exception 'CP7_PLAN_QUANTITY_EXCEEDS_NEED_OR_CAPACITY';end if;
+ if history->>'status'='AVAILABLE'then yield_basis:='HISTORY_NATIVE';num:=(history->>'numerator')::numeric;den:=(history->>'denominator')::numeric;
+ elsif estimate<>'null'::jsonb then yield_basis:='PLAN_ESTIMATE_REVIEWED';num:=(estimate->>'numerator')::numeric;den:=(estimate->>'denominator')::numeric;
+ else yield_basis:='UNKNOWN';end if;
+ -- Known yield: cut enough for the need at that yield. Unknown: the cut stays
+ -- capped at the need itself and no good-piece count is claimed.
+ cut_limit:=case when yield_basis='UNKNOWN'then ceil(gap)else ceil(gap*den/num)end;
+ good:=case when yield_basis='UNKNOWN'then null else floor(total*num/den)end;
+ if total>cut_limit or total>capacity then raise exception 'CP7_PLAN_QUANTITY_EXCEEDS_NEED_OR_CAPACITY';end if;
  -- PL-7: a posted linked cut is not directed supply for its target (unbound cut
  -- brand/color stays NEEDS_CHECK), so this Original's gap still contains it.
  -- The intent stays open until this same Original proves every cut piece of
@@ -93,10 +127,14 @@ begin
   or exists(select 1 from cp7_plan_native.intents i join erp.cutting_groups g on g.id=i.cutting_group_id where i.target_key=target and i.core_hash=s->>'core_hash')then raise exception using errcode='40001',message='CP7_PLAN_LINKED_INTENT_CONFLICT';end if;
  if exists(select 1 from cp7_plan_native.intents where target_key=target and recorded_at>=(s->>'captured_at')::timestamptz)then raise exception using errcode='40001',message='CP7_PLAN_INTENT_EPOCH_CHANGED';end if;
  native_payload:=cut||jsonb_build_object('action','SAVE_DRAFT','change_reason',btrim(p->>'reason'));
- return jsonb_build_object('contract_version','cp7.plan-preview.v2','source_hash',s->'source_hash','core_hash',s->'core_hash',
+ return jsonb_build_object('contract_version','cp7.plan-preview.v3','source_hash',s->'source_hash','core_hash',s->'core_hash',
   'target_key',target,'product_sku',product->'sku','product_name',product->'product_name','needed_pcs',gap::text,
-  'selected_new_pcs',total::text,'rounding_extra_pcs',greatest(0,total-gap)::text,'free_capacity_pcs',capacity::text,
-  'unresolved_pcs',greatest(0,gap-total)::text,'material_rows',material_rows,'pattern_revision',pattern.revision,
+  'selected_new_pcs',total::text,'free_capacity_pcs',capacity::text,
+  'new_start_yield',jsonb_build_object('basis',yield_basis,'numerator',num::text,'denominator',den::text,
+   'assumption_id',case when yield_basis='PLAN_ESTIMATE_REVIEWED'then'PLAN_NEW_START_YIELD'end,'history',history),
+  'cut_limit_pcs',cut_limit::text,'cut_limit_basis',case when yield_basis='UNKNOWN'then'NEED_CAP_YIELD_UNKNOWN_NOT_ASSUMED_100_PERCENT'else'NEED_AT_STATED_YIELD'end,
+  'expected_good_pcs',good::text,'rounding_extra_pcs',case when good is null then null else greatest(0,good-gap)::text end,
+  'unresolved_pcs',case when good is null then null else greatest(0,gap-good)::text end,'material_rows',material_rows,'pattern_revision',pattern.revision,
   'composition_hash',encode(extensions.digest(convert_to(jsonb_build_object('po_id',po.id,'po_model',po.model_id,'po_status',po.status,'pattern_id',pattern.id,'pattern_version',pattern.row_version,'pattern_revision',pattern.revision,'material_rows',material_rows)::text,'UTF8'),'sha256'),'hex'),'native_payload',native_payload,'command','erp_save_cutting_group_before_sewing_v2:SAVE_DRAFT',
   'status','READY_FOR_EXPLICIT_NATIVE_DRAFT','reservation_created',false,'physical_production_confirmed',false,'production_go',false);
 end $$;
