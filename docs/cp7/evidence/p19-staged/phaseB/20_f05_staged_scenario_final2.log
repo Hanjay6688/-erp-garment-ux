@@ -1,0 +1,12 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5kB/repo
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  15:26:56
+   Duration  566.70s (transform 307ms, setup 0ms, import 357ms, tests 566.13s, environment 0ms)
+
+EXIT 0

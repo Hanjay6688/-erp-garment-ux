@@ -75,12 +75,9 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
   p19-staged:
-    # 5,000 targets phase A: the staged job kernel (test prototype, stand-ins for
-    # the scenario, fabric and accessories) against the single build, and its
-    # per-unit timings under the unchanged 8 s. Own job: p19-assembly already
-    # uses most of its 30 minutes.
+    # Product SQL, byte parity, page/access boundaries and real scenario chain.
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -92,8 +89,12 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx --no-install vitest run tests/cp7/families/f05-staged-analysis.test.ts tests/cp7/families/f05-analysis-jobs.test.ts
-      - run: node scripts/cp7_p19_staged_benchmark.mjs test-results/cp7-shell-proof/P19_STAGED_ANALYSIS_KERNEL.json
+      - run: npx --no-install vitest run tests/cp7/families/f05-staged-analysis.test.ts tests/cp7/families/f05-staged-scenario.test.ts tests/cp7/families/f05-staged-pages.test.ts tests/cp7/families/f05-staged-api.test.ts tests/cp7/families/f05-analysis-jobs.test.ts --maxWorkers=1
+      - name: Measure all 5,000 targets with the real product kernels
+        env:
+          CP7_P19_STAGED: 1000x30,5000x30,5000x100
+          CP7_P19_SINGLE: '1'
+        run: node scripts/cp7_p19_staged_benchmark.mjs test-results/cp7-shell-proof/P19_STAGED_ANALYSIS_KERNEL.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

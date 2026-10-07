@@ -1,0 +1,30 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-writer
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts (3 tests | 1 failed) 6771ms
+   × P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops 1734ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops
+TypeError: Cannot read properties of undefined (reading 'model')
+ ❯ product tests/cp7/families/f04/netting-fixture.mjs:122:76
+    120|   const rootList = Array.from({ length: roots }, (_, i) => ({ id: `roo…
+    121|   const facts = [], matching = [], loose = []
+    122|   const product = (root, size, id = `prd-${root.id}-${size}`, model = …
+       |                                                                            ^
+    123|     color_name: root.color, effective_from: '2026-01-01T00:00:00.00000…
+    124|   const add = p => { matching.push(p); facts.push({ id: p.id, root_id:…
+ ❯ nettingInput tests/cp7/families/f04/netting-fixture.mjs:127:99
+ ❯ stagedInput tests/cp7/families/f04/staged-analysis-fixture.mjs:235:13
+ ❯ tests/cp7/families/f05-staged-api.test.ts:40:76
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  14:57:07
+   Duration  7.17s (transform 205ms, setup 0ms, import 249ms, tests 6.77s, environment 0ms)
+

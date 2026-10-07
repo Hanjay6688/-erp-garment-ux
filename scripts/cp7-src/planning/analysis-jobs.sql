@@ -114,6 +114,12 @@ begin
  if p_finance is null or p_finance not in('INCLUDED','DEFERRED')then raise exception 'CP7_ANALYSIS_FINANCE_MODE';end if;
  a:=cp7_schedule_native.access_now(false);q:=cp7_planning.history_query(p_query);
  if p_request is null then raise exception 'CP7_ANALYSIS_REQUEST_REQUIRED';end if;
+ perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS-REQUEST:'||(a->>'actor')||':'||p_request::text,0));
+ if to_regclass('cp7_analysis_stage.jobs') is not null then
+  if exists(select 1 from cp7_analysis_stage.jobs where actor=(a->>'actor')::uuid and request_id=p_request)then
+   raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';
+  end if;
+ end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS-JOB:'||(a->>'actor')||':'||p_request::text,0));
  select *into j from cp7_analysis_jobs.jobs where actor=(a->>'actor')::uuid and request_id=p_request;
  if found and(j.query<>q or j.finance<>p_finance)then raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;
@@ -147,6 +153,7 @@ begin
  a:=cp7_schedule_native.access_now(false);
  if p_request is null then raise exception 'CP7_ANALYSIS_REQUEST_REQUIRED';end if;
  -- The same lock as the ordinary capture: one computation per actor/UUID.
+ perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS-REQUEST:'||(a->>'actor')||':'||p_request::text,0));
  perform pg_advisory_xact_lock(cp7_analysis_jobs.compute_key((a->>'actor')::uuid,p_request));
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  select *into j from cp7_analysis_jobs.jobs where actor=(a->>'actor')::uuid and request_id=p_request;

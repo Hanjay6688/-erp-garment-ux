@@ -1,0 +1,4 @@
+stock_1000 7281 ms {"jsonb_array_length":1000}
+stock_100 7619 ms {"jsonb_array_length":100}
+stock_0 6726 ms {"jsonb_array_length":0}
+stock_1000_small_c 7736 ms {"jsonb_array_length":1000}

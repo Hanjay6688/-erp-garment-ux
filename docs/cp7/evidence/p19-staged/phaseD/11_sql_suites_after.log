@@ -1,0 +1,144 @@
+=== f05-staged-pages
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5kD/repo
+
+{"variants":[{"per":7,"cases":162,"done":83,"failed":79,"pages":317,"multi_page":74,"zero_target":9,"page_edges":243,"single_same":80,"max_page_bytes":121606,"paged":{"actions":74,"metrics":74,"timeline":74,"assumptions":74,"demand_models":74,"material_needs":71,"recommendations":74,"generation_warnings":19},"unpaged_material_null":3},{"per":1,"cases":108,"done":54,"failed":54,"pages":1184,"multi_page":48,"zero_target":6,"page_edges":1136,"single_same":0,"max_page_bytes":26413,"paged":{"actions":48,"metrics":48,"timeline":48,"assumptions":48,"demand_models":48,"material_needs":46,"recommendations":48,"generation_warnings":12},"unpaged_material_null":2},{"per":3,"cases":108,"done":54,"failed":54,"pages":481,"multi_page":48,"zero_target":6,"page_edges":433,"single_same":0,"max_page_bytes":62549,"paged":{"actions":48,"metrics":48,"timeline":48,"assumptions":48,"demand_models":48,"material_needs":46,"recommendations":48,"generation_warnings":12},"unpaged_material_null":2}],"refusals":["CP7_NETTING_WORK_LIMIT","CP7_NETTING_NATIVE_PRODUCT_MISSING","CP7_ANALYSIS_STAGE_ERROR","CP7_NETTING_NATIVE_SOURCE_SIZE","CP7_WIP_KEY","CP7_BASELINE_ETA_BINDING","CP7_BASELINE_TARGET","CP7_F04_DECIMAL","CP7_NETTING_TIMELINE_HORIZON_LIMIT","CP7_WIP_REFS","CP7_WIP_PCS","CP7_WIP_MATCH_DUPLICATE"]}
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 10 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.pages_manifest(uuid) line 6 at RAISE
+SQL function "erp_cp7_read_analysis_pages_v1" statement 1
+ERROR:  CP7_ANALYSIS_PAGE_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 15 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_PAGE_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 15 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ACCESS_DENIED
+CONTEXT:  PL/pgSQL function cp7_schedule_native.access_now(boolean) line 3 at RAISE
+PL/pgSQL function cp7_analysis_jobs.pages_manifest(uuid) line 5 at assignment
+SQL function "erp_cp7_read_analysis_pages_v1" statement 1
+ERROR:  CP7_ANALYSIS_FINANCE_ACCESS_DENIED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.pages_manifest(uuid) line 9 at RAISE
+SQL function "erp_cp7_read_analysis_pages_v1" statement 1
+ERROR:  CP7_ANALYSIS_PAGES_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.pages_manifest(uuid) line 16 at RAISE
+SQL function "erp_cp7_read_analysis_pages_v1" statement 1
+ERROR:  CP7_ANALYSIS_PAGES_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 13 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_PAGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.refuse_paged(uuid) line 5 at RAISE
+SQL statement "SELECT cp7_analysis_jobs.refuse_paged(p_run)"
+PL/pgSQL function cp7_analysis_jobs.manifest(uuid) line 2 at PERFORM
+SQL function "erp_cp7_read_analysis_manifest_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.manifest_whole(uuid) line 6 at RAISE
+PL/pgSQL function cp7_analysis_jobs.manifest(uuid) line 2 at RETURN
+SQL function "erp_cp7_read_analysis_manifest_v1" statement 1
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  14:25:16
+   Duration  161.95s (transform 192ms, setup 0ms, import 242ms, tests 161.51s, environment 0ms)
+
+
+real	2m43.075s
+user	0m3.786s
+sys	0m1.991s
+=== f05-staged-analysis
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5kD/repo
+
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  14:27:59
+   Duration  119.53s (transform 241ms, setup 0ms, import 318ms, tests 118.96s, environment 0ms)
+
+
+real	2m1.287s
+user	0m6.319s
+sys	0m4.080s
+=== f05-analysis-jobs
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5kD/repo
+
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 10 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.manifest(uuid) line 6 at RAISE
+SQL function "erp_cp7_read_analysis_manifest_v1" statement 1
+ERROR:  CP7_ANALYSIS_SEGMENT_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 14 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ACCESS_DENIED
+CONTEXT:  PL/pgSQL function cp7_schedule_native.access_now(boolean) line 3 at RAISE
+PL/pgSQL function cp7_analysis_jobs.get(uuid) line 5 at assignment
+SQL function "erp_cp7_get_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_JOB_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.run(uuid) line 11 at RAISE
+SQL function "erp_cp7_run_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_operational_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_operational_analysis_job_v1" statement 1
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  14:30:00
+   Duration  4.00s (transform 90ms, setup 0ms, import 119ms, tests 3.65s, environment 0ms)
+
+
+real	0m4.977s
+user	0m2.382s
+sys	0m1.115s

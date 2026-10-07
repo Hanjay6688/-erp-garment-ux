@@ -1,0 +1,42 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5kB/repo
+
+stdout | tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario: the comparison catches every deliberately wrong unit
+{"cases":20,"caught":{"EVENTS_NO_INVERSE":7,"EVENTS_CUT_EDGE":12,"AVAILABILITY_NOT_CHECKED":0,"EVENTS_NOT_CHECKED":0,"ROWS_EDGE":12,"ROWS_DRAFTS":12,"BASE_POLICY_LAST":2,"VALIDATE_NO_CONFLICT":4,"SCHEDULE_NO_YIELD":12,"FABRIC_NO_GAP":7}}
+
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts (3 tests | 1 failed | 2 skipped) 295840ms
+   × P19 staged scenario: the comparison catches every deliberately wrong unit 295838ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario: the comparison catches every deliberately wrong unit
+AssertionError: expected [ 'AVAILABILITY_NOT_CHECKED', false ] to deeply equal [ 'AVAILABILITY_NOT_CHECKED', true ]
+
+- Expected
++ Received
+
+  [
+    "AVAILABILITY_NOT_CHECKED",
+-   true,
++   false,
+  ]
+
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts:165:68
+    163|     }
+    164|     console.log(JSON.stringify({ cases: cases.length, caught }))
+    165|     for (const [name] of MUTANTS) expect([name, caught[name] > 0]).toE…
+       |                                                                    ^
+    166|     // Restored: the same corpus agrees again.
+    167|     const again = await compare(db, cases, (base += 0x40))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  14:23:55
+   Duration  296.64s (transform 434ms, setup 0ms, import 487ms, tests 295.84s, environment 0ms)
+
+EXIT 1

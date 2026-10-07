@@ -27,6 +27,7 @@ import cp6_bf_probe as bf
 import cp7_analysis_cases as analysis
 import cp7_p19_native_load_cases as load
 import cp7_p19_transport_cases as transport
+import cp7_p19_staged_cases as staged
 
 baseline = analysis.previous.baseline
 history = baseline.history
@@ -87,7 +88,25 @@ CAPS = {
     'CLIENT_DOCUMENT_64000000_BYTES': dict(value=64000000, codes=[],
         where='src/nativeAnalysisTransport.ts ANALYSIS_DOCUMENT_UTF8_BYTES; the client refuses the whole document',
         predicted_by_size_model=False),
+    # Staged path (P19 5,000 targets): its own bounds, declared once in planning/analysis-stages.sql bounds().
+    'STAGED_TARGETS_5000': dict(value=5000, codes=['CP7_ANALYSIS_STAGED_TARGET_LIMIT'],
+        where='planning/analysis-stages.sql bounds job_targets: more planned products at capture refuse the staged job',
+        predicted_by_size_model=True),
+    'STAGED_HISTORY_CELLS_500000': dict(value=500000, codes=['CP7_PLANNING_HISTORY_GRID_LIMIT'],
+        where='planning/analysis-stages.sql bounds job_history_cells: planned products x history days (the single path refuses at 100000)',
+        predicted_by_size_model=True),
+    'STAGED_MATCH_10000': dict(value=10000, codes=['CP7_NETTING_MATCH_SOURCE_LIMIT'],
+        where='planning/analysis-stages.sql bounds job_matching_products (the single path keeps 5000)', predicted_by_size_model=False),
+    'STAGED_UNIT_STOPPED_8S': dict(value='8s, 3 attempts', codes=['CP7_ANALYSIS_STAGE_STOPPED'],
+        where='planning/analysis-stages.sql step: a unit stopped by the existing 8 s limit three times fails the job',
+        predicted_by_size_model=True),
+    'STAGED_PAGE_BODY_8000000': dict(value=8000000, codes=['CP7_ANALYSIS_PAGE_BODY_LIMIT'],
+        where='planning/analysis-stages.sql pages: one target whose items alone exceed a page body; a page is never cut inside a target',
+        predicted_by_size_model=False),
 }
+STAGED_PATH = 'STAGED_JOB_PAGES'
+# Declared staged bounds; the installed bounds() are read back and compared in every staged point.
+STAGED_BOUNDS = dict(job_targets=5000, job_matching_products=10000, job_history_cells=500000)
 SYNTHETIC = dict(
     label='P19_SCALE_SYNTHETIC_NOT_FACTORY_DEFAULT', sizes_per_model=10, products_per_import_batch=250, cutover_days=10,
     opening_fg_pcs='50', opening_unit_cost='6.00', color_name='Blue',
@@ -192,8 +211,29 @@ def expected_caps(total, days):
     return caps
 
 
-def cap_of(code):
-    return next((name for name, cap in CAPS.items() if code in cap['codes']), None)
+def cap_of(code, staged=False):
+    # Shared codes (the history grid, the matching bound) belong to the staged bounds on the staged path only.
+    names = [n for n in CAPS if n.startswith('STAGED_')] if staged else []
+    names += [n for n in CAPS if not n.startswith('STAGED_')]
+    return next((name for name in names if code in CAPS[name]['codes']), None)
+
+
+def staged_expected_caps(total, days):
+    """Caps the declared counts meet on the staged path. A unit stopped by the existing 8 s limit may stop any point."""
+    caps = ['STATEMENT_TIMEOUT_8S', 'STAGED_UNIT_STOPPED_8S']
+    if total > STAGED_BOUNDS['job_targets']:
+        caps.append('STAGED_TARGETS_5000')
+    if min(total, STAGED_BOUNDS['job_targets'] + 1) * days > STAGED_BOUNDS['job_history_cells']:
+        caps.append('STAGED_HISTORY_CELLS_500000')
+    return caps
+
+
+def staged_bounds(cur):
+    """Installed staged bounds (admin read) against the declared ones."""
+    b.api.admin(cur)
+    installed = cur.execute('select cp7_analysis_stage.bounds()').fetchone()[0]
+    return dict(installed={k: installed.get(k) for k in STAGED_BOUNDS}, declared=STAGED_BOUNDS,
+                declared_match=all(installed.get(k) == v for k, v in STAGED_BOUNDS.items()))
 
 
 def source_cap(cur):
@@ -291,7 +331,7 @@ def verdict(point):
         if failed:
             return dict(kind='RESULT_DEFECT', failed=failed, acceptable=False, counterexample=True)
         return dict(kind='COMPLETE_RESULT', acceptable=True, counterexample=False)
-    cap = cap_of(stopped.get('code'))
+    cap = cap_of(stopped.get('code'), point['path'] == STAGED_PATH)
     base = dict(phase=stopped['name'], code=stopped.get('code'), sqlstate=stopped.get('sqlstate'), cap=cap,
                 time_to_refusal_ms=point.get('elapsed_to_stop_ms'))
     if point.get('result_saved_after_refusal'):
@@ -401,6 +441,154 @@ def transfer(cur, point, run, step, expected):
     point['transport_exact'] = exact
     point.update(evidence(cur, assembled, expected))
     point['complete_original'] = assembled
+
+
+REASSEMBLE_SQL = """with h as(select %s::jsonb x),p as(select ord-1 idx,x::jsonb x from unnest(%s::text[])with ordinality t(x,ord)),
+ arrays as(select k.key,(h.x->'analysis_header'->k.key)||coalesce((select jsonb_agg(t.e order by p.idx,t.ord)
+   from p,jsonb_array_elements(p.x->'items'->k.key)with ordinality t(e,ord)),'[]'::jsonb)v from h,jsonb_each(h.x->'paged')k),
+ a as(select(h.x->'analysis_header')||coalesce((select jsonb_object_agg(key,v)from arrays),'{}'::jsonb)v from h)
+ select(v||jsonb_build_object('semantic_hash',encode(pg_catalog.sha256(convert_to(v::text,'UTF8')),'hex'))::text from a"""
+
+
+def staged_reassemble(cur, header_body, page_bodies):
+    """Header prefix plus every page's items per paged array, with the single path's semantic_hash
+    formula recomputed server side over the reassembled text (admin read, not app latency)."""
+    b.api.admin(cur)
+    text = cur.execute(REASSEMBLE_SQL, (header_body, page_bodies)).fetchone()[0]
+    return json.loads(text), digest(text)
+
+
+def staged_original(cur, run, ps, analysis_rows):
+    """Digests of the stored staged run: header and pages, never one whole document (admin read)."""
+    b.api.admin(cur)
+    count, total, largest, smallest = cur.execute(
+        'select count(*),coalesce(sum(p.utf8_bytes),0),coalesce(max(p.utf8_bytes),0),coalesce(min(p.utf8_bytes),0) from cp7_analysis_stage.pages p where p.run_id=%s',
+        (run,)).fetchone()
+    products = cur.execute("select jsonb_array_length(j.reference->'facts'->'products') from cp7_analysis_stage.jobs j where j.run_id=%s",
+                           (run,)).fetchone()[0]
+    assert count == ps['page_count'], ('P19S_STAGED_PAGES_NOT_STORED', run, count, ps['page_count'])
+    return dict(run_id=str(run), page_count=count, pages_utf8_bytes=int(total), page_utf8_bytes_max=int(largest),
+                page_utf8_bytes_min=int(smallest), header_utf8_bytes=ps['header']['utf8_bytes'], identity_hash=ps['identity_hash'],
+                targets_total=ps['targets_total'], source_products=products, recommendations=analysis_rows,
+                single_body_bound_exceeded=int(largest) > BODY_BYTES, client_document_bound_exceeded=None,
+                whole_document_stored=False)
+
+
+def staged_evidence(cur, envelope, expected, ps, reassembled_sha256):
+    started = monotonic()
+    try:
+        analysis.checked(envelope)
+        valid, error = True, None
+    except Exception as failure:  # the frozen validator's own refusal is the evidence
+        valid, error = False, str(failure)[:2000]
+    x = envelope['analysis']
+    cover = coverage([label['target_key'] for label in envelope['product_labels']],
+                     [r['target']['key'] for r in x['recommendations']], x['generation_warnings'], x['status'], expected)
+    return dict(run_id=envelope['run_id'], frozen_contract_valid=valid, frozen_contract_error=error,
+                frozen_validator_ms_not_app_latency=ms(started), coverage=cover, coverage_complete=cover['complete'],
+                original=staged_original(cur, envelope['run_id'], ps, len(x['recommendations'])), original_recorded=True,
+                source_state=envelope.get('source_state'), reassembled_analysis_sha256=reassembled_sha256,
+                semantic_hash_recomputed_from_reassembly=True,
+                parity_with_single_build='kernel tests f05-staged-* and P19G_STAGED_EQUALS_SINGLE, not this point')
+
+
+def staged_transfer(cur, point, run, step, expected):
+    """Page set, then every page; each call under 8 s; verified exactly as the client does."""
+    read = step('pages', lambda: staged.limited(cur, 'erp_cp7_read_staged_analysis_pages_v1', (run,)))
+    if read['outcome'] != 'RETURNED':
+        return
+    ps = read['value']
+    h = ps['header']
+    header_raw = h['body'].encode('UTF8')
+    exact = len(header_raw) == h['utf8_bytes'] <= BODY_BYTES and hashlib.sha256(header_raw).hexdigest() == h['sha256'] \
+        and ps['identity_hash'] == digest(h['sha256'] + '\n' + '\n'.join(p['sha256'] for p in ps['pages'])) \
+        and [p['index'] for p in ps['pages']] == list(range(ps['page_count'])) and 'document' not in ps and 'semantic_hash' not in ps
+    header = json.loads(h['body'])
+    point['page_set'] = dict(page_count=ps['page_count'], targets_total=ps['targets_total'], identity_hash=ps['identity_hash'],
+                             header_utf8_bytes=h['utf8_bytes'], header_sha256=h['sha256'], pages=ps['pages'], paged=ps['paged'])
+    bodies, nxt = [], 1
+    for entry in ps['pages']:
+        got = step('page', lambda: staged.limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (run, entry['index'], ps['access_epoch'])),
+                   index=entry['index'])
+        if got['outcome'] != 'RETURNED':
+            return
+        e = got['value']
+        raw = e['body'].encode('UTF8')
+        ok = (e['index'], e['identity_hash'], e['header_sha256'], e['target_lo'], e['target_hi'], e['page_count']) == (
+            entry['index'], ps['identity_hash'], h['sha256'], entry['target_lo'], entry['target_hi'], ps['page_count']) \
+            and len(raw) == e['utf8_bytes'] == entry['utf8_bytes'] <= BODY_BYTES \
+            and hashlib.sha256(raw).hexdigest() == e['sha256'] == entry['sha256'] and entry['target_lo'] == nxt <= entry['target_hi']
+        nxt = entry['target_hi'] + 1
+        point['phases'][-1].update(utf8_bytes=e['utf8_bytes'], targets=entry['target_hi'] - entry['target_lo'] + 1, page_exact=ok)
+        exact = exact and ok
+        bodies.append(e['body'])
+    exact = exact and nxt - 1 == ps['targets_total']
+    point['pages_ms'] = round(sum(p['ms'] for p in point['phases'] if p['name'] in ('pages', 'page')), 3)
+    checked = step('check', lambda: staged.limited(cur, 'erp_cp7_check_staged_analysis_source_v1', (run,)))
+    reassembled, reassembled_sha256 = staged_reassemble(cur, h['body'], bodies)
+    envelope = dict(contract_version='cp7.native-analysis-run.v1', run_id=header['run_id'], request_id=header['request_id'],
+                    analysis=reassembled, product_labels=header['product_labels'], query=header['query'],
+                    financial_source=header['financial_source'], apply_enabled=False, production_go=False,
+                    source_state=(checked.get('value') or {}).get('source_state'))
+    point['transport_exact'] = exact and header['run_id'] == str(run) and header['financial_source'] is None
+    point.update(staged_evidence(cur, envelope, expected, ps, reassembled_sha256))
+
+
+def staged_point(cur, today, size, days, expected, tag=''):
+    """Request -> one unit per step -> get, then page set -> every page -> source check; each call under 8 s.
+    Per-target items are not retained in the witness; every page's bytes and sha256 are."""
+    key, q = uuid.uuid4(), history.query(today, days)
+    point = dict(size=size, history_days=days, path=STAGED_PATH, request_id=str(key), query=q,
+                 expected_caps=staged_expected_caps(len(expected), days),
+                 grid_cells=min(len(expected), STAGED_BOUNDS['job_targets'] + 1) * days, statement_timeout=STATEMENT_TIMEOUT,
+                 public_rpcs=list(staged.FUNCTIONS), bounds=staged_bounds(cur), phases=[], steps=0, step_ms=[])
+    elapsed = [0.0]
+
+    def step(name, op, **extra):
+        call = public(cur, op)
+        elapsed[0] = round(elapsed[0] + call['ms'], 3)
+        if name != 'step' or call['outcome'] != 'RETURNED':
+            point['phases'].append(phase(name, call, **extra))
+        if call['outcome'] != 'RETURNED' and 'elapsed_to_stop_ms' not in point:
+            point['elapsed_to_stop_ms'] = elapsed[0]
+        return call
+    requested = step('request', lambda: staged.request(cur, today, key, q=q))
+    if requested['outcome'] == 'RETURNED':
+        job = requested['value']
+        point.update(requested_state=job['state'], unit_count=job['unit_count'], stage_count=job['stage_count'],
+                     reference=job['reference'], request_ms=requested['ms'])
+        while job['state'] == 'RUNNING':
+            assert point['steps'] < staged.DRIVER_CALLS, 'P19S_STAGED_DRIVER_BOUND'
+            call = step('step', lambda: staged.step(cur, key))
+            point['steps'] += 1
+            if call['outcome'] != 'RETURNED':
+                job = None
+                break
+            point['step_ms'].append(call['ms'])
+            job = call['value']
+        if job is not None:
+            point['job'] = job
+            point['request_to_terminal_ms'] = elapsed[0]
+            point['slowest_step_ms'] = max(point['step_ms'], default=0.0)
+            point['unit_attempts_recorded'] = job.get('unit_attempts')
+            got = step('get', lambda: staged.status(cur, key))
+            point['get_equals_step'] = got.get('value') == job
+            if job['state'] == 'FAILED':
+                point['phases'].append(dict(name='job', outcome='JOB_FAILED', ms=0.0, **job['failure']))
+                point.setdefault('elapsed_to_stop_ms', point['request_to_terminal_ms'])
+            elif job['state'] == 'DONE':
+                staged_transfer(cur, point, job['run_id'], step, expected)
+            else:
+                point['job_not_terminal'] = True
+    stop = next((p['name'] for p in point['phases'] if p['outcome'] != 'RETURNED'), None)
+    if stop in ('request', 'step', 'job'):
+        b.api.admin(cur)
+        point['result_saved_after_refusal'] = cur.execute(
+            'select count(*) from cp7_analysis_stage.pages p join cp7_analysis_stage.jobs j on j.run_id=p.run_id where j.request_id=%s',
+            (key,)).fetchone()[0] != 0
+    point['verdict'] = verdict(point)
+    point['witness'] = witness(tag + 'STAGED_%d_%d' % (size, days), dict(point), True)
+    return point
 
 
 def diagnostics(cur, today, days):
@@ -567,9 +755,11 @@ def ensure(cur, today, size, wip_done, commit=None):
                 seed_is_application_latency=False, direct_business_inserts=False)
 
 
-def observe(cur, actor, requests, run, label):
+def observe(cur, actor, requests, run, label, staged_control=False):
     """Read-back of one browser click on the disposable copy (admin read, not app latency)."""
     b.api.admin(cur)
+    if staged_control:
+        return observe_staged(cur, actor, requests, run, label)
     out = dict(actor_runs=cur.execute('select count(*) from cp7_analysis_native.runs where actor=%s', (actor,)).fetchone()[0],
                requests={str(r): dict(zip(('runs', 'documents', 'jobs'), transport.counts(cur, r))) for r in requests},
                jobs=[dict(zip(('request_id', 'state', 'attempts', 'failure_sqlstate', 'failure_code', 'run_id'), row))
@@ -587,6 +777,41 @@ def observe(cur, actor, requests, run, label):
         (root / name).write_text(text)  # the exact stored Original text, byte for byte
         assert digest((root / name).read_text()) == out['original']['original_sha256']
         out['original_witness'] = name
+    return out
+
+
+def observe_staged(cur, actor, requests, run, label):
+    """Read-back of one staged click: the actor's staged jobs (admin read) and, for a DONE run, the page set
+    and every page through the actor's own public readers, reassembled and checked as the SQL ladder does."""
+    b.api.admin(cur)
+    out = dict(actor_runs=cur.execute('select count(*) from cp7_analysis_native.runs where actor=%s', (actor,)).fetchone()[0],
+               requests={str(r): dict(zip(('runs', 'documents', 'jobs'), transport.counts(cur, r))) for r in requests},
+               staged_jobs=[dict(zip(('request_id', 'state', 'units_done', 'unit_count', 'failure_code', 'run_id', 'pages'), row))
+                            for row in cur.execute("""select j.request_id::text,j.state,j.units_done,j.unit_count,j.failure_code,j.run_id::text,
+                               (select count(*) from cp7_analysis_stage.pages p where p.run_id=j.run_id)
+                               from cp7_analysis_stage.jobs j where j.actor=%s order by j.created_at""", (actor,)).fetchall()])
+    if run:
+        ps = staged.limited(cur, 'erp_cp7_read_staged_analysis_pages_v1', (run,), actor)
+        bodies = [staged.limited(cur, 'erp_cp7_read_staged_analysis_page_v1', (run, i, ps['access_epoch']), actor)['body']
+                  for i in range(ps['page_count'])]
+        header = json.loads(ps['header']['body'])
+        reassembled, reassembled_sha256 = staged_reassemble(cur, ps['header']['body'], bodies)
+        checked = staged.limited(cur, 'erp_cp7_check_staged_analysis_source_v1', (run,), actor)
+        envelope = dict(contract_version='cp7.native-analysis-run.v1', run_id=header['run_id'], request_id=header['request_id'],
+                        analysis=reassembled, product_labels=header['product_labels'], query=header['query'],
+                        financial_source=header['financial_source'], apply_enabled=False, production_go=False,
+                        source_state=checked['source_state'])
+        evidence_row = staged_evidence(cur, envelope, current_targets(cur), ps, reassembled_sha256)
+        out.update(original=evidence_row['original'], coverage=evidence_row['coverage'], frozen_contract_valid=evidence_row['frozen_contract_valid'],
+                   frozen_contract_error=evidence_row['frozen_contract_error'], source_state=evidence_row['source_state'],
+                   reassembled_analysis_sha256=reassembled_sha256, identity_hash=ps['identity_hash'],
+                   pages=[{k: p[k] for k in ('index', 'target_lo', 'target_hi', 'utf8_bytes', 'sha256')} for p in ps['pages']])
+        root = Path(__file__).resolve().parents[1] / 'cp6-proof/t3'
+        root.mkdir(parents=True, exist_ok=True)
+        name = 'P19_SCALE_BROWSER_STAGED_HEADER_' + label + '.json'
+        (root / name).write_text(ps['header']['body'])  # the exact stored header text; pages are kept as bytes + sha256
+        assert digest((root / name).read_text()) == ps['header']['sha256']
+        out['header_witness'] = name
     return out
 
 
@@ -861,8 +1086,9 @@ def scaling(rows):
 
 
 def compact(point):
-    return {k: v for k, v in point.items() if k not in ('manifest', 'job')} | dict(
-        job_state=(point.get('job') or {}).get('state'), segment_count=(point.get('manifest') or {}).get('document', {}).get('segment_count'))
+    return {k: v for k, v in point.items() if k not in ('manifest', 'job', 'page_set', 'step_ms')} | dict(
+        job_state=(point.get('job') or {}).get('state'), segment_count=(point.get('manifest') or {}).get('document', {}).get('segment_count'),
+        page_count=(point.get('page_set') or {}).get('page_count'))
 
 
 def declared():
@@ -903,7 +1129,8 @@ def measure(cur, today, size):
     before = b.boundary.snapshot(cur)
     measured, attribution, profiles = [], {}, {}
     for days in HISTORY_DAYS:
-        measured += [ordinary(cur, today, size, days, expected), background(cur, today, size, days, expected)]
+        measured += [ordinary(cur, today, size, days, expected), background(cur, today, size, days, expected),
+                     staged_point(cur, today, size, days, expected)]
     if size == GRID_BOUNDARY['size']:
         measured.append(ordinary(cur, today, size, GRID_BOUNDARY['days'], expected, True))
     for days in HISTORY_DAYS:
@@ -954,7 +1181,8 @@ def cases(cur, today):
         measured = []
         for d in days:
             measured += [ordinary(cur, today, size, d, expected, tag='NATIVE_'),
-                         background(cur, today, size, d, expected, tag='NATIVE_')]
+                         background(cur, today, size, d, expected, tag='NATIVE_'),
+                         staged_point(cur, today, size, d, expected, tag='NATIVE_')]
         boundary = ordinary(cur, today, size, grid, expected, True, tag='NATIVE_')
         measured.append(boundary)
         unchanged = b.boundary.snapshot(cur) == before

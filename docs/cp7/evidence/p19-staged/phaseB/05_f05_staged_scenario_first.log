@@ -1,0 +1,56 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5kB/repo
+
+stdout | tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario units equal the single chain byte for byte, including the first refusal
+{"cases":192,"done":77,"refused":115,"allocated":15,"edges":14,"confirmed":172,"candidates":145,"fabric_numbers":17,"accessory_rows":1564,"events_unclean_done":3,"availability_unclean_done":3,"multi":{"NET_ROWS":70,"BASE_ROWS":77,"NET_PAIRS":70,"ALLOC_STEP":22,"HIST_STOCK":77,"ANA_TARGETS":70,"HIST_EVENTS":74,"NET_TARGETS":70,"HIST_ROWS":58,"DOC_SEGMENTS":58},"refusals_by_unit":{"HIST_PREP":["P0001:CP7_PLANNING_CAPTURE_INCOMPLETE","P0001:CP7_F04_INSTANT_UTC","P0001:CP7_DEMAND_COMPLETE_DAYS_REQUIRED","22008:date/time field value out of range: \"2026-12-32T00:00:00Z\"","22007:invalid input syntax for type timestamp with time zone: \"tomorrow-ish\"","22007:invalid input syntax for type timestamp with time zone: \"never\"","22P02:invalid input syntax for type numeric: \"2y\"","22P02:invalid input syntax for type numeric: \"r2\"","22007:invalid input syntax for type timestamp with time zone: \"also-bad\"","P0001:CP7_DEMAND_POLICY"],"HIST_VALIDATE":["P0001:CP7_DEMAND_DUPLICATE_TARGET","22023:CP7_WIP_KEY","P0001:CP7_DEMAND_REVISION_CONFLICT","P0001:CP7_DEMAND_TARGET_SIZE","P0001:CP7_DEMAND_LIFECYCLE"],"HIST_STOCK":["P0001:CP7_PLANNING_NATIVE_RESERVATION_MISMATCH","22023:CP7_WIP_PCS"],"ANA_TARGETS":["21000:more than one row returned by a subquery used as an expression","22023:cannot extract elements from a scalar"],"BASE_ROWS":["21000:more than one row returned by a subquery used as an expression","22023:cannot extract elements from a scalar","22023:CP7_F04_DECIMAL","P0001:CP7_DEMAND_MINIMUM_DAYS","22023:cannot extract elements from an object"],"SUPPLY":["P0001:CP7_WIP_TRANSITION_QUANTITY","22023:cannot extract elements from an object","22023:CP7_WIP_KEY","22007:invalid input syntax for type timestamp with time zone: \"not-a-time\""],"SCENARIO":["21000:more than one row returned by a subquery used as an expression","P0001:CP7_WIP_YIELD_POLICY","P0001:CP7_F04_INSTANT_UTC"],"NET_PREP":["P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING","21000:more than one row returned by a subquery used as an expression","P0001:CP7_NETTING_NATIVE_SOURCE_SIZE"],"FABRIC_PLAN":["22P02:invalid input syntax for type numeric: \"1,5\""]},"distinct_refusals":35}
+
+ERROR:  syntax error at or near "cp7_analysis_stage"
+LINE 11:  select coalesce(bool_and(trueand cp7_analysis_stage.castabl...
+                                           ^
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts (3 tests | 2 failed) 348329ms
+   × P19 staged scenario units equal the single chain byte for byte, including the first refusal 156790ms
+   × P19 staged scenario: the comparison catches every deliberately wrong unit 100379ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario units equal the single chain byte for byte, including the first refusal
+AssertionError: expected 77 to be greater than or equal to 120
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts:85:24
+     83|     expect(refusals.get('SCENARIO')).toContain('P0001:CP7_WIP_YIELD_PO…
+     84|     expect(refusals.get('SCENARIO')).toContain('21000:more than one ro…
+     85|     expect(stats.done).toBeGreaterThanOrEqual(120); expect(stats.alloc…
+       |                        ^
+     86|     expect(stats.confirmed).toBeGreaterThan(50); expect(stats.candidat…
+     87|     expect(stats.events_unclean_done).toBeGreaterThanOrEqual(2); expec…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario: the comparison catches every deliberately wrong unit
+Error: Command failed: /usr/lib/postgresql/16/bin/psql -X -q -A -t -v ON_ERROR_STOP=1 -h /tmp/cp7-f04-FC3IAF -U cp7_f04_test -d postgres
+ERROR:  syntax error at or near "cp7_analysis_stage"
+LINE 11:  select coalesce(bool_and(trueand cp7_analysis_stage.castabl...
+                                           ^
+
+ ❯ command tests/cp7/families/f04/runtime.mjs:56:51
+     54|     // Unrelated PG* credentials/URLs cannot redirect this disposable …
+     55|     const env = Object.fromEntries(Object.entries(process.env).filter(…
+     56|     const command = (name, args, options = {}) => execFileSync(join(bi…
+       |                                                   ^
+     57|     close = async () => {
+     58|       if (started || existsSync(join(data, 'postmaster.pid'))) { comma…
+ ❯ psql tests/cp7/families/f04/runtime.mjs:65:27
+ ❯ Object.execute tests/cp7/families/f04/runtime.mjs:66:30
+ ❯ applyMutant tests/cp7/families/f04/staged-scenario-fixture.mjs:363:12
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts:158:29
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  14:17:38
+   Duration  349.05s (transform 390ms, setup 0ms, import 447ms, tests 348.33s, environment 0ms)
+
+EXIT 1

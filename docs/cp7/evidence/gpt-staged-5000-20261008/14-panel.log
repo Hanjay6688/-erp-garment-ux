@@ -1,0 +1,10 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-writer
+
+
+ Test Files  4 passed (4)
+      Tests  62 passed (62)
+   Start at  14:45:26
+   Duration  8.13s (transform 1.95s, setup 0ms, import 2.55s, tests 10.62s, environment 1.39s)
+

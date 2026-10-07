@@ -1,0 +1,34 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-writer
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts (3 tests | 1 failed) 6868ms
+   × P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops 2129ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops
+AssertionError: expected undefined to be null
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts:44:34
+     42|   const over=uuid(5)
+     43|   const accepted=parseStagedJob(await callAs(db,ACTOR,`public.erp_cp7_…
+     44|   expect(accepted.targets_total).toBeNull()
+       |                                  ^
+     45|   const refused=parseStagedJob(await callAs(db,ACTOR,`public.erp_cp7_s…
+     46|   expect(refused).toMatchObject({state:'FAILED',failure:{code:'CP7_ANA…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  15:00:16
+   Duration  7.27s (transform 205ms, setup 0ms, import 257ms, tests 6.87s, environment 0ms)
+

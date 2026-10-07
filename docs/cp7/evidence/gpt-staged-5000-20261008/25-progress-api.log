@@ -1,0 +1,41 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-writer
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts (3 tests | 1 failed) 6837ms
+   × P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops 2255ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops
+AssertionError: expected { …(16) } to match object { state: 'FAILED', …(1) }
+(16 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "failure": {
+-     "code": "CP7_ANALYSIS_STAGED_TARGET_LIMIT",
+-   },
+-   "state": "FAILED",
++   "failure": null,
++   "state": "RUNNING",
+  }
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts:46:19
+     44|   expect(accepted.targetsTotal).toBeNull()
+     45|   const refused=parseStagedJob(await callAs(db,ACTOR,`public.erp_cp7_s…
+     46|   expect(refused).toMatchObject({state:'FAILED',failure:{code:'CP7_ANA…
+       |                   ^
+     47|  }finally{await db.close()}
+     48| },900000)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  15:02:28
+   Duration  7.25s (transform 206ms, setup 0ms, import 268ms, tests 6.84s, environment 0ms)
+

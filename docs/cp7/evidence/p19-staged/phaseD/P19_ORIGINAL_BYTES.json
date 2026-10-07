@@ -1,0 +1,2640 @@
+{
+ "contract": "cp7.p19.original-bytes.v0",
+ "labels": {
+  "retained": "RETAINED_NATIVE_ORIGINALS_8f326d87_BYTES_ONLY",
+  "local": "LOCAL_PG16_DEV_KERNEL_STAND_INS_NOT_EVIDENCE"
+ },
+ "retained": [
+  {
+   "name": "P19_LOAD_PROFILE_0.json",
+   "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+   "utf8_bytes": 31696,
+   "targets": 2,
+   "top": {
+    "query": 82,
+    "run_id": 38,
+    "analysis": 28027,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 310,
+    "contract_version": 28,
+    "financial_source": 3008
+   },
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 972,
+     "items": 2,
+     "bytes_per_item": 484,
+     "items_per_target": 1,
+     "bytes_per_target": 486
+    },
+    "metrics": {
+     "bytes": 21386,
+     "items": 24,
+     "bytes_per_item": 889,
+     "items_per_target": 12,
+     "bytes_per_target": 10693
+    },
+    "quality": {
+     "bytes": 161,
+     "items": null
+    },
+    "sources": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "scenario": {
+     "bytes": 144,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 373,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "versions": {
+     "bytes": 320,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "dependencies": {
+     "bytes": 2687,
+     "items": 11,
+     "bytes_per_item": 242,
+     "items_per_target": 5.5,
+     "bytes_per_target": 1344
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "capacity_checks": {
+     "bytes": 404,
+     "items": 1,
+     "bytes_per_item": 402,
+     "items_per_target": 0.5,
+     "bytes_per_target": 202
+    },
+    "recommendations": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "allocation_edges": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "financial_readiness": {
+     "bytes": 7,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 286,
+     "items": 4,
+     "bytes_per_item": 70,
+     "items_per_target": 2,
+     "bytes_per_target": 143
+    }
+   },
+   "refs_bytes": 9640,
+   "timeline_item_keys": null,
+   "paged_arrays_bytes": 22654,
+   "paged_bytes_per_target": 11327,
+   "rest_bytes": 9042,
+   "refs_share_of_analysis": 0.344,
+   "extrapolated_5000_bytes": 56644042
+  },
+  {
+   "name": "P19_LOAD_PROFILE_1.json",
+   "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+   "utf8_bytes": 170003,
+   "targets": 3,
+   "top": {
+    "query": 82,
+    "run_id": 38,
+    "analysis": 157793,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 475,
+    "contract_version": 28,
+    "financial_source": 11384
+   },
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 1971,
+     "items": 3,
+     "bytes_per_item": 655,
+     "items_per_target": 1,
+     "bytes_per_target": 657
+    },
+    "metrics": {
+     "bytes": 24613,
+     "items": 27,
+     "bytes_per_item": 910,
+     "items_per_target": 9,
+     "bytes_per_target": 8204
+    },
+    "quality": {
+     "bytes": 160,
+     "items": null
+    },
+    "sources": {
+     "bytes": 1423,
+     "items": 1,
+     "bytes_per_item": 1421,
+     "items_per_target": 0.33,
+     "bytes_per_target": 474
+    },
+    "scenario": {
+     "bytes": 143,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 373,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 101286,
+     "items": 31,
+     "bytes_per_item": 3265,
+     "items_per_target": 10.33,
+     "bytes_per_target": 33762
+    },
+    "versions": {
+     "bytes": 320,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 753,
+     "items": 4,
+     "bytes_per_item": 186,
+     "items_per_target": 1.33,
+     "bytes_per_target": 251
+    },
+    "dependencies": {
+     "bytes": 2686,
+     "items": 11,
+     "bytes_per_item": 242,
+     "items_per_target": 3.67,
+     "bytes_per_target": 895
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 2431,
+     "items": 3,
+     "bytes_per_item": 808,
+     "items_per_target": 1,
+     "bytes_per_target": 810
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 8676,
+     "items": 6,
+     "bytes_per_item": 1444,
+     "items_per_target": 2,
+     "bytes_per_target": 2892
+    },
+    "capacity_checks": {
+     "bytes": 795,
+     "items": 1,
+     "bytes_per_item": 793,
+     "items_per_target": 0.33,
+     "bytes_per_target": 265
+    },
+    "recommendations": {
+     "bytes": 9416,
+     "items": 3,
+     "bytes_per_item": 3137,
+     "items_per_target": 1,
+     "bytes_per_target": 3139
+    },
+    "allocation_edges": {
+     "bytes": 1353,
+     "items": 1,
+     "bytes_per_item": 1351,
+     "items_per_target": 0.33,
+     "bytes_per_target": 451
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "financial_readiness": {
+     "bytes": 9,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 112,
+     "items": 3,
+     "bytes_per_item": 35,
+     "items_per_target": 1,
+     "bytes_per_target": 37
+    }
+   },
+   "refs_bytes": 70724,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 308,
+    "assumed": 4,
+    "event_refs": 149,
+    "target_key": 75,
+    "backlog_qty": 308,
+    "balance_end": 308,
+    "first_gap_at": 29,
+    "timing_basis": 13,
+    "unmet_demand": 231,
+    "directed_supply": 308,
+    "candidate_supply": 308,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 231,
+    "min_intraday_balance": 323
+   },
+   "paged_arrays_bytes": 149258,
+   "paged_bytes_per_target": 49753,
+   "rest_bytes": 20745,
+   "refs_share_of_analysis": 0.448,
+   "extrapolated_5000_bytes": 248784078
+  },
+  {
+   "name": "P19_LOAD_PROFILE_4.json",
+   "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+   "utf8_bytes": 307071,
+   "targets": 6,
+   "top": {
+    "query": 82,
+    "run_id": 38,
+    "analysis": 294370,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 964,
+    "contract_version": 28,
+    "financial_source": 11386
+   },
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 3942,
+     "items": 6,
+     "bytes_per_item": 655,
+     "items_per_target": 1,
+     "bytes_per_target": 657
+    },
+    "metrics": {
+     "bytes": 27566,
+     "items": 30,
+     "bytes_per_item": 917,
+     "items_per_target": 5,
+     "bytes_per_target": 4594
+    },
+    "quality": {
+     "bytes": 160,
+     "items": null
+    },
+    "sources": {
+     "bytes": 5692,
+     "items": 4,
+     "bytes_per_item": 1421,
+     "items_per_target": 0.67,
+     "bytes_per_target": 949
+    },
+    "scenario": {
+     "bytes": 143,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 373,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 207603,
+     "items": 64,
+     "bytes_per_item": 3242,
+     "items_per_target": 10.67,
+     "bytes_per_target": 34601
+    },
+    "versions": {
+     "bytes": 320,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 1302,
+     "items": 7,
+     "bytes_per_item": 184,
+     "items_per_target": 1.17,
+     "bytes_per_target": 217
+    },
+    "dependencies": {
+     "bytes": 2686,
+     "items": 11,
+     "bytes_per_item": 242,
+     "items_per_target": 1.83,
+     "bytes_per_target": 448
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 4861,
+     "items": 6,
+     "bytes_per_item": 808,
+     "items_per_target": 1,
+     "bytes_per_target": 810
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 17352,
+     "items": 12,
+     "bytes_per_item": 1444,
+     "items_per_target": 2,
+     "bytes_per_target": 2892
+    },
+    "capacity_checks": {
+     "bytes": 796,
+     "items": 1,
+     "bytes_per_item": 794,
+     "items_per_target": 0.17,
+     "bytes_per_target": 133
+    },
+    "recommendations": {
+     "bytes": 18827,
+     "items": 6,
+     "bytes_per_item": 3136,
+     "items_per_target": 1,
+     "bytes_per_target": 3138
+    },
+    "allocation_edges": {
+     "bytes": 1353,
+     "items": 1,
+     "bytes_per_item": 1351,
+     "items_per_target": 0.17,
+     "bytes_per_target": 226
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 9,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 112,
+     "items": 3,
+     "bytes_per_item": 35,
+     "items_per_target": 0.5,
+     "bytes_per_target": 19
+    }
+   },
+   "refs_bytes": 135086,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 308,
+    "assumed": 4,
+    "event_refs": 149,
+    "target_key": 75,
+    "backlog_qty": 308,
+    "balance_end": 308,
+    "first_gap_at": 4,
+    "timing_basis": 13,
+    "unmet_demand": 231,
+    "directed_supply": 308,
+    "candidate_supply": 308,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 231,
+    "min_intraday_balance": 308
+   },
+   "paged_arrays_bytes": 281565,
+   "paged_bytes_per_target": 46928,
+   "rest_bytes": 25506,
+   "refs_share_of_analysis": 0.459,
+   "extrapolated_5000_bytes": 234663006
+  },
+  {
+   "name": "P19_LOAD_PROFILE_12.json",
+   "source_commit": "8f326d87034e817cdc6c53aff2b90f92ddb26f4f",
+   "utf8_bytes": 673122,
+   "targets": 14,
+   "top": {
+    "query": 82,
+    "run_id": 38,
+    "analysis": 659117,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 2268,
+    "contract_version": 28,
+    "financial_source": 11386
+   },
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 9203,
+     "items": 14,
+     "bytes_per_item": 655,
+     "items_per_target": 1,
+     "bytes_per_target": 657
+    },
+    "metrics": {
+     "bytes": 35443,
+     "items": 38,
+     "bytes_per_item": 931,
+     "items_per_target": 2.71,
+     "bytes_per_target": 2532
+    },
+    "quality": {
+     "bytes": 160,
+     "items": null
+    },
+    "sources": {
+     "bytes": 17076,
+     "items": 12,
+     "bytes_per_item": 1421,
+     "items_per_target": 0.86,
+     "bytes_per_target": 1220
+    },
+    "scenario": {
+     "bytes": 144,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 373,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 491565,
+     "items": 152,
+     "bytes_per_item": 3232,
+     "items_per_target": 10.86,
+     "bytes_per_target": 35112
+    },
+    "versions": {
+     "bytes": 320,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 2766,
+     "items": 15,
+     "bytes_per_item": 182,
+     "items_per_target": 1.07,
+     "bytes_per_target": 198
+    },
+    "dependencies": {
+     "bytes": 2689,
+     "items": 11,
+     "bytes_per_item": 242,
+     "items_per_target": 0.79,
+     "bytes_per_target": 192
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 11346,
+     "items": 14,
+     "bytes_per_item": 808,
+     "items_per_target": 1,
+     "bytes_per_target": 810
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 40528,
+     "items": 28,
+     "bytes_per_item": 1445,
+     "items_per_target": 2,
+     "bytes_per_target": 2895
+    },
+    "capacity_checks": {
+     "bytes": 799,
+     "items": 1,
+     "bytes_per_item": 797,
+     "items_per_target": 0.07,
+     "bytes_per_target": 57
+    },
+    "recommendations": {
+     "bytes": 43958,
+     "items": 14,
+     "bytes_per_item": 3138,
+     "items_per_target": 1,
+     "bytes_per_target": 3140
+    },
+    "allocation_edges": {
+     "bytes": 1353,
+     "items": 1,
+     "bytes_per_item": 1351,
+     "items_per_target": 0.07,
+     "bytes_per_target": 97
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 9,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 112,
+     "items": 3,
+     "bytes_per_item": 35,
+     "items_per_target": 0.21,
+     "bytes_per_target": 8
+    }
+   },
+   "refs_bytes": 307261,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 308,
+    "assumed": 4,
+    "event_refs": 149,
+    "target_key": 75,
+    "backlog_qty": 308,
+    "balance_end": 308,
+    "first_gap_at": 4,
+    "timing_basis": 13,
+    "unmet_demand": 231,
+    "directed_supply": 308,
+    "candidate_supply": 308,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 231,
+    "min_intraday_balance": 308
+   },
+   "paged_arrays_bytes": 634921,
+   "paged_bytes_per_target": 45352,
+   "rest_bytes": 38201,
+   "refs_share_of_analysis": 0.466,
+   "extrapolated_5000_bytes": 226795701
+  }
+ ],
+ "assembly": [
+  {
+   "fixture": "analysis-assembly-fixture assemblyInput(n,2)",
+   "requested_targets": 100,
+   "top": {
+    "query": 57,
+    "run_id": 38,
+    "analysis": 598344,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 13880,
+    "contract_version": 28,
+    "financial_source": 4
+   },
+   "targets": 100,
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 56378,
+     "items": 100,
+     "bytes_per_item": 562,
+     "items_per_target": 1,
+     "bytes_per_target": 564
+    },
+    "metrics": {
+     "bytes": 51306,
+     "items": 51,
+     "bytes_per_item": 1004,
+     "items_per_target": 0.51,
+     "bytes_per_target": 513
+    },
+    "quality": {
+     "bytes": 161,
+     "items": null
+    },
+    "sources": {
+     "bytes": 1183,
+     "items": 1,
+     "bytes_per_item": 1181,
+     "items_per_target": 0.01,
+     "bytes_per_target": 12
+    },
+    "scenario": {
+     "bytes": 158,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 374,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 267491,
+     "items": 102,
+     "bytes_per_item": 2620,
+     "items_per_target": 1.02,
+     "bytes_per_target": 2675
+    },
+    "versions": {
+     "bytes": 285,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 9184,
+     "items": 52,
+     "bytes_per_item": 175,
+     "items_per_target": 0.52,
+     "bytes_per_target": 92
+    },
+    "dependencies": {
+     "bytes": 2436,
+     "items": 10,
+     "bytes_per_item": 242,
+     "items_per_target": 0.1,
+     "bytes_per_target": 24
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 22793,
+     "items": 30,
+     "bytes_per_item": 758,
+     "items_per_target": 0.3,
+     "bytes_per_target": 228
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 41922,
+     "items": 102,
+     "bytes_per_item": 409,
+     "items_per_target": 1.02,
+     "bytes_per_target": 419
+    },
+    "capacity_checks": {
+     "bytes": 829,
+     "items": 1,
+     "bytes_per_item": 827,
+     "items_per_target": 0.01,
+     "bytes_per_target": 8
+    },
+    "recommendations": {
+     "bytes": 135486,
+     "items": 51,
+     "bytes_per_item": 2655,
+     "items_per_target": 0.51,
+     "bytes_per_target": 1355
+    },
+    "allocation_edges": {
+     "bytes": 1775,
+     "items": 2,
+     "bytes_per_item": 886,
+     "items_per_target": 0.02,
+     "bytes_per_target": 18
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 9,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 5301,
+     "items": 52,
+     "bytes_per_item": 100,
+     "items_per_target": 0.52,
+     "bytes_per_target": 53
+    }
+   },
+   "refs_bytes": 210346,
+   "utf8_bytes": 612554,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 241,
+    "assumed": 4,
+    "event_refs": 122,
+    "target_key": 75,
+    "backlog_qty": 204,
+    "balance_end": 204,
+    "first_gap_at": 29,
+    "timing_basis": 13,
+    "unmet_demand": 244,
+    "directed_supply": 241,
+    "candidate_supply": 241,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 204,
+    "min_intraday_balance": 260
+   },
+   "paged_arrays_bytes": 589861,
+   "paged_bytes_per_target": 5899,
+   "rest_bytes": 22693,
+   "refs_share_of_analysis": 0.352,
+   "extrapolated_5000_bytes": 29515743
+  },
+  {
+   "fixture": "analysis-assembly-fixture assemblyInput(n,2)",
+   "requested_targets": 300,
+   "top": {
+    "query": 57,
+    "run_id": 38,
+    "analysis": 1763255,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 42080,
+    "contract_version": 28,
+    "financial_source": 4
+   },
+   "targets": 300,
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 168978,
+     "items": 300,
+     "bytes_per_item": 561,
+     "items_per_target": 1,
+     "bytes_per_target": 563
+    },
+    "metrics": {
+     "bytes": 151906,
+     "items": 151,
+     "bytes_per_item": 1004,
+     "items_per_target": 0.5,
+     "bytes_per_target": 506
+    },
+    "quality": {
+     "bytes": 161,
+     "items": null
+    },
+    "sources": {
+     "bytes": 1183,
+     "items": 1,
+     "bytes_per_item": 1181,
+     "items_per_target": 0,
+     "bytes_per_target": 4
+    },
+    "scenario": {
+     "bytes": 158,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 374,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 791309,
+     "items": 302,
+     "bytes_per_item": 2618,
+     "items_per_target": 1.01,
+     "bytes_per_target": 2638
+    },
+    "versions": {
+     "bytes": 285,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 26684,
+     "items": 152,
+     "bytes_per_item": 174,
+     "items_per_target": 0.51,
+     "bytes_per_target": 89
+    },
+    "dependencies": {
+     "bytes": 2436,
+     "items": 10,
+     "bytes_per_item": 242,
+     "items_per_target": 0.03,
+     "bytes_per_target": 8
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 73818,
+     "items": 97,
+     "bytes_per_item": 759,
+     "items_per_target": 0.32,
+     "bytes_per_target": 246
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 124122,
+     "items": 302,
+     "bytes_per_item": 409,
+     "items_per_target": 1.01,
+     "bytes_per_target": 414
+    },
+    "capacity_checks": {
+     "bytes": 829,
+     "items": 1,
+     "bytes_per_item": 827,
+     "items_per_target": 0,
+     "bytes_per_target": 3
+    },
+    "recommendations": {
+     "bytes": 402054,
+     "items": 151,
+     "bytes_per_item": 2661,
+     "items_per_target": 0.5,
+     "bytes_per_target": 1340
+    },
+    "allocation_edges": {
+     "bytes": 1775,
+     "items": 2,
+     "bytes_per_item": 886,
+     "items_per_target": 0.01,
+     "bytes_per_target": 6
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 9,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 15901,
+     "items": 152,
+     "bytes_per_item": 103,
+     "items_per_target": 0.51,
+     "bytes_per_target": 53
+    }
+   },
+   "refs_bytes": 621120,
+   "utf8_bytes": 1805665,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 241,
+    "assumed": 4,
+    "event_refs": 122,
+    "target_key": 75,
+    "backlog_qty": 204,
+    "balance_end": 204,
+    "first_gap_at": 29,
+    "timing_basis": 13,
+    "unmet_demand": 244,
+    "directed_supply": 241,
+    "candidate_supply": 241,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 204,
+    "min_intraday_balance": 260
+   },
+   "paged_arrays_bytes": 1754772,
+   "paged_bytes_per_target": 5849,
+   "rest_bytes": 50893,
+   "refs_share_of_analysis": 0.352,
+   "extrapolated_5000_bytes": 29297093
+  },
+  {
+   "fixture": "analysis-assembly-fixture assemblyInput(n,2)",
+   "requested_targets": 1000,
+   "top": {
+    "query": 57,
+    "run_id": 38,
+    "analysis": 5828155,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 140780,
+    "contract_version": 28,
+    "financial_source": 4
+   },
+   "targets": 1000,
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 563078,
+     "items": 1000,
+     "bytes_per_item": 561,
+     "items_per_target": 1,
+     "bytes_per_target": 563
+    },
+    "metrics": {
+     "bytes": 504006,
+     "items": 501,
+     "bytes_per_item": 1004,
+     "items_per_target": 0.5,
+     "bytes_per_target": 504
+    },
+    "quality": {
+     "bytes": 161,
+     "items": null
+    },
+    "sources": {
+     "bytes": 1183,
+     "items": 1,
+     "bytes_per_item": 1181,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "scenario": {
+     "bytes": 158,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 375,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 2620437,
+     "items": 1002,
+     "bytes_per_item": 2613,
+     "items_per_target": 1,
+     "bytes_per_target": 2620
+    },
+    "versions": {
+     "bytes": 285,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 87934,
+     "items": 502,
+     "bytes_per_item": 173,
+     "items_per_target": 0.5,
+     "bytes_per_target": 88
+    },
+    "dependencies": {
+     "bytes": 2438,
+     "items": 10,
+     "bytes_per_item": 242,
+     "items_per_target": 0.01,
+     "bytes_per_target": 2
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 245896,
+     "items": 323,
+     "bytes_per_item": 759,
+     "items_per_target": 0.32,
+     "bytes_per_target": 246
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 411822,
+     "items": 1002,
+     "bytes_per_item": 409,
+     "items_per_target": 1,
+     "bytes_per_target": 412
+    },
+    "capacity_checks": {
+     "bytes": 829,
+     "items": 1,
+     "bytes_per_item": 827,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "recommendations": {
+     "bytes": 1333495,
+     "items": 501,
+     "bytes_per_item": 2660,
+     "items_per_target": 0.5,
+     "bytes_per_target": 1333
+    },
+    "allocation_edges": {
+     "bytes": 1775,
+     "items": 2,
+     "bytes_per_item": 886,
+     "items_per_target": 0,
+     "bytes_per_target": 2
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 9,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 53001,
+     "items": 502,
+     "bytes_per_item": 104,
+     "items_per_target": 0.5,
+     "bytes_per_target": 53
+    }
+   },
+   "refs_bytes": 2057792,
+   "utf8_bytes": 5969265,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 241,
+    "assumed": 4,
+    "event_refs": 122,
+    "target_key": 75,
+    "backlog_qty": 204,
+    "balance_end": 204,
+    "first_gap_at": 29,
+    "timing_basis": 13,
+    "unmet_demand": 244,
+    "directed_supply": 241,
+    "candidate_supply": 241,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 204,
+    "min_intraday_balance": 260
+   },
+   "paged_arrays_bytes": 5819669,
+   "paged_bytes_per_target": 5820,
+   "rest_bytes": 149596,
+   "refs_share_of_analysis": 0.353,
+   "extrapolated_5000_bytes": 29247941
+  }
+ ],
+ "staged": [
+  {
+   "fixture": "staged-analysis-fixture stagedInput",
+   "targets": 100,
+   "positions": 100,
+   "wall_ms": 2220,
+   "one_call_per_unit": false,
+   "top": {
+    "query": 82,
+    "run_id": 38,
+    "analysis": 1448997,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 7098,
+    "contract_version": 28,
+    "financial_source": 633
+   },
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 43050,
+     "items": 100,
+     "bytes_per_item": 429,
+     "items_per_target": 1,
+     "bytes_per_target": 431
+    },
+    "metrics": {
+     "bytes": 72129,
+     "items": 104,
+     "bytes_per_item": 692,
+     "items_per_target": 1.04,
+     "bytes_per_target": 721
+    },
+    "quality": {
+     "bytes": 161,
+     "items": null
+    },
+    "sources": {
+     "bytes": 67243,
+     "items": 80,
+     "bytes_per_item": 839,
+     "items_per_target": 0.8,
+     "bytes_per_target": 672
+    },
+    "scenario": {
+     "bytes": 83,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 362,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 988330,
+     "items": 546,
+     "bytes_per_item": 1808,
+     "items_per_target": 5.46,
+     "bytes_per_target": 9883
+    },
+    "versions": {
+     "bytes": 283,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 10479,
+     "items": 66,
+     "bytes_per_item": 157,
+     "items_per_target": 0.66,
+     "bytes_per_target": 105
+    },
+    "dependencies": {
+     "bytes": 2691,
+     "items": 11,
+     "bytes_per_item": 243,
+     "items_per_target": 0.11,
+     "bytes_per_target": 27
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 52575,
+     "items": 91,
+     "bytes_per_item": 576,
+     "items_per_target": 0.91,
+     "bytes_per_target": 526
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 14980,
+     "items": 75,
+     "bytes_per_item": 198,
+     "items_per_target": 0.75,
+     "bytes_per_target": 150
+    },
+    "capacity_checks": {
+     "bytes": 605,
+     "items": 1,
+     "bytes_per_item": 603,
+     "items_per_target": 0.01,
+     "bytes_per_target": 6
+    },
+    "recommendations": {
+     "bytes": 178621,
+     "items": 100,
+     "bytes_per_item": 1784,
+     "items_per_target": 1,
+     "bytes_per_target": 1786
+    },
+    "allocation_edges": {
+     "bytes": 16051,
+     "items": 17,
+     "bytes_per_item": 942,
+     "items_per_target": 0.17,
+     "bytes_per_target": 161
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 7,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 74,
+     "items": 2,
+     "bytes_per_item": 35,
+     "items_per_target": 0.02,
+     "bytes_per_target": 1
+    }
+   },
+   "refs_bytes": 458846,
+   "utf8_bytes": 1457079,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 180,
+    "assumed": 4,
+    "event_refs": 67,
+    "target_key": 16,
+    "backlog_qty": 167,
+    "balance_end": 180,
+    "first_gap_at": 4,
+    "timing_basis": 13,
+    "unmet_demand": 167,
+    "directed_supply": 167,
+    "candidate_supply": 167,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 149,
+    "min_intraday_balance": 167
+   },
+   "paged_arrays_bytes": 1360238,
+   "paged_bytes_per_target": 13602,
+   "rest_bytes": 96841,
+   "refs_share_of_analysis": 0.317,
+   "extrapolated_5000_bytes": 68108741,
+   "pages": {
+    "targets_total": 100,
+    "page_count": 1,
+    "header_utf8_bytes": 104588,
+    "document_utf8_bytes": 1457079,
+    "totals": {
+     "items": {
+      "actions": 100,
+      "metrics": 100,
+      "timeline": 546,
+      "assumptions": 47,
+      "demand_models": 91,
+      "material_needs": 75,
+      "recommendations": 100
+     },
+     "targets": 100,
+     "recommendations": {
+      "OTHER": 0,
+      "ACTIVE": 53,
+      "PAUSED": 25,
+      "STOPPED": 22
+     },
+     "policy_unreviewed": 0
+    },
+    "min_page_bytes": 1354253,
+    "max_page_bytes": 1354253,
+    "sum_page_bytes": 1354253
+   },
+   "server_ms_by_stage": [
+    {
+     "stage": "SCENARIO",
+     "n": 1,
+     "max_ms": 21.8,
+     "sum_ms": 21.8
+    },
+    {
+     "stage": "NET_PREP",
+     "n": 1,
+     "max_ms": 59.9,
+     "sum_ms": 59.9
+    },
+    {
+     "stage": "NET_TARGETS",
+     "n": 1,
+     "max_ms": 335.9,
+     "sum_ms": 335.9
+    },
+    {
+     "stage": "NET_PAIRS",
+     "n": 1,
+     "max_ms": 537.1,
+     "sum_ms": 537.1
+    },
+    {
+     "stage": "NET_PLAN",
+     "n": 1,
+     "max_ms": 12.3,
+     "sum_ms": 12.3
+    },
+    {
+     "stage": "ALLOC_PREP",
+     "n": 1,
+     "max_ms": 66.2,
+     "sum_ms": 66.2
+    },
+    {
+     "stage": "ALLOC_STEP",
+     "n": 1,
+     "max_ms": 101.5,
+     "sum_ms": 101.5
+    },
+    {
+     "stage": "ALLOC_FINAL",
+     "n": 1,
+     "max_ms": 34.6,
+     "sum_ms": 34.6
+    },
+    {
+     "stage": "NET_ROWS",
+     "n": 1,
+     "max_ms": 356.4,
+     "sum_ms": 356.4
+    },
+    {
+     "stage": "FABRIC_PLAN",
+     "n": 1,
+     "max_ms": 4.9,
+     "sum_ms": 4.9
+    },
+    {
+     "stage": "ANA_TARGETS",
+     "n": 1,
+     "max_ms": 249,
+     "sum_ms": 249
+    },
+    {
+     "stage": "ANA_META",
+     "n": 1,
+     "max_ms": 25.3,
+     "sum_ms": 25.3
+    },
+    {
+     "stage": "ANA_TEXT",
+     "n": 1,
+     "max_ms": 30.7,
+     "sum_ms": 30.7
+    },
+    {
+     "stage": "RUN_INSERT",
+     "n": 1,
+     "max_ms": 38.6,
+     "sum_ms": 38.6
+    },
+    {
+     "stage": "DOC_RENDER",
+     "n": 1,
+     "max_ms": 32.9,
+     "sum_ms": 32.9
+    },
+    {
+     "stage": "DOC_SEGMENTS",
+     "n": 1,
+     "max_ms": 41.4,
+     "sum_ms": 41.4
+    },
+    {
+     "stage": "PAGE_HEADER",
+     "n": 1,
+     "max_ms": 16.1,
+     "sum_ms": 16.1
+    },
+    {
+     "stage": "PAGES",
+     "n": 1,
+     "max_ms": 135.8,
+     "sum_ms": 135.8
+    },
+    {
+     "stage": "PAGE_INDEX",
+     "n": 1,
+     "max_ms": 3.8,
+     "sum_ms": 3.8
+    }
+   ]
+  },
+  {
+   "fixture": "staged-analysis-fixture stagedInput",
+   "targets": 300,
+   "positions": 100,
+   "wall_ms": 4349,
+   "one_call_per_unit": false,
+   "top": {
+    "query": 82,
+    "run_id": 38,
+    "analysis": 4121921,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 21205,
+    "contract_version": 28,
+    "financial_source": 4
+   },
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 129095,
+     "items": 300,
+     "bytes_per_item": 428,
+     "items_per_target": 1,
+     "bytes_per_target": 430
+    },
+    "metrics": {
+     "bytes": 206407,
+     "items": 300,
+     "bytes_per_item": 686,
+     "items_per_target": 1,
+     "bytes_per_target": 688
+    },
+    "quality": {
+     "bytes": 160,
+     "items": null
+    },
+    "sources": {
+     "bytes": 68920,
+     "items": 82,
+     "bytes_per_item": 838,
+     "items_per_target": 0.27,
+     "bytes_per_target": 230
+    },
+    "scenario": {
+     "bytes": 83,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 362,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 2920612,
+     "items": 1618,
+     "bytes_per_item": 1803,
+     "items_per_target": 5.39,
+     "bytes_per_target": 9735
+    },
+    "versions": {
+     "bytes": 283,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 35246,
+     "items": 219,
+     "bytes_per_item": 159,
+     "items_per_target": 0.73,
+     "bytes_per_target": 117
+    },
+    "dependencies": {
+     "bytes": 2438,
+     "items": 10,
+     "bytes_per_item": 242,
+     "items_per_target": 0.03,
+     "bytes_per_target": 8
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 159574,
+     "items": 276,
+     "bytes_per_item": 576,
+     "items_per_target": 0.92,
+     "bytes_per_target": 532
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 41541,
+     "items": 210,
+     "bytes_per_item": 196,
+     "items_per_target": 0.7,
+     "bytes_per_target": 138
+    },
+    "capacity_checks": {
+     "bytes": 604,
+     "items": 1,
+     "bytes_per_item": 602,
+     "items_per_target": 0,
+     "bytes_per_target": 2
+    },
+    "recommendations": {
+     "bytes": 539078,
+     "items": 300,
+     "bytes_per_item": 1795,
+     "items_per_target": 1,
+     "bytes_per_target": 1797
+    },
+    "allocation_edges": {
+     "bytes": 16129,
+     "items": 18,
+     "bytes_per_item": 894,
+     "items_per_target": 0.06,
+     "bytes_per_target": 54
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 9,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 107,
+     "items": 3,
+     "bytes_per_item": 34,
+     "items_per_target": 0.01,
+     "bytes_per_target": 0
+    }
+   },
+   "refs_bytes": 1270484,
+   "utf8_bytes": 4143481,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 180,
+    "assumed": 4,
+    "event_refs": 67,
+    "target_key": 16,
+    "backlog_qty": 167,
+    "balance_end": 181,
+    "first_gap_at": 4,
+    "timing_basis": 13,
+    "unmet_demand": 167,
+    "directed_supply": 167,
+    "candidate_supply": 167,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 149,
+    "min_intraday_balance": 180
+   },
+   "paged_arrays_bytes": 4031660,
+   "paged_bytes_per_target": 13439,
+   "rest_bytes": 111821,
+   "refs_share_of_analysis": 0.308,
+   "extrapolated_5000_bytes": 67306154,
+   "pages": {
+    "targets_total": 300,
+    "page_count": 1,
+    "header_utf8_bytes": 125489,
+    "document_utf8_bytes": 4143481,
+    "totals": {
+     "items": {
+      "actions": 300,
+      "metrics": 300,
+      "timeline": 1618,
+      "assumptions": 152,
+      "demand_models": 276,
+      "material_needs": 210,
+      "recommendations": 300
+     },
+     "targets": 300,
+     "recommendations": {
+      "OTHER": 0,
+      "ACTIVE": 201,
+      "PAUSED": 46,
+      "STOPPED": 53
+     },
+     "policy_unreviewed": 0
+    },
+    "min_page_bytes": 4019769,
+    "max_page_bytes": 4019769,
+    "sum_page_bytes": 4019769
+   },
+   "server_ms_by_stage": [
+    {
+     "stage": "SCENARIO",
+     "n": 1,
+     "max_ms": 23.2,
+     "sum_ms": 23.2
+    },
+    {
+     "stage": "NET_PREP",
+     "n": 1,
+     "max_ms": 47.1,
+     "sum_ms": 47.1
+    },
+    {
+     "stage": "NET_TARGETS",
+     "n": 1,
+     "max_ms": 563.3,
+     "sum_ms": 563.3
+    },
+    {
+     "stage": "NET_PAIRS",
+     "n": 1,
+     "max_ms": 762.9,
+     "sum_ms": 762.9
+    },
+    {
+     "stage": "NET_PLAN",
+     "n": 1,
+     "max_ms": 15.2,
+     "sum_ms": 15.2
+    },
+    {
+     "stage": "ALLOC_PREP",
+     "n": 1,
+     "max_ms": 95.1,
+     "sum_ms": 95.1
+    },
+    {
+     "stage": "ALLOC_STEP",
+     "n": 1,
+     "max_ms": 195.4,
+     "sum_ms": 195.4
+    },
+    {
+     "stage": "ALLOC_FINAL",
+     "n": 1,
+     "max_ms": 62.2,
+     "sum_ms": 62.2
+    },
+    {
+     "stage": "NET_ROWS",
+     "n": 1,
+     "max_ms": 824.4,
+     "sum_ms": 824.4
+    },
+    {
+     "stage": "FABRIC_PLAN",
+     "n": 1,
+     "max_ms": 6.9,
+     "sum_ms": 6.9
+    },
+    {
+     "stage": "ANA_TARGETS",
+     "n": 1,
+     "max_ms": 875.2,
+     "sum_ms": 875.2
+    },
+    {
+     "stage": "ANA_META",
+     "n": 1,
+     "max_ms": 38.6,
+     "sum_ms": 38.6
+    },
+    {
+     "stage": "ANA_TEXT",
+     "n": 1,
+     "max_ms": 95.4,
+     "sum_ms": 95.4
+    },
+    {
+     "stage": "RUN_INSERT",
+     "n": 1,
+     "max_ms": 101.7,
+     "sum_ms": 101.7
+    },
+    {
+     "stage": "DOC_RENDER",
+     "n": 1,
+     "max_ms": 80.2,
+     "sum_ms": 80.2
+    },
+    {
+     "stage": "DOC_SEGMENTS",
+     "n": 1,
+     "max_ms": 84.4,
+     "sum_ms": 84.4
+    },
+    {
+     "stage": "PAGE_HEADER",
+     "n": 1,
+     "max_ms": 12.5,
+     "sum_ms": 12.5
+    },
+    {
+     "stage": "PAGES",
+     "n": 1,
+     "max_ms": 306.5,
+     "sum_ms": 306.5
+    },
+    {
+     "stage": "PAGE_INDEX",
+     "n": 1,
+     "max_ms": 3.6,
+     "sum_ms": 3.6
+    }
+   ]
+  },
+  {
+   "fixture": "staged-analysis-fixture stagedInput",
+   "targets": 1000,
+   "positions": 100,
+   "wall_ms": 11848,
+   "one_call_per_unit": false,
+   "top": {
+    "query": 82,
+    "run_id": 38,
+    "analysis": 12888626,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 71450,
+    "contract_version": 28,
+    "financial_source": 633
+   },
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 430255,
+     "items": 1000,
+     "bytes_per_item": 428,
+     "items_per_target": 1,
+     "bytes_per_target": 430
+    },
+    "metrics": {
+     "bytes": 691860,
+     "items": 1004,
+     "bytes_per_item": 687,
+     "items_per_target": 1,
+     "bytes_per_target": 692
+    },
+    "quality": {
+     "bytes": 161,
+     "items": null
+    },
+    "sources": {
+     "bytes": 69425,
+     "items": 82,
+     "bytes_per_item": 845,
+     "items_per_target": 0.08,
+     "bytes_per_target": 69
+    },
+    "scenario": {
+     "bytes": 83,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 363,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 9117424,
+     "items": 5047,
+     "bytes_per_item": 1805,
+     "items_per_target": 5.05,
+     "bytes_per_target": 9117
+    },
+    "versions": {
+     "bytes": 283,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 116152,
+     "items": 719,
+     "bytes_per_item": 160,
+     "items_per_target": 0.72,
+     "bytes_per_target": 116
+    },
+    "dependencies": {
+     "bytes": 2693,
+     "items": 11,
+     "bytes_per_item": 243,
+     "items_per_target": 0.01,
+     "bytes_per_target": 3
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 519387,
+     "items": 898,
+     "bytes_per_item": 576,
+     "items_per_target": 0.9,
+     "bytes_per_target": 519
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 132749,
+     "items": 671,
+     "bytes_per_item": 196,
+     "items_per_target": 0.67,
+     "bytes_per_target": 133
+    },
+    "capacity_checks": {
+     "bytes": 605,
+     "items": 1,
+     "bytes_per_item": 603,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "recommendations": {
+     "bytes": 1793343,
+     "items": 1000,
+     "bytes_per_item": 1791,
+     "items_per_target": 1,
+     "bytes_per_target": 1793
+    },
+    "allocation_edges": {
+     "bytes": 12489,
+     "items": 13,
+     "bytes_per_item": 959,
+     "items_per_target": 0.01,
+     "bytes_per_target": 12
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 7,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 74,
+     "items": 2,
+     "bytes_per_item": 35,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    }
+   },
+   "refs_bytes": 3940033,
+   "utf8_bytes": 12961060,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 181,
+    "assumed": 4,
+    "event_refs": 67,
+    "target_key": 16,
+    "backlog_qty": 168,
+    "balance_end": 181,
+    "first_gap_at": 29,
+    "timing_basis": 13,
+    "unmet_demand": 168,
+    "directed_supply": 168,
+    "candidate_supply": 168,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 149,
+    "min_intraday_balance": 182
+   },
+   "paged_arrays_bytes": 12801244,
+   "paged_bytes_per_target": 12801,
+   "rest_bytes": 159816,
+   "refs_share_of_analysis": 0.306,
+   "extrapolated_5000_bytes": 64166036,
+   "pages": {
+    "targets_total": 1000,
+    "page_count": 2,
+    "header_utf8_bytes": 206798,
+    "document_utf8_bytes": 12961060,
+    "totals": {
+     "items": {
+      "actions": 1000,
+      "metrics": 1000,
+      "timeline": 5047,
+      "assumptions": 499,
+      "demand_models": 898,
+      "material_needs": 671,
+      "recommendations": 1000
+     },
+     "targets": 1000,
+     "recommendations": {
+      "OTHER": 0,
+      "ACTIVE": 608,
+      "PAUSED": 181,
+      "STOPPED": 211
+     },
+     "policy_unreviewed": 0
+    },
+    "min_page_bytes": 6313322,
+    "max_page_bytes": 6443973,
+    "sum_page_bytes": 12757295
+   },
+   "server_ms_by_stage": [
+    {
+     "stage": "SCENARIO",
+     "n": 1,
+     "max_ms": 61.2,
+     "sum_ms": 61.2
+    },
+    {
+     "stage": "NET_PREP",
+     "n": 1,
+     "max_ms": 121.4,
+     "sum_ms": 121.4
+    },
+    {
+     "stage": "NET_TARGETS",
+     "n": 2,
+     "max_ms": 926.3,
+     "sum_ms": 1769.9
+    },
+    {
+     "stage": "NET_PAIRS",
+     "n": 1,
+     "max_ms": 1578.7,
+     "sum_ms": 1578.7
+    },
+    {
+     "stage": "NET_PLAN",
+     "n": 1,
+     "max_ms": 44.9,
+     "sum_ms": 44.9
+    },
+    {
+     "stage": "ALLOC_PREP",
+     "n": 1,
+     "max_ms": 298.9,
+     "sum_ms": 298.9
+    },
+    {
+     "stage": "ALLOC_STEP",
+     "n": 1,
+     "max_ms": 406.8,
+     "sum_ms": 406.8
+    },
+    {
+     "stage": "ALLOC_FINAL",
+     "n": 1,
+     "max_ms": 129.2,
+     "sum_ms": 129.2
+    },
+    {
+     "stage": "NET_ROWS",
+     "n": 2,
+     "max_ms": 861.2,
+     "sum_ms": 1687.3
+    },
+    {
+     "stage": "FABRIC_PLAN",
+     "n": 1,
+     "max_ms": 18.7,
+     "sum_ms": 18.7
+    },
+    {
+     "stage": "ANA_TARGETS",
+     "n": 2,
+     "max_ms": 1385,
+     "sum_ms": 2612.9
+    },
+    {
+     "stage": "ANA_META",
+     "n": 1,
+     "max_ms": 46.9,
+     "sum_ms": 46.9
+    },
+    {
+     "stage": "ANA_TEXT",
+     "n": 1,
+     "max_ms": 328.6,
+     "sum_ms": 328.6
+    },
+    {
+     "stage": "RUN_INSERT",
+     "n": 1,
+     "max_ms": 477.7,
+     "sum_ms": 477.7
+    },
+    {
+     "stage": "DOC_RENDER",
+     "n": 1,
+     "max_ms": 405.5,
+     "sum_ms": 405.5
+    },
+    {
+     "stage": "DOC_SEGMENTS",
+     "n": 1,
+     "max_ms": 356.3,
+     "sum_ms": 356.3
+    },
+    {
+     "stage": "PAGE_HEADER",
+     "n": 1,
+     "max_ms": 31,
+     "sum_ms": 31
+    },
+    {
+     "stage": "PAGES",
+     "n": 2,
+     "max_ms": 669.6,
+     "sum_ms": 1242.8
+    },
+    {
+     "stage": "PAGE_INDEX",
+     "n": 1,
+     "max_ms": 6.5,
+     "sum_ms": 6.5
+    }
+   ]
+  },
+  {
+   "fixture": "staged-analysis-fixture stagedInput",
+   "targets": 5000,
+   "positions": 100,
+   "wall_ms": 77199,
+   "one_call_per_unit": true,
+   "top": {
+    "query": 82,
+    "run_id": 38,
+    "analysis": 65086266,
+    "request_id": 38,
+    "apply_enabled": 5,
+    "production_go": 5,
+    "product_labels": 357466,
+    "contract_version": 28,
+    "financial_source": 642
+   },
+   "analysis": {
+    "scope": {
+     "bytes": 132,
+     "items": null
+    },
+    "stale": {
+     "bytes": 34,
+     "items": null
+    },
+    "run_id": {
+     "bytes": 38,
+     "items": null
+    },
+    "status": {
+     "bytes": 9,
+     "items": null
+    },
+    "actions": {
+     "bytes": 2151140,
+     "items": 5000,
+     "bytes_per_item": 428,
+     "items_per_target": 1,
+     "bytes_per_target": 430
+    },
+    "metrics": {
+     "bytes": 3454480,
+     "items": 5004,
+     "bytes_per_item": 688,
+     "items_per_target": 1,
+     "bytes_per_target": 691
+    },
+    "quality": {
+     "bytes": 160,
+     "items": null
+    },
+    "sources": {
+     "bytes": 70215,
+     "items": 83,
+     "bytes_per_item": 844,
+     "items_per_target": 0.02,
+     "bytes_per_target": 14
+    },
+    "scenario": {
+     "bytes": 83,
+     "items": null
+    },
+    "snapshot": {
+     "bytes": 364,
+     "items": null
+    },
+    "timeline": {
+     "bytes": 46541636,
+     "items": 25729,
+     "bytes_per_item": 1807,
+     "items_per_target": 5.15,
+     "bytes_per_target": 9308
+    },
+    "versions": {
+     "bytes": 283,
+     "items": null
+    },
+    "assumptions": {
+     "bytes": 565392,
+     "items": 3491,
+     "bytes_per_item": 160,
+     "items_per_target": 0.7,
+     "bytes_per_target": 113
+    },
+    "dependencies": {
+     "bytes": 2692,
+     "items": 11,
+     "bytes_per_item": 243,
+     "items_per_target": 0,
+     "bytes_per_target": 1
+    },
+    "policy_basis": {
+     "bytes": 552,
+     "items": null
+    },
+    "demand_models": {
+     "bytes": 2622922,
+     "items": 4530,
+     "bytes_per_item": 577,
+     "items_per_target": 0.91,
+     "bytes_per_target": 525
+    },
+    "semantic_hash": {
+     "bytes": 66,
+     "items": null
+    },
+    "material_needs": {
+     "bytes": 679872,
+     "items": 3418,
+     "bytes_per_item": 197,
+     "items_per_target": 0.68,
+     "bytes_per_target": 136
+    },
+    "capacity_checks": {
+     "bytes": 605,
+     "items": 1,
+     "bytes_per_item": 603,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "recommendations": {
+     "bytes": 8979652,
+     "items": 5000,
+     "bytes_per_item": 1794,
+     "items_per_target": 1,
+     "bytes_per_target": 1796
+    },
+    "allocation_edges": {
+     "bytes": 15369,
+     "items": 17,
+     "bytes_per_item": 902,
+     "items_per_target": 0,
+     "bytes_per_target": 3
+    },
+    "contract_version": {
+     "bytes": 17,
+     "items": null
+    },
+    "plan_comparisons": {
+     "bytes": 2,
+     "items": 0,
+     "bytes_per_item": null,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    },
+    "financial_readiness": {
+     "bytes": 9,
+     "items": null
+    },
+    "generation_warnings": {
+     "bytes": 119,
+     "items": 3,
+     "bytes_per_item": 38,
+     "items_per_target": 0,
+     "bytes_per_target": 0
+    }
+   },
+   "refs_bytes": 19851761,
+   "utf8_bytes": 65444725,
+   "timeline_item_keys": {
+    "date": 12,
+    "mode": 9,
+    "demand": 169,
+    "assumed": 4,
+    "event_refs": 67,
+    "target_key": 16,
+    "backlog_qty": 156,
+    "balance_end": 169,
+    "first_gap_at": 29,
+    "timing_basis": 13,
+    "unmet_demand": 156,
+    "directed_supply": 156,
+    "candidate_supply": 156,
+    "timing_policy_id": 40,
+    "proposed_new_supply": 149,
+    "min_intraday_balance": 170
+   },
+   "paged_arrays_bytes": 64995213,
+   "paged_bytes_per_target": 12999,
+   "rest_bytes": 449512,
+   "refs_share_of_analysis": 0.305,
+   "extrapolated_5000_bytes": 65444725,
+   "pages": {
+    "targets_total": 5000,
+    "page_count": 10,
+    "header_utf8_bytes": 648635,
+    "document_utf8_bytes": 65444725,
+    "totals": {
+     "items": {
+      "actions": 5000,
+      "metrics": 5000,
+      "timeline": 25729,
+      "assumptions": 2493,
+      "demand_models": 4530,
+      "material_needs": 3418,
+      "recommendations": 5000
+     },
+     "targets": 5000,
+     "recommendations": {
+      "OTHER": 0,
+      "ACTIVE": 3004,
+      "PAUSED": 950,
+      "STOPPED": 1046
+     },
+     "policy_unreviewed": 0
+    },
+    "min_page_bytes": 6192218,
+    "max_page_bytes": 6656006,
+    "sum_page_bytes": 64809226
+   },
+   "server_ms_by_stage": [
+    {
+     "stage": "SCENARIO",
+     "n": 1,
+     "max_ms": 277.4,
+     "sum_ms": 277.4
+    },
+    {
+     "stage": "NET_PREP",
+     "n": 1,
+     "max_ms": 598.1,
+     "sum_ms": 598.1
+    },
+    {
+     "stage": "NET_TARGETS",
+     "n": 10,
+     "max_ms": 1532.1,
+     "sum_ms": 11701.8
+    },
+    {
+     "stage": "NET_PAIRS",
+     "n": 5,
+     "max_ms": 2058.8,
+     "sum_ms": 8370.8
+    },
+    {
+     "stage": "NET_PLAN",
+     "n": 1,
+     "max_ms": 413.1,
+     "sum_ms": 413.1
+    },
+    {
+     "stage": "ALLOC_PREP",
+     "n": 1,
+     "max_ms": 1431.4,
+     "sum_ms": 1431.4
+    },
+    {
+     "stage": "ALLOC_STEP",
+     "n": 5,
+     "max_ms": 620.8,
+     "sum_ms": 2529.4
+    },
+    {
+     "stage": "ALLOC_FINAL",
+     "n": 1,
+     "max_ms": 688,
+     "sum_ms": 688
+    },
+    {
+     "stage": "NET_ROWS",
+     "n": 10,
+     "max_ms": 1854.1,
+     "sum_ms": 11063.2
+    },
+    {
+     "stage": "FABRIC_PLAN",
+     "n": 1,
+     "max_ms": 229.5,
+     "sum_ms": 229.5
+    },
+    {
+     "stage": "ANA_TARGETS",
+     "n": 10,
+     "max_ms": 2342.8,
+     "sum_ms": 18672.4
+    },
+    {
+     "stage": "ANA_META",
+     "n": 1,
+     "max_ms": 394.4,
+     "sum_ms": 394.4
+    },
+    {
+     "stage": "ANA_TEXT",
+     "n": 1,
+     "max_ms": 3039.8,
+     "sum_ms": 3039.8
+    },
+    {
+     "stage": "RUN_INSERT",
+     "n": 1,
+     "max_ms": 3542.2,
+     "sum_ms": 3542.2
+    },
+    {
+     "stage": "DOC_RENDER",
+     "n": 1,
+     "max_ms": 1943.4,
+     "sum_ms": 1943.4
+    },
+    {
+     "stage": "DOC_SEGMENTS",
+     "n": 5,
+     "max_ms": 995.5,
+     "sum_ms": 4070
+    },
+    {
+     "stage": "PAGE_HEADER",
+     "n": 1,
+     "max_ms": 89.2,
+     "sum_ms": 89.2
+    },
+    {
+     "stage": "PAGES",
+     "n": 10,
+     "max_ms": 593.7,
+     "sum_ms": 5689.8
+    },
+    {
+     "stage": "PAGE_INDEX",
+     "n": 1,
+     "max_ms": 16,
+     "sum_ms": 16
+    }
+   ]
+  }
+ ],
+ "storage": [
+  {
+   "k": 1,
+   "parse_ms": 1223,
+   "insert_ms": 689,
+   "sha256_ms": 345,
+   "synthetic": false,
+   "stored_bytes": 2884764,
+   "render_text_ms": 620,
+   "text_utf8_bytes": 65086266,
+   "jsonb_datum_bytes": 73040179
+  },
+  {
+   "k": 2,
+   "parse_ms": 11546,
+   "insert_ms": 1444,
+   "sha256_ms": 848,
+   "synthetic": true,
+   "stored_bytes": 5939641,
+   "render_text_ms": 1555,
+   "text_utf8_bytes": 158169538,
+   "jsonb_datum_bytes": 177897155
+  },
+  {
+   "k": 3.2,
+   "refused": "54000:total size of jsonb object elements exceeds the maximum of 268435455 bytes",
+   "sha256_ms": 1404,
+   "synthetic": true,
+   "text_utf8_bytes": 251252810
+  },
+  {
+   "k": 4.2,
+   "refused": "54000:total size of jsonb array elements exceeds the maximum of 268435455 bytes",
+   "sha256_ms": 1603,
+   "synthetic": true,
+   "text_utf8_bytes": 297794446
+  }
+ ],
+ "status": "COMPLETE",
+ "production_go": false,
+ "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+ "version": "PostgreSQL 16.13 (Ubuntu 16.13-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+ "bounds": {
+  "b": {
+   "job_pairs": 1000000,
+   "job_targets": 5000,
+   "pairs_per_chunk": 100000,
+   "targets_per_chunk": 500,
+   "job_matching_products": 10000,
+   "targets_per_segment_unit": 1000,
+   "visits_per_allocation_step": 100000,
+   "allocation_targets_per_step": 1000
+  },
+  "p": {
+   "page_utf8_bytes": 8000000,
+   "header_utf8_bytes": 8000000
+  }
+ }
+}

@@ -119,6 +119,46 @@
       "codes": [],
       "where": "src/nativeAnalysisTransport.ts ANALYSIS_DOCUMENT_UTF8_BYTES; the client refuses the whole document",
       "predicted_by_size_model": false
+    },
+    "STAGED_TARGETS_5000": {
+      "value": 5000,
+      "codes": [
+        "CP7_ANALYSIS_STAGED_TARGET_LIMIT"
+      ],
+      "where": "planning/analysis-stages.sql bounds job_targets: more planned products at capture refuse the staged job",
+      "predicted_by_size_model": true
+    },
+    "STAGED_HISTORY_CELLS_500000": {
+      "value": 500000,
+      "codes": [
+        "CP7_PLANNING_HISTORY_GRID_LIMIT"
+      ],
+      "where": "planning/analysis-stages.sql bounds job_history_cells: planned products x history days (the single path refuses at 100000)",
+      "predicted_by_size_model": true
+    },
+    "STAGED_MATCH_10000": {
+      "value": 10000,
+      "codes": [
+        "CP7_NETTING_MATCH_SOURCE_LIMIT"
+      ],
+      "where": "planning/analysis-stages.sql bounds job_matching_products (the single path keeps 5000)",
+      "predicted_by_size_model": false
+    },
+    "STAGED_UNIT_STOPPED_8S": {
+      "value": "8s, 3 attempts",
+      "codes": [
+        "CP7_ANALYSIS_STAGE_STOPPED"
+      ],
+      "where": "planning/analysis-stages.sql step: a unit stopped by the existing 8 s limit three times fails the job",
+      "predicted_by_size_model": true
+    },
+    "STAGED_PAGE_BODY_8000000": {
+      "value": 8000000,
+      "codes": [
+        "CP7_ANALYSIS_PAGE_BODY_LIMIT"
+      ],
+      "where": "planning/analysis-stages.sql pages: one target whose items alone exceed a page body; a page is never cut inside a target",
+      "predicted_by_size_model": false
     }
   },
   "synthetic_inputs": {
@@ -183,6 +223,18 @@
         "complete Original or explicit refusal; nothing truncated or sampled"
       ],
       "not_awarded": "owner latency acceptance; 3 s heavy-complete target for this journey"
+    },
+    "staged_exception": {
+      "id": "P19_PLANNING_ANALYSIS_STAGED_20261007",
+      "decided": "2026-10-07 owner items 3 (5,000 targets as a supported capacity through background/staged processing) and 5 (background exception recorded)",
+      "scope": "Analisis bertahap (hingga 5.000 target): request/step/get, page set + pages + source check",
+      "conditions": [
+        "first visible acknowledgement within the 1 s routine target",
+        "real status from the stored job: stage index/count, units done/count, start time; RUNNING/DONE/FAILED; unit attempts",
+        "safe to leave and reopen: request UUID persisted, server job state read on reload, the same job continued (never a second request)",
+        "complete pages or explicit refusal; nothing truncated or sampled; never presented as the whole"
+      ],
+      "not_awarded": "owner latency acceptance; 3 s heavy-complete target for this journey"
     }
   },
   "browser": {
@@ -190,10 +242,12 @@
     "controls": [
       "Ambil analisis ERP terbaru",
       "Hitung di latar belakang",
-      "Sertakan angka keuangan (menunggu buku besar) + Ambil analisis ERP terbaru"
+      "Sertakan angka keuangan (menunggu buku besar) + Ambil analisis ERP terbaru",
+      "Analisis bertahap (hingga 5.000 target)"
     ],
     "context": "fresh signed-in browser context per click (cold client state, warm database)",
-    "finance_on_demand": "Owner decision 7 Oct 2026: the two default controls run the operational-only analysis (no owner report, no all-book provenance scan; financial figures not loaded, never zero). CAPTURE_WITH_FINANCE ticks the finance choice and runs the unchanged full capture. Earlier runs (through a68abf1e) measured the full capture under CAPTURE/BACKGROUND."
+    "finance_on_demand": "Owner decision 7 Oct 2026: the two default controls run the operational-only analysis (no owner report, no all-book provenance scan; financial figures not loaded, never zero). CAPTURE_WITH_FINANCE ticks the finance choice and runs the unchanged full capture. Earlier runs (through a68abf1e) measured the full capture under CAPTURE/BACKGROUND.",
+    "staged_control": "STAGED clicks the staged job: request, one unit per step with real progress, header + byte-adaptive pages read as \"Target a-b dari N\"; operational only (finance never read). Its observation window is a driver bound (30 min), never a latency figure."
   },
   "kernel_evidence_kept_separate": [
     "scripts/cp7_p19_assembly_benchmark.mjs",
@@ -378,5 +432,25 @@
     "native_case": "one rolled-back savepoint in the closed harness: first size only, its measured points and a grid-cap refusal",
     "limits_changed": false,
     "every_declared_size_and_day_measured": "sizes 100/300/1000/5000 x days 1/30/100 (and 1000x101) on the committed browser copy; the native case adds 100x1 and 100x1001 in the closed harness"
+  },
+  "staged": {
+    "path": "STAGED_JOB_PAGES",
+    "bounds": {
+      "job_targets": 5000,
+      "job_matching_products": 10000,
+      "job_history_cells": 500000
+    },
+    "public_rpcs": [
+      "erp_cp7_request_staged_analysis_v1",
+      "erp_cp7_step_staged_analysis_v1",
+      "erp_cp7_get_staged_analysis_v1",
+      "erp_cp7_read_staged_analysis_pages_v1",
+      "erp_cp7_read_staged_analysis_page_v1",
+      "erp_cp7_check_staged_analysis_source_v1"
+    ],
+    "sql_ladder": "one staged point per declared history-days value at every size (also in the rolled-back native case at 100): request, one step per unit, get, page set, every page, source check; each call under the unchanged 8 s",
+    "evidence": "the reassembled analysis (header prefix + every page's items per paged array) is checked by the frozen analysis contract with its semantic_hash recomputed server side from the reassembled text; parity with the single build on the same reference is proven by the kernel tests (f05-staged-*) and the staged suite (P19G_STAGED_EQUALS_SINGLE), not by this ladder",
+    "witness_retention": "header text, every page's bytes and sha256, identity_hash and the reassembled analysis sha256; per-target items are not retained",
+    "installed_bounds_read_back": "every staged point reads cp7_analysis_stage.bounds() (admin) and records declared_match"
   }
 }

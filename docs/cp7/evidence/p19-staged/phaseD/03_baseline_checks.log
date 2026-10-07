@@ -1,0 +1,16 @@
+
+> erp-garment-ux@0.1.2 check:source
+> node scripts/check-source-ownership.mjs
+
+Source ownership passed: 274 runtime files, 210 owned RPC boundaries, no orphan or direct table access.
+
+> erp-garment-ux@0.1.2 check:access
+> node scripts/check-access-catalog.mjs
+
+Production recovery ownership passed: shared envelope, lock and stale-read generation including procurement exact version transport.
+Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 210 browser RPC boundaries.
+
+> erp-garment-ux@0.1.2 check:css
+> node scripts/check-css-ownership.mjs
+
+CSS ownership passed: 53 stylesheets have no unowned selector branches.

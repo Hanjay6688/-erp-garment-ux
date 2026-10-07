@@ -29,6 +29,11 @@ def main():
     out['untrusted_product_name']=text
   elif op=='state':
    out=dict(analysis_count=cur.execute('select count(*)from cp7_analysis_native.runs where actor=%s',(p['actor'],)).fetchone()[0],business=cases.b.boundary.snapshot(cur))
+  elif op=='staged_state':
+   # P19 staged runs live apart from cp7_analysis_native.runs (read only here).
+   jobs=cur.execute("select coalesce(jsonb_agg(jsonb_build_object('request_id',j.request_id,'state',j.state,'run_id',j.run_id)order by j.created_at),'[]')from cp7_analysis_stage.jobs j where j.actor=%s",(p['actor'],)).fetchone()[0]
+   pages=cur.execute('select count(*)from cp7_analysis_stage.pages p join cp7_analysis_stage.jobs j on j.run_id=p.run_id where j.actor=%s',(p['actor'],)).fetchone()[0]
+   out=dict(jobs=jobs,pages=pages,analysis_count=cur.execute('select count(*)from cp7_analysis_native.runs where actor=%s',(p['actor'],)).fetchone()[0],business=cases.b.boundary.snapshot(cur))
   elif op=='update_schedule':
    plan=cur.execute('select revision,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone();s=cases.previous.supply.capture(cur,date.fromisoformat(p['today']));payload=cases.schedule.payload(cur,s,str(plan[0]));payload['config']=plan[1];payload['config']['unit_minutes']='4';payload['reason']='Explicit separate Native browser metadata change';out=cases.schedule.save(cur,payload)
   elif op in('deactivate','restore'):

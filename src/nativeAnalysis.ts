@@ -32,24 +32,22 @@ function matches(s:Schema,v:unknown):boolean{
  }
  return true
 }
+// The frozen analysis schema, whole or for one array's items (staged pages).
+export const analysisSchemaMatches=(v:unknown,arrayField?:string)=>{const root=frozenSchema as unknown as Schema,s=arrayField===undefined?root:root.properties?.[arrayField]?.items;return s!==undefined&&matches(s,v)}
+// A staged run's analysis header: the frozen schema without `semantic_hash`
+// (a staged run is identified by its identity hash over header and pages; the
+// header must not carry a semantic hash at all).
+export const analysisHeaderSchemaMatches=(v:unknown)=>{const root=frozenSchema as unknown as Schema,properties={...root.properties};delete properties.semantic_hash;return matches({...root,properties,required:root.required?.filter(k=>k!=='semantic_hash')},v)}
 const numeric=(f:FactValue)=>'value'in f
 // Exact decimal quantity scaled to the kernel's twelve fractional digits.
 function quantity(v:string):bigint{const m=/^(0|[1-9][0-9]{0,29})(?:\.([0-9]{1,12}))?$/.exec(v);if(!m)fail();return BigInt(m[1])*10n**12n+BigInt((m[2]??'').padEnd(12,'0'))}
-function pcs(f:FactValue):bigint|null{if(!numeric(f))return null;if(f.unit!=='PCS'||!/^(0|[1-9][0-9]*)$/.test(f.value)||f.value.length>39)fail();return BigInt(f.value)}
+export function pcs(f:FactValue):bigint|null{if(!numeric(f))return null;if(f.unit!=='PCS'||!/^(0|[1-9][0-9]*)$/.test(f.value)||f.value.length>39)fail();return BigInt(f.value)}
 function assertSemantics(x:AnalysisResult){
  const unique=(a:string[])=>new Set(a).size===a.length
  if(x.fixture_kind!==undefined||x.snapshot.knowledge_mode!=='CURRENT'||x.stale.is_stale||x.status==='COMPLETE'&&(!x.snapshot.capture_complete||Object.values(x.quality).some(q=>['UNKNOWN','CONFLICT','PARTIAL'].includes(q))))fail()
  if(!unique(x.sources.map(s=>s.source_key))||!unique(x.recommendations.map(r=>r.target.key))||!unique(x.assumptions.map(a=>a.id))||!unique(x.actions.map(a=>a.key))||!unique(x.dependencies.map(d=>d.domain)))fail()
  if(x.snapshot.fact_count!==x.dependencies.reduce((n,d)=>n+d.fact_count,0))fail()
- const aids=new Set(x.assumptions.map(a=>a.id))
- function visit(v:unknown):void{
-  if(Array.isArray(v)){v.forEach(visit);return}if(v===null||typeof v!=='object')return
-  const o=object(v)
-  if((o.state==='KNOWN'||o.state==='ASSUMED')&&'value'in o){if(typeof o.value!=='string'||!Array.isArray(o.refs)||!o.refs.length)fail()}
-  if(Array.isArray(o.assumption_ids)&&o.assumption_ids.some(id=>typeof id!=='string'||!aids.has(id)))fail()
-  Object.values(o).forEach(visit)
- }
- visit(x)
+ assertAnalysisFacts(x,new Set(x.assumptions.map(a=>a.id)))
  const sources=new Map(x.sources.map(s=>[s.source_key,s])),targets=new Map(x.recommendations.map(r=>[r.target.key,r])),totals=new Map<string,{input:bigint;output:bigint}>()
  for(const e of x.allocation_edges){const s=sources.get(e.source_key),r=targets.get(e.target_key),a=pcs(e.input_qty),b=pcs(e.projected_output_qty)
   if(!s||!r||s.size_id!==e.size_id||r.target.size_id!==e.size_id||a===null||b===null||b>a||a>0n&&!['CONFIRMED_TARGET','CANDIDATE_MATCH'].includes(e.match))fail()
@@ -62,8 +60,24 @@ function assertSemantics(x:AnalysisResult){
   if(r.production_state!=='ACTIVE'&&[r.suggested_new,r.feasible_new].some(f=>numeric(f)&&pcs(f)!==0n))fail()
  }
  if(!unique(x.material_needs.map(m=>JSON.stringify([m.target_key,m.material_key]))))fail()
- for(const m of x.material_needs){
-  const target=targets.get(m.target_key),facts=[m.gross,m.installed_proven,m.unused_allocated_proven,m.additional_external]
+ for(const m of x.material_needs)assertMaterialNeed(m,targets.get(m.target_key),x.assumptions)
+ for(const a of x.actions){if(a.source_keys.some(k=>!sources.has(k))||a.target_keys.some(k=>!targets.has(k))||a.intent==='START_NEW'&&a.target_keys.some(k=>targets.get(k)?.production_state!=='ACTIVE'))fail()}
+ for(const t of x.timeline){if(!targets.has(t.target_key)||t.timing_basis==='DATE_POLICY'&&!t.timing_policy_id||t.timing_basis==='TIMESTAMP_EVIDENCE'&&!t.event_refs.length)fail()}
+ for(const m of x.metrics){if(m.scope_kind==='TARGET'&&!targets.has(m.scope_key)||m.period_start>m.period_end)fail()}
+}
+// Every KNOWN/ASSUMED fact carries its value and sources; every assumption id
+// names a stated assumption. Shared with the staged page reader.
+export function assertAnalysisFacts(v:unknown,aids:Set<string>):void{
+ if(Array.isArray(v)){v.forEach(a=>assertAnalysisFacts(a,aids));return}if(v===null||typeof v!=='object')return
+ const o=object(v)
+ if((o.state==='KNOWN'||o.state==='ASSUMED')&&'value'in o){if(typeof o.value!=='string'||!Array.isArray(o.refs)||!o.refs.length)fail()}
+ if(Array.isArray(o.assumption_ids)&&o.assumption_ids.some(id=>typeof id!=='string'||!aids.has(id)))fail()
+ Object.values(o).forEach(a=>assertAnalysisFacts(a,aids))
+}
+// One material need against its target and the stated assumptions. Shared
+// with the staged page reader, which holds the target's page.
+export function assertMaterialNeed(m:AnalysisResult['material_needs'][number],target:AnalysisResult['recommendations'][number]|undefined,assumptions:AnalysisResult['assumptions']){
+  const facts=[m.gross,m.installed_proven,m.unused_allocated_proven,m.additional_external]
   if(!target||new Set(facts.map(f=>f.unit)).size!==1||m.material_key===null&&facts.some(numeric))fail()
   if(m.material_key?.startsWith('NO_ACCESSORY:')){
    if(target.target.kind!=='PRODUCT'||m.material_key!==`NO_ACCESSORY:${target.target.product_id}`||facts.some(f=>f.state!=='KNOWN'||!numeric(f)||!/^0(?:\.0+)?$/.test(f.value)||f.unit!=='ACCESSORY_BASE_UNIT'||!f.refs.some(r=>r.kind==='erp.accessory_bom_versions')))fail()
@@ -81,7 +95,7 @@ function assertSemantics(x:AnalysisResult){
     uuid(recipe[0].id)
     if(facts.some(f=>!f.refs.some(r=>r.kind==='CP7_FABRIC_RECIPE'&&r.id===recipe[0].id&&r.revision===recipe[0].revision)))fail()
     if(numeric(m.gross)&&(m.gross.state!=='ASSUMED'||!m.gross.assumption_ids.includes(recipe[0].id)||!m.gross.refs.some(r=>r.kind==='erp.materials'&&r.id===material&&/^[a-f0-9]{64}$/.test(r.revision??''))))fail()
-    if(!x.assumptions.some(a=>a.id===recipe[0].id&&a.origin==='OWNER_INPUT'&&a.confirmed_for_operation===false))fail()
+    if(!assumptions.some(a=>a.id===recipe[0].id&&a.origin==='OWNER_INPUT'&&a.confirmed_for_operation===false))fail()
     // P08 physical facts follow the shared material kernel: installed is only
     // zero for unstarted conditional PCS, allocated is never negative, and the
     // external addition can never exceed gross - installed - allocated.
@@ -93,12 +107,8 @@ function assertSemantics(x:AnalysisResult){
     if(e!==null&&(g===null||i===null||u===null||e<0n||e>(g-i-u>0n?g-i-u:0n)||!assumed(m.additional_external)))fail()
    }else fail()
   }
- }
- for(const a of x.actions){if(a.source_keys.some(k=>!sources.has(k))||a.target_keys.some(k=>!targets.has(k))||a.intent==='START_NEW'&&a.target_keys.some(k=>targets.get(k)?.production_state!=='ACTIVE'))fail()}
- for(const t of x.timeline){if(!targets.has(t.target_key)||t.timing_basis==='DATE_POLICY'&&!t.timing_policy_id||t.timing_basis==='TIMESTAMP_EVIDENCE'&&!t.event_refs.length)fail()}
- for(const m of x.metrics){if(m.scope_kind==='TARGET'&&!targets.has(m.scope_key)||m.period_start>m.period_end)fail()}
 }
-function financeSource(raw:unknown,x:AnalysisResult,q:NativeDemandQuery,access:AnalysisFinanceAccess):NativeAnalysisFinance|null{
+export function financeSource(raw:unknown,x:AnalysisResult,q:NativeDemandQuery,access:AnalysisFinanceAccess):NativeAnalysisFinance|null{
  const metrics=x.metrics.filter(m=>m.metric_id.startsWith('NATIVE_FINANCE:'))
  if(raw===null||raw===undefined){if(metrics.length||x.metrics.some(m=>m.value.unit==='IDR')||x.quality.financial!=='UNKNOWN'||x.financial_readiness!=='BLOCKED')fail();return null}
  if(!access.ownerReports)fail()

@@ -2,7 +2,7 @@
 import hashlib
 import cp7_netting_bundle as predecessor
 ROOT=predecessor.ROOT
-FILES=('planning/material-requirements.sql','planning/fabric-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-jobs.sql','planning/fabric-commands.sql','planning/analysis-archive.sql','planning/report-publication.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql')
+FILES=('planning/material-requirements.sql','planning/fabric-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-jobs.sql','planning/analysis-stages.sql','planning/fabric-commands.sql','planning/analysis-archive.sql','planning/report-publication.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql')
 ROLES=('cp7_plan_writer',)+predecessor.ROLES
 GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','cp7_private.immutable_run()','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
 # P08: the open-PO remaining reader is the only new EXECUTE on a predecessor function (read-only, BB-owned).
@@ -47,4 +47,6 @@ def verify(cur):
   for who in('anon','authenticated','service_role'):assert not cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE')",(who,sig)).fetchone()[0]
  from cp7_analysis_jobs_bundle import verify as verify_jobs
  verify_jobs(cur)
+ from cp7_analysis_stages_bundle import verify as verify_stages
+ verify_stages(cur)
  return dict(stage='NATIVE_FROZEN_ANALYSIS_V2_COMPILER_OPERATIONAL_PARTIAL',source_sha256=hashlib.sha256(bundle().encode()).hexdigest(),full_family_acceptance=False)

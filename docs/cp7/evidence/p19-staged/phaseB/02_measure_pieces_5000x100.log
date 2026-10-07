@@ -1,0 +1,9 @@
+gen 364 ms 42480754 bytes; sales 15000 stock 36090
+complete+insert 9518
+history_events 11777 ms {"n":17014}
+avail_whole 16234 ms {"n":500000}
+avail_250roots 1226 ms {"n":25000}
+normalize_production 674 ms {"n":424}
+supply_fingerprint 623 ms {"n":"63e5e78544803b71456b7a050fb3864d21d7c1a363219a9fe530ec38b6803504"}
+fabric_index 97 ms {"n":1819855}
+material_needs_x100_whole_c 113 ms {"count":100}

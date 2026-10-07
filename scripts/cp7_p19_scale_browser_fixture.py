@@ -40,12 +40,14 @@ def main():
                 out['history_source'] = scale.source_cap(cur)
                 out['expected_caps_by_days'] = {str(days): scale.expected_caps(out['total_targets'], days)
                                                 for days in scale.HISTORY_DAYS}
+                out['staged_expected_caps_by_days'] = {str(days): scale.staged_expected_caps(out['total_targets'], days)
+                                                       for days in scale.HISTORY_DAYS}
                 out['caps'] = scale.CAPS
             elif op == 'measure':
                 # Production privileges: no test-only grant for the measured calls.
                 out = scale.measure(cur, date.fromisoformat(p['today']), int(p['size']))
             elif op == 'observe':
-                out = scale.observe(cur, p['actor'], p['requests'], p.get('run_id'), p['label'])
+                out = scale.observe(cur, p['actor'], p['requests'], p.get('run_id'), p['label'], bool(p.get('staged')))
             else:
                 raise ValueError('UNKNOWN_P19_SCALE_BROWSER_ACTION')
         finally:

@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-writer
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts (3 tests | 1 failed | 2 skipped) 2235ms
+   × P19 real scenario status is accepted by the frontend at every unit; sales and pairs are not target progress 2234ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 real scenario status is accepted by the frontend at every unit; sales and pairs are not target progress
+AssertionError: expected 'FAILED' to be 'DONE' // Object.is equality
+
+Expected: "DONE"
+Received: "FAILED"
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts:85:53
+     83|    if(s.stage==='HIST_EVENTS'){events++;expect(s.targets_done_in_stage…
+     84|   }
+     85|   expect(events).toBeGreaterThan(5);expect(s.state).toBe('DONE')
+       |                                                     ^
+     86|  }finally{await db.close()}
+     87| },900000)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  14:52:35
+   Duration  2.62s (transform 210ms, setup 0ms, import 252ms, tests 2.24s, environment 0ms)
+

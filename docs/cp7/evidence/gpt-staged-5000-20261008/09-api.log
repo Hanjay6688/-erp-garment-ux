@@ -1,0 +1,42 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-writer
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts (2 tests | 2 failed) 3817ms
+   × P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops 2036ms
+   × P19 staged API: exact six public boundaries and deny-all private tables, immutable reference and retained completed pages 1780ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops
+SyntaxError: "undefined" is not valid JSON
+ ❯ callAs tests/cp7/families/f04/staged-api-fixture.mjs:36:36
+     34| export async function callAs(db,actor,sql,extra=''){
+     35|  const out=await db.execute(`reset role;set test.actor='${actor}';set …
+     36|  if(Array.isArray(out))return JSON.parse(out.find(x=>x.rows?.length)?.…
+       |                                    ^
+     37|  return JSON.parse(String(out).trim().split('\n').at(-1))
+     38| }
+ ❯ tests/cp7/families/f05-staged-api.test.ts:15:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: exact six public boundaries and deny-all private tables, immutable reference and retained completed pages
+SyntaxError: "undefined" is not valid JSON
+ ❯ callAs tests/cp7/families/f04/staged-api-fixture.mjs:36:36
+     34| export async function callAs(db,actor,sql,extra=''){
+     35|  const out=await db.execute(`reset role;set test.actor='${actor}';set …
+     36|  if(Array.isArray(out))return JSON.parse(out.find(x=>x.rows?.length)?.…
+       |                                    ^
+     37|  return JSON.parse(String(out).trim().split('\n').at(-1))
+     38| }
+ ❯ tests/cp7/families/f05-staged-api.test.ts:57:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  14:43:56
+   Duration  4.07s (transform 94ms, setup 0ms, import 112ms, tests 3.82s, environment 0ms)
+

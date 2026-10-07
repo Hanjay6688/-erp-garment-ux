@@ -1,0 +1,10 @@
+{"targets":14,"k":1,"sha256_ms":4,"parse_ms_1":12,"parse_ms_2":8,"insert_text_ms":8,"render_text_ms":3,"insert_jsonb_ms":5,"text_utf8_bytes":659117,"jsonb_datum_bytes":715736,"text_stored_bytes":35155,"jsonb_stored_bytes":37970,"jsonb_to_text_ratio":1.086,"stored_jsonb_one_key_read_ms":0}
+{"targets":994,"k":71,"sha256_ms":230,"parse_ms_1":695,"parse_ms_2":657,"insert_text_ms":304,"render_text_ms":367,"insert_jsonb_ms":445,"text_utf8_bytes":43565127,"jsonb_datum_bytes":47358416,"text_stored_bytes":1847674,"jsonb_stored_bytes":1925056,"jsonb_to_text_ratio":1.087,"stored_jsonb_one_key_read_ms":28}
+{"targets":2506,"k":179,"sha256_ms":838,"parse_ms_1":6244,"parse_ms_2":3004,"insert_text_ms":1372,"render_text_ms":1440,"insert_jsonb_ms":1382,"text_utf8_bytes":109762971,"jsonb_datum_bytes":119321408,"text_stored_bytes":4644073,"jsonb_stored_bytes":4833901,"jsonb_to_text_ratio":1.087,"stored_jsonb_one_key_read_ms":134}
+{"targets":4648,"k":332,"sha256_ms":1355,"parse_ms_1":11308,"parse_ms_2":6321,"insert_text_ms":2039,"render_text_ms":2233,"insert_jsonb_ms":2212,"text_utf8_bytes":203543250,"jsonb_datum_bytes":221268980,"text_stored_bytes":8605639,"jsonb_stored_bytes":8953949,"jsonb_to_text_ratio":1.087,"stored_jsonb_one_key_read_ms":165}
+{"targets":4998,"k":357,"sha256_ms":1351,"parse_ms_1":6862,"parse_ms_2":5364,"insert_text_ms":1984,"render_text_ms":2324,"insert_jsonb_ms":2422,"text_utf8_bytes":218866825,"jsonb_datum_bytes":237927080,"text_stored_bytes":9252951,"jsonb_stored_bytes":9627188,"jsonb_to_text_ratio":1.087,"stored_jsonb_one_key_read_ms":224}
+{"status":"COMPLETE","out":"/tmp/p19bench/s5kD/out/P19_RESULT_STORAGE.json"}
+
+real	1m32.671s
+user	0m10.615s
+sys	0m5.809s

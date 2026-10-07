@@ -1,0 +1,31 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5kB/repo
+
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts (3 tests | 1 failed) 450098ms
+   × P19 staged scenario: the comparison catches every deliberately wrong unit 183784ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-scenario.test.ts > P19 staged scenario: the comparison catches every deliberately wrong unit
+Error: mutant on cp7_analysis_stage.history_validate no longer applies:   if event_conflict[i] then raise exception 'CP7_DEMAND_REVISION_CONFLICT';end if;
+
+ ❯ applyMutant tests/cp7/families/f04/staged-scenario-fixture.mjs:367:55
+    365| export async function applyMutant(db, [name, from, to]) {
+    366|   const block = functionBlocks(read(PROTOTYPE)).get(name)
+    367|   if (!block || block.split(from).length !== 2) throw new Error(`mutan…
+       |                                                       ^
+    368|   await db.execute(block.replace(from, to).replace(`create function ${…
+    369|   return async () => db.execute(block.replace(`create function ${name}…
+ ❯ tests/cp7/families/f05-staged-scenario.test.ts:158:29
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  15:18:45
+   Duration  450.66s (transform 291ms, setup 0ms, import 344ms, tests 450.10s, environment 0ms)
+
+EXIT 1

@@ -1,0 +1,51 @@
+{
+  "contract": "cp7.p19.analysis-staged.v1",
+  "expected_case_count": 12,
+  "required_case_counts": {
+    "native": 5,
+    "races": 3,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "P19G_STAGED_EQUALS_SINGLE",
+      "P19G_STAGED_AUTHORITY",
+      "P19G_STAGED_IDENTITY",
+      "P19G_STAGED_SOURCE_CHECK",
+      "P19G_STAGED_BOUNDS_VS_SINGLE"
+    ],
+    "races": [
+      "P19G_RACE_TWO_STEPS_ONE_UNIT",
+      "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+      "P19G_RACE_ACCESS_CHANGED_MID_JOB"
+    ],
+    "http": [
+      "P19G_HTTP_STAGED_FLOW",
+      "P19G_HTTP_REVOKED"
+    ],
+    "browser": [
+      "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
+      "P19G_BROWSER_MOBILE_STAGED"
+    ]
+  },
+  "page_utf8_bytes_bound": 8000000,
+  "statement_timeout": "existing 8s authenticated limit; never raised",
+  "public_rpcs": [
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_read_staged_analysis_pages_v1",
+    "erp_cp7_read_staged_analysis_page_v1",
+    "erp_cp7_check_staged_analysis_source_v1"
+  ],
+  "scope": "Staged background analysis (request, one unit per step, status) under the existing statement limit; the reference captured once in one statement through the bounded sources (operational, finance DEFERRED); a staged run kept apart from cp7_analysis_native.runs (every whole reader refuses it) and read as a header plus byte-adaptive pages bound by identity_hash, actor, run and current access epoch; refusal equality with the single path; source check UNCHANGED/ARCHIVED_STALE",
+  "parity": "P19G_STAGED_EQUALS_SINGLE compares the reassembled analysis (header prefix plus every page's items) with cp7_analysis_native.build on the job's own stored reference, query, run id and access (semantic_hash excluded: the staged path does not compute it); byte identity of the analysis text and the Original is proven by the kernel tests (f05-staged-api)",
+  "five_thousand_point": "measured by the scale ladder (P19 Scale, p19-scale5) through the same public RPCs and the browser control, recorded as a background exception, never as a met 3 s target",
+  "synthetic_case": "none; P19G_STAGED_BOUNDS_VS_SINGLE seeds 100 then 140 current targets through the scale ladder's ordinary writers inside its rolled-back case",
+  "full_P19_acceptance": false,
+  "owner_latency_acceptance": false,
+  "factory_capacity_or_SLA": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

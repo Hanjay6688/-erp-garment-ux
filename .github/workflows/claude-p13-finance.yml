@@ -1,3 +1,4 @@
+# Qualify the staged-analysis writer head against the complete ERP contracts.
 name: CP7 P13 Finance (Claude branch)
 'on':
   push:

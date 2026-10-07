@@ -8,7 +8,7 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
  engine as(select encode(extensions.digest(convert_to(string_agg(
   p.oid::regprocedure::text||':'||pg_get_functiondef(p.oid),E'\n'order by p.oid::regprocedure::text),'UTF8'),'sha256'),'hex')signature
   from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-  where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_fabric_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models','cp7_finance')
+  where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_analysis_stage','cp7_fabric_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models','cp7_finance')
    or p.oid='erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure)
  select c||jsonb_build_object('analysis_engine_signature',signature,
   'material_source',cp7_analysis_native.material_source(c->'facts'->'products',(c->>'captured_at')::timestamptz),
@@ -334,6 +334,13 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  if p_finance is null or p_finance not in('INCLUDED','DEFERRED')then raise exception 'CP7_ANALYSIS_FINANCE_MODE';end if;
  a:=cp7_schedule_native.access_now(false);q:=cp7_planning.history_query(p_query);if p_request is null then raise exception 'CP7_ANALYSIS_REQUEST_REQUIRED';end if;
+ perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS-REQUEST:'||(a->>'actor')||':'||p_request::text,0));
+ -- The staged layer is installed later; old isolated kernels do not have it.
+ if to_regclass('cp7_analysis_stage.jobs') is not null then
+  if exists(select 1 from cp7_analysis_stage.jobs where actor=(a->>'actor')::uuid and request_id=p_request)then
+   raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';
+  end if;
+ end if;
  perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS:'||(a->>'actor')||':'||p_request::text,0));
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  select *into r from cp7_analysis_native.runs where actor=(a->>'actor')::uuid and request_id=p_request;

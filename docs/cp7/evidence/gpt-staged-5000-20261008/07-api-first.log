@@ -1,0 +1,32 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/9442228ed2dc/erp-writer
+
+ ❯ tests/cp7/families/f05-staged-api.test.ts (2 tests | 2 failed) 3628ms
+   × P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops 1849ms
+   × P19 staged API: exact six public boundaries and deny-all private tables, immutable reference and retained completed pages 1778ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: idempotent request, fixed capture, status has no side effects, lost step reply resumes, access revoked stops
+ FAIL  tests/cp7/families/f05-staged-api.test.ts > P19 staged API: exact six public boundaries and deny-all private tables, immutable reference and retained completed pages
+error: function cp7_analysis_jobs.worker_active(uuid, uuid) does not exist
+ ❯ pe.Ue ../pg-probe-runtime/node_modules/@electric-sql/pg-protocol/src/parser.ts:442:10
+ ❯ pe.tt ../pg-probe-runtime/node_modules/@electric-sql/pg-protocol/src/parser.ts:220:15
+ ❯ pe.parse ../pg-probe-runtime/node_modules/@electric-sql/pg-protocol/src/parser.ts:104:20
+ ❯ PGlite.qe ../pg-probe-runtime/node_modules/@electric-sql/pglite/src/pglite.ts:753:25
+ ❯ ../pg-probe-runtime/node_modules/@electric-sql/pglite/src/pglite.ts:706:13
+ ❯ null.<anonymous> wasm:/wasm/0267bb86:1:5922000
+ ❯ null.<anonymous> wasm:/wasm/0267bb86:1:2616044
+ ❯ null.<anonymous> wasm:/wasm/0267bb86:1:2648530
+ ❯ null.<anonymous> wasm:/wasm/0267bb86:1:2649134
+ ❯ null.<anonymous> wasm:/wasm/0267bb86:1:5569870
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed (2)
+   Start at  14:43:04
+   Duration  3.91s (transform 78ms, setup 0ms, import 98ms, tests 3.63s, environment 0ms)
+

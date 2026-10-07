@@ -7,7 +7,7 @@ import { DEFECTS as ALLOCATION_DEFECTS, allocationInput, memoProbe } from './f04
 import { functionBlocks } from './f04/schedule-scenario-fixture.mjs'
 import { STAGED_DEFECTS, installStagedControls, runJob, stagedInput } from './f04/staged-analysis-fixture.mjs'
 
-// P19 staged analysis PROTOTYPE: the staged job's Original equals the single
+// P19 staged analysis PRODUCT: the staged job's Original equals the single
 // compiler's byte for byte, and every refusal is the single path's refusal,
 // at sizes both can run. Tiny chunk bounds put chunk edges everywhere.
 // Kernel stand-ins only (schedule build, fabric, accessories); LOCAL proof.
@@ -116,6 +116,7 @@ test('P19 staged job Original equals the single build byte for byte; refusals ar
         }
         expect([...id, row.job, row.same, row.text_same, row.document_same, row.netting_rows_same, row.match_results_same, row.allocation_same])
           .toEqual([...id, 'DONE', true, true, true, true, true, true])
+        expect([...id,row.bad,row.hash_same]).toEqual([...id,[],true])
         done++; if (row.allocation === 'SCENARIO') allocated++; edges += row.edges; confirmed += row.confirmed
         if ((row.units.NET_PAIRS ?? 0) > 1) multiPair++; if ((row.units.ALLOC_STEP ?? 0) > 1) multiAlloc++
       })
@@ -140,11 +141,10 @@ test('P19 staged job: progress from stored rows, retry after the statement limit
     expect(seen.map(s => s.units_done)).toEqual(seen.map((_, i) => i + 1))
     expect(seen.at(-1)).toMatchObject({ state: 'DONE', plan_final: true, units_done: seen.at(-1)!.unit_count, apply_enabled: false, production_go: false })
     expect(seen.some(s => s.stage === 'NET_TARGETS' && s.targets_done_in_stage > 0 && s.targets_done_in_stage < s.targets_total)).toBe(true)
-    const [{ ok }] = await db.query(`select (select result from cp7_analysis_native.runs where id='${r.run_id}')::text=(public.st_single(${jsonArg(c)},'${JSON.stringify({ from_date: '2026-05-01', through_date: '2026-05-30', group_mode: 'AS_SOLD' })}'::jsonb,'${r.run_id}','{"actor":"03000000-0000-4000-8000-000000000001","profile":{"role_code":"OWNER"}}'::jsonb)->'body')::text ok`)
-    expect(ok).toBe(true)
-    // The document of a staged run is cut by the unchanged job store.
-    const [doc] = await db.query(`select segment_count,utf8_bytes from cp7_analysis_jobs.documents where run_id='${r.run_id}'`)
-    expect(doc.segment_count).toBeGreaterThan(0)
+    const [{ verified }] = await db.query(`select public.sv_verify('${r.job}',public.st_single(${jsonArg(c)},'${JSON.stringify({ from_date:'2026-05-01',through_date:'2026-05-30',group_mode:'AS_SOLD' })}'::jsonb,'${r.run_id}','{"actor":"03000000-0000-4000-8000-000000000001","profile":{"role_code":"OWNER"}}'::jsonb)->'body') verified`)
+    expect(verified).toMatchObject({ bad: [], same:true, text_same:true, document_same:true, hash_same:true })
+    const [{ old_runs, old_documents }] = await db.query(`select (select count(*) from cp7_analysis_native.runs) old_runs,(select count(*) from cp7_analysis_jobs.documents) old_documents`)
+    expect([old_runs,old_documents]).toEqual([0,0])
     // A second session (dblink) holds what a unit needs. A unit stopped by the
     // statement limit is retried by the next call from the same stored inputs;
     // three stops fail the job with the stop code. A caller finding the job
@@ -170,25 +170,8 @@ test('P19 staged job: progress from stored rows, retry after the statement limit
     const bad = stagedInput(7002, { targets: 12, positions: 6, roots: 4, models: 2, complete: true }, 'MISSING_PRODUCT')
     const refused = await runJob(db, bad, { request: uuid(0x704), oneCallPerUnit: true })
     expect(refused.status).toMatchObject({ state: 'FAILED', failure: { code: 'CP7_NETTING_NATIVE_PRODUCT_MISSING' } })
-    // The document cut equals store()'s cut (substr per segment) on a
-    // multibyte document whose segment boundaries split no character, in two
-    // units with the second starting mid-document.
-    const run2 = '03000000-0000-4000-8000-00000000d0c0'
-    await db.execute(`insert into cp7_analysis_native.runs select '${run2}'::uuid,actor,'${uuid(0xd0c)}'::uuid,query,captured_at,access_at_capture,facts,result,dependency_hash
-       from cp7_analysis_native.runs where id='${r.run_id}';
-      create table public.doc as select repeat('a😀é',1500000)||'✓x' body;
-      select cp7_analysis_stage.document_row('${run2}',body) from public.doc;
-      select cp7_analysis_stage.document_segments('${run2}',body,0,0) from public.doc;
-      select cp7_analysis_stage.document_segments('${run2}',body,1,2) from public.doc;`)
-    const [same] = await db.query(`select d.segment_count,d.characters,d.utf8_bytes=octet_length(doc.body) bytes_ok,
-       d.sha256=encode(sha256(convert_to(doc.body,'UTF8')),'hex') hash_ok,
-       bool_and(s.body=substr(doc.body,s.idx*2000000+1,2000000) and s.utf8_bytes=octet_length(s.body)
-        and s.sha256=encode(sha256(convert_to(s.body,'UTF8')),'hex')) segments_ok,count(s.*) n
-      from public.doc doc cross join cp7_analysis_jobs.documents d join cp7_analysis_jobs.segments s on s.run_id=d.run_id
-      where d.run_id='${run2}' group by 1,2,3,4`)
-    expect(same).toMatchObject({ segment_count: 3, characters: 4500002, bytes_ok: true, hash_ok: true, segments_ok: true, n: 3 })
     // Outputs and per-target rows never change once written.
-    for (const t of ['outputs', 'target_rows', 'snapshots'])
+    for (const t of ['outputs', 'target_rows', 'units', 'fragments'])
       await expect(db.execute(`update cp7_analysis_stage.${t} set job_id=job_id where job_id='${r.job}';`)).rejects.toThrow(/CP7_RUN_IMMUTABLE/)
   } finally { await db.close() }
 }, 900_000)

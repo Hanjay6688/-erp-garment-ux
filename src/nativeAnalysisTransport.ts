@@ -105,6 +105,9 @@ const failureText:Record<string,string>={
  CP7_ANALYSIS_JOB_ERROR:'Perhitungan gagal di server. Tidak ada hasil yang disimpan.'}
 export const analysisJobFailureText=(f:{code:string})=>failureText[f.code]??`Perhitungan ditolak server (${f.code}). Tidak ada hasil yang disimpan.`
 const wib=(iso:string,o:Intl.DateTimeFormatOptions)=>new Date(iso).toLocaleString('id-ID',{timeZone:'Asia/Jakarta',...o})
-export const analysisSinceText=(iso:string)=>`Sedang dihitung sejak jam ${wib(iso,{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})} WIB (${wib(iso,{day:'numeric',month:'short',year:'numeric'})}).`
+// "HH.MM.SS" in WIB, the clock the background-job status lines use.
+export const analysisWibClock=(iso:string)=>wib(iso,{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})
+export const analysisWibDate=(iso:string)=>wib(iso,{day:'numeric',month:'short',year:'numeric'})
+export const analysisSinceText=(iso:string)=>`Sedang dihitung sejak jam ${analysisWibClock(iso)} WIB (${analysisWibDate(iso)}).`
 // Characters above the single-body bound are read through the segment transport.
 export const analysisOversized=(v:unknown)=>{try{return new TextEncoder().encode(JSON.stringify((v as {analysis?:unknown}|null)?.analysis??null)).byteLength>ANALYSIS_SEGMENT_UTF8_BYTES}catch{return false}}

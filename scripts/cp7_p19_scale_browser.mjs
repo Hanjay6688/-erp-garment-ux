@@ -14,6 +14,7 @@ import {createHash} from 'node:crypto'
 import {execFileSync} from 'node:child_process'
 import {mkdirSync,readFileSync,writeFileSync} from 'node:fs'
 import {budgetResult} from './cp7_p19_browser_latency.mjs'
+import {armStagedResultOpen,readStagedResultOpen} from './cp7_p19_staged_load_browser.mjs'
 
 const declaration=JSON.parse(readFileSync('docs/cp7/p19/P19_SCALE.json','utf8'))
 assert.equal(declaration.contract,'cp7.p19.full-application-scale.v1')
@@ -23,25 +24,32 @@ assert.deepEqual(ids,sizes.map(n=>'P19S_BROWSER_DESKTOP_'+n))
 // The stock screen's default analysis is operational-only (no ledger read);
 // the owner's explicit choice of financial figures is measured as its own control.
 const FINANCE='Sertakan angka keuangan (menunggu buku besar)'
-const CONTROLS=[['CAPTURE','Ambil analisis ERP terbaru',false],['BACKGROUND','Hitung di latar belakang',false],['CAPTURE_WITH_FINANCE','Ambil analisis ERP terbaru',true]]
+// STAGED: the staged job (request/step/get, header + byte-adaptive pages); operational only, finance never read.
+const CONTROLS=[['CAPTURE','Ambil analisis ERP terbaru',false],['BACKGROUND','Hitung di latar belakang',false],['CAPTURE_WITH_FINANCE','Ambil analisis ERP terbaru',true],['STAGED','Analisis bertahap (hingga 5.000 target)',false]]
 assert.deepEqual(CONTROLS.map(c=>(c[2]?FINANCE+' + ':'')+c[1]),declaration.browser.controls)
 // Driver bounds only. Neither is an application limit nor enters a latency figure.
-const OBSERVATION_WINDOW_MS=180000,SEED_PROCESS_MS=3600000,FIXTURE_PROCESS_MS=600000,MEASURE_PROCESS_MS=2700000
-const RPCS=['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1']
-const SMALL=new Set(['erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1'])
+// The staged job steps one unit per request (about 150 units at 5,000 targets); its window is a driver bound too.
+const OBSERVATION_WINDOW_MS=180000,STAGED_WINDOW_MS=1800000,SEED_PROCESS_MS=3600000,FIXTURE_PROCESS_MS=600000,MEASURE_PROCESS_MS=5400000
+const STAGED_RPCS=['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_check_staged_analysis_source_v1']
+const RPCS=['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_read_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1',...STAGED_RPCS]
+const SMALL=new Set(['erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_check_staged_analysis_source_v1'])
+const WHOLE_READERS=['erp_cp7_read_analysis_v1','erp_cp7_read_analysis_manifest_v1','erp_cp7_read_analysis_segment_v1']
 const fixture=(op,p,timeout=FIXTURE_PROCESS_MS)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_p19_scale_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:64*1024*1024,timeout}).trim())
 const dir='cp6-proof/t3/'
 const save=(name,observed)=>{mkdirSync(dir,{recursive:true});writeFileSync(dir+'P19S_BROWSER_'+name+'.json',JSON.stringify({contract:declaration.contract,evidence_kind:'FULL_APPLICATION_NATIVE',stage_witness_only:true,Native_case_credit:0,kernel_evidence_reused:false,limits_raised:false,owner_latency_acceptance:false,production_go:false,observed},null,2)+'\n');return 'P19S_BROWSER_'+name+'.json'}
 const shift=(day,n)=>{const d=new Date(day+'T00:00:00Z');d.setUTCDate(d.getUTCDate()-n);return d.toISOString().slice(0,10)}
-const capOf=code=>Object.entries(caps).find(([,c])=>c.codes.includes(code))?.[0]??null
+// Shared codes (history grid, matching bound) belong to the staged bounds on the staged path only.
+const capOf=(code,staged=false)=>[...Object.entries(caps).filter(([k])=>staged&&k.startsWith('STAGED_')),...Object.entries(caps).filter(([k])=>!k.startsWith('STAGED_'))].find(([,c])=>c.codes.includes(code))?.[0]??null
 
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
-async function openPanel(page,from,through){
+async function openPanel(page,from,through,measurement=null){
  await navigate(page);const history=page.getByRole('region',{name:'Data permintaan ERP',exact:true})
  await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click()
  const lo=history.getByLabel('Permintaan dari tanggal',{exact:true}),hi=history.getByLabel('Permintaan sampai tanggal',{exact:true})
  await lo.fill(from);await hi.fill(through);assert.deepEqual([await lo.inputValue(),await hi.inputValue()],[from,through])
- await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click()
+ const button=history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true})
+ if(measurement)await armStagedResultOpen(button,measurement.key,measurement.runId)
+ await button.click()
  return page.getByRole('region',{name:'Analisis ERP bersama',exact:true})
 }
 
@@ -56,14 +64,14 @@ async function arm(button,id){
   const r=all[id]={id,status:'NOT_CLICKED',clock:'BROWSER_PERFORMANCE_MONOTONIC',marks:{},status_texts:[]}
   const texts=sel=>[...root.querySelectorAll(sel)].map(n=>(n.textContent||'').trim()).filter(Boolean)
   const busy=()=>{const close=[...root.querySelectorAll('header button')].find(b=>b.textContent==='Tutup analisis bersama');return!close||close.disabled}
-  const run=()=>root.querySelector('.native-analysis-result .native-analysis-run span')?.textContent||null
+  const run=()=>root.querySelector('.native-analysis-result .native-analysis-run span, .native-analysis-staged .native-analysis-run span')?.textContent||null
   const mark=(k,text)=>{if(!(k in r.marks)){r.marks[k]=performance.now()-r.t0;r.marks[k+'_text']=text}}
   let observer,queued=false
   const final=()=>{
    if(busy())return null
    const alerts=texts('[role="alert"]'),current=run()
    if(alerts.length)return{status:'REFUSAL_RENDERED',alerts,run_id:current!==r.previous_run?current:null}
-   const summary=texts('p').find(t=>/^\d+ dari \d+ produk\./.test(t))
+   const summary=texts('p').find(t=>/^\d+ dari \d+ produk\./.test(t)||/^[\d.]+ target dalam \d+ halaman\./.test(t))
    return current&&current!==r.previous_run&&summary?{status:'RESULT_RENDERED',run_id:current,summary}:null
   }
   const inspect=()=>{
@@ -72,6 +80,7 @@ async function arm(button,id){
    if(busy()&&statuses.length)mark('acknowledged_ms',statuses[0])
    const since=statuses.find(t=>t.startsWith('Sedang dihitung sejak jam'));if(since)mark('computing_since_ms',since)
    const progress=statuses.find(t=>t.startsWith('Mengambil hasil lengkap'));if(progress)mark('segment_progress_ms',progress)
+   const staged=statuses.find(t=>t.startsWith('Analisis bertahap: tahap'));if(staged)mark('staged_progress_ms',staged)
    if(queued||!final())return
    queued=true
    requestAnimationFrame(()=>requestAnimationFrame(()=>{queued=false;const f=final();if(!f||r.status!=='RUNNING')return
@@ -86,6 +95,7 @@ async function record(request,rpc){
  const response=await request.response(),body=response?await response.body():Buffer.alloc(0),status=response?.status()??null
  let small=null;if(SMALL.has(rpc)||status>=400){try{small=JSON.parse(body.toString('utf8'))}catch{small=null}}
  if(rpc==='erp_cp7_read_analysis_manifest_v1'&&small)small={document:small.document,source_state:small.source_state,run_id:small.run_id}
+ if(rpc==='erp_cp7_read_staged_analysis_pages_v1'&&small)small={run_id:small.run_id,request_id:small.request_id,page_count:small.page_count,targets_total:small.targets_total,identity_hash:small.identity_hash,access_epoch:small.access_epoch,header_utf8_bytes:small.header?.utf8_bytes,header_sha256:small.header?.sha256,pages:small.pages}
  // The panel switches to segments when JSON.stringify(analysis) exceeds the
  // single-body bound; Node's JSON.stringify gives the same compact bytes.
  let analysisBytes=null;if(status===200&&(rpc==='erp_cp7_capture_operational_analysis_v1'||rpc==='erp_cp7_capture_analysis_v1'||rpc==='erp_cp7_read_analysis_v1')){try{analysisBytes=Buffer.byteLength(JSON.stringify(JSON.parse(body.toString('utf8')).analysis??null))}catch{analysisBytes=null}}
@@ -97,13 +107,13 @@ function serverRefusal(network){
  for(const n of network){
   if(n.failed)return{rpc:n.rpc,code:'NETWORK_FAILED',detail:n.failed}
   if(n.status>=400){const m=typeof n.body?.message==='string'?n.body.message:'';return{rpc:n.rpc,http_status:n.status,code:/^CP7_[A-Z0-9_]+/.exec(m)?.[0]??n.body?.code??null,sqlstate:n.body?.code??null,message:m.slice(0,2000)}}
-  if(n.rpc==='erp_cp7_run_analysis_job_v1'&&n.body?.state==='FAILED')return{rpc:n.rpc,http_status:n.status,code:n.body.failure.code,sqlstate:n.body.failure.sqlstate}
+  if(['erp_cp7_run_analysis_job_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1'].includes(n.rpc)&&n.body?.state==='FAILED')return{rpc:n.rpc,http_status:n.status,code:n.body.failure.code,sqlstate:n.body.failure.sqlstate}
  }
  return null
 }
 
 function verdict(m,expected){
- const structural=expected.filter(c=>c!=='STATEMENT_TIMEOUT_8S'),refused=m.server_refusal
+ const staged=m.control==='STAGED',structural=expected.filter(c=>c!=='STATEMENT_TIMEOUT_8S'&&c!=='STAGED_UNIT_STOPPED_8S'),refused=m.server_refusal
  if(m.ui.status==='RESULT_RENDERED'){
   if(refused)return{kind:'RESULT_RENDERED_DESPITE_SERVER_REFUSAL',acceptable:false,counterexample:true}
   if(structural.length)return{kind:'BEYOND_CAP_NOT_REFUSED',caps:structural,acceptable:false,counterexample:true}
@@ -111,19 +121,41 @@ function verdict(m,expected){
   return failed.length?{kind:'RESULT_DEFECT',failed,acceptable:false,counterexample:true}:{kind:'COMPLETE_RESULT',acceptable:true,counterexample:false}
  }
  if(!refused){
-  const tooLarge=m.db.original?.client_document_bound_exceeded===true
+  const tooLarge=!staged&&m.db.original?.client_document_bound_exceeded===true
   return tooLarge?{kind:'HONEST_CAP_REFUSAL',cap:'CLIENT_DOCUMENT_64000000_BYTES',acceptable:true,counterexample:false}
    :{kind:'CLIENT_REFUSED_SERVER_RESULT',alerts:m.ui.alerts,acceptable:false,counterexample:true}
  }
- const cap=capOf(refused.code),base={phase:refused.rpc,code:refused.code,cap,time_to_refusal_rendered_ms:m.ui.elapsed_ms}
+ const cap=capOf(refused.code,staged),base={phase:refused.rpc,code:refused.code,cap,time_to_refusal_rendered_ms:m.ui.elapsed_ms}
  if(m.checks.no_result_saved_for_refused_compute===false)return{...base,kind:'REFUSAL_SAVED_A_RESULT',acceptable:false,counterexample:true}
  if(expected.includes(cap))return{...base,kind:'HONEST_CAP_REFUSAL',structural_caps_also_apply:structural.filter(c=>c!==cap),acceptable:true,counterexample:false}
  if(cap)return{...base,kind:'DECLARED_CAP_NOT_PREDICTED',acceptable:false,counterexample:false}
  return{...base,kind:'REFUSAL_OUTSIDE_DECLARED_CAPS',acceptable:false,counterexample:true}
 }
 
+// Trusted page clicks to a verified rendered range, including two paint frames.
+// This is a load measurement, independent of the background job's wall time.
+async function measureStagedPage(page,region,index){
+ const next=region.getByRole('button',{name:'Halaman berikutnya',exact:true})
+ await next.evaluate((button,index)=>{
+  const root=button.closest('[aria-label="Hasil analisis bertahap"]'),all=window.__p19PageLoads??=[]
+  button.addEventListener('click',event=>{
+   const r={index,t0:performance.now(),trusted_click:event.isTrusted,elapsed_ms:null};all.push(r)
+   let queued=false;const observer=new MutationObserver(()=>{
+    if(queued||!root.querySelector(`[data-page-index="${index}"]`))return
+    queued=true;requestAnimationFrame(()=>requestAnimationFrame(()=>{
+     if(root.querySelector(`[data-page-index="${index}"]`)){r.elapsed_ms=performance.now()-r.t0;observer.disconnect()}else queued=false
+    }))
+   });observer.observe(root,{subtree:true,attributes:true,childList:true,characterData:true})
+  },{capture:true,once:true})
+ },index)
+ await next.click();await page.waitForFunction(index=>window.__p19PageLoads?.find(r=>r.index===index)?.elapsed_ms!==null&&window.__p19PageLoads?.some(r=>r.index===index),index,{timeout:30000,polling:50})
+ const r=await page.evaluate(index=>window.__p19PageLoads.find(r=>r.index===index),index)
+ assert.equal(r.trusted_click,true);assert.ok(Number.isFinite(r.elapsed_ms))
+ return{...r,target_ms:3000,within_target:r.elapsed_ms<3000}
+}
+
 async function measure(ui,today,size,days,[control,label,finance],seed){
- const name=`${size}_${days}_${control}`,from=shift(today,days),through=shift(today,1),expected=seed.expected_caps_by_days[String(days)]
+ const staged=control==='STAGED',name=`${size}_${days}_${control}`,from=shift(today,days),through=shift(today,1),expected=(staged?seed.staged_expected_caps_by_days:seed.expected_caps_by_days)[String(days)]
  const user=await ui.login('OWNER',{label:`p19s-${size}-${days}-${control.toLowerCase()}`}),page=user.page,network=[],pending=[]
  page.on('requestfinished',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)pending.push(record(request,rpc).then(r=>network.push(r)))})
  page.on('requestfailed',request=>{const rpc=RPCS.find(n=>request.url().endsWith('/rpc/'+n));if(rpc)network.push({rpc,failed:request.failure()?.errorText??'FAILED',request:request.postDataJSON(),timing:request.timing()})})
@@ -133,47 +165,82 @@ async function measure(ui,today,size,days,[control,label,finance],seed){
   if(finance)await panel.getByRole('checkbox',{name:FINANCE,exact:true}).check()
   const button=panel.getByRole('button',{name:label,exact:true})
   await arm(button,name);await button.click()
-  await page.waitForFunction(id=>{const r=window.__p19Scale?.[id];return Boolean(r)&&!['NOT_CLICKED','RUNNING'].includes(r.status)},name,{timeout:OBSERVATION_WINDOW_MS,polling:250})
+  await page.waitForFunction(id=>{const r=window.__p19Scale?.[id];return Boolean(r)&&!['NOT_CLICKED','RUNNING'].includes(r.status)},name,{timeout:staged?STAGED_WINDOW_MS:OBSERVATION_WINDOW_MS,polling:250})
   sample=await page.evaluate(id=>window.__p19Scale[id],name)
-  await Promise.all(pending);network.sort((a,b)=>a.timing.startTime-b.timing.startTime)
+  await Promise.all(pending)
+  let pageLoads=null
+  if(staged&&sample.status==='RESULT_RENDERED'){
+   const set=network.find(n=>n.rpc==='erp_cp7_read_staged_analysis_pages_v1')?.body
+   assert.ok(set&&set.targets_total===seed.total_targets,'P19_STAGED_FULL_TARGET_COUNT_REQUIRED')
+   const region=panel.getByRole('region',{name:'Hasil analisis bertahap',exact:true})
+   pageLoads=[]
+   for(let i=1;i<set.page_count;i++)pageLoads.push(await measureStagedPage(page,region,i))
+   await Promise.all(pending)
+  }
+  network.sort((a,b)=>a.timing.startTime-b.timing.startTime)
   assert.equal(sample.trusted_click,true,'P19S_TRUSTED_CLICK_REQUIRED')
   const requests=[...new Set(network.map(n=>n.request?.p_request).filter(Boolean))]
   const queries=network.map(n=>n.request?.p_query).filter(Boolean)
-  const db=fixture('observe',{actor:user.user.id,requests,run_id:sample.run_id??null,label:name})
-  const refused=serverRefusal(network),computeRefused=refused&&['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1'].includes(refused.rpc)
-  const recommendations=sample.summary?Number(/dari (\d+) produk/.exec(sample.summary)[1]):null
+  const db=fixture('observe',{actor:user.user.id,requests,run_id:sample.run_id??null,label:name,staged})
+  const refused=serverRefusal(network),computeRefused=refused&&['erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1'].includes(refused.rpc)
+  const recommendations=sample.summary&&!staged?Number(/dari (\d+) produk/.exec(sample.summary)[1]):null
+  const stagedSummary=sample.summary&&staged?/^([\d.]+) target dalam (\d+) halaman\./.exec(sample.summary):null
+  const stagedTotals=stagedSummary?{targets_total:Number(stagedSummary[1].replace(/\./g,'')),page_count:Number(stagedSummary[2])}:null
+  const stagedJob=staged?(db.staged_jobs||[]).find(j=>requests.includes(j.request_id))??null:null
   const checks={
    query_is_declared_window:queries.length>0&&queries.every(q=>q.from_date===from&&q.through_date===through&&q.group_mode==='AS_SOLD'),
-   ...(sample.status==='RESULT_RENDERED'?{
+   ...(sample.status==='RESULT_RENDERED'&&staged?{
+    rendered_run_is_stored:Boolean(stagedJob)&&stagedJob.state==='DONE'&&stagedJob.run_id===sample.run_id,
+    rendered_totals_equal_stored:Boolean(stagedTotals)&&stagedTotals.targets_total===db.original?.targets_total&&stagedTotals.page_count===db.original?.page_count,
+    stored_source_equals_current_targets:db.coverage?.complete===true&&db.original?.source_products===seed.total_targets,
+    reassembled_pages_pass_frozen_contract:db.frozen_contract_valid===true,
+    every_page_read_once:network.filter(n=>n.rpc==='erp_cp7_read_staged_analysis_page_v1').length===db.original?.page_count,
+    whole_reader_never_called:!network.some(n=>WHOLE_READERS.includes(n.rpc)),
+    one_request_uuid:requests.length===1}:{}),
+   ...(sample.status==='RESULT_RENDERED'&&!staged?{
     rendered_run_is_stored:db.runs.some(r=>r.run_id===sample.run_id&&requests.includes(r.request_id)),
     rendered_count_equals_stored_recommendations:recommendations===db.original?.recommendations,
     stored_source_equals_current_targets:db.coverage?.complete===true&&db.original?.source_products===seed.total_targets,
     segments_read_when_single_body_exceeded:!network.some(n=>n.analysis_json_utf8_bytes>caps.BODY_8000000_BYTES.value)||network.some(n=>n.rpc==='erp_cp7_read_analysis_segment_v1')}:{}),
-   ...(computeRefused?{no_result_saved_for_refused_compute:requests.every(r=>db.requests[r]?.runs===0)}:{})}
+   ...(computeRefused?{no_result_saved_for_refused_compute:staged?(db.staged_jobs||[]).filter(j=>requests.includes(j.request_id)).every(j=>j.pages===0&&j.state!=='DONE'):requests.every(r=>db.requests[r]?.runs===0)}:{})}
   const ack=sample.marks?.acknowledged_ms
   assert.ok(Number.isFinite(ack),'P19S_FIRST_VISIBLE_ACKNOWLEDGEMENT_NOT_OBSERVED')
   // The control's own path: the operational RPCs without the finance choice, the full ones with it.
   const capturedBy=network.filter(n=>/^erp_cp7_(capture|request)_/.test(n.rpc)).map(n=>n.rpc)
-  checks.finance_path_matches_control=capturedBy.length>0&&capturedBy.every(n=>n.includes('_operational_')!==finance)
+  checks.finance_path_matches_control=capturedBy.length>0&&capturedBy.every(n=>(n.includes('_operational_')||n.includes('_staged_'))!==finance)
   const m={size,history_days:days,control,financial_figures:finance,button:label,query:{from_date:from,through_date:through,group_mode:'AS_SOLD'},
    ui:{status:sample.status,elapsed_ms:sample.elapsed_ms,marks:sample.marks,status_texts:sample.status_texts,alerts:sample.alerts??[],run_id:sample.run_id??null,summary:sample.summary??null},
    owner_budgets:{first_visible_acknowledgement:budgetResult('ROUTINE_READ',ack),complete_or_refusal_rendered:budgetResult('HEAVY_COMPLETE',sample.elapsed_ms),
-    progress_status_visible_by_3000ms:Number.isFinite(sample.marks?.computing_since_ms)&&sample.marks.computing_since_ms<=3000,
+    progress_status_visible_by_3000ms:Number.isFinite(sample.marks?.computing_since_ms??sample.marks?.staged_progress_ms)&&(sample.marks?.computing_since_ms??sample.marks?.staged_progress_ms)<=3000,
     // Owner decision 7 Oct 2026: the heavy planning analysis may run as a
     // recorded background exception. The 3 s HEAVY_COMPLETE result above is
     // still reported as measured; the exception never turns it into a pass.
-    owner_named_background_exception:control==='BACKGROUND'?declaration.owner_latency_targets.background_exception.id:false,
+    owner_named_background_exception:control==='BACKGROUND'?declaration.owner_latency_targets.background_exception.id:staged?declaration.owner_latency_targets.staged_exception.id:false,
     owner_latency_acceptance:false},
-   network,server_refusal:refused,db,checks,
+   page_loads:pageLoads,page_load_target_ms:3000,load_target_mandatory:false,network,server_refusal:refused,db,checks,
    device:declaration.browser.device,context:declaration.browser.context,expected_caps:expected,evidence_kind:'FULL_APPLICATION_NATIVE'}
   m.verdict=verdict(m,expected)
   // Explicit server refusal: the RPC, HTTP status, code, SQLSTATE, the job's own
   // FAILED state and the stored job row, and which declared cap it is.
-  const job=network.filter(n=>['erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1'].includes(n.rpc)&&n.body).map(n=>n.body).pop()??null
+  const job=network.filter(n=>['erp_cp7_run_analysis_job_v1','erp_cp7_get_analysis_job_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1'].includes(n.rpc)&&n.body).map(n=>n.body).pop()??null
+  m.staged=staged?{steps:network.filter(n=>n.rpc==='erp_cp7_step_staged_analysis_v1').length,pages_read:network.filter(n=>n.rpc==='erp_cp7_read_staged_analysis_page_v1').length,
+   targets_total:db.original?.targets_total??stagedTotals?.targets_total??null,page_count:db.original?.page_count??stagedTotals?.page_count??null,identity_hash:db.identity_hash??null,
+   reassembled_analysis_sha256:db.reassembled_analysis_sha256??null,header_witness:db.header_witness??null,job_state:job?.state??null,unit_count:job?.unit_count??null,units_done:job?.units_done??null,
+   click_to_staged_progress_ms:sample.marks?.staged_progress_ms??null}:null
   m.refusal=refused?{...refused,job_state:job?.state??null,job_failure:job?.failure??null,
-   stored_job:(db.jobs||[]).find(j=>requests.includes(j.request_id))??null,cap:m.verdict.cap??null}:null
+   stored_job:(staged?db.staged_jobs:db.jobs||[]).find(j=>requests.includes(j.request_id))??null,cap:m.verdict.cap??null}:null
   Object.assign(m,{refusal_code:refused?.code??null,refusal_sqlstate:refused?.sqlstate??null,refused_by_rpc:refused?.rpc??null,
    refusal_http_status:refused?.http_status??null,cap:m.verdict.cap??null})
+  if(staged&&sample.status==='RESULT_RENDERED'){
+   const mark=network.length;await page.reload()
+   panel=await openPanel(page,from,through,{key:'completed-'+name,runId:sample.run_id})
+   m.completed_open=await readStagedResultOpen(page,'completed-'+name);await Promise.all(pending)
+   const reopened=network.slice(mark).filter(n=>STAGED_RPCS.includes(n.rpc))
+   assert.equal(reopened[0]?.rpc,'erp_cp7_get_staged_analysis_v1')
+   assert.equal(reopened[0]?.request.p_request,requests[0])
+   assert.equal(reopened.filter(n=>['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1'].includes(n.rpc)).length,0,'P19_STAGED_REOPEN_RECOMPUTED')
+   m.completed_open_target_ms=3000
+  }
   m.screenshot=`P19S_${name}.png`;await page.screenshot({path:dir+m.screenshot})
   m.witness=save(name,m)
   return m
@@ -205,7 +272,10 @@ async function sizeCase(ui,today,size,state){
    phase_profile_complete:sql.phase_profile_complete,Native_business_unchanged_by_measurement:sql.Native_business_unchanged_by_measurement,
    points:sql.points.map(p=>({path:p.path,history_days:p.history_days,grid_boundary_witness:p.grid_boundary_witness??false,verdict:p.verdict,
     request_to_result_ms:p.request_to_result_ms??null,request_to_terminal_ms:p.request_to_terminal_ms??null,
-    manifest_and_segments_ms:p.manifest_and_segments_ms??null,original_utf8_bytes:p.original?.original_utf8_bytes??null})),
+    manifest_and_segments_ms:p.manifest_and_segments_ms??null,original_utf8_bytes:p.original?.original_utf8_bytes??null,
+    // Staged path: units stepped, the slowest unit, pages read and their bytes; never one whole document.
+    steps:p.steps??null,slowest_step_ms:p.slowest_step_ms??null,pages_ms:p.pages_ms??null,page_count:p.page_count??null,
+    pages_utf8_bytes:p.original?.pages_utf8_bytes??null,page_utf8_bytes_max:p.original?.page_utf8_bytes_max??null,bounds_declared_match:p.bounds?.declared_match??null})),
    dominant_layer_by_days:Object.fromEntries(Object.entries(sql.phase_profile||{}).map(([d,v])=>[d,{layer:v.summary?.dominant_layer??null,own_ms:v.summary?.dominant_own_ms??null,
     first_stopped_phase:v.summary?.first_stopped_phase??null,original_bytes_per_target:v.original_bytes_per_target??null,
     // Diagnostic only (PHASE_PROFILE_NOT_APP_LATENCY): every layer's own cost and every returned phase's server time,
@@ -225,7 +295,7 @@ async function sizeCase(ui,today,size,state){
    click_to_computing_since_ms:r.ui.marks.computing_since_ms??null,click_to_segment_progress_ms:r.ui.marks.segment_progress_ms??null,click_to_complete_ms:r.ui.elapsed_ms,
    owner_budgets:r.owner_budgets,verdict:r.verdict,refusal:r.refusal,refusal_code:r.refusal_code,refusal_sqlstate:r.refusal_sqlstate,
    refused_by_rpc:r.refused_by_rpc,refusal_http_status:r.refusal_http_status,cap:r.cap,original_sha256:r.db.original?.original_sha256??null,original_utf8_bytes:r.db.original?.original_utf8_bytes??null,
-   segments_read:r.network.filter(n=>n.rpc==='erp_cp7_read_analysis_segment_v1').length,
+   segments_read:r.network.filter(n=>n.rpc==='erp_cp7_read_analysis_segment_v1').length,staged:r.staged??null,
    response_utf8_bytes:r.network.reduce((s,n)=>s+(n.complete_body_utf8_bytes||0),0),witness:r.witness})),
   limits_raised:false,data_sampled_or_truncated:false,owner_latency_acceptance:false,full_P19_acceptance:false,production_go:false}
 }

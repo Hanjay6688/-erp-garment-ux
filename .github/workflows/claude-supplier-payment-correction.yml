@@ -1,3 +1,4 @@
+# Qualify the staged-analysis writer head against the complete ERP contracts.
 name: CP7 Supplier Payment Correction (Claude branch)
 'on':
   push:

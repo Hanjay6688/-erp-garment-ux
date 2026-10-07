@@ -1,0 +1,733 @@
+{
+ "contract": "cp7.p19.staged-scenario-kernel.v0",
+ "label": "LOCAL_PG16_DEV_KERNEL_GENERATED_CAPTURES_NOT_EVIDENCE",
+ "statement_timeout": "8s",
+ "limits_raised": false,
+ "stand_ins": [],
+ "wip": {
+  "groups": 110,
+  "origins": 250
+ },
+ "horizon_days": {
+  "lead_max": 20,
+  "review_max": 10
+ },
+ "vectors": [
+  {
+   "targets": 1000,
+   "days": 1,
+   "query": {
+    "from_date": "2026-10-06",
+    "through_date": "2026-10-06",
+    "group_mode": "AS_SOLD"
+   },
+   "capture": {
+    "bytes": 9830323,
+    "sales": 3000,
+    "stock": 7208,
+    "scheduled_positions": 501,
+    "prepared_ms": 2229
+   },
+   "state": "DONE",
+   "failure": null,
+   "unit_count": 67,
+   "wall_ms": 82111,
+   "max_unit_server_ms": 3053.3,
+   "units_over_4000ms": 0,
+   "retries": 0,
+   "stages": {
+    "HIST_PREP": {
+     "units": 1,
+     "max_server_ms": 523.1,
+     "total_server_ms": 523.1
+    },
+    "HIST_EVENTS": {
+     "units": 2,
+     "max_server_ms": 719.8,
+     "total_server_ms": 868.4
+    },
+    "HIST_VALIDATE": {
+     "units": 1,
+     "max_server_ms": 105.4,
+     "total_server_ms": 105.4
+    },
+    "HIST_ROWS": {
+     "units": 1,
+     "max_server_ms": 352.5,
+     "total_server_ms": 352.5
+    },
+    "HIST_STOCK": {
+     "units": 1,
+     "max_server_ms": 309.9,
+     "total_server_ms": 309.9
+    },
+    "BASE_ROWS": {
+     "units": 4,
+     "max_server_ms": 309.2,
+     "total_server_ms": 1035.2
+    },
+    "SUPPLY": {
+     "units": 1,
+     "max_server_ms": 1479,
+     "total_server_ms": 1479
+    },
+    "SCENARIO": {
+     "units": 1,
+     "max_server_ms": 692.6,
+     "total_server_ms": 692.6
+    },
+    "NET_PREP": {
+     "units": 1,
+     "max_server_ms": 524.5,
+     "total_server_ms": 524.5
+    },
+    "NET_TARGETS": {
+     "units": 4,
+     "max_server_ms": 1296.3,
+     "total_server_ms": 4624.2
+    },
+    "NET_PAIRS": {
+     "units": 23,
+     "max_server_ms": 2620.5,
+     "total_server_ms": 38885.5
+    },
+    "NET_PLAN": {
+     "units": 1,
+     "max_server_ms": 204.3,
+     "total_server_ms": 204.3
+    },
+    "ALLOC_PREP": {
+     "units": 1,
+     "max_server_ms": 93.9,
+     "total_server_ms": 93.9
+    },
+    "ALLOC_STEP": {
+     "units": 10,
+     "max_server_ms": 88.1,
+     "total_server_ms": 787.1
+    },
+    "ALLOC_FINAL": {
+     "units": 1,
+     "max_server_ms": 87.5,
+     "total_server_ms": 87.5
+    },
+    "NET_ROWS": {
+     "units": 4,
+     "max_server_ms": 2622.2,
+     "total_server_ms": 9954.5
+    },
+    "FABRIC_PLAN": {
+     "units": 1,
+     "max_server_ms": 275.2,
+     "total_server_ms": 275.2
+    },
+    "ANA_TARGETS": {
+     "units": 4,
+     "max_server_ms": 3053.3,
+     "total_server_ms": 11326.1
+    },
+    "ANA_META": {
+     "units": 1,
+     "max_server_ms": 808.5,
+     "total_server_ms": 808.5
+    },
+    "ANA_TEXT": {
+     "units": 1,
+     "max_server_ms": 1890,
+     "total_server_ms": 1890
+    },
+    "RUN_INSERT": {
+     "units": 1,
+     "max_server_ms": 1557.5,
+     "total_server_ms": 1557.5
+    },
+    "DOC_RENDER": {
+     "units": 1,
+     "max_server_ms": 1645.7,
+     "total_server_ms": 1645.7
+    },
+    "DOC_SEGMENTS": {
+     "units": 1,
+     "max_server_ms": 2559.8,
+     "total_server_ms": 2559.8
+    }
+   },
+   "units": [
+    {
+     "unit": 0,
+     "stage": "HIST_PREP",
+     "lo": null,
+     "hi": null,
+     "server_ms": 523.1,
+     "client_ms": 549
+    },
+    {
+     "unit": 1,
+     "stage": "HIST_EVENTS",
+     "lo": null,
+     "hi": null,
+     "server_ms": 719.8,
+     "client_ms": 754
+    },
+    {
+     "unit": 2,
+     "stage": "HIST_EVENTS",
+     "lo": null,
+     "hi": null,
+     "server_ms": 148.6,
+     "client_ms": 169
+    },
+    {
+     "unit": 3,
+     "stage": "HIST_VALIDATE",
+     "lo": null,
+     "hi": null,
+     "server_ms": 105.4,
+     "client_ms": 126
+    },
+    {
+     "unit": 4,
+     "stage": "HIST_ROWS",
+     "lo": 1,
+     "hi": 1000,
+     "server_ms": 352.5,
+     "client_ms": 375
+    },
+    {
+     "unit": 5,
+     "stage": "HIST_STOCK",
+     "lo": 1,
+     "hi": 1000,
+     "server_ms": 309.9,
+     "client_ms": 329
+    },
+    {
+     "unit": 6,
+     "stage": "BASE_ROWS",
+     "lo": 1,
+     "hi": 250,
+     "server_ms": 237.3,
+     "client_ms": 255
+    },
+    {
+     "unit": 7,
+     "stage": "BASE_ROWS",
+     "lo": 251,
+     "hi": 500,
+     "server_ms": 257.8,
+     "client_ms": 274
+    },
+    {
+     "unit": 8,
+     "stage": "BASE_ROWS",
+     "lo": 501,
+     "hi": 750,
+     "server_ms": 230.9,
+     "client_ms": 250
+    },
+    {
+     "unit": 9,
+     "stage": "BASE_ROWS",
+     "lo": 751,
+     "hi": 1000,
+     "server_ms": 309.2,
+     "client_ms": 330
+    },
+    {
+     "unit": 10,
+     "stage": "SUPPLY",
+     "lo": null,
+     "hi": null,
+     "server_ms": 1479,
+     "client_ms": 1511
+    },
+    {
+     "unit": 11,
+     "stage": "SCENARIO",
+     "lo": null,
+     "hi": null,
+     "server_ms": 692.6,
+     "client_ms": 741
+    },
+    {
+     "unit": 12,
+     "stage": "NET_PREP",
+     "lo": null,
+     "hi": null,
+     "server_ms": 524.5,
+     "client_ms": 572
+    },
+    {
+     "unit": 13,
+     "stage": "NET_TARGETS",
+     "lo": 1,
+     "hi": 250,
+     "server_ms": 1045.6,
+     "client_ms": 1084
+    },
+    {
+     "unit": 14,
+     "stage": "NET_TARGETS",
+     "lo": 251,
+     "hi": 500,
+     "server_ms": 1097.9,
+     "client_ms": 1115
+    },
+    {
+     "unit": 15,
+     "stage": "NET_TARGETS",
+     "lo": 501,
+     "hi": 750,
+     "server_ms": 1296.3,
+     "client_ms": 1315
+    },
+    {
+     "unit": 16,
+     "stage": "NET_TARGETS",
+     "lo": 751,
+     "hi": 1000,
+     "server_ms": 1184.4,
+     "client_ms": 1201
+    },
+    {
+     "unit": 17,
+     "stage": "NET_PAIRS",
+     "lo": 1,
+     "hi": 25,
+     "server_ms": 1005.3,
+     "client_ms": 1022
+    },
+    {
+     "unit": 18,
+     "stage": "NET_PAIRS",
+     "lo": 26,
+     "hi": 50,
+     "server_ms": 1212.6,
+     "client_ms": 1231
+    },
+    {
+     "unit": 19,
+     "stage": "NET_PAIRS",
+     "lo": 51,
+     "hi": 75,
+     "server_ms": 1400.3,
+     "client_ms": 1421
+    },
+    {
+     "unit": 20,
+     "stage": "NET_PAIRS",
+     "lo": 76,
+     "hi": 100,
+     "server_ms": 1548.2,
+     "client_ms": 1567
+    },
+    {
+     "unit": 21,
+     "stage": "NET_PAIRS",
+     "lo": 101,
+     "hi": 125,
+     "server_ms": 1681.6,
+     "client_ms": 1702
+    },
+    {
+     "unit": 22,
+     "stage": "NET_PAIRS",
+     "lo": 126,
+     "hi": 150,
+     "server_ms": 1388.4,
+     "client_ms": 1407
+    },
+    {
+     "unit": 23,
+     "stage": "NET_PAIRS",
+     "lo": 151,
+     "hi": 175,
+     "server_ms": 1494.5,
+     "client_ms": 1514
+    },
+    {
+     "unit": 24,
+     "stage": "NET_PAIRS",
+     "lo": 176,
+     "hi": 200,
+     "server_ms": 1521.1,
+     "client_ms": 1538
+    },
+    {
+     "unit": 25,
+     "stage": "NET_PAIRS",
+     "lo": 201,
+     "hi": 225,
+     "server_ms": 1520.4,
+     "client_ms": 1564
+    },
+    {
+     "unit": 26,
+     "stage": "NET_PAIRS",
+     "lo": 226,
+     "hi": 250,
+     "server_ms": 1362.2,
+     "client_ms": 1381
+    },
+    {
+     "unit": 27,
+     "stage": "NET_PAIRS",
+     "lo": 251,
+     "hi": 275,
+     "server_ms": 1372.2,
+     "client_ms": 1394
+    },
+    {
+     "unit": 28,
+     "stage": "NET_PAIRS",
+     "lo": 276,
+     "hi": 300,
+     "server_ms": 1549.1,
+     "client_ms": 1569
+    },
+    {
+     "unit": 29,
+     "stage": "NET_PAIRS",
+     "lo": 301,
+     "hi": 325,
+     "server_ms": 1688.4,
+     "client_ms": 1707
+    },
+    {
+     "unit": 30,
+     "stage": "NET_PAIRS",
+     "lo": 326,
+     "hi": 350,
+     "server_ms": 1629.7,
+     "client_ms": 1653
+    },
+    {
+     "unit": 31,
+     "stage": "NET_PAIRS",
+     "lo": 351,
+     "hi": 375,
+     "server_ms": 2620.5,
+     "client_ms": 2642
+    },
+    {
+     "unit": 32,
+     "stage": "NET_PAIRS",
+     "lo": 376,
+     "hi": 400,
+     "server_ms": 2422.5,
+     "client_ms": 2445
+    },
+    {
+     "unit": 33,
+     "stage": "NET_PAIRS",
+     "lo": 401,
+     "hi": 425,
+     "server_ms": 2101.2,
+     "client_ms": 2117
+    },
+    {
+     "unit": 34,
+     "stage": "NET_PAIRS",
+     "lo": 426,
+     "hi": 450,
+     "server_ms": 2268.7,
+     "client_ms": 2286
+    },
+    {
+     "unit": 35,
+     "stage": "NET_PAIRS",
+     "lo": 451,
+     "hi": 475,
+     "server_ms": 1698,
+     "client_ms": 1717
+    },
+    {
+     "unit": 36,
+     "stage": "NET_PAIRS",
+     "lo": 476,
+     "hi": 500,
+     "server_ms": 2071.1,
+     "client_ms": 2095
+    },
+    {
+     "unit": 37,
+     "stage": "NET_PAIRS",
+     "lo": 501,
+     "hi": 525,
+     "server_ms": 2181.9,
+     "client_ms": 2231
+    },
+    {
+     "unit": 38,
+     "stage": "NET_PAIRS",
+     "lo": 526,
+     "hi": 550,
+     "server_ms": 2009.3,
+     "client_ms": 2028
+    },
+    {
+     "unit": 39,
+     "stage": "NET_PAIRS",
+     "lo": 551,
+     "hi": 564,
+     "server_ms": 1138.3,
+     "client_ms": 1158
+    },
+    {
+     "unit": 40,
+     "stage": "NET_PLAN",
+     "lo": null,
+     "hi": null,
+     "server_ms": 204.3,
+     "client_ms": 261
+    },
+    {
+     "unit": 41,
+     "stage": "ALLOC_PREP",
+     "lo": null,
+     "hi": null,
+     "server_ms": 93.9,
+     "client_ms": 113
+    },
+    {
+     "unit": 42,
+     "stage": "ALLOC_STEP",
+     "lo": 1,
+     "hi": 101,
+     "server_ms": 73.6,
+     "client_ms": 92
+    },
+    {
+     "unit": 43,
+     "stage": "ALLOC_STEP",
+     "lo": 102,
+     "hi": 202,
+     "server_ms": 70.7,
+     "client_ms": 88
+    },
+    {
+     "unit": 44,
+     "stage": "ALLOC_STEP",
+     "lo": 203,
+     "hi": 303,
+     "server_ms": 70,
+     "client_ms": 87
+    },
+    {
+     "unit": 45,
+     "stage": "ALLOC_STEP",
+     "lo": 304,
+     "hi": 404,
+     "server_ms": 83.4,
+     "client_ms": 100
+    },
+    {
+     "unit": 46,
+     "stage": "ALLOC_STEP",
+     "lo": 405,
+     "hi": 505,
+     "server_ms": 87.2,
+     "client_ms": 105
+    },
+    {
+     "unit": 47,
+     "stage": "ALLOC_STEP",
+     "lo": 506,
+     "hi": 606,
+     "server_ms": 76.1,
+     "client_ms": 94
+    },
+    {
+     "unit": 48,
+     "stage": "ALLOC_STEP",
+     "lo": 607,
+     "hi": 707,
+     "server_ms": 71.6,
+     "client_ms": 89
+    },
+    {
+     "unit": 49,
+     "stage": "ALLOC_STEP",
+     "lo": 708,
+     "hi": 808,
+     "server_ms": 84.7,
+     "client_ms": 102
+    },
+    {
+     "unit": 50,
+     "stage": "ALLOC_STEP",
+     "lo": 809,
+     "hi": 909,
+     "server_ms": 88.1,
+     "client_ms": 112
+    },
+    {
+     "unit": 51,
+     "stage": "ALLOC_STEP",
+     "lo": 910,
+     "hi": 1000,
+     "server_ms": 81.7,
+     "client_ms": 104
+    },
+    {
+     "unit": 52,
+     "stage": "ALLOC_FINAL",
+     "lo": null,
+     "hi": null,
+     "server_ms": 87.5,
+     "client_ms": 106
+    },
+    {
+     "unit": 53,
+     "stage": "NET_ROWS",
+     "lo": 1,
+     "hi": 250,
+     "server_ms": 2422.9,
+     "client_ms": 2441
+    },
+    {
+     "unit": 54,
+     "stage": "NET_ROWS",
+     "lo": 251,
+     "hi": 500,
+     "server_ms": 2522.7,
+     "client_ms": 2542
+    },
+    {
+     "unit": 55,
+     "stage": "NET_ROWS",
+     "lo": 501,
+     "hi": 750,
+     "server_ms": 2622.2,
+     "client_ms": 2642
+    },
+    {
+     "unit": 56,
+     "stage": "NET_ROWS",
+     "lo": 751,
+     "hi": 1000,
+     "server_ms": 2386.7,
+     "client_ms": 2411
+    },
+    {
+     "unit": 57,
+     "stage": "FABRIC_PLAN",
+     "lo": null,
+     "hi": null,
+     "server_ms": 275.2,
+     "client_ms": 299
+    },
+    {
+     "unit": 58,
+     "stage": "ANA_TARGETS",
+     "lo": 1,
+     "hi": 250,
+     "server_ms": 2755.1,
+     "client_ms": 2773
+    },
+    {
+     "unit": 59,
+     "stage": "ANA_TARGETS",
+     "lo": 251,
+     "hi": 500,
+     "server_ms": 2641.7,
+     "client_ms": 2660
+    },
+    {
+     "unit": 60,
+     "stage": "ANA_TARGETS",
+     "lo": 501,
+     "hi": 750,
+     "server_ms": 2876,
+     "client_ms": 2897
+    },
+    {
+     "unit": 61,
+     "stage": "ANA_TARGETS",
+     "lo": 751,
+     "hi": 1000,
+     "server_ms": 3053.3,
+     "client_ms": 3079
+    },
+    {
+     "unit": 62,
+     "stage": "ANA_META",
+     "lo": null,
+     "hi": null,
+     "server_ms": 808.5,
+     "client_ms": 834
+    },
+    {
+     "unit": 63,
+     "stage": "ANA_TEXT",
+     "lo": null,
+     "hi": null,
+     "server_ms": 1890,
+     "client_ms": 1911
+    },
+    {
+     "unit": 64,
+     "stage": "RUN_INSERT",
+     "lo": null,
+     "hi": null,
+     "server_ms": 1557.5,
+     "client_ms": 1583
+    },
+    {
+     "unit": 65,
+     "stage": "DOC_RENDER",
+     "lo": null,
+     "hi": null,
+     "server_ms": 1645.7,
+     "client_ms": 1666
+    },
+    {
+     "unit": 66,
+     "stage": "DOC_SEGMENTS",
+     "lo": null,
+     "hi": null,
+     "server_ms": 2559.8,
+     "client_ms": 2580
+    }
+   ],
+   "completeness": {
+    "recommendations": 1000,
+    "history_rows": 1000,
+    "baseline_rows": 1000,
+    "netting_rows": 1000,
+    "target_keys_covered": 1000,
+    "material_needs": 2640,
+    "sources": 466,
+    "result_utf8_bytes": 59922613,
+    "document_utf8_bytes": 60065485,
+    "segment_count": 31,
+    "semantic_hash": "a204238d68a0e25419b6a4cbc740db744c5afee2579ecc3151e56e8c973b1c26"
+   },
+   "single": {
+    "state": "REFUSED",
+    "message": "CP7_NETTING_WORK_LIMIT",
+    "sqlstate": "P0001",
+    "client_ms": 4270,
+    "note": "single analysis build in ONE call without a statement limit (measurement only)"
+   }
+  }
+ ],
+ "status": "COMPLETE",
+ "production_go": false,
+ "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+ "version": "PostgreSQL 16.13 (Ubuntu 16.13-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+ "bounds": {
+  "job_pairs": 1000000,
+  "job_targets": 5000,
+  "pairs_per_chunk": 25000,
+  "job_history_cells": 500000,
+  "targets_per_chunk": 250,
+  "job_matching_products": 10000,
+  "sales_per_events_unit": 2500,
+  "history_cells_per_unit": 12500,
+  "targets_per_stock_unit": 1000,
+  "targets_per_segment_unit": 1000,
+  "visits_per_allocation_step": 100000,
+  "allocation_targets_per_step": 1000
+ }
+}

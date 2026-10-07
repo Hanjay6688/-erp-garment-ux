@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 /tmp/p19bench/s5kD/base
+
+
+ Test Files  142 passed (142)
+      Tests  1441 passed (1441)
+   Start at  14:25:55
+   Duration  148.61s (transform 24.21s, setup 0ms, import 80.75s, tests 193.64s, environment 108.61s)
+

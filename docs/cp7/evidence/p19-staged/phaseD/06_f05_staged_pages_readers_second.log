@@ -1,0 +1,63 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5kD/repo
+
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 10 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.pages_manifest(uuid) line 6 at RAISE
+SQL function "erp_cp7_read_analysis_pages_v1" statement 1
+ERROR:  CP7_ANALYSIS_PAGE_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 15 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_PAGE_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 15 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ACCESS_DENIED
+CONTEXT:  PL/pgSQL function cp7_schedule_native.access_now(boolean) line 3 at RAISE
+PL/pgSQL function cp7_analysis_jobs.pages_manifest(uuid) line 5 at assignment
+SQL function "erp_cp7_read_analysis_pages_v1" statement 1
+ERROR:  CP7_ANALYSIS_FINANCE_ACCESS_DENIED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.pages_manifest(uuid) line 9 at RAISE
+SQL function "erp_cp7_read_analysis_pages_v1" statement 1
+ERROR:  CP7_ANALYSIS_PAGES_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.pages_manifest(uuid) line 16 at RAISE
+SQL function "erp_cp7_read_analysis_pages_v1" statement 1
+ERROR:  CP7_ANALYSIS_PAGES_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.page(uuid,integer,text) line 13 at RAISE
+SQL function "erp_cp7_read_analysis_page_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_PAGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.refuse_paged(uuid) line 5 at RAISE
+SQL statement "SELECT cp7_analysis_jobs.refuse_paged(p_run)"
+PL/pgSQL function cp7_analysis_jobs.manifest(uuid) line 2 at PERFORM
+SQL function "erp_cp7_read_analysis_manifest_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.manifest_whole(uuid) line 6 at RAISE
+PL/pgSQL function cp7_analysis_jobs.manifest(uuid) line 2 at RETURN
+SQL function "erp_cp7_read_analysis_manifest_v1" statement 1
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 1 skipped (2)
+   Start at  14:07:39
+   Duration  4.82s (transform 234ms, setup 0ms, import 279ms, tests 4.37s, environment 0ms)
+
+
+real	0m5.816s
+user	0m2.299s
+sys	0m1.245s

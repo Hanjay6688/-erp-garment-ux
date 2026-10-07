@@ -1,0 +1,53 @@
+Result (actual rows=1 loops=1)
+  CTE stock
+    ->  Nested Loop (actual rows=35984 loops=1)
+          ->  Seq Scan on cap (actual rows=1 loops=1)
+          ->  Function Scan on jsonb_array_elements (actual rows=35984 loops=1)
+  CTE reserves
+    ->  Unique (actual rows=1718 loops=1)
+          ->  Sort (actual rows=1718 loops=1)
+                Sort Key: ((stock.m ->> 'id'::text))
+                Sort Method: quicksort  Memory: 129kB
+                ->  CTE Scan on stock (actual rows=1718 loops=1)
+                      Filter: ((m ->> 'movement_type'::text) = 'SALE_RESERVE'::text)
+                      Rows Removed by Filter: 34266
+  InitPlan 3 (returns $3)
+    ->  Aggregate (actual rows=1 loops=1)
+          ->  HashAggregate (actual rows=5000 loops=1)
+                Group Key: (stock_1.m ->> 'root_id'::text)
+                Batches: 1  Memory Usage: 2273kB
+                ->  CTE Scan on stock stock_1 (actual rows=35250 loops=1)
+                      Filter: (((m ->> 'root_id'::text) IS NOT NULL) AND ((m ->> 'quality_grade'::text) = ANY ('{GRADE_A,GRADE_B}'::text[])))
+                      Rows Removed by Filter: 734
+  InitPlan 4 (returns $4)
+    ->  Aggregate (actual rows=1 loops=1)
+          ->  GroupAggregate (actual rows=5000 loops=1)
+                Group Key: ((s.m ->> 'root_id'::text))
+                ->  Sort (actual rows=33048 loops=1)
+                      Sort Key: ((s.m ->> 'root_id'::text))
+                      Sort Method: external merge  Disk: 17688kB
+                      ->  Hash Anti Join (actual rows=33048 loops=1)
+                            Hash Cond: ((s.m ->> 'reversal_of_id'::text) = r.id)
+                            ->  CTE Scan on stock s (actual rows=33532 loops=1)
+                                  Filter: (((m ->> 'root_id'::text) IS NOT NULL) AND ((m ->> 'quality_grade'::text) = ANY ('{GRADE_A,GRADE_B}'::text[])) AND ((m ->> 'movement_type'::text) <> 'SALE_RESERVE'::text))
+                                  Rows Removed by Filter: 2452
+                            ->  Hash (actual rows=1718 loops=1)
+                                  Buckets: 2048 (originally 1024)  Batches: 1 (originally 1)  Memory Usage: 132kB
+                                  ->  CTE Scan on reserves r (actual rows=1718 loops=1)
+Planning Time: 0.877 ms
+Execution Time: 325.655 ms
+
+Aggregate (actual rows=1 loops=1)
+  ->  GroupAggregate (actual rows=1131 loops=1)
+        Group Key: ((jsonb_array_elements.value ->> 'root_id'::text))
+        ->  Sort (actual rows=1234 loops=1)
+              Sort Key: ((jsonb_array_elements.value ->> 'root_id'::text)), ((jsonb_array_elements.value ->> 'id'::text))
+              Sort Method: quicksort  Memory: 815kB
+              ->  Nested Loop (actual rows=1234 loops=1)
+                    ->  Seq Scan on cap (actual rows=1 loops=1)
+                    ->  Function Scan on jsonb_array_elements (actual rows=1234 loops=1)
+                          Filter: (((value ->> 'root_id'::text) IS NOT NULL) AND ((value ->> 'status'::text) = 'DRAFT'::text))
+                          Rows Removed by Filter: 13766
+Planning Time: 0.614 ms
+Execution Time: 98.327 ms
+
