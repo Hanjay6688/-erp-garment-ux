@@ -27,7 +27,7 @@ select jsonb_build_object('contract_version','cp7.production-facts.v1','captured
 $$;
 create function cp7_wip.normalize_production(capture jsonb) returns jsonb
 language plpgsql immutable security invoker set search_path='' as $$
-declare cut jsonb;other jsonb;g jsonb;graph jsonb;e jsonb;prefix text;result jsonb;
+declare cut jsonb;other jsonb;g jsonb;graph jsonb;e jsonb;prefix text;result jsonb;events jsonb[]:='{}';ne integer:=0;
 begin
  if capture->>'contract_version' is distinct from 'cp7.production-facts.v1' or capture->>'status' is distinct from 'COMPLETE' then
   return jsonb_build_object('status','UNKNOWN','reason','PRODUCTION_CAPTURE_INCOMPLETE');end if;
@@ -39,12 +39,14 @@ begin
  foreach prefix in array array['cutting','other'] loop
   graph:=case when prefix='cutting' then cut->'graph' else other->'graph' end;
   g:=jsonb_set(g,'{pools}',(g->'pools')||(graph->'pools'));g:=jsonb_set(g,'{nodes}',(g->'nodes')||(graph->'nodes'));
+  -- Events are appended to an array and placed once (linear, same bytes).
   for e in select value from jsonb_array_elements(graph->'events') loop
-   e:=e||jsonb_build_object('key',prefix||':'||(e->>'key'),'ordinal',(jsonb_array_length(g->'events')+1)::text,
+   e:=e||jsonb_build_object('key',prefix||':'||(e->>'key'),'ordinal',(ne+1)::text,
     'reverses_key',case when e->>'reverses_key' is null then null else prefix||':'||(e->>'reverses_key') end);
-   g:=jsonb_set(g,'{events}',g->'events'||jsonb_build_array(e));
+   events:=array_append(events,e);ne:=ne+1;
   end loop;
  end loop;
+ g:=jsonb_set(g,'{events}',to_jsonb(events));
  result:=cp7_wip.reconcile(g);
  return result||jsonb_build_object('graph',g,'source_basis','ONE_CAPTURE_EXPLICIT_PRODUCTION_ORIGINS',
   'scope','SELECTED_ORIGINS_ONLY','fg_basis','PRODUCTION_DISPOSITION_NOT_CURRENT_ON_HAND',
