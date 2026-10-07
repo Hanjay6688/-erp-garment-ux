@@ -28,6 +28,9 @@ export const MUTANTS = {
   LAST_NONPO_CASE: ["(array_agg(x order by o))[1] v from jsonb_array_elements(facts->'other'->'bs')", "(array_agg(x order by o desc))[1] v from jsonb_array_elements(facts->'other'->'bs')"],
   // Every open position reads the first target's pair result.
   ROW_INDEX: ["j:=(row_at->>(r->>'target_key'))::integer", 'j:=1'],
+  // An empty-supply timeline is reused by target key alone, without checking
+  // that the row is the one the first call read (PR #44 as submitted).
+  REUSE_BY_KEY_ONLY: ["if line_edges='[]'::jsonb and baseline_rows[(planned_index->>(r->>'target_key'))::integer]=r::text then", "if line_edges='[]'::jsonb then"],
 }
 export async function installNettingControls(db, { mutants = [] } = {}) {
   const head = git(NETTING), tree = now(NETTING)
@@ -202,6 +205,10 @@ export function nettingInput(seed, { positions = 16, targets = 8, roots = 4, mod
     case 'BAD_ETA': { const e = etas.find(x => x.result.status !== 'UNKNOWN'); if (e) e.result.eta = 'not-a-time' } break
     case 'ORPHAN_ETA': etas.push({ position_key: 'nowhere', target_key: null, result: { status: 'KNOWN', eta: iso(at + hour) }, refs: [ref('WIP_NODE', 'nowhere')] }); break
     case 'DUP_ROW': if (rows.length) rows.splice(int(rows.length), 0, { ...any(rows), refs: [ref('PRODUCT_TARGET', 'twin')] }); break
+    // A twin skipped before planning (unknown target or FG) shares its key with
+    // a planned row: it must still get its own timeline, not the planned one's.
+    case 'DUP_ROW_SKIPPED_TARGET': if (rows.length) rows.splice(int(rows.length), 0, { ...any(rows), target: { status: 'UNKNOWN', target_pcs: null }, refs: [ref('PRODUCT_TARGET', 'twin')] }); break
+    case 'DUP_ROW_SKIPPED_FG': if (rows.length) rows.splice(int(rows.length), 0, { ...any(rows), available_fg_pcs: null, refs: [ref('PRODUCT_TARGET', 'twin')] }); break
     case 'MISSING_PROFILE': if (rows.length) delete row().profile; break
     case 'MISSING_POLICY': if (rows.length) row().production_policy = {}; break
     case 'BAD_POLICY': if (rows.length) row().production_policy = { policy: { state: 'DRAFT' } }; break
@@ -253,6 +260,6 @@ export function orderProbe(swap) {
 }
 export const DEFECTS = [null, null, null, null, 'WIP_INCOMPLETE', 'WORK_LIMIT', 'MATCH_LIMIT', 'MISSING_PRODUCT', 'DUP_MATCHING_PRODUCT', 'DUP_ORIGIN',
   'DUP_GROUP', 'DUP_BS', 'NONPO_TWO', 'SIZE', 'MODEL_CONFLICT', 'DUP_TARGET_PRODUCT', 'NULL_EFFECTIVE', 'DUP_POSITION', 'NULL_KEYS', 'NUMERIC_KEY',
-  'DUP_ETA', 'BAD_ETA', 'ORPHAN_ETA', 'UNKNOWN_ETAS', 'CONDITIONAL', 'LATE_ETAS', 'DUP_ROW', 'MISSING_PROFILE', 'MISSING_POLICY', 'BAD_POLICY',
+  'DUP_ETA', 'BAD_ETA', 'ORPHAN_ETA', 'UNKNOWN_ETAS', 'CONDITIONAL', 'LATE_ETAS', 'DUP_ROW', 'DUP_ROW_SKIPPED_TARGET', 'DUP_ROW_SKIPPED_FG', 'MISSING_PROFILE', 'MISSING_POLICY', 'BAD_POLICY',
   'UNKNOWN_TARGET', 'NULL_FG', 'NEG_FG', 'BIG_HORIZON', 'TARGET_NOT_PRODUCT', 'BAD_REMAINING', 'BAD_POSITION_REFS', 'SCALAR_ORIGINS',
   'OBJECT_REWORKS', 'SCALAR_GROUPS', 'SOURCE_CHANGED', 'NO_SCHEDULE', 'ZERO_POSITIONS', 'ZERO_ROWS', 'NULL_ROWS']

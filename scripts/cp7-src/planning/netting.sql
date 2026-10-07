@@ -244,7 +244,7 @@ declare scenario jsonb;wip jsonb;matching jsonb;models jsonb;p jsonb;t jsonb;m j
  budget numeric:=0;all_targets_known boolean:=true;supplies_complete boolean:=true;refs jsonb;production_status text;
  supplies jsonb;net jsonb;raw_net jsonb;directed_edges jsonb;line_edges jsonb;
  eta_list jsonb[]:='{}';target_list jsonb[]:='{}';review_list jsonb[]:='{}';row_list jsonb[]:='{}';
- baseline_lines jsonb[]:='{}';planned_index jsonb;
+ baseline_lines jsonb[]:='{}';baseline_rows text[]:='{}';planned_index jsonb;
  pair_rows jsonb[]:='{}';eligible jsonb[]:='{}';open_work jsonb[];open_index integer[];supply_list jsonb[];edge_list jsonb[];
  row_keys text[];row_target_keys jsonb[];row_at jsonb;model_targets jsonb;candidates jsonb;leaders integer[];
  eta_at jsonb;eta_repeated jsonb;source_at jsonb;source_repeated jsonb;target_at jsonb;target_repeated jsonb;
@@ -309,7 +309,7 @@ begin
    'need_pcs',raw_need::text,'deadline',cp7_planning.utc(deadline),
    'risk_at',coalesce(line->'first_known_gap'->'at',to_jsonb(cp7_planning.utc(deadline))),
    'helps_at',cp7_planning.utc(helps),'production_status',production_status,'refs',refs));
-  baseline_lines:=array_append(baseline_lines,line);
+  baseline_lines:=array_append(baseline_lines,line);baseline_rows:=array_append(baseline_rows,r::text);
  end loop;
  targets:=to_jsonb(target_list);
  -- Model is an additional Native hard constraint absent from the retained
@@ -441,8 +441,11 @@ begin
    line_edges:=directed_edges||coalesce(candidates->(r->>'target_key'),'[]'::jsonb);
    -- With no supply edges all six immutable arguments equal the first call.
    -- Reuse only that invocation's result; no persisted cache or guard removal.
-   -- planned_repeated above rejects duplicate target keys before this lookup.
-   if line_edges='[]'::jsonb then line:=baseline_lines[(planned_index->>(r->>'target_key'))::integer];
+   -- planned_repeated above rejects duplicate planned keys, but a row skipped
+   -- before planning can share its key with a planned one: reuse only when
+   -- this is the very row the first call read (same jsonb text).
+   if line_edges='[]'::jsonb and baseline_rows[(planned_index->>(r->>'target_key'))::integer]=r::text then
+    line:=baseline_lines[(planned_index->>(r->>'target_key'))::integer];
    else line:=cp7_netting_native.timeline(c,r,etas,line_edges,matching,wip);end if;
   end if;
   row_list:=array_append(row_list,r||jsonb_build_object('raw_gap_pcs',raw_need::text,'directed_on_time_good_pcs',net->'directed_on_time_pcs',
