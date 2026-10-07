@@ -1,0 +1,166 @@
+import { readFileSync } from 'node:fs'
+import { jsonArg } from './runtime.mjs'
+import { functionBlocks } from './schedule-scenario-fixture.mjs'
+import { installNettingControls, nettingInput } from './netting-fixture.mjs'
+import { rng } from './demand-history-fixture.mjs'
+// P19 staged analysis (prototype) against the single compiler on the same
+// runtime: the real netting helpers, wip/demand/baseline kernels, analysis
+// build_operational, finance overlay, run table and the job store/segments.
+// Stand-ins, as in the netting and assembly fixtures: the schedule build
+// (c->'stub_scenario'), fabric plan/needs and accessory needs. These are
+// kernel comparisons, never Native/Auth/HTTP qualification.
+export const ACTOR = '03000000-0000-4000-8000-000000000001'
+export const ACCESS = { actor: ACTOR, profile: { role_code: 'OWNER' } }
+export const QUERY = { from_date: '2026-05-01', through_date: '2026-05-30', group_mode: 'AS_SOLD' }
+const pick = (text, ...names) => { const all = functionBlocks(text); return names.map(n => { if (!all.has(n)) throw new Error(n); return all.get(n) }).join('\n') }
+const read = path => readFileSync(path, 'utf8')
+
+export async function installStagedControls(db, { bounds = null } = {}) {
+  await installNettingControls(db)
+  const analysis = read('scripts/cp7-src/planning/analysis.sql'), finance = read('scripts/cp7-src/planning/analysis-finance.sql'), jobs = read('scripts/cp7-src/planning/analysis-jobs.sql')
+  const runs = analysis.slice(analysis.indexOf('create table cp7_analysis_native.runs('), analysis.indexOf('create function cp7_analysis_native.serve('))
+  const jobTables = jobs.slice(jobs.indexOf('create schema cp7_analysis_jobs'), jobs.indexOf('-- The capture compiler'))
+  await db.execute(`create schema cp7_private;
+   create function cp7_private.immutable_run()returns trigger language plpgsql set search_path='' as $$
+    begin raise exception using errcode='55000',message='CP7_RUN_IMMUTABLE';end $$;
+   create schema cp7_analysis_native authorization cp7_capture;create schema cp7_fabric_native;create schema cp7_supply_native;
+   grant usage on schema cp7_private,cp7_planning,cp7_schedule_native,cp7_netting_native,cp7_fabric_native,cp7_supply_native,extensions to cp7_capture;
+   ${pick(analysis, 'cp7_analysis_native.fact', 'cp7_analysis_native.fingerprint')}
+   ${pick(analysis, 'cp7_analysis_native.build').replace('create function cp7_analysis_native.build(', 'create function cp7_analysis_native.build_operational(')}
+   ${pick(finance, 'cp7_analysis_native.finance_apply', 'cp7_analysis_native.finance_overlay')}
+   ${[...functionBlocks(finance)].filter(([name]) => name === 'cp7_analysis_native.build').map(([, b]) => b).join('')}
+   create function cp7_supply_native.fingerprint(c jsonb)returns text language sql immutable as $$select 'EXPLICIT_STAGED_KERNEL_ONLY'::text$$;
+   create function cp7_fabric_native.plan(c jsonb,n jsonb)returns jsonb language sql immutable as $$
+    select jsonb_build_object('stand_in','EXPLICIT_STAGED_KERNEL_ONLY','rows',jsonb_array_length(coalesce(n->'rows','[]')),
+     'match_results',jsonb_array_length(coalesce(n->'match_results','[]')))$$;
+   create function cp7_fabric_native.needs(c jsonb,r jsonb,a jsonb,p jsonb)returns jsonb language sql immutable as $$
+    select case when r?'sql_null_fabric'then null else coalesce(r->'test_fabric','[]'::jsonb)end$$;
+   create function cp7_analysis_native.material_needs(c jsonb,r jsonb,a jsonb)returns jsonb language sql immutable as $$
+    select case when r?'sql_null_accessory'then null else coalesce(r->'test_accessory','[]'::jsonb)end$$;
+   ${runs}
+   ${jobTables}
+   ${pick(jobs, 'cp7_analysis_jobs.original', 'cp7_analysis_jobs.store')}
+   ${read('tests/cp7/families/f04/staged-analysis.prototype.sql')}
+   ${bounds ? `create or replace function cp7_analysis_stage.bounds()returns jsonb language sql immutable as $$select '${JSON.stringify(bounds)}'::jsonb$$;` : ''}
+   -- Single path and staged path on one input; both refusals as sqlstate:code.
+   create function public.st_single(c jsonb,q jsonb,p_run uuid,a jsonb)returns jsonb language plpgsql as $s$
+   declare r jsonb;begin r:=cp7_analysis_native.build(c||'{}'::jsonb,q,p_run,a);
+    return jsonb_build_object('state','DONE','sha256',encode(pg_catalog.sha256(convert_to(r::text,'UTF8')),'hex'),'bytes',octet_length(r::text),'body',r);
+   exception when others then return jsonb_build_object('state','REFUSED','sqlstate',sqlstate,'code',sqlerrm);end $s$;
+   create function public.st_netting(c jsonb,q jsonb)returns jsonb language plpgsql as $s$
+   declare r jsonb;begin r:=cp7_netting_native.build(c||'{}'::jsonb,q);return r;exception when others then return null;end $s$;
+   -- One whole case in one call: the job (every unit, in order), then the
+   -- single build with the job's run id, the netting rows, match results and
+   -- allocation of both paths.
+   create function public.st_case(c jsonb,p_request uuid)returns jsonb language plpgsql as $s$
+   declare job uuid;st jsonb;single jsonb;n jsonb;rid uuid;g jsonb;staged_rows jsonb;staged_matches jsonb;staged_alloc jsonb;result jsonb;ek jsonb;
+   begin
+    job:=cp7_analysis_stage.create_job('${ACTOR}',p_request,'${JSON.stringify(QUERY)}'::jsonb,'${JSON.stringify(ACCESS)}'::jsonb,c);
+    loop st:=cp7_analysis_stage.step(job);exit when st->>'state'<>'RUNNING';end loop;
+    select run_id into rid from cp7_analysis_stage.jobs where id=job;
+    single:=public.st_single(c,'${JSON.stringify(QUERY)}'::jsonb,rid,'${JSON.stringify(ACCESS)}'::jsonb);
+    n:=public.st_netting(c,'${JSON.stringify(QUERY)}'::jsonb);
+    select x.result into result from cp7_analysis_native.runs x where x.id=rid;
+    select coalesce(jsonb_agg(x.payload order by x.ord),'[]')into staged_rows from cp7_analysis_stage.target_rows x where x.job_id=job and x.kind='NETROW';
+    g:=cp7_analysis_stage.output(job,'NET_PREP');
+    select jsonb_agg(x->'key'order by o)into ek from jsonb_array_elements(g->'eligible')with ordinality e(x,o);
+    select coalesce(jsonb_agg(jsonb_build_object('position_key',ek->(y.i-1),'target_key',g->'row_target_keys'->(q.o::integer-1),'result',q.v)order by y.i,q.o),'[]')
+     into staged_matches from cp7_analysis_stage.pair_rows y cross join lateral jsonb_array_elements(y.pair_row)with ordinality q(v,o)where y.job_id=job;
+    staged_alloc:=coalesce(nullif(cp7_analysis_stage.output(job,'ALLOC_FINAL'),'null'),nullif(cp7_analysis_stage.output(job,'NET_PLAN')->'alloc','null'),nullif(g->'alloc','null'));
+    return jsonb_build_object('job',st->>'state','failure',st->'failure','single',single->>'state','single_sqlstate',single->>'sqlstate','single_code',single->>'code',
+     'same',result::text=(single->'body')::text,'bytes',octet_length(result::text),
+     'text_same',(select t.body from cp7_analysis_stage.texts t where t.job_id=job and t.kind='ANALYSIS')=(single->'body')::text,
+     'document_same',(select string_agg(x.body,''order by x.idx)from cp7_analysis_jobs.segments x where x.run_id=rid)
+      =(select cp7_analysis_jobs.original(r)::text from cp7_analysis_native.runs r where r.id=rid),
+     'netting_rows_same',staged_rows::text=coalesce(n->'rows','[]')::text,
+     'match_results_same',case when g->'wip_complete'='true'::jsonb then staged_matches::text=coalesce(n->'match_results','[]')::text else n->'match_results'is null end,
+     'allocation_same',case when jsonb_typeof(staged_alloc)='object'and jsonb_typeof(n->'allocation')='object'then(staged_alloc-'inputs')::text=((n->'allocation')-'inputs')::text else false end,
+     'allocation',n->'allocation'->>'status','edges',coalesce(jsonb_array_length(n->'allocation'->'allocation'->'edges'),0),
+     'confirmed',coalesce(jsonb_array_length(jsonb_path_query_array(n,'$.match_results[*] ? (@.result.match == "CONFIRMED_TARGET")')),0),
+     'recommendations',jsonb_array_length(result->'recommendations'),'rows',jsonb_array_length(staged_rows),
+     'units',(select jsonb_object_agg(k,v)from(select kind k,count(*)v from cp7_analysis_stage.units where job_id=job group by 1)u));
+   end $s$;
+   -- The staged allocation (prep, steps of p_step targets, final) and allocate
+   -- on one input, with allocate's own caps; refusals as sqlstate:message.
+   create function public.st_alloc(v jsonb,p_step integer)returns jsonb language plpgsql as $s$
+   declare s0 jsonb;carry jsonb;o jsonb;edges jsonb:='[]';rows jsonb:='[]';reviews jsonb:='[]';r0 jsonb;r1 jsonb;
+    s0s text:='NO_ERROR';s1s text:='NO_ERROR';n integer:=0;lo integer:=1;steps integer:=0;
+   begin
+    begin r0:=cp7_baseline.allocate(v);exception when others then s0s:=sqlstate||':'||sqlerrm;end;
+    begin
+     s0:=cp7_analysis_stage.alloc_prep(v,1000,100000);
+     if s0?'result'then r1:=s0->'result';
+     else
+      carry:=s0->'carry';n:=jsonb_array_length(s0->'ordered');
+      while lo<=n loop
+       o:=cp7_analysis_stage.alloc_step(s0,carry,lo,least(n,lo+p_step-1),100000);steps:=steps+1;
+       carry:=o->'carry';edges:=edges||(o->'edges');rows:=rows||(o->'rows');reviews:=reviews||(o->'reviews');lo:=lo+p_step;
+      end loop;
+      r1:=cp7_analysis_stage.alloc_final(v,carry,edges,rows,reviews);
+     end if;
+    exception when others then s1s:=sqlstate||':'||sqlerrm;end;
+    return jsonb_build_object('s0',s0s,'s1',s1s,'same',r0::text is not distinct from r1::text,'status',r0->>'status','steps',steps,
+     'edges',coalesce(jsonb_array_length(r0->'allocation'->'edges'),0));
+   end $s$;`)
+}
+
+// One complete netting capture plus what the analysis compiler reads.
+export function stagedInput(seed, shape, defect = null) {
+  const c = nettingInput(seed, { ...shape, defect })
+  // The analysis compiler reads one current product per root (as the Native
+  // history source captures it); the netting generator gives a root several
+  // sizes. Each sized product becomes its own root, consistently everywhere.
+  const sized = p => (p.size_id === null || p.size_id === undefined ? p : { ...p, root_id: `${p.root_id}-${p.size_id}` })
+  c.facts.products = c.facts.products.map(sized)
+  c.matching_products = c.matching_products.map(p => (p && typeof p === 'object' && 'root_id' in p ? sized(p) : p))
+  for (const row of c.stub_scenario.supply_run_result?.baseline_run_result?.rows ?? []) {
+    if (typeof row.target_key !== 'string' || !row.target_key.includes(':')) continue
+    const [root, size] = row.target_key.split(':')
+    row.target_key = `${root}-${size}:${size}`
+  }
+  const r = rng(seed ^ 0x5eed), chance = x => r() < x, int = n => Math.floor(r() * n)
+  const ref = (kind, id) => ({ kind, id, revision: '1' })
+  for (const p of c.facts.products) Object.assign(p, { brand_id: `brand-${int(3)}`, commercial: chance(0.5) ? [{ sku_id: `sku-${p.root_id}`, version_id: `skv-${p.root_id}` }] : [] })
+  const rows = c.stub_scenario.supply_run_result?.baseline_run_result?.rows ?? []
+  const stock = [], hist = []
+  rows.forEach((row, i) => {
+    Object.assign(row, { sku: `SKU-${i}`, profile: { ...(row.profile ?? {}), quality: chance(0.5) ? 'SELECTED_ASSUMPTION' : 'UNKNOWN', profile_id: `prof-${i}` } })
+    if (row.target && row.target.status === 'SCENARIO') row.target.horizon_days = String(2 + int(9)) + (chance(0.3) ? '.5' : '')
+    if (row.demand_estimate) row.demand_estimate.basis = chance(0.5) ? 'NATIVE_AVAILABLE_HISTORY' : 'SELECTED_MANUAL'
+    if (chance(0.4)) row.test_accessory = [{ target_key: row.target_key, material_key: `ACCESSORY:${i % 5}`, gross: { state: 'ASSUMED', value: '1.25', unit: 'PCS', refs: [ref('A', `a-${i}`)] } }]
+    if (chance(0.3)) row.test_fabric = [{ target_key: row.target_key, material_key: `FABRIC:${i % 3}`, additional_external: { state: 'UNKNOWN', unit: 'yd', reason: 'EXPLICIT_KERNEL_UNKNOWN', refs: [ref('F', `f-${i}`)] } }]
+    if (defect === 'NULL_ACCESSORY' && i === rows.length - 1) row.sql_null_accessory = true
+    stock.push({ target_key: row.target_key, availability: { physical_fg_pcs: String(int(40)), reserved_pcs: String(int(3)) }, refs: [ref('FG', `fg-${i}`)] })
+    hist.push({ target_key: row.target_key, available_days: String(int(30)), stockout_days: String(int(5)), unknown_days: String(int(2)) })
+  })
+  if (defect === 'DUP_STOCK' && stock.length) stock.push({ ...stock[0] })
+  if (c.stub_scenario.supply_run_result?.baseline_run_result) c.stub_scenario.supply_run_result.baseline_run_result.history_run_result = { current_stock: stock, history: { rows: hist } }
+  c.stub_scenario.capacity = { ...(c.stub_scenario.capacity ?? {}), inputs: { windows: [{ existing_load_minutes: '12.5' }, { existing_load_minutes: '3' }] } }
+  const selected = rows.filter(() => chance(0.2)).map((row, i) => ({ id: `fab-${i}`, target_key: row.target_key }))
+  const financial = seed % 3 === 0 ? null : {
+    contract_version: 'cp7.native-analysis-finance.v1', dates: { from: QUERY.from_date, to: QUERY.through_date, as_of: '2026-06-01' }, book_signature: 'b'.repeat(64), source_hash: 'f'.repeat(64),
+    report: { captured_at: c.captured_at, snapshot: { data_confidence: { status: seed % 3 === 1 ? 'READY' : 'RECALC_PENDING' }, basis: { performance_lifecycle_basis: 'POSTED' },
+      performance: { sales_revenue_gl: '1250000.00', cogs_gl: '-800000.00', gross_margin_pct: '36.0' }, financial_position: { cash: '125000.50', inventory: '9000000' } } } }
+  return { ...c, status: defect === 'CAPTURE_INCOMPLETE' ? 'INCOMPLETE' : 'COMPLETE', analysis_engine_signature: 'e'.repeat(64), profiles: [], production_policies: { rows: [] },
+    planning_time_bucket: 'FIXED_TEST', material_source: { captured_at: c.captured_at, items: [] }, fabric_source: { selected, captured_at: c.captured_at }, financial_source: financial }
+}
+export const STAGED_DEFECTS = ['NULL_ACCESSORY', 'DUP_STOCK', 'CAPTURE_INCOMPLETE']
+
+// Runs a job to its end. oneCallPerUnit: every unit in its own psql session
+// under the 8 s statement limit, as ordinary requests; otherwise one session.
+export async function runJob(db, c, { request, oneCallPerUnit = false, timeout = '8s', onStep = null } = {}) {
+  const [{ job }] = await db.query(`select cp7_analysis_stage.create_job('${ACTOR}','${request}',${jsonArg(QUERY)},${jsonArg(ACCESS)},${jsonArg(c)}) job`)
+  if (!oneCallPerUnit) {
+    await db.execute(`do $d$declare s jsonb;begin loop s:=cp7_analysis_stage.step('${job}');exit when s->>'state'<>'RUNNING';end loop;end $d$;`)
+  } else {
+    for (let k = 0; k < 10000; k++) {
+      const t0 = Date.now()
+      const out = await db.execute(`set statement_timeout='${timeout}';select cp7_analysis_stage.step('${job}')::text;`)
+      const status = JSON.parse(String(out).trim().split('\n').at(-1))
+      if (onStep) await onStep(status, Date.now() - t0)
+      if (status.state !== 'RUNNING') break
+    }
+  }
+  const [state] = await db.query(`select cp7_analysis_stage.status('${job}') s, (select run_id from cp7_analysis_stage.jobs where id='${job}') run_id`)
+  return { job, status: state.s, run_id: state.run_id }
+}

@@ -1,0 +1,65 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5k/repo
+
+stdout | tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal
+{"cases":714,"compared":765,"scenarios":621,"multi_step":389,"edges":615,"refusals":24}
+
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts (4 tests | 2 failed) 49490ms
+   × P19 staged allocation equals allocate byte for byte, including the first refusal 26811ms
+   × P19 staged job Original equals the single build byte for byte; refusals are the same refusals 6559ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal
+AssertionError: expected 615 to be greater than 1000
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:42:99
+     40|     }
+     41|     console.log(JSON.stringify({ cases: cases.length, compared, scenar…
+     42|     expect(scenarios).toBeGreaterThan(500); expect(multiStep).toBeGrea…
+       |                                                                                                   ^
+     43|     for (const code of ['P0001:CP7_BASELINE_ALLOCATION_LIMIT', 'P0001:…
+     44|       'P0001:CP7_BASELINE_TARGET_MATCH_BINDING', 'P0001:CP7_BASELINE_S…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals
+AssertionError: expected [ 1, 'WIP_INCOMPLETE', 'DONE', …(4) ] to deeply equal [ 1, 'WIP_INCOMPLETE', 'DONE', …(4) ]
+
+- Expected
++ Received
+
+@@ -3,7 +3,7 @@
+    "WIP_INCOMPLETE",
+    "DONE",
+    true,
+    true,
+    true,
+-   true,
++   false,
+  ]
+
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:117:112
+    115|           refusals.add(`${row.single_sqlstate}:${row.single_code}`); r…
+    116|         }
+    117|         expect([...id, row.job, row.same, row.netting_rows_same, row.m…
+       |                                                                                                                ^
+    118|         done++; if (row.allocation === 'SCENARIO') allocated++; edges …
+    119|         if ((row.units.NET_PAIRS ?? 0) > 1) multiPair++; if ((row.unit…
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:104:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  10:21:03
+   Duration  50.03s (transform 293ms, setup 0ms, import 336ms, tests 49.49s, environment 0ms)
+

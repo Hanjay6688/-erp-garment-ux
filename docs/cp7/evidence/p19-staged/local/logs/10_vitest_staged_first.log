@@ -1,0 +1,60 @@
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts (4 tests | 2 failed) 50557ms
+   × P19 staged allocation equals allocate byte for byte, including the first refusal 31604ms
+   × P19 staged job Original equals the single build byte for byte; refusals are the same refusals 2698ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal
+AssertionError: expected 615 to be greater than 1000
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:42:99
+     40|     }
+     41|     console.log(JSON.stringify({ cases: cases.length, compared, scenar…
+     42|     expect(scenarios).toBeGreaterThan(500); expect(multiStep).toBeGrea…
+       |                                                                                                   ^
+     43|     for (const code of ['P0001:CP7_BASELINE_ALLOCATION_LIMIT', 'P0001:…
+     44|       'P0001:CP7_BASELINE_TARGET_MATCH_BINDING', 'P0001:CP7_BASELINE_S…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals
+Error: Command failed: /usr/lib/postgresql/16/bin/psql -X -q -A -t -v ON_ERROR_STOP=1 -h /tmp/cp7-f04-xNd48W -U cp7_f04_test -d postgres
+ERROR:  operator is not unique: unknown - unknown
+LINE 5: ...nputs')::text is not distinct from(n->'allocation'-'inputs')...
+                                                             ^
+HINT:  Could not choose a best candidate operator. You might need to add explicit type casts.
+QUERY:  jsonb_build_object('job',st->>'state','failure',st->'failure','single',single->>'state','single_sqlstate',single->>'sqlstate','single_code',single->>'code',
+     'same',result::text=(single->'body')::text,'bytes',octet_length(result::text),
+     'netting_rows_same',staged_rows::text=coalesce(n->'rows','[]')::text,
+     'match_results_same',case when g->'wip_complete'='true'::jsonb then staged_matches::text=coalesce(n->'match_results','[]')::text else n->'match_results'is null end,
+     'allocation_same',(staged_alloc-'inputs')::text is not distinct from(n->'allocation'-'inputs')::text,
+     'allocation',n->'allocation'->>'status','edges',coalesce(jsonb_array_length(n->'allocation'->'allocation'->'edges'),0),
+     'confirmed',coalesce(jsonb_array_length(jsonb_path_query_array(n,'$.match_results[*] ? (@.result.match == "CONFIRMED_TARGET")')),0),
+     'recommendations',jsonb_array_length(result->'recommendations'),'rows',jsonb_array_length(staged_rows),
+     'units',(select jsonb_object_agg(k,v)from(select kind k,count(*)v from cp7_analysis_stage.units where job_id=job group by 1)u))
+CONTEXT:  PL/pgSQL function st_case(jsonb,uuid) line 16 at RETURN
+
+ ❯ command tests/cp7/families/f04/runtime.mjs:56:51
+     54|     // Unrelated PG* credentials/URLs cannot redirect this disposable …
+     55|     const env = Object.fromEntries(Object.entries(process.env).filter(…
+     56|     const command = (name, args, options = {}) => execFileSync(join(bi…
+       |                                                   ^
+     57|     close = async () => {
+     58|       if (started || existsSync(join(data, 'postmaster.pid'))) { comma…
+ ❯ psql tests/cp7/families/f04/runtime.mjs:65:27
+ ❯ Object.query tests/cp7/families/f04/runtime.mjs:68:24
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:102:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  10:19:57
+   Duration  51.63s (transform 524ms, setup 0ms, import 624ms, tests 50.56s, environment 0ms)
+

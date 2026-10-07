@@ -51,14 +51,16 @@ end $$;
 -- non-array still fails at the same position. A scalar subquery that could
 -- see two rows (matching product, position_model's group/origin/NONPO join)
 -- refuses as that subquery did; SELECT INTO lookups keep the first row.
-create function cp7_netting_native.matching_models(c jsonb,wip jsonb)returns jsonb
+-- p_limit bounds the matching products of one call. The single capture call
+-- keeps 5000 (matching_models below); the staged job passes its own bound.
+create function cp7_netting_native.matching_models_within(c jsonb,wip jsonb,p_limit integer)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
 declare p jsonb;product jsonb;g jsonb;rw jsonb;constraints jsonb;refs jsonb;sources jsonb[]:='{}';targets jsonb[]:='{}';
  model text;bound_model text;confirmed text;quality text;id text;kind text;part text;facts jsonb:=c->'production_sources'->'facts';
  by_id jsonb;by_id_repeated jsonb;origins jsonb;origins_repeated jsonb;other_bs jsonb;reworks jsonb;all_bs jsonb;
  groups jsonb;groups_repeated jsonb;nonpo jsonb;root_models jsonb;position_texts text[]:='{}';position_models text[]:='{}';
 begin
- if jsonb_array_length(c->'matching_products')>5000 then raise exception 'CP7_NETTING_MATCH_SOURCE_LIMIT';end if;
+ if jsonb_array_length(c->'matching_products')>p_limit then raise exception 'CP7_NETTING_MATCH_SOURCE_LIMIT';end if;
  for product in select value from jsonb_array_elements(c->'facts'->'products')order by value->>'root_id'loop
   if by_id is null then
    select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into by_id,by_id_repeated
@@ -167,6 +169,12 @@ begin
  end loop;
  return jsonb_build_object('matching',jsonb_build_object('snapshot_id',wip->'snapshot_id','sources',to_jsonb(sources),'targets',to_jsonb(targets)),
   'models',(select coalesce(jsonb_object_agg(u.k,u.m),'{}')from unnest(position_texts,position_models)u(k,m)));
+end $$;
+
+create function cp7_netting_native.matching_models(c jsonb,wip jsonb)returns jsonb
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+begin
+ return cp7_netting_native.matching_models_within(c,wip,5000);
 end $$;
 
 create function cp7_netting_native.matching(c jsonb,wip jsonb)returns jsonb
@@ -514,6 +522,7 @@ end $$;
 alter function cp7_netting_native.source()owner to cp7_capture;
 alter function cp7_netting_native.fingerprint(jsonb)owner to cp7_capture;
 alter function cp7_netting_native.bound_product(jsonb,jsonb)owner to cp7_capture;
+alter function cp7_netting_native.matching_models_within(jsonb,jsonb,integer)owner to cp7_capture;
 alter function cp7_netting_native.matching_models(jsonb,jsonb)owner to cp7_capture;
 alter function cp7_netting_native.matching(jsonb,jsonb)owner to cp7_capture;
 alter function cp7_netting_native.matches(jsonb,jsonb,jsonb,jsonb)owner to cp7_capture;

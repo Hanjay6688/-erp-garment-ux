@@ -1,0 +1,432 @@
+{
+ "contract": "cp7.p19.staged-analysis-kernel.v0",
+ "label": "LOCAL_PG16_DEV_KERNEL_STAND_INS_NOT_EVIDENCE",
+ "statement_timeout": "8s",
+ "limits_raised": false,
+ "vectors": [
+  {
+   "targets": 5000,
+   "positions": 1,
+   "state": "FAILED",
+   "failure": {
+    "code": "CP7_ANALYSIS_STAGE_STOPPED",
+    "unit": 44,
+    "sqlstate": "57014"
+   },
+   "unit_count": 45,
+   "wall_ms": 71149,
+   "max_unit_server_ms": 2430.6,
+   "units_over_4000ms": 0,
+   "retries": 3,
+   "completeness": null,
+   "server_ms_by_stage": {
+    "SCENARIO": 428.6,
+    "NET_PREP": 857.7,
+    "NET_TARGETS": 14102.8,
+    "NET_PLAN": 434,
+    "ALLOC_PREP": 1548.2,
+    "ALLOC_STEP": 817.5,
+    "ALLOC_FINAL": 304.6,
+    "NET_ROWS": 7216.3,
+    "FABRIC_PLAN": 135.5,
+    "ANA_TARGETS": 14065.5,
+    "ANA_META": 283.5,
+    "ANA_TEXT": 2430.6,
+    "RUN_INSERT": 2094,
+    "DOC_STORE": 0
+   },
+   "max_server_ms_by_stage": {
+    "SCENARIO": 428.6,
+    "NET_PREP": 857.7,
+    "NET_TARGETS": 1519.3,
+    "NET_PLAN": 434,
+    "ALLOC_PREP": 1548.2,
+    "ALLOC_STEP": 208.9,
+    "ALLOC_FINAL": 304.6,
+    "NET_ROWS": 995.2,
+    "FABRIC_PLAN": 135.5,
+    "ANA_TARGETS": 1740.2,
+    "ANA_META": 283.5,
+    "ANA_TEXT": 2430.6,
+    "RUN_INSERT": 2094,
+    "DOC_STORE": 0
+   },
+   "units": [
+    {
+     "unit": 0,
+     "stage": "SCENARIO",
+     "lo": null,
+     "hi": null,
+     "server_ms": 428.6,
+     "client_ms": 492
+    },
+    {
+     "unit": 1,
+     "stage": "NET_PREP",
+     "lo": null,
+     "hi": null,
+     "server_ms": 857.7,
+     "client_ms": 917
+    },
+    {
+     "unit": 2,
+     "stage": "NET_TARGETS",
+     "lo": 1,
+     "hi": 500,
+     "server_ms": 1519.3,
+     "client_ms": 1547
+    },
+    {
+     "unit": 3,
+     "stage": "NET_TARGETS",
+     "lo": 501,
+     "hi": 1000,
+     "server_ms": 1451.6,
+     "client_ms": 1480
+    },
+    {
+     "unit": 4,
+     "stage": "NET_TARGETS",
+     "lo": 1001,
+     "hi": 1500,
+     "server_ms": 1412.3,
+     "client_ms": 1441
+    },
+    {
+     "unit": 5,
+     "stage": "NET_TARGETS",
+     "lo": 1501,
+     "hi": 2000,
+     "server_ms": 1222.3,
+     "client_ms": 1242
+    },
+    {
+     "unit": 6,
+     "stage": "NET_TARGETS",
+     "lo": 2001,
+     "hi": 2500,
+     "server_ms": 1473.1,
+     "client_ms": 1497
+    },
+    {
+     "unit": 7,
+     "stage": "NET_TARGETS",
+     "lo": 2501,
+     "hi": 3000,
+     "server_ms": 1365.6,
+     "client_ms": 1384
+    },
+    {
+     "unit": 8,
+     "stage": "NET_TARGETS",
+     "lo": 3001,
+     "hi": 3500,
+     "server_ms": 1319,
+     "client_ms": 1352
+    },
+    {
+     "unit": 9,
+     "stage": "NET_TARGETS",
+     "lo": 3501,
+     "hi": 4000,
+     "server_ms": 1440.8,
+     "client_ms": 1458
+    },
+    {
+     "unit": 10,
+     "stage": "NET_TARGETS",
+     "lo": 4001,
+     "hi": 4500,
+     "server_ms": 1424.5,
+     "client_ms": 1454
+    },
+    {
+     "unit": 11,
+     "stage": "NET_TARGETS",
+     "lo": 4501,
+     "hi": 5000,
+     "server_ms": 1474.3,
+     "client_ms": 1501
+    },
+    {
+     "unit": 12,
+     "stage": "NET_PLAN",
+     "lo": null,
+     "hi": null,
+     "server_ms": 434,
+     "client_ms": 532
+    },
+    {
+     "unit": 13,
+     "stage": "ALLOC_PREP",
+     "lo": null,
+     "hi": null,
+     "server_ms": 1548.2,
+     "client_ms": 1595
+    },
+    {
+     "unit": 14,
+     "stage": "ALLOC_STEP",
+     "lo": 1,
+     "hi": 1000,
+     "server_ms": 151.8,
+     "client_ms": 184
+    },
+    {
+     "unit": 15,
+     "stage": "ALLOC_STEP",
+     "lo": 1001,
+     "hi": 2000,
+     "server_ms": 149.7,
+     "client_ms": 209
+    },
+    {
+     "unit": 16,
+     "stage": "ALLOC_STEP",
+     "lo": 2001,
+     "hi": 3000,
+     "server_ms": 146,
+     "client_ms": 171
+    },
+    {
+     "unit": 17,
+     "stage": "ALLOC_STEP",
+     "lo": 3001,
+     "hi": 4000,
+     "server_ms": 161.1,
+     "client_ms": 196
+    },
+    {
+     "unit": 18,
+     "stage": "ALLOC_STEP",
+     "lo": 4001,
+     "hi": 5000,
+     "server_ms": 208.9,
+     "client_ms": 241
+    },
+    {
+     "unit": 19,
+     "stage": "ALLOC_FINAL",
+     "lo": null,
+     "hi": null,
+     "server_ms": 304.6,
+     "client_ms": 368
+    },
+    {
+     "unit": 20,
+     "stage": "NET_ROWS",
+     "lo": 1,
+     "hi": 500,
+     "server_ms": 746.4,
+     "client_ms": 776
+    },
+    {
+     "unit": 21,
+     "stage": "NET_ROWS",
+     "lo": 501,
+     "hi": 1000,
+     "server_ms": 818.5,
+     "client_ms": 843
+    },
+    {
+     "unit": 22,
+     "stage": "NET_ROWS",
+     "lo": 1001,
+     "hi": 1500,
+     "server_ms": 918,
+     "client_ms": 968
+    },
+    {
+     "unit": 23,
+     "stage": "NET_ROWS",
+     "lo": 1501,
+     "hi": 2000,
+     "server_ms": 879,
+     "client_ms": 935
+    },
+    {
+     "unit": 24,
+     "stage": "NET_ROWS",
+     "lo": 2001,
+     "hi": 2500,
+     "server_ms": 995.2,
+     "client_ms": 1021
+    },
+    {
+     "unit": 25,
+     "stage": "NET_ROWS",
+     "lo": 2501,
+     "hi": 3000,
+     "server_ms": 841.5,
+     "client_ms": 877
+    },
+    {
+     "unit": 26,
+     "stage": "NET_ROWS",
+     "lo": 3001,
+     "hi": 3500,
+     "server_ms": 490.8,
+     "client_ms": 564
+    },
+    {
+     "unit": 27,
+     "stage": "NET_ROWS",
+     "lo": 3501,
+     "hi": 4000,
+     "server_ms": 470.8,
+     "client_ms": 496
+    },
+    {
+     "unit": 28,
+     "stage": "NET_ROWS",
+     "lo": 4001,
+     "hi": 4500,
+     "server_ms": 546,
+     "client_ms": 564
+    },
+    {
+     "unit": 29,
+     "stage": "NET_ROWS",
+     "lo": 4501,
+     "hi": 5000,
+     "server_ms": 510.1,
+     "client_ms": 547
+    },
+    {
+     "unit": 30,
+     "stage": "FABRIC_PLAN",
+     "lo": null,
+     "hi": null,
+     "server_ms": 135.5,
+     "client_ms": 170
+    },
+    {
+     "unit": 31,
+     "stage": "ANA_TARGETS",
+     "lo": 1,
+     "hi": 500,
+     "server_ms": 1475.7,
+     "client_ms": 1500
+    },
+    {
+     "unit": 32,
+     "stage": "ANA_TARGETS",
+     "lo": 501,
+     "hi": 1000,
+     "server_ms": 1740.2,
+     "client_ms": 1772
+    },
+    {
+     "unit": 33,
+     "stage": "ANA_TARGETS",
+     "lo": 1001,
+     "hi": 1500,
+     "server_ms": 1484.8,
+     "client_ms": 1514
+    },
+    {
+     "unit": 34,
+     "stage": "ANA_TARGETS",
+     "lo": 1501,
+     "hi": 2000,
+     "server_ms": 1332.8,
+     "client_ms": 1357
+    },
+    {
+     "unit": 35,
+     "stage": "ANA_TARGETS",
+     "lo": 2001,
+     "hi": 2500,
+     "server_ms": 1219,
+     "client_ms": 1238
+    },
+    {
+     "unit": 36,
+     "stage": "ANA_TARGETS",
+     "lo": 2501,
+     "hi": 3000,
+     "server_ms": 1418.5,
+     "client_ms": 1447
+    },
+    {
+     "unit": 37,
+     "stage": "ANA_TARGETS",
+     "lo": 3001,
+     "hi": 3500,
+     "server_ms": 1291.3,
+     "client_ms": 1324
+    },
+    {
+     "unit": 38,
+     "stage": "ANA_TARGETS",
+     "lo": 3501,
+     "hi": 4000,
+     "server_ms": 1276.9,
+     "client_ms": 1310
+    },
+    {
+     "unit": 39,
+     "stage": "ANA_TARGETS",
+     "lo": 4001,
+     "hi": 4500,
+     "server_ms": 1313.7,
+     "client_ms": 1343
+    },
+    {
+     "unit": 40,
+     "stage": "ANA_TARGETS",
+     "lo": 4501,
+     "hi": 5000,
+     "server_ms": 1512.6,
+     "client_ms": 1551
+    },
+    {
+     "unit": 41,
+     "stage": "ANA_META",
+     "lo": null,
+     "hi": null,
+     "server_ms": 283.5,
+     "client_ms": 304
+    },
+    {
+     "unit": 42,
+     "stage": "ANA_TEXT",
+     "lo": null,
+     "hi": null,
+     "server_ms": 2430.6,
+     "client_ms": 2449
+    },
+    {
+     "unit": 43,
+     "stage": "RUN_INSERT",
+     "lo": null,
+     "hi": null,
+     "server_ms": 2094,
+     "client_ms": 2146
+    },
+    {
+     "unit": 44,
+     "stage": "DOC_STORE",
+     "lo": null,
+     "hi": null,
+     "server_ms": null,
+     "client_ms": 8134
+    }
+   ]
+  }
+ ],
+ "status": "INCOMPLETE",
+ "production_go": false,
+ "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+ "version": "PostgreSQL 16.13 (Ubuntu 16.13-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+ "bounds": {
+  "job_pairs": 1000000,
+  "job_targets": 5000,
+  "pairs_per_chunk": 100000,
+  "targets_per_chunk": 500,
+  "job_matching_products": 10000,
+  "visits_per_allocation_step": 100000,
+  "allocation_targets_per_step": 1000
+ },
+ "error": "Error: P19_STAGED_NOT_DONE 5000x1 {\"code\":\"CP7_ANALYSIS_STAGE_STOPPED\",\"unit\":44,\"sqlstate\":\"57014\"}"
+}

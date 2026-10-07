@@ -101,6 +101,8 @@ test('P19 analysis job states, exact segmented Original, refusals and privileges
    expect(Buffer.byteLength(s.body, 'utf8')).toBe(s.utf8_bytes)
    expect(s.utf8_bytes).toBeLessThanOrEqual(8000000)
    expect(sha(s.body)).toBe(s.sha256)
+   // substr(body,i*n+1,n): every segment but the last holds exactly n code points.
+   if (i < manifest.document.segment_count - 1) expect([...s.body].length).toBe(2000000)
    parts.push(s.body)
   }
   const whole = parts.join('')

@@ -1,0 +1,104 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5k/repo
+
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > below the old caps, data with no exhausted group: same source, WIP and supply build except the declared v2 fields 10122ms
+stdout | tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal
+{"cases":714,"compared":765,"scenarios":621,"multi_step":389,"edges":615,"refusals":24}
+
+ ✓ tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal 30363ms
+stdout | tests/cp7/families/f05-staged-analysis.test.ts > P19 linear check_allocations equals its predecessor, including the first refusal
+{"cases":1890,"same":1630,"refusals":["P0001:CP7_WIP_MATCH_SNAPSHOT","P0001:CP7_WIP_MATCH_DUPLICATE","22023:CP7_WIP_KEY","22023:CP7_WIP_PCS","22023:cannot extract elements from a scalar"]}
+
+ ✓ tests/cp7/families/f05-staged-analysis.test.ts > P19 linear check_allocations equals its predecessor, including the first refusal 11626ms
+stdout | tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals
+{"cases":162,"done":80,"allocated":36,"edges":38,"confirmed":368,"multi_pair_chunks":47,"multi_alloc_steps":32,"divergences":["1:MATCH_LIMIT","2:MATCH_LIMIT","3:MATCH_LIMIT"],"refusals":["P0001:CP7_NETTING_WORK_LIMIT","P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING","21000:more than one row returned by a subquery used as an expression","P0001:CP7_NETTING_NATIVE_SOURCE_SIZE","22023:CP7_WIP_KEY","22007:invalid input syntax for type timestamp with time zone: \"not-a-time\"","P0001:CP7_BASELINE_ETA_BINDING","P0001:CP7_BASELINE_TARGET","22023:CP7_F04_DECIMAL","P0001:CP7_NETTING_TIMELINE_HORIZON_LIMIT","22023:CP7_WIP_REFS","22023:CP7_WIP_PCS","22023:cannot extract elements from a scalar","22023:cannot extract elements from an object","P0001:CP7_WIP_MATCH_DUPLICATE"]}
+
+ ✓ tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals 70363ms
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ ✓ tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job: progress from stored rows, retry after the statement limit, refusal, no double worker, immutable outputs 7315ms
+ ✓ tests/cp7/families/f04-demand-history-linear.test.ts > P19 linear demand-1 history equals the predecessor byte for byte, including the first refusal 151751ms
+ ✓ tests/cp7/families/f04-wip-normalize-linear.test.ts > PL-8 linear cutting normalization, settle_bs, reconcile and production merge equal their predecessors byte for byte, including the first refusal 95923ms
+stdout | tests/cp7/families/f04-baseline-build-linear.test.ts > P19 baseline build equals its predecessor byte for byte, including the first refusal
+{"cases":503,"modes":3,"compared":364,"profiled":2145,"stocked":2232,"reasons":{"PRODUCTION_DISABLED_EXISTING_STOCK_STILL_SELLABLE":1174,"AUTHORITATIVE_WIP_MATCHING_CALENDAR_CAPACITY_NOT_CAPTURED":511,"PRODUCTION_POLICY_UNREVIEWED_OR_IDENTITY_UNAVAILABLE":675},"refusals":["21000:more than one row returned by a subquery used as an expression","22023:cannot extract elements from an object","22023:cannot extract elements from a scalar","22023:CP7_F04_DECIMAL","22023:CP7_WIP_KEY"],"refused_by":{"PROFILE_REPEAT_USED":["21000:more than one row returned by a subquery used as an expression"],"PROFILES_OBJECT":["22023:cannot extract elements from an object"],"PROFILES_SCALAR":["22023:cannot extract elements from a scalar"],"PROFILE_BAD_CONFIG":["22023:CP7_F04_DECIMAL","22023:CP7_WIP_KEY"],"POLICIES_OBJECT":["22023:cannot extract elements from an object"],"STOCK_REPEAT_USED":["21000:more than one row returned by a subquery used as an expression"],"STOCK_OBJECT":["22023:cannot extract elements from an object"]}}
+
+stdout | tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > generated lifecycles and planted faults: only spent groups leave, every kept position, total and signal is the predecessor's, every refusal too
+{"pl8_lifecycle_parity":{"compared":216,"complete":76,"pruned_groups":1126,"pruned_pools":1507,"none_pruned":92,"source_refused":0,"refused_graphs_with_other_batches_pruned":48,"outcomes":["COMPLETE:","CONFLICT:BS_SOURCE_LINEAGE_MISMATCH","CONFLICT:CANCELLED_BS_SOURCE_UNPROVEN","CONFLICT:DELIVERY_SIZE_TOTAL_MISMATCH","CONFLICT:DUPLICATE_BS_FG_DISPOSITION","CONFLICT:FAILED_ATTEMPT_IS_NOT_PHYSICAL_RECEIPT","CONFLICT:MISSING_STUCK_CLAIM_REQUIRES_DELIVERY_SOURCE","CONFLICT:NEGATIVE_PREFIX","CONFLICT:QC_RECEIPT_LINEAGE_MISMATCH","CONFLICT:QC_RECEIPT_PARENT_MISSING","CONFLICT:RECEIPT_DELIVERY_LINEAGE_MISMATCH","CONFLICT:RECEIPT_SIZE_TOTAL_MISMATCH","CONFLICT:REDISPATCH_RANGE_LINEAGE_CONFLICT","CONFLICT:REWORK_COMPLETION_MISMATCH","CONFLICT:REWORK_RESOLUTION_LINEAGE_MISMATCH","CP7_WIP_KEY","CP7_WIP_TRANSITION_QUANTITY","UNKNOWN:BS_EXACT_SIZE_UNPROVEN","UNKNOWN:BS_HOLD_STATE_UNPROVEN","UNKNOWN:CANCELLED_BS_SOURCE_UNPROVEN","UNKNOWN:CUTTING_YIELDS_MISSING","UNKNOWN:DELIVERY_EXACT_SIZE_UNPROVEN","UNKNOWN:DISPOSITION_TYPE_UNPROVEN","UNKNOWN:LEGACY_RECEIPT_CUSTODY_REQUIRES_RECONCILIATION","UNKNOWN:RECEIPT_EXACT_SIZE_UNPROVEN","UNKNOWN:REWORK_COMPLETION_NOT_POSTED"]}}
+
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > generated lifecycles and planted faults: only spent groups leave, every kept position, total and signal is the predecessor's, every refusal too 234046ms
+stdout | tests/cp7/families/f04-baseline-build-linear.test.ts > P19 baseline build equals its predecessor byte for byte, including the first refusal
+{"mutants_caught_in_first_failing_batch":{"PROFILE_REPEAT_SILENT":1,"STOCK_REPEAT_SILENT":1,"POLICY_LAST":16,"POLICY_ANY_ELEMENT":1,"POLICY_OBJECT_DROPPED":1,"POLICY_STRING_DROPPED":1,"PROFILES_EAGER":1}}
+
+ ✓ tests/cp7/families/f04-baseline-build-linear.test.ts > P19 baseline build equals its predecessor byte for byte, including the first refusal 94433ms
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > spent kinds are pruned and listed; open, flagged, failed-attempt, held, open-rework and open-claim groups never are 3064ms
+stdout | tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > more than 1000 SYNTHETIC spent groups plus open work: completes with the per-target numbers of the open work alone; the predecessor refuses
+{"pl8_mixed_netting_ms":3780,"spent_clones":1120,"open_positions":84}
+
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > more than 1000 SYNTHETIC spent groups plus open work: completes with the per-target numbers of the open work alone; the predecessor refuses 10881ms
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > fail-closed: a batch whose graph is not COMPLETE prunes nothing; capture and scope refusals stay 11017ms
+ ✓ tests/cp7/families/f04-supply-exhausted.test.ts > PL-8 exhausted cutting groups leave the global supply source > open intents are never pruned; a spent intent group closes through production_scope.exhausted_cutting_groups 860ms
+ ✓ tests/cp7/families/f04-netting-linear.test.ts > P19 netting build equals its predecessor byte for byte, including the first refusal 91135ms
+stdout | tests/cp7/families/f04-allocation-linear.test.ts > P19 allocation equals its predecessor byte for byte, including the first refusal
+{"cases":1187,"modes":3,"compared":428,"scenarios":348,"edges":{"CANDIDATE_MATCH":184,"CONFIRMED_TARGET":86},"reviews":{"TIME_UNKNOWN":430,"ETA_OR_YIELD_UNKNOWN":2653,"UNKNOWN":710,"INCOMPATIBLE":1321,"NEEDS_CHECK":882},"refusals":["22023:CP7_WIP_DUPLICATE_REF","P0001:CP7_BASELINE_SCOPE","22023:CP7_WIP_PCS","P0001:CP7_F04_CONTRACT","22023:CP7_WIP_FIELDS","P0001:CP7_BASELINE_MATCH_SNAPSHOT","P0001:CP7_WIP_MATCH_DUPLICATE","22023:CP7_WIP_KEY","P0001:CP7_F04_ARRAY_LIMIT","P0001:CP7_BASELINE_ALLOCATION_LIMIT","P0001:CP7_BASELINE_DUPLICATE_POOL","P0001:CP7_BASELINE_POSITION","P0001:CP7_BASELINE_YIELD","P0001:CP7_BASELINE_ETA_BINDING","P0001:CP7_F04_INSTANT_UTC","P0001:CP7_BASELINE_TARGET","P0001:CP7_BASELINE_TARGET_MATCH_BINDING","22023:cannot extract elements from a scalar","P0001:CP7_WIP_CONSTRAINT","P0001:CP7_WIP_MATCH_BINDING","22023:CP7_WIP_REFS","22008:date/time field value out of range: \"2026-13-01\"","P0001:CP7_BASELINE_SOURCE_MATCH_BINDING","P0001:CP7_WIP_QUALITY"]}
+
+ ✓ tests/cp7/families/f04-schedule-scenario-linear.test.ts > P19 schedule scenario and project_yield equal their predecessors byte for byte, including the first refusal 95494ms
+stdout | tests/cp7/families/f04-allocation-linear.test.ts > P19 allocation equals its predecessor byte for byte, including the first refusal
+{"mutants_caught_in_first_failing_batch":{"MEMO_WITHOUT_PROOF":1,"MEMO_WITHOUT_CONSTRAINTS":6,"MEMO_WITHOUT_CONFIRMED":1,"MEMO_WITHOUT_TARGET":7,"ETA_NULLS_FIRST":1,"POOL_CAP_DROPPED":1,"REPEATED_TARGET_SILENT":1,"INELIGIBLE_LISTED":1}}
+
+ ✓ tests/cp7/families/f04-allocation-linear.test.ts > P19 allocation equals its predecessor byte for byte, including the first refusal 71462ms
+ ✓ tests/cp7/families/f05-kernel-maps.test.ts > P19 kernel maps equal the predecessor for rich edges, match results, ETAs, sources and inputs 11908ms
+ ✓ tests/cp7/families/f04-history-build-linear.test.ts > P19 history_build with per-root sums equals its predecessor byte for byte, including the reservation refusal 15299ms
+ ✓ tests/cp7/families/f05-timeline.test.ts > ordered timeline aggregation equals the predecessor including intraday rows, nulls and exact decimals 51702ms
+ ✓ tests/cp7/families/f05-assembly.test.ts > P19 full assembler preserves every predecessor field, row order, assumptions and refusal 5447ms
+ ✓ tests/cp7/families/f04-demand-estimate-rounding.test.ts > own-history target equals the exact ceil(total*(L+R+B)/days), never one piece more 7118ms
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid) line 9 at RAISE
+SQL function "erp_cp7_request_analysis_job_v1" statement 1
+ERROR:  CP7_MODEL_CONFIG_AFTER_VALIDATION_START
+CONTEXT:  PL/pgSQL function cp7_models.evaluate(jsonb) line 35 at RAISE
+ ✓ tests/cp7/families/f05-report-render.test.ts > P19 report_render with grouped labels equals the predecessor text, refusal and order 9667ms
+ ✓ tests/cp7/families/f04-model-knowledge-cutoff.test.ts > folds complete when each closed day becomes known on the next WIB day, and nothing later leaks in 1617ms
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 10 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.manifest(uuid) line 6 at RAISE
+SQL function "erp_cp7_read_analysis_manifest_v1" statement 1
+ERROR:  CP7_ANALYSIS_SEGMENT_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 14 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ACCESS_DENIED
+CONTEXT:  PL/pgSQL function cp7_schedule_native.access_now(boolean) line 3 at RAISE
+PL/pgSQL function cp7_analysis_jobs.get(uuid) line 5 at assignment
+SQL function "erp_cp7_get_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid) line 9 at RAISE
+SQL function "erp_cp7_request_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_JOB_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.run(uuid) line 11 at RAISE
+SQL function "erp_cp7_run_analysis_job_v1" statement 1
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ ✓ tests/cp7/families/f04-model-knowledge-cutoff.test.ts > daily Native captures complete three paired folds through the real dataset/build adapter 1925ms
+ ✓ tests/cp7/families/f05-analysis-jobs.test.ts > P19 analysis job states, exact segmented Original, refusals and privileges 3876ms
+
+ Test Files  16 passed (16)
+      Tests  25 passed (25)
+   Start at  10:55:23
+   Duration  369.67s (transform 1.09s, setup 0ms, import 1.78s, tests 1101.55s, environment 2ms)
+
+EXIT=0

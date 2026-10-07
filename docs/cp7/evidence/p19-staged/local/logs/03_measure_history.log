@@ -1,0 +1,9 @@
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":1000,"days":1,"ms":940.4,"code":"CP7_WIP_PCS","state":"REFUSED","sqlstate":"22023"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":1000,"days":30,"ms":2674.8,"code":"CP7_WIP_PCS","state":"REFUSED","sqlstate":"22023"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":1000,"days":100,"ms":7303.1,"code":"CP7_WIP_PCS","state":"REFUSED","sqlstate":"22023"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":5000,"days":1,"ms":658.1,"code":"CP7_F04_ARRAY_LIMIT","state":"REFUSED","sqlstate":"P0001"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build_NOCAP_MEASUREMENT_ONLY","targets":5000,"days":1,"ms":14436.8,"code":"CP7_WIP_PCS","state":"REFUSED","sqlstate":"22023"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":5000,"days":30,"ms":55.9,"code":"CP7_PLANNING_HISTORY_GRID_LIMIT","state":"REFUSED","sqlstate":"P0001"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build_NOCAP_MEASUREMENT_ONLY","targets":5000,"days":30,"ms":25892.6,"code":"CP7_WIP_PCS","state":"REFUSED","sqlstate":"22023"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":5000,"days":100,"ms":44.8,"code":"CP7_PLANNING_HISTORY_GRID_LIMIT","state":"REFUSED","sqlstate":"P0001"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build_NOCAP_MEASUREMENT_ONLY","targets":5000,"days":100,"ms":60578.9,"code":"CP7_WIP_PCS","state":"REFUSED","sqlstate":"22023"}

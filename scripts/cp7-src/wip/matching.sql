@@ -53,7 +53,7 @@ create function cp7_wip.check_allocations(positions jsonb, a jsonb) returns json
 language plpgsql immutable security invoker set search_path='' as $$
 declare e jsonb; n jsonb; p jsonb; projection jsonb;used jsonb:='{}';good_used jsonb:='{}';pool_used jsonb:='{}'; seen jsonb:='{}';
  qty numeric;good numeric;cap numeric;k text;pk text; deficits jsonb:='[]';
- matching jsonb;source_facts jsonb;target_facts jsonb;computed jsonb;side jsonb;entry jsonb;facts_seen jsonb;
+ matching jsonb;source_facts jsonb;target_facts jsonb;computed jsonb;side jsonb;entry jsonb;repeated bigint;i bigint;
 begin
  perform cp7_wip.fields(a,case when a ? 'matching' then array['scenario_id','scope_id','complete_scope','edges','matching']
   else array['scenario_id','scope_id','complete_scope','edges'] end);
@@ -73,11 +73,16 @@ begin
  if matching->>'snapshot_id' is distinct from positions->>'snapshot_id' then raise exception 'CP7_WIP_MATCH_SNAPSHOT';end if;
  foreach side in array array[matching->'sources',matching->'targets'] loop
   if jsonb_typeof(side) is distinct from 'array' or jsonb_array_length(side)>10000 then raise exception 'CP7_WIP_MATCH_FACTS';end if;
-  facts_seen:='{}';
+  -- P19: the first repeated key is one window flag (a growing object was
+  -- copied per entry: quadratic at 5000 targets). Each entry's key is still
+  -- validated before the repeat check at that entry, so the first refusal
+  -- (invalid key or duplicate) is the same entry and code as before.
+  select min(f.o) into repeated from(select x.o,row_number()over(partition by x.value->>'key' order by x.o)n
+   from jsonb_array_elements(side)with ordinality x(value,o) where x.value->>'key' is not null)f where f.n>1;
+  i:=0;
   for entry in select value from jsonb_array_elements(side) loop
-   k:=cp7_wip.key(entry->'key');
-   if facts_seen ? k then raise exception 'CP7_WIP_MATCH_DUPLICATE';end if;
-   facts_seen:=facts_seen||jsonb_build_object(k,true);
+   i:=i+1;k:=cp7_wip.key(entry->'key');
+   if i=repeated then raise exception 'CP7_WIP_MATCH_DUPLICATE';end if;
   end loop;
  end loop;
  if jsonb_array_length(a->'edges')>10000 then raise exception 'CP7_WIP_LIMIT';end if;

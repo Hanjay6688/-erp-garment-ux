@@ -76,6 +76,7 @@ $$;
 create function cp7_analysis_jobs.store(p_run uuid)returns cp7_analysis_jobs.documents
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare d cp7_analysis_jobs.documents%rowtype;r cp7_analysis_native.runs%rowtype;body text;n constant integer:=2000000;
+ rest text;part text;
 begin
  perform pg_advisory_xact_lock(hashtextextended('CP7:ANALYSIS-DOCUMENT:'||p_run::text,0));
  select *into d from cp7_analysis_jobs.documents where run_id=p_run;
@@ -86,9 +87,15 @@ begin
  insert into cp7_analysis_jobs.documents(run_id,utf8_bytes,characters,sha256,segment_count,segment_characters)
  values(p_run,octet_length(body),length(body),encode(pg_catalog.sha256(convert_to(body,'UTF8')),'hex'),(length(body)+n-1)/n,n)
  returning *into d;
- insert into cp7_analysis_jobs.segments(run_id,idx,body,utf8_bytes,sha256)
- select p_run,s.i,s.part,octet_length(s.part),encode(pg_catalog.sha256(convert_to(s.part,'UTF8')),'hex')
- from(select g.i,substr(body,g.i*n+1,n)part from generate_series(0,d.segment_count-1)g(i))s;
+ -- P19: the same cut as substr(body,i*n+1,n), in one pass. substr counts the
+ -- characters before every segment again (quadratic: 25 s at 65 MB); left()
+ -- and right(s,-n) only scan the n characters they cut.
+ rest:=body;
+ for i in 0..d.segment_count-1 loop
+  part:=left(rest,n);rest:=right(rest,-n);
+  insert into cp7_analysis_jobs.segments(run_id,idx,body,utf8_bytes,sha256)
+  values(p_run,i,part,octet_length(part),encode(pg_catalog.sha256(convert_to(part,'UTF8')),'hex'));
+ end loop;
  return d;
 end $$;
 create function cp7_analysis_jobs.request(p_query jsonb,p_request uuid,p_finance text)returns jsonb

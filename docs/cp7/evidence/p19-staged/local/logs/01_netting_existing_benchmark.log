@@ -1,0 +1,10 @@
+ T     P       pairs  build_ms  allocate_ms  form
+  100   100    8700     3074.4      186.8  predecessor
+  100   100    8700        854      180.3  linear (md5 c62d53299154b9a9f8b65e4fce16065e)
+  300   100   27600    14268.9      329.2  predecessor
+  300   100   27600     1780.8      382.5  linear (md5 6dac42eec576329f38029701960c170c)
+ 1000   100   89000     114613        774  predecessor
+ 1000   100   89000     5338.7      735.9  linear (md5 035bc08d1991fb3ad3b57f2974d75869)
+ 1000   100   85000     4268.7      794.5  linear only
+  100  1000   88100     4263.4      936.7  linear only
+{"status":"COMPLETE","out":"/tmp/p19bench/s5k/out/netting_existing.json"}

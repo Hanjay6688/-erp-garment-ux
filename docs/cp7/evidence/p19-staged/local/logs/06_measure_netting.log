@@ -1,0 +1,6 @@
+{"label":"LOCAL_PG16_DEV","layer":"netting_build","targets":1000,"positions":1,"ms":3451.2,"rows":1000,"state":"DONE","utf8_bytes":7253038}
+{"label":"LOCAL_PG16_DEV","layer":"netting_build","targets":1000,"positions":100,"ms":5404.5,"rows":1000,"state":"DONE","utf8_bytes":20426106}
+{"label":"LOCAL_PG16_DEV","layer":"netting_build","targets":5000,"positions":1,"ms":68.6,"code":"CP7_NETTING_MATCH_SOURCE_LIMIT","state":"REFUSED","sqlstate":"P0001"}
+{"label":"LOCAL_PG16_DEV","layer":"netting_build_NOCAP_MEASUREMENT_ONLY","targets":5000,"positions":1,"ms":41478.1,"rows":5000,"state":"DONE","utf8_bytes":35469415}
+{"label":"LOCAL_PG16_DEV","layer":"netting_build","targets":5000,"positions":100,"ms":49.7,"code":"CP7_NETTING_WORK_LIMIT","state":"REFUSED","sqlstate":"P0001"}
+{"label":"LOCAL_PG16_DEV","layer":"netting_build_NOCAP_MEASUREMENT_ONLY","targets":5000,"positions":100,"ms":54523.7,"rows":5000,"state":"DONE","utf8_bytes":101070958}

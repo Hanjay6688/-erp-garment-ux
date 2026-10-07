@@ -1,0 +1,52 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5k/repo
+
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts (4 tests | 1 failed) 52197ms
+   × P19 staged job Original equals the single build byte for byte; refusals are the same refusals 9645ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals
+AssertionError: expected [ Array(7) ] to deeply equal [ 1, 'NULL_KEYS', 'DONE', true, …(3) ]
+
+- Expected
++ Received
+
+  [
+    1,
+    "NULL_KEYS",
+-   "DONE",
+-   true,
+-   true,
++   "FAILED",
++   null,
++   false,
+    true,
+    true,
+  ]
+
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:117:112
+    115|           refusals.add(`${row.single_sqlstate}:${row.single_code}`); r…
+    116|         }
+    117|         expect([...id, row.job, row.same, row.netting_rows_same, row.m…
+       |                                                                                                                ^
+    118|         done++; if (row.allocation === 'SCENARIO') allocated++; edges …
+    119|         if ((row.units.NET_PAIRS ?? 0) > 1) multiPair++; if ((row.unit…
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:104:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  10:22:09
+   Duration  52.78s (transform 316ms, setup 0ms, import 376ms, tests 52.20s, environment 0ms)
+

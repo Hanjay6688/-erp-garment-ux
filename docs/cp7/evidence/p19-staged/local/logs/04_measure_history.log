@@ -1,0 +1,11 @@
+{"label":"LOCAL_PG16_DEV","layer":"fixture","targets":1000,"repaired_roots":17,"stock":8971,"sales":594}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":1000,"days":1,"ms":1054.2,"rows":1000,"state":"DONE","utf8_bytes":2196415}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":1000,"days":30,"ms":2921.5,"rows":1000,"state":"DONE","utf8_bytes":8634116}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":1000,"days":100,"ms":7412.8,"rows":1000,"state":"DONE","utf8_bytes":24129037}
+{"label":"LOCAL_PG16_DEV","layer":"fixture","targets":5000,"repaired_roots":80,"stock":44923,"sales":3027}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":5000,"days":1,"ms":641.5,"code":"CP7_F04_ARRAY_LIMIT","state":"REFUSED","sqlstate":"P0001"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build_NOCAP_MEASUREMENT_ONLY","targets":5000,"days":1,"ms":15696.4,"rows":5000,"state":"DONE","utf8_bytes":11022432}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":5000,"days":30,"ms":36.6,"code":"CP7_PLANNING_HISTORY_GRID_LIMIT","state":"REFUSED","sqlstate":"P0001"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build_NOCAP_MEASUREMENT_ONLY","targets":5000,"days":30,"ms":26733.2,"rows":5000,"state":"DONE","utf8_bytes":43211386}
+{"label":"LOCAL_PG16_DEV","layer":"history_build","targets":5000,"days":100,"ms":51,"code":"CP7_PLANNING_HISTORY_GRID_LIMIT","state":"REFUSED","sqlstate":"P0001"}
+{"label":"LOCAL_PG16_DEV","layer":"history_build_NOCAP_MEASUREMENT_ONLY","targets":5000,"days":100,"ms":65480.7,"rows":5000,"state":"DONE","utf8_bytes":120686072}

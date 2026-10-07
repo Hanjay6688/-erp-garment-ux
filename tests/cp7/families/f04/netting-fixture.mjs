@@ -12,10 +12,10 @@ const NETTING = 'scripts/cp7-src/planning/netting.sql'
 const git = path => execFileSync('git', ['show', `${nettingBase}:${path}`], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
 const now = path => readFileSync(path, 'utf8')
 const pick = (text, ...names) => { const all = functionBlocks(text); return names.map(n => { if (!all.has(n)) throw new Error(n); return all.get(n) }).join('\n') }
-const HELPERS = /cp7_netting_native\.(bound_product|matching_models|matching|matches|timeline|build)\(/g
+const HELPERS = /cp7_netting_native\.(bound_product|matching_models_within|matching_models|matching|matches|timeline|build)\(/g
 // Every netting helper definition and call, renamed to a suffixed copy.
 export const suffixed = (text, suffix) => text.replace(HELPERS, (_, name) => `cp7_netting_native.${name}${suffix}(`)
-const helperBlocks = text => [...functionBlocks(text)].filter(([name]) => /^cp7_netting_native\.(bound_product|matching_models|matching|matches|timeline|build)$/.test(name)).map(([, block]) => block)
+const helperBlocks = text => [...functionBlocks(text)].filter(([name]) => /^cp7_netting_native\.(bound_product|matching_models_within|matching_models|matching|matches|timeline|build)$/.test(name)).map(([, block]) => block)
 // Deliberately wrong lookups. Each must still apply to the working tree once.
 export const MUTANTS = {
   // match_target is handed the first target's facts for every target.

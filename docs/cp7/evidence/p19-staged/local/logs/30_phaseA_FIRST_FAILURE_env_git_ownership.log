@@ -1,0 +1,228 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /home/user/s5k-wt
+
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+ ❯ tests/cp7/families/f04-netting-linear.test.ts (1 test | 1 failed) 2368ms
+   × P19 netting build equals its predecessor byte for byte, including the first refusal 2367ms
+ ❯ tests/cp7/families/f04-allocation-linear.test.ts (1 test | 1 failed) 2388ms
+   × P19 allocation equals its predecessor byte for byte, including the first refusal 2385ms
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_analysis_job_v1" statement 1
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+ ❯ tests/cp7/families/f05-assembly.test.ts (1 test | 1 failed) 1818ms
+   × P19 full assembler preserves every predecessor field, row order, assumptions and refusal 1816ms
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_ACCESS_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 7 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 10 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ANALYSIS_RUN_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.manifest(uuid) line 6 at RAISE
+SQL function "erp_cp7_read_analysis_manifest_v1" statement 1
+ERROR:  CP7_ANALYSIS_SEGMENT_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.segment(uuid,integer,text) line 14 at RAISE
+SQL function "erp_cp7_read_analysis_segment_v1" statement 1
+ERROR:  CP7_ACCESS_DENIED
+CONTEXT:  PL/pgSQL function cp7_schedule_native.access_now(boolean) line 3 at RAISE
+PL/pgSQL function cp7_analysis_jobs.get(uuid) line 5 at assignment
+SQL function "erp_cp7_get_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_JOB_UNAVAILABLE
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.run(uuid) line 11 at RAISE
+SQL function "erp_cp7_run_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_analysis_job_v1" statement 1
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_operational_analysis_job_v1" statement 1
+ERROR:  CP7_ANALYSIS_REQUEST_CHANGED
+CONTEXT:  PL/pgSQL function cp7_analysis_jobs.request(jsonb,uuid,text) line 10 at RAISE
+SQL function "erp_cp7_request_operational_analysis_job_v1" statement 1
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts (4 tests | 4 failed) 6682ms
+   × P19 staged allocation equals allocate byte for byte, including the first refusal 2279ms
+   × P19 linear check_allocations equals its predecessor, including the first refusal 1593ms
+   × P19 staged job Original equals the single build byte for byte; refusals are the same refusals 1522ms
+   × P19 staged job: progress from stored rows, retry after the statement limit, refusal, no double worker, immutable outputs 1286ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/f04-allocation-linear.test.ts > P19 allocation equals its predecessor byte for byte, including the first refusal
+Error: Command failed: git show 083c90e30fbbea161705c370a38745d8641675a7:scripts/cp7-src/baseline/allocation.sql
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+
+ ❯ git tests/cp7/families/f04/allocation-fixture.mjs:10:21
+      8| export const allocationBase = '083c90e30fbbea161705c370a38745d8641675a…
+      9| const ALLOCATION = 'scripts/cp7-src/baseline/allocation.sql'
+     10| const git = path => execFileSync('git', ['show', `${allocationBase}:${…
+       |                     ^
+     11| const now = path => readFileSync(path, 'utf8')
+     12| const allocateBlock = text => { const all = functionBlocks(text); if (…
+ ❯ installAllocationControls tests/cp7/families/f04/allocation-fixture.mjs:34:37
+ ❯ tests/cp7/families/f04-allocation-linear.test.ts:19:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/cp7/families/f04-netting-linear.test.ts > P19 netting build equals its predecessor byte for byte, including the first refusal
+Error: Command failed: git show d7548eb80c7f74d7bd1e7c74fc4177102283566a:scripts/cp7-src/planning/netting.sql
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+
+ ❯ git tests/cp7/families/f04/netting-fixture.mjs:12:21
+     10| export const nettingBase = 'd7548eb80c7f74d7bd1e7c74fc4177102283566a'
+     11| const NETTING = 'scripts/cp7-src/planning/netting.sql'
+     12| const git = path => execFileSync('git', ['show', `${nettingBase}:${pat…
+       |                     ^
+     13| const now = path => readFileSync(path, 'utf8')
+     14| const pick = (text, ...names) => { const all = functionBlocks(text); r…
+ ❯ installNettingControls tests/cp7/families/f04/netting-fixture.mjs:36:16
+ ❯ tests/cp7/families/f04-netting-linear.test.ts:19:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/cp7/families/f05-assembly.test.ts > P19 full assembler preserves every predecessor field, row order, assumptions and refusal
+Error: Command failed: git show ab4d8fa5a1ba640dc2fe03167aa2cabb92337cd5:scripts/cp7-src/planning/analysis.sql
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+
+ ❯ installAssemblyControls tests/cp7/families/f04/analysis-assembly-fixture.mjs:19:14
+     17| export async function installAssemblyControls(db) {
+     18|  const current = readFileSync(path, 'utf8')
+     19|  const old = execFileSync('git', ['show', `${assemblyBase}:${path}`], …
+       |              ^
+     20|  const fact = extractFunction(current, 'cp7_analysis_native.fact')
+     21|  const ref = extractFunction(readFileSync('scripts/cp7-src/wip/normali…
+ ❯ tests/cp7/families/f05-assembly.test.ts:9:9
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal
+Error: Command failed: git show d7548eb80c7f74d7bd1e7c74fc4177102283566a:scripts/cp7-src/planning/netting.sql
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+
+ ❯ git tests/cp7/families/f04/netting-fixture.mjs:12:21
+     10| export const nettingBase = 'd7548eb80c7f74d7bd1e7c74fc4177102283566a'
+     11| const NETTING = 'scripts/cp7-src/planning/netting.sql'
+     12| const git = path => execFileSync('git', ['show', `${nettingBase}:${pat…
+       |                     ^
+     13| const now = path => readFileSync(path, 'utf8')
+     14| const pick = (text, ...names) => { const all = functionBlocks(text); r…
+ ❯ installNettingControls tests/cp7/families/f04/netting-fixture.mjs:36:16
+ ❯ installStagedControls tests/cp7/families/f04/staged-analysis-fixture.mjs:19:9
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:23:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 linear check_allocations equals its predecessor, including the first refusal
+Error: Command failed: git log -1 --format=%H a68abf1e
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:52:18
+     50|   try {
+     51|     // The predecessor is this file at the commit before the linear fo…
+     52|     const base = execFileSync('git', ['log', '-1', '--format=%H', 'a68…
+       |                  ^
+     53|     const old = functionBlocks(execFileSync('git', ['show', `${base}:s…
+     54|     if (!old || old.includes('i=repeated')) throw new Error('predecess…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals
+Error: Command failed: git show d7548eb80c7f74d7bd1e7c74fc4177102283566a:scripts/cp7-src/planning/netting.sql
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+
+ ❯ git tests/cp7/families/f04/netting-fixture.mjs:12:21
+     10| export const nettingBase = 'd7548eb80c7f74d7bd1e7c74fc4177102283566a'
+     11| const NETTING = 'scripts/cp7-src/planning/netting.sql'
+     12| const git = path => execFileSync('git', ['show', `${nettingBase}:${pat…
+       |                     ^
+     13| const now = path => readFileSync(path, 'utf8')
+     14| const pick = (text, ...names) => { const all = functionBlocks(text); r…
+ ❯ installNettingControls tests/cp7/families/f04/netting-fixture.mjs:36:16
+ ❯ installStagedControls tests/cp7/families/f04/staged-analysis-fixture.mjs:19:9
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:91:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job: progress from stored rows, retry after the statement limit, refusal, no double worker, immutable outputs
+Error: Command failed: git show d7548eb80c7f74d7bd1e7c74fc4177102283566a:scripts/cp7-src/planning/netting.sql
+fatal: detected dubious ownership in repository at '/home/user/s5k-wt'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /home/user/s5k-wt
+
+ ❯ git tests/cp7/families/f04/netting-fixture.mjs:12:21
+     10| export const nettingBase = 'd7548eb80c7f74d7bd1e7c74fc4177102283566a'
+     11| const NETTING = 'scripts/cp7-src/planning/netting.sql'
+     12| const git = path => execFileSync('git', ['show', `${nettingBase}:${pat…
+       |                     ^
+     13| const now = path => readFileSync(path, 'utf8')
+     14| const pick = (text, ...names) => { const all = functionBlocks(text); r…
+ ❯ installNettingControls tests/cp7/families/f04/netting-fixture.mjs:36:16
+ ❯ installStagedControls tests/cp7/families/f04/staged-analysis-fixture.mjs:19:9
+ ❯ tests/cp7/families/f05-staged-analysis.test.ts:134:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  4 failed | 1 passed (5)
+      Tests  7 failed | 1 passed (8)
+   Start at  13:36:47
+   Duration  7.59s (transform 970ms, setup 0ms, import 1.31s, tests 17.50s, environment 1ms)
+
+exit 1

@@ -1,0 +1,139 @@
+{
+ "contract": "cp7.p19.netting-kernel.v1",
+ "predecessor": "d7548eb80c7f74d7bd1e7c74fc4177102283566a",
+ "compared": [
+  {
+   "old": {
+    "fn": "build_0",
+    "ms": 3074.4,
+    "md5": "c62d53299154b9a9f8b65e4fce16065e",
+    "edges": 20,
+    "pairs": 8700,
+    "status": "SCENARIO",
+    "targets": 100,
+    "confirmed": 44,
+    "positions": 100,
+    "allocation": "SCENARIO",
+    "utf8_bytes": 2374429,
+    "allocate_ms": 186.8,
+    "matching_products": 121
+   },
+   "new": {
+    "fn": "build",
+    "ms": 854,
+    "md5": "c62d53299154b9a9f8b65e4fce16065e",
+    "edges": 20,
+    "pairs": 8700,
+    "status": "SCENARIO",
+    "targets": 100,
+    "confirmed": 44,
+    "positions": 100,
+    "allocation": "SCENARIO",
+    "utf8_bytes": 2374429,
+    "allocate_ms": 180.3,
+    "matching_products": 121
+   },
+   "identical": true
+  },
+  {
+   "old": {
+    "fn": "build_0",
+    "ms": 14268.9,
+    "md5": "6dac42eec576329f38029701960c170c",
+    "edges": 17,
+    "pairs": 27600,
+    "status": "SCENARIO",
+    "targets": 300,
+    "confirmed": 46,
+    "positions": 100,
+    "allocation": "SCENARIO",
+    "utf8_bytes": 6613672,
+    "allocate_ms": 329.2,
+    "matching_products": 353
+   },
+   "new": {
+    "fn": "build",
+    "ms": 1780.8,
+    "md5": "6dac42eec576329f38029701960c170c",
+    "edges": 17,
+    "pairs": 27600,
+    "status": "SCENARIO",
+    "targets": 300,
+    "confirmed": 46,
+    "positions": 100,
+    "allocation": "SCENARIO",
+    "utf8_bytes": 6613672,
+    "allocate_ms": 382.5,
+    "matching_products": 353
+   },
+   "identical": true
+  },
+  {
+   "old": {
+    "fn": "build_0",
+    "ms": 114613,
+    "md5": "035bc08d1991fb3ad3b57f2974d75869",
+    "edges": 14,
+    "pairs": 89000,
+    "status": "SCENARIO",
+    "targets": 1000,
+    "confirmed": 48,
+    "positions": 100,
+    "allocation": "SCENARIO",
+    "utf8_bytes": 20779758,
+    "allocate_ms": 774,
+    "matching_products": 1180
+   },
+   "new": {
+    "fn": "build",
+    "ms": 5338.7,
+    "md5": "035bc08d1991fb3ad3b57f2974d75869",
+    "edges": 14,
+    "pairs": 89000,
+    "status": "SCENARIO",
+    "targets": 1000,
+    "confirmed": 48,
+    "positions": 100,
+    "allocation": "SCENARIO",
+    "utf8_bytes": 20779758,
+    "allocate_ms": 735.9,
+    "matching_products": 1180
+   },
+   "identical": true
+  }
+ ],
+ "linear_only": [
+  {
+   "fn": "build",
+   "ms": 4268.7,
+   "md5": "f8f6c50fc7a4e1f1d1f21d5d53ab4f24",
+   "edges": 14,
+   "pairs": 85000,
+   "status": "SCENARIO",
+   "targets": 1000,
+   "confirmed": 35,
+   "positions": 100,
+   "allocation": "SCENARIO",
+   "utf8_bytes": 20000432,
+   "allocate_ms": 794.5,
+   "matching_products": 1184
+  },
+  {
+   "fn": "build",
+   "ms": 4263.4,
+   "md5": "2ba2804526b968040eb37c93a701fe26",
+   "edges": 93,
+   "pairs": 88100,
+   "status": "SCENARIO",
+   "targets": 100,
+   "confirmed": 419,
+   "positions": 1000,
+   "allocation": "SCENARIO",
+   "utf8_bytes": 16966393,
+   "allocate_ms": 936.7,
+   "matching_products": 120
+  }
+ ],
+ "status": "COMPLETE",
+ "production_go": false
+}

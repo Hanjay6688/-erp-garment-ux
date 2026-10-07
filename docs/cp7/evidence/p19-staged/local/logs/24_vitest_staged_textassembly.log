@@ -1,0 +1,30 @@
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+Warning: Ignoring extra certs from `/root/.ccr/ca-bundle.crt`, load failed: error:8000000D:system library::Permission denied
+
+ RUN  v4.1.11 /tmp/p19bench/s5k/repo
+
+stdout | tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal
+{"cases":714,"compared":765,"scenarios":621,"multi_step":389,"edges":615,"refusals":24}
+
+ ✓ tests/cp7/families/f05-staged-analysis.test.ts > P19 staged allocation equals allocate byte for byte, including the first refusal 30121ms
+stdout | tests/cp7/families/f05-staged-analysis.test.ts > P19 linear check_allocations equals its predecessor, including the first refusal
+{"cases":1890,"same":1630,"refusals":["P0001:CP7_WIP_MATCH_SNAPSHOT","P0001:CP7_WIP_MATCH_DUPLICATE","22023:CP7_WIP_KEY","22023:CP7_WIP_PCS","22023:cannot extract elements from a scalar"]}
+
+ ✓ tests/cp7/families/f05-staged-analysis.test.ts > P19 linear check_allocations equals its predecessor, including the first refusal 10640ms
+stdout | tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals
+{"cases":162,"done":80,"allocated":36,"edges":38,"confirmed":368,"multi_pair_chunks":47,"multi_alloc_steps":32,"divergences":["1:MATCH_LIMIT","2:MATCH_LIMIT","3:MATCH_LIMIT"],"refusals":["P0001:CP7_NETTING_WORK_LIMIT","P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING","21000:more than one row returned by a subquery used as an expression","P0001:CP7_NETTING_NATIVE_SOURCE_SIZE","22023:CP7_WIP_KEY","22007:invalid input syntax for type timestamp with time zone: \"not-a-time\"","P0001:CP7_BASELINE_ETA_BINDING","P0001:CP7_BASELINE_TARGET","22023:CP7_F04_DECIMAL","P0001:CP7_NETTING_TIMELINE_HORIZON_LIMIT","22023:CP7_WIP_REFS","22023:CP7_WIP_PCS","22023:cannot extract elements from a scalar","22023:cannot extract elements from an object","P0001:CP7_WIP_MATCH_DUPLICATE"]}
+
+ ✓ tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job Original equals the single build byte for byte; refusals are the same refusals 64255ms
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ERROR:  CP7_RUN_IMMUTABLE
+CONTEXT:  PL/pgSQL function cp7_private.immutable_run() line 2 at RAISE
+ ✓ tests/cp7/families/f05-staged-analysis.test.ts > P19 staged job: progress from stored rows, retry after the statement limit, refusal, no double worker, immutable outputs 7014ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  10:50:33
+   Duration  112.67s (transform 380ms, setup 0ms, import 446ms, tests 112.03s, environment 0ms)
+

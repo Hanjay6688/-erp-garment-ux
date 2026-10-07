@@ -1,0 +1,21 @@
+{
+ "contract": "cp7.p19.staged-analysis-kernel.v0",
+ "label": "LOCAL_PG16_DEV_KERNEL_STAND_INS_NOT_EVIDENCE",
+ "statement_timeout": "8s",
+ "limits_raised": false,
+ "vectors": [],
+ "status": "INCOMPLETE",
+ "production_go": false,
+ "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+ "version": "PostgreSQL 16.13 (Ubuntu 16.13-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+ "bounds": {
+  "job_pairs": 1000000,
+  "job_targets": 5000,
+  "pairs_per_chunk": 100000,
+  "targets_per_chunk": 500,
+  "job_matching_products": 10000,
+  "visits_per_allocation_step": 100000,
+  "allocation_targets_per_step": 1000
+ },
+ "error": "Error: P19_STAGED_NOT_DONE 5000x1 {\"code\":\"CP7_ANALYSIS_STAGE_STOPPED\",\"unit\":41,\"sqlstate\":\"57014\"}"
+}

@@ -357,7 +357,7 @@ export async function installSupplyControls(db) {
    ${old}
    ${pick(now('scripts/cp7-src/planning/schedule.sql'), 'cp7_schedule_native.route', 'cp7_schedule_native.position_model')}
    ${pick(schedule, 'cp7_schedule_native.source', 'cp7_schedule_native.fingerprint', 'cp7_schedule_native.build')}
-   ${pick(netting, 'cp7_netting_native.source', 'cp7_netting_native.fingerprint', 'cp7_netting_native.bound_product', 'cp7_netting_native.matching_models',
+   ${pick(netting, 'cp7_netting_native.source', 'cp7_netting_native.fingerprint', 'cp7_netting_native.bound_product', 'cp7_netting_native.matching_models_within', 'cp7_netting_native.matching_models',
      'cp7_netting_native.matching', 'cp7_netting_native.matches', 'cp7_netting_native.timeline', 'cp7_netting_native.build')}
    ${LOADER}
    ${CHECKS}`)

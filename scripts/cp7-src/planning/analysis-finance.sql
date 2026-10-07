@@ -78,10 +78,11 @@ end $$;
 alter function cp7_analysis_native.source_for(jsonb,text)owner to cp7_capture;
 
 alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)rename to build_operational;
-create function cp7_analysis_native.build(c jsonb,q jsonb,p_run uuid,a jsonb)returns jsonb
+-- The financial overlay of the operational analysis v (without semantic_hash).
+-- finance_overlay adds the semantic hash; build and the staged job share both.
+create function cp7_analysis_native.finance_apply(v jsonb,c jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare v jsonb:=cp7_analysis_native.build_operational(c,q,p_run,a)-'semantic_hash';
- f jsonb:=c->'financial_source';s jsonb;confidence text;readiness text;refs jsonb;metrics jsonb:='[]';
+declare f jsonb:=c->'financial_source';s jsonb;confidence text;readiness text;refs jsonb;metrics jsonb:='[]';
  section text;k text;amount text;part jsonb;recorded boolean;basis text;period_from text;period_to text;
 begin
  if f is not null and f<>'null'::jsonb then
@@ -116,7 +117,20 @@ begin
   v:=jsonb_set(v,'{generation_warnings}',(select coalesce(jsonb_agg(x),'[]')from jsonb_array_elements(v->'generation_warnings')x
    where x<>'"FINANCIAL_DOMAIN_NOT_CAPTURED"'::jsonb)||case when confidence='READY'then '[]'::jsonb else jsonb_build_array('NATIVE_FINANCIAL_READINESS:'||confidence)end);
  end if;
+ return v;
+end $$;
+create function cp7_analysis_native.finance_overlay(v jsonb,c jsonb)returns jsonb
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+begin
+ v:=cp7_analysis_native.finance_apply(v,c);
  return v||jsonb_build_object('semantic_hash',encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex'));
 end $$;
+create function cp7_analysis_native.build(c jsonb,q jsonb,p_run uuid,a jsonb)returns jsonb
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+begin
+ return cp7_analysis_native.finance_overlay(cp7_analysis_native.build_operational(c,q,p_run,a)-'semantic_hash',c);
+end $$;
+alter function cp7_analysis_native.finance_apply(jsonb,jsonb)owner to cp7_capture;
+alter function cp7_analysis_native.finance_overlay(jsonb,jsonb)owner to cp7_capture;
 alter function cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)owner to cp7_capture;
-revoke all on function cp7_analysis_native.source(jsonb),cp7_analysis_native.source_for(jsonb,text),cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)from public,anon,authenticated,service_role;
+revoke all on function cp7_analysis_native.source(jsonb),cp7_analysis_native.source_for(jsonb,text),cp7_analysis_native.finance_apply(jsonb,jsonb),cp7_analysis_native.finance_overlay(jsonb,jsonb),cp7_analysis_native.build(jsonb,jsonb,uuid,jsonb)from public,anon,authenticated,service_role;

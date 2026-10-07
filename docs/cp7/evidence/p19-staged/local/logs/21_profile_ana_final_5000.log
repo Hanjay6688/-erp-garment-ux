@@ -1,0 +1,10 @@
+NOTICE:  load_snapshot 00:00:00.020675
+NOTICE:  load_small 00:00:00.055343
+NOTICE:  load_parts 00:00:02.682706 bytes 64974929
+NOTICE:  analysis_final 00:00:13.537243
+NOTICE:  to_text 00:00:00.767621 bytes 65078088
+NOTICE:  sha256 00:00:00.310297
+NOTICE:  parse 00:00:01.808521
+NOTICE:  insert_run 00:00:01.074887
+NOTICE:  store_segments 00:00:25.530082
+
