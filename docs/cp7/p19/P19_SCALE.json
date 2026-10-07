@@ -94,12 +94,12 @@
       "predicted_by_size_model": false
     },
     "SUPPLY_SCOPE_1000": {
-      "value": "1000 scope ids per kind, 20000 facts",
+      "value": "1000 scope ids per kind (cutting groups not proven exhausted), 20000 posted cutting groups classified, 20000 facts",
       "codes": [
         "CP7_SUPPLY_GLOBAL_SCOPE_LIMIT",
         "CP7_SUPPLY_FACT_LIMIT"
       ],
-      "where": "planning/supply-source.sql",
+      "where": "planning/supply-source.sql (supply v2: exhausted groups listed in production_scope.exhausted_cutting_groups)",
       "predicted_by_size_model": false
     },
     "SEGMENT_2000000_CODE_POINTS": {
