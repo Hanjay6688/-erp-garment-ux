@@ -312,3 +312,35 @@ Tidak ada tabel, role, RPC, grant, atau batas baru. Hasil yang sama berarti hash
 - **PL-8 bagian 2** masuk sebagai supply v2. Batas jujur yang tersisa: klasifikasi per request ±1,6 ms/grup satu ukuran, ±4,4 ms/grup tiga ukuran (lokal), jadi ±1500 / ±550 grup historis muat 8 dtk; bukti habis yang dipersistenkan dan di-hash isi adalah keputusan berikutnya.
 - **Skala aplikasi penuh:** run `p19-scale5` dengan harness commit-per-writer sedang berjalan (head `a634296e`, sebelum alokasi linear); hasil 300/1000/5000 dan profil fase dicatat di `p19/P19_FULL_APP_SCALE.md` setelah selesai.
 - **Bukti satu head** untuk kandidat P20: `0b3806b5`, 15/15 workflow success (tabel run di handoff §15.5). Bukti penulis; penerimaan akhir mengikuti kandidat yang lolos audit independen P20.
+
+## 11. Tambahan 7 Okt 2026 (sore): arahan owner butir 1–7
+
+Keputusan owner 7 Okt dijalankan tanpa membuka ulang keputusan sebelumnya. Pemisahan status: **fitur selesai** (kode + kasus Native + uji frontend, menunggu CI satu head), **batas terbuka** (belum dikerjakan atau menunggu nilai owner), **penerimaan auditor** (belum ada; P20 tetap audit independen). `production_go: false`.
+
+### 11.1 Objek yang berubah
+
+| Berkas SQL | Fungsi / objek | Perubahan | Bukti |
+|---|---|---|---|
+| `planning/netting.sql` | `cp7_netting_native.build` | **PR #44 (Astra)** memakai ulang timeline target tanpa tepi; **penjaga** (`a68abf1e`): pakai ulang hanya bila baris target yang dibaca panggilan pertama identik (`baseline_rows[...] = r::text`) | `f04-netting-linear` vs `d7548eb8` + kasus `DUP_ROW_SKIPPED_TARGET/FG` + mutan `REUSE_BY_KEY_ONLY`; md5 benchmark identik sebelum/sesudah |
+| `planning/analysis.sql`, `analysis-finance.sql`, `analysis-jobs.sql` | **baru:** `finance_mode(jsonb)` (i), `source_for(jsonb,text)` (s); `capture(jsonb,uuid,text)` (menggantikan 2-arg); `cp7_analysis_jobs.request(jsonb,uuid,text)`; kolom `jobs.finance`; **RPC baru** `erp_cp7_capture_operational_analysis_v1`, `erp_cp7_request_operational_analysis_job_v1` (authenticated saja, owner `cp7_capture`, definer, `search_path=''`) | Butir 2: jalur operasional tidak memanggil laporan pemilik dan tidak memindai buku besar; run ditandai `financial_capture=DEFERRED`; serve/manifest membandingkan dengan sumber operasional yang sama. Jalur penuh tidak berubah | `P19T_FINANCE_DEFERRED_NO_BOOK_READ` (0 scan `journal_lines/account_daily_balances/cash_accounts`, kontrol positif), `P19T_FINANCE_MODE_IDENTITY`, `P19T_HTTP_FINANCE_ON_DEMAND`, `P19T_BROWSER_FINANCE_ON_DEMAND`, `f05-analysis-jobs` |
+| `reminders/payable-source.sql` | **baru:** `payable_due_rule(jsonb,text,text)` (i, owner `cp7_payable_read`); **grant baru** `EXECUTE erp.material_purchase_current_unit_cost(uuid)` ke `cp7_payable_read`; kontrak `cp7.native-material-ap-source.v2` | Butir 7 (AP-5): pembayaran per penerimaan dihitung ke jatuh tempo tertua dulu, berlabel aturan, bukan bukti per invoice; tidak mengubah jurnal/pembayaran | `P16_NATIVE_AP_CONDITION_AP5_OLDEST_DUE_FIRST` |
+| `reminders/local-sink.sql`, `obligation-report.sql` | teks pesan/lampiran | Label "menurut aturan … bukan bukti per invoice" bila `due_basis` diawali `RULE_` | uji frontend renderer kembar |
+| `plan-native/preflight.sql`, `commands.sql`, `ownership.sql` | **baru:** `cp7_plan_native.history_yield(text)` (s, owner `cp7_plan_writer`); kontrak `cp7.plan-preview.v3`; field payload opsional `new_start_yield` | Butir 6 (PL-5): yield start baru tidak pernah dianggap 100%; A (perkiraan per rencana, asumsi `PLAN_NEW_START_YIELD` ditinjau) atau UNKNOWN; B menunggu kebijakan owner | `PL5_NEW_START_YIELD`, `P08_PREVIEW_READONLY` (kini UNKNOWN) |
+
+### 11.2 Titik audit prioritas tambahan
+
+1. **Jalur operasional benar-benar tanpa buku besar.** Bukti memakai penghitung transaksi `pg_stat_xact_user_tables`; periksa bahwa tidak ada pembaca lain (mis. laporan publikasi, lampiran, pengingat) yang memanggil `cp7_analysis_native.source(q)` langsung untuk run DEFERRED. Semua memanggil `serve`, yang memilih sumber lewat `finance_mode`.
+2. **Satu UUID satu mode.** Capture biasa tidak membaca tabel job; run mode lain pada UUID job yang menunggu membuat job FAILED `CP7_ANALYSIS_REQUEST_CHANGED` (tidak mencampur). Periksa apakah ini cukup atau capture biasa juga harus menolak UUID job.
+3. **AP-5 tidak memundurkan jatuh tempo karena retur/kredit.** Pengurang tingkat penerimaan tidak dialokasikan ke invoice; sisa yang tidak bisa dikaitkan memakai jatuh tempo tercatat lama. Periksa `invoice gabungan` (satu invoice beberapa penerimaan): bagian invoice per penerimaan dihitung dari baris invoice untuk item penerimaan itu.
+4. **PL-5 aritmetika.** `ceil(kebutuhan×penyebut/pembilang)`, `floor(potong×pembilang/penyebut)`; klien menghitung ulang dengan rasional eksak. Tanpa yield: batas potong = `ceil(kebutuhan)` sebagai batas aman, bukan klaim hasil.
+
+### 11.3 Catatan pemasangan/rollback (P21)
+
+- RPC publik baru (2) dan fungsi privat baru (4) dimiliki role CP7 → ikut `drop owned by`. Grant baru ke `cp7_payable_read` pada fungsi Native `erp.material_purchase_current_unit_cost(uuid)` ikut hilang saat role di-drop; tidak ada definisi Native yang diubah.
+- Hash mesin analisis berubah (definisi `serve`, `capture`, jobs) → Original lama `ARCHIVED_STALE` sekali.
+- Jumlah kasus: transport P19 **11 → 15**, attention **285 → 286** (native 181), rencana **42 → 43** (native 29).
+
+### 11.4 Batas terbuka
+
+- **B (yield histori) belum aktif:** paket usulan jendela 180 hari, ≥5 grup dan ≥200 PCS, batas bawah Wilson 90% di `PL5_YIELD_POLICY_PROPOSAL_20261007.md` menunggu persetujuan owner; penyimpanan kebijakan bertanda tangan dan pembaca histori dibuat sesudahnya.
+- **Target 3 dtk** untuk analisis berat tidak tercapai dan tidak ditandai tercapai; berjalan sebagai pengecualian latar tercatat `P19_PLANNING_ANALYSIS_BACKGROUND_20261007`.

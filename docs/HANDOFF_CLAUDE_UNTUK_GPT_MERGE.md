@@ -629,8 +629,16 @@ Oracle browser P12 payroll-review (`.cpay-net` "Bersih payroll") **tidak diubah 
 | `03bf0fba` | Helper klon kasus Native PL-8 menjaga batas `varchar(n)` kunci unik (kegagalan pertama P08 37574849004 dicatat; hanya harness). Bukti satu-head pertama: 14/15 success, attention gagal di jumlah wajib per grup |
 | `0b3806b5` | Attention mewajibkan 180 kasus native per grup (kasus jadwal PL-4; total 285 tetap). **Head kandidat bukti satu-head (§15.5)** |
 | sisanya | dokumen (`SELF_CHECK_FORMULAS_20261006.md`, `P20_P21_PAKET_CABANG_CLAUDE.md` §9, `p19/P19_FULL_APP_SCALE.md`) dan jalur workflow |
+| `b3b15254` | Merge PR #44 (Astra): pakai ulang timeline target tanpa tepi dalam satu build netting |
+| `a68abf1e` | Penjaga PR #44: pakai ulang hanya bila baris target yang dibaca panggilan pertama identik (kasus baris kembar + mutan `REUSE_BY_KEY_ONLY`) |
+| `a1244553` | Butir 2: angka keuangan dimuat saat diperlukan; analisis stok/perencanaan bawaan tanpa membaca buku besar (RPC operasional baru, transport 11 → 15) |
+| `e0523478` | Butir 7 (AP-5): jatuh tempo pengingat hutang dari pembayaran per penerimaan, jatuh tempo tertua dulu, berlabel aturan (attention 285 → 286) |
+| `649f10b7` | Butir 6 (PL-5): yield start baru tidak pernah dianggap 100% (A ditinjau / UNKNOWN; B menunggu kebijakan) (rencana 42 → 43) + perbaikan uji kernel job (kegagalan pertama Build UX 37604272009 dicatat) |
+| `c7fca470` | Butir 5: pengecualian latar belakang tercatat; target 3 dtk tetap dilaporkan apa adanya |
 
-**Perubahan belum di-push:** tidak ada (pohon kerja bersih; `HEAD` = `origin/claude/new-session-deapao`).
+Butir 1 (PR #44) diukur: kernel netting ±20–28% lebih cepat di 1000×100 pada runner yang sama, md5 keluaran identik; aplikasi penuh di `p19/P19_FULL_APP_SCALE.md` §6. Butir 3 (5.000 target bertahap) dan butir 4 (bukti grup habis tersimpan) dikerjakan terpisah; statusnya di `P20_P21_PAKET_CABANG_CLAUDE.md` §11.
+
+**Perubahan belum di-push:** dokumen saja (§15, SELF_CHECK §6, P20 §11).
 
 ### 15.2 Bukti CI
 
