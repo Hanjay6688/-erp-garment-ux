@@ -42,7 +42,7 @@ def verify(cur):
 def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False):
  assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_scale)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
  fabric_any=fabric_recipe or fabric_physical or fabric_reminder
- candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=152;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
+ candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=153;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if p19_transport:
   # P19 job/segment transport: its own predeclared IDs on the same closed harness.
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_scale)),'P19_TRANSPORT_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
@@ -63,7 +63,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   import cp7_obligation_report_bundle as candidate
   import cp7_obligation_report_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==284;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_obligation_report_browser_all.mjs'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==285;out=OUT.with_name('CP7_F05_NATIVE_ATTENTION.json');phase='cp7_f05_attention';browser_script='cp7_f05_obligation_report_browser_all.mjs'
  if p18_e01:
   assert not attention
   import cp7_obligation_report_bundle as candidate
