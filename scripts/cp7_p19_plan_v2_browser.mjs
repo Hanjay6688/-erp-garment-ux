@@ -57,6 +57,8 @@ async function journey(ui,today,mobile){
   let refused=null
   if(!mobile){
    // A second plan for the same target from the same snapshot: refused before any write.
+   // The created draft retires the read options; they are read again first.
+   r=await response(page,'erp_cp7_get_plan_options_v2',()=>plan.getByRole('button',{name:'Muat pilihan Potongan dari ERP',exact:true}).click());assert.equal(r.status(),200)
    await plan.getByLabel('Alasan rencana Potongan',{exact:true}).fill('P19 plan v2 browser: second plan from the same snapshot')
    r=await response(page,'erp_cp7_save_plan_draft_v2',()=>plan.getByRole('button',{name:'Simpan rencana Potongan',exact:true}).click());assert.equal(r.status(),200)
    r=await response(page,'erp_cp7_preview_plan_action_v2',()=>plan.getByRole('button',{name:'Periksa pratinjau rencana',exact:true}).click());assert.equal(r.status(),200)

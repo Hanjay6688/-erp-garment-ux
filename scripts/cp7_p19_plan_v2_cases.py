@@ -188,6 +188,7 @@ def posted_cut(cur, x, pcs):
     c['notes'] = 'P19 plan v2 ordinary Native cut after the snapshot'
     g = b.chain.production.rpc(cur, 'public.erp_save_cutting_group_before_sewing_v2', dict(c, action='SAVE_DRAFT', change_reason='P19 plan v2 ordinary cut'))
     gid = g['cutting_group_id']
+    b.api.admin(cur)
     b.chain.production.rpc(cur, 'public.erp_save_cutting_group_before_sewing_v2', dict(c, id=gid, action='POST', change_reason='P19 plan v2 ordinary cut posted'),
                            expected_version=int(b.chain.base.group_version(cur, gid)))
     b.api.admin(cur)
@@ -197,9 +198,14 @@ def posted_cut(cur, x, pcs):
 def found_fg(cur, x, pcs):
     """Finished stock of the target found at a count, through the unchanged Native writer."""
     at = fg.ax.r1.now(cur) - timedelta(minutes=50)
-    fg.ax.post(cur, dict(source_kind='FOUND_AT_OPNAME', product_id=x['root'], location_id=fg.base.LOCATION, qty_pcs=pcs, physical_at=at.isoformat(),
-                         reason='P19 plan v2 finished stock found after the snapshot', owner_unit_value='10',
-                         owner_value_reason='P19 plan v2 explicit independently supplied value'))
+    b.api.admin(cur)
+    p = dict(source_kind='FOUND_AT_OPNAME', product_id=x['root'], location_id=fg.base.LOCATION, qty_pcs=pcs, physical_at=at.isoformat(),
+             reason='P19 plan v2 finished stock found after the snapshot')
+    # The writer's own rule: with an HPP reference the value follows its average;
+    # an owner value is allowed (and required) only when there is none.
+    if cur.execute('select erp.fg_unsourced_valuation_v1(%s,%s)->>%s', (x['root'], at, 'tier')).fetchone()[0] == 'OWNER_INPUT_REQUIRED':
+        p.update(owner_unit_value='10', owner_value_reason='P19 plan v2 explicit independently supplied value')
+    fg.ax.post(cur, p)
     b.api.admin(cur)
 
 
