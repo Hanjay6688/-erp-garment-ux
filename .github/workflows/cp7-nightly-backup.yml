@@ -1,0 +1,39 @@
+name: CP7C Nightly Backup (template, not installed)
+# Owner decision 8 Oct 2026 ("backup malam"): one full backup of the ERP database every night at 01:00 WIB,
+# proven by restoring it into a separate scratch database (scripts/cp7_nightly_backup.py), newest 14 verified
+# nights kept. The tool is tested on the disposable copy by k3-cleanup-17 (K3C_RACE_NIGHTLY_BACKUP_VERIFIED).
+# Installing it waits for the audit and the owner's installation permission: until the repository variable
+# CP7_NIGHTLY_BACKUP_INSTALLED is 'true' this job never runs, and the schedule below stays commented out.
+# At installation the operator supplies the database role (secret CP7_BACKUP_ADMIN_URL), the ERP database name
+# (variable CP7_BACKUP_SOURCE_DB) and the storage outside the database where backups/ is copied; that copy step is
+# added at installation with the chosen storage. Without it the runner's copy is discarded after the job.
+on:
+  workflow_dispatch: {}
+  # schedule:
+  #   - cron: '0 18 * * *'   # 01:00 WIB nightly — enabled only at the approved installation
+permissions:
+  contents: read
+concurrency:
+  group: cp7-nightly-backup
+  cancel-in-progress: false
+jobs:
+  backup:
+    if: ${{ vars.CP7_NIGHTLY_BACKUP_INSTALLED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Client tools
+      run: |
+        sudo apt-get update -q && sudo apt-get install -y -q postgresql-client
+        python -m pip install --quiet 'psycopg[binary]==3.2.9'
+    - name: Backup, restore-verify, keep newest verified nights
+      env:
+        CP7_BACKUP_ADMIN_URL: ${{ secrets.CP7_BACKUP_ADMIN_URL }}
+        CP7_BACKUP_SOURCE_DB: ${{ vars.CP7_BACKUP_SOURCE_DB }}
+      run: python scripts/cp7_nightly_backup.py --admin-url "$CP7_BACKUP_ADMIN_URL" --source "$CP7_BACKUP_SOURCE_DB" --scratch cp7_backup_verify --dest backups --keep 14

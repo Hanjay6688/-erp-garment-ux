@@ -471,8 +471,18 @@ def staged_original(cur, run, ps, analysis_rows):
     products = cur.execute("select jsonb_array_length(j.reference->'facts'->'products') from cp7_analysis_stage.jobs j where j.run_id=%s",
                            (run,)).fetchone()[0]
     assert count == ps['page_count'], ('P19S_STAGED_PAGES_NOT_STORED', run, count, ps['page_count'])
-    # K3: the run's stored size on disk (pg_column_size: after TOAST compression), by part. Measurement only.
-    storage = cur.execute("""with j as(select id,run_id,reference from cp7_analysis_stage.jobs where run_id=%(r)s)
+    storage = stored_bytes(cur, run)
+    return dict(run_id=str(run), page_count=count, storage_bytes_after_toast=storage, pages_utf8_bytes=int(total), page_utf8_bytes_max=int(largest),
+                page_utf8_bytes_min=int(smallest), header_utf8_bytes=ps['header']['utf8_bytes'], identity_hash=ps['identity_hash'],
+                targets_total=ps['targets_total'], source_products=products, recommendations=analysis_rows,
+                single_body_bound_exceeded=int(largest) > BODY_BYTES, client_document_bound_exceeded=None,
+                whole_document_stored=False)
+
+
+def stored_bytes(cur, run):
+    """K3: the run's stored size on disk (pg_column_size: after TOAST compression), by part. Measurement only."""
+    b.api.admin(cur)
+    return cur.execute("""with j as(select id,run_id,reference from cp7_analysis_stage.jobs where run_id=%(r)s)
       select jsonb_build_object('reference',(select pg_column_size(reference)from j),
        'header',(select coalesce(sum(pg_column_size(h.body)),0)from cp7_analysis_stage.headers h where h.run_id=%(r)s),
        'pages',(select coalesce(sum(pg_column_size(p.body)),0)from cp7_analysis_stage.pages p where p.run_id=%(r)s),
@@ -486,11 +496,29 @@ def staged_original(cur, run, ps, analysis_rows):
         'plan_targets',(select coalesce(sum(pg_column_size(x.row)),0)from cp7_analysis_stage.plan_targets x where x.job_id=(select id from j)),
         'plan_scope',(select coalesce(sum(pg_column_size(x.scope)),0)from cp7_analysis_stage.plan_scope x where x.job_id=(select id from j)),
         'plan_groups_rows',(select count(*)from cp7_analysis_stage.plan_groups x where x.job_id=(select id from j))))""", dict(r=run)).fetchone()[0]
-    return dict(run_id=str(run), page_count=count, storage_bytes_after_toast=storage, pages_utf8_bytes=int(total), page_utf8_bytes_max=int(largest),
-                page_utf8_bytes_min=int(smallest), header_utf8_bytes=ps['header']['utf8_bytes'], identity_hash=ps['identity_hash'],
-                targets_total=ps['targets_total'], source_products=products, recommendations=analysis_rows,
-                single_body_bound_exceeded=int(largest) > BODY_BYTES, client_document_bound_exceeded=None,
-                whole_document_stored=False)
+
+
+def storage_total(s):
+    return s['pages'] + s['header'] + s['reference'] + s['plan_index']['plan_targets'] + s['plan_index']['plan_scope'] + sum(s['intermediates'].values())
+
+
+def staged_cleanup(cur, run):
+    """K3b: the scheduled cleanup's own function on this run (verify the stored result, remove the temporary work),
+    measured before and after inside the rolled-back point. The page rows (index, bytes, hash) must not change."""
+    b.api.admin(cur)
+    job = cur.execute('select id from cp7_analysis_stage.jobs where run_id=%s', (run,)).fetchone()[0]
+    pages = lambda: cur.execute('select coalesce(jsonb_agg(jsonb_build_array(idx,utf8_bytes,sha256)order by idx),\'[]\') from cp7_analysis_stage.pages where run_id=%s',
+                                (run,)).fetchone()[0]
+    before, rows = stored_bytes(cur, run), pages()
+    b.api.admin(cur)
+    started = monotonic()
+    out = cur.execute('select cp7_analysis_stage.clean_done(%s)', (job,)).fetchone()[0]
+    ms = round((monotonic() - started) * 1000, 3)
+    after = stored_bytes(cur, run)
+    b.api.admin(cur)
+    return dict(state=out['state'], ms=ms, removed=out['removed'], verified_pages=out['verified']['pages'], storage_before=before, storage_after=after,
+                total_before=storage_total(before), total_after=storage_total(after), saved=storage_total(before) - storage_total(after),
+                result_pages_unchanged=pages() == rows, measured_not_estimated=True)
 
 
 def staged_evidence(cur, envelope, expected, ps, reassembled_sha256):
@@ -555,6 +583,7 @@ def staged_transfer(cur, point, run, step, expected):
                     source_state=(checked.get('value') or {}).get('source_state'))
     point['transport_exact'] = exact and header['run_id'] == str(run) and header['financial_source'] is None
     point.update(staged_evidence(cur, envelope, expected, ps, reassembled_sha256))
+    point['cleanup'] = staged_cleanup(cur, run)
 
 
 # The public calls of one staged ladder point (the recorded check of contract v2 is not part of the ladder).

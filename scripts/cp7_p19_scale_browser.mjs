@@ -277,7 +277,10 @@ async function sizeCase(ui,today,size,state){
     manifest_and_segments_ms:p.manifest_and_segments_ms??null,original_utf8_bytes:p.original?.original_utf8_bytes??null,
     // Staged path: units stepped, the slowest unit, pages read and their bytes; never one whole document.
     steps:p.steps??null,slowest_step_ms:p.slowest_step_ms??null,pages_ms:p.pages_ms??null,page_count:p.page_count??null,
-    pages_utf8_bytes:p.original?.pages_utf8_bytes??null,page_utf8_bytes_max:p.original?.page_utf8_bytes_max??null,bounds_declared_match:p.bounds?.declared_match??null})),
+    pages_utf8_bytes:p.original?.pages_utf8_bytes??null,page_utf8_bytes_max:p.original?.page_utf8_bytes_max??null,bounds_declared_match:p.bounds?.declared_match??null,
+    // K3b: stored bytes (after TOAST) before and after the scheduled cleanup's own function on this run, measured.
+    cleanup:p.cleanup?{state:p.cleanup.state,ms:p.cleanup.ms,total_before:p.cleanup.total_before,total_after:p.cleanup.total_after,saved:p.cleanup.saved,
+     result_pages_unchanged:p.cleanup.result_pages_unchanged,storage_before:p.cleanup.storage_before,storage_after:p.cleanup.storage_after}:null})),
    dominant_layer_by_days:Object.fromEntries(Object.entries(sql.phase_profile||{}).map(([d,v])=>[d,{layer:v.summary?.dominant_layer??null,own_ms:v.summary?.dominant_own_ms??null,
     first_stopped_phase:v.summary?.first_stopped_phase??null,original_bytes_per_target:v.original_bytes_per_target??null,
     // Diagnostic only (PHASE_PROFILE_NOT_APP_LATENCY): every layer's own cost and every returned phase's server time,

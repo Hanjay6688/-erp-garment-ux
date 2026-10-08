@@ -1,0 +1,114 @@
+{
+  "contract": "cp7.k3b.cleanup-and-schedule.v1",
+  "expected_case_count": 17,
+  "required_case_counts": {
+    "native": 9,
+    "races": 4,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "K3C_CLEANED_ONLY_TEMPORARY",
+      "K3C_REOPEN_AFTER_CLEANUP",
+      "K3C_PLAN_V2_AFTER_CLEANUP",
+      "K3C_REPORT_V2_AFTER_CLEANUP",
+      "K3C_AI_AND_REMINDERS_AFTER_CLEANUP",
+      "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED",
+      "K3C_ONLY_DONE_KEPT_RUNS",
+      "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP",
+      "K3C_SCHEDULE_DEFINED_PRIVATE"
+    ],
+    "races": [
+      "K3C_RACE_TWO_TICKS_ONE_LOG",
+      "K3C_RACE_BUSY_TABLE_RETRIED",
+      "K3C_RACE_PG_CRON_FIRES",
+      "K3C_RACE_NIGHTLY_BACKUP_VERIFIED"
+    ],
+    "http": [
+      "K3C_HTTP_REOPEN_AFTER_CLEANUP",
+      "K3C_HTTP_TICK_NOT_REACHABLE"
+    ],
+    "browser": [
+      "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP",
+      "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_read_staged_analysis_pages_v1",
+    "erp_cp7_read_staged_analysis_page_v1",
+    "erp_cp7_check_staged_analysis_source_v1",
+    "erp_cp7_staged_snapshot_freshness_v1",
+    "erp_cp7_check_staged_snapshot_v1"
+  ],
+  "schedules": [
+    {
+      "name": "cp7-staged-cleanup",
+      "schedule": "*/5 * * * *",
+      "command": "select cp7_ops.cleanup_tick()",
+      "timezone": "UTC",
+      "meaning": "every 5 minutes"
+    },
+    {
+      "name": "cp7-staged-retention",
+      "schedule": "30 19 * * *",
+      "command": "select cp7_ops.retention_tick()",
+      "timezone": "UTC",
+      "meaning": "02:30 WIB daily"
+    }
+  ],
+  "owner_decision": "8 Oct 2026: Hapus data kerja yang benar-benar sementara setelah analisis DONE dan seluruh hasil final tersimpan serta terverifikasi (6 syarat).",
+  "cleanup": {
+    "entry": "cp7_ops.cleanup_tick() -> cp7_analysis_stage.clean_pending(5) -> clean_done(job)",
+    "removed": [
+      "outputs",
+      "target_rows",
+      "pair_rows",
+      "pair_lists",
+      "fragments"
+    ],
+    "kept": [
+      "jobs (query, reference, source hash, access, times)",
+      "units",
+      "headers",
+      "pages",
+      "page_sets (identity hash)",
+      "capture_marks",
+      "plan_targets",
+      "plan_scope",
+      "plan_groups",
+      "documents",
+      "retention_log",
+      "cleanups"
+    ],
+    "verified_before_removal": [
+      "header and every page hash their bodies",
+      "page count and bytes",
+      "identity hash over them",
+      "plan scope and one plan row per target"
+    ],
+    "defers_while_analysis_running": "progress in the last 10 minutes",
+    "lock_timeout_ms": 2000,
+    "in_user_request": false
+  },
+  "nightly_backup": {
+    "tool": "scripts/cp7_nightly_backup.py",
+    "schedule": {
+      "cron": "0 18 * * *",
+      "timezone": "UTC",
+      "meaning": "01:00 WIB nightly"
+    },
+    "keep_verified": 14,
+    "verified_by": "restore into a separate scratch database; every table row count and md5 equal"
+  },
+  "installed": false,
+  "production_go": false,
+  "synthetic_steps": [
+    "a running job paused 11 minutes (updated_at)",
+    "a page hash changed and restored to stand for an unverifiable result",
+    "finish time moved back 8 days",
+    "three earlier nights' backup receipts",
+    "TEST_SCHEDULE_OVERRIDE on the disposable race copy"
+  ]
+}

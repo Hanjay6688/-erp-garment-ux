@@ -17,6 +17,8 @@ FUNCTIONS = {
     'purge_intermediates': 'v',
     # retention (owner decision 8 Oct 2026): 7 days after a job finished, then expired; the private purge rule
     'retention_days': 'i', 'retention': 's', 'require_kept': 's', 'purge_expired': 'v',
+    # cleanup after DONE (owner decision 8 Oct 2026, K3b): verified final result, temporary work removed once
+    'cleanup_due': 's', 'verify_final': 's', 'clean_done': 'v', 'clean_pending': 'v',
     # snapshot contract v2 (analysis-stage-snapshot.sql): change counts, freshness, recorded full checks
     'change_sources': 'i', 'changes_since': 's', 'freshness': 's', 'check_and_record': 'v',
     # snapshot contract v2 §2: one target's plan inputs from the retained index
@@ -35,7 +37,7 @@ PUBLIC = ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)', 'public.erp_c
           'public.erp_cp7_read_report_v2(uuid)', 'public.erp_cp7_read_report_section_v2(uuid,integer,text)', 'public.erp_cp7_list_reports_v2(jsonb)',
           'public.erp_cp7_get_staged_ai_brief_v1(uuid,jsonb)')
 TABLES = ('jobs', 'units', 'outputs', 'target_rows', 'pair_rows', 'pair_lists', 'fragments', 'headers', 'pages', 'page_sets',
-          'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks', 'retention_log',
+          'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks', 'retention_log', 'cleanups',
           'report_jobs', 'report_reads', 'report_sections', 'report_publications')
 # The job row's immutable columns (an UPDATE naming one of them is refused); every other table is insert-only.
 JOB_FIXED = 'id, actor, request_id, query, reference, access_at_capture, captured_at, source_hash, run_id, created_at'
@@ -86,5 +88,34 @@ def verify(cur):
     for pattern in ('insert into cp7_analysis_native.runs', 'insert into cp7_analysis_jobs.', 'scenario_stand_in'):
         assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s and p.prosrc like %s",
                            (ns, '%' + pattern + '%')).fetchone()[0] == 0, pattern
+    verify_ops(cur)
     return dict(staged_analysis=True, declared_targets=BOUNDS['job_targets'], page_utf8_bytes=BOUNDS['page_utf8_bytes'],
                 statement_limit_raised=False, staged_runs_in_native_runs=False)
+
+
+# CP7C schedule entries (ops/schedule.sql): exactly these, SECURITY DEFINER as cp7_capture
+# where they act, executable by the scheduler's role postgres only; no table in the schema.
+OPS_FUNCTIONS = {'schedules()': (False, 'i'), 'cleanup_tick()': (True, 'v'), 'retention_tick()': (True, 'v')}
+OPS_SCHEDULES = [dict(name='cp7-staged-cleanup', schedule='*/5 * * * *', command='select cp7_ops.cleanup_tick()', timezone='UTC', meaning='every 5 minutes'),
+                 dict(name='cp7-staged-retention', schedule='30 19 * * *', command='select cp7_ops.retention_tick()', timezone='UTC', meaning='02:30 WIB daily')]
+
+
+def verify_ops(cur):
+    ns = 'cp7_ops'
+    assert cur.execute('select pg_get_userbyid(nspowner) from pg_namespace where nspname=%s', (ns,)).fetchone()[0] == 'cp7_capture'
+    rows = cur.execute("select regexp_replace(p.oid::regprocedure::text,'^cp7_ops\\.',''),pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile::text "
+                       'from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s', (ns,)).fetchall()
+    assert sorted(r[0] for r in rows) == sorted(OPS_FUNCTIONS), rows
+    for sig, owner, definer, config, volatility in rows:
+        assert (owner, definer, volatility) == ('cp7_capture',) + OPS_FUNCTIONS[sig], (sig, owner, definer, volatility)
+        assert 'search_path=""' in (config or []) and 'TimeZone=UTC' in (config or []), (sig, config)
+        assert cur.execute("select has_function_privilege('postgres',%s,'EXECUTE')", ('cp7_ops.' + sig,)).fetchone()[0], sig
+        for who in ('anon', 'authenticated', 'service_role'):
+            assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (who, 'cp7_ops.' + sig)).fetchone()[0], (who, sig)
+        assert not cur.execute("select coalesce(bool_or(a.grantee=0),false) from pg_proc p cross join aclexplode(p.proacl) a where p.oid=%s::regprocedure",
+                               ('cp7_ops.' + sig,)).fetchone()[0], ('PUBLIC', sig)
+    for who in ('anon', 'authenticated', 'service_role'):
+        assert not cur.execute("select has_schema_privilege(%s,%s,'USAGE')", (who, ns)).fetchone()[0], who
+    assert cur.execute("select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname=%s", (ns,)).fetchone()[0] == 0
+    assert cur.execute('select cp7_ops.schedules()').fetchone()[0] == OPS_SCHEDULES
+    return dict(schedules=[s['name'] for s in OPS_SCHEDULES], installed_in_cron=False)

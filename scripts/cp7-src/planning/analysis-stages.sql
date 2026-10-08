@@ -2240,6 +2240,121 @@ begin
  return jsonb_build_object('purged',out,'retention_days',cp7_analysis_stage.retention_days());
 end $$;
 
+-- ------------------------------------------------------- cleanup (K3b) --
+-- Owner decision 8 Oct 2026: once a run is DONE and its whole final result is
+-- stored and verified, its temporary work (outputs, target/pair rows, pair
+-- lists, fragments) is removed. What stays for the 7-day retention: the job
+-- row (query, reference = the captured source, source hash, access, times),
+-- its units, the header, every page, the page index (identity hash), the
+-- capture mark, the per-target plan index and every document made from it.
+-- verify_final reads the stored result again: the header and every page hash
+-- their bodies, the page count and byte sizes match, the identity hash is the
+-- hash over them, the plan scope exists and the plan index holds one row per
+-- target. clean_done verifies, then removes, then writes one immutable log
+-- row (the evidence; a job is cleaned once). A running or failed job, an
+-- expired one (the 7-day purge owns it) or an unverifiable one is refused and
+-- nothing is removed. A second call returns the logged cleanup.
+create table cp7_analysis_stage.cleanups(job_id uuid primary key references cp7_analysis_stage.jobs(id),run_id uuid not null,
+ finished_at timestamptz not null,cleaned_at timestamptz not null,verified jsonb not null,removed jsonb not null,stored_bytes_removed jsonb not null);
+alter table cp7_analysis_stage.cleanups owner to cp7_capture;
+alter table cp7_analysis_stage.cleanups enable row level security;
+create policy cp7_analysis_stage_no_access on cp7_analysis_stage.cleanups for all to public using(false)with check(false);
+revoke all on cp7_analysis_stage.cleanups from public,anon,authenticated,service_role;
+create trigger immutable_stage_cleanups before update or delete on cp7_analysis_stage.cleanups
+ for each row execute function cp7_private.immutable_run();
+create function cp7_analysis_stage.cleanup_due(p_job uuid,p_state text,p_finished timestamptz)returns boolean
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select p_state='DONE'and cp7_analysis_stage.retention(p_state,p_finished)->>'state'='KEPT'
+  and not exists(select 1 from cp7_analysis_stage.cleanups c where c.job_id=p_job)
+  and not exists(select 1 from cp7_analysis_stage.retention_log l where l.job_id=p_job)
+$$;
+create function cp7_analysis_stage.verify_final(p_job uuid)returns jsonb
+language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
+declare j cp7_analysis_stage.jobs%rowtype;h cp7_analysis_stage.headers%rowtype;s cp7_analysis_stage.page_sets%rowtype;
+ n integer;bad integer;identity text;bytes bigint;plans integer;
+begin
+ select *into j from cp7_analysis_stage.jobs where id=p_job;
+ select *into h from cp7_analysis_stage.headers where run_id=j.run_id;select *into s from cp7_analysis_stage.page_sets where run_id=j.run_id;
+ if j.state is distinct from'DONE'or h.run_id is null or s.run_id is null or h.job_id<>j.id
+  or encode(pg_catalog.sha256(convert_to(h.body,'UTF8')),'hex')<>h.sha256 or octet_length(h.body)<>h.utf8_bytes then
+  raise exception 'CP7_ANALYSIS_CLEANUP_UNVERIFIED'using detail='header';
+ end if;
+ select count(*),count(*)filter(where encode(pg_catalog.sha256(convert_to(x.body,'UTF8')),'hex')<>x.sha256 or octet_length(x.body)<>x.utf8_bytes),
+  coalesce(sum(x.utf8_bytes),0)into n,bad,bytes from cp7_analysis_stage.pages x where x.run_id=j.run_id;
+ select encode(pg_catalog.sha256(convert_to(h.sha256||E'\n'||coalesce(string_agg(x.sha256,E'\n'order by x.idx),''),'UTF8')),'hex')into identity
+  from cp7_analysis_stage.pages x where x.run_id=j.run_id;
+ if n<>h.page_count or bad<>0 or identity<>s.identity_hash or n<>(select coalesce(max(x.idx)+1,0)from cp7_analysis_stage.pages x where x.run_id=j.run_id)then
+  raise exception 'CP7_ANALYSIS_CLEANUP_UNVERIFIED'using detail='pages';
+ end if;
+ select count(*)into plans from cp7_analysis_stage.plan_targets x where x.job_id=j.id;
+ if not exists(select 1 from cp7_analysis_stage.plan_scope x where x.job_id=j.id)or plans<>h.targets_total then
+  raise exception 'CP7_ANALYSIS_CLEANUP_UNVERIFIED'using detail='plan_index';
+ end if;
+ return jsonb_build_object('run_id',j.run_id,'identity_hash',s.identity_hash,'header_sha256',h.sha256,'pages',n,'pages_utf8_bytes',bytes,
+  'targets',h.targets_total,'plan_targets',plans,'source_hash',j.source_hash,'captured_at',j.captured_at);
+end $$;
+create function cp7_analysis_stage.clean_done(p_job uuid)returns jsonb
+language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
+declare j cp7_analysis_stage.jobs%rowtype;c cp7_analysis_stage.cleanups%rowtype;v jsonb;t text;n bigint;b bigint;
+ removed jsonb:='{}';stored jsonb:='{}';cols jsonb:='{"outputs":"output","target_rows":"payload","pair_rows":"pair_row","pair_lists":"results","fragments":"body"}';
+begin
+ select *into j from cp7_analysis_stage.jobs where id=p_job for update;
+ if not found then raise exception 'CP7_ANALYSIS_JOB_UNAVAILABLE';end if;
+ select *into c from cp7_analysis_stage.cleanups where job_id=p_job;
+ if found then
+  return jsonb_build_object('job_id',c.job_id,'run_id',c.run_id,'state','ALREADY_CLEANED','cleaned_at',c.cleaned_at,'removed',c.removed);
+ end if;
+ if j.state<>'DONE'then raise exception 'CP7_ANALYSIS_CLEANUP_NOT_DONE';end if;
+ if not cp7_analysis_stage.cleanup_due(j.id,j.state,j.updated_at)then raise exception 'CP7_ANALYSIS_CLEANUP_EXPIRED';end if;
+ v:=cp7_analysis_stage.verify_final(j.id);
+ -- A busy table is not waited on for long: the cleanup gives up and is retried.
+ perform set_config('lock_timeout','2000',true);
+ foreach t in array array['outputs','target_rows','pair_rows','pair_lists','fragments']loop
+  execute format('select coalesce(sum(pg_column_size(x.%I)),0)from cp7_analysis_stage.%I x where x.job_id=$1',cols->>t,t)into b using j.id;
+  execute format('alter table cp7_analysis_stage.%I disable trigger immutable_stage_%s',t,t);
+  execute format('delete from cp7_analysis_stage.%I where job_id=$1',t)using j.id;
+  get diagnostics n=row_count;
+  execute format('alter table cp7_analysis_stage.%I enable trigger immutable_stage_%s',t,t);
+  removed:=removed||jsonb_build_object(t,n);stored:=stored||jsonb_build_object(t,b);
+ end loop;
+ -- The result tables were not touched: the page index still names the same pages.
+ if(select count(*)from cp7_analysis_stage.pages x where x.run_id=j.run_id)<>(v->>'pages')::integer
+  or(select encode(pg_catalog.sha256(convert_to(h.sha256||E'\n'||coalesce(string_agg(x.sha256,E'\n'order by x.idx),''),'UTF8')),'hex')
+     from cp7_analysis_stage.headers h left join cp7_analysis_stage.pages x on x.run_id=h.run_id where h.run_id=j.run_id group by h.sha256)
+   is distinct from v->>'identity_hash'then
+  raise exception 'CP7_ANALYSIS_CLEANUP_UNVERIFIED'using detail='after';
+ end if;
+ insert into cp7_analysis_stage.cleanups values(j.id,j.run_id,j.updated_at,clock_timestamp(),v,removed,stored);
+ return jsonb_build_object('job_id',j.id,'run_id',j.run_id,'state','CLEANED','verified',v,'removed',removed,'stored_bytes_removed',stored);
+end $$;
+-- The server schedule's entry (cp7_ops.cleanup_tick, every 5 minutes): up to
+-- p_limit DONE jobs still due, oldest first, each in its own subtransaction;
+-- a job another session holds is skipped, a failure is reported and left for
+-- the next run. The cleanup never runs inside a user's request: a step after
+-- DONE still returns the same status and changes nothing. Removing rows
+-- briefly locks the temporary tables, so while any analysis is being worked
+-- (progress in the last 10 minutes) the run defers to the next one and slows
+-- nobody's unit; a paused or abandoned analysis does not hold it back.
+create function cp7_analysis_stage.clean_pending(p_limit integer)returns jsonb
+language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
+declare j cp7_analysis_stage.jobs%rowtype;r jsonb;done jsonb:='[]';failed jsonb:='[]';busy integer;
+begin
+ if p_limit is null or p_limit not between 1 and 100 then raise exception 'CP7_ANALYSIS_CLEANUP_LIMIT';end if;
+ select count(*)into busy from cp7_analysis_stage.jobs x where x.state='RUNNING'and x.updated_at>clock_timestamp()-interval'10 minutes';
+ if busy>0 then
+  return jsonb_build_object('cleaned',done,'failed',failed,'deferred',jsonb_build_object('reason','ANALYSIS_RUNNING','running_jobs',busy));
+ end if;
+ for j in select x.*from cp7_analysis_stage.jobs x where x.state='DONE'and cp7_analysis_stage.cleanup_due(x.id,x.state,x.updated_at)
+   order by x.updated_at,x.id limit p_limit for update skip locked loop
+  begin
+   r:=cp7_analysis_stage.clean_done(j.id);done:=done||jsonb_build_array(jsonb_build_object('job_id',j.id,'state',r->>'state','removed',r->'removed'));
+  exception when others then
+   failed:=failed||jsonb_build_array(jsonb_build_object('job_id',j.id,'sqlstate',SQLSTATE,'code',SQLERRM));
+  end;
+ end loop;
+ return jsonb_build_object('cleaned',done,'failed',failed,'deferred',null);
+end $$;
+
 -- ------------------------------------------------------------ ownership --
 -- Everything here is owned by cp7_capture (dropped by `drop owned by` in a
 -- rollback); nothing is executable by anon/authenticated/service_role except

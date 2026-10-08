@@ -59,6 +59,11 @@ name: CP7 P19 Analysis Job Transport
     - src/nativeStagedJob.ts
     - src/lib/analysisRetentionMessages.ts
     - docs/cp7/k2/K2_RETENTION.json
+    - scripts/cp7_k3_cleanup_*
+    - scripts/cp7_schedule.py
+    - scripts/cp7_nightly_backup.py
+    - scripts/cp7-src/ops/**
+    - docs/cp7/k3/K3_CLEANUP.json
     - .github/workflows/claude-p19-transport.yml
   workflow_dispatch: {}
 permissions:
@@ -104,6 +109,9 @@ jobs:
         - suite: k2-retention-10
           probe: cp7_k2_retention_probe.py
           timeout: 150
+        - suite: k3-cleanup-17
+          probe: cp7_k3_cleanup_probe.py
+          timeout: 180
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
