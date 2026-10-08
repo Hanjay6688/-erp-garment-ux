@@ -1,0 +1,54 @@
+{
+  "contract": "cp7.pl5.history-yield.v1",
+  "expected_case_count": 20,
+  "required_case_counts": {
+    "native": 14,
+    "races": 2,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "PL5H_PENDING_WITHOUT_POLICY",
+      "PL5H_POLICY_SIGNED_VERSIONED",
+      "PL5H_POLICY_VALUES_AND_AUTHORITY",
+      "PL5H_PRODUCT_SIZE_SUFFICIENT",
+      "PL5H_MODEL_FALLBACK_SAME_MODEL",
+      "PL5H_INSUFFICIENT_NO_VALUE",
+      "PL5H_NEVER_CROSS_MODEL",
+      "PL5H_NEVER_100_PERCENT",
+      "PL5H_WILSON_EXACT",
+      "PL5H_CANCEL_CORRECT_BACKDATE",
+      "PL5H_WINDOW_FINISH_DATE",
+      "PL5H_LIMIT_200_UNDER_8S",
+      "PL5H_PLAN_USES_HISTORY_LIVE",
+      "PL5H_CATALOG_PRIVATE"
+    ],
+    "races": [
+      "PL5H_RACE_SAME_REVISION",
+      "PL5H_RACE_SAME_REQUEST_TWO_SESSIONS"
+    ],
+    "http": [
+      "PL5H_HTTP_FLOW",
+      "PL5H_HTTP_REVOKED"
+    ],
+    "browser": [
+      "PL5H_BROWSER_DESKTOP_POLICY",
+      "PL5H_BROWSER_MOBILE_POLICY"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_history_yield_policy_v1",
+    "erp_cp7_save_history_yield_policy_v1"
+  ],
+  "owner_decision": "8 Oct 2026: 180 days, at least 5 finished groups and 200 cut PCS, product+size then the same model, one-sided Wilson 90% lower bound floored to 0.1%; never across models, never 100%; insufficient data uses the reviewed estimate A or UNKNOWN; stored as a versioned policy and tested before activation",
+  "scope": "The policy is saved by an OWNER or ADMIN with master.product.manage and a reason (actor, role and time recorded; revisions immutable; the confidence, method, rounding and level order are fixed). Without a saved policy the plan preflight keeps the earlier pending answer byte for byte. Only cutting groups whose stored PL-8 exhaustion proof matches their current facts under the current kernel count; a cancelled, corrected or backdated row removes a group until it is proven again. Finish date = the last physical event of the group, window in WIB calendar days. Plan v1 and v2 previews and apply read the history in their own transaction.",
+  "client": "Kebijakan yield histori panel under Data permintaan & stok: the owner-approved package shown and prefilled, saved as a version with a reason, the same request repeated after a lost reply; plan preview states the history (lower bound, groups, PCS, level, policy version) or why there is none, the Wilson bound checked exactly in the browser.",
+  "browser": "Desktop and mobile: open the policy panel from Data permintaan & stok, see the package prefilled and not in force, save it, see version 1 active with role and time; no horizontal scroll.",
+  "synthetic": "Labelled SYNTHETIC clones only in PL5H_NEVER_CROSS_MODEL (one re-pointed order) and PL5H_LIMIT_200_UNDER_8S (199 + 1 clones of a finished group); every other group is cut, picked up, sewn, washed, QC-ed and scrapped through ordinary writers.",
+  "limits_raised": false,
+  "statement_timeout": "existing 8s authenticated limit; never raised",
+  "full_PL5_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

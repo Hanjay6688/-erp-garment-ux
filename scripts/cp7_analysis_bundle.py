@@ -2,7 +2,7 @@
 import hashlib
 import cp7_netting_bundle as predecessor
 ROOT=predecessor.ROOT
-FILES=('planning/material-requirements.sql','planning/fabric-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-jobs.sql','planning/analysis-stages.sql','planning/analysis-stage-snapshot.sql','planning/fabric-commands.sql','planning/analysis-archive.sql','planning/report-publication.sql','planning/report-staged.sql','planning/ai-staged.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql','plan-native/staged.sql')
+FILES=('planning/material-requirements.sql','planning/fabric-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-jobs.sql','planning/analysis-stages.sql','planning/analysis-stage-snapshot.sql','planning/fabric-commands.sql','planning/analysis-archive.sql','planning/report-publication.sql','planning/report-staged.sql','planning/ai-staged.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/history-yield.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql','plan-native/staged.sql')
 ROLES=('cp7_plan_writer',)+predecessor.ROLES
 GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','cp7_private.immutable_run()','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
 # P08: the open-PO remaining reader is the only new EXECUTE on a predecessor function (read-only, BB-owned).
@@ -14,7 +14,8 @@ FABRIC_PHYSICAL_COLUMNS={'erp.material_rolls':'SELECT(id,material_id,status)','e
  'erp.locations':'SELECT(id,location_type,is_active)','erp.bb_purchase_commitments_v1':'SELECT(id,po_number,location_id,expected_date)',
  'erp.bb_purchase_commitment_lines_v1':'SELECT(id,commitment_id,material_id,line_number)','cp7_plan_native.intents':'SELECT(id,target_key,cutting_group_id)',
  'cp7_plan_native.apply_own_drafts':'SELECT(cutting_group_id,txid)'}
-TABLE_GRANTS={'cp7_capture':{**{name:'SELECT'for name in MATERIAL_TABLES},**FABRIC_PHYSICAL_COLUMNS},'cp7_plan_writer':{'erp.cutting_group_rolls':'SELECT'},transaction_source.ROLE:{'erp.'+name:'SELECT'for name in transaction_source.TABLES}}
+# PL-5 B: the history-yield proof reader reads the saved yield policy.
+TABLE_GRANTS={'cp7_capture':{**{name:'SELECT'for name in MATERIAL_TABLES},**FABRIC_PHYSICAL_COLUMNS,'cp7_yield_policy.policies':'SELECT'},'cp7_plan_writer':{'erp.cutting_group_rolls':'SELECT'},transaction_source.ROLE:{'erp.'+name:'SELECT'for name in transaction_source.TABLES}}
 def extension():return '\n'.join((ROOT/'scripts/cp7-src'/p).read_text()for p in FILES)
 def bundle():return predecessor.bundle()+'\n'+extension()
 def verify(cur):

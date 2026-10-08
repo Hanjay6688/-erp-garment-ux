@@ -140,6 +140,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/NativeStagedRemindersPanel.tsx:erp_cp7_finish_reminder_v2',
   'src/NativeStagedRemindersPanel.tsx:erp_cp7_resolve_reminder_claim_v2',
   'src/NativeStagedRemindersPanel.tsx:erp_cp7_get_reminder_request_v2',
+  'src/NativeHistoryYieldPolicyPanel.tsx:erp_cp7_get_history_yield_policy_v1',
+  'src/NativeHistoryYieldPolicyPanel.tsx:erp_cp7_save_history_yield_policy_v1',
   'src/NativePlanDraftPanel.tsx:erp_cp7_get_plan_options_v1',
   'src/NativePlanDraftPanel.tsx:erp_cp7_save_plan_draft_v1',
   'src/NativePlanDraftPanel.tsx:erp_cp7_preview_plan_action_v1',

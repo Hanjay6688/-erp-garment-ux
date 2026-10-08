@@ -1,6 +1,8 @@
 # PL-5 — paket rekomendasi parameter yield histori (B) · 7 Oktober 2026
 
-**Status: USULAN untuk disetujui owner. Belum dipakai sistem.** Sampai owner menyetujui, `cp7_plan_native.history_yield` mengembalikan `PENDING_POLICY_VALUE` tanpa angka, dan pratinjau rencana memakai A (perkiraan per rencana yang ditinjau dan berlabel) atau UNKNOWN. Tidak ada angka operasional yang dikarang di kode.
+**Status 8 Okt 2026: DISETUJUI owner** ("setuju paket usulan histori: 180 hari, minimal 5 grup selesai dan 200 PCS potong, per produk+size lalu fallback model yang sama, batas bawah Wilson satu sisi 90%. Jangan lintas model atau menganggap yield 100%. Bila data kurang, gunakan A yang ditinjau atau UNKNOWN. Simpan keputusan sebagai kebijakan berversi dan uji sebelum diaktifkan.").
+
+Dibuat (`scripts/cp7-src/plan-native/history-yield.sql`): kebijakan berversi `cp7_yield_policy.policies` yang disimpan pemilik/admin dengan alasan (aktor, peran, waktu tercatat; versi tidak bisa diubah; tingkat keyakinan 90%, rumus, pembulatan dan urutan tingkat tetap); pembaca `history_yield(target, model)` memakai bukti grup habis PL-8 yang masih cocok dengan fakta sekarang; tanggal selesai = kejadian fisik terakhir grup, jendela dalam hari kalender WIB; lebih dari 200 grup pada satu tingkat = belum diketahui. Tanpa kebijakan tersimpan, jawabannya tetap `PENDING_POLICY_VALUE` persis seperti sebelumnya. Layar: panel "Kebijakan yield histori" di Data permintaan & stok (paket keputusan owner tampil terisi, berlaku setelah disimpan); pratinjau rencana menyebut batas bawah, jumlah grup/PCS, tingkat dan versi kebijakan. Uji: suite CI `pl5-history-yield-20` (`docs/cp7/pl5/PL5_HISTORY_YIELD.json`: 14 Native, 2 balapan, 2 HTTP, 2 browser). Aktif di aplikasi setelah disimpan sekali oleh pemilik atau admin.
 
 ## Yang sudah berlaku (keputusan owner 7 Okt)
 

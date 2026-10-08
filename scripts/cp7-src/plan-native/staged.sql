@@ -157,7 +157,7 @@ begin
  select coalesce(jsonb_agg(distinct x->'id'),'[]'::jsonb)into assumptions
   from jsonb_array_elements(coalesce(sc->'assumptions','[]')||coalesce(r->'assumptions','[]')||coalesce(r->'fabric_assumptions','[]'))x
   where jsonb_typeof(x->'id')='string';
- estimate:=coalesce(p->'new_start_yield','null'::jsonb);history:=cp7_plan_native.history_yield(target);
+ estimate:=coalesce(p->'new_start_yield','null'::jsonb);history:=cp7_plan_native.history_yield(target,(product->>'model_id')::uuid);
  if estimate<>'null'::jsonb then
   perform cp7_plan_native.fields(estimate,array['numerator','denominator']);
   if jsonb_typeof(estimate->'numerator')<>'string'or jsonb_typeof(estimate->'denominator')<>'string'

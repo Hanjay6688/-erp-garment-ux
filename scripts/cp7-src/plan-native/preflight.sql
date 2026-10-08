@@ -19,19 +19,14 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
   'basis','CURRENT_NATIVE_LINKED_UNPOSTED_DRAFT_BUDGET_NOT_STOCK_RESERVATION')from stock s cross join planned p
 $$;
 
--- PL-5 (owner decision 7 Oct 2026): the good-piece yield of a new start is
--- never assumed to be 100%. Main direction B is the factory's own completed
--- production history, under an owner-approved window, minimum sample and lower
--- bound; no such policy is approved yet (docs/cp7/PL5_YIELD_POLICY_PROPOSAL_20261007.md),
--- so history reports PENDING_POLICY_VALUE and no value. Meanwhile A: an
--- explicit planner estimate for this plan, reviewed as an assumption and
--- labelled. Without either the yield is UNKNOWN: the cut stays capped at the
--- need, and the good pieces and the unresolved gap are unknown, not computed.
-create function cp7_plan_native.history_yield(p_target text)returns jsonb
-language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
- select jsonb_build_object('status','PENDING_POLICY_VALUE','reason','OWNER_HISTORY_YIELD_POLICY_NOT_APPROVED',
-  'window_days',null,'minimum_sample',null,'lower_bound',null,'numerator',null,'denominator',null,'target_key',p_target)
-$$;
+-- PL-5 (owner decisions 7 and 8 Oct 2026): the good-piece yield of a new
+-- start is never assumed to be 100%. Main direction B is the factory's own
+-- finished production history under the saved yield policy (history-yield.sql);
+-- without a saved policy history reports PENDING_POLICY_VALUE and no value.
+-- Meanwhile A: an explicit planner estimate for this plan, reviewed as an
+-- assumption and labelled. Without either the yield is UNKNOWN: the cut stays
+-- capped at the need, and the good pieces and the unresolved gap are unknown,
+-- not computed.
 create function cp7_plan_native.preflight(p jsonb)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare s jsonb;r jsonb;product jsonb;cut jsonb;slot jsonb;roll jsonb;y jsonb;review jsonb;
@@ -57,7 +52,7 @@ begin
  gap:=(r->>'conditional_gap_pcs')::numeric;capacity:=(s->'netting'->'new_start_capacity'->>'capacity_pcs')::numeric;
  if gap<=0 or capacity is null then raise exception 'CP7_PLAN_NO_NEW_NEED';end if;
  select coalesce(jsonb_agg(x->'id'order by x->>'id'),'[]'::jsonb)into assumptions from jsonb_array_elements(s->'analysis'->'assumptions')x;
- estimate:=coalesce(p->'new_start_yield','null'::jsonb);history:=cp7_plan_native.history_yield(target);
+ estimate:=coalesce(p->'new_start_yield','null'::jsonb);history:=cp7_plan_native.history_yield(target,(product->>'model_id')::uuid);
  if estimate<>'null'::jsonb then
   perform cp7_plan_native.fields(estimate,array['numerator','denominator']);
   if jsonb_typeof(estimate->'numerator')<>'string'or jsonb_typeof(estimate->'denominator')<>'string'

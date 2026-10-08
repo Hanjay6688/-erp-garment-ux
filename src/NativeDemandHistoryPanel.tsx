@@ -9,6 +9,7 @@ import NativePlanningProfilePanel from './NativePlanningProfilePanel'
 import NativeProductionPlanningPanel from './NativeProductionPlanningPanel'
 import NativeAnalysisPanel from './NativeAnalysisPanel'
 import NativeModelEvaluationPanel from './NativeModelEvaluationPanel'
+import NativeHistoryYieldPolicyPanel from './NativeHistoryYieldPolicyPanel'
 import './native-demand-history.css'
 const required=['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
 type SourceReadProps={onSourceReadStart?:()=>void;onSourceReadEnd?:()=>void}
@@ -28,6 +29,7 @@ function Workspace({onSourceReadStart,onSourceReadEnd}:SourceReadProps){
  const[workQuery,setWorkQuery]=useState<NativeDemandQuery|null>(null)
  const[analysisQuery,setAnalysisQuery]=useState<NativeDemandQuery|null>(null)
  const[modelSelection,setModelSelection]=useState<{historyRunId:string;targetKey:string}|null>(null)
+ const[yieldPolicy,setYieldPolicy]=useState(false)
  const analysisReadStart=useCallback(()=>{++sequence.current;setData(null);setBusy(true);onSourceReadStart?.()},[onSourceReadStart])
  const analysisReadEnd=useCallback(()=>{setBusy(false);onSourceReadEnd?.()},[onSourceReadEnd])
  const closeAnalysis=useCallback(()=>setAnalysisQuery(null),[])
@@ -63,6 +65,8 @@ function Workspace({onSourceReadStart,onSourceReadEnd}:SourceReadProps){
   {open?<><header><div className="eyebrow">PERENCANAAN · DATA ERP</div><h2>Permintaan dan stok</h2><p>Penjualan tercatat, retur, dan pesanan terbuka memakai sumber yang sama. Periode hanya mencakup hari yang sudah selesai.</p></header>
    <form onSubmit={e=>{e.preventDefault();void load()}}><label>Dari tanggal<input aria-label="Permintaan dari tanggal" type="date" value={from} max={yesterdayWib()} disabled={busy||Boolean(recovery.pending)||Boolean(recovery.error)} onChange={e=>{clear();setFrom(e.target.value)}} required/></label><label>Sampai tanggal<input aria-label="Permintaan sampai tanggal" type="date" value={through} min={from} max={yesterdayWib()} disabled={busy||Boolean(recovery.pending)||Boolean(recovery.error)} onChange={e=>{clear();setThrough(e.target.value)}} required/></label><label>Pengelompokan<select value={basis} disabled={busy||Boolean(recovery.pending)||Boolean(recovery.error)} onChange={e=>{clear();setBasis(e.target.value as typeof basis)}}><option value="AS_SOLD">SKU saat penjualan</option><option value="RESTATED">SKU saat ini</option></select></label><button disabled={busy||from>through||Boolean(recovery.pending)||Boolean(recovery.error)}>Muat data permintaan</button></form>
    <button disabled={busy||from>through||Boolean(recovery.pending)||Boolean(recovery.error)} onClick={()=>{setModelSelection(null);setSelected(null);setWorkQuery(null);setAnalysisQuery({from_date:from,through_date:through,group_mode:basis})}}>Analisis, laporan & pengingat seluruh produk</button>
+   <button type="button" aria-expanded={yieldPolicy} onClick={()=>setYieldPolicy(!yieldPolicy)}>Kebijakan yield histori</button>
+   {yieldPolicy?<NativeHistoryYieldPolicyPanel onClose={()=>setYieldPolicy(false)}/>:null}
    {busy?<p role="status">Memeriksa sumber ERP…</p>:null}{error||recovery.error?<div role="alert"><p>{error||recovery.error}</p></div>:null}
    {recovery.pending?<div role="status"><p>Permintaan sebelumnya belum dipastikan. Periksa permintaan yang sama sebelum membuat analisis baru.</p><button disabled={busy} onClick={()=>void load(true)}>Ulangi permintaan yang sama</button></div>:null}
    {data?<><p className={data.state==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{data.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: sumber ERP sudah berubah. Muat analisis baru.'} Diambil {formatCp6WibDateTime(data.capturedAt)}.</p><button disabled={busy} onClick={()=>void check()}>Periksa sumber arsip</button><button disabled={busy} onClick={()=>{setModelSelection(null);setSelected(null);setAnalysisQuery(null);setWorkQuery({from_date:data.from,through_date:data.through,group_mode:data.basis})}}>Jadwal & kekurangan seluruh produk</button><label>Cari pada seluruh hasil<input aria-label="Cari data permintaan" value={search} onChange={e=>setSearch(e.target.value)}/></label><p>{rows.length} dari {data.rows.length} produk. Periode {data.from} sampai {data.through}; stok tersedia adalah posisi saat data diambil.</p>

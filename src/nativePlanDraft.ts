@@ -1,5 +1,6 @@
 import type {ProductionEnvelope} from './productionRecovery'
 import {parseCuttingSaveResult} from './cuttingPersistence'
+import {parseHistoryYield,type HistoryYield} from './nativeHistoryYieldPolicy'
 // A plan is bound to one analysis: a whole Original (v1, by its source hash)
 // or one target of a staged run (v2, by its identity hash and "data per" time).
 export type OriginalPlanContext={kind?:'ORIGINAL';runId:string;targetKey:string;sourceHash:string}
@@ -13,7 +14,7 @@ export type PlanForm={orderId:string;patternId:string;locationId:string;cutAt:st
 export type PlanSaved={id:string;planId:string;revision:string;runId:string;targetKey:string;sourceHash:string;state:string;native:{id:string;groupId:string;number:string|null;posted:boolean|null}|null}
 export type YieldBasis='HISTORY_NATIVE'|'PLAN_ESTIMATE_REVIEWED'|'UNKNOWN'
 export type PlanPreview={draftId:string;revision:string;targetKey:string;needed:string;selected:string;capacity:string;unresolved:string|null;roundingExtra:string|null;
- yield:{basis:YieldBasis;numerator:string|null;denominator:string|null;historyStatus:string};cutLimit:string;expectedGood:string|null;patternRevision:string;materials:{rollId:string;materialId:string;available:string;planned:string;free:string;issued:string;consumed:string;remaining:string}[]}
+ yield:{basis:YieldBasis;numerator:string|null;denominator:string|null;historyStatus:string;history:HistoryYield};cutLimit:string;expectedGood:string|null;patternRevision:string;materials:{rollId:string;materialId:string;available:string;planned:string;free:string;issued:string;consumed:string;remaining:string}[]}
 export const fail=():never=>{throw Error('Rencana belum sesuai sumber ERP, pilihan, atau hak aksesnya.')}
 export const rec=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
 export const text=(v:unknown):string=>typeof v==='string'&&v.length>0&&v.length<=4000?v:fail()
@@ -87,6 +88,8 @@ export function previewBody(r:Record<string,unknown>):PlanPreview{
  // without a yield the good pieces and the unresolved gap must stay unknown.
  const y=rec(r.new_start_yield),h=rec(y.history),basis=y.basis as YieldBasis,needed=qty(r.needed_pcs),selected=qty(r.selected_new_pcs),limit=qty(r.cut_limit_pcs)
  if(!['HISTORY_NATIVE','PLAN_ESTIMATE_REVIEWED','UNKNOWN'].includes(basis)||typeof h.status!=='string'||(h.status==='AVAILABLE')!==(basis==='HISTORY_NATIVE')||y.assumption_id!==(basis==='PLAN_ESTIMATE_REVIEWED'?'PLAN_NEW_START_YIELD':null))fail()
+ // PL-5 B: the history the server used, checked (Wilson bound included); a history yield is its lower bound per mille.
+ const history=parseHistoryYield(h,target(r.target_key));if(basis==='HISTORY_NATIVE'&&(y.numerator!==history.permille||y.denominator!=='1000'))fail()
  // Exact rationals: no float, no rounding beyond the stated ceil/floor.
  type Q={n:bigint;d:bigint};const dec=(v:string):Q=>{const[a,b='']=v.split('.');return{n:BigInt(a+b),d:10n**BigInt(b.length)}},eq=(x:Q,z:Q)=>x.n*z.d===z.n*x.d,max0=(x:Q):Q=>x.n<0n?{n:0n,d:1n}:x
  const need=dec(needed),pcs=dec(selected),cap=dec(limit),ceilQ=(n:bigint,d:bigint)=>(n+d-1n)/d
@@ -101,7 +104,7 @@ export function previewBody(r:Record<string,unknown>):PlanPreview{
  }
  if(pcs.n*cap.d>cap.n*pcs.d)fail()
  return{draftId:guid(r.draft_id),revision:revision(r.revision),targetKey:target(r.target_key),needed,selected,capacity:qty(r.free_capacity_pcs),unresolved:r.unresolved_pcs===null?null:qty(r.unresolved_pcs),roundingExtra:r.rounding_extra_pcs===null?null:qty(r.rounding_extra_pcs),
-  yield:{basis,numerator:y.numerator as string|null,denominator:y.denominator as string|null,historyStatus:h.status as string},cutLimit:limit,expectedGood:good,patternRevision:text(r.pattern_revision),materials:rows(r.material_rows,100).map(x=>{if(x.basis!=='OPERATOR_SELECTED_DRAFT_COMPOSITION_NOT_PROVEN_INSTALLED_OR_RESERVED')fail();return{rollId:guid(x.roll_id),materialId:guid(x.material_id),available:qty(x.native_available),...materialBudget(x.native_available,x.linked_native_draft_qty,x.free_for_new_plan),issued:qty(x.selected_issued),consumed:qty(x.selected_consumption),remaining:qty(x.selected_remaining)}})}
+  yield:{basis,numerator:y.numerator as string|null,denominator:y.denominator as string|null,historyStatus:h.status as string,history},cutLimit:limit,expectedGood:good,patternRevision:text(r.pattern_revision),materials:rows(r.material_rows,100).map(x=>{if(x.basis!=='OPERATOR_SELECTED_DRAFT_COMPOSITION_NOT_PROVEN_INSTALLED_OR_RESERVED')fail();return{rollId:guid(x.roll_id),materialId:guid(x.material_id),available:qty(x.native_available),...materialBudget(x.native_available,x.linked_native_draft_qty,x.free_for_new_plan),issued:qty(x.selected_issued),consumed:qty(x.selected_consumption),remaining:qty(x.selected_remaining)}})}
 }
 export const planPointerKey=(scope:string,staged=false)=>(staged?'erp.cp7.plan-pointer.v2:':'erp.cp7.plan-pointer.v1:')+scope
 export function readPlanPointer(scope:string,staged=false):{id:string|null;error:string}{try{const raw=localStorage.getItem(planPointerKey(scope,staged));if(raw===null)return{id:null,error:''};const p=rec(JSON.parse(raw));if(Object.keys(p).join('|')!=='id')fail();return{id:guid(p.id),error:''}}catch{return{id:null,error:'Penunjuk rencana tersimpan belum dapat dibaca. Jejak lama dipertahankan.'}}}

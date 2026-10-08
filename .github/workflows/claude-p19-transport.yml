@@ -50,6 +50,11 @@ name: CP7 P19 Analysis Job Transport
     - src/NativeStagedRemindersPanel.tsx
     - src/lib/reminderV2Messages.ts
     - docs/cp7/p19/P19_REMINDER_V2.json
+    - scripts/cp7_pl5_history_yield_*
+    - src/nativeHistoryYieldPolicy.ts
+    - src/NativeHistoryYieldPolicyPanel.tsx
+    - src/NativeDemandHistoryPanel.tsx
+    - docs/cp7/pl5/PL5_HISTORY_YIELD.json
     - .github/workflows/claude-p19-transport.yml
   workflow_dispatch: {}
 permissions:
@@ -88,6 +93,9 @@ jobs:
           timeout: 150
         - suite: p19-reminder-v2-16
           probe: cp7_p19_reminder_v2_probe.py
+          timeout: 180
+        - suite: pl5-history-yield-20
+          probe: cp7_pl5_history_yield_probe.py
           timeout: 180
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
