@@ -8,6 +8,7 @@ name: CP7 F03 Full Retained Components
     - scripts/cp7_f03_*
     - scripts/cp7_p19_sales_admission_equivalence.py
     - scripts/cp7_p19_sales_dispatch_equivalence.py
+    - scripts/cp7_p19_finance_equivalence.py
     - scripts/cp6_auditor_browser_host.mjs
     - scripts/cp7-src/**
     - scripts/cp7_*bundle.py
