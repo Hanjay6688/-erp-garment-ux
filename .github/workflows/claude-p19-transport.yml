@@ -28,6 +28,14 @@ name: CP7 P19 Analysis Job Transport
     - src/nativeStagedPlan.ts
     - src/lib/planV2Messages.ts
     - docs/cp7/p19/P19_PLAN_V2.json
+    - scripts/cp7-src/planning/report-staged.sql
+    - scripts/cp7_analysis_bundle.py
+    - scripts/cp7_analysis_stages_bundle.py
+    - scripts/cp7_p19_report_v2_*
+    - src/nativeStagedReports.ts
+    - src/NativeStagedReportsPanel.tsx
+    - src/lib/reportV2Messages.ts
+    - docs/cp7/p19/P19_REPORT_V2.json
     - .github/workflows/claude-p19-transport.yml
   workflow_dispatch: {}
 permissions:
@@ -57,6 +65,9 @@ jobs:
           timeout: 150
         - suite: p19-plan-v2-18
           probe: cp7_p19_plan_v2_probe.py
+          timeout: 180
+        - suite: p19-report-v2-20
+          probe: cp7_p19_report_v2_probe.py
           timeout: 180
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

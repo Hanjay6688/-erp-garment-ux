@@ -79,6 +79,12 @@ export type PreconnectDatabase = {
       erp_cp7_read_report_v1: { Args: { p_id: string }; Returns: Json }
       erp_cp7_list_reports_v1: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_compare_reports_v1: { Args: { p_before: string; p_after: string }; Returns: Json }
+      erp_cp7_publish_report_v2: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_get_report_request_v2: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_step_report_v2: { Args: { p_request: string }; Returns: Json }
+      erp_cp7_read_report_v2: { Args: { p_id: string }; Returns: Json }
+      erp_cp7_read_report_section_v2: { Args: { p_id: string; p_index: number; p_access: string }; Returns: Json }
+      erp_cp7_list_reports_v2: { Args: { p_query: Json }; Returns: Json }
       erp_cp7_get_analysis_receivable_conditions_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_get_analysis_payable_conditions_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_evaluate_obligation_episodes_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }

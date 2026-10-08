@@ -18,15 +18,24 @@ FUNCTIONS = {
     # snapshot contract v2 (analysis-stage-snapshot.sql): change counts, freshness, recorded full checks
     'change_sources': 'i', 'changes_since': 's', 'freshness': 's', 'check_and_record': 'v',
     # snapshot contract v2 §2: one target's plan inputs from the retained index
-    'plan_target': 's'}
+    'plan_target': 's',
+    # Business Report v2 (report-staged.sql): a staged run's report built in steps and sealed once
+    'report_wib': 'i', 'report_unit_kind': 'i', 'report_finance_access': 's', 'report_freshness_text': 'i', 'report_section_text': 'i',
+    'report_summary_text': 'i', 'report_actuals': 's', 'report_status': 's', 'report_request': 'v', 'report_run_unit': 'v', 'report_step': 'v',
+    'report_document': 's', 'report_section': 's', 'report_index': 's'}
 PUBLIC = ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)', 'public.erp_cp7_step_staged_analysis_v1(uuid)',
           'public.erp_cp7_get_staged_analysis_v1(uuid)', 'public.erp_cp7_read_staged_analysis_pages_v1(uuid)',
           'public.erp_cp7_read_staged_analysis_page_v1(uuid,integer,text)', 'public.erp_cp7_check_staged_analysis_source_v1(uuid)',
-          'public.erp_cp7_staged_snapshot_freshness_v1(uuid)', 'public.erp_cp7_check_staged_snapshot_v1(uuid)')
+          'public.erp_cp7_staged_snapshot_freshness_v1(uuid)', 'public.erp_cp7_check_staged_snapshot_v1(uuid)',
+          'public.erp_cp7_publish_report_v2(jsonb,uuid)', 'public.erp_cp7_get_report_request_v2(jsonb,uuid)', 'public.erp_cp7_step_report_v2(uuid)',
+          'public.erp_cp7_read_report_v2(uuid)', 'public.erp_cp7_read_report_section_v2(uuid,integer,text)', 'public.erp_cp7_list_reports_v2(jsonb)')
 TABLES = ('jobs', 'units', 'outputs', 'target_rows', 'pair_rows', 'pair_lists', 'fragments', 'headers', 'pages', 'page_sets',
-          'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks')
+          'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks',
+          'report_jobs', 'report_reads', 'report_sections', 'report_publications')
 # The job row's immutable columns (an UPDATE naming one of them is refused); every other table is insert-only.
 JOB_FIXED = 'id, actor, request_id, query, reference, access_at_capture, captured_at, source_hash, run_id, created_at'
+REPORT_JOB_FIXED = ('id, actor, request_id, payload, run_id, analysis_job, identity_hash, data_as_of, period_query, kind, finance, series_id, '
+                    'revision, page_count, targets_total, access_at_request, unit_count, created_at')
 BOUNDS = {'targets_per_chunk': 250, 'pairs_per_chunk': 25000, 'visits_per_allocation_step': 100000, 'allocation_targets_per_step': 1000,
           'history_cells_per_unit': 12500, 'sales_per_events_unit': 2500, 'targets_per_stock_unit': 1000,
           'job_targets': 5000, 'job_history_cells': 500000, 'job_pairs': 1000000, 'job_matching_products': 10000,
@@ -64,7 +73,8 @@ def verify(cur):
         triggers = cur.execute("select pg_get_triggerdef(t.oid) from pg_trigger t where t.tgrelid=%s::regclass and t.tgfoid='cp7_private.immutable_run()'::regprocedure "
                                "and not t.tgisinternal and t.tgenabled<>'D'", (name,)).fetchall()
         assert len(triggers) == 1, (name, triggers)
-        expected = ('BEFORE DELETE OR UPDATE OF %s' % JOB_FIXED) if table == 'jobs' else 'BEFORE DELETE OR UPDATE'
+        expected = ('BEFORE DELETE OR UPDATE OF %s' % JOB_FIXED) if table == 'jobs' else ('BEFORE DELETE OR UPDATE OF %s' % REPORT_JOB_FIXED) \
+            if table == 'report_jobs' else 'BEFORE DELETE OR UPDATE'
         assert (' %s ON %s FOR EACH ROW EXECUTE FUNCTION cp7_private.immutable_run()' % (expected, name)) in triggers[0][0], triggers[0][0]
     # The staged job never writes the single path's run table: no function of
     # the schema inserts into cp7_analysis_native.runs or the job documents/segments.

@@ -8,8 +8,9 @@ import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage,type
 // targets at a time. Every whole-run number below comes from the server's
 // page set; the page only ever speaks for its own target range. The run has
 // no financial figures (operational path), and the features that read a whole
-// Original (reports, reminders, AI, stock detail, fabric workspace, archives)
-// are stated unavailable rather than offered. A production plan is made per
+// Original (reminders, AI, stock detail, fabric workspace, archives) are
+// stated unavailable rather than offered; the Business Report is built from
+// the run itself, step by step (contract v2 §4). A production plan is made per
 // target from the snapshot (contract v2 §3) and rechecked live when applied.
 // The run is a snapshot "Data per <time>" (contract v2): what changed since is
 // shown beside it and the snapshot is never called current; "Cek sumber" says
@@ -56,7 +57,7 @@ export default function NativeStagedAnalysisView({staged,page,loading,blocked,so
     <li data-total="TIMELINE">Baris linimasa seluruh target: {n(t.items.timeline??0)} · kebutuhan bahan seluruh target: {n(t.items.material_needs??0)}</li>
    </ul>
    <p>Bahan dan produksi baru belum dipastikan. Keuangan dan HPP tidak tercakup pada analisis bertahap dan tidak dianggap nol. Angka belum diketahui tetap ditampilkan apa adanya.</p>
-   <p>Laporan, pengingat, Tanya AI, rincian stok, ruang kerja kain dan arsip memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
+   <p>Laporan dibuat dari analisis ini di bagian Laporan dari analisis bertahap di bawah, memakai data per waktu yang sama. Pengingat, Tanya AI, rincian stok, ruang kerja kain dan arsip memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
    <p>Rencana Potongan dibuat per target dari halaman di bawah memakai data per {formatCp6WibDateTime(m.reference.capturedAt)}; saat draf Potongan dibuat, server memeriksa ulang stok, barang dalam proses, kebijakan dan kapasitas pada saat itu.</p>
   </section>
   {m.pageCount===0?<p>Analisis ini tidak memuat rincian per target.</p>:<section aria-label="Target per halaman">

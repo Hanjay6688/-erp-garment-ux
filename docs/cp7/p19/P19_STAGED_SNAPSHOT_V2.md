@@ -106,12 +106,31 @@ sama (bukan dihitung ulang). Dibaca satu target tanpa membuka halaman lain.
   kapasitas, sama seperti v1 hari ini); run yang selesai sebelum indeks ada perlu dianalisis ulang
   (`CP7_PLAN_V2_SNAPSHOT_INDEX_MISSING`).
 
-## 4. Business Report v2
+## 4. Business Report v2 — server dibuat (`scripts/cp7-src/planning/report-staged.sql`)
 
-- Laporan dari snapshot memakai `identity_hash` (bukan semantic_hash), mencantumkan "Data per …" dan status
-  kesegaran saat diterbitkan; diterbitkan walau ada perubahan sesudah snapshot.
-- Dibagi per bagian sesuai halaman snapshot (tiap bagian ≤ 8.000.000 byte) plus ringkasan seluruh target.
-- Bagian keuangan aktual dibaca dari pembaca keuangan otoritatif untuk tanggal laporan, bukan dari snapshot.
+- Satu permintaan = satu job atas run bertahap milik pelaku yang sudah selesai, terikat `identity_hash`
+  (bukan semantic_hash). Job disusun satu langkah per panggilan biasa (batas 8 detik tidak dinaikkan):
+  ACTUALS → satu SECTION per halaman run → FRESHNESS → SUMMARY, lalu disegel sekali (tabel `report_jobs`,
+  `report_reads`, `report_sections`, `report_publications`; isi tidak bisa diubah atau dihapus).
+- Label: ringkasan dan setiap bagian menulis "Data analisis per <jam WIB>"; angka analisis disebut keadaan pada
+  waktu itu, bukan angka saat ini; kata "terkini" tidak dipakai. Kesegaran saat diterbitkan ditulis dengan kata
+  (VERIFIED_SAME dengan jam cek, STALE_VERIFIED, CHANGES_RECORDED dengan jumlah per kategori, NO_RECORDED_CHANGE).
+  Laporan tetap boleh diterbitkan walau data sudah berubah sesudah snapshot.
+- Angka aktual (ACTUALS, satu pernyataan, satu jam baca): stok barang jadi per produk dengan aturan analisis
+  (grade A/B; fisik tanpa reservasi penjualan dan pembaliknya; tersedia sesudah reservasi; waktu fisik dan waktu
+  catat tidak sesudah jam baca), dicetak per target di samping angka saat analisis. Keuangan dan HPP hanya bila
+  dipilih dan diizinkan: laporan keuangan Native yang sudah diterima untuk tanggal Jakarta jam baca itu (tanggal
+  laporan); tanpa itu laporan menulis "Keuangan dan HPP tidak dimasukkan … Tidak ada angka pengganti."
+- Akses: hanya run milik sendiri; keuangan hanya OWNER/ADMIN dengan `finance.reports.view` (preflight tutup buku
+  hanya dengan `finance.period_close.manage`), dicek saat minta, di ACTUALS, di SUMMARY, dan setiap baca; akses
+  berubah di tengah job → job gagal tanpa laporan.
+- Seri: revisi mengikuti versi terakhir yang disebut (40001 `CP7_REPORT_REVISION_CHANGED` bila kalah), jenis dan
+  periode sama; revisi boleh memakai snapshot yang lebih baru. Satu UUID = satu permintaan di v1 dan v2.
+- RPC: `erp_cp7_publish_report_v2`, `erp_cp7_get_report_request_v2`, `erp_cp7_step_report_v2`,
+  `erp_cp7_read_report_v2`, `erp_cp7_read_report_section_v2`, `erp_cp7_list_reports_v2`. v1 tidak berubah.
+- Batas yang dicatat: biaya ACTUALS dengan keuangan dan FRESHNESS pada 5.000 target belum diukur; stok aktual dibaca
+  sekali di awal job (jamnya tertulis), perubahan sesudahnya terhitung di kesegaran; perbandingan laporan dan
+  lampiran kewajiban v1 belum tersedia untuk laporan bertahap.
 
 ## 5. Pengingat v2
 
@@ -139,6 +158,6 @@ label dan status tampil, tidak ada kata "terkini" tanpa VERIFIED_SAME.
 | 1 Label & kesegaran | server, tampilan dan uji dibuat. CI `a96def4d`: p19-staged12 PASS (termasuk `P19G_SNAPSHOT_FRESHNESS` dan `P19G_RACE_SNAPSHOT_IN_FLIGHT`), 10 workflow lain PASS; p19-scale5 attempt 1 gagal pada "Cek sumber" v1 di 5.000 target (batas terbuka K7, log `../evidence/snapshot-v2-20261008/02_...`), satu rerun berjalan. Pada 100 target: cek 66 ms, kesegaran 13 ms; 5.000 target belum terukur |
 | 2 Akses per target | indeks per target dibuat (`plan_targets`, `plan_scope`, `plan_groups`, ditulis ANA_TARGETS/ANA_META, tidak ikut dihapus retensi) + pembaca `plan_target`; uji keluarga staged lokal; uji Native menyusul bersama rencana v2 |
 | 3 Rencana v2 | server dibuat (`plan-native/staged.sql`, 5 RPC, tabel `staged_drafts`); uji kecil SQL lokal lolos (bukan bukti); 18 kasus CI (`P19_PLAN_V2.json`: 10 Native, 4 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-plan-v2-18`; layar dibuat (tombol per target di halaman bertahap, panel rencana jenis STAGED dengan "data per", hasil pemeriksaan ulang dan alasan penolakan; domain pemulihan dan penunjuk terpisah dari v1; pengurai menghitung ulang kebutuhan dan kapasitas) + uji unit/DOM |
-| 4 Business Report v2 | belum |
+| 4 Business Report v2 | server dibuat (`planning/report-staged.sql`, 6 RPC, 4 tabel); uji kecil SQL lokal lolos termasuk jalur keuangan (bukan bukti); 20 kasus CI (`P19_REPORT_V2.json`: 10 Native, 6 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-report-v2-20`; layar dibuat (panel "Laporan dari analisis bertahap" di bawah hasil bertahap: buat/lanjutkan/periksa permintaan, progres per langkah, ringkasan dan satu bagian dibaca sesuai pilihan, daftar dan revisi) + uji unit/DOM |
 | 5 Pengingat v2 | belum |
 | 6 AI v2 | belum |
