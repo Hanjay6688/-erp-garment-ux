@@ -10,16 +10,37 @@ from pathlib import Path
 from time import monotonic
 from cp7_p19_analysis_equivalence import BASE
 
+# 17ce3f76 changed cp7_finance.analysis outputs on purpose (self-check F1/F2: no
+# growth/margin ratio on a zero-or-negative revenue base, formula V2; Native P13
+# ZERO_BASELINE case). The analysis predecessor therefore carries that formula:
+# it is the 17ce3f76 definition without the JIT clause, and the definition just
+# before 17ce3f76 must equal BASE plus the JIT clause only. The comparison still
+# isolates the JIT scope byte for byte.
+FORMULA_V2 = '17ce3f76b4c8836ae7bd7df7169bb3f3c990db61'
+JIT = " set jit=off as $$"
+
+
+def definition_at(root, commit, path, kind):
+    source = subprocess.check_output(['git', '-C', str(root), 'show', f'{commit}:{path}'], text=True)
+    start = source.index(f'create function cp7_finance.{kind}(')
+    return source[start:source.index('$$;', source.index('$$', start) + 2) + 3]
+
+
+def without_jit(text):
+    assert text.count(JIT) == 1, 'P19_JIT_CLAUSE_NOT_EXACTLY_ONCE'
+    return text.replace(JIT, ' as $$', 1)
+
 
 def compare(cur, query, api, auth, kind='workspace'):
     assert kind in ('workspace', 'analysis')
     path = f"scripts/cp7-src/finance/{'read' if kind == 'workspace' else 'analysis'}.sql"
     root = Path(__file__).resolve().parents[1]
-    source = subprocess.check_output(['git', '-C', str(root), 'show', f'{BASE}:{path}'], text=True)
     marker = f'create function cp7_finance.{kind}('
-    start = source.index(marker)
-    end = source.index('$$;', source.index('$$', start) + 2) + 3
-    predecessor = source[start:end].replace(marker, f'create function cp7_finance.p19_previous_{kind}(', 1)
+    previous = definition_at(root, BASE, path, kind)
+    if kind == 'analysis':
+        assert without_jit(definition_at(root, f'{FORMULA_V2}^', path, kind)) == previous, 'P19_FORMULA_V2_PARENT_NOT_BASE_PLUS_JIT'
+        previous = without_jit(definition_at(root, FORMULA_V2, path, kind))
+    predecessor = previous.replace(marker, f'create function cp7_finance.p19_previous_{kind}(', 1)
     signature = f'cp7_finance.{kind}(jsonb)'
     api.admin(cur)
     definition = cur.execute('select pg_get_functiondef(%s::regprocedure)', (signature,)).fetchone()[0]
