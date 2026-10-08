@@ -39,6 +39,7 @@ import cp6_t3_backup_restore_drill as drill
 import cp6_auditor_runner as native
 import cp6_t3_package_run as package
 from cp6_t3_aligned_install import advisors,advisor_delta
+from cp7_catalog_state import canonical_public_state
 p09=f05.p09
 OUT=f05.bundle.ROOT/'cp6-proof/t3/CP7_P21_FULL_REHEARSAL.json'
 PRE_DUMP='/tmp/cp7_p21_full_preinstall.dump'
@@ -134,6 +135,42 @@ def cp7_catalog(db):
         out=p21.catalog(cur);conn.rollback();return out
 
 
+def function_texts(db,signatures):
+    with psycopg.connect(drill.url(db)) as conn,conn.cursor() as cur:
+        conn.read_only=True
+        out={sig:cur.execute('select pg_get_functiondef(%s::regprocedure)',(sig,)).fetchone()[0] for sig in signatures}
+        conn.rollback();return out
+
+
+def cp7_catalog_diff(a,b,db_a,db_b):
+    """Every CP7 catalog difference between two databases, classified. A function or policy whose stored text a dump
+    round trip re-parses (the G-01 varchar IN-list form) is SAME_MEANING; anything else is kept with both values."""
+    fa,fb=a['functions'],b['functions'];keys=sorted(k for k in set(fa)|set(fb) if fa.get(k)!=fb.get(k))
+    definition_only=[k for k in keys if k in fa and k in fb and {x:y for x,y in fa[k].items() if x!='definition'}=={x:y for x,y in fb[k].items() if x!='definition'}]
+    ta,tb=function_texts(db_a,definition_only),function_texts(db_b,definition_only)
+    functions=[]
+    for k in keys:
+        if k in definition_only:cls='VARCHAR_IN_LIST_REPARSE' if drill.same_meaning(ta[k],tb[k]) else 'UNCLASSIFIED'
+        else:cls='UNCLASSIFIED'
+        row=dict(object=k,cls=cls)
+        if cls=='UNCLASSIFIED':row.update(source=fa.get(k),restored=fb.get(k),source_text=(ta.get(k) or '')[:800],restored_text=(tb.get(k) or '')[:800])
+        functions.append(row)
+    def rows(kind):
+        xa={json.dumps(x,sort_keys=True,default=str) for x in a[kind]};xb={json.dumps(x,sort_keys=True,default=str) for x in b[kind]}
+        return sorted(xa-xb),sorted(xb-xa)
+    policies=[];only_a,only_b=rows('policies')
+    pa={tuple(json.loads(x)[:3]):json.loads(x) for x in only_a};pb={tuple(json.loads(x)[:3]):json.loads(x) for x in only_b}
+    for key in sorted(set(pa)|set(pb)):
+        x,y=pa.get(key),pb.get(key)
+        same=x is not None and y is not None and x[:5]==y[:5] and all(x[i]==y[i] or drill.same_meaning(x[i],y[i]) for i in (5,6))
+        policies.append(dict(object='.'.join(key),cls='VARCHAR_IN_LIST_REPARSE' if same else 'UNCLASSIFIED',**({} if same else dict(source=x,restored=y))))
+    other={kind:rows(kind) for kind in ('tables','roles')}
+    other={k:dict(source_only=v[0][:10],restored_only=v[1][:10]) for k,v in other.items() if v[0] or v[1]}
+    unclassified=[r for r in functions+policies if r['cls']!='VARCHAR_IN_LIST_REPARSE']
+    return dict(equal=a==b,functions=functions,policies=policies,other=other,
+                same_meaning=not unclassified and not other,unclassified_count=len(unclassified)+len(other))
+
+
 def staged_reread(db,run_id):
     """The actor's own public readers on the given database: page set, every page, reassembled Original."""
     with psycopg.connect(drill.url(db)) as conn,conn.cursor() as cur:
@@ -153,6 +190,7 @@ def run():
             assert cur.execute('select current_database()').fetchone()[0]==source,('P21F_UNEXPECTED_DATABASE',source)
         # 0. Pre-install backup and its fingerprints.
         pre=dict(fp=drill.catalog(source),texts=texts_all(source),data=drill.data_hashes(source),cp7=cp7_catalog(source))
+        pre['function_texts']=function_texts(source,list(pre['cp7']['functions']))
         pre_bytes=dump(source,PRE_DUMP)
         report['steps'].append(dict(step='PREINSTALL_BACKUP',dump_bytes=pre_bytes,tables=len(pre['data']),rows=sum(v['rows'] for v in pre['data'].values()),
                                     cp7_tables=len(pre['cp7']['tables'])))
@@ -216,11 +254,11 @@ def run():
         used_bytes=dump(source,USED_DUMP);rest=restore(USED_DUMP,USED_RESTORE)
         cat=compare_catalog(used_fp,used_texts,USED_RESTORE);data=drill.data_hashes(USED_RESTORE)
         data_differ={t:dict(source=used_data.get(t),restored=data.get(t)) for t in sorted(set(used_data)|set(data)) if used_data.get(t)!=data.get(t)}
-        cp7_equal=cp7_catalog(USED_RESTORE)==used_catalog
+        cp7_diff=cp7_catalog_diff(used_catalog,cp7_catalog(USED_RESTORE),source,USED_RESTORE);cp7_equal=cp7_diff['equal'] or cp7_diff['same_meaning']
         restored_staged=staged_reread(USED_RESTORE,done['run_id'])
         ok=rest['only_pg_cron_errors'] and (cat['identical'] or cat['explained']) and not data_differ and cp7_equal and restored_staged==source_staged
         report['steps'].append(dict(step='USED_BACKUP_RESTORE',status='RESTORED_SAME_MEANING' if ok else 'DIFFERENCES_RECORDED',dump_bytes=used_bytes,restore=rest,
-                                    catalog=cat,data_tables=len(data),data_differ=data_differ,cp7_catalog_equal=cp7_equal,
+                                    catalog=cat,data_tables=len(data),data_differ=data_differ,cp7_catalog_equal=cp7_equal,cp7_catalog_diff=cp7_diff,
                                     cp7_rows=sum(v['rows'] for k,v in data.items() if k.startswith('cp7_')),
                                     staged_reread_equal=restored_staged==source_staged,staged_identity_hash=restored_staged['identity_hash']))
         assert ok,'P21F_USED_BACKUP_RESTORE'
@@ -229,12 +267,19 @@ def run():
         cat=compare_catalog(pre['fp'],pre['texts'],PRE_RESTORE);data=drill.data_hashes(PRE_RESTORE)
         data_differ={t:dict(expected=pre['data'].get(t),restored=data.get(t)) for t in sorted(set(pre['data'])|set(data)) if pre['data'].get(t)!=data.get(t)}
         restored_cp7=cp7_catalog(PRE_RESTORE)
-        # CP7 roles are cluster objects (still present while the clone holds the installation); everything else must match.
-        no_cp7=restored_cp7['tables']==pre['cp7']['tables'] and restored_cp7['policies']==pre['cp7']['policies'] and restored_cp7['functions']==pre['cp7']['functions']
+        # CP7 roles are cluster objects (still present while the clone holds the installation); everything else must
+        # match the pre-install catalog, up to the known re-parse form of a dump round trip.
+        no_cp7=not restored_cp7['tables'] and not restored_cp7['policies'] and not any(k.startswith('cp7_') for k in restored_cp7['functions'])
+        same_functions=restored_cp7['functions']==pre['cp7']['functions'] or all(
+            k in pre['cp7']['functions'] and k in restored_cp7['functions'] and pre['cp7']['functions'][k]['owner']==restored_cp7['functions'][k]['owner']
+            and pre['cp7']['functions'][k]['acl']==restored_cp7['functions'][k]['acl'] and pre['function_texts'].get(k) is not None
+            and drill.same_meaning(pre['function_texts'][k],function_texts(PRE_RESTORE,[k])[k])
+            for k in set(pre['cp7']['functions'])|set(restored_cp7['functions']) if pre['cp7']['functions'].get(k)!=restored_cp7['functions'].get(k))
         lost=sorted(t for t in set(used_data)|set(data) if used_data.get(t)!=data.get(t))
-        ok=rest['only_pg_cron_errors'] and (cat['identical'] or cat['explained']) and not data_differ and no_cp7
+        ok=rest['only_pg_cron_errors'] and (cat['identical'] or cat['explained']) and not data_differ and no_cp7 and same_functions
         report['steps'].append(dict(step='ROLLBACK_BY_PREINSTALL_RESTORE',status='RESTORED_PRE_INSTALL_STATE' if ok else 'DIFFERENCES_RECORDED',restore=rest,
-                                    catalog=cat,data_differ=data_differ,cp7_objects_absent=no_cp7,cluster_roles_still_present=len(restored_cp7['roles']),
+                                    catalog=cat,data_differ=data_differ,cp7_objects_absent=no_cp7,functions_same_meaning=same_functions,
+                                    cluster_roles_still_present=len(restored_cp7['roles']),
                                     business_tables_lost_by_restore=lost,note='writes after the install are lost by construction; a used installation is restored from a backup, never rolled back silently'))
         assert ok,'P21F_PREINSTALL_RESTORE'
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
@@ -244,12 +289,24 @@ def run():
         if installed and originals is not None:
             with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
                 uninstall(cur,originals);conn.commit()
-                report['cp6_restored']=restore_state.prove(cur,before,package.boundary.snapshot,f05.public_state,p09.functions,report);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
+                exact=restore_state.prove(cur,before,package.boundary.snapshot,f05.public_state,p09.functions,report)
+                after_public=f05.public_state(cur);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
+                # A committed use leaves its Native rows in the clone (a used installation is restored from backup, step 7);
+                # the harness restore proves the catalog: schema ACLs, every definition/owner/ACL and every public member.
+                c=report['restore_components']
+                public_members=({k:v for k,v in after_public.items() if k!='rows'}=={k:v for k,v in canonical_public_state(before['public']).items() if k!='rows'}
+                                if before else False)
+                rows_changed=sorted(k for k in set(before['public'].get('rows',{}))|set(after_public.get('rows',{}))
+                                    if before['public'].get('rows',{}).get(k)!=after_public.get('rows',{}).get(k)) if before else None
+                report['harness_restore']=dict(exact=exact,schema_acl=c['erp_platform_auth_schema_acl'],definitions_owners_acls=c['erp_public_auth_function_definitions_owners_acls'],
+                                               public_members=public_members,public_tables_with_rows_from_use=rows_changed)
+                report['cp6_restored']=c['erp_platform_auth_schema_acl'] and c['erp_public_auth_function_definitions_owners_acls'] and public_members
             if pre:
                 after=drill.data_hashes(source)
                 changed=sorted(t for t in set(pre['data'])|set(after) if pre['data'].get(t)!=after.get(t))
             else:changed=None
-            report['steps'].append(dict(step='HARNESS_RESTORE_AFTER_USE',catalog_restored=report['cp6_restored'],native_tables_changed_by_committed_use=changed,
+            report['steps'].append(dict(step='HARNESS_RESTORE_AFTER_USE',catalog_restored=report['cp6_restored'],harness_restore=report.get('harness_restore'),
+                                        native_tables_changed_by_committed_use=changed,
                                         note='the clone keeps the committed Native rows of step 4 and is dropped by the harness; a used installation is restored from backup'))
         if 'advisors_with_cp7' in report:
             report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report['advisors_with_cp7']);d=report['advisor_delta']
@@ -258,7 +315,7 @@ def run():
         report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and names==[
             'PREINSTALL_BACKUP','INSTALL_1','PREUSE_ROLLBACK','REINSTALL','USE','POSTUSE_ROLLBACK','USED_BACKUP_RESTORE','ROLLBACK_BY_PREINSTALL_RESTORE','HARNESS_RESTORE_AFTER_USE'] else 'INCOMPLETE'
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
-        print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','steps','cp6_restored','advisor_gate','error','traceback')},default=str)[:60000],flush=True)
+        print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','steps','cp6_restored','harness_restore','restore_components','advisor_gate','error','traceback')},default=str)[:120000],flush=True)
     return dict(status=report['status'],production_go=False,independent_acceptance=False,installed_P21_acceptance=False)
 
 
