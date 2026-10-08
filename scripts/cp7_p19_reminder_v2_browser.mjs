@@ -33,7 +33,8 @@ async function journey(ui,today,mobile){
   // The set's first page (every rule) is already on screen: each read is
   // searched only after the panel has settled on that read's own page.
   const list=rem.getByRole('list',{name:'Daftar pengingat dari analisis',exact:true}),show=rem.getByRole('button',{name:'Tampilkan pengingat',exact:true})
-  const settled=async()=>{await ui.expect(show).toBeEnabled();await ui.expect(list.locator('[data-condition-key]:not([data-condition-key^="PRODUCTION_GAP:"])')).toHaveCount(0)}
+  const settled=async()=>{await ui.expect(show).toBeEnabled();const alert=rem.getByRole('alert');if(await alert.count())assert.fail('P19M_PANEL_ERROR '+await alert.innerText())
+   await ui.expect(list).toHaveCount(1);await ui.expect(list.locator('[data-condition-key]:not([data-condition-key^="PRODUCTION_GAP:"])')).toHaveCount(0)}
   let r=await response(page,'erp_cp7_read_reminder_conditions_v2',()=>show.click());assert.equal(r.status(),200);await settled()
   const item=rem.locator(`[data-condition-key="PRODUCTION_GAP:${f.target_key}"]`)
   for(let i=0;i<200&&!await item.count();i++){const next=rem.getByRole('button',{name:'Halaman pengingat berikutnya',exact:true})

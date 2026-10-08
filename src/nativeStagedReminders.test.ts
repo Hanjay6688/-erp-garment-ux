@@ -23,6 +23,13 @@ it('reads snapshot conditions with their time; a filter, query or "current" labe
   f.page(q,undefined,{sent:true}),f.page(q,undefined,{recheck_required_before_preview:false})])
   expect(()=>parseConditionsPage(bad,q,f.actor,f.identityHash)).toThrow()
 })
+it('accepts the query echoed in jsonb key order (a real server reply) and still refuses a changed or extra key',()=>{
+ const echoed={limit:q.limit,state:q.state,offset:q.offset,run_id:q.run_id,rule_id:q.rule_id}
+ expect(JSON.stringify(echoed)).not.toBe(JSON.stringify(q))
+ expect(parseConditionsPage(f.page(echoed),q,f.actor,f.identityHash).total).toBe(3)
+ for(const bad of[{...echoed,state:'RESOLVED'},{...echoed,rule_id:'FABRIC_NEED'},{...echoed,extra:1},{...echoed,limit:'25'}])
+  expect(()=>parseConditionsPage(f.page(bad),q,f.actor,f.identityHash)).toThrow()
+})
 it('words the recheck: resolved since the analysis is not billed; never "terkini"',()=>{
  const resolved=parseRecheck(f.liveRecheck('RESOLVED_NOW'),f.run,f.actor,'PRODUCTION_GAP:'+f.keys[0])
  expect(verdictText(resolved)).toBe('Sudah selesai sejak analisis — tidak ditagih: kurang 4 PCS saat analisis; stok jadi dan barang dalam proses naik 4 PCS.')

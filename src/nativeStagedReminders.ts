@@ -94,10 +94,14 @@ export function parseCondition(v:unknown,kind:'SNAPSHOT'|'LIVE',dataAsOf:string|
   value:fact(r.value),conditionHash:hex(r.condition_hash),dataAsOf:kind==='SNAPSHOT'?dataAsOf:null,eligibility:str(r.eligibility,60),binding:binding(r.policy_binding,ruleId),
   remaining:rem&&typeof rem.value==='string'?rem.value:null,dueDate:fs&&typeof fs.recorded_due_date==='string'?fs.recorded_due_date:null}
 }
+// The server echoes the query as jsonb, whose keys come back in jsonb's own
+// order: the echo is compared key by key, never as text.
+const QUERY_KEYS=['run_id','rule_id','state','offset','limit'] as const
+const sameQuery=(v:unknown,q:ConditionsQuery)=>{const x=obj(v);exact(x,QUERY_KEYS);return QUERY_KEYS.every(k=>x[k]===q[k])}
 export function parseConditionsPage(v:unknown,q:ConditionsQuery,actor:string,identityHash:string):ConditionsPage{
  const p=obj(v);exact(p,['contract_version','actor_scope_id','run_id','identity_hash','data_as_of','set','query','total','rows','read_at','eligibility_basis','recheck_required_before_preview','external_delivery_enabled','sent'])
  if(p.contract_version!=='cp7.reminder-conditions.v2'||p.actor_scope_id!==actor||p.run_id!==q.run_id||p.identity_hash!==identityHash||p.eligibility_basis!=='SNAPSHOT_VALUE_POLICY_AT_READ'
-  ||p.recheck_required_before_preview!==true||p.external_delivery_enabled!==false||p.sent!==false||JSON.stringify(p.query)!==JSON.stringify(q)||!Array.isArray(p.rows)||p.rows.length>q.limit)fail()
+  ||p.recheck_required_before_preview!==true||p.external_delivery_enabled!==false||p.sent!==false||!sameQuery(p.query,q)||!Array.isArray(p.rows)||p.rows.length>q.limit)fail()
  const dataAsOf=instant(p.data_as_of),total=count(p.total,0,10000000)
  const rows=(p.rows as unknown[]).map(x=>parseCondition(x,'SNAPSHOT',dataAsOf))
  if(rows.some(r=>q.rule_id!==null&&r.ruleId!==q.rule_id||q.state!==null&&r.state!==q.state)||new Set(rows.map(r=>r.key)).size!==rows.length||q.offset+rows.length>total)fail()
