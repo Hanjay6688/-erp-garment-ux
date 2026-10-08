@@ -180,11 +180,19 @@ def with_pcs(p, pcs):
     return p
 
 
-def posted_cut(cur, x, pcs):
-    """An ordinary Native cut of the target's model and size, saved and posted outside any plan."""
+def posted_cut(cur, x, pcs, today):
+    """An ordinary Native cut of the target's model and size, saved and posted outside any plan, from a roll of
+    its own posted receipt. The plan's selected roll is not touched: a cut from it changes the plan's selection,
+    which preview refuses on its own rule (CP7_PLAN_NATIVE_SELECTION_CHANGED) before any WIP verdict."""
+    other = plan.receipt.fixture(cur, today, qty='10', price='10')
+    plan.receipt.post(cur, plan.receipt.command(cur, 'SAVE_DRAFT', other['payload']))
+    b.api.admin(cur)
+    rolls = cur.execute('select id::text from erp.material_rolls where material_id=%s', (other['material'],)).fetchall()
+    assert len(rolls) == 1 and rolls[0][0] != x['payload']['cutting']['rolls'][0]['roll_id'], rolls
     c = copy.deepcopy(x['payload']['cutting'])
-    c['rolls'][0].update(qty_issued='1', qty_consumed='1', qty_reported_remaining='0')
-    c['rolls'][0]['yields'][0]['qty_pcs'] = str(pcs)
+    c['source_location_id'] = other['location']
+    c['rolls'] = [dict(c['rolls'][0], roll_id=rolls[0][0], qty_issued='1', qty_consumed='1', qty_reported_remaining='0')]
+    c['rolls'][0]['yields'] = [dict(c['rolls'][0]['yields'][0], qty_pcs=str(pcs))]
     c['notes'] = 'P19 plan v2 ordinary Native cut after the snapshot'
     g = b.chain.production.rpc(cur, 'public.erp_save_cutting_group_before_sewing_v2', dict(c, action='SAVE_DRAFT', change_reason='P19 plan v2 ordinary cut'))
     gid = g['cutting_group_id']
@@ -346,7 +354,7 @@ def cases(cur, today):
         x = single(cur, today)
         d = save(cur, x['payload'])
         need, k = short_of_need(x)
-        posted_cut(cur, x, k)
+        posted_cut(cur, x, k, today)
         live = preview(cur, d['draft_id'])['live']
         assert D(live['wip_now_pcs']) - D(live['wip_snapshot_pcs']) == k and D(live['fg_now_pcs']) == D(live['fg_snapshot_pcs']), live
         assert verdicts(live)['NEED'] == ('REFUSED', 'CP7_PLAN_V2_NEED_CHANGED') and verdicts(live)['WIP'] == ('OK', None), live
