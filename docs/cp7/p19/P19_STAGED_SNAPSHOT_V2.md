@@ -117,8 +117,8 @@ label dan status tampil, tidak ada kata "terkini" tanpa VERIFIED_SAME.
 | Bagian | Status |
 |---|---|
 | 1 Label & kesegaran | server, tampilan dan uji dibuat. CI `a96def4d`: p19-staged12 PASS (termasuk `P19G_SNAPSHOT_FRESHNESS` dan `P19G_RACE_SNAPSHOT_IN_FLIGHT`), 10 workflow lain PASS; p19-scale5 attempt 1 gagal pada "Cek sumber" v1 di 5.000 target (batas terbuka K7, log `../evidence/snapshot-v2-20261008/02_...`), satu rerun berjalan. Pada 100 target: cek 66 ms, kesegaran 13 ms; 5.000 target belum terukur |
-| 2 Akses per target | belum |
-| 3 Rencana v2 | belum |
+| 2 Akses per target | indeks per target dibuat (`plan_targets`, `plan_scope`, `plan_groups`, ditulis ANA_TARGETS/ANA_META, tidak ikut dihapus retensi) + pembaca `plan_target`; uji keluarga staged lokal; uji Native menyusul bersama rencana v2 |
+| 3 Rencana v2 | rancangan teknis selesai; server sedang dikerjakan |
 | 4 Business Report v2 | belum |
 | 5 Pengingat v2 | belum |
 | 6 AI v2 | belum |

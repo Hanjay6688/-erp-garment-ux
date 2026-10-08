@@ -1327,14 +1327,27 @@ create table cp7_analysis_stage.page_sets(run_id uuid primary key references cp7
 -- analysis-stage-snapshot.sql): which transactions the reference saw. Null
 -- when the capturing transaction had already written before the capture.
 create table cp7_analysis_stage.capture_marks(job_id uuid primary key references cp7_analysis_stage.jobs(id),source_snapshot pg_snapshot);
+-- What planning one target needs from the snapshot (contract v2 §2), written
+-- by ANA_TARGETS (per target, in loop order) and ANA_META (the run's scope and
+-- its cutting groups), kept when the intermediates are purged. Values exactly
+-- as the units hold them; the only sums are of the WIP numbers the units
+-- produced. target_key is not unique: a reader refuses ambiguity.
+create table cp7_analysis_stage.plan_targets(job_id uuid not null references cp7_analysis_stage.jobs(id),ord integer not null check(ord>=1),
+ target_key text not null,row jsonb not null,primary key(job_id,ord));
+create index cp7_analysis_stage_plan_target on cp7_analysis_stage.plan_targets(job_id,target_key);
+create table cp7_analysis_stage.plan_scope(job_id uuid primary key references cp7_analysis_stage.jobs(id),scope jsonb not null);
+create table cp7_analysis_stage.plan_groups(job_id uuid not null references cp7_analysis_stage.jobs(id),group_id text not null,
+ scope text not null check(scope in('OPEN','EXHAUSTED')),unproven boolean not null,primary key(job_id,group_id));
 do $$declare t text;begin
- foreach t in array array['jobs','units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks']loop
+ foreach t in array array['jobs','units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks',
+  'plan_targets','plan_scope','plan_groups']loop
   execute format('alter table cp7_analysis_stage.%I owner to cp7_capture',t);
   execute format('alter table cp7_analysis_stage.%I enable row level security',t);
   execute format('create policy cp7_analysis_stage_no_access on cp7_analysis_stage.%I for all to public using(false)with check(false)',t);
   execute format('revoke all on cp7_analysis_stage.%I from public,anon,authenticated,service_role',t);
  end loop;
- foreach t in array array['units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks']loop
+ foreach t in array array['units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks',
+  'plan_targets','plan_scope','plan_groups']loop
   execute format('create trigger immutable_stage_%s before update or delete on cp7_analysis_stage.%I for each row execute function cp7_private.immutable_run()',t,t);
  end loop;
 end $$;
@@ -1787,13 +1800,15 @@ begin
       cross join lateral jsonb_array_elements(o.output->'unresolved')k where o.job_id=j.id and y.kind='NET_PAIRS')k))));
  end if;
  if u.kind='ANA_TARGETS'then
+  declare by_root jsonb;by_stock jsonb;
+  begin
   select coalesce(jsonb_agg(x.payload order by x.ord),'[]'),coalesce(array_agg(x.key),'{}')into rows,keys
    from cp7_analysis_stage.target_rows x where x.job_id=j.id and x.kind='NETROW'and x.ord between u.lo and u.hi;
-  out:=cp7_analysis_stage.analysis_targets(cp7_analysis_stage.material_scope(c,keys),rows,
-   (select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)from(select x->>'root_id'k,jsonb_agg(x)items from jsonb_array_elements(c->'facts'->'products')x
-     where x->>'root_id'=any(select split_part(y,':',1)from unnest(keys)y)group by x->>'root_id')i),
-   (select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)from(select x.key k,jsonb_agg(x.payload order by x.ord)items from cp7_analysis_stage.target_rows x
-     where x.job_id=j.id and x.kind='STOCK'and x.key=any(keys)group by x.key)i),
+  by_root:=(select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)from(select x->>'root_id'k,jsonb_agg(x)items from jsonb_array_elements(c->'facts'->'products')x
+     where x->>'root_id'=any(select split_part(y,':',1)from unnest(keys)y)group by x->>'root_id')i);
+  by_stock:=(select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)from(select x.key k,jsonb_agg(x.payload order by x.ord)items from cp7_analysis_stage.target_rows x
+     where x.job_id=j.id and x.kind='STOCK'and x.key=any(keys)group by x.key)i);
+  out:=cp7_analysis_stage.analysis_targets(cp7_analysis_stage.material_scope(c,keys),rows,by_root,by_stock,
    (select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)from(select x.key k,jsonb_agg(x.payload order by x.ord)items from cp7_analysis_stage.target_rows x
      where x.job_id=j.id and x.kind='HIST'and x.key=any(keys)group by x.key)i),
    (select coalesce(jsonb_object_agg(i.k,i.items),'{}'::jsonb)from(select x->>'target_key'k,jsonb_agg(x order by o)items
@@ -1810,9 +1825,19 @@ begin
   from jsonb_array_elements(out->'targets')with ordinality x(v,o)cross join unnest(cp7_analysis_stage.fragment_fields())f(field)
   cross join lateral(select substr(a.t,2,length(a.t)-2)body from(select(x.v->f.field)::text t)a)s
   where jsonb_array_length(x.v->f.field)>0;
+  -- Contract v2 §2: one target's plan inputs, in the same loop order (ord).
+  insert into cp7_analysis_stage.plan_targets(job_id,ord,target_key,row)
+  select j.id,u.lo+x.o::integer-1,x.r->>'target_key',jsonb_build_object('target_key',x.r->'target_key','size_id',x.r->'size_id',
+   'products',coalesce(by_root->split_part(x.r->>'target_key',':',1),'[]'::jsonb),'stock',coalesce(by_stock->(x.r->>'target_key'),'[]'::jsonb),
+   'available_fg_pcs',x.r->'available_fg_pcs','target',x.r->'target','production_policy',x.r->'production_policy',
+   'raw_gap_pcs',x.r->'raw_gap_pcs','base_gap_pcs',x.r->'base_gap_pcs','conditional_gap_pcs',x.r->'conditional_gap_pcs',
+   'directed_on_time_good_pcs',x.r->'directed_on_time_good_pcs','candidate_allocated_good_pcs',x.r->'candidate_allocated_good_pcs',
+   'supplies',x.r->'net'->'inputs'->'supplies','assumptions',out->'targets'->(x.o::integer-1)->'assumptions')
+  from jsonb_array_elements(rows)with ordinality x(r,o)where x.r->>'target_key'is not null;
   return jsonb_build_object('known_keys',out->'known_keys','demand_unknown',out->'demand_unknown','materials_null',out->'materials_null',
    'counts',(select coalesce(jsonb_object_agg(i.field,i.n),'{}'::jsonb)from(select f.field,sum(jsonb_array_length(x.v->f.field))n
      from jsonb_array_elements(out->'targets')x(v)cross join unnest(cp7_analysis_stage.fragment_fields())f(field)group by 1)i));
+  end;
  end if;
  if u.kind='ANA_META'then
   -- The header skeleton (build_operational after its target loop, the finance
@@ -1850,6 +1875,36 @@ begin
    if octet_length(body)>(b->>'header_utf8_bytes')::integer then raise exception 'CP7_ANALYSIS_PAGE_HEADER_LIMIT';end if;
    insert into cp7_analysis_stage.headers(run_id,job_id,body,utf8_bytes,sha256,paged,targets_total,page_count,cuts)
    values(j.run_id,j.id,body,octet_length(body),encode(pg_catalog.sha256(convert_to(body,'UTF8')),'hex'),header->'paged',ntargets,npages,cuts);
+   -- Contract v2 §2: the run's planning scope (allocation, capacity, WIP state,
+   -- schedule and its global assumptions, company cut WIP per model:size) and
+   -- every cutting group of the production scope with its open/exhausted
+   -- state and whether its pieces were proven to have left WIP.
+   insert into cp7_analysis_stage.plan_scope(job_id,scope)
+   with totals as materialized(select pt.val from jsonb_array_elements(case when jsonb_typeof(wip->'totals')='array'then wip->'totals'else'[]'::jsonb end)pt(val)
+     where pt.val->>'pool_key'like 'CUT:%'and pt.val->>'ownership'='COMPANY'),
+    models as materialized(select pg.val->>'id' id,min(pg.val->>'model_id')model_id
+     from jsonb_array_elements(case when jsonb_typeof(c#>'{production_sources,facts,cutting,groups}')='array'
+       then c#>'{production_sources,facts,cutting,groups}'else'[]'::jsonb end)pg(val)group by 1)
+   select j.id,jsonb_build_object('alloc_status',alloc->'status','capacity',scenario->'capacity','scenario_status',scenario->'status',
+    'wip_status',wip->'status','schedule_state',scenario->'schedule_state',
+    'schedule',case when jsonb_typeof(c->'schedule')='object'then jsonb_build_object('plan_id',c->'schedule'->'plan_id','revision',c->'schedule'->'revision')end,
+    'assumptions',(select coalesce(jsonb_agg(x.e order by x.o),'[]'::jsonb)from jsonb_array_elements(coalesce(skel->'assumptions','[]'::jsonb))with ordinality x(e,o)
+      where jsonb_typeof(x.e)='object'),
+    'wip_by_model_size',(select coalesce(jsonb_object_agg(pw.k,pw.pcs),'{}'::jsonb)from(
+      select pm.model_id||':'||(pt.val->>'size_id')k,sum((pt.val->>'wip_pcs')::numeric)::text pcs
+      from totals pt join models pm on pm.id=split_part(pt.val->>'pool_key',':',2)
+      where pm.model_id is not null and pt.val->>'size_id'is not null group by 1)pw));
+   insert into cp7_analysis_stage.plan_groups(job_id,group_id,scope,unproven)
+   with unproven as materialized(select split_part(pt.val->>'pool_key',':',2)gid
+     from jsonb_array_elements(case when jsonb_typeof(wip->'totals')='array'then wip->'totals'else'[]'::jsonb end)pt(val)
+     where pt.val->>'pool_key'like 'CUT:%'and(pt.val->>'input_pcs')::numeric>(pt.val->>'fg_pcs')::numeric+(pt.val->>'exited_pcs')::numeric group by 1),
+    scoped as materialized(select x.value#>>'{}' gid,'OPEN'scope
+      from jsonb_array_elements(case when jsonb_typeof(scenario#>'{supply_run_result,production_scope,cutting_groups}')='array'
+       then scenario#>'{supply_run_result,production_scope,cutting_groups}'else'[]'::jsonb end)x
+     union all select x.value#>>'{}','EXHAUSTED'
+      from jsonb_array_elements(case when jsonb_typeof(scenario#>'{supply_run_result,production_scope,exhausted_cutting_groups}')='array'
+       then scenario#>'{supply_run_result,production_scope,exhausted_cutting_groups}'else'[]'::jsonb end)x)
+   select j.id,ps.gid,min(ps.scope),bool_or(pu.gid is not null)from scoped ps left join unproven pu on pu.gid=ps.gid where ps.gid is not null group by ps.gid;
    idx:=u.idx+1;
    insert into cp7_analysis_stage.units select j.id,idx+x.o::integer-1,'PAGES',x.o::integer-1,(x.v->>0)::integer,(x.v->>1)::integer
     from jsonb_array_elements(cuts)with ordinality x(v,o);

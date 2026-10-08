@@ -168,9 +168,27 @@ begin
   'checked_at',r->'checked_at','boundary',case when snap is null then 'RECORDING_TIME'else 'SNAPSHOT'end);
 end $$;
 
+-- One target of a staged run as planning reads it (contract v2 §2): its row,
+-- the run's planning scope and the page holding it, from the retained index
+-- (never the whole reference or the pages). The caller checks actor and state.
+create function cp7_analysis_stage.plan_target(p_job uuid,p_target text)returns jsonb
+language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
+declare n integer;r cp7_analysis_stage.plan_targets%rowtype;s jsonb;page integer;
+begin
+ select x.scope into s from cp7_analysis_stage.plan_scope x where x.job_id=p_job;
+ if s is null then raise exception 'CP7_PLAN_V2_SNAPSHOT_INDEX_MISSING';end if;
+ select count(*)into n from cp7_analysis_stage.plan_targets x where x.job_id=p_job and x.target_key=p_target;
+ if n=0 then raise exception 'CP7_PLAN_TARGET';end if;
+ if n>1 then raise exception 'CP7_PLAN_V2_TARGET_AMBIGUOUS';end if;
+ select *into r from cp7_analysis_stage.plan_targets x where x.job_id=p_job and x.target_key=p_target;
+ select min(c.o-1)into page from cp7_analysis_stage.headers h cross join lateral jsonb_array_elements(h.cuts)with ordinality c(v,o)
+  where h.job_id=p_job and r.ord between(c.v->>0)::integer and(c.v->>1)::integer;
+ return jsonb_build_object('ord',r.ord,'page_index',page,'row',r.row,'scope',s);
+end $$;
+
 do $$declare r record;begin
  for r in select p.oid::regprocedure sig from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-  where n.nspname='cp7_analysis_stage'and p.proname in('change_sources','changes_since','freshness','check_and_record')loop
+  where n.nspname='cp7_analysis_stage'and p.proname in('change_sources','changes_since','freshness','check_and_record','plan_target')loop
   execute format('alter function %s owner to cp7_capture',r.sig);
   execute format('revoke all on function %s from public,anon,authenticated,service_role',r.sig);
  end loop;

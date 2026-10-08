@@ -6,17 +6,22 @@
 create function cp7_planning.history_source_within(p_products integer)returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC' as $$
 with clock as materialized(select clock_timestamp()at),
+-- K7: each root's first creation in one pass over every product (it was one
+-- scan of the whole table per current product); same rows, same value.
+established as materialized(
+ select coalesce(p0.identity_root_id,p0.id)root_id,min(p0.created_at)established_at from erp.products p0 group by 1
+),
 products as materialized(
  select p.id,coalesce(p.identity_root_id,p.id)root_id,p.size_id,p.model_id,p.brand_id,
   p.sku,p.product_name,p.is_active,p.effective_from,p.effective_to,p.created_at,
-  (select min(p0.created_at)from erp.products p0 where coalesce(p0.identity_root_id,p0.id)=coalesce(p.identity_root_id,p.id))established_at,
+  e.established_at,
   coalesce((select jsonb_agg(jsonb_build_object('sku_id',s.id,'sku',s.sku,'version_id',v.id,'revision',v.revision::text)order by v.id)
    from erp.bf_sku_members_v1 m join erp.bf_sku_versions_v1 v on v.id=m.version_id
    join erp.bf_skus_v1 s on s.id=v.sku_id
    where m.product_root=coalesce(p.identity_root_id,p.id)and v.effective_from<=c.at
     and(v.effective_to is null or v.effective_to>c.at)),'[]')commercial
- from erp.products p cross join clock c where p.effective_from<=c.at
-  and(p.effective_to is null or p.effective_to>c.at)
+ from erp.products p cross join clock c join established e on e.root_id=coalesce(p.identity_root_id,p.id)
+ where p.effective_from<=c.at and(p.effective_to is null or p.effective_to>c.at)
  order by coalesce(p.identity_root_id,p.id),p.id limit p_products+1
 ),
 stock as materialized(
@@ -64,7 +69,8 @@ return_journals as materialized(
    where x.source_type='SALES_RETURN'and x.source_id in(select return_id from returns)))
   and j.posting_at<=c.at order by j.id limit 50001
 ),
-source as(select jsonb_build_object(
+-- K7: built once (it was rebuilt for each later use of facts).
+source as materialized(select jsonb_build_object(
  'products',coalesce((select jsonb_agg(to_jsonb(p)order by p.id)from products p),'[]'),
  'stock',coalesce((select jsonb_agg(to_jsonb(m)order by m.id)from stock m),'[]'),
  'sales',coalesce((select jsonb_agg(to_jsonb(s)order by s.id)from sales s),'[]'),
@@ -78,8 +84,8 @@ select jsonb_build_object('contract_version','cp7.native-demand-facts.v1',
   and(select count(*)from products)=(select count(distinct root_id)from products)
   and not exists(select 1 from products where jsonb_array_length(commercial)>1)
   and not exists(select 1 from sales where jsonb_array_length(sold_commercial)>1)
-  and not exists(select 1 from sales s where s.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')
-   and(select count(*)from sale_journals j where j.sale_id=s.sale_id and j.reversal_of_id is null)<>1)
+  and not exists(select 1 from sales s left join(select j.sale_id,count(*)n from sale_journals j where j.reversal_of_id is null group by 1)k
+   on k.sale_id=s.sale_id where s.status in('POSTED','PARTIAL_PAID','PAID','REVERSED')and coalesce(k.n,0)<>1)
  then 'COMPLETE'else 'INCOMPLETE'end,'facts',facts)from source cross join clock c
 $$;
 create function cp7_planning.history_source()returns jsonb

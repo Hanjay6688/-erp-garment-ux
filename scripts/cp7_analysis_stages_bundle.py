@@ -16,13 +16,15 @@ FUNCTIONS = {
     'job_of': 's', 'request': 'v', 'step_request': 'v', 'get': 'v', 'page_set': 's', 'page': 's', 'check_source': 's',
     'purge_intermediates': 'v',
     # snapshot contract v2 (analysis-stage-snapshot.sql): change counts, freshness, recorded full checks
-    'change_sources': 'i', 'changes_since': 's', 'freshness': 's', 'check_and_record': 'v'}
+    'change_sources': 'i', 'changes_since': 's', 'freshness': 's', 'check_and_record': 'v',
+    # snapshot contract v2 §2: one target's plan inputs from the retained index
+    'plan_target': 's'}
 PUBLIC = ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)', 'public.erp_cp7_step_staged_analysis_v1(uuid)',
           'public.erp_cp7_get_staged_analysis_v1(uuid)', 'public.erp_cp7_read_staged_analysis_pages_v1(uuid)',
           'public.erp_cp7_read_staged_analysis_page_v1(uuid,integer,text)', 'public.erp_cp7_check_staged_analysis_source_v1(uuid)',
           'public.erp_cp7_staged_snapshot_freshness_v1(uuid)', 'public.erp_cp7_check_staged_snapshot_v1(uuid)')
 TABLES = ('jobs', 'units', 'outputs', 'target_rows', 'pair_rows', 'pair_lists', 'fragments', 'headers', 'pages', 'page_sets',
-          'capture_marks', 'source_checks')
+          'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks')
 # The job row's immutable columns (an UPDATE naming one of them is refused); every other table is insert-only.
 JOB_FIXED = 'id, actor, request_id, query, reference, access_at_capture, captured_at, source_hash, run_id, created_at'
 BOUNDS = {'targets_per_chunk': 250, 'pairs_per_chunk': 25000, 'visits_per_allocation_step': 100000, 'allocation_targets_per_step': 1000,
