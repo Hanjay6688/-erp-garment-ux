@@ -36,3 +36,22 @@ Status tetap: `independent_acceptance=false`, `installed_P21_acceptance=false`, 
   penyimpanan, percepat "Cek sumber"). Pekerjaan CP7C (jadwal otomatis di server, hapus terjadwal, backup malam) tidak
   dikerjakan di sini.
 - Kandidat beku `9d57b7f5` tetap tercatat sebagai titik periksa; kandidat audit berikutnya menggantikannya.
+
+## Keputusan owner 8 Okt: snapshot berlabel waktu untuk analisis bertahap (kontrak versi baru)
+
+Kutipan owner apa adanya:
+
+> Pakai hasil analisis dengan label waktu. Jangan mewajibkan seluruh ERP berhenti berubah selama analisis.
+>
+> Hasil tetap merupakan snapshot yang tidak diubah. Tampilkan “data per tanggal/jam …”, status kesegarannya, dan perubahan relevan sejak analisis. Jangan disebut data terkini kalau sudah berubah.
+>
+> Business Report, pengingat, dan AI boleh memakai snapshot tersebut sebagai analisis. Angka aktual keuangan, stok, dan HPP tetap mengikuti sumber otoritatif sesuai tanggal laporan.
+>
+> Rencana boleh dibuat dan disimpan sebagai draf. Saat disahkan atau dijalankan, server wajib memeriksa ulang stok, bahan, WIP, kebutuhan, kebijakan, dan akses yang relevan dalam transaksi yang sama. Kalau berubah sehingga rencana tidak valid, tolak dengan alasan jelas dan minta tinjau ulang.
+>
+> Pengingat juga diperiksa ulang sebelum dikirim, supaya kondisi yang sudah selesai tidak tetap ditagih.
+>
+> Perubahan ini dibuat sebagai versi kontrak baru beserta uji; jangan mengubah kandidat audit yang sudah dibekukan.
+
+Penerapan: kontrak `docs/cp7/p19/P19_STAGED_SNAPSHOT_V2.md`. Kandidat beku `9d57b7f5` (`cp7/integration`) tidak diubah;
+pekerjaan ini di cabang Claude sesudahnya.
