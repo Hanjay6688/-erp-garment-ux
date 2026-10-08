@@ -7,6 +7,7 @@ name: CP7 P21 Rehearsal
     - cp7/integration
     paths:
     - scripts/cp7_p21_rehearsal_probe.py
+    - scripts/cp7_p21_full_rehearsal_probe.py
     - scripts/cp7-src/**
     - scripts/cp7_*bundle.py
     - .github/workflows/claude-p21-rehearsal.yml
@@ -20,9 +21,24 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)
+    name: ${{ matrix.name }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: ${{ matrix.timeout }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        # F03 composition: install, pre-use rollback, identical reinstall, use held open, post-use refusal, restore.
+        - name: Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)
+          probe: cp7_p21_rehearsal_probe.py
+          artifact: cp7-p21-rehearsal
+          timeout: 60
+        # Full composition incl. staged 5,000-target analysis and reminders: committed use, backup of the used
+        # installation restored, rollback of a used installation by restoring the pre-install backup.
+        - name: Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)
+          probe: cp7_p21_full_rehearsal_probe.py
+          artifact: cp7-p21-full-rehearsal
+          timeout: 120
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
@@ -199,7 +215,7 @@ jobs:
           cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'
     - name: Rehearse install, rollback and reinstall
       working-directory: writer
-      run: python '../auditor/scripts/cp7_p21_rehearsal_probe.py'
+      run: python '../auditor/scripts/${{ matrix.probe }}'
     - name: Remove disposable database
       if: always()
       working-directory: base
@@ -207,7 +223,7 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp7-p21-rehearsal
+        name: ${{ matrix.artifact }}
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
