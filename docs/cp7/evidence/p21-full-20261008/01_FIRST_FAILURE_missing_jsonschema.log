@@ -1,0 +1,18 @@
+First failure of the full-composition P21 rehearsal (kept verbatim; not a product defect).
+Source 9fee1a92125072e390e6dcc053bd3f8524749714, workflow CP7 P21 Rehearsal run 37714260236,
+job 113107008733 "Full composition with staged analysis, ...", step "Rehearse install, rollback and reinstall".
+The F03 job of the same run (113107008411) passed.
+
+2026-10-08T01:45:54.6543286Z Traceback (most recent call last):
+2026-10-08T01:45:54.6543990Z   File ".../auditor/scripts/cp7_p21_full_rehearsal_probe.py", line 32, in <module>
+2026-10-08T01:45:54.6544465Z     import cp7_f05_analysis_probe as f05
+2026-10-08T01:45:54.6544995Z   File ".../auditor/scripts/cp7_f05_analysis_probe.py", line 14, in <module>
+2026-10-08T01:45:54.6545522Z     import cp7_analysis_cases as history_cases
+2026-10-08T01:45:54.6546057Z   File ".../auditor/scripts/cp7_analysis_cases.py", line 11, in <module>
+2026-10-08T01:45:54.6546713Z     from jsonschema import Draft7Validator,FormatChecker
+2026-10-08T01:45:54.6546956Z ModuleNotFoundError: No module named 'jsonschema'
+2026-10-08T01:45:54.6823893Z ##[error]Process completed with exit code 1.
+
+Cause: the P21 workflow installed only psycopg and PyYAML; the analysis case modules the full
+composition imports need jsonschema (pinned 4.25.1 in the P19 Transport workflow).
+Fix: the same pin added to the P21 workflow's install step. Nothing ran against the database.
