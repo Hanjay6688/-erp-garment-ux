@@ -3,8 +3,8 @@ import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 // K3b in the real UI: a staged run started by one click finishes; the server
 // schedule's cleanup entry (run exactly as pg_cron runs it) removes the run's
-// temporary work after verifying its result; the page is reloaded and the last
-// result reopened: it reads the same pages (same identity hash), sends no
+// temporary work after verifying its result; the page is reloaded and the panel
+// reopens the last result by itself: it reads the same pages (same identity hash), sends no
 // request or step, shows the kept-until label, and a Potongan plan is started
 // from the reopened result with its options loaded from the server.
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_k3_cleanup_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
@@ -33,8 +33,10 @@ async function journey(ui,today,mobile){
   const cleaned=fixture('clean',{});assert.ok(cleaned.cleaned.includes(before.done[0]),JSON.stringify(cleaned))
   const after=fixture('state',{actor:user.user.id});assert.equal(after.logs,1);assert.deepEqual(Object.values(after.temporary),[0,0,0,0,0])
   await page.reload();calls.length=0
-  panel=await openPanel(page);await panel.getByRole('button',{name:'Buka hasil analisis bertahap terakhir',exact:true}).click()
+  // Opening the panel reopens the last finished result by itself (NativeAnalysisPanel mount effect); no click is needed.
+  panel=await openPanel(page)
   region=page.getByRole('region',{name:'Hasil analisis bertahap',exact:true});await ui.expect(region).toBeVisible({timeout:60000})
+  await ui.expect(panel.getByRole('button',{name:'Buka hasil analisis bertahap terakhir',exact:true})).toHaveCount(0)
   const reread=calls.filter(c=>c.name==='erp_cp7_read_staged_analysis_pages_v1'&&c.status===200).at(-1);assert.ok(reread,'K3C_REOPEN_READ_NO_PAGE_SET')
   assert.equal(reread.body.identity_hash,identity,'K3C_REOPENED_IDENTITY_DIFFERS');assert.equal(reread.body.page_count,pages)
   assert.equal(calls.filter(c=>c.name==='erp_cp7_request_staged_analysis_v1'||c.name==='erp_cp7_step_staged_analysis_v1').length,0,'K3C_REOPEN_RECOMPUTED')
@@ -48,7 +50,7 @@ async function journey(ui,today,mobile){
   const options=await r.json();assert.equal(options.contract_version,'cp7.plan-options-staged.v1');assert.equal(options.identity_hash,identity)
   assert.ok(options.rolls.some(x=>x.material_id===f.material_id),'K3C_FIXTURE_ROLL')
   shots.push(await shot(ui,page,`K3C_${suffix}_REOPENED_AFTER_CLEANUP.png`))
-  return{status:'PASS',cleaned_by_schedule_entry:true,reopened_same_identity:identity,pages,no_request_or_step_on_reopen:true,plan_options_after_cleanup:true,no_horizontal_scroll:true,screenshots:shots}
+  return{status:'PASS',cleaned_by_schedule_entry:true,reopened_on_panel_open:true,reopened_same_identity:identity,pages,no_request_or_step_on_reopen:true,plan_options_after_cleanup:true,no_horizontal_scroll:true,screenshots:shots}
  }catch(e){writeFileSync(`cp6-proof/t3/K3C_${suffix}_FAILURE.json`,JSON.stringify({error:String(e),text:await panel?.innerText().catch(()=>'')},null,2));await page.screenshot({path:`cp6-proof/t3/K3C_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }
