@@ -305,6 +305,7 @@ begin
  if exists(select 1 from cp7_analysis_native.report_requests x where x.actor=(a->>'actor')::uuid and x.request_id=p_request)then
   raise exception 'CP7_REPORT_REQUEST_CHANGED';end if;
  select *into sj from cp7_analysis_stage.jobs x where x.run_id=(p->>'run_id')::uuid and x.actor=(a->>'actor')::uuid and x.state='DONE';
+ perform cp7_analysis_stage.require_kept(sj.id);
  select *into ps from cp7_analysis_stage.page_sets x where x.run_id=sj.run_id;
  select *into hd from cp7_analysis_stage.headers x where x.run_id=sj.run_id;
  if sj.id is null or ps.run_id is null or hd.run_id is null then raise exception using errcode='42501',message='CP7_REPORT_V2_SNAPSHOT_UNAVAILABLE';end if;

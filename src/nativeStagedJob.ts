@@ -13,7 +13,10 @@ import {parseStagedReference,stagedInstant,stagedNumber,ANALYSIS_STAGED_TARGETS,
 // code), and abandons every call when its generation is retired.
 export type StagedJobState='RUNNING'|'DONE'|'FAILED'
 export type StagedJobFailure={unit:number;sqlstate:string;code:string}
-export type StagedJob={requestId:string;state:StagedJobState;stage:string|null;stageIndex:number;stageCount:number;unitsDone:number;unitCount:number;planFinal:boolean
+// Owner decision 8 Oct 2026: a finished analysis is kept 7 days after it
+// finished, then expired: the server refuses its pages and every use of it.
+export type StagedRetention={days:7;keptUntil:string|null;state:'NOT_FINISHED'|'KEPT'|'EXPIRED'}
+export type StagedJob={retention:StagedRetention|null;requestId:string;state:StagedJobState;stage:string|null;stageIndex:number;stageCount:number;unitsDone:number;unitCount:number;planFinal:boolean
  targetsTotal:number|null;targetsDoneInStage:number;reference:StagedReference;lastProgressAt:string;unitAttempts:number;runId:string|null;failure:StagedJobFailure|null;workerActive:boolean}
 export type StagedRequest={id:string;q:NativeDemandQuery}
 
@@ -24,7 +27,7 @@ const count=(v:unknown,min:number,max:number)=>typeof v==='number'&&Number.isSaf
 const REQUIRED=['contract_version','request_id','state','stage','stage_index','stage_count','units_done','unit_count','plan_final','targets_total','targets_done_in_stage','reference','last_progress_at','unit_attempts','apply_enabled','production_go']
 // run_id comes only with DONE, failure only with FAILED and worker_active
 // only on a skipped step; a field that does not apply is absent or null.
-const OPTIONAL=['run_id','failure','worker_active']
+const OPTIONAL=['run_id','failure','worker_active','retention']
 
 export function parseStagedJob(v:unknown,requestId:string):StagedJob{
  const e=object(v),keys=Object.keys(e)
@@ -48,7 +51,8 @@ export function parseStagedJob(v:unknown,requestId:string):StagedJob{
  }else if(e.failure!==undefined&&e.failure!==null)fail()
  if(state==='DONE'&&(unitsDone!==unitCount||e.plan_final!==true||targetsTotal===null))fail()
  const workerActive=e.worker_active===undefined?false:typeof e.worker_active==='boolean'?e.worker_active:fail()
- return{requestId,state,stage,stageIndex,stageCount,unitsDone,unitCount,planFinal:e.plan_final,targetsTotal,targetsDoneInStage,reference,lastProgressAt,unitAttempts,runId,failure,workerActive}
+ const retention=e.retention===undefined?null:parseRetention(e.retention,state)
+ return{retention,requestId,state,stage,stageIndex,stageCount,unitsDone,unitCount,planFinal:e.plan_final,targetsTotal,targetsDoneInStage,reference,lastProgressAt,unitAttempts,runId,failure,workerActive}
 }
 
 // The staged request is kept apart from the single job's request
@@ -134,3 +138,12 @@ export async function driveStagedJob(o:StagedDriveOptions):Promise<StagedJob|nul
  }
  return status
 }
+function parseRetention(v:unknown,state:StagedJobState):StagedRetention{
+ const r=object(v);if(Object.keys(r).sort().join('|')!=='days|kept_until|state'||r.days!==7)fail()
+ if(state==='RUNNING'){if(r.state!=='NOT_FINISHED'||r.kept_until!==null)fail();return{days:7,keptUntil:null,state:'NOT_FINISHED'}}
+ if(r.state!=='KEPT'&&r.state!=='EXPIRED')fail()
+ return{days:7,keptUntil:stagedInstant(r.kept_until),state:r.state}
+}
+export const stagedRetentionText=(r:StagedRetention)=>r.state==='EXPIRED'
+ ?`Hasil analisis ini sudah kedaluwarsa sejak ${analysisWibDate(r.keptUntil!)} ${analysisWibClock(r.keptUntil!)} WIB: hasil disimpan 7 hari sesudah selesai. Buat analisis baru.`
+ :r.state==='KEPT'?`Hasil ini disimpan sampai ${analysisWibDate(r.keptUntil!)} ${analysisWibClock(r.keptUntil!)} WIB (7 hari sesudah analisis selesai); sesudah itu kedaluwarsa dan perlu dibuat ulang.`:''

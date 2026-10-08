@@ -33,6 +33,7 @@ begin
    or x.v#>>'{}'!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
   or(select count(distinct x.v)from jsonb_array_elements(p_targets)x(v))<>jsonb_array_length(p_targets)then raise exception 'CP7_AI_V2_TARGETS';end if;
  select *into j from cp7_analysis_stage.jobs x where x.run_id=p_run and x.actor=(a->>'actor')::uuid and x.state='DONE';
+ perform cp7_analysis_stage.require_kept(j.id);
  select *into s from cp7_analysis_stage.page_sets x where x.run_id=j.run_id;
  select *into h from cp7_analysis_stage.headers x where x.run_id=j.run_id;
  if j.id is null or s.run_id is null or h.run_id is null then raise exception using errcode='42501',message='CP7_AI_V2_SNAPSHOT_UNAVAILABLE';end if;

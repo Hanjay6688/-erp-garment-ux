@@ -15,6 +15,8 @@ FUNCTIONS = {
     # requests, readers, retention
     'job_of': 's', 'request': 'v', 'step_request': 'v', 'get': 'v', 'page_set': 's', 'page': 's', 'check_source': 's',
     'purge_intermediates': 'v',
+    # retention (owner decision 8 Oct 2026): 7 days after a job finished, then expired; the private purge rule
+    'retention_days': 'i', 'retention': 's', 'require_kept': 's', 'purge_expired': 'v',
     # snapshot contract v2 (analysis-stage-snapshot.sql): change counts, freshness, recorded full checks
     'change_sources': 'i', 'changes_since': 's', 'freshness': 's', 'check_and_record': 'v',
     # snapshot contract v2 §2: one target's plan inputs from the retained index
@@ -33,7 +35,7 @@ PUBLIC = ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)', 'public.erp_c
           'public.erp_cp7_read_report_v2(uuid)', 'public.erp_cp7_read_report_section_v2(uuid,integer,text)', 'public.erp_cp7_list_reports_v2(jsonb)',
           'public.erp_cp7_get_staged_ai_brief_v1(uuid,jsonb)')
 TABLES = ('jobs', 'units', 'outputs', 'target_rows', 'pair_rows', 'pair_lists', 'fragments', 'headers', 'pages', 'page_sets',
-          'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks',
+          'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks', 'retention_log',
           'report_jobs', 'report_reads', 'report_sections', 'report_publications')
 # The job row's immutable columns (an UPDATE naming one of them is refused); every other table is insert-only.
 JOB_FIXED = 'id, actor, request_id, query, reference, access_at_capture, captured_at, source_hash, run_id, created_at'

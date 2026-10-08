@@ -28,6 +28,7 @@ declare a jsonb;j cp7_analysis_stage.jobs%rowtype;s cp7_analysis_stage.page_sets
 begin
  a:=cp7_private.access_now();
  select *into j from cp7_analysis_stage.jobs x where x.run_id=p_run and x.actor=(a->>'actor')::uuid and x.state='DONE';
+ perform cp7_analysis_stage.require_kept(j.id);
  select *into s from cp7_analysis_stage.page_sets x where x.run_id=p_run;
  if j.id is null or s.run_id is null then raise exception using errcode='42501',message='CP7_PLAN_V2_SNAPSHOT_UNAVAILABLE';end if;
  select *into m from cp7_analysis_stage.capture_marks x where x.job_id=j.id;
@@ -55,6 +56,7 @@ declare a jsonb;j uuid;t jsonb;clk timestamptz:=clock_timestamp();root uuid;size
 begin
  a:=cp7_private.access_now();
  select x.id into j from cp7_analysis_stage.jobs x where x.run_id=p_run and x.actor=(a->>'actor')::uuid and x.state='DONE';
+ perform cp7_analysis_stage.require_kept(j);
  if j is null then raise exception using errcode='42501',message='CP7_PLAN_V2_SNAPSHOT_UNAVAILABLE';end if;
  if p_target!~'^[0-9a-f-]{36}:[0-9a-f-]{36}$'then raise exception 'CP7_PLAN_TARGET';end if;
  t:=cp7_analysis_stage.plan_target(j,p_target);

@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import {expect,it} from 'vitest'
-import {parseStagedJob,driveStagedJob,readStagedRequest,persistStagedRequest,clearStagedRequest,stagedRequestKey,stagedProgressText,stagedPausedText,stagedFailureText,stagedCapRefusal,STAGED_WORKER_BACKOFF_MS,type StagedJob,type StagedReply} from './nativeStagedJob'
+import {parseStagedJob,driveStagedJob,readStagedRequest,persistStagedRequest,clearStagedRequest,stagedRequestKey,stagedProgressText,stagedPausedText,stagedFailureText,stagedCapRefusal,stagedRetentionText,STAGED_WORKER_BACKOFF_MS,type StagedJob,type StagedReply} from './nativeStagedJob'
 import {stagedJobFixture,type StagedJobState} from '../tests/fixtures/nativeAnalysisPages'
 import fixture from '../tests/fixtures/nativeAnalysisStandin.json'
 const id='00000000-0000-4000-8000-000000000095',other='33333333-3333-4333-8333-333333333333'
@@ -106,4 +106,17 @@ it('throws a server refusal or a lost reply after reporting the last known statu
  await expect(driveStagedJob({rpc:t.rpc,request:{id,q},start:false,sleep:noSleep})).rejects.toThrow('Failed to fetch');expect(t.calls).toEqual(['get','step'])
  const u=server({request:[ok(stagedJobFixture(other,'RUNNING'))]})
  await expect(driveStagedJob({rpc:u.rpc,request:{id,q},start:true,sleep:noSleep})).rejects.toThrow('belum sesuai kontrak')
+})
+
+it('reads the 7-day retention of a job and words it (owner decision 8 Oct 2026)',()=>{
+ const until='2026-10-15T08:00:00+00:00'
+ const kept=parseStagedJob(stagedJobFixture(id,'DONE',{retention:{days:7,kept_until:until,state:'KEPT'}}),id)
+ expect(kept.retention).toEqual({days:7,keptUntil:until,state:'KEPT'})
+ expect(stagedRetentionText(kept.retention!)).toBe('Hasil ini disimpan sampai 15 Okt 2026 15.00.00 WIB (7 hari sesudah analisis selesai); sesudah itu kedaluwarsa dan perlu dibuat ulang.')
+ const expired=parseStagedJob(stagedJobFixture(id,'DONE',{retention:{days:7,kept_until:until,state:'EXPIRED'}}),id)
+ expect(stagedRetentionText(expired.retention!)).toBe('Hasil analisis ini sudah kedaluwarsa sejak 15 Okt 2026 15.00.00 WIB: hasil disimpan 7 hari sesudah selesai. Buat analisis baru.')
+ expect(parseStagedJob(stagedJobFixture(id,'RUNNING',{retention:{days:7,kept_until:null,state:'NOT_FINISHED'}}),id).retention?.state).toBe('NOT_FINISHED')
+ for(const bad of[{days:8,kept_until:until,state:'KEPT'},{days:7,kept_until:null,state:'KEPT'},{days:7,kept_until:until,state:'NOT_FINISHED'},{days:7,kept_until:until,state:'KEPT',extra:1}])
+  expect(()=>parseStagedJob(stagedJobFixture(id,'DONE',{retention:bad}),id)).toThrow()
+ expect(()=>parseStagedJob(stagedJobFixture(id,'RUNNING',{retention:{days:7,kept_until:until,state:'KEPT'}}),id)).toThrow()
 })

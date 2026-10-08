@@ -1379,6 +1379,35 @@ language sql immutable security invoker set search_path=''set TimeZone='UTC'as $
   'page_utf8_bytes',8000000,'header_utf8_bytes',8000000)
 $$;
 
+-- --------------------------------------------------------------- retention --
+-- Owner decision 8 Oct 2026: a finished staged analysis (DONE, or FAILED when
+-- it stopped) is kept 7 days after it finished, then it is expired: the status
+-- says so with the time, and every reader of the run (pages, source check,
+-- freshness, plan v2, Business Report v2, Tanya AI, reminders v2) refuses it
+-- with CP7_ANALYSIS_RESULT_EXPIRED. A running job never expires. What may be
+-- removed afterwards, and what is kept (documents made from the run, audit
+-- evidence), is purge_expired's rule (analysis-retention.sql); nothing runs it
+-- on a schedule yet. A finished job row is not updated again, so its
+-- updated_at is the time it finished.
+create function cp7_analysis_stage.retention_days()returns integer
+language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$select 7$$;
+create function cp7_analysis_stage.retention(p_state text,p_finished timestamptz)returns jsonb
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select jsonb_build_object('days',cp7_analysis_stage.retention_days(),
+  'kept_until',case when p_state in('DONE','FAILED')then p_finished+make_interval(days=>cp7_analysis_stage.retention_days())end,
+  'state',case when p_state not in('DONE','FAILED')then 'NOT_FINISHED'
+   when clock_timestamp()<p_finished+make_interval(days=>cp7_analysis_stage.retention_days())then 'KEPT'else 'EXPIRED'end)
+$$;
+create function cp7_analysis_stage.require_kept(p_job uuid)returns void
+language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
+declare r jsonb;
+begin
+ select cp7_analysis_stage.retention(j.state,j.updated_at)into r from cp7_analysis_stage.jobs j where j.id=p_job;
+ if r->>'state'='EXPIRED'then
+  raise exception using message='CP7_ANALYSIS_RESULT_EXPIRED',detail=jsonb_build_object('kept_until',r->'kept_until','days',r->'days')::text;
+ end if;
+end $$;
+
 -- The job status (cp7.native-analysis-staged-job.v1), read from the rows:
 -- the next unit's stage, stage k of n, units done, targets done in the
 -- current per-target stage, the reference, the last progress time, the
@@ -1393,7 +1422,7 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
   'targets_done_in_stage',(select coalesce(sum(x.hi-x.lo+1),0)from cp7_analysis_stage.units x where x.job_id=j.id and x.kind=u.kind and x.idx<j.units_done and x.lo is not null
    and x.kind in('HIST_ROWS','HIST_STOCK','BASE_ROWS','NET_TARGETS','ALLOC_STEP','NET_ROWS','ANA_TARGETS','PAGES')),
   'reference',jsonb_build_object('captured_at',j.captured_at,'source_hash',j.source_hash),
-  'last_progress_at',j.updated_at,'unit_attempts',j.unit_attempts,
+  'last_progress_at',j.updated_at,'unit_attempts',j.unit_attempts,'retention',cp7_analysis_stage.retention(j.state,j.updated_at),
   'run_id',case when j.state='DONE'then j.run_id end,
   'failure',case when j.state='FAILED'then jsonb_build_object('unit',j.failure_unit,'sqlstate',j.failure_sqlstate,'code',j.failure_code)end,
   'apply_enabled',false,'production_go',false)
@@ -2073,6 +2102,7 @@ begin
  select j.id,j.request_id,j.captured_at,j.source_hash into jid,req,captured,hash from cp7_analysis_stage.jobs j
   where j.run_id=p_run and j.actor=(a->>'actor')::uuid and j.state='DONE';
  if jid is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
+ perform cp7_analysis_stage.require_kept(jid);
  select *into h from cp7_analysis_stage.headers where run_id=p_run;select *into s from cp7_analysis_stage.page_sets where run_id=p_run;
  if h.run_id is null or s.run_id is null then raise exception 'CP7_ANALYSIS_STAGE_INVARIANT';end if;
  select coalesce(jsonb_agg(jsonb_build_object('index',x.idx,'target_lo',x.target_lo,'target_hi',x.target_hi,'utf8_bytes',x.utf8_bytes,
@@ -2099,6 +2129,7 @@ begin
  if not exists(select 1 from cp7_analysis_stage.jobs j where j.run_id=p_run and j.actor=(a->>'actor')::uuid and j.state='DONE')then
   raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';
  end if;
+ perform cp7_analysis_stage.require_kept(j.id)from cp7_analysis_stage.jobs j where j.run_id=p_run;
  select *into h from cp7_analysis_stage.headers where run_id=p_run;select *into s from cp7_analysis_stage.page_sets where run_id=p_run;
  if h.run_id is null or s.run_id is null then raise exception 'CP7_ANALYSIS_STAGE_INVARIANT';end if;
  select *into p from cp7_analysis_stage.pages where run_id=p_run and idx=p_index;
@@ -2118,6 +2149,7 @@ begin
  a:=cp7_schedule_native.access_now(false);
  select j.source_hash into hash from cp7_analysis_stage.jobs j where j.run_id=p_run and j.actor=(a->>'actor')::uuid and j.state='DONE';
  if hash is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
+ perform cp7_analysis_stage.require_kept(j.id)from cp7_analysis_stage.jobs j where j.run_id=p_run;
  c:=cp7_analysis_native.source_within((b->>'job_targets')::integer,(b->>'job_matching_products')::integer)
   ||jsonb_build_object('financial_source',null,'financial_capture','DEFERRED');
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
@@ -2148,6 +2180,64 @@ begin
   removed:=removed||jsonb_build_object(t,n);
  end loop;
  return jsonb_build_object('job_id',p_job,'state',st,'removed',removed);
+end $$;
+
+-- Owner decision 8 Oct 2026 (retention above): what an expired finished job
+-- held only as temporary analysis may be removed, nothing else. This private
+-- admin function (no grants, no schedule yet) takes up to p_limit expired
+-- DONE/FAILED jobs, oldest first; for each it removes the intermediates and,
+-- when no document was made from the run (a plan v2 draft, a Business Report
+-- v2 job, a reminders v2 condition set), its pages. It never touches a running
+-- job, the job row, its units, header, page index, capture mark or retained
+-- per-target index, nor any document; the removed pages' index, bytes and
+-- hashes are kept in the log row with the documents that kept a run's pages.
+-- A job is purged once: its log row is the evidence and is never changed.
+create table cp7_analysis_stage.retention_log(job_id uuid primary key references cp7_analysis_stage.jobs(id),run_id uuid not null,
+ finished_at timestamptz not null,kept_until timestamptz not null,purged_at timestamptz not null,removed jsonb not null,
+ removed_pages jsonb not null,documents jsonb not null);
+alter table cp7_analysis_stage.retention_log owner to cp7_capture;
+alter table cp7_analysis_stage.retention_log enable row level security;
+create policy cp7_analysis_stage_no_access on cp7_analysis_stage.retention_log for all to public using(false)with check(false);
+revoke all on cp7_analysis_stage.retention_log from public,anon,authenticated,service_role;
+create trigger immutable_stage_retention_log before update or delete on cp7_analysis_stage.retention_log
+ for each row execute function cp7_private.immutable_run();
+create function cp7_analysis_stage.purge_expired(p_limit integer)returns jsonb
+language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
+declare j cp7_analysis_stage.jobs%rowtype;r jsonb;t text;n bigint;removed jsonb;docs jsonb;pages jsonb;refs text[][]:=array[
+  array['cp7_plan_native.staged_drafts','plan_v2_drafts'],array['cp7_analysis_stage.report_jobs','report_v2_jobs'],
+  array['cp7_reminder_native.staged_condition_sets','reminder_v2_sets']];i integer;c bigint;out jsonb:='[]';
+begin
+ if p_limit is null or p_limit not between 1 and 1000 then raise exception 'CP7_ANALYSIS_RETENTION_LIMIT';end if;
+ for j in select x.*from cp7_analysis_stage.jobs x where x.state in('DONE','FAILED')
+   and cp7_analysis_stage.retention(x.state,x.updated_at)->>'state'='EXPIRED'
+   and not exists(select 1 from cp7_analysis_stage.retention_log l where l.job_id=x.id)
+   order by x.updated_at,x.id limit p_limit for update skip locked loop
+  r:=cp7_analysis_stage.retention(j.state,j.updated_at);removed:='{}';docs:='{}';
+  for i in 1..array_length(refs,1)loop
+   c:=0;if to_regclass(refs[i][1])is not null then execute format('select count(*)from %s where run_id=$1',refs[i][1])into c using j.run_id;end if;
+   if c>0 then docs:=docs||jsonb_build_object(refs[i][2],c);end if;
+  end loop;
+  foreach t in array array['outputs','target_rows','pair_rows','pair_lists','fragments']loop
+   execute format('alter table cp7_analysis_stage.%I disable trigger immutable_stage_%s',t,t);
+   execute format('delete from cp7_analysis_stage.%I where job_id=$1',t)using j.id;
+   get diagnostics n=row_count;
+   execute format('alter table cp7_analysis_stage.%I enable trigger immutable_stage_%s',t,t);
+   removed:=removed||jsonb_build_object(t,n);
+  end loop;
+  pages:='[]';
+  if docs='{}'::jsonb then
+   select coalesce(jsonb_agg(jsonb_build_object('index',x.idx,'utf8_bytes',x.utf8_bytes,'sha256',x.sha256)order by x.idx),'[]'::jsonb)into pages
+    from cp7_analysis_stage.pages x where x.run_id=j.run_id;
+   alter table cp7_analysis_stage.pages disable trigger immutable_stage_pages;
+   delete from cp7_analysis_stage.pages where run_id=j.run_id;
+   get diagnostics n=row_count;
+   alter table cp7_analysis_stage.pages enable trigger immutable_stage_pages;
+   removed:=removed||jsonb_build_object('pages',n);
+  end if;
+  insert into cp7_analysis_stage.retention_log values(j.id,j.run_id,j.updated_at,(r->>'kept_until')::timestamptz,clock_timestamp(),removed,pages,docs);
+  out:=out||jsonb_build_array(jsonb_build_object('job_id',j.id,'run_id',j.run_id,'removed',removed,'documents',docs));
+ end loop;
+ return jsonb_build_object('purged',out,'retention_days',cp7_analysis_stage.retention_days());
 end $$;
 
 -- ------------------------------------------------------------ ownership --

@@ -133,6 +133,7 @@ begin
  a:=cp7_schedule_native.access_now(false);
  if cardinality(coalesce(p_targets,'{}'))>4000 then raise exception 'CP7_REMINDER_V2_PAYLOAD';end if;
  select *into j from cp7_analysis_stage.jobs x where x.run_id=p_run and x.actor=(a->>'actor')::uuid and x.state='DONE';
+ perform cp7_analysis_stage.require_kept(j.id);
  select *into s from cp7_analysis_stage.page_sets x where x.run_id=j.run_id;
  select *into h from cp7_analysis_stage.headers x where x.run_id=j.run_id;
  if j.id is null or s.run_id is null or h.run_id is null then raise exception using errcode='42501',message='CP7_REMINDER_V2_SNAPSHOT_UNAVAILABLE';end if;
@@ -157,6 +158,7 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(false);
  select *into j from cp7_analysis_stage.jobs x where x.run_id=p_run and x.actor=(a->>'actor')::uuid and x.state='DONE';
+ perform cp7_analysis_stage.require_kept(j.id);
  select *into h from cp7_analysis_stage.headers x where x.run_id=j.run_id;
  if j.id is null or h.run_id is null then raise exception using errcode='42501',message='CP7_REMINDER_V2_SNAPSHOT_UNAVAILABLE';end if;
  select *into pg from cp7_analysis_stage.pages x where x.run_id=j.run_id and x.idx=p_index;
@@ -202,6 +204,7 @@ begin
  if p_target!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
   or p_material is not null and p_material!~'^FABRIC_[A-Z]+:'and p_material!~'^[A-Za-z0-9_:-]{1,200}$'then raise exception 'CP7_REMINDER_V2_PAYLOAD';end if;
  select *into j from cp7_analysis_stage.jobs x where x.run_id=p_run and x.actor=(a->>'actor')::uuid and x.state='DONE';
+ perform cp7_analysis_stage.require_kept(j.id);
  if j.id is null then raise exception using errcode='42501',message='CP7_REMINDER_V2_SNAPSHOT_UNAVAILABLE';end if;
  select *into m from cp7_analysis_stage.capture_marks x where x.job_id=j.id;
  if m.job_id is null then raise exception 'CP7_REMINDER_V2_SNAPSHOT_INDEX_MISSING';end if;

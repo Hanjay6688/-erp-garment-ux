@@ -1,0 +1,51 @@
+{
+  "contract": "cp7.k2.retention.v1",
+  "expected_case_count": 10,
+  "required_case_counts": {
+    "native": 6,
+    "races": 1,
+    "http": 1,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "K2_KEPT_SEVEN_DAYS_LABELLED",
+      "K2_EXPIRED_REFUSED_EVERYWHERE",
+      "K2_RUNNING_NEVER_EXPIRES",
+      "K2_PURGE_ONLY_EXPIRED_TEMPORARY",
+      "K2_PURGE_KEEPS_DOCUMENT_RUNS",
+      "K2_PURGE_PRIVATE_ONCE"
+    ],
+    "races": [
+      "K2_RACE_TWO_PURGES_ONE_LOG"
+    ],
+    "http": [
+      "K2_HTTP_EXPIRED_REFUSED"
+    ],
+    "browser": [
+      "K2_BROWSER_DESKTOP_RETENTION",
+      "K2_BROWSER_MOBILE_RETENTION"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_read_staged_analysis_pages_v1",
+    "erp_cp7_read_staged_analysis_page_v1",
+    "erp_cp7_check_staged_analysis_source_v1",
+    "erp_cp7_staged_snapshot_freshness_v1",
+    "erp_cp7_check_staged_snapshot_v1",
+    "erp_cp7_get_plan_options_v2",
+    "erp_cp7_publish_report_v2",
+    "erp_cp7_get_staged_ai_brief_v1",
+    "erp_cp7_step_reminder_conditions_v2"
+  ],
+  "owner_decision": "8 Oct 2026: hasil analisis sementara disimpan 7 hari setelah selesai atau dibatalkan. Jangan hapus job yang belum selesai, dokumen transaksi, atau bukti yang diperlukan audit. Hasil kedaluwarsa harus diberi keterangan jelas.",
+  "scope": "A finished staged job (DONE, or FAILED when it stopped) is kept 7 days after it finished; the job status carries retention {days 7, kept_until, KEPT|EXPIRED|NOT_FINISHED}. When expired every reader of the run refuses with CP7_ANALYSIS_RESULT_EXPIRED and the time in DETAIL: pages, page, source check, freshness, full check, plan v2 options/save/preview/apply, Business Report v2 publish, Tanya AI brief, reminders v2. Documents (plan drafts, published reports, reminder sets/claims) stay readable. A running job never expires. cp7_analysis_stage.purge_expired(limit) is private (no grants) and has no schedule yet (the server scheduler is CP7C): for expired finished jobs it removes the intermediates always and the pages only when no document was made from the run; job rows, units, header, page index, capture mark and the retained per-target index stay; one immutable log row per purged job keeps the removed pages' index, bytes and hashes and the documents that kept a run's pages.",
+  "client": "The staged view says how long the result is kept (\"disimpan sampai <WIB> (7 hari sesudah analisis selesai)\"); an expired result is not read: the screen says it expired at <WIB> and asks for a new analysis.",
+  "browser": "Desktop and mobile: a staged run by one click shows the kept-until line; after the run is aged (labelled SYNTHETIC), reopening the last result shows the expired message and reads no page.",
+  "synthetic": "Labelled SYNTHETIC: the finished job row's updated_at moved back (administrative) to stand for days passing; nothing else is synthetic.",
+  "statement_timeout": "existing 8s authenticated limit; never raised",
+  "full_K2_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

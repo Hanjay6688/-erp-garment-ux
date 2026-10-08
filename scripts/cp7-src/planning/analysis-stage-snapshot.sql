@@ -132,6 +132,7 @@ begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(false);
  select *into j from cp7_analysis_stage.jobs x where x.run_id=p_run and x.actor=(a->>'actor')::uuid and x.state='DONE';
+ perform cp7_analysis_stage.require_kept(j.id);
  if j.id is null then raise exception using errcode='42501',message='CP7_ANALYSIS_RUN_UNAVAILABLE';end if;
  select *into s from cp7_analysis_stage.page_sets where run_id=p_run;
  select *into m from cp7_analysis_stage.capture_marks where job_id=j.id;
