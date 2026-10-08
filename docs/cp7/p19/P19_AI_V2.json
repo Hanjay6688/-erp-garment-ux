@@ -1,0 +1,41 @@
+{
+  "contract": "cp7.p19.ai-v2.v1",
+  "expected_case_count": 9,
+  "required_case_counts": {
+    "native": 4,
+    "races": 1,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "P19A_BRIEF_EQUALS_INDEX",
+      "P19A_FIELDS_AND_BOUNDS",
+      "P19A_STALE_SNAPSHOT_LABELLED",
+      "P19A_ACCESS_AND_NO_FINANCE"
+    ],
+    "races": [
+      "P19A_RACE_BRIEF_WHILE_STOCK_COMMITS"
+    ],
+    "http": [
+      "P19A_HTTP_FLOW",
+      "P19A_HTTP_REVOKED"
+    ],
+    "browser": [
+      "P19A_BROWSER_DESKTOP_AI",
+      "P19A_BROWSER_MOBILE_AI"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_staged_ai_brief_v1"
+  ],
+  "statement_timeout": "existing 8s authenticated limit; never raised",
+  "scope": "AI v2 (snapshot contract v2 §6, owner decision 8 Oct 2026): erp_cp7_get_staged_ai_brief_v1 returns, for the actor's own DONE staged run with a retained per-target index, its identity hash and 'data per' time, the freshness now (same contract as the freshness RPC), the whole-run totals, at most 25 targets with the largest open need (conditional gap > 0, largest first, then run order) and at most 20 selected targets, each exactly as the index holds it with the page holding it. No finance in the brief; nothing written; no AI called by the server.",
+  "client": "The staged view lets the user pick up to 20 targets for AI; the panel copies a checked text that says the analysis is the state at its time and not current, with its freshness and the changes since; the owner finance report is read at question time only when chosen and permitted, and named as such; without it the text says finance is not included.",
+  "browser": "Real Auth UI on desktop and mobile: one click starts the staged run; one target is chosen in the table; the AI panel reads the brief once (and the finance report on desktop) and shows the checked text; no whole reader is called; no 'terkini'; no horizontal scroll",
+  "synthetic_case": "none; every fixture is the E01 real workload through the ordinary Native writers and a real staged run",
+  "v1_unchanged": true,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

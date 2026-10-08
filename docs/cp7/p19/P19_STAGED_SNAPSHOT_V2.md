@@ -138,10 +138,17 @@ sama (bukan dihitung ulang). Dibaca satu target tanpa membuka halaman lain.
 - Sebelum dikirim/ditampilkan sebagai tagihan, kondisi diperiksa ulang ke data sekarang; yang sudah selesai
   ditandai selesai dan tidak dikirim.
 
-## 6. AI v2
+## 6. AI v2 — dibuat (`scripts/cp7-src/planning/ai-staged.sql` + panel "Tanya AI dari analisis bertahap")
 
-- AI menerima ringkasan snapshot berbatas (total, target prioritas, perubahan sejak snapshot) dan rincian target
-  yang dipilih, dengan label "Data per …"; angka keuangan aktual dari pembaca otoritatif.
+- Server `erp_cp7_get_staged_ai_brief_v1(run, targets)`: ringkasan berbatas run bertahap milik sendiri dari indeks per
+  target (tanpa membaca halaman penuh): identitas, "data per", kesegaran saat ini (kontrak sama dengan RPC
+  kesegaran), total seluruh target, paling banyak 25 target dengan kekurangan terbesar (gap bersyarat > 0, terbesar
+  dulu) dan paling banyak 20 target pilihan pengguna, masing-masing dengan halamannya. Tidak ada keuangan di
+  ringkasan, tidak menulis apa pun, server tidak memanggil AI.
+- Layar: target dipilih di tabel ("Pilih untuk AI"); panel menyalin teks yang sudah diperiksa: angka analisis
+  disebut keadaan per waktu data, bukan angka saat ini, dengan kesegaran dan perubahan sejak data diambil.
+  Keuangan dan HPP hanya bila dipilih dan diizinkan: laporan keuangan ERP dibaca saat pertanyaan dibuat dan
+  disebut begitu; tanpa itu teks menulis keuangan tidak disertakan.
 
 ## 7. Uji yang diwajibkan per bagian
 
@@ -160,4 +167,4 @@ label dan status tampil, tidak ada kata "terkini" tanpa VERIFIED_SAME.
 | 3 Rencana v2 | server dibuat (`plan-native/staged.sql`, 5 RPC, tabel `staged_drafts`); uji kecil SQL lokal lolos (bukan bukti); 18 kasus CI (`P19_PLAN_V2.json`: 10 Native, 4 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-plan-v2-18`; layar dibuat (tombol per target di halaman bertahap, panel rencana jenis STAGED dengan "data per", hasil pemeriksaan ulang dan alasan penolakan; domain pemulihan dan penunjuk terpisah dari v1; pengurai menghitung ulang kebutuhan dan kapasitas) + uji unit/DOM |
 | 4 Business Report v2 | server dibuat (`planning/report-staged.sql`, 6 RPC, 4 tabel); uji kecil SQL lokal lolos termasuk jalur keuangan (bukan bukti); 20 kasus CI (`P19_REPORT_V2.json`: 10 Native, 6 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-report-v2-20`; layar dibuat (panel "Laporan dari analisis bertahap" di bawah hasil bertahap: buat/lanjutkan/periksa permintaan, progres per langkah, ringkasan dan satu bagian dibaca sesuai pilihan, daftar dan revisi) + uji unit/DOM |
 | 5 Pengingat v2 | belum |
-| 6 AI v2 | belum |
+| 6 AI v2 | server dibuat (`planning/ai-staged.sql`, 1 RPC); uji kecil SQL lokal lolos (bukan bukti); 9 kasus CI (`P19_AI_V2.json`: 4 Native, 1 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-ai-v2-9`; layar dibuat (pilih target di tabel, panel Tanya AI) + uji unit/DOM |

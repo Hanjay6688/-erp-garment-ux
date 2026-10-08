@@ -22,13 +22,16 @@ FUNCTIONS = {
     # Business Report v2 (report-staged.sql): a staged run's report built in steps and sealed once
     'report_wib': 'i', 'report_unit_kind': 'i', 'report_finance_access': 's', 'report_freshness_text': 'i', 'report_section_text': 'i',
     'report_summary_text': 'i', 'report_actuals': 's', 'report_status': 's', 'report_request': 'v', 'report_run_unit': 'v', 'report_step': 'v',
-    'report_document': 's', 'report_section': 's', 'report_index': 's'}
+    'report_document': 's', 'report_section': 's', 'report_index': 's',
+    # AI v2 (ai-staged.sql): a bounded brief of a staged run for the handoff
+    'ai_row': 'i', 'ai_brief': 's'}
 PUBLIC = ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)', 'public.erp_cp7_step_staged_analysis_v1(uuid)',
           'public.erp_cp7_get_staged_analysis_v1(uuid)', 'public.erp_cp7_read_staged_analysis_pages_v1(uuid)',
           'public.erp_cp7_read_staged_analysis_page_v1(uuid,integer,text)', 'public.erp_cp7_check_staged_analysis_source_v1(uuid)',
           'public.erp_cp7_staged_snapshot_freshness_v1(uuid)', 'public.erp_cp7_check_staged_snapshot_v1(uuid)',
           'public.erp_cp7_publish_report_v2(jsonb,uuid)', 'public.erp_cp7_get_report_request_v2(jsonb,uuid)', 'public.erp_cp7_step_report_v2(uuid)',
-          'public.erp_cp7_read_report_v2(uuid)', 'public.erp_cp7_read_report_section_v2(uuid,integer,text)', 'public.erp_cp7_list_reports_v2(jsonb)')
+          'public.erp_cp7_read_report_v2(uuid)', 'public.erp_cp7_read_report_section_v2(uuid,integer,text)', 'public.erp_cp7_list_reports_v2(jsonb)',
+          'public.erp_cp7_get_staged_ai_brief_v1(uuid,jsonb)')
 TABLES = ('jobs', 'units', 'outputs', 'target_rows', 'pair_rows', 'pair_lists', 'fragments', 'headers', 'pages', 'page_sets',
           'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks',
           'report_jobs', 'report_reads', 'report_sections', 'report_publications')

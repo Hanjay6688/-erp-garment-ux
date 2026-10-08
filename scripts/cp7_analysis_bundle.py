@@ -2,7 +2,7 @@
 import hashlib
 import cp7_netting_bundle as predecessor
 ROOT=predecessor.ROOT
-FILES=('planning/material-requirements.sql','planning/fabric-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-jobs.sql','planning/analysis-stages.sql','planning/analysis-stage-snapshot.sql','planning/fabric-commands.sql','planning/analysis-archive.sql','planning/report-publication.sql','planning/report-staged.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql','plan-native/staged.sql')
+FILES=('planning/material-requirements.sql','planning/fabric-requirements.sql','planning/analysis.sql','planning/analysis-finance.sql','planning/analysis-jobs.sql','planning/analysis-stages.sql','planning/analysis-stage-snapshot.sql','planning/fabric-commands.sql','planning/analysis-archive.sql','planning/report-publication.sql','planning/report-staged.sql','planning/ai-staged.sql','plan-native/bootstrap.sql','plan-native/source.sql','plan-native/preflight.sql','plan-native/read.sql','plan-native/commands.sql','plan-native/actual.sql','plan-native/ownership.sql','plan-native/staged.sql')
 ROLES=('cp7_plan_writer',)+predecessor.ROLES
 GRANTS={**predecessor.GRANTS,'cp7_plan_writer':('auth.uid()','auth.jwt()','erp.get_my_access_v1()','erp.has_permission(text)','cp7_private.immutable_run()','public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)')}
 # P08: the open-PO remaining reader is the only new EXECUTE on a predecessor function (read-only, BB-owned).

@@ -2,6 +2,7 @@ import {useMemo} from 'react'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatFact} from './cp7/workspace'
 import {analysisWarningLabel} from './nativeAnalysis'
+import {STAGED_AI_SELECTED} from './nativeStagedAi'
 import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage,type StagedFullCheck,type StagedFreshness,type StagedChangeCategory} from './nativeAnalysisPages'
 
 // A staged run (up to 5,000 targets) shown as its header plus ONE page of
@@ -16,7 +17,8 @@ import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage,type
 // shown beside it and the snapshot is never called current; "Cek sumber" says
 // only how it compared with the data at the check's own time.
 type Props={staged:StagedAnalysis;page:AnalysisPage|null;loading:number|null;blocked:boolean;sourceCheck:StagedFullCheck|null;checking:boolean
- freshness:StagedFreshness|null;freshnessLoading:boolean;freshnessError:string;onPage:(index:number)=>void;onCheckSource:()=>void;onPlan?:(targetKey:string)=>void}
+ freshness:StagedFreshness|null;freshnessLoading:boolean;freshnessError:string;onPage:(index:number)=>void;onCheckSource:()=>void;onPlan?:(targetKey:string)=>void
+ aiSelected?:readonly string[];onAiToggle?:(targetKey:string)=>void}
 const stateLabel=(s:string)=>s==='ACTIVE'?'Aktif':s==='PAUSED'?'Ditunda':s==='STOPPED'?'Dihentikan':'Status lain'
 export const STAGED_CHANGE_LABELS:Record<StagedChangeCategory,string>={SALES:'Penjualan & retur',FG_STOCK:'Stok barang jadi',MATERIAL_STOCK:'Stok bahan',
  PRODUCTION:'Produksi (potong, jahit, QC, laundry, BS)',PRODUCTION_ORDERS:'PO produksi',MASTER_DATA:'Data induk (produk, SKU, pola, bahan, lokasi)',
@@ -28,7 +30,7 @@ export function stagedFreshnessText(f:StagedFreshness):string{
  if(f.state==='CHANGES_RECORDED')return f.lastCheck?`Cek sumber ${t(f.lastCheck.checkedAt)}: sama. Sesudah itu ada ${n(f.lastCheck.changesAfterCheck)} perubahan tercatat; ${asOf}.`:`Sudah ada ${n(f.changesTotal)} perubahan tercatat sejak data diambil; ${asOf}.`
  return'Belum ada perubahan tercatat sejak data diambil. Belum dicek penuh; tekan Cek sumber untuk memastikan.'
 }
-export default function NativeStagedAnalysisView({staged,page,loading,blocked,sourceCheck,checking,freshness,freshnessLoading,freshnessError,onPage,onCheckSource,onPlan}:Props){
+export default function NativeStagedAnalysisView({staged,page,loading,blocked,sourceCheck,checking,freshness,freshnessLoading,freshnessError,onPage,onCheckSource,onPlan,aiSelected,onAiToggle}:Props){
  const m=staged.set,h=staged.header,x=h.analysisHeader,t=m.totals,n=stagedNumber
  const current=loading??page?.index??0,range=(i:number)=>stagedRangeLabel(m.pages[i].targetLo,m.pages[i].targetHi,m.targetsTotal)
  const labels=useMemo(()=>new Map(h.labels.map(l=>[l.key,`${l.sku} · ${l.name}`])),[h.labels])
@@ -57,7 +59,7 @@ export default function NativeStagedAnalysisView({staged,page,loading,blocked,so
     <li data-total="TIMELINE">Baris linimasa seluruh target: {n(t.items.timeline??0)} · kebutuhan bahan seluruh target: {n(t.items.material_needs??0)}</li>
    </ul>
    <p>Bahan dan produksi baru belum dipastikan. Keuangan dan HPP tidak tercakup pada analisis bertahap dan tidak dianggap nol. Angka belum diketahui tetap ditampilkan apa adanya.</p>
-   <p>Laporan dibuat dari analisis ini di bagian Laporan dari analisis bertahap di bawah, memakai data per waktu yang sama. Pengingat, Tanya AI, rincian stok, ruang kerja kain dan arsip memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
+   <p>Laporan dan Tanya AI dibuat dari analisis ini di bagian bawah, memakai data per waktu yang sama. Pengingat, rincian stok, ruang kerja kain dan arsip memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
    <p>Rencana Potongan dibuat per target dari halaman di bawah memakai data per {formatCp6WibDateTime(m.reference.capturedAt)}; saat draf Potongan dibuat, server memeriksa ulang stok, barang dalam proses, kebijakan dan kapasitas pada saat itu.</p>
   </section>
   {m.pageCount===0?<p>Analisis ini tidak memuat rincian per target.</p>:<section aria-label="Target per halaman">
@@ -67,8 +69,10 @@ export default function NativeStagedAnalysisView({staged,page,loading,blocked,so
    {loading!==null?<p role="status">Mengambil {range(loading).replace(/^Target/,'target')}…</p>:null}
    {page&&loading===null?<div aria-label={`Isi ${range(page.index)}`} data-page-index={page.index}>
     <p>Halaman ini hanya memuat {range(page.index).replace(/^Target/,'target')}: {n(page.items.recommendations.length)} rekomendasi dan {n(page.summary.policyUnreviewed)} target dengan status produksi belum diperiksa.</p>
-    <div className="responsive-table"><table><thead><tr><th>Produk</th><th>Status produksi</th><th>Stok fisik</th><th>Target</th><th>Kurang setelah stok proses terikat</th><th>Kurang setelah pembagian global</th><th>Produksi baru layak</th>{onPlan?<th>Rencana</th>:null}</tr></thead>
-     <tbody>{page.items.recommendations.map(r=><tr key={r.target.key} data-analysis-target={r.target.key}><td><strong>{label(r.target.key)}</strong></td><td data-label="Status produksi">{stateLabel(r.production_state)}</td><td data-label="Stok fisik">{formatFact(r.actual_fg)}</td><td data-label="Target">{formatFact(r.target_qty)}</td><td data-label="Kurang setelah stok proses terikat">{formatFact(r.q_base)}</td><td data-label="Kurang setelah pembagian global">{formatFact(r.q_conditional)}</td><td data-label="Produksi baru layak">{formatFact(r.feasible_new)}</td>{onPlan?<td data-label="Rencana"><button disabled={blocked} onClick={()=>onPlan(r.target.key)}>Rencanakan Potongan {label(r.target.key)}</button></td>:null}</tr>)}</tbody></table></div>
+    <div className="responsive-table"><table><thead><tr><th>Produk</th><th>Status produksi</th><th>Stok fisik</th><th>Target</th><th>Kurang setelah stok proses terikat</th><th>Kurang setelah pembagian global</th><th>Produksi baru layak</th>{onPlan?<th>Rencana</th>:null}{onAiToggle?<th>AI</th>:null}</tr></thead>
+     <tbody>{page.items.recommendations.map(r=><tr key={r.target.key} data-analysis-target={r.target.key}><td><strong>{label(r.target.key)}</strong></td><td data-label="Status produksi">{stateLabel(r.production_state)}</td><td data-label="Stok fisik">{formatFact(r.actual_fg)}</td><td data-label="Target">{formatFact(r.target_qty)}</td><td data-label="Kurang setelah stok proses terikat">{formatFact(r.q_base)}</td><td data-label="Kurang setelah pembagian global">{formatFact(r.q_conditional)}</td><td data-label="Produksi baru layak">{formatFact(r.feasible_new)}</td>{onPlan?<td data-label="Rencana"><button disabled={blocked} onClick={()=>onPlan(r.target.key)}>Rencanakan Potongan {label(r.target.key)}</button></td>:null}{onAiToggle?<td data-label="AI">{aiSelected?.includes(r.target.key)
+     ?<button aria-pressed="true" disabled={blocked} onClick={()=>onAiToggle(r.target.key)}>Batal pilih AI {label(r.target.key)}</button>
+     :<button aria-pressed="false" disabled={blocked||(aiSelected?.length??0)>=STAGED_AI_SELECTED} onClick={()=>onAiToggle(r.target.key)}>Pilih untuk AI {label(r.target.key)}</button>}</td>:null}</tr>)}</tbody></table></div>
     {page.items.generation_warnings.length?<details><summary>Target pada halaman ini dengan status produksi belum diperiksa</summary>{page.items.generation_warnings.map(w=><p key={w}>{label(w.slice('PRODUCTION_POLICY_UNREVIEWED:'.length))} · {analysisWarningLabel(w)}</p>)}</details>:null}
    </div>:null}
   </section>}

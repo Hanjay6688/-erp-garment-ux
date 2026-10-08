@@ -255,8 +255,9 @@ it('a freshness read that fails or disagrees is shown in its own place and never
 it('offers a plan per target of the page to a user who may view cutting, bound to the run, its identity hash and its data time',async()=>{
  const a=state.auth as {identity:{permissions:string[]}};a.identity.permissions.push('production.cutting.view')
  client.rpc.mockImplementation(server({steps:1}));await render();await click(STAGED);await until(()=>Boolean(region())&&rows()>0&&freshnessState()!=='')
- const buttons=[...region()!.querySelectorAll('[data-analysis-target] button')]
- expect(buttons.length).toBe(rows());expect(buttons.every(b=>b.textContent!.startsWith('Rencanakan Potongan ')))
+ const all=[...region()!.querySelectorAll('[data-analysis-target] button')],buttons=all.filter(b=>b.textContent!.startsWith('Rencanakan Potongan '))
+ // One plan button and one AI selection button per target row.
+ expect(buttons.length).toBe(rows());expect(all.filter(b=>b.textContent!.startsWith('Pilih untuk AI ')).length).toBe(rows());expect(all.length).toBe(2*rows())
  expect(region()!.textContent).toContain(`Rencana Potongan dibuat per target dari halaman di bawah memakai data per ${formatCp6WibDateTime(s.reference.captured_at)}`)
  expect(region()!.textContent).not.toContain('ruang kerja kain, draf rencana dan arsip')
  const before=client.rpc.mock.calls.length;await act(async()=>(buttons[0] as HTMLButtonElement).click())
