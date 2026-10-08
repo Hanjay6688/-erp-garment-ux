@@ -109,6 +109,8 @@ def fixture(cur, today):
                 (po, '0000-P19P-' + po, f['model'], now(cur) - timedelta(hours=2)))
     root = str(f['product'])
     previous.select_profiles(cur, root, True)
+    # v1's setup reviews the schedule (supply capture, sized calendar) before its analysis.
+    plan.review_work(cur, today)
     target = cur.execute("select coalesce(identity_root_id,id)::text||':'||size_id::text from erp.products where id=%s", (root,)).fetchone()[0]
     return dict(f=f, fabric=fabric, po=po, root=root, target=target, model=str(f['model']))
 
