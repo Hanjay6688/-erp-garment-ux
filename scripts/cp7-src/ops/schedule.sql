@@ -1,5 +1,5 @@
 -- ------------------------------------------------- CP7C server schedule --
--- Owner decision 8 Oct 2026: the cleanup of finished analyses and the 7-day
+-- Owner decision 9 Oct 2026 WIB: the cleanup of finished analyses and the 7-day
 -- purge run on the server's own schedule (pg_cron), and the database is backed
 -- up every night (outside the database: scripts/cp7_nightly_backup.py). This
 -- file only defines the scheduled entries; registering them with pg_cron on a

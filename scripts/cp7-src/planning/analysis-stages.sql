@@ -2241,7 +2241,7 @@ begin
 end $$;
 
 -- ------------------------------------------------------- cleanup (K3b) --
--- Owner decision 8 Oct 2026: once a run is DONE and its whole final result is
+-- Owner decision 9 Oct 2026 WIB: once a run is DONE and its whole final result is
 -- stored and verified, its temporary work (outputs, target/pair rows, pair
 -- lists, fragments) is removed. What stays for the 7-day retention: the job
 -- row (query, reference = the captured source, source hash, access, times),

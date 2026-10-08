@@ -1,5 +1,5 @@
 """K3b + CP7C: a finished analysis's temporary work removed on the server's schedule; the schedule and the
-nightly backup built and tested, not installed (owner decision 8 Oct 2026).
+nightly backup built and tested, not installed (owner decision 9 Oct 2026 WIB).
 
 Owner: "Hapus data kerja yang benar-benar sementara setelah analisis DONE dan seluruh hasil final tersimpan serta
 terverifikasi." Conditions: (1) the final result, pages, hashes, analysis time and the source it came from stay

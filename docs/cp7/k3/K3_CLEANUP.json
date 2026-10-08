@@ -58,7 +58,7 @@
       "meaning": "02:30 WIB daily"
     }
   ],
-  "owner_decision": "8 Oct 2026: Hapus data kerja yang benar-benar sementara setelah analisis DONE dan seluruh hasil final tersimpan serta terverifikasi (6 syarat).",
+  "owner_decision": "9 Oct 2026 WIB: Hapus data kerja yang benar-benar sementara setelah analisis DONE dan seluruh hasil final tersimpan serta terverifikasi (6 syarat).",
   "cleanup": {
     "entry": "cp7_ops.cleanup_tick() -> cp7_analysis_stage.clean_pending(5) -> clean_done(job)",
     "removed": [

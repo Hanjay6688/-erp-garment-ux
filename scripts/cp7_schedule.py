@@ -1,6 +1,6 @@
 """CP7C server schedule with pg_cron: plan, install, verify and remove the agreed jobs (cp7_ops.schedules()).
 
-Owner decision 8 Oct 2026: finished analyses are cleaned on the server's own schedule and expired ones purged
+Owner decision 9 Oct 2026 WIB: finished analyses are cleaned on the server's own schedule and expired ones purged
 after 7 days; the database is backed up every night (scripts/cp7_nightly_backup.py, outside the database).
 Registering the jobs on a real database is the installation step: it waits for the audit and the owner's
 installation permission, so `install` refuses unless --installation-approved is given. Tests register them

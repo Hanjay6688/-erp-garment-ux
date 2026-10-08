@@ -102,7 +102,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   def checker(cur):verify(cur);candidate.verify(cur)
   extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==10;out=OUT.with_name('CP7_K2_RETENTION.json');phase='cp7_k2_retention';browser_script='cp7_k2_retention_browser.mjs'
  if k3_cleanup:
-  # K3b + CP7C (owner decision 8 Oct 2026): a finished run's temporary work
+  # K3b + CP7C (owner decision 9 Oct 2026 WIB): a finished run's temporary work
   # removed on the server's schedule after its result verifies; the pg_cron
   # schedule and the nightly backup built and tested on the disposable copy.
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale,p19_staged,p19_plan_v2,p19_report_v2,p19_ai_v2,p19_reminder_v2,pl5_history_yield,k2_retention)),'K3_CLEANUP_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'

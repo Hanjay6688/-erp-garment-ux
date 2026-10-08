@@ -17,7 +17,7 @@ FUNCTIONS = {
     'purge_intermediates': 'v',
     # retention (owner decision 8 Oct 2026): 7 days after a job finished, then expired; the private purge rule
     'retention_days': 'i', 'retention': 's', 'require_kept': 's', 'purge_expired': 'v',
-    # cleanup after DONE (owner decision 8 Oct 2026, K3b): verified final result, temporary work removed once
+    # cleanup after DONE (owner decision 9 Oct 2026 WIB, K3b): verified final result, temporary work removed once
     'cleanup_due': 's', 'verify_final': 's', 'clean_done': 'v', 'clean_pending': 'v',
     # snapshot contract v2 (analysis-stage-snapshot.sql): change counts, freshness, recorded full checks
     'change_sources': 'i', 'changes_since': 's', 'freshness': 's', 'check_and_record': 'v',

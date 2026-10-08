@@ -1,4 +1,4 @@
-"""CP7C nightly backup of the ERP database (owner decision 8 Oct 2026: "backup malam").
+"""CP7C nightly backup of the ERP database (owner decision 9 Oct 2026 WIB: "backup malam yang sudah disepakati").
 
 One run makes one full logical backup (pg_dump, custom format) of the ERP database and writes it outside
 the database (`dest`). It then proves the backup: the file is restored into a separate scratch database
