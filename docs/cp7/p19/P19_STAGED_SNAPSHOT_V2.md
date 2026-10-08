@@ -132,11 +132,34 @@ sama (bukan dihitung ulang). Dibaca satu target tanpa membuka halaman lain.
   sekali di awal job (jamnya tertulis), perubahan sesudahnya terhitung di kesegaran; perbandingan laporan dan
   lampiran kewajiban v1 belum tersedia untuk laporan bertahap.
 
-## 5. Pengingat v2
+## 5. Pengingat v2 — dibuat (`scripts/cp7-src/reminders/staged-reminders.sql` + panel "Pengingat dari analisis bertahap")
 
 - Kondisi pengingat boleh berasal dari snapshot (dengan label).
 - Sebelum dikirim/ditampilkan sebagai tagihan, kondisi diperiksa ulang ke data sekarang; yang sudah selesai
   ditandai selesai dan tidak dikirim.
+- Daftar kondisi: job bertahap per run milik sendiri (`erp_cp7_step_reminder_conditions_v2`), satu halaman analisis
+  per langkah, lalu segel sekali (jumlah baris sama dengan total halaman, hash kumpulan dari identitas run + hash
+  setiap kondisi). Aturan sama dengan v1 (kekurangan produksi per ukuran, kain, aksesori tidak diketahui), tanpa
+  aturan "sumber berubah" karena kesegaran sudah ditulis terpisah. Dibaca berhalaman (≤ 50) dengan saringan aturan
+  dan keadaan; belum disegel → 40001.
+- Periksa ulang (`erp_cp7_recheck_reminder_v2`, tanpa menulis): kebutuhan sekarang = kebutuhan snapshot dikurangi
+  barang jadi + WIP model dan ukuran yang bertambah sejak snapshot. Hasil: `RESOLVED_NOW` (sudah selesai sejak
+  analisis, tidak ditagih), `CHANGED_REVIEW_REQUIRED` (produk, kebijakan atau rencana lain berubah),
+  `UNKNOWN_NOW`, `BELOW_THRESHOLD_NOW`, `STILL_OPEN`, `CONDITION_CHANGED` (kain: bahan bergerak sesudah snapshot).
+- Kirim lokal: klaim (`erp_cp7_claim_reminder_v2`) memeriksa ulang di transaksi yang sama dengan kunci episode;
+  hanya `STILL_OPEN` yang diklaim, lainnya `NOT_SENT` dengan alasan; jeda/jam tenang ditolak tanpa menulis; satu
+  UUID = satu permintaan. Selesai (`erp_cp7_finish_reminder_v2`) memeriksa ulang sekali lagi; berubah → ditahan
+  (`SUPPRESSED` dengan alasan). Tujuan tetap pratinjau lokal (tidak ada pesan ke orang lain).
+- Piutang/utang (`erp_cp7_get_reminder_obligations_v2`) selalu dibaca dari sumber sekarang, bukan snapshot; yang
+  sudah lunas tidak muncul.
+- Default yang dipakai: pengingat kain ditahan bila bahan berubah sesudah snapshot; produksi memakai kebutuhan yang
+  sudah dikurangi; kebijakan dan tujuan memakai tabel ERP yang sama dengan v1; klaim v2 tidak terlihat oleh v1
+  (batas yang dicatat).
+- RPC (11): `erp_cp7_step_reminder_conditions_v2`, `erp_cp7_read_reminder_conditions_v2`,
+  `erp_cp7_get_reminder_obligations_v2`, `erp_cp7_recheck_reminder_v2`, `erp_cp7_get_reminder_workspace_v2`,
+  `erp_cp7_save_reminder_policy_v2`, `erp_cp7_save_reminder_binding_v2`, `erp_cp7_claim_reminder_v2`,
+  `erp_cp7_finish_reminder_v2`, `erp_cp7_resolve_reminder_claim_v2`, `erp_cp7_get_reminder_request_v2`. v1 tidak
+  berubah dan menolak run bertahap.
 
 ## 6. AI v2 — dibuat (`scripts/cp7-src/planning/ai-staged.sql` + panel "Tanya AI dari analisis bertahap")
 
@@ -166,5 +189,5 @@ label dan status tampil, tidak ada kata "terkini" tanpa VERIFIED_SAME.
 | 2 Akses per target | indeks per target dibuat (`plan_targets`, `plan_scope`, `plan_groups`, ditulis ANA_TARGETS/ANA_META, tidak ikut dihapus retensi) + pembaca `plan_target`; uji keluarga staged lokal; uji Native menyusul bersama rencana v2 |
 | 3 Rencana v2 | server dibuat (`plan-native/staged.sql`, 5 RPC, tabel `staged_drafts`); uji kecil SQL lokal lolos (bukan bukti); 18 kasus CI (`P19_PLAN_V2.json`: 10 Native, 4 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-plan-v2-18`; layar dibuat (tombol per target di halaman bertahap, panel rencana jenis STAGED dengan "data per", hasil pemeriksaan ulang dan alasan penolakan; domain pemulihan dan penunjuk terpisah dari v1; pengurai menghitung ulang kebutuhan dan kapasitas) + uji unit/DOM |
 | 4 Business Report v2 | server dibuat (`planning/report-staged.sql`, 6 RPC, 4 tabel); uji kecil SQL lokal lolos termasuk jalur keuangan (bukan bukti); 20 kasus CI (`P19_REPORT_V2.json`: 10 Native, 6 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-report-v2-20`; layar dibuat (panel "Laporan dari analisis bertahap" di bawah hasil bertahap: buat/lanjutkan/periksa permintaan, progres per langkah, ringkasan dan satu bagian dibaca sesuai pilihan, daftar dan revisi) + uji unit/DOM |
-| 5 Pengingat v2 | belum |
+| 5 Pengingat v2 | server dibuat (`reminders/staged-reminders.sql`, 11 RPC, 6 tabel); uji kecil SQL lokal lolos (bukan bukti); 16 kasus CI (`P19_REMINDER_V2.json`: 9 Native, 3 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-reminder-v2-16`; layar dibuat (panel "Pengingat dari analisis bertahap": siapkan daftar, saring, periksa ulang, pratinjau lokal, tujuan dan pengaturan) + uji unit/DOM |
 | 6 AI v2 | server dibuat (`planning/ai-staged.sql`, 1 RPC); uji kecil SQL lokal lolos (bukan bukti); 9 kasus CI (`P19_AI_V2.json`: 4 Native, 1 balapan, 2 HTTP, 2 browser) di workflow P19 suite `p19-ai-v2-9`; layar dibuat (pilih target di tabel, panel Tanya AI) + uji unit/DOM |

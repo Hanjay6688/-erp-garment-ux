@@ -23,7 +23,7 @@ async function journey(ui,today,mobile){
   mkdirSync('cp6-proof/t3',{recursive:true});const before=fixture('state',{actor:user.user.id});assert.deepEqual([before.jobs,before.publications],[0,0])
   panel=await openPanel(page);await panel.getByRole('button',{name:STAGED,exact:true}).click()
   const staged=page.getByRole('region',{name:'Hasil analisis bertahap',exact:true});await ui.expect(staged).toBeVisible({timeout:180000})
-  await ui.expect(staged).toContainText('Laporan dan Tanya AI dibuat dari analisis ini di bagian bawah')
+  await ui.expect(staged).toContainText('Laporan, Tanya AI dan pengingat dibuat dari analisis ini di bagian bawah')
   const report=page.getByRole('region',{name:'Laporan analisis bertahap',exact:true});await ui.expect(report).toContainText('Laporan memakai data analisis per ')
   await report.getByLabel('Judul laporan bertahap',{exact:true}).fill('P19 report v2 browser '+suffix.toLowerCase())
   await report.getByLabel('Alasan laporan bertahap',{exact:true}).fill('P19 report v2 browser: reviewed report of the dated staged snapshot')

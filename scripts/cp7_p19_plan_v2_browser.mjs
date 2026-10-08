@@ -15,7 +15,8 @@ async function navigate(page){await page.locator('.sidebar .nav-main').filter({h
 async function openPanel(page){await navigate(page);const history=page.getByRole('region',{name:'Data permintaan ERP',exact:true});await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click();await history.getByRole('button',{name:'Analisis, laporan & pengingat seluruh produk',exact:true}).click();return page.getByRole('region',{name:'Analisis ERP bersama',exact:true})}
 async function response(page,name,action){const[request]=await Promise.all([page.waitForRequest(r=>r.method()==='POST'&&r.url().endsWith('/rpc/'+name)),action()]);const result=await request.response();assert.ok(result,'P19P_NO_RESPONSE '+name);return result}
 async function shot(ui,page,name){await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true});return name}
-function wib(t){return new Date(Date.parse(t)+7*3600000).toISOString().slice(0,19)}
+// Minute precision: the browser shortens a value with zero seconds (":00"), which a fill then reports as malformed.
+function wib(t){return new Date(Date.parse(t)+7*3600000).toISOString().slice(0,16)}
 async function journey(ui,today,mobile){
  const f=fixture('prepare',{today});const user=await ui.login('OWNER',{label:'p19p-'+(mobile?'mobile':'desktop'),mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',calls=[],shots=[]
  const state=()=>fixture('state',{actor:user.user.id})

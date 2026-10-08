@@ -306,7 +306,8 @@ def cases(cur, today):
         d1, _ = document(cur, done['publication_id'])
         assert d1['freshness']['state'] == 'VERIFIED_SAME', d1['freshness']
         assert 'Sama dengan data per ' + wib(same['checked_at']) + ' menurut cek sumber penuh' in d1['summary'], d1['summary'][:1200]
-        staged.location(cur, 'changed after the report snapshot')
+        # An actual source change: finished stock of a target found after the snapshot.
+        found_fg(cur, first_root(r), 1)
         stale = staged.recorded_check(cur, r['run'], 'RECORDING_TIME')
         assert stale['source_state'] == 'ARCHIVED_STALE', stale
         # The same series, revised over the same snapshot after the source changed.
@@ -395,7 +396,7 @@ def cases(cur, today):
         refused(cur, lambda: publish(cur, payload(r2, **rev)), 'CP7_REPORT_REVISION_CHANGED', '40001')
         refused(cur, lambda: publish(cur, payload(r2, **dict(rev, expected_revision='2', kind='PERIOD'))), 'CP7_REPORT_SERIES_SCOPE_CHANGED')
         refused(cur, lambda: publish(cur, payload(r2, series_id=str(uuid.uuid4()), expected_revision='1')), 'CP7_REPORT_V2_SERIES_UNAVAILABLE', '42501')
-        other_q = dict(staged.query(today), from_date=(datetime.fromisoformat(staged.query(today)['from_date']) + timedelta(days=1)).date().isoformat())
+        other_q = dict(staged.query(today), from_date=(datetime.fromisoformat(staged.query(today)['from_date']) - timedelta(days=1)).date().isoformat())
         r3 = staged_run(cur, today, q=other_q)
         refused(cur, lambda: publish(cur, payload(r3, series_id=d1['series_id'], expected_revision='2')), 'CP7_REPORT_SERIES_SCOPE_CHANGED')
         page = index(cur, limit=1)

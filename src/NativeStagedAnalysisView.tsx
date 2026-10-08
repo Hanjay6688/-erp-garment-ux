@@ -59,7 +59,7 @@ export default function NativeStagedAnalysisView({staged,page,loading,blocked,so
     <li data-total="TIMELINE">Baris linimasa seluruh target: {n(t.items.timeline??0)} · kebutuhan bahan seluruh target: {n(t.items.material_needs??0)}</li>
    </ul>
    <p>Bahan dan produksi baru belum dipastikan. Keuangan dan HPP tidak tercakup pada analisis bertahap dan tidak dianggap nol. Angka belum diketahui tetap ditampilkan apa adanya.</p>
-   <p>Laporan dan Tanya AI dibuat dari analisis ini di bagian bawah, memakai data per waktu yang sama. Pengingat, rincian stok, ruang kerja kain dan arsip memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
+   <p>Laporan, Tanya AI dan pengingat dibuat dari analisis ini di bagian bawah, memakai data per waktu yang sama. Rincian stok, ruang kerja kain dan arsip memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
    <p>Rencana Potongan dibuat per target dari halaman di bawah memakai data per {formatCp6WibDateTime(m.reference.capturedAt)}; saat draf Potongan dibuat, server memeriksa ulang stok, barang dalam proses, kebijakan dan kapasitas pada saat itu.</p>
   </section>
   {m.pageCount===0?<p>Analisis ini tidak memuat rincian per target.</p>:<section aria-label="Target per halaman">

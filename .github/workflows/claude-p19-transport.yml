@@ -41,6 +41,15 @@ name: CP7 P19 Analysis Job Transport
     - src/nativeStagedAi.ts
     - src/NativeStagedAiPanel.tsx
     - docs/cp7/p19/P19_AI_V2.json
+    - scripts/cp7-src/reminders/**
+    - scripts/cp7_reminder_v2_bundle.py
+    - scripts/cp7_obligation_report_bundle.py
+    - scripts/cp7_other_obligation_bundle.py
+    - scripts/cp7_p19_reminder_v2_*
+    - src/nativeStagedReminders.ts
+    - src/NativeStagedRemindersPanel.tsx
+    - src/lib/reminderV2Messages.ts
+    - docs/cp7/p19/P19_REMINDER_V2.json
     - .github/workflows/claude-p19-transport.yml
   workflow_dispatch: {}
 permissions:
@@ -77,6 +86,9 @@ jobs:
         - suite: p19-ai-v2-9
           probe: cp7_p19_ai_v2_probe.py
           timeout: 150
+        - suite: p19-reminder-v2-16
+          probe: cp7_p19_reminder_v2_probe.py
+          timeout: 180
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres

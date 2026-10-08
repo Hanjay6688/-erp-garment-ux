@@ -13,8 +13,8 @@ PUBLIC=('public.erp_cp7_get_obligation_report_preview_v1(uuid)','public.erp_cp7_
  'public.erp_cp7_list_obligation_reports_v1(jsonb)')
 def extension():return previous.extension()+'\n'+(ROOT/'scripts/cp7-src/reminders/obligation-report.sql').read_text()
 def bundle():return previous.previous.previous.predecessor.bundle()+'\n'+extension()
-def verify(cur):
- previous.verify(cur,FUNCTIONS,TABLES,PUBLIC)
+def verify(cur,extension_functions=None,extension_tables=(),extension_public=(),extension_contracts=None):
+ previous.verify(cur,{**FUNCTIONS,**(extension_functions or{})},(*TABLES,*extension_tables),(*PUBLIC,*extension_public),extension_contracts)
  for name in TABLES:
   assert cur.execute("select count(*)from pg_trigger where tgrelid=%s::regclass and not tgisinternal and tgfoid='cp7_reminder_native.immutable_request()'::regprocedure",('cp7_reminder_native.'+name,)).fetchone()[0]==1
  assert cur.execute("select has_table_privilege('cp7_reminder','cp7_analysis_native.publications','SELECT')and not has_table_privilege('cp7_reminder','cp7_analysis_native.publications','INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')").fetchone()[0]

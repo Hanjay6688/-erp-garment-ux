@@ -124,7 +124,8 @@ def cases(cur, today):
         f, _ = load.real_workload(cur, today)
         r = report.staged_run(cur, today)
         first = checked(brief(cur, r['run']), r)
-        staged.location(cur, 'changed after the AI snapshot')
+        # An actual source change: finished stock of a target found after the snapshot.
+        report.found_fg(cur, report.first_root(r), 1)
         check = staged.recorded_check(cur, r['run'], 'RECORDING_TIME')
         assert check['source_state'] == 'ARCHIVED_STALE', check
         later = checked(brief(cur, r['run']), r)

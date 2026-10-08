@@ -1,0 +1,58 @@
+{
+  "contract": "cp7.p19.reminder-v2.v1",
+  "expected_case_count": 16,
+  "required_case_counts": {
+    "native": 9,
+    "races": 3,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "P19M_SET_STEPS_SEAL",
+      "P19M_RESOLVED_AFTER_SNAPSHOT_NOT_SENT",
+      "P19M_STILL_OPEN_SENT_ONCE",
+      "P19M_PARTIAL_AND_THRESHOLD",
+      "P19M_FABRIC_HELD_ON_MATERIAL_CHANGE",
+      "P19M_AR_PAID_NOT_SENT",
+      "P19M_POLICY_AND_DESTINATION",
+      "P19M_REQUEST_ONE_UUID",
+      "P19M_AUTHORITY_AND_V1_APART"
+    ],
+    "races": [
+      "P19M_RACE_TWO_CLAIMS_ONE_CLAIM",
+      "P19M_RACE_FG_COMMITTED_WHILE_WAITING",
+      "P19M_RACE_TWO_STEPS_ONE_UNIT"
+    ],
+    "http": [
+      "P19M_HTTP_FLOW",
+      "P19M_HTTP_REVOKED"
+    ],
+    "browser": [
+      "P19M_BROWSER_DESKTOP_REMINDERS",
+      "P19M_BROWSER_MOBILE_REMINDERS"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_step_reminder_conditions_v2",
+    "erp_cp7_read_reminder_conditions_v2",
+    "erp_cp7_get_reminder_obligations_v2",
+    "erp_cp7_recheck_reminder_v2",
+    "erp_cp7_get_reminder_workspace_v2",
+    "erp_cp7_save_reminder_policy_v2",
+    "erp_cp7_save_reminder_binding_v2",
+    "erp_cp7_claim_reminder_v2",
+    "erp_cp7_finish_reminder_v2",
+    "erp_cp7_resolve_reminder_claim_v2",
+    "erp_cp7_get_reminder_request_v2"
+  ],
+  "statement_timeout": "existing 8s authenticated limit; never raised",
+  "scope": "Reminders v2 (snapshot contract v2 §5, owner decision 8 Oct 2026): the production, fabric and accessory conditions of the actor's own DONE staged run are built once, one page per request (then a seal: counts equal the run's totals, set hash over the identity hash and every condition hash) and never change; each is labelled with the snapshot time. Before a local preview is claimed, and again when it is finished, the condition is rechecked now in the same transaction after the request, destination and episode locks: production need_now = snapshot need minus any increase of finished stock + WIP of the model and size (plan v2's rule); a product, policy or plan change needs a new analysis; a fabric need is held back when its material moved, was ordered or planned since the snapshot; receivables and payables are read now with the v1 readers. Any verdict but STILL_OPEN is recorded with its numbers and nothing is claimed (NOT_SENT); STILL_OPEN claims one preview per episode and policy. Delivery stays LOCAL_TEST_SINK; nothing is sent outside the ERP.",
+  "client": "The staged view shows a reminders panel: prepare the conditions (progress per page), totals at the snapshot time, a filtered list, 'Periksa ulang sekarang', 'Buat pratinjau lokal' with the recheck verdict (resolved since the analysis: not billed), record or mark uncertain, receivables/payables read now, destination and policy forms for managers. The word 'terkini' is never used.",
+  "browser": "Real Auth UI on desktop and mobile: one click starts the staged run; the reminders panel prepares the conditions, rechecks one production condition, saves a destination and policy, claims a local preview whose text states the snapshot time and the recheck; only v2 reminder RPCs are called; no 'terkini'; no horizontal scroll",
+  "synthetic_case": "none; fixtures are the plan v2, fabric and receivable Native fixtures through the ordinary writers and real staged runs; one race holds the shared episode lock from a test session (labelled)",
+  "v1_unchanged": true,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -71,7 +71,7 @@ def inspect():
         import cp7_supply_bundle as supply
         import cp7_schedule_bundle as schedule
         import cp7_analysis_bundle as analysis
-        import cp7_obligation_report_bundle as attention
+        import cp7_reminder_v2_bundle as attention
         product = '\n'.join((
             f03.bundle(), planning.extension(), baseline.extension(),
             supply.extension(), schedule.extension(),

@@ -30,7 +30,7 @@ from datetime import date
 import psycopg
 import cp7_restore_state as restore_state
 import cp7_f05_analysis_probe as f05
-import cp7_obligation_report_bundle as top
+import cp7_reminder_v2_bundle as top
 import cp7_p21_rehearsal_probe as p21
 import cp7_p19_native_load_cases as load
 import cp7_p19_staged_cases as staged
