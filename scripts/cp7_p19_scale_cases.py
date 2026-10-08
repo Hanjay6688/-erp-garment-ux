@@ -471,7 +471,22 @@ def staged_original(cur, run, ps, analysis_rows):
     products = cur.execute("select jsonb_array_length(j.reference->'facts'->'products') from cp7_analysis_stage.jobs j where j.run_id=%s",
                            (run,)).fetchone()[0]
     assert count == ps['page_count'], ('P19S_STAGED_PAGES_NOT_STORED', run, count, ps['page_count'])
-    return dict(run_id=str(run), page_count=count, pages_utf8_bytes=int(total), page_utf8_bytes_max=int(largest),
+    # K3: the run's stored size on disk (pg_column_size: after TOAST compression), by part. Measurement only.
+    storage = cur.execute("""with j as(select id,run_id,reference from cp7_analysis_stage.jobs where run_id=%(r)s)
+      select jsonb_build_object('reference',(select pg_column_size(reference)from j),
+       'header',(select coalesce(sum(pg_column_size(h.body)),0)from cp7_analysis_stage.headers h where h.run_id=%(r)s),
+       'pages',(select coalesce(sum(pg_column_size(p.body)),0)from cp7_analysis_stage.pages p where p.run_id=%(r)s),
+       'intermediates',jsonb_build_object(
+        'outputs',(select coalesce(sum(pg_column_size(x.output)),0)from cp7_analysis_stage.outputs x where x.job_id=(select id from j)),
+        'target_rows',(select coalesce(sum(pg_column_size(x.payload)),0)from cp7_analysis_stage.target_rows x where x.job_id=(select id from j)),
+        'pair_rows',(select coalesce(sum(pg_column_size(x.pair_row)),0)from cp7_analysis_stage.pair_rows x where x.job_id=(select id from j)),
+        'pair_lists',(select coalesce(sum(pg_column_size(x.results)),0)from cp7_analysis_stage.pair_lists x where x.job_id=(select id from j)),
+        'fragments',(select coalesce(sum(pg_column_size(x.body)),0)from cp7_analysis_stage.fragments x where x.job_id=(select id from j))),
+       'plan_index',jsonb_build_object(
+        'plan_targets',(select coalesce(sum(pg_column_size(x.row)),0)from cp7_analysis_stage.plan_targets x where x.job_id=(select id from j)),
+        'plan_scope',(select coalesce(sum(pg_column_size(x.scope)),0)from cp7_analysis_stage.plan_scope x where x.job_id=(select id from j)),
+        'plan_groups_rows',(select count(*)from cp7_analysis_stage.plan_groups x where x.job_id=(select id from j))))""", dict(r=run)).fetchone()[0]
+    return dict(run_id=str(run), page_count=count, storage_bytes_after_toast=storage, pages_utf8_bytes=int(total), page_utf8_bytes_max=int(largest),
                 page_utf8_bytes_min=int(smallest), header_utf8_bytes=ps['header']['utf8_bytes'], identity_hash=ps['identity_hash'],
                 targets_total=ps['targets_total'], source_products=products, recommendations=analysis_rows,
                 single_body_bound_exceeded=int(largest) > BODY_BYTES, client_document_bound_exceeded=None,
