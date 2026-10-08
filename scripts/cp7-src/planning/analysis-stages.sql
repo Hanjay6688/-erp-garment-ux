@@ -1146,6 +1146,14 @@ begin
   'items',items,
   'categories',(select coalesce(jsonb_agg(x order by o),'[]')from jsonb_array_elements(ms->'categories')with ordinality a(x,o)where cids?(x->>'id'))));
 end $$;
+-- One selected fabric requirement as the analysis states it as an assumption
+-- (the header lists one per known target; the plan index keeps each target's own).
+create function cp7_analysis_stage.fabric_assumption(part jsonb)returns jsonb
+language sql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+ select jsonb_build_object('id',part->>'id',
+  'label','Pemakaian kain per PCS untuk '||(part->>'target_key')||' yang dipilih; bukan konsumsi, pemasangan atau alokasi aktual',
+  'origin','OWNER_INPUT','confirmed_for_operation',false)
+$$;
 -- build_operational after its target loop, plus build's finance overlay
 -- (without the semantic hash). The per-target arrays are not materialized:
 -- each is one sentinel string (tag||field) when it has items, where the
@@ -1209,9 +1217,7 @@ begin
  end loop;
  for part in select value from jsonb_array_elements(c->'fabric_source'->'selected')loop
   if known_targets?(part->>'target_key')then
-   fabric_assumptions:=array_append(fabric_assumptions,jsonb_build_object('id',part->>'id',
-    'label','Pemakaian kain per PCS untuk '||(part->>'target_key')||' yang dipilih; bukan konsumsi, pemasangan atau alokasi aktual',
-    'origin','OWNER_INPUT','confirmed_for_operation',false));
+   fabric_assumptions:=array_append(fabric_assumptions,cp7_analysis_stage.fabric_assumption(part));
   end if;
  end loop;
  for k,part in select key,value from jsonb_each(jsonb_build_object('native_operational',c->'facts','native_production',c->'production_sources'->'facts',
@@ -1800,7 +1806,7 @@ begin
       cross join lateral jsonb_array_elements(o.output->'unresolved')k where o.job_id=j.id and y.kind='NET_PAIRS')k))));
  end if;
  if u.kind='ANA_TARGETS'then
-  declare by_root jsonb;by_stock jsonb;
+  declare by_root jsonb;by_stock jsonb;by_fabric jsonb;
   begin
   select coalesce(jsonb_agg(x.payload order by x.ord),'[]'),coalesce(array_agg(x.key),'{}')into rows,keys
    from cp7_analysis_stage.target_rows x where x.job_id=j.id and x.kind='NETROW'and x.ord between u.lo and u.hi;
@@ -1825,14 +1831,22 @@ begin
   from jsonb_array_elements(out->'targets')with ordinality x(v,o)cross join unnest(cp7_analysis_stage.fragment_fields())f(field)
   cross join lateral(select substr(a.t,2,length(a.t)-2)body from(select(x.v->f.field)::text t)a)s
   where jsonb_array_length(x.v->f.field)>0;
-  -- Contract v2 §2: one target's plan inputs, in the same loop order (ord).
+  -- Contract v2 §2: one target's plan inputs, in the same loop order (ord),
+  -- with its own fabric assumptions exactly as the header lists them (only
+  -- for a known target, as the header does).
+  by_fabric:=(select coalesce(jsonb_object_agg(fq.k,fq.items),'{}'::jsonb)from(
+    select fa.v->>'target_key'k,jsonb_agg(cp7_analysis_stage.fabric_assumption(fa.v)order by fa.o)items
+    from jsonb_array_elements(case when jsonb_typeof(c#>'{fabric_source,selected}')='array'then c#>'{fabric_source,selected}'else'[]'::jsonb end)
+     with ordinality fa(v,o)where fa.v->>'target_key'=any(keys)group by 1)fq);
   insert into cp7_analysis_stage.plan_targets(job_id,ord,target_key,row)
   select j.id,u.lo+x.o::integer-1,x.r->>'target_key',jsonb_build_object('target_key',x.r->'target_key','size_id',x.r->'size_id',
    'products',coalesce(by_root->split_part(x.r->>'target_key',':',1),'[]'::jsonb),'stock',coalesce(by_stock->(x.r->>'target_key'),'[]'::jsonb),
    'available_fg_pcs',x.r->'available_fg_pcs','target',x.r->'target','production_policy',x.r->'production_policy',
    'raw_gap_pcs',x.r->'raw_gap_pcs','base_gap_pcs',x.r->'base_gap_pcs','conditional_gap_pcs',x.r->'conditional_gap_pcs',
    'directed_on_time_good_pcs',x.r->'directed_on_time_good_pcs','candidate_allocated_good_pcs',x.r->'candidate_allocated_good_pcs',
-   'supplies',x.r->'net'->'inputs'->'supplies','assumptions',out->'targets'->(x.o::integer-1)->'assumptions')
+   'supplies',x.r->'net'->'inputs'->'supplies','assumptions',out->'targets'->(x.o::integer-1)->'assumptions',
+   'fabric_assumptions',case when coalesce((out->'known_keys')?(x.r->>'target_key'),false)then coalesce(by_fabric->(x.r->>'target_key'),'[]'::jsonb)
+    else'[]'::jsonb end)
   from jsonb_array_elements(rows)with ordinality x(r,o)where x.r->>'target_key'is not null;
   return jsonb_build_object('known_keys',out->'known_keys','demand_unknown',out->'demand_unknown','materials_null',out->'materials_null',
    'counts',(select coalesce(jsonb_object_agg(i.field,i.n),'{}'::jsonb)from(select f.field,sum(jsonb_array_length(x.v->f.field))n
@@ -1876,12 +1890,15 @@ begin
    insert into cp7_analysis_stage.headers(run_id,job_id,body,utf8_bytes,sha256,paged,targets_total,page_count,cuts)
    values(j.run_id,j.id,body,octet_length(body),encode(pg_catalog.sha256(convert_to(body,'UTF8')),'hex'),header->'paged',ntargets,npages,cuts);
    -- Contract v2 §2: the run's planning scope (allocation, capacity, WIP state,
-   -- schedule and its global assumptions, company cut WIP per model:size) and
+   -- schedule and its global assumptions (the fabric ones stay with their
+   -- target), company cut WIP per model:size) and
    -- every cutting group of the production scope with its open/exhausted
    -- state and whether its pieces were proven to have left WIP.
    insert into cp7_analysis_stage.plan_scope(job_id,scope)
    with totals as materialized(select pt.val from jsonb_array_elements(case when jsonb_typeof(wip->'totals')='array'then wip->'totals'else'[]'::jsonb end)pt(val)
      where pt.val->>'pool_key'like 'CUT:%'and pt.val->>'ownership'='COMPANY'),
+    fabric as materialized(select distinct fa.v->>'id' id
+     from jsonb_array_elements(case when jsonb_typeof(c#>'{fabric_source,selected}')='array'then c#>'{fabric_source,selected}'else'[]'::jsonb end)fa(v)),
     models as materialized(select pg.val->>'id' id,min(pg.val->>'model_id')model_id
      from jsonb_array_elements(case when jsonb_typeof(c#>'{production_sources,facts,cutting,groups}')='array'
        then c#>'{production_sources,facts,cutting,groups}'else'[]'::jsonb end)pg(val)group by 1)
@@ -1889,7 +1906,7 @@ begin
     'wip_status',wip->'status','schedule_state',scenario->'schedule_state',
     'schedule',case when jsonb_typeof(c->'schedule')='object'then jsonb_build_object('plan_id',c->'schedule'->'plan_id','revision',c->'schedule'->'revision')end,
     'assumptions',(select coalesce(jsonb_agg(x.e order by x.o),'[]'::jsonb)from jsonb_array_elements(coalesce(skel->'assumptions','[]'::jsonb))with ordinality x(e,o)
-      where jsonb_typeof(x.e)='object'),
+      where jsonb_typeof(x.e)='object'and not exists(select 1 from fabric fi where fi.id=x.e->>'id')),
     'wip_by_model_size',(select coalesce(jsonb_object_agg(pw.k,pw.pcs),'{}'::jsonb)from(
       select pm.model_id||':'||(pt.val->>'size_id')k,sum((pt.val->>'wip_pcs')::numeric)::text pcs
       from totals pt join models pm on pm.id=split_part(pt.val->>'pool_key',':',2)

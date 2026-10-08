@@ -1,0 +1,50 @@
+{
+  "contract": "cp7.p19.plan-v2.v1",
+  "expected_case_count": 16,
+  "required_case_counts": {
+    "native": 10,
+    "races": 4,
+    "http": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "P19P_INDEX_RETAINED",
+      "P19P_SAVE_FROM_STALE_SNAPSHOT",
+      "P19P_PREVIEW_READ_ONLY_LIVE",
+      "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+      "P19P_FG_INCREASE_NEED_CHANGED",
+      "P19P_WIP_INCREASE_NEED_CHANGED",
+      "P19P_POLICY_CHANGED",
+      "P19P_CAPACITY_USED",
+      "P19P_TARGET_PLANNED_AND_LINKED",
+      "P19P_FIELDS_KINDS_ACCESS"
+    ],
+    "races": [
+      "P19P_RACE_CAPACITY_TWO_TARGETS",
+      "P19P_RACE_SAME_TARGET",
+      "P19P_RACE_FG_WHILE_WAITING",
+      "P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE"
+    ],
+    "http": [
+      "P19P_HTTP_FLOW",
+      "P19P_HTTP_REVOKED"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_plan_options_v2",
+    "erp_cp7_save_plan_draft_v2",
+    "erp_cp7_read_plan_draft_v2",
+    "erp_cp7_preview_plan_action_v2",
+    "erp_cp7_apply_plan_action_v2"
+  ],
+  "statement_timeout": "existing 8s authenticated limit; never raised",
+  "scope": "Production plan from a staged analysis snapshot (snapshot contract v2 §2-§3, owner decision 8 Oct 2026). Options and drafts read one target from the retained per-target index; a draft can be saved from a snapshot that is no longer current and stores its identity hash, 'data per' time and snapshot values. Preview reports and apply enforces, in the apply transaction (before and after the Native writer), the live product, production policy, other plans of the target (after the snapshot: TARGET_PLANNED; earlier unposted or unproven: v1's linked-intent rule over the snapshot's own production scope), WIP of the model and size, the need (snapshot need minus any increase of finished stock plus WIP), the one shared capacity centre less every plan not in the snapshot's load, the selected rolls (v1's material checks) and current access; a refusal is 40001 with the numbers in DETAIL and leaves no Native draft or intent.",
+  "need_rule": "need_now = max(0, need_at_snapshot - max(0, (fg_now + wip_now) - (fg_snapshot + wip_snapshot))); finished stock is the sellable grade A/B sum of the target's root, WIP the company cut-pool WIP of its model and size (posted groups not proven exhausted at the snapshot, normalised in batches of 50, at most 200 groups, otherwise WIP_UNKNOWN)",
+  "lock_order": "request, rolls (sorted), CP7:PLAN_CAPACITY, target, version; v1 never takes the capacity lock",
+  "browser": "not declared yet: the screen (plan v2 step 4) adds its browser cases with its own declaration revision",
+  "synthetic_case": "none; every fixture is v1's plan fixture through the ordinary Native writers (production cut, fabric receipt, PO master, profiles, policies, reviewed schedule) and a real staged run",
+  "v1_unchanged": true,
+  "full_P19_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

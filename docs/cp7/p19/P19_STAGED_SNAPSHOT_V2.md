@@ -72,19 +72,39 @@ Indeks per target (tidak dihapus retensi): `target_key → page index, posisi`, 
 nilai skenario yang dipakai rencana (status alokasi, kapasitas start baru, status WIP), diambil dari hasil unit yang
 sama (bukan dihitung ulang). Dibaca satu target tanpa membuka halaman lain.
 
-## 3. Rencana produksi v2 (`cp7.plan-draft.v2`)
+## 3. Rencana produksi v2 (`cp7.plan-draft.v2`) — server dibuat (`scripts/cp7-src/plan-native/staged.sql`)
 
-- **Opsi & simpan draf** dari snapshot: tidak mensyaratkan data tidak berubah. Draf menyimpan `run_id` staged,
-  `identity_hash`, `data_as_of` dan nilai snapshot yang dipakai (kebutuhan, stok, WIP, kapasitas).
-- **Pratinjau** menampilkan label snapshot dan hasil pemeriksaan ulang live (tanpa menulis).
-- **Sahkan/jalankan (apply)**, dalam satu transaksi, sebelum dan sesudah penulisan Native:
-  akses; produk dan kebijakan produksi masih aktif; asumsi tetap ditinjau; bahan/roll (sama seperti v1, live);
-  stok barang jadi dan WIP target sekarang dibanding snapshot — kebutuhan sekarang = kebutuhan snapshot dikurangi
-  kenaikan stok dan WIP target sejak snapshot (penurunan tidak menambah rencana diam-diam); jumlah potong ≤
-  batas potong dari kebutuhan sekarang; kapasitas = kapasitas snapshot dikurangi rencana lain yang disahkan sesudah
-  snapshot; tidak ada rencana lain untuk target yang sama sesudah snapshot.
-- Penolakan dengan kode dan pesan jelas, contoh: `CP7_PLAN_V2_NEED_CHANGED` ("Kebutuhan sekarang 40 pcs, rencana
-  60 pcs. Tinjau ulang."), `CP7_PLAN_V2_CAPACITY_USED`, `CP7_PLAN_V2_POLICY_CHANGED`, ditambah kode bahan v1.
+- **Opsi & simpan draf** (`erp_cp7_get_plan_options_v2`, `erp_cp7_save_plan_draft_v2`): dari indeks per target,
+  tidak mensyaratkan data tidak berubah. Draf menyimpan `run_id` staged, `identity_hash`, `data_as_of` dan nilai
+  snapshot (kebutuhan, stok barang jadi, WIP model+ukuran, kapasitas, status kebijakan, asumsi). Pemeriksaan tingkat
+  snapshot dan komposisi Native (PO, pola, lokasi, roll, ukuran) sama dengan v1. Asumsi yang wajib ditinjau: asumsi
+  global run (jadwal) + profil permintaan target + kebutuhan kain target (+ perkiraan yield bila diisi).
+- **Pratinjau** (`erp_cp7_preview_plan_action_v2`): label snapshot dan hasil pemeriksaan ulang live per butir
+  (PRODUCT, POLICY, TARGET_PLANS, LINKED_PLANS, WIP, NEED, CAPACITY), tanpa menulis.
+- **Sahkan** (`erp_cp7_apply_plan_action_v2`), satu transaksi, urutan kunci: permintaan → roll → `CP7:PLAN_CAPACITY`
+  → target → versi; pemeriksaan live sebelum dan sesudah penulis Native:
+  - produk masih satu baris aktif, model dan ukuran sama; kebijakan produksi sekarang KNOWN dan ACTIVE;
+  - rencana lain untuk target yang sama yang tercatat sesudah snapshot → `CP7_PLAN_V2_TARGET_PLANNED`
+    ("sesudah" = waktu catat ≥ waktu data, atau transaksinya belum terlihat oleh snapshot); rencana lebih awal
+    memakai aturan v1 (grup harus sudah diposting, ada di cakupan produksi snapshot dan terbukti) →
+    `CP7_PLAN_LINKED_INTENT_CONFLICT`;
+  - stok barang jadi target (grade A/B, seperti analisis) dan WIP perusahaan di pool potong model+ukuran target
+    (grup terposting yang tidak terbukti habis saat snapshot, dinormalisasi per 50 grup seperti analisis; >200 grup
+    atau grup yang tidak COMPLETE → `CP7_PLAN_V2_WIP_UNKNOWN`);
+  - kebutuhan sekarang = kebutuhan snapshot − max(0, (stok + WIP sekarang) − (stok + WIP snapshot)); penurunan tidak
+    menambah rencana; potong > batas potong sekarang (atau kebutuhan 0) → `CP7_PLAN_V2_NEED_CHANGED`;
+  - kapasitas sekarang = kapasitas snapshot − potong semua rencana lain yang tidak ada di beban snapshot (dicatat
+    sesudah snapshot, masih draf Native, atau terposting di luar cakupan snapshot) → `CP7_PLAN_V2_CAPACITY_USED`;
+    kalender kapasitas lewat → `CP7_PLAN_V2_CAPACITY_EXPIRED`;
+  - bahan/roll dan akses sama seperti v1.
+  Penolakan: SQLSTATE 40001, pesan = kode, DETAIL = JSON angka (kebutuhan sekarang, potong dipilih, stok/WIP
+  sekarang vs snapshot, kapasitas tersisa), tanpa draf Native atau intent.
+- Draf v1 tidak bisa dipakai di RPC v2 dan sebaliknya (`CP7_PLAN_V2_DRAFT_KIND` / `CP7_PLAN_FIELDS`). File v1 tidak berubah.
+- Batas yang dicatat: WIP dibandingkan per model+ukuran (warna lain dari model yang sama ikut mengurangi kebutuhan,
+  arahnya menolak, tidak meloloskan); kapasitas memakai potong yang tertulis di draf rencana (bukan suntingan draf
+  Native sesudahnya); apply v1 tidak memakai kunci kapasitas (dua apply v1 dan v2 bersamaan bisa sama-sama lolos
+  kapasitas, sama seperti v1 hari ini); run yang selesai sebelum indeks ada perlu dianalisis ulang
+  (`CP7_PLAN_V2_SNAPSHOT_INDEX_MISSING`).
 
 ## 4. Business Report v2
 
@@ -118,7 +138,7 @@ label dan status tampil, tidak ada kata "terkini" tanpa VERIFIED_SAME.
 |---|---|
 | 1 Label & kesegaran | server, tampilan dan uji dibuat. CI `a96def4d`: p19-staged12 PASS (termasuk `P19G_SNAPSHOT_FRESHNESS` dan `P19G_RACE_SNAPSHOT_IN_FLIGHT`), 10 workflow lain PASS; p19-scale5 attempt 1 gagal pada "Cek sumber" v1 di 5.000 target (batas terbuka K7, log `../evidence/snapshot-v2-20261008/02_...`), satu rerun berjalan. Pada 100 target: cek 66 ms, kesegaran 13 ms; 5.000 target belum terukur |
 | 2 Akses per target | indeks per target dibuat (`plan_targets`, `plan_scope`, `plan_groups`, ditulis ANA_TARGETS/ANA_META, tidak ikut dihapus retensi) + pembaca `plan_target`; uji keluarga staged lokal; uji Native menyusul bersama rencana v2 |
-| 3 Rencana v2 | rancangan teknis selesai; server sedang dikerjakan |
+| 3 Rencana v2 | server dibuat (`plan-native/staged.sql`, 5 RPC, tabel `staged_drafts`); uji kecil SQL lokal lolos (bukan bukti); 16 kasus CI (`P19_PLAN_V2.json`: 10 Native, 4 balapan, 2 HTTP) di workflow P19 suite `p19-plan-v2-16`; layar belum |
 | 4 Business Report v2 | belum |
 | 5 Pengingat v2 | belum |
 | 6 AI v2 | belum |

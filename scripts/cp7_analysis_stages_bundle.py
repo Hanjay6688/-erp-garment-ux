@@ -8,7 +8,7 @@ FUNCTIONS = {
     # netting, allocation, analysis
     'netting_prep': 'i', 'netting_targets': 'i', 'netting_pairs': 'i', 'netting_plan': 'i', 'netting_rows': 'i',
     'alloc_prep': 'i', 'numerics': 'i', 'alloc_step': 'i', 'alloc_final': 'i',
-    'analysis_targets': 'i', 'material_scope': 'i', 'analysis_skeleton': 'i', 'sentinel': 'i', 'fragment_fields': 'i',
+    'analysis_targets': 'i', 'material_scope': 'i', 'analysis_skeleton': 'i', 'fabric_assumption': 'i', 'sentinel': 'i', 'fragment_fields': 'i',
     # bounds, status, plan, pages
     'bounds': 'i', 'status': 's', 'create_job': 'v', 'output': 's', 'tag': 'i', 'page_field': 'i', 'fragment_field': 'i',
     'page_layout': 's', 'page_cuts': 's', 'page_summary': 'i', 'run_scenario_unit': 'v', 'run_unit': 'v', 'step': 'v',

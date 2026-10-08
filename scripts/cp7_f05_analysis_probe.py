@@ -39,7 +39,7 @@ def verify(cur):
  f03.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False):
+def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False,p19_plan_v2=False):
  assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_scale,p19_staged)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
  fabric_any=fabric_recipe or fabric_physical or fabric_reminder
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=153;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
@@ -59,6 +59,13 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale)),'P19_STAGED_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_p19_staged_cases as case_provider
   expected=case_provider.EXPECTED;assert expected==14;out=OUT.with_name('CP7_P19_STAGED.json');phase='cp7_p19_staged';browser_script='cp7_p19_staged_browser.mjs'
+ if p19_plan_v2:
+  # P19 plan v2 (production plan from a staged snapshot, live recheck at apply):
+  # its own predeclared IDs on the same closed harness; native, races and HTTP
+  # until the screen's browser cases are declared.
+  assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale,p19_staged)),'P19_PLAN_V2_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
+  import cp7_p19_plan_v2_cases as case_provider
+  expected=case_provider.EXPECTED;assert expected==16;out=OUT.with_name('CP7_P19_PLAN_V2.json');phase='cp7_p19_plan_v2';browser_script=None
  if p19_load:
   import cp7_obligation_report_bundle as candidate
   import cp7_p19_native_load_cases as case_provider
@@ -156,6 +163,10 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_STAGED.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS) and declaration['page_utf8_bytes_bound']==case_provider.PAGE_BYTES,'P19_STAGED_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_P19_STAGED',scope='STAGED_BACKGROUND_ANALYSIS_ONE_UNIT_PER_REQUEST_UNDER_EXISTING_STATEMENT_LIMIT_HEADER_AND_BYTE_ADAPTIVE_PAGES_IDENTITY_HASH_ACTOR_ACCESS_BOUND_APART_FROM_WHOLE_READERS',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False,owner_latency_acceptance=False)
+ if p19_plan_v2:
+  declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_PLAN_V2.json').read_bytes();declaration=json.loads(declaration_bytes)
+  assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS),'P19_PLAN_V2_PREDECLARED_CASE_BUDGET_CHANGED'
+  report.update(label='CP7_P19_PLAN_V2',scope='PRODUCTION_PLAN_FROM_DATED_STAGED_SNAPSHOT_SAVED_AS_DRAFT_LIVE_RECHECK_OF_PRODUCT_POLICY_STOCK_WIP_NEED_CAPACITY_PLANS_MATERIAL_ACCESS_IN_THE_APPLY_TRANSACTION',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False,browser_qualification=False)
  if p19_scale:
   declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_SCALE.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['evidence_kind']==case_provider.EVIDENCE_KIND and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'P19_SCALE_PREDECLARED_CASE_BUDGET_CHANGED'
@@ -205,15 +216,15 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    report['source_admission_public_catalog_comparison']=admission_catalog_audit
    report['source_admission_required_case_credit']=0
    assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
-  with exact_public_catalog(native,retain_raw=fabric_any or p19_load or p19_transport or p19_scale or p19_staged)as catalog_audit:
-   report['native']=native.strict_group('CP7_P19_SCALE'if p19_scale else'CP7_P19_STAGED'if p19_staged else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+  with exact_public_catalog(native,retain_raw=fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2)as catalog_audit:
+   report['native']=native.strict_group('CP7_P19_PLAN_V2'if p19_plan_v2 else'CP7_P19_SCALE'if p19_scale else'CP7_P19_STAGED'if p19_staged else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
   report['native_public_catalog_comparison']=catalog_audit
   if not p19_scale:
    # The scale ladder declares no race/HTTP group: real Auth/PostgREST is
    # measured inside its browser cases on the same seeded copy.
    report['races']=modes.run_races(case_provider,checker,phase)
    report['http']=modes.run_http(case_provider,checker,phase)
-  if not p19_load:
+  if not(p19_load or p19_plan_v2):
    # Keep port ownership evidence before opening the native browser host.
    import subprocess
    report['browser_port_state_before']=subprocess.run(['ss','-lntp','sport = :54328'],capture_output=True,text=True,check=False).stdout
@@ -239,10 +250,10 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
     # restore/advisor/qualification gate may be inferred from passing cases.
     report.update(restore_error=str(restoration_error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
-  if fabric_any or p19_load or p19_transport or p19_scale or p19_staged:
+  if fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2:
    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
-  group_names=('native','races','http')if p19_load else('native','browser')if p19_scale else('native','races','http','browser')
-  groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale or p19_staged)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale or p19_staged)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  group_names=('native','races','http')if p19_load or p19_plan_v2 else('native','browser')if p19_scale else('native','races','http','browser')
+  groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':
