@@ -30,9 +30,15 @@ async function journey(ui,today,mobile){
   await rem.getByRole('button',{name:'Siapkan daftar pengingat',exact:true}).click();await ui.expect(rem).toHaveAttribute('data-set-state','DONE',{timeout:120000})
   await ui.expect(rem).toContainText('Daftar pengingat siap: ')
   await rem.getByLabel('Jenis pengingat',{exact:true}).selectOption('PRODUCTION_GAP')
-  let r=await response(page,'erp_cp7_read_reminder_conditions_v2',()=>rem.getByRole('button',{name:'Tampilkan pengingat',exact:true}).click());assert.equal(r.status(),200)
+  // The set's first page (every rule) is already on screen: each read is
+  // searched only after the panel has settled on that read's own page.
+  const list=rem.getByRole('list',{name:'Daftar pengingat dari analisis',exact:true}),show=rem.getByRole('button',{name:'Tampilkan pengingat',exact:true})
+  const settled=async()=>{await ui.expect(show).toBeEnabled();await ui.expect(list.locator('[data-condition-key]:not([data-condition-key^="PRODUCTION_GAP:"])')).toHaveCount(0)}
+  let r=await response(page,'erp_cp7_read_reminder_conditions_v2',()=>show.click());assert.equal(r.status(),200);await settled()
   const item=rem.locator(`[data-condition-key="PRODUCTION_GAP:${f.target_key}"]`)
-  for(let i=0;i<200&&!await item.count();i++){const next=rem.getByRole('button',{name:'Halaman pengingat berikutnya',exact:true});assert.ok(await next.count(),'P19M_FIXTURE_TARGET_NOT_LISTED');await next.click();await page.waitForTimeout(200)}
+  for(let i=0;i<200&&!await item.count();i++){const next=rem.getByRole('button',{name:'Halaman pengingat berikutnya',exact:true})
+   if(!await next.count())assert.fail('P19M_FIXTURE_TARGET_NOT_LISTED '+JSON.stringify(fixture('condition',{actor:user.user.id,key:'PRODUCTION_GAP:'+f.target_key})))
+   r=await response(page,'erp_cp7_read_reminder_conditions_v2',()=>next.click());assert.equal(r.status(),200);await settled()}
   await ui.expect(item).toHaveCount(1)
   r=await response(page,'erp_cp7_recheck_reminder_v2',()=>item.getByRole('button',{name:/^Periksa ulang sekarang /}).click());assert.equal(r.status(),200)
   const recheck=await r.json();assert.equal(recheck.verdict,'STILL_OPEN',JSON.stringify(recheck));assert.equal(recheck.recorded,false)

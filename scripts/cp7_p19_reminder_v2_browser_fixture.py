@@ -28,6 +28,12 @@ def main():
                        claims=q('select count(*)from cp7_reminder_native.staged_claims where actor=%s'),
                        rechecks=q('select count(*)from cp7_reminder_native.staged_rechecks where actor=%s'),
                        v1_claims=q('select count(*)from cp7_reminder_native.local_claims where actor=%s'))
+        elif op == 'condition':
+            # Diagnosis only: the actor's latest condition set and the target's stored row in it (read, never written).
+            row = cur.execute('select s.run_id,s.state,s.totals,c.snapshot_state,c.reason,c.value,c.page_index,c.ord '
+                              'from cp7_reminder_native.staged_condition_sets s left join cp7_reminder_native.staged_conditions c on c.run_id=s.run_id and c.key=%s '
+                              'where s.actor=%s order by s.created_at desc limit 1', (p['key'], p['actor'])).fetchone()
+            out = dict(zip(('run_id', 'set_state', 'totals', 'snapshot_state', 'reason', 'value', 'page_index', 'ord'), row)) if row else None
         else:
             raise ValueError('UNKNOWN_REMINDER_V2_BROWSER_CONTROL')
         cases.b.api.admin(cur)
