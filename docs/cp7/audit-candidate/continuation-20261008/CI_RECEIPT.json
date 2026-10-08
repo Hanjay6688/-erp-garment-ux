@@ -1,0 +1,378 @@
+{
+ "summary": {
+  "sha": "976f4c43096ba4ac34569a4bb9d27582cac40d3c",
+  "workflows": 15,
+  "workflows_success": 15,
+  "jobs": 42,
+  "jobs_success": 42,
+  "not_success": []
+ },
+ "runs": [
+  {
+   "workflow": "Build UX",
+   "run_id": 37814321269,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "build",
+     "job_id": 113438905844,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP6 Candidate CodeQL (T3)",
+   "run_id": 37814321317,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "CodeQL python",
+     "job_id": 113438909293,
+     "conclusion": "success"
+    },
+    {
+     "name": "CodeQL actions",
+     "job_id": 113438909541,
+     "conclusion": "success"
+    },
+    {
+     "name": "CodeQL c-cpp",
+     "job_id": 113438909718,
+     "conclusion": "success"
+    },
+    {
+     "name": "CodeQL javascript-typescript",
+     "job_id": 113438909756,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Note Correction (Claude branch)",
+   "run_id": 37816255626,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Nota correction / Native stock AR cash journal HPP",
+     "job_id": 113445554017,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Owning Receipt Correction",
+   "run_id": 37816285671,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Receipt correction / Native stock cost HPP AP journal",
+     "job_id": 113445652693,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P08 Physical Fabric",
+   "run_id": 37814321417,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "analysis152",
+     "job_id": 113438908745,
+     "conclusion": "success"
+    },
+    {
+     "name": "attention284",
+     "job_id": 113438908746,
+     "conclusion": "success"
+    },
+    {
+     "name": "plan39",
+     "job_id": 113438908800,
+     "conclusion": "success"
+    },
+    {
+     "name": "fabric-physical21",
+     "job_id": 113438908833,
+     "conclusion": "success"
+    },
+    {
+     "name": "fabric13-successor",
+     "job_id": 113438908906,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P12 Payroll (Claude branch)",
+   "run_id": 37816259185,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P12 payroll --attendance-write",
+     "job_id": 113445564768,
+     "conclusion": "success"
+    },
+    {
+     "name": "P12 payroll --payroll-review",
+     "job_id": 113445565064,
+     "conclusion": "success"
+    },
+    {
+     "name": "P12 payroll --roster",
+     "job_id": 113445565172,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P13 Finance (Claude branch)",
+   "run_id": 37816263486,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "P13 native dated report and immutable archive reader",
+     "job_id": 113445579924,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P18 Fabric Rule",
+   "run_id": 37814321328,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "rule-lifecycle16",
+     "job_id": 113438911385,
+     "conclusion": "success"
+    },
+    {
+     "name": "p18-e01-9",
+     "job_id": 113438911748,
+     "conclusion": "success"
+    },
+    {
+     "name": "fabric-rule11",
+     "job_id": 113438911793,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P18 Full Cycle",
+   "run_id": 37816267148,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
+     "job_id": 113445592640,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P19 Analysis Job Transport",
+   "run_id": 37814321229,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "p19-scale5",
+     "job_id": 113438908297,
+     "conclusion": "success"
+    },
+    {
+     "name": "p19-plan-v2-18",
+     "job_id": 113438908399,
+     "conclusion": "success"
+    },
+    {
+     "name": "p19-reminder-v2-16",
+     "job_id": 113438908434,
+     "conclusion": "success"
+    },
+    {
+     "name": "p19-staged12",
+     "job_id": 113438908450,
+     "conclusion": "success"
+    },
+    {
+     "name": "p19-report-v2-20",
+     "job_id": 113438908456,
+     "conclusion": "success"
+    },
+    {
+     "name": "pl5-history-yield-20",
+     "job_id": 113438908491,
+     "conclusion": "success"
+    },
+    {
+     "name": "k2-retention-10",
+     "job_id": 113438908521,
+     "conclusion": "success"
+    },
+    {
+     "name": "p19-ai-v2-9",
+     "job_id": 113438908696,
+     "conclusion": "success"
+    },
+    {
+     "name": "p19-transport11",
+     "job_id": 113438908756,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 P21 Rehearsal",
+   "run_id": 37816270311,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+     "job_id": 113445601825,
+     "conclusion": "success"
+    },
+    {
+     "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+     "job_id": 113445602201,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 PL Native Planning (Claude branch)",
+   "run_id": 37816273939,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "schedule",
+     "job_id": 113445615803,
+     "conclusion": "success"
+    },
+    {
+     "name": "model",
+     "job_id": 113445616124,
+     "conclusion": "success"
+    },
+    {
+     "name": "netting",
+     "job_id": 113445616219,
+     "conclusion": "success"
+    },
+    {
+     "name": "supply",
+     "job_id": 113445616454,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Shell S0 (Claude branch)",
+   "run_id": 37814321670,
+   "attempt": 1,
+   "event": "push",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "p19-assembly",
+     "job_id": 113438909438,
+     "conclusion": "success"
+    },
+    {
+     "name": "CP7 CodeQL javascript-typescript",
+     "job_id": 113438909675,
+     "conclusion": "success"
+    },
+    {
+     "name": "p19-staged",
+     "job_id": 113438909687,
+     "conclusion": "success"
+    },
+    {
+     "name": "shell",
+     "job_id": 113438909713,
+     "conclusion": "success"
+    },
+    {
+     "name": "CP7 CodeQL actions",
+     "job_id": 113438909905,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Supplier Payment Correction (Claude branch)",
+   "run_id": 37816277850,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
+     "job_id": 113445627471,
+     "conclusion": "success"
+    }
+   ]
+  },
+  {
+   "workflow": "CP7 Supplier Payment Create",
+   "run_id": 37816281714,
+   "attempt": 1,
+   "event": "workflow_dispatch",
+   "status": "completed",
+   "conclusion": "success",
+   "jobs": [
+    {
+     "name": "New supplier payment through the owning command, races and real Auth HTTP",
+     "job_id": 113445640646,
+     "conclusion": "success"
+    }
+   ]
+  }
+ ],
+ "contract": "cp7.continuation-candidate-ci-receipt.v1",
+ "branch": "claude/new-session-deapao",
+ "frozen_candidate_untouched": "9d57b7f576eaf4a3535c70003c3d67fdc4c8fcff",
+ "independent_acceptance": false,
+ "installed_P21_acceptance": false,
+ "production_go": false
+}

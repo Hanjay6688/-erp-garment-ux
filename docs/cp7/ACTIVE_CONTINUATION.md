@@ -1,3 +1,9 @@
+Kandidat audit lanjutan — 8 Okt 2026 WIB: kelanjutan sesudah pembekuan (rencana produksi v2, Business Report v2,
+pengingat v2, Tanya AI v2, PL-5 B yield histori, retensi 7 hari, ukuran simpan) dikunci pada sumber **976f4c43**
+di `claude/new-session-deapao`: 15/15 workflow kualifikasi hijau pada commit itu. Baca
+[audit-candidate/continuation-20261008](audit-candidate/continuation-20261008/README.md). Kandidat beku
+`9d57b7f5` (`cp7/integration`) tidak diubah. P20 independen, P21 terpasang dan production GO tetap terbuka.
+
 Current writer continuation — 8 Oct 2026 WIB: GPT took over the Claude
 checkpoint 7927b42c on canonical branch `claude/new-session-deapao`. Read
 [GPT_WRITER_STAGED_5000_20261008](handoff/GPT_WRITER_STAGED_5000_20261008.md).
