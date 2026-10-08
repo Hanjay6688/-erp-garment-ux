@@ -5,7 +5,7 @@ Atas permintaan owner di chat ("lanjutin lg ya"), Claude melanjutkan dari checkp
 Satu writer: GPT tidak menulis ke cabang ini selama Claude aktif; serah terima berikutnya dicatat di sini.
 
 Sisa pekerjaan menurut `GPT_WRITER_STAGED_5000_20261008.md` §4:
-1. **P21 komposisi penuh** (dikerjakan sekarang): latihan pemasangan paket gabungan termasuk staged dan pengingat,
+1. **P21 komposisi penuh — LULUS** di `dcee3726` (run 37716123319, lihat P20/P21 §15): latihan pemasangan paket gabungan termasuk staged dan pengingat,
    pakai yang di-commit, backup instalasi terpakai dipulihkan, rollback instalasi terpakai lewat restore backup
    pra-pasang. Probe `scripts/cp7_p21_full_rehearsal_probe.py`, matriks kedua di workflow P21.
 2. Penggabungan ke `cp7/integration` — perlu izin owner untuk push ke cabang itu.

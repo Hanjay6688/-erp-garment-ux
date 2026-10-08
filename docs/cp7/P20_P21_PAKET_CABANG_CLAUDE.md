@@ -535,3 +535,40 @@ keputusan owner; tidak diisi diam-diam. GBD-03 opsi 1 dan D11 tetap disahkan.
 `independent_acceptance=false`, `installed_P21_acceptance=false`,
 `full_P19_acceptance=false`, `production_go=false`. Tidak ada perubahan
 main, Cloudflare/deployment, hosted Enteng/Supabase, legacy atau produksi.
+
+## 15. Tambahan 8 Okt 2026: latihan P21 komposisi penuh (Claude, writer kembali)
+
+**Fitur latihan yang sudah terbukti di CI** — source `dcee3726d2634d61948a16482e76e6c4e5ce3731`,
+workflow CP7 P21 Rehearsal run `37716123319`: job F03 lama `113112859045` tetap sukses, job baru
+`113112859383` sukses. Probe `scripts/cp7_p21_full_rehearsal_probe.py`, ringkasan langkah
+`evidence/p21-full-20261008/04_PASS_dcee3726_run37716123319_summary.json`.
+
+Komposisi yang dipasang sama dengan suite Native analisis/pengingat: F03 + perencanaan + baseline + supply +
+schedule + netting + analisis termasuk staged 5.000 target + pengingat, rule source, kewajiban lain dan lampiran
+laporan (`cp7_obligation_report_bundle`, 1.944.792 byte, SHA-256
+`3ec2cf58beabc5c34352318ee333d9dedab08aeda93fa52aabd3d37aec218f83`; superset kompilasi full-rule-source §14).
+
+| Langkah | Hasil |
+|---|---|
+| Backup pra-pasang | dump 10,6 MB, 407 tabel, sidik katalog + hash baris per tabel |
+| Pasang | 1.776 fungsi, 129 tabel CP7, 38 role; setiap definisi pendahulu/ACL dideklarasikan; semua verifier keluarga |
+| Rollback pra-pakai | pulih persis (ACL skema+data, anggota public+baris, definisi/owner/ACL) |
+| Pasang ulang | katalog identik (`4f05e71b…`) |
+| Pakai, **di-commit** | pembayaran supplier lewat perintah pemiliknya; job staged DONE (21 unit, 3 target, 1 halaman) dan semua halaman dibaca lewat reader publik aktor |
+| Rollback pasca-pakai | **ditolak** (`CP7_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE`; baris CP7 sejak pasang termasuk `cp7_analysis_stage.jobs/pages`, `cp7_supplier_payment_create.requests`) |
+| Backup instalasi terpakai → restore ke DB baru | `RESTORED_SAME_MEANING`: 536 tabel baris identik; beda katalog erp/public hanya bentuk G-01 + pg_cron; katalog CP7 sama makna (101 tabel ACL default eksplisit ↔ NULL, dibuktikan dengan `acldefault()`); hasil staged dibaca ulang identik (identity_hash `df3122db…`, halaman, Original rakitan) |
+| Rollback instalasi terpakai = restore backup pra-pasang ke DB baru | `RESTORED_PRE_INSTALL_STATE`: baris identik dengan sebelum pasang, objek CP7 tidak ada, fungsi sama makna; 245 tabel kehilangan tulisan sesudah pasang (dicatat, memang konsekuensinya) |
+| Pemulihan klon harness | ACL skema, ledger migrasi, definisi/owner/ACL, anggota public persis; 116 tabel ERP berisi baris pemakaian (dicatat) |
+| Advisor | gate lulus |
+
+Kegagalan pertama (jsonschema tidak terpasang; pembanding katalog CP7 tanpa detail; komponen boundary yang juga
+meng-hash baris ERP) disimpan di `evidence/p21-full-20261008/01..03`. Tidak ada oracle produk yang dilonggarkan:
+klasifikasi baru hanya menerima bentuk yang dibuktikan sama makna (re-parse G-01, ACL = `acldefault`).
+
+**Batas terbuka:** ini latihan writer di klon sekali pakai, bukan receipt P21 rilis. Belum: kandidat diterima
+P20, T2 atas hasil pemasangan, pins rilis/CodeQL rilis, pemasangan hosted (tidak dilakukan), integrasi
+`cp7/integration` (perlu izin owner untuk push ke cabang itu). Data pemakaian di latihan kecil (3 target), bukan
+skala 5.000 — skala dibuktikan terpisah di §14.
+
+**Penerimaan auditor:** belum ada. `independent_acceptance=false`, `installed_P21_acceptance=false`,
+`production_go=false`.

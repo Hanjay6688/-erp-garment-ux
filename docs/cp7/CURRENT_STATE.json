@@ -11837,5 +11837,34 @@
     "full_CP7_acceptance": false,
     "independent_acceptance": false,
     "production_go": false
+  },
+  "p21_full_composition_rehearsal_20261008": {
+    "status": "WRITER_REHEARSAL_PASS",
+    "active_writer": "Claude",
+    "source_commit": "dcee3726d2634d61948a16482e76e6c4e5ce3731",
+    "workflow_run": 37716123319,
+    "jobs": {
+      "f03": 113112859045,
+      "full": 113112859383
+    },
+    "probe": "scripts/cp7_p21_full_rehearsal_probe.py",
+    "composition": "cp7_obligation_report_bundle (F03+planning+analysis incl. staged+reminders/rule source/obligations/report appendix)",
+    "composition_sha256": "3ec2cf58beabc5c34352318ee333d9dedab08aeda93fa52aabd3d37aec218f83",
+    "steps": [
+      "PREINSTALL_BACKUP",
+      "INSTALL_1",
+      "PREUSE_ROLLBACK",
+      "REINSTALL",
+      "USE_COMMITTED",
+      "POSTUSE_ROLLBACK_REFUSED",
+      "USED_BACKUP_RESTORE_SAME_MEANING",
+      "ROLLBACK_BY_PREINSTALL_RESTORE",
+      "HARNESS_RESTORE"
+    ],
+    "evidence": "docs/cp7/evidence/p21-full-20261008/",
+    "doc": "docs/cp7/P20_P21_PAKET_CABANG_CLAUDE.md#15",
+    "installed_P21_acceptance": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }
