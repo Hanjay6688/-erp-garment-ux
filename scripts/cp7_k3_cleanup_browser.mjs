@@ -21,12 +21,15 @@ async function findTarget(ui,region,key){
 }
 async function journey(ui,today,mobile){
  const f=fixture('prepare',{today});const user=await ui.login('OWNER',{label:'k3c-'+(mobile?'mobile':'desktop'),mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',shots=[],calls=[]
- page.on('response',async r=>{const name=STAGED_RPCS.find(n=>r.url().endsWith('/rpc/'+n));if(name){let body=null;try{body=await r.json()}catch{}calls.push({name,status:r.status(),body})}})
+ // Each reply is recorded when it arrives, in arrival order; its body is read
+ // asynchronously and awaited (settle) before any assertion reads it.
+ page.on('response',r=>{const name=STAGED_RPCS.find(n=>r.url().endsWith('/rpc/'+n));if(name)calls.push({name,status:r.status(),body:null,ready:r.json().catch(()=>null)})})
+ const settle=async()=>{await ui.expect.poll(()=>calls.some(c=>c.name==='erp_cp7_read_staged_analysis_pages_v1')).toBe(true);for(const c of calls)if(c.ready){c.body=await c.ready;delete c.ready}}
  let panel
  try{
   mkdirSync('cp6-proof/t3',{recursive:true})
   panel=await openPanel(page);await panel.getByRole('button',{name:STAGED,exact:true}).click()
-  let region=page.getByRole('region',{name:'Hasil analisis bertahap',exact:true});await ui.expect(region).toBeVisible({timeout:180000})
+  let region=page.getByRole('region',{name:'Hasil analisis bertahap',exact:true});await ui.expect(region).toBeVisible({timeout:180000});await settle()
   const first=calls.filter(c=>c.name==='erp_cp7_read_staged_analysis_pages_v1'&&c.status===200).at(-1);assert.ok(first,'K3C_NO_PAGE_SET')
   const identity=first.body.identity_hash,pages=first.body.page_count
   const before=fixture('state',{actor:user.user.id});assert.equal(before.done.length,1);assert.equal(before.logs,0);assert.ok(before.temporary.outputs>0,JSON.stringify(before))
@@ -36,7 +39,7 @@ async function journey(ui,today,mobile){
   // Opening the panel reopens the last finished result by itself (NativeAnalysisPanel mount effect); no click is needed.
   panel=await openPanel(page)
   region=page.getByRole('region',{name:'Hasil analisis bertahap',exact:true});await ui.expect(region).toBeVisible({timeout:60000})
-  await ui.expect(panel.getByRole('button',{name:'Buka hasil analisis bertahap terakhir',exact:true})).toHaveCount(0)
+  await ui.expect(panel.getByRole('button',{name:'Buka hasil analisis bertahap terakhir',exact:true})).toHaveCount(0);await settle()
   const reread=calls.filter(c=>c.name==='erp_cp7_read_staged_analysis_pages_v1'&&c.status===200).at(-1);assert.ok(reread,'K3C_REOPEN_READ_NO_PAGE_SET')
   assert.equal(reread.body.identity_hash,identity,'K3C_REOPENED_IDENTITY_DIFFERS');assert.equal(reread.body.page_count,pages)
   assert.equal(calls.filter(c=>c.name==='erp_cp7_request_staged_analysis_v1'||c.name==='erp_cp7_step_staged_analysis_v1').length,0,'K3C_REOPEN_RECOMPUTED')

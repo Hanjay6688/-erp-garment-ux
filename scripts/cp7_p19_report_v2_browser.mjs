@@ -17,7 +17,10 @@ async function shot(ui,page,name){await ui.expect.poll(()=>page.evaluate(()=>doc
 async function journey(ui,today,mobile){
  fixture('prepare',{today});const user=await ui.login('OWNER',{label:'p19r-'+(mobile?'mobile':'desktop'),mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP',calls=[],replies=[],shots=[]
  page.on('request',r=>{const name=[...v2,...v1].find(n=>r.url().endsWith('/rpc/'+n));if(name)calls.push({name,body:r.postDataJSON()})})
- page.on('response',async r=>{const name=v2.find(n=>r.url().endsWith('/rpc/'+n));if(name&&r.request().method()==='POST')replies.push({name,status:r.status(),body:await r.json().catch(()=>null)})})
+ // Each reply is recorded when it arrives, in arrival order; its body is read
+ // asynchronously and awaited (settle) before any assertion reads it.
+ page.on('response',r=>{const name=v2.find(n=>r.url().endsWith('/rpc/'+n));if(name&&r.request().method()==='POST')replies.push({name,status:r.status(),body:null,ready:r.json().catch(()=>null)})})
+ const settle=async()=>{for(const x of replies)if(x.ready){x.body=await x.ready;delete x.ready}}
  let panel
  try{
   mkdirSync('cp6-proof/t3',{recursive:true});const before=fixture('state',{actor:user.user.id});assert.deepEqual([before.jobs,before.publications],[0,0])
@@ -32,6 +35,7 @@ async function journey(ui,today,mobile){
   await report.getByLabel('Laporan bertahap sudah ditinjau',{exact:true}).check()
   await report.getByRole('button',{name:'Buat laporan dari analisis ini',exact:true}).click()
   const article=report.getByRole('article',{name:'Isi laporan bertahap',exact:true});await ui.expect(article).toBeVisible({timeout:120000})
+  await ui.expect.poll(()=>replies.some(r=>r.name==='erp_cp7_read_report_v2')).toBe(true);await settle()
   const steps=replies.filter(r=>r.name==='erp_cp7_step_report_v2'),last=steps.at(-1)?.body
   assert.ok(last&&last.state==='DONE'&&last.publication_id,'P19R_DONE_NOT_OBSERVED');assert.equal(steps.length,last.unit_count)
   assert.deepEqual(steps.map(r=>r.body.units_done),Array.from({length:last.unit_count},(_,i)=>i+1),'P19R_ONE_UNIT_PER_STEP')
