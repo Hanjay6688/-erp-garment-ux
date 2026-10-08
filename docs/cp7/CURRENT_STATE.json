@@ -3697,7 +3697,7 @@
     "source_tree": "ef4e082eafdd4fe5da01751e6beaeb6c82fd2270",
     "status": "PLANNER_READS_MEASURED_ACTUAL_E01_WORKLOAD_PREDECLARED"
   },
-  "next_action": "Read CHECKPOINT_INTEGRATION_20261006.md and current MERGE_QUALIFICATION_REQUEST.json. Retrieve exact current-source workflow results and complete Originals; do not substitute prior qualification. Continue P19 technical repair while regression runs. Preserve immutable CP6/history and all first failures. One writer, guarded canonical fast-forward, no force push, no hosted installation or production GO.",
+  "next_action": "Audit candidate frozen 8 Oct 2026 (docs/cp7/audit-candidate/final-20261008/). Fast-forward cp7/integration to the candidate (no force, main untouched), run every triggered and qualification workflow on that SHA, write FREEZE_RECEIPT.json. P20 independent audit in a separate session; writer may reproduce/fix but never accepts. Owner decisions of 8 Oct are continuation work (CONTINUATION_AFTER_FREEZE_20261008.md), not candidate changes. No hosted, main, Cloudflare, legacy or production change; production_go=false.",
   "owner_authorization": "Start CP7 after combined CP6 closure, current conversation",
   "owner_continuation": "29 September: continue autonomously by priority; checkpoint each family for owner to forward to Sol. No hosted production authorization.",
   "p03_verification_receipt": "docs/cp7/evidence/p03-policy/VERIFICATION.json",
@@ -11865,6 +11865,34 @@
     "doc": "docs/cp7/P20_P21_PAKET_CABANG_CLAUDE.md#15",
     "installed_P21_acceptance": false,
     "independent_acceptance": false,
+    "production_go": false
+  },
+  "audit_candidate_freeze_20261008": {
+    "status": "FROZEN_FOR_P20_AUDIT_PENDING_SAME_SHA_CI",
+    "active_writer": "Claude",
+    "owner_instruction": "Bekukan kandidat audit sekarang (owner, 8 Okt 2026)",
+    "candidate_commit": "head of cp7/integration after the freeze fast-forward; exact SHA and CI runs in FREEZE_RECEIPT.json",
+    "non_docs_source_equal_to": "dcee3726d2634d61948a16482e76e6c4e5ce3731",
+    "source_delta": "docs/cp7/audit-candidate/final-20261008/SOURCE_DELTA.json",
+    "package": "docs/cp7/audit-candidate/final-20261008/",
+    "auditor_start": "docs/cp7/audit-candidate/final-20261008/AUDITOR_START_P20.md",
+    "owner_decisions": "docs/cp7/OWNER_DECISIONS_20261008.md",
+    "continuation": "docs/cp7/CONTINUATION_AFTER_FREEZE_20261008.md",
+    "owner_decided_not_in_candidate": [
+      "PL5_B_parameters",
+      "staged_retention_7_days",
+      "staged_downstream_priority",
+      "server_runner_staged",
+      "server_runner_PL8",
+      "capture_accepted_temporarily_as_background"
+    ],
+    "owner_pending_values": [
+      "CP6_eight_real_settings"
+    ],
+    "integration_push_authorized": "fast-forward only, no force, main untouched",
+    "independent_acceptance": false,
+    "installed_P21_acceptance": false,
+    "full_P19_acceptance": false,
     "production_go": false
   }
 }

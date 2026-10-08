@@ -12,3 +12,7 @@ Sisa pekerjaan menurut `GPT_WRITER_STAGED_5000_20261008.md` §4:
 3. P20 audit independen — bukan pekerjaan writer.
 
 `production_go=false`, `independent_acceptance=false`, `installed_P21_acceptance=false`.
+
+**Pembaruan 8 Okt (owner):** kandidat audit dibekukan (`../audit-candidate/final-20261008/`), push fast-forward
+`cp7/integration` diizinkan (tanpa force, tanpa `main`), keputusan owner dicatat di `../OWNER_DECISIONS_20261008.md`
+dan dikerjakan sebagai kelanjutan terpisah (`../CONTINUATION_AFTER_FREEZE_20261008.md`). P20 di sesi auditor terpisah.

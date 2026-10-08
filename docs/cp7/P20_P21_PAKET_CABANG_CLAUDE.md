@@ -572,3 +572,21 @@ skala 5.000 — skala dibuktikan terpisah di §14.
 
 **Penerimaan auditor:** belum ada. `independent_acceptance=false`, `installed_P21_acceptance=false`,
 `production_go=false`.
+
+## 16. 8 Okt 2026: kandidat audit dibekukan, keputusan owner, integrasi
+
+Owner: "Bekukan kandidat audit sekarang." Paket: `audit-candidate/final-20261008/` (README, `SOURCE_DELTA.json`,
+`FULL_COMPOSITION_P21.sql.gz`, `AUDITOR_START_P20.md`). Sumber non-dokumen identik dengan `dcee3726`; terhadap
+manifest `59d63e46` hanya workflow P21 berubah dan probe P21 komposisi penuh ditambah. Owner mengizinkan push
+`cp7/integration` (fast-forward, tanpa force, `main` tidak disentuh); SHA final dan semua run CI pada SHA itu
+dicatat di `audit-candidate/final-20261008/FREEZE_RECEIPT.json`.
+
+**Fitur selesai:** sama dengan §14.5 + §15; tidak ada perubahan produk sejak `59d63e46`.
+
+**Batas yang masih terbuka:** keputusan owner 8 Okt (`OWNER_DECISIONS_20261008.md`: PL-5 B, retensi 7 hari,
+urutan downstream staged, penjalan server staged dan PL-8, capture diterima sementara sebagai latar) adalah
+**kelanjutan terpisah** (`CONTINUATION_AFTER_FREEZE_20261008.md`), tidak masuk kandidat. Delapan pengaturan nyata
+CP6 diisi owner. P21 nyata menunggu P20 diterima dan izin pemasangan terpisah; gladi tetap gladi.
+
+**Penerimaan auditor:** belum ada; audit P20 di sesi terpisah. `independent_acceptance=false`,
+`installed_P21_acceptance=false`, `production_go=false`.
