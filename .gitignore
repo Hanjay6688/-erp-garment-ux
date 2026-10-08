@@ -19,4 +19,3 @@ cp5-bs-resolution-concurrency.json
 .dev.vars*
 !.dev.vars.example
 .DS_Store
-__pycache__/

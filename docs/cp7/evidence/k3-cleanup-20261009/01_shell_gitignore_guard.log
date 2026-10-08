@@ -1,0 +1,25 @@
+# First failure (kept as evidence, not edited): CI run 37853604126, job 113572379308 (CP7 Shell S0, Claude branch),
+# commit 9112f3ed, step `npm run test:security`. Cause: the commit appended `__pycache__/` to the root .gitignore, a
+# frozen CP5 file whose SHA-256 the CP6 boundary guard pins (scripts/check-cp6-boundary.mjs:862). The guard is right
+# and stays as is: the line is removed so .gitignore is again byte-identical to its frozen content (b3fbafd9...);
+# Python byte-code folders are deleted by hand instead of being ignored. No product code involved.
+AssertionError [ERR_ASSERTION]: CP6 changed the frozen CP5 .gitignore instead of keeping proof ownership explicit
++ actual - expected
+
++ '2299f6cde64997caba19a6c9901e8a6e98ac9c3c8e2a829c524e9c153e596409'
+- 'b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4'
+
+    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/scripts/check-cp6-boundary.mjs:862:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '2299f6cde64997caba19a6c9901e8a6e98ac9c3c8e2a829c524e9c153e596409',
+  expected: 'b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v22.23.3
+##[error]Process completed with exit code 1.
