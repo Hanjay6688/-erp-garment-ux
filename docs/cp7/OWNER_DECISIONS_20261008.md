@@ -24,3 +24,15 @@ Kandidat audit: `audit-candidate/final-20261008/`.
 | PR #45 | "PR #45 tetap terpisah; jangan merge ke `main` dulu." | Tidak ada merge ke `main`. |
 
 Status tetap: `independent_acceptance=false`, `installed_P21_acceptance=false`, `production_go=false`.
+
+## Tambahan 8 Okt (sesudah pembekuan)
+
+- Owner: "1200 sku, masing masing 3 ukuran" → ±3.600 target perencanaan (1 target = 1 ukuran). Ini di atas kapasitas
+  analisis biasa (±100–300 target, batas 1.000 produk), jadi di pabrik ini rencana produksi, Business Report, pengingat
+  dan AI baru bisa dipakai kalau tersambung ke analisis bertahap.
+- Owner: "better kerjaan lanjutan baru diaudit gak sih? kalo kerjaan lanjutan lu gakjelas masa audit 2x?" → arah: kelanjutan
+  CP7 dikerjakan dulu, lalu dikunci ulang dan diaudit sekali. Urutan: rencana/rekomendasi produksi → Business Report →
+  pengingat → AI (butir 5), lalu empat lanjutan kecil (yield histori, aturan simpan 7 hari + tanda kedaluwarsa, hemat
+  penyimpanan, percepat "Cek sumber"). Pekerjaan CP7C (jadwal otomatis di server, hapus terjadwal, backup malam) tidak
+  dikerjakan di sini.
+- Kandidat beku `9d57b7f5` tetap tercatat sebagai titik periksa; kandidat audit berikutnya menggantikannya.
