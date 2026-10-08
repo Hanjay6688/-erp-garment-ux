@@ -1,0 +1,11 @@
+# FIRST FAILURE kept verbatim: workflow cp7-shell.yml (integration-only), run 37735504183, job 113173988695 'shell', step 7, head 720d6f0befe45394d6550469dfbd31ec16b0e0da
+# Preceding steps of the job passed (contract receipt PASS, fixture window 4/4).
+2026-10-08T06:10:16.5429654Z ##[group]Run python3 scripts/cp7_probe_evidence_test.py
+2026-10-08T06:10:16.7396533Z Traceback (most recent call last):
+2026-10-08T06:10:16.7398066Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/scripts/cp7_probe_evidence_test.py", line 75, in <module>
+2026-10-08T06:10:16.7399057Z     main()
+2026-10-08T06:10:16.7399965Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/scripts/cp7_probe_evidence_test.py", line 37, in main
+2026-10-08T06:10:16.7401099Z     exec(compile(finalizer, 'actual-probe-finalizer', 'exec'), environment)
+2026-10-08T06:10:16.7401888Z   File "actual-probe-finalizer", line 242, in <module>
+2026-10-08T06:10:16.7402728Z NameError: name 'p19_staged' is not defined. Did you mean: 'p19_scale'?
+2026-10-08T06:10:16.7610526Z ##[error]Process completed with exit code 1.
