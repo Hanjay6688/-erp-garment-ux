@@ -164,11 +164,34 @@ def cp7_catalog_diff(a,b,db_a,db_b):
         x,y=pa.get(key),pb.get(key)
         same=x is not None and y is not None and x[:5]==y[:5] and all(x[i]==y[i] or drill.same_meaning(x[i],y[i]) for i in (5,6))
         policies.append(dict(object='.'.join(key),cls='VARCHAR_IN_LIST_REPARSE' if same else 'UNCLASSIFIED',**({} if same else dict(source=x,restored=y))))
-    other={kind:rows(kind) for kind in ('tables','roles')}
-    other={k:dict(source_only=v[0][:10],restored_only=v[1][:10]) for k,v in other.items() if v[0] or v[1]}
-    unclassified=[r for r in functions+policies if r['cls']!='VARCHAR_IN_LIST_REPARSE']
-    return dict(equal=a==b,functions=functions,policies=policies,other=other,
+    # Tables: an ACL stored explicitly as exactly the owner's default privileges and a NULL ACL (which means those
+    # defaults) are the same grants; pg_dump omits a default ACL, so a restore stores NULL. Proved with acldefault().
+    tables=[];only_a,only_b=rows('tables')
+    ta2={tuple(json.loads(x)[:2]):json.loads(x) for x in only_a};tb2={tuple(json.loads(x)[:2]):json.loads(x) for x in only_b}
+    for key in sorted(set(ta2)|set(tb2)):
+        x,y=ta2.get(key),tb2.get(key);cls='UNCLASSIFIED'
+        if x is not None and y is not None and x[:6]==y[:6]:
+            default=default_acl(db_b,x[3],x[2])
+            if normalized_acl(x[6],default)==normalized_acl(y[6],default):cls='DEFAULT_ACL_EXPLICIT_OR_NULL'
+        tables.append(dict(object='.'.join(key),cls=cls,**({} if cls!='UNCLASSIFIED' else dict(source=x,restored=y))))
+    roles=rows('roles');other={'roles':dict(source_only=roles[0][:10],restored_only=roles[1][:10])} if roles[0] or roles[1] else {}
+    known=('VARCHAR_IN_LIST_REPARSE','DEFAULT_ACL_EXPLICIT_OR_NULL')
+    unclassified=[r for r in functions+policies+tables if r['cls'] not in known]
+    return dict(equal=a==b,functions=functions,policies=policies,tables=tables,other=other,
                 same_meaning=not unclassified and not other,unclassified_count=len(unclassified)+len(other))
+
+
+def default_acl(db,owner,relkind):
+    """The owner's default privileges for this kind of relation, as aclitem texts."""
+    kind='s' if relkind=='S' else 'r'
+    with psycopg.connect(drill.url(db)) as conn,conn.cursor() as cur:
+        conn.read_only=True
+        out=cur.execute("select coalesce(array_agg(x::text order by x::text),'{}') from unnest(acldefault(%s,(select oid from pg_roles where rolname=%s)))x",(kind,owner)).fetchone()[0]
+        conn.rollback();return sorted(out)
+
+
+def normalized_acl(acl,default):
+    return sorted(acl) if acl else default
 
 
 def staged_reread(db,run_id):
@@ -290,7 +313,7 @@ def run():
             with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
                 uninstall(cur,originals);conn.commit()
                 exact=restore_state.prove(cur,before,package.boundary.snapshot,f05.public_state,p09.functions,report)
-                after_public=f05.public_state(cur);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
+                after_public=f05.public_state(cur);after_boundary=package.boundary.snapshot(cur);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
                 # A committed use leaves its Native rows in the clone (a used installation is restored from backup, step 7);
                 # the harness restore proves the catalog: schema ACLs, every definition/owner/ACL and every public member.
                 c=report['restore_components']
@@ -298,9 +321,16 @@ def run():
                                 if before else False)
                 rows_changed=sorted(k for k in set(before['public'].get('rows',{}))|set(after_public.get('rows',{}))
                                     if before['public'].get('rows',{}).get(k)!=after_public.get('rows',{}).get(k)) if before else None
-                report['harness_restore']=dict(exact=exact,schema_acl=c['erp_platform_auth_schema_acl'],definitions_owners_acls=c['erp_public_auth_function_definitions_owners_acls'],
-                                               public_members=public_members,public_tables_with_rows_from_use=rows_changed)
-                report['cp6_restored']=c['erp_platform_auth_schema_acl'] and c['erp_public_auth_function_definitions_owners_acls'] and public_members
+                # The boundary component also hashes every ERP table and auth.users, which a committed use changes by
+                # design; its schema ACLs and migration ledgers must be exact.
+                b0=before['boundary'] if before else {}
+                schema_acl=after_boundary.get('schemas')==b0.get('schemas');ledgers=after_boundary.get('platform')==b0.get('platform')
+                erp_rows_changed=sorted(k for k in set(b0.get('erp') or {})|set(after_boundary.get('erp') or {})
+                                        if (b0.get('erp') or {}).get(k)!=(after_boundary.get('erp') or {}).get(k)) if isinstance(b0.get('erp'),dict) else (b0.get('erp')!=after_boundary.get('erp'))
+                report['harness_restore']=dict(exact=exact,schema_acl=schema_acl,migration_ledgers=ledgers,definitions_owners_acls=c['erp_public_auth_function_definitions_owners_acls'],
+                                               public_members=public_members,public_tables_with_rows_from_use=rows_changed,erp_data_changed_by_use=erp_rows_changed,
+                                               auth_users_changed_by_use=after_boundary.get('auth')!=b0.get('auth'))
+                report['cp6_restored']=schema_acl and ledgers and c['erp_public_auth_function_definitions_owners_acls'] and public_members
             if pre:
                 after=drill.data_hashes(source)
                 changed=sorted(t for t in set(pre['data'])|set(after) if pre['data'].get(t)!=after.get(t))
