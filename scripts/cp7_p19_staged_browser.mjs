@@ -8,7 +8,7 @@ import {armStagedResultOpen,readStagedResultOpen} from './cp7_p19_staged_load_br
 // "Target a–b dari N" with whole-run totals from the server. Real Native
 // fixture commands of the accepted analysis browser suite; no business DML.
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_f05_analysis_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
-const names=['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_check_staged_analysis_source_v1','erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_read_analysis_v1','erp_cp7_read_analysis_manifest_v1']
+const names=['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_check_staged_analysis_source_v1','erp_cp7_staged_snapshot_freshness_v1','erp_cp7_check_staged_snapshot_v1','erp_cp7_capture_operational_analysis_v1','erp_cp7_capture_analysis_v1','erp_cp7_request_operational_analysis_job_v1','erp_cp7_request_analysis_job_v1','erp_cp7_run_analysis_job_v1','erp_cp7_read_analysis_v1','erp_cp7_read_analysis_manifest_v1']
 const STAGED='Analisis bertahap (hingga 5.000 target)',KEY_PREFIX='erp.cp7.analysis-staged.v1:'
 const DOWNSTREAM=/pengingat|laporan|AI/i
 async function navigate(page){await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).waitFor({state:'attached'});const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click();const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).click();await link.click()}
@@ -59,8 +59,15 @@ async function journey(ui,today,mobile){
   await ui.expect(prev).toBeDisabled();if(set.page_count===1)await ui.expect(next).toBeDisabled();else{await next.click();await ui.expect(region).toContainText(`Target ${set.pages[1].target_lo.toLocaleString('id-ID')}–`)}
   // Downstream features are stated unavailable for a staged run (no fake buttons).
   const text=await region.innerText();assert.match(text,/belum tersedia untuk analisis bertahap\./);assert.match(text,DOWNSTREAM)
-  await region.getByRole('button',{name:'Cek sumber',exact:true}).click();await ui.expect(region).toContainText('Sumber belum berubah sejak')
-  assert.equal(calls.filter(c=>c.name==='erp_cp7_check_staged_analysis_source_v1').length,1)
+  // Snapshot contract v2: the run is labelled "Data per <time>", what changed since is read
+  // beside it, and "Cek sumber" (recorded) says only how it compared at the check's own time.
+  const freshness=region.getByRole('region',{name:'Kesegaran data',exact:true})
+  await ui.expect(region).toContainText('Data per ');await ui.expect(freshness).toHaveAttribute('data-freshness-state',/^(NO_RECORDED_CHANGE|CHANGES_RECORDED)$/)
+  assert.ok(calls.some(c=>c.name==='erp_cp7_staged_snapshot_freshness_v1'&&c.body.p_run===done.run_id),'P19G_FRESHNESS_NOT_READ')
+  await region.getByRole('button',{name:'Cek sumber',exact:true}).click();await ui.expect(freshness).toHaveAttribute('data-freshness-state',/^(VERIFIED_SAME|CHANGES_RECORDED|STALE_VERIFIED)$/)
+  await ui.expect(freshness).toContainText('Cek sumber')
+  assert.equal(calls.filter(c=>c.name==='erp_cp7_check_staged_snapshot_v1').length,1);assert.equal(calls.filter(c=>c.name==='erp_cp7_check_staged_analysis_source_v1').length,0)
+  assert.doesNotMatch(await region.innerText(),/terkini/i)
   // A staged run is never read through a whole reader.
   assert.equal(calls.filter(c=>c.name==='erp_cp7_read_analysis_v1'||c.name==='erp_cp7_read_analysis_manifest_v1').length,0)
   assert.equal((await stagedKeys(page)).length,0,'P19G_STORED_REQUEST_LEFT_AFTER_DONE')

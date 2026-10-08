@@ -529,6 +529,10 @@ def staged_transfer(cur, point, run, step, expected):
     exact = exact and nxt - 1 == ps['targets_total']
     point['pages_ms'] = round(sum(p['ms'] for p in point['phases'] if p['name'] in ('pages', 'page')), 3)
     checked = step('check', lambda: staged.limited(cur, 'erp_cp7_check_staged_analysis_source_v1', (run,)))
+    # Snapshot contract v2: the change counts since the snapshot, read at this size under the same limit.
+    fresh = step('freshness', lambda: staged.limited(cur, 'erp_cp7_staged_snapshot_freshness_v1', (run,)))
+    if fresh['outcome'] == 'RETURNED':
+        point['freshness'] = {k: fresh['value'][k] for k in ('freshness_state', 'capture_boundary', 'changes_total')}
     reassembled, reassembled_sha256 = staged_reassemble(cur, h['body'], bodies)
     envelope = dict(contract_version='cp7.native-analysis-run.v1', run_id=header['run_id'], request_id=header['request_id'],
                     analysis=reassembled, product_labels=header['product_labels'], query=header['query'],
@@ -538,14 +542,18 @@ def staged_transfer(cur, point, run, step, expected):
     point.update(staged_evidence(cur, envelope, expected, ps, reassembled_sha256))
 
 
+# The public calls of one staged ladder point (the recorded check of contract v2 is not part of the ladder).
+STAGED_LADDER_RPCS = tuple(f for f in staged.FUNCTIONS if f != 'erp_cp7_check_staged_snapshot_v1')
+
+
 def staged_point(cur, today, size, days, expected, tag=''):
-    """Request -> one unit per step -> get, then page set -> every page -> source check; each call under 8 s.
+    """Request -> one unit per step -> get, then page set -> every page -> source check -> freshness; each call under 8 s.
     Per-target items are not retained in the witness; every page's bytes and sha256 are."""
     key, q = uuid.uuid4(), history.query(today, days)
     point = dict(size=size, history_days=days, path=STAGED_PATH, request_id=str(key), query=q,
                  expected_caps=staged_expected_caps(len(expected), days),
                  grid_cells=min(len(expected), STAGED_BOUNDS['job_targets'] + 1) * days, statement_timeout=STATEMENT_TIMEOUT,
-                 public_rpcs=list(staged.FUNCTIONS), bounds=staged_bounds(cur), phases=[], steps=0, step_ms=[])
+                 public_rpcs=list(STAGED_LADDER_RPCS), bounds=staged_bounds(cur), phases=[], steps=0, step_ms=[])
     elapsed = [0.0]
 
     def step(name, op, **extra):

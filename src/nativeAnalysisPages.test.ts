@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import {expect,it} from 'vitest'
-import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,stagedRangeLabel,stagedIdentityHash,ANALYSIS_STAGED_TARGETS,ANALYSIS_PAGE_UTF8_BYTES} from './nativeAnalysisPages'
-import {stagedRun,rehash} from '../tests/fixtures/nativeAnalysisPages'
+import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,parseStagedFreshness,parseStagedCheck,stagedRangeLabel,stagedIdentityHash,ANALYSIS_STAGED_TARGETS,ANALYSIS_PAGE_UTF8_BYTES} from './nativeAnalysisPages'
+import {stagedRun,rehash,stagedFreshnessFixture,stagedCheckFixture} from '../tests/fixtures/nativeAnalysisPages'
 import {sha} from '../tests/fixtures/nativeAnalysisTransport'
 const other='33333333-3333-4333-8333-333333333333',none={ownerReports:false,preflight:false}
 type J=Record<string,any>
@@ -118,4 +118,30 @@ it('reads the source check and refuses other runs, states or shapes',()=>{
  expect(parseStagedSourceCheck({contract_version:'cp7.native-analysis-staged-source.v1',run_id:run,source_state:'ARCHIVED_STALE',checked_at:'2026-10-07T10:00:00+00:00'},run).sourceState).toBe('ARCHIVED_STALE')
  for(const v of [{source_state:'LIVE',checked_at:'2026-10-07T10:00:00Z'},{source_state:'UNCHANGED'},{source_state:'UNCHANGED',checked_at:'besok'},{source_state:'UNCHANGED',checked_at:'2026-10-07T10:00:00Z',run_id:other},
   {source_state:'UNCHANGED',checked_at:'2026-10-07T10:00:00Z',extra:1},{source_state:'UNCHANGED',checked_at:'2026-10-07T10:00:00Z',contract_version:7},null,[],'UNCHANGED'])expect(()=>parseStagedSourceCheck(v,run)).toThrow()
+})
+
+it('reads snapshot freshness bound to its run: every state as the server derives it, never a sameness without a check',async()=>{
+ const s=await stagedRun({targets:12,perPage:5}),m=await parseAnalysisPageSet(s.pageSet,s.runId,null),T='2026-10-07T10:30:00.000000+00:00'
+ const none=parseStagedFreshness(stagedFreshnessFixture(s),m);expect(none).toMatchObject({state:'NO_RECORDED_CHANGE',changesTotal:0,lastCheck:null,sameAsOf:null,dataAsOf:s.reference.captured_at})
+ const changed=parseStagedFreshness(stagedFreshnessFixture(s,{rows:{SALES:[3,1],MASTER_DATA:[2,0]}}),m)
+ expect(changed.state).toBe('CHANGES_RECORDED');expect(changed.changesTotal).toBe(5);expect(changed.changes.find(c=>c.category==='SALES')).toMatchObject({rows:3,deleted:1,rowsAfterCheck:null})
+ const same=parseStagedFreshness(stagedFreshnessFixture(s,{rows:{SALES:[3,0,0]},check:{source_state:'UNCHANGED',checked_at:T}}),m)
+ expect(same).toMatchObject({state:'VERIFIED_SAME',sameAsOf:T,lastCheck:{sourceState:'UNCHANGED',checkedAt:T,changesAfterCheck:0}})
+ const after=parseStagedFreshness(stagedFreshnessFixture(s,{rows:{SALES:[3,0,1]},check:{source_state:'UNCHANGED',checked_at:T}}),m)
+ expect(after).toMatchObject({state:'CHANGES_RECORDED',sameAsOf:null,lastCheck:{changesAfterCheck:1}})
+ expect(parseStagedFreshness(stagedFreshnessFixture(s,{check:{source_state:'ARCHIVED_STALE',checked_at:T}}),m).state).toBe('STALE_VERIFIED')
+ const ok=stagedFreshnessFixture(s,{rows:{SALES:[3,1,1]},check:{source_state:'UNCHANGED',checked_at:T}})
+ const bad:Record<string,unknown>[]=[{...ok,run_id:other},{...ok,identity_hash:'b'.repeat(64)},{...ok,data_as_of:'2026-10-07T09:00:01.000000Z'},{...ok,freshness_state:'VERIFIED_SAME'},
+  {...ok,same_as_of:T},{...ok,changes_total:4},{...ok,apply_enabled:true},{...ok,production_go:true},{...ok,extra:1},{...ok,contract_version:'cp7.native-analysis-snapshot-freshness.v2'},
+  {...ok,changes_since:ok.changes_since.slice(1)},{...ok,changes_since:[...ok.changes_since].reverse()},{...ok,capture_boundary:'CLOCK'},
+  {...ok,changes_since:ok.changes_since.map(c=>c.category==='SALES'?{...c,deleted:4}:c)},{...ok,changes_since:ok.changes_since.map(c=>c.category==='SALES'?{...c,rows_after_check:null}:c)},
+  {...ok,changes_since:ok.changes_since.map(c=>c.category==='FG_STOCK'?{...c,last_recorded_at:T}:c)},{...ok,last_full_check:{...ok.last_full_check!,changes_after_check:0}},
+  {...stagedFreshnessFixture(s),freshness_state:'VERIFIED_SAME'},{...stagedFreshnessFixture(s,{check:{source_state:'UNCHANGED',checked_at:T}}),same_as_of:null}]
+ for(const v of bad)expect(()=>parseStagedFreshness(v,m),JSON.stringify(v).slice(0,200)).toThrow('belum sesuai')
+})
+
+it('reads one recorded check and refuses another run, contract or shape',()=>{
+ const run='f0165dc7-18c0-41f3-9ed5-ff0f28154197',T='2026-10-07T10:30:00.000000+00:00',ok=stagedCheckFixture(run,{source_state:'UNCHANGED',checked_at:T})
+ expect(parseStagedCheck(ok,run)).toEqual({sourceState:'UNCHANGED',checkedAt:T,boundary:'SNAPSHOT'})
+ for(const v of [{...ok,run_id:other},{...ok,contract_version:'cp7.native-analysis-staged-source.v1'},{...ok,source_state:'LIVE'},{...ok,boundary:'NONE'},{...ok,extra:1},{...ok,checked_at:'besok'}])expect(()=>parseStagedCheck(v,run)).toThrow()
 })

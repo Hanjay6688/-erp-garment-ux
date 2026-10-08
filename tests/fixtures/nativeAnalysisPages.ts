@@ -89,3 +89,20 @@ export async function stagedRun({targets,perPage,pageSizes,unreviewed=0,requestI
 // Re-serves a changed page body with a consistent envelope hash and size, so
 // only the page set or the page's own content can catch the change.
 export async function rehash(envelope:Json,body:string){return{...envelope,body,utf8_bytes:bytes(body).byteLength,sha256:await sha(body)}}
+// Snapshot contract v2 answers for a staged run: the freshness read (counts per
+// category in the fixed order, last full check, state derived as the server
+// derives it) and one recorded check.
+export const STAGED_CHANGE_ORDER=['SALES','FG_STOCK','MATERIAL_STOCK','PRODUCTION','PRODUCTION_ORDERS','MASTER_DATA','MATERIAL_PURCHASES','PLANNING_POLICIES'] as const
+export type FreshnessCheck={source_state:'UNCHANGED'|'ARCHIVED_STALE';checked_at:string;boundary?:'SNAPSHOT'|'RECORDING_TIME'}
+export function stagedFreshnessFixture(run:{runId:string;identityHash:string;reference:{captured_at:string}},opts:{rows?:Partial<Record<typeof STAGED_CHANGE_ORDER[number],[number,number,number?]>>;check?:FreshnessCheck|null;last?:string}={}){
+ const check=opts.check??null,last=opts.last??'2026-10-07T11:00:00.000000+00:00'
+ const changes=STAGED_CHANGE_ORDER.map(category=>{const [rows,deleted,after]=opts.rows?.[category]??[0,0,0]
+  return{category,rows,deleted,rows_after_check:check?(after??0):null,last_recorded_at:rows?last:null}})
+ const total=changes.reduce((s,c)=>s+c.rows,0),after=changes.reduce((s,c)=>s+(c.rows_after_check??0),0)
+ const state=check?.source_state==='ARCHIVED_STALE'?'STALE_VERIFIED':check?.source_state==='UNCHANGED'&&after===0?'VERIFIED_SAME':total>0?'CHANGES_RECORDED':'NO_RECORDED_CHANGE'
+ return{contract_version:'cp7.native-analysis-snapshot-freshness.v1',run_id:run.runId,identity_hash:run.identityHash,data_as_of:run.reference.captured_at,
+  evaluated_at:'2026-10-07T12:00:00.000000+00:00',freshness_state:state,capture_boundary:'SNAPSHOT',changes_since:changes,changes_total:total,
+  last_full_check:check?{source_state:check.source_state,checked_at:check.checked_at,boundary:check.boundary??'SNAPSHOT',changes_after_check:after}:null,
+  same_as_of:state==='VERIFIED_SAME'?check!.checked_at:null,apply_enabled:false,production_go:false}
+}
+export const stagedCheckFixture=(runId:string,check:FreshnessCheck)=>({contract_version:'cp7.native-analysis-snapshot-check.v1',run_id:runId,source_state:check.source_state,checked_at:check.checked_at,boundary:check.boundary??'SNAPSHOT'})

@@ -8,7 +8,7 @@ import {readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequ
 import {parseAnalysisJob,parseAnalysisManifest,assembleAnalysisOriginal,readAnalysisJobRequest,persistAnalysisJobRequest,clearAnalysisJobRequest,analysisJobKey,analysisJobFailureText,analysisSinceText,analysisOversized,ANALYSIS_DOCUMENT_UTF8_BYTES,type AnalysisJob} from './nativeAnalysisTransport'
 import {parseNativeAnalysis,assertSameAnalysis,analysisProductLabel,analysisReport,analysisPrompt,analysisWarningLabel,type NativeAnalysis} from './nativeAnalysis'
 import {analysisArchiveKey,readAnalysisArchive,rememberAnalysis,checkAnalysisPointer,parseNativeArchivePage,type NativeArchivePage,type AnalysisPointer} from './nativeAnalysisArchive'
-import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,type StagedAnalysis,type AnalysisPage,type StagedSourceCheck} from './nativeAnalysisPages'
+import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedCheck,parseStagedFreshness,type StagedAnalysis,type AnalysisPage,type StagedFullCheck,type StagedFreshness} from './nativeAnalysisPages'
 import {driveStagedJob,readStagedRequest,persistStagedRequest,persistStagedCompletedRequest,clearStagedRequest,stagedRequestKey,stagedCompletedScope,stagedFailureText,stagedProgressText,stagedPausedText,stagedCapRefusal,STAGED_CAP_HINT,type StagedJob,type StagedRequest,type StagedRpc} from './nativeStagedJob'
 import NativeStagedAnalysisView from './NativeStagedAnalysisView'
 import {parseNativeAttention,readAttentionRequest,persistAttentionRequest,clearAttentionRequest,attentionRequestKey,type NativeAttention,type AttentionAction,type AttentionRequest} from './nativeAnalysisAttention'
@@ -72,9 +72,10 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
  // own stored request; the DONE run is shown as its verified header plus one
  // page of targets at a time, never assembled, never as a runs row.
  const[stagedRecovery,setStagedRecovery]=useState(()=>readStagedRequest(scope)),[stagedJob,setStagedJob]=useState<StagedJob|null>(null),[stagedHint,setStagedHint]=useState(''),[stagedCompleted,setStagedCompleted]=useState(()=>readStagedRequest(stagedCompletedScope(scope)))
- const[staged,setStaged]=useState<StagedAnalysis|null>(null),[stagedPage,setStagedPage]=useState<AnalysisPage|null>(null),[pageLoading,setPageLoading]=useState<number|null>(null),[sourceCheck,setSourceCheck]=useState<StagedSourceCheck|null>(null),[sourceChecking,setSourceChecking]=useState(false)
- const pageSequence=useRef(0),checkSequence=useRef(0),sleeps=useRef(new Set<{timer:ReturnType<typeof setTimeout>;wake:()=>void}>())
- const resetStaged=()=>{++pageSequence.current;++checkSequence.current;setStaged(null);setStagedPage(null);setPageLoading(null);setSourceCheck(null);setSourceChecking(false);setStagedJob(null);setStagedHint('')}
+ const[staged,setStaged]=useState<StagedAnalysis|null>(null),[stagedPage,setStagedPage]=useState<AnalysisPage|null>(null),[pageLoading,setPageLoading]=useState<number|null>(null),[sourceCheck,setSourceCheck]=useState<StagedFullCheck|null>(null),[sourceChecking,setSourceChecking]=useState(false)
+ const[freshness,setFreshness]=useState<StagedFreshness|null>(null),[freshnessLoading,setFreshnessLoading]=useState(false),[freshnessError,setFreshnessError]=useState('')
+ const pageSequence=useRef(0),checkSequence=useRef(0),freshnessSequence=useRef(0),sleeps=useRef(new Set<{timer:ReturnType<typeof setTimeout>;wake:()=>void}>())
+ const resetStaged=()=>{++pageSequence.current;++checkSequence.current;++freshnessSequence.current;setStaged(null);setStagedPage(null);setPageLoading(null);setSourceCheck(null);setSourceChecking(false);setFreshness(null);setFreshnessLoading(false);setFreshnessError('');setStagedJob(null);setStagedHint('')}
  const[attention,setAttention]=useState<NativeAttention|null>(null),[attentionRecovery,setAttentionRecovery]=useState(()=>readAttentionRequest(scope)),[attentionDrafts,setAttentionDrafts]=useState<Record<string,AttentionDraft>>({})
  const begin=()=>{const n=++sequence.current;active.current=true;setBusy(true);setStockDetail(null);setData(null);setAttention(null);setServerArchive(null);setReceivables(null);setReceivablePage(0);setPayables(null);setPayablePage(0);setEpisodes(null);setEpisodeHistory(null);setHandoff(null);setError('');setMessage('');setJob(null);setComputingSince(null);setProgress('');resetStaged();onSourceReadStart();return n}
  const end=(n:number)=>{if(n===sequence.current){active.current=false;setBusy(false);setComputingSince(null);setProgress('');setJobRecovery(readAnalysisJobRequest(scope));setPolicyRecovery(readReminderPolicyRequest(scope));setRuleRecovery(readRuleRequest(scope));setFabricRecovery(readFabricRequest(scope));setStagedRecovery(readStagedRequest(scope));onSourceReadEnd()}}
@@ -143,14 +144,29 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   }catch(e){if(current()){const failure=normalizeClientError(e);setStagedPage(null);setError(failure.message);if(failure.code==='FORBIDDEN')setStaged(null)}}
   finally{if(current())setPageLoading(null)}
  }
+ // Snapshot contract v2: what changed since the run's data was taken, read
+ // apart from the pages; a failed read is shown in its own place and never
+ // hides the run. After a recorded check its answer must be the one counted.
+ const readFreshness=async(s:StagedAnalysis,after:StagedFullCheck|null=null)=>{
+  const generation=sequence.current,k=++freshnessSequence.current,current=()=>generation===sequence.current&&k===freshnessSequence.current
+  setFreshnessLoading(true);setFreshnessError('')
+  try{
+   const r=await client.rpc('erp_cp7_staged_snapshot_freshness_v1',{p_run:s.set.runId});if(!current())return;if(r.error)throw r.error
+   const f=parseStagedFreshness(r.data,s.set)
+   if(after&&(!f.lastCheck||Date.parse(f.lastCheck.checkedAt)<Date.parse(after.checkedAt)))throw Error('Halaman analisis server belum sesuai sumber dan kontrak CP7.')
+   setFreshness(f)
+  }catch(e){if(current()){const failure=normalizeClientError(e);setFreshness(null);setFreshnessError(failure.message);if(failure.code==='FORBIDDEN')setStaged(null)}}
+  finally{if(current())setFreshnessLoading(false)}
+ }
  const checkStagedSource=async()=>{
   const s=staged;if(!s)return;const generation=sequence.current,k=++checkSequence.current,current=()=>generation===sequence.current&&k===checkSequence.current
-  setSourceCheck(null);setSourceChecking(true);setError('')
-  try{const r=await client.rpc('erp_cp7_check_staged_analysis_source_v1',{p_run:s.set.runId});if(!current())return;if(r.error)throw r.error;setSourceCheck(parseStagedSourceCheck(r.data,s.set.runId))}
+  setSourceCheck(null);setSourceChecking(true);setError('');let done:StagedFullCheck|null=null
+  try{const r=await client.rpc('erp_cp7_check_staged_snapshot_v1',{p_run:s.set.runId});if(!current())return;if(r.error)throw r.error;done=parseStagedCheck(r.data,s.set.runId);setSourceCheck(done)}
   catch(e){if(current()){const failure=normalizeClientError(e);setError(failure.message);if(failure.code==='FORBIDDEN')setStaged(null)}}
   finally{if(current())setSourceChecking(false)}
+  if(done&&current())await readFreshness(s,done)
  }
- const showStaged=async(s:StagedAnalysis)=>{setStaged(s);setStagedPage(null);setSourceCheck(null);if(s.set.pageCount)await loadPage(s,0)}
+ const showStaged=async(s:StagedAnalysis)=>{setStaged(s);setStagedPage(null);setSourceCheck(null);setFreshness(null);setFreshnessError('');if(s.set.pageCount)await loadPage(s,0);void readFreshness(s)}
  const runStaged=async(r:StagedRequest,n:number,start:boolean,completed=false)=>{
   const seen={last:null as StagedJob|null};let status:StagedJob|null
   try{status=await driveStagedJob({rpc:stagedRpc,request:r,start,aborted:()=>n!==sequence.current,sleep,onStatus:s=>{if(completed&&s.state!=='DONE')throw Error('Hasil analisis bertahap terakhir belum terverifikasi selesai.');seen.last=s;if(n===sequence.current)setStagedJob(s)}})}
@@ -273,7 +289,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
     {view==='AI'?<><h3>Tanya AI dengan sumber yang diperiksa</h3><label>Pertanyaanmu<textarea aria-label="Pertanyaan analisis ERP" value={question} maxLength={10000} disabled={busy} onChange={e=>{setQuestion(e.target.value);setHandoff(null);setMessage('')}}/></label><button disabled={blocked||data.state!=='UNCHANGED'||!question.trim()} onClick={()=>void check('AI')}>Periksa & salin pertanyaan untuk AI</button><p>Salin pertanyaan dan sumber, lalu buka AI pilihanmu. Jawaban AI tetap perlu ditinjau.</p>{handoff?.kind==='AI'?<><label>Data lengkap yang sudah diperiksa<textarea readOnly rows={16} aria-label="Salinan manual pertanyaan dan sumber ERP" value={handoff.text} onFocus={e=>e.currentTarget.select()}/></label><button disabled={blocked||data.state!=='UNCHANGED'} onClick={()=>void openAi()}>Periksa sumber & buka ChatGPT</button><a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Tautan manual ChatGPT</a><p>Data ikut lengkap dan tidak dipotong. Pertanyaan dan data tidak dimasukkan ke tautan.</p></>:null}<pre aria-label="Pertanyaan dan sumber ERP">{analysisPrompt(data,question)}</pre></>:null}
    </div><details><summary>Asumsi dan batas data</summary>{x.assumptions.map(a=><p key={a.id}>{a.label} · {a.confirmed_for_operation?'Dikonfirmasi untuk operasi':'Belum dikonfirmasi untuk operasi'}.</p>)}{x.generation_warnings.map((w,i)=><p key={`${w}:${i}`}>{analysisWarningLabel(w)}</p>)}<p>Hash hasil {x.semantic_hash}</p></details>
   </article>:null}
-  {staged?<NativeStagedAnalysisView staged={staged} page={stagedPage} loading={pageLoading} blocked={blocked||pageLoading!==null||sourceChecking} sourceCheck={sourceCheck} checking={sourceChecking} onPage={index=>void loadPage(staged,index)} onCheckSource={()=>void checkStagedSource()}/>:null}
+  {staged?<NativeStagedAnalysisView staged={staged} page={stagedPage} loading={pageLoading} blocked={blocked||pageLoading!==null||sourceChecking} sourceCheck={sourceCheck} checking={sourceChecking} freshness={freshness} freshnessLoading={freshnessLoading} freshnessError={freshnessError} onPage={index=>void loadPage(staged,index)} onCheckSource={()=>void checkStagedSource()}/>:null}
  <div hidden={view!=='PRODUCTION'&&!fabricRecovery.pending&&!fabricRecovery.error}><NativeFabricRecipePanel context={data} generation={sequence.current} blocked={busy||Boolean(ruleRecovery.pending||ruleRecovery.error||policyRecovery.pending||policyRecovery.error||heldReport.pending||heldReport.error||heldAppendix.pending||heldAppendix.error||recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('PRODUCTION')}}} requireClear={()=>{requireNoAttentionRequest(false,false,true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>
  <div hidden={view!=='REMINDER'&&!ruleRecovery.pending&&!ruleRecovery.error}><NativeRuleSourcePanel context={data} generation={sequence.current} blocked={busy||Boolean(recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error||policyRecovery.pending||policyRecovery.error||heldReport.pending||heldReport.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('REMINDER');setRuleRecovery(readRuleRequest(scope))}}} requireClear={()=>{requireNoAttentionRequest(false,true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>
  <div hidden={view!=='REMINDER'&&!policyRecovery.pending&&!policyRecovery.error}><NativeReminderPolicyPanel context={data} generation={sequence.current} blocked={busy||Boolean(ruleRecovery.pending||ruleRecovery.error)||Boolean(recovery.pending||recovery.error||attentionRecovery.pending||attentionRecovery.error||episodeRecovery.pending||episodeRecovery.error||heldReport.pending||heldReport.error)} access={financeAccess} onReadStart={begin} isReadCurrent={n=>n===sequence.current} onReadEnd={end} onAnalysis={(a,n)=>{if(n===sequence.current){setData(a);setView('REMINDER');setPolicyRecovery(readReminderPolicyRequest(scope))}}} requireClear={()=>{requireNoAttentionRequest(true);const demand=readNativeDemandRequest(scope);if(demand.error||demand.pending)throw Error('Pastikan hasil analisis ERP yang tertunda terlebih dahulu.')}}/></div>

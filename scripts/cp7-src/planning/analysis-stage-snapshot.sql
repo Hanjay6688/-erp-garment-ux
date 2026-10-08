@@ -153,7 +153,9 @@ begin
 end $$;
 
 -- The full source check, recorded once as answered with the snapshot it read
--- in (one statement; check_source is stable), then the freshness.
+-- in (one statement; check_source is stable). It answers only the check: the
+-- check alone is close to the 8 s limit at 5,000 targets, so the change counts
+-- are read by the caller afterwards (freshness), each under its own limit.
 create function cp7_analysis_stage.check_and_record(p_run uuid)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;r jsonb;snap pg_snapshot;
@@ -162,7 +164,8 @@ begin
  select cp7_analysis_stage.check_source(p_run),case when pg_current_xact_id_if_assigned()is null then pg_current_snapshot()end into r,snap;
  insert into cp7_analysis_stage.source_checks(run_id,actor,checked_at,source_state,source_snapshot,recorded_at)
  values(p_run,(a->>'actor')::uuid,(r->>'checked_at')::timestamptz,r->>'source_state',snap,clock_timestamp());
- return cp7_analysis_stage.freshness(p_run);
+ return jsonb_build_object('contract_version','cp7.native-analysis-snapshot-check.v1','run_id',p_run,'source_state',r->>'source_state',
+  'checked_at',r->'checked_at','boundary',case when snap is null then 'RECORDING_TIME'else 'SNAPSHOT'end);
 end $$;
 
 do $$declare r record;begin

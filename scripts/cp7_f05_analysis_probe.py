@@ -58,7 +58,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   # P19 staged analysis (5,000 targets): its own predeclared IDs on the same closed harness.
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale)),'P19_STAGED_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_p19_staged_cases as case_provider
-  expected=case_provider.EXPECTED;assert expected==12;out=OUT.with_name('CP7_P19_STAGED.json');phase='cp7_p19_staged';browser_script='cp7_p19_staged_browser.mjs'
+  expected=case_provider.EXPECTED;assert expected==14;out=OUT.with_name('CP7_P19_STAGED.json');phase='cp7_p19_staged';browser_script='cp7_p19_staged_browser.mjs'
  if p19_load:
   import cp7_obligation_report_bundle as candidate
   import cp7_p19_native_load_cases as case_provider

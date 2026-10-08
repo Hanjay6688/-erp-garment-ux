@@ -4,9 +4,10 @@ import {createRoot,type Root} from 'react-dom/client'
 import {beforeEach,afterEach,it,expect,vi} from 'vitest'
 import NativeAnalysisPanel from './NativeAnalysisPanel'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
-import {stagedRun,rehash} from '../tests/fixtures/nativeAnalysisPages'
+import {stagedRun,rehash,stagedFreshnessFixture,stagedCheckFixture,type FreshnessCheck,type STAGED_CHANGE_ORDER} from '../tests/fixtures/nativeAnalysisPages'
 import {readStagedRequest,stagedRequestKey,stagedCompletedScope} from './nativeStagedJob'
 import {readNativeDemandRequest} from './nativeDemandHistory'
+import {formatCp6WibDateTime} from './cp6BusinessTime'
 import type {NativeDemandQuery} from './nativeDemandHistory'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
@@ -35,11 +36,16 @@ const heading=()=>container.querySelector('[aria-label="Target per halaman"] h3'
 const rows=()=>container.querySelectorAll('[data-analysis-target]').length
 const statuses=()=>[...container.querySelectorAll('[role="status"]')].map(e=>e.textContent??'')
 const alertText=()=>container.querySelector('[role="alert"]')?.textContent??''
+const freshnessState=()=>region()?.querySelector('[aria-label="Kesegaran data"]')?.getAttribute('data-freshness-state')??''
+const freshnessText=()=>region()?.querySelector('[aria-label="Kesegaran data"]')?.textContent??''
 const RUNNING=(units_done:number,extra:Record<string,unknown>={})=>({data:s.job('RUNNING',{units_done,...extra}),error:null})
 // The staged job as the server answers it: request → RUNNING, `steps` steps
-// until DONE, status reads, then the page set, pages and the source check.
-function server(opts:{steps?:number;page?:(i:number,args:Args)=>unknown;source?:'UNCHANGED'|'ARCHIVED_STALE'}={}){
- let id='',stepped=0;const steps=opts.steps??2
+// until DONE, status reads, then the page set, pages, the freshness read and
+// the recorded source check (the next freshness read counts that check).
+const CHECKED='2026-10-07T10:30:00.000000+00:00'
+type Rows=Partial<Record<typeof STAGED_CHANGE_ORDER[number],[number,number,number?]>>
+function server(opts:{steps?:number;page?:(i:number,args:Args)=>unknown;source?:'UNCHANGED'|'ARCHIVED_STALE';rows?:Rows;freshness?:()=>unknown}={}){
+ let id='',stepped=0,check:FreshnessCheck|null=null;const steps=opts.steps??2
  return async(name:string,args:Args)=>{
   // The run's request id is the job's UUID: the fixture is rebuilt for it.
   if(name==='erp_cp7_request_staged_analysis_v1'){id=args.p_request!;expect(args.p_query).toEqual(q());s=await stagedRun({targets:1200,pageSizes:SIZES,unreviewed:7,requestId:id});return RUNNING(12)}
@@ -47,7 +53,8 @@ function server(opts:{steps?:number;page?:(i:number,args:Args)=>unknown;source?:
   if(name==='erp_cp7_step_staged_analysis_v1'){expect(args).toEqual({p_request:id});stepped++;return stepped<steps?RUNNING(12+stepped):{data:s.job('DONE'),error:null}}
   if(name==='erp_cp7_read_staged_analysis_pages_v1'){expect(args).toEqual({p_run:s.runId});return{data:s.pageSet,error:null}}
   if(name==='erp_cp7_read_staged_analysis_page_v1'){expect(args.p_access).toBe(s.pageSet.access_epoch);return(opts.page??(i=>({data:s.page(i),error:null})))(args.p_index!,args)}
-  if(name==='erp_cp7_check_staged_analysis_source_v1'){expect(args).toEqual({p_run:s.runId});return{data:{source_state:opts.source??'UNCHANGED',checked_at:'2026-10-07T10:30:00.000000Z'},error:null}}
+  if(name==='erp_cp7_check_staged_snapshot_v1'){expect(args).toEqual({p_run:s.runId});check={source_state:opts.source??'UNCHANGED',checked_at:CHECKED};return{data:stagedCheckFixture(s.runId,check),error:null}}
+  if(name==='erp_cp7_staged_snapshot_freshness_v1'){expect(args).toEqual({p_run:s.runId});if(opts.freshness)return opts.freshness();return{data:stagedFreshnessFixture(s,{rows:opts.rows,check}),error:null}}
   throw Error('unexpected '+name)
  }
 }
@@ -65,9 +72,12 @@ it('drives a staged job to DONE with the server progress as the busy signal, the
  const progress=statuses().find(t=>t.startsWith('Analisis bertahap: tahap '))!
  expect(progress.startsWith('Analisis bertahap: tahap 3 dari 9 (HIST_ROWS) · unit 12 dari 55')).toBe(true);expect(progress).toContain('dimulai jam 16.00.00 WIB')
  const id=client.rpc.mock.calls[0][1].p_request;expect(readStagedRequest(scope).pending).toEqual({id,q:q()});expect(localStorage.getItem('erp.cp7.analysis-staged.v1:'+scope)).toContain(id);expect(region()).toBeNull()
- await act(async()=>{release(RUNNING(13))});await until(()=>Boolean(region())&&rows()>0)
- expect(names()).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1'])
- expect(client.rpc.mock.calls.at(-1)![1]).toEqual({p_run:s.runId,p_index:0,p_access:'a'.repeat(64)})
+ await act(async()=>{release(RUNNING(13))});await until(()=>Boolean(region())&&rows()>0&&freshnessState()!=='')
+ expect(names()).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_staged_snapshot_freshness_v1'])
+ expect(client.rpc.mock.calls.at(-2)![1]).toEqual({p_run:s.runId,p_index:0,p_access:'a'.repeat(64)})
+ // The run is labelled with its data time; nothing recorded since is said as such, never as current.
+ expect([...region()!.querySelectorAll('p')].some(p=>p.textContent!.includes(`Data per ${formatCp6WibDateTime(s.reference.captured_at)}; jadwal versi`))).toBe(true);expect(freshnessState()).toBe('NO_RECORDED_CHANGE')
+ expect(freshnessText()).toContain('Belum ada perubahan tercatat sejak data diambil. Belum dicek penuh');expect(region()!.textContent).not.toMatch(/terkini/i)
  expect(button('Tutup analisis bersama')!.disabled).toBe(false);expect(readStagedRequest(scope).pending).toBeNull();expect(localStorage.getItem(stagedRequestKey(scope))).toBeNull()
  // The region, its run id and summary line as the browser measurement reads them.
  const r=region()!;expect(r.classList.contains('native-analysis-staged')).toBe(true);expect(container.querySelector('.native-analysis-staged .native-analysis-run span')!.textContent).toBe(s.runId)
@@ -99,11 +109,15 @@ it('drives a staged job to DONE with the server progress as the busy signal, the
  await act(async()=>{select.value='2';select.dispatchEvent(new Event('change',{bubbles:true}))});await until(()=>heading()==='Target 951–1.200 dari 1.200'&&rows()>0)
  expect(button('Halaman berikutnya')!.disabled).toBe(true);expect(button('Halaman sebelumnya')!.disabled).toBe(false)
  expect(names().filter(n=>n==='erp_cp7_read_staged_analysis_page_v1')).toHaveLength(3)
- // Cek sumber: both outcomes come from the server, the pages stay.
- await click('Cek sumber');await until(()=>Boolean(region()!.textContent?.includes('Sumber belum berubah sejak')))
- expect(names().at(-1)).toBe('erp_cp7_check_staged_analysis_source_v1');expect(region()!.querySelector('.native-demand-current')!.textContent).toContain('Sumber belum berubah sejak');expect(rows()).toBeGreaterThan(0)
- client.rpc.mockImplementation(server({source:'ARCHIVED_STALE'}));await click('Cek sumber');await until(()=>Boolean(region()!.textContent?.includes('Sumber sudah berubah; hasil ini arsip')))
- expect(region()!.querySelector('.native-demand-stale')).toBeTruthy();expect(heading()).toBe('Target 951–1.200 dari 1.200');expect(container.querySelector('[role="alert"]')).toBeNull()
+ // Cek sumber: the recorded check, then the counts read after it; both
+ // outcomes come from the server, said only as of the check's time; the pages stay.
+ await click('Cek sumber');await until(()=>freshnessState()==='VERIFIED_SAME')
+ expect(names().slice(-2)).toEqual(['erp_cp7_check_staged_snapshot_v1','erp_cp7_staged_snapshot_freshness_v1'])
+ expect(region()!.querySelector('.native-demand-current')!.textContent).toMatch(/^Sama dengan data per .+ \(Cek sumber\)\. Belum ada perubahan tercatat sesudahnya\.$/);expect(rows()).toBeGreaterThan(0)
+ expect(region()!.textContent).not.toMatch(/terkini/i)
+ client.rpc.mockImplementation(server({source:'ARCHIVED_STALE'}));await click('Cek sumber');await until(()=>freshnessState()==='STALE_VERIFIED')
+ expect(region()!.querySelector('.native-demand-stale')!.textContent).toMatch(/^Data sudah berubah \(Cek sumber .+\); hasil ini tetap analisis per .+\.$/)
+ expect(region()!.textContent).not.toMatch(/terkini/i);expect(heading()).toBe('Target 951–1.200 dari 1.200');expect(container.querySelector('[role="alert"]')).toBeNull()
 },30000)
 
 it('surfaces a FAILED job with its code verbatim, ends the busy state and drops the stored request',async()=>{
@@ -128,8 +142,8 @@ it('resumes a stored job on mount by reading status, shows "dijeda sejak" with L
  await render();await until(()=>statuses().some(t=>t.startsWith('Analisis bertahap dijeda sejak jam 16.05.30 WIB')))
  expect(names()).toEqual(['erp_cp7_get_staged_analysis_v1','erp_cp7_step_staged_analysis_v1']);expect(button('Tutup analisis bersama')!.disabled).toBe(false)
  expect(readStagedRequest(scope).pending?.id).toBe(id);expect(region()).toBeNull();expect(button(STAGED)!.disabled).toBe(true);expect(button('Lanjutkan analisis bertahap')!.disabled).toBe(false)
- await click('Lanjutkan analisis bertahap');await until(()=>Boolean(region())&&rows()>0)
- expect(names().slice(2)).toEqual(['erp_cp7_get_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1'])
+ await click('Lanjutkan analisis bertahap');await until(()=>Boolean(region())&&rows()>0&&freshnessState()!=='')
+ expect(names().slice(2)).toEqual(['erp_cp7_get_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_staged_snapshot_freshness_v1'])
  expect(readStagedRequest(scope).pending).toBeNull();expect(container.querySelector('[role="alert"]')).toBeNull();expect(button('Lanjutkan analisis bertahap')).toBeUndefined();expect(heading()).toBe('Target 1–500 dari 1.200')
 },30000)
 
@@ -138,8 +152,8 @@ it('offers the staged path when the single capture refuses for its target bound,
  client.rpc.mockImplementation(async(name:string,args:Args)=>name==='erp_cp7_capture_operational_analysis_v1'?{data:null,error:{code:'P0001',message:'CP7_NETTING_MATCH_SOURCE_LIMIT',details:null,hint:null}}:base(name,args))
  await render();await click('Ambil analisis ERP terbaru');await until(()=>alertText().includes('CP7_NETTING_MATCH_SOURCE_LIMIT'))
  expect(statuses().some(t=>t.includes(`"${STAGED}"`))).toBe(true);expect(readNativeDemandRequest(scope).pending).toBeNull();expect(button(STAGED)!.disabled).toBe(false);expect(button('Ambil analisis ERP terbaru')!.disabled).toBe(false)
- await click(STAGED);await until(()=>Boolean(region())&&rows()>0)
- expect(names().slice(1)).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1'])
+ await click(STAGED);await until(()=>Boolean(region())&&rows()>0&&freshnessState()!=='')
+ expect(names().slice(1)).toEqual(['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_staged_snapshot_freshness_v1'])
  expect(container.querySelector('[role="alert"]')).toBeNull();expect(statuses().some(t=>t.includes(`"${STAGED}"`))).toBe(false)
  // Any other refusal keeps the single path's protocol: the request is held.
  await act(async()=>root.unmount());root=createRoot(container);localStorage.clear();client.rpc.mockReset()
@@ -194,12 +208,12 @@ it('abandons the loop on unmount: a late step reply drives nothing further and t
 
 
 it('reopens the completed result after remount using the same request and verified pages without recomputing',async()=>{
- client.rpc.mockImplementation(server({steps:1}));await render();await click(STAGED);await until(()=>Boolean(region())&&Boolean(heading()))
+ client.rpc.mockImplementation(server({steps:1}));await render();await click(STAGED);await until(()=>Boolean(region())&&Boolean(heading())&&freshnessState()!=='')
  expect(readStagedRequest(scope).pending).toBeNull();const saved=readStagedRequest(stagedCompletedScope(scope)).pending
  expect(saved?.id).toBe(s.pageSet.request_id);expect(localStorage.getItem(stagedRequestKey(stagedCompletedScope(scope)))).not.toContain('analysis_header')
  const before=client.rpc.mock.calls.length
- await act(async()=>root.unmount());root=createRoot(container);await render();await until(()=>Boolean(region())&&Boolean(heading()))
- expect(names().slice(before)).toEqual(['erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1'])
+ await act(async()=>root.unmount());root=createRoot(container);await render();await until(()=>Boolean(region())&&Boolean(heading())&&freshnessState()!=='')
+ expect(names().slice(before)).toEqual(['erp_cp7_get_staged_analysis_v1','erp_cp7_read_staged_analysis_pages_v1','erp_cp7_read_staged_analysis_page_v1','erp_cp7_staged_snapshot_freshness_v1'])
  expect(readStagedRequest(scope).pending).toBeNull();expect(readStagedRequest(stagedCompletedScope(scope)).pending?.id).toBe(saved?.id)
 })
 
@@ -217,3 +231,23 @@ it('pauses an in-flight unit, leaves the same request stored, and resumes from s
  expect(names().filter(n=>n==='erp_cp7_request_staged_analysis_v1')).toHaveLength(1)
  expect(names().filter(n=>n==='erp_cp7_step_staged_analysis_v1')).toHaveLength(1)
 })
+
+it('shows the changes recorded since the data was taken per category, and after a same check only what came after it',async()=>{
+ client.rpc.mockImplementation(server({rows:{SALES:[3,1,1],MASTER_DATA:[2,0,0]}}))
+ await render();await click(STAGED);await until(()=>freshnessState()==='CHANGES_RECORDED'&&rows()>0)
+ expect(freshnessText()).toMatch(/Sudah ada 5 perubahan tercatat sejak data diambil; hasil ini tetap analisis per .+\./)
+ const items=[...region()!.querySelectorAll('[aria-label="Perubahan sejak data diambil"] li')].map(li=>li.textContent)
+ expect(items).toHaveLength(2);expect(items[0]).toMatch(/^Penjualan & retur: 3 perubahan \(1 dihapus\), terakhir /);expect(items[1]).toMatch(/^Data induk \(produk, SKU, pola, bahan, lokasi\): 2 perubahan, terakhir /)
+ await click('Cek sumber');await until(()=>names().at(-1)==='erp_cp7_staged_snapshot_freshness_v1'&&freshnessText().includes('Cek sumber'))
+ // Same at the check, but one change came after it: not called the same now.
+ expect(freshnessState()).toBe('CHANGES_RECORDED');expect(freshnessText()).toMatch(/Cek sumber .+: sama\. Sesudah itu ada 1 perubahan tercatat; hasil ini tetap analisis per .+\./)
+ expect(region()!.querySelector('.native-demand-current')).toBeNull();expect(region()!.textContent).not.toMatch(/terkini/i)
+},30000)
+
+it('a freshness read that fails or disagrees is shown in its own place and never hides the run or its pages',async()=>{
+ const T='2026-10-07T10:30:00.000000+00:00'
+ client.rpc.mockImplementation(server({freshness:()=>({data:{...stagedFreshnessFixture(s,{check:{source_state:'UNCHANGED',checked_at:T}}),same_as_of:null},error:null})}))
+ await render();await click(STAGED);await until(()=>freshnessText().includes('belum bisa dibaca')&&rows()>0)
+ expect(freshnessState()).toBe('');expect(freshnessText()).toContain('Perubahan sejak data diambil belum bisa dibaca: Halaman analisis server belum sesuai');expect(container.querySelector('[role="alert"]')).toBeNull()
+ expect(region()!.textContent).not.toMatch(/Sama dengan data per/);expect(heading()).toBe('Target 1–500 dari 1.200')
+},30000)

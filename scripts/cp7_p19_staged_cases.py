@@ -52,6 +52,7 @@ SIGNATURES = ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)', 'public.e
 STATES = ('RUNNING', 'DONE', 'FAILED')
 # Snapshot contract v2 (docs/cp7/p19/P19_STAGED_SNAPSHOT_V2.md): freshness is reported, never forced.
 FRESHNESS = 'cp7.native-analysis-snapshot-freshness.v1'
+CHECK = 'cp7.native-analysis-snapshot-check.v1'
 CHANGE_CATEGORIES = ['SALES', 'FG_STOCK', 'MATERIAL_STOCK', 'PRODUCTION', 'PRODUCTION_ORDERS', 'MASTER_DATA', 'MATERIAL_PURCHASES',
                      'PLANNING_POLICIES']
 
@@ -217,9 +218,17 @@ def location(cur, why):
                        ('P19G-' + uuid.uuid4().hex[:12], 'P19G ' + why)).fetchone()[0]
 
 
-def freshness(cur, name, run, ps, captured, subject=None):
-    """One freshness answer (read or full check) with every field the contract fixes; returns it and its categories."""
-    x = limited(cur, name, (run,), subject)
+def recorded_check(cur, run, boundary, subject=None):
+    """One recorded full check: only the check's own answer (the counts are read separately, each under the 8 s limit)."""
+    x = limited(cur, 'erp_cp7_check_staged_snapshot_v1', (run,), subject)
+    assert x['contract_version'] == CHECK and x['run_id'] == str(run) and x['boundary'] == boundary, x
+    assert x['source_state'] in ('UNCHANGED', 'ARCHIVED_STALE') and set(x) == {'contract_version', 'run_id', 'source_state', 'checked_at', 'boundary'}, x
+    return x
+
+
+def freshness(cur, run, ps, captured, check=None, subject=None):
+    """One freshness answer with every field the contract fixes (after `check`, its last full check is that one)."""
+    x = limited(cur, 'erp_cp7_staged_snapshot_freshness_v1', (run,), subject)
     assert x['contract_version'] == FRESHNESS and x['run_id'] == str(run) and x['identity_hash'] == ps['identity_hash'], x
     assert datetime.fromisoformat(x['data_as_of']) == captured and x['apply_enabled'] is False and x['production_go'] is False, x
     assert [c['category'] for c in x['changes_since']] == CHANGE_CATEGORIES, x['changes_since']
@@ -232,6 +241,8 @@ def freshness(cur, name, run, ps, captured, subject=None):
     # Never "current": the only sameness reported is the full check's, at its own time.
     assert x['same_as_of'] == (check['checked_at'] if x['freshness_state'] == 'VERIFIED_SAME' else None), x
     assert 'current_claim_allowed' not in x, x
+    if check is not None:
+        assert {k: check[k] for k in ('source_state', 'checked_at', 'boundary')} == {k: x['last_full_check'][k] for k in ('source_state', 'checked_at', 'boundary')}, (check, x)
     return x, {c['category']: c for c in x['changes_since']}
 
 
@@ -444,15 +455,16 @@ def cases(cur, today):
         original, ps, _ = fetch(cur, run)
         captured = datetime.fromisoformat(job_row(cur, key)['captured_at'])
 
-        def fresh(name='erp_cp7_staged_snapshot_freshness_v1'):
-            x, cats = freshness(cur, name, run, ps, captured)
+        def fresh(check=False):
+            done = recorded_check(cur, run, 'RECORDING_TIME') if check else None
+            x, cats = freshness(cur, run, ps, captured, done)
             assert x['capture_boundary'] == 'RECORDING_TIME', x
             assert x['last_full_check'] is None or x['last_full_check']['boundary'] == 'RECORDING_TIME', x
             return x, cats
 
         first, _ = fresh()
         assert first['freshness_state'] == 'NO_RECORDED_CHANGE' and first['changes_total'] == 0 and first['last_full_check'] is None, first
-        same, _ = fresh('erp_cp7_check_staged_snapshot_v1')
+        same, _ = fresh(check=True)
         assert same['freshness_state'] == 'VERIFIED_SAME' and same['last_full_check']['source_state'] == 'UNCHANGED', same
         assert same['last_full_check']['changes_after_check'] == 0
         # A physical entry dated before the snapshot but recorded after it counts; so does a deletion.
@@ -467,7 +479,7 @@ def cases(cur, today):
         assert cats['FG_STOCK']['rows'] == fg_after and cats['FG_STOCK']['deleted'] == 0, cats
         assert cats['MASTER_DATA']['deleted'] == 1 and cats['MASTER_DATA']['rows'] >= 2, cats
         assert changed['last_full_check']['source_state'] == 'UNCHANGED' and changed['last_full_check']['changes_after_check'] > 0
-        stale, _ = fresh('erp_cp7_check_staged_snapshot_v1')
+        stale, _ = fresh(check=True)
         assert stale['freshness_state'] == 'STALE_VERIFIED' and stale['last_full_check']['source_state'] == 'ARCHIVED_STALE', stale
         again, ps2, _ = fetch(cur, run)
         assert again == original and ps2['identity_hash'] == ps['identity_hash'], 'P19G_SNAPSHOT_CHANGED'
@@ -600,7 +612,6 @@ def races(tools, today):
         """Contract v2 with real transactions: a write still running when the reference is read, and one still running
         during a full check, count once committed although their recording times are before the boundary; a deletion
         by another transaction counts. The boundary is the database snapshot the reference (or check) read in."""
-        fresh_name, check_name = 'erp_cp7_staged_snapshot_freshness_v1', 'erp_cp7_check_staged_snapshot_v1'
         with tools.connect() as conn, conn.cursor() as cur:
             f, _ = load.real_workload(cur, today)
             conn.commit()
@@ -621,9 +632,12 @@ def races(tools, today):
                 conn.commit()
             return done['run_id'], ps, captured, original
 
-        def answer(name, run, ps, captured):
+        def answer(run, ps, captured, check=False):
             with tools.connect() as conn, conn.cursor() as cur:
-                x, cats = freshness(cur, name, run, ps, captured)
+                done = recorded_check(cur, run, 'SNAPSHOT') if check else None
+                conn.commit()
+            with tools.connect() as conn, conn.cursor() as cur:
+                x, cats = freshness(cur, run, ps, captured, done)
                 conn.commit()
             assert x['capture_boundary'] == 'SNAPSHOT', x
             assert x['last_full_check'] is None or x['last_full_check']['boundary'] == 'SNAPSHOT', x
@@ -637,21 +651,21 @@ def races(tools, today):
             w1.commit()
         run_a, ps_a, captured_a, _ = finished(key_a)
         assert w1_at < captured_a, 'P19G_IN_FLIGHT_FIXTURE_NOT_BEFORE_CAPTURE'
-        a, cats_a = answer(fresh_name, run_a, ps_a, captured_a)
+        a, cats_a = answer(run_a, ps_a, captured_a)
         assert a['freshness_state'] == 'CHANGES_RECORDED' and a['changes_total'] == 1, a
         assert cats_a['MASTER_DATA']['rows'] == 1 and cats_a['MASTER_DATA']['deleted'] == 0, cats_a
         # 2. A full check while another location insert is still running.
         run_b, ps_b, captured_b, original_b = finished(requested(uuid.uuid4()))
-        same, _ = answer(check_name, run_b, ps_b, captured_b)
+        same, _ = answer(run_b, ps_b, captured_b, check=True)
         assert same['freshness_state'] == 'VERIFIED_SAME' and same['last_full_check']['changes_after_check'] == 0, same
         with tools.connect() as w2, w2.cursor() as c2:
             second_loc = location(c2, 'in flight at the check')
             w2_at = c2.execute('select created_at from erp.locations where id=%s', (second_loc,)).fetchone()[0]
-            during, _ = answer(check_name, run_b, ps_b, captured_b)
+            during, _ = answer(run_b, ps_b, captured_b, check=True)
             w2.commit()
         assert during['freshness_state'] == 'VERIFIED_SAME', during
         assert w2_at < datetime.fromisoformat(during['last_full_check']['checked_at']), 'P19G_IN_FLIGHT_FIXTURE_NOT_BEFORE_CHECK'
-        after, cats_b = answer(fresh_name, run_b, ps_b, captured_b)
+        after, cats_b = answer(run_b, ps_b, captured_b)
         assert after['freshness_state'] == 'CHANGES_RECORDED' and after['same_as_of'] is None, after
         assert after['last_full_check']['source_state'] == 'UNCHANGED' and after['last_full_check']['changes_after_check'] == 1, after
         assert cats_b['MASTER_DATA']['rows_after_check'] == 1 and cats_b['MASTER_DATA']['rows'] == 1, cats_b
@@ -659,7 +673,7 @@ def races(tools, today):
         with tools.connect() as conn, conn.cursor() as cur:
             cur.execute('delete from erp.locations where id=%s', (first_loc,))
             conn.commit()
-        gone, cats_g = answer(fresh_name, run_b, ps_b, captured_b)
+        gone, cats_g = answer(run_b, ps_b, captured_b)
         assert cats_g['MASTER_DATA']['deleted'] == 1 and cats_g['MASTER_DATA']['rows'] == 2, cats_g
         assert gone['last_full_check']['changes_after_check'] == 2, gone
         with tools.connect() as conn, conn.cursor() as cur:

@@ -446,9 +446,10 @@
       "erp_cp7_get_staged_analysis_v1",
       "erp_cp7_read_staged_analysis_pages_v1",
       "erp_cp7_read_staged_analysis_page_v1",
-      "erp_cp7_check_staged_analysis_source_v1"
+      "erp_cp7_check_staged_analysis_source_v1",
+      "erp_cp7_staged_snapshot_freshness_v1"
     ],
-    "sql_ladder": "one staged point per declared history-days value at every size (also in the rolled-back native case at 100): request, one step per unit, get, page set, every page, source check; each call under the unchanged 8 s",
+    "sql_ladder": "one staged point per declared history-days value at every size (also in the rolled-back native case at 100): request, one step per unit, get, page set, every page, source check, snapshot freshness (contract v2: the change counts since the snapshot); each call under the unchanged 8 s",
     "evidence": "the reassembled analysis (header prefix + every page's items per paged array) is checked by the frozen analysis contract with its semantic_hash recomputed server side from the reassembled text; parity with the single build on the same reference is proven by the kernel tests (f05-staged-*) and the staged suite (P19G_STAGED_EQUALS_SINGLE), not by this ladder",
     "witness_retention": "header text, every page's bytes and sha256, identity_hash and the reassembled analysis sha256; per-target items are not retained",
     "installed_bounds_read_back": "every staged point reads cp7_analysis_stage.bounds() (admin) and records declared_match"

@@ -193,3 +193,53 @@ export function parseStagedSourceCheck(v:unknown,runId:string):StagedSourceCheck
  if(e.source_state!=='UNCHANGED'&&e.source_state!=='ARCHIVED_STALE')fail()
  return{sourceState:e.source_state,checkedAt:stagedInstant(e.checked_at)}
 }
+
+// Snapshot contract v2 (docs/cp7/p19/P19_STAGED_SNAPSHOT_V2.md): the run is a
+// snapshot "data per <data_as_of>". Freshness is reported, never forced, and
+// the snapshot is never called current: a full check ("Cek sumber") says only
+// how it compared with the data at the check's own time.
+export const STAGED_CHANGE_CATEGORIES=['SALES','FG_STOCK','MATERIAL_STOCK','PRODUCTION','PRODUCTION_ORDERS','MASTER_DATA','MATERIAL_PURCHASES','PLANNING_POLICIES'] as const
+export type StagedChangeCategory=typeof STAGED_CHANGE_CATEGORIES[number]
+export type StagedFreshnessState='NO_RECORDED_CHANGE'|'CHANGES_RECORDED'|'VERIFIED_SAME'|'STALE_VERIFIED'
+export type StagedBoundary='SNAPSHOT'|'RECORDING_TIME'
+export type StagedChange={category:StagedChangeCategory;rows:number;deleted:number;rowsAfterCheck:number|null;lastRecordedAt:string|null}
+export type StagedFullCheck={sourceState:'UNCHANGED'|'ARCHIVED_STALE';checkedAt:string;boundary:StagedBoundary}
+export type StagedFreshness={runId:string;dataAsOf:string;evaluatedAt:string;state:StagedFreshnessState;captureBoundary:StagedBoundary
+ changes:StagedChange[];changesTotal:number;lastCheck:(StagedFullCheck&{changesAfterCheck:number})|null;sameAsOf:string|null}
+const rowCount=(v:unknown)=>typeof v==='number'&&Number.isSafeInteger(v)&&v>=0?v:fail()
+const boundary=(v:unknown):StagedBoundary=>v==='SNAPSHOT'||v==='RECORDING_TIME'?v:fail()
+const checkState=(v:unknown):StagedFullCheck['sourceState']=>v==='UNCHANGED'||v==='ARCHIVED_STALE'?v:fail()
+
+// erp_cp7_check_staged_snapshot_v1: one recorded full check, its own answer only.
+export function parseStagedCheck(v:unknown,runId:string):StagedFullCheck{
+ const e=object(v);exact(e,['contract_version','run_id','source_state','checked_at','boundary'])
+ if(e.contract_version!=='cp7.native-analysis-snapshot-check.v1'||e.run_id!==runId)fail()
+ return{sourceState:checkState(e.source_state),checkedAt:stagedInstant(e.checked_at),boundary:boundary(e.boundary)}
+}
+
+// erp_cp7_staged_snapshot_freshness_v1, bound to the page set it labels. The
+// state is recomputed from the counts and the last check and must agree.
+export function parseStagedFreshness(v:unknown,set:AnalysisPageSet):StagedFreshness{
+ const e=object(v);exact(e,['contract_version','run_id','identity_hash','data_as_of','evaluated_at','freshness_state','capture_boundary','changes_since','changes_total','last_full_check','same_as_of','apply_enabled','production_go'])
+ if(e.contract_version!=='cp7.native-analysis-snapshot-freshness.v1'||e.run_id!==set.runId||e.identity_hash!==set.identityHash||e.apply_enabled!==false||e.production_go!==false)fail()
+ const dataAsOf=stagedInstant(e.data_as_of);if(Date.parse(dataAsOf)!==Date.parse(set.reference.capturedAt))fail()
+ if(!Array.isArray(e.changes_since)||e.changes_since.length!==STAGED_CHANGE_CATEGORIES.length)fail()
+ const check=e.last_full_check===null?null:object(e.last_full_check)
+ const changes=e.changes_since.map((x:unknown,i:number):StagedChange=>{
+  const c=object(x);exact(c,['category','rows','deleted','rows_after_check','last_recorded_at']);if(c.category!==STAGED_CHANGE_CATEGORIES[i])fail()
+  const rows=rowCount(c.rows),deleted=rowCount(c.deleted),after=c.rows_after_check===null?null:rowCount(c.rows_after_check)
+  const last=c.last_recorded_at===null?null:stagedInstant(c.last_recorded_at)
+  if(deleted>rows||(after===null)!==(check===null)||after!==null&&after>rows||rows===0&&last!==null)fail()
+  return{category:STAGED_CHANGE_CATEGORIES[i],rows,deleted,rowsAfterCheck:after,lastRecordedAt:last}
+ })
+ const total=rowCount(e.changes_total);if(total!==changes.reduce((s,c)=>s+c.rows,0))fail()
+ let lastCheck:StagedFreshness['lastCheck']=null
+ if(check){exact(check,['source_state','checked_at','boundary','changes_after_check'])
+  const after=rowCount(check.changes_after_check);if(after!==changes.reduce((s,c)=>s+(c.rowsAfterCheck??0),0))fail()
+  lastCheck={sourceState:checkState(check.source_state),checkedAt:stagedInstant(check.checked_at),boundary:boundary(check.boundary),changesAfterCheck:after}}
+ const state:StagedFreshnessState=lastCheck?.sourceState==='ARCHIVED_STALE'?'STALE_VERIFIED':lastCheck?.sourceState==='UNCHANGED'&&lastCheck.changesAfterCheck===0?'VERIFIED_SAME':total>0?'CHANGES_RECORDED':'NO_RECORDED_CHANGE'
+ if(e.freshness_state!==state)fail()
+ const sameAsOf=e.same_as_of===null?null:stagedInstant(e.same_as_of)
+ if((state==='VERIFIED_SAME')!==(sameAsOf!==null)||sameAsOf!==null&&sameAsOf!==lastCheck!.checkedAt)fail()
+ return{runId:set.runId,dataAsOf,evaluatedAt:stagedInstant(e.evaluated_at),state,captureBoundary:boundary(e.capture_boundary),changes,changesTotal:total,lastCheck,sameAsOf}
+}

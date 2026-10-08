@@ -58,6 +58,8 @@ export type PreconnectDatabase = {
       erp_cp7_read_staged_analysis_pages_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_read_staged_analysis_page_v1: { Args: { p_run: string; p_index: number; p_access: string }; Returns: Json }
       erp_cp7_check_staged_analysis_source_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_staged_snapshot_freshness_v1: { Args: { p_run: string }; Returns: Json }
+      erp_cp7_check_staged_snapshot_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_get_analysis_attention_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_save_analysis_attention_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_analysis_attention_request_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }

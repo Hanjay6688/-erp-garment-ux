@@ -51,7 +51,9 @@ untuk pabrik ini rencana produksi, Business Report, pengingat dan AI harus memak
 - **RPC** (authenticated, hanya aktor pemilik run, akses diperiksa ulang sebelum dan sesudah):
   - `erp_cp7_staged_snapshot_freshness_v1(p_run uuid)` — baca kesegaran tanpa menulis.
   - `erp_cp7_check_staged_snapshot_v1(p_run uuid)` — "Cek sumber" penuh, hasilnya disimpan sekali (tabel immutable
-    `source_checks`), lalu kesegaran.
+    `source_checks`); menjawab hanya hasil cek (`cp7.native-analysis-snapshot-check.v1`: `run_id, source_state, checked_at,
+    boundary`). Cek sendiri sudah dekat batas 8 dtk pada 5.000 target, jadi hitungan perubahan dibaca sesudahnya lewat RPC
+    kesegaran, masing-masing di bawah batasnya sendiri.
   - Jawaban `cp7.native-analysis-snapshot-freshness.v1`: `run_id, identity_hash, data_as_of, evaluated_at, freshness_state,
     capture_boundary, changes_since[], changes_total, last_full_check{source_state, checked_at, boundary,
     changes_after_check} | null, same_as_of, apply_enabled=false, production_go=false`.
