@@ -47,15 +47,17 @@ CLONE_TABLES=(
  ('bs_cases','cutting_group_id=%(g)s'),
 )
 
-def clone_groups(cur,group,n,label):
- """n SYNTHETIC clones of posted group `group`; returns the clone group ids (text)."""
+def clone_groups(cur,group,n,label,extra=()):
+ """n SYNTHETIC clones of posted group `group`; returns the clone group ids (text). `extra` appends tables to
+ the closure for a caller whose groups have more rows (PL-5's sewing terminal and BS resolution); without it
+ the closure is exactly CLONE_TABLES."""
  assert label and 1<=n<=5000
- g=dict(g=str(group))
- ids=[r[0] for t,where in CLONE_TABLES for r in cur.execute(f'select id::text from erp.{t} where {where}',g).fetchall()]
+ g=dict(g=str(group));tables=CLONE_TABLES+tuple(extra)
+ ids=[r[0] for t,where in tables for r in cur.execute(f'select id::text from erp.{t} where {where}',g).fetchall()]
  assert len(ids)==len(set(ids)) and str(group) in ids,('PL8_CLONE_CLOSURE',len(ids))
  cur.execute("select set_config('session_replication_role','replica',true)")
  try:
-  for table,where in CLONE_TABLES:
+  for table,where in tables:
    rows=cur.execute(f'select to_jsonb(x) from erp.{table} x where {where}',g).fetchall()
    if not rows:continue
    cols=cur.execute("""select attname,format_type(atttypid,atttypmod),attidentity<>'' from pg_attribute

@@ -221,6 +221,16 @@ class Production:
         return r['result']['bs_resolution_id']
 
 
+# A PL-5 group is finished through its sewing terminal and its BS resolution (scrap); PL-8's clone closure
+# has neither, so a clone without them is honestly not exhausted. These two tables join the closure here only.
+CLONE_EXTRA = (('sewing_terminal_events', 'cutting_group_id=%(g)s'),
+               ('bs_resolutions', 'bs_case_id in(select id from erp.bs_cases where cutting_group_id=%(g)s)'))
+
+
+def clone(cur, group, n, label):
+    return supply.clone_groups(cur, group, n, label, CLONE_EXTRA)
+
+
 def prove(cur, groups):
     """The unchanged prover (batch_verdict, store_proofs) over the case's own groups only, in batches of 50, at
     this clock: the ordinary prover proves every posted group; restricting it keeps the oracle exact."""
@@ -389,14 +399,14 @@ def cases(cur, today):
         qt = cur.execute('select coalesce(identity_root_id,id)::text||\':\'||size_id::text,model_id::text from erp.products where id=%s', (q,)).fetchone()
         # SYNTHETIC (labelled): one clone of a finished base-model group whose order is re-pointed to the other
         # model; its QC still went to a base-model product, so it is not attributable to the other model.
-        clone = supply.clone_groups(cur, groups[0], 1, 'PL5H SYNTHETIC cross-model attribution probe')[0]
+        twin = clone(cur, groups[0], 1, 'PL5H SYNTHETIC cross-model attribution probe')[0]
         po2 = str(uuid.uuid4())
         cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,notes)values(%s,%s,%s,10,'CUTTING','CUTTING','PL5H SYNTHETIC other model')",
                     (po2, 'PL5H-PO2-' + po2, qt[1]))
         cur.execute("select set_config('session_replication_role','replica',true)")
-        cur.execute('update erp.cutting_groups set po_id=%s where id=%s', (po2, clone))
+        cur.execute('update erp.cutting_groups set po_id=%s where id=%s', (po2, twin))
         cur.execute("select set_config('session_replication_role','origin',true)")
-        assert prove(cur, [clone]) == 1
+        assert prove(cur, [twin]) == 1
         save(cur, payload(), owner)
         hq, _ = history(cur, qt[0], qt[1], owner)
         assert hq['status'] == 'INSUFFICIENT_SAMPLE' and level(hq, 'MODEL')['groups'] == '0' and level(hq, 'PRODUCT_SIZE')['groups'] == '0', hq
@@ -490,14 +500,15 @@ def cases(cur, today):
         make = Production(cur, today)
         first = make.group(p, 40, 37)
         # SYNTHETIC (labelled): administrative clones of one finished group, as the PL-8 scale cases.
-        clones = supply.clone_groups(cur, first['group'], 199, 'PL5H SYNTHETIC finished history at the 200-group limit')
+        clones = clone(cur, first['group'], 199, 'PL5H SYNTHETIC finished history at the 200-group limit')
         groups = [first['group']] + clones
         assert prove(cur, groups) == 200
         save(cur, payload(), owner)
         h, ms = history(cur, p['target'], p['model'], owner)
         available(h, 'PRODUCT_SIZE', 200, 8000, 7400)
         assert ms < 8000, ms
-        extra = supply.clone_groups(cur, first['group'], 1, 'PL5H SYNTHETIC group 201')
+        # Clone ids are fixed per (source, number): the 201st is cloned from a clone, not from `first` again.
+        extra = clone(cur, clones[-1], 1, 'PL5H SYNTHETIC group 201')
         assert prove(cur, extra) == 1
         h, ms2 = history(cur, p['target'], p['model'], owner)
         assert (h['status'], h['reason']) == ('UNKNOWN', 'HISTORY_GROUP_LIMIT') and level(h, 'PRODUCT_SIZE')['reason'] == 'HISTORY_GROUP_LIMIT', h
