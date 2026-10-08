@@ -13,7 +13,8 @@ untuk pabrik ini rencana produksi, Business Report, pengingat dan AI harus memak
    `identity_hash` tetap seperti kontrak §10 `P19_STAGED_5000_20261007.md`).
 2. ERP **tidak** diwajibkan berhenti berubah. Snapshot boleh dipakai walau sudah ada transaksi baru, dengan label
    "data per tanggal/jam …", status kesegaran, dan daftar perubahan relevan sejak snapshot.
-3. Snapshot **tidak pernah disebut "terkini"** kecuali pemeriksaan penuh ("Cek sumber") membuktikan sama.
+3. Snapshot **tidak pernah disebut "terkini"**. Pemeriksaan penuh ("Cek sumber") hanya menyatakan perbandingan pada
+   jamnya sendiri: "sama dengan data per jam T" atau "sudah berubah (dicek jam T)".
 4. Business Report, pengingat dan AI boleh memakai snapshot **sebagai analisis**. Angka aktual keuangan, stok dan
    HPP tetap dari pembaca otoritatif sesuai tanggal laporan, tidak dari snapshot.
 5. Rencana produksi boleh dibuat dan disimpan sebagai draf dari snapshot. Saat **disahkan/dijalankan**, server
@@ -22,25 +23,46 @@ untuk pabrik ini rencana produksi, Business Report, pengingat dan AI harus memak
 6. Pengingat diperiksa ulang ke data sekarang **sebelum dikirim**; kondisi yang sudah selesai tidak ditagih.
 7. Jalur tunggal dan kontraknya (`runs`, `serve`, semantic_hash, wajib UNCHANGED) tidak berubah.
 
-## 1. Label dan kesegaran snapshot (fondasi)
+## 1. Label dan kesegaran snapshot (fondasi) — dibuat
 
 - **Label:** `data_as_of` = `captured_at` acuan job, ditampilkan sebagai "Data per <tanggal jam> WIB".
+- **Batas snapshot yang tepat.** Saat acuan dibaca, server menyimpan juga *snapshot database* tempat acuan itu dibaca
+  (`cp7_analysis_stage.capture_marks`, satu statement dengan pembacaan acuan). Begitu pula setiap "Cek sumber"
+  (`source_checks.source_snapshot`). Sebuah baris dihitung "sesudah batas" bila ditulis atau terakhir diubah oleh transaksi
+  yang **belum terlihat** di snapshot itu — jadi transaksi yang masih berjalan saat analisis/cek lalu selesai sesudahnya
+  tetap terhitung, walau jam catatnya lebih awal — atau bila jam catat sistemnya sesudah batas (transaksi mundur tanggal
+  terhitung). Penghapusan dihitung dari baris `DELETE` jejak audit (`erp.audit_logs`; hanya tabel, aksi, jam dan
+  transaksinya yang dibaca). Bila transaksi yang membaca acuan/cek sudah menulis sebelumnya (hanya terjadi di uji satu
+  transaksi), snapshot tidak disimpan dan batas dinilai dari jam catat saja (`boundary: RECORDING_TIME`).
 - **Status kesegaran** (`freshness_state`):
-  - `CHANGED`: ada perubahan tercatat sesudah `data_as_of` (lihat daftar), atau pemeriksaan penuh terakhir
-    menyatakan `ARCHIVED_STALE`.
-  - `NO_RECORDED_CHANGE`: tidak ada perubahan tercatat pada kategori yang dipantau; **bukan** "terkini", karena
-    belum dibuktikan pemeriksaan penuh.
-  - `VERIFIED_SAME`: pemeriksaan penuh (`erp_cp7_check_staged_analysis_source_v1`) pada jam T menyatakan sama dan
-    tidak ada perubahan tercatat sesudah T. Hanya status ini yang boleh disebut sama dengan data sekarang (per jam T).
-- **Perubahan relevan sejak snapshot** (`changes_since`): per kategori, jumlah baris yang tercatat sesudah
-  `data_as_of` (waktu catat sistem, sehingga transaksi mundur tanggal ikut terhitung) dan jam catat terakhir:
-  penjualan & retur, gerak stok barang jadi, gerak stok bahan, potong/WIP (kelompok potong, ambil, jahit, QC,
-  laundry, BS, rework), PO produksi, produk/SKU/ukuran, pola & resep kain/aksesori, pembelian bahan.
-  Batas hitung per kategori 10.000 (di atasnya ditulis "lebih dari 10.000").
-- RPC baru `erp_cp7_staged_snapshot_freshness_v1(p_run uuid)` (authenticated, aktor pemilik run, akses diperiksa
-  ulang): `{run_id, identity_hash, data_as_of, freshness_state, changes_since[], last_full_check{state, checked_at}}`.
-  Harus selesai jauh di bawah 8 dtk pada 5.000 target. Hasil "Cek sumber" disimpan (tabel baru, immutable) supaya
-  `VERIFIED_SAME`/`CHANGED` bisa dibaca tanpa mengulang pemeriksaan penuh.
+  - `STALE_VERIFIED`: "Cek sumber" terakhir menemukan sumber sudah berubah ("sudah berubah, dicek jam T").
+  - `VERIFIED_SAME`: "Cek sumber" terakhir menemukan sama dan tidak ada perubahan tercatat sesudah cek itu. Ditampilkan
+    "sama dengan data per jam T" (`same_as_of` = T); **bukan** "terkini".
+  - `CHANGES_RECORDED`: ada perubahan tercatat sesudah snapshot (atau sesudah cek terakhir yang menyatakan sama).
+  - `NO_RECORDED_CHANGE`: belum ada perubahan tercatat di kategori yang dipantau dan belum pernah dicek penuh;
+    **bukan** "terkini".
+- **Perubahan relevan sejak snapshot** (`changes_since`): per kategori `rows` (baru/diubah + dihapus), `deleted`,
+  `rows_after_check` (sesudah cek terakhir) dan jam catat terakhir. Kategori dan tabel yang dipantau (daftar tetap,
+  `cp7_analysis_stage.change_sources()`): penjualan & retur; gerak stok barang jadi; gerak stok bahan; produksi (kelompok
+  potong, ambil potongan, batch distribusi, ambil WIP, jahit, QC, laundry kirim/terima, BS, penyelesaian BS, rework, tanda
+  kontrol WIP); PO produksi; data induk (produk, versi SKU, pola, bahan, BOM aksesori, lokasi); pembelian bahan; kebijakan
+  perencanaan (kebijakan produksi, profil, rencana jadwal, resep kain, bukti grup habis). Daftar ini adalah "perubahan
+  relevan" untuk dibaca owner, bukan seluruh tabel yang dibaca analisis; karena itu kesamaan hanya dinyatakan oleh "Cek sumber".
+- **RPC** (authenticated, hanya aktor pemilik run, akses diperiksa ulang sebelum dan sesudah):
+  - `erp_cp7_staged_snapshot_freshness_v1(p_run uuid)` — baca kesegaran tanpa menulis.
+  - `erp_cp7_check_staged_snapshot_v1(p_run uuid)` — "Cek sumber" penuh, hasilnya disimpan sekali (tabel immutable
+    `source_checks`), lalu kesegaran.
+  - Jawaban `cp7.native-analysis-snapshot-freshness.v1`: `run_id, identity_hash, data_as_of, evaluated_at, freshness_state,
+    capture_boundary, changes_since[], changes_total, last_full_check{source_state, checked_at, boundary,
+    changes_after_check} | null, same_as_of, apply_enabled=false, production_go=false`.
+- **Uji:** `P19G_SNAPSHOT_FRESHNESS` (Native, satu transaksi: label, keempat status, transaksi mundur tanggal, penghapusan,
+  halaman tidak berubah, aktor lain ditolak, cek dan tanda snapshot immutable) dan `P19G_RACE_SNAPSHOT_IN_FLIGHT`
+  (transaksi sungguhan: tulis yang masih berjalan saat analisis dan saat cek terhitung sesudah selesai, cek saat tulis
+  berjalan tetap "sama", penghapusan oleh transaksi lain terhitung).
+- **Batas terbuka:** hitungan membaca seluruh baris tabel yang dipantau (tanpa indeks waktu); waktu pada 5.000 target dan
+  pada data bertahun-tahun belum diukur. Penghapusan di tabel tanpa jejak audit (gerak stok, event jahit, ambil WIP, tanda kontrol WIP, versi
+  SKU, pola, pembelian, tabel kebijakan CP7) tidak terhitung; tabel-tabel itu dijaga trigger sistem/immutable atau tidak
+  punya jalur hapus di aplikasi.
 
 ## 2. Akses per target dari snapshot
 
@@ -92,7 +114,7 @@ label dan status tampil, tidak ada kata "terkini" tanpa VERIFIED_SAME.
 
 | Bagian | Status |
 |---|---|
-| 1 Label & kesegaran | dikerjakan |
+| 1 Label & kesegaran | server + uji dibuat; menunggu hasil CI; tampilan belum |
 | 2 Akses per target | belum |
 | 3 Rencana v2 | belum |
 | 4 Business Report v2 | belum |

@@ -1323,14 +1323,18 @@ create table cp7_analysis_stage.pages(run_id uuid not null references cp7_analys
 -- header and every page, the whole-run totals. A run without it exposes no page.
 create table cp7_analysis_stage.page_sets(run_id uuid primary key references cp7_analysis_stage.headers(run_id),identity_hash text not null,
  totals jsonb not null,created_at timestamptz not null);
+-- The database snapshot the reference was read in (snapshot contract v2,
+-- analysis-stage-snapshot.sql): which transactions the reference saw. Null
+-- when the capturing transaction had already written before the capture.
+create table cp7_analysis_stage.capture_marks(job_id uuid primary key references cp7_analysis_stage.jobs(id),source_snapshot pg_snapshot);
 do $$declare t text;begin
- foreach t in array array['jobs','units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets']loop
+ foreach t in array array['jobs','units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks']loop
   execute format('alter table cp7_analysis_stage.%I owner to cp7_capture',t);
   execute format('alter table cp7_analysis_stage.%I enable row level security',t);
   execute format('create policy cp7_analysis_stage_no_access on cp7_analysis_stage.%I for all to public using(false)with check(false)',t);
   execute format('revoke all on cp7_analysis_stage.%I from public,anon,authenticated,service_role',t);
  end loop;
- foreach t in array array['units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets']loop
+ foreach t in array array['units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks']loop
   execute format('create trigger immutable_stage_%s before update or delete on cp7_analysis_stage.%I for each row execute function cp7_private.immutable_run()',t,t);
  end loop;
 end $$;
@@ -1924,7 +1928,7 @@ $$;
 -- access is re-read after the capture.
 create function cp7_analysis_stage.request(p_query jsonb,p_request uuid)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
-declare a jsonb;q jsonb;jid uuid;jq jsonb;c jsonb;b jsonb:=cp7_analysis_stage.bounds();
+declare a jsonb;q jsonb;jid uuid;jq jsonb;c jsonb;b jsonb:=cp7_analysis_stage.bounds();snap pg_snapshot;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(false);q:=cp7_planning.history_query(p_query);
@@ -1941,10 +1945,16 @@ begin
   or exists(select 1 from cp7_analysis_jobs.jobs x where x.actor=(a->>'actor')::uuid and x.request_id=p_request)then
   raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';
  end if;
- c:=cp7_analysis_native.source_within((b->>'job_targets')::integer,(b->>'job_matching_products')::integer)
-  ||jsonb_build_object('financial_source',null,'financial_capture','DEFERRED');
+ -- One statement: the reference and the snapshot it was read in (all of
+ -- source_within is stable, so it reads in this statement's snapshot). A
+ -- transaction that already wrote has rows the snapshot cannot place, so its
+ -- mark is null and changes are then judged by recording time alone.
+ select cp7_analysis_native.source_within((b->>'job_targets')::integer,(b->>'job_matching_products')::integer)
+  ||jsonb_build_object('financial_source',null,'financial_capture','DEFERRED'),
+  case when pg_current_xact_id_if_assigned()is null then pg_current_snapshot()end into c,snap;
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
  jid:=cp7_analysis_stage.create_job((a->>'actor')::uuid,p_request,q,a,c);
+ insert into cp7_analysis_stage.capture_marks(job_id,source_snapshot)values(jid,snap);
  return cp7_analysis_stage.status(jid);
 end $$;
 -- step: the actor's current access is re-read and handed to step(), which

@@ -1,9 +1,9 @@
 {
   "contract": "cp7.p19.analysis-staged.v1",
-  "expected_case_count": 12,
+  "expected_case_count": 14,
   "required_case_counts": {
-    "native": 5,
-    "races": 3,
+    "native": 6,
+    "races": 4,
     "http": 2,
     "browser": 2
   },
@@ -13,12 +13,14 @@
       "P19G_STAGED_AUTHORITY",
       "P19G_STAGED_IDENTITY",
       "P19G_STAGED_SOURCE_CHECK",
-      "P19G_STAGED_BOUNDS_VS_SINGLE"
+      "P19G_STAGED_BOUNDS_VS_SINGLE",
+      "P19G_SNAPSHOT_FRESHNESS"
     ],
     "races": [
       "P19G_RACE_TWO_STEPS_ONE_UNIT",
       "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
-      "P19G_RACE_ACCESS_CHANGED_MID_JOB"
+      "P19G_RACE_ACCESS_CHANGED_MID_JOB",
+      "P19G_RACE_SNAPSHOT_IN_FLIGHT"
     ],
     "http": [
       "P19G_HTTP_STAGED_FLOW",
@@ -37,7 +39,9 @@
     "erp_cp7_get_staged_analysis_v1",
     "erp_cp7_read_staged_analysis_pages_v1",
     "erp_cp7_read_staged_analysis_page_v1",
-    "erp_cp7_check_staged_analysis_source_v1"
+    "erp_cp7_check_staged_analysis_source_v1",
+    "erp_cp7_staged_snapshot_freshness_v1",
+    "erp_cp7_check_staged_snapshot_v1"
   ],
   "scope": "Staged background analysis (request, one unit per step, status) under the existing statement limit; the reference captured once in one statement through the bounded sources (operational, finance DEFERRED); a staged run kept apart from cp7_analysis_native.runs (every whole reader refuses it) and read as a header plus byte-adaptive pages bound by identity_hash, actor, run and current access epoch; refusal equality with the single path; source check UNCHANGED/ARCHIVED_STALE",
   "parity": "P19G_STAGED_EQUALS_SINGLE compares the reassembled analysis (header prefix plus every page's items) with cp7_analysis_native.build on the job's own stored reference, query, run id and access (semantic_hash excluded: the staged path does not compute it); byte identity of the analysis text and the Original is proven by the kernel tests (f05-staged-api)",
@@ -47,5 +51,6 @@
   "owner_latency_acceptance": false,
   "factory_capacity_or_SLA": false,
   "independent_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "snapshot_v2": "Contract v2 (docs/cp7/p19/P19_STAGED_SNAPSHOT_V2.md, owner decision 8 Oct 2026). P19G_SNAPSHOT_FRESHNESS: time label, changes per category including a backdated entry and a deletion, recorded full checks, every state; one test transaction, so boundaries by recording time. P19G_RACE_SNAPSHOT_IN_FLIGHT: real transactions; a write running at the capture and one running at a full check count once committed although recorded before the boundary, a deletion by another transaction counts. The snapshot is never called current: a full check only reports sameness as of its own time (same_as_of)."
 }
