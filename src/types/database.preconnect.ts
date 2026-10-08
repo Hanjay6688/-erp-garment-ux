@@ -30,6 +30,11 @@ export type PreconnectDatabase = {
       erp_cp7_read_plan_draft_v1: { Args: { p_draft: string }; Returns: Json }
       erp_cp7_read_plan_actual_v1: { Args: { p_draft: string }; Returns: Json }
       erp_cp7_get_plan_options_v1: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_get_plan_options_v2: { Args: { p_query: Json }; Returns: Json }
+      erp_cp7_save_plan_draft_v2: { Args: { p_payload: Json; p_request: string }; Returns: Json }
+      erp_cp7_read_plan_draft_v2: { Args: { p_draft: string }; Returns: Json }
+      erp_cp7_preview_plan_action_v2: { Args: { p_draft: string }; Returns: Json }
+      erp_cp7_apply_plan_action_v2: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_get_planning_profiles_v1: { Args: { p_roots: string[] }; Returns: Json }
       erp_cp7_save_planning_profile_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_capture_baseline_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }

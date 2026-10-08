@@ -52,3 +52,17 @@ describe('owning miscellaneous correction refusals', () => {
     expect(normalizeClientError(new TypeError('Failed to fetch')).code).toBe('BACKEND_UNAVAILABLE')
   })
 })
+
+describe('plan v2 refusals from a dated snapshot', () => {
+  it('states the numbers the server sent and asks for a review, never a retry', () => {
+    const e = normalizeClientError({ code: '40001', message: 'CP7_PLAN_V2_CAPACITY_USED', details: JSON.stringify({ capacity_now_pcs: '12', capacity_used_by_other_plans_pcs: '48', selected_new_pcs: '20' }) })
+    expect([e.code, e.retryable, e.message]).toEqual(['REJECTED', false, 'Kapasitas potong tersisa 12 pcs (rencana lain memakai 48 pcs), rencana 20 pcs. Tinjau ulang rencana.'])
+  })
+  it('keeps a plain sentence when the numbers are missing or not numbers', () => {
+    expect(normalizeClientError({ code: '40001', message: 'CP7_PLAN_V2_NEED_CHANGED', details: 'not json' }).message).toBe('Kebutuhan sudah berubah sejak data diambil. Tinjau ulang rencana.')
+    expect(normalizeClientError({ code: '40001', message: 'CP7_PLAN_V2_NEED_CHANGED', details: JSON.stringify({ need_now_pcs: 'x', selected_new_pcs: '2' }) }).message).toBe('Kebutuhan sudah berubah sejak data diambil. Tinjau ulang rencana.')
+  })
+  it('leaves any other 40001 as the generic retryable conflict', () => {
+    expect(normalizeClientError({ code: '40001', message: 'could not serialize access' }).code).toBe('RETRYABLE_CONFLICT')
+  })
+})

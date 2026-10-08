@@ -251,3 +251,16 @@ it('a freshness read that fails or disagrees is shown in its own place and never
  expect(freshnessState()).toBe('');expect(freshnessText()).toContain('Perubahan sejak data diambil belum bisa dibaca: Halaman analisis server belum sesuai');expect(container.querySelector('[role="alert"]')).toBeNull()
  expect(region()!.textContent).not.toMatch(/Sama dengan data per/);expect(heading()).toBe('Target 1–500 dari 1.200')
 },30000)
+
+it('offers a plan per target of the page to a user who may view cutting, bound to the run, its identity hash and its data time',async()=>{
+ const a=state.auth as {identity:{permissions:string[]}};a.identity.permissions.push('production.cutting.view')
+ client.rpc.mockImplementation(server({steps:1}));await render();await click(STAGED);await until(()=>Boolean(region())&&rows()>0&&freshnessState()!=='')
+ const buttons=[...region()!.querySelectorAll('[data-analysis-target] button')]
+ expect(buttons.length).toBe(rows());expect(buttons.every(b=>b.textContent!.startsWith('Rencanakan Potongan ')))
+ expect(region()!.textContent).toContain(`Rencana Potongan dibuat per target dari halaman di bawah memakai data per ${formatCp6WibDateTime(s.reference.captured_at)}`)
+ expect(region()!.textContent).not.toContain('ruang kerja kain, draf rencana dan arsip')
+ const before=client.rpc.mock.calls.length;await act(async()=>(buttons[0] as HTMLButtonElement).click())
+ // The panel opens on the staged kind and reads nothing until asked.
+ expect(container.querySelector('[data-plan-kind="STAGED"]')?.textContent).toContain(`data per ${formatCp6WibDateTime(s.reference.captured_at)}`)
+ expect(client.rpc.mock.calls.length).toBe(before);expect(region()).toBeTruthy()
+})

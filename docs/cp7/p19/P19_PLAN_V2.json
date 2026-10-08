@@ -1,10 +1,11 @@
 {
   "contract": "cp7.p19.plan-v2.v1",
-  "expected_case_count": 16,
+  "expected_case_count": 18,
   "required_case_counts": {
     "native": 10,
     "races": 4,
-    "http": 2
+    "http": 2,
+    "browser": 2
   },
   "required_case_ids": {
     "native": [
@@ -28,6 +29,10 @@
     "http": [
       "P19P_HTTP_FLOW",
       "P19P_HTTP_REVOKED"
+    ],
+    "browser": [
+      "P19P_BROWSER_DESKTOP_PLAN",
+      "P19P_BROWSER_MOBILE_PLAN"
     ]
   },
   "public_rpcs": [
@@ -41,7 +46,7 @@
   "scope": "Production plan from a staged analysis snapshot (snapshot contract v2 §2-§3, owner decision 8 Oct 2026). Options and drafts read one target from the retained per-target index; a draft can be saved from a snapshot that is no longer current and stores its identity hash, 'data per' time and snapshot values. Preview reports and apply enforces, in the apply transaction (before and after the Native writer), the live product, production policy, other plans of the target (after the snapshot: TARGET_PLANNED; earlier unposted or unproven: v1's linked-intent rule over the snapshot's own production scope), WIP of the model and size, the need (snapshot need minus any increase of finished stock plus WIP), the one shared capacity centre less every plan not in the snapshot's load, the selected rolls (v1's material checks) and current access; a refusal is 40001 with the numbers in DETAIL and leaves no Native draft or intent.",
   "need_rule": "need_now = max(0, need_at_snapshot - max(0, (fg_now + wip_now) - (fg_snapshot + wip_snapshot))); finished stock is the sellable grade A/B sum of the target's root, WIP the company cut-pool WIP of its model and size (posted groups not proven exhausted at the snapshot, normalised in batches of 50, at most 200 groups, otherwise WIP_UNKNOWN)",
   "lock_order": "request, rolls (sorted), CP7:PLAN_CAPACITY, target, version; v1 never takes the capacity lock",
-  "browser": "not declared yet: the screen (plan v2 step 4) adds its browser cases with its own declaration revision",
+  "browser": "Real Auth UI on desktop and mobile: one click starts the staged run; the fixture target is found on its page; \"Rencanakan Potongan\" opens the STAGED plan panel (\"data per\"); v2 options, save, preview (live recheck ready) and apply create one unposted Native draft; on desktop a second plan for the same target from the same snapshot shows TARGET_PLANNED and keeps the draft button disabled; no v1 plan RPC is called; no horizontal scroll",
   "synthetic_case": "none; every fixture is v1's plan fixture through the ordinary Native writers (production cut, fabric receipt, PO master, profiles, policies, reviewed schedule) and a real staged run",
   "v1_unchanged": true,
   "full_P19_acceptance": false,

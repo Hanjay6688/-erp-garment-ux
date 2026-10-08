@@ -61,11 +61,10 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   expected=case_provider.EXPECTED;assert expected==14;out=OUT.with_name('CP7_P19_STAGED.json');phase='cp7_p19_staged';browser_script='cp7_p19_staged_browser.mjs'
  if p19_plan_v2:
   # P19 plan v2 (production plan from a staged snapshot, live recheck at apply):
-  # its own predeclared IDs on the same closed harness; native, races and HTTP
-  # until the screen's browser cases are declared.
+  # its own predeclared IDs on the same closed harness.
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale,p19_staged)),'P19_PLAN_V2_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_p19_plan_v2_cases as case_provider
-  expected=case_provider.EXPECTED;assert expected==16;out=OUT.with_name('CP7_P19_PLAN_V2.json');phase='cp7_p19_plan_v2';browser_script=None
+  expected=case_provider.EXPECTED;assert expected==18;out=OUT.with_name('CP7_P19_PLAN_V2.json');phase='cp7_p19_plan_v2';browser_script='cp7_p19_plan_v2_browser.mjs'
  if p19_load:
   import cp7_obligation_report_bundle as candidate
   import cp7_p19_native_load_cases as case_provider
@@ -166,7 +165,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
  if p19_plan_v2:
   declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_PLAN_V2.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS),'P19_PLAN_V2_PREDECLARED_CASE_BUDGET_CHANGED'
-  report.update(label='CP7_P19_PLAN_V2',scope='PRODUCTION_PLAN_FROM_DATED_STAGED_SNAPSHOT_SAVED_AS_DRAFT_LIVE_RECHECK_OF_PRODUCT_POLICY_STOCK_WIP_NEED_CAPACITY_PLANS_MATERIAL_ACCESS_IN_THE_APPLY_TRANSACTION',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False,browser_qualification=False)
+  report.update(label='CP7_P19_PLAN_V2',scope='PRODUCTION_PLAN_FROM_DATED_STAGED_SNAPSHOT_SAVED_AS_DRAFT_LIVE_RECHECK_OF_PRODUCT_POLICY_STOCK_WIP_NEED_CAPACITY_PLANS_MATERIAL_ACCESS_IN_THE_APPLY_TRANSACTION',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False)
  if p19_scale:
   declaration_bytes=(bundle.ROOT/'docs/cp7/p19/P19_SCALE.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['evidence_kind']==case_provider.EVIDENCE_KIND and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'P19_SCALE_PREDECLARED_CASE_BUDGET_CHANGED'
@@ -224,7 +223,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    # measured inside its browser cases on the same seeded copy.
    report['races']=modes.run_races(case_provider,checker,phase)
    report['http']=modes.run_http(case_provider,checker,phase)
-  if not(p19_load or p19_plan_v2):
+  if not p19_load:
    # Keep port ownership evidence before opening the native browser host.
    import subprocess
    report['browser_port_state_before']=subprocess.run(['ss','-lntp','sport = :54328'],capture_output=True,text=True,check=False).stdout
@@ -252,7 +251,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
   if fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2:
    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
-  group_names=('native','races','http')if p19_load or p19_plan_v2 else('native','browser')if p19_scale else('native','races','http','browser')
+  group_names=('native','races','http')if p19_load else('native','browser')if p19_scale else('native','races','http','browser')
   groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)

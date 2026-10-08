@@ -23,6 +23,10 @@ name: CP7 P19 Analysis Job Transport
     - scripts/cp7-src/plan-native/**
     - scripts/cp7_plan_*
     - scripts/cp7_p19_plan_v2_*
+    - src/NativePlanDraftPanel.tsx
+    - src/nativePlanDraft.ts
+    - src/nativeStagedPlan.ts
+    - src/lib/planV2Messages.ts
     - docs/cp7/p19/P19_PLAN_V2.json
     - .github/workflows/claude-p19-transport.yml
   workflow_dispatch: {}
@@ -51,7 +55,7 @@ jobs:
         - suite: p19-staged12
           probe: cp7_p19_staged_probe.py
           timeout: 150
-        - suite: p19-plan-v2-16
+        - suite: p19-plan-v2-18
           probe: cp7_p19_plan_v2_probe.py
           timeout: 180
     env:

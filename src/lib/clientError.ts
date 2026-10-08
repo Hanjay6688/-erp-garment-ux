@@ -1,4 +1,5 @@
 import { receiptCorrectionMessage } from './receiptCorrectionMessages'
+import { planV2Message } from './planV2Messages'
 
 export type ClientErrorCode =
   | 'AUTH_FAILED'
@@ -29,6 +30,7 @@ type ErrorLike = {
   code?: unknown
   status?: unknown
   message?: unknown
+  details?: unknown
 }
 
 function errorLike(error: unknown): ErrorLike {
@@ -64,6 +66,8 @@ export function normalizeClientError(error: unknown): ClientAppError {
   if (code === '23505') {
     return new ClientAppError('DATA_CONFLICT', 'Data bertabrakan dengan catatan yang sudah ada. Muat ulang dan periksa data sebelum menyimpan lagi.')
   }
+  const planV2 = planV2Message(candidate.message, candidate.details)
+  if (planV2) return new ClientAppError('REJECTED', planV2)
   if (code === '40001' || code === '40P01') {
     return new ClientAppError('RETRYABLE_CONFLICT', 'Terjadi benturan sementara. Muat ulang sebelum mencoba lagi.', true)
   }
