@@ -33,7 +33,7 @@ Urutan otoritas dan aturan: `docs/AUDIT_PANDUAN_PRO_MAX.md` §0.1. Kontrak: `doc
 | Stok/HPP/produksi | Konservasi PCS/biaya; root fisik vs SKU komersial; koreksi biaya kronologis; PL-8 bukti grup habis terikat versi sumber. |
 | Payroll | Kode pekerja, absensi vs upah, BS/kompensasi, saldo negatif; aturan Afui tidak dikarang. |
 | Perencanaan/model | Cutoff as-known; baseline/netting/jadwal/kain/aksesori; yield tidak pernah 100% (PL-5 B **belum** diimplementasikan dan harus tetap PENDING). |
-| Analisis 5.000 target | Kontrak §10 `p19/P19_STAGED_5000_20261007.md`: satu acuan, paritas header+halaman ↔ analisis jalur tunggal, identity_hash, batas 8 dtk/unit dan 8.000.000 byte/halaman, 5.001 ditolak, pause/reload UUID sama, buka DONE tanpa hitung ulang, downstream staged dinyatakan tidak tersedia. |
+| Analisis 5.000 target | Kontrak §10 `p19/P19_STAGED_5000_20261007.md`: satu acuan, paritas header+halaman ↔ analisis jalur tunggal, identity_hash, batas 8 dtk/unit dan 8.000.000 byte/halaman, 5.001 ditolak, pause/reload UUID sama, buka DONE tanpa hitung ulang, downstream staged dinyatakan tidak tersedia; margin "Cek sumber" terhadap batas 8 dtk (batas terbuka di README). |
 | Pengingat/AI | Hanya dari hasil lengkap terverifikasi; sumber basi ditandai. |
 | UI | 48 rute, 111 izin; mode demo/terhubung jelas; pesan penolakan; tanpa angka palsu saat gagal muat. |
 | P21 (gladi) | `scripts/cp7_p21_full_rehearsal_probe.py` + `FULL_COMPOSITION_P21.sql.gz`: pasang/rollback/pasang ulang, pakai di-commit, backup terpakai → restore, rollback = restore pra-pasang; klasifikasi beda katalog (re-parse G-01, ACL = `acldefault`) benar-benar sama makna. Ini gladi, bukan pemasangan. |

@@ -13,7 +13,7 @@ sebagai kandidat lanjutan dengan buktinya sendiri. Keputusan sumber: `OWNER_DECI
 | K4 | Penjalan server (pg_cron) untuk job staged | Job tetap lanjut saat halaman ditutup; buka ulang melanjutkan job/UUID yang sama; tiap unit `statement_timeout` 8 dtk; hak aktor diperiksa ulang tiap unit tanpa `auth.uid()`; tidak ada hitung ganda. |
 | K5 | Downstream staged sesuai urutan owner: rencana/rekomendasi produksi → Business Report → pengingat → AI | Setiap fitur memakai hasil lengkap terverifikasi (header + semua halaman + identity_hash), bukan satu halaman. |
 | K6 | Penjalan bukti PL-8 otomatis di server | Bukti diperiksa terhadap versi sumber; tidak berlaku lagi setelah koreksi/pembatalan. |
-| K7 | Optimasi capture dan hitung baru | Capture diterima sementara 4,4–4,6 dtk sebagai latar; optimasi tanpa melonggarkan angka, hash, akses atau batas 8 dtk; 3 dtk tetap sasaran, tidak ditandai tercapai sebelum terukur. |
+| K7 | Optimasi capture, hitung baru dan "Cek sumber" 5.000 target | Capture diterima sementara 4,4–4,6 dtk sebagai latar; "Cek sumber" 5.000 target dekat 8 dtk dan pernah ditolak di runner lebih lambat (`evidence/freeze-20261008/04`); optimasi tanpa melonggarkan angka, hash, akses atau batas 8 dtk; 3 dtk tetap sasaran, tidak ditandai tercapai sebelum terukur. |
 | K8 | Konfigurasi nyata CP6 | Diisi owner dari tabel pilihan/rekomendasi/transaksi tertahan; akun dan kategori nyata tidak dikarang. |
 | K9 | Hosting jangka panjang | Keputusan owner (biaya, backup, batas penyimpanan); tidak ada perubahan hosted tanpa izin terpisah. |
 

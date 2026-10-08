@@ -590,3 +590,11 @@ CP6 diisi owner. P21 nyata menunggu P20 diterima dan izin pemasangan terpisah; g
 
 **Penerimaan auditor:** belum ada; audit P20 di sesi terpisah. `independent_acceptance=false`,
 `installed_P21_acceptance=false`, `production_go=false`.
+
+**Pembaruan §16 — kandidat final dan CI.** Kandidat beku = **`9d57b7f5`** = head `cp7/integration` (fast-forward
+`ab6f1f97` → `720d6f0b` → `9d57b7f5`). Push ke integrasi menjalankan 52 workflow lama `cp7/**` untuk pertama kali pada
+kode cabang Claude; tiga merah karena uji tertinggal (pembanding JIT keuangan sebelum rumus F1/F2, flag mode staged di
+kontrol emisi, pemicu `cp7-f03-full`), diperbaiki tanpa mengubah produk atau melonggarkan oracle. Hasil akhir
+`audit-candidate/final-20261008/FREEZE_RECEIPT.json`: 66/66 workflow hijau; 15/15 kualifikasi pada `9d57b7f5`.
+Batas terbuka baru: "Cek sumber" 5.000 target dekat batas 8 dtk (ditolak sekali di runner lebih lambat; kelanjutan K7).
+`independent_acceptance=false`, `production_go=false`.

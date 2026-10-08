@@ -11868,10 +11868,10 @@
     "production_go": false
   },
   "audit_candidate_freeze_20261008": {
-    "status": "FROZEN_FOR_P20_AUDIT_PENDING_SAME_SHA_CI",
+    "status": "FROZEN_FOR_P20_AUDIT_SAME_SHA_CI_RECORDED",
     "active_writer": "Claude",
     "owner_instruction": "Bekukan kandidat audit sekarang (owner, 8 Okt 2026)",
-    "candidate_commit": "head of cp7/integration after the freeze fast-forward; exact SHA and CI runs in FREEZE_RECEIPT.json",
+    "candidate_commit": "9d57b7f576eaf4a3535c70003c3d67fdc4c8fcff",
     "non_docs_source_equal_to": "dcee3726d2634d61948a16482e76e6c4e5ce3731",
     "source_delta": "docs/cp7/audit-candidate/final-20261008/SOURCE_DELTA.json",
     "package": "docs/cp7/audit-candidate/final-20261008/",
@@ -11893,6 +11893,29 @@
     "independent_acceptance": false,
     "installed_P21_acceptance": false,
     "full_P19_acceptance": false,
-    "production_go": false
+    "production_go": false,
+    "first_freeze_commit": "720d6f0befe45394d6550469dfbd31ec16b0e0da",
+    "integration_head": "9d57b7f576eaf4a3535c70003c3d67fdc4c8fcff",
+    "freeze_receipt": "docs/cp7/audit-candidate/final-20261008/FREEZE_RECEIPT.json",
+    "ci": {
+      "workflows_decided": 66,
+      "workflows_green": 66,
+      "qualification_green_on_candidate": 15,
+      "decided_on_candidate": 20,
+      "decided_on_first_freeze_commit": 46,
+      "first_failures_fixed_tests_only": [
+        "cp7-p13-analysis.yml",
+        "cp7-f03-full.yml",
+        "cp7-shell.yml"
+      ],
+      "rerun_on_candidate": {
+        "workflow": "claude-p19-transport.yml",
+        "run": 37741354450,
+        "attempt_1": "failure (5,000-target source check over 8 s on a slower runner)",
+        "attempt_2": "success"
+      },
+      "first_failure_evidence": "docs/cp7/evidence/freeze-20261008/"
+    },
+    "open_limit_added": "5,000-target staged source check runs close to the 8 s statement limit (continuation K7)"
   }
 }
