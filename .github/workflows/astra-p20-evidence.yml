@@ -1,0 +1,20 @@
+name: Astra P20 own evidence projection
+'on':
+  push:
+    branches: [audit/astra-p20-2e605bb7-20261009]
+    paths: [audit/astra_p20/EVIDENCE_REQUESTS.json, .github/workflows/astra-p20-evidence.yml]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  read:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Read only our own completed evidence artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python audit/astra_p20/project_evidence.py
