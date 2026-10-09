@@ -1,0 +1,28 @@
+{
+  "product_sha": "2e605bb7d9b6b7903919b8df2be1443f1740140b",
+  "product_tree": "51935efb12c035496848e2a85590aa18a3ed3d76",
+  "documentation_head": "a7f37aec69abfd24226abb77b8ad2f24973525f4",
+  "docs_only_delta": [
+    "docs/cp7/ACTIVE_CONTINUATION.md",
+    "docs/cp7/CONTINUATION_AFTER_FREEZE_20261008.md",
+    "docs/cp7/OWNER_DECISIONS_20261008.md",
+    "docs/cp7/audit-candidate/continuation-final-20261009/AUDITOR_START_P20.md",
+    "docs/cp7/audit-candidate/continuation-final-20261009/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/continuation-final-20261009/K3_SCALE_CLEANUP.json",
+    "docs/cp7/audit-candidate/continuation-final-20261009/README.md",
+    "docs/cp7/audit-candidate/continuation-final-20261009/SOURCE_DELTA.json",
+    "docs/cp7/audit-candidate/continuation-final-20261009/SOURCE_DELTA_FROM_FROZEN.json",
+    "docs/cp7/evidence/k3-cleanup-20261009/03_k3_cleanup_17_second_run.log"
+  ],
+  "contracts_sha256": {
+    "docs/AUDIT_PANDUAN_PRO_MAX.md": "71bcdf3e8341d32b2b9307c35ef7e1edcf2bcfb2da849b2c528fbd355ac2a219",
+    "docs/cp7/framework-v2/01_KONTRAK_DAN_INTEGRASI.md": "635c122f764fefac55f78cbc28b269c2d1aa7d115fed9557141127d012b64b79",
+    "docs/cp7/framework-v2/04_BUKTI_DAN_ORACLE.md": "0e53dfdf0cfce0d7f5c47509065908c4cc7f331fc919a309e0ab558063567f55",
+    "docs/cp7/framework-v2/06_RUSUK_KEBUTUHAN_OWNER.md": "22c945dc4dee3696ad1fab4ff10ab6e3561e696157fad1ad88415dddae167d5e",
+    "docs/cp7/p19/P19_STAGED_SNAPSHOT_V2.md": "9f49cc43648854adf261f17c56cc64add780f7a276068280fefbdc95d64146ad",
+    "docs/cp7/k2/K2_RETENTION.json": "132cc5d1cdeb1e9aa8246f70bcf13f46d0608e502e7053552ac5830c969199d0",
+    "docs/cp7/k3/K3_CLEANUP.json": "9a9c83602410c75f8faafa2107c583e2dca604d7e461de0e12d5ef3c8a43791d"
+  },
+  "production_go": false,
+  "case_status": "NOT_RUN"
+}
