@@ -1,0 +1,7 @@
+{
+  "file": "CONTINUATION_PROJECTED_EVIDENCE.json.gz",
+  "sha256": "3a886f59b300d9f5f6aef20a2c611ee5d817d1d2ac94e8d20afbbfd9a99e5c5c",
+  "bytes": 42681,
+  "uncompressed_bytes": 288821,
+  "description": "Complete continuation verdicts, first failures and priority input-echo diagnostic; original CI zip IDs and SHA256 retained. Original audit archive remains unchanged."
+}

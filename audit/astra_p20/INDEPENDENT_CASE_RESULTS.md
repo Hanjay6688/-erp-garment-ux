@@ -1,6 +1,6 @@
 # Hasil skenario oracle mandiri
 
-44 ID skenario mandiri; hasil akhir {'PASS': 39, 'ADJUDICATED_PASS': 1, 'COUNTEREXAMPLE': 4}. Ini bukan klaim 50/50 parent selesai. Kasus 5000 mempunyai adjudikasi tertulis; first failure tidak dihapus. Browser 48 desktop/48 mobile dihitung sebagai 2 skenario, bukan 96 kasus bisnis.
+67 ID skenario mandiri; hasil akhir {'PASS': 58, 'ADJUDICATED_PASS': 5, 'COUNTEREXAMPLE': 4}. Ini bukan klaim50/50parent selesai. Semua first failure dan adjudikasi tetap terlihat. Navigasi48desktop/48mobile dihitung2skenario; dua perjalanan browser tulis dihitung2skenario tambahan.
 
 | ID | Penilaian akhir | Run terakhir | Temuan |
 |---|---|---|---|
@@ -47,6 +47,29 @@
 |AS20-47_DESKTOP_ALL48|PASS|[37880365949](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37880365949)||
 |AS20-47_MOBILE_ALL48|PASS|[37880365949](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37880365949)||
 |AS20-49_IMMUTABILITY|PASS|[37877802981](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37877802981)||
+|AS20C-01-CONSUMERS|PASS|[37894257418](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37894257418)||
+|AS20C-04-ACTOR|PASS|[37893419603](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893419603)||
+|AS20C-05-LOST|PASS|[37893074616](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893074616)||
+|AS20C-07-DISCOUNT|PASS|[37892630236](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892630236)||
+|AS20C-08-SIZE|PASS|[37892630236](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892630236)||
+|AS20C-09-CLOSED|PASS|[37893419603](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893419603)||
+|AS20C-11-RETURN|PASS|[37893419603](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893419603)||
+|AS20C-15-RACE|PASS|[37893987955](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893987955)||
+|AS20C-18-ROSTER|ADJUDICATED_PASS|[37894872845](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37894872845)||
+|AS20C-19-CARRY|PASS|[37893074616](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893074616)||
+|AS20C-22-NET|PASS|[37892440324](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892440324)||
+|AS20C-22-TIE|ADJUDICATED_PASS|[37894141652](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37894141652)||
+|AS20C-23-SPILL|PASS|[37892440324](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892440324)||
+|AS20C-24-199|PASS|[37892440324](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892440324)||
+|AS20C-25-REOPEN|PASS|[37892440324](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892440324)||
+|AS20C-27-UTF8|PASS|[37892863976](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892863976)||
+|AS20C-28-WORKERS|PASS|[37893074616](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893074616)||
+|AS20C-29-INFLIGHT|PASS|[37893074616](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893074616)||
+|AS20C-34-PUBLISH|PASS|[37893074616](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37893074616)||
+|AS20C-37-FAILED|PASS|[37892863976](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892863976)||
+|AS20C-47-WRITE-DESKTOP|ADJUDICATED_PASS|[37894527264](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37894527264)||
+|AS20C-47-WRITE-MOBILE|ADJUDICATED_PASS|[37894527264](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37894527264)||
+|AS20C-50-LATE|PASS|[37892630236](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37892630236)||
 |AS20_COMPARATOR_TIMEZONE_CONTROL|PASS|[37878853657](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37878853657)||
 
-Rangkaian seluruh percobaan, termasuk fixture/harness gagal dan perbaikannya, berada dalam `INDEPENDENT_CASE_RESULTS.json` dan `FAILURE_REGISTER.md`. Tidak ada verdict raw diubah.
+Rangkaian setiap percobaan ada pada INDEPENDENT_CASE_RESULTS.json, CONTINUATION_RESULTS.json dan FAILURE_REGISTER.md; tidak ada verdict raw diubah.

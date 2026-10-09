@@ -20,7 +20,7 @@ Panduan `AUDIT_PANDUAN_PRO_MAX.md` pada kandidat, README/prompt paket, kontrak f
 
 ## Temuan dari pengujian mandiri
 
-44 ID kasus mandiri menghasilkan 39 PASS mentah, 1 adjudikasi PASS untuk penolakan 5.001 yang benar, dan 4 counterexample dengan batas berbeda seperti tabel. Ini tidak sama dengan mengklaim 50/50 parent selesai.
+Pada laporan awal,44 ID kasus mandiri menghasilkan39 PASS mentah,1adjudikasiPASS untuk penolakan 5.001 yang benar, dan 4 counterexample dengan batas berbeda seperti tabel. Ini tidak sama dengan mengklaim 50/50 parent selesai.
 
 | ID | Tingkat | Fakta yang terbukti | Batas dampak |
 |---|---|---|---|
@@ -94,3 +94,17 @@ Backup mandiri membandingkan556tabel dengan SHA256 atas seluruh row yang dikodek
 Tidak ada klaim perubahan uang/stok dari F01, penghapusan dump dari F03, atau akses korupsi biasa dari F04. K4, tujuan backup eksternal, pengiriman WA nyata, delapan konfigurasi operasional, serta penerimaan PR44 yang bebas konflik tetap dibedakan dari bug. Rincian subkasus yang belum dibuktikan penuh tersurat dalam `COVERAGE_50.md`; tidak disembunyikan oleh total test hijau.
 
 **Syarat sebelum izin pemasangan:** kandidat revisi yang menutup F01 dan memenuhi isolasi operasional yang akan dipakai; gate F05 sehat; retest auditor pada SHA/tree revisi; penerimaan bebas konflik untuk PR44; kelengkapan release P21 dan konfigurasi tujuan backup yang benar-benar persisten; lalu izin pemasangan owner. Audit ini tidak memasang cron, backup, aplikasi, atau koneksi WA ke sistem asli. Tindak lanjut writer digabung dalam satu [handoff](WRITER_HANDOFF.md), sementara asal temuan tetap dipisahkan.
+
+## Kelanjutan independen yang selesai
+
+Kelanjutan menambahkan **23 ID: 19 PASS mentah dan 4 ADJUDICATED_PASS**. Total sekarang **67 ID: 58 PASS mentah, 5 ADJUDICATED_PASS, dan 4 COUNTEREXAMPLE**. First failure tetap tersimpan. Ini bukan klaim bahwa 50 parent sudah tertutup seluruhnya. Kandidat produk tetap `2e605bb7`; belum ada revisi produk untuk diretest. **F01–F05 tetap terbuka.**
+
+- **Uang dan stok:** invoice besar dengan diskon; extra jasa hanya untuk ukuran yang menerima; kredit retur supplier Rp36,55 ke invoice lain; koreksi setelah tutup buku; invoice bahan datang setelah penjualan dan retur, lalu rekonsiliasi biaya bahan, FG, dan COGS. Semua menggunakan angka pembanding auditor.
+- **Perencanaan:** kebutuhan130 dikurangi supply5 menyisakan125; sisa kapasitas3PCS dan beban di luar kalender menjadi UNKNOWN; batas sampel PL5 pada199/200PCS; bukti grup habis setelah barang dibuka kembali; prioritas berdasarkan deadline dan ID. Uji prioritas adalah uji kernel, bukan klaim semua adapter posting telah diperiksa.
+- **Benturan dan pemulihan:** dua penerimaan19+17 berebut30PCS; dua worker analisis; dua publikasi revisi laporan; dua payroll berebut carry4×2,50; receipt yang responsnya dibuang setelah commit. Semuanya lulus pada skenario tersebut. F01 lintas versi rencana adalah kasus berbeda dan tetap blocker.
+- **Akses dan retensi:** sebelas endpoint cache, laporan, pengingat, dan AI ditolak setelah izin dicabut. Job yang benar-benar gagal tetap mengikuti batas retensi7hari. Label Unicode dipertahankan dengan panjang dan hash UTF8 yang tepat.
+- **Browser nyata:** desktop GradeA dan HP GradeB menjalankan buat invoice13×29,91, posting, bayar137,03, lalu retur4 senilai119,64. Hasilnya FG32, AR132,16, pendapatan269,19, dan COGS148,14. Respons retur diHP diputus setelah server commit; reload/reconcile dengan UUID dan body yang sama tetap menghasilkan satu retur. Pembatalan pembayaran, retur, lalu penjualan mengembalikan41FG dan semua saldo GL awal.
+
+Empat adjudikasi tambahan menjelaskan kesalahan pembanding auditor: urutan input yang dikembalikan, akun WIP untuk accrual attendance sesuai CP3, serta dua perjalanan browser dengan akun baru bersaldo nol setelah pembatalan. Browser tidak diulang: seluruh aksi sudah berjalan dan fakta akhir tersimpan lengkap. Perbandingan mencakup semua ID akun dengan saldo awal nol bagi akun baru; kontrol tambahan0,01 pada akun lama maupun baru terdeteksi. Status mentah INCOMPLETE tetap disimpan dan tidak diganti diam-diam.
+
+Bukti per kasus, percobaan awal, pemulihan, dan tautan run ada di [CONTINUATION_RESULTS.md](CONTINUATION_RESULTS.md). Batas yang masih tersisa—antara lain tepat180hari PL5, pemilihan otomatis carry paling awal, pabrik tanpa produk, seluruh kategori perubahan PR44, serta semua kombinasi UI—tetap terlihat di COVERAGE_50.md. Kekurangan cakupan audit tidak dijadikan tugas memperbaiki produk.

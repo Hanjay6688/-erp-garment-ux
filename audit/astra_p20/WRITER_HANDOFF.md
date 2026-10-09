@@ -63,3 +63,13 @@ Status penerimaan: **HOLD**. Perbaikan paling penting adalah F01. Dokumen ini ti
 3. Jadwal dan backup tetap belum dipasang pada database asli. Sesudah penerimaan yang diperlukan, izin pemasangan owner, konfigurasi nyata yang sudah terdaftar, dan tujuan backup di luar runner harus konkret; gladi P21 bukan pemasangan.
 4. K4 (lanjut di server setelah browser ditutup), pengiriman WA nyata, serta konfigurasi operasional yang memang masih pending bukan bug baru dan tidak dibuka ulang sebagai keputusan bisnis.
 5. Semua perbaikan dilakukan writer pada jalurnya sendiri. Tidak ada perubahan kode aplikasi, cabang writer/main/integration, deployment, atau hosted database dari audit ini.
+
+## Tambahan setelah kelanjutan mandiri
+
+23 kasus tambahan sudah dituntaskan pada produk yang sama; tidak ada temuan produk baru yang terkonfirmasi dari kelanjutan ini. Lihat CONTINUATION_RESULTS.md dan REPORT.md untuk bukti per kasus. F01–F05 tetap berlaku. Kontrol tambahan yang lulus tidak membuktikan temuan lama sudah diperbaiki.
+
+Writer tidak perlu memperbaiki urutan input yang dikembalikan allocator, akun WIP attendance, akun bersaldo nol setelah pembatalan, atau penolakan akibat setup aktor dan mode QC auditor. Kesalahan tersebut telah dipisahkan, diuji atau direkonsiliasi terhadap fakta runtime dan kontrak, dengan first failure tetap tersimpan. Kode produk tidak diubah.
+
+Bukti positif tambahan untuk memilih regresi revisi: diskon invoice besar; extra jasa per ukuran; invoice bahan datang setelah jual/retur; kredit retur supplier lintas invoice; koreksi setelah tutup buku; payroll pekerja bernama sama; benturan QC, worker, publikasi laporan, dan carry; pencabutan izin pada11endpoint; batas PL5; PL8 setelah grup dibuka kembali; netting, jadwal, dan prioritas; serta perjalanan browser GradeA/B dengan respons hilang dan pembatalan lengkap. Asal oracle mandiri tetap dipisahkan dari1.256eksekusi suite writer.
+
+Saat kandidat revisi diserahkan, retest F01–F05 dan bagian yang mungkin terdampak perubahan. Tidak perlu mengulang seluruh kasus yang aman tanpa alasan. PR44 tetap memerlukan penerimaan auditor bebas konflik. `production_go:false`.

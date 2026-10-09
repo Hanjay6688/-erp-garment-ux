@@ -1,0 +1,9 @@
+{
+  "run_id": 37894527264,
+  "inspected": [
+    "ASTRA_AS20C-47-WRITE-DESKTOP_RETURN.png",
+    "ASTRA_AS20C-47-WRITE-MOBILE_RETURN.png"
+  ],
+  "scope": "Screenshot review of real connected return history and invoice state. Runtime separately asserts grade A/B and viewport no-horizontal-overflow. Not a complete usability/ergonomics review.",
+  "production_go": false
+}

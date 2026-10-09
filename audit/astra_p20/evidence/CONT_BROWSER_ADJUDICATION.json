@@ -1,0 +1,62 @@
+{
+  "source_file": "CONT_BROWSER_FIRST_LOG_VERDICTS.json",
+  "source_sha256": "4cfc0e058e89ef90e3387b9b2c3515867f2027de0a4a858d67f38a631d0cbd47",
+  "product_sha": "2e605bb7d9b6b7903919b8df2be1443f1740140b",
+  "run_id": 37894527264,
+  "job_id": 113702728827,
+  "evidence_origin": "INDEPENDENT_RUNTIME_WITNESS_ADJUDICATION",
+  "production_go": false,
+  "results": [
+    {
+      "case_id": "AS20C-47-WRITE-DESKTOP",
+      "assessment": "ADJUDICATED_PASS",
+      "original_status": "INCOMPLETE",
+      "run_id": 37894527264,
+      "raw_first_failure_preserved": true,
+      "comparison": "ALL_ACCOUNTS_UNION_DEFAULT_ZERO; every nonzero difference retained",
+      "introduced_zero_accounts": [
+        "370746aa-abe3-418b-b912-b8a63c9ffcc1",
+        "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+        "58789e7b-f65b-4be5-a415-4cace480d211",
+        "86ddff01-e556-4777-ad30-1943f3200224"
+      ],
+      "negative_controls": [
+        "EXISTING_ACCOUNT_PLUS_0.01_DETECTED",
+        "NEW_ACCOUNT_PLUS_0.01_DETECTED"
+      ],
+      "complete_UI_actions": 7,
+      "all_HTTP200": true,
+      "final_FG": 41,
+      "final_all_GL_delta": {},
+      "reversed_original_payment_and_return": true,
+      "raw32_value39584_unchanged": true,
+      "actual_lost_response": false,
+      "replay_UUID_body_assertion": null,
+      "note": "No rerun: all commands already executed. Remaining assertions evaluated from complete captured final state; no product/source fact changed."
+    },
+    {
+      "case_id": "AS20C-47-WRITE-MOBILE",
+      "assessment": "ADJUDICATED_PASS",
+      "original_status": "INCOMPLETE",
+      "run_id": 37894527264,
+      "raw_first_failure_preserved": true,
+      "comparison": "ALL_ACCOUNTS_UNION_DEFAULT_ZERO; every nonzero difference retained",
+      "introduced_zero_accounts": [
+        "b96cb024-3fb4-4c1c-940c-9c89451781c3"
+      ],
+      "negative_controls": [
+        "EXISTING_ACCOUNT_PLUS_0.01_DETECTED",
+        "NEW_ACCOUNT_PLUS_0.01_DETECTED"
+      ],
+      "complete_UI_actions": 7,
+      "all_HTTP200": true,
+      "final_FG": 41,
+      "final_all_GL_delta": {},
+      "reversed_original_payment_and_return": true,
+      "raw32_value39584_unchanged": true,
+      "actual_lost_response": true,
+      "replay_UUID_body_assertion": "Earlier frozen runtime assertion passed before the recorded final comparator failure",
+      "note": "No rerun: all commands already executed. Remaining assertions evaluated from complete captured final state; no product/source fact changed."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "run_id": 37894527264,
+    "artifact_id": 11599293943,
+    "name": "ASTRA_AS20C-47-WRITE-DESKTOP_RETURN.png",
+    "sha256": "0ea58716ad632dcab9feaca656a403f72133642507d00112ec3360e8672e07ff"
+  },
+  {
+    "run_id": 37894527264,
+    "artifact_id": 11599293943,
+    "name": "ASTRA_AS20C-47-WRITE-MOBILE_RETURN.png",
+    "sha256": "ab55cb9f0554f9f3e2e5c59c86e10fb8764a0b9860232f640956ed856029e5b3"
+  },
+  {
+    "run_id": 37894527264,
+    "artifact_id": 11599293943,
+    "name": "ASTRA_AS20C-47-WRITE-DESKTOP_FAILURE.png",
+    "sha256": "1449b9df7a452cd49ca38d2fb4bbf4ade65788f114288d7fd94a89e998ac7cfe"
+  },
+  {
+    "run_id": 37894527264,
+    "artifact_id": 11599293943,
+    "name": "ASTRA_AS20C-47-WRITE-MOBILE_FAILURE.png",
+    "sha256": "815e9ff9d8c9fc758a4e3a4f5d5689d5b790e294ed1925e76e793ac663bf1064"
+  }
+]

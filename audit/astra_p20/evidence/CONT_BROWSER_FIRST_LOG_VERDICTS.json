@@ -1,0 +1,1403 @@
+{
+  "run_id": 37894527264,
+  "job_id": 113702728827,
+  "events": [
+    {
+      "group": "AUDITOR_BROWSER_ASTRA_P20_CONT_UI",
+      "case": "AS20C-47-WRITE-DESKTOP",
+      "status": "INCOMPLETE",
+      "audit_case_id": "AS20C-47-WRITE-DESKTOP",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    '20a7533b-5578-4799-9973-90ab000e9e43': '674.86',\n+   '370746aa-abe3-418b-b912-b8a63c9ffcc1': '0.00',\n+   '377d37ea-56a9-4ebc-853a-0158a78bb4ff': '0.00',\n    '3a2f8f69-ccf3-46ea-b602-11688c3e1d32': '-84.87',\n+   '58789e7b-f65b-4be5-a415-4cace480d211': '0.00',\n    '5f27ccb9-107f-4d19-a52c-e7eef8e9d69b': '-1841.82',\n+   '86ddff01-e556-4777-ad30-1943f3200224': '0.00',\n    '9ce89e21-9a21-40e5-859d-237b89d5a767': '1759.00',\n    'ad29d857-c523-48d4-8ad0-1275e999a4c3': '0.00',\n    'b93886b8-30ee-4b3b-80c5-a9c868dd30e6': '-903.01',\n    'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': '395.84'\n  }\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    '20a7533b-5578-4799-9973-90ab000e9e43': '674.86',\n+   '370746aa-abe3-418b-b912-b8a63c9ffcc1': '0.00',\n+   '377d37ea-56a9-4ebc-853a-0158a78bb4ff': '0.00',\n    '3a2f8f69-ccf3-46ea-b602-11688c3e1d32': '-84.87',\n+   '58789e7b-f65b-4be5-a415-4cace480d211': '0.00',\n    '5f27ccb9-107f-4d19-a52c-e7eef8e9d69b': '-1841.82',\n+   '86ddff01-e556-4777-ad30-1943f3200224': '0.00',\n    '9ce89e21-9a21-40e5-859d-237b89d5a767': '1759.00',\n    'ad29d857-c523-48d4-8ad0-1275e999a4c3': '0.00',\n    'b93886b8-30ee-4b3b-80c5-a9c868dd30e6': '-903.01',\n    'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': '395.84'\n  }\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/browser_cont.mjs:71:151)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3",
+      "observations": {
+        "before": {
+          "document": null,
+          "returns": [],
+          "payments": [],
+          "positions": [
+            [
+              "170bc43d-73bd-4928-be26-ab185eebab70",
+              "GRADE_A",
+              "41"
+            ]
+          ],
+          "available": "41",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "674.86",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-84.87",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1841.82",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-903.01",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "395.84"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "draft": {
+          "document": {
+            "id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "items": [
+              {
+                "id": "23c054b7-31e8-4e24-8865-7a9327ee2f66",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "be4ba714-0c2d-4823-a15d-fe277af0ba6f",
+                "product_sku": "AS20-0624118a11",
+                "product_name": "AS20-0624118a11",
+                "commercial_sku": "AS20-0624118a11"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0624118a11",
+            "status": "DRAFT",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "DRAFT_PREVIEW",
+              "net_total": "388.83",
+              "paid_total": "0.00",
+              "gross_total": "388.83",
+              "open_balance": null,
+              "return_total": "0.00"
+            },
+            "line_count": "1",
+            "customer_id": "9199e6af-1fc8-4eae-aabb-a278696749c9",
+            "location_id": "170bc43d-73bd-4928-be26-ab185eebab70",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "1",
+            "reserved_qty": "13",
+            "returned_qty": "0",
+            "review_token": "5fb4bee72ba3f0b932ead5f830c0f4cf",
+            "customer_name": "CP6 E AS20-0624118a11 customer",
+            "location_name": "AS20-0624118a11",
+            "payment_terms": null
+          },
+          "returns": [],
+          "payments": [],
+          "positions": [
+            [
+              "170bc43d-73bd-4928-be26-ab185eebab70",
+              "GRADE_A",
+              "28"
+            ]
+          ],
+          "available": "28",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "674.86",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-84.87",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1841.82",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-903.01",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "395.84"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "post": {
+          "document": {
+            "id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "items": [
+              {
+                "id": "23c054b7-31e8-4e24-8865-7a9327ee2f66",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "be4ba714-0c2d-4823-a15d-fe277af0ba6f",
+                "product_sku": "AS20-0624118a11",
+                "product_name": "AS20-0624118a11",
+                "commercial_sku": "AS20-0624118a11"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0624118a11",
+            "status": "POSTED",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "ACTIVE_RECEIVABLE",
+              "net_total": "388.83",
+              "paid_total": "0.00",
+              "gross_total": "388.83",
+              "open_balance": "388.83",
+              "return_total": "0.00"
+            },
+            "line_count": "1",
+            "customer_id": "9199e6af-1fc8-4eae-aabb-a278696749c9",
+            "location_id": "170bc43d-73bd-4928-be26-ab185eebab70",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "2",
+            "reserved_qty": "0",
+            "returned_qty": "0",
+            "review_token": "e5a50124ae93538c3f06552fa6a03499",
+            "customer_name": "CP6 E AS20-0624118a11 customer",
+            "location_name": "AS20-0624118a11",
+            "payment_terms": null
+          },
+          "returns": [],
+          "payments": [],
+          "positions": [
+            [
+              "170bc43d-73bd-4928-be26-ab185eebab70",
+              "GRADE_A",
+              "28"
+            ]
+          ],
+          "available": "28",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "460.88",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "213.98",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "388.83",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-84.87",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1841.82",
+            "86ddff01-e556-4777-ad30-1943f3200224": "-388.83",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-903.01",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "395.84"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "paid": {
+          "document": {
+            "id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "items": [
+              {
+                "id": "23c054b7-31e8-4e24-8865-7a9327ee2f66",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "be4ba714-0c2d-4823-a15d-fe277af0ba6f",
+                "product_sku": "AS20-0624118a11",
+                "product_name": "AS20-0624118a11",
+                "commercial_sku": "AS20-0624118a11"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0624118a11",
+            "status": "PARTIAL_PAID",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "ACTIVE_RECEIVABLE",
+              "net_total": "388.83",
+              "paid_total": "137.03",
+              "gross_total": "388.83",
+              "open_balance": "251.80",
+              "return_total": "0.00"
+            },
+            "line_count": "1",
+            "customer_id": "9199e6af-1fc8-4eae-aabb-a278696749c9",
+            "location_id": "170bc43d-73bd-4928-be26-ab185eebab70",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "3",
+            "reserved_qty": "0",
+            "returned_qty": "0",
+            "review_token": "ea8036fdc9a09e01963bd2793cb87f17",
+            "customer_name": "CP6 E AS20-0624118a11 customer",
+            "location_name": "AS20-0624118a11",
+            "payment_terms": null
+          },
+          "returns": [],
+          "payments": [
+            [
+              "fadbd772-395d-411f-815e-03c38b4d1f68",
+              "POSTED",
+              "137.03"
+            ]
+          ],
+          "positions": [
+            [
+              "170bc43d-73bd-4928-be26-ab185eebab70",
+              "GRADE_A",
+              "28"
+            ]
+          ],
+          "available": "28",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "460.88",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "213.98",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "251.80",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-84.87",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "137.03",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1841.82",
+            "86ddff01-e556-4777-ad30-1943f3200224": "-388.83",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-903.01",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "395.84"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "returned": {
+          "document": {
+            "id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "items": [
+              {
+                "id": "23c054b7-31e8-4e24-8865-7a9327ee2f66",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "be4ba714-0c2d-4823-a15d-fe277af0ba6f",
+                "product_sku": "AS20-0624118a11",
+                "product_name": "AS20-0624118a11",
+                "commercial_sku": "AS20-0624118a11"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0624118a11",
+            "status": "PARTIAL_PAID",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "ACTIVE_RECEIVABLE",
+              "net_total": "269.19",
+              "paid_total": "137.03",
+              "gross_total": "388.83",
+              "open_balance": "132.16",
+              "return_total": "119.64"
+            },
+            "line_count": "1",
+            "customer_id": "9199e6af-1fc8-4eae-aabb-a278696749c9",
+            "location_id": "170bc43d-73bd-4928-be26-ab185eebab70",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "4",
+            "reserved_qty": "0",
+            "returned_qty": "4",
+            "review_token": "1c265087dd022ded28c726228096c315",
+            "customer_name": "CP6 E AS20-0624118a11 customer",
+            "location_name": "AS20-0624118a11",
+            "payment_terms": null
+          },
+          "returns": [
+            [
+              "a0b57fe1-885d-4bc7-8388-0cb4b9921873",
+              "POSTED"
+            ]
+          ],
+          "payments": [
+            [
+              "fadbd772-395d-411f-815e-03c38b4d1f68",
+              "POSTED",
+              "137.03"
+            ]
+          ],
+          "positions": [
+            [
+              "170bc43d-73bd-4928-be26-ab185eebab70",
+              "GRADE_A",
+              "32"
+            ]
+          ],
+          "available": "32",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "526.72",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "148.14",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "132.16",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-84.87",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "137.03",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1841.82",
+            "86ddff01-e556-4777-ad30-1943f3200224": "-269.19",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-903.01",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "395.84"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "final": {
+          "document": {
+            "id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "items": [
+              {
+                "id": "23c054b7-31e8-4e24-8865-7a9327ee2f66",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "be4ba714-0c2d-4823-a15d-fe277af0ba6f",
+                "product_sku": "AS20-0624118a11",
+                "product_name": "AS20-0624118a11",
+                "commercial_sku": "AS20-0624118a11"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0624118a11",
+            "status": "REVERSED",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "INACTIVE_DOCUMENT",
+              "net_total": "388.83",
+              "paid_total": "0.00",
+              "gross_total": "388.83",
+              "open_balance": null,
+              "return_total": "0.00"
+            },
+            "line_count": "1",
+            "customer_id": "9199e6af-1fc8-4eae-aabb-a278696749c9",
+            "location_id": "170bc43d-73bd-4928-be26-ab185eebab70",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "7",
+            "reserved_qty": "0",
+            "returned_qty": "0",
+            "review_token": "7d0c9f5b2b5ba736148033e273853b73",
+            "customer_name": "CP6 E AS20-0624118a11 customer",
+            "location_name": "AS20-0624118a11",
+            "payment_terms": null
+          },
+          "returns": [
+            [
+              "a0b57fe1-885d-4bc7-8388-0cb4b9921873",
+              "REVERSED"
+            ]
+          ],
+          "payments": [
+            [
+              "fadbd772-395d-411f-815e-03c38b4d1f68",
+              "REVERSED",
+              "137.03"
+            ]
+          ],
+          "positions": [
+            [
+              "170bc43d-73bd-4928-be26-ab185eebab70",
+              "GRADE_A",
+              "41"
+            ]
+          ],
+          "available": "41",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "674.86",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "0.00",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "0.00",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-84.87",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1841.82",
+            "86ddff01-e556-4777-ad30-1943f3200224": "0.00",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-903.01",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "395.84"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        }
+      },
+      "receipts": [
+        {
+          "action": "CREATE",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "CREATE",
+            "status": "DRAFT",
+            "sale_id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "request_id": "18ff5d25-0277-4849-ba9e-e7ff530528ba",
+            "row_version": "1",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "POST",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "POST",
+            "status": "POSTED",
+            "sale_id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "request_id": "65a4127f-382b-44c3-b189-9fb76905a24b",
+            "row_version": "2",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "PAYMENT",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "PAYMENT",
+            "status": "PARTIAL_PAID",
+            "sale_id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "payment_id": "fadbd772-395d-411f-815e-03c38b4d1f68",
+            "request_id": "184e5317-785e-415f-9f95-cbae5df474da",
+            "row_version": "3",
+            "payment_status": "POSTED",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "RETURN",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "RETURN",
+            "status": "PARTIAL_PAID",
+            "sale_id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "return_id": "a0b57fe1-885d-4bc7-8388-0cb4b9921873",
+            "request_id": "9e309267-4643-4b32-abff-fa3e3cb01b3c",
+            "row_version": "4",
+            "return_status": "POSTED",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "PAYMENT_REVERSE",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "PAYMENT_REVERSE",
+            "status": "POSTED",
+            "sale_id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "payment_id": "fadbd772-395d-411f-815e-03c38b4d1f68",
+            "request_id": "055865ff-f535-4cc4-a484-0af7b0606e0c",
+            "row_version": "5",
+            "payment_status": "REVERSED",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "RETURN_REVERSE",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "RETURN_REVERSE",
+            "status": "POSTED",
+            "sale_id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "return_id": "a0b57fe1-885d-4bc7-8388-0cb4b9921873",
+            "request_id": "539bd7bb-0743-4347-ac3b-32e342ca19b0",
+            "row_version": "6",
+            "return_status": "REVERSED",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "SALE_REVERSE",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "SALE_REVERSE",
+            "status": "REVERSED",
+            "sale_id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+            "request_id": "fb18de7f-8b3f-499f-ae66-258d02c56a9e",
+            "row_version": "7",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        }
+      ],
+      "errors": [],
+      "body": "PENJUALAN\nPenjualan & Invoice\n\nPeriksa invoice, barang yang dipesan, retur, dan sisa pembayaran.\n\nMuat ulang invoice\nBuat invoice\n\nWorkspace authoritative sudah dimuat ulang.\n\nTelusuri invoice\nCari\nBrowse semua\nFilter\nUrutkan halaman ini\nUrutan standar\nNama / nomor A–Z\nNama / nomor Z–A\nCari nomor invoice atau pelanggan\nStatus invoice\nSemua status\nDraft · stok dipesan\nBelum lunas\nDibayar sebagian\nLunas\nDraft dibatalkan\nPenjualan dibatalkan\nCari invoice\nPencarian menelusuri daftar yang berhak Anda lihat. Urutan hanya mengatur halaman yang sedang tampil.\nDaftar invoice\nAS20-0624118a11\nCP6 E AS20-0624118a11 customer · 13 PCS\n9 Okt 2026, 13.38 WIB\nPenjualan dibatalkan\nRp388,83\nTotal 1\nInvoice sebelumnya\nInvoice berikutnya\nPENJUALAN DIBATALKAN\nAS20-0624118a11\n\nCP6 E AS20-0624118a11 customer · AS20-0624118a11\n\n9 Okt 2026, 13.38 WIB\n\n13 PCS dalam invoice · 0 PCS masih dipesan · 0 PCS sudah diretur.\n\nBruto Rp388,83\n\nRetur Rp0 · bersih Rp388,83\n\nPembayaran tercatat Rp0\n\nDokumen ini sudah dibatalkan.\n\nRiwayat pembetulan nota\nAS20-0624118a11 · CP6-RACE-S\n\nAS20-0624118a11 · CP6 Race Brand · 13 PCS\n\nRp29,91 per PCS · potongan Rp0 · jumlah Rp388,83\n\nSKU fisik AS20-0624118a11. Kelompok invoice mengikuti tanggal transaksi.",
+      "state": {
+        "document": {
+          "id": "0fa487c5-b1df-4d93-8e13-35c8033910cd",
+          "items": [
+            {
+              "id": "23c054b7-31e8-4e24-8865-7a9327ee2f66",
+              "notes": null,
+              "qty_pcs": "13",
+              "financial": {
+                "discount": "0.00",
+                "line_total": "388.83",
+                "unit_price": "29.91"
+              },
+              "size_code": "CP6-RACE-S",
+              "brand_name": "CP6 Race Brand",
+              "product_id": "be4ba714-0c2d-4823-a15d-fe277af0ba6f",
+              "product_sku": "AS20-0624118a11",
+              "product_name": "AS20-0624118a11",
+              "commercial_sku": "AS20-0624118a11"
+            }
+          ],
+          "notes": null,
+          "number": "AS20-0624118a11",
+          "status": "REVERSED",
+          "qty_pcs": "13",
+          "due_date": null,
+          "financial": {
+            "basis": "CURRENT_NATIVE_DOCUMENT",
+            "state": "INACTIVE_DOCUMENT",
+            "net_total": "388.83",
+            "paid_total": "0.00",
+            "gross_total": "388.83",
+            "open_balance": null,
+            "return_total": "0.00"
+          },
+          "line_count": "1",
+          "customer_id": "9199e6af-1fc8-4eae-aabb-a278696749c9",
+          "location_id": "170bc43d-73bd-4928-be26-ab185eebab70",
+          "physical_at": "2026-10-09T06:38:00+00:00",
+          "row_version": "7",
+          "reserved_qty": "0",
+          "returned_qty": "0",
+          "review_token": "7d0c9f5b2b5ba736148033e273853b73",
+          "customer_name": "CP6 E AS20-0624118a11 customer",
+          "location_name": "AS20-0624118a11",
+          "payment_terms": null
+        },
+        "returns": [
+          [
+            "a0b57fe1-885d-4bc7-8388-0cb4b9921873",
+            "REVERSED"
+          ]
+        ],
+        "payments": [
+          [
+            "fadbd772-395d-411f-815e-03c38b4d1f68",
+            "REVERSED",
+            "137.03"
+          ]
+        ],
+        "positions": [
+          [
+            "170bc43d-73bd-4928-be26-ab185eebab70",
+            "GRADE_A",
+            "41"
+          ]
+        ],
+        "available": "41",
+        "accounts": {
+          "20a7533b-5578-4799-9973-90ab000e9e43": "674.86",
+          "370746aa-abe3-418b-b912-b8a63c9ffcc1": "0.00",
+          "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "0.00",
+          "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-84.87",
+          "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+          "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1841.82",
+          "86ddff01-e556-4777-ad30-1943f3200224": "0.00",
+          "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+          "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+          "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-903.01",
+          "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "395.84"
+        },
+        "raw": [
+          "32.000000",
+          "395.840000000000"
+        ],
+        "unbalanced_journals": []
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_ASTRA_P20_CONT_UI",
+      "case": "AS20C-47-WRITE-MOBILE",
+      "status": "INCOMPLETE",
+      "audit_case_id": "AS20C-47-WRITE-MOBILE",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    '20a7533b-5578-4799-9973-90ab000e9e43': '1349.72',\n    '370746aa-abe3-418b-b912-b8a63c9ffcc1': '0.00',\n    '377d37ea-56a9-4ebc-853a-0158a78bb4ff': '0.00',\n    '3a2f8f69-ccf3-46ea-b602-11688c3e1d32': '-169.74',\n...\n    'b93886b8-30ee-4b3b-80c5-a9c868dd30e6': '-1806.02',\n+   'b96cb024-3fb4-4c1c-940c-9c89451781c3': '0.00',\n    'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': '791.68'\n  }\n",
+      "stack": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n... Skipped lines\n\n  {\n    '20a7533b-5578-4799-9973-90ab000e9e43': '1349.72',\n    '370746aa-abe3-418b-b912-b8a63c9ffcc1': '0.00',\n    '377d37ea-56a9-4ebc-853a-0158a78bb4ff': '0.00',\n    '3a2f8f69-ccf3-46ea-b602-11688c3e1d32': '-169.74',\n...\n    'b93886b8-30ee-4b3b-80c5-a9c868dd30e6': '-1806.02',\n+   'b96cb024-3fb4-4c1c-940c-9c89451781c3': '0.00',\n    'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': '791.68'\n  }\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/browser_cont.mjs:71:151)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:167:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:178:3",
+      "observations": {
+        "before": {
+          "document": null,
+          "returns": [],
+          "payments": [],
+          "positions": [
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_A",
+              "41"
+            ]
+          ],
+          "available": "41",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "1349.72",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "0.00",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "0.00",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-169.74",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1924.64",
+            "86ddff01-e556-4777-ad30-1943f3200224": "0.00",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-1806.02",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "791.68"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "draft": {
+          "document": {
+            "id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "items": [
+              {
+                "id": "e3b0b936-c332-4691-af7c-5f454e832716",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "dbbda464-ce5b-4f98-bb6b-d60bb5f90be3",
+                "product_sku": "AS20-0136f91410",
+                "product_name": "AS20-0136f91410",
+                "commercial_sku": "AS20-0136f91410"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0136f91410",
+            "status": "DRAFT",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "DRAFT_PREVIEW",
+              "net_total": "388.83",
+              "paid_total": "0.00",
+              "gross_total": "388.83",
+              "open_balance": null,
+              "return_total": "0.00"
+            },
+            "line_count": "1",
+            "customer_id": "a0fd51c0-a5da-455a-839a-254dfa3c6a8f",
+            "location_id": "d7f651fe-68a4-4575-908e-f10d977f6f63",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "1",
+            "reserved_qty": "13",
+            "returned_qty": "0",
+            "review_token": "211ae57c7d3b72390db03f2512eb0a86",
+            "customer_name": "CP6 E AS20-0136f91410 customer",
+            "location_name": "AS20-0136f91410",
+            "payment_terms": null
+          },
+          "returns": [],
+          "payments": [],
+          "positions": [
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_A",
+              "28"
+            ]
+          ],
+          "available": "28",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "1349.72",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "0.00",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "0.00",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-169.74",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1924.64",
+            "86ddff01-e556-4777-ad30-1943f3200224": "0.00",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-1806.02",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "791.68"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "post": {
+          "document": {
+            "id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "items": [
+              {
+                "id": "e3b0b936-c332-4691-af7c-5f454e832716",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "dbbda464-ce5b-4f98-bb6b-d60bb5f90be3",
+                "product_sku": "AS20-0136f91410",
+                "product_name": "AS20-0136f91410",
+                "commercial_sku": "AS20-0136f91410"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0136f91410",
+            "status": "POSTED",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "ACTIVE_RECEIVABLE",
+              "net_total": "388.83",
+              "paid_total": "0.00",
+              "gross_total": "388.83",
+              "open_balance": "388.83",
+              "return_total": "0.00"
+            },
+            "line_count": "1",
+            "customer_id": "a0fd51c0-a5da-455a-839a-254dfa3c6a8f",
+            "location_id": "d7f651fe-68a4-4575-908e-f10d977f6f63",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "2",
+            "reserved_qty": "0",
+            "returned_qty": "0",
+            "review_token": "c9a8302fb42353c87d4c16a44e48c22b",
+            "customer_name": "CP6 E AS20-0136f91410 customer",
+            "location_name": "AS20-0136f91410",
+            "payment_terms": null
+          },
+          "returns": [],
+          "payments": [],
+          "positions": [
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_A",
+              "28"
+            ]
+          ],
+          "available": "28",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "1135.74",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "213.98",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "388.83",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-169.74",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1924.64",
+            "86ddff01-e556-4777-ad30-1943f3200224": "-388.83",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-1806.02",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "791.68"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "paid": {
+          "document": {
+            "id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "items": [
+              {
+                "id": "e3b0b936-c332-4691-af7c-5f454e832716",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "dbbda464-ce5b-4f98-bb6b-d60bb5f90be3",
+                "product_sku": "AS20-0136f91410",
+                "product_name": "AS20-0136f91410",
+                "commercial_sku": "AS20-0136f91410"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0136f91410",
+            "status": "PARTIAL_PAID",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "ACTIVE_RECEIVABLE",
+              "net_total": "388.83",
+              "paid_total": "137.03",
+              "gross_total": "388.83",
+              "open_balance": "251.80",
+              "return_total": "0.00"
+            },
+            "line_count": "1",
+            "customer_id": "a0fd51c0-a5da-455a-839a-254dfa3c6a8f",
+            "location_id": "d7f651fe-68a4-4575-908e-f10d977f6f63",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "3",
+            "reserved_qty": "0",
+            "returned_qty": "0",
+            "review_token": "60f256b15d170b5d61a3608f59342caf",
+            "customer_name": "CP6 E AS20-0136f91410 customer",
+            "location_name": "AS20-0136f91410",
+            "payment_terms": null
+          },
+          "returns": [],
+          "payments": [
+            [
+              "93cd200f-9f55-44f8-af5b-b0e2e1495eb8",
+              "POSTED",
+              "137.03"
+            ]
+          ],
+          "positions": [
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_A",
+              "28"
+            ]
+          ],
+          "available": "28",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "1135.74",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "213.98",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "251.80",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-169.74",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1924.64",
+            "86ddff01-e556-4777-ad30-1943f3200224": "-388.83",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-1806.02",
+            "b96cb024-3fb4-4c1c-940c-9c89451781c3": "137.03",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "791.68"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "committed_without_response": {
+          "document": {
+            "id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "items": [
+              {
+                "id": "e3b0b936-c332-4691-af7c-5f454e832716",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "dbbda464-ce5b-4f98-bb6b-d60bb5f90be3",
+                "product_sku": "AS20-0136f91410",
+                "product_name": "AS20-0136f91410",
+                "commercial_sku": "AS20-0136f91410"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0136f91410",
+            "status": "PARTIAL_PAID",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "ACTIVE_RECEIVABLE",
+              "net_total": "269.19",
+              "paid_total": "137.03",
+              "gross_total": "388.83",
+              "open_balance": "132.16",
+              "return_total": "119.64"
+            },
+            "line_count": "1",
+            "customer_id": "a0fd51c0-a5da-455a-839a-254dfa3c6a8f",
+            "location_id": "d7f651fe-68a4-4575-908e-f10d977f6f63",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "4",
+            "reserved_qty": "0",
+            "returned_qty": "4",
+            "review_token": "b279f7ba80fd6e9a94c171384c52e03d",
+            "customer_name": "CP6 E AS20-0136f91410 customer",
+            "location_name": "AS20-0136f91410",
+            "payment_terms": null
+          },
+          "returns": [
+            [
+              "bcddc9ec-1aee-4e30-91c2-1eab7e493b4f",
+              "POSTED"
+            ]
+          ],
+          "payments": [
+            [
+              "93cd200f-9f55-44f8-af5b-b0e2e1495eb8",
+              "POSTED",
+              "137.03"
+            ]
+          ],
+          "positions": [
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_A",
+              "28"
+            ],
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_B",
+              "4"
+            ]
+          ],
+          "available": "32",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "1201.58",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "148.14",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "132.16",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-169.74",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1924.64",
+            "86ddff01-e556-4777-ad30-1943f3200224": "-269.19",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-1806.02",
+            "b96cb024-3fb4-4c1c-940c-9c89451781c3": "137.03",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "791.68"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "returned": {
+          "document": {
+            "id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "items": [
+              {
+                "id": "e3b0b936-c332-4691-af7c-5f454e832716",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "dbbda464-ce5b-4f98-bb6b-d60bb5f90be3",
+                "product_sku": "AS20-0136f91410",
+                "product_name": "AS20-0136f91410",
+                "commercial_sku": "AS20-0136f91410"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0136f91410",
+            "status": "PARTIAL_PAID",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "ACTIVE_RECEIVABLE",
+              "net_total": "269.19",
+              "paid_total": "137.03",
+              "gross_total": "388.83",
+              "open_balance": "132.16",
+              "return_total": "119.64"
+            },
+            "line_count": "1",
+            "customer_id": "a0fd51c0-a5da-455a-839a-254dfa3c6a8f",
+            "location_id": "d7f651fe-68a4-4575-908e-f10d977f6f63",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "4",
+            "reserved_qty": "0",
+            "returned_qty": "4",
+            "review_token": "b279f7ba80fd6e9a94c171384c52e03d",
+            "customer_name": "CP6 E AS20-0136f91410 customer",
+            "location_name": "AS20-0136f91410",
+            "payment_terms": null
+          },
+          "returns": [
+            [
+              "bcddc9ec-1aee-4e30-91c2-1eab7e493b4f",
+              "POSTED"
+            ]
+          ],
+          "payments": [
+            [
+              "93cd200f-9f55-44f8-af5b-b0e2e1495eb8",
+              "POSTED",
+              "137.03"
+            ]
+          ],
+          "positions": [
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_A",
+              "28"
+            ],
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_B",
+              "4"
+            ]
+          ],
+          "available": "32",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "1201.58",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "148.14",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "132.16",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-169.74",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1924.64",
+            "86ddff01-e556-4777-ad30-1943f3200224": "-269.19",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-1806.02",
+            "b96cb024-3fb4-4c1c-940c-9c89451781c3": "137.03",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "791.68"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        },
+        "final": {
+          "document": {
+            "id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "items": [
+              {
+                "id": "e3b0b936-c332-4691-af7c-5f454e832716",
+                "notes": null,
+                "qty_pcs": "13",
+                "financial": {
+                  "discount": "0.00",
+                  "line_total": "388.83",
+                  "unit_price": "29.91"
+                },
+                "size_code": "CP6-RACE-S",
+                "brand_name": "CP6 Race Brand",
+                "product_id": "dbbda464-ce5b-4f98-bb6b-d60bb5f90be3",
+                "product_sku": "AS20-0136f91410",
+                "product_name": "AS20-0136f91410",
+                "commercial_sku": "AS20-0136f91410"
+              }
+            ],
+            "notes": null,
+            "number": "AS20-0136f91410",
+            "status": "REVERSED",
+            "qty_pcs": "13",
+            "due_date": null,
+            "financial": {
+              "basis": "CURRENT_NATIVE_DOCUMENT",
+              "state": "INACTIVE_DOCUMENT",
+              "net_total": "388.83",
+              "paid_total": "0.00",
+              "gross_total": "388.83",
+              "open_balance": null,
+              "return_total": "0.00"
+            },
+            "line_count": "1",
+            "customer_id": "a0fd51c0-a5da-455a-839a-254dfa3c6a8f",
+            "location_id": "d7f651fe-68a4-4575-908e-f10d977f6f63",
+            "physical_at": "2026-10-09T06:38:00+00:00",
+            "row_version": "7",
+            "reserved_qty": "0",
+            "returned_qty": "0",
+            "review_token": "b2e3efe69dcf8d021545c7d6bb82f9f1",
+            "customer_name": "CP6 E AS20-0136f91410 customer",
+            "location_name": "AS20-0136f91410",
+            "payment_terms": null
+          },
+          "returns": [
+            [
+              "bcddc9ec-1aee-4e30-91c2-1eab7e493b4f",
+              "REVERSED"
+            ]
+          ],
+          "payments": [
+            [
+              "93cd200f-9f55-44f8-af5b-b0e2e1495eb8",
+              "REVERSED",
+              "137.03"
+            ]
+          ],
+          "positions": [
+            [
+              "d7f651fe-68a4-4575-908e-f10d977f6f63",
+              "GRADE_A",
+              "41"
+            ]
+          ],
+          "available": "41",
+          "accounts": {
+            "20a7533b-5578-4799-9973-90ab000e9e43": "1349.72",
+            "370746aa-abe3-418b-b912-b8a63c9ffcc1": "0.00",
+            "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "0.00",
+            "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-169.74",
+            "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+            "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1924.64",
+            "86ddff01-e556-4777-ad30-1943f3200224": "0.00",
+            "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+            "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+            "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-1806.02",
+            "b96cb024-3fb4-4c1c-940c-9c89451781c3": "0.00",
+            "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "791.68"
+          },
+          "raw": [
+            "32.000000",
+            "395.840000000000"
+          ],
+          "unbalanced_journals": []
+        }
+      },
+      "receipts": [
+        {
+          "action": "CREATE",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "CREATE",
+            "status": "DRAFT",
+            "sale_id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "request_id": "ca0246ee-2b33-472b-a645-0caff4fefae1",
+            "row_version": "1",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "POST",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "POST",
+            "status": "POSTED",
+            "sale_id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "request_id": "4e3d01f5-b3af-46cf-b89c-66ef62e8ffa8",
+            "row_version": "2",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "PAYMENT",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "PAYMENT",
+            "status": "PARTIAL_PAID",
+            "sale_id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "payment_id": "93cd200f-9f55-44f8-af5b-b0e2e1495eb8",
+            "request_id": "5f2ac946-4e2b-407f-a7b4-9e86ff973131",
+            "row_version": "3",
+            "payment_status": "POSTED",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "RETURN",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "RETURN",
+            "status": "PARTIAL_PAID",
+            "sale_id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "return_id": "bcddc9ec-1aee-4e30-91c2-1eab7e493b4f",
+            "request_id": "7c9282c3-1af6-438c-aff0-ecad8c20dbde",
+            "row_version": "4",
+            "return_status": "POSTED",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "PAYMENT_REVERSE",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "PAYMENT_REVERSE",
+            "status": "POSTED",
+            "sale_id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "payment_id": "93cd200f-9f55-44f8-af5b-b0e2e1495eb8",
+            "request_id": "79ae59de-92a0-4355-8422-8bf21d6691a0",
+            "row_version": "5",
+            "payment_status": "REVERSED",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "RETURN_REVERSE",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "RETURN_REVERSE",
+            "status": "POSTED",
+            "sale_id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "return_id": "bcddc9ec-1aee-4e30-91c2-1eab7e493b4f",
+            "request_id": "ca3a66a3-3b68-4b3a-a774-77bf177da580",
+            "row_version": "6",
+            "return_status": "REVERSED",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        },
+        {
+          "action": "SALE_REVERSE",
+          "status": 200,
+          "body": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "SALE_REVERSE",
+            "status": "REVERSED",
+            "sale_id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+            "request_id": "5a78951d-833c-44d6-9dec-71d1eb8b5f04",
+            "row_version": "7",
+            "contract_version": "cp7.sales-outcome.v1"
+          }
+        }
+      ],
+      "errors": [],
+      "body": "PENJUALAN\nPenjualan & Invoice\n\nPeriksa invoice, barang yang dipesan, retur, dan sisa pembayaran.\n\nMuat ulang invoice\nBuat invoice\n\nWorkspace authoritative sudah dimuat ulang.\n\nTelusuri invoice\nCari\nBrowse semua\nFilter\nUrutkan halaman ini\nUrutan standar\nNama / nomor A–Z\nNama / nomor Z–A\nCari nomor invoice atau pelanggan\nStatus invoice\nSemua status\nDraft · stok dipesan\nBelum lunas\nDibayar sebagian\nLunas\nDraft dibatalkan\nPenjualan dibatalkan\nCari invoice\nPencarian menelusuri daftar yang berhak Anda lihat. Urutan hanya mengatur halaman yang sedang tampil.\nDaftar invoice\nAS20-0624118a11\nCP6 E AS20-0624118a11 customer · 13 PCS\n9 Okt 2026, 13.38 WIB\nPenjualan dibatalkan\nRp388,83\nAS20-0136f91410\nCP6 E AS20-0136f91410 customer · 13 PCS\n9 Okt 2026, 13.38 WIB\nPenjualan dibatalkan\nRp388,83\nTotal 2\nInvoice sebelumnya\nInvoice berikutnya\nPENJUALAN DIBATALKAN\nAS20-0136f91410\n\nCP6 E AS20-0136f91410 customer · AS20-0136f91410\n\n9 Okt 2026, 13.38 WIB\n\n13 PCS dalam invoice · 0 PCS masih dipesan · 0 PCS sudah diretur.\n\nBruto Rp388,83\n\nRetur Rp0 · bersih Rp388,83\n\nPembayaran tercatat Rp0\n\nDokumen ini sudah dibatalkan.\n\nRiwayat pembetulan nota\nAS20-0136f91410 · CP6-RACE-S\n\nAS20-0136f91410 · CP6 Race Brand · 13 PCS\n\nRp29,91 per PCS · potongan Rp0 · jumlah Rp388,83\n\nSKU fisik AS20-0136f91410. Kelompok invoice mengikuti tanggal transaksi.",
+      "state": {
+        "document": {
+          "id": "e5d2f75f-bc87-4c2c-a2c7-92afb460d244",
+          "items": [
+            {
+              "id": "e3b0b936-c332-4691-af7c-5f454e832716",
+              "notes": null,
+              "qty_pcs": "13",
+              "financial": {
+                "discount": "0.00",
+                "line_total": "388.83",
+                "unit_price": "29.91"
+              },
+              "size_code": "CP6-RACE-S",
+              "brand_name": "CP6 Race Brand",
+              "product_id": "dbbda464-ce5b-4f98-bb6b-d60bb5f90be3",
+              "product_sku": "AS20-0136f91410",
+              "product_name": "AS20-0136f91410",
+              "commercial_sku": "AS20-0136f91410"
+            }
+          ],
+          "notes": null,
+          "number": "AS20-0136f91410",
+          "status": "REVERSED",
+          "qty_pcs": "13",
+          "due_date": null,
+          "financial": {
+            "basis": "CURRENT_NATIVE_DOCUMENT",
+            "state": "INACTIVE_DOCUMENT",
+            "net_total": "388.83",
+            "paid_total": "0.00",
+            "gross_total": "388.83",
+            "open_balance": null,
+            "return_total": "0.00"
+          },
+          "line_count": "1",
+          "customer_id": "a0fd51c0-a5da-455a-839a-254dfa3c6a8f",
+          "location_id": "d7f651fe-68a4-4575-908e-f10d977f6f63",
+          "physical_at": "2026-10-09T06:38:00+00:00",
+          "row_version": "7",
+          "reserved_qty": "0",
+          "returned_qty": "0",
+          "review_token": "b2e3efe69dcf8d021545c7d6bb82f9f1",
+          "customer_name": "CP6 E AS20-0136f91410 customer",
+          "location_name": "AS20-0136f91410",
+          "payment_terms": null
+        },
+        "returns": [
+          [
+            "bcddc9ec-1aee-4e30-91c2-1eab7e493b4f",
+            "REVERSED"
+          ]
+        ],
+        "payments": [
+          [
+            "93cd200f-9f55-44f8-af5b-b0e2e1495eb8",
+            "REVERSED",
+            "137.03"
+          ]
+        ],
+        "positions": [
+          [
+            "d7f651fe-68a4-4575-908e-f10d977f6f63",
+            "GRADE_A",
+            "41"
+          ]
+        ],
+        "available": "41",
+        "accounts": {
+          "20a7533b-5578-4799-9973-90ab000e9e43": "1349.72",
+          "370746aa-abe3-418b-b912-b8a63c9ffcc1": "0.00",
+          "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "0.00",
+          "3a2f8f69-ccf3-46ea-b602-11688c3e1d32": "-169.74",
+          "58789e7b-f65b-4be5-a415-4cace480d211": "0.00",
+          "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-1924.64",
+          "86ddff01-e556-4777-ad30-1943f3200224": "0.00",
+          "9ce89e21-9a21-40e5-859d-237b89d5a767": "1759.00",
+          "ad29d857-c523-48d4-8ad0-1275e999a4c3": "0.00",
+          "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-1806.02",
+          "b96cb024-3fb4-4c1c-940c-9c89451781c3": "0.00",
+          "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "791.68"
+        },
+        "raw": [
+          "32.000000",
+          "395.840000000000"
+        ],
+        "unbalanced_journals": []
+      }
+    },
+    {
+      "group": "AUDITOR_BROWSER_ASTRA_P20_CONT_UI",
+      "planned": [
+        "AS20C-47-WRITE-DESKTOP",
+        "AS20C-47-WRITE-MOBILE"
+      ],
+      "final": {
+        "AS20C-47-WRITE-DESKTOP": "INCOMPLETE",
+        "AS20C-47-WRITE-MOBILE": "INCOMPLETE"
+      },
+      "status": "RUN_COMPLETE",
+      "console_errors": 0,
+      "users_created": 2,
+      "auth_cleanup_failures": []
+    },
+    {
+      "status": "INCOMPLETE",
+      "expected_cases": 2,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ]
+}

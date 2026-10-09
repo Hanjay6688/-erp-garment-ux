@@ -63,3 +63,15 @@
 
 -37881044694: current payroll82.82 +opening85 +carry7.50 -advance30 =cash145.32. Own case PASS, replay one effect, inverse restores cash/source rights and physical41 unchanged.
 -37881215479: distinct-document continuation proves23:59:59 WIB revenue58.11/COGS49.38 and00:00:01 revenue135.59/COGS115.22 in their proper dates. PASS; duplicate-number fixture failure remains preserved.
+
+## Kelanjutan setelah laporan awal — first failures tetap utuh
+
+- Run37892630236: discount, size dan late fullflow PASS. AS20C-04-ACTOR berhenti karena auditor menulis material_purchases, bukan material_purchase_headers. AUDITOR_FIXTURE; hanya kasus itu dilanjutkan di37893419603danPASS.
+- Run37892863976: retentionFAILED danUTF8 PASS. Consumer fixture memakai custom role code yang memang bukan internal role untuk reminder. Run37893519004memakaiSTAFF tetapi baseline legacySTAFF sengaja nonaktif, sehingga positive start ditolak. Keduanya AUDITOR_FIXTURE; tidak ada produk diubah. Run37894257418menggunakanADMINaktif dengan4permission, lalu cabutWIP:11endpoint positif dahulu,seluruh11ditolaksetelahrevoke danretainedunchanged.
+- Run37893074616:5racePASS. AS20C-15-RACE telah melewati admission/replay tetapi final drain auditor masih PARTIAL_SELECTIONmeski menghabiskan sisa. Produk benar menolak. Mode final control digantiALL_READY; targeted37893987955PASS. Dua input race19+17danoracle30tetap.
+- Run37893419603: actor,returncredit,closedperiodPASS. Roster gagal pada duplicate Python keyword helper, sebelumCREATE. Priority mencapaiA11/B6tetapi assertion membandingkan inputecho yang sengaja dipermutasi. Keduanya first failure disimpan. Targeted37894141652membuktikan baris/edges/quantity/refs/verdict identik; hanya order inputecho berbeda. Earlier deadline/unknowncontrolsPASS. ADJUDICATED_PASS, bukan bug produk.
+- Roster37894141652: pekerja/amount38.815→38.82/payroll6038.82benar; akun debit aktualWIP dibandingkan auditor denganLABOR_COST. Kontrak CP3 yang diterima menempatkan approvalattendance diWIP sebelum alokasiSELESAI_DIJAHIT;LABOR_COSTuntukmanualreimbursement berbeda. Salah oracle akun auditor diperbaiki secara terbuka, angka/kewajiban/replaytetap. Targeted final roster37894872845PASS dan identity/replaydituntaskan. ADJUDICATED_PASS, bukan alasan meminta writer mengubah kebijakan.
+
+- Browser37894527264: kedua perjalanan sudah menjalankan7command200danfullinverse. Pembanding terakhir auditor membandingkan dictionaryGLsecara struktural; akun yang baru punya jurnal muncul dengan saldo0.00setelahinverse. RawINCOMPLETEtetap. Adjudicate_browser.pymembandingkansemuaIDakun(default0),kontrol+0.01akunlama/baruterdeteksi,danmemeriksa final41FG,raw32/395.84,semuariwayatreversed,jurnalbalance. Bukti runtimelengkaptelahtersimpan,sehinggatidakadaulangruntime. ADJUDICATED_PASSuntukkedualayar.
+
+Semua raw verdict,trace,runIDdanhashartifact tetap berada dalam CONTINUATION_RESULTS.json serta evidence/CONTINUATION_PROJECTED_EVIDENCE.json.gz. Semua pemulihan boundary/public/functions tercatattrue. Tidak ada kasus lulus diulang sekadar untuk menambah hitungan.

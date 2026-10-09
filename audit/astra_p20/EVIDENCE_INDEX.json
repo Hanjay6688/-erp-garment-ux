@@ -346,13 +346,132 @@
       "artifact_id": 11595150943,
       "artifact_name": "astra-p20-independent-wib-recheck-json",
       "zip_sha256": "36de3e72c70436728d9f786557d50748bf9b6bbe636dc926058a0f1f3a2f00f0"
+    },
+    {
+      "run_id": 37892440324,
+      "audit_sha": "175da4609f8223e8c06df992cc5cfdd1554b03ad",
+      "artifact_id": 11599770116,
+      "artifact_name": "astra-p20-independent-cont-planning-json",
+      "zip_sha256": "f7f60a0af83f48c53b95110bf1f1bfb31152f33c9a55c58042295233c846776d"
+    },
+    {
+      "run_id": 37892630236,
+      "audit_sha": "42cfced3237ed7f5b89f9ad2b5057d379915b324",
+      "artifact_id": 11598846866,
+      "artifact_name": "astra-p20-independent-cont-money-json",
+      "zip_sha256": "a0047528ecbf8e9ee2f12c4fbdd992aa90eac4a4cb43625d4b8d5b208459a3f0"
+    },
+    {
+      "run_id": 37892863976,
+      "audit_sha": "9b8683a997037a74fa00b059205193354497c645",
+      "artifact_id": 11599377211,
+      "artifact_name": "astra-p20-independent-cont-state-json",
+      "zip_sha256": "edbf78925470c67e48bbe87eea18295a8b2d59733f9d431f74ad528f4328ecc8"
+    },
+    {
+      "run_id": 37893074616,
+      "audit_sha": "d1ad029c7a26f605f29fd63c039cf1f2787d6bb8",
+      "artifact_id": 11599741608,
+      "artifact_name": "astra-p20-independent-cont-races-json",
+      "zip_sha256": "ba96d0376ec07f66392a0210daeaa8841a98656ec10e8006ddca70ce79a04d9d"
+    },
+    {
+      "run_id": 37893419603,
+      "audit_sha": "1493a2fe7e46ce15e590c49ff94f59cd473089b2",
+      "artifact_id": 11599561795,
+      "artifact_name": "astra-p20-independent-cont-extra-json",
+      "zip_sha256": "d012b9172bdf111c72c307cd83e19ec1c573a74dead1d4176f987537ed4d5fd8"
+    },
+    {
+      "run_id": 37893519004,
+      "audit_sha": "59351fc43db66b896670630f42187b23fc1278a4",
+      "artifact_id": 11599114193,
+      "artifact_name": "astra-p20-independent-cont-revoke-json",
+      "zip_sha256": "7a7b15f1e9f31afa0524ca8146c7d933b6262a73d95289678be1f171c924b212"
+    },
+    {
+      "run_id": 37893987955,
+      "audit_sha": "95e276e596c229fd5290a71e16ac410f4f53ac45",
+      "artifact_id": 11600055161,
+      "artifact_name": "astra-p20-independent-cont-physical-json",
+      "zip_sha256": "ac7f8d540481907f0f0697dd73b7b91421628159eb6f09b2243b0d2bb79574ae"
+    },
+    {
+      "run_id": 37894141652,
+      "audit_sha": "d680db26cf55af1481d1aff3f117f2b7e6817469",
+      "artifact_id": 11599813104,
+      "artifact_name": "astra-p20-independent-cont-edge-recheck-json",
+      "zip_sha256": "acca52a2c45b165b65a8e77c1b328d5e0e0fdf9613f08b826b39b70050133c93"
+    },
+    {
+      "run_id": 37894257418,
+      "audit_sha": "4177830c8f3284be97788e46dda81a7636f17be3",
+      "artifact_id": 11600035741,
+      "artifact_name": "astra-p20-independent-cont-revoke-json",
+      "zip_sha256": "ef469ec2f7c7ebea6ec30f36021e554b7d3b59c2426b328c8c64ea3144a47d20"
+    },
+    {
+      "run_id": 37894527264,
+      "audit_sha": "7d3d2baa1a95f6c4b99f18ae6e670d6f95ce0894",
+      "artifact_id": 11598914494,
+      "artifact_name": "astra-p20-independent-cont-ui-json",
+      "zip_sha256": "03d5f2695ddfeb4f0ccf93080fb91c56aedb36e938d7624d58891ead7bdfa324"
+    },
+    {
+      "run_id": 37894872845,
+      "audit_sha": "25e6ab59b4f15625321a3653fdb492e1263da5c9",
+      "artifact_id": 11599778012,
+      "artifact_name": "astra-p20-independent-cont-edge-recheck-json",
+      "zip_sha256": "6f9ef7b02346008195156a811d473266a076e30403ba08a15939c699dcc377a8"
     }
   ],
   "source_review_sha256": "aeaea892f8ab57774b7a510aba192d466a23b67147cdfab7b23e62004b3a5527",
   "independent": {
-    "PASS": 39,
-    "ADJUDICATED_PASS": 1,
+    "PASS": 58,
+    "ADJUDICATED_PASS": 5,
     "COUNTEREXAMPLE": 4
   },
-  "regression_executions": 1256
+  "regression_executions": 1256,
+  "continuation": {
+    "PASS": 19,
+    "ADJUDICATED_PASS": 4
+  },
+  "continuation_archive": {
+    "file": "CONTINUATION_PROJECTED_EVIDENCE.json.gz",
+    "sha256": "3a886f59b300d9f5f6aef20a2c611ee5d817d1d2ac94e8d20afbbfd9a99e5c5c",
+    "bytes": 42681,
+    "uncompressed_bytes": 288821,
+    "description": "Complete continuation verdicts, first failures and priority input-echo diagnostic; original CI zip IDs and SHA256 retained. Original audit archive remains unchanged."
+  },
+  "continuation_projection_runs": [
+    37894947167,
+    37895519120
+  ],
+  "continuation_screenshots": [
+    {
+      "run_id": 37894527264,
+      "artifact_id": 11599293943,
+      "name": "ASTRA_AS20C-47-WRITE-DESKTOP_RETURN.png",
+      "sha256": "0ea58716ad632dcab9feaca656a403f72133642507d00112ec3360e8672e07ff"
+    },
+    {
+      "run_id": 37894527264,
+      "artifact_id": 11599293943,
+      "name": "ASTRA_AS20C-47-WRITE-MOBILE_RETURN.png",
+      "sha256": "ab55cb9f0554f9f3e2e5c59c86e10fb8764a0b9860232f640956ed856029e5b3"
+    },
+    {
+      "run_id": 37894527264,
+      "artifact_id": 11599293943,
+      "name": "ASTRA_AS20C-47-WRITE-DESKTOP_FAILURE.png",
+      "sha256": "1449b9df7a452cd49ca38d2fb4bbf4ade65788f114288d7fd94a89e998ac7cfe"
+    },
+    {
+      "run_id": 37894527264,
+      "artifact_id": 11599293943,
+      "name": "ASTRA_AS20C-47-WRITE-MOBILE_FAILURE.png",
+      "sha256": "815e9ff9d8c9fc758a4e3a4f5d5689d5b790e294ed1925e76e793ac663bf1064"
+    }
+  ],
+  "fixture_origin_annotation": "Raw runner template label WRITER_SETUP_UNCHANGED refers to unchanged fixture/transport helper dependencies. Continuation cases also compose auditor-owned input quantities, masters and interleavings. Assessment origin is MIXED_ASTRA_INPUTS_FIXTURES_AND_UNCHANGED_WRITER_HELPERS; raw labels are retained, not silently rewritten."
 }
