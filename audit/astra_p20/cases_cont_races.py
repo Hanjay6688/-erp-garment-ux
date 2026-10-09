@@ -64,7 +64,7 @@ def races(tools,today):
         with tools.connect() as conn,conn.cursor() as cur:
             captured=wip.capture(cur,[f['group']]);vals={k:sum(int(x[k+'_pcs']) for x in captured['result']['totals']) for k in ['input','wip','fg','bs']}
             check(vals==dict(input=100,wip=100-quantities[winner],fg=quantities[winner],bs=0),'Only admitted source quantity becomes FG',actual=vals)
-            remainder=30-quantities[winner];wip.qc(cur,f,remainder,0,15)
+            remainder=30-quantities[winner];wip.qc(cur,f,remainder,0,15,mode='ALL_READY')
             end=wip.capture(cur,[f['group']]);final={k:sum(int(x[k+'_pcs']) for x in end['result']['totals']) for k in ['input','wip','fg','bs']}
             check(final==dict(input=100,wip=70,fg=30,bs=0),'Legal remaining completion works, finite source ends exactly30FG',actual=final);conn.commit()
         return dict(source_ready=30,attempts=quantities,outcomes=outcomes,after_race=vals,after_remainder=final)

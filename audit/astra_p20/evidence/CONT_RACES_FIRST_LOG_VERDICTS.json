@@ -1,0 +1,480 @@
+{
+  "run_id": 37893074616,
+  "job_id": 113698137156,
+  "events": [
+    {
+      "group": "AUDITOR_RACES_ASTRA_P20_CONT_RACES",
+      "case": "AS20C-05-LOST",
+      "audit_case_id": "AS20C-05-LOST",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "qty": 29,
+        "movements": 1,
+        "AP": "137.17",
+        "request": "e7439349-fc22-4d95-b040-c3a1434f4318",
+        "simulation": "SERVER_COMMIT_RESPONSE_INTENTIONALLY_DISCARDED_THEN_CONNECTION_CLOSED",
+        "changed": {
+          "refused": true,
+          "sqlstate": "P0001",
+          "message": "client_request_id was already used with a different payload",
+          "detail": null
+        }
+      },
+      "copy_runtime": {
+        "stage": "P21_FULL_COMPOSITION",
+        "staged_tables": 21
+      },
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_ASTRA_P20_CONT_RACES",
+      "case": "AS20C-15-RACE",
+      "audit_case_id": "AS20C-15-RACE",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "INCOMPLETE",
+      "error": "CP6 completion_mode PARTIAL_SELECTION conflicts with authoritative ready-for-QC remainder 0 after atomic posting\nCONTEXT:  PL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 1203 at RAISE\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 112, in run\n    try:base.update(status='PASS',observations=op())\n                                               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_cont_races.py\", line 67, in physical\n    remainder=30-quantities[winner];wip.qc(cur,f,remainder,0,15)\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wip_source_cases.py\", line 26, in qc\n    return b.chain.laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=f['group'],destination_location_id=base.LOCATION,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620al_review.py\", line 57, in laundry_action\n    result=cur.execute('select public.erp_save_laundry_qc_action_v1(%s,%s::jsonb,%s,%s)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP6 completion_mode PARTIAL_SELECTION conflicts with authoritative ready-for-QC remainder 0 after atomic posting\nCONTEXT:  PL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 1203 at RAISE\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN\n",
+      "copy_runtime": {
+        "stage": "P21_FULL_COMPOSITION",
+        "staged_tables": 21
+      },
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_ASTRA_P20_CONT_RACES",
+      "case": "AS20C-28-WORKERS",
+      "audit_case_id": "AS20C-28-WORKERS",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "busy": {
+          "stage": "HIST_PREP",
+          "state": "RUNNING",
+          "run_id": null,
+          "failure": null,
+          "reference": {
+            "captured_at": "2026-10-09T06:26:57.946806+00:00",
+            "source_hash": "1eee1ce9655254a620a12bd01fca3cc8aa4c26725bc276dbc0d855bf488d55ba"
+          },
+          "retention": {
+            "days": 7,
+            "state": "NOT_FINISHED",
+            "kept_until": null
+          },
+          "plan_final": false,
+          "request_id": "54d79fd0-82bf-4b52-b839-76b764697154",
+          "unit_count": 1,
+          "units_done": 0,
+          "stage_count": 1,
+          "stage_index": 1,
+          "apply_enabled": false,
+          "production_go": false,
+          "targets_total": 2,
+          "unit_attempts": 0,
+          "worker_active": true,
+          "contract_version": "cp7.native-analysis-staged-job.v1",
+          "last_progress_at": "2026-10-09T06:26:57.977995+00:00",
+          "targets_done_in_stage": 0
+        },
+        "concurrent": [
+          {
+            "stage": "HIST_PREP",
+            "state": "RUNNING",
+            "run_id": null,
+            "failure": null,
+            "reference": {
+              "captured_at": "2026-10-09T06:26:57.946806+00:00",
+              "source_hash": "1eee1ce9655254a620a12bd01fca3cc8aa4c26725bc276dbc0d855bf488d55ba"
+            },
+            "retention": {
+              "days": 7,
+              "state": "NOT_FINISHED",
+              "kept_until": null
+            },
+            "plan_final": false,
+            "request_id": "54d79fd0-82bf-4b52-b839-76b764697154",
+            "unit_count": 1,
+            "units_done": 0,
+            "stage_count": 1,
+            "stage_index": 1,
+            "apply_enabled": false,
+            "production_go": false,
+            "targets_total": 2,
+            "unit_attempts": 0,
+            "worker_active": true,
+            "contract_version": "cp7.native-analysis-staged-job.v1",
+            "last_progress_at": "2026-10-09T06:26:57.977995+00:00",
+            "targets_done_in_stage": 0
+          },
+          {
+            "stage": "HIST_VALIDATE",
+            "state": "RUNNING",
+            "run_id": null,
+            "failure": null,
+            "reference": {
+              "captured_at": "2026-10-09T06:26:57.946806+00:00",
+              "source_hash": "1eee1ce9655254a620a12bd01fca3cc8aa4c26725bc276dbc0d855bf488d55ba"
+            },
+            "retention": {
+              "days": 7,
+              "state": "NOT_FINISHED",
+              "kept_until": null
+            },
+            "plan_final": false,
+            "request_id": "54d79fd0-82bf-4b52-b839-76b764697154",
+            "unit_count": 8,
+            "units_done": 1,
+            "stage_count": 8,
+            "stage_index": 2,
+            "apply_enabled": false,
+            "production_go": false,
+            "targets_total": 2,
+            "unit_attempts": 0,
+            "contract_version": "cp7.native-analysis-staged-job.v1",
+            "last_progress_at": "2026-10-09T06:26:58.04084+00:00",
+            "targets_done_in_stage": 0
+          }
+        ],
+        "outputs": [
+          20,
+          20
+        ],
+        "identity": "0cd1cf3c1344834b9f36985dc1006ec90c7c45c1ad0db4ce963fd7db35062da8",
+        "done_no_recompute": true
+      },
+      "copy_runtime": {
+        "stage": "P21_FULL_COMPOSITION",
+        "staged_tables": 21
+      },
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_ASTRA_P20_CONT_RACES",
+      "case": "AS20C-29-INFLIGHT",
+      "audit_case_id": "AS20C-29-INFLIGHT",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "freshness": {
+          "run_id": "ae6ab259-c747-4922-b477-7b5f23501d84",
+          "data_as_of": "2026-10-09T06:27:13.732608+00:00",
+          "same_as_of": null,
+          "evaluated_at": "2026-10-09T06:27:14.103642+00:00",
+          "apply_enabled": false,
+          "changes_since": [
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "SALES",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "FG_STOCK",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "MATERIAL_STOCK",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "PRODUCTION",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "PRODUCTION_ORDERS",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 1,
+              "deleted": 0,
+              "category": "MASTER_DATA",
+              "last_recorded_at": "2026-10-09T06:27:13.698928+00:00",
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "MATERIAL_PURCHASES",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "PLANNING_POLICIES",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            }
+          ],
+          "changes_total": 1,
+          "identity_hash": "abd03b32da28b3e3b66106be2c66bd7aaa6b97761eb86777ec98b5fc6c03142e",
+          "production_go": false,
+          "freshness_state": "CHANGES_RECORDED",
+          "last_full_check": null,
+          "capture_boundary": "SNAPSHOT",
+          "contract_version": "cp7.native-analysis-snapshot-freshness.v1"
+        },
+        "after_delete": {
+          "run_id": "ae6ab259-c747-4922-b477-7b5f23501d84",
+          "data_as_of": "2026-10-09T06:27:13.732608+00:00",
+          "same_as_of": null,
+          "evaluated_at": "2026-10-09T06:27:14.174567+00:00",
+          "apply_enabled": false,
+          "changes_since": [
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "SALES",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "FG_STOCK",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "MATERIAL_STOCK",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "PRODUCTION",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "PRODUCTION_ORDERS",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 1,
+              "deleted": 1,
+              "category": "MASTER_DATA",
+              "last_recorded_at": "2026-10-09T06:27:14.153056+00:00",
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "MATERIAL_PURCHASES",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            },
+            {
+              "rows": 0,
+              "deleted": 0,
+              "category": "PLANNING_POLICIES",
+              "last_recorded_at": null,
+              "rows_after_check": null
+            }
+          ],
+          "changes_total": 1,
+          "identity_hash": "abd03b32da28b3e3b66106be2c66bd7aaa6b97761eb86777ec98b5fc6c03142e",
+          "production_go": false,
+          "freshness_state": "CHANGES_RECORDED",
+          "last_full_check": null,
+          "capture_boundary": "SNAPSHOT",
+          "contract_version": "cp7.native-analysis-snapshot-freshness.v1"
+        },
+        "identity": "abd03b32da28b3e3b66106be2c66bd7aaa6b97761eb86777ec98b5fc6c03142e",
+        "scope": "MASTER_DATA_IN_FLIGHT; PR44 conflict-free acceptance still reserved"
+      },
+      "copy_runtime": {
+        "stage": "P21_FULL_COMPOSITION",
+        "staged_tables": 21
+      },
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_ASTRA_P20_CONT_RACES",
+      "case": "AS20C-34-PUBLISH",
+      "audit_case_id": "AS20C-34-PUBLISH",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "results": [
+          {
+            "kind": "DAILY",
+            "stage": null,
+            "state": "DONE",
+            "run_id": "52073131-a90c-4033-a3c7-92a54ae8b04f",
+            "failure": null,
+            "finance": "DEFERRED",
+            "revision": "2",
+            "series_id": "f0a5f2cd-0704-4c4d-8c12-f9960c5e0518",
+            "data_as_of": "2026-10-09T06:27:29.08317+00:00",
+            "request_id": "fec18f30-0752-4385-97cb-850b7b836f86",
+            "unit_count": 4,
+            "units_done": 4,
+            "identity_hash": "31505a593e7761dc8cf26f05320bacbf2ff892d386fc53631aaea60f76787753",
+            "production_go": false,
+            "section_count": 1,
+            "sections_done": 1,
+            "unit_attempts": 0,
+            "publication_id": "9abfd8ad-fd50-48b1-a5e1-3b2badba16f1",
+            "contract_version": "cp7.report-job.v2",
+            "last_progress_at": "2026-10-09T06:27:29.521629+00:00"
+          },
+          {
+            "kind": "DAILY",
+            "stage": null,
+            "state": "FAILED",
+            "run_id": "52073131-a90c-4033-a3c7-92a54ae8b04f",
+            "failure": {
+              "code": "CP7_REPORT_REVISION_CHANGED",
+              "unit": 3,
+              "sqlstate": "40001"
+            },
+            "finance": "DEFERRED",
+            "revision": "2",
+            "series_id": "f0a5f2cd-0704-4c4d-8c12-f9960c5e0518",
+            "data_as_of": "2026-10-09T06:27:29.08317+00:00",
+            "request_id": "90bbd122-9048-4e9c-9e0b-ce4e8bf950f0",
+            "unit_count": 4,
+            "units_done": 3,
+            "identity_hash": "31505a593e7761dc8cf26f05320bacbf2ff892d386fc53631aaea60f76787753",
+            "production_go": false,
+            "section_count": 1,
+            "sections_done": 1,
+            "unit_attempts": 0,
+            "publication_id": null,
+            "contract_version": "cp7.report-job.v2",
+            "last_progress_at": "2026-10-09T06:27:29.525293+00:00"
+          }
+        ],
+        "revisions": [
+          1,
+          2
+        ],
+        "report_hash": "902db7df27639c00ef627e4107165330a49e6da5989417a0bd4d904dc5d07006",
+        "actual_lock_waiters": 2
+      },
+      "copy_runtime": {
+        "stage": "P21_FULL_COMPOSITION",
+        "staged_tables": 21
+      },
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_ASTRA_P20_CONT_RACES",
+      "case": "AS20C-19-CARRY",
+      "audit_case_id": "AS20C-19-CARRY",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "outcomes": [
+          {
+            "i": 0,
+            "committed": true,
+            "result": {
+              "action": "PAYROLL_ENTITLEMENT",
+              "status": "POSTED",
+              "batch_id": "717d71a3-b1e3-46d7-aa32-b0f24c10573e",
+              "revision": "04ca51adf139434923dccc09fc6c1ad13b292f06a69e3469e1c0ed27246d6e05",
+              "operation": "ALLOCATE_CARRY",
+              "payroll_id": "a141669d-8c95-412d-8d45-3bde306313f2",
+              "request_id": "0503c590-4277-4301-93b8-7c76a721bad2",
+              "entitlement_id": "72e1f4d7-5794-4941-bbf8-79ed33342bd3",
+              "carry_remaining": "0.000000",
+              "reimbursement_id": "3020cd36-4886-42e8-96ef-c9a50650d551"
+            }
+          },
+          {
+            "i": 1,
+            "committed": false,
+            "sqlstate": "P0001",
+            "message": "STALE_VERSION: saldo impor berubah; muat ulang sebelum melanjutkan"
+          }
+        ],
+        "reserved_rows": [
+          1,
+          "4.000000",
+          "10.00"
+        ],
+        "expense_delta": {
+          "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b": "-10.00",
+          "ef9ee70a-177e-4e2b-9a8f-760742d80ff5": "10.00"
+        },
+        "scope": "OPENING_CARRY_TWO_PAYROLLS; earliest automatic accessory-carry selection not asserted"
+      },
+      "copy_runtime": {
+        "stage": "P21_FULL_COMPOSITION",
+        "staged_tables": 21
+      },
+      "session_leaks": []
+    },
+    {
+      "group": "AUDITOR_RACES_ASTRA_P20_CONT_RACES",
+      "planned": [
+        "AS20C-05-LOST",
+        "AS20C-15-RACE",
+        "AS20C-28-WORKERS",
+        "AS20C-29-INFLIGHT",
+        "AS20C-34-PUBLISH",
+        "AS20C-19-CARRY"
+      ],
+      "final": {
+        "AS20C-05-LOST": "PASS",
+        "AS20C-15-RACE": "INCOMPLETE",
+        "AS20C-28-WORKERS": "PASS",
+        "AS20C-29-INFLIGHT": "PASS",
+        "AS20C-34-PUBLISH": "PASS",
+        "AS20C-19-CARRY": "PASS"
+      },
+      "missing": []
+    },
+    {
+      "status": "INCOMPLETE",
+      "expected_cases": 6,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ]
+}
