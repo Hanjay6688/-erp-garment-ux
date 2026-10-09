@@ -162,13 +162,22 @@ def cases(cur,today):
         line=procurement.workspace(cur,dict(purchase_id=p['purchase_id']))['detail']['items'][0]
         check(D(line['finance']['line_total'])==expected,'Six decimal line arithmetic independent',expected=expected,observed=line['finance'])
         ap=cur.execute('select erp.material_purchase_final_ap_total(%s)',(p['purchase_id'],)).fetchone()[0]
-        check(D(ap)==money(expected),'Final AP rounded once to cents',expected=money(expected),observed=ap)
+        # This helper is an exact operand; the contract rounds at payable/journal boundary.
+        check(D(ap)==D('7.123457')*D('8.654321'),'Exact unrounded AP operand retained',observed=ap)
+        bank=supplier_pay.bc.fixture(cur,today,zones=False,purchase=False)
+        payment_f=dict(receipt=p,cash=bank['cash'])
+        payable=supplier_pay.read(cur,payment_f)
+        check(D(payable['Native_AP']['remaining'])==money(expected),'Public payable boundary rounds once to cents',observed=payable['Native_AP'])
+        payment_payload=supplier_pay.payload(cur,payment_f,str(money(expected)))
+        paid=supplier_pay.command(cur,payment_payload)
+        after_pay=supplier_pay.read(cur,payment_f)
+        check(D(after_pay['Native_AP']['remaining'])==0 and not after_pay['eligible'],'Exact public cents payment fully settles without fractional ghost debt',observed=after_pay['Native_AP'])
         check(procurement.qty(cur,f)==(D('7.123457'),1),'Exact quantity once')
         check(sum(delta(before,gl(cur)).values(),D(0))==0,'Precision journal balance')
         return dict(input=f['payload'],line=line,ap=ap,changed_uuid=bad)
 
     def receipt_access():
-        f=procurement.fixture(cur,today,qty='19',price='3.17',final=True);actor,role=procurement.custom(cur,procurement.OPS)
+        f=procurement.fixture(cur,today,qty='19',price='3.17',final=True);actor,role=procurement.custom(cur,procurement.OPS+('finance.ap.view',))
         key=uuid.uuid4();d=procurement.command(cur,'SAVE_DRAFT',f['payload'],key,subject=actor);pkey=uuid.uuid4();p=procurement.post(cur,d,pkey,actor)
         before=gl(cur);stock=procurement.qty(cur,f)
         admin(cur);cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='warehouse.procurement.post'",(role,))

@@ -31,3 +31,16 @@
 - `CP7_PLAN_ASSUMPTIONS_NOT_REVIEWED` at v1 SAVE before either racing action.
 - AUDITOR_FIXTURE: payload reused v2 assumption IDs while v1 capture has its own IDs. Positive guard rejection, not product failure.
 - Correct only reviewed_assumption_ids using the actually read v1 option list. Capacity inputs/oracle unchanged. Continue only the unreached race; preserve all five PASS cases.
+
+## 37878640217, precise source amount and receipt actor
+
+- AS20-07_LARGE_INVOICE PASS on all three actual amounts. No rerun required.
+- AS20-04_08_PRECISION raw `material_purchase_final_ap_total` returned exact61.648683507697. Original expectation incorrectly imposed cents at an intermediate function. Framework02 says rate/amount scales differ and round only at a valid boundary. Classification pending runtime public payment check; do not assign this intermediate mismatch as a product bug.
+- Followup preserves exact-operand equality, verifies public payable61.65 and actually pays61.65 to test zero residual. First output retained.
+- AS20-01_RECEIPT_REPLAY setup refused `CP7_PROCUREMENT_VALUE_DENIED`: our actor could post but lacked `finance.ap.view` for the explicit price. Add value permission only to initial positive setup; still revoke posting before replay. No guard changed.
+
+## 37878853771, unchanged candidate shell gate
+
+- `scripts/cp7_probe_evidence_test.py` fails `NameError: p19_plan_v2 is not defined` at actual finalizer execution.
+- WRITER_HARNESS_DEFECT, independently reproduced at exact candidate; not an application monetary defect.
+- Remaining shell/build/browser steps were skipped. Run them separately unchanged, while keeping original shell gate FAILED. Never remove this failure from final assessment.
