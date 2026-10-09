@@ -1,3 +1,12 @@
+Kandidat revisi P20 — 9 Okt 2026 WIB: audit independen P20 atas `2e605bb7` memberi putusan HOLD dengan lima temuan
+(F01 blocker kapasitas rencana v1/v2 61 dari 60; F02 nama jadwal pg_cron lintas database; F03 receipt backup tertimpa;
+F04 batas detektor; F05 gate bukti). Kelimanya diperbaiki dan dikunci pada sumber **870d4f79** di
+`claude/new-session-deapao`: 15/15 workflow dan 43/43 job hijau pada commit itu. Baca
+[audit-candidate/revision-p20-20261009](audit-candidate/revision-p20-20261009/README.md) dan
+`AUDITOR_RETEST.md` di folder itu. Menunggu uji ulang auditor; area PR44 memerlukan auditor lain. Kandidat
+`2e605bb7`, `976f4c43` dan `9d57b7f5` (`cp7/integration`) tetap disimpan dan tidak diubah. Jadwal dan backup belum
+dipasang. `production_go:false`.
+
 Kandidat audit lanjutan final — 9 Okt 2026 WIB: kandidat lanjutan `976f4c43` ditambah keputusan owner 9 Okt (hapus data
 kerja sementara sesudah analisis DONE, jadwal pembersihan, backup malam; dibuat dan diuji, belum dipasang) dikunci pada
 sumber **2e605bb7** di `claude/new-session-deapao`: 15/15 workflow kualifikasi hijau pada commit itu. Baca

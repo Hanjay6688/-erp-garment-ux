@@ -28,4 +28,6 @@ Kandidat audit lanjutan (satu kali audit): `audit-candidate/continuation-2026100
 
 Kandidat audit lanjutan final (menggantikan yang di atas untuk audit; yang lama tetap disimpan): `audit-candidate/continuation-final-20261009/` — sumber `2e605bb7`, 15/15 workflow dan 43/43 job hijau pada commit itu.
 
+Audit independen P20 atas `2e605bb7`: **HOLD**, temuan F01–F05 (`audit/astra-p20-2e605bb7-20261009`). Kandidat revisi untuk uji ulang auditor: `audit-candidate/revision-p20-20261009/` — sumber `870d4f79`, 15/15 workflow dan 43/43 job hijau pada commit itu; kegagalan pertama auditor ditunjuk di `evidence/p20-audit-20261009/`.
+
 Tetap: `independent_acceptance=false`, `installed_P21_acceptance=false`, `production_go=false`.
