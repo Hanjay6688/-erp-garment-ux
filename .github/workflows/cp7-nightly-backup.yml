@@ -1,7 +1,7 @@
 name: CP7C Nightly Backup (template, not installed)
 # Owner decision 9 Oct 2026 WIB ("backup malam yang sudah disepakati"): one full backup of the ERP database every night at 01:00 WIB,
 # proven by restoring it into a separate scratch database (scripts/cp7_nightly_backup.py), newest 14 verified
-# nights kept. The tool is tested on the disposable copy by k3-cleanup-17 (K3C_RACE_NIGHTLY_BACKUP_VERIFIED).
+# nights kept. The tool is tested on the disposable copy by k3-cleanup-19 (K3C_RACE_NIGHTLY_BACKUP_VERIFIED, K3C_RACE_BACKUP_RETRY_SAME_SECOND).
 # Installing it waits for the audit and the owner's installation permission: until the repository variable
 # CP7_NIGHTLY_BACKUP_INSTALLED is 'true' this job never runs, and the schedule below stays commented out.
 # At installation the operator supplies the database role (secret CP7_BACKUP_ADMIN_URL), the ERP database name

@@ -1,9 +1,9 @@
 {
   "contract": "cp7.k3b.cleanup-and-schedule.v1",
-  "expected_case_count": 17,
+  "expected_case_count": 19,
   "required_case_counts": {
     "native": 9,
-    "races": 4,
+    "races": 6,
     "http": 2,
     "browser": 2
   },
@@ -23,7 +23,9 @@
       "K3C_RACE_TWO_TICKS_ONE_LOG",
       "K3C_RACE_BUSY_TABLE_RETRIED",
       "K3C_RACE_PG_CRON_FIRES",
-      "K3C_RACE_NIGHTLY_BACKUP_VERIFIED"
+      "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
+      "K3C_RACE_CRON_TWO_DATABASES",
+      "K3C_RACE_BACKUP_RETRY_SAME_SECOND"
     ],
     "http": [
       "K3C_HTTP_REOPEN_AFTER_CLEANUP",
@@ -86,11 +88,12 @@
       "header and every page hash their bodies",
       "page count and bytes",
       "identity hash over them",
-      "plan scope and one plan row per target"
+      "plan scope exists and one plan row per target (count)"
     ],
     "defers_while_analysis_running": "progress in the last 10 minutes",
     "lock_timeout_ms": 2000,
-    "in_user_request": false
+    "in_user_request": false,
+    "not_rederived_before_removal": "P20 F04 (independent audit 9 Oct 2026, AS20-39): the plan index content (plan_targets values), plan scope content, page range metadata and header totals are not re-derived from the page bodies; they are protected by the immutable-run trigger (55000 CP7_RUN_IMMUTABLE), not by the cleanup verifier. With that trigger deliberately disabled on a copy, such changes are not detected before CLEANED."
   },
   "nightly_backup": {
     "tool": "scripts/cp7_nightly_backup.py",
@@ -100,7 +103,8 @@
       "meaning": "01:00 WIB nightly"
     },
     "keep_verified": 14,
-    "verified_by": "restore into a separate scratch database; every table row count and md5 equal"
+    "verified_by": "restore into a separate scratch database; every table row count and md5 equal",
+    "attempt_name": "erp-<YYYYmmdd-HHMMSS>-WIB-<random token>.dump; an existing dump or receipt name is refused before anything is written (P20 F03)"
   },
   "installed": false,
   "production_go": false,
@@ -110,5 +114,6 @@
     "finish time moved back 8 days",
     "three earlier nights' backup receipts",
     "TEST_SCHEDULE_OVERRIDE on the disposable race copy"
-  ]
+  ],
+  "schedule_job_name": "pg_cron job name = <schedule name>@<database> (P20 F02): installing for one database never moves another database's jobs; reinstall is idempotent; a same-named job of another database is refused before any change"
 }

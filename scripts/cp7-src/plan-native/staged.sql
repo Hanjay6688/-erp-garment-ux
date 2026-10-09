@@ -417,8 +417,9 @@ begin
 end $$;
 
 -- Apply: v1's order (request, rolls, target, version) with one more lock: the
--- one shared capacity centre, after the rolls and before the target. v1 never
--- takes it, so no cycle can form. The live recheck runs after every lock and
+-- one shared capacity centre, after the rolls and before the target. v1 takes
+-- the same lock in the same place (P20 F01), so no cycle can form and an
+-- uncommitted plan of either version is counted by the other once it commits. The live recheck runs after every lock and
 -- again after the Native writer (which may wait on its own row locks); any
 -- refusal rolls the Native draft back with the rest of the transaction.
 create function cp7_plan_native.apply_v2(p jsonb,p_request uuid)returns jsonb

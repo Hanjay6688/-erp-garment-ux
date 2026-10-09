@@ -91,7 +91,7 @@ jobs:
         - suite: p19-staged12
           probe: cp7_p19_staged_probe.py
           timeout: 150
-        - suite: p19-plan-v2-18
+        - suite: p19-plan-v2-22
           probe: cp7_p19_plan_v2_probe.py
           timeout: 180
         - suite: p19-report-v2-20
@@ -109,7 +109,7 @@ jobs:
         - suite: k2-retention-10
           probe: cp7_k2_retention_probe.py
           timeout: 150
-        - suite: k3-cleanup-17
+        - suite: k3-cleanup-19
           probe: cp7_k3_cleanup_probe.py
           timeout: 180
     env:

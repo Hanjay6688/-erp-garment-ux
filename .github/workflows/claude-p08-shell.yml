@@ -26,6 +26,12 @@ jobs:
       - run: npm ci
       - run: python3 scripts/cp7_contract_receipt.py
       - run: python3 scripts/cp7_native_fixture_window_test.py
+      # P20 F05 (independent audit 9 Oct 2026): the same evidence gates as the integration shell (cp7-shell.yml).
+      - run: python3 scripts/cp7_probe_evidence_test.py
+      - name: P19 browser loading boundary controls
+        run: node scripts/cp7_p19_browser_latency_test.mjs
+      - name: Verify complete Original retention and corruption controls
+        run: python3 scripts/cp7_integration_originals_test.py
       - run: npm test
       - run: npm run test:security
       - run: npm run build

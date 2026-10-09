@@ -12,6 +12,10 @@ Retention: the newest `keep` verified backups stay (14 nights by default). Older
 after tonight's backup verified, and the newest verified backup is never removed; a failed or unverified
 night removes nothing. The scratch database is dropped at the end either way.
 
+P20 F03 (independent audit 9 Oct 2026, AS20-45): every attempt has its own name (the WIB second plus a random
+token), and an existing dump or receipt of that name is refused before anything is written, so a retry in
+the same second never replaces an earlier dump or its receipt.
+
 Schedule: every night at 01:00 WIB (18:00 UTC), run by a scheduler outside the database (the template
 .github/workflows/cp7-nightly-backup.yml stays disabled until the installation is approved). The tool
 never chooses a database by itself: the source, the scratch server and the destination are arguments.
@@ -25,6 +29,7 @@ import re
 import shutil
 import subprocess
 import time
+import uuid
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse
@@ -147,8 +152,14 @@ def backup(admin_url, source, scratch, dest, keep=KEEP, container=None, now=None
     dest = Path(dest)
     dest.mkdir(parents=True, exist_ok=True)
     started = now or datetime.now(timezone.utc)
-    name = 'erp-%s.dump' % started.astimezone(WIB).strftime('%Y%m%d-%H%M%S-WIB')
+    name = 'erp-%s-%s.dump' % (started.astimezone(WIB).strftime('%Y%m%d-%H%M%S-WIB'), uuid.uuid4().hex[:12])
     file = dest / name
+    receipt_path = dest / (name + '.receipt.json')
+    if file.exists() or receipt_path.exists():
+        raise FileExistsError('BACKUP_NAME_COLLISION: %s' % name)
+    # Claim the receipt name first (exclusive create): two attempts can never write the same receipt.
+    with open(receipt_path, 'x') as claim:
+        claim.write(json.dumps(dict(contract=CONTRACT, file=name, state='STARTED', started_at_utc=started.isoformat(), restore_verified=False)) + '\n')
     tools = Tools(admin_url, container)
     receipt = dict(contract=CONTRACT, label='CP7C_NIGHTLY_BACKUP', schedule=SCHEDULE, file=name, source_database=source,
                    scratch_database=scratch, started_at_utc=started.isoformat(), started_at_wib=started.astimezone(WIB).isoformat(),
@@ -178,9 +189,9 @@ def backup(admin_url, source, scratch, dest, keep=KEEP, container=None, now=None
         tools.remove_inner(file)
     finished = datetime.now(timezone.utc)
     receipt.update(finished_at_utc=finished.isoformat(), finished_at_wib=finished.astimezone(WIB).isoformat())
-    (dest / (name + '.receipt.json')).write_text(json.dumps(receipt, indent=1, default=str) + '\n')
+    receipt_path.write_text(json.dumps(receipt, indent=1, default=str) + '\n')
     receipt['retention'] = prune(dest, keep, receipt['restore_verified'])
-    (dest / (name + '.receipt.json')).write_text(json.dumps(receipt, indent=1, default=str) + '\n')
+    receipt_path.write_text(json.dumps(receipt, indent=1, default=str) + '\n')
     return receipt
 
 

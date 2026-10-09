@@ -9,6 +9,12 @@ only on a disposable copy, with a labelled TEST_SCHEDULE_OVERRIDE so a job fires
 pg_cron keeps its jobs in the database named postgres (cron_cur); each job runs in the ERP database
 (`database`) as the scheduler role (`username`, normally postgres, the only role that may run the cp7_ops
 entries). The definitions come from the ERP database itself, so the installed jobs are exactly the package's.
+
+P20 F02 (independent audit 9 Oct 2026, AS20-43): pg_cron replaces a job of the same name and user, so the job
+name carries the database (`cp7-staged-cleanup@<database>`): installing for database B never moves A's jobs,
+installing again when the jobs already match changes nothing (same job ids), and uninstall removes only the
+target database's jobs. A same-named job of the same user pointing at another database is refused before any
+change.
 """
 import argparse
 import json
@@ -22,10 +28,22 @@ def definitions(erp_cur):
     return erp_cur.execute('select cp7_ops.schedules()').fetchone()[0]
 
 
+def job_name(name, database):
+    """The pg_cron job name of one package schedule for one database."""
+    return name + '@' + database
+
+
 def installed(cron_cur, database):
     rows = cron_cur.execute("""select jobid,jobname,schedule,command,database,username,active from cron.job
         where jobname like %s and database=%s order by jobname""", (PREFIX + '%', database)).fetchall()
     return [dict(jobid=r[0], name=r[1], schedule=r[2], command=r[3], database=r[4], username=r[5], active=r[6]) for r in rows]
+
+
+def foreign(cron_cur, database, username, names):
+    """Jobs of these names and this user that point at another database (pg_cron would move them)."""
+    rows = cron_cur.execute("select jobid,jobname,database from cron.job where jobname=any(%s) and username=%s and database<>%s",
+                            (list(names), username, database)).fetchall()
+    return [dict(jobid=r[0], name=r[1], database=r[2]) for r in rows]
 
 
 def uninstall(cron_cur, database):
@@ -37,19 +55,26 @@ def uninstall(cron_cur, database):
 
 
 def install(cron_cur, database, username, defs, override=None):
-    """Replace this database's cp7 jobs by `defs`. `override` maps a job name to a test schedule (tests only)."""
+    """Make this database's cp7 jobs exactly `defs` (job names carry the database). Nothing changes when they already
+    match; another database's jobs are never touched. `override` maps a package name to a test schedule (tests only)."""
+    wanted = [dict(d, schedule=(override or {}).get(d['name'], d['schedule'])) for d in defs]
+    clash = foreign(cron_cur, database, username, [job_name(d['name'], database) for d in wanted])
+    if clash:
+        raise RuntimeError('CP7_SCHEDULE_NAME_USED_BY_ANOTHER_DATABASE: %s' % json.dumps(clash))
+    ok, _ = matches(cron_cur, database, username, wanted)
+    if ok:
+        return {d['name']: j['jobid'] for d in wanted for j in installed(cron_cur, database) if j['name'] == job_name(d['name'], database)}
     uninstall(cron_cur, database)
     ids = {}
-    for d in defs:
-        schedule = (override or {}).get(d['name'], d['schedule'])
+    for d in wanted:
         ids[d['name']] = cron_cur.execute('select cron.schedule_in_database(%s,%s,%s,%s,%s,true)',
-                                          (d['name'], schedule, d['command'], database, username)).fetchone()[0]
+                                          (job_name(d['name'], database), d['schedule'], d['command'], database, username)).fetchone()[0]
     return ids
 
 
 def matches(cron_cur, database, username, defs):
-    """The installed jobs are exactly the package's definitions (name, schedule, command, database, user, active)."""
-    want = sorted((d['name'], d['schedule'], d['command'], database, username, True) for d in defs)
+    """The installed jobs are exactly the package's definitions (name@database, schedule, command, database, user, active)."""
+    want = sorted((job_name(d['name'], database), d['schedule'], d['command'], database, username, True) for d in defs)
     have = sorted((j['name'], j['schedule'], j['command'], j['database'], j['username'], j['active']) for j in installed(cron_cur, database))
     return want == have, dict(expected=want, installed=have)
 

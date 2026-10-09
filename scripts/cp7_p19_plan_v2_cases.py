@@ -27,8 +27,9 @@ import cp7_fg_cases as fg
 IDS = dict(
     native=['P19P_INDEX_RETAINED', 'P19P_SAVE_FROM_STALE_SNAPSHOT', 'P19P_PREVIEW_READ_ONLY_LIVE', 'P19P_APPLY_AFTER_UNRELATED_CHANGE',
             'P19P_FG_INCREASE_NEED_CHANGED', 'P19P_WIP_INCREASE_NEED_CHANGED', 'P19P_POLICY_CHANGED', 'P19P_CAPACITY_USED',
-            'P19P_TARGET_PLANNED_AND_LINKED', 'P19P_FIELDS_KINDS_ACCESS'],
-    races=['P19P_RACE_CAPACITY_TWO_TARGETS', 'P19P_RACE_SAME_TARGET', 'P19P_RACE_FG_WHILE_WAITING', 'P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE'],
+            'P19P_TARGET_PLANNED_AND_LINKED', 'P19P_FIELDS_KINDS_ACCESS', 'P19P_V1_V2_SHARED_CAPACITY'],
+    races=['P19P_RACE_CAPACITY_TWO_TARGETS', 'P19P_RACE_SAME_TARGET', 'P19P_RACE_FG_WHILE_WAITING', 'P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE',
+           'P19P_RACE_V1_HOLDS_V2_REFUSED', 'P19P_RACE_V2_HOLDS_V1_REFUSED', 'P19P_RACE_V1_ROLLBACK_FREES_CAPACITY'],
     http=['P19P_HTTP_FLOW', 'P19P_HTTP_REVOKED'],
     browser=['P19P_BROWSER_DESKTOP_PLAN', 'P19P_BROWSER_MOBILE_PLAN'],
 )
@@ -89,6 +90,10 @@ def refusal(cur, op):
     cur.execute('rollback to savepoint p19p_refusal')
     b.api.admin(cur)
     raise AssertionError('P19P_EXPECTED_REFUSAL')
+
+
+def refusal_of(cur, op):
+    return refusal(cur, op)
 
 
 def refused(cur, op, code, sqlstate=None):
@@ -178,6 +183,25 @@ def with_pcs(p, pcs):
     p = copy.deepcopy(p)
     p['cutting']['rolls'][0]['yields'][0]['qty_pcs'] = str(pcs)
     return p
+
+
+def v1_draft(cur, x, pcs, today):
+    """P20 F01: a v1 plan (its own whole Original, the v1 commands) of the same target composition with `pcs` pieces,
+    on the one shared capacity centre of the v2 snapshot. Built as the independent audit built it (AS20-32)."""
+    original = plan.analysis.capture(cur, today)
+    o = plan.options(cur, dict(x['query'], run_id=original['run_id']))
+    assert D(o['capacity_pcs']) == D(x['options']['capacity_pcs']), ('P19P_V1_SAME_CENTRE', o['capacity_pcs'], x['options']['capacity_pcs'])
+    p = with_pcs(x['payload'], pcs)
+    p.pop('identity_hash')
+    p.update(run_id=original['run_id'], source_hash=o['source_hash'], reviewed_assumption_ids=[a['id'] for a in o['assumptions']])
+    return plan.save(cur, p)
+
+
+def planned_pcs(cur, drafts):
+    """Pieces of the committed intents of these drafts (the plan's own composition)."""
+    return cur.execute("select coalesce(sum((y->>'qty_pcs')::numeric),0)from cp7_plan_native.intents i join cp7_plan_native.drafts d on d.id=i.draft_id "
+                       "cross join lateral jsonb_array_elements(d.payload->'cutting'->'rolls')r cross join lateral jsonb_array_elements(r->'yields')y "
+                       "where d.id=any(%s::uuid[])", ([str(x['draft_id']) for x in drafts],)).fetchone()[0]
 
 
 def posted_cut(cur, x, pcs, today):
@@ -389,6 +413,24 @@ def cases(cur, today):
         assert intents(cur) == 1
         return dict(status='PASS', one_shared_centre=True, other_target_plan_after_snapshot_uses_capacity=True, split=[a, b_], detail=detail)
 
+    def v1_v2_shared_capacity():
+        """P20 F01: a v2 plan already uses the one shared capacity centre; a v1 plan (an Original captured after it)
+        one piece over what is left is refused with its numbers, and the v1 plan that fits exactly is accepted."""
+        first, second = two(cur, today)
+        c = int(D(first['options']['capacity_pcs']))
+        a, b_ = capacity_split(first, second)
+        assert a >= 2, ('P19P_V1_FIT_NEEDS_TWO', a)
+        out2 = apply(cur, action(save(cur, with_pcs(second['payload'], b_))))
+        assert out2['state'] == 'NATIVE_DRAFT_CREATED', out2
+        over = v1_draft(cur, first, a, today)
+        detail = refused(cur, lambda: plan.apply(cur, action(over)), 'CP7_PLAN_CAPACITY_USED', '40001')
+        assert (D(detail['capacity_used_by_other_plans_pcs']), D(detail['capacity_now_pcs']), D(detail['selected_new_pcs'])) == (b_, c - b_, a), detail
+        fit = v1_draft(cur, first, a - 1, today)
+        out1 = plan.apply(cur, action(fit))
+        assert out1['state'] == 'NATIVE_DRAFT_CREATED' and intents(cur) == 2, out1
+        assert planned_pcs(cur, [fit]) + b_ == c
+        return dict(status='PASS', capacity=c, v2_first=b_, v1_one_over_refused=detail, v1_exact_fit_accepted=a - 1, total=c)
+
     def planned_and_linked():
         x = single(cur, today)
         apply(cur, action(save(cur, x['payload'])))
@@ -439,7 +481,7 @@ def cases(cur, today):
                     current_create_permission_required=True, capabilities_private=True)
 
     return list(zip(IDS['native'], (index_retained, save_from_stale, preview_read_only, apply_after_unrelated, fg_increase, wip_increase,
-                                    policy_changed, capacity_used, planned_and_linked, fields_kinds_access)))
+                                    policy_changed, capacity_used, planned_and_linked, fields_kinds_access, v1_v2_shared_capacity)))
 
 
 def races(tools, today):
@@ -572,7 +614,87 @@ def races(tools, today):
         return dict(status='PASS', capture_boundary='SNAPSHOT', plan_in_flight_at_capture_is_after_the_snapshot=True,
                     recorded_before_capture_time=True, first=first['state'])
 
-    return list(zip(IDS['races'], (capacity_two_targets, same_target, fg_while_waiting, intent_in_flight)))
+    def held(kind, d):
+        """Apply one plan (kind 'v1' or 'v2') in an open transaction: it holds the capacity lock until commit/rollback."""
+        conn = tools.connect()
+        cur = conn.cursor()
+        out = (plan.apply if kind == 'v1' else apply)(cur, action(d))
+        assert out['state'] == 'NATIVE_DRAFT_CREATED', out
+        return conn, out
+
+    def apply_kind(kind, d, pids):
+        with tools.connect() as conn, conn.cursor() as cur:
+            pids.put(cur.execute('select pg_backend_pid()').fetchone()[0])
+            try:
+                result = (plan.apply if kind == 'v1' else apply)(cur, action(d))
+                conn.commit()
+                return result
+            except psycopg.Error as e:
+                conn.rollback()
+                return dict(error=e.diag.message_primary, sqlstate=e.sqlstate, detail=e.diag.message_detail)
+
+    def cross(first_kind, second_kind, finish):
+        """P20 F01 (AS20-32): one version applies in an open transaction, the other version applies on another target
+        of the same capacity centre and must wait on the capacity lock; then the first commits or rolls back."""
+        with tools.connect() as conn, conn.cursor() as cur:
+            first, second = two(cur, today)
+            c = int(D(first['options']['capacity_pcs']))
+            a, b_ = capacity_split(first, second)
+            draft = lambda kind, x, pcs: v1_draft(cur, x, pcs, today) if kind == 'v1' else save(cur, with_pcs(x['payload'], pcs))
+            d1, d2 = draft(first_kind, first, a), draft(second_kind, second, b_)
+            conn.commit()
+        pids = Queue()
+        holder, out1 = held(first_kind, d1)
+        try:
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                job = pool.submit(apply_kind, second_kind, d2, pids)
+                observed = waiting([pids.get(timeout=8)])
+                (holder.commit if finish == 'commit' else holder.rollback)()
+                result = job.result(60)
+        finally:
+            holder.close()
+        with tools.connect() as conn, conn.cursor() as cur:
+            total = planned_pcs(cur, [d1, d2])
+        assert total <= c, ('P19P_CAPACITY_EXCEEDED', c, total, result)
+        return dict(capacity=c, quantities=[a, b_], first_version=first_kind, second_version=second_kind, waited_on_capacity_lock=observed,
+                    first_finished=finish, second_result=result, committed_total=str(total)), (first, second, c, a, b_)
+
+    def v1_holds_v2_refused():
+        out, (first, second, c, a, b_) = cross('v1', 'v2', 'commit')
+        r = out['second_result']
+        assert r.get('sqlstate') == '40001' and r['error'] == 'CP7_PLAN_V2_CAPACITY_USED', r
+        detail = json.loads(r['detail'])
+        assert D(detail['capacity_used_by_other_plans_pcs']) == a and D(detail['capacity_now_pcs']) == c - a, detail
+        # Exact fit after the v1 plan committed: c - a pieces of the v2 plan are accepted (the 59 + 1 control).
+        with tools.connect() as conn, conn.cursor() as cur:
+            fit = save(cur, with_pcs(second['payload'], c - a))
+            accepted = apply(cur, action(fit))
+            conn.commit()
+            assert accepted['state'] == 'NATIVE_DRAFT_CREATED' and intents(cur) == 2, accepted
+        return dict(status='PASS', **out, v2_refusal=detail, exact_fit_accepted=[a, c - a])
+
+    def v2_holds_v1_refused():
+        out, (first, second, c, a, b_) = cross('v2', 'v1', 'commit')
+        r = out['second_result']
+        # The v1 plan's own Original may also have changed (the v2 plan's Native draft); either refusal keeps the total.
+        assert r.get('sqlstate') == '40001' and r['error'] in ('CP7_PLAN_CAPACITY_USED', 'CP7_PLAN_SOURCE_CHANGED'), r
+        if r['error'] == 'CP7_PLAN_CAPACITY_USED':
+            detail = json.loads(r['detail'])
+            assert D(detail['capacity_used_by_other_plans_pcs']) == a and D(detail['capacity_now_pcs']) == c - a, detail
+        with tools.connect() as conn, conn.cursor() as cur:
+            assert intents(cur) == 1
+        return dict(status='PASS', **out, v1_refusal=r['error'])
+
+    def v1_rollback_frees():
+        out, (first, second, c, a, b_) = cross('v1', 'v2', 'rollback')
+        r = out['second_result']
+        assert r.get('state') == 'NATIVE_DRAFT_CREATED', r
+        with tools.connect() as conn, conn.cursor() as cur:
+            assert intents(cur) == 1 and D(out['committed_total']) == b_
+        return dict(status='PASS', **{k: v for k, v in out.items() if k != 'second_result'}, second_committed_after_rollback=True)
+
+    return list(zip(IDS['races'], (capacity_two_targets, same_target, fg_while_waiting, intent_in_flight,
+                                   v1_holds_v2_refused, v2_holds_v1_refused, v1_rollback_frees)))
 
 
 def http_cases(http, today):

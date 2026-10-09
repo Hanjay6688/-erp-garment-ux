@@ -58,6 +58,10 @@ describe('plan v2 refusals from a dated snapshot', () => {
     const e = normalizeClientError({ code: '40001', message: 'CP7_PLAN_V2_CAPACITY_USED', details: JSON.stringify({ capacity_now_pcs: '12', capacity_used_by_other_plans_pcs: '48', selected_new_pcs: '20' }) })
     expect([e.code, e.retryable, e.message]).toEqual(['REJECTED', false, 'Kapasitas potong tersisa 12 pcs (rencana lain memakai 48 pcs), rencana 20 pcs. Tinjau ulang rencana.'])
   })
+  it('says the same for an earlier-analysis plan refused under the shared capacity lock', () => {
+    const e = normalizeClientError({ code: '40001', message: 'CP7_PLAN_CAPACITY_USED', details: JSON.stringify({ capacity_now_pcs: '1', capacity_used_by_other_plans_pcs: '59', selected_new_pcs: '2' }) })
+    expect([e.code, e.retryable, e.message]).toEqual(['REJECTED', false, 'Kapasitas potong tersisa 1 pcs (rencana lain memakai 59 pcs), rencana 2 pcs. Tinjau ulang rencana.'])
+  })
   it('keeps a plain sentence when the numbers are missing or not numbers', () => {
     expect(normalizeClientError({ code: '40001', message: 'CP7_PLAN_V2_NEED_CHANGED', details: 'not json' }).message).toBe('Kebutuhan sudah berubah sejak data diambil. Tinjau ulang rencana.')
     expect(normalizeClientError({ code: '40001', message: 'CP7_PLAN_V2_NEED_CHANGED', details: JSON.stringify({ need_now_pcs: 'x', selected_new_pcs: '2' }) }).message).toBe('Kebutuhan sudah berubah sejak data diambil. Tinjau ulang rencana.')

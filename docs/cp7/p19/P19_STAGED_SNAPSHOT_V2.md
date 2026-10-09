@@ -99,11 +99,15 @@ sama (bukan dihitung ulang). Dibaca satu target tanpa membuka halaman lain.
   - bahan/roll dan akses sama seperti v1.
   Penolakan: SQLSTATE 40001, pesan = kode, DETAIL = JSON angka (kebutuhan sekarang, potong dipilih, stok/WIP
   sekarang vs snapshot, kapasitas tersisa), tanpa draf Native atau intent.
+- **P20 F01 (audit 9 Okt, diperbaiki):** apply v1 sekarang mengambil kunci `CP7:PLAN_CAPACITY` yang sama, di tempat yang
+  sama (permintaan → roll → kapasitas → target → versi), lalu sebelum dan sesudah penulis Native menghitung kapasitas
+  sisa = kapasitas Original − potong semua rencana lain (v1 atau v2) yang grup Native-nya masih draf; lebih →
+  40001 `CP7_PLAN_CAPACITY_USED` dengan angka di DETAIL. Dua apply v1/v2 yang tumpang tindih tidak bisa lagi melewati
+  kapasitas bersama.
 - Draf v1 tidak bisa dipakai di RPC v2 dan sebaliknya (`CP7_PLAN_V2_DRAFT_KIND` / `CP7_PLAN_FIELDS`). File v1 tidak berubah.
 - Batas yang dicatat: WIP dibandingkan per model+ukuran (warna lain dari model yang sama ikut mengurangi kebutuhan,
   arahnya menolak, tidak meloloskan); kapasitas memakai potong yang tertulis di draf rencana (bukan suntingan draf
-  Native sesudahnya); apply v1 tidak memakai kunci kapasitas (dua apply v1 dan v2 bersamaan bisa sama-sama lolos
-  kapasitas, sama seperti v1 hari ini); run yang selesai sebelum indeks ada perlu dianalisis ulang
+  Native sesudahnya); run yang selesai sebelum indeks ada perlu dianalisis ulang
   (`CP7_PLAN_V2_SNAPSHOT_INDEX_MISSING`).
 
 ## 4. Business Report v2 — server dibuat (`scripts/cp7-src/planning/report-staged.sql`)

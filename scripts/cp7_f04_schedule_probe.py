@@ -24,7 +24,7 @@ def verify(cur):
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
 def run():
- report=dict(label='CP7_F04_NATIVE_SCHEDULE',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='GLOBAL_NATIVE_TARGET_WIP_SELECTED_SOURCE_BOUND_YIELD_REMAINING_WORK_CALENDAR_SHARED_CAPACITY_UNKNOWN_GLOBAL_ALLOCATION_APPLY_FALSE',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=70);installed=False
+ report=dict(label='CP7_F04_NATIVE_SCHEDULE',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='GLOBAL_NATIVE_TARGET_WIP_SELECTED_SOURCE_BOUND_YIELD_REMAINING_WORK_CALENDAR_SHARED_CAPACITY_UNKNOWN_GLOBAL_ALLOCATION_APPLY_FALSE',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),expected_case_count=71);installed=False
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);restore_before=restore_state.capture(cur,package.boundary.snapshot,native.public_state,p09.functions);before=restore_before['boundary'];public_before=restore_before['public'];conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)

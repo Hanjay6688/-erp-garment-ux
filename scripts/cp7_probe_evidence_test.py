@@ -14,6 +14,11 @@ def main():
     run = next(node for node in module.body if isinstance(node, ast.FunctionDef) and node.name == 'run')
     outer = next(node for node in run.body if isinstance(node, ast.Try))
     restoration = next(node for node in outer.finalbody if isinstance(node, ast.If) and ast.unparse(node.test) == 'installed')
+    # Every suite flag of run() (all default False), read from its real signature: a flag added to the probe can
+    # never be missing here again (P20 F05: p19_plan_v2 and the later flags were missing, NameError).
+    flags = {arg.arg: False for arg, default in zip(run.args.args[len(run.args.args) - len(run.args.defaults):], run.args.defaults)
+             if isinstance(default, ast.Constant) and default.value is False}
+    assert {'p19_load', 'p19_staged', 'p19_plan_v2', 'k3_cleanup'} <= set(flags), sorted(flags)
     with tempfile.TemporaryDirectory(prefix='cp7-emission-control-') as temporary:
         for initial_error in (None, 'earlier actual case failure'):
             report = {'status': 'INCOMPLETE'}
@@ -24,13 +29,8 @@ def main():
             connection = Mock()
             connection.connect.side_effect = RuntimeError('deliberate restoration lock failure')
             output = Path(temporary) / ('earlier.json' if initial_error else 'restore.json')
-            environment = dict(installed=True, psycopg=connection, package=Mock(), report=report,
-                               traceback=traceback, fabric_any=False, p19_load=False, p19_transport=False, p19_scale=False, p19_staged=False,
-                               attention=False, p18_e01=False,
-                               rule_lifecycle=False, source_navigation=False, misc_correction=False,
-                               payment_correction=False, supplier_payment_correction=False,
-                               return_correction=False, sales_chain=False, cutting_correction=False,
-                               expected=16, out=output, json=json)
+            environment = dict(flags, installed=True, psycopg=connection, package=Mock(), report=report,
+                               traceback=traceback, fabric_any=False, expected=16, out=output, json=json)
             # Execute the current real finalizer, including status calculation
             # and actual report writing, without importing a Native connection.
             finalizer = ast.fix_missing_locations(ast.Module(body=outer.finalbody, type_ignores=[]))

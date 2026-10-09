@@ -40,7 +40,7 @@ begin
 end $$;
 create function cp7_plan_native.apply(p jsonb,p_request uuid)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
-declare a jsonb;old cp7_plan_native.commands%rowtype;r cp7_plan_native.drafts%rowtype;preview jsonb;native jsonb;outcome jsonb;k uuid;
+declare a jsonb;old cp7_plan_native.commands%rowtype;r cp7_plan_native.drafts%rowtype;preview jsonb;native jsonb;outcome jsonb;k uuid;used numeric;
 begin
  a:=cp7_plan_native.access_now('APPLY');perform cp7_plan_native.fields(p,array['draft_id','expected_revision','explicit_review','reason']);
  if p_request is null or jsonb_typeof(p->'draft_id')<>'string'or jsonb_typeof(p->'expected_revision')<>'string'
@@ -58,6 +58,12 @@ begin
    perform pg_advisory_xact_lock(hashtextextended('CP7:PLAN_MATERIAL_POOL:'||k::text,0));
   end loop;
   if cp7_plan_native.access_now('APPLY')is distinct from a then raise exception using errcode='42501',message='CP7_PLAN_ACCESS_CHANGED';end if;
+ -- P20 F01: the one shared capacity centre, under the same lock and in the same
+ -- order as apply_v2 (request, rolls, capacity, target, version). A v1 or v2
+ -- apply that is still uncommitted holds it, so the other version waits and
+ -- then counts that plan's committed intent below.
+ perform pg_advisory_xact_lock(hashtextextended('CP7:PLAN_CAPACITY',0));
+ if cp7_plan_native.access_now('APPLY')is distinct from a then raise exception using errcode='42501',message='CP7_PLAN_ACCESS_CHANGED';end if;
   -- Same canonical target lock for every actor, draft, run and UUID. The Native
  -- roll locks retain their own unchanged ordering inside the domain command.
  perform pg_advisory_xact_lock(hashtextextended('CP7:PLAN_TARGET:'||r.target_key,0));
@@ -70,6 +76,17 @@ begin
  preview:=cp7_plan_native.preflight(r.payload);
  if preview->>'composition_hash'<>r.composition_hash then raise exception using errcode='40001',message='CP7_PLAN_NATIVE_SELECTION_CHANGED';end if;
  if cp7_plan_native.access_now('APPLY')is distinct from a then raise exception using errcode='42501',message='CP7_PLAN_ACCESS_CHANGED';end if;
+ -- P20 F01: capacity left after every other plan (v1 or v2) whose Native cutting
+ -- group is still an unposted draft: such cuts are not in any Original's load.
+ -- A posted group was in this Original's load or changed its source (refused
+ -- above); a deleted Native draft uses none.
+ select coalesce(sum((yy.value->>'qty_pcs')::numeric),0)into used from cp7_plan_native.intents i
+  join erp.cutting_groups g on g.id=i.cutting_group_id join cp7_plan_native.drafts d on d.id=i.draft_id
+  cross join lateral jsonb_array_elements(d.payload#>'{cutting,rolls}')rr(value)cross join lateral jsonb_array_elements(rr.value->'yields')yy(value)
+  where i.draft_id<>r.id and not g.material_issue_posted;
+ if(preview->>'selected_new_pcs')::numeric>(preview->>'free_capacity_pcs')::numeric-used then raise exception using errcode='40001',message='CP7_PLAN_CAPACITY_USED',
+  detail=jsonb_build_object('capacity_pcs',preview->'free_capacity_pcs','capacity_used_by_other_plans_pcs',used::text,
+   'capacity_now_pcs',((preview->>'free_capacity_pcs')::numeric-used)::text,'selected_new_pcs',preview->'selected_new_pcs')::text;end if;
  native:=public.erp_save_cutting_group_before_sewing_v2(preview->'native_payload',p_request,null);
  if native->'material_issue_posted'is distinct from'false'::jsonb then raise exception 'CP7_PLAN_DOMAIN_DRAFT_ONLY';end if;
  -- The Native writer can wait on real roll locks. Recheck its own Original
@@ -82,6 +99,14 @@ begin
  delete from cp7_plan_native.apply_own_drafts where cutting_group_id=(native->>'cutting_group_id')::uuid;
  if preview->>'composition_hash'<>r.composition_hash then raise exception using errcode='40001',message='CP7_PLAN_NATIVE_SELECTION_CHANGED';end if;
  if cp7_plan_native.access_now('APPLY')is distinct from a then raise exception using errcode='42501',message='CP7_PLAN_ACCESS_CHANGED';end if;
+ -- P20 F01: the same capacity check again after the Native writer (it may wait on row locks).
+ select coalesce(sum((yy.value->>'qty_pcs')::numeric),0)into used from cp7_plan_native.intents i
+  join erp.cutting_groups g on g.id=i.cutting_group_id join cp7_plan_native.drafts d on d.id=i.draft_id
+  cross join lateral jsonb_array_elements(d.payload#>'{cutting,rolls}')rr(value)cross join lateral jsonb_array_elements(rr.value->'yields')yy(value)
+  where i.draft_id<>r.id and not g.material_issue_posted;
+ if(preview->>'selected_new_pcs')::numeric>(preview->>'free_capacity_pcs')::numeric-used then raise exception using errcode='40001',message='CP7_PLAN_CAPACITY_USED',
+  detail=jsonb_build_object('capacity_pcs',preview->'free_capacity_pcs','capacity_used_by_other_plans_pcs',used::text,
+   'capacity_now_pcs',((preview->>'free_capacity_pcs')::numeric-used)::text,'selected_new_pcs',preview->'selected_new_pcs')::text;end if;
  insert into cp7_plan_native.intents(draft_id,actor,target_key,core_hash,cutting_group_id,request_id)
  values(r.id,(a->>'actor')::uuid,r.target_key,preview->>'core_hash',(native->>'cutting_group_id')::uuid,p_request)returning id into k;
  outcome:=jsonb_build_object('contract_version','cp7.plan-apply-outcome.v1','kind','COMMITTED_OUTCOME','actor_scope_id',a->>'actor',

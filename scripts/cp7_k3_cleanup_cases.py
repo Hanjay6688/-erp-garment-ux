@@ -21,6 +21,7 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal as D
 from pathlib import Path
 from urllib.parse import urlparse, urlunparse
+import hashlib
 import json
 import os
 import tempfile
@@ -42,7 +43,8 @@ IDS = dict(
     native=['K3C_CLEANED_ONLY_TEMPORARY', 'K3C_REOPEN_AFTER_CLEANUP', 'K3C_PLAN_V2_AFTER_CLEANUP', 'K3C_REPORT_V2_AFTER_CLEANUP',
             'K3C_AI_AND_REMINDERS_AFTER_CLEANUP', 'K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED', 'K3C_ONLY_DONE_KEPT_RUNS',
             'K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP', 'K3C_SCHEDULE_DEFINED_PRIVATE'],
-    races=['K3C_RACE_TWO_TICKS_ONE_LOG', 'K3C_RACE_BUSY_TABLE_RETRIED', 'K3C_RACE_PG_CRON_FIRES', 'K3C_RACE_NIGHTLY_BACKUP_VERIFIED'],
+    races=['K3C_RACE_TWO_TICKS_ONE_LOG', 'K3C_RACE_BUSY_TABLE_RETRIED', 'K3C_RACE_PG_CRON_FIRES', 'K3C_RACE_NIGHTLY_BACKUP_VERIFIED',
+           'K3C_RACE_CRON_TWO_DATABASES', 'K3C_RACE_BACKUP_RETRY_SAME_SECOND'],
     http=['K3C_HTTP_REOPEN_AFTER_CLEANUP', 'K3C_HTTP_TICK_NOT_REACHABLE'],
     browser=['K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP', 'K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP'],
 )
@@ -449,7 +451,7 @@ def races(tools, today):
             finally:
                 removed = schedule.uninstall(cc, database)
                 cc.execute('delete from cron.job_run_details where jobid=any(%s)', (list(ids.values()),))
-            assert sorted(removed) == sorted(ids) and schedule.installed(cc, database) == []
+            assert sorted(removed) == sorted(schedule.job_name(n, database) for n in ids) and schedule.installed(cc, database) == []
         with tools.connect() as conn, conn.cursor() as cur:
             log = log_row(cur, r['job'])
             assert log is not None and all(n == 0 for n in temp_counts(cur, r['job']).values()), 'K3C_CRON_DID_NOT_CLEAN'
@@ -491,7 +493,92 @@ def races(tools, today):
         return dict(status='PASS', restore_verified=True, tables_compared=tables, failed_night_removed_nothing=True,
                     newest_verified_kept=kept, older_removed_after_verified_night=good['retention']['removed'], schedule=nightly.SCHEDULE)
 
-    return list(zip(IDS['races'], (two_ticks, busy_table, cron_fires, nightly_backup)))
+    def cron_two_databases():
+        """P20 F02 (AS20-43): one pg_cron scheduler and role, the package jobs for two databases. Installing for B never
+        moves A's jobs, installing A again changes nothing, a same-named job of another database is refused before any
+        change, and uninstall removes only the target database's jobs."""
+        u = urlparse(tools.admin)
+        a = u.path.lstrip('/')
+        cron_url = urlunparse(u._replace(path='/postgres'))
+        other = 'cp7_cron_b_' + uuid.uuid4().hex[:8]
+        clash_db = a + '_clash'
+        with tools.connect() as conn, conn.cursor() as cur:
+            defs = schedule.definitions(cur)
+        # TEST_SCHEDULE_OVERRIDE (labelled): once a year, so no job fires during the case.
+        yearly = {d['name']: '0 3 1 1 *' for d in defs}
+        with psycopg.connect(cron_url, autocommit=True) as cron, cron.cursor() as cc:
+            assert cc.execute("select extversion from pg_extension where extname='pg_cron'").fetchone(), 'K3C_PG_CRON_NOT_AVAILABLE'
+            cc.execute('create database "%s"' % other)
+            misnamed = None
+            try:
+                ids_a = schedule.install(cc, a, 'postgres', defs, yearly)
+                jobs_a = schedule.installed(cc, a)
+                ids_b = schedule.install(cc, other, 'postgres', defs, yearly)
+                assert schedule.installed(cc, a) == jobs_a and set(ids_b.values()).isdisjoint(ids_a.values()), (jobs_a, ids_b)
+                ok_b, detail_b = schedule.matches(cc, other, 'postgres', [dict(d, schedule=yearly[d['name']]) for d in defs])
+                assert ok_b, detail_b
+                again = schedule.install(cc, a, 'postgres', defs, yearly)
+                assert again == ids_a and schedule.installed(cc, a) == jobs_a, (again, ids_a)
+                # A job named for a third database but pointing at B: installing for that name is refused, nothing moves.
+                misnamed = cc.execute('select cron.schedule_in_database(%s,%s,%s,%s,%s,false)',
+                                      (schedule.job_name(defs[0]['name'], clash_db), '0 3 1 1 *', 'select 1', other, 'postgres')).fetchone()[0]
+                before = (schedule.installed(cc, a), schedule.installed(cc, other))
+                try:
+                    schedule.install(cc, clash_db, 'postgres', defs, yearly)
+                    raise AssertionError('K3C_CLASH_NOT_REFUSED')
+                except RuntimeError as e:
+                    assert 'CP7_SCHEDULE_NAME_USED_BY_ANOTHER_DATABASE' in str(e), e
+                assert (schedule.installed(cc, a), schedule.installed(cc, other)) == before
+                cc.execute('select cron.unschedule(%s::bigint)', (misnamed,))
+                misnamed = None
+                removed_b = schedule.uninstall(cc, other)
+                assert sorted(removed_b) == sorted(schedule.job_name(d['name'], other) for d in defs) and schedule.installed(cc, a) == jobs_a
+            finally:
+                if misnamed is not None:
+                    cc.execute('select cron.unschedule(%s::bigint)', (misnamed,))
+                schedule.uninstall(cc, a)
+                schedule.uninstall(cc, other)
+                cc.execute('drop database if exists "%s" with (force)' % other)
+            assert schedule.installed(cc, a) == [] and schedule.installed(cc, other) == []
+        return dict(status='PASS', a_untouched_by_b=True, reinstall_same_ids=True, clash_refused_before_change=True,
+                    uninstall_only_target=True, job_names=[j['name'] for j in jobs_a], test_schedule_override='0 3 1 1 *')
+
+    def backup_retry_same_second():
+        """P20 F03 (AS20-45): a verified backup, then a failed retry in the same second into the same folder. The first
+        dump and its receipt stay byte-identical; a name that already exists is refused before anything is written."""
+        u = urlparse(tools.admin)
+        database = u.path.lstrip('/')
+        container = os.environ.get('CP6_DATABASE_CONTAINER', 'supabase_db_cp5-local')
+        digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+        at = datetime.now(timezone.utc).replace(microsecond=0)
+        with tempfile.TemporaryDirectory(prefix='cp7-nightly-retry-') as dest:
+            good = nightly.backup(tools.admin, database, 'cp7_nightly_verify', dest, keep=14, container=container, now=at)
+            assert good['restore_verified'] is True, good
+            dump, rec = Path(dest) / good['file'], Path(dest) / (good['file'] + '.receipt.json')
+            before = (digest(dump), digest(rec))
+            bad = nightly.backup(tools.admin, 'cp7_no_such_database', 'cp7_nightly_verify', dest, keep=14, container=container, now=at)
+            assert bad['restore_verified'] is False and bad['file'] != good['file'] and bad['retention']['removed'] == [], bad
+            assert bad['file'].split('-WIB-')[0] == good['file'].split('-WIB-')[0], (good['file'], bad['file'])
+            assert (digest(dump), digest(rec)) == before and json.loads(rec.read_text())['restore_verified'] is True
+            # A name collision (forced: the same token twice) is refused before any file is written.
+            token = uuid.UUID(int=7)
+            real = nightly.uuid.uuid4
+            nightly.uuid.uuid4 = lambda: token
+            try:
+                first = nightly.backup(tools.admin, 'cp7_no_such_database', 'cp7_nightly_verify', dest, keep=14, container=container, now=at)
+                files = sorted(p.name for p in Path(dest).iterdir())
+                try:
+                    nightly.backup(tools.admin, database, 'cp7_nightly_verify', dest, keep=14, container=container, now=at)
+                    raise AssertionError('K3C_COLLISION_NOT_REFUSED')
+                except FileExistsError as e:
+                    assert 'BACKUP_NAME_COLLISION' in str(e), e
+            finally:
+                nightly.uuid.uuid4 = real
+            assert sorted(p.name for p in Path(dest).iterdir()) == files and (digest(dump), digest(rec)) == before
+        return dict(status='PASS', verified_dump_and_receipt_unchanged=True, retry_same_second_new_name=bad['file'],
+                    collision_refused_before_write=True, failed_retry_removed_nothing=True, synthetic='same timestamp passed as now; forced equal token')
+
+    return list(zip(IDS['races'], (two_ticks, busy_table, cron_fires, nightly_backup, cron_two_databases, backup_retry_same_second)))
 
 
 def http_cases(http, today):

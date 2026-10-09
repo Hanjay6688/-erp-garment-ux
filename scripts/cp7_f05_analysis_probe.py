@@ -64,7 +64,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   # its own predeclared IDs on the same closed harness.
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale,p19_staged)),'P19_PLAN_V2_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_p19_plan_v2_cases as case_provider
-  expected=case_provider.EXPECTED;assert expected==18;out=OUT.with_name('CP7_P19_PLAN_V2.json');phase='cp7_p19_plan_v2';browser_script='cp7_p19_plan_v2_browser.mjs'
+  expected=case_provider.EXPECTED;assert expected==22;out=OUT.with_name('CP7_P19_PLAN_V2.json');phase='cp7_p19_plan_v2';browser_script='cp7_p19_plan_v2_browser.mjs'
  if p19_report_v2:
   # P19 Business Report v2 (report of a dated staged snapshot, actual finance/stock
   # at the report date): its own predeclared IDs on the same closed harness.
@@ -109,7 +109,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   import cp7_reminder_v2_bundle as candidate
   import cp7_k3_cleanup_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==17;out=OUT.with_name('CP7_K3_CLEANUP.json');phase='cp7_k3_cleanup';browser_script='cp7_k3_cleanup_browser.mjs'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==19;out=OUT.with_name('CP7_K3_CLEANUP.json');phase='cp7_k3_cleanup';browser_script='cp7_k3_cleanup_browser.mjs'
  if p19_load:
   import cp7_obligation_report_bundle as candidate
   import cp7_p19_native_load_cases as case_provider

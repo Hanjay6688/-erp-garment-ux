@@ -17,6 +17,8 @@ export function planV2Message(message: unknown, details: unknown): string | null
         ? `Kebutuhan sekarang ${now} pcs, rencana ${plan} pcs${up ? ` (stok barang jadi dan barang dalam proses naik ${up} pcs sejak data diambil)` : ''}. Tinjau ulang rencana.`
         : 'Kebutuhan sudah berubah sejak data diambil. Tinjau ulang rencana.'
     }
+    // P20 F01: an earlier-analysis (v1) plan refused for the same reason under the same shared capacity lock.
+    case 'CP7_PLAN_CAPACITY_USED':
     case 'CP7_PLAN_V2_CAPACITY_USED': {
       const left = n(d.capacity_now_pcs), used = n(d.capacity_used_by_other_plans_pcs), plan = n(d.selected_new_pcs)
       return left && plan
