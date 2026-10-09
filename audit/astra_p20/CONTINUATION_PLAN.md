@@ -25,3 +25,12 @@ The following additional oracles are registered before execution. Input/master s
 | AS20C-19-CARRY | Two payrolls compete for4 opening carry pieces at2.50: total reserved quantity never exceeds4 and the corresponding expense is incurred once. |
 
 All execution uses disposable loopback databases/CI. Application files, writer branches, hosted databases, deployment and production are unchanged. Each first failure is preserved and classified before any targeted correction of an auditor fixture. `production_go:false`.
+
+Additional independent oracles registered before their execution:
+
+* `AS20C-11-RETURN`: real13x7.31 receipt, five physical units returned, portable credit36.55 to a distinct11x7.31 receipt. AP58.48/80.41 becomes95.03/43.86 with no new cash or stock effect; allocation dependency blocks premature reversal; inverse restores source.
+* `AS20C-18-ROSTER`: two workers named Rina with different codes and explicit rates23.17/31.29; full/half attendance yields38.815 before cents posting and38.82 accrued once. Distinct identity, attendance records, and existing work6000 stay separate.
+* `AS20C-09-CLOSED`: sell13, return4, then correct sold quantity12 after closing the sale's economic day. Original journal dates remain unchanged, new GL posting stays after close, net AR102.25 and FG33. The approved ability to correct closed economic history is preserved; no invented blanket refusal.
+* `AS20C-22-TIE`: independent17-piece graph and selected yield1. Needs tied except stable IDs A/B must allocate11 toA then6 toB regardless input order; an earlier real deadline outranks the stable-ID tie. Unknown timing is a review item, not silently feasible supply. Kernel scope is explicit.
+
+First money attempt `37892630236` passed discount, size and whole-flow cases. `AS20C-04-ACTOR` stopped at an auditor typo (`erp.material_purchases`; actual table is `erp.material_purchase_headers`) before its cross-actor checks. Preserve the original trace and rerun only that unfinished case in the extra-edge suite; no product/oracle change and no rerun of the three passing cases.

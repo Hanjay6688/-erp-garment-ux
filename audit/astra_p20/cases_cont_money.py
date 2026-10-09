@@ -48,10 +48,10 @@ def cases(cur,today):
     def actor_uuid():
         p=b.procurement;f=p.fixture(cur,today,'23','7.19',True)
         left,_=p.custom(cur,p.OPS+('finance.ap.view',));right,_=p.custom(cur,p.OPS+('finance.ap.view',));key=uuid.uuid4()
-        first=p.command(cur,'SAVE_DRAFT',f['payload'],key,subject=left);facts=digest_rows(cur,'erp','material_purchases')
+        first=p.command(cur,'SAVE_DRAFT',f['payload'],key,subject=left);facts=digest_rows(cur,'erp','material_purchase_headers')
         other=refusal(cur,lambda:p.command(cur,'SAVE_DRAFT',f['payload'],key,subject=right))
         check(other['refused'] or other['result'].get('purchase_id')!=first['purchase_id'],'Other actor cannot replay original successful UUID',original=first,other=other)
-        check(digest_rows(cur,'erp','material_purchases')==facts and p.qty(cur,f)==(0,0),'Cross-actor probe leaves no physical side effect')
+        check(digest_rows(cur,'erp','material_purchase_headers')==facts and p.qty(cur,f)==(0,0),'Cross-actor probe leaves no physical side effect')
         # Savepoint wrapper observes action binding but rolls back any valid distinct POST.
         action=refusal(cur,lambda:p.post(cur,first,key,subject=left))
         check(action['refused'] or action['result'].get('status')=='POSTED','POST cannot replay a SAVE_DRAFT response',save=first,cross_action=action)

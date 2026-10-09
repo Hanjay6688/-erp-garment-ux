@@ -1,0 +1,286 @@
+{
+  "run": 37892630236,
+  "job": 113696730139,
+  "parsed": [
+    {
+      "group": "ASTRA_P20_CONT_MONEY_NATIVE",
+      "case": "AS20C-07-DISCOUNT",
+      "audit_case_id": "AS20C-07-DISCOUNT",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": [
+        {
+          "gross": "21474836.48",
+          "discount": "0.01",
+          "net": "21474836.47",
+          "posted": {
+            "paid": "0.00",
+            "lines": [
+              {
+                "id": "0ffcf99e-61b8-44e0-8434-c57f5017dbc2",
+                "qty": 10,
+                "note": null,
+                "po_id": "3c5a0057-1250-49dc-a823-c661921141ea",
+                "amount": "21474836.48",
+                "line_no": 1,
+                "category": "GOOD",
+                "variance": "21474662.77",
+                "line_kind": "BILL",
+                "net_amount": "21474836.47",
+                "discount_share": "0.01",
+                "rounding_share": "0.00",
+                "receipt_line_id": "7c40296f-f4a9-4ee8-bed8-1b186885a57e",
+                "completes_source": true,
+                "product_variance": "21474662.77",
+                "released_estimate": "173.70",
+                "rework_service_id": null,
+                "opening_uninvoiced_id": null
+              }
+            ],
+            "action": "POST_INVOICE",
+            "status": "POSTED",
+            "due_date": null,
+            "vendor_id": "3484e767-4234-40f7-ae25-0d0ad38d4816",
+            "invoice_id": "02d80254-597f-4077-923d-2c9f1fe5177d",
+            "journal_id": "b5fd0b58-48b1-4355-b8d3-7d5ab5bed681",
+            "request_id": "719d5f47-f36f-4493-b549-d59e7d92b827",
+            "tax_amount": "0.00",
+            "row_version": "2",
+            "header_total": "21474836.47",
+            "invoice_date": "2026-10-07",
+            "document_kind": "INVOICE",
+            "variance_mode": "PRODUCT_COST",
+            "invoice_number": "INV-f68baf0b8e",
+            "discount_amount": "0.01",
+            "policy_versions": {
+              "LAU_DEC02": 2,
+              "LAU_DEC03": 2,
+              "LAU_DEC06": 2
+            },
+            "rounding_amount": "0.00",
+            "corrects_invoice_id": null,
+            "reversal_journal_id": null,
+            "corrects_invoice_number": null
+          }
+        },
+        {
+          "gross": "22000000.01",
+          "discount": "13.17",
+          "net": "21999986.84",
+          "posted": {
+            "paid": "0.00",
+            "lines": [
+              {
+                "id": "c12426a7-508d-485f-83f7-2cecf1201940",
+                "qty": 10,
+                "note": null,
+                "po_id": "ee1d5df7-fda4-4645-98aa-aaec28256a6f",
+                "amount": "22000000.01",
+                "line_no": 1,
+                "category": "GOOD",
+                "variance": "21999813.14",
+                "line_kind": "BILL",
+                "net_amount": "21999986.84",
+                "discount_share": "13.17",
+                "rounding_share": "0.00",
+                "receipt_line_id": "9ee8e174-6a49-44d5-a200-9a93fd405840",
+                "completes_source": true,
+                "product_variance": "21999813.14",
+                "released_estimate": "173.70",
+                "rework_service_id": null,
+                "opening_uninvoiced_id": null
+              }
+            ],
+            "action": "POST_INVOICE",
+            "status": "POSTED",
+            "due_date": null,
+            "vendor_id": "2b6e206a-65e7-4763-9775-132f46301405",
+            "invoice_id": "6e831fdb-0baa-41d8-9c75-44b9533b865f",
+            "journal_id": "82a28a4f-dac3-4c5a-b17e-f8fb7ce5cce6",
+            "request_id": "3010cda2-6be9-4de2-9773-6f51477ee14c",
+            "tax_amount": "0.00",
+            "row_version": "2",
+            "header_total": "21999986.84",
+            "invoice_date": "2026-10-07",
+            "document_kind": "INVOICE",
+            "variance_mode": "PRODUCT_COST",
+            "invoice_number": "INV-46009baf9f",
+            "discount_amount": "13.17",
+            "policy_versions": {
+              "LAU_DEC02": 3,
+              "LAU_DEC03": 3,
+              "LAU_DEC06": 3
+            },
+            "rounding_amount": "0.00",
+            "corrects_invoice_id": null,
+            "reversal_journal_id": null,
+            "corrects_invoice_number": null
+          }
+        }
+      ],
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_MONEY_NATIVE",
+      "case": "AS20C-08-SIZE",
+      "audit_case_id": "AS20C-08-SIZE",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "quantities": [
+          11,
+          7
+        ],
+        "extra_eligible": 3,
+        "estimates": {
+          "c8c10000-0000-4000-8000-000000000002": "15.07",
+          "09556767-246f-4d37-a5ca-a1d334996e7f": "15.68"
+        },
+        "allocations": {
+          "c8c10000-0000-4000-8000-000000000002": "15.07",
+          "09556767-246f-4d37-a5ca-a1d334996e7f": "15.68"
+        },
+        "lot_values": {
+          "c8c10000-0000-4000-8000-000000000002": "76.181111",
+          "09556767-246f-4d37-a5ca-a1d334996e7f": "54.568889"
+        },
+        "other_per_piece": [
+          "5.555555545454545454545454545",
+          "5.555555571428571428571428571"
+        ]
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_MONEY_NATIVE",
+      "case": "AS20C-04-ACTOR",
+      "audit_case_id": "AS20C-04-ACTOR",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "INCOMPLETE",
+      "error": "current transaction is aborted, commands ignored until end of transaction block",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 88, in digest_rows\n    try:texts=sorted(x[0] for x in cur.execute(q,(val,) if col else ()).fetchall())\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UndefinedTable: relation \"erp.material_purchases\" does not exist\nLINE 1: select to_jsonb(x)::text from \"erp\".\"material_purchases\" x\n                                      ^\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 112, in run\n    try:base.update(status='PASS',observations=op())\n                                               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_cont_money.py\", line 51, in actor_uuid\n    first=p.command(cur,'SAVE_DRAFT',f['payload'],key,subject=left);facts=digest_rows(cur,'erp','material_purchases')\n                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 89, in digest_rows\n    finally:cur.execute(\"select set_config('TimeZone',%s,true)\",(zone,))\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_MONEY_NATIVE",
+      "case": "AS20C-50-LATE",
+      "audit_case_id": "AS20C-50-LATE",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "AP": "889.830000",
+        "GRNI": "0E-12",
+        "raw": "32.000000",
+        "FG": 32,
+        "AR": "132.16",
+        "unit": "16.27945205479452054794520548",
+        "hpp_state": [
+          "667.460000",
+          "520.940000",
+          "146.520000"
+        ],
+        "expected_hpp": [
+          "667.46",
+          "520.94",
+          "146.52"
+        ],
+        "recost_delta": {
+          "20a7533b-5578-4799-9973-90ab000e9e43": "-5.78",
+          "3a527053-fd63-40fd-a3b8-fcd9e3ed7c6f": "903.01",
+          "b93886b8-30ee-4b3b-80c5-a9c868dd30e6": "-889.83",
+          "370746aa-abe3-418b-b912-b8a63c9ffcc1": "-1.62",
+          "f9912b87-fe33-4bd8-8a65-0b1fb69316a6": "-5.78"
+        },
+        "documents": [
+          {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "FINALIZE",
+            "status": "POSTED",
+            "invoice_id": "75ce1f1b-31a0-4bc7-9b6e-3eec6da439da",
+            "request_id": "1bc5076d-e701-41b2-a6fb-84ab5503df55",
+            "purchase_id": "c2d769ab-0972-4e80-89b6-aa2d2017c885",
+            "row_version": "3",
+            "version_subject": "RECEIPT",
+            "contract_version": "cp7.purchase-invoice-outcome.v1"
+          },
+          {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "FINALIZE",
+            "status": "POSTED",
+            "invoice_id": "4a959596-2db4-44ff-ac46-02d585ce0743",
+            "request_id": "e1891382-d063-4306-a1df-2e8a3124d681",
+            "purchase_id": "c2d769ab-0972-4e80-89b6-aa2d2017c885",
+            "row_version": "4",
+            "version_subject": "RECEIPT",
+            "contract_version": "cp7.purchase-invoice-outcome.v1"
+          }
+        ]
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_MONEY_NATIVE",
+      "planned": [
+        "AS20C-07-DISCOUNT",
+        "AS20C-08-SIZE",
+        "AS20C-04-ACTOR",
+        "AS20C-50-LATE"
+      ],
+      "final": {
+        "AS20C-07-DISCOUNT": "PASS",
+        "AS20C-08-SIZE": "PASS",
+        "AS20C-04-ACTOR": "INCOMPLETE",
+        "AS20C-50-LATE": "PASS"
+      },
+      "missing": [],
+      "status": "INCOMPLETE"
+    },
+    {
+      "status": "INCOMPLETE",
+      "expected_cases": 4,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ]
+}
