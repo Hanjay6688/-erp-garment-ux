@@ -1,0 +1,571 @@
+{
+  "candidate": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+  "tree": "2ea854abca572afa923297b0c304e92703ede136",
+  "independent_auditor": "Sol",
+  "production_go": false,
+  "writer_claim_verification": {
+    "status": "PASS",
+    "workflows": 15,
+    "jobs": 44,
+    "note": "GitHub metadata and job-ID identity independently checked. Writer results are not independent product acceptance.",
+    "runs": [
+      {
+        "run_id": 37918927797,
+        "workflow": "Build UX",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781861509,
+            "name": "build",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927764,
+        "workflow": "CP6 Candidate CodeQL (T3)",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781992202,
+            "name": "CodeQL actions",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781992554,
+            "name": "CodeQL python",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781992599,
+            "name": "CodeQL c-cpp",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781992773,
+            "name": "CodeQL javascript-typescript",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37922036692,
+        "workflow": "CP7 Note Correction (Claude branch)",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113792020228,
+            "name": "Nota correction / Native stock AR cash journal HPP",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927737,
+        "workflow": "CP7 Owning Receipt Correction",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781861240,
+            "name": "Receipt correction / Native stock cost HPP AP journal",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927637,
+        "workflow": "CP7 P08 Physical Fabric",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781860939,
+            "name": "plan39",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861128,
+            "name": "fabric-physical21",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861217,
+            "name": "attention284",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861274,
+            "name": "fabric13-successor",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861380,
+            "name": "analysis152",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37922039653,
+        "workflow": "CP7 P12 Payroll (Claude branch)",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113792031542,
+            "name": "P12 payroll --roster",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113792031854,
+            "name": "P12 payroll --payroll-review",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113792031899,
+            "name": "P12 payroll --attendance-write",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37922042308,
+        "workflow": "CP7 P13 Finance (Claude branch)",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113792039102,
+            "name": "P13 native dated report and immutable archive reader",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37922045055,
+        "workflow": "CP7 P18 Fabric Rule",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113792049714,
+            "name": "p18-e01-9",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113792049854,
+            "name": "rule-lifecycle16",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113792049910,
+            "name": "fabric-rule11",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927739,
+        "workflow": "CP7 P18 Full Cycle",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781861869,
+            "name": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927724,
+        "workflow": "CP7 P19 Analysis Job Transport",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781861608,
+            "name": "pl5-history-yield-20",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861900,
+            "name": "p19-report-v2-20",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861916,
+            "name": "p19-scale5",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861947,
+            "name": "p19-reminder-v2-16",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861963,
+            "name": "k3-cleanup-19",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861966,
+            "name": "p19-ai-v2-9",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781861980,
+            "name": "p19-staged12",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781862070,
+            "name": "p19-plan-v2-22",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781862186,
+            "name": "k4-runner-16",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781862192,
+            "name": "p19-transport11",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781862194,
+            "name": "k2-retention-10",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927908,
+        "workflow": "CP7 P21 Rehearsal",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781862225,
+            "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781862530,
+            "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927799,
+        "workflow": "CP7 PL Native Planning (Claude branch)",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781862193,
+            "name": "model",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781862480,
+            "name": "netting",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781862498,
+            "name": "supply",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781862537,
+            "name": "schedule",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927828,
+        "workflow": "CP7 Shell S0 (Claude branch)",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781971409,
+            "name": "shell",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781971646,
+            "name": "p19-assembly",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781971768,
+            "name": "p19-staged",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781971839,
+            "name": "CP7 CodeQL javascript-typescript",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "id": 113781972045,
+            "name": "CP7 CodeQL actions",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37922048531,
+        "workflow": "CP7 Supplier Payment Correction (Claude branch)",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113792060081,
+            "name": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      },
+      {
+        "run_id": 37918927734,
+        "workflow": "CP7 Supplier Payment Create",
+        "status": "completed",
+        "sha": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+        "conclusion": "success",
+        "jobs": [
+          {
+            "id": 113781862215,
+            "name": "New supplier payment through the owning command, races and real Auth HTTP",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ],
+        "ids_match": true
+      }
+    ]
+  },
+  "auditor_runs": [
+    {
+      "id": 37953772967,
+      "sha": "4a05633de7df85786277d0d0c94e3b780b4b3558",
+      "status": "PASS",
+      "scope": "Writer oracles independently executed: K4 16, plan v2 22, K3 19, staged 14; 71 unique regression cases.",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967"
+    },
+    {
+      "id": 37954533118,
+      "sha": "37b48f3fb341c4a9b78842fb435d02c321148fd4",
+      "status": "FAIL",
+      "scope": "Independent PR44 parity PASS 235 cases and 2 caught mutants; independent cold runner 7 PASS / 1 FAIL.",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37954533118"
+    },
+    {
+      "id": 37954972794,
+      "sha": "964285c3d7a2866c9675699d212f7caac86ad123",
+      "status": "FAIL",
+      "scope": "Installed real ERP cold runner FAIL / warm runner PASS. Original K4 16/16 and restoration PASS. Outer gate correctly rejects independent failure.",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37954972794"
+    },
+    {
+      "id": 37955377803,
+      "sha": "ebeaf55206677f07ccf3259c46b9057c9a4af01f",
+      "status": "INCOMPLETE",
+      "scope": "Auditor workflow selection mistake: reran cold-runner instead of performance probe. Kept as evidence, no benchmark credit.",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37955377803"
+    },
+    {
+      "id": 37955740692,
+      "sha": "d72c13f8f6273ad6684cc20cb4085e5114139257",
+      "status": "PASS",
+      "scope": "Corrected performance execution, A/B/B/A, exact full-result hashes, 300 targets, positions 0 and 40.",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37955740692"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11627746050,
+      "name": "sol-p20-regress-p19-plan-v2-22",
+      "run_id": 37953772967,
+      "digest": "sha256:d617143170ba69017bfaaf5ec4cc05f74460dbb077bafbc2b39603f1b5a8509d",
+      "expires_at": "2026-11-08T15:49:07Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967/artifacts/11627746050"
+    },
+    {
+      "id": 11627541318,
+      "name": "sol-p20-regress-p19-plan-v2-22-complete-json",
+      "run_id": 37953772967,
+      "digest": "sha256:47dee43b372b061f6081c15a33ef13616fb0cc2bbf5e3a71d800bf00bee846d1",
+      "expires_at": "2026-11-08T15:49:09Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967/artifacts/11627541318"
+    },
+    {
+      "id": 11627462085,
+      "name": "sol-p20-regress-k3-cleanup-19",
+      "run_id": 37953772967,
+      "digest": "sha256:5faabaa833c500ae48c05c8cede418bc9313d28a4b81627a7d793ce0de3e0c00",
+      "expires_at": "2026-11-08T15:51:17Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967/artifacts/11627462085"
+    },
+    {
+      "id": 11627312691,
+      "name": "sol-p20-regress-p19-staged12",
+      "run_id": 37953772967,
+      "digest": "sha256:22a050e34ef73ca661e4d49a2510646a57991db7813442aacddfce48129bde45",
+      "expires_at": "2026-11-08T15:48:33Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967/artifacts/11627312691"
+    },
+    {
+      "id": 11627273469,
+      "name": "sol-p20-regress-k4-runner-16",
+      "run_id": 37953772967,
+      "digest": "sha256:34993ff6c05d0426a71867d690c3e13e78729e91e2856558adc0d1829c9fb0c9",
+      "expires_at": "2026-11-08T15:51:14Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967/artifacts/11627273469"
+    },
+    {
+      "id": 11627108245,
+      "name": "sol-p20-regress-k3-cleanup-19-complete-json",
+      "run_id": 37953772967,
+      "digest": "sha256:2da246e2a1bf9e708c5318f4231aff8c3642739fa6d164d0fa2f4d34de1cdb0a",
+      "expires_at": "2026-11-08T15:51:18Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967/artifacts/11627108245"
+    },
+    {
+      "id": 11627012903,
+      "name": "sol-p20-regress-p19-staged12-complete-json",
+      "run_id": 37953772967,
+      "digest": "sha256:bfad1cd050569bf9d4f5261923c4a460aa0a097672c92b5ae25b6ea46b420f65",
+      "expires_at": "2026-11-08T15:48:34Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967/artifacts/11627012903"
+    },
+    {
+      "id": 11626814293,
+      "name": "sol-p20-regress-k4-runner-16-complete-json",
+      "run_id": 37953772967,
+      "digest": "sha256:595fb52e03ef1b2afaa9ebf5ab23bc9d547a9826880cd813830564d896ac6616",
+      "expires_at": "2026-11-08T15:51:16Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37953772967/artifacts/11626814293"
+    },
+    {
+      "id": 11626574380,
+      "name": "sol-independent-pr44",
+      "run_id": 37954533118,
+      "digest": "sha256:7783080d4bfe33a984606cb0221ebcd3e5008e06459d29274f0edcf872d8999f",
+      "expires_at": "2026-11-08T15:49:46Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37954533118/artifacts/11626574380"
+    },
+    {
+      "id": 11626529350,
+      "name": "sol-independent-cold-runner",
+      "run_id": 37954533118,
+      "digest": "sha256:0d69e1a51124429743426f777afccae17e27a57d764ba9e5b90a0eebd342f076",
+      "expires_at": "2026-11-08T15:49:33Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37954533118/artifacts/11626529350"
+    },
+    {
+      "id": 11627628174,
+      "name": "sol-installed-sol-installed-cold-warm-complete-json",
+      "run_id": 37954972794,
+      "digest": "sha256:fb1c7146abbdc23655a680b8f068696f23dedc34c74ad8c331f9fdea68f05f15",
+      "expires_at": "2026-11-08T16:01:57Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37954972794/artifacts/11627628174"
+    },
+    {
+      "id": 11627538466,
+      "name": "sol-installed-sol-installed-cold-warm",
+      "run_id": 37954972794,
+      "digest": "sha256:1f85ec5e699621ea287e78f50b0df72cda940f015e3649947f33850c6f7e735c",
+      "expires_at": "2026-11-08T16:01:55Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37954972794/artifacts/11627538466"
+    },
+    {
+      "id": 11627174587,
+      "name": "sol-independent-pr44-benchmark",
+      "run_id": 37955740692,
+      "digest": "sha256:ceb37bfe20f24ab65e81de6c368c4bedce5d6d367e6da5d66fe1df9ebb438a02",
+      "expires_at": "2026-11-08T15:59:40Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/37955740692/artifacts/11627174587"
+    }
+  ]
+}
