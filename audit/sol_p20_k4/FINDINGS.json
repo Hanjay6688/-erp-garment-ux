@@ -1,0 +1,53 @@
+{
+  "contract": "sol.p20-k4.independent-audit.v1",
+  "candidate": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+  "tree": "2ea854abca572afa923297b0c304e92703ede136",
+  "clean_acceptance": "HOLD",
+  "audit_round_complete": true,
+  "production_go": false,
+  "prior_findings": [
+    {"id":"P20-F01","status":"PASS","resolution":"Shared v1/v2 capacity lock and checks; both race directions, rollback and exact fit verified."},
+    {"id":"P20-F02","status":"PASS","resolution":"Database-qualified cron names; cross-database install, clash, reinstall and uninstall verified."},
+    {"id":"P20-F03","status":"PASS","resolution":"Distinct attempt basename and exclusive receipt; verified prior backup unchanged on retry/collision."},
+    {"id":"P20-F04","status":"PASS","resolution":"Verifier limitation correctly declared; no new semantic re-derivation claimed; immutable regular-user boundary retained."},
+    {"id":"P20-F05","status":"PASS","resolution":"Seven actual finalizer controls; budgets/IDs and restore/advisor proof verified."}
+  ],
+  "new_findings": [
+    {
+      "id":"SOL-K4-01",
+      "severity":"S2",
+      "state":"OPEN",
+      "test_status":"FAIL",
+      "title":"Cold heartbeat INSERT serializes concurrent server ticks",
+      "path":"scripts/cp7-src/planning/analysis-stages.sql",
+      "function":"cp7_analysis_stage.run_next()",
+      "anchor":"insert into cp7_analysis_stage.runner(id,last_tick_at,statement_timeout_ms)values(true,clock_timestamp(),limit_ms)on conflict(id)do nothing",
+      "invariant":"Heartbeat must not make one server tick wait for another before job selection.",
+      "trigger":"Fresh installation with no runner row; tick A has not committed its first heartbeat and step; tick B enters concurrently.",
+      "actual":"Tick B waits transactionid ShareLock before real output INSERT; warm positive control reaches its independent step.",
+      "impact":"Cold-start concurrency delay. Recovery advances each job once. No incorrect quantity, duplicate output or permanent stall observed.",
+      "scope_note":"Normal one-job pg_cron scheduling does not automatically run concurrent instances; this is the explicit concurrent-server-call capability.",
+      "reproduction_runs":[37954533118,37954972794],
+      "native_case":"SOL_COLD_START",
+      "positive_control":"SOL_WARM_START",
+      "source_unmodified":true,
+      "product_step_unmodified_in_installed_proof":true,
+      "suggested_fix":"Use a nonblocking initializer/writer guard only for heartbeat; losing tick skips heartbeat and continues job selection. Preserve 8s limit, identity and per-job skip-locked protection.",
+      "tests":["audit/sol_p20_k4/cold_runner.py","scripts/sol_p20_k4_installed_probe.py"],
+      "retest":"Pin new candidate/tree; cold and warm independently PASS, no duplicate, current access and claims preserved; affected K4/staged/K3 regressions PASS.",
+      "fixed_by_auditor":false
+    }
+  ],
+  "verification_counts": {
+    "unique_standard_native_auth_browser_regressions_pass":71,
+    "independent_pr44_comparisons_pass":235,
+    "independent_pr44_negative_controls_caught":2,
+    "independent_pr44_benchmark_workloads_pass":2,
+    "independent_runner_kernel":{"PASS":7,"FAIL":1},
+    "independent_runner_installed":{"PASS":1,"FAIL":1},
+    "finalizer_controls_pass_non_native_credit":7
+  },
+  "not_retested_by_auditor":["5000 targets completed entirely by K4 server","physical mobile devices and Safari","mobile tab truly closed","hosted schedule and backup installation","privileged semantic-index tamper with immutable trigger disabled"],
+  "oracle_weakened":false,
+  "product_changes":false
+}
