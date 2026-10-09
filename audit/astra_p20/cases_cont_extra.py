@@ -8,7 +8,7 @@ import cp7_roster_cases as roster
 import cp7_attendance_write_cases as attendance
 import cp7_note_correction_cases as notes
 import cp7_wip_cases as wip
-from cases_stage import admin,wrap,check,refusal
+from cases_stage import admin,wrap,check,refusal,save
 
 def cases(cur,today):
     def returned():
@@ -27,7 +27,8 @@ def cases(cur,today):
         f=attendance.review.fixture(cur,today);admin(cur);cur.execute('update erp.contractors set attendance_required=true where id=%s',(f['contractor'],));ids=[];codes=[]
         for i,rate in enumerate(('23.17','31.29')):
             code='AS-RINA-'+uuid.uuid4().hex[:8];codes.append(code)
-            made=roster.save(cur,'CREATE_WORKER',f,today,roster.initial(f,today,worker_name='Rina',worker_code=code,initial_daily_rate=rate));ids.append(made['worker_id'])
+            doc=dict(roster.initial(f,today),worker_name='Rina',worker_code=code,initial_daily_rate=rate)
+            made=roster.save(cur,'CREATE_WORKER',f,today,doc);ids.append(made['worker_id'])
         check(len(set(ids))==2,'Same display name does not merge two worker identities')
         f['workers']=ids;doc=attendance.document(f,today);before=b.gl(cur)
         preview=attendance.command(cur,'PREVIEW',attendance.envelope(cur,f,today,doc))
@@ -70,11 +71,16 @@ def cases(cur,today):
         out=call(p);alloc={x['target_key']:D(x['allocated_good_pcs']) for x in out['rows']}
         check(alloc==dict(A=D(11),B=D(6)),'Stable ID breaks exact priority tie against input order',output=out)
         reverse=copy.deepcopy(p);reverse['targets'].reverse();reverse['matching']['targets'].reverse();again=call(reverse)
-        check(again['rows']==out['rows'] and again['allocation']==out['allocation'],'Input order cannot change allocation')
+        save('AS20C-22-TIE_order_diagnostic',dict(first=out,reordered=again))
+        # The returned matching field is an exact input echo, not allocation output.
+        # Retain every echoed field; normalize only the deliberately permuted array.
+        normalized=copy.deepcopy(again['allocation'])
+        normalized['matching']['targets'].reverse()
+        check(again['rows']==out['rows'] and normalized==out['allocation'],'Input order cannot change rows, edges, quantities, refs or verdict; only matching input echo order may differ',first=out,reordered=again)
         earlier=copy.deepcopy(p);earlier['targets'][0]['deadline']='2026-10-10T00:00:00Z';soon=call(earlier)
         check({x['target_key']:D(x['allocated_good_pcs']) for x in soon['rows']}==dict(B=D(11),A=D(6)),'Real earlier deadline outranks stable-ID tie',output=soon)
         unknown=copy.deepcopy(p);unknown['targets'][0]['risk_at']=None;review=call(unknown)
-        check(any(x['target_key']=='B' for x in review['review_queue']) and all(x['target_key']!='B' for x in review['allocation']['allocation']['edges']),'Unknown timing retained for review, never allocated as safe',output=review)
+        check(any(x['target_key']=='B' for x in review['review_queue']) and all(x['target_key']!='B' for x in review['allocation']['edges']),'Unknown timing retained for review, never allocated as safe',output=review)
         return dict(scope='PRIVATE_KERNEL_NOT_NATIVE_PLAN_POST',tie=alloc,earlier_deadline=soon['rows'],unknown=review['review_queue'],input_pcs=17)
 
     actor=[x for x in cont.cases(cur,today) if x[0]=='AS20C-04-ACTOR']

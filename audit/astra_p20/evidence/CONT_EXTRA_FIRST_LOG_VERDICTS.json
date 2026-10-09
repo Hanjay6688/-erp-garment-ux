@@ -1,0 +1,227 @@
+{
+  "run_id": 37893419603,
+  "job_id": 113699223921,
+  "events": [
+    {
+      "group": "ASTRA_P20_CONT_EXTRA_NATIVE",
+      "case": "AS20C-04-ACTOR",
+      "audit_case_id": "AS20C-04-ACTOR",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "cross_actor": {
+          "refused": true,
+          "sqlstate": "23505",
+          "message": "duplicate key value violates unique constraint \"material_purchase_headers_purchase_number_key\"",
+          "detail": "Key (purchase_number)=(P09-b6fd0def0336) already exists."
+        },
+        "cross_action": {
+          "refused": false,
+          "result": {
+            "kind": "COMMITTED_OUTCOME",
+            "action": "POST",
+            "status": "POSTED",
+            "request_id": "374ca804-eb5a-493b-9ee3-99032bd40c23",
+            "purchase_id": "e54214f4-796c-42a3-84f3-aac6648c64ca",
+            "row_version": "2",
+            "contract_version": "cp7.procurement-outcome.v1"
+          }
+        },
+        "posted": {
+          "kind": "COMMITTED_OUTCOME",
+          "action": "POST",
+          "status": "POSTED",
+          "request_id": "48b012d5-8bf6-4e73-80ae-9bf869ad86dd",
+          "purchase_id": "e54214f4-796c-42a3-84f3-aac6648c64ca",
+          "row_version": "2",
+          "contract_version": "cp7.procurement-outcome.v1"
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_EXTRA_NATIVE",
+      "case": "AS20C-11-RETURN",
+      "audit_case_id": "AS20C-11-RETURN",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "returned_units": 5,
+        "credit": "36.55",
+        "before_AP": [
+          "58.48",
+          "80.41"
+        ],
+        "after_AP": [
+          "95.03",
+          "43.86"
+        ],
+        "inverse_AP": "95.03",
+        "inverse_qty": 13,
+        "dependency_refusal": {
+          "refused": true,
+          "sqlstate": "P0001",
+          "message": "BF_CREDIT_RETURN_IN_USE: kembalikan alokasi kredit sebelum membalik retur",
+          "detail": null
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_EXTRA_NATIVE",
+      "case": "AS20C-18-ROSTER",
+      "audit_case_id": "AS20C-18-ROSTER",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "INCOMPLETE",
+      "error": "dict() got multiple values for keyword argument 'worker_name'",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 112, in run\n    try:base.update(status='PASS',observations=op())\n                                               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_cont_extra.py\", line 30, in same_name\n    made=roster.save(cur,'CREATE_WORKER',f,today,roster.initial(f,today,worker_name='Rina',worker_code=code,initial_daily_rate=rate));ids.append(made['worker_id'])\n                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_roster_cases.py\", line 11, in initial\n    def initial(f,start,**changes):return dict(contractor_id=f['contractor'],worker_name='P12 roster source',job_description='Jahit',pay_scheme='DAILY',joined_at=str(start),is_active=True,initial_daily_rate='100.123456',rate_effective_from=str(start),reason='P12 deliberate worker source',**changes)\n                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: dict() got multiple values for keyword argument 'worker_name'\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_EXTRA_NATIVE",
+      "case": "AS20C-09-CLOSED",
+      "audit_case_id": "AS20C-09-CLOSED",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "closed": "2026-10-07",
+        "new_dates": [
+          [
+            "12bbea74-cf99-49f4-b29e-a88dd6278ed0",
+            "2026-10-09",
+            "2026-10-09"
+          ],
+          [
+            "56aed02c-dc71-4cf9-ae04-369a06e18065",
+            "2026-10-09",
+            "2026-10-09"
+          ],
+          [
+            "7ef5d1ef-857b-4557-97ed-0f1e465200e5",
+            "2026-10-09",
+            "2026-10-09"
+          ],
+          [
+            "85ea2151-a0ce-49d2-9533-dafd6b27bcb2",
+            "2026-10-07",
+            "2026-10-09"
+          ],
+          [
+            "b82a22ff-334f-4f29-8159-acfd72f6cf6c",
+            "2026-10-09",
+            "2026-10-09"
+          ],
+          [
+            "c9440870-db7e-4dda-a728-23903605b77f",
+            "2026-10-07",
+            "2026-10-09"
+          ],
+          [
+            "e0f239b2-1378-47a5-847e-ae636a8ce384",
+            "2026-10-09",
+            "2026-10-09"
+          ],
+          [
+            "e6faceef-a380-49b5-b63b-5116fad524ce",
+            "2026-10-09",
+            "2026-10-09"
+          ]
+        ],
+        "FG": 33,
+        "AR": "102.25",
+        "journal_delta": {
+          "377d37ea-56a9-4ebc-853a-0158a78bb4ff": "-29.91",
+          "86ddff01-e556-4777-ad30-1943f3200224": "29.91",
+          "20a7533b-5578-4799-9973-90ab000e9e43": "16.46",
+          "370746aa-abe3-418b-b912-b8a63c9ffcc1": "-16.46"
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_EXTRA_NATIVE",
+      "case": "AS20C-22-TIE",
+      "audit_case_id": "AS20C-22-TIE",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "COUNTEREXAMPLE",
+      "counterexample": "{\"message\": \"Input order cannot change allocation\"}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 112, in run\n    try:base.update(status='PASS',observations=op())\n                                               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_cont_extra.py\", line 73, in priority\n    check(again['rows']==out['rows'] and again['allocation']==out['allocation'],'Input order cannot change allocation')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 23, in check\n    if not ok:raise ContractMismatch(json.dumps(dict(message=message,**witness),default=str))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ncases_stage.ContractMismatch: {\"message\": \"Input order cannot change allocation\"}\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_EXTRA_NATIVE",
+      "planned": [
+        "AS20C-04-ACTOR",
+        "AS20C-11-RETURN",
+        "AS20C-18-ROSTER",
+        "AS20C-09-CLOSED",
+        "AS20C-22-TIE"
+      ],
+      "final": {
+        "AS20C-04-ACTOR": "PASS",
+        "AS20C-11-RETURN": "PASS",
+        "AS20C-18-ROSTER": "INCOMPLETE",
+        "AS20C-09-CLOSED": "PASS",
+        "AS20C-22-TIE": "COUNTEREXAMPLE"
+      },
+      "missing": [],
+      "status": "INCOMPLETE"
+    },
+    {
+      "status": "INCOMPLETE",
+      "expected_cases": 5,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ]
+}
