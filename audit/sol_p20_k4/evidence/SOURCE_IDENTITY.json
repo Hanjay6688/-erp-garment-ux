@@ -1,0 +1,157 @@
+{
+  "candidate": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+  "tree": "2ea854abca572afa923297b0c304e92703ede136",
+  "non_doc_files": [
+    {
+      "path": ".github/workflows/claude-p08-shell.yml",
+      "bytes": 7928,
+      "sha256": "a30e3c407a6758dc53ba0fcb4aa8ca13cfff30cf9cd1993c887a63c9bf5f8f05",
+      "declared_match": true
+    },
+    {
+      "path": ".github/workflows/claude-p19-transport.yml",
+      "bytes": 12797,
+      "sha256": "1fff0ffdf5e826490485925168af316316833b105abc1785c3af9d4fed4a66bf",
+      "declared_match": true
+    },
+    {
+      "path": ".github/workflows/cp7-nightly-backup.yml",
+      "bytes": 2146,
+      "sha256": "f0ea9d2c631096cdd8dcce3effd3d771c93138c9054d0faa5b481d30b9bb80dc",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7-src/ops/schedule.sql",
+      "bytes": 4510,
+      "sha256": "cce2c968ed0b7cd21e01b15d561e22e4ae9daeb0bf98e2187688c084e320eb26",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7-src/plan-native/commands.sql",
+      "bytes": 12257,
+      "sha256": "c4daabd7f46c90683ec6ff0465771c98f6fa67c9445bdb8c72aaf7443354c230",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7-src/plan-native/staged.sql",
+      "bytes": 50027,
+      "sha256": "e62d45f5c7eac662c8552efb85b3048ed9c9c4e92a3d2afe9c4414ff7308ba56",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7-src/planning/analysis-stages.sql",
+      "bytes": 210096,
+      "sha256": "653b6ad195ea5e8f0f4dd0557e8fdf9fa25abe39cfca4d623433624d8343c473",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_analysis_stages_bundle.py",
+      "bytes": 12060,
+      "sha256": "3e585cf5243a6eccfbba283dd85ba8a5c11d9e4255062cf178454f45de2bd011",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_f04_schedule_probe.py",
+      "bytes": 7036,
+      "sha256": "ce77f2d030597059b245c9a1139b2f8b25afc62162e2d1cf5a4a82826d59a6f1",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_f05_analysis_probe.py",
+      "bytes": 44654,
+      "sha256": "a5f00f2a498245195516e222e658bd65e16d5face35a446388fad86917cce65e",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_k3_cleanup_cases.py",
+      "bytes": 40790,
+      "sha256": "3572c84c5f333ed9f76f365a46810dfd8490f0c332134d21f5ceec16fc8542e1",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_k4_runner_browser.mjs",
+      "bytes": 7848,
+      "sha256": "e2171b3b3abcb33bcf2e49ae3c979ede931c055bc65fe20008daf4c390b84751",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_k4_runner_browser_fixture.py",
+      "bytes": 4520,
+      "sha256": "3e8793a70cbffc4569a780e6da949b519a65ac52c773184238cedbd5ffacadba",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_k4_runner_cases.py",
+      "bytes": 34848,
+      "sha256": "e83e6966a98bad6dad89f04924e419d54338d04d8841633693a74bc7886badfa",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_k4_runner_probe.py",
+      "bytes": 423,
+      "sha256": "d02aa2c0e66842c35e3813da648b420b6dfff0f424b8aa296dfcf385d54bdbe7",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_nightly_backup.py",
+      "bytes": 11496,
+      "sha256": "bad1e214cb019ed00845dd6a9e4e9a1084a422dd5fb7ae4fa4754954e43e3071",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_p18_full_cycle_probe.py",
+      "bytes": 6450,
+      "sha256": "77ca0349b1e462cb98fff6c207f54ebd3ab2de94ad2eeeb7eaa7b81389153732",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_p19_plan_v2_cases.py",
+      "bytes": 45894,
+      "sha256": "3f9e33ebc733d0bf7d49c00ce17899ec2ce6c6b8300661720767c6763eab412a",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_probe_evidence_test.py",
+      "bytes": 5285,
+      "sha256": "fea93f5d586460b59ba66b4fe259ff4b2d0ff108201e676643ef169b9543d6ba",
+      "declared_match": true
+    },
+    {
+      "path": "scripts/cp7_schedule.py",
+      "bytes": 6436,
+      "sha256": "201e952c1903c12e204d39ba6f52f95a7e41f09207bb479813ccf7957d19a053",
+      "declared_match": true
+    },
+    {
+      "path": "src/NativeAnalysisPanel.tsx",
+      "bytes": 67291,
+      "sha256": "6aad034e9896fa85509a587fd18bf292ce772c7814fcfe4e7511411e59d43b07",
+      "declared_match": true
+    },
+    {
+      "path": "src/lib/clientError.test.ts",
+      "bytes": 5293,
+      "sha256": "8c63a04adb13f67b4ab798eec181edd8c7bc0c461c31d8cc46663ab4bda11e03",
+      "declared_match": true
+    },
+    {
+      "path": "src/lib/planV2Messages.ts",
+      "bytes": 3050,
+      "sha256": "77f7952f64fc4c5d0e1366f13d112a59ade86f2f8cf9d80875b4497368250504",
+      "declared_match": true
+    },
+    {
+      "path": "src/nativeStagedJob.test.ts",
+      "bytes": 15622,
+      "sha256": "9e74b2a9c36ef0e2536ee3c87f43da008ab92090704069b6f408f8cdb8465656",
+      "declared_match": true
+    },
+    {
+      "path": "src/nativeStagedJob.ts",
+      "bytes": 15141,
+      "sha256": "4be8bebef2565d5d057bebd4d40532892849355dae554d85bd43a8b66bff3dbd",
+      "declared_match": true
+    }
+  ],
+  "status": "PASS"
+}
