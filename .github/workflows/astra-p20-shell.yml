@@ -1,0 +1,94 @@
+name: Astra P20 pinned shell build and unchanged tests
+permissions:
+  contents: read
+concurrency:
+  group: astra-p20-shell-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  shell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        ref: 2e605bb7d9b6b7903919b8df2be1443f1740140b
+        fetch-depth: 0
+        persist-credentials: false
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: 22
+        cache: npm
+    - run: npm ci
+    - run: python3 scripts/cp7_contract_receipt.py
+    - run: python3 scripts/cp7_native_fixture_window_test.py
+    - run: python3 scripts/cp7_probe_evidence_test.py
+    - name: P19 browser loading boundary controls
+      run: node scripts/cp7_p19_browser_latency_test.mjs
+    - name: Verify complete Original retention and corruption controls
+      run: python3 scripts/cp7_integration_originals_test.py
+    - run: npm test
+    - name: P19 current sales admission decisions and kernel timings
+      run: node scripts/cp7_p19_sales_admission_benchmark.mjs test-results/cp7-shell-proof/P19_SALES_ADMISSION_KERNEL.json
+    - name: P19 complete assembler equivalence and native kernel scale
+      if: github.ref == 'refs/heads/cp7/p19-20261006' || github.ref == 'refs/heads/cp7/p19-benchmark-20261006'
+        || github.ref == 'refs/heads/cp7/p19-native-20261006' || github.ref == 'refs/heads/cp7/p19-scale-20261006'
+      run: node scripts/cp7_p19_assembly_benchmark.mjs test-results/cp7-shell-proof/P19_ASSEMBLY_KERNEL.json
+    - run: npm run test:security
+    - run: npm run build
+    - run: npx --no-install playwright install --with-deps chromium
+    - run: npx --no-install playwright test --config playwright.cp7.config.ts
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7-shell-proof
+        path: test-results/cp7-shell-proof
+        if-no-files-found: warn
+        retention-days: 30
+  codeql:
+    name: CP7 CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+        - javascript-typescript
+        - actions
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        ref: 2e605bb7d9b6b7903919b8df2be1443f1740140b
+        persist-credentials: false
+    - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: none
+        queries: security-extended
+    - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        output: cp7-codeql
+        upload: never
+        upload-database: false
+    - name: Reject CodeQL findings or incomplete runs
+      run: "python3 - <<'PY'\nimport json, pathlib\nfiles = list(pathlib.Path('cp7-codeql').glob('*.sarif'))\n\
+        assert files, 'No SARIF produced'\nfor f in files:\n    report = json.loads(f.read_text())\n\
+        \    assert report.get('runs'), 'No analysis runs'\n    for run in report['runs']:\n\
+        \        assert not run.get('results'), 'CodeQL findings need review'\n  \
+        \      assert run.get('invocations'), 'No invocation evidence'\n        for\
+        \ invocation in run['invocations']:\n            assert invocation.get('executionSuccessful')\
+        \ is True, 'Incomplete CodeQL'\nprint('CodeQL completed with zero findings')\n\
+        PY\n"
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7-codeql-${{ matrix.language }}
+        path: cp7-codeql
+        if-no-files-found: error
+        retention-days: 30
+'on':
+  push:
+    branches:
+    - audit/astra-p20-2e605bb7-20261009
+    paths:
+    - .github/workflows/astra-p20-shell.yml
+  workflow_dispatch: {}
