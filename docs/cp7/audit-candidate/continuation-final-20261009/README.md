@@ -6,6 +6,8 @@ pembersihan, backup malam). Kandidat lanjutan lama dan kandidat beku `../final-2
 **tetap disimpan dan tidak diubah**. Tidak ada push ke `cp7/integration`, `main`, deployment, atau Supabase hosted;
 tidak ada jadwal atau backup yang dipasang di database sungguhan.
 
+Untuk auditor independen: mulai dari `AUDITOR_START_P20.md` (paste block pembuka sesi dan cakupan audit).
+
 ## Identitas kandidat
 
 - **Commit sumber kandidat: `2e605bb7d9b6b7903919b8df2be1443f1740140b`** di cabang `claude/new-session-deapao`.
