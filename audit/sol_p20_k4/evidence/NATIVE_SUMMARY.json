@@ -1,0 +1,844 @@
+{
+  "status": "PASS",
+  "total_cases": 71,
+  "suites": [
+    {
+      "label": "CP7_K4_RUNNER",
+      "status": "PASS",
+      "source_sha256": "5f2967048185fb312605d7428f601d3e3f73c79890be36f91eb7e44732fde800",
+      "observed_case_count": 16,
+      "required_case_ids": {
+        "native": [
+          "K4R_SERVER_FINISHES_WITHOUT_PAGE",
+          "K4R_PAGE_AND_SERVER_ONE_JOB",
+          "K4R_ACCESS_RECHECKED_EACH_UNIT",
+          "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS",
+          "K4R_LIMIT_REQUIRED",
+          "K4R_SCHEDULE_DEFINED_PRIVATE",
+          "K4R_STATUS_REPORTS_RUNNER"
+        ],
+        "races": [
+          "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
+          "K4R_RACE_TWO_TICKS_ONE_UNIT",
+          "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
+          "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
+          "K4R_RACE_PG_CRON_FINISHES_JOB"
+        ],
+        "http": [
+          "K4R_HTTP_CLOSED_PAGE_FINISHES",
+          "K4R_HTTP_TICK_NOT_REACHABLE"
+        ],
+        "browser": [
+          "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+          "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES"
+        ]
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts": {
+        "native": 7,
+        "races": 5,
+        "http": 2,
+        "browser": 2
+      },
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "schedule_installed": false,
+      "scope": "STAGED_ANALYSIS_RUN_BY_THE_SERVER_ONE_UNIT_PER_TICK_THROUGH_THE_PAGE_STEP_8S_LIMIT_ACCESS_RECHECKED_PER_UNIT_SAME_JOB_ON_REOPEN_NO_UNIT_TWICE_PG_CRON_TESTED_NOT_INSTALLED",
+      "groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 7
+          },
+          "cases": {
+            "K4R_SERVER_FINISHES_WITHOUT_PAGE": {
+              "status": "PASS"
+            },
+            "K4R_PAGE_AND_SERVER_ONE_JOB": {
+              "status": "PASS"
+            },
+            "K4R_ACCESS_RECHECKED_EACH_UNIT": {
+              "status": "PASS"
+            },
+            "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS": {
+              "status": "PASS"
+            },
+            "K4R_LIMIT_REQUIRED": {
+              "status": "PASS"
+            },
+            "K4R_SCHEDULE_DEFINED_PRIVATE": {
+              "status": "PASS"
+            },
+            "K4R_STATUS_REPORTS_RUNNER": {
+              "status": "PASS"
+            }
+          }
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 5
+          },
+          "cases": {
+            "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT": {
+              "status": "PASS"
+            },
+            "K4R_RACE_TWO_TICKS_ONE_UNIT": {
+              "status": "PASS"
+            },
+            "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES": {
+              "status": "PASS"
+            },
+            "K4R_RACE_ACCESS_CHANGED_DURING_UNIT": {
+              "status": "PASS"
+            },
+            "K4R_RACE_PG_CRON_FINISHES_JOB": {
+              "status": "PASS"
+            }
+          }
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "cases": {
+            "K4R_HTTP_CLOSED_PAGE_FINISHES": {
+              "status": "PASS"
+            },
+            "K4R_HTTP_TICK_NOT_REACHABLE": {
+              "status": "PASS"
+            }
+          }
+        },
+        "browser": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "cases": {
+            "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES": {
+              "status": "PASS"
+            },
+            "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES": {
+              "status": "PASS"
+            }
+          }
+        }
+      },
+      "witnesses": {
+        "K4R_RACE_TWO_TICKS_ONE_UNIT": {
+          "status": "PASS",
+          "concurrent_ticks_never_run_one_unit_twice": true,
+          "results": [
+            "UNIT_STORED",
+            "UNIT_STORED"
+          ],
+          "two_jobs_two_ticks": [
+            "UNIT_STORED",
+            "UNIT_STORED"
+          ],
+          "every_unit_stored_once": true,
+          "copy_runtime": null,
+          "session_leaks": []
+        },
+        "K4R_RACE_ACCESS_CHANGED_DURING_UNIT": {
+          "status": "PASS",
+          "unit_discarded_when_access_changed_during_it": true,
+          "next_tick_fails_job": {
+            "code": "CP7_ANALYSIS_ACCESS_CHANGED",
+            "unit": 1,
+            "sqlstate": "42501"
+          },
+          "copy_runtime": null,
+          "session_leaks": []
+        },
+        "K4R_RACE_PG_CRON_FINISHES_JOB": {
+          "status": "PASS",
+          "pg_cron": "1.6.4",
+          "test_schedule_override": "5 seconds",
+          "cron_runs": 1,
+          "units": 21,
+          "no_page_call": true,
+          "result_equals_single_on_same_reference": true,
+          "removed_after_test": [
+            "cp7-staged-runner@cp6_auditor_race"
+          ],
+          "copy_runtime": null,
+          "session_leaks": []
+        },
+        "K4R_HTTP_CLOSED_PAGE_FINISHES": {
+          "status": "PASS",
+          "real_Auth_request_then_server_only": true,
+          "units_by_server": 16,
+          "reopened_same_job_and_run": true,
+          "pages_hash_verified": 1,
+          "server_runner_reported_active": true,
+          "session_leaks": []
+        },
+        "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES": {
+          "status": "PASS",
+          "pg_cron": true,
+          "test_schedule_override": "5 seconds",
+          "closed": "TAB_CLOSED",
+          "page_units": 0,
+          "server_units": 16,
+          "same_request_and_run": true,
+          "identity_hash": "d8968cf36d22b7b81fb7aa9b9724369c46f516c75a423db0da452078ca8da3cb",
+          "no_request_or_step_on_reopen": true,
+          "every_unit_stored_once": true,
+          "cron_runs": 2,
+          "no_horizontal_scroll": true,
+          "screenshots": [
+            "K4R_DESKTOP_SERVER_RUNS.png",
+            "K4R_DESKTOP_REOPENED_DONE_BY_SERVER.png"
+          ]
+        },
+        "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES": {
+          "status": "PASS",
+          "pg_cron": true,
+          "test_schedule_override": "5 seconds",
+          "closed": "STOPPED_WATCHING",
+          "page_units": 0,
+          "server_units": 16,
+          "same_request_and_run": true,
+          "identity_hash": "523a91367e757600fda098e8962201ee8db24f67480ae2851bf7428982491396",
+          "no_request_or_step_on_reopen": true,
+          "every_unit_stored_once": true,
+          "cron_runs": 1,
+          "no_horizontal_scroll": true,
+          "screenshots": [
+            "K4R_MOBILE_SERVER_RUNS.png",
+            "K4R_MOBILE_STOPPED_WATCHING.png",
+            "K4R_MOBILE_REOPENED_DONE_BY_SERVER.png"
+          ]
+        }
+      }
+    },
+    {
+      "label": "CP7_P19_PLAN_V2",
+      "status": "PASS",
+      "source_sha256": "5e0b56e9c7e0cba7b78a33640281b1772e10a57c26429090a3eb7543c9586e17",
+      "observed_case_count": 22,
+      "required_case_ids": {
+        "native": [
+          "P19P_INDEX_RETAINED",
+          "P19P_SAVE_FROM_STALE_SNAPSHOT",
+          "P19P_PREVIEW_READ_ONLY_LIVE",
+          "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+          "P19P_FG_INCREASE_NEED_CHANGED",
+          "P19P_WIP_INCREASE_NEED_CHANGED",
+          "P19P_POLICY_CHANGED",
+          "P19P_CAPACITY_USED",
+          "P19P_TARGET_PLANNED_AND_LINKED",
+          "P19P_FIELDS_KINDS_ACCESS",
+          "P19P_V1_V2_SHARED_CAPACITY"
+        ],
+        "races": [
+          "P19P_RACE_CAPACITY_TWO_TARGETS",
+          "P19P_RACE_SAME_TARGET",
+          "P19P_RACE_FG_WHILE_WAITING",
+          "P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE",
+          "P19P_RACE_V1_HOLDS_V2_REFUSED",
+          "P19P_RACE_V2_HOLDS_V1_REFUSED",
+          "P19P_RACE_V1_ROLLBACK_FREES_CAPACITY"
+        ],
+        "http": [
+          "P19P_HTTP_FLOW",
+          "P19P_HTTP_REVOKED"
+        ],
+        "browser": [
+          "P19P_BROWSER_DESKTOP_PLAN",
+          "P19P_BROWSER_MOBILE_PLAN"
+        ]
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts": {
+        "native": 11,
+        "races": 7,
+        "http": 2,
+        "browser": 2
+      },
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "schedule_installed": null,
+      "scope": "PRODUCTION_PLAN_FROM_DATED_STAGED_SNAPSHOT_SAVED_AS_DRAFT_LIVE_RECHECK_OF_PRODUCT_POLICY_STOCK_WIP_NEED_CAPACITY_PLANS_MATERIAL_ACCESS_IN_THE_APPLY_TRANSACTION",
+      "groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 11
+          },
+          "cases": {
+            "P19P_INDEX_RETAINED": {
+              "status": "PASS"
+            },
+            "P19P_SAVE_FROM_STALE_SNAPSHOT": {
+              "status": "PASS"
+            },
+            "P19P_PREVIEW_READ_ONLY_LIVE": {
+              "status": "PASS"
+            },
+            "P19P_APPLY_AFTER_UNRELATED_CHANGE": {
+              "status": "PASS"
+            },
+            "P19P_FG_INCREASE_NEED_CHANGED": {
+              "status": "PASS"
+            },
+            "P19P_WIP_INCREASE_NEED_CHANGED": {
+              "status": "PASS"
+            },
+            "P19P_POLICY_CHANGED": {
+              "status": "PASS"
+            },
+            "P19P_CAPACITY_USED": {
+              "status": "PASS"
+            },
+            "P19P_TARGET_PLANNED_AND_LINKED": {
+              "status": "PASS"
+            },
+            "P19P_FIELDS_KINDS_ACCESS": {
+              "status": "PASS"
+            },
+            "P19P_V1_V2_SHARED_CAPACITY": {
+              "status": "PASS"
+            }
+          }
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 7
+          },
+          "cases": {
+            "P19P_RACE_CAPACITY_TWO_TARGETS": {
+              "status": "PASS"
+            },
+            "P19P_RACE_SAME_TARGET": {
+              "status": "PASS"
+            },
+            "P19P_RACE_FG_WHILE_WAITING": {
+              "status": "PASS"
+            },
+            "P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE": {
+              "status": "PASS"
+            },
+            "P19P_RACE_V1_HOLDS_V2_REFUSED": {
+              "status": "PASS"
+            },
+            "P19P_RACE_V2_HOLDS_V1_REFUSED": {
+              "status": "PASS"
+            },
+            "P19P_RACE_V1_ROLLBACK_FREES_CAPACITY": {
+              "status": "PASS"
+            }
+          }
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "cases": {
+            "P19P_HTTP_FLOW": {
+              "status": "PASS"
+            },
+            "P19P_HTTP_REVOKED": {
+              "status": "PASS"
+            }
+          }
+        },
+        "browser": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "cases": {
+            "P19P_BROWSER_DESKTOP_PLAN": {
+              "status": "PASS"
+            },
+            "P19P_BROWSER_MOBILE_PLAN": {
+              "status": "PASS"
+            }
+          }
+        }
+      },
+      "witnesses": {
+        "P19P_V1_V2_SHARED_CAPACITY": {
+          "status": "PASS",
+          "capacity": 60,
+          "v2_first": 2,
+          "v1_one_over_refused": {
+            "capacity_pcs": "60",
+            "capacity_now_pcs": "58",
+            "selected_new_pcs": "59",
+            "capacity_used_by_other_plans_pcs": "2"
+          },
+          "v1_exact_fit_accepted": 58,
+          "total": 60,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          }
+        },
+        "P19P_RACE_V1_HOLDS_V2_REFUSED": {
+          "status": "PASS",
+          "capacity": 60,
+          "quantities": [
+            59,
+            2
+          ],
+          "first_version": "v1",
+          "second_version": "v2",
+          "waited_on_capacity_lock": [
+            339
+          ],
+          "first_finished": "commit",
+          "second_result": {
+            "error": "CP7_PLAN_V2_CAPACITY_USED",
+            "sqlstate": "40001",
+            "detail": "{\"code\": \"CP7_PLAN_V2_CAPACITY_USED\", \"checked_at\": \"2026-10-09T15:48:03.849797+00:00\", \"data_as_of\": \"2026-10-09T15:48:02.240673+00:00\", \"fg_now_pcs\": \"15\", \"wip_reason\": null, \"wip_status\": \"COMPLETE\", \"apply_ready\": false, \"wip_now_pcs\": \"80\", \"increase_pcs\": \"0\", \"need_now_pcs\": \"85\", \"policy_state\": \"ACTIVE\", \"policy_quality\": \"KNOWN\", \"fg_snapshot_pcs\": \"15\", \"capacity_now_pcs\": \"1\", \"selected_new_pcs\": \"2\", \"wip_snapshot_pcs\": \"80\", \"cut_limit_now_pcs\": \"85\", \"capacity_through_at\": \"2026-10-10T00:08:02+00:00\", \"capacity_used_by_other_plans_pcs\": \"59\"}"
+          },
+          "committed_total": "59",
+          "v2_refusal": {
+            "code": "CP7_PLAN_V2_CAPACITY_USED",
+            "checked_at": "2026-10-09T15:48:03.849797+00:00",
+            "data_as_of": "2026-10-09T15:48:02.240673+00:00",
+            "fg_now_pcs": "15",
+            "wip_reason": null,
+            "wip_status": "COMPLETE",
+            "apply_ready": false,
+            "wip_now_pcs": "80",
+            "increase_pcs": "0",
+            "need_now_pcs": "85",
+            "policy_state": "ACTIVE",
+            "policy_quality": "KNOWN",
+            "fg_snapshot_pcs": "15",
+            "capacity_now_pcs": "1",
+            "selected_new_pcs": "2",
+            "wip_snapshot_pcs": "80",
+            "cut_limit_now_pcs": "85",
+            "capacity_through_at": "2026-10-10T00:08:02+00:00",
+            "capacity_used_by_other_plans_pcs": "59"
+          },
+          "exact_fit_accepted": [
+            59,
+            1
+          ],
+          "copy_runtime": {
+            "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+            "source_sha256": "5e0b56e9c7e0cba7b78a33640281b1772e10a57c26429090a3eb7543c9586e17",
+            "full_family_acceptance": false
+          },
+          "session_leaks": []
+        },
+        "P19P_RACE_V2_HOLDS_V1_REFUSED": {
+          "status": "PASS",
+          "capacity": 60,
+          "quantities": [
+            59,
+            2
+          ],
+          "first_version": "v2",
+          "second_version": "v1",
+          "waited_on_capacity_lock": [
+            369
+          ],
+          "first_finished": "commit",
+          "second_result": {
+            "error": "CP7_PLAN_CAPACITY_USED",
+            "sqlstate": "40001",
+            "detail": "{\"capacity_pcs\": \"60\", \"capacity_now_pcs\": \"1\", \"selected_new_pcs\": \"2\", \"capacity_used_by_other_plans_pcs\": \"59\"}"
+          },
+          "committed_total": "59",
+          "v1_refusal": "CP7_PLAN_CAPACITY_USED",
+          "copy_runtime": {
+            "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+            "source_sha256": "5e0b56e9c7e0cba7b78a33640281b1772e10a57c26429090a3eb7543c9586e17",
+            "full_family_acceptance": false
+          },
+          "session_leaks": []
+        },
+        "P19P_RACE_V1_ROLLBACK_FREES_CAPACITY": {
+          "status": "PASS",
+          "capacity": 60,
+          "quantities": [
+            59,
+            2
+          ],
+          "first_version": "v1",
+          "second_version": "v2",
+          "waited_on_capacity_lock": [
+            398
+          ],
+          "first_finished": "rollback",
+          "committed_total": "2",
+          "second_committed_after_rollback": true,
+          "copy_runtime": {
+            "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+            "source_sha256": "5e0b56e9c7e0cba7b78a33640281b1772e10a57c26429090a3eb7543c9586e17",
+            "full_family_acceptance": false
+          },
+          "session_leaks": []
+        }
+      }
+    },
+    {
+      "label": "CP7_K3_CLEANUP",
+      "status": "PASS",
+      "source_sha256": "5f2967048185fb312605d7428f601d3e3f73c79890be36f91eb7e44732fde800",
+      "observed_case_count": 19,
+      "required_case_ids": {
+        "native": [
+          "K3C_CLEANED_ONLY_TEMPORARY",
+          "K3C_REOPEN_AFTER_CLEANUP",
+          "K3C_PLAN_V2_AFTER_CLEANUP",
+          "K3C_REPORT_V2_AFTER_CLEANUP",
+          "K3C_AI_AND_REMINDERS_AFTER_CLEANUP",
+          "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED",
+          "K3C_ONLY_DONE_KEPT_RUNS",
+          "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP",
+          "K3C_SCHEDULE_DEFINED_PRIVATE"
+        ],
+        "races": [
+          "K3C_RACE_TWO_TICKS_ONE_LOG",
+          "K3C_RACE_BUSY_TABLE_RETRIED",
+          "K3C_RACE_PG_CRON_FIRES",
+          "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
+          "K3C_RACE_CRON_TWO_DATABASES",
+          "K3C_RACE_BACKUP_RETRY_SAME_SECOND"
+        ],
+        "http": [
+          "K3C_HTTP_REOPEN_AFTER_CLEANUP",
+          "K3C_HTTP_TICK_NOT_REACHABLE"
+        ],
+        "browser": [
+          "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP",
+          "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP"
+        ]
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts": {
+        "native": 9,
+        "races": 6,
+        "http": 2,
+        "browser": 2
+      },
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "schedule_installed": false,
+      "scope": "TEMPORARY_WORK_OF_A_VERIFIED_DONE_RUN_REMOVED_ON_THE_SERVER_SCHEDULE_RESULT_PAGES_HASHES_ORIGIN_AND_DOCUMENTS_KEPT_FEATURES_AND_REOPEN_AFTER_CLEANUP_PG_CRON_SCHEDULE_AND_NIGHTLY_BACKUP_TESTED_NOT_INSTALLED",
+      "groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 9
+          },
+          "cases": {
+            "K3C_CLEANED_ONLY_TEMPORARY": {
+              "status": "PASS"
+            },
+            "K3C_REOPEN_AFTER_CLEANUP": {
+              "status": "PASS"
+            },
+            "K3C_PLAN_V2_AFTER_CLEANUP": {
+              "status": "PASS"
+            },
+            "K3C_REPORT_V2_AFTER_CLEANUP": {
+              "status": "PASS"
+            },
+            "K3C_AI_AND_REMINDERS_AFTER_CLEANUP": {
+              "status": "PASS"
+            },
+            "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED": {
+              "status": "PASS"
+            },
+            "K3C_ONLY_DONE_KEPT_RUNS": {
+              "status": "PASS"
+            },
+            "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP": {
+              "status": "PASS"
+            },
+            "K3C_SCHEDULE_DEFINED_PRIVATE": {
+              "status": "PASS"
+            }
+          }
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 6
+          },
+          "cases": {
+            "K3C_RACE_TWO_TICKS_ONE_LOG": {
+              "status": "PASS"
+            },
+            "K3C_RACE_BUSY_TABLE_RETRIED": {
+              "status": "PASS"
+            },
+            "K3C_RACE_PG_CRON_FIRES": {
+              "status": "PASS"
+            },
+            "K3C_RACE_NIGHTLY_BACKUP_VERIFIED": {
+              "status": "PASS"
+            },
+            "K3C_RACE_CRON_TWO_DATABASES": {
+              "status": "PASS"
+            },
+            "K3C_RACE_BACKUP_RETRY_SAME_SECOND": {
+              "status": "PASS"
+            }
+          }
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "cases": {
+            "K3C_HTTP_REOPEN_AFTER_CLEANUP": {
+              "status": "PASS"
+            },
+            "K3C_HTTP_TICK_NOT_REACHABLE": {
+              "status": "PASS"
+            }
+          }
+        },
+        "browser": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "cases": {
+            "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP": {
+              "status": "PASS"
+            },
+            "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP": {
+              "status": "PASS"
+            }
+          }
+        }
+      },
+      "witnesses": {
+        "K3C_RACE_TWO_TICKS_ONE_LOG": {
+          "status": "PASS",
+          "two_concurrent_ticks_each_job_cleaned_once": true,
+          "log_rows": 2,
+          "lock_waits_retried": 0,
+          "copy_runtime": null,
+          "session_leaks": []
+        },
+        "K3C_RACE_PG_CRON_FIRES": {
+          "status": "PASS",
+          "pg_cron": "1.6.4",
+          "test_schedule_override": "10 seconds",
+          "jobs_fired": {
+            "cp7-staged-cleanup": 1,
+            "cp7-staged-retention": 1,
+            "cp7-staged-runner": 1
+          },
+          "cleaned_by_cron": true,
+          "removed_after_test": [
+            "cp7-staged-cleanup@cp6_auditor_race",
+            "cp7-staged-retention@cp6_auditor_race",
+            "cp7-staged-runner@cp6_auditor_race"
+          ],
+          "installed_definitions_are_the_package": true,
+          "copy_runtime": null,
+          "session_leaks": []
+        },
+        "K3C_RACE_NIGHTLY_BACKUP_VERIFIED": {
+          "status": "PASS",
+          "restore_verified": true,
+          "tables_compared": 557,
+          "failed_night_removed_nothing": true,
+          "newest_verified_kept": [
+            "erp-20261009-224914-WIB-8b3f2e7576a9.dump",
+            "erp-synthetic-2.dump"
+          ],
+          "older_removed_after_verified_night": [
+            "erp-synthetic-1.dump",
+            "erp-synthetic-0.dump"
+          ],
+          "schedule": {
+            "cron": "0 18 * * *",
+            "timezone": "UTC",
+            "meaning": "01:00 WIB nightly"
+          },
+          "copy_runtime": null,
+          "session_leaks": []
+        },
+        "K3C_RACE_CRON_TWO_DATABASES": {
+          "status": "PASS",
+          "a_untouched_by_b": true,
+          "reinstall_same_ids": true,
+          "clash_refused_before_change": true,
+          "uninstall_only_target": true,
+          "job_names": [
+            "cp7-staged-cleanup@cp6_auditor_race",
+            "cp7-staged-retention@cp6_auditor_race",
+            "cp7-staged-runner@cp6_auditor_race"
+          ],
+          "test_schedule_override": "0 3 1 1 *",
+          "copy_runtime": null,
+          "session_leaks": []
+        },
+        "K3C_RACE_BACKUP_RETRY_SAME_SECOND": {
+          "status": "PASS",
+          "verified_dump_and_receipt_unchanged": true,
+          "retry_same_second_new_name": "erp-20261009-224952-WIB-7cff7a2b4bf7.dump",
+          "collision_refused_before_write": true,
+          "failed_retry_removed_nothing": true,
+          "synthetic": "same timestamp passed as now; forced equal token",
+          "copy_runtime": null,
+          "session_leaks": []
+        }
+      }
+    },
+    {
+      "label": "CP7_P19_STAGED",
+      "status": "PASS",
+      "source_sha256": "5e0b56e9c7e0cba7b78a33640281b1772e10a57c26429090a3eb7543c9586e17",
+      "observed_case_count": 14,
+      "required_case_ids": {
+        "native": [
+          "P19G_STAGED_EQUALS_SINGLE",
+          "P19G_STAGED_AUTHORITY",
+          "P19G_STAGED_IDENTITY",
+          "P19G_STAGED_SOURCE_CHECK",
+          "P19G_STAGED_BOUNDS_VS_SINGLE",
+          "P19G_SNAPSHOT_FRESHNESS"
+        ],
+        "races": [
+          "P19G_RACE_TWO_STEPS_ONE_UNIT",
+          "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+          "P19G_RACE_ACCESS_CHANGED_MID_JOB",
+          "P19G_RACE_SNAPSHOT_IN_FLIGHT"
+        ],
+        "http": [
+          "P19G_HTTP_STAGED_FLOW",
+          "P19G_HTTP_REVOKED"
+        ],
+        "browser": [
+          "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
+          "P19G_BROWSER_MOBILE_STAGED"
+        ]
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts": {
+        "native": 6,
+        "races": 4,
+        "http": 2,
+        "browser": 2
+      },
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "advisor_gate": true,
+      "schedule_installed": null,
+      "scope": "STAGED_BACKGROUND_ANALYSIS_ONE_UNIT_PER_REQUEST_UNDER_EXISTING_STATEMENT_LIMIT_HEADER_AND_BYTE_ADAPTIVE_PAGES_IDENTITY_HASH_ACTOR_ACCESS_BOUND_APART_FROM_WHOLE_READERS",
+      "groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 6
+          },
+          "cases": {
+            "P19G_STAGED_EQUALS_SINGLE": {
+              "status": "PASS"
+            },
+            "P19G_STAGED_AUTHORITY": {
+              "status": "PASS"
+            },
+            "P19G_STAGED_IDENTITY": {
+              "status": "PASS"
+            },
+            "P19G_STAGED_SOURCE_CHECK": {
+              "status": "PASS"
+            },
+            "P19G_STAGED_BOUNDS_VS_SINGLE": {
+              "status": "PASS"
+            },
+            "P19G_SNAPSHOT_FRESHNESS": {
+              "status": "PASS"
+            }
+          }
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 4
+          },
+          "cases": {
+            "P19G_RACE_TWO_STEPS_ONE_UNIT": {
+              "status": "PASS"
+            },
+            "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES": {
+              "status": "PASS"
+            },
+            "P19G_RACE_ACCESS_CHANGED_MID_JOB": {
+              "status": "PASS"
+            },
+            "P19G_RACE_SNAPSHOT_IN_FLIGHT": {
+              "status": "PASS"
+            }
+          }
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "cases": {
+            "P19G_HTTP_STAGED_FLOW": {
+              "status": "PASS"
+            },
+            "P19G_HTTP_REVOKED": {
+              "status": "PASS"
+            }
+          }
+        },
+        "browser": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "cases": {
+            "P19G_BROWSER_DESKTOP_STAGED_RELOAD": {
+              "status": "PASS"
+            },
+            "P19G_BROWSER_MOBILE_STAGED": {
+              "status": "PASS"
+            }
+          }
+        }
+      },
+      "witnesses": {}
+    }
+  ]
+}
