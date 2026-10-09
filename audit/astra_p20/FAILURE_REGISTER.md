@@ -44,3 +44,11 @@
 - `scripts/cp7_probe_evidence_test.py` fails `NameError: p19_plan_v2 is not defined` at actual finalizer execution.
 - WRITER_HARNESS_DEFECT, independently reproduced at exact candidate; not an application monetary defect.
 - Remaining shell/build/browser steps were skipped. Run them separately unchanged, while keeping original shell gate FAILED. Never remove this failure from final assessment.
+
+## Adjudications after independent controls
+
+- Retained row comparison: AS20-38_COMPARATOR_CONTROL plus preservation and two cleaners all PASS in37878853657. Canonical UTC changes no stored field. Original mismatches are AUDITOR_COMPARATOR, withdrawn from product findings.
+- Money precision:37879768225 proves public payable61.65, actual payment61.65, zero residual; exact intermediate remains61.648683507697. Original intermediate cents assertion is AUDITOR_ORACLE_BOUNDARY, withdrawn. Receipt permission fixture corrected; revoked posting replay now PASS.
+- 5000 scale37878853657 completed all pages, size measurement and cleanup. 5001 honestly FAILED before result (units_done0, run_idnull, CP7_PLANNING_CAPTURE_INCOMPLETE). Only the auditor's over-specific TARGET_LIMIT text assertion failed; the pre-registered no-truncation/refusal oracle is satisfied. Keep original counterexample; no expensive rerun or product fix needed.
+- Browser37879134928 initially marked48 desktop +48 mobile route smoke PASS. Code review found the generic loading regex could miss the multiline lazy workspace placeholder. Treat initial route readiness proof as PARTIAL. Continue with an explicit placeholder disappearance check; no product changes.
+- Edges37879580253:6/7 independent cases PASS. Matching positive setup refused CP7_WIP_MATCH_BINDING because our synthetic source refs did not equal reconciled position refs. This is AUDITOR_FIXTURE, not an app failure. Use actual immutable position refs in the positive control, retaining own137PCS/red-color oracle; continue only that unreached case.

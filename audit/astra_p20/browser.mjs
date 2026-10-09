@@ -29,9 +29,10 @@ async function routes(ui,mobile){
     if(label==='Dashboard'){await openMenu(page);await page.locator('.sidebar .nav-main').filter({hasText:'Dashboard'}).click()}
     else await choose(page,section,label)
     await ui.expect(page.locator('.top-title strong')).toBeVisible()
-    await ui.expect.poll(async()=>await page.locator('.page-wrap').innerText(),{timeout:30000}).not.toMatch(/^\s*(Memuat|Menyiapkan)[^\n]*$/)
+    await ui.expect(page.getByText('Memuat workspace dan guardrail transaksi.',{exact:true})).not.toBeVisible({timeout:30000})
+    await ui.expect.poll(async()=>await page.locator('.page-wrap').innerText(),{timeout:30000}).not.toMatch(/Menyiapkan[^\n]*…|Memuat workspace dan guardrail transaksi\./)
     await ui.expect.poll(()=>pending,{timeout:30000}).toBe(0)
-    await page.waitForTimeout(120)
+    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))))
     assert.ok((await page.locator('.page-wrap').innerText()).trim().length>5,'Empty work area')
     assert.equal(errors.length,priorErrors,'Unhandled browser exception')
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Whole document overflows viewport')

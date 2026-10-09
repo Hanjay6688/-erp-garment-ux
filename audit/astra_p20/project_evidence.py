@@ -14,7 +14,9 @@ for rid in requests['run_ids']:
   for name in z.namelist():
    if not name.endswith('.json'):continue
    content=z.read(name);d=json.loads(content)
-   if name.startswith('ASTRA_AS20-') and 'audit_case_id' in d or name.startswith('ASTRA_AS20-') and 'case' in d:
+   if name in ('ASTRA_AS20-42_storage5000.json','ASTRA_AS20-26_pages5000.json','ASTRA_AS20-26_scale_calls.json','ASTRA_UI_DESKTOP_ROUTES.json','ASTRA_UI_MOBILE_ROUTES.json','ASTRA_AS20_comparator_timezone_diagnostic.json'):
+    row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_witness=d)
+   elif name.startswith('ASTRA_AS20-') and 'audit_case_id' in d or name.startswith('ASTRA_AS20-') and 'case' in d:
     # Complete independent verdict, including first failure trace/witness.
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_independent_verdict=d)
    elif isinstance(d,dict) and ('counts' in d or 'status' in d or 'gate' in d):

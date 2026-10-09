@@ -39,7 +39,7 @@ def cases(cur,today):
         refs=lambda x:[dict(kind='ASTRA_SYNTHETIC_KERNEL',id=x,revision='1')]
         g=dict(contract_version='cp7.wip-graph.v1',snapshot_id='AS20-own137',complete=True,pools=[dict(key='pool',size_id='L',input_pcs='137',origin='CUTTING',ownership='COMPANY',refs=refs('source'))],nodes=[dict(key='sew',pool_key='pool',stage='SEWING_ACTIVE',refs=refs('sew'))],events=[dict(key='input',pool_key='pool',from_node=None,to_node='sew',qty_pcs='137',ordinal='1',reverses_key=None,refs=refs('input'))])
         r=kernel.call(cur,'reconcile',g);r=kernel.call(cur,'yield',r,[dict(position_key='sew',eligible_input_pcs='137',numerator='1',denominator='1',basis='ASSUMED',assumption_id='own-kernel-control',refs=refs('yield'))])
-        src=dict(key='sew',quality='COMPLETE',size_id='L',confirmed_target=None,constraints=[dict(field='color',value='red',required=True,basis='FACT')],refs=refs('source'))
+        src=dict(key='sew',quality='COMPLETE',size_id='L',confirmed_target=None,constraints=[dict(field='color',value='red',required=True,basis='FACT')],refs=copy.deepcopy(r['positions'][0]['refs']))
         target=dict(key='SKU-B:L',size_id='L',constraints=[dict(field='color',value='red',required=True,basis='FACT')],refs=refs('target'))
         edge=dict(key='edge',position_key='sew',target_key=target['key'],size_id='L',input_pcs='27',projected_good_pcs='27',match='CANDIDATE_MATCH',refs=src['refs']+target['refs'])
         alloc=dict(scenario_id='AS20',scope_id='ALL',complete_scope=True,edges=[edge],matching=dict(snapshot_id=r['snapshot_id'],sources=[src],targets=[target]))
