@@ -25,6 +25,8 @@ for rid in requests['run_ids']:
    content=z.read(name);d=json.loads(content)
    if name in ('ASTRA_AS20-42_storage5000.json','ASTRA_AS20-26_pages5000.json','ASTRA_AS20-26_scale_calls.json','ASTRA_UI_DESKTOP_ROUTES.json','ASTRA_UI_MOBILE_ROUTES.json','ASTRA_AS20_comparator_timezone_diagnostic.json'):
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_witness=d)
+   elif name=='ASTRA_AS20C-22-TIE_order_diagnostic.json':
+    row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_witness=d)
    elif name.startswith('CP7_P21'):
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_witness=d)
    elif name.startswith('ASTRA_AS20') and isinstance(d,dict) and ('audit_case_id' in d or 'case' in d):
