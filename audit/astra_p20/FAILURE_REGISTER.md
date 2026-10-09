@@ -52,3 +52,9 @@
 - 5000 scale37878853657 completed all pages, size measurement and cleanup. 5001 honestly FAILED before result (units_done0, run_idnull, CP7_PLANNING_CAPTURE_INCOMPLETE). Only the auditor's over-specific TARGET_LIMIT text assertion failed; the pre-registered no-truncation/refusal oracle is satisfied. Keep original counterexample; no expensive rerun or product fix needed.
 - Browser37879134928 initially marked48 desktop +48 mobile route smoke PASS. Code review found the generic loading regex could miss the multiline lazy workspace placeholder. Treat initial route readiness proof as PARTIAL. Continue with an explicit placeholder disappearance check; no product changes.
 - Edges37879580253:6/7 independent cases PASS. Matching positive setup refused CP7_WIP_MATCH_BINDING because our synthetic source refs did not equal reconciled position refs. This is AUDITOR_FIXTURE, not an app failure. Use actual immutable position refs in the positive control, retaining own137PCS/red-color oracle; continue only that unreached case.
+
+## 37880663536, two-midnight-sales continuation
+
+- Four independent monetary cases PASS: chosen-invoice supplier credit22.46, paid receipt quantity increase, returned/paid sales correction, and73-unit two-stage late invoice.
+- WIB test posted the first23:59:59 sale, then second CREATE refused duplicate sale_number because both own fixture sales reused the same tag. AUDITOR_FIXTURE; unique-document guard worked. Keep quantities/prices/dates/oracles; add date suffix to each synthetic document number and continue only this uncompleted case.
+- Corrected matching probe37880366048 PASS; no matcher finding. Corrected ready-screen browser37880365949 PASS:48 desktop+48 mobile navigation and actual finance permission boundary. Earlier readiness evidence stays PARTIAL.

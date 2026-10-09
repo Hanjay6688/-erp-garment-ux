@@ -68,7 +68,9 @@ def cases(cur,today):
  def wib_midnight():
   f=b.production(cur,today);yesterday=today-timedelta(days=1)
   before={d:b.finance.read(cur,d,as_of=str(today)) for d in (yesterday,today)};docs=[]
+  tag=f['tag']
   for d,h,m,s,qty in ((yesterday,23,59,59,'3'),(today,0,0,1,'7')):
+   f['tag']=tag+'-'+str(d)
    f['sale_at']=(b.prod.at(d,h,m)+timedelta(seconds=s)).isoformat();note.posted(cur,f,qty,'19.37')
    dates=cur.execute("select economic_date,transaction_date from erp.journal_entries where source_type='SALE' and source_id=%s and status='POSTED'",(f['sale'],)).fetchall()
    check(dates and all(e==d and t==d for e,t in dates),'Sale date follows WIB on either side of midnight',physical=f['sale_at'],dates=dates)

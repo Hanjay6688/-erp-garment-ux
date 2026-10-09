@@ -7,6 +7,15 @@ for rid in requests['run_ids']:
  meta=json.loads(gh('actions/runs/'+str(rid)))
  assert meta['head_branch']==BRANCH and meta['name'].startswith('Astra P20'),'OWN_RUNS_ONLY'
  arts=json.loads(gh(f'actions/runs/{rid}/artifacts?per_page=100'))['artifacts']
+ requested_images=[n for spec in requests.get('images',[]) if spec['run_id']==rid for n in spec['names']]
+ if requested_images:
+  for a in arts:
+   if not a['name'].endswith('-raw'):continue
+   raw=gh('actions/artifacts/'+str(a['id'])+'/zip');z=zipfile.ZipFile(io.BytesIO(raw))
+   for name in requested_images:
+    if name not in z.namelist():continue
+    content=z.read(name);assert content.startswith(b'\x89PNG') and len(content)<2500000
+    print('ASTRA_IMAGE_BASE64 '+json.dumps(dict(run_id=rid,artifact_id=a['id'],name=name,sha256=hashlib.sha256(content).hexdigest(),base64=base64.b64encode(content).decode())),flush=True)
  for a in arts:
   if not a['name'].endswith('-json'):continue
   raw=gh('actions/artifacts/'+str(a['id'])+'/zip');z=zipfile.ZipFile(io.BytesIO(raw))
