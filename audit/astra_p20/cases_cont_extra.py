@@ -38,8 +38,8 @@ def cases(cur,today):
         check(b.gl(cur)==before,'Attendance recording does not independently pay wages')
         s=attendance.s;pid=f['payroll'];s.act(cur,'PREPARE',s.doc(cur,pid));reviewed=s.doc(cur,pid)
         check(D(reviewed['labor_total'])==6000 and D(reviewed['attendance_total'])==D('38.82') and D(reviewed['net_payable'])==D('6038.82'),'Payroll adds explicit attendance amount, keeps prior work distinct',payroll=reviewed)
-        key=uuid.uuid4();out=s.act(cur,'APPROVE',reviewed,key);delta=b.delta(before,b.gl(cur));expected={b.account(cur,'LABOR_COST'):D('38.82'),b.account(cur,'CONTRACTOR_PAYABLE'):D('-38.82')}
-        check(delta==expected,'Exactly38.82 expense accrued once',delta=delta)
+        key=uuid.uuid4();out=s.act(cur,'APPROVE',reviewed,key);delta=b.delta(before,b.gl(cur));expected={b.account(cur,'WIP'):D('38.82'),b.account(cur,'CONTRACTOR_PAYABLE'):D('-38.82')}
+        check(delta==expected,'Exactly38.82 attendance accrued into unassigned WIP once under accepted CP3 contract',delta=delta,expected=expected)
         check(s.act(cur,'APPROVE',reviewed,key)==out and b.delta(before,b.gl(cur))==expected,'Replay does not accrue identical-name workers twice')
         code_rows=cur.execute('select id::text,worker_code,worker_name from erp.contractor_workers where id=any(%s::uuid[]) order by worker_code',(ids,)).fetchall()
         check({r[1] for r in code_rows}==set(codes) and all(r[2]=='Rina' for r in code_rows),'Both original codes/name retained')

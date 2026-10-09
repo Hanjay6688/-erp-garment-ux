@@ -1,0 +1,113 @@
+{
+  "run_id": 37894141652,
+  "job_id": 113701498818,
+  "events": [
+    {
+      "group": "ASTRA_P20_CONT_EDGE_RECHECK_NATIVE",
+      "case": "AS20C-18-ROSTER",
+      "audit_case_id": "AS20C-18-ROSTER",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "COUNTEREXAMPLE",
+      "counterexample": "{\"message\": \"Exactly38.82 expense accrued once\", \"delta\": {\"9ce89e21-9a21-40e5-859d-237b89d5a767\": \"38.82\", \"5f27ccb9-107f-4d19-a52c-e7eef8e9d69b\": \"-38.82\"}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 112, in run\n    try:base.update(status='PASS',observations=op())\n                                               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_cont_extra.py\", line 42, in same_name\n    check(delta==expected,'Exactly38.82 expense accrued once',delta=delta)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 23, in check\n    if not ok:raise ContractMismatch(json.dumps(dict(message=message,**witness),default=str))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ncases_stage.ContractMismatch: {\"message\": \"Exactly38.82 expense accrued once\", \"delta\": {\"9ce89e21-9a21-40e5-859d-237b89d5a767\": \"38.82\", \"5f27ccb9-107f-4d19-a52c-e7eef8e9d69b\": \"-38.82\"}}\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_EDGE_RECHECK_NATIVE",
+      "case": "AS20C-22-TIE",
+      "audit_case_id": "AS20C-22-TIE",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "scope": "PRIVATE_KERNEL_NOT_NATIVE_PLAN_POST",
+        "tie": {
+          "A": "11",
+          "B": "6"
+        },
+        "earlier_deadline": [
+          {
+            "size_id": "L",
+            "need_pcs": "11",
+            "target_key": "B",
+            "priority_basis": {
+              "risk_at": "2026-10-10T00:00:00Z",
+              "deadline": "2026-10-10T00:00:00Z",
+              "helps_at": "2026-10-09T00:00:00Z",
+              "size_gap": "11",
+              "stable_key": "B"
+            },
+            "unresolved_pcs": "0",
+            "production_status": "ACTIVE",
+            "allocated_good_pcs": "11"
+          },
+          {
+            "size_id": "L",
+            "need_pcs": "11",
+            "target_key": "A",
+            "priority_basis": {
+              "risk_at": "2026-10-10T00:00:00Z",
+              "deadline": "2026-10-11T00:00:00Z",
+              "helps_at": "2026-10-09T00:00:00Z",
+              "size_gap": "11",
+              "stable_key": "A"
+            },
+            "unresolved_pcs": "5",
+            "production_status": "ACTIVE",
+            "allocated_good_pcs": "6"
+          }
+        ],
+        "unknown": [
+          {
+            "reason": "TIME_UNKNOWN",
+            "need_pcs": "11",
+            "target_key": "B"
+          }
+        ],
+        "input_pcs": 17
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_EDGE_RECHECK_NATIVE",
+      "planned": [
+        "AS20C-18-ROSTER",
+        "AS20C-22-TIE"
+      ],
+      "final": {
+        "AS20C-18-ROSTER": "COUNTEREXAMPLE",
+        "AS20C-22-TIE": "PASS"
+      },
+      "missing": [],
+      "status": "COUNTEREXAMPLE"
+    },
+    {
+      "status": "INCOMPLETE",
+      "expected_cases": 2,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ]
+}
