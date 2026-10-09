@@ -32,7 +32,7 @@ import cp7_schedule as schedule
 IDS = dict(
     native=['K4R_SERVER_FINISHES_WITHOUT_PAGE', 'K4R_PAGE_AND_SERVER_ONE_JOB', 'K4R_ACCESS_RECHECKED_EACH_UNIT',
             'K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS', 'K4R_LIMIT_REQUIRED', 'K4R_SCHEDULE_DEFINED_PRIVATE', 'K4R_STATUS_REPORTS_RUNNER'],
-    races=['K4R_RACE_PAGE_AND_SERVER_ONE_UNIT', 'K4R_RACE_TWO_TICKS_ONE_UNIT', 'K4R_RACE_LIMIT_STOPS_THEN_CONTINUES',
+    races=['K4R_RACE_PAGE_AND_SERVER_ONE_UNIT', 'K4R_RACE_TWO_TICKS_ONE_UNIT', 'K4R_RACE_COLD_START_TWO_TICKS', 'K4R_RACE_LIMIT_STOPS_THEN_CONTINUES',
            'K4R_RACE_ACCESS_CHANGED_DURING_UNIT', 'K4R_RACE_PG_CRON_FINISHES_JOB'],
     http=['K4R_HTTP_CLOSED_PAGE_FINISHES', 'K4R_HTTP_TICK_NOT_REACHABLE'],
     browser=['K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES', 'K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES'],
@@ -410,6 +410,64 @@ def races(tools, today):
         return dict(status='PASS', concurrent_ticks_never_run_one_unit_twice=True, results=[r['outcome'] for r in results],
                     two_jobs_two_ticks=[x['outcome'] for x in pair], every_unit_stored_once=True)
 
+    def cold_start():
+        """Independent audit SOL-K4-01: on a fresh installation (no runner row yet) the first tick's heartbeat insert made a
+        second tick wait for it. Now two ticks on two jobs both reach their units at once, neither waits on the other's
+        transaction, each job gets its unit once, and the heartbeat row is written once."""
+        k1, *_ = requested()
+        k2, *_ = requested()
+        with tools.connect() as conn, conn.cursor() as cur:
+            b.api.admin(cur)
+            synthetic = cur.execute('select count(*) from cp7_analysis_stage.runner').fetchone()[0] > 0
+            if synthetic:
+                # SYNTHETIC (labelled): the copy already had a tick; its runner row is removed to stand for a fresh installation.
+                cur.execute('alter table cp7_analysis_stage.runner disable trigger immutable_stage_runner')
+                cur.execute('delete from cp7_analysis_stage.runner')
+                cur.execute('alter table cp7_analysis_stage.runner enable trigger immutable_stage_runner')
+            conn.commit()
+            j1, j2 = job_id(cur, k1), job_id(cur, k2)
+            conn.commit()
+        holder = blocked_outputs()
+        pids = {}
+
+        def ticking(name):
+            with tools.connect() as conn, conn.cursor() as cur:
+                pids[name] = conn.info.backend_pid
+                out = tick(cur)
+                conn.commit()
+                return out
+        try:
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                pending = [pool.submit(ticking, 'a'), pool.submit(ticking, 'b')]
+                deadline, waits = time.monotonic() + 20, []
+                while time.monotonic() < deadline:
+                    with tools.connect() as conn, conn.cursor() as cur:
+                        waits = cur.execute("""select a.pid,a.wait_event_type,a.wait_event,
+                            exists(select 1 from pg_locks l where l.pid=a.pid and not l.granted and l.locktype='relation'
+                             and l.relation='cp7_analysis_stage.outputs'::regclass)
+                            from pg_stat_activity a where a.pid=any(%s)""", (list(pids.values()),)).fetchall()
+                    if len(waits) == 2 and all(w[3] for w in waits):
+                        break
+                    assert not any(w[2] == 'transactionid' for w in waits), ('K4R_COLD_TICK_WAITS_ON_ANOTHER_TICK', waits)
+                    time.sleep(0.05)
+                assert len(waits) == 2 and all(w[3] for w in waits), ('K4R_COLD_TICKS_NOT_BOTH_IN_THEIR_UNIT', waits)
+                holder.rollback()
+                pair = [x.result(60) for x in pending]
+        finally:
+            holder.close()
+        assert sorted(x['job_id'] for x in pair) == sorted([j1, j2]) and all(x['outcome'] == 'UNIT_STORED' for x in pair), pair
+        with tools.connect() as conn, conn.cursor() as cur:
+            b.api.admin(cur)
+            rows = cur.execute('select count(*) from cp7_analysis_stage.runner').fetchone()[0]
+            assert rows == 1 and staged.status(cur, k1)['server_runner']['active'] is True, rows
+            for k in (k1, k2):
+                done, _ = run_by_server_any(cur, k)
+                staged.checked(done, k, 'DONE')
+                units_once(cur, k)
+            conn.commit()
+        return dict(status='PASS', runner_row_before=0, synthetic_row_removed=synthetic, both_ticks_in_their_units_at_once=True,
+                    no_tick_waited_on_another=True, heartbeat_rows_after=rows, every_unit_stored_once=True)
+
     def job_id_of(key):
         with tools.connect() as conn, conn.cursor() as cur:
             return job_id(cur, key)
@@ -545,7 +603,7 @@ def races(tools, today):
             time.sleep(0.5)
         raise AssertionError('K4R_PG_CRON_SESSION_LEFT')
 
-    return list(zip(IDS['races'], (page_and_server, two_ticks, limit_stops, access_changed_during_unit, pg_cron_finishes)))
+    return list(zip(IDS['races'], (page_and_server, two_ticks, cold_start, limit_stops, access_changed_during_unit, pg_cron_finishes)))
 
 
 def http_cases(http, today):

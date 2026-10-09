@@ -114,7 +114,7 @@ jobs:
         - suite: k3-cleanup-19
           probe: cp7_k3_cleanup_probe.py
           timeout: 180
-        - suite: k4-runner-16
+        - suite: k4-runner-17
           probe: cp7_k4_runner_probe.py
           timeout: 180
     env:

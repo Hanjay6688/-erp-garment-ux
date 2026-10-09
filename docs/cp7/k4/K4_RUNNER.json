@@ -1,9 +1,9 @@
 {
   "contract": "cp7.k4.server-runner.v1",
-  "expected_case_count": 16,
+  "expected_case_count": 17,
   "required_case_counts": {
     "native": 7,
-    "races": 5,
+    "races": 6,
     "http": 2,
     "browser": 2
   },
@@ -20,6 +20,7 @@
     "races": [
       "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
       "K4R_RACE_TWO_TICKS_ONE_UNIT",
+      "K4R_RACE_COLD_START_TWO_TICKS",
       "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
       "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
       "K4R_RACE_PG_CRON_FINISHES_JOB"
@@ -55,7 +56,8 @@
     "access": "for every unit the job's stored actor is the transaction's request identity (sub, role authenticated) and cp7_schedule_native.access_now(false) is read before and after the unit; access different from the access at capture or denied fails the job (CP7_ANALYSIS_ACCESS_CHANGED); access changed during the unit discards the unit; the previous request identity is put back after the unit",
     "no_double_work": "one job row lock per unit (a page step meanwhile answers worker_active and runs nothing), outputs primary key (job, unit); reopening with the same request UUID returns the same job and run",
     "status": "job status carries server_runner {active: a tick in the last 2 minutes, last_tick_at}; the page then says the page may be closed and a stopped page does not pause the job",
-    "private": "cp7_ops.analysis_tick() SECURITY DEFINER as cp7_capture, EXECUTE for postgres only; run_next private; table cp7_analysis_stage.runner (one row, updated at most every 10 s, never deleted); no public RPC"
+    "private": "cp7_ops.analysis_tick() SECURITY DEFINER as cp7_capture, EXECUTE for postgres only; run_next private; table cp7_analysis_stage.runner (one row, updated at most every 10 s, never deleted); no public RPC",
+    "heartbeat": "only the tick that takes the private lock hashtextextended('CP7:K4_RUNNER_HEARTBEAT',0) without waiting (pg_try_advisory_xact_lock) writes the runner row, first time or later; any other tick skips the heartbeat and goes on to its job (independent audit SOL-K4-01, Sol, 8cc1b081: the first row's insert made a second tick wait on a fresh installation)"
   },
   "not_runner_driven": [
     "Business Report v2 jobs, reminder condition sets and the single background analysis job stay driven by their page (they are short)"
@@ -65,6 +67,23 @@
   "synthetic_steps": [
     "a denied actor's job made the oldest (updated_at)",
     "the runner row removed and its last tick moved 3 minutes back inside a rolled-back case",
-    "TEST_SCHEDULE_OVERRIDE every 5 seconds on the disposable race and browser copies"
+    "TEST_SCHEDULE_OVERRIDE every 5 seconds on the disposable race and browser copies",
+    "the runner row removed to stand for a fresh installation when a race copy already had a tick (labelled, cold-start race)"
+  ],
+  "audit_history": [
+    {
+      "round": "Sol independent audit of 8cc1b081 (audit/sol-p20-k4-8cc1b081-20261009)",
+      "verdict": "HOLD",
+      "finding": "SOL-K4-01 S2 cold heartbeat insert serialized concurrent ticks",
+      "first_failure_runs": [
+        37954533118,
+        37954972794
+      ],
+      "closing_tests": [
+        "audit/sol_p20_k4/cold_runner.py",
+        "scripts/sol_p20_k4_installed_probe.py"
+      ],
+      "writer_case": "K4R_RACE_COLD_START_TWO_TICKS"
+    }
   ]
 }

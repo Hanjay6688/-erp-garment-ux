@@ -2405,14 +2405,17 @@ begin
   raise exception using errcode='55000',message='CP7_RUNNER_STATEMENT_LIMIT_REQUIRED',
    detail=jsonb_build_object('statement_timeout_ms',limit_ms,'required','statement_timeout 1..8000 ms')::text;
  end if;
- -- The heartbeat never makes one tick wait for another: a row another tick
- -- holds is skipped (that tick writes it).
- if exists(select 1 from cp7_analysis_stage.runner)then
-  update cp7_analysis_stage.runner r set last_tick_at=clock_timestamp(),statement_timeout_ms=limit_ms
-   where r.id in(select x.id from cp7_analysis_stage.runner x for update skip locked)
-    and(r.last_tick_at<clock_timestamp()-interval'10 seconds'or r.statement_timeout_ms<>limit_ms);
- else
-  insert into cp7_analysis_stage.runner(id,last_tick_at,statement_timeout_ms)values(true,clock_timestamp(),limit_ms)on conflict(id)do nothing;
+ -- The heartbeat never makes one tick wait for another (independent audit
+ -- SOL-K4-01: the first row's insert made a second tick wait on a fresh
+ -- installation). Only the tick that takes the heartbeat's own private lock
+ -- without waiting writes the row, first time or later; it keeps that lock to
+ -- its end, so no other writer of the row can be in flight. Any other tick
+ -- skips the heartbeat and goes on to its job. The lock guards the heartbeat
+ -- only, never the runner's work.
+ if pg_catalog.pg_try_advisory_xact_lock(pg_catalog.hashtextextended('CP7:K4_RUNNER_HEARTBEAT',0))then
+  insert into cp7_analysis_stage.runner as r(id,last_tick_at,statement_timeout_ms)values(true,clock_timestamp(),limit_ms)
+   on conflict(id)do update set last_tick_at=excluded.last_tick_at,statement_timeout_ms=excluded.statement_timeout_ms
+   where r.last_tick_at<excluded.last_tick_at-interval'10 seconds'or r.statement_timeout_ms<>excluded.statement_timeout_ms;
  end if;
  select *into j from cp7_analysis_stage.jobs x where x.state='RUNNING'order by x.updated_at,x.id limit 1 for update skip locked;
  if not found then return jsonb_build_object('ran',false,'outcome','IDLE');end if;

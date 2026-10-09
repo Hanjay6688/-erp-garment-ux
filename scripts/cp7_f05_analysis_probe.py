@@ -109,7 +109,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   import cp7_reminder_v2_bundle as candidate
   import cp7_k4_runner_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==16;out=OUT.with_name('CP7_K4_RUNNER.json');phase='cp7_k4_runner';browser_script='cp7_k4_runner_browser.mjs'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==17;out=OUT.with_name('CP7_K4_RUNNER.json');phase='cp7_k4_runner';browser_script='cp7_k4_runner_browser.mjs'
  if k3_cleanup:
   # K3b + CP7C (owner decision 9 Oct 2026 WIB): a finished run's temporary work
   # removed on the server's schedule after its result verifies; the pg_cron
