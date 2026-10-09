@@ -1,0 +1,2860 @@
+{
+  "run_id": 37876648313,
+  "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+  "oracle_origin": "WRITER_ORACLES_UNCHANGED",
+  "jobs": 33,
+  "case_executions": 1256,
+  "extra_controls": 6,
+  "unique_group_case_pairs": 765,
+  "note": "Executions include reused predecessor cases across three payroll variants; never called distinct business scenarios. P21 phases are separate, not invented test counts.",
+  "suites": [
+    {
+      "suite": "astra-p20-analysis152-json",
+      "report": "CP7_F05_NATIVE_ANALYSIS.json",
+      "artifact_id": 11594080492,
+      "status": "PASS",
+      "executions": 153,
+      "extra_controls": 0,
+      "expected": 153,
+      "reported_observed": 153,
+      "groups": {
+        "native": {
+          "count": 107,
+          "case_ids": [
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P06_MATERIAL_NATIVE_BOM_SUCCESSOR",
+            "P06_MATERIAL_NATIVE_CLOCK_PRIVATE",
+            "P06_MATERIAL_NATIVE_EMPTY_EXPLICIT",
+            "P06_MATERIAL_NATIVE_GROSS_ASSUMED",
+            "P06_MATERIAL_NATIVE_ISSUE_NOT_INSTALLED",
+            "P06_MATERIAL_NATIVE_MISSING_UNKNOWN",
+            "P06_MATERIAL_O09_TRUSTED_KERNEL_CONTRACT",
+            "P06_MATERIAL_O10_TRUSTED_KERNEL_CONTRACT",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NETTING_NATIVE_BOUND_GAP93",
+            "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD",
+            "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY",
+            "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT",
+            "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE",
+            "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT",
+            "P06_NETTING_NATIVE_LATE_NOT_NETTED",
+            "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_PL4_OVERFLOW_CARRIED",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS",
+            "P14_NATIVE_ANALYSIS_ACTOR_SCOPE",
+            "P14_NATIVE_ANALYSIS_CHANGED_QUERY",
+            "P14_NATIVE_ANALYSIS_CURRENT_REVOKE",
+            "P14_NATIVE_ANALYSIS_ENGINE_CHANGE",
+            "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+            "P14_NATIVE_ANALYSIS_IMMUTABLE",
+            "P14_NATIVE_ANALYSIS_LATE_SUPPLY",
+            "P14_NATIVE_ANALYSIS_MISSING_POLICY",
+            "P14_NATIVE_ANALYSIS_PAUSED",
+            "P14_NATIVE_ANALYSIS_REPLAY",
+            "P14_NATIVE_ANALYSIS_SIGNED_AVAILABLE",
+            "P14_NATIVE_ANALYSIS_SOURCE_CHANGE",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_CAPACITY",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_WORK",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_JOURNAL_STALE",
+            "P15_NATIVE_ANALYSIS_FINANCE_OWNER_BOUNDARY",
+            "P15_NATIVE_ANALYSIS_FINANCE_SAME_SOURCE",
+            "P15_NATIVE_ARCHIVE_ACTOR_QUERY_BOUNDARY",
+            "P15_NATIVE_ARCHIVE_CURRENT_OPS_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ARCHIVE_DURABLE_PAGES",
+            "P15_NATIVE_ARCHIVE_ORIGINAL_SOURCE_CHANGED",
+            "P15_REPORT_NATIVE_ABSENT_FENCE",
+            "P15_REPORT_NATIVE_ACTOR_SCOPE",
+            "P15_REPORT_NATIVE_ACTUAL_COMPARISON",
+            "P15_REPORT_NATIVE_CLOSED_PAYLOAD",
+            "P15_REPORT_NATIVE_CURRENT_FINANCE_AUTH",
+            "P15_REPORT_NATIVE_CURRENT_OPS_AUTH",
+            "P15_REPORT_NATIVE_DURABLE_PAGES",
+            "P15_REPORT_NATIVE_ENGINE_VERSION",
+            "P15_REPORT_NATIVE_IMMUTABLE",
+            "P15_REPORT_NATIVE_PERIOD_SCOPE",
+            "P15_REPORT_NATIVE_REVISION",
+            "P15_REPORT_NATIVE_TEMPLATES",
+            "P15_REPORT_NATIVE_UNKNOWN_NOT_ZERO",
+            "P15_REPORT_NATIVE_UUID_REPLAY"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 20,
+          "case_ids": [
+            "P05_RACE_CURRENT_REVOKE",
+            "P05_RACE_SAME_UUID",
+            "P06_MATERIAL_RACE_CURRENT_SOURCE_AUTH",
+            "P06_NETTING_RACE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_UUID",
+            "P14_ANALYSIS_RACE_CURRENT_AUTH",
+            "P14_ANALYSIS_RACE_QUERY",
+            "P14_ANALYSIS_RACE_UUID",
+            "P15_ANALYSIS_FINANCE_LOCK_CURRENT_AUTH",
+            "P15_REPORT_RACE_ABSENT_FENCE",
+            "P15_REPORT_RACE_CURRENT_AUTH",
+            "P15_REPORT_RACE_REVISION",
+            "P15_REPORT_RACE_UUID"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 12,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_MATERIAL_HTTP_CURRENT_AUTH",
+            "P06_NETTING_HTTP_AUTH",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "P06_SUPPLY_HTTP_AUTH",
+            "P14_ANALYSIS_HTTP_AUTH",
+            "P15_ANALYSIS_FINANCE_HTTP_CURRENT_AUTH",
+            "P15_ARCHIVE_HTTP_CURRENT_AUTH",
+            "P15_REPORT_HTTP_ABSENT_FENCE",
+            "P15_REPORT_HTTP_CURRENT_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 14,
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_NETTING",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+            "P06_MATERIAL_BROWSER_DESKTOP",
+            "P06_MATERIAL_BROWSER_MOBILE",
+            "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+            "P14_BROWSER_MOBILE_SHARED_ANALYSIS",
+            "P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_DESKTOP_NATIVE_PUBLICATION",
+            "P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_MOBILE_NATIVE_PUBLICATION"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-attention284-json",
+      "report": "CP7_F05_NATIVE_ATTENTION.json",
+      "artifact_id": 11594820643,
+      "status": "PASS",
+      "executions": 289,
+      "extra_controls": 3,
+      "expected": 286,
+      "reported_observed": 286,
+      "groups": {
+        "source_admission": {
+          "count": 3,
+          "case_ids": [
+            "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+            "P15_OBLIGATION_REPORT_NATIVE_EXACT_DATED_NATIVE",
+            "P16_RULE_SOURCE_EXACT_CURRENT_SOURCE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "native": {
+          "count": 181,
+          "case_ids": [
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P06_MATERIAL_NATIVE_BOM_SUCCESSOR",
+            "P06_MATERIAL_NATIVE_CLOCK_PRIVATE",
+            "P06_MATERIAL_NATIVE_EMPTY_EXPLICIT",
+            "P06_MATERIAL_NATIVE_GROSS_ASSUMED",
+            "P06_MATERIAL_NATIVE_ISSUE_NOT_INSTALLED",
+            "P06_MATERIAL_NATIVE_MISSING_UNKNOWN",
+            "P06_MATERIAL_O09_TRUSTED_KERNEL_CONTRACT",
+            "P06_MATERIAL_O10_TRUSTED_KERNEL_CONTRACT",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NETTING_NATIVE_BOUND_GAP93",
+            "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD",
+            "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY",
+            "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT",
+            "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE",
+            "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT",
+            "P06_NETTING_NATIVE_LATE_NOT_NETTED",
+            "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_PL4_OVERFLOW_CARRIED",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS",
+            "P14_NATIVE_ANALYSIS_ACTOR_SCOPE",
+            "P14_NATIVE_ANALYSIS_CHANGED_QUERY",
+            "P14_NATIVE_ANALYSIS_CURRENT_REVOKE",
+            "P14_NATIVE_ANALYSIS_ENGINE_CHANGE",
+            "P14_NATIVE_ANALYSIS_FROZEN_NATIVE",
+            "P14_NATIVE_ANALYSIS_IMMUTABLE",
+            "P14_NATIVE_ANALYSIS_LATE_SUPPLY",
+            "P14_NATIVE_ANALYSIS_MISSING_POLICY",
+            "P14_NATIVE_ANALYSIS_PAUSED",
+            "P14_NATIVE_ANALYSIS_REPLAY",
+            "P14_NATIVE_ANALYSIS_SIGNED_AVAILABLE",
+            "P14_NATIVE_ANALYSIS_SOURCE_CHANGE",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_CAPACITY",
+            "P14_NATIVE_ANALYSIS_UNKNOWN_WORK",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ANALYSIS_FINANCE_JOURNAL_STALE",
+            "P15_NATIVE_ANALYSIS_FINANCE_OWNER_BOUNDARY",
+            "P15_NATIVE_ANALYSIS_FINANCE_SAME_SOURCE",
+            "P15_NATIVE_ARCHIVE_ACTOR_QUERY_BOUNDARY",
+            "P15_NATIVE_ARCHIVE_CURRENT_OPS_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_PREFLIGHT_AUTH",
+            "P15_NATIVE_ARCHIVE_CURRENT_REPORT_AUTH",
+            "P15_NATIVE_ARCHIVE_DURABLE_PAGES",
+            "P15_NATIVE_ARCHIVE_ORIGINAL_SOURCE_CHANGED",
+            "P15_OBLIGATION_REPORT_NATIVE_ACTOR_SCOPE",
+            "P15_OBLIGATION_REPORT_NATIVE_CURRENT_FINE_RIGHTS",
+            "P15_OBLIGATION_REPORT_NATIVE_EXACT_DATED_NATIVE",
+            "P15_OBLIGATION_REPORT_NATIVE_IMMUTABLE_AND_CLOSED_PAYLOAD",
+            "P15_OBLIGATION_REPORT_NATIVE_LINKED_REVISION",
+            "P15_OBLIGATION_REPORT_NATIVE_NATIVE_PAYMENT_ARCHIVE",
+            "P15_OBLIGATION_REPORT_NATIVE_PAGED_COMPLETE_INDEX",
+            "P15_OBLIGATION_REPORT_NATIVE_REPLAY_AND_CLOSED_FENCE",
+            "P15_REPORT_NATIVE_ABSENT_FENCE",
+            "P15_REPORT_NATIVE_ACTOR_SCOPE",
+            "P15_REPORT_NATIVE_ACTUAL_COMPARISON",
+            "P15_REPORT_NATIVE_CLOSED_PAYLOAD",
+            "P15_REPORT_NATIVE_CURRENT_FINANCE_AUTH",
+            "P15_REPORT_NATIVE_CURRENT_OPS_AUTH",
+            "P15_REPORT_NATIVE_DURABLE_PAGES",
+            "P15_REPORT_NATIVE_ENGINE_VERSION",
+            "P15_REPORT_NATIVE_IMMUTABLE",
+            "P15_REPORT_NATIVE_PERIOD_SCOPE",
+            "P15_REPORT_NATIVE_REVISION",
+            "P15_REPORT_NATIVE_TEMPLATES",
+            "P15_REPORT_NATIVE_UNKNOWN_NOT_ZERO",
+            "P15_REPORT_NATIVE_UUID_REPLAY",
+            "P16_EPISODE_NATIVE_AP_RECURRENCE",
+            "P16_EPISODE_NATIVE_AR_RECURRENCE",
+            "P16_EPISODE_NATIVE_PARTIAL_ABSENT_FENCE",
+            "P16_EPISODE_NATIVE_SHARED_CURRENT_AUTH",
+            "P16_HISTORY_NATIVE_COMPLETE26_READONLY",
+            "P16_HISTORY_NATIVE_CURRENT_SCOPE_AUTH",
+            "P16_NATIVE_AP_CONDITION_AP5_OLDEST_DUE_FIRST",
+            "P16_NATIVE_AP_CONDITION_COMPLETE_SOURCE26",
+            "P16_NATIVE_AP_CONDITION_CURRENT_ACTOR_AP_AUTH",
+            "P16_NATIVE_AP_CONDITION_GRNI_FINAL_PAYMENT_INVERSE",
+            "P16_NATIVE_AP_CONDITION_SIGNED_RETURN_CREDIT",
+            "P16_NATIVE_AR_CONDITION_ACTUAL_BALANCE_DUE_SETTLE_INVERSE",
+            "P16_NATIVE_AR_CONDITION_COMPLETE_SOURCE26",
+            "P16_NATIVE_AR_CONDITION_CURRENT_ACTOR_AR_AUTH",
+            "P16_NATIVE_ATTENTION_ARCHIVE_CONDITION",
+            "P16_NATIVE_ATTENTION_CURRENT_ACTOR_AUTH",
+            "P16_NATIVE_ATTENTION_FULL_BOUND_SOURCE201",
+            "P16_NATIVE_ATTENTION_IMMUTABLE_UUID_CAS",
+            "P16_NATIVE_ATTENTION_NATIVE_TASK_CAS",
+            "P16_NATIVE_ATTENTION_NATIVE_TASK_LIFECYCLE",
+            "P16_NATIVE_ATTENTION_REVIEW_METADATA",
+            "P16_NATIVE_ATTENTION_SEALED_ABSENT",
+            "P16_OTHER_NATIVE_ACCESSORY_ALLOCATION_NOT_PAID",
+            "P16_OTHER_NATIVE_ACCESSORY_PAID_INVERSE",
+            "P16_OTHER_NATIVE_CURRENT_NARROWER_RIGHTS",
+            "P16_OTHER_NATIVE_LAUNDRY_INVOICE_PAYMENT_INVERSE",
+            "P16_OTHER_NATIVE_LAUNDRY_OPENING_PENDING",
+            "P16_OTHER_NATIVE_LAUNDRY_PENDING_UNKNOWN",
+            "P16_OTHER_NATIVE_OPENING_ALLOCATION_PAYMENT_INVERSE",
+            "P16_OTHER_NATIVE_OPENING_CANONICAL",
+            "P16_OTHER_NATIVE_PAYROLL_EXACT_CENTS",
+            "P16_OTHER_NATIVE_PAYROLL_INACTIVE",
+            "P16_OTHER_NATIVE_PAYROLL_PARTIAL_FINAL_INVERSE",
+            "P16_OTHER_NATIVE_PRIVATE_READER_ACL",
+            "P16_OTHER_NATIVE_SOURCE_CONSERVATION",
+            "P16_OTHER_NATIVE_UNKNOWN_DUE_EPISODE_AGE",
+            "P16_POLICY_COOLDOWN_CLOCK",
+            "P16_POLICY_CURRENT_AUTH",
+            "P16_POLICY_EMPTY_CURRENT",
+            "P16_POLICY_FOUR_RULE_UNITS",
+            "P16_POLICY_NULL_ZERO_DISABLED_HISTORY",
+            "P16_POLICY_OLD_UUID_CURRENT_SUCCESSOR",
+            "P16_POLICY_PRIVATE_INVALID_INPUT",
+            "P16_POLICY_SCOPE_WHOLE_VERSION",
+            "P16_POLICY_SEALED_ABSENT",
+            "P16_POLICY_SOURCE_CHANGED",
+            "P16_POLICY_UUID_CAS_CONFLICT",
+            "P16_POLICY_WIB_OVERNIGHT",
+            "P16_RULE_SOURCE_CURRENT_DOMAIN_SCOPE",
+            "P16_RULE_SOURCE_EPISODE_RECURRENCE",
+            "P16_RULE_SOURCE_EPISODE_UUID_RECOVERY",
+            "P16_RULE_SOURCE_EXACT_CURRENT_SOURCE",
+            "P16_RULE_SOURCE_LOCAL_ACTUAL_COOLDOWN",
+            "P16_RULE_SOURCE_LOCAL_AMBIGUITY",
+            "P16_RULE_SOURCE_LOCAL_BINDING_VERSIONS",
+            "P16_RULE_SOURCE_LOCAL_DISABLED_SUPPRESSION",
+            "P16_RULE_SOURCE_LOCAL_FENCE_ABSENCE_ACL",
+            "P16_RULE_SOURCE_LOCAL_MANUAL_RESOLUTION",
+            "P16_RULE_SOURCE_LOCAL_NATIVE_HEAL",
+            "P16_RULE_SOURCE_LOCAL_UTF8_CAPTURE",
+            "P16_RULE_SOURCE_MISSING_DUE_ZERO",
+            "P16_RULE_SOURCE_NATIVE_MATERIAL_AP",
+            "P16_RULE_SOURCE_POLICY_HISTORY_AUTH",
+            "P16_RULE_SOURCE_POLICY_HISTORY_PAGES",
+            "P16_RULE_SOURCE_REVIEW_NOT_RESOLUTION",
+            "P16_RULE_SOURCE_UNKNOWN_AGE_RETAINED"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 40,
+          "case_ids": [
+            "P05_RACE_CURRENT_REVOKE",
+            "P05_RACE_SAME_UUID",
+            "P06_MATERIAL_RACE_CURRENT_SOURCE_AUTH",
+            "P06_NETTING_RACE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_UUID",
+            "P14_ANALYSIS_RACE_CURRENT_AUTH",
+            "P14_ANALYSIS_RACE_QUERY",
+            "P14_ANALYSIS_RACE_UUID",
+            "P15_ANALYSIS_FINANCE_LOCK_CURRENT_AUTH",
+            "P15_OBLIGATION_REPORT_RACE_CURRENT_PAYROLL_RIGHT",
+            "P15_OBLIGATION_REPORT_RACE_SAME_UUID",
+            "P15_OBLIGATION_REPORT_RACE_SERIES_CAS",
+            "P15_REPORT_RACE_ABSENT_FENCE",
+            "P15_REPORT_RACE_CURRENT_AUTH",
+            "P15_REPORT_RACE_REVISION",
+            "P15_REPORT_RACE_UUID",
+            "P16_ATTENTION_RACE_CURRENT_AUTH",
+            "P16_ATTENTION_RACE_UUID",
+            "P16_EPISODE_RACE_CURRENT_AR",
+            "P16_EPISODE_RACE_UUID",
+            "P16_HISTORY_RACE_CURRENT_AR_WAIT",
+            "P16_OTHER_RACE_LAUNDRY_PAYMENT_SNAPSHOT",
+            "P16_OTHER_RACE_PAYROLL_PERMISSION_WAIT",
+            "P16_OTHER_RACE_SHARED_UNKNOWN_EPISODE",
+            "P16_POLICY_RACE_CROSS_ACTOR_CAS",
+            "P16_POLICY_RACE_CURRENT_MANAGE",
+            "P16_POLICY_RACE_DUPLICATE_UUID",
+            "P16_RECHECK_RACE_CURRENT_FINANCE_REQUEST_WAIT",
+            "P16_RULE_RACE_CALLBACK_NATIVE_HEAL",
+            "P16_RULE_RACE_CURRENT_DOMAIN",
+            "P16_RULE_RACE_CURRENT_MANAGE",
+            "P16_RULE_RACE_OCCURRENCE_DEDUP",
+            "P16_RULE_RACE_SHARED_EPISODE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 29,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_MATERIAL_HTTP_CURRENT_AUTH",
+            "P06_NETTING_HTTP_AUTH",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "P06_SUPPLY_HTTP_AUTH",
+            "P14_ANALYSIS_HTTP_AUTH",
+            "P15_ANALYSIS_FINANCE_HTTP_CURRENT_AUTH",
+            "P15_ARCHIVE_HTTP_CURRENT_AUTH",
+            "P15_OBLIGATION_REPORT_HTTP_CLOSED_FENCE",
+            "P15_OBLIGATION_REPORT_HTTP_EXACT_AUTH_LIFECYCLE",
+            "P15_REPORT_HTTP_ABSENT_FENCE",
+            "P15_REPORT_HTTP_CURRENT_AUTH",
+            "P16_AP_SOURCE_HTTP_CURRENT_AUTH",
+            "P16_AR_SOURCE_HTTP_CURRENT_AUTH",
+            "P16_ATTENTION_HTTP_NATIVE_CURRENT_AUTH",
+            "P16_EPISODE_HTTP_CURRENT_AUTH",
+            "P16_HISTORY_HTTP_CURRENT_AUTH",
+            "P16_OTHER_HTTP_EXACT_CURRENT_SOURCE",
+            "P16_OTHER_HTTP_LOCAL_NATIVE_INVOICE",
+            "P16_OTHER_HTTP_PAYROLL_CURRENT_AUTH",
+            "P16_POLICY_HTTP_CURRENT_AUTH",
+            "P16_POLICY_HTTP_LIFECYCLE",
+            "P16_POLICY_HTTP_SEALED_ABSENT",
+            "P16_RULE_HTTP_CURRENT_AUTH",
+            "P16_RULE_HTTP_LOCAL_LIFECYCLE",
+            "P16_RULE_HTTP_SEALED_ABSENT",
+            "P16_RULE_HTTP_UNKNOWN_MANUAL_RESOLUTION"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 36,
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_NETTING",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+            "P06_MATERIAL_BROWSER_DESKTOP",
+            "P06_MATERIAL_BROWSER_MOBILE",
+            "P14_BROWSER_DESKTOP_SHARED_ANALYSIS",
+            "P14_BROWSER_MOBILE_SHARED_ANALYSIS",
+            "P15_BROWSER_DESKTOP_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_DESKTOP_NATIVE_PUBLICATION",
+            "P15_BROWSER_MOBILE_DURABLE_SERVER_ARCHIVE",
+            "P15_BROWSER_MOBILE_NATIVE_PUBLICATION",
+            "P15_OBLIGATION_REPORT_BROWSER_DESKTOP",
+            "P15_OBLIGATION_REPORT_BROWSER_MOBILE",
+            "P16_BROWSER_DESKTOP_CURRENT_NATIVE_AR",
+            "P16_BROWSER_DESKTOP_CURRENT_NATIVE_MATERIAL_AP",
+            "P16_BROWSER_DESKTOP_NATIVE_ATTENTION",
+            "P16_BROWSER_DESKTOP_NATIVE_OBLIGATION_EPISODES",
+            "P16_BROWSER_DESKTOP_NATIVE_SAVED_EPISODE_HISTORY",
+            "P16_BROWSER_MOBILE_CURRENT_NATIVE_AR",
+            "P16_BROWSER_MOBILE_CURRENT_NATIVE_MATERIAL_AP",
+            "P16_BROWSER_MOBILE_NATIVE_ATTENTION",
+            "P16_BROWSER_MOBILE_NATIVE_OBLIGATION_EPISODES",
+            "P16_BROWSER_MOBILE_NATIVE_SAVED_EPISODE_HISTORY",
+            "P16_OTHER_BROWSER_DESKTOP",
+            "P16_OTHER_BROWSER_MOBILE",
+            "P16_POLICY_BROWSER_DESKTOP",
+            "P16_POLICY_BROWSER_MOBILE",
+            "P16_RULE_LOCAL_BROWSER_DESKTOP",
+            "P16_RULE_LOCAL_BROWSER_MOBILE",
+            "P17_BROWSER_DESKTOP_NATIVE_AUTOMATIC_HANDOFF",
+            "P17_BROWSER_DESKTOP_NATIVE_HANDOFF",
+            "P17_BROWSER_MOBILE_NATIVE_AUTOMATIC_HANDOFF",
+            "P17_BROWSER_MOBILE_NATIVE_HANDOFF"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-cp7-p21-full-rehearsal-json",
+      "report": "CP7_P21_FULL_REHEARSAL.json",
+      "artifact_id": 11594211589,
+      "status": "PASS",
+      "steps": 9,
+      "phases": [
+        "PREINSTALL_BACKUP",
+        "INSTALL_1",
+        "PREUSE_ROLLBACK",
+        "REINSTALL",
+        "USE",
+        "POSTUSE_ROLLBACK",
+        "USED_BACKUP_RESTORE",
+        "ROLLBACK_BY_PREINSTALL_RESTORE",
+        "HARNESS_RESTORE_AFTER_USE"
+      ],
+      "groups": {},
+      "executions": 0
+    },
+    {
+      "suite": "astra-p20-cp7-p21-rehearsal-json",
+      "report": "CP7_P21_REHEARSAL.json",
+      "artifact_id": 11594002318,
+      "status": "PASS",
+      "steps": 6,
+      "phases": [
+        "INSTALL_1",
+        "PREUSE_ROLLBACK",
+        "REINSTALL",
+        "USE",
+        "POSTUSE_ROLLBACK",
+        "HARNESS_RESTORE_AFTER_USE"
+      ],
+      "groups": {},
+      "executions": 0
+    },
+    {
+      "suite": "astra-p20-fabric-physical21-json",
+      "report": "CP7_FABRIC_PHYSICAL.json",
+      "artifact_id": 11593550360,
+      "status": "PASS",
+      "executions": 21,
+      "extra_controls": 0,
+      "expected": 21,
+      "reported_observed": 21,
+      "groups": {
+        "native": {
+          "count": 16,
+          "case_ids": [
+            "P08_PHYSICAL_INCOMING_LATE",
+            "P08_PHYSICAL_INCOMING_NO_DATE",
+            "P08_PHYSICAL_INCOMING_ON_TIME",
+            "P08_PHYSICAL_INCOMING_OVERDUE",
+            "P08_PHYSICAL_KERNEL_BRANCHES_SYNTHETIC",
+            "P08_PHYSICAL_LINKED_DRAFT_KNOWN",
+            "P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE",
+            "P08_PHYSICAL_OVERCOMMITTED_DRAFT",
+            "P08_PHYSICAL_POSTED_ISSUE_ONCE",
+            "P08_PHYSICAL_RECEIPT_STALES_ORIGINAL",
+            "P08_PHYSICAL_SHARED_SPLIT_THEN_DRAFTS",
+            "P08_PHYSICAL_SINGLE_FREE_STOCK",
+            "P08_PHYSICAL_SUFFICIENT_FREE_STOCK",
+            "P08_PHYSICAL_UNLINKED_NATIVE_DRAFT",
+            "P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND",
+            "P08_PHYSICAL_WRONG_MATERIAL_DRAFT"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 2,
+          "case_ids": [
+            "P08_PHYSICAL_REAL_MVCC_NATIVE_POST",
+            "P08_PHYSICAL_REAL_MVCC_RECEIPT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "P08_PHYSICAL_REAL_AUTH_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P08_PHYSICAL_BROWSER_DESKTOP",
+            "P08_PHYSICAL_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-fabric-rule11-json",
+      "report": "CP7_P18_FABRIC_RULE.json",
+      "artifact_id": 11592804805,
+      "status": "PASS",
+      "executions": 11,
+      "extra_controls": 0,
+      "expected": 11,
+      "reported_observed": 11,
+      "groups": {
+        "native": {
+          "count": 7,
+          "case_ids": [
+            "P18_FABRIC_RULE_ACTIVE_FROM_ORIGINAL",
+            "P18_FABRIC_RULE_ASSUMED_ZERO_NOT_RESOLVED",
+            "P18_FABRIC_RULE_IDENTITY_UNKNOWN_NO_EPISODE",
+            "P18_FABRIC_RULE_LOCAL_PREVIEW",
+            "P18_FABRIC_RULE_POLICY_UNIT_EXACT",
+            "P18_FABRIC_RULE_SHARED_SPLIT_UNDECIDED",
+            "P18_FABRIC_RULE_UNREVIEWED_RECIPE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 1,
+          "case_ids": [
+            "P18_FABRIC_RULE_REAL_CONCURRENT_EPISODE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "P18_FABRIC_RULE_REAL_AUTH_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P18_FABRIC_RULE_BROWSER_DESKTOP",
+            "P18_FABRIC_RULE_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-fabric13-successor-json",
+      "report": "CP7_FABRIC_RECIPE.json",
+      "artifact_id": 11592839475,
+      "status": "PASS",
+      "executions": 13,
+      "extra_controls": 0,
+      "expected": 13,
+      "reported_observed": 13,
+      "groups": {
+        "native": {
+          "count": 8,
+          "case_ids": [
+            "P08_FABRIC_CATALOG",
+            "P08_FABRIC_CLOCK",
+            "P08_FABRIC_GROSS170",
+            "P08_FABRIC_MASTER_CHANGED",
+            "P08_FABRIC_MISSING",
+            "P08_FABRIC_OWN_ACTOR_PRIVATE",
+            "P08_FABRIC_STRICT_CAS",
+            "P08_FABRIC_SUCCESSOR255"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 2,
+          "case_ids": [
+            "P08_FABRIC_REAL_TWO_WRITER_CAS_WAIT",
+            "P08_FABRIC_REAL_WAIT_REVOKED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "P08_FABRIC_REAL_AUTH_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P08_FABRIC_BROWSER_DESKTOP",
+            "P08_FABRIC_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-k2-retention-10-json",
+      "report": "CP7_K2_RETENTION.json",
+      "artifact_id": 11592579272,
+      "status": "PASS",
+      "executions": 10,
+      "extra_controls": 0,
+      "expected": 10,
+      "reported_observed": 10,
+      "groups": {
+        "native": {
+          "count": 6,
+          "case_ids": [
+            "K2_EXPIRED_REFUSED_EVERYWHERE",
+            "K2_KEPT_SEVEN_DAYS_LABELLED",
+            "K2_PURGE_KEEPS_DOCUMENT_RUNS",
+            "K2_PURGE_ONLY_EXPIRED_TEMPORARY",
+            "K2_PURGE_PRIVATE_ONCE",
+            "K2_RUNNING_NEVER_EXPIRES"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 1,
+          "case_ids": [
+            "K2_RACE_TWO_PURGES_ONE_LOG"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "K2_HTTP_EXPIRED_REFUSED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "K2_BROWSER_DESKTOP_RETENTION",
+            "K2_BROWSER_MOBILE_RETENTION"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-k3-cleanup-17-json",
+      "report": "CP7_K3_CLEANUP.json",
+      "artifact_id": 11593256336,
+      "status": "PASS",
+      "executions": 17,
+      "extra_controls": 0,
+      "expected": 17,
+      "reported_observed": 17,
+      "groups": {
+        "native": {
+          "count": 9,
+          "case_ids": [
+            "K3C_AI_AND_REMINDERS_AFTER_CLEANUP",
+            "K3C_CLEANED_ONLY_TEMPORARY",
+            "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP",
+            "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED",
+            "K3C_ONLY_DONE_KEPT_RUNS",
+            "K3C_PLAN_V2_AFTER_CLEANUP",
+            "K3C_REOPEN_AFTER_CLEANUP",
+            "K3C_REPORT_V2_AFTER_CLEANUP",
+            "K3C_SCHEDULE_DEFINED_PRIVATE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 4,
+          "case_ids": [
+            "K3C_RACE_BUSY_TABLE_RETRIED",
+            "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
+            "K3C_RACE_PG_CRON_FIRES",
+            "K3C_RACE_TWO_TICKS_ONE_LOG"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "K3C_HTTP_REOPEN_AFTER_CLEANUP",
+            "K3C_HTTP_TICK_NOT_REACHABLE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP",
+            "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-model-json",
+      "report": "CP7_F04_NATIVE_MODELS.json",
+      "artifact_id": 11592934367,
+      "status": "PASS",
+      "executions": 32,
+      "extra_controls": 0,
+      "expected": 32,
+      "reported_observed": 32,
+      "groups": {
+        "native": {
+          "count": 22,
+          "case_ids": [
+            "M03_PRIVATE_KNOWLEDGE_LEAKAGE",
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P07_NATIVE_CLOSED_QUERY",
+            "P07_NATIVE_CURRENT_AUTH",
+            "P07_NATIVE_LATE_SOURCE",
+            "P07_NATIVE_PRIVATE",
+            "P07_NATIVE_REGISTRY_TIME",
+            "P07_NATIVE_SHORT",
+            "PL3_PRIVATE_NEXT_DAY_KNOWLEDGE",
+            "X13_PRIVATE_SES_ORACLE",
+            "X14_X15_PRIVATE_POSITIVE_HOLDOUT"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 4,
+          "case_ids": [
+            "P05_RACE_CURRENT_REVOKE",
+            "P05_RACE_SAME_UUID",
+            "P07_RACE_CURRENT_AUTH",
+            "P07_RACE_UUID"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P07_HTTP_CURRENT_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 4,
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P07_BROWSER_DESKTOP_NATIVE_MODEL",
+            "P07_BROWSER_MOBILE_NATIVE_MODEL"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-netting-json",
+      "report": "CP7_F04_NATIVE_NETTING.json",
+      "artifact_id": 11593183224,
+      "status": "PASS",
+      "executions": 83,
+      "extra_controls": 0,
+      "expected": 83,
+      "reported_observed": 83,
+      "groups": {
+        "native": {
+          "count": 60,
+          "case_ids": [
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NETTING_NATIVE_BOUND_GAP93",
+            "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD",
+            "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY",
+            "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT",
+            "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE",
+            "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT",
+            "P06_NETTING_NATIVE_LATE_NOT_NETTED",
+            "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_PL4_OVERFLOW_CARRIED",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 11,
+          "case_ids": [
+            "P05_RACE_CURRENT_REVOKE",
+            "P05_RACE_SAME_UUID",
+            "P06_NETTING_RACE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_UUID"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 6,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_NETTING_HTTP_AUTH",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "P06_SUPPLY_HTTP_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 6,
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_NETTING",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-note_correction-json",
+      "report": "CP7_NOTE_CORRECTION.json",
+      "artifact_id": 11595185081,
+      "status": "PASS",
+      "executions": 43,
+      "extra_controls": 3,
+      "expected": 40,
+      "reported_observed": 40,
+      "groups": {
+        "composition_smoke": {
+          "count": 3,
+          "case_ids": [
+            "NOTE_ECONOMIC_REPORT_RESTATEMENT",
+            "NOTE_FULL_NATIVE_FINANCIAL",
+            "NOTE_PREPAYMENT_REPLAY"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "native": {
+          "count": 28,
+          "case_ids": [
+            "NOTE_ADDED_SKU_MAIN_BOOK",
+            "NOTE_CHILD_REVIEW_CHANGED",
+            "NOTE_CLOSED_PERIOD_NATIVE_RULE",
+            "NOTE_CORRECTION_ACTOR",
+            "NOTE_DUPLICATE_SKU_DELETE_REORDER",
+            "NOTE_DUPLICATE_SKU_LINES",
+            "NOTE_DUPLICATE_SKU_RETURN_ATOMIC",
+            "NOTE_ECONOMIC_REPORT_RESTATEMENT",
+            "NOTE_EXACT_CENTS",
+            "NOTE_EXACT_TIME_SOURCE_ORDER",
+            "NOTE_FULL_NATIVE_FINANCIAL",
+            "NOTE_HISTORICAL_NEGATIVE",
+            "NOTE_LATE_FAILURE_ATOMIC",
+            "NOTE_MULTI_LINE_ATOMIC",
+            "NOTE_MULTI_LOT_CARD",
+            "NOTE_OLD_ADVANCE_CASH_REPORT",
+            "NOTE_OLD_CASH_RETURN_REPORT",
+            "NOTE_OVERPAYMENT_ATOMIC",
+            "NOTE_PREPAYMENT_OVERPAYMENT_ATOMIC",
+            "NOTE_PREPAYMENT_REPLAY",
+            "NOTE_PRIVATE_CLOSED_FIELDS",
+            "NOTE_REPEATED_REVISIONS",
+            "NOTE_REPLAY_CURRENT_AUTHORITY",
+            "NOTE_RETURN_CAPACITY_ATOMIC",
+            "NOTE_RETURN_OTHER_WAREHOUSE",
+            "NOTE_SAME_DAY_CHRONOLOGY",
+            "NOTE_YEAR_30",
+            "NOTE_YEAR_364"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 4,
+          "case_ids": [
+            "NOTE_RACE_PAYMENT",
+            "NOTE_RACE_REVOKE_DURING_WAIT",
+            "NOTE_RACE_SAME_UUID",
+            "NOTE_RACE_TWO_REQUESTS"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 3,
+          "case_ids": [
+            "NOTE_HTTP_COMMAND_REPLAY_AUTH",
+            "NOTE_HTTP_CORRECTED_BOOK",
+            "NOTE_HTTP_LOT_AND_ACTOR"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 5,
+          "case_ids": [
+            "NOTE_BROWSER_DESKTOP",
+            "NOTE_BROWSER_DESKTOP_MICROSECOND_GUARD",
+            "NOTE_BROWSER_DUPLICATE_SKU_LINES",
+            "NOTE_BROWSER_MOBILE_LOST_REPLY",
+            "NOTE_BROWSER_MOBILE_MICROSECOND_GUARD"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p13_finance-json",
+      "report": "CP7_P13_FINANCE_READ.json",
+      "artifact_id": 11593204752,
+      "status": "PASS",
+      "executions": 12,
+      "extra_controls": 0,
+      "expected": 12,
+      "reported_observed": 12,
+      "groups": {
+        "native": {
+          "count": 8,
+          "case_ids": [
+            "P13_REPORT_ACCESS",
+            "P13_REPORT_EXACT_LARGE",
+            "P13_REPORT_FILED_LATE_CORRECTION",
+            "P13_REPORT_FILED_UNCHANGED_CONTROL",
+            "P13_REPORT_FILING_PAGES",
+            "P13_REPORT_LEDGER_LIFECYCLE",
+            "P13_REPORT_QUERY",
+            "P13_REPORT_READ_ONLY_PRIVATE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 1,
+          "case_ids": [
+            "P13_REPORT_CONCURRENT_CASH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "P13_REPORT_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P13_REPORT_BROWSER_DESKTOP",
+            "P13_REPORT_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p18-e01-9-json",
+      "report": "CP7_P18_E01_BRIDGE.json",
+      "artifact_id": 11593479217,
+      "status": "PASS",
+      "executions": 9,
+      "extra_controls": 0,
+      "expected": 9,
+      "reported_observed": 9,
+      "groups": {
+        "native": {
+          "count": 5,
+          "case_ids": [
+            "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL",
+            "P18_E01_CURRENT_AUTHORITY",
+            "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 1,
+          "case_ids": [
+            "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "P18_E01_BRIDGE_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p18_full_cycle-json",
+      "report": "CP7_P18_FULL_CYCLE.json",
+      "artifact_id": 11594745129,
+      "status": "PASS",
+      "executions": 2,
+      "extra_controls": 0,
+      "expected": 1,
+      "reported_observed": 2,
+      "groups": {
+        "native": {
+          "count": 2,
+          "case_ids": [
+            "P18_E13_LATE_SUPPLIER_PRICE_AFTER_FULL_CYCLE",
+            "P18_FULL_CYCLE_STOCK_WIP_HPP_GL_PAYABLES_CASH"
+          ],
+          "restored": true,
+          "database_remaining": null
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p19-ai-v2-9-json",
+      "report": "CP7_P19_AI_V2.json",
+      "artifact_id": 11592363948,
+      "status": "PASS",
+      "executions": 9,
+      "extra_controls": 0,
+      "expected": 9,
+      "reported_observed": 9,
+      "groups": {
+        "native": {
+          "count": 4,
+          "case_ids": [
+            "P19A_ACCESS_AND_NO_FINANCE",
+            "P19A_BRIEF_EQUALS_INDEX",
+            "P19A_FIELDS_AND_BOUNDS",
+            "P19A_STALE_SNAPSHOT_LABELLED"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 1,
+          "case_ids": [
+            "P19A_RACE_BRIEF_WHILE_STOCK_COMMITS"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "P19A_HTTP_FLOW",
+            "P19A_HTTP_REVOKED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P19A_BROWSER_DESKTOP_AI",
+            "P19A_BROWSER_MOBILE_AI"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p19-plan-v2-18-json",
+      "report": "CP7_P19_PLAN_V2.json",
+      "artifact_id": 11592862493,
+      "status": "PASS",
+      "executions": 18,
+      "extra_controls": 0,
+      "expected": 18,
+      "reported_observed": 18,
+      "groups": {
+        "native": {
+          "count": 10,
+          "case_ids": [
+            "P19P_APPLY_AFTER_UNRELATED_CHANGE",
+            "P19P_CAPACITY_USED",
+            "P19P_FG_INCREASE_NEED_CHANGED",
+            "P19P_FIELDS_KINDS_ACCESS",
+            "P19P_INDEX_RETAINED",
+            "P19P_POLICY_CHANGED",
+            "P19P_PREVIEW_READ_ONLY_LIVE",
+            "P19P_SAVE_FROM_STALE_SNAPSHOT",
+            "P19P_TARGET_PLANNED_AND_LINKED",
+            "P19P_WIP_INCREASE_NEED_CHANGED"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 4,
+          "case_ids": [
+            "P19P_RACE_CAPACITY_TWO_TARGETS",
+            "P19P_RACE_FG_WHILE_WAITING",
+            "P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE",
+            "P19P_RACE_SAME_TARGET"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "P19P_HTTP_FLOW",
+            "P19P_HTTP_REVOKED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P19P_BROWSER_DESKTOP_PLAN",
+            "P19P_BROWSER_MOBILE_PLAN"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p19-reminder-v2-16-json",
+      "report": "CP7_P19_REMINDER_V2.json",
+      "artifact_id": 11592429889,
+      "status": "PASS",
+      "executions": 16,
+      "extra_controls": 0,
+      "expected": 16,
+      "reported_observed": 16,
+      "groups": {
+        "native": {
+          "count": 9,
+          "case_ids": [
+            "P19M_AR_PAID_NOT_SENT",
+            "P19M_AUTHORITY_AND_V1_APART",
+            "P19M_FABRIC_HELD_ON_MATERIAL_CHANGE",
+            "P19M_PARTIAL_AND_THRESHOLD",
+            "P19M_POLICY_AND_DESTINATION",
+            "P19M_REQUEST_ONE_UUID",
+            "P19M_RESOLVED_AFTER_SNAPSHOT_NOT_SENT",
+            "P19M_SET_STEPS_SEAL",
+            "P19M_STILL_OPEN_SENT_ONCE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 3,
+          "case_ids": [
+            "P19M_RACE_FG_COMMITTED_WHILE_WAITING",
+            "P19M_RACE_TWO_CLAIMS_ONE_CLAIM",
+            "P19M_RACE_TWO_STEPS_ONE_UNIT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "P19M_HTTP_FLOW",
+            "P19M_HTTP_REVOKED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P19M_BROWSER_DESKTOP_REMINDERS",
+            "P19M_BROWSER_MOBILE_REMINDERS"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p19-report-v2-20-json",
+      "report": "CP7_P19_REPORT_V2.json",
+      "artifact_id": 11593340038,
+      "status": "PASS",
+      "executions": 20,
+      "extra_controls": 0,
+      "expected": 20,
+      "reported_observed": 20,
+      "groups": {
+        "native": {
+          "count": 10,
+          "case_ids": [
+            "P19R_ACTUAL_STOCK_AT_REPORT_TIME",
+            "P19R_AUTHORITY",
+            "P19R_FIELDS_AND_IDENTITY",
+            "P19R_FINANCE_ACCESS_CURRENT",
+            "P19R_FINANCE_FROM_OWNER_REPORT",
+            "P19R_FRESHNESS_STATES_WORDED",
+            "P19R_PUBLISH_STEPS_SEAL",
+            "P19R_REQUEST_ONE_UUID",
+            "P19R_REVISION_SERIES",
+            "P19R_V1_APART"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 6,
+          "case_ids": [
+            "P19R_RACE_ACCESS_CHANGED_MID_JOB",
+            "P19R_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+            "P19R_RACE_SAME_UUID_TWO_SESSIONS",
+            "P19R_RACE_STOCK_COMMITTED_DURING_JOB",
+            "P19R_RACE_TWO_REVISIONS_ONE_SEALS",
+            "P19R_RACE_TWO_STEPS_ONE_UNIT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "P19R_HTTP_FLOW",
+            "P19R_HTTP_REVOKED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P19R_BROWSER_DESKTOP_REPORT",
+            "P19R_BROWSER_MOBILE_REPORT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p19-scale5-json",
+      "report": "CP7_P19_SCALE.json",
+      "artifact_id": 11594256688,
+      "status": "PASS",
+      "executions": 5,
+      "extra_controls": 0,
+      "expected": 5,
+      "reported_observed": 5,
+      "groups": {
+        "native": {
+          "count": 1,
+          "case_ids": [
+            "P19S_NATIVE_ROLLED_BACK_100_GRID_CAP"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "browser": {
+          "count": 4,
+          "case_ids": [
+            "P19S_BROWSER_DESKTOP_100",
+            "P19S_BROWSER_DESKTOP_1000",
+            "P19S_BROWSER_DESKTOP_300",
+            "P19S_BROWSER_DESKTOP_5000"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p19-staged12-json",
+      "report": "CP7_P19_STAGED.json",
+      "artifact_id": 11592268942,
+      "status": "PASS",
+      "executions": 14,
+      "extra_controls": 0,
+      "expected": 14,
+      "reported_observed": 14,
+      "groups": {
+        "native": {
+          "count": 6,
+          "case_ids": [
+            "P19G_SNAPSHOT_FRESHNESS",
+            "P19G_STAGED_AUTHORITY",
+            "P19G_STAGED_BOUNDS_VS_SINGLE",
+            "P19G_STAGED_EQUALS_SINGLE",
+            "P19G_STAGED_IDENTITY",
+            "P19G_STAGED_SOURCE_CHECK"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 4,
+          "case_ids": [
+            "P19G_RACE_ACCESS_CHANGED_MID_JOB",
+            "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+            "P19G_RACE_SNAPSHOT_IN_FLIGHT",
+            "P19G_RACE_TWO_STEPS_ONE_UNIT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "P19G_HTTP_REVOKED",
+            "P19G_HTTP_STAGED_FLOW"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
+            "P19G_BROWSER_MOBILE_STAGED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-p19-transport11-json",
+      "report": "CP7_P19_TRANSPORT.json",
+      "artifact_id": 11592189376,
+      "status": "PASS",
+      "executions": 15,
+      "extra_controls": 0,
+      "expected": 15,
+      "reported_observed": 15,
+      "groups": {
+        "native": {
+          "count": 6,
+          "case_ids": [
+            "P19T_FINANCE_DEFERRED_NO_BOOK_READ",
+            "P19T_FINANCE_MODE_IDENTITY",
+            "P19T_JOB_COMPLETE_ORIGINAL",
+            "P19T_JOB_IDENTITY_REFUSALS",
+            "P19T_MULTI_SEGMENT_EXACT",
+            "P19T_SEGMENT_AUTHORITY"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 3,
+          "case_ids": [
+            "P19T_RACE_LIMIT_STOPS_THEN_CONTINUES",
+            "P19T_RACE_REVOKE_WHILE_WAITING",
+            "P19T_RACE_TWO_RUNS_ONE_ORIGINAL"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 3,
+          "case_ids": [
+            "P19T_HTTP_FINANCE_ON_DEMAND",
+            "P19T_HTTP_JOB_TRANSPORT",
+            "P19T_HTTP_REVOKED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 3,
+          "case_ids": [
+            "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY",
+            "P19T_BROWSER_FINANCE_ON_DEMAND",
+            "P19T_BROWSER_MOBILE_BACKGROUND"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-payroll--attendance-write-json",
+      "report": "CP7_P12_ATTENDANCE_WRITE.json",
+      "artifact_id": 11593393971,
+      "status": "PASS",
+      "executions": 80,
+      "extra_controls": 0,
+      "expected": null,
+      "reported_observed": null,
+      "groups": {
+        "native": {
+          "count": 5,
+          "case_ids": [
+            "P12_NOTA_SOURCE_CROSS_TIMEZONE",
+            "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE",
+            "P12_NOTA_SOURCE_PAGES_ACCESS",
+            "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+            "P12_NOTA_SOURCE_REPAIR_FIXED_VALUE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "P12_NOTA_SOURCE_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "notes": {
+          "count": 7,
+          "case_ids": [
+            "P12_NOTA_CANCEL_RELEASE",
+            "P12_NOTA_DRAFT_EDIT_VOID",
+            "P12_NOTA_EXACT_ACCESS",
+            "P12_NOTA_ORDINARY_REWORK",
+            "P12_NOTA_SAVE_POST_REPLAY",
+            "P12_NOTA_STALE_SOURCE",
+            "P12_NOTA_TARGET_APPEND"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "note_races": {
+          "count": 3,
+          "case_ids": [
+            "P12_NOTA_RACE_CLAIM",
+            "P12_NOTA_RACE_REPLAY",
+            "P12_NOTA_RACE_REVOKE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "note_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_NOTA_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "admission_regression": {
+          "count": 1,
+          "case_ids": [
+            "P09_HTTP_RECEIPT_REPLAY_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_NOTA_BROWSER_DESKTOP_DRAG",
+            "P12_NOTA_BROWSER_MOBILE_RECOVERY"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "payroll_review": {
+          "count": 4,
+          "case_ids": [
+            "P12_PAYROLL_READ_ACCESS",
+            "P12_PAYROLL_READ_EXACT_PAGES",
+            "P12_PAYROLL_READ_REVERSED_HISTORY",
+            "P12_PAYROLL_READ_TOKEN_TIMEZONE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "payroll_review_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_PAYROLL_READ_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "payroll_review_browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_PAYROLL_REVIEW_BROWSER_DESKTOP",
+            "P12_PAYROLL_REVIEW_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement": {
+          "count": 7,
+          "case_ids": [
+            "P12_SETTLEMENT_ACCESS",
+            "P12_SETTLEMENT_ATTENDANCE_ACCRUAL",
+            "P12_SETTLEMENT_FULL_LIFECYCLE",
+            "P12_SETTLEMENT_INVALID_PAY_CANCEL",
+            "P12_SETTLEMENT_KASBON_CARRY",
+            "P12_SETTLEMENT_PRESERVE_SELECTED_WORK",
+            "P12_SETTLEMENT_STALE_CHILD"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "settlement_races": {
+          "count": 4,
+          "case_ids": [
+            "P12_SETTLEMENT_RACE_PAY_CANCEL",
+            "P12_SETTLEMENT_RACE_REPLAY",
+            "P12_SETTLEMENT_RACE_REVOKE",
+            "P12_SETTLEMENT_RACE_SOURCE_CHANGE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_SETTLEMENT_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement_browser": {
+          "count": 3,
+          "case_ids": [
+            "P12_SETTLEMENT_BROWSER_DESKTOP",
+            "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY",
+            "P12_SETTLEMENT_BROWSER_UNPAID_CANCEL"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "attendance_read": {
+          "count": 6,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_ACCESS",
+            "P12_ATTENDANCE_READ_HISTORY",
+            "P12_ATTENDANCE_READ_PAGES",
+            "P12_ATTENDANCE_READ_PERIODS",
+            "P12_ATTENDANCE_READ_TIMEZONE_TOKEN",
+            "P12_ATTENDANCE_READ_VALIDATION"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "attendance_read_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "attendance_read_browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_BROWSER_DESKTOP",
+            "P12_ATTENDANCE_READ_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "roster": {
+          "count": 6,
+          "case_ids": [
+            "P12_ROSTER_ACCESS",
+            "P12_ROSTER_CHANGED_INTENT",
+            "P12_ROSTER_FIELDS",
+            "P12_ROSTER_LIFECYCLE",
+            "P12_ROSTER_POSTED_HISTORY",
+            "P12_ROSTER_STALE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "roster_races": {
+          "count": 3,
+          "case_ids": [
+            "P12_ROSTER_RACE_CREATE_REPLAY",
+            "P12_ROSTER_RACE_RATE_VERSION",
+            "P12_ROSTER_RACE_REVOKE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "roster_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_ROSTER_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "roster_browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_ROSTER_BROWSER_DESKTOP",
+            "P12_ROSTER_BROWSER_MOBILE_RECOVERY"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "attendance_write": {
+          "count": 10,
+          "case_ids": [
+            "P12_ATTENDANCE_WRITE_ACCESS",
+            "P12_ATTENDANCE_WRITE_BLANKS",
+            "P12_ATTENDANCE_WRITE_CONSUMED",
+            "P12_ATTENDANCE_WRITE_CORRECTION",
+            "P12_ATTENDANCE_WRITE_DATED_RATES",
+            "P12_ATTENDANCE_WRITE_FIELDS_INTENT",
+            "P12_ATTENDANCE_WRITE_LIFECYCLE",
+            "P12_ATTENDANCE_WRITE_MATRIX_PAGES",
+            "P12_ATTENDANCE_WRITE_MATRIX_PERIOD",
+            "P12_ATTENDANCE_WRITE_STALE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "attendance_write_races": {
+          "count": 4,
+          "case_ids": [
+            "P12_ATTENDANCE_RACE_POST_VERSION",
+            "P12_ATTENDANCE_RACE_REVOKE",
+            "P12_ATTENDANCE_RACE_SAVE_REPLAY",
+            "P12_ATTENDANCE_RACE_TWO_PERIODS"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "attendance_write_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_ATTENDANCE_WRITE_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "attendance_write_browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_ATTENDANCE_BROWSER_DESKTOP_CYCLE",
+            "P12_ATTENDANCE_BROWSER_MOBILE_POST_RECOVERY"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-payroll--payroll-review-json",
+      "report": "CP7_P12_SETTLEMENT.json",
+      "artifact_id": 11593234610,
+      "status": "PASS",
+      "executions": 42,
+      "extra_controls": 0,
+      "expected": null,
+      "reported_observed": null,
+      "groups": {
+        "native": {
+          "count": 5,
+          "case_ids": [
+            "P12_NOTA_SOURCE_CROSS_TIMEZONE",
+            "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE",
+            "P12_NOTA_SOURCE_PAGES_ACCESS",
+            "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+            "P12_NOTA_SOURCE_REPAIR_FIXED_VALUE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "P12_NOTA_SOURCE_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "notes": {
+          "count": 7,
+          "case_ids": [
+            "P12_NOTA_CANCEL_RELEASE",
+            "P12_NOTA_DRAFT_EDIT_VOID",
+            "P12_NOTA_EXACT_ACCESS",
+            "P12_NOTA_ORDINARY_REWORK",
+            "P12_NOTA_SAVE_POST_REPLAY",
+            "P12_NOTA_STALE_SOURCE",
+            "P12_NOTA_TARGET_APPEND"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "note_races": {
+          "count": 3,
+          "case_ids": [
+            "P12_NOTA_RACE_CLAIM",
+            "P12_NOTA_RACE_REPLAY",
+            "P12_NOTA_RACE_REVOKE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "note_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_NOTA_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "admission_regression": {
+          "count": 1,
+          "case_ids": [
+            "P09_HTTP_RECEIPT_REPLAY_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_NOTA_BROWSER_DESKTOP_DRAG",
+            "P12_NOTA_BROWSER_MOBILE_RECOVERY"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "payroll_review": {
+          "count": 4,
+          "case_ids": [
+            "P12_PAYROLL_READ_ACCESS",
+            "P12_PAYROLL_READ_EXACT_PAGES",
+            "P12_PAYROLL_READ_REVERSED_HISTORY",
+            "P12_PAYROLL_READ_TOKEN_TIMEZONE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "payroll_review_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_PAYROLL_READ_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "payroll_review_browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_PAYROLL_REVIEW_BROWSER_DESKTOP",
+            "P12_PAYROLL_REVIEW_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement": {
+          "count": 7,
+          "case_ids": [
+            "P12_SETTLEMENT_ACCESS",
+            "P12_SETTLEMENT_ATTENDANCE_ACCRUAL",
+            "P12_SETTLEMENT_FULL_LIFECYCLE",
+            "P12_SETTLEMENT_INVALID_PAY_CANCEL",
+            "P12_SETTLEMENT_KASBON_CARRY",
+            "P12_SETTLEMENT_PRESERVE_SELECTED_WORK",
+            "P12_SETTLEMENT_STALE_CHILD"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "settlement_races": {
+          "count": 4,
+          "case_ids": [
+            "P12_SETTLEMENT_RACE_PAY_CANCEL",
+            "P12_SETTLEMENT_RACE_REPLAY",
+            "P12_SETTLEMENT_RACE_REVOKE",
+            "P12_SETTLEMENT_RACE_SOURCE_CHANGE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_SETTLEMENT_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement_browser": {
+          "count": 3,
+          "case_ids": [
+            "P12_SETTLEMENT_BROWSER_DESKTOP",
+            "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY",
+            "P12_SETTLEMENT_BROWSER_UNPAID_CANCEL"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-payroll--roster-json",
+      "report": "CP7_P12_ROSTER.json",
+      "artifact_id": 11593659485,
+      "status": "PASS",
+      "executions": 63,
+      "extra_controls": 0,
+      "expected": null,
+      "reported_observed": null,
+      "groups": {
+        "native": {
+          "count": 5,
+          "case_ids": [
+            "P12_NOTA_SOURCE_CROSS_TIMEZONE",
+            "P12_NOTA_SOURCE_NATIVE_ALLOCATION_RELEASE",
+            "P12_NOTA_SOURCE_PAGES_ACCESS",
+            "P12_NOTA_SOURCE_REGULAR_LAUNDRY_OUTSTANDING",
+            "P12_NOTA_SOURCE_REPAIR_FIXED_VALUE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "P12_NOTA_SOURCE_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "notes": {
+          "count": 7,
+          "case_ids": [
+            "P12_NOTA_CANCEL_RELEASE",
+            "P12_NOTA_DRAFT_EDIT_VOID",
+            "P12_NOTA_EXACT_ACCESS",
+            "P12_NOTA_ORDINARY_REWORK",
+            "P12_NOTA_SAVE_POST_REPLAY",
+            "P12_NOTA_STALE_SOURCE",
+            "P12_NOTA_TARGET_APPEND"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "note_races": {
+          "count": 3,
+          "case_ids": [
+            "P12_NOTA_RACE_CLAIM",
+            "P12_NOTA_RACE_REPLAY",
+            "P12_NOTA_RACE_REVOKE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "note_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_NOTA_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "admission_regression": {
+          "count": 1,
+          "case_ids": [
+            "P09_HTTP_RECEIPT_REPLAY_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_NOTA_BROWSER_DESKTOP_DRAG",
+            "P12_NOTA_BROWSER_MOBILE_RECOVERY"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "payroll_review": {
+          "count": 4,
+          "case_ids": [
+            "P12_PAYROLL_READ_ACCESS",
+            "P12_PAYROLL_READ_EXACT_PAGES",
+            "P12_PAYROLL_READ_REVERSED_HISTORY",
+            "P12_PAYROLL_READ_TOKEN_TIMEZONE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "payroll_review_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_PAYROLL_READ_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "payroll_review_browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_PAYROLL_REVIEW_BROWSER_DESKTOP",
+            "P12_PAYROLL_REVIEW_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement": {
+          "count": 7,
+          "case_ids": [
+            "P12_SETTLEMENT_ACCESS",
+            "P12_SETTLEMENT_ATTENDANCE_ACCRUAL",
+            "P12_SETTLEMENT_FULL_LIFECYCLE",
+            "P12_SETTLEMENT_INVALID_PAY_CANCEL",
+            "P12_SETTLEMENT_KASBON_CARRY",
+            "P12_SETTLEMENT_PRESERVE_SELECTED_WORK",
+            "P12_SETTLEMENT_STALE_CHILD"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "settlement_races": {
+          "count": 4,
+          "case_ids": [
+            "P12_SETTLEMENT_RACE_PAY_CANCEL",
+            "P12_SETTLEMENT_RACE_REPLAY",
+            "P12_SETTLEMENT_RACE_REVOKE",
+            "P12_SETTLEMENT_RACE_SOURCE_CHANGE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_SETTLEMENT_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "settlement_browser": {
+          "count": 3,
+          "case_ids": [
+            "P12_SETTLEMENT_BROWSER_DESKTOP",
+            "P12_SETTLEMENT_BROWSER_MOBILE_RECOVERY",
+            "P12_SETTLEMENT_BROWSER_UNPAID_CANCEL"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "attendance_read": {
+          "count": 6,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_ACCESS",
+            "P12_ATTENDANCE_READ_HISTORY",
+            "P12_ATTENDANCE_READ_PAGES",
+            "P12_ATTENDANCE_READ_PERIODS",
+            "P12_ATTENDANCE_READ_TIMEZONE_TOKEN",
+            "P12_ATTENDANCE_READ_VALIDATION"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "attendance_read_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "attendance_read_browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_ATTENDANCE_READ_BROWSER_DESKTOP",
+            "P12_ATTENDANCE_READ_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "roster": {
+          "count": 6,
+          "case_ids": [
+            "P12_ROSTER_ACCESS",
+            "P12_ROSTER_CHANGED_INTENT",
+            "P12_ROSTER_FIELDS",
+            "P12_ROSTER_LIFECYCLE",
+            "P12_ROSTER_POSTED_HISTORY",
+            "P12_ROSTER_STALE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "roster_races": {
+          "count": 3,
+          "case_ids": [
+            "P12_ROSTER_RACE_CREATE_REPLAY",
+            "P12_ROSTER_RACE_RATE_VERSION",
+            "P12_ROSTER_RACE_REVOKE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "roster_http": {
+          "count": 1,
+          "case_ids": [
+            "P12_ROSTER_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "roster_browser": {
+          "count": 2,
+          "case_ids": [
+            "P12_ROSTER_BROWSER_DESKTOP",
+            "P12_ROSTER_BROWSER_MOBILE_RECOVERY"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-pl5-history-yield-20-json",
+      "report": "CP7_PL5_HISTORY_YIELD.json",
+      "artifact_id": 11592194925,
+      "status": "PASS",
+      "executions": 20,
+      "extra_controls": 0,
+      "expected": 20,
+      "reported_observed": 20,
+      "groups": {
+        "native": {
+          "count": 14,
+          "case_ids": [
+            "PL5H_CANCEL_CORRECT_BACKDATE",
+            "PL5H_CATALOG_PRIVATE",
+            "PL5H_INSUFFICIENT_NO_VALUE",
+            "PL5H_LIMIT_200_UNDER_8S",
+            "PL5H_MODEL_FALLBACK_SAME_MODEL",
+            "PL5H_NEVER_100_PERCENT",
+            "PL5H_NEVER_CROSS_MODEL",
+            "PL5H_PENDING_WITHOUT_POLICY",
+            "PL5H_PLAN_USES_HISTORY_LIVE",
+            "PL5H_POLICY_SIGNED_VERSIONED",
+            "PL5H_POLICY_VALUES_AND_AUTHORITY",
+            "PL5H_PRODUCT_SIZE_SUFFICIENT",
+            "PL5H_WILSON_EXACT",
+            "PL5H_WINDOW_FINISH_DATE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 2,
+          "case_ids": [
+            "PL5H_RACE_SAME_REQUEST_TWO_SESSIONS",
+            "PL5H_RACE_SAME_REVISION"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "PL5H_HTTP_FLOW",
+            "PL5H_HTTP_REVOKED"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "PL5H_BROWSER_DESKTOP_POLICY",
+            "PL5H_BROWSER_MOBILE_POLICY"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-plan39-json",
+      "report": "CP7_F04_NATIVE_PLANS.json",
+      "artifact_id": 11593426334,
+      "status": "PASS",
+      "executions": 43,
+      "extra_controls": 0,
+      "expected": 43,
+      "reported_observed": 43,
+      "groups": {
+        "native": {
+          "count": 29,
+          "case_ids": [
+            "E09_PLAN_STALE",
+            "E22_PLAN_COMPUTE_SEPARATION",
+            "O10_PLAN_QUANTITY",
+            "P08_ACTUAL_CURRENT_PRIVATE_AUTH",
+            "P08_ACTUAL_FUTURE_CORRUPTION_UNKNOWN",
+            "P08_ACTUAL_NATIVE_DELETED_UNKNOWN",
+            "P08_ACTUAL_OTHER_ROOT",
+            "P08_ACTUAL_PARTIAL_LIFECYCLE",
+            "P08_ACTUAL_PHYSICAL_CUT",
+            "P08_ACTUAL_PROTECTED_ORIGINAL_AUTH",
+            "P08_ACTUAL_UNPOSTED_ZERO",
+            "P08_APPLY_REPLAY",
+            "P08_ATOMIC_RECEIPT_FAILURE",
+            "P08_CLOSED",
+            "P08_CURRENT_AUTH",
+            "P08_FOREIGN",
+            "P08_METADATA",
+            "P08_NATIVE_APPLY",
+            "P08_NATIVE_IDENTITIES",
+            "P08_PREVIEW_READONLY",
+            "P08_SAVE_REPLAY",
+            "P08_SHARED_FABRIC_NATIVE_DRAFT_EDIT",
+            "P08_SHARED_FABRIC_NEXT_TARGET",
+            "P08_SHARED_FABRIC_POSTED_ONCE",
+            "P08_VERSION",
+            "PL5_NEW_START_YIELD",
+            "PL7_POSTED_CUT_NOT_PLANNED_TWICE",
+            "PL8_OPEN_SCOPE_1001_STILL_REFUSED",
+            "PL8_SPENT_HISTORY_1100_NETTED_AS_OPEN_WORK_ALONE"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 8,
+          "case_ids": [
+            "E10_REAL_SAME_UUID",
+            "E10_REAL_SAME_UUID_DIFFERENT_PAYLOAD",
+            "E11_REAL_DIFFERENT_ACTOR_RUN_DRAFT",
+            "P08_ACTUAL_CAPTURE_WAIT_CURRENT_AUTH",
+            "P08_ACTUAL_MVCC_NATIVE_POST",
+            "P08_REAL_NATIVE_ROLL_WAIT_REVOKED",
+            "P08_REAL_TARGET_WAIT_REVOKED",
+            "P08_SHARED_FABRIC_REAL_TWO_TARGET_WAIT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "P08_ACTUAL_REAL_AUTH_HTTP",
+            "P08_REAL_AUTH_HTTP"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 4,
+          "case_ids": [
+            "P08_BROWSER_DESKTOP_NATIVE_ACTUAL",
+            "P08_BROWSER_DESKTOP_NATIVE_DRAFT",
+            "P08_BROWSER_MOBILE_NATIVE_ACTUAL",
+            "P08_BROWSER_MOBILE_NATIVE_DRAFT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-receipt_correction-json",
+      "report": "CP7_RECEIPT_CORRECTION.json",
+      "artifact_id": 11594139533,
+      "status": "PASS",
+      "executions": 43,
+      "extra_controls": 0,
+      "expected": 43,
+      "reported_observed": 43,
+      "groups": {
+        "native": {
+          "count": 37,
+          "case_ids": [
+            "RF_ACCESSORY_LINE_QTY",
+            "RF_ACCESS_CURRENT_AUTHORITY",
+            "RF_ARRIVAL_DATE_TYPO",
+            "RF_CLOSED_PERIOD_CORRECTION",
+            "RF_CREDIT_RESTORED_UNBLOCKS",
+            "RF_DRAFT_ROLL_USE_BLOCKS",
+            "RF_DUPLICATE_LINES_KEEP_LOT",
+            "RF_HEADER_TYPO",
+            "RF_INVOICED_QTY_DOWN_WITH_PAYMENT",
+            "RF_INVOICE_HEADER_TYPO",
+            "RF_INVOICE_INCOMPLETE_REFUSED",
+            "RF_INVOICE_PRICE_AFTER_SALE",
+            "RF_LATE_FAILURE_ATOMIC",
+            "RF_MATERIAL_NAME_REFUSALS",
+            "RF_MATERIAL_NAME_TYPO",
+            "RF_MATERIAL_SKU_TYPO",
+            "RF_OPENING_ADVANCE_PAYMENT_REPLAY",
+            "RF_OVERPAID_CREDIT_TO_NEXT_NOTA",
+            "RF_PAID_EXCEEDS_CORRECTED_REFUSED",
+            "RF_PAYMENT_REPLAY",
+            "RF_PRICE_AFTER_SALE_AND_RETURN",
+            "RF_QTY_DOWN_AFTER_CUTTING",
+            "RF_QTY_UP_AFTER_CUTTING",
+            "RF_REMOVED_ROLL_USED_REFUSED",
+            "RF_REPEATED_REVISIONS",
+            "RF_REPLAY_SAME_REQUEST",
+            "RF_REVIEW_CHANGED_REFUSED",
+            "RF_ROLL_BELOW_USE_REFUSED",
+            "RF_ROLL_COUNT_TYPO_UNUSED_ROLL",
+            "RF_ROLL_NUMBER_TYPO_USED_ROLL",
+            "RF_SHARED_INVOICE_CORRECTED",
+            "RF_SUPPLIER_TYPO",
+            "RF_WAREHOUSE_TYPO",
+            "RF_WRONG_MATERIAL_AFTER_CUTTING",
+            "RF_WRONG_MATERIAL_AND_PRICE",
+            "RF_YEAR_FINAL_INVOICE_PRICE",
+            "RF_YEAR_HISTORY_364"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 3,
+          "case_ids": [
+            "RF_RACE_CUTTING_USE",
+            "RF_RACE_SAME_UUID",
+            "RF_RACE_TWO_REQUESTS"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "RF_HTTP_COMMAND_REPLAY_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "RF_BROWSER_DESKTOP",
+            "RF_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-rule-lifecycle16-json",
+      "report": "CP7_RULE_LIFECYCLE.json",
+      "artifact_id": 11594111697,
+      "status": "PASS",
+      "executions": 16,
+      "extra_controls": 0,
+      "expected": 16,
+      "reported_observed": 16,
+      "groups": {
+        "native": {
+          "count": 10,
+          "case_ids": [
+            "P16_LIFECYCLE_CORRECTED_REPLACEMENT",
+            "P16_LIFECYCLE_INVOICE_AND_RECEIPT_INVERSE",
+            "P16_LIFECYCLE_MISSING_SOURCE_UNKNOWN",
+            "P16_LIFECYCLE_PAID_AND_PAYMENT_INVERSE",
+            "P16_LIFECYCLE_REPLAY_CURRENT_REVOKE",
+            "P18_E01_CASH_INVERSE_IMMUTABLE_ARCHIVE",
+            "P18_E01_CORRECTED_DEMAND_PROSPECTIVE_MODEL",
+            "P18_E01_CURRENT_AUTHORITY",
+            "P18_E01_NATIVE_SOURCE_TO_ALL_CONSUMERS",
+            "P18_E01_OWNING_NOTE_CORRECTION_ALL_CONSUMERS"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 2,
+          "case_ids": [
+            "P16_LIFECYCLE_RACE_CORRECTION_WAIT",
+            "P18_E01_CASH_INVERSE_DURING_SAVED_REPORT_WAIT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 2,
+          "case_ids": [
+            "P16_LIFECYCLE_HTTP_ARCHIVED_CURRENT_AUTH",
+            "P18_E01_EXACT_AUTH_NATIVE_SOURCE_TO_REPORT"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "P18_E01_BRIDGE_BROWSER_DESKTOP",
+            "P18_E01_BRIDGE_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-schedule-json",
+      "report": "CP7_F04_NATIVE_SCHEDULE.json",
+      "artifact_id": 11593971148,
+      "status": "PASS",
+      "executions": 71,
+      "extra_controls": 0,
+      "expected": 70,
+      "reported_observed": 71,
+      "groups": {
+        "native": {
+          "count": 52,
+          "case_ids": [
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_PL4_OVERFLOW_CARRIED",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 10,
+          "case_ids": [
+            "P05_RACE_CURRENT_REVOKE",
+            "P05_RACE_SAME_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_UUID"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 5,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "P06_SUPPLY_HTTP_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 4,
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-supplier_payment_correction-json",
+      "report": "CP7_SUPPLIER_PAYMENT_CORRECTION.json",
+      "artifact_id": 11593404587,
+      "status": "PASS",
+      "executions": 23,
+      "extra_controls": 0,
+      "expected": 23,
+      "reported_observed": 23,
+      "groups": {
+        "native": {
+          "count": 14,
+          "case_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_BOOKS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CLOSED_FIELDS_INACTIVE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_CURRENT_PERMISSIONS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_DATE_MOVE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_EXACT_CENTS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FINAL_POST_FAILURE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_FULLY_PAID",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_IMMUTABLE_HISTORY_SOURCE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_LARGE_CENTS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_MICROSECONDS",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_NEW_ACCOUNT",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_REPLAY_RESTORE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_STALE_FOREIGN",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_YEAR_364"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 4,
+          "case_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_AUTH_RETIRE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_BANK_RETIRE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_COMPETING",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_RACE_SAME_UUID"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 3,
+          "case_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_ATOMIC_REPLAY",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_CURRENT_RETIRE",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_HTTP_YEAR_364"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_BROWSER_DESKTOP",
+            "CP7_SUPPLIER_PAYMENT_CORRECTION_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-supplier_payment_create-json",
+      "report": "CP7_SUPPLIER_PAYMENT_CREATE.json",
+      "artifact_id": 11594795622,
+      "status": "PASS",
+      "executions": 10,
+      "extra_controls": 0,
+      "expected": 10,
+      "reported_observed": 10,
+      "groups": {
+        "native": {
+          "count": 4,
+          "case_ids": [
+            "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS",
+            "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE",
+            "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY",
+            "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 3,
+          "case_ids": [
+            "CP7_SUPPLIER_PAYMENT_CREATE_RACE_CURRENT_REVOKE",
+            "CP7_SUPPLIER_PAYMENT_CREATE_RACE_DOUBLE_PAY",
+            "CP7_SUPPLIER_PAYMENT_CREATE_RACE_SAME_REQUEST"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 1,
+          "case_ids": [
+            "CP7_SUPPLIER_PAYMENT_CREATE_HTTP_CURRENT_REPLAY"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 2,
+          "case_ids": [
+            "CP7_SUPPLIER_PAYMENT_CREATE_BROWSER_DESKTOP",
+            "CP7_SUPPLIER_PAYMENT_CREATE_BROWSER_MOBILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    },
+    {
+      "suite": "astra-p20-supply-json",
+      "report": "CP7_F04_NATIVE_SUPPLY.json",
+      "artifact_id": 11593392161,
+      "status": "PASS",
+      "executions": 53,
+      "extra_controls": 0,
+      "expected": 53,
+      "reported_observed": 53,
+      "groups": {
+        "native": {
+          "count": 38,
+          "case_ids": [
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS"
+          ],
+          "restored": true,
+          "database_remaining": null
+        },
+        "races": {
+          "count": 8,
+          "case_ids": [
+            "P05_RACE_CURRENT_REVOKE",
+            "P05_RACE_SAME_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_UUID"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "http": {
+          "count": 3,
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_SUPPLY_HTTP_AUTH"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        },
+        "browser": {
+          "count": 4,
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE"
+          ],
+          "restored": null,
+          "database_remaining": 0
+        }
+      }
+    }
+  ]
+}

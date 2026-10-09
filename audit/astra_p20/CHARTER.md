@@ -1,6 +1,6 @@
 # Astra P20 independent audit — 9 October 2026
 
-Status: IN PROGRESS. No acceptance yet. production_go: false.
+Status: audit results locked as HOLD. Independent acceptance not granted. production_go: false. See REPORT.md and COVERAGE_50.md for exact tested scope and remaining acceptance bounds.
 
 Product commit: `2e605bb7d9b6b7903919b8df2be1443f1740140b`.
 Product tree: `51935efb12c035496848e2a85590aa18a3ed3d76`.

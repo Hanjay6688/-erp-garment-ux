@@ -1,0 +1,4589 @@
+[
+  {
+    "id": 113646676829,
+    "name": "p19-ai-v2-9",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T02:52:47Z",
+    "completed_at": "2026-10-09T02:59:24Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646676959,
+    "name": "p19-staged12",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T02:52:47Z",
+    "completed_at": "2026-10-09T03:00:27Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646676980,
+    "name": "p19-transport11",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T02:52:47Z",
+    "completed_at": "2026-10-09T03:00:13Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646676982,
+    "name": "p19-report-v2-20",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T02:53:23Z",
+    "completed_at": "2026-10-09T03:02:50Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646676999,
+    "name": "p19-scale5",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T02:52:47Z",
+    "completed_at": "2026-10-09T03:49:09Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677040,
+    "name": "attention284",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:09:23Z",
+    "completed_at": "2026-10-09T03:55:03Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677054,
+    "name": "analysis152",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:06:43Z",
+    "completed_at": "2026-10-09T03:22:16Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677058,
+    "name": "pl5-history-yield-20",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:00:15Z",
+    "completed_at": "2026-10-09T03:06:42Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677063,
+    "name": "p19-plan-v2-18",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T02:52:47Z",
+    "completed_at": "2026-10-09T03:00:40Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677064,
+    "name": "model",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:10:01Z",
+    "completed_at": "2026-10-09T03:16:12Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677100,
+    "name": "k3-cleanup-17",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:00:42Z",
+    "completed_at": "2026-10-09T03:09:20Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677103,
+    "name": "fabric13-successor",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:06:17Z",
+    "completed_at": "2026-10-09T03:13:40Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677111,
+    "name": "p19-reminder-v2-16",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T02:59:26Z",
+    "completed_at": "2026-10-09T03:07:37Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677139,
+    "name": "k2-retention-10",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:00:28Z",
+    "completed_at": "2026-10-09T03:06:15Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677157,
+    "name": "plan39",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:07:39Z",
+    "completed_at": "2026-10-09T03:18:55Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646677174,
+    "name": "fabric-physical21",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:02:56Z",
+    "completed_at": "2026-10-09T03:10:00Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678007,
+    "name": "rule-lifecycle16",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:22:38Z",
+    "completed_at": "2026-10-09T03:31:36Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678016,
+    "name": "p18-e01-9",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:26:05Z",
+    "completed_at": "2026-10-09T03:34:25Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678034,
+    "name": "schedule",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:13:41Z",
+    "completed_at": "2026-10-09T03:22:36Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678101,
+    "name": "netting",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:16:14Z",
+    "completed_at": "2026-10-09T03:26:04Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678106,
+    "name": "fabric-rule11",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:22:19Z",
+    "completed_at": "2026-10-09T03:29:48Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678129,
+    "name": "cp7-p21-rehearsal",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:26:40Z",
+    "completed_at": "2026-10-09T03:32:05Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678181,
+    "name": "supply",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:18:57Z",
+    "completed_at": "2026-10-09T03:26:38Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678239,
+    "name": "payroll--roster",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:31:38Z",
+    "completed_at": "2026-10-09T03:39:48Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678303,
+    "name": "cp7-p21-full-rehearsal",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:29:50Z",
+    "completed_at": "2026-10-09T03:34:42Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646678337,
+    "name": "payroll--payroll-review",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:32:06Z",
+    "completed_at": "2026-10-09T03:39:39Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646679170,
+    "name": "payroll--attendance-write",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:34:26Z",
+    "completed_at": "2026-10-09T03:43:55Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646679217,
+    "name": "p13_finance",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:34:44Z",
+    "completed_at": "2026-10-09T03:41:06Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646679316,
+    "name": "note_correction",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:39:50Z",
+    "completed_at": "2026-10-09T03:52:44Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646679372,
+    "name": "p18_full_cycle",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:40:24Z",
+    "completed_at": "2026-10-09T03:45:47Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646679416,
+    "name": "supplier_payment_correction",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:41:08Z",
+    "completed_at": "2026-10-09T03:48:13Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646679501,
+    "name": "supplier_payment_create",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:43:57Z",
+    "completed_at": "2026-10-09T03:50:03Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  {
+    "id": 113646679565,
+    "name": "receipt_correction",
+    "status": "completed",
+    "conclusion": "success",
+    "head_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+    "started_at": "2026-10-09T03:45:49Z",
+    "completed_at": "2026-10-09T03:52:52Z",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Prove pinned product and record evidence origins",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned disposable runtime",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install candidate browser dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Install pinned Supabase CLI",
+        "conclusion": "success"
+      },
+      {
+        "name": "Record proposed source and prepare isolated proof paths",
+        "conclusion": "success"
+      },
+      {
+        "name": "Start disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+        "conclusion": "success"
+      },
+      {
+        "name": "Provision isolated rollback authority",
+        "conclusion": "success"
+      },
+      {
+        "name": "Clone the aligned AB state for install",
+        "conclusion": "success"
+      },
+      {
+        "name": "Independently rerun unchanged writer cases on pinned product",
+        "conclusion": "success"
+      },
+      {
+        "name": "Assert candidate stayed byte-identical",
+        "conclusion": "success"
+      },
+      {
+        "name": "Remove disposable database",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "conclusion": "success"
+      },
+      {
+        "name": "Retain every complete Original JSON independently of the full archive",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  }
+]

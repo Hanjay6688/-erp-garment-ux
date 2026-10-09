@@ -1,0 +1,358 @@
+{
+  "product_sha": "2e605bb7d9b6b7903919b8df2be1443f1740140b",
+  "product_tree": "51935efb12c035496848e2a85590aa18a3ed3d76",
+  "production_go": false,
+  "final_projection_run": 37881960950,
+  "artifacts": [
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592189376,
+      "artifact_name": "astra-p20-p19-transport11-json",
+      "zip_sha256": "76740c64513629082072ff0fd9d0735a616f5d4639d0ec1148afd6d33abf9463"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592194925,
+      "artifact_name": "astra-p20-pl5-history-yield-20-json",
+      "zip_sha256": "f7e7901ce635413c125a7011aeefbd946062a69b279c6c265e94ca157a9ffa33"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592268942,
+      "artifact_name": "astra-p20-p19-staged12-json",
+      "zip_sha256": "cca3fc50053ccfcd6ee0a10daca12570e0d702c007137714b9ad16a65bfc0e13"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592363948,
+      "artifact_name": "astra-p20-p19-ai-v2-9-json",
+      "zip_sha256": "7517b0c3a2051fc2b5b63bcd3bf65e061df8a541389d16d737aea914c250d542"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592429889,
+      "artifact_name": "astra-p20-p19-reminder-v2-16-json",
+      "zip_sha256": "80519e42d1742fe6acaa8ed37723c667e08afe3427fb67ac65bd16f71d888379"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592579272,
+      "artifact_name": "astra-p20-k2-retention-10-json",
+      "zip_sha256": "80109dc3565ccef90bced4a1009edd09eae05daff98b475a877a3d20c999a455"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592804805,
+      "artifact_name": "astra-p20-fabric-rule11-json",
+      "zip_sha256": "96269543cb5cb424d183ca80a09ae7cc0344c7b31f78f0b2790c985e22c8c732"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592839475,
+      "artifact_name": "astra-p20-fabric13-successor-json",
+      "zip_sha256": "454d4887119f63075eda3042faab85c3ce9d7639a09d2eba6bdd0d71cb13edca"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592862493,
+      "artifact_name": "astra-p20-p19-plan-v2-18-json",
+      "zip_sha256": "18d88279b46dd3e6b720945e63a5ed369326fb64f8175e40d1e3cea6c7ca9e11"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11592934367,
+      "artifact_name": "astra-p20-model-json",
+      "zip_sha256": "f419687f81292119f5d1336fb6eaa562aef085fc0b9db9efc2b6503b367d32e8"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593183224,
+      "artifact_name": "astra-p20-netting-json",
+      "zip_sha256": "53e58e0034831ccf9c082a32fcc1190056a8f3b347c22309714b2a5551144758"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593204752,
+      "artifact_name": "astra-p20-p13_finance-json",
+      "zip_sha256": "6f9b19ec4612076c8b922d76bd5749b783be4b43b393af9c078138e6e4be0590"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593234610,
+      "artifact_name": "astra-p20-payroll--payroll-review-json",
+      "zip_sha256": "b67d11c0a89a39db843656eeddb74f735f83e56e311dac56e4b886fd19218bb8"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593256336,
+      "artifact_name": "astra-p20-k3-cleanup-17-json",
+      "zip_sha256": "e6f34dcedf1a282d1e504bfbaf3bd4d6f252a81b63717a05ff9f21a439972911"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593340038,
+      "artifact_name": "astra-p20-p19-report-v2-20-json",
+      "zip_sha256": "07af84d1cc21288728ca32abd3fcaca58ec432ead071e78f8f7a43fee436f735"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593392161,
+      "artifact_name": "astra-p20-supply-json",
+      "zip_sha256": "2f9af8879d50997636f08e78fd39ffc7541e64b6d81a09669b5b4d6ce5400dca"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593393971,
+      "artifact_name": "astra-p20-payroll--attendance-write-json",
+      "zip_sha256": "d96e6a9ee36becfde6b62bb68b4a848e0bd77152ecdec15c61cb022f668630a1"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593404587,
+      "artifact_name": "astra-p20-supplier_payment_correction-json",
+      "zip_sha256": "27663380210b5b14dfc18f655c1e80079ca2252ba2d09841009d9cd18fb02644"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593426334,
+      "artifact_name": "astra-p20-plan39-json",
+      "zip_sha256": "219664425b780a1f7d7a1db1c2292dfe44c532decf56cba426a34ed450978dbb"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593479217,
+      "artifact_name": "astra-p20-p18-e01-9-json",
+      "zip_sha256": "2eeaa4d8c572f6a471596bdf9dda9f71454949b420244516402325a6df0e0f2c"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593550360,
+      "artifact_name": "astra-p20-fabric-physical21-json",
+      "zip_sha256": "43cd849d67fb21b5ec7e499e84bb8cdf385c6cc016f6b72e76f0b8cc47c678b9"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593659485,
+      "artifact_name": "astra-p20-payroll--roster-json",
+      "zip_sha256": "d79cc0fd2cbb7e0592fa1dde3a2d613c3cae4c9bb55957a8dc8108b6d1c4b1f1"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11593971148,
+      "artifact_name": "astra-p20-schedule-json",
+      "zip_sha256": "4b0908595413de6ac0fbb5b6aa7d7bb54a9a5141d0f8d5b28b54f2caca292340"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594002318,
+      "artifact_name": "astra-p20-cp7-p21-rehearsal-json",
+      "zip_sha256": "4737c5052c36c393cc132177418fd893c3718b080355e714fd1a752cb69a2219"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594080492,
+      "artifact_name": "astra-p20-analysis152-json",
+      "zip_sha256": "1375116dd80177f473221d54a585986d1aa78f5420ae48cee36f76ffba8538bc"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594111697,
+      "artifact_name": "astra-p20-rule-lifecycle16-json",
+      "zip_sha256": "a4e736118c72dbec3883887a540d05e4be7ccc60a318b5b29a03b6a831fe38e9"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594139533,
+      "artifact_name": "astra-p20-receipt_correction-json",
+      "zip_sha256": "07b5118971ef41f575f52bd329cfc31cbcc4a459806b81286b7b549115c08a04"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594211589,
+      "artifact_name": "astra-p20-cp7-p21-full-rehearsal-json",
+      "zip_sha256": "7adaf588f4116289061671755d31707ac92e3a75fafacf4d3a3b835d7e707da5"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594256688,
+      "artifact_name": "astra-p20-p19-scale5-json",
+      "zip_sha256": "f6017880ff8a634c78de627ffd6005eb2d3e6c83012977b8957bbc86a8e1924c"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594745129,
+      "artifact_name": "astra-p20-p18_full_cycle-json",
+      "zip_sha256": "eecbd2b81ac03f9f4d3cda7e392c8795f93a598b2ef67dcf8d2c39c98577f68b"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594795622,
+      "artifact_name": "astra-p20-supplier_payment_create-json",
+      "zip_sha256": "edd301505678f44b33ea662cac4e586f8c455633ba21cb11d4b5183b879ea81a"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11594820643,
+      "artifact_name": "astra-p20-attention284-json",
+      "zip_sha256": "31be2616b361942401505684699db75bf6ebbb49015e74591aa9e2ade63f739e"
+    },
+    {
+      "run_id": 37876648313,
+      "audit_sha": "a6b6b394fba0e96dd219eb84c2644e10054a45a5",
+      "artifact_id": 11595185081,
+      "artifact_name": "astra-p20-note_correction-json",
+      "zip_sha256": "7005a6a943bbf18590cfd2575522c9ef2bbae1fdf70628fc10c51302a734e3d5"
+    },
+    {
+      "run_id": 37877038138,
+      "audit_sha": "ea858258881abf48640f8aab17bd13699ae85202",
+      "artifact_id": 11592801959,
+      "artifact_name": "astra-p20-independent-staged-cleanup-json",
+      "zip_sha256": "9c4631874854aff99c3fe4ef95ad0be192bdb6920df3d7cf1910cac36bc2e85e"
+    },
+    {
+      "run_id": 37877343411,
+      "audit_sha": "a063ee9acce72c7f0acf86ec5f6c44ba0abd0d99",
+      "artifact_id": 11592274628,
+      "artifact_name": "astra-p20-independent-business-json",
+      "zip_sha256": "58e5d51bb7c3011e0c43abf264062b6bfdc3c1b14a585a61cd0b2ea541a9b9bd"
+    },
+    {
+      "run_id": 37877802981,
+      "audit_sha": "d8cb71d1834d6b7342a4a288d36039f40ba6950a",
+      "artifact_id": 11593286443,
+      "artifact_name": "astra-p20-independent-staged-cleanup-json",
+      "zip_sha256": "3be1e3814b4b1a2dfda60f310ac23f674e87d4eaaa464411e475f370a2c36551"
+    },
+    {
+      "run_id": 37877803025,
+      "audit_sha": "d8cb71d1834d6b7342a4a288d36039f40ba6950a",
+      "artifact_id": 11592764953,
+      "artifact_name": "astra-p20-independent-ops-http-json",
+      "zip_sha256": "cbe4a9085a2fe0e4bd549fbfd71a18386a49a5b2b18f43fc4d6851ed3085d677"
+    },
+    {
+      "run_id": 37878142700,
+      "audit_sha": "39f3331e1e0d66f66098d1b0af7f4d33f636bde5",
+      "artifact_id": 11593144094,
+      "artifact_name": "astra-p20-independent-planning-json",
+      "zip_sha256": "10ff03fb6f144d11e6452b22ae6478908d2774a26b3c072c5c2d6cbe08807c5b"
+    },
+    {
+      "run_id": 37878640217,
+      "audit_sha": "5a7aab970f3e0c2f3953a43ae3509f4af6a71702",
+      "artifact_id": 11592998459,
+      "artifact_name": "astra-p20-independent-business-json",
+      "zip_sha256": "c58e047cc89601877d68727fdbb6b24d08d6fecc9b60483b385aacc9be778223"
+    },
+    {
+      "run_id": 37878853657,
+      "audit_sha": "e3a266a3a27ca228ae58112d57ada76a4684c6ac",
+      "artifact_id": 11592874893,
+      "artifact_name": "astra-p20-independent-scale-json",
+      "zip_sha256": "a643ff8ffecb30ccc00799bb4c1779dd7b4bba881bf9282c32c0a6ae5707cfff"
+    },
+    {
+      "run_id": 37879134926,
+      "audit_sha": "240dd8291f185df28fdd9211429edce2a619cf4c",
+      "artifact_id": 11593897555,
+      "artifact_name": "astra-p20-independent-plan-race-json",
+      "zip_sha256": "dd09982b1c060c31a15b5f9edb66306dc329c82d0b34d30a0930595aeb2e52a9"
+    },
+    {
+      "run_id": 37879134928,
+      "audit_sha": "240dd8291f185df28fdd9211429edce2a619cf4c",
+      "artifact_id": 11594211217,
+      "artifact_name": "astra-p20-independent-ui-json",
+      "zip_sha256": "c518d31049f5e5d47c65503ff06426970d82eff9a099608f5728669e185338eb"
+    },
+    {
+      "run_id": 37879580253,
+      "audit_sha": "9e9d14583a044661a770df62870bbdfc6e45540e",
+      "artifact_id": 11593564144,
+      "artifact_name": "astra-p20-independent-edges-json",
+      "zip_sha256": "64b753bd0c38d8e5b5864c26c6755ffe9632e38934774966ee1699ee700a56c8"
+    },
+    {
+      "run_id": 37879768225,
+      "audit_sha": "a9ef009ab04d7a27d9d453462a8263e57391c204",
+      "artifact_id": 11593129857,
+      "artifact_name": "astra-p20-independent-money-recheck-json",
+      "zip_sha256": "baa5e9e92d72b8106e3d60dab66be6ce89124651877a4c76ae3ef3940eb0a834"
+    },
+    {
+      "run_id": 37880365949,
+      "audit_sha": "8888ed7ca309e6fd3347b16d36fa14ae5efaeb6c",
+      "artifact_id": 11593574133,
+      "artifact_name": "astra-p20-independent-ui-json",
+      "zip_sha256": "c6304899b7b23684abde2141f25d9375767ecad32f9b56445138384a74862596"
+    },
+    {
+      "run_id": 37880366048,
+      "audit_sha": "8888ed7ca309e6fd3347b16d36fa14ae5efaeb6c",
+      "artifact_id": 11594505683,
+      "artifact_name": "astra-p20-independent-match-recheck-json",
+      "zip_sha256": "7791eded49bd44cb6ede714bde250e632ad2d0b397caa3b07df5fd70562594fa"
+    },
+    {
+      "run_id": 37880663536,
+      "audit_sha": "a10ad58001350f38e8c5f88d06b254fa03a5e839",
+      "artifact_id": 11594820188,
+      "artifact_name": "astra-p20-independent-money-edges-json",
+      "zip_sha256": "99bb79cc3ff771e25d4d7b71f626ced1030d04b25f05cacdfa2ba82895ed35f6"
+    },
+    {
+      "run_id": 37881044694,
+      "audit_sha": "cfc784f28bd414e28329c0c213a83b9c86b4db9c",
+      "artifact_id": 11595060347,
+      "artifact_name": "astra-p20-independent-payroll-json",
+      "zip_sha256": "a1a8fa46b568745ca2ae825fc1f7a7570e7dfca492b315267bc4e49516f8f69e"
+    },
+    {
+      "run_id": 37881215479,
+      "audit_sha": "3cd57c8755441762e65357af9cae7754a4bfcbfe",
+      "artifact_id": 11595150943,
+      "artifact_name": "astra-p20-independent-wib-recheck-json",
+      "zip_sha256": "36de3e72c70436728d9f786557d50748bf9b6bbe636dc926058a0f1f3a2f00f0"
+    }
+  ],
+  "source_review_sha256": "aeaea892f8ab57774b7a510aba192d466a23b67147cdfab7b23e62004b3a5527",
+  "independent": {
+    "PASS": 39,
+    "ADJUDICATED_PASS": 1,
+    "COUNTEREXAMPLE": 4
+  },
+  "regression_executions": 1256
+}

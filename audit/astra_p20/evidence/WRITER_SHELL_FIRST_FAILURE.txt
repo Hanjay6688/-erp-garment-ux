@@ -1,0 +1,26 @@
+Exact excerpt, own run37878853771 / job113653612762 / candidate2e605bb7.
+Full original CI log remains at the linked run. This excerpt is not labelled the full log.
+
+2026-10-09T03:21:27.6762297Z [36;1mpython3 scripts/cp7_native_fixture_window_test.py[0m
+2026-10-09T03:21:27.6827268Z shell: /usr/bin/bash -e {0}
+2026-10-09T03:21:27.6827537Z ##[endgroup]
+2026-10-09T03:21:27.7443640Z ....
+2026-10-09T03:21:27.7444258Z ----------------------------------------------------------------------
+2026-10-09T03:21:27.7445007Z Ran 4 tests in 0.000s
+2026-10-09T03:21:27.7445267Z 
+2026-10-09T03:21:27.7445423Z OK
+2026-10-09T03:21:27.7532922Z ##[group]Run python3 scripts/cp7_probe_evidence_test.py
+2026-10-09T03:21:27.7533369Z [36;1mpython3 scripts/cp7_probe_evidence_test.py[0m
+2026-10-09T03:21:27.7599006Z shell: /usr/bin/bash -e {0}
+2026-10-09T03:21:27.7599337Z ##[endgroup]
+2026-10-09T03:21:27.9559136Z Traceback (most recent call last):
+2026-10-09T03:21:27.9560350Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/scripts/cp7_probe_evidence_test.py", line 75, in <module>
+2026-10-09T03:21:27.9561339Z     main()
+2026-10-09T03:21:27.9562253Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/scripts/cp7_probe_evidence_test.py", line 37, in main
+2026-10-09T03:21:27.9563399Z     exec(compile(finalizer, 'actual-probe-finalizer', 'exec'), environment)
+2026-10-09T03:21:27.9564192Z   File "actual-probe-finalizer", line 321, in <module>
+2026-10-09T03:21:27.9564839Z NameError: name 'p19_plan_v2' is not defined
+2026-10-09T03:21:27.9770675Z ##[error]Process completed with exit code 1.
+2026-10-09T03:21:27.9889752Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-10-09T03:21:27.9890182Z with:
+2026-10-09T03:21:27.9890391Z   name: cp7-shell-proof

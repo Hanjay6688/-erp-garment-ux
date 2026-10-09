@@ -1,0 +1,880 @@
+{
+  "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+  "case_count": 44,
+  "counts": {
+    "PASS": 39,
+    "ADJUDICATED_PASS": 1,
+    "COUNTEREXAMPLE": 4
+  },
+  "not_parent_count": "44 executable scenarios are not the50pre-registered broad parent scenarios; see COVERAGE_50.md",
+  "cases": [
+    {
+      "case_id": "AS20-01_47_FINANCE_ROLE_BOUNDARY",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37880365949,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879134928,
+          "case_id": "AS20-01_47_FINANCE_ROLE_BOUNDARY",
+          "original_status": "PASS",
+          "log_file": "log-verdicts-113654511708.json"
+        },
+        {
+          "run_id": 37880365949,
+          "case_id": "AS20-01_47_FINANCE_ROLE_BOUNDARY",
+          "original_status": "PASS",
+          "log_file": "log-verdicts-113658432444.json"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-01_HTTP_REVOKED_REPLAY",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877803025,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877803025,
+          "case_id": "AS20-01_HTTP_REVOKED_REPLAY",
+          "original_status": "PASS",
+          "artifact_id": 11592764953,
+          "file": "ASTRA_AS20-01_HTTP_REVOKED_REPLAY.json",
+          "sha256": "f7c8227d26de465cb0ae9e36dae6312581414470dbc519bfab55c18a87b1610a"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-01_RECEIPT_REPLAY",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37879768225,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878640217,
+          "case_id": "AS20-01_RECEIPT_REPLAY",
+          "original_status": "INCOMPLETE",
+          "artifact_id": 11592998459,
+          "file": "ASTRA_AS20-01_RECEIPT_REPLAY.json",
+          "sha256": "f4d16b7d32bcafe6afb0ad94f5f97100b4be7d9a3797457b452ffa7f239bb108"
+        },
+        {
+          "run_id": 37879768225,
+          "case_id": "AS20-01_RECEIPT_REPLAY",
+          "original_status": "PASS",
+          "artifact_id": 11593129857,
+          "file": "ASTRA_AS20-01_RECEIPT_REPLAY.json",
+          "sha256": "b8ce5c3fefc1ed064565c4983f89fba7f454de3a25d1380bfc59f393b3edf177"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-01_REPLAY_ACCESS",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877802981,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877802981,
+          "case_id": "AS20-01_REPLAY_ACCESS",
+          "original_status": "PASS",
+          "artifact_id": 11593286443,
+          "file": "ASTRA_AS20-01_REPLAY_ACCESS.json",
+          "sha256": "c9dc9086b259a84d4098d0d232da198aef6076e53ec759b6623c4eb8e016b5ef"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-02_HTTP_PRIVATE",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877803025,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877803025,
+          "case_id": "AS20-02_HTTP_PRIVATE",
+          "original_status": "PASS",
+          "artifact_id": 11592764953,
+          "file": "ASTRA_AS20-02_HTTP_PRIVATE.json",
+          "sha256": "58b35c2f9e0482049a8a3199e2f20c32b9bacfc333b5f3e4a30c70e90c644a97"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-02_NATIVE_ACL",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877802981,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877038138,
+          "case_id": "AS20-02_NATIVE_ACL",
+          "original_status": "PASS",
+          "artifact_id": 11592801959,
+          "file": "ASTRA_AS20-02_NATIVE_ACL.json",
+          "sha256": "9d3b5f7b19e745612f05b5d98e2eabbb7473aaae99a25ba1e5abb3e42c55d509"
+        },
+        {
+          "run_id": 37877802981,
+          "case_id": "AS20-02_NATIVE_ACL",
+          "original_status": "PASS",
+          "artifact_id": 11593286443,
+          "file": "ASTRA_AS20-02_NATIVE_ACL.json",
+          "sha256": "b13f6ca441052d00a05eb0d3dc366a4fc67d7f27fde58464af4e76c5751e722c"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-03_REVOKE_AFTER_LOCK",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878142700,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878142700,
+          "case_id": "AS20-03_REVOKE_AFTER_LOCK",
+          "original_status": "PASS",
+          "artifact_id": 11593144094,
+          "file": "ASTRA_AS20-03_REVOKE_AFTER_LOCK.json",
+          "sha256": "2fe9387883d1441ebeca1013a662e0bdf330f3bbc525e3308ce39828c25cc170"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-04_08_PRECISION",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37879768225,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878640217,
+          "case_id": "AS20-04_08_PRECISION",
+          "original_status": "COUNTEREXAMPLE",
+          "artifact_id": 11592998459,
+          "file": "ASTRA_AS20-04_08_PRECISION.json",
+          "sha256": "61da752fd3ee43812c107347d71c752dccbe2538d7e973a73ba831e24e879f79"
+        },
+        {
+          "run_id": 37879768225,
+          "case_id": "AS20-04_08_PRECISION",
+          "original_status": "PASS",
+          "artifact_id": 11593129857,
+          "file": "ASTRA_AS20-04_08_PRECISION.json",
+          "sha256": "0a3e2c9f3015ee6fea129cdf7aa3222d30ab3232bcc9bf369f22d03e84cf1e51"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-06_13_18_50_FULL_FLOW",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877343411,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877343411,
+          "case_id": "AS20-06_13_18_50_FULL_FLOW",
+          "original_status": "PASS",
+          "artifact_id": 11592274628,
+          "file": "ASTRA_AS20-06_13_18_50_FULL_FLOW.json",
+          "sha256": "7b6227b42193fbc6b752a6178d7096cff5facf356d64d01d668ebb07d17f4250"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-07_LARGE_INVOICE",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878640217,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878640217,
+          "case_id": "AS20-07_LARGE_INVOICE",
+          "original_status": "PASS",
+          "artifact_id": 11592998459,
+          "file": "ASTRA_AS20-07_LARGE_INVOICE.json",
+          "sha256": "c29534fd66945af5454cf456794d5d7ec2e80e05a356e06465563d753ab888d3"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-09_WIB_MIDNIGHT",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37881215479,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37880663536,
+          "case_id": "AS20-09_WIB_MIDNIGHT",
+          "original_status": "INCOMPLETE",
+          "artifact_id": 11594820188,
+          "file": "ASTRA_AS20-09_WIB_MIDNIGHT.json",
+          "sha256": "8f125cde5d4d69eaf8e9d49e8a89811656fc5b56584f2a5939e72e8dbee23d7c"
+        },
+        {
+          "run_id": 37881215479,
+          "case_id": "AS20-09_WIB_MIDNIGHT",
+          "original_status": "PASS",
+          "artifact_id": 11595150943,
+          "file": "ASTRA_AS20-09_WIB_MIDNIGHT.json",
+          "sha256": "d2f5e6605324054c5850891910078fe1ca12979292045390854ab5a39a4d6199"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-10_PENDING_LATE_PRICE",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37879580253,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879580253,
+          "case_id": "AS20-10_PENDING_LATE_PRICE",
+          "original_status": "PASS",
+          "artifact_id": 11593564144,
+          "file": "ASTRA_AS20-10_PENDING_LATE_PRICE.json",
+          "sha256": "7e7706c0e62b1256bb7e715e5fe226d3bc8dcfe41a1248357e2212942393cc09"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-11_50_PARTIAL_LATE_INVOICE",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37880663536,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37880663536,
+          "case_id": "AS20-11_50_PARTIAL_LATE_INVOICE",
+          "original_status": "PASS",
+          "artifact_id": 11594820188,
+          "file": "ASTRA_AS20-11_50_PARTIAL_LATE_INVOICE.json",
+          "sha256": "d3767ea967d15300e782341e823a33bae2847a678f399e0dda6f8d89ead979f9"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-12_CREDIT_OTHER_INVOICE",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37880663536,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37880663536,
+          "case_id": "AS20-12_CREDIT_OTHER_INVOICE",
+          "original_status": "PASS",
+          "artifact_id": 11594820188,
+          "file": "ASTRA_AS20-12_CREDIT_OTHER_INVOICE.json",
+          "sha256": "51275041e681796e3151c73ef00199e3be13833e736634341a5a886860260cbc"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-12_PAID_UPWARD",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37880663536,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37880663536,
+          "case_id": "AS20-12_PAID_UPWARD",
+          "original_status": "PASS",
+          "artifact_id": 11594820188,
+          "file": "ASTRA_AS20-12_PAID_UPWARD.json",
+          "sha256": "dfa579146d2e24fee9c9622332dba203b7f903e99bf6eb08c3da05dfbdf9a058"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-14_RETURNED_PAID_CORRECTION",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37880663536,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37880663536,
+          "case_id": "AS20-14_RETURNED_PAID_CORRECTION",
+          "original_status": "PASS",
+          "artifact_id": 11594820188,
+          "file": "ASTRA_AS20-14_RETURNED_PAID_CORRECTION.json",
+          "sha256": "079d5159f87ec5f31681e05f2e513afe12883919c3568fe9deddce1f956701b8"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-15_PHYSICAL137",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37879580253,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879580253,
+          "case_id": "AS20-15_PHYSICAL137",
+          "original_status": "PASS",
+          "artifact_id": 11593564144,
+          "file": "ASTRA_AS20-15_PHYSICAL137.json",
+          "sha256": "a1ad2d4a38b7091ab268ef4f02bb3dfdf1026b4132026b2789a344ab50bdcd04"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-16_MEMBERSHIP",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37879580253,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879580253,
+          "case_id": "AS20-16_MEMBERSHIP",
+          "original_status": "PASS",
+          "artifact_id": 11593564144,
+          "file": "ASTRA_AS20-16_MEMBERSHIP.json",
+          "sha256": "eb85b60b936ef0c585533d7f2bc6135e9330190efa6705856199467219dde5fe"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-18_19_OPENING_CARRY_PAYROLL",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37881044694,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37881044694,
+          "case_id": "AS20-18_19_OPENING_CARRY_PAYROLL",
+          "original_status": "PASS",
+          "artifact_id": 11595060347,
+          "file": "ASTRA_AS20-18_19_OPENING_CARRY_PAYROLL.json",
+          "sha256": "7b1aa2da6158cdf52d46337b2b2b70d857e5fdb1006c60a3394eed3c6499d27a"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-20_MODEL_OWN_VECTORS",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878142700,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878142700,
+          "case_id": "AS20-20_MODEL_OWN_VECTORS",
+          "original_status": "PASS",
+          "artifact_id": 11593144094,
+          "file": "ASTRA_AS20-20_MODEL_OWN_VECTORS.json",
+          "sha256": "cbdfa5e84327b72f7ed45454a48b2fe45a15a16debabbb916e524d06608e2fd4"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-21_FORGED_MATCH",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37880366048,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879580253,
+          "case_id": "AS20-21_FORGED_MATCH",
+          "original_status": "INCOMPLETE",
+          "artifact_id": 11593564144,
+          "file": "ASTRA_AS20-21_FORGED_MATCH.json",
+          "sha256": "daba3a5758a951f68b81f7b892cd135a2163a040cb46396abd8283a6e37eaa99"
+        },
+        {
+          "run_id": 37880366048,
+          "case_id": "AS20-21_FORGED_MATCH",
+          "original_status": "PASS",
+          "artifact_id": 11594505683,
+          "file": "ASTRA_AS20-21_FORGED_MATCH.json",
+          "sha256": "8195e1ebb747d44e99aeedbb23e3e7549a3270f4020cc864b5ead9f1ab9973a4"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-24_PL5_OWN_DATA",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878142700,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878142700,
+          "case_id": "AS20-24_PL5_OWN_DATA",
+          "original_status": "PASS",
+          "artifact_id": 11593144094,
+          "file": "ASTRA_AS20-24_PL5_OWN_DATA.json",
+          "sha256": "6de2d3398f719f4dd3da225e45654b6ea694ce0fef4c76cbeb380950161e31c9"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-26_27_42_SCALE5000",
+      "assessment": "ADJUDICATED_PASS",
+      "original_status": "COUNTEREXAMPLE",
+      "latest_run": 37878853657,
+      "finding": null,
+      "adjudication": "5000 exact pages/storage/cleanup complete;5001FAILED without result. Only over-specific TARGET_LIMIT string assertion failed; original retained.",
+      "attempts": [
+        {
+          "run_id": 37878853657,
+          "case_id": "AS20-26_27_42_SCALE5000",
+          "original_status": "COUNTEREXAMPLE",
+          "artifact_id": 11592874893,
+          "file": "ASTRA_AS20-26_27_42_SCALE5000.json",
+          "sha256": "a72a45a97c5127269af34b0a008e7f7f0739fd36e633acb311d5992f2d030fa6"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-28_38_PRESERVATION",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878853657,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877802981,
+          "case_id": "AS20-28_38_PRESERVATION",
+          "original_status": "COUNTEREXAMPLE",
+          "artifact_id": 11593286443,
+          "file": "ASTRA_AS20-28_38_PRESERVATION.json",
+          "sha256": "c45f8c5e066dcd4b0d2629c5884282e138c7e90f41eda312e1c4c3f4892b988a"
+        },
+        {
+          "run_id": 37878853657,
+          "case_id": "AS20-28_38_PRESERVATION",
+          "original_status": "PASS",
+          "artifact_id": 11592874893,
+          "file": "ASTRA_AS20-28_38_PRESERVATION.json",
+          "sha256": "ee71ff11b6cc99d8b54e166a1e3327dd30e4882fbf0e80b28d2b6d17591b19c7"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-31_LIVE_POLICY",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878142700,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878142700,
+          "case_id": "AS20-31_LIVE_POLICY",
+          "original_status": "PASS",
+          "artifact_id": 11593144094,
+          "file": "ASTRA_AS20-31_LIVE_POLICY.json",
+          "sha256": "c166b5a9fa6aef45d01939384a9204104011eb2be2132ba7632bf8d29b202ab9"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-31_LIVE_STOCK",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878142700,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878142700,
+          "case_id": "AS20-31_LIVE_STOCK",
+          "original_status": "PASS",
+          "artifact_id": 11593144094,
+          "file": "ASTRA_AS20-31_LIVE_STOCK.json",
+          "sha256": "a4107bdf6852cbaecd0170a2bc572b668110914b81969e2b6448bd98269ff1f3"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-32_CROSS_VERSION_CAPACITY",
+      "assessment": "COUNTEREXAMPLE",
+      "original_status": "COUNTEREXAMPLE",
+      "latest_run": 37879134926,
+      "finding": "F01",
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878142700,
+          "case_id": "AS20-32_CROSS_VERSION_CAPACITY",
+          "original_status": "INCOMPLETE",
+          "artifact_id": 11593144094,
+          "file": "ASTRA_AS20-32_CROSS_VERSION_CAPACITY.json",
+          "sha256": "e607b394c9abf3f9a4bc486d7fc1f19afb9569c949c035ecc9356fa5b77b00c6"
+        },
+        {
+          "run_id": 37879134926,
+          "case_id": "AS20-32_CROSS_VERSION_CAPACITY",
+          "original_status": "COUNTEREXAMPLE",
+          "artifact_id": 11593897555,
+          "file": "ASTRA_AS20-32_CROSS_VERSION_CAPACITY.json",
+          "sha256": "c1af4bf24099548893cabf76d7bb81ca52fee80318717849edbb8cd1d7571462"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-33_37_DATED_REPORT",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37879580253,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879580253,
+          "case_id": "AS20-33_37_DATED_REPORT",
+          "original_status": "PASS",
+          "artifact_id": 11593564144,
+          "file": "ASTRA_AS20-33_37_DATED_REPORT.json",
+          "sha256": "66fae3416518fdd3b31ce7940cb39ddf6625dd2d52b491cdf60ee4e8c61ceec1"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-35_FINISH_CURRENT_RECHECK",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37879580253,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879580253,
+          "case_id": "AS20-35_FINISH_CURRENT_RECHECK",
+          "original_status": "PASS",
+          "artifact_id": 11593564144,
+          "file": "ASTRA_AS20-35_FINISH_CURRENT_RECHECK.json",
+          "sha256": "d2aa0d6fb800788421bb9a31955353fdb46aab4da5a85eb0b01e0bb0660aefec"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-36_AI_BAD_INPUTS",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37879580253,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879580253,
+          "case_id": "AS20-36_AI_BAD_INPUTS",
+          "original_status": "PASS",
+          "artifact_id": 11593564144,
+          "file": "ASTRA_AS20-36_AI_BAD_INPUTS.json",
+          "sha256": "ceb34dcecbb982b959a8adc5c291b4385038e6dd2102e84f1ade22b1c93e8c07"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-37_RETENTION",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877802981,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877802981,
+          "case_id": "AS20-37_RETENTION",
+          "original_status": "PASS",
+          "artifact_id": 11593286443,
+          "file": "ASTRA_AS20-37_RETENTION.json",
+          "sha256": "56f252c102848f28910bb644ab29341200aae7b76217b04372a12780e820eb25"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-39_VALIDATION_NEGATIVE",
+      "assessment": "COUNTEREXAMPLE",
+      "original_status": "COUNTEREXAMPLE",
+      "latest_run": 37877802981,
+      "finding": "F04",
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877802981,
+          "case_id": "AS20-39_VALIDATION_NEGATIVE",
+          "original_status": "COUNTEREXAMPLE",
+          "artifact_id": 11593286443,
+          "file": "ASTRA_AS20-39_VALIDATION_NEGATIVE.json",
+          "sha256": "4c46b530367aead746e52ac20e28488763e479ae49f4905b913b83749a0b6bd1"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-40_ATOMIC_CLEANUP",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877802981,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877802981,
+          "case_id": "AS20-40_ATOMIC_CLEANUP",
+          "original_status": "PASS",
+          "artifact_id": 11593286443,
+          "file": "ASTRA_AS20-40_ATOMIC_CLEANUP.json",
+          "sha256": "45bb70ed3135a5696921a0ccc534fbf1bb202b6a7a747e7e26a62e2030aea86f"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-40_TWO_CLEANERS",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878853657,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877803025,
+          "case_id": "AS20-40_TWO_CLEANERS",
+          "original_status": "COUNTEREXAMPLE",
+          "artifact_id": 11592764953,
+          "file": "ASTRA_AS20-40_TWO_CLEANERS.json",
+          "sha256": "6ebbc275a125dbce7afdb5fbb635802fa4d7c912af170c1ffde6f6e1238d07dd"
+        },
+        {
+          "run_id": 37878853657,
+          "case_id": "AS20-40_TWO_CLEANERS",
+          "original_status": "PASS",
+          "artifact_id": 11592874893,
+          "file": "ASTRA_AS20-40_TWO_CLEANERS.json",
+          "sha256": "d2f3d984f7b64b520ed8a3d53dcddcebc710c2ec9be63cf2d1aba39c698ce994"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-41_CONSUMERS",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877802981,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877802981,
+          "case_id": "AS20-41_CONSUMERS",
+          "original_status": "PASS",
+          "artifact_id": 11593286443,
+          "file": "ASTRA_AS20-41_CONSUMERS.json",
+          "sha256": "8dd60ff32c8a93109ffb8777890d9fe6604b78e71005caf932b2a58e3e8cb4ff"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-43_CRON_DATABASE_ISOLATION",
+      "assessment": "COUNTEREXAMPLE",
+      "original_status": "COUNTEREXAMPLE",
+      "latest_run": 37877803025,
+      "finding": "F02",
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877803025,
+          "case_id": "AS20-43_CRON_DATABASE_ISOLATION",
+          "original_status": "COUNTEREXAMPLE",
+          "artifact_id": 11592764953,
+          "file": "ASTRA_AS20-43_CRON_DATABASE_ISOLATION.json",
+          "sha256": "e1d49f3e181d2d486aaa7000917f2e6cb0ea564b2fb97cb2c9444b356d25908a"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-43_REAL_CRON",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877803025,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877803025,
+          "case_id": "AS20-43_REAL_CRON",
+          "original_status": "PASS",
+          "artifact_id": 11592764953,
+          "file": "ASTRA_AS20-43_REAL_CRON.json",
+          "sha256": "98953f9bd1777c7ed20a0b44611006837190d61715cb32ccc16f843ac2c07aab"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-44_RESTORE_ALL_TABLES",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877803025,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877803025,
+          "case_id": "AS20-44_RESTORE_ALL_TABLES",
+          "original_status": "PASS",
+          "artifact_id": 11592764953,
+          "file": "ASTRA_AS20-44_RESTORE_ALL_TABLES.json",
+          "sha256": "8f8e60a0ee4c161152ee761fd22b6e97a882b116e36c739708d924bb32c594f4"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-45_FAILED_RETRY_COLLISION",
+      "assessment": "COUNTEREXAMPLE",
+      "original_status": "COUNTEREXAMPLE",
+      "latest_run": 37877803025,
+      "finding": "F03",
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877803025,
+          "case_id": "AS20-45_FAILED_RETRY_COLLISION",
+          "original_status": "COUNTEREXAMPLE",
+          "artifact_id": 11592764953,
+          "file": "ASTRA_AS20-45_FAILED_RETRY_COLLISION.json",
+          "sha256": "ad1aab5bf9d1b74557eab2d2c2598040f4ea66917f178770ed2ebaf270d01caa"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-45_FIFTEEN_VERIFIED_NIGHTS",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877803025,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877803025,
+          "case_id": "AS20-45_FIFTEEN_VERIFIED_NIGHTS",
+          "original_status": "PASS",
+          "artifact_id": 11592764953,
+          "file": "ASTRA_AS20-45_FIFTEEN_VERIFIED_NIGHTS.json",
+          "sha256": "0d8d793cec343fc45d917c97f1823fcaf516951d63afc7d6be11b32d792b02fb"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-47_DESKTOP_ALL48",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37880365949,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879134928,
+          "case_id": "AS20-47_DESKTOP_ALL48",
+          "original_status": "PASS",
+          "log_file": "log-verdicts-113654511708.json"
+        },
+        {
+          "run_id": 37880365949,
+          "case_id": "AS20-47_DESKTOP_ALL48",
+          "original_status": "PASS",
+          "log_file": "log-verdicts-113658432444.json"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-47_MOBILE_ALL48",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37880365949,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37879134928,
+          "case_id": "AS20-47_MOBILE_ALL48",
+          "original_status": "PASS",
+          "log_file": "log-verdicts-113654511708.json"
+        },
+        {
+          "run_id": 37880365949,
+          "case_id": "AS20-47_MOBILE_ALL48",
+          "original_status": "PASS",
+          "log_file": "log-verdicts-113658432444.json"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20-49_IMMUTABILITY",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37877802981,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37877802981,
+          "case_id": "AS20-49_IMMUTABILITY",
+          "original_status": "PASS",
+          "artifact_id": 11593286443,
+          "file": "ASTRA_AS20-49_IMMUTABILITY.json",
+          "sha256": "f0cdd96b509f100a9ecbb4f6c321acb14736d9a17e9af68e14ecfd50a33f37f1"
+        }
+      ]
+    },
+    {
+      "case_id": "AS20_COMPARATOR_TIMEZONE_CONTROL",
+      "assessment": "PASS",
+      "original_status": "PASS",
+      "latest_run": 37878853657,
+      "finding": null,
+      "adjudication": "",
+      "attempts": [
+        {
+          "run_id": 37878853657,
+          "case_id": "AS20_COMPARATOR_TIMEZONE_CONTROL",
+          "original_status": "PASS",
+          "artifact_id": 11592874893,
+          "file": "ASTRA_AS20_COMPARATOR_TIMEZONE_CONTROL.json",
+          "sha256": "748c120f34ab186999ddb5afd8cae913b796b44b685d9065ba6a53fd4d7aa9a6"
+        }
+      ]
+    }
+  ]
+}

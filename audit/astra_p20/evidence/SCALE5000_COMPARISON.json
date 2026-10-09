@@ -1,0 +1,51 @@
+{
+  "independent": {
+    "run_id": 37878853657,
+    "targets": 5000,
+    "history_days": 10,
+    "pages": 26,
+    "max_page_bytes": 7969392,
+    "all_page_bytes": 206448568,
+    "identity": "7baba2016a85dca9f4b6fbea5eda367c8bb10a524266c3a2e3413b2f2fe7f61e",
+    "calls": 131,
+    "max_call_ms": 2696.9088270000157,
+    "sum_call_ms": 64788.18037000076,
+    "payload_bytes_before": 126608050,
+    "payload_bytes_after": 31120366,
+    "payload_bytes_saved": 95487684,
+    "all_column_bytes_before": 132757814,
+    "all_column_bytes_after": 31616714,
+    "note": "pg_column_size per stored column includes TOAST compression; relation allocation is separately measured and not claimed to shrink after DELETE"
+  },
+  "writer_crosscheck": [
+    {
+      "size": 5000,
+      "history_days": 1,
+      "page_count": 26,
+      "stored_bytes_before": 126115495,
+      "stored_bytes_after": 31140812,
+      "saved_bytes": 94974683,
+      "result_pages_unchanged": true
+    },
+    {
+      "size": 5000,
+      "history_days": 30,
+      "page_count": 26,
+      "stored_bytes_before": 127113268,
+      "stored_bytes_after": 31140812,
+      "saved_bytes": 95972456,
+      "result_pages_unchanged": true
+    },
+    {
+      "size": 5000,
+      "history_days": 100,
+      "page_count": 26,
+      "stored_bytes_before": 128899326,
+      "stored_bytes_after": 31140867,
+      "saved_bytes": 97758459,
+      "result_pages_unchanged": true
+    }
+  ],
+  "comparison": "Different independently seeded fixture and10-day history versus writer1/30/100: sizes agree in order of magnitude, not asserted byte-identical across fixtures. Within each own run every retained row/page/hash is exact before/after. Relation allocation did not immediately shrink after DELETE.",
+  "unit": "bytes, decimal MB=bytes/1000000; no heap/index/page-overhead attribution to per-column sums"
+}

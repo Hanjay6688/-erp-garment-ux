@@ -1,0 +1,7 @@
+{
+  "file": "COMPLETE_PROJECTED_EVIDENCE.json.gz",
+  "sha256": "717fd9c417b7875c67942684401e0475d8b78a764e47ccd21f390d40ec3cae6e",
+  "bytes": 3043640,
+  "uncompressed_bytes": 15974544,
+  "description": "Complete retrieved JSON projections and original own verdicts, including first failures. Original CI zip SHA256/run/artifact IDs retained; this is not falsely labelled the raw CI zip."
+}
