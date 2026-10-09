@@ -16,14 +16,15 @@ for rid in requests['run_ids']:
    content=z.read(name);d=json.loads(content)
    if name in ('ASTRA_AS20-42_storage5000.json','ASTRA_AS20-26_pages5000.json','ASTRA_AS20-26_scale_calls.json','ASTRA_UI_DESKTOP_ROUTES.json','ASTRA_UI_MOBILE_ROUTES.json','ASTRA_AS20_comparator_timezone_diagnostic.json'):
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_witness=d)
+   elif name.startswith('CP7_P21'):
+    row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_witness=d)
    elif name.startswith('ASTRA_AS20-') and 'audit_case_id' in d or name.startswith('ASTRA_AS20-') and 'case' in d:
     # Complete independent verdict, including first failure trace/witness.
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_independent_verdict=d)
    elif isinstance(d,dict) and ('counts' in d or 'status' in d or 'gate' in d):
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),summary={k:d.get(k) for k in ('status','counts','expected_case_count','observed_case_count','error','traceback','restore','restore_error','cp6_restored','primary_unchanged','gate') if k in d},groups={})
-    for kind in ('native','races','http','browser'):
-     group=d.get(kind)
-     if isinstance(group,dict):
+    for kind,group in d.items():
+     if isinstance(group,dict) and ('counts' in group or 'cases' in group or 'races' in group):
       row['groups'][kind]={k:group.get(k) for k in ('status','counts','missing','planned_case_ids','planned_race_ids','complete_boundary_restored','database_remaining','error','traceback','cleanup_failures') if k in group}
       cases=group.get('cases') or group.get('races')
       if isinstance(cases,dict):row['groups'][kind]['cases']={k:{f:v.get(f) for f in ('status','error','counterexample','traceback') if f in v} for k,v in cases.items() if isinstance(v,dict)}
