@@ -1,0 +1,2402 @@
+{
+  "candidate": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+  "oracle": "aa638356e13aeffe7b2a2aa96f17dbe19676db1f",
+  "source_sha256": "cf044584c3e5f47993804c7759f74b0a0249551a86cf9de4d916efd7f17df5f7",
+  "status": "PASS",
+  "scope": "REAL_NETTING_SQL_WITH_FIXTURE_SCHEDULE_NOT_FULL_AUTH_APPLICATION",
+  "cases": [
+    {
+      "id": "REFUSAL_ORDER",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_DUPLICATE_REF",
+      "old_error": "22023:CP7_WIP_DUPLICATE_REF"
+    },
+    {
+      "id": "REFUSAL_ORDER_REVERSED",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_KEY",
+      "old_error": "22023:CP7_WIP_KEY"
+    },
+    {
+      "id": "FAULT_701_null_2",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "b4f9f427f553df1a51803be83cb14cf8",
+      "old_hash": "b4f9f427f553df1a51803be83cb14cf8",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_null_3",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "b4f9f427f553df1a51803be83cb14cf8",
+      "old_hash": "b4f9f427f553df1a51803be83cb14cf8",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_null_4",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "b4f9f427f553df1a51803be83cb14cf8",
+      "old_hash": "b4f9f427f553df1a51803be83cb14cf8",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_null_5",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "b4f9f427f553df1a51803be83cb14cf8",
+      "old_hash": "b4f9f427f553df1a51803be83cb14cf8",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_WIP_INCOMPLETE_6",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "5713e97826075b1281b65ecb45508891",
+      "old_hash": "5713e97826075b1281b65ecb45508891",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_WORK_LIMIT_7",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_WORK_LIMIT",
+      "old_error": "P0001:CP7_NETTING_WORK_LIMIT"
+    },
+    {
+      "id": "FAULT_701_MATCH_LIMIT_8",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_MATCH_SOURCE_LIMIT",
+      "old_error": "P0001:CP7_NETTING_MATCH_SOURCE_LIMIT"
+    },
+    {
+      "id": "FAULT_701_MISSING_PRODUCT_9",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING",
+      "old_error": "P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING"
+    },
+    {
+      "id": "FAULT_701_DUP_MATCHING_PRODUCT_10",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_701_DUP_ORIGIN_11",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_701_DUP_GROUP_12",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_701_DUP_BS_13",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "e60f6dea433c550292ae23f0192425e0",
+      "old_hash": "e60f6dea433c550292ae23f0192425e0",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_NONPO_TWO_14",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_701_SIZE_15",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_NATIVE_SOURCE_SIZE",
+      "old_error": "P0001:CP7_NETTING_NATIVE_SOURCE_SIZE"
+    },
+    {
+      "id": "FAULT_701_MODEL_CONFLICT_16",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "8c1f2fbaf72cbb2a90352add0f4c4153",
+      "old_hash": "8c1f2fbaf72cbb2a90352add0f4c4153",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_DUP_TARGET_PRODUCT_17",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_WIP_MATCH_DUPLICATE",
+      "old_error": "P0001:CP7_WIP_MATCH_DUPLICATE"
+    },
+    {
+      "id": "FAULT_701_NULL_EFFECTIVE_18",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_KEY",
+      "old_error": "22023:CP7_WIP_KEY"
+    },
+    {
+      "id": "FAULT_701_DUP_POSITION_19",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_701_NULL_KEYS_20",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "ecb10d6b3d79139e2e2707a06fa9883b",
+      "old_hash": "ecb10d6b3d79139e2e2707a06fa9883b",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_NUMERIC_KEY_21",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_701_DUP_ETA_22",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_701_BAD_ETA_23",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22007:invalid input syntax for type timestamp with time zone: \"not-a-time\"",
+      "old_error": "22007:invalid input syntax for type timestamp with time zone: \"not-a-time\""
+    },
+    {
+      "id": "FAULT_701_ORPHAN_ETA_24",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_ETA_BINDING",
+      "old_error": "P0001:CP7_BASELINE_ETA_BINDING"
+    },
+    {
+      "id": "FAULT_701_UNKNOWN_ETAS_25",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "1f127d22895b99938503418d95fda5ba",
+      "old_hash": "1f127d22895b99938503418d95fda5ba",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_CONDITIONAL_26",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "314cec4ab48b99c0e6174ba750234f87",
+      "old_hash": "314cec4ab48b99c0e6174ba750234f87",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_LATE_ETAS_27",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "9b0de09cc4c6946f62b0847a9b8bf5bd",
+      "old_hash": "9b0de09cc4c6946f62b0847a9b8bf5bd",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_DUP_ROW_28",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_TARGET",
+      "old_error": "P0001:CP7_BASELINE_TARGET"
+    },
+    {
+      "id": "FAULT_701_DUP_ROW_SKIPPED_TARGET_29",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "a89afc4f7eb1a3a9918f87cfb2f04bee",
+      "old_hash": "a89afc4f7eb1a3a9918f87cfb2f04bee",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_DUP_ROW_SKIPPED_FG_30",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "debc4f854c3a06e49fa9cb8a484f4c5d",
+      "old_hash": "debc4f854c3a06e49fa9cb8a484f4c5d",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_MISSING_PROFILE_31",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_F04_DECIMAL",
+      "old_error": "22023:CP7_F04_DECIMAL"
+    },
+    {
+      "id": "FAULT_701_MISSING_POLICY_32",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "53c2cbd8e3030858bde495d91e9da028",
+      "old_hash": "53c2cbd8e3030858bde495d91e9da028",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_BAD_POLICY_33",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_TARGET",
+      "old_error": "P0001:CP7_BASELINE_TARGET"
+    },
+    {
+      "id": "FAULT_701_UNKNOWN_TARGET_34",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "53789538cef20f3e67fb1781372965bb",
+      "old_hash": "53789538cef20f3e67fb1781372965bb",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_NULL_FG_35",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "1661816429ccb95ad09387af8d67d30b",
+      "old_hash": "1661816429ccb95ad09387af8d67d30b",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_NEG_FG_36",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "47a8c506da88173b01123da326e4206c",
+      "old_hash": "47a8c506da88173b01123da326e4206c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_BIG_HORIZON_37",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_TIMELINE_HORIZON_LIMIT",
+      "old_error": "P0001:CP7_NETTING_TIMELINE_HORIZON_LIMIT"
+    },
+    {
+      "id": "FAULT_701_TARGET_NOT_PRODUCT_38",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_REFS",
+      "old_error": "22023:CP7_WIP_REFS"
+    },
+    {
+      "id": "FAULT_701_BAD_REMAINING_39",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_PCS",
+      "old_error": "22023:CP7_WIP_PCS"
+    },
+    {
+      "id": "FAULT_701_BAD_POSITION_REFS_40",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_REFS",
+      "old_error": "22023:CP7_WIP_REFS"
+    },
+    {
+      "id": "FAULT_701_SCALAR_ORIGINS_41",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from a scalar",
+      "old_error": "22023:cannot extract elements from a scalar"
+    },
+    {
+      "id": "FAULT_701_OBJECT_REWORKS_42",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from an object",
+      "old_error": "22023:cannot extract elements from an object"
+    },
+    {
+      "id": "FAULT_701_SCALAR_GROUPS_43",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from a scalar",
+      "old_error": "22023:cannot extract elements from a scalar"
+    },
+    {
+      "id": "FAULT_701_SOURCE_CHANGED_44",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "cc6e4d3803fdf78e6564ca5c0b66f19a",
+      "old_hash": "cc6e4d3803fdf78e6564ca5c0b66f19a",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_NO_SCHEDULE_45",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_KEY",
+      "old_error": "22023:CP7_WIP_KEY"
+    },
+    {
+      "id": "FAULT_701_ZERO_POSITIONS_46",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_ETA_BINDING",
+      "old_error": "P0001:CP7_BASELINE_ETA_BINDING"
+    },
+    {
+      "id": "FAULT_701_ZERO_ROWS_47",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "2839fa44a66f9795f47cf0ea04f8516d",
+      "old_hash": "2839fa44a66f9795f47cf0ea04f8516d",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_701_NULL_ROWS_48",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "2101f7397040c568a913f4e41aa58349",
+      "old_hash": "2101f7397040c568a913f4e41aa58349",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_null_49",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "b28670cd1c754d71c95283ed1233e6d3",
+      "old_hash": "b28670cd1c754d71c95283ed1233e6d3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_null_50",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "b28670cd1c754d71c95283ed1233e6d3",
+      "old_hash": "b28670cd1c754d71c95283ed1233e6d3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_null_51",
+      "mode": "auto",
+      "same": true,
+      "events": 1,
+      "new_hash": "b28670cd1c754d71c95283ed1233e6d3",
+      "old_hash": "b28670cd1c754d71c95283ed1233e6d3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_null_52",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "b28670cd1c754d71c95283ed1233e6d3",
+      "old_hash": "b28670cd1c754d71c95283ed1233e6d3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_WIP_INCOMPLETE_53",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "fb2f5723896f117fd5e849b4b33b17f1",
+      "old_hash": "fb2f5723896f117fd5e849b4b33b17f1",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_WORK_LIMIT_54",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_WORK_LIMIT",
+      "old_error": "P0001:CP7_NETTING_WORK_LIMIT"
+    },
+    {
+      "id": "FAULT_702_MATCH_LIMIT_55",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_MATCH_SOURCE_LIMIT",
+      "old_error": "P0001:CP7_NETTING_MATCH_SOURCE_LIMIT"
+    },
+    {
+      "id": "FAULT_702_MISSING_PRODUCT_56",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING",
+      "old_error": "P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING"
+    },
+    {
+      "id": "FAULT_702_DUP_MATCHING_PRODUCT_57",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_702_DUP_ORIGIN_58",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_702_DUP_GROUP_59",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "3e74f89b7deec0cc30de2009a10b9b2d",
+      "old_hash": "3e74f89b7deec0cc30de2009a10b9b2d",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_DUP_BS_60",
+      "mode": "auto",
+      "same": true,
+      "events": 1,
+      "new_hash": "d6ac3ff28c7b24b5a7a349e412444fa9",
+      "old_hash": "d6ac3ff28c7b24b5a7a349e412444fa9",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_NONPO_TWO_61",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_702_SIZE_62",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_NATIVE_SOURCE_SIZE",
+      "old_error": "P0001:CP7_NETTING_NATIVE_SOURCE_SIZE"
+    },
+    {
+      "id": "FAULT_702_MODEL_CONFLICT_63",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "aeb8bf6bb7d8bd787e26650ae12d52d2",
+      "old_hash": "aeb8bf6bb7d8bd787e26650ae12d52d2",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_DUP_TARGET_PRODUCT_64",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_702_NULL_EFFECTIVE_65",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_KEY",
+      "old_error": "22023:CP7_WIP_KEY"
+    },
+    {
+      "id": "FAULT_702_DUP_POSITION_66",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_702_NULL_KEYS_67",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "7e6b4a70cf27466315941ecfe228b2e6",
+      "old_hash": "7e6b4a70cf27466315941ecfe228b2e6",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_NUMERIC_KEY_68",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_702_DUP_ETA_69",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_702_BAD_ETA_70",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22007:invalid input syntax for type timestamp with time zone: \"not-a-time\"",
+      "old_error": "22007:invalid input syntax for type timestamp with time zone: \"not-a-time\""
+    },
+    {
+      "id": "FAULT_702_ORPHAN_ETA_71",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_ETA_BINDING",
+      "old_error": "P0001:CP7_BASELINE_ETA_BINDING"
+    },
+    {
+      "id": "FAULT_702_UNKNOWN_ETAS_72",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "c340d708f1310f58c1b196b6a3e1bf55",
+      "old_hash": "c340d708f1310f58c1b196b6a3e1bf55",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_CONDITIONAL_73",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "615c67a41c19791f05348c3c93e35a8e",
+      "old_hash": "615c67a41c19791f05348c3c93e35a8e",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_LATE_ETAS_74",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "702e6f9e60b63d59fc7306ccce23e4d5",
+      "old_hash": "702e6f9e60b63d59fc7306ccce23e4d5",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_DUP_ROW_75",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_TARGET",
+      "old_error": "P0001:CP7_BASELINE_TARGET"
+    },
+    {
+      "id": "FAULT_702_DUP_ROW_SKIPPED_TARGET_76",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "37535aca33a9784699354041573d93bb",
+      "old_hash": "37535aca33a9784699354041573d93bb",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_DUP_ROW_SKIPPED_FG_77",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "d06b6cea64281ba53d4a37e0f254be5c",
+      "old_hash": "d06b6cea64281ba53d4a37e0f254be5c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_MISSING_PROFILE_78",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_F04_DECIMAL",
+      "old_error": "22023:CP7_F04_DECIMAL"
+    },
+    {
+      "id": "FAULT_702_MISSING_POLICY_79",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "ecc6a766055307cd17d78a2a5edd6835",
+      "old_hash": "ecc6a766055307cd17d78a2a5edd6835",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_BAD_POLICY_80",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_TARGET",
+      "old_error": "P0001:CP7_BASELINE_TARGET"
+    },
+    {
+      "id": "FAULT_702_UNKNOWN_TARGET_81",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "0ce756b0275f4f7d30ee7108cc438d05",
+      "old_hash": "0ce756b0275f4f7d30ee7108cc438d05",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_NULL_FG_82",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "36537a450dcceb3245ec255a2de398a1",
+      "old_hash": "36537a450dcceb3245ec255a2de398a1",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_NEG_FG_83",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "d6d944132534cc5c768408d64dcd4a6e",
+      "old_hash": "d6d944132534cc5c768408d64dcd4a6e",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_TARGET_NOT_PRODUCT_84",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_REFS",
+      "old_error": "22023:CP7_WIP_REFS"
+    },
+    {
+      "id": "FAULT_702_BAD_REMAINING_85",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_PCS",
+      "old_error": "22023:CP7_WIP_PCS"
+    },
+    {
+      "id": "FAULT_702_BAD_POSITION_REFS_86",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_REFS",
+      "old_error": "22023:CP7_WIP_REFS"
+    },
+    {
+      "id": "FAULT_702_SCALAR_ORIGINS_87",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from a scalar",
+      "old_error": "22023:cannot extract elements from a scalar"
+    },
+    {
+      "id": "FAULT_702_OBJECT_REWORKS_88",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from an object",
+      "old_error": "22023:cannot extract elements from an object"
+    },
+    {
+      "id": "FAULT_702_SCALAR_GROUPS_89",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from a scalar",
+      "old_error": "22023:cannot extract elements from a scalar"
+    },
+    {
+      "id": "FAULT_702_SOURCE_CHANGED_90",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "e141d80c3354328f8e7219ffdd569a2e",
+      "old_hash": "e141d80c3354328f8e7219ffdd569a2e",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_NO_SCHEDULE_91",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_KEY",
+      "old_error": "22023:CP7_WIP_KEY"
+    },
+    {
+      "id": "FAULT_702_ZERO_POSITIONS_92",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_ETA_BINDING",
+      "old_error": "P0001:CP7_BASELINE_ETA_BINDING"
+    },
+    {
+      "id": "FAULT_702_ZERO_ROWS_93",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "3d1d0fc2ddc77dbf4b1aa84108067188",
+      "old_hash": "3d1d0fc2ddc77dbf4b1aa84108067188",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_702_NULL_ROWS_94",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "15566265d0f8d9db89400a269552128f",
+      "old_hash": "15566265d0f8d9db89400a269552128f",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_null_95",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "d06ec91455e780b31cf4b91668b392a3",
+      "old_hash": "d06ec91455e780b31cf4b91668b392a3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_null_96",
+      "mode": "auto",
+      "same": true,
+      "events": 2,
+      "new_hash": "d06ec91455e780b31cf4b91668b392a3",
+      "old_hash": "d06ec91455e780b31cf4b91668b392a3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_null_97",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "d06ec91455e780b31cf4b91668b392a3",
+      "old_hash": "d06ec91455e780b31cf4b91668b392a3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_null_98",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "d06ec91455e780b31cf4b91668b392a3",
+      "old_hash": "d06ec91455e780b31cf4b91668b392a3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_WIP_INCOMPLETE_99",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "5bad2988d7a382ca732a09ca691c675e",
+      "old_hash": "5bad2988d7a382ca732a09ca691c675e",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_WORK_LIMIT_100",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_WORK_LIMIT",
+      "old_error": "P0001:CP7_NETTING_WORK_LIMIT"
+    },
+    {
+      "id": "FAULT_703_MATCH_LIMIT_101",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_MATCH_SOURCE_LIMIT",
+      "old_error": "P0001:CP7_NETTING_MATCH_SOURCE_LIMIT"
+    },
+    {
+      "id": "FAULT_703_MISSING_PRODUCT_102",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING",
+      "old_error": "P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING"
+    },
+    {
+      "id": "FAULT_703_DUP_MATCHING_PRODUCT_103",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_703_DUP_ORIGIN_104",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_703_DUP_GROUP_105",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_703_DUP_BS_106",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "e45e9f95bda28bc45b79c41887f31623",
+      "old_hash": "e45e9f95bda28bc45b79c41887f31623",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_NONPO_TWO_107",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_703_SIZE_108",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_NATIVE_SOURCE_SIZE",
+      "old_error": "P0001:CP7_NETTING_NATIVE_SOURCE_SIZE"
+    },
+    {
+      "id": "FAULT_703_MODEL_CONFLICT_109",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "87e74ab0ffdc0a305523cf1f26ed5395",
+      "old_hash": "87e74ab0ffdc0a305523cf1f26ed5395",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_DUP_TARGET_PRODUCT_110",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_WIP_MATCH_DUPLICATE",
+      "old_error": "P0001:CP7_WIP_MATCH_DUPLICATE"
+    },
+    {
+      "id": "FAULT_703_NULL_EFFECTIVE_111",
+      "mode": "auto",
+      "same": true,
+      "events": 2,
+      "new_hash": "6f93fcea8d957e4aa9155c088b40ae6c",
+      "old_hash": "6f93fcea8d957e4aa9155c088b40ae6c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_DUP_POSITION_112",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_703_NULL_KEYS_113",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "4130781404eb606475666c20122d8e1a",
+      "old_hash": "4130781404eb606475666c20122d8e1a",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_NUMERIC_KEY_114",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_703_DUP_ETA_115",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_703_BAD_ETA_116",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22007:invalid input syntax for type timestamp with time zone: \"not-a-time\"",
+      "old_error": "22007:invalid input syntax for type timestamp with time zone: \"not-a-time\""
+    },
+    {
+      "id": "FAULT_703_ORPHAN_ETA_117",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_ETA_BINDING",
+      "old_error": "P0001:CP7_BASELINE_ETA_BINDING"
+    },
+    {
+      "id": "FAULT_703_UNKNOWN_ETAS_118",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "6b834d6758da3c3e10e89579bfd386a9",
+      "old_hash": "6b834d6758da3c3e10e89579bfd386a9",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_CONDITIONAL_119",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "174b2f0b4a0486ea815a37362bd89e34",
+      "old_hash": "174b2f0b4a0486ea815a37362bd89e34",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_LATE_ETAS_120",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "a7b0ab81989516deee8439fb4a9ed9f4",
+      "old_hash": "a7b0ab81989516deee8439fb4a9ed9f4",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_DUP_ROW_121",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_TARGET",
+      "old_error": "P0001:CP7_BASELINE_TARGET"
+    },
+    {
+      "id": "FAULT_703_DUP_ROW_SKIPPED_TARGET_122",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "8b7cca282da7c53069fe6c2c31863fe9",
+      "old_hash": "8b7cca282da7c53069fe6c2c31863fe9",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_DUP_ROW_SKIPPED_FG_123",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "b007d6072af21d1688957985a211fea0",
+      "old_hash": "b007d6072af21d1688957985a211fea0",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_MISSING_PROFILE_124",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_F04_DECIMAL",
+      "old_error": "22023:CP7_F04_DECIMAL"
+    },
+    {
+      "id": "FAULT_703_MISSING_POLICY_125",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "0beb493d96158af255775c65122c08df",
+      "old_hash": "0beb493d96158af255775c65122c08df",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_BAD_POLICY_126",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_TARGET",
+      "old_error": "P0001:CP7_BASELINE_TARGET"
+    },
+    {
+      "id": "FAULT_703_UNKNOWN_TARGET_127",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "df88e4b44f0e9ffc986481bed21dc9ab",
+      "old_hash": "df88e4b44f0e9ffc986481bed21dc9ab",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_NULL_FG_128",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "476c2747636661a0d5b7228bad22e7ea",
+      "old_hash": "476c2747636661a0d5b7228bad22e7ea",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_NEG_FG_129",
+      "mode": "auto",
+      "same": true,
+      "events": 1,
+      "new_hash": "cff7d714cd40618103e54db73c4d098e",
+      "old_hash": "cff7d714cd40618103e54db73c4d098e",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_TARGET_NOT_PRODUCT_130",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_REFS",
+      "old_error": "22023:CP7_WIP_REFS"
+    },
+    {
+      "id": "FAULT_703_BAD_REMAINING_131",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_PCS",
+      "old_error": "22023:CP7_WIP_PCS"
+    },
+    {
+      "id": "FAULT_703_BAD_POSITION_REFS_132",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_REFS",
+      "old_error": "22023:CP7_WIP_REFS"
+    },
+    {
+      "id": "FAULT_703_SCALAR_ORIGINS_133",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from a scalar",
+      "old_error": "22023:cannot extract elements from a scalar"
+    },
+    {
+      "id": "FAULT_703_OBJECT_REWORKS_134",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from an object",
+      "old_error": "22023:cannot extract elements from an object"
+    },
+    {
+      "id": "FAULT_703_SCALAR_GROUPS_135",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from a scalar",
+      "old_error": "22023:cannot extract elements from a scalar"
+    },
+    {
+      "id": "FAULT_703_SOURCE_CHANGED_136",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 2,
+      "new_hash": "bd0c60da8c1c4db7b60a7661af79a563",
+      "old_hash": "bd0c60da8c1c4db7b60a7661af79a563",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_NO_SCHEDULE_137",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_KEY",
+      "old_error": "22023:CP7_WIP_KEY"
+    },
+    {
+      "id": "FAULT_703_ZERO_POSITIONS_138",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_ETA_BINDING",
+      "old_error": "P0001:CP7_BASELINE_ETA_BINDING"
+    },
+    {
+      "id": "FAULT_703_ZERO_ROWS_139",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "96ed751ed4a3589dfe6c13360000c429",
+      "old_hash": "96ed751ed4a3589dfe6c13360000c429",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_703_NULL_ROWS_140",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "b4db1e4328202844e2cd9d2ae392c5d2",
+      "old_hash": "b4db1e4328202844e2cd9d2ae392c5d2",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_null_141",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "7515720a67f7c97eb3247a029cb442ec",
+      "old_hash": "7515720a67f7c97eb3247a029cb442ec",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_null_142",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 3,
+      "new_hash": "7515720a67f7c97eb3247a029cb442ec",
+      "old_hash": "7515720a67f7c97eb3247a029cb442ec",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_null_143",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 3,
+      "new_hash": "7515720a67f7c97eb3247a029cb442ec",
+      "old_hash": "7515720a67f7c97eb3247a029cb442ec",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_null_144",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "7515720a67f7c97eb3247a029cb442ec",
+      "old_hash": "7515720a67f7c97eb3247a029cb442ec",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_WIP_INCOMPLETE_145",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "865c2ae5374e7dab55a0fdc3c8b865b1",
+      "old_hash": "865c2ae5374e7dab55a0fdc3c8b865b1",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_WORK_LIMIT_146",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_WORK_LIMIT",
+      "old_error": "P0001:CP7_NETTING_WORK_LIMIT"
+    },
+    {
+      "id": "FAULT_704_MATCH_LIMIT_147",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_MATCH_SOURCE_LIMIT",
+      "old_error": "P0001:CP7_NETTING_MATCH_SOURCE_LIMIT"
+    },
+    {
+      "id": "FAULT_704_MISSING_PRODUCT_148",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING",
+      "old_error": "P0001:CP7_NETTING_NATIVE_PRODUCT_MISSING"
+    },
+    {
+      "id": "FAULT_704_DUP_MATCHING_PRODUCT_149",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_704_DUP_ORIGIN_150",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_704_DUP_GROUP_151",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_704_DUP_BS_152",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 3,
+      "new_hash": "2992fa88161afaf48ad3f20bf798fd8d",
+      "old_hash": "2992fa88161afaf48ad3f20bf798fd8d",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_NONPO_TWO_153",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "cc2dfc21b1572b64dbdbfc59b260849c",
+      "old_hash": "cc2dfc21b1572b64dbdbfc59b260849c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_SIZE_154",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 3,
+      "new_hash": "9e2376056118aea7566a82522d684e22",
+      "old_hash": "9e2376056118aea7566a82522d684e22",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_MODEL_CONFLICT_155",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 1,
+      "new_hash": "53a1c98a76692446705f8e589b3a991f",
+      "old_hash": "53a1c98a76692446705f8e589b3a991f",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_DUP_TARGET_PRODUCT_156",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_704_NULL_EFFECTIVE_157",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 3,
+      "new_hash": "1c2884c41e56523232f9c50c725f45da",
+      "old_hash": "1c2884c41e56523232f9c50c725f45da",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_DUP_POSITION_158",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_704_NULL_KEYS_159",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "6f174ecf0a22884faca4457c57de0b5f",
+      "old_hash": "6f174ecf0a22884faca4457c57de0b5f",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_NUMERIC_KEY_160",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_704_DUP_ETA_161",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "21000:more than one row returned by a subquery used as an expression",
+      "old_error": "21000:more than one row returned by a subquery used as an expression"
+    },
+    {
+      "id": "FAULT_704_BAD_ETA_162",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22007:invalid input syntax for type timestamp with time zone: \"not-a-time\"",
+      "old_error": "22007:invalid input syntax for type timestamp with time zone: \"not-a-time\""
+    },
+    {
+      "id": "FAULT_704_ORPHAN_ETA_163",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_ETA_BINDING",
+      "old_error": "P0001:CP7_BASELINE_ETA_BINDING"
+    },
+    {
+      "id": "FAULT_704_UNKNOWN_ETAS_164",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "cfb8a18f0c600dff7ae530a186bab913",
+      "old_hash": "cfb8a18f0c600dff7ae530a186bab913",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_CONDITIONAL_165",
+      "mode": "auto",
+      "same": true,
+      "events": 1,
+      "new_hash": "0c85113cbc42dbfafe9e9fec7dcaeea3",
+      "old_hash": "0c85113cbc42dbfafe9e9fec7dcaeea3",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_LATE_ETAS_166",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "f975c8f2ed37205f54aaae23a24bf0d7",
+      "old_hash": "f975c8f2ed37205f54aaae23a24bf0d7",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_DUP_ROW_167",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_TARGET",
+      "old_error": "P0001:CP7_BASELINE_TARGET"
+    },
+    {
+      "id": "FAULT_704_DUP_ROW_SKIPPED_TARGET_168",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "98bedbce8e6a57e6543734afb87088de",
+      "old_hash": "98bedbce8e6a57e6543734afb87088de",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_DUP_ROW_SKIPPED_FG_169",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 4,
+      "new_hash": "b3225a8b0edc2d19035d283392543fe4",
+      "old_hash": "b3225a8b0edc2d19035d283392543fe4",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_MISSING_PROFILE_170",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_F04_DECIMAL",
+      "old_error": "22023:CP7_F04_DECIMAL"
+    },
+    {
+      "id": "FAULT_704_MISSING_POLICY_171",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "7c5ba2fc54b653074807e1603ee94236",
+      "old_hash": "7c5ba2fc54b653074807e1603ee94236",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_BAD_POLICY_172",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_TARGET",
+      "old_error": "P0001:CP7_BASELINE_TARGET"
+    },
+    {
+      "id": "FAULT_704_UNKNOWN_TARGET_173",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 3,
+      "new_hash": "dd865f2f48c3bc586f7f852b82668108",
+      "old_hash": "dd865f2f48c3bc586f7f852b82668108",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_NULL_FG_174",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "417e2e91b097b4b8f1343453fbfba29c",
+      "old_hash": "417e2e91b097b4b8f1343453fbfba29c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_NEG_FG_175",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 3,
+      "new_hash": "796651a0cd8a83a81a03a5215f432319",
+      "old_hash": "796651a0cd8a83a81a03a5215f432319",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_TARGET_NOT_PRODUCT_176",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_REFS",
+      "old_error": "22023:CP7_WIP_REFS"
+    },
+    {
+      "id": "FAULT_704_BAD_REMAINING_177",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_PCS",
+      "old_error": "22023:CP7_WIP_PCS"
+    },
+    {
+      "id": "FAULT_704_BAD_POSITION_REFS_178",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_REFS",
+      "old_error": "22023:CP7_WIP_REFS"
+    },
+    {
+      "id": "FAULT_704_SCALAR_ORIGINS_179",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from a scalar",
+      "old_error": "22023:cannot extract elements from a scalar"
+    },
+    {
+      "id": "FAULT_704_OBJECT_REWORKS_180",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from an object",
+      "old_error": "22023:cannot extract elements from an object"
+    },
+    {
+      "id": "FAULT_704_SCALAR_GROUPS_181",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:cannot extract elements from a scalar",
+      "old_error": "22023:cannot extract elements from a scalar"
+    },
+    {
+      "id": "FAULT_704_SOURCE_CHANGED_182",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 3,
+      "new_hash": "14a9175b372cb6a99db4d9e091665987",
+      "old_hash": "14a9175b372cb6a99db4d9e091665987",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_NO_SCHEDULE_183",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "22023:CP7_WIP_KEY",
+      "old_error": "22023:CP7_WIP_KEY"
+    },
+    {
+      "id": "FAULT_704_ZERO_POSITIONS_184",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": null,
+      "old_hash": null,
+      "new_error": "P0001:CP7_BASELINE_ETA_BINDING",
+      "old_error": "P0001:CP7_BASELINE_ETA_BINDING"
+    },
+    {
+      "id": "FAULT_704_ZERO_ROWS_185",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "f11774c305816c71c8b0a4aeac37cffb",
+      "old_hash": "f11774c305816c71c8b0a4aeac37cffb",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "FAULT_704_NULL_ROWS_186",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "69112e01a4e9f7cf832efcd83e2deba5",
+      "old_hash": "69112e01a4e9f7cf832efcd83e2deba5",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "EMPTY_DISTINCT_801",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "bff72a35c594905b30e6edad110e51c7",
+      "old_hash": "bff72a35c594905b30e6edad110e51c7",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_801_UNKNOWN_TARGET_FIRST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "3f6693171f3673537670127febfce31b",
+      "old_hash": "3f6693171f3673537670127febfce31b",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_801_UNKNOWN_TARGET_LAST",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "89fffc258a21eb43147e4d09026dad43",
+      "old_hash": "89fffc258a21eb43147e4d09026dad43",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_801_NULL_FG_FIRST",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "bfb8d53a71af8f2863aa8152d032587c",
+      "old_hash": "bfb8d53a71af8f2863aa8152d032587c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_801_NULL_FG_LAST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "b34e5127c6c38ee598877527d53c1fbc",
+      "old_hash": "b34e5127c6c38ee598877527d53c1fbc",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "SUPPLY_801",
+      "mode": "auto",
+      "same": true,
+      "events": 7,
+      "new_hash": "41a8c921af82abea1f29371f8d00fb6f",
+      "old_hash": "41a8c921af82abea1f29371f8d00fb6f",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "EMPTY_DISTINCT_802",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "f1fe4a619829c5f8472e8e9390300c0a",
+      "old_hash": "f1fe4a619829c5f8472e8e9390300c0a",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_802_UNKNOWN_TARGET_FIRST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "d71d9f7608a3c728b65c815a73a5ce42",
+      "old_hash": "d71d9f7608a3c728b65c815a73a5ce42",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_802_UNKNOWN_TARGET_LAST",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "e161685d04265b22282760ddd206785c",
+      "old_hash": "e161685d04265b22282760ddd206785c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_802_NULL_FG_FIRST",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "651f3cd9144b73a6d8b643c26dc26e22",
+      "old_hash": "651f3cd9144b73a6d8b643c26dc26e22",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_802_NULL_FG_LAST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "ffad1aaa92f3e1bb12f3cd2c9f6d93f7",
+      "old_hash": "ffad1aaa92f3e1bb12f3cd2c9f6d93f7",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "SUPPLY_802",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "1878c3bf1817c23ade9c1b6fc06a2b0a",
+      "old_hash": "1878c3bf1817c23ade9c1b6fc06a2b0a",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "EMPTY_DISTINCT_803",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "13d4bf78e3592dd819b80572686e5711",
+      "old_hash": "13d4bf78e3592dd819b80572686e5711",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_803_UNKNOWN_TARGET_FIRST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "a6288334672e2bb9512c224ceb685e99",
+      "old_hash": "a6288334672e2bb9512c224ceb685e99",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_803_UNKNOWN_TARGET_LAST",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "b901f7a9b6ec690cb534e972cd6adc55",
+      "old_hash": "b901f7a9b6ec690cb534e972cd6adc55",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_803_NULL_FG_FIRST",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "2e374a9d0dec3081456649e5abf85f36",
+      "old_hash": "2e374a9d0dec3081456649e5abf85f36",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_803_NULL_FG_LAST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "813c395098a57ae3daa077b3aea3bed0",
+      "old_hash": "813c395098a57ae3daa077b3aea3bed0",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "SUPPLY_803",
+      "mode": "auto",
+      "same": true,
+      "events": 4,
+      "new_hash": "86e055c5b26deb7b84064c478aa7052c",
+      "old_hash": "86e055c5b26deb7b84064c478aa7052c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "EMPTY_DISTINCT_804",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "fecc9d4ac4c71feb90e67b9872dd4c88",
+      "old_hash": "fecc9d4ac4c71feb90e67b9872dd4c88",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_804_UNKNOWN_TARGET_FIRST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "6c2c0a56c666fc15b5c73389833d5947",
+      "old_hash": "6c2c0a56c666fc15b5c73389833d5947",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_804_UNKNOWN_TARGET_LAST",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "a8f3a0d37ebaae85fb43607ebda78b37",
+      "old_hash": "a8f3a0d37ebaae85fb43607ebda78b37",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_804_NULL_FG_FIRST",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "d0308cf93022ef405091aa633324888b",
+      "old_hash": "d0308cf93022ef405091aa633324888b",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_804_NULL_FG_LAST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "988a13fde9434c5109cf5fac31f249b2",
+      "old_hash": "988a13fde9434c5109cf5fac31f249b2",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "SUPPLY_804",
+      "mode": "auto",
+      "same": true,
+      "events": 2,
+      "new_hash": "61e8f988cd06f8a68d77ed27cd32b9af",
+      "old_hash": "61e8f988cd06f8a68d77ed27cd32b9af",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "EMPTY_DISTINCT_805",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "f13b7a3f7c7961c5c9f9e50d6e6f8fc9",
+      "old_hash": "f13b7a3f7c7961c5c9f9e50d6e6f8fc9",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_805_UNKNOWN_TARGET_FIRST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "f4a06947f311cafe8ce5f229bb2c4ef4",
+      "old_hash": "f4a06947f311cafe8ce5f229bb2c4ef4",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_805_UNKNOWN_TARGET_LAST",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "be4ba4a7b4d9b58cf47a6b0ae7bb37f1",
+      "old_hash": "be4ba4a7b4d9b58cf47a6b0ae7bb37f1",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_805_NULL_FG_FIRST",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "45e9df81d69baa72e2e4e81cdc434788",
+      "old_hash": "45e9df81d69baa72e2e4e81cdc434788",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_805_NULL_FG_LAST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "54e883b7e38844521dfe388f48d53b2d",
+      "old_hash": "54e883b7e38844521dfe388f48d53b2d",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "SUPPLY_805",
+      "mode": "auto",
+      "same": true,
+      "events": 6,
+      "new_hash": "3b325b25f61e392c72fdf728b8ea8afd",
+      "old_hash": "3b325b25f61e392c72fdf728b8ea8afd",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "EMPTY_DISTINCT_806",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "d8900aa9687d6f5971460c33e3184fe2",
+      "old_hash": "d8900aa9687d6f5971460c33e3184fe2",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_806_UNKNOWN_TARGET_FIRST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "bf0c4b4025e5bc0b8a9616102db97e7a",
+      "old_hash": "bf0c4b4025e5bc0b8a9616102db97e7a",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_806_UNKNOWN_TARGET_LAST",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "af1d87067e29b22af9f1e68de1a0c342",
+      "old_hash": "af1d87067e29b22af9f1e68de1a0c342",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_806_NULL_FG_FIRST",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "29b3cc069cbe69b90c83214ad361de08",
+      "old_hash": "29b3cc069cbe69b90c83214ad361de08",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_806_NULL_FG_LAST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "5513dfffac0e32c8bc64cad12f912dac",
+      "old_hash": "5513dfffac0e32c8bc64cad12f912dac",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "SUPPLY_806",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "738bc51351fb85e66cb0f86158ecacce",
+      "old_hash": "738bc51351fb85e66cb0f86158ecacce",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "EMPTY_DISTINCT_807",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "32fa1de9c7bc23965b4b16d86cbbd26c",
+      "old_hash": "32fa1de9c7bc23965b4b16d86cbbd26c",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_807_UNKNOWN_TARGET_FIRST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "ca4ffb665aae30440c8f56b15a4c2de9",
+      "old_hash": "ca4ffb665aae30440c8f56b15a4c2de9",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_807_UNKNOWN_TARGET_LAST",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "3b16b0bb659c9d8d35d740c917e8fd34",
+      "old_hash": "3b16b0bb659c9d8d35d740c917e8fd34",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_807_NULL_FG_FIRST",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "172ef95481339358bb1ffdbe13eaa327",
+      "old_hash": "172ef95481339358bb1ffdbe13eaa327",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_807_NULL_FG_LAST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "92a10afd20dfed521fe972ef76f189e6",
+      "old_hash": "92a10afd20dfed521fe972ef76f189e6",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "SUPPLY_807",
+      "mode": "auto",
+      "same": true,
+      "events": 3,
+      "new_hash": "cf5dfef90d93d1ed745cc127f8d5e48b",
+      "old_hash": "cf5dfef90d93d1ed745cc127f8d5e48b",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "EMPTY_DISTINCT_808",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "980617595258b28cc4c1cc1607697f15",
+      "old_hash": "980617595258b28cc4c1cc1607697f15",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_808_UNKNOWN_TARGET_FIRST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "3b848c43dc1ed3ffcb2f534d8d43dc43",
+      "old_hash": "3b848c43dc1ed3ffcb2f534d8d43dc43",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_808_UNKNOWN_TARGET_LAST",
+      "mode": "auto",
+      "same": true,
+      "events": 0,
+      "new_hash": "c82cdffb38bcf2d319db2f78c3a47f50",
+      "old_hash": "c82cdffb38bcf2d319db2f78c3a47f50",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_808_NULL_FG_FIRST",
+      "mode": "force_generic_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "214ff9dd1f6266299258eb9f6c37c36d",
+      "old_hash": "214ff9dd1f6266299258eb9f6c37c36d",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "TWIN_808_NULL_FG_LAST",
+      "mode": "force_custom_plan",
+      "same": true,
+      "events": 0,
+      "new_hash": "4e3987d76bd3555fd355c76bce46613b",
+      "old_hash": "4e3987d76bd3555fd355c76bce46613b",
+      "new_error": "OK",
+      "old_error": "OK"
+    },
+    {
+      "id": "SUPPLY_808",
+      "mode": "auto",
+      "same": true,
+      "events": 5,
+      "new_hash": "d413619a63a2ebe546a14fd894cd14bb",
+      "old_hash": "d413619a63a2ebe546a14fd894cd14bb",
+      "new_error": "OK",
+      "old_error": "OK"
+    }
+  ],
+  "mutations": [
+    {
+      "name": "KEY_ONLY",
+      "caught": true,
+      "witness": {
+        "id": "TWIN_801_UNKNOWN_TARGET_FIRST",
+        "same": false,
+        "events": 0,
+        "new_hash": "5dae799391a2a3c3302de88ac8785da2",
+        "old_hash": "3f6693171f3673537670127febfce31b",
+        "new_error": "OK",
+        "old_error": "OK"
+      }
+    },
+    {
+      "name": "SUPPLY_IGNORED",
+      "caught": true,
+      "witness": {
+        "id": "SUPPLY_801",
+        "same": false,
+        "events": 7,
+        "new_hash": "3c3c8212e4273f7975ec5b7459f1c08e",
+        "old_hash": "41a8c921af82abea1f29371f8d00fb6f",
+        "new_error": "OK",
+        "old_error": "OK"
+      }
+    }
+  ],
+  "production_go": false,
+  "runtime": {
+    "flavor": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+    "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit"
+  },
+  "declared": 235,
+  "counts": {
+    "declared": 235,
+    "executed": 235,
+    "successes": 133,
+    "refusals": 102,
+    "distinct_refusals": 17,
+    "supply_events": 121,
+    "mutants_caught": 2
+  }
+}
