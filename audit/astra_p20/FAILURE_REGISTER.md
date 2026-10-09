@@ -11,3 +11,17 @@
 - Fix: rename our metadata field to `audit_case_id`; no assertion/oracle/product changes.
 - Preserve original run/artifacts11592801959(JSON),11593156018(raw), not overwritten.
 - Corrected run must retain all first outcomes; no claim that first attempt passed.
+
+## 37877343411, business attempt1
+
+- Same AUDITOR_HARNESS result-key collision as37877038138.
+- Independent full-flow case completed PASS; complete first verdict sha2567b6227b42193fbc6b752a6178d7096cff5facf356d64d01d668ebb07d17f4250 retained in evidence/projection-first-1.json.
+- Three remaining cases were never reached; continuation executes only those three after metadata fix.
+- Full composition restore boundary/public/functions true; package restore/security gates passed.
+
+## 37877802981 and37877803025, retained-row comparison
+
+- First hashes differ only in tables containing typed timestamptz (jobs/page_sets); immutable body/page hashes identical.
+- Suspected AUDITOR_COMPARATOR: to_jsonb timestamptz text depends on session TimeZone. No field is excluded.
+- Correct comparator setsUTC for serialization and restores callerTimeZone. Dedicated validation must prove time-zone invariance and preserve raw before/after differences.
+- Original COUNTEREXAMPLE outputs preserved in evidence/log-verdicts-113650280731.json and113650279827.json. Not attributed to product until adjudicated.

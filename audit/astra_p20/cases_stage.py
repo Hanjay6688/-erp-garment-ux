@@ -81,7 +81,12 @@ def digest_rows(cur,schema,table,col=None,val=None):
     admin(cur)
     q=sql.SQL('select to_jsonb(x)::text from {}.{} x').format(sql.Identifier(schema),sql.Identifier(table))
     if col:q+=sql.SQL(' where {}=%s').format(sql.Identifier(col))
-    texts=sorted(x[0] for x in cur.execute(q,(val,) if col else ()).fetchall())
+    # Canonicalize timestamptz rendering without dropping any field from the oracle.
+    # Runtime helpers can change the connection's TimeZone. Preserve it for the caller.
+    zone=cur.execute('show TimeZone').fetchone()[0]
+    cur.execute("select set_config('TimeZone','UTC',true)")
+    try:texts=sorted(x[0] for x in cur.execute(q,(val,) if col else ()).fetchall())
+    finally:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
     h=hashlib.sha256()
     for x in texts:
         b=x.encode('utf8');h.update(len(b).to_bytes(8,'big'));h.update(b)

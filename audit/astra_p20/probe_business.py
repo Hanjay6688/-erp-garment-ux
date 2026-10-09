@@ -15,7 +15,7 @@ OUT=PRODUCT/'cp6-proof/t3/ASTRA_P20_INDEPENDENT_BUSINESS.json'
 
 def run():
     report=dict(status='INCOMPLETE',product_sha='2e605bb7d9b6b7903919b8df2be1443f1740140b',production_go=False,
-       independent_acceptance=False,expected_cases=4,evidence_origin='INDEPENDENT_NATIVE_CASE',oracle_origin='ASTRA_CONTRACT',fixture_origin='WRITER_SETUP_UNCHANGED')
+       independent_acceptance=False,expected_cases=3,evidence_origin='INDEPENDENT_NATIVE_CASE',oracle_origin='ASTRA_CONTRACT',fixture_origin='WRITER_SETUP_UNCHANGED')
     installed=False
     for url in (package.boundary.ADMIN,package.boundary.PRIMARY_ADMIN):
         assert urlparse(url).hostname in ('127.0.0.1','localhost','::1'),'AUDIT_DISPOSABLE_LOOPBACK_ONLY'
@@ -26,7 +26,7 @@ def run():
             originals,install=composition.install(cur);conn.commit();installed=True
             report['install']=install;report['verify']=composition.verify(cur);conn.rollback()
         with exact_public_catalog(native,retain_raw=True) as catalog:
-            report['native']=native.strict_group('ASTRA_P20_BUSINESS_NATIVE',cases_stage.cases,composition.verify)
+            report['native']=native.strict_group('ASTRA_P20_BUSINESS_NATIVE',lambda cur,today:[row for row in cases_stage.cases(cur,today) if row[0]!='AS20-06_13_18_50_FULL_FLOW'],composition.verify)
         report['catalog_comparison']=catalog
     except Exception as e:report.update(error=str(e),traceback=traceback.format_exc())
     finally:
