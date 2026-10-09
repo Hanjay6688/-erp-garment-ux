@@ -1,0 +1,62 @@
+{
+  "status": "RUN_COMPLETE",
+  "label": "AUDITOR_SCENARIO",
+  "database": "cp6_auditor_race",
+  "copy_per_race": true,
+  "test_only_usage_grant": true,
+  "races": {
+    "SOL_COLD_START": {
+      "status": "FAIL",
+      "initial_runner_rows": 0,
+      "second_reached_real_output_insert": false,
+      "second_wait_event": "transactionid",
+      "ungranted_locks": [
+        [
+          "transactionid",
+          "ShareLock",
+          false
+        ]
+      ],
+      "first": {
+        "at": "2026-10-09T16:00:14.509948+00:00",
+        "ran": true,
+        "tick": "cp7-staged-runner",
+        "unit": 0,
+        "state": "RUNNING",
+        "job_id": "be89495c-2f6b-4d9e-8923-00caa3f21a0f",
+        "outcome": "UNIT_STORED",
+        "unit_count": 8,
+        "units_done": 1
+      },
+      "second": {
+        "at": "2026-10-09T16:00:14.529628+00:00",
+        "ran": true,
+        "tick": "cp7-staged-runner",
+        "unit": 0,
+        "state": "RUNNING",
+        "job_id": "33e99172-3d73-4c07-8247-0fd280eef597",
+        "outcome": "UNIT_STORED",
+        "unit_count": 8,
+        "units_done": 1
+      },
+      "units_done": [
+        1,
+        1
+      ],
+      "no_duplicate_outputs": true,
+      "product_step_unmodified": true,
+      "copy_runtime": null,
+      "session_leaks": []
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "planned_race_ids": [
+    "SOL_COLD_START"
+  ],
+  "database_remaining": 0,
+  "counts": {
+    "FAIL": 1
+  }
+}
