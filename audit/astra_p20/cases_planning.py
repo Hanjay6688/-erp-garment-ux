@@ -88,7 +88,7 @@ def races(tools,today):
             check(c>=2 and a>0 and b<=need_b and b<=c,'Independent capacity fixture constructible',capacity=c,need=[need_a,need_b],quantities=[a,b])
             orig=v1.analysis.capture(cur,today)
             q=dict(first['query'],run_id=orig['run_id']);o=v1.options(cur,q)
-            payload=copy.deepcopy(first['payload']);payload.pop('identity_hash');payload.update(run_id=orig['run_id'],source_hash=o['source_hash'])
+            payload=copy.deepcopy(first['payload']);payload.pop('identity_hash');payload.update(run_id=orig['run_id'],source_hash=o['source_hash'],reviewed_assumption_ids=[x['id'] for x in o['assumptions']])
             payload['cutting']['rolls'][0]['yields'][0]['qty_pcs']=str(a)
             d1=v1.save(cur,payload);d2=v2.save(cur,v2.with_pcs(second['payload'],b));conn.commit()
         left=tools.connect();results={};finished_before_commit=False

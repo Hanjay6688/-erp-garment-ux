@@ -25,3 +25,9 @@
 - Suspected AUDITOR_COMPARATOR: to_jsonb timestamptz text depends on session TimeZone. No field is excluded.
 - Correct comparator setsUTC for serialization and restores callerTimeZone. Dedicated validation must prove time-zone invariance and preserve raw before/after differences.
 - Original COUNTEREXAMPLE outputs preserved in evidence/log-verdicts-113650280731.json and113650279827.json. Not attributed to product until adjudicated.
+
+## 37878142700, AS20-32 first setup
+
+- `CP7_PLAN_ASSUMPTIONS_NOT_REVIEWED` at v1 SAVE before either racing action.
+- AUDITOR_FIXTURE: payload reused v2 assumption IDs while v1 capture has its own IDs. Positive guard rejection, not product failure.
+- Correct only reviewed_assumption_ids using the actually read v1 option list. Capacity inputs/oracle unchanged. Continue only the unreached race; preserve all five PASS cases.
