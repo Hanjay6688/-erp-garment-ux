@@ -48,8 +48,10 @@ async function journey(ui,today,mobile){
   const row=await findTarget(ui,region,f.target_key)
   await row.getByRole('button',{name:/^Rencanakan Potongan /}).click()
   const plan=page.getByRole('region',{name:'Rencana Potongan ERP',exact:true});await ui.expect(plan).toContainText('Rencana dari analisis bertahap: data per ')
+  // As in the plan v2 journey: load the options (warehouses), choose the fixture warehouse, load its options.
+  let r=await response(page,'erp_cp7_get_plan_options_v2',()=>plan.getByRole('button',{name:'Muat pilihan Potongan dari ERP',exact:true}).click());assert.equal(r.status(),200)
   await plan.getByLabel('Gudang bahan rencana',{exact:true}).selectOption(f.location_id)
-  const r=await response(page,'erp_cp7_get_plan_options_v2',()=>plan.getByRole('button',{name:'Muat pilihan Potongan dari ERP',exact:true}).click());assert.equal(r.status(),200)
+  r=await response(page,'erp_cp7_get_plan_options_v2',()=>plan.getByRole('button',{name:'Muat pilihan Potongan dari ERP',exact:true}).click());assert.equal(r.status(),200)
   const options=await r.json();assert.equal(options.contract_version,'cp7.plan-options-staged.v1');assert.equal(options.identity_hash,identity)
   assert.ok(options.rolls.some(x=>x.material_id===f.material_id),'K3C_FIXTURE_ROLL')
   shots.push(await shot(ui,page,`K3C_${suffix}_REOPENED_AFTER_CLEANUP.png`))
