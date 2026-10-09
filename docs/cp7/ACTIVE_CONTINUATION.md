@@ -1,3 +1,10 @@
+Kandidat audit gabungan — 9 Okt 2026 WIB: owner "kerjain dl aja nnti audit nya sekalian semua". Perbaikan temuan
+P20 F01–F05 (revisi `870d4f79`) ditambah K4 (analisis bertahap dijalankan server, tetap lanjut saat halaman ditutup;
+dibuat dan diuji, belum dipasang) dikunci pada sumber **8cc1b081** di `claude/new-session-deapao`: 15/15 workflow dan
+44/44 job hijau pada commit itu. Baca [audit-candidate/final-p20-k4-20261009](audit-candidate/final-p20-k4-20261009/README.md)
+dan `AUDITOR_START.md` di folder itu. Satu putaran audit: uji ulang F01–F05 + audit K4; area PR44 memerlukan auditor
+lain. Kandidat `870d4f79`, `2e605bb7`, `976f4c43` dan `9d57b7f5` tetap disimpan. `production_go:false`.
+
 Kandidat revisi P20 — 9 Okt 2026 WIB: audit independen P20 atas `2e605bb7` memberi putusan HOLD dengan lima temuan
 (F01 blocker kapasitas rencana v1/v2 61 dari 60; F02 nama jadwal pg_cron lintas database; F03 receipt backup tertimpa;
 F04 batas detektor; F05 gate bukti). Kelimanya diperbaiki dan dikunci pada sumber **870d4f79** di
