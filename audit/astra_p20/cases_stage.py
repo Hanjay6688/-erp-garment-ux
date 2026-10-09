@@ -103,7 +103,7 @@ def age(cur,r,delta):
 
 def wrap(case,op):
     def run():
-        base=dict(case=case,evidence_origin='INDEPENDENT_NATIVE_CASE',oracle_origin='ASTRA_CONTRACT',fixture_origin='WRITER_SETUP_UNCHANGED',production_go=False)
+        base=dict(audit_case_id=case,evidence_origin='INDEPENDENT_NATIVE_CASE',oracle_origin='ASTRA_CONTRACT',fixture_origin='WRITER_SETUP_UNCHANGED',production_go=False)
         try:base.update(status='PASS',observations=op())
         except ContractMismatch as e:base.update(status='COUNTEREXAMPLE',counterexample=str(e),traceback=traceback.format_exc())
         except Exception as e:base.update(status='INCOMPLETE',error=str(e),traceback=traceback.format_exc())
