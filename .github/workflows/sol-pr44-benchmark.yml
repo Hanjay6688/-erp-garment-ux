@@ -34,12 +34,7 @@ jobs:
           fi
           python -m pip install 'psycopg[binary]==3.2.10'
       - name: Independently declared cases and strict oracle
-        run: |
-          if [ '${{ matrix.probe }}' = pr44 ]; then
-            node audit/sol_p20_k4/pr44.mjs
-          else
-            python audit/sol_p20_k4/cold_runner.py
-          fi
+        run: node audit/sol_p20_k4/pr44_benchmark.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
