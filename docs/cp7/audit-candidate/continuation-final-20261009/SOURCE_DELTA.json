@@ -1,0 +1,278 @@
+{
+ "contract": "cp7.continuation-source-delta.v1",
+ "previous_candidate": "976f4c43096ba4ac34569a4bb9d27582cac40d3c",
+ "candidate": "2e605bb7d9b6b7903919b8df2be1443f1740140b",
+ "summary": {
+  "files": 26,
+  "added": 16,
+  "modified": 10,
+  "deleted": 0,
+  "non_docs": 16
+ },
+ "files": [
+  {
+   "status": "M",
+   "path": ".github/workflows/claude-p19-transport.yml",
+   "before": {
+    "bytes": 12386,
+    "sha256": "cf39693dd56e5a5d5fa2e7c74b7d0120a8c56cf2856504b72d21379028b4d076"
+   },
+   "after": {
+    "bytes": 12641,
+    "sha256": "8f6e293ab3a07f31863edf87de5e728c91e920a76bef7e9eceae6d37e403be7d"
+   }
+  },
+  {
+   "status": "A",
+   "path": ".github/workflows/cp7-nightly-backup.yml",
+   "before": null,
+   "after": {
+    "bytes": 2111,
+    "sha256": "e0ded89d694fee55cfa483e9e55e0f4b3d397234f9a712594bf04dc54fb101bc"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/ACTIVE_CONTINUATION.md",
+   "before": {
+    "bytes": 28843,
+    "sha256": "e58888a9338c1d026e2885c9b78756ed2ee4692a386a99901d9e1be603b3d6f9"
+   },
+   "after": {
+    "bytes": 29371,
+    "sha256": "a3032f51bae81e643ef4a25162ddb7a7b60e7f711322f5498bb1992b47b691d4"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/CONTINUATION_AFTER_FREEZE_20261008.md",
+   "before": {
+    "bytes": 7221,
+    "sha256": "1c0d9fde8e3d7f190c8aacc9b8545a160907350b6192ba3956d0e6b2bd39b687"
+   },
+   "after": {
+    "bytes": 8104,
+    "sha256": "2ff0244e8233e2b1d64c11cc88b3b65a86707558c1edd952648ed2bf870fc481"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/continuation-20261008/CI_RECEIPT.json",
+   "before": null,
+   "after": {
+    "bytes": 8222,
+    "sha256": "2a498034ad2b1f7f15947a5bb6108a9e4b5abfe2095801a26ae05a25422b2ab1"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/continuation-20261008/README.md",
+   "before": null,
+   "after": {
+    "bytes": 4764,
+    "sha256": "1d9009777e28e6b15e37143e9e6a6193f7b3e034321b3b17d593a3690558d9dc"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/continuation-20261008/SOURCE_DELTA.json",
+   "before": null,
+   "after": {
+    "bytes": 31815,
+    "sha256": "adab20ec44222c15d459ca35663514d79ee15f5cc777f3559f285c33be74919d"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/k3-cleanup-20261009/01_shell_gitignore_guard.log",
+   "before": null,
+   "after": {
+    "bytes": 1497,
+    "sha256": "a21b33179bd30a37c873a0d4dd4706ee03f76c6ba7ff371a0543b23966383376"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/k3-cleanup-20261009/02_k3_cleanup_17_first_run.log",
+   "before": null,
+   "after": {
+    "bytes": 23022,
+    "sha256": "aa8e0b1564b309561e7e395829588329f43a5e7f8f3bb1bb109c24747bf47086"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/k3-cleanup-20261009/03_k3_cleanup_17_second_run.log",
+   "before": null,
+   "after": {
+    "bytes": 5942,
+    "sha256": "3877fb03b21b6f9d15f7ca06f2fb2247deaae5e0fc4401bb576dc4f24c61c42b"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/report-v2-20261008/02_p19_report_v2_20_mobile_reply_race.log",
+   "before": null,
+   "after": {
+    "bytes": 15905,
+    "sha256": "4bf67e79342b1b2f065d5bbb56431d8aacf79c5fec0ff53fccf33c78578ee5d8"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/k3/K3_CLEANUP.json",
+   "before": null,
+   "after": {
+    "bytes": 3362,
+    "sha256": "9a9c83602410c75f8faafa2107c583e2dca604d7e461de0e12d5ef3c8a43791d"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7-src/ops/schedule.sql",
+   "before": null,
+   "after": {
+    "bytes": 2777,
+    "sha256": "32559a96d77f3e32c3ac1eed65bd1da0efb58b0b6489e5ef13358aa98104fc7d"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7-src/planning/analysis-stages.sql",
+   "before": {
+    "bytes": 194721,
+    "sha256": "e96a7da663e7200718da8e8c0088420c1120bac8e64ff3d9369cff25c4be3115"
+   },
+   "after": {
+    "bytes": 203659,
+    "sha256": "1095c290d40d7a2d940b1c47e8f05d4b8faffe8e114452951d28e845baaa7243"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_analysis_bundle.py",
+   "before": {
+    "bytes": 6813,
+    "sha256": "705e3408822126172f231c716571472a09c934ffc14ced5ee3aa19981c64eb1b"
+   },
+   "after": {
+    "bytes": 6832,
+    "sha256": "3b31ee8a881ebf8a251e41c4e4e738c72b11aea6ae495d773148817187b975c8"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_analysis_stages_bundle.py",
+   "before": {
+    "bytes": 8643,
+    "sha256": "e32803227e70eb5ee9ae5c041ca1d93ddf228c49158daeb7fe3280c8a5916c2d"
+   },
+   "after": {
+    "bytes": 11343,
+    "sha256": "2472e2a6e08426a66121ce7599c3d8624f49ff66bf570c79a497bdec0a7c66b7"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_f05_analysis_probe.py",
+   "before": {
+    "bytes": 40476,
+    "sha256": "a0a51ad82d3e25bee97a3cdce46d8a0a4e070a86e3ead5df201ed4a822c123da"
+   },
+   "after": {
+    "bytes": 42588,
+    "sha256": "bc270e594ea8c375892d483bb4f2b28ca25366fbf7475417be9b159af5c1371e"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7_k3_cleanup_browser.mjs",
+   "before": null,
+   "after": {
+    "bytes": 7552,
+    "sha256": "d99dc1c72493c02bba23037c861ab08ec0cd8b3f1195cdb2258045ebc6a37f33"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7_k3_cleanup_browser_fixture.py",
+   "before": null,
+   "after": {
+    "bytes": 2730,
+    "sha256": "992220acdeb9b8fb716636519fd47ffce5b9d39b6b753a63d1f9b24e9e2a6595"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7_k3_cleanup_cases.py",
+   "before": null,
+   "after": {
+    "bytes": 33885,
+    "sha256": "40f514df59b01836d99fee2b8a973c8f972f2fbe003273ba13cbeb34f0d6f261"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7_k3_cleanup_probe.py",
+   "before": null,
+   "after": {
+    "bytes": 381,
+    "sha256": "3ce8507ecada1b32ea430ed59c2fe749cae943aba1233a66532e038cb7d0eff6"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7_nightly_backup.py",
+   "before": null,
+   "after": {
+    "bytes": 10757,
+    "sha256": "b655a9fedb2106c4d24c34b42ba2f75f41fc4d97d2a8325963a45976c116d7fb"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_p19_report_v2_browser.mjs",
+   "before": {
+    "bytes": 7122,
+    "sha256": "0e1be045913f823115a9c9e33fbf0f61d383a21a2243efd89db84750f1857c83"
+   },
+   "after": {
+    "bytes": 7473,
+    "sha256": "9cdbf4813a25e3d51051fe6dde07d0d0a5e24c9695d0be28afa7a4eb4724ed90"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_p19_scale_browser.mjs",
+   "before": {
+    "bytes": 28795,
+    "sha256": "2eac6583f1238ed76c70287200f12cb44dfa7bec77d28d8dd1c2e46f73f6abab"
+   },
+   "after": {
+    "bytes": 29211,
+    "sha256": "9216930b0a9dd3f658b381a88d49d70d69fc95829e3d7f6ba8861be32da2d107"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_p19_scale_cases.py",
+   "before": {
+    "bytes": 78002,
+    "sha256": "6c393925755578090028643dc0c2cdbeba66a9ebc32c908d15b89d3f6a46b58a"
+   },
+   "after": {
+    "bytes": 79593,
+    "sha256": "273500aca4d7cc65f044223d3a4bcfb089bb6941c31a8f3a0c5652fd14e35dac"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7_schedule.py",
+   "before": null,
+   "after": {
+    "bytes": 4797,
+    "sha256": "99d10218337e15727f3e7a10e3a7387bc6eafd61f7763015e0a23c636fbc8753"
+   }
+  }
+ ]
+}

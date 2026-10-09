@@ -55,3 +55,25 @@ Kutipan owner apa adanya:
 
 Penerapan: kontrak `docs/cp7/p19/P19_STAGED_SNAPSHOT_V2.md`. Kandidat beku `9d57b7f5` (`cp7/integration`) tidak diubah;
 pekerjaan ini di cabang Claude sesudahnya.
+
+## Keputusan owner 9 Okt: hapus data kerja sementara sesudah analisis DONE; jadwal pembersihan dan backup malam
+
+Kutipan owner apa adanya:
+
+> Ya, setuju. Hapus data kerja yang benar-benar sementara setelah analisis DONE dan seluruh hasil final tersimpan serta terverifikasi.
+> Syaratnya:
+>
+> 1. Hasil final, halaman, hash, waktu analisis, dan asal data yang diperlukan tetap tersedia selama retensi 7 hari. Dokumen transaksi dan bukti audit tetap dilindungi.
+> 2. Pastikan Business Report, rencana, pengingat, AI, serta buka ulang hasil DONE tetap berfungsi setelah pembersihan. Data yang masih diperlukan fitur tersebut harus dipertahankan.
+> 3. Pembersihan harus aman diulang dan tidak menyentuh job yang belum selesai. Kalau pembersihan gagal, hasil analisis tetap tersedia dan pembersihannya bisa dicoba lagi.
+> 4. Dua uji lama boleh disesuaikan dengan perilaku baru, tetapi pemeriksaan angka, kelengkapan, hash, dan asal data harus tetap ketat. Tambahkan uji buka ulang hasil sesudah pembersihan.
+> 5. Ukur penyimpanan langsung pada 5.000 target sebelum dan sesudah pembersihan. Angka 125 MB dan penghematan 100 MB tetap ditulis sebagai perkiraan sampai terbukti.
+> 6. Lanjutkan pembuatan dan uji jadwal pembersihan serta backup malam yang sudah disepakati. Pemasangan sungguhan tetap menunggu audit dan izin pemasangan.
+>
+> Satukan perubahan yang diperlukan, jalankan kualifikasi pada satu versi final, lalu bekukan paket audit terbaru. Kandidat lama dan bukti kegagalan tetap disimpan. `production_go:false`.
+
+Penerapan: `docs/cp7/k3/K3_CLEANUP.json`, `scripts/cp7-src/planning/analysis-stages.sql` (bagian cleanup),
+`scripts/cp7-src/ops/schedule.sql`, `scripts/cp7_schedule.py`, `scripts/cp7_nightly_backup.py`, suite CI `k3-cleanup-17`.
+Pembersihan berjalan dari jadwal server (tiap 5 menit), tidak di dalam permintaan pengguna; karena itu tidak ada uji lama
+yang perlu diubah. Waktu dan jumlah simpan backup malam yang dipakai (01:00 WIB, 14 malam terverifikasi) adalah pilihan
+bawaan yang bisa diubah; tempat simpan backup di luar database ditentukan saat pemasangan.

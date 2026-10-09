@@ -1,3 +1,10 @@
+Kandidat audit lanjutan final — 9 Okt 2026 WIB: kandidat lanjutan `976f4c43` ditambah keputusan owner 9 Okt (hapus data
+kerja sementara sesudah analisis DONE, jadwal pembersihan, backup malam; dibuat dan diuji, belum dipasang) dikunci pada
+sumber **2e605bb7** di `claude/new-session-deapao`: 15/15 workflow kualifikasi hijau pada commit itu. Baca
+[audit-candidate/continuation-final-20261009](audit-candidate/continuation-final-20261009/README.md). Kandidat lama
+`976f4c43` dan kandidat beku `9d57b7f5` (`cp7/integration`) tetap disimpan dan tidak diubah. P20 independen, P21
+terpasang dan production GO tetap terbuka.
+
 Kandidat audit lanjutan — 8 Okt 2026 WIB: kelanjutan sesudah pembekuan (rencana produksi v2, Business Report v2,
 pengingat v2, Tanya AI v2, PL-5 B yield histori, retensi 7 hari, ukuran simpan) dikunci pada sumber **976f4c43**
 di `claude/new-session-deapao`: 15/15 workflow kualifikasi hijau pada commit itu. Baca
