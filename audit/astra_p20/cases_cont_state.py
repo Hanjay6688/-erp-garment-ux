@@ -13,8 +13,9 @@ def report_drive(cur,key,subject=None):
 
 def cases(cur,today):
     def revoke():
-        subject=h.actor(cur,'STAFF');admin(cur)
-        role=cur.execute("select id from erp.app_roles where role_code='STAFF'").fetchone()[0]
+        subject=h.actor(cur,'ADMIN');admin(cur)
+        role=cur.execute("select id from erp.app_roles where role_code='ADMIN' and is_active").fetchone()[0]
+        cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
         for permission in seed.auth.PERMS:
             cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s) on conflict do nothing',(role,permission))
         r=new_run(cur,today,subject=subject);pages=read_pages(cur,r);r['identity']=pages['identity']

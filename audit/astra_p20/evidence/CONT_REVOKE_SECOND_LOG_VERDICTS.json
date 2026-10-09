@@ -1,0 +1,47 @@
+{
+  "run_id": 37893519004,
+  "job_id": 113699539300,
+  "events": [
+    {
+      "group": "ASTRA_P20_CONT_REVOKE_NATIVE",
+      "case": "AS20C-01-CONSUMERS",
+      "audit_case_id": "AS20C-01-CONSUMERS",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "INCOMPLETE",
+      "error": "CP7_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_private.access_now() line 9 at RAISE\nPL/pgSQL function cp7_schedule_native.access_now(boolean) line 4 at assignment\nPL/pgSQL function cp7_analysis_stage.request(jsonb,uuid) line 5 at assignment\nSQL function \"erp_cp7_request_staged_analysis_v1\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 112, in run\n    try:base.update(status='PASS',observations=op())\n                                               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_cont_state.py\", line 20, in revoke\n    r=new_run(cur,today,subject=subject);pages=read_pages(cur,r);r['identity']=pages['identity']\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 47, in new_run\n    first=api(cur,'erp_cp7_request_staged_analysis_v1',json.dumps(q),key,subject=subject)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 32, in api\n    return seed.limited(cur,name,args,subject)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: CP7_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_private.access_now() line 9 at RAISE\nPL/pgSQL function cp7_schedule_native.access_now(boolean) line 4 at assignment\nPL/pgSQL function cp7_analysis_stage.request(jsonb,uuid) line 5 at assignment\nSQL function \"erp_cp7_request_staged_analysis_v1\" statement 1\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_REVOKE_NATIVE",
+      "planned": [
+        "AS20C-01-CONSUMERS"
+      ],
+      "final": {
+        "AS20C-01-CONSUMERS": "INCOMPLETE"
+      },
+      "missing": [],
+      "status": "INCOMPLETE"
+    },
+    {
+      "status": "INCOMPLETE",
+      "expected_cases": 1,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ]
+}
