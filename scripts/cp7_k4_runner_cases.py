@@ -387,7 +387,14 @@ def races(tools, today):
         try:
             with ThreadPoolExecutor(max_workers=2) as pool:
                 pending = [pool.submit(server_tick), pool.submit(server_tick)]
-                time.sleep(1.5)
+                # Both ticks are inside their units at the same time (each waits on the lock), neither waits for the other.
+                deadline, waiting = time.monotonic() + 20, 0
+                while time.monotonic() < deadline and waiting < 2:
+                    with tools.connect() as conn, conn.cursor() as cur:
+                        waiting = cur.execute("""select count(*) from pg_locks l where l.locktype='relation'
+                            and l.relation='cp7_analysis_stage.outputs'::regclass and not l.granted""").fetchone()[0]
+                    time.sleep(0.1)
+                assert waiting == 2, ('K4R_TICKS_NOT_CONCURRENT', waiting)
                 holder.rollback()
                 pair = [x.result(60) for x in pending]
         finally:
