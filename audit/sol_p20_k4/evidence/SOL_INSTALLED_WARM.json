@@ -1,0 +1,62 @@
+{
+  "status": "RUN_COMPLETE",
+  "label": "AUDITOR_SCENARIO",
+  "database": "cp6_auditor_race",
+  "copy_per_race": true,
+  "test_only_usage_grant": true,
+  "races": {
+    "SOL_WARM_START": {
+      "status": "PASS",
+      "initial_runner_rows": 0,
+      "second_reached_real_output_insert": true,
+      "second_wait_event": "relation",
+      "ungranted_locks": [
+        [
+          "relation",
+          "RowExclusiveLock",
+          false
+        ]
+      ],
+      "first": {
+        "at": "2026-10-09T16:00:29.185151+00:00",
+        "ran": true,
+        "tick": "cp7-staged-runner",
+        "unit": 0,
+        "state": "RUNNING",
+        "job_id": "d4d8d6a4-d835-4ee2-88cc-1f78155227aa",
+        "outcome": "UNIT_STORED",
+        "unit_count": 8,
+        "units_done": 1
+      },
+      "second": {
+        "at": "2026-10-09T16:00:29.185716+00:00",
+        "ran": true,
+        "tick": "cp7-staged-runner",
+        "unit": 0,
+        "state": "RUNNING",
+        "job_id": "ecadef28-fd73-4f24-b1dd-2b634f4b0fbb",
+        "outcome": "UNIT_STORED",
+        "unit_count": 8,
+        "units_done": 1
+      },
+      "units_done": [
+        1,
+        1
+      ],
+      "no_duplicate_outputs": true,
+      "product_step_unmodified": true,
+      "copy_runtime": null,
+      "session_leaks": []
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "planned_race_ids": [
+    "SOL_WARM_START"
+  ],
+  "database_remaining": 0,
+  "counts": {
+    "PASS": 1
+  }
+}
