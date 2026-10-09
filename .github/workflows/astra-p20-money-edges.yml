@@ -1,0 +1,209 @@
+name: Astra P20 independent corrections credit and WIB dates
+'on':
+  push:
+    branches:
+    - audit/astra-p20-2e605bb7-20261009
+    paths:
+    - .github/workflows/astra-p20-money-edges.yml
+    - audit/astra_p20/MONEY_EDGES_START
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: astra-p20-money-edges-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  phase:
+    name: ${{ matrix.suite }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ matrix.timeout }}
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        include:
+        - suite: independent-money-edges
+          timeout: 180
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AR_CONFIRM: cp6_rollback
+      CP6_AU_BROWSER_CONFIRM: cp6_rollback
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: writer
+        fetch-depth: 0
+        ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        fetch-depth: 0
+        persist-credentials: false
+        ref: 2e605bb7d9b6b7903919b8df2be1443f1740140b
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: control
+        fetch-depth: 1
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: harness
+        fetch-depth: 0
+        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Prove pinned product and record evidence origins
+      working-directory: auditor
+      shell: bash
+      run: 'set -euo pipefail
+
+        test "$(git rev-parse HEAD)" = 2e605bb7d9b6b7903919b8df2be1443f1740140b
+
+        test "$(git rev-parse HEAD^{tree})" = 51935efb12c035496848e2a85590aa18a3ed3d76
+
+        git diff --exit-code HEAD --
+
+        mkdir -p cp6-proof/t3
+
+        cp ../control/audit/astra_p20/SOURCE_RECEIPT.json cp6-proof/t3/ASTRA_SOURCE_RECEIPT.json
+
+        python - <<''PYIN''
+
+        import json,os,subprocess,pathlib
+
+        p=pathlib.Path(''cp6-proof/t3/ASTRA_EXECUTION_ORIGIN.json'')
+
+        p.write_text(json.dumps(dict(evidence_origin=''INDEPENDENT_NATIVE_CASE'',oracle_origin=''ASTRA_CONTRACT'',fixture_origin=''WRITER_SETUP_UNCHANGED'',product_sha=subprocess.check_output([''git'',''rev-parse'',''HEAD''],text=True).strip(),audit_workflow_sha=os.environ[''GITHUB_SHA''],run_id=os.environ[''GITHUB_RUN_ID''],production_go=False),indent=2)+''\n'')
+
+        PYIN'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\n\
+        sudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
+        sudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\
+        \ \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons\
+        \ \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print\
+        \ $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\n\
+        architecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null\
+        \ <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\n\
+        Architectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n\
+        EOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\n\
+        echo '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+    - name: Install candidate browser dependencies
+      working-directory: auditor
+      run: 'npm ci
+
+        npx playwright install --with-deps chromium
+
+        '
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
+      working-directory: writer
+      run: 'set -euo pipefail
+
+        PYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"
+
+        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
+
+        '
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"\
+        $(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\
+        \nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\n\
+        supabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\n\
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can\
+        \ rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to\
+        \ the same image tags on public.ecr.aws.\nfor attempt in 1 2 3 4; do\n  if [ \"$attempt\" -ge 2 ]; then\
+        \ export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\
+        \n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\"\
+        \ 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\
+        \n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local\
+        \ --no-backup || true\n  if [ \"$attempt\" = 4 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+    - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
+        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\"\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python\
+        \ ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab\
+        \ || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\n\
+        print(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment'])\
+        \ for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+    - name: Provision isolated rollback authority
+      working-directory: writer
+      shell: bash
+      run: "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\
+        \necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"\
+        $CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"\
+        $maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb\
+        \ nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\\
+        n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+    - name: Clone the aligned AB state for install
+      working-directory: writer
+      run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh\
+        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1'\
+        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local\
+        \ '../auditor/cp6-proof/t3/CLONE_install'\n"
+    - name: Run independently designed contract probes
+      working-directory: writer
+      run: python ../control/audit/astra_p20/probe_money_edges.py
+    - name: Assert candidate stayed byte-identical
+      if: always()
+      working-directory: auditor
+      run: git diff --exit-code HEAD --
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: supabase stop --workdir cp5-local --no-backup
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: astra-p20-${{ matrix.suite }}-raw
+        path: auditor/cp6-proof/t3
+        retention-days: 30
+        if-no-files-found: error
+    - name: Retain every complete Original JSON independently of the full archive
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: astra-p20-${{ matrix.suite }}-json
+        path: auditor/cp6-proof/t3/*.json
+        retention-days: 30
+        if-no-files-found: error
