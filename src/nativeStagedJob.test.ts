@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import {expect,it} from 'vitest'
-import {parseStagedJob,driveStagedJob,readStagedRequest,persistStagedRequest,clearStagedRequest,stagedRequestKey,stagedProgressText,stagedPausedText,stagedFailureText,stagedCapRefusal,stagedRetentionText,STAGED_WORKER_BACKOFF_MS,type StagedJob,type StagedReply} from './nativeStagedJob'
+import {parseStagedJob,driveStagedJob,readStagedRequest,persistStagedRequest,clearStagedRequest,stagedRequestKey,stagedProgressText,stagedPausedText,stagedPauseLabel,stagedFailureText,stagedCapRefusal,stagedRetentionText,STAGED_SERVER_TEXT,STAGED_WORKER_BACKOFF_MS,type StagedJob,type StagedReply} from './nativeStagedJob'
 import {stagedJobFixture,type StagedJobState} from '../tests/fixtures/nativeAnalysisPages'
 import fixture from '../tests/fixtures/nativeAnalysisStandin.json'
 const id='00000000-0000-4000-8000-000000000095',other='33333333-3333-4333-8333-333333333333'
@@ -53,6 +53,22 @@ it('states progress, pause and failure from the server status, with the failure 
  expect(stagedFailureText({unit:3,sqlstate:'P0001',code:'CP7_SOMETHING_NEW'})).toContain('CP7_SOMETHING_NEW');expect(stagedFailureText({unit:3,sqlstate:'P0001',code:'CP7_ANALYSIS_STAGE_STOPPED'})).toContain('batas waktu server')
  expect(stagedCapRefusal({code:'P0001',message:'CP7_NETTING_MATCH_SOURCE_LIMIT'})).toBe(true);expect(stagedCapRefusal({code:'CP7_NETTING_WORK_LIMIT'})).toBe(true);expect(stagedCapRefusal({sqlstate:'P0001',code:'CP7_PLANNING_CAPTURE_INCOMPLETE'})).toBe(true)
  expect(stagedCapRefusal({message:'CP7_ANALYSIS_ACCESS_CHANGED'})).toBe(false);expect(stagedCapRefusal(null)).toBe(false);expect(stagedCapRefusal(Error('fetch failed'))).toBe(false)
+})
+
+it('K4: reads the server runner strictly and, only while it is active, says the page may be closed and the job goes on',()=>{
+ const tick='2026-10-07T09:05:10.000000+00:00'
+ expect(parseStagedJob(stagedJobFixture(id,'RUNNING'),id).serverRunner).toBeNull()
+ const on=parseStagedJob(stagedJobFixture(id,'RUNNING',{server_runner:{active:true,last_tick_at:tick}}),id)
+ expect(on.serverRunner).toEqual({active:true,lastTickAt:tick})
+ const off=parseStagedJob(stagedJobFixture(id,'RUNNING',{server_runner:{active:false,last_tick_at:null}}),id)
+ expect(off.serverRunner).toEqual({active:false,lastTickAt:null})
+ expect(parseStagedJob(stagedJobFixture(id,'DONE',{server_runner:{active:false,last_tick_at:tick}}),id).serverRunner).toEqual({active:false,lastTickAt:tick})
+ for(const bad of [{active:true,last_tick_at:null},{active:'yes',last_tick_at:tick},{active:true},{active:true,last_tick_at:tick,jobs:1},{active:false,last_tick_at:'kemarin'},null,[]])
+  expect(()=>parseStagedJob(stagedJobFixture(id,'RUNNING',{server_runner:bad}),id),JSON.stringify(bad)).toThrow()
+ expect(stagedProgressText(on).endsWith(STAGED_SERVER_TEXT)).toBe(true);expect(stagedProgressText(off)).not.toContain('Server juga')
+ expect(stagedPausedText(on)).toContain('server tetap menjalankan analisis bertahap ini sampai selesai');expect(stagedPausedText(on)).not.toContain('dijeda')
+ expect(stagedPausedText(off).startsWith('Analisis bertahap dijeda sejak jam 16.05.30 WIB')).toBe(true)
+ expect(stagedPauseLabel(on)).toBe('Berhenti memantau (server tetap menghitung)');expect(stagedPauseLabel(off)).toBe('Jeda analisis bertahap');expect(stagedPauseLabel(null)).toBe('Jeda analisis bertahap')
 })
 
 // A scripted server: each RPC answers from its queue, in order, and refuses

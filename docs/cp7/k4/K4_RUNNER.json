@@ -1,0 +1,70 @@
+{
+  "contract": "cp7.k4.server-runner.v1",
+  "expected_case_count": 16,
+  "required_case_counts": {
+    "native": 7,
+    "races": 5,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "K4R_SERVER_FINISHES_WITHOUT_PAGE",
+      "K4R_PAGE_AND_SERVER_ONE_JOB",
+      "K4R_ACCESS_RECHECKED_EACH_UNIT",
+      "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS",
+      "K4R_LIMIT_REQUIRED",
+      "K4R_SCHEDULE_DEFINED_PRIVATE",
+      "K4R_STATUS_REPORTS_RUNNER"
+    ],
+    "races": [
+      "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
+      "K4R_RACE_TWO_TICKS_ONE_UNIT",
+      "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
+      "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
+      "K4R_RACE_PG_CRON_FINISHES_JOB"
+    ],
+    "http": [
+      "K4R_HTTP_CLOSED_PAGE_FINISHES",
+      "K4R_HTTP_TICK_NOT_REACHABLE"
+    ],
+    "browser": [
+      "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+      "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_read_staged_analysis_pages_v1",
+    "erp_cp7_read_staged_analysis_page_v1"
+  ],
+  "runner_schedule": {
+    "name": "cp7-staged-runner",
+    "schedule": "* * * * *",
+    "command": "set statement_timeout to '8s'; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit;",
+    "timezone": "UTC",
+    "meaning": "every minute: up to 60 units, each in its own transaction under the 8 s limit"
+  },
+  "owner_decision": "8 Oct 2026 (6, Penjalan): arah akhirnya berjalan di server, supaya tetap lanjut saat halaman ditutup. Membuka ulang harus melanjutkan job yang sama, bukan menghitung ulang atau menggandakan pekerjaan. 9 Oct 2026: K4 dikerjakan sekarang; audit nanti sekalian semua.",
+  "runner": {
+    "entry": "pg_cron every minute: set statement_timeout to '8s'; then 60 x (begin; select cp7_ops.analysis_tick(); commit;) -> cp7_analysis_stage.run_next()",
+    "unit": "run_next takes the RUNNING job with the oldest progress that no other session holds (FOR UPDATE SKIP LOCKED) and runs ONE unit through cp7_analysis_stage.step(), the function a page's step request uses",
+    "statement_limit": "refused (55000 CP7_RUNNER_STATEMENT_LIMIT_REQUIRED) unless the session's statement_timeout is set and at most 8000 ms; PostgreSQL applies the command's 8 s to each statement; pg_cron's background-worker mode refuses the command's transaction statements, so no tick runs there; a unit stopped by the limit is an attempt, three in a row fail the job (CP7_ANALYSIS_STAGE_STOPPED), as for a page",
+    "access": "for every unit the job's stored actor is the transaction's request identity (sub, role authenticated) and cp7_schedule_native.access_now(false) is read before and after the unit; access different from the access at capture or denied fails the job (CP7_ANALYSIS_ACCESS_CHANGED); access changed during the unit discards the unit; the previous request identity is put back after the unit",
+    "no_double_work": "one job row lock per unit (a page step meanwhile answers worker_active and runs nothing), outputs primary key (job, unit); reopening with the same request UUID returns the same job and run",
+    "status": "job status carries server_runner {active: a tick in the last 2 minutes, last_tick_at}; the page then says the page may be closed and a stopped page does not pause the job",
+    "private": "cp7_ops.analysis_tick() SECURITY DEFINER as cp7_capture, EXECUTE for postgres only; run_next private; table cp7_analysis_stage.runner (one row, updated at most every 10 s, never deleted); no public RPC"
+  },
+  "not_runner_driven": [
+    "Business Report v2 jobs, reminder condition sets and the single background analysis job stay driven by their page (they are short)"
+  ],
+  "installed": false,
+  "production_go": false,
+  "synthetic_steps": [
+    "a denied actor's job made the oldest (updated_at)",
+    "the runner row removed and its last tick moved 3 minutes back inside a rolled-back case",
+    "TEST_SCHEDULE_OVERRIDE every 5 seconds on the disposable race and browser copies"
+  ]
+}

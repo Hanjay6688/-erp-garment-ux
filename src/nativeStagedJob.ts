@@ -2,10 +2,13 @@ import type {NativeDemandQuery} from './nativeDemandHistory'
 import {analysisWibClock,analysisWibDate} from './nativeAnalysisTransport'
 import {parseStagedReference,stagedInstant,stagedNumber,ANALYSIS_STAGED_TARGETS,type StagedReference} from './nativeAnalysisPages'
 
-// P19 staged job (schema cp7_analysis_stage; P19 plan §10). The job is
-// CLIENT-DRIVEN: the page requests it once (a fresh UUID kept per actor and
-// query so a reload resumes the same job), then calls step while the server
-// says RUNNING, one unit per call under the unchanged 8 s limit. Progress is
+// P19 staged job (schema cp7_analysis_stage; P19 plan §10). The page requests
+// it once (a fresh UUID kept per actor and query so a reload resumes the same
+// job), then calls step while the server says RUNNING, one unit per call under
+// the unchanged 8 s limit. K4: where the server runner is installed it also
+// runs the units (the same step, one at a time), so the job goes on while the
+// page is closed; the status says so (server_runner) and the page says the
+// page may be closed. Progress is
 // what the server reports from its rows, never a client estimate. A step the
 // server skipped because another session holds the job (worker_active) is
 // followed by a short wait and a status read instead of another step. The
@@ -16,7 +19,9 @@ export type StagedJobFailure={unit:number;sqlstate:string;code:string}
 // Owner decision 8 Oct 2026: a finished analysis is kept 7 days after it
 // finished, then expired: the server refuses its pages and every use of it.
 export type StagedRetention={days:7;keptUntil:string|null;state:'NOT_FINISHED'|'KEPT'|'EXPIRED'}
-export type StagedJob={retention:StagedRetention|null;requestId:string;state:StagedJobState;stage:string|null;stageIndex:number;stageCount:number;unitsDone:number;unitCount:number;planFinal:boolean
+// K4: whether the server runner ticked in the last 2 minutes, and when.
+export type StagedServerRunner={active:boolean;lastTickAt:string|null}
+export type StagedJob={retention:StagedRetention|null;serverRunner:StagedServerRunner|null;requestId:string;state:StagedJobState;stage:string|null;stageIndex:number;stageCount:number;unitsDone:number;unitCount:number;planFinal:boolean
  targetsTotal:number|null;targetsDoneInStage:number;reference:StagedReference;lastProgressAt:string;unitAttempts:number;runId:string|null;failure:StagedJobFailure|null;workerActive:boolean}
 export type StagedRequest={id:string;q:NativeDemandQuery}
 
@@ -27,7 +32,7 @@ const count=(v:unknown,min:number,max:number)=>typeof v==='number'&&Number.isSaf
 const REQUIRED=['contract_version','request_id','state','stage','stage_index','stage_count','units_done','unit_count','plan_final','targets_total','targets_done_in_stage','reference','last_progress_at','unit_attempts','apply_enabled','production_go']
 // run_id comes only with DONE, failure only with FAILED and worker_active
 // only on a skipped step; a field that does not apply is absent or null.
-const OPTIONAL=['run_id','failure','worker_active','retention']
+const OPTIONAL=['run_id','failure','worker_active','retention','server_runner']
 
 export function parseStagedJob(v:unknown,requestId:string):StagedJob{
  const e=object(v),keys=Object.keys(e)
@@ -52,7 +57,8 @@ export function parseStagedJob(v:unknown,requestId:string):StagedJob{
  if(state==='DONE'&&(unitsDone!==unitCount||e.plan_final!==true||targetsTotal===null))fail()
  const workerActive=e.worker_active===undefined?false:typeof e.worker_active==='boolean'?e.worker_active:fail()
  const retention=e.retention===undefined?null:parseRetention(e.retention,state)
- return{retention,requestId,state,stage,stageIndex,stageCount,unitsDone,unitCount,planFinal:e.plan_final,targetsTotal,targetsDoneInStage,reference,lastProgressAt,unitAttempts,runId,failure,workerActive}
+ const serverRunner=e.server_runner===undefined?null:parseServerRunner(e.server_runner)
+ return{retention,serverRunner,requestId,state,stage,stageIndex,stageCount,unitsDone,unitCount,planFinal:e.plan_final,targetsTotal,targetsDoneInStage,reference,lastProgressAt,unitAttempts,runId,failure,workerActive}
 }
 
 // The staged request is kept apart from the single job's request
@@ -107,7 +113,13 @@ export const stagedProgressText=(j:StagedJob)=>`Analisis bertahap: tahap ${j.sta
  +(j.targetsTotal===null?'':` · target ${stagedNumber(j.targetsDoneInStage)} dari ${stagedNumber(j.targetsTotal)} pada tahap ini`)
  +(j.unitAttempts>0?` · percobaan ulang ${j.unitAttempts}`:'')+(j.workerActive?' · sesi lain sedang menjalankan unit':'')
  +` · dimulai jam ${analysisWibClock(j.reference.capturedAt)} WIB (${analysisWibDate(j.reference.capturedAt)}).`
-export const stagedPausedText=(j:StagedJob)=>`Analisis bertahap dijeda sejak jam ${analysisWibClock(j.lastProgressAt)} WIB (${analysisWibDate(j.lastProgressAt)}). Lanjutkan untuk meneruskan unit berikutnya; tidak ada hasil yang disimpan sebelum selesai.`
+ +(j.serverRunner?.active?' '+STAGED_SERVER_TEXT:'')
+export const STAGED_SERVER_TEXT='Server juga menjalankan analisis ini, jadi halaman boleh ditutup; hasilnya tampil saat bagian ini dibuka lagi.'
+// While the server runner is active a stopped page does not pause the job.
+export const stagedPausedText=(j:StagedJob)=>j.serverRunner?.active
+ ?`Halaman berhenti memantau sejak jam ${analysisWibClock(j.lastProgressAt)} WIB (${analysisWibDate(j.lastProgressAt)}), tetapi server tetap menjalankan analisis bertahap ini sampai selesai. Buka lagi bagian ini atau tekan Lanjutkan untuk melihat kemajuan dan hasilnya.`
+ :`Analisis bertahap dijeda sejak jam ${analysisWibClock(j.lastProgressAt)} WIB (${analysisWibDate(j.lastProgressAt)}). Lanjutkan untuk meneruskan unit berikutnya; tidak ada hasil yang disimpan sebelum selesai.`
+export const stagedPauseLabel=(j:StagedJob|null)=>j?.serverRunner?.active?'Berhenti memantau (server tetap menghitung)':'Jeda analisis bertahap'
 // Refusals of the single path that come from its target count being above
 // its bounds (history source 1000 products; netting match/work limits seen
 // at 5,000 on CI; grid/scope/allocation bounds): the staged path is offered.
@@ -137,6 +149,11 @@ export async function driveStagedJob(o:StagedDriveOptions):Promise<StagedJob|nul
   status=read(reply)
  }
  return status
+}
+function parseServerRunner(v:unknown):StagedServerRunner{
+ const r=object(v);if(Object.keys(r).sort().join('|')!=='active|last_tick_at'||typeof r.active!=='boolean')fail()
+ const lastTickAt=r.last_tick_at===null?null:stagedInstant(r.last_tick_at);if(r.active&&lastTickAt===null)fail()
+ return{active:r.active,lastTickAt}
 }
 function parseRetention(v:unknown,state:StagedJobState):StagedRetention{
  const r=object(v);if(Object.keys(r).sort().join('|')!=='days|kept_until|state'||r.days!==7)fail()

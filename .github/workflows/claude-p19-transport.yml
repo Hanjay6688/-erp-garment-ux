@@ -64,6 +64,8 @@ name: CP7 P19 Analysis Job Transport
     - scripts/cp7_nightly_backup.py
     - scripts/cp7-src/ops/**
     - docs/cp7/k3/K3_CLEANUP.json
+    - scripts/cp7_k4_runner_*
+    - docs/cp7/k4/K4_RUNNER.json
     - .github/workflows/claude-p19-transport.yml
   workflow_dispatch: {}
 permissions:
@@ -111,6 +113,9 @@ jobs:
           timeout: 150
         - suite: k3-cleanup-19
           probe: cp7_k3_cleanup_probe.py
+          timeout: 180
+        - suite: k4-runner-16
+          probe: cp7_k4_runner_probe.py
           timeout: 180
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

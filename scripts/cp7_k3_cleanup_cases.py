@@ -55,10 +55,14 @@ FUNCTIONS = ('erp_cp7_get_staged_analysis_v1', 'erp_cp7_read_staged_analysis_pag
              'erp_cp7_check_staged_analysis_source_v1', 'erp_cp7_staged_snapshot_freshness_v1', 'erp_cp7_check_staged_snapshot_v1')
 TEMPORARY = {'outputs': 'output', 'target_rows': 'payload', 'pair_rows': 'pair_row', 'pair_lists': 'results', 'fragments': 'body'}
 SCHEDULES = [dict(name='cp7-staged-cleanup', schedule='*/5 * * * *', command='select cp7_ops.cleanup_tick()', timezone='UTC', meaning='every 5 minutes'),
-             dict(name='cp7-staged-retention', schedule='30 19 * * *', command='select cp7_ops.retention_tick()', timezone='UTC', meaning='02:30 WIB daily')]
+             dict(name='cp7-staged-retention', schedule='30 19 * * *', command='select cp7_ops.retention_tick()', timezone='UTC', meaning='02:30 WIB daily'),
+             # K4 (owner decision 8 Oct 2026, 6): the server runner joins the same schedule (its own suite: k4-runner).
+             dict(name='cp7-staged-runner', schedule='* * * * *',
+                  command="set statement_timeout to '8s'; " + ' '.join(['begin; select cp7_ops.analysis_tick(); commit;'] * 60),
+                  timezone='UTC', meaning='every minute: up to 60 units, each in its own transaction under the 8 s limit')]
 PRIVATE = ('cp7_analysis_stage.clean_done(uuid)', 'cp7_analysis_stage.clean_pending(integer)', 'cp7_analysis_stage.verify_final(uuid)',
            'cp7_analysis_stage.cleanup_due(uuid,text,timestamp with time zone)')
-TICKS = ('cp7_ops.cleanup_tick()', 'cp7_ops.retention_tick()', 'cp7_ops.schedules()')
+TICKS = ('cp7_ops.cleanup_tick()', 'cp7_ops.retention_tick()', 'cp7_ops.schedules()', 'cp7_ops.analysis_tick()')
 auth, b = staged.auth, staged.b
 refused, refusal = planv2.refused, planv2.refusal
 

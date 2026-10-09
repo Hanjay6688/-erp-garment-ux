@@ -77,3 +77,15 @@ Penerapan: `docs/cp7/k3/K3_CLEANUP.json`, `scripts/cp7-src/planning/analysis-sta
 Pembersihan berjalan dari jadwal server (tiap 5 menit), tidak di dalam permintaan pengguna; karena itu tidak ada uji lama
 yang perlu diubah. Waktu dan jumlah simpan backup malam yang dipakai (01:00 WIB, 14 malam terverifikasi) adalah pilihan
 bawaan yang bisa diubah; tempat simpan backup di luar database ditentukan saat pemasangan.
+
+## Keputusan owner 9 Okt: K4 dikerjakan sekarang, audit nanti sekalian
+
+Pertanyaan writer: "Saya perlu Bos memutuskan: bagian itu [K4, penjalan server] dikerjakan sekarang sambil menunggu
+audit, atau sesudah pemasangan?" Jawaban owner apa adanya:
+
+> kerjain dl aja nnti audit nya sekalian semua
+
+Penerapan: K4 (keputusan 8 Okt butir 6, "arah akhirnya berjalan di server, supaya tetap lanjut saat halaman ditutup")
+dikerjakan sekarang di cabang Claude, di atas kandidat revisi P20 `870d4f79`. Uji ulang F01–F05 dan audit K4 dijadikan
+satu putaran audit. Deklarasi: `k4/K4_RUNNER.json`. Penjalan dibuat dan diuji (pg_cron sungguhan di salinan uji),
+**belum dipasang**: pemasangan tetap menunggu audit dan izin owner. `production_go:false`.

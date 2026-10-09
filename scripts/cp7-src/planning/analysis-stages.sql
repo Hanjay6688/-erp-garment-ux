@@ -6,7 +6,8 @@
 -- and refuses it as an unknown run (fail closed by construction).
 -- A job captures ONE reference (the operational source at the job's bounds,
 -- finance DEFERRED) and computes the same compiler in units, each an ordinary
--- authenticated request under the unchanged 8 s statement limit:
+-- authenticated request under the unchanged 8 s statement limit (K4: or one
+-- server runner tick under the same limit, run_next below):
 --   HIST_PREP -> HIST_EVENTS*k -> HIST_VALIDATE -> HIST_ROWS*k -> HIST_STOCK*k
 --   -> BASE_ROWS*k -> SUPPLY -> SCENARIO -> NET_PREP -> NET_TARGETS*k
 --   -> NET_PAIRS*k -> NET_PLAN -> [ALLOC_PREP -> ALLOC_STEP*k -> ALLOC_FINAL]
@@ -1333,6 +1334,14 @@ create table cp7_analysis_stage.page_sets(run_id uuid primary key references cp7
 -- analysis-stage-snapshot.sql): which transactions the reference saw. Null
 -- when the capturing transaction had already written before the capture.
 create table cp7_analysis_stage.capture_marks(job_id uuid primary key references cp7_analysis_stage.jobs(id),source_snapshot pg_snapshot);
+-- K4: the server runner's last tick (one row; run_next writes it at most every
+-- 10 s, only from a session where the 8 s statement limit is in force). The
+-- job status reports the runner active while a tick was seen in the last 2
+-- minutes; it is the only mutable row here besides a job's progress columns.
+create table cp7_analysis_stage.runner(id boolean primary key check(id),last_tick_at timestamptz not null,
+ statement_timeout_ms integer not null check(statement_timeout_ms between 1 and 8000));
+-- The runner picks the running job with the oldest progress.
+create index cp7_analysis_stage_running on cp7_analysis_stage.jobs(updated_at,id)where state='RUNNING';
 -- What planning one target needs from the snapshot (contract v2 §2), written
 -- by ANA_TARGETS (per target, in loop order) and ANA_META (the run's scope and
 -- its cutting groups), kept when the intermediates are purged. Values exactly
@@ -1346,7 +1355,7 @@ create table cp7_analysis_stage.plan_groups(job_id uuid not null references cp7_
  scope text not null check(scope in('OPEN','EXHAUSTED')),unproven boolean not null,primary key(job_id,group_id));
 do $$declare t text;begin
  foreach t in array array['jobs','units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks',
-  'plan_targets','plan_scope','plan_groups']loop
+  'plan_targets','plan_scope','plan_groups','runner']loop
   execute format('alter table cp7_analysis_stage.%I owner to cp7_capture',t);
   execute format('alter table cp7_analysis_stage.%I enable row level security',t);
   execute format('create policy cp7_analysis_stage_no_access on cp7_analysis_stage.%I for all to public using(false)with check(false)',t);
@@ -1362,6 +1371,8 @@ end $$;
 -- one of them is refused), and a job row is never deleted.
 create trigger immutable_stage_jobs before update of id,actor,request_id,query,reference,access_at_capture,captured_at,source_hash,run_id,created_at or delete
  on cp7_analysis_stage.jobs for each row execute function cp7_private.immutable_run();
+-- The runner row is updated in place and never deleted.
+create trigger immutable_stage_runner before delete on cp7_analysis_stage.runner for each row execute function cp7_private.immutable_run();
 
 -- Declared bounds, once. Per unit: targets per chunk, pairs per chunk,
 -- position-target visits and targets per allocation step, history cells,
@@ -1413,6 +1424,8 @@ end $$;
 -- current per-target stage, the reference, the last progress time, the
 -- statement-limit stops of the current unit, run_id only when DONE, the
 -- failure only when FAILED. A partial job never exposes a result.
+-- server_runner (K4): whether the server runner ticked in the last 2 minutes
+-- (then the job goes on with the page closed) and when it last ticked.
 create function cp7_analysis_stage.status(p_job uuid)returns jsonb
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
  select jsonb_build_object('contract_version','cp7.native-analysis-staged-job.v1','request_id',j.request_id,'state',j.state,
@@ -1423,6 +1436,8 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
    and x.kind in('HIST_ROWS','HIST_STOCK','BASE_ROWS','NET_TARGETS','ALLOC_STEP','NET_ROWS','ANA_TARGETS','PAGES')),
   'reference',jsonb_build_object('captured_at',j.captured_at,'source_hash',j.source_hash),
   'last_progress_at',j.updated_at,'unit_attempts',j.unit_attempts,'retention',cp7_analysis_stage.retention(j.state,j.updated_at),
+  'server_runner',(select jsonb_build_object('active',coalesce(bool_or(r.last_tick_at>clock_timestamp()-interval'2 minutes'),false),'last_tick_at',max(r.last_tick_at))
+   from cp7_analysis_stage.runner r),
   'run_id',case when j.state='DONE'then j.run_id end,
   'failure',case when j.state='FAILED'then jsonb_build_object('unit',j.failure_unit,'sqlstate',j.failure_sqlstate,'code',j.failure_code)end,
   'apply_enabled',false,'production_go',false)
@@ -2353,6 +2368,69 @@ begin
   end;
  end loop;
  return jsonb_build_object('cleaned',done,'failed',failed,'deferred',null);
+end $$;
+
+-- ------------------------------------------------------------ K4 runner --
+-- Owner decision 8 Oct 2026 (6, Penjalan): the staged analysis runs on the
+-- server, so it goes on while the page is closed; reopening continues the same
+-- job (same request UUID, same run), never a new or doubled computation.
+-- cp7_ops.analysis_tick (pg_cron, cp7_ops.schedules(): every minute, up to 60
+-- calls, each in its own transaction) calls run_next. The running job with
+-- the oldest progress that no other session holds (a page stepping it,
+-- another tick) gets ONE unit through the same
+-- step() a page uses, so its units, outputs and progress are exactly a page's;
+-- two drivers never run one unit (the job row lock, skip locked) and a unit is
+-- stored once (outputs primary key). The unchanged 8 s limit holds: the
+-- calling session's statement limit must be set and at most 8 s, otherwise the
+-- call is refused before anything is read or written. pg_cron's own connection
+-- runs "set statement_timeout to '8s'" first and PostgreSQL applies it to each
+-- statement of the command; pg_cron's background-worker mode, which would not,
+-- refuses the command's per-unit transactions (begin/commit) before any tick.
+-- A unit stopped by the limit is an attempt, as for a page (three in a row
+-- fail the job).
+-- The actor's access is re-read for every unit through the same ERP access
+-- functions a page reaches with its login: the job's stored actor is this
+-- transaction's request identity (role authenticated) only for the unit, and
+-- the previous identity is put back after it; there is no login session.
+-- Access that differs from the access at capture, or is now denied, fails the
+-- job as a page step does (CP7_ANALYSIS_ACCESS_CHANGED); access that changes
+-- during the unit discards the unit, and the next run fails the job.
+create function cp7_analysis_stage.run_next()returns jsonb
+language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
+declare limit_ms integer;j cp7_analysis_stage.jobs%rowtype;a jsonb;a2 jsonb;s jsonb;changed boolean:=false;prior jsonb;outcome text;
+begin
+ if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
+ select x.setting::integer into limit_ms from pg_catalog.pg_settings x where x.name='statement_timeout';
+ if limit_ms is null or limit_ms not between 1 and 8000 then
+  raise exception using errcode='55000',message='CP7_RUNNER_STATEMENT_LIMIT_REQUIRED',
+   detail=jsonb_build_object('statement_timeout_ms',limit_ms,'required','statement_timeout 1..8000 ms')::text;
+ end if;
+ insert into cp7_analysis_stage.runner as r(id,last_tick_at,statement_timeout_ms)values(true,clock_timestamp(),limit_ms)
+  on conflict(id)do update set last_tick_at=excluded.last_tick_at,statement_timeout_ms=excluded.statement_timeout_ms
+  where r.last_tick_at<excluded.last_tick_at-interval'10 seconds'or r.statement_timeout_ms<>excluded.statement_timeout_ms;
+ select *into j from cp7_analysis_stage.jobs x where x.state='RUNNING'order by x.updated_at,x.id limit 1 for update skip locked;
+ if not found then return jsonb_build_object('ran',false,'outcome','IDLE');end if;
+ prior:=jsonb_build_object('claims',current_setting('request.jwt.claims',true),'sub',current_setting('request.jwt.claim.sub',true),
+  'claim',current_setting('request.jwt.claim',true));
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',j.actor,'role','authenticated')::text,true),
+  set_config('request.jwt.claim.sub','',true),set_config('request.jwt.claim','',true);
+ begin a:=cp7_schedule_native.access_now(false);
+ exception when insufficient_privilege then a:=jsonb_build_object('denied',SQLERRM);end;
+ begin
+  s:=cp7_analysis_stage.step(j.id,a);
+  begin a2:=cp7_schedule_native.access_now(false);
+  exception when insufficient_privilege then a2:=jsonb_build_object('denied',SQLERRM);end;
+  if a2 is distinct from a then changed:=true;raise exception 'CP7_RUNNER_ACCESS_CHANGED_DURING_UNIT';end if;
+ exception when raise_exception then
+  if not changed then raise;end if;
+ end;
+ perform set_config('request.jwt.claims',coalesce(prior->>'claims',''),true),set_config('request.jwt.claim.sub',coalesce(prior->>'sub',''),true),
+  set_config('request.jwt.claim',coalesce(prior->>'claim',''),true);
+ outcome:=case when changed then 'ACCESS_CHANGED_DURING_UNIT'when s->>'state'='DONE'then 'JOB_DONE'when s->>'state'='FAILED'then 'JOB_FAILED'
+  when(s->>'units_done')::integer>j.units_done then 'UNIT_STORED'else 'UNIT_RETRY'end;
+ return jsonb_build_object('ran',not changed,'outcome',outcome,'job_id',j.id,'unit',j.units_done,
+  'units_done',case when changed then j.units_done else(s->>'units_done')::integer end,'unit_count',case when changed then j.unit_count else(s->>'unit_count')::integer end,
+  'state',case when changed then j.state else s->>'state'end);
 end $$;
 
 -- ------------------------------------------------------------ ownership --

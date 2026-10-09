@@ -19,6 +19,8 @@ FUNCTIONS = {
     'retention_days': 'i', 'retention': 's', 'require_kept': 's', 'purge_expired': 'v',
     # cleanup after DONE (owner decision 9 Oct 2026 WIB, K3b): verified final result, temporary work removed once
     'cleanup_due': 's', 'verify_final': 's', 'clean_done': 'v', 'clean_pending': 'v',
+    # K4 (owner decision 8 Oct 2026, 6): the server runner, one unit of the oldest running job per call
+    'run_next': 'v',
     # snapshot contract v2 (analysis-stage-snapshot.sql): change counts, freshness, recorded full checks
     'change_sources': 'i', 'changes_since': 's', 'freshness': 's', 'check_and_record': 'v',
     # snapshot contract v2 §2: one target's plan inputs from the retained index
@@ -38,8 +40,9 @@ PUBLIC = ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)', 'public.erp_c
           'public.erp_cp7_get_staged_ai_brief_v1(uuid,jsonb)')
 TABLES = ('jobs', 'units', 'outputs', 'target_rows', 'pair_rows', 'pair_lists', 'fragments', 'headers', 'pages', 'page_sets',
           'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks', 'retention_log', 'cleanups',
-          'report_jobs', 'report_reads', 'report_sections', 'report_publications')
-# The job row's immutable columns (an UPDATE naming one of them is refused); every other table is insert-only.
+          'report_jobs', 'report_reads', 'report_sections', 'report_publications', 'runner')
+# The job row's immutable columns (an UPDATE naming one of them is refused); the runner's one row is updated in
+# place and never deleted (K4); every other table is insert-only.
 JOB_FIXED = 'id, actor, request_id, query, reference, access_at_capture, captured_at, source_hash, run_id, created_at'
 REPORT_JOB_FIXED = ('id, actor, request_id, payload, run_id, analysis_job, identity_hash, data_as_of, period_query, kind, finance, series_id, '
                     'revision, page_count, targets_total, access_at_request, unit_count, created_at')
@@ -81,7 +84,7 @@ def verify(cur):
                                "and not t.tgisinternal and t.tgenabled<>'D'", (name,)).fetchall()
         assert len(triggers) == 1, (name, triggers)
         expected = ('BEFORE DELETE OR UPDATE OF %s' % JOB_FIXED) if table == 'jobs' else ('BEFORE DELETE OR UPDATE OF %s' % REPORT_JOB_FIXED) \
-            if table == 'report_jobs' else 'BEFORE DELETE OR UPDATE'
+            if table == 'report_jobs' else 'BEFORE DELETE' if table == 'runner' else 'BEFORE DELETE OR UPDATE'
         assert (' %s ON %s FOR EACH ROW EXECUTE FUNCTION cp7_private.immutable_run()' % (expected, name)) in triggers[0][0], triggers[0][0]
     # The staged job never writes the single path's run table: no function of
     # the schema inserts into cp7_analysis_native.runs or the job documents/segments.
@@ -95,9 +98,13 @@ def verify(cur):
 
 # CP7C schedule entries (ops/schedule.sql): exactly these, SECURITY DEFINER as cp7_capture
 # where they act, executable by the scheduler's role postgres only; no table in the schema.
-OPS_FUNCTIONS = {'schedules()': (False, 'i'), 'cleanup_tick()': (True, 'v'), 'retention_tick()': (True, 'v')}
+OPS_FUNCTIONS = {'schedules()': (False, 'i'), 'cleanup_tick()': (True, 'v'), 'retention_tick()': (True, 'v'), 'analysis_tick()': (True, 'v')}
 OPS_SCHEDULES = [dict(name='cp7-staged-cleanup', schedule='*/5 * * * *', command='select cp7_ops.cleanup_tick()', timezone='UTC', meaning='every 5 minutes'),
-                 dict(name='cp7-staged-retention', schedule='30 19 * * *', command='select cp7_ops.retention_tick()', timezone='UTC', meaning='02:30 WIB daily')]
+                 dict(name='cp7-staged-retention', schedule='30 19 * * *', command='select cp7_ops.retention_tick()', timezone='UTC', meaning='02:30 WIB daily'),
+                 # K4: every minute, 60 runner ticks, each its own transaction under the 8 s statement limit.
+                 dict(name='cp7-staged-runner', schedule='* * * * *',
+                      command="set statement_timeout to '8s'; " + ' '.join(['begin; select cp7_ops.analysis_tick(); commit;'] * 60),
+                      timezone='UTC', meaning='every minute: up to 60 units, each in its own transaction under the 8 s limit')]
 
 
 def verify_ops(cur):

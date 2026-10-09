@@ -58,6 +58,13 @@
       "command": "select cp7_ops.retention_tick()",
       "timezone": "UTC",
       "meaning": "02:30 WIB daily"
+    },
+    {
+      "name": "cp7-staged-runner",
+      "schedule": "* * * * *",
+      "command": "set statement_timeout to '8s'; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit;",
+      "timezone": "UTC",
+      "meaning": "every minute: up to 60 units, each in its own transaction under the 8 s limit"
     }
   ],
   "owner_decision": "9 Oct 2026 WIB: Hapus data kerja yang benar-benar sementara setelah analisis DONE dan seluruh hasil final tersimpan serta terverifikasi (6 syarat).",
@@ -115,5 +122,6 @@
     "three earlier nights' backup receipts",
     "TEST_SCHEDULE_OVERRIDE on the disposable race copy"
   ],
-  "schedule_job_name": "pg_cron job name = <schedule name>@<database> (P20 F02): installing for one database never moves another database's jobs; reinstall is idempotent; a same-named job of another database is refused before any change"
+  "schedule_job_name": "pg_cron job name = <schedule name>@<database> (P20 F02): installing for one database never moves another database's jobs; reinstall is idempotent; a same-named job of another database is refused before any change",
+  "schedules_k4_note": "9 Oct 2026: cp7-staged-runner (K4) added to the same server schedule; its cases are the k4-runner suite (docs/cp7/k4/K4_RUNNER.json). No K3 check changed."
 }
