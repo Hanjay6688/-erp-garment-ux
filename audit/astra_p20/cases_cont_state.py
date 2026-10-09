@@ -13,7 +13,11 @@ def report_drive(cur,key,subject=None):
 
 def cases(cur,today):
     def revoke():
-        subject,role=seed.auth.custom_actor(cur);r=new_run(cur,today,subject=subject);pages=read_pages(cur,r);r['identity']=pages['identity']
+        subject=h.actor(cur,'STAFF');admin(cur)
+        role=cur.execute("select id from erp.app_roles where role_code='STAFF'").fetchone()[0]
+        for permission in seed.auth.PERMS:
+            cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s) on conflict do nothing',(role,permission))
+        r=new_run(cur,today,subject=subject);pages=read_pages(cur,r);r['identity']=pages['identity']
         payload=reports.payload(r,title='Astra independent revoke report');key=uuid.uuid4();api(cur,'erp_cp7_publish_report_v2',json.dumps(payload),key,subject=subject)
         done=report_drive(cur,key,subject);check(done['state']=='DONE','Positive published report before revocation',result=done)
         doc=api(cur,'erp_cp7_read_report_v2',done['publication_id'],subject=subject)

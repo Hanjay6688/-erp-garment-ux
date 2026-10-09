@@ -1,0 +1,151 @@
+{
+  "run": 37892863976,
+  "job": 113697475923,
+  "parsed": [
+    {
+      "group": "ASTRA_P20_CONT_STATE_NATIVE",
+      "case": "AS20C-01-CONSUMERS",
+      "audit_case_id": "AS20C-01-CONSUMERS",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "INCOMPLETE",
+      "error": "CP7_REMINDER_INTERNAL_ROLE_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_reminder_native.staged_access(uuid,text[]) line 8 at RAISE\nPL/pgSQL function cp7_reminder_native.staged_set_step(uuid) line 4 at assignment\nSQL function \"erp_cp7_step_reminder_conditions_v2\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 112, in run\n    try:base.update(status='PASS',observations=op())\n                                               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_cont_state.py\", line 21, in revoke\n    reminder=api(cur,'erp_cp7_step_reminder_conditions_v2',r['run'],subject=subject)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_p20/cases_stage.py\", line 32, in api\n    return seed.limited(cur,name,args,subject)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: CP7_REMINDER_INTERNAL_ROLE_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_reminder_native.staged_access(uuid,text[]) line 8 at RAISE\nPL/pgSQL function cp7_reminder_native.staged_set_step(uuid) line 4 at assignment\nSQL function \"erp_cp7_step_reminder_conditions_v2\" statement 1\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_STATE_NATIVE",
+      "case": "AS20C-37-FAILED",
+      "audit_case_id": "AS20C-37-FAILED",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "failure": {
+          "code": "CP7_ANALYSIS_ACCESS_CHANGED",
+          "unit": 1,
+          "sqlstate": "42501"
+        },
+        "before": {
+          "days": 7,
+          "state": "KEPT",
+          "kept_until": "2026-10-09T06:24:26.861014+00:00"
+        },
+        "expired": {
+          "days": 7,
+          "state": "EXPIRED",
+          "kept_until": "2026-10-09T06:23:26.865779+00:00"
+        },
+        "purge": {
+          "purged": [
+            {
+              "job_id": "97348fb9-6fdf-4dbe-8ca4-1d4bc59b3c5e",
+              "run_id": "9e4c281d-61b3-40a8-a962-cf87e0904120",
+              "removed": {
+                "pages": 0,
+                "outputs": 1,
+                "fragments": 0,
+                "pair_rows": 0,
+                "pair_lists": 0,
+                "target_rows": 0
+              },
+              "documents": {}
+            }
+          ],
+          "retention_days": 7
+        },
+        "cleanup_refused": {
+          "refused": true,
+          "sqlstate": "P0001",
+          "message": "CP7_ANALYSIS_CLEANUP_NOT_DONE",
+          "detail": null
+        },
+        "cancelled_state": "NOT_SUPPORTED_STAGED_STATE; real states RUNNING,DONE,FAILED"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_STATE_NATIVE",
+      "case": "AS20C-27-UTF8",
+      "audit_case_id": "AS20C-27-UTF8",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "WRITER_SETUP_UNCHANGED",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "label": "ไทย🧵é",
+        "target": "234c07b4-97e4-4ff5-87a8-b07bea2169b2:c8c10000-0000-4000-8000-000000000002",
+        "identity": "81c5c107281f20e95e3f1fe3e2bdcf0239bfaab054be7780d42686faa147c613",
+        "byte_checks": [
+          {
+            "chars": 11760,
+            "bytes": 11770,
+            "sha256": "39ad1872ee09430fa810080addf81eb46c3711ea48d7fca02a32fd095d06356c"
+          },
+          {
+            "chars": 125323,
+            "bytes": 125333,
+            "sha256": "4c5d6af4dd425c35d858b2b868ddbd3910019724f6d5db9a14d88b2891768b1f"
+          }
+        ],
+        "empty_scope_refusal": {
+          "refused": true,
+          "sqlstate": "22023",
+          "message": "CP7_WIP_FIELDS",
+          "detail": null
+        },
+        "bound": "Empty client scope injection rejected; not proof of factory with zero products"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    {
+      "group": "ASTRA_P20_CONT_STATE_NATIVE",
+      "planned": [
+        "AS20C-01-CONSUMERS",
+        "AS20C-37-FAILED",
+        "AS20C-27-UTF8"
+      ],
+      "final": {
+        "AS20C-01-CONSUMERS": "INCOMPLETE",
+        "AS20C-37-FAILED": "PASS",
+        "AS20C-27-UTF8": "PASS"
+      },
+      "missing": [],
+      "status": "INCOMPLETE"
+    },
+    {
+      "status": "INCOMPLETE",
+      "expected_cases": 3,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ]
+}
