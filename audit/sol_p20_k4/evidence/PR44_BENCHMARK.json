@@ -1,0 +1,87 @@
+{
+  "candidate": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+  "oracle": "aa638356e13aeffe7b2a2aa96f17dbe19676db1f",
+  "status": "PASS",
+  "scope": "ISOLATED_SQL_TIMING_NO_AUTH_SLA",
+  "cases": [
+    {
+      "positions": 0,
+      "targets": 300,
+      "old_ms": 1224.4015,
+      "new_ms": 722.5364999999999,
+      "reduction_percent": 40.98859728610264,
+      "samples": [
+        {
+          "fn": "build_sol_perf",
+          "ms": 1237.378,
+          "hash": "9ac372be2b26055810a33d9580b10844",
+          "bytes": 2900932,
+          "targets": 300
+        },
+        {
+          "fn": "build",
+          "ms": 733.328,
+          "hash": "9ac372be2b26055810a33d9580b10844",
+          "bytes": 2900932,
+          "targets": 300
+        },
+        {
+          "fn": "build",
+          "ms": 711.745,
+          "hash": "9ac372be2b26055810a33d9580b10844",
+          "bytes": 2900932,
+          "targets": 300
+        },
+        {
+          "fn": "build_sol_perf",
+          "ms": 1211.425,
+          "hash": "9ac372be2b26055810a33d9580b10844",
+          "bytes": 2900932,
+          "targets": 300
+        }
+      ]
+    },
+    {
+      "positions": 40,
+      "targets": 300,
+      "old_ms": 1567.2655,
+      "new_ms": 1098.13,
+      "reduction_percent": 29.933377593011514,
+      "samples": [
+        {
+          "fn": "build_sol_perf",
+          "ms": 1569.226,
+          "hash": "3439b0055a5413dcfb357636f673864e",
+          "bytes": 4888201,
+          "targets": 300
+        },
+        {
+          "fn": "build",
+          "ms": 1095.636,
+          "hash": "3439b0055a5413dcfb357636f673864e",
+          "bytes": 4888201,
+          "targets": 300
+        },
+        {
+          "fn": "build",
+          "ms": 1100.624,
+          "hash": "3439b0055a5413dcfb357636f673864e",
+          "bytes": 4888201,
+          "targets": 300
+        },
+        {
+          "fn": "build_sol_perf",
+          "ms": 1565.305,
+          "hash": "3439b0055a5413dcfb357636f673864e",
+          "bytes": 4888201,
+          "targets": 300
+        }
+      ]
+    }
+  ],
+  "production_go": false,
+  "runtime": {
+    "flavor": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+    "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit"
+  }
+}
