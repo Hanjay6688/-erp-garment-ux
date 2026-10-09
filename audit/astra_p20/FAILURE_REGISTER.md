@@ -58,3 +58,8 @@
 - Four independent monetary cases PASS: chosen-invoice supplier credit22.46, paid receipt quantity increase, returned/paid sales correction, and73-unit two-stage late invoice.
 - WIB test posted the first23:59:59 sale, then second CREATE refused duplicate sale_number because both own fixture sales reused the same tag. AUDITOR_FIXTURE; unique-document guard worked. Keep quantities/prices/dates/oracles; add date suffix to each synthetic document number and continue only this uncompleted case.
 - Corrected matching probe37880366048 PASS; no matcher finding. Corrected ready-screen browser37880365949 PASS:48 desktop+48 mobile navigation and actual finance permission boundary. Earlier readiness evidence stays PARTIAL.
+
+## Final continuations
+
+-37881044694: current payroll82.82 +opening85 +carry7.50 -advance30 =cash145.32. Own case PASS, replay one effect, inverse restores cash/source rights and physical41 unchanged.
+-37881215479: distinct-document continuation proves23:59:59 WIB revenue58.11/COGS49.38 and00:00:01 revenue135.59/COGS115.22 in their proper dates. PASS; duplicate-number fixture failure remains preserved.

@@ -27,7 +27,7 @@ for rid in requests['run_ids']:
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_witness=d)
    elif name.startswith('CP7_P21'):
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_witness=d)
-   elif name.startswith('ASTRA_AS20-') and 'audit_case_id' in d or name.startswith('ASTRA_AS20-') and 'case' in d:
+   elif name.startswith('ASTRA_AS20') and isinstance(d,dict) and ('audit_case_id' in d or 'case' in d):
     # Complete independent verdict, including first failure trace/witness.
     row=dict(file=name,sha256=hashlib.sha256(content).hexdigest(),complete_independent_verdict=d)
    elif isinstance(d,dict) and ('counts' in d or 'status' in d or 'gate' in d):
