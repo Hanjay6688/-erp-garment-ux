@@ -1,3 +1,11 @@
+Audit independen Sol atas kandidat gabungan `8cc1b081` — 9 Okt 2026 WIB: F01–F05 PASS, regresi 71/71 PASS, PR44
+235 perbandingan PASS, K4 fungsi utama PASS; **HOLD** pada satu temuan S2 (SOL-K4-01: heartbeat penjalan pertama kali
+dibuat membuat giliran server kedua menunggu). Diperbaiki dan dikunci pada sumber **8116800c** di
+`claude/new-session-deapao`: 15/15 workflow dan 44/44 job hijau pada commit itu. Baca
+[audit-candidate/sol-retest-k4-20261009](audit-candidate/sol-retest-k4-20261009/README.md) dan `AUDITOR_RETEST.md`.
+Menunggu uji ulang auditor. Belum diuji ulang auditor: 5.000 target seluruhnya lewat penjalan K4, HP fisik/Safari.
+Jadwal dan backup belum dipasang. `production_go:false`.
+
 Kandidat audit gabungan — 9 Okt 2026 WIB: owner "kerjain dl aja nnti audit nya sekalian semua". Perbaikan temuan
 P20 F01–F05 (revisi `870d4f79`) ditambah K4 (analisis bertahap dijalankan server, tetap lanjut saat halaman ditutup;
 dibuat dan diuji, belum dipasang) dikunci pada sumber **8cc1b081** di `claude/new-session-deapao`: 15/15 workflow dan

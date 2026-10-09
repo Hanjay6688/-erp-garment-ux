@@ -33,4 +33,6 @@ Audit independen P20 atas `2e605bb7`: **HOLD**, temuan F01–F05 (`audit/astra-p
 
 Kandidat audit gabungan (keputusan owner 9 Okt: audit sekalian semua): `audit-candidate/final-p20-k4-20261009/` — sumber `8cc1b081` (revisi P20 + K4), 15/15 workflow dan 44/44 job hijau pada commit itu. Menggantikan kandidat revisi untuk audit; kandidat revisi tetap disimpan.
 
+Audit independen Sol atas `8cc1b081` (`audit/sol-p20-k4-8cc1b081-20261009`): F01–F05 PASS, regresi 71/71, PR44 235 PASS; HOLD pada SOL-K4-01 (S2, heartbeat awal penjalan membuat giliran kedua menunggu). Kandidat revisi untuk uji ulang: `audit-candidate/sol-retest-k4-20261009/` — sumber `8116800c`, 15/15 workflow dan 44/44 job hijau pada commit itu; kegagalan pertama auditor ditunjuk di `evidence/sol-p20-k4-20261009/`.
+
 Tetap: `independent_acceptance=false`, `installed_P21_acceptance=false`, `production_go=false`.
