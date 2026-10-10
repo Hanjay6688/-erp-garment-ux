@@ -1,0 +1,152 @@
+{
+ "contract": "cp7.continuation-source-delta.v1",
+ "audited_candidate": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+ "candidate": "8116800c0586cfb27bd6c7d206d1b176666c9839",
+ "summary": {
+  "files": 13,
+  "added": 6,
+  "modified": 7,
+  "deleted": 0,
+  "non_docs": 4
+ },
+ "files": [
+  {
+   "status": "M",
+   "path": ".github/workflows/claude-p19-transport.yml",
+   "before": {
+    "bytes": 12797,
+    "sha256": "1fff0ffdf5e826490485925168af316316833b105abc1785c3af9d4fed4a66bf"
+   },
+   "after": {
+    "bytes": 12797,
+    "sha256": "3130cbc5a24641cb125527c6756234889761294a798586f2af537c0c133e18d7"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/ACTIVE_CONTINUATION.md",
+   "before": {
+    "bytes": 30762,
+    "sha256": "4616c35c26594bcafb2cd49f725e443c92f7902b823c103c1c416d1fc3054301"
+   },
+   "after": {
+    "bytes": 31465,
+    "sha256": "e2a54b673074185324aa9cb4172648947274704fa58adb9b4ef9db23d01ab9c6"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/CONTINUATION_AFTER_FREEZE_20261008.md",
+   "before": {
+    "bytes": 11315,
+    "sha256": "5eabba9147d7246effb294fa2ce3190f663d999db810a389182819b4d1d4c4de"
+   },
+   "after": {
+    "bytes": 11728,
+    "sha256": "f25783e8a4c8fc6e6008367ae246a9339f737123462db673748bf79a4ac654ba"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/AUDITOR_START.md",
+   "before": null,
+   "after": {
+    "bytes": 4990,
+    "sha256": "55bff4e9910eaa8fdc5a83f2268a741e99d05c3e9dbed95c4f9fbf791ef595ab"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/CI_RECEIPT.json",
+   "before": null,
+   "after": {
+    "bytes": 8845,
+    "sha256": "3140b5651900fc89b5cb08db2747ae256427db5e0569e82990db139e70c5a187"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/README.md",
+   "before": null,
+   "after": {
+    "bytes": 6931,
+    "sha256": "f14b56c5c77328808e717a0600be0728989ee3b01742c5d2454c5e798f6fe2c0"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/SOURCE_DELTA.json",
+   "before": null,
+   "after": {
+    "bytes": 12944,
+    "sha256": "698cc2c95df0f59e1329774b892d2d87dd81aaedb762d0860ee56591b3c6f95d"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/SOURCE_DELTA_FROM_REVISION.json",
+   "before": null,
+   "after": {
+    "bytes": 6663,
+    "sha256": "d131af7dd260b17f224ca6a23830a90184f3d69ff9ccc01b479b41f151c2ec17"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/sol-p20-k4-20261009/README.md",
+   "before": null,
+   "after": {
+    "bytes": 1711,
+    "sha256": "e8b0b298381b2f6ac960c2475d401f52cca9d01d1831d1b28c4f1b23bf34c78d"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/k4/K4_RUNNER.json",
+   "before": {
+    "bytes": 6851,
+    "sha256": "0d09cc35c0270286a4730379c20eef408e5f9d6780669031768df54aadfe8224"
+   },
+   "after": {
+    "bytes": 7882,
+    "sha256": "e29760caf5fa7d57cb9546603de0ad0068277fe91a18c1da766d9cd91c80aea3"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7-src/planning/analysis-stages.sql",
+   "before": {
+    "bytes": 210096,
+    "sha256": "653b6ad195ea5e8f0f4dd0557e8fdf9fa25abe39cfca4d623433624d8343c473"
+   },
+   "after": {
+    "bytes": 210444,
+    "sha256": "325962068ec3ee9218b4b2aa76aec230fc79ba88844bf692be4704a89b84c8f6"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_f05_analysis_probe.py",
+   "before": {
+    "bytes": 44654,
+    "sha256": "a5f00f2a498245195516e222e658bd65e16d5face35a446388fad86917cce65e"
+   },
+   "after": {
+    "bytes": 44654,
+    "sha256": "cf5a21d7e96375da2eefe866c3d980528e8c03a4c887afcf16bdaafe371556a2"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_k4_runner_cases.py",
+   "before": {
+    "bytes": 34848,
+    "sha256": "e83e6966a98bad6dad89f04924e419d54338d04d8841633693a74bc7886badfa"
+   },
+   "after": {
+    "bytes": 38429,
+    "sha256": "9a78c13f80321d6a35383d87fde2f4acfa1d7017adfb15192c22eb3558393626"
+   }
+  }
+ ]
+}
