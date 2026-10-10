@@ -1,0 +1,115 @@
+{
+  "source_sha": "8116800c0586cfb27bd6c7d206d1b176666c9839",
+  "source_tree": "12b81da97f5260596d2384765dd5e2d877e6c80f",
+  "audit_branch": "audit/sol-k4-retest-8116800c-20261010",
+  "independent_runs": [
+    {
+      "id": 38054431784,
+      "name": "Sol K4 revision unchanged independent kernel",
+      "head_sha": "63156b88e343755a9741b45b8f09ed136884b4b8",
+      "head_branch": "audit/sol-k4-retest-8116800c-20261010",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "event": "push",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38054431784"
+    },
+    {
+      "id": 38054430466,
+      "name": "Sol K4 revision independent installed and regression",
+      "head_sha": "6d512cc1cef2d05e373b97cd86b0729d55dedd62",
+      "head_branch": "audit/sol-k4-retest-8116800c-20261010",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "event": "push",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38054430466"
+    }
+  ],
+  "native_jobs": [
+    {
+      "id": 114219872881,
+      "name": "sol-installed-cold-warm",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 114219873012,
+      "name": "p19-staged12",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 114219873096,
+      "name": "k3-cleanup-19",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "independent_artifacts": [
+    {
+      "id": 11670448678,
+      "name": "sol-k4-retest-cold-runner",
+      "digest": "sha256:ce2861084193c7cd21f1ba15cf97d874c7bcf23bfbc0088fc213eee044cdb63b",
+      "bytes": 820,
+      "expires_at": "2026-11-09T13:06:39Z",
+      "head_sha": "63156b88e343755a9741b45b8f09ed136884b4b8"
+    },
+    {
+      "id": 11670843986,
+      "name": "sol-k4-retest-p19-staged12-complete-json",
+      "digest": "sha256:159f590997c3a555ff350e2b0f41d2637ded5914aff5ff3d4ac3767c8020250a",
+      "bytes": 54095,
+      "expires_at": "2026-11-09T13:13:36Z",
+      "head_sha": "6d512cc1cef2d05e373b97cd86b0729d55dedd62"
+    },
+    {
+      "id": 11670794224,
+      "name": "sol-k4-retest-p19-staged12",
+      "digest": "sha256:61da9fddc2ebe265088b071b1ac6cfa801e6808d460e2fd00cc3379ee203e0a4",
+      "bytes": 4302838,
+      "expires_at": "2026-11-09T13:13:35Z",
+      "head_sha": "6d512cc1cef2d05e373b97cd86b0729d55dedd62"
+    },
+    {
+      "id": 11670159214,
+      "name": "sol-k4-retest-sol-installed-cold-warm-complete-json",
+      "digest": "sha256:a3b2c4499da3b0d3eb48bb423b4f1d9b5a36aef64b722a48ab281117ecae2f75",
+      "bytes": 167987,
+      "expires_at": "2026-11-09T13:15:06Z",
+      "head_sha": "6d512cc1cef2d05e373b97cd86b0729d55dedd62"
+    },
+    {
+      "id": 11669989533,
+      "name": "sol-k4-retest-sol-installed-cold-warm",
+      "digest": "sha256:bb54879e3083539de6d450ba4b3ce1286da24603b1ccd6deecb5718bddf2ff2a",
+      "bytes": 5638512,
+      "expires_at": "2026-11-09T13:15:05Z",
+      "head_sha": "6d512cc1cef2d05e373b97cd86b0729d55dedd62"
+    },
+    {
+      "id": 11669964430,
+      "name": "sol-k4-retest-k3-cleanup-19",
+      "digest": "sha256:d0b2327b441bf843326ef92d725ff54b108a951275c699c1352cc7c27a548609",
+      "bytes": 5935129,
+      "expires_at": "2026-11-09T13:13:50Z",
+      "head_sha": "6d512cc1cef2d05e373b97cd86b0729d55dedd62"
+    },
+    {
+      "id": 11669769509,
+      "name": "sol-k4-retest-k3-cleanup-19-complete-json",
+      "digest": "sha256:ea1d4f869fcbe44bf2e39e8fbf1172c184f524651f81e1655a7bc5db3a5d74b9",
+      "bytes": 196658,
+      "expires_at": "2026-11-09T13:13:51Z",
+      "head_sha": "6d512cc1cef2d05e373b97cd86b0729d55dedd62"
+    }
+  ],
+  "old_failure_runs": [
+    37954533118,
+    37954972794
+  ],
+  "old_audit_branch": "audit/sol-p20-k4-8cc1b081-20261009",
+  "writer_midnight_first_artifact": 11632727853,
+  "writer_midnight_retry_artifact": 11634875483,
+  "production_go": false
+}
