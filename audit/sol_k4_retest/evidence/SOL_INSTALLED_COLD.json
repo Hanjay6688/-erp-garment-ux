@@ -1,0 +1,62 @@
+{
+  "status": "RUN_COMPLETE",
+  "label": "AUDITOR_SCENARIO",
+  "database": "cp6_auditor_race",
+  "copy_per_race": true,
+  "test_only_usage_grant": true,
+  "races": {
+    "SOL_COLD_START": {
+      "status": "PASS",
+      "initial_runner_rows": 0,
+      "second_reached_real_output_insert": true,
+      "second_wait_event": "relation",
+      "ungranted_locks": [
+        [
+          "relation",
+          "RowExclusiveLock",
+          false
+        ]
+      ],
+      "first": {
+        "at": "2026-10-10T13:13:21.432252+00:00",
+        "ran": true,
+        "tick": "cp7-staged-runner",
+        "unit": 0,
+        "state": "RUNNING",
+        "job_id": "872d854d-3b33-4ec2-976a-5d982dad8472",
+        "outcome": "UNIT_STORED",
+        "unit_count": 8,
+        "units_done": 1
+      },
+      "second": {
+        "at": "2026-10-10T13:13:21.433341+00:00",
+        "ran": true,
+        "tick": "cp7-staged-runner",
+        "unit": 0,
+        "state": "RUNNING",
+        "job_id": "a868a6a2-44b2-48f1-896a-5ed355b91090",
+        "outcome": "UNIT_STORED",
+        "unit_count": 8,
+        "units_done": 1
+      },
+      "units_done": [
+        1,
+        1
+      ],
+      "no_duplicate_outputs": true,
+      "product_step_unmodified": true,
+      "copy_runtime": null,
+      "session_leaks": []
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "planned_race_ids": [
+    "SOL_COLD_START"
+  ],
+  "database_remaining": 0,
+  "counts": {
+    "PASS": 1
+  }
+}
