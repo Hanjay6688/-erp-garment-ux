@@ -1,0 +1,101 @@
+{
+  "contract": "sol.cp7.k4-retest.v1",
+  "audit_date": "2026-10-10",
+  "auditor": "Sol independent",
+  "candidate": "8116800c0586cfb27bd6c7d206d1b176666c9839",
+  "tree": "12b81da97f5260596d2384765dd5e2d877e6c80f",
+  "audit_branch": "audit/sol-k4-retest-8116800c-20261010",
+  "verdict": "PASS_RETEST",
+  "scoped_independent_acceptance": true,
+  "acceptance_scope": [
+    "SOL-K4-01 revision",
+    "K4 17 cases",
+    "staged analysis 14 cases",
+    "K3 19 cases"
+  ],
+  "findings": [
+    {
+      "id": "SOL-K4-01",
+      "severity": "S2",
+      "status": "CLOSED",
+      "before": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+      "after": "8116800c0586cfb27bd6c7d206d1b176666c9839",
+      "old_failure_runs": [
+        37954533118,
+        37954972794
+      ],
+      "closing_runs": [
+        38054431784,
+        38054430466
+      ],
+      "closing_cases": [
+        "COLD_SECOND_TICK_NO_HEARTBEAT_WAIT",
+        "WARM_SECOND_TICK_NO_HEARTBEAT_WAIT",
+        "SOL_COLD_START",
+        "SOL_WARM_START",
+        "K4R_RACE_COLD_START_TWO_TICKS",
+        "K4R_RACE_ACCESS_CHANGED_DURING_UNIT"
+      ],
+      "criteria": {
+        "cold_second_tick_reaches_unit_without_heartbeat_wait": true,
+        "warm_second_tick_reaches_unit_without_heartbeat_wait": true,
+        "genuine_fresh_installation_empty_runner": true,
+        "real_product_step_unmodified": true,
+        "one_output_per_job_unit": true,
+        "stored_actor_and_all_prior_claims_restored": true,
+        "fresh_access_rechecked_and_changed_unit_discarded": true,
+        "statement_budget_8000ms_unchanged": true
+      }
+    }
+  ],
+  "new_product_findings": [],
+  "open_product_findings_in_retest_scope": [],
+  "checks": {
+    "independent_case_count": 60,
+    "independent_pass": 60,
+    "kernel": 8,
+    "installed_adversarial_races": 2,
+    "k4": 17,
+    "staged": 14,
+    "k3": 19,
+    "writer_ci": {
+      "workflows": 15,
+      "jobs": 44,
+      "all_same_source_sha": true,
+      "classification": "METADATA_AND_ORIGINAL_ARTIFACTS_VERIFIED_NOT_ALL_INDEPENDENTLY_RERUN"
+    }
+  },
+  "known_tooling": [
+    {
+      "id": "ATTENTION_WIB_MIDNIGHT_FIXTURE",
+      "origin": "WRITER_ALREADY_RECORDED",
+      "status": "OPEN_TOOLING",
+      "severity": "S3",
+      "blocks_this_K4_retest": false,
+      "first_run": 37958882487,
+      "first_job": 113916327717,
+      "retry_job": 113934690918,
+      "strict_rerun_cases": 286,
+      "fixture_bug_fixed": false,
+      "action": "Isolate date-sensitive fixtures, take date from the DB at the operation, detect day changes as INCOMPLETE, and keep the first failure. Do not loosen oracle or change production clock."
+    }
+  ],
+  "prior_dispositions": {
+    "F01_F05": "UNCHANGED_REFERENCE_TO_PREVIOUS_AUDIT_NOT_ALL_RERUN",
+    "PR44": "NETTING_SOURCE_UNCHANGED_PREVIOUS_ACCEPTANCE_AT_8cc1b081_RETAINED",
+    "F04": "PRIVILEGED_SEMANTIC_INDEX_TAMPER_NOT_REDERIVED_BEFORE_REMOVAL_REMAINS_DECLARED_LIMIT"
+  },
+  "untested": [
+    "5000 targets completed entirely by K4 server runner",
+    "physical mobile device and Safari",
+    "mobile tab truly closed (mobile case stops watching, desktop tab truly closed)",
+    "hosted installation of schedules and off-runner nightly backup configuration",
+    "PR45 frontend/demo changes"
+  ],
+  "not_included_pr": 45,
+  "full_cp1_cp7_acceptance": false,
+  "installed_P21_acceptance": false,
+  "installed_hosted_schedule": false,
+  "installed_hosted_nightly_backup": false,
+  "production_go": false
+}
