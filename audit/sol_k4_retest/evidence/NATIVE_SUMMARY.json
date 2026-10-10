@@ -1,0 +1,4126 @@
+{
+  "source_sha": "8116800c0586cfb27bd6c7d206d1b176666c9839",
+  "source_tree": "12b81da97f5260596d2384765dd5e2d877e6c80f",
+  "scoped_case_count": 60,
+  "suites": {
+    "K4": {
+      "label": "CP7_K4_RUNNER",
+      "status": "PASS",
+      "scope": "STAGED_ANALYSIS_RUN_BY_THE_SERVER_ONE_UNIT_PER_TICK_THROUGH_THE_PAGE_STEP_8S_LIMIT_ACCESS_RECHECKED_PER_UNIT_SAME_JOB_ON_REOPEN_NO_UNIT_TWICE_PG_CRON_TESTED_NOT_INSTALLED",
+      "source_sha256": "63dea24e509d067ca322c3d17f4a3c1e69164299855461b57bea9c4fc8558b85",
+      "expected_case_count": 17,
+      "observed_case_count": 17,
+      "required_case_counts": {
+        "native": 7,
+        "races": 6,
+        "http": 2,
+        "browser": 2
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "all_other_predecessor_definitions_and_owners_unchanged": true,
+      "combined_declared_execute_grants": {
+        "erp.has_permission(text)": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "auth.jwt()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_lot_laundry_unknown_v1(uuid)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_my_access_v1()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "auth.uid()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_hpp_completeness(uuid)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bf_commercial_sku_at_v1(uuid,timestamp with time zone)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.save_fg_adjustment_draft_v2(jsonb,uuid,bigint)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reset_fg_stock_mutation_book_order()": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reverse_fg_adjustment_v2(uuid,text,uuid,bigint)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.post_fg_adjustment_v2(uuid,uuid,bigint,text)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.move_fg_stock_card_row_to_position(uuid,integer)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)": [
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_owner_financial_snapshot_v2(date,date,date)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.account_id(text)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.accounting_close_preflight_v1(date)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_finance.exact_numbers(jsonb)": [
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reopen_accounting_through(date,text)": [
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.close_accounting_through(date,text)": [
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.process_cost_recalc_queue(integer)": [
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)": [
+          [
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_demand.\"decimal\"(jsonb)": [
+          [
+            "cp7_policy",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_wip.fields(jsonb,text[])": [
+          [
+            "cp7_policy",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_private.immutable_run()": [
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)": [
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bb_commitment_line_remaining_v1(uuid,uuid)": [
+          [
+            "cp7_capture",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_set_my_reminder_done_v1(uuid,boolean,uuid,bigint)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_get_sales_v1(jsonb)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_read_analysis_v1(uuid)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_save_my_reminder_v1(jsonb,uuid,bigint)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cancel_my_reminder_v1(uuid,text,uuid,bigint)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_list_my_reminders_v1(text,integer)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_total_liability(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_get_supplier_credit_v1(jsonb)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_invoice_capacity(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_grni_total(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_current_unit_cost(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_posted_invoice_qty(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_final_ap_total(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_receipt_invoiced_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_vendor_payables_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_opening_released_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bb_financial_workspace_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_opening_billed_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bb_opening_balance_context_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_get_payroll_workspace_v1(text,jsonb)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_get_payroll_installments_v1(jsonb)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bc_carry_remaining_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_receipt_page_v1(uuid,uuid,timestamp with time zone)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_opening_invoiced_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ]
+      },
+      "combined_declared_table_grants": {
+        "cp7_capture": {
+          "erp.accessory_bom_versions": "SELECT",
+          "erp.accessory_bom_items": "SELECT",
+          "erp.accessory_categories": "SELECT",
+          "erp.materials": "SELECT",
+          "erp.production_patterns": "SELECT",
+          "erp.material_rolls": "SELECT(id,material_id,status)",
+          "erp.material_stock_movements": "SELECT(material_id,roll_id,location_id,qty_signed,physical_at)",
+          "erp.locations": "SELECT(id,location_type,is_active)",
+          "erp.bb_purchase_commitments_v1": "SELECT(id,po_number,location_id,expected_date)",
+          "erp.bb_purchase_commitment_lines_v1": "SELECT(id,commitment_id,material_id,line_number)",
+          "cp7_plan_native.intents": "SELECT(id,target_key,cutting_group_id,recorded_at,xmin)",
+          "cp7_plan_native.apply_own_drafts": "SELECT(cutting_group_id,txid)",
+          "cp7_yield_policy.policies": "SELECT"
+        },
+        "cp7_plan_writer": {
+          "erp.cutting_group_rolls": "SELECT"
+        },
+        "cp7_transaction_source_read": {
+          "erp.material_purchase_headers": "SELECT",
+          "erp.material_purchase_items": "SELECT",
+          "erp.material_rolls": "SELECT",
+          "erp.material_supplier_invoices": "SELECT",
+          "erp.material_supplier_invoice_lines": "SELECT",
+          "erp.supplier_payments": "SELECT",
+          "erp.material_transfers": "SELECT",
+          "erp.material_transfer_items": "SELECT",
+          "erp.material_adjustments": "SELECT",
+          "erp.material_adjustment_items": "SELECT",
+          "erp.fg_adjustments": "SELECT",
+          "erp.fg_adjustment_items": "SELECT",
+          "erp.sales_headers": "SELECT",
+          "erp.sales_items": "SELECT",
+          "erp.sales_payments": "SELECT",
+          "erp.sales_returns": "SELECT",
+          "erp.sales_return_items": "SELECT",
+          "erp.misc_finance_transactions": "SELECT",
+          "erp.journal_entries": "SELECT",
+          "erp.payroll_settlements": "SELECT",
+          "erp.contractor_material_issues": "SELECT",
+          "erp.contractor_material_issue_items": "SELECT",
+          "erp.materials": "SELECT",
+          "erp.uom_definitions": "SELECT",
+          "erp.bs_cases": "SELECT",
+          "erp.rework_orders": "SELECT",
+          "erp.qc_inspections": "SELECT",
+          "erp.qc_inspection_items": "SELECT",
+          "erp.fg_stock_movements": "SELECT",
+          "erp.laundry_deliveries": "SELECT",
+          "erp.laundry_delivery_lines": "SELECT",
+          "erp.laundry_delivery_batch_size_lines": "SELECT",
+          "erp.laundry_receipts": "SELECT",
+          "erp.laundry_receipt_lines": "SELECT",
+          "erp.laundry_receipt_batch_size_lines": "SELECT",
+          "erp.cutting_groups": "SELECT",
+          "erp.production_orders": "SELECT",
+          "erp.product_models": "SELECT"
+        },
+        "cp7_reminder": {
+          "erp.manual_reminders": "SELECT",
+          "cp7_analysis_native.publications": "SELECT"
+        },
+        "cp7_payable_read": {
+          "erp.v_material_purchase_liability_status": "SELECT",
+          "erp.material_purchase_headers": "SELECT",
+          "erp.material_purchase_items": "SELECT",
+          "erp.suppliers": "SELECT",
+          "erp.supplier_payments": "SELECT",
+          "erp.material_supplier_invoices": "SELECT",
+          "erp.material_supplier_invoice_lines": "SELECT"
+        },
+        "cp7_obligation_read": {
+          "erp.opening_subledger_balances": "SELECT",
+          "erp.opening_balance_items": "SELECT",
+          "erp.opening_balance_headers": "SELECT",
+          "erp.initial_import_financial_sources": "SELECT",
+          "erp.customers": "SELECT",
+          "erp.suppliers": "SELECT",
+          "erp.contractors": "SELECT",
+          "erp.laundry_vendors": "SELECT",
+          "erp.bc_lot_events_v1": "SELECT",
+          "erp.bc_documents_v1": "SELECT",
+          "erp.payroll_reimbursements": "SELECT",
+          "erp.payroll_settlements": "SELECT",
+          "erp.vendor_invoices": "SELECT",
+          "erp.laundry_receipt_lines": "SELECT",
+          "erp.laundry_receipts": "SELECT",
+          "erp.laundry_delivery_lines": "SELECT",
+          "erp.laundry_deliveries": "SELECT",
+          "erp.bd_opening_laundry_uninvoiced_v1": "SELECT",
+          "erp.bd_laundry_invoice_lines_v1": "SELECT",
+          "erp.bd_laundry_invoices_v1": "SELECT"
+        }
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "original_json_sha256": "ce7282fe179b5662179821d1025c26fb2d26a69b820a328a066d14cb56620827",
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "backup_restore_status": "RESTORED_SAME_MEANING",
+      "case_groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 7
+          },
+          "case_ids": [
+            "K4R_SERVER_FINISHES_WITHOUT_PAGE",
+            "K4R_PAGE_AND_SERVER_ONE_JOB",
+            "K4R_ACCESS_RECHECKED_EACH_UNIT",
+            "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS",
+            "K4R_LIMIT_REQUIRED",
+            "K4R_SCHEDULE_DEFINED_PRIVATE",
+            "K4R_STATUS_REPORTS_RUNNER"
+          ],
+          "cases": {
+            "K4R_SERVER_FINISHES_WITHOUT_PAGE": {
+              "status": "PASS",
+              "page_calls_after_request": 0,
+              "ticks": 21,
+              "units": 21,
+              "server_job_ms": 332.6,
+              "pages": {
+                "page_count": 1,
+                "targets_total": 3,
+                "header_utf8_bytes": 9704,
+                "page_utf8_bytes_max": 128299,
+                "page_utf8_bytes_total": 128299,
+                "uneven_ranges": false
+              },
+              "identity_hash": "e07054c58ef5db2cad1b40fc920fac68f6af17199a0c7c49ca6f67fcd8082a82",
+              "result_equals_single_on_same_reference": true,
+              "reopened_same_job_and_run": true,
+              "every_unit_stored_once": true,
+              "request_reference": {
+                "captured_at": "2026-10-10T13:10:52.979805+00:00",
+                "source_hash": "8b03484fe56a959553edba8e41f5717b8da8d1955fd50d1ef7d37e2db1da8059"
+              },
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K4R_PAGE_AND_SERVER_ONE_JOB": {
+              "status": "PASS",
+              "units": 21,
+              "units_by_page": 7,
+              "units_by_server": 14,
+              "one_job_one_run": true,
+              "every_unit_stored_once": true,
+              "result_equals_single_on_same_reference": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K4R_ACCESS_RECHECKED_EACH_UNIT": {
+              "status": "PASS",
+              "unit_ran_as_stored_actor": true,
+              "request_identity_restored_after_tick": true,
+              "role_change_fails_job": {
+                "code": "CP7_ANALYSIS_ACCESS_CHANGED",
+                "unit": 1,
+                "sqlstate": "42501"
+              },
+              "deactivated_actor_fails_job": "CP7_ANALYSIS_ACCESS_CHANGED",
+              "no_pages_after_failure": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K4R_DENIED_JOB_DOES_NOT_HOLD_OTHERS": {
+              "status": "PASS",
+              "denied_job_failed_once": true,
+              "other_job_ran_next": true,
+              "other_job_done_by_server": 16,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K4R_LIMIT_REQUIRED": {
+              "status": "PASS",
+              "refused_without_limit": {
+                "0": {
+                  "required": "statement_timeout 1..8000 ms",
+                  "statement_timeout_ms": 0
+                },
+                "9s": {
+                  "required": "statement_timeout 1..8000 ms",
+                  "statement_timeout_ms": 9000
+                },
+                "1h": {
+                  "required": "statement_timeout 1..8000 ms",
+                  "statement_timeout_ms": 3600000
+                }
+              },
+              "ran_at_8s": true,
+              "stricter_limit_allowed": true,
+              "statement_limit_never_raised": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K4R_SCHEDULE_DEFINED_PRIVATE": {
+              "status": "PASS",
+              "runner_definition": "cp7-staged-runner",
+              "sixty_ticks_each_own_transaction": true,
+              "tick_scheduler_role_only": true,
+              "run_next_private": true,
+              "authenticated_refused": "42501",
+              "no_public_rpc": true,
+              "runner_row_never_deleted": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K4R_STATUS_REPORTS_RUNNER": {
+              "status": "PASS",
+              "inactive_without_tick": true,
+              "active_after_tick": true,
+              "heartbeat_at_most_every_10s": true,
+              "inactive_after_2_minutes": true,
+              "statement_limit_recorded_ms": 8000,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            }
+          },
+          "database_remaining": null,
+          "real_auth": null,
+          "auth_counts": null,
+          "complete_boundary_restored": true
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 6
+          },
+          "case_ids": [
+            "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT",
+            "K4R_RACE_TWO_TICKS_ONE_UNIT",
+            "K4R_RACE_COLD_START_TWO_TICKS",
+            "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES",
+            "K4R_RACE_ACCESS_CHANGED_DURING_UNIT",
+            "K4R_RACE_PG_CRON_FINISHES_JOB"
+          ],
+          "cases": {
+            "K4R_RACE_PAGE_AND_SERVER_ONE_UNIT": {
+              "status": "PASS",
+              "page_step_while_server_holds_runs_nothing": true,
+              "tick_while_page_holds_runs_nothing": true,
+              "every_unit_stored_once": true,
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K4R_RACE_TWO_TICKS_ONE_UNIT": {
+              "status": "PASS",
+              "concurrent_ticks_never_run_one_unit_twice": true,
+              "results": [
+                "UNIT_STORED",
+                "IDLE"
+              ],
+              "two_jobs_two_ticks": [
+                "UNIT_STORED",
+                "UNIT_STORED"
+              ],
+              "every_unit_stored_once": true,
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K4R_RACE_COLD_START_TWO_TICKS": {
+              "status": "PASS",
+              "runner_row_before": 0,
+              "synthetic_row_removed": false,
+              "both_ticks_in_their_units_at_once": true,
+              "no_tick_waited_on_another": true,
+              "heartbeat_rows_after": 1,
+              "every_unit_stored_once": true,
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K4R_RACE_LIMIT_STOPS_THEN_CONTINUES": {
+              "status": "PASS",
+              "stopped_unit_is_an_attempt": true,
+              "continues_after_release": true,
+              "three_stops_fail_job": {
+                "code": "CP7_ANALYSIS_STAGE_STOPPED",
+                "unit": 0,
+                "sqlstate": "57014"
+              },
+              "nothing_partial_stored": true,
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K4R_RACE_ACCESS_CHANGED_DURING_UNIT": {
+              "status": "PASS",
+              "unit_discarded_when_access_changed_during_it": true,
+              "next_tick_fails_job": {
+                "code": "CP7_ANALYSIS_ACCESS_CHANGED",
+                "unit": 1,
+                "sqlstate": "42501"
+              },
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K4R_RACE_PG_CRON_FINISHES_JOB": {
+              "status": "PASS",
+              "pg_cron": "1.6.4",
+              "test_schedule_override": "5 seconds",
+              "cron_runs": 1,
+              "units": 21,
+              "no_page_call": true,
+              "result_equals_single_on_same_reference": true,
+              "removed_after_test": [
+                "cp7-staged-runner@cp6_auditor_race"
+              ],
+              "copy_runtime": null,
+              "session_leaks": []
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": null,
+          "auth_counts": null,
+          "complete_boundary_restored": null
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "K4R_HTTP_CLOSED_PAGE_FINISHES",
+            "K4R_HTTP_TICK_NOT_REACHABLE"
+          ],
+          "cases": {
+            "K4R_HTTP_CLOSED_PAGE_FINISHES": {
+              "status": "PASS",
+              "real_Auth_request_then_server_only": true,
+              "units_by_server": 16,
+              "reopened_same_job_and_run": true,
+              "pages_hash_verified": 1,
+              "server_runner_reported_active": true,
+              "session_leaks": []
+            },
+            "K4R_HTTP_TICK_NOT_REACHABLE": {
+              "status": "PASS",
+              "not_exposed": {
+                "analysis_tick": 404,
+                "run_next": 404,
+                "erp_cp7_analysis_tick_v1": 404
+              },
+              "nothing_ran": true,
+              "session_leaks": []
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": true,
+          "auth_counts": {
+            "before": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "after": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "restored": true
+          },
+          "complete_boundary_restored": null
+        },
+        "browser": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES",
+            "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES"
+          ],
+          "cases": {
+            "K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES": {
+              "status": "PASS",
+              "pg_cron": true,
+              "test_schedule_override": "5 seconds",
+              "closed": "TAB_CLOSED",
+              "page_units": 0,
+              "server_units": 16,
+              "same_request_and_run": true,
+              "identity_hash": "8bcba17f571d793811b83c4c4223ff18bcc5953e8e7dd2f2135559f23c0080c1",
+              "no_request_or_step_on_reopen": true,
+              "every_unit_stored_once": true,
+              "cron_runs": 2,
+              "no_horizontal_scroll": true,
+              "screenshots": [
+                "K4R_DESKTOP_SERVER_RUNS.png",
+                "K4R_DESKTOP_REOPENED_DONE_BY_SERVER.png"
+              ]
+            },
+            "K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES": {
+              "status": "PASS",
+              "pg_cron": true,
+              "test_schedule_override": "5 seconds",
+              "closed": "STOPPED_WATCHING",
+              "page_units": 0,
+              "server_units": 16,
+              "same_request_and_run": true,
+              "identity_hash": "acca98061bae249233f8a3b9d8820ad355a1596aab232a0a580b71c53d123538",
+              "no_request_or_step_on_reopen": true,
+              "every_unit_stored_once": true,
+              "cron_runs": 1,
+              "no_horizontal_scroll": true,
+              "screenshots": [
+                "K4R_MOBILE_SERVER_RUNS.png",
+                "K4R_MOBILE_STOPPED_WATCHING.png",
+                "K4R_MOBILE_REOPENED_DONE_BY_SERVER.png"
+              ]
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": true,
+          "auth_counts": {
+            "before": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "after": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "restored": true
+          },
+          "complete_boundary_restored": null
+        }
+      }
+    },
+    "STAGED": {
+      "label": "CP7_P19_STAGED",
+      "status": "PASS",
+      "scope": "STAGED_BACKGROUND_ANALYSIS_ONE_UNIT_PER_REQUEST_UNDER_EXISTING_STATEMENT_LIMIT_HEADER_AND_BYTE_ADAPTIVE_PAGES_IDENTITY_HASH_ACTOR_ACCESS_BOUND_APART_FROM_WHOLE_READERS",
+      "source_sha256": "c9379aeccd18122e1d25e3c10c307b5d0d51d7c6ddbc0414ed64c600d8a7c1bd",
+      "expected_case_count": 14,
+      "observed_case_count": 14,
+      "required_case_counts": {
+        "native": 6,
+        "races": 4,
+        "http": 2,
+        "browser": 2
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "all_other_predecessor_definitions_and_owners_unchanged": true,
+      "combined_declared_execute_grants": {
+        "auth.uid()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "auth.jwt()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_my_access_v1()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.has_permission(text)": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bf_commercial_sku_at_v1(uuid,timestamp with time zone)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_lot_laundry_unknown_v1(uuid)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_hpp_completeness(uuid)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.save_fg_adjustment_draft_v2(jsonb,uuid,bigint)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.post_fg_adjustment_v2(uuid,uuid,bigint,text)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reverse_fg_adjustment_v2(uuid,text,uuid,bigint)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.move_fg_stock_card_row_to_position(uuid,integer)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reset_fg_stock_mutation_book_order()": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)": [
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_owner_financial_snapshot_v2(date,date,date)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.accounting_close_preflight_v1(date)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.account_id(text)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_finance.exact_numbers(jsonb)": [
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.close_accounting_through(date,text)": [
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reopen_accounting_through(date,text)": [
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.process_cost_recalc_queue(integer)": [
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)": [
+          [
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_wip.fields(jsonb,text[])": [
+          [
+            "cp7_policy",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_demand.\"decimal\"(jsonb)": [
+          [
+            "cp7_policy",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_private.immutable_run()": [
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)": [
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bb_commitment_line_remaining_v1(uuid,uuid)": [
+          [
+            "cp7_capture",
+            "EXECUTE",
+            false
+          ]
+        ]
+      },
+      "combined_declared_table_grants": {
+        "cp7_capture": {
+          "erp.accessory_bom_versions": "SELECT",
+          "erp.accessory_bom_items": "SELECT",
+          "erp.accessory_categories": "SELECT",
+          "erp.materials": "SELECT",
+          "erp.production_patterns": "SELECT",
+          "erp.material_rolls": "SELECT(id,material_id,status)",
+          "erp.material_stock_movements": "SELECT(material_id,roll_id,location_id,qty_signed,physical_at)",
+          "erp.locations": "SELECT(id,location_type,is_active)",
+          "erp.bb_purchase_commitments_v1": "SELECT(id,po_number,location_id,expected_date)",
+          "erp.bb_purchase_commitment_lines_v1": "SELECT(id,commitment_id,material_id,line_number)",
+          "cp7_plan_native.intents": "SELECT(id,target_key,cutting_group_id)",
+          "cp7_plan_native.apply_own_drafts": "SELECT(cutting_group_id,txid)",
+          "cp7_yield_policy.policies": "SELECT"
+        },
+        "cp7_plan_writer": {
+          "erp.cutting_group_rolls": "SELECT"
+        },
+        "cp7_transaction_source_read": {
+          "erp.material_purchase_headers": "SELECT",
+          "erp.material_purchase_items": "SELECT",
+          "erp.material_rolls": "SELECT",
+          "erp.material_supplier_invoices": "SELECT",
+          "erp.material_supplier_invoice_lines": "SELECT",
+          "erp.supplier_payments": "SELECT",
+          "erp.material_transfers": "SELECT",
+          "erp.material_transfer_items": "SELECT",
+          "erp.material_adjustments": "SELECT",
+          "erp.material_adjustment_items": "SELECT",
+          "erp.fg_adjustments": "SELECT",
+          "erp.fg_adjustment_items": "SELECT",
+          "erp.sales_headers": "SELECT",
+          "erp.sales_items": "SELECT",
+          "erp.sales_payments": "SELECT",
+          "erp.sales_returns": "SELECT",
+          "erp.sales_return_items": "SELECT",
+          "erp.misc_finance_transactions": "SELECT",
+          "erp.journal_entries": "SELECT",
+          "erp.payroll_settlements": "SELECT",
+          "erp.contractor_material_issues": "SELECT",
+          "erp.contractor_material_issue_items": "SELECT",
+          "erp.materials": "SELECT",
+          "erp.uom_definitions": "SELECT",
+          "erp.bs_cases": "SELECT",
+          "erp.rework_orders": "SELECT",
+          "erp.qc_inspections": "SELECT",
+          "erp.qc_inspection_items": "SELECT",
+          "erp.fg_stock_movements": "SELECT",
+          "erp.laundry_deliveries": "SELECT",
+          "erp.laundry_delivery_lines": "SELECT",
+          "erp.laundry_delivery_batch_size_lines": "SELECT",
+          "erp.laundry_receipts": "SELECT",
+          "erp.laundry_receipt_lines": "SELECT",
+          "erp.laundry_receipt_batch_size_lines": "SELECT",
+          "erp.cutting_groups": "SELECT",
+          "erp.production_orders": "SELECT",
+          "erp.product_models": "SELECT"
+        }
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "original_json_sha256": "d89a7414841431c2368c913a7be2d5639d45181c4b71968841d9bbbedacafb2f",
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "backup_restore_status": "RESTORED_SAME_MEANING",
+      "case_groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 6
+          },
+          "case_ids": [
+            "P19G_STAGED_EQUALS_SINGLE",
+            "P19G_STAGED_AUTHORITY",
+            "P19G_STAGED_IDENTITY",
+            "P19G_STAGED_SOURCE_CHECK",
+            "P19G_STAGED_BOUNDS_VS_SINGLE",
+            "P19G_SNAPSHOT_FRESHNESS"
+          ],
+          "cases": {
+            "P19G_STAGED_EQUALS_SINGLE": {
+              "status": "PASS",
+              "request_steps_status_pages_exact": true,
+              "units": 21,
+              "job_elapsed_ms": 296.242,
+              "slowest_call_ms": 29.022,
+              "statement_timeout": "8s",
+              "pages": {
+                "page_count": 1,
+                "targets_total": 3,
+                "header_utf8_bytes": 9704,
+                "page_utf8_bytes_max": 128299,
+                "page_utf8_bytes_total": 128299,
+                "uneven_ranges": false
+              },
+              "identity_hash": "a13f8904d188d72392809dd23c7488ed67ea75ba7f8698db14bf1740925e21ed",
+              "reassembled_analysis_equals_single_build_on_same_reference": true,
+              "whole_readers_refuse_staged_run": true,
+              "finance_deferred": true,
+              "Native_business_unchanged": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "P19G_STAGED_AUTHORITY": {
+              "status": "PASS",
+              "foreign_actor_job_pages_source_refused": true,
+              "access_epoch_change_refused": true,
+              "current_permission_loss_refuses_all_six": true,
+              "no_direct_API_path": true,
+              "pages_immutable": true,
+              "stage_tables": [
+                "capture_marks",
+                "cleanups",
+                "fragments",
+                "headers",
+                "jobs",
+                "outputs",
+                "page_sets",
+                "pages",
+                "pair_lists",
+                "pair_rows",
+                "plan_groups",
+                "plan_scope",
+                "plan_targets",
+                "report_jobs",
+                "report_publications",
+                "report_reads",
+                "report_sections",
+                "retention_log",
+                "runner",
+                "source_checks",
+                "target_rows",
+                "units"
+              ],
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "P19G_STAGED_IDENTITY": {
+              "status": "PASS",
+              "same_UUID_same_job": true,
+              "changed_query_refused": true,
+              "ordinary_capture_or_job_UUID_refused": true,
+              "missing_UUID_refused": true,
+              "foreign_or_missing_run_refused": true,
+              "running_job_exposes_no_page": true,
+              "out_of_range_page_refused": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "P19G_STAGED_SOURCE_CHECK": {
+              "status": "PASS",
+              "unchanged_then_archived_stale": true,
+              "archived_pages_unchanged": true,
+              "one_statement_check": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "P19G_STAGED_BOUNDS_VS_SINGLE": {
+              "status": "PASS",
+              "bounds": {
+                "installed": {
+                  "job_targets": 5000,
+                  "job_matching_products": 10000,
+                  "job_history_cells": 500000
+                },
+                "declared": {
+                  "job_targets": 5000,
+                  "job_matching_products": 10000,
+                  "job_history_cells": 500000
+                },
+                "declared_match": true
+              },
+              "within": {
+                "targets": 100,
+                "history_days": 1001,
+                "cells": 100100,
+                "single_refusal": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+                "staged_state": "DONE",
+                "units": 29,
+                "slowest_call_ms": 1010.643,
+                "pages": {
+                  "page_count": 1,
+                  "targets_total": 100,
+                  "header_utf8_bytes": 25938,
+                  "page_utf8_bytes_max": 4140686,
+                  "page_utf8_bytes_total": 4140686,
+                  "uneven_ranges": false
+                },
+                "coverage": {
+                  "expected_targets": 100,
+                  "source_targets": 100,
+                  "recommended_targets": 100,
+                  "unreviewed_named_targets": 0,
+                  "analysis_status": "PARTIAL",
+                  "source_equals_current_targets": true,
+                  "recommendations_unique_and_known": true,
+                  "every_target_recommended_or_named": true,
+                  "complete": true
+                },
+                "frozen_contract_valid": true,
+                "semantic_hash_recomputed_from_reassembly": true
+              },
+              "beyond": {
+                "targets": 140,
+                "history_days": 3660,
+                "cells": 512400,
+                "single_refusal": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+                "staged_refusal": "CP7_PLANNING_HISTORY_GRID_LIMIT",
+                "staged_refused_at": "unit 0",
+                "nothing_paged": true
+              },
+              "single_path_caps_unchanged": true,
+              "seed_ms_not_app_latency": 5862.704,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "P19G_SNAPSHOT_FRESHNESS": {
+              "status": "PASS",
+              "data_as_of_is_capture_time": true,
+              "states_seen": [
+                "NO_RECORDED_CHANGE",
+                "VERIFIED_SAME",
+                "CHANGES_RECORDED",
+                "STALE_VERIFIED"
+              ],
+              "backdated_rows_counted": 1,
+              "fg_rows_after_snapshot": 1,
+              "deletion_counted": true,
+              "same_only_as_of_check_time": true,
+              "snapshot_pages_unchanged": true,
+              "foreign_actor_refused": true,
+              "recorded_checks_and_marks_immutable": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            }
+          },
+          "database_remaining": null,
+          "real_auth": null,
+          "auth_counts": null,
+          "complete_boundary_restored": true
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 4
+          },
+          "case_ids": [
+            "P19G_RACE_TWO_STEPS_ONE_UNIT",
+            "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+            "P19G_RACE_ACCESS_CHANGED_MID_JOB",
+            "P19G_RACE_SNAPSHOT_IN_FLIGHT"
+          ],
+          "cases": {
+            "P19G_RACE_TWO_STEPS_ONE_UNIT": {
+              "status": "PASS",
+              "locked_job_step_runs_nothing_worker_active": true,
+              "concurrent_steps_never_run_one_unit_twice": true,
+              "results": [
+                {
+                  "stage": "HIST_EVENTS",
+                  "state": "RUNNING",
+                  "run_id": null,
+                  "failure": null,
+                  "reference": {
+                    "captured_at": "2026-10-10T13:11:41.483074+00:00",
+                    "source_hash": "8edf5f6077713f350b5f509ce6f07af13f79e31ebc17fd64a73c5fd3dc1597f2"
+                  },
+                  "retention": {
+                    "days": 7,
+                    "state": "NOT_FINISHED",
+                    "kept_until": null
+                  },
+                  "plan_final": false,
+                  "request_id": "2c73db0c-230f-400d-b385-06db46ee8d14",
+                  "unit_count": 9,
+                  "units_done": 1,
+                  "stage_count": 9,
+                  "stage_index": 2,
+                  "apply_enabled": false,
+                  "production_go": false,
+                  "server_runner": {
+                    "active": false,
+                    "last_tick_at": null
+                  },
+                  "targets_total": 3,
+                  "unit_attempts": 0,
+                  "contract_version": "cp7.native-analysis-staged-job.v1",
+                  "last_progress_at": "2026-10-10T13:11:41.598858+00:00",
+                  "targets_done_in_stage": 0
+                },
+                {
+                  "stage": "HIST_PREP",
+                  "state": "RUNNING",
+                  "run_id": null,
+                  "failure": null,
+                  "reference": {
+                    "captured_at": "2026-10-10T13:11:41.483074+00:00",
+                    "source_hash": "8edf5f6077713f350b5f509ce6f07af13f79e31ebc17fd64a73c5fd3dc1597f2"
+                  },
+                  "retention": {
+                    "days": 7,
+                    "state": "NOT_FINISHED",
+                    "kept_until": null
+                  },
+                  "plan_final": false,
+                  "request_id": "2c73db0c-230f-400d-b385-06db46ee8d14",
+                  "unit_count": 1,
+                  "units_done": 0,
+                  "stage_count": 1,
+                  "stage_index": 1,
+                  "apply_enabled": false,
+                  "production_go": false,
+                  "server_runner": {
+                    "active": false,
+                    "last_tick_at": null
+                  },
+                  "targets_total": 3,
+                  "unit_attempts": 0,
+                  "worker_active": true,
+                  "contract_version": "cp7.native-analysis-staged-job.v1",
+                  "last_progress_at": "2026-10-10T13:11:41.507402+00:00",
+                  "targets_done_in_stage": 0
+                }
+              ],
+              "copy_runtime": {
+                "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+                "source_sha256": "c9379aeccd18122e1d25e3c10c307b5d0d51d7c6ddbc0414ed64c600d8a7c1bd",
+                "full_family_acceptance": false
+              },
+              "session_leaks": []
+            },
+            "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES": {
+              "status": "PASS",
+              "statement_limit_stop_recorded_as_attempt": true,
+              "job_continues_after_lock_release": true,
+              "stops": [
+                {
+                  "stage": "HIST_PREP",
+                  "state": "RUNNING",
+                  "run_id": null,
+                  "failure": null,
+                  "reference": {
+                    "captured_at": "2026-10-10T13:11:53.859441+00:00",
+                    "source_hash": "e3ec2a075c7b8dbca32ed9062c1f5fed7fcb7b1b96216113c63957759cd29549"
+                  },
+                  "retention": {
+                    "days": 7,
+                    "state": "NOT_FINISHED",
+                    "kept_until": null
+                  },
+                  "plan_final": false,
+                  "request_id": "73a87cda-32fb-49c7-9692-19aa9e1ab6cf",
+                  "unit_count": 1,
+                  "units_done": 0,
+                  "stage_count": 1,
+                  "stage_index": 1,
+                  "apply_enabled": false,
+                  "production_go": false,
+                  "server_runner": {
+                    "active": false,
+                    "last_tick_at": null
+                  },
+                  "targets_total": 3,
+                  "unit_attempts": 1,
+                  "contract_version": "cp7.native-analysis-staged-job.v1",
+                  "last_progress_at": "2026-10-10T13:11:56.908019+00:00",
+                  "targets_done_in_stage": 0
+                },
+                {
+                  "stage": "HIST_PREP",
+                  "state": "RUNNING",
+                  "run_id": null,
+                  "failure": null,
+                  "reference": {
+                    "captured_at": "2026-10-10T13:11:53.859441+00:00",
+                    "source_hash": "e3ec2a075c7b8dbca32ed9062c1f5fed7fcb7b1b96216113c63957759cd29549"
+                  },
+                  "retention": {
+                    "days": 7,
+                    "state": "NOT_FINISHED",
+                    "kept_until": null
+                  },
+                  "plan_final": false,
+                  "request_id": "73a87cda-32fb-49c7-9692-19aa9e1ab6cf",
+                  "unit_count": 1,
+                  "units_done": 0,
+                  "stage_count": 1,
+                  "stage_index": 1,
+                  "apply_enabled": false,
+                  "production_go": false,
+                  "server_runner": {
+                    "active": false,
+                    "last_tick_at": null
+                  },
+                  "targets_total": 3,
+                  "unit_attempts": 2,
+                  "contract_version": "cp7.native-analysis-staged-job.v1",
+                  "last_progress_at": "2026-10-10T13:11:59.923825+00:00",
+                  "targets_done_in_stage": 0
+                }
+              ],
+              "units_after": 21,
+              "copy_runtime": {
+                "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+                "source_sha256": "c9379aeccd18122e1d25e3c10c307b5d0d51d7c6ddbc0414ed64c600d8a7c1bd",
+                "full_family_acceptance": false
+              },
+              "session_leaks": []
+            },
+            "P19G_RACE_ACCESS_CHANGED_MID_JOB": {
+              "status": "PASS",
+              "access_change_between_units_fails_job": true,
+              "no_mixed_access_pages": true,
+              "failed": {
+                "code": "CP7_ANALYSIS_ACCESS_CHANGED",
+                "unit": 1,
+                "sqlstate": "42501"
+              },
+              "copy_runtime": {
+                "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+                "source_sha256": "c9379aeccd18122e1d25e3c10c307b5d0d51d7c6ddbc0414ed64c600d8a7c1bd",
+                "full_family_acceptance": false
+              },
+              "session_leaks": []
+            },
+            "P19G_RACE_SNAPSHOT_IN_FLIGHT": {
+              "status": "PASS",
+              "capture_boundary": "SNAPSHOT",
+              "write_running_at_capture_counted": true,
+              "write_running_at_check_counted_after_commit": true,
+              "check_during_running_write_same": true,
+              "deletion_by_other_transaction_counted": true,
+              "recording_times_before_boundaries": true,
+              "snapshot_pages_unchanged": true,
+              "copy_runtime": {
+                "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+                "source_sha256": "c9379aeccd18122e1d25e3c10c307b5d0d51d7c6ddbc0414ed64c600d8a7c1bd",
+                "full_family_acceptance": false
+              },
+              "session_leaks": []
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": null,
+          "auth_counts": null,
+          "complete_boundary_restored": null
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "P19G_HTTP_STAGED_FLOW",
+            "P19G_HTTP_REVOKED"
+          ],
+          "cases": {
+            "P19G_HTTP_STAGED_FLOW": {
+              "status": "PASS",
+              "real_Auth_request_steps_get_pages_check": true,
+              "actual_HTTP_steps": 21,
+              "actual_HTTP_job_ms": 270.469,
+              "page_count": 1,
+              "foreign_403": true,
+              "foreign_job_unknown": true,
+              "whole_reader_refuses_staged_run": true,
+              "anonymous_refused": [
+                401,
+                401,
+                401,
+                401,
+                401,
+                401
+              ],
+              "session_leaks": []
+            },
+            "P19G_HTTP_REVOKED": {
+              "status": "PASS",
+              "deactivated_user_all_six_403": true,
+              "no_new_effect": true,
+              "session_leaks": []
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": true,
+          "auth_counts": {
+            "before": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "after": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "restored": true
+          },
+          "complete_boundary_restored": null
+        },
+        "browser": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
+            "P19G_BROWSER_MOBILE_STAGED"
+          ],
+          "cases": {
+            "P19G_BROWSER_DESKTOP_STAGED_RELOAD": {
+              "status": "PASS",
+              "progress_text": "Analisis bertahap: tahap 1 dari 1 (HIST_PREP) \u00b7 unit 0 dari 1 \u00b7 target 0 dari 2 pada tahap ini \u00b7 dimulai jam 20.13.00 WIB (10 Okt 2026).",
+              "reload_resumed_same_request": true,
+              "one_job_one_request": true,
+              "steps": 20,
+              "page_count": 1,
+              "targets_total": 2,
+              "identity_hash": "040e7b739b4074934d374e0a47983f7ef0bc30c6552af9d065f664de7f1b2006",
+              "completed_open": {
+                "t0": 799.1000000000349,
+                "trusted_click": true,
+                "elapsed_ms": 185.29999999998836,
+                "run_id": "cac6483c-5e5c-4c24-b182-4e164062f57c",
+                "target_ms": 3000,
+                "within_target": true
+              },
+              "completed_open_target_ms": 3000,
+              "load_target_mandatory": false,
+              "whole_readers_not_called": true,
+              "downstream_unavailable_stated": true,
+              "source_check_unchanged": true,
+              "business_unchanged": true,
+              "no_horizontal_scroll": true,
+              "screenshots": [
+                "P19G_DESKTOP_STAGED_RESULT.png"
+              ]
+            },
+            "P19G_BROWSER_MOBILE_STAGED": {
+              "status": "PASS",
+              "progress_text": "Analisis bertahap: tahap 3 dari 8 (HIST_ROWS) \u00b7 unit 2 dari 8 \u00b7 target 0 dari 3 pada tahap ini \u00b7 dimulai jam 20.13.09 WIB (10 Okt 2026).",
+              "reload_resumed_same_request": false,
+              "one_job_one_request": true,
+              "steps": 20,
+              "page_count": 1,
+              "targets_total": 3,
+              "identity_hash": "76ee339bab7d3bfb42b147df725ee043a2971ce0f4c52a7d1612d8c3b44fe0bc",
+              "completed_open": {
+                "t0": 965.9000000000233,
+                "trusted_click": true,
+                "elapsed_ms": 120.09999999997672,
+                "run_id": "bc911c0e-06ea-4c04-8b4c-a7f4b0113ac2",
+                "target_ms": 3000,
+                "within_target": true
+              },
+              "completed_open_target_ms": 3000,
+              "load_target_mandatory": false,
+              "whole_readers_not_called": true,
+              "downstream_unavailable_stated": true,
+              "source_check_unchanged": true,
+              "business_unchanged": true,
+              "no_horizontal_scroll": true,
+              "screenshots": [
+                "P19G_MOBILE_STAGED_RESULT.png"
+              ]
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": true,
+          "auth_counts": {
+            "before": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "after": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "restored": true
+          },
+          "complete_boundary_restored": null
+        }
+      }
+    },
+    "K3": {
+      "label": "CP7_K3_CLEANUP",
+      "status": "PASS",
+      "scope": "TEMPORARY_WORK_OF_A_VERIFIED_DONE_RUN_REMOVED_ON_THE_SERVER_SCHEDULE_RESULT_PAGES_HASHES_ORIGIN_AND_DOCUMENTS_KEPT_FEATURES_AND_REOPEN_AFTER_CLEANUP_PG_CRON_SCHEDULE_AND_NIGHTLY_BACKUP_TESTED_NOT_INSTALLED",
+      "source_sha256": "63dea24e509d067ca322c3d17f4a3c1e69164299855461b57bea9c4fc8558b85",
+      "expected_case_count": 19,
+      "observed_case_count": 19,
+      "required_case_counts": {
+        "native": 9,
+        "races": 6,
+        "http": 2,
+        "browser": 2
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "all_other_predecessor_definitions_and_owners_unchanged": true,
+      "combined_declared_execute_grants": {
+        "auth.jwt()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "auth.uid()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_hpp_completeness(uuid)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.has_permission(text)": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_my_access_v1()": [
+          [
+            "cp7_attendance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_attendance_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_installment_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_journal_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_misc_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_header",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_payroll_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_roster_write",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_transaction_source_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bf_commercial_sku_at_v1(uuid,timestamp with time zone)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_sales_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_lot_laundry_unknown_v1(uuid)": [
+          [
+            "cp7_fg_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.save_fg_adjustment_draft_v2(jsonb,uuid,bigint)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reverse_fg_adjustment_v2(uuid,text,uuid,bigint)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.move_fg_stock_card_row_to_position(uuid,integer)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reset_fg_stock_mutation_book_order()": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.post_fg_adjustment_v2(uuid,uuid,bigint,text)": [
+          [
+            "cp7_fg_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)": [
+          [
+            "cp7_nota_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.get_owner_financial_snapshot_v2(date,date,date)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.accounting_close_preflight_v1(date)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ],
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.account_id(text)": [
+          [
+            "cp7_finance_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_finance.exact_numbers(jsonb)": [
+          [
+            "cp7_period_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.close_accounting_through(date,text)": [
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.reopen_accounting_through(date,text)": [
+          [
+            "cp7_period_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.process_cost_recalc_queue(integer)": [
+          [
+            "cp7_recost_write",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_save_sale_v1(text,jsonb,uuid,text)": [
+          [
+            "postgres",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_wip.fields(jsonb,text[])": [
+          [
+            "cp7_policy",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_demand.\"decimal\"(jsonb)": [
+          [
+            "cp7_policy",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "cp7_private.immutable_run()": [
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)": [
+          [
+            "cp7_plan_writer",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bb_commitment_line_remaining_v1(uuid,uuid)": [
+          [
+            "cp7_capture",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_set_my_reminder_done_v1(uuid,boolean,uuid,bigint)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cancel_my_reminder_v1(uuid,text,uuid,bigint)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_read_analysis_v1(uuid)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_save_my_reminder_v1(jsonb,uuid,bigint)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_get_sales_v1(jsonb)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_list_my_reminders_v1(text,integer)": [
+          [
+            "cp7_reminder",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_grni_total(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_total_liability(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_get_supplier_credit_v1(jsonb)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_current_unit_cost(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_final_ap_total(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_invoice_capacity(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.material_purchase_posted_invoice_qty(uuid)": [
+          [
+            "cp7_payable_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_opening_invoiced_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_get_payroll_installments_v1(jsonb)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "public.erp_cp7_get_payroll_workspace_v1(text,jsonb)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_receipt_invoiced_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bb_opening_balance_context_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_opening_billed_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bc_carry_remaining_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bb_financial_workspace_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_vendor_payables_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_opening_released_v1(uuid)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ],
+        "erp.bd_receipt_page_v1(uuid,uuid,timestamp with time zone)": [
+          [
+            "cp7_obligation_read",
+            "EXECUTE",
+            false
+          ]
+        ]
+      },
+      "combined_declared_table_grants": {
+        "cp7_capture": {
+          "erp.accessory_bom_versions": "SELECT",
+          "erp.accessory_bom_items": "SELECT",
+          "erp.accessory_categories": "SELECT",
+          "erp.materials": "SELECT",
+          "erp.production_patterns": "SELECT",
+          "erp.material_rolls": "SELECT(id,material_id,status)",
+          "erp.material_stock_movements": "SELECT(material_id,roll_id,location_id,qty_signed,physical_at)",
+          "erp.locations": "SELECT(id,location_type,is_active)",
+          "erp.bb_purchase_commitments_v1": "SELECT(id,po_number,location_id,expected_date)",
+          "erp.bb_purchase_commitment_lines_v1": "SELECT(id,commitment_id,material_id,line_number)",
+          "cp7_plan_native.intents": "SELECT(id,target_key,cutting_group_id,recorded_at,xmin)",
+          "cp7_plan_native.apply_own_drafts": "SELECT(cutting_group_id,txid)",
+          "cp7_yield_policy.policies": "SELECT"
+        },
+        "cp7_plan_writer": {
+          "erp.cutting_group_rolls": "SELECT"
+        },
+        "cp7_transaction_source_read": {
+          "erp.material_purchase_headers": "SELECT",
+          "erp.material_purchase_items": "SELECT",
+          "erp.material_rolls": "SELECT",
+          "erp.material_supplier_invoices": "SELECT",
+          "erp.material_supplier_invoice_lines": "SELECT",
+          "erp.supplier_payments": "SELECT",
+          "erp.material_transfers": "SELECT",
+          "erp.material_transfer_items": "SELECT",
+          "erp.material_adjustments": "SELECT",
+          "erp.material_adjustment_items": "SELECT",
+          "erp.fg_adjustments": "SELECT",
+          "erp.fg_adjustment_items": "SELECT",
+          "erp.sales_headers": "SELECT",
+          "erp.sales_items": "SELECT",
+          "erp.sales_payments": "SELECT",
+          "erp.sales_returns": "SELECT",
+          "erp.sales_return_items": "SELECT",
+          "erp.misc_finance_transactions": "SELECT",
+          "erp.journal_entries": "SELECT",
+          "erp.payroll_settlements": "SELECT",
+          "erp.contractor_material_issues": "SELECT",
+          "erp.contractor_material_issue_items": "SELECT",
+          "erp.materials": "SELECT",
+          "erp.uom_definitions": "SELECT",
+          "erp.bs_cases": "SELECT",
+          "erp.rework_orders": "SELECT",
+          "erp.qc_inspections": "SELECT",
+          "erp.qc_inspection_items": "SELECT",
+          "erp.fg_stock_movements": "SELECT",
+          "erp.laundry_deliveries": "SELECT",
+          "erp.laundry_delivery_lines": "SELECT",
+          "erp.laundry_delivery_batch_size_lines": "SELECT",
+          "erp.laundry_receipts": "SELECT",
+          "erp.laundry_receipt_lines": "SELECT",
+          "erp.laundry_receipt_batch_size_lines": "SELECT",
+          "erp.cutting_groups": "SELECT",
+          "erp.production_orders": "SELECT",
+          "erp.product_models": "SELECT"
+        },
+        "cp7_reminder": {
+          "erp.manual_reminders": "SELECT",
+          "cp7_analysis_native.publications": "SELECT"
+        },
+        "cp7_payable_read": {
+          "erp.v_material_purchase_liability_status": "SELECT",
+          "erp.material_purchase_headers": "SELECT",
+          "erp.material_purchase_items": "SELECT",
+          "erp.suppliers": "SELECT",
+          "erp.supplier_payments": "SELECT",
+          "erp.material_supplier_invoices": "SELECT",
+          "erp.material_supplier_invoice_lines": "SELECT"
+        },
+        "cp7_obligation_read": {
+          "erp.opening_subledger_balances": "SELECT",
+          "erp.opening_balance_items": "SELECT",
+          "erp.opening_balance_headers": "SELECT",
+          "erp.initial_import_financial_sources": "SELECT",
+          "erp.customers": "SELECT",
+          "erp.suppliers": "SELECT",
+          "erp.contractors": "SELECT",
+          "erp.laundry_vendors": "SELECT",
+          "erp.bc_lot_events_v1": "SELECT",
+          "erp.bc_documents_v1": "SELECT",
+          "erp.payroll_reimbursements": "SELECT",
+          "erp.payroll_settlements": "SELECT",
+          "erp.vendor_invoices": "SELECT",
+          "erp.laundry_receipt_lines": "SELECT",
+          "erp.laundry_receipts": "SELECT",
+          "erp.laundry_delivery_lines": "SELECT",
+          "erp.laundry_deliveries": "SELECT",
+          "erp.bd_opening_laundry_uninvoiced_v1": "SELECT",
+          "erp.bd_laundry_invoice_lines_v1": "SELECT",
+          "erp.bd_laundry_invoices_v1": "SELECT"
+        }
+      },
+      "restore_components": {
+        "erp_platform_auth_schema_acl": true,
+        "public_catalog_and_rows": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      },
+      "original_json_sha256": "6c269db94110c28c288c6b8e56070e930f24b3cf41d432a13721851c71dc5e85",
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "backup_restore_status": "RESTORED_SAME_MEANING",
+      "case_groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 9
+          },
+          "case_ids": [
+            "K3C_CLEANED_ONLY_TEMPORARY",
+            "K3C_REOPEN_AFTER_CLEANUP",
+            "K3C_PLAN_V2_AFTER_CLEANUP",
+            "K3C_REPORT_V2_AFTER_CLEANUP",
+            "K3C_AI_AND_REMINDERS_AFTER_CLEANUP",
+            "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED",
+            "K3C_ONLY_DONE_KEPT_RUNS",
+            "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP",
+            "K3C_SCHEDULE_DEFINED_PRIVATE"
+          ],
+          "cases": {
+            "K3C_CLEANED_ONLY_TEMPORARY": {
+              "status": "PASS",
+              "deferred_while_analysis_running": true,
+              "removed_rows": {
+                "outputs": 16,
+                "target_rows": 6,
+                "pair_rows": 0,
+                "pair_lists": 0,
+                "fragments": 2
+              },
+              "stored_bytes_removed": {
+                "outputs": 6311,
+                "target_rows": 4989,
+                "pair_rows": 0,
+                "pair_lists": 0,
+                "fragments": 593
+              },
+              "result_rows_identical": true,
+              "running_job_untouched": true,
+              "status_unchanged": true,
+              "log_verified_identity_pages_targets_plan_index": true,
+              "ran_as_scheduler_role": "postgres",
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K3C_REOPEN_AFTER_CLEANUP": {
+              "status": "PASS",
+              "reassembled_original_identical": true,
+              "page_set_identical": true,
+              "origin_rebuilds_same_analysis": true,
+              "status_identical": true,
+              "source_unchanged": true,
+              "freshness": "NO_RECORDED_CHANGE",
+              "recorded_check": "UNCHANGED",
+              "pages": 1,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K3C_PLAN_V2_AFTER_CLEANUP": {
+              "status": "PASS",
+              "options_same_after_cleanup": true,
+              "draft_saved": true,
+              "preview_ready": true,
+              "applied_with_live_recheck": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K3C_REPORT_V2_AFTER_CLEANUP": {
+              "status": "PASS",
+              "report_published_after_cleanup": true,
+              "sections": 1,
+              "hashes_verified": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K3C_AI_AND_REMINDERS_AFTER_CLEANUP": {
+              "status": "PASS",
+              "ai_brief_identical": true,
+              "reminder_set_done": "DONE",
+              "reminder_conditions_equal_independent": 0,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED": {
+              "status": "PASS",
+              "unverified_result_nothing_removed": true,
+              "retried_and_cleaned": true,
+              "repeat_changes_nothing": true,
+              "direct_call_returns_logged_cleanup": true,
+              "log_immutable": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K3C_ONLY_DONE_KEPT_RUNS": {
+              "status": "PASS",
+              "running_untouched": true,
+              "failed_untouched": true,
+              "expired_left_to_7_day_purge": true,
+              "refusals": [
+                "CP7_ANALYSIS_CLEANUP_NOT_DONE",
+                "CP7_ANALYSIS_CLEANUP_EXPIRED"
+              ],
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP": {
+              "status": "PASS",
+              "draft_readable_after_cleanup": true,
+              "purge_after_7_days_keeps_document_pages": true,
+              "cleanup_log_kept": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            },
+            "K3C_SCHEDULE_DEFINED_PRIVATE": {
+              "status": "PASS",
+              "schedules": [
+                {
+                  "name": "cp7-staged-cleanup",
+                  "schedule": "*/5 * * * *",
+                  "command": "select cp7_ops.cleanup_tick()",
+                  "timezone": "UTC",
+                  "meaning": "every 5 minutes"
+                },
+                {
+                  "name": "cp7-staged-retention",
+                  "schedule": "30 19 * * *",
+                  "command": "select cp7_ops.retention_tick()",
+                  "timezone": "UTC",
+                  "meaning": "02:30 WIB daily"
+                },
+                {
+                  "name": "cp7-staged-runner",
+                  "schedule": "* * * * *",
+                  "command": "set statement_timeout to '8s'; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit;",
+                  "timezone": "UTC",
+                  "meaning": "every minute: up to 60 units, each in its own transaction under the 8 s limit"
+                }
+              ],
+              "ticks_scheduler_role_only": true,
+              "cleanup_functions_private": true,
+              "no_public_rpc": true,
+              "authenticated_refused": "42501",
+              "limit_bounded": true,
+              "full_boundary_restored": true,
+              "public_schema_unchanged": true,
+              "session_leaks": {
+                "advisory_locks": 0,
+                "advisory_lock_keys": [],
+                "other_sessions": []
+              }
+            }
+          },
+          "database_remaining": null,
+          "real_auth": null,
+          "auth_counts": null,
+          "complete_boundary_restored": true
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 6
+          },
+          "case_ids": [
+            "K3C_RACE_TWO_TICKS_ONE_LOG",
+            "K3C_RACE_BUSY_TABLE_RETRIED",
+            "K3C_RACE_PG_CRON_FIRES",
+            "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
+            "K3C_RACE_CRON_TWO_DATABASES",
+            "K3C_RACE_BACKUP_RETRY_SAME_SECOND"
+          ],
+          "cases": {
+            "K3C_RACE_TWO_TICKS_ONE_LOG": {
+              "status": "PASS",
+              "two_concurrent_ticks_each_job_cleaned_once": true,
+              "log_rows": 2,
+              "lock_waits_retried": 0,
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K3C_RACE_BUSY_TABLE_RETRIED": {
+              "status": "PASS",
+              "gave_up_on_busy_table": "55P03",
+              "waited_s": 2.01,
+              "result_available": true,
+              "retried_and_cleaned": true,
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K3C_RACE_PG_CRON_FIRES": {
+              "status": "PASS",
+              "pg_cron": "1.6.4",
+              "test_schedule_override": "10 seconds",
+              "jobs_fired": {
+                "cp7-staged-cleanup": 1,
+                "cp7-staged-retention": 1,
+                "cp7-staged-runner": 1
+              },
+              "cleaned_by_cron": true,
+              "removed_after_test": [
+                "cp7-staged-cleanup@cp6_auditor_race",
+                "cp7-staged-retention@cp6_auditor_race",
+                "cp7-staged-runner@cp6_auditor_race"
+              ],
+              "installed_definitions_are_the_package": true,
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K3C_RACE_NIGHTLY_BACKUP_VERIFIED": {
+              "status": "PASS",
+              "restore_verified": true,
+              "tables_compared": 557,
+              "failed_night_removed_nothing": true,
+              "newest_verified_kept": [
+                "erp-20261010-201159-WIB-d336a905d9d9.dump",
+                "erp-synthetic-2.dump"
+              ],
+              "older_removed_after_verified_night": [
+                "erp-synthetic-1.dump",
+                "erp-synthetic-0.dump"
+              ],
+              "schedule": {
+                "cron": "0 18 * * *",
+                "timezone": "UTC",
+                "meaning": "01:00 WIB nightly"
+              },
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K3C_RACE_CRON_TWO_DATABASES": {
+              "status": "PASS",
+              "a_untouched_by_b": true,
+              "reinstall_same_ids": true,
+              "clash_refused_before_change": true,
+              "uninstall_only_target": true,
+              "job_names": [
+                "cp7-staged-cleanup@cp6_auditor_race",
+                "cp7-staged-retention@cp6_auditor_race",
+                "cp7-staged-runner@cp6_auditor_race"
+              ],
+              "test_schedule_override": "0 3 1 1 *",
+              "copy_runtime": null,
+              "session_leaks": []
+            },
+            "K3C_RACE_BACKUP_RETRY_SAME_SECOND": {
+              "status": "PASS",
+              "verified_dump_and_receipt_unchanged": true,
+              "retry_same_second_new_name": "erp-20261010-201230-WIB-889ea0cf111b.dump",
+              "collision_refused_before_write": true,
+              "failed_retry_removed_nothing": true,
+              "synthetic": "same timestamp passed as now; forced equal token",
+              "copy_runtime": null,
+              "session_leaks": []
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": null,
+          "auth_counts": null,
+          "complete_boundary_restored": null
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "K3C_HTTP_REOPEN_AFTER_CLEANUP",
+            "K3C_HTTP_TICK_NOT_REACHABLE"
+          ],
+          "cases": {
+            "K3C_HTTP_REOPEN_AFTER_CLEANUP": {
+              "status": "PASS",
+              "real_Auth_reopen_after_cleanup": true,
+              "pages_hash_verified": 1,
+              "source_unchanged": true,
+              "anonymous_refused": 401,
+              "session_leaks": []
+            },
+            "K3C_HTTP_TICK_NOT_REACHABLE": {
+              "status": "PASS",
+              "not_exposed": {
+                "cleanup_tick": 404,
+                "clean_done": 404,
+                "clean_pending": 404
+              },
+              "nothing_cleaned": true,
+              "session_leaks": []
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": true,
+          "auth_counts": {
+            "before": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "after": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "restored": true
+          },
+          "complete_boundary_restored": null
+        },
+        "browser": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP",
+            "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP"
+          ],
+          "cases": {
+            "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP": {
+              "status": "PASS",
+              "cleaned_by_schedule_entry": true,
+              "reopened_on_panel_open": true,
+              "reopened_same_identity": "3a1bd2bec1e8d8917f103db39de9380a6d0e92cf2185b651fd8ebc837121d1db",
+              "pages": 1,
+              "no_request_or_step_on_reopen": true,
+              "plan_options_after_cleanup": true,
+              "no_horizontal_scroll": true,
+              "screenshots": [
+                "K3C_DESKTOP_REOPENED_AFTER_CLEANUP.png"
+              ]
+            },
+            "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP": {
+              "status": "PASS",
+              "cleaned_by_schedule_entry": true,
+              "reopened_on_panel_open": true,
+              "reopened_same_identity": "b17069118c621c3a543a42351f7fffbfd7f6a873fe7e2cd5a3c376f9ef07ca84",
+              "pages": 1,
+              "no_request_or_step_on_reopen": true,
+              "plan_options_after_cleanup": true,
+              "no_horizontal_scroll": true,
+              "screenshots": [
+                "K3C_MOBILE_REOPENED_AFTER_CLEANUP.png"
+              ]
+            }
+          },
+          "database_remaining": 0,
+          "real_auth": true,
+          "auth_counts": {
+            "before": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "after": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "restored": true
+          },
+          "complete_boundary_restored": null
+        }
+      }
+    },
+    "SOL_COLD_START": {
+      "status": "RUN_COMPLETE",
+      "label": "AUDITOR_SCENARIO",
+      "database": "cp6_auditor_race",
+      "copy_per_race": true,
+      "test_only_usage_grant": true,
+      "races": {
+        "SOL_COLD_START": {
+          "status": "PASS",
+          "initial_runner_rows": 0,
+          "second_reached_real_output_insert": true,
+          "second_wait_event": "relation",
+          "ungranted_locks": [
+            [
+              "relation",
+              "RowExclusiveLock",
+              false
+            ]
+          ],
+          "first": {
+            "at": "2026-10-10T13:13:21.432252+00:00",
+            "ran": true,
+            "tick": "cp7-staged-runner",
+            "unit": 0,
+            "state": "RUNNING",
+            "job_id": "872d854d-3b33-4ec2-976a-5d982dad8472",
+            "outcome": "UNIT_STORED",
+            "unit_count": 8,
+            "units_done": 1
+          },
+          "second": {
+            "at": "2026-10-10T13:13:21.433341+00:00",
+            "ran": true,
+            "tick": "cp7-staged-runner",
+            "unit": 0,
+            "state": "RUNNING",
+            "job_id": "a868a6a2-44b2-48f1-896a-5ed355b91090",
+            "outcome": "UNIT_STORED",
+            "unit_count": 8,
+            "units_done": 1
+          },
+          "units_done": [
+            1,
+            1
+          ],
+          "no_duplicate_outputs": true,
+          "product_step_unmodified": true,
+          "copy_runtime": null,
+          "session_leaks": []
+        }
+      },
+      "production_go": false,
+      "independent_acceptance": false,
+      "release_evidence": false,
+      "planned_race_ids": [
+        "SOL_COLD_START"
+      ],
+      "database_remaining": 0,
+      "counts": {
+        "PASS": 1
+      }
+    },
+    "SOL_WARM_START": {
+      "status": "RUN_COMPLETE",
+      "label": "AUDITOR_SCENARIO",
+      "database": "cp6_auditor_race",
+      "copy_per_race": true,
+      "test_only_usage_grant": true,
+      "races": {
+        "SOL_WARM_START": {
+          "status": "PASS",
+          "initial_runner_rows": 0,
+          "second_reached_real_output_insert": true,
+          "second_wait_event": "relation",
+          "ungranted_locks": [
+            [
+              "relation",
+              "RowExclusiveLock",
+              false
+            ]
+          ],
+          "first": {
+            "at": "2026-10-10T13:13:36.34167+00:00",
+            "ran": true,
+            "tick": "cp7-staged-runner",
+            "unit": 0,
+            "state": "RUNNING",
+            "job_id": "4887428f-f978-4fc2-8fbe-3096701dc4ff",
+            "outcome": "UNIT_STORED",
+            "unit_count": 8,
+            "units_done": 1
+          },
+          "second": {
+            "at": "2026-10-10T13:13:36.34167+00:00",
+            "ran": true,
+            "tick": "cp7-staged-runner",
+            "unit": 0,
+            "state": "RUNNING",
+            "job_id": "d4925735-d140-4d46-9e9c-e45636b44c06",
+            "outcome": "UNIT_STORED",
+            "unit_count": 8,
+            "units_done": 1
+          },
+          "units_done": [
+            1,
+            1
+          ],
+          "no_duplicate_outputs": true,
+          "product_step_unmodified": true,
+          "copy_runtime": null,
+          "session_leaks": []
+        }
+      },
+      "production_go": false,
+      "independent_acceptance": false,
+      "release_evidence": false,
+      "planned_race_ids": [
+        "SOL_WARM_START"
+      ],
+      "database_remaining": 0,
+      "counts": {
+        "PASS": 1
+      }
+    },
+    "KERNEL": {
+      "candidate": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+      "source_sha256": "325962068ec3ee9218b4b2aa76aec230fc79ba88844bf692be4704a89b84c8f6",
+      "scope": "UNMODIFIED_RUNNER_AND_DDL_CONTROLLED_STEP_ACCESS_KERNEL_ONLY",
+      "status": "PASS",
+      "cases": [
+        {
+          "id": "LIMIT_0",
+          "status": "PASS",
+          "sqlstate": "55000"
+        },
+        {
+          "id": "LIMIT_8001ms",
+          "status": "PASS",
+          "sqlstate": "55000"
+        },
+        {
+          "id": "FRESH_ACCESS_ISOLATION",
+          "status": "PASS",
+          "sqlstate": "P0001"
+        },
+        {
+          "id": "COLD_SECOND_TICK_NO_HEARTBEAT_WAIT",
+          "status": "PASS",
+          "second_wait_event": null,
+          "ungranted_locks": [],
+          "first": {
+            "ran": true,
+            "unit": 0,
+            "state": "DONE",
+            "job_id": "00000000-0000-0000-0000-000000000001",
+            "outcome": "JOB_DONE",
+            "unit_count": 1,
+            "units_done": 1
+          },
+          "second": {
+            "ran": true,
+            "unit": 0,
+            "state": "DONE",
+            "job_id": "00000000-0000-0000-0000-000000000002",
+            "outcome": "JOB_DONE",
+            "unit_count": 1,
+            "units_done": 1
+          }
+        },
+        {
+          "id": "COLD_RECOVERY_NO_DUPLICATE",
+          "status": "PASS",
+          "outputs": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": "WARM_SECOND_TICK_NO_HEARTBEAT_WAIT",
+          "status": "PASS",
+          "second_wait_event": null,
+          "ungranted_locks": [],
+          "first": {
+            "ran": true,
+            "unit": 0,
+            "state": "DONE",
+            "job_id": "00000000-0000-0000-0000-000000000001",
+            "outcome": "JOB_DONE",
+            "unit_count": 1,
+            "units_done": 1
+          },
+          "second": {
+            "ran": true,
+            "unit": 0,
+            "state": "DONE",
+            "job_id": "00000000-0000-0000-0000-000000000002",
+            "outcome": "JOB_DONE",
+            "unit_count": 1,
+            "units_done": 1
+          }
+        },
+        {
+          "id": "WARM_NO_DUPLICATE",
+          "status": "PASS",
+          "outputs": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": "ACTOR_AND_ALL_PRIOR_CLAIMS_RESTORED",
+          "status": "PASS",
+          "actor": "10000000-0000-0000-0000-000000000003",
+          "claims_restored": true,
+          "outcome": "JOB_DONE"
+        }
+      ],
+      "production_go": false,
+      "runtime": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit"
+    }
+  },
+  "strict_failures": [],
+  "production_go": false,
+  "status": "PASS"
+}
