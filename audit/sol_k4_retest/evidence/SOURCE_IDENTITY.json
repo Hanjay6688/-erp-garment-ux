@@ -1,0 +1,175 @@
+{
+  "source_sha": "8116800c0586cfb27bd6c7d206d1b176666c9839",
+  "source_tree": "12b81da97f5260596d2384765dd5e2d877e6c80f",
+  "documentation_head": "b10a0521bda4ad5191e4e9fcd82a76fcd7685dcc",
+  "documentation_only_delta": [
+    "docs/cp7/ACTIVE_CONTINUATION.md",
+    "docs/cp7/CONTINUATION_AFTER_FREEZE_20261008.md",
+    "docs/cp7/audit-candidate/sol-retest-k4-20261009/AUDITOR_RETEST.md",
+    "docs/cp7/audit-candidate/sol-retest-k4-20261009/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/sol-retest-k4-20261009/README.md",
+    "docs/cp7/audit-candidate/sol-retest-k4-20261009/SOURCE_DELTA.json",
+    "docs/cp7/evidence/sol-p20-k4-20261009/01_attention284_wib_midnight_first_attempt.log"
+  ],
+  "verified_manifest_files": 13,
+  "non_docs_delta": [
+    ".github/workflows/claude-p19-transport.yml",
+    "scripts/cp7-src/planning/analysis-stages.sql",
+    "scripts/cp7_f05_analysis_probe.py",
+    "scripts/cp7_k4_runner_cases.py"
+  ],
+  "auditor_probes": [
+    {
+      "path": "audit/sol_p20_k4/cold_runner.py",
+      "sha256": "a38864a9c6f68db6c84b853654a8d7b896a8b347edc213d57140d2cf3c232ab4",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/sol_p20_k4_installed_probe.py",
+      "sha256": "065d2d295a6a41af4dc7a67b058f11277d1c6432cfd273b06186921a50773afe",
+      "unchanged": true
+    }
+  ],
+  "verified_files": [
+    {
+      "path": ".github/workflows/claude-p19-transport.yml",
+      "status": "M",
+      "before": {
+        "bytes": 12797,
+        "sha256": "1fff0ffdf5e826490485925168af316316833b105abc1785c3af9d4fed4a66bf"
+      },
+      "after": {
+        "bytes": 12797,
+        "sha256": "3130cbc5a24641cb125527c6756234889761294a798586f2af537c0c133e18d7"
+      }
+    },
+    {
+      "path": "docs/cp7/ACTIVE_CONTINUATION.md",
+      "status": "M",
+      "before": {
+        "bytes": 30762,
+        "sha256": "4616c35c26594bcafb2cd49f725e443c92f7902b823c103c1c416d1fc3054301"
+      },
+      "after": {
+        "bytes": 31465,
+        "sha256": "e2a54b673074185324aa9cb4172648947274704fa58adb9b4ef9db23d01ab9c6"
+      }
+    },
+    {
+      "path": "docs/cp7/CONTINUATION_AFTER_FREEZE_20261008.md",
+      "status": "M",
+      "before": {
+        "bytes": 11315,
+        "sha256": "5eabba9147d7246effb294fa2ce3190f663d999db810a389182819b4d1d4c4de"
+      },
+      "after": {
+        "bytes": 11728,
+        "sha256": "f25783e8a4c8fc6e6008367ae246a9339f737123462db673748bf79a4ac654ba"
+      }
+    },
+    {
+      "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/AUDITOR_START.md",
+      "status": "A",
+      "before": null,
+      "after": {
+        "bytes": 4990,
+        "sha256": "55bff4e9910eaa8fdc5a83f2268a741e99d05c3e9dbed95c4f9fbf791ef595ab"
+      }
+    },
+    {
+      "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/CI_RECEIPT.json",
+      "status": "A",
+      "before": null,
+      "after": {
+        "bytes": 8845,
+        "sha256": "3140b5651900fc89b5cb08db2747ae256427db5e0569e82990db139e70c5a187"
+      }
+    },
+    {
+      "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/README.md",
+      "status": "A",
+      "before": null,
+      "after": {
+        "bytes": 6931,
+        "sha256": "f14b56c5c77328808e717a0600be0728989ee3b01742c5d2454c5e798f6fe2c0"
+      }
+    },
+    {
+      "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/SOURCE_DELTA.json",
+      "status": "A",
+      "before": null,
+      "after": {
+        "bytes": 12944,
+        "sha256": "698cc2c95df0f59e1329774b892d2d87dd81aaedb762d0860ee56591b3c6f95d"
+      }
+    },
+    {
+      "path": "docs/cp7/audit-candidate/final-p20-k4-20261009/SOURCE_DELTA_FROM_REVISION.json",
+      "status": "A",
+      "before": null,
+      "after": {
+        "bytes": 6663,
+        "sha256": "d131af7dd260b17f224ca6a23830a90184f3d69ff9ccc01b479b41f151c2ec17"
+      }
+    },
+    {
+      "path": "docs/cp7/evidence/sol-p20-k4-20261009/README.md",
+      "status": "A",
+      "before": null,
+      "after": {
+        "bytes": 1711,
+        "sha256": "e8b0b298381b2f6ac960c2475d401f52cca9d01d1831d1b28c4f1b23bf34c78d"
+      }
+    },
+    {
+      "path": "docs/cp7/k4/K4_RUNNER.json",
+      "status": "M",
+      "before": {
+        "bytes": 6851,
+        "sha256": "0d09cc35c0270286a4730379c20eef408e5f9d6780669031768df54aadfe8224"
+      },
+      "after": {
+        "bytes": 7882,
+        "sha256": "e29760caf5fa7d57cb9546603de0ad0068277fe91a18c1da766d9cd91c80aea3"
+      }
+    },
+    {
+      "path": "scripts/cp7-src/planning/analysis-stages.sql",
+      "status": "M",
+      "before": {
+        "bytes": 210096,
+        "sha256": "653b6ad195ea5e8f0f4dd0557e8fdf9fa25abe39cfca4d623433624d8343c473"
+      },
+      "after": {
+        "bytes": 210444,
+        "sha256": "325962068ec3ee9218b4b2aa76aec230fc79ba88844bf692be4704a89b84c8f6"
+      }
+    },
+    {
+      "path": "scripts/cp7_f05_analysis_probe.py",
+      "status": "M",
+      "before": {
+        "bytes": 44654,
+        "sha256": "a5f00f2a498245195516e222e658bd65e16d5face35a446388fad86917cce65e"
+      },
+      "after": {
+        "bytes": 44654,
+        "sha256": "cf5a21d7e96375da2eefe866c3d980528e8c03a4c887afcf16bdaafe371556a2"
+      }
+    },
+    {
+      "path": "scripts/cp7_k4_runner_cases.py",
+      "status": "M",
+      "before": {
+        "bytes": 34848,
+        "sha256": "e83e6966a98bad6dad89f04924e419d54338d04d8841633693a74bc7886badfa"
+      },
+      "after": {
+        "bytes": 38429,
+        "sha256": "9a78c13f80321d6a35383d87fde2f4acfa1d7017adfb15192c22eb3558393626"
+      }
+    }
+  ],
+  "kernel_original_static_candidate_label": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+  "kernel_identity_rule": "original probe kept byte-for-byte; source_sha256 and this source SHA identify revised source, not inherited static candidate literal"
+}
