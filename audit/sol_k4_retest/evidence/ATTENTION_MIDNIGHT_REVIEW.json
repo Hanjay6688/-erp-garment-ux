@@ -1,0 +1,145 @@
+{
+  "classification": "WRITER_EVIDENCE_INDEPENDENTLY_INSPECTED_NOT_RERUN_BY_AUDITOR",
+  "source_sha": "8116800c0586cfb27bd6c7d206d1b176666c9839",
+  "workflow_run": 37958882487,
+  "first_job": 113916327717,
+  "retry_job": 113934690918,
+  "root_cause": "fixture today captured once before WIB midnight while actual server accounting/reminder business day advanced",
+  "root_cause_confidence": "SUPPORTED_BY_SOURCE_AND_FAILED_CAPTURE_DATES_AND_SAME_SHA_STRICT_RERUN",
+  "K4_regression": false,
+  "test_fixture_defect_fixed": false,
+  "reports": {
+    "first": {
+      "status": "INCOMPLETE",
+      "source_sha256": "94a87d7d6c0a5a37b7cd22043231fa1e49df3cda2c1b5430fa12edac026cb32d",
+      "observed_case_count": 286,
+      "expected_case_count": 286,
+      "required_case_counts": {
+        "native": 181,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "required_case_counts_pass": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "artifact_id": 11632727853,
+      "zip_sha256": "8afe2a9a2d87caaa7a21fb8464c4b3455a12ba5d870436f8a52b3655a1646b47",
+      "groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 181
+          },
+          "database_remaining": null
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 40
+          },
+          "database_remaining": 0
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 29
+          },
+          "database_remaining": 0
+        },
+        "browser": {
+          "status": "INCOMPLETE",
+          "counts": {
+            "PASS": 30,
+            "INCOMPLETE": 6
+          },
+          "database_remaining": 0
+        }
+      },
+      "non_pass_browser": {
+        "P16_RULE_LOCAL_BROWSER_DESKTOP": {
+          "status": "INCOMPLETE",
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'2' !== '1'\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_rule_browser.mjs:20:129)\n    at runNextTicks (nod"
+        },
+        "P16_RULE_LOCAL_BROWSER_MOBILE": {
+          "status": "INCOMPLETE",
+          "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n'2' !== '1'\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_rule_browser.mjs:20:129)\n    at runNextTicks (nod"
+        },
+        "P16_OTHER_BROWSER_DESKTOP": {
+          "status": "INCOMPLETE",
+          "error": "Error: Command failed: python ../auditor/scripts/cp7_f05_other_browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f05_other_browser"
+        },
+        "P16_OTHER_BROWSER_MOBILE": {
+          "status": "INCOMPLETE",
+          "error": "Error: Command failed: python ../auditor/scripts/cp7_f05_other_browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f05_other_browser"
+        },
+        "P15_OBLIGATION_REPORT_BROWSER_DESKTOP": {
+          "status": "INCOMPLETE",
+          "error": "Error: Command failed: python ../auditor/scripts/cp7_f05_other_browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f05_other_browser"
+        },
+        "P15_OBLIGATION_REPORT_BROWSER_MOBILE": {
+          "status": "INCOMPLETE",
+          "error": "Error: Command failed: python ../auditor/scripts/cp7_f05_other_browser_fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_f05_other_browser"
+        }
+      },
+      "date_witness": {
+        "query_from": "2026-10-09",
+        "query_through": "2026-10-09",
+        "server_metric_periods": [
+          [
+            "2026-10-10",
+            "2026-10-10"
+          ]
+        ]
+      }
+    },
+    "retry": {
+      "status": "PASS",
+      "source_sha256": "94a87d7d6c0a5a37b7cd22043231fa1e49df3cda2c1b5430fa12edac026cb32d",
+      "observed_case_count": 286,
+      "expected_case_count": 286,
+      "required_case_counts": {
+        "native": 181,
+        "races": 40,
+        "http": 29,
+        "browser": 36
+      },
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "artifact_id": 11634875483,
+      "zip_sha256": "f0e9a3d1eb31d37feb8756fb79055d5c77eb7f004351115f361460919f3dbd0e",
+      "groups": {
+        "native": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 181
+          },
+          "database_remaining": null
+        },
+        "races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 40
+          },
+          "database_remaining": 0
+        },
+        "http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 29
+          },
+          "database_remaining": 0
+        },
+        "browser": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 36
+          },
+          "database_remaining": 0
+        }
+      },
+      "non_pass_browser": {}
+    }
+  }
+}
