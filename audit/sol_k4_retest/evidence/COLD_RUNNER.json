@@ -1,0 +1,96 @@
+{
+  "candidate": "8cc1b0818fdba54f3ebeb64e132f7f3e20309e24",
+  "source_sha256": "325962068ec3ee9218b4b2aa76aec230fc79ba88844bf692be4704a89b84c8f6",
+  "scope": "UNMODIFIED_RUNNER_AND_DDL_CONTROLLED_STEP_ACCESS_KERNEL_ONLY",
+  "status": "PASS",
+  "cases": [
+    {
+      "id": "LIMIT_0",
+      "status": "PASS",
+      "sqlstate": "55000"
+    },
+    {
+      "id": "LIMIT_8001ms",
+      "status": "PASS",
+      "sqlstate": "55000"
+    },
+    {
+      "id": "FRESH_ACCESS_ISOLATION",
+      "status": "PASS",
+      "sqlstate": "P0001"
+    },
+    {
+      "id": "COLD_SECOND_TICK_NO_HEARTBEAT_WAIT",
+      "status": "PASS",
+      "second_wait_event": null,
+      "ungranted_locks": [],
+      "first": {
+        "ran": true,
+        "unit": 0,
+        "state": "DONE",
+        "job_id": "00000000-0000-0000-0000-000000000001",
+        "outcome": "JOB_DONE",
+        "unit_count": 1,
+        "units_done": 1
+      },
+      "second": {
+        "ran": true,
+        "unit": 0,
+        "state": "DONE",
+        "job_id": "00000000-0000-0000-0000-000000000002",
+        "outcome": "JOB_DONE",
+        "unit_count": 1,
+        "units_done": 1
+      }
+    },
+    {
+      "id": "COLD_RECOVERY_NO_DUPLICATE",
+      "status": "PASS",
+      "outputs": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "WARM_SECOND_TICK_NO_HEARTBEAT_WAIT",
+      "status": "PASS",
+      "second_wait_event": null,
+      "ungranted_locks": [],
+      "first": {
+        "ran": true,
+        "unit": 0,
+        "state": "DONE",
+        "job_id": "00000000-0000-0000-0000-000000000001",
+        "outcome": "JOB_DONE",
+        "unit_count": 1,
+        "units_done": 1
+      },
+      "second": {
+        "ran": true,
+        "unit": 0,
+        "state": "DONE",
+        "job_id": "00000000-0000-0000-0000-000000000002",
+        "outcome": "JOB_DONE",
+        "unit_count": 1,
+        "units_done": 1
+      }
+    },
+    {
+      "id": "WARM_NO_DUPLICATE",
+      "status": "PASS",
+      "outputs": [
+        2,
+        2
+      ]
+    },
+    {
+      "id": "ACTOR_AND_ALL_PRIOR_CLAIMS_RESTORED",
+      "status": "PASS",
+      "actor": "10000000-0000-0000-0000-000000000003",
+      "claims_restored": true,
+      "outcome": "JOB_DONE"
+    }
+  ],
+  "production_go": false,
+  "runtime": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit"
+}
