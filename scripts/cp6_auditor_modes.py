@@ -29,6 +29,9 @@ BROWSER (independent audit B4, GATE-04/08) the auditor supplies an ES module (wo
         container, UI server and copy are removed; Auth row counts of the primary database must return to their start.
 The stack's anon and service keys are masked in the job log (::add-mask::). The per-user password and access token are
 never printed, not even as ::add-mask:: lines.
+Every mode runs under the business-day control (scripts/cp6_auditor_business_day.py): the WIB date is read before and
+after each case, a case run on another date than its group was planned with is not a PASS, and the group is rerun once
+from a fresh copy when the date change explains every case that did not pass (the first attempt is kept).
 """
 from pathlib import Path
 from collections import Counter
@@ -36,6 +39,8 @@ from datetime import date
 from urllib.parse import urlsplit,urlunsplit
 import json,secrets,subprocess,tempfile,time,traceback,urllib.error,urllib.request,uuid
 import psycopg
+
+import cp6_auditor_business_day as business_day
 
 AUDITOR=Path(__file__).resolve().parents[1]
 BASE=AUDITOR.parent/'base'/'cp5-local'
@@ -99,6 +104,13 @@ class RaceTools:
 VOCABULARY=('PASS','FAIL','COUNTEREXAMPLE','INCOMPLETE')
 
 
+def wib_day():
+    """The WIB date of the database server, read on the primary so no session is opened on a copy."""
+    awp,_=_probe()
+    with psycopg.connect(awp.boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+        return business_day.wib_day(cur)
+
+
 def copy_sessions(database,exclude_users=()):
     """Client sessions on a committed copy, read from the primary (the copy's own admin connection is closed by then)."""
     awp,_=_probe()
@@ -122,11 +134,12 @@ def session_leaks(database,exclude_users=()):
     return [list(map(str,o)) for o in others]
 
 
-def strict_rows(group,planned,run_one,database,exclude_users=()):
+def strict_rows(group,planned,run_one,database,exclude_users=(),today=None):
     """The strict group of the savepoint mode (scripts/cp6_auditor_runner.py) for the modes that run on committed copies
     (round 9, W7): duplicate ids refuse the whole group before any operation; a result that is not a dict or whose
     status is outside PASS/FAIL/COUNTEREXAMPLE/INCOMPLETE is INCOMPLETE (the original value is kept); a session left
-    open on the copy makes the case INCOMPLETE; planned, final and missing are printed. Returns (rows, refusal)."""
+    open on the copy makes the case INCOMPLETE; planned, final and missing are printed. Returns (rows, refusal).
+    With today (the date the cases were planned with) every row also gets the business-day control."""
     import cp6_auditor_runner as runner
     ids=[k for k,_ in planned]
     duplicates=runner.duplicate_ids(ids)
@@ -135,6 +148,7 @@ def strict_rows(group,planned,run_one,database,exclude_users=()):
         return {},dict(error='AUDITOR_DUPLICATE_CASE_IDS',duplicate_case_ids=duplicates)
     rows={}
     for i,(key,operation) in enumerate(planned):
+        day_before=wib_day() if today is not None else None
         try:
             row=run_one(i,key,operation)
             if not isinstance(row,dict):row=dict(status='INCOMPLETE',error='AUDITOR_CASE_RESULT_NOT_A_DICT',result=repr(row)[:500])
@@ -142,7 +156,8 @@ def strict_rows(group,planned,run_one,database,exclude_users=()):
         if row.get('status') not in VOCABULARY:
             row['status_outside_vocabulary']=row.get('status');row['status']='INCOMPLETE'
         row['session_leaks']=session_leaks(database,exclude_users)
-        if row['session_leaks']:row['status']='INCOMPLETE'
+        if row['session_leaks']:row['status']='INCOMPLETE';row['harness_check_failed']=True
+        if today is not None:business_day.guard(row,today,day_before,wib_day())
         rows[key]=row
         print(json.dumps(dict(group=group,case=key,**row),default=str),flush=True)
     final={k:r['status'] for k,r in rows.items()}
@@ -158,6 +173,10 @@ def finish(report,rows):
 
 
 def run_races(module,verify,phase):
+    return business_day.with_retry('AUDITOR_RACES_'+phase.upper(),lambda:_run_races_once(module,verify,phase),lambda r:r['races'])
+
+
+def _run_races_once(module,verify,phase):
     report=dict(status='INCOMPLETE',label=LABEL,database=RACE_DB,copy_per_race=True,test_only_usage_grant=True,races={},
                 production_go=False,independent_acceptance=False,release_evidence=False)
     try:
@@ -170,7 +189,7 @@ def run_races(module,verify,phase):
             row=operation()
             if isinstance(row,dict):row['copy_runtime']=state['setup']['runtime']
             return row
-        report['races'],refusal=strict_rows('AUDITOR_RACES_'+phase.upper(),planned,run_one,RACE_DB)
+        report['races'],refusal=strict_rows('AUDITOR_RACES_'+phase.upper(),planned,run_one,RACE_DB,today=setup['today'])
         if refusal:report.update(refusal)
     except Exception as exc:report.update(error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
     finally:report['database_remaining']=drop_db(RACE_DB)
@@ -288,6 +307,10 @@ AUTH_COUNTS="select (select count(*) from auth.users),(select count(*) from auth
 
 
 def run_http(module,verify,phase):
+    return business_day.with_retry('AUDITOR_HTTP_'+phase.upper(),lambda:_run_http_once(module,verify,phase),lambda r:r['cases'])
+
+
+def _run_http_once(module,verify,phase):
     awp,_=_probe()
     report=dict(status='INCOMPLETE',label=LABEL,database=HTTP_DB,real_auth=True,jwt_signed_by_runtime=False,
                 test_only_usage_grant=False,cases={},production_go=False,independent_acceptance=False,release_evidence=False)
@@ -299,7 +322,8 @@ def run_http(module,verify,phase):
         planned=list(module.http_cases(http,setup['today']))
         report['planned_case_ids']=[k for k,_ in planned]
         # PostgREST keeps its pool on the copy as `authenticator`; every other session left open is a leak.
-        report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',))
+        report['cases'],refusal=strict_rows('AUDITOR_HTTP_'+phase.upper(),planned,lambda i,key,operation:operation(),HTTP_DB,('authenticator',),
+                                            today=setup['today'])
         if refusal:report.update(refusal)
     except Exception as exc:report.update(error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
     finally:
@@ -317,7 +341,12 @@ def run_http(module,verify,phase):
 
 
 def run_browser(script,verify,phase):
-    """The auditor's Playwright module against the candidate UI, real Auth and PostgREST on a committed copy."""
+    """The auditor's Playwright module against the candidate UI, real Auth and PostgREST on a committed copy. The host
+    applies the business-day control to each case; a rerun makes a new copy, Auth users, container and UI server."""
+    return business_day.with_retry('AUDITOR_BROWSER_'+phase.upper(),lambda:_run_browser_once(script,verify,phase),lambda r:r['cases'])
+
+
+def _run_browser_once(script,verify,phase):
     import hashlib,os
     awp,_=_probe()
     text=Path(script).read_bytes()

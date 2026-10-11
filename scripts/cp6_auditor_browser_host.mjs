@@ -16,7 +16,9 @@
 //   ui.sql(query)                     psql on the disposable copy (fixtures and read-back only; nothing leaves the job)
 //   ui.expect                         Playwright's expect
 // Each case returns an object whose status is PASS, FAIL, COUNTEREXAMPLE or INCOMPLETE; a thrown error, another status or
-// a non-object is INCOMPLETE; duplicate case ids refuse the run. One JSON line per case is printed
+// a non-object is INCOMPLETE; duplicate case ids refuse the run. The WIB date of the copy is read before and after each
+// case (business-day control, scripts/cp6_auditor_business_day.mjs): a case run on another date than today is not a
+// PASS. One JSON line per case is printed
 // ({"group":"AUDITOR_BROWSER_<PHASE>","case":...}); the stack keys are masked by the runtime, and the per-user email,
 // password and token are never printed and are redacted from every case result and error. Every created Auth user is
 // deleted, the browser, the UI server and the proxy are stopped.
@@ -28,11 +30,12 @@ import http from 'node:http'
 import { dirname, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { chromium, expect } from '@playwright/test'
+import { WIB_DAY, guard as businessDayGuard } from './cp6_auditor_business_day.mjs'
 
 const script = process.env.AUDITOR_BROWSER_SCRIPT, db = process.env.AUDITOR_BROWSER_DB_URL, out = process.env.AUDITOR_BROWSER_OUT
 const phase = (process.env.AUDITOR_BROWSER_PHASE || 'after').toUpperCase(), today = process.env.AUDITOR_BROWSER_TODAY
 const anon = process.env.SUPABASE_ANON_KEY, service = process.env.SUPABASE_SERVICE_ROLE_KEY
-assert.ok(script && db && out && anon && service, 'AUDITOR_BROWSER_ENVIRONMENT')
+assert.ok(script && db && out && anon && service && /^\d{4}-\d{2}-\d{2}$/.test(today || ''), 'AUDITOR_BROWSER_ENVIRONMENT')
 assert.match(db, /\/cp6_auditor_browser$/, 'AUDITOR_BROWSER_ONLY_ON_ITS_COPY')
 const origin = 'http://127.0.0.1:4176', restPort = 54329, authPort = 54321
 let api
@@ -163,11 +166,13 @@ async function main() {
   if (duplicates.length) { report.error = 'AUDITOR_DUPLICATE_CASE_IDS'; report.duplicates = duplicates; return }
   for (const [id, operation] of planned) {
     let row
+    const dayBefore = sql(WIB_DAY)
     try {
       row = await operation()
       if (!row || typeof row !== 'object' || Array.isArray(row)) row = { status: 'INCOMPLETE', error: 'AUDITOR_CASE_RESULT_NOT_AN_OBJECT', result: safe(row).slice(0, 500) }
     } catch (error) { row = { status: 'INCOMPLETE', error: safe(error?.stack || String(error)).slice(0, 3000) } }
     if (!VOCABULARY.includes(row.status)) row = { ...row, status_outside_vocabulary: row.status, status: 'INCOMPLETE' }
+    businessDayGuard(row, today, dayBefore, sql(WIB_DAY))
     report.cases[id] = JSON.parse(safe(row))
     console.log(JSON.stringify({ group: 'AUDITOR_BROWSER_' + phase, case: id, ...report.cases[id] }))
     save()

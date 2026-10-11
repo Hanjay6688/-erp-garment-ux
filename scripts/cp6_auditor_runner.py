@@ -21,6 +21,7 @@ import psycopg
 from psycopg import sql
 
 import cp6_aw_probe as awp
+import cp6_auditor_business_day as business_day
 from cp6_ao_ap_inventory import function_pins
 
 r1,api,boundary=awp.r1,awp.api,awp.boundary
@@ -86,6 +87,15 @@ def leaks(cur,before):
 
 
 def strict_group(name,factory,verify):
+    """The group below under the business-day control (scripts/cp6_auditor_business_day.py): rerun once on the rolled-back
+    clone with a new date when a change of WIB date explains every case that did not pass; the first attempt is kept."""
+    def keep_first(first):r1.save(name+'_BUSINESS_DAY_FIRST_ATTEMPT',first)
+    report=business_day.with_retry(name,lambda:_strict_group_once(name,factory,verify),lambda r:r['cases'],keep_first)
+    if report.get('business_day_retried'):r1.save(name,report)
+    return report
+
+
+def _strict_group_once(name,factory,verify):
     report=dict(status='INCOMPLETE',cases={},production_go=False,independent_acceptance=False,runner='cp6_auditor_runner.strict_group')
     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
         report['runtime_before']=verify(cur)
@@ -106,6 +116,7 @@ def strict_group(name,factory,verify):
         report['session_at_start']=session_state(cur)
         for key,operation in cases:
             before=boundary.snapshot(cur);public_before=public_state(cur);session_before=session_state(cur)
+            day_before=business_day.wib_day(cur)
             cur.execute('savepoint auditor_case')
             ended=None
             try:
@@ -131,7 +142,8 @@ def strict_group(name,factory,verify):
             row['public_schema_unchanged']=public_state(cur)==public_before
             row['session_leaks']=leaks(cur,session_before)
             clean=not row['session_leaks']['advisory_locks'] and not row['session_leaks']['other_sessions']
-            if not (row['full_boundary_restored'] and row['public_schema_unchanged'] and clean):row['status']='INCOMPLETE'
+            if not (row['full_boundary_restored'] and row['public_schema_unchanged'] and clean):row['status']='INCOMPLETE';row['harness_check_failed']=True
+            business_day.guard(row,today,day_before,business_day.wib_day(cur))
             report['cases'][key]=row;r1.save(name,report)
             print(json.dumps(dict(group=name,case=key,**row),default=str),flush=True)
         if report.get('error')!='AUDITOR_CASE_ENDED_GROUP_TRANSACTION':
