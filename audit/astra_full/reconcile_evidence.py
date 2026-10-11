@@ -11,6 +11,21 @@ INDEX = json.loads((HERE / 'evidence/ARTIFACT_INDEX.json').read_text())
 RESULTS = []
 ALL = {}
 
+# These retained P12 reports predate an aggregate expected_case_count field.
+# Budgets come from the frozen source group lists, not the observed PASS count:
+# cp7_p12_nota_probe.py run()/finally group_keys, and referenced case modules.
+P12_BASE = dict(native=5, http=1, notes=7, note_races=3, note_http=1,
+                admission_regression=1, browser=2, payroll_review=4,
+                payroll_review_http=1, payroll_review_browser=2, settlement=7,
+                settlement_races=4, settlement_http=1, settlement_browser=3)
+P12_ROSTER = dict(P12_BASE, attendance_read=6, attendance_read_http=1,
+                  attendance_read_browser=2, roster=6, roster_races=3,
+                  roster_http=1, roster_browser=2)
+P12_WRITE = dict(P12_ROSTER, attendance_write=10, attendance_write_races=4,
+                 attendance_write_http=1, attendance_write_browser=2)
+LEGACY = {'CP7_P12_SETTLEMENT.json': P12_BASE, 'CP7_P12_ROSTER.json': P12_ROSTER,
+          'CP7_P12_ATTENDANCE_WRITE.json': P12_WRITE}
+
 def first_attempts(value, path=''):
     found = []
     if isinstance(value, dict):
@@ -43,14 +58,21 @@ for item in INDEX:
                 cp6_restored=d.get('cp6_restored'), advisor_gate=d.get('advisor_gate'),
                 errors={k: d[k] for k in ('error', 'restore_error', 'traceback') if d.get(k)},
                 note='Rehearsal phases, not counted as product case executions; committed rows remain only in disposable clone until dropped.'))
-        if not ('expected_case_count' in d or 'expected_cases' in d): continue
+        legacy = LEGACY.get(p.name)
+        if not ('expected_case_count' in d or 'expected_cases' in d or legacy): continue
         result = dict(file=p.name, sha256=hashlib.sha256(p.read_bytes()).hexdigest(), reported_status=d.get('status'),
-                      expected=d.get('expected_case_count', d.get('expected_cases')), observed=0, groups={},
+                      expected=sum(legacy.values()) if legacy else d.get('expected_case_count', d.get('expected_cases')), observed=0, groups={},
+                      budget_origin='FROZEN_SOURCE_GROUP_LISTS' if legacy else 'REPORT_PREDECLARED',
                       restore=d.get('restore', d.get('restore_components')), cp6_restored=d.get('cp6_restored'),
                       advisor_gate=d.get('advisor_gate'), errors={k: d[k] for k in ('error', 'restore_error', 'traceback') if d.get(k)},
                       first_attempt_and_date_flags=first_attempts(d))
         specs = {g['key']: g for g in d.get('predeclared_groups', [])}
-        supplied = d.get('groups') if specs else {k: d[k] for k in ('native', 'races', 'http', 'browser') if k in d}
+        if legacy:
+            specs = {k: dict(expected_executions=v, smoke=False,
+                     kind='browser' if 'browser' in k else 'http' if 'http' in k or k == 'admission_regression' else 'races' if 'races' in k else 'native') for k, v in legacy.items()}
+            supplied = {k: v for k, v in d.items() if isinstance(v, dict) and ('cases' in v or 'races' in v)}
+        else:
+            supplied = d.get('groups') if specs else {k: d[k] for k in ('native', 'races', 'http', 'browser') if k in d}
         result['expected_smoke'] = d.get('expected_smoke_count', 0)
         result['observed_smoke'] = 0
         result['declared_group_keys_match'] = None if not specs else set(supplied) == set(specs)

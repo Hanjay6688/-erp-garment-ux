@@ -54,5 +54,24 @@ File metadata umum `ASTRA_EXECUTION_ORIGIN.json` pada workflow mandiri masih men
 setiap case row sendiri menyebut asal dengan benar. Label mentah tidak diubah setelah run.
 
 PR44 pernah ditulis Astra; laporan ini tidak akan memberikan penerimaan independen baru untuk area itu.
-Temuan lain, penutupan temuan lama, seluruh jumlah kasus, matriks area, dan batas pemasangan akan
-ditambahkan setelah seluruh bukti selesai diperiksa.
+Seluruh 76 ID mandiri kini sudah dijalankan: 75 PASS dan satu batas detektor lama yang disebut di atas.
+FULL_FLOW yang sempat terlewat filter runner telah dijalankan tanpa mengubah oracle (run 38161351529, PASS).
+K7a source equivalence lulus enam pembandingan lengkap (run 38161512888).
+Regresi 44 job masih dituntaskan; matriks final ada di REPORT.md setelah seluruh hasil direkonsiliasi.
+
+## Yang sudah beres, tidak perlu diperbaiki ulang
+
+- Kapasitas rencana v1/v2: perebutan 59+2 terhadap kapasitas 60 menolak yang berlebih.
+- Nama jadwal lintas database dan tabrakan receipt backup: probe sendiri lulus.
+- Finalizer F05 dan cold-lock K4: kontrol sendiri dan rerun kandidat lulus.
+- K6: fakta 217 PCS potong/207 GOOD, pembatalan/backdate, fault atomik di tengah jendela, dan BUSY lulus.
+- Skala server 5.000 target: semua 26 halaman lengkap; pembersihan menghemat 95.424.283 byte payload tanpa mengubah hasil.
+- Jual–retur browser: dua alur nyata, Grade A/B, balasan hilang, replay, dan pembalikan lulus.
+
+## Urutan perbaikan yang diminta
+
+1. Fokus kode pada helper ASF-F01. Pertahankan oracle bisnis, batas produk, dan semua first-failure logs.
+2. Jalankan empat kontrol alat dan cek integrasi semua pemanggil helper (savepoint, race, HTTP, browser).
+3. Berikan kandidat baru serta diff sempit dan run hasil perbaikan. Auditor mengulang kasus yang terkena perubahan; tidak perlu meminta pembuktian ulang bagian produk yang tidak tersentuh tanpa alasan konkret.
+4. Teruskan penerimaan area PR44 ke auditor yang tidak menulisnya. K4 mobile hang lama tetap dipantau; belum ada akar masalah yang terbukti sehingga tidak diberi klaim sembuh total.
+5. Jadwal, backup operasional, dan deployment tetap mengikuti tahap CP7C/CP8 dan izin owner yang sudah ditetapkan.

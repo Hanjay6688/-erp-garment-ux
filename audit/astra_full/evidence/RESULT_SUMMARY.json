@@ -7,10 +7,10 @@
   },
   "own_executions": 79,
   "writer_regression": {
-    "PASS": 655,
+    "PASS": 1243,
     "smoke_executions": 0,
     "smoke_pass": 0,
-    "reports": 21
+    "reports": 32
   },
   "rehearsals": [
     {
@@ -48,6 +48,6 @@
     }
   ],
   "own_manifest_complete": true,
-  "pending_regression_reports": 21,
+  "pending_regression_reports": 10,
   "production_go": false
 }

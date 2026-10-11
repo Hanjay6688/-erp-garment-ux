@@ -27,6 +27,17 @@ Kandidat `d0b9e9c2`; runner audit sendiri. Ini bukti `INDEPENDENT_NATIVE_RERUN`,
 | CP7_PL5_HISTORY_YIELD.json | 20/20 | 0/0 | PASS | 11709164105 |
 | CP7_P19_STAGED.json | 14/14 | 0/0 | PASS | 11708919221 |
 | CP7_P19_AI_V2.json | 9/9 | 0/0 | PASS | 11708843997 |
+| CP7_P12_ROSTER.json | 63/63 | 0/0 | PASS | 11711595947 |
+| CP7_P12_SETTLEMENT.json | 42/42 | 0/0 | PASS | 11711575702 |
+| CP7_F05_NATIVE_ATTENTION.json | 286/286 | 0/0 | PASS | 11711456113 |
+| CP7_P18_FULL_CYCLE.json | 2/2 | 0/0 | PASS | 11711306694 |
+| CP7_P12_ATTENDANCE_WRITE.json | 80/80 | 0/0 | PASS | 11711231703 |
+| CP7_P13_FINANCE_READ.json | 12/12 | 0/0 | PASS | 11711093050 |
+| CP7_SUPPLIER_PAYMENT_CORRECTION.json | 23/23 | 0/0 | PASS | 11711730721 |
+| CP7_SUPPLIER_PAYMENT_CREATE.json | 10/10 | 0/0 | PASS | 11710834250 |
+| CP7_K6_PROOF_RUNNER.json | 10/10 | 0/0 | PASS | 11710504673 |
+| CP7_K4_RUNNER.json | 17/17 | 0/0 | PASS | 11711656971 |
+| CP7_RECEIPT_CORRECTION.json | 43/43 | 0/0 | PASS | 11711163429 |
 
 P21 dasar: enam fase. P21 penuh: sembilan fase, termasuk transaksi COMMITTED, penolakan rollback sesudah dipakai, backup terpakai → restore 559 tabel, lalu restore pra-pasang. Tidak mengklaim rollback sesudah dipakai tanpa kehilangan transaksi. `pg_restore` keluar 1 karena 19 kesalahan pg_cron yang dilaporkan satu per satu pada database tujuan terpisah; tidak ada error tak terjelaskan. Catalog dibandingkan secara semantik untuk perbedaan serialisasi/ACL yang dicatat.
 
