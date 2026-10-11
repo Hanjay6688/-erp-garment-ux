@@ -25,6 +25,8 @@ sebagai kandidat lanjutan dengan buktinya sendiri. Keputusan sumber: `OWNER_DECI
 | K8 | Konfigurasi nyata CP6 | Diisi owner dari tabel pilihan/rekomendasi/transaksi tertahan; akun dan kategori nyata tidak dikarang. |
 | K9 | Hosting jangka panjang | Keputusan owner (biaya, backup, batas penyimpanan); tidak ada perubahan hosted tanpa izin terpisah. |
 
+Urutan kerja sampai CP8 (bukan keputusan baru; owner 11 Okt mengonfirmasi daftar yang sudah ada: "selesain semua abis tu full audit cp7. Abis beres full audit cp1-7. Abis tu pendekin kode semua ... Urus backup dan restore. Abis tu dah bisa live kan"): (1) sisa CP7 — K6, uji K4 browser mobile yang sempat diam, alat uji — lalu audit penuh CP7; (2) audit penuh CP1–CP7; (3) CP7.5 baseline bersih dan arsip (kode diringkas, perilaku dibuktikan sama, riwayat lama diarsip sebagai bukti); (4) CP7C backup/restore, jadwal server, uji beban; (5) CP8 audit/gladi akhir, GO owner, transaksi live kecil yang diizinkan (kerangka: `framework-v2/01_KONTRAK_DAN_INTEGRASI.md`, tabel CP).
+
 Kandidat audit lanjutan (satu kali audit): `audit-candidate/continuation-20261008/` — sumber `976f4c43`, 15/15 workflow kualifikasi hijau pada commit itu.
 
 Kandidat audit lanjutan final (menggantikan yang di atas untuk audit; yang lama tetap disimpan): `audit-candidate/continuation-final-20261009/` — sumber `2e605bb7`, 15/15 workflow dan 43/43 job hijau pada commit itu.
