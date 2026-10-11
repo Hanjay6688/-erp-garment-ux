@@ -1,0 +1,275 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "prior_locked_audit": "56689b95eea3397146fdbc9d965dbb4a123bbc50",
+  "registered_ids": [
+    "AS20-01_47_FINANCE_ROLE_BOUNDARY",
+    "AS20-01_HTTP_REVOKED_REPLAY",
+    "AS20-01_RECEIPT_REPLAY",
+    "AS20-01_REPLAY_ACCESS",
+    "AS20-02_HTTP_PRIVATE",
+    "AS20-02_NATIVE_ACL",
+    "AS20-03_REVOKE_AFTER_LOCK",
+    "AS20-04_08_PRECISION",
+    "AS20-06_13_18_50_FULL_FLOW",
+    "AS20-07_LARGE_INVOICE",
+    "AS20-09_WIB_MIDNIGHT",
+    "AS20-10_PENDING_LATE_PRICE",
+    "AS20-11_50_PARTIAL_LATE_INVOICE",
+    "AS20-12_CREDIT_OTHER_INVOICE",
+    "AS20-12_PAID_UPWARD",
+    "AS20-14_RETURNED_PAID_CORRECTION",
+    "AS20-15_PHYSICAL137",
+    "AS20-16_MEMBERSHIP",
+    "AS20-18_19_OPENING_CARRY_PAYROLL",
+    "AS20-20_MODEL_OWN_VECTORS",
+    "AS20-21_FORGED_MATCH",
+    "AS20-24_PL5_OWN_DATA",
+    "AS20-26_27_42_SCALE5000",
+    "AS20-28_38_PRESERVATION",
+    "AS20-31_LIVE_POLICY",
+    "AS20-31_LIVE_STOCK",
+    "AS20-32_CROSS_VERSION_CAPACITY",
+    "AS20-33_37_DATED_REPORT",
+    "AS20-35_FINISH_CURRENT_RECHECK",
+    "AS20-36_AI_BAD_INPUTS",
+    "AS20-37_RETENTION",
+    "AS20-39_VALIDATION_NEGATIVE",
+    "AS20-40_ATOMIC_CLEANUP",
+    "AS20-40_TWO_CLEANERS",
+    "AS20-41_CONSUMERS",
+    "AS20-43_CRON_DATABASE_ISOLATION",
+    "AS20-43_REAL_CRON",
+    "AS20-44_RESTORE_ALL_TABLES",
+    "AS20-45_FAILED_RETRY_COLLISION",
+    "AS20-45_FIFTEEN_VERIFIED_NIGHTS",
+    "AS20-47_DESKTOP_ALL48",
+    "AS20-47_MOBILE_ALL48",
+    "AS20-49_IMMUTABILITY",
+    "AS20C-01-CONSUMERS",
+    "AS20C-04-ACTOR",
+    "AS20C-05-LOST",
+    "AS20C-07-DISCOUNT",
+    "AS20C-08-SIZE",
+    "AS20C-09-CLOSED",
+    "AS20C-11-RETURN",
+    "AS20C-15-RACE",
+    "AS20C-18-ROSTER",
+    "AS20C-19-CARRY",
+    "AS20C-22-NET",
+    "AS20C-22-TIE",
+    "AS20C-23-SPILL",
+    "AS20C-24-199",
+    "AS20C-25-REOPEN",
+    "AS20C-27-UTF8",
+    "AS20C-28-WORKERS",
+    "AS20C-29-INFLIGHT",
+    "AS20C-34-PUBLISH",
+    "AS20C-37-FAILED",
+    "AS20C-47-WRITE-DESKTOP",
+    "AS20C-47-WRITE-MOBILE",
+    "AS20C-50-LATE",
+    "AS20_COMPARATOR_TIMEZONE_CONTROL"
+  ],
+  "oracle_origin": "ASTRA_CONTRACT_INDEPENDENT_ORACLES_REEXECUTED_ON_NEW_CANDIDATE",
+  "fixture_origin": "MIXED_ASTRA_BUSINESS_WRITES_MASTER_DATA_AND_WRITER_TRANSPORT_SETUP_HELPERS",
+  "changes_before_execution": [
+    "Runner receipts pin d0b9e9c2; underlying product always separate unchanged checkout.",
+    "Schedules now four: K4/K6 tick statements and declared cadence added to exact oracle; private HTTP probes extended.",
+    "5000 target continuation now executed by server tick only, every unit its own transaction under 8 seconds.",
+    "5001 oracle corrected from previous adjudication: exact capture/target guard, P0001, no run; unrelated error is refused as proof.",
+    "Previously repaired comparator, roster and priority oracles retain their final corrected version.",
+    "F04 sensitivity counterexample expected to remain in deliberately weakened copy; evaluate as a documented boundary, not re-open a fixed product bug."
+  ],
+  "files": {
+    "browser.mjs": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "bf738f282545dd269a360dd3894c3395a7ef818e725ad43e8c139fb0e472905d",
+      "current_sha256": "bf738f282545dd269a360dd3894c3395a7ef818e725ad43e8c139fb0e472905d"
+    },
+    "browser_cont.mjs": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "eec8c946ab27922070d1096609b48a8826d5cd5688d708668b155740a58a3eff",
+      "current_sha256": "eec8c946ab27922070d1096609b48a8826d5cd5688d708668b155740a58a3eff"
+    },
+    "browser_cont_fixture.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "117f4e3702df0d632d59d7b83b30e780e372cef4a5823727e92d50cc40356afa",
+      "current_sha256": "117f4e3702df0d632d59d7b83b30e780e372cef4a5823727e92d50cc40356afa"
+    },
+    "cases_business.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "db963bd3d3e6c8193ea8f2d7c87786f7a22aaf28fc29771680a7cc1615b4f190",
+      "current_sha256": "db963bd3d3e6c8193ea8f2d7c87786f7a22aaf28fc29771680a7cc1615b4f190"
+    },
+    "cases_cont_extra.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "740f5f64b9e8dd6332646b4de4ecdbd966102514fe60d8e7a68fc05af93069bc",
+      "current_sha256": "740f5f64b9e8dd6332646b4de4ecdbd966102514fe60d8e7a68fc05af93069bc"
+    },
+    "cases_cont_money.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "4ba9b5f928f3ef922b6b6311a45da203f8542053ededfdd786c62548281e9bef",
+      "current_sha256": "4ba9b5f928f3ef922b6b6311a45da203f8542053ededfdd786c62548281e9bef"
+    },
+    "cases_cont_planning.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "5cc23769f6ed7075f4fe6c53347d7aa34b7d4492fbee6c38d7a851d678bf0fa8",
+      "current_sha256": "5cc23769f6ed7075f4fe6c53347d7aa34b7d4492fbee6c38d7a851d678bf0fa8"
+    },
+    "cases_cont_races.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "2f883280f1a775428b4c93b3fbd5e09cad3dfd51252baf87ec1ed2f973545827",
+      "current_sha256": "2f883280f1a775428b4c93b3fbd5e09cad3dfd51252baf87ec1ed2f973545827"
+    },
+    "cases_cont_state.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "a0b8a8b52a188c98f0080ac60701065bc554c31cf748394781f8bc0a6c5ee60c",
+      "current_sha256": "a0b8a8b52a188c98f0080ac60701065bc554c31cf748394781f8bc0a6c5ee60c"
+    },
+    "cases_edges.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "4e44d5cc3ba550b20cd8fa966eceb587c5b90283115ca732e577d4f19134c5af",
+      "current_sha256": "4e44d5cc3ba550b20cd8fa966eceb587c5b90283115ca732e577d4f19134c5af"
+    },
+    "cases_money_edges.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "e0d213730ad8be61236c637b1df1c25396ed6587c4e7b103913616a9077ed7a1",
+      "current_sha256": "e0d213730ad8be61236c637b1df1c25396ed6587c4e7b103913616a9077ed7a1"
+    },
+    "cases_ops.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "002801517c0a33dffe2ad25c5e83877c4c4d52b355aa82afa8d58845771a9212",
+      "current_sha256": "25f44e34d06a49e8de9f39fb02121c2b139b17da5ee9354cdd0ff4efd992f0ca"
+    },
+    "cases_payroll.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "8c78f2106dc1e0352dd6f0c86827ca7bc441afcaced0b378c109c06ebf728906",
+      "current_sha256": "8c78f2106dc1e0352dd6f0c86827ca7bc441afcaced0b378c109c06ebf728906"
+    },
+    "cases_planning.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "6bcce45b6282fdefb8a68d58bfcdd65a3fe00e32ee037969bf9275360d5cdd31",
+      "current_sha256": "6bcce45b6282fdefb8a68d58bfcdd65a3fe00e32ee037969bf9275360d5cdd31"
+    },
+    "cases_scale.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "ba618d46cc39b52f0c712f19faf1cd95f6c44ba57222f95ad45a4d09b924a062",
+      "current_sha256": "cc590e0b6fce32323aad2977457d0ec9ec9c4b6ed9c533c7ae4c163afdc2fc59"
+    },
+    "cases_stage.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "12d0ad2461447908ff57457966c3dc70e45c290a05d30018912c546e577ad4fd",
+      "current_sha256": "b3e39ee184125b99d8a83c567636ec1b6c5116097c3ff16707b4c85e3fd37927"
+    },
+    "probe.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "0c1243ad256cf104b83cfa992fc2d746b992d811b50c623f681259b30b51eb2c",
+      "current_sha256": "7b27dd96dfa2675876b8f2beae893dc9e9b6e30fd2e4797fc964aedc13a2cf62"
+    },
+    "probe_business.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "9568ebb5113a48eac902709f17edfebef6dafa90bf8dc0870bf0dbe3ac2b2566",
+      "current_sha256": "01c43ec1f76277a3ccc44d345e4c0909e9d462e4de8d8283940128c5a3cb8cb4"
+    },
+    "probe_cont_edge_recheck.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "26e4d873087aa1a99f78946bb97b48c2fd7b4c578e06b742614f9e1930f961a8",
+      "current_sha256": "d4abc50888fcd7f3f2a074038407946d3594ba0404a526af4160d954b5bdc51d"
+    },
+    "probe_cont_extra.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "36c0dca701ecc206a0925c4deba1cd0ee3daec1b4a703c5acaf8f48f4afcab06",
+      "current_sha256": "c669ce90d14261db63469577c8e3726a736456d449c0c480ea6b82827cb28e41"
+    },
+    "probe_cont_money.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "f845f8750d95d3503e67e2f392b8d48dedad01cefd03b1f08f687c3926fd9981",
+      "current_sha256": "4419e81a1eaa21d47c4f2f94aee0105eadeb558cd7800c24e1171c3f8004edea"
+    },
+    "probe_cont_physical.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "93cb04f7d6894545378a47f0dec7274ffc7f377ebe6aaa964ddb223144337c3c",
+      "current_sha256": "a0bc9e1cb0d7e35664c93eec54b80ea06d11406bb75aa467db2f07f12ed92bfa"
+    },
+    "probe_cont_planning.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "25c4b4a9ce1ea783ad207b22db3f83f7cc8e333bf6c24aa4d5621e94ce953253",
+      "current_sha256": "989c100dde445952d792ecd9165e45fb668127ad71e0396812a059c105a9b008"
+    },
+    "probe_cont_races.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "509598c0a7b3c94217ebf8ad964a265d067fb1735345ce3abcf062161ee82123",
+      "current_sha256": "4b958112aa102727b9f81e94148922980a1183acdedff7aedd3ed7b251a05980"
+    },
+    "probe_cont_revoke.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "35665e7beddbf4c3e13c39f96450ba44cd7181c6507a33cac490e74c8c649863",
+      "current_sha256": "cd7c01df4b15b9f4a6b43aebc7b769586998ad3067049968ff4c2a1a42091918"
+    },
+    "probe_cont_state.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "4c9b33433a2530f6ea12677f34dc140b4e7b016cdc07db72806428e8a49d92d5",
+      "current_sha256": "be3bc36d452c66c8d9cf38cdfc8c3bdcd37c9fbd96b7df798126ecb39f603395"
+    },
+    "probe_cont_ui.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "e91806b1648d9d3d8fa1366f84106f02d024f1a715f50a753997f13db095d6e7",
+      "current_sha256": "c4053afa6b1ddfeaf6855b6b4c7fc10a52279ac512dfa6d3688be2ff2e878d60"
+    },
+    "probe_edges.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "0acfe8cbf9a4ae8d14a72cc95e5aaa64fa28a6c66356b7b1bc9578d2fb4ef833",
+      "current_sha256": "29026c1f3715048400b5f59fd84c02fb43615dc4499078f70358a0a2e8f3a59d"
+    },
+    "probe_match_recheck.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "11e4f3aa52b8966f4a60ff9bc248a8950b805deda0dc5a30ddf34a7a85a61c43",
+      "current_sha256": "9774d383d08e4b0d5d440fe91668edb1bea87956ad3366f80e7b2ef2503e1553"
+    },
+    "probe_money_edges.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "db6f780846674cae941e14b961d4faab44455748bebf2dfbedcc67d334537757",
+      "current_sha256": "3d644016a1042e8eba9171cd665c9ad6bc749008fb5cc63dc853bc2a4e8302e5"
+    },
+    "probe_money_recheck.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "46728ac171cde705d004cdac0c0c57b991744122414ee8a71e6cd0b6a977eab6",
+      "current_sha256": "e46580c4694762e7fe10220d937942c79aeb7ba3d1fcb7430a0d11bb5cad6f1e"
+    },
+    "probe_ops.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "7000d67d6ec8483a4568f35663d4763814c7659fcd985cd8ee6c93c2d505978c",
+      "current_sha256": "bcb608fa3314dc5a37493ab8ab15fce30f82a7da533690c39d481c6716ecf652"
+    },
+    "probe_payroll.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "f04fbc37811bccc0f68320f6bb2c0a0faba24c260456caba57ee45f20397d326",
+      "current_sha256": "5a7b2375422824ad5abd04b42376cba4b8fae01d579dd23c926058b0c6ae608d"
+    },
+    "probe_plan_race.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "c3a87438c1e3d2ed86c5cba6569aca8da39118c33468cb23e24e13528adbd816",
+      "current_sha256": "08cbdd1d97290adf3fe02e8f9636a3bb7516fda32b147507bd3a1ea4275297cd"
+    },
+    "probe_planning.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "0d799eaf6befb6b4b51b2dc3e7d81f9ba819ad72ad3919f2082d0633011cd91b",
+      "current_sha256": "46cf6a5655c60004d8cd8a21125525eb7dee48a67007614156920f512d0f51ef"
+    },
+    "probe_scale.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "27dfb049de7be76a7675da7e632fd176c2bee15697759665524527f8725f82e4",
+      "current_sha256": "a578abf506ba15b1b71c75d7a34e0cc15112bb7d6204cec19da06cd1b4d65a59"
+    },
+    "probe_ui.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "3cd4bebe656a9c763c943e6c3b8927fbb2d0873840063838f97dbc5c39d53bde",
+      "current_sha256": "2e3f761f69719a303ce2046e687edc547a2aaf70ca401a93f86efd7bba212555"
+    },
+    "probe_wib_recheck.py": {
+      "origin": "ASTRA_PREVIOUS_ROUND_56689b95",
+      "old_sha256": "d30eae07378188aab90bfdf366bcce0091081a89e33722b53743f6d18bf8bc0e",
+      "current_sha256": "ce48c1da037d1a62d547d08d229de58765204c7f6939fb2a1c8a83640e40beed"
+    }
+  }
+}
