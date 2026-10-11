@@ -89,3 +89,21 @@ Penerapan: K4 (keputusan 8 Okt butir 6, "arah akhirnya berjalan di server, supay
 dikerjakan sekarang di cabang Claude, di atas kandidat revisi P20 `870d4f79`. Uji ulang F01–F05 dan audit K4 dijadikan
 satu putaran audit. Deklarasi: `k4/K4_RUNNER.json`. Penjalan dibuat dan diuji (pg_cron sungguhan di salinan uji),
 **belum dipasang**: pemasangan tetap menunggu audit dan izin owner. `production_go:false`.
+
+## Keputusan owner 11 Okt: selesaikan CP7, audit penuh CP7, lalu audit CP1–CP7, rapikan kode, backup/restore
+
+Penjelasan writer sebelumnya: CP7 tinggal K6 (penjalan bukti PL-8 di server) dan satu audit penutup; urutan dokumen
+kerangka CP7 → CP7.5 → CP7C → CP8. Jawaban owner apa adanya:
+
+> Ya selesain semua abis tu full audit cp7. Abis beres full audit cp1-7. Abis tu pendekin kode semua biar kecil dan ga
+> banyak histori kode gajelas biar gampang di baca programmer. Urus backup dan restore. Abis tu dah bisa live kan
+
+Penerapan, berurutan:
+1. Selesaikan pekerjaan CP7 yang tersisa (K6; penyebab uji K4 browser mobile yang sempat diam; kegagalan lama 4 kasus
+   browser CP6 di `CP6 Auditor Scenario` yang akan ikut diperiksa audit CP1–CP7), lalu satu audit penuh CP7.
+2. Sesudah audit CP7 beres: audit penuh CP1–CP7.
+3. Sesudah itu rapikan dan perkecil kode supaya mudah dibaca programmer (tahap CP7.5 di kerangka: baseline bersih dan
+   arsip, dibuktikan perilakunya sama, pasang/pulihkan sama). Riwayat lama diarsipkan sebagai bukti audit, tidak dibuang.
+4. Backup dan restore (bagian tahap CP7C; jadwal dan backup malam sudah dibuat dan diuji, belum dipasang).
+5. Pertanyaan "abis tu dah bisa live kan": menurut kerangka masih ada CP8 sebelum live (audit/gladi akhir pada keadaan
+   sebenarnya, GO dari owner, transaksi live kecil yang diizinkan). Pemasangan di server sungguhan tetap butuh izin owner.
