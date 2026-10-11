@@ -18,7 +18,10 @@
 // Each case returns an object whose status is PASS, FAIL, COUNTEREXAMPLE or INCOMPLETE; a thrown error, another status or
 // a non-object is INCOMPLETE; duplicate case ids refuse the run. The WIB date of the copy is read before and after each
 // case (business-day control, scripts/cp6_auditor_business_day.mjs): a case run on another date than today is not a
-// PASS. One JSON line per case is printed
+// PASS. A case still running after AUDITOR_BROWSER_CASE_TIMEOUT_MS (default 45 minutes) is INCOMPLETE
+// (AUDITOR_BROWSER_CASE_TIMEOUT) and ends the run: the later cases are missing and the browser is closed, so a case that
+// waits forever fails in bounded time instead of holding the job silently (K4 browser mobile case, run 38114007484,
+// silent for 80 minutes). One JSON line per case is printed
 // ({"group":"AUDITOR_BROWSER_<PHASE>","case":...}); the stack keys are masked by the runtime, and the per-user email,
 // password and token are never printed and are redacted from every case result and error. Every created Auth user is
 // deleted, the browser, the UI server and the proxy are stopped.
@@ -38,6 +41,8 @@ const anon = process.env.SUPABASE_ANON_KEY, service = process.env.SUPABASE_SERVI
 assert.ok(script && db && out && anon && service && /^\d{4}-\d{2}-\d{2}$/.test(today || ''), 'AUDITOR_BROWSER_ENVIRONMENT')
 assert.match(db, /\/cp6_auditor_browser$/, 'AUDITOR_BROWSER_ONLY_ON_ITS_COPY')
 const origin = 'http://127.0.0.1:4176', restPort = 54329, authPort = 54321
+const caseTimeoutMs = Number(process.env.AUDITOR_BROWSER_CASE_TIMEOUT_MS || 45 * 60 * 1000)
+assert.ok(Number.isInteger(caseTimeoutMs) && caseTimeoutMs > 0, 'AUDITOR_BROWSER_CASE_TIMEOUT_MS')
 let api
 const VOCABULARY = ['PASS', 'FAIL', 'COUNTEREXAMPLE', 'INCOMPLETE']
 const secrets = [anon, service], users = []
@@ -165,17 +170,22 @@ async function main() {
   const duplicates = [...new Set(report.planned.filter((id, i) => report.planned.indexOf(id) !== i))]
   if (duplicates.length) { report.error = 'AUDITOR_DUPLICATE_CASE_IDS'; report.duplicates = duplicates; return }
   for (const [id, operation] of planned) {
-    let row
+    let row, timer, timedOut = false
     const dayBefore = sql(WIB_DAY)
     try {
-      row = await operation()
+      const limit = new Promise((_, reject) => { timer = setTimeout(() => { timedOut = true; reject(new Error('AUDITOR_BROWSER_CASE_TIMEOUT')) }, caseTimeoutMs) })
+      row = await Promise.race([operation(), limit])
       if (!row || typeof row !== 'object' || Array.isArray(row)) row = { status: 'INCOMPLETE', error: 'AUDITOR_CASE_RESULT_NOT_AN_OBJECT', result: safe(row).slice(0, 500) }
-    } catch (error) { row = { status: 'INCOMPLETE', error: safe(error?.stack || String(error)).slice(0, 3000) } }
+    } catch (error) {
+      row = timedOut ? { status: 'INCOMPLETE', error: 'AUDITOR_BROWSER_CASE_TIMEOUT', timeout_ms: caseTimeoutMs }
+        : { status: 'INCOMPLETE', error: safe(error?.stack || String(error)).slice(0, 3000) }
+    } finally { clearTimeout(timer) }
     if (!VOCABULARY.includes(row.status)) row = { ...row, status_outside_vocabulary: row.status, status: 'INCOMPLETE' }
     businessDayGuard(row, today, dayBefore, sql(WIB_DAY))
     report.cases[id] = JSON.parse(safe(row))
     console.log(JSON.stringify({ group: 'AUDITOR_BROWSER_' + phase, case: id, ...report.cases[id] }))
     save()
+    if (timedOut) { report.error = 'AUDITOR_BROWSER_CASE_TIMEOUT'; report.timed_out_case = id; return }
   }
 }
 
@@ -191,7 +201,8 @@ try {
   report.failed_stage = report.stage
 } finally {
   report.stage = 'CLEANUP'
-  try { await browser?.close() } catch { /* recorded by the status */ }
+  try { await Promise.race([browser?.close(), new Promise((_, reject) => setTimeout(() => reject(new Error('AUDITOR_BROWSER_CLOSE_TIMEOUT')), 60000))]) }
+  catch { /* recorded by the status */ }
   preview?.kill()
   if(proxy?.listening){proxy.closeAllConnections();await new Promise(ok=>proxy.close(ok))}
   for (const user of users) {
