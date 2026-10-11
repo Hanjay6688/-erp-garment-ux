@@ -1,0 +1,18 @@
+[
+  {
+    "job_id": 114395165573,
+    "file": "01_k4_browser_mobile_silent_first_attempt.log",
+    "stored_excerpts": 29,
+    "matching_ci_prefixes": 29,
+    "all_match": true,
+    "method": "Strip declared excerpt line number; exact prefix search preserves writer-declared1500char truncation. Not reclassifying failed run."
+  },
+  {
+    "job_id": 114421382536,
+    "file": "02_k4_browser_mobile_silent_second.log",
+    "stored_excerpts": 29,
+    "matching_ci_prefixes": 29,
+    "all_match": true,
+    "method": "Strip declared excerpt line number; exact prefix search preserves writer-declared1500char truncation. Not reclassifying failed run."
+  }
+]

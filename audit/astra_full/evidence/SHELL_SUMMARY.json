@@ -1,0 +1,17 @@
+{
+  "run_id": 38159220799,
+  "job_id": 114528434503,
+  "raw_log_sha256": "cfd7f627764706d49a41804d9ef5f2a5cd12ef7fce92b3e81d33f52a1013eabb",
+  "raw_log_bytes": 226429,
+  "result_lines": [
+    "2026-10-11T17:35:40.2122882Z  Test Files  201 passed (201)",
+    "2026-10-11T17:35:40.2131762Z       Tests  1724 passed (1724)",
+    "2026-10-11T17:35:44.4306650Z Source ownership passed: 290 runtime files, 243 owned RPC boundaries, no orphan or direct table access.",
+    "2026-10-11T17:35:44.6021329Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 243 browser RPC boundaries.",
+    "2026-10-11T17:35:52.4037243Z Source ownership passed: 290 runtime files, 243 owned RPC boundaries, no orphan or direct table access.",
+    "2026-10-11T17:35:52.5731949Z Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns 111 backend permissions, 48 nav labels, 48 routes, 21 sensitive actions, and 243 browser RPC boundaries.",
+    "2026-10-11T17:36:32.7856434Z   6 passed (9.8s)"
+  ],
+  "source_unchanged": true,
+  "conditional_assembler_benchmark": "NOT_RUN: branch condition false; no credit claimed"
+}

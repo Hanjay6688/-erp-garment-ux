@@ -1,0 +1,28 @@
+# Cakupan audit penuh CP7 — d0b9e9c2
+
+Status dokumen: **sedang disusun**, menunggu seluruh run pada RUN_INDEX. Setiap baris dibatasi oleh kasus yang disebut; review source tidak menggantikan perilaku runtime.
+
+| Area paket | Uji dengan oracle Astra | Perluasan dengan oracle writer yang dijalankan auditor | Batas penilaian |
+|---|---|---|---|
+| Akses, replay, pemulihan | AS20-01/02/03; AS20C-04/05; ASF01–04: izin dicabut sebelum/sesudah lock, UUID lintas aktor/aksi, SQL privat dan Auth/REST, respons hilang | Transport, akses setiap fasad, race dan browser suite terkait | Inventaris ACL seluruh fungsi; pemanggilan nyata dipilih, bukan semua kombinasi fungsi×peran×mode. |
+| Uang, laporan dan WIB | AS20-04/07/09/33; AS20C-07/09: pecahan Decimal, batas integer, diskon, laba/jurnal, periode tutup | P13 Finance, full cycle, report v2 | Oracle uang dihitung sendiri; UNKNOWN bukan nol. |
+| Pembelian/AP | AS20-10/11/12/14; AS20C-11/50: invoice bertahap, GRNI, kredit lintas invoice, pembayaran/koreksi, recost | P09, note/receipt correction, supplier payment create/correction, F03 credit | Pembelian posted melalui command, bukan hasil uang dimasukkan auditor. |
+| Penjualan/AR | AS20C-47 desktop+mobile:13 jual,4 retur, pembayaran137,03, respons putus/replay dan inverse; Grade A/B | P11, cash installments, customer refund, F03 browser | Antarmuka nyata pada Chromium emulasi; HP fisik/Safari terpisah. |
+| Fisik/HPP/produksi | AS20-15/16; AS20C-08/15/50:137PCS konservasi, range/SKU snapshot, biaya jasa3PCS ukuran terpilih, race penerimaan, biaya terlambat | Supply, fabric physical/recipe/rule, P18 E01/full cycle | Model/matcher privat tetap diberi label kernel; tidak mengklaim live posting dari kernel. |
+| Payroll | AS20-18/19; AS20C-18/19: kerja46,33+aksesori36,49; hak lama85+carry7,50−advance30; inverse | Tiga suite payroll dan F03 P12 | Aturan owner yang belum disahkan tidak diganti angka buatan. |
+| Model/yield/perencanaan | AS20-20/21/24/31/32; AS20C-22/23/24: SES, matching terikat, netting, kapasitas bersama, spill jadwal, batas199PCS | Model, schedule, netting, PL5, plan v1/v2 | PR44 konflik kepentingan dicatat; Astra tidak memberi penerimaan independen atas optimasi yang pernah ditulisnya. |
+| K7a Cek sumber | ASF13: perbandingan lengkap predecessor dan kandidat pada baseline+fakta jual/retur sendiri; batas0/1/5000 | P19 scale mengukur capture nyata | Hanya captured_at dikecualikan; fungsi kandidat tidak diganti. Enam pembandingan PASS pada run 38161512888. |
+| Analisis 5.000/staged | AS20-26/27/28/38/42: server saja,5.000 target/26halaman, checksum dan batas halaman, reconnect,5.001 ditolak | P19 staged/transport/scale dan K4 | Waktu tick bukan waktu UI seluruh analisis; capaian target UI dilaporkan terpisah. |
+| Snapshot/freshness | AS20-16/31; AS20C-25/29: membership, stock/policy, reopen, in-flight changes | Analysis, staged, plan/report/reminder v2 | Snapshot lama tidak ditulis ulang menjadi terkini. |
+| Business Report v2 | AS20-33/37/41; AS20C-01/34: angka otoritatif, tanggal laporan, seal/publish, consumer sesudah cleanup | P19 report v2, P13 | Dokumen historis berbeda dari sumber live yang berubah. |
+| Reminder v2 | AS20-35/41; AS20C-01: recheck kebutuhan saat finish, consumer sesudah cleanup | Attention, reminder v2, fabric-rule | Sink lokal, tidak mengirim pesan/WA ke orang lain. |
+| Tanya AI v2 | AS20-36/41; AS20C-01: input bebas/asing/berlebih ditolak, output bounded, izin dan no-write | AI v2 | Integrasi penyedia eksternal/config nyata tidak disahkan audit ini. |
+| K2/K3 | AS20-28/37/38/39/40/41/42; AS20C-27/28/37: TTL, atomic fault, dua cleaners, UTF8, failed/active jobs, retained rows/hash | K2 retention, K3 cleanup | Empat mutasi semantik dalam copy yang sengaja dilemahkan adalah batas detektor lama; raw counterexample tetap ada. |
+| K4 penjalan analisis | ASF01–04/07, AS20-26: aktor asli, identitas sesi pulih, job ditolak tidak menahan lain, heartbeat, cold race, seluruh5.000 oleh server | K4 runner17, staged14 | Gejala mobile hang lama tidak otomatis dinyatakan sembuh; first logs dipertahankan. |
+| K6 penjalan bukti | ASF05/06/08:217potong/207GOOD, proof terikat fakta, reverse+backdate, timeout setelah sebagian percobaan insert, BUSY | K6 runner10, supply | Pembatalan disuntik lewat trigger sementara hanya di salinan, fungsi produk tidak berubah; jam rest/heartbeat yang dimajukan ditandai. |
+| Cron/backup | AS20-43/44/45: empat cron nyata, dua database, restore559tabel,15malam nyata/14retensi, gagalretry detik sama | K3 operational cases | Pemasangan asli belum diizinkan; tujuan backup luar CI belum diuji. |
+| Integritas uji | ASF09–12 menemukan ASF-F01; hitung ulang per ID, budget, pemulihan, first attempts; source diff dan logCI | Shell controls, finalizer, retention corruption tests | S3 tool retry belum tertutup; tidak otomatis membatalkan semua run yang tidak mengalami rollover. |
+| UI | AS20-47:48rute desktop+mobile,role keuangan;2alur tulis di atas;8screenshot diperiksa | Browser per suite dan6shell | PR45 bukan kandidat; rute terjangkau bukan setiap tombol sudah diuji. |
+| P21 gladi | Backup/restore Astra dan inventaris CP7 baru | P21 dasar dan P21 penuh pada salinan | Gladi dasar 6 fase dan penuh 9 fase PASS; setelah digunakan, restore pra-pasang kehilangan transaksi setelah backup menurut desain. |
+
+Manifest kasus mandiri dan tambahan terdaftar sebelum eksekusi. Satu kasus lama FULL_FLOW sempat tidak dipilih runner; kekosongan ditemukan saat menghitung ID dan dijalankan terpisah tanpa mengubah oracle. Run 38161351529 kini membuktikan kasus itu PASS. Uji UI awal berhenti sebelum kasus pertama karena inventaris auditor belum disalin; bukti awal disimpan dan perbaikan alat dijelaskan.

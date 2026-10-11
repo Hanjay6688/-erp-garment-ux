@@ -28,7 +28,7 @@ for item in INDEX:
     z = directory.with_suffix('.zip')
     assert hashlib.sha256(z.read_bytes()).hexdigest() == item['digest'].removeprefix('sha256:')
     record = dict(artifact_id=item['id'], artifact_name=item['name'], run_id=item['run_id'],
-                  archive_digest_verified=True, reports=[])
+                  archive_digest_verified=True, reports=[], rehearsals=[])
     for p in sorted(directory.glob('*.json')):
         d = json.loads(p.read_text())
         if not isinstance(d, dict): continue
@@ -37,33 +37,50 @@ for item in INDEX:
         if p.name == 'T3_BACKUP_RESTORE_DRILL.json':
             record['backup'] = dict(status=d.get('status'), checks=d.get('checks'), data=d.get('data'),
                                     unexplained=d.get('restore', {}).get('unexplained'))
+        if p.name in ('CP7_P21_REHEARSAL.json', 'CP7_P21_FULL_REHEARSAL.json'):
+            record['rehearsals'].append(dict(file=p.name, sha256=hashlib.sha256(p.read_bytes()).hexdigest(),
+                status=d.get('status'), steps=d.get('steps', d.get('phases')),
+                cp6_restored=d.get('cp6_restored'), advisor_gate=d.get('advisor_gate'),
+                errors={k: d[k] for k in ('error', 'restore_error', 'traceback') if d.get(k)},
+                note='Rehearsal phases, not counted as product case executions; committed rows remain only in disposable clone until dropped.'))
         if not ('expected_case_count' in d or 'expected_cases' in d): continue
         result = dict(file=p.name, sha256=hashlib.sha256(p.read_bytes()).hexdigest(), reported_status=d.get('status'),
                       expected=d.get('expected_case_count', d.get('expected_cases')), observed=0, groups={},
                       restore=d.get('restore', d.get('restore_components')), cp6_restored=d.get('cp6_restored'),
                       advisor_gate=d.get('advisor_gate'), errors={k: d[k] for k in ('error', 'restore_error', 'traceback') if d.get(k)},
                       first_attempt_and_date_flags=first_attempts(d))
-        for name in ('native', 'races', 'http', 'browser'):
-            if name not in d: continue
-            g = d[name]
+        specs = {g['key']: g for g in d.get('predeclared_groups', [])}
+        supplied = d.get('groups') if specs else {k: d[k] for k in ('native', 'races', 'http', 'browser') if k in d}
+        result['expected_smoke'] = d.get('expected_smoke_count', 0)
+        result['observed_smoke'] = 0
+        result['declared_group_keys_match'] = None if not specs else set(supplied) == set(specs)
+        for name, g in (supplied or {}).items():
             rows = g.get('races', g.get('cases', {}))
             if not isinstance(rows, dict): continue
-            planned = g.get('planned_race_ids', g.get('planned_case_ids'))
+            spec = specs.get(name, {})
+            planned = g.get('planned_race_ids', g.get('planned_case_ids', g.get('planned')))
             declared = d.get('required_case_ids', {}).get(name)
             counts = Counter(r.get('status', 'NO_STATUS') for r in rows.values())
             group = dict(case_ids={k: r.get('status') for k, r in rows.items()}, observed=len(rows), counts=dict(counts),
                          planned_ids_match=planned is not None and set(planned) == set(rows) and len(planned) == len(set(planned)),
                          declared_ids_match=None if declared is None else set(declared) == set(rows) and len(declared) == len(rows),
-                         counts_match=g.get('counts') == dict(counts),
+                         counts_match=g.get('counts') == dict(counts), kind=spec.get('kind', name),
+                         smoke=spec.get('smoke', False), expected_group_executions=spec.get('expected_executions'),
+                         group_budget_match=None if not spec else len(rows) == spec['expected_executions'],
                          flags={k: g.get(k) for k in ('status', 'error', 'missing', 'complete_boundary_restored', 'database_remaining',
                                                      'cleanup_failures', 'auth_cleanup_failures', 'session_leaks', 'host_error', 'console_errors') if k in g})
             result['groups'][name] = group
-            result['observed'] += len(rows)
+            result['observed_smoke' if spec.get('smoke') else 'observed'] += len(rows)
             for key, row in rows.items():
                 origin = 'ASTRA_CONTRACT' if '-own-' in item['name'] else 'WRITER_ORACLE_RERUN_BY_ASTRA'
                 ALL.setdefault(origin + '/' + key, []).append(dict(artifact_id=item['id'], file=p.name, group=name, status=row.get('status'),
-                                                                   business_day=row.get('business_day'), first_attempt_flags=first_attempts(row)))
-        result['case_budget_match'] = result['observed'] == result['expected']
+                                                                   smoke=spec.get('smoke', False), business_day=row.get('business_day'), first_attempt_flags=first_attempts(row)))
+        result['case_budget_match'] = result['observed'] == result['expected'] and result['observed_smoke'] == result['expected_smoke']
+        result['runtime_diagnostics'] = d.get('runtime_diagnostics')
+        result['additional_source_admission_controls'] = None if 'source_admission' not in d else {
+            'counts': d['source_admission'].get('counts'), 'status': d['source_admission'].get('status'),
+            'declared_case_credit': d.get('source_admission_required_case_credit'),
+            'note': 'Outside declared product case budget; not added to product totals.'}
         record['reports'].append(result)
     RESULTS.append(record)
 
@@ -73,7 +90,6 @@ summary = dict(candidate_sha='d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0', product
                note='Work in progress. Repeated case IDs are one canonical case. Tool controls are reported separately. No raw FAIL is overwritten by adjudication.')
 (HERE / 'evidence/RECONCILIATION.json').write_text(json.dumps(summary, indent=2) + '\n')
 print(json.dumps(dict(archives=len(RESULTS), unique_counts=summary['unique_counts'],
-                      reports=[dict(artifact=r['artifact_name'], file=s['file'], observed=s['observed'], expected=s['expected'],
-                                    status=s['reported_status'], budget_match=s['case_budget_match'],
-                                    bad=[k for g in s['groups'].values() for k, v in g['case_ids'].items() if v != 'PASS'],
-                                    date_flags=len(s['first_attempt_and_date_flags'])) for r in RESULTS for s in r['reports']]), indent=2))
+    reports=Counter(s['reported_status'] for a in RESULTS for s in a['reports']),
+    budget_issues=[dict(artifact=a['artifact_id'],file=s['file']) for a in RESULTS for s in a['reports'] if not s['case_budget_match']],
+    date_flags=sum(len(s['first_attempt_and_date_flags']) for a in RESULTS for s in a['reports'])), indent=2))

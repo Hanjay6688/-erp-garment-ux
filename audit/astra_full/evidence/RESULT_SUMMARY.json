@@ -1,0 +1,53 @@
+{
+  "candidate": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "product_cases_own_unique": 76,
+  "own_status_counts": {
+    "PASS": 75,
+    "COUNTEREXAMPLE": 1
+  },
+  "own_executions": 79,
+  "writer_regression": {
+    "PASS": 655,
+    "smoke_executions": 0,
+    "smoke_pass": 0,
+    "reports": 21
+  },
+  "rehearsals": [
+    {
+      "artifact_id": 11711605241,
+      "file": "CP7_P21_REHEARSAL.json",
+      "status": "PASS",
+      "steps": [
+        "INSTALL_1",
+        "PREUSE_ROLLBACK",
+        "REINSTALL",
+        "USE",
+        "POSTUSE_ROLLBACK",
+        "HARNESS_RESTORE_AFTER_USE"
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    {
+      "artifact_id": 11711310972,
+      "file": "CP7_P21_FULL_REHEARSAL.json",
+      "status": "PASS",
+      "steps": [
+        "PREINSTALL_BACKUP",
+        "INSTALL_1",
+        "PREUSE_ROLLBACK",
+        "REINSTALL",
+        "USE",
+        "POSTUSE_ROLLBACK",
+        "USED_BACKUP_RESTORE",
+        "ROLLBACK_BY_PREINSTALL_RESTORE",
+        "HARNESS_RESTORE_AFTER_USE"
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true
+    }
+  ],
+  "own_manifest_complete": true,
+  "pending_regression_reports": 21,
+  "production_go": false
+}

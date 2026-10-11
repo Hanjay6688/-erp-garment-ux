@@ -1,0 +1,65 @@
+{
+  "schema": "cp7-independent-findings-v1",
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "audit_state": "RUNNING",
+  "production_go": false,
+  "findings": [
+    {
+      "id": "ASF-F01",
+      "severity": "S3",
+      "classification": "OPEN_TOOLING",
+      "title": "Date rollover alone permits retry of unrelated failed case",
+      "evidence_origin": "INDEPENDENT_TOOL_RUNTIME",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "ASTRA_SYNTHETIC_CASE_RESULTS",
+      "source": [
+        "scripts/cp6_auditor_business_day.py:explained",
+        "scripts/cp6_auditor_business_day.py:retry_allowed",
+        "scripts/cp6_auditor_business_day.py:with_retry"
+      ],
+      "run_id": 38159947839,
+      "job_id": 114530570757,
+      "case_ids": [
+        "ASF-10-DATE-UNRELATED-FAIL",
+        "ASF-11-DATE-UNRELATED-COUNTEREXAMPLE"
+      ],
+      "first_failure_preserved": true,
+      "main_verdict_replaced_by_second_attempt": true,
+      "application_money_or_stock_error_proven": false,
+      "impact": "Audit top-level PASS can replace an unrelated first failed status merely because date changed; first attempt remains nested and in log.",
+      "recommendation": "Retry only a proven fixture-date invalidation; preserve unrelated FAIL/COUNTEREXAMPLE/unknown INCOMPLETE for review. Do not alter business assertions.",
+      "retest": [
+        "ASF10/11 run one attempt and keep first failed result",
+        "ASF09 legitimate originally-PASS invalidation can retry",
+        "ASF12 blocking controls remain non-retryable",
+        "Integration of actual savepoint/race/HTTP/browser callers",
+        "Review affected prior rollover evidence without blanket invalidation of no-rollover runs"
+      ]
+    }
+  ],
+  "known_raw_counterexamples": [
+    {
+      "case_id": "AS20-39_VALIDATION_NEGATIVE",
+      "disposition": "DOCUMENTED_WEAKENED_COPY_LIMIT",
+      "new_product_issue": false,
+      "ordinary_mutation_refused": true
+    }
+  ],
+  "auditor_errors": [
+    {
+      "run_id": 38159487255,
+      "job_id": 114529226911,
+      "kind": "MISSING_UI_INVENTORY_BEFORE_FIRST_CASE",
+      "recovery_run": 38160527120,
+      "product_changed": false
+    },
+    {
+      "kind": "GENERIC_ORACLE_METADATA_TEMPLATE_LABEL",
+      "detail": "Raw generic origin says WRITER_UNCHANGED on some own workflows; preregistration/per-case origins identify actual Astra oracle. Raw logs preserved."
+    },
+    {
+      "kind": "OMITTED_REGISTERED_LIFECYCLE_CASE",
+      "detail": "Caught by canonical ID reconciliation; separate first execution38161351529, original oracle unchanged."
+    }
+  ]
+}
