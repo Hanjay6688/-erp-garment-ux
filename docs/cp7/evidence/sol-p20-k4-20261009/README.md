@@ -18,3 +18,14 @@ writer baru `K4R_RACE_COLD_START_TWO_TICKS` (suite `k4-runner-17`). Di salinan l
 `audit/sol_p20_k4/cold_runner.py` tanpa diubah: gagal pada sumber `8cc1b081` (`COLD_SECOND_TICK_NO_HEARTBEAT_WAIT`,
 `transactionid`) dan lulus 8/8 pada sumber perbaikan; kasus writer baru juga gagal pada sumber lama dan lulus pada yang
 baru. Uji penutup tetap milik auditor.
+
+## Uji ulang auditor (10 Okt 2026)
+
+SOL-K4-01 **DITUTUP** oleh uji ulang Sol atas `8116800c` (cabang `audit/sol-k4-retest-8116800c-20261010`): uji penutup
+auditor byte-sama lulus — kernel 8/8 [run 38054431784](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38054431784),
+cold/warm pada ERP terpasang 2/2 [run 38054430466](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38054430466).
+Kegagalan pertama di atas tetap disimpan dan tidak diubah.
+
+`01_attention284_wib_midnight_first_attempt.log`: kegagalan pertama attention284 pada `8116800c` (run 37958882487, job
+113916327717, 23.33–00.08 WIB). Auditor memeriksa log asli dan dua ZIP lengkap: tanggal fixture 9 Okt, tanggal server
+10 Okt; percobaan kedua pada SHA dan oracle yang sama 286/286 PASS. Status: OPEN_TOOLING S3 (alat uji, bukan produk).

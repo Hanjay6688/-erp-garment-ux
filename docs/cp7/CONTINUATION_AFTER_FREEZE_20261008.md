@@ -35,4 +35,6 @@ Kandidat audit gabungan (keputusan owner 9 Okt: audit sekalian semua): `audit-ca
 
 Audit independen Sol atas `8cc1b081` (`audit/sol-p20-k4-8cc1b081-20261009`): F01–F05 PASS, regresi 71/71, PR44 235 PASS; HOLD pada SOL-K4-01 (S2, heartbeat awal penjalan membuat giliran kedua menunggu). Kandidat revisi untuk uji ulang: `audit-candidate/sol-retest-k4-20261009/` — sumber `8116800c`, 15/15 workflow dan 44/44 job hijau pada commit itu; kegagalan pertama auditor ditunjuk di `evidence/sol-p20-k4-20261009/`.
 
+Uji ulang independen Sol atas `8116800c` (`audit/sol-k4-retest-8116800c-20261010`, 10 Okt 2026): **PASS_RETEST, SOL-K4-01 CLOSED**; 60/60 kasus auditor PASS (kernel 8 run 38054431784; cold/warm auditor 2, K4 17, staged 14, K3 19 run 38054430466); tidak ada temuan produk baru dalam cakupan. CI writer 15/44 diverifikasi auditor (bukan dijalankan ulang seluruhnya). F01–F05 dan PR44 tetap memakai putusan sebelumnya sesuai batasnya. Terbuka: alat uji ATTENTION_WIB_MIDNIGHT_FIXTURE (S3, OPEN_TOOLING); belum diuji auditor: 5.000 target lewat K4, HP fisik/Safari, tab HP benar-benar ditutup, pemasangan hosted; PR #45 belum diaudit (saran auditor: audit UI/demo terpisah sebelum merge). `production_go:false`.
+
 Tetap: `independent_acceptance=false`, `installed_P21_acceptance=false`, `production_go=false`.
