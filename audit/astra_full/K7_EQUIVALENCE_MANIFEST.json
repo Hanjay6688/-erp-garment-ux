@@ -1,0 +1,12 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "case_id": "ASF-13-K7A-SOURCE-EQUIVALENCE",
+  "expected_cases": 1,
+  "oracle_origin": "ASTRA_EXACT_PREDECESSOR_DIFFERENTIAL",
+  "fixture_origin": "Astra73to41 own business writes plus unchanged master/transport helpers",
+  "predecessor_commit": "ea8c071aaea75b88b722c83b7109d84663d528d1",
+  "reason": "Required K7a same-output claim needs runtime comparison, scale timings alone do not prove equivalence.",
+  "scope": "Six complete JSON text comparisons excluding captured_at only; baseline and own sale/return; bounds0,1,5000; current function remains unchanged.",
+  "not_an_optimization_authored_by_astra": true,
+  "production_go": false
+}
