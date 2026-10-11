@@ -14,6 +14,8 @@ name: CP7 F03 Full Retained Components
     - scripts/cp7_*bundle.py
     - src/**
     - .github/workflows/cp7-f03-full.yml
+  # Also run on demand (e.g. on the Claude branch head of an audit candidate); push triggers unchanged.
+  workflow_dispatch: {}
 permissions:
   contents: read
   actions: read
