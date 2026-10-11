@@ -66,7 +66,8 @@ lama ini terbuka dan tidak diperbaiki di sini.
 - **Upaya mengulang:** sesudah `c04bec8a`, K4 lulus 5 dari 5: run 38123203866 job 114422035596 (`c04bec8a`) dan workflow
   diagnosa sementara run 38126886218 (empat salinan `k4-runner-17` bersamaan pada `c2c2eb5e`, batas kasus 20 menit; job
   114432990332, 114432990297, 114432990309, 114432990196, semuanya 17/17 PASS, kedua kasus browser selesai 10–13 detik dengan
-  penanda langkah lengkap). Workflow diagnosa itu sudah dihapus lagi.
+  penanda langkah lengkap). Workflow diagnosa itu sudah dihapus lagi. Pada kandidat audit penuh CP7 `d0b9e9c2`
+  `k4-runner-17` juga lulus (job 114435156829, 8 menit): 6 dari 6.
 - **Status:** penyebab belum ditemukan karena belum terulang sejak ada penanda langkah. Kasus produk K4 (Native, balapan,
   HTTP, browser desktop) PASS di kedua kejadian; yang diam selalu sesudah kasus desktop, sebelum hasil kasus mobile.
   Tercatat sebagai butir alat uji terbuka untuk audit penuh CP7, bukan disembunyikan.

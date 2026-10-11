@@ -19,7 +19,12 @@ Untuk auditor: mulai dari `AUDITOR_START.md` (paste block pembuka sesi dan cakup
 
 ## CI pada satu commit (`CI_RECEIPT.json`)
 
-CI_RECEIPT_PLACEHOLDER
+Ke-15 workflow kualifikasi cabang Claude dijalankan pada `d0b9e9c2` (Build UX dan CodeQL terpicu push, sisanya
+`workflow_dispatch` tanpa commit baru): **15/15 workflow dan 45/45 job sukses, semuanya percobaan pertama**. Suite baru
+`k6-proof-runner-10` ada di `CP7 P19 Analysis Job Transport` (job 114435156848); `k4-runner-17` lulus dalam 8 menit (job
+114435156829). Tambahan pada commit yang sama: `CP7 Pre-freeze UI Regression` (oracle browser CP6 di tumpukan CP7 penuh,
+run 38127625824) dan `CP7 F03 Full Retained Components` (8 komponen, run 38127627245) — 2/2 workflow dan 9/9 job sukses.
+Ini bukti writer (WRITER_CROSSCHECK), bukan penerimaan auditor.
 
 ## Riwayat audit menuju kandidat ini (masukan, bukan penerimaan audit ini)
 
@@ -44,13 +49,13 @@ CI_RECEIPT_PLACEHOLDER
 
 - **K4 browser mobile sempat diam (alat uji).** Dua kali (run 38114007484 dan 38122987757, sebelum ada batas waktu kasus)
   job diam sesudah kasus browser desktop PASS, sebelum hasil kasus mobile. Sesudah batas waktu dan penanda langkah
-  ditambahkan, K4 lulus 5 dari 5. Penyebab belum ditemukan; diam berikutnya berhenti sendiri dan menyebut langkah
+  ditambahkan, K4 lulus 6 dari 6 (termasuk pada commit ini). Penyebab belum ditemukan; diam berikutnya berhenti sendiri dan menyebut langkah
   terakhirnya. Rinciannya di `../../evidence/business-day-control-20261011/README.md`.
 - **Workflow `CP6 Auditor Scenario`** (bukan bagian dari 15) gagal pada 4 kasus browser CP6 yang sama sejak 2 Okt: layar
   CP7 memanggil RPC CP7 yang tidak dipasang di skenario CP6 saja, dan dua kasus demo `SALES_MANUAL_13` sudah dipensiunkan
   dengan pengganti tersambung (`P11_DRAFT_BROWSER_DESKTOP`, `P11_DRAFT_BROWSER_MOBILE_RECOVERY`;
   `../../PREFREEZE_RUNTIME_MIGRATION_20261006.md`). Oracle browser CP6 yang sama dijalankan di tumpukan CP7 penuh oleh
-  `CP7 Pre-freeze UI Regression` (lihat bukti CI di atas).
+  `CP7 Pre-freeze UI Regression` (run 38127625824, lulus pada commit ini).
 - **Belum diuji auditor:** 5.000 target seluruhnya lewat penjalan K4, HP fisik/Safari, tab HP yang benar-benar ditutup,
   pemasangan di hosted.
 - **Belum dipasang:** jadwal pembersihan, hapus 7 hari, penjalan analisis K4, penjalan bukti K6, dan backup malam.

@@ -1,3 +1,10 @@
+Kandidat audit penuh CP7 — 11 Okt 2026 WIB: owner "Ya selesain semua abis tu full audit cp7". Sisa CP7 (K6, alat uji
+tengah malam, penelusuran K4 browser mobile) selesai dan dikunci pada sumber **d0b9e9c2** di `claude/new-session-deapao`:
+15/15 workflow dan 45/45 job hijau pada commit itu (percobaan pertama), ditambah uji layar CP6 di tumpukan CP7 penuh dan
+F03 (2/2 workflow, 9/9 job). Baca [audit-candidate/cp7-full-20261011](audit-candidate/cp7-full-20261011/README.md) dan
+`AUDITOR_START.md` di folder itu (paste block untuk sesi auditor). Menunggu audit penuh CP7 oleh auditor terpisah. Jadwal
+dan backup belum dipasang. `production_go:false`.
+
 Uji ulang independen Sol atas `8116800c` — 10 Okt 2026 WIB (`audit/sol-k4-retest-8116800c-20261010`): **PASS_RETEST,
 SOL-K4-01 DITUTUP**, 60/60 kasus auditor PASS (kernel 8, uji cold/warm auditor 2, K4 17, analisis bertahap 14, K3 19; run
 38054431784 dan 38054430466). Tidak ada temuan produk baru dalam cakupan itu. Klaim writer 15 workflow / 44 job
@@ -6,7 +13,7 @@ diverifikasi auditor. Alat uji yang melewati tengah malam WIB (S3, attention284 
 auditor. Baca [evidence/business-day-control-20261011](evidence/business-day-control-20261011/README.md). K6 (penjalan
 bukti PL-8 di server) dibuat dan lulus CI `k6-proof-runner-10` di `c04bec8a`; belum dipasang. Terbuka: K4 browser mobile
 diam dua kali sesudah kasus desktop lulus (run 38114007484 dan 38122987757) lalu lulus saat diulang; sejak `c04bec8a`
-kasus browser punya batas waktu dan catatan langkah, lalu K4 lulus 5 dari 5 (termasuk empat salinan bersamaan); penyebab
+kasus browser punya batas waktu dan catatan langkah, lalu K4 lulus 6 dari 6 (termasuk empat salinan bersamaan); penyebab
 belum ditemukan, diam berikutnya akan berhenti sendiri dan menyebut langkahnya (butir alat uji terbuka untuk audit). Belum diuji auditor: 5.000 target
 seluruhnya lewat penjalan K4, HP fisik/Safari, tab HP benar-benar ditutup, pemasangan hosted. PR #45 (pecah batch demo)
 belum diaudit dan belum diterima; auditor menyarankan audit UI/demo terpisah sebelum digabung. Jadwal dan backup belum
