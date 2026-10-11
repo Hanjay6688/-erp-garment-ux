@@ -1,6 +1,6 @@
 {
   "candidate": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
-  "audit_state": "RUNNING",
+  "audit_state": "COMPLETE_HOLD",
   "production_go": false,
   "runs": [
     {
@@ -42,6 +42,11 @@
       "id": 38161512888,
       "kind": "NewK7a exact source equivalence6comparisons",
       "control_commit": "e007bd8f8c70ef3e1c25128b9616139079c184c1"
+    },
+    {
+      "id": 38165399079,
+      "kind": "INV-UI04 tablet-size real invoice parity and complete write/inverse journey",
+      "control_commit": "11a41cd691252e87870c64a5df4100520c45b7e2"
     }
   ],
   "first_failures": [
@@ -63,5 +68,7 @@
       "job": 114529226911,
       "disposition": "AUDITOR_TOOLING before first case; missing UI inventory restoredbyte-identically; recoveryrun38160527120 3PASS"
     }
-  ]
+  ],
+  "audit_complete": true,
+  "independent_acceptance": false
 }

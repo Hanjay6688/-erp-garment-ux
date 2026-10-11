@@ -1,7 +1,8 @@
-# CP7 d0b9e9c2 — handoff Astra (audit masih berjalan)
+# CP7 d0b9e9c2 — handoff final Astra
 
 Kandidat produk: `d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0`, tree `4bd5e1acf55f0b441d9c8f67949ee5b070eb9c41`.
-Belum merupakan putusan akhir seluruh CP7. `production_go:false`. Produk tidak diubah auditor.
+Audit selesai; **HOLD penerimaan independen**, `production_go:false`. Produk tidak diubah auditor.
+Satu temuan baru S3 pada alat retry perlu diperbaiki atau diterima owner secara tertulis sesuai gerbang panduan. Penerimaan area PR44 tetap diserahkan kepada auditor yang tidak menulisnya.
 
 ## ASF-F01 — kegagalan yang tidak terkait tanggal bisa diloloskan oleh retry pergantian hari
 
@@ -54,10 +55,11 @@ File metadata umum `ASTRA_EXECUTION_ORIGIN.json` pada workflow mandiri masih men
 setiap case row sendiri menyebut asal dengan benar. Label mentah tidak diubah setelah run.
 
 PR44 pernah ditulis Astra; laporan ini tidak akan memberikan penerimaan independen baru untuk area itu.
-Seluruh 76 ID mandiri kini sudah dijalankan: 75 PASS dan satu batas detektor lama yang disebut di atas.
+Seluruh 77 ID mandiri sudah dijalankan: 76 PASS dan satu batas detektor lama yang disebut di atas; empat kontrol alat dipisahkan (dua PASS, dua COUNTEREXAMPLE untuk ASF-F01).
 FULL_FLOW yang sempat terlewat filter runner telah dijalankan tanpa mengubah oracle (run 38161351529, PASS).
 K7a source equivalence lulus enam pembandingan lengkap (run 38161512888).
-Regresi 44 job masih dituntaskan; matriks final ada di REPORT.md setelah seluruh hasil direkonsiliasi.
+Regresi selesai 44/44 job: 1.760 eksekusi kasus produk PASS (1.174 ID unik), tiga smoke PASS, serta dua gladi P21 (enam dan sembilan fase). Shell 1.724 tes/201 berkas dan enam browser PASS; build/security dan kedua analisis CodeQL lulus. Matriks dan batas akhir ada di REPORT.md dan COVERAGE.md.
+Tambahan tablet ASF-14 lulus: alur tulis/inverse di ukuran tablet serta lima nilai invoice identik pada desktop/tablet/HP. Run 38165399079. Bukti ini emulasi Chromium, bukan perangkat fisik.
 
 ## Yang sudah beres, tidak perlu diperbaiki ulang
 

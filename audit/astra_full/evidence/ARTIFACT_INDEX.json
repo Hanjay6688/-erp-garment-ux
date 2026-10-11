@@ -2308,5 +2308,467 @@
       "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
     },
     "run_id": 38159220776
+  },
+  {
+    "id": 11712145021,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMjE0NTAyMQ==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p10-json",
+    "size_in_bytes": 436287,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712145021",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712145021/zip",
+    "expired": false,
+    "digest": "sha256:fd4b0f87cb0b63ce9f0c680c95852e42cf2cbe867589056174855a272bc66e9a",
+    "created_at": "2026-10-11T18:38:20Z",
+    "updated_at": "2026-10-11T18:38:20Z",
+    "expires_at": "2026-11-10T18:38:19Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711597755,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTU5Nzc1NQ==",
+    "name": "cp7full-astra-d0b9e9c2-note_correction-raw",
+    "size_in_bytes": 15205871,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711597755",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711597755/zip",
+    "expired": false,
+    "digest": "sha256:143fe58e61564b7d4bf350bd7498e394dfd165a01f1dd6c436f0a3e41464d684",
+    "created_at": "2026-10-11T18:38:21Z",
+    "updated_at": "2026-10-11T18:38:21Z",
+    "expires_at": "2026-11-10T18:38:20Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711198710,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTE5ODcxMA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p10-raw",
+    "size_in_bytes": 6608307,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711198710",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711198710/zip",
+    "expired": false,
+    "digest": "sha256:fbd9fbb93022d6de92b27332c782cac203d2d8b984653d60669e4eedebd19307",
+    "created_at": "2026-10-11T18:38:19Z",
+    "updated_at": "2026-10-11T18:38:19Z",
+    "expires_at": "2026-11-10T18:38:17Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711173667,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTE3MzY2Nw==",
+    "name": "cp7full-astra-d0b9e9c2-note_correction-json",
+    "size_in_bytes": 246974,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711173667",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711173667/zip",
+    "expired": false,
+    "digest": "sha256:81e452f6e740fadd596bfe7f010039729dc30d5d513d6318071c7a0333d9a121",
+    "created_at": "2026-10-11T18:38:22Z",
+    "updated_at": "2026-10-11T18:38:22Z",
+    "expires_at": "2026-11-10T18:38:21Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711935604,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTkzNTYwNA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p11-json",
+    "size_in_bytes": 820562,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711935604",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711935604/zip",
+    "expired": false,
+    "digest": "sha256:6d2374d336e1f80dfe58a317b68736dc4a6c2021d52bc9602aa5a57e7f7bad0c",
+    "created_at": "2026-10-11T18:40:50Z",
+    "updated_at": "2026-10-11T18:40:50Z",
+    "expires_at": "2026-11-10T18:40:49Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711935600,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTkzNTYwMA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p11-raw",
+    "size_in_bytes": 12611603,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711935600",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711935600/zip",
+    "expired": false,
+    "digest": "sha256:57a71e046934f9faa238b2e71e2935879f560d98198f5acf318597e3e2121890",
+    "created_at": "2026-10-11T18:40:49Z",
+    "updated_at": "2026-10-11T18:40:49Z",
+    "expires_at": "2026-11-10T18:40:48Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711453026,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTQ1MzAyNg==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p09-json",
+    "size_in_bytes": 1638163,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711453026",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711453026/zip",
+    "expired": false,
+    "digest": "sha256:6a4ef1149aeeb7b7466c618ea64893596b442834eae0380343a8ebb0995b7c38",
+    "created_at": "2026-10-11T18:39:35Z",
+    "updated_at": "2026-10-11T18:39:35Z",
+    "expires_at": "2026-11-10T18:39:34Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711168858,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTE2ODg1OA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p09-raw",
+    "size_in_bytes": 27216278,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711168858",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711168858/zip",
+    "expired": false,
+    "digest": "sha256:0d14882db95c8efd5ecfef39b49746c22c268330a2c409fa4f3e2b84192f747d",
+    "created_at": "2026-10-11T18:39:34Z",
+    "updated_at": "2026-10-11T18:39:34Z",
+    "expires_at": "2026-11-10T18:39:32Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11712315132,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMjMxNTEzMg==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p13-raw",
+    "size_in_bytes": 12010076,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712315132",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712315132/zip",
+    "expired": false,
+    "digest": "sha256:5b105b9e97d0e93168cdb25df9c8450f9e0dbc363530c9002ab40919604c5bc2",
+    "created_at": "2026-10-11T18:43:29Z",
+    "updated_at": "2026-10-11T18:43:29Z",
+    "expires_at": "2026-11-10T18:43:27Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11712110429,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMjExMDQyOQ==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p12-raw",
+    "size_in_bytes": 9809024,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712110429",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712110429/zip",
+    "expired": false,
+    "digest": "sha256:9cf7251ca6a09dd78251f76cb0e664686315d31fdb143150411cbd4d0207fbae",
+    "created_at": "2026-10-11T18:42:41Z",
+    "updated_at": "2026-10-11T18:42:41Z",
+    "expires_at": "2026-11-10T18:42:39Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711836207,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTgzNjIwNw==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p12-json",
+    "size_in_bytes": 1029104,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711836207",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711836207/zip",
+    "expired": false,
+    "digest": "sha256:9638eacfb4bde4c714a11e3e355646c07c07e129331b3fdd131b6132d7200376",
+    "created_at": "2026-10-11T18:42:43Z",
+    "updated_at": "2026-10-11T18:42:43Z",
+    "expires_at": "2026-11-10T18:42:42Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711164628,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTE2NDYyOA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-p13-json",
+    "size_in_bytes": 635832,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711164628",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711164628/zip",
+    "expired": false,
+    "digest": "sha256:d17a077f4915887c550d9a46c1e3ae96561d5be990f5f0ace74cbcae41f1d5f2",
+    "created_at": "2026-10-11T18:43:30Z",
+    "updated_at": "2026-10-11T18:43:30Z",
+    "expires_at": "2026-11-10T18:43:29Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11712340456,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMjM0MDQ1Ng==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-prefreeze_ui-json",
+    "size_in_bytes": 47354,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712340456",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712340456/zip",
+    "expired": false,
+    "digest": "sha256:6db07a423c32ced06d11a42ca697b6bca6e3d1b0560660f785ec795e21bd13a4",
+    "created_at": "2026-10-11T18:49:18Z",
+    "updated_at": "2026-10-11T18:49:18Z",
+    "expires_at": "2026-11-10T18:49:18Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11712340050,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMjM0MDA1MA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-customer_refund-json",
+    "size_in_bytes": 127030,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712340050",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712340050/zip",
+    "expired": false,
+    "digest": "sha256:99e47078cb3f2c0a519a14659922011e9f9a8e09318f2fe0427e852926b33b3d",
+    "created_at": "2026-10-11T18:45:43Z",
+    "updated_at": "2026-10-11T18:45:43Z",
+    "expires_at": "2026-11-10T18:45:43Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11712305220,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMjMwNTIyMA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-supplier_credit-json",
+    "size_in_bytes": 74188,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712305220",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712305220/zip",
+    "expired": false,
+    "digest": "sha256:92f620eb3fa2b82a7eaf164b1be8e39d26ee0d1fe6bcab6da89a22dfc3c79088",
+    "created_at": "2026-10-11T18:44:16Z",
+    "updated_at": "2026-10-11T18:44:16Z",
+    "expires_at": "2026-11-10T18:44:15Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711936030,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTkzNjAzMA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-cash_installments-json",
+    "size_in_bytes": 743926,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711936030",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711936030/zip",
+    "expired": false,
+    "digest": "sha256:9a26f6fd17c47dcece570dc9a7faa9d8d15c8d22953a9c57b3f80ecbd6e1278e",
+    "created_at": "2026-10-11T18:46:04Z",
+    "updated_at": "2026-10-11T18:46:04Z",
+    "expires_at": "2026-11-10T18:46:03Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711921113,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTkyMTExMw==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-cash_installments-raw",
+    "size_in_bytes": 31205688,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711921113",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711921113/zip",
+    "expired": false,
+    "digest": "sha256:159eb745362858d23a349493d280fac54c770825d8c309552fa4de8f120a20af",
+    "created_at": "2026-10-11T18:46:03Z",
+    "updated_at": "2026-10-11T18:46:03Z",
+    "expires_at": "2026-11-10T18:46:01Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711708198,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTcwODE5OA==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-customer_refund-raw",
+    "size_in_bytes": 3682306,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711708198",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711708198/zip",
+    "expired": false,
+    "digest": "sha256:7de633195eb091000b5c98c14d51ae06a3b5e189a36814fc8efde3d611091793",
+    "created_at": "2026-10-11T18:45:42Z",
+    "updated_at": "2026-10-11T18:45:42Z",
+    "expires_at": "2026-11-10T18:45:41Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711489105,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTQ4OTEwNQ==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-prefreeze_ui-raw",
+    "size_in_bytes": 6241504,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711489105",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711489105/zip",
+    "expired": false,
+    "digest": "sha256:1304e4a8d7923e851bdebfae0ff2cdc74acf9d2dd0bc601669a7d03c6a5de092",
+    "created_at": "2026-10-11T18:49:18Z",
+    "updated_at": "2026-10-11T18:49:18Z",
+    "expires_at": "2026-11-10T18:49:17Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11711124953,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMTEyNDk1Mw==",
+    "name": "cp7full-astra-d0b9e9c2-f03-full-supplier_credit-raw",
+    "size_in_bytes": 3114881,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711124953",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11711124953/zip",
+    "expired": false,
+    "digest": "sha256:6dda4a25228350f1ff4f18cb58de83109d49a58aca7e7b3e9527da0546688fdc",
+    "created_at": "2026-10-11T18:44:15Z",
+    "updated_at": "2026-10-11T18:44:15Z",
+    "expires_at": "2026-11-10T18:44:14Z",
+    "workflow_run": {
+      "id": 38159220776,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    "run_id": 38159220776
+  },
+  {
+    "id": 11712156419,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMjE1NjQxOQ==",
+    "name": "cp7full-astra-d0b9e9c2-own-probe_tablet-json",
+    "size_in_bytes": 30782,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712156419",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712156419/zip",
+    "expired": false,
+    "digest": "sha256:340b73f3e1c11fc7b4261c3f400f4ae48900c9f9d16c8c722aebed2e2a696704",
+    "created_at": "2026-10-11T18:55:29Z",
+    "updated_at": "2026-10-11T18:55:29Z",
+    "expires_at": "2026-11-10T18:55:29Z",
+    "workflow_run": {
+      "id": 38165399079,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "11a41cd691252e87870c64a5df4100520c45b7e2"
+    },
+    "run_id": 38165399079
+  },
+  {
+    "id": 11712101536,
+    "node_id": "MDg6QXJ0aWZhY3QxMTcxMjEwMTUzNg==",
+    "name": "cp7full-astra-d0b9e9c2-own-probe_tablet-raw",
+    "size_in_bytes": 5148643,
+    "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712101536",
+    "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11712101536/zip",
+    "expired": false,
+    "digest": "sha256:94709c0bc97d684464ba93d6aa1e0d196510b06f2e4369f9b4a69f1c6f449640",
+    "created_at": "2026-10-11T18:55:28Z",
+    "updated_at": "2026-10-11T18:55:28Z",
+    "expires_at": "2026-11-10T18:55:27Z",
+    "workflow_run": {
+      "id": 38165399079,
+      "repository_id": 1348063690,
+      "head_repository_id": 1348063690,
+      "head_branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+      "head_sha": "11a41cd691252e87870c64a5df4100520c45b7e2"
+    },
+    "run_id": 38165399079
   }
 ]

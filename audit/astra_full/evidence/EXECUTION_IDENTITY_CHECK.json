@@ -1,5 +1,5 @@
 {
-  "verified_archives": 53,
+  "verified_archives": 64,
   "all_same_candidate": true,
   "rows": [
     {
@@ -477,6 +477,105 @@
       "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
       "raw_oracle_origin": "WRITER_UNCHANGED",
       "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11712145021,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11711173667,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11711935604,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11711453026,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11711836207,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11711164628,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11712340456,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11712340050,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11712305220,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11711936030,
+      "run": 38159220776,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+      "raw_oracle_origin": "WRITER_UNCHANGED",
+      "assigned_origin": "WRITER_ORACLE_RERUN_BY_ASTRA",
+      "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
+    },
+    {
+      "artifact": 11712156419,
+      "run": 38165399079,
+      "product_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "workflow_sha": "11a41cd691252e87870c64a5df4100520c45b7e2",
+      "raw_oracle_origin": "ASTRA_CONTRACT",
+      "assigned_origin": "ASTRA_CONTRACT",
       "source_receipt_sha256": "2832e15677da839804d8525475828f1c6f4c37119704f11519107457cb12f62d"
     }
   ]

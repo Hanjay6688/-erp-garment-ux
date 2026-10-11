@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-10-11T19:02:17.547689+00:00",
+  "evidence_packaging": "PASS",
+  "audit_verdict": "HOLD",
+  "production_go": false,
+  "runs": 9,
+  "jobs": 68,
+  "successful_jobs": 65,
+  "failed_jobs_preserved": [
+    114529226905,
+    114529226911,
+    114530570757
+  ],
+  "first_attempts_preserved": true,
+  "source_unchanged": true,
+  "verified_original_json_archives": 64,
+  "visual_images": 11,
+  "group_executions": {
+    "writer/native": 1082,
+    "writer/races": 262,
+    "writer/http": 153,
+    "writer/browser": 263,
+    "own/native": 54,
+    "own/races": 18,
+    "own/browser": 6,
+    "own/http": 2,
+    "writer/smoke": 3
+  },
+  "known_raw_failure_flags": [
+    {
+      "artifact": 11709906989,
+      "group": "browser",
+      "disposition": "Auditor missing inventory before first case; recovery 38160527120, raw preserved"
+    }
+  ],
+  "note": "Evidence validation only. ASF-F01 remains OPEN_TOOLING and PR44 needs non-author acceptance."
+}

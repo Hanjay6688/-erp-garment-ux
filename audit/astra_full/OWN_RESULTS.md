@@ -80,7 +80,10 @@ Kandidat `d0b9e9c2`. Satu baris = satu ID kanonik, bukan setiap pengulangan atau
 | ASF-07-K4-COLD-LOCKS | PASS | PASS | 11710300777 |
 | ASF-08-K6-BUSY | PASS | PASS | 11710300777 |
 | ASF-13-K7A-SOURCE-EQUIVALENCE | PASS | PASS | 11710688413 |
+| ASF-14-TABLET-PARITY | PASS | PASS | 11712156419 |
 
-76 ID mandiri: {'PASS': 75, 'COUNTEREXAMPLE': 1}. Kontrol alat tanggal ASF09–12 dilaporkan terpisah: 2 PASS dan 2 COUNTEREXAMPLE yang menjadi satu temuan ASF-F01.
+77 ID mandiri: {'PASS': 76, 'COUNTEREXAMPLE': 1}. Kontrol alat tanggal ASF09–12 dilaporkan terpisah: 2 PASS dan 2 COUNTEREXAMPLE yang menjadi satu temuan ASF-F01.
 
 FULL_FLOW terlewat oleh filter runner awal dan dijalankan pertama kali pada run 38161351529; oracle tidak berubah. UI awal berhenti sebelum kasus pertama karena inventaris auditor belum disalin; run pemulihan 38160527120 menjalankan tiga kasus dengan inventaris asli. Kedua kekurangan alat auditor tidak dibebankan kepada writer.
+
+Kasus terdaftar yang belum mempunyai hasil: []. Tidak dihitung PASS.

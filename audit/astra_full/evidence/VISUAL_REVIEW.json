@@ -1,12 +1,13 @@
 {
   "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
-  "review": "8 actual CI screenshots visually inspected by Astra; desktop/mobile sale-return, finance-period close, FG, sales empty state.",
+  "review": "11 actual CI screenshots visually inspected by Astra; desktop/mobile route and write flows plus desktop/tablet/phone invoice parity.",
   "observations": [
     "Responsive stacking and labels visible; no observed horizontal clipping on inspected images, consistent with DOM width assertions on48routes.",
     "Finance deliberately displays missing attendance/payroll and cannot close the period; unknown figures remain labelled.",
     "Sale return screen shows4PCS returned,119.64 refund value,132.16 open balance and reason for blocking invoice reversal while payment/return active.",
     "Long mobile forms require vertical scrolling; this is emulated Chromium, not physical phone/Safari and not a complete accessibility audit.",
-    "No visual approval of excluded PR45/demo change."
+    "No visual approval of excluded PR45/demo change.",
+    "ASF-14: the same five invoice totals remain readable and equal at desktop 1440x1000, tablet 820x1180, and phone 390x844; long forms require vertical scrolling. Full-page screenshots preserve fixed navigation; no horizontal document overflow by DOM assertion. Tablet write and inverse operations passed. Chromium viewport emulation only."
   ],
   "images": [
     {
@@ -56,6 +57,24 @@
       "sha256": "396bcc5c2b5afaceccce49f98d4dd255445668b19d80f9781ddd479241de1b15",
       "source_artifact": 11710835597,
       "bytes": 226687
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_ASF-14-TABLET-PARITY_desktop.png",
+      "sha256": "c14c098cf91812fd58044f9a4dcb1ec59f239e03bf946c9aa420154a04239371",
+      "source_artifact": 11712101536,
+      "bytes": 1433031
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_ASF-14-TABLET-PARITY_tablet.png",
+      "sha256": "ea4c7b65f2e42e35e31f6f749f44d0273e46e80a4f74a1e6289b3a4cdc30f3c1",
+      "source_artifact": 11712101536,
+      "bytes": 1210785
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_ASF-14-TABLET-PARITY_phone.png",
+      "sha256": "825a851f8e93d7a1bf3917711063503bfb248b3fa3bed559bf214fb0a9f20223",
+      "source_artifact": 11712101536,
+      "bytes": 968115
     }
   ]
 }

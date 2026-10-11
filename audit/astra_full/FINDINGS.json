@@ -1,7 +1,7 @@
 {
   "schema": "cp7-independent-findings-v1",
   "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
-  "audit_state": "RUNNING",
+  "audit_state": "COMPLETE_HOLD",
   "production_go": false,
   "findings": [
     {
@@ -34,7 +34,10 @@
         "ASF12 blocking controls remain non-retryable",
         "Integration of actual savepoint/race/HTTP/browser callers",
         "Review affected prior rollover evidence without blanket invalidation of no-rollover runs"
-      ]
+      ],
+      "severity_label": "minor (S3: integritas bukti)",
+      "evidence_level": "CI_TOOL_RUNTIME",
+      "acceptance_gate": "HOLD until corrected or explicitly accepted under the audit guide; no application money/stock error proven"
     }
   ],
   "known_raw_counterexamples": [
@@ -61,5 +64,7 @@
       "kind": "OMITTED_REGISTERED_LIFECYCLE_CASE",
       "detail": "Caught by canonical ID reconciliation; separate first execution38161351529, original oracle unchanged."
     }
-  ]
+  ],
+  "audit_complete": true,
+  "independent_acceptance": false
 }

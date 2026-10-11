@@ -1,16 +1,16 @@
 {
   "candidate": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
-  "product_cases_own_unique": 76,
+  "product_cases_own_unique": 77,
   "own_status_counts": {
-    "PASS": 75,
+    "PASS": 76,
     "COUNTEREXAMPLE": 1
   },
-  "own_executions": 79,
+  "own_executions": 80,
   "writer_regression": {
-    "PASS": 1243,
-    "smoke_executions": 0,
-    "smoke_pass": 0,
-    "reports": 32
+    "PASS": 1760,
+    "smoke_executions": 3,
+    "smoke_pass": 3,
+    "reports": 42
   },
   "rehearsals": [
     {
@@ -48,6 +48,12 @@
     }
   ],
   "own_manifest_complete": true,
-  "pending_regression_reports": 10,
-  "production_go": false
+  "own_cases_pending": [],
+  "own_cases_expected": 77,
+  "pending_regression_reports": 0,
+  "production_go": false,
+  "writer_product_unique_ids": 1174,
+  "writer_smoke_unique_ids": 3,
+  "date_rollover_flags_in_case_reports": 0,
+  "note": "Unique IDs are not unique independent oracles. The same product case may recur in separate composition suites. Smoke and rehearsal phases are separate."
 }

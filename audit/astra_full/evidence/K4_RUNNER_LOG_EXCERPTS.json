@@ -1,0 +1,19 @@
+{
+  "job_id": 114528439782,
+  "run_id": 38159220776,
+  "origin": "ORIGINAL_JOB_LOG_EXCERPTS_NOT_FULL_LOG",
+  "lines": [
+    "2026-10-11T18:26:21.7570101Z Successfully set up CPython (3.12.15)",
+    "2026-10-11T18:26:22.3566593Z node: v22.23.3",
+    "2026-10-11T18:26:59.9966675Z Chrome for Testing 151.0.7922.34 (playwright chromium v1234) downloaded to /home/runner/.cache/ms-playwright/chromium-1234",
+    "2026-10-11T18:33:06.9012498Z {\"group\":\"AUDITOR_BROWSER_CP7_K4_RUNNER_BROWSER\",\"case\":\"K4R_BROWSER_DESKTOP_CLOSED_PAGE_FINISHES\",\"status\":\"PASS\",\"pg_cron\":true,\"test_schedule_override\":\"5 seconds\",\"closed\":\"TAB_CLOSED\",\"page_units\":0,\"server_units\":16,\"same_request_and_run\":true,\"identity_hash\":\"0bdef91b84789484eb970371f402b78f3bd94d5e97a45b98280faf952ed2bb88\",\"no_request_or_step_on_reopen\":true,\"every_unit_stored_once\":true,\"cron_runs\":2,\"no_horizontal_scroll\":true,\"screenshots\":[\"K4R_DESKTOP_SERVER_RUNS.png\",\"K4R_DESKTOP_REOPENED_DONE_BY_SERVER.png\"],\"business_day\":{\"planned\":\"2026-10-12\",\"before\":\"2026-10-12\",\"after\":\"2026-10-12\"}}",
+    "2026-10-11T18:33:18.1823838Z {\"group\":\"AUDITOR_BROWSER_CP7_K4_RUNNER_BROWSER\",\"case\":\"K4R_BROWSER_MOBILE_CLOSED_PAGE_FINISHES\",\"status\":\"PASS\",\"pg_cron\":true,\"test_schedule_override\":\"5 seconds\",\"closed\":\"STOPPED_WATCHING\",\"page_units\":0,\"server_units\":16,\"same_request_and_run\":true,\"identity_hash\":\"66e7b855e11878112ea3b882eb3a49996450a2c83caf9b5fbb3dc7a0cab43fa3\",\"no_request_or_step_on_reopen\":true,\"every_unit_stored_once\":true,\"cron_runs\":1,\"no_horizontal_scroll\":true,\"screenshots\":[\"K4R_MOBILE_SERVER_RUNS.png\",\"K4R_MOBILE_STOPPED_WATCHING.png\",\"K4R_MOBILE_REOPENED_DONE_BY_SERVER.png\"],\"business_day\":{\"planned\":\"2026-10-12\",\"before\":\"2026-10-12\",\"after\":\"2026-10-12\"}}",
+    "2026-10-11T18:33:23.1909365Z {\"label\": \"CP7_K4_RUNNER\", \"status\": \"PASS\", \"source_sha256\": \"97284c1de136d8472ef256652a454834014ef743f0d778b1f1934a35a0dc75ca\", \"observed_case_count\": 17, \"cp6_restored\": true, \"advisor_gate\": true, \"error\": null, \"traceback\": null}"
+  ],
+  "interpretation": {
+    "desktop": "TAB_CLOSED",
+    "mobile": "STOPPED_WATCHING",
+    "physical_mobile_tab_close": "NOT_TESTED",
+    "pg_cron_schedule_override": "5 seconds, test only"
+  }
+}
