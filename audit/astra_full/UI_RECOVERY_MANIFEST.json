@@ -1,0 +1,15 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "first_run": 38159487255,
+  "first_job": 114529226911,
+  "first_artifact": 11709906989,
+  "first_result": "INCOMPLETE",
+  "cases_started": 0,
+  "reason": "Auditor omitted required UI_INVENTORY.json during file copy; ENOENT before module import/case registration; not a product defect.",
+  "repair": "Copy byte-identical previous locked inventory; src/App.tsx and src/accessCatalog.ts unchanged from 2e605bb7 to d0b9; 48 routes verified.",
+  "inventory_sha256": "b2a44e52f0a34fee7d72870b39f794a33f60f043dfea6fee2eef1b2515eb3a2d",
+  "browser_script_unchanged_sha256": "bf738f282545dd269a360dd3894c3395a7ef818e725ad43e8c139fb0e472905d",
+  "oracles_changed": false,
+  "product_changed": false,
+  "production_go": false
+}
