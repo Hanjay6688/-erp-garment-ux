@@ -6,10 +6,15 @@
   "first_result": "INCOMPLETE",
   "cases_started": 0,
   "reason": "Auditor omitted required UI_INVENTORY.json during file copy; ENOENT before module import/case registration; not a product defect.",
-  "repair": "Copy byte-identical previous locked inventory; src/App.tsx and src/accessCatalog.ts unchanged from 2e605bb7 to d0b9; 48 routes verified.",
+  "repair": "Copy byte-identical previous locked inventory; src/App.tsx and src/auth/accessCatalog.ts unchanged from 2e605bb7 to d0b9; 48 routes verified.",
   "inventory_sha256": "b2a44e52f0a34fee7d72870b39f794a33f60f043dfea6fee2eef1b2515eb3a2d",
   "browser_script_unchanged_sha256": "bf738f282545dd269a360dd3894c3395a7ef818e725ad43e8c139fb0e472905d",
   "oracles_changed": false,
   "product_changed": false,
-  "production_go": false
+  "production_go": false,
+  "unchanged_source_sha256": {
+    "src/App.tsx": "22dfebb59a9d78d7bf57d5728a9ae6f1af907547ac6f0f7e426bd34b65599af2",
+    "src/auth/accessCatalog.ts": "ed3a1fc724542a1b498f47d37db981d96538719f0eaacc9f1ed4bc5f52c9c462"
+  },
+  "metadata_correction": "Original preregistration used src/accessCatalog.ts instead of src/auth/accessCatalog.ts in descriptive source-check path. Correct actual file existence and byte equality verified; tests and inventory unchanged."
 }

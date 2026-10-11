@@ -1,0 +1,5709 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "production_go": false,
+  "complete": false,
+  "archives": [
+    {
+      "artifact_id": 11710575443,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-probe_payroll-json",
+      "run_id": 38159487255,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_P20_INDEPENDENT_PAYROLL.json",
+          "sha256": "05a8756c7aaf5ba0cbe46d4e1a11f18e21c8ae07d36abaa8d61512e8c657869a",
+          "reported_status": "PASS",
+          "expected": 1,
+          "observed": 1,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "AS20-18_19_OPENING_CARRY_PAYROLL": "PASS"
+              },
+              "observed": 1,
+              "counts": {
+                "PASS": 1
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159487255",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-independent",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11710265901,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-probe_planning-json",
+      "run_id": 38159487255,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_P20_INDEPENDENT_PLANNING.json",
+          "sha256": "68a2fe081029efd91ddb1fb4020d1c318c59d4898a41024ea3a52d0ca76aabc3",
+          "reported_status": "PASS",
+          "expected": 6,
+          "observed": 6,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "AS20-24_PL5_OWN_DATA": "PASS",
+                "AS20-20_MODEL_OWN_VECTORS": "PASS",
+                "AS20-31_LIVE_POLICY": "PASS",
+                "AS20-31_LIVE_STOCK": "PASS"
+              },
+              "observed": 4,
+              "counts": {
+                "PASS": 4
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "AS20-32_CROSS_VERSION_CAPACITY": "PASS",
+                "AS20-03_REVOKE_AFTER_LOCK": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159487255",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-independent",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11710035000,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-probe_edges-json",
+      "run_id": 38159487255,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_P20_INDEPENDENT_EDGES.json",
+          "sha256": "97283e6e359ade921416e0387ebad1ccd3e665fa811aa6a40627bdeb25782724",
+          "reported_status": "PASS",
+          "expected": 7,
+          "observed": 7,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "AS20-15_PHYSICAL137": "PASS",
+                "AS20-21_FORGED_MATCH": "PASS",
+                "AS20-16_MEMBERSHIP": "PASS",
+                "AS20-10_PENDING_LATE_PRICE": "PASS",
+                "AS20-35_FINISH_CURRENT_RECHECK": "PASS",
+                "AS20-36_AI_BAD_INPUTS": "PASS",
+                "AS20-33_37_DATED_REPORT": "PASS"
+              },
+              "observed": 7,
+              "counts": {
+                "PASS": 7
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159487255",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-independent",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709925302,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-probe-json",
+      "run_id": 38159487255,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+          "sha256": "2040d79f9a89e85a88c6d89fc323f78ff73e9a233eac5b51b5a3c99a907fb8f2",
+          "reported_status": "INCOMPLETE",
+          "expected": 8,
+          "observed": 8,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "AS20-02_NATIVE_ACL": "PASS",
+                "AS20-28_38_PRESERVATION": "PASS",
+                "AS20-39_VALIDATION_NEGATIVE": "COUNTEREXAMPLE",
+                "AS20-40_ATOMIC_CLEANUP": "PASS",
+                "AS20-41_CONSUMERS": "PASS",
+                "AS20-37_RETENTION": "PASS",
+                "AS20-01_REPLAY_ACCESS": "PASS",
+                "AS20-49_IMMUTABILITY": "PASS"
+              },
+              "observed": 8,
+              "counts": {
+                "PASS": 7,
+                "COUNTEREXAMPLE": 1
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "COUNTEREXAMPLE",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159487255",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-independent",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": false
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709906989,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-probe_ui-json",
+      "run_id": 38159487255,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_P20_INDEPENDENT_UI.json",
+          "sha256": "9329dcc7a57e4af87938bf95e1539dc3de6ab97958d3ef7e5bbfc58d6c1940c6",
+          "reported_status": "INCOMPLETE",
+          "expected": 3,
+          "observed": 0,
+          "groups": {
+            "browser": {
+              "case_ids": {},
+              "observed": 0,
+              "counts": {},
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": false,
+              "flags": {
+                "status": "INCOMPLETE",
+                "error": "Error: ENOENT: no such file or directory, open '/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_full/UI_INVENTORY.json'\n    at readFileSync (node:fs:440:20)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_full/browser.mjs:4:28\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:165:18)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:193:3",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": "Error: ENOENT: no such file or directory, open '/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_full/UI_INVENTORY.json'\n    at readFileSync (node:fs:440:20)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_full/browser.mjs:4:28\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:165:18)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:193:3",
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": false
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159487255",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-independent",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": false
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709749534,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-probe_ops-json",
+      "run_id": 38159487255,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+          "sha256": "2be983914078caa5029f9c53d7ac6d86b8a39f76037679260d53445f91763203",
+          "reported_status": "PASS",
+          "expected": 8,
+          "observed": 8,
+          "groups": {
+            "races": {
+              "case_ids": {
+                "AS20-40_TWO_CLEANERS": "PASS",
+                "AS20-43_REAL_CRON": "PASS",
+                "AS20-43_CRON_DATABASE_ISOLATION": "PASS",
+                "AS20-44_RESTORE_ALL_TABLES": "PASS",
+                "AS20-45_FIFTEEN_VERIFIED_NIGHTS": "PASS",
+                "AS20-45_FAILED_RETRY_COLLISION": "PASS"
+              },
+              "observed": 6,
+              "counts": {
+                "PASS": 6
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "AS20-01_HTTP_REVOKED_REPLAY": "PASS",
+                "AS20-02_HTTP_PRIVATE": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159487255",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-independent",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709014742,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-probe_money_edges-json",
+      "run_id": 38159487255,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_P20_INDEPENDENT_MONEY_EDGES.json",
+          "sha256": "753fe2560b2bf22754e4f6a5dcf00b74b33d6acd19013b80677550b80b974835",
+          "reported_status": "PASS",
+          "expected": 5,
+          "observed": 5,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "AS20-12_CREDIT_OTHER_INVOICE": "PASS",
+                "AS20-12_PAID_UPWARD": "PASS",
+                "AS20-14_RETURNED_PAID_CORRECTION": "PASS",
+                "AS20-11_50_PARTIAL_LATE_INVOICE": "PASS",
+                "AS20-09_WIB_MIDNIGHT": "PASS"
+              },
+              "observed": 5,
+              "counts": {
+                "PASS": 5
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159487255",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-independent",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11708739888,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-probe_business-json",
+      "run_id": 38159487255,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_P20_INDEPENDENT_BUSINESS.json",
+          "sha256": "692754288974817aa2cfb16d6ed85093a011a27104e016a853cc71f7a4c9c334",
+          "reported_status": "PASS",
+          "expected": 3,
+          "observed": 3,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "AS20-07_LARGE_INVOICE": "PASS",
+                "AS20-04_08_PRECISION": "PASS",
+                "AS20-01_RECEIPT_REPLAY": "PASS"
+              },
+              "observed": 3,
+              "counts": {
+                "PASS": 3
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159487255",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-independent",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11710300777,
+      "artifact_name": "cp7full-astra-d0b9e9c2-own-new-runners-json",
+      "run_id": 38159947789,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "ASTRA_FULL_NEW_RUNNERS.json",
+          "sha256": "5664e829690891c4a3365e076602fbff1cbeccf08e7cbd3a5541f5bd313285b1",
+          "reported_status": "PASS",
+          "expected": 8,
+          "observed": 8,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "ASF-01-RUNNER-ACL-TIMEOUT": "PASS",
+                "ASF-02-K4-CLAIMS": "PASS",
+                "ASF-03-K4-DENIED-QUEUE": "PASS",
+                "ASF-04-K4-HEARTBEAT": "PASS",
+                "ASF-05-K6-217-PCS": "PASS",
+                "ASF-06-K6-PARTIAL-STOP": "PASS"
+              },
+              "observed": 6,
+              "counts": {
+                "PASS": 6
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "ASF-07-K4-COLD-LOCKS": "PASS",
+                "ASF-08-K6-BUSY": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": null,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            }
+          },
+          "restore": {
+            "boundary": true,
+            "public": true,
+            "functions": true
+          },
+          "cp6_restored": null,
+          "advisor_gate": null,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159947789",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-new-runners",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "b8275eafd5089a456c3e7f0e9dff8cb635066c9c",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11711075073,
+      "artifact_name": "cp7full-astra-d0b9e9c2-k3-cleanup-19-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_K3_CLEANUP.json",
+          "sha256": "4953c40dd4a9844b8357537388ef6c16e21a42933549ac37eb0f4f1ca5161830",
+          "reported_status": "PASS",
+          "expected": 19,
+          "observed": 19,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "K3C_CLEANED_ONLY_TEMPORARY": "PASS",
+                "K3C_REOPEN_AFTER_CLEANUP": "PASS",
+                "K3C_PLAN_V2_AFTER_CLEANUP": "PASS",
+                "K3C_REPORT_V2_AFTER_CLEANUP": "PASS",
+                "K3C_AI_AND_REMINDERS_AFTER_CLEANUP": "PASS",
+                "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED": "PASS",
+                "K3C_ONLY_DONE_KEPT_RUNS": "PASS",
+                "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP": "PASS",
+                "K3C_SCHEDULE_DEFINED_PRIVATE": "PASS"
+              },
+              "observed": 9,
+              "counts": {
+                "PASS": 9
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "K3C_RACE_TWO_TICKS_ONE_LOG": "PASS",
+                "K3C_RACE_BUSY_TABLE_RETRIED": "PASS",
+                "K3C_RACE_PG_CRON_FIRES": "PASS",
+                "K3C_RACE_NIGHTLY_BACKUP_VERIFIED": "PASS",
+                "K3C_RACE_CRON_TWO_DATABASES": "PASS",
+                "K3C_RACE_BACKUP_RETRY_SAME_SECOND": "PASS"
+              },
+              "observed": 6,
+              "counts": {
+                "PASS": 6
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "K3C_HTTP_REOPEN_AFTER_CLEANUP": "PASS",
+                "K3C_HTTP_TICK_NOT_REACHABLE": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP": "PASS",
+                "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11710570004,
+      "artifact_name": "cp7full-astra-d0b9e9c2-p19-reminder-v2-16-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_P19_REMINDER_V2.json",
+          "sha256": "de0ba9285af23a834c160b5ae2407ee69acd281f2a84112d13d3fd7d3ced643d",
+          "reported_status": "PASS",
+          "expected": 16,
+          "observed": 16,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "P19M_SET_STEPS_SEAL": "PASS",
+                "P19M_RESOLVED_AFTER_SNAPSHOT_NOT_SENT": "PASS",
+                "P19M_STILL_OPEN_SENT_ONCE": "PASS",
+                "P19M_PARTIAL_AND_THRESHOLD": "PASS",
+                "P19M_FABRIC_HELD_ON_MATERIAL_CHANGE": "PASS",
+                "P19M_AR_PAID_NOT_SENT": "PASS",
+                "P19M_POLICY_AND_DESTINATION": "PASS",
+                "P19M_REQUEST_ONE_UUID": "PASS",
+                "P19M_AUTHORITY_AND_V1_APART": "PASS"
+              },
+              "observed": 9,
+              "counts": {
+                "PASS": 9
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "P19M_RACE_TWO_CLAIMS_ONE_CLAIM": "PASS",
+                "P19M_RACE_FG_COMMITTED_WHILE_WAITING": "PASS",
+                "P19M_RACE_TWO_STEPS_ONE_UNIT": "PASS"
+              },
+              "observed": 3,
+              "counts": {
+                "PASS": 3
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "P19M_HTTP_FLOW": "PASS",
+                "P19M_HTTP_REVOKED": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "P19M_BROWSER_DESKTOP_REMINDERS": "PASS",
+                "P19M_BROWSER_MOBILE_REMINDERS": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11710485331,
+      "artifact_name": "cp7full-astra-d0b9e9c2-k2-retention-10-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_K2_RETENTION.json",
+          "sha256": "a2f891dee9b139272fece6db77b5225cb5045d2e51af8a9a7f2b11a35e4304cb",
+          "reported_status": "PASS",
+          "expected": 10,
+          "observed": 10,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "K2_KEPT_SEVEN_DAYS_LABELLED": "PASS",
+                "K2_EXPIRED_REFUSED_EVERYWHERE": "PASS",
+                "K2_RUNNING_NEVER_EXPIRES": "PASS",
+                "K2_PURGE_ONLY_EXPIRED_TEMPORARY": "PASS",
+                "K2_PURGE_KEEPS_DOCUMENT_RUNS": "PASS",
+                "K2_PURGE_PRIVATE_ONCE": "PASS"
+              },
+              "observed": 6,
+              "counts": {
+                "PASS": 6
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "K2_RACE_TWO_PURGES_ONE_LOG": "PASS"
+              },
+              "observed": 1,
+              "counts": {
+                "PASS": 1
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "K2_HTTP_EXPIRED_REFUSED": "PASS"
+              },
+              "observed": 1,
+              "counts": {
+                "PASS": 1
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "K2_BROWSER_DESKTOP_RETENTION": "PASS",
+                "K2_BROWSER_MOBILE_RETENTION": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709951506,
+      "artifact_name": "cp7full-astra-d0b9e9c2-fabric-physical21-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_FABRIC_PHYSICAL.json",
+          "sha256": "e3c6518f4acfec299dd67276d8acca92a6e76d0aa597fee1f2f3cf716fcd8590",
+          "reported_status": "PASS",
+          "expected": 21,
+          "observed": 21,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "P08_PHYSICAL_SINGLE_FREE_STOCK": "PASS",
+                "P08_PHYSICAL_SUFFICIENT_FREE_STOCK": "PASS",
+                "P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND": "PASS",
+                "P08_PHYSICAL_LINKED_DRAFT_KNOWN": "PASS",
+                "P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE": "PASS",
+                "P08_PHYSICAL_WRONG_MATERIAL_DRAFT": "PASS",
+                "P08_PHYSICAL_OVERCOMMITTED_DRAFT": "PASS",
+                "P08_PHYSICAL_UNLINKED_NATIVE_DRAFT": "PASS",
+                "P08_PHYSICAL_INCOMING_ON_TIME": "PASS",
+                "P08_PHYSICAL_INCOMING_LATE": "PASS",
+                "P08_PHYSICAL_INCOMING_NO_DATE": "PASS",
+                "P08_PHYSICAL_INCOMING_OVERDUE": "PASS",
+                "P08_PHYSICAL_SHARED_SPLIT_THEN_DRAFTS": "PASS",
+                "P08_PHYSICAL_RECEIPT_STALES_ORIGINAL": "PASS",
+                "P08_PHYSICAL_POSTED_ISSUE_ONCE": "PASS",
+                "P08_PHYSICAL_KERNEL_BRANCHES_SYNTHETIC": "PASS"
+              },
+              "observed": 16,
+              "counts": {
+                "PASS": 16
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "P08_PHYSICAL_REAL_MVCC_RECEIPT": "PASS",
+                "P08_PHYSICAL_REAL_MVCC_NATIVE_POST": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "P08_PHYSICAL_REAL_AUTH_HTTP": "PASS"
+              },
+              "observed": 1,
+              "counts": {
+                "PASS": 1
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "P08_PHYSICAL_BROWSER_DESKTOP": "PASS",
+                "P08_PHYSICAL_BROWSER_MOBILE": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709940566,
+      "artifact_name": "cp7full-astra-d0b9e9c2-p19-plan-v2-22-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_P19_PLAN_V2.json",
+          "sha256": "9d85d4e847248080981ffd97ab97878721d7ccc59ddb278ea63a9c0ab0591255",
+          "reported_status": "PASS",
+          "expected": 22,
+          "observed": 22,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "P19P_INDEX_RETAINED": "PASS",
+                "P19P_SAVE_FROM_STALE_SNAPSHOT": "PASS",
+                "P19P_PREVIEW_READ_ONLY_LIVE": "PASS",
+                "P19P_APPLY_AFTER_UNRELATED_CHANGE": "PASS",
+                "P19P_FG_INCREASE_NEED_CHANGED": "PASS",
+                "P19P_WIP_INCREASE_NEED_CHANGED": "PASS",
+                "P19P_POLICY_CHANGED": "PASS",
+                "P19P_CAPACITY_USED": "PASS",
+                "P19P_TARGET_PLANNED_AND_LINKED": "PASS",
+                "P19P_FIELDS_KINDS_ACCESS": "PASS",
+                "P19P_V1_V2_SHARED_CAPACITY": "PASS"
+              },
+              "observed": 11,
+              "counts": {
+                "PASS": 11
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "P19P_RACE_CAPACITY_TWO_TARGETS": "PASS",
+                "P19P_RACE_SAME_TARGET": "PASS",
+                "P19P_RACE_FG_WHILE_WAITING": "PASS",
+                "P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE": "PASS",
+                "P19P_RACE_V1_HOLDS_V2_REFUSED": "PASS",
+                "P19P_RACE_V2_HOLDS_V1_REFUSED": "PASS",
+                "P19P_RACE_V1_ROLLBACK_FREES_CAPACITY": "PASS"
+              },
+              "observed": 7,
+              "counts": {
+                "PASS": 7
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "P19P_HTTP_FLOW": "PASS",
+                "P19P_HTTP_REVOKED": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "P19P_BROWSER_DESKTOP_PLAN": "PASS",
+                "P19P_BROWSER_MOBILE_PLAN": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709499530,
+      "artifact_name": "cp7full-astra-d0b9e9c2-p19-report-v2-20-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_P19_REPORT_V2.json",
+          "sha256": "fec18d44f4ac17c6289bac8af06056711b3557baa3af7ddf0fea662b946ddc72",
+          "reported_status": "PASS",
+          "expected": 20,
+          "observed": 20,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "P19R_PUBLISH_STEPS_SEAL": "PASS",
+                "P19R_ACTUAL_STOCK_AT_REPORT_TIME": "PASS",
+                "P19R_FRESHNESS_STATES_WORDED": "PASS",
+                "P19R_FINANCE_FROM_OWNER_REPORT": "PASS",
+                "P19R_FINANCE_ACCESS_CURRENT": "PASS",
+                "P19R_REVISION_SERIES": "PASS",
+                "P19R_REQUEST_ONE_UUID": "PASS",
+                "P19R_AUTHORITY": "PASS",
+                "P19R_FIELDS_AND_IDENTITY": "PASS",
+                "P19R_V1_APART": "PASS"
+              },
+              "observed": 10,
+              "counts": {
+                "PASS": 10
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "P19R_RACE_TWO_STEPS_ONE_UNIT": "PASS",
+                "P19R_RACE_TWO_REVISIONS_ONE_SEALS": "PASS",
+                "P19R_RACE_STOCK_COMMITTED_DURING_JOB": "PASS",
+                "P19R_RACE_ACCESS_CHANGED_MID_JOB": "PASS",
+                "P19R_RACE_SAME_UUID_TWO_SESSIONS": "PASS",
+                "P19R_RACE_LIMIT_RETRIES_THEN_CONTINUES": "PASS"
+              },
+              "observed": 6,
+              "counts": {
+                "PASS": 6
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "P19R_HTTP_FLOW": "PASS",
+                "P19R_HTTP_REVOKED": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "P19R_BROWSER_DESKTOP_REPORT": "PASS",
+                "P19R_BROWSER_MOBILE_REPORT": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709198499,
+      "artifact_name": "cp7full-astra-d0b9e9c2-p19-transport11-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_P19_TRANSPORT.json",
+          "sha256": "816392bf9690f8de4eedb2344bf1cfa4239d6cc584f144b825b3cf475f089df4",
+          "reported_status": "PASS",
+          "expected": 15,
+          "observed": 15,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "P19T_JOB_COMPLETE_ORIGINAL": "PASS",
+                "P19T_MULTI_SEGMENT_EXACT": "PASS",
+                "P19T_SEGMENT_AUTHORITY": "PASS",
+                "P19T_JOB_IDENTITY_REFUSALS": "PASS",
+                "P19T_FINANCE_DEFERRED_NO_BOOK_READ": "PASS",
+                "P19T_FINANCE_MODE_IDENTITY": "PASS"
+              },
+              "observed": 6,
+              "counts": {
+                "PASS": 6
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "P19T_RACE_TWO_RUNS_ONE_ORIGINAL": "PASS",
+                "P19T_RACE_LIMIT_STOPS_THEN_CONTINUES": "PASS",
+                "P19T_RACE_REVOKE_WHILE_WAITING": "PASS"
+              },
+              "observed": 3,
+              "counts": {
+                "PASS": 3
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "P19T_HTTP_JOB_TRANSPORT": "PASS",
+                "P19T_HTTP_REVOKED": "PASS",
+                "P19T_HTTP_FINANCE_ON_DEMAND": "PASS"
+              },
+              "observed": 3,
+              "counts": {
+                "PASS": 3
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "P19T_BROWSER_DESKTOP_RELOAD_RECOVERY": "PASS",
+                "P19T_BROWSER_MOBILE_BACKGROUND": "PASS",
+                "P19T_BROWSER_FINANCE_ON_DEMAND": "PASS"
+              },
+              "observed": 3,
+              "counts": {
+                "PASS": 3
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11709164105,
+      "artifact_name": "cp7full-astra-d0b9e9c2-pl5-history-yield-20-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_PL5_HISTORY_YIELD.json",
+          "sha256": "5139febf53b000fb8089b0f61f15ade8f5c786b35a02be9306de83f12fb3e309",
+          "reported_status": "PASS",
+          "expected": 20,
+          "observed": 20,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "PL5H_PENDING_WITHOUT_POLICY": "PASS",
+                "PL5H_POLICY_SIGNED_VERSIONED": "PASS",
+                "PL5H_POLICY_VALUES_AND_AUTHORITY": "PASS",
+                "PL5H_PRODUCT_SIZE_SUFFICIENT": "PASS",
+                "PL5H_MODEL_FALLBACK_SAME_MODEL": "PASS",
+                "PL5H_INSUFFICIENT_NO_VALUE": "PASS",
+                "PL5H_NEVER_CROSS_MODEL": "PASS",
+                "PL5H_NEVER_100_PERCENT": "PASS",
+                "PL5H_WILSON_EXACT": "PASS",
+                "PL5H_CANCEL_CORRECT_BACKDATE": "PASS",
+                "PL5H_WINDOW_FINISH_DATE": "PASS",
+                "PL5H_LIMIT_200_UNDER_8S": "PASS",
+                "PL5H_PLAN_USES_HISTORY_LIVE": "PASS",
+                "PL5H_CATALOG_PRIVATE": "PASS"
+              },
+              "observed": 14,
+              "counts": {
+                "PASS": 14
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "PL5H_RACE_SAME_REVISION": "PASS",
+                "PL5H_RACE_SAME_REQUEST_TWO_SESSIONS": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "PL5H_HTTP_FLOW": "PASS",
+                "PL5H_HTTP_REVOKED": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "PL5H_BROWSER_DESKTOP_POLICY": "PASS",
+                "PL5H_BROWSER_MOBILE_POLICY": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11708919221,
+      "artifact_name": "cp7full-astra-d0b9e9c2-p19-staged12-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_P19_STAGED.json",
+          "sha256": "5719649466bacbfac06d7416dba7f8b684054881d90553fb415f6cb0492332ee",
+          "reported_status": "PASS",
+          "expected": 14,
+          "observed": 14,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "P19G_STAGED_EQUALS_SINGLE": "PASS",
+                "P19G_STAGED_AUTHORITY": "PASS",
+                "P19G_STAGED_IDENTITY": "PASS",
+                "P19G_STAGED_SOURCE_CHECK": "PASS",
+                "P19G_STAGED_BOUNDS_VS_SINGLE": "PASS",
+                "P19G_SNAPSHOT_FRESHNESS": "PASS"
+              },
+              "observed": 6,
+              "counts": {
+                "PASS": 6
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "P19G_RACE_TWO_STEPS_ONE_UNIT": "PASS",
+                "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES": "PASS",
+                "P19G_RACE_ACCESS_CHANGED_MID_JOB": "PASS",
+                "P19G_RACE_SNAPSHOT_IN_FLIGHT": "PASS"
+              },
+              "observed": 4,
+              "counts": {
+                "PASS": 4
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "P19G_HTTP_STAGED_FLOW": "PASS",
+                "P19G_HTTP_REVOKED": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "P19G_BROWSER_DESKTOP_STAGED_RELOAD": "PASS",
+                "P19G_BROWSER_MOBILE_STAGED": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    },
+    {
+      "artifact_id": 11708843997,
+      "artifact_name": "cp7full-astra-d0b9e9c2-p19-ai-v2-9-json",
+      "run_id": 38159220776,
+      "archive_digest_verified": true,
+      "reports": [
+        {
+          "file": "CP7_P19_AI_V2.json",
+          "sha256": "c8fedc5a4cd9359daf7bebcda2a086555e16a59d91f0e2a46bbce9bc8994ff7d",
+          "reported_status": "PASS",
+          "expected": 9,
+          "observed": 9,
+          "groups": {
+            "native": {
+              "case_ids": {
+                "P19A_BRIEF_EQUALS_INDEX": "PASS",
+                "P19A_FIELDS_AND_BOUNDS": "PASS",
+                "P19A_STALE_SNAPSHOT_LABELLED": "PASS",
+                "P19A_ACCESS_AND_NO_FINANCE": "PASS"
+              },
+              "observed": 4,
+              "counts": {
+                "PASS": 4
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "PASS",
+                "missing": [],
+                "complete_boundary_restored": true
+              }
+            },
+            "races": {
+              "case_ids": {
+                "P19A_RACE_BRIEF_WHILE_STOCK_COMMITS": "PASS"
+              },
+              "observed": 1,
+              "counts": {
+                "PASS": 1
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0
+              }
+            },
+            "http": {
+              "case_ids": {
+                "P19A_HTTP_FLOW": "PASS",
+                "P19A_HTTP_REVOKED": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false
+              }
+            },
+            "browser": {
+              "case_ids": {
+                "P19A_BROWSER_DESKTOP_AI": "PASS",
+                "P19A_BROWSER_MOBILE_AI": "PASS"
+              },
+              "observed": 2,
+              "counts": {
+                "PASS": 2
+              },
+              "planned_ids_match": true,
+              "declared_ids_match": true,
+              "counts_match": true,
+              "flags": {
+                "status": "RUN_COMPLETE",
+                "database_remaining": 0,
+                "cleanup_failures": false,
+                "auth_cleanup_failures": [],
+                "session_leaks": [],
+                "host_error": null,
+                "console_errors": 0
+              }
+            }
+          },
+          "restore": {
+            "erp_platform_auth_schema_acl": true,
+            "public_catalog_and_rows": true,
+            "erp_public_auth_function_definitions_owners_acls": true
+          },
+          "cp6_restored": true,
+          "advisor_gate": true,
+          "errors": {},
+          "first_attempt_and_date_flags": [],
+          "case_budget_match": true
+        }
+      ],
+      "backup": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "data": {
+          "tables": 407,
+          "rows": 1860,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "unexplained": []
+      },
+      "package": {
+        "status": "ALL_STAGES_INSTALLED",
+        "run_identity": {
+          "label": "T3_PREP",
+          "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+          "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+          "product_paths": [
+            "supabase/migrations",
+            "supabase/dev",
+            "supabase/release",
+            "supabase/rollbacks",
+            "src"
+          ],
+          "run_id": "38159220776",
+          "run_attempt": "1",
+          "workflow": "AUDIT/Astra/full-regression",
+          "job": "phase",
+          "event": "push",
+          "github_sha": "54fdce5586622b5f7e206f1ae57f6a3227995019",
+          "release_evidence": false,
+          "production_go": false,
+          "mode": "install"
+        },
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "primary_unchanged": true,
+        "auth_users_before": 0,
+        "auth_users_after": 0
+      }
+    }
+  ],
+  "canonical_case_observations": {
+    "ASTRA_CONTRACT/AS20-18_19_OPENING_CARRY_PAYROLL": [
+      {
+        "artifact_id": 11710575443,
+        "file": "ASTRA_P20_INDEPENDENT_PAYROLL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-24_PL5_OWN_DATA": [
+      {
+        "artifact_id": 11710265901,
+        "file": "ASTRA_P20_INDEPENDENT_PLANNING.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-20_MODEL_OWN_VECTORS": [
+      {
+        "artifact_id": 11710265901,
+        "file": "ASTRA_P20_INDEPENDENT_PLANNING.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-31_LIVE_POLICY": [
+      {
+        "artifact_id": 11710265901,
+        "file": "ASTRA_P20_INDEPENDENT_PLANNING.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-31_LIVE_STOCK": [
+      {
+        "artifact_id": 11710265901,
+        "file": "ASTRA_P20_INDEPENDENT_PLANNING.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-32_CROSS_VERSION_CAPACITY": [
+      {
+        "artifact_id": 11710265901,
+        "file": "ASTRA_P20_INDEPENDENT_PLANNING.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-03_REVOKE_AFTER_LOCK": [
+      {
+        "artifact_id": 11710265901,
+        "file": "ASTRA_P20_INDEPENDENT_PLANNING.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-15_PHYSICAL137": [
+      {
+        "artifact_id": 11710035000,
+        "file": "ASTRA_P20_INDEPENDENT_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-21_FORGED_MATCH": [
+      {
+        "artifact_id": 11710035000,
+        "file": "ASTRA_P20_INDEPENDENT_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-16_MEMBERSHIP": [
+      {
+        "artifact_id": 11710035000,
+        "file": "ASTRA_P20_INDEPENDENT_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-10_PENDING_LATE_PRICE": [
+      {
+        "artifact_id": 11710035000,
+        "file": "ASTRA_P20_INDEPENDENT_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-35_FINISH_CURRENT_RECHECK": [
+      {
+        "artifact_id": 11710035000,
+        "file": "ASTRA_P20_INDEPENDENT_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-36_AI_BAD_INPUTS": [
+      {
+        "artifact_id": 11710035000,
+        "file": "ASTRA_P20_INDEPENDENT_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-33_37_DATED_REPORT": [
+      {
+        "artifact_id": 11710035000,
+        "file": "ASTRA_P20_INDEPENDENT_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-02_NATIVE_ACL": [
+      {
+        "artifact_id": 11709925302,
+        "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-28_38_PRESERVATION": [
+      {
+        "artifact_id": 11709925302,
+        "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-39_VALIDATION_NEGATIVE": [
+      {
+        "artifact_id": 11709925302,
+        "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+        "group": "native",
+        "status": "COUNTEREXAMPLE",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-40_ATOMIC_CLEANUP": [
+      {
+        "artifact_id": 11709925302,
+        "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-41_CONSUMERS": [
+      {
+        "artifact_id": 11709925302,
+        "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-37_RETENTION": [
+      {
+        "artifact_id": 11709925302,
+        "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-01_REPLAY_ACCESS": [
+      {
+        "artifact_id": 11709925302,
+        "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-49_IMMUTABILITY": [
+      {
+        "artifact_id": 11709925302,
+        "file": "ASTRA_P20_INDEPENDENT_STAGE.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-40_TWO_CLEANERS": [
+      {
+        "artifact_id": 11709749534,
+        "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-43_REAL_CRON": [
+      {
+        "artifact_id": 11709749534,
+        "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-43_CRON_DATABASE_ISOLATION": [
+      {
+        "artifact_id": 11709749534,
+        "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-44_RESTORE_ALL_TABLES": [
+      {
+        "artifact_id": 11709749534,
+        "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-45_FIFTEEN_VERIFIED_NIGHTS": [
+      {
+        "artifact_id": 11709749534,
+        "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-45_FAILED_RETRY_COLLISION": [
+      {
+        "artifact_id": 11709749534,
+        "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-01_HTTP_REVOKED_REPLAY": [
+      {
+        "artifact_id": 11709749534,
+        "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-02_HTTP_PRIVATE": [
+      {
+        "artifact_id": 11709749534,
+        "file": "ASTRA_P20_INDEPENDENT_OPS.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-12_CREDIT_OTHER_INVOICE": [
+      {
+        "artifact_id": 11709014742,
+        "file": "ASTRA_P20_INDEPENDENT_MONEY_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-12_PAID_UPWARD": [
+      {
+        "artifact_id": 11709014742,
+        "file": "ASTRA_P20_INDEPENDENT_MONEY_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-14_RETURNED_PAID_CORRECTION": [
+      {
+        "artifact_id": 11709014742,
+        "file": "ASTRA_P20_INDEPENDENT_MONEY_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-11_50_PARTIAL_LATE_INVOICE": [
+      {
+        "artifact_id": 11709014742,
+        "file": "ASTRA_P20_INDEPENDENT_MONEY_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-09_WIB_MIDNIGHT": [
+      {
+        "artifact_id": 11709014742,
+        "file": "ASTRA_P20_INDEPENDENT_MONEY_EDGES.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-07_LARGE_INVOICE": [
+      {
+        "artifact_id": 11708739888,
+        "file": "ASTRA_P20_INDEPENDENT_BUSINESS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-04_08_PRECISION": [
+      {
+        "artifact_id": 11708739888,
+        "file": "ASTRA_P20_INDEPENDENT_BUSINESS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/AS20-01_RECEIPT_REPLAY": [
+      {
+        "artifact_id": 11708739888,
+        "file": "ASTRA_P20_INDEPENDENT_BUSINESS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/ASF-01-RUNNER-ACL-TIMEOUT": [
+      {
+        "artifact_id": 11710300777,
+        "file": "ASTRA_FULL_NEW_RUNNERS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/ASF-02-K4-CLAIMS": [
+      {
+        "artifact_id": 11710300777,
+        "file": "ASTRA_FULL_NEW_RUNNERS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/ASF-03-K4-DENIED-QUEUE": [
+      {
+        "artifact_id": 11710300777,
+        "file": "ASTRA_FULL_NEW_RUNNERS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/ASF-04-K4-HEARTBEAT": [
+      {
+        "artifact_id": 11710300777,
+        "file": "ASTRA_FULL_NEW_RUNNERS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/ASF-05-K6-217-PCS": [
+      {
+        "artifact_id": 11710300777,
+        "file": "ASTRA_FULL_NEW_RUNNERS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/ASF-06-K6-PARTIAL-STOP": [
+      {
+        "artifact_id": 11710300777,
+        "file": "ASTRA_FULL_NEW_RUNNERS.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/ASF-07-K4-COLD-LOCKS": [
+      {
+        "artifact_id": 11710300777,
+        "file": "ASTRA_FULL_NEW_RUNNERS.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "ASTRA_CONTRACT/ASF-08-K6-BUSY": [
+      {
+        "artifact_id": 11710300777,
+        "file": "ASTRA_FULL_NEW_RUNNERS.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_CLEANED_ONLY_TEMPORARY": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_REOPEN_AFTER_CLEANUP": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_PLAN_V2_AFTER_CLEANUP": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_REPORT_V2_AFTER_CLEANUP": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_AI_AND_REMINDERS_AFTER_CLEANUP": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_ONLY_DONE_KEPT_RUNS": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_SCHEDULE_DEFINED_PRIVATE": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_RACE_TWO_TICKS_ONE_LOG": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_RACE_BUSY_TABLE_RETRIED": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_RACE_PG_CRON_FIRES": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_RACE_NIGHTLY_BACKUP_VERIFIED": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_RACE_CRON_TWO_DATABASES": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_RACE_BACKUP_RETRY_SAME_SECOND": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_HTTP_REOPEN_AFTER_CLEANUP": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_HTTP_TICK_NOT_REACHABLE": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP": [
+      {
+        "artifact_id": 11711075073,
+        "file": "CP7_K3_CLEANUP.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_SET_STEPS_SEAL": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_RESOLVED_AFTER_SNAPSHOT_NOT_SENT": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_STILL_OPEN_SENT_ONCE": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_PARTIAL_AND_THRESHOLD": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_FABRIC_HELD_ON_MATERIAL_CHANGE": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_AR_PAID_NOT_SENT": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_POLICY_AND_DESTINATION": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_REQUEST_ONE_UUID": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_AUTHORITY_AND_V1_APART": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_RACE_TWO_CLAIMS_ONE_CLAIM": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_RACE_FG_COMMITTED_WHILE_WAITING": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_RACE_TWO_STEPS_ONE_UNIT": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_HTTP_FLOW": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_HTTP_REVOKED": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_BROWSER_DESKTOP_REMINDERS": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19M_BROWSER_MOBILE_REMINDERS": [
+      {
+        "artifact_id": 11710570004,
+        "file": "CP7_P19_REMINDER_V2.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_KEPT_SEVEN_DAYS_LABELLED": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_EXPIRED_REFUSED_EVERYWHERE": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_RUNNING_NEVER_EXPIRES": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_PURGE_ONLY_EXPIRED_TEMPORARY": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_PURGE_KEEPS_DOCUMENT_RUNS": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_PURGE_PRIVATE_ONCE": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_RACE_TWO_PURGES_ONE_LOG": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_HTTP_EXPIRED_REFUSED": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_BROWSER_DESKTOP_RETENTION": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/K2_BROWSER_MOBILE_RETENTION": [
+      {
+        "artifact_id": 11710485331,
+        "file": "CP7_K2_RETENTION.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_SINGLE_FREE_STOCK": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_SUFFICIENT_FREE_STOCK": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_WIP_IDENTITY_UPPER_BOUND": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_LINKED_DRAFT_KNOWN": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_LINKED_DRAFT_PLUS_FREE": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_WRONG_MATERIAL_DRAFT": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_OVERCOMMITTED_DRAFT": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_UNLINKED_NATIVE_DRAFT": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_INCOMING_ON_TIME": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_INCOMING_LATE": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_INCOMING_NO_DATE": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_INCOMING_OVERDUE": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_SHARED_SPLIT_THEN_DRAFTS": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_RECEIPT_STALES_ORIGINAL": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_POSTED_ISSUE_ONCE": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_KERNEL_BRANCHES_SYNTHETIC": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_REAL_MVCC_RECEIPT": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_REAL_MVCC_NATIVE_POST": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_REAL_AUTH_HTTP": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_BROWSER_DESKTOP": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P08_PHYSICAL_BROWSER_MOBILE": [
+      {
+        "artifact_id": 11709951506,
+        "file": "CP7_FABRIC_PHYSICAL.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_INDEX_RETAINED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_SAVE_FROM_STALE_SNAPSHOT": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_PREVIEW_READ_ONLY_LIVE": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_APPLY_AFTER_UNRELATED_CHANGE": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_FG_INCREASE_NEED_CHANGED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_WIP_INCREASE_NEED_CHANGED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_POLICY_CHANGED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_CAPACITY_USED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_TARGET_PLANNED_AND_LINKED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_FIELDS_KINDS_ACCESS": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_V1_V2_SHARED_CAPACITY": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_RACE_CAPACITY_TWO_TARGETS": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_RACE_SAME_TARGET": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_RACE_FG_WHILE_WAITING": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_RACE_INTENT_IN_FLIGHT_AT_CAPTURE": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_RACE_V1_HOLDS_V2_REFUSED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_RACE_V2_HOLDS_V1_REFUSED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_RACE_V1_ROLLBACK_FREES_CAPACITY": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_HTTP_FLOW": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_HTTP_REVOKED": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_BROWSER_DESKTOP_PLAN": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19P_BROWSER_MOBILE_PLAN": [
+      {
+        "artifact_id": 11709940566,
+        "file": "CP7_P19_PLAN_V2.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_PUBLISH_STEPS_SEAL": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_ACTUAL_STOCK_AT_REPORT_TIME": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_FRESHNESS_STATES_WORDED": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_FINANCE_FROM_OWNER_REPORT": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_FINANCE_ACCESS_CURRENT": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_REVISION_SERIES": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_REQUEST_ONE_UUID": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_AUTHORITY": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_FIELDS_AND_IDENTITY": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_V1_APART": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_RACE_TWO_STEPS_ONE_UNIT": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_RACE_TWO_REVISIONS_ONE_SEALS": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_RACE_STOCK_COMMITTED_DURING_JOB": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_RACE_ACCESS_CHANGED_MID_JOB": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_RACE_SAME_UUID_TWO_SESSIONS": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_RACE_LIMIT_RETRIES_THEN_CONTINUES": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_HTTP_FLOW": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_HTTP_REVOKED": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_BROWSER_DESKTOP_REPORT": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19R_BROWSER_MOBILE_REPORT": [
+      {
+        "artifact_id": 11709499530,
+        "file": "CP7_P19_REPORT_V2.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_JOB_COMPLETE_ORIGINAL": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_MULTI_SEGMENT_EXACT": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_SEGMENT_AUTHORITY": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_JOB_IDENTITY_REFUSALS": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_FINANCE_DEFERRED_NO_BOOK_READ": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_FINANCE_MODE_IDENTITY": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_RACE_TWO_RUNS_ONE_ORIGINAL": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_RACE_LIMIT_STOPS_THEN_CONTINUES": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_RACE_REVOKE_WHILE_WAITING": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_HTTP_JOB_TRANSPORT": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_HTTP_REVOKED": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_HTTP_FINANCE_ON_DEMAND": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_BROWSER_DESKTOP_RELOAD_RECOVERY": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_BROWSER_MOBILE_BACKGROUND": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19T_BROWSER_FINANCE_ON_DEMAND": [
+      {
+        "artifact_id": 11709198499,
+        "file": "CP7_P19_TRANSPORT.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_PENDING_WITHOUT_POLICY": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_POLICY_SIGNED_VERSIONED": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_POLICY_VALUES_AND_AUTHORITY": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_PRODUCT_SIZE_SUFFICIENT": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_MODEL_FALLBACK_SAME_MODEL": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_INSUFFICIENT_NO_VALUE": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_NEVER_CROSS_MODEL": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_NEVER_100_PERCENT": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_WILSON_EXACT": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_CANCEL_CORRECT_BACKDATE": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_WINDOW_FINISH_DATE": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_LIMIT_200_UNDER_8S": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_PLAN_USES_HISTORY_LIVE": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_CATALOG_PRIVATE": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_RACE_SAME_REVISION": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_RACE_SAME_REQUEST_TWO_SESSIONS": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_HTTP_FLOW": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_HTTP_REVOKED": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_BROWSER_DESKTOP_POLICY": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/PL5H_BROWSER_MOBILE_POLICY": [
+      {
+        "artifact_id": 11709164105,
+        "file": "CP7_PL5_HISTORY_YIELD.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_STAGED_EQUALS_SINGLE": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_STAGED_AUTHORITY": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_STAGED_IDENTITY": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_STAGED_SOURCE_CHECK": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_STAGED_BOUNDS_VS_SINGLE": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_SNAPSHOT_FRESHNESS": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_RACE_TWO_STEPS_ONE_UNIT": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_RACE_ACCESS_CHANGED_MID_JOB": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_RACE_SNAPSHOT_IN_FLIGHT": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_HTTP_STAGED_FLOW": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_HTTP_REVOKED": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_BROWSER_DESKTOP_STAGED_RELOAD": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19G_BROWSER_MOBILE_STAGED": [
+      {
+        "artifact_id": 11708919221,
+        "file": "CP7_P19_STAGED.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_BRIEF_EQUALS_INDEX": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_FIELDS_AND_BOUNDS": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_STALE_SNAPSHOT_LABELLED": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_ACCESS_AND_NO_FINANCE": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "native",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_RACE_BRIEF_WHILE_STOCK_COMMITS": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "races",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_HTTP_FLOW": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_HTTP_REVOKED": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "http",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_BROWSER_DESKTOP_AI": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ],
+    "WRITER_ORACLE_RERUN_BY_ASTRA/P19A_BROWSER_MOBILE_AI": [
+      {
+        "artifact_id": 11708843997,
+        "file": "CP7_P19_AI_V2.json",
+        "group": "browser",
+        "status": "PASS",
+        "business_day": {
+          "planned": "2026-10-12",
+          "before": "2026-10-12",
+          "after": "2026-10-12"
+        },
+        "first_attempt_flags": []
+      }
+    ]
+  },
+  "unique_counts": {
+    "ASTRA_CONTRACT": 46,
+    "WRITER_ORACLE_RERUN_BY_ASTRA": 166
+  },
+  "note": "Work in progress. Repeated case IDs are one canonical case. Tool controls are reported separately. No raw FAIL is overwritten by adjudication."
+}

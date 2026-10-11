@@ -1,0 +1,656 @@
+{
+  "job_id": 114529226905,
+  "run_id": 38159487255,
+  "name": "probe",
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38159487255/job/114529226905",
+  "source": "Original job JSON lines, unchanged fields; package projected to explicit gates",
+  "case_rows": [
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "case": "AS20-02_NATIVE_ACL",
+      "audit_case_id": "AS20-02_NATIVE_ACL",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "function_role_pairs": 2049,
+        "table_role_pairs": 456,
+        "runtime_rest_status": "SEPARATE_CASE_REQUIRED"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "case": "AS20-28_38_PRESERVATION",
+      "audit_case_id": "AS20-28_38_PRESERVATION",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "run": "e9fa494c-8c26-4b5d-a224-eb3186712b82",
+        "before_temporary": {
+          "outputs": {
+            "rows": 20,
+            "sha256": "5ac2a29bd6d6c0355370d8f814dece56b6c70b4f9478ebbfd5266859fb0a6f9f"
+          },
+          "target_rows": {
+            "rows": 12,
+            "sha256": "9da9a275e0f725c35859eaaba4e05081138a4b5d3e688948d5935f62fd68e25e"
+          },
+          "pair_rows": {
+            "rows": 4,
+            "sha256": "e64e564109b42898eaeba1add869d01fcce84124cd097291184993690b27fe29"
+          },
+          "pair_lists": {
+            "rows": 2,
+            "sha256": "bf572a1795889e6d378d223c785268c99420a2aee521aef6b66901624a5911a7"
+          },
+          "fragments": {
+            "rows": 14,
+            "sha256": "cd98077cd964ee571e26a6a32fd998097d122b075d70d56d867c495683c45b3c"
+          }
+        },
+        "retained": {
+          "jobs": {
+            "rows": 1,
+            "sha256": "18da14e0e68e8891ee2b627d427e887eba3684fadba458dea5427bef2c632308"
+          },
+          "units": {
+            "rows": 20,
+            "sha256": "86622da80040a2a2586a147e78229e4131cad7419b6ccd84c24fc0fa81027c20"
+          },
+          "capture_marks": {
+            "rows": 1,
+            "sha256": "53d8ae49e7ec438f6833f085c374e0bffaca46ea5a5866d418487f602e4514c8"
+          },
+          "plan_targets": {
+            "rows": 2,
+            "sha256": "d8bdc0f08395f6b6328bead243dcf026ff58492f0784ecdfcbbb9348939b548f"
+          },
+          "plan_scope": {
+            "rows": 1,
+            "sha256": "fb09bdcc1d9553d190ab7088a69d3d615798ed50c9843c9faf42e53e8192dd4a"
+          },
+          "plan_groups": {
+            "rows": 1,
+            "sha256": "85c3c1fe4a9cffe953ce6c9de75fab80063a32e8db1260ff3df50d2ac14ae9fb"
+          },
+          "headers": {
+            "rows": 1,
+            "sha256": "647631b71dbd2f14896b849586de48a848633e9de3546594da54dc0f20e245a3"
+          },
+          "pages": {
+            "rows": 1,
+            "sha256": "cd22d44a40baf5fa489ffdacf64f3944045f480acccb5d803b88da8e1a0cd790"
+          },
+          "page_sets": {
+            "rows": 1,
+            "sha256": "e9c7469e36c61dc2c1f5c9eba72d70e464b2af6f216111bcb7b8fc7c6ac2f9d6"
+          }
+        },
+        "identity": "4a701d4d757f387017cec706cb866874641ea1d5fc68dbd6fb236d700be9bcef",
+        "repeat": {
+          "state": "ALREADY_CLEANED",
+          "job_id": "68558d66-9f1c-4695-b850-c407fee97716",
+          "run_id": "e9fa494c-8c26-4b5d-a224-eb3186712b82",
+          "removed": {
+            "outputs": 20,
+            "fragments": 14,
+            "pair_rows": 4,
+            "pair_lists": 2,
+            "target_rows": 12
+          },
+          "cleaned_at": "2026-10-11T17:29:22.414521+00:00"
+        },
+        "log_count": 1
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "case": "AS20-39_VALIDATION_NEGATIVE",
+      "audit_case_id": "AS20-39_VALIDATION_NEGATIVE",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "COUNTEREXAMPLE",
+      "counterexample": "{\"message\": \"Cleanup verification must detect invalid retained components\", \"gaps\": [{\"mutation\": \"index_value\", \"intentionally_weakened_copy\": true, \"refusal\": {\"refused\": false, \"result\": {\"state\": \"CLEANED\", \"job_id\": \"e02acd63-fdf5-4913-a49c-db254586c0ce\", \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"removed\": {\"outputs\": 20, \"fragments\": 14, \"pair_rows\": 4, \"pair_lists\": 2, \"target_rows\": 12}, \"verified\": {\"pages\": 1, \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"targets\": 2, \"captured_at\": \"2026-10-11T17:29:24.058256+00:00\", \"source_hash\": \"e12028e3ee644ad7d8b334b5b0c20a0b48c38322e27e3390d773a4f127eca42c\", \"plan_targets\": 2, \"header_sha256\": \"24d402e38ce6cc6569b33b38b04e1aa273be835ab99272c1d79ecc8240169692\", \"identity_hash\": \"b1f88b07e954e5c27ec2acd2162356d84c4d4fae59a0e706f429538f056c9eb3\", \"pages_utf8_bytes\": 84109}, \"stored_bytes_removed\": {\"outputs\": 27134, \"fragments\": 10322, \"pair_rows\": 743, \"pair_lists\": 2640, \"target_rows\": 19711}}}, \"temporary_unchanged\": true}, {\"mutation\": \"scope\", \"intentionally_weakened_copy\": true, \"refusal\": {\"refused\": false, \"result\": {\"state\": \"CLEANED\", \"job_id\": \"e02acd63-fdf5-4913-a49c-db254586c0ce\", \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"removed\": {\"outputs\": 20, \"fragments\": 14, \"pair_rows\": 4, \"pair_lists\": 2, \"target_rows\": 12}, \"verified\": {\"pages\": 1, \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"targets\": 2, \"captured_at\": \"2026-10-11T17:29:24.058256+00:00\", \"source_hash\": \"e12028e3ee644ad7d8b334b5b0c20a0b48c38322e27e3390d773a4f127eca42c\", \"plan_targets\": 2, \"header_sha256\": \"24d402e38ce6cc6569b33b38b04e1aa273be835ab99272c1d79ecc8240169692\", \"identity_hash\": \"b1f88b07e954e5c27ec2acd2162356d84c4d4fae59a0e706f429538f056c9eb3\", \"pages_utf8_bytes\": 84109}, \"stored_bytes_removed\": {\"outputs\": 27134, \"fragments\": 10322, \"pair_rows\": 743, \"pair_lists\": 2640, \"target_rows\": 19711}}}, \"temporary_unchanged\": true}, {\"mutation\": \"page_range\", \"intentionally_weakened_copy\": true, \"refusal\": {\"refused\": false, \"result\": {\"state\": \"CLEANED\", \"job_id\": \"e02acd63-fdf5-4913-a49c-db254586c0ce\", \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"removed\": {\"outputs\": 20, \"fragments\": 14, \"pair_rows\": 4, \"pair_lists\": 2, \"target_rows\": 12}, \"verified\": {\"pages\": 1, \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"targets\": 2, \"captured_at\": \"2026-10-11T17:29:24.058256+00:00\", \"source_hash\": \"e12028e3ee644ad7d8b334b5b0c20a0b48c38322e27e3390d773a4f127eca42c\", \"plan_targets\": 2, \"header_sha256\": \"24d402e38ce6cc6569b33b38b04e1aa273be835ab99272c1d79ecc8240169692\", \"identity_hash\": \"b1f88b07e954e5c27ec2acd2162356d84c4d4fae59a0e706f429538f056c9eb3\", \"pages_utf8_bytes\": 84109}, \"stored_bytes_removed\": {\"outputs\": 27134, \"fragments\": 10322, \"pair_rows\": 743, \"pair_lists\": 2640, \"target_rows\": 19711}}}, \"temporary_unchanged\": true}, {\"mutation\": \"totals\", \"intentionally_weakened_copy\": true, \"refusal\": {\"refused\": false, \"result\": {\"state\": \"CLEANED\", \"job_id\": \"e02acd63-fdf5-4913-a49c-db254586c0ce\", \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"removed\": {\"outputs\": 20, \"fragments\": 14, \"pair_rows\": 4, \"pair_lists\": 2, \"target_rows\": 12}, \"verified\": {\"pages\": 1, \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"targets\": 2, \"captured_at\": \"2026-10-11T17:29:24.058256+00:00\", \"source_hash\": \"e12028e3ee644ad7d8b334b5b0c20a0b48c38322e27e3390d773a4f127eca42c\", \"plan_targets\": 2, \"header_sha256\": \"24d402e38ce6cc6569b33b38b04e1aa273be835ab99272c1d79ecc8240169692\", \"identity_hash\": \"b1f88b07e954e5c27ec2acd2162356d84c4d4fae59a0e706f429538f056c9eb3\", \"pages_utf8_bytes\": 84109}, \"stored_bytes_removed\": {\"outputs\": 27134, \"fragments\": 10322, \"pair_rows\": 743, \"pair_lists\": 2640, \"target_rows\": 19711}}}, \"temporary_unchanged\": true}], \"scope\": \"DETECTOR_COVERAGE_IN_INTENTIONALLY_WEAKENED_COPY_NOT_PROOF_OF_LIVE_CORRUPTION\", \"ordinary_immutable_guard\": {\"refused\": true, \"sqlstate\": \"55000\", \"message\": \"CP7_RUN_IMMUTABLE\", \"detail\": null}}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_full/cases_stage.py\", line 112, in run\n    try:base.update(status='PASS',observations=op())\n                                               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_full/cases_stage.py\", line 185, in guards\n    check(not gaps,'Cleanup verification must detect invalid retained components',gaps=gaps,scope='DETECTOR_COVERAGE_IN_INTENTIONALLY_WEAKENED_COPY_NOT_PROOF_OF_LIVE_CORRUPTION',ordinary_immutable_guard=protection)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_full/cases_stage.py\", line 23, in check\n    if not ok:raise ContractMismatch(json.dumps(dict(message=message,**witness),default=str))\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ncases_stage.ContractMismatch: {\"message\": \"Cleanup verification must detect invalid retained components\", \"gaps\": [{\"mutation\": \"index_value\", \"intentionally_weakened_copy\": true, \"refusal\": {\"refused\": false, \"result\": {\"state\": \"CLEANED\", \"job_id\": \"e02acd63-fdf5-4913-a49c-db254586c0ce\", \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"removed\": {\"outputs\": 20, \"fragments\": 14, \"pair_rows\": 4, \"pair_lists\": 2, \"target_rows\": 12}, \"verified\": {\"pages\": 1, \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"targets\": 2, \"captured_at\": \"2026-10-11T17:29:24.058256+00:00\", \"source_hash\": \"e12028e3ee644ad7d8b334b5b0c20a0b48c38322e27e3390d773a4f127eca42c\", \"plan_targets\": 2, \"header_sha256\": \"24d402e38ce6cc6569b33b38b04e1aa273be835ab99272c1d79ecc8240169692\", \"identity_hash\": \"b1f88b07e954e5c27ec2acd2162356d84c4d4fae59a0e706f429538f056c9eb3\", \"pages_utf8_bytes\": 84109}, \"stored_bytes_removed\": {\"outputs\": 27134, \"fragments\": 10322, \"pair_rows\": 743, \"pair_lists\": 2640, \"target_rows\": 19711}}}, \"temporary_unchanged\": true}, {\"mutation\": \"scope\", \"intentionally_weakened_copy\": true, \"refusal\": {\"refused\": false, \"result\": {\"state\": \"CLEANED\", \"job_id\": \"e02acd63-fdf5-4913-a49c-db254586c0ce\", \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"removed\": {\"outputs\": 20, \"fragments\": 14, \"pair_rows\": 4, \"pair_lists\": 2, \"target_rows\": 12}, \"verified\": {\"pages\": 1, \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"targets\": 2, \"captured_at\": \"2026-10-11T17:29:24.058256+00:00\", \"source_hash\": \"e12028e3ee644ad7d8b334b5b0c20a0b48c38322e27e3390d773a4f127eca42c\", \"plan_targets\": 2, \"header_sha256\": \"24d402e38ce6cc6569b33b38b04e1aa273be835ab99272c1d79ecc8240169692\", \"identity_hash\": \"b1f88b07e954e5c27ec2acd2162356d84c4d4fae59a0e706f429538f056c9eb3\", \"pages_utf8_bytes\": 84109}, \"stored_bytes_removed\": {\"outputs\": 27134, \"fragments\": 10322, \"pair_rows\": 743, \"pair_lists\": 2640, \"target_rows\": 19711}}}, \"temporary_unchanged\": true}, {\"mutation\": \"page_range\", \"intentionally_weakened_copy\": true, \"refusal\": {\"refused\": false, \"result\": {\"state\": \"CLEANED\", \"job_id\": \"e02acd63-fdf5-4913-a49c-db254586c0ce\", \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"removed\": {\"outputs\": 20, \"fragments\": 14, \"pair_rows\": 4, \"pair_lists\": 2, \"target_rows\": 12}, \"verified\": {\"pages\": 1, \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"targets\": 2, \"captured_at\": \"2026-10-11T17:29:24.058256+00:00\", \"source_hash\": \"e12028e3ee644ad7d8b334b5b0c20a0b48c38322e27e3390d773a4f127eca42c\", \"plan_targets\": 2, \"header_sha256\": \"24d402e38ce6cc6569b33b38b04e1aa273be835ab99272c1d79ecc8240169692\", \"identity_hash\": \"b1f88b07e954e5c27ec2acd2162356d84c4d4fae59a0e706f429538f056c9eb3\", \"pages_utf8_bytes\": 84109}, \"stored_bytes_removed\": {\"outputs\": 27134, \"fragments\": 10322, \"pair_rows\": 743, \"pair_lists\": 2640, \"target_rows\": 19711}}}, \"temporary_unchanged\": true}, {\"mutation\": \"totals\", \"intentionally_weakened_copy\": true, \"refusal\": {\"refused\": false, \"result\": {\"state\": \"CLEANED\", \"job_id\": \"e02acd63-fdf5-4913-a49c-db254586c0ce\", \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"removed\": {\"outputs\": 20, \"fragments\": 14, \"pair_rows\": 4, \"pair_lists\": 2, \"target_rows\": 12}, \"verified\": {\"pages\": 1, \"run_id\": \"cdd630dc-7f59-440f-8e80-12f9625ec540\", \"targets\": 2, \"captured_at\": \"2026-10-11T17:29:24.058256+00:00\", \"source_hash\": \"e12028e3ee644ad7d8b334b5b0c20a0b48c38322e27e3390d773a4f127eca42c\", \"plan_targets\": 2, \"header_sha256\": \"24d402e38ce6cc6569b33b38b04e1aa273be835ab99272c1d79ecc8240169692\", \"identity_hash\": \"b1f88b07e954e5c27ec2acd2162356d84c4d4fae59a0e706f429538f056c9eb3\", \"pages_utf8_bytes\": 84109}, \"stored_bytes_removed\": {\"outputs\": 27134, \"fragments\": 10322, \"pair_rows\": 743, \"pair_lists\": 2640, \"target_rows\": 19711}}}, \"temporary_unchanged\": true}], \"scope\": \"DETECTOR_COVERAGE_IN_INTENTIONALLY_WEAKENED_COPY_NOT_PROOF_OF_LIVE_CORRUPTION\", \"ordinary_immutable_guard\": {\"refused\": true, \"sqlstate\": \"55000\", \"message\": \"CP7_RUN_IMMUTABLE\", \"detail\": null}}\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "case": "AS20-40_ATOMIC_CLEANUP",
+      "audit_case_id": "AS20-40_ATOMIC_CLEANUP",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "deferred": {
+          "at": "2026-10-11T17:29:25.839227+00:00",
+          "tick": "cp7-staged-cleanup",
+          "failed": [],
+          "cleaned": [],
+          "deferred": {
+            "reason": "ANALYSIS_RUNNING",
+            "running_jobs": 1
+          }
+        },
+        "failed": {
+          "at": "2026-10-11T17:29:25.870663+00:00",
+          "tick": "cp7-staged-cleanup",
+          "failed": [
+            {
+              "code": "ASTRA_INJECTED_DELETE_FAILURE",
+              "job_id": "1d4d1546-7f46-43db-a2e1-ab82e6f9ae98",
+              "sqlstate": "P0001"
+            }
+          ],
+          "cleaned": [],
+          "deferred": null
+        },
+        "recovery": {
+          "at": "2026-10-11T17:29:25.904049+00:00",
+          "tick": "cp7-staged-cleanup",
+          "failed": [],
+          "cleaned": [
+            {
+              "state": "CLEANED",
+              "job_id": "1d4d1546-7f46-43db-a2e1-ab82e6f9ae98",
+              "removed": {
+                "outputs": 20,
+                "fragments": 14,
+                "pair_rows": 4,
+                "pair_lists": 2,
+                "target_rows": 12
+              }
+            }
+          ],
+          "deferred": null
+        },
+        "synthetic_age": "RUNNING progress minus11minutes; test only"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "case": "AS20-41_CONSUMERS",
+      "audit_case_id": "AS20-41_CONSUMERS",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "draft": {
+          "state": "SAVED",
+          "run_id": "d2a5087f-3c33-4647-b945-0c942d44defc",
+          "plan_id": "05d0e278-1294-4d17-a349-f348aa60ef62",
+          "draft_id": "58b3125c-6207-46dd-a293-430534d5fcfd",
+          "revision": "1",
+          "data_as_of": "2026-10-11T17:29:27.08464+00:00",
+          "request_id": "c388d633-e151-45c5-a4ac-0acffb52083a",
+          "target_key": "0e773efb-f087-470b-91bc-452c51c74b44:c8c10000-0000-4000-8000-000000000002",
+          "identity_hash": "bf0d298dac1949909be3d2f9d0ea69353be2f68b310b1271d0acf7d1a9523dc8",
+          "production_go": false,
+          "actor_scope_id": "c8c00000-0000-4000-8000-000000000101",
+          "contract_version": "cp7.plan-draft.v2",
+          "reservation_created": false
+        },
+        "report": {
+          "id": "66eb392e-fb97-4650-884e-782d1464003f",
+          "kind": "DAILY",
+          "title": "Astra independent retained result",
+          "reason": "Independent cleanup consumer audit",
+          "run_id": "d2a5087f-3c33-4647-b945-0c942d44defc",
+          "finance": "DEFERRED",
+          "summary": "Astra independent retained result\n\nBRIEFING HARIAN\n\nPeriode riwayat: 2026-10-11 sampai 2026-10-11; pengelompokan AS_SOLD.\n\nData analisis per 2026-10-12 00:29:27 WIB (analisis bertahap d2a5087f-3c33-4647-b945-0c942d44defc, 2 target). Isi analisis adalah keadaan pada waktu itu, bukan angka saat ini.\n\nKESEGARAN DATA SAAT LAPORAN DIBUAT\n\nDihitung 2026-10-12 00:29:27 WIB: Belum ada perubahan tercatat sejak data analisis diambil; belum dicek penuh.\n\nANGKA AKTUAL MENURUT SUMBER ERP (TANGGAL LAPORAN 2026-10-12)\n\nStok barang jadi aktual dibaca dari catatan stok ERP per 2026-10-12 00:29:27 WIB dan dicantumkan per target pada bagian rincian, di samping angka saat analisis.\n\nKeuangan dan HPP tidak dimasukkan ke laporan ini. Tidak ada angka pengganti.\n\nRINGKASAN SELURUH TARGET (SAAT ANALISIS)\n\nStatus produksi aktif 2 target; ditunda 0; dihentikan 0; status lain 0; status produksi belum diperiksa 0 target.\n\nTINDAKAN UMUM DAN ALASAN\n\nTidak ada tindakan umum.\n\nSTOK PROSES, BAHAN DAN KAPASITAS (SAAT ANALISIS)\n\nCUT:a8d9e3fc-d946-4037-b45a-7a765b2c4fd2:c8c10000-0000-4000-8000-000000000002:PRE: fisik 20 PCS; proyeksi 18 PCS [asumsi]; dibagi 0 PCS; siap 2026-10-11T19:14:27+00:00 (ASSUMED).\n\nCUT:a8d9e3fc-d946-4037-b45a-7a765b2c4fd2:d2d0770d-3612-4d8a-8cfe-3fee7226dc46:PRE: fisik 40 PCS; proyeksi 36 PCS [asumsi]; dibagi 0 PCS; siap 2026-10-11T19:59:27+00:00 (ASSUMED).\n\nD:0b7adaee-5d29-4c7c-84bd-46b401541c91:c8c10000-0000-4000-8000-000000000002: fisik 10 PCS; proyeksi 9 PCS [asumsi]; dibagi 0 PCS; siap 2026-10-11T20:29:27+00:00 (ASSUMED).\n\nR:2e4e1622-9d35-4824-ab10-1c98b0b194ba:c8c10000-0000-4000-8000-000000000002: fisik 10 PCS; proyeksi 9 PCS [asumsi]; dibagi 0 PCS; siap 2026-10-11T20:39:27+00:00 (ASSUMED).\n\nANGKA UMUM (SAAT ANALISIS)\n\nTidak ada angka umum.\n\nASUMSI DAN DATA YANG MASIH KURANG\n\n05b31474-416c-43f3-8715-7e080220b87c: Jadwal, waktu sisa dan perkiraan hasil bagus yang dipilih; bukan hasil produksi aktual; belum dikonfirmasi untuk operasi.\n\nPERLU DIPERIKSA: MATERIAL_FEASIBILITY_NOT_PROVEN\n\nPERLU DIPERIKSA: ADAPTIVE_MODEL_PROMOTION_NOT_PROVEN\n\nPERLU DIPERIKSA: FINANCIAL_DOMAIN_NOT_CAPTURED\n\nAsumsi per target ada pada bagian rinciannya.\n\nBAGIAN RINCIAN\n\nBagian 1: target 1–2; 7077 byte; sha256 df13de3f8b20893aded4340bd84152e8e2e6e9cb6cd6a71feed94320a609d3f4.\n\nIdentitas analisis bf0d298dac1949909be3d2f9d0ea69353be2f68b310b1271d0acf7d1a9523dc8; template native-report-staged-1. Laporan ini tidak memposting transaksi atau menerapkan produksi.",
+          "revision": "1",
+          "sections": [
+            {
+              "index": 0,
+              "sha256": "df13de3f8b20893aded4340bd84152e8e2e6e9cb6cd6a71feed94320a609d3f4",
+              "target_hi": 2,
+              "target_lo": 1,
+              "utf8_bytes": 7077
+            }
+          ],
+          "freshness": {
+            "state": "NO_RECORDED_CHANGE",
+            "evaluated_at": "2026-10-11T17:29:27.339897+00:00",
+            "changes_total": "0"
+          },
+          "is_latest": true,
+          "series_id": "3e54b7ea-4dfc-4681-b6bf-e4967ded789f",
+          "data_as_of": "2026-10-11T17:29:27.08464+00:00",
+          "request_id": "6033c9a2-6088-4873-9f05-a40a73fa5313",
+          "report_date": "2026-10-12",
+          "report_hash": "71ba570931843275d731a1fa08a793e8afa6f99ea42eff46ad20dd1336d81d2d",
+          "access_epoch": "f501830db085e2cd7014128e284e5469f33d86fa4e6b4f4e04dbc3d1f7bd448d",
+          "period_query": {
+            "from_date": "2026-10-11",
+            "group_mode": "AS_SOLD",
+            "through_date": "2026-10-11"
+          },
+          "published_at": "2026-10-11T17:29:27.351654+00:00",
+          "identity_hash": "bf0d298dac1949909be3d2f9d0ea69353be2f68b310b1271d0acf7d1a9523dc8",
+          "production_go": false,
+          "targets_total": 2,
+          "actor_scope_id": "c8c00000-0000-4000-8000-000000000101",
+          "summary_sha256": "e696298809b0c3ce4e1417a04905fd5f39dfcb2ebeca54cbd0657893fb50e0d6",
+          "actuals_read_at": "2026-10-11T17:29:27.328485+00:00",
+          "contract_version": "cp7.report-publication.v2",
+          "template_version": "native-report-staged-1",
+          "financial_source_hash": null
+        },
+        "reminder": {
+          "sent": false,
+          "stage": null,
+          "state": "DONE",
+          "run_id": "d2a5087f-3c33-4647-b945-0c942d44defc",
+          "totals": {
+            "by_rule": {
+              "FABRIC_NEED": {
+                "DATA_REVIEW": 2
+              },
+              "ACCESSORY_NEED": {
+                "DATA_REVIEW": 2
+              },
+              "PRODUCTION_GAP": {
+                "ACTIVE": 1,
+                "NO_CURRENT_GAP": 1
+              }
+            },
+            "conditions": 6
+          },
+          "failure": null,
+          "set_hash": "89a1378a1c822d360058321e0e0826c0b879aba4b0a6d37045fbafc10a0a98d7",
+          "data_as_of": "2026-10-11T17:29:27.08464+00:00",
+          "page_count": 1,
+          "pages_done": 1,
+          "unit_count": 2,
+          "units_done": 2,
+          "identity_hash": "bf0d298dac1949909be3d2f9d0ea69353be2f68b310b1271d0acf7d1a9523dc8",
+          "targets_total": 2,
+          "unit_attempts": 0,
+          "worker_active": false,
+          "contract_version": "cp7.reminder-condition-set.v2",
+          "last_progress_at": "2026-10-11T17:29:27.370812+00:00"
+        },
+        "ai_bound": {
+          "priority": 25,
+          "selected": 20
+        },
+        "run": "d2a5087f-3c33-4647-b945-0c942d44defc"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "case": "AS20-37_RETENTION",
+      "audit_case_id": "AS20-37_RETENTION",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "readers": {
+          "pages": {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_ANALYSIS_RESULT_EXPIRED",
+            "detail": "{\"days\": 7, \"kept_until\": \"2026-10-11T17:28:58.735073+00:00\"}"
+          },
+          "page": {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_ANALYSIS_RESULT_EXPIRED",
+            "detail": "{\"days\": 7, \"kept_until\": \"2026-10-11T17:28:58.735073+00:00\"}"
+          },
+          "freshness": {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_ANALYSIS_RESULT_EXPIRED",
+            "detail": "{\"days\": 7, \"kept_until\": \"2026-10-11T17:28:58.735073+00:00\"}"
+          },
+          "sourcecheck": {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_ANALYSIS_RESULT_EXPIRED",
+            "detail": "{\"days\": 7, \"kept_until\": \"2026-10-11T17:28:58.735073+00:00\"}"
+          },
+          "ai": {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_ANALYSIS_RESULT_EXPIRED",
+            "detail": "{\"days\": 7, \"kept_until\": \"2026-10-11T17:28:58.735073+00:00\"}"
+          },
+          "reminder": {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_ANALYSIS_RESULT_EXPIRED",
+            "detail": "{\"days\": 7, \"kept_until\": \"2026-10-11T17:28:58.735073+00:00\"}"
+          }
+        },
+        "boundaries_seconds": 30,
+        "synthetic_age": "updated_at moved only in disposable copy"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "case": "AS20-01_REPLAY_ACCESS",
+      "audit_case_id": "AS20-01_REPLAY_ACCESS",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "old_uuid": {
+          "refused": true,
+          "sqlstate": "42501",
+          "message": "CP7_ACCESS_DENIED",
+          "detail": null
+        },
+        "new_uuid": {
+          "refused": true,
+          "sqlstate": "42501",
+          "message": "CP7_ACCESS_DENIED",
+          "detail": null
+        },
+        "status": {
+          "refused": true,
+          "sqlstate": "42501",
+          "message": "CP7_ACCESS_DENIED",
+          "detail": null
+        },
+        "pages": {
+          "refused": true,
+          "sqlstate": "42501",
+          "message": "CP7_ACCESS_DENIED",
+          "detail": null
+        },
+        "page": {
+          "refused": true,
+          "sqlstate": "42501",
+          "message": "CP7_ACCESS_DENIED",
+          "detail": null
+        },
+        "ai": {
+          "refused": true,
+          "sqlstate": "42501",
+          "message": "CP7_ACCESS_DENIED",
+          "detail": null
+        },
+        "freshness": {
+          "refused": true,
+          "sqlstate": "42501",
+          "message": "CP7_ACCESS_DENIED",
+          "detail": null
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "case": "AS20-49_IMMUTABILITY",
+      "audit_case_id": "AS20-49_IMMUTABILITY",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "headers": {
+          "rows": 1,
+          "attempt": {
+            "refused": true,
+            "sqlstate": "55000",
+            "message": "CP7_RUN_IMMUTABLE",
+            "detail": null
+          }
+        },
+        "pages": {
+          "rows": 1,
+          "attempt": {
+            "refused": true,
+            "sqlstate": "55000",
+            "message": "CP7_RUN_IMMUTABLE",
+            "detail": null
+          }
+        },
+        "page_sets": {
+          "rows": 1,
+          "attempt": {
+            "refused": true,
+            "sqlstate": "55000",
+            "message": "CP7_RUN_IMMUTABLE",
+            "detail": null
+          }
+        },
+        "plan_targets": {
+          "rows": 2,
+          "attempt": {
+            "refused": true,
+            "sqlstate": "55000",
+            "message": "CP7_RUN_IMMUTABLE",
+            "detail": null
+          }
+        },
+        "units": {
+          "rows": 20,
+          "attempt": {
+            "refused": true,
+            "sqlstate": "55000",
+            "message": "CP7_RUN_IMMUTABLE",
+            "detail": null
+          }
+        },
+        "capture_marks": {
+          "rows": 1,
+          "attempt": {
+            "refused": true,
+            "sqlstate": "55000",
+            "message": "CP7_RUN_IMMUTABLE",
+            "detail": null
+          }
+        },
+        "plan_scope": {
+          "rows": 1,
+          "attempt": {
+            "refused": true,
+            "sqlstate": "55000",
+            "message": "CP7_RUN_IMMUTABLE",
+            "detail": null
+          }
+        },
+        "plan_groups": {
+          "rows": 1,
+          "attempt": {
+            "refused": true,
+            "sqlstate": "55000",
+            "message": "CP7_RUN_IMMUTABLE",
+            "detail": null
+          }
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    }
+  ],
+  "group_finals": [
+    {
+      "group": "ASTRA_P20_STAGE_NATIVE",
+      "planned": [
+        "AS20-02_NATIVE_ACL",
+        "AS20-28_38_PRESERVATION",
+        "AS20-39_VALIDATION_NEGATIVE",
+        "AS20-40_ATOMIC_CLEANUP",
+        "AS20-41_CONSUMERS",
+        "AS20-37_RETENTION",
+        "AS20-01_REPLAY_ACCESS",
+        "AS20-49_IMMUTABILITY"
+      ],
+      "final": {
+        "AS20-02_NATIVE_ACL": "PASS",
+        "AS20-28_38_PRESERVATION": "PASS",
+        "AS20-39_VALIDATION_NEGATIVE": "COUNTEREXAMPLE",
+        "AS20-40_ATOMIC_CLEANUP": "PASS",
+        "AS20-41_CONSUMERS": "PASS",
+        "AS20-37_RETENTION": "PASS",
+        "AS20-01_REPLAY_ACCESS": "PASS",
+        "AS20-49_IMMUTABILITY": "PASS"
+      },
+      "missing": [],
+      "status": "COUNTEREXAMPLE"
+    }
+  ],
+  "reports": [
+    {
+      "status": "INCOMPLETE",
+      "expected_cases": 8,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ],
+  "package": {
+    "run_identity": {
+      "label": "T3_PREP",
+      "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+      "product_paths": [
+        "supabase/migrations",
+        "supabase/dev",
+        "supabase/release",
+        "supabase/rollbacks",
+        "src"
+      ],
+      "run_id": "38159487255",
+      "run_attempt": "1",
+      "workflow": "AUDIT/Astra/full-independent",
+      "job": "phase",
+      "event": "push",
+      "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+      "release_evidence": false,
+      "production_go": false,
+      "mode": "install"
+    },
+    "status": "ALL_STAGES_INSTALLED",
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "primary_unchanged": true,
+    "backup_restore_drill": "RESTORED_SAME_MEANING",
+    "writer_runtime": {
+      "status": "INCOMPLETE",
+      "production_go": false,
+      "independent_acceptance": false,
+      "schema_profile": "HOSTED_USAGE_UNCHANGED"
+    }
+  }
+}
