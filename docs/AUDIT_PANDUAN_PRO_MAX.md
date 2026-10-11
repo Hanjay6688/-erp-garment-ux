@@ -2,7 +2,7 @@
 
 > **VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.**
 
-Dokumen ini dibaca oleh setiap auditor independen (Fable, Opus, Astra) sebelum mulai, dan oleh penyatu temuan sesudahnya. Satu tujuannya: **owner tidak boleh rugi atau bangkrut karena ERP memberi angka, laporan, atau rekomendasi produksi yang salah.**
+Dokumen ini dibaca oleh setiap auditor independen (Fable, Opus, Astra, Sol) sebelum mulai, dan oleh penyatu temuan sesudahnya. Satu tujuannya: **owner tidak boleh rugi atau bangkrut karena ERP memberi angka, laporan, atau rekomendasi produksi yang salah.**
 
 Nol bug tidak bisa dijamin oleh siapa pun. Target yang bisa dicapai dan wajib dikejar:
 
@@ -28,7 +28,7 @@ Dokumen ini **menyatukan** aturan yang sudah ada. Ia tidak menggantikannya. Kala
 
 Kalau dua aturan bertentangan, catat sebagai temuan (§9) dan bawa ke owner. Sampai owner memutuskan, **aturan yang lebih ketat dipakai untuk vonis audit**: kandidat tidak dinyatakan lulus berdasarkan aturan yang lebih longgar.
 
-### 0.2 Aturan menyunting dokumen ini (untuk Fable, Astra, Claude, dan siapa pun)
+### 0.2 Aturan menyunting dokumen ini (untuk Fable, Astra, Sol, Claude, dan siapa pun)
 
 - Aturan **boleh ditambah atau dipertajam**. Aturan **tidak boleh dihapus atau dilonggarkan** tanpa instruksi tertulis owner.
 - ID aturan (`INV-…`, `POLA-…`, `SKN-…`) tidak boleh diganti nomornya. Aturan baru memakai nomor berikutnya. Aturan yang sudah tidak berlaku ditandai `DICABUT (alasan, tanggal, izin owner)`; jangan dihapus.
@@ -333,7 +333,7 @@ Daftar berkas/modul/skenario yang tidak sempat atau tidak bisa diperiksa, besert
 2. **Satukan berdasarkan akar masalah.** Catat auditor mana saja yang menemukannya. Temuan yang ditemukan sendirian oleh satu auditor justru diberi perhatian lebih, karena itu titik buta yang lain.
 3. **Perselisihan diputuskan dengan reproduksi, bukan suara terbanyak.** Kalau dua auditor berbeda pendapat, jalankan skenarionya. Kalau belum bisa dijalankan, statusnya `INCOMPLETE`, bukan ditutup.
 4. **Keparahan diambil yang tertinggi** di antara auditor, kecuali ada bukti yang menurunkannya.
-5. **Gabungkan daftar "belum diperiksa"** dari ketiga auditor. Bagian yang tidak diperiksa oleh **siapa pun** ditugaskan ke putaran kedua.
+5. **Gabungkan daftar "belum diperiksa"** dari semua auditor. Bagian yang tidak diperiksa oleh **siapa pun** ditugaskan ke putaran kedua.
 6. **Hasilnya satu register temuan** (ID baru `REG-001…` dengan rujukan ID asal), dan rencana perbaikan berurutan: S0 → S1 → S2 → S3, dikelompokkan per keluarga akar masalah (`cp6-efficient-audit-rule.md`).
 7. **Tidak ada temuan yang dibuang diam-diam.** Temuan yang ditolak ditulis alasannya beserta buktinya.
 
@@ -408,6 +408,7 @@ Temuan yang sudah diketahui dan masih terbuka, untuk dicek ulang dan bukan diula
 | Tanggal | Penyunting | Bagian | Ringkasan |
 |---|---|---|---|
 | 2026-10-03 | Claude | Semua | Versi awal: aturan main, peta, metode, katalog invarian INV-*, pola POLA-01..15, skenario SKN-01..18, keparahan, format laporan, penyatuan, perbaikan, gerbang, pengawasan. |
+| 2026-10-11 | Claude | Pembuka, §0.2, §10.5 | Sol ditambahkan sebagai auditor independen (owner 11 Okt: "ya tambahin"). §10.5 "ketiga auditor" menjadi "semua auditor" karena jumlah auditor bertambah; tidak ada aturan yang dihapus atau dilonggarkan. |
 
 ---
 
