@@ -1,8 +1,10 @@
 Uji ulang independen Sol atas `8116800c` — 10 Okt 2026 WIB (`audit/sol-k4-retest-8116800c-20261010`): **PASS_RETEST,
 SOL-K4-01 DITUTUP**, 60/60 kasus auditor PASS (kernel 8, uji cold/warm auditor 2, K4 17, analisis bertahap 14, K3 19; run
 38054431784 dan 38054430466). Tidak ada temuan produk baru dalam cakupan itu. Klaim writer 15 workflow / 44 job
-diverifikasi auditor. Masih terbuka sebagai alat uji (S3, bukan temuan produk): skrip uji yang melewati tengah malam WIB
-(attention284 percobaan pertama, run 37958882487) — sedang diperbaiki writer. Belum diuji auditor: 5.000 target
+diverifikasi auditor. Alat uji yang melewati tengah malam WIB (S3, attention284 run 37958882487): diperbaiki writer di **af5e3941**
+(kontrol pergantian hari di runtime auditor), 15/15 workflow dan 44/44 job hijau pada commit itu; menunggu pemeriksaan
+auditor. Baca [evidence/business-day-control-20261011](evidence/business-day-control-20261011/README.md). Terbuka: K4
+browser mobile sekali diam 80 menit lalu lulus saat diulang (penyebab belum diketahui). Belum diuji auditor: 5.000 target
 seluruhnya lewat penjalan K4, HP fisik/Safari, tab HP benar-benar ditutup, pemasangan hosted. PR #45 (pecah batch demo)
 belum diaudit dan belum diterima; auditor menyarankan audit UI/demo terpisah sebelum digabung. Jadwal dan backup belum
 dipasang. `production_go:false`.

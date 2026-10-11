@@ -37,4 +37,6 @@ Audit independen Sol atas `8cc1b081` (`audit/sol-p20-k4-8cc1b081-20261009`): F01
 
 Uji ulang independen Sol atas `8116800c` (`audit/sol-k4-retest-8116800c-20261010`, 10 Okt 2026): **PASS_RETEST, SOL-K4-01 CLOSED**; 60/60 kasus auditor PASS (kernel 8 run 38054431784; cold/warm auditor 2, K4 17, staged 14, K3 19 run 38054430466); tidak ada temuan produk baru dalam cakupan. CI writer 15/44 diverifikasi auditor (bukan dijalankan ulang seluruhnya). F01–F05 dan PR44 tetap memakai putusan sebelumnya sesuai batasnya. Terbuka: alat uji ATTENTION_WIB_MIDNIGHT_FIXTURE (S3, OPEN_TOOLING); belum diuji auditor: 5.000 target lewat K4, HP fisik/Safari, tab HP benar-benar ditutup, pemasangan hosted; PR #45 belum diaudit (saran auditor: audit UI/demo terpisah sebelum merge). `production_go:false`.
 
+Alat uji ATTENTION_WIB_MIDNIGHT_FIXTURE diperbaiki di `af5e3941` (kontrol pergantian hari di keempat mode runtime auditor; tanpa perubahan produk/oracle): 15/15 workflow dan 44/44 job hijau pada commit itu (P19 `k4-runner-17` pada percobaan kedua; percobaan pertama diam 80 menit di kasus browser mobile, penyebab terbuka) — `evidence/business-day-control-20261011/`. `CP6 Auditor Scenario` (bukan bagian 15) gagal pada 4 kasus browser CP6 lama yang sama dengan 2 Okt.
+
 Tetap: `independent_acceptance=false`, `installed_P21_acceptance=false`, `production_go=false`.
