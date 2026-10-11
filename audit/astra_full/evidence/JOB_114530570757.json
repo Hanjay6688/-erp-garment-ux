@@ -1,0 +1,454 @@
+{
+  "job_id": 114530570757,
+  "run_id": 38159947839,
+  "name": "business_day_control",
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38159947839/job/114530570757",
+  "source": "Original job JSON lines, unchanged fields; package projected to explicit gates",
+  "case_rows": [
+    {
+      "audit_case_id": "ASF-09-DATE-PASS-CONTROL",
+      "evidence_origin": "INDEPENDENT_TOOL_RUNTIME",
+      "fixture_origin": "ASTRA_SYNTHETIC_CASE_RESULTS",
+      "observations": {
+        "attempts": 2,
+        "final": {
+          "business_day_first_attempt": {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-10",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+                "expected_total": "100",
+                "observed_total": "100",
+                "status": "INCOMPLETE",
+                "status_before_rollover": "PASS"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "INCOMPLETE": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "INCOMPLETE"
+          },
+          "business_day_retried": true,
+          "cases": {
+            "CONTROL": {
+              "expected_total": "100",
+              "observed_total": "100",
+              "status": "PASS"
+            }
+          },
+          "cleanup_failures": [],
+          "complete_boundary_restored": true,
+          "counts": {
+            "PASS": 1
+          },
+          "database_remaining": 0,
+          "error": null,
+          "missing": [],
+          "status": "PASS"
+        },
+        "guarded": {
+          "business_day": {
+            "after": "2026-10-10",
+            "before": "2026-10-10",
+            "planned": "2026-10-09"
+          },
+          "business_day_rollover": true,
+          "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+          "expected_total": "100",
+          "observed_total": "100",
+          "status": "INCOMPLETE",
+          "status_before_rollover": "PASS"
+        },
+        "kept_first": [
+          {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-10",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "error": "AUDITOR_BUSINESS_DAY_ROLLOVER",
+                "expected_total": "100",
+                "observed_total": "100",
+                "status": "INCOMPLETE",
+                "status_before_rollover": "PASS"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "INCOMPLETE": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "INCOMPLETE"
+          }
+        ],
+        "stdout": "{\"group\": \"ASTRA_DATE_CONTROL\", \"business_day_rollover\": \"RERUN_FROM_FRESH_COPY\", \"rolled_cases\": [\"CONTROL\"], \"first_attempt_final\": {\"CONTROL\": \"INCOMPLETE\"}}\n"
+      },
+      "oracle_origin": "ASTRA_CONTRACT",
+      "status": "PASS"
+    },
+    {
+      "audit_case_id": "ASF-10-DATE-UNRELATED-FAIL",
+      "evidence_origin": "INDEPENDENT_TOOL_RUNTIME",
+      "fixture_origin": "ASTRA_SYNTHETIC_CASE_RESULTS",
+      "observations": {
+        "attempts": 2,
+        "final": {
+          "business_day_first_attempt": {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-10",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "date_dependency": false,
+                "error": "ASTRA_INJECTED_DATE_INDEPENDENT_RECONCILIATION",
+                "expected_total_cents": 10000,
+                "observed_total_cents": 10001,
+                "oracle": "10001 != 10000 on either date",
+                "status": "FAIL"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "FAIL": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "FAIL"
+          },
+          "business_day_retried": true,
+          "cases": {
+            "CONTROL": {
+              "expected_total_cents": 10000,
+              "observed_total_cents": 10000,
+              "status": "PASS"
+            }
+          },
+          "cleanup_failures": [],
+          "complete_boundary_restored": true,
+          "counts": {
+            "PASS": 1
+          },
+          "database_remaining": 0,
+          "error": null,
+          "missing": [],
+          "status": "PASS"
+        },
+        "guard_preserved_failure": true,
+        "kept_first": [
+          {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-10",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "date_dependency": false,
+                "error": "ASTRA_INJECTED_DATE_INDEPENDENT_RECONCILIATION",
+                "expected_total_cents": 10000,
+                "observed_total_cents": 10001,
+                "oracle": "10001 != 10000 on either date",
+                "status": "FAIL"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "FAIL": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "FAIL"
+          }
+        ],
+        "preserved_in_nested_evidence": true,
+        "retry_allowed": true,
+        "stdout": "{\"group\": \"ASTRA_DATE_CONTROL\", \"business_day_rollover\": \"RERUN_FROM_FRESH_COPY\", \"rolled_cases\": [\"CONTROL\"], \"first_attempt_final\": {\"CONTROL\": \"FAIL\"}}\n"
+      },
+      "oracle_origin": "ASTRA_CONTRACT",
+      "status": "COUNTEREXAMPLE"
+    },
+    {
+      "audit_case_id": "ASF-11-DATE-UNRELATED-COUNTEREXAMPLE",
+      "evidence_origin": "INDEPENDENT_TOOL_RUNTIME",
+      "fixture_origin": "ASTRA_SYNTHETIC_CASE_RESULTS",
+      "observations": {
+        "attempts": 2,
+        "final": {
+          "business_day_first_attempt": {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-10",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "date_dependency": false,
+                "error": "ASTRA_INJECTED_DATE_INDEPENDENT_RECONCILIATION",
+                "expected_total_cents": 10000,
+                "observed_total_cents": 10001,
+                "oracle": "10001 != 10000 on either date",
+                "status": "COUNTEREXAMPLE"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "COUNTEREXAMPLE": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "COUNTEREXAMPLE"
+          },
+          "business_day_retried": true,
+          "cases": {
+            "CONTROL": {
+              "expected_total_cents": 10000,
+              "observed_total_cents": 10000,
+              "status": "PASS"
+            }
+          },
+          "cleanup_failures": [],
+          "complete_boundary_restored": true,
+          "counts": {
+            "PASS": 1
+          },
+          "database_remaining": 0,
+          "error": null,
+          "missing": [],
+          "status": "PASS"
+        },
+        "guard_preserved_failure": true,
+        "kept_first": [
+          {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-10",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "date_dependency": false,
+                "error": "ASTRA_INJECTED_DATE_INDEPENDENT_RECONCILIATION",
+                "expected_total_cents": 10000,
+                "observed_total_cents": 10001,
+                "oracle": "10001 != 10000 on either date",
+                "status": "COUNTEREXAMPLE"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "COUNTEREXAMPLE": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "COUNTEREXAMPLE"
+          }
+        ],
+        "preserved_in_nested_evidence": true,
+        "retry_allowed": true,
+        "stdout": "{\"group\": \"ASTRA_DATE_CONTROL\", \"business_day_rollover\": \"RERUN_FROM_FRESH_COPY\", \"rolled_cases\": [\"CONTROL\"], \"first_attempt_final\": {\"CONTROL\": \"COUNTEREXAMPLE\"}}\n"
+      },
+      "oracle_origin": "ASTRA_CONTRACT",
+      "status": "COUNTEREXAMPLE"
+    },
+    {
+      "audit_case_id": "ASF-12-DATE-BLOCKING-CONTROLS",
+      "evidence_origin": "INDEPENDENT_TOOL_RUNTIME",
+      "fixture_origin": "ASTRA_SYNTHETIC_CASE_RESULTS",
+      "observations": [
+        {
+          "attempts": 1,
+          "final": {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-09",
+                  "before": "2026-10-09",
+                  "planned": "2026-10-09"
+                },
+                "error": "ASTRA_INJECTED_ACCOUNTING_MISMATCH",
+                "status": "FAIL"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "FAIL": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "FAIL"
+          },
+          "kept_first": [],
+          "kind": "no_rollover",
+          "stdout": ""
+        },
+        {
+          "attempts": 1,
+          "final": {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-09",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "error": "ASTRA_INJECTED_ACCOUNTING_MISMATCH",
+                "harness_check_failed": true,
+                "status": "FAIL"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "FAIL": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "FAIL"
+          },
+          "kept_first": [],
+          "kind": "boundary",
+          "stdout": ""
+        },
+        {
+          "attempts": 1,
+          "final": {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-09",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "error": "AUDITOR_CASE_RESULT_NOT_A_DICT",
+                "status": "FAIL"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "FAIL": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "FAIL"
+          },
+          "kept_first": [],
+          "kind": "malformed",
+          "stdout": ""
+        },
+        {
+          "attempts": 1,
+          "final": {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-09",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "error": "ASTRA_INJECTED_ACCOUNTING_MISMATCH",
+                "status": "FAIL"
+              }
+            },
+            "cleanup_failures": [],
+            "complete_boundary_restored": true,
+            "counts": {
+              "FAIL": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [
+              "UNRUN"
+            ],
+            "status": "FAIL"
+          },
+          "kept_first": [],
+          "kind": "missing",
+          "stdout": ""
+        },
+        {
+          "attempts": 1,
+          "final": {
+            "cases": {
+              "CONTROL": {
+                "business_day": {
+                  "after": "2026-10-10",
+                  "before": "2026-10-09",
+                  "planned": "2026-10-09"
+                },
+                "business_day_rollover": true,
+                "error": "ASTRA_INJECTED_ACCOUNTING_MISMATCH",
+                "status": "FAIL"
+              }
+            },
+            "cleanup_failures": [
+              "NOT_REMOVED"
+            ],
+            "complete_boundary_restored": true,
+            "counts": {
+              "FAIL": 1
+            },
+            "database_remaining": 0,
+            "error": null,
+            "missing": [],
+            "status": "FAIL"
+          },
+          "kept_first": [],
+          "kind": "cleanup",
+          "stdout": ""
+        }
+      ],
+      "oracle_origin": "ASTRA_CONTRACT",
+      "status": "PASS"
+    }
+  ],
+  "group_finals": [],
+  "reports": [
+    {
+      "status": "COUNTEREXAMPLE",
+      "counts": {
+        "PASS": 2,
+        "COUNTEREXAMPLE": 2
+      },
+      "module_sha256": "2a8e3c61edeab8f92f3b9aaa36623e5d1ab0f1452c89ecb440b04b7f9a2ee60e"
+    }
+  ],
+  "package": null
+}

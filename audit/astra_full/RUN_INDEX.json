@@ -1,0 +1,47 @@
+{
+  "candidate": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "audit_state": "RUNNING",
+  "production_go": false,
+  "runs": [
+    {
+      "id": 38159220776,
+      "kind": "44 regression suites",
+      "control_commit": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    {
+      "id": 38159220799,
+      "kind": "Shell and CodeQL",
+      "control_commit": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    {
+      "id": 38159487255,
+      "kind": "67 preregistered own canonical cases",
+      "control_commit": "3df9df25be78acbad08781404b176893b23e9669"
+    },
+    {
+      "id": 38159947789,
+      "kind": "8 new K4/K6 own cases",
+      "control_commit": "b8275eafd5089a456c3e7f0e9dff8cb635066c9c"
+    },
+    {
+      "id": 38159947839,
+      "kind": "4 independent audit tool controls",
+      "control_commit": "b8275eafd5089a456c3e7f0e9dff8cb635066c9c"
+    }
+  ],
+  "first_failures": [
+    {
+      "run": 38159487255,
+      "case": "AS20-39_VALIDATION_NEGATIVE",
+      "disposition": "Known documented weakened-copy detector boundary; preserve raw, no new product bug"
+    },
+    {
+      "run": 38159947839,
+      "cases": [
+        "ASF-10-DATE-UNRELATED-FAIL",
+        "ASF-11-DATE-UNRELATED-COUNTEREXAMPLE"
+      ],
+      "disposition": "One new S3 audit-tool issue ASF-F01"
+    }
+  ]
+}
