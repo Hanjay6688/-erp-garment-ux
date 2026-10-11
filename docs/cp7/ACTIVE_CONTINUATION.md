@@ -3,8 +3,10 @@ SOL-K4-01 DITUTUP**, 60/60 kasus auditor PASS (kernel 8, uji cold/warm auditor 2
 38054431784 dan 38054430466). Tidak ada temuan produk baru dalam cakupan itu. Klaim writer 15 workflow / 44 job
 diverifikasi auditor. Alat uji yang melewati tengah malam WIB (S3, attention284 run 37958882487): diperbaiki writer di **af5e3941**
 (kontrol pergantian hari di runtime auditor), 15/15 workflow dan 44/44 job hijau pada commit itu; menunggu pemeriksaan
-auditor. Baca [evidence/business-day-control-20261011](evidence/business-day-control-20261011/README.md). Terbuka: K4
-browser mobile sekali diam 80 menit lalu lulus saat diulang (penyebab belum diketahui). Belum diuji auditor: 5.000 target
+auditor. Baca [evidence/business-day-control-20261011](evidence/business-day-control-20261011/README.md). K6 (penjalan
+bukti PL-8 di server) dibuat dan lulus CI `k6-proof-runner-10` di `c04bec8a`; belum dipasang. Terbuka: K4 browser mobile
+diam dua kali sesudah kasus desktop lulus (run 38114007484 dan 38122987757) lalu lulus saat diulang; sejak `c04bec8a`
+kasus browser punya batas waktu dan catatan langkah; penyebab sedang dicari. Belum diuji auditor: 5.000 target
 seluruhnya lewat penjalan K4, HP fisik/Safari, tab HP benar-benar ditutup, pemasangan hosted. PR #45 (pecah batch demo)
 belum diaudit dan belum diterima; auditor menyarankan audit UI/demo terpisah sebelum digabung. Jadwal dan backup belum
 dipasang. `production_go:false`.
