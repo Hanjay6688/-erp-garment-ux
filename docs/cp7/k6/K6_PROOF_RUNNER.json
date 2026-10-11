@@ -1,0 +1,59 @@
+{
+ "contract": "cp7.k6.proof-runner.v1",
+ "expected_case_count": 10,
+ "required_case_counts": {
+  "native": 4,
+  "races": 4,
+  "http": 2
+ },
+ "required_case_ids": {
+  "native": [
+   "K6P_PASS_PROVES_FINISHED_HISTORY",
+   "K6P_CANCEL_CORRECT_BACKDATE_REPROVEN_BY_SERVER",
+   "K6P_LIMIT_REQUIRED",
+   "K6P_SCHEDULE_DEFINED_PRIVATE"
+  ],
+  "races": [
+   "K6P_RACE_SECOND_TICK_NEVER_WAITS",
+   "K6P_RACE_WINDOW_STOPPED_THEN_SKIPPED",
+   "K6P_RACE_CAPTURE_DURING_WINDOW",
+   "K6P_RACE_PG_CRON_FINISHES_PASS"
+  ],
+  "http": [
+   "K6P_HTTP_TICK_NOT_REACHABLE",
+   "K6P_HTTP_CAPTURE_USES_SERVER_PROOFS"
+  ]
+ },
+ "public_rpcs": [
+  "erp_cp7_capture_production_supply_v1"
+ ],
+ "runner_schedule": {
+  "name": "cp7-proof-runner",
+  "schedule": "*/10 * * * *",
+  "command": "set statement_timeout to '8s'; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit; begin; select cp7_ops.proof_tick(); commit;",
+  "timezone": "UTC",
+  "meaning": "every 10 minutes: up to 20 proof windows, each in its own transaction under the 8 s limit"
+ },
+ "owner_decision": "8 Oct 2026 (8, PL-8): arahkan penjalan bukti otomatis di server. Bukti harus diperiksa terhadap versi sumber dan tidak boleh tetap dianggap berlaku setelah koreksi atau pembatalan. 11 Oct 2026: selesaikan CP7 (termasuk K6), lalu audit penuh CP7.",
+ "runner": {
+  "entry": "pg_cron every 10 minutes: set statement_timeout to '8s'; then 20 x (begin; select cp7_ops.proof_tick(); commit;) -> cp7_proof_runner.prove_next()",
+  "window": "prove_next proves one window of the posted cutting history, by group id after the pass cursor, at the pass clock, through the unchanged PL-8 prover cp7_supply_native.prove_exhausted (window 200 groups, capture batches of 50); a pass ends at the last group and the runner rests 1 hour, then starts the next pass at a new clock",
+  "proof_meaning": "unchanged PL-8 part 3: a proof binds the group's own captured fact rows (facts_hash) and the classifier's definition (kernel_version); a correction, reversal or backdated row changes the hash, so the old proof is never matched again (the group is classified anew by a capture or by the next pass); proofs are only added, never changed or deleted",
+  "statement_limit": "refused (55000 CP7_RUNNER_STATEMENT_LIMIT_REQUIRED) unless the session's statement_timeout is set and at most 8000 ms; a window stopped by the limit stores nothing and the next call halves the window (200, 100, 50); a 50-group window stopped three times in a row is skipped, recorded in the pass (first/last group, code, sqlstate) and its groups stay unproven until the next pass",
+  "refusals": "a capture batch refusal inside a window is handled like a stop and recorded with its code; without a proof kernel (CP7_SUPPLY_PROOF_KERNEL) the refusal is recorded and the runner rests 1 hour with the cursor unchanged",
+  "concurrency": "one call proves at a time: the private lock hashtextextended('CP7:K6_PROOF_RUNNER',0) is taken with pg_try_advisory_xact_lock; a call that does not get it returns BUSY having read and written nothing (no call waits on another, also on a fresh installation); a capture during a window may store the same proof (no unique key, so neither waits) and reads it as one",
+  "private": "cp7_ops.proof_tick() SECURITY DEFINER as cp7_capture, EXECUTE for postgres only; schema cp7_proof_runner (prove_next, status; tables state: one row updated in place, never deleted; passes: insert-only) private to cp7_capture; no public RPC"
+ },
+ "installed": false,
+ "production_go": false,
+ "synthetic_steps": [
+  "SYNTHETIC administrative clones of one finished cutting group (PL-8 suite helper clone_groups), labelled",
+  "TEST_REST_OVERRIDE: the hour between passes ended early on the disposable copy (state.rest_until moved back), labelled",
+  "TEST_SCHEDULE_OVERRIDE every 5 seconds on the disposable race copy",
+  "the proof table locked by a test session (ACCESS EXCLUSIVE) to hold a window inside its statement limit"
+ ],
+ "not_in_scope": [
+  "no screen: the runner has no page; the public supply capture is the user-facing path that uses its proofs",
+  "installation on a real database waits for the audit and the owner's permission (CP7C)"
+ ]
+}

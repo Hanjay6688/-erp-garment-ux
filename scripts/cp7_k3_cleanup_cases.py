@@ -59,10 +59,14 @@ SCHEDULES = [dict(name='cp7-staged-cleanup', schedule='*/5 * * * *', command='se
              # K4 (owner decision 8 Oct 2026, 6): the server runner joins the same schedule (its own suite: k4-runner).
              dict(name='cp7-staged-runner', schedule='* * * * *',
                   command="set statement_timeout to '8s'; " + ' '.join(['begin; select cp7_ops.analysis_tick(); commit;'] * 60),
-                  timezone='UTC', meaning='every minute: up to 60 units, each in its own transaction under the 8 s limit')]
+                  timezone='UTC', meaning='every minute: up to 60 units, each in its own transaction under the 8 s limit'),
+             # K6 (owner decision 8 Oct 2026, 8): the PL-8 proof runner joins the same schedule (its own suite: k6-proof-runner).
+             dict(name='cp7-proof-runner', schedule='*/10 * * * *',
+                  command="set statement_timeout to '8s'; " + ' '.join(['begin; select cp7_ops.proof_tick(); commit;'] * 20),
+                  timezone='UTC', meaning='every 10 minutes: up to 20 proof windows, each in its own transaction under the 8 s limit')]
 PRIVATE = ('cp7_analysis_stage.clean_done(uuid)', 'cp7_analysis_stage.clean_pending(integer)', 'cp7_analysis_stage.verify_final(uuid)',
            'cp7_analysis_stage.cleanup_due(uuid,text,timestamp with time zone)')
-TICKS = ('cp7_ops.cleanup_tick()', 'cp7_ops.retention_tick()', 'cp7_ops.schedules()', 'cp7_ops.analysis_tick()')
+TICKS = ('cp7_ops.cleanup_tick()', 'cp7_ops.retention_tick()', 'cp7_ops.schedules()', 'cp7_ops.analysis_tick()', 'cp7_ops.proof_tick()')
 auth, b = staged.auth, staged.b
 refused, refusal = planv2.refused, planv2.refusal
 

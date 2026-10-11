@@ -92,19 +92,25 @@ def verify(cur):
         assert cur.execute("select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s and p.prosrc like %s",
                            (ns, '%' + pattern + '%')).fetchone()[0] == 0, pattern
     verify_ops(cur)
+    verify_proof_runner(cur)
     return dict(staged_analysis=True, declared_targets=BOUNDS['job_targets'], page_utf8_bytes=BOUNDS['page_utf8_bytes'],
                 statement_limit_raised=False, staged_runs_in_native_runs=False)
 
 
 # CP7C schedule entries (ops/schedule.sql): exactly these, SECURITY DEFINER as cp7_capture
 # where they act, executable by the scheduler's role postgres only; no table in the schema.
-OPS_FUNCTIONS = {'schedules()': (False, 'i'), 'cleanup_tick()': (True, 'v'), 'retention_tick()': (True, 'v'), 'analysis_tick()': (True, 'v')}
+OPS_FUNCTIONS = {'schedules()': (False, 'i'), 'cleanup_tick()': (True, 'v'), 'retention_tick()': (True, 'v'), 'analysis_tick()': (True, 'v'),
+                 'proof_tick()': (True, 'v')}
 OPS_SCHEDULES = [dict(name='cp7-staged-cleanup', schedule='*/5 * * * *', command='select cp7_ops.cleanup_tick()', timezone='UTC', meaning='every 5 minutes'),
                  dict(name='cp7-staged-retention', schedule='30 19 * * *', command='select cp7_ops.retention_tick()', timezone='UTC', meaning='02:30 WIB daily'),
                  # K4: every minute, 60 runner ticks, each its own transaction under the 8 s statement limit.
                  dict(name='cp7-staged-runner', schedule='* * * * *',
                       command="set statement_timeout to '8s'; " + ' '.join(['begin; select cp7_ops.analysis_tick(); commit;'] * 60),
-                      timezone='UTC', meaning='every minute: up to 60 units, each in its own transaction under the 8 s limit')]
+                      timezone='UTC', meaning='every minute: up to 60 units, each in its own transaction under the 8 s limit'),
+                 # K6: every 10 minutes, 20 proof windows, each its own transaction under the 8 s statement limit.
+                 dict(name='cp7-proof-runner', schedule='*/10 * * * *',
+                      command="set statement_timeout to '8s'; " + ' '.join(['begin; select cp7_ops.proof_tick(); commit;'] * 20),
+                      timezone='UTC', meaning='every 10 minutes: up to 20 proof windows, each in its own transaction under the 8 s limit')]
 
 
 def verify_ops(cur):
@@ -126,3 +132,38 @@ def verify_ops(cur):
     assert cur.execute("select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname=%s", (ns,)).fetchone()[0] == 0
     assert cur.execute('select cp7_ops.schedules()').fetchone()[0] == OPS_SCHEDULES
     return dict(schedules=[s['name'] for s in OPS_SCHEDULES], installed_in_cron=False)
+
+
+# K6 (owner decision 8 Oct 2026, 8, PL-8; planning/proof-runner.sql): the server's PL-8 proof runner. Exactly these
+# functions (invoker, cp7_capture, private) and tables (RLS without access; the state row updated in place, never
+# deleted; the finished passes insert-only).
+PROOF_RUNNER_FUNCTIONS = {'prove_next': 'v', 'status': 's'}
+PROOF_RUNNER_TABLES = {'state': 'BEFORE DELETE', 'passes': 'BEFORE DELETE OR UPDATE'}
+
+
+def verify_proof_runner(cur):
+    ns = 'cp7_proof_runner'
+    assert cur.execute('select pg_get_userbyid(nspowner) from pg_namespace where nspname=%s', (ns,)).fetchone()[0] == 'cp7_capture'
+    rows = cur.execute('select p.oid::regprocedure::text,p.proname,pg_get_userbyid(p.proowner),p.prosecdef,p.proconfig,p.provolatile::text '
+                       'from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname=%s', (ns,)).fetchall()
+    assert sorted(r[1] for r in rows) == sorted(PROOF_RUNNER_FUNCTIONS), rows
+    for sig, name, owner, definer, config, volatility in rows:
+        assert (owner, definer, volatility) == ('cp7_capture', False, PROOF_RUNNER_FUNCTIONS[name]), (sig, owner, definer, volatility)
+        assert 'search_path=""' in (config or []) and 'TimeZone=UTC' in (config or []), (sig, config)
+        for who in ('anon', 'authenticated', 'service_role'):
+            assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (who, sig)).fetchone()[0], (who, sig)
+    for who in ('anon', 'authenticated', 'service_role'):
+        assert not cur.execute("select has_schema_privilege(%s,%s,'USAGE')", (who, ns)).fetchone()[0], who
+    assert sorted(r[0] for r in cur.execute("select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname=%s and c.relkind='r'",
+                                            (ns,)).fetchall()) == sorted(PROOF_RUNNER_TABLES)
+    for table, expected in PROOF_RUNNER_TABLES.items():
+        name = ns + '.' + table
+        assert cur.execute('select pg_get_userbyid(relowner),relrowsecurity from pg_class where oid=%s::regclass', (name,)).fetchone() == ('cp7_capture', True), name
+        assert cur.execute("select count(*) from pg_policy where polrelid=%s::regclass and pg_get_expr(polqual,polrelid)='false' "
+                           "and pg_get_expr(polwithcheck,polrelid)='false'", (name,)).fetchone()[0] == 1, name
+        for who in ('anon', 'authenticated', 'service_role'):
+            assert not cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')", (who, name)).fetchone()[0], (who, name)
+        triggers = cur.execute("select pg_get_triggerdef(t.oid) from pg_trigger t where t.tgrelid=%s::regclass and t.tgfoid='cp7_private.immutable_run()'::regprocedure "
+                               "and not t.tgisinternal and t.tgenabled<>'D'", (name,)).fetchall()
+        assert len(triggers) == 1 and (' %s ON %s FOR EACH ROW EXECUTE FUNCTION cp7_private.immutable_run()' % (expected, name)) in triggers[0][0], (name, triggers)
+    return dict(proof_runner=True, functions=sorted(PROOF_RUNNER_FUNCTIONS), tables=sorted(PROOF_RUNNER_TABLES))

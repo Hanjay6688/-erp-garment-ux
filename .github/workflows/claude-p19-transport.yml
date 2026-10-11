@@ -66,6 +66,9 @@ name: CP7 P19 Analysis Job Transport
     - docs/cp7/k3/K3_CLEANUP.json
     - scripts/cp7_k4_runner_*
     - docs/cp7/k4/K4_RUNNER.json
+    - scripts/cp7_k6_proof_runner_*
+    - docs/cp7/k6/K6_PROOF_RUNNER.json
+    - scripts/cp7-src/planning/proof-runner.sql
     - .github/workflows/claude-p19-transport.yml
   workflow_dispatch: {}
 permissions:
@@ -117,6 +120,9 @@ jobs:
         - suite: k4-runner-17
           probe: cp7_k4_runner_probe.py
           timeout: 180
+        - suite: k6-proof-runner-10
+          probe: cp7_k6_proof_runner_probe.py
+          timeout: 150
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres

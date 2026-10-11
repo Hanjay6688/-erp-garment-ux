@@ -16,10 +16,15 @@
 --                                             running staged analysis with the oldest
 --                                             progress each time, so an analysis goes on
 --                                             while its page is closed
--- The runner's command sets the session's statement limit to 8 s first;
+--   cp7-proof-runner      every 10 minutes     K6 (owner decision 8 Oct 2026, 8, PL-8): proof_tick
+--                                             20 times, each in its own transaction and
+--                                             under the 8 s limit: one window of the posted
+--                                             cutting history proven by the unchanged PL-8
+--                                             prover (planning/proof-runner.sql)
+-- The runners' commands set the session's statement limit to 8 s first;
 -- PostgreSQL applies it to each statement of the command separately, so each
--- unit has the same 8 s a page's request has. run_next refuses to run in a
--- session without that limit. pg_cron's background-worker mode would not apply
+-- unit has the same 8 s a page's request has. run_next and prove_next refuse
+-- to run in a session without that limit. pg_cron's background-worker mode would not apply
 -- the limit per statement; it also refuses transaction statements, so the
 -- command fails there before any tick runs.
 -- Each entry is SECURITY DEFINER as cp7_capture (the owner of the staged
@@ -27,8 +32,10 @@
 -- authenticated and service_role cannot call it. All are safe to repeat: a
 -- run cleaned or purged once is logged and never touched again, a running job
 -- is never cleaned or purged, a failed cleanup changes nothing and is retried,
--- and a runner tick stores at most the one next unit of a job (a unit already
--- stored, or held by another session, is never run again).
+-- a runner tick stores at most the one next unit of a job (a unit already
+-- stored, or held by another session, is never run again), and a proof tick
+-- only adds proofs through the PL-8 prover (one tick at a time; a proof already
+-- stored is not added again).
 create schema cp7_ops authorization cp7_capture;
 revoke all on schema cp7_ops from public,anon,authenticated,service_role;
 create function cp7_ops.schedules()returns jsonb
@@ -40,7 +47,10 @@ language sql immutable security invoker set search_path=''set TimeZone='UTC'as $
    'timezone','UTC','meaning','02:30 WIB daily'),
   jsonb_build_object('name','cp7-staged-runner','schedule','* * * * *',
    'command','set statement_timeout to ''8s''; '||rtrim(repeat('begin; select cp7_ops.analysis_tick(); commit; ',60)),
-   'timezone','UTC','meaning','every minute: up to 60 units, each in its own transaction under the 8 s limit'))
+   'timezone','UTC','meaning','every minute: up to 60 units, each in its own transaction under the 8 s limit'),
+  jsonb_build_object('name','cp7-proof-runner','schedule','*/10 * * * *',
+   'command','set statement_timeout to ''8s''; '||rtrim(repeat('begin; select cp7_ops.proof_tick(); commit; ',20)),
+   'timezone','UTC','meaning','every 10 minutes: up to 20 proof windows, each in its own transaction under the 8 s limit'))
 $$;
 create function cp7_ops.cleanup_tick()returns jsonb
 language sql volatile security definer set search_path=''set TimeZone='UTC'as $$
@@ -54,10 +64,15 @@ create function cp7_ops.analysis_tick()returns jsonb
 language sql volatile security definer set search_path=''set TimeZone='UTC'as $$
  select cp7_analysis_stage.run_next()||jsonb_build_object('tick','cp7-staged-runner','at',clock_timestamp())
 $$;
+create function cp7_ops.proof_tick()returns jsonb
+language sql volatile security definer set search_path=''set TimeZone='UTC'as $$
+ select cp7_proof_runner.prove_next()||jsonb_build_object('tick','cp7-proof-runner','at',clock_timestamp())
+$$;
 alter function cp7_ops.schedules()owner to cp7_capture;
 alter function cp7_ops.analysis_tick()owner to cp7_capture;
+alter function cp7_ops.proof_tick()owner to cp7_capture;
 alter function cp7_ops.cleanup_tick()owner to cp7_capture;
 alter function cp7_ops.retention_tick()owner to cp7_capture;
 revoke all on all functions in schema cp7_ops from public,anon,authenticated,service_role;
 grant usage on schema cp7_ops to postgres;
-grant execute on function cp7_ops.schedules(),cp7_ops.cleanup_tick(),cp7_ops.retention_tick(),cp7_ops.analysis_tick()to postgres;
+grant execute on function cp7_ops.schedules(),cp7_ops.cleanup_tick(),cp7_ops.retention_tick(),cp7_ops.analysis_tick(),cp7_ops.proof_tick()to postgres;
