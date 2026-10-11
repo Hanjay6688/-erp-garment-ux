@@ -1,0 +1,37 @@
+name: AUDIT/Astra/business-day-control
+'on':
+  push:
+    branches:
+    - audit/astra-cp7-full-d0b9e9c2-20261012
+    paths:
+    - .github/workflows/audit-astra-business-day.yml
+    - audit/astra_full/DATE_CONTROL_START
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  control:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        ref: d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: control
+    - name: Run independent date/failure controls on frozen module
+      run: python control/audit/astra_full/probe_business_day_new.py auditor
+    - name: Candidate bytes unchanged
+      if: always()
+      working-directory: auditor
+      run: git diff --exit-code HEAD --
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7full-astra-d0b9e9c2-business-day-control
+        path: control/audit/astra_full/evidence/ASF_BUSINESS_DAY.json
+        retention-days: 30
+        if-no-files-found: error
+run-name: AUDIT/cp7-full-20261012/Astra/d0b9e9c2/business-day-control/1
