@@ -40,8 +40,33 @@ lama ini terbuka dan tidak diperbaiki di sini.
   kasus native, race, HTTP dan browser desktop PASS, lalu job diam 80 menit 42 detik sebelum kasus browser mobile mencetak
   hasil; writer membatalkan job untuk membaca log. Semua tanggal bisnis di log sama (11 Okt), jadi kontrol pergantian hari
   tidak terpicu. Percobaan kedua (job 114415714726, 07:21–07:29 UTC) 17/17 PASS pada commit yang sama.
+  Catatan yang ditulis sesudah kejadian pertama (dugaan tanggal kemudian gugur, lihat penelusuran di bawah):
   **Penyebab belum diketahui (terbuka).** Dugaan, belum bukti: selama diam itu tanggal zona waktu browser mobile
   (America/Los_Angeles) 10 Okt sedangkan WIB 11 Okt; semua run K4 lain (9 Okt ×3, auditor 10 Okt, percobaan kedua ini)
   berjalan saat kedua tanggal sama. Ada `await` tanpa batas waktu di modul uji (badan respons Playwright, penutupan
   context) yang bisa membuat kasus diam alih-alih gagal. Perlu ditelusuri: ulangi K4 browser saat tanggal Los Angeles
   berbeda dari WIB (WIB 00.00–14.00) dan beri batas waktu pada `await` itu tanpa mengubah oracle.
+- `02_k4_browser_mobile_silent_second.log` — `k4-runner-17` pada `11633e4c` (run 38122987757, job 114421382536): pola sama,
+  kasus desktop PASS lalu diam 21 menit 01 detik sebelum kasus mobile mencetak hasil; dibatalkan writer.
+
+## Penelusuran diam K4 browser mobile (terbuka, alat uji)
+
+- **Dugaan tanggal gugur.** Pada kejadian kedua tanggal Los Angeles dan WIB sama (11 Okt), jadi beda tanggal zona waktu
+  browser bukan penyebabnya.
+- **Bukan panggilan database atau skrip pembantu yang macet.** Daftar proses yatim saat job dibatalkan (dua kejadian):
+  hanya `python` (probe), `node` (host browser) dan `chrome-headless-shell`. Tidak ada `psql` atau skrip fixture Python
+  yang masih hidup, padahal keduanya dijalankan sinkron oleh host dan akan tertinggal bila sedang menunggu. Yang tertahan
+  adalah `await` di dalam host/Playwright (pembuatan atau penutupan context/halaman, badan respons) yang tidak punya batas
+  waktu.
+- **Sejak `c04bec8a`** setiap kasus browser punya batas waktu (`AUDITOR_BROWSER_CASE_TIMEOUT_MS`, bawaan 45 menit), badan
+  respons dan penutupan context di modul K4 dibatasi 60 detik, dan modul K4 mencetak penanda langkah (`k4r_stage`: LOGGED_IN,
+  RUNNER_ON, REQUESTED, SERVER_TEXT_SHOWN, TAB_CLOSED/STOPPED_WATCHING, DONE_BY_SERVER, REOPENED, PAGES_READ, RUNNER_OFF,
+  CLOSING, CLOSED). Diam berikutnya menjadi kasus INCOMPLETE `AUDITOR_BROWSER_CASE_TIMEOUT` yang menyebut langkah terakhir,
+  bukan job yang diam sampai dibatalkan. Batas ini tidak mengubah oracle apa pun.
+- **Upaya mengulang:** sesudah `c04bec8a`, K4 lulus 5 dari 5: run 38123203866 job 114422035596 (`c04bec8a`) dan workflow
+  diagnosa sementara run 38126886218 (empat salinan `k4-runner-17` bersamaan pada `c2c2eb5e`, batas kasus 20 menit; job
+  114432990332, 114432990297, 114432990309, 114432990196, semuanya 17/17 PASS, kedua kasus browser selesai 10–13 detik dengan
+  penanda langkah lengkap). Workflow diagnosa itu sudah dihapus lagi.
+- **Status:** penyebab belum ditemukan karena belum terulang sejak ada penanda langkah. Kasus produk K4 (Native, balapan,
+  HTTP, browser desktop) PASS di kedua kejadian; yang diam selalu sesudah kasus desktop, sebelum hasil kasus mobile.
+  Tercatat sebagai butir alat uji terbuka untuk audit penuh CP7, bukan disembunyikan.

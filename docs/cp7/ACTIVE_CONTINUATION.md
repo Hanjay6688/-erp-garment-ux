@@ -6,7 +6,8 @@ diverifikasi auditor. Alat uji yang melewati tengah malam WIB (S3, attention284 
 auditor. Baca [evidence/business-day-control-20261011](evidence/business-day-control-20261011/README.md). K6 (penjalan
 bukti PL-8 di server) dibuat dan lulus CI `k6-proof-runner-10` di `c04bec8a`; belum dipasang. Terbuka: K4 browser mobile
 diam dua kali sesudah kasus desktop lulus (run 38114007484 dan 38122987757) lalu lulus saat diulang; sejak `c04bec8a`
-kasus browser punya batas waktu dan catatan langkah; penyebab sedang dicari. Belum diuji auditor: 5.000 target
+kasus browser punya batas waktu dan catatan langkah, lalu K4 lulus 5 dari 5 (termasuk empat salinan bersamaan); penyebab
+belum ditemukan, diam berikutnya akan berhenti sendiri dan menyebut langkahnya (butir alat uji terbuka untuk audit). Belum diuji auditor: 5.000 target
 seluruhnya lewat penjalan K4, HP fisik/Safari, tab HP benar-benar ditutup, pemasangan hosted. PR #45 (pecah batch demo)
 belum diaudit dan belum diterima; auditor menyarankan audit UI/demo terpisah sebelum digabung. Jadwal dan backup belum
 dipasang. `production_go:false`.
