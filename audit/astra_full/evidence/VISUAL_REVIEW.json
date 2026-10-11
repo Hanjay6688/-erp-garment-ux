@@ -1,0 +1,61 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "review": "8 actual CI screenshots visually inspected by Astra; desktop/mobile sale-return, finance-period close, FG, sales empty state.",
+  "observations": [
+    "Responsive stacking and labels visible; no observed horizontal clipping on inspected images, consistent with DOM width assertions on48routes.",
+    "Finance deliberately displays missing attendance/payroll and cannot close the period; unknown figures remain labelled.",
+    "Sale return screen shows4PCS returned,119.64 refund value,132.16 open balance and reason for blocking invoice reversal while payment/return active.",
+    "Long mobile forms require vertical scrolling; this is emulated Chromium, not physical phone/Safari and not a complete accessibility audit.",
+    "No visual approval of excluded PR45/demo change."
+  ],
+  "images": [
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_AS20C-47-WRITE-DESKTOP_RETURN.png",
+      "sha256": "f70877b32d868996857b9b54c71215ec36227c3b08fffe56b79cffe3f815d275",
+      "source_artifact": 11709869602,
+      "bytes": 1423457
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_AS20C-47-WRITE-MOBILE_RETURN.png",
+      "sha256": "b64ee45f144d927ffb7f5a6d401ec9e0f6cb0b350219256b31b2af7d0f4818e9",
+      "source_artifact": 11709869602,
+      "bytes": 1006581
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_UI_DESKTOP_Laporan___Tutup_Buku.png",
+      "sha256": "d107ba0244943eb5d3ca58937cc1bb010338c78d9c10a0c785fd082383de6968",
+      "source_artifact": 11710835597,
+      "bytes": 1752993
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_UI_MOBILE_Laporan___Tutup_Buku.png",
+      "sha256": "70988e3c81cdaf80bfe3215c882dfa551d5a0e0e59de44ca5dbbe5b1db0e623f",
+      "source_artifact": 11710835597,
+      "bytes": 1283564
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_UI_DESKTOP_Ringkasan_Barang_Jadi.png",
+      "sha256": "533aa2f5e151dab3b65fcb2677866b0e06df117f33614e13151caa1a76602c35",
+      "source_artifact": 11710835597,
+      "bytes": 470899
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_UI_MOBILE_Ringkasan_Barang_Jadi.png",
+      "sha256": "f4e542136717accc731c22848eee525b15e1486073b9adb95beb0f3c0cca5c7d",
+      "source_artifact": 11710835597,
+      "bytes": 258727
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_UI_DESKTOP_Penjualan___Invoice.png",
+      "sha256": "7fa2bfeece592e64f44f0bb72d259e2bb47a4b4e5d514f1e6b9538e78215587b",
+      "source_artifact": 11710835597,
+      "bytes": 387104
+    },
+    {
+      "file": "audit/astra_full/evidence/screenshots/ASTRA_UI_MOBILE_Penjualan___Invoice.png",
+      "sha256": "396bcc5c2b5afaceccce49f98d4dd255445668b19d80f9781ddd479241de1b15",
+      "source_artifact": 11710835597,
+      "bytes": 226687
+    }
+  ]
+}

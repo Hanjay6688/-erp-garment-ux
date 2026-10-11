@@ -15,7 +15,7 @@
     },
     {
       "id": 38159487255,
-      "kind": "67 preregistered own canonical cases",
+      "kind": "Registered own canonical cases; original workflow ran66of67 afterUIrecovery, omitted lifecycle case separately run",
       "control_commit": "3df9df25be78acbad08781404b176893b23e9669"
     },
     {
@@ -27,6 +27,21 @@
       "id": 38159947839,
       "kind": "4 independent audit tool controls",
       "control_commit": "b8275eafd5089a456c3e7f0e9dff8cb635066c9c"
+    },
+    {
+      "id": 38160527120,
+      "kind": "3UIcases recovery afterpre-case missinginventory",
+      "control_commit": "7ec1613126483f1466d8df6f81c5d230b9e267ea"
+    },
+    {
+      "id": 38161351529,
+      "kind": "Previously omitted registered own full-lifecycle case",
+      "control_commit": "0a5bcc9ef51e36dba244d72d4b824d84ef55a41f"
+    },
+    {
+      "id": 38161512888,
+      "kind": "NewK7a exact source equivalence6comparisons",
+      "control_commit": "e007bd8f8c70ef3e1c25128b9616139079c184c1"
     }
   ],
   "first_failures": [
@@ -42,6 +57,11 @@
         "ASF-11-DATE-UNRELATED-COUNTEREXAMPLE"
       ],
       "disposition": "One new S3 audit-tool issue ASF-F01"
+    },
+    {
+      "run": 38159487255,
+      "job": 114529226911,
+      "disposition": "AUDITOR_TOOLING before first case; missing UI inventory restoredbyte-identically; recoveryrun38160527120 3PASS"
     }
   ]
 }
