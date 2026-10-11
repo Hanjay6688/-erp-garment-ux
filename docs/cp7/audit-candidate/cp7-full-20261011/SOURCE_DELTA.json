@@ -1,0 +1,380 @@
+{
+ "contract": "cp7.continuation-source-delta.v1",
+ "retested_candidate": "8116800c0586cfb27bd6c7d206d1b176666c9839",
+ "candidate": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+ "summary": {
+  "files": 35,
+  "added": 18,
+  "modified": 17,
+  "deleted": 0,
+  "non_docs": 20
+ },
+ "files": [
+  {
+   "status": "M",
+   "path": ".github/workflows/claude-p08-shell.yml",
+   "before": {
+    "bytes": 7928,
+    "sha256": "a30e3c407a6758dc53ba0fcb4aa8ca13cfff30cf9cd1993c887a63c9bf5f8f05"
+   },
+   "after": {
+    "bytes": 8323,
+    "sha256": "e75ba50c8a8fb3d9b4cba3694eef7eccf09d8cd9d57759d9f0cdac7ad73c925c"
+   }
+  },
+  {
+   "status": "M",
+   "path": ".github/workflows/claude-p19-transport.yml",
+   "before": {
+    "bytes": 12797,
+    "sha256": "3130cbc5a24641cb125527c6756234889761294a798586f2af537c0c133e18d7"
+   },
+   "after": {
+    "bytes": 13025,
+    "sha256": "31570034f93ce5eee298306a34d04a664ed9c4e56172fcc64efeaecab8b60851"
+   }
+  },
+  {
+   "status": "M",
+   "path": ".github/workflows/cp7-f03-full.yml",
+   "before": {
+    "bytes": 9471,
+    "sha256": "451adca9036b1d3891c4de677f6d48ffe298aa588c9ca63f7d12b55a977c3783"
+   },
+   "after": {
+    "bytes": 9599,
+    "sha256": "e9156e4a24582d5c933be4a5460b02113411486afabefe8d086af8c194c72d07"
+   }
+  },
+  {
+   "status": "M",
+   "path": ".github/workflows/cp7-prefreeze-ui.yml",
+   "before": {
+    "bytes": 9367,
+    "sha256": "cae44244cb7c969e68fca7893d2b7aff4d117871513c95594413aa028fb23a9e"
+   },
+   "after": {
+    "bytes": 9495,
+    "sha256": "d79b8baf2c340c08023a248f8ad89c53f935cab76aebcca697a5c4d850f43308"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/ACTIVE_CONTINUATION.md",
+   "before": {
+    "bytes": 31465,
+    "sha256": "e2a54b673074185324aa9cb4172648947274704fa58adb9b4ef9db23d01ab9c6"
+   },
+   "after": {
+    "bytes": 33679,
+    "sha256": "d35f6e1b721ac3d41e01b76ce6523b85cd03b9f1ef6090845baad9c0ecd7ccb0"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/CONTINUATION_AFTER_FREEZE_20261008.md",
+   "before": {
+    "bytes": 11728,
+    "sha256": "f25783e8a4c8fc6e6008367ae246a9339f737123462db673748bf79a4ac654ba"
+   },
+   "after": {
+    "bytes": 15561,
+    "sha256": "b02e61ce3f6d75fa47b11df5f811742f72f086705dda4d383daaa404438cd05f"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/sol-retest-k4-20261009/AUDITOR_RETEST.md",
+   "before": null,
+   "after": {
+    "bytes": 3891,
+    "sha256": "c01e40f8f365122c66d7658fefbb56eb741abed3ab7831ed869bcbd4ab3c48de"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/sol-retest-k4-20261009/CI_RECEIPT.json",
+   "before": null,
+   "after": {
+    "bytes": 8633,
+    "sha256": "4267af500a1277795758d5667efbf1aa847318f0d584a1e506b3f2a6d591e6dd"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/sol-retest-k4-20261009/README.md",
+   "before": null,
+   "after": {
+    "bytes": 4664,
+    "sha256": "3a2dc5abf8982abcff5db7b4a89a2050b9bc764e616de62ef2508b5fc9b28af2"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/sol-retest-k4-20261009/SOURCE_DELTA.json",
+   "before": null,
+   "after": {
+    "bytes": 3977,
+    "sha256": "738e9015cb4be773a73c994f80ddb46505ebf3f6ffc416498e43f62ac57258b1"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/business-day-control-20261011/01_k4_browser_mobile_silent_first_attempt.log",
+   "before": null,
+   "after": {
+    "bytes": 11901,
+    "sha256": "3b3433911ef5732772c44ca97ec22e1912a028697d9f2fe1c93ac859e4d8b4ca"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/business-day-control-20261011/02_k4_browser_mobile_silent_second.log",
+   "before": null,
+   "after": {
+    "bytes": 11472,
+    "sha256": "8d67b803f130c6b94cf22724ef478ca8aec25c571f2c7e82167bef755aa040a9"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/business-day-control-20261011/CI_RECEIPT.json",
+   "before": null,
+   "after": {
+    "bytes": 8987,
+    "sha256": "9c6161f1a65883099a89f5e93cd7615149c0e427eefd2dd031ab3e1eb80c55ac"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/business-day-control-20261011/README.md",
+   "before": null,
+   "after": {
+    "bytes": 6330,
+    "sha256": "d23792d5b18b20b0ba540e57d9529f2d97ef5ed4e154586d84c2c6408577164d"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/business-day-control-20261011/SOURCE_DELTA.json",
+   "before": null,
+   "after": {
+    "bytes": 4631,
+    "sha256": "e8d2ec4f4ccba444b993248e3e68c78bfe6b07c1f2337d81716c232971b1843f"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/evidence/sol-p20-k4-20261009/01_attention284_wib_midnight_first_attempt.log",
+   "before": null,
+   "after": {
+    "bytes": 12690,
+    "sha256": "52c26a93acd144391a2097f72fc5a6208450ad64960bc83edc2144f891fe8d8a"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/evidence/sol-p20-k4-20261009/README.md",
+   "before": {
+    "bytes": 1711,
+    "sha256": "e8b0b298381b2f6ac960c2475d401f52cca9d01d1831d1b28c4f1b23bf34c78d"
+   },
+   "after": {
+    "bytes": 2538,
+    "sha256": "d0b0014996bbee3e1566e125a56b012173ec3f364376323aa4cb49ad8468dfe3"
+   }
+  },
+  {
+   "status": "M",
+   "path": "docs/cp7/k3/K3_CLEANUP.json",
+   "before": {
+    "bytes": 7534,
+    "sha256": "7e5194ac47c0d499343309c6cdcc82fe88b16eb0d8ebf3117ef13706449500a7"
+   },
+   "after": {
+    "bytes": 8892,
+    "sha256": "a008ef83c6c74b7e48e1cf8ea2c2cd04af32b9ccdcfb39e85078f4d66e741e16"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/k6/K6_PROOF_RUNNER.json",
+   "before": null,
+   "after": {
+    "bytes": 4947,
+    "sha256": "ea8d2c592687f650944c44b46c71ded5cc17d7ea9ffdc6f65c77c64ffee950d6"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp6_auditor_browser_host.mjs",
+   "before": {
+    "bytes": 13873,
+    "sha256": "2f153163312e11162d81863023c78945aec37a8d2bf8c5d11226b8681e3611ac"
+   },
+   "after": {
+    "bytes": 15418,
+    "sha256": "517c6815951e9abd15899a882074b35bbbae5dc9b7e5ffb16645d2dfd26ef418"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp6_auditor_business_day.mjs",
+   "before": null,
+   "after": {
+    "bytes": 948,
+    "sha256": "83b385bef6bbed333d56967ddb3d22f427e9a3d164bc5985b4b98bf730767b62"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp6_auditor_business_day.py",
+   "before": null,
+   "after": {
+    "bytes": 4512,
+    "sha256": "2a8e3c61edeab8f92f3b9aaa36623e5d1ab0f1452c89ecb440b04b7f9a2ee60e"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp6_auditor_business_day_test.mjs",
+   "before": null,
+   "after": {
+    "bytes": 2109,
+    "sha256": "a8896709ef5980dae5c6806dd30d622839652d7dfb26d7f47b6f59a9b00809c8"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp6_auditor_business_day_test.py",
+   "before": null,
+   "after": {
+    "bytes": 14880,
+    "sha256": "2f5b99a24d6020f5ea5ff6f67edcad8bba8d7b07467fc550e6d86bbdab549175"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp6_auditor_modes.py",
+   "before": {
+    "bytes": 21600,
+    "sha256": "6cca1f721f74b2f7f68ca552a1f08328ab53a31d4ade9636ce77952bf0700441"
+   },
+   "after": {
+    "bytes": 23276,
+    "sha256": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp6_auditor_runner.py",
+   "before": {
+    "bytes": 9822,
+    "sha256": "43b90c9ce2fc8f156bd3a79d4176a14d04a6d765b241cf97da4d7d0e2d292079"
+   },
+   "after": {
+    "bytes": 10598,
+    "sha256": "2eeef41975ae3e751d2085728b2a7cb355785ac0b82b514b03083755cd4b270e"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7-src/ops/schedule.sql",
+   "before": {
+    "bytes": 4510,
+    "sha256": "cce2c968ed0b7cd21e01b15d561e22e4ae9daeb0bf98e2187688c084e320eb26"
+   },
+   "after": {
+    "bytes": 5740,
+    "sha256": "ab6e11d407245b073a51c314eec6e7ca337937d55305ef90d40eeda9a0a8479c"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7-src/planning/proof-runner.sql",
+   "before": null,
+   "after": {
+    "bytes": 9782,
+    "sha256": "b5ea881bb85a196f847b7d3d9188e8ba83943c8e8c8cc2a18adf9e12ba4c3b54"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_analysis_bundle.py",
+   "before": {
+    "bytes": 6832,
+    "sha256": "3b31ee8a881ebf8a251e41c4e4e738c72b11aea6ae495d773148817187b975c8"
+   },
+   "after": {
+    "bytes": 6860,
+    "sha256": "672a3cc39259f67ea951bcfb7dfd643e03f7604c055512a9045e1b0daa13280b"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_analysis_stages_bundle.py",
+   "before": {
+    "bytes": 12060,
+    "sha256": "3e585cf5243a6eccfbba283dd85ba8a5c11d9e4255062cf178454f45de2bd011"
+   },
+   "after": {
+    "bytes": 15716,
+    "sha256": "ddce7778dd8324f08d6a79109d2887bb2dfd8f4fd4289dde96075934f5c84ccb"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_f05_analysis_probe.py",
+   "before": {
+    "bytes": 44654,
+    "sha256": "cf5a21d7e96375da2eefe866c3d980528e8c03a4c887afcf16bdaafe371556a2"
+   },
+   "after": {
+    "bytes": 46891,
+    "sha256": "8d1a9182f2c1a2514c031a6f5bab1f7de3f06c226ed5ada7b0514cbcef316328"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_k3_cleanup_cases.py",
+   "before": {
+    "bytes": 40790,
+    "sha256": "3572c84c5f333ed9f76f365a46810dfd8490f0c332134d21f5ceec16fc8542e1"
+   },
+   "after": {
+    "bytes": 41274,
+    "sha256": "0f702f70f5e1a4fde06baadbf5aa1a1677b7b48b56b78c9eb1a6b1b0094a7d22"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_k4_runner_browser.mjs",
+   "before": {
+    "bytes": 7848,
+    "sha256": "e2171b3b3abcb33bcf2e49ae3c979ede931c055bc65fe20008daf4c390b84751"
+   },
+   "after": {
+    "bytes": 8767,
+    "sha256": "8a35e1bf4e28ce312816c404cede033ad8c4b1e8e91c52274d6f3c3b79ef13bb"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7_k6_proof_runner_cases.py",
+   "before": null,
+   "after": {
+    "bytes": 25742,
+    "sha256": "de0206dbc6f96deb5cf8b5763d3fb3f4cfd947bd5ce882238b720039be3ac1a8"
+   }
+  },
+  {
+   "status": "A",
+   "path": "scripts/cp7_k6_proof_runner_probe.py",
+   "before": null,
+   "after": {
+    "bytes": 403,
+    "sha256": "f2ba37fb54934b96794ddb46b9c7970cef715347dbeafec1ea7bbd57e8f7657a"
+   }
+  }
+ ]
+}
