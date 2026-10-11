@@ -1,0 +1,10 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "case_id": "AS20-06_13_18_50_FULL_FLOW",
+  "reason": "Reconciliation found this registered case omitted by prior probe_business.py selection; no execution of this ID on current candidate yet. Fill omission with unchanged original oracle.",
+  "not_a_failure_rerun": true,
+  "expected_cases": 1,
+  "original_case_sha256": "db963bd3d3e6c8193ea8f2d7c87786f7a22aaf28fc29771680a7cc1615b4f190",
+  "product_changed": false,
+  "production_go": false
+}
