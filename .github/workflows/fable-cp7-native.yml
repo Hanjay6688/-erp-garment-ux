@@ -4,6 +4,11 @@
 # Nothing here touches a hosted database. Evidence only; production_go:false.
 name: Fable CP7 Native (pinned d0b9e9c2)
 'on':
+  push:
+    branches:
+    - audit/fable-cp7-full-d0b9e9c2-20261011
+    paths:
+    - .github/workflows/fable-cp7-native.yml
   workflow_dispatch:
     inputs:
       scenario:
@@ -26,7 +31,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: fable-${{ inputs.scenario }}
+    name: fable-${{ inputs.scenario || 'fable_cp7_smoke' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 180
     env:
@@ -43,9 +48,9 @@ jobs:
       CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
       CP6_AR_CONFIRM: cp6_rollback
       CP6_AU_BROWSER_CONFIRM: cp6_rollback
-      FABLE_SCENARIO: ${{ inputs.scenario }}
+      FABLE_SCENARIO: ${{ inputs.scenario || 'fable_cp7_smoke' }}
       FABLE_BROWSER: ${{ inputs.browser }}
-      FABLE_GROUPS: ${{ inputs.groups }}
+      FABLE_GROUPS: ${{ inputs.groups || 'native,races,http' }}
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -233,7 +238,7 @@ jobs:
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: fable-cp7-${{ inputs.scenario }}-${{ github.run_id }}
+        name: fable-cp7-${{ inputs.scenario || 'fable_cp7_smoke' }}-${{ github.run_id }}
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
