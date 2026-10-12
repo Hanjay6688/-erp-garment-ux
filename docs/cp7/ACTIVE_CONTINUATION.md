@@ -1,3 +1,11 @@
+Audit penuh CP7 Astra atas `d0b9e9c2` — 12 Okt 2026 WIB (`audit/astra-cp7-full-d0b9e9c2-20261012`, draf PR #47):
+**HOLD**. Kasus mandiri 76 PASS + satu batas detektor lama (bukan temuan baru); regresi 44/44 job, 1.760 eksekusi kasus
+PASS; perbaikan lama (F01–F05, SOL-K4-01) tidak dibebankan ulang. Satu temuan baru **ASF-F01** (S3, alat uji): saat
+tanggal WIB berganti, helper bisa mengulang kegagalan yang tidak disebabkan tanggal dan memakai PASS percobaan kedua.
+Diperbaiki di **5f1506f4** (hanya dua berkas alat uji); paket uji ulang
+[audit-candidate/asf-f01-retest-20261012](audit-candidate/asf-f01-retest-20261012/README.md). Area PR44 tetap perlu
+penerimaan auditor yang tidak menulisnya. `production_go:false`.
+
 Kandidat audit penuh CP7 — 11 Okt 2026 WIB: owner "Ya selesain semua abis tu full audit cp7". Sisa CP7 (K6, alat uji
 tengah malam, penelusuran K4 browser mobile) selesai dan dikunci pada sumber **d0b9e9c2** di `claude/new-session-deapao`:
 15/15 workflow dan 45/45 job hijau pada commit itu (percobaan pertama), ditambah uji layar CP6 di tumpukan CP7 penuh dan
