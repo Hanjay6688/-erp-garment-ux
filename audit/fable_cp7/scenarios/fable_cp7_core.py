@@ -73,7 +73,8 @@ def cases(cur,today):
             out=dict(status='PASS',read_only_call_ok=True,data_as_of=brief.get('data_as_of'),finance=brief.get('finance'),priority_len=len(brief.get('priority') or []))
         except psycopg.Error as e:
             out=dict(status='FAIL' if e.sqlstate=='25006' else 'INCOMPLETE',sqlstate=e.sqlstate,error=str(e).splitlines()[0][:200])
-        finally:cur.execute("select set_config('transaction_read_only','off',true)");b.api.admin(cur)
+        # No manual reset: transaction_read_only cannot be switched back inside the transaction; the runner's
+        # rollback to the case savepoint discards the LOCAL setting (first run: INCOMPLETE on exactly that reset).
         return out
     def report_sealed():
         r=reportv2.staged_run(cur,today);key,done,_=reportv2.published(cur,r);pid=done['publication_id']
