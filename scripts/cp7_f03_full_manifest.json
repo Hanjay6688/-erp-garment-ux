@@ -502,7 +502,7 @@
       ]
     },
     "p12": {
-      "expected_case_executions": 90,
+      "expected_case_executions": 91,
       "expected_smoke_executions": 0,
       "groups": [
         {
@@ -602,7 +602,7 @@
           "entry": "cases",
           "smoke": false,
           "retained_probe": "cp7_p12_nota_probe.py",
-          "expected_executions": 7
+          "expected_executions": 8
         },
         {
           "key": "settlement_races",
