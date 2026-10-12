@@ -89,7 +89,8 @@ def run():
     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
   groups={k:report[k] for k in ('native','races','http','browser') if k in report}
   report['counts']={k:counts(v) for k,v in groups.items()}
-  report['per_case']={k:{case:row.get('status') for case,row in (v.get('races') if k=='races' else v.get('cases') or {}).items()} for k,v in groups.items()}
+  def rows_of(v):return (v.get('races') if 'races' in v else v.get('cases')) or {}
+  report['per_case']={k:{case:(row.get('status') if isinstance(row,dict) else repr(row)[:80]) for case,row in rows_of(v).items()} for k,v in groups.items() if isinstance(v,dict)}
   report['business_day_retried']={k:bool(v.get('business_day_retried')) for k,v in groups.items()}
   report['status']='PASS' if groups and all(complete(v) for v in groups.values()) and not report.get('error') and report.get('cp6_restored') else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
