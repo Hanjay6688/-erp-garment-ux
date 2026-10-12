@@ -43,6 +43,9 @@ diuji ulang dengan kasus Fable yang sama." Kandidat ini juga memuat perbaikan AS
   v2): trigger tabel kerja berubah. Ke-15 workflow kualifikasi dijalankan pada `7a0b4a90`.
 - PL-5 B: admin tidak lagi bisa menyimpan versi kebijakan (keputusan owner).
 - Alat uji tanggal WIB: hanya menambah anotasi; logika ASF-F01 tidak berubah sejak `5f1506f4`.
+- `CP7 Supplier Payment Create` pada `7a0b4a90` gagal sekali di pemeriksaan batas akhir kelompok native dengan semua
+  kasus PASS; lulus pada `ddedf06c` dan `e0583314` (hanya dokumen). Penyebab belum ditemukan writer; auditor dipersilakan
+  mengulang dan menilai sendiri (`README.md`, `../../evidence/fable-retest-20261012/`).
 - Area yang tidak disentuh `SOURCE_DELTA.json` boleh tidak diulang; tulis BELUM DIULANG, bukan LULUS.
 
 ## Hasil yang diminta

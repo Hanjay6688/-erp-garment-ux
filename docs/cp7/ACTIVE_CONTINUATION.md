@@ -5,8 +5,10 @@ Okt: Dashboard disembunyikan; kebijakan PL-5 B hanya owner yang boleh mengubah (
 major dan minor yang perlu kode diperbaiki di **7a0b4a90** (termasuk ASF-F01 dari `5f1506f4`); F-PAY-01 tidak terulang
 pada tumpukan terpasang (dibuktikan kasus), F-AP-01 tetap sesuai keputusan owner 2 Okt, alat CP6 (F-TOOL-03) tidak
 diubah karena CP6 beku. Paket uji ulang
-[audit-candidate/fable-retest-20261012](audit-candidate/fable-retest-20261012/README.md). Jadwal dan backup belum
-dipasang. `production_go:false`.
+[audit-candidate/fable-retest-20261012](audit-candidate/fable-retest-20261012/README.md): pada `7a0b4a90` 14/15 workflow
+kualifikasi lulus (44/45 job) ditambah 3/3 workflow tambahan; `CP7 Supplier Payment Create` gagal sekali di pemeriksaan
+batas akhir dengan semua kasus PASS (lulus pada commit sebelum dan sesudahnya; penyebab belum ditemukan, dicatat terbuka).
+Jadwal dan backup belum dipasang. `production_go:false`.
 
 Audit penuh CP7 Astra atas `d0b9e9c2` — 12 Okt 2026 WIB (`audit/astra-cp7-full-d0b9e9c2-20261012`, draf PR #47):
 **HOLD**. Kasus mandiri 76 PASS + satu batas detektor lama (bukan temuan baru); regresi 44/44 job, 1.760 eksekusi kasus

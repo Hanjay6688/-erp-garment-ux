@@ -62,12 +62,34 @@ deklarasi `../../pl5/PL5_HISTORY_YIELD.json`, uji layar `src/NativeHistoryYieldP
 
 ## CI pada satu commit (`CI_RECEIPT.json`)
 
-_Diisi sesudah semua run selesai._
+`CI_RECEIPT.json` dibuat dengan `scripts/cp7_ci_receipt.py` (alat baru F-TOOL-01) untuk `7a0b4a90`. Semua run percobaan
+pertama; tidak ada pengulangan atau hasil pertama yang ditahan karena pergantian tanggal WIB
+(`business_day_reruns: []`, `business_day_kept_first: []`).
+
+- **15 workflow kualifikasi: 14/15 lulus, 44/45 job.** Yang gagal: `CP7 Supplier Payment Create` (run 38288829388,
+  job 114943655473). Keempat kasus native, ketiga balapan, HTTP dan dua kasus browser semuanya PASS, tetapi pemeriksaan
+  akhir kelompok native (keadaan seluruh tabel ERP, `auth.users` dan ACL skema sesudah rollback dibanding awal kelompok)
+  tidak sama, sehingga kelompok INCOMPLETE dan gerbang gagal. Kode produk dan uji untuk workflow ini identik dengan
+  `ddedf06c` (lulus, run 38285188586) dan `e0583314` (commit sesudahnya yang hanya dokumen:
+  `git diff --name-only 7a0b4a90 e0583314` hanya `docs/`; lulus, run 38289562249 job 114946099292). Laporan tidak
+  menyimpan tabel mana yang berbeda; **penyebab belum ditemukan** dan dicatat sebagai butir alat uji terbuka, bukan PASS.
+  Log gagal pertama: `../../evidence/fable-retest-20261012/`.
+- Yang relevan dengan temuan Fable: `k3-cleanup-22` (job 114943706715; termasuk tiga balapan baru F-OPS-01/02/03),
+  `k4-runner-17` (114943706710), `pl5-history-yield-20` (114943706692), `p19-staged12` (114943706841),
+  `p19-plan-v2-22` (114943706735) di `CP7 P19 Analysis Job Transport` (run 38288844558); uji alat tanggal di
+  `CP7 Shell S0` (run 38288826296); kasus gaji WIB di `CP7 P12 Payroll` (run 38288855573) dan F03 p12 91/91.
+- **Tambahan pada commit yang sama: 3/3 workflow, 10/10 job.** `CP7 Pre-freeze UI Regression` (run 38288864861),
+  `CP7 F03 Full Retained Components` (run 38288867811, delapan kelompok) dan `CP7 Astra Timeline Reuse` (run
+  38288872024, job 114943795108: probe PR44 yang sudah diperbaiki, berjalan lagi sejak 7 Okt).
+- Kandidat pertama `ddedf06c`: 17/18 workflow lulus; `CP7 F03 Full Retained Components` gagal karena hitungan 91/90
+  (lihat Identitas). Ini bukti writer (WRITER_CROSSCHECK), bukan penerimaan auditor.
 
 ## Yang tetap terbuka
 
 - Penerimaan area optimasi timeline PR44 oleh auditor yang tidak menulisnya (Astra penulisnya; Fable boleh).
 - K4 browser mobile sempat diam dua kali sebelum ada batas waktu kasus (alat uji, penyebab belum ditemukan).
+- `CP7 Supplier Payment Create` gagal sekali pada `7a0b4a90` di pemeriksaan batas akhir kelompok dengan semua kasus PASS
+  (di atas); penyebab belum ditemukan.
 - Belum diuji: HP fisik/Safari, tab HP yang benar-benar ditutup, pemasangan hosted, 5.000 target seluruhnya lewat
   penjalan K4. Jadwal dan backup belum dipasang; tujuan simpan backup di luar database belum ditentukan (syarat Fable §2.5).
 - `independent_acceptance=false`, `installed_P21_acceptance=false`, `production_go=false`.
