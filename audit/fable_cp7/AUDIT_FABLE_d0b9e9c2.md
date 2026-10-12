@@ -1,6 +1,6 @@
 # Audit penuh CP7 — kandidat `d0b9e9c2` — auditor independen Fable
 
-**Status laporan:** DRAFT v0.9 (12 Okt 2026, ~03:30 UTC). Dua run Fable terakhir (kasus AI baca-saja, kasus UI browser) masih berjalan; bagian yang menunggu diberi tanda ⏳. Tidak ada klaim di bawah ini yang bergantung pada kedua run itu kecuali yang ditandai.
+**Status laporan:** DRAFT v0.95 (12 Okt 2026, ~03:45 UTC). Run ulang inti Fable selesai hijau (5/5 native, termasuk AI baca-saja). Satu run Fable (kasus UI browser) masih berjalan; bagian yang menunggu diberi tanda ⏳.
 
 | | |
 |---|---|
@@ -17,7 +17,7 @@ Mesin CP7-nya sendiri sehat: semua 15 workflow kualifikasi penulis saya jalankan
 
 ## 2. Vonis akhir CP7 dan syaratnya
 
-**Vonis: HOLD — CP7 inti LULUS pada 14 dari 18 area; 3 area GAGAL karena temuan major (K3b pembersihan, F02/F03 jadwal-backup, UI); 1 area menunggu run ⏳.** `production_go:false` tetap. Penerimaan independen belum saya tulis.
+**Vonis: HOLD — CP7 inti LULUS pada 15 dari 18 area; 3 area GAGAL karena temuan major (K3b pembersihan, F02/F03 jadwal-backup, UI — UI menunggu konfirmasi browser ⏳).** `production_go:false` tetap. Penerimaan independen belum saya tulis.
 
 Syarat sebelum owner memberi izin **memasang jadwal** (`cp7-staged-cleanup`, `cp7-staged-retention`, `cp7-staged-runner`, `cp7-proof-runner`):
 1. F-OPS-02 diperbaiki: `clean_done`/`purge_expired` tidak boleh memakai `alter table … disable trigger` (kunci tabel) saat ada analisis berjalan; `purge_expired` wajib punya penundaan dan `lock_timeout` seperti `clean_pending`, atau hapus lewat jalur yang tidak mengunci tabel (misal izin hapus per sesi yang dihormati trigger). Bukti ulang: kasus Fable `FABLE_CORE:CLEANUP_LOCK_VS_RUNNING_STEP` harus PASS (step tidak lagi menunggu/dibatalkan), plus suite `k3-cleanup-19` dan `k4-runner-17`.
@@ -70,7 +70,7 @@ Label bukti: **INR** = INDEPENDENT_NATIVE_RERUN kasus penulis oleh Fable (ekseku
 | Rencana v1/v2 (F01) | **LULUS** | FABLE balapan dua arah pada salinan baru: v1 59 menahan kunci, v2 2 menunggu di `advisory` lalu 40001 `CP7_PLAN_V2_CAPACITY_USED` (capacity_now 1), total 59 ≤ 60; arah sebaliknya 40001 `CP7_PLAN_CAPACITY_USED`, total 59. INR plan-v2 22/22. ISR R4 §1 (satu kunci `CP7:PLAN_CAPACITY`, cek sesudah kunci). |
 | Analisis 5.000 target | **LULUS dengan temuan minor** | INR staged 14/14, scale5 PASS (5.000 target, batas tidak dilonggarkan), transport 15/15; FABLE 8 detik: `run_next` menolak tanpa batas/9 s/8001 ms (55000), berjalan pada 8 s. ISR R2: batas 8.000.000 B dicek (`:1671/1933`), identity_hash dihitung terakhir dan dicek saat baca. F-AN-01 (5.001). |
 | Snapshot berlabel waktu (v2) | **LULUS** | INR staged `P19G_SNAPSHOT_FRESHNESS` + reminder/report v2; ISR R2: kesegaran dari pg_snapshot + hitungan per tabel, teks "Data per …", kata "terkini" tidak ada di tiga berkas UI. Tidak ada kasus Fable sendiri. |
-| Rencana v2, BR v2, pengingat v2, Tanya AI v2 | **LULUS** (AI ⏳) | FABLE segel laporan PASS; INR plan-v2 22/22, report-v2 20/20, reminder-v2 16/16, ai-v2 9/9; ISR R4 §2–5 (cek ulang live satu transaksi; pengingat dicek sebelum klaim dan sebelum selesai; AI tanpa tulis). ⏳ `FABLE_CORE:AI_BRIEF_RUNS_READ_ONLY` (run 1 INCOMPLETE karena alat Fable sendiri; diulang). |
+| Rencana v2, BR v2, pengingat v2, Tanya AI v2 | **LULUS** | FABLE segel laporan PASS; FABLE `AI_BRIEF_RUNS_READ_ONLY` PASS (brief berjalan di transaksi read-only, `finance=NOT_IN_SNAPSHOT`, run 38196731514 job 114640944515); INR plan-v2 22/22, report-v2 20/20, reminder-v2 16/16, ai-v2 9/9; ISR R4 §2–5 (cek ulang live satu transaksi; pengingat dicek sebelum klaim dan sebelum selesai; AI tanpa tulis). |
 | Retensi 7 hari (K2) & hapus sesudah DONE (K3b) | **GAGAL (major F-OPS-02)** | INR k2 10/10, k3 19/19 lulus; ISR R3 §3–4 (7 hari dari `updated_at`, RUNNING tak pernah kedaluwarsa, hasil/halaman/hash/log tetap); tetapi FABLE membuktikan pembersihan mengunci tabel dan menahan step job berjalan 8,01 s → percobaan gagal. Ukuran 5.000 target sebelum/sesudah: RWE 126–129 MB → 31,1 MB (`K3_SCALE_CLEANUP.json`, 2e605bb7), **belum diukur ulang Fable** pada d0b9e9c2. |
 | K4 penjalan analisis server | **LULUS** | INR k4 17/17 (6 balapan termasuk pg_cron nyata, cold start dua tick); FABLE batas 8 detik wajib; ISR R2 (unit eksklusif `for update skip locked` + PK, hak dicek per unit tanpa login, heartbeat `pg_try_advisory_xact_lock`, `run_next` tidak terjangkau HTTP, "boleh ditutup" hanya saat `serverRunner.active`). Catatan R2 D3: error non-42501 dari fungsi akses menahan job lain (belum terbukti terjadi). |
 | K6 penjalan bukti PL-8 | **LULUS** | INR k6 10/10; ISR R3 §5 (satu pembukti tak diubah, `facts_hash`+`kernel_version`, insert-only + trigger immutable, 8 detik wajib, BUSY tanpa menunggu, 200→100→50→lewati, istirahat 1 jam, HTTP tidak terjangkau). Tidak ada kasus Fable sendiri selain `cp7_ops.proof_tick` menolak peran publik. |
@@ -91,7 +91,7 @@ Label bukti: **INR** = INDEPENDENT_NATIVE_RERUN kasus penulis oleh Fable (ekseku
 | 38161236621 / 114534414226 | 2 INCOMPLETE diagnostik legacy | LEGACY_RUNTIME_OBSERVATION_ONLY | sama dengan 2 Okt, 0 kredit kasus |
 | 38161271353 (T2) | CALENDAR DPRR 12, COUNTEREXAMPLE 20, INCOMPLETE 5; AR `ACCESSORY_CONNECTED_ZERO` | FROZEN_CP6_DISPOSITION / SUPERSEDED_BY_OWNER_RULE (D11) | multiset **identik** dengan beku r16 |
 | 38162239881, 38195346649, 38196137312 (Fable) | job merah | AUDITOR_TOOL | gate `cp6_t3_package_run` memerahkan job karena ringkasan driver Fable gagal (`NoneType.get`); semua baris kasus tercetak dan dibaca per kasus; diperbaiki |
-| 38196137312 | `FABLE_CORE:AI_BRIEF_RUNS_READ_ONLY` INCOMPLETE | AUDITOR_TOOL | reset `transaction_read_only` di dalam transaksi tidak diizinkan; kasus diulang ⏳ |
+| 38196137312 | `FABLE_CORE:AI_BRIEF_RUNS_READ_ONLY` INCOMPLETE | AUDITOR_TOOL | reset `transaction_read_only` di dalam transaksi tidak diizinkan; diulang tanpa reset → PASS (run 38196731514, job hijau, `cp6_restored=true`) |
 
 ## 6. Label asal-bukti per klaim
 
@@ -100,7 +100,8 @@ Label bukti: **INR** = INDEPENDENT_NATIVE_RERUN kasus penulis oleh Fable (ekseku
 | Identitas produk d0b9e9c2 = tree 4bd5e1ac; head cabang hanya docs | INDEPENDENT_SOURCE_REVIEW | git lokal 11 Okt |
 | 15 workflow kualifikasi + f03-full + prefreeze + CP6 regresi lulus per kasus | INDEPENDENT_NATIVE_RERUN (oracle penulis) | run 38161112248…38161327762 (ledger `dispatch_ledger_all.jsonl`) |
 | Akses skema/HTTP `cp7_*`, `cp7_ops`, idempoten request | FABLE (oracle sendiri) | 38162239881 / 38195346649 |
-| F01 dua arah, Wilson, PL-5 PENDING, 8 detik, segel laporan, backup, cleanup-lock | FABLE | 38196137312 job 114639081720 |
+| F01 dua arah, backup, cleanup-lock (balapan) | FABLE | 38196137312 job 114639081720 |
+| Wilson, PL-5 PENDING, 8 detik, AI baca-saja, segel laporan (native) | FABLE | 38196137312 + ulang 38196731514 job 114640944515 (5/5 PASS, job hijau) |
 | Semua butir sumber (R1–R6) | INDEPENDENT_SOURCE_REVIEW (sub-reviewer Fable, diverifikasi ulang baris yang dikutip untuk setiap temuan) | tree 4bd5e1ac |
 | Ukuran 5.000 target sebelum/sesudah pembersihan | REUSED_WRITER_EVIDENCE | `docs/cp7/k3/K3_SCALE_CLEANUP.json` (2e605bb7) |
 | Log gagal pertama = log CI | INDEPENDENT_SOURCE_REVIEW + log CI dibaca | R6 A4 (6 job) |
