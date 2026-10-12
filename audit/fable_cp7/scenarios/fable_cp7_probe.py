@@ -87,11 +87,13 @@ def run():
    except Exception as restoration_error:
     report.update(restore_error=str(restoration_error),restore_traceback=traceback.format_exc()[-4000:],cp6_restored=False)
     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
-  groups={k:report[k] for k in ('native','races','http','browser') if k in report}
+  groups={k:report[k] for k in ('native','races','http','browser') if isinstance(report.get(k),dict)}
+  report['groups_not_dict']=[k for k in ('native','races','http','browser') if k in report and not isinstance(report[k],dict)]
   report['counts']={k:counts(v) for k,v in groups.items()}
   def rows_of(v):return (v.get('races') if 'races' in v else v.get('cases')) or {}
   report['per_case']={k:{case:(row.get('status') if isinstance(row,dict) else repr(row)[:80]) for case,row in rows_of(v).items()} for k,v in groups.items() if isinstance(v,dict)}
   report['business_day_retried']={k:bool(v.get('business_day_retried')) for k,v in groups.items()}
+  print(json.dumps(dict(group='FABLE_GROUP_KEYS',keys=list(groups),not_dict=report['groups_not_dict'])),flush=True)
   report['status']='PASS' if groups and all(complete(v) for v in groups.values()) and not report.get('error') and report.get('cp6_restored') else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
   print(json.dumps(dict(group='FABLE_SUMMARY',label=report['label'],status=report['status'],counts=report['counts'],per_case=report['per_case'],business_day_retried=report['business_day_retried'],cp6_restored=report.get('cp6_restored'),error=report.get('error')),default=str),flush=True)
