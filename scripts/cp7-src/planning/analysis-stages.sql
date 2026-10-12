@@ -1353,6 +1353,29 @@ create index cp7_analysis_stage_plan_target on cp7_analysis_stage.plan_targets(j
 create table cp7_analysis_stage.plan_scope(job_id uuid primary key references cp7_analysis_stage.jobs(id),scope jsonb not null);
 create table cp7_analysis_stage.plan_groups(job_id uuid not null references cp7_analysis_stage.jobs(id),group_id text not null,
  scope text not null check(scope in('OPEN','EXHAUSTED')),unproven boolean not null,primary key(job_id,group_id));
+-- The work tables (outputs, target/pair rows, pair lists, fragments) and the
+-- pages are insert-only like every other table here, except for the one
+-- removal the retention and cleanup rules make (purge_intermediates,
+-- purge_expired, clean_done). Those name the job (and its run, for pages) in a
+-- transaction-local setting for the length of their deletes, and the trigger
+-- lets through a DELETE of exactly that job's rows; any other change is
+-- refused as before (CP7_RUN_IMMUTABLE). Independent audit Fable F-OPS-02:
+-- the removal used to suspend the triggers with ALTER TABLE, whose SHARE ROW
+-- EXCLUSIVE lock made a running analysis's unit insert wait (8.01 s, counted as
+-- a failed attempt); a plain DELETE takes no lock that a unit's INSERT waits on.
+-- Only the tables' owner can delete from them at all (no grants, row security).
+create function cp7_analysis_stage.work_immutable()returns trigger
+language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
+declare k text:=pg_catalog.current_setting('cp7.analysis_work_delete',true);
+begin
+ if TG_OP='DELETE'and coalesce(k,'')<>''then
+  if TG_TABLE_NAME='pages'then
+   if old.run_id::text=pg_catalog.current_setting('cp7.analysis_work_delete_run',true)then return old;end if;
+  elsif old.job_id::text=k then return old;
+  end if;
+ end if;
+ raise exception using errcode='55000',message='CP7_RUN_IMMUTABLE';
+end $$;
 do $$declare t text;begin
  foreach t in array array['jobs','units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks',
   'plan_targets','plan_scope','plan_groups','runner']loop
@@ -1361,9 +1384,11 @@ do $$declare t text;begin
   execute format('create policy cp7_analysis_stage_no_access on cp7_analysis_stage.%I for all to public using(false)with check(false)',t);
   execute format('revoke all on cp7_analysis_stage.%I from public,anon,authenticated,service_role',t);
  end loop;
- foreach t in array array['units','outputs','target_rows','pair_rows','pair_lists','fragments','headers','pages','page_sets','capture_marks',
-  'plan_targets','plan_scope','plan_groups']loop
+ foreach t in array array['units','headers','page_sets','capture_marks','plan_targets','plan_scope','plan_groups']loop
   execute format('create trigger immutable_stage_%s before update or delete on cp7_analysis_stage.%I for each row execute function cp7_private.immutable_run()',t,t);
+ end loop;
+ foreach t in array array['outputs','target_rows','pair_rows','pair_lists','fragments','pages']loop
+  execute format('create trigger immutable_stage_%s before update or delete on cp7_analysis_stage.%I for each row execute function cp7_analysis_stage.work_immutable()',t,t);
  end loop;
 end $$;
 -- The job row: only its progress columns ever change. Its identity, query,
@@ -2069,6 +2094,13 @@ begin
   ||jsonb_build_object('financial_source',null,'financial_capture','DEFERRED'),
   case when pg_current_xact_id_if_assigned()is null then pg_current_snapshot()end into c,snap;
  if cp7_schedule_native.access_now(false)is distinct from a then raise exception using errcode='42501',message='CP7_ANALYSIS_ACCESS_CHANGED';end if;
+ -- More planned products than the job's declared capacity: refused here with
+ -- the declared code, before any job or reference is kept (independent audit
+ -- Fable F-AN-01: it used to become a FAILED job at unit 0 under another code).
+ if jsonb_array_length(coalesce(c->'facts'->'products','[]'::jsonb))>(b->>'job_targets')::integer then
+  raise exception using message='CP7_ANALYSIS_STAGED_TARGET_LIMIT',
+   detail=jsonb_build_object('targets_limit',b->'job_targets','refused_at','REQUEST')::text;
+ end if;
  jid:=cp7_analysis_stage.create_job((a->>'actor')::uuid,p_request,q,a,c);
  insert into cp7_analysis_stage.capture_marks(job_id,source_snapshot)values(jid,snap);
  return cp7_analysis_stage.status(jid);
@@ -2177,9 +2209,8 @@ end $$;
 -- until PAGE_INDEX. This private admin function (no grants, no automatic
 -- schedule: the retention value is an owner decision, PENDING_POLICY_VALUE)
 -- removes them for ONE finished job; the reference, header, pages, page
--- index, plan and job row stay. The immutable triggers are suspended for
--- these deletes only, inside this transaction (ALTER TABLE takes a SHARE ROW
--- EXCLUSIVE lock: a concurrent unit's insert waits for the purge).
+-- index, plan and job row stay. The deletes are let through for this job
+-- only (work_immutable), with no table lock a running unit waits on.
 create function cp7_analysis_stage.purge_intermediates(p_job uuid)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare st text;t text;n bigint;removed jsonb:='{}';
@@ -2187,13 +2218,13 @@ begin
  select j.state into st from cp7_analysis_stage.jobs j where j.id=p_job for update;
  if st is null then raise exception 'CP7_ANALYSIS_JOB_UNAVAILABLE';end if;
  if st not in('DONE','FAILED')then raise exception 'CP7_ANALYSIS_STAGE_RUNNING';end if;
+ perform pg_catalog.set_config('cp7.analysis_work_delete',p_job::text,true);
  foreach t in array array['outputs','target_rows','pair_rows','pair_lists','fragments']loop
-  execute format('alter table cp7_analysis_stage.%I disable trigger immutable_stage_%s',t,t);
   execute format('delete from cp7_analysis_stage.%I where job_id=$1',t)using p_job;
   get diagnostics n=row_count;
-  execute format('alter table cp7_analysis_stage.%I enable trigger immutable_stage_%s',t,t);
   removed:=removed||jsonb_build_object(t,n);
  end loop;
+ perform pg_catalog.set_config('cp7.analysis_work_delete','',true);
  return jsonb_build_object('job_id',p_job,'state',st,'removed',removed);
 end $$;
 
@@ -2223,6 +2254,9 @@ declare j cp7_analysis_stage.jobs%rowtype;r jsonb;t text;n bigint;removed jsonb;
   array['cp7_reminder_native.staged_condition_sets','reminder_v2_sets']];i integer;c bigint;out jsonb:='[]';
 begin
  if p_limit is null or p_limit not between 1 and 1000 then raise exception 'CP7_ANALYSIS_RETENTION_LIMIT';end if;
+ -- As for the cleanup: a busy row is not waited on for long (the purge fails
+ -- and the next daily run takes it); the deletes themselves take no table lock.
+ perform pg_catalog.set_config('lock_timeout','2000',true);
  for j in select x.*from cp7_analysis_stage.jobs x where x.state in('DONE','FAILED')
    and cp7_analysis_stage.retention(x.state,x.updated_at)->>'state'='EXPIRED'
    and not exists(select 1 from cp7_analysis_stage.retention_log l where l.job_id=x.id)
@@ -2232,23 +2266,23 @@ begin
    c:=0;if to_regclass(refs[i][1])is not null then execute format('select count(*)from %s where run_id=$1',refs[i][1])into c using j.run_id;end if;
    if c>0 then docs:=docs||jsonb_build_object(refs[i][2],c);end if;
   end loop;
+  perform pg_catalog.set_config('cp7.analysis_work_delete',j.id::text,true);
+  perform pg_catalog.set_config('cp7.analysis_work_delete_run',j.run_id::text,true);
   foreach t in array array['outputs','target_rows','pair_rows','pair_lists','fragments']loop
-   execute format('alter table cp7_analysis_stage.%I disable trigger immutable_stage_%s',t,t);
    execute format('delete from cp7_analysis_stage.%I where job_id=$1',t)using j.id;
    get diagnostics n=row_count;
-   execute format('alter table cp7_analysis_stage.%I enable trigger immutable_stage_%s',t,t);
    removed:=removed||jsonb_build_object(t,n);
   end loop;
   pages:='[]';
   if docs='{}'::jsonb then
    select coalesce(jsonb_agg(jsonb_build_object('index',x.idx,'utf8_bytes',x.utf8_bytes,'sha256',x.sha256)order by x.idx),'[]'::jsonb)into pages
     from cp7_analysis_stage.pages x where x.run_id=j.run_id;
-   alter table cp7_analysis_stage.pages disable trigger immutable_stage_pages;
    delete from cp7_analysis_stage.pages where run_id=j.run_id;
    get diagnostics n=row_count;
-   alter table cp7_analysis_stage.pages enable trigger immutable_stage_pages;
    removed:=removed||jsonb_build_object('pages',n);
   end if;
+  perform pg_catalog.set_config('cp7.analysis_work_delete','',true);
+  perform pg_catalog.set_config('cp7.analysis_work_delete_run','',true);
   insert into cp7_analysis_stage.retention_log values(j.id,j.run_id,j.updated_at,(r->>'kept_until')::timestamptz,clock_timestamp(),removed,pages,docs);
   out:=out||jsonb_build_array(jsonb_build_object('job_id',j.id,'run_id',j.run_id,'removed',removed,'documents',docs));
  end loop;
@@ -2322,16 +2356,18 @@ begin
  if j.state<>'DONE'then raise exception 'CP7_ANALYSIS_CLEANUP_NOT_DONE';end if;
  if not cp7_analysis_stage.cleanup_due(j.id,j.state,j.updated_at)then raise exception 'CP7_ANALYSIS_CLEANUP_EXPIRED';end if;
  v:=cp7_analysis_stage.verify_final(j.id);
- -- A busy table is not waited on for long: the cleanup gives up and is retried.
+ -- A busy row is not waited on for long: the cleanup gives up and is retried.
+ -- The deletes take no table lock a running analysis's unit waits on
+ -- (work_immutable lets this job's rows through).
  perform set_config('lock_timeout','2000',true);
+ perform pg_catalog.set_config('cp7.analysis_work_delete',j.id::text,true);
  foreach t in array array['outputs','target_rows','pair_rows','pair_lists','fragments']loop
   execute format('select coalesce(sum(pg_column_size(x.%I)),0)from cp7_analysis_stage.%I x where x.job_id=$1',cols->>t,t)into b using j.id;
-  execute format('alter table cp7_analysis_stage.%I disable trigger immutable_stage_%s',t,t);
   execute format('delete from cp7_analysis_stage.%I where job_id=$1',t)using j.id;
   get diagnostics n=row_count;
-  execute format('alter table cp7_analysis_stage.%I enable trigger immutable_stage_%s',t,t);
   removed:=removed||jsonb_build_object(t,n);stored:=stored||jsonb_build_object(t,b);
  end loop;
+ perform pg_catalog.set_config('cp7.analysis_work_delete','',true);
  -- The result tables were not touched: the page index still names the same pages.
  if(select count(*)from cp7_analysis_stage.pages x where x.run_id=j.run_id)<>(v->>'pages')::integer
   or(select encode(pg_catalog.sha256(convert_to(h.sha256||E'\n'||coalesce(string_agg(x.sha256,E'\n'order by x.idx),''),'UTF8')),'hex')
@@ -2346,10 +2382,10 @@ end $$;
 -- p_limit DONE jobs still due, oldest first, each in its own subtransaction;
 -- a job another session holds is skipped, a failure is reported and left for
 -- the next run. The cleanup never runs inside a user's request: a step after
--- DONE still returns the same status and changes nothing. Removing rows
--- briefly locks the temporary tables, so while any analysis is being worked
--- (progress in the last 10 minutes) the run defers to the next one and slows
--- nobody's unit; a paused or abandoned analysis does not hold it back.
+-- DONE still returns the same status and changes nothing. While any analysis
+-- is being worked (progress in the last 10 minutes) the run still defers to the
+-- next one, so the cleanup's reads and deletes never compete with a unit; a
+-- paused or abandoned analysis does not hold it back.
 create function cp7_analysis_stage.clean_pending(p_limit integer)returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare j cp7_analysis_stage.jobs%rowtype;r jsonb;done jsonb:='[]';failed jsonb:='[]';busy integer;

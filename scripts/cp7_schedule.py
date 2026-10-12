@@ -79,6 +79,14 @@ def matches(cron_cur, database, username, defs):
     return want == have, dict(expected=want, installed=have)
 
 
+def same_database(erp_cur, database):
+    """Independent audit Fable F-OPS-04: the jobs run in the database whose definitions were read, never another one."""
+    current = erp_cur.execute('select current_database()').fetchone()[0]
+    if database != current:
+        raise SystemExit('CP7_SCHEDULE_DATABASE_MISMATCH: --database %r is not the database of --erp-url (%r)' % (database, current))
+    return current
+
+
 def runs(cron_cur, jobid, since):
     rows = cron_cur.execute("""select runid,status,return_message,start_time,end_time from cron.job_run_details
         where jobid=%s and start_time>=%s order by start_time""", (jobid, since)).fetchall()
@@ -94,15 +102,20 @@ def main():
     p.add_argument('--username', default='postgres')
     p.add_argument('--installation-approved', action='store_true',
                    help='required for install: the audit passed and the owner approved installing the schedule')
+    p.add_argument('--removal-approved', action='store_true', help='required for uninstall: removing the installed schedule was approved')
     a = p.parse_args()
     with psycopg.connect(a.erp_url) as erp, erp.cursor() as cur:
         defs = definitions(cur)
+        if a.action != 'plan':
+            assert a.cron_url and a.database, 'CP7_SCHEDULE_CRON_URL_AND_DATABASE_REQUIRED'
+            same_database(cur, a.database)
     if a.action == 'plan':
         print(json.dumps(dict(definitions=defs, installs=False), indent=1))
         return
-    assert a.cron_url and a.database, 'CP7_SCHEDULE_CRON_URL_AND_DATABASE_REQUIRED'
     if a.action == 'install' and not a.installation_approved:
         raise SystemExit('CP7_SCHEDULE_INSTALL_NOT_APPROVED: installing waits for the audit and the owner\'s installation permission')
+    if a.action == 'uninstall' and not a.removal_approved:
+        raise SystemExit('CP7_SCHEDULE_UNINSTALL_NOT_APPROVED: removing the installed schedule needs --removal-approved')
     with psycopg.connect(a.cron_url, autocommit=True) as cron, cron.cursor() as cur:
         if a.action == 'install':
             out = dict(installed=install(cur, a.database, a.username, defs))

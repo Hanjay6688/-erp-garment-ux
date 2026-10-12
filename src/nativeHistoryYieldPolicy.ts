@@ -2,7 +2,7 @@
 // an owner or admin) and the history yield the plan preview states. The client never
 // computes a yield; it checks what the server returned, including the Wilson bound.
 export type YieldPolicyState='ACTIVE'|'PAUSED'
-export type YieldPolicyRow={id:string;revision:string;state:YieldPolicyState;windowDays:string;minGroups:string;minCutPcs:string;confidence:'0.90';reason:string;actor:string;actorRole:'OWNER'|'ADMIN';recordedAt:string}
+export type YieldPolicyRow={id:string;revision:string;state:YieldPolicyState;windowDays:string;minGroups:string;minCutPcs:string;confidence:'0.90';reason:string;actor:string;actorRole:'OWNER';recordedAt:string}
 export type YieldPolicyValues={windowDays:string;minGroups:string;minCutPcs:string}
 export type YieldPolicyWorkspace={state:'PENDING_POLICY_VALUE'|YieldPolicyState;current:YieldPolicyRow|null;revisions:YieldPolicyRow[];decided:YieldPolicyValues;manageAllowed:boolean}
 export type YieldPolicyPayload={expected_revision:string;state:YieldPolicyState;window_days:string;min_groups:string;min_cut_pcs:string;confidence:'0.90';reason:string}
@@ -22,7 +22,7 @@ const DECIDED={decision:'OWNER_DECISION_2026_10_08',window_days:'180',min_groups
 
 function row(raw:unknown):YieldPolicyRow{
  const r=obj(raw);exact(r,['id','revision','state','window_days','min_groups','min_cut_pcs','confidence','method','rounding','levels','reason','actor','actor_role','recorded_at'])
- if(r.state!=='ACTIVE'&&r.state!=='PAUSED'||r.confidence!=='0.90'||r.method!==DECIDED.method||r.rounding!==DECIDED.rounding||JSON.stringify(r.levels)!=='["PRODUCT_SIZE","MODEL"]'||(r.actor_role!=='OWNER'&&r.actor_role!=='ADMIN'))fail()
+ if(r.state!=='ACTIVE'&&r.state!=='PAUSED'||r.confidence!=='0.90'||r.method!==DECIDED.method||r.rounding!==DECIDED.rounding||JSON.stringify(r.levels)!=='["PRODUCT_SIZE","MODEL"]'||r.actor_role!=='OWNER')fail()
  const reason=str(r.reason);if(reason.length>1000)fail()
  return{id:id(r.id),revision:between(count(r.revision),1n,10n**18n),state:r.state as YieldPolicyState,windowDays:between(count(r.window_days),1n,3660n),minGroups:between(count(r.min_groups),1n,1000n),
   minCutPcs:between(count(r.min_cut_pcs),1n,1000000n),confidence:'0.90',reason,actor:id(r.actor),actorRole:r.actor_role as YieldPolicyRow['actorRole'],recordedAt:str(r.recorded_at)}

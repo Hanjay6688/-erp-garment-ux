@@ -27,7 +27,8 @@ import { RuntimeBadge, RuntimeEnvironmentCard, RuntimeIdentity } from './compone
 import { useAuth } from './auth/AuthProvider'
 import { PAGE_PERMISSION_BY_ID, SENSITIVE_ACTION_PERMISSION, firstAllowedPageId, hasPermission, isNavLabelAllowed, isPageAllowed } from './auth/accessCatalog'
 import type { ReminderItem } from './reminders'
-import { initialReminders, reminderDueLabel, reminderPriorityLabel } from './reminders'
+import { initialReminders } from './reminders'
+import { OwnerDashboard } from './OwnerDashboard'
 import { deriveWipControlStatus } from './wipControlPolicy'
 import CuttingPatternPicker, { hasCanonicalPattern } from './CuttingPatternPicker'
 import type { CuttingPatternChoice } from './CuttingPatternPicker'
@@ -626,7 +627,8 @@ function ErpApp() {
       <header className="topbar"><button className="mobile-menu" aria-label="Buka menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><RuntimeBadge/><button className="round-btn" aria-label="Cari"><Icon name="search" /></button><RuntimeIdentity/></div></header>
       <div className="page-wrap" data-keyboard-scope onKeyDown={handleErgonomicKeyboard}>
         {!(demoAccess || isPageAllowed(accessBundle, page)) ? <AccessDenied permission={PAGE_PERMISSION_BY_ID[page] ?? 'route.unowned'} roleName={identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tidak diketahui'} /> : <>
-        {page === 'dashboard' && <Dashboard
+        {page === 'dashboard' && <OwnerDashboard
+          connected={runtime.mode !== 'DEMO_SIMULATION'}
           reminders={reminders}
           onOpenSales={() => setPage('sales-invoice')}
           onOpenReminders={() => setPage('admin-reminders')}
@@ -771,22 +773,6 @@ function WorkspaceFallback({ label }: { label: string }) {
 export function AccessDenied({ permission, roleName }: { permission: string; roleName: string }) {
   return <section className="panel placeholder access-denied" role="alert"><div className="placeholder-icon"><ShieldCheck/></div><h2>Tidak punya akses</h2><p>Role <strong>{roleName}</strong> tidak memiliki izin untuk membuka halaman ini.</p><code>{permission}</code><small>Menu disembunyikan untuk kenyamanan; server tetap memeriksa ulang setiap aksi.</small></section>
 }
-
-function Dashboard({reminders,onOpenSales,onOpenReminders,onToggleReminder}:{reminders:ReminderItem[];onOpenSales:()=>void;onOpenReminders:()=>void;onToggleReminder:(id:string)=>void}) {
-  const priorityOrder={URGENT:0,NORMAL:1,LOW:2}
-  const dashboardReminders=[...reminders].sort((left,right)=>left.status===right.status?priorityOrder[left.priority]-priorityOrder[right.priority]:left.status==='OPEN'?-1:1).slice(0,3)
-  const openReminderCount=reminders.filter((item)=>item.status==='OPEN').length
-  return <>
-    <section className="hero-copy"><div className="eyebrow">DASHBOARD OWNER <span><Icon name="calendar" /> Kamis, 27 Agustus 2026</span></div><h1>Veni. Vidi. Vici. ERP</h1><p>Pantau uang, stok, HPP, dan aliran produksi tanpa membuka sepuluh laporan.</p></section>
-    <section className="kpi-grid"><Kpi label="Kas & Bank" value="Rp284,6 jt" note="+4,2% dibanding bulan lalu" tone="good" /><Kpi label="Nilai stok FG" value="Rp418,2 jt" note="1.482 pcs siap jual" tone="neutral" /><Kpi label="Piutang berjalan" value="Rp176,8 jt" note="Rp42 jt jatuh tempo ≤ 7 hari" tone="warn" /><Kpi label="HPP bulan ini" value="Rp298,4 jt" note="stabil · 62,1% dari penjualan" tone="good" /></section>
-    <section className="dashboard-grid"><div className="panel wide-panel"><div className="panel-head"><div><div className="eyebrow">PULSA KEUANGAN</div><h2>Penjualan, HPP & laba kotor</h2><p>Klik detail untuk menelusuri transaksi pembentuk angkanya.</p></div><button className="soft-btn">30 hari terakhir ⌄</button></div><div className="chart-wrap">{[52,65,58,73,69,84,77,92,88,101,96,112].map((h,i)=><div className="bar-col" key={i}><div className="bar primary" style={{height:`${h}%`}}/><div className="bar secondary" style={{height:`${Math.max(30,h-28)}%`}}/></div>)}</div><div className="chart-legend"><span><i className="legend-a" /> Penjualan Rp480,5 jt</span><span><i className="legend-b" /> HPP Rp298,4 jt</span><strong>Laba kotor Rp182,1 jt</strong></div></div><div className="panel attention-panel"><div className="attention-panel-head"><div><div className="eyebrow">BUTUH PERHATIAN</div><h2>{4+openReminderCount} hal hari ini</h2></div><button onClick={onOpenReminders}>Kelola reminder</button></div>{dashboardReminders.map((item)=><ReminderAttention item={item} key={item.id} onOpen={onOpenReminders} onToggle={()=>onToggleReminder(item.id)}/>)}<Attention label="Piutang lewat jatuh tempo" value="Rp18,4 jt" meta="3 pelanggan" tone="danger" /><Attention label="Dasar status stok" value="Belum diatur" meta="belum cukup data" tone="neutral" /><Attention label="WIP tanpa update > 3 hari" value="2 grup" meta="cek mandor" tone="neutral" /><Attention label="QC menunggu keputusan" value="34 pcs" meta="BS / rework" tone="neutral" /></div></section>
-    <section className="flow-strip"><div><div className="eyebrow">ALIRAN PABRIK</div><h2>Dari potongan sampai uang masuk</h2></div>{['Potongan 1.920 pcs','Mandor 1.406 pcs','Laundry 628 pcs','QC 412 pcs','FG 1.482 pcs'].map((x,i)=><div className="flow-node" key={x}><span>{String(i+1).padStart(2,'0')}</span><strong>{x.split(' ').slice(0,-2).join(' ') || x.split(' ')[0]}</strong><small>{x.split(' ').slice(-2).join(' ')}</small></div>)}<button className="primary-btn" onClick={onOpenSales}>Input penjualan <Icon name="arrow" /></button></section>
-  </>
-}
-
-function Kpi({ label, value, note, tone }: { label: string; value: string; note: string; tone: string }) { return <div className="kpi-card"><div className="kpi-label">{label}</div><div className="kpi-value">{value}</div><div className={`kpi-note ${tone}`}>{tone === 'good' ? '↗' : tone === 'warn' ? '↘' : '•'} {note}</div><div className={`kpi-orb ${tone}`}>◉</div></div> }
-function Attention({ label, value, meta, tone }: { label: string; value: string; meta: string; tone: string }) { return <div className="attention-row"><span className={`attention-dot ${tone}`} /><div><strong>{label}</strong><small>{meta}</small></div><b>{value}</b></div> }
-function ReminderAttention({item,onOpen,onToggle}:{item:ReminderItem;onOpen:()=>void;onToggle:()=>void}) { return <div className={`attention-row dashboard-reminder ${item.status.toLowerCase()} ${item.priority.toLowerCase()}`}><label><input type="checkbox" checked={item.status==='DONE'} onChange={onToggle}/><i>{item.status==='DONE'?<Icon name="check"/>:null}</i><span className="sr-only">Tandai {item.title} selesai</span></label><button type="button" onClick={onOpen}><strong>{item.title}</strong><small>{item.module} · {reminderDueLabel(item.dueAt)}</small></button><b>{item.status==='DONE'?'Selesai':reminderPriorityLabel[item.priority]}</b></div> }
 
 function ProcurementPage() {
   const [mode,setMode] = useState<ReceiptMode>('fabric')

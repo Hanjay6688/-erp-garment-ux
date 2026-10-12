@@ -3,8 +3,11 @@
 -- production. Only cutting groups with a stored PL-8 exhaustion proof that
 -- still matches their current facts count: a correction, reversal or backdated
 -- row changes the facts, so the group drops out until it is proven again.
--- Window and minimum sample are a versioned policy that an owner or admin
--- saves with a reason; the one-sided 90% Wilson lower bound, the floor to 0.1%
+-- Window and minimum sample are a versioned policy that the owner saves with a
+-- reason (owner decision 12 Oct 2026: owner only, checked on the server; an
+-- admin may read it; every change is a new version with reason, time and the
+-- owner's identity, and plans keep the version their history yield used); the
+-- one-sided 90% Wilson lower bound, the floor to 0.1%
 -- and the levels (product+size, then the same model, never another model) are
 -- the decision itself and fixed. Without a saved policy history_yield keeps
 -- its earlier pending answer unchanged; a paused policy gives no value. When
@@ -22,7 +25,7 @@ create table cp7_yield_policy.policies(
  method text not null check(method='WILSON_SCORE_ONE_SIDED_LOWER_BOUND'),rounding text not null check(rounding='FLOOR_PERMILLE'),
  levels text[] not null check(levels=array['PRODUCT_SIZE','MODEL']),
  reason text not null check(length(reason)between 1 and 1000),actor uuid not null,
- actor_role text not null check(actor_role in('OWNER','ADMIN')),request_id uuid not null,
+ actor_role text not null check(actor_role='OWNER'),request_id uuid not null,
  recorded_at timestamptz not null default clock_timestamp(),unique(actor,request_id)
 );
 create table cp7_yield_policy.commands(
@@ -43,14 +46,15 @@ create trigger immutable_yield_policy_command before update or delete on cp7_yie
  for each row execute function cp7_identity.immutable_row();
 
 -- Reading needs the planning view rights; saving also master.product.manage
--- and the OWNER or ADMIN role, recorded on the row as its signature.
+-- and the OWNER role (owner decision 12 Oct 2026), recorded on the row as its
+-- signature. An admin, or anyone else, is refused before anything is written.
 create function cp7_yield_policy.access(p_writing boolean)returns jsonb
 language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;
 begin
  a:=cp7_identity.access_now(p_writing);
- if p_writing and coalesce(a->'profile'->>'role_code','')not in('OWNER','ADMIN')then
-  raise exception using errcode='42501',message='CP7_YIELD_POLICY_OWNER_ADMIN_REQUIRED';end if;
+ if p_writing and coalesce(a->'profile'->>'role_code','')<>'OWNER'then
+  raise exception using errcode='42501',message='CP7_YIELD_POLICY_OWNER_REQUIRED';end if;
  return a;
 end $$;
 
@@ -77,7 +81,7 @@ begin
    from(select *from cp7_yield_policy.policies order by revision desc limit 50)x),'[]'::jsonb),
   'decided_package',jsonb_build_object('decision','OWNER_DECISION_2026_10_08','window_days','180','min_groups','5','min_cut_pcs','200',
    'confidence','0.90','method','WILSON_SCORE_ONE_SIDED_LOWER_BOUND','rounding','FLOOR_PERMILLE','levels',jsonb_build_array('PRODUCT_SIZE','MODEL')),
-  'manage_allowed',erp.has_permission('master.product.manage')and coalesce(a->'profile'->>'role_code','')in('OWNER','ADMIN'));
+  'manage_allowed',erp.has_permission('master.product.manage')and coalesce(a->'profile'->>'role_code','')='OWNER');
  if cp7_yield_policy.access(false)is distinct from a then raise exception using errcode='42501',message='CP7_YIELD_POLICY_ACCESS_CHANGED';end if;
  return outcome;
 end $$;

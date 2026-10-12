@@ -338,13 +338,16 @@ def cases(cur,today):
         assert [(m[0],m[4]) for m in moved]==[(D(800),'CORRECTED_RECEIPT'),(D(200),'CREDIT_TO_OTHER_RECEIPT')],moved
         original_date=cur.execute('select payment_date from erp.supplier_payments where id=%s',(payment,)).fetchone()[0]
         assert all(m[1]==original_date and m[2]==masters['cash'] for m in moved) and 'barang tidak pernah diterima' in moved[1][3],moved
+        # Owner 2 Oct 2026: "kreditnya bisa gw tempel di next nota mana pun". The
+        # credit keeps the real cash date, before the next nota arrived (Fable F-AP-01).
+        assert original_date<cur.execute('select physical_at from erp.material_purchase_headers where id=%s',(t['purchase'],)).fetchone()[0]
         assert cash()==cash_before
         delta=ledger_delta(before,ledger(cur));assert delta=={'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)},delta
         dd=dated_delta(dated,by_date(cur));assert dd=={f['day']:{'MATERIAL_INVENTORY':D(-200),'AP_SUPPLIER':D(200)}},dd
         same_checks(chk,checks(cur));reversal_dates(cur)
         assert cur.execute('select economic_date from erp.journal_entries where id=%s',(cancel[0],)).fetchone()[0]==cancel[1]
         assert not cur.execute('select exists(select 1 from cp7_receipt_fix.journal_restatements where inverse_journal_id=%s)',(cancel[0],)).fetchone()[0]
-        return dict(status='PASS',paid_1000_corrected_800=True,earlier_cancellation_keeps_its_own_date=True,credit_200_cut_from_next_nota=True,next_nota_received_later_paid_200_partial=True,
+        return dict(status='PASS',paid_1000_corrected_800=True,earlier_cancellation_keeps_its_own_date=True,credit_200_cut_from_next_nota=True,next_nota_received_later_paid_200_partial=True,credit_dated_before_next_nota_arrival_by_owner_decision=True,
           same_cash_account_and_original_date=True,note_retur_bayangan_barang_tidak_pernah_diterima=True,cash_unchanged=True,
           effects_on_receipt_date_only=True,all_integrity_checks_unchanged=True)
     def credit_restored():

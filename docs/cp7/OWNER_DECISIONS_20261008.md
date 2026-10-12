@@ -89,3 +89,28 @@ Penerapan: K4 (keputusan 8 Okt butir 6, "arah akhirnya berjalan di server, supay
 dikerjakan sekarang di cabang Claude, di atas kandidat revisi P20 `870d4f79`. Uji ulang F01–F05 dan audit K4 dijadikan
 satu putaran audit. Deklarasi: `k4/K4_RUNNER.json`. Penjalan dibuat dan diuji (pg_cron sungguhan di salinan uji),
 **belum dipasang**: pemasangan tetap menunggu audit dan izin owner. `production_go:false`.
+
+## Keputusan owner 12 Okt: dashboard terhubung dan hak ubah kebijakan PL-5 B
+
+Dua pertanyaan dari audit penuh CP7 Fable atas `d0b9e9c2` (F-UI-01 dan OBS-01). Jawaban owner apa adanya:
+
+1. Pertanyaan: "Halaman depan (Dashboard) di mode terhubung sekarang menampilkan angka uang contoh (Rp284,6 jt dst.)
+   yang bukan angka ERP. Mau diapakan?" Jawaban: **"Sembunyikan (Rekomendasi)"**.
+
+   Penerapan: di mode terhubung, Dashboard hanya menampilkan keterangan "Ringkasan angka belum tersambung ke data ERP";
+   tidak ada angka contoh. Mode demo tidak berubah. `src/OwnerDashboard.tsx`, uji `src/OwnerDashboard.dom.test.tsx`.
+
+2. Pertanyaan: "Siapa yang boleh mengubah angka kebijakan yield histori PL-5 (180 hari, 5 grup, 200 PCS)?" Jawaban
+   pilihan pertama di layar pertanyaan adalah "Owner + admin (tetap)"; owner lalu menulis jawaban akhir yang
+   menggantikannya:
+
+   > Pilih **Owner saja — opsi 1**. Admin tetap boleh melihat. Hak mengubah wajib diperiksa di server. Setiap perubahan
+   > disimpan sebagai **versi baru**, lengkap dengan alasan, waktu, dan identitas owner. Analisis serta riwayat lama tetap
+   > memakai versi kebijakan asalnya.
+
+   Penerapan: hanya peran OWNER yang bisa menyimpan versi kebijakan (diperiksa di server, `CP7_YIELD_POLICY_OWNER_REQUIRED`;
+   tabel versi menolak baris selain `actor_role='OWNER'`). Admin dan pengguna lain hanya bisa melihat. Versi hanya
+   ditambah, tidak pernah diubah, dan menyimpan alasan, waktu serta identitas owner. Rencana yang sudah disahkan menyimpan
+   yield yang dipakai saat dipotong, termasuk nomor versi kebijakannya, sehingga perubahan kebijakan sesudahnya tidak
+   mengubah analisis atau riwayat lama. Kasus: `scripts/cp7_pl5_history_yield_cases.py`, deklarasi
+   `pl5/PL5_HISTORY_YIELD.json`.

@@ -16,17 +16,49 @@ const original = execFileSync('git', ['show', `${predecessor}:${path}`], { encod
 const candidate = readFileSync(path, 'utf8')
 const sha256 = s => createHash('sha256').update(s).digest('hex')
 const originalBlocks = functionBlocks(original), candidateBlocks = functionBlocks(candidate)
-assert.deepEqual([...candidateBlocks.keys()], [...originalBlocks.keys()])
-for (const [name, body] of originalBlocks) if (name !== 'cp7_netting_native.build') assert.equal(candidateBlocks.get(name), body, name)
-// No schema/ACL/wrapper/other-function changes can hide between blocks.
-assert.equal(candidate.replace(candidateBlocks.get('cp7_netting_native.build'), 'BUILD_BODY'),
-  original.replace(originalBlocks.get('cp7_netting_native.build'), 'BUILD_BODY'))
+// K7a (writer, after PR44) split source and matching_models into a bounded
+// _within body and a one-line wrapper at the old limits. Each _within body is
+// the predecessor body with only these exact edits; nothing else outside build
+// may differ (Fable F-TOOL-02: the old list stopped this probe before any case).
+const within = {
+  'cp7_netting_native.source': { name: 'cp7_netting_native.source_within', call: ' select cp7_netting_native.source_within(1000,5000)\n$$;', edits: [
+    ['create function cp7_netting_native.source()returns jsonb', 'create function cp7_netting_native.source_within(p_products integer,p_match integer)returns jsonb'],
+    ['select cp7_schedule_native.source()c', 'select cp7_schedule_native.source_within(p_products)c'],
+    ['order by p.id limit 5001', 'order by p.id limit p_match+1']] },
+  'cp7_netting_native.matching_models': { name: 'cp7_netting_native.matching_models_within', call: 'begin\n return cp7_netting_native.matching_models_within(c,wip,5000);\nend $$;', edits: [
+    ['create function cp7_netting_native.matching_models(c jsonb,wip jsonb)returns jsonb', 'create function cp7_netting_native.matching_models_within(c jsonb,wip jsonb,p_limit integer)returns jsonb'],
+    ["if jsonb_array_length(c->'matching_products')>5000 then", "if jsonb_array_length(c->'matching_products')>p_limit then"]] },
+}
+assert.deepEqual([...candidateBlocks.keys()], [...originalBlocks.keys()].flatMap(name => within[name] ? [within[name].name, name] : [name]))
+for (const [name, body] of originalBlocks) {
+  if (name === 'cp7_netting_native.build') continue
+  const k7a = within[name]
+  if (!k7a) { assert.equal(candidateBlocks.get(name), body, name); continue }
+  let derived = body
+  for (const [from, to] of k7a.edits) { assert.equal(derived.split(from).length, 2, `${name}: ${from}`); derived = derived.replace(from, to) }
+  assert.equal(candidateBlocks.get(k7a.name), derived, k7a.name)
+  assert.equal(candidateBlocks.get(name), body.split('\n').slice(0, 2).join('\n') + '\n' + k7a.call, `${name} wrapper`)
+}
+// No schema/ACL/wrapper/other-function changes can hide between blocks: the
+// file outside function bodies differs only by the K7a comments and owners.
+const skeleton = (text, blocks) => [...blocks].reduce((t, [name, block]) => t.replace(block, `<${name}>`), text)
+let outside = skeleton(candidate, candidateBlocks)
+for (const added of [
+  '-- p_products bounds the planned products (history source); p_match bounds the\n-- matching products read (one more is read, so the build refuses a larger set\n-- instead of seeing a cut one). The single capture keeps 1000 and 5000.\n<cp7_netting_native.source_within>\n',
+  '-- p_limit bounds the matching products of one call. The single capture call\n-- keeps 5000 (matching_models below); the staged job passes its own bound.\n<cp7_netting_native.matching_models_within>\n\n',
+  'alter function cp7_netting_native.source_within(integer,integer)owner to cp7_capture;\n',
+  'alter function cp7_netting_native.matching_models_within(jsonb,jsonb,integer)owner to cp7_capture;\n']) {
+  assert.equal(outside.split(added).length, 2, added); outside = outside.replace(added, '')
+}
+assert.equal(outside, skeleton(original, originalBlocks))
 const prefix = text => text.slice(0, text.indexOf('declare'))
 assert.equal(prefix(candidateBlocks.get('cp7_netting_native.build')), prefix(originalBlocks.get('cp7_netting_native.build')))
-const helperSQL = text => [...functionBlocks(text)].filter(([name]) => /^cp7_netting_native\.(bound_product|matching_models|matching|matches|timeline|build)$/.test(name)).map(([, body]) => body).join('\n')
+const helperSQL = text => [...functionBlocks(text)].filter(([name]) => /^cp7_netting_native\.(bound_product|matching_models_within|matching_models|matching|matches|timeline|build)$/.test(name)).map(([, body]) => body).join('\n')
 const fresh = helperSQL(candidate)
 const variants = {
-  ignores_supply: ["if line_edges='[]'::jsonb then", 'if true then'],
+  // a68abf1e added the same-row guard to this condition; the mutant still
+  // drops only the empty-supply test.
+  ignores_supply: ["if line_edges='[]'::jsonb and baseline_rows[", 'if true and baseline_rows['],
   wrong_target: ["baseline_lines[(planned_index->>(r->>'target_key'))::integer]", 'baseline_lines[1]'],
 }
 const out = process.argv[2] ?? 'test-results/astra-timeline-reuse/REPORT.json'
@@ -90,7 +122,10 @@ try {
     cases.push(withSupply); mixed.push(withSupply)
   }
   const modes = ['auto', 'force_custom_plan', 'force_generic_plan']
-  assert.equal(cases.length, quick ? 145 : 571, 'predeclared case inventory changed')
+  // a68abf1e added DUP_ROW_SKIPPED_TARGET and DUP_ROW_SKIPPED_FG to the shared
+  // defects (one case per seed): 145+3 quick, 571+24 full.
+  assert(DEFECTS.includes('DUP_ROW_SKIPPED_TARGET') && DEFECTS.includes('DUP_ROW_SKIPPED_FG'))
+  assert.equal(cases.length, quick ? 151 : 595, 'predeclared case inventory changed')
   let successes = 0, supplyEvents = 0
   const refusals = new Set()
   for (let i = 0; i < cases.length; i += 12) {

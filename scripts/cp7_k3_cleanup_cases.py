@@ -30,6 +30,7 @@ import time
 import uuid
 
 import psycopg
+from psycopg import sql
 
 import cp7_p19_staged_cases as staged
 import cp7_p19_report_v2_cases as report
@@ -44,7 +45,8 @@ IDS = dict(
             'K3C_AI_AND_REMINDERS_AFTER_CLEANUP', 'K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED', 'K3C_ONLY_DONE_KEPT_RUNS',
             'K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP', 'K3C_SCHEDULE_DEFINED_PRIVATE'],
     races=['K3C_RACE_TWO_TICKS_ONE_LOG', 'K3C_RACE_BUSY_TABLE_RETRIED', 'K3C_RACE_PG_CRON_FIRES', 'K3C_RACE_NIGHTLY_BACKUP_VERIFIED',
-           'K3C_RACE_CRON_TWO_DATABASES', 'K3C_RACE_BACKUP_RETRY_SAME_SECOND'],
+           'K3C_RACE_CRON_TWO_DATABASES', 'K3C_RACE_BACKUP_RETRY_SAME_SECOND', 'K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP',
+           'K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE', 'K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES'],
     http=['K3C_HTTP_REOPEN_AFTER_CLEANUP', 'K3C_HTTP_TICK_NOT_REACHABLE'],
     browser=['K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP', 'K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP'],
 )
@@ -356,8 +358,16 @@ def cases(cur, today):
         for bad in (0, 101, None):
             refused(cur, lambda bad=bad: cur.execute('select cp7_analysis_stage.clean_pending(%s)', (bad,)), 'CP7_ANALYSIS_CLEANUP_LIMIT')
         assert cur.execute("select count(*)from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like '%clean%'").fetchone()[0] == 0
+        # Fable F-OPS-04: the installer only targets the database whose definitions it read.
+        here = cur.execute('select current_database()').fetchone()[0]
+        assert schedule.same_database(cur, here) == here
+        try:
+            schedule.same_database(cur, here + '_other')
+            raise AssertionError('K3C_SCHEDULE_OTHER_DATABASE_ACCEPTED')
+        except SystemExit as e:
+            assert 'CP7_SCHEDULE_DATABASE_MISMATCH' in str(e), e
         return dict(status='PASS', schedules=SCHEDULES, ticks_scheduler_role_only=True, cleanup_functions_private=True, no_public_rpc=True,
-                    authenticated_refused='42501', limit_bounded=True)
+                    authenticated_refused='42501', limit_bounded=True, installer_refuses_another_database=True)
 
     return list(zip(IDS['native'], (only_temporary, reopen, plan_v2, report_v2, ai_and_reminders, failed_retried, only_done_kept,
                                     documents, schedule_private)))
@@ -383,8 +393,8 @@ def races(tools, today):
                 return out
         with ThreadPoolExecutor(max_workers=2) as pool:
             results = [f.result(240) for f in [pool.submit(send) for _ in range(2)]]
-        # The cleanups take the temporary tables' lock in turn: a tick that waited too long gives up (55P03)
-        # and its job is cleaned by the next run. No job is cleaned twice and no other failure is allowed.
+        # Each tick takes its own jobs (skip locked); a tick that waited too long on a row gives up (55P03) and
+        # its job is cleaned by the next run. No job is cleaned twice and no other failure is allowed.
         done = [c['job_id'] for o in results for c in o['cleaned']]
         waited = [f for o in results for f in o['failed']]
         assert all(f['sqlstate'] == '55P03' for f in waited) and len(done) == len(set(done)), results
@@ -407,8 +417,9 @@ def races(tools, today):
         try:
             with holder.cursor() as h:
                 b.api.admin(h)
-                # A concurrent writer of the temporary tables (another analysis's unit) holds ROW EXCLUSIVE.
-                h.execute('lock table cp7_analysis_stage.outputs in row exclusive mode')
+                # Another session holds one of the job's temporary rows (since Fable F-OPS-02 the cleanup takes no
+                # table lock, so a busy row is what it can meet); the cleanup's delete waits on it.
+                h.execute('select 1 from cp7_analysis_stage.outputs where job_id=%s limit 1 for update', (r['job'],))
                 with tools.connect() as conn, conn.cursor() as cur:
                     started = time.monotonic()
                     out = tick(cur)
@@ -426,7 +437,65 @@ def races(tools, today):
             out = tick(cur)
             conn.commit()
             assert len(cleaned(out, r['job'])) == 1, out
-        return dict(status='PASS', gave_up_on_busy_table=fail[0]['sqlstate'], waited_s=round(waited, 2), result_available=True, retried_and_cleaned=True)
+        return dict(status='PASS', gave_up_on_busy_row=fail[0]['sqlstate'], waited_s=round(waited, 2), result_available=True, retried_and_cleaned=True)
+
+    def cleanup_beside_running_step():
+        # Independent audit Fable F-OPS-02 (FABLE_CORE:CLEANUP_LOCK_VS_RUNNING_STEP): the cleanup and the 7-day purge
+        # suspended the immutable triggers with ALTER TABLE, whose SHARE ROW EXCLUSIVE lock made a running analysis's
+        # unit insert wait until the 8 s limit stopped it (an attempt counted against the job). Each removal is held
+        # open here while a running job takes a step under the ordinary 8 s limit; the step stores its unit at once.
+        (r, aged), _ = committed_run(2)
+        with tools.connect() as conn, conn.cursor() as cur:
+            # SYNTHETIC (labelled): the second finished job's finish time moved back 8 days (administrative) for days passing.
+            age(cur, aged['run'], timedelta(days=8))
+            conn.commit()
+        seen = {}
+        for name, call, arg in (('clean_done', 'select cp7_analysis_stage.clean_done(%s)', r['job']),
+                                ('purge_expired', 'select cp7_analysis_stage.purge_expired(100)', None)):
+            key = uuid.uuid4()
+            with tools.connect() as conn, conn.cursor() as cur:
+                before = staged.checked(staged.request(cur, today, key), key, 'RUNNING')
+                conn.commit()
+            holder = tools.connect()
+            try:
+                with holder.cursor() as h:
+                    b.api.admin(h)
+                    out = h.execute(call, (arg,) if arg else ()).fetchone()[0]
+                    if name == 'clean_done':
+                        assert out['state'] == 'CLEANED', out
+                    else:
+                        assert aged['job'] in [x['job_id'] for x in out['purged']], out
+                    with tools.connect() as conn, conn.cursor() as cur:
+                        started = time.monotonic()
+                        after = staged.checked(staged.step(cur, key), key)
+                        took = time.monotonic() - started
+                        conn.commit()
+                    assert after['units_done'] == before['units_done'] + 1 and after['unit_attempts'] == 0, (name, before, after)
+                    # Before the fix the unit waited on the table lock until the 8 s limit stopped it (no unit, one attempt).
+                    assert took < 8, (name, took)
+                holder.commit()
+            finally:
+                holder.close()
+            seen[name] = dict(step_seconds=round(took, 2), unit_stored=True, unit_attempts=after['unit_attempts'])
+        with tools.connect() as conn, conn.cursor() as cur:
+            assert all(n == 0 for n in temp_counts(cur, r['job']).values()) and log_row(cur, r['job']) is not None
+            assert staged.fetch(cur, r['run'])[1]['identity_hash'] == r['identity']
+            b.api.admin(cur)
+            assert cur.execute('select count(*)from cp7_analysis_stage.retention_log where job_id=%s', (aged['job'],)).fetchone()[0] == 1
+            # Nothing else may be deleted under the permission: a running job's rows and a kept result's pages refuse.
+            cur.execute("select set_config('cp7.analysis_work_delete',%s,true)", (r['job'],))
+            for stmt, args in (('delete from cp7_analysis_stage.outputs where job_id<>%s', (r['job'],)),
+                              ('delete from cp7_analysis_stage.pages where run_id=%s', (r['run'],)),
+                              ('update cp7_analysis_stage.pages set summary=summary where run_id=%s', (r['run'],))):
+                cur.execute('savepoint s')
+                try:
+                    cur.execute(stmt, args)
+                    raise AssertionError(('K3C_REMOVAL_PERMISSION_TOO_WIDE', stmt))
+                except psycopg.errors.ObjectNotInPrerequisiteState as e:
+                    assert 'CP7_RUN_IMMUTABLE' in str(e), e
+                    cur.execute('rollback to savepoint s')
+            conn.rollback()
+        return dict(status='PASS', removal_held_open_while_a_running_job_steps=seen, permission_limited_to_the_named_job=True)
 
     def cron_fires():
         runs, counts = committed_run(1)
@@ -486,9 +555,9 @@ def races(tools, today):
                     contract=nightly.CONTRACT, file=name, restore_verified=verified,
                     started_at_utc=(datetime.now(timezone.utc) - timedelta(days=3 - i)).isoformat())))
             # A night whose backup cannot be made (the source cannot be read) removes nothing.
-            bad = nightly.backup(tools.admin, 'cp7_no_such_database', 'cp7_nightly_verify', dest, keep=2, container=container)
+            bad = nightly.backup(tools.admin, 'cp7_no_such_database', 'cp7_backup_nightly_verify', dest, keep=2, container=container)
             assert bad['restore_verified'] is False and 'BACKUP_DUMP_FAILED' in bad.get('error', '') and bad['retention']['removed'] == [], bad
-            good = nightly.backup(tools.admin, database, 'cp7_nightly_verify', dest, keep=2, container=container)
+            good = nightly.backup(tools.admin, database, 'cp7_backup_nightly_verify', dest, keep=2, container=container)
             assert good['restore_verified'] is True and good['data']['differ'] == {} and good['restore']['unexplained'] == [], good
             assert good['bytes'] == (Path(dest) / good['file']).stat().st_size and len(good['sha256']) == 64
             kept = good['retention']['kept']
@@ -497,7 +566,7 @@ def races(tools, today):
             tables = good['data']['tables']
         with tools.connect() as conn, conn.cursor() as cur:
             b.api.admin(cur)
-            assert cur.execute("select count(*) from pg_database where datname='cp7_nightly_verify'").fetchone()[0] == 0
+            assert cur.execute("select count(*) from pg_database where datname='cp7_backup_nightly_verify'").fetchone()[0] == 0
         return dict(status='PASS', restore_verified=True, tables_compared=tables, failed_night_removed_nothing=True,
                     newest_verified_kept=kept, older_removed_after_verified_night=good['retention']['removed'], schedule=nightly.SCHEDULE)
 
@@ -560,11 +629,11 @@ def races(tools, today):
         digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
         at = datetime.now(timezone.utc).replace(microsecond=0)
         with tempfile.TemporaryDirectory(prefix='cp7-nightly-retry-') as dest:
-            good = nightly.backup(tools.admin, database, 'cp7_nightly_verify', dest, keep=14, container=container, now=at)
+            good = nightly.backup(tools.admin, database, 'cp7_backup_nightly_verify', dest, keep=14, container=container, now=at)
             assert good['restore_verified'] is True, good
             dump, rec = Path(dest) / good['file'], Path(dest) / (good['file'] + '.receipt.json')
             before = (digest(dump), digest(rec))
-            bad = nightly.backup(tools.admin, 'cp7_no_such_database', 'cp7_nightly_verify', dest, keep=14, container=container, now=at)
+            bad = nightly.backup(tools.admin, 'cp7_no_such_database', 'cp7_backup_nightly_verify', dest, keep=14, container=container, now=at)
             assert bad['restore_verified'] is False and bad['file'] != good['file'] and bad['retention']['removed'] == [], bad
             assert bad['file'].split('-WIB-')[0] == good['file'].split('-WIB-')[0], (good['file'], bad['file'])
             assert (digest(dump), digest(rec)) == before and json.loads(rec.read_text())['restore_verified'] is True
@@ -573,10 +642,10 @@ def races(tools, today):
             real = nightly.uuid.uuid4
             nightly.uuid.uuid4 = lambda: token
             try:
-                first = nightly.backup(tools.admin, 'cp7_no_such_database', 'cp7_nightly_verify', dest, keep=14, container=container, now=at)
+                first = nightly.backup(tools.admin, 'cp7_no_such_database', 'cp7_backup_nightly_verify', dest, keep=14, container=container, now=at)
                 files = sorted(p.name for p in Path(dest).iterdir())
                 try:
-                    nightly.backup(tools.admin, database, 'cp7_nightly_verify', dest, keep=14, container=container, now=at)
+                    nightly.backup(tools.admin, database, 'cp7_backup_nightly_verify', dest, keep=14, container=container, now=at)
                     raise AssertionError('K3C_COLLISION_NOT_REFUSED')
                 except FileExistsError as e:
                     assert 'BACKUP_NAME_COLLISION' in str(e), e
@@ -586,7 +655,108 @@ def races(tools, today):
         return dict(status='PASS', verified_dump_and_receipt_unchanged=True, retry_same_second_new_name=bad['file'],
                     collision_refused_before_write=True, failed_retry_removed_nothing=True, synthetic='same timestamp passed as now; forced equal token')
 
-    return list(zip(IDS['races'], (two_ticks, busy_table, cron_fires, nightly_backup, cron_two_databases, backup_retry_same_second)))
+    def backup_scratch_guard():
+        # Independent audit Fable F-OPS-01 (FABLE_CORE:BACKUP_SCRATCH_DROPS_FOREIGN_DB): a --scratch naming another
+        # existing database was dropped and the backup still verified. Two other databases, SYNTHETIC and labelled,
+        # each with one row; neither is ever dropped or changed. One is named before the backup starts; the other
+        # appears after the tool checked the name (the check is made to see no database), so only createdb, which
+        # never drops first, stands between the backup and that database.
+        u = urlparse(tools.admin)
+        database = u.path.lstrip('/')
+        container = os.environ.get('CP6_DATABASE_CONTAINER', 'supabase_db_cp5-local')
+        victims = ('k3c_foreign_db', 'k3c_appears_late')
+        with psycopg.connect(nightly.db_url(tools.admin, 'postgres'), autocommit=True) as pg:
+            for v in victims:
+                pg.execute(sql.SQL('drop database if exists {} with (force)').format(sql.Identifier(v)))
+                pg.execute(sql.SQL('create database {}').format(sql.Identifier(v)))
+        for v in victims:
+            with psycopg.connect(nightly.db_url(tools.admin, v), autocommit=True) as c:
+                c.execute("create table k3c_keep(note text); insert into k3c_keep values('SYNTHETIC: must survive the backup')")
+        real_state = nightly.scratch_state
+        try:
+            with tempfile.TemporaryDirectory(prefix='cp7-nightly-scratch-') as dest:
+                refused = nightly.backup(tools.admin, database, 'k3c_foreign_db', dest, keep=14, container=container)
+                assert refused['restore_verified'] is False and 'BACKUP_SCRATCH_EXISTS_NOT_OURS' in refused.get('error', ''), refused
+                assert refused['scratch_before'] == 'FOREIGN' and refused['scratch_after'] == 'FOREIGN' and refused['retention']['removed'] == [], refused
+                calls = []
+
+                def first_check_sees_nothing(url, name):
+                    calls.append(name)
+                    return None if len(calls) == 1 else real_state(url, name)
+                nightly.scratch_state = first_check_sees_nothing
+                late = nightly.backup(tools.admin, database, 'k3c_appears_late', dest, keep=14, container=container)
+                nightly.scratch_state = real_state
+                assert late['restore_verified'] is False and 'BACKUP_SCRATCH_NOT_CREATED' in late.get('error', ''), late
+                assert late['scratch_before'] == 'ABSENT' and late['scratch_after'] == 'FOREIGN' and late['retention']['removed'] == [], late
+                # Any other name that no database has is created, marked, used and dropped; a database the tool
+                # itself marked (a leftover of a night that stopped) is reused and dropped.
+                good = nightly.backup(tools.admin, database, 'k3c_scratch_any_name', dest, keep=14, container=container)
+                assert good['restore_verified'] is True and good['scratch_before'] == 'ABSENT' and good['scratch_after'] == 'ABSENT', good
+                with psycopg.connect(nightly.db_url(tools.admin, 'postgres'), autocommit=True) as pg:
+                    pg.execute(sql.SQL('create database {}').format(sql.Identifier('k3c_scratch_any_name')))
+                nightly.mark_scratch(tools.admin, 'k3c_scratch_any_name')
+                again = nightly.backup(tools.admin, database, 'k3c_scratch_any_name', dest, keep=14, container=container)
+                assert again['restore_verified'] is True and again['scratch_before'] == 'OURS' and again['scratch_after'] == 'ABSENT', again
+            for v in victims:
+                with psycopg.connect(nightly.db_url(tools.admin, v)) as c:
+                    assert c.execute('select note from k3c_keep').fetchall() == [('SYNTHETIC: must survive the backup',)], v
+        finally:
+            nightly.scratch_state = real_state
+            with psycopg.connect(nightly.db_url(tools.admin, 'postgres'), autocommit=True) as pg:
+                for v in victims + ('k3c_scratch_any_name',):
+                    pg.execute(sql.SQL('drop database if exists {} with (force)').format(sql.Identifier(v)))
+        return dict(status='PASS', foreign_database_refused_and_kept=True, database_appearing_after_check_not_dropped=True,
+                    any_free_name_used_and_dropped=True, own_marked_leftover_reused_and_dropped=True,
+                    synthetic='two other databases created for the test, then removed')
+
+    def backup_under_writes():
+        # Independent audit Fable F-OPS-03: the restore was compared with the live source after the restore, so a
+        # write during the backup left the night unverified. A writer (SYNTHETIC, labelled: a test table on the
+        # disposable copy) inserts all through the backup; the night verifies against the dump's own snapshot.
+        u = urlparse(tools.admin)
+        database = u.path.lstrip('/')
+        container = os.environ.get('CP6_DATABASE_CONTAINER', 'supabase_db_cp5-local')
+        with tools.connect() as conn, conn.cursor() as cur:
+            b.api.admin(cur)
+            cur.execute('create table public.k3c_backup_writes(id bigserial primary key, at timestamptz not null default clock_timestamp())')
+            conn.commit()
+        stop, written = threading.Event(), [0]
+
+        def writer():
+            with tools.connect() as conn, conn.cursor() as cur:
+                b.api.admin(cur)
+                while not stop.is_set():
+                    cur.execute('insert into public.k3c_backup_writes default values')
+                    conn.commit()
+                    written[0] += 1
+                    time.sleep(0.02)
+        try:
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                w = pool.submit(writer)
+                time.sleep(0.5)
+                with tempfile.TemporaryDirectory(prefix='cp7-nightly-writes-') as dest:
+                    night = nightly.backup(tools.admin, database, 'cp7_backup_k3c_writes', dest, keep=14, container=container)
+                stop.set()
+                w.result(30)
+            with tools.connect() as conn, conn.cursor() as cur:
+                b.api.admin(cur)
+                total = cur.execute('select count(*) from public.k3c_backup_writes').fetchone()[0]
+            assert night['restore_verified'] is True and night['data']['differ'] == {}, night
+            assert night['data']['compared_with'] == 'source in the dump snapshot' and night['dump']['snapshot'], night
+            # The writer kept writing through the dump and the restore; both sides of the comparison are the snapshot.
+            dumped = night['data']
+            assert total > 0 and written[0] == total, (written, total)
+        finally:
+            stop.set()
+            with tools.connect() as conn, conn.cursor() as cur:
+                b.api.admin(cur)
+                cur.execute('drop table if exists public.k3c_backup_writes')
+                conn.commit()
+        return dict(status='PASS', restore_verified_while_writing=True, rows_written_during_backup=total, tables_compared=dumped['tables'],
+                    compared_with=dumped['compared_with'], synthetic='a test table written to through the backup, then dropped')
+
+    return list(zip(IDS['races'], (two_ticks, busy_table, cron_fires, nightly_backup, cron_two_databases, backup_retry_same_second,
+                                   cleanup_beside_running_step, backup_scratch_guard, backup_under_writes)))
 
 
 def http_cases(http, today):

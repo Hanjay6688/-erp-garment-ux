@@ -20,10 +20,13 @@ The control, applied by every mode:
     runtime check (boundary, public schema, leaked session or lock), a malformed case result, a group error, a missing
     case, a copy left behind or a failed cleanup keeps the first result as it is; when the date did change, a
     KEPT_FIRST_RESULT line names the rolled cases so a person reviews them;
-  * the first attempt is kept whole in the final report (business_day_first_attempt) and its rows stay in the job log.
+  * the first attempt is kept whole in the final report (business_day_first_attempt) and its rows stay in the job log;
+    on GitHub Actions both lines are also a warning annotation (AUDITOR_BUSINESS_DAY_*) that a CI receipt reads through
+    the API (scripts/cp7_ci_receipt.py; Fable F-TOOL-01: a rerun must be visible without reading every log).
 No assertion, oracle or product clock is changed; a second change of date in the same run stays INCOMPLETE.
 """
 import json
+import os
 
 WIB_DAY = "select (statement_timestamp() at time zone 'Asia/Jakarta')::date"
 
@@ -66,6 +69,15 @@ def retry_allowed(report, rows):
     return all(explained(r) for r in rows if r.get('status') != 'PASS')
 
 
+def annotate(kind, group, rolled):
+    """A GitHub Actions warning annotation for a business-day line; nothing outside Actions."""
+    if os.environ.get('GITHUB_ACTIONS') != 'true':
+        return
+    text = 'group=%s rolled_cases=%s' % (group, ','.join(rolled))
+    text = text.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+    print('::warning title=AUDITOR_BUSINESS_DAY_%s::%s' % (kind, text), flush=True)
+
+
 def with_retry(group, run_once, rows_of, keep_first=None):
     """Run a group; run it once more from a fresh copy when retry_allowed. The first attempt is kept in the result (and
     handed to keep_first, which saves it before the second attempt starts)."""
@@ -75,9 +87,11 @@ def with_retry(group, run_once, rows_of, keep_first=None):
         if rolled:
             print(json.dumps(dict(group=group, business_day_rollover='KEPT_FIRST_RESULT', rolled_cases=rolled,
                                   final={k: r.get('status') for k, r in rows_of(first).items()})), flush=True)
+            annotate('KEPT_FIRST_RESULT', group, rolled)
         return first
     print(json.dumps(dict(group=group, business_day_rollover='RERUN_FROM_FRESH_COPY', rolled_cases=rolled,
                           first_attempt_final={k: r.get('status') for k, r in rows_of(first).items()})), flush=True)
+    annotate('RERUN_FROM_FRESH_COPY', group, rolled)
     if keep_first:
         keep_first(first)
     second = run_once()

@@ -19,6 +19,8 @@ FUNCTIONS = {
     'retention_days': 'i', 'retention': 's', 'require_kept': 's', 'purge_expired': 'v',
     # cleanup after DONE (owner decision 9 Oct 2026 WIB, K3b): verified final result, temporary work removed once
     'cleanup_due': 's', 'verify_final': 's', 'clean_done': 'v', 'clean_pending': 'v',
+    # the work tables' and pages' insert-only trigger, which lets through only the named job's removal (Fable F-OPS-02)
+    'work_immutable': 'v',
     # K4 (owner decision 8 Oct 2026, 6): the server runner, one unit of the oldest running job per call
     'run_next': 'v',
     # snapshot contract v2 (analysis-stage-snapshot.sql): change counts, freshness, recorded full checks
@@ -42,7 +44,9 @@ TABLES = ('jobs', 'units', 'outputs', 'target_rows', 'pair_rows', 'pair_lists', 
           'capture_marks', 'plan_targets', 'plan_scope', 'plan_groups', 'source_checks', 'retention_log', 'cleanups',
           'report_jobs', 'report_reads', 'report_sections', 'report_publications', 'runner')
 # The job row's immutable columns (an UPDATE naming one of them is refused); the runner's one row is updated in
-# place and never deleted (K4); every other table is insert-only.
+# place and never deleted (K4); every other table is insert-only. The work tables and the pages use their own
+# trigger, which refuses the same changes except the retention/cleanup removal of the one job it is told of.
+WORK_TABLES = ('outputs', 'target_rows', 'pair_rows', 'pair_lists', 'fragments', 'pages')
 JOB_FIXED = 'id, actor, request_id, query, reference, access_at_capture, captured_at, source_hash, run_id, created_at'
 REPORT_JOB_FIXED = ('id, actor, request_id, payload, run_id, analysis_job, identity_hash, data_as_of, period_query, kind, finance, series_id, '
                     'revision, page_count, targets_total, access_at_request, unit_count, created_at')
@@ -80,12 +84,16 @@ def verify(cur):
                            "and pg_get_expr(polwithcheck,polrelid)='false'", (name,)).fetchone()[0] == 1, name
         for who in ('anon', 'authenticated', 'service_role'):
             assert not cur.execute("select has_table_privilege(%s,%s,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE,TRIGGER')", (who, name)).fetchone()[0], (who, name)
-        triggers = cur.execute("select pg_get_triggerdef(t.oid) from pg_trigger t where t.tgrelid=%s::regclass and t.tgfoid='cp7_private.immutable_run()'::regprocedure "
-                               "and not t.tgisinternal and t.tgenabled<>'D'", (name,)).fetchall()
+        function = 'cp7_analysis_stage.work_immutable()' if table in WORK_TABLES else 'cp7_private.immutable_run()'
+        triggers = cur.execute("select pg_get_triggerdef(t.oid) from pg_trigger t where t.tgrelid=%s::regclass and t.tgfoid=%s::regprocedure "
+                               "and not t.tgisinternal and t.tgenabled<>'D'", (name, function)).fetchall()
         assert len(triggers) == 1, (name, triggers)
         expected = ('BEFORE DELETE OR UPDATE OF %s' % JOB_FIXED) if table == 'jobs' else ('BEFORE DELETE OR UPDATE OF %s' % REPORT_JOB_FIXED) \
             if table == 'report_jobs' else 'BEFORE DELETE' if table == 'runner' else 'BEFORE DELETE OR UPDATE'
-        assert (' %s ON %s FOR EACH ROW EXECUTE FUNCTION cp7_private.immutable_run()' % (expected, name)) in triggers[0][0], triggers[0][0]
+        assert (' %s ON %s FOR EACH ROW EXECUTE FUNCTION %s' % (expected, name, function)) in triggers[0][0], triggers[0][0]
+    # The removal permission is the job's own rows only: the trigger is the one place that reads the setting.
+    for name in ('cp7_analysis_stage.purge_intermediates(uuid)', 'cp7_analysis_stage.purge_expired(integer)', 'cp7_analysis_stage.clean_done(uuid)'):
+        assert 'disable trigger' not in cur.execute('select prosrc from pg_proc where oid=%s::regprocedure', (name,)).fetchone()[0].lower(), name
     # The staged job never writes the single path's run table: no function of
     # the schema inserts into cp7_analysis_native.runs or the job documents/segments.
     for pattern in ('insert into cp7_analysis_native.runs', 'insert into cp7_analysis_jobs.', 'scenario_stand_in'):

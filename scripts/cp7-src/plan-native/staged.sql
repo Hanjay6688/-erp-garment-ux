@@ -464,6 +464,8 @@ begin
  outcome:=jsonb_build_object('contract_version','cp7.plan-apply-outcome.v2','kind','COMMITTED_OUTCOME','actor_scope_id',a->>'actor',
   'request_id',p_request,'draft_id',r.id,'revision',r.revision::text,'intent_id',k,'target_key',r.target_key,
   'identity_hash',sd.identity_hash,'data_as_of',sd.data_as_of,'live',preview->'live','native',native,
+  -- Owner 12 Oct 2026: the applied plan keeps the yield it was cut with, with the PL-5 policy version that gave it.
+  'new_start_yield',preview->'new_start_yield',
   'state','NATIVE_DRAFT_CREATED','reservation_created',false,'physical_production_confirmed',false,'production_go',false);
  insert into cp7_plan_native.commands(actor,request_id,payload,result)values((a->>'actor')::uuid,p_request,p,outcome);return outcome;
 end $$;

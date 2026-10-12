@@ -435,7 +435,24 @@ def cases(cur, today):
             staged_code, where = re.search(r'CP7_[A-Z0-9_]+', detail).group(0), 'request'
             assert counts(cur, key2) == (0, 0, 0, 0)
         assert staged_code == 'CP7_PLANNING_HISTORY_GRID_LIMIT' == single2_code, (staged_code, single2_code)
-        return dict(status='PASS', bounds=bounds, within=dict(targets=size, history_days=days, cells=cells, single_refusal=single_code,
+        # Beyond the target bound (independent audit Fable F-AN-01): refused at the request with the declared code and
+        # no job, reference or page kept. SYNTHETIC (labelled): job_targets lowered to the products present minus one,
+        # inside a savepoint rolled back before the case ends; the declared bound is read back unchanged after.
+        cur.execute('savepoint p19g_targets')
+        try:
+            b.api.admin(cur)
+            src = cur.execute("select pg_get_functiondef('cp7_analysis_stage.bounds()'::regprocedure)").fetchone()[0]
+            lowered = src.replace("'job_targets',5000", "'job_targets',%d" % (len(beyond) - 1))
+            assert lowered != src, 'P19G_BOUNDS_SOURCE_CHANGED'
+            cur.execute(lowered)
+            key3 = uuid.uuid4()
+            refused(cur, lambda: request(cur, today, key3, q=q), 'CP7_ANALYSIS_STAGED_TARGET_LIMIT')
+            b.api.admin(cur)
+            assert counts(cur, key3) == (0, 0, 0, 0), 'P19G_TARGET_LIMIT_KEPT_A_JOB'
+        finally:
+            cur.execute('rollback to savepoint p19g_targets')
+        assert scale.staged_bounds(cur)['declared_match']
+        return dict(status='PASS', bounds=bounds, targets_beyond_bound_refused_at_request='CP7_ANALYSIS_STAGED_TARGET_LIMIT', within=dict(targets=size, history_days=days, cells=cells, single_refusal=single_code,
                     staged_state='DONE', units=len(calls), slowest_call_ms=max(c['ms'] for c in calls), pages=shape, coverage=cover,
                     frozen_contract_valid=True, semantic_hash_recomputed_from_reassembly=True),
                     beyond=dict(targets=beyond_size, history_days=beyond_days, cells=beyond_size * beyond_days, single_refusal=single2_code,

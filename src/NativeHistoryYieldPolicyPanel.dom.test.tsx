@@ -43,6 +43,6 @@ it('keeps the same request through a lost reply and repeats it unchanged',async(
 })
 it('lets a viewer read the versions but not save',async()=>{
  client.rpc.mockResolvedValue({data:policyWorkspace([policyRow('2','PAUSED'),policyRow('1','ACTIVE')],false),error:null});await render()
- expect(container.textContent).toContain('Dijeda: histori tidak dipakai');expect(container.textContent).toContain('Hanya pemilik atau admin');expect(container.querySelectorAll('[data-revision]').length).toBe(2)
+ expect(container.textContent).toContain('Dijeda: histori tidak dipakai');expect(container.textContent).toContain('Hanya pemilik yang dapat menyimpan');expect(container.querySelectorAll('[data-revision]').length).toBe(2)
  expect((container.querySelector('fieldset')as HTMLFieldSetElement).disabled).toBe(true)
 })

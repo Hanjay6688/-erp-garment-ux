@@ -293,8 +293,12 @@ def cases(cur, today):
         assert save(cur, payload(), owner, key) == first
         refused(cur, lambda: save(cur, payload(reason='other'), owner, key), 'CP7_YIELD_POLICY_REQUEST_CHANGED')
         refused(cur, lambda: save(cur, payload(), owner), 'CP7_YIELD_POLICY_REVISION_CHANGED', '40001')
-        second = save(cur, payload(expected='1', state='PAUSED', reason='Jeda uji'), admin)['policy']
-        assert (second['revision'], second['state'], second['actor_role']) == ('2', 'PAUSED', 'ADMIN'), second
+        # Owner decision 12 Oct 2026: only the owner saves a version; an admin may read the policy.
+        refused(cur, lambda: save(cur, payload(expected='1', state='PAUSED', reason='Jeda uji'), admin), 'CP7_YIELD_POLICY_OWNER_REQUIRED', '42501')
+        admin_view = workspace(cur, admin)
+        assert admin_view['manage_allowed'] is False and admin_view['current']['revision'] == '1', admin_view
+        second = save(cur, payload(expected='1', state='PAUSED', reason='Jeda uji'), owner)['policy']
+        assert (second['revision'], second['state'], second['actor_role'], second['actor']) == ('2', 'PAUSED', 'OWNER', owner), second
         for sql in ('update cp7_yield_policy.policies set reason=reason', 'delete from cp7_yield_policy.policies',
                     'update cp7_yield_policy.commands set payload=payload', 'delete from cp7_yield_policy.commands'):
             refused(cur, lambda sql=sql: cur.execute(sql), 'CP7_POLICY_HISTORY_IMMUTABLE')
@@ -302,7 +306,8 @@ def cases(cur, today):
         assert ws['state'] == 'PAUSED' and ws['current']['revision'] == '2' and [x['revision'] for x in ws['revisions']] == ['2', '1'], ws
         assert rows(cur) == (2, 2)
         return dict(status='PASS', signed_actor_role_reason_time=True, replay_same_request=True, changed_request_refused=True,
-                    stale_revision_40001=True, second_revision_by_admin=True, rows_immutable=True, recorded_after=before <= time.time())
+                    stale_revision_40001=True, admin_refused_and_reads=True, second_revision_new_version_by_owner=True, rows_immutable=True,
+                    recorded_after=before <= time.time())
 
     def values_authority():
         owner = actor(cur)
@@ -320,14 +325,14 @@ def cases(cur, today):
         refused(cur, lambda: save(cur, extra, owner), 'CP7_WIP_FIELDS')
         manager = custom(cur, True)
         viewer = custom(cur, False)
-        refused(cur, lambda: save(cur, payload(), manager), 'CP7_YIELD_POLICY_OWNER_ADMIN_REQUIRED', '42501')
+        refused(cur, lambda: save(cur, payload(), manager), 'CP7_YIELD_POLICY_OWNER_REQUIRED', '42501')
         refused(cur, lambda: save(cur, payload(), viewer), 'CP7_POLICY_ACCESS_DENIED', '42501')
         ws = workspace(cur, viewer)
         assert ws['manage_allowed'] is False and ws['state'] == 'PENDING_POLICY_VALUE', ws
         assert workspace(cur, manager)['manage_allowed'] is False
         assert rows(cur) == (0, 0)
         return dict(status='PASS', invalid_values_refused=len(bad) + 1, confidence_fixed_at_owner_decision=True,
-                    non_owner_admin_refused=True, without_manage_refused=True, read_allowed_without_manage=True, nothing_written=True)
+                    non_owner_refused=True, without_manage_refused=True, read_allowed_without_manage=True, nothing_written=True)
 
     def product_size():
         owner = actor(cur)
@@ -547,10 +552,18 @@ def cases(cur, today):
         assert u['new_start_yield']['basis'] == 'UNKNOWN' and u['cut_limit_basis'] == 'NEED_CAP_YIELD_UNKNOWN_NOT_ASSUMED_100_PERCENT' and u['unresolved_pcs'] is None, u
         # Active again: apply re-reads the history in its own transaction and creates the Native draft.
         save(cur, payload(expected='2', reason='Aktif kembali sesudah uji'), owner)
-        out = planv2.apply(cur, planv2.action(d))
+        act, key = planv2.action(d), uuid.uuid4()
+        out = planv2.apply(cur, act, key)
         assert out['state'] == 'NATIVE_DRAFT_CREATED', out
+        # Owner 12 Oct 2026: the applied plan keeps the yield and the policy version it was cut with; a later version
+        # (here the window changed to 90 days) never rewrites it.
+        used = out['new_start_yield']
+        assert used['basis'] == 'HISTORY_NATIVE' and used['history']['policy']['revision'] == '3' and used['numerator'] == str(k), used
+        save(cur, payload(expected='3', window_days='90', reason='Versi baru sesudah rencana disahkan'), owner)
+        assert planv2.apply(cur, act, key) == out, 'PL5H_APPLIED_PLAN_REWRITTEN_BY_NEW_POLICY'
         return dict(status='PASS', preview_history_equals_reader=True, cut_limit_ceil_need_1000_over_k=True, estimate_refused_while_available=True,
-                    applied_with_live_recheck=True, paused_policy_A_or_unknown=True, lower_bound_permille=k)
+                    applied_with_live_recheck=True, paused_policy_A_or_unknown=True, lower_bound_permille=k,
+                    applied_plan_keeps_policy_version='3')
 
     def catalog():
         b.api.admin(cur)

@@ -10,6 +10,7 @@ import io
 import contextlib
 import re
 import unittest
+import unittest.mock
 
 import cp6_auditor_business_day as bd
 
@@ -149,6 +150,22 @@ class WithRetry(unittest.TestCase):
             self.assertEqual(kept, [])
             self.assertIn('KEPT_FIRST_RESULT', log)
             self.assertNotIn('RERUN_FROM_FRESH_COPY', log)
+
+    def test_actions_annotation_names_the_group_and_cases(self):
+        # Fable F-TOOL-01: on GitHub Actions a rerun or a kept first result is a warning annotation for the receipt.
+        first = dict(cases={'A': row()})
+        bd.guard(first['cases']['A'], D9, D9, D10)
+        with unittest.mock.patch.dict('os.environ', {'GITHUB_ACTIONS': 'true'}):
+            _, _, log = self.run_attempts([first, dict(cases={'A': row()})])
+        self.assertIn('::warning title=AUDITOR_BUSINESS_DAY_RERUN_FROM_FRESH_COPY::group=G rolled_cases=A', log)
+        failed = dict(cases={'A': row('FAIL')})
+        bd.guard(failed['cases']['A'], D9, D10, D10)
+        with unittest.mock.patch.dict('os.environ', {'GITHUB_ACTIONS': 'true'}):
+            _, _, log = self.run_attempts([failed])
+        self.assertIn('::warning title=AUDITOR_BUSINESS_DAY_KEPT_FIRST_RESULT::group=G rolled_cases=A', log)
+        with unittest.mock.patch.dict('os.environ', {'GITHUB_ACTIONS': ''}):
+            _, _, log = self.run_attempts([failed])
+        self.assertNotIn('::warning', log)
 
 
 class AttentionMidnightReplay(unittest.TestCase):

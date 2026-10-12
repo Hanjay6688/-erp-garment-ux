@@ -35,13 +35,14 @@ test('P19 staged API: idempotent request, fixed capture, status has no side effe
   await callAs(db,ACTOR,`public.erp_cp7_request_analysis_job_v1(${jsonArg(QUERY)},'${ordinary}')`)
   await refuseAs(db,ACTOR,`public.erp_cp7_request_staged_analysis_v1(${jsonArg(QUERY)},'${ordinary}')`,'CP7_ANALYSIS_REQUEST_CHANGED')
   const rows=await db.query(`select count(*) n from cp7_analysis_stage.jobs where request_id='${req}'`);expect(rows[0].n).toBe(1)
-  // Above capacity, the initial status remains a valid contract. The real
-  // HIST_PREP refusal is tested on the real scenario chain below.
+  // Above capacity the request itself refuses with the declared code and keeps
+  // no job (Fable F-AN-01; it used to be accepted and fail at unit 0). The
+  // HIST_PREP refusal of a job whose reference grew is tested below.
   await db.execute(`reset role;update public.stage_capture set c=jsonb_set(c,'{facts,products}',
    (select jsonb_agg((c#>'{facts,products,0}')||jsonb_build_object('id','over-'||i,'root_id','over-'||i))from generate_series(1,5001)i))`)
   const over=uuid(5)
-  const accepted=parseStagedJob(await callAs(db,ACTOR,`public.erp_cp7_request_staged_analysis_v1(${jsonArg(QUERY)},'${over}')`),over)
-  expect(accepted.targetsTotal).toBeNull()
+  await refuseAs(db,ACTOR,`public.erp_cp7_request_staged_analysis_v1(${jsonArg(QUERY)},'${over}')`,'CP7_ANALYSIS_STAGED_TARGET_LIMIT')
+  expect((await db.query(`select count(*) n from cp7_analysis_stage.jobs where request_id='${over}'`))[0].n).toBe(0)
  }finally{await db.close()}
 },900000)
 

@@ -108,7 +108,30 @@ def cases(cur,today):
         key=uuid.uuid4();cancel=act(cur,'CANCEL',d,key);assert act(cur,'CANCEL',d,key)==cancel and cancel['status']=='REVERSED'
         assert n.read(cur,'SOURCES',contractor_id=f['contractor'])['page']['total']=='2' and n.facts(cur)==before
         return dict(status='PASS',future_date_inactive_or_missing_cash_no_partial_write=True,partial_cash_not_falsely_supported=True,native_approved_unpaid_cancellation=True,exact_cancel_replay_and_source_release=True)
-    return [('P12_SETTLEMENT_'+k,fn) for k,fn in [('FULL_LIFECYCLE',lifecycle),('PRESERVE_SELECTED_WORK',selected),('ATTENDANCE_ACCRUAL',attendance_accrual),('KASBON_CARRY',kasbon),('STALE_CHILD',stale),('ACCESS',access),('INVALID_PAY_CANCEL',invalid_cancel)]]
+    def wib_payment_date():
+        # Fable F-PAY-01: the PAY date must follow the WIB business day, not the
+        # session clock. UTC-12 is a day behind WIB before 19.00 WIB and UTC+14
+        # a day ahead from 17.00 WIB, so every run puts one of them on another date.
+        f=review.fixture(cur,today);pid=f['payroll'];act(cur,'APPROVE',doc(cur,pid));d=doc(cur,pid);bank=cash(cur);before=n.facts(cur)
+        zone=cur.execute('show timezone').fetchone()[0];wib=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+        def session_day(z):cur.execute("select set_config('TimeZone',%s,true)",(z,));return cur.execute('select current_date').fetchone()[0]
+        ahead=behind=False
+        try:
+            if session_day('Etc/GMT-14')>wib:
+                ahead=True;auth.refused(cur,lambda:act(cur,'PAY',d,payment_date=str(wib+timedelta(days=1)),cash_account_id=bank),'masa depan')
+                assert doc(cur,pid)==d and n.facts(cur)==before
+            if session_day('Etc/GMT+12')<wib:behind=True
+            elif not ahead:raise AssertionError('no session zone on another date than WIB')
+            elif session_day('Etc/GMT-14')<=wib:raise AssertionError('session zone moved back to the WIB date')
+            paid=act(cur,'PAY',d,payment_date=str(wib),cash_account_id=bank)
+        finally:
+            # An aborted transaction keeps the original error; the case savepoint
+            # rollback restores the zone in that path.
+            if cur.connection.info.transaction_status!=psycopg.pq.TransactionStatus.INERROR:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
+        assert paid['status']=='PAID' and journal(cur,pid,'PAYROLL_PAYMENT')[0]==2
+        assert cur.execute("select payment_date from erp.payroll_settlements where id=%s",(pid,)).fetchone()[0]==wib
+        return dict(status='PASS',wib_day=str(wib),session_day_behind_wib_accepts_wib_today=behind,session_day_ahead_of_wib_refuses_wib_tomorrow=ahead,no_partial_write_on_refusal=True)
+    return [('P12_SETTLEMENT_'+k,fn) for k,fn in [('FULL_LIFECYCLE',lifecycle),('PRESERVE_SELECTED_WORK',selected),('ATTENDANCE_ACCRUAL',attendance_accrual),('KASBON_CARRY',kasbon),('STALE_CHILD',stale),('ACCESS',access),('INVALID_PAY_CANCEL',invalid_cancel),('WIB_PAYMENT_DATE',wib_payment_date)]]
 
 def races(tools,today):
     def payments(same):

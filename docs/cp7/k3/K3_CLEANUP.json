@@ -1,9 +1,9 @@
 {
   "contract": "cp7.k3b.cleanup-and-schedule.v1",
-  "expected_case_count": 19,
+  "expected_case_count": 22,
   "required_case_counts": {
     "native": 9,
-    "races": 6,
+    "races": 9,
     "http": 2,
     "browser": 2
   },
@@ -25,7 +25,10 @@
       "K3C_RACE_PG_CRON_FIRES",
       "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
       "K3C_RACE_CRON_TWO_DATABASES",
-      "K3C_RACE_BACKUP_RETRY_SAME_SECOND"
+      "K3C_RACE_BACKUP_RETRY_SAME_SECOND",
+      "K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP",
+      "K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE",
+      "K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES"
     ],
     "http": [
       "K3C_HTTP_REOPEN_AFTER_CLEANUP",
@@ -107,7 +110,8 @@
     "defers_while_analysis_running": "progress in the last 10 minutes",
     "lock_timeout_ms": 2000,
     "in_user_request": false,
-    "not_rederived_before_removal": "P20 F04 (independent audit 9 Oct 2026, AS20-39): the plan index content (plan_targets values), plan scope content, page range metadata and header totals are not re-derived from the page bodies; they are protected by the immutable-run trigger (55000 CP7_RUN_IMMUTABLE), not by the cleanup verifier. With that trigger deliberately disabled on a copy, such changes are not detected before CLEANED."
+    "not_rederived_before_removal": "P20 F04 (independent audit 9 Oct 2026, AS20-39): the plan index content (plan_targets values), plan scope content, page range metadata and header totals are not re-derived from the page bodies; they are protected by the immutable-run trigger (55000 CP7_RUN_IMMUTABLE), not by the cleanup verifier. With that trigger deliberately disabled on a copy, such changes are not detected before CLEANED.",
+    "removal_without_table_lock": "Independent audit Fable F-OPS-02: clean_done, purge_expired and purge_intermediates no longer suspend the immutable triggers with ALTER TABLE (a SHARE ROW EXCLUSIVE lock that made a running analysis's unit insert wait until the 8 s limit). They name the job (and its run, for pages) in a transaction-local setting; the work tables' and pages' trigger (cp7_analysis_stage.work_immutable) lets through a DELETE of exactly those rows and refuses every other change (55000 CP7_RUN_IMMUTABLE). purge_expired also gives up on a busy row after 2 s (lock_timeout)."
   },
   "nightly_backup": {
     "tool": "scripts/cp7_nightly_backup.py",
@@ -117,8 +121,9 @@
       "meaning": "01:00 WIB nightly"
     },
     "keep_verified": 14,
-    "verified_by": "restore into a separate scratch database; every table row count and md5 equal",
-    "attempt_name": "erp-<YYYYmmdd-HHMMSS>-WIB-<random token>.dump; an existing dump or receipt name is refused before anything is written (P20 F03)"
+    "verified_by": "restore into a separate scratch database; every table's row count and md5 equal to the source read in the dump's own exported snapshot (pg_dump --snapshot), so writes during the backup do not affect the comparison (Fable F-OPS-03)",
+    "attempt_name": "erp-<YYYYmmdd-HHMMSS>-WIB-<random token>.dump; an existing dump or receipt name is refused before anything is written (P20 F03)",
+    "scratch": "any name other than the source and postgres; the tool marks the database it creates (database comment) and drops only a database with its mark; any other existing database is refused (BACKUP_SCRATCH_EXISTS_NOT_OURS) and left unchanged; the scratch is made with createdb and never dropped first, so a database of that name appearing after the check makes createdb fail instead of being dropped (Fable F-OPS-01)"
   },
   "installed": false,
   "production_go": false,
@@ -127,9 +132,12 @@
     "a page hash changed and restored to stand for an unverifiable result",
     "finish time moved back 8 days",
     "three earlier nights' backup receipts",
-    "TEST_SCHEDULE_OVERRIDE on the disposable race copy"
+    "TEST_SCHEDULE_OVERRIDE on the disposable race copy",
+    "two other databases created and removed by the scratch guard case (one of them made to appear after the check)",
+    "a test table written to through a backup, then dropped"
   ],
   "schedule_job_name": "pg_cron job name = <schedule name>@<database> (P20 F02): installing for one database never moves another database's jobs; reinstall is idempotent; a same-named job of another database is refused before any change",
   "schedules_k4_note": "9 Oct 2026: cp7-staged-runner (K4) added to the same server schedule; its cases are the k4-runner suite (docs/cp7/k4/K4_RUNNER.json). No K3 check changed.",
-  "schedules_k6_note": "11 Oct 2026: cp7-proof-runner (K6, PL-8 proof runner) added to the same server schedule; its cases are the k6-proof-runner suite (docs/cp7/k6/K6_PROOF_RUNNER.json). No K3 check changed."
+  "schedules_k6_note": "11 Oct 2026: cp7-proof-runner (K6, PL-8 proof runner) added to the same server schedule; its cases are the k6-proof-runner suite (docs/cp7/k6/K6_PROOF_RUNNER.json). No K3 check changed.",
+  "schedule_installer": "scripts/cp7_schedule.py: install requires --installation-approved, uninstall requires --removal-approved, and --database must be the database of --erp-url (CP7_SCHEDULE_DATABASE_MISMATCH, Fable F-OPS-04)"
 }

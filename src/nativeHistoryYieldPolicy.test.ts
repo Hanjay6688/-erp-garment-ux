@@ -11,7 +11,9 @@ describe('history yield policy',()=>{
  })
  it('refuses a changed package, a changed confidence, out-of-order revisions or a mismatched state',()=>{
   const bad=[{...policyWorkspace(),decided_package:{...policyWorkspace().decided_package,window_days:'90'}},policyWorkspace([{...policyRow('1','ACTIVE'),confidence:'0.95'}]),
-   policyWorkspace([policyRow('1','ACTIVE'),policyRow('2','ACTIVE')]),{...policyWorkspace([policyRow('1','ACTIVE')]),state:'PAUSED'},{...policyWorkspace(),extra:true}]
+   policyWorkspace([policyRow('1','ACTIVE'),policyRow('2','ACTIVE')]),{...policyWorkspace([policyRow('1','ACTIVE')]),state:'PAUSED'},{...policyWorkspace(),extra:true},
+   // Owner decision 12 Oct 2026: a version is saved by the owner only; a row signed by another role is refused.
+   policyWorkspace([{...policyRow('1','ACTIVE'),actor_role:'ADMIN'}])]
   for(const raw of bad)expect(()=>parseYieldPolicyWorkspace(raw)).toThrow()
  })
  it('builds the payload on the latest revision with whole numbers only and the fixed confidence',()=>{
