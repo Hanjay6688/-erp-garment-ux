@@ -1,4 +1,4 @@
-# Uji ulang temuan Fable — kandidat `ddedf06c` (sesi auditor terpisah)
+# Uji ulang temuan Fable — kandidat `7a0b4a90` (sesi auditor terpisah)
 
 Dokumen ini untuk **auditor di sesi terpisah**, bukan writer. Audit penuh CP7 Fable atas `d0b9e9c2` memberi HOLD
 (F-OPS-01, F-OPS-02, F-UI-01 major). Handoff Fable: "Writer boleh diminta perbaiki tiga temuan major, lalu kandidat baru
@@ -8,9 +8,9 @@ diuji ulang dengan kasus Fable yang sama." Kandidat ini juga memuat perbaikan AS
 ## Paste block untuk membuka sesi auditor
 
 > Kamu auditor independen CP7 ERP Garment (repo `Hanjay6688/-erp-garment-ux`, cabang `claude/new-session-deapao`).
-> Kandidat revisi adalah commit sumber `ddedf06cceb290549dbc7b9d5e1d4a0fbd3f064f`, tercatat di
+> Kandidat revisi adalah commit sumber `7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2`, tercatat di
 > `docs/cp7/audit-candidate/fable-retest-20261012/CI_RECEIPT.json`. Uji commit itu, bukan HEAD lain; commit sesudahnya
-> hanya dokumen — buktikan sendiri dengan `git diff --name-only ddedf06c HEAD` (semua harus di bawah `docs/`). Selisih
+> hanya dokumen — buktikan sendiri dengan `git diff --name-only 7a0b4a90 HEAD` (semua harus di bawah `docs/`). Selisih
 > dari `d0b9e9c2` yang diaudit ada di `SOURCE_DELTA.json` paket itu. Baca `docs/AUDIT_PANDUAN_PRO_MAX.md`, laporan audit
 > Fable di cabang `audit/fable-cp7-full-d0b9e9c2-20261011` (`audit/fable_cp7/AUDIT_FABLE_d0b9e9c2.md`, skenario
 > `audit/fable_cp7/scenarios/`), lalu `README.md` dan `AUDITOR_RETEST.md` di folder paket ini. Jalankan ulang kasus Fable
@@ -27,7 +27,7 @@ diuji ulang dengan kasus Fable yang sama." Kandidat ini juga memuat perbaikan AS
 
 ## Yang diuji ulang
 
-| Temuan | Kriteria penutupan (laporan Fable §2) | Yang berubah di `ddedf06c` | Titik awal (bukan bukti lulus) |
+| Temuan | Kriteria penutupan (laporan Fable §2) | Yang berubah di `7a0b4a90` | Titik awal (bukan bukti lulus) |
 |---|---|---|---|
 | F-OPS-01 major | `FABLE_CORE:BACKUP_SCRATCH_DROPS_FOREIGN_DB` PASS (database lain tetap ada); nama scratch dicatat di receipt | `scripts/cp7_nightly_backup.py` (`scratch_state`, `mark_scratch`, `Tools.create` tanpa hapus dulu, `backup`) | kasus Fable tanpa diubah PASS di mesin writer; `K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE` di suite `k3-cleanup-22` |
 | F-OPS-02 major | `FABLE_CORE:CLEANUP_LOCK_VS_RUNNING_STEP` PASS (step tidak menunggu/dibatalkan); suite `k3-cleanup` dan `k4-runner-17` lulus | `scripts/cp7-src/planning/analysis-stages.sql` (`work_immutable`, `clean_done`, `purge_expired`, `purge_intermediates`); `scripts/cp7_analysis_stages_bundle.py` | kasus Fable PASS di mesin writer (step 0,02 dtk, `unit_attempts` 0); `K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP` |
@@ -40,7 +40,7 @@ diuji ulang dengan kasus Fable yang sama." Kandidat ini juga memuat perbaikan AS
 ## Regresi yang mungkin terdampak
 
 - Semua suite yang memakai tabel kerja analisis bertahap (K2, K3, K4, P19 staged, plan v2, report v2, AI v2, reminder
-  v2): trigger tabel kerja berubah. Ke-15 workflow kualifikasi dijalankan pada `ddedf06c`.
+  v2): trigger tabel kerja berubah. Ke-15 workflow kualifikasi dijalankan pada `7a0b4a90`.
 - PL-5 B: admin tidak lagi bisa menyimpan versi kebijakan (keputusan owner).
 - Alat uji tanggal WIB: hanya menambah anotasi; logika ASF-F01 tidak berubah sejak `5f1506f4`.
 - Area yang tidak disentuh `SOURCE_DELTA.json` boleh tidak diulang; tulis BELUM DIULANG, bukan LULUS.

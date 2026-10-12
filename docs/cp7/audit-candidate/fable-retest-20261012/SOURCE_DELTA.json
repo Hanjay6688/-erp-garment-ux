@@ -1,13 +1,13 @@
 {
  "contract": "cp7.continuation-source-delta.v1",
  "audited": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
- "candidate": "ddedf06cceb290549dbc7b9d5e1d4a0fbd3f064f",
+ "candidate": "7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2",
  "summary": {
-  "files": 45,
-  "added": 13,
-  "modified": 32,
+  "files": 49,
+  "added": 16,
+  "modified": 33,
   "deleted": 0,
-  "non_docs": 27
+  "non_docs": 28
  },
  "files": [
   {
@@ -54,8 +54,8 @@
     "sha256": "d35f6e1b721ac3d41e01b76ce6523b85cd03b9f1ef6090845baad9c0ecd7ccb0"
    },
    "after": {
-    "bytes": 35058,
-    "sha256": "2f430c477b518fa5ce63e9f240261b7ba37b8e767b8b0bb944f97b7927217377"
+    "bytes": 35955,
+    "sha256": "b1fc23bcf90126316d09740d37c4673f6ccd74db3ea22eaef81f8dd465b967a0"
    }
   },
   {
@@ -182,6 +182,33 @@
    "after": {
     "bytes": 20529,
     "sha256": "2cf77ff44a8d161196e9fe426433fd1d13587c5d42cfeed80d7f24027b83401c"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/fable-retest-20261012/AUDITOR_RETEST.md",
+   "before": null,
+   "after": {
+    "bytes": 5447,
+    "sha256": "be4fde74a1ff9d5acff7ce47479a5a6ac1d3323a01b1f23630c41b2e07e8f58b"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/fable-retest-20261012/README.md",
+   "before": null,
+   "after": {
+    "bytes": 10780,
+    "sha256": "333bbac74d8e1312ea0d208b809eeb9c4083a813714eda87123d890a224e22f8"
+   }
+  },
+  {
+   "status": "A",
+   "path": "docs/cp7/audit-candidate/fable-retest-20261012/SOURCE_DELTA.json",
+   "before": null,
+   "after": {
+    "bytes": 13548,
+    "sha256": "eb6f2ad230832a9f73c60391230938416690825e99abc1a34bb305ba5ba30ca6"
    }
   },
   {
@@ -323,6 +350,18 @@
    "after": {
     "bytes": 2810,
     "sha256": "3877ddc2ac5e161373e312a9914f123c87e5cdcb4b143e922cccebe07c992190"
+   }
+  },
+  {
+   "status": "M",
+   "path": "scripts/cp7_f03_full_manifest.json",
+   "before": {
+    "bytes": 36196,
+    "sha256": "fcce2422718d129c2b8daa9180ae8878b09e1aea6837a34b66469b180da8a157"
+   },
+   "after": {
+    "bytes": 36196,
+    "sha256": "758b36a06f34a49e7831c283698278a578d9d519bf6a1d4dee90d4df9ec48df8"
    }
   },
   {

@@ -8,10 +8,14 @@ bukan penerimaan auditor. `production_go:false`.
 
 ## Identitas
 
-- **Commit sumber: `ddedf06cceb290549dbc7b9d5e1d4a0fbd3f064f`**, cabang `claude/new-session-deapao`.
-- Selisih dari `d0b9e9c2` yang diaudit: `SOURCE_DELTA.json` — 45 berkas, 27 bukan dokumen. Termasuk perbaikan ASF-F01
+- **Commit sumber: `7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2`**, cabang `claude/new-session-deapao`.
+- Selisih dari `d0b9e9c2` yang diaudit: `SOURCE_DELTA.json` — 49 berkas, 28 bukan dokumen. Termasuk perbaikan ASF-F01
   (`5f1506f4`, paket `../asf-f01-retest-20261012/`).
-- Commit sesudahnya hanya dokumen; buktikan dengan `git diff --name-only ddedf06c HEAD`.
+- Commit sesudahnya hanya dokumen; buktikan dengan `git diff --name-only 7a0b4a90 HEAD`.
+- **Kegagalan pertama disimpan:** kandidat pertama `ddedf06c` gagal di `CP7 F03 Full Retained Components` kelompok p12
+  (run 38285236686, job 114931910284): semua kasus PASS tetapi 91 kasus berjalan dari 90 yang dideklarasikan, karena
+  kasus gaji baru `P12_SETTLEMENT_WIB_PAYMENT_DATE` belum dihitung di `scripts/cp7_f03_full_manifest.json`. `7a0b4a90`
+  hanya menaikkan angka itu (settlement 7 → 8, p12 90 → 91); tidak ada kode produk atau oracle yang berubah.
 
 ## Keputusan owner 12 Okt (dari dua pertanyaan Fable §7)
 
@@ -51,7 +55,7 @@ deklarasi `../../pl5/PL5_HISTORY_YIELD.json`, uji layar `src/NativeHistoryYieldP
 | F-TOOL-02 probe PR44 basi | **Diperbaiki (alat uji).** Probe `scripts/cp7_astra_timeline_reuse_probe.mjs` sebenarnya sudah tidak bisa jalan sejak `a68abf1e` (7 Okt), bukan hanya sejak K7a: (1) daftar fungsi kini mengharapkan `source_within` dan `matching_models_within` dengan pemeriksaan turunan persis (badan lama + hanya batas yang dijadikan parameter; nama lama pembungkus satu baris pada batas lama; di luar badan fungsi hanya komentar dan baris owner K7a); (2) jangkar mutan `ignores_supply` mengikuti kondisi baru `a68abf1e` (tetap hanya membuang uji "tanpa pasokan"); (3) jumlah kasus 571 → 595 karena dua defect bersama baru dari `a68abf1e` (`DUP_ROW_SKIPPED_TARGET`, `DUP_ROW_SKIPPED_FG`), diperiksa ada. Oracle paritas (byte dan penolakan pertama sama dengan pendahulu terkunci) tidak berubah. | Lokal (bukan bukti): 595/595 identik, 2/2 mutan tertangkap. Workflow `CP7 Astra Timeline Reuse` dijalankan pada commit ini. |
 | F-TOOL-03 fixture tanggal D12 di probe CP6 | **Tidak diubah (CP6 beku).** `scripts/cp6_bd_probe.py` adalah alat CP6 yang dibekukan. Merah palsu hanya pada `reject_after_invoice` (12 cek bisnis lain lulus) bila tanggal "Juni" fixture jatuh pada tanggal 1 bulan 31 hari (terlihat 11 Okt 2026). Auditor mengklasifikasikan sebagai WRITER_TEST_FIXTURE_DATE (POLA-21) bila tanggalnya cocok. | — |
 | F-UI-02 UI kandidat di atas paket CP6 saja | **Dicatat, tidak diubah.** UI CP7 memanggil RPC CP7; UI ini dipasang hanya bersama paket CP6+CP7. Oracle browser CP6 dijalankan di tumpukan CP7 penuh oleh `CP7 Pre-freeze UI Regression`. | Run pre-freeze pada commit ini. |
-| F-DOC-01 panduan tanpa tambahan PR #42 | **Diperbaiki.** Isi PR #42 (`d684b21a`, Fable + Astra) dimasukkan utuh ke `docs/AUDIT_PANDUAN_PRO_MAX.md` dengan penggabungan tiga arah terhadap `31ee23f0`: +138/−0 baris; semua baris versi PR #42 ada kecuali tiga baris yang sudah diperbarui untuk Sol; log revisi §15 mencatatnya. | `git diff d0b9e9c2 ddedf06c -- docs/AUDIT_PANDUAN_PRO_MAX.md` |
+| F-DOC-01 panduan tanpa tambahan PR #42 | **Diperbaiki.** Isi PR #42 (`d684b21a`, Fable + Astra) dimasukkan utuh ke `docs/AUDIT_PANDUAN_PRO_MAX.md` dengan penggabungan tiga arah terhadap `31ee23f0`: +138/−0 baris; semua baris versi PR #42 ada kecuali tiga baris yang sudah diperbarui untuk Sol; log revisi §15 mencatatnya. | `git diff d0b9e9c2 7a0b4a90 -- docs/AUDIT_PANDUAN_PRO_MAX.md` |
 | OBS-01 siapa boleh ubah PL-5 | **Diputuskan owner 12 Okt: owner saja** (di atas). | |
 | OBS-02 kapasitas v2 tidak mengurangi grup manual sesudah snapshot | **Tidak diubah.** Sesuai kalimat kontrak §3; sifat F01 terbukti. | |
 | OBS-03 10 jalur tanpa `CP7_FRESH_ACCESS_REQUIRED` | **Tidak diubah.** Tidak terjangkau lewat PostgREST; dicatat untuk ringkasan kode CP7.5. | |
