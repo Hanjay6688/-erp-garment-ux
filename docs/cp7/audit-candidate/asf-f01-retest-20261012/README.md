@@ -30,7 +30,11 @@ pergantian tanggal/pengulangan pada semua laporan kasus produk kandidat. Bukti l
 
 ## CI pada satu commit (`CI_RECEIPT.json`)
 
-CI_RECEIPT_PLACEHOLDER
+Ke-15 workflow kualifikasi dijalankan pada `5f1506f4` (Build UX, CodeQL dan CP7 Shell S0 terpicu push, sisanya
+`workflow_dispatch` tanpa commit baru): **15/15 workflow dan 45/45 job sukses, semuanya percobaan pertama**. Uji alat
+tanggal ada di CP7 Shell S0 (run 38195085601). Tambahan pada commit yang sama: `CP7 Pre-freeze UI Regression` dan
+`CP7 F03 Full Retained Components` — 2/2 workflow dan 9/9 job sukses. Tidak ada run yang melewati pergantian tanggal WIB,
+jadi aturan pengulangan tidak terpicu di run ini.
 
 ## Yang tetap terbuka (tidak berubah oleh perbaikan ini)
 
