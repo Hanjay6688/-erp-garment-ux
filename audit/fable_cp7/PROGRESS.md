@@ -61,3 +61,10 @@ DATE_POLICY_REVIEW_REQUIRED 12, MATCH 8, FAIL 1. Tidak ada `business_day_rollove
      hanya pada cek `reject_after_invoice = july>june and june_end<july` — fixture `today-100 hari` (cp6_bd_probe.py:1411-1416,1458):
      pada 11 Okt 2026 `june`=1 Jul, `june_end`=31 Jul, `july`=31 Jul → cek palsu. 12 cek bisnis lain PASS. POLA-21 (fixture jam dinding), temuan alat uji penulis (minor).
   5. `cp6-t3-release-package` job browser: 4 INCOMPLETE lama (READINESS finance note ×2: UI memanggil `erp_cp7_get_recost_queue_v1` yang tidak ada di paket CP6 saja; SALES_MANUAL_13 ×2 selector basi/PRE-05). Implikasi nyata: UI kandidat tidak boleh dipasang di atas paket CP6 saja tanpa CP7.
+
+## Run Fable sendiri (12 Okt UTC) — semua dibaca per kasus
+- smoke 38162239881 (push) 8/8 PASS; ulang 38195346649 8/8 PASS (job merah = alat: ringkasan driver; diperbaiki).
+- core 38196137312: native 4 PASS + 1 INCOMPLETE (alat, AI reset read-only), balapan: F01 v1→v2 PASS, F01 v2→v1 PASS, BACKUP_VERIFY_UNDER_LIVE_WRITES PASS (IDLE ticks), BACKUP_SCRATCH_DROPS_FOREIGN_DB **FAIL** (F-OPS-01), CLEANUP_LOCK_VS_RUNNING_STEP **FAIL** (F-OPS-02, step 8,01 s, unit_attempts 1).
+- core ulang native 38196731514: 5/5 PASS termasuk AI_BRIEF_RUNS_READ_ONLY; job hijau; cp6_restored true.
+- ui browser 38196797717: LANDING_NO_FABRICATED_FIGURES desktop/mobile **FAIL** (F-UI-01, 7 angka karangan), GUDANG_SEES_NO_FINANCE_NAV PASS.
+Laporan: `AUDIT_FABLE_d0b9e9c2.md` v1.0 — vonis HOLD dengan syarat §2.
