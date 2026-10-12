@@ -1,0 +1,732 @@
+[
+ {
+  "run_id": 38161112248,
+  "workflow": "claude-note-correction.yml",
+  "job_id": 114534039463,
+  "name": "Nota correction / Native stock AR cash journal HPP",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:47:32Z",
+  "completed": "2026-10-11T18:01:40Z"
+ },
+ {
+  "run_id": 38161121079,
+  "workflow": "cp7-receipt-correction.yml",
+  "job_id": 114534065769,
+  "name": "Receipt correction / Native stock cost HPP AP journal",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:47:40Z",
+  "completed": "2026-10-11T17:55:59Z"
+ },
+ {
+  "run_id": 38161129744,
+  "workflow": "claude-p08-physical.yml",
+  "job_id": 114534091949,
+  "name": "analysis152",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:47:48Z",
+  "completed": "2026-10-11T18:03:45Z"
+ },
+ {
+  "run_id": 38161129744,
+  "workflow": "claude-p08-physical.yml",
+  "job_id": 114534092104,
+  "name": "attention284",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:56:26Z",
+  "completed": "2026-10-11T18:43:57Z"
+ },
+ {
+  "run_id": 38161129744,
+  "workflow": "claude-p08-physical.yml",
+  "job_id": 114534092114,
+  "name": "fabric13-successor",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:47:47Z",
+  "completed": "2026-10-11T17:54:38Z"
+ },
+ {
+  "run_id": 38161129744,
+  "workflow": "claude-p08-physical.yml",
+  "job_id": 114534092235,
+  "name": "fabric-physical21",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:47:48Z",
+  "completed": "2026-10-11T17:56:08Z"
+ },
+ {
+  "run_id": 38161129744,
+  "workflow": "claude-p08-physical.yml",
+  "job_id": 114534092240,
+  "name": "plan39",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:55:24Z",
+  "completed": "2026-10-11T18:05:56Z"
+ },
+ {
+  "run_id": 38161138390,
+  "workflow": "claude-p12-payroll.yml",
+  "job_id": 114534118338,
+  "name": "P12 payroll --roster",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:47:55Z",
+  "completed": "2026-10-11T17:54:24Z"
+ },
+ {
+  "run_id": 38161138390,
+  "workflow": "claude-p12-payroll.yml",
+  "job_id": 114534118517,
+  "name": "P12 payroll --attendance-write",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:47:55Z",
+  "completed": "2026-10-11T17:57:52Z"
+ },
+ {
+  "run_id": 38161138390,
+  "workflow": "claude-p12-payroll.yml",
+  "job_id": 114534118523,
+  "name": "P12 payroll --payroll-review",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:47:55Z",
+  "completed": "2026-10-11T17:54:37Z"
+ },
+ {
+  "run_id": 38161146643,
+  "workflow": "claude-p13-finance.yml",
+  "job_id": 114534145334,
+  "name": "P13 native dated report and immutable archive reader",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:48:04Z",
+  "completed": "2026-10-11T17:55:23Z"
+ },
+ {
+  "run_id": 38161155875,
+  "workflow": "claude-p18-fabric-rule.yml",
+  "job_id": 114534172291,
+  "name": "fabric-rule11",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:48:11Z",
+  "completed": "2026-10-11T17:55:36Z"
+ },
+ {
+  "run_id": 38161155875,
+  "workflow": "claude-p18-fabric-rule.yml",
+  "job_id": 114534172408,
+  "name": "rule-lifecycle16",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:48:11Z",
+  "completed": "2026-10-11T17:56:05Z"
+ },
+ {
+  "run_id": 38161155875,
+  "workflow": "claude-p18-fabric-rule.yml",
+  "job_id": 114534172540,
+  "name": "p18-e01-9",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:13:06Z",
+  "completed": "2026-10-11T18:20:26Z"
+ },
+ {
+  "run_id": 38161164727,
+  "workflow": "claude-p18-full-cycle.yml",
+  "job_id": 114534199877,
+  "name": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:48:18Z",
+  "completed": "2026-10-11T17:53:00Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230686,
+  "name": "p19-plan-v2-22",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:09:20Z",
+  "completed": "2026-10-11T18:16:42Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230786,
+  "name": "k2-retention-10",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:24:27Z",
+  "completed": "2026-10-11T18:31:02Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230787,
+  "name": "p19-scale5",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:48:28Z",
+  "completed": "2026-10-11T18:58:18Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230812,
+  "name": "p19-report-v2-20",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:09:41Z",
+  "completed": "2026-10-11T18:17:30Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230813,
+  "name": "p19-staged12",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:48:28Z",
+  "completed": "2026-10-11T17:56:24Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230833,
+  "name": "k6-proof-runner-10",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:36:05Z",
+  "completed": "2026-10-11T18:43:12Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230835,
+  "name": "p19-reminder-v2-16",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:17:32Z",
+  "completed": "2026-10-11T18:24:25Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230866,
+  "name": "pl5-history-yield-20",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:22:57Z",
+  "completed": "2026-10-11T18:28:02Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230867,
+  "name": "k3-cleanup-19",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:28:08Z",
+  "completed": "2026-10-11T18:36:04Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230919,
+  "name": "p19-transport11",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:55:38Z",
+  "completed": "2026-10-11T18:03:51Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534230920,
+  "name": "k4-runner-17",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:31:03Z",
+  "completed": "2026-10-11T18:39:28Z"
+ },
+ {
+  "run_id": 38161174631,
+  "workflow": "claude-p19-transport.yml",
+  "job_id": 114534231032,
+  "name": "p19-ai-v2-9",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:16:44Z",
+  "completed": "2026-10-11T18:22:55Z"
+ },
+ {
+  "run_id": 38161183323,
+  "workflow": "claude-p21-rehearsal.yml",
+  "job_id": 114534255937,
+  "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:49:17Z",
+  "completed": "2026-10-11T17:53:59Z"
+ },
+ {
+  "run_id": 38161183323,
+  "workflow": "claude-p21-rehearsal.yml",
+  "job_id": 114534256167,
+  "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:52:34Z",
+  "completed": "2026-10-11T17:57:06Z"
+ },
+ {
+  "run_id": 38161192399,
+  "workflow": "claude-pl-native.yml",
+  "job_id": 114534282300,
+  "name": "netting",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:49:28Z",
+  "completed": "2026-10-11T17:57:58Z"
+ },
+ {
+  "run_id": 38161192399,
+  "workflow": "claude-pl-native.yml",
+  "job_id": 114534282498,
+  "name": "supply",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:12:07Z",
+  "completed": "2026-10-11T18:19:23Z"
+ },
+ {
+  "run_id": 38161192399,
+  "workflow": "claude-pl-native.yml",
+  "job_id": 114534282508,
+  "name": "model",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:01:58Z",
+  "completed": "2026-10-11T18:09:18Z"
+ },
+ {
+  "run_id": 38161192399,
+  "workflow": "claude-pl-native.yml",
+  "job_id": 114534282579,
+  "name": "schedule",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:56:30Z",
+  "completed": "2026-10-11T18:02:59Z"
+ },
+ {
+  "run_id": 38161201213,
+  "workflow": "claude-p08-shell.yml",
+  "job_id": 114534309371,
+  "name": "p19-staged",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:54:39Z",
+  "completed": "2026-10-11T18:09:23Z"
+ },
+ {
+  "run_id": 38161201213,
+  "workflow": "claude-p08-shell.yml",
+  "job_id": 114534309545,
+  "name": "CP7 CodeQL javascript-typescript",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:57:46Z",
+  "completed": "2026-10-11T18:01:30Z"
+ },
+ {
+  "run_id": 38161201213,
+  "workflow": "claude-p08-shell.yml",
+  "job_id": 114534309559,
+  "name": "p19-assembly",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:01:24Z",
+  "completed": "2026-10-11T18:13:44Z"
+ },
+ {
+  "run_id": 38161201213,
+  "workflow": "claude-p08-shell.yml",
+  "job_id": 114534309563,
+  "name": "shell",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:00:02Z",
+  "completed": "2026-10-11T18:16:46Z"
+ },
+ {
+  "run_id": 38161201213,
+  "workflow": "claude-p08-shell.yml",
+  "job_id": 114534309676,
+  "name": "CP7 CodeQL actions",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:02:11Z",
+  "completed": "2026-10-11T18:04:36Z"
+ },
+ {
+  "run_id": 38161210380,
+  "workflow": "claude-supplier-payment-correction.yml",
+  "job_id": 114534336424,
+  "name": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:54:50Z",
+  "completed": "2026-10-11T18:01:26Z"
+ },
+ {
+  "run_id": 38161219225,
+  "workflow": "claude-supplier-payment-create.yml",
+  "job_id": 114534367803,
+  "name": "New supplier payment through the owning command, races and real Auth HTTP",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:56:06Z",
+  "completed": "2026-10-11T18:01:22Z"
+ },
+ {
+  "run_id": 38161227856,
+  "workflow": "cp7-f03-full.yml",
+  "job_id": 114534388981,
+  "name": "Full F03 stack / supplier_credit",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:56:10Z",
+  "completed": "2026-10-11T18:02:52Z"
+ },
+ {
+  "run_id": 38161227856,
+  "workflow": "cp7-f03-full.yml",
+  "job_id": 114534389138,
+  "name": "Full F03 stack / p09",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:03:01Z",
+  "completed": "2026-10-11T18:14:51Z"
+ },
+ {
+  "run_id": 38161227856,
+  "workflow": "cp7-f03-full.yml",
+  "job_id": 114534389205,
+  "name": "Full F03 stack / p13",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:04:38Z",
+  "completed": "2026-10-11T18:13:06Z"
+ },
+ {
+  "run_id": 38161227856,
+  "workflow": "cp7-f03-full.yml",
+  "job_id": 114534389236,
+  "name": "Full F03 stack / p11",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:05:06Z",
+  "completed": "2026-10-11T18:13:24Z"
+ },
+ {
+  "run_id": 38161227856,
+  "workflow": "cp7-f03-full.yml",
+  "job_id": 114534389241,
+  "name": "Full F03 stack / p12",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:11:57Z",
+  "completed": "2026-10-11T18:22:39Z"
+ },
+ {
+  "run_id": 38161227856,
+  "workflow": "cp7-f03-full.yml",
+  "job_id": 114534389267,
+  "name": "Full F03 stack / customer_refund",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:09:24Z",
+  "completed": "2026-10-11T18:16:14Z"
+ },
+ {
+  "run_id": 38161227856,
+  "workflow": "cp7-f03-full.yml",
+  "job_id": 114534389286,
+  "name": "Full F03 stack / cash_installments",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:13:26Z",
+  "completed": "2026-10-11T18:21:56Z"
+ },
+ {
+  "run_id": 38161227856,
+  "workflow": "cp7-f03-full.yml",
+  "job_id": 114534389316,
+  "name": "Full F03 stack / p10",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:13:08Z",
+  "completed": "2026-10-11T18:19:50Z"
+ },
+ {
+  "run_id": 38161236621,
+  "workflow": "cp7-prefreeze-ui.yml",
+  "job_id": 114534414226,
+  "name": "Full F03 stack / prefreeze_ui",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:54:01Z",
+  "completed": "2026-10-11T18:02:10Z"
+ },
+ {
+  "run_id": 38161245098,
+  "workflow": "cp7-p19-utf8-originals.yml",
+  "job_id": 114534439212,
+  "name": "Read exact source0bd Originals / zero ERP execution",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:56:01Z",
+  "completed": "2026-10-11T17:56:29Z"
+ },
+ {
+  "run_id": 38161253810,
+  "workflow": "cp7-retain-existing-artifact.yml",
+  "job_id": 114534465945,
+  "name": "Read-only exact existing Originals / zero new case credit (f05-e873-incomplete284)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:57:08Z",
+  "completed": "2026-10-11T17:57:45Z"
+ },
+ {
+  "run_id": 38161253810,
+  "workflow": "cp7-retain-existing-artifact.yml",
+  "job_id": 114534466104,
+  "name": "Read-only exact existing Originals / zero new case credit (f05-9cc70-qualified284)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:59:03Z",
+  "completed": "2026-10-11T17:59:40Z"
+ },
+ {
+  "run_id": 38161253810,
+  "workflow": "cp7-retain-existing-artifact.yml",
+  "job_id": 114534466133,
+  "name": "Read-only exact existing Originals / zero new case credit (f05-6127-qualified284)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:01:28Z",
+  "completed": "2026-10-11T18:01:56Z"
+ },
+ {
+  "run_id": 38161253810,
+  "workflow": "cp7-retain-existing-artifact.yml",
+  "job_id": 114534466196,
+  "name": "Read-only exact existing Originals / zero new case credit (f05-34d7-qualified284)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:01:42Z",
+  "completed": "2026-10-11T18:02:23Z"
+ },
+ {
+  "run_id": 38161253810,
+  "workflow": "cp7-retain-existing-artifact.yml",
+  "job_id": 114534466237,
+  "name": "Read-only exact existing Originals / zero new case credit (f05-15aca-qualified284)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:03:47Z",
+  "completed": "2026-10-11T18:04:39Z"
+ },
+ {
+  "run_id": 38161262099,
+  "workflow": "astra-cp7-timeline-reuse.yml",
+  "job_id": 114534491610,
+  "name": "isolated-kernel-parity",
+  "status": "completed",
+  "conclusion": "failure",
+  "started": "2026-10-11T17:54:25Z",
+  "completed": "2026-10-11T17:54:49Z"
+ },
+ {
+  "run_id": 38161271353,
+  "workflow": "cp6-t2-regression.yml",
+  "job_id": 114534517870,
+  "name": "Original 326 plus AS 34 with per-case identity, approved AS date oracle, calendar policy printed (T2)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:54:05Z",
+  "completed": "2026-10-11T18:09:39Z"
+ },
+ {
+  "run_id": 38161271353,
+  "workflow": "cp6-t2-regression.yml",
+  "job_id": 114534518080,
+  "name": "AT 16 and AU 15 cases with their real races on the combined candidate (T2)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:54:39Z",
+  "completed": "2026-10-11T18:00:01Z"
+ },
+ {
+  "run_id": 38161271353,
+  "workflow": "cp6-t2-regression.yml",
+  "job_id": 114534518100,
+  "name": "AR 174 original cases and races on the combined candidate, seed quieted, own fixture completed (T2)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:59:41Z",
+  "completed": "2026-10-11T18:09:00Z"
+ },
+ {
+  "run_id": 38161280079,
+  "workflow": "cp6-t3-release-package.yml",
+  "job_id": 114534548232,
+  "name": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
+  "status": "completed",
+  "conclusion": "failure",
+  "started": "2026-10-11T17:57:53Z",
+  "completed": "2026-10-11T18:07:09Z"
+ },
+ {
+  "run_id": 38161280079,
+  "workflow": "cp6-t3-release-package.yml",
+  "job_id": 114534548451,
+  "name": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+  "status": "completed",
+  "conclusion": "failure",
+  "started": "2026-10-11T18:10:26Z",
+  "completed": "2026-10-11T18:18:05Z"
+ },
+ {
+  "run_id": 38161280079,
+  "workflow": "cp6-t3-release-package.yml",
+  "job_id": 114534548468,
+  "name": "Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:09:09Z",
+  "completed": "2026-10-11T18:13:55Z"
+ },
+ {
+  "run_id": 38161290124,
+  "workflow": "cp6-t3-rollback.yml",
+  "job_id": 114534571852,
+  "name": "Hosted-faithful baseline to AB, committed 30-file package, AC..BF rollback auto (T3_PREP)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:02:54Z",
+  "completed": "2026-10-11T18:10:25Z"
+ },
+ {
+  "run_id": 38161300045,
+  "workflow": "cp6-release-readiness.yml",
+  "job_id": 114534601095,
+  "name": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+  "status": "completed",
+  "conclusion": "failure",
+  "started": "2026-10-11T18:01:32Z",
+  "completed": "2026-10-11T18:03:12Z"
+ },
+ {
+  "run_id": 38161300045,
+  "workflow": "cp6-release-readiness.yml",
+  "job_id": 114534601256,
+  "name": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
+  "status": "completed",
+  "conclusion": "failure",
+  "started": "2026-10-11T18:04:40Z",
+  "completed": "2026-10-11T18:06:21Z"
+ },
+ {
+  "run_id": 38161300045,
+  "workflow": "cp6-release-readiness.yml",
+  "job_id": 114534601357,
+  "name": "Hosted v2.6.20 to BF, 58 frozen files with non-superuser owner and work accounts (disposable only)",
+  "status": "completed",
+  "conclusion": "failure",
+  "started": "2026-10-11T18:05:45Z",
+  "completed": "2026-10-11T18:07:16Z"
+ },
+ {
+  "run_id": 38161309511,
+  "workflow": "cp6-final-boundary-audit.yml",
+  "job_id": 114534627983,
+  "name": "review",
+  "status": "completed",
+  "conclusion": "failure",
+  "started": "2026-10-11T18:05:57Z",
+  "completed": "2026-10-11T18:20:08Z"
+ },
+ {
+  "run_id": 38161318526,
+  "workflow": "cp6-candidate-codeql.yml",
+  "job_id": 114534654365,
+  "name": "CodeQL c-cpp",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:02:25Z",
+  "completed": "2026-10-11T18:05:04Z"
+ },
+ {
+  "run_id": 38161318526,
+  "workflow": "cp6-candidate-codeql.yml",
+  "job_id": 114534654429,
+  "name": "CodeQL python",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T17:58:00Z",
+  "completed": "2026-10-11T18:02:41Z"
+ },
+ {
+  "run_id": 38161318526,
+  "workflow": "cp6-candidate-codeql.yml",
+  "job_id": 114534654496,
+  "name": "CodeQL actions",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:03:14Z",
+  "completed": "2026-10-11T18:05:44Z"
+ },
+ {
+  "run_id": 38161318526,
+  "workflow": "cp6-candidate-codeql.yml",
+  "job_id": 114534654509,
+  "name": "CodeQL javascript-typescript",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:03:53Z",
+  "completed": "2026-10-11T18:07:32Z"
+ },
+ {
+  "run_id": 38161327762,
+  "workflow": "cp6-auditor-scenario.yml",
+  "job_id": 114534681475,
+  "name": "Auditor scenario on the final CP6 candidate (AUDITOR_SCENARIO)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:07:11Z",
+  "completed": "2026-10-11T18:11:55Z"
+ },
+ {
+  "run_id": 38161327762,
+  "workflow": "cp6-auditor-scenario.yml",
+  "job_id": 114534681648,
+  "name": "Auditor runtime self-test (B1 strict group; tool check, not product evidence)",
+  "status": "completed",
+  "conclusion": "success",
+  "started": "2026-10-11T18:07:34Z",
+  "completed": "2026-10-11T18:11:31Z"
+ }
+]

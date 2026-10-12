@@ -38,3 +38,26 @@ Dibaca per kasus dari log, bukan warna job. Hasil: `runs/`.
 `.github/workflows/fable-cp7-native.yml` (cabang audit): langkah salinan dari `claude-p19-transport.yml` d0b9e9c2, checkout produk
 dipin `d0b9e9c2` + asersi tree; `audit/fable_cp7/scenarios/fable_cp7_probe.py` memasang komposisi penuh lewat pemasang kandidat
 (F03+planning+baseline+supply+schedule+analysis+reminders v2), lalu menjalankan modul skenario Fable lewat runner ketat beku.
+
+## Hasil baca per kasus run writer yang saya dispatch ulang (12 Okt 02:xx UTC) — `runs/SUMMARY.md`
+56 job dibaca per kasus (log, bukan warna job): 2.585 baris kasus: PASS 2.493, CONTROL_PASS 39, COUNTEREXAMPLE 20, INCOMPLETE 12,
+DATE_POLICY_REVIEW_REQUIRED 12, MATCH 8, FAIL 1. Tidak ada `business_day_rollover`/`RERUN_FROM_FRESH_COPY` di satu pun log
+(kontrol pergantian hari tidak terpicu; percobaan pertama = percobaan akhir).
+- 15 workflow kualifikasi penulis + f03-full + prefreeze-ui: semua kelompok PASS penuh, hitungan sama dengan deklarasi
+  (K4 17, K6 10, K3 19, K2 10, PL5 20, plan v2 22, report v2 20, reminder v2 16, AI v2 9, staged 14, transport 15, scale 5,
+  attention 286 [181/40/29/36 + 3 admisi], plan39 43, netting 83, supply 53, schedule 71, model 32, P13 12, nota 40, penerimaan 43,
+  payroll P12 3 job, fabric-physical 21, fabric-recipe 13, fabric-rule 11, rule-lifecycle 16, e01 9, P18 full cycle 2, P21 gladi 2 job,
+  supplier payment create 10 / correction 23, f03-full p09 132, p10 34, p11 64, p12 90, p13 50, customer_refund 10, cash_installments 61,
+  supplier_credit 5, prefreeze_ui 31 + 2 INCOMPLETE diagnostik legacy (LEGACY_RUNTIME_OBSERVATION_ONLY, sama dengan 2 Okt).
+- Regresi CP6 pada kandidat: T2 326+AS34 multiset status IDENTIK dengan beku r16 (CONTROL_PASS 39, DPRR 12, MATCH 8, COUNTEREXAMPLE 20,
+  INCOMPLETE 5 di AO_TRIAL/NEW_CASES); AR 174 + ACCESSORY_CONNECTED_ZERO INCOMPLETE (BC_FREE_REQUIRES_POLICY, SUPERSEDED_BY_OWNER_RULE D11)
+  sama; AT 16/AU 15 + balapan PASS; T3 rollback cycle PASS (30 berkas, penolakan urutan, siklus BF/BE/BD); T3 package capture pins sama;
+  auditor-scenario BF (xaudit_14_bf) 4/4 + browser 2/2; CodeQL hijau.
+- Merah yang BUKAN temuan produk:
+  1. `astra-cp7-timeline-reuse` — STALE_TEST_SELECTOR (daftar fungsi probe Astra basi: K7a `*_within`). Paritas PR44 tanpa bukti di kandidat ini dari workflow itu.
+  2. `cp6-release-readiness` 3 job — penjaga `READINESS_SCOPE` menolak cabang ini (workflow terikat cakupan berkas lama) — NOT_APPLICABLE.
+  3. `cp6-final-boundary-audit` — `assert not git rev-list --merges BASE..HEAD` (cabang memiliki merge commit) — NOT_APPLICABLE.
+  4. `cp6-t3-release-package` job runtime: WRITER_PACKAGE_BF_NATIVE 103/104; FAIL `VENDOR_REG:D12:CLAIM_CREDIT_DAILY_OLDER_INVOICE`
+     hanya pada cek `reject_after_invoice = july>june and june_end<july` — fixture `today-100 hari` (cp6_bd_probe.py:1411-1416,1458):
+     pada 11 Okt 2026 `june`=1 Jul, `june_end`=31 Jul, `july`=31 Jul → cek palsu. 12 cek bisnis lain PASS. POLA-21 (fixture jam dinding), temuan alat uji penulis (minor).
+  5. `cp6-t3-release-package` job browser: 4 INCOMPLETE lama (READINESS finance note ×2: UI memanggil `erp_cp7_get_recost_queue_v1` yang tidak ada di paket CP6 saja; SALES_MANUAL_13 ×2 selector basi/PRE-05). Implikasi nyata: UI kandidat tidak boleh dipasang di atas paket CP6 saja tanpa CP7.
