@@ -1,7 +1,9 @@
 """Business-day control of the auditor runtime without a database (scripts/cp6_auditor_business_day.py).
 
 Replays the first attempt of attention284 on 8116800c (run 37958882487, job 113916327717): planned 9 Oct, server
-10 Oct, 30 browser PASS and 6 INCOMPLETE (audit/sol_k4_retest/evidence/ATTENTION_MIDNIGHT_REVIEW.json)."""
+10 Oct, 30 browser PASS and 6 INCOMPLETE (audit/sol_k4_retest/evidence/ATTENTION_MIDNIGHT_REVIEW.json), and the controls
+of ASF-F01 (Astra full CP7 audit of d0b9e9c2, run 38159947839): a date-independent FAIL or COUNTEREXAMPLE that crosses
+the date is never rerun."""
 from datetime import date
 from pathlib import Path
 import io
@@ -68,20 +70,27 @@ class RetryAllowed(unittest.TestCase):
         self.assertFalse(bd.retry_allowed({}, {'A': row('FAIL')}))
         self.assertFalse(bd.retry_allowed({}, {'A': row()}))
 
-    def test_rerun_when_the_change_explains_every_non_pass(self):
-        self.assertTrue(bd.retry_allowed({}, {'A': row(), 'B': self.rolled(), 'C': self.rolled('PASS')}))
-        self.assertTrue(bd.retry_allowed({}, {'A': self.rolled('FAIL')}))
+    def test_rerun_only_when_every_non_pass_is_a_pass_the_date_made_incomplete(self):
+        self.assertTrue(bd.retry_allowed({}, {'A': row(), 'B': self.rolled('PASS'), 'C': self.rolled('PASS')}))
+
+    def test_a_failure_of_the_case_that_crosses_the_date_is_not_rerun(self):
+        # ASF-F01: the date changing around a FAIL does not show the date caused it.
+        for status in ('FAIL', 'COUNTEREXAMPLE', 'INCOMPLETE'):
+            failed = self.rolled(status, error='INJECTED_DATE_INDEPENDENT', expected_cents=10000, observed_cents=10001)
+            self.assertEqual(failed['status'], status)
+            self.assertFalse(bd.retry_allowed({}, {'A': failed}), status)
+            self.assertFalse(bd.retry_allowed({}, {'A': self.rolled('PASS'), 'B': failed}), status)
 
     def test_an_unexplained_non_pass_keeps_the_first_result(self):
-        self.assertFalse(bd.retry_allowed({}, {'A': row('FAIL'), 'B': self.rolled()}))
+        self.assertFalse(bd.retry_allowed({}, {'A': row('FAIL'), 'B': self.rolled('PASS')}))
 
     def test_runtime_checks_and_malformed_results_are_never_explained_by_a_date(self):
         for extra in (dict(harness_check_failed=True), dict(status_outside_vocabulary='OK'),
                       dict(error='AUDITOR_CASE_RESULT_NOT_A_DICT'), dict(error='AUDITOR_CASE_RESULT_NOT_AN_OBJECT')):
-            self.assertFalse(bd.retry_allowed({}, {'A': self.rolled(**extra)}), extra)
+            self.assertFalse(bd.retry_allowed({}, {'A': self.rolled('PASS', **extra)}), extra)
 
     def test_group_level_problems_keep_the_first_result(self):
-        rows = {'A': self.rolled()}
+        rows = {'A': self.rolled('PASS')}
         for report in (dict(error='X'), dict(missing=['B']), dict(database_remaining=1), dict(cleanup_failures=True),
                        dict(cleanup_failures=['user']), dict(complete_boundary_restored=False)):
             self.assertFalse(bd.retry_allowed(report, rows), report)
@@ -127,6 +136,20 @@ class WithRetry(unittest.TestCase):
         self.assertIs(out, first)
         self.assertNotIn('business_day_retried', out)
 
+    def test_a_failure_that_crosses_the_date_keeps_its_one_attempt(self):
+        # ASF-10/11: the injected second attempt would PASS; the first attempt's FAIL/COUNTEREXAMPLE stays the result.
+        for status in ('FAIL', 'COUNTEREXAMPLE'):
+            first = dict(status=status, cases={'A': row(status, error='INJECTED_DATE_INDEPENDENT')})
+            bd.guard(first['cases']['A'], D9, D10, D10)
+            kept = []
+            out, calls, log = self.run_attempts([first, dict(status='PASS', cases={'A': row()})], kept.append)
+            self.assertEqual((calls, out['status'], out['cases']['A']['status']), (1, status, status), status)
+            self.assertIs(out, first)
+            self.assertNotIn('business_day_retried', out)
+            self.assertEqual(kept, [])
+            self.assertIn('KEPT_FIRST_RESULT', log)
+            self.assertNotIn('RERUN_FROM_FRESH_COPY', log)
+
 
 class AttentionMidnightReplay(unittest.TestCase):
     """The six browser rows of the kept first failure, under the control."""
@@ -146,11 +169,14 @@ class AttentionMidnightReplay(unittest.TestCase):
             bd.guard(rows['UNRELATED'], D9, D9, D9)
         return rows
 
-    def test_first_failure_is_recognised_and_rerun_from_a_fresh_copy(self):
+    def test_first_failure_is_flagged_and_kept_for_a_person(self):
+        # The six rows failed inside the case (assertion, CP7_NOTA_AFTER_PERIOD) while the date changed; that the date
+        # caused them is not shown by the rows, so the group is not rerun (ASF-F01) and they stay flagged INCOMPLETE.
         rows = self.rows()
         self.assertEqual(sum(r['status'] == 'PASS' for r in rows.values()), 30)
         self.assertTrue(all(rows[k]['business_day_rollover'] and rows[k]['status'] == 'INCOMPLETE' for k in self.SIX))
-        self.assertTrue(bd.retry_allowed(dict(status='RUN_COMPLETE', database_remaining=0), rows))
+        self.assertTrue(all('status_before_rollover' not in rows[k] for k in self.SIX))
+        self.assertFalse(bd.retry_allowed(dict(status='RUN_COMPLETE', database_remaining=0), rows))
 
     def test_a_failure_before_midnight_is_not_hidden_by_the_rerun(self):
         self.assertFalse(bd.retry_allowed({}, self.rows(extra_fail=True)))

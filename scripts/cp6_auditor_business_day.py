@@ -13,10 +13,13 @@ The control, applied by every mode:
     cannot show what it was written to show: its row records the three dates and business_day_rollover=true, and a
     PASS becomes INCOMPLETE (status_before_rollover=PASS). FAIL, COUNTEREXAMPLE and INCOMPLETE are never changed;
   * the group is run once more from a fresh copy (a new setup, a new date, cases and fixtures planned again) only when
-    the date change explains every row that did not pass and the group itself finished cleanly. A row failed by a
-    runtime check (boundary, public schema, leaked session or lock) or a malformed case result is never explained by a
-    date; such a row, any other non-PASS row, a group error, a missing case, a copy left behind or a failed cleanup
-    keeps the first result as it is;
+    every row that did not pass is a PASS that this control itself made INCOMPLETE because the date changed, and the
+    group itself finished cleanly. A FAIL, COUNTEREXAMPLE or INCOMPLETE of the case itself is not shown to be caused by
+    the date, even when the date changed around it (ASF-F01, Astra full CP7 audit of d0b9e9c2: a date-independent
+    10.001 != 10.000 cent FAIL was rerun and the second attempt's PASS became the result). Such a row, a row failed by a
+    runtime check (boundary, public schema, leaked session or lock), a malformed case result, a group error, a missing
+    case, a copy left behind or a failed cleanup keeps the first result as it is; when the date did change, a
+    KEPT_FIRST_RESULT line names the rolled cases so a person reviews them;
   * the first attempt is kept whole in the final report (business_day_first_attempt) and its rows stay in the job log.
 No assertion, oracle or product clock is changed; a second change of date in the same run stays INCOMPLETE.
 """
@@ -42,18 +45,17 @@ def guard(row, planned, before, after):
     return True
 
 
-SCENARIO_ERRORS = ('AUDITOR_CASE_RESULT_NOT_A_DICT', 'AUDITOR_CASE_RESULT_NOT_AN_OBJECT')
-
-
 def explained(row):
-    """A row the change of date accounts for: not a runtime check (boundary, schema, session, lock) and not a malformed
-    case result, which a date cannot cause."""
-    return bool(row.get('business_day_rollover')) and not row.get('harness_check_failed') \
-        and 'status_outside_vocabulary' not in row and row.get('error') not in SCENARIO_ERRORS
+    """A row the change of date alone accounts for: the case passed and guard made it INCOMPLETE. Not a runtime check
+    (boundary, schema, session, lock), not a malformed result, and not a failure of the case itself."""
+    return bool(row.get('business_day_rollover')) and row.get('status') == 'INCOMPLETE' \
+        and row.get('status_before_rollover') == 'PASS' and row.get('error') == 'AUDITOR_BUSINESS_DAY_ROLLOVER' \
+        and not row.get('harness_check_failed') and 'status_outside_vocabulary' not in row
 
 
 def retry_allowed(report, rows):
-    """True when a change of WIB date explains every row that did not pass and nothing else went wrong in the group."""
+    """True when every row that did not pass is a PASS made INCOMPLETE by a change of WIB date and nothing else went wrong
+    in the group."""
     rows = list((rows or {}).values())
     if report.get('error') or report.get('missing') or report.get('database_remaining') or report.get('cleanup_failures'):
         return False
@@ -68,9 +70,12 @@ def with_retry(group, run_once, rows_of, keep_first=None):
     """Run a group; run it once more from a fresh copy when retry_allowed. The first attempt is kept in the result (and
     handed to keep_first, which saves it before the second attempt starts)."""
     first = run_once()
+    rolled = sorted(k for k, r in (rows_of(first) or {}).items() if r.get('business_day_rollover'))
     if not retry_allowed(first, rows_of(first)):
+        if rolled:
+            print(json.dumps(dict(group=group, business_day_rollover='KEPT_FIRST_RESULT', rolled_cases=rolled,
+                                  final={k: r.get('status') for k, r in rows_of(first).items()})), flush=True)
         return first
-    rolled = sorted(k for k, r in rows_of(first).items() if r.get('business_day_rollover'))
     print(json.dumps(dict(group=group, business_day_rollover='RERUN_FROM_FRESH_COPY', rolled_cases=rolled,
                           first_attempt_final={k: r.get('status') for k, r in rows_of(first).items()})), flush=True)
     if keep_first:
