@@ -1,3 +1,13 @@
+Audit penuh CP7 Fable atas `d0b9e9c2` — 12 Okt 2026 WIB (`audit/fable-cp7-full-d0b9e9c2-20261011`): **HOLD**, CP7 inti
+lulus 15 dari 18 area; tiga temuan major: backup bisa menghapus database lain (F-OPS-01), pembersihan mengunci tabel
+sehingga analisis yang berjalan tertahan (F-OPS-02), Dashboard terhubung menampilkan angka contoh (F-UI-01). Owner 12
+Okt: Dashboard disembunyikan; kebijakan PL-5 B hanya owner yang boleh mengubah (`OWNER_DECISIONS_20261008.md`). Ketiga
+major dan minor yang perlu kode diperbaiki di **ddedf06c** (termasuk ASF-F01 dari `5f1506f4`); F-PAY-01 tidak terulang
+pada tumpukan terpasang (dibuktikan kasus), F-AP-01 tetap sesuai keputusan owner 2 Okt, alat CP6 (F-TOOL-03) tidak
+diubah karena CP6 beku. Paket uji ulang
+[audit-candidate/fable-retest-20261012](audit-candidate/fable-retest-20261012/README.md). Jadwal dan backup belum
+dipasang. `production_go:false`.
+
 Audit penuh CP7 Astra atas `d0b9e9c2` — 12 Okt 2026 WIB (`audit/astra-cp7-full-d0b9e9c2-20261012`, draf PR #47):
 **HOLD**. Kasus mandiri 76 PASS + satu batas detektor lama (bukan temuan baru); regresi 44/44 job, 1.760 eksekusi kasus
 PASS; perbaikan lama (F01–F05, SOL-K4-01) tidak dibebankan ulang. Satu temuan baru **ASF-F01** (S3, alat uji): saat
