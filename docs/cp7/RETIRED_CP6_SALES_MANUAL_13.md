@@ -50,6 +50,26 @@ cakupannya belum seluruhnya dibuktikan di browser sungguhan."
   "Terapkan lusin baris N" ditekan.
 - Bagi rata 1 lusin ke beberapa ukuran (4/4/4) dan penolakan 1,1 lusin hanya ada di layar simulasi `SalesPages`. Layar
   simulasi tidak tampil di mode tersambung.
-- Helper P11 diuji di jsdom (`src/SalesDraftPanel.dom.test.tsx`). Kasus browser P11 (`scripts/cp7_p11_drafts_browser.mjs`)
-  memeriksa qty manual 13 tetap (`manual13_preserved`), tetapi tidak menekan helper lusin. Jadi helper lusin, baik di
-  layar simulasi maupun di P11, **belum diuji di browser sungguhan**.
+- Sampai kandidat putaran 1 (`ae0214ad`), helper lusin P11 hanya diuji di jsdom (`src/SalesDraftPanel.dom.test.tsx`).
+  Laporan Fable v1.1 menyatakan cakupan pengganti **TIDAK LENGKAP** karena itu.
+
+## Putaran 2 (owner D13-12): kasus browser sungguhan P11 desktop dan HP
+
+Kedua kasus pengganti yang sudah terdaftar, `P11_DRAFT_BROWSER_DESKTOP` dan `P11_DRAFT_BROWSER_MOBILE_RECOVERY`
+(`scripts/cp7_p11_drafts_browser.mjs`, fungsi `dozenHelper`), sekarang menekan helper lusin di browser sungguhan. Produk
+tidak diubah. Langkahnya:
+
+1. Baris 1 berisi qty manual 13, baris 2 berisi qty 2, harga 10,01, potongan 0,02 dan catatannya. Bagian "Isi dengan
+   lusin + PCS" baris 1 dibuka.
+2. Isian yang tidak sah membuat tombol "Terapkan lusin baris 1" nonaktif, dan qty tetap 13. Isian itu: kosong, 1,1
+   lusin, 1.1 lusin, sisa 12 PCS, dan 0 + 0.
+3. Lusin 2 dan sisa 1 diisi. Sebelum tombol ditekan, qty tetap 13.
+4. Tombol ditekan: qty menjadi 25, baris 2 tidak berubah, dan total menjadi Rp520. Di HP tidak ada geser horizontal.
+   Tangkapan layar disimpan: `P11_DOZEN_HELPER_{DESKTOP,MOBILE}.png`.
+5. Lusin 1 dan sisa 1 diterapkan: qty kembali 13 lewat helper (sebelumnya 25), dan total kembali Rp280.
+6. Draft disimpan. Dibaca ulang dari server: qty barang `[2, 13]`, stok tersedia `[17, 28]`. Saat draft dibuka untuk
+   diedit, qty baris itu terbaca 13 dari server.
+7. Sisa alur kasus tidak berubah: edit menjadi 5, simpan, sahkan. Kasus HP juga tetap menguji balasan CREATE yang
+   hilang.
+
+Status pensiun tetap menunggu pernyataan auditor LENGKAP / TIDAK LENGKAP (D13-9c, D13-12).

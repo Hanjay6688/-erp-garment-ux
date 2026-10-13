@@ -1,9 +1,9 @@
 {
   "contract": "cp7.k3b.cleanup-and-schedule.v1",
-  "expected_case_count": 24,
+  "expected_case_count": 25,
   "required_case_counts": {
     "native": 9,
-    "races": 11,
+    "races": 12,
     "http": 2,
     "browser": 2
   },
@@ -30,7 +30,8 @@
       "K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE",
       "K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES",
       "K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL",
-      "K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID"
+      "K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID",
+      "K3C_RACE_BACKUP_PLAIN_MARK_COPIED_ONTO_FOREIGN_KEPT"
     ],
     "http": [
       "K3C_HTTP_REOPEN_AFTER_CLEANUP",

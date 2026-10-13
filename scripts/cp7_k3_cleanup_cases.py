@@ -49,7 +49,8 @@ IDS = dict(
     races=['K3C_RACE_TWO_TICKS_ONE_LOG', 'K3C_RACE_BUSY_TABLE_RETRIED', 'K3C_RACE_PG_CRON_FIRES', 'K3C_RACE_NIGHTLY_BACKUP_VERIFIED',
            'K3C_RACE_CRON_TWO_DATABASES', 'K3C_RACE_BACKUP_RETRY_SAME_SECOND', 'K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP',
            'K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE', 'K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES',
-           'K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL', 'K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID'],
+           'K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL', 'K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID',
+           'K3C_RACE_BACKUP_PLAIN_MARK_COPIED_ONTO_FOREIGN_KEPT'],
     http=['K3C_HTTP_REOPEN_AFTER_CLEANUP', 'K3C_HTTP_TICK_NOT_REACHABLE'],
     browser=['K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP', 'K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP'],
 )
@@ -692,12 +693,15 @@ def races(tools, today):
                 assert late['restore_verified'] is False and 'BACKUP_SCRATCH_NOT_CREATED' in late.get('error', ''), late
                 assert late['scratch_before'] == 'ABSENT' and late['scratch_after'] == 'FOREIGN' and late['retention']['removed'] == [], late
                 # Any other name that no database has is created, marked, used and dropped; a database the tool
-                # itself marked (a leftover of a night that stopped) is reused and dropped.
+                # itself marked (a leftover of a night that stopped: an attempt's mark for that database's own OID)
+                # is reused and dropped. The plain mark of earlier versions no longer counts (F-OPS-05, owner D13-12;
+                # K3C_RACE_BACKUP_PLAIN_MARK_COPIED_ONTO_FOREIGN_KEPT).
                 good = nightly.backup(tools.admin, database, 'k3c_scratch_any_name', dest, keep=14, container=container)
                 assert good['restore_verified'] is True and good['scratch_before'] == 'ABSENT' and good['scratch_after'] == 'ABSENT', good
                 with psycopg.connect(nightly.db_url(tools.admin, 'postgres'), autocommit=True) as pg:
                     pg.execute(sql.SQL('create database {}').format(sql.Identifier('k3c_scratch_any_name')))
-                nightly.mark_scratch(tools.admin, 'k3c_scratch_any_name')
+                    left_oid = pg.execute("select oid from pg_database where datname='k3c_scratch_any_name'").fetchone()[0]
+                nightly.mark_scratch(tools.admin, 'k3c_scratch_any_name', 'c' * 16, left_oid)
                 again = nightly.backup(tools.admin, database, 'k3c_scratch_any_name', dest, keep=14, container=container)
                 assert again['restore_verified'] is True and again['scratch_before'] == 'OURS' and again['scratch_after'] == 'ABSENT', again
             for v in victims:
@@ -841,8 +845,8 @@ def races(tools, today):
         night still verified. Every database here is audit-owned and SYNTHETIC (one canary row each), in this
         disposable cluster; the pauses are the real pg_dump / pg_restore / hashing returning, with an administrator's
         DDL injected at that point. Four situations:
-          A. leftover replaced after the dump (Astra's sequence): the replacement and its row stay, the night refuses
-             (BACKUP_SCRATCH_REPLACED), nothing verified or pruned;
+          A. leftover (marked by this tool for its own OID) replaced after the dump (Astra's sequence): the
+             replacement and its row stay, the night refuses (BACKUP_SCRATCH_REPLACED), nothing verified or pruned;
           B. the attempt's own database replaced under its random name before the restore: nothing is dropped except
              the attempt's own database (found by OID where it was moved), the night refuses;
           C. the same replacement after the hashing, before the final drop: the replacement stays, the attempt's own
@@ -896,7 +900,9 @@ def races(tools, today):
             with tempfile.TemporaryDirectory(prefix='cp7-nightly-oid-') as dest:
                 # A. Astra's sequence, unchanged: marked leftover, replaced by a foreign database after the dump.
                 create(scratch, 'OWNED_OLD')
-                nightly.mark_scratch(tools.admin, scratch)
+                with pg() as c:
+                    old_oid = c.execute('select oid from pg_database where datname=%s', (scratch,)).fetchone()[0]
+                nightly.mark_scratch(tools.admin, scratch, 'd' * 16, old_oid)
 
                 def dump_then_replace(self, src, target, snapshot):
                     r = real_dump(self, src, target, snapshot)
@@ -961,9 +967,69 @@ def races(tools, today):
         return dict(status='PASS', source_unchanged=True, **out,
                     synthetic='audit-owned one-row databases in the disposable cluster; administrator DDL injected after the real tool steps')
 
+    def backup_plain_mark_copied():
+        """Independent audit Fable F-OPS-05 (XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN), owner D13-12: only a mark naming the
+        database's own OID may allow the tool to drop it. The plain mark text of earlier versions (no token, no OID)
+        is copied onto two SYNTHETIC audit-owned databases, each with one canary row:
+          1. one under the configured scratch name: the night refuses before the dump (BACKUP_SCRATCH_EXISTS_NOT_OURS),
+             removes nothing, and the database and its row are intact;
+          2. one named <scratch>_<16 hex>, the attempts' pattern, with a free configured name: it is not a leftover,
+             the night verifies with its own attempt, and the database and its row are intact.
+        Both databases are removed by the case itself at the end."""
+        container = os.environ.get('CP6_DATABASE_CONTAINER', 'supabase_db_cp5-local')
+        database = urlparse(tools.admin).path.lstrip('/')
+        tag = uuid.uuid4().hex[:10]
+        scratch, scratch2 = 'k3c_plain_scr_' + tag, 'k3c_plain_free_' + tag
+        patterned = '%s_%s' % (nightly.attempt_prefix(scratch2), uuid.uuid4().hex[:16])
+        made = []
+
+        def pg():
+            return psycopg.connect(nightly.db_url(tools.admin, 'postgres'), autocommit=True)
+
+        def create(name, row):
+            with pg() as c:
+                c.execute(sql.SQL('create database {} template template0').format(sql.Identifier(name)))
+                made.append(name)
+                c.execute(sql.SQL('comment on database {} is {}').format(sql.Identifier(name), sql.Literal(nightly.SCRATCH_MARK)))
+            with psycopg.connect(nightly.db_url(tools.admin, name), autocommit=True) as c:
+                c.execute('create table k3c_canary(v text not null)')
+                c.execute('insert into k3c_canary values(%s)', (row,))
+            with pg() as c:
+                return c.execute("select oid,shobj_description(oid,'pg_database') from pg_database where datname=%s", (name,)).fetchone()
+
+        def state(name):
+            with pg() as c:
+                r = c.execute("select oid,shobj_description(oid,'pg_database') from pg_database where datname=%s", (name,)).fetchone()
+            if r is None:
+                return None
+            with psycopg.connect(nightly.db_url(tools.admin, name)) as c:
+                return (r[0], r[1], c.execute('select v from k3c_canary').fetchall())
+
+        try:
+            first = create(scratch, 'FOREIGN_WITH_PLAIN_MARK')
+            second = create(patterned, 'FOREIGN_PATTERN_WITH_PLAIN_MARK')
+            assert first[1] == nightly.SCRATCH_MARK and second[1] == nightly.SCRATCH_MARK
+            assert nightly.scratch_state(tools.admin, scratch) == 'FOREIGN' and nightly.leftovers(tools.admin, scratch2) == []
+            with tempfile.TemporaryDirectory(prefix='cp7-nightly-plain-') as dest:
+                refused = nightly.backup(tools.admin, database, scratch, dest, keep=14, container=container)
+                assert refused['restore_verified'] is False and 'BACKUP_SCRATCH_EXISTS_NOT_OURS' in refused.get('error', ''), refused
+                assert refused['scratch_before'] == 'FOREIGN' and refused['retention']['removed'] == [], refused
+                assert state(scratch) == (first[0], nightly.SCRATCH_MARK, [('FOREIGN_WITH_PLAIN_MARK',)]), state(scratch)
+                night = nightly.backup(tools.admin, database, scratch2, dest, keep=14, container=container)
+                assert night['restore_verified'] is True and night['leftovers'] == [] and night['scratch_after'] == 'ABSENT', night
+                assert state(patterned) == (second[0], nightly.SCRATCH_MARK, [('FOREIGN_PATTERN_WITH_PLAIN_MARK',)]), state(patterned)
+            assert state(scratch) == (first[0], nightly.SCRATCH_MARK, [('FOREIGN_WITH_PLAIN_MARK',)])
+        finally:
+            with pg() as c:
+                for name in made:
+                    c.execute(sql.SQL('drop database if exists {} with (force)').format(sql.Identifier(name)))
+        return dict(status='PASS', plain_mark_on_scratch_name_refused_and_kept=True, plain_mark_on_attempt_pattern_not_a_leftover=True,
+                    night_with_free_name_verified=True, same_oid_and_row_after=True,
+                    synthetic='two audit-owned one-row databases carrying a copy of the plain mark, removed by the case')
+
     return list(zip(IDS['races'], (two_ticks, busy_table, cron_fires, nightly_backup, cron_two_databases, backup_retry_same_second,
                                    cleanup_beside_running_step, backup_scratch_guard, backup_under_writes, schedule_rehearsal,
-                                   backup_ownership_by_oid)))
+                                   backup_ownership_by_oid, backup_plain_mark_copied)))
 
 
 def http_cases(http, today):

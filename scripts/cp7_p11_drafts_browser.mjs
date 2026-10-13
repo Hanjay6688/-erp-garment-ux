@@ -8,6 +8,25 @@ async function open(ui,p){
  const link=p.getByRole('button',{name:'• Penjualan & Invoice',exact:true});if(!await link.isVisible())await p.locator('.sidebar .nav-main').filter({hasText:'Penjualan'}).click();await link.click()
  await ui.expect(p.locator('.csales').getByRole('heading',{name:'Penjualan & Invoice',exact:true})).toBeVisible()
 }
+// A6 (owner D13-12): the P11 "lusin + PCS" helper of line 1 in a real browser, desktop and phone. Line 1 holds the
+// manual 13 and line 2 its own values. Nothing is applied before the button; invalid input (empty, a fractional dozen,
+// more than 11 remaining pieces, zero) keeps the button disabled and the quantity as it is; 2 dozen + 1 gives 25 with
+// line 2 unchanged; then 1 dozen + 1 brings line 1 back to 13 through the helper, so the 13 saved and read back below
+// comes from the helper (the field showed 25 just before).
+async function dozenHelper(ui,p,ws,form,mobile){
+ const qty=n=>form.getByLabel(`Jumlah invoice ${n}`,{exact:true}),dozens=form.getByLabel('Lusin invoice 1',{exact:true}),pieces=form.getByLabel('Sisa PCS invoice 1',{exact:true}),apply=form.getByRole('button',{name:'Terapkan lusin baris 1',exact:true})
+ const line2=async()=>Promise.all([qty(2).inputValue(),form.getByLabel('Harga invoice 2',{exact:true}).inputValue(),form.getByLabel('Potongan invoice 2',{exact:true}).inputValue(),form.getByLabel('Catatan barang invoice 2',{exact:true}).inputValue()])
+ const before=await line2();assert.deepEqual(before,['2','10,01','0,02','Barang 2 tetap utuh']);await ui.expect(qty(1)).toHaveValue('13')
+ await form.getByText('Isi dengan lusin + PCS',{exact:true}).first().click();await ui.expect(dozens).toBeVisible();await ui.expect(pieces).toBeVisible()
+ const refused=[]
+ for(const [d,pc,label] of [['','','EMPTY'],['1,1','0','FRACTIONAL_DOZEN'],['1.1','0','FRACTIONAL_DOZEN_DOT'],['1','12','MORE_THAN_11_PCS'],['0','0','ZERO']]){await dozens.fill(d);await pieces.fill(pc);await ui.expect(apply).toBeDisabled();await ui.expect(qty(1)).toHaveValue('13');refused.push(label)}
+ await dozens.fill('2');await pieces.fill('1');await ui.expect(apply).toBeEnabled();await ui.expect(qty(1)).toHaveValue('13')
+ await apply.click();await ui.expect(qty(1)).toHaveValue('25');assert.deepEqual(await line2(),before);await ui.expect(form.locator('.cproc-total')).toContainText('Rp520')
+ await ui.expect.poll(()=>ws.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
+ mkdirSync('cp6-proof/t3',{recursive:true});await form.getByLabel('Lusin invoice 1',{exact:true}).scrollIntoViewIfNeeded();await p.screenshot({path:`cp6-proof/t3/P11_DOZEN_HELPER_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
+ await dozens.fill('1');await pieces.fill('1');await apply.click();await ui.expect(qty(1)).toHaveValue('13');assert.deepEqual(await line2(),before);await ui.expect(form.locator('.cproc-total')).toContainText('Rp280')
+ return {refused_with_quantity_kept:refused,unchanged_before_apply:true,applied_2_dozen_1_pcs:'25',other_line_unchanged:true,total_after_apply:'520',line1_set_back_by_helper:'1 dozen + 1 = 13',no_horizontal_overflow:true,screenshot:`P11_DOZEN_HELPER_${mobile?'MOBILE':'DESKTOP'}.png`}
+}
 async function lifecycle(ui,today,mobile){
  const f=fixture('create_draft_source',{today}),user=await ui.login('OWNER',{label:'p11-draft-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),p=user.page,ws=p.locator('.csales'),form=ws.getByRole('form',{name:'Draft invoice'}),detail=ws.getByRole('complementary',{name:'Rincian invoice'}),before=fixture('read_draft',f)
  try{
@@ -17,17 +36,18 @@ async function lifecycle(ui,today,mobile){
   await form.getByLabel('Cari pelanggan draft',{exact:true}).fill(f.tag);await form.getByRole('button',{name:'Cari pelanggan draft',exact:true}).click();await ui.expect(form.getByRole('region',{name:'Pilih pelanggan invoice'}).locator('.cproc-receipt')).toHaveCount(1);await form.getByRole('region',{name:'Pilih pelanggan invoice'}).locator('.cproc-receipt').click()
   for(const sku of [f.sku,f.second.sku]){await form.getByLabel('Cari barang draft',{exact:true}).fill(sku);await form.getByRole('button',{name:'Cari barang draft',exact:true}).click();const rows=form.getByRole('region',{name:'Pilih barang invoice'}).locator('.cproc-receipt');await ui.expect(rows).toHaveCount(1);await rows.click()}
   for(const [n,qty,price,discount] of [[1,'13','20','0'],[2,'2','10,01','0,02']]){await form.getByLabel(`Jumlah invoice ${n}`,{exact:true}).fill(qty);await form.getByLabel(`Harga invoice ${n}`,{exact:true}).fill(price);await form.getByLabel(`Potongan invoice ${n}`,{exact:true}).fill(discount);await form.getByLabel(`Catatan barang invoice ${n}`,{exact:true}).fill('Barang '+n+' tetap utuh')}
+  const dozen=await dozenHelper(ui,p,ws,form,mobile)
   await form.getByLabel('Catatan draft invoice',{exact:true}).fill('Dua barang dan semua catatan');await form.getByLabel('Alasan simpan invoice',{exact:true}).fill('P11 seluruh sumber dan angka diperiksa')
   await ui.expect(form.locator('.cproc-total')).toContainText('Rp280');await ui.expect(form.getByRole('button',{name:'Simpan draft invoice',exact:true})).toBeDisabled();await form.getByLabel('Draft invoice sudah diperiksa',{exact:true}).check()
   let lost=false,first=null,replay=null
   if(mobile)await p.route('**/rest/v1/rpc/erp_cp7_save_sale_v1',async route=>{const body=route.request().postDataJSON();if(body.p_action==='CREATE'&&!lost){first=body;const response=await route.fetch();assert.equal(response.status(),200);lost=true;await route.abort('failed')}else{if(body.p_action==='CREATE'&&replay===null)replay=body;await route.continue()}})
   await form.getByRole('button',{name:'Simpan draft invoice',exact:true}).click()
   if(mobile){await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeVisible();await p.reload();await open(ui,p);await ws.getByRole('button',{name:'Reconcile transaksi',exact:true}).click();await ui.expect(ws.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0);assert.ok(lost);assert.deepEqual(replay,first)}
-  await ui.expect(form).toHaveCount(0);await ui.expect(detail).toContainText('15 PCS masih dipesan');let actual=fixture('read_draft',f);assert.deepEqual(actual.available,[17,28]);assert.deepEqual(actual.gl,before.gl);assert.equal(actual.document.financial.gross_total,'280.00');const original=actual.document
+  await ui.expect(form).toHaveCount(0);await ui.expect(detail).toContainText('15 PCS masih dipesan');let actual=fixture('read_draft',f);assert.deepEqual(actual.available,[17,28]);assert.deepEqual(actual.document.items.map(i=>Number(i.qty_pcs)).sort((a,b)=>a-b),[2,13]);assert.deepEqual(actual.gl,before.gl);assert.equal(actual.document.financial.gross_total,'280.00');const original=actual.document
   await detail.getByRole('button',{name:'Edit draft invoice',exact:true}).click();await ui.expect(form).toBeVisible()
   // Native child rows are UUID ordered. Select the exact physical product,
   // never assume the original client order survives full native replacement.
-  const line=form.locator('article').filter({hasText:f.sku});await ui.expect(line).toHaveCount(1);await line.locator('input[aria-label^="Jumlah invoice"]').fill('5')
+  const line=form.locator('article').filter({hasText:f.sku});await ui.expect(line).toHaveCount(1);await ui.expect(line.locator('input[aria-label^="Jumlah invoice"]')).toHaveValue('13');await line.locator('input[aria-label^="Jumlah invoice"]').fill('5')
   await form.getByLabel('Alasan simpan invoice',{exact:true}).fill('Jumlah barang pertama menjadi5 PCS');await form.getByLabel('Draft invoice sudah diperiksa',{exact:true}).check();await ui.expect(form.locator('.cproc-total')).toContainText('Rp120')
   await ui.expect.poll(()=>ws.evaluate(el=>{const r=el.getBoundingClientRect();return r.left>=0&&r.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
   mkdirSync('cp6-proof/t3',{recursive:true});await p.evaluate(()=>window.scrollTo(0,0));await p.screenshot({path:`cp6-proof/t3/P11_DRAFT_${mobile?'MOBILE':'DESKTOP'}.png`,fullPage:true})
@@ -35,7 +55,7 @@ async function lifecycle(ui,today,mobile){
   assert.deepEqual(actual.available,[25,28]);assert.deepEqual(actual.gl,before.gl);assert.equal(actual.document.id,original.id);assert.notEqual(actual.document.row_version,original.row_version);assert.equal(actual.document.physical_at,original.physical_at);assert.equal(actual.document.due_date,original.due_date);assert.equal(actual.document.payment_terms,original.payment_terms);assert.equal(actual.document.notes,original.notes)
   assert.deepEqual(actual.document.items.map(i=>i.notes).sort(),original.items.map(i=>i.notes).sort());assert.equal(actual.document.financial.gross_total,'120.00')
   await detail.getByLabel('Invoice sudah diperiksa',{exact:true}).check();await detail.getByRole('button',{name:'Sahkan invoice',exact:true}).click();await ui.expect(detail).toContainText('Sisa pembayaran Rp120');actual=fixture('read_draft',f);assert.deepEqual(actual.available,[25,28]);assert.equal(actual.document.status,'POSTED')
-  return {status:'PASS',mobile,source_customer_and_two_products_only_are_fixtures:true,browser_create_edit_post:true,manual13_preserved:true,initial_total:'280',edited_total:'120',initial_available:[17,28],edited_and_post_available:[25,28],all_other_lines_notes_terms_due_full_timestamp_retained:true,create_edit_no_gl_effect:true,lost_create_replay_identical:mobile?true:null,screenshot:`P11_DRAFT_${mobile?'MOBILE':'DESKTOP'}.png`}
+  return {status:'PASS',mobile,source_customer_and_two_products_only_are_fixtures:true,browser_create_edit_post:true,manual13_preserved:true,dozen_helper:dozen,dozen_helper_qty_saved_and_read_back:[2,13],edit_form_reads_back_13:true,initial_total:'280',edited_total:'120',initial_available:[17,28],edited_and_post_available:[25,28],all_other_lines_notes_terms_due_full_timestamp_retained:true,create_edit_no_gl_effect:true,lost_create_replay_identical:mobile?true:null,screenshot:`P11_DRAFT_${mobile?'MOBILE':'DESKTOP'}.png`}
  }catch(e){let source;try{source=fixture('read_draft',f)}catch(x){source={error:String(x)}}mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/P11_DRAFT_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(e),stack:e.stack,text:await ws.innerText().catch(()=>''),source},null,2));await p.screenshot({path:`cp6-proof/t3/P11_DRAFT_${mobile?'MOBILE':'DESKTOP'}_FAILURE.png`,fullPage:true}).catch(()=>{});throw e}
  finally{await user.context.close()}
 }

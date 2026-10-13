@@ -265,3 +265,29 @@ Jawaban owner (verbatim):
 | D13-9a | Semua urusan backup dan Google Drive ditahan sampai tahap CP7C, termasuk dua paket backup untuk auditor (`audit-candidate/offsite-backup-r1-20261013/`, `audit-candidate/restore-drill-r1-20261013/`). | Paket itu tidak dikirim sekarang. Tidak ada langkah Drive atau repo privat yang diminta dari owner sebelum CP7C. Alat dan bukti yang sudah ada tetap disimpan. D13-7 dan D13-8 tetap berlaku untuk tahap CP7C. |
 | D13-9b | Paket putaran silang 1 CP7 (`audit-candidate/crosscheck-r1-20261013/`) dikirim sekarang ke Astra dan Fable. | Owner yang mengirim. |
 | D13-9c | Pensiun `SALES_MANUAL_13` (desktop dan HP) dari komposisi CP7 **disetujui bersyarat**: berlaku sesudah auditor memastikan cakupan penggantinya lengkap. | Sampai auditor memastikan, status pensiun belum sah. Catatan owner ikut diperiksa auditor: sebagian pemeriksaan helper baru diuji lewat DOM simulasi, belum seluruhnya di browser sungguhan. |
+
+### Keputusan owner 13 Okt 2026 sesudah laporan Fable v1.1 putaran silang 1 (D13-10..D13-13)
+
+Disalin tanpa mengubah kata-kata dari register auditor Fable
+`audit/fable_cp7/OWNER_DECISIONS_TO_AUDITOR_20261013.md` (cabang `audit/fable-cp7-full-d0b9e9c2-20261011`, commit
+`9fc44978`), yang mencatat pesan owner langsung ke auditor. Waktu penegasan: **2026-10-13T16:30:49Z** (13 Okt 2026
+23:30 WIB). Berkas auditor itu adalah sumbernya. Laporan yang dijawab: `audit/fable_cp7/AUDIT_FABLE_XC1_ae0214ad_v1.1.md`
+(commit `6e3a8983`).
+
+| No | Keputusan owner (verbatim) |
+|---|---|
+| D13-10 | "Ya, A2 diterima sebagai bukan penghalang pembekuan, dengan diagnosis tetap terpasang. Status akar penyebab tetap OPEN, dan dua kegagalan lama beserta bukti aslinya tetap disimpan." |
+| D13-11 | "Saya izinkan pembanding terurut sebagai pelengkap diagnosis. Pembanding asli tetap menentukan hasil pemeriksaan. Pelengkap harus mempertahankan semua anggota, duplikat, definisi, owner, dan hak akses; tujuannya membedakan perubahan urutan dari perubahan isi, tanpa menyamarkan kegagalan." |
+| D13-12 | Putaran 2 penulis: (1) "A6: tambahkan kasus browser sungguhan P11 desktop dan HP yang menekan 'Terapkan lusin baris N'. Periksa hasil qty, pemeliharaan baris lain, serta hasil simpan/baca ulang. Pensiun `SALES_MANUAL_13` baru sah setelah auditor menyatakan cakupan penggantinya LENGKAP." (2) "F-OPS-05: hanya tanda kepemilikan dengan OID yang cocok boleh mengizinkan penghapusan. Tambahkan uji tanda lama disalin ke database asing: database itu harus tetap utuh." |
+| D13-13 | "Simpan bukti pertama, catat SHA/tree setiap hasil, lalu kirim kandidat putaran 2 yang sama ke Astra dan Fable. Pembekuan final mengikuti penutupan dua butir tersebut; A2 tetap tercantum sebagai keterbatasan terbuka. `production_go:false`." |
+
+Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner):
+
+- A2 tercantum sebagai keterbatasan terbuka, bukan syarat pembekuan. Diagnosis tetap terpasang. Dua kegagalan lama
+  (run 38288829388 dan 38330557862) dan log aslinya tetap disimpan apa adanya.
+- D13-11 adalah izin, bukan perintah. Di putaran 2 penulis tidak menambah pembanding kedua. Alasannya:
+  `state_difference` yang sudah terpasang sudah membedakan ORDER_ONLY dari CONTENT setiap kali grup gagal, dan
+  menambah pembanding di `cp6_auditor_runner.py` akan menyentuh semua workflow.
+- Putaran 2 berisi dua butir D13-12: kasus browser P11 desktop dan HP untuk helper lusin (A6), dan F-OPS-05 (hanya
+  tanda ber-OID yang boleh mengizinkan penghapusan, ditambah uji tanda lama yang disalin ke database asing).
+- Kandidat putaran 2 satu SHA/tree yang sama untuk Astra dan Fable (D13-13). Register ini masuk ke kandidat itu.

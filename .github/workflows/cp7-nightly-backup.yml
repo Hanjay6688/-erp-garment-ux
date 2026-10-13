@@ -4,7 +4,7 @@ name: CP7C Nightly Backup (template, not installed)
 # remote: Google Drive or Cloudflare R2), fetched back from that store, restored on this runner's own PostgreSQL of the
 # same version and compared with the source (data, structure, owner, ACL), newest 14 verified nights kept on the store.
 # Tool: scripts/cp7_offsite_backup.py, tested on disposable servers by CP7 Offsite Backup (.github/workflows/cp7-offsite-backup.yml).
-# The same-server tool scripts/cp7_nightly_backup.py stays tested by k3-cleanup-24 (K3C_RACE_NIGHTLY_BACKUP_VERIFIED,
+# The same-server tool scripts/cp7_nightly_backup.py stays tested by k3-cleanup-25 (K3C_RACE_NIGHTLY_BACKUP_VERIFIED,
 # K3C_RACE_BACKUP_RETRY_SAME_SECOND, K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID); its scratch rules are reused here.
 # Installing it waits for the audit and the owner's installation permission: until the repository variable
 # CP7_NIGHTLY_BACKUP_INSTALLED is 'true' this job never runs, and the schedule below stays commented out.

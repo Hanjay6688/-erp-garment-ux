@@ -119,13 +119,12 @@ ATTEMPT_MARK = re.compile(re.escape(SCRATCH_MARK) + r' attempt=([0-9a-f]{16}) oi
 
 
 def is_mark(comment, oid, token=None):
-    """This tool's mark on the database with this OID. An attempt's mark names the attempt's token and the OID the
-    database was created with, so a mark that ever landed on another database never counts as ours there. The
-    plain mark (no token) is the one earlier versions wrote on the configured name."""
+    """This tool's mark on the database with this OID. Only an attempt's mark counts: it names the attempt's token and
+    the OID the database was created with, so a mark that ever landed on another database never counts as ours there.
+    The plain mark earlier versions wrote (SCRATCH_MARK alone, no token or OID) is not ours anywhere: its text can be
+    copied onto any database (independent audit Fable F-OPS-05, owner D13-12), and no night ran outside CI with it."""
     m = ATTEMPT_MARK.fullmatch(comment or '')
-    if m:
-        return int(m.group(2)) == oid and (token is None or m.group(1) == token)
-    return token is None and comment == SCRATCH_MARK
+    return bool(m) and int(m.group(2)) == oid and (token is None or m.group(1) == token)
 
 
 def identity(admin_url, name):
@@ -140,9 +139,10 @@ def scratch_state(admin_url, name):
     return None if r is None else 'OURS' if is_mark(r[1], r[0]) else 'FOREIGN'
 
 
-def mark_scratch(admin_url, name, token=None, oid=None):
-    """Mark a database as this tool's scratch; with token and oid, as one attempt's own database."""
-    mark = SCRATCH_MARK if token is None else '%s attempt=%s oid=%d' % (SCRATCH_MARK, token, oid)
+def mark_scratch(admin_url, name, token, oid):
+    """Mark a database as one attempt's own: the attempt's token and the OID it was created with."""
+    assert isinstance(token, str) and re.fullmatch(r'[0-9a-f]{16}', token) and isinstance(oid, int), ('BACKUP_MARK_INVALID', token, oid)
+    mark = '%s attempt=%s oid=%d' % (SCRATCH_MARK, token, oid)
     with psycopg.connect(db_url(admin_url, 'postgres'), autocommit=True) as conn:
         conn.execute(sql.SQL('comment on database {} is {}').format(sql.Identifier(name), sql.Literal(mark)))
 
@@ -200,7 +200,8 @@ def drop_owned(admin_url, oid, token=None, created_here=False):
 
 
 def leftovers(admin_url, scratch):
-    """Databases an earlier night of this tool left: the configured name or `<scratch>_<random>`, carrying the mark."""
+    """Databases an earlier night of this tool left: the configured name or `<scratch>_<random>`, carrying an attempt's
+    mark for its own OID (is_mark)."""
     pattern = '^' + re.escape(attempt_prefix(scratch)) + '_[0-9a-f]{16}$'
     with psycopg.connect(db_url(admin_url, 'postgres')) as conn, conn.cursor() as cur:
         rows = cur.execute("""select d.oid,d.datname,shobj_description(d.oid,'pg_database') from pg_database d
