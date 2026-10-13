@@ -1,0 +1,22 @@
+{
+  "created_at": "2026-10-13T11:42:46.478646+00:00",
+  "base_commit": "68bb8828836f34a0e054a548c0dadb190666051c",
+  "author": "Astra",
+  "evidence_origin": "AUTHOR_LOCAL_UNIT_TEST",
+  "unit_tests": {
+    "passed": 8,
+    "failed": 0,
+    "real_database": false,
+    "command": "python -m unittest discover -s ops/supabase-healthcheck -p 'test_*.py' -v"
+  },
+  "workflow_template_yaml": "PARSED",
+  "hosted_connected": false,
+  "schedule_installed": false,
+  "production_go": false,
+  "files": {
+    "healthcheck.py": "56d3382742c7fa705a4acfe59d498f0003f7161901a51d67211255f8e500d4d7",
+    "healthcheck.yml.example": "9904395d3d38a5b099567e4f7695dc5908bc311829dee1a588a49bbf62c13178",
+    "test_healthcheck.py": "74fca045054f089f832829b2356675b91b526e13b3a32ffdab1327126f216861",
+    "README.md": "7c7bc52b7f471ce7f194dd119be8ab465285c77d673b2600de969741879f10b1"
+  }
+}
