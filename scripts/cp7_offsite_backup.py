@@ -202,9 +202,18 @@ def sequence_state(cur):
 EXPLAINED = ('extension_initial_acls',)
 
 
+_ACL = re.compile(r' acl=\S+')
+
+
 def compare_structure(a, b):
-    """(strict differences, explained differences) per category."""
+    """(strict differences, explained differences) per category. An object whose privileges the source recorded as
+    an extension's initial privileges is compared without its ACL in the strict categories, whatever the restored side
+    recorded (on Supabase such an object can be created around CREATE EXTENSION and, restored by pg_dump, come back as
+    a plain object); its ACL itself is compared in the explained category extension_initial_acls."""
     out, explained = {}, {}
+    marked = {_ACL.sub(' acl=*', line) for lines in a.values() for line in lines if ' acl=EXTENSION_INITIAL' in line}
+    b = {k: [_ACL.sub(' acl=EXTENSION_INITIAL', line) if _ACL.sub(' acl=*', line) in marked else line for line in lines]
+         for k, lines in b.items()}
     for k in sorted(set(a) | set(b)):
         x, y = set(a.get(k, [])), set(b.get(k, []))
         if x != y:
