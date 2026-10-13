@@ -28,8 +28,9 @@ One drill:
   4. Compare with the source (in CI the disposable source the night was taken from, unchanged since): row count and
      md5 of every table of the application's schemas and of the managed tables, sequence state of the application's
      schemas, and the whole structure fingerprint of the off-site tool (every schema, owners, privileges), both the
-     compared (normalized) form and the raw form, with every raw difference recorded. Tables outside those that hold
-     rows in the source and were not restored are counted (left_behind), never silently dropped from the record.
+     compared (normalized) form and the raw form, with every raw difference recorded. Supabase tables that were not
+     restored and whose row count differs from the source (sessions, refresh tokens, audit log...) are counted
+     (left_behind), never silently dropped from the record.
 The drill prints one JSON line of codes and counts. Nothing of the database's content is printed.
 """
 import argparse
@@ -157,9 +158,9 @@ def fingerprint(url, schemas, managed):
             return dict(data=data, sequences=seqs, structure=off.structure(cur), structure_raw=off.structure(cur, raw=True))
 
 
-def left_behind(url, schemas, managed):
-    """{table: rows} of the source's tables outside the restored ones that hold rows (counted one by one; a table the
-    role cannot read is reported as None)."""
+def row_counts(url, schemas, managed):
+    """{table: rows} of every table outside the schemas, the managed tables and pg_cron's (a table the role cannot read
+    counts as None)."""
     out = {}
     with psycopg.connect(url, autocommit=True) as conn:
         tables = conn.execute("""select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
@@ -168,12 +169,17 @@ def left_behind(url, schemas, managed):
                               (sorted(schemas), sorted(managed))).fetchall()
         for schema, table in tables:
             try:
-                n = conn.execute(sql.SQL('select count(*) from {}.{}').format(sql.Identifier(schema), sql.Identifier(table))).fetchone()[0]
+                out[schema + '.' + table] = conn.execute(sql.SQL('select count(*) from {}.{}').format(sql.Identifier(schema), sql.Identifier(table))).fetchone()[0]
             except psycopg.Error:
-                n = None
-            if n != 0:
-                out[schema + '.' + table] = n
+                out[schema + '.' + table] = None
     return out
+
+
+def left_behind(source_url, target_url, schemas, managed):
+    """{table: [source rows, target rows]} of the Supabase tables that were not restored and whose row count differs
+    (sessions, refresh tokens, audit log...). Counted, never silently dropped from the record."""
+    a, b = row_counts(source_url, schemas, managed), row_counts(target_url, schemas, managed)
+    return {k: [a.get(k), b.get(k)] for k in sorted(set(a) | set(b)) if a.get(k) != b.get(k) or a.get(k) is None}
 
 
 def diff(a, b):
@@ -269,12 +275,12 @@ def drill(remote, night, passphrase_file, source_url, target_url, managed=MANAGE
                       if a['sequences'].get(k) != b['sequences'].get(k)}
         strict, explained = off.compare_structure(a['structure'], b['structure'])
         raw = diff(a['structure_raw'], b['structure_raw'])
-        behind = left_behind(source_url, app, managed)
+        behind = left_behind(source_url, target_url, app, managed)
         out['data'] = dict(tables=len(a['data']), rows=sum(v['rows'] for v in a['data'].values()), sequences=len(a['sequences']),
                            tables_differ=len(data_differ), sequences_differ=len(seq_differ),
                            managed_rows={m: a['data'].get(m, {}).get('rows') for m in managed},
-                           left_behind=dict(tables=len(behind), rows=sum(v or 0 for v in behind.values()),
-                                            unreadable=sum(1 for v in behind.values() if v is None)))
+                           left_behind=dict(tables=len(behind), source_rows=sum(v[0] or 0 for v in behind.values()),
+                                            unreadable=sum(1 for v in behind.values() if None in v)))
         out['structure'] = dict(objects={k: len(v) for k, v in a['structure'].items()}, differ={k: v['count'] for k, v in strict.items()},
                                 explained={k: v['count'] for k, v in explained.items()}, raw_differ={k: v['count'] for k, v in raw.items()})
         detail.update(data_differ=data_differ, sequences_differ=seq_differ, structure_differ=strict, structure_explained=explained,
