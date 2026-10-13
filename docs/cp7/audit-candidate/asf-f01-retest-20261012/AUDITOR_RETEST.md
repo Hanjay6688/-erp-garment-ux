@@ -1,5 +1,9 @@
 # Uji ulang ASF-F01 — kandidat `5f1506f4` (sesi auditor terpisah)
 
+> **Catatan 13 Okt 2026:** kandidat terbaru adalah `7a0b4a90` (perbaikan ASF-F01 + temuan Fable). Sesudah `5f1506f4`
+> ada perubahan kode, jadi pemeriksaan "commit sesudahnya hanya dokumen" di bawah tidak berlaku lagi. Pakai paste block
+> Astra di `../fable-retest-20261012/AUDITOR_RETEST.md`.
+
 Dokumen ini untuk **auditor di sesi terpisah**, bukan writer. Audit penuh CP7 Astra atas `d0b9e9c2` memberi HOLD karena
 ASF-F01 (S3, alat uji). Handoff auditor: "Berikan kandidat baru serta diff sempit dan run hasil perbaikan. Auditor
 mengulang kasus yang terkena perubahan; tidak perlu meminta pembuktian ulang bagian produk yang tidak tersentuh tanpa

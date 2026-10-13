@@ -25,6 +25,32 @@ diuji ulang dengan kasus Fable yang sama." Kandidat ini juga memuat perbaikan AS
 > meminta password/token/kunci; jangan melonggarkan oracle/guard; simpan log gagal pertama. Area optimasi timeline PR44
 > tidak boleh diterima oleh auditor yang menulisnya (Astra). `production_go:false` tetap.
 
+## Paste block untuk Astra (uji ulang ASF-F01 pada kandidat yang sama)
+
+Paket lama `../asf-f01-retest-20261012/` menguji `5f1506f4`; sesudah commit itu ada perubahan kode (perbaikan Fable), jadi
+pemeriksaan "commit sesudahnya hanya dokumen" di paket lama tidak berlaku lagi. Astra memakai blok di bawah.
+
+> Kamu auditor independen CP7 ERP Garment (repo `Hanjay6688/-erp-garment-ux`, cabang `claude/new-session-deapao`), yang
+> sebelumnya mengaudit `d0b9e9c2` (cabang `audit/astra-cp7-full-d0b9e9c2-20261012`, putusan HOLD karena ASF-F01).
+> Kandidat revisi adalah commit sumber `7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2`, tercatat di
+> `docs/cp7/audit-candidate/fable-retest-20261012/CI_RECEIPT.json`; commit sesudahnya hanya dokumen — buktikan dengan
+> `git diff --name-only 7a0b4a90 HEAD`. Perbaikan ASF-F01 ada sejak `5f1506f4` (`docs/cp7/audit-candidate/asf-f01-retest-20261012/`);
+> sesudahnya alat tanggal hanya menambah anotasi peringatan GitHub (`scripts/cp6_auditor_business_day.py` `annotate`), dan
+> kandidat ini juga memuat perbaikan temuan audit Fable (`README.md` paket `fable-retest-20261012`). Baca
+> `docs/AUDIT_PANDUAN_PRO_MAX.md`, laporan dan handoff auditmu sendiri, lalu `README.md` dan `AUDITOR_RETEST.md` kedua
+> paket. Tugas: (1) uji ulang ASF-F01 dengan kontrolmu sendiri (`audit/astra_full/probe_business_day_new.py` dan kontrol
+> tambahan) di semua mode yang memakai helper (savepoint, balapan, HTTP, browser), termasuk anotasi baru; (2) ulangi
+> regresi yang terdampak perubahan sejak `d0b9e9c2` (`SOURCE_DELTA.json`), boleh menulis BELUM DIULANG untuk area yang tidak
+> tersentuh; (3) bila mau, uji silang perbaikan temuan Fable sebagai auditor kedua. Kamu menulis area optimasi timeline
+> PR44, jadi kamu **tidak** menerima area itu; kamu boleh memberi catatan apakah perubahan writer pada probe-mu
+> (`scripts/cp7_astra_timeline_reuse_probe.mjs`, F-TOOL-02) masih sesuai maksud aslinya. Keputusan owner yang sudah
+> disahkan (12 Okt: dashboard disembunyikan, PL-5 owner saja; 2 Okt: kredit kelebihan bayar ke nota berikutnya mana pun)
+> tidak dibuka ulang. Batas: jangan mengubah `main`, deployment Cloudflare, Supabase hosted Enteng (`siimvrusnzxexizpyoib`),
+> legacy ERP-Garment (`vlxdhpkjeevubjxexnfo`, read-only) atau produksi; jangan push ke `claude/new-session-deapao`,
+> `cp7/integration` atau cabang audit lama (pakai cabang audit baru); jangan memasang jadwal pg_cron atau backup malam di
+> database mana pun selain salinan sekali pakai; jangan mengirim pesan ke orang lain; jangan meminta password/token/kunci;
+> jangan melonggarkan oracle/guard; simpan log gagal pertama. `production_go:false` tetap.
+
 ## Yang diuji ulang
 
 | Temuan | Kriteria penutupan (laporan Fable §2) | Yang berubah di `7a0b4a90` | Titik awal (bukan bukti lulus) |
