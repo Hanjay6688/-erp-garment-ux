@@ -1,9 +1,9 @@
 {
   "contract": "cp7.k3b.cleanup-and-schedule.v1",
-  "expected_case_count": 23,
+  "expected_case_count": 24,
   "required_case_counts": {
     "native": 9,
-    "races": 10,
+    "races": 11,
     "http": 2,
     "browser": 2
   },
@@ -29,7 +29,8 @@
       "K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP",
       "K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE",
       "K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES",
-      "K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL"
+      "K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL",
+      "K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID"
     ],
     "http": [
       "K3C_HTTP_REOPEN_AFTER_CLEANUP",
@@ -124,7 +125,7 @@
     "keep_verified": 14,
     "verified_by": "restore into a separate scratch database; every table's row count and md5 equal to the source read in the dump's own exported snapshot (pg_dump --snapshot), so writes during the backup do not affect the comparison (Fable F-OPS-03)",
     "attempt_name": "erp-<YYYYmmdd-HHMMSS>-WIB-<random token>.dump; an existing dump or receipt name is refused before anything is written (P20 F03)",
-    "scratch": "any name other than the source and postgres; the tool marks the database it creates (database comment) and drops only a database with its mark; any other existing database is refused (BACKUP_SCRATCH_EXISTS_NOT_OURS) and left unchanged; the scratch is made with createdb and never dropped first, so a database of that name appearing after the check makes createdb fail instead of being dropped (Fable F-OPS-01)"
+    "scratch": "any name other than the source and postgres; a database holding that name (marked or not) is never restored into or dropped: an unmarked one is refused (BACKUP_SCRATCH_EXISTS_NOT_OURS, Fable F-OPS-01), one that takes the name after the check makes the night refuse (BACKUP_SCRATCH_NOT_CREATED). Each attempt restores into its own database <scratch>_<random>, created with an OID the tool chooses and marked with the attempt token and that OID; databases are dropped only by OID, after a move under a fresh random name and a second OID check; a leftover (the scratch name or <scratch>_<random>, marked for its own OID) is read with its OID before the dump and dropped under it after; a name that no longer leads to that OID refuses the night (BACKUP_SCRATCH_REPLACED) with nothing dropped, verified or pruned (Astra ASR-OPS-01). Boundary, stated: an administrator who replaces the attempt's database under its random name between the OID check and pg_restore connecting can receive the restored tables; the replacement is not dropped and the night is recorded unverified."
   },
   "installed": false,
   "production_go": false,

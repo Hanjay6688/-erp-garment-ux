@@ -49,7 +49,7 @@ IDS = dict(
     races=['K3C_RACE_TWO_TICKS_ONE_LOG', 'K3C_RACE_BUSY_TABLE_RETRIED', 'K3C_RACE_PG_CRON_FIRES', 'K3C_RACE_NIGHTLY_BACKUP_VERIFIED',
            'K3C_RACE_CRON_TWO_DATABASES', 'K3C_RACE_BACKUP_RETRY_SAME_SECOND', 'K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP',
            'K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE', 'K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES',
-           'K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL'],
+           'K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL', 'K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID'],
     http=['K3C_HTTP_REOPEN_AFTER_CLEANUP', 'K3C_HTTP_TICK_NOT_REACHABLE'],
     browser=['K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP', 'K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP'],
 )
@@ -835,8 +835,135 @@ def races(tools, today):
         return dict(status='PASS', restore_verified_while_writing=True, rows_written_during_backup=total, tables_compared=dumped['tables'],
                     compared_with=dumped['compared_with'], synthetic='a test table written to through the backup, then dropped')
 
+    def backup_ownership_by_oid():
+        """Independent audit Astra ASR-OPS-01 (ASD-B05-REPLACED_LEFTOVER): a leftover scratch read as ours before the
+        dump was dropped by name after it, so another database put under that name in between was deleted and the
+        night still verified. Every database here is audit-owned and SYNTHETIC (one canary row each), in this
+        disposable cluster; the pauses are the real pg_dump / pg_restore / hashing returning, with an administrator's
+        DDL injected at that point. Four situations:
+          A. leftover replaced after the dump (Astra's sequence): the replacement and its row stay, the night refuses
+             (BACKUP_SCRATCH_REPLACED), nothing verified or pruned;
+          B. the attempt's own database replaced under its random name before the restore: nothing is dropped except
+             the attempt's own database (found by OID where it was moved), the night refuses;
+          C. the same replacement after the hashing, before the final drop: the replacement stays, the attempt's own
+             database is dropped by OID, the night verified (its comparison was made on its own database);
+          D. leftovers named <scratch>_<random>: the one marked by this tool for its own OID is dropped; one without a
+             mark and one carrying a mark that names another OID stay.
+        In every situation the source's single row is unchanged."""
+        container = os.environ.get('CP6_DATABASE_CONTAINER', 'supabase_db_cp5-local')
+        tag = uuid.uuid4().hex[:10]
+        source, scratch, moved = 'k3c_own_src_' + tag, 'k3c_own_scr_' + tag, 'k3c_own_moved_' + tag
+        made = []
+
+        def pg():
+            return psycopg.connect(nightly.db_url(tools.admin, 'postgres'), autocommit=True)
+
+        def create(name, row):
+            with pg() as c:
+                c.execute(sql.SQL('create database {} template template0').format(sql.Identifier(name)))
+            made.append(name)
+            with psycopg.connect(nightly.db_url(tools.admin, name), autocommit=True) as c:
+                c.execute('create table k3c_canary(v text not null)')
+                c.execute('insert into k3c_canary values(%s)', (row,))
+
+        def canary(name):
+            with pg() as c:
+                if not c.execute('select 1 from pg_database where datname=%s', (name,)).fetchone():
+                    return None
+            with psycopg.connect(nightly.db_url(tools.admin, name)) as c:
+                return c.execute('select v from k3c_canary').fetchall()
+
+        def drop(name):
+            with pg() as c:
+                c.execute(sql.SQL('drop database if exists {} with (force)').format(sql.Identifier(name)))
+
+        def attempts():
+            with pg() as c:
+                return [r[0] for r in c.execute('select datname from pg_database where datname ~ %s', ('^' + scratch + '_[0-9a-f]{16}$',)).fetchall()]
+
+        def swap_attempt(row):
+            name = attempts()[0]
+            with pg() as c:
+                c.execute(sql.SQL('alter database {} rename to {}').format(sql.Identifier(name), sql.Identifier(moved)))
+            made.append(moved)
+            create(name, row)
+            return name
+
+        real_dump, real_restore, real_hashes = nightly.Tools.dump, nightly.Tools.restore, nightly.data_hashes
+        out = {}
+        try:
+            create(source, 'SOURCE_ORIGINAL')
+            with tempfile.TemporaryDirectory(prefix='cp7-nightly-oid-') as dest:
+                # A. Astra's sequence, unchanged: marked leftover, replaced by a foreign database after the dump.
+                create(scratch, 'OWNED_OLD')
+                nightly.mark_scratch(tools.admin, scratch)
+
+                def dump_then_replace(self, src, target, snapshot):
+                    r = real_dump(self, src, target, snapshot)
+                    drop(scratch)
+                    create(scratch, 'FOREIGN_REPLACEMENT')
+                    return r
+                nightly.Tools.dump = dump_then_replace
+                a = nightly.backup(tools.admin, source, scratch, dest, keep=14, container=container)
+                nightly.Tools.dump = real_dump
+                assert a['scratch_before'] == 'OURS' and a['restore_verified'] is False and 'BACKUP_SCRATCH_REPLACED' in a.get('error', ''), a
+                assert canary(scratch) == [('FOREIGN_REPLACEMENT',)] and a['retention']['removed'] == [] and attempts() == [], a
+                out['A_replaced_leftover'] = dict(kept=canary(scratch), error=a['error'][:200], verified=False)
+                drop(scratch)
+                # B. The attempt's own database replaced under its random name just before pg_restore connects.
+                def replace_then_restore(self, name, file):
+                    out['B_attempt_name'] = swap_attempt('FOREIGN_SWAPPED_IN')
+                    return real_restore(self, name, file)
+                nightly.Tools.restore = replace_then_restore
+                bnight = nightly.backup(tools.admin, source, scratch, dest, keep=14, container=container)
+                nightly.Tools.restore = real_restore
+                bname = out['B_attempt_name']
+                assert bnight['restore_verified'] is False and 'BACKUP_SCRATCH_REPLACED' in bnight.get('error', ''), bnight
+                assert bnight['scratch_attempt']['drop']['result'] == 'DROPPED' and bnight['scratch_attempt']['drop']['name'] == moved, bnight
+                assert canary(moved) is None and ('FOREIGN_SWAPPED_IN',) in (canary(bname) or []) and bnight['retention']['removed'] == [], bnight
+                out['B_replaced_before_restore'] = dict(replacement_kept=True, own_dropped_by_oid=bnight['scratch_attempt']['drop'],
+                                                        error=bnight['error'][:200], boundary='the restore wrote into the replacement; the replacement was not dropped')
+                drop(bname)
+                # C. The same replacement after the hashing (the comparison was on the attempt's own database).
+                def hashes_then_replace(url, expected_oid=None):
+                    r = real_hashes(url, expected_oid)
+                    if expected_oid is not None:
+                        out['C_attempt_name'] = swap_attempt('FOREIGN_SWAPPED_IN_LATE')
+                    return r
+                nightly.data_hashes = hashes_then_replace
+                cnight = nightly.backup(tools.admin, source, scratch, dest, keep=14, container=container)
+                nightly.data_hashes = real_hashes
+                cname = out['C_attempt_name']
+                assert cnight['restore_verified'] is True and cnight['scratch_attempt']['drop']['result'] == 'DROPPED', cnight
+                assert canary(cname) == [('FOREIGN_SWAPPED_IN_LATE',)] and canary(moved) is None, cnight
+                out['C_replaced_before_final_drop'] = dict(replacement_kept=True, own_dropped_by_oid=cnight['scratch_attempt']['drop'], verified=True)
+                drop(cname)
+                # D. Leftovers named <scratch>_<random>.
+                own, plain, copied = ['%s_%s' % (scratch, uuid.uuid4().hex[:16]) for _ in range(3)]
+                create(own, 'OUR_LEFTOVER')
+                with pg() as c:
+                    own_oid = c.execute('select oid from pg_database where datname=%s', (own,)).fetchone()[0]
+                nightly.mark_scratch(tools.admin, own, 'a' * 16, own_oid)
+                create(plain, 'FOREIGN_PATTERN_NAME')
+                create(copied, 'FOREIGN_COPIED_MARK')
+                nightly.mark_scratch(tools.admin, copied, 'b' * 16, own_oid)
+                dnight = nightly.backup(tools.admin, source, scratch, dest, keep=14, container=container)
+                assert dnight['restore_verified'] is True and [r['name'] for r in dnight['leftovers'] if r['result'] == 'DROPPED'] == [own], dnight
+                assert canary(own) is None and canary(plain) == [('FOREIGN_PATTERN_NAME',)] and canary(copied) == [('FOREIGN_COPIED_MARK',)], dnight
+                out['D_pattern_leftovers'] = dict(own_dropped=True, unmarked_kept=True, mark_naming_another_oid_kept=True)
+                # Only the two foreign databases of D carry the <scratch>_<random> pattern now: no attempt was left behind.
+                assert sorted(attempts()) == sorted([plain, copied]), attempts()
+            assert canary(source) == [('SOURCE_ORIGINAL',)]
+        finally:
+            nightly.Tools.dump, nightly.Tools.restore, nightly.data_hashes = real_dump, real_restore, real_hashes
+            for name in set(made) | set(attempts()):
+                drop(name)
+        return dict(status='PASS', source_unchanged=True, **out,
+                    synthetic='audit-owned one-row databases in the disposable cluster; administrator DDL injected after the real tool steps')
+
     return list(zip(IDS['races'], (two_ticks, busy_table, cron_fires, nightly_backup, cron_two_databases, backup_retry_same_second,
-                                   cleanup_beside_running_step, backup_scratch_guard, backup_under_writes, schedule_rehearsal)))
+                                   cleanup_beside_running_step, backup_scratch_guard, backup_under_writes, schedule_rehearsal,
+                                   backup_ownership_by_oid)))
 
 
 def http_cases(http, today):
