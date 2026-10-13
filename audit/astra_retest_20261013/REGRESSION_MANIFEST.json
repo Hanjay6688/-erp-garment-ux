@@ -1,0 +1,33 @@
+{
+  "regression_suites": [
+    "attention284",
+    "p19-scale5",
+    "cp7-p21-full-rehearsal",
+    "k3-cleanup-19",
+    "p19-transport11",
+    "p19-staged12",
+    "p19-plan-v2-22",
+    "p19-report-v2-20",
+    "p19-ai-v2-9",
+    "p19-reminder-v2-16",
+    "pl5-history-yield-20",
+    "k2-retention-10",
+    "k4-runner-17",
+    "k6-proof-runner-10",
+    "analysis152",
+    "plan39",
+    "payroll--payroll-review",
+    "receipt_correction",
+    "supplier_payment_create",
+    "f03-full-p12",
+    "f03-full-prefreeze_ui"
+  ],
+  "oracle_origin": "WRITER_UNCHANGED",
+  "fixture_origin": "WRITER_UNCHANGED",
+  "execution_origin": "INDEPENDENT_NATIVE_RERUN",
+  "retry_policy": "No manual case rerun. Product qualified rollover retry remains under test. All first results retained.",
+  "supplier_boundary_instrumentation": "Read-only deep copies of original snapshots and public_state; no comparison or return-value changes.",
+  "unchanged_domains": "BELUM DIULANG on this candidate; prior evidence remains pinned to d0b9e9c2.",
+  "own_cases": "Separate preregistration committed before independent execution.",
+  "production_go": false
+}
