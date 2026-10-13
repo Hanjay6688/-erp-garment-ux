@@ -47,8 +47,8 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
         """Failure message of a case: the summary plus, on these disposable servers only, the night's error and its
         first restore errors (the encrypted detail of a real night is never printed)."""
         d = r.get('_detail') or {}
-        return dict(summary=why(r), error=d.get('error'), restore_errors=(d.get('pg_restore_errors') or [])[:8],
-                    structure_differ={k: dict(only_source=v['only_source'][:5], only_restored=v['only_restored'][:5])
+        return dict(summary=off.summary(r), error=d.get('error'), restore_errors=(d.get('pg_restore_errors') or [])[:8],
+                    structure_differ={k: dict(only_source=v['only_source'][:6], only_restored=v['only_restored'][:6])
                                       for k, v in (d.get('structure_differ') or {}).items()},
                     data_differ=list(d.get('data_differ') or {})[:10])
 
