@@ -42,7 +42,40 @@ Cakupan CP7 saja. `production_go:false`.
 
 ## CI writer pada kandidat
 
-Diisi setelah semua run selesai (`CI_RECEIPT.json`).
+`CI_RECEIPT.json` dibuat dengan `scripts/cp7_ci_receipt.py`. **18/18 workflow lulus, 55/55 job**, semuanya pada
+percobaan pertama. Tidak ada pengulangan atau hasil pertama yang ditahan karena pergantian hari WIB
+(`business_day_reruns: []`, `business_day_kept_first: []`). Ini bukti writer (WRITER_CROSSCHECK), bukan penerimaan
+auditor.
+
+| Workflow | Run | Job | Hasil |
+|---|---|---|---|
+| Build UX | 38378120963 | 1 | success |
+| CP6 Candidate CodeQL (T3) | 38378249947 | 4 | success |
+| CP7 Astra Timeline Reuse | 38378193505 | 1 | success |
+| CP7 F03 Full Retained Components | 38378197156 | 8 | success |
+| CP7 Note Correction (Claude branch) | 38378200708 | 1 | success |
+| CP7 Owning Receipt Correction | 38378205370 | 1 | success |
+| CP7 P08 Physical Fabric | 38378209895 | 5 | success |
+| CP7 P12 Payroll (Claude branch) | 38380339961 | 3 | success |
+| CP7 P13 Finance (Claude branch) | 38378213570 | 1 | success |
+| CP7 P18 Fabric Rule | 38378217652 | 3 | success |
+| CP7 P18 Full Cycle | 38378221305 | 1 | success |
+| CP7 P19 Analysis Job Transport | 38378224944 | 12 | success |
+| CP7 P21 Rehearsal | 38378228621 | 2 | success |
+| CP7 PL Native Planning (Claude branch) | 38378232467 | 4 | success |
+| CP7 Pre-freeze UI Regression | 38378236418 | 1 | success |
+| CP7 Shell S0 (Claude branch) | 38378239743 | 5 | success |
+| CP7 Supplier Payment Correction (Claude branch) | 38378243207 | 1 | success |
+| CP7 Supplier Payment Create | 38378246722 | 1 | success |
+
+Catatan:
+
+- `CP7 Supplier Payment Create` lulus 10/10 dan pemeriksaan akhir grup sama (butir A2). Status penyebab dua
+  kegagalan lama tetap OPEN.
+- `CP7 P19 Analysis Job Transport` memuat `k3-cleanup-24` (24/24, butir A1 dan A3).
+- `CP7 P12 Payroll` didispatch pukul 17.00 WIB supaya kedua cabang zona aktif (butir A4,
+  `F_PAY_01_BOTH_BRANCHES.md`).
+- `CP7 Shell S0` hijau, termasuk uji `state_difference` dan uji layar di `tests/cp7/` (butir B1 dan A6).
 
 ## Cara owner mengirim
 
