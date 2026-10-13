@@ -1,26 +1,42 @@
 # Backup malam ke penyimpanan luar (alat versi 2)
 
-Dasar: keputusan owner 13 Okt 2026. D13-5 menetapkan penyimpanan privat di luar database, terenkripsi, dengan 14 malam
-terverifikasi. D13-6 menetapkan pemeriksaan pemulihan di mesin GitHub dan pengambilan kembali file dari penyimpanan.
-D13-7 menetapkan produksi = Enteng dan backup ke Drive dulu. Batas biaya: tanpa biaya.
+Dasar: keputusan owner 13 Okt 2026:
 
-**Status:** alat sudah dibuat dan diuji di server sekali pakai. **Belum dipasang.** Hosted, Drive dan R2 tidak
-disentuh. `production_go:false`. Alat ini bukan bagian dari putaran silang 1 (kandidat `ae0214ad`) dan akan diaudit
-terpisah.
+- D13-5/6: penyimpanan privat di luar database, terenkripsi, 14 malam terverifikasi, pemeriksaan pemulihan di mesin
+  GitHub, dan file diambil kembali dari penyimpanan;
+- D13-7: produksi = Enteng;
+- **D13-8**: penyimpanan = **Google Drive** (R2 dibatalkan untuk sekarang), backup produksi dari **repo GitHub privat
+  terpisah** dengan biaya Rp0, jalur Drive sungguhan dibuktikan dulu, dan perbedaan asli sebelum penyeragaman tetap
+  tercatat.
+
+Batas biaya: tanpa biaya.
+
+**Status:** alat sudah dibuat dan diuji di server sekali pakai. **Belum dipasang. Jalur Google Drive belum dibuktikan**:
+uji itu butuh akun Google Bos, dan langkahnya ada di `ops/backup-repo/README.md`. Hosted dan Drive belum disentuh.
+`production_go:false`. Alat ini bukan bagian dari putaran silang 1 (kandidat `ae0214ad`) dan diaudit terpisah
+(`docs/cp7/audit-candidate/offsite-backup-r1-20261013/`).
 
 ## Yang dikerjakan alat setiap malam
 
-Alat: `scripts/cp7_offsite_backup.py`. Workflow: `.github/workflows/cp7-nightly-backup.yml`, masih nonaktif.
+Alat: `scripts/cp7_offsite_backup.py`. Workflow produksi: `ops/backup-repo/workflows/nightly-backup.yml`, dipasang di repo
+privat dan belum dijalankan. `.github/workflows/cp7-nightly-backup.yml` di repo ini tetap templat nonaktif.
 
 1. Database dibaca dalam satu potret waktu. Hasilnya: file dump, sidik isi setiap tabel, nilai setiap nomor urut, dan
    sidik struktur (tabel, kolom, aturan, indeks, fungsi, hak akses, pemilik, kebijakan RLS, dan lain-lain).
 2. Dump dikunci (enkripsi AES-256) dengan kata sandi backup. Dump yang belum dikunci langsung dihapus.
-3. File terkunci disalin ke penyimpanan luar (Google Drive atau R2). Kalau nama yang sama sudah ada, salinan ditolak.
+3. File terkunci disalin ke Google Drive. Kalau nama yang sama sudah ada, salinan ditolak. Sisa ruang Drive dicatat,
+   dan kalau hampir penuh muncul peringatan `BACKUP_REMOTE_SPACE_LOW`. Backup lama yang baik tidak dihapus untuk memberi
+   ruang.
 4. File **diambil kembali** dari penyimpanan, dicek sama persis dengan yang diunggah, lalu dibuka kuncinya.
 5. File hasil ambil-ulang itu dipulihkan ke database sementara di mesin GitHub (PostgreSQL versi sama), bukan di
    server produksi.
 6. Isi, struktur, pemilik dan hak akses hasil pemulihan dibandingkan dengan potret di langkah 1. Hanya hasil yang
-   sama persis yang dicatat **terverifikasi**.
+   sama persis yang dicatat **terverifikasi**. Ada tiga penyeragaman, dan **perbedaan aslinya tetap dicatat**
+   (`structure.raw_differ` di tanda terima, rinciannya di bagian terkunci):
+   - bentuk `IN ('A','B')` pada kolom varchar yang ditulis ulang PostgreSQL;
+   - hak akses yang sama dengan hak akses bawaan, serta urutan isi hak akses;
+   - hak akses objek bawaan ekstensi (skema `graphql`/`graphql_public` Supabase). Kategori ini dicatat terpisah
+     sebagai `structure.explained`.
 7. Tanda terima disimpan di penyimpanan:
    - tanda terima biasa: hanya angka dan kode, tanpa nama tabel dan tanpa isi;
    - rincian terkunci.
@@ -32,7 +48,7 @@ Log GitHub hanya memuat satu baris kode dan angka. Isi database tidak masuk log,
 ## Bukti uji (server sekali pakai)
 
 Workflow `CP7 Offsite Backup` menjalankan 11 kasus dua kali: sekali ke penyimpanan S3 (peniru S3 di mesin uji, jalur
-yang sama dengan R2) dan sekali ke folder biasa.
+yang sama dengan penyimpanan S3) dan sekali ke folder biasa.
 
 - Sumber: salinan database ERP CP6 di CI (`cp6_rollback`, PostgreSQL 17.6).
 - Server pemulihan: kontainer kedua dengan image Supabase yang sama (`ghcr.io/supabase/postgres:17.6.1.165`).
@@ -80,7 +96,7 @@ mengubah daftar `IN` itu, hak akses dan aturan kolom di hasil pemulihan, dan ket
 
 ## Yang belum dibuktikan (jujur)
 
-- **Google Drive** belum diuji, karena butuh akun Bos. Alatnya memakai jalur rclone yang sama dengan R2/S3.
+- **Google Drive** belum diuji, karena butuh akun Bos. Kelulusan di peniru S3 dan di folder belum membuktikan koneksi Drive (D13-8d).
 - Di server pemulihan sementara, pemulihan dijalankan sebagai admin penuh yang dibuat khusus di server itu. Server
   itu hilang bersama mesin GitHub sesudah job selesai.
 - **Hosted belum pernah dibaca.** Di Supabase hosted, peran `postgres` bukan admin penuh. Saat pemasangan, baru
@@ -91,22 +107,17 @@ mengubah daftar `IN` itu, hak akses dan aturan kolom di hasil pemulihan, dan ket
   ikut pulih. Usulan tanpa biaya ada di register (pertanyaan no. 2, 13 Okt).
 - File Supabase Storage tidak ikut. ERP saat ini tidak memakai Storage.
 
-## Yang perlu disiapkan Bos saat pemasangan (tanpa biaya)
+## Yang perlu disiapkan Bos (tanpa biaya)
 
-Semua disimpan di pengaturan rahasia GitHub, tidak lewat chat.
+Langkah lengkapnya ada di `ops/backup-repo/README.md`:
 
-1. **Penyimpanan.** Untuk Google Drive: pasang rclone di laptop (gratis), jalankan `rclone config`, buat remote bernama
-   `erpbackup` dengan jenis Google Drive dan akses "drive.file", lalu login Google. Isi konfigurasinya disimpan sebagai
-   rahasia `CP7_BACKUP_RCLONE_CONFIG`. Folder tujuan, misalnya `erpbackup:erp-garment-backup/nightly`, disimpan sebagai
-   variabel `CP7_BACKUP_REMOTE`. Untuk R2 caranya sama, dengan jenis S3.
-2. **Kata sandi backup.** Kalimat acak yang panjang, disimpan sebagai rahasia `CP7_BACKUP_PASSPHRASE`. Bos juga wajib
-   menyimpannya di luar GitHub (pengelola kata sandi atau kertas). Tanpa kata sandi ini, tidak satu pun backup bisa
-   dibuka.
-3. **Alamat database** Enteng lewat "Session pooler" (IPv4), disimpan sebagai rahasia `CP7_BACKUP_SOURCE_URL`.
-4. **Image server pemulihan** dengan versi yang sama dengan Enteng, disimpan sebagai variabel
-   `CP7_BACKUP_SCRATCH_IMAGE`.
-5. Variabel `CP7_NIGHTLY_BACKUP_INSTALLED=true` dan baris jadwal 01:00 WIB baru diaktifkan sesudah izin pemasangan.
-   Sebelum perubahan apa pun di Enteng, workflow dijalankan sekali secara manual sebagai backup pertama (D13-7a).
+1. Buat repo privat.
+2. Beri izin rclone ke Google Drive (scope hanya file buatan rclone).
+3. Isi rahasia: konfigurasi rclone dan kata sandi backup. Kata sandi itu juga disimpan Bos di luar GitHub.
+4. Jalankan **Drive proof**.
+5. Sesudah proof hijau dan Bos setuju, jalankan backup awal Enteng.
+
+Enteng tidak diubah sebelum backup awal berhasil dan terverifikasi (D13-8f).
 
 ## Cara memulihkan (kalau dibutuhkan)
 

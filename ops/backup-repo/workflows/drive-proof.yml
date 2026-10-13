@@ -1,0 +1,65 @@
+# Private backup repository (owner decision 13 Oct 2026, D13-8). Proof of the Google Drive path before the backup
+# tool is used (D13-8d): upload, fetch back, hash, restore, compare data, structure and privileges, retention, refusal
+# cases, on synthetic data in disposable containers. The proof folder on Drive is emptied at the end. Never reads
+# Enteng. Rp0: standard runner, one job at a time, time limit, no cache, no artifact.
+name: Drive proof
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: erp-backup
+  cancel-in-progress: false
+jobs:
+  proof:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        repository: Hanjay6688/-erp-garment-ux
+        ref: 5db7c8763a651304b2fd37b8eadb9616d0afe151
+        path: tool
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Client tools (PostgreSQL 17 client, rclone, gpg, psycopg)
+      shell: bash
+      run: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg rclone
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        test "$(gpg --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')" \
+          = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg main" \
+          | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+        python -m pip install --quiet 'psycopg[binary]==3.2.10'
+    - name: Drive proof on synthetic data
+      shell: bash
+      env:
+        CP7_BACKUP_RCLONE_CONFIG: ${{ secrets.CP7_BACKUP_RCLONE_CONFIG }}
+        CP7_BACKUP_PASSPHRASE: ${{ secrets.CP7_BACKUP_PASSPHRASE }}
+        CP7_BACKUP_DRIVE_ROOT: ${{ vars.CP7_BACKUP_DRIVE_ROOT }}
+        IMAGE: ${{ vars.CP7_BACKUP_SCRATCH_IMAGE }}
+        TOOL: ${{ github.workspace }}/tool
+      run: |
+        set -euo pipefail
+        test "$(git -C tool rev-parse HEAD)" = '5db7c8763a651304b2fd37b8eadb9616d0afe151'
+        umask 077
+        printf '%s\n' "$CP7_BACKUP_RCLONE_CONFIG" > "$RUNNER_TEMP/rclone.conf"
+        printf '%s' "$CP7_BACKUP_PASSPHRASE" > "$RUNNER_TEMP/backup.pass"
+        export RCLONE_CONFIG="$RUNNER_TEMP/rclone.conf"
+        docker pull -q "$IMAGE"
+        REMOTE="$CP7_BACKUP_DRIVE_ROOT/proof-${{ github.run_id }}" PASS_FILE="$RUNNER_TEMP/backup.pass" OUT="$RUNNER_TEMP/proof.json" \
+          bash tool/ops/backup-repo/proof.sh
+    - name: Remove secrets
+      if: always()
+      run: rm -f "$RUNNER_TEMP/rclone.conf" "$RUNNER_TEMP/backup.pass" "$RUNNER_TEMP/proof.json"

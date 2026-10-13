@@ -1,0 +1,86 @@
+# Private backup repository (owner decision 13 Oct 2026, D13-8): backup of the ERP database (Enteng) to Google Drive,
+# encrypted, fetched back, restored on this runner's own Supabase Postgres of the same version and compared (data,
+# structure, owner, privileges), newest 14 verified nights kept; a failed night removes nothing. Reads Enteng only.
+# First run by hand as the initial backup, after the Drive proof passed and the owner agreed. The 01:00 WIB schedule
+# stays commented out until the owner enables it. Rp0: standard runner, one job at a time, time limit, no cache, no
+# artifact; the log shows one line of codes and counts.
+name: ERP nightly backup
+on:
+  workflow_dispatch: {}
+  # schedule:
+  #   - cron: '0 18 * * *'   # 01:00 WIB nightly, enabled only when the owner decides
+permissions:
+  contents: read
+concurrency:
+  group: erp-backup
+  cancel-in-progress: false
+jobs:
+  backup:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        repository: Hanjay6688/-erp-garment-ux
+        ref: 5db7c8763a651304b2fd37b8eadb9616d0afe151
+        path: tool
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Client tools (PostgreSQL 17 client, rclone, gpg, psycopg)
+      shell: bash
+      run: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg rclone
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        test "$(gpg --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')" \
+          = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg main" \
+          | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+        python -m pip install --quiet 'psycopg[binary]==3.2.10'
+    - name: Scratch server on this runner (same Supabase Postgres image as Enteng)
+      shell: bash
+      env:
+        IMAGE: ${{ vars.CP7_BACKUP_SCRATCH_IMAGE }}
+      run: |
+        set -euo pipefail
+        test "$(git -C tool rev-parse HEAD)" = '5db7c8763a651304b2fd37b8eadb9616d0afe151'
+        docker run -d --name cp7_backup_scratch -p 127.0.0.1:54339:5432 -e POSTGRES_PASSWORD="$(openssl rand -hex 16)" "$IMAGE" >/dev/null
+        for i in $(seq 1 120); do
+          docker exec cp7_backup_scratch psql -U supabase_admin -d postgres -XAtc "select 1 from pg_roles where rolname='authenticated'" 2>/dev/null | grep -q 1 && break
+          if [ "$i" = 120 ]; then echo CP7_BACKUP_SCRATCH_NOT_READY; exit 1; fi
+          sleep 2
+        done
+        sleep 3
+        admin="$(openssl rand -hex 24)"
+        echo "::add-mask::$admin"
+        docker exec -i cp7_backup_scratch psql -U supabase_admin -d postgres -X -q -v ON_ERROR_STOP=1 -v pw="$admin" \
+          <<< "create role cp7_scratch_admin login superuser password :'pw';"
+        echo "CP7_BACKUP_SCRATCH_URL=postgresql://cp7_scratch_admin:$admin@127.0.0.1:54339/postgres" >> "$GITHUB_ENV"
+    - name: Backup, encrypt, store on Drive, fetch back, restore-verify, keep newest verified nights
+      shell: bash
+      env:
+        CP7_BACKUP_SOURCE_URL: ${{ secrets.CP7_BACKUP_SOURCE_URL }}
+        CP7_BACKUP_RCLONE_CONFIG: ${{ secrets.CP7_BACKUP_RCLONE_CONFIG }}
+        CP7_BACKUP_PASSPHRASE: ${{ secrets.CP7_BACKUP_PASSPHRASE }}
+        CP7_BACKUP_DRIVE_ROOT: ${{ vars.CP7_BACKUP_DRIVE_ROOT }}
+      run: |
+        set -euo pipefail
+        umask 077
+        printf '%s\n' "$CP7_BACKUP_RCLONE_CONFIG" > "$RUNNER_TEMP/rclone.conf"
+        printf '%s' "$CP7_BACKUP_PASSPHRASE" > "$RUNNER_TEMP/backup.pass"
+        python tool/scripts/cp7_offsite_backup.py --source-url "$CP7_BACKUP_SOURCE_URL" --scratch-admin-url "$CP7_BACKUP_SCRATCH_URL" \
+          --remote "$CP7_BACKUP_DRIVE_ROOT/nightly" --passphrase-file "$RUNNER_TEMP/backup.pass" --rclone-config "$RUNNER_TEMP/rclone.conf" --keep 14
+    - name: Remove secrets and the scratch server
+      if: always()
+      run: |
+        rm -f "$RUNNER_TEMP/rclone.conf" "$RUNNER_TEMP/backup.pass"
+        docker rm -f cp7_backup_scratch >/dev/null 2>&1 || true
