@@ -1,0 +1,41 @@
+name: AUDIT/Astra/retest-ASF-pure
+permissions:
+  contents: read
+jobs:
+  controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: control
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        ref: 7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: previous
+        ref: d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0
+        persist-credentials: false
+    - name: Original controls, sensitive negative baseline, additional invariants
+        and CI annotations
+      run: python control/audit/astra_retest_20261013/probe_asf_pure.py auditor previous
+        evidence
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7retest-astra-7a0b4a90-asf-pure
+        path: evidence
+        if-no-files-found: error
+        retention-days: 30
+'on':
+  push:
+    branches:
+    - audit/astra-cp7-retest-7a0b4a90-20261013
+    paths:
+    - .github/workflows/audit-astra-retest-asf-pure.yml
+  workflow_dispatch: {}
+run-name: AUDIT/cp7-retest-20261013/Astra/7a0b4a90/ASF-pure/1

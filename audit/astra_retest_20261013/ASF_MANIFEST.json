@@ -1,0 +1,28 @@
+{
+  "pure": [
+    "ASF-R01 ORIGINAL old+new",
+    "ASF-R02 mixed FAIL/COUNTEREXAMPLE/INCOMPLETE",
+    "ASF-R03 group error/missing/database/cleanup/boundary",
+    "ASF-R04 harness/vocabulary",
+    "ASF-R05 pre-existing error",
+    "ASF-R06 at most 2 attempts",
+    "ASF-R07 second failure retained",
+    "ASF-R08 annotation escaping",
+    "ASF-R09 annotation off outside Actions"
+  ],
+  "runtime": {
+    "modes": [
+      "savepoint",
+      "race",
+      "http",
+      "browser"
+    ],
+    "groups": [
+      "negative FAIL/COUNTEREXAMPLE/INCOMPLETE + otherwise PASS rollover: one attempt, exact failures retained",
+      "positive otherwise PASS rollover: exactly two attempts, first retained, second PASS"
+    ]
+  },
+  "fixture_policy": "Synthetic date reader/host planned-day injection only; real SQL, two PostgreSQL sessions, Auth/RPC and browser operations. Product source, clock, guard, retry logic and database restoration unchanged.",
+  "expected_outer_runtime_controls": 8,
+  "production_go": false
+}
