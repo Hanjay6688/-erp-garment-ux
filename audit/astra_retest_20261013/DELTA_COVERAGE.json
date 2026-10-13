@@ -1,0 +1,176 @@
+{
+  "changed_non_doc_files": 28,
+  "paths": [
+    {
+      "path": ".github/workflows/claude-p19-transport.yml",
+      "sha256": "577457ffc3d74fb32f7c71b5821573dd877b7f1bb0cd9e6f140e40f7b8229187",
+      "area": "qualification declaration",
+      "planned_evidence": "static suite-count diff + k3 22 runtime"
+    },
+    {
+      "path": ".github/workflows/cp7-nightly-backup.yml",
+      "sha256": "1e838569c9dbc761ec0cc847130bc9d53279fd6d2d87d61d4284023cb9411f3c",
+      "area": "backup/schedule",
+      "planned_evidence": "k3-cleanup-22; P21 full; own canary databases + CLI boundary"
+    },
+    {
+      "path": "scripts/cp6_auditor_business_day.py",
+      "sha256": "ec12307a50b0333abd1911f48cdd4ee24c31c432c28f2901d0df5a317d2341f8",
+      "area": "ASF-F01",
+      "planned_evidence": "Original controls + own additional controls + real savepoint/races/HTTP/browser; shell writer controls"
+    },
+    {
+      "path": "scripts/cp6_auditor_business_day_test.py",
+      "sha256": "811ef74b9fccb8c0ed1e3fc40cb2d2bd4ee5c537557876400f8649a864f42ab4",
+      "area": "ASF-F01",
+      "planned_evidence": "Original controls + own additional controls + real savepoint/races/HTTP/browser; shell writer controls"
+    },
+    {
+      "path": "scripts/cp7-src/plan-native/commands.sql",
+      "sha256": "c0865398cc10a0c9b1298847972336b27a21bcb0e612dda1eb58e0b45eb4f1bc",
+      "area": "PL5 owner-only and immutable applied yield",
+      "planned_evidence": "PL5; plan39; plan-v2; own Auth old/new UUID after owner downgraded; shell DOM"
+    },
+    {
+      "path": "scripts/cp7-src/plan-native/history-yield.sql",
+      "sha256": "d7faf1e4ce4fa002c4f4e0eec70cd1a1fb4243dbeacd5e0e9dd8484ffebeea77",
+      "area": "PL5 owner-only and immutable applied yield",
+      "planned_evidence": "PL5; plan39; plan-v2; own Auth old/new UUID after owner downgraded; shell DOM"
+    },
+    {
+      "path": "scripts/cp7-src/plan-native/staged.sql",
+      "sha256": "a174f75f7829b83d1f6c27b151e059e37b78093cfe577a28c0ac112d443ab1e5",
+      "area": "PL5 owner-only and immutable applied yield",
+      "planned_evidence": "PL5; plan39; plan-v2; own Auth old/new UUID after owner downgraded; shell DOM"
+    },
+    {
+      "path": "scripts/cp7-src/planning/analysis-stages.sql",
+      "sha256": "693a7979a139b37c938d8796ae77478e2bb9faa1aed4d8ce8cae6547685d210f",
+      "area": "staged cleanup/immutability",
+      "planned_evidence": "K2/K3/K4/K6, P19 staged+scale+transport+plan/report/AI/reminder v2, analysis/attention, own scope and GUC controls"
+    },
+    {
+      "path": "scripts/cp7_analysis_stages_bundle.py",
+      "sha256": "aad34b9b78b725d2d55355df4e822732f5b80d6543b5a425cb9e151b54b5b9b5",
+      "area": "staged cleanup/immutability",
+      "planned_evidence": "K2/K3/K4/K6, P19 staged+scale+transport+plan/report/AI/reminder v2, analysis/attention, own scope and GUC controls"
+    },
+    {
+      "path": "scripts/cp7_astra_timeline_reuse_probe.mjs",
+      "sha256": "f2f714c4b28b450ef9078e894f82da5835c5644eb9de1b5c49430ced0046c32d",
+      "area": "PR44 probe",
+      "planned_evidence": "AUTHOR_INTENT_SOURCE_REVIEW only; independent acceptance EXCLUDED"
+    },
+    {
+      "path": "scripts/cp7_ci_receipt.py",
+      "sha256": "3877ddc2ac5e161373e312a9914f123c87e5cdcb4b143e922cccebe07c992190",
+      "area": "CI annotations",
+      "planned_evidence": "own generated warning annotations + receipt readback from own run only"
+    },
+    {
+      "path": "scripts/cp7_f03_full_manifest.json",
+      "sha256": "758b36a06f34a49e7831c283698278a578d9d519bf6a1d4dee90d4df9ec48df8",
+      "area": "payroll WIB and case inventory",
+      "planned_evidence": "payroll review + F03 p12 unchanged writer oracle rerun"
+    },
+    {
+      "path": "scripts/cp7_f05_analysis_probe.py",
+      "sha256": "1a066fb602d144fab29f3f065c6c9f06bec07e8ff574c234d675f1e29b0a42e7",
+      "area": "staged cleanup/immutability",
+      "planned_evidence": "K2/K3/K4/K6, P19 staged+scale+transport+plan/report/AI/reminder v2, analysis/attention, own scope and GUC controls"
+    },
+    {
+      "path": "scripts/cp7_k3_cleanup_cases.py",
+      "sha256": "7bc982eab5332486588f357ec9e9fc90a7cc66f380d589a922bc86ea8af93401",
+      "area": "staged cleanup/immutability",
+      "planned_evidence": "K2/K3/K4/K6, P19 staged+scale+transport+plan/report/AI/reminder v2, analysis/attention, own scope and GUC controls"
+    },
+    {
+      "path": "scripts/cp7_nightly_backup.py",
+      "sha256": "7f74c7c4706d044596963b3c7c8fadeb8f69fd917423caf31fb3b4799b633729",
+      "area": "backup/schedule",
+      "planned_evidence": "k3-cleanup-22; P21 full; own canary databases + CLI boundary"
+    },
+    {
+      "path": "scripts/cp7_p19_staged_cases.py",
+      "sha256": "6459725c268a09f910f07657a86630fa23dd08bfae50c66733ef167853ff42d6",
+      "area": "target admission >5000",
+      "planned_evidence": "P19 staged + P19 scale + shell"
+    },
+    {
+      "path": "scripts/cp7_pl5_history_yield_cases.py",
+      "sha256": "e8def3bebf8d0c1c452741e3d2cb75bdd725355ac94fd0b300bd8e07096ea0fb",
+      "area": "PL5 owner-only and immutable applied yield",
+      "planned_evidence": "PL5; plan39; plan-v2; own Auth old/new UUID after owner downgraded; shell DOM"
+    },
+    {
+      "path": "scripts/cp7_receipt_correction_cases.py",
+      "sha256": "d5d6e4d04e7401b7ab302b5a42955d829579f46a40f01d3214ec9ed887b61eae",
+      "area": "supplier credit date",
+      "planned_evidence": "receipt_correction unchanged writer oracle rerun"
+    },
+    {
+      "path": "scripts/cp7_schedule.py",
+      "sha256": "da742feb400b7aa8185873904411fa6194b0fc9e20379661493d0a153a402cce",
+      "area": "backup/schedule",
+      "planned_evidence": "k3-cleanup-22; P21 full; own canary databases + CLI boundary"
+    },
+    {
+      "path": "scripts/cp7_settlement_cases.py",
+      "sha256": "0abe973e3eb6faec6c63fcec08618ee5f97c95237761f56259201a3da9f5c2f2",
+      "area": "payroll WIB and case inventory",
+      "planned_evidence": "payroll review + F03 p12 unchanged writer oracle rerun"
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "98b252b5b0a21cd0ae2cc622ebc130a5a937e04069d2e1a6f1903f31b7939cdf",
+      "area": "connected dashboard",
+      "planned_evidence": "own connected OWNER/ADMIN desktop/mobile; shell DOM/browser; F03 full UI"
+    },
+    {
+      "path": "src/NativeHistoryYieldPolicyPanel.dom.test.tsx",
+      "sha256": "9df520e28c81e1f54aacf417a9b336eed7530223a93f7aa1c15dd3f0d7d6308d",
+      "area": "PL5 owner-only and immutable applied yield",
+      "planned_evidence": "PL5; plan39; plan-v2; own Auth old/new UUID after owner downgraded; shell DOM"
+    },
+    {
+      "path": "src/NativeHistoryYieldPolicyPanel.tsx",
+      "sha256": "5f031fd868befcfdda81727f1b0f7656eeb9077af535a77f8bfac6a29bd51be1",
+      "area": "PL5 owner-only and immutable applied yield",
+      "planned_evidence": "PL5; plan39; plan-v2; own Auth old/new UUID after owner downgraded; shell DOM"
+    },
+    {
+      "path": "src/OwnerDashboard.dom.test.tsx",
+      "sha256": "c9ae259e34fac18ec821e7f75afe03f779b182f0f7b769c8a906cea8bcef50dc",
+      "area": "connected dashboard",
+      "planned_evidence": "own connected OWNER/ADMIN desktop/mobile; shell DOM/browser; F03 full UI"
+    },
+    {
+      "path": "src/OwnerDashboard.tsx",
+      "sha256": "167583434e81e89ddd7fad618e5d2cee6a300ea42bf1ee5df7849d35fb006921",
+      "area": "connected dashboard",
+      "planned_evidence": "own connected OWNER/ADMIN desktop/mobile; shell DOM/browser; F03 full UI"
+    },
+    {
+      "path": "src/nativeHistoryYieldPolicy.test.ts",
+      "sha256": "916a8ed58990eaa5188be57a509444486f0882d5dad0357f416d1978e617bc56",
+      "area": "PL5 owner-only and immutable applied yield",
+      "planned_evidence": "PL5; plan39; plan-v2; own Auth old/new UUID after owner downgraded; shell DOM"
+    },
+    {
+      "path": "src/nativeHistoryYieldPolicy.ts",
+      "sha256": "87d167c14a45a620514075ba0f3fc0fbe312fb1875848cbee0989fd6f42c1f9b",
+      "area": "PL5 owner-only and immutable applied yield",
+      "planned_evidence": "PL5; plan39; plan-v2; own Auth old/new UUID after owner downgraded; shell DOM"
+    },
+    {
+      "path": "tests/cp7/families/f05-staged-api.test.ts",
+      "sha256": "bf0248d1bae46975f396cc0f6097ebdf44e3be59e83c42d558d933aad0b3c0f8",
+      "area": "target admission >5000",
+      "planned_evidence": "P19 staged + P19 scale + shell"
+    }
+  ],
+  "untouched_status": "BELUM DIULANG, prior evidence remains pinned to d0b9e9c2",
+  "PR44_independent_acceptance": false,
+  "production_go": false
+}

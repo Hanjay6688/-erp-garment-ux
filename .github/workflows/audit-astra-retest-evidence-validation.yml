@@ -1,0 +1,88 @@
+name: AUDIT/Astra/retest-evidence-validation
+permissions:
+  contents: read
+  actions: read
+  checks: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: control
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        ref: 7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2
+        persist-credentials: false
+    - name: Validate original evidence, sensitivity controls and actual GitHub annotations
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: 'set -euo pipefail
+
+        mkdir -p evidence/original
+
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/11791982602/zip > evidence/ORIGINAL.zip
+
+        python - <<''PYRAW''
+
+        from pathlib import Path
+
+        import hashlib,zipfile
+
+        p=Path(''evidence/ORIGINAL.zip'')
+
+        assert hashlib.sha256(p.read_bytes()).hexdigest()==''95630c252269b7f8f72cfa648a7a611d09d763e62cb10d3c6f3bb56924cc0c96''
+
+        with zipfile.ZipFile(p) as z:z.extractall(''evidence/original'')
+
+        PYRAW
+
+        python control/audit/astra_retest_20261013/validate_asf_original.py evidence/original/ASTRA_ASF_REAL_MODES.json evidence/ASF_CORRECTED_CLASSIFICATION.json
+
+        PYTHONPATH=auditor/scripts python - <<''PYNOTE''
+
+        import cp7_ci_receipt as r
+
+        import json
+
+        r.main(''8791f7da9006e341edd740c3f12b62007e33c58d'',''evidence/PURE_CI_RECEIPT.json'')
+
+        r.main(''92096bf6d85c4c2e810daa3a060081930e09b5c5'',''evidence/MODES_CI_RECEIPT.json'')
+
+        a=json.load(open(''evidence/PURE_CI_RECEIPT.json''));b=json.load(open(''evidence/MODES_CI_RECEIPT.json''))
+
+        assert [x[''run_id''] for x in a[''runs'']]==[38353995484]
+
+        assert [x[''run_id''] for x in b[''runs'']]==[38354144743]
+
+        assert len(a[''summary''][''business_day_reruns''])==1 and len(a[''summary''][''business_day_kept_first''])==1
+
+        assert len(b[''summary''][''business_day_reruns''])==4 and len(b[''summary''][''business_day_kept_first''])==4
+
+        assert a[''summary''][''first_attempt_only''] and b[''summary''][''first_attempt_only'']
+
+        json.dump(dict(status=''PASS'',pure_annotations=2,real_mode_annotations=8,source=''Unchanged candidate cp7_ci_receipt.py
+        reading actual GitHub check annotations from only Astra runs'',production_go=False),open(''evidence/ANNOTATION_READBACK.json'',''w''),indent=2)
+
+        PYNOTE
+
+        '
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7retest-astra-7a0b4a90-evidence-validation
+        path: evidence
+        if-no-files-found: error
+        retention-days: 30
+'on':
+  push:
+    branches:
+    - audit/astra-cp7-retest-7a0b4a90-20261013
+    paths:
+    - .github/workflows/audit-astra-retest-evidence-validation.yml
+  workflow_dispatch: {}
+run-name: AUDIT/cp7-retest-20261013/Astra/7a0b4a90/evidence-validation/1
