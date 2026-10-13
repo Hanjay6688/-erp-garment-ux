@@ -2,6 +2,12 @@
 # claude-supplier-payment-create.yml, recording public function row locations at every boundary read. Not a qualification.
 name: CP7 Supplier Payment Group-End Diagnosis
 'on':
+  push:
+    branches:
+    - claude/new-session-deapao
+    paths:
+    - scripts/cp7_group_end_repeat_diagnosis.py
+    - .github/workflows/cp7-group-end-diagnosis.yml
   workflow_dispatch:
     inputs:
       repeat:
@@ -19,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3]
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
@@ -199,7 +205,7 @@ jobs:
     - name: Install accepted package and repeat the native group (diagnosis only)
       working-directory: writer
       env:
-        CP7_GROUP_END_REPEAT: ${{ inputs.repeat }}
+        CP7_GROUP_END_REPEAT: ${{ inputs.repeat || '20' }}
       run: python '../auditor/scripts/cp7_group_end_repeat_diagnosis.py'
     - name: Remove disposable database
       if: always()
