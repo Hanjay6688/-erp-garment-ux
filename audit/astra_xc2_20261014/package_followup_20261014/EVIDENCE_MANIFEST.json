@@ -1,0 +1,89 @@
+{
+  "created_at_utc": "2026-10-13T19:24:39.699663+00:00",
+  "provenance": "REUSED_WRITER_EVIDENCE_REVIEW",
+  "archive": {
+    "path": "REUSED_WRITER_EVIDENCE.tar.xz",
+    "bytes": 202348,
+    "sha256": "0138545bf0b657bec37eaf2244c1578506863bb4afd10aa9665cee4b4d9e6094"
+  },
+  "files": [
+    {
+      "path": "GITHUB_RECEIPT_CHECK.json",
+      "bytes": 23530,
+      "sha256": "3ac5b18a81fee48f92dca1c9110e833c5a48b085b12163ea333b78ea08286d53"
+    },
+    {
+      "path": "LOG_SOURCE_INTEGRITY.json",
+      "bytes": 1336,
+      "sha256": "99868c8836b0516252aecf37c7e8d213c764e3e5fd285606c35015d33fb26d06"
+    },
+    {
+      "path": "ROLLOVER_REVIEW.json",
+      "bytes": 822566,
+      "sha256": "27b2c621325e28f2015e332d31bac63491ea71d81b452173a0a27cd4c3b46331"
+    },
+    {
+      "path": "WRITER_CI_RECEIPT.json",
+      "bytes": 16190,
+      "sha256": "f7e67e9ec172cd621449ed559ed9c0c09e8fa8cadaedd3c36e2b6408975ad538"
+    },
+    {
+      "path": "logs/job_115419656262.log",
+      "bytes": 520348,
+      "sha256": "e5e6b1e805e3d9d18c898835eaa5d483fc2f1c10e8d622e422ad1295189ca3f1"
+    },
+    {
+      "path": "logs/job_115419656388.log",
+      "bytes": 270507,
+      "sha256": "826d64359f3bb76a8a797351cd5e589674e875922547e008222a233429161e5a"
+    },
+    {
+      "path": "logs/job_115419813235.log",
+      "bytes": 2432629,
+      "sha256": "898908bedfd259274ad2d80e32663fb0ba2dacc85e3a16193a82ab509fc9e8f1"
+    },
+    {
+      "path": "logs/job_115419899697.log",
+      "bytes": 320412,
+      "sha256": "302842e6fb1fb72649f551467768f944dc3e6a129ecd10e9cd95f3f580e54508"
+    },
+    {
+      "path": "logs/job_115419948325.log",
+      "bytes": 363415,
+      "sha256": "ea7c0a42b02328734085d1a228c5cde1f2689c0ad2d65828138924f5b1a32e4a"
+    },
+    {
+      "path": "writer_package/FINDINGS_TRACKER.md",
+      "bytes": 5049,
+      "sha256": "597fa9e19eace498a6a283e09ad53700d5b650e141a021b712619ed06559095a"
+    },
+    {
+      "path": "writer_package/HANDOFF_ASTRA.md",
+      "bytes": 4043,
+      "sha256": "ebe67e879d04841abdaf243321aca29261e0c5848a4e04959f8af013ba27f28d"
+    },
+    {
+      "path": "writer_package/README.md",
+      "bytes": 4595,
+      "sha256": "e6aef3e5a4e529469696e04f515d4c060a6804467d283891d9160b937ed80bdd"
+    }
+  ],
+  "archive_roundtrip_sha256_verified": true,
+  "all_five_logs_match_source": true,
+  "local_staging_repairs": [
+    {
+      "job_id": 115419899697,
+      "initial_bytes": 302642,
+      "expected_bytes": 320412,
+      "initial_sha256": "0efe7b96d112c7cd7a6871e1f65907719a894d4ceca2828b1c44096755fca950",
+      "resolution": "missing tail copied from the same source response before publication"
+    },
+    {
+      "job_id": 115419948325,
+      "initial_bytes": 362674,
+      "expected_bytes": 363415,
+      "initial_sha256": "d3b378e1ecb77897fe7502ab7683553624771191e2f7cdaa485fc5fea2248818",
+      "resolution": "missing tail copied from the same source response before publication"
+    }
+  ]
+}

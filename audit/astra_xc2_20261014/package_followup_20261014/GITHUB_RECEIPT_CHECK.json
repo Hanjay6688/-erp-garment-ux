@@ -1,0 +1,751 @@
+{
+  "checked_at": "2026-10-13T19:21:39.039Z",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "package_commit": "fff2bde01d0bf4cc78ccbc78e786d720f1bf12a5",
+  "comparison": {
+    "repository_full_name": "Hanjay6688/-erp-garment-ux",
+    "base": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "head": "fff2bde01d0bf4cc78ccbc78e786d720f1bf12a5",
+    "status": "ahead",
+    "ahead_by": 2,
+    "behind_by": 0,
+    "total_commits": 2,
+    "too_large": null,
+    "base_commit": {
+      "sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/commits/0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/commit/0b7049d9203bac52b47a4c89f3e0d75646067a8f"
+    },
+    "merge_base_commit": {
+      "sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/commits/0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/commit/0b7049d9203bac52b47a4c89f3e0d75646067a8f"
+    },
+    "files": [
+      {
+        "filename": "docs/cp7/audit-candidate/crosscheck-r2-20261014/CI_RECEIPT.json",
+        "status": "added",
+        "additions": 602,
+        "deletions": 0,
+        "changes": 602,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/cp7/audit-candidate/crosscheck-r2-20261014/FINDINGS_TRACKER.md",
+        "status": "added",
+        "additions": 38,
+        "deletions": 0,
+        "changes": 38,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/cp7/audit-candidate/crosscheck-r2-20261014/HANDOFF_ASTRA.md",
+        "status": "added",
+        "additions": 58,
+        "deletions": 0,
+        "changes": 58,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/cp7/audit-candidate/crosscheck-r2-20261014/HANDOFF_FABLE.md",
+        "status": "added",
+        "additions": 55,
+        "deletions": 0,
+        "changes": 55,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/cp7/audit-candidate/crosscheck-r2-20261014/README.md",
+        "status": "added",
+        "additions": 90,
+        "deletions": 0,
+        "changes": 90,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/cp7/audit-candidate/crosscheck-r2-20261014/a6_p11_dozen_helper_0b7049d9_run38433059108_job115419948325.log",
+        "status": "added",
+        "additions": 7,
+        "deletions": 0,
+        "changes": 7,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/cp7/audit-candidate/crosscheck-r2-20261014/f05_k3_cleanup_25_0b7049d9_run38432976212_job115419656388.log",
+        "status": "added",
+        "additions": 9,
+        "deletions": 0,
+        "changes": 9,
+        "previous_filename": null
+      }
+    ]
+  },
+  "check": {
+    "receipt_run_count": 20,
+    "api_run_count": 20,
+    "receipt_jobs": 57,
+    "api_jobs": 57,
+    "exact_run_set": true,
+    "mismatches": []
+  },
+  "excerpt_checks": {
+    "a6_excerpt_lines": 4,
+    "a6_exact_full_log_match": true,
+    "f05_excerpt_lines": 7,
+    "f05_exact_full_log_match": true
+  },
+  "runs": [
+    {
+      "id": 38433062900,
+      "name": "CP7 Owning Receipt Correction",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:45:09Z",
+      "updated_at": "2026-10-13T16:56:32Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433062900",
+      "jobs": [
+        {
+          "id": 115419959761,
+          "name": "Receipt correction / Native stock cost HPP AP journal",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433059108,
+      "name": "CP7 Pre-freeze UI Regression",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:45:07Z",
+      "updated_at": "2026-10-13T17:03:40Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433059108",
+      "jobs": [
+        {
+          "id": 115419948325,
+          "name": "Full F03 stack / prefreeze_ui",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433055394,
+      "name": "CP7 F03 Full Retained Components",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:45:06Z",
+      "updated_at": "2026-10-13T17:09:27Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433055394",
+      "jobs": [
+        {
+          "id": 115419968139,
+          "name": "Full F03 stack / p13",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419968551,
+          "name": "Full F03 stack / cash_installments",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419968610,
+          "name": "Full F03 stack / supplier_credit",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419968618,
+          "name": "Full F03 stack / p09",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419968750,
+          "name": "Full F03 stack / customer_refund",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419968835,
+          "name": "Full F03 stack / p12",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419968860,
+          "name": "Full F03 stack / p11",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419968883,
+          "name": "Full F03 stack / p10",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433051523,
+      "name": "CP7 Supplier Payment Create",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:45:04Z",
+      "updated_at": "2026-10-13T16:56:57Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433051523",
+      "jobs": [
+        {
+          "id": 115419923724,
+          "name": "New supplier payment through the owning command, races and real Auth HTTP",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433047637,
+      "name": "CP7 Supplier Payment Correction (Claude branch)",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:45:03Z",
+      "updated_at": "2026-10-13T16:53:52Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433047637",
+      "jobs": [
+        {
+          "id": 115419911514,
+          "name": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433044128,
+      "name": "CP7 PL Native Planning (Claude branch)",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:45:01Z",
+      "updated_at": "2026-10-13T17:10:12Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433044128",
+      "jobs": [
+        {
+          "id": 115419899158,
+          "name": "supply",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419899416,
+          "name": "model",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419899697,
+          "name": "schedule",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419899711,
+          "name": "netting",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433040455,
+      "name": "CP7 P21 Rehearsal",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:45:00Z",
+      "updated_at": "2026-10-13T16:59:49Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433040455",
+      "jobs": [
+        {
+          "id": 115419888949,
+          "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419888971,
+          "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433037441,
+      "name": "CP7 P18 Full Cycle",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:44:58Z",
+      "updated_at": "2026-10-13T16:54:20Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433037441",
+      "jobs": [
+        {
+          "id": 115419874584,
+          "name": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433034110,
+      "name": "CP7 P18 Fabric Rule",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:44:57Z",
+      "updated_at": "2026-10-13T17:07:24Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433034110",
+      "jobs": [
+        {
+          "id": 115419863035,
+          "name": "fabric-rule11",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419863255,
+          "name": "rule-lifecycle16",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419863407,
+          "name": "p18-e01-9",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433029945,
+      "name": "CP7 P13 Finance (Claude branch)",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:44:55Z",
+      "updated_at": "2026-10-13T16:52:17Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433029945",
+      "jobs": [
+        {
+          "id": 115419848982,
+          "name": "P13 native dated report and immutable archive reader",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433026015,
+      "name": "CP7 P12 Payroll (Claude branch)",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:44:53Z",
+      "updated_at": "2026-10-13T17:00:25Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433026015",
+      "jobs": [
+        {
+          "id": 115419835945,
+          "name": "P12 payroll --attendance-write",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419836287,
+          "name": "P12 payroll --payroll-review",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419836375,
+          "name": "P12 payroll --roster",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433022591,
+      "name": "CP7 Shell S0 (Claude branch)",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:44:52Z",
+      "updated_at": "2026-10-13T17:02:23Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433022591",
+      "jobs": [
+        {
+          "id": 115419822686,
+          "name": "p19-assembly",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419823003,
+          "name": "CP7 CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419823048,
+          "name": "p19-staged",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419823049,
+          "name": "CP7 CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419823067,
+          "name": "shell",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433019819,
+      "name": "CP7 Note Correction (Claude branch)",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:44:50Z",
+      "updated_at": "2026-10-13T17:02:35Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433019819",
+      "jobs": [
+        {
+          "id": 115419813235,
+          "name": "Nota correction / Native stock AR cash journal HPP",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38433016651,
+      "name": "CP7 Astra Timeline Reuse",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "workflow_dispatch",
+      "created_at": "2026-10-13T16:44:49Z",
+      "updated_at": "2026-10-13T16:47:37Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38433016651",
+      "jobs": [
+        {
+          "id": 115419800767,
+          "name": "isolated-kernel-parity",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38432976336,
+      "name": "CP7 Backup Kit Check",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "created_at": "2026-10-13T16:44:31Z",
+      "updated_at": "2026-10-13T16:47:11Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38432976336",
+      "jobs": [
+        {
+          "id": 115419656725,
+          "name": "kit",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38432976191,
+      "name": "CP6 Candidate CodeQL (T3)",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "created_at": "2026-10-13T16:44:31Z",
+      "updated_at": "2026-10-13T16:49:06Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38432976191",
+      "jobs": [
+        {
+          "id": 115419657028,
+          "name": "CodeQL c-cpp",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419657284,
+          "name": "CodeQL python",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419657341,
+          "name": "CodeQL javascript-typescript",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419657388,
+          "name": "CodeQL actions",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38432976256,
+      "name": "CP7 Offsite Backup",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "created_at": "2026-10-13T16:44:31Z",
+      "updated_at": "2026-10-13T16:50:49Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38432976256",
+      "jobs": [
+        {
+          "id": 115419655558,
+          "name": "offsite-backup-11",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38432976249,
+      "name": "Build UX",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "created_at": "2026-10-13T16:44:31Z",
+      "updated_at": "2026-10-13T17:03:05Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38432976249",
+      "jobs": [
+        {
+          "id": 115419655039,
+          "name": "build",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38432976343,
+      "name": "CP7 P08 Physical Fabric",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "created_at": "2026-10-13T16:44:31Z",
+      "updated_at": "2026-10-13T17:47:16Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38432976343",
+      "jobs": [
+        {
+          "id": 115419656208,
+          "name": "fabric-physical21",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656417,
+          "name": "attention284",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656702,
+          "name": "fabric13-successor",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656801,
+          "name": "plan39",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656876,
+          "name": "analysis152",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 38432976212,
+      "name": "CP7 P19 Analysis Job Transport",
+      "head_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "head_branch": "claude/new-session-deapao",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "event": "push",
+      "created_at": "2026-10-13T16:44:31Z",
+      "updated_at": "2026-10-13T18:58:06Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38432976212",
+      "jobs": [
+        {
+          "id": 115419656069,
+          "name": "p19-plan-v2-22",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656135,
+          "name": "p19-ai-v2-9",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656191,
+          "name": "p19-transport11",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656247,
+          "name": "pl5-history-yield-20",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656262,
+          "name": "p19-scale5",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656295,
+          "name": "k2-retention-10",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656339,
+          "name": "p19-staged12",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656388,
+          "name": "k3-cleanup-25",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656476,
+          "name": "p19-reminder-v2-16",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656552,
+          "name": "k4-runner-17",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656565,
+          "name": "k6-proof-runner-10",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 115419656789,
+          "name": "p19-report-v2-20",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "fable_head": {
+    "sha": "9fc44978e891c43afe900466bcc5791efb5440c5",
+    "message": "audit(fable): owner decisions D13-10..13 recorded (A2 accepted as open limitation; sorted comparator as diagnosis supplement; round-2 scope A6 + F-OPS-05)\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_01Lr2LJrWiWmYCCUgwrZnJeY",
+    "created_at": "2026-10-13T16:30:50Z",
+    "scope": "known auditor branch; round-2 report not observed there"
+  },
+  "qualifying_workflows": 18,
+  "qualifying_jobs": 55,
+  "cp7c_information_only_workflows": 2,
+  "cp7c_information_only_jobs": 2
+}
