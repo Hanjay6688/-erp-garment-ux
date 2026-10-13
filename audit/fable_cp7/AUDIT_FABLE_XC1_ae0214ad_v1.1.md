@@ -1,6 +1,6 @@
 # Laporan Fable v1.1 — putaran silang 1 CP7, kandidat `ae0214ad`
 
-**Status:** DRAFT (13 Okt 2026, 14:40 UTC). Review sumber selesai; 9 run independen sedang berjalan (bagian ⏳).
+**Status:** v1.1 FINAL (13 Okt 2026, 16:05 UTC). Review sumber dan 9 run independen selesai, semua dibaca per kasus (33 job, 1.047 baris kasus: 1.046 PASS, 1 COUNTEREXAMPLE milik kasus Fable baru, 0 FAIL, 0 pengulangan hari bisnis). Register run: `runs/xc1_ae0214ad/`.
 Laporan ini melanjutkan `AUDIT_FABLE_7a0b4a90_RETEST.md` v1.0.1 (LULUS DENGAN SYARAT) dan menjawab butir A1–A9 dari
 `docs/cp7/audit-candidate/crosscheck-r1-20261013/HANDOFF_FABLE.md`. Cakupan CP7 saja. Keputusan owner yang sudah
 disahkan tidak dibuka ulang. `production_go:false`.
@@ -28,22 +28,28 @@ WRITER_CROSSCHECK = bukti CI penulis, dikutip tanpa diklaim.
 | `drop_owned` | Hanya lewat OID: baca nama saat ini, cek tanda (atau `created_here` tanpa komentar), akhiri sesi pada OID itu, `ALTER DATABASE RENAME` ke nama acak, cek lagi OID di nama baru, baru `DROP ... WITH (FORCE)`. Kalau nama ternyata milik database lain: dikembalikan, hasil `REPLACED`. | Tidak ada jalur hapus berdasarkan nama. Jalur `finally` lama (boolean `ours`) hilang; `finally` hanya `drop_owned(attempt_oid, token, created_here=True)`. Catatan kecil: database asing yang kebetulan memegang nama itu bisa **di-rename bolak-balik** dalam hitungan milidetik (koneksi baru ke nama itu gagal sesaat); tidak ada yang dihapus. Observasi, bukan temuan. |
 | `leftovers` + `backup()` | Sisa malam lalu (nama `--scratch` atau `<scratch>_<hex>` bertanda) dibaca **dengan OID sebelum dump**, dihapus lewat OID yang sama sesudah dump; hasil selain DROPPED/ABSENT → `BACKUP_SCRATCH_REPLACED`, tidak ada verifikasi/pemangkasan. Nama `--scratch` wajib kosong sebelum `create_attempt`; kalau terisi → `REPLACED`/`NOT_CREATED`. | Urutan ASR-OPS-01 tertutup di sumber. |
 | Restore & hash | OID database percobaan dicek sebelum dan sesudah `pg_restore`; koneksi hash memeriksa `oid` database tempat ia tersambung (`expected_oid`). | Hash tidak pernah dibaca dari database pengganti. |
-| `Tools.drop` / `Tools.create` | **Dihapus.** `dropdb`/`createdb` tidak ada lagi di berkas. | Diverifikasi juga saat runtime oleh kasus Fable `XC1:NO_NAME_BASED_DROP_OR_CREATE_IN_TOOL` ⏳. |
+| `Tools.drop` / `Tools.create` | **Dihapus.** `dropdb`/`createdb` tidak ada lagi di berkas. | Diverifikasi saat runtime oleh kasus Fable `XC1:NO_NAME_BASED_DROP_OR_CREATE_IN_TOOL`: PASS (sha256 berkas `f9e4235e…`, 0 kemunculan `dropdb`, satu-satunya `drop database` ada di `drop_owned`). |
 
 Kesimpulan sumber: keluarga F-OPS-01 (hapus database yang bukan milik alat) **tertutup tanpa jalur hapus baru**, dengan
 satu sisa yang bukan baru: tanda polos (§A1.3).
 
-### A1.2 Run ⏳
+Catatan lingkungan (dari kasus Fable): di cluster CI peran yang dipakai alat adalah `supabase_admin` (superuser) pada
+PostgreSQL 17.6. Klausa `CREATE DATABASE ... OID` tidak mensyaratkan superuser untuk OID ≥ 16384 menurut dokumentasi
+PostgreSQL, tetapi menjalankannya sebagai peran `postgres` non-superuser di hosted **belum dibuktikan di sini**. Ini tidak
+relevan bila verifikasi restore berjalan di mesin GitHub (D13-6/D13-8b), dan wajib diperiksa bila owner nanti memilih
+verifikasi di server database.
+
+### A1.2 Run (semua pada `product_ref=ae0214ad`, alat backup `85e17168`)
 
 | Kasus | Oracle | Run / job | Hasil |
 |---|---|---|---|
-| FABLE_CORE:BACKUP_SCRATCH_DROPS_FOREIGN_DB (tidak diubah) | FABLE | 38414828309 ⏳ | ⏳ |
-| FABLE_CORE:BACKUP_VERIFY_UNDER_LIVE_WRITES (tidak diubah) | FABLE | 38414828309 ⏳ | ⏳ |
-| XC1:LEFTOVER_REPLACED_AFTER_DUMP_KEPT (urutan Astra, kanari Fable) | FABLE (baru) | 38414814884 ⏳ | ⏳ |
-| XC1:ATTEMPT_SWAPPED_BEFORE_RESTORE_KEPT (batas operasional penulis) | FABLE (baru) | 38414814884 ⏳ | ⏳ |
-| XC1:COPIED_OID_MARK_ON_FOREIGN_KEPT | FABLE (baru) | 38414814884 ⏳ | ⏳ |
-| XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN | FABLE (baru) | 38414814884 ⏳ | ⏳ |
-| K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID + 4 kasus backup K3 (`k3-cleanup-24`) | INDEPENDENT_NATIVE_RERUN | 38414371682 ⏳ | ⏳ |
+| FABLE_CORE:BACKUP_SCRATCH_DROPS_FOREIGN_DB (tidak diubah) | FABLE | 38414828309 / 115356368140 | **PASS** (database asing tetap ada; `BACKUP_SCRATCH_EXISTS_NOT_OURS`) |
+| FABLE_CORE:BACKUP_VERIFY_UNDER_LIVE_WRITES (tidak diubah) | FABLE | 38414828309 / 115356368140 | **PASS** (`restore_verified=true` di bawah tulisan K4 heartbeat) |
+| XC1:LEFTOVER_REPLACED_AFTER_DUMP_KEPT (urutan Astra, kanari Fable) | FABLE (baru) | 38414814884 / 115356320136 | **PASS**: sisa bertanda dibaca OURS, diganti database asing sesudah dump → asing **tetap ada** (kanari `FOREIGN_AFTER_DUMP`, tanpa tanda, 0 tabel restore), `restore_verified=false`, error `BACKUP_SCRATCH_REPLACED`, tidak ada database percobaan tersisa |
+| XC1:ATTEMPT_SWAPPED_BEFORE_RESTORE_KEPT (batas operasional penulis) | FABLE (baru) | 38414814884 / 115356320136 | **PASS** terhadap oracle Fable (asing tidak dihapus; malam tidak terverifikasi), dan **batas operasional terkonfirmasi persis seperti dinyatakan**: database pengganti menerima 559 tabel hasil restore; database milik percobaan dihapus lewat OID di nama barunya (`DROPPED`, oid 3951292058); error `BACKUP_SCRATCH_REPLACED after restore` |
+| XC1:COPIED_OID_MARK_ON_FOREIGN_KEPT | FABLE (baru) | 38414814884 / 115356320136 | **PASS**: database berpola `<scratch>_<hex>` tanpa tanda dan dengan tanda yang menyebut OID lain **tetap ada**; malam terverifikasi; `leftovers: []` |
+| XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN | FABLE (baru) | 38414814884 / 115356320136 | **COUNTEREXAMPLE** (→ F-OPS-05): database asing bernama `--scratch` yang komentarnya salinan tanda polos dibaca OURS, dicatat sebagai sisa, dan **dihapus** (`leftovers[0].result=DROPPED`, oid 69419); malam itu terverifikasi. Job merah hanya karena kasus ini (driver Fable), bukan alat. |
+| K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID + 4 kasus backup K3 (`k3-cleanup-24`) | INDEPENDENT_NATIVE_RERUN | 38414371682 / 115354760145 | **24/24 PASS** (9 native, 11 balapan, 2 HTTP, 2 browser). Situasi A–D semua sesuai klaim penulis (A: pengganti tetap, `REPLACED`; B: pengganti tetap, milik sendiri di-drop lewat OID; C: terverifikasi, pengganti tetap; D: hanya yang bertanda OID sendiri dihapus). `NEVER_DROPS_ANOTHER_DATABASE`, `VERIFIED_UNDER_WRITES` (377 baris, 560 tabel), `NIGHTLY_BACKUP_VERIFIED` (559 tabel), `RETRY_SAME_SECOND` PASS. |
 
 ### A1.3 Penilaian batas operasional (ditulis terpisah, sesuai permintaan)
 
@@ -64,7 +70,9 @@ Penilaian Fable:
    dihapus lewat OID-nya. Ini kelas yang sama dengan "admin sengaja" di atas (perlu penyalinan tanda yang disengaja),
    bukan kecelakaan. Karena belum pernah ada malam backup di luar CI, kompatibilitas tanda polos tidak melindungi apa
    pun. Rekomendasi: hapus penerimaan tanda polos; hanya tanda ber-OID yang dihitung milik alat. Bukti runtime:
-   `XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN` ⏳.
+   `XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN` COUNTEREXAMPLE (run 38414814884, job 115356320136). Bobot: **minor**;
+   tidak membuka ulang penutupan A1/F-OPS-01 karena membutuhkan penyalinan tanda yang disengaja oleh admin, kelas
+   yang sama dengan batas operasional di atas.
 
 ## A2 — Selisih akhir grup `CP7 Supplier Payment Create` (syarat §3.1 Fable)
 
@@ -75,7 +83,7 @@ Dinilai dengan tabel bentuk bukti di register (`OWNER_DECISIONS_TO_AUDITOR_20261
 | Diff pencatatan selisih tidak mengubah hasil pembanding | `cp6_auditor_runner.py` @ `5b8e9d74`+`5e96cbcf`: tiga persamaan pembanding **tidak berubah** (`boundary_after==before`, `public_after==public_before`, `boundary_end==initial and public_end==public_initial`). Tambahan hanya: `state_difference` (fungsi murni tanpa akses database, di `cp6_auditor_difference.py`, 5 uji unit), `catalog_observation` (EXPLAIN + `pg_stat_sys_tables`, di savepoint sendiri, dibaca **sesudah** snapshot awal dan **sesudah** pembanding akhir), dan baris log `group_end_difference` hanya bila gagal. | **Diterima.** Pencatatan menambah detail, tidak mengubah keputusan. Saya cek `state_difference` membedakan ORDER_ONLY vs CONTENT dan menyebut anggota pertama yang bergeser; cocok untuk hipotesis CAT-01. |
 | ≥ 3 run pada tree yang sama, SHA/tree, semua hasil termasuk gagal | 3 run @ `5b8e9d74` (tree `793863ec`) + 6 run @ `9e33fdab` (`7129bd37`) + 1 run di kandidat (38378246722): **semua 10/10 PASS, akhir grup sama**. Dua kegagalan lama (38288829388, 38330557862) dicatat apa adanya dengan log gagal pertama. 60 grup ulang alat diagnosis: 60 sama, 0 perubahan urutan, 0 baris berpindah, `autoanalyze` 2× tanpa efek. | **Diterima sebagai pekerjaan yang diminta owner.** Bundel produk sama di semua run (`source_sha256 d64ae6ed…`). |
 | Akar penyebab | **Tidak ditemukan.** Penulis tidak menebak. Kecepatan mesin belum disingkirkan (kedua kegagalan di mesin cepat 8,4–8,5 s; mesin cepat lain lulus). Pesan commit `71594a0b` yang menulis "ruled out" diakui salah dan dokumen dibetulkan (riwayat tidak ditulis ulang). | **MASIH TERBUKA (OPEN)**, sesuai arahan owner. Penulis benar tidak menyebut "flake". |
-| Run independen Fable dengan diagnosis terpasang | 3 × `claude-supplier-payment-create` pada tools `ae0214ad`: 38414385732, 38414401092, 38414415980 ⏳ | ⏳ |
+| Run independen Fable dengan diagnosis terpasang | 3 × `claude-supplier-payment-create` pada tools `ae0214ad` (head `856833dc`, berkas identik): run 38414385732 job 115354813981, run 38414401092 job 115354861401, run 38414415980 job 115354912368 | **10/10 PASS di ketiganya** (4 native, 3 balapan, 1 HTTP, 2 browser), label grup PASS, `cp6_restored`, tidak ada baris `group_end_difference`. Kegagalan tidak terulang (INDEPENDENT_NATIVE_RERUN). |
 
 Catatan auditor (bukan temuan): hipotesis yang masih paling masuk akal adalah CAT-01 (daftar fungsi `public` di
 `PUBLIC_STATE` memakai `jsonb_agg(... order by 1)` dengan `1` sebagai konstanta, sehingga urutannya mengikuti urutan
@@ -98,7 +106,7 @@ terklasifikasi.
 | tidak ada koneksi hosted | kasus menolak host selain `127.0.0.1`/`localhost`/soket (`K3C_REHEARSAL_DISPOSABLE_ONLY`); pemasang dijalankan sebagai proses terpisah `scripts/cp7_schedule.py` dengan jadwal asli (tanpa `TEST_SCHEDULE_OVERRIDE`) | ada |
 | data salinan utuh | 559 tabel sama sebelum/sesudah | ada |
 | backup 01:00 WIB | deklarasi K3 = `nightly.SCHEDULE` = `0 18 * * *` UTC; baris jadwal di `cp7-nightly-backup.yml` masih dikomentari (workflow nonaktif) | ada |
-| Run independen Fable | `k3-cleanup-24` di 38414371682 ⏳ (kasus yang sama, oracle penulis) | ⏳ |
+| Run independen Fable | `k3-cleanup-24` di 38414371682 / 115354760145, kasus `K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL` | **PASS**: penolakan 3 jenis tanpa mengubah `cron.job`; 4 job terpasang (`*/5`, `30 19` = 02:30 WIB, `* * * * *`, `*/10`) di `cp6_auditor_race` sebagai `postgres`; pasang ulang id sama; `verify matches=true`; dilepas semua; `cron.job` 0 → 4 → 0; 0 job sempat jalan; data salinan sama. **DITUTUP.** |
 
 Catatan: di Supabase hosted, database pg_cron dan database aplikasi sama-sama `postgres`, jadi nama job menjadi
 `nama@postgres`; gladi ini memakai `cp6_auditor_race` + `postgres`, sehingga kombinasi "satu nama untuk keduanya" belum
@@ -108,7 +116,7 @@ tergladi. Bukan temuan; dicatat untuk daftar periksa pemasangan (CP7C).
 
 `scripts/cp7-src/` identik antara `7a0b4a90` dan `ae0214ad` (diff kosong, diperiksa sendiri), dan
 `scripts/cp7_astra_timeline_reuse_probe.mjs` tidak termasuk 12 berkas yang berubah. **Penerimaan Fable atas area PR44
-(retest §2.3) berlaku untuk `ae0214ad`.** Regresi netting dijalankan ulang juga (`pl-native/netting` di 38414446165 ⏳).
+(retest §2.3) berlaku untuk `ae0214ad`.** Regresi netting dijalankan ulang juga: `pl-native/netting` run 38414446165 job 115355020037 **83/83 PASS** (60 native, 11 balapan, 6 HTTP, 6 browser). DITUTUP.
 
 ## A6 — Pensiun `SALES_MANUAL_13` (desktop & HP) dan PRE-05: cakupan pengganti
 
@@ -116,7 +124,7 @@ Dibaca: `docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md`, kasus lama `scripts/cp6_bf_br
 `tests/cp7/SalesPages.dozenHelper.dom.test.tsx`, `src/SalesDraftPanel.dom.test.tsx` (helper P11 di jsdom),
 `scripts/cp7_p11_drafts_browser.mjs` (browser P11, `manual13_preserved`), `src/App.tsx` (mode tersambung membuka
 `ConnectedSalesPage`, layar simulasi tidak tampil). Uji layar dijalankan di `CP7 Shell S0` yang saya dispatch
-(38414431084 ⏳).
+(run 38414431084, job 115354965906): `tests/cp7/SalesPages.dozenHelper.dom.test.tsx` **✓ 1 test**, total vitest 203 berkas / 1.727 tes PASS; uji unit `state_difference` 5/5 OK.
 
 **Pernyataan Fable: cakupan pengganti TIDAK LENGKAP.** Rujukan keputusannya lengkap (writer 6 Okt + D13-9c), empat
 pemeriksaan logika lama memang diulang di jsdom, tetapi:
@@ -151,8 +159,8 @@ Dua catatan, bukan temuan:
 
 | Berkas | Isi yang terbaca | Penilaian |
 |---|---|---|
-| `scripts/cp6_auditor_runner.py` | lihat A2: pembanding tidak berubah; tambahan diagnosis di savepoint sendiri; impor `state_difference` | aman; dipakai semua workflow → regresi di 6 workflow yang saya dispatch ⏳ |
-| `scripts/cp6_auditor_difference.py` + `_difference_test.py` | fungsi murni + 5 uji (sama, urutan saja, isi, tabel erp/baris public, auth) | aman; uji dijalankan di Shell S0 ⏳ |
+| `scripts/cp6_auditor_runner.py` | lihat A2: pembanding tidak berubah; tambahan diagnosis di savepoint sendiri; impor `state_difference` | aman; dipakai semua workflow → regresi per kasus pada runner baru: p19-transport 12 job (report-v2 20, plan-v2 22, k6 10, reminder-v2 16, k2 10, ai-v2 9, transport11 15, k4 17, staged 14, pl5 20, k3 24, scale5 5), pl-native 4 job (model 32, netting 83, schedule 71, supply 53), supplier-payment ×3 (10 each), shell (assembly paritas byte-identik, staged 5.000×100 DONE), Fable core/smoke/xc1 → **semua PASS** kecuali 1 COUNTEREXAMPLE milik kasus Fable (F-OPS-05) |
+| `scripts/cp6_auditor_difference.py` + `_difference_test.py` | fungsi murni + 5 uji (sama, urutan saja, isi, tabel erp/baris public, auth) | aman; 5/5 OK di Shell S0 (job 115354965906) |
 | `scripts/cp7_nightly_backup.py` | lihat A1 | aman, satu temuan minor F-OPS-05 |
 | `scripts/cp7_k3_cleanup_cases.py` | 2 kasus baru: gladi jadwal (proses terpisah, penolakan dulu, pasang, verifikasi, lepas, pulih) dan kepemilikan OID (situasi A–D dengan DDL admin disisipkan lewat monkeypatch `Tools.dump/restore/data_hashes`; semua database sintetis dibersihkan di `finally`) | oracle penulis masuk akal dan ketat; sesuai sumber |
 | `scripts/cp7_f05_analysis_probe.py`, `claude-p19-transport.yml`, `cp7-nightly-backup.yml` | hitungan K3 23→24, nama suite, komentar | kosmetik |
@@ -166,15 +174,31 @@ D13-4..D13-9 dibaca. Konsisten dengan register auditor saya (D13-1..3). Catatan:
 berarti nama database tujuan untuk jadwal sudah ada; yang masih ditahan sampai CP7C adalah seluruh urusan backup/Drive
 (D13-9a). Tidak ada tindakan di putaran ini.
 
-## Ringkasan per butir ⏳
+## Ringkasan per butir
 
 | Butir | Status | Run / job / kasus | Label |
 |---|---|---|---|
-| A1 | ⏳ | ⏳ | FABLE + INDEPENDENT_NATIVE_RERUN + INDEPENDENT_SOURCE_REVIEW |
-| A2 | MASIH TERBUKA (OPEN) — pekerjaan yang diminta owner selesai; akar penyebab belum ada | ⏳ 3 run Fable | INDEPENDENT_NATIVE_RERUN + INDEPENDENT_SOURCE_REVIEW |
-| A3 | ⏳ | ⏳ | INDEPENDENT_NATIVE_RERUN + INDEPENDENT_SOURCE_REVIEW |
-| A5 | DITUTUP (penerimaan berlaku) | diff kosong; netting ⏳ | INDEPENDENT_SOURCE_REVIEW |
-| A6 | MASIH TERBUKA: cakupan TIDAK LENGKAP (lihat A6) | Shell S0 ⏳ | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
+| A1 | **DITUTUP** (keluarga F-OPS-01 / ASR-OPS-01 tertutup tanpa jalur hapus baru; batas operasional terkonfirmasi dan dinilai dapat diterima, keputusan owner) + 1 temuan minor baru F-OPS-05 | Fable: 38414814884/115356320136 (4 balapan + 1 native), 38414828309/115356368140 (2 kasus backup lama); penulis: 38414371682/115354760145 `k3-cleanup-24` 24/24 | FABLE + INDEPENDENT_NATIVE_RERUN + INDEPENDENT_SOURCE_REVIEW |
+| A2 | MASIH TERBUKA (OPEN) — pekerjaan yang diminta owner selesai; akar penyebab belum ada | 3 run Fable 10/10 PASS (job 115354813981, 115354861401, 115354912368) | INDEPENDENT_NATIVE_RERUN + INDEPENDENT_SOURCE_REVIEW |
+| A3 | **DITUTUP** (syarat §3.2c terpenuhi untuk gladi; pemasangan sungguhan tetap menunggu izin D13-3/CP7C) | 38414371682/115354760145 `K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL`; bukti penulis log 08 | INDEPENDENT_NATIVE_RERUN + INDEPENDENT_SOURCE_REVIEW |
+| A5 | **DITUTUP** (penerimaan PR44 berlaku untuk ae0214ad) | diff kosong; netting 38414446165/115355020037 83/83 | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
+| A6 | **MASIH TERBUKA: cakupan pengganti TIDAK LENGKAP** (butuh kasus browser P11 desktop + HP yang menekan helper lusin; lihat A6). Pensiun belum sah menurut D13-9c. | Shell S0 38414431084/115354965906 (uji jsdom ✓) | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
 | A7 | DITUTUP (TERIMA penjelasan penulis; kata-kata Fable ditarik) | — | INDEPENDENT_SOURCE_REVIEW |
-| A8 | ⏳ | 6 workflow ⏳ | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
-| Temuan baru | F-OPS-05 (minor) ⏳ bukti | 38414814884 | FABLE |
+| A8 | **DITUTUP** (12 berkas dibaca; runner baru lulus regresi per kasus di 33 job) | 38414371682, 38414385732, 38414401092, 38414415980, 38414431084, 38414446165 + 3 run Fable | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
+| Temuan baru | **F-OPS-05 (minor):** tanda polos (tanpa OID) masih dihormati pada nama `--scratch`; database asing dengan salinan tanda itu dihapus. Rekomendasi: hanya tanda ber-OID yang dihitung milik alat. | 38414814884/115356320136 `XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN` COUNTEREXAMPLE | FABLE |
+
+## Vonis putaran silang 1
+
+Kandidat `ae0214ad` (produk = `7a0b4a90`): **LULUS DENGAN SYARAT** tetap berlaku, dengan syarat yang kini tersisa:
+
+1. **A2 OPEN** — penyebab dua kegagalan akhir grup bayar supplier belum ditemukan; diagnosis terpasang; 13 run berikutnya
+   (penulis 10 + Fable 3) lulus. Bukan penghalang pembekuan menurut saya **kalau owner menerima** status OPEN dengan
+   diagnosis terpasang (rekomendasi: terima; tambah pembanding terurut sebagai pelengkap, bukan pengganti).
+2. **A6 TIDAK LENGKAP** — pensiun `SALES_MANUAL_13` belum sah sampai ada kasus browser P11 (desktop + HP) untuk helper
+   lusin. Pekerjaan putaran 2, tanpa perubahan produk.
+3. **F-OPS-05 (minor)** — perbaikan kecil di alat backup (hapus penerimaan tanda polos) sebelum CP7C memakai alat ini.
+4. Batas operasional A1: diterima sebagai catatan bila verifikasi restore berjalan di mesin GitHub (D13-6/D13-8b);
+   keputusan owner.
+5. Yang tidak berubah: `production_go:false`; pemasangan jadwal/backup menunggu CP7C (D13-9a).
+
+Commit laporan ini dicatat di pesan commit cabang `audit/fable-cp7-full-d0b9e9c2-20261011`.

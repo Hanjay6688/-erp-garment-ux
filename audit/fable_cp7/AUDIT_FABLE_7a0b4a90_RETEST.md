@@ -1,6 +1,6 @@
 # Uji ulang Fable — kandidat revisi `7a0b4a90` (perbaikan temuan audit penuh CP7 `d0b9e9c2`)
 
-**Status:** v1.0 FINAL (13 Okt 2026, 02:30 UTC). Semua run selesai dan dibaca per kasus. **Catatan v1.0.1:** owner menegaskan keputusan 12 Okt dan menerima vonis bersyarat ini pada 13 Okt (lihat `OWNER_DECISIONS_TO_AUDITOR_20261013.md`); label UNVERIFIED_OWNER_DECISION di bawah menjadi OWNER_CONFIRMED_TO_AUDITOR. v1.1 menyusul setelah hasil penulis (diagnosis selisih + 3 run bayar supplier; gladi jadwal) dibaca.
+**Status:** v1.0 FINAL (13 Okt 2026, 02:30 UTC). Semua run selesai dan dibaca per kasus. **Catatan v1.0.1:** owner menegaskan keputusan 12 Okt dan menerima vonis bersyarat ini pada 13 Okt (lihat `OWNER_DECISIONS_TO_AUDITOR_20261013.md`); label UNVERIFIED_OWNER_DECISION di bawah menjadi OWNER_CONFIRMED_TO_AUDITOR. v1.1 = `AUDIT_FABLE_XC1_ae0214ad_v1.1.md` (putaran silang 1, 13 Okt): A2 tetap OPEN, A3 ditutup, A6 TIDAK LENGKAP, F-OPS-05 minor baru.
 
 | | |
 |---|---|

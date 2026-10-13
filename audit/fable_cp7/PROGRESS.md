@@ -87,3 +87,5 @@ Laporan: `AUDIT_FABLE_d0b9e9c2.md` v1.0 — vonis HOLD dengan syarat §2.
 - Dispatch 14:33–14:36 UTC: penulis p19-transport 38414371682, supplier-payment-create ×3 (38414385732/38414401092/38414415980), p08-shell 38414431084,
   pl-native 38414446165 (head 856833dc, alat identik ae0214ad); Fable xc1 38414814884, core 38414828309, smoke+ui 38414843823 (product_ref=ae0214ad).
 - Kasus Fable baru: scenarios/fable_cp7_xc1.py (4 balapan + 1 native). Temuan minor baru F-OPS-05 (tanda polos bisa disalin) menunggu bukti.
+- 16:05 UTC: 9 run selesai, 33 job dibaca per kasus (1.046 PASS, 1 COUNTEREXAMPLE kasus Fable baru = F-OPS-05). v1.1 FINAL:
+  A1 DITUTUP (+F-OPS-05 minor), A2 OPEN (3 run Fable 10/10), A3 DITUTUP, A5 DITUTUP, A6 TIDAK LENGKAP, A7 TERIMA, A8 DITUTUP.
