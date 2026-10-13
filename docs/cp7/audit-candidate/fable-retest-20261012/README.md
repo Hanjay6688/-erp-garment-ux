@@ -11,7 +11,7 @@ bukan penerimaan auditor. `production_go:false`.
 - **Commit sumber: `7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2`**, cabang `claude/new-session-deapao`.
 - Selisih dari `d0b9e9c2` yang diaudit: `SOURCE_DELTA.json` — 49 berkas, 28 bukan dokumen. Termasuk perbaikan ASF-F01
   (`5f1506f4`, paket `../asf-f01-retest-20261012/`).
-- Commit sesudahnya hanya dokumen; buktikan dengan `git diff --name-only 7a0b4a90 HEAD`.
+- Sesudahnya kode produk tidak berubah; buktikan dengan `git diff --name-only 7a0b4a90 HEAD -- supabase src scripts/cp7-src` (kosong). Alat uji yang berubah sesudahnya (diagnosis, gladi jadwal) terdaftar di `AUDITOR_RETEST.md` bagian "Perubahan sesudah kandidat".
 - **Kegagalan pertama disimpan:** kandidat pertama `ddedf06c` gagal di `CP7 F03 Full Retained Components` kelompok p12
   (run 38285236686, job 114931910284): semua kasus PASS tetapi 91 kasus berjalan dari 90 yang dideklarasikan, karena
   kasus gaji baru `P12_SETTLEMENT_WIB_PAYMENT_DATE` belum dihitung di `scripts/cp7_f03_full_manifest.json`. `7a0b4a90`
@@ -74,6 +74,8 @@ pertama; tidak ada pengulangan atau hasil pertama yang ditahan karena pergantian
   `git diff --name-only 7a0b4a90 e0583314` hanya `docs/`; lulus, run 38289562249 job 114946099292). Laporan tidak
   menyimpan tabel mana yang berbeda; **penyebab belum ditemukan** dan dicatat sebagai butir alat uji terbuka, bukan PASS.
   Log gagal pertama: `../../evidence/fable-retest-20261012/`.
+  Kegagalan kedua (`5656f072`, run 38330557862) dan diagnosis 13 Okt (9 run kualifikasi + 60 grup ulang, semuanya lulus;
+  penyebab tetap OPEN): `../../evidence/fable-retest-20261012/GROUP_END_DIAGNOSIS.md`.
 - Yang relevan dengan temuan Fable: `k3-cleanup-22` (job 114943706715; termasuk tiga balapan baru F-OPS-01/02/03),
   `k4-runner-17` (114943706710), `pl5-history-yield-20` (114943706692), `p19-staged12` (114943706841),
   `p19-plan-v2-22` (114943706735) di `CP7 P19 Analysis Job Transport` (run 38288844558); uji alat tanggal di

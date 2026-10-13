@@ -9,8 +9,9 @@ diuji ulang dengan kasus Fable yang sama." Kandidat ini juga memuat perbaikan AS
 
 > Kamu auditor independen CP7 ERP Garment (repo `Hanjay6688/-erp-garment-ux`, cabang `claude/new-session-deapao`).
 > Kandidat revisi adalah commit sumber `7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2`, tercatat di
-> `docs/cp7/audit-candidate/fable-retest-20261012/CI_RECEIPT.json`. Uji commit itu, bukan HEAD lain; commit sesudahnya
-> hanya dokumen — buktikan sendiri dengan `git diff --name-only 7a0b4a90 HEAD` (semua harus di bawah `docs/`). Selisih
+> `docs/cp7/audit-candidate/fable-retest-20261012/CI_RECEIPT.json`. Uji commit itu, bukan HEAD lain. Sesudahnya kode
+> produk tidak berubah — buktikan sendiri dengan `git diff --name-only 7a0b4a90 HEAD -- supabase src scripts/cp7-src`
+> (harus kosong); alat uji yang berubah sesudahnya terdaftar di bagian "Perubahan sesudah kandidat". Selisih
 > dari `d0b9e9c2` yang diaudit ada di `SOURCE_DELTA.json` paket itu. Baca `docs/AUDIT_PANDUAN_PRO_MAX.md`, laporan audit
 > Fable di cabang `audit/fable-cp7-full-d0b9e9c2-20261011` (`audit/fable_cp7/AUDIT_FABLE_d0b9e9c2.md`, skenario
 > `audit/fable_cp7/scenarios/`), lalu `README.md` dan `AUDITOR_RETEST.md` di folder paket ini. Jalankan ulang kasus Fable
@@ -33,8 +34,8 @@ pemeriksaan "commit sesudahnya hanya dokumen" di paket lama tidak berlaku lagi. 
 > Kamu auditor independen CP7 ERP Garment (repo `Hanjay6688/-erp-garment-ux`, cabang `claude/new-session-deapao`), yang
 > sebelumnya mengaudit `d0b9e9c2` (cabang `audit/astra-cp7-full-d0b9e9c2-20261012`, putusan HOLD karena ASF-F01).
 > Kandidat revisi adalah commit sumber `7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2`, tercatat di
-> `docs/cp7/audit-candidate/fable-retest-20261012/CI_RECEIPT.json`; commit sesudahnya hanya dokumen — buktikan dengan
-> `git diff --name-only 7a0b4a90 HEAD`. Perbaikan ASF-F01 ada sejak `5f1506f4` (`docs/cp7/audit-candidate/asf-f01-retest-20261012/`);
+> `docs/cp7/audit-candidate/fable-retest-20261012/CI_RECEIPT.json`; sesudahnya kode produk tidak berubah — buktikan dengan
+> `git diff --name-only 7a0b4a90 HEAD -- supabase src scripts/cp7-src` (harus kosong). Perbaikan ASF-F01 ada sejak `5f1506f4` (`docs/cp7/audit-candidate/asf-f01-retest-20261012/`);
 > sesudahnya alat tanggal hanya menambah anotasi peringatan GitHub (`scripts/cp6_auditor_business_day.py` `annotate`), dan
 > kandidat ini juga memuat perbaikan temuan audit Fable (`README.md` paket `fable-retest-20261012`). Baca
 > `docs/AUDIT_PANDUAN_PRO_MAX.md`, laporan dan handoff auditmu sendiri, lalu `README.md` dan `AUDITOR_RETEST.md` kedua
@@ -69,10 +70,21 @@ pemeriksaan "commit sesudahnya hanya dokumen" di paket lama tidak berlaku lagi. 
   v2): trigger tabel kerja berubah. Ke-15 workflow kualifikasi dijalankan pada `7a0b4a90`.
 - PL-5 B: admin tidak lagi bisa menyimpan versi kebijakan (keputusan owner).
 - Alat uji tanggal WIB: hanya menambah anotasi; logika ASF-F01 tidak berubah sejak `5f1506f4`.
-- `CP7 Supplier Payment Create` pada `7a0b4a90` gagal sekali di pemeriksaan batas akhir kelompok native dengan semua
-  kasus PASS; lulus pada `ddedf06c` dan `e0583314` (hanya dokumen). Penyebab belum ditemukan writer; auditor dipersilakan
-  mengulang dan menilai sendiri (`README.md`, `../../evidence/fable-retest-20261012/`).
+- `CP7 Supplier Payment Create` gagal dua kali (`7a0b4a90` run 38288829388, `5656f072` run 38330557862) di pemeriksaan
+  batas akhir kelompok native dengan semua kasus PASS. Sesudah diagnosis dipasang (13 Okt): 9 run kualifikasi dan 60
+  grup ulang semuanya lulus; penyebab dua kegagalan **belum ditemukan** (OPEN). Rincian dan yang sudah disingkirkan:
+  `../../evidence/fable-retest-20261012/GROUP_END_DIAGNOSIS.md`. Auditor dipersilakan mengulang dan menilai sendiri.
 - Area yang tidak disentuh `SOURCE_DELTA.json` boleh tidak diulang; tulis BELUM DIULANG, bukan LULUS.
+
+## Perubahan sesudah kandidat (13 Okt 2026, atas permintaan owner)
+
+Kode produk (`supabase/`, `src/`, `scripts/cp7-src/`) tidak berubah sejak `7a0b4a90`. Yang berubah hanya alat uji:
+
+| Berkas | Isi | Bukti |
+|---|---|---|
+| `scripts/cp6_auditor_runner.py`, `scripts/cp6_auditor_runner_difference_test.py`, `.github/workflows/claude-p08-shell.yml` | Diagnosis: bagian yang berbeda dicatat bila pembanding batas gagal. Pembanding sendiri tidak diubah. | `../../evidence/fable-retest-20261012/GROUP_END_DIAGNOSIS.md` |
+| `scripts/cp7_group_end_repeat_diagnosis.py`, `.github/workflows/cp7-group-end-diagnosis.yml` | Uji ulang grup native bayar supplier (hanya diagnosis, dispatch saja) | idem, bagian 3 |
+| `scripts/cp7_k3_cleanup_cases.py`, `docs/cp7/k3/K3_CLEANUP.json`, `scripts/cp7_f05_analysis_probe.py`, `.github/workflows/claude-p19-transport.yml`, `.github/workflows/cp7-nightly-backup.yml` (komentar) | Kasus ke-23 K3: gladi pemasang jadwal di salinan CI | `../../evidence/fable-retest-20261012/SCHEDULE_REHEARSAL.md` |
 
 ## Hasil yang diminta
 
