@@ -22,10 +22,10 @@ penggantinya."
 
 | Pemeriksaan kasus lama (`salesManual`) | Pengganti |
 |---|---|
-| Qty manual 5/4/4 = 13 pcs tetap, total baris "13 pcs · 1 lusin · 1 potong" | `src/SalesPages.dozenHelper.dom.test.tsx` (layar simulasi yang sama, tambahan 13 Okt). Di layar tersambung: `P11_DRAFT_BROWSER_DESKTOP` / `P11_DRAFT_BROWSER_MOBILE_RECOVERY` (`scripts/cp7_p11_drafts_browser.mjs`, `manual13_preserved`). |
-| Helper kosong tidak mengubah apa pun | `src/SalesPages.dozenHelper.dom.test.tsx` (tambahan 13 Okt) |
-| Helper 1,1 lusin ditolak (pecahan potong), qty lama tetap | `src/SalesPages.dozenHelper.dom.test.tsx` (tambahan 13 Okt). Aturan hitungnya: `src/sales/distributeDozensEvenly.test.ts` ("rejects a fractional piece result…"). |
-| Helper 1 lusin = 4/4/4 | `src/SalesPages.dozenHelper.dom.test.tsx` (tambahan 13 Okt). Aturan hitungnya: `src/sales/distributeDozensEvenly.test.ts` ("distributes one dozen evenly…"). |
+| Qty manual 5/4/4 = 13 pcs tetap, total baris "13 pcs · 1 lusin · 1 potong" | `tests/cp7/SalesPages.dozenHelper.dom.test.tsx` (layar simulasi yang sama, tambahan 13 Okt). Di layar tersambung: `P11_DRAFT_BROWSER_DESKTOP` / `P11_DRAFT_BROWSER_MOBILE_RECOVERY` (`scripts/cp7_p11_drafts_browser.mjs`, `manual13_preserved`). |
+| Helper kosong tidak mengubah apa pun | `tests/cp7/SalesPages.dozenHelper.dom.test.tsx` (tambahan 13 Okt) |
+| Helper 1,1 lusin ditolak (pecahan potong), qty lama tetap | `tests/cp7/SalesPages.dozenHelper.dom.test.tsx` (tambahan 13 Okt). Aturan hitungnya: `src/sales/distributeDozensEvenly.test.ts` ("rejects a fractional piece result…"). |
+| Helper 1 lusin = 4/4/4 | `tests/cp7/SalesPages.dozenHelper.dom.test.tsx` (tambahan 13 Okt). Aturan hitungnya: `src/sales/distributeDozensEvenly.test.ts` ("distributes one dozen evenly…"). |
 
 Kedua kasus P11 juga menguji hal yang tidak ada di kasus lama:
 
