@@ -170,3 +170,27 @@ proyek aktif per akun, 500 MB, berhenti sesudah 7 hari tanpa aktivitas, tanpa ba
 mendaftarkan kartu/PayPal ke Cloudflare untuk R2 (gratis sampai 10 GB, tidak ditagih), atau memakai Google Drive;
 (3) backup produksi dijalankan dari repo GitHub privat terpisah (repo ini publik, sehingga log dan artifact-nya
 terbuka untuk umum).
+
+### Jawaban owner 13 Okt 2026: proyek produksi = Enteng (D13-7, mengganti D13-4)
+
+Verbatim: "1 ya, erp enteng juga merupakan database yg bakal kita pakai bukan. kalau takut rusak kita bisa backup dulu
+ke drive. pake akalnya bos."
+
+| No | Isi | Catatan penulis |
+|---|---|---|
+| Pertanyaan 1 | "ya": Enteng dan ERP-Garment lama ada di akun Supabase gratis yang sama. | Konektor Supabase penulis (hanya baca) melihat satu organisasi "ERP enteng", paket `free`. Daftar proyeknya tidak terlihat oleh konektor, jadi jawaban owner yang dipakai. |
+| D13-7 | Database produksi = Enteng `siimvrusnzxexizpyoib`, database `postgres`. Tidak ada proyek baru. | Mengganti D13-4 (B). Alasannya: akun gratis hanya boleh 2 proyek aktif, keduanya sudah terpakai, dan ERP-Garment lama tidak boleh diubah (termasuk dijeda). Enteng juga proyek yang selama ini dipakai untuk menyelaraskan semua uji CP6/CP7, jadi langkah penyelarasan dan biaya proyek baru tidak diperlukan. |
+| D13-7a | Sebelum ada perubahan di Enteng, isinya di-backup dulu ke Google Drive. | Backup ini dijalankan dengan alat backup (sesudah versi Drive siap). Perubahan di Enteng tetap menunggu izin pemasangan. |
+
+Yang tetap berlaku: `production_go:false`. Hosted yang sekarang belum diubah. D13-6 (pemeriksaan pemulihan di mesin
+GitHub) tetap. Data uji (UAT) yang sekarang ada di Enteng perlu dibersihkan sebelum live, sesudah dibackup ke Drive.
+Itu masuk persiapan CP8.
+
+Masih perlu jawaban owner (ya/tidak), karena bertabrakan dengan batas biaya:
+
+1. Backup malam juga ke Google Drive, bukan R2. Alasannya, R2 meminta kartu atau PayPal didaftarkan (D13-5).
+2. Syarat "buktikan pemulihan ke proyek Supabase terpisah" butuh proyek ketiga, dan itu tidak muat di akun gratis.
+   Usulan tanpa biaya: sebelum live, selagi Enteng masih berisi data uji, pemulihan dibuktikan ke Enteng sendiri.
+   Urutannya: backup ke Drive dulu, lalu pulihkan dari file Drive itu, lalu cocokkan isi, struktur, owner dan hak
+   akses. Langkah ini dijalankan dengan izin owner saat itu.
+3. Backup produksi dijalankan dari repo GitHub privat terpisah (gratis). Repo ini publik.
