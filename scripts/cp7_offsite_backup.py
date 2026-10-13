@@ -63,9 +63,9 @@ LOCAL_HOSTS = ('127.0.0.1', 'localhost', '::1', '')
 # Structure fingerprint: one sorted list of lines per category. Names are schema-qualified (search_path is
 # pg_catalog only while these run), owners and ACLs are role names, so two servers compare by meaning, not by OID.
 STRUCTURE = {
-    'schemas': f"""select n.nspname||' owner='||pg_get_userbyid(n.nspowner)||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(n.nspacl) x),'-')
+    'schemas': f"""select n.nspname||' owner='||pg_get_userbyid(n.nspowner)||' acl='||case when exists(select 1 from pg_init_privs i where i.classoid='pg_namespace'::regclass and i.objoid=n.oid and i.objsubid=0 and i.privtype='e') then 'EXTENSION_INITIAL' else coalesce((select string_agg(x::text,',' order by x::text) from unnest(coalesce(n.nspacl,acldefault('n'::"char",n.nspowner))) x),'-') end
         from pg_namespace n where {SKIP}""",
-    'relations': f"""select c.relkind::text||' '||n.nspname||'.'||c.relname||' owner='||pg_get_userbyid(c.relowner)||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(c.relacl) x),'-')
+    'relations': f"""select c.relkind::text||' '||n.nspname||'.'||c.relname||' owner='||pg_get_userbyid(c.relowner)||' acl='||case when exists(select 1 from pg_init_privs i where i.classoid='pg_class'::regclass and i.objoid=c.oid and i.objsubid=0 and i.privtype='e') then 'EXTENSION_INITIAL' else coalesce((select string_agg(x::text,',' order by x::text) from unnest(coalesce(c.relacl,acldefault(case when c.relkind='S' then 's'::"char" else 'r'::"char" end,c.relowner))) x),'-') end
         ||' rls='||c.relrowsecurity||'/'||c.relforcerowsecurity||' persistence='||c.relpersistence::text||' options='||coalesce(c.reloptions::text,'-')
         ||' replident='||c.relreplident::text||coalesce(' partition='||pg_get_expr(c.relpartbound,c.oid),'')
         from pg_class c join pg_namespace n on n.oid=c.relnamespace where {SKIP} and c.relkind in ('r','p','v','m','S','f','c')""",
@@ -91,15 +91,15 @@ STRUCTURE = {
     'views': f"""select n.nspname||'.'||c.relname||' body=', pg_get_viewdef(c.oid)
         from pg_class c join pg_namespace n on n.oid=c.relnamespace where {SKIP} and c.relkind in ('v','m')""",
     'policies': f"""select n.nspname||'.'||c.relname||' '||p.polname||' cmd='||p.polcmd::text||' permissive='||p.polpermissive
-        ||' roles='||coalesce((select string_agg(case when r=0 then 'public' else pg_get_userbyid(r) end,',' order by 1) from unnest(p.polroles) r),'-')
+        ||' roles='||coalesce((select string_agg(case when r=0 then 'public' else pg_get_userbyid(r) end,',' order by case when r=0 then 'public' else pg_get_userbyid(r) end) from unnest(p.polroles) r),'-')
         ||' using='||coalesce(pg_get_expr(p.polqual,p.polrelid),'-')||' check='||coalesce(pg_get_expr(p.polwithcheck,p.polrelid),'-')
         from pg_policy p join pg_class c on c.oid=p.polrelid join pg_namespace n on n.oid=c.relnamespace where {SKIP}""",
-    'functions': f"""select p.oid::regprocedure::text||' kind='||p.prokind::text||' owner='||pg_get_userbyid(p.proowner)||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(p.proacl) x),'-')
+    'functions': f"""select p.oid::regprocedure::text||' kind='||p.prokind::text||' owner='||pg_get_userbyid(p.proowner)||' acl='||case when exists(select 1 from pg_init_privs i where i.classoid='pg_proc'::regclass and i.objoid=p.oid and i.objsubid=0 and i.privtype='e') then 'EXTENSION_INITIAL' else coalesce((select string_agg(x::text,',' order by x::text) from unnest(coalesce(p.proacl,acldefault('f'::"char",p.proowner))) x),'-') end
         ||' definer='||p.prosecdef||' volatile='||p.provolatile::text||' strict='||p.proisstrict||' leakproof='||p.proleakproof
         ||' config='||coalesce(p.proconfig::text,'-')||' returns='||pg_get_function_result(p.oid)
         ||' body=', case when p.prokind='a' then coalesce(p.prosrc,'') else pg_get_functiondef(p.oid) end
         from pg_proc p join pg_namespace n on n.oid=p.pronamespace where {SKIP}""",
-    'types': f"""select t.typtype::text||' '||n.nspname||'.'||t.typname||' owner='||pg_get_userbyid(t.typowner)||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(t.typacl) x),'-')
+    'types': f"""select t.typtype::text||' '||n.nspname||'.'||t.typname||' owner='||pg_get_userbyid(t.typowner)||' acl='||case when exists(select 1 from pg_init_privs i where i.classoid='pg_type'::regclass and i.objoid=t.oid and i.objsubid=0 and i.privtype='e') then 'EXTENSION_INITIAL' else coalesce((select string_agg(x::text,',' order by x::text) from unnest(coalesce(t.typacl,acldefault('T'::"char",t.typowner))) x),'-') end
         ||' base='||coalesce(format_type(nullif(t.typbasetype,0),t.typtypmod),'-')||' notnull='||t.typnotnull
         ||' default='||coalesce(t.typdefault,'-')
         ||' labels='||coalesce((select string_agg(e.enumlabel,',' order by e.enumsortorder) from pg_enum e where e.enumtypid=t.oid),'-')
@@ -116,10 +116,21 @@ STRUCTURE = {
         from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
         where n.nspname is null or n.nspname not in ('pg_catalog','information_schema','cron')""",
     'publications': """select p.pubname||' owner='||pg_get_userbyid(p.pubowner)||' all='||p.puballtables||' ops='||p.pubinsert||p.pubupdate||p.pubdelete||p.pubtruncate
-        ||' tables='||coalesce((select string_agg(t.schemaname||'.'||t.tablename,',' order by 1) from pg_publication_tables t where t.pubname=p.pubname),'-')
+        ||' tables='||coalesce((select string_agg(t.schemaname||'.'||t.tablename,',' order by t.schemaname,t.tablename) from pg_publication_tables t where t.pubname=p.pubname),'-')
         from pg_publication p""",
     'event_triggers': """select e.evtname||' '||e.evtevent||' owner='||pg_get_userbyid(e.evtowner)||' fn='||e.evtfoid::regprocedure::text
         ||' enabled='||e.evtenabled::text||' tags='||coalesce(e.evttags::text,'-') from pg_event_trigger e""",
+    # Objects whose privileges an extension recorded as initial (pg_init_privs): pg_dump writes only the change from
+    # those, and on the restore server the extension's own script sets them again, without what the source server ran
+    # around it (on Supabase, event triggers that grant access when an extension is created). Compared, and reported
+    # apart as explained (structure.explained), never folded into the strict categories.
+    'extension_initial_acls': f"""select 'n '||n.nspname||' '||coalesce((select string_agg(x::text,',' order by x::text) from unnest(coalesce(n.nspacl,acldefault('n'::"char",n.nspowner))) x),'-') from pg_namespace n where {SKIP} and exists(select 1 from pg_init_privs i where i.classoid='pg_namespace'::regclass and i.objoid=n.oid and i.objsubid=0 and i.privtype='e')
+        union all select c.relkind::text||' '||n.nspname||'.'||c.relname||' '||coalesce((select string_agg(x::text,',' order by x::text) from unnest(coalesce(c.relacl,acldefault(case when c.relkind='S' then 's'::"char" else 'r'::"char" end,c.relowner))) x),'-')
+          from pg_class c join pg_namespace n on n.oid=c.relnamespace where {SKIP} and exists(select 1 from pg_init_privs i where i.classoid='pg_class'::regclass and i.objoid=c.oid and i.objsubid=0 and i.privtype='e')
+        union all select 'f '||p.oid::regprocedure::text||' '||coalesce((select string_agg(x::text,',' order by x::text) from unnest(coalesce(p.proacl,acldefault('f'::"char",p.proowner))) x),'-')
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace where {SKIP} and exists(select 1 from pg_init_privs i where i.classoid='pg_proc'::regclass and i.objoid=p.oid and i.objsubid=0 and i.privtype='e')
+        union all select 'T '||n.nspname||'.'||t.typname||' '||coalesce((select string_agg(x::text,',' order by x::text) from unnest(coalesce(t.typacl,acldefault('T'::"char",t.typowner))) x),'-')
+          from pg_type t join pg_namespace n on n.oid=t.typnamespace where {SKIP} and exists(select 1 from pg_init_privs i where i.classoid='pg_type'::regclass and i.objoid=t.oid and i.objsubid=0 and i.privtype='e')""",
     'large_objects': """select 'count='||count(*)||' owners='||coalesce(string_agg(distinct pg_get_userbyid(lomowner),','),'-') from pg_largeobject_metadata""",
 }
 
@@ -188,13 +199,17 @@ def sequence_state(cur):
     return out
 
 
+EXPLAINED = ('extension_initial_acls',)
+
+
 def compare_structure(a, b):
-    out = {}
+    """(strict differences, explained differences) per category."""
+    out, explained = {}, {}
     for k in sorted(set(a) | set(b)):
         x, y = set(a.get(k, [])), set(b.get(k, []))
         if x != y:
-            out[k] = dict(only_source=sorted(x - y)[:200], only_restored=sorted(y - x)[:200], count=len(x ^ y))
-    return out
+            (explained if k in EXPLAINED else out)[k] = dict(only_source=sorted(x - y)[:200], only_restored=sorted(y - x)[:200], count=len(x ^ y))
+    return out, explained
 
 
 def sha256_file(path):
@@ -473,12 +488,13 @@ def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_
                        if src['data'].get(t) != got['data'].get(t)}
         seq_differ = {s: dict(source=src['sequences'].get(s), restored=got['sequences'].get(s))
                       for s in sorted(set(src['sequences']) | set(got['sequences'])) if src['sequences'].get(s) != got['sequences'].get(s)}
-        shape_differ = compare_structure(src['structure'], got['structure'])
+        shape_differ, shape_explained = compare_structure(src['structure'], got['structure'])
         receipt['data'] = dict(tables=len(src['data']), rows=sum(v['rows'] for v in src['data'].values()), sequences=len(src['sequences']),
                                tables_differ=len(data_differ), sequences_differ=len(seq_differ), compared_with='source in the dump snapshot')
         receipt['structure'] = dict(objects={k: len(v) for k, v in src['structure'].items()},
-                                    differ={k: v['count'] for k, v in shape_differ.items()})
-        detail.update(data_differ=data_differ, sequences_differ=seq_differ, structure_differ=shape_differ)
+                                    differ={k: v['count'] for k, v in shape_differ.items()},
+                                    explained={k: v['count'] for k, v in shape_explained.items()})
+        detail.update(data_differ=data_differ, sequences_differ=seq_differ, structure_differ=shape_differ, structure_explained=shape_explained)
         for code, bad in (('BACKUP_RESTORE_ERRORS', unexplained), ('BACKUP_DATA_DIFFERS', data_differ or seq_differ),
                           ('BACKUP_STRUCTURE_DIFFERS', shape_differ)):
             if bad:

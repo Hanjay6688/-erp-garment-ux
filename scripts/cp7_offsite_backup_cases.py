@@ -121,7 +121,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
             stored = json.loads(remote.cat(r['night'] + '.receipt.json'))
             assert stored['restore_verified'] is True and stored['encrypted']['sha256'] == r['encrypted']['sha256'], stored
             return dict(restore_verified=True, tables=r['data']['tables'], rows=r['data']['rows'], sequences=r['data']['sequences'],
-                        structure_objects=r['structure']['objects'], roles_created=r['roles']['created'], restore_errors=r['restore'],
+                        structure_objects=r['structure']['objects'], structure_explained=r['structure']['explained'], roles_created=r['roles']['created'], restore_errors=r['restore'],
                         versions=r['versions'], remote_files=3, wrong_passphrase_refused=True, source_unchanged=True)
         run(IDS[0], verified)
 
