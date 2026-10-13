@@ -17,8 +17,9 @@ Cakupan CP7 saja. `production_go:false`.
 ## Identitas
 
 - **Kandidat: `ae0214ad33184f7c2724783d663fb20fcb13820c`**, tree `0217f5f6740f28c19b7894fcb0181f39d3aea727`, cabang
-  `claude/new-session-deapao`. Commit sesudahnya hanya mengubah `docs/`. Buktikan dengan
-  `git diff --name-only ae0214ad HEAD -- . ':!docs'`, yang hasilnya harus kosong.
+  `claude/new-session-deapao`. Uji dan baca pada commit ini (checkout `ae0214ad`), bukan pada HEAD cabang. Sesudah
+  kandidat, writer bisa menambah pekerjaan lain di cabang yang sama (misalnya alat backup versi berikutnya). Pekerjaan
+  itu bukan bagian dari putaran ini dan akan diaudit terpisah.
 - Kode produk sama dengan `7a0b4a90` (kandidat yang diuji kedua auditor):
   `git diff --name-only 7a0b4a90 ae0214ad -- supabase src scripts/cp7-src` kosong.
 
