@@ -1,0 +1,18 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "audit_branch": "audit/astra-cp7-xc2-0b7049d9-20261014",
+  "production_go": false,
+  "round1_disposition": "Round-1 items evaluated on round-2 candidate, product trees unchanged; runtime claims separately evidenced.",
+  "product_trees": {
+    "src": "d6553972f94a4ad4e9170e8a946b30cdac9712fd",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "scripts/cp7-src": "7bcf45e174499f3712c67ee08788a90a8c5f7881",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853"
+  },
+  "round1_product_diff": "",
+  "round2_comparator_diff": "",
+  "legacy_audit_sha": "41dbd14dd163f07bc5cad92f6f86c5f945bfd211",
+  "candidate_readme_status_at_start": "Writer receipt pending; owner explicitly requested audit execution now."
+}
