@@ -128,7 +128,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   import cp7_reminder_v2_bundle as candidate
   import cp7_k3_cleanup_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
-  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==22;out=OUT.with_name('CP7_K3_CLEANUP.json');phase='cp7_k3_cleanup';browser_script='cp7_k3_cleanup_browser.mjs'
+  extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==23;out=OUT.with_name('CP7_K3_CLEANUP.json');phase='cp7_k3_cleanup';browser_script='cp7_k3_cleanup_browser.mjs'
  if p19_load:
   import cp7_obligation_report_bundle as candidate
   import cp7_p19_native_load_cases as case_provider

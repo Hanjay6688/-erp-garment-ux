@@ -24,6 +24,8 @@ from urllib.parse import urlparse, urlunparse
 import hashlib
 import json
 import os
+import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -46,7 +48,8 @@ IDS = dict(
             'K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP', 'K3C_SCHEDULE_DEFINED_PRIVATE'],
     races=['K3C_RACE_TWO_TICKS_ONE_LOG', 'K3C_RACE_BUSY_TABLE_RETRIED', 'K3C_RACE_PG_CRON_FIRES', 'K3C_RACE_NIGHTLY_BACKUP_VERIFIED',
            'K3C_RACE_CRON_TWO_DATABASES', 'K3C_RACE_BACKUP_RETRY_SAME_SECOND', 'K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP',
-           'K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE', 'K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES'],
+           'K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE', 'K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES',
+           'K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL'],
     http=['K3C_HTTP_REOPEN_AFTER_CLEANUP', 'K3C_HTTP_TICK_NOT_REACHABLE'],
     browser=['K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP', 'K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP'],
 )
@@ -709,6 +712,83 @@ def races(tools, today):
                     any_free_name_used_and_dropped=True, own_marked_leftover_reused_and_dropped=True,
                     synthetic='two other databases created for the test, then removed')
 
+    def schedule_rehearsal():
+        """Owner 13 Oct 2026 (D13-3, Fable retest condition 2c): the installer as it would be run at installation
+        (scripts/cp7_schedule.py, a separate process) on this disposable copy only, with the real schedule (no
+        TEST_SCHEDULE_OVERRIDE). Its refusals first; then install, verify, schedules() equal to the K3 declaration and to
+        pg_cron's cron.job, the nightly backup declared at 01:00 WIB; then uninstall, and pg_cron and the copy's data are
+        as they were. The jobs are installed between minute boundaries and removed seconds later, so none fires."""
+        u = urlparse(tools.admin)
+        database = u.path.lstrip('/')
+        assert u.hostname in ('127.0.0.1', 'localhost') or u.hostname is None, ('K3C_REHEARSAL_DISPOSABLE_ONLY', u.hostname)
+        cron_url = urlunparse(u._replace(path='/postgres'))
+        root = Path(__file__).resolve().parent.parent
+        declaration = json.loads((root / 'docs/cp7/k3/K3_CLEANUP.json').read_text())
+        workflow = (root / '.github/workflows/cp7-nightly-backup.yml').read_text()
+
+        def cli(*args):
+            r = subprocess.run([sys.executable, str(Path(__file__).with_name('cp7_schedule.py')), *args, '--erp-url', tools.admin,
+                                '--cron-url', cron_url], capture_output=True, text=True, timeout=120)
+            return dict(code=r.returncode, out=r.stdout, err=r.stderr.strip().splitlines()[-1:] if r.stderr.strip() else [])
+
+        def cron_state(cc):
+            return [list(map(str, r)) for r in cc.execute(
+                'select jobid,jobname,schedule,command,database,username,active from cron.job order by jobid').fetchall()]
+
+        with psycopg.connect(cron_url, autocommit=True) as cron, cron.cursor() as cc:
+            assert cc.execute("select extversion from pg_extension where extname='pg_cron'").fetchone(), 'K3C_PG_CRON_NOT_AVAILABLE'
+            cron_before = cron_state(cc)
+            data_before = nightly.data_hashes(tools.admin)
+            # Between minute boundaries: every package job fires at second 0 at the earliest.
+            while not 3 <= datetime.now(timezone.utc).second <= 35:
+                time.sleep(1)
+            since = cc.execute('select now()').fetchone()[0]
+            refused = dict(
+                install_without_approval=cli('install', '--database', database),
+                install_other_database=cli('install', '--database', database + '_other', '--installation-approved'))
+            assert refused['install_without_approval']['code'] != 0 and 'CP7_SCHEDULE_INSTALL_NOT_APPROVED' in ''.join(refused['install_without_approval']['err']), refused
+            assert refused['install_other_database']['code'] != 0 and 'CP7_SCHEDULE_DATABASE_MISMATCH' in ''.join(refused['install_other_database']['err']), refused
+            assert cron_state(cc) == cron_before, 'K3C_REFUSED_INSTALL_CHANGED_CRON'
+            install = cli('install', '--database', database, '--installation-approved')
+            ids = None
+            try:
+                assert install['code'] == 0, install
+                ids = json.loads(install['out'])['installed']
+                again = cli('install', '--database', database, '--installation-approved')
+                assert again['code'] == 0 and json.loads(again['out'])['installed'] == ids, ('K3C_REINSTALL_CHANGED_JOBS', again)
+                verify = cli('verify', '--database', database)
+                assert verify['code'] == 0 and json.loads(verify['out'])['matches'] is True, verify
+                refused['uninstall_without_approval'] = cli('uninstall', '--database', database)
+                assert refused['uninstall_without_approval']['code'] != 0 and 'CP7_SCHEDULE_UNINSTALL_NOT_APPROVED' in ''.join(refused['uninstall_without_approval']['err']), refused
+                with tools.connect() as conn, conn.cursor() as cur:
+                    defs = schedule.definitions(cur)
+                jobs = schedule.installed(cc, database)
+                assert defs == declaration['schedules'] == SCHEDULES, ('K3C_SCHEDULES_NOT_THE_K3_DECLARATION', defs)
+                assert sorted((j['name'], j['schedule'], j['command'], j['database'], j['username'], j['active']) for j in jobs) == sorted(
+                    (schedule.job_name(d['name'], database), d['schedule'], d['command'], database, 'postgres', True) for d in declaration['schedules']), jobs
+                assert declaration['nightly_backup']['schedule'] == nightly.SCHEDULE and nightly.SCHEDULE['cron'] == '0 18 * * *', declaration['nightly_backup']
+                # The backup runs outside the database (a scheduled workflow); its 01:00 WIB line stays commented out until
+                # the approved installation, and the job only runs when CP7_NIGHTLY_BACKUP_INSTALLED is 'true'.
+                assert "#   - cron: '0 18 * * *'   # 01:00 WIB nightly" in workflow and '\n  schedule:' not in workflow, 'K3C_BACKUP_WORKFLOW_SCHEDULE'
+                installed_jobs = [dict(name=j['name'], schedule=j['schedule'], database=j['database'], username=j['username'], active=j['active']) for j in jobs]
+            finally:
+                removal = cli('uninstall', '--database', database, '--removal-approved')
+            assert removal['code'] == 0 and sorted(json.loads(removal['out'])['removed']) == sorted(
+                schedule.job_name(d['name'], database) for d in declaration['schedules']), removal
+            fired = [] if not ids else cc.execute('select jobid,status from cron.job_run_details where jobid=any(%s) and start_time>=%s',
+                                                  (list(ids.values()), since)).fetchall()
+            cron_after = cron_state(cc)
+            data_after = nightly.data_hashes(tools.admin)
+        assert fired == [], ('K3C_REHEARSAL_JOB_FIRED', fired)
+        assert cron_after == cron_before, ('K3C_CRON_NOT_RESTORED', cron_before, cron_after)
+        assert data_after == data_before, ('K3C_COPY_DATA_CHANGED', sorted(t for t in set(data_before) | set(data_after) if data_before.get(t) != data_after.get(t)))
+        return dict(status='PASS', disposable_database=database, cron_database='postgres', installer='scripts/cp7_schedule.py (separate process)',
+                    refused=dict((k, v['err']) for k, v in refused.items()), installed_jobs=installed_jobs, installed_job_ids=ids,
+                    reinstall_same_job_ids=True, verify_matches=True, schedules_equal_k3_declaration=True,
+                    nightly_backup=dict(declared=declaration['nightly_backup']['schedule'], workflow_cron='0 18 * * *', workflow_schedule_enabled=False),
+                    removed=sorted(json.loads(removal['out'])['removed']), cron_job_rows_before=len(cron_before), cron_job_rows_after=len(cron_after),
+                    cron_restored_exactly=True, copy_data_tables_compared=len(data_before), copy_data_unchanged=True, jobs_fired_during_rehearsal=0)
+
     def backup_under_writes():
         # Independent audit Fable F-OPS-03: the restore was compared with the live source after the restore, so a
         # write during the backup left the night unverified. A writer (SYNTHETIC, labelled: a test table on the
@@ -756,7 +836,7 @@ def races(tools, today):
                     compared_with=dumped['compared_with'], synthetic='a test table written to through the backup, then dropped')
 
     return list(zip(IDS['races'], (two_ticks, busy_table, cron_fires, nightly_backup, cron_two_databases, backup_retry_same_second,
-                                   cleanup_beside_running_step, backup_scratch_guard, backup_under_writes)))
+                                   cleanup_beside_running_step, backup_scratch_guard, backup_under_writes, schedule_rehearsal)))
 
 
 def http_cases(http, today):
