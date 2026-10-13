@@ -11,6 +11,9 @@ Dasar: keputusan owner 13 Okt 2026:
 
 Batas biaya: tanpa biaya.
 
+**Ditahan sampai tahap CP7C (keputusan owner D13-9a, 13 Okt 2026).** Belum ada langkah yang diminta dari Bos sebelum
+CP7C.
+
 **Status:** alat sudah dibuat dan diuji di server sekali pakai. Uji pemulihan ke Supabase lokal baru (D13-8b) lulus.
 **Belum dipasang. Jalur Google Drive belum dibuktikan**:
 uji itu butuh akun Google Bos, dan langkahnya ada di `ops/backup-repo/README.md`. Hosted dan Drive belum disentuh.

@@ -1,5 +1,7 @@
 # Perlengkapan repo backup privat (keputusan owner D13-8, 13 Okt 2026)
 
+**Ditahan sampai tahap CP7C (keputusan owner D13-9a, 13 Okt 2026). Langkah di bawah belum perlu dikerjakan.**
+
 Folder ini berisi semua yang perlu dipindah ke repo GitHub **privat** untuk backup produksi. Kode alatnya tidak
 disalin: workflow mengambil alat dari repo ini pada satu commit yang dikunci, yaitu
 `5db7c8763a651304b2fd37b8eadb9616d0afe151`. Dengan begitu, yang dijalankan sama persis dengan yang diaudit. Kalau

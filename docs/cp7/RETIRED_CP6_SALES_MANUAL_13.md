@@ -37,7 +37,19 @@ Kedua kasus P11 juga menguji hal yang tidak ada di kasus lama:
 Uji DOM 13 Okt mengulang keempat pemeriksaan lama di layar yang sama, tetapi di jsdom, bukan di browser sungguhan. Uji
 itu tidak menggantikan kasus browser.
 
-## Yang perlu diputuskan
+## Keputusan owner (13 Okt 2026, D13-9c)
 
-Owner: apakah pensiun kedua kasus ini dari komposisi CP7, dengan pengganti di atas, disahkan (ya/tidak)? Auditor
-(Fable) menilai cakupan penggantinya untuk PRE-05.
+**Disetujui bersyarat.** Pensiun berlaku sesudah auditor memastikan cakupan penggantinya lengkap. Kutipan lengkap ada
+di `OWNER_DECISIONS_20261008.md` (D13-9). Owner mencatat: "sebagian pemeriksaan helper baru diuji lewat DOM simulasi;
+cakupannya belum seluruhnya dibuktikan di browser sungguhan."
+
+## Fakta tambahan untuk auditor
+
+- Layar penjualan tersambung (P11, `src/SalesDraftPanel.tsx`) punya helper yang **berbeda** dari layar simulasi:
+  "Isi dengan lusin + PCS" per baris. Isinya lusin bulat plus sisa 0–11 PCS, dan qty baris baru berubah sesudah tombol
+  "Terapkan lusin baris N" ditekan.
+- Bagi rata 1 lusin ke beberapa ukuran (4/4/4) dan penolakan 1,1 lusin hanya ada di layar simulasi `SalesPages`. Layar
+  simulasi tidak tampil di mode tersambung.
+- Helper P11 diuji di jsdom (`src/SalesDraftPanel.dom.test.tsx`). Kasus browser P11 (`scripts/cp7_p11_drafts_browser.mjs`)
+  memeriksa qty manual 13 tetap (`manual13_preserved`), tetapi tidak menekan helper lusin. Jadi helper lusin, baik di
+  layar simulasi maupun di P11, **belum diuji di browser sungguhan**.

@@ -1,5 +1,7 @@
 # Paket uji silang: uji pemulihan ke Supabase lokal (D13-8b) — 13 Okt 2026
 
+**DITAHAN sampai tahap CP7C (keputusan owner D13-9a, 13 Okt 2026). Jangan dikirim ke auditor sekarang.**
+
 Dasar: keputusan owner D13-8b. Uji pemulihan sebelum produksi tidak menimpa Enteng. Uji dilakukan di Supabase
 lokal/container sekali pakai di mesin GitHub, dengan versi, ekstensi dan batas hak akses seperti hosted. Batasnya
 wajib dicatat: lulus di lokal belum otomatis membuktikan pemulihan hosted.

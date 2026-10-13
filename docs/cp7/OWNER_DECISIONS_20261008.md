@@ -234,3 +234,34 @@ Status D13-8b (13 Okt 2026, penulis): uji pemulihan ke Supabase lokal baru sebag
 dibuat dan lulus di CI (run 38397645331, commit `bebf2dc5`). Batasnya tercatat: lulus di lokal belum membuktikan
 pemulihan hosted. Rincian: `docs/cp7/evidence/restore-drill-20261013/CI_RECEIPT.md`. Uji silang auditor: paket
 `docs/cp7/audit-candidate/restore-drill-r1-20261013/`.
+
+### Keputusan owner 13 Okt 2026: urutan backup, kirim putaran 1, pensiun SALES_MANUAL_13 (D13-9)
+
+Pertanyaan penulis: (1) semua urusan backup dan Drive, termasuk dua paket backup untuk auditor, ditahan sampai CP7C?
+(2) paket putaran 1 CP7 dikirim sekarang ke Astra dan Fable? (3) pensiun kasus `SALES_MANUAL_13` disahkan?
+
+Sebelumnya owner bertanya: "btw kenapa lu nanyain gdrive sekarang ya? emang cp7 lu udah beres? drive kan 7.5 punya?"
+
+Jawaban owner (verbatim):
+
+> 1ya, 2ya, 3 = Itu dua tes otomatis lama untuk helper lusin → pcs di form penjualan, versi desktop dan HP. Angka "13"
+> berasal dari jumlah manual 5 + 4 + 4 = 13 pcs.
+> Tesnya memastikan:
+>
+> * Isi manual tetap tersimpan kalau helper kosong.
+> * 1,1 lusin ditolak karena menghasilkan pecahan pcs.
+> * 1 lusin dibagi tiga ukuran menjadi 4/4/4 pcs.
+>
+> Menurut catatan penulis, tes lama mencari form simulasi, sedangkan aplikasi tersambung sekarang membuka layar
+> penjualan P11. Karena itu selector lamanya gagal.
+> "Pensiun" berarti mengeluarkan kedua tes itu dari paket CP7. Tes asli tetap tersimpan di paket CP6.
+> Gue sarankan setuju bersyarat setelah auditor memastikan cakupan penggantinya lengkap. Saat ini, sebagian
+> pemeriksaan helper baru diuji lewat DOM simulasi; cakupannya belum seluruhnya dibuktikan di browser sungguhan.
+
+(Tautan "catatan penulis" di pesan owner menunjuk `docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md` pada commit `0b3df8de`.)
+
+| ID | Keputusan | Akibat |
+|---|---|---|
+| D13-9a | Semua urusan backup dan Google Drive ditahan sampai tahap CP7C, termasuk dua paket backup untuk auditor (`audit-candidate/offsite-backup-r1-20261013/`, `audit-candidate/restore-drill-r1-20261013/`). | Paket itu tidak dikirim sekarang. Tidak ada langkah Drive atau repo privat yang diminta dari owner sebelum CP7C. Alat dan bukti yang sudah ada tetap disimpan. D13-7 dan D13-8 tetap berlaku untuk tahap CP7C. |
+| D13-9b | Paket putaran silang 1 CP7 (`audit-candidate/crosscheck-r1-20261013/`) dikirim sekarang ke Astra dan Fable. | Owner yang mengirim. |
+| D13-9c | Pensiun `SALES_MANUAL_13` (desktop dan HP) dari komposisi CP7 **disetujui bersyarat**: berlaku sesudah auditor memastikan cakupan penggantinya lengkap. | Sampai auditor memastikan, status pensiun belum sah. Catatan owner ikut diperiksa auditor: sebagian pemeriksaan helper baru diuji lewat DOM simulasi, belum seluruhnya di browser sungguhan. |

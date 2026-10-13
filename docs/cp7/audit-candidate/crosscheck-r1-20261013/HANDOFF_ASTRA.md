@@ -54,15 +54,18 @@ TUGAS
 4. A4, cakupan F-PAY-01 (catatanmu). Baca F_PAY_01_BOTH_BRANCHES.md di folder putaran ini. Isinya kasus
    P12_SETTLEMENT_WIB_PAYMENT_DATE yang dijalankan pukul 17.00-19.00 WIB, ketika kedua cabang aktif. Kalau mau,
    jalankan sendiri pada jam itu.
-5. A6, silang: dua kasus CP6 yang dipensiunkan (SALES_MANUAL_13). Baca docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md.
-   Jalankan tests/cp7/SalesPages.dozenHelper.dom.test.tsx, lalu nilai apakah keempat pemeriksaan lama tercakup.
+5. A6, silang: dua kasus CP6 yang dipensiunkan (SALES_MANUAL_13). Owner menyetujui pensiun BERSYARAT (D13-9c):
+   berlaku sesudah auditor memastikan cakupan penggantinya lengkap. Catatan owner: sebagian pemeriksaan helper baru
+   diuji lewat DOM simulasi, belum seluruhnya di browser sungguhan. Baca docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md,
+   termasuk "Fakta tambahan untuk auditor": helper lusin di layar simulasi dan di P11 belum diuji di browser
+   sungguhan. Jalankan tests/cp7/SalesPages.dozenHelper.dom.test.tsx. Nyatakan cakupan pengganti LENGKAP atau TIDAK
+   LENGKAP, dengan alasan dan apa yang kurang.
 6. A8, perubahan writer sesudah 7a0b4a90 yang belum kamu uji (LATER_WRITER_DELTA.json). Jalankan regresi yang kamu
    anggap perlu pada kandidat ini, minimal suite yang memakai cp6_auditor_runner.py (strict_group). Supplier Payment
    Create dan k3-cleanup-24 disarankan.
-7. A9, untuk diketahui: keputusan owner D13-4..D13-7 di docs/cp7/OWNER_DECISIONS_20261008.md. Database produksi =
-   Enteng siimvrusnzxexizpyoib, database postgres (D13-7 mengganti D13-4). Owner tidak mau mengeluarkan biaya. Alat
-   backup versi berikutnya (salin ke penyimpanan luar, ambil kembali, pulihkan di mesin GitHub) BELUM masuk kandidat
-   ini dan akan diaudit terpisah.
+7. A9, untuk diketahui: keputusan owner D13-4..D13-9 di docs/cp7/OWNER_DECISIONS_20261008.md. Database produksi =
+   Enteng siimvrusnzxexizpyoib, database postgres (D13-7 mengganti D13-4). Owner tidak mau mengeluarkan biaya. Semua
+   urusan backup dan Google Drive ditahan sampai tahap CP7C (D13-9a), jadi bukan bagian dari putaran ini.
 
 BATAS
 - Jangan mengubah main, deployment Cloudflare, Supabase hosted Enteng (siimvrusnzxexizpyoib), legacy ERP-Garment

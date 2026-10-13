@@ -1,5 +1,7 @@
 # Paket uji silang: alat backup ke penyimpanan luar (versi 2) — 13 Okt 2026
 
+**DITAHAN sampai tahap CP7C (keputusan owner D13-9a, 13 Okt 2026). Jangan dikirim ke auditor sekarang.**
+
 Dasar: keputusan owner D13-5..D13-8 (`docs/cp7/OWNER_DECISIONS_20261008.md`). D13-8e berbunyi: "Kirim paket versi yang
 sama ke Astra dan Fable untuk uji silang. Penyeragaman constraint/ACL dan perlakuan skema GraphQL harus ikut
 diperiksa, dengan perbedaan aslinya tetap tercatat."

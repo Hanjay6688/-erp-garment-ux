@@ -1,5 +1,7 @@
 # Handoff paket alat backup v2 — sama untuk Astra dan Fable
 
+**DITAHAN sampai tahap CP7C (keputusan owner D13-9a, 13 Okt 2026). Jangan dikirim ke auditor sekarang.**
+
 Owner menyalin kotak pertama ke Astra dan kotak kedua ke Fable. Isinya sama, kecuali nama dan pengingat peran
 masing-masing. Paket ini terpisah dari putaran silang 1 CP7. Kalau putaran 1 belum dikirim, keduanya boleh dikirim
 bersamaan.

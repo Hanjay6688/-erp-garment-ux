@@ -57,19 +57,22 @@ TUGAS
    k3-cleanup-24 kandidat ini.
 4. A5, PR44: konfirmasi bahwa penerimaanmu (laporan retest §2.3) berlaku untuk kandidat ini. scripts/cp7-src
    identik, jadi diff kosong sudah cukup sebagai bukti.
-5. A6, permintaan owner: dua kasus CP6 yang dipensiunkan (SALES_MANUAL_13, PRE-05). Baca
-   docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md (rujukan keputusan dan cakupan pengganti), lalu uji layar
-   tests/cp7/SalesPages.dozenHelper.dom.test.tsx. Pengesahan pensiun menunggu ya/tidak dari owner.
+5. A6, permintaan owner: dua kasus CP6 yang dipensiunkan (SALES_MANUAL_13, PRE-05). Owner menyetujui pensiun
+   BERSYARAT (D13-9c): berlaku sesudah auditor memastikan cakupan penggantinya lengkap. Catatan owner: sebagian
+   pemeriksaan helper baru diuji lewat DOM simulasi, belum seluruhnya di browser sungguhan. Baca
+   docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md (rujukan, cakupan pengganti, dan "Fakta tambahan untuk auditor": helper
+   lusin di layar simulasi dan di P11 belum diuji di browser sungguhan), lalu uji layar
+   tests/cp7/SalesPages.dozenHelper.dom.test.tsx. Nyatakan cakupan pengganti LENGKAP atau TIDAK LENGKAP, dengan alasan
+   dan apa yang kurang.
 6. A7, catatan §2.5-mu ("penulis sebaiknya memajukan pin" product_ref=ddedf06c). Writer tidak mengubahnya. Nilai itu
    bukan pin: scripts/cp6_run_identity.py menghitungnya dengan git log -1 -- <jalur produk>, yaitu commit terakhir yang
    mengubah supabase/* dan src. Terima atau bantah dengan alasan.
 7. A8: tinjau diff 12 berkas alat/uji sesudah 7a0b4a90, terutama scripts/cp6_auditor_runner.py, yang dipakai
    strict_group di semua workflow.
-8. A9, untuk diketahui: keputusan owner D13-4..D13-7 di docs/cp7/OWNER_DECISIONS_20261008.md. Database produksi =
-   Enteng siimvrusnzxexizpyoib, database postgres (D13-7 mengganti D13-4). Owner tidak mau mengeluarkan biaya. Lokasi
-   backup (R2 atau Google Drive), uji pemulihan ke proyek terpisah, dan repo privat masih menunggu jawaban owner.
-   Daftar periksa pemasangan dan backup pertama menunggu jawaban itu, jadi bukan bagian dari putaran ini. Alat backup
-   versi berikutnya belum masuk kandidat ini.
+8. A9, untuk diketahui: keputusan owner D13-4..D13-9 di docs/cp7/OWNER_DECISIONS_20261008.md. Database produksi =
+   Enteng siimvrusnzxexizpyoib, database postgres (D13-7 mengganti D13-4). Owner tidak mau mengeluarkan biaya. Semua
+   urusan backup dan Google Drive (lokasi, uji pemulihan, repo privat, daftar periksa pemasangan, backup pertama)
+   ditahan sampai tahap CP7C (D13-9a), jadi bukan bagian dari putaran ini.
 
 BATAS
 - Jangan mengubah main, deployment Cloudflare, Supabase hosted Enteng (siimvrusnzxexizpyoib), legacy ERP-Garment
