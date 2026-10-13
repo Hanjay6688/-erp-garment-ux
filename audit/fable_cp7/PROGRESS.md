@@ -79,3 +79,5 @@ Laporan: `AUDIT_FABLE_d0b9e9c2.md` v1.0 — vonis HOLD dengan syarat §2.
 - PR44: probe Astra pada tree 7a0b4a90 (38330587114) PARITY_PASS 595/595, mutations_caught 2, benchmark 13–42 %; netting 83/83; review sumber probe → DITERIMA oleh Fable.
 - F-PAY-01 ditarik (salah kutip versi fungsi; v2.6.20ac/ap sudah WIB). F-DOC-01: panduan 7a0b4a90 = PR #42 + 9 baris tambahan, tidak ada yang hilang.
 - Laporan: `AUDIT_FABLE_7a0b4a90_RETEST.md` v1.0 — LULUS DENGAN SYARAT (§3). Bukti: `runs/retest_7a0b4a90/`.
+- 2026-10-13T05:53:51Z: owner menegaskan keputusan 12 Okt dan menerima vonis bersyarat; keputusan D13-1..3 dicatat di OWNER_DECISIONS_TO_AUDITOR_20261013.md.
+  Menunggu hasil penulis (diagnosis selisih + 3 run bayar supplier; gladi jadwal) untuk laporan v1.1. Tidak ada run ulang audit.

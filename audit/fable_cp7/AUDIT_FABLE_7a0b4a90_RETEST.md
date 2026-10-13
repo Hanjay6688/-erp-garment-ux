@@ -1,6 +1,6 @@
 # Uji ulang Fable — kandidat revisi `7a0b4a90` (perbaikan temuan audit penuh CP7 `d0b9e9c2`)
 
-**Status:** v1.0 FINAL (13 Okt 2026, 02:30 UTC). Semua run selesai dan dibaca per kasus.
+**Status:** v1.0 FINAL (13 Okt 2026, 02:30 UTC). Semua run selesai dan dibaca per kasus. **Catatan v1.0.1:** owner menegaskan keputusan 12 Okt dan menerima vonis bersyarat ini pada 13 Okt (lihat `OWNER_DECISIONS_TO_AUDITOR_20261013.md`); label UNVERIFIED_OWNER_DECISION di bawah menjadi OWNER_CONFIRMED_TO_AUDITOR. v1.1 menyusul setelah hasil penulis (diagnosis selisih + 3 run bayar supplier; gladi jadwal) dibaca.
 
 | | |
 |---|---|
@@ -112,9 +112,9 @@ CP6 T2 (56 kasus beku) dan T3 tidak diulang penuh: tree `supabase/*` identik ant
 
 1. **Belum terjelaskan — `complete_boundary_restored=false` di `CP7 Supplier Payment Create`.** Penulis menambahkan pencatatan kunci yang berbeda (diff snapshot awal vs akhir) di `strict_group`, lalu menjalankan ulang workflow itu minimal 3 kali pada tree yang sama; hasil dan akar penyebab dilaporkan ke owner sebelum pembekuan. Sampai itu ada, status area supplier payment = "kasus produk lulus, pemeriksaan harness belum terjelaskan".
 2. **Pemasangan jadwal (pg_cron) dan backup malam belum boleh**, sampai owner memutuskan dan mencatat di register: (a) nama database tujuan yang persis (alat `cp7_schedule.py install --installation-approved` menolak bila `--database` ≠ `current_database()`); (b) tujuan simpan dump di **luar** mesin database (alat hanya membuktikan dump+restore di scratch lokal; tempat penyimpanan akhir dan retensi adalah keputusan owner); (c) satu kali gladi di salinan sekali pakai dengan jadwal sesungguhnya (01:00 WIB) yang dibaca `schedules()` = deklarasi K3, lalu uninstall `--removal-approved`. Rekomendasi saya: putuskan (a)–(b) dahulu; (c) bisa dijalankan penulis di CI tanpa menyentuh hosted.
-3. `production_go:false` tetap; `independent_acceptance:false` pada runtime penulis tetap sampai owner menyatakan penerimaan di register.
+3. `production_go:false` tetap sampai penerimaan dan izin pemasangan final (keputusan owner 13 Okt D13-2/D13-3).
 
-Hal yang **tidak** saya periksa ulang: proses hosted (dilarang), isi `docs/cp7/OWNER_DECISIONS_20261008.md` selain bagian 9 & 12 Okt yang dikutip penulis (keputusan 12 Okt tetap UNVERIFIED_OWNER_DECISION sampai owner menegaskan ke auditor), dan benchmark pada perangkat keras produksi.
+Hal yang **tidak** saya periksa ulang: proses hosted (dilarang), isi `docs/cp7/OWNER_DECISIONS_20261008.md` selain bagian 9 & 12 Okt yang dikutip penulis (keputusan 12 Okt kini OWNER_CONFIRMED_TO_AUDITOR, 13 Okt), dan benchmark pada perangkat keras produksi.
 
 ## 4. Label bukti
-FABLE = oracle & eksekusi Fable; INDEPENDENT_NATIVE_RERUN = oracle penulis/Astra, dispatch & pembacaan per kasus oleh Fable; INDEPENDENT_SOURCE_REVIEW = diff dibaca Fable; REUSED_WRITER_EVIDENCE = tidak ada (semua run dibaca dari dispatch Fable); ACCEPTED_BY_DECISION = F-AP-01; AUDITOR_TOOL = §2.4; UNVERIFIED_OWNER_DECISION = keputusan 12 Okt yang dikutip penulis.
+FABLE = oracle & eksekusi Fable; INDEPENDENT_NATIVE_RERUN = oracle penulis/Astra, dispatch & pembacaan per kasus oleh Fable; INDEPENDENT_SOURCE_REVIEW = diff dibaca Fable; REUSED_WRITER_EVIDENCE = tidak ada (semua run dibaca dari dispatch Fable); ACCEPTED_BY_DECISION = F-AP-01; AUDITOR_TOOL = §2.4; OWNER_CONFIRMED_TO_AUDITOR = keputusan 12 Okt, ditegaskan owner langsung ke auditor 13 Okt (register `OWNER_DECISIONS_TO_AUDITOR_20261013.md`).
