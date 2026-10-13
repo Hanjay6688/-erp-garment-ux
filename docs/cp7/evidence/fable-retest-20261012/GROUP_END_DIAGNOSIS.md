@@ -5,7 +5,7 @@ jalankan workflow bayar supplier tiga kali pada tree yang sama. Laporkan SHA/tre
 dan akar penyebabnya. Tiga run hijau saja belum menjelaskan penyebab kegagalan sebelumnya."
 
 **Status: OPEN.** Akar penyebab dua kegagalan (run 38288829388 dan 38330557862) **belum ditemukan**. Dokumen ini
-mencatat apa yang sudah dibuktikan, apa yang sudah disingkirkan, dan apa yang terpasang supaya kegagalan berikutnya
+mencatat apa yang sudah dibuktikan, apa yang sudah diperiksa, dan apa yang terpasang supaya kegagalan berikutnya
 langsung menyebut bagian yang berbeda.
 
 ## 1. Diagnosis yang ditambahkan (`5b8e9d74`)
@@ -67,7 +67,10 @@ transaksi yang sama. Race, HTTP dan browser tidak dijalankan, sehingga gerbang T
 
 Ketiga job ini jalan di mesin yang lebih lambat (AS→BF 12,0–12,5 detik).
 
-## 4. Yang sudah disingkirkan
+## 4. Yang sudah diperiksa
+
+Butir 1–4 diperiksa dengan bukti di atas. Butir 5 belum dapat disingkirkan.
+
 
 1. **Perubahan kode.** Bundel produk sama di semua run (`d64ae6ed…`). Di antara alat yang dimuat probe, satu-satunya
    yang berubah antara `5f1506f4` dan `7a0b4a90` adalah `scripts/cp6_auditor_business_day.py`, dan perubahannya hanya
@@ -77,9 +80,10 @@ Ketiga job ini jalan di mesin yang lebih lambat (AS→BF 12,0–12,5 detik).
    rencana serta urutan tetap sama. Dugaan awal penulis di sini **tidak terbukti**.
 3. **Pemindaian paralel `pg_proc`.** Tabel di bawah ambang 8 MB dan rencana yang terlihat tidak paralel.
 4. **Baris fungsi berpindah di tengah grup.** Tidak terjadi dalam 60 grup.
-5. **Kecepatan mesin.** Kedua kegagalan memang jatuh di mesin cepat (8,4–8,5 detik). Tetapi run 38195132560 (6,4 detik)
-   dan dua run tambahan di bagian 7 (6,6 dan 6,7 detik, lebih cepat daripada kedua kegagalan) lulus dengan bundel yang
-   sama.
+5. **Kecepatan mesin: belum dapat disingkirkan.** Kedua kegagalan jatuh di mesin cepat (8,4–8,5 detik). Run 38195132560
+   (6,4 detik) dan dua run tambahan di bagian 7 (6,6 dan 6,7 detik) juga di mesin cepat dan lulus dengan bundel yang
+   sama. Itu hanya menunjukkan bahwa kecepatan mesin saja tidak selalu memunculkan kegagalan. Kecepatan mesin tidak
+   pasti tersingkir sebagai faktor (arahan owner 13 Okt).
 
 ## 5. Kelemahan alat yang tetap benar, apa pun penyebabnya
 
@@ -93,8 +97,9 @@ kegagalan tersebut.
 ## 6. Kesimpulan dan langkah berikutnya
 
 Sesudah kedua kegagalan, grup yang sama sudah dijalankan 9 kali dalam workflow kualifikasi (bagian 2 dan 7) dan 60 kali
-dalam uji ulang (bagian 3). Semuanya lulus, di mesin lambat, sedang dan cepat. Penyebab dua kegagalan itu tidak bisa
-dibuktikan dari log yang ada, dan penulis tidak menebaknya. Status tetap **OPEN**, sesuai catatan auditor.
+dalam uji ulang (bagian 3). Kegagalan itu **tidak terulang pada pengujian berikutnya**. Penyebab dua kegagalan itu
+tidak bisa dibuktikan dari log yang ada, dan penulis tidak menebaknya. Status tetap **OPEN**, sesuai catatan auditor
+dan arahan owner 13 Okt. Pengujian tidak diulang lagi tanpa hipotesis baru.
 
 - Diagnosis tetap terpasang di runner kualifikasi. Kalau kegagalan terjadi lagi, baris `group_end_difference` di log
   langsung menyebut bagian yang berbeda, dan log gagal itu disimpan sebagai bukti pertama.

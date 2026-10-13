@@ -72,7 +72,8 @@ pemeriksaan "commit sesudahnya hanya dokumen" di paket lama tidak berlaku lagi. 
 - Alat uji tanggal WIB: hanya menambah anotasi; logika ASF-F01 tidak berubah sejak `5f1506f4`.
 - `CP7 Supplier Payment Create` gagal dua kali (`7a0b4a90` run 38288829388, `5656f072` run 38330557862) di pemeriksaan
   batas akhir kelompok native dengan semua kasus PASS. Sesudah diagnosis dipasang (13 Okt): 9 run kualifikasi dan 60
-  grup ulang semuanya lulus; penyebab dua kegagalan **belum ditemukan** (OPEN). Rincian dan yang sudah disingkirkan:
+  grup ulang: kegagalan tidak terulang pada pengujian berikutnya; penyebab dua kegagalan **belum ditemukan** (OPEN).
+  Rincian dan yang sudah diperiksa:
   `../../evidence/fable-retest-20261012/GROUP_END_DIAGNOSIS.md`. Auditor dipersilakan mengulang dan menilai sendiri.
 - Area yang tidak disentuh `SOURCE_DELTA.json` boleh tidak diulang; tulis BELUM DIULANG, bukan LULUS.
 

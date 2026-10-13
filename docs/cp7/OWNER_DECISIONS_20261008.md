@@ -136,3 +136,26 @@ Instruksi owner kepada penulis (verbatim dari register yang sama):
 Status label di laporan auditor: keputusan 12 Okt di atas kini OWNER_CONFIRMED_TO_AUDITOR. Tidak ada pemasangan
 pg_cron atau backup malam di database mana pun selain salinan sekali pakai sampai owner memilih tujuan (D13-3).
 `production_go:false`.
+
+## Keputusan owner 13 Okt (lanjutan): database tujuan, lokasi backup, uji pemulihan
+
+Jawaban owner atas `docs/cp7/BACKUP_DESTINATION_PROPOSAL_20261013.md` (pilihan B, L1, ya), disampaikan langsung ke
+penulis pada 13 Okt 2026. Kata-kata owner dikutip apa adanya.
+
+| No | Keputusan owner (verbatim) |
+|---|---|
+| D13-4 | "B — proyek Supabase baru khusus produksi. Enteng tetap untuk UAT. Catat ID proyek baru dan database `postgres` di register. Siapkan biaya serta langkah penyelarasannya sebelum dibuat; perpindahan aplikasi tetap menunggu hasil verifikasi dan izin pemasangan." |
+| D13-5 | "L1 — Cloudflare R2. Gunakan bucket privat, dump terenkripsi, dan kunci melalui GitHub Secrets. Simpan 14 backup malam terakhir yang sudah terverifikasi beserta tanda terimanya. Backup baru yang gagal jangan menyebabkan backup baik sebelumnya terhapus." |
+| D13-6 | "Ya — pemeriksaan restore di mesin GitHub, menggunakan database sementara dengan versi PostgreSQL dan ekstensi yang sesuai. Periksa isi data, struktur, owner, serta hak akses. Ambil kembali file dari R2 untuk memastikan file yang tersimpan itulah yang bisa dipulihkan. Dump produksi jangan masuk repo, artifact publik, atau log." |
+
+Syarat dan arahan lain dari pesan yang sama (verbatim):
+
+- "Sebelum produksi, buktikan juga pemulihan ke proyek Supabase terpisah. Kelulusan di PostgreSQL lokal belum membuktikan seluruh konfigurasi hosted pulih."
+- "Untuk dua kegagalan bayar supplier, tetap OPEN. Tulis “tidak terulang pada pengujian berikutnya”; jangan menyatakan kecepatan mesin pasti tersingkir hanya karena mesin lebih cepat juga lulus. Tidak perlu terus mengulang tanpa hipotesis baru."
+- "Minta Fable meninjau bukti diagnosis dan gladi untuk laporan v1.1. Dua kasus CP6 yang disebut dipensiunkan harus punya rujukan keputusan dan cakupan penggantinya."
+- "Pilihan ini menjadi dasar persiapan. `production_go:false`; hosted yang sekarang tetap tidak diubah."
+- "Kalau ERP memakai file Supabase Storage, file itu perlu backup tersendiri—dump database hanya mencakup metadatanya."
+
+Register proyek produksi (D13-4): **belum dibuat**. ID proyek: _belum ada_. Database: `postgres`. Baris ini diisi
+saat proyek dibuat dengan izin owner. Enteng `siimvrusnzxexizpyoib` tetap UAT. Belum ada jadwal, backup malam,
+bucket atau kunci yang dibuat atau dipasang. `production_go:false`.
