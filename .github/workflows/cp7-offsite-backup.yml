@@ -221,14 +221,14 @@ jobs:
         python scripts/cp7_offsite_backup_cases.py \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
           'postgresql://cp7_scratch_admin:cp7-scratch@127.0.0.1:54339/postgres' \
-          s3emu:cp7-offsite/nightly "$RUNNER_TEMP/offsite.pass" "$RUNNER_TEMP/offsite-s3.json"
+          s3emu:cp7-offsite/cases "$RUNNER_TEMP/offsite.pass" "$RUNNER_TEMP/offsite-s3.json"
     - name: Off-site backup cases (local directory remote)
       working-directory: auditor
       run: |
         python scripts/cp7_offsite_backup_cases.py \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
           'postgresql://cp7_scratch_admin:cp7-scratch@127.0.0.1:54339/postgres' \
-          "$RUNNER_TEMP/offsite-local/nightly" "$RUNNER_TEMP/offsite.pass" "$RUNNER_TEMP/offsite-local.json"
+          "$RUNNER_TEMP/offsite-local/cases" "$RUNNER_TEMP/offsite.pass" "$RUNNER_TEMP/offsite-local.json"
     - name: Remove disposable servers
       if: always()
       working-directory: base

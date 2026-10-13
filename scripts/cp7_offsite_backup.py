@@ -134,6 +134,17 @@ STRUCTURE = {
     'large_objects': """select 'count='||count(*)||' owners='||coalesce(string_agg(distinct pg_get_userbyid(lomowner),','),'-') from pg_largeobject_metadata""",
 }
 
+# The same fingerprint without any normalization (ACLs as stored, no default, no extension marking, no canonical
+# form): compared too, and every difference is recorded (structure.raw_differ, detail structure_raw_differ), so what
+# the normalization set aside stays visible (owner, 13 Oct 2026: "perbedaan aslinya tetap tercatat").
+_NORMALIZED_ACL = re.compile(r"case when exists\(select 1 from pg_init_privs i where i\.classoid='[a-z_]+'::regclass and i\.objoid=[a-z]\.oid and i\.objsubid=0 "
+                             r"and i\.privtype='e'\) then 'EXTENSION_INITIAL' else coalesce\(\(select string_agg\(x::text,',' order by x::text\) "
+                             r"from unnest\(coalesce\(([a-z]\.[a-z]+),acldefault\(.*?\)\)\) x\),'-'\) end")
+_SORTED_ACL = re.compile(r"coalesce\(\(select string_agg\(x::text,',' order by x::text\) from unnest\(([a-z]\.[a-z]+)\) x\),'-'\)")
+RAW_STRUCTURE = {k: _SORTED_ACL.sub(r"coalesce(\1::text,'-')", _NORMALIZED_ACL.sub(r"coalesce(\1::text,'-')", q))
+                 for k, q in STRUCTURE.items() if k != 'extension_initial_acls'}
+assert all('acldefault' not in q and 'EXTENSION_INITIAL' not in q and 'order by x::text' not in q for q in RAW_STRUCTURE.values()), 'RAW_STRUCTURE'
+
 # Every role that owns an object or appears in an ACL or policy of the source (pg_* built-in roles aside).
 ROLES = f"""with acl as (
     select n.nspacl a, n.nspowner o from pg_namespace n where {SKIP}
@@ -173,19 +184,20 @@ def canonical(text):
     return _ARRAY_CAST.sub(element_casts, text)
 
 
-def structure(cur):
+def structure(cur, raw=False):
     """The structure fingerprint as {category: sorted lines}, read with the cursor's snapshot. A row of two columns
-    is a line and a definition body; the body enters the line as the md5 of its canonical form."""
+    is a line and a definition body; the body enters the line as the md5 of its canonical form (raw: as stored)."""
     cur.execute("select set_config('search_path','pg_catalog',true)")
+    form = (lambda t: t) if raw else canonical
     out = {}
-    for k, q in STRUCTURE.items():
+    for k, q in (RAW_STRUCTURE if raw else STRUCTURE).items():
         lines = []
         for row in cur.execute(q).fetchall():
             if row[0] is None:
                 continue
-            line = canonical(row[0])
+            line = form(row[0])
             if len(row) > 1:
-                line += hashlib.md5(canonical(row[1] or '').encode()).hexdigest()
+                line += hashlib.md5(form(row[1] or '').encode()).hexdigest()
             lines.append(line)
         out[k] = sorted(lines)
     return out
@@ -279,6 +291,15 @@ class Remote:
 
     def delete(self, name):
         self._run('deletefile', self.path + '/' + name)
+
+    def about(self):
+        """Free and total bytes of the remote's storage when the backend reports them (Google Drive does), else None."""
+        r = self._run('about', '--json', self.path.split(':', 1)[0] + ':' if ':' in self.path else self.path, check=False)
+        try:
+            a = json.loads(r.stdout) if r.returncode == 0 else None
+        except ValueError:
+            a = None
+        return None if not a else dict(free=a.get('free'), total=a.get('total'), used=a.get('used'))
 
 
 class RemoteError(Exception):
@@ -387,10 +408,11 @@ def read_source(source_url, dump_file, pg_dump='pg_dump', dump_args=()):
             seconds = round(time.monotonic() - t0, 1)
             assert d.returncode == 0 and dump_file.exists() and dump_file.stat().st_size > 0, ('BACKUP_DUMP_FAILED', d.returncode, d.stderr[-2000:])
             data, seqs = v1.table_hashes(cur), sequence_state(cur)
-            shape, roles = structure(cur), [r[0] for r in cur.execute(ROLES).fetchall()]
+            shape, shape_raw, roles = structure(cur), structure(cur, raw=True), [r[0] for r in cur.execute(ROLES).fetchall()]
             version = cur.execute("select current_setting('server_version')").fetchone()[0]
         snap.rollback()
-    return dict(snapshot=snapshot, seconds=seconds, stderr=d.stderr[-4000:], data=data, sequences=seqs, structure=shape, roles=roles, version=version)
+    return dict(snapshot=snapshot, seconds=seconds, stderr=d.stderr[-4000:], data=data, sequences=seqs, structure=shape,
+                structure_raw=shape_raw, roles=roles, version=version)
 
 
 def read_restored(url, expected_oid):
@@ -398,7 +420,7 @@ def read_restored(url, expected_oid):
         conn.read_only = True
         got = cur.execute('select oid from pg_database where datname=current_database()').fetchone()[0]
         assert got == expected_oid, ('BACKUP_SCRATCH_REPLACED', 'restored database is not the attempt database')
-        return dict(data=v1.table_hashes(cur), sequences=sequence_state(cur), structure=structure(cur))
+        return dict(data=v1.table_hashes(cur), sequences=sequence_state(cur), structure=structure(cur), structure_raw=structure(cur, raw=True))
 
 
 def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_offsite_verify', keep=KEEP, work=None,
@@ -448,6 +470,12 @@ def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_
         dump.unlink()
         enc_sha = sha256_file(enc)
         receipt['encrypted'] = dict(bytes=enc.stat().st_size, sha256=enc_sha, cipher='gpg symmetric AES256')
+        # D13-8: 14 verified nights are kept while the store's quota allows; a low quota is a warning, never a reason
+        # to remove a good night (a failed upload removes nothing either).
+        space = remote.about()
+        receipt['remote_space'] = space
+        if space and space.get('free') is not None and space['free'] < 3 * receipt['encrypted']['bytes']:
+            receipt.setdefault('warnings', []).append('BACKUP_REMOTE_SPACE_LOW')
         remote.put(enc, enc_name)
         uploaded = True
         enc.unlink()
@@ -498,12 +526,19 @@ def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_
         seq_differ = {s: dict(source=src['sequences'].get(s), restored=got['sequences'].get(s))
                       for s in sorted(set(src['sequences']) | set(got['sequences'])) if src['sequences'].get(s) != got['sequences'].get(s)}
         shape_differ, shape_explained = compare_structure(src['structure'], got['structure'])
+        raw_differ = {k: dict(only_source=sorted(set(src['structure_raw'][k]) - set(got['structure_raw'].get(k, [])))[:200],
+                              only_restored=sorted(set(got['structure_raw'].get(k, [])) - set(src['structure_raw'][k]))[:200],
+                              count=len(set(src['structure_raw'][k]) ^ set(got['structure_raw'].get(k, []))))
+                      for k in src['structure_raw'] if set(src['structure_raw'][k]) != set(got['structure_raw'].get(k, []))}
         receipt['data'] = dict(tables=len(src['data']), rows=sum(v['rows'] for v in src['data'].values()), sequences=len(src['sequences']),
                                tables_differ=len(data_differ), sequences_differ=len(seq_differ), compared_with='source in the dump snapshot')
         receipt['structure'] = dict(objects={k: len(v) for k, v in src['structure'].items()},
                                     differ={k: v['count'] for k, v in shape_differ.items()},
-                                    explained={k: v['count'] for k, v in shape_explained.items()})
-        detail.update(data_differ=data_differ, sequences_differ=seq_differ, structure_differ=shape_differ, structure_explained=shape_explained)
+                                    explained={k: v['count'] for k, v in shape_explained.items()},
+                                    raw_differ={k: v['count'] for k, v in raw_differ.items()},
+                                    normalization=['ARRAY_CAST_FORM', 'ACL_DEFAULT_AND_ORDER', 'EXTENSION_INITIAL_ACLS_EXPLAINED'])
+        detail.update(data_differ=data_differ, sequences_differ=seq_differ, structure_differ=shape_differ, structure_explained=shape_explained,
+                      structure_raw_differ=raw_differ)
         for code, bad in (('BACKUP_RESTORE_ERRORS', unexplained), ('BACKUP_DATA_DIFFERS', data_differ or seq_differ),
                           ('BACKUP_STRUCTURE_DIFFERS', shape_differ)):
             if bad:
@@ -566,7 +601,7 @@ def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_
 
 def summary(receipt):
     """The only line printed: codes and counts, no names or values."""
-    keys = ('night', 'restore_verified', 'codes', 'error', 'versions', 'dump', 'encrypted', 'fetched_back', 'restore', 'data', 'structure', 'roles', 'retention')
+    keys = ('night', 'restore_verified', 'codes', 'warnings', 'error', 'remote_space', 'versions', 'dump', 'encrypted', 'fetched_back', 'restore', 'data', 'structure', 'roles', 'retention')
     out = {k: receipt.get(k) for k in keys}
     if out.get('dump'):
         out['dump'] = {k: out['dump'][k] for k in ('bytes', 'seconds') if k in out['dump']}

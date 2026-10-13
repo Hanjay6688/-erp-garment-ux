@@ -10,6 +10,7 @@ JSON line; the last line is the suite verdict.
 """
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -35,6 +36,9 @@ IDS = ['OFB_VERIFIED_FROM_FETCHED_COPY', 'OFB_NO_CONTENT_OUTSIDE_THE_REMOTE', 'O
 
 
 def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
+    # The cases empty the remote folder they are given: only a folder named cases or proof-<id> is accepted, so a
+    # real backup folder can never be pointed at by mistake.
+    assert re.search(r'(^|[/:])(cases|proof-[A-Za-z0-9_-]+)$', remote_path.rstrip('/')), ('CASES_REMOTE_NOT_A_TEST_FOLDER', remote_path)
     remote = off.Remote(remote_path)
     marker = 'CP7_OFFSITE_CANARY_' + uuid.uuid4().hex
     source_db = source_url.rsplit('/', 1)[-1].split('?')[0]
@@ -120,8 +124,12 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
                 assert bad.returncode != 0, 'wrong passphrase decrypted the file'
             stored = json.loads(remote.cat(r['night'] + '.receipt.json'))
             assert stored['restore_verified'] is True and stored['encrypted']['sha256'] == r['encrypted']['sha256'], stored
+            # What the normalization set aside stays recorded: the canary's varchar IN list differs in its raw form.
+            raw = r['structure']['raw_differ']
+            assert raw.get('constraints', 0) >= 2 and any('cp7_canary_k' in x for x in r['_detail']['structure_raw_differ']['constraints']['only_source']), raw
             return dict(restore_verified=True, tables=r['data']['tables'], rows=r['data']['rows'], sequences=r['data']['sequences'],
-                        structure_objects=r['structure']['objects'], structure_explained=r['structure']['explained'], roles_created=r['roles']['created'], restore_errors=r['restore'],
+                        structure_objects=r['structure']['objects'], structure_explained=r['structure']['explained'],
+                        structure_raw_differ=raw, remote_space=r.get('remote_space'), warnings=r.get('warnings'), roles_created=r['roles']['created'], restore_errors=r['restore'],
                         versions=r['versions'], remote_files=3, wrong_passphrase_refused=True, source_unchanged=True)
         run(IDS[0], verified)
 
