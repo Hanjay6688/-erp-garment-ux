@@ -156,8 +156,8 @@ Syarat dan arahan lain dari pesan yang sama (verbatim):
 - "Pilihan ini menjadi dasar persiapan. `production_go:false`; hosted yang sekarang tetap tidak diubah."
 - "Kalau ERP memakai file Supabase Storage, file itu perlu backup tersendiri—dump database hanya mencakup metadatanya."
 
-Register proyek produksi (D13-4): **belum dibuat**. ID proyek: _belum ada_. Database: `postgres`. Baris ini diisi
-saat proyek dibuat dengan izin owner. Enteng `siimvrusnzxexizpyoib` tetap UAT. Belum ada jadwal, backup malam,
+Register proyek produksi: **Enteng `siimvrusnzxexizpyoib`, database `postgres`** (D13-7 di bawah, mengganti D13-4).
+Tidak ada proyek baru yang dibuat. Belum ada jadwal, backup malam,
 bucket atau kunci yang dibuat atau dipasang. `production_go:false`.
 
 ### Batas biaya (owner, 13 Okt 2026)
