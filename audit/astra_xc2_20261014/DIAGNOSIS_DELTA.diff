@@ -1,0 +1,122 @@
+diff --git a/scripts/cp6_auditor_difference.py b/scripts/cp6_auditor_difference.py
+new file mode 100644
+index 0000000..83b5d58
+--- /dev/null
++++ b/scripts/cp6_auditor_difference.py
+@@ -0,0 +1,35 @@
++"""What differs between two boundary snapshots and two public_state values (scripts/cp6_auditor_runner.py).
++
++Diagnosis only (Fable retest of 7a0b4a90, owner 13 Oct 2026): it names the differing part when a boundary or
++public-schema comparison fails; it never decides a result. Kept free of database imports so it is unit-tested where
++psycopg is not installed (CP7 Shell S0).
++"""
++import json
++
++
++def state_difference(boundary_before,boundary_after,public_before,public_after):
++    """What differs between two boundary snapshots and two public_state values; order-only differences are named."""
++    out={}
++    for part in sorted(set(boundary_before)|set(boundary_after)):
++        a,b=boundary_before.get(part),boundary_after.get(part)
++        if a==b:continue
++        if isinstance(a,dict) and isinstance(b,dict):
++            out['boundary.'+part]=sorted(k for k in set(a)|set(b) if a.get(k)!=b.get(k))[:50]
++        else:
++            same=isinstance(a,list) and isinstance(b,list) and sorted(map(json.dumps,a))==sorted(map(json.dumps,b))
++            out['boundary.'+part]='ORDER_ONLY' if same else dict(before_count=len(a or []),after_count=len(b or []))
++    for part in sorted(set(public_before)|set(public_after)):
++        a,b=public_before.get(part),public_after.get(part)
++        if a==b:continue
++        if isinstance(a,dict) and isinstance(b,dict):
++            out['public.'+part]=sorted(k for k in set(a)|set(b) if a.get(k)!=b.get(k))[:50]
++        elif isinstance(a,list) and isinstance(b,list):
++            sa,sb=set(map(json.dumps,a)),set(map(json.dumps,b))
++            if sorted(map(json.dumps,a))==sorted(map(json.dumps,b)):
++                first=next(i for i,(x,y) in enumerate(zip(a,b)) if x!=y)
++                out['public.'+part]=dict(kind='ORDER_ONLY',entries=len(a),first_difference_at=first,before=a[first],after=b[first])
++            else:
++                out['public.'+part]=dict(kind='CONTENT',removed=sorted(sa-sb)[:20],added=sorted(sb-sa)[:20])
++        else:
++            out['public.'+part]=dict(kind='CONTENT')
++    return out
+diff --git a/scripts/cp6_auditor_runner.py b/scripts/cp6_auditor_runner.py
+index beec016..5f1dfcd 100644
+--- a/scripts/cp6_auditor_runner.py
++++ b/scripts/cp6_auditor_runner.py
+@@ -22,6 +22,7 @@ from psycopg import sql
+ 
+ import cp6_aw_probe as awp
+ import cp6_auditor_business_day as business_day
++from cp6_auditor_difference import state_difference
+ from cp6_ao_ap_inventory import function_pins
+ 
+ r1,api,boundary=awp.r1,awp.api,awp.boundary
+@@ -34,6 +35,31 @@ PUBLIC_STATE="""select jsonb_build_object(
+     from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prokind in('f','p')))"""
+ 
+ 
++# Diagnosis only (Fable retest of 7a0b4a90, owner 13 Oct 2026): when a boundary or public-schema comparison fails, the
++# report and the job log name what differed. Nothing here decides a result; the comparisons themselves are unchanged.
++CATALOG_OBSERVATION="""select jsonb_build_object('relname',relname,'n_live_tup',n_live_tup,'n_mod_since_analyze',n_mod_since_analyze,
++  'last_autoanalyze',last_autoanalyze,'last_analyze',last_analyze,'last_autovacuum',last_autovacuum,
++  'autoanalyze_count',autoanalyze_count,'autovacuum_count',autovacuum_count)
++  from pg_stat_sys_tables where schemaname='pg_catalog' and relname in('pg_proc','pg_namespace') order by relname"""
++
++
++def catalog_observation(cur):
++    """pg_proc/pg_namespace statistics and the plan of the public function listing (what can reorder that listing).
++    Inside its own savepoint: an observation that cannot be read is recorded as an error and changes nothing else."""
++    def nodes(n):
++        return [n.get('Node Type')+(':'+n['Relation Name'] if n.get('Relation Name') else '')]+[x for c in n.get('Plans',[]) for x in nodes(c)]
++    try:
++        cur.execute('savepoint auditor_observe')
++        plan=cur.execute('explain (format json,costs false) '+PUBLIC_STATE).fetchone()[0]
++        out=dict(stats=[r[0] for r in cur.execute(CATALOG_OBSERVATION).fetchall()],public_state_plan=nodes(plan[0]['Plan']))
++        cur.execute('release savepoint auditor_observe')
++        return out
++    except Exception as exc:
++        try:cur.execute('rollback to savepoint auditor_observe')
++        except Exception:pass
++        return dict(error=str(exc)[:300])
++
++
+ def duplicate_ids(ids):
+     counts=Counter(ids)
+     return sorted(k for k,n in counts.items() if n>1)
+@@ -100,6 +126,7 @@ def _strict_group_once(name,factory,verify):
+     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
+         report['runtime_before']=verify(cur)
+         initial=boundary.snapshot(cur);catalog=function_pins(cur);public_initial=public_state(cur)
++        report['catalog_observation_start']=catalog_observation(cur)
+         if not cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]:cur.execute('grant usage on schema erp to authenticated')
+         if not initial['erp']['app_users']['count']:api.seed(cur)
+         cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
+@@ -138,8 +165,11 @@ def _strict_group_once(name,factory,verify):
+                 break
+             if row.get('status') not in VOCABULARY:
+                 row['status_outside_vocabulary']=row.get('status');row['status']='INCOMPLETE'
+-            row['full_boundary_restored']=boundary.snapshot(cur)==before
+-            row['public_schema_unchanged']=public_state(cur)==public_before
++            boundary_after=boundary.snapshot(cur);public_after=public_state(cur)
++            row['full_boundary_restored']=boundary_after==before
++            row['public_schema_unchanged']=public_after==public_before
++            if not (row['full_boundary_restored'] and row['public_schema_unchanged']):
++                row['boundary_difference']=state_difference(before,boundary_after,public_before,public_after)
+             row['session_leaks']=leaks(cur,session_before)
+             clean=not row['session_leaks']['advisory_locks'] and not row['session_leaks']['other_sessions']
+             if not (row['full_boundary_restored'] and row['public_schema_unchanged'] and clean):row['status']='INCOMPLETE';row['harness_check_failed']=True
+@@ -150,7 +180,13 @@ def _strict_group_once(name,factory,verify):
+             assert function_pins(cur)==catalog,'AUDITOR_CASE_FUNCTION_OR_ACL_MUTATION'
+         else:report['catalog_unchanged']=function_pins(cur)==catalog
+         conn.rollback();report['runtime_after']=verify(cur)
+-        report['complete_boundary_restored']=boundary.snapshot(cur)==initial and public_state(cur)==public_initial
++        boundary_end=boundary.snapshot(cur);public_end=public_state(cur)
++        report['complete_boundary_restored']=boundary_end==initial and public_end==public_initial
++        report['catalog_observation_end']=catalog_observation(cur)
++        if not report['complete_boundary_restored']:
++            report['group_end_difference']=state_difference(initial,boundary_end,public_initial,public_end)
++            print(json.dumps(dict(group=name,group_end_difference=report['group_end_difference'],
++                catalog_observation_start=report['catalog_observation_start'],catalog_observation_end=report['catalog_observation_end']),default=str),flush=True)
+         conn.rollback()
+     final={k:v['status'] for k,v in report['cases'].items()}
+     report['final']=final

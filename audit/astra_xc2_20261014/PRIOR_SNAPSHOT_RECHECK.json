@@ -1,0 +1,81 @@
+{
+  "evidence_origin": "REUSED_ASTRA_ORIGINAL",
+  "original_sha256": "f364d8d1046988784fdd0a0b2738910139977576cee3dbeee3645f9889d52aba",
+  "original_bytes": 85103125,
+  "observations": 26,
+  "index_base": 0,
+  "comparisons": [
+    {
+      "comparison": "group_boundary",
+      "before_index": 3,
+      "after_index": 21,
+      "kind": "boundary",
+      "raw_equal": true
+    },
+    {
+      "comparison": "group_public",
+      "before_index": 4,
+      "after_index": 22,
+      "kind": "public_state",
+      "raw_equal": true
+    },
+    {
+      "comparison": "case_1_boundary",
+      "before_index": 5,
+      "after_index": 7,
+      "kind": "boundary",
+      "raw_equal": true
+    },
+    {
+      "comparison": "case_2_boundary",
+      "before_index": 9,
+      "after_index": 11,
+      "kind": "boundary",
+      "raw_equal": true
+    },
+    {
+      "comparison": "case_3_boundary",
+      "before_index": 13,
+      "after_index": 15,
+      "kind": "boundary",
+      "raw_equal": true
+    },
+    {
+      "comparison": "case_4_boundary",
+      "before_index": 17,
+      "after_index": 19,
+      "kind": "boundary",
+      "raw_equal": true
+    },
+    {
+      "comparison": "case_1_public",
+      "before_index": 6,
+      "after_index": 8,
+      "kind": "public_state",
+      "raw_equal": true
+    },
+    {
+      "comparison": "case_2_public",
+      "before_index": 10,
+      "after_index": 12,
+      "kind": "public_state",
+      "raw_equal": true
+    },
+    {
+      "comparison": "case_3_public",
+      "before_index": 14,
+      "after_index": 16,
+      "kind": "public_state",
+      "raw_equal": true
+    },
+    {
+      "comparison": "case_4_public",
+      "before_index": 18,
+      "after_index": 20,
+      "kind": "public_state",
+      "raw_equal": true
+    }
+  ],
+  "root_cause_of_two_other_failed_runs": "UNDETERMINED",
+  "local_reader_correction": "AX2-T01: initial local reader treated stored indexes as one-based; original bytes were never changed and no ERP cases were repeated."
+}

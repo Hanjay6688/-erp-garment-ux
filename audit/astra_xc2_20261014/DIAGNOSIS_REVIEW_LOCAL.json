@@ -1,0 +1,89 @@
+{
+  "qualification": "LOCAL_QUALIFIED",
+  "evidence_origin": "INDEPENDENT_TOOL_RUNTIME",
+  "runtime": "Python pure diagnostic, not ERP or native CI",
+  "source_sha256": "179e69ef0bc063aa2e856e01432bc3cac640650d05ad2c99f356dec9e29fef20",
+  "cases": [
+    {
+      "id": "ORDER_ONLY",
+      "status": "PASS",
+      "observed": {
+        "public.functions": {
+          "kind": "ORDER_ONLY",
+          "entries": 3,
+          "first_difference_at": 0,
+          "before": [
+            "public.a()",
+            "definition-a|owner-a|acl-a"
+          ],
+          "after": [
+            "public.b()",
+            "definition-b|owner-b|acl-b"
+          ]
+        }
+      },
+      "original_equality_remains_false": true,
+      "inputs_unchanged": true
+    },
+    {
+      "id": "DUPLICATE_REMOVED",
+      "status": "PASS",
+      "observed": {
+        "public.functions": {
+          "kind": "CONTENT",
+          "removed": [],
+          "added": []
+        }
+      },
+      "original_equality_remains_false": true,
+      "inputs_unchanged": true
+    },
+    {
+      "id": "DEFINITION_CHANGED",
+      "status": "PASS",
+      "observed": {
+        "public.functions": {
+          "kind": "CONTENT",
+          "removed": [],
+          "added": [
+            "[\"public.a()\", \"changed-definition|owner-a|acl-a\"]"
+          ]
+        }
+      },
+      "original_equality_remains_false": true,
+      "inputs_unchanged": true
+    },
+    {
+      "id": "OWNER_CHANGED",
+      "status": "PASS",
+      "observed": {
+        "public.functions": {
+          "kind": "CONTENT",
+          "removed": [],
+          "added": [
+            "[\"public.a()\", \"definition-a|changed-owner|acl-a\"]"
+          ]
+        }
+      },
+      "original_equality_remains_false": true,
+      "inputs_unchanged": true
+    },
+    {
+      "id": "ACL_CHANGED",
+      "status": "PASS",
+      "observed": {
+        "public.functions": {
+          "kind": "CONTENT",
+          "removed": [],
+          "added": [
+            "[\"public.a()\", \"definition-a|owner-a|changed-acl\"]"
+          ]
+        }
+      },
+      "original_equality_remains_false": true,
+      "inputs_unchanged": true
+    }
+  ],
+  "limitation": "CONTENT removed/added summaries use sets and do not list multiplicity deltas, but classification preserves multiplicity and original equality remains unchanged.",
+  "scope_clarification": "Definition/owner/ACL labels in these pure examples are synthetic member strings. Actual database owner/ACL coverage is established only by source review of function_pins and native suite gates, not by these examples."
+}

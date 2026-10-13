@@ -1,0 +1,38 @@
+{
+  "status": "LOCKED",
+  "locked_at_utc": "2026-10-13T17:26:54.733787+00:00",
+  "auditor": "Astra (continuation auditor)",
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "verdicts": {
+    "R2-F05": "CLOSED",
+    "R2-A6": "COMPLETE",
+    "ASR-OPS-01": "CLOSED",
+    "A2": "OPEN_ACCEPTED_NONBLOCKING_D13_10"
+  },
+  "ci_executions": 141,
+  "unique_case_ids": 139,
+  "additional_dom_cases": 1,
+  "all_six_jobs_attempt": 1,
+  "workflow_shas": [
+    "858f5b2321a70b73f0b1dc0da2791035906a29aa",
+    "90f6d7f3c0451ea41e77d2cd4a02d3b58f4e0bd7"
+  ],
+  "run_ids": [
+    38435365859,
+    38435746105
+  ],
+  "sha256": {
+    "REPORT.md": "b93631c113a42a32e6cfccf706d8406e178f49edade754801a47f86cc2815d77",
+    "WRITER_HANDOFF.md": "7eee4deb56da406459c9cd67572c69af128809155bd591022f1dc3b922906c7e",
+    "CASE_RESULTS.json": "f572aee2a5f2cb63537190d2dc2fd4934a2c527e24f8069132e3e7d332de2115",
+    "CI_RECEIPT.json": "c872d23269ed3a91d1ccd83e081a6dfe6b9fd8593f7fc057465d5a079dc47fec",
+    "SOURCE_RECEIPT.json": "89d6240bbcb73746a10cbd23ccede6e6eb075e499b614327ec1b7c8fabd4a89c",
+    "SOURCE_REVIEW.json": "4bf170450e88a73d2996fafdac3b2de3e1ba7b0aefdf3fe2b8ef3723c87b03ea",
+    "OWN_BACKUP_MANIFEST.json": "01f354ac5d104911ec403fb5daf93e97705fcc5a5115a2e8f57c5fba3a4fa7c5",
+    "EVIDENCE_MANIFEST.json": "3ef1504832912c797939111a6f015fd5163491e587b57fcf04cbe078329e109e",
+    "ORIGINALS_ARCHIVE.json": "ef2b05b7c6391c7f4fc0e631bdae16dd0cabb554f0285730695ebfb6fcfce487",
+    "ORIGINALS.tar.xz": "d717fbd8e97f4aad63754a9a13f0b5766554e8338624fae8b6f2cbe2bba1d41d"
+  },
+  "production_go": false
+}

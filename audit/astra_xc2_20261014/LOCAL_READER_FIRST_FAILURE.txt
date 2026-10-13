@@ -1,0 +1,16 @@
+AX2-T01 — local evidence-reader error, not product or native CI failure.
+The initial reader used observations[entry['before_observation']-1] and
+observations[entry['after_observation']-1], assuming one-based indexes.
+Original command failed before writing a recheck result:
+
+Traceback (most recent call last):
+  File "<stdin>", line 6, in <module>
+AssertionError
+
+For group_boundary, those wrong indexes selected public_state snapshots 2 and
+20, which differ. The stored indexes are zero-based: 3 and 21 are boundary
+snapshots and are exactly equal. The corrected reader additionally verifies
+each observation kind against the named comparison. All ten original pairs
+are equal. Original SHA-256 remains
+f364d8d1046988784fdd0a0b2738910139977576cee3dbeee3645f9889d52aba.
+No original evidence, candidate, oracle, or ERP transaction was changed or rerun.

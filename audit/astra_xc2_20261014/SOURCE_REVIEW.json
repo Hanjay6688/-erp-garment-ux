@@ -1,0 +1,36 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "evidence_origin": "INDEPENDENT_SOURCE_REVIEW",
+  "reviewed_file_sha256": {
+    "scripts/cp7_nightly_backup.py": "efe6c6b4b1a17bcc7a5973a94e5bc3216fb6c26b8fa74d71ff4e8b7b89909679",
+    "scripts/cp7_k3_cleanup_cases.py": "5adde9356778b4865115aff64d6ce4aed370ed38cbbf37c51dc1fd66c45956ec",
+    "scripts/cp7_f05_analysis_probe.py": "606150c50357c0a0bc8594010e745c31460906186b081b98d0690290fbd68521",
+    ".github/workflows/claude-p19-transport.yml": "c9a134456d61501ca0a3cfc1f2fbd672d39f7457799c6d9f421f1b9d9444a6b4",
+    ".github/workflows/cp7-nightly-backup.yml": "780fe771dcf86f5a7cc36f510deb3a29744b9239d4b6be4a384d6a0187ccfd83",
+    "scripts/cp6_auditor_runner.py": "a8a571dc938f4b230350a9ccebb07d5cde5055e28a670de72557476e0936e84f",
+    "scripts/cp6_auditor_difference.py": "179e69ef0bc063aa2e856e01432bc3cac640650d05ad2c99f356dec9e29fef20",
+    "scripts/cp6_auditor_runner_difference_test.py": "8ff8c4982046ef721389f91c5d650798acb09ef6d44136efc636086b7d450d9c",
+    ".github/workflows/claude-p08-shell.yml": "7ad63afb16a1d2c63c3505624bdc8b10ee549244c571332fe2bd12d433c9e2c9",
+    "scripts/cp7_group_end_repeat_diagnosis.py": "93dedb9644aff48a5d1a62d3caf2ce0d1a437e3686ad017bf532952d968dd1ce",
+    ".github/workflows/cp7-group-end-diagnosis.yml": "9fbe48466d07289877a35d6a55577e5cd3883e044d00ebc7c966c74dd5b1e4e3",
+    "tests/cp7/SalesPages.dozenHelper.dom.test.tsx": "c81a3805c14cd54fc79c5af1977da4575250a3a241660545b36fb6e42b34858a",
+    "scripts/cp7_p11_drafts_browser.mjs": "23324cc192811ce3856d369e161418e2c191d87bc03c6d893c61292db7385342"
+  },
+  "product_diff_from_7a0b4a90": "",
+  "comparator_changed_since_ae0214ad": false,
+  "findings": {
+    "A2": "Original per-case and group boolean equalities retained. Diagnostics consume snapshots without mutation. Function definitions, owner and ACL checks remain in function_pins. Pure diagnostics identify duplicate loss as CONTENT, although set-based removed/added summaries cannot show multiplicity detail. No new sorted acceptance comparator is installed.",
+    "A6": "P11 helper 13 -> 25 -> 13, full second-line values checked, server quantities and stock checked, edit reopens server quantity. Original simulation checks retained in jsdom. Runtime pending.",
+    "A8": "All 12 round-1 tool/test/workflow changes read; only diagnostic repeat workflow monkeypatches runner and explicitly disclaims qualification. Normal candidate workflows do not import that diagnosis script.",
+    "R2-F05": "Only full attempt mark with matching OID recognized. mark_scratch requires token/OID. Known freshly-created unmarked OID may be cleaned through created_here if marking fails; tested separately. Plain/copied wrong-OID marks on unrelated databases are never ownership evidence."
+  },
+  "A4": {
+    "evidence_origin": "REUSED_WRITER_EVIDENCE",
+    "run_id": 38380339961,
+    "job_id": 115238908371,
+    "case_id": "P12_SETTLEMENT_WIB_PAYMENT_DATE",
+    "both_branches_witnessed_in_original_log": true,
+    "no_new_independent_two_branch_run": true
+  },
+  "production_go": false
+}

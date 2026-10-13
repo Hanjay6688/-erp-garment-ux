@@ -1,0 +1,291 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "files": [
+    {
+      "path": "logs/38435365859_115427812633_p11.log",
+      "bytes": 450839,
+      "sha256": "2c50411a0258bbd2f08024d225786df5f0e98e63a4e1307c585359f744ba8ec8"
+    },
+    {
+      "path": "logs/38435365859_115427812937_dozen-dom.log",
+      "bytes": 22263,
+      "sha256": "3f64a3dbdb24095abbc7499194f847bbf4a9d7712a758fd3d7d351803eacf47f"
+    },
+    {
+      "path": "logs/38435365859_115427813121_k3_log.log",
+      "bytes": 296115,
+      "sha256": "30c899d81c07e6c392810496861d711addfbaa37c332b0353b521a3115ee249f"
+    },
+    {
+      "path": "logs/38435365859_115427813178_prefreeze.log",
+      "bytes": 332580,
+      "sha256": "c369ace4834faee7766a5ba32508e8602368f0bfe756ce977d524e7ce00e61c7"
+    },
+    {
+      "path": "logs/38435365859_115427813220_supplier-payment-create.log",
+      "bytes": 281409,
+      "sha256": "09266c65993b9fb93b0f55edd98c90ae0ec628c1b165e1eae9f33caff9d5e9e4"
+    },
+    {
+      "path": "logs/38435746105_115429126194_own_log.log",
+      "bytes": 294876,
+      "sha256": "075f8572926720014cafb423c123eb5b64b2f295c7853bee641ea6aa769984fe"
+    },
+    {
+      "path": "originals/dozen-dom/dozen-dom.json",
+      "bytes": 1169,
+      "sha256": "8cbe4cc7b225dd58212ad190f97c1e4a46edc508d4d6b62bf61ef7d7c0d922d2"
+    },
+    {
+      "path": "originals/k3-json/ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "path": "originals/k3-json/ASTRA_EXECUTION_ORIGIN.json",
+      "bytes": 313,
+      "sha256": "4e78254e56e9eba076bc6506b83e2c7b6d16c866f0ad47de11d653f79b3855ab"
+    },
+    {
+      "path": "originals/k3-json/ASTRA_SOURCE_RECEIPT.json",
+      "bytes": 940,
+      "sha256": "89d6240bbcb73746a10cbd23ccede6e6eb075e499b614327ec1b7c8fabd4a89c"
+    },
+    {
+      "path": "originals/k3-json/CP7_K3_CLEANUP.json",
+      "bytes": 1062676,
+      "sha256": "9ab59db020339f856d8485a43c31ea3d524cc9c1220f9e8f95cb864297113437"
+    },
+    {
+      "path": "originals/k3-json/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "3411543fe96377d6bc5e5c971944ba3586cdb242c7cd9a58fc7d12d5eacda8c0"
+    },
+    {
+      "path": "originals/k3-json/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "originals/k3-json/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "c148a1cc6a9711cab3d2d426042885e12518c51aed8b5347b577bde112bd9ec1"
+    },
+    {
+      "path": "originals/own-json/ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "path": "originals/own-json/ASTRA_EXECUTION_ORIGIN.json",
+      "bytes": 319,
+      "sha256": "c2dd5ad51ec37a9616fa58be37dcecf8e0370f2b450a60c4e5178c443449f075"
+    },
+    {
+      "path": "originals/own-json/ASTRA_SOURCE_RECEIPT.json",
+      "bytes": 940,
+      "sha256": "89d6240bbcb73746a10cbd23ccede6e6eb075e499b614327ec1b7c8fabd4a89c"
+    },
+    {
+      "path": "originals/own-json/ASTRA_XC2_BACKUP.json",
+      "bytes": 60386,
+      "sha256": "2226329733b56e079d0e9af1b7a03560f58c2badcfbf5a79b1fc8510a057dd17"
+    },
+    {
+      "path": "originals/own-json/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "a2c6741f90fa89abb96aa90ced4750d87776106cb677de269c5f6a7ff65407a3"
+    },
+    {
+      "path": "originals/own-json/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "originals/own-json/T3_PACKAGE_INSTALL.json",
+      "bytes": 360373,
+      "sha256": "3350f455c75dd3efb7bac59e1873c799664c93248803bf852da15357cb6937d1"
+    },
+    {
+      "path": "originals/p11-json/ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "path": "originals/p11-json/ASTRA_EXECUTION_ORIGIN.json",
+      "bytes": 313,
+      "sha256": "4e78254e56e9eba076bc6506b83e2c7b6d16c866f0ad47de11d653f79b3855ab"
+    },
+    {
+      "path": "originals/p11-json/ASTRA_SOURCE_RECEIPT.json",
+      "bytes": 940,
+      "sha256": "89d6240bbcb73746a10cbd23ccede6e6eb075e499b614327ec1b7c8fabd4a89c"
+    },
+    {
+      "path": "originals/p11-json/CP7_F03_FULL_P11.json",
+      "bytes": 6985599,
+      "sha256": "82736412488296cc7c2d1da650802f9cb18c6ae64f89fbaf3b77cdbc6455fbe3"
+    },
+    {
+      "path": "originals/p11-json/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "44876c0b1c8e50da3894df8cbe3115352c34e0ea0d6f59d2619e95926082b3d8"
+    },
+    {
+      "path": "originals/p11-json/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "originals/p11-json/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "c148a1cc6a9711cab3d2d426042885e12518c51aed8b5347b577bde112bd9ec1"
+    },
+    {
+      "path": "originals/prefreeze-json/ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "path": "originals/prefreeze-json/ASTRA_EXECUTION_ORIGIN.json",
+      "bytes": 313,
+      "sha256": "4e78254e56e9eba076bc6506b83e2c7b6d16c866f0ad47de11d653f79b3855ab"
+    },
+    {
+      "path": "originals/prefreeze-json/ASTRA_SOURCE_RECEIPT.json",
+      "bytes": 940,
+      "sha256": "89d6240bbcb73746a10cbd23ccede6e6eb075e499b614327ec1b7c8fabd4a89c"
+    },
+    {
+      "path": "originals/prefreeze-json/CP7_F03_FULL_PREFREEZE_UI.json",
+      "bytes": 398656,
+      "sha256": "e9c45f2a0a2ce4d910cfe7035e0f8d2a6860eb4a14995c559e59114da1d16171"
+    },
+    {
+      "path": "originals/prefreeze-json/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "ad8e6255c4492404b42a4cd8dfe7151c0a660898c0c6cb790f060e1fd8e8974f"
+    },
+    {
+      "path": "originals/prefreeze-json/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "originals/prefreeze-json/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "c148a1cc6a9711cab3d2d426042885e12518c51aed8b5347b577bde112bd9ec1"
+    },
+    {
+      "path": "originals/supplier-json/ALIGNED_CHAIN.json",
+      "bytes": 17286,
+      "sha256": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d"
+    },
+    {
+      "path": "originals/supplier-json/ASTRA_EXECUTION_ORIGIN.json",
+      "bytes": 313,
+      "sha256": "4e78254e56e9eba076bc6506b83e2c7b6d16c866f0ad47de11d653f79b3855ab"
+    },
+    {
+      "path": "originals/supplier-json/ASTRA_SOURCE_RECEIPT.json",
+      "bytes": 940,
+      "sha256": "89d6240bbcb73746a10cbd23ccede6e6eb075e499b614327ec1b7c8fabd4a89c"
+    },
+    {
+      "path": "originals/supplier-json/CP7_SUPPLIER_PAYMENT_CREATE.json",
+      "bytes": 289467,
+      "sha256": "1caf009eb49586121de6e46ceb9837e89e748a5d0f3396141aab7d82898ef712"
+    },
+    {
+      "path": "originals/supplier-json/T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 10524,
+      "sha256": "08ab1b243ea6c0782d1d9e369bf11ca8fb6c4073f645eb37936eabf174058713"
+    },
+    {
+      "path": "originals/supplier-json/T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "path": "originals/supplier-json/T3_PACKAGE_INSTALL.json",
+      "bytes": 360410,
+      "sha256": "c148a1cc6a9711cab3d2d426042885e12518c51aed8b5347b577bde112bd9ec1"
+    },
+    {
+      "path": "screenshots/p11/P11_DOZEN_HELPER_DESKTOP.png",
+      "bytes": 894928,
+      "sha256": "01fcf08fe5b7d3f9256498c94a1f0343c7d08706bf9558e699f5912939c40bdc"
+    },
+    {
+      "path": "screenshots/p11/P11_DOZEN_HELPER_MOBILE.png",
+      "bytes": 600367,
+      "sha256": "8c1a26d07dc2803480e1c71858299e04c2ab765b8b82e773dd77186c153cdb91"
+    },
+    {
+      "path": "screenshots/p11/P11_DRAFT_DESKTOP.png",
+      "bytes": 1132726,
+      "sha256": "d67b4d507e6dd8b0dc40a675decc8ee67409f6e503b892b27a00458cd9e17a96"
+    },
+    {
+      "path": "screenshots/p11/P11_DRAFT_MOBILE.png",
+      "bytes": 853610,
+      "sha256": "1fdc8fa1358554e89433ad64a0b5c6a010d6648d40bb96ecb5dbb7ec41b35343"
+    },
+    {
+      "path": "screenshots/prefreeze/P11_DOZEN_HELPER_DESKTOP.png",
+      "bytes": 748892,
+      "sha256": "a03c07a0fd180291fd6b76354f57932cc2a9a769a2bd22bc9d29138ab6f0d761"
+    },
+    {
+      "path": "screenshots/prefreeze/P11_DOZEN_HELPER_MOBILE.png",
+      "bytes": 507960,
+      "sha256": "e06507c884f53d445c758ef33c3e142b81f23562055b676431354d5f2da82edc"
+    }
+  ],
+  "downloaded_artifacts": [
+    {
+      "file": "dozen-dom.zip",
+      "bytes": 650,
+      "sha256": "5cef0901668bea45b2ce73ebeb234493dee1fd198015de7b44a02616f2f2c2a2"
+    },
+    {
+      "file": "k3-json.zip",
+      "bytes": 201547,
+      "sha256": "ab83a043d06e1df49a004f3b1f987c090464f7e4a9fe05596b65cdd0bac845ca"
+    },
+    {
+      "file": "own-json.zip",
+      "bytes": 29385,
+      "sha256": "481671080c358c9e0d5cfd0d21e6e9a06e7158ef1a6ec7cab6ace7e5ec5e5f21"
+    },
+    {
+      "file": "p11-json.zip",
+      "bytes": 842560,
+      "sha256": "104f994253925b2e5e5933b80a458cef64322f432732b9c107d71356ef38a1ca"
+    },
+    {
+      "file": "p11-raw.zip",
+      "bytes": 14118590,
+      "sha256": "4f1853e4136f6ae2f48670bc0e8b30d92baa38071275da2a6b1ec4aa86eb6204"
+    },
+    {
+      "file": "prefreeze-json.zip",
+      "bytes": 50508,
+      "sha256": "9220135e38e3baaef824c390201ae7e3ebd17bdf55e769d06517836cf0aff762"
+    },
+    {
+      "file": "prefreeze-raw.zip",
+      "bytes": 7470315,
+      "sha256": "c27c23e6407a4dc77ac79211d49e46340b6898422d3dfaea645e9c41ef653870"
+    },
+    {
+      "file": "supplier-json.zip",
+      "bytes": 38745,
+      "sha256": "d77ab6a54c80a44df54136a050cacfb25821edb826aa02658dfb486ccf0f820e"
+    }
+  ],
+  "business_day_reruns": [],
+  "secret_scan_matches": [],
+  "prior_85MB_original_location": "41dbd14d:audit/astra_retest_20261013/FINAL_ORIGINALS.tar.xz, not duplicated here; exact source hash checked in PRIOR_SNAPSHOT_RECHECK.json",
+  "production_go": false
+}

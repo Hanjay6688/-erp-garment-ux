@@ -1,0 +1,1173 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "status": "PASS",
+  "ci_executions": 141,
+  "unique_case_ids": 139,
+  "statuses": {
+    "PASS": 141
+  },
+  "duplicate_ids_across_compositions": {
+    "P11_DRAFT_BROWSER_DESKTOP": 2,
+    "P11_DRAFT_BROWSER_MOBILE_RECOVERY": 2
+  },
+  "suites": [
+    {
+      "suite": "supplier-json",
+      "report": "CP7_SUPPLIER_PAYMENT_CREATE.json",
+      "sha256": "1caf009eb49586121de6e46ceb9837e89e748a5d0f3396141aab7d82898ef712",
+      "executions": 10,
+      "status": "PASS",
+      "groups": [
+        {
+          "group": "native",
+          "status": "PASS",
+          "counts": {
+            "PASS": 4
+          },
+          "complete_boundary_restored": true,
+          "database_remaining": null,
+          "auth_restored": null
+        },
+        {
+          "group": "races",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 3
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": null
+        },
+        {
+          "group": "http",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        },
+        {
+          "group": "browser",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        }
+      ]
+    },
+    {
+      "suite": "p11-json",
+      "report": "CP7_F03_FULL_P11.json",
+      "sha256": "82736412488296cc7c2d1da650802f9cb18c6ae64f89fbaf3b77cdbc6455fbe3",
+      "executions": 64,
+      "status": "PASS",
+      "groups": [
+        {
+          "group": "native",
+          "status": "PASS",
+          "counts": {
+            "PASS": 8
+          },
+          "complete_boundary_restored": true,
+          "database_remaining": null,
+          "auth_restored": null
+        },
+        {
+          "group": "http",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        },
+        {
+          "group": "commands",
+          "status": "PASS",
+          "counts": {
+            "PASS": 6
+          },
+          "complete_boundary_restored": true,
+          "database_remaining": null,
+          "auth_restored": null
+        },
+        {
+          "group": "command_races",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": null
+        },
+        {
+          "group": "command_http",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        },
+        {
+          "group": "drafts",
+          "status": "PASS",
+          "counts": {
+            "PASS": 7
+          },
+          "complete_boundary_restored": true,
+          "database_remaining": null,
+          "auth_restored": null
+        },
+        {
+          "group": "draft_races",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": null
+        },
+        {
+          "group": "draft_http",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        },
+        {
+          "group": "payments",
+          "status": "PASS",
+          "counts": {
+            "PASS": 8
+          },
+          "complete_boundary_restored": true,
+          "database_remaining": null,
+          "auth_restored": null
+        },
+        {
+          "group": "payment_races",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 3
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": null
+        },
+        {
+          "group": "payment_http",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        },
+        {
+          "group": "returns",
+          "status": "PASS",
+          "counts": {
+            "PASS": 11
+          },
+          "complete_boundary_restored": true,
+          "database_remaining": null,
+          "auth_restored": null
+        },
+        {
+          "group": "return_races",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 3
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": null
+        },
+        {
+          "group": "return_http",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        },
+        {
+          "group": "browser",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 10
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        }
+      ]
+    },
+    {
+      "suite": "prefreeze-json",
+      "report": "CP7_F03_FULL_PREFREEZE_UI.json",
+      "sha256": "e9c45f2a0a2ce4d910cfe7035e0f8d2a6860eb4a14995c559e59114da1d16171",
+      "executions": 31,
+      "status": "PASS",
+      "groups": [
+        {
+          "group": "browser",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 31
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        }
+      ]
+    },
+    {
+      "suite": "k3-json",
+      "report": "CP7_K3_CLEANUP.json",
+      "sha256": "9ab59db020339f856d8485a43c31ea3d524cc9c1220f9e8f95cb864297113437",
+      "executions": 25,
+      "status": "PASS",
+      "groups": [
+        {
+          "group": "native",
+          "status": "PASS",
+          "counts": {
+            "PASS": 9
+          },
+          "complete_boundary_restored": true,
+          "database_remaining": null,
+          "auth_restored": null
+        },
+        {
+          "group": "races",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 12
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": null
+        },
+        {
+          "group": "http",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        },
+        {
+          "group": "browser",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 2
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": true
+        }
+      ]
+    },
+    {
+      "suite": "own-json",
+      "report": "ASTRA_XC2_BACKUP.json",
+      "sha256": "2226329733b56e079d0e9af1b7a03560f58c2badcfbf5a79b1fc8510a057dd17",
+      "executions": 11,
+      "status": "PASS",
+      "groups": [
+        {
+          "group": "races",
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 11
+          },
+          "complete_boundary_restored": null,
+          "database_remaining": 0,
+          "auth_restored": null
+        }
+      ]
+    }
+  ],
+  "case_results": [
+    {
+      "suite": "supplier-json",
+      "group": "native",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "native",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "native",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "native",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "races",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_RACE_SAME_REQUEST",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "races",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_RACE_DOUBLE_PAY",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "races",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_RACE_CURRENT_REVOKE",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "http",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_HTTP_CURRENT_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "browser",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "supplier-json",
+      "group": "browser",
+      "case_id": "CP7_SUPPLIER_PAYMENT_CREATE_BROWSER_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "native",
+      "case_id": "P11_READ_DRAFT_CANCEL",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "native",
+      "case_id": "P11_READ_NATIVE_LIFECYCLE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "native",
+      "case_id": "P11_READ_EXACT_CENTS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "native",
+      "case_id": "P11_READ_FINANCIAL_REDACTION",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "native",
+      "case_id": "P11_READ_PRIVATE_READ_ONLY",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "native",
+      "case_id": "P11_READ_COMPLETE_PAGES",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "native",
+      "case_id": "P11_READ_QUERY_REFUSAL",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "native",
+      "case_id": "P11_READ_EMPTY_MISSING",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "http",
+      "case_id": "P11_READ_HTTP_CURRENT_AUTH",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "commands",
+      "case_id": "P11_COMMAND_POST_ONCE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "commands",
+      "case_id": "P11_COMMAND_CANCEL",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "commands",
+      "case_id": "P11_COMMAND_CHILD_REVIEW",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "commands",
+      "case_id": "P11_COMMAND_VERSION_STATUS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "commands",
+      "case_id": "P11_COMMAND_REPLAY_AUTH",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "commands",
+      "case_id": "P11_COMMAND_PRIVATE_FIELDS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "command_races",
+      "case_id": "P11_COMMAND_RACE_POST_CANCEL",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "command_races",
+      "case_id": "P11_COMMAND_RACE_REVOKE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "command_http",
+      "case_id": "P11_COMMAND_HTTP_AUTH",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "drafts",
+      "case_id": "P11_DRAFT_MULTI_CREATE_EDIT_POST",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "drafts",
+      "case_id": "P11_DRAFT_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "drafts",
+      "case_id": "P11_DRAFT_INSUFFICIENT_EDIT",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "drafts",
+      "case_id": "P11_DRAFT_EXACT_FIELDS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "drafts",
+      "case_id": "P11_DRAFT_SELECTORS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "drafts",
+      "case_id": "P11_DRAFT_MASTER_REFUSAL",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "drafts",
+      "case_id": "P11_DRAFT_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "draft_races",
+      "case_id": "P11_DRAFT_RACE_AVAILABLE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "draft_http",
+      "case_id": "P11_DRAFT_HTTP",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payments",
+      "case_id": "P11_PAYMENT_EXACT_LIFECYCLE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payments",
+      "case_id": "P11_PAYMENT_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payments",
+      "case_id": "P11_PAYMENT_FIELDS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payments",
+      "case_id": "P11_PAYMENT_SOURCE_CHANGE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payments",
+      "case_id": "P11_PAYMENT_PAGES",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payments",
+      "case_id": "P11_PAYMENT_INACTIVE_BANK",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payments",
+      "case_id": "P11_PAYMENT_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payments",
+      "case_id": "P11_PAYMENT_PRIVATE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payment_races",
+      "case_id": "P11_PAYMENT_RACE_SAME_UUID",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payment_races",
+      "case_id": "P11_PAYMENT_RACE_COMPETING",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payment_races",
+      "case_id": "P11_PAYMENT_RACE_REVOKE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "payment_http",
+      "case_id": "P11_PAYMENT_HTTP",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_LIFECYCLE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_SPLIT_GRADES",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_ALLOCATION_CAP",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_FIELDS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_PAID_REFUSAL",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_DATE_LOCATION",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_SOURCE_CHANGE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_PERMISSIONS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_PAGES",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "returns",
+      "case_id": "P11_RETURN_CONSUMED",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "return_races",
+      "case_id": "P11_RETURN_RACE_CAPACITY",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "return_races",
+      "case_id": "P11_RETURN_RACE_CASH",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "return_races",
+      "case_id": "P11_RETURN_RACE_REVOKE",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "return_http",
+      "case_id": "P11_RETURN_HTTP",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_READ_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_READ_BROWSER_MOBILE_OPERATIONS",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_COMMAND_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_COMMAND_BROWSER_MOBILE_RECOVERY",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_DRAFT_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_DRAFT_BROWSER_MOBILE_RECOVERY",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_PAYMENT_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_PAYMENT_BROWSER_MOBILE_RECOVERY",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_RETURN_BROWSER_R10_DESKTOP_A",
+      "status": "PASS"
+    },
+    {
+      "suite": "p11-json",
+      "group": "browser",
+      "case_id": "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "VENDOR_FREE_BROWSER:DESKTOP_SAVE_RELOAD",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "VENDOR_FREE_BROWSER:MOBILE_SAVE_RELOAD",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "VENDOR_BROWSER:EMPTY_DETAILS_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "VENDOR_BROWSER:EMPTY_DETAILS_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "SUPPLIER_BROWSER:FABRIC_SPLIT_INVERSE_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "SUPPLIER_BROWSER:ACCESSORY_SPLIT_INVERSE_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_BROWSER:LAU_T36_PHONE_MIXED_COVERAGE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_BROWSER:D12_PAYMENT_SCREEN_DAILY_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_BROWSER:D12_PAYMENT_SCREEN_OPENING_CLAIM",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_BROWSER:D08_LAUNDRY_QC_CANONICAL_IDS",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_BROWSER:OWNER_POLICY_SET_AND_CLEAR",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_BROWSER:W05_CLAIM_RECOVER_AND_REVERSE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_BROWSER:W05_OPENING_ESTIMATE_QC_HIDDEN",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_COMPLETION:ALLOW_PENDING_VISIBLE_AND_BROWSER_RECOST",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BE_BROWSER:REDYE_SKU_UNKNOWN_THEN_PRICE_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_REV_BROWSER:PACKAGE_EXTRA_SIZE_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_REV_BROWSER:FREE_MASTER_THEN_PHYSICAL_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_REV_BROWSER:WAIVED_MASTER_THEN_PHYSICAL_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BD_REV_BROWSER:PAGING_PRESERVES_EDIT_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "RANGE_BROWSER:WHOLE_31_33_RESET_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "RANGE_BROWSER:POPULAR_32_ONLY_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "RANGE_BROWSER:SIZE_27_SINGLE_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "RANGE_BROWSER:PARTIAL_FINISH_32_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BF_BROWSER:FOUR_SIZE_MASTER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "BF_BROWSER:SINGLETON_UNCONFIGURED_MOBILE",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "P11_DRAFT_BROWSER_DESKTOP",
+      "status": "PASS"
+    },
+    {
+      "suite": "prefreeze-json",
+      "group": "browser",
+      "case_id": "P11_DRAFT_BROWSER_MOBILE_RECOVERY",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_CLEANED_ONLY_TEMPORARY",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_REOPEN_AFTER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_PLAN_V2_AFTER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_REPORT_V2_AFTER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_AI_AND_REMINDERS_AFTER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_FAILED_CLEANUP_KEEPS_RESULT_RETRIED",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_ONLY_DONE_KEPT_RUNS",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_DOCUMENTS_AND_RETENTION_AFTER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "native",
+      "case_id": "K3C_SCHEDULE_DEFINED_PRIVATE",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_TWO_TICKS_ONE_LOG",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_BUSY_TABLE_RETRIED",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_PG_CRON_FIRES",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_NIGHTLY_BACKUP_VERIFIED",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_CRON_TWO_DATABASES",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_BACKUP_RETRY_SAME_SECOND",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_CLEANUP_BESIDE_RUNNING_STEP",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_BACKUP_SCRATCH_NEVER_DROPS_ANOTHER_DATABASE",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_BACKUP_VERIFIED_UNDER_WRITES",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_SCHEDULE_INSTALLER_REHEARSAL",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "races",
+      "case_id": "K3C_RACE_BACKUP_PLAIN_MARK_COPIED_ONTO_FOREIGN_KEPT",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "http",
+      "case_id": "K3C_HTTP_REOPEN_AFTER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "http",
+      "case_id": "K3C_HTTP_TICK_NOT_REACHABLE",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "browser",
+      "case_id": "K3C_BROWSER_DESKTOP_REOPEN_AFTER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "suite": "k3-json",
+      "group": "browser",
+      "case_id": "K3C_BROWSER_MOBILE_REOPEN_AFTER_CLEANUP",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "ASD-B01-FOREIGN_BEFORE",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "ASD-B02-FOREIGN_APPEARS",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "ASD-B03-LIVE_WRITE",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "ASD-B04-OWNED_LEFTOVER",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "ASD-B05-REPLACED_LEFTOVER",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "AX2-M01-MARK-GRAMMAR",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "AX2-B06-PLAIN_CONFIG",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "AX2-B07-PLAIN_PATTERN",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "AX2-B08-FINALLY_REPLACED_AFTER_HASH",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "AX2-B09-FINALLY_MARK_REPLACED",
+      "status": "PASS"
+    },
+    {
+      "suite": "own-json",
+      "group": "races",
+      "case_id": "AX2-B10-FINALLY_BEFORE_MARK_THROW",
+      "status": "PASS"
+    }
+  ],
+  "zero_credit_diagnostics": [
+    {
+      "suite": "prefreeze-json",
+      "name": "legacy_CP6_readiness",
+      "classification": "LEGACY_RUNTIME_OBSERVATION_ONLY",
+      "case_credit": 0,
+      "counts": {
+        "INCOMPLETE": 2
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false
+    }
+  ],
+  "separate_dom_cases": 1,
+  "production_go": false
+}
