@@ -63,15 +63,15 @@ LOCAL_HOSTS = ('127.0.0.1', 'localhost', '::1', '')
 # Structure fingerprint: one sorted list of lines per category. Names are schema-qualified (search_path is
 # pg_catalog only while these run), owners and ACLs are role names, so two servers compare by meaning, not by OID.
 STRUCTURE = {
-    'schemas': f"""select n.nspname||' owner='||pg_get_userbyid(n.nspowner)||' acl='||coalesce(n.nspacl::text,'-')
+    'schemas': f"""select n.nspname||' owner='||pg_get_userbyid(n.nspowner)||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(n.nspacl) x),'-')
         from pg_namespace n where {SKIP}""",
-    'relations': f"""select c.relkind::text||' '||n.nspname||'.'||c.relname||' owner='||pg_get_userbyid(c.relowner)||' acl='||coalesce(c.relacl::text,'-')
+    'relations': f"""select c.relkind::text||' '||n.nspname||'.'||c.relname||' owner='||pg_get_userbyid(c.relowner)||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(c.relacl) x),'-')
         ||' rls='||c.relrowsecurity||'/'||c.relforcerowsecurity||' persistence='||c.relpersistence::text||' options='||coalesce(c.reloptions::text,'-')
         ||' replident='||c.relreplident::text||coalesce(' partition='||pg_get_expr(c.relpartbound,c.oid),'')
         from pg_class c join pg_namespace n on n.oid=c.relnamespace where {SKIP} and c.relkind in ('r','p','v','m','S','f','c')""",
     'columns': f"""select n.nspname||'.'||c.relname||' #'||row_number() over (partition by c.oid order by a.attnum)||' '||a.attname
         ||' '||format_type(a.atttypid,a.atttypmod)||' notnull='||a.attnotnull||' identity='||a.attidentity::text||' generated='||a.attgenerated::text
-        ||' default='||coalesce(pg_get_expr(d.adbin,d.adrelid),'-')||' collation='||coalesce(co.collname,'-')||' acl='||coalesce(a.attacl::text,'-')
+        ||' default='||coalesce(pg_get_expr(d.adbin,d.adrelid),'-')||' collation='||coalesce(co.collname,'-')||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(a.attacl) x),'-')
         from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace
         left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum
         left join pg_collation co on co.oid=a.attcollation and a.attcollation<>(select t.typcollation from pg_type t where t.oid=a.atttypid)
@@ -86,20 +86,20 @@ STRUCTURE = {
         from pg_index i join pg_class c on c.oid=i.indexrelid join pg_namespace n on n.oid=c.relnamespace where {SKIP}""",
     'triggers': f"""select n.nspname||'.'||c.relname||' '||pg_get_triggerdef(t.oid)||' enabled='||t.tgenabled::text
         from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where {SKIP} and not t.tgisinternal""",
-    'rules': f"""select n.nspname||'.'||c.relname||' '||r.rulename||' '||md5(pg_get_ruledef(r.oid))||' enabled='||r.ev_enabled::text
+    'rules': f"""select n.nspname||'.'||c.relname||' '||r.rulename||' enabled='||r.ev_enabled::text||' body=', pg_get_ruledef(r.oid)
         from pg_rewrite r join pg_class c on c.oid=r.ev_class join pg_namespace n on n.oid=c.relnamespace where {SKIP} and r.rulename<>'_RETURN'""",
-    'views': f"""select n.nspname||'.'||c.relname||' '||md5(pg_get_viewdef(c.oid))
+    'views': f"""select n.nspname||'.'||c.relname||' body=', pg_get_viewdef(c.oid)
         from pg_class c join pg_namespace n on n.oid=c.relnamespace where {SKIP} and c.relkind in ('v','m')""",
     'policies': f"""select n.nspname||'.'||c.relname||' '||p.polname||' cmd='||p.polcmd::text||' permissive='||p.polpermissive
         ||' roles='||coalesce((select string_agg(case when r=0 then 'public' else pg_get_userbyid(r) end,',' order by 1) from unnest(p.polroles) r),'-')
-        ||' using='||coalesce(md5(pg_get_expr(p.polqual,p.polrelid)),'-')||' check='||coalesce(md5(pg_get_expr(p.polwithcheck,p.polrelid)),'-')
+        ||' using='||coalesce(pg_get_expr(p.polqual,p.polrelid),'-')||' check='||coalesce(pg_get_expr(p.polwithcheck,p.polrelid),'-')
         from pg_policy p join pg_class c on c.oid=p.polrelid join pg_namespace n on n.oid=c.relnamespace where {SKIP}""",
-    'functions': f"""select p.oid::regprocedure::text||' kind='||p.prokind::text||' owner='||pg_get_userbyid(p.proowner)||' acl='||coalesce(p.proacl::text,'-')
+    'functions': f"""select p.oid::regprocedure::text||' kind='||p.prokind::text||' owner='||pg_get_userbyid(p.proowner)||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(p.proacl) x),'-')
         ||' definer='||p.prosecdef||' volatile='||p.provolatile::text||' strict='||p.proisstrict||' leakproof='||p.proleakproof
         ||' config='||coalesce(p.proconfig::text,'-')||' returns='||pg_get_function_result(p.oid)
-        ||' body='||md5(case when p.prokind='a' then coalesce(p.prosrc,'') else pg_get_functiondef(p.oid) end)
+        ||' body=', case when p.prokind='a' then coalesce(p.prosrc,'') else pg_get_functiondef(p.oid) end
         from pg_proc p join pg_namespace n on n.oid=p.pronamespace where {SKIP}""",
-    'types': f"""select t.typtype::text||' '||n.nspname||'.'||t.typname||' owner='||pg_get_userbyid(t.typowner)||' acl='||coalesce(t.typacl::text,'-')
+    'types': f"""select t.typtype::text||' '||n.nspname||'.'||t.typname||' owner='||pg_get_userbyid(t.typowner)||' acl='||coalesce((select string_agg(x::text,',' order by x::text) from unnest(t.typacl) x),'-')
         ||' base='||coalesce(format_type(nullif(t.typbasetype,0),t.typtypmod),'-')||' notnull='||t.typnotnull
         ||' default='||coalesce(t.typdefault,'-')
         ||' labels='||coalesce((select string_agg(e.enumlabel,',' order by e.enumsortorder) from pg_enum e where e.enumtypid=t.oid),'-')
@@ -112,7 +112,7 @@ STRUCTURE = {
         from pg_sequence s join pg_class c on c.oid=s.seqrelid join pg_namespace n on n.oid=c.relnamespace where {SKIP}""",
     'extensions': """select e.extname||' '||e.extversion||' schema='||n.nspname||' owner='||pg_get_userbyid(e.extowner)
         from pg_extension e join pg_namespace n on n.oid=e.extnamespace where e.extname<>'pg_cron'""",
-    'default_acls': """select coalesce(n.nspname,'*')||' '||pg_get_userbyid(d.defaclrole)||' '||d.defaclobjtype::text||' '||d.defaclacl::text
+    'default_acls': """select coalesce(n.nspname,'*')||' '||pg_get_userbyid(d.defaclrole)||' '||d.defaclobjtype::text||' '||coalesce((select string_agg(x::text,',' order by x::text) from unnest(d.defaclacl) x),'-')
         from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
         where n.nspname is null or n.nspname not in ('pg_catalog','information_schema','cron')""",
     'publications': """select p.pubname||' owner='||pg_get_userbyid(p.pubowner)||' all='||p.puballtables||' ops='||p.pubinsert||p.pubupdate||p.pubdelete||p.pubtruncate
@@ -147,10 +147,37 @@ SEQUENCES = f"""select n.nspname,c.relname from pg_class c join pg_namespace n o
     where c.relkind='S' and {SKIP} order by 1,2"""
 
 
+# One known form PostgreSQL itself changes when a definition goes through pg_dump and back: an array of typed
+# literals cast as a whole, e.g. (ARRAY['A'::character varying, 'B'::character varying])::text[] (what
+# CHECK (status IN ('A','B')) on a varchar column is stored as), is read back as
+# ARRAY[('A'::character varying)::text, ('B'::character varying)::text]. Both sides are brought to the second form
+# before comparing; nothing else is rewritten, so any other difference still counts.
+_LITERAL = re.compile(r"'(?:[^']|'')*'::[a-z][a-z0-9_ ]*(?:\([0-9, ]+\))?")
+_ARRAY_CAST = re.compile(r"\(ARRAY\[((?:%s)(?:, (?:%s))*)\]\)::([a-z][a-z0-9_ ]*(?:\([0-9, ]+\))?)\[\]" % (_LITERAL.pattern, _LITERAL.pattern))
+
+
+def canonical(text):
+    def element_casts(m):
+        return 'ARRAY[%s]' % ', '.join('(%s)::%s' % (e, m.group(2)) for e in _LITERAL.findall(m.group(1)))
+    return _ARRAY_CAST.sub(element_casts, text)
+
+
 def structure(cur):
-    """The structure fingerprint as {category: sorted lines}, read with the cursor's snapshot."""
+    """The structure fingerprint as {category: sorted lines}, read with the cursor's snapshot. A row of two columns
+    is a line and a definition body; the body enters the line as the md5 of its canonical form."""
     cur.execute("select set_config('search_path','pg_catalog',true)")
-    return {k: sorted(r[0] for r in cur.execute(q).fetchall() if r[0] is not None) for k, q in STRUCTURE.items()}
+    out = {}
+    for k, q in STRUCTURE.items():
+        lines = []
+        for row in cur.execute(q).fetchall():
+            if row[0] is None:
+                continue
+            line = canonical(row[0])
+            if len(row) > 1:
+                line += hashlib.md5(canonical(row[1] or '').encode()).hexdigest()
+            lines.append(line)
+        out[k] = sorted(lines)
+    return out
 
 
 def sequence_state(cur):

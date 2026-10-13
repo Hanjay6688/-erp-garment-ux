@@ -48,7 +48,8 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
         first restore errors (the encrypted detail of a real night is never printed)."""
         d = r.get('_detail') or {}
         return dict(summary=off.summary(r), error=d.get('error'), restore_errors=(d.get('pg_restore_errors') or [])[:8],
-                    structure_differ={k: dict(only_source=v['only_source'][:6], only_restored=v['only_restored'][:6])
+                    structure_differ={k: dict(count=v['count'], only_source=[x[:260] for x in v['only_source'][:4]],
+                                              only_restored=[x[:260] for x in v['only_restored'][:4]])
                                       for k, v in (d.get('structure_differ') or {}).items()},
                     data_differ=list(d.get('data_differ') or {})[:10])
 
@@ -77,7 +78,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
             out = fn()
             out = dict(case=case_id, status='PASS', seconds=round(time.monotonic() - t0, 1), **out)
         except Exception as exc:  # the first failure stays as it is
-            out = dict(case=case_id, status='FAIL', error=repr(exc)[:3000])
+            out = dict(case=case_id, status='FAIL', error=repr(exc)[:20000])
         results[case_id] = out
         print(json.dumps(dict(group='CP7_OFFSITE_BACKUP', **out), default=str), flush=True)
 
@@ -86,7 +87,10 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
         if not c.execute('select 1 from pg_roles where rolname=%s', (CANARY_ROLE,)).fetchone():
             c.execute(sql.SQL('create role {} nologin').format(sql.Identifier(CANARY_ROLE)))
         c.execute(sql.SQL('drop table if exists public.{}').format(sql.Identifier(CANARY_TABLE)))
-        c.execute(sql.SQL('create table public.{}(id bigint generated always as identity primary key, v text not null)').format(sql.Identifier(CANARY_TABLE)))
+        # k carries the CHECK form PostgreSQL rewrites through pg_dump (varchar IN list), so every night exercises the
+        # canonical comparison; the structure case below changes that list on the restored copy.
+        c.execute(sql.SQL("create table public.{}(id bigint generated always as identity primary key, v text not null, "
+                          "k varchar(8) not null default 'A' constraint cp7_canary_k check (k in ('A','B')))").format(sql.Identifier(CANARY_TABLE)))
         c.execute(sql.SQL('insert into public.{}(v) select %s||g from generate_series(1,200) g').format(sql.Identifier(CANARY_TABLE)), (marker,))
         c.execute(sql.SQL('grant select on public.{} to {}').format(sql.Identifier(CANARY_TABLE), sql.Identifier(CANARY_ROLE)))
     assert not scratch_has_role(CANARY_ROLE), 'the scratch server must not have the canary role beforehand'
@@ -169,11 +173,12 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
 
         def structure_difference():
             r = with_restore_hook(f'revoke select on public.{CANARY_TABLE} from {CANARY_ROLE}; '
-                                  f'alter table public.{CANARY_TABLE} alter column v drop not null')
+                                  f'alter table public.{CANARY_TABLE} alter column v drop not null; '
+                                  f"alter table public.{CANARY_TABLE} drop constraint cp7_canary_k, add constraint cp7_canary_k check (k in ('A','C'))")
             differ = r['structure']['differ']
             assert r['restore_verified'] is False and r['codes'] == ['BACKUP_STRUCTURE_DIFFERS'], why(r)
-            assert set(differ) == {'relations', 'columns'}, differ
-            return dict(code='BACKUP_STRUCTURE_DIFFERS', categories=differ, acl_and_column_change_seen=True)
+            assert set(differ) == {'relations', 'columns', 'constraints'}, why(r)
+            return dict(code='BACKUP_STRUCTURE_DIFFERS', categories=differ, acl_column_and_in_list_change_seen=True)
         run(IDS[4], structure_difference)
 
         def sequence_difference():
