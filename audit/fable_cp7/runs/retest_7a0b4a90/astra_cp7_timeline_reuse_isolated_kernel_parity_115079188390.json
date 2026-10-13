@@ -1,0 +1,10 @@
+[
+{"phase":"PARITY_PASS","declared":595,"executed":595,"successes":312,"refusals":283,"distinct_refusals":16,"supply_events":448,"mutations_caught":2},
+{"phase":"BENCHMARK","requested_targets":100,"positions":0,"actual_targets":100,"old_ms":216.5115,"new_ms":126.2895,"reduction_percent":41.67076575609148},
+{"phase":"BENCHMARK","requested_targets":300,"positions":0,"actual_targets":300,"old_ms":601.3725,"new_ms":364.36,"reduction_percent":39.41192854678256},
+{"phase":"BENCHMARK","requested_targets":1000,"positions":0,"actual_targets":1000,"old_ms":2002.8719999999998,"new_ms":1166.654,"reduction_percent":41.750945642058},
+{"phase":"BENCHMARK","requested_targets":100,"positions":100,"actual_targets":100,"old_ms":448.369,"new_ms":390.3035,"reduction_percent":12.950382385936594},
+{"phase":"BENCHMARK","requested_targets":300,"positions":100,"actual_targets":300,"old_ms":984.683,"new_ms":747.039,"reduction_percent":24.13406141875101},
+{"phase":"BENCHMARK","requested_targets":1000,"positions":100,"actual_targets":1000,"old_ms":2642.8435,"new_ms":1851.4095,"reduction_percent":29.946305939038766},
+{"status":"PASS","out":"test-results/astra-timeline-reuse/NATIVE_REPORT.json","runtime":{"flavor":"NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY","version":"PostgreSQL 16.15"},"counts":{"declared":595,"executed":595,"successes":312,"refusals":283,"distinct_refusals":16,"supply_events":448},"_fable_note":"run 38330587114 job 115079188390 on head 5656f072 (product tree of 7a0b4a90); job log read 2026-10-13T02:2xZ by Fable; checkout = claude/new-session-deapao @5656f072; probe = scripts/cp7_astra_timeline_reuse_probe.mjs"}
+]

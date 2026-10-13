@@ -1,0 +1,1905 @@
+[
+ {
+  "job_id": 115079188390,
+  "run_id": 38330587114,
+  "workflow": "astra-cp7-timeline-reuse.yml",
+  "job": "isolated-kernel-parity",
+  "conclusion": "success",
+  "groups": {},
+  "total": {},
+  "summary": null,
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078697408,
+  "run_id": 38330430117,
+  "workflow": "claude-note-correction.yml",
+  "job": "Nota correction / Native stock AR cash journal HPP",
+  "conclusion": "success",
+  "groups": {
+   "CP7_NOTE_COMPOSITION_ADMISSION_SMOKE": {
+    "PASS": 3
+   },
+   "CP7_NOTE_CORRECTION": {
+    "PASS": 28
+   },
+   "AUDITOR_RACES_CP7_NOTE_CORRECTION": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_NOTE_CORRECTION": {
+    "PASS": 3
+   },
+   "AUDITOR_BROWSER_CP7_NOTE_CORRECTION_BROWSER": {
+    "PASS": 5
+   }
+  },
+  "total": {
+   "PASS": 43
+  },
+  "summary": {
+   "label": "CP7_OWNING_HISTORICAL_NOTE_CORRECTION",
+   "status": "PASS",
+   "observed": 40,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078767171,
+  "run_id": 38330451894,
+  "workflow": "claude-p08-physical.yml",
+  "job": "analysis152",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F05_ANALYSIS": {
+    "PASS": 107
+   },
+   "AUDITOR_RACES_CP7_F05_ANALYSIS": {
+    "PASS": 20
+   },
+   "AUDITOR_HTTP_CP7_F05_ANALYSIS": {
+    "PASS": 12
+   },
+   "AUDITOR_BROWSER_CP7_F05_ANALYSIS_BROWSER": {
+    "PASS": 14
+   }
+  },
+  "total": {
+   "PASS": 153
+  },
+  "summary": {
+   "label": "CP7_F05_NATIVE_ANALYSIS",
+   "status": "PASS",
+   "observed": 153,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078767195,
+  "run_id": 38330451894,
+  "workflow": "claude-p08-physical.yml",
+  "job": "attention284",
+  "conclusion": "success",
+  "groups": {
+   "CP7_ATTENTION_SOURCE_ADMISSION": {
+    "PASS": 3
+   },
+   "CP7_F05_ATTENTION": {
+    "PASS": 181
+   },
+   "AUDITOR_RACES_CP7_F05_ATTENTION": {
+    "PASS": 40
+   },
+   "AUDITOR_HTTP_CP7_F05_ATTENTION": {
+    "PASS": 29
+   },
+   "AUDITOR_BROWSER_CP7_F05_ATTENTION_BROWSER": {
+    "PASS": 36
+   }
+  },
+  "total": {
+   "PASS": 289
+  },
+  "summary": {
+   "label": "CP7_F05_NATIVE_ATTENTION",
+   "status": "PASS",
+   "observed": 286,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078767085,
+  "run_id": 38330451894,
+  "workflow": "claude-p08-physical.yml",
+  "job": "fabric13-successor",
+  "conclusion": "success",
+  "groups": {
+   "CP7_FABRIC_RECIPE": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_FABRIC_RECIPE": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_FABRIC_RECIPE": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_FABRIC_RECIPE_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 13
+  },
+  "summary": {
+   "label": "CP7_FABRIC_RECIPE",
+   "status": "PASS",
+   "observed": 13,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078767169,
+  "run_id": 38330451894,
+  "workflow": "claude-p08-physical.yml",
+  "job": "fabric-physical21",
+  "conclusion": "success",
+  "groups": {
+   "CP7_FABRIC_PHYSICAL": {
+    "PASS": 16
+   },
+   "AUDITOR_RACES_CP7_FABRIC_PHYSICAL": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_FABRIC_PHYSICAL": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_FABRIC_PHYSICAL_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 21
+  },
+  "summary": {
+   "label": "CP7_FABRIC_PHYSICAL",
+   "status": "PASS",
+   "observed": 21,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078767155,
+  "run_id": 38330451894,
+  "workflow": "claude-p08-physical.yml",
+  "job": "plan39",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F04_NATIVE_PLANS": {
+    "PASS": 29
+   },
+   "AUDITOR_RACES_CP7_F04_PLAN": {
+    "PASS": 8
+   },
+   "AUDITOR_HTTP_CP7_F04_PLAN": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_F04_PLAN_BROWSER": {
+    "PASS": 4
+   }
+  },
+  "total": {
+   "PASS": 43
+  },
+  "summary": {
+   "label": "CP7_F04_NATIVE_PLANS",
+   "status": "PASS",
+   "observed": 43,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079023739,
+  "run_id": 38330536242,
+  "workflow": "claude-p08-shell.yml",
+  "job": "p19-assembly",
+  "conclusion": "success",
+  "groups": {},
+  "total": {},
+  "summary": null,
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079023843,
+  "run_id": 38330536242,
+  "workflow": "claude-p08-shell.yml",
+  "job": "p19-staged",
+  "conclusion": "success",
+  "groups": {},
+  "total": {},
+  "summary": null,
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079023844,
+  "run_id": 38330536242,
+  "workflow": "claude-p08-shell.yml",
+  "job": "shell",
+  "conclusion": "success",
+  "groups": {},
+  "total": {},
+  "summary": null,
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078794117,
+  "run_id": 38330462281,
+  "workflow": "claude-p12-payroll.yml",
+  "job": "P12 payroll --attendance-write",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P12_NOTA_SOURCE": {
+    "PASS": 5
+   },
+   "AUDITOR_HTTP_CP7_P12_NOTA_SOURCE": {
+    "PASS": 1
+   },
+   "CP7_P12_NOTA": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_P12_NOTA": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P12_NOTA": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_P12_P09_ADMISSION": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_NOTA": {
+    "PASS": 2
+   },
+   "CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 2
+   },
+   "CP7_P12_SETTLEMENT": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_P12_SETTLEMENT": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P12_SETTLEMENT": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_SETTLEMENT": {
+    "PASS": 3
+   },
+   "CP7_P12_ATTENDANCE_READ": {
+    "PASS": 6
+   },
+   "AUDITOR_HTTP_CP7_P12_ATTENDANCE_READ": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_ATTENDANCE_READ": {
+    "PASS": 2
+   },
+   "CP7_P12_ROSTER": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_P12_ROSTER": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P12_ROSTER": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_ROSTER": {
+    "PASS": 2
+   },
+   "CP7_P12_ATTENDANCE_WRITE": {
+    "PASS": 10
+   },
+   "AUDITOR_RACES_CP7_P12_ATTENDANCE_WRITE": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P12_ATTENDANCE_WRITE": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_ATTENDANCE_WRITE": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 81
+  },
+  "summary": {
+   "label": "CP7_P12_ATTENDANCE_WRITE",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078794352,
+  "run_id": 38330462281,
+  "workflow": "claude-p12-payroll.yml",
+  "job": "P12 payroll --payroll-review",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P12_NOTA_SOURCE": {
+    "PASS": 5
+   },
+   "AUDITOR_HTTP_CP7_P12_NOTA_SOURCE": {
+    "PASS": 1
+   },
+   "CP7_P12_NOTA": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_P12_NOTA": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P12_NOTA": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_P12_P09_ADMISSION": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_NOTA": {
+    "PASS": 2
+   },
+   "CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 2
+   },
+   "CP7_P12_SETTLEMENT": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_P12_SETTLEMENT": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P12_SETTLEMENT": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_SETTLEMENT": {
+    "PASS": 3
+   }
+  },
+  "total": {
+   "PASS": 43
+  },
+  "summary": {
+   "label": "CP7_P12_NATIVE_SETTLEMENT",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078794309,
+  "run_id": 38330462281,
+  "workflow": "claude-p12-payroll.yml",
+  "job": "P12 payroll --roster",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P12_NOTA_SOURCE": {
+    "PASS": 5
+   },
+   "AUDITOR_HTTP_CP7_P12_NOTA_SOURCE": {
+    "PASS": 1
+   },
+   "CP7_P12_NOTA": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_P12_NOTA": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P12_NOTA": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_P12_P09_ADMISSION": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_NOTA": {
+    "PASS": 2
+   },
+   "CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_PAYROLL_REVIEW": {
+    "PASS": 2
+   },
+   "CP7_P12_SETTLEMENT": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_P12_SETTLEMENT": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P12_SETTLEMENT": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_SETTLEMENT": {
+    "PASS": 3
+   },
+   "CP7_P12_ATTENDANCE_READ": {
+    "PASS": 6
+   },
+   "AUDITOR_HTTP_CP7_P12_ATTENDANCE_READ": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_ATTENDANCE_READ": {
+    "PASS": 2
+   },
+   "CP7_P12_ROSTER": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_P12_ROSTER": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P12_ROSTER": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P12_ROSTER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 64
+  },
+  "summary": {
+   "label": "CP7_P12_ROSTER",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078827501,
+  "run_id": 38330472555,
+  "workflow": "claude-p13-finance.yml",
+  "job": "P13 native dated report and immutable archive reader",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P13_REPORT_NATIVE": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_P13_REPORT": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_P13_REPORT": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P13_REPORT": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 12
+  },
+  "summary": {
+   "label": "CP7_P13_FINANCE_READ",
+   "status": "PASS",
+   "observed": 12,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078857715,
+  "run_id": 38330482238,
+  "workflow": "claude-p18-fabric-rule.yml",
+  "job": "fabric-rule11",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P18_FABRIC_RULE": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_P18_FABRIC_RULE": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_P18_FABRIC_RULE": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P18_FABRIC_RULE_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 11
+  },
+  "summary": {
+   "label": "CP7_P18_FABRIC_RULE",
+   "status": "PASS",
+   "observed": 11,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078857513,
+  "run_id": 38330482238,
+  "workflow": "claude-p18-fabric-rule.yml",
+  "job": "p18-e01-9",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P18_E01_BRIDGE": {
+    "PASS": 5
+   },
+   "AUDITOR_RACES_CP7_P18_E01_BRIDGE": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_P18_E01_BRIDGE": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P18_E01_BRIDGE_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 9
+  },
+  "summary": {
+   "label": "CP7_P18_E01_BRIDGE",
+   "status": "PASS",
+   "observed": 9,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078857630,
+  "run_id": 38330482238,
+  "workflow": "claude-p18-fabric-rule.yml",
+  "job": "rule-lifecycle16",
+  "conclusion": "success",
+  "groups": {
+   "CP7_RULE_LIFECYCLE": {
+    "PASS": 10
+   },
+   "AUDITOR_RACES_CP7_RULE_LIFECYCLE": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_RULE_LIFECYCLE": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_RULE_LIFECYCLE_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 16
+  },
+  "summary": {
+   "label": "CP7_RULE_LIFECYCLE",
+   "status": "PASS",
+   "observed": 16,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078890026,
+  "run_id": 38330492487,
+  "workflow": "claude-p18-full-cycle.yml",
+  "job": "E01 worksheet through supplier, vendor and payroll cash with GL-subledger reconciliation",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P18_FULL_CYCLE": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 2
+  },
+  "summary": {
+   "label": "CP7_P18_FULL_CYCLE",
+   "status": "PASS",
+   "observed": 2,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924607,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-ai-v2-9",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_AI_V2": {
+    "PASS": 4
+   },
+   "AUDITOR_RACES_CP7_P19_AI_V2": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_P19_AI_V2": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_AI_V2_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 9
+  },
+  "summary": {
+   "label": "CP7_P19_AI_V2",
+   "status": "PASS",
+   "observed": 9,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924606,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-plan-v2-22",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_PLAN_V2": {
+    "PASS": 11
+   },
+   "AUDITOR_RACES_CP7_P19_PLAN_V2": {
+    "PASS": 7
+   },
+   "AUDITOR_HTTP_CP7_P19_PLAN_V2": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_PLAN_V2_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 22
+  },
+  "summary": {
+   "label": "CP7_P19_PLAN_V2",
+   "status": "PASS",
+   "observed": 22,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924664,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-reminder-v2-16",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_REMINDER_V2": {
+    "PASS": 9
+   },
+   "AUDITOR_RACES_CP7_P19_REMINDER_V2": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P19_REMINDER_V2": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_REMINDER_V2_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 16
+  },
+  "summary": {
+   "label": "CP7_P19_REMINDER_V2",
+   "status": "PASS",
+   "observed": 16,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924590,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-report-v2-20",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_REPORT_V2": {
+    "PASS": 10
+   },
+   "AUDITOR_RACES_CP7_P19_REPORT_V2": {
+    "PASS": 6
+   },
+   "AUDITOR_HTTP_CP7_P19_REPORT_V2": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_REPORT_V2_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 20
+  },
+  "summary": {
+   "label": "CP7_P19_REPORT_V2",
+   "status": "PASS",
+   "observed": 20,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924708,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-staged12",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_STAGED": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_P19_STAGED": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_P19_STAGED": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_P19_STAGED_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 14
+  },
+  "summary": {
+   "label": "CP7_P19_STAGED",
+   "status": "PASS",
+   "observed": 14,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924257,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-transport11",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_TRANSPORT": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_P19_TRANSPORT": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_P19_TRANSPORT": {
+    "PASS": 3
+   },
+   "AUDITOR_BROWSER_CP7_P19_TRANSPORT_BROWSER": {
+    "PASS": 3
+   }
+  },
+  "total": {
+   "PASS": 15
+  },
+  "summary": {
+   "label": "CP7_P19_TRANSPORT",
+   "status": "PASS",
+   "observed": 15,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078956285,
+  "run_id": 38330513661,
+  "workflow": "claude-p21-rehearsal.yml",
+  "job": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+  "conclusion": "success",
+  "groups": {},
+  "total": {},
+  "summary": {
+   "label": "CP7_P21_FULL_REHEARSAL",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078956097,
+  "run_id": 38330513661,
+  "workflow": "claude-p21-rehearsal.yml",
+  "job": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+  "conclusion": "success",
+  "groups": {},
+  "total": {},
+  "summary": {
+   "label": "CP7_P21_REHEARSAL",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078990285,
+  "run_id": 38330524631,
+  "workflow": "claude-pl-native.yml",
+  "job": "model",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F04_MODELS": {
+    "PASS": 22
+   },
+   "AUDITOR_RACES_CP7_F04_MODEL": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_F04_MODEL": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_F04_MODEL_BROWSER": {
+    "PASS": 4
+   }
+  },
+  "total": {
+   "PASS": 32
+  },
+  "summary": {
+   "label": "CP7_F04_NATIVE_MODELS",
+   "status": "PASS",
+   "observed": 32,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078990545,
+  "run_id": 38330524631,
+  "workflow": "claude-pl-native.yml",
+  "job": "netting",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F04_NATIVE_NETTING": {
+    "PASS": 60
+   },
+   "AUDITOR_RACES_CP7_F04_NETTING": {
+    "PASS": 11
+   },
+   "AUDITOR_HTTP_CP7_F04_NETTING": {
+    "PASS": 6
+   },
+   "AUDITOR_BROWSER_CP7_F04_NETTING_BROWSER": {
+    "PASS": 6
+   }
+  },
+  "total": {
+   "PASS": 83
+  },
+  "summary": {
+   "label": "CP7_F04_NATIVE_NETTING",
+   "status": "PASS",
+   "observed": 83,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078990701,
+  "run_id": 38330524631,
+  "workflow": "claude-pl-native.yml",
+  "job": "schedule",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F04_SCHEDULE": {
+    "PASS": 52
+   },
+   "AUDITOR_RACES_CP7_F04_SCHEDULE": {
+    "PASS": 10
+   },
+   "AUDITOR_HTTP_CP7_F04_SCHEDULE": {
+    "PASS": 5
+   },
+   "AUDITOR_BROWSER_CP7_F04_SCHEDULE_BROWSER": {
+    "PASS": 4
+   }
+  },
+  "total": {
+   "PASS": 71
+  },
+  "summary": {
+   "label": "CP7_F04_NATIVE_SCHEDULE",
+   "status": "PASS",
+   "observed": 71,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078990671,
+  "run_id": 38330524631,
+  "workflow": "claude-pl-native.yml",
+  "job": "supply",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F04_SUPPLY": {
+    "PASS": 38
+   },
+   "AUDITOR_RACES_CP7_F04_SUPPLY": {
+    "PASS": 8
+   },
+   "AUDITOR_HTTP_CP7_F04_SUPPLY": {
+    "PASS": 3
+   },
+   "AUDITOR_BROWSER_CP7_F04_SUPPLY_BROWSER": {
+    "PASS": 4
+   }
+  },
+  "total": {
+   "PASS": 53
+  },
+  "summary": {
+   "label": "CP7_F04_NATIVE_SUPPLY",
+   "status": "PASS",
+   "observed": 53,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079056743,
+  "run_id": 38330547424,
+  "workflow": "claude-supplier-payment-correction.yml",
+  "job": "Native ordinary supplier payment cash/AP inverse, replacement, current Auth and browser correction",
+  "conclusion": "success",
+  "groups": {
+   "CP7_SUPPLIER_PAYMENT_CORRECTION": {
+    "PASS": 14
+   },
+   "AUDITOR_RACES_CP7_SUPPLIER_PAYMENT_CORRECTION": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_SUPPLIER_PAYMENT_CORRECTION": {
+    "PASS": 3
+   },
+   "AUDITOR_BROWSER_CP7_SUPPLIER_PAYMENT_CORRECTION_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 23
+  },
+  "summary": {
+   "label": "CP7_SUPPLIER_PAYMENT_CORRECTION",
+   "status": "PASS",
+   "observed": 23,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079122874,
+  "run_id": 38330567702,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / cash_installments",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_CASH_NATIVE": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_CASH_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_CASH_JOURNAL_NATIVE": {
+    "PASS": 6
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_CASH_JOURNAL_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_CASH_BROWSER": {
+    "PASS": 10
+   },
+   "CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_MISC_NATIVE": {
+    "PASS": 9
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_MISC_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_MISC_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_MISC_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_E05_NATIVE": {
+    "PASS": 20
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_E05_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_E05_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_CASH_INSTALLMENTS_CP7_F03_E05_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 61
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_CASH_INSTALLMENTS",
+   "status": "PASS",
+   "observed": 61,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079122891,
+  "run_id": 38330567702,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / customer_refund",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_CUSTOMER_REFUND_NATIVE": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_CUSTOMER_REFUND_REFUND_NATIVE": {
+    "PASS": 2
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_CUSTOMER_REFUND_REFUND_RACES": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_CUSTOMER_REFUND_REFUND_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_CUSTOMER_REFUND_REFUND_BROWSER": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_CUSTOMER_REFUND_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_CUSTOMER_REFUND_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 10
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_CUSTOMER_REFUND",
+   "status": "PASS",
+   "observed": 10,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079122878,
+  "run_id": 38330567702,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / p09",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_P09_SMOKE": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P09_NATIVE": {
+    "PASS": 9
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P09_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P09_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P09_MATERIAL_SMOKE": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P09_MATERIAL": {
+    "PASS": 13
+   },
+   "CP7_F03_FULL_P09_MATERIAL_CROSSFLOW": {
+    "PASS": 2
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P09_MATERIAL_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P09_MATERIAL_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P09_MATERIAL_COUNT": {
+    "PASS": 17
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P09_MATERIAL_COUNT_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P09_MATERIAL_COUNT_HTTP": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P09_INVOICE": {
+    "PASS": 9
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P09_INVOICE_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P09_INVOICE_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P09_COMBINED_INVOICE": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P09_COMBINED_INVOICE_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P09_COMBINED_INVOICE_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P09_BROWSER": {
+    "PASS": 22
+   },
+   "CP7_F03_FULL_P09_RETURN_SMOKE": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P09_RETURNS": {
+    "PASS": 10
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P09_RETURN_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P09_RETURN_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P09_RECEIPT_REVERSAL": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P09_RECEIPT_REVERSAL_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P09_RECEIPT_REVERSAL_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P09_UOM": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P09_UOM_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P09_UOM_HTTP": {
+    "PASS": 1
+   }
+  },
+  "total": {
+   "PASS": 135
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_P09",
+   "status": "PASS",
+   "observed": 132,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079122870,
+  "run_id": 38330567702,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / p10",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_P10_NATIVE": {
+    "PASS": 7
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P10_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P10_ADJUSTMENTS": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P10_ADJUSTMENT_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P10_ADJUSTMENT_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P10_BOOK": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P10_BOOK_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P10_BOOK_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P10_BROWSER": {
+    "PASS": 6
+   }
+  },
+  "total": {
+   "PASS": 34
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_P10",
+   "status": "PASS",
+   "observed": 34,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079122707,
+  "run_id": 38330567702,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / p11",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_P11_NATIVE": {
+    "PASS": 8
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P11_COMMANDS": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P11_COMMAND_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_COMMAND_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P11_DRAFTS": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P11_DRAFT_RACES": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_DRAFT_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P11_PAYMENTS": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P11_PAYMENT_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_PAYMENT_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P11_RETURNS": {
+    "PASS": 11
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P11_RETURN_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P11_RETURN_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P11_BROWSER": {
+    "PASS": 10
+   }
+  },
+  "total": {
+   "PASS": 64
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_P11",
+   "status": "PASS",
+   "observed": 64,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079122970,
+  "run_id": 38330567702,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / p12",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_P12_NATIVE": {
+    "PASS": 5
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_HTTP": {
+    "PASS": 1
+   },
+   "CP7_F03_FULL_P12_NOTES": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P12_NOTE_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_NOTE_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_ADMISSION_REGRESSION": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P12_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P12_PAYROLL_REVIEW": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_PAYROLL_REVIEW_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P12_PAYROLL_REVIEW_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P12_SETTLEMENT": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P12_SETTLEMENT_RACES": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_SETTLEMENT_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P12_SETTLEMENT_BROWSER": {
+    "PASS": 3
+   },
+   "CP7_F03_FULL_P12_ATTENDANCE_READ": {
+    "PASS": 6
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_ATTENDANCE_READ_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P12_ATTENDANCE_READ_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P12_ROSTER": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P12_ROSTER_RACES": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_ROSTER_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P12_ROSTER_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P12_ATTENDANCE_WRITE": {
+    "PASS": 10
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P12_ATTENDANCE_WRITE_RACES": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_ATTENDANCE_WRITE_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P12_ATTENDANCE_WRITE_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P12_OPENING_PAYROLL": {
+    "PASS": 5
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P12_OPENING_PAYROLL_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P12_OPENING_PAYROLL_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P12_OPENING_PAYROLL_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 91
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_P12",
+   "status": "PASS",
+   "observed": 91,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079122814,
+  "run_id": 38330567702,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / p13",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_P13_NATIVE": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P13_RACES": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P13_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P13_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P13_PERIOD_NATIVE": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P13_PERIOD_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P13_PERIOD_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P13_PERIOD_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P13_ANALYSIS_NATIVE": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P13_ANALYSIS_RACES": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P13_ANALYSIS_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P13_ANALYSIS_BROWSER": {
+    "PASS": 2
+   },
+   "CP7_F03_FULL_P13_RECOST_NATIVE": {
+    "PASS": 8
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_P13_RECOST_RACES": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_P13_RECOST_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_P13_RECOST_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 50
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_P13",
+   "status": "PASS",
+   "observed": 50,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079122815,
+  "run_id": 38330567702,
+  "workflow": "cp7-f03-full.yml",
+  "job": "Full F03 stack / supplier_credit",
+  "conclusion": "success",
+  "groups": {
+   "CP7_F03_FULL_SUPPLIER_CREDIT_NATIVE": {
+    "PASS": 1
+   },
+   "AUDITOR_RACES_CP7_F03_FULL_SUPPLIER_CREDIT_RACES": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_F03_FULL_SUPPLIER_CREDIT_HTTP": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_SUPPLIER_CREDIT_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 5
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_SUPPLIER_CREDIT",
+   "status": "PASS",
+   "observed": 5,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079152713,
+  "run_id": 38330577052,
+  "workflow": "cp7-prefreeze-ui.yml",
+  "job": "Full F03 stack / prefreeze_ui",
+  "conclusion": "success",
+  "groups": {
+   "AUDITOR_BROWSER_CP7_PREFREEZE_LEGACY_RUNTIME_GAP": {
+    "INCOMPLETE": 2
+   },
+   "AUDITOR_BROWSER_CP7_F03_FULL_PREFREEZE_UI_BROWSER": {
+    "PASS": 31
+   }
+  },
+  "total": {
+   "INCOMPLETE": 2,
+   "PASS": 31
+  },
+  "summary": {
+   "label": "CP7_F03_FULL_PREFREEZE_UI",
+   "status": "PASS",
+   "observed": 31,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078730155,
+  "run_id": 38330441203,
+  "workflow": "cp7-receipt-correction.yml",
+  "job": "Receipt correction / Native stock cost HPP AP journal",
+  "conclusion": "success",
+  "groups": {
+   "CP7_RECEIPT_CORRECTION": {
+    "PASS": 37
+   },
+   "AUDITOR_RACES_CP7_RECEIPT_CORRECTION": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_RECEIPT_CORRECTION": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_RECEIPT_CORRECTION_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 43
+  },
+  "summary": {
+   "label": "CP7_OWNING_RECEIPT_CORRECTION",
+   "status": "PASS",
+   "observed": 43,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078269515,
+  "run_id": 38330288917,
+  "workflow": "fable-cp7-native.yml",
+  "job": "fable-fable_cp7_core-7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2",
+  "conclusion": "success",
+  "groups": {
+   "FABLE_FABLE_CP7_CORE_NATIVE": {
+    "PASS": 5
+   },
+   "AUDITOR_RACES_FABLE_FABLE_CP7_CORE": {
+    "PASS": 5
+   },
+   "AUDITOR_HTTP_FABLE_FABLE_CP7_CORE": {
+    "PASS": 1
+   }
+  },
+  "total": {
+   "PASS": 11
+  },
+  "summary": {
+   "label": "FABLE_FABLE_CP7_CORE",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078294976,
+  "run_id": 38330296574,
+  "workflow": "fable-cp7-native.yml",
+  "job": "fable-fable_cp7_smoke-7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2",
+  "conclusion": "success",
+  "groups": {
+   "FABLE_FABLE_CP7_SMOKE_NATIVE": {
+    "PASS": 5
+   },
+   "AUDITOR_RACES_FABLE_FABLE_CP7_SMOKE": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_FABLE_FABLE_CP7_SMOKE": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_FABLE_FABLE_CP7_SMOKE_BROWSER": {
+    "PASS": 3
+   }
+  },
+  "total": {
+   "PASS": 11
+  },
+  "summary": {
+   "label": "FABLE_FABLE_CP7_SMOKE",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924613,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "pl5-history-yield-20",
+  "conclusion": "success",
+  "groups": {
+   "CP7_PL5_HISTORY_YIELD": {
+    "PASS": 14
+   },
+   "AUDITOR_RACES_CP7_PL5_HISTORY_YIELD": {
+    "PASS": 2
+   },
+   "AUDITOR_HTTP_CP7_PL5_HISTORY_YIELD": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_PL5_HISTORY_YIELD_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 20
+  },
+  "summary": {
+   "label": "CP7_PL5_HISTORY_YIELD",
+   "status": "PASS",
+   "observed": 20,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924624,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "k3-cleanup-22",
+  "conclusion": "success",
+  "groups": {
+   "CP7_K3_CLEANUP": {
+    "PASS": 9
+   },
+   "AUDITOR_RACES_CP7_K3_CLEANUP": {
+    "PASS": 9
+   },
+   "AUDITOR_HTTP_CP7_K3_CLEANUP": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_K3_CLEANUP_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 22
+  },
+  "summary": {
+   "label": "CP7_K3_CLEANUP",
+   "status": "PASS",
+   "observed": 22,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924666,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "p19-scale5",
+  "conclusion": "success",
+  "groups": {
+   "CP7_P19_SCALE": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_P19_SCALE_BROWSER": {
+    "PASS": 4
+   }
+  },
+  "total": {
+   "PASS": 5
+  },
+  "summary": {
+   "label": "CP7_P19_SCALE",
+   "status": "PASS",
+   "observed": 5,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924676,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "k4-runner-17",
+  "conclusion": "success",
+  "groups": {
+   "CP7_K4_RUNNER": {
+    "PASS": 7
+   },
+   "AUDITOR_RACES_CP7_K4_RUNNER": {
+    "PASS": 6
+   },
+   "AUDITOR_HTTP_CP7_K4_RUNNER": {
+    "PASS": 2
+   },
+   "AUDITOR_BROWSER_CP7_K4_RUNNER_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 17
+  },
+  "summary": {
+   "label": "CP7_K4_RUNNER",
+   "status": "PASS",
+   "observed": 17,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924727,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "k6-proof-runner-10",
+  "conclusion": "success",
+  "groups": {
+   "CP7_K6_PROOF_RUNNER": {
+    "PASS": 4
+   },
+   "AUDITOR_RACES_CP7_K6_PROOF_RUNNER": {
+    "PASS": 4
+   },
+   "AUDITOR_HTTP_CP7_K6_PROOF_RUNNER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 10
+  },
+  "summary": {
+   "label": "CP7_K6_PROOF_RUNNER",
+   "status": "PASS",
+   "observed": 10,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115078924774,
+  "run_id": 38330502627,
+  "workflow": "claude-p19-transport.yml",
+  "job": "k2-retention-10",
+  "conclusion": "success",
+  "groups": {
+   "CP7_K2_RETENTION": {
+    "PASS": 6
+   },
+   "AUDITOR_RACES_CP7_K2_RETENTION": {
+    "PASS": 1
+   },
+   "AUDITOR_HTTP_CP7_K2_RETENTION": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_K2_RETENTION_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 10
+  },
+  "summary": {
+   "label": "CP7_K2_RETENTION",
+   "status": "PASS",
+   "observed": 10,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115085711294,
+  "run_id": 38332667386,
+  "workflow": "fable-cp7-native.yml",
+  "job": "fable-fable_cp7_spc_probe-7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2",
+  "conclusion": "success",
+  "groups": {
+   "FABLE_FABLE_CP7_SPC_PROBE_NATIVE": {
+    "PASS": 6
+   }
+  },
+  "total": {
+   "PASS": 6
+  },
+  "summary": {
+   "label": "FABLE_FABLE_CP7_SPC_PROBE",
+   "status": "PASS",
+   "observed": null,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ },
+ {
+  "job_id": 115079091992,
+  "run_id": 38330557862,
+  "workflow": "claude-supplier-payment-create.yml",
+  "job": "New supplier payment through the owning command, races and real Auth HTTP",
+  "conclusion": "failure",
+  "groups": {
+   "CP7_SUPPLIER_PAYMENT_CREATE": {
+    "PASS": 4
+   },
+   "AUDITOR_RACES_CP7_SUPPLIER_PAYMENT_CREATE": {
+    "PASS": 3
+   },
+   "AUDITOR_HTTP_CP7_SUPPLIER_PAYMENT_CREATE": {
+    "PASS": 1
+   },
+   "AUDITOR_BROWSER_CP7_SUPPLIER_PAYMENT_CREATE_BROWSER": {
+    "PASS": 2
+   }
+  },
+  "total": {
+   "PASS": 10
+  },
+  "summary": {
+   "label": "CP7_SUPPLIER_PAYMENT_CREATE",
+   "status": "INCOMPLETE",
+   "observed": 10,
+   "cp6_restored": true,
+   "error": null
+  },
+  "business_day_rerun": false
+ }
+]

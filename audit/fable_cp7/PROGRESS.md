@@ -68,3 +68,14 @@ DATE_POLICY_REVIEW_REQUIRED 12, MATCH 8, FAIL 1. Tidak ada `business_day_rollove
 - core ulang native 38196731514: 5/5 PASS termasuk AI_BRIEF_RUNS_READ_ONLY; job hijau; cp6_restored true.
 - ui browser 38196797717: LANDING_NO_FABRICATED_FIGURES desktop/mobile **FAIL** (F-UI-01, 7 angka karangan), GUDANG_SEES_NO_FINANCE_NAV PASS.
 Laporan: `AUDIT_FABLE_d0b9e9c2.md` v1.0 — vonis HOLD dengan syarat §2.
+
+## Uji ulang 7a0b4a90 (12–13 Okt UTC) — selesai
+- Kasus Fable tidak diubah: core 38330288917 (5 native + 5 balapan + 1 HTTP baru PL-5 owner-only) 11/11 PASS; smoke+UI 38330296574 11/11 PASS
+  (termasuk LANDING_NO_FABRICATED_FIGURES desktop/mobile). F-OPS-01/02 dan F-UI-01 DITUTUP dengan oracle sendiri.
+- 17 workflow penulis didispatch pada head 5656f072 (tree 7a0b4a90): 50 job dibaca per kasus, 1.806 baris: 1.804 PASS, 2 INCOMPLETE legacy prefreeze
+  (sama dengan sebelumnya), 0 FAIL/COUNTEREXAMPLE, 0 pengulangan hari bisnis. p19-scale5 5/5 PASS (selesai 02:16 UTC).
+- Supplier Payment Create (115079091992): 10/10 kasus PASS, label grup INCOMPLETE karena `complete_boundary_restored=false` di akhir grup harness;
+  probe Fable 38332667386 (kasus penulis diapit capture/compare) → boundary_equal & public_equal true. Klasifikasi AUDITOR_TOOL belum terjelaskan; syarat §3.1.
+- PR44: probe Astra pada tree 7a0b4a90 (38330587114) PARITY_PASS 595/595, mutations_caught 2, benchmark 13–42 %; netting 83/83; review sumber probe → DITERIMA oleh Fable.
+- F-PAY-01 ditarik (salah kutip versi fungsi; v2.6.20ac/ap sudah WIB). F-DOC-01: panduan 7a0b4a90 = PR #42 + 9 baris tambahan, tidak ada yang hilang.
+- Laporan: `AUDIT_FABLE_7a0b4a90_RETEST.md` v1.0 — LULUS DENGAN SYARAT (§3). Bukti: `runs/retest_7a0b4a90/`.
