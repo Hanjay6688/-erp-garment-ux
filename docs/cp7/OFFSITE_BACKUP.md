@@ -11,7 +11,8 @@ Dasar: keputusan owner 13 Okt 2026:
 
 Batas biaya: tanpa biaya.
 
-**Status:** alat sudah dibuat dan diuji di server sekali pakai. **Belum dipasang. Jalur Google Drive belum dibuktikan**:
+**Status:** alat sudah dibuat dan diuji di server sekali pakai. Uji pemulihan ke Supabase lokal baru (D13-8b) lulus.
+**Belum dipasang. Jalur Google Drive belum dibuktikan**:
 uji itu butuh akun Google Bos, dan langkahnya ada di `ops/backup-repo/README.md`. Hosted dan Drive belum disentuh.
 `production_go:false`. Alat ini bukan bagian dari putaran silang 1 (kandidat `ae0214ad`) dan diaudit terpisah
 (`docs/cp7/audit-candidate/offsite-backup-r1-20261013/`).
@@ -94,6 +95,41 @@ mengubah daftar `IN` itu, hak akses dan aturan kolom di hasil pemulihan, dan ket
 | `OFB_SCRATCH_SERVER_GUARDS` | Server pemulihan yang sama dengan sumber, di luar mesin sendiri, atau berbeda versi → ditolak. |
 | `OFB_FOREIGN_SCRATCH_NAME_REFUSED` | Database lain bernama sama di server pemulihan → ditolak dan dibiarkan utuh. |
 
+## Uji pemulihan ke Supabase lokal (D13-8b)
+
+Alat: `scripts/cp7_supabase_restore_drill.py`. Workflow: `CP7 Supabase Restore Drill`. Rincian dan angka ada di
+`evidence/restore-drill-20261013/CI_RECEIPT.md`.
+
+Isi uji:
+
+1. Satu malam dibuat dari salinan ERP di CI oleh alat backup ini. Sumbernya diberi dua akun login buatan.
+2. Di mesin yang sama dinyalakan **Supabase lokal kedua yang masih baru**, dengan image dan versi yang sama. Ini
+   pengganti proyek baru.
+3. File malam diambil, hash-nya dicek, lalu kuncinya dibuka.
+4. Target harus benar-benar baru: tabel login kosong dan skema `public` kosong. Peran `postgres`-nya juga harus bukan
+   admin penuh. Kalau salah satu tidak terpenuhi, uji ditolak.
+5. Yang sudah dibuat Supabase sendiri di target dibiarkan. Yang dipulihkan:
+   - semua milik aplikasi: skema `erp`, isi `public`, dan catatan migrasi;
+   - tambahan aplikasi di skema Supabase, yaitu pemicu penjaga di `auth.users`;
+   - data login (`auth.users`, lalu `auth.identities`).
+6. **Hak bawaan `postgres` di target dikosongkan dulu.** Tanpa langkah ini, semua fungsi dan view ERP yang dipulihkan
+   otomatis terbuka untuk `anon` (pengguna yang belum login). Ini temuan run pertama. Hak bawaan milik sumber dipulihkan
+   paling akhir.
+7. Hasilnya dibandingkan dengan sumber: isi setiap tabel aplikasi dan login, nomor urut, serta struktur seluruh
+   database (semua skema, pemilik, hak akses). Perbedaan asli sebelum penyeragaman tetap dicatat.
+
+**Hasil: lulus.** Run 38397645331 (dan kembarannya 38397645440), commit `bebf2dc5`:
+
+- 0 galat;
+- 218 tabel dan 955 baris sama, termasuk 2 akun login;
+- struktur sama;
+- 3 kasus tolak lulus: target bekas, file backup diubah, `postgres` admin penuh.
+
+Run pertama (38395295951) gagal karena masalah `anon` di atas. Lognya disimpan.
+
+**Batas:** lulus di Supabase lokal belum otomatis membuktikan pemulihan ke Supabase hosted. pg_cron tidak ikut
+dipulihkan.
+
 ## Yang belum dibuktikan (jujur)
 
 - **Google Drive** belum diuji, karena butuh akun Bos. Kelulusan di peniru S3 dan di folder belum membuktikan koneksi Drive (D13-8d).
@@ -102,9 +138,14 @@ mengubah daftar `IN` itu, hak akses dan aturan kolom di hasil pemulihan, dan ket
 - **Hosted belum pernah dibaca.** Di Supabase hosted, peran `postgres` bukan admin penuh. Saat pemasangan, baru
   ketahuan apakah ada tabel atau nomor urut yang tidak boleh dibaca. Kalau ada, malam itu gagal dengan kode, tidak
   diam-diam.
-- **Pemulihan ke proyek Supabase terpisah** (syarat owner sebelum produksi) belum dilakukan. Pemeriksaan malam membuktikan
-  dump bisa dipulihkan ke PostgreSQL versi sama. Itu belum membuktikan pengaturan Supabase (Auth, kunci, Storage)
-  ikut pulih. Usulan tanpa biaya ada di register (pertanyaan no. 2, 13 Okt).
+- **Pemulihan ke Supabase hosted** belum diuji. Sesuai D13-8b, ujinya dilakukan ke Supabase lokal baru di mesin
+  GitHub, dengan peran `postgres` yang bukan admin penuh (bagian "Uji pemulihan ke Supabase lokal" di bawah). Lulus di
+  sana belum otomatis membuktikan pemulihan hosted. Pengaturan proyek hosted (kunci API, pengaturan Auth di dashboard,
+  domain) tidak ada di dump.
+- **Pembanding untuk pemulihan sungguhan** belum ada. Uji pemulihan membandingkan dengan database sumber yang masih
+  hidup. Kalau suatu saat Enteng hilang, pembandingnya harus diambil dari backup itu sendiri. Usulan: setiap malam,
+  sidik isi tabel dan struktur dari potret yang sama ikut disimpan di rincian terkunci. Ini mengubah alat backup,
+  jadi perlu audit ulang. Belum dibuat.
 - File Supabase Storage tidak ikut. ERP saat ini tidak memakai Storage.
 
 ## Yang perlu disiapkan Bos (tanpa biaya)
@@ -125,5 +166,9 @@ Enteng tidak diubah sebelum backup awal berhasil dan terverifikasi (D13-8f).
 2. Unduh `<malam>.dump.gpg` dan `<malam>.receipt.json`. Cocokkan SHA-256 file dengan `encrypted.sha256` di tanda
    terima.
 3. Buka kunci dengan kata sandi backup (`gpg --decrypt`). Cocokkan SHA-256 hasilnya dengan `dump.sha256`.
-4. Pulihkan ke database atau proyek **baru**, bukan menimpa yang sedang dipakai. Langkah persis untuk proyek Supabase
-   baru ditulis sesudah uji pemulihan ke proyek terpisah.
+4. Pulihkan ke database atau proyek **baru**, bukan menimpa yang sedang dipakai. Untuk proyek Supabase baru, ikuti
+   langkah di `scripts/cp7_supabase_restore_drill.py`. Yang wajib:
+   - hanya isi milik aplikasi yang dipulihkan, ditambah data login;
+   - hak bawaan peran `postgres` di proyek baru dikosongkan dulu, supaya fungsi ERP tidak terbuka untuk `anon`;
+   - pemulihan dijalankan sebagai `postgres`.
+   Alat itu sekarang masih butuh database sumber sebagai pembanding (lihat "Yang belum dibuktikan").

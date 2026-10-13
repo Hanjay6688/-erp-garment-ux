@@ -229,3 +229,8 @@ Verbatim:
 | D13-8d | Sebelum alat dipakai, jalur Google Drive sungguhan dibuktikan (unggah, unduh kembali, hash, pulihkan, cocokkan). | Kelulusan peniru S3 atau folder tidak dihitung sebagai bukti Drive. |
 | D13-8e | Paket versi yang sama dikirim ke Astra dan Fable. Penyeragaman constraint/ACL dan perlakuan skema GraphQL ikut diperiksa, dan perbedaan aslinya tetap tercatat. | — |
 | D13-8f | Enteng tidak diubah sebelum backup awal berhasil dan terverifikasi. | `production_go:false`. |
+
+Status D13-8b (13 Okt 2026, penulis): uji pemulihan ke Supabase lokal baru sebagai `postgres` bukan admin penuh sudah
+dibuat dan lulus di CI (run 38397645331, commit `bebf2dc5`). Batasnya tercatat: lulus di lokal belum membuktikan
+pemulihan hosted. Rincian: `docs/cp7/evidence/restore-drill-20261013/CI_RECEIPT.md`. Uji silang auditor: paket
+`docs/cp7/audit-candidate/restore-drill-r1-20261013/`.
