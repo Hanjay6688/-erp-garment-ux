@@ -1,10 +1,11 @@
-"""The group-end/per-case difference detail of cp6_auditor_runner (diagnosis only; it never decides a result)."""
+"""The group-end/per-case difference detail of cp6_auditor_runner (diagnosis only; it never decides a result).
+scripts/cp6_auditor_difference.py has no database import, so this runs where psycopg is not installed."""
 import os
 import sys
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import cp6_auditor_runner as runner  # noqa: E402
+import cp6_auditor_difference as runner  # noqa: E402
 
 FUNCTIONS = [['public.a(uuid)', '1'], ['public.b()', '2'], ['public.c(text)', '3']]
 BOUNDARY = dict(erp={'x': dict(count=1, sha256='a'), 'y': dict(count=0, sha256='b')}, platform=[1, 2], auth=[], schemas=[['erp', 'acl']])

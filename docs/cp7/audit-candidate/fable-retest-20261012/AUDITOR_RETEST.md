@@ -82,7 +82,7 @@ Kode produk (`supabase/`, `src/`, `scripts/cp7-src/`) tidak berubah sejak `7a0b4
 
 | Berkas | Isi | Bukti |
 |---|---|---|
-| `scripts/cp6_auditor_runner.py`, `scripts/cp6_auditor_runner_difference_test.py`, `.github/workflows/claude-p08-shell.yml` | Diagnosis: bagian yang berbeda dicatat bila pembanding batas gagal. Pembanding sendiri tidak diubah. | `../../evidence/fable-retest-20261012/GROUP_END_DIAGNOSIS.md` |
+| `scripts/cp6_auditor_runner.py`, `scripts/cp6_auditor_difference.py`, `scripts/cp6_auditor_runner_difference_test.py`, `.github/workflows/claude-p08-shell.yml` | Diagnosis: bagian yang berbeda dicatat bila pembanding batas gagal. Pembanding sendiri tidak diubah. | `../../evidence/fable-retest-20261012/GROUP_END_DIAGNOSIS.md` |
 | `scripts/cp7_group_end_repeat_diagnosis.py`, `.github/workflows/cp7-group-end-diagnosis.yml` | Uji ulang grup native bayar supplier (hanya diagnosis, dispatch saja) | idem, bagian 3 |
 | `scripts/cp7_k3_cleanup_cases.py`, `docs/cp7/k3/K3_CLEANUP.json`, `scripts/cp7_f05_analysis_probe.py`, `.github/workflows/claude-p19-transport.yml`, `.github/workflows/cp7-nightly-backup.yml` (komentar) | Kasus ke-23 K3: gladi pemasang jadwal di salinan CI | `../../evidence/fable-retest-20261012/SCHEDULE_REHEARSAL.md` |
 

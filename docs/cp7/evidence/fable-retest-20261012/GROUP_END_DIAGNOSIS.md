@@ -21,7 +21,10 @@ langsung menyebut bagian yang berbeda.
 - Per kasus: `boundary_difference` ditulis hanya kalau kasus itu tidak memulihkan batasnya.
 - Akhir grup: `group_end_difference` ditulis, plus satu baris JSON di log yang memuat `group_end_difference`,
   `catalog_observation_start` dan `catalog_observation_end`, kalau `complete_boundary_restored` salah.
-- Uji: `scripts/cp6_auditor_runner_difference_test.py` (5 kasus) di workflow Shell S0.
+- Uji: `scripts/cp6_auditor_runner_difference_test.py` (5 kasus) di workflow Shell S0. Di `5b8e9d74` uji ini gagal di
+  Shell S0 (run 38355457365) karena runner memuat `psycopg`, yang tidak terpasang di job itu. Sesudahnya
+  `state_difference` dipindah tanpa perubahan isi ke `scripts/cp6_auditor_difference.py`, yang tidak memuat pustaka
+  database. Runner mengimpornya dari sana.
 
 Selisih tree `7a0b4a90` (`05d4ccd8`) → `5b8e9d74` (`793863ec`) di luar `docs/` hanya tiga berkas:
 `scripts/cp6_auditor_runner.py`, `scripts/cp6_auditor_runner_difference_test.py`, dan satu baris di
