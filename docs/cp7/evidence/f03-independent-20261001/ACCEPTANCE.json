@@ -1,0 +1,167 @@
+{
+  "status": "INDEPENDENT_ACCEPTED_F03_CONTRACT_SCOPE",
+  "candidate_product": "eb6b8682e97e94c95f89d431ab81974c54ddcbaf",
+  "f03_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "scope": "P09-P13 declared audit matrix and affected upstream/consumer seams",
+  "independent_f03_acceptance": true,
+  "full_cp7_acceptance": false,
+  "production_go": false,
+  "confirmed_material_product_findings": [],
+  "required_execution_gaps_in_declared_matrix": [],
+  "independently_authored": {
+    "local_contract_PASS": 26,
+    "runtime_PASS": 23,
+    "runtime_run": 36912838566
+  },
+  "retained_reexecuted_by_auditor": {
+    "case_executions_PASS": 502,
+    "separate_smokes_PASS": 3,
+    "unique_oracle_total_claim": false
+  },
+  "initial_receipts_preserved": [
+    "own_first",
+    "journeys_first"
+  ],
+  "product_files_changed": false,
+  "writer_branch_changed": false,
+  "hosted_database_changed": false,
+  "latest_writer_compared": "50c4e46a9a9388d4644414a68df5d0e59f00671f",
+  "newer_f04_f05_acceptance_claim": false,
+  "artifact_index": "runtime/INDEX.json",
+  "artifact_index_sha256": "cc546e3ae65719dd74fc2cad43d8cdf39471403bd453105e7ef9597f98bee918",
+  "known_environment_limits": [
+    "Local retained suite1156 PASS; one F04 nonroot PostgreSQL setup failure remains honestly recorded.",
+    "Disposable restore has19 declared pg_cron/schema-cron diagnostics and zero unexplained errors; no zero-error cron restore claim."
+  ],
+  "final_cp7_gates_not_granted": [
+    "P18 full CP7 lifecycle",
+    "P19 scale/resilience",
+    "P20 final candidate independent audit",
+    "P21 release/cutover",
+    "owner demo design and iPad visual acceptance",
+    "owner production approval"
+  ],
+  "packet_mapping": {
+    "P09": {
+      "independent": [
+        "IF03_N08_RECEIPT_PRECISION",
+        "IF03_N09_LARGE_RECEIPT",
+        "IF03_N13_OPERATIONAL_REDACTION"
+      ],
+      "retained": [
+        "p09",
+        "supplier_credit",
+        "additional",
+        "economic",
+        "journeys"
+      ],
+      "bridges": [
+        "E01",
+        "E12",
+        "E14",
+        "E24"
+      ]
+    },
+    "P10": {
+      "independent": [
+        "IF03_N01_PRODUCTION_MONEY",
+        "IF03_N03_GRADE_RETURNS",
+        "IF03_N10_FG_INVERSE"
+      ],
+      "retained": [
+        "p10",
+        "economic",
+        "journeys",
+        "planner"
+      ],
+      "bridges": [
+        "O07",
+        "E01",
+        "E04",
+        "E13",
+        "E14",
+        "E20"
+      ]
+    },
+    "P11": {
+      "independent": [
+        "IF03_N01_PRODUCTION_MONEY",
+        "IF03_N02_DECIMAL_CASH",
+        "IF03_N03_GRADE_RETURNS",
+        "IF03_N04_PAID_RETURN_POLICY",
+        "IF03_N05_CHANGED_REPLAY",
+        "IF03_N06_REVOKED_REPLAY",
+        "IF03_N07_COMPLETE_PAGES",
+        "IF03_R01_CASH_SAME_UUID",
+        "IF03_R02_CASH_COMPETING",
+        "IF03_R03_REVOKE_WHILE_REPLAY_WAITING",
+        "IF03_H01_SALE_AUTH",
+        "IF03_B01_DESKTOP_RECOVERY",
+        "IF03_B02_MOBILE_RECOVERY"
+      ],
+      "retained": [
+        "p11",
+        "customer_refund",
+        "economic",
+        "journeys",
+        "planner"
+      ],
+      "bridges": [
+        "O06",
+        "E01",
+        "E03",
+        "E12",
+        "E13",
+        "E14"
+      ]
+    },
+    "P12": {
+      "independent": [
+        "IF03_N11_PAYROLL_THIRDS",
+        "IF03_N12_STALE_OVERPAY",
+        "IF03_N13_OPERATIONAL_REDACTION",
+        "IF03_R04_PAYROLL_COMPETING",
+        "IF03_H03_PAYROLL_AUTH"
+      ],
+      "retained": [
+        "p12",
+        "cash_installments",
+        "economic",
+        "additional"
+      ],
+      "bridges": [
+        "E05",
+        "E07",
+        "E12",
+        "E14"
+      ]
+    },
+    "P13": {
+      "independent": [
+        "IF03_N01_PRODUCTION_MONEY",
+        "IF03_N02_DECIMAL_CASH",
+        "IF03_N14_READ_ONLY_REPORT",
+        "IF03_H02_PRIVATE_REST"
+      ],
+      "retained": [
+        "p13",
+        "cash_installments",
+        "economic",
+        "journeys",
+        "additional"
+      ],
+      "bridges": [
+        "O13",
+        "O14",
+        "O18",
+        "E04",
+        "E05",
+        "E06",
+        "E07",
+        "E13",
+        "E14",
+        "X04"
+      ]
+    }
+  }
+}

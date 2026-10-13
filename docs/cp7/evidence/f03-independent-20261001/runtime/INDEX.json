@@ -1,0 +1,740 @@
+{
+  "product": "eb6b8682e97e94c95f89d431ab81974c54ddcbaf",
+  "f03_bundle_sha256": "6df48df8bbf7113636ce504b2f1f894b43a6444f803ba71a0007c18b32f6907c",
+  "archive_format": "GZIP_JSON_MAP_FILENAME_TO_EXACT_ORIGINAL_JSON_TEXT",
+  "no_unique_oracle_total": true,
+  "production_go": false,
+  "groups": {
+    "own_first": {
+      "run_id": 36911271122,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36911271122",
+      "probe_commit": "3d3aa55fc2fda3fded11e8fb1efe2858e1f73722",
+      "status": "INCOMPLETE",
+      "report": "F03_INDEPENDENT.json",
+      "archive": "own_first.json.gz",
+      "archive_sha256": "a95413a4df9e72276bd717588575d77f4e17d138cac3212dc764c80324b319fc",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "F03_INDEPENDENT.json": "ef806c3b855267933aae2b94ca27c1a13cc34fc43c859673dfd691031e3498aa",
+        "IF03_BROWSER_DESKTOP_FAILURE.json": "11805eac216a7c06ff026373488335627582d2a801995470c57ba0f454e07021",
+        "IF03_BROWSER_MOBILE_FAILURE.json": "6e4fcf24c51255529fbaaa941390e0b1db19a3c67913d699ba0615b58857e039",
+        "T3_BACKUP_RESTORE_DRILL.json": "3547b8e2ab33242ea1c12a5095e788150efddb63163debcc619d8deaec3fcf68",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "158ee62535f8cf03ea3cacd53b4de3fa0edac847f033a948e590361e017d5758"
+      },
+      "github_artifact": {
+        "run_id": 36911271122,
+        "artifact_id": 11186323645,
+        "zip_sha256": "400ed758a7ec8d1c0eacd16a07e2a76c98b4faf98ca7306a5eb7e42ae3da07da",
+        "probe_commit": "3d3aa55fc2fda3fded11e8fb1efe2858e1f73722"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 20,
+        "INCOMPLETE": 3
+      },
+      "execution_kinds": {
+        "native": 14,
+        "races": 4,
+        "http": 3,
+        "browser": 2
+      },
+      "case_executions": 23,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      }
+    },
+    "own_final": {
+      "run_id": 36912838566,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36912838566",
+      "probe_commit": "120dfe321a47a7d65db86db14bc1222af3fbe160",
+      "status": "PASS",
+      "report": "F03_INDEPENDENT.json",
+      "archive": "own_final.json.gz",
+      "archive_sha256": "91fb787f74ba90b6337c629ba69ddbea0ae16437e287c55694dde73d854f5af9",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "F03_INDEPENDENT.json": "5e9b418a80b6a64841c45b88fb429f05e6d7440dd3b6d56d4e93ad9a027d3510",
+        "T3_BACKUP_RESTORE_DRILL.json": "1018684237c3a680516a3c7b6ed0443428c9c9e861d56f82db9e8494505e7353",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "4bb8dbc66c48e27b036c726c003fda80e6954f11a1d3dfb8afe199bde2bc4e51"
+      },
+      "github_artifact": {
+        "run_id": 36912838566,
+        "artifact_id": 11188422099,
+        "size_bytes": 2501902,
+        "zip_sha256": "de40adb1045d26b532582c736f4fd14f7a686e86aca0a9ac76a2d1e80f9bc416",
+        "probe_commit": "120dfe321a47a7d65db86db14bc1222af3fbe160"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 23
+      },
+      "execution_kinds": {
+        "native": 14,
+        "races": 4,
+        "http": 3,
+        "browser": 2
+      },
+      "case_executions": 23,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "p09": {
+      "run_id": 36910147400,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36910147400",
+      "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd",
+      "status": "PASS",
+      "report": "CP7_F03_FULL_P09.json",
+      "archive": "p09.json.gz",
+      "archive_sha256": "2d0cb440b4a91500d74f4e91d34cb67f6998fd236a948ba9883957816462e5f2",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_FULL_P09.json": "05ecb91fd798922104691fb8a05556ff1725a4411d5aec27d4b365b4ab997d2d",
+        "T3_BACKUP_RESTORE_DRILL.json": "a123182825ff478011db34396b1cc797aff118aff36c660f1471605276094b01",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "96127db4411be364fb12ffbbdce6713842e4e9040735058b89151f0ce25a4d28"
+      },
+      "github_artifact": {
+        "run_id": 36910147400,
+        "artifact_id": 11186238936,
+        "size_bytes": 19590168,
+        "zip_sha256": "141e6ad7b82fb15eeeecc7130283df0e494c02a82893487c29ec36a38746fe25",
+        "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 135
+      },
+      "execution_kinds": {
+        "native": 82,
+        "races": 22,
+        "http": 9,
+        "browser": 22
+      },
+      "case_executions": 132,
+      "smoke_executions": 3,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "p10": {
+      "run_id": 36910147400,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36910147400",
+      "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd",
+      "status": "PASS",
+      "report": "CP7_F03_FULL_P10.json",
+      "archive": "p10.json.gz",
+      "archive_sha256": "f1e4f60796345c14a4f22a99e07cf1e3298e7d5f6b4f2d61deb480c8a37eadda",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_FULL_P10.json": "b9781d8d7c326c18f5de9a52e463ce0a7996d6041d4d7aeb6248690f5de5d15b",
+        "T3_BACKUP_RESTORE_DRILL.json": "d951ccf335409945f0d8701fe54d871a576469783708184152f236a8aa368f6a",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "96127db4411be364fb12ffbbdce6713842e4e9040735058b89151f0ce25a4d28"
+      },
+      "github_artifact": {
+        "run_id": 36910147400,
+        "artifact_id": 11187430067,
+        "size_bytes": 5242831,
+        "zip_sha256": "f04040f340e8c5a5d6db04593f39843392856b1113e44094b8ba0fda04e9bfc1",
+        "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 34
+      },
+      "execution_kinds": {
+        "native": 21,
+        "http": 3,
+        "races": 4,
+        "browser": 6
+      },
+      "case_executions": 34,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "p11": {
+      "run_id": 36910147400,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36910147400",
+      "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd",
+      "status": "PASS",
+      "report": "CP7_F03_FULL_P11.json",
+      "archive": "p11.json.gz",
+      "archive_sha256": "cda2f735204763520cc6e18f9b2c3ba6b44294460f1d854bd57cbde16104a3b4",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_FULL_P11.json": "e2a4d01be2b27ef9df561aa9fd9cd1bb50f39ea953dba7e812796e63e27329e7",
+        "T3_BACKUP_RESTORE_DRILL.json": "b0749f5ecd0b0969544ed978f53ee55df0e0f7dc9dad325e7953a2d1ec54652e",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "96127db4411be364fb12ffbbdce6713842e4e9040735058b89151f0ce25a4d28"
+      },
+      "github_artifact": {
+        "run_id": 36910147400,
+        "artifact_id": 11187686225,
+        "size_bytes": 8237684,
+        "zip_sha256": "75f451ffaffe68d6667aac41c96bb4af3ac21a59e8a01fa8c49096f14f4c2f2b",
+        "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 64
+      },
+      "execution_kinds": {
+        "native": 40,
+        "http": 5,
+        "races": 9,
+        "browser": 10
+      },
+      "case_executions": 64,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "p12": {
+      "run_id": 36910147400,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36910147400",
+      "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd",
+      "status": "PASS",
+      "report": "CP7_F03_FULL_P12.json",
+      "archive": "p12.json.gz",
+      "archive_sha256": "e3e994d2b4be9b71f60a6b61b0255784b3d8b4ff206777801e96cdfb32c97ab3",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_FULL_P12.json": "c324b7849983197128ea03ea7c4f768016e9610e459407ed7ab48212c6e1d57c",
+        "T3_BACKUP_RESTORE_DRILL.json": "5ae3c5df7b1a1471d657a31ff352359a976510ea3df317f3d77b5b6c40dc6982",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "96127db4411be364fb12ffbbdce6713842e4e9040735058b89151f0ce25a4d28"
+      },
+      "github_artifact": {
+        "run_id": 36910147400,
+        "artifact_id": 11189800734,
+        "size_bytes": 7777688,
+        "zip_sha256": "130312522b6c0750d1a9215ef4bbd3c5cf617881bb5dafd46194e5115fd94e40",
+        "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 90
+      },
+      "execution_kinds": {
+        "native": 50,
+        "http": 9,
+        "races": 16,
+        "browser": 15
+      },
+      "case_executions": 90,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "p13": {
+      "run_id": 36910147400,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36910147400",
+      "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd",
+      "status": "PASS",
+      "report": "CP7_F03_FULL_P13.json",
+      "archive": "p13.json.gz",
+      "archive_sha256": "b7f9bd03a7625a82bdfd0a7c276083167c1c960fca0eb9c711f2845a938d628d",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_FULL_P13.json": "16db7a0540f78eaa26cde4ad69a5e78a9b3326cc7cc6cdfd4e1ff8d3275c9bbe",
+        "T3_BACKUP_RESTORE_DRILL.json": "b1ac8c144f9b3761391a7da8a4ef9c6c6b1cdccf7f8953de71ff8efb64d0da71",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "96127db4411be364fb12ffbbdce6713842e4e9040735058b89151f0ce25a4d28"
+      },
+      "github_artifact": {
+        "run_id": 36910147400,
+        "artifact_id": 11187018657,
+        "size_bytes": 11409337,
+        "zip_sha256": "00353d57305e663e068019e5432a0a53a16d07291b49f2abe0289a55ac7209f9",
+        "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 50
+      },
+      "execution_kinds": {
+        "native": 32,
+        "races": 6,
+        "http": 4,
+        "browser": 8
+      },
+      "case_executions": 50,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "cash_installments": {
+      "run_id": 36910147400,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36910147400",
+      "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd",
+      "status": "PASS",
+      "report": "CP7_F03_FULL_CASH_INSTALLMENTS.json",
+      "archive": "cash_installments.json.gz",
+      "archive_sha256": "e3f924b1fea45f1dae0e9f0de57d8d2de5b2db2e0e5dc53f2e9dc1724af22609",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_FULL_CASH_INSTALLMENTS.json": "99fa850f3c67551349d63c0723d463fd4b9cea36b0c47bbba2cd5103ea3826ef",
+        "T3_BACKUP_RESTORE_DRILL.json": "be19e429b17e29d4c709ef591a1a93ae6757a5bac92f69f6be3326182cf2278b",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "96127db4411be364fb12ffbbdce6713842e4e9040735058b89151f0ce25a4d28"
+      },
+      "github_artifact": {
+        "run_id": 36910147400,
+        "artifact_id": 11189521264,
+        "size_bytes": 26495379,
+        "zip_sha256": "e1a2621c25438e0ed40ee62a3aed30221ac15b3e36e743900a7372057cf4e5a0",
+        "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 61
+      },
+      "execution_kinds": {
+        "native": 38,
+        "http": 4,
+        "browser": 14,
+        "races": 5
+      },
+      "case_executions": 61,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "supplier_credit": {
+      "run_id": 36910147400,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36910147400",
+      "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd",
+      "status": "PASS",
+      "report": "CP7_F03_FULL_SUPPLIER_CREDIT.json",
+      "archive": "supplier_credit.json.gz",
+      "archive_sha256": "c66cf4dc4f5fb1f9c2836cd9440ee995c2a902a138447297453f2758816bc9fc",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_FULL_SUPPLIER_CREDIT.json": "ae1c971223560afb076b2b1c22385ef98f4ce9b56096f77b64e2a481747e1c9b",
+        "T3_BACKUP_RESTORE_DRILL.json": "1e95cfbd2670aba304d198a15f59ba78d94f36198c7940b55d3c79fa48d32b5c",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "96127db4411be364fb12ffbbdce6713842e4e9040735058b89151f0ce25a4d28"
+      },
+      "github_artifact": {
+        "run_id": 36910147400,
+        "artifact_id": 11189201917,
+        "size_bytes": 3071025,
+        "zip_sha256": "8bf0e0c5f4893562e42f4f1efacf8b84b8537da2e3a15efcafc47682cf4f7e25",
+        "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 5
+      },
+      "execution_kinds": {
+        "native": 1,
+        "races": 1,
+        "http": 1,
+        "browser": 2
+      },
+      "case_executions": 5,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "customer_refund": {
+      "run_id": 36910147400,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36910147400",
+      "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd",
+      "status": "PASS",
+      "report": "CP7_F03_FULL_CUSTOMER_REFUND.json",
+      "archive": "customer_refund.json.gz",
+      "archive_sha256": "c0262952af87ac6ba9c7c82175c97604adf0756189e87bf65ccb29471d0ac609",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_FULL_CUSTOMER_REFUND.json": "9aba67ccfebce4743511ebe5583300afd49737f571b91f018d3e760b80b751f6",
+        "T3_BACKUP_RESTORE_DRILL.json": "9d874fa2ee4b028a81ea9e306f62d4a8c0dcc0880fe2907a5ea07f200a47484f",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "96127db4411be364fb12ffbbdce6713842e4e9040735058b89151f0ce25a4d28"
+      },
+      "github_artifact": {
+        "run_id": 36910147400,
+        "artifact_id": 11189117345,
+        "size_bytes": 3602404,
+        "zip_sha256": "8cd4158d04b26b19957707d9141dbc8526c9060d43c23c9737d583302ec2b982",
+        "probe_commit": "b38d1cd2ed9b8e28dda425fa1c2df390f594adfd"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 10
+      },
+      "execution_kinds": {
+        "native": 3,
+        "races": 1,
+        "http": 2,
+        "browser": 4
+      },
+      "case_executions": 10,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "economic": {
+      "run_id": 36911723469,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36911723469",
+      "probe_commit": "7a7d4c7147dd088df18e6998706dc89d3ca241ab",
+      "status": "PASS",
+      "report": "F03_RETAINED_EXTENDED_ECONOMIC.json",
+      "archive": "economic.json.gz",
+      "archive_sha256": "2edec9675a3d1fef14b68d5866ef07d6ee6499d7ed0e3d14399a9f023c929cb0",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "F03_RETAINED_EXTENDED_ECONOMIC.json": "a87f472b53dc71d1e9db8033d3b2201bf3a2dc527fbe0d27114166dd840a2550",
+        "T3_BACKUP_RESTORE_DRILL.json": "f79487de1a55b13734f9b700ec0f47b50c9415a329ff210188ee52a33c3daf80",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "41750b95b31a4f7a1efa35af92cbd5495059818c25296ed287b045c05b1136a3"
+      },
+      "github_artifact": {
+        "run_id": 36911723469,
+        "artifact_id": 11188541053,
+        "size_bytes": 1667945,
+        "zip_sha256": "e2b9b913839d25e645e57d6bd7ea32c9d8512c79f796793658ee2a8322ebb1a1",
+        "probe_commit": "7a7d4c7147dd088df18e6998706dc89d3ca241ab"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 32
+      },
+      "execution_kinds": {
+        "native": 21,
+        "http": 4,
+        "races": 7
+      },
+      "case_executions": 32,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "journeys_first": {
+      "run_id": 36911723469,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36911723469",
+      "probe_commit": "7a7d4c7147dd088df18e6998706dc89d3ca241ab",
+      "status": "INCOMPLETE",
+      "report": "F03_RETAINED_EXTENDED_JOURNEYS.json",
+      "archive": "journeys_first.json.gz",
+      "archive_sha256": "aca27e9e9e7c9f6719b0a47b0b216ef101104ab84074b8d0e73f656981f89a3e",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "F03_RETAINED_EXTENDED_JOURNEYS.json": "aa7a676a9829da2691097fb9ae7f780b7aa7189c012fe480f926096501569429",
+        "T3_BACKUP_RESTORE_DRILL.json": "e1dac773f7025d45d57b267091aa61ddf73f6b2a8374fb851b4c89ab92a84459",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "64c81e290fcc0df14700a9f2fab23daf574bcf119518ae8da6107f440d63fc27"
+      },
+      "github_artifact": {
+        "run_id": 36911723469,
+        "artifact_id": 11189611359,
+        "size_bytes": 3997731,
+        "zip_sha256": "9ae659298add628809e6967238a10db4c978b3f77ad61c423bc036bdf921a81b",
+        "probe_commit": "7a7d4c7147dd088df18e6998706dc89d3ca241ab"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 2
+      },
+      "execution_kinds": {
+        "browser": 2
+      },
+      "case_executions": 2,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      }
+    },
+    "planner": {
+      "run_id": 36911723469,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36911723469",
+      "probe_commit": "7a7d4c7147dd088df18e6998706dc89d3ca241ab",
+      "status": "PASS",
+      "report": "CP7_F03_NATIVE_PLANNER_SEAMS.json",
+      "archive": "planner.json.gz",
+      "archive_sha256": "343e1bc2356b65abf65c2271db8ec934b8d1519b4bd8b3a3e8bd1b21302aca7d",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "CP7_F03_NATIVE_PLANNER_SEAMS.json": "efbb008a6c6fecd25851cba8b3774d3bb95965e91fe573b8eaeb94100e87dc79",
+        "T3_BACKUP_RESTORE_DRILL.json": "98328790dcba9aaa3e2e90c72369e8ce3e3220bf747d26ac5abb1e669b330ad2",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "41750b95b31a4f7a1efa35af92cbd5495059818c25296ed287b045c05b1136a3"
+      },
+      "github_artifact": {
+        "run_id": 36911723469,
+        "artifact_id": 11188473431,
+        "size_bytes": 1636536,
+        "zip_sha256": "8b2d1ee667261723e1c626c7b42b40bddd4dccb9946adfceca859b44b5885cfc",
+        "probe_commit": "7a7d4c7147dd088df18e6998706dc89d3ca241ab"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 2
+      },
+      "execution_kinds": {
+        "native": 2
+      },
+      "case_executions": 2,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "composed_planner_bundle_sha256": "ee509f7b3b2d6815d6810dd488cc17dca62312ad9b9b8e295917001a5b110e25",
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "journeys": {
+      "run_id": 36915203087,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36915203087",
+      "probe_commit": "cc64cb11caac0fd57a6dccbaa8afca5a96697a90",
+      "status": "PASS",
+      "report": "F03_RETAINED_EXTENDED_JOURNEYS.json",
+      "archive": "journeys.json.gz",
+      "archive_sha256": "24de0fde110b26ff6f3e1fda41dd1b25ccc3360fcee7f1292c47bc3507b36215",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "AUDITOR_PORT_PREFLIGHT.json": "706bd7cc114e10e04830e21eb43a3bb4fcc74b0f7474a5741da6539fc034c636",
+        "F03_RETAINED_EXTENDED_JOURNEYS.json": "3977198b652e2facbf115079d5029f5dfaa5ce7dc44780ec191cea55fea2a570",
+        "T3_BACKUP_RESTORE_DRILL.json": "e415e2ed6ee27790883eca039c37129913fcc8f37103892aae82b73296eef317",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "c880b6fd40693042b30eef1c594fa6d1f6692383bca1b4436f022017715ebc3e"
+      },
+      "github_artifact": {
+        "run_id": 36915203087,
+        "artifact_id": 11188604655,
+        "size_bytes": 11205826,
+        "zip_sha256": "398be6a913f970fc4bb4a3bb6b35612781e412df27eddf1dcb243582c5c4d9ff",
+        "probe_commit": "cc64cb11caac0fd57a6dccbaa8afca5a96697a90"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 8
+      },
+      "execution_kinds": {
+        "browser": 8
+      },
+      "case_executions": 8,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    },
+    "additional": {
+      "run_id": 36913310583,
+      "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36913310583",
+      "probe_commit": "da077c69bf40c358d8302296dafee1dfac482eed",
+      "status": "PASS",
+      "report": "F03_RETAINED_ADDITIONAL.json",
+      "archive": "additional.json.gz",
+      "archive_sha256": "19ffc406a704a47b7b318c2992e1c6bc15f59e7517e83b313137276f8d0433fa",
+      "originals": {
+        "ALIGNED_CHAIN.json": "17806174be4dfe8fad2a2c8c82974caaf2b22ac6fde7027d44d1753494e6b14d",
+        "F03_RETAINED_ADDITIONAL.json": "2efdc774611c76568e4f8c04ed73dda527d8eb36b38e494cdef0c804554add90",
+        "T3_BACKUP_RESTORE_DRILL.json": "89c698c8aec3c5581e6f9ea0bb68903b48cfe8c1cfc58146dd58c2a6b3886539",
+        "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "T3_PACKAGE_INSTALL.json": "4b08326b399ef1e19e59a55917c79b985ab8b05cfaaccbabac3cdcc3d98c39c2"
+      },
+      "github_artifact": {
+        "run_id": 36913310583,
+        "artifact_id": 11188477351,
+        "size_bytes": 3342299,
+        "zip_sha256": "f3362a70a7cb4b8c214ac6c99bf0ed6d4a30cd5b047d28fef71369137420d3cc",
+        "probe_commit": "da077c69bf40c358d8302296dafee1dfac482eed"
+      },
+      "downloaded_zip_digest_verified": true,
+      "counts": {
+        "PASS": 14
+      },
+      "execution_kinds": {
+        "native": 8,
+        "races": 3,
+        "http": 1,
+        "browser": 2
+      },
+      "case_executions": 14,
+      "smoke_executions": 0,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "backup_restore": {
+        "status": "RESTORED_SAME_MEANING",
+        "declared_errors": 19,
+        "unexplained": []
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      }
+    }
+  },
+  "missing": [],
+  "complete": true
+}

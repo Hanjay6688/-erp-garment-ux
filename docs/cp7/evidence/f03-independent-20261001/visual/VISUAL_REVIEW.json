@@ -1,0 +1,101 @@
+{
+  "scope": "Selected actual final and guarded states visually inspected; not all intermediate screens or owner demo alignment",
+  "images": [
+    {
+      "group": "p10",
+      "image": "P10_FG_MOBILE.png",
+      "sha256": "d2ce972064fc1d517149060635c52a6adccb4fa750bcb3ed310d99043033ccbe",
+      "retained_in_repository": false
+    },
+    {
+      "group": "p10",
+      "image": "P10_BOOK_DESKTOP.png",
+      "sha256": "0b85c8850bf029e9fa3e98622b9f23e05b3edd8d5f4eaf23ed7250c742b17aeb",
+      "retained_in_repository": false
+    },
+    {
+      "group": "p09",
+      "image": "P09_COMBINED_INVOICE_MOBILE.png",
+      "sha256": "a48275aee737a613952b9ca288de3a5f37cdbb191577190a34b4c02c121b1462",
+      "retained_in_repository": false
+    },
+    {
+      "group": "p11",
+      "image": "P11_RETURN_MOBILE.png",
+      "sha256": "34a9cbbd8d533553512ac20c6b64eb8cc206a9dea62dd6eba1dc116926f15ba4",
+      "retained_in_repository": false
+    },
+    {
+      "group": "p13",
+      "image": "P13_REPORT_DESKTOP.png",
+      "sha256": "d757354c098d2443ce247eff12e34114dc2666434f56d82d84792d2683be5cff",
+      "retained_in_repository": false
+    },
+    {
+      "group": "p12",
+      "image": "P12_PAYROLL_SETTLEMENT_MOBILE.png",
+      "sha256": "3c94cbdc1450b9f8d83493a84dd3aef47ec8008ae1118386e5d4d0f068db6861",
+      "retained_in_repository": false
+    },
+    {
+      "group": "additional",
+      "image": "P09_COMBINED_RETURN_DESKTOP.png",
+      "sha256": "1d618a6448b6beccf42165f34716025e056df8ebe7aa7cbdf18923dc82901b83",
+      "retained_in_repository": false
+    },
+    {
+      "group": "own_final",
+      "image": "IF03_BROWSER_DESKTOP.png",
+      "sha256": "1d738c696769285f17db7d79797944c1e7eabefba8757baf1d8eae03f0efc794",
+      "retained_in_repository": true
+    },
+    {
+      "group": "own_final",
+      "image": "IF03_BROWSER_MOBILE.png",
+      "sha256": "e6cb832a91768f3a18a02a152e87fb1ef9b70d5604a2267bba8b3635855dea2e",
+      "retained_in_repository": true
+    },
+    {
+      "group": "own_first",
+      "image": "IF03_BROWSER_DESKTOP_FAILURE.png",
+      "sha256": "34334d560832243d88fbe5a00d8a57541f09073ef3aa70d50e53e815228dd7d4",
+      "retained_in_repository": false
+    },
+    {
+      "group": "cash_installments",
+      "image": "E05_REVOKED_REPLAY_MOBILE.png",
+      "sha256": "5fac14347b868c4359f7317e9a3ac46d1b34cbbaf6471cb0c0a2f9fb2cab12bd",
+      "retained_in_repository": false
+    },
+    {
+      "group": "cash_installments",
+      "image": "E05_PENDING_CASH_DESKTOP.png",
+      "sha256": "97c45eaa2b129bc38d4135a59bd2bc9c771644c8240b59f062bc55de9c8269f5",
+      "retained_in_repository": false
+    },
+    {
+      "group": "supplier_credit",
+      "image": "F03_SUPPLIER_CREDIT_MOBILE_CURRENT_AUTHORITY_REFUSAL_FACTS_RETIRED.png",
+      "sha256": "a77e6d95537af2fe91d9b65c46848f8fc9fb60b58a45a650907864e280e3cd09",
+      "retained_in_repository": false
+    },
+    {
+      "group": "customer_refund",
+      "image": "F03_E03_REFUND_DESKTOP_EXACT_UUID_RECONCILED.png",
+      "sha256": "fbb5db90e04e7b36b697361f7d222e1e9b7df9367abd29541d003a1c601c219a",
+      "retained_in_repository": false
+    },
+    {
+      "group": "journeys",
+      "image": "E01_REPORT_MOBILE.png",
+      "sha256": "6d77de3265d4b9860e9b93e1367f46774f41636d97c29aaa1881d7b1f9ebd2a5",
+      "retained_in_repository": false
+    },
+    {
+      "group": "journeys",
+      "image": "X04_REDYE_FG_DESKTOP.png",
+      "sha256": "0c983bdf19563db6c30cdfe1c77c3f58cc2ec02c7d94e7e421745596fdf656b5",
+      "retained_in_repository": false
+    }
+  ]
+}

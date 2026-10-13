@@ -1,0 +1,25 @@
+{
+  "product_candidate": "eb6b8682e97e94c95f89d431ab81974c54ddcbaf",
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "independent_local_checks": {
+    "PASS": 26
+  },
+  "retained_local_checks": {
+    "PASS": 1156,
+    "ENVIRONMENT_FAILURE": 1
+  },
+  "native_independent": "NOT_RUN",
+  "connected_browser_independent": "NOT_RUN",
+  "official_build": "PASS",
+  "writer_full_stack_run": 36861170597,
+  "writer_full_stack_source": "37c103e548bf3ee944f5334f2b0565ba72e0fc19",
+  "publication": "AUTO_REVIEW_REJECTED_AWAITING_EXPLICIT_PERMISSION",
+  "files": {
+    "LOCAL_INDEPENDENT_26.log": "06c025625c20c8b8b623b2815a0153668378f70ad81a14ecb6d438bf10ada1d4",
+    "LOCAL_RETAINED_SUITE.log": "f2e31c67014adfb7e66d8d484dd9e80d094f14df65a7d0e656dcb9896d21661f",
+    "LOCAL_BUILD.log": "c3c410a826a0415c401dff526fbb4a797e235d4769dc82219ddb850821850ca5",
+    "BROWSER_INSTALL_FAILURE.log": "43034ba26fcc9474b87cc14e307ff48ef23db93727231182564825035fca8b0d"
+  }
+}

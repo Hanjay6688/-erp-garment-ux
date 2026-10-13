@@ -1,0 +1,36 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/eeb89eca3f58/erp-f03-audit
+
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > agrees with the independent seven-piece worksheet 4ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > keeps cents beyond JavaScript safe integer 1ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > does not round an oversized installment into the remaining balance 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > preserves a one-cent final installment 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > does not permit a discount above the whole line 1ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "NaN" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "Infinity" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "-Infinity" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "1e3" 2ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "1.001" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "1,000.00" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "1.000,00" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "-1" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses ambiguous or unsupported cash input "" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses non-PCS invoice quantity "0" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses non-PCS invoice quantity "-1" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses non-PCS invoice quantity "1.5" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses non-PCS invoice quantity "1e3" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses non-PCS invoice quantity "NaN" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > refuses non-PCS invoice quantity "01" 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > keeps all six receipt decimals and refuses a seventh 2ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > rejects nonexistent report date 2026-02-29 2ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > rejects nonexistent report date 2026-04-31 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > rejects nonexistent report date 2026-13-01 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > rejects nonexistent report date 2026-1-01 0ms
+ ✓ tests/cp7/independent/f03-20261001.test.ts > F03 independent numeric boundaries, 2026-10-01 > accepts the actual leap day 0ms
+
+ Test Files  1 passed (1)
+      Tests  26 passed (26)
+   Start at  22:10:58
+   Duration  516ms (transform 175ms, setup 0ms, import 222ms, tests 22ms, environment 0ms)
+
