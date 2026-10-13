@@ -89,3 +89,4 @@ Laporan: `AUDIT_FABLE_d0b9e9c2.md` v1.0 — vonis HOLD dengan syarat §2.
 - Kasus Fable baru: scenarios/fable_cp7_xc1.py (4 balapan + 1 native). Temuan minor baru F-OPS-05 (tanda polos bisa disalin) menunggu bukti.
 - 16:05 UTC: 9 run selesai, 25 job dibaca, 478 baris kasus (477 PASS, 1 COUNTEREXAMPLE kasus Fable baru = F-OPS-05). v1.1 FINAL:
   A1 DITUTUP (+F-OPS-05 minor), A2 OPEN (3 run Fable 10/10), A3 DITUTUP, A5 DITUTUP, A6 TIDAK LENGKAP, A7 TERIMA, A8 DITUTUP.
+- 2026-10-13T16:30:49Z: owner D13-10..13 dicatat (A2 diterima sebagai keterbatasan terbuka; pembanding terurut sebagai pelengkap diizinkan; putaran 2 = A6 browser P11 + F-OPS-05). Menunggu kandidat putaran 2.

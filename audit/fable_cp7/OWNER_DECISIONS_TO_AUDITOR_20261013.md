@@ -34,3 +34,22 @@ Status label: keputusan 12 Oktober yang sebelumnya dikutip penulis berpindah dar
 | Diagnosis selisih akhir grup | diff `cp6_auditor_runner.py` (kunci snapshot yang berbeda dicatat ke log JSON dan laporan), SHA commit | review sumber: pencatatan tidak boleh mengubah hasil pemeriksaan, hanya menambah detail |
 | 3 run bayar supplier | run id, head SHA, tree produk, log per kasus, baris akhir grup dengan selisih (bila ada) | tree harus sama dengan 7a0b4a90 (`05d4ccd8`) atau selisih dijelaskan; 10 kasus per run; akar penyebab harus menjelaskan kegagalan run 38288829388 dan 38330557862 |
 | Gladi jadwal | run id, log `cp7_schedule.py install --installation-approved` di salinan, `schedules()` vs deklarasi K3, `cron.job` sebelum/sesudah, uninstall `--removal-approved`, bukti database kembali ke keadaan awal | tidak ada koneksi ke hosted; nama database salinan tercatat; perbandingan K3 identik |
+
+## Keputusan 13 Oktober 2026, sesudah laporan v1.1 putaran silang 1 (penegasan waktu: 2026-10-13T16:30:49Z, 13 Oct 2026 23:30 WIB)
+
+Sumber: pesan owner kepada auditor, verbatim. Penulis menyalin ke register kanonik tanpa mengubah kata-kata.
+
+| No | Keputusan owner (verbatim) | Konsekuensi untuk audit |
+|---|---|---|
+| D13-10 | "Ya, A2 diterima sebagai bukan penghalang pembekuan, dengan diagnosis tetap terpasang. Status akar penyebab tetap OPEN, dan dua kegagalan lama beserta bukti aslinya tetap disimpan." | A2 = keterbatasan terbuka yang tercantum, bukan syarat pembekuan. Log gagal pertama run 38288829388 dan 38330557862 tetap bukti asli; tidak dilabel ulang. |
+| D13-11 | "Saya izinkan pembanding terurut sebagai pelengkap diagnosis. Pembanding asli tetap menentukan hasil pemeriksaan. Pelengkap harus mempertahankan semua anggota, duplikat, definisi, owner, dan hak akses; tujuannya membedakan perubahan urutan dari perubahan isi, tanpa menyamarkan kegagalan." | Fable memeriksa di putaran 2: pelengkap tidak memengaruhi `complete_boundary_restored`; multiset anggota (termasuk duplikat), definisi, owner, ACL tetap dibandingkan; hanya menambah klasifikasi ORDER_ONLY/CONTENT. |
+| D13-12 | Putaran 2 penulis: (1) "A6: tambahkan kasus browser sungguhan P11 desktop dan HP yang menekan 'Terapkan lusin baris N'. Periksa hasil qty, pemeliharaan baris lain, serta hasil simpan/baca ulang. Pensiun `SALES_MANUAL_13` baru sah setelah auditor menyatakan cakupan penggantinya LENGKAP." (2) "F-OPS-05: hanya tanda kepemilikan dengan OID yang cocok boleh mengizinkan penghapusan. Tambahkan uji tanda lama disalin ke database asing: database itu harus tetap utuh." | Fable menilai LENGKAP/TIDAK LENGKAP untuk A6 dengan kasus browser Fable sendiri bila perlu; F-OPS-05 diuji ulang dengan `XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN` tanpa mengubah oracle (harus PASS). |
+| D13-13 | "Simpan bukti pertama, catat SHA/tree setiap hasil, lalu kirim kandidat putaran 2 yang sama ke Astra dan Fable. Pembekuan final mengikuti penutupan dua butir tersebut; A2 tetap tercantum sebagai keterbatasan terbuka. `production_go:false`." | Pembekuan final = A6 LENGKAP + F-OPS-05 DITUTUP oleh auditor. Kandidat putaran 2 harus satu SHA/tree yang sama untuk kedua auditor. |
+
+## Yang akan dibaca Fable di putaran 2
+
+| Butir | Bukti | Dinilai dengan |
+|---|---|---|
+| A6 | kasus browser P11 desktop + HP (skrip, log per kasus, tangkapan layar): isi "Lusin invoice N" dan "Sisa PCS invoice N", tekan "Terapkan lusin baris N", qty baris = lusin×12 + sisa, baris lain tidak berubah, simpan, baca ulang dari server = yang disimpan; tidak ada overflow horizontal di HP | run Fable sendiri atas workflow penulis + review sumber kasus; bila perlu kasus browser Fable di `fable_cp7_ui.mjs` |
+| F-OPS-05 | diff `cp7_nightly_backup.py` (`is_mark` tanpa cabang tanda polos), kasus penulis "tanda lama disalin ke database asing tetap utuh" | `XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN` harus PASS; 4 kasus XC1 lain dan 2 kasus backup core tetap PASS; k3-cleanup PASS |
+| D13-11 | diff pembanding pelengkap di `cp6_auditor_runner.py`/`cp6_auditor_difference.py` | pembanding asli tidak berubah; pelengkap hanya menulis klasifikasi; multiset lengkap |
