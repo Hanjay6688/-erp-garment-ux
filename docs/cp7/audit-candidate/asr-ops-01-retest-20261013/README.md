@@ -57,7 +57,7 @@ hilang kalau pemeriksaan pemulihan dipindah ke mesin GitHub, bukan di server dat
 
 | Bukti | Hasil |
 |---|---|
-| CI: `K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID` dan empat kasus backup K3 lama di `k3-cleanup-24` | diisi setelah run selesai (`CI_RECEIPT.md`) |
+| CI: `K3C_RACE_BACKUP_SCRATCH_OWNERSHIP_BY_OID` dan empat kasus backup K3 lama di `k3-cleanup-24` (run 38373379923, job 115215590420) | **24/24 PASS**, `cp6_restored`, `advisor_gate` (`CI_RECEIPT.md`) |
 | Lokal PG16 (bukan bukti, kontrol penulis): logika `ASD-B01..B05` Astra dengan oracle yang sama, alat baru | 5/5 PASS |
 | Lokal PG16, kontrol sensitivitas: kasus yang sama pada alat `7a0b4a90` | B01–B04 PASS, **B05 COUNTEREXAMPLE** (sama dengan temuan Astra) |
 | Lokal PG16: database percobaan diganti sebelum restore / sebelum hapus akhir; sisa berpola nama | 3/3 PASS |
