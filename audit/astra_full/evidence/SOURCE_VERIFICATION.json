@@ -1,0 +1,25 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "candidate_tree": "4bd5e1acf55f0b441d9c8f67949ee5b070eb9c41",
+  "documentation_sha": "5548ff18dedf3a2b77e50e5d2afc0e35fac56e26",
+  "docs_only": true,
+  "documentation_delta": [
+    "docs/AUDIT_PANDUAN_PRO_MAX.md",
+    "docs/cp7/ACTIVE_CONTINUATION.md",
+    "docs/cp7/CONTINUATION_AFTER_FREEZE_20261008.md",
+    "docs/cp7/audit-candidate/cp7-full-20261011/AUDITOR_START.md",
+    "docs/cp7/audit-candidate/cp7-full-20261011/CI_RECEIPT.json",
+    "docs/cp7/audit-candidate/cp7-full-20261011/README.md",
+    "docs/cp7/audit-candidate/cp7-full-20261011/SOURCE_DELTA.json",
+    "docs/cp7/audit-candidate/cp7-full-20261011/SOURCE_DELTA_FROM_FROZEN.json",
+    "docs/cp7/audit-candidate/cp7-full-20261011/SOURCE_DELTA_FROM_P20.json",
+    "docs/cp7/evidence/business-day-control-20261011/README.md"
+  ],
+  "source_trees": {
+    "src": "fa7f62e2f59a01dc3fb1c98271853b1da55765cf",
+    "scripts": "d98ef8002750314b685a7d4d793639ca6fd3f5e4",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7",
+    "docs/cp7/framework-v2": "47c70beec75889059b60c2d71cf4bfebfdee822e"
+  },
+  "local_uncommitted_product_files": []
+}

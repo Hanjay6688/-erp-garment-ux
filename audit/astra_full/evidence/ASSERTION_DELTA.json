@@ -1,0 +1,210 @@
+{
+  "baseline": "2e605bb7d9b6b7903919b8df2be1443f1740140b",
+  "candidate": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "scope": "Python assert-expression AST multiset only. Not proof of complete oracle strength; moved assertions require source review, JS assertions separate.",
+  "files": [
+    {
+      "path": "scripts/cp6_auditor_business_day.py",
+      "old_exists": false,
+      "old_assertions": 0,
+      "new_assertions": 0,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": null,
+      "new_sha256": "2a8e3c61edeab8f92f3b9aaa36623e5d1ab0f1452c89ecb440b04b7f9a2ee60e"
+    },
+    {
+      "path": "scripts/cp6_auditor_business_day_test.py",
+      "old_exists": false,
+      "old_assertions": 0,
+      "new_assertions": 0,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": null,
+      "new_sha256": "2f5b99a24d6020f5ea5ff6f67edcad8bba8d7b07467fc550e6d86bbdab549175"
+    },
+    {
+      "path": "scripts/cp6_auditor_modes.py",
+      "old_exists": true,
+      "old_assertions": 6,
+      "new_assertions": 6,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": "6cca1f721f74b2f7f68ca552a1f08328ab53a31d4ade9636ce77952bf0700441",
+      "new_sha256": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f"
+    },
+    {
+      "path": "scripts/cp6_auditor_runner.py",
+      "old_exists": true,
+      "old_assertions": 1,
+      "new_assertions": 1,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": "43b90c9ce2fc8f156bd3a79d4176a14d04a6d765b241cf97da4d7d0e2d292079",
+      "new_sha256": "2eeef41975ae3e751d2085728b2a7cb355785ac0b82b514b03083755cd4b270e"
+    },
+    {
+      "path": "scripts/cp7_analysis_bundle.py",
+      "old_exists": true,
+      "old_assertions": 14,
+      "new_assertions": 14,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": "3b31ee8a881ebf8a251e41c4e4e738c72b11aea6ae495d773148817187b975c8",
+      "new_sha256": "672a3cc39259f67ea951bcfb7dfd643e03f7604c055512a9045e1b0daa13280b"
+    },
+    {
+      "path": "scripts/cp7_analysis_stages_bundle.py",
+      "old_exists": true,
+      "old_assertions": 27,
+      "new_assertions": 38,
+      "removed": [],
+      "added_count": 11,
+      "old_sha256": "2472e2a6e08426a66121ce7599c3d8624f49ff66bf570c79a497bdec0a7c66b7",
+      "new_sha256": "ddce7778dd8324f08d6a79109d2887bb2dfd8f4fd4289dde96075934f5c84ccb"
+    },
+    {
+      "path": "scripts/cp7_f04_schedule_probe.py",
+      "old_exists": true,
+      "old_assertions": 4,
+      "new_assertions": 4,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": "0ff9e64cb901e16cbd843531f295ac11fd17d4821688ea6e04452b4a02957df1",
+      "new_sha256": "ce77f2d030597059b245c9a1139b2f8b25afc62162e2d1cf5a4a82826d59a6f1"
+    },
+    {
+      "path": "scripts/cp7_f05_analysis_probe.py",
+      "old_exists": true,
+      "old_assertions": 67,
+      "new_assertions": 73,
+      "removed": [
+        "Compare(left=Name(id='expected', ctx=Load()), ops=[Eq()], comparators=[Constant(value=18)])"
+      ],
+      "added_count": 7,
+      "old_sha256": "bc270e594ea8c375892d483bb4f2b28ca25366fbf7475417be9b159af5c1371e",
+      "new_sha256": "8d1a9182f2c1a2514c031a6f5bab1f7de3f06c226ed5ada7b0514cbcef316328"
+    },
+    {
+      "path": "scripts/cp7_k3_cleanup_cases.py",
+      "old_exists": true,
+      "old_assertions": 92,
+      "new_assertions": 106,
+      "removed": [
+        "BoolOp(op=And(), values=[Compare(left=Call(func=Name(id='sorted', ctx=Load()), args=[Name(id='removed', ctx=Load())], keywords=[]), ops=[Eq()], comparators=[Call(func=Name(id='sorted', ctx=Load()), args=[Name(id='ids', ctx=Load())], keywords=[])]), Compare(left=Call(func=Attribute(value=Name(id='schedule', ctx=Load()), attr='installed', ctx=Load()), args=[Name(id='cc', ctx=Load()), Name(id='database', ctx=Load())], keywords=[]), ops=[Eq()], comparators=[List(elts=[], ctx=Load())])])"
+      ],
+      "added_count": 15,
+      "old_sha256": "40f514df59b01836d99fee2b8a973c8f972f2fbe003273ba13cbeb34f0d6f261",
+      "new_sha256": "0f702f70f5e1a4fde06baadbf5aa1a1677b7b48b56b78c9eb1a6b1b0094a7d22"
+    },
+    {
+      "path": "scripts/cp7_k4_runner_browser_fixture.py",
+      "old_exists": false,
+      "old_assertions": 0,
+      "new_assertions": 5,
+      "removed": [],
+      "added_count": 5,
+      "old_sha256": null,
+      "new_sha256": "3e8793a70cbffc4569a780e6da949b519a65ac52c773184238cedbd5ffacadba"
+    },
+    {
+      "path": "scripts/cp7_k4_runner_cases.py",
+      "old_exists": false,
+      "old_assertions": 0,
+      "new_assertions": 88,
+      "removed": [],
+      "added_count": 88,
+      "old_sha256": null,
+      "new_sha256": "9a78c13f80321d6a35383d87fde2f4acfa1d7017adfb15192c22eb3558393626"
+    },
+    {
+      "path": "scripts/cp7_k4_runner_probe.py",
+      "old_exists": false,
+      "old_assertions": 0,
+      "new_assertions": 0,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": null,
+      "new_sha256": "d02aa2c0e66842c35e3813da648b420b6dfff0f424b8aa296dfcf385d54bdbe7"
+    },
+    {
+      "path": "scripts/cp7_k6_proof_runner_cases.py",
+      "old_exists": false,
+      "old_assertions": 0,
+      "new_assertions": 60,
+      "removed": [],
+      "added_count": 60,
+      "old_sha256": null,
+      "new_sha256": "de0206dbc6f96deb5cf8b5763d3fb3f4cfd947bd5ce882238b720039be3ac1a8"
+    },
+    {
+      "path": "scripts/cp7_k6_proof_runner_probe.py",
+      "old_exists": false,
+      "old_assertions": 0,
+      "new_assertions": 0,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": null,
+      "new_sha256": "f2ba37fb54934b96794ddb46b9c7970cef715347dbeafec1ea7bbd57e8f7657a"
+    },
+    {
+      "path": "scripts/cp7_nightly_backup.py",
+      "old_exists": true,
+      "old_assertions": 3,
+      "new_assertions": 3,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": "b655a9fedb2106c4d24c34b42ba2f75f41fc4d97d2a8325963a45976c116d7fb",
+      "new_sha256": "bad1e214cb019ed00845dd6a9e4e9a1084a422dd5fb7ae4fa4754954e43e3071"
+    },
+    {
+      "path": "scripts/cp7_p18_full_cycle_probe.py",
+      "old_exists": true,
+      "old_assertions": 4,
+      "new_assertions": 4,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": "09b6de2c6e141d99c76461b31ee36341b298c7cf0d1f8c9be5da94e1bc000fa5",
+      "new_sha256": "77ca0349b1e462cb98fff6c207f54ebd3ab2de94ad2eeeb7eaa7b81389153732"
+    },
+    {
+      "path": "scripts/cp7_p19_plan_v2_cases.py",
+      "old_exists": true,
+      "old_assertions": 78,
+      "new_assertions": 94,
+      "removed": [],
+      "added_count": 16,
+      "old_sha256": "f676a0430278911a52f09dba934128372d8063c7af7513fd81bf014d4998565f",
+      "new_sha256": "3f9e33ebc733d0bf7d49c00ce17899ec2ce6c6b8300661720767c6763eab412a"
+    },
+    {
+      "path": "scripts/cp7_probe_evidence_test.py",
+      "old_exists": true,
+      "old_assertions": 11,
+      "new_assertions": 12,
+      "removed": [],
+      "added_count": 1,
+      "old_sha256": "7e9adae270481247e42f227ab9a7161f2a3bf3cd3d21898ab4fe268bb2f17de5",
+      "new_sha256": "fea93f5d586460b59ba66b4fe259ff4b2d0ff108201e676643ef169b9543d6ba"
+    },
+    {
+      "path": "scripts/cp7_schedule.py",
+      "old_exists": true,
+      "old_assertions": 1,
+      "new_assertions": 1,
+      "removed": [],
+      "added_count": 0,
+      "old_sha256": "99d10218337e15727f3e7a10e3a7387bc6eafd61f7763015e0a23c636fbc8753",
+      "new_sha256": "201e952c1903c12e204d39ba6f52f95a7e41f09207bb479813ccf7957d19a053"
+    }
+  ],
+  "review": {
+    "removed_assert_expressions": {
+      "scripts/cp7_f05_analysis_probe.py": "Exact case budget18 becomes22 after4 newly registered v1/v2 capacity races. No old case assertion weakened.",
+      "scripts/cp7_k3_cleanup_cases.py": "Uninstall returns database-qualified job names after F02 namespace fix; exact set assertion and zero remaining jobs retained."
+    },
+    "javascript": "Existing browser case assertions unchanged; host adds per-case timeout and business-day tagging. Two existing TS test files only add cases/imports.",
+    "old_log": "One pre-existing evidence log gains11 missing rows, including two INCOMPLETE browser failures; no old lines removed/changed. This was docs commit329fb45 immediately after prior source, not mutation of an old verdict.",
+    "limitation": "AST multiset does not prove semantic strength of all tests. Runtime helper retry flaw ASF-F01 separately proven."
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "job_id": 114529226896,
+  "run_id": 38159487255,
+  "name": "probe_business",
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38159487255/job/114529226896",
+  "source": "Original job JSON lines, unchanged fields; package projected to explicit gates",
+  "case_rows": [
+    {
+      "group": "ASTRA_P20_BUSINESS_NATIVE",
+      "case": "AS20-07_LARGE_INVOICE",
+      "audit_case_id": "AS20-07_LARGE_INVOICE",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "ASTRA_INPUTS_AND_MASTER_FIXTURE_WITH_WRITER_TRANSPORT_HELPERS",
+      "production_go": false,
+      "status": "PASS",
+      "observations": [
+        {
+          "amount": "21474836.47",
+          "status": "PASS",
+          "observed": {
+            "raw": [
+              "32.000000",
+              "395.840000000000"
+            ],
+            "lots": [
+              [
+                "1451011c-d5ee-4e8d-94de-bdafce7a5739",
+                41,
+                "523790.889268",
+                "21475426.460000"
+              ]
+            ],
+            "AP": [
+              "903.010000000000",
+              "0"
+            ],
+            "production_cost": "21475426.46"
+          }
+        },
+        {
+          "amount": "21474836.48",
+          "status": "PASS",
+          "observed": {
+            "raw": [
+              "32.000000",
+              "395.840000000000"
+            ],
+            "lots": [
+              [
+                "3ae2b116-4422-4061-914c-adcef605746f",
+                41,
+                "523790.889512",
+                "21475426.470000"
+              ]
+            ],
+            "AP": [
+              "903.010000000000",
+              "0"
+            ],
+            "production_cost": "21475426.47"
+          }
+        },
+        {
+          "amount": "22000000.01",
+          "status": "PASS",
+          "observed": {
+            "raw": [
+              "32.000000",
+              "395.840000000000"
+            ],
+            "lots": [
+              [
+                "ad0234e3-6001-44ee-8659-74654930baca",
+                41,
+                "536599.756098",
+                "22000590.000000"
+              ]
+            ],
+            "AP": [
+              "903.010000000000",
+              "0"
+            ],
+            "production_cost": "22000590.00"
+          }
+        }
+      ],
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_BUSINESS_NATIVE",
+      "case": "AS20-04_08_PRECISION",
+      "audit_case_id": "AS20-04_08_PRECISION",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "ASTRA_INPUTS_AND_MASTER_FIXTURE_WITH_WRITER_TRANSPORT_HELPERS",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "input": {
+          "purchase_number": "P09-b6a0a0b13ae3",
+          "supplier_id": "c8c30000-0000-4000-8000-000000000001",
+          "location_id": "ce1e31a7-7a95-4c1f-a5f6-98ff59b6f2ef",
+          "physical_at": "2026-10-09T10:00:00+07:00",
+          "change_reason": "P09 declared receipt",
+          "lines": [
+            {
+              "material_id": "d6f33d94-ea05-436d-a2f4-c7e43c872af9",
+              "qty": "7.123457",
+              "unit_price": "8.654321",
+              "price_state": "FINAL",
+              "price_source": "SUPPLIER_INVOICE",
+              "rolls": [
+                {
+                  "roll_number": "P09-b6a0a0b13ae3-R",
+                  "qty": "7.123457"
+                }
+              ]
+            }
+          ]
+        },
+        "line": {
+          "id": "91fb9c70-9df9-438a-974d-f146d2866c28",
+          "qty": "7.123457",
+          "notes": null,
+          "rolls": [
+            {
+              "id": "13316366-e088-4307-9663-c9512dcc75de",
+              "notes": null,
+              "receipt_qty": "7.123457",
+              "roll_number": "P09-b6a0a0b13ae3-R"
+            }
+          ],
+          "finance": {
+            "line_total": "61.648684",
+            "unit_price": "8.654321",
+            "price_state": "FINAL",
+            "price_source": "SUPPLIER_INVOICE",
+            "invoice_match_state": "DIRECT_FINAL",
+            "purchase_price_per_uom": null,
+            "benchmark_price_version_id": null
+          },
+          "unit_code": "yd",
+          "lot_number": null,
+          "material_id": "d6f33d94-ea05-436d-a2f4-c7e43c872af9",
+          "material_sku": "Z-AUD-cp7-p09-d6f33d94-ea05-436d-a2f4-c7e43c872af9",
+          "material_name": "Z isolated cp7-p09 material",
+          "material_type": "FABRIC",
+          "purchase_uom_code": null,
+          "purchase_uom_factor": null,
+          "purchase_qty_entered": null
+        },
+        "ap": "61.648683507697",
+        "changed_uuid": {
+          "refused": true,
+          "sqlstate": "P0001",
+          "message": "CP7_PROCUREMENT_DRAFT_REQUEST_CHANGED: different payload or version",
+          "detail": null
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_BUSINESS_NATIVE",
+      "case": "AS20-01_RECEIPT_REPLAY",
+      "audit_case_id": "AS20-01_RECEIPT_REPLAY",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "ASTRA_INPUTS_AND_MASTER_FIXTURE_WITH_WRITER_TRANSPORT_HELPERS",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "receipt": {
+          "kind": "COMMITTED_OUTCOME",
+          "action": "POST",
+          "status": "POSTED",
+          "request_id": "394cfdee-e294-4bf9-9741-d68322ae4e02",
+          "purchase_id": "4ba649dd-32eb-4bf6-bfdc-c6f966327669",
+          "row_version": "2",
+          "contract_version": "cp7.procurement-outcome.v1"
+        },
+        "revoked_replay": {
+          "refused": true,
+          "sqlstate": "42501",
+          "message": "CP7_PROCUREMENT_POST_DENIED",
+          "detail": null
+        },
+        "stock": [
+          "19.000000",
+          1
+        ]
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    }
+  ],
+  "group_finals": [
+    {
+      "group": "ASTRA_P20_BUSINESS_NATIVE",
+      "planned": [
+        "AS20-07_LARGE_INVOICE",
+        "AS20-04_08_PRECISION",
+        "AS20-01_RECEIPT_REPLAY"
+      ],
+      "final": {
+        "AS20-07_LARGE_INVOICE": "PASS",
+        "AS20-04_08_PRECISION": "PASS",
+        "AS20-01_RECEIPT_REPLAY": "PASS"
+      },
+      "missing": [],
+      "status": "PASS"
+    }
+  ],
+  "reports": [
+    {
+      "status": "PASS",
+      "expected_cases": 3,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ],
+  "package": {
+    "run_identity": {
+      "label": "T3_PREP",
+      "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+      "product_paths": [
+        "supabase/migrations",
+        "supabase/dev",
+        "supabase/release",
+        "supabase/rollbacks",
+        "src"
+      ],
+      "run_id": "38159487255",
+      "run_attempt": "1",
+      "workflow": "AUDIT/Astra/full-independent",
+      "job": "phase",
+      "event": "push",
+      "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+      "release_evidence": false,
+      "production_go": false,
+      "mode": "install"
+    },
+    "status": "ALL_STAGES_INSTALLED",
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "primary_unchanged": true,
+    "backup_restore_drill": "RESTORED_SAME_MEANING",
+    "writer_runtime": {
+      "status": "PASS",
+      "production_go": false,
+      "independent_acceptance": false,
+      "schema_profile": "HOSTED_USAGE_UNCHANGED"
+    }
+  }
+}

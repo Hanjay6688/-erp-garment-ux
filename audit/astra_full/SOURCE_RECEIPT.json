@@ -1,0 +1,19 @@
+{
+  "round_id": "cp7-full-20261012",
+  "auditor": "Astra",
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "candidate_tree": "4bd5e1acf55f0b441d9c8f67949ee5b070eb9c41",
+  "documentation_sha": "5548ff18dedf3a2b77e50e5d2afc0e35fac56e26",
+  "guide_addendum_sha": "d684b21a698b13ebfdc29bce9e31a218f96a8f52",
+  "branch": "audit/astra-cp7-full-d0b9e9c2-20261012",
+  "production_go": false,
+  "independent_acceptance": false,
+  "conflict": "PR44 timeline authored previously by Astra; final acceptance reserved for another auditor",
+  "scope": "Entire CP7 from 9d57b7f5 plus continuation through candidate; PR45 excluded; CP1-7 later audit remains separate",
+  "source_trees": {
+    "src": "fa7f62e2f59a01dc3fb1c98271853b1da55765cf",
+    "scripts": "d98ef8002750314b685a7d4d793639ca6fd3f5e4",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7",
+    "docs/cp7/framework-v2": "47c70beec75889059b60c2d71cf4bfebfdee822e"
+  }
+}

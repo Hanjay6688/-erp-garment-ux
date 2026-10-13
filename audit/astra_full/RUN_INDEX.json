@@ -1,0 +1,74 @@
+{
+  "candidate": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "audit_state": "COMPLETE_HOLD",
+  "production_go": false,
+  "runs": [
+    {
+      "id": 38159220776,
+      "kind": "44 regression suites",
+      "control_commit": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    {
+      "id": 38159220799,
+      "kind": "Shell and CodeQL",
+      "control_commit": "54fdce5586622b5f7e206f1ae57f6a3227995019"
+    },
+    {
+      "id": 38159487255,
+      "kind": "Registered own canonical cases; original workflow ran66of67 afterUIrecovery, omitted lifecycle case separately run",
+      "control_commit": "3df9df25be78acbad08781404b176893b23e9669"
+    },
+    {
+      "id": 38159947789,
+      "kind": "8 new K4/K6 own cases",
+      "control_commit": "b8275eafd5089a456c3e7f0e9dff8cb635066c9c"
+    },
+    {
+      "id": 38159947839,
+      "kind": "4 independent audit tool controls",
+      "control_commit": "b8275eafd5089a456c3e7f0e9dff8cb635066c9c"
+    },
+    {
+      "id": 38160527120,
+      "kind": "3UIcases recovery afterpre-case missinginventory",
+      "control_commit": "7ec1613126483f1466d8df6f81c5d230b9e267ea"
+    },
+    {
+      "id": 38161351529,
+      "kind": "Previously omitted registered own full-lifecycle case",
+      "control_commit": "0a5bcc9ef51e36dba244d72d4b824d84ef55a41f"
+    },
+    {
+      "id": 38161512888,
+      "kind": "NewK7a exact source equivalence6comparisons",
+      "control_commit": "e007bd8f8c70ef3e1c25128b9616139079c184c1"
+    },
+    {
+      "id": 38165399079,
+      "kind": "INV-UI04 tablet-size real invoice parity and complete write/inverse journey",
+      "control_commit": "11a41cd691252e87870c64a5df4100520c45b7e2"
+    }
+  ],
+  "first_failures": [
+    {
+      "run": 38159487255,
+      "case": "AS20-39_VALIDATION_NEGATIVE",
+      "disposition": "Known documented weakened-copy detector boundary; preserve raw, no new product bug"
+    },
+    {
+      "run": 38159947839,
+      "cases": [
+        "ASF-10-DATE-UNRELATED-FAIL",
+        "ASF-11-DATE-UNRELATED-COUNTEREXAMPLE"
+      ],
+      "disposition": "One new S3 audit-tool issue ASF-F01"
+    },
+    {
+      "run": 38159487255,
+      "job": 114529226911,
+      "disposition": "AUDITOR_TOOLING before first case; missing UI inventory restoredbyte-identically; recoveryrun38160527120 3PASS"
+    }
+  ],
+  "audit_complete": true,
+  "independent_acceptance": false
+}

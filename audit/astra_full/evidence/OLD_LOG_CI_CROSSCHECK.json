@@ -1,0 +1,9 @@
+{
+  "job_id": 113590815313,
+  "run_id": 37859254362,
+  "source_sha": "05241ae1",
+  "evidence_file": "docs/cp7/evidence/k3-cleanup-20261009/03_k3_cleanup_17_second_run.log",
+  "recorded_json_rows": 22,
+  "exact_lines_in_ci": 22,
+  "missing": []
+}

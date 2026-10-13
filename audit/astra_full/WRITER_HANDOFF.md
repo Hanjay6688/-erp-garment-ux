@@ -1,0 +1,79 @@
+# CP7 d0b9e9c2 — handoff final Astra
+
+Kandidat produk: `d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0`, tree `4bd5e1acf55f0b441d9c8f67949ee5b070eb9c41`.
+Audit selesai; **HOLD penerimaan independen**, `production_go:false`. Produk tidak diubah auditor.
+Satu temuan baru S3 pada alat retry perlu diperbaiki atau diterima owner secara tertulis sesuai gerbang panduan. Penerimaan area PR44 tetap diserahkan kepada auditor yang tidak menulisnya.
+
+## ASF-F01 — kegagalan yang tidak terkait tanggal bisa diloloskan oleh retry pergantian hari
+
+- **S3, OPEN_TOOLING, teruji runtime.** Area integritas bukti, bukan temuan salah uang/stok aplikasi.
+- Sumber: `scripts/cp6_auditor_business_day.py`, `explained`, `retry_allowed`, `with_retry`.
+  Dipakai oleh `strict_group`, `run_races`, `run_http`, dan `run_browser` pada kandidat.
+- Kontrak paket `AUDITOR_START.md`: kontrol pergantian hari tidak boleh mengubah FAIL menjadi PASS atau
+  mengulang kelompok yang gagal karena alasan lain.
+- Akar masalah: `explained` menyamakan **terjadi berbarengan dengan pergantian hari** dengan **disebabkan
+  pergantian hari**. Selain beberapa pengecualian alat, FAIL/COUNTEREXAMPLE apa pun dengan flag rollover
+  diterima sebagai alasan retry.
+- Kontrol mandiri memasukkan ketidakcocokan aritmetika yang sengaja dibuat dan tidak bergantung tanggal:
+  10.001 sen teramati, 10.000 sen diharapkan. `guard` memang mempertahankan status gagal awal. Akan tetapi
+  `retry_allowed=True`, kelompok dijalankan dua kali, dan `with_retry` mengembalikan status utama PASS
+  ketika upaya kedua yang disuntikkan PASS. Hal ini terjadi untuk FAIL maupun COUNTEREXAMPLE.
+- **Bukti gagal pertama tidak dihapus**: masih ada di `business_day_first_attempt` dan callback penyimpan.
+  Cacatnya adalah keputusan retry dan hasil utama, bukan pemalsuan atau penghilangan log.
+- Kontrol pembanding: PASS yang melewati hari menjadi INCOMPLETE dan boleh dicoba ulang; kegagalan tanpa
+  rollover, kegagalan boundary, hasil malformed, kasus hilang, dan cleanup gagal semuanya tetap ditolak.
+- Bukti: [run 38159947839](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38159947839),
+  **2 PASS + 2 COUNTEREXAMPLE**; sumber alat SHA-256
+  `2a8e3c61edeab8f92f3b9aaa36623e5d1ab0f1452c89ecb440b04b7f9a2ee60e`.
+  `evidence/ASF_BUSINESS_DAY.json` dan `evidence/JOB_114530570757.json` menyimpan input/hasil utuh.
+- Reproduksi: dari checkout audit ini jalankan
+  `python audit/astra_full/probe_business_day_new.py /path/to/unchanged/d0b9e9c2`.
+  Skrip hanya menjalankan modul Python asli dengan hasil kasus sintetis, tanpa database.
+- Arah perbaikan: otomatisasi hanya retry hasil yang **terbukti invalid karena fixture tanggal**,
+  misalnya kasus yang semula PASS dan baru dibuat INCOMPLETE oleh guard. FAIL/COUNTEREXAMPLE atau
+  INCOMPLETE yang sebabnya belum terbukti tetap menjadi hasil yang harus diperiksa. Refresh tanggal
+  sebelum membentuk fixture juga boleh dipertimbangkan. Jangan mengubah assertion bisnis atau status
+  gagal lama supaya hijau.
+- Penutup: kontrol ASF-10/11 harus menahan satu upaya dan status gagal; kontrol positif ASF-09 dan kelima
+  kontrol ASF-12 tetap lulus. Jalankan semua mode yang memakai helper. Simpan first attempt dan jelaskan
+  apakah bukti kandidat lama pernah terkena retry ini; jangan otomatis membuang seluruh bukti lama.
+
+## Batas lama yang tidak dibebankan sebagai bug baru
+
+`AS20-39_VALIDATION_NEGATIVE` masih menghasilkan counterexample ketika auditor **sengaja mematikan
+trigger immutable** di salinan sekali pakai lalu merusak semantik indeks/scope/metadata. Guard ordinary
+tetap menolak perubahan (55000 `CP7_RUN_IMMUTABLE`). F04 sebelumnya sudah ditutup sebagai pembetulan
+klaim cakupan detektor: semantik tersebut dilindungi immutable, tidak dihitung ulang sebelum cleanup.
+Raw hasil lama dan baru dipertahankan, tanpa menganggapnya sebagai bukti korupsi lewat aplikasi.
+
+## Catatan asal bukti
+
+Tiga workflow utama menjalankan 44 kelompok regresi, Shell/CodeQL, serta kasus mandiri pada checkout
+produk terpisah dan beku. Oracle writer diberi kredit `INDEPENDENT_NATIVE_RERUN`; oracle Astra terpisah.
+File metadata umum `ASTRA_EXECUTION_ORIGIN.json` pada workflow mandiri masih menulis
+`oracle_origin=WRITER_UNCHANGED` dari template. Itu kesalahan label auditor; manifest preregistrasi dan
+setiap case row sendiri menyebut asal dengan benar. Label mentah tidak diubah setelah run.
+
+PR44 pernah ditulis Astra; laporan ini tidak akan memberikan penerimaan independen baru untuk area itu.
+Seluruh 77 ID mandiri sudah dijalankan: 76 PASS dan satu batas detektor lama yang disebut di atas; empat kontrol alat dipisahkan (dua PASS, dua COUNTEREXAMPLE untuk ASF-F01).
+FULL_FLOW yang sempat terlewat filter runner telah dijalankan tanpa mengubah oracle (run 38161351529, PASS).
+K7a source equivalence lulus enam pembandingan lengkap (run 38161512888).
+Regresi selesai 44/44 job: 1.760 eksekusi kasus produk PASS (1.174 ID unik), tiga smoke PASS, serta dua gladi P21 (enam dan sembilan fase). Shell 1.724 tes/201 berkas dan enam browser PASS; build/security dan kedua analisis CodeQL lulus. Matriks dan batas akhir ada di REPORT.md dan COVERAGE.md.
+Tambahan tablet ASF-14 lulus: alur tulis/inverse di ukuran tablet serta lima nilai invoice identik pada desktop/tablet/HP. Run 38165399079. Bukti ini emulasi Chromium, bukan perangkat fisik.
+
+## Yang sudah beres, tidak perlu diperbaiki ulang
+
+- Kapasitas rencana v1/v2: perebutan 59+2 terhadap kapasitas 60 menolak yang berlebih.
+- Nama jadwal lintas database dan tabrakan receipt backup: probe sendiri lulus.
+- Finalizer F05 dan cold-lock K4: kontrol sendiri dan rerun kandidat lulus.
+- K6: fakta 217 PCS potong/207 GOOD, pembatalan/backdate, fault atomik di tengah jendela, dan BUSY lulus.
+- Skala server 5.000 target: semua 26 halaman lengkap; pembersihan menghemat 95.424.283 byte payload tanpa mengubah hasil.
+- Jual–retur browser: dua alur nyata, Grade A/B, balasan hilang, replay, dan pembalikan lulus.
+
+## Urutan perbaikan yang diminta
+
+1. Fokus kode pada helper ASF-F01. Pertahankan oracle bisnis, batas produk, dan semua first-failure logs.
+2. Jalankan empat kontrol alat dan cek integrasi semua pemanggil helper (savepoint, race, HTTP, browser).
+3. Berikan kandidat baru serta diff sempit dan run hasil perbaikan. Auditor mengulang kasus yang terkena perubahan; tidak perlu meminta pembuktian ulang bagian produk yang tidak tersentuh tanpa alasan konkret.
+4. Teruskan penerimaan area PR44 ke auditor yang tidak menulisnya. K4 mobile hang lama tetap dipantau; belum ada akar masalah yang terbukti sehingga tidak diberi klaim sembuh total.
+5. Jadwal, backup operasional, dan deployment tetap mengikuti tahap CP7C/CP8 dan izin owner yang sudah ditetapkan.

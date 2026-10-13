@@ -1,0 +1,22 @@
+{
+  "all_pass_report_flags_reviewed": true,
+  "issues": [],
+  "group_executions": {
+    "writer/native": 1082,
+    "writer/races": 262,
+    "writer/http": 153,
+    "writer/browser": 263,
+    "own/native": 46,
+    "own/races": 18,
+    "own/browser": 5,
+    "own/http": 2,
+    "writer/smoke": 3
+  },
+  "null_restore_field_does_not_imply_true": true,
+  "known_excluded_raw_reports": [
+    "AS20-39 weakened-copy counterexample",
+    "Initial UI before first case"
+  ],
+  "legacy_diagnostic_review": "LEGACY_DIAGNOSTIC_REVIEW.json",
+  "scope": "Group counts below reflect PASS top-level reports collected before the final tablet report; they exclude all rows of the known INCOMPLETE stage report (including its seven PASS controls) and the initial UI failure. Global canonical counts are in RESULT_SUMMARY.json; final all-report review is FINAL_VALIDATION.json."
+}

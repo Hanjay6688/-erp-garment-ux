@@ -1,0 +1,26 @@
+{
+  "source": "Complete decoded original GitHub job logs; no edits; gzip mtime zero for reproducibility",
+  "logs": [
+    {
+      "job_id": 114529226905,
+      "decoded_log_bytes": 296361,
+      "decoded_log_sha256": "bbf5e7d0cca6d27b7c5d124bd2ec2d221e3c0eb32faee9b854b17bf976174a3e",
+      "gzip_sha256": "f123a8bdd1ece9be211cf80d400306d35486a72504c0204abbbe370b26b9aeb6",
+      "path": "audit/astra_full/evidence/FIRST_FAILURE_114529226905.log.gz"
+    },
+    {
+      "job_id": 114529226911,
+      "decoded_log_bytes": 268906,
+      "decoded_log_sha256": "6a03f8729c8b36a750f04ff14cbe89e4b77d36f63adc877206e34ce4027274e3",
+      "gzip_sha256": "7916a6525e732532d8b4e4ac419e7c7aa7be6c10dd140e1ba4295424c01ed26b",
+      "path": "audit/astra_full/evidence/FIRST_FAILURE_114529226911.log.gz"
+    },
+    {
+      "job_id": 114530570757,
+      "decoded_log_bytes": 37179,
+      "decoded_log_sha256": "1ea797619cb16f26f4b28a15f1ba715da0e9ba94b889ccc1b4454100afd59503",
+      "gzip_sha256": "4c56e0daf9f339d8e214d1b7c486fe7d8cb9d031fad7e9cf69c5c7b30dcadb5c",
+      "path": "audit/astra_full/evidence/FIRST_FAILURE_114530570757.log.gz"
+    }
+  ]
+}

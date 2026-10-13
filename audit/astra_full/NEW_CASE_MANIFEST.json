@@ -1,0 +1,33 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "production_go": false,
+  "oracle_origin": "ASTRA_CONTRACT",
+  "fixture_origin": "Unchanged Native setup helpers for runners; explicitly synthetic failure/clock controls",
+  "case_ids": [
+    "ASF-01-RUNNER-ACL-TIMEOUT",
+    "ASF-02-K4-CLAIMS",
+    "ASF-03-K4-DENIED-QUEUE",
+    "ASF-04-K4-HEARTBEAT",
+    "ASF-05-K6-217-PCS",
+    "ASF-06-K6-PARTIAL-STOP",
+    "ASF-07-K4-COLD-LOCKS",
+    "ASF-08-K6-BUSY",
+    "ASF-09-DATE-PASS-CONTROL",
+    "ASF-10-DATE-UNRELATED-FAIL",
+    "ASF-11-DATE-UNRELATED-COUNTEREXAMPLE",
+    "ASF-12-DATE-BLOCKING-CONTROLS"
+  ],
+  "files": {
+    "audit/astra_full/cases_runners_new.py": "bfcab41bcd2ef8cc8a997cd3a215dbfda8af10bed4a8e774d4a14d222855bff0",
+    "audit/astra_full/probe_runners_new.py": "a7ff80e51e4f23c425643e386de03aad49e2ff4e8fe3285c1b9dd82b03f6fc39",
+    "audit/astra_full/probe_business_day_new.py": "9000a03a8ee90d9b5a874e5a58f1b8b568955903a866d648235d575eb0ee6cbf",
+    ".github/workflows/audit-astra-full-new-runners.yml": "2265abf23dca59a837f5ad48389a9742ee8a6a6744f439610e2c5a0e8524a088",
+    ".github/workflows/audit-astra-business-day.yml": "04398eb68126d13b42cac7cc489d03bef09ee90800e3a61c966edb5190c66538"
+  },
+  "contract": "AUDITOR_START: controls cannot turn FAIL into PASS or rerun groups failing for another reason; K4 stored actor/exclusive units/private bounds; K6 fact-bound proofs after correction and atomic failure recovery",
+  "disclosures": [
+    "Only disposable rest_until/heartbeat aged; Native physical changes are real.",
+    "Injected trigger raises cancellation after earlier attempted inserts; product functions unchanged.",
+    "Date controls inject a known date-independent arithmetic failure into actual helper. A second synthetic result is green to test verdict masking; this is not a claim of ERP arithmetic failure."
+  ]
+}
