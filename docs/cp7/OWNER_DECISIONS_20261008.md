@@ -159,3 +159,14 @@ Syarat dan arahan lain dari pesan yang sama (verbatim):
 Register proyek produksi (D13-4): **belum dibuat**. ID proyek: _belum ada_. Database: `postgres`. Baris ini diisi
 saat proyek dibuat dengan izin owner. Enteng `siimvrusnzxexizpyoib` tetap UAT. Belum ada jadwal, backup malam,
 bucket atau kunci yang dibuat atau dipasang. `production_go:false`.
+
+### Batas biaya (owner, 13 Okt 2026)
+
+Verbatim: "btw gw sih gamau keluarin duit 1000 pun loh."
+
+Akibatnya bagi D13-4..D13-6: semua persiapan harus tanpa biaya. Yang perlu dijawab owner sebelum proyek produksi atau
+penyimpanan dibuat: (1) apakah Enteng dan ERP-Garment lama ada di akun Supabase gratis yang sama (paket gratis: 2
+proyek aktif per akun, 500 MB, berhenti sesudah 7 hari tanpa aktivitas, tanpa backup otomatis); (2) boleh
+mendaftarkan kartu/PayPal ke Cloudflare untuk R2 (gratis sampai 10 GB, tidak ditagih), atau memakai Google Drive;
+(3) backup produksi dijalankan dari repo GitHub privat terpisah (repo ini publik, sehingga log dan artifact-nya
+terbuka untuk umum).
