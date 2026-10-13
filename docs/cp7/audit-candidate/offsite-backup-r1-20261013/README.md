@@ -46,7 +46,7 @@ Hasil CI di sumber ERP CP6 (run 38385679082, sebelum pencatatan mentah ditambahk
 - 19 galat pemulihan, semuanya pg_cron;
 - `structure.explained` = {`extension_initial_acls`: 2}.
 
-Run di kandidat ini ada di `CI_RECEIPT.md` (diisi setelah selesai).
+Run di kandidat ini ada di `CI_RECEIPT.md`: 11/11 × 2 di salinan ERP dan 11/11 × 2 di perlengkapan repo privat.
 
 ## 11 kasus
 
