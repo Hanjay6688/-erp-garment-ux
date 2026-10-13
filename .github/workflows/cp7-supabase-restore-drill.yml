@@ -1,0 +1,290 @@
+# Restore drill into a fresh local Supabase stack with hosted-like privileges (owner decision 13 Oct 2026, D13-8b):
+# a night made by scripts/cp7_offsite_backup.py from the disposable ERP copy is restored by
+# scripts/cp7_supabase_restore_drill.py into a second, fresh Supabase stack on this runner as its postgres role (not a
+# superuser, as on hosted), then compared with the source. Boundary: this does not by itself prove a hosted restore.
+name: CP7 Supabase Restore Drill
+'on':
+  push:
+    branches:
+    - claude/new-session-deapao
+    paths:
+    - scripts/cp7_supabase_restore_drill.py
+    - scripts/cp7_offsite_backup.py
+    - .github/workflows/cp7-supabase-restore-drill.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp7-supabase-restore-drill-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  drill:
+    name: supabase-restore-drill
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AR_CONFIRM: cp6_rollback
+      CP6_AU_BROWSER_CONFIRM: cp6_rollback
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: writer
+        fetch-depth: 0
+        ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        fetch-depth: 0
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: harness
+        fetch-depth: 0
+        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error \
+          -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        key_fingerprint="$(gpg --show-keys --with-colons \
+          /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          | awk -F: '$1 == "fpr" { print $10; exit }')"
+        test "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        architecture="$(dpkg --print-architecture)"
+        sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF
+        Types: deb
+        URIs: https://apt.postgresql.org/pub/repos/apt
+        Suites: ${VERSION_CODENAME}-pgdg
+        Architectures: ${architecture}
+        Components: main
+        Signed-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+        EOF
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        test -x /usr/lib/postgresql/17/bin/psql
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        PYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"
+        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+        test -z "$(git status --porcelain)"
+        supabase --help >/dev/null
+        supabase init --help >/dev/null
+        supabase start --help >/dev/null
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        # ghcr.io can rate-limit image pulls before anything runs. Retry the start
+        # only (no test has run), falling back to the same image tags on public.ecr.aws.
+        for attempt in 1 2 3 4; do
+          if [ "$attempt" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi
+          if supabase start --workdir cp5-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+            > "$RUNNER_TEMP/cp6-local-start.log" 2>&1; then
+            echo "supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}"
+            break
+          fi
+          tail -n 20 "$RUNNER_TEMP/cp6-local-start.log"
+          supabase stop --workdir cp5-local --no-backup || true
+          if [ "$attempt" = 4 ]; then exit 1; fi
+          sleep $((attempt * 60))
+        done
+    - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
+          > "$CP6_AC_WRITER_ARTIFACT"
+        mkdir -p ../auditor/cp6-proof/t3
+        status=0
+        PYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?
+        python - <<'PY'
+        import json
+        d=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))
+        print(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])
+        print(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])
+        PY
+        exit "$status"
+    - name: Clone the aligned AB state for install
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        mkdir -p '../auditor/cp6-proof/t3'
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'
+    - name: Fresh target Supabase stack (second project on this runner) and scratch server
+      working-directory: base
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir drill-target
+        supabase init --force --workdir drill-target
+        mkdir -p drill-target/supabase/.temp
+        echo '17.6.1.165' > drill-target/supabase/.temp/postgres-version
+        sed -i 's/^project_id = .*/project_id = "cp7-drill-target"/' drill-target/supabase/config.toml
+        sed -i -E 's/\b543([0-9]{2})\b/553\1/g; s/\b8083\b/8093/g' drill-target/supabase/config.toml
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' drill-target/supabase/config.toml
+        grep -nE '^(project_id|port|shadow_port) ' drill-target/supabase/config.toml | head -20
+        for attempt in 1 2 3; do
+          if [ "$attempt" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi
+          if supabase start --workdir drill-target \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+            > "$RUNNER_TEMP/drill-target-start.log" 2>&1; then break; fi
+          tail -n 20 "$RUNNER_TEMP/drill-target-start.log"
+          supabase stop --workdir drill-target --no-backup || true
+          if [ "$attempt" = 3 ]; then exit 1; fi
+          sleep $((attempt * 60))
+        done
+        psql 'postgresql://postgres:postgres@127.0.0.1:55322/postgres' -XAtc "select 'target', current_setting('server_version'), rolsuper from pg_roles where rolname=current_user"
+        sudo apt-get install -y -qq rclone gnupg
+        image="$(docker inspect supabase_db_cp5-local --format '{{.Config.Image}}')"
+        docker run -d --name cp7_drill_scratch -p 127.0.0.1:54339:5432 -e POSTGRES_PASSWORD=postgres "$image" >/dev/null
+        for i in $(seq 1 120); do
+          docker exec cp7_drill_scratch psql -U supabase_admin -d postgres -XAtc "select 1 from pg_roles where rolname='authenticated'" 2>/dev/null | grep -q 1 && break
+          if [ "$i" = 120 ]; then docker logs --tail 40 cp7_drill_scratch; exit 1; fi
+          sleep 2
+        done
+        sleep 3
+        docker exec -i cp7_drill_scratch psql -U supabase_admin -d postgres -X -q -v ON_ERROR_STOP=1 \
+          -c "create role cp7_scratch_admin login superuser password 'cp7-scratch'"
+        openssl rand -base64 48 > "$RUNNER_TEMP/drill.pass"
+    - name: One night from the disposable ERP copy to a local store
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        python scripts/cp7_offsite_backup.py --source-url 'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          --scratch-admin-url 'postgresql://cp7_scratch_admin:cp7-scratch@127.0.0.1:54339/postgres' \
+          --remote "$RUNNER_TEMP/drill-store/nightly" --passphrase-file "$RUNNER_TEMP/drill.pass" | tee "$RUNNER_TEMP/night.json"
+        echo "NIGHT=$(python -c "import json,sys;print(json.loads(open(sys.argv[1]).read().strip().splitlines()[-1])['night'])" "$RUNNER_TEMP/night.json")" >> "$GITHUB_ENV"
+    - name: Restore drill into the fresh target as its postgres role
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        status=0
+        python scripts/cp7_supabase_restore_drill.py --remote "$RUNNER_TEMP/drill-store/nightly" --night "$NIGHT" \
+          --passphrase-file "$RUNNER_TEMP/drill.pass" --source-url 'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          --target-url 'postgresql://postgres:postgres@127.0.0.1:55322/postgres' --detail-out "$RUNNER_TEMP/drill-detail.json" || status=$?
+        # Disposable CI data only: show what differed, to read the first failure from the log.
+        python - "$RUNNER_TEMP/drill-detail.json" <<'PY'
+        import json, sys
+        d = json.load(open(sys.argv[1]))
+        print(json.dumps(dict(error=d.get('error'), application_schemas=d.get('application_schemas'), extensions_added=d.get('extensions_added'),
+            extension_versions_differ=d.get('extension_versions_differ'), roles_created=d.get('roles_created'),
+            toc_owners_not_assumable=d.get('toc_owners_not_assumable'),
+            toc_restored_outside_application_schemas=d.get('toc_restored_outside_application_schemas'),
+            restore_errors=(d.get('pg_restore_errors') or [])[:20], data_differ=list(d.get('data_differ') or {})[:15],
+            left_behind=d.get('left_behind'),
+            structure_differ={k: dict(count=v['count'], only_source=[x[:300] for x in v['only_source'][:6]], only_restored=[x[:300] for x in v['only_restored'][:6]])
+                              for k, v in (d.get('structure_differ') or {}).items()},
+            structure_explained={k: v['count'] for k, v in (d.get('structure_explained') or {}).items()},
+            structure_raw_differ={k: v['count'] for k, v in (d.get('structure_raw_differ') or {}).items()}), indent=1, default=str)[:40000])
+        PY
+        exit "$status"
+    - name: Refusal cases (used target, altered copy, superuser postgres)
+      working-directory: auditor/scripts
+      shell: bash
+      run: |
+        set -euo pipefail
+        python - "$RUNNER_TEMP" "$NIGHT" <<'PY'
+        import json, shutil, subprocess, sys
+        from pathlib import Path
+        import cp7_offsite_backup as off, cp7_supabase_restore_drill as d
+        tmp, night = Path(sys.argv[1]), sys.argv[2]
+        store, altered = tmp / 'drill-store' / 'nightly', tmp / 'drill-store' / 'altered'
+        src = 'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'
+        tgt = 'postgresql://postgres:postgres@127.0.0.1:55322/postgres'
+        shutil.copytree(store, altered)
+        f = altered / (night + '.dump.gpg')
+        b = bytearray(f.read_bytes())
+        b[len(b) // 2] ^= 1
+        f.write_bytes(bytes(b))
+        def superuser_postgres():
+            subprocess.run(['docker', 'exec', 'supabase_db_cp7-drill-target', 'psql', '-U', 'supabase_admin', '-d', 'postgres', '-X', '-q',
+                            '-v', 'ON_ERROR_STOP=1', '-c', 'alter role postgres superuser'], check=True)
+        cases = [('DRILL_REFUSES_USED_TARGET', store, None, 'DRILL_TARGET_NOT_FRESH'),
+                 ('DRILL_REFUSES_ALTERED_COPY', altered, None, 'DRILL_REMOTE_COPY_DIFFERS'),
+                 ('DRILL_REFUSES_SUPERUSER_POSTGRES', store, superuser_postgres, 'DRILL_TARGET_ROLE_NOT_HOSTED_LIKE')]
+        bad = 0
+        for name, where, before, code in cases:
+            if before:
+                before()
+            out, _ = d.drill(off.Remote(str(where)), night, str(tmp / 'drill.pass'), src, tgt)
+            ok = out['codes'] == [code] and out['restore_verified'] is False
+            bad += not ok
+            print(json.dumps(dict(case=name, result='PASS' if ok else 'FAIL', codes=out['codes'])))
+        shutil.rmtree(altered)
+        print(json.dumps(dict(refusal_cases=len(cases), passed=len(cases) - bad)))
+        sys.exit(1 if bad else 0)
+        PY
+    - name: Remove disposable servers
+      if: always()
+      working-directory: base
+      run: |
+        docker rm -f cp7_drill_scratch || true
+        supabase stop --workdir drill-target --no-backup || true
+        supabase stop --workdir cp5-local --no-backup
