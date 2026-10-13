@@ -1,6 +1,6 @@
 # Laporan Fable v1.1 — putaran silang 1 CP7, kandidat `ae0214ad`
 
-**Status:** v1.1 FINAL (13 Okt 2026, 16:05 UTC). Review sumber dan 9 run independen selesai, semua dibaca per kasus (33 job, 1.047 baris kasus: 1.046 PASS, 1 COUNTEREXAMPLE milik kasus Fable baru, 0 FAIL, 0 pengulangan hari bisnis). Register run: `runs/xc1_ae0214ad/`.
+**Status:** v1.1 FINAL (13 Okt 2026, 16:05 UTC). Review sumber dan 9 run independen selesai, semua dibaca per kasus (25 job, 22 di antaranya dengan baris kasus: 478 baris, 477 PASS, 1 COUNTEREXAMPLE milik kasus Fable baru, 0 FAIL, 0 INCOMPLETE, 0 pengulangan hari bisnis). Register run: `runs/xc1_ae0214ad/`.
 Laporan ini melanjutkan `AUDIT_FABLE_7a0b4a90_RETEST.md` v1.0.1 (LULUS DENGAN SYARAT) dan menjawab butir A1–A9 dari
 `docs/cp7/audit-candidate/crosscheck-r1-20261013/HANDOFF_FABLE.md`. Cakupan CP7 saja. Keputusan owner yang sudah
 disahkan tidak dibuka ulang. `production_go:false`.
@@ -184,7 +184,7 @@ berarti nama database tujuan untuk jadwal sudah ada; yang masih ditahan sampai C
 | A5 | **DITUTUP** (penerimaan PR44 berlaku untuk ae0214ad) | diff kosong; netting 38414446165/115355020037 83/83 | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
 | A6 | **MASIH TERBUKA: cakupan pengganti TIDAK LENGKAP** (butuh kasus browser P11 desktop + HP yang menekan helper lusin; lihat A6). Pensiun belum sah menurut D13-9c. | Shell S0 38414431084/115354965906 (uji jsdom ✓) | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
 | A7 | DITUTUP (TERIMA penjelasan penulis; kata-kata Fable ditarik) | — | INDEPENDENT_SOURCE_REVIEW |
-| A8 | **DITUTUP** (12 berkas dibaca; runner baru lulus regresi per kasus di 33 job) | 38414371682, 38414385732, 38414401092, 38414415980, 38414431084, 38414446165 + 3 run Fable | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
+| A8 | **DITUTUP** (12 berkas dibaca; runner baru lulus regresi per kasus di 22 job, 478 baris) | 38414371682, 38414385732, 38414401092, 38414415980, 38414431084, 38414446165 + 3 run Fable | INDEPENDENT_SOURCE_REVIEW + INDEPENDENT_NATIVE_RERUN |
 | Temuan baru | **F-OPS-05 (minor):** tanda polos (tanpa OID) masih dihormati pada nama `--scratch`; database asing dengan salinan tanda itu dihapus. Rekomendasi: hanya tanda ber-OID yang dihitung milik alat. | 38414814884/115356320136 `XC1:PLAIN_MARK_COPIED_ONTO_FOREIGN` COUNTEREXAMPLE | FABLE |
 
 ## Vonis putaran silang 1
