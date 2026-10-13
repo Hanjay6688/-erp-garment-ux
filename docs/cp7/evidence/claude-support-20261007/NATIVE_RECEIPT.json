@@ -1,0 +1,56 @@
+{
+  "run_id": 37653417613,
+  "job_id": 112902330530,
+  "artifact_id": 11497587097,
+  "artifact_zip_sha256": "a9841c19ae46008b77e847615e923b163ffd3099707177808b3605a3489f6d44",
+  "probe_source_head": "3f88bc9f7c43d7bf6fdb7e63ea663ed5b0014ef9",
+  "erp_source_sha256": "c22fb092edbffdc354c1444d0ca3e9461b457b2bbbc38a3b853073b18f684a60",
+  "runtime": "NATIVE_POSTGRES_DISPOSABLE_KERNEL_ONLY",
+  "version": "PostgreSQL 16.15 (Ubuntu 16.15-1.pgdg24.04+2) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+  "scope": "DISPOSABLE_NATIVE_SEGMENT_DIAGNOSTIC_NOT_ERP_STORE_OR_BROWSER_ACCEPTANCE",
+  "crc_verified": true,
+  "parity_comparisons": 817,
+  "mutants_caught": 2,
+  "all_benchmark_segments_match_independent_oracle": true,
+  "source_files": {
+    "scripts/cp7_analysis_segment_probe.mjs": "e7825acdb7b9aa23b2d615d69c8ad0652e051b0e357769b55b52a001d9d276cc",
+    "tests/cp7/families/f04/segment-cut-probe.sql": "63103ffc0af18a529e862a713bf30550b92a6d23f8e4b0ecaa614b30fd496d4a",
+    ".github/workflows/cp7-claude-support-review.yml": "898994b8c335967f19a325324d197877436333c8365a133dc2a8ee191116ccc3"
+  },
+  "summaries": [
+    {
+      "utf8_bytes": 4000006,
+      "current_median_ms": 44.6225,
+      "window_median_ms": 40.575500000000005,
+      "time_reduction_percent": 9.069415653538005,
+      "segments": 3,
+      "sha256": "f27bf71a451c3946e88d4b92d8b57f4a96a0b5101b105840813400cc94c946b0"
+    },
+    {
+      "utf8_bytes": 16000006,
+      "current_median_ms": 178.7265,
+      "window_median_ms": 146.163,
+      "time_reduction_percent": 18.219737979538554,
+      "segments": 9,
+      "sha256": "359642d7d11c3d0f1c98ed311eaccbf6f5670e3489e377e7bb0e6d2e2bc1bb99"
+    },
+    {
+      "utf8_bytes": 65000006,
+      "current_median_ms": 904.8495,
+      "window_median_ms": 664.673,
+      "time_reduction_percent": 26.54325387813111,
+      "segments": 33,
+      "sha256": "cf75d5dc94d07581b481d76cf5619868db417615ddafa04a6f2f4324fd6faf5c"
+    },
+    {
+      "utf8_bytes": 210000006,
+      "current_median_ms": 4404.058999999999,
+      "window_median_ms": 2109.1255,
+      "time_reduction_percent": 52.109508523841285,
+      "segments": 106,
+      "sha256": "b53217c9db37e3041822068a9975dedae5fcc78c2ffbe9ee4373db12b3c61baa"
+    }
+  ],
+  "independent_acceptance": false,
+  "production_go": false
+}

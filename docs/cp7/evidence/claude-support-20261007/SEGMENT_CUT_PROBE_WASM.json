@@ -1,0 +1,183 @@
+{
+  "scope": "SEGMENT_CUT_DIAGNOSTIC_ONLY_NOT_PRODUCT_NOT_NATIVE_AUTH_BROWSER_ACCEPTANCE",
+  "runtime": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+  "version": "PostgreSQL 18.3 (PGlite 0.5.8) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "source_head": "5e8bb51385ba96c442ad717cd265e2be27e6ed87",
+  "source_path": "scripts/cp7-src/planning/analysis-jobs.sql",
+  "source_sha256": "c22fb092edbffdc354c1444d0ca3e9461b457b2bbbc38a3b853073b18f684a60",
+  "parity": {
+    "comparisons": 817,
+    "passed": 817,
+    "mutants": [
+      {
+        "method": "BAD_SIZE",
+        "caught": true
+      },
+      {
+        "method": "SKIP_LAST",
+        "caught": true
+      }
+    ]
+  },
+  "benchmarks": [
+    {
+      "characters": 4000003,
+      "utf8_bytes": 4000006,
+      "independent_pattern_oracle_match": true,
+      "all_methods_completed": true,
+      "rows": [
+        {
+          "method": "CURRENT",
+          "state": "DONE",
+          "ms": 111,
+          "characters": 4000003,
+          "utf8_bytes": 4000006,
+          "tail_bytes_copied": 2000012,
+          "window_bytes_decoded": 0,
+          "segments": 3,
+          "segment_metadata_sha256": "f27bf71a451c3946e88d4b92d8b57f4a96a0b5101b105840813400cc94c946b0"
+        },
+        {
+          "method": "WINDOW",
+          "state": "DONE",
+          "ms": 94,
+          "characters": 4000003,
+          "utf8_bytes": 4000006,
+          "tail_bytes_copied": 0,
+          "window_bytes_decoded": 6000018,
+          "segments": 3,
+          "segment_metadata_sha256": "f27bf71a451c3946e88d4b92d8b57f4a96a0b5101b105840813400cc94c946b0"
+        },
+        {
+          "method": "WINDOW",
+          "state": "DONE",
+          "ms": 95,
+          "characters": 4000003,
+          "utf8_bytes": 4000006,
+          "tail_bytes_copied": 0,
+          "window_bytes_decoded": 6000018,
+          "segments": 3,
+          "segment_metadata_sha256": "f27bf71a451c3946e88d4b92d8b57f4a96a0b5101b105840813400cc94c946b0"
+        },
+        {
+          "method": "CURRENT",
+          "state": "DONE",
+          "ms": 109,
+          "characters": 4000003,
+          "utf8_bytes": 4000006,
+          "tail_bytes_copied": 2000012,
+          "window_bytes_decoded": 0,
+          "segments": 3,
+          "segment_metadata_sha256": "f27bf71a451c3946e88d4b92d8b57f4a96a0b5101b105840813400cc94c946b0"
+        }
+      ]
+    },
+    {
+      "characters": 16000003,
+      "utf8_bytes": 16000006,
+      "independent_pattern_oracle_match": true,
+      "all_methods_completed": true,
+      "rows": [
+        {
+          "method": "CURRENT",
+          "state": "DONE",
+          "ms": 445,
+          "characters": 16000003,
+          "utf8_bytes": 16000006,
+          "tail_bytes_copied": 56000048,
+          "window_bytes_decoded": 0,
+          "segments": 9,
+          "segment_metadata_sha256": "359642d7d11c3d0f1c98ed311eaccbf6f5670e3489e377e7bb0e6d2e2bc1bb99"
+        },
+        {
+          "method": "WINDOW",
+          "state": "DONE",
+          "ms": 377,
+          "characters": 16000003,
+          "utf8_bytes": 16000006,
+          "tail_bytes_copied": 0,
+          "window_bytes_decoded": 52000024,
+          "segments": 9,
+          "segment_metadata_sha256": "359642d7d11c3d0f1c98ed311eaccbf6f5670e3489e377e7bb0e6d2e2bc1bb99"
+        },
+        {
+          "method": "WINDOW",
+          "state": "DONE",
+          "ms": 382,
+          "characters": 16000003,
+          "utf8_bytes": 16000006,
+          "tail_bytes_copied": 0,
+          "window_bytes_decoded": 52000024,
+          "segments": 9,
+          "segment_metadata_sha256": "359642d7d11c3d0f1c98ed311eaccbf6f5670e3489e377e7bb0e6d2e2bc1bb99"
+        },
+        {
+          "method": "CURRENT",
+          "state": "DONE",
+          "ms": 430,
+          "characters": 16000003,
+          "utf8_bytes": 16000006,
+          "tail_bytes_copied": 56000048,
+          "window_bytes_decoded": 0,
+          "segments": 9,
+          "segment_metadata_sha256": "359642d7d11c3d0f1c98ed311eaccbf6f5670e3489e377e7bb0e6d2e2bc1bb99"
+        }
+      ]
+    },
+    {
+      "characters": 65000003,
+      "utf8_bytes": 65000006,
+      "independent_pattern_oracle_match": true,
+      "all_methods_completed": true,
+      "rows": [
+        {
+          "method": "CURRENT",
+          "state": "DONE",
+          "ms": 2065,
+          "characters": 65000003,
+          "utf8_bytes": 65000006,
+          "tail_bytes_copied": 1024000192,
+          "window_bytes_decoded": 0,
+          "segments": 33,
+          "segment_metadata_sha256": "cf75d5dc94d07581b481d76cf5619868db417615ddafa04a6f2f4324fd6faf5c"
+        },
+        {
+          "method": "WINDOW",
+          "state": "DONE",
+          "ms": 1644,
+          "characters": 65000003,
+          "utf8_bytes": 65000006,
+          "tail_bytes_copied": 0,
+          "window_bytes_decoded": 248000024,
+          "segments": 33,
+          "segment_metadata_sha256": "cf75d5dc94d07581b481d76cf5619868db417615ddafa04a6f2f4324fd6faf5c"
+        },
+        {
+          "method": "WINDOW",
+          "state": "DONE",
+          "ms": 1609,
+          "characters": 65000003,
+          "utf8_bytes": 65000006,
+          "tail_bytes_copied": 0,
+          "window_bytes_decoded": 248000024,
+          "segments": 33,
+          "segment_metadata_sha256": "cf75d5dc94d07581b481d76cf5619868db417615ddafa04a6f2f4324fd6faf5c"
+        },
+        {
+          "method": "CURRENT",
+          "state": "DONE",
+          "ms": 1956,
+          "characters": 65000003,
+          "utf8_bytes": 65000006,
+          "tail_bytes_copied": 1024000192,
+          "window_bytes_decoded": 0,
+          "segments": 33,
+          "segment_metadata_sha256": "cf75d5dc94d07581b481d76cf5619868db417615ddafa04a6f2f4324fd6faf5c"
+        }
+      ]
+    }
+  ],
+  "statement_timeout": "8s",
+  "production_go": false,
+  "status": "COMPLETE"
+}
