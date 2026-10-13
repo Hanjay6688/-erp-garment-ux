@@ -182,6 +182,9 @@ ke drive. pake akalnya bos."
 | D13-7 | Database produksi = Enteng `siimvrusnzxexizpyoib`, database `postgres`. Tidak ada proyek baru. | Mengganti D13-4 (B). Alasannya: akun gratis hanya boleh 2 proyek aktif, keduanya sudah terpakai, dan ERP-Garment lama tidak boleh diubah (termasuk dijeda). Enteng juga proyek yang selama ini dipakai untuk menyelaraskan semua uji CP6/CP7, jadi langkah penyelarasan dan biaya proyek baru tidak diperlukan. |
 | D13-7a | Sebelum ada perubahan di Enteng, isinya di-backup dulu ke Google Drive. | Backup ini dijalankan dengan alat backup (sesudah versi Drive siap). Perubahan di Enteng tetap menunggu izin pemasangan. |
 
+Alat backup versi 2 untuk D13-5/6/7 sudah dibuat dan diuji di server sekali pakai: lulus 11/11 ke penyimpanan S3 dan ke
+folder (`docs/cp7/OFFSITE_BACKUP.md`). Alat ini belum dipasang, dan Drive, R2 maupun Enteng belum disentuh.
+
 Yang tetap berlaku: `production_go:false`. Hosted yang sekarang belum diubah. D13-6 (pemeriksaan pemulihan di mesin
 GitHub) tetap. Data uji (UAT) yang sekarang ada di Enteng perlu dibersihkan sebelum live, sesudah dibackup ke Drive.
 Itu masuk persiapan CP8.
