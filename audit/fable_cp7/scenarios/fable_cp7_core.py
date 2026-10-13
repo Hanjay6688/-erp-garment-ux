@@ -177,3 +177,17 @@ def races(tools,today):
     return [('FABLE_CORE:F01_V1_HOLDS_V2_REFUSED',lambda:f01('v1','v2')),('FABLE_CORE:F01_V2_HOLDS_V1_REFUSED',lambda:f01('v2','v1')),
             ('FABLE_CORE:BACKUP_VERIFY_UNDER_LIVE_WRITES',backup_live),('FABLE_CORE:BACKUP_SCRATCH_DROPS_FOREIGN_DB',backup_scratch),
             ('FABLE_CORE:CLEANUP_LOCK_VS_RUNNING_STEP',cleanup_lock)]
+
+
+def http_cases(http,today):
+    """Owner decision 12 Oct: only OWNER may save a PL-5 B policy version; ADMIN reads only (Fable oracle on the retest candidate)."""
+    def owner_only():
+        owner=http.login('OWNER','fable-pl5-owner');admin=http.login('ADMIN','fable-pl5-admin')
+        before=owner.rpc('erp_cp7_get_history_yield_policy_v1',{})
+        payload=dict(expected_revision=str((before.get('body') or {}).get('revision') or 0),state='ACTIVE',window_days='180',min_groups='5',min_cut_pcs='200',confidence='0.90',reason='Fable retest: owner-only policy write')
+        a=admin.rpc('erp_cp7_save_history_yield_policy_v1',dict(p_payload=payload,p_request=str(uuid.uuid4())))
+        o=owner.rpc('erp_cp7_save_history_yield_policy_v1',dict(p_payload=payload,p_request=str(uuid.uuid4())))
+        after=admin.rpc('erp_cp7_get_history_yield_policy_v1',{})
+        ok=a['status']>=400 and o['status']==200 and after['status']==200 and (after.get('body') or {}).get('manage_allowed') is False
+        return dict(status='PASS' if ok else 'FAIL',admin_save_status=a['status'],admin_error=str(a.get('body'))[:160],owner_save_status=o['status'],owner_revision=(o.get('body') or {}).get('revision') if isinstance(o.get('body'),dict) else None,admin_manage_allowed=(after.get('body') or {}).get('manage_allowed'))
+    return [('FABLE_CORE:HTTP_PL5_POLICY_OWNER_ONLY',owner_only)]
