@@ -69,7 +69,12 @@ jobs:
           if [ "$i" = 90 ]; then echo CP7_BACKUP_SCRATCH_NOT_READY; exit 1; fi
           sleep 2
         done
-        echo "CP7_BACKUP_SCRATCH_URL=postgresql://postgres:$pw@127.0.0.1:54339/postgres" >> "$GITHUB_ENV"
+        # postgres is not a superuser in this image; the throwaway scratch server gets its own superuser for the restore.
+        admin="$(openssl rand -hex 24)"
+        echo "::add-mask::$admin"
+        docker exec -i cp7_backup_scratch psql -U supabase_admin -d postgres -X -q -v ON_ERROR_STOP=1 -v pw="$admin" \
+          <<< "create role cp7_scratch_admin login superuser password :'pw';"
+        echo "CP7_BACKUP_SCRATCH_URL=postgresql://cp7_scratch_admin:$admin@127.0.0.1:54339/postgres" >> "$GITHUB_ENV"
     - name: Backup, encrypt, store, fetch back, restore-verify, keep newest verified nights
       shell: bash
       env:

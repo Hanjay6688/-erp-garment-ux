@@ -209,21 +209,25 @@ jobs:
           if [ "$i" = 90 ]; then docker logs --tail 40 cp7_offsite_scratch; tail -20 "$RUNNER_TEMP/s3emu.log"; exit 1; fi
           sleep 2
         done
-        psql 'postgresql://postgres:postgres@127.0.0.1:54339/postgres' -Atc "select current_setting('server_version'), rolsuper from pg_roles where rolname=current_user"
+        # In this image postgres is not a superuser (as on hosted). The scratch server is this runner's own throwaway
+        # container, so the restore runs as a superuser made there, so owners and ACLs restore as they are.
+        docker exec -i cp7_offsite_scratch psql -U supabase_admin -d postgres -X -q -v ON_ERROR_STOP=1 \
+          -c "create role cp7_scratch_admin login superuser password 'cp7-scratch'"
+        psql 'postgresql://cp7_scratch_admin:cp7-scratch@127.0.0.1:54339/postgres' -Atc "select current_setting('server_version'), rolsuper from pg_roles where rolname=current_user"
         psql 'postgresql://postgres:postgres@127.0.0.1:54322/postgres' -Atc "select current_setting('server_version')"
     - name: Off-site backup cases (S3 remote)
       working-directory: auditor
       run: |
         python scripts/cp7_offsite_backup_cases.py \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          'postgresql://postgres:postgres@127.0.0.1:54339/postgres' \
+          'postgresql://cp7_scratch_admin:cp7-scratch@127.0.0.1:54339/postgres' \
           s3emu:cp7-offsite/nightly "$RUNNER_TEMP/offsite.pass" "$RUNNER_TEMP/offsite-s3.json"
     - name: Off-site backup cases (local directory remote)
       working-directory: auditor
       run: |
         python scripts/cp7_offsite_backup_cases.py \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          'postgresql://postgres:postgres@127.0.0.1:54339/postgres' \
+          'postgresql://cp7_scratch_admin:cp7-scratch@127.0.0.1:54339/postgres' \
           "$RUNNER_TEMP/offsite-local/nightly" "$RUNNER_TEMP/offsite.pass" "$RUNNER_TEMP/offsite-local.json"
     - name: Remove disposable servers
       if: always()

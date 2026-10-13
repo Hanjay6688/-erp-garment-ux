@@ -43,6 +43,15 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
     def night(**kw):
         return off.backup(source_url, scratch_url, remote, passphrase_file, with_detail=True, **kw)
 
+    def why(r):
+        """Failure message of a case: the summary plus, on these disposable servers only, the night's error and its
+        first restore errors (the encrypted detail of a real night is never printed)."""
+        d = r.get('_detail') or {}
+        return dict(summary=why(r), error=d.get('error'), restore_errors=(d.get('pg_restore_errors') or [])[:8],
+                    structure_differ={k: dict(only_source=v['only_source'][:5], only_restored=v['only_restored'][:5])
+                                      for k, v in (d.get('structure_differ') or {}).items()},
+                    data_differ=list(d.get('data_differ') or {})[:10])
+
     def remote_files():
         return remote.names()
 
@@ -88,7 +97,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
         def verified():
             r = night()
             names = remote_files()
-            assert r['restore_verified'] is True and r['codes'] == [], off.summary(r)
+            assert r['restore_verified'] is True and r['codes'] == [], why(r)
             assert sorted(names) == sorted([r['file'], r['detail'], r['night'] + '.receipt.json']), names
             assert r['fetched_back'] == dict(sha256_equal=True, dump_sha256_equal=True), r['fetched_back']
             assert r['data']['tables_differ'] == 0 and r['data']['sequences_differ'] == 0 and r['structure']['differ'] == {}, r
@@ -139,7 +148,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
             def corrupt(name):
                 subprocess.run(['rclone', 'rcat', remote.path + '/' + name], input=b'not the uploaded file', check=True, capture_output=True)
             r = night(hooks=dict(after_upload=corrupt))
-            assert r['restore_verified'] is False and 'BACKUP_REMOTE_COPY_DIFFERS' in r['codes'], off.summary(r)
+            assert r['restore_verified'] is False and 'BACKUP_REMOTE_COPY_DIFFERS' in r['codes'], why(r)
             assert r['retention']['reason'] == 'TONIGHT_NOT_VERIFIED_NOTHING_REMOVED' and set(existing) <= set(remote_files()), r['retention']
             assert scratch_attempts() == [] and source_state() == before
             return dict(code='BACKUP_REMOTE_COPY_DIFFERS', nothing_restored=r.get('restore') is None, nothing_removed=True)
@@ -153,7 +162,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
 
         def data_difference():
             r = with_restore_hook(f"update public.{CANARY_TABLE} set v=v||'x' where id=1")
-            assert r['restore_verified'] is False and r['codes'] == ['BACKUP_DATA_DIFFERS'] and r['data']['tables_differ'] == 1, off.summary(r)
+            assert r['restore_verified'] is False and r['codes'] == ['BACKUP_DATA_DIFFERS'] and r['data']['tables_differ'] == 1, why(r)
             assert list(r['_detail']['data_differ']) == ['public.' + CANARY_TABLE] and r['retention']['removed'] == [], r['_detail']['data_differ']
             return dict(code='BACKUP_DATA_DIFFERS', tables_differ=1, nothing_removed=True)
         run(IDS[3], data_difference)
@@ -162,14 +171,14 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
             r = with_restore_hook(f'revoke select on public.{CANARY_TABLE} from {CANARY_ROLE}; '
                                   f'alter table public.{CANARY_TABLE} alter column v drop not null')
             differ = r['structure']['differ']
-            assert r['restore_verified'] is False and r['codes'] == ['BACKUP_STRUCTURE_DIFFERS'], off.summary(r)
+            assert r['restore_verified'] is False and r['codes'] == ['BACKUP_STRUCTURE_DIFFERS'], why(r)
             assert set(differ) == {'relations', 'columns'}, differ
             return dict(code='BACKUP_STRUCTURE_DIFFERS', categories=differ, acl_and_column_change_seen=True)
         run(IDS[4], structure_difference)
 
         def sequence_difference():
             r = with_restore_hook(f"select setval(pg_get_serial_sequence('public.{CANARY_TABLE}','id'), 999999)")
-            assert r['restore_verified'] is False and r['codes'] == ['BACKUP_DATA_DIFFERS'] and r['data']['sequences_differ'] == 1, off.summary(r)
+            assert r['restore_verified'] is False and r['codes'] == ['BACKUP_DATA_DIFFERS'] and r['data']['sequences_differ'] == 1, why(r)
             return dict(code='BACKUP_DATA_DIFFERS', sequences_differ=1)
         run(IDS[5], sequence_difference)
 
@@ -193,7 +202,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
                 t.join(30)
                 with psycopg.connect(source_url, autocommit=True) as c:
                     c.execute('drop table if exists public.cp7_offsite_writes')
-            assert r['restore_verified'] is True and written[0] > 0, (off.summary(r), written)
+            assert r['restore_verified'] is True and written[0] > 0, (why(r), written)
             return dict(restore_verified_while_writing=True, rows_written=written[0], compared_with=r['data']['compared_with'])
         run(IDS[6], under_writes)
 
@@ -243,7 +252,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
                 r = night(now=at)
             finally:
                 off.secrets.token_hex = real
-            assert r['restore_verified'] is False and r['codes'] == ['BACKUP_NAME_COLLISION'], off.summary(r)
+            assert r['restore_verified'] is False and r['codes'] == ['BACKUP_NAME_COLLISION'], why(r)
             assert remote_files() == [name + '.dump.gpg'] and remote.cat(name + '.dump.gpg') == 'an earlier night with this name'
             return dict(code='BACKUP_NAME_COLLISION', existing_file_unchanged=True, nothing_written=True)
         run(IDS[8], collision)
@@ -266,7 +275,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
             finally:
                 off.server_identity = real
             assert refused == dict(same_server='BACKUP_SCRATCH_SERVER_IS_SOURCE', not_local='BACKUP_SCRATCH_SERVER_NOT_LOCAL'), refused
-            assert mism['codes'] == ['BACKUP_SCRATCH_VERSION_MISMATCH'] and remote_files() == [], off.summary(mism)
+            assert mism['codes'] == ['BACKUP_SCRATCH_VERSION_MISMATCH'] and remote_files() == [], why(mism)
             return dict(refused=refused, version_mismatch='BACKUP_SCRATCH_VERSION_MISMATCH', nothing_written=True)
         run(IDS[9], scratch_guards)
 
@@ -281,7 +290,7 @@ def main(source_url, scratch_url, remote_path, passphrase_file, out_path):
             finally:
                 with psycopg.connect(v1.db_url(scratch_url, 'postgres'), autocommit=True) as c:
                     c.execute('drop database if exists cp7_offsite_verify')
-            assert r['codes'] == ['BACKUP_SCRATCH_EXISTS_NOT_OURS'] and kept and remote_files() == [], off.summary(r)
+            assert r['codes'] == ['BACKUP_SCRATCH_EXISTS_NOT_OURS'] and kept and remote_files() == [], why(r)
             return dict(code='BACKUP_SCRATCH_EXISTS_NOT_OURS', foreign_database_kept=True, nothing_written=True)
         run(IDS[10], foreign_scratch)
         after = source_state()

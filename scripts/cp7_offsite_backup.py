@@ -469,7 +469,7 @@ def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_
         detail['error'] = [str(x)[:2000] for x in (a if isinstance(a, tuple) else (a,))]
     except Exception as exc:  # the receipt records the failure; nothing is removed
         receipt['codes'].append('BACKUP_FAILED')
-        receipt['error'] = dict(code='BACKUP_FAILED', type=type(exc).__name__)
+        receipt['error'] = dict(code='BACKUP_FAILED', type=type(exc).__name__, sqlstate=getattr(exc, 'sqlstate', None))
         detail['error'] = [str(exc)[:2000]]
     finally:
         try:
@@ -514,7 +514,7 @@ def backup(source_url, scratch_admin_url, remote, passphrase_file, scratch='cp7_
 
 def summary(receipt):
     """The only line printed: codes and counts, no names or values."""
-    keys = ('night', 'restore_verified', 'codes', 'versions', 'dump', 'encrypted', 'fetched_back', 'restore', 'data', 'structure', 'roles', 'retention')
+    keys = ('night', 'restore_verified', 'codes', 'error', 'versions', 'dump', 'encrypted', 'fetched_back', 'restore', 'data', 'structure', 'roles', 'retention')
     out = {k: receipt.get(k) for k in keys}
     if out.get('dump'):
         out['dump'] = {k: out['dump'][k] for k in ('bytes', 'seconds') if k in out['dump']}
