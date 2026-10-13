@@ -1,0 +1,25 @@
+{
+  "expected_cases": 11,
+  "role": "Database administrator confined to disposable loopback cluster; all source/scratch/canary databases synthetic",
+  "oracle_origin": "ASTRA_CONTRACT",
+  "case_ids": [
+    "ASD-B01-FOREIGN_BEFORE",
+    "ASD-B02-FOREIGN_APPEARS",
+    "ASD-B03-LIVE_WRITE",
+    "ASD-B04-OWNED_LEFTOVER",
+    "ASD-B05-REPLACED_LEFTOVER",
+    "AX2-M01-MARK-GRAMMAR",
+    "AX2-B06-PLAIN_CONFIG",
+    "AX2-B07-PLAIN_PATTERN",
+    "AX2-B08-FINALLY_REPLACED_AFTER_HASH",
+    "AX2-B09-FINALLY_MARK_REPLACED",
+    "AX2-B10-FINALLY_BEFORE_MARK_THROW"
+  ],
+  "legacy_oracles": "Unchanged original expected clauses; marked owned fixture adapted to 4-argument API with token and actual OID. Additional explicit source-row integrity assertion. Original and one-line diff archived.",
+  "sha256": {
+    "backup_cases.py": "04f96841ea9894122febd3d03c5684f07a8ea75edab4a74387a9ddb443308de3",
+    "probe_backup.py": "fb8c67a43b13a4919259cfbd05c5c05c083768b81ccda654aeec072e5d0780dd",
+    "legacy_cases_current_fixture.py": "a2be525815d5e312dab077393147f18e0be96cb89b8d8efd9324096367901e4e",
+    "baseline/cases_delta_41dbd14d.py": "edb7268d2d54674e6c7bf6c1e3c57a296bd5d32ac9ecdeb963f30bc9bfc47e9a"
+  }
+}

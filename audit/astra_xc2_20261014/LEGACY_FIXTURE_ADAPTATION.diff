@@ -1,0 +1,11 @@
+--- 41dbd14d/cases_delta.py
++++ xc2/legacy_cases_current_fixture.py
+@@ -94,7 +94,7 @@
+             create(source,'SOURCE_ORIGINAL')
+             if kind=='FOREIGN_BEFORE':create(scratch,'FOREIGN_PROTECTED')
+             elif kind in ('OWNED_LEFTOVER','REPLACED_LEFTOVER'):
+-                create(scratch,'OWNED_OLD');backup.mark_scratch(admin,scratch)
++                create(scratch,'OWNED_OLD');backup.mark_scratch(admin,scratch,'d'*16,backup.identity(admin,scratch)[0])
+             def dump(self,src,target,snapshot):
+                 result=original_dump(self,src,target,snapshot)
+                 if kind=='FOREIGN_APPEARS':create(scratch,'FOREIGN_PROTECTED')
