@@ -197,3 +197,35 @@ Masih perlu jawaban owner (ya/tidak), karena bertabrakan dengan batas biaya:
    Urutannya: backup ke Drive dulu, lalu pulihkan dari file Drive itu, lalu cocokkan isi, struktur, owner dan hak
    akses. Langkah ini dijalankan dengan izin owner saat itu.
 3. Backup produksi dijalankan dari repo GitHub privat terpisah (gratis). Repo ini publik.
+
+### Keputusan owner 13 Okt 2026: Google Drive, uji pemulihan lokal, repo privat (D13-8)
+
+Verbatim:
+
+> Keputusan saya:
+>
+> 1. Ya, backup awal dan backup malam ke Google Drive. R2 dibatalkan untuk sekarang. Dump tetap terenkripsi, disertai
+>    hash dan tanda terima. Pertahankan 14 backup terakhir yang terverifikasi selama kuota Drive mencukupi; jangan
+>    menghapus backup baik karena backup baru gagal.
+> 2. Tidak untuk uji yang menimpa Enteng sendiri. Enteng tetap calon produksi. Gunakan lingkungan Supabase
+>    lokal/container sekali pakai di mesin GitHub, dengan versi, ekstensi, dan batas hak akses yang sesuai hosted. Ini
+>    tidak membutuhkan proyek hosted ketiga. Catat batas pembuktiannya: keberhasilan di lingkungan lokal belum otomatis
+>    membuktikan pemulihan hosted.
+> 3. Ya, gunakan repo GitHub privat terpisah untuk backup produksi. Tetap wajib Rp0: gunakan runner standar, batasi
+>    penggunaan, dan blokir pemakaian berbayar. Kredensial melalui Secrets; dump tidak masuk repo, log, artifact, atau
+>    cache.
+>
+> Sebelum alat dipakai, buktikan jalur Google Drive sungguhan: unggah → unduh kembali → periksa hash → pulihkan →
+> cocokkan data, struktur, dan hak akses. Kelulusan peniru S3/folder belum membuktikan koneksi Drive.
+> Kirim paket versi yang sama ke Astra dan Fable untuk uji silang. Penyeragaman constraint/ACL dan perlakuan skema
+> GraphQL harus ikut diperiksa, dengan perbedaan aslinya tetap tercatat.
+> Enteng belum boleh diubah sebelum backup awal berhasil dan terverifikasi. `production_go:false`.
+
+| No | Isi | Akibat |
+|---|---|---|
+| D13-8a | Penyimpanan backup awal dan malam = Google Drive. R2 dibatalkan untuk sekarang. | Mengganti D13-5 (L1 R2) untuk sekarang. Enkripsi, hash, tanda terima, 14 malam terverifikasi, dan aturan "malam gagal tidak menghapus" tetap berlaku. |
+| D13-8b | Uji pemulihan sebelum produksi tidak menimpa Enteng. Uji dilakukan di Supabase lokal/container sekali pakai di mesin GitHub, dengan versi, ekstensi dan batas hak akses seperti hosted. | Mengganti syarat "proyek Supabase terpisah". Batasnya wajib dicatat: lulus di lokal belum otomatis membuktikan pemulihan hosted. |
+| D13-8c | Backup produksi dijalankan dari repo GitHub privat terpisah, Rp0. | Runner standar, pemakaian dibatasi, pemakaian berbayar diblokir, kredensial lewat Secrets. Dump tidak masuk repo, log, artifact atau cache. |
+| D13-8d | Sebelum alat dipakai, jalur Google Drive sungguhan dibuktikan (unggah, unduh kembali, hash, pulihkan, cocokkan). | Kelulusan peniru S3 atau folder tidak dihitung sebagai bukti Drive. |
+| D13-8e | Paket versi yang sama dikirim ke Astra dan Fable. Penyeragaman constraint/ACL dan perlakuan skema GraphQL ikut diperiksa, dan perbedaan aslinya tetap tercatat. | — |
+| D13-8f | Enteng tidak diubah sebelum backup awal berhasil dan terverifikasi. | `production_go:false`. |
