@@ -31,6 +31,7 @@ jobs:
       # Sol retest of 8116800c (10 Oct 2026), OPEN_TOOLING ATTENTION_WIB_MIDNIGHT_FIXTURE: business-day control of the
       # auditor runtime (a case run on another WIB date than its group was planned with is not a PASS; rerun from a fresh copy).
       - run: python3 scripts/cp6_auditor_business_day_test.py
+      - run: python3 scripts/cp6_auditor_runner_difference_test.py
       - run: node scripts/cp6_auditor_business_day_test.mjs
       - name: P19 browser loading boundary controls
         run: node scripts/cp7_p19_browser_latency_test.mjs

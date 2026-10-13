@@ -114,3 +114,25 @@ Dua pertanyaan dari audit penuh CP7 Fable atas `d0b9e9c2` (F-UI-01 dan OBS-01). 
    yield yang dipakai saat dipotong, termasuk nomor versi kebijakannya, sehingga perubahan kebijakan sesudahnya tidak
    mengubah analisis atau riwayat lama. Kasus: `scripts/cp7_pl5_history_yield_cases.py`, deklarasi
    `pl5/PL5_HISTORY_YIELD.json`.
+
+## Keputusan owner 13 Okt: penegasan 12 Okt, dasar pembekuan bersyarat, penundaan pemasangan
+
+Disalin tanpa mengubah kata-kata dari register auditor Fable
+`audit/fable_cp7/OWNER_DECISIONS_TO_AUDITOR_20261013.md` (cabang `audit/fable-cp7-full-d0b9e9c2-20261011`, commit
+`1a808bc9`), yang mencatat pesan owner langsung ke auditor. Waktu penegasan: **2026-10-13T05:53:51Z** (13 Okt 2026
+12:53 WIB). Berkas auditor itu adalah sumbernya.
+
+| No | Keputusan owner (verbatim) |
+|---|---|
+| D13-1 | "Ya, tegaskan keputusan 12 Oktober: dashboard disembunyikan sesuai cakupan keputusan tersebut; perubahan kebijakan PL-5 hanya oleh owner. Admin tetap boleh melihat. Catat waktu penegasan sekarang." |
+| D13-2 | "Ya, terima `7a0b4a90` sebagai dasar pembekuan bersyarat. Pencatatan selisih, tiga run bayar supplier, dan verifikasi auditor atas hasilnya harus selesai sebelum pembekuan final." |
+| D13-3 | "Ya, tunda izin pemasangan jadwal dan backup malam sampai nama database tujuan yang persis serta lokasi dump di luar mesin database ditetapkan. Penulis siapkan usulan lokasi dan cara pemulihannya untuk saya pilih." |
+
+Instruksi owner kepada penulis (verbatim dari register yang sama):
+
+1. "Tambahkan diagnosis selisih pemeriksaan akhir, lalu jalankan workflow bayar supplier tiga kali pada tree yang sama. Laporkan SHA/tree, seluruh hasil termasuk kegagalan, dan akar penyebabnya. Tiga run hijau saja belum menjelaskan penyebab kegagalan sebelumnya."
+2. "Gladi jadwal di salinan sekali pakai CI dengan deklarasi 01:00 WIB, cocokkan `schedules()` dengan K3, lalu uninstall dan buktikan pemulihannya. Hosted tetap tidak disentuh."
+
+Status label di laporan auditor: keputusan 12 Okt di atas kini OWNER_CONFIRMED_TO_AUDITOR. Tidak ada pemasangan
+pg_cron atau backup malam di database mana pun selain salinan sekali pakai sampai owner memilih tujuan (D13-3).
+`production_go:false`.
