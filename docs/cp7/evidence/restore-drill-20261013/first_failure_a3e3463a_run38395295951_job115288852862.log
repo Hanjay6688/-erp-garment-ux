@@ -1,0 +1,43 @@
+# Excerpt of job 115288852862 (run 38395295951, commit a3e3463a), steps 16-17, copied from the Actions log
+# (get_job_logs). Disposable CI data only (ERP CP6 copy cp6_rollback). First failure of the D13-8b restore drill.
+# Long function lines are cut at 300 characters by the workflow's own print, as in the log.
+
+2026-10-13T12:24:04.0904120Z {"night": "erp-20261013-192353-WIB-51fedeed3e1e", "restore_verified": true, "codes": [], "warnings": null, "error": null, "remote_space": null, "versions": {"source_major": 17, "scratch_major": 17, "source": "17.6"}, "dump": {"bytes": 4223052, "seconds": 0.5}, "encrypted": {"bytes": 4223166, "sha256": "98c3ec25941b9ece3b1d022e8188fdd5572aac83a11c57658478517aa54a6761", "cipher": "gpg symmetric AES256"}, "fetched_back": {"sha256_equal": true, "dump_sha256_equal": true}, "restore": {"exit": 1, "seconds": 7.5, "errors": 19, "by_category": {"CRON": 19}, "unexplained": 0}, "data": {"tables": 264, "rows": 1210, "sequences": 9, "tables_differ": 0, "sequences_differ": 0, "compared_with": "source in the dump snapshot"}, "structure": {"objects": {"schemas": 13, "relations": 330, "columns": 3491, "constraints": 1450, "indexes": 745, "triggers": 453, "rules": 0, "views": 54, "policies": 190, "functions": 673, "types": 12, "sequences": 9, "extensions": 5, "default_acls": 27, "publications": 1, "event_triggers": 6, "extension_initial_acls": 10, "large_objects": 1}, "differ": {}, "explained": {"extension_initial_acls": 2}, "raw_differ": {"schemas": 4, "relations": 204, "constraints": 56, "indexes": 2, "views": 14, "functions": 18}, "normalization": ["ARRAY_CAST_FORM", "ACL_DEFAULT_AND_ORDER", "EXTENSION_INITIAL_ACLS_EXPLAINED"]}, "roles": {"referenced": 11, "created": 2, "kept_after_night": 0}, "retention": {"reason": "NEWEST_VERIFIED_KEPT", "removed": 0, "kept": 1}}
+2026-10-13T12:24:09.4784570Z {"contract": "cp7.supabase-restore-drill.v1", "night": "erp-20261013-192353-WIB-51fedeed3e1e", "boundary": "Restored into a fresh local Supabase stack on the runner, as its non-superuser postgres role, with the same Postgres image and extensions. This does not by itself prove a restore into Supabase hosted.", "managed_data": ["auth.users", "auth.identities"], "production_go": false, "codes": ["DRILL_STRUCTURE_DIFFERS"], "fetched": {"encrypted_sha256_equal": true, "dump_sha256_equal": true}, "target": {"role": "postgres", "superuser": false, "server_version": "17.6", "schemas": 11}, "scope": {"application_schemas": 3, "extensions_added": 0, "extension_versions_differ": 0}, "roles_created": 0, "toc": {"entries": 4433, "restored": 3829, "by_reason": {"present_on_target": 537, "pg_cron": 19, "absent_on_target": 3592, "privilege_replayed": 13, "data_outside_application": 48, "data": 224}, "owners_not_assumable": 1, "restored_outside_application_schemas": 10}, "restore": {"exit": 0, "errors": 0, "by_category": {}}, "data": {"tables": 218, "rows": 951, "sequences": 6, "tables_differ": 0, "sequences_differ": 0, "managed_rows": {"auth.users": 0, "auth.identities": 0}, "left_behind": {"tables": 8, "rows": 259, "unreadable": 0}}, "structure": {"objects": {"schemas": 13, "relations": 330, "columns": 3491, "constraints": 1450, "indexes": 745, "triggers": 453, "rules": 0, "views": 54, "policies": 190, "functions": 673, "types": 12, "sequences": 9, "extensions": 5, "default_acls": 27, "publications": 1, "event_triggers": 6, "extension_initial_acls": 10, "large_objects": 1}, "differ": {"functions": 82, "relations": 2}, "explained": {}, "raw_differ": {"constraints": 56, "functions": 98, "indexes": 2, "relations": 170, "views": 14}}, "restore_verified": false}
+detail (workflow print, disposable data):
+ application_schemas: erp, public, supabase_migrations
+ toc_owners_not_assumable: supabase_auth_admin
+ toc_restored_outside_application_schemas:
+  ACL - SCHEMA extensions postgres
+  ACL supabase_functions FUNCTION http_request() supabase_functions_admin
+  COMMENT supabase_functions TABLE hooks supabase_functions_admin
+  ACL supabase_functions TABLE hooks supabase_functions_admin
+  ACL supabase_functions SEQUENCE hooks_id_seq supabase_functions_admin
+  ACL supabase_functions TABLE migrations supabase_functions_admin
+  TRIGGER auth users trg_cp45_guard_last_owner_auth_delete supabase_auth_admin
+  DEFAULT ACL storage DEFAULT PRIVILEGES FOR SEQUENCES postgres
+  DEFAULT ACL storage DEFAULT PRIVILEGES FOR FUNCTIONS postgres
+  DEFAULT ACL storage DEFAULT PRIVILEGES FOR TABLES postgres
+ restore_errors: []
+ data_differ: []
+ left_behind (source rows, old rule): _realtime.extensions 1, _realtime.feature_flags 1, _realtime.schema_migrations 33,
+  _realtime.tenants 1, auth.schema_migrations 77, realtime.schema_migrations 81, storage.migrations 63,
+  supabase_functions.migrations 2
+ structure_differ.functions: count 82 (41 functions, each once per side), first 6 of each side:
+  only_source:   public.erp_activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint) ... acl=authenticated=X/postgres,postgres=X/postgres,service_role=X/postgres ...
+                 public.erp_assign_pattern_v1(uuid,uuid,text,uuid,bigint) ... acl=authenticated=X/postgres,postgres=X/postgres,service_role=X/postgres ...
+                 public.erp_cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint) ... (same ACL)
+                 public.erp_cancel_my_reminder_v1(uuid,text,uuid,bigint) ... (same ACL)
+                 public.erp_create_attendance_hpp_pool_v1(jsonb,uuid) ... (same ACL)
+                 public.erp_deactivate_pattern_v1(uuid,text,uuid,bigint) ... (same ACL)
+  only_restored: the same six with acl=anon=X/postgres,authenticated=X/postgres,postgres=X/postgres,service_role=X/postgres
+ structure_differ.relations: count 2
+  only_source:   v public.v_erp_my_profile owner=postgres acl=authenticated=r/postgres,postgres=arwdDxtm/postgres ...
+  only_restored: v public.v_erp_my_profile owner=postgres acl=anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres ...
+ structure_raw_differ: constraints 56, functions 98, indexes 2, relations 170, views 14
+2026-10-13T12:24:09.5241379Z ##[error]Process completed with exit code 1.
+
+# Cause (writer): the fresh target holds Supabase's default privileges for postgres in public (all to anon,
+# authenticated, service_role). pg_restore creates each object as postgres, so it receives them; the night's ACL entries
+# are written against the built-in default and never revoke anon. Reproduced on a local PG16 copy; fixed in the drill by
+# clearing the restoring role's default privileges before the restore (the night's own are restored last).

@@ -23,6 +23,9 @@ One drill:
          auth.identities: the logins), loaded in that order because the target already has the foreign key;
        - roles that own or hold privileges on the source and are missing on the target (NOLOGIN, granted to the
          restoring role so it can hand ownership to them).
+     Before that, the restoring role's default privileges on the target are cleared (clear_default_privileges): a
+     fresh project would otherwise grant anon and authenticated access to every restored object in `public`. The
+     night's own default privileges are restored last.
      pg_cron (schema cron, its extension and jobs) is left out, as in the nightly check; database-level entries too.
      A listing entry of a kind this drill does not know stops the drill (DRILL_TOC_UNKNOWN).
   4. Compare with the source (in CI the disposable source the night was taken from, unchanged since): row count and
@@ -188,6 +191,40 @@ def diff(a, b):
             for k in sorted(set(a) | set(b)) if set(a.get(k, [])) != set(b.get(k, []))}
 
 
+# Default privileges ALTER DEFAULT PRIVILEGES can name, per pg_default_acl object type, and what each type gets
+# without any (owner all; functions and types also PUBLIC).
+_DEFACL_KIND = {'r': 'TABLES', 'S': 'SEQUENCES', 'f': 'FUNCTIONS', 'T': 'TYPES', 'n': 'SCHEMAS'}
+_DEFACL_PUBLIC = ('f', 'T')
+
+
+def clear_default_privileges(conn, role):
+    """Clear the restoring role's default privileges on the target before the restore; [(schema, type, grantees)].
+
+    A fresh Supabase project already holds default privileges for `postgres` (in `public`: everything to anon,
+    authenticated and service_role). pg_restore creates every object as `postgres`, so each would receive those grants
+    as it is created, and the night's ACL entries, written by pg_dump against the built-in default, never revoke them:
+    CI run 38395295951 restored 41 public functions executable by anon and one view open to anon. Without the role's
+    default privileges, objects come back with the night's privileges only, and the night's own default privileges
+    (DEFAULT ACL entries, restored last) set them again as the source had them."""
+    rows = conn.execute("""select n.nspname, d.defaclobjtype::text,
+            array(select distinct case when a.grantee = 0 then '' else pg_get_userbyid(a.grantee) end from aclexplode(d.defaclacl) a order by 1)
+        from pg_default_acl d left join pg_namespace n on n.oid = d.defaclnamespace
+        where d.defaclrole = (select oid from pg_roles where rolname = %s) order by 1, 2""", (role,)).fetchall()
+    for schema, kind, grantees in rows:
+        where = sql.SQL(' IN SCHEMA {}').format(sql.Identifier(schema)) if schema else sql.SQL('')
+        head = sql.SQL('alter default privileges for role {}{} ').format(sql.Identifier(role), where)
+        on = sql.SQL(_DEFACL_KIND[kind])
+        for g in grantees:
+            conn.execute(head + sql.SQL('revoke all on {} from {}').format(on, sql.Identifier(g) if g else sql.SQL('public')))
+        if not schema:  # a global entry goes back to the built-in default, which removes it
+            conn.execute(head + sql.SQL('grant all on {} to {}').format(on, sql.Identifier(role)))
+            if kind in _DEFACL_PUBLIC:
+                conn.execute(head + sql.SQL('grant all on {} to public').format(on))
+    left = conn.execute('select count(*) from pg_default_acl where defaclrole = (select oid from pg_roles where rolname = %s)', (role,)).fetchone()[0]
+    assert left == 0, ('DRILL_TARGET_DEFAULT_PRIVILEGES_NOT_CLEARED', left)
+    return [(schema or '*', _DEFACL_KIND[kind], grantees) for schema, kind, grantees in rows]
+
+
 def fetch_night(remote, night, passphrase_file, work):
     """The night's dump, decrypted, after both SHA-256 checks against its receipt."""
     receipt = json.loads(remote.cat(night + '.receipt.json'))
@@ -245,8 +282,10 @@ def drill(remote, night, passphrase_file, source_url, target_url, managed=MANAGE
                     t.execute(sql.SQL('grant {} to current_user').format(sql.Identifier(name)))
                     made.append(name)
             assumable = {r[0] for r in t.execute("select rolname from pg_roles where pg_has_role(current_user, oid, 'MEMBER')")}
+            cleared = clear_default_privileges(t, who[0])
         out['roles_created'] = len(made)
-        detail['roles_created'] = made
+        out['default_privileges_cleared'] = len(cleared)
+        detail.update(roles_created=made, default_privileges_cleared=cleared)
         entries = parse_toc(subprocess.run([pg_restore, '-l', str(plain)], capture_output=True, text=True, check=True).stdout)
         chosen, why = select_toc(entries, target_keys, app, tuple(managed), assumable)
         chosen_set = set(chosen)
