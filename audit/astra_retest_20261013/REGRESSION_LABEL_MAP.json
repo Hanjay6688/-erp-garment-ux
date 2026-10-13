@@ -1,0 +1,10 @@
+{
+  "declared_manifest": "REGRESSION_MANIFEST.json",
+  "workflow_committed_before_execution": "d7d65d89b30254d97de00875587828863f170744",
+  "label_aliases": {
+    "k3-cleanup-19": "k3-cleanup-22",
+    "analysis152": "analysis153"
+  },
+  "reason": "Old planning labels are retained in the preregistration; the committed workflow and pinned Original case inventories control actual execution. No cases were removed or replaced after observing outcomes. Other old numeric labels also do not equal current case totals.",
+  "production_go": false
+}

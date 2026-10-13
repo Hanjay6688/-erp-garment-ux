@@ -1,0 +1,695 @@
+{
+  "product_sha": "7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2",
+  "runs": [
+    {
+      "id": 38353818444,
+      "name": "AUDIT/cp7-retest-20261013/Astra/7a0b4a90/regression/1",
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "head_branch": "audit/astra-cp7-retest-7a0b4a90-20261013",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444",
+      "created_at": "2026-10-13T05:54:30Z",
+      "updated_at": "2026-10-13T07:05:34Z"
+    },
+    {
+      "id": 38353818482,
+      "name": "AUDIT/cp7-retest-20261013/Astra/7a0b4a90/shell/1",
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "head_branch": "audit/astra-cp7-retest-7a0b4a90-20261013",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818482",
+      "created_at": "2026-10-13T05:54:30Z",
+      "updated_at": "2026-10-13T06:03:34Z"
+    },
+    {
+      "id": 38353995484,
+      "name": "AUDIT/cp7-retest-20261013/Astra/7a0b4a90/ASF-pure/1",
+      "head_sha": "8791f7da9006e341edd740c3f12b62007e33c58d",
+      "head_branch": "audit/astra-cp7-retest-7a0b4a90-20261013",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353995484",
+      "created_at": "2026-10-13T05:56:31Z",
+      "updated_at": "2026-10-13T05:57:48Z"
+    },
+    {
+      "id": 38354144743,
+      "name": "AUDIT/cp7-retest-20261013/Astra/7a0b4a90/asf-modes/1",
+      "head_sha": "92096bf6d85c4c2e810daa3a060081930e09b5c5",
+      "head_branch": "audit/astra-cp7-retest-7a0b4a90-20261013",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38354144743",
+      "created_at": "2026-10-13T05:58:13Z",
+      "updated_at": "2026-10-13T06:07:11Z"
+    },
+    {
+      "id": 38354577233,
+      "name": "AUDIT/cp7-retest-20261013/Astra/7a0b4a90/own-delta/1",
+      "head_sha": "068e52423d9f68530e2d31656861af5a5cb3ba8e",
+      "head_branch": "audit/astra-cp7-retest-7a0b4a90-20261013",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38354577233",
+      "created_at": "2026-10-13T06:02:57Z",
+      "updated_at": "2026-10-13T06:11:41Z"
+    },
+    {
+      "id": 38355291749,
+      "name": "AUDIT/cp7-retest-20261013/Astra/7a0b4a90/evidence-validation/1",
+      "head_sha": "a41dfc74f1e84e082d01a62d5fe2efff0aaabf3b",
+      "head_branch": "audit/astra-cp7-retest-7a0b4a90-20261013",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38355291749",
+      "created_at": "2026-10-13T06:10:58Z",
+      "updated_at": "2026-10-13T06:11:52Z"
+    }
+  ],
+  "regression_jobs": [
+    {
+      "id": 115152009013,
+      "name": "cp7-p21-full-rehearsal",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T05:54:35Z",
+      "completed_at": "2026-10-13T06:01:30Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009013",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T05:56:59Z",
+          "completed_at": "2026-10-13T05:57:00Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:01:17Z",
+          "completed_at": "2026-10-13T06:01:17Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009142,
+      "name": "pl5-history-yield-20",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:12:37Z",
+      "completed_at": "2026-10-13T06:19:28Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009142",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:14:09Z",
+          "completed_at": "2026-10-13T06:14:09Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:19:14Z",
+          "completed_at": "2026-10-13T06:19:14Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009145,
+      "name": "p19-reminder-v2-16",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:10:06Z",
+      "completed_at": "2026-10-13T06:17:40Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009145",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:11:35Z",
+          "completed_at": "2026-10-13T06:11:35Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:17:27Z",
+          "completed_at": "2026-10-13T06:17:27Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009159,
+      "name": "p19-plan-v2-22",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:02:41Z",
+      "completed_at": "2026-10-13T06:10:05Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009159",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:04:29Z",
+          "completed_at": "2026-10-13T06:04:29Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:09:52Z",
+          "completed_at": "2026-10-13T06:09:53Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009251,
+      "name": "p19-staged12",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:01:32Z",
+      "completed_at": "2026-10-13T06:09:20Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009251",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:03:05Z",
+          "completed_at": "2026-10-13T06:03:06Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:09:06Z",
+          "completed_at": "2026-10-13T06:09:07Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009270,
+      "name": "p19-scale5",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T05:54:35Z",
+      "completed_at": "2026-10-13T07:05:33Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009270",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T05:56:50Z",
+          "completed_at": "2026-10-13T05:56:51Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T07:05:08Z",
+          "completed_at": "2026-10-13T07:05:09Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009318,
+      "name": "p19-transport11",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T05:54:35Z",
+      "completed_at": "2026-10-13T06:02:57Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009318",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T05:56:53Z",
+          "completed_at": "2026-10-13T05:56:53Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:02:40Z",
+          "completed_at": "2026-10-13T06:02:40Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009337,
+      "name": "k6-proof-runner-10",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:21:59Z",
+      "completed_at": "2026-10-13T06:29:09Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009337",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:23:40Z",
+          "completed_at": "2026-10-13T06:23:40Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:28:57Z",
+          "completed_at": "2026-10-13T06:28:57Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009354,
+      "name": "p19-report-v2-20",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:02:59Z",
+      "completed_at": "2026-10-13T06:12:35Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009354",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:05:08Z",
+          "completed_at": "2026-10-13T06:05:09Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:12:20Z",
+          "completed_at": "2026-10-13T06:12:21Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009362,
+      "name": "k3-cleanup-22",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T05:54:35Z",
+      "completed_at": "2026-10-13T06:02:39Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009362",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T05:56:10Z",
+          "completed_at": "2026-10-13T05:56:10Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:02:25Z",
+          "completed_at": "2026-10-13T06:02:26Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009372,
+      "name": "analysis153",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:23:23Z",
+      "completed_at": "2026-10-13T06:38:26Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009372",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:25:00Z",
+          "completed_at": "2026-10-13T06:25:01Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:38:09Z",
+          "completed_at": "2026-10-13T06:38:10Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009397,
+      "name": "p19-ai-v2-9",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:09:22Z",
+      "completed_at": "2026-10-13T06:15:35Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009397",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:10:53Z",
+          "completed_at": "2026-10-13T06:10:53Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:15:22Z",
+          "completed_at": "2026-10-13T06:15:23Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009504,
+      "name": "k2-retention-10",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:15:37Z",
+      "completed_at": "2026-10-13T06:23:21Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009504",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:17:37Z",
+          "completed_at": "2026-10-13T06:17:38Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:23:03Z",
+          "completed_at": "2026-10-13T06:23:04Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009509,
+      "name": "attention284",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T05:54:35Z",
+      "completed_at": "2026-10-13T06:33:20Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009509",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T05:56:28Z",
+          "completed_at": "2026-10-13T05:56:29Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:32:57Z",
+          "completed_at": "2026-10-13T06:32:57Z"
+        }
+      ]
+    },
+    {
+      "id": 115152009535,
+      "name": "k4-runner-17",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:17:42Z",
+      "completed_at": "2026-10-13T06:25:47Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152009535",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:19:33Z",
+          "completed_at": "2026-10-13T06:19:33Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:25:35Z",
+          "completed_at": "2026-10-13T06:25:35Z"
+        }
+      ]
+    },
+    {
+      "id": 115152010989,
+      "name": "plan39",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:25:49Z",
+      "completed_at": "2026-10-13T06:35:54Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152010989",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:29:31Z",
+          "completed_at": "2026-10-13T06:29:32Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:35:38Z",
+          "completed_at": "2026-10-13T06:35:38Z"
+        }
+      ]
+    },
+    {
+      "id": 115152011047,
+      "name": "f03-full-p12",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:35:56Z",
+      "completed_at": "2026-10-13T06:49:56Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152011047",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:40:27Z",
+          "completed_at": "2026-10-13T06:40:27Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:49:39Z",
+          "completed_at": "2026-10-13T06:49:39Z"
+        }
+      ]
+    },
+    {
+      "id": 115152011069,
+      "name": "supplier_payment_create",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:35:45Z",
+      "completed_at": "2026-10-13T06:41:41Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152011069",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:37:18Z",
+          "completed_at": "2026-10-13T06:37:19Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:41:24Z",
+          "completed_at": "2026-10-13T06:41:24Z"
+        }
+      ]
+    },
+    {
+      "id": 115152011097,
+      "name": "receipt_correction",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:33:48Z",
+      "completed_at": "2026-10-13T06:42:32Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152011097",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:35:35Z",
+          "completed_at": "2026-10-13T06:35:35Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:42:17Z",
+          "completed_at": "2026-10-13T06:42:17Z"
+        }
+      ]
+    },
+    {
+      "id": 115152011129,
+      "name": "f03-full-prefreeze_ui",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:38:28Z",
+      "completed_at": "2026-10-13T06:47:08Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152011129",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:40:15Z",
+          "completed_at": "2026-10-13T06:40:16Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:46:52Z",
+          "completed_at": "2026-10-13T06:46:52Z"
+        }
+      ]
+    },
+    {
+      "id": 115152011148,
+      "name": "payroll--payroll-review",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "head_sha": "d7d65d89b30254d97de00875587828863f170744",
+      "started_at": "2026-10-13T06:29:15Z",
+      "completed_at": "2026-10-13T06:35:43Z",
+      "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38353818444/job/115152011148",
+      "pin_and_unchanged_steps": [
+        {
+          "name": "Prove pinned product and record evidence origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-13T06:30:54Z",
+          "completed_at": "2026-10-13T06:30:55Z"
+        },
+        {
+          "name": "Assert candidate stayed byte-identical",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-13T06:35:29Z",
+          "completed_at": "2026-10-13T06:35:30Z"
+        }
+      ]
+    }
+  ],
+  "dispositions": {
+    "38354144743": "Original failure retained. ASRA-T01 auditor classification error corrected from unchanged Original by run 38355291749; no product rerun.",
+    "38354577233": "Genuine conditional scratch ownership counterexample ASR-OPS-01. Open."
+  },
+  "same_round_peer_logs_read": false,
+  "PR44_independent_acceptance": false,
+  "production_go": false
+}

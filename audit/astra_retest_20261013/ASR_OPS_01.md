@@ -18,6 +18,8 @@ Harapan oracle: database pengganti tetap ada; operasi menolak pemakaian/penghapu
 
 Hasil asli: `foreign_canary_after=null`, `scratch_after=ABSENT`, `restore_verified=true`, `error` tidak ada. Sumber tetap berisi satu baris `SOURCE_ORIGINAL`. Database pengganti benar-benar hilang. Receipt menunjukkan verifikasi isi dump berhasil; verifikasi itu tidak mendeteksi bahwa database lain telah dipakai sebagai korban pembuatan scratch.
 
+Pembacaan canary yang hilang dilakukan **sebelum teardown fixture auditor**. Penghapusan akhir fixture hanya membersihkan dua nama database uji setelah hasil tersebut dicatat; bukan penghapusan itu yang dijadikan bukti counterexample.
+
 ## Akar yang ditunjuk bukti
 
 `scripts/cp7_nightly_backup.py`, fungsi `backup`: nilai `state` dibaca sebelum dump dan dipakai sesudah dump untuk `tools.drop(scratch)` bila nilai awalnya `OURS`. Pemeriksaan awal tidak lagi menjelaskan identitas database pada waktu penghapusan. `finally` juga memakai boolean `ours` sebagai salah satu syarat penghapusan; jalur kedua ini ditemukan dari kode, **belum direproduksi terpisah** dan tidak dihitung menjadi temuan kedua.

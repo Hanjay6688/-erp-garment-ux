@@ -1,0 +1,89 @@
+{
+  "source": "evidence/cp7retest-astra-7a0b4a90-supplier_payment_create-json/ASTRA_SUPPLIER_BOUNDARY_OBSERVATIONS.json",
+  "source_sha256": "f364d8d1046988784fdd0a0b2738910139977576cee3dbeee3645f9889d52aba",
+  "observations": 26,
+  "comparisons": [
+    {
+      "comparison": "group_boundary",
+      "before_observation": 3,
+      "after_observation": 21,
+      "raw_equal": true,
+      "before_sha256": "26a081ed5bc0428062e0a93adbdb91be18a9cb63d1bb47ca19f4149e92c66dd6",
+      "after_sha256": "26a081ed5bc0428062e0a93adbdb91be18a9cb63d1bb47ca19f4149e92c66dd6"
+    },
+    {
+      "comparison": "group_public",
+      "before_observation": 4,
+      "after_observation": 22,
+      "raw_equal": true,
+      "before_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084",
+      "after_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084"
+    },
+    {
+      "comparison": "case_1_boundary",
+      "before_observation": 5,
+      "after_observation": 7,
+      "raw_equal": true,
+      "before_sha256": "210946754b789ddf751b4eb4e1ccb733d929cabb4dc6c898e5cb3e1afa8fb4b4",
+      "after_sha256": "210946754b789ddf751b4eb4e1ccb733d929cabb4dc6c898e5cb3e1afa8fb4b4"
+    },
+    {
+      "comparison": "case_2_boundary",
+      "before_observation": 9,
+      "after_observation": 11,
+      "raw_equal": true,
+      "before_sha256": "210946754b789ddf751b4eb4e1ccb733d929cabb4dc6c898e5cb3e1afa8fb4b4",
+      "after_sha256": "210946754b789ddf751b4eb4e1ccb733d929cabb4dc6c898e5cb3e1afa8fb4b4"
+    },
+    {
+      "comparison": "case_3_boundary",
+      "before_observation": 13,
+      "after_observation": 15,
+      "raw_equal": true,
+      "before_sha256": "210946754b789ddf751b4eb4e1ccb733d929cabb4dc6c898e5cb3e1afa8fb4b4",
+      "after_sha256": "210946754b789ddf751b4eb4e1ccb733d929cabb4dc6c898e5cb3e1afa8fb4b4"
+    },
+    {
+      "comparison": "case_4_boundary",
+      "before_observation": 17,
+      "after_observation": 19,
+      "raw_equal": true,
+      "before_sha256": "210946754b789ddf751b4eb4e1ccb733d929cabb4dc6c898e5cb3e1afa8fb4b4",
+      "after_sha256": "210946754b789ddf751b4eb4e1ccb733d929cabb4dc6c898e5cb3e1afa8fb4b4"
+    },
+    {
+      "comparison": "case_1_public",
+      "before_observation": 6,
+      "after_observation": 8,
+      "raw_equal": true,
+      "before_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084",
+      "after_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084"
+    },
+    {
+      "comparison": "case_2_public",
+      "before_observation": 10,
+      "after_observation": 12,
+      "raw_equal": true,
+      "before_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084",
+      "after_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084"
+    },
+    {
+      "comparison": "case_3_public",
+      "before_observation": 14,
+      "after_observation": 16,
+      "raw_equal": true,
+      "before_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084",
+      "after_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084"
+    },
+    {
+      "comparison": "case_4_public",
+      "before_observation": 18,
+      "after_observation": 20,
+      "raw_equal": true,
+      "before_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084",
+      "after_sha256": "5b7ff9177eabc51e60600eeadd72c43d40089f9c683356d2f3ef3192fd329084"
+    }
+  ],
+  "qualification": "The boundary auth field was originally retained as count+hash. Public arrays and original equality were not sorted or changed. This cannot establish the cause of the earlier writer failure.",
+  "production_go": false
+}

@@ -1,0 +1,297 @@
+{
+  "source_run": 38353818444,
+  "case_credit": 0,
+  "staged_browser": [
+    {
+      "size": 1000,
+      "days": 100,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 20904.699999999953,
+      "ack_ms": 6.699999999953434,
+      "progress_ms": 625.3000000000466
+    },
+    {
+      "size": 1000,
+      "days": 1,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 15792.399999999907,
+      "ack_ms": 5.5,
+      "progress_ms": 474
+    },
+    {
+      "size": 1000,
+      "days": 30,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 17423.5,
+      "ack_ms": 5.7000000001862645,
+      "progress_ms": 622.8000000000466
+    },
+    {
+      "size": 100,
+      "days": 100,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 2589.5999999999767,
+      "ack_ms": 8.599999999976717,
+      "progress_ms": 116.19999999995343
+    },
+    {
+      "size": 100,
+      "days": 1,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 2282.70000000007,
+      "ack_ms": 6.599999999976717,
+      "progress_ms": 112.5
+    },
+    {
+      "size": 100,
+      "days": 30,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 2374.1999999999534,
+      "ack_ms": 6.800000000046566,
+      "progress_ms": 119.19999999995343
+    },
+    {
+      "size": 300,
+      "days": 100,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 6756.800000000047,
+      "ack_ms": 8.5,
+      "progress_ms": 238.80000000004657
+    },
+    {
+      "size": 300,
+      "days": 1,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 5462.100000000093,
+      "ack_ms": 5.800000000046566,
+      "progress_ms": 217.60000000009313
+    },
+    {
+      "size": 300,
+      "days": 30,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 5871.599999999977,
+      "ack_ms": 6.299999999930151,
+      "progress_ms": 208.69999999995343
+    },
+    {
+      "size": 5000,
+      "days": 100,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 111492.80000000028,
+      "ack_ms": 9.100000000093132,
+      "progress_ms": 3158.2000000001863
+    },
+    {
+      "size": 5000,
+      "days": 1,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 86418.29999999981,
+      "ack_ms": 12.600000000093132,
+      "progress_ms": 3761.600000000093
+    },
+    {
+      "size": 5000,
+      "days": 30,
+      "status": "RESULT_RENDERED",
+      "elapsed_ms": 90777.5,
+      "ack_ms": 5.600000000093132,
+      "progress_ms": 3537.100000000093
+    }
+  ],
+  "synthetic_not_factory_default": true,
+  "PR44_independent_acceptance": false,
+  "owner_latency_acceptance": false,
+  "production_go": false,
+  "staged_sql_5000_storage": [
+    {
+      "size": 5000,
+      "history_days": 1,
+      "state": "DONE",
+      "terminal_ms": 79156.669,
+      "steps": 126,
+      "slowest_step_ms": 1380.415,
+      "page_count": 26,
+      "targets_total": 5000,
+      "header_utf8_bytes": 842743,
+      "page_utf8_bytes": 206443568,
+      "cleanup": {
+        "state": "CLEANED",
+        "ms": 776.775,
+        "removed": {
+          "outputs": 126,
+          "fragments": 35000,
+          "pair_rows": 1,
+          "pair_lists": 5000,
+          "target_rows": 38753
+        },
+        "verified_pages": 26,
+        "storage_before": {
+          "pages": 8708681,
+          "header": 459454,
+          "reference": 8850719,
+          "plan_index": {
+            "plan_scope": 544,
+            "plan_targets": 13142390,
+            "plan_groups_rows": 0
+          },
+          "intermediates": {
+            "outputs": 8489704,
+            "fragments": 26515751,
+            "pair_rows": 5204,
+            "pair_lists": 1460004,
+            "target_rows": 58533539
+          }
+        },
+        "storage_after": {
+          "pages": 8708681,
+          "header": 459454,
+          "reference": 8850719,
+          "plan_index": {
+            "plan_scope": 544,
+            "plan_targets": 13142390,
+            "plan_groups_rows": 0
+          },
+          "intermediates": {
+            "outputs": 0,
+            "fragments": 0,
+            "pair_rows": 0,
+            "pair_lists": 0,
+            "target_rows": 0
+          }
+        },
+        "total_before": 126165990,
+        "total_after": 31161788,
+        "saved": 95004202,
+        "result_pages_unchanged": true,
+        "measured_not_estimated": true
+      }
+    },
+    {
+      "size": 5000,
+      "history_days": 30,
+      "state": "DONE",
+      "terminal_ms": 89140.786,
+      "steps": 138,
+      "slowest_step_ms": 1430.635,
+      "page_count": 26,
+      "targets_total": 5000,
+      "header_utf8_bytes": 842743,
+      "page_utf8_bytes": 206448568,
+      "cleanup": {
+        "state": "CLEANED",
+        "ms": 712.773,
+        "removed": {
+          "outputs": 138,
+          "fragments": 35000,
+          "pair_rows": 1,
+          "pair_lists": 5000,
+          "target_rows": 38753
+        },
+        "verified_pages": 26,
+        "storage_before": {
+          "pages": 8708737,
+          "header": 459462,
+          "reference": 8850716,
+          "plan_index": {
+            "plan_scope": 544,
+            "plan_targets": 13142390,
+            "plan_groups_rows": 0
+          },
+          "intermediates": {
+            "outputs": 10030714,
+            "fragments": 26520751,
+            "pair_rows": 5204,
+            "pair_lists": 1460004,
+            "target_rows": 58020852
+          }
+        },
+        "storage_after": {
+          "pages": 8708737,
+          "header": 459462,
+          "reference": 8850716,
+          "plan_index": {
+            "plan_scope": 544,
+            "plan_targets": 13142390,
+            "plan_groups_rows": 0
+          },
+          "intermediates": {
+            "outputs": 0,
+            "fragments": 0,
+            "pair_rows": 0,
+            "pair_lists": 0,
+            "target_rows": 0
+          }
+        },
+        "total_before": 127199374,
+        "total_after": 31161849,
+        "saved": 96037525,
+        "result_pages_unchanged": true,
+        "measured_not_estimated": true
+      }
+    },
+    {
+      "size": 5000,
+      "history_days": 100,
+      "state": "DONE",
+      "terminal_ms": 102588.157,
+      "steps": 165,
+      "slowest_step_ms": 1514.384,
+      "page_count": 26,
+      "targets_total": 5000,
+      "header_utf8_bytes": 842743,
+      "page_utf8_bytes": 206453568,
+      "cleanup": {
+        "state": "CLEANED",
+        "ms": 711.988,
+        "removed": {
+          "outputs": 165,
+          "fragments": 35000,
+          "pair_rows": 1,
+          "pair_lists": 5000,
+          "target_rows": 38753
+        },
+        "verified_pages": 26,
+        "storage_before": {
+          "pages": 8708684,
+          "header": 459448,
+          "reference": 8850720,
+          "plan_index": {
+            "plan_scope": 544,
+            "plan_targets": 13142390,
+            "plan_groups_rows": 0
+          },
+          "intermediates": {
+            "outputs": 10032448,
+            "fragments": 26525751,
+            "pair_rows": 5204,
+            "pair_lists": 1460004,
+            "target_rows": 59796748
+          }
+        },
+        "storage_after": {
+          "pages": 8708684,
+          "header": 459448,
+          "reference": 8850720,
+          "plan_index": {
+            "plan_scope": 544,
+            "plan_targets": 13142390,
+            "plan_groups_rows": 0
+          },
+          "intermediates": {
+            "outputs": 0,
+            "fragments": 0,
+            "pair_rows": 0,
+            "pair_lists": 0,
+            "target_rows": 0
+          }
+        },
+        "total_before": 128981941,
+        "total_after": 31161786,
+        "saved": 97820155,
+        "result_pages_unchanged": true,
+        "measured_not_estimated": true
+      }
+    }
+  ]
+}
