@@ -31,9 +31,38 @@ Log GitHub hanya memuat satu baris kode dan angka. Isi database tidak masuk log,
 
 ## Bukti uji (server sekali pakai)
 
-Workflow `CP7 Offsite Backup`, 11 kasus, dijalankan dua kali: ke penyimpanan S3 (peniru S3 di mesin uji, jalur yang sama dengan R2) dan ke folder
-biasa. Sumbernya salinan database ERP CP6 di CI, dan server pemulihannya kontainer kedua dengan image Supabase yang
-sama. Hasil run dicatat di bawah setelah selesai.
+Workflow `CP7 Offsite Backup` menjalankan 11 kasus dua kali: sekali ke penyimpanan S3 (peniru S3 di mesin uji, jalur
+yang sama dengan R2) dan sekali ke folder biasa.
+
+- Sumber: salinan database ERP CP6 di CI (`cp6_rollback`, PostgreSQL 17.6).
+- Server pemulihan: kontainer kedua dengan image Supabase yang sama (`ghcr.io/supabase/postgres:17.6.1.165`).
+
+**Hasil: lulus 11/11 di kedua penyimpanan.** Run 38385679082, job 115256750708, commit `a70523ce`. Baris kasus:
+`../evidence/offsite-backup-20261013/offsite_backup_11_a70523ce_run38385679082_job115256750708.log`.
+
+- **Data:** 265 tabel dan 10 nomor urut hasil pemulihan sama persis dengan sumbernya. Struktur, pemilik dan hak akses
+  juga sama.
+- **Galat pemulihan:** ada 19, semuanya pg_cron. Pemulihan dilakukan ke database selain `postgres`, sedangkan pg_cron
+  hanya bisa dipasang di database `postgres`. Jadwalnya dipasang terpisah oleh `cp7_schedule.py`.
+- **Dicatat terpisah sebagai "dijelaskan":** 2 hak akses skema `graphql` dan `graphql_public` milik Supabase. Supabase
+  memasang hak akses itu saat ekstensi pg_graphql dibuat, dan pg_dump tidak membawanya. Keduanya tetap tertulis di
+  tanda terima (`structure.explained`), tidak disembunyikan.
+
+Run sebelumnya yang gagal disimpan sebagai riwayat. Semua run berada di commit sesudah kandidat putaran silang, dan
+data tidak pernah berbeda.
+
+| Run | Hasil | Sebab | Perbaikan |
+|---|---|---|---|
+| 38380406480 | Berhenti sebelum kasus | Image MinIO dari quay.io ditolak | Peniru S3 dari PyPI |
+| 38381333559 | Semua malam `BACKUP_FAILED` | Di image Supabase, `postgres` bukan admin penuh | Server pemulihan sementara memakai admin khusus yang dibuat di server itu |
+| 38382137554 | Struktur beda | (a) PostgreSQL menulis ulang bentuk `IN ('A','B')` pada kolom varchar sesudah pg_dump; (b) alat uji memanggil dirinya sendiri | (a) kedua sisi diseragamkan ke bentuk hasil pulihan, hanya untuk pola itu; (b) diperbaiki |
+| 38382979521 | Struktur beda | Sama dengan (a) | Diperbaiki di run berikutnya |
+| 38383998201 | Struktur beda | Hak akses eksplisit yang sama dengan bawaan vs bawaan (kosong); urutan peran (`order by 1`, kesalahan alat sendiri) | Hak akses dibandingkan maknanya (`acldefault`) sebagai himpunan; urutan diperbaiki |
+| 38384868292 | Struktur beda | Skema `graphql`/`graphql_public` (lihat di atas) | Dicatat terpisah sebagai "dijelaskan" |
+| **38385679082** | **11/11 lulus × 2** | | |
+
+Penyeragaman di atas tidak melonggarkan pembanding untuk perubahan sungguhan. Kasus `OFB_STRUCTURE_DIFFERENCE_DETECTED`
+mengubah daftar `IN` itu, hak akses dan aturan kolom di hasil pemulihan, dan ketiganya tetap tertangkap.
 
 | Kasus | Yang dibuktikan |
 |---|---|
@@ -52,6 +81,8 @@ sama. Hasil run dicatat di bawah setelah selesai.
 ## Yang belum dibuktikan (jujur)
 
 - **Google Drive** belum diuji, karena butuh akun Bos. Alatnya memakai jalur rclone yang sama dengan R2/S3.
+- Di server pemulihan sementara, pemulihan dijalankan sebagai admin penuh yang dibuat khusus di server itu. Server
+  itu hilang bersama mesin GitHub sesudah job selesai.
 - **Hosted belum pernah dibaca.** Di Supabase hosted, peran `postgres` bukan admin penuh. Saat pemasangan, baru
   ketahuan apakah ada tabel atau nomor urut yang tidak boleh dibaca. Kalau ada, malam itu gagal dengan kode, tidak
   diam-diam.
