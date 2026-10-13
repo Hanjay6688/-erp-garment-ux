@@ -31,7 +31,7 @@ Log GitHub hanya memuat satu baris kode dan angka. Isi database tidak masuk log,
 
 ## Bukti uji (server sekali pakai)
 
-Workflow `CP7 Offsite Backup`, 11 kasus, dijalankan dua kali: ke penyimpanan S3 (MinIO, setara R2) dan ke folder
+Workflow `CP7 Offsite Backup`, 11 kasus, dijalankan dua kali: ke penyimpanan S3 (peniru S3 di mesin uji, jalur yang sama dengan R2) dan ke folder
 biasa. Sumbernya salinan database ERP CP6 di CI, dan server pemulihannya kontainer kedua dengan image Supabase yang
 sama. Hasil run dicatat di bawah setelah selesai.
 

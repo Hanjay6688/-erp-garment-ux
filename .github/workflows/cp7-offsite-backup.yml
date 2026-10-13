@@ -1,8 +1,9 @@
 # Off-site nightly backup tool (owner decisions 13 Oct 2026, D13-5/6/7): tested on disposable servers only.
 # Source: the aligned CP6 copy in the runner's Supabase container (same steps as CP7 P19 Analysis Job Transport).
-# Scratch server: a second container of the same Supabase Postgres image on the runner. Remote: a MinIO bucket on the
-# runner (S3, as R2) and a local directory (the same tool path any rclone remote takes; Google Drive is not reachable
-# from CI without the owner's account and is not claimed). Nothing here touches hosted, R2 or Drive.
+# Scratch server: a second container of the same Supabase Postgres image on the runner. Remote: an S3 API emulator on
+# the runner (moto; the rclone s3 path R2 takes) and a local directory (the same tool path any rclone remote takes;
+# Google Drive is not reachable from CI without the owner's account and is not claimed). Nothing here touches hosted,
+# R2 or Drive. First run 38380406480 stopped before any case: the MinIO image pull from quay.io was refused.
 name: CP7 Offsite Backup
 'on':
   push:
@@ -177,7 +178,7 @@ jobs:
           'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
           cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'
-    - name: Off-site tools, scratch server and MinIO on the runner
+    - name: Off-site tools, scratch server and S3 emulator on the runner
       shell: bash
       run: |
         set -euo pipefail
@@ -186,36 +187,37 @@ jobs:
         image="$(docker inspect supabase_db_cp5-local --format '{{.Config.Image}}')"
         echo "scratch image: $image"
         docker run -d --name cp7_offsite_scratch -p 127.0.0.1:54339:5432 -e POSTGRES_PASSWORD=postgres "$image" >/dev/null
-        minio_user="cp7$(openssl rand -hex 6)"; minio_secret="$(openssl rand -hex 24)"
-        echo "::add-mask::$minio_secret"
-        docker run -d --name cp7_offsite_minio -p 127.0.0.1:9000:9000 -e MINIO_ROOT_USER="$minio_user" -e MINIO_ROOT_PASSWORD="$minio_secret" \
-          quay.io/minio/minio:RELEASE.2024-11-07T00-52-20Z server /data >/dev/null
+        # S3 API on the runner (moto, from PyPI): the same rclone s3 path that Cloudflare R2 takes. Its own venv.
+        python -m venv "$RUNNER_TEMP/s3emu"
+        "$RUNNER_TEMP/s3emu/bin/pip" install --quiet 'moto[server]==5.1.10'
+        nohup "$RUNNER_TEMP/s3emu/bin/moto_server" -H 127.0.0.1 -p 9000 > "$RUNNER_TEMP/s3emu.log" 2>&1 &
         umask 077
         cat > "$RUNNER_TEMP/rclone.conf" <<CONF
-        [minio]
+        [s3emu]
         type = s3
-        provider = Minio
-        access_key_id = $minio_user
-        secret_access_key = $minio_secret
+        provider = Other
+        access_key_id = cp7-offsite-test
+        secret_access_key = cp7-offsite-test
         endpoint = http://127.0.0.1:9000
+        region = us-east-1
         CONF
         openssl rand -base64 48 > "$RUNNER_TEMP/offsite.pass"
         echo "RCLONE_CONFIG=$RUNNER_TEMP/rclone.conf" >> "$GITHUB_ENV"
         for i in $(seq 1 90); do
           if psql 'postgresql://postgres:postgres@127.0.0.1:54339/postgres' -Atc 'select 1' >/dev/null 2>&1 \
-             && RCLONE_CONFIG="$RUNNER_TEMP/rclone.conf" rclone mkdir minio:cp7-offsite >/dev/null 2>&1; then break; fi
-          if [ "$i" = 90 ]; then docker logs --tail 40 cp7_offsite_scratch; exit 1; fi
+             && RCLONE_CONFIG="$RUNNER_TEMP/rclone.conf" rclone mkdir s3emu:cp7-offsite >/dev/null 2>&1; then break; fi
+          if [ "$i" = 90 ]; then docker logs --tail 40 cp7_offsite_scratch; tail -20 "$RUNNER_TEMP/s3emu.log"; exit 1; fi
           sleep 2
         done
         psql 'postgresql://postgres:postgres@127.0.0.1:54339/postgres' -Atc "select current_setting('server_version'), rolsuper from pg_roles where rolname=current_user"
         psql 'postgresql://postgres:postgres@127.0.0.1:54322/postgres' -Atc "select current_setting('server_version')"
-    - name: Off-site backup cases (MinIO S3 remote)
+    - name: Off-site backup cases (S3 remote)
       working-directory: auditor
       run: |
         python scripts/cp7_offsite_backup_cases.py \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
           'postgresql://postgres:postgres@127.0.0.1:54339/postgres' \
-          minio:cp7-offsite/nightly "$RUNNER_TEMP/offsite.pass" "$RUNNER_TEMP/offsite-s3.json"
+          s3emu:cp7-offsite/nightly "$RUNNER_TEMP/offsite.pass" "$RUNNER_TEMP/offsite-s3.json"
     - name: Off-site backup cases (local directory remote)
       working-directory: auditor
       run: |
@@ -227,5 +229,6 @@ jobs:
       if: always()
       working-directory: base
       run: |
-        docker rm -f cp7_offsite_scratch cp7_offsite_minio || true
+        docker rm -f cp7_offsite_scratch || true
+        pkill -f moto_server || true
         supabase stop --workdir cp5-local --no-backup
