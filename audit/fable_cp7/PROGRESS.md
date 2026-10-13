@@ -81,3 +81,9 @@ Laporan: `AUDIT_FABLE_d0b9e9c2.md` v1.0 — vonis HOLD dengan syarat §2.
 - Laporan: `AUDIT_FABLE_7a0b4a90_RETEST.md` v1.0 — LULUS DENGAN SYARAT (§3). Bukti: `runs/retest_7a0b4a90/`.
 - 2026-10-13T05:53:51Z: owner menegaskan keputusan 12 Okt dan menerima vonis bersyarat; keputusan D13-1..3 dicatat di OWNER_DECISIONS_TO_AUDITOR_20261013.md.
   Menunggu hasil penulis (diagnosis selisih + 3 run bayar supplier; gladi jadwal) untuk laporan v1.1. Tidak ada run ulang audit.
+
+## Putaran silang 1 (13 Okt, 14:30 UTC) — kandidat ae0214ad (produk = 7a0b4a90; 12 berkas alat berubah)
+- Identitas diperiksa (commit, tree, diff produk kosong, 12 berkas). Review sumber A1 (backup OID), A2 (diagnosis), A3 (gladi), A6, A7, A8 selesai → draft v1.1.
+- Dispatch 14:33–14:36 UTC: penulis p19-transport 38414371682, supplier-payment-create ×3 (38414385732/38414401092/38414415980), p08-shell 38414431084,
+  pl-native 38414446165 (head 856833dc, alat identik ae0214ad); Fable xc1 38414814884, core 38414828309, smoke+ui 38414843823 (product_ref=ae0214ad).
+- Kasus Fable baru: scenarios/fable_cp7_xc1.py (4 balapan + 1 native). Temuan minor baru F-OPS-05 (tanda polos bisa disalin) menunggu bukti.
