@@ -74,9 +74,9 @@ Ketiga job ini jalan di mesin yang lebih lambat (AS→BF 12,0–12,5 detik).
    rencana serta urutan tetap sama. Dugaan awal penulis di sini **tidak terbukti**.
 3. **Pemindaian paralel `pg_proc`.** Tabel di bawah ambang 8 MB dan rencana yang terlihat tidak paralel.
 4. **Baris fungsi berpindah di tengah grup.** Tidak terjadi dalam 60 grup.
-
-Masih terbuka: kecepatan mesin. Kedua kegagalan jatuh di mesin cepat (8,4–8,5 detik), dan semua run hijau di bagian 2
-dan 3 jalan di mesin lambat. Ini korelasi, bukan bukti, karena run 38195132560 juga di mesin cepat dan tetap lulus.
+5. **Kecepatan mesin.** Kedua kegagalan memang jatuh di mesin cepat (8,4–8,5 detik). Tetapi run 38195132560 (6,4 detik)
+   dan dua run tambahan di bagian 7 (6,6 dan 6,7 detik, lebih cepat daripada kedua kegagalan) lulus dengan bundel yang
+   sama.
 
 ## 5. Kelemahan alat yang tetap benar, apa pun penyebabnya
 
@@ -87,14 +87,31 @@ konstanta, sehingga urutan daftar mengikuti urutan fisik baris `pg_proc`. Ini su
 Dalam 63 grup di atas urutannya tidak pernah berubah, jadi **belum ada bukti** bahwa kelemahan ini penyebab dua
 kegagalan tersebut.
 
-## 6. Langkah berikutnya
+## 6. Kesimpulan dan langkah berikutnya
+
+Sesudah kedua kegagalan, grup yang sama sudah dijalankan 9 kali dalam workflow kualifikasi (bagian 2 dan 7) dan 60 kali
+dalam uji ulang (bagian 3). Semuanya lulus, di mesin lambat, sedang dan cepat. Penyebab dua kegagalan itu tidak bisa
+dibuktikan dari log yang ada, dan penulis tidak menebaknya. Status tetap **OPEN**, sesuai catatan auditor.
 
 - Diagnosis tetap terpasang di runner kualifikasi. Kalau kegagalan terjadi lagi, baris `group_end_difference` di log
-  langsung menyebut bagian yang berbeda.
-- Workflow kualifikasi dijalankan 6 kali lagi untuk memperbesar peluang mendapat mesin cepat (bagian 7).
+  langsung menyebut bagian yang berbeda, dan log gagal itu disimpan sebagai bukti pertama.
 - Perubahan pembanding (misalnya memakai `exact_public_catalog` di grup ini) **tidak** dilakukan tanpa izin owner,
   karena itu mengubah oracle. Penulis baru akan mengusulkannya kalau bukti menunjukkan selisihnya memang hanya urutan.
 
 ## 7. Run tambahan (diagnosis terpasang)
 
-Diisi setelah selesai.
+Commit `9e33fdab` (tree `7129bd37`). Selisihnya dari `5b8e9d74` di luar `docs/` hanya berkas yang tidak dimuat probe
+ini: alat diagnosis dan workflow-nya, `cp7_k3_cleanup_cases.py`, `cp7_f05_analysis_probe.py`, serta dua komentar
+workflow. `scripts/cp6_auditor_runner.py` sama dengan `5b8e9d74`. Baris grup ada di
+`07_supplier_payment_create_9e33fdab_six_runs.log`.
+
+| Run / job | Native 4 | Race 3 | HTTP 1 | Browser 2 | Akhir grup native | Hasil | AS→BF |
+|---|---|---|---|---|---|---|---|
+| 38358189042 / 115165901135 | 4 PASS | 3 PASS | 1 PASS | 2 PASS | sama | PASS 10/10 | 10,0 |
+| 38358194434 / 115165917270 | 4 PASS | 3 PASS | 1 PASS | 2 PASS | sama | PASS 10/10 | 10,0 |
+| 38358199959 / 115165934400 | 4 PASS | 3 PASS | 1 PASS | 2 PASS | sama | PASS 10/10 | **6,6** |
+| 38358205716 / 115165952816 | 4 PASS | 3 PASS | 1 PASS | 2 PASS | sama | PASS 10/10 | 12,1 |
+| 38358211708 / 115165972847 | 4 PASS | 3 PASS | 1 PASS | 2 PASS | sama | PASS 10/10 | **6,7** |
+| 38358217748 / 115165991145 | 4 PASS | 3 PASS | 1 PASS | 2 PASS | sama | PASS 10/10 | 10,9 |
+
+Tidak ada baris `group_end_difference` di keenam log, karena tidak ada grup yang gagal.
