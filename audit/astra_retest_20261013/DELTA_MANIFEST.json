@@ -1,0 +1,65 @@
+{
+  "cases": [
+    {
+      "id": "ASD-N01",
+      "expected": "Cleanup removes work rows of exactly one completed job, preserves other job + final tables, repeat idempotent, same Original reopens"
+    },
+    {
+      "id": "ASD-N02",
+      "expected": "Delete without context/wrong job, update even with matching job, and GUC spoof by anon/authenticated/service_role all refused with unchanged data"
+    },
+    {
+      "id": "ASD-N03",
+      "expected": "CLI install/verify/uninstall reject mismatching DB; install/uninstall absent approval flags refuse before cron write"
+    },
+    {
+      "id": "ASD-B01",
+      "expected": "Foreign scratch existing before run is preserved; backup refuses, no retention deletion"
+    },
+    {
+      "id": "ASD-B02",
+      "expected": "Foreign scratch appears after precheck: preserved, backup refuses, no retention deletion"
+    },
+    {
+      "id": "ASD-B03",
+      "expected": "Write after exported snapshot commits; restored backup verifies snapshot one row, live source two rows"
+    },
+    {
+      "id": "ASD-B04",
+      "expected": "Owned marked leftover reused; restored backup verified and scratch removed"
+    },
+    {
+      "id": "ASD-B05",
+      "expected": "Marked leftover is replaced with unmarked foreign DB while real dump runs: foreign replacement must survive. Strong admin concurrency precondition explicitly recorded; no production impact inferred"
+    },
+    {
+      "id": "ASD-R01",
+      "expected": "Actual cleanup transaction held open on A does not block actual next analysis unit on B past 8 seconds"
+    },
+    {
+      "id": "ASD-H01",
+      "expected": "Real Auth: admin may read not write; owner saves + replays; downgrading owner to admin makes old and new UUID writes 403 without rows added"
+    },
+    {
+      "id": "ASD-UI-OWNER-DESKTOP",
+      "expected": "Connected login; honest empty dashboard, no sample figures or charts, no overflow"
+    },
+    {
+      "id": "ASD-UI-OWNER-MOBILE",
+      "expected": "Same at mobile width"
+    },
+    {
+      "id": "ASD-UI-ADMIN-DESKTOP",
+      "expected": "Same for admin, yield manage=false"
+    },
+    {
+      "id": "ASD-UI-ADMIN-MOBILE",
+      "expected": "Same for admin mobile"
+    }
+  ],
+  "oracle_origin": "ASTRA_CONTRACT",
+  "fixture_origin": "Own canary databases/UI/role operations; staged_done setup from writer with independent checks",
+  "counterexample_policy": "No rerun for green; preserve first execution, classify precise impact and preconditions",
+  "PR44_acceptance": false,
+  "production_go": false
+}
