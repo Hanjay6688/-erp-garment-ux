@@ -1,0 +1,4655 @@
+{
+ "contract": "cp7.group-end-repeat-diagnosis.v1",
+ "workflow": "CP7 Supplier Payment Group-End Diagnosis",
+ "run_id": 38357098820,
+ "head_sha": "0fe350b3",
+ "note": "Diagnosis only; races/HTTP/browser not run; T3 gate red by construction (writer_runtime).",
+ "shards": [
+  {
+   "shard": 1,
+   "job_id": 115162415781,
+   "iterations": [
+    {
+     "at": "2026-10-13T06:36:22.2257471",
+     "iteration": 1,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3489792,
+      390,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:30.7517454",
+     "iteration": 2,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3489792,
+      390,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:39.2778800",
+     "iteration": 3,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3489792,
+      390,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:47.8299469",
+     "iteration": 4,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3489792,
+      390,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:56.3405082",
+     "iteration": 5,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3489792,
+      390,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:04.8784095",
+     "iteration": 6,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:03.202935+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      390,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:13.4789913",
+     "iteration": 7,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:22.1172789",
+     "iteration": 8,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:30.7658940",
+     "iteration": 9,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:39.3553396",
+     "iteration": 10,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:47.9798745",
+     "iteration": 11,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:56.5190221",
+     "iteration": 12,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:05.2108984",
+     "iteration": 13,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:13.8610910",
+     "iteration": 14,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:22.4519709",
+     "iteration": 15,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:31.0998371",
+     "iteration": 16,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:39.6393860",
+     "iteration": 17,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:48.2214148",
+     "iteration": 18,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:56.7461035",
+     "iteration": 19,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:39:05.2608777",
+     "iteration": 20,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:36:03.169779+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:37:03.194812+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3489792,
+      426,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    }
+   ],
+   "summary": {
+    "repeat": 20,
+    "not_restored": 0
+   },
+   "gate": {
+    "diagnosis": "CP7_GROUP_END_REPEAT_GATE",
+    "red_because": "RACES_HTTP_BROWSER_NOT_RUN_DIAGNOSIS_ONLY",
+    "gate": "('ALL_STAGES_INSTALLED', {'installed': True, 'primary_unchanged': True, 'backup_restore_drill': True, 'security_advisors': True, 'writer_runtime': False}, None)"
+   }
+  },
+  {
+   "shard": 2,
+   "job_id": 115162415448,
+   "iterations": [
+    {
+     "at": "2026-10-13T06:35:59.4960322",
+     "iteration": 1,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3497984,
+      395,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:07.8850818",
+     "iteration": 2,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3497984,
+      395,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:16.2383168",
+     "iteration": 3,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3497984,
+      395,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:24.7006536",
+     "iteration": 4,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3497984,
+      395,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:33.0619104",
+     "iteration": 5,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3497984,
+      395,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:41.5283273",
+     "iteration": 6,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:41.62315+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3497984,
+      395,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": [
+      {
+       "pid": 257,
+       "query": "autovacuum: ANALYZE pg_catalog.pg_type",
+       "state": "active",
+       "xact_start": "2026-10-13T06:36:41.512677+00:00",
+       "application": "",
+       "backend_type": "autovacuum worker"
+      }
+     ]
+    },
+    {
+     "at": "2026-10-13T06:36:49.9634792",
+     "iteration": 7,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      395,
+      4445.0
+     ],
+     "other_sessions_before": [
+      {
+       "pid": 257,
+       "query": "autovacuum: VACUUM ANALYZE pg_catalog.pg_attribute",
+       "state": "active",
+       "xact_start": "2026-10-13T06:36:41.531913+00:00",
+       "application": "",
+       "backend_type": "autovacuum worker"
+      }
+     ],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:58.4189156",
+     "iteration": 8,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:06.8684393",
+     "iteration": 9,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:15.2366381",
+     "iteration": 10,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:23.6193423",
+     "iteration": 11,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:31.9829434",
+     "iteration": 12,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:40.3622915",
+     "iteration": 13,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:48.6970324",
+     "iteration": 14,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:57.0290449",
+     "iteration": 15,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:05.4443694",
+     "iteration": 16,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:13.8209703",
+     "iteration": 17,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:22.1844429",
+     "iteration": 18,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:30.6360798",
+     "iteration": 19,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:39.0041393",
+     "iteration": 20,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:41.58916+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:41.660927+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3497984,
+      427,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    }
+   ],
+   "summary": {
+    "repeat": 20,
+    "not_restored": 0
+   },
+   "gate": {
+    "diagnosis": "CP7_GROUP_END_REPEAT_GATE",
+    "red_because": "RACES_HTTP_BROWSER_NOT_RUN_DIAGNOSIS_ONLY",
+    "gate": "('ALL_STAGES_INSTALLED', {'installed': True, 'primary_unchanged': True, 'backup_restore_drill': True, 'security_advisors': True, 'writer_runtime': False}, None)"
+   }
+  },
+  {
+   "shard": 3,
+   "job_id": 115162415171,
+   "iterations": [
+    {
+     "at": "2026-10-13T06:35:37.6096709",
+     "iteration": 1,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3473408,
+      378,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:35:46.1753288",
+     "iteration": 2,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3473408,
+      378,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:35:54.8581227",
+     "iteration": 3,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3473408,
+      378,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:03.5034473",
+     "iteration": 4,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3473408,
+      378,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:12.0788429",
+     "iteration": 5,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_size_before": [
+      3473408,
+      378,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:20.6784499",
+     "iteration": 6,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:35:18.866369+00:00",
+      "autoanalyze_count": 2,
+      "n_mod_since_analyze": 1640
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      378,
+      4445.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:29.2349757",
+     "iteration": 7,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:37.7967989",
+     "iteration": 8,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:46.3844074",
+     "iteration": 9,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:36:54.9673517",
+     "iteration": 10,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:03.6276864",
+     "iteration": 11,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:12.2984373",
+     "iteration": 12,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:20.8014502",
+     "iteration": 13,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:29.3267765",
+     "iteration": 14,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:37.8349236",
+     "iteration": 15,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:46.4164366",
+     "iteration": 16,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:37:54.9951123",
+     "iteration": 17,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:03.5487362",
+     "iteration": 18,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:12.1955645",
+     "iteration": 19,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    },
+    {
+     "at": "2026-10-13T06:38:20.7926581",
+     "iteration": 20,
+     "status": "PASS",
+     "final": {
+      "CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS": "PASS",
+      "CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY": "PASS"
+     },
+     "complete_boundary_restored": true,
+     "public_state_reads": 10,
+     "group_end_difference": null,
+     "start_vs_end": {
+      "kind": "READ_ORDER_EQUAL",
+      "moved_rows": [],
+      "moved_count": 0,
+      "start_read_follows_ctid": true,
+      "end_read_follows_ctid": true
+     },
+     "plan_start": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "plan_end": [
+      "Result",
+      "Aggregate",
+      "Sort",
+      "Hash Join",
+      "Seq Scan:pg_class",
+      "Hash",
+      "Index Scan:pg_namespace",
+      "Aggregate",
+      "Hash Join",
+      "Seq Scan:pg_proc",
+      "Hash",
+      "Index Scan:pg_namespace"
+     ],
+     "pg_proc_start": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_end": {
+      "relname": "pg_proc",
+      "n_live_tup": 4841,
+      "last_analyze": null,
+      "last_autovacuum": "2026-10-13T06:35:18.835358+00:00",
+      "autovacuum_count": 1,
+      "last_autoanalyze": "2026-10-13T06:36:18.901935+00:00",
+      "autoanalyze_count": 3,
+      "n_mod_since_analyze": 0
+     },
+     "pg_proc_size_before": [
+      3473408,
+      424,
+      4841.0
+     ],
+     "other_sessions_before": [],
+     "other_sessions_after": []
+    }
+   ],
+   "summary": {
+    "repeat": 20,
+    "not_restored": 0
+   },
+   "gate": {
+    "diagnosis": "CP7_GROUP_END_REPEAT_GATE",
+    "red_because": "RACES_HTTP_BROWSER_NOT_RUN_DIAGNOSIS_ONLY",
+    "gate": "('ALL_STAGES_INSTALLED', {'installed': True, 'primary_unchanged': True, 'backup_restore_drill': True, 'security_advisors': True, 'writer_runtime': False}, None)"
+   }
+  }
+ ],
+ "totals": {
+  "groups": 60,
+  "restored": 60,
+  "read_order_changed": 0,
+  "rows_moved": 0,
+  "autoanalyze_of_pg_proc_inside_a_group": [
+   [
+    1,
+    6
+   ],
+   [
+    3,
+    6
+   ]
+  ],
+  "plans_seen": [
+   "[\"Result\", \"Aggregate\", \"Sort\", \"Hash Join\", \"Seq Scan:pg_class\", \"Hash\", \"Index Scan:pg_namespace\", \"Aggregate\", \"Hash Join\", \"Seq Scan:pg_proc\", \"Hash\", \"Index Scan:pg_namespace\"]"
+  ],
+  "other_sessions_seen": [
+   "[[\"autovacuum worker\", \"\"]]",
+   "[]"
+  ]
+ }
+}
