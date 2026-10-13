@@ -1,0 +1,14 @@
+{
+  "product_sha": "7a0b4a90af234a906d3cda7fc8ec9fd411a15dd2",
+  "trees": {
+    "src": "d6553972f94a4ad4e9170e8a946b30cdac9712fd",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "scripts/cp7-src": "7bcf45e174499f3712c67ee08788a90a8c5f7881",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853"
+  },
+  "full_tree": "05d4ccd84ed7faedede1d9161cd08952591659b2",
+  "instruction_sha": "5656f072036dfb8e7d4cb31013da8e57e425c240",
+  "source_receipt_sha256": "cedefea5b26712930b9083e7b6a8424a339d52b49808fe35da9c4e5c12e02b42",
+  "production_go": false
+}
