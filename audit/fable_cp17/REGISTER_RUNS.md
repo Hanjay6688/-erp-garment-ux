@@ -32,3 +32,26 @@ Status dibaca per kasus dari baris JSON log (bukan warna job). Pembanding = run 
 | 38522428512 / 115714981499 | AUDIT/fable/cp7-native / fable_cp7_smoke @ product_ref 0b7049d9 | native 5 PASS, races 1, http 2, browser 3 — PASS; `cp6_restored: true` | sama dengan XC2 | FABLE |
 
 Catatan B1: `cp6-t3-aligned-install` (merah) → `runs/cp17/AC_VIEW_MISMATCH.md`. Job "hijau" kelas gate (audit-scope, review-scope) **tidak** dihitung sebagai bukti lulus. OBSERVED pada AW/AX after adalah kasus observasi berlabel penulis, bukan PASS; dicatat di daftar belum-diperiksa laporan.
+
+## B2 — Regresi CP7 (14 workflow penulis) di ref writer `00b0eb24` (produk = 0b7049d9)
+
+Semua job dibaca per kasus; pembanding = run putaran retest/XC1 (job 1507xxxxxxx / 1535xxxxxxx) yang pada XC2 dinyatakan identik dengan beku. Hasil: **multiset per-kasus identik di 26/26 job berkasus**; 0 FAIL/COUNTEREXAMPLE/INCOMPLETE produk; `cp6_restored: true` dan `advisor_gate: true` di setiap SUMMARY; tidak ada `business_day_retried: true`.
+
+| Run | Workflow / job | Hasil per kasus | Pembanding |
+|---|---|---|---|
+| 38521746469 | claude-p08-physical: attention284, analysis152, fabric13-successor, fabric-physical21, plan39 | ATTENTION 3+181 PASS, races 40, http 29, browser 36 (289); ANALYSIS 107/20/12/14 (153); FABRIC_RECIPE 8/2/1/2; FABRIC_PHYSICAL 16/2/1/2; PLAN39 (lihat file) — semua PASS | identik |
+| 38521756257 | claude-p12-payroll: attendance-write, roster, payroll-review | 81 / 64 / 43 kasus, semua PASS (NOTA_SOURCE 5, NOTA 7, PAYROLL_REVIEW 4, P09 admission, races, http, browser) | identik |
+| 38521765759 | claude-p13-finance | REPORT_NATIVE 8, races 1, http 1, browser 2 — PASS | identik |
+| 38521775206 | claude-p18-fabric-rule: rule-lifecycle16, p18-e01-9, fabric-rule11 | 16 / 9 / 11 PASS | identik |
+| 38521784664 | claude-p18-full-cycle | 2 PASS | identik |
+| 38521794910 | claude-p21-rehearsal: full composition; install/pre-use rollback/identical reinstall/use/post-use | SUMMARY PASS keduanya (tanpa kasus JSON; status ringkasan) | identik |
+| 38521805103 | claude-pl-native: netting, schedule, supply, model | 83 / 71 / 53 / 32 PASS | identik |
+| 38521815079 | claude-note-correction | admission smoke 3, NOTE_CORRECTION 28, races 4, http 3, browser 5 — PASS (43) | identik |
+| 38521824295 | cp7-receipt-correction | 37/3/1/2 PASS (43) | identik |
+| 38521833888 | claude-supplier-payment-correction | 14/4/3/2 PASS (23) | identik (kegagalan sekali-jalan retest tidak terulang) |
+| 38521843429 | claude-supplier-payment-create | 4/3/1/2 PASS (10) | identik |
+| 38521853239 | claude-p08-shell: shell, p19-assembly, p19-staged, CodeQL actions, CodeQL js-ts | shell = uji-diri runtime (INCOMPLETE yang disuntik: `deliberate restoration lock failure`, `earlier actual case failure` → terdeteksi; PASS 6); assembly/staged tanpa kasus JSON, job sukses | identik |
+| 38521863082 | cp6-candidate-codeql (python, actions, c-cpp, js-ts) | 4 job sukses. **Daftar alert code-scanning tidak dapat dibaca auditor** (`code-scanning/alerts` → 403 "Resource not accessible by integration"); yang dibuktikan hanya "analisis selesai tanpa error", bukan "nol alert" | — (WRITER_CROSSCHECK untuk klaim nol alert) |
+| 38521872645 | astra-cp7-timeline-reuse / isolated-kernel-parity (workflow penulis di pohon beku; dijalankan Fable sendiri) | `PARITY_PASS` declared 595 = executed 595, successes 312, refusals 283 (16 distinct), supply_events 448, mutations_caught 2; benchmark 100/300/1000 target: pengurangan 41/42/41 % (0 posisi), 11/23/31 % (100 posisi); status PASS | sama dengan XC2 |
+
+Catatan B2: run pembanding adalah run Fable sendiri pada putaran sebelumnya (bukan artefak penulis). Pembacaan log per kasus dilakukan lokal dari salinan log yang disimpan di sesi (`cp7/runs/*_1157*.json`); salinan tidak dimasukkan ke repo karena ukurannya, ringkasan hitungan di atas adalah hasilnya.
