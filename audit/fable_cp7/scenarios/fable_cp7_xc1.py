@@ -67,7 +67,10 @@ def races(tools,today):
         return src,'fable_xc1_'+tag
     def leftover_replaced():
         src,scratch=fresh(uuid.uuid4().hex[:8]);made=[scratch]
-        mk(scratch,'OLD_OURS',nightly.SCRATCH_MARK)  # a leftover the tool itself marked on an earlier night
+        mk(scratch,'OLD_OURS')  # a leftover the tool itself marked on an earlier night: since 0b7049d9 the tool's own mark is OID-bound,
+        with pg() as c:          # so the fixture writes exactly what the tool writes (token + this database's OID); the oracle is unchanged
+            old_oid=c.execute('select oid from pg_database where datname=%s',(scratch,)).fetchone()[0]
+            c.execute(sql.SQL('comment on database {} is {}').format(sql.Identifier(scratch),sql.Literal('%s attempt=%s oid=%d'%(nightly.SCRATCH_MARK,'e'*16,old_oid))))
         real=nightly.Tools.dump
         def dump_then_replace(self,s,target,snapshot):
             r=real(self,s,target,snapshot);drop(scratch);mk(scratch,'FOREIGN_AFTER_DUMP');return r
