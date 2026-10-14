@@ -67,7 +67,7 @@ IDS=dict(
             'CP17_KASBON_GIVE_DEDUCT_PAY','CP17_KASBON_LIMITS_REFUSED','CP17_KASBON_RELEASE_CANCEL_REPLAY',
             'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL',
             'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED'],
-    races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
+    races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK','CP17_RACE_ATTENDANCE_ONE_PAYROLL'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE'],
     browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE','CP17_BROWSER_KASBON_GIVE_DEDUCT_DESKTOP'],
 )
@@ -664,7 +664,32 @@ def races(tools,today):
         assert sorted(x[0]for x in results)==['PASS','REFUSED']and 'CP7_CASH_NEGATIVE'in next(x[1]for x in results if x[0]=='REFUSED'),results
         with tools.connect()as conn,conn.cursor()as cur:assert balance(cur,first['cash'])==40
         return dict(status='PASS',two_purchases_one_bank100_two_payments60_one_posted_one_refused=results)
-    return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments)]
+    def attendance_once():
+        # FABLE-007 regression (refuted by Astra PAY02/PAY03 on sequential routes; concurrency was not certified): one
+        # posted attendance day, two payroll drafts of the same Mandor covering that day, both prepared at once. The
+        # contractor advisory lock in the CP7 settlement command serializes them, so the day lands in one payroll only.
+        with tools.connect()as conn,conn.cursor()as cur:
+            f=s.review.fixture(cur,today);s.attendance(cur,f,today);b.api.admin(cur)
+            second=nota.seed_header(cur,f,today,today);docs=[s.doc(cur,f['payroll']),s.doc(cur,second)];conn.commit()
+        barrier=threading.Barrier(2)
+        def send(d):
+            with tools.connect()as conn,conn.cursor()as cur:
+                barrier.wait(5)
+                try:r=s.act(cur,'PREPARE',d);conn.commit();return('PASS',r['status'])
+                except psycopg.Error as e:conn.rollback();return('REFUSED',str(e).splitlines()[0])
+        with ThreadPoolExecutor(max_workers=2)as pool:results=[x.result(60)for x in[pool.submit(send,d)for d in docs]]
+        with tools.connect()as conn,conn.cursor()as cur:
+            b.api.admin(cur)
+            days=cur.execute("select count(*) from erp.attendance_records where contractor_id=%s and attendance_date=%s",(f['contractor'],today)).fetchone()[0]
+            items=dict(cur.execute("select payroll_id::text,count(*) from erp.payroll_attendance_items where payroll_id in(%s,%s) group by 1",(f['payroll'],second)).fetchall())
+            dup=cur.execute("select count(*) from(select i.attendance_record_id from erp.payroll_attendance_items i join erp.payroll_settlements p on p.id=i.payroll_id "
+                            "where p.status<>'REVERSED' and p.contractor_id=%s group by 1 having count(*)>1)x",(f['contractor'],)).fetchone()[0]
+            detector=[r for r in(x[0] for x in cur.execute('select to_jsonb(r) from erp.run_integrity_checks() r').fetchall())if 'PAYROLL_ATTENDANCE_DUPLICATE' in r.values()]
+        assert any(x[0]=='PASS' for x in results),results
+        assert days>=1 and sum(items.values())==days and len(items)==1 and dup==0,(days,items,dup,results)
+        assert all(0 in r.values() for r in detector),detector
+        return dict(status='PASS',posted_attendance_days=days,payrolls_holding_them=len(items),duplicates=0,prepares=results,integrity_detector=detector,finding='FABLE-007')
+    return [('CP17_RACE_TWO_PAYMENTS_ONE_BANK',two_payments),('CP17_RACE_ATTENDANCE_ONE_PAYROLL',attendance_once)]
 
 
 def http_cases(http,today):

@@ -1,9 +1,9 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 39,
+ "expected_case_count": 40,
  "required_case_counts": {
   "native": 31,
-  "races": 1,
+  "races": 2,
   "http": 4,
   "browser": 3
  },
@@ -42,7 +42,8 @@
    "CP17_SG01_PICKUP_REVERSE_REFUSED"
   ],
   "races": [
-   "CP17_RACE_TWO_PAYMENTS_ONE_BANK"
+   "CP17_RACE_TWO_PAYMENTS_ONE_BANK",
+   "CP17_RACE_ATTENDANCE_ONE_PAYROLL"
   ],
   "http": [
    "CP17_HTTP_CASH_EMPTY_BANK_REFUSED",
