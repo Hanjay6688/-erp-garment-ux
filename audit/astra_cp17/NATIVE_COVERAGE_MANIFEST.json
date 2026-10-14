@@ -1,0 +1,109 @@
+{
+  "created_at": "2026-10-14T11:41:57.283176+00:00",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "production_go": false,
+  "oracle_origin": "WRITER_UNCHANGED_FIRST_ASTRA_EXECUTION",
+  "retry": false,
+  "suites": [
+    {
+      "suite": "coverage-f05-analysis",
+      "probe": "cp7_f05_analysis_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "BR dated analysis, original publications, period comparison, source revisions",
+      "source_sha256": "606150c50357c0a0bc8594010e745c31460906186b081b98d0690290fbd68521"
+    },
+    {
+      "suite": "coverage-f05-attention",
+      "probe": "cp7_f05_attention_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "RMD 36 and BR alert/obligation report complete native/HTTP/browser/race matrix",
+      "source_sha256": "a8a54c4bde646d7f5ec2066086122b2c9e357388d76bce37d47ea821a5f74929"
+    },
+    {
+      "suite": "coverage-transaction-source",
+      "probe": "cp7_transaction_source_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "Correction source navigation and exact source-to-page routing",
+      "source_sha256": "cc2d7efe609989106b8c95de7cc2f01ad122befbbfb1aa7e770bfec5d3f7f525"
+    },
+    {
+      "suite": "coverage-sales-chain",
+      "probe": "cp7_sales_chain_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "Atomic reversal of complete payment-return-sale chain",
+      "source_sha256": "40f972d6c29fa486fbf72d60565bef5920f12ad848561b41002708327f911a28"
+    },
+    {
+      "suite": "coverage-fabric-recipe",
+      "probe": "cp7_fabric_recipe_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "P08 fabric geometry and recipe feasibility",
+      "source_sha256": "76648c2051486d2fcd04cf3a20d2016e4ac59591eae3b2ab706493f58ec1ca19"
+    },
+    {
+      "suite": "coverage-p18-fabric-rule",
+      "probe": "cp7_p18_fabric_rule_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "P18 stock rule from real fabric source",
+      "source_sha256": "b4a37abf0e564fdbb27288bfa936f87ccef1908e820a4e1c1dab9b3119bbe894"
+    },
+    {
+      "suite": "coverage-p19-native-load",
+      "probe": "cp7_p19_native_load_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "BR37 bounded complete multi-user aggregation",
+      "source_sha256": "d4d3ba03f640d24880a0d9f8deded8ae143c502b641f0851c7fd96a515ee0776"
+    },
+    {
+      "suite": "coverage-p19-transport",
+      "probe": "cp7_p19_transport_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "BR18/32 transport continuation with fixed request identity",
+      "source_sha256": "6cf93b62dc5c9daf81a0ff33866c65c6cb54eb4155bf1eb460e92329a9dc2199"
+    },
+    {
+      "suite": "coverage-p19-scale",
+      "probe": "cp7_p19_scale_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "BR37 declared full scale ladder",
+      "source_sha256": "202e39fd7d7977ad1444ad93d3244ddf219440197b898df3c8fa8f73e28cbcc4"
+    },
+    {
+      "suite": "coverage-p19-staged",
+      "probe": "cp7_p19_staged_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "BR16/36/37 5000 target complete staged content and semantic hash",
+      "source_sha256": "c4338b7572bb192470a22057816461a6184e6dabf328e914d31f6362344fd522"
+    },
+    {
+      "suite": "coverage-p18-e01-bridge",
+      "probe": "cp7_p18_e01_bridge_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "",
+      "reason": "Native obligation to original report/rule episode bridge",
+      "source_sha256": "07b8d63fd35676637e70ae8a2d8fea2d0cba1addb490c187d5c613790a5649eb"
+    }
+  ],
+  "scope": "Exact candidate native entry points, including their declared composition, HTTP/browser/races; not a claim every entry point installs FULL. Original installation declarations remain authoritative."
+}
