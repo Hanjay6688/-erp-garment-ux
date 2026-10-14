@@ -26,6 +26,26 @@ BACA DULU
 docs/cp7/audit-candidate/crosscheck-r2-20261014/FINDINGS_TRACKER.md, lalu docs/cp7/RETIRED_CP6_SALES_MANUAL_13.md
 bagian "Putaran 2".
 
+HASIL ASTRA PUTARAN 2 (untuk silang; selesai sebelum kotak ini dikirim)
+Cabang audit/astra-cp7-xc2-0b7049d9-20261014: laporan terkunci 57ac8aab (REPORT.md, WRITER_HANDOFF.md), pemeriksaan
+paket writer final fb24bd92 (PACKAGE_FOLLOWUP.md). Kandidat sama, 0b7049d9.
+- R2-F05 DITUTUP. Selain kasus writer, Astra menjalankan kontrol sendiri (run 38435746105 job 115429126194, 11/11):
+  ASD-B01..B05 (oracle lama, fixture tanda milik alat disesuaikan satu baris ke token+OID), AX2-B06/B07 tanda polos di
+  nama scratch dan di pola attempt, AX2-M01 grammar tanda, B08 penggantian sesudah hash, B09 tanda attempt diganti tanda
+  polos sebelum finally (hasil NOT_OURS, tidak dihapus), B10 gagal sebelum tanda ditulis (jalur created_here hanya
+  menghapus OID yang baru dibuat attempt itu sendiri). Catatan Astra: jalur created_here tetap ada dan bukan pemakaian
+  tanda polos.
+- R2-A6 LENGKAP untuk komposisi CP7 (D13-9c/D13-12). P11 64/64 dan prefreeze 31/31 di run 38435365859, screenshot
+  diperiksa. Lingkupnya helper P11 per baris; bagi rata 4/4/4 layar simulasi tetap hanya jsdom. HP = emulasi Chromium.
+- A2 MASIH TERBUKA, bukan penghalang (D13-10); supplier 10/10, dua log gagal asli tetap disimpan.
+- A1/ASR-OPS-01, A3, A8 DITUTUP; A4 bukan temuan produk aktif; R2-D11 izin belum dipakai dikonfirmasi.
+- Batas A1 tetap: admin yang mengganti database tepat sebelum koneksi restore bisa membuat restore menulis ke pengganti;
+  pengganti tidak dihapus dan malam tidak diverifikasi.
+- Koreksi pelaporan writer yang diminta Astra (sudah dimasukkan ke README paket): empat grup dieksekusi ulang karena
+  pergantian hari, 92 eksekusi kasus, 41 di antaranya sebelumnya ditandai rollover; catatan pertama ke-41 itu INCOMPLETE
+  dengan status_before_rollover PASS.
+Nilai sendiri apakah ada yang kamu bantah. Tulis bantahan dengan ID baru.
+
 YANG WAJIB DIPERIKSA
 1. R2-A6 (D13-12 butir 1): kasus browser P11_DRAFT_BROWSER_DESKTOP dan P11_DRAFT_BROWSER_MOBILE_RECOVERY
    (scripts/cp7_p11_drafts_browser.mjs, fungsi dozenHelper). Periksa isian "Lusin invoice 1" dan "Sisa PCS invoice 1",

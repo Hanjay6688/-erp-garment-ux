@@ -24,7 +24,8 @@ Dasar: keputusan owner D13-10..D13-13 (13 Okt 2026). Kandidat yang sama dikirim 
 
 ## CI writer pada kandidat (bukti writer, bukan penerimaan auditor)
 
-**20/20 workflow dan 57/57 job hijau**. Semua hasil berasal dari percobaan pertama. Rinciannya:
+**20/20 workflow dan 57/57 job hijau**, semuanya pada GitHub attempt pertama. Empat grup dieksekusi ulang karena
+pergantian hari (lihat di bawah). Rinciannya:
 
 - 18 workflow kualifikasi, sama dengan putaran 1;
 - 2 workflow CP7C yang ikut jalan karena push, hanya untuk diketahui: `CP7 Offsite Backup` dan `CP7 Backup Kit Check`.
@@ -55,15 +56,23 @@ Dasar: keputusan owner D13-10..D13-13 (13 Okt 2026). Kandidat yang sama dikirim 
 ### Pergantian hari WIB (dicatat terbuka)
 
 Run berjalan melewati tengah malam WIB (17.00 UTC). Empat grup otomatis diulang dari salinan baru
-(`RERUN_FROM_FRESH_COPY`), sesuai aturan alat uji. Daftarnya ada di `CI_RECEIPT.json` → `business_day_reruns`:
+(`RERUN_FROM_FRESH_COPY`), sesuai aturan alat uji. Daftarnya ada di `CI_RECEIPT.json` → `business_day_reruns`.
 
-- Note Correction, grup browser, 5 kasus;
-- P19 `p19-scale5`, grup browser, 3 kasus;
-- PL Native `schedule`, 26 kasus;
-- Pre-freeze UI, grup browser, 7 kasus, termasuk dua kasus P11.
+Kalimat yang tepat (dikoreksi atas pemeriksaan Astra, `audit/astra_xc2_20261014/PACKAGE_FOLLOWUP.md` @ `fb24bd92`):
+**semua workflow pada GitHub attempt pertama; empat grup dieksekusi ulang karena pergantian hari, mencakup 92 eksekusi
+kasus, 41 di antaranya sebelumnya ditandai rollover.**
 
-Penulis membaca log keempat job itu. **Ke-41 kasus yang diulang sudah PASS pada percobaan pertama**
-(`status_before_rollover: PASS`), dan semuanya PASS lagi pada ulangan. Tidak ada kegagalan yang tertutup oleh ulangan.
+| Grup | Kasus ditandai rollover | Seluruh kasus grup yang diulang |
+|---|---:|---:|
+| Note Correction browser (job 115419813235) | 5 | 5 |
+| P19 `p19-scale5` browser (job 115419656262) | 3 | 4 |
+| PL Native `schedule` (job 115419899697) | 26 | 52 |
+| Pre-freeze UI browser (job 115419948325), termasuk dua kasus P11 | 7 | 31 |
+| **Total** | **41** | **92** |
+
+Catatan pertama ke-41 kasus itu tetap berstatus INCOMPLETE dengan `status_before_rollover: PASS`. Jadi itu bukan 41
+PASS penerimaan pada eksekusi pertama. Kasus lain di empat grup itu PASS pada catatan pertama. Ke-92 eksekusi ulang
+PASS. Tidak ada FAIL, dan tidak ada INCOMPLETE dengan alasan lain, yang tertutup oleh ulangan.
 
 ## Hasil butir putaran 2 (menurut CI writer)
 

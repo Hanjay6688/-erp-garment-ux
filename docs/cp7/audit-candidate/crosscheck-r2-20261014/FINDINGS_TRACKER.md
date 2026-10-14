@@ -36,3 +36,10 @@ Sejak `ae0214ad`, cabang juga memuat alat backup CP7C yang ditahan: `scripts/cp7
 `cp7-backup-kit-check.yml`, `cp7-supabase-restore-drill.yml`. Tidak ada workflow kualifikasi yang memakainya. Push
 kandidat ikut menjalankan `CP7 Offsite Backup` dan `CP7 Backup Kit Check`; hasilnya dicatat di `CI_RECEIPT.json` hanya
 untuk diketahui. Alat offsite memakai aturan tanda yang sama, jadi paket CP7C perlu dikualifikasi ulang saat CP7C dibuka.
+
+## Hasil auditor
+
+| Auditor | Commit laporan | R2-A6 | R2-F05 | A2 | Catatan |
+|---|---|---|---|---|---|
+| Astra | `57ac8aab` (laporan terkunci), `fb24bd92` (pemeriksaan paket final) | **LENGKAP** | **DITUTUP** | MASIH TERBUKA, bukan penghalang (D13-10) | A1, A3, A8 DITUTUP; 141 eksekusi CI / 139 ID unik + 1 DOM; koreksi kalimat pergantian hari (92 eksekusi ulang, 41 ditandai rollover) sudah dimasukkan ke README. |
+| Fable | belum masuk | — | — | — | Kotak `HANDOFF_FABLE.md` memuat ringkasan hasil Astra untuk silang. |
