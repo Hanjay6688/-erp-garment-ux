@@ -13,6 +13,8 @@ name: CP7 CP17 Fixes
     - scripts/cp7_*bundle.py
     - .github/workflows/claude-cp17-fixes.yml
     - docs/cp7/MERGE_QUALIFICATION_REQUEST.json
+    - scripts/cp6_readiness_owner_install.py
+    - scripts/cp6_readiness_owner_drain_test.py
   workflow_dispatch: {}
 permissions:
   contents: read
@@ -202,6 +204,14 @@ jobs:
     - name: Install accepted package and qualify the CP1-CP7 audit fixes
       working-directory: writer
       run: python '../auditor/scripts/cp7_cp17_fix_probe.py'
+    # Sol SOL-003/OPEN-AZ-FIRST: the owner installer waits for a transient backend (autovacuum) before each file and
+    # retries only the exact drained refusal. Its own throwaway database; the readiness workflow is bound to the
+    # cp6/release-readiness branch and refuses this branch by design (cp6_readiness_source.py).
+    - name: Qualify the owner installer's per-file drain wait and exact drained-refusal retry
+      working-directory: auditor
+      env:
+        CP6_DRAIN_TEST_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      run: python scripts/cp6_readiness_owner_drain_test.py
     - name: Remove disposable database
       if: always()
       working-directory: base

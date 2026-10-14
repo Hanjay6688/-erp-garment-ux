@@ -130,10 +130,13 @@ def owner_verified(cur):
 DIAG_FIELDS=('message_primary','message_detail','message_hint','context','schema_name','table_name','column_name','constraint_name',
              'datatype_name','source_function','source_file','source_line','internal_query','internal_position','statement_position')
 
-def private_diagnostic(exc,report,report_path,work,rows):
-    """SOL-003: keep the PostgreSQL diagnostic of a failed install in a private file next to the report (owner-only
-    permissions; never printed). The public report keeps the restricted code and only names this file and its sha256.
-    Nothing here changes what is refused or the admission state."""
+def private_diagnostic(exc,report,report_path,work,rows,authority=None,database=None,pid=None):
+    """SOL-003: keep the PostgreSQL diagnostic of a failed install in a separate file next to the report (0600; never
+    printed). The report keeps the restricted code and only names this file and its sha256. Nothing here changes what
+    is refused or the admission state. 'Private' is file permission only: in CI the report folder is uploaded as the
+    run artifact (repository-private; disposable data), on the owner's machine it stays local. The other backends of
+    the target database at failure time (type and state, never query text) are kept too, to tell a drain race
+    (OPEN-AZ-FIRST) from a content refusal."""
     try:
         diag=getattr(exc,'diag',None)
         out=dict(label='CP6_OWNER_MAINTENANCE_PRIVATE_DIAGNOSTIC',error_type=type(exc).__name__,sqlstate=getattr(exc,'sqlstate',None),
@@ -148,6 +151,12 @@ def private_diagnostic(exc,report,report_path,work,rows):
                   work.execute("select current_user,session_user,current_setting('search_path'),current_setting('transaction_isolation'),"
                                "current_setting('server_version'),current_database()").fetchone()))
         except Exception as session_exc:out['session']=dict(unavailable=type(session_exc).__name__)
+        try:
+            if authority is not None and not authority.closed and database:
+                out['other_backends']=[dict(zip(('pid','backend_type','state','application_name','wait_event_type','backend_start','xact_start'),r)) for r in
+                  authority.execute("select pid,backend_type,state,application_name,wait_event_type,backend_start,xact_start from pg_stat_activity "
+                                    "where datname=%s and pid<>coalesce(%s,0) order by pid",(database,pid)).fetchall()]
+        except Exception as backend_exc:out['other_backends']=dict(unavailable=type(backend_exc).__name__)
         path=Path(report_path).with_name(Path(report_path).stem+'.private-diagnostic.json')
         path.parent.mkdir(parents=True,exist_ok=True)
         data=(json.dumps(out,indent=2,default=str)+'\n').encode()
@@ -157,6 +166,40 @@ def private_diagnostic(exc,report,report_path,work,rows):
         return dict(file=path.name,sha256=hashlib.sha256(data).hexdigest(),permissions='0600')
     except Exception as diag_exc:
         return dict(unavailable=type(diag_exc).__name__)
+
+DRAINED_REFUSAL='PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE'
+BACKENDS="select coalesce(backend_type,''),count(*) from pg_stat_activity where datname=%s and pid<>%s group by 1 order by 1"
+
+def install_file(work,authority,database,pid,row,text,drain_seconds,report):
+    """One package file in one transaction on the retained work session, inside closed admission.
+
+    Closed admission stops every login, but not PostgreSQL's own autovacuum workers: they may enter the closed
+    database at any moment, and each AO..BF file's first block refuses (PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE)
+    while any other backend is there (Sol OPEN-AZ-FIRST: 51/58, stopped at AZ with nothing else logged). As the
+    qualified T3 package installer does (cp6_t3_release_package.closed), wait until no other backend is present
+    before the file, and retry only that exact refusal: it is raised by the file's first statement, so the file's
+    transaction was rolled back, nothing of it or of its ledger row is committed. The guard text is unchanged; any
+    other error, a reopened admission, or a backend that stays past drain_seconds still stops the install with
+    admission left closed."""
+    deadline=time.monotonic()+drain_seconds;attempts=0;seen={}
+    while True:
+        if core._scalar(authority,'select datallowconn from pg_database where datname=%s',(database,)):raise Refused('ADMISSION_REOPENED_BEFORE_FILE')
+        others=authority.execute(BACKENDS,(database,pid)).fetchall()
+        if others:
+            for kind,n in others:seen[kind or 'unknown']=max(seen.get(kind or 'unknown',0),n)
+            if time.monotonic()>=deadline:raise Refused('DRAIN_TIMEOUT_BEFORE_FILE')
+            time.sleep(.05);continue
+        try:
+            with work.transaction(),work.cursor() as cur:
+                cur.execute(transaction_body(text),prepare=False)
+                ledger_text=text[:-1] if row.get('ledger_omit_final_newline') else text
+                cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(row['stamp'],row['name'],[ledger_text]))
+        except psycopg.Error as exc:
+            if exc.sqlstate!='P0001' or exc.diag.message_primary!=DRAINED_REFUSAL or time.monotonic()>=deadline:raise
+            attempts+=1;time.sleep(.05);continue
+        finally:
+            if seen or attempts:report.setdefault('drain_waits',{})[row['key']]=dict(other_backends_seen=dict(seen),refused_and_retried=attempts)
+        return
 
 def run(target,control,*,profile,report_path,mode=FULL,apply=False,window=None,backup=None,certificate=None,drain_seconds=15):
     report=dict(label='CP6_OWNER_MAINTENANCE',status='INCOMPLETE',profile=profile,mode='APPLY' if apply else 'READ_ONLY_PLAN',
@@ -194,14 +237,10 @@ def run(target,control,*,profile,report_path,mode=FULL,apply=False,window=None,b
         # One retained work session for the entire package; no reconnect between
         # files, no admission gap, no termination of other sessions.
         for row,text in rows:
-            if core._scalar(authority,'select datallowconn from pg_database where datname=%s',(database,)):raise Refused('ADMISSION_REOPENED_BEFORE_FILE')
             # A lost COMMIT acknowledgement is not evidence of rollback. Once
             # any file is attempted, a failure must retain closed admission.
             report.update(install_attempted=True,current_file_key=row['key']);save()
-            with work.transaction(),work.cursor() as cur:
-                cur.execute(transaction_body(text),prepare=False)
-                ledger_text=text[:-1] if row.get('ledger_omit_final_newline') else text
-                cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(row['stamp'],row['name'],[ledger_text]))
+            install_file(work,authority,database,pid,row,text,drain_seconds,report)
             report['files'].append(dict(key=row['key'],status='PASS',sha256=row['package_sha256']));save()
         # The retained target session can still read the closed database. Bind
         # the receipt to exact Native bodies/RLS and a catalog/config snapshot
@@ -223,7 +262,7 @@ def run(target,control,*,profile,report_path,mode=FULL,apply=False,window=None,b
         report.update(status='REFUSED' if isinstance(exc,Refused) or getattr(exc,'sqlstate',None)=='P0001' else 'INCOMPLETE',
           error_type=type(exc).__name__,sqlstate=getattr(exc,'sqlstate',None),
           error_code=str(exc) if isinstance(exc,Refused) else core._public_failure_code(exc))
-        report['private_diagnostic']=private_diagnostic(exc,report,report_path,work,locals().get('rows'))
+        report['private_diagnostic']=private_diagnostic(exc,report,report_path,work,locals().get('rows'),authority,database,locals().get('pid'))
         return report
     finally:
         try:
