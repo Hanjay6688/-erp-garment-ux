@@ -1,0 +1,3627 @@
+{
+ "erp_save_worker_roster_v1": [
+  {
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "line": 2145,
+   "gates": [],
+   "inner": [
+    "erp.save_worker_roster_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_set_worker_daily_rate_v1": [
+  {
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "line": 2158,
+   "gates": [],
+   "inner": [
+    "erp.set_worker_daily_rate_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_attendance_period_v1": [
+  {
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "line": 2177,
+   "gates": [],
+   "inner": [
+    "erp.save_attendance_period_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_post_attendance_period_v1": [
+  {
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "line": 2193,
+   "gates": [],
+   "inner": [
+    "erp.post_attendance_period_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_reverse_attendance_period_v1": [
+  {
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "line": 2209,
+   "gates": [],
+   "inner": [
+    "erp.reverse_attendance_period_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_set_fg_stock_policy_v1": [
+  {
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "line": 2225,
+   "gates": [],
+   "inner": [
+    "erp.set_fg_stock_policy_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_attendance_workspace_v1": [
+  {
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "line": 2250,
+   "gates": [],
+   "inner": [
+    "erp.require_internal"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_fg_stock_explainability_v1": [
+  {
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "line": 2358,
+   "gates": [],
+   "inner": [
+    "erp.require_internal"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_list_my_reminders_v1": [
+  {
+   "file": "supabase/migrations/20260830190955_erp_v2_6_13_manual_reminders_v1.sql",
+   "line": 594,
+   "gates": [],
+   "inner": [
+    "erp.list_my_reminders_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_my_reminder_v1": [
+  {
+   "file": "supabase/migrations/20260830190955_erp_v2_6_13_manual_reminders_v1.sql",
+   "line": 607,
+   "gates": [],
+   "inner": [
+    "erp.save_my_reminder_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_set_my_reminder_done_v1": [
+  {
+   "file": "supabase/migrations/20260830190955_erp_v2_6_13_manual_reminders_v1.sql",
+   "line": 620,
+   "gates": [],
+   "inner": [
+    "erp.set_my_reminder_done_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_cancel_my_reminder_v1": [
+  {
+   "file": "supabase/migrations/20260830190955_erp_v2_6_13_manual_reminders_v1.sql",
+   "line": 636,
+   "gates": [],
+   "inner": [
+    "erp.cancel_my_reminder_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_set_contractor_hpp_policy_v1": [
+  {
+   "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+   "line": 427,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.set_contractor_hpp_policy_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_record_sewing_terminal_v1": [
+  {
+   "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+   "line": 443,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.record_sewing_terminal_v1",
+    "erp.require_owner_admin"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_reverse_sewing_terminal_v1": [
+  {
+   "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+   "line": 455,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.reverse_sewing_terminal_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+   "line": 1337,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.reverse_sewing_terminal_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+   "line": 1345,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.reverse_sewing_terminal_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_be_t1_family.sql",
+   "line": 1173,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.reverse_sewing_terminal_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_be_t1_family.sql",
+   "line": 1181,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.reverse_sewing_terminal_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_preview_attendance_hpp_pool_v1": [
+  {
+   "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+   "line": 471,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.preview_attendance_hpp_pool_v1",
+    "erp.require_owner_admin"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_create_attendance_hpp_pool_v1": [
+  {
+   "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+   "line": 484,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.create_attendance_hpp_pool_v1",
+    "erp.require_owner_admin"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_activate_attendance_hpp_pool_v1": [
+  {
+   "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+   "line": 496,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.activate_attendance_hpp_pool_v1",
+    "erp.require_owner_admin"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_cancel_attendance_hpp_pool_v1": [
+  {
+   "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+   "line": 513,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.cancel_attendance_hpp_pool_v1",
+    "erp.require_owner_admin"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_my_access_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 929,
+   "gates": [],
+   "inner": [
+    "erp.get_my_access_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_access_admin_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 932,
+   "gates": [],
+   "inner": [
+    "erp.get_access_admin_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_role_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 935,
+   "gates": [],
+   "inner": [
+    "erp.save_role_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_deactivate_role_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 938,
+   "gates": [],
+   "inner": [
+    "erp.deactivate_role_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_app_user_v3": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 941,
+   "gates": [],
+   "inner": [
+    "erp.save_app_user_v2"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_list_patterns_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 1302,
+   "gates": [],
+   "inner": [
+    "erp.list_patterns_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_pattern_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 1308,
+   "gates": [],
+   "inner": [
+    "erp.save_pattern_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_deactivate_pattern_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 1311,
+   "gates": [],
+   "inner": [
+    "erp.deactivate_pattern_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_assign_pattern_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 1314,
+   "gates": [],
+   "inner": [
+    "erp.assign_pattern_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_wip_control_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 1568,
+   "gates": [],
+   "inner": [
+    "erp.get_wip_control_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_set_wip_control_flag_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 1573,
+   "gates": [],
+   "inner": [
+    "erp.set_wip_control_flag_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_post_final_sku_allocation_v1": [
+  {
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "line": 1662,
+   "gates": [],
+   "inner": [
+    "erp.post_final_sku_allocation_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql",
+   "line": 4760,
+   "gates": [],
+   "inner": [
+    "erp.save_laundry_qc_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_cutting_workspace_v1": [
+  {
+   "file": "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql",
+   "line": 1309,
+   "gates": [],
+   "inner": [
+    "erp.get_cutting_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_cutting_group_before_sewing_v2": [
+  {
+   "file": "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql",
+   "line": 1316,
+   "gates": [],
+   "inner": [
+    "erp.save_cutting_group_before_sewing_v2"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_cutting_pickup_queue_v1": [
+  {
+   "file": "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql",
+   "line": 1322,
+   "gates": [],
+   "inner": [
+    "erp.get_cutting_pickup_queue_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_cutting_pickup_v1": [
+  {
+   "file": "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql",
+   "line": 1329,
+   "gates": [],
+   "inner": [
+    "erp.save_cutting_pickup_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_bs_resolution_workspace_v1": [
+  {
+   "file": "supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql",
+   "line": 1113,
+   "gates": [],
+   "inner": [
+    "erp.get_bs_resolution_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql",
+   "line": 1009,
+   "gates": [],
+   "inner": [],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/migrations/20260904012525_erp_v2_6_19b_cp5_reliability_closure.sql",
+   "line": 682,
+   "gates": [],
+   "inner": [],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_bs_resolution_action_v1": [
+  {
+   "file": "supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql",
+   "line": 1127,
+   "gates": [],
+   "inner": [
+    "erp.save_bs_resolution_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_laundry_qc_workspace_v1": [
+  {
+   "file": "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql",
+   "line": 4729,
+   "gates": [],
+   "inner": [
+    "erp.get_laundry_qc_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_laundry_qc_action_v1": [
+  {
+   "file": "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql",
+   "line": 4743,
+   "gates": [],
+   "inner": [
+    "erp.save_laundry_qc_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_search_final_sku_products_v1": [
+  {
+   "file": "supabase/migrations/20260905170334_erp_v2_6_20b_cp6_reaudit_reliability_closure.sql",
+   "line": 771,
+   "gates": [],
+   "inner": [
+    "erp.search_final_sku_products_v2620b"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_search_laundry_bs_products_v1": [
+  {
+   "file": "supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql",
+   "line": 499,
+   "gates": [],
+   "inner": [
+    "erp.search_laundry_bs_products_v2620c"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_cutting_workspace_v2": [
+  {
+   "file": "supabase/migrations/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql",
+   "line": 295,
+   "gates": [],
+   "inner": [
+    "erp.get_cutting_workspace_v2"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql",
+   "line": 295,
+   "gates": [],
+   "inner": [
+    "erp.get_cutting_workspace_v2"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_accessory_issue_workspace_v1": [
+  {
+   "file": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 549,
+   "gates": [],
+   "inner": [
+    "erp.get_accessory_issue_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 549,
+   "gates": [],
+   "inner": [
+    "erp.get_accessory_issue_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_accessory_issue_action_v1": [
+  {
+   "file": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 552,
+   "gates": [],
+   "inner": [
+    "erp.save_accessory_issue_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 552,
+   "gates": [],
+   "inner": [
+    "erp.save_accessory_issue_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_preview_pocket_fabric_period_v1": [
+  {
+   "file": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 850,
+   "gates": [],
+   "inner": [
+    "erp.preview_pocket_period_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 850,
+   "gates": [],
+   "inner": [
+    "erp.preview_pocket_period_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_pocket_fabric_workspace_v1": [
+  {
+   "file": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 1031,
+   "gates": [],
+   "inner": [
+    "erp.get_pocket_fabric_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 1031,
+   "gates": [],
+   "inner": [
+    "erp.get_pocket_fabric_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_pocket_fabric_action_v1": [
+  {
+   "file": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 1034,
+   "gates": [],
+   "inner": [
+    "erp.save_pocket_fabric_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 1034,
+   "gates": [],
+   "inner": [
+    "erp.save_pocket_fabric_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_initial_import_workspace_v1": [
+  {
+   "file": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 1699,
+   "gates": [],
+   "inner": [
+    "erp.get_initial_import_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 1699,
+   "gates": [],
+   "inner": [
+    "erp.get_initial_import_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_initial_import_action_v1": [
+  {
+   "file": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 1705,
+   "gates": [],
+   "inner": [
+    "erp.save_initial_import_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+   "line": 1705,
+   "gates": [],
+   "inner": [
+    "erp.save_initial_import_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_accounting_close_preflight_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+   "line": 1039,
+   "gates": [],
+   "inner": [
+    "erp.accounting_close_preflight_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_aw_t1_family.sql",
+   "line": 875,
+   "gates": [],
+   "inner": [
+    "erp.accounting_close_preflight_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_close_accounting_through_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+   "line": 1047,
+   "gates": [],
+   "inner": [
+    "erp.close_accounting_through"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_aw_t1_family.sql",
+   "line": 883,
+   "gates": [],
+   "inner": [
+    "erp.close_accounting_through"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_set_laundry_rate_owner_estimate_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+   "line": 1063,
+   "gates": [],
+   "inner": [
+    "erp.set_laundry_rate_owner_estimate_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_aw_t1_family.sql",
+   "line": 899,
+   "gates": [],
+   "inner": [
+    "erp.set_laundry_rate_owner_estimate_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_preview_fg_unsourced_value_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql",
+   "line": 586,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.fg_unsourced_valuation_v1",
+    "erp.require_owner_admin"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_ax_t1_family.sql",
+   "line": 422,
+   "gates": [
+    "OWNER_ADMIN"
+   ],
+   "inner": [
+    "erp.fg_unsourced_valuation_v1",
+    "erp.require_owner_admin"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_post_fg_unsourced_receipt_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql",
+   "line": 597,
+   "gates": [],
+   "inner": [
+    "erp.post_fg_unsourced_receipt_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_ax_t1_family.sql",
+   "line": 433,
+   "gates": [],
+   "inner": [
+    "erp.post_fg_unsourced_receipt_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_reverse_fg_unsourced_receipt_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql",
+   "line": 605,
+   "gates": [],
+   "inner": [
+    "erp.reverse_fg_unsourced_receipt_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_ax_t1_family.sql",
+   "line": 441,
+   "gates": [],
+   "inner": [
+    "erp.reverse_fg_unsourced_receipt_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_accessory_service_action_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+   "line": 2236,
+   "gates": [],
+   "inner": [
+    "erp.save_accessory_service_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_bc_t1_family.sql",
+   "line": 2072,
+   "gates": [],
+   "inner": [
+    "erp.save_accessory_service_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_accessory_service_workspace_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260925030000_erp_v2_6_20bc_cp6_accessory_service_returns.sql",
+   "line": 2239,
+   "gates": [],
+   "inner": [
+    "erp.get_accessory_service_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_bc_t1_family.sql",
+   "line": 2075,
+   "gates": [],
+   "inner": [
+    "erp.get_accessory_service_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_laundry_bd_action_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+   "line": 3094,
+   "gates": [],
+   "inner": [
+    "erp.save_laundry_bd_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_bd_t1_family.sql",
+   "line": 2930,
+   "gates": [],
+   "inner": [
+    "erp.save_laundry_bd_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_laundry_bd_workspace_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260925040000_erp_v2_6_20bd_cp6_laundry_prices_invoices.sql",
+   "line": 3097,
+   "gates": [],
+   "inner": [
+    "erp.get_laundry_bd_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_bd_t1_family.sql",
+   "line": 2933,
+   "gates": [],
+   "inner": [
+    "erp.get_laundry_bd_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_save_product_conversion_action_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+   "line": 399,
+   "gates": [],
+   "inner": [
+    "erp.save_product_conversion_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_be_t1_family.sql",
+   "line": 235,
+   "gates": [],
+   "inner": [
+    "erp.save_product_conversion_action_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_product_conversion_workspace_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+   "line": 402,
+   "gates": [],
+   "inner": [
+    "erp.get_product_conversion_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_be_t1_family.sql",
+   "line": 238,
+   "gates": [],
+   "inner": [
+    "erp.get_product_conversion_workspace_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_pocket_periods_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260926050000_erp_v2_6_20be_cp6_conversion_redye_pocket.sql",
+   "line": 1331,
+   "gates": [],
+   "inner": [
+    "erp.be_pocket_periods_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  },
+  {
+   "file": "supabase/dev/cp6_be_t1_family.sql",
+   "line": 1167,
+   "gates": [],
+   "inner": [
+    "erp.be_pocket_periods_v1"
+   ],
+   "grants": [
+    "authenticated",
+    "service_role"
+   ]
+  }
+ ],
+ "erp_get_laundry_history_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
+   "line": 752,
+   "gates": [
+    "has:finance.hpp.manage",
+    "has:finance.hpp.view",
+    "perm:production.laundry.view"
+   ],
+   "inner": [
+    "erp._cp3_assert_closed_json_object",
+    "erp.require_permission"
+   ],
+   "grants": []
+  },
+  {
+   "file": "supabase/dev/cp6_bf_t1_family.sql",
+   "line": 587,
+   "gates": [
+    "has:finance.hpp.manage",
+    "has:finance.hpp.view",
+    "perm:production.laundry.view"
+   ],
+   "inner": [
+    "erp._cp3_assert_closed_json_object",
+    "erp.require_permission"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_get_supplier_credit_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
+   "line": 869,
+   "gates": [
+    "has:finance.ap.pay",
+    "perm:finance.ap.view",
+    "role_literal"
+   ],
+   "inner": [
+    "erp._cp3_assert_closed_json_object",
+    "erp.require_permission"
+   ],
+   "grants": []
+  },
+  {
+   "file": "supabase/dev/cp6_bf_t1_family.sql",
+   "line": 704,
+   "gates": [
+    "has:finance.ap.pay",
+    "perm:finance.ap.view",
+    "role_literal"
+   ],
+   "inner": [
+    "erp._cp3_assert_closed_json_object",
+    "erp.require_permission"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_save_supplier_credit_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
+   "line": 977,
+   "gates": [
+    "OWNER_ADMIN",
+    "perm:finance.ap.pay"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.require_permission"
+   ],
+   "grants": []
+  },
+  {
+   "file": "scripts/cp7-src/procurement/supplier-credit-authority.sql",
+   "line": 11,
+   "gates": [
+    "OWNER_ADMIN",
+    "perm:finance.ap.pay"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.require_permission"
+   ],
+   "grants": []
+  },
+  {
+   "file": "supabase/dev/cp6_bf_t1_family.sql",
+   "line": 812,
+   "gates": [
+    "OWNER_ADMIN",
+    "perm:finance.ap.pay"
+   ],
+   "inner": [
+    "erp.require_owner_admin",
+    "erp.require_permission"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_save_sku_action_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
+   "line": 1159,
+   "gates": [],
+   "inner": [
+    "erp.save_sku_action_v1"
+   ],
+   "grants": []
+  },
+  {
+   "file": "supabase/dev/cp6_bf_t1_family.sql",
+   "line": 994,
+   "gates": [],
+   "inner": [
+    "erp.save_sku_action_v1"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_get_sku_workspace_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
+   "line": 1162,
+   "gates": [],
+   "inner": [
+    "erp.get_sku_workspace_v1"
+   ],
+   "grants": []
+  },
+  {
+   "file": "supabase/dev/cp6_bf_t1_family.sql",
+   "line": 997,
+   "gates": [],
+   "inner": [
+    "erp.get_sku_workspace_v1"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_get_sku_hpp_v1": [
+  {
+   "file": "supabase/release/cp6-t3/20260928134500_erp_v2_6_20bf_cp6_commercial_ranges_vendor_credit.sql",
+   "line": 1165,
+   "gates": [],
+   "inner": [
+    "erp.get_sku_hpp_v1"
+   ],
+   "grants": []
+  },
+  {
+   "file": "supabase/dev/cp6_bf_t1_family.sql",
+   "line": 1000,
+   "gates": [],
+   "inner": [
+    "erp.get_sku_hpp_v1"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_cutting_correction_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-correction/reopen.sql",
+   "line": 130,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_correction.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_reopen_cutting_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-correction/reopen.sql",
+   "line": 132,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_correction.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_cutting_input_workspace_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/inputs.sql",
+   "line": 187,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_inputs.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_record_cutting_inputs_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/inputs.sql",
+   "line": 189,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_inputs.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_cutting_input_request_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/inputs.sql",
+   "line": 191,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_inputs.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_cutting_model_workspace_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/model-producer.sql",
+   "line": 228,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_model.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_cutting_model_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/model-producer.sql",
+   "line": 229,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_model.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_cutting_model_request_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/model-producer.sql",
+   "line": 230,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_model.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_cutting_observation_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/observations.sql",
+   "line": 151,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_observations.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_cutting_observation_request_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/observations.sql",
+   "line": 153,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_observations.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_cutting_yield_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/source.sql",
+   "line": 137,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_yield.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_cutting_yield_v1": [
+  {
+   "file": "scripts/cp7-src/cutting-yield/source.sql",
+   "line": 139,
+   "gates": [],
+   "inner": [
+    "cp7_cutting_yield.serve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_fg_adjustments_v1": [
+  {
+   "file": "scripts/cp7-src/fg/adjustment-read.sql",
+   "line": 36,
+   "gates": [],
+   "inner": [
+    "cp7_fg.adjust_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_fg_adjustment_v1": [
+  {
+   "file": "scripts/cp7-src/fg/adjustments.sql",
+   "line": 108,
+   "gates": [],
+   "inner": [
+    "cp7_fg.adjust_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_fg_book_v1": [
+  {
+   "file": "scripts/cp7-src/fg/book.sql",
+   "line": 125,
+   "gates": [],
+   "inner": [
+    "cp7_fg.book_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_fg_book_v1": [
+  {
+   "file": "scripts/cp7-src/fg/book.sql",
+   "line": 127,
+   "gates": [],
+   "inner": [
+    "cp7_fg.book_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_fg_book_options_v1": [
+  {
+   "file": "scripts/cp7-src/fg/book.sql",
+   "line": 146,
+   "gates": [],
+   "inner": [
+    "cp7_fg.book_options"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_fg_book_v2": [
+  {
+   "file": "scripts/cp7-src/fg/corrected-book.sql",
+   "line": 76,
+   "gates": [],
+   "inner": [
+    "cp7_fg.corrected_book_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_fg_ledger_v2": [
+  {
+   "file": "scripts/cp7-src/fg/corrected-ledger.sql",
+   "line": 85,
+   "gates": [],
+   "inner": [
+    "cp7_fg.corrected_ledger"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_fg_ledger_v1": [
+  {
+   "file": "scripts/cp7-src/fg/ledger.sql",
+   "line": 68,
+   "gates": [],
+   "inner": [
+    "cp7_fg.ledger"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_fg_v1": [
+  {
+   "file": "scripts/cp7-src/fg/read.sql",
+   "line": 48,
+   "gates": [],
+   "inner": [
+    "cp7_fg.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_finance_analysis_v1": [
+  {
+   "file": "scripts/cp7-src/finance/analysis.sql",
+   "line": 55,
+   "gates": [],
+   "inner": [
+    "cp7_finance.analysis"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_journal_book_v1": [
+  {
+   "file": "scripts/cp7-src/finance/journal.sql",
+   "line": 76,
+   "gates": [],
+   "inner": [
+    "cp7_journal.workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_correct_misc_finance_v1": [
+  {
+   "file": "scripts/cp7-src/finance/misc-correction.sql",
+   "line": 188,
+   "gates": [],
+   "inner": [
+    "cp7_misc_correction.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_misc_correction_history_v1": [
+  {
+   "file": "scripts/cp7-src/finance/misc-correction.sql",
+   "line": 193,
+   "gates": [],
+   "inner": [
+    "cp7_misc_correction.history"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_misc_finance_v1": [
+  {
+   "file": "scripts/cp7-src/finance/misc.sql",
+   "line": 205,
+   "gates": [],
+   "inner": [
+    "cp7_misc.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_misc_finance_v1": [
+  {
+   "file": "scripts/cp7-src/finance/misc.sql",
+   "line": 207,
+   "gates": [],
+   "inner": [
+    "cp7_misc.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_period_control_v1": [
+  {
+   "file": "scripts/cp7-src/finance/period.sql",
+   "line": 99,
+   "gates": [],
+   "inner": [
+    "cp7_period.workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_save_period_control_v1": [
+  {
+   "file": "scripts/cp7-src/finance/period.sql",
+   "line": 101,
+   "gates": [],
+   "inner": [
+    "cp7_period.command"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_finance_report_v1": [
+  {
+   "file": "scripts/cp7-src/finance/read.sql",
+   "line": 62,
+   "gates": [],
+   "inner": [
+    "cp7_finance.workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_recost_queue_v1": [
+  {
+   "file": "scripts/cp7-src/finance/recost.sql",
+   "line": 79,
+   "gates": [],
+   "inner": [
+    "cp7_recost.workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_process_recost_v1": [
+  {
+   "file": "scripts/cp7-src/finance/recost.sql",
+   "line": 81,
+   "gates": [],
+   "inner": [
+    "cp7_recost.command"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_production_policy_v1": [
+  {
+   "file": "scripts/cp7-src/identity/command.sql",
+   "line": 89,
+   "gates": [],
+   "inner": [
+    "cp7_identity.workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_source_identity_v1": [
+  {
+   "file": "scripts/cp7-src/identity/command.sql",
+   "line": 91,
+   "gates": [],
+   "inner": [
+    "cp7_identity.source_identity"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_set_production_policy_v1": [
+  {
+   "file": "scripts/cp7-src/identity/command.sql",
+   "line": 93,
+   "gates": [],
+   "inner": [
+    "cp7_identity.apply_policy"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_save_purchase_invoice_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/command.sql",
+   "line": 42,
+   "gates": [],
+   "inner": [
+    "cp7_invoice.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_invoice_sources_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/documents.sql",
+   "line": 40,
+   "gates": [],
+   "inner": [
+    "cp7_invoice.sources"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_correct_supplier_payment_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/payment-correction.sql",
+   "line": 234,
+   "gates": [],
+   "inner": [
+    "cp7_supplier_payment_correction.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_supplier_payment_correction_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/payment-correction.sql",
+   "line": 236,
+   "gates": [],
+   "inner": [
+    "cp7_supplier_payment_correction.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_create_supplier_payment_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/payment-create.sql",
+   "line": 174,
+   "gates": [],
+   "inner": [
+    "cp7_supplier_payment_create.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_supplier_payment_create_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/payment-create.sql",
+   "line": 176,
+   "gates": [],
+   "inner": [
+    "cp7_supplier_payment_create.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_supplier_payments_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/payments.sql",
+   "line": 154,
+   "gates": [],
+   "inner": [
+    "cp7_invoice.payment_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_reverse_supplier_payment_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/payments.sql",
+   "line": 156,
+   "gates": [],
+   "inner": [
+    "cp7_invoice.reverse_payment_request"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_purchase_invoices_v1": [
+  {
+   "file": "scripts/cp7-src/invoices/read.sql",
+   "line": 35,
+   "gates": [],
+   "inner": [
+    "cp7_invoice.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_materials_v1": [
+  {
+   "file": "scripts/cp7-src/materials/command.sql",
+   "line": 53,
+   "gates": [],
+   "inner": [
+    "cp7_material.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_material_count_options_v1": [
+  {
+   "file": "scripts/cp7-src/materials/count-options.sql",
+   "line": 30,
+   "gates": [],
+   "inner": [
+    "cp7_material.count_options"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_material_counts_v1": [
+  {
+   "file": "scripts/cp7-src/materials/count-read.sql",
+   "line": 60,
+   "gates": [],
+   "inner": [
+    "cp7_material.count_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_preview_material_count_v1": [
+  {
+   "file": "scripts/cp7-src/materials/counts.sql",
+   "line": 62,
+   "gates": [],
+   "inner": [
+    "cp7_material.count_preview"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_material_count_v1": [
+  {
+   "file": "scripts/cp7-src/materials/counts.sql",
+   "line": 137,
+   "gates": [],
+   "inner": [
+    "cp7_material.count_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_materials_v1": [
+  {
+   "file": "scripts/cp7-src/materials/read.sql",
+   "line": 77,
+   "gates": [],
+   "inner": [
+    "cp7_material.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_material_ledger_v1": [
+  {
+   "file": "scripts/cp7-src/materials/read.sql",
+   "line": 79,
+   "gates": [],
+   "inner": [
+    "cp7_material.ledger"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_material_transfers_v1": [
+  {
+   "file": "scripts/cp7-src/materials/transfers.sql",
+   "line": 37,
+   "gates": [],
+   "inner": [
+    "cp7_material.transfers"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_material_locations_v1": [
+  {
+   "file": "scripts/cp7-src/materials/transfers.sql",
+   "line": 55,
+   "gates": [],
+   "inner": [
+    "cp7_material.locations"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_model_evaluation_v1": [
+  {
+   "file": "scripts/cp7-src/model-native/evaluation.sql",
+   "line": 74,
+   "gates": [],
+   "inner": [
+    "cp7_model_native.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_model_evaluation_v1": [
+  {
+   "file": "scripts/cp7-src/model-native/evaluation.sql",
+   "line": 76,
+   "gates": [],
+   "inner": [
+    "cp7_model_native.serve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_attendance_entry_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/attendance-entry.sql",
+   "line": 36,
+   "gates": [],
+   "inner": [
+    "cp7_attendance.entry_workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_attendance_workspace_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/attendance-read.sql",
+   "line": 106,
+   "gates": [],
+   "inner": [
+    "cp7_attendance.workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_save_attendance_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/attendance-write.sql",
+   "line": 123,
+   "gates": [],
+   "inner": [
+    "cp7_attendance.attendance_command"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_preview_attendance_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/attendance-write.sql",
+   "line": 128,
+   "gates": [],
+   "inner": [
+    "cp7_attendance.attendance_command"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_payroll_installments_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/installments.sql",
+   "line": 370,
+   "gates": [],
+   "inner": [
+    "cp7_installment.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_payroll_installment_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/installments.sql",
+   "line": 372,
+   "gates": [],
+   "inner": [
+    "cp7_installment.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_nota_workspace_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/note-read.sql",
+   "line": 49,
+   "gates": [],
+   "inner": [
+    "cp7_payroll.note_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_nota_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/notes.sql",
+   "line": 177,
+   "gates": [],
+   "inner": [
+    "cp7_payroll.note_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_nota_sources_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/ownership.sql",
+   "line": 2,
+   "gates": [],
+   "inner": [
+    "cp7_payroll.source_workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_save_roster_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/roster-write.sql",
+   "line": 95,
+   "gates": [],
+   "inner": [
+    "cp7_attendance.roster_command"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_payroll_workspace_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/settlement-read.sql",
+   "line": 108,
+   "gates": [],
+   "inner": [
+    "cp7_payroll.settlement_workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_save_payroll_v1": [
+  {
+   "file": "scripts/cp7-src/payroll/settlement-write.sql",
+   "line": 132,
+   "gates": [],
+   "inner": [
+    "cp7_payroll.settlement_command"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_history_yield_policy_v1": [
+  {
+   "file": "scripts/cp7-src/plan-native/history-yield.sql",
+   "line": 136,
+   "gates": [],
+   "inner": [
+    "cp7_yield_policy.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_history_yield_policy_v1": [
+  {
+   "file": "scripts/cp7-src/plan-native/history-yield.sql",
+   "line": 138,
+   "gates": [],
+   "inner": [
+    "cp7_yield_policy.apply"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_plan_draft_v1": [
+  {
+   "file": "scripts/cp7-src/plan-native/ownership.sql",
+   "line": 18,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.save"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_preview_plan_action_v1": [
+  {
+   "file": "scripts/cp7-src/plan-native/ownership.sql",
+   "line": 19,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.preview"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_apply_plan_action_v1": [
+  {
+   "file": "scripts/cp7-src/plan-native/ownership.sql",
+   "line": 20,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.apply"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_plan_options_v1": [
+  {
+   "file": "scripts/cp7-src/plan-native/ownership.sql",
+   "line": 29,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.options"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_plan_draft_v1": [
+  {
+   "file": "scripts/cp7-src/plan-native/ownership.sql",
+   "line": 30,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.read"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_plan_actual_v1": [
+  {
+   "file": "scripts/cp7-src/plan-native/ownership.sql",
+   "line": 39,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.actual"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_plan_options_v2": [
+  {
+   "file": "scripts/cp7-src/plan-native/staged.sql",
+   "line": 488,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.options_v2"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_plan_draft_v2": [
+  {
+   "file": "scripts/cp7-src/plan-native/staged.sql",
+   "line": 489,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.save_v2"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_plan_draft_v2": [
+  {
+   "file": "scripts/cp7-src/plan-native/staged.sql",
+   "line": 490,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.read_v2"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_preview_plan_action_v2": [
+  {
+   "file": "scripts/cp7-src/plan-native/staged.sql",
+   "line": 491,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.preview_v2"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_apply_plan_action_v2": [
+  {
+   "file": "scripts/cp7-src/plan-native/staged.sql",
+   "line": 492,
+   "gates": [],
+   "inner": [
+    "cp7_plan_native.apply_v2"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_staged_ai_brief_v1": [
+  {
+   "file": "scripts/cp7-src/planning/ai-staged.sql",
+   "line": 68,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.ai_brief"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_list_analysis_archives_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-archive.sql",
+   "line": 51,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.archives"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_request_analysis_job_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-jobs.sql",
+   "line": 255,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_jobs.request"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_request_operational_analysis_job_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-jobs.sql",
+   "line": 257,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_jobs.request"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_run_analysis_job_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-jobs.sql",
+   "line": 259,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_jobs.run"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_analysis_job_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-jobs.sql",
+   "line": 261,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_jobs.get"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_analysis_manifest_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-jobs.sql",
+   "line": 263,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_jobs.manifest"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_analysis_segment_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-jobs.sql",
+   "line": 265,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_jobs.segment"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_staged_snapshot_freshness_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-stage-snapshot.sql",
+   "line": 198,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.freshness"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_check_staged_snapshot_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-stage-snapshot.sql",
+   "line": 200,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.check_and_record"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_request_staged_analysis_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-stages.sql",
+   "line": 2492,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.request"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_step_staged_analysis_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-stages.sql",
+   "line": 2494,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.step_request"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_staged_analysis_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-stages.sql",
+   "line": 2496,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.get"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_staged_analysis_pages_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-stages.sql",
+   "line": 2498,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.page_set"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_staged_analysis_page_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-stages.sql",
+   "line": 2500,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.page"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_check_staged_analysis_source_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis-stages.sql",
+   "line": 2502,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.check_source"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_analysis_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis.sql",
+   "line": 367,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_operational_analysis_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis.sql",
+   "line": 371,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_analysis_v1": [
+  {
+   "file": "scripts/cp7-src/planning/analysis.sql",
+   "line": 373,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.serve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_baseline_v1": [
+  {
+   "file": "scripts/cp7-src/planning/baseline-source.sql",
+   "line": 144,
+   "gates": [],
+   "inner": [
+    "cp7_baseline_native.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_baseline_v1": [
+  {
+   "file": "scripts/cp7-src/planning/baseline-source.sql",
+   "line": 146,
+   "gates": [],
+   "inner": [
+    "cp7_baseline_native.serve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_fabric_recipe_v1": [
+  {
+   "file": "scripts/cp7-src/planning/fabric-commands.sql",
+   "line": 94,
+   "gates": [],
+   "inner": [
+    "cp7_fabric_native.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_fabric_recipe_v1": [
+  {
+   "file": "scripts/cp7-src/planning/fabric-commands.sql",
+   "line": 96,
+   "gates": [],
+   "inner": [
+    "cp7_fabric_native.save"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_demand_history_v1": [
+  {
+   "file": "scripts/cp7-src/planning/history.sql",
+   "line": 133,
+   "gates": [],
+   "inner": [
+    "cp7_planning.capture_history"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_demand_history_v1": [
+  {
+   "file": "scripts/cp7-src/planning/history.sql",
+   "line": 135,
+   "gates": [],
+   "inner": [
+    "cp7_planning.serve_history"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_netting_v1": [
+  {
+   "file": "scripts/cp7-src/planning/netting.sql",
+   "line": 543,
+   "gates": [],
+   "inner": [
+    "cp7_netting_native.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_netting_v1": [
+  {
+   "file": "scripts/cp7-src/planning/netting.sql",
+   "line": 545,
+   "gates": [],
+   "inner": [
+    "cp7_netting_native.serve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_planning_profiles_v1": [
+  {
+   "file": "scripts/cp7-src/planning/profile.sql",
+   "line": 130,
+   "gates": [],
+   "inner": [
+    "cp7_profile.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_planning_profile_v1": [
+  {
+   "file": "scripts/cp7-src/planning/profile.sql",
+   "line": 132,
+   "gates": [],
+   "inner": [
+    "cp7_profile.apply"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_publish_report_v1": [
+  {
+   "file": "scripts/cp7-src/planning/report-publication.sql",
+   "line": 279,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.report_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_report_request_v1": [
+  {
+   "file": "scripts/cp7-src/planning/report-publication.sql",
+   "line": 281,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.report_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_report_v1": [
+  {
+   "file": "scripts/cp7-src/planning/report-publication.sql",
+   "line": 283,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.report_document"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_list_reports_v1": [
+  {
+   "file": "scripts/cp7-src/planning/report-publication.sql",
+   "line": 285,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.report_index"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_compare_reports_v1": [
+  {
+   "file": "scripts/cp7-src/planning/report-publication.sql",
+   "line": 287,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_native.report_compare"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_publish_report_v2": [
+  {
+   "file": "scripts/cp7-src/planning/report-staged.sql",
+   "line": 540,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.report_request"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_report_request_v2": [
+  {
+   "file": "scripts/cp7-src/planning/report-staged.sql",
+   "line": 542,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.report_request"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_step_report_v2": [
+  {
+   "file": "scripts/cp7-src/planning/report-staged.sql",
+   "line": 544,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.report_step"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_report_v2": [
+  {
+   "file": "scripts/cp7-src/planning/report-staged.sql",
+   "line": 546,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.report_document"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_report_section_v2": [
+  {
+   "file": "scripts/cp7-src/planning/report-staged.sql",
+   "line": 548,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.report_section"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_list_reports_v2": [
+  {
+   "file": "scripts/cp7-src/planning/report-staged.sql",
+   "line": 550,
+   "gates": [],
+   "inner": [
+    "cp7_analysis_stage.report_index"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_planning_scenario_v1": [
+  {
+   "file": "scripts/cp7-src/planning/schedule-scenario.sql",
+   "line": 231,
+   "gates": [],
+   "inner": [
+    "cp7_schedule_native.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_planning_scenario_v1": [
+  {
+   "file": "scripts/cp7-src/planning/schedule-scenario.sql",
+   "line": 233,
+   "gates": [],
+   "inner": [
+    "cp7_schedule_native.serve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_production_schedule_v1": [
+  {
+   "file": "scripts/cp7-src/planning/schedule.sql",
+   "line": 235,
+   "gates": [],
+   "inner": [
+    "cp7_schedule_native.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_production_schedule_v1": [
+  {
+   "file": "scripts/cp7-src/planning/schedule.sql",
+   "line": 237,
+   "gates": [],
+   "inner": [
+    "cp7_schedule_native.save"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_production_supply_v1": [
+  {
+   "file": "scripts/cp7-src/planning/supply-source.sql",
+   "line": 485,
+   "gates": [],
+   "inner": [
+    "cp7_supply_native.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_production_supply_v1": [
+  {
+   "file": "scripts/cp7-src/planning/supply-source.sql",
+   "line": 487,
+   "gates": [],
+   "inner": [
+    "cp7_supply_native.serve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_receipt_correction_v1": [
+  {
+   "file": "scripts/cp7-src/procurement/correction.sql",
+   "line": 1068,
+   "gates": [],
+   "inner": [
+    "cp7_receipt_fix.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_correct_receipt_v1": [
+  {
+   "file": "scripts/cp7-src/procurement/correction.sql",
+   "line": 1070,
+   "gates": [],
+   "inner": [
+    "cp7_receipt_fix.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_material_ledger_v2": [
+  {
+   "file": "scripts/cp7-src/procurement/correction.sql",
+   "line": 1124,
+   "gates": [],
+   "inner": [
+    "cp7_receipt_fix.ledger"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_material_name_v1": [
+  {
+   "file": "scripts/cp7-src/procurement/material-name.sql",
+   "line": 130,
+   "gates": [],
+   "inner": [
+    "cp7_receipt_fix.name_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_rename_material_v1": [
+  {
+   "file": "scripts/cp7-src/procurement/material-name.sql",
+   "line": 132,
+   "gates": [],
+   "inner": [
+    "cp7_receipt_fix.rename"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_procurement_v1": [
+  {
+   "file": "scripts/cp7-src/procurement/ownership.sql",
+   "line": 2,
+   "gates": [],
+   "inner": [
+    "cp7_procurement.workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_procurement_options_v1": [
+  {
+   "file": "scripts/cp7-src/procurement/ownership.sql",
+   "line": 4,
+   "gates": [],
+   "inner": [
+    "cp7_procurement.options"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_procurement_uom_v1": [
+  {
+   "file": "scripts/cp7-src/procurement/ownership.sql",
+   "line": 6,
+   "gates": [],
+   "inner": [
+    "cp7_procurement.uom_options"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_save_procurement_v1": [
+  {
+   "file": "scripts/cp7-src/procurement/ownership.sql",
+   "line": 8,
+   "gates": [],
+   "inner": [
+    "cp7_procurement.command"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_analysis_attention_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/attention.sql",
+   "line": 279,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_analysis_attention_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/attention.sql",
+   "line": 281,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_analysis_attention_request_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/attention.sql",
+   "line": 283,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.request_status"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_local_reminders_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/local-sink.sql",
+   "line": 372,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.local_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_local_binding_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/local-sink.sql",
+   "line": 374,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.local_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_claim_local_preview_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/local-sink.sql",
+   "line": 376,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.local_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_finish_local_preview_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/local-sink.sql",
+   "line": 378,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.local_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_resolve_local_preview_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/local-sink.sql",
+   "line": 380,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.local_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_local_reminder_request_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/local-sink.sql",
+   "line": 382,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.local_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_evaluate_obligation_episodes_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/obligation-episodes.sql",
+   "line": 154,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.obligation_evaluate"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_obligation_episode_request_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/obligation-episodes.sql",
+   "line": 156,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.obligation_evaluate"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_obligation_episode_history_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/obligation-history.sql",
+   "line": 60,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.obligation_history"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_obligation_report_preview_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/obligation-report.sql",
+   "line": 266,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.obligation_report_preview"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_obligation_report_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/obligation-report.sql",
+   "line": 268,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.obligation_report_document"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_publish_obligation_report_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/obligation-report.sql",
+   "line": 270,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.obligation_report_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_obligation_report_request_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/obligation-report.sql",
+   "line": 272,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.obligation_report_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_list_obligation_reports_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/obligation-report.sql",
+   "line": 274,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.obligation_report_index"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_analysis_payable_conditions_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/payable-source.sql",
+   "line": 151,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.payable_conditions"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_reminder_policy_history_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/policy-history.sql",
+   "line": 46,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.policy_history"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_analysis_receivable_conditions_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/receivable-source.sql",
+   "line": 61,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.receivable_conditions"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_rule_conditions_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/rule-condition-source.sql",
+   "line": 206,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.condition_source"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_evaluate_rule_episodes_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/rule-episodes.sql",
+   "line": 116,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.rule_episode_evaluate"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_rule_episode_request_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/rule-episodes.sql",
+   "line": 118,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.rule_episode_evaluate"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_reminder_policy_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/rule-policy.sql",
+   "line": 208,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.policy_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_reminder_policy_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/rule-policy.sql",
+   "line": 210,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.policy_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_reminder_policy_request_v1": [
+  {
+   "file": "scripts/cp7-src/reminders/rule-policy.sql",
+   "line": 212,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.policy_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_step_reminder_conditions_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1040,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_set_step"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_reminder_conditions_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1042,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_conditions_read"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_reminder_obligations_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1044,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_obligations"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_recheck_reminder_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1046,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_recheck"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_reminder_workspace_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1048,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_reminder_policy_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1050,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_reminder_binding_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1052,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_claim_reminder_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1054,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_finish_reminder_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1056,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_resolve_reminder_claim_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1058,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_reminder_request_v2": [
+  {
+   "file": "scripts/cp7-src/reminders/staged-reminders.sql",
+   "line": 1060,
+   "gates": [],
+   "inner": [
+    "cp7_reminder_native.staged_command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_sales_chain_v1": [
+  {
+   "file": "scripts/cp7-src/sales/chain-reversal.sql",
+   "line": 187,
+   "gates": [],
+   "inner": [
+    "cp7_sales_chain.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_reverse_sales_chain_v1": [
+  {
+   "file": "scripts/cp7-src/sales/chain-reversal.sql",
+   "line": 189,
+   "gates": [],
+   "inner": [
+    "cp7_sales_chain.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_save_sale_v1": [
+  {
+   "file": "scripts/cp7-src/sales/commands.sql",
+   "line": 180,
+   "gates": [],
+   "inner": [
+    "cp7_sales.command"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_note_correction_v2": [
+  {
+   "file": "scripts/cp7-src/sales/correction-actors.sql",
+   "line": 18,
+   "gates": [],
+   "inner": [
+    "cp7_note.workspace_with_actors"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_note_correction_v1": [
+  {
+   "file": "scripts/cp7-src/sales/correction.sql",
+   "line": 393,
+   "gates": [],
+   "inner": [
+    "cp7_note.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_correct_note_v1": [
+  {
+   "file": "scripts/cp7-src/sales/correction.sql",
+   "line": 395,
+   "gates": [],
+   "inner": [
+    "cp7_note.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_sales_form_v1": [
+  {
+   "file": "scripts/cp7-src/sales/form.sql",
+   "line": 31,
+   "gates": [],
+   "inner": [
+    "cp7_sales.form_options"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_correct_sales_payment_v1": [
+  {
+   "file": "scripts/cp7-src/sales/payment-correction.sql",
+   "line": 247,
+   "gates": [],
+   "inner": [
+    "cp7_payment_correction.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_sales_payment_correction_v1": [
+  {
+   "file": "scripts/cp7-src/sales/payment-correction.sql",
+   "line": 252,
+   "gates": [],
+   "inner": [
+    "cp7_payment_correction.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_sales_cash_v1": [
+  {
+   "file": "scripts/cp7-src/sales/payments.sql",
+   "line": 53,
+   "gates": [],
+   "inner": [
+    "cp7_sales.cash_workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_sales_v1": [
+  {
+   "file": "scripts/cp7-src/sales/read.sql",
+   "line": 87,
+   "gates": [],
+   "inner": [
+    "cp7_sales.workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_get_sales_return_correction_v1": [
+  {
+   "file": "scripts/cp7-src/sales/return-correction.sql",
+   "line": 433,
+   "gates": [],
+   "inner": [
+    "cp7_sales_return_correction.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_correct_sales_return_v1": [
+  {
+   "file": "scripts/cp7-src/sales/return-correction.sql",
+   "line": 435,
+   "gates": [],
+   "inner": [
+    "cp7_sales_return_correction.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_sales_returns_v1": [
+  {
+   "file": "scripts/cp7-src/sales/returns.sql",
+   "line": 75,
+   "gates": [],
+   "inner": [
+    "cp7_sales.return_workspace"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_capture_snapshot_v1": [
+  {
+   "file": "scripts/cp7-src/snapshot/facades.sql",
+   "line": 79,
+   "gates": [],
+   "inner": [
+    "cp7_private.capture_run"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_read_snapshot_v1": [
+  {
+   "file": "scripts/cp7-src/snapshot/facades.sql",
+   "line": 83,
+   "gates": [],
+   "inner": [
+    "cp7_private.serve"
+   ],
+   "grants": [
+    "authenticated"
+   ]
+  }
+ ],
+ "erp_cp7_save_supplier_return_v1": [
+  {
+   "file": "scripts/cp7-src/supplier-returns/command.sql",
+   "line": 42,
+   "gates": [],
+   "inner": [
+    "cp7_supplier_return.command"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_supplier_return_sources_v1": [
+  {
+   "file": "scripts/cp7-src/supplier-returns/documents.sql",
+   "line": 17,
+   "gates": [],
+   "inner": [
+    "cp7_supplier_return.sources"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_supplier_returns_v1": [
+  {
+   "file": "scripts/cp7-src/supplier-returns/read.sql",
+   "line": 58,
+   "gates": [],
+   "inner": [
+    "cp7_supplier_return.workspace"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_get_transaction_dependencies_v1": [
+  {
+   "file": "scripts/cp7-src/transactions/dependencies.sql",
+   "line": 46,
+   "gates": [],
+   "inner": [
+    "cp7_transaction_source.dependencies"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_resolve_transaction_source_v1": [
+  {
+   "file": "scripts/cp7-src/transactions/source.sql",
+   "line": 313,
+   "gates": [],
+   "inner": [
+    "cp7_transaction_source.resolve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_cutting_wip_v1": [
+  {
+   "file": "scripts/cp7-src/wip/facade.sql",
+   "line": 53,
+   "gates": [],
+   "inner": [
+    "cp7_wip.capture"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_cutting_wip_v1": [
+  {
+   "file": "scripts/cp7-src/wip/facade.sql",
+   "line": 55,
+   "gates": [],
+   "inner": [
+    "cp7_wip.serve"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_capture_production_wip_v1": [
+  {
+   "file": "scripts/cp7-src/wip/production.sql",
+   "line": 106,
+   "gates": [],
+   "inner": [
+    "cp7_wip.capture_production"
+   ],
+   "grants": []
+  }
+ ],
+ "erp_cp7_read_production_wip_v1": [
+  {
+   "file": "scripts/cp7-src/wip/production.sql",
+   "line": 108,
+   "gates": [],
+   "inner": [
+    "cp7_wip.serve_production"
+   ],
+   "grants": []
+  }
+ ]
+}
