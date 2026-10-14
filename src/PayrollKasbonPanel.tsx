@@ -40,8 +40,14 @@ export default function PayrollKasbonPanel({ contractorId, payrollId, parentRead
       return false
     } finally { if (n === seq.current) setBusy(false) }
   }, [allowed, beginRead, client, contractorId, finishRead, isReadCurrent])
-  // Read only on request: opening the payroll page reads nothing else.
-  useEffect(() => { setOpen(false); setDone(''); ++seq.current; setData(null); setForm(null) }, [contractorId])
+  // Read only on request: opening the payroll page reads nothing else. The payroll page empties its detail while it
+  // reloads (also right after a kasbon is saved), so the contractor is briefly null: only a different contractor
+  // closes the panel and clears the saved-kasbon message.
+  const shown = useRef(contractorId)
+  useEffect(() => {
+    if (!contractorId || contractorId === shown.current) return
+    shown.current = contractorId; setOpen(false); setDone(''); ++seq.current; setData(null); setForm(null)
+  }, [contractorId])
   useEffect(() => { if (open && parentReady) void load(); else { ++seq.current; setData(null) } return () => { ++seq.current } }, [load, open, parentReady])
   if (!allowed || !contractorId) return null
   const draft = data?.payroll_drafts.find(d => d.id === payrollId) ?? null

@@ -59,6 +59,24 @@ describe('kasbon tunai (owner D14-6)', () => {
     expect(container.textContent).toContain('Kasbon KB-20261014-ABC123 Rp2.500,00 tercatat.')
     expect(onChanged).toHaveBeenCalled()
   })
+  it('keeps the saved message and the open panel while the payroll page reloads, and closes for another mandor', async () => {
+    const other = '77777777-7777-4777-8777-777777777777'
+    const render = (id: string | null, ready = true) => act(async () => root.render(<PayrollKasbonPanel contractorId={id} payrollId={id ? payroll : null} parentReady={ready} onChanged={onChanged}/>))
+    client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => name === 'erp_cp7_get_kasbon_v1' ? { data: workspace(), error: null }
+      : { data: { contract_version: 'cp7.kasbon-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'GIVE', request_id: args.p_request, contractor_id: contractor, advance: advance(), payroll: null }, error: null })
+    await mount(); await click('Beri kasbon')
+    await type('Nominal kasbon', '2500'); await type('Rekening kasbon', bank, 'select'); await type('Alasan kasbon', 'Kasbon anak sakit')
+    await act(async () => container.querySelector<HTMLInputElement>('[aria-label="Kasbon sudah diperiksa"]')!.click())
+    await click('Simpan kasbon'); await settle()
+    expect(onChanged).toHaveBeenCalled()
+    // What onChanged does on the payroll page: its detail is emptied while it reloads (no contractor, parent not
+    // ready), then the same payroll comes back.
+    await render(null, false); await settle(); await render(contractor); await settle()
+    expect(container.textContent).toContain('Kasbon KB-20261014-ABC123 Rp2.500,00 tercatat.')
+    button('Muat ulang kasbon'); expect(container.textContent).toContain('Beri kasbon')
+    await render(other); await settle()
+    expect(container.textContent).not.toContain('tercatat'); button('Lihat kasbon mandor ini')
+  })
   it('prefills the deduction with what the kasbon and the payroll can take, and hides cancel once used', async () => {
     client.rpc.mockResolvedValue({ data: workspace([advance(), advance({ id: '55555555-5555-4555-8555-555555555555', number: 'KB-2', reserved: '100.00', free: '2400.00',
       allocations: [{ deduction_id: '66666666-6666-4666-8666-666666666666', payroll_id: payroll, payroll_number: 'PR-1', payroll_status: 'CALCULATED', amount: '100.00' }] })]), error: null })
