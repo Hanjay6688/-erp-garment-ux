@@ -1,0 +1,45 @@
+{
+  "created_at": "2026-10-14T11:40:50.605969+00:00",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "purpose": "Close previously unexecuted AW..BE requirement-family coverage on final FULL",
+  "oracle_origin": "INHERITED_UNMODIFIED",
+  "expected": "All after-phase case statuses PASS; capture first counterexamples and infrastructure gaps without retry or changed fixture",
+  "planned_factories": [
+    "cp6_aw_probe.cases",
+    "cp6_ax_probe.cases",
+    "cp6_ay_probe.cases",
+    "cp6_az_probe.cases",
+    "cp6_ba_probe.cases",
+    "cp6_bb_probe.cases",
+    "cp6_bc_probe.cases",
+    "cp6_bd_probe.cases",
+    "cp6_be_probe.cases"
+  ],
+  "case_ids": "Exact factory-produced IDs and business day saved before first case in each PREEXECUTION_PLAN; source hashes below lock plan.",
+  "source_sha256": {
+    "scripts/cp6_aw_probe.py": "b67a896d3ddc593fb226598a1987d3716eed8684b311c5bd3c6ae1ac967f6532",
+    "scripts/cp6_ax_probe.py": "9130c19080f16c350e7220a7bb5b56950d64db19c7894f9d2f54ef924550c2e4",
+    "scripts/cp6_ay_probe.py": "2db73de52be391be70350241fa8df73340dc7acabe13d925577591f47435fac6",
+    "scripts/cp6_az_probe.py": "9b1a07fffb6e10e96209d8dc053590ecab75ddd00cb17b6d4c14ab87fd8165c3",
+    "scripts/cp6_ba_probe.py": "efb568c01ed6a908348cbbdc90e2faa939611ef31b9b2a4ff8ab911c43df7eba",
+    "scripts/cp6_bb_probe.py": "8d20ef6cf57e4f399ea0218b0f0f0d7044418990e4fad89231e9397d031c0e84",
+    "scripts/cp6_bc_probe.py": "147de7092ba2284312ba376f8cae82bf05c0fbb77e28956f45966cdfa6c8adb1",
+    "scripts/cp6_bd_probe.py": "c3add21e66d4d5544bf4e4d046a9fa8d64dbcb0cb285551a92c2d7405156b31b",
+    "scripts/cp6_be_probe.py": "f646be39f3230b303a4239b29616d63b7a07b2e4fb4c102a8f6142061e58e8e5",
+    "scripts/cp6_bd_revision_cases.py": "c4bfc723c950a328f1fbc734d0a5e76b649f844e540c4e37d3675e1471d0eec5",
+    "scripts/cp6_bb_workspace_parse.mjs": "6c25f4415289744f6d1d502c02d557aede47aab2362b8f33ec35de9bcffa6a5d",
+    "scripts/cp6_bc_workspace_parse.mjs": "e147df00654367ef6adecc8904d98be2914fe69efc6dbb009ee0256c8173309c",
+    "scripts/cp6_bd_workspace_parse.mjs": "c80fe0f4103dcdc18eec39cbebecf799481f3134dccfa23066a7a8fff438b65e",
+    "audit/astra_cp17/coverage_families.py": "e75f04507ad3d4479b75a816ddf0cb70a496ca542a3a12e1cac9849ef0c86f42",
+    "audit/astra_cp17/full_stack.py": "9271976ffd578c00d1a093995a00b7da256062d8ebd146fa778cdf7790c852e3"
+  },
+  "no_case_retries": true,
+  "hosted_access": false,
+  "production_go": false,
+  "scope_notes": [
+    "Native BB/BC/BD workspace parsers preserved; this is not a real browser claim.",
+    "Prior locked report and all first outcomes retained unchanged.",
+    "Full composition restoration and candidate byte identity are gates."
+  ]
+}
