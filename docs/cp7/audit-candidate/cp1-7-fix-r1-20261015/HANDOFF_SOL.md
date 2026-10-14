@@ -10,8 +10,8 @@ audit/sol-cp1-7-0b7049d9-20261014). Repo Hanjay6688/-erp-garment-ux. Fable dan A
 secara terpisah.
 
 KANDIDAT
-- Commit <KANDIDAT>, tree <TREE>, cabang writer claude/new-session-deapao. Basis auditmu: 0b7049d9 (tree ce6aed0a).
-- supabase/ tidak berubah sejak 0b7049d9 (buktikan: git diff --name-only 0b7049d9 <KANDIDAT> -- supabase kosong).
+- Commit 55d72775d8f0a1e6d623ed8e2ec40e2525f8702f, tree 3be7a240043d48caececa98ee7212911463a49bf, cabang writer claude/new-session-deapao. Basis auditmu: 0b7049d9 (tree ce6aed0a).
+- supabase/ tidak berubah sejak 0b7049d9 (buktikan: git diff --name-only 0b7049d9 55d72775d8f0a1e6d623ed8e2ec40e2525f8702f -- supabase kosong).
   Perubahan produk ada di scripts/cp7-src/ (lapisan CP7 + delta Native yang dideklarasikan) dan src/.
 - Bukti penulis: docs/cp7/audit-candidate/cp1-7-fix-r1-20261015/README.md (per temuan), FINDINGS_TRACKER.md
   (bagian G), CI_RECEIPT.json (semua workflow dan job pada kandidat), docs/cp7/cp17/CP17_FIXES.json (40 kasus yang
@@ -52,7 +52,7 @@ ATURAN PUTARAN
   sama dengan saat audit penuh). Bila ada beda, berkas di repo yang berlaku.
 
 LAPORAN
-- Cabang audit baru, usul: audit/sol-cp1-7-retest-<KANDIDAT8>-20261015, berkas audit/sol_cp1_7_retest/RETEST_REPORT.md
+- Cabang audit baru, usul: audit/sol-cp1-7-retest-55d72775-20261015, berkas audit/sol_cp1_7_retest/RETEST_REPORT.md
   dan FINDINGS.json. Per temuan: DITUTUP / MASIH TERBUKA / BARU, dengan bukti.
 - Ringkasan untuk owner dalam bahasa sehari-hari, pendek. Owner bukan programmer.
 ````

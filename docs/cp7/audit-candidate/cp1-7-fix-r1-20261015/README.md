@@ -18,7 +18,17 @@ Ini bukan penerimaan; setiap auditor memutuskan sendiri. `production_go:false`.
 
 ## Identitas kandidat
 
-Diisi pada saat kualifikasi, lihat bagian akhir berkas ini ("Kualifikasi satu commit").
+- **Commit `55d72775d8f0a1e6d623ed8e2ec40e2525f8702f`**, tree `3be7a240043d48caececa98ee7212911463a49bf`, cabang `claude/new-session-deapao`. Commit sesudahnya hanya dokumen
+  (`git diff --name-only 55d72775 <head cabang>` semuanya di bawah `docs/`).
+- Tree per direktori pada kandidat:
+
+| Direktori | Tree |
+|---|---|
+| `src` | `73ca1ed13cace4de624f3ac20d908f225b4efb41` |
+| `supabase` | `5d040436db384b4e574785376367b360a084acb7` (sama dengan pada `0b7049d9`) |
+| `scripts/cp7-src` | `f5c23b74afc7cff2bd7f9a052737060e5f2b5542` |
+| `scripts` | `be1005c65950bc8779ef36ea8bc2eb6ad8ce7369` |
+| `.github/workflows` | `b182a1816d6ba6b2e2e8bb1a23a918dbcfc5c901` |
 
 - Basis audit: `0b7049d9203bac52b47a4c89f3e0d75646067a8f` (tree `ce6aed0a0af920e8aa80248f3cabcd293688df18`).
 - `supabase/` **tidak berubah** sejak basis (`git diff --name-only 0b7049d9 <kandidat> -- supabase` kosong): paket rilis
@@ -77,4 +87,21 @@ Perbaikan lain yang ditemukan saat mengerjakan putaran ini:
 
 ## Kualifikasi satu commit
 
-Diisi setelah semua workflow selesai pada commit kandidat.
+`CI_RECEIPT.json` (dibuat `scripts/cp7_ci_receipt.py 55d72775`): **25/25 workflow, 69/69 job sukses** pada `55d72775`.
+Tidak ada grup yang diulang karena pergantian hari WIB.
+
+- `CP7 P21 Rehearsal` (run 38645635708) lulus pada percobaan ke-2. Percobaan pertama mati di langkah "Start disposable
+  database" sebelum satu pun pengecekan berjalan: port 54322 sedang terpakai, lalu registry image Supabase menolak
+  unduhan (`toomanyrequests: Data limit exceeded`) karena 25 workflow jalan bersamaan. Hanya job yang gagal diulang,
+  satu kali.
+- Kandidat sebelumnya `203c7c45` (24/25): `CP7 P08 Physical Fabric` job `attention284` gagal pada 4 dari 286 kasus
+  (run 38633926468) karena data uji lama membayar dari rekening kosong (penjaga D14-3). Data uji dibetulkan di
+  `55d72775` (modal owner lewat jurnal Native); penjaga dan oracle tidak diubah. Run itu disimpan.
+- Workflow yang dijalankan: Build UX, CodeQL (T3), Astra Timeline Reuse, Backup Kit Check, F03 Full, Note Correction,
+  Offsite Backup, Owning Receipt Correction, P08 Physical Fabric, P12 Payroll, P13 Finance, P18 Fabric Rule, P18 Full
+  Cycle, P19 Analysis Job Transport, P21 Rehearsal, PL Native Planning, Pre-freeze UI Regression, Shell S0, Supplier
+  Payment Correction, Supplier Payment Create, CP17 Fixes, CP6 T3 Release Package, CP6 T3 Rollback, CP6 BE T1 Family
+  Probe, CP6 AV Rev2 Qualification.
+- Tidak dijalankan penulis pada kandidat ini (bukti terakhirnya di commit lama; auditor menentukan sendiri):
+  workflow era CP3–CP5, `cp6-*-t1-probe` selain BE, CP6 T2 Combined Regression, CP6 Release Readiness (terikat cabang
+  `cp6/release-readiness` dan menolak cabang ini di `cp6_readiness_source.py`), CP6 Auditor Scenario.
