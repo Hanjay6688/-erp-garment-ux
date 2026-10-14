@@ -1,10 +1,11 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 36,
+ "expected_case_count": 38,
  "required_case_counts": {
   "native": 31,
   "races": 1,
-  "http": 4
+  "http": 4,
+  "browser": 2
  },
  "required_case_ids": {
   "native": [
@@ -48,6 +49,10 @@
    "CP17_HTTP_PAYROLL_EARLY_REFUSED",
    "CP17_HTTP_KASBON_GIVE",
    "CP17_HTTP_ERP_WRITERS_NOT_REACHABLE"
+  ],
+  "browser": [
+   "CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP",
+   "CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE"
   ]
  },
  "public_rpcs": [

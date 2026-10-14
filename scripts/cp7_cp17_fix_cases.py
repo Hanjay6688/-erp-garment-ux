@@ -69,6 +69,7 @@ IDS=dict(
             'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE','CP17_HTTP_ERP_WRITERS_NOT_REACHABLE'],
+    browser=['CP17_BROWSER_SG01_PICKUP_REVERSAL_DESKTOP','CP17_BROWSER_SG02_FABRIC_RETURN_MOBILE'],
 )
 REQUIRED={k:len(v)for k,v in IDS.items()}
 EXPECTED=sum(REQUIRED.values())
@@ -131,6 +132,55 @@ def early_then_paid(cur,f,pid,net,day):
     s.act(cur,'PAY',s.doc(cur,pid),payment_date=str(day),cash_account_id=bank)
     assert s.doc(cur,pid)['status']=='PAID' and s.journal(cur,pid,'PAYROLL_PAYMENT')[1]==net and balance(cur,bank)==0
     return detail,bank
+
+# ---------------------------------------------------------------- SG-02 / SG-01 fixtures (native cases and browser cases)
+def fabric_fixture(cur,today):
+    """A posted cutting of 10 from one roll: 7 consumed, 3 recorded as left (Native writers, as cutting.posted)."""
+    src=cut.cutting;prod=src.qc.physical.b.chain.production;base=src.qc.physical.base
+    f=prod.estimated_receipt(cur,today);b.api.admin(cur)
+    day=f['purchase_day']+timedelta(days=1);po=str(uuid.uuid4())
+    cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes) values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'CP17 SG-02 fixture')",
+        (po,'CP17-RET-'+po,prod.MODEL,prod.at(day,7)))
+    payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
+        change_reason='CP17 SG-02 posted cutting with fabric left',size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1)],
+        rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=7,qty_reported_remaining=3,yields=[dict(slot_no=1,qty_pcs=10)])])
+    saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
+    prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=saved['cutting_group_id'],action='POST'),expected_version=int(saved['row_version']))
+    b.api.admin(cur)
+    return dict(group=saved['cutting_group_id'],po=po,roll=str(f['roll']),location=str(f['location']))
+def mandor_row(cur,tag):
+    b.api.admin(cur)
+    return str(one(cur,"insert into erp.contractors(contractor_code,contractor_name,contractor_type,is_active,attendance_required)values(%s,%s,'MANDOR',true,false)returning id",(tag,tag)))
+def native_pickup(cur,group,contractor_id,at):
+    """The ordinary Native pickup: draft, then POST distributing all 10 pieces in one batch."""
+    prod=cut.cutting.qc.physical.b.chain.production;b.api.admin(cur)
+    y=str(one(cur,'select y.id from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id where r.cutting_group_id=%s',(group,)))
+    p=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=contractor_id,picked_up_at=at,allocation_mode='ROLL',
+           expected_group_version=int(one(cur,'select row_version from erp.cutting_groups where id=%s',(group,))),
+           change_reason='CP17 SG-01 bagi potongan',batches=[dict(batch_no=1,allocations=[dict(cutting_roll_yield_id=y,qty_pcs=10)])])
+    d=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',p)
+    d=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',dict(p,id=d['pickup_id'],action='POST'),expected_version=int(d['row_version']));b.api.admin(cur)
+    assert d['status']=='POSTED',d
+    return d['pickup_id']
+def pickup_fixture(cur,today):
+    """A posted cutting of 10 (Native writers) on a PO without a Mandor, distributed by the Native pickup POST."""
+    src=cut.cutting;prod=src.qc.physical.b.chain.production;base=src.qc.physical.base
+    f=prod.estimated_receipt(cur,today);b.api.admin(cur)
+    day=f['purchase_day']+timedelta(days=1);po=str(uuid.uuid4())
+    cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes) values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'CP17 SG-01 fixture')",
+        (po,'CP17-PICK-'+po,prod.MODEL,prod.at(day,7)))
+    payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
+        change_reason='CP17 SG-01 posted cutting',size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1)],
+        rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=10,qty_reported_remaining=0,yields=[dict(slot_no=1,qty_pcs=10)])])
+    saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
+    saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=saved['cutting_group_id'],action='POST'),expected_version=int(saved['row_version']))
+    g=saved['cutting_group_id'];b.api.admin(cur)
+    # Oracle: the PO and group as they were before the pickup, read directly (not from the audit trail the command uses).
+    po_before=cur.execute('select status,current_stage,contractor_id from erp.production_orders where id=%s',(po,)).fetchone()
+    executor=one(cur,'select executor_name from erp.cutting_groups where id=%s',(g,))
+    m=mandor_row(cur,'CP17-SG01-A-'+uuid.uuid4().hex[:8]);pk=native_pickup(cur,g,m,prod.at(day,9))
+    assert one(cur,'select contractor_id::text from erp.production_orders where id=%s',(po,))==m
+    return dict(group=g,po=po,pickup=pk,mandor=m,at=lambda h:prod.at(day,h),po_before=po_before,executor=executor)
 
 def cases(cur,today):
     def full_attendance():
@@ -376,20 +426,7 @@ def cases(cur,today):
         return dict(status='PASS',cancel_then_policy_then_replacement_pool=True,replacement_1000_over_20_is_50=True,original_pool='CANCELLED')
 
     # ------------------------------------------------------------ SG-02 (owner D14-4): fabric back to the warehouse
-    def fabric_posted():
-        """A posted cutting of 10 from one roll: 7 consumed, 3 recorded as left (Native writers, as cutting.posted)."""
-        src=cut.cutting;prod=src.qc.physical.b.chain.production;base=src.qc.physical.base
-        f=prod.estimated_receipt(cur,today);b.api.admin(cur)
-        day=f['purchase_day']+timedelta(days=1);po=str(uuid.uuid4())
-        cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes) values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'CP17 SG-02 fixture')",
-            (po,'CP17-RET-'+po,prod.MODEL,prod.at(day,7)))
-        payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
-            change_reason='CP17 SG-02 posted cutting with fabric left',size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1)],
-            rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=7,qty_reported_remaining=3,yields=[dict(slot_no=1,qty_pcs=10)])])
-        saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
-        prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=saved['cutting_group_id'],action='POST'),expected_version=int(saved['row_version']))
-        b.api.admin(cur)
-        return dict(group=saved['cutting_group_id'],po=po,roll=str(f['roll']),location=str(f['location']))
+    def fabric_posted():return fabric_fixture(cur,today)
     def return_read(g):
         auth.actor(cur);w=one(cur,'select public.erp_cp7_get_cutting_return_v1(%s)',(g['group'],));b.api.admin(cur);return w
     def return_payload(w,qty,at=None):
@@ -553,39 +590,9 @@ def cases(cur,today):
                     good_pieces_back_as_same_product=2,owner_decision='D06 / Lampiran C6 LAU-06a')
 
     # ------------------------------------------------------------ SG-01 (FABLE-009 / Astra SG-01): reverse a POSTED pickup before sewing
-    def mandor(tag):
-        b.api.admin(cur)
-        return str(one(cur,"insert into erp.contractors(contractor_code,contractor_name,contractor_type,is_active,attendance_required)values(%s,%s,'MANDOR',true,false)returning id",(tag,tag)))
-    def pickup_post(group,contractor_id,at):
-        """The ordinary Native pickup: draft, then POST distributing all 10 pieces in one batch."""
-        prod=cut.cutting.qc.physical.b.chain.production;b.api.admin(cur)
-        y=str(one(cur,'select y.id from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id where r.cutting_group_id=%s',(group,)))
-        p=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=contractor_id,picked_up_at=at,allocation_mode='ROLL',
-               expected_group_version=int(one(cur,'select row_version from erp.cutting_groups where id=%s',(group,))),
-               change_reason='CP17 SG-01 bagi potongan',batches=[dict(batch_no=1,allocations=[dict(cutting_roll_yield_id=y,qty_pcs=10)])])
-        d=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',p)
-        d=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',dict(p,id=d['pickup_id'],action='POST'),expected_version=int(d['row_version']));b.api.admin(cur)
-        assert d['status']=='POSTED',d
-        return d['pickup_id']
-    def picked():
-        """A posted cutting of 10 (Native writers) on a PO without a Mandor, distributed by the Native pickup POST."""
-        src=cut.cutting;prod=src.qc.physical.b.chain.production;base=src.qc.physical.base
-        f=prod.estimated_receipt(cur,today);b.api.admin(cur)
-        day=f['purchase_day']+timedelta(days=1);po=str(uuid.uuid4())
-        cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes) values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'CP17 SG-01 fixture')",
-            (po,'CP17-PICK-'+po,prod.MODEL,prod.at(day,7)))
-        payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
-            change_reason='CP17 SG-01 posted cutting',size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1)],
-            rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=10,qty_reported_remaining=0,yields=[dict(slot_no=1,qty_pcs=10)])])
-        saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
-        saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=saved['cutting_group_id'],action='POST'),expected_version=int(saved['row_version']))
-        g=saved['cutting_group_id'];b.api.admin(cur)
-        # Oracle: the PO and group as they were before the pickup, read directly (not from the audit trail the command uses).
-        po_before=cur.execute('select status,current_stage,contractor_id from erp.production_orders where id=%s',(po,)).fetchone()
-        executor=one(cur,'select executor_name from erp.cutting_groups where id=%s',(g,))
-        m=mandor('CP17-SG01-A-'+uuid.uuid4().hex[:8]);pk=pickup_post(g,m,prod.at(day,9))
-        assert one(cur,'select contractor_id::text from erp.production_orders where id=%s',(po,))==m
-        return dict(group=g,po=po,pickup=pk,mandor=m,at=lambda h:prod.at(day,h),po_before=po_before,executor=executor)
+    def mandor(tag):return mandor_row(cur,tag)
+    def pickup_post(group,contractor_id,at):return native_pickup(cur,group,contractor_id,at)
+    def picked():return pickup_fixture(cur,today)
     def pickup_read(g):
         auth.actor(cur);w=one(cur,'select public.erp_cp7_get_pickup_reversal_v1(%s)',(g['group'],));b.api.admin(cur);return w
     def pickup_send(w,reason='CP17 salah mandor, bagi ulang',key=None,token=None):
