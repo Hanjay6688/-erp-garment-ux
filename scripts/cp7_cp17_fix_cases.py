@@ -234,6 +234,7 @@ def cases(cur,today):
         f=combined.fixture(cur,today);wash=combined.wash(cur,f,range(4),11);combined.finish(cur,f,[wash],range(4),13,bs={3:2})
         bs=str(one(cur,"select id from erp.bs_cases where po_id=%s and product_id=%s and status='OPEN'",(f['po'],f['roots'][3])))
         nb.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=combined.prod.COMPONENT,completed_before_bs_qty=0)],change_reason='CP17 dua komponen belum dikerjakan'),nb.chain.version(cur,'bs_cases',bs))
+        b.api.admin(cur)  # bs_action leaves the session as the authenticated actor; these lookups are admin reads
         component=str(one(cur,'select id from erp.bs_case_components where bs_case_id=%s and work_component_id=%s',(bs,combined.prod.COMPONENT)))
         bom=str(one(cur,'select erp.resolve_rework_accessory_bom_v1(%s,%s)',(bs,f['when'](15))))
         made=nb.chain.bs_action(cur,'SAVE_REWORK',dict(rework_number='CP17-RW-'+uuid.uuid4().hex[:10],bs_case_id=bs,destination_type='CONTRACTOR',contractor_id=combined.prod.CONTRACTOR,vendor_id=None,qty_sent=2,
@@ -266,7 +267,8 @@ def cases(cur,today):
         return dict(status='PASS',bs_case='RESOLVED',accrued_rework_wage=60,on_one_Nota=posted['payroll_id'],second_Nota_refused=again)
     def rework_open():
         r=rework('OPEN');assert r['status']=='PARTIAL',r['status']
-        assert r['cards']()==[] and one(cur,"select count(*) from erp.v_payroll_eligible_work_lines where source_type='REWORK' and bs_case_id=%s",(r['bs'],))==0
+        assert r['cards']()==[];b.api.admin(cur)
+        assert one(cur,"select count(*) from erp.v_payroll_eligible_work_lines where source_type='REWORK' and bs_case_id=%s",(r['bs'],))==0
         return dict(status='PASS',bs_case='PARTIAL',accrued=60,not_yet_on_a_Nota=True,rule='only final outcomes RESOLVED/SCRAPPED/WRITTEN_OFF are payable (owner decision pending for PARTIAL/ON_HOLD)')
 
     # ------------------------------------------------------------ HPP01 (Astra/Fable); fixture after Astra's pool witness

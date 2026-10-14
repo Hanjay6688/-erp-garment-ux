@@ -600,6 +600,9 @@ export async function cases(ui, today) {
         await ui.expect.poll(credited, { timeout: 20000 }).toBe('1500.00'); await reload()
         await common()
         const cash = await box.getByLabel('Rekening kas pembayaran', { exact: true }).locator('option').nth(1).getAttribute('value')
+        // Owner D14-3: this bank pays 500 out, so it first holds that owner capital (run 8ee31df3: the cash payment
+        // was refused on an empty bank and the invoice stayed at 500.00, log kept).
+        ui.fund(cash, '500.00', dayNow)
         await box.getByLabel('Rekening kas pembayaran', { exact: true }).selectOption(cash)
         await box.getByLabel('Nominal bayar kas', { exact: true }).fill('500')
         await box.getByRole('button', { name: 'Bayar kas', exact: true }).click()

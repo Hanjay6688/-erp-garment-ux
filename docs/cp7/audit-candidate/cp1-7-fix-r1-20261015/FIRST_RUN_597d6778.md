@@ -61,3 +61,17 @@ diterima (`erp.post_journal`, Dr bank / Cr `OPENING_EQUITY`), bertanggal pada at
 - `cp7_supplier_payment_create_cases.fixture()` tanpa modal **tetap memberi bank kosong** (saksi Sol `SOL_CASH_*`
   memakainya dan memeriksa saldo 0); suite memakai `funded()`.
 - Penolakan bank kosong sendiri dibuktikan oleh kasus tersendiri di suite perbaikan CP1–CP7, bukan dihapus.
+
+## Run kedua (commit `8ee31df3`, `628f9dad`) — sisa kegagalan dan perbaikannya
+
+Semua penjaga baru menolak/meloloskan sesuai rancangan; yang gagal tiga kesalahan di sisi data uji. Log lengkap
+disimpan di luar repo (catatan writer); ringkasan apa adanya:
+
+| Run | Kasus tidak PASS | Pesan | Penyebab | Perbaikan |
+|---|---|---|---|---|
+| Pre-freeze UI 38612754390 (job 116020027102) | `BD_BROWSER:DEC06_CORRECTION_UP_DOWN_ON_SCREEN` | `expect.poll … Expected "0.00", Received "500.00"` (`cp6_bd_browser.mjs:607`) | bank yang dipilih untuk bayar kas 500 tidak diberi modal (bank 7.000 sebelumnya sudah habis untuk invoice asal) | `ui.fund(cash,'500.00',dayNow)` sebelum klik "Bayar kas" |
+| Supplier Payment Correction 38612718960 (job 116019899043) | `…_BROWSER_DESKTOP`, `…_BROWSER_MOBILE` | `assert.equal(after.cash_balance,'-20.01')`: actual `'1010.00'` | uji browser masih memakai saldo mutlak bank kosong; bank kini berisi modal 1.030,01 | dibandingkan dengan `fixture.cash_before` (+10,00 sesudah koreksi; kembali sama sesudah dikembalikan), sama seperti kasus native |
+| CP17 Fixes 38613964485 (job 116024149212) | 3 kasus `CP17_RWK01_*` | `permission denied for table bs_case_components` | sesudah `bs_action` sesi masih sebagai pengguna aplikasi; pencarian komponen tidak kembali ke admin | `b.api.admin(cur)` sebelum pencarian (dan sebelum cek view eligible) |
+
+Kelompok `AUDITOR_BROWSER_CP7_PREFREEZE_LEGACY_RUNTIME_GAP` (READINESS, `PGRST202 … erp_cp7_get_recost_queue_v1`) tetap
+pengamatan saja (`product_case_credit: 0`), tidak berubah dari sebelumnya.
