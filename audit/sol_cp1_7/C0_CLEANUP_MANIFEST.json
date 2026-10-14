@@ -1,0 +1,15 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "first_run": 38578838814,
+  "first_job": 115903011981,
+  "first_artifact": 11902688834,
+  "first_zip_sha256": "401f863e96514d8eb1fb6e292c29124b31aabc3476ddd12ddc0e3271c65216cf",
+  "first_group_member": "SCOPE_C0/T2_C0_ORACLE.json",
+  "first_group_sha256": "5d83eeb656673c1252359feddb60f33dc08b0ae6832b28cfac37adc9e1293023",
+  "new_cleanup_control_budget": 1,
+  "new_C0_execution_credit": 0,
+  "wait_bound_seconds": 60,
+  "oracle": "Held audit-owned timing-only session must close naturally; all business/catalogue state restored; original 25 C0 unchanged; no termination",
+  "probe_sha256": "46107c6f422369e60fc8765f21cac131bb29c0bddd4a4b5c494b0b4bf7a78e59",
+  "production_go": false
+}
