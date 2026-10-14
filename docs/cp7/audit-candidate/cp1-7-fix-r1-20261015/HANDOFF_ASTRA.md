@@ -30,7 +30,8 @@ YANG DIUJI ULANG (temuanmu → klaim penulis)
   belum (menunggu owner).
 - CP1_CP2_CROSSCHECK → bukti CP1/CP2 dibawa ke pohon dengan hash (docs/evidence/cp1-cp2/); restore CP2 di image asli
   tetap bagian CP7C (ditahan).
-- Konkurensi FABLE-007 yang tidak kamu sertifikasi → CP17_RACE_ATTENDANCE_ONE_PAYROLL.
+- Konkurensi FABLE-007 yang tidak kamu sertifikasi → CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS (penjaga Native
+  erp.guard_payroll_period_overlap di skema dasar, dikunci per mandor).
 Juga periksa sambungan antartahap yang tersentuh: kas per tanggal (D14-3) di semua pengeluaran, kasbon (D14-6),
 lusin per seri di draf penjualan (D14-5; belum ada uji browser khusus), dan bahwa delta Native SG-01 hanya berlaku di
 dalam perintahnya.

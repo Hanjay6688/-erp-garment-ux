@@ -21,7 +21,11 @@ YANG DIUJI ULANG (temuanmu → klaim penulis)
 - FABLE-002/003/004 dan A1 (dokumen, salinan paket, bukti CP1/CP2, 4 tabel tanpa RLS) → README tabel R-DOC.
 - FABLE-005 → pemetaan 75 C6 + 22 ALL milik Astra (C6_75_ALL22_CROSSWALK, d4a83b42); tidak ada kode baru.
 - FABLE-006 rework sesudah SCRAP → upah yang sudah diakui bisa masuk Nota sekali. Kasus CP17_RWK01_*.
-- FABLE-007 (dugaan absensi dobel) → tidak ada perubahan produk; regresi konkuren CP17_RACE_ATTENDANCE_ONE_PAYROLL.
+- FABLE-007 (dugaan absensi dobel) → tidak ada perubahan produk. Penjaganya ada di skema dasar, bukan di migrasi pohon
+  ini: erp.guard_payroll_period_overlap (supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz baris
+  10325-10342) mengunci per mandor lalu menolak payroll aktif kedua yang periodenya bertumpuk. Regresi
+  CP17_RACE_OVERLAPPING_PAYROLL_ONE_WINS: payroll kedua di atas hari absensi ditolak; dua payroll bertumpuk dikirim
+  bersamaan, satu lolos.
 - FABLE-008 klaim laundry bertanggal mundur → ditolak. Kasus CP17_FIN02_*.
 - FABLE-009 pickup POSTED tanpa koreksi → batal Bagi Potongan sebelum dijahit (SG01_PICKUP_REVERSAL.md); dua delta
   Native dideklarasikan dan dipulihkan persis saat uninstall. Kasus CP17_SG01_* + browser desktop.
