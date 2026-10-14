@@ -10,7 +10,7 @@ read-only hosted check of 14 Oct found identical 16/16). Catalog reads only; no 
   FABLE_RBAC:PUBLIC_FACADES_SECURITY       every public.erp_* facade: SECURITY DEFINER with a pinned search_path, or invoker.
                                             Oracle: a SECURITY DEFINER facade without search_path is a COUNTEREXAMPLE.
 """
-import re
+import os,re
 WRITER=re.compile(r'(^|_)(post|save|reverse|resolve|create|update|delete|approve|pay|close|reopen|apply|set|cancel|dispose|complete|insert|import|manage|record|correct|run|process)(_|$)')
 def q(cur,sql,args=()):return cur.execute(sql,args).fetchall()
 
@@ -40,10 +40,11 @@ def cases(cur,today):
     def facades():
         rows=q(cur,"""select p.proname||'('||pg_get_function_identity_arguments(p.oid)||')',p.prosecdef,coalesce(array_to_string(p.proconfig,','),''),
               has_function_privilege('anon',p.oid,'EXECUTE')
-            from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'erp\\_%' and p.prokind='f' order by 1""")
+            from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'erp\\_%%' and p.prokind='f' order by 1""")
         unpinned=[r[0] for r in rows if r[1] and 'search_path' not in r[2]]
         anon=[r[0] for r in rows if r[3]]
         return dict(status='COUNTEREXAMPLE' if unpinned else 'PASS',facades=len(rows),definer=sum(1 for r in rows if r[1]),definer_without_search_path=unpinned,anon_executable=anon[:80],anon_executable_count=len(anon))
+    if os.environ.get('FABLE_RBAC_ONLY')=='facades':return [('FABLE_RBAC:PUBLIC_FACADES_SECURITY',facades)]
     return [('FABLE_RBAC:ERP_TABLES_WITHOUT_RLS',tables_without_rls),('FABLE_RBAC:ERP_SCHEMA_REACH',schema_reach),('FABLE_RBAC:PUBLIC_FACADES_SECURITY',facades)]
 
 def races(tools,today):return []
