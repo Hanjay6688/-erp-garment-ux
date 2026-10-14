@@ -1,0 +1,109 @@
+name: AUDIT/SOL/ci
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        ref: 0b7049d9203bac52b47a4c89f3e0d75646067a8f
+        fetch-depth: 0
+        persist-credentials: false
+    - name: SOL verify frozen candidate and product identity
+      working-directory: .
+      shell: bash
+      run: 'set -euo pipefail
+
+        python - <<''PY''
+
+        import hashlib,json,os,subprocess
+
+        from pathlib import Path
+
+        sha=''0b7049d9203bac52b47a4c89f3e0d75646067a8f''
+
+        trees={''src'': ''d6553972f94a4ad4e9170e8a946b30cdac9712fd'', ''supabase'': ''5d040436db384b4e574785376367b360a084acb7'',
+        ''supabase/migrations'': ''8f6053bbd0bda80da18065418ad43371cdfd9461'', ''supabase/release'': ''be1e91c172ffb5c05b694a3a54c69562700c6d5e'',
+        ''supabase/dev'': ''88759f4fc51864a1ec9e224fcb4f236204b5c853'', ''supabase/rollbacks'': ''9e216e7bcca6b583341d9ea78cbc0414134ecee2'',
+        ''scripts'': ''b67664091c4394b0ff6a187409d9e9b32213a0e0'', ''scripts/cp7-src'': ''7bcf45e174499f3712c67ee08788a90a8c5f7881'',
+        ''.github/workflows'': ''4d7712279bfdfb6aec10dca4a216dd927875f483''}
+
+        assert subprocess.check_output([''git'',''rev-parse'',''HEAD''],text=True).strip()==sha
+
+        for path,want in trees.items():assert subprocess.check_output([''git'',''rev-parse'',sha+'':''+path],text=True).strip()==want,path
+
+        assert not subprocess.check_output([''git'',''diff'',''HEAD'',''--name-only''],text=True).strip()
+
+        d={''candidate_sha'':sha,''candidate_tree'':subprocess.check_output([''git'',''rev-parse'',''HEAD^{tree}''],text=True).strip(),''workflow_sha'':os.environ[''GITHUB_SHA''],''trees'':trees,''guide_sha256'':hashlib.sha256(Path(''docs/AUDIT_PANDUAN_PRO_MAX.md'').read_bytes()).hexdigest(),''workflow_origin'':''ci.yml'',''oracle_origin'':''UNCHANGED_PREEXISTING_PROVIDER'',''fixture_origin'':''UNCHANGED_PREEXISTING_PROVIDER'',''evidence_origin'':''INDEPENDENT_NATIVE_RERUN'',''production_go'':False}
+
+        Path(os.environ[''RUNNER_TEMP''],''SOL_SOURCE_IDENTITY.json'').write_text(json.dumps(d,indent=2)+''\n'')
+
+        print(json.dumps(d))
+
+        PY
+
+        '
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: 22
+        cache: npm
+    - run: npm ci
+    - name: Install pinned Chromium test runtime
+      run: npx --no-install playwright install --with-deps chromium
+    - run: npm test
+    - run: npm run test:security
+    - run: npm run build
+    - run: npm run test:browser:cp45
+    - name: Retain CP4.5 Original before the shared reporter directory is reused
+      run: cp -a cp45-browser-proof cp45-browser-original
+    - run: npm run test:browser:precp5
+    - name: Retain Pre-CP5 Original independently
+      run: cp -a cp45-browser-proof precp5-browser-original
+    - run: npm run test:browser:cp5
+    - run: npm run test:browser:cp6
+    - name: Upload non-secret browser proof
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp1-7-20261014-SOL-0b7049d9-ci-erp-desktop-mobile-browser-proof
+        path: 'cp45-browser-proof
+
+          cp45-browser-original
+
+          precp5-browser-original
+
+          cp5-browser-contract-proof
+
+          cp6-browser-contract-proof
+
+          '
+        if-no-files-found: warn
+        retention-days: 30
+    - run: npm run scan:dist
+    - name: Verify Cloudflare package
+      run: npx --no-install wrangler deploy --env uat-auth --dry-run --outdir .wrangler-dry-run
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp1-7-20261014-SOL-0b7049d9-ci-erp-ux-dist
+        path: dist
+        retention-days: 3
+    - name: SOL retain source identity separately
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp1-7-20261014-SOL-0b7049d9-ci-${{ github.job }}-${{ strategy.job-index }}-identity
+        path: ${{ runner.temp }}/SOL_SOURCE_IDENTITY.json
+        retention-days: 30
+        if-no-files-found: warn
+run-name: AUDIT/cp1-7-20261014/SOL/0b7049d9/ci/${{ github.run_attempt }}
+'on':
+  push:
+    branches:
+    - audit/sol-cp1-7-0b7049d9-20261014
+    paths:
+    - .github/workflows/audit-sol-full-ci.yml
+  workflow_dispatch: {}
+concurrency:
+  group: sol-full-ci-${{ github.run_id }}
+  cancel-in-progress: false
