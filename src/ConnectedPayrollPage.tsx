@@ -10,6 +10,7 @@ import {parsePayrollRead,parsePayrollOutcome,type PayrollAction,type PayrollCash
 import {useProductionMutation,type ProductionMutationHandlers} from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import PayrollInstallmentPanel from './PayrollInstallmentPanel'
+import PayrollKasbonPanel from './PayrollKasbonPanel'
 import type {InstallmentDocument} from './payrollInstallmentContract'
 import {financialRecoveryBlocked,useFinancialRecoveryGate} from './useFinancialRecoveryGate'
 import type {Json} from './types/database.preconnect'
@@ -94,6 +95,7 @@ function Workspace({initialPayrollId}:{initialPayrollId:string|null}){
     <div className="cpay-lines">{detail.page.rows.map(v=>detail.section==='NOTES'?<Note key={v.id} value={v as NotaDocument}/>:<Line key={v.id} section={detail.section} value={v as PayrollLine}/>)}{!detail.page.rows.length?<p>Belum ada rincian dalam bagian ini.</p>:null}</div><Pager label="Rincian" page={detail.page} busy={busy||mutation.busy} change={offset=>{requested.current.detailOffset=offset;void load()}}/>
    </>:<p>Pilih mandor dan periode untuk menelusuri perhitungan serta nota sumber.</p>}</section></div>
   <PayrollInstallmentPanel parentReady={Boolean(data&&(!selectedId||detail)&&!busy&&!blocked)}payrollId={selectedId}readRevision={readRevision}onRetire={retire}onReload={load}onTarget={onPaymentTarget}onSource={onPaymentSource}/>
+  <PayrollKasbonPanel contractorId={detail?.document?.contractor_id??null} payrollId={selectedId} parentReady={Boolean(data&&detail&&!busy&&!blocked)} onChanged={load}/>
  </section>
 }
 function Pager({label,page,busy,change}:{label:string;page:{total:string;offset:number;next_offset:number|null};busy:boolean;change:(n:number)=>void}){return <div className="cproc-pagination"><span>Total {page.total}</span><button disabled={busy||!page.offset} onClick={()=>change(Math.max(0,page.offset-25))}>{label} sebelumnya</button><button disabled={busy||page.next_offset===null} onClick={()=>change(page.next_offset??0)}>{label} berikutnya</button></div>}
