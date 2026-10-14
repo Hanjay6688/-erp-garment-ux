@@ -1,0 +1,31 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "case_ids": [
+    "CP17-ASTRA-SKN22-OPENING-TO-CORRECTION",
+    "CP17-ASTRA-PAY-06-DATED-PARTIAL",
+    "CP17-ASTRA-HPP-01-OVERLAPPING-SOURCE"
+  ],
+  "expected_executions": 3,
+  "production_go": false,
+  "round_id": "cp17-20261014",
+  "blind_discovery": false,
+  "lead_origin": "Payroll/HPP: owner-forwarded Fable static leads; SKN22: mandatory pro-max audit contract",
+  "oracle_origin": "Independent Astra arithmetic and conservation",
+  "fixture_origin": "Astra new sequences and amounts using frozen Astra production and candidate transport",
+  "first_execution_only": true,
+  "sources": {
+    "audit/astra_cp17/cases_integration.py": {
+      "sha256": "f96426160bc8cb5a4bbfeffc7faa5638ed5cbba38b36b66c80a715dbf60db493",
+      "git_blob": "fe9517ab8df2c7599afea5423b507a780d144c3f"
+    },
+    "audit/astra_cp17/own_contracts.py": {
+      "sha256": "89c9d7b1feb128f122414093d426d20e570f242eb573da26b68afe06680314af",
+      "git_blob": "eb5243b513b3d223732da75aa0fc7f92e4906931"
+    },
+    ".github/workflows/audit-astra-cp17-integration.yml": {
+      "sha256": "1d00b01fcdd78ba647c65d85cb4750ee67e5b2ae345e1406d1a6c2d58bf53884",
+      "git_blob": "6fbcbc805b47a0d0b6835e4a7c39517e474fbe08"
+    }
+  }
+}

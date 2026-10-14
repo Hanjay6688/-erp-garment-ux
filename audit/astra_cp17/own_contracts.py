@@ -18,6 +18,7 @@ SUITES={
  'planning':['cases_edges','cases_planning'],
  'staged':['cases_stage','cases_cont_state'],
  'payroll-leads':['cases_payroll_leads'],
+ 'integration':['cases_integration'],
 }
 SUITE=sys.argv[1]
 assert SUITE in SUITES
