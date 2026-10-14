@@ -1,0 +1,13 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "expected_ids": [
+    "SOL_CASH_FUNDED_PUBLIC_PAYMENT",
+    "SOL_CASH_EMPTY_BANK_WITHOUT_OVERDRAFT_POLICY"
+  ],
+  "budget": 2,
+  "oracle": "INV-U05, funded public payment allowed; empty bank without explicit owner-approved negative-balance policy atomically refused",
+  "no_product_change": true,
+  "limits_unchanged": true,
+  "probe_sha256": "4933a3944abf5b7caca34252965a230e19ab7f07870336b9de074e40826a887b",
+  "production_go": false
+}
