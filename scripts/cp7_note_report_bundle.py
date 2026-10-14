@@ -1,6 +1,7 @@
 """Exact, read-only Native owner report delta; no economic writer relaxation."""
 from pathlib import Path
 import cp7_rework_eligibility_bundle as rework
+import cp7_hpp_policy_guard_bundle as hpp_policy
 ROOT=Path(__file__).resolve().parents[1]
 SIGNATURE='erp.get_owner_financial_snapshot_v2(date,date,date)'
 
@@ -26,13 +27,13 @@ def capture(cur,originals):
  assert SIGNATURE not in originals,'NOTE_NATIVE_REPORT_ALREADY_CAPTURED'
  originals[SIGNATURE]=cur.execute('select pg_get_functiondef(%s::regprocedure)',(SIGNATURE,)).fetchone()[0]
  patched_report(originals[SIGNATURE])
- # Every F03 stack installs the RWK01 Native delta after this one; its originals are captured here too.
- rework.capture(cur,originals)
+ # Every F03 stack installs the RWK01 and HPP01 Native deltas after this one; their originals are captured here too.
+ rework.capture(cur,originals);hpp_policy.capture(cur,originals)
 
 def expected_definitions(internal_before,originals,internal_patch,owner_patch):
  return {'erp.require_internal()':internal_patch(internal_before),
   'erp.require_owner_admin()':owner_patch(originals['erp.require_owner_admin()']),
-  SIGNATURE:patched_report(originals[SIGNATURE]),**rework.expected_definitions(originals)}
+  SIGNATURE:patched_report(originals[SIGNATURE]),**rework.expected_definitions(originals),**hpp_policy.expected_definitions(originals)}
 
 def extension():
  sql=(ROOT/'scripts/cp7-src/sales/report.sql').read_text()

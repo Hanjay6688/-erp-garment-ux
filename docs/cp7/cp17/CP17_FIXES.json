@@ -1,8 +1,8 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 20,
+ "expected_case_count": 23,
  "required_case_counts": {
-  "native": 17,
+  "native": 20,
   "races": 1,
   "http": 2
  },
@@ -24,7 +24,10 @@
    "CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE",
    "CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE",
    "CP17_RWK01_GOOD_CONTROL",
-   "CP17_RWK01_UNFINISHED_CASE_STILL_HELD"
+   "CP17_RWK01_UNFINISHED_CASE_STILL_HELD",
+   "CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED",
+   "CP17_HPP01_UNRELATED_POLICY_CONTROL",
+   "CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK"
@@ -35,6 +38,7 @@
   ]
  },
  "public_rpcs": [
+  "erp_set_contractor_hpp_policy_v1",
   "erp_cp7_save_nota_v1",
   "erp_cp7_get_nota_workspace_v1",
   "erp_save_bs_resolution_action_v1",
@@ -54,7 +58,8 @@
   "CASH": "Sol SOL-001",
   "FIN02": "Fable FABLE-008, Astra FIN02",
   "STK01": "Astra STK01",
-  "RWK01": "Astra ASTRA-CP17-RWK-01, Fable FABLE-006"
+  "RWK01": "Astra ASTRA-CP17-RWK-01, Fable FABLE-006",
+  "HPP01": "Astra ASTRA-CP17-HPP-01, Fable R1-02"
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",

@@ -11,6 +11,8 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
   new issue as two active consumptions.
 - RWK01 (Astra/Fable): a rework wage accrued at completion stays payable when the BS case ends SCRAPPED, exactly
   once; a case without a final outcome (PARTIAL) stays unpayable as before.
+- HPP01 (Astra/Fable): a contractor HPP policy write that would leave an ACTIVE attendance HPP pool on a stale basis
+  is refused; an unrelated policy is not; cancel pool -> policy -> replacement pool is the lawful path.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
 from journal lines and movements. Every refusal leaves the whole business boundary unchanged and has a lawful
 control. Fixture banks receive owner capital through the accepted Native journal (cp7_cash_funding) only where the
@@ -19,7 +21,7 @@ case says so; an empty bank stays empty.
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
 from decimal import Decimal as D
-import threading,uuid
+import json,threading,uuid
 import psycopg
 import cp7_settlement_cases as s
 import cp7_installment_cases as instal
@@ -33,7 +35,7 @@ import cp7_cash_funding as funding
 auth,b,bc=s.auth,s.b,s.bc
 refused=auth.refused
 CONTRACT='cp7.cp17-fixes.v1'
-FUNCTIONS=('erp_cp7_save_nota_v1','erp_cp7_get_nota_workspace_v1','erp_save_bs_resolution_action_v1','erp_cp7_save_payroll_v1','erp_cp7_save_payroll_installment_v1','erp_cp7_create_supplier_payment_v1',
+FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_get_nota_workspace_v1','erp_save_bs_resolution_action_v1','erp_cp7_save_payroll_v1','erp_cp7_save_payroll_installment_v1','erp_cp7_create_supplier_payment_v1',
            'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
@@ -42,7 +44,8 @@ IDS=dict(
             'CP17_CASH_LATER_DAY_PROTECTED','CP17_CASH_PAYROLL_EMPTY_BANK_REFUSED','CP17_CASH_LAUNDRY_VENDOR_EMPTY_BANK_REFUSED',
             'CP17_FIN02_CLAIM_SAME_DAY_CONTROL','CP17_FIN02_CLAIM_BEFORE_SOURCE_REFUSED','CP17_FIN02_CLAIM_AP_NOT_AVAILABLE_REFUSED',
             'CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE',
-            'CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE','CP17_RWK01_GOOD_CONTROL','CP17_RWK01_UNFINISHED_CASE_STILL_HELD'],
+            'CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE','CP17_RWK01_GOOD_CONTROL','CP17_RWK01_UNFINISHED_CASE_STILL_HELD',
+            'CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED','CP17_HPP01_UNRELATED_POLICY_CONTROL','CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED'],
 )
@@ -266,8 +269,67 @@ def cases(cur,today):
         assert r['cards']()==[] and one(cur,"select count(*) from erp.v_payroll_eligible_work_lines where source_type='REWORK' and bs_case_id=%s",(r['bs'],))==0
         return dict(status='PASS',bs_case='PARTIAL',accrued=60,not_yet_on_a_Nota=True,rule='only final outcomes RESOLVED/SCRAPPED/WRITTEN_OFF are payable (owner decision pending for PARTIAL/ON_HOLD)')
 
+    # ------------------------------------------------------------ HPP01 (Astra/Fable); fixture after Astra's pool witness
+    day=today-timedelta(days=1)
+    def native_call(sql,args):return instal.physical.source.fixture_journal_call(cur,sql,args)
+    def policy(cid,effective):
+        return s.native(cur,'select public.erp_set_contractor_hpp_policy_v1(%s::jsonb,%s,null)',(json.dumps(dict(contractor_id=cid,effective_from=str(effective),
+            is_special=False,attendance_required=True,reason='CP17 kebijakan mandor biasa')),uuid.uuid4()))
+    def contractor(tag):
+        b.api.admin(cur);return str(one(cur,'insert into erp.contractors(contractor_code,contractor_name,attendance_required)values(%s,%s,true)returning id',(tag,tag)))
+    def attendance_payroll(cid,tag):
+        """One earned attendance day 1000 on `day`, approved (the Native accrual debits WIP)."""
+        instal.physical.source.receipt.aa.prior.set_open_period(cur,day-timedelta(days=1))
+        pid=str(one(cur,'insert into erp.payroll_settlements(payroll_number,contractor_id,period_start,period_end,payment_date)values(%s,%s,%s,%s,%s)returning id',(tag,cid,day,day,day)))
+        w=s.native(cur,'select public.erp_save_worker_roster_v1(%s::jsonb,%s,null)',(json.dumps(dict(contractor_id=cid,worker_code=tag,worker_name=tag,job_description='Jahit',pay_scheme='DAILY',
+            initial_daily_rate=1000,rate_effective_from=str(day),joined_at=str(day),is_active=True,reason='CP17 satu hari kerja')),uuid.uuid4()))
+        ap=s.native(cur,'select public.erp_save_attendance_period_v1(%s::jsonb,%s,null,false)',(json.dumps(dict(contractor_id=cid,period_number=tag+'-ATT',period_start=str(day),period_end=str(day),
+            pay_date=str(day),reason='CP17 absensi nyata',attendance=[dict(worker_id=str(bc.awp.find(w,'worker_id')),attendance_date=str(day),status='PRESENT')])),uuid.uuid4()))
+        s.native(cur,'select public.erp_post_attendance_period_v1(%s,%s,%s,%s)',(bc.awp.find(ap,'period_id'),'CP17 absensi diposting',uuid.uuid4(),bc.awp.find(ap,'row_version')))
+        s.act(cur,'PREPARE',s.doc(cur,pid));s.act(cur,'APPROVE',s.doc(cur,pid));assert D(s.doc(cur,pid)['attendance_total'])==1000
+        return pid
+    def sewn(cid,label):
+        prod=instal.wip_source.b.chain.production;old=prod.CONTRACTOR
+        try:
+            prod.CONTRACTOR=cid;return instal.wip_source.b.two_size_fixture(cur,today+timedelta(days=1),label,q1=7,q2=3)
+        finally:prod.CONTRACTOR=old
+    def active_pool():
+        native_call('select erp.preview_attendance_hpp_pool_v1(%s,%s)',(day,day))
+        made=native_call('select erp.create_attendance_hpp_pool_v1(%s::jsonb,%s)',(json.dumps(dict(period_start=str(day),period_end=str(day),reason='CP17 pool absensi')),uuid.uuid4()))
+        native_call('select erp.activate_attendance_hpp_pool_v1(%s,%s,%s,%s)',(made['pool_id'],'CP17 sumber diperiksa',uuid.uuid4(),made['row_version']));b.api.admin(cur)
+        return made['pool_id']
+    def pool_state(pool):
+        b.api.admin(cur)
+        return cur.execute('select status,numerator_amount,denominator_qty,unit_cost_per_sewn_pcs,source_manifest_sha256 from erp.attendance_hpp_pools where id=%s',(pool,)).fetchone()
+    def hpp_fixture():
+        a=contractor('CP17-HPP-A-'+uuid.uuid4().hex[:8]);attendance_payroll(a,'CP17-HPP-'+uuid.uuid4().hex[:10]);policy(a,day-timedelta(days=1));sewn(a,'CP17-HPP-A')
+        c=contractor('CP17-HPP-C-'+uuid.uuid4().hex[:8]);sewn(c,'CP17-HPP-C')
+        pool=active_pool();state=pool_state(pool)
+        assert state[0]=='ACTIVE' and (D(state[1]),int(state[2]),D(state[3]))==(1000,10,100),state
+        native_call('select erp.validate_attendance_hpp_pool_v1(%s)',(pool,))
+        return a,c,pool,state
+    def hpp_excluded():
+        a,c,pool,state=hpp_fixture();before=b.boundary.snapshot(cur)
+        detail=refused(cur,lambda:policy(c,day-timedelta(days=1)),'CP7_HPP_POLICY_CHANGES_ACTIVE_POOL');unchanged(cur,before,'policy that would make the ACTIVE pool stale')
+        assert pool_state(pool)==state;native_call('select erp.validate_attendance_hpp_pool_v1(%s)',(pool,))
+        return dict(status='PASS',excluded_contractor_policy_refused=detail,pool_still_valid_1000_10_100=True,witness='Astra CP17-ASTRA-POOL-03-POLICY-AFTER-ACTIVE')
+    def hpp_unrelated():
+        a,c,pool,state=hpp_fixture();d=contractor('CP17-HPP-D-'+uuid.uuid4().hex[:8])
+        policy(d,day-timedelta(days=1));assert pool_state(pool)==state;native_call('select erp.validate_attendance_hpp_pool_v1(%s)',(pool,))
+        return dict(status='PASS',policy_for_contractor_without_facts_in_the_period_accepted=True,pool_unchanged_and_valid=True)
+    def hpp_replacement():
+        a,c,pool,state=hpp_fixture()
+        version=one(cur,'select row_version from erp.attendance_hpp_pools where id=%s',(pool,))
+        native_call('select erp.cancel_attendance_hpp_pool_v1(%s::uuid,%s,%s::uuid,%s)',(pool,'CP17 batalkan sebelum kebijakan baru',uuid.uuid4(),version))
+        assert pool_state(pool)[0]=='CANCELLED',pool_state(pool)
+        policy(c,day-timedelta(days=1));replacement=active_pool();new=pool_state(replacement)
+        assert new[0]=='ACTIVE' and (D(new[1]),int(new[2]),D(new[3]))==(1000,20,50),new
+        native_call('select erp.validate_attendance_hpp_pool_v1(%s)',(replacement,))
+        return dict(status='PASS',cancel_then_policy_then_replacement_pool=True,replacement_1000_over_20_is_50=True,original_pool='CANCELLED')
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
-           claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open]
+           claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
+           hpp_excluded,hpp_unrelated,hpp_replacement]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
