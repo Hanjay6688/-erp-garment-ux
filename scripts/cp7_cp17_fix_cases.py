@@ -16,6 +16,9 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
   is refused; an unrelated policy is not; cancel pool -> policy -> replacement pool is the lawful path.
 - Detector: cp7_guard.findings() lists rows already in the books that the guards would refuse today (data from
   before the guards), and a lawful correction (owner capital on that day) clears the cash row.
+- KASBON (D14-6): cash given to a contractor before wages exist (the lawful path D14-2 points to): Dr receivable /
+  Cr bank on its date, the bank never negative (D14-3), recovered as a CASH_ADVANCE deduction on a payroll draft that
+  the accepted Native payment posts; capped by the kasbon and by the payroll's earnings; cancel only while unused.
 - SG-02 (D14-4): leftover fabric of a posted cutting goes back to the warehouse: the same roll returns to stock at its
   issue cost, the PO's WIP drops by exactly that value, at most the remainder recorded at cutting, once per cutting.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
@@ -43,7 +46,8 @@ refused=auth.refused
 CONTRACT='cp7.cp17-fixes.v1'
 FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_get_nota_workspace_v1','erp_save_bs_resolution_action_v1','erp_cp7_save_payroll_v1','erp_cp7_save_payroll_installment_v1','erp_cp7_create_supplier_payment_v1',
            'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2',
-           'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1')
+           'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1',
+           'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -54,9 +58,10 @@ IDS=dict(
             'CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE','CP17_RWK01_GOOD_CONTROL','CP17_RWK01_UNFINISHED_CASE_STILL_HELD',
             'CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED','CP17_HPP01_UNRELATED_POLICY_CONTROL','CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL',
             'CP17_SG02_RETURN_STOCK_VALUE_PO_COST','CP17_SG02_OVER_REMAINDER_REFUSED','CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY','CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED',
-            'CP17_DETECTOR_LISTS_LEGACY_ROWS'],
+            'CP17_DETECTOR_LISTS_LEGACY_ROWS',
+            'CP17_KASBON_GIVE_DEDUCT_PAY','CP17_KASBON_LIMITS_REFUSED','CP17_KASBON_RELEASE_CANCEL_REPLAY'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
-    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED'],
+    http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE'],
 )
 REQUIRED={k:len(v)for k,v in IDS.items()}
 EXPECTED=sum(REQUIRED.values())
@@ -86,6 +91,23 @@ def approved_payroll(cur,today,attendance=True):
     pid=f['payroll'];s.act(cur,'PREPARE',s.doc(cur,pid));s.act(cur,'APPROVE',s.doc(cur,pid))
     d=s.doc(cur,pid);assert d['status']=='APPROVED',d
     return f,pid,D(d['net_payable'])
+
+# ---------------------------------------------------------------- D14-6 kasbon helpers
+def kasbon_read(cur,contractor,subject=None):
+    auth.actor(cur,subject);w=one(cur,'select public.erp_cp7_get_kasbon_v1(%s)',(contractor,));b.api.admin(cur);return w
+def kasbon(cur,action,payload,w,key=None,subject=None):
+    auth.actor(cur,subject)
+    r=one(cur,'select public.erp_cp7_save_kasbon_v1(%s,%s,%s,%s)',(action,json.dumps(payload),str(key or uuid.uuid4()),w['review_token']));b.api.admin(cur);return r
+def kasbon_give(cur,contractor,bank,amount,day,key=None):
+    w=kasbon_read(cur,contractor);token=one(cur,"select cp7_misc.cash(%s)->>'review_token'",(bank,))
+    return kasbon(cur,'GIVE',dict(contractor_id=contractor,cash_account_id=bank,cash_review_token=token,advance_date=str(day),amount=amount,reason='CP17 kasbon tunai'),w,key)
+def kasbon_allocate(cur,contractor,advance,payroll,amount,key=None):
+    w=kasbon_read(cur,contractor);d=next(x for x in w['payroll_drafts'] if x['id']==payroll)
+    return kasbon(cur,'ALLOCATE',dict(contractor_id=contractor,advance_id=advance,payroll_id=payroll,payroll_version=d['row_version'],amount=amount),w,key)
+def receivable(cur,contractor):
+    b.api.admin(cur)
+    return D(one(cur,"select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id "
+                     "where l.contractor_id=%s and l.account_id=erp.account_id('CONTRACTOR_RECEIVABLE') and j.status in('POSTED','REVERSED')",(contractor,)))
 
 def wib(day,hour=12):return pay.invoice.aa.at(day,hour).isoformat()
 
@@ -442,9 +464,63 @@ def cases(cur,today):
         return dict(status='PASS',empty_bank_payment_listed=dict(day=str(pay_day),lowest='-7.00'),early_payroll_listed=dict(paid=str(early),accrued=str(day)),
                     capital_on_that_day_clears_cash_row=True,detector_owner_only=True)
 
+    # ------------------------------------------------------------ D14-6 kasbon tunai
+    def kasbon_payroll():
+        """A work-only payroll draft (6000.00 earned on its WIB work day) and a funded bank."""
+        f=s.review.fixture(cur,today);c=f['contractor'];pid=f['payroll'];day=accrued_day(cur,c);bank=s.cash(cur);opened=funding.open_day(cur)
+        return f,c,pid,day,bank,max(opened,day-timedelta(days=1))
+    def kasbon_cycle():
+        f,c,pid,day,bank,kday=kasbon_payroll();bank0=balance(cur,bank);r0=receivable(cur,c)
+        given=kasbon_give(cur,c,bank,'2500.00',kday);k=given['advance'];assert k['free']=='2500.00' and k['advance_date']==str(kday),k
+        assert balance(cur,bank)-bank0==-2500 and receivable(cur,c)-r0==2500
+        assert one(cur,"select economic_date from erp.journal_entries where source_type='CP7_KASBON' and source_id=%s and status='POSTED'",(k['id'],))==kday
+        a=kasbon_allocate(cur,c,k['id'],pid,'2500.00');assert a['payroll']['deduction_total']=='2500.00' and a['payroll']['net_payable']=='3500.00',a
+        d=s.doc(cur,pid);s.act(cur,'PREPARE',d);d=s.doc(cur,pid);s.act(cur,'APPROVE',d);d=s.doc(cur,pid)
+        s.act(cur,'PAY',d,payment_date=str(day),cash_account_id=bank);b.api.admin(cur)
+        assert s.doc(cur,pid)['status']=='PAID' and s.journal(cur,pid,'PAYROLL_CASH_ADVANCE_DEDUCTION')[1]==2500 and s.journal(cur,pid,'PAYROLL_PAYMENT')[2]==3500
+        assert receivable(cur,c)==r0 and balance(cur,bank)-bank0==-6000
+        st=kasbon_read(cur,c)['advances'][0];assert st['recovered']=='2500.00' and st['free']=='0.00',st
+        before=b.boundary.snapshot(cur)
+        used=refused(cur,lambda:kasbon(cur,'CANCEL',dict(contractor_id=c,advance_id=k['id'],reason='CP17 tidak boleh batal'),kasbon_read(cur,c)),'CP7_KASBON_IN_USE');unchanged(cur,before,'cancel a recovered kasbon')
+        b.api.admin(cur);truth=one(cur,"select issue_count from erp.run_v267_financial_truth_checks() where check_name='AP_CASH_ADVANCE_SOURCE'")
+        assert truth==0,truth
+        return dict(status='PASS',kasbon_before_wages=str(kday),wages_accrued=str(day),deducted=2500,paid_cash=3500,receivable_back_to_start=True,
+                    cancel_after_recovery_refused=used,truth_AP_CASH_ADVANCE_SOURCE=0,owner_decision='D14-6')
+    def kasbon_limits():
+        f,c,pid,day,bank,kday=kasbon_payroll();empty=s.cash(cur,None);before=b.boundary.snapshot(cur);out={}
+        out['empty_bank']=refused(cur,lambda:kasbon_give(cur,c,empty,'10.00',kday),'CP7_CASH_NEGATIVE');unchanged(cur,before,'kasbon from an empty bank')
+        out['future']=refused(cur,lambda:kasbon_give(cur,c,bank,'10.00',today+timedelta(days=1)),'CP7_KASBON_IN_FUTURE');unchanged(cur,before,'kasbon in the future')
+        closed=one(cur,'select closed_through from erp.accounting_period_control where singleton_id=1')
+        out['closed']=refused(cur,lambda:kasbon_give(cur,c,bank,'10.00',closed),'CP7_KASBON_PERIOD_CLOSED');unchanged(cur,before,'kasbon in a closed period')
+        k=kasbon_give(cur,c,bank,'7000.00',kday)['advance'];before=b.boundary.snapshot(cur)
+        out['over_earnings']=refused(cur,lambda:kasbon_allocate(cur,c,k['id'],pid,'6000.01'),'CP7_KASBON_OVER_EARNINGS');unchanged(cur,before,'deduction above earnings')
+        small=kasbon_give(cur,c,bank,'100.00',kday)['advance'];before=b.boundary.snapshot(cur)
+        out['over_remaining']=refused(cur,lambda:kasbon_allocate(cur,c,small['id'],pid,'100.01'),'CP7_KASBON_OVER_REMAINING');unchanged(cur,before,'deduction above the kasbon')
+        out['direct_deduction']=refused(cur,lambda:cur.execute("insert into erp.payroll_deductions(payroll_id,deduction_type,amount) values(%s,'CASH_ADVANCE',5)",(pid,)),'CP7_KASBON_DEDUCTION_PRIVATE');unchanged(cur,before,'direct kasbon deduction')
+        jid=one(cur,'select journal_id from cp7_kasbon.advances where id=%s',(k['id'],))
+        out['direct_reverse']=refused(cur,lambda:bc.internal(cur,'reverse_journal',jid,'CP17 bypass'),'CP7_KASBON_JOURNAL_PRIVATE');unchanged(cur,before,'direct reverse of a kasbon journal')
+        d=s.doc(cur,pid);s.act(cur,'PREPARE',d);d=s.doc(cur,pid);s.act(cur,'APPROVE',d);b.api.admin(cur);before=b.boundary.snapshot(cur)
+        w=kasbon_read(cur,c);assert all(x['id']!=pid for x in w['payroll_drafts'])
+        late=dict(contractor_id=c,advance_id=small['id'],payroll_id=pid,payroll_version=s.doc(cur,pid)['row_version'],amount='1.00')
+        out['approved_payroll']=refused(cur,lambda:kasbon(cur,'ALLOCATE',late,w),'');unchanged(cur,before,'deduction on an approved payroll')
+        return dict(status='PASS',**out)
+    def kasbon_release():
+        f,c,pid,day,bank,kday=kasbon_payroll();bank0=balance(cur,bank);r0=receivable(cur,c)
+        k=kasbon_give(cur,c,bank,'800.00',kday)['advance'];assert balance(cur,bank)-bank0==-800
+        kasbon_allocate(cur,c,k['id'],pid,'500.00');before=b.boundary.snapshot(cur)
+        used=refused(cur,lambda:kasbon(cur,'CANCEL',dict(contractor_id=c,advance_id=k['id'],reason='CP17 batal saat dipesan'),kasbon_read(cur,c)),'CP7_KASBON_IN_USE');unchanged(cur,before,'cancel while reserved')
+        released=kasbon_allocate(cur,c,k['id'],pid,'0');assert released['advance']['free']=='800.00' and released['payroll']['deduction_total']=='0.00',released
+        w=kasbon_read(cur,c);ckey=uuid.uuid4();payload=dict(contractor_id=c,advance_id=k['id'],reason='CP17 kasbon salah catat')
+        cancelled=kasbon(cur,'CANCEL',payload,w,ckey);replay=kasbon(cur,'CANCEL',payload,w,ckey)
+        assert cancelled==replay and cancelled['advance']['status']=='CANCELLED' and balance(cur,bank)==bank0 and receivable(cur,c)==r0
+        rev=one(cur,"select count(*) from erp.journal_entries j join cp7_kasbon.advances a on a.cancel_journal_id=j.id where a.id=%s and j.reversal_of_id=a.journal_id",(k['id'],))
+        assert rev==1
+        return dict(status='PASS',cancel_while_reserved_refused=used,release_frees_kasbon=True,cancel_reverses_journal=True,same_request_replay_identical=True,bank_back_to_start=True)
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
-           hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,legacy_findings]
+           hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,legacy_findings,
+           kasbon_cycle,kasbon_limits,kasbon_release]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
@@ -496,4 +572,19 @@ def http_cases(http,today):
         d=read();ok=user.rpc('erp_cp7_save_payroll_v1',dict(p_action='PAY',p_payload=s.args(d,'PAY',payment_date=str(day),cash_account_id=bank),p_request=str(uuid.uuid4()),p_expected=d['row_version']))
         assert ok['status']==200 and read()['status']=='PAID',ok
         return dict(status='PASS',real_Auth_early_payroll_refused=r['body'].get('message'),paid_on_accrual_day=str(day))
-    return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early)]
+    def kasbon_give_http():
+        admin=http.login('ADMIN','cp17-kasbon')
+        with http.connect()as conn,conn.cursor()as cur:
+            f=s.review.fixture(cur,today);c=f['contractor'];bank=s.cash(cur);day=funding.open_day(cur)
+            role=one(cur,'select role_id from erp.app_users where auth_user_id=%s',(admin.auth_user_id,))
+            for key in s.PERMS:cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,key))
+            token=one(cur,"select cp7_misc.cash(%s)->>'review_token'",(bank,));bank0=balance(cur,bank);conn.commit()
+        w=admin.rpc('erp_cp7_get_kasbon_v1',dict(p_contractor=c));assert w['status']==200 and w['body']['advances']==[],w
+        p=dict(contractor_id=c,cash_account_id=bank,cash_review_token=token,advance_date=str(day),amount='150.00',reason='CP17 kasbon lewat login')
+        stale=admin.rpc('erp_cp7_save_kasbon_v1',dict(p_action='GIVE',p_payload=p,p_request=str(uuid.uuid4()),p_expected='0'*32))
+        assert stale['status']==400 and 'CP7_KASBON_STALE_REVIEW' in str(stale['body']),stale
+        r=admin.rpc('erp_cp7_save_kasbon_v1',dict(p_action='GIVE',p_payload=p,p_request=str(uuid.uuid4()),p_expected=w['body']['review_token']))
+        assert r['status']==200 and r['body']['advance']['free']=='150.00' and r['body']['advance']['advance_date']==str(day),r
+        with http.connect()as conn,conn.cursor()as cur:assert balance(cur,bank)-bank0==-150
+        return dict(status='PASS',real_Auth_kasbon_given=r['body']['advance']['number'],stale_review_refused=True)
+    return [('CP17_HTTP_CASH_EMPTY_BANK_REFUSED',cash_refused),('CP17_HTTP_PAYROLL_EARLY_REFUSED',payroll_early),('CP17_HTTP_KASBON_GIVE',kasbon_give_http)]
