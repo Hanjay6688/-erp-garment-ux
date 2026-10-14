@@ -1,0 +1,22 @@
+{
+  "created_utc": "2026-10-14T13:03:45.026155+00:00",
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "lead_origin": "Fable R3-03, previous Fable probes never reached valid settlement; not a rerun of an Astra business case",
+  "blind_discovery": false,
+  "oracle_origin": "ASTRA_AFTER_AUTHORIZED_FABLE_EXPOSURE",
+  "expected_case_count": 2,
+  "case_ids": [
+    "CP17-ASTRA-CLAIM-01-SAME-DAY-CONTROL",
+    "CP17-ASTRA-CLAIM-02-BEFORE-SOURCE"
+  ],
+  "fixture": "New vendor; five sent via ordinary laundry writer, four physically returned; invoice four at20 =80; one valid MISSING claim; twenty compensation",
+  "expected": "Same-day settlement AP80->60; settlement a day before all vendor AP must refuse atomically or retain nonnegative dated AP. Full reports and135 detector observations retained without presupposing silence.",
+  "composition": "FULL",
+  "first_attempt_only": true,
+  "production_go": false,
+  "source_sha256": {
+    "audit/astra_cp17/cases_claim_date.py": "c14a850d6fb0ec8ae2615505d7413fa685659cb63ca02a1f678f37c1e8887b71",
+    "audit/astra_cp17/claim_date.py": "06a6a911e1df0bf4ca8a786a698f2338af2fd1295f8129145ad2413134fb590f",
+    ".github/workflows/audit-astra-cp17-claim-date.yml": "8a91c93d5312e1e1b625b7ee6b9a432fc87ef5bd1cf2292d949b8162b9420219"
+  }
+}
