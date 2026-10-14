@@ -1,0 +1,174 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "preservation": "Complete byte-identical GitHub ZIP artifacts; extracted cases in CASE_LEDGER_PARTIAL refer inside these ZIPs",
+  "artifacts": [
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-f03-p10-json.zip",
+      "bytes": 436576,
+      "sha256": "bff805290b9de094e5caed6cc170b21f92748844be8f2d1ebdebb4d91fef23dd",
+      "git_blob": "b534f47d27726c409dd03aeb85bb2664f4350f02",
+      "sha": "b534f47d27726c409dd03aeb85bb2664f4350f02"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-f03-p13-json.zip",
+      "bytes": 635819,
+      "sha256": "1ec79e035b60d8affa3085dc5a6ca66424cbb6543d8156671a31540f0519f430",
+      "git_blob": "aff4ad02a26b2d79e0fa8c929472539706b49044",
+      "sha": "aff4ad02a26b2d79e0fa8c929472539706b49044"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-f03-customer_refund-json.zip",
+      "bytes": 130573,
+      "sha256": "886011fcca4cfde313a0221a668b832fc020a27d78f974108e1e0395e8466bbc",
+      "git_blob": "88f3222a9c3745b497eda5dc84b53dac17b9d313",
+      "sha": "88f3222a9c3745b497eda5dc84b53dac17b9d313"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-payment-correction-json.zip",
+      "bytes": 51896,
+      "sha256": "554c08db2fda5d399a20fe68c8ae125cafae971d725d8993214397fd51d9bc11",
+      "git_blob": "c671db565610ae2b8710a2802d3f9f9ec696b406",
+      "sha": "c671db565610ae2b8710a2802d3f9f9ec696b406"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-f03-supplier_credit-json.zip",
+      "bytes": 76590,
+      "sha256": "7e62c7f94db37b88ff6527116c2d3e8535660380a6c7d8cbb8415ccc26861d21",
+      "git_blob": "65fe31250455452b6ddb25d6a21599d0d68c409d",
+      "sha": "65fe31250455452b6ddb25d6a21599d0d68c409d"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-pl-schedule-json.zip",
+      "bytes": 89265,
+      "sha256": "4debc9e4f989a725df398d59d80c8d3bb40cdedeec0ea1bdb42dd837452fa78e",
+      "git_blob": "614406c82808b12d0c4545eedb0dd90a60343926",
+      "sha": "614406c82808b12d0c4545eedb0dd90a60343926"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-pl-netting-json.zip",
+      "bytes": 47511,
+      "sha256": "a1a4d51e3ce3b826cbad1132cedae15d1fdc089eb32bb69eaebc6206010ddee9",
+      "git_blob": "af74e386ea658b60ca5ab7fd4cdabf4adbff363f",
+      "sha": "af74e386ea658b60ca5ab7fd4cdabf4adbff363f"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-f03-cash_installments-json.zip",
+      "bytes": 734485,
+      "sha256": "db07b805db2144e2e56bbb3d16d6a981aedc7e58f375ed483cf311a66061eed8",
+      "git_blob": "1193868a0c05cd2d7f937cc125385950f52b6637",
+      "sha": "1193868a0c05cd2d7f937cc125385950f52b6637"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-pl-supply-json.zip",
+      "bytes": 77636,
+      "sha256": "615221c13e554ffafecef7da9a61480538217e365205066b6a198ba1a2c0a21c",
+      "git_blob": "6e14368a11f5545aea4915f8f2f1eafcf614856a",
+      "sha": "6e14368a11f5545aea4915f8f2f1eafcf614856a"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-f03-p09-json.zip",
+      "bytes": 1666202,
+      "sha256": "95a1b0f16ed56c2c8460ad350ca7aa6c0568d6f7062dc604fd6eb68fed62a372",
+      "git_blob": "e4bb6544555e40249ec94f616df294390435a9b3",
+      "sha": "e4bb6544555e40249ec94f616df294390435a9b3"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-p18-full-cycle-json.zip",
+      "bytes": 50631,
+      "sha256": "36751f143c2e0940677638e9c9c35ee27a961943cd361fe5c4c10aa936858a1c",
+      "git_blob": "e373a962a93bc942216d870e11c6a1923e8ce9de",
+      "sha": "e373a962a93bc942216d870e11c6a1923e8ce9de"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-receipt-correction-json.zip",
+      "bytes": 73744,
+      "sha256": "561f6c5e38ca38ad11c5d45fa4803ce5b5c489f1730b7e121d7b11b9950581a9",
+      "git_blob": "9317b47089434626ad60a13c4880e2c00b3c9d00",
+      "sha": "9317b47089434626ad60a13c4880e2c00b3c9d00"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-cutting-correction-json.zip",
+      "bytes": 44125,
+      "sha256": "5c7d2ae8ad02388dd1ed79828c3dd70e9126470c53a616642ad6b4c76e0815a7",
+      "git_blob": "8df58c908f43f8946fc18399ecbbb4d5cb940402",
+      "sha": "8df58c908f43f8946fc18399ecbbb4d5cb940402"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-f03-p12-json.zip",
+      "bytes": 1019227,
+      "sha256": "f235311fd4616eb3dca24481543d23eb04c9482b9babd490bad57c7be2815629",
+      "git_blob": "005fb13aadc6dcb20e73187656a2b2f81efe5eb9",
+      "sha": "005fb13aadc6dcb20e73187656a2b2f81efe5eb9"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-note-correction-json.zip",
+      "bytes": 251243,
+      "sha256": "c1e15f3c1de6c2e313a807643cdb6da53590bdc5256d2f5313fc784b36ac627e",
+      "git_blob": "ad6fe0a2c50a99d469839e263598d14ec79db9a2",
+      "sha": "ad6fe0a2c50a99d469839e263598d14ec79db9a2"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-misc-correction-json.zip",
+      "bytes": 41283,
+      "sha256": "01e315faf72e7d523cb72067efddf60ffee73f951ce272085aa71bc9b670729d",
+      "git_blob": "68a8be7953a61c461bcc0c8e88d2296141c22ece",
+      "sha": "68a8be7953a61c461bcc0c8e88d2296141c22ece"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-pl-model-json.zip",
+      "bytes": 41675,
+      "sha256": "b81b4073bff0813aad3341246cd69dc71c2c60509af728129b009ed50a6d1342",
+      "git_blob": "76481576b556c634910458c74b4faff08c548b26",
+      "sha": "76481576b556c634910458c74b4faff08c548b26"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38522545215_cp17-astra-0b7049d9-supplier-payment-correction-json.zip",
+      "bytes": 51736,
+      "sha256": "c95a3e0c3187ebcad0709b0f4ceb55987848e70594c1bed5c5ec5a9592c1c17c",
+      "git_blob": "f6b6509257b7be85a4b88808a8b75ca74685e5e9",
+      "sha": "f6b6509257b7be85a4b88808a8b75ca74685e5e9"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38525347357_cp17-astra-0b7049d9-cp1-fingerprint.zip",
+      "bytes": 286151,
+      "sha256": "7b308da33f1b8c601ab8709347bc8a3d30ea3c6024ccf632c7317009779f2109",
+      "git_blob": "8c0d6831d05938b26a05746af16e930bfb5597a9",
+      "sha": "8c0d6831d05938b26a05746af16e930bfb5597a9"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38525930341_cp17-astra-0b7049d9-own-staged-json.zip",
+      "bytes": 558066,
+      "sha256": "aa347a886b600ab7b52d363daf2d3c077f2f8d5c7c62ad67f9feeb07788f9ab5",
+      "git_blob": "d2df399a15983702eac04409b776f8a09c5149de",
+      "sha": "d2df399a15983702eac04409b776f8a09c5149de"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38525930341_cp17-astra-0b7049d9-own-planning-json.zip",
+      "bytes": 558599,
+      "sha256": "750fb8c7694e8fe0caf0bad8575e2ee9cdf30ab92869fc6d4d0ce5c79058f759",
+      "git_blob": "32a5a7a29e734d641edea6a9edab4bac9d18e531",
+      "sha": "32a5a7a29e734d641edea6a9edab4bac9d18e531"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38525930407_cp17-astra-0b7049d9-payroll-leads-json.zip",
+      "bytes": 261719,
+      "sha256": "d35992b0c8d79f186054e30bad7944218640ed8373083e0501b6a44736ff3ba8",
+      "git_blob": "ed908dba4460e98e19b512fc3a0f19ba272d4d16",
+      "sha": "ed908dba4460e98e19b512fc3a0f19ba272d4d16"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38525930341_cp17-astra-0b7049d9-own-money-json.zip",
+      "bytes": 950380,
+      "sha256": "534e2722e2b611be7549deafe1918f8c2fe634daeee5f429631b225ba40d9632",
+      "git_blob": "808b6a702777bf312b75012766c25bac9506eec4",
+      "sha": "808b6a702777bf312b75012766c25bac9506eec4"
+    },
+    {
+      "path": "audit/astra_cp17/preserved/38523724159_cp17-astra-0b7049d9-baseline-regression-raw.zip",
+      "bytes": 1651531,
+      "sha256": "00e182422829867b0a15050e1016f4c1b52ca0f86a715196281edfcd3fc0ee14",
+      "git_blob": "bb669a3936012eff8186d5ce3d0c469c2db582b8",
+      "sha": "bb669a3936012eff8186d5ce3d0c469c2db582b8"
+    }
+  ]
+}

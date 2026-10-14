@@ -1,0 +1,199 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "comparison": "Candidate bytes against committed historical read-only ledger metadata; no fresh hosted access",
+  "rows": [
+    {
+      "file": "supabase/migrations/20260829185830_erp_v2_6_10_fg_partial_completion.sql",
+      "classification": "IDENTICAL",
+      "bytes": 17607,
+      "md5": "8ce2b7278c2c0679f116260ae2e505ff",
+      "sha256": "60bb2e91663f266209ec2299426468dbee670ed2bd9e6dc84546c4d9b34b0ae3",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "8ce2b7278c2c0679f116260ae2e505ff"
+    },
+    {
+      "file": "supabase/migrations/20260829204632_erp_v2_6_11_operational_reservations_and_completion_scope.sql",
+      "classification": "IDENTICAL",
+      "bytes": 32970,
+      "md5": "6aa3cfc8210747aa823280d02b5c03e3",
+      "sha256": "cb9a31893ff348b33687dab7c22aee5e79340c2d8a5ae2d052297f31d2ac5498",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "6aa3cfc8210747aa823280d02b5c03e3"
+    },
+    {
+      "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+      "classification": "IDENTICAL",
+      "bytes": 99271,
+      "md5": "e7917e6247f0b3276425e568da050593",
+      "sha256": "c4021991ec01b25e939f09ea15cebc27739711c7d39cb7662e72c611861ff18d",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "e7917e6247f0b3276425e568da050593"
+    },
+    {
+      "file": "supabase/migrations/20260830190955_erp_v2_6_13_manual_reminders_v1.sql",
+      "classification": "IDENTICAL",
+      "bytes": 26376,
+      "md5": "77c9b08bc303809257a0c8bc46dbbc83",
+      "sha256": "f71978d212b34f881984772239e02b3d5c07613f59e3199c3dccd02481b7a8a5",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "77c9b08bc303809257a0c8bc46dbbc83"
+    },
+    {
+      "file": "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql",
+      "classification": "IDENTICAL",
+      "bytes": 67598,
+      "md5": "6fd67ad530ae616c9907f43020510610",
+      "sha256": "68e5a8f81ac364be6a8ec01c5bffdfe4ec587f91d61a03dc9f44a4670cadb821",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "6fd67ad530ae616c9907f43020510610"
+    },
+    {
+      "file": "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql",
+      "classification": "IDENTICAL",
+      "bytes": 7946,
+      "md5": "8e9eb282670ba41da13eed125122d7cd",
+      "sha256": "08b2a035af453ee73668d6d7cfa9e7a58310a85be75b9883647ee68cb413a56c",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "8e9eb282670ba41da13eed125122d7cd"
+    },
+    {
+      "file": "supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_uat_alignment.sql",
+      "classification": "IDENTICAL",
+      "bytes": 81496,
+      "md5": "bb909c1d060f151f1347a5768f9f2ddf",
+      "sha256": "2c98802925ef45d173ca23e88cd43357479c783a9571b89d4614911bfb500967",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "bb909c1d060f151f1347a5768f9f2ddf"
+    },
+    {
+      "file": "supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql",
+      "classification": "IDENTICAL",
+      "bytes": 18420,
+      "md5": "ad5fa2b2620d7c9a9f440f8800beffbc",
+      "sha256": "51e2bad26fc55fbf267b7d0f275cbceacbd7dcb3514400b48cb5b31943458e69",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "ad5fa2b2620d7c9a9f440f8800beffbc"
+    },
+    {
+      "file": "supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql",
+      "classification": "IDENTICAL",
+      "bytes": 9024,
+      "md5": "e5dcc9f36aed2f6c2d2b5ab87a64e79a",
+      "sha256": "5f295958f019111674af3e079eb1bbe4bbf445e6ae35b32c8f3d94bfbad04ec6",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "e5dcc9f36aed2f6c2d2b5ab87a64e79a"
+    },
+    {
+      "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+      "classification": "IDENTICAL",
+      "bytes": 25695,
+      "md5": "df2826518290b4fcb6abacf2707aecae",
+      "sha256": "fcba665519b289fd8d0cca2a07d4207d6e959e4bd1c2c1b700e35c0334f0c9e2",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "df2826518290b4fcb6abacf2707aecae"
+    },
+    {
+      "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+      "classification": "IDENTICAL",
+      "bytes": 98728,
+      "md5": "70a16926f50313c29c52c6bbcdf695f3",
+      "sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "70a16926f50313c29c52c6bbcdf695f3"
+    },
+    {
+      "file": "supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql",
+      "classification": "IDENTICAL",
+      "bytes": 18304,
+      "md5": "4605b69cb6876848553c40886aad29bc",
+      "sha256": "62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "4605b69cb6876848553c40886aad29bc"
+    },
+    {
+      "file": "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql",
+      "classification": "IDENTICAL",
+      "bytes": 80392,
+      "md5": "94ae7468cffb960788f4f8111a6d6072",
+      "sha256": "6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "94ae7468cffb960788f4f8111a6d6072"
+    },
+    {
+      "file": "supabase/migrations/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql",
+      "classification": "IDENTICAL",
+      "bytes": 21350,
+      "md5": "7b3d84405c37713003164ed2d927fbac",
+      "sha256": "d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "7b3d84405c37713003164ed2d927fbac"
+    },
+    {
+      "file": "supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql",
+      "classification": "IDENTICAL",
+      "bytes": 67744,
+      "md5": "def154e4561c6792f849addecec7eecf",
+      "sha256": "79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "def154e4561c6792f849addecec7eecf"
+    },
+    {
+      "file": "supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql",
+      "classification": "IDENTICAL",
+      "bytes": 55354,
+      "md5": "dbbbb57f40bc7659f70a4850663a9bfd",
+      "sha256": "204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "dbbbb57f40bc7659f70a4850663a9bfd"
+    },
+    {
+      "file": "supabase/migrations/20260904012525_erp_v2_6_19b_cp5_reliability_closure.sql",
+      "classification": "IDENTICAL_EXCEPT_FINAL_NEWLINE",
+      "bytes": 42021,
+      "md5": "17549349a9bb0a471d9452c94035f2fc",
+      "sha256": "b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d",
+      "matches_whole": false,
+      "matches_without_final_newline": true,
+      "hosted_md5": "794037fefbace6a8498c3dc38e98bac4"
+    },
+    {
+      "file": "supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql",
+      "classification": "IDENTICAL",
+      "bytes": 13808,
+      "md5": "6f4b80991f4c6605159f04505f23b731",
+      "sha256": "b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "6f4b80991f4c6605159f04505f23b731"
+    },
+    {
+      "file": "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql",
+      "classification": "IDENTICAL",
+      "bytes": 251923,
+      "md5": "e3eb3cd330bf29484b422618f4298041",
+      "sha256": "52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1",
+      "matches_whole": true,
+      "matches_without_final_newline": false,
+      "hosted_md5": "e3eb3cd330bf29484b422618f4298041"
+    }
+  ],
+  "all19_match_declared_semantics": true,
+  "historical_no_local_source": 51,
+  "bootstrap_scope": "51 historical entries covered structurally by catalogue bootstrap, not individually reexecuted"
+}

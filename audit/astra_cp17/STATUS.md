@@ -1,18 +1,19 @@
-# Audit Astra CP1–CP7 — IN PROGRESS
+# Astra CP1–CP7 independent audit · IN PROGRESS
 
-Kandidat `0b7049d9203bac52b47a4c89f3e0d75646067a8f`, tree `ce6aed0a0af920e8aa80248f3cabcd293688df18`.
-Paket owner `00b0eb24b2f014d102f0082111d13ee3be429cf2`; Panduan Pro Max dibaca utuh dan hash-nya cocok.
-Cabang audit baru `audit/astra-cp1-7-0b7049d9-20261014`.
+Candidate **0b7049d9203bac52b47a4c89f3e0d75646067a8f**, tree **ce6aed0a0af920e8aa80248f3cabcd293688df18**. No product file is changed by this branch. `production_go:false`; CP7C/Drive remains on hold. A GitHub success badge is not this audit's verdict.
 
-Gelombang native pertama menjalankan 31 suite dengan probe dan oracle kandidat. Rancangan oracle writer diberi label
-tersendiri; ini belum menggantikan kasus kontrak independen Astra yang disiapkan berikutnya.
-Regresi baseline CP3–CP5 dan sambungan CP1–CP7 mendapat gelombang serta manifest sendiri sebelum dijalankan.
-Kasus helper P11, prefreeze, K3 dan supplier-create pada kandidat yang sama sudah memiliki bukti Astra terkunci
-di `57ac8aab`; sumber dan batas buktinya dicocokkan dan hitungannya tidak ditambahkan sebagai eksekusi baru.
+Current canonical downloaded-case ledger: **844 executions / 698 unique case names: 841 PASS, three raw COUNTEREXAMPLE**. This is a partial inventory of 18 completed writer suites, nine frozen-Astra groups and five new payroll probes; it excludes legacy-baseline runs and unfinished suites. Repeated case names across groups remain separate executions. `CASE_LEDGER_PARTIAL.json` has no missing/planned-count discrepancy after explicitly counting declared smoke cases.
 
-Adaptasi harness yang dinyatakan sejak awal: pengulangan grup otomatis saat pergantian hari dinonaktifkan untuk
-mematuhi Pro Max §1.9. Guard tanggal, expected, dan status pertama tetap asli. Kegagalan tidak dicari ulang supaya hijau.
-CP1/CP2 historis, data cutover asli, shadow run dan baseline hosted terbaru tidak diklaim telah diverifikasi.
-Alat CP7C tetap di luar cakupan. `audit_complete:false`, `production_go:false`.
+The three raw counterexamples are the previously accepted staged-validator boundary (`AS20-39_VALIDATION_NEGATIVE`) and two new early payroll-date observations (`CP17-ASTRA-PAY-04/05`). The new public-RPC probes accept ordinary full/installment payment before attendance accrual. The separate dated-partial probe will quantify the cutoff impact. Duplicate attendance through a second Nota was refused for both APPROVED and PAID first payrolls; that forwarded suspicion is not confirmed on those paths.
 
-Laporan Fable dari putaran CP1–CP7 ini belum dibaca. Yang boleh dibaca hanya laporan lama pada commit yang disebut handoff.
+Owner explicitly permitted reading Fable on 14 October 2026 at 06:50:45Z. `FABLE_EXPOSURE_REGISTER.md` records the override. Only three specific static leads and Fable's new manifest/run register were accessible; the full twelve suspected defects were not supplied. New lead-driven findings will retain that attribution.
+
+`CP1_CP2_EVIDENCE_REVIEW.md` corrects the historical evidence inventory: CP1 has a new measured reconstruction and 19 independently matched SQL files. CP2 has a writer receipt of successful archival decryption/149-member checks, but no independently demonstrated database restore in this session. CP2 is not PASS.
+
+The complete first outcomes remain intact. `HARNESS_QUALIFICATIONS.md` documents the pre-case YAML failure, original temporal committed-fixture limitation, regression logger collision after 76 PASS, and obsolete AR verifier before races. Continuation runs execute only not-yet-run cases, with the original 76 explicitly carried and never rerun.
+
+Active runs: native **38522545215** (31 suites); baseline continuation **38526619037** (remaining regression and 28 AR races); new integration **38527771239** (SKN22, dated payroll, overlapping HPP source). Final seven-stage verdicts are not locked while these results are pending.
+
+`ARCHIVE_INDEX.json` points to complete Original ZIPs preserved in Git, with Git blob and SHA-256 identities. First failed baseline AR/temporal ZIP preservation is still being completed; no successful continuation will replace an earlier red result.
+
+Scope receipt: all DB operations were in disposable localhost CI. Existing repository integration automatically ran **Cloudflare Workers Builds** when the audit branch was pushed; its check reports a branch preview URL/version. Astra did not invoke deployment, visit the preview, or modify Cloudflare configuration. This is an observed automatic repository hook, not evidence of a production cutover.
