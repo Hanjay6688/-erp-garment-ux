@@ -1,0 +1,103 @@
+name: AUDIT/SOL/cp6-candidate-codeql
+permissions:
+  contents: read
+concurrency:
+  group: sol-full-cp6-candidate-codeql-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  analyze:
+    name: CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: actions
+          build_mode: none
+        - language: javascript-typescript
+          build_mode: none
+        - language: python
+          build_mode: none
+        - language: c-cpp
+          build_mode: manual
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        persist-credentials: false
+        ref: 0b7049d9203bac52b47a4c89f3e0d75646067a8f
+    - name: SOL verify frozen candidate and product identity
+      working-directory: .
+      shell: bash
+      run: 'set -euo pipefail
+
+        python - <<''PY''
+
+        import hashlib,json,os,subprocess
+
+        from pathlib import Path
+
+        sha=''0b7049d9203bac52b47a4c89f3e0d75646067a8f''
+
+        trees={''src'': ''d6553972f94a4ad4e9170e8a946b30cdac9712fd'', ''supabase'': ''5d040436db384b4e574785376367b360a084acb7'',
+        ''supabase/migrations'': ''8f6053bbd0bda80da18065418ad43371cdfd9461'', ''supabase/release'': ''be1e91c172ffb5c05b694a3a54c69562700c6d5e'',
+        ''supabase/dev'': ''88759f4fc51864a1ec9e224fcb4f236204b5c853'', ''supabase/rollbacks'': ''9e216e7bcca6b583341d9ea78cbc0414134ecee2'',
+        ''scripts'': ''b67664091c4394b0ff6a187409d9e9b32213a0e0'', ''scripts/cp7-src'': ''7bcf45e174499f3712c67ee08788a90a8c5f7881'',
+        ''.github/workflows'': ''4d7712279bfdfb6aec10dca4a216dd927875f483''}
+
+        assert subprocess.check_output([''git'',''rev-parse'',''HEAD''],text=True).strip()==sha
+
+        for path,want in trees.items():assert subprocess.check_output([''git'',''rev-parse'',sha+'':''+path],text=True).strip()==want,path
+
+        assert not subprocess.check_output([''git'',''diff'',''HEAD'',''--name-only''],text=True).strip()
+
+        d={''candidate_sha'':sha,''candidate_tree'':subprocess.check_output([''git'',''rev-parse'',''HEAD^{tree}''],text=True).strip(),''workflow_sha'':os.environ[''GITHUB_SHA''],''trees'':trees,''guide_sha256'':hashlib.sha256(Path(''docs/AUDIT_PANDUAN_PRO_MAX.md'').read_bytes()).hexdigest(),''workflow_origin'':''cp6-candidate-codeql.yml'',''oracle_origin'':''UNCHANGED_PREEXISTING_PROVIDER'',''fixture_origin'':''UNCHANGED_PREEXISTING_PROVIDER'',''evidence_origin'':''INDEPENDENT_NATIVE_RERUN'',''production_go'':False}
+
+        Path(os.environ[''RUNNER_TEMP''],''SOL_SOURCE_IDENTITY.json'').write_text(json.dumps(d,indent=2)+''\n'')
+
+        print(json.dumps(d))
+
+        PY
+
+        '
+    - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build_mode }}
+        queries: security-extended
+    - name: Compile isolated PostgreSQL clock fixture for analysis
+      if: matrix.language == 'c-cpp'
+      run: cc -std=c11 -shared -fPIC -O2 -Wall -Wextra -Werror supabase/tests/support/cp6_clock_offset.c -o /tmp/cp6-aa-clock-codeql.so
+    - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+      with:
+        output: cp6-codeql/sarif
+        upload: never
+        upload-database: false
+        category: candidate/${{ matrix.language }}
+    - name: Verify analysis and bind SARIF to candidate
+      env:
+        CP6_CODEQL_LANGUAGE: ${{ matrix.language }}
+      run: python scripts/cp6_codeql_artifact_gate.py
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp1-7-20261014-SOL-0b7049d9-cp6-candidate-codeql-cp6-candidate-codeql-${{ matrix.language }}
+        path: cp6-codeql
+        if-no-files-found: error
+        retention-days: 30
+    - name: SOL retain source identity separately
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp1-7-20261014-SOL-0b7049d9-cp6-candidate-codeql-${{ github.job }}-${{ strategy.job-index }}-identity
+        path: ${{ runner.temp }}/SOL_SOURCE_IDENTITY.json
+        retention-days: 30
+        if-no-files-found: warn
+run-name: AUDIT/cp1-7-20261014/SOL/0b7049d9/cp6-candidate-codeql/${{ github.run_attempt }}
+'on':
+  push:
+    branches:
+    - audit/sol-cp1-7-0b7049d9-20261014
+    paths:
+    - .github/workflows/audit-sol-full-cp6-candidate-codeql.yml
+  workflow_dispatch: {}
