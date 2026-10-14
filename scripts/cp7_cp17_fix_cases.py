@@ -13,6 +13,8 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
   once; a case without a final outcome (PARTIAL) stays unpayable as before.
 - HPP01 (Astra/Fable): a contractor HPP policy write that would leave an ACTIVE attendance HPP pool on a stale basis
   is refused; an unrelated policy is not; cancel pool -> policy -> replacement pool is the lawful path.
+- SG-02 (D14-4): leftover fabric of a posted cutting goes back to the warehouse: the same roll returns to stock at its
+  issue cost, the PO's WIP drops by exactly that value, at most the remainder recorded at cutting, once per cutting.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
 from journal lines and movements. Every refusal leaves the whole business boundary unchanged and has a lawful
 control. Fixture banks receive owner capital through the accepted Native journal (cp7_cash_funding) only where the
@@ -20,7 +22,8 @@ case says so; an empty bank stays empty.
 """
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
-from decimal import Decimal as D
+from datetime import datetime,timezone
+from decimal import Decimal as D,ROUND_HALF_UP
 import json,threading,uuid
 import psycopg
 import cp7_settlement_cases as s
@@ -36,7 +39,8 @@ auth,b,bc=s.auth,s.b,s.bc
 refused=auth.refused
 CONTRACT='cp7.cp17-fixes.v1'
 FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_get_nota_workspace_v1','erp_save_bs_resolution_action_v1','erp_cp7_save_payroll_v1','erp_cp7_save_payroll_installment_v1','erp_cp7_create_supplier_payment_v1',
-           'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2')
+           'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2',
+           'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -45,7 +49,8 @@ IDS=dict(
             'CP17_FIN02_CLAIM_SAME_DAY_CONTROL','CP17_FIN02_CLAIM_BEFORE_SOURCE_REFUSED','CP17_FIN02_CLAIM_AP_NOT_AVAILABLE_REFUSED',
             'CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE',
             'CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE','CP17_RWK01_GOOD_CONTROL','CP17_RWK01_UNFINISHED_CASE_STILL_HELD',
-            'CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED','CP17_HPP01_UNRELATED_POLICY_CONTROL','CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL'],
+            'CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED','CP17_HPP01_UNRELATED_POLICY_CONTROL','CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL',
+            'CP17_SG02_RETURN_STOCK_VALUE_PO_COST','CP17_SG02_OVER_REMAINDER_REFUSED','CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY','CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED'],
 )
@@ -329,9 +334,81 @@ def cases(cur,today):
         native_call('select erp.validate_attendance_hpp_pool_v1(%s)',(replacement,))
         return dict(status='PASS',cancel_then_policy_then_replacement_pool=True,replacement_1000_over_20_is_50=True,original_pool='CANCELLED')
 
+    # ------------------------------------------------------------ SG-02 (owner D14-4): fabric back to the warehouse
+    def fabric_posted():
+        """A posted cutting of 10 from one roll: 7 consumed, 3 recorded as left (Native writers, as cutting.posted)."""
+        src=cut.cutting;prod=src.qc.physical.b.chain.production;base=src.qc.physical.base
+        f=prod.estimated_receipt(cur,today);b.api.admin(cur)
+        day=f['purchase_day']+timedelta(days=1);po=str(uuid.uuid4())
+        cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes) values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'CP17 SG-02 fixture')",
+            (po,'CP17-RET-'+po,prod.MODEL,prod.at(day,7)))
+        payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
+            change_reason='CP17 SG-02 posted cutting with fabric left',size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1)],
+            rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=7,qty_reported_remaining=3,yields=[dict(slot_no=1,qty_pcs=10)])])
+        saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
+        prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=saved['cutting_group_id'],action='POST'),expected_version=int(saved['row_version']))
+        b.api.admin(cur)
+        return dict(group=saved['cutting_group_id'],po=po,roll=str(f['roll']),location=str(f['location']))
+    def return_read(g):
+        auth.actor(cur);w=one(cur,'select public.erp_cp7_get_cutting_return_v1(%s)',(g['group'],));b.api.admin(cur);return w
+    def return_payload(w,qty,at=None):
+        return dict(group_id=w['group_id'],po_id=w['po_id'],review_token=w['review_token'],returned_at=at or datetime.now(timezone.utc).isoformat(timespec='seconds'),
+            change_reason='CP17 sisa kain kembali ke gudang',rolls=[dict(cutting_group_roll_id=w['rolls'][0]['cutting_group_roll_id'],qty_returned=qty)])
+    def return_send(w,p,key=None):
+        auth.actor(cur);r=one(cur,'select public.erp_cp7_return_cutting_fabric_v1(%s,%s,%s)',(json.dumps(p),str(key or uuid.uuid4()),w['row_version']));b.api.admin(cur);return r
+    def roll_stock(g):
+        return D(one(cur,'select coalesce(sum(qty_signed),0) from erp.material_stock_movements where roll_id=%s and location_id=%s',(g['roll'],g['location'])))
+    def po_wip(g):
+        return D(one(cur,"select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status='POSTED' and l.account_id=erp.account_id('WIP') and l.po_id=%s",(g['po'],)))
+    def returns(g):
+        return cur.execute("select qty_signed,input_unit_cost,roll_id::text,location_id::text from erp.material_stock_movements where source_type='CUTTING_GROUP_RETURN' and source_id=%s and movement_type='CUTTING_RETURN'",(g['group'],)).fetchall()
+    def fabric_return():
+        g=fabric_posted();w=return_read(g)
+        assert w['eligible'] and w['blockers']==[] and len(w['rolls'])==1 and D(w['rolls'][0]['qty_reported_remaining'])==3 and w['business_DML'] is False,w
+        cost=D(w['rolls'][0]['unit_cost']);value=(2*cost).quantize(D('0.01'),rounding=ROUND_HALF_UP);assert value>0
+        stock0,wip0=roll_stock(g),po_wip(g)
+        p=return_payload(w,'2');r=return_send(w,p)
+        assert r['action']=='RETURN_FABRIC' and r['group_id']==g['group'] and D(r['value'])==value,(r,value)
+        assert roll_stock(g)-stock0==2 and returns(g)==[(D(2),cost,g['roll'],g['location'])],returns(g)
+        assert wip0-po_wip(g)==value,('CP17_SG02_PO_COST_NOT_REDUCED',wip0,po_wip(g),value)
+        lines=cur.execute("select case l.account_id when erp.account_id('MATERIAL_INVENTORY') then 'MATERIAL_INVENTORY' when erp.account_id('WIP') then 'WIP' else l.account_id::text end k,l.debit,l.credit,l.po_id::text "
+                          "from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id where j.source_type='CUTTING_MATERIAL_RETURN_LINE' and j.source_id=%s and j.status='POSTED' order by 1",(w['rolls'][0]['cutting_group_roll_id'],)).fetchall()
+        assert lines==[('MATERIAL_INVENTORY',value,D(0),g['po']),('WIP',D(0),value,g['po'])],lines
+        row=cur.execute('select qty_physically_returned,return_destination,returned_at=%s::timestamptz from erp.cutting_group_rolls where cutting_group_id=%s',(p['returned_at'],g['group'])).fetchone()
+        assert row==(D(2),'WAREHOUSE',True),row
+        assert one(cur,'select material_return_posted from erp.cutting_groups where id=%s',(g['group'],))
+        assert one(cur,'select count(*) from cp7_cutting_correction.return_history where group_id=%s',(g['group'],))==1
+        after=return_read(g);assert not after['eligible'] and {x['kind']for x in after['blockers']}=={'ALREADY_RETURNED','RETURN_FACTS_PRESENT'},after
+        reopen=cut.read(cur,dict(group=g['group']));assert any(x['kind']=='MATERIAL_FLOW' for x in reopen['blockers']),reopen
+        return dict(status='PASS',same_roll_back_in_stock=2,issue_unit_cost=str(cost),po_WIP_reduced_by=str(value),journal='Dr MATERIAL_INVENTORY / Cr WIP (PO)',
+                    once_per_cutting=True,reopen_after_return_blocked=True,owner_decision='D14-4')
+    def fabric_over():
+        g=fabric_posted();w=return_read(g);before=b.boundary.snapshot(cur)
+        detail=refused(cur,lambda:return_send(w,return_payload(w,'3.000001')),'CP7_CUTTING_RETURN_OVER_REMAINING');unchanged(cur,before,'return above the recorded remainder')
+        stock0=roll_stock(g);r=return_send(w,return_payload(w,'3'))
+        assert roll_stock(g)-stock0==3 and returns(g)[0][0]==3 and r['rolls'][0]['qty_returned']=='3'
+        return dict(status='PASS',more_than_remainder_refused=detail,exact_remainder3_returned=True)
+    def fabric_once():
+        g=fabric_posted();w=return_read(g);key=uuid.uuid4();p=return_payload(w,'1')
+        first=return_send(w,p,key);stock1=roll_stock(g);again=return_send(w,p,key)
+        assert again==first and len(returns(g))==1 and roll_stock(g)==stock1,('CP17_SG02_REPLAY_NOT_IDENTICAL',first,again)
+        fresh=return_read(g);assert not fresh['eligible']
+        before=b.boundary.snapshot(cur)
+        detail=refused(cur,lambda:return_send(fresh,return_payload(fresh,'1')),'CP7_CUTTING_RETURN_DEPENDENCIES');unchanged(cur,before,'second return of one cutting')
+        stale=refused(cur,lambda:return_send(w,return_payload(w,'1')),'CP7_CUTTING_RETURN_STALE_REVIEW');unchanged(cur,before,'return on a stale review')
+        assert len(returns(g))==1 and roll_stock(g)==stock1
+        return dict(status='PASS',same_request_replay_identical=True,second_return_refused=detail,stale_review_refused=stale)
+    def fabric_dates():
+        g=fabric_posted();w=return_read(g);cut_at=datetime.fromisoformat(w['cut_at']);before=b.boundary.snapshot(cur)
+        early=refused(cur,lambda:return_send(w,return_payload(w,'1',(cut_at-timedelta(minutes=1)).isoformat())),'CP7_CUTTING_RETURN_BEFORE_CUT');unchanged(cur,before,'return before the cut')
+        future=refused(cur,lambda:return_send(w,return_payload(w,'1',(datetime.now(timezone.utc)+timedelta(days=1)).isoformat(timespec='seconds'))),'CP7_CUTTING_RETURN_IN_FUTURE');unchanged(cur,before,'return in the future')
+        r=return_send(w,return_payload(w,'1',cut_at.isoformat()))
+        assert datetime.fromisoformat(r['returned_at'])==cut_at and one(cur,"select (j.economic_date=(%s::timestamptz at time zone 'Asia/Jakarta')::date) from erp.journal_entries j where j.source_type='CUTTING_MATERIAL_RETURN_LINE' and j.source_id=%s",(cut_at.isoformat(),w['rolls'][0]['cutting_group_roll_id']))
+        return dict(status='PASS',one_minute_before_cut_refused=early,tomorrow_refused=future,at_cut_time_returned_and_journal_on_WIB_day=True)
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
-           hpp_excluded,hpp_unrelated,hpp_replacement]
+           hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 

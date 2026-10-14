@@ -94,6 +94,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/NativeFabricRecipePanel.tsx:erp_cp7_save_fabric_recipe_v1',
   'src/CuttingCorrectionPanel.tsx:erp_cp7_get_cutting_correction_v1',
   'src/CuttingCorrectionPanel.tsx:erp_cp7_reopen_cutting_v1',
+  'src/CuttingFabricReturnPanel.tsx:erp_cp7_get_cutting_return_v1',
+  'src/CuttingFabricReturnPanel.tsx:erp_cp7_return_cutting_fabric_v1',
   'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_cash_v1',
   'src/SalesInvoiceDependencies.tsx:erp_cp7_get_sales_returns_v1',
   'src/TransactionSourceNavigation.tsx:erp_cp7_resolve_transaction_source_v1',

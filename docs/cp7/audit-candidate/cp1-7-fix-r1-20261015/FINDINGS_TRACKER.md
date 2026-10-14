@@ -64,3 +64,15 @@ Keputusan owner yang dipakai: D14-2..D14-7 (`../../OWNER_DECISIONS_20261008.md`,
 
 Fable melaporkan 40 dari 64 karakter passphrase CP2 tercetak di log sesinya. Kunci CP2 dianggap terpapar dan tidak
 dipakai untuk backup baru. Backup CP7C memakai kunci baru (rancangan CP7C sudah memakai kunci tersendiri).
+
+## G. Status pengerjaan (penulis, berjalan; bukan penerimaan)
+
+| ID | Status | Bukti/kode |
+|---|---|---|
+| R-FIN01, R-CASH, R-FIN02 | Penjaga terpasang; kasus CP17 FIN01/CASH/FIN02 + race + HTTP **PASS** di `628f9dad` (run 38613964485). Detektor bertanggal belum | `cp7_dated_guard_bundle.py`, `cp7_cp17_fix_cases.py` |
+| R-STK01 | Kasus PASS di `628f9dad` | `cp7_cp17_fix_cases.py` (`stock_card`) |
+| R-HPP01 | Delta Native terpasang; 3 kasus PASS di `628f9dad` | `cp7_hpp_policy_guard_bundle.py` |
+| R-RWK01 | Delta Native terpasang; 3 kasus belum terbukti (salah login di data uji, diperbaiki `ad647cf0`). PARTIAL/ON_HOLD tetap belum bisa dibayar sampai owner memutuskan | `cp7_rework_eligibility_bundle.py` |
+| R-SG02 | Dibangun: perintah "kain kembali ke gudang" (sekali per potongan, paling banyak sisa yang dicatat saat potong, tanggal tidak sebelum potong/tidak di masa depan/tidak di periode tutup), memakai `erp.post_cutting_material_returns` Native tanpa perubahan; layar di Bagi Potongan; 4 kasus native CP17 + uji layar. **Belum**: pembalikan bila jumlah salah (Native juga belum punya), browser | `cp7-src/cutting-correction/return.sql`, `CuttingFabricReturnPanel.tsx`, `SG02_FABRIC_RETURN.md` |
+| R-LUSIN | Dibangun di layar draf penjualan + uji unit/DOM; browser belum | `src/sales/seriesDozens.ts`, `SalesDraftPanel.tsx` |
+| R-SG01, R-SG03, kasbon (D14-6), R-ACC01, R-EV01/02, R-DOC01–05 | Belum dikerjakan | — |

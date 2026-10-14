@@ -62,7 +62,8 @@ def fixture(cur,today,attendance=True,manual='1000.00',deduction=False,deduction
     before_approval=legacy.gl(cur,contractor)
     legacy.act(cur,'APPROVE',legacy.doc(cur,pid))
     approved=legacy.doc(cur,pid)
-    bank=legacy.cash(cur,approved['net_payable'])  # owner D14-3: the bank holds exactly what the payroll pays
+    # owner D14-3: the bank holds exactly what the payroll pays; a zero-net payroll pays no cash, so its bank stays empty.
+    bank=legacy.cash(cur,approved['net_payable']if D(approved['net_payable'])>0 else None)
     cash=cur.execute('select cp7_installment.cash(%s)',(bank,)).fetchone()[0]
     expected=(D('1000.00')if attendance else D(manual))-(D(deduction_amount)if deduction else D(0))
     assert D(approved['net_payable'])==expected,approved

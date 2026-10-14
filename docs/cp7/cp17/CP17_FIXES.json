@@ -1,8 +1,8 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 23,
+ "expected_case_count": 27,
  "required_case_counts": {
-  "native": 20,
+  "native": 24,
   "races": 1,
   "http": 2
  },
@@ -27,7 +27,11 @@
    "CP17_RWK01_UNFINISHED_CASE_STILL_HELD",
    "CP17_HPP01_EXCLUDED_CONTRACTOR_POLICY_REFUSED",
    "CP17_HPP01_UNRELATED_POLICY_CONTROL",
-   "CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL"
+   "CP17_HPP01_CANCEL_POLICY_REPLACEMENT_POOL",
+   "CP17_SG02_RETURN_STOCK_VALUE_PO_COST",
+   "CP17_SG02_OVER_REMAINDER_REFUSED",
+   "CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY",
+   "CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK"
@@ -47,11 +51,15 @@
   "erp_cp7_create_supplier_payment_v1",
   "erp_save_laundry_bd_action_v1",
   "erp_cp7_get_material_ledger_v1",
-  "erp_cp7_get_material_ledger_v2"
+  "erp_cp7_get_material_ledger_v2",
+  "erp_cp7_get_cutting_return_v1",
+  "erp_cp7_return_cutting_fabric_v1",
+  "erp_cp7_get_cutting_correction_v1"
  ],
  "owner_decisions": {
   "D14_2": "Pembayaran upah sebelum utangnya ada: \"Tolak, kecuali kasbon (Disarankan)\" (15 Okt 2026)",
-  "D14_3": "Kas/bank minus: \"Tidak boleh, tolak (Disarankan)\" (15 Okt 2026)"
+  "D14_3": "Kas/bank minus: \"Tidak boleh, tolak (Disarankan)\" (15 Okt 2026)",
+  "D14_4": "Kain sisa potong: \"Ya, masuk stok lagi (Disarankan)\"; \"Ada langkah 'kain kembali ke gudang': roll yang sama masuk stok lagi beserta nilainya, biaya PO berkurang sebesar itu.\" (15 Okt 2026)"
  },
  "findings": {
   "FIN01": "Fable FABLE-001, Astra FIN01",
@@ -59,7 +67,8 @@
   "FIN02": "Fable FABLE-008, Astra FIN02",
   "STK01": "Astra STK01",
   "RWK01": "Astra ASTRA-CP17-RWK-01, Fable FABLE-006",
-  "HPP01": "Astra ASTRA-CP17-HPP-01, Fable R1-02"
+  "HPP01": "Astra ASTRA-CP17-HPP-01, Fable R1-02",
+  "SG02": "Fable/Astra SG-02: no writer records leftover fabric returning to the warehouse"
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",
