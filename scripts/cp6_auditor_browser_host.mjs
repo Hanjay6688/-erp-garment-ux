@@ -14,6 +14,8 @@
 //   await ui.anonPage(opts)           a fresh context on the login page, nobody signed in
 //   await ui.anonRpc(name, args)      the public RPC as anon; rpc() results are { status, body }
 //   ui.sql(query)                     psql on the disposable copy (fixtures and read-back only; nothing leaves the job)
+//   ui.fund(cashAccountId, amount, day)  owner capital into a fixture bank before it pays (owner D14-3: cash/bank never
+//                                     negative), through the accepted native journal; same call as scripts/cp7_cash_funding.py
 //   ui.expect                         Playwright's expect
 // Each case returns an object whose status is PASS, FAIL, COUNTEREXAMPLE or INCOMPLETE; a thrown error, another status or
 // a non-object is INCOMPLETE; duplicate case ids refuse the run. The WIB date of the copy is read before and after each
@@ -58,6 +60,15 @@ function safe(value) {
 const sql = query => execFileSync('psql', [db, '-X', '-qAt', '-v', 'ON_ERROR_STOP=1', '-c', query],
   { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim()
 const literal = value => "'" + String(value).replaceAll("'", "''") + "'"
+// Owner D14-3 (cash/bank never negative): a fixture bank that pays out first receives owner capital, Dr bank /
+// Cr OPENING_EQUITY through the accepted native erp.post_journal, as the database owner with an active OWNER's
+// claims (as cp7_cash_funding.fund does), dated on or before the payment. Returns the journal id.
+const fund = (cashAccountId, amount, day) => sql(`select set_config('request.jwt.claims',jsonb_build_object('sub',(select u.auth_user_id
+  from erp.app_users u join erp.app_roles r on r.id=u.role_id where r.role_code='OWNER' and u.is_active and r.is_active order by u.id limit 1),
+  'role','authenticated')::text,true);
+select erp.post_journal('CP7_FIXTURE_BANK_CAPITAL',gen_random_uuid(),${literal(day)}::date,'Fixture bank owner capital (D14-3)',
+  jsonb_build_array(jsonb_build_object('account_id',(select coa_account_id from erp.cash_accounts where id=${literal(cashAccountId)}),'debit',${literal(amount)}),
+  jsonb_build_object('mapping_key','OPENING_EQUITY','credit',${literal(amount)})))`)
 
 async function auth(path, body, admin = false, method = 'POST') {
   const key = admin ? service : anon
@@ -144,7 +155,7 @@ async function context({ mobile = false, timezoneId = 'Asia/Jakarta' } = {}) {
   return { ctx, page }
 }
 const ui = {
-  origin, get api(){return api}, today, expect, sql,
+  origin, get api(){return api}, today, expect, sql, fund,
   async anonPage(opts = {}) { const { ctx, page } = await context(opts); await page.goto(origin); return { page, context: ctx } },
   anonRpc: (name, args) => rpc(null, name, args),
   async login(role, { label = 'auditor', ...opts } = {}) {

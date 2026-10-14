@@ -1,8 +1,11 @@
 """New supplier cash/bank payment through the owning CP7 command; Native posts it.
 
 Receipt 100 x 10 FINAL gives supplier AP 1000. Payments 400 then 600 settle it exactly. Every refusal leaves
-Native payments, journals, request records and stock/HPP unchanged. No GL row is seeded and no Native
-definition changes: erp.post_supplier_payment remains the AP-capacity and journal authority.
+Native payments, journals, request records and stock/HPP unchanged. No Native definition changes:
+erp.post_supplier_payment remains the AP-capacity and journal authority. Owner D14-3 (cash/bank never negative):
+the suite's payments use funded(): the fixture bank first receives owner capital 1000 through the accepted native
+journal (cp7_cash_funding), dated at the receipt day, so paying the whole AP ends the bank at exactly zero. That
+capital is the only seeded GL row. fixture() without capital keeps the empty bank, as auditor witnesses expect.
 """
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
@@ -13,6 +16,7 @@ import cp7_supplier_payment_cases as supplier
 import cp7_invoice_cases as invoice
 import cp7_misc_cases as misc
 import cp6_bc_probe as bc
+import cp7_cash_funding as funding
 auth,b=invoice.auth,invoice.b
 READ='erp_cp7_get_supplier_payment_create_v1'
 WRITE='erp_cp7_create_supplier_payment_v1'
@@ -30,13 +34,17 @@ def command(cur,p,key=None,subject=None):
  r=cur.execute('select public.erp_cp7_create_supplier_payment_v1(%s::jsonb,%s)',(json.dumps(p),key or uuid.uuid4())).fetchone()[0]
  b.api.admin(cur);return r
 
-def fixture(cur,today):
+def fixture(cur,today,capital=None):
  bank=bc.fixture(cur,today,zones=False,purchase=False)
  f=invoice.fixture(cur,today,'100','10',True);f['cash']=bank['cash']
+ if capital is not None:f['capital']=str(funding.fund(cur,f['cash'],capital,f['day']))
  f['coa']=str(cur.execute('select coa_account_id from erp.cash_accounts where id=%s',(f['cash'],)).fetchone()[0])
  f['cash_before']=misc.cash_balance(cur,f['cash']);f['physical']=supplier.physical_state(cur)
  f['received']=cur.execute('select physical_at from erp.material_purchase_headers where id=%s',(f['receipt']['purchase_id'],)).fetchone()[0]
  return f
+
+def funded(cur,today,capital='1000'):
+ return fixture(cur,today,capital)
 
 def at(cur,minutes=1):
  return (cur.execute('select statement_timestamp()').fetchone()[0]-timedelta(minutes=minutes)).isoformat()
@@ -88,7 +96,7 @@ def legacy_direct_path(cur,f,subject):
 def cases(cur,today):
  refused=auth.refused
  def exact():
-  f=fixture(cur,today);w=read(cur,f)
+  f=funded(cur,today);w=read(cur,f)
   assert w['contract_version']=='cp7.supplier-payment-create-workspace.v1'and w['eligible']and w['can_create']and w['Native_AP']['remaining']=='1000.00'
   assert w['purchase']['id']==f['receipt']['purchase_id']and any(x['id']==f['cash']for x in w['cash_accounts']['rows'])or int(w['cash_accounts']['total'])>25
   p=payload(cur,f,'400.00');key=uuid.uuid4();r=command(cur,p,key)
@@ -108,7 +116,7 @@ def cases(cur,today):
   return dict(status='PASS',workspace_AP_token_banks=True,Native_post_AP_SUPPLIER_debit_cash_credit=True,same_UUID_replay_no_second_effect=True,
    changed_payload_refused=changed,stale_review_refused=stale,settled_exactly_paid_status=True,nothing_payable_refused=done,stock_HPP_unchanged=True)
  def refusals():
-  f=fixture(cur,today);before=state(cur,f);cash=misc.cash_balance(cur,f['cash'])
+  f=funded(cur,today);before=state(cur,f);cash=misc.cash_balance(cur,f['cash'])
   inactive=bc.bank_account(cur,'P18X'+uuid.uuid4().hex[:8]);cur.execute('update erp.cash_accounts set is_active=false where id=%s',(inactive,))
   received=f['received']-timedelta(minutes=1)
   out=dict(
@@ -124,7 +132,7 @@ def cases(cur,today):
   assert state(cur,f)==before and misc.cash_balance(cur,f['cash'])==cash and supplier.physical_state(cur)==f['physical'],'SUPPLIER_PAYMENT_CREATE_REFUSAL_HAD_EFFECT'
   return dict(status='PASS',refusals=out,Native_payments_journals_requests_cash_stock_unchanged=True)
  def access():
-  f=fixture(cur,today);before=state(cur,f);p=payload(cur,f,'5.00')
+  f=funded(cur,today);before=state(cur,f);p=payload(cur,f,'5.00')
   viewer,role=admin(cur,pay=False);w=read(cur,f,viewer)
   assert w['can_create']is False and w['Native_AP']['remaining']=='1000.00'
   denied=refused(cur,lambda:command(cur,p,subject=viewer),'CP7_SUPPLIER_PAYMENT_CREATE_DENIED')
@@ -139,7 +147,7 @@ def cases(cur,today):
   allowed,_=admin(cur);r=command(cur,payload(cur,f,'5.00',allowed),subject=allowed);assert r['status']=='POSTED';observe(cur,f,5)
   return dict(status='PASS',ADMIN_without_pay_reads_but_cannot_pay=denied,service_role_refused=service,private_apply_not_executable=private,legacy_hosted_direct_path_observation=legacy,ADMIN_with_pay_records=True)
  def boundary():
-  f=fixture(cur,today);r=command(cur,payload(cur,f,'25.00'))
+  f=funded(cur,today);r=command(cur,payload(cur,f,'25.00'))
   assert not cur.execute('select exists(select 1 from cp7_supplier_payment_create.context)').fetchone()[0],'SUPPLIER_PAYMENT_CREATE_CONTEXT_LEFT'
   for who in('anon','authenticated','service_role','cp7_capture'):
    assert not cur.execute("select has_schema_privilege(%s,'cp7_supplier_payment_create','USAGE')",(who,)).fetchone()[0],who
@@ -154,7 +162,7 @@ def cases(cur,today):
 
 def races(tools,today):
  def same_request():
-  with tools.connect()as conn,conn.cursor()as cur:f=fixture(cur,today);p=payload(cur,f,'300.00');conn.commit()
+  with tools.connect()as conn,conn.cursor()as cur:f=funded(cur,today);p=payload(cur,f,'300.00');conn.commit()
   barrier=threading.Barrier(2);key=uuid.uuid4()
   def send():
    with tools.connect()as conn,conn.cursor()as cur:barrier.wait(5);r=command(cur,p,key);conn.commit();return r
@@ -162,7 +170,7 @@ def races(tools,today):
   with tools.connect()as conn,conn.cursor()as cur:observe(cur,f,300);assert state(cur,f)['requests']==1
   return dict(status='PASS',two_sessions_same_UUID_one_payment_one_journal=True)
  def double_pay():
-  with tools.connect()as conn,conn.cursor()as cur:f=fixture(cur,today);p=payload(cur,f,'600.00');conn.commit()
+  with tools.connect()as conn,conn.cursor()as cur:f=funded(cur,today);p=payload(cur,f,'600.00');conn.commit()
   barrier=threading.Barrier(2)
   def send():
    with tools.connect()as conn,conn.cursor()as cur:
@@ -175,7 +183,7 @@ def races(tools,today):
   return dict(status='PASS',same_review_two_new_requests_one_payment_other_stale=results)
  def revoke():
   with tools.connect()as conn,conn.cursor()as cur:
-   f=fixture(cur,today);subject,role=admin(cur);first=command(cur,payload(cur,f,'10.00',subject),subject=subject);p=payload(cur,f,'20.00',subject);conn.commit()
+   f=funded(cur,today);subject,role=admin(cur);first=command(cur,payload(cur,f,'10.00',subject),subject=subject);p=payload(cur,f,'20.00',subject);conn.commit()
   holder=tools.connect();holder.cursor().execute('select 1 from erp.supplier_payments where id=%s for update',(first['payment_id'],))
   pid=threading.Event();waiting=[]
   def send():
@@ -206,7 +214,7 @@ def http_cases(http,today):
  def flow():
   owner=http.login('ADMIN','cp7-supplier-payment-create')
   with http.connect()as conn,conn.cursor()as cur:
-   f=fixture(cur,today);role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(owner.auth_user_id,)).fetchone()[0]
+   f=funded(cur,today);role=cur.execute('select role_id from erp.app_users where auth_user_id=%s',(owner.auth_user_id,)).fetchone()[0]
    for key in supplier.PERMISSIONS:cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,key))
    when=at(cur);conn.commit()
   q=dict(p_query=dict(purchase_id=f['receipt']['purchase_id']))

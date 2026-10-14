@@ -61,9 +61,9 @@ def fixture(cur,today,attendance=True,manual='1000.00',deduction=False,deduction
     legacy.act(cur,'PREPARE',legacy.doc(cur,pid))
     before_approval=legacy.gl(cur,contractor)
     legacy.act(cur,'APPROVE',legacy.doc(cur,pid))
-    bank=legacy.cash(cur)
-    cash=cur.execute('select cp7_installment.cash(%s)',(bank,)).fetchone()[0]
     approved=legacy.doc(cur,pid)
+    bank=legacy.cash(cur,approved['net_payable'])  # owner D14-3: the bank holds exactly what the payroll pays
+    cash=cur.execute('select cp7_installment.cash(%s)',(bank,)).fetchone()[0]
     expected=(D('1000.00')if attendance else D(manual))-(D(deduction_amount)if deduction else D(0))
     assert D(approved['net_payable'])==expected,approved
     return dict(tag=tag,payroll=pid,contractor=contractor,cash=cash,payment_date=str(day),today=str(today),approved=approved,item=item,

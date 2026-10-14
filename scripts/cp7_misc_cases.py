@@ -6,6 +6,7 @@ import hashlib,json,uuid,threading,time
 import psycopg
 import cp7_finance_analysis_cases as source
 import cp7_misc_bundle as bundle
+import cp7_cash_funding as funding
 b,auth=source.b,source.auth
 
 def read(cur,query=None,subject=None):
@@ -21,6 +22,9 @@ def fixture(cur,today):
     for kind,mapping in [('OTHER_INCOME','OTHER_INCOME'),('OTHER_EXPENSE','OTHER_EXPENSE')]:
         categories[kind]=str(cur.execute('insert into erp.misc_finance_categories(category_code,category_name,category_type,default_account_id)values(%s,%s,%s,erp.account_id(%s))returning id',(tag+kind,tag+' '+kind,kind,mapping)).fetchone()[0])
     bank=str(cur.execute("select c.id from erp.cash_accounts c join erp.chart_accounts a on a.id=c.coa_account_id where c.is_active and a.is_active and a.is_postable and a.account_type='ASSET'and not exists(select 1 from erp.accounting_account_mappings m where m.account_id=a.id and m.mapping_key not in('CASH','BANK'))order by c.cash_account_code,c.id limit 1").fetchone()[0])
+    # Owner D14-3 (cash/bank never negative): the chosen account holds owner capital from the earliest open
+    # business date before the expenses (first guarded run 597d6778: CP7_CASH_NEGATIVE on CASH-MAIN, log kept).
+    funding.fund(cur,bank,'1000.00',funding.open_day(cur));b.api.admin(cur)
     opts={kind:cur.execute('select cp7_misc.category(%s)',(ident,)).fetchone()[0]for kind,ident in categories.items()};cash=cur.execute('select cp7_misc.cash(%s)',(bank,)).fetchone()[0]
     return dict(tag=tag,categories=opts,cash=cash,today=str(today),physical=str(today-timedelta(days=1))+'T08:00:00+07:00',stock_cost=stock_cost(cur),cash_before=str(cash_balance(cur,bank)))
 def save_payload(f,kind='OTHER_EXPENSE',amount='12.34'):

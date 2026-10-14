@@ -7,6 +7,7 @@ import json,threading,time,uuid
 import psycopg
 import cp7_settlement_read_cases as review
 import cp6_bc_probe as bc
+import cp7_cash_funding as funding
 n,source,auth,b=review.nota,review.source,review.auth,review.b
 PERMS=('finance.payroll.view','finance.payroll.approve','finance.payroll.pay')
 
@@ -15,7 +16,13 @@ def args(d,action,**extra):return dict(id=d['id'],review_token=d['review_token']
 def command(cur,action,p,version,key=None,subject=None):
     auth.actor(cur,subject);r=cur.execute('select public.erp_cp7_save_payroll_v1(%s,%s,%s,%s)',(action,json.dumps(p),key or uuid.uuid4(),str(version))).fetchone()[0];b.api.admin(cur);return r
 def act(cur,action,d,key=None,subject=None,**extra):return command(cur,action,args(d,action,**extra),d['row_version'],key,subject)
-def cash(cur):return bc.bank_account(cur,'P12'+uuid.uuid4().hex[:12])
+def cash(cur,capital='1000000.00'):
+    # Owner D14-3 (cash/bank never negative): a payroll bank holds owner capital from the earliest open business
+    # date (cp7_cash_funding); the first guarded run 597d6778 refused PAY out of the empty bank (log kept).
+    # capital=None keeps the bank empty, for cases that prove that refusal.
+    bank=bc.bank_account(cur,'P12'+uuid.uuid4().hex[:12])
+    if capital is not None:funding.fund(cur,bank,capital,funding.open_day(cur));b.api.admin(cur)
+    return bank
 def gl(cur,contractor):
     return dict(cur.execute('select account_id::text,sum(debit-credit) from erp.journal_lines where contractor_id=%s group by account_id order by account_id',(contractor,)).fetchall())
 def change(before,after):return {k:after.get(k,D(0))-before.get(k,D(0)) for k in set(before)|set(after) if before.get(k,D(0))!=after.get(k,D(0))}

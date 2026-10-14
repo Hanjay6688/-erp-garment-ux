@@ -247,7 +247,7 @@ def run():
             cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
             today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
             native.boundary.historical.prior.set_open_period(cur,date(2026,8,31))
-            f=create.fixture(cur,today);pay=create.command(cur,create.payload(cur,f,'100.00'))
+            f=create.funded(cur,today);pay=create.command(cur,create.payload(cur,f,'100.00'))
             assert pay['status']=='POSTED' and pay['remaining_after']=='900.00',pay
             if granted:staged.b.api.admin(cur);cur.execute('revoke usage on schema erp from authenticated')
             conn.commit()

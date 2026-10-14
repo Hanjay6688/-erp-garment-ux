@@ -20,6 +20,7 @@ import cp7_sales_draft_cases as drafts
 import cp7_sales_return_cases as returned
 import cp6_ao_ap_installed as imports
 import cp6_initial_import_prepayment_trial as prepaid
+import cp7_cash_funding as funding
 auth,b,bc,aa=receipt.auth,receipt.b,receipt.bc,receipt.aa
 cmd,source=drafts.cmd,drafts.source
 ROOT=Path(__file__).resolve().parents[1]
@@ -28,6 +29,13 @@ assert MANIFEST['schema']=='cp7-receipt-correction-native-manifest-v1'
 REQUIRED=MANIFEST['required_counts']
 EXPECTED=MANIFEST['expected_case_executions']
 assert EXPECTED==sum(REQUIRED.values())
+
+def paying_bank(cur,today,capital,day):
+    """A fixture bank that pays a supplier. Owner D14-3 (cash/bank never negative): it first holds owner capital
+    through the accepted native journal (cp7_cash_funding), dated on its first payment day; the first run with
+    the dated cash guard (597d6778) refused these payments out of the empty bank (CP7_CASH_NEGATIVE, log kept)."""
+    masters=bc.fixture(cur,today,purchase=False,zones=False);funding.fund(cur,masters['cash'],capital,day);b.api.admin(cur)
+    return masters
 
 def ws(cur,purchase,subject=None):
     auth.actor(cur,subject)
@@ -293,7 +301,7 @@ def cases(cur,today):
         refused(cur,lambda:fix(cur,payload(w,line=lambda n,i:i['rolls'][0].update(qty='50')),w['purchase']['row_version']),'CP7_RECEIPT_FIX_ROLL_BELOW_USE')
         return dict(status='PASS',corrected_50_below_used_60_refused=True,no_partial_effect=True)
     def paid(amount,expect):
-        f=roll_receipt(cur,today,rolls=('100',));masters=bc.fixture(cur,today,purchase=False,zones=False)
+        f=roll_receipt(cur,today,rolls=('100',));masters=paying_bank(cur,today,amount,today)
         payment=bc.supplier_payment(cur,f['purchase'],amount,masters['cash'],today);bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
         cash_before=cur.execute('select sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id join erp.cash_accounts c on c.coa_account_id=l.account_id where c.id=%s and j.status in(\'POSTED\',\'REVERSED\')',(masters['cash'],)).fetchone()[0]
         before=ledger(cur);w=ws(cur,f['purchase']);p=payload(w,line=lambda n,i:i['rolls'][0].update(qty='80'))
@@ -320,7 +328,7 @@ def cases(cur,today):
         return dict(status='PASS',real_payment_300_reversed_and_replayed_same_date_amount=True,cash_unchanged=True,payable_800_remaining_500=True,economic_dates_restated=True)
     def overpaid_credit():
         f=roll_receipt(cur,today,rolls=('100',),day_offset=10);t=roll_receipt(cur,today,rolls=('100',),day_offset=2)
-        masters=bc.fixture(cur,today,purchase=False,zones=False);pay_day=f['day']+timedelta(days=1)
+        pay_day=f['day']+timedelta(days=1);masters=paying_bank(cur,today,'1050',pay_day)
         # A payment cancelled before the correction keeps its own cancellation date.
         early=bc.supplier_payment(cur,f['purchase'],'50',masters['cash'],pay_day);bc.internal(cur,'post_supplier_payment',early)
         bc.internal(cur,'reverse_supplier_payment',early,'RF payment cancelled before the correction');b.api.admin(cur)
@@ -366,7 +374,7 @@ def cases(cur,today):
         # refused as future before 10:00): cutover today-2, advance used today-2,
         # the later nota received today-1, the earlier one today-4.
         f=roll_receipt(cur,today,rolls=('100',),day_offset=3);late=roll_receipt(cur,today,rolls=('100',),day_offset=1);early=roll_receipt(cur,today,rolls=('100',),day_offset=4)
-        aa.prior.set_open_period(cur,today-timedelta(days=5));masters=bc.fixture(cur,today,purchase=False,zones=False)
+        aa.prior.set_open_period(cur,today-timedelta(days=5));masters=paying_bank(cur,today,'400',f['day'])
         cash_pay=bc.supplier_payment(cur,f['purchase'],'400',masters['cash'],f['day']);bc.internal(cur,'post_supplier_payment',cash_pay);b.api.admin(cur)
         supplier=cur.execute('select supplier_id from erp.material_purchase_headers where id=%s',(f['purchase'],)).fetchone()[0]
         w=prepaid.fixture(imports,cur,today-timedelta(days=1),'SUPPLIER',party=supplier,bill=None)
@@ -429,7 +437,7 @@ def cases(cur,today):
           invoice_book_date_ap_and_inventory=str(f['day']),production_day_revaluation_fg=str(f['production_day']),sold_pieces_on_sale_day=True,
           old_invoice_reversed_new_invoice_same_date=True,all_integrity_checks_unchanged=True)
     def invoiced_qty_down():
-        f=invoiced_production(cur,today);masters=bc.fixture(cur,today,purchase=False,zones=False)
+        f=invoiced_production(cur,today);masters=paying_bank(cur,today,'500',today)
         payment=bc.supplier_payment(cur,f['purchase'],'500',masters['cash'],today);bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
         before,dated,chk=ledger(cur),by_date(cur),checks(cur);w=ws(cur,f['purchase'])
         out=fix(cur,dict(payload(w,line=lambda n,i:i['rolls'][0].update(qty='80')),invoices=invoices(w,qty='80')),w['purchase']['row_version'])
@@ -459,7 +467,7 @@ def cases(cur,today):
           change_reason='Satu invoice supplier untuk dua penerimaan',lines=[dict(purchase_item_id=x['item'],qty_invoiced='2',unit_price='12.5',discount_amount='0') for x in (g,k)])
         d=cur.execute('select erp.save_material_supplier_invoice_draft_v2(%s::jsonb,%s,null)',(json.dumps(shared),uuid.uuid4())).fetchone()[0]
         cur.execute('select erp.post_material_supplier_invoice_v2(%s,%s,%s,%s)',(d['supplier_invoice_id'],uuid.uuid4(),d['row_version'],'Invoice gabungan dua penerimaan'));b.api.admin(cur)
-        masters=bc.fixture(cur,today,purchase=False,zones=False);kp=k['receipt']['purchase_id']
+        masters=paying_bank(cur,today,'25',today);kp=k['receipt']['purchase_id']
         payment=bc.supplier_payment(cur,kp,'25',masters['cash'],today);bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
         state=lambda pid:cur.execute("select round(erp.material_purchase_payable_total(h.id),2),coalesce((select sum(amount) from erp.supplier_payments where purchase_id=h.id and status='POSTED'),0),h.payment_status from erp.material_purchase_headers h where h.id=%s",(pid,)).fetchone()
         k_before,k_facts=state(kp),facts(cur,kp)
@@ -750,7 +758,7 @@ def cases(cur,today):
     def supplier():
         """The supplier picked wrong: debt, payment and supplier invoice move to the right supplier."""
         right=str(cur.execute("insert into erp.suppliers(supplier_code,supplier_name,supplier_type) values(%s,'Supplier yang benar','MATERIAL') returning id",('RF-SUP-'+uuid.uuid4().hex[:8],)).fetchone()[0])
-        f=roll_receipt(cur,today,rolls=('100',));masters=bc.fixture(cur,today,purchase=False,zones=False)
+        f=roll_receipt(cur,today,rolls=('100',));masters=paying_bank(cur,today,'300',f['day'])
         payment=bc.supplier_payment(cur,f['purchase'],'300',masters['cash'],f['day']);bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
         before,chk=ledger(cur),checks(cur);w=ws(cur,f['purchase'])
         out=fix(cur,dict(payload(w,reason='Supplier salah pilih'),supplier_id=right),w['purchase']['row_version'])

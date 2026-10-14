@@ -15,6 +15,12 @@ Writers used:
 At every boundary the global GL change since the start equals the fixture subledgers: material stock value,
 WIP, FG lots, supplier AP, laundry vendor AP, contractor payable, customer AR and cash. Only this fixture writes
 after the start snapshot, so a global change that is not explained by a subledger fails the case.
+
+Owner D14-3 (cash/bank never negative): the worksheet pays out 1200 more than the customer cash it receives
+(supplier 1000 and the E13 difference 100, laundry 120, payroll 180, less customer 200). The first run with the
+dated cash guard (597d6778) refused the supplier payment out of the empty fixture bank (CP7_CASH_NEGATIVE, log
+kept). The bank therefore receives owner capital 1200 through the accepted native journal before the start
+snapshot; every cash figure below stays a change since the start, unchanged, and E13 ends the bank at zero.
 """
 from datetime import timedelta
 from decimal import Decimal as D
@@ -23,10 +29,12 @@ import uuid
 import cp7_f03_e01_cases as e01
 import cp7_receipt_correction_cases as receipt_fix
 import cp7_supplier_payment_create_cases as pay_create
+import cp7_cash_funding as funding
 
 b, prod, cmd, finance, settlement, laundry = e01.b, e01.prod, e01.cmd, e01.finance, e01.settlement, e01.laundry
 refused = settlement.auth.refused
 KEYS = ('MATERIAL_INVENTORY', 'WIP', 'FG_INVENTORY', 'AP_SUPPLIER', 'AP_VENDOR', 'CONTRACTOR_PAYABLE', 'AR_CUSTOMER', 'SALES_REVENUE', 'COGS')
+CAPITAL = D(1200)
 POSITION = ('cash', 'customer_ar', 'material_inventory', 'wip_inventory', 'fg_inventory', 'supplier_final_ap', 'grni_estimated_liability',
             'liabilities', 'assets', 'recorded_equity', 'current_earnings', 'balance_difference')
 
@@ -123,13 +131,19 @@ def cycle(cur, today):
     assert not seed['refused'], ('P18_SEED_COMPLETION', seed)
     e01.native(cur, 'select erp.process_cost_recalc_queue(100)')
     b.api.admin(cur)
+    # D14-3: the cycle's bank holds owner capital before the start snapshot (module docstring).
+    bank = str(e01.source.bc.bank_account(cur, 'P18'+uuid.uuid4().hex[:8].upper()+'BANK'))
+    capital = str(funding.fund(cur, bank, CAPITAL, today-timedelta(days=3), 'P18_CYCLE_BANK_CAPITAL'))
+    b.api.admin(cur)
     known = [r[0] for r in cur.execute('select id::text from erp.journal_entries').fetchall()]
     gl0, p0 = ledger(cur), position(cur, today)
     f = e01.production(cur, today)
     assert not any(f['seed_completion'][k] for k in ('attendance', 'approved', 'work_payrolls')), ('P18_SEED_WROTE_AFTER_START', f['seed_completion'])
+    f.update(bank=bank, bank_code=one(cur, 'select cash_account_code from erp.cash_accounts where id=%s', (bank,)), cash_coa=funding.coa(cur, bank), capital=capital)
     f.update(gl0=gl0, accounts=accounts(cur), boundaries=[])
     assert f['cash_coa'] not in f['accounts'].values(), 'P18_CASH_COA_IS_A_CONTROL_ACCOUNT'
-    assert gl0.get(f['cash_coa'], D(0)) == 0, 'P18_FRESH_BANK_HAS_HISTORY'
+    assert gl0.get(f['cash_coa'], D(0)) == CAPITAL, 'P18_BANK_HAS_HISTORY_BEYOND_CAPITAL'
+    assert one(cur, "select count(*) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where l.account_id=%s and j.id<>%s", (f['cash_coa'], capital)) == 0, 'P18_BANK_HAS_HISTORY_BEYOND_CAPITAL'
 
     s = boundary(cur, f, 'B1_PRODUCTION_HPP_FINAL', 0)
     assert (s['material'], s['wip'], s['fg'], s['fg_pcs']) == (400, 0, 900, 60), ('P18_B1_STOCK', s)

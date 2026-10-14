@@ -13,7 +13,7 @@ def main():
         acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
         if not had:cur.execute('grant usage on schema erp to authenticated')
         if op=='prepare':
-            f=cases.fixture(cur,date.fromisoformat(p['today']))
+            f=cases.funded(cur,date.fromisoformat(p['today']))
             code,name=cur.execute('select cash_account_code,cash_account_name from erp.cash_accounts where id=%s',(f['cash'],)).fetchone()
             number=cur.execute('select purchase_number from erp.material_purchase_headers where id=%s',(f['receipt']['purchase_id'],)).fetchone()[0]
             out=dict(fixture=dict(receipt=dict(purchase_id=f['receipt']['purchase_id']),cash=f['cash'],cash_before=str(f['cash_before'])),number=number,bank_code=code,bank_name=name)

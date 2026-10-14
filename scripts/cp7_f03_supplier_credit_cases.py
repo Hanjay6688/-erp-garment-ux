@@ -6,9 +6,17 @@ No paid-refund policy, accounting engine or new supplier balance is introduced.
 from decimal import Decimal as D
 import cp6_bf_supplier_probe as credit
 import cp6_bb_probe as opening
+import cp7_cash_funding as funding
+
+def funded(cur,today,capital,**kw):
+ """The accepted CP6 credit fixture whose bank then holds owner capital (owner D14-3: cash/bank never negative;
+ first guarded run 597d6778 refused the payment out of the empty bank, CP7_CASH_NEGATIVE, log kept)."""
+ f=fixture(cur,today,**kw);funding.fund(cur,f['cash'],capital,today);credit.b.api.admin(cur);return f
+
+fixture=credit.fixture
 
 def prepare(cur,today):
- f=credit.fixture(cur,today)
+ f=funded(cur,today,'80.00')
  credit.call(cur,credit.payload(cur,f,[(f['purchases'][1],'20.00')]))
  f['bank_before']=str(opening.bank(cur,f))
  payment=credit.bc.supplier_payment(cur,f['purchases'][1],'80.00',f['cash'],today)
@@ -29,7 +37,12 @@ def observe(cur,f):
 
 def cases(cur,today):
  def paid_carry():
-  r=credit.cash_and_reallocation(cur,today);assert r['status']=='PASS',r
+  # The CP6 probe builds its own fixture; it runs here with the same fixture plus the owner capital for its
+  # 80 + 100 payments (the 100 is reversed). The CP6 file and its oracles are not changed.
+  credit.fixture=lambda cur,today,**kw:funded(cur,today,'180.00',**kw)
+  try:r=credit.cash_and_reallocation(cur,today)
+  finally:credit.fixture=fixture
+  assert r['status']=='PASS',r
   return dict(r,actual_Native_paid_target_reopens_owed20=True,source_return_credit_original_restorable_after_payment_inverse=True,
    stock_HPP_and_net_AP_unchanged_by_reallocation=True,current_original_payment_blocks_credit_reuse=True,full_family_acceptance=False)
  return [('F03_P09_NATIVE_PAID_SUPPLIER_CREDIT_CARRY',paid_carry)]

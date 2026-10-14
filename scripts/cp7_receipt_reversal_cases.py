@@ -11,6 +11,7 @@ import cp7_procurement_cases as receipt
 import cp7_material_cases as material
 import cp7_invoice_cases as invoice
 import cp7_supplier_return_cases as returns
+import cp7_cash_funding as funding
 auth,b,bc=receipt.auth,receipt.b,receipt.bc
 
 def version(cur,f):return receipt.workspace(cur,dict(purchase_id=f['receipt']['purchase_id']))['detail']['row_version']
@@ -55,8 +56,9 @@ def cases(cur,today):
         assert receipt.qty(cur,f)==(0,4) and net_ledger(cur)==before
         return dict(status='PASS',active_invoice_and_return_block_atomic=True,inverse_after_dependencies_released=True,all_account_balances_restored=True)
     def payment_dependency():
+        # Owner D14-3: the paying bank holds owner capital before the start of the ledger comparison.
+        masters=bc.fixture(cur,today,purchase=False,zones=False);funding.fund(cur,masters['cash'],'20.00',today);b.api.admin(cur)
         before=net_ledger(cur);f=invoice.fixture(cur,today,final=True)
-        masters=bc.fixture(cur,today,purchase=False,zones=False)
         payment=bc.supplier_payment(cur,f['receipt']['purchase_id'],'20.00',masters['cash'],today)
         bc.internal(cur,'post_supplier_payment',payment);b.api.admin(cur)
         boundary=b.boundary.snapshot(cur)

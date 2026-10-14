@@ -5,6 +5,7 @@ from datetime import timedelta
 import cp7_receivable_condition_cases as ar
 import cp7_invoice_cases as invoice
 import cp7_supplier_return_cases as returned
+import cp7_cash_funding as funding
 parent,auth,b=ar.parent,ar.auth,ar.b
 bc=invoice.receipt.bc
 def get(cur,run,subject=None):return ar.attention.rpc(cur,'erp_cp7_get_analysis_payable_conditions_v1',(run,),subject)
@@ -17,7 +18,9 @@ def native_balance(cur,f):
  auth.actor(cur);e=cur.execute('select public.erp_get_supplier_credit_v1(%s::jsonb)',(json.dumps(dict(supplier_id=f['payload']['supplier_id'],page=1)),)).fetchone()[0];b.api.admin(cur)
  return next(x for x in e['purchases']if x['id']==f['receipt']['purchase_id'])
 def payment(cur,f,today,amount):
- bank=bc.bank_account(cur,'P16AP'+uuid.uuid4().hex[:10]);p=bc.supplier_payment(cur,f['receipt']['purchase_id'],amount,bank,today);bc.internal(cur,'post_supplier_payment',p);b.api.admin(cur);return p
+ # Owner D14-3 (cash/bank never negative): the fresh bank first holds the owner capital it pays out
+ # (cp7_cash_funding; the first guarded run 597d6778 refused the empty bank, CP7_CASH_NEGATIVE, log kept).
+ bank=bc.bank_account(cur,'P16AP'+uuid.uuid4().hex[:10]);funding.fund(cur,bank,amount,today);b.api.admin(cur);p=bc.supplier_payment(cur,f['receipt']['purchase_id'],amount,bank,today);bc.internal(cur,'post_supplier_payment',p);b.api.admin(cur);return p
 def inverse(cur,p):bc.internal(cur,'reverse_supplier_payment',p,'P16 actual Native supplier payment inverse');b.api.admin(cur)
 def prepared(cur,today):
  parent.setup(cur,today);f=invoice.fixture(cur,today,qty='20',price='25');return f,parent.capture(cur,today)

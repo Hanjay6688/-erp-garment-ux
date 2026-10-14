@@ -121,7 +121,7 @@ def run():
             cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
             today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
             native.boundary.historical.prior.set_open_period(cur,date(2026,8,31))
-            f=create.fixture(cur,today);r=create.command(cur,create.payload(cur,f,'100.00'))
+            f=create.funded(cur,today);r=create.command(cur,create.payload(cur,f,'100.00'))
             assert r['status']=='POSTED' and r['remaining_after']=='900.00',r
             report['steps'].append(dict(step='USE',supplier_payment_created=r['payment_id'],remaining_after=r['remaining_after'],transaction='HELD_OPEN_THEN_ROLLED_BACK'))
             cur.execute('savepoint p21_guard');held=used(cur);post=guarded_rollback(cur,originals,reseeded);cur.execute('rollback to savepoint p21_guard')

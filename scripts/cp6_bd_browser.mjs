@@ -138,6 +138,9 @@ async function payOnScreen(ui, owner, vendor, doc, credit, day, sql) {
   const middle = await read()
   await common()
   const cash = await box.getByLabel('Rekening kas pembayaran', { exact: true }).locator('option').nth(1).getAttribute('value')
+  // Owner D14-3 (cash/bank never negative): the chosen fixture bank first holds the owner capital it pays out
+  // (first run with the dated cash guard, 597d6778: CP7_CASH_NEGATIVE on an empty bank, log kept).
+  ui.fund(cash, '8000000', day)
   await box.getByLabel('Rekening kas pembayaran', { exact: true }).selectOption(cash)
   await box.getByLabel('Nominal bayar kas', { exact: true }).fill('8000000')
   await box.getByRole('button', { name: 'Bayar kas', exact: true }).click()
@@ -555,6 +558,7 @@ export async function cases(ui, today) {
           lines: [{ line_kind: 'BILL', receipt_line_id: receiptLine, category: 'GOOD', qty: 1, amount: '7000.00' }] })
         const origin = (await bd('POST_INVOICE', { invoice_id: draft.invoice_id, expected_version: draft.row_version })).invoice_id
         const cashAccount = ui.sql(`select id from erp.cash_accounts where is_active order by cash_account_code limit 1`)
+        ui.fund(cashAccount, '7000.00', dayNow) // owner D14-3: the bank holds the cash it pays (see payOnScreen)
         await bd('PAY_VENDOR_DOCUMENT', { target_kind: 'VENDOR_INVOICE', target_id: origin, amount: '7000.00', date: dayNow, cash_account_id: cashAccount, reason: 'D13 bayar lunas' })
         const originRow = () => ui.sql(`select h.status||'|'||(select string_agg(p.payment_method||':'||p.amount::text||':'||p.status,',' order by p.id) from erp.vendor_payments p where p.vendor_invoice_id=h.id) from erp.vendor_invoices h where h.id='${origin}'`)
         const origin0 = originRow()

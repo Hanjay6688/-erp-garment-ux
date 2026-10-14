@@ -90,6 +90,9 @@ begin
  elsif p_action='PAY' then
   if p.status<>'APPROVED' then raise exception 'CP7_PAYROLL_APPROVED_ONLY';end if;
   update erp.payroll_settlements set payment_date=(p_payload->>'payment_date')::date,payment_cash_account_id=(p_payload->>'cash_account_id')::uuid where id=p.id;
+  -- FIN01/D14-2: the payment-date rule is reported before any cash posting
+  -- (the PAID-transition trigger repeats it for every other caller).
+  perform cp7_payroll.assert_payment_date(p.id,(p_payload->>'payment_date')::date);
   perform erp.post_payroll_payment(p.id);
  elsif p_action='CANCEL' then
   if p.status not in('DRAFT','CALCULATED','REVIEW','APPROVED') then raise exception 'CP7_PAYROLL_UNPAID_ONLY';end if;

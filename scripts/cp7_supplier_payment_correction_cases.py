@@ -1,5 +1,8 @@
 """Predeclared supplier cash/AP oracles on genuine Native draft/post/inverse.
-No pre-filled posted payment, journal, cash balance or historical prefix.
+No pre-filled posted payment, journal or historical prefix. Owner D14-3 (cash/bank never negative): each fixture
+bank first holds owner capital through the accepted native journal (cp7_cash_funding), dated at the receipt day,
+the original payment plus 1000 headroom for corrections; the first run with the dated cash guard (597d6778)
+refused the original payments out of the empty banks (CP7_CASH_NEGATIVE, log kept). Cash oracles stay changes.
 """
 from concurrent.futures import ThreadPoolExecutor
 from datetime import timedelta
@@ -11,6 +14,7 @@ import cp7_invoice_cases as invoice
 import cp7_misc_cases as misc
 import cp7_transaction_source_cases as navigation
 import cp7_supplier_payment_correction_bundle as bundle
+import cp7_cash_funding as funding
 auth,b,bc=supplier.auth,supplier.b,supplier.bc
 RPC='erp_cp7_correct_supplier_payment_v1'
 READ='erp_cp7_get_supplier_payment_correction_v1'
@@ -37,6 +41,7 @@ def fixture(cur,today,amount='30.01',historical=False,qty='100',price='10'):
     day=today-timedelta(days=366)if historical else today
     invoice.aa.prior.set_open_period(cur,day-timedelta(days=20))
     f=invoice.fixture(cur,day,qty,price,True);f['cash']=str(bc.bank_account(cur,'SUPEDIT-'+uuid.uuid4().hex[:8]))
+    funding.fund(cur,f['cash'],D(amount)+1000,f['day']);b.api.admin(cur)
     at=invoice.aa.at(f['day']+timedelta(days=2),12).replace(microsecond=123456)
     ident=str(cur.execute('insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id)values(%s,%s,%s,%s,%s)returning id',(f['receipt']['purchase_id'],'S-'+uuid.uuid4().hex,at,amount,f['cash'])).fetchone()[0])
     auth.actor(cur);cur.execute('select erp.post_supplier_payment(%s)',(ident,));b.api.admin(cur)
@@ -103,7 +108,7 @@ def cases(cur,today):
         f=fixture(cur,today,'1000.00');p=payload(cur,f,'999.99');w=check(cur,f,p,correct(cur,p));assert w['Native_AP']['remaining']=='0.01'
         return dict(status='PASS',fully_paid_receipt_corrected_native_remaining_one_cent=True)
     def account():
-        f=fixture(cur,today);other=bc.bank_account(cur,'SUPEDIT-B-'+uuid.uuid4().hex[:8]);p=payload(cur,f,cash_account_id=other);before=misc.cash_balance(cur,other);check(cur,f,p,correct(cur,p))
+        f=fixture(cur,today);other=bc.bank_account(cur,'SUPEDIT-B-'+uuid.uuid4().hex[:8]);funding.fund(cur,other,'1000',f['day']);b.api.admin(cur);p=payload(cur,f,cash_account_id=other);before=misc.cash_balance(cur,other);check(cur,f,p,correct(cur,p))
         assert misc.cash_balance(cur,f['cash'])-D(f['cash_before'])==D('30.01')and misc.cash_balance(cur,other)-before==D('-20.01')
         return dict(status='PASS',old_bank_return30_01_new_bank_out20_01=True)
     def micros():
@@ -170,7 +175,7 @@ def races(tools,today):
         # guard from concealing a stale original-bank review after a cash wait.
         with tools.connect()as conn,conn.cursor()as cur:
             f=fixture(cur,today);subject,_=supplier.admin_actor(cur)
-            other=bc.bank_account(cur,'SUP-CASH-WAIT-'+uuid.uuid4().hex[:8])
+            other=bc.bank_account(cur,'SUP-CASH-WAIT-'+uuid.uuid4().hex[:8]);funding.fund(cur,other,'1000',f['day']);b.api.admin(cur)
             p=payload(cur,f,subject=subject,cash_account_id=other);conn.commit()
         holder=tools.connect();holding=holder.cursor();b.api.admin(holding)
         holding.execute('select 1 from erp.cash_accounts where id=%s for update',(f['cash'],))
