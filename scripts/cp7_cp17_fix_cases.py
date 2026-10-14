@@ -9,6 +9,8 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
   payable below zero.
 - STK01 (Astra): after REOPEN and re-POST of a cutting on its own day, the stock card never shows the old and the
   new issue as two active consumptions.
+- RWK01 (Astra/Fable): a rework wage accrued at completion stays payable when the BS case ends SCRAPPED, exactly
+  once; a case without a final outcome (PARTIAL) stays unpayable as before.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
 from journal lines and movements. Every refusal leaves the whole business boundary unchanged and has a lawful
 control. Fixture banks receive owner capital through the accepted Native journal (cp7_cash_funding) only where the
@@ -24,21 +26,23 @@ import cp7_installment_cases as instal
 import cp7_supplier_payment_create_cases as pay
 import cp7_cutting_correction_cases as cut
 import cp7_material_cases as material
+import cp7_nota_cases as nota
 import cp6_bd_probe as bd
 import cp7_cash_funding as funding
 
 auth,b,bc=s.auth,s.b,s.bc
 refused=auth.refused
 CONTRACT='cp7.cp17-fixes.v1'
-FUNCTIONS=('erp_cp7_save_payroll_v1','erp_cp7_save_payroll_installment_v1','erp_cp7_create_supplier_payment_v1',
-           'erp_save_laundry_bd_action_v1','erp_save_bs_resolution_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2')
+FUNCTIONS=('erp_cp7_save_nota_v1','erp_cp7_get_nota_workspace_v1','erp_save_bs_resolution_action_v1','erp_cp7_save_payroll_v1','erp_cp7_save_payroll_installment_v1','erp_cp7_create_supplier_payment_v1',
+           'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
             'CP17_CASH_EMPTY_BANK_REFUSED','CP17_CASH_EXACT_ZERO_ALLOWED_THEN_REFUSED','CP17_CASH_BACKDATE_BEFORE_FUNDS_REFUSED',
             'CP17_CASH_LATER_DAY_PROTECTED','CP17_CASH_PAYROLL_EMPTY_BANK_REFUSED','CP17_CASH_LAUNDRY_VENDOR_EMPTY_BANK_REFUSED',
             'CP17_FIN02_CLAIM_SAME_DAY_CONTROL','CP17_FIN02_CLAIM_BEFORE_SOURCE_REFUSED','CP17_FIN02_CLAIM_AP_NOT_AVAILABLE_REFUSED',
-            'CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE'],
+            'CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE',
+            'CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE','CP17_RWK01_GOOD_CONTROL','CP17_RWK01_UNFINISHED_CASE_STILL_HELD'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED'],
 )
@@ -220,8 +224,50 @@ def cases(cur,today):
         return dict(status='PASS',reopen_then_repost_same_cut_day=True,stock=str(stock),v1_running=[x['running_qty']for x in v1['rows']],
                     v2_running=[x['running_qty']for x in v2['rows']],all_rows_kept_v1=len(moves),witness='Astra STK01 (prefix -10)')
 
+    # ------------------------------------------------------------ RWK01 (Astra/Fable)
+    def rework(outcome):
+        """Two components actually re-sewn by the contractor at rate 30 (Astra's witness flow), then GOOD, all SCRAP, or left open."""
+        combined,nb=nota.combined,nota.b
+        f=combined.fixture(cur,today);wash=combined.wash(cur,f,range(4),11);combined.finish(cur,f,[wash],range(4),13,bs={3:2})
+        bs=str(one(cur,"select id from erp.bs_cases where po_id=%s and product_id=%s and status='OPEN'",(f['po'],f['roots'][3])))
+        nb.chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=combined.prod.COMPONENT,completed_before_bs_qty=0)],change_reason='CP17 dua komponen belum dikerjakan'),nb.chain.version(cur,'bs_cases',bs))
+        component=str(one(cur,'select id from erp.bs_case_components where bs_case_id=%s and work_component_id=%s',(bs,combined.prod.COMPONENT)))
+        bom=str(one(cur,'select erp.resolve_rework_accessory_bom_v1(%s,%s)',(bs,f['when'](15))))
+        made=nb.chain.bs_action(cur,'SAVE_REWORK',dict(rework_number='CP17-RW-'+uuid.uuid4().hex[:10],bs_case_id=bs,destination_type='CONTRACTOR',contractor_id=combined.prod.CONTRACTOR,vendor_id=None,qty_sent=2,
+            physical_sent_at=f['when'](15).isoformat(),status='IN_PROGRESS',return_fg_location_id=combined.base.LOCATION,accessory_bom_version_id=bom,accessory_bom_item_ids=[],change_reason='CP17 dua perbaikan dikerjakan',
+            components=[dict(bs_case_component_id=component,qty_performed=2)]))
+        rid=made['result']['rework_order_id'];good=outcome=='GOOD'
+        nb.chain.bs_action(cur,'COMPLETE_REWORK',dict(rework_order_id=rid,qty_good=2 if good else 0,qty_bs=0 if good else 2,completed_at=f['when'](16).isoformat(),return_fg_location_id=combined.base.LOCATION,change_reason='CP17 perbaikan selesai'),nb.chain.version(cur,'rework_orders',rid))
+        if outcome=='SCRAP':
+            nb.chain.bs_action(cur,'DISPOSE_BS',dict(bs_case_id=bs,resolution_type='SCRAP',qty_pcs=2,compensation_amount=0,source_laundry_claim_id=None,physical_at=f['when'](17).isoformat(),change_reason='CP17 dua potong dibuang'),nb.chain.version(cur,'bs_cases',bs))
+        b.api.admin(cur)
+        accrued=cur.execute("select coalesce(sum(l.credit-l.debit),0) from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id where j.source_type='REWORK_COMPLETION' and j.source_id=%s and j.status='POSTED' and l.account_id=erp.account_id('CONTRACTOR_PAYABLE')",(rid,)).fetchone()[0]
+        assert accrued==60,('CP17_RWK01_ACCRUAL',accrued)
+        cards=lambda:[c for c in nota.read(cur,'SOURCES',contractor_id=combined.prod.CONTRACTOR)['page']['rows']if c['origin_id']==rid]
+        return dict(f=f,bs=bs,rework=rid,status=one(cur,'select status from erp.bs_cases where id=%s',(bs,)),cards=cards,contractor=combined.prod.CONTRACTOR)
+    def paid_once(r):
+        found=r['cards']();assert len(found)==1 and D(found[0]['remaining_amount'])==60 and found[0]['lines'][0]['remaining_qty']=='2',found
+        card=dict(card_key=found[0]['card_key'],source_token=found[0]['source_token'])
+        payload=dict(contractor_id=r['contractor'],note_date=str(today),period_start=str(today),period_end=str(today),cards=[card])
+        posted=nota.act(cur,'POST',nota.command(cur,'SAVE',payload));b.api.admin(cur)
+        assert one(cur,'select labor_total from erp.payroll_settlements where id=%s',(posted['payroll_id'],))==60 and r['cards']()==[]
+        before=b.boundary.snapshot(cur);detail=refused(cur,lambda:nota.command(cur,'SAVE',payload),'');unchanged(cur,before,'second Nota on the same rework')
+        return posted,detail
+    def rework_scrap():
+        r=rework('SCRAP');assert r['status']=='SCRAPPED',r['status']
+        posted,again=paid_once(r)
+        return dict(status='PASS',bs_case='SCRAPPED',accrued_rework_wage=60,on_one_Nota=posted['payroll_id'],second_Nota_refused=again,witness='Astra ASTRA-CP17-RWK-01')
+    def rework_good():
+        r=rework('GOOD');assert r['status']=='RESOLVED',r['status']
+        posted,again=paid_once(r)
+        return dict(status='PASS',bs_case='RESOLVED',accrued_rework_wage=60,on_one_Nota=posted['payroll_id'],second_Nota_refused=again)
+    def rework_open():
+        r=rework('OPEN');assert r['status']=='PARTIAL',r['status']
+        assert r['cards']()==[] and one(cur,"select count(*) from erp.v_payroll_eligible_work_lines where source_type='REWORK' and bs_case_id=%s",(r['bs'],))==0
+        return dict(status='PASS',bs_case='PARTIAL',accrued=60,not_yet_on_a_Nota=True,rule='only final outcomes RESOLVED/SCRAPPED/WRITTEN_OFF are payable (owner decision pending for PARTIAL/ON_HOLD)')
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
-           claim_control,claim_before_source,claim_ap_not_available,stock_card]
+           claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 

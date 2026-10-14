@@ -17,6 +17,7 @@ import cp7_misc_correction_bundle as misc_correction
 import cp7_sales_chain_bundle as sales_chain
 import cp7_cutting_correction_bundle as cutting_correction
 import cp7_dated_guard_bundle as dated_guard
+import cp7_rework_eligibility_bundle as rework
 ROOT=finance.ROOT
 
 def attendance_internal_body():
@@ -38,7 +39,7 @@ def sales_after_attendance():
 
 def extension():
  prefix=procurement.bundle();full=attendance.bundle();assert full.startswith(prefix+'\n')
- return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/return-correction.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/chain-reversal.sql').read_text()+'\n'+cutting_correction.extension()+'\n'+dated_guard.extension()
+ return full[len(prefix)+1:]+'\n'+sales_after_attendance()+'\n'+finance.extension()+'\n'+period.extension()+'\n'+recost.extension()+'\n'+journal.extension()+'\n'+misc.extension()+'\n'+installment.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-lines.sql').read_text()+'\n'+(ROOT/'scripts/cp7-src/sales/return-correction.sql').read_text()+'\n'+note_report.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/correction-actors.sql').read_text()+'\n'+transaction_source.extension()+'\n'+misc_correction.extension()+'\n'+(ROOT/'scripts/cp7-src/sales/chain-reversal.sql').read_text()+'\n'+cutting_correction.extension()+'\n'+dated_guard.extension()+'\n'+rework.extension()
 def bundle():return procurement.bundle()+'\n'+extension()
 def patched_internal(definition):return sales.patched_internal(attendance.patched_internal(settlement.patched_internal(nota.patched_internal(definition))))
 

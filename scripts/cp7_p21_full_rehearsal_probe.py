@@ -71,7 +71,7 @@ def install(cur):
         assert {tuple(x)for x in new['acl']or[]}=={tuple(x)for x in old['acl']or[]}|grants.get(sig,set()),('P21F_UNDECLARED_ACL_DELTA',sig)
     for signature,definition in expected.items():
         assert cur.execute('select pg_get_functiondef(%s::regprocedure)',(signature,)).fetchone()[0]==definition,('P21F_EXACT_ADMISSION_DELTA',signature)
-    f03.dated_guard.verify(cur)
+    f03.dated_guard.verify(cur);f03.rework.verify(cur)
     p09.INSTALLED_FUNCTIONS=after
     return originals,installation
 

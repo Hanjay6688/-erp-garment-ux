@@ -1,8 +1,8 @@
 {
  "contract": "cp7.cp17-fixes.v1",
- "expected_case_count": 17,
+ "expected_case_count": 20,
  "required_case_counts": {
-  "native": 14,
+  "native": 17,
   "races": 1,
   "http": 2
  },
@@ -21,7 +21,10 @@
    "CP17_FIN02_CLAIM_SAME_DAY_CONTROL",
    "CP17_FIN02_CLAIM_BEFORE_SOURCE_REFUSED",
    "CP17_FIN02_CLAIM_AP_NOT_AVAILABLE_REFUSED",
-   "CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE"
+   "CP17_STK01_REOPEN_REPOST_CARD_NOT_NEGATIVE",
+   "CP17_RWK01_ALL_SCRAP_REWORK_PAYABLE_ONCE",
+   "CP17_RWK01_GOOD_CONTROL",
+   "CP17_RWK01_UNFINISHED_CASE_STILL_HELD"
   ],
   "races": [
    "CP17_RACE_TWO_PAYMENTS_ONE_BANK"
@@ -32,11 +35,13 @@
   ]
  },
  "public_rpcs": [
+  "erp_cp7_save_nota_v1",
+  "erp_cp7_get_nota_workspace_v1",
+  "erp_save_bs_resolution_action_v1",
   "erp_cp7_save_payroll_v1",
   "erp_cp7_save_payroll_installment_v1",
   "erp_cp7_create_supplier_payment_v1",
   "erp_save_laundry_bd_action_v1",
-  "erp_save_bs_resolution_action_v1",
   "erp_cp7_get_material_ledger_v1",
   "erp_cp7_get_material_ledger_v2"
  ],
@@ -48,7 +53,8 @@
   "FIN01": "Fable FABLE-001, Astra FIN01",
   "CASH": "Sol SOL-001",
   "FIN02": "Fable FABLE-008, Astra FIN02",
-  "STK01": "Astra STK01"
+  "STK01": "Astra STK01",
+  "RWK01": "Astra ASTRA-CP17-RWK-01, Fable FABLE-006"
  },
  "oracle_independence": "Dates from the Native accrual journals and source rows; balances from journal lines and stock movements; never from the guard functions.",
  "fixture_capital": "Banks that pay hold owner capital through the accepted Native journal (scripts/cp7_cash_funding.py) only where a case says so; empty-bank cases keep the bank empty.",
