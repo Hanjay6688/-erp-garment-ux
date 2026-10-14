@@ -1,0 +1,133 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "round": "cp1-7-20261014",
+  "status": "DRAFT_HANDOFF_PREPARATION",
+  "production_go": false,
+  "audit_complete": false,
+  "findings": [
+    {
+      "id": "SOL-001",
+      "severity": "S1",
+      "title": "Public supplier payment accepts bank balance 0 -> -1 without an identified approved overdraft policy",
+      "run": 38575876533,
+      "job": 115892704370,
+      "artifact": 11902025964,
+      "case": "SOL_CASH_EMPTY_BANK_WITHOUT_OVERDRAFT_POLICY",
+      "positive_control": "SOL_CASH_FUNDED_PUBLIC_PAYMENT"
+    },
+    {
+      "id": "SOL-002",
+      "severity": "S2",
+      "title": "BE artifact stops at 4 of 16 while native log proves all 16 executed",
+      "run": 38560141862,
+      "job": 115838893507,
+      "artifact": 11892298930,
+      "root": "cp6_av_probe import reassigns r1.OUT to av; BE final proof is written to unuploaded path"
+    },
+    {
+      "id": "SOL-003",
+      "severity": "S2",
+      "title": "Owner installer projects away the original PostgreSQL diagnostic at failed file AZ",
+      "run": 38564307650,
+      "job": 115852968691,
+      "artifact": 11895105110,
+      "open_original_failure": "51/58 installed, AZ P0001 MAINTENANCE_RUNTIME_FAILED; diagnostic qualification 58/58 does not explain first failure"
+    }
+  ],
+  "closure": {
+    "F03": {
+      "buckets": 8,
+      "case_executions": 447,
+      "status": "PASS"
+    },
+    "prefreeze": {
+      "case_executions": 31,
+      "status": "PASS"
+    },
+    "F01_F02_finalstack": {
+      "run": 38574107235,
+      "job": 115886578776,
+      "case_executions": 86,
+      "status": "PASS"
+    },
+    "AT_finalstack": {
+      "cases": 16,
+      "races": 4,
+      "status": "PASS"
+    },
+    "AU_finalstack": {
+      "cases": 15,
+      "races": 6,
+      "status": "PASS"
+    },
+    "regression_finalstack": {
+      "business": 230,
+      "imports": 31,
+      "values": 65,
+      "AS": 34,
+      "original_326_statuses": {
+        "PASS": 275,
+        "CONTROL_PASS": 39,
+        "DATE_POLICY_REVIEW_REQUIRED": 12
+      },
+      "raw_red_date_dispositions_preserved": true
+    },
+    "AR_finalstack": {
+      "sequential_cases": 146,
+      "sequential_statuses": {
+        "PASS": 145,
+        "INCOMPLETE": 1
+      },
+      "approved_BC_replacement": 1,
+      "races": 28,
+      "races_status": "PASS",
+      "continuation_run": 38578838814,
+      "continuation_job": 115903011835
+    },
+    "C0_finalstack": {
+      "case_executions": 25,
+      "case_status": "PASS",
+      "package_status": "INCOMPLETE_COPY_CLEANUP_SESSION",
+      "run": 38578838814,
+      "job": 115903011981
+    },
+    "K4_5000": {
+      "run": 38572947416,
+      "job": 115882597021,
+      "status": "PASS",
+      "targets": 5000,
+      "units": 127,
+      "pages": 26,
+      "page_steps_after_request": 0,
+      "manual_ticks": 0
+    },
+    "PR44": {
+      "run": 38565259193,
+      "status": "PASS",
+      "cases": 235,
+      "mutants": 2
+    },
+    "Sol_contract": {
+      "run": 38564813436,
+      "status": "PASS",
+      "cases": 5
+    },
+    "CP2_original": {
+      "status": "PASS_ARCHIVE_INTEGRITY",
+      "functional_restore": "NOT_EXECUTED",
+      "archive_sha256": "e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53",
+      "zip_members": 149,
+      "hashed_members": 148,
+      "tables": 142,
+      "rows": 104,
+      "Auth_users": 0,
+      "source_commit": "bf3ce8e2821f120d8abd8788daf07f6da7c15459"
+    }
+  },
+  "known_not_new": [
+    "A2 supplier final-group failure OPEN accepted D13-10",
+    "Native auto-distribution dozens across size range still simulation-only; A6 browser per-line helper does not prove range-wide auto-distribution",
+    "K7 3s not attained, temporary background acceptance",
+    "hosted/real-cutover/offsite backup/physical Safari deferred owner scope"
+  ]
+}
