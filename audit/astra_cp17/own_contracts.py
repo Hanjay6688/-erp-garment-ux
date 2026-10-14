@@ -17,6 +17,7 @@ SUITES={
  'money':['cases_business','cases_money_edges','cases_payroll','cases_cont_money','cases_cont_extra'],
  'planning':['cases_edges','cases_planning'],
  'staged':['cases_stage','cases_cont_state'],
+ 'payroll-leads':['cases_payroll_leads'],
 }
 SUITE=sys.argv[1]
 assert SUITE in SUITES
@@ -26,6 +27,9 @@ def run():
     report=dict(label='ASTRA_CP17_OWN_'+SUITE.upper(),status='INCOMPLETE',groups={},
         evidence_origin='INDEPENDENT_NATIVE_CASE',oracle_origin='ASTRA_FROZEN_CONTRACT_E800E016',
         fixture_origin='ASTRA_INPUTS_WITH_CANDIDATE_TRANSPORT',production_go=False)
+    if SUITE=='payroll-leads':
+        report.update(oracle_origin='ASTRA_CONTRACT_AFTER_OWNER_FORWARDED_FABLE_LEADS',
+            lead_origin='OWNER_FORWARDED_FABLE_STATIC_REVIEW_20261014T065045Z',blind_discovery=False)
     try:
         with full_stack.installed(report) as verify:
             with exact_public_catalog(native,retain_raw=True,retain_locations=True) as catalog:

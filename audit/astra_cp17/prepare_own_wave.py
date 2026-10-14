@@ -32,6 +32,7 @@ def main():
     w['on']['push']['paths']=['.github/workflows/audit-astra-cp17-own.yml','audit/astra_cp17/OWN_START']
     w['concurrency']['group']='astra-cp17-own-${{ github.run_id }}'
     j=w['jobs']['phase'];j['name']='AUDIT/Astra/own-${{ matrix.phase }}';j['strategy']['max-parallel']=3
+    j['timeout-minutes']=180
     j['strategy']['matrix']['include']=[dict(phase=p,suite='own-'+p,bucket='') for p in groups]
     for s in j['steps']:
         if s.get('name')=='Prove pinned product and record evidence origins':

@@ -1,0 +1,37 @@
+{
+  "round_id": "cp17-20261014",
+  "status": "PREDECLARED_BEFORE_EXECUTION",
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "lead_origin": "OWNER_FORWARDED_FABLE_STATIC_REVIEW",
+  "blind_discovery": false,
+  "oracle_origin": "ASTRA_CONTRACT_AFTER_FABLE_LEADS",
+  "source_sha256": "e4c0fcedc3e831562b3e164843815307272237c5ade7f6925e9c5c7fcbc8027d",
+  "role": "ordinary authenticated owner through public Nota/payroll/installment RPC; master/draft setup via unchanged candidate fixture",
+  "layer": "P21 FULL composition on disposable CI clone",
+  "fixture": "Fresh contractor, posted worker attendance via public RPC, distinct real repair work, active cash account, open period; no direct posted journal/status injection",
+  "cases": [
+    {
+      "id": "CP17-ASTRA-PAY-01-CONTROL",
+      "expected": "One lawful payroll; work6000 + one attendance day100 =6100; one100 accrual and one6100 payment; duplicate detector0"
+    },
+    {
+      "id": "CP17-ASTRA-PAY-02-PAID-SOURCE",
+      "expected": "After first payroll is paid, a second Nota with fresh distinct work must not pay the same attendance record again; source guard/refusal or attendance exclusion required"
+    },
+    {
+      "id": "CP17-ASTRA-PAY-03-APPROVED-SOURCE",
+      "expected": "An already approved attendance entitlement must not become two paid payroll claims through a separate fresh Nota"
+    },
+    {
+      "id": "CP17-ASTRA-PAY-04-EARLY-FULL",
+      "expected": "Full payroll payment before attendance accrual date is refused or uses an explicit advance source; ordinary settlement cannot create negative dated payable"
+    },
+    {
+      "id": "CP17-ASTRA-PAY-05-EARLY-INSTALLMENT",
+      "expected": "Same date invariant through installment endpoint, attendance1000 accrued yesterday and payment requested day before"
+    }
+  ],
+  "first_failure": "retained; no repeat to green",
+  "open_lead": "Overlapping HPP pools still requires separate contract/fixture qualification; not claimed covered by these five cases",
+  "production_go": false
+}
