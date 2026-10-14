@@ -67,6 +67,6 @@ try {
  report.counts={declared:cases.length,executed:report.cases.length,successes:ok,refusals:cases.length-ok,distinct_refusals:refusals.size,supply_events:events,mutants_caught:report.mutations.length}
  report.status='PASS'
 } catch(e){report.error=e.stack;throw e}finally {
- if(db)await db.close();mkdirSync('test-results/sol-cp1-7-pr44',{recursive:true});writeFileSync('test-results/sol-p20-k4/PR44.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,counts:report.counts,error:report.error}))
+ if(db)await db.close();mkdirSync('test-results/sol-cp1-7-pr44',{recursive:true});writeFileSync('test-results/sol-cp1-7-pr44/PR44.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,counts:report.counts,error:report.error}))
 }
 
