@@ -21,6 +21,9 @@ Locked reports (Fable, Astra, Sol on 0b7049d9) and owner decisions of 15 Oct 202
   the accepted Native payment posts; capped by the kasbon and by the payroll's earnings; cancel only while unused.
 - SG-03 (D06, Lampiran C6 LAU-06a): rewash of the same product at the laundry vendor is free: no vendor payable, no
   vendor journal line, no rework wage; the pieces come back as goods.
+- SG-01 (FABLE-009 / Astra SG-01): a POSTED pickup (Bagi Potongan) is reversed before any sewing: pickup REVERSED with its
+  batches kept, group back to CUT with its fabric posted, PO stage and Mandor back to their values before the POST; the
+  Native guards still refuse every other write; once sewing has started the reversal names the document and refuses.
 - SG-02 (D14-4): leftover fabric of a posted cutting goes back to the warehouse: the same roll returns to stock at its
   issue cost, the PO's WIP drops by exactly that value, at most the remainder recorded at cutting, once per cutting.
 Oracles do not come from the guards: dates are read from the Native accrual journals and source rows, balances
@@ -49,7 +52,7 @@ CONTRACT='cp7.cp17-fixes.v1'
 FUNCTIONS=('erp_set_contractor_hpp_policy_v1','erp_cp7_save_nota_v1','erp_cp7_get_nota_workspace_v1','erp_save_bs_resolution_action_v1','erp_cp7_save_payroll_v1','erp_cp7_save_payroll_installment_v1','erp_cp7_create_supplier_payment_v1',
            'erp_save_laundry_bd_action_v1','erp_cp7_get_material_ledger_v1','erp_cp7_get_material_ledger_v2',
            'erp_cp7_get_cutting_return_v1','erp_cp7_return_cutting_fabric_v1','erp_cp7_get_cutting_correction_v1',
-           'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1')
+           'erp_cp7_get_kasbon_v1','erp_cp7_save_kasbon_v1','erp_cp7_get_pickup_reversal_v1','erp_cp7_reverse_pickup_v1')
 IDS=dict(
     native=['CP17_FIN01_FULL_PAY_BEFORE_ATTENDANCE_REFUSED','CP17_FIN01_WORK_ONLY_BEFORE_COMPLETION_REFUSED',
             'CP17_FIN01_INSTALLMENT_BEFORE_ACCRUAL_REFUSED','CP17_FIN01_DIRECT_NATIVE_PAYMENT_REFUSED',
@@ -62,7 +65,8 @@ IDS=dict(
             'CP17_SG02_RETURN_STOCK_VALUE_PO_COST','CP17_SG02_OVER_REMAINDER_REFUSED','CP17_SG02_ONCE_AND_SAME_REQUEST_REPLAY','CP17_SG02_BEFORE_CUT_OR_FUTURE_REFUSED',
             'CP17_DETECTOR_LISTS_LEGACY_ROWS',
             'CP17_KASBON_GIVE_DEDUCT_PAY','CP17_KASBON_LIMITS_REFUSED','CP17_KASBON_RELEASE_CANCEL_REPLAY',
-            'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL'],
+            'CP17_SG03_REWASH_SAME_PRODUCT_NO_VENDOR_BILL',
+            'CP17_SG01_PICKUP_REVERSE_BEFORE_SEWING','CP17_SG01_PICKUP_REVERSE_REFUSED'],
     races=['CP17_RACE_TWO_PAYMENTS_ONE_BANK'],
     http=['CP17_HTTP_CASH_EMPTY_BANK_REFUSED','CP17_HTTP_PAYROLL_EARLY_REFUSED','CP17_HTTP_KASBON_GIVE'],
 )
@@ -102,7 +106,9 @@ def kasbon(cur,action,payload,w,key=None,subject=None):
     auth.actor(cur,subject)
     r=one(cur,'select public.erp_cp7_save_kasbon_v1(%s,%s,%s,%s)',(action,json.dumps(payload),str(key or uuid.uuid4()),w['review_token']));b.api.admin(cur);return r
 def kasbon_give(cur,contractor,bank,amount,day,key=None):
-    w=kasbon_read(cur,contractor);token=one(cur,"select cp7_misc.cash(%s)->>'review_token'",(bank,))
+    # The cash review token comes from the kasbon workspace, as the screen takes it (computed under UTC there; a token
+    # computed in this session's own time zone does not match, job 116054424923).
+    w=kasbon_read(cur,contractor);token=next(x['review_token'] for x in w['cash_accounts'] if x['id']==bank)
     return kasbon(cur,'GIVE',dict(contractor_id=contractor,cash_account_id=bank,cash_review_token=token,advance_date=str(day),amount=amount,reason='CP17 kasbon tunai'),w,key)
 def kasbon_allocate(cur,contractor,advance,payroll,amount,key=None):
     w=kasbon_read(cur,contractor);d=next(x for x in w['payroll_drafts'] if x['id']==payroll)
@@ -501,7 +507,9 @@ def cases(cur,today):
         out['over_remaining']=refused(cur,lambda:kasbon_allocate(cur,c,small['id'],pid,'100.01'),'CP7_KASBON_OVER_REMAINING');unchanged(cur,before,'deduction above the kasbon')
         out['direct_deduction']=refused(cur,lambda:cur.execute("insert into erp.payroll_deductions(payroll_id,deduction_type,amount) values(%s,'CASH_ADVANCE',5)",(pid,)),'CP7_KASBON_DEDUCTION_PRIVATE');unchanged(cur,before,'direct kasbon deduction')
         jid=one(cur,'select journal_id from cp7_kasbon.advances where id=%s',(k['id'],))
-        out['direct_reverse']=refused(cur,lambda:bc.internal(cur,'reverse_journal',jid,'CP17 bypass'),'CP7_KASBON_JOURNAL_PRIVATE');unchanged(cur,before,'direct reverse of a kasbon journal')
+        # The journal guard is probed as the owner of the Native writer (authenticated cannot even call it).
+        out['direct_reverse']=refused(cur,lambda:instal.physical.source.fixture_journal_call(cur,'select erp.reverse_journal(%s,%s)',(jid,'CP17 bypass')),'CP7_KASBON_JOURNAL_PRIVATE');unchanged(cur,before,'direct reverse of a kasbon journal')
+        out['direct_reverse_as_authenticated']=refused(cur,lambda:bc.internal(cur,'reverse_journal',jid,'CP17 bypass'),'permission denied for function reverse_journal');unchanged(cur,before,'authenticated reverse of a kasbon journal')
         d=s.doc(cur,pid);s.act(cur,'PREPARE',d);d=s.doc(cur,pid);s.act(cur,'APPROVE',d);b.api.admin(cur);before=b.boundary.snapshot(cur)
         w=kasbon_read(cur,c);assert all(x['id']!=pid for x in w['payroll_drafts'])
         late=dict(contractor_id=c,advance_id=small['id'],payroll_id=pid,payroll_version=s.doc(cur,pid)['row_version'],amount='1.00')
@@ -544,10 +552,92 @@ def cases(cur,today):
         return dict(status='PASS',rewash_same_product=True,vendor_payable_unchanged=str(ap0),vendor_journal_lines_unchanged=lines0,no_rework_wage=True,
                     good_pieces_back_as_same_product=2,owner_decision='D06 / Lampiran C6 LAU-06a')
 
+    # ------------------------------------------------------------ SG-01 (FABLE-009 / Astra SG-01): reverse a POSTED pickup before sewing
+    def mandor(tag):
+        b.api.admin(cur)
+        return str(one(cur,"insert into erp.contractors(contractor_code,contractor_name,contractor_type,is_active,attendance_required)values(%s,%s,'MANDOR',true,false)returning id",(tag,tag)))
+    def pickup_post(group,contractor_id,at):
+        """The ordinary Native pickup: draft, then POST distributing all 10 pieces in one batch."""
+        prod=cut.cutting.qc.physical.b.chain.production;b.api.admin(cur)
+        y=str(one(cur,'select y.id from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id where r.cutting_group_id=%s',(group,)))
+        p=dict(action='SAVE_DRAFT',cutting_group_id=group,contractor_id=contractor_id,picked_up_at=at,allocation_mode='ROLL',
+               expected_group_version=int(one(cur,'select row_version from erp.cutting_groups where id=%s',(group,))),
+               change_reason='CP17 SG-01 bagi potongan',batches=[dict(batch_no=1,allocations=[dict(cutting_roll_yield_id=y,qty_pcs=10)])])
+        d=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',p)
+        d=prod.rpc(cur,'public.erp_save_cutting_pickup_v1',dict(p,id=d['pickup_id'],action='POST'),expected_version=int(d['row_version']));b.api.admin(cur)
+        assert d['status']=='POSTED',d
+        return d['pickup_id']
+    def picked():
+        """A posted cutting of 10 (Native writers) on a PO without a Mandor, distributed by the Native pickup POST."""
+        src=cut.cutting;prod=src.qc.physical.b.chain.production;base=src.qc.physical.base
+        f=prod.estimated_receipt(cur,today);b.api.admin(cur)
+        day=f['purchase_day']+timedelta(days=1);po=str(uuid.uuid4())
+        cur.execute("insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes) values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'CP17 SG-01 fixture')",
+            (po,'CP17-PICK-'+po,prod.MODEL,prod.at(day,7)))
+        payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=f['location'],cut_at=prod.at(day,8),
+            change_reason='CP17 SG-01 posted cutting',size_slots=[dict(slot_no=1,size_id=base.SIZE,drawing_no=1)],
+            rolls=[dict(roll_id=f['roll'],qty_issued=10,qty_consumed=10,qty_reported_remaining=0,yields=[dict(slot_no=1,qty_pcs=10)])])
+        saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
+        saved=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=saved['cutting_group_id'],action='POST'),expected_version=int(saved['row_version']))
+        g=saved['cutting_group_id'];b.api.admin(cur)
+        # Oracle: the PO and group as they were before the pickup, read directly (not from the audit trail the command uses).
+        po_before=cur.execute('select status,current_stage,contractor_id from erp.production_orders where id=%s',(po,)).fetchone()
+        executor=one(cur,'select executor_name from erp.cutting_groups where id=%s',(g,))
+        m=mandor('CP17-SG01-A-'+uuid.uuid4().hex[:8]);pk=pickup_post(g,m,prod.at(day,9))
+        assert one(cur,'select contractor_id::text from erp.production_orders where id=%s',(po,))==m
+        return dict(group=g,po=po,pickup=pk,mandor=m,at=lambda h:prod.at(day,h),po_before=po_before,executor=executor)
+    def pickup_read(g):
+        auth.actor(cur);w=one(cur,'select public.erp_cp7_get_pickup_reversal_v1(%s)',(g['group'],));b.api.admin(cur);return w
+    def pickup_send(w,reason='CP17 salah mandor, bagi ulang',key=None,token=None):
+        p=dict(group_id=w['group_id'],pickup_id=w['pickup_id'],review_token=token or w['review_token'],change_reason=reason)
+        auth.actor(cur);r=one(cur,'select public.erp_cp7_reverse_pickup_v1(%s,%s,%s)',(json.dumps(p),str(key or uuid.uuid4()),w['pickup_version']));b.api.admin(cur);return r
+    def material_facts(g):
+        return (one(cur,'select count(*) from erp.material_stock_movements where source_id=%s',(g['group'],)),
+                one(cur,'select count(*) from erp.journal_lines where po_id=%s',(g['po'],)))
+    def pickup_reverse():
+        g=picked();w=pickup_read(g)
+        assert w['eligible'] and w['blockers']==[] and w['business_DML'] is False and w['pickup_id']==g['pickup'] and w['pieces']==10,w
+        assert w['restore']['clear_mandor'] is True and w['restore']['executor_name']==g['executor'],(w['restore'],g['executor'])
+        assert [w['restore']['po_status'],w['restore']['po_stage']]==list(g['po_before'][:2]),(w['restore'],g['po_before'])
+        facts0=material_facts(g);key=uuid.uuid4()
+        r=pickup_send(w,key=key);again=pickup_send(w,key=key)
+        assert again==r and r['action']=='REVERSE_PICKUP' and r['result']['pickup_status']=='REVERSED' and r['result']['mandor_cleared'] is True,r
+        assert cur.execute('select status,reversal_reason,reversed_by is not null from erp.cutting_pickups where id=%s',(g['pickup'],)).fetchone()==('REVERSED','CP17 salah mandor, bagi ulang',True)
+        grp=cur.execute('select status,picked_up_at,executor_name,material_issue_posted from erp.cutting_groups where id=%s',(g['group'],)).fetchone()
+        assert grp==('CUT',None,g['executor'],True),grp
+        assert cur.execute('select status,current_stage,contractor_id from erp.production_orders where id=%s',(g['po'],)).fetchone()==g['po_before']
+        assert one(cur,'select count(*) from erp.cutting_distribution_batches where pickup_id=%s',(g['pickup'],))==1,'CP17_SG01_HISTORY_NOT_KEPT'
+        assert material_facts(g)==facts0,('CP17_SG01_STOCK_OR_JOURNAL_CHANGED',facts0,material_facts(g))
+        assert one(cur,'select count(*) from cp7_cutting_correction.pickup_history where pickup_id=%s',(g['pickup'],))==1
+        # The group waits again: the ordinary Native POST distributes it to the right Mandor.
+        right=mandor('CP17-SG01-B-'+uuid.uuid4().hex[:8]);reposted=pickup_post(g['group'],right,g['at'](10))
+        assert one(cur,'select contractor_id::text from erp.production_orders where id=%s',(g['po'],))==right
+        assert one(cur,'select status from erp.cutting_pickups where id=%s',(g['pickup'],))=='REVERSED'
+        return dict(status='PASS',pickup='REVERSED',group='CUT with fabric still posted',po_restored=[str(x) for x in g['po_before']],mandor_cleared=True,
+                    batches_kept_as_history=True,no_stock_or_journal=True,same_request_replay_identical=True,reposted_to_other_mandor=reposted)
+    def pickup_refused():
+        g=picked();w=pickup_read(g);before=b.boundary.snapshot(cur)
+        # Outside the command the two Native guards refuse exactly as before.
+        direct=refused(cur,lambda:cur.execute("update erp.cutting_pickups set status='REVERSED',reversed_by=posted_by,reversed_at=clock_timestamp(),reversal_reason='langsung' where id=%s",(g['pickup'],)),
+                       'POSTED_CUTTING_PICKUP_IS_IMMUTABLE')
+        clear=refused(cur,lambda:cur.execute('update erp.cutting_groups set picked_up_at=null where id=%s',(g['group'],)),'Pickup date cannot be cleared')
+        unchanged(cur,before,'direct pickup writes')
+        stale=refused(cur,lambda:pickup_send(w,token='0'*32),'CP7_PICKUP_REVERSAL_STALE_REVIEW');unchanged(cur,before,'stale review')
+        short=refused(cur,lambda:pickup_send(w,reason='x'),'CP7_PICKUP_REVERSAL_FIELDS');unchanged(cur,before,'short reason')
+        # Sewing started (a draft work completion): the reversal names it and refuses.
+        wc=uuid.uuid4();b.chain.peer.ordinary(cur)
+        cur.execute("insert into erp.work_completion_events(id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes,created_by)values(%s,%s,%s,%s,%s,%s,'DRAFT','CP17 SG-01 jahit draf',%s)",
+                    (wc,'CP17-WC-'+str(wc),g['po'],g['mandor'],g['group'],g['at'](11),b.chain.base.OPERATOR_APP));b.api.admin(cur)
+        w2=pickup_read(g);assert not w2['eligible'] and any(x['kind']=='WORK_COMPLETION' and x['id']==str(wc) for x in w2['blockers']),w2['blockers']
+        before=b.boundary.snapshot(cur)
+        blocked=refused(cur,lambda:pickup_send(w2),'CP7_PICKUP_REVERSAL_DEPENDENCIES');unchanged(cur,before,'reversal after sewing started')
+        assert one(cur,'select status from erp.cutting_pickups where id=%s',(g['pickup'],))=='POSTED'
+        return dict(status='PASS',native_guards_still_refuse=[direct,clear],stale_review_refused=stale,short_reason_refused=short,after_sewing_started_refused=blocked)
+
     named=[full_attendance,work_only,installment,direct_native,empty_bank,exact_zero,backdate,later_day,payroll_empty,laundry_empty,
            claim_control,claim_before_source,claim_ap_not_available,stock_card,rework_scrap,rework_good,rework_open,
            hpp_excluded,hpp_unrelated,hpp_replacement,fabric_return,fabric_over,fabric_once,fabric_dates,legacy_findings,
-           kasbon_cycle,kasbon_limits,kasbon_release,rewash_free]
+           kasbon_cycle,kasbon_limits,kasbon_release,rewash_free,pickup_reverse,pickup_refused]
     assert len(named)==REQUIRED['native']
     return list(zip(IDS['native'],named))
 
@@ -605,8 +695,9 @@ def http_cases(http,today):
             f=s.review.fixture(cur,today);c=f['contractor'];bank=s.cash(cur);day=funding.open_day(cur)
             role=one(cur,'select role_id from erp.app_users where auth_user_id=%s',(admin.auth_user_id,))
             for key in s.PERMS:cur.execute('insert into erp.app_role_permissions(role_id,permission_key)values(%s,%s)on conflict do nothing',(role,key))
-            token=one(cur,"select cp7_misc.cash(%s)->>'review_token'",(bank,));bank0=balance(cur,bank);conn.commit()
+            bank0=balance(cur,bank);conn.commit()
         w=admin.rpc('erp_cp7_get_kasbon_v1',dict(p_contractor=c));assert w['status']==200 and w['body']['advances']==[],w
+        token=next(x['review_token'] for x in w['body']['cash_accounts'] if x['id']==bank)
         p=dict(contractor_id=c,cash_account_id=bank,cash_review_token=token,advance_date=str(day),amount='150.00',reason='CP17 kasbon lewat login')
         stale=admin.rpc('erp_cp7_save_kasbon_v1',dict(p_action='GIVE',p_payload=p,p_request=str(uuid.uuid4()),p_expected='0'*32))
         assert stale['status']==400 and 'CP7_KASBON_STALE_REVIEW' in str(stale['body']),stale
