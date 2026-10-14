@@ -10,6 +10,7 @@
   "new_C0_execution_credit": 0,
   "wait_bound_seconds": 60,
   "oracle": "Held audit-owned timing-only session must close naturally; all business/catalogue state restored; original 25 C0 unchanged; no termination",
-  "probe_sha256": "46107c6f422369e60fc8765f21cac131bb29c0bddd4a4b5c494b0b4bf7a78e59",
-  "production_go": false
+  "probe_sha256": "da0d5e421525bdf05ea403f5a2d3b4585b706b61b8884ca27e9c557bc3ea9dcb",
+  "production_go": false,
+  "packaging_correction": "Bind the reused-result callback into the derived helper namespace before dispatch; no C0 case body rerun."
 }
