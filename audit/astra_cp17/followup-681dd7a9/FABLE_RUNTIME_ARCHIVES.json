@@ -1,0 +1,94 @@
+[
+  {
+    "origin": "FABLE_REUSED_ORIGINAL_READ",
+    "run_id": 38571378585,
+    "job_id": 115877180312,
+    "artifact_id": 11897878192,
+    "file": "original.zip",
+    "bytes": 1700278,
+    "sha256": "3eb22a20ba8e11d4d140b338c08eceef68660ce651ba58521ac6b2d4fcab8962",
+    "compression": "none",
+    "stored_sha256": "3eb22a20ba8e11d4d140b338c08eceef68660ce651ba58521ac6b2d4fcab8962",
+    "parts": [
+      {
+        "path": "preserved/38571378585/original.zip.part000",
+        "bytes": 600000,
+        "sha256": "702242a809a64306fcae1424da9ac96872d487a854c75bb64ef10b4e0c8992ce"
+      },
+      {
+        "path": "preserved/38571378585/original.zip.part001",
+        "bytes": 600000,
+        "sha256": "a3d206f229f1659c314ddb3981209381100d27b69535710fbba927302be79eb2"
+      },
+      {
+        "path": "preserved/38571378585/original.zip.part002",
+        "bytes": 500278,
+        "sha256": "b4cf4f654f64a86f3afca92feb92c3b982c459838e160fafd1eb42e42e4022b2"
+      }
+    ]
+  },
+  {
+    "origin": "FABLE_REUSED_ORIGINAL_READ",
+    "run_id": 38571378585,
+    "job_id": 115877180312,
+    "artifact_id": 11897878192,
+    "file": "job.log",
+    "bytes": 275003,
+    "sha256": "4a4241ed07f32d083541a9387923a8b90d981afaf61c03f824eb7dfa16c79848",
+    "compression": "gzip",
+    "stored_sha256": "bf4a757d19489ad722a5436c4c310112cfc389bc548f2b2ec86a0ae145b97adf",
+    "parts": [
+      {
+        "path": "preserved/38571378585/job.log.gz.part000",
+        "bytes": 43064,
+        "sha256": "bf4a757d19489ad722a5436c4c310112cfc389bc548f2b2ec86a0ae145b97adf"
+      }
+    ]
+  },
+  {
+    "origin": "FABLE_REUSED_ORIGINAL_READ",
+    "run_id": 38572386253,
+    "job_id": 115880664623,
+    "artifact_id": 11898249509,
+    "file": "original.zip",
+    "bytes": 1666620,
+    "sha256": "a6ebaeb2d3647bea26dd118dc1d70589b74f9c037968c016c9ca72ba6040c6de",
+    "compression": "none",
+    "stored_sha256": "a6ebaeb2d3647bea26dd118dc1d70589b74f9c037968c016c9ca72ba6040c6de",
+    "parts": [
+      {
+        "path": "preserved/38572386253/original.zip.part000",
+        "bytes": 600000,
+        "sha256": "3d73c4f3317c9951a5d0c715d707d73c6cce097a6c93fb62a2021bc34cc79138"
+      },
+      {
+        "path": "preserved/38572386253/original.zip.part001",
+        "bytes": 600000,
+        "sha256": "130ae94fdd131b7629031e0bd978dbecc9218157dcc1fbc47fc3f17c8c85b3e7"
+      },
+      {
+        "path": "preserved/38572386253/original.zip.part002",
+        "bytes": 466620,
+        "sha256": "e99b330504e1f998c5b0b32b1ccf31cf175585db91913f110949b7b3971955ad"
+      }
+    ]
+  },
+  {
+    "origin": "FABLE_REUSED_ORIGINAL_READ",
+    "run_id": 38572386253,
+    "job_id": 115880664623,
+    "artifact_id": 11898249509,
+    "file": "job.log",
+    "bytes": 263298,
+    "sha256": "211c132024ccf8e5eae466af04407fbe640fe6e8c50216f38bbecb89e6161bd8",
+    "compression": "gzip",
+    "stored_sha256": "08afaca0ad0204e2044f456d41f28863ee619a49bb82450fb03733b325ced471",
+    "parts": [
+      {
+        "path": "preserved/38572386253/job.log.gz.part000",
+        "bytes": 39796,
+        "sha256": "08afaca0ad0204e2044f456d41f28863ee619a49bb82450fb03733b325ced471"
+      }
+    ]
+  }
+]

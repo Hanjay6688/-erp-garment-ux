@@ -1,0 +1,59 @@
+{
+  "round": "FABLE_FINAL_FOLLOWUP",
+  "cases": [
+    {
+      "case_id": "CP17-ASTRA-RBAC-01-CATALOG",
+      "status": "PASS",
+      "origin": "ASTRA_FIRST_ATTEMPT_NATIVE_SQL",
+      "oracle_source": "audit/astra_cp17/cases_rbac_followup.py",
+      "oracle_sha256": "ada0413cf02823ba1291871a61f3dc53d6d0786d8c1b72696c08820556bc0918",
+      "control_sha": "aa25e5ee06e58e218e8318bb0cf8d10e8eeff382",
+      "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "run_id": 38593568808,
+      "job_id": 115954406369,
+      "artifact_id": 11908777291,
+      "original_member": "CP17_OWN_CASES_RBAC_FOLLOWUP.json",
+      "group": "CP17_OWN_CASES_RBAC_FOLLOWUP",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "real_http": false,
+      "hosted": false
+    },
+    {
+      "case_id": "CP17-ASTRA-RBAC-02-ROLE-BOUNDARY",
+      "status": "PASS",
+      "origin": "ASTRA_FIRST_ATTEMPT_NATIVE_SQL",
+      "oracle_source": "audit/astra_cp17/cases_rbac_followup.py",
+      "oracle_sha256": "ada0413cf02823ba1291871a61f3dc53d6d0786d8c1b72696c08820556bc0918",
+      "control_sha": "aa25e5ee06e58e218e8318bb0cf8d10e8eeff382",
+      "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+      "run_id": 38593568808,
+      "job_id": 115954406369,
+      "artifact_id": 11908777291,
+      "original_member": "CP17_OWN_CASES_RBAC_FOLLOWUP.json",
+      "group": "CP17_OWN_CASES_RBAC_FOLLOWUP",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "real_http": false,
+      "hosted": false
+    }
+  ],
+  "counts": {
+    "PASS": 2
+  },
+  "previous_executions": 2918,
+  "additional_executions": 2,
+  "combined_executions": 2920,
+  "previous_ledger_unchanged": true,
+  "production_go": false
+}

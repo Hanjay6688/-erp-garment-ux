@@ -1,0 +1,53 @@
+[
+  {
+    "origin": "ASTRA_FIRST_ATTEMPT_NATIVE_CASES",
+    "run_id": 38593568808,
+    "job_id": 115954406369,
+    "artifact_id": 11908777291,
+    "file": "original.zip",
+    "bytes": 1915521,
+    "sha256": "fbd29da1bc65c6f2d0c08e530186130eadc3ac361fb28f0cacb301c1636c43ed",
+    "stored_sha256": "fbd29da1bc65c6f2d0c08e530186130eadc3ac361fb28f0cacb301c1636c43ed",
+    "compression": "none",
+    "parts": [
+      {
+        "path": "preserved/38593568808/original.zip.part000",
+        "bytes": 600000,
+        "sha256": "5e4d5fb3524d69dcf99d561934d281c0a0304a9609d293752e647bc18716b46e"
+      },
+      {
+        "path": "preserved/38593568808/original.zip.part001",
+        "bytes": 600000,
+        "sha256": "8146ff2bf801eb996327ee54690e669863cc26e56ec187b140249c8dbac8c94e"
+      },
+      {
+        "path": "preserved/38593568808/original.zip.part002",
+        "bytes": 600000,
+        "sha256": "4d0edc8509b50e68533abd0b31725b433fe81dddc64a4db4225904ca790450b2"
+      },
+      {
+        "path": "preserved/38593568808/original.zip.part003",
+        "bytes": 115521,
+        "sha256": "8e93566144e7f8333bafa5ec9a46bc49ff5ef26d7978b59750d41e630abe16d0"
+      }
+    ]
+  },
+  {
+    "origin": "ASTRA_FIRST_ATTEMPT_NATIVE_CASES",
+    "run_id": 38593568808,
+    "job_id": 115954406369,
+    "artifact_id": 11908777291,
+    "file": "job.log",
+    "bytes": 471105,
+    "sha256": "da855a7c53044bad7814fee23fca942bcd48a6d6d3e1751d877cc0c20e708a1a",
+    "stored_sha256": "848dccb65989a77cd899dfe8cb5fd6dcf5009374067261fe1b7cc8ee462e73d9",
+    "compression": "gzip",
+    "parts": [
+      {
+        "path": "preserved/38593568808/job.log.gz.part000",
+        "bytes": 83721,
+        "sha256": "848dccb65989a77cd899dfe8cb5fd6dcf5009374067261fe1b7cc8ee462e73d9"
+      }
+    ]
+  }
+]

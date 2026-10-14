@@ -1,0 +1,182 @@
+{
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "control": "aa25e5ee06e58e218e8318bb0cf8d10e8eeff382",
+  "run_id": 38593568808,
+  "job_id": 115954406369,
+  "artifact_id": 11908777291,
+  "artifact_sha256": "fbd29da1bc65c6f2d0c08e530186130eadc3ac361fb28f0cacb301c1636c43ed",
+  "case_final": {
+    "CP17-ASTRA-RBAC-01-CATALOG": "PASS",
+    "CP17-ASTRA-RBAC-02-ROLE-BOUNDARY": "PASS"
+  },
+  "group_status": "PASS",
+  "missing": [],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "catalog": {
+    "functions": 940,
+    "facades": 266,
+    "schema_usage": {
+      "anon": false,
+      "authenticated": true
+    },
+    "without_rls": [],
+    "authenticated_execute": 160,
+    "writer_like": 108,
+    "writer_like_nontrigger": 107,
+    "scope": "Writer-name classifier includes integrity check functions; not a count of independently exploitable writers."
+  },
+  "role_observation": {
+    "before": {
+      "period": {
+        "updated_at": "2026-10-14T16:04:00.888402+00:00",
+        "updated_by": null,
+        "singleton_id": 1,
+        "change_reason": "Z expanded disposable fixture",
+        "closed_through": "2026-10-12"
+      },
+      "audit": [
+        0,
+        "d41d8cd98f00b204e9800998ecf8427e"
+      ]
+    },
+    "refusals": {
+      "custom_finance_role": {
+        "reopen": {
+          "session": [
+            "authenticated",
+            "authenticated",
+            "da25977a-a281-4591-8819-75640496c9c5",
+            "P02_3BE962E8C27E"
+          ],
+          "accepted": false,
+          "sqlstate": "P0001",
+          "message": "OWNER or ADMIN access required",
+          "restored": true
+        },
+        "close": {
+          "session": [
+            "authenticated",
+            "authenticated",
+            "da25977a-a281-4591-8819-75640496c9c5",
+            "P02_3BE962E8C27E"
+          ],
+          "accepted": false,
+          "sqlstate": "P0001",
+          "message": "OWNER or ADMIN access required",
+          "restored": true
+        }
+      },
+      "inactive_owner": {
+        "reopen": {
+          "session": [
+            "authenticated",
+            "authenticated",
+            "4fad617f-96fa-4ffb-9e24-f2920b9b56f9",
+            null
+          ],
+          "accepted": false,
+          "sqlstate": "P0001",
+          "message": "OWNER or ADMIN access required",
+          "restored": true
+        },
+        "close": {
+          "session": [
+            "authenticated",
+            "authenticated",
+            "4fad617f-96fa-4ffb-9e24-f2920b9b56f9",
+            null
+          ],
+          "accepted": false,
+          "sqlstate": "P0001",
+          "message": "OWNER or ADMIN access required",
+          "restored": true
+        }
+      },
+      "unregistered": {
+        "reopen": {
+          "session": [
+            "authenticated",
+            "authenticated",
+            "0e0665c6-a99f-4063-9c21-f602812838e5",
+            null
+          ],
+          "accepted": false,
+          "sqlstate": "P0001",
+          "message": "OWNER or ADMIN access required",
+          "restored": true
+        },
+        "close": {
+          "session": [
+            "authenticated",
+            "authenticated",
+            "0e0665c6-a99f-4063-9c21-f602812838e5",
+            null
+          ],
+          "accepted": false,
+          "sqlstate": "P0001",
+          "message": "OWNER or ADMIN access required",
+          "restored": true
+        }
+      }
+    },
+    "owner_control": {
+      "session": [
+        "authenticated",
+        "authenticated",
+        "1ee8b51f-eb88-427e-adb1-f484155ead66",
+        "OWNER"
+      ],
+      "accepted": true,
+      "after": {
+        "period": {
+          "updated_at": "2026-10-14T16:04:02.207111+00:00",
+          "updated_by": "349bb73d-6f30-41e5-94b3-f2456b2cbd78",
+          "singleton_id": 1,
+          "change_reason": "Astra authorized owner control",
+          "closed_through": "2026-10-11"
+        },
+        "audit": [
+          1,
+          "64962a3a1fa9c63a02cd4e2b02112b50"
+        ]
+      },
+      "restored": true
+    },
+    "after": {
+      "period": {
+        "updated_at": "2026-10-14T16:04:00.888402+00:00",
+        "updated_by": null,
+        "singleton_id": 1,
+        "change_reason": "Z expanded disposable fixture",
+        "closed_through": "2026-10-12"
+      },
+      "audit": [
+        0,
+        "d41d8cd98f00b204e9800998ecf8427e"
+      ]
+    },
+    "scope": "Native SQL, real session authorization; no HTTP/hosted exposure claim; two functions only"
+  },
+  "preexecution_plan": {
+    "case_ids": [
+      "CP17-ASTRA-RBAC-01-CATALOG",
+      "CP17-ASTRA-RBAC-02-ROLE-BOUNDARY"
+    ],
+    "source": "/home/runner/work/-erp-garment-ux/-erp-garment-ux/control/audit/astra_cp17/cases_rbac_followup.py",
+    "business_day": "2026-10-14",
+    "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+    "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+    "workflow_sha": "aa25e5ee06e58e218e8318bb0cf8d10e8eeff382",
+    "run_id": "38593568808",
+    "run_attempt": "1",
+    "round_id": "cp17-20261014"
+  },
+  "manifest_matches_precommitted": true,
+  "oracle_origin_actual": "ASTRA_NEW_AFTER_FABLE012_EXPOSURE",
+  "inherited_report_oracle_label": "ASTRA_FROZEN_CONTRACT_E800E016",
+  "real_http": false,
+  "hosted": false,
+  "production_go": false
+}

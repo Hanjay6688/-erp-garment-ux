@@ -1,0 +1,187 @@
+{
+  "origin": "FABLE_HOSTED_READ_ONLY_REPORT_REVIEWED_BY_ASTRA",
+  "astra_queried_hosted": false,
+  "candidate": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "snapshot": "681dd7a965e1e96267cd64d927faf44f03a92848",
+  "comparison": {
+    "app_ledger": {
+      "expected": {
+        "md5": "43bbda19488da844085faee510403954",
+        "n": 55
+      },
+      "observed": {
+        "n": 55,
+        "md5": "43bbda19488da844085faee510403954"
+      },
+      "equal": true
+    },
+    "config_hash": {
+      "expected": {
+        "md5": "2193b4becca1d4d89e40b444b0a8af29",
+        "n": 6
+      },
+      "observed": {
+        "n": 6,
+        "md5": "2193b4becca1d4d89e40b444b0a8af29"
+      },
+      "equal": true
+    },
+    "constraint": {
+      "expected": {
+        "md5": "57b3c4bac9a8233736a015a4137a0ed7",
+        "n": 1184
+      },
+      "observed": {
+        "n": 1184,
+        "md5": "57b3c4bac9a8233736a015a4137a0ed7"
+      },
+      "equal": true
+    },
+    "default_acl": {
+      "expected": {
+        "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd",
+        "n": 6
+      },
+      "observed": {
+        "n": 6,
+        "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+      },
+      "equal": true
+    },
+    "extension": {
+      "expected": {
+        "md5": "15a959c38d716ad2af3fe1f1dc4419ef",
+        "n": 6
+      },
+      "observed": {
+        "n": 6,
+        "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+      },
+      "equal": true
+    },
+    "function": {
+      "expected": {
+        "md5": "726169ee518a626ab538a72feba75bf4",
+        "n": 537
+      },
+      "observed": {
+        "n": 537,
+        "md5": "726169ee518a626ab538a72feba75bf4"
+      },
+      "equal": true
+    },
+    "function_owner_acl": {
+      "expected": {
+        "md5": "e9b45b7586a76303d2d0a5c11d1e1802",
+        "n": 537
+      },
+      "observed": {
+        "n": 537,
+        "md5": "e9b45b7586a76303d2d0a5c11d1e1802"
+      },
+      "equal": true
+    },
+    "index": {
+      "expected": {
+        "md5": "1ac2e1ca700d0b77cf128b9b60b25a66",
+        "n": 520
+      },
+      "observed": {
+        "n": 520,
+        "md5": "1ac2e1ca700d0b77cf128b9b60b25a66"
+      },
+      "equal": true
+    },
+    "platform_ledger": {
+      "expected": {
+        "md5": "70101c86a76c027079b6ccec793cde92",
+        "n": 70
+      },
+      "observed": {
+        "n": 70,
+        "md5": "70101c86a76c027079b6ccec793cde92"
+      },
+      "equal": true
+    },
+    "policy": {
+      "expected": {
+        "md5": "cdbf37207426191cba21ccfb2c5582c9",
+        "n": 190
+      },
+      "observed": {
+        "n": 190,
+        "md5": "cdbf37207426191cba21ccfb2c5582c9"
+      },
+      "equal": true
+    },
+    "relation": {
+      "expected": {
+        "md5": "948389935750c108d417282be811b7d4",
+        "n": 237
+      },
+      "observed": {
+        "n": 237,
+        "md5": "948389935750c108d417282be811b7d4"
+      },
+      "equal": true
+    },
+    "relation_owner_acl": {
+      "expected": {
+        "md5": "24079e3b1084a81c853c2b289a928334",
+        "n": 237
+      },
+      "observed": {
+        "n": 237,
+        "md5": "24079e3b1084a81c853c2b289a928334"
+      },
+      "equal": true
+    },
+    "schema": {
+      "expected": {
+        "md5": "6ee1ffa742c0945434188ce249e139ca",
+        "n": 2
+      },
+      "observed": {
+        "n": 2,
+        "md5": "6ee1ffa742c0945434188ce249e139ca"
+      },
+      "equal": true
+    },
+    "sequence": {
+      "expected": {
+        "md5": "dacd751dd3a5f2f7efbc203171be4ead",
+        "n": 6
+      },
+      "observed": {
+        "n": 6,
+        "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+      },
+      "equal": true
+    },
+    "trigger": {
+      "expected": {
+        "md5": "b52e09278a630d1918cff6176f664a40",
+        "n": 435
+      },
+      "observed": {
+        "n": 435,
+        "md5": "b52e09278a630d1918cff6176f664a40"
+      },
+      "equal": true
+    },
+    "view": {
+      "expected": {
+        "md5": "8ca20454d3ebffb815ce11e75f3ae965",
+        "n": 51
+      },
+      "observed": {
+        "n": 51,
+        "md5": "8ca20454d3ebffb815ce11e75f3ae965"
+      },
+      "equal": true
+    }
+  },
+  "summary_query_sha256": "223a9653df576581677627a569186d0213d9a8a9145d4b4ed9346910b897aef5",
+  "cp1_query_sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509",
+  "note": "Fable measured hosted; Astra compared retained files. This 16/16 is not Astra disposable-vs-hosted ledger equality; that historical difference remains qualified."
+}

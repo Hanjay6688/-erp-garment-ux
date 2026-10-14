@@ -1,0 +1,108 @@
+{
+  "snapshot": "681dd7a965e1e96267cd64d927faf44f03a92848",
+  "origin": "REUSED_AUDITOR_LOG_READ",
+  "files": [
+    {
+      "path": "audit/fable_cp17/AUDIT_FABLE_0b7049d9.md",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/AUDIT_FABLE_0b7049d9.md",
+      "sha256": "7fd1ca971e2af73f0b47bba553b97f29a070cdf52fe79889177cf9c3a25e90a5",
+      "bytes": 31905
+    },
+    {
+      "path": "audit/fable_cp17/LOCK.md",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/LOCK.md",
+      "sha256": "6ebccc6fca0c9f54535c8b039cb7e671aab24d59f668829027d180fd7c08802f",
+      "bytes": 712
+    },
+    {
+      "path": "audit/fable_cp17/ADDENDUM_A1_CP1_CP2_20261014.md",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/ADDENDUM_A1_CP1_CP2_20261014.md",
+      "sha256": "52da71c5590cfb3c893e17a82d9bd6e49f42ab05b8803831b613dabaf0a59286",
+      "bytes": 3265
+    },
+    {
+      "path": "audit/fable_cp17/ADDENDUM_A2_CP2_RESTORE_20261014.md",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/ADDENDUM_A2_CP2_RESTORE_20261014.md",
+      "sha256": "accf19f9c274263b8f7a5d3623c8c58a4a36a09107d53d69ce14a2b55d538adf",
+      "bytes": 3635
+    },
+    {
+      "path": "audit/fable_cp17/ADDENDUM_A3_CP4_RBAC_20261014.md",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/ADDENDUM_A3_CP4_RBAC_20261014.md",
+      "sha256": "e367bf540b4222477efc517dca2525d897c2aab916b8de32eb0d7545e5ea49c6",
+      "bytes": 3205
+    },
+    {
+      "path": "audit/fable_cp17/OWNER_DECISIONS_TO_AUDITOR_20261014.md",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/OWNER_DECISIONS_TO_AUDITOR_20261014.md",
+      "sha256": "3405dab29b80adafe9121b6eeba20de268c0fac104a646b3d36cc5b087980a8d",
+      "bytes": 996
+    },
+    {
+      "path": "audit/fable_cp17/runs/cp12/cp2_local_restore_report_fable_20261014.json",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/cp2_local_restore_report_fable_20261014.json",
+      "sha256": "595190b4039f9bf2f5e895d200ce5c83b844a0c3d7283561ca5a385f2bded5f5",
+      "bytes": 1065
+    },
+    {
+      "path": "audit/fable_cp17/runs/cp12/cp2_local_pg16_stubs.sql",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/cp2_local_pg16_stubs.sql",
+      "sha256": "0ae4b8dd210df18024c9b1dbb92089312e7fc9a480bada43871b8d34200800e4",
+      "bytes": 2533
+    },
+    {
+      "path": "audit/fable_cp17/runs/cp17/dispatch_ledger_cp17.jsonl",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/dispatch_ledger_cp17.jsonl",
+      "sha256": "56bb91c4dbb2609cecc67996d9116e060dd5b8bcb1926e1547c51b1489983ef4",
+      "bytes": 24123
+    },
+    {
+      "path": "audit/fable_cp7/scenarios/fable_cp17_rbac.py",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/fable_cp17_rbac.py",
+      "sha256": "f2ec5c5ce11acc16fe8d681d87248b86cd69a08411b92d30f665aa2003644b1c",
+      "bytes": 4955
+    },
+    {
+      "path": "audit/fable_cp7/scenarios/fable_cp17_rbac2.py",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/fable_cp17_rbac2.py",
+      "sha256": "5a47903a8293d4bd77ab7a2f1d51c3127cbc68895db0ad6bb669a49894e0a439",
+      "bytes": 428
+    },
+    {
+      "path": "681dd7a965e1e96267cd64d927faf44f03a92848:audit/fable_cp17/runs/cp12/cp1_fingerprint.sql",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/cp1_fingerprint.sql",
+      "sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509",
+      "bytes": 9721
+    },
+    {
+      "path": "41bda0f748ebef57155013ea1e2f3dc86602a85a:scripts/cp2_verify_local_restore.py",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/cp2_verify_local_restore.py",
+      "sha256": "795430b8e56dcffabff75fd2bc9237a8255ef10d24e6b812c468d9909e8c146d",
+      "bytes": 10018
+    },
+    {
+      "path": "681dd7a965e1e96267cd64d927faf44f03a92848:audit/fable_cp17/runs/cp12/g01_summary.sql",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/g01_summary.sql",
+      "sha256": "223a9653df576581677627a569186d0213d9a8a9145d4b4ed9346910b897aef5",
+      "bytes": 8394
+    },
+    {
+      "path": "681dd7a965e1e96267cd64d927faf44f03a92848:audit/fable_cp17/runs/cp12/hosted_cp1_v1_20261014.json",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/hosted_cp1_v1_20261014.json",
+      "sha256": "818008494089ba86d285bbf63410c343432c1499ccce36045a35466be0a5296c",
+      "bytes": 1320
+    },
+    {
+      "path": "681dd7a965e1e96267cd64d927faf44f03a92848:audit/fable_cp17/runs/cp12/hosted_g01_20261014.json",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/hosted_g01_20261014.json",
+      "sha256": "c09802e211d5812aba10e41a86e2346a8bb9314b582c129cafa1febb6ecb0191",
+      "bytes": 1008
+    },
+    {
+      "path": "5d8a4fa57aa0fa03b7bc0b3a1746e95611920110:audit/fable_cp7/scenarios/fable_cp17_rbac.py",
+      "copy": "audit/astra_cp17/followup-681dd7a9/fable-source/fable_cp17_rbac.run1.py",
+      "sha256": "789fd3f50b5b3bd987c91727cf6ab67e167dc8bd1ead40be9cbf6db8dd035481",
+      "bytes": 4843
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "checked_on": "2026-10-14",
+  "sources": [
+    {
+      "url": "https://supabase.com/docs/guides/api/using-custom-schemas",
+      "use": "Data API exposed schemas are configured separately from SQL USAGE/grants; do not infer hosted exposure from grants."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/17/ddl-priv.html",
+      "use": "EXECUTE/USAGE allow function lookup/call; they do not describe the application-specific checks inside a function."
+    }
+  ],
+  "changelog_index_fetch": "https://supabase.com/changelog.md returned unsupported text/markdown in browser retrieval; no platform upgrade or new feature implementation performed. Frozen CLI2.116.0/runtime17.6.1.165 retained."
+}
