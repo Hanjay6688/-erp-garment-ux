@@ -1,0 +1,1863 @@
+{
+  "round_id": "cp1-7-20261014",
+  "auditor": "SOL",
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "candidate_tree": "ce6aed0a0af920e8aa80248f3cabcd293688df18",
+  "audit_branch": "audit/sol-cp1-7-0b7049d9-20261014",
+  "frozen_at_utc": "2026-10-14T11:53:16.414317+00:00",
+  "rules_sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+  "rules_blob": "5df759c38e1ea98831a4dfdda3cfd1a2b8bb398b",
+  "product_trees": {
+    "src": "d6553972f94a4ad4e9170e8a946b30cdac9712fd",
+    "supabase": "5d040436db384b4e574785376367b360a084acb7",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+    "supabase/rollbacks": "9e216e7bcca6b583341d9ea78cbc0414134ecee2",
+    "scripts": "b67664091c4394b0ff6a187409d9e9b32213a0e0",
+    "scripts/cp7-src": "7bcf45e174499f3712c67ee08788a90a8c5f7881",
+    ".github/workflows": "4d7712279bfdfb6aec10dca4a216dd927875f483"
+  },
+  "source_manifest": [
+    {
+      "path": "package-lock.json",
+      "bytes": 125971,
+      "sha256": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195"
+    },
+    {
+      "path": "package.json",
+      "bytes": 5148,
+      "sha256": "188026b2d570d1f5ebcc1e1f5a7a950ae0327c326da7a0e6ce8e22f8b99c4d20"
+    },
+    {
+      "path": "docs/cp7/OWNER_DECISIONS_20261008.md",
+      "bytes": 26714,
+      "sha256": "c626838670e9b33d1d5967bf7b4623e0896ba8c28afa936a8a0e2c2d33470e98"
+    },
+    {
+      "path": "docs/cp6-d11-kebijakan-dan-gbd03.md",
+      "bytes": 19002,
+      "sha256": "4d351c4fc727b73a29c181fb8c0c6aaaebb6aa4b7f17fbd7e9fd3db4407af8f0"
+    }
+  ],
+  "environment": {
+    "os": "ubuntu-24.04 unless original explicitly differs",
+    "node": "22",
+    "supabase_cli": "2.116.0",
+    "postgres_image": "17.6.1.165",
+    "psycopg": "3.2.10"
+  },
+  "workflows": [
+    {
+      "suite": "ci",
+      "workflow_path": ".github/workflows/audit-sol-full-ci.yml",
+      "workflow_name": "AUDIT/SOL/ci",
+      "original_path": ".github/workflows/ci.yml",
+      "original_sha256": "292d3305e31e43c3347b03c78e558ec7097cb15f923fa93001a0f9be19011d8d",
+      "audit_workflow_sha256": "f0a9aa4a815c8f0a4a993be9c93cff3488d5a5d4974a1a44f892930babe12797",
+      "jobs": [
+        {
+          "job": "build",
+          "candidate_checkout": ".",
+          "checkouts": [
+            {
+              "path": ".",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 0
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-candidate-codeql",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-candidate-codeql.yml",
+      "workflow_name": "AUDIT/SOL/cp6-candidate-codeql",
+      "original_path": ".github/workflows/cp6-candidate-codeql.yml",
+      "original_sha256": "c501ec320f505af2fa1c5f7227a00bb9daa9b1826fc0413b93b7192e89dda84c",
+      "audit_workflow_sha256": "14627254bcdab6c4fbf11dd12d9bd9741f73649c06fa96ace60b9f32b71563bf",
+      "jobs": [
+        {
+          "job": "analyze",
+          "candidate_checkout": ".",
+          "checkouts": [
+            {
+              "path": ".",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 0
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "language": "actions",
+                "build_mode": "none"
+              },
+              {
+                "language": "javascript-typescript",
+                "build_mode": "none"
+              },
+              {
+                "language": "python",
+                "build_mode": "none"
+              },
+              {
+                "language": "c-cpp",
+                "build_mode": "manual"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp7-f03-full",
+      "workflow_path": ".github/workflows/audit-sol-full-cp7-f03-full.yml",
+      "workflow_name": "AUDIT/SOL/cp7-f03-full",
+      "original_path": ".github/workflows/cp7-f03-full.yml",
+      "original_sha256": "e9156e4a24582d5c933be4a5460b02113411486afabefe8d086af8c194c72d07",
+      "audit_workflow_sha256": "98a27dc6cdaddf6f60086dd502aa8611c5c63890852194861c979b7171a0d70e",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "bucket": [
+              "p09",
+              "p10",
+              "p11",
+              "p12",
+              "p13",
+              "cash_installments",
+              "supplier_credit",
+              "customer_refund"
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-note-correction",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-note-correction.yml",
+      "workflow_name": "AUDIT/SOL/claude-note-correction",
+      "original_path": ".github/workflows/claude-note-correction.yml",
+      "original_sha256": "d30f100e7faa289e2fef800db0af8a967bb127b9df2a2e83bae87cb96ba5cf34",
+      "audit_workflow_sha256": "a25ae53388ef989119ec674b16bec934fad405bc6ac03308c1d9ab14c994e8c1",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 3
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 4
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 5
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp7-receipt-correction",
+      "workflow_path": ".github/workflows/audit-sol-full-cp7-receipt-correction.yml",
+      "workflow_name": "AUDIT/SOL/cp7-receipt-correction",
+      "original_path": ".github/workflows/cp7-receipt-correction.yml",
+      "original_sha256": "b24665d21673c74d347e00d1fcf33dc329f67484df83595de48531089ed9a06a",
+      "audit_workflow_sha256": "54f644e363ad29929c5b5ae19a4eab0001796a8519384def1af4479f1032fe82",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-p08-physical",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-p08-physical.yml",
+      "workflow_name": "AUDIT/SOL/claude-p08-physical",
+      "original_path": ".github/workflows/claude-p08-physical.yml",
+      "original_sha256": "7ab5140133f768c99b421afd38ab5636365b41b3b46b1a9d5fbeb94377394a75",
+      "audit_workflow_sha256": "63eef324e3bf4c5ca7364aa4b024c63338d518e1f07dc927925f0b1fa883dfb9",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "suite": "fabric-physical21",
+                "probe": "cp7_fabric_physical_probe.py",
+                "timeout": 120
+              },
+              {
+                "suite": "fabric13-successor",
+                "probe": "cp7_fabric_recipe_probe.py",
+                "timeout": 90
+              },
+              {
+                "suite": "analysis152",
+                "probe": "cp7_f05_analysis_probe.py",
+                "timeout": 90
+              },
+              {
+                "suite": "plan39",
+                "probe": "cp7_f04_plan_probe.py",
+                "timeout": 90
+              },
+              {
+                "suite": "attention284",
+                "probe": "cp7_f05_attention_probe.py",
+                "timeout": 180
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-p12-payroll",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-p12-payroll.yml",
+      "workflow_name": "AUDIT/SOL/claude-p12-payroll",
+      "original_path": ".github/workflows/claude-p12-payroll.yml",
+      "original_sha256": "9d55ef3698ea68d8c9cf89da9b560c76b629ed557d6ac01d764264e5205b53b5",
+      "audit_workflow_sha256": "124674c9d96a611644154a4aa7790d271c9f0d9ea0bd6c3accffbae8dd8c765d",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "flag": [
+              "--roster",
+              "--payroll-review",
+              "--attendance-write"
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-p13-finance",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-p13-finance.yml",
+      "workflow_name": "AUDIT/SOL/claude-p13-finance",
+      "original_path": ".github/workflows/claude-p13-finance.yml",
+      "original_sha256": "6f370bcbd8ccdbda86085e1a3b21a640e55635f5f565f7cd571ece431ab6e968",
+      "audit_workflow_sha256": "f7dc782ae5221df93d2455f4ed9b12548494a9bf9aa8099287f7251f4c60acfe",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-p18-fabric-rule",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-p18-fabric-rule.yml",
+      "workflow_name": "AUDIT/SOL/claude-p18-fabric-rule",
+      "original_path": ".github/workflows/claude-p18-fabric-rule.yml",
+      "original_sha256": "34a93c4f1f812b2f085cab7da421d84b374a4e899736ea3aace8a84ea61a571a",
+      "audit_workflow_sha256": "434569f8e7f1b989a71d5dde8f47d767dac3e7323aa92c5e703e4236c2051f7f",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "suite": "fabric-rule11",
+                "probe": "cp7_p18_fabric_rule_probe.py",
+                "timeout": 120
+              },
+              {
+                "suite": "rule-lifecycle16",
+                "probe": "cp7_rule_lifecycle_probe.py",
+                "timeout": 120
+              },
+              {
+                "suite": "p18-e01-9",
+                "probe": "cp7_p18_e01_bridge_probe.py",
+                "timeout": 120
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-p18-full-cycle",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-p18-full-cycle.yml",
+      "workflow_name": "AUDIT/SOL/claude-p18-full-cycle",
+      "original_path": ".github/workflows/claude-p18-full-cycle.yml",
+      "original_sha256": "6f8045efaafa70e3a47c8ee22deac50c134fb39929b4f83f763c9f727da65694",
+      "audit_workflow_sha256": "00a20099fb8dc3278e81758114ea64adb5e9d86f52159657a67a7355317abcdd",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-p19-transport",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-p19-transport.yml",
+      "workflow_name": "AUDIT/SOL/claude-p19-transport",
+      "original_path": ".github/workflows/claude-p19-transport.yml",
+      "original_sha256": "c9a134456d61501ca0a3cfc1f2fbd672d39f7457799c6d9f421f1b9d9444a6b4",
+      "audit_workflow_sha256": "6f2f07286c8caeb66a14dded2fe561e969a1cf3066f3541a5fea9b517faa1111",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "suite": "p19-transport11",
+                "probe": "cp7_p19_transport_probe.py",
+                "timeout": 120
+              },
+              {
+                "suite": "p19-scale5",
+                "probe": "cp7_p19_scale_probe.py",
+                "timeout": 330
+              },
+              {
+                "suite": "p19-staged12",
+                "probe": "cp7_p19_staged_probe.py",
+                "timeout": 150
+              },
+              {
+                "suite": "p19-plan-v2-22",
+                "probe": "cp7_p19_plan_v2_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "p19-report-v2-20",
+                "probe": "cp7_p19_report_v2_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "p19-ai-v2-9",
+                "probe": "cp7_p19_ai_v2_probe.py",
+                "timeout": 150
+              },
+              {
+                "suite": "p19-reminder-v2-16",
+                "probe": "cp7_p19_reminder_v2_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "pl5-history-yield-20",
+                "probe": "cp7_pl5_history_yield_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "k2-retention-10",
+                "probe": "cp7_k2_retention_probe.py",
+                "timeout": 150
+              },
+              {
+                "suite": "k3-cleanup-25",
+                "probe": "cp7_k3_cleanup_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "k4-runner-17",
+                "probe": "cp7_k4_runner_probe.py",
+                "timeout": 180
+              },
+              {
+                "suite": "k6-proof-runner-10",
+                "probe": "cp7_k6_proof_runner_probe.py",
+                "timeout": 150
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-p21-rehearsal",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-p21-rehearsal.yml",
+      "workflow_name": "AUDIT/SOL/claude-p21-rehearsal",
+      "original_path": ".github/workflows/claude-p21-rehearsal.yml",
+      "original_sha256": "d1a6a1ad506f405e2011801deb23303e949e5ec459a65b7cd83557081136b9c0",
+      "audit_workflow_sha256": "0eb06909631364381f1653e4eb354f480fac41ee8f11ccd8ca82eba52ea18e86",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "name": "Install, pre-use rollback, identical reinstall, use, post-use refusal and restore (disposable clone)",
+                "probe": "cp7_p21_rehearsal_probe.py",
+                "artifact": "cp7-p21-rehearsal",
+                "timeout": 60
+              },
+              {
+                "name": "Full composition with staged analysis, committed use, used backup restore and pre-install restore (disposable clone)",
+                "probe": "cp7_p21_full_rehearsal_probe.py",
+                "artifact": "cp7-p21-full-rehearsal",
+                "timeout": 120
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-pl-native",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-pl-native.yml",
+      "workflow_name": "AUDIT/SOL/claude-pl-native",
+      "original_path": ".github/workflows/claude-pl-native.yml",
+      "original_sha256": "69fa539a2976593ff9d755403496113b5ddf163dfa752478d1a02e4dc30d6eb0",
+      "audit_workflow_sha256": "1868342da39295b211ee48a88c9fe6f50a77c1d49ab66e92c9f5e75bdefe2117",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "suite": "model",
+                "probe": "cp7_f04_model_probe.py",
+                "timeout": 60
+              },
+              {
+                "suite": "schedule",
+                "probe": "cp7_f04_schedule_probe.py",
+                "timeout": 60
+              },
+              {
+                "suite": "netting",
+                "probe": "cp7_f04_netting_probe.py",
+                "timeout": 60
+              },
+              {
+                "suite": "supply",
+                "probe": "cp7_f04_supply_probe.py",
+                "timeout": 60
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp7-prefreeze-ui",
+      "workflow_path": ".github/workflows/audit-sol-full-cp7-prefreeze-ui.yml",
+      "workflow_name": "AUDIT/SOL/cp7-prefreeze-ui",
+      "original_path": ".github/workflows/cp7-prefreeze-ui.yml",
+      "original_sha256": "d79b8baf2c340c08023a248f8ad89c53f935cab76aebcca697a5c4d850f43308",
+      "audit_workflow_sha256": "caeae113a447a93555e0e28f54569145bbf3a5f9a7be1b811ccab79bf325491b",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "bucket": [
+              "prefreeze_ui"
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-p08-shell",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-p08-shell.yml",
+      "workflow_name": "AUDIT/SOL/claude-p08-shell",
+      "original_path": ".github/workflows/claude-p08-shell.yml",
+      "original_sha256": "7ad63afb16a1d2c63c3505624bdc8b10ee549244c571332fe2bd12d433c9e2c9",
+      "audit_workflow_sha256": "211ee6577e42c13beae1d830c86e09283f663309b71a4bb3ddde57b9e63ffa77",
+      "jobs": [
+        {
+          "job": "shell",
+          "candidate_checkout": ".",
+          "checkouts": [
+            {
+              "path": ".",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 0
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        },
+        {
+          "job": "p19-assembly",
+          "candidate_checkout": ".",
+          "checkouts": [
+            {
+              "path": ".",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 0
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        },
+        {
+          "job": "p19-staged",
+          "candidate_checkout": ".",
+          "checkouts": [
+            {
+              "path": ".",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 0
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        },
+        {
+          "job": "codeql",
+          "candidate_checkout": ".",
+          "checkouts": [
+            {
+              "path": ".",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 0
+            }
+          ],
+          "matrix": {
+            "language": [
+              "javascript-typescript",
+              "actions"
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-supplier-payment-correction",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-supplier-payment-correction.yml",
+      "workflow_name": "AUDIT/SOL/claude-supplier-payment-correction",
+      "original_path": ".github/workflows/claude-supplier-payment-correction.yml",
+      "original_sha256": "924b24ee78a720ee47c0151b5ff02230d0f5bca33c9ce61de9cc1d7bd283d856",
+      "audit_workflow_sha256": "34296db07a67e2bc2f17a9c8ff81d7826f1a48a3e8b1072cae1a68fdbbfead4d",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "claude-supplier-payment-create",
+      "workflow_path": ".github/workflows/audit-sol-full-claude-supplier-payment-create.yml",
+      "workflow_name": "AUDIT/SOL/claude-supplier-payment-create",
+      "original_path": ".github/workflows/claude-supplier-payment-create.yml",
+      "original_sha256": "c2b38ae396412c8b2411301bed11966f19f0e626698e211f996722ea31a6647e",
+      "audit_workflow_sha256": "3aa944eac59f1e5219fc53b36a1d77fa47154a0e4f5676ddadbbfe0d3deb7872",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "FINAL_CP7_STACK_OR_FRONTEND",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-g01-baseline",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-g01-baseline.yml",
+      "workflow_name": "AUDIT/SOL/cp6-g01-baseline",
+      "original_path": ".github/workflows/cp6-g01-baseline.yml",
+      "original_sha256": "9d42f0315a521e36a054963fd6a4cd25ddddb8d9e616cdbcbe3594fae868d92f",
+      "audit_workflow_sha256": "3232a4c79b368c1def4ee7eb2f09a8dc995ea46f00da1d70daf1df50bf427f18",
+      "jobs": [
+        {
+          "job": "baseline",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 0
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 1
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-t2-regression",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-t2-regression.yml",
+      "workflow_name": "AUDIT/SOL/cp6-t2-regression",
+      "original_path": ".github/workflows/cp6-t2-regression.yml",
+      "original_sha256": "db8de192a575fd7aeaba4552988452c248d2bba53ea2d1445221e913934d3a1d",
+      "audit_workflow_sha256": "ca7abba814e46032b87611ef309474584f631f5840bc4162efe795bbc02217b1",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "ar",
+                "label": "AR 174 original cases and races on the combined candidate, seed quieted, own fixture completed (T2)",
+                "script": "cp6_t2_regression.py",
+                "phase": "ar",
+                "proof": "t2",
+                "seed": "QUIETED"
+              },
+              {
+                "key": "temporal",
+                "label": "AT 16 and AU 15 cases with their real races on the combined candidate (T2)",
+                "script": "cp6_t2_regression.py",
+                "phase": "temporal",
+                "proof": "t2",
+                "seed": "AS_IS"
+              },
+              {
+                "key": "regression",
+                "label": "Original 326 plus AS 34 with per-case identity, approved AS date oracle, calendar policy printed (T2)",
+                "script": "cp6_t2_regression.py",
+                "phase": "regression",
+                "proof": "t2",
+                "seed": "QUIETED"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-t3-release-package",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-t3-release-package.yml",
+      "workflow_name": "AUDIT/SOL/cp6-t3-release-package",
+      "original_path": ".github/workflows/cp6-t3-release-package.yml",
+      "original_sha256": "9e6de490c3a8391a3ebe4bd05b929dd6b733741390aa01b5c2092e6ba68ecfac",
+      "audit_workflow_sha256": "18d3bd9ebb62e3de4efeeccf7aa30c1d423128bca1693302a860f883fd021746",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "install",
+                "label": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
+                "proof": "t3"
+              },
+              {
+                "key": "capture",
+                "label": "Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)",
+                "proof": "t3"
+              },
+              {
+                "key": "browser",
+                "label": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+                "proof": "t3"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-t3-rollback",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-t3-rollback.yml",
+      "workflow_name": "AUDIT/SOL/cp6-t3-rollback",
+      "original_path": ".github/workflows/cp6-t3-rollback.yml",
+      "original_sha256": "32440e9b29cdc2a422b3cab7df1804f6834d6e4239dab9998a0556f21aff8740",
+      "audit_workflow_sha256": "ad74cb33772908b83502098e55d9dc12a9c010fad341c2be95037c1b28235f01",
+      "jobs": [
+        {
+          "job": "rollback",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": null,
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-release-readiness",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-release-readiness.yml",
+      "workflow_name": "AUDIT/SOL/cp6-release-readiness",
+      "original_path": ".github/workflows/cp6-release-readiness.yml",
+      "original_sha256": "5dff305c25d542b5a11dd86ba27099341ded5fe8e4ab06eac82dc3a9dac99ee7",
+      "audit_workflow_sha256": "1abd2e76b536b2656b58747abe86a515b44e1d9be190eae8ecbd0a50e8a65e88",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "owner",
+                "label": "Hosted v2.6.20 to BF, 58 frozen files with non-superuser owner and work accounts (disposable only)",
+                "proof": "t3"
+              },
+              {
+                "key": "install",
+                "label": "Hosted-faithful baseline to AB, committed 30-file package AC..BF, writer runtime, advisors, restore drill (T3_PREP)",
+                "proof": "t3"
+              },
+              {
+                "key": "browser",
+                "label": "Hosted-faithful baseline to AB, committed 30-file package, AU and BF browser flows (T3_PREP)",
+                "proof": "t3"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-aw-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-aw-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-aw-t1-probe",
+      "original_path": ".github/workflows/cp6-aw-t1-probe.yml",
+      "original_sha256": "0c2f13d34cd022b32b9403bddecadb62ce6c9616a03b8cb33260b8ec77c81b02",
+      "audit_workflow_sha256": "6480b4783fc6671beaa85c864d97ec625d6efee8662af9861a6ae3175c9666b6",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "AW probe on AU plus AV (before, T1_FAMILY)",
+                "script": "cp6_aw_probe.py",
+                "phase": "before",
+                "proof": "aw"
+              },
+              {
+                "key": "probe-after",
+                "label": "AW probe on AU plus AV plus AW T1 (after, T1_FAMILY)",
+                "script": "cp6_aw_probe.py",
+                "phase": "after",
+                "proof": "aw"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-ax-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-ax-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-ax-t1-probe",
+      "original_path": ".github/workflows/cp6-ax-t1-probe.yml",
+      "original_sha256": "5c1e1ddbb4d7258991c81974c16a2d4764c413a190b00408a0398ac44fa52a29",
+      "audit_workflow_sha256": "42af98864ac44d0ee591f49926082246aa3ec737d7424ed2b2116cb5dab22ab3",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "AX probe on AU plus AV plus AW (before, T1_FAMILY)",
+                "script": "cp6_ax_probe.py",
+                "phase": "before",
+                "proof": "ax"
+              },
+              {
+                "key": "probe-after",
+                "label": "AX probe on AU plus AV plus AW plus AX T1 (after, T1_FAMILY)",
+                "script": "cp6_ax_probe.py",
+                "phase": "after",
+                "proof": "ax"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-ay-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-ay-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-ay-t1-probe",
+      "original_path": ".github/workflows/cp6-ay-t1-probe.yml",
+      "original_sha256": "27db8246d93f0f7d94ad85a9871aced5e6a0f23a50bcb2af300b37d9de51fe4e",
+      "audit_workflow_sha256": "0d742315d4bdc6c332cc260e834cc563fbf9776921e2adce97433a1939657d38",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "AY probe on AU plus AV plus AW plus AX (before, T1_FAMILY)",
+                "script": "cp6_ay_probe.py",
+                "phase": "before",
+                "proof": "ay"
+              },
+              {
+                "key": "probe-after",
+                "label": "AY probe on AU plus AV plus AW plus AX plus AY T1 (after, T1_FAMILY)",
+                "script": "cp6_ay_probe.py",
+                "phase": "after",
+                "proof": "ay"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-az-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-az-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-az-t1-probe",
+      "original_path": ".github/workflows/cp6-az-t1-probe.yml",
+      "original_sha256": "a8b0ea2214ad30e6d2ca530f4069e4984dff8a25e4e512b58a4241ee5937ca28",
+      "audit_workflow_sha256": "259037f923b146e4a6cffc0ac4cefebf28d92b7e68688599136525014ab6e35f",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "AZ probe on AU plus AV plus AW plus AX plus AY (before, T1_FAMILY)",
+                "script": "cp6_az_probe.py",
+                "phase": "before",
+                "proof": "az"
+              },
+              {
+                "key": "probe-after",
+                "label": "AZ probe on AU plus AV plus AW plus AX plus AY plus AZ T1 (after, T1_FAMILY)",
+                "script": "cp6_az_probe.py",
+                "phase": "after",
+                "proof": "az"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-ba-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-ba-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-ba-t1-probe",
+      "original_path": ".github/workflows/cp6-ba-t1-probe.yml",
+      "original_sha256": "1b5f423e888a69b365c81e43a93561a6b9c7be5246cc25b0fd218b1a9c24c212",
+      "audit_workflow_sha256": "fdc3b736906d90f2ef055d3e84244a1183f84c3dce6ddf828903a0de08952bce",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "BA probe on AU plus AV plus AW plus AX plus AY plus AZ (before, T1_FAMILY)",
+                "script": "cp6_ba_probe.py",
+                "phase": "before",
+                "proof": "ba"
+              },
+              {
+                "key": "probe-after",
+                "label": "BA probe on AU plus AV plus AW plus AX plus AY plus AZ plus BA T1 (after, T1_FAMILY)",
+                "script": "cp6_ba_probe.py",
+                "phase": "after",
+                "proof": "ba"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-bb-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-bb-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-bb-t1-probe",
+      "original_path": ".github/workflows/cp6-bb-t1-probe.yml",
+      "original_sha256": "ea6cc0ae641a839cb58d97f5f0a4c21de0b53d04c3f337dab85bcd80bd7be23f",
+      "audit_workflow_sha256": "fc4f4363c78616b11cea0fe9ba35dbad40ab7f71f9fc2df75f17bc7e04034abb",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "BB probe on AU plus AV plus AW..AZ plus BA (before, T1_FAMILY)",
+                "script": "cp6_bb_probe.py",
+                "phase": "before",
+                "proof": "bb"
+              },
+              {
+                "key": "probe-after",
+                "label": "BB probe on AU plus AV plus AW..AZ plus BA plus BB T1 (after, T1_FAMILY)",
+                "script": "cp6_bb_probe.py",
+                "phase": "after",
+                "proof": "bb"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-bc-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-bc-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-bc-t1-probe",
+      "original_path": ".github/workflows/cp6-bc-t1-probe.yml",
+      "original_sha256": "d57a847f45de92d41ae3c2293b129c2aa451d21230783c604f24c3b1829502da",
+      "audit_workflow_sha256": "63dd49b44aad3904e07222e935a6be5d2f9e7987248758c63a1b9883e1d3bee1",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "BC probe on AU plus AV plus AW..AZ plus BA plus BB (before, T1_FAMILY)",
+                "script": "cp6_bc_probe.py",
+                "phase": "before",
+                "proof": "bc"
+              },
+              {
+                "key": "probe-after",
+                "label": "BC probe on AU plus AV plus AW..AZ plus BA plus BB plus BC T1 (after, T1_FAMILY)",
+                "script": "cp6_bc_probe.py",
+                "phase": "after",
+                "proof": "bc"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-bd-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-bd-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-bd-t1-probe",
+      "original_path": ".github/workflows/cp6-bd-t1-probe.yml",
+      "original_sha256": "0b4a171fe62aa1bf3ba5c269c6562d44ffcff452756bcbe72836c338b4299f6e",
+      "audit_workflow_sha256": "86507ac19b5464d5fa1c905f3e2485f35ef4b18b23b80719a7cdbb54e5e8ca80",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "BD probe on AU plus AV plus AW..AZ plus BA plus BB plus BC (before, T1_FAMILY)",
+                "script": "cp6_bd_probe.py",
+                "phase": "before",
+                "proof": "bd"
+              },
+              {
+                "key": "probe-after",
+                "label": "BD probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD T1 (after, T1_FAMILY)",
+                "script": "cp6_bd_probe.py",
+                "phase": "after",
+                "proof": "bd"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    },
+    {
+      "suite": "cp6-be-t1-probe",
+      "workflow_path": ".github/workflows/audit-sol-full-cp6-be-t1-probe.yml",
+      "workflow_name": "AUDIT/SOL/cp6-be-t1-probe",
+      "original_path": ".github/workflows/cp6-be-t1-probe.yml",
+      "original_sha256": "24bea019e8993e104ed3e3a2ff765632572629372b28c030fd354fb1f129002d",
+      "audit_workflow_sha256": "2575ee1f38df19b46736c3e30cff5d0b580de249c9779dd77560b0a327c358c7",
+      "jobs": [
+        {
+          "job": "phase",
+          "candidate_checkout": "auditor",
+          "checkouts": [
+            {
+              "path": "writer",
+              "ref": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+              "step_index": 0
+            },
+            {
+              "path": "auditor",
+              "ref": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+              "step_index": 1
+            },
+            {
+              "path": "harness",
+              "ref": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+              "step_index": 2
+            },
+            {
+              "path": "candidate",
+              "ref": "25fa4736329e5148dfdb3572bc169952cba23251",
+              "step_index": 3
+            },
+            {
+              "path": "base",
+              "ref": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+              "step_index": 4
+            }
+          ],
+          "matrix": {
+            "include": [
+              {
+                "key": "probe-before",
+                "label": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD (before, T1_FAMILY)",
+                "script": "cp6_be_probe.py",
+                "phase": "before",
+                "proof": "be"
+              },
+              {
+                "key": "probe-after",
+                "label": "BE probe on AU plus AV plus AW..AZ plus BA plus BB plus BC plus BD plus BE T1 (after, T1_FAMILY)",
+                "script": "cp6_be_probe.py",
+                "phase": "after",
+                "proof": "be"
+              }
+            ]
+          },
+          "condition": null,
+          "needs": null
+        }
+      ],
+      "scope": "CP6_LAYER_ISOLATED_CURRENT_SOURCE",
+      "case_manifest": "provider declarations and hashes unchanged; runtime declares planned case IDs before execution, exact-set checks where supported; legacy metadata limits must be reported"
+    }
+  ],
+  "excluded_writer_workflows": {
+    "CP7 Offsite Backup": "D13-9a CP7C deferred",
+    "CP7 Backup Kit Check": "D13-9a CP7C deferred",
+    "CP7 Astra Timeline Reuse": "independent Sol semantic probe will replace this author-owned oracle"
+  },
+  "historical_workflows": "CP3/4/4.5/5 snapshot workflows are not acceptance for current composition; source immutability and T2 inherited regression must supply their own evidence",
+  "CP2": "evidence inventory required; no recovery-set/restore success assumed",
+  "own_contract_probes": "declared separately before their execution",
+  "production_go": false,
+  "audit_complete": false
+}
