@@ -1,0 +1,22 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "guide_sha256": "5752e96df751de5ebe4b86d3f572cffa1bbe94eb42bf8e283fa6e04f9f593639",
+  "original_contracts_independently_read_and_hash_verified": [
+    {
+      "name": "ERP_V3_2_Master_Pulih_20260923.md",
+      "bytes": 681195,
+      "sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07"
+    },
+    {
+      "name": "ERP_V3_2_Perubahan_Pulih_20260923.md",
+      "bytes": 131244,
+      "sha256": "92966cd6ed27e64123be6c52e2263bfbdb3db91c97f2e441c3bdc98589397676"
+    }
+  ],
+  "owner_precedence": [
+    "D11 LAU-DEC04 ALLOW_PENDING overrides stale H06 example",
+    "D01 date rules retain original red outcomes, separate qualified C0",
+    "D13 owner scope/exclusions and conditional A6 retirement"
+  ],
+  "production_go": false
+}

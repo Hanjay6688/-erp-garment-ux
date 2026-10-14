@@ -1,0 +1,84 @@
+[
+  {
+    "id": "SOL-001",
+    "priority": "P1",
+    "owner": "WRITER_UTAMA",
+    "status": "OPEN",
+    "task": "Gunakan penjagaan kas bersama pada otoritas Native, dengan lock per akun dan aturan per tanggal. Jika owner mengizinkan overdraft, simpan kebijakan, batas dan periode berlaku secara eksplisit. Jangan mengarang default atau hanya menambah pemeriksaan UI.",
+    "acceptance": [
+      "Dana cukup, tepat habis, dana kurang dan kebijakan pending.",
+      "Dua invoice berbeda membayar dari bank yang sama bersamaan: gabungan tidak melampaui kapasitas.",
+      "Backdate, reversal dan koreksi mempertahankan aturan histori serta sumber pendanaan.",
+      "Terapkan kontrol yang sama pada vendor/laundry, payroll, pengeluaran lain, uang muka dan refund; bukti bug saat ini khusus supplier.",
+      "UUID replay sekali; semua penolakan memulihkan payment/journal/request/stock/HPP."
+    ],
+    "evidence": {
+      "run": 38575876533,
+      "job": 115892704370,
+      "artifact": 11902025964,
+      "report": "11902025964/SOL_CASH_POLICY.json",
+      "case": "SOL_CASH_EMPTY_BANK_WITHOUT_OVERDRAFT_POLICY",
+      "control": "SOL_CASH_FUNDED_PUBLIC_PAYMENT"
+    }
+  },
+  {
+    "id": "SOL-002",
+    "priority": "P2",
+    "owner": "WRITER_UTAMA",
+    "status": "OPEN",
+    "task": "Jadikan tujuan output eksplisit dan tetap per run/group; hindari mutasi global pada import. Unggahan wajib memeriksa set ID, jumlah, status terminal dan cleanup. Pertahankan artefak lama yang parsial.",
+    "acceptance": [
+      "Lazy import pada kasus kelima tidak memindahkan output.",
+      "Artefak final 16/16, exact ID set dan seluruh expected/actual serta boundary.",
+      "Hilangkan/ubah satu hasil: gate artefak harus gagal."
+    ],
+    "evidence": {
+      "run": 38560141862,
+      "job": 115838893507,
+      "artifact": 11892298930,
+      "recovered": "evidence/BE_LOG_RECOVERY.json",
+      "new_case_credit": 0
+    }
+  },
+  {
+    "id": "SOL-003",
+    "priority": "P2",
+    "owner": "WRITER_UTAMA",
+    "status": "OPEN",
+    "task": "Simpan message_primary, context/detail yang aman, constraint/object, file key/hash dan katalog/session diagnostic dalam bukti privat. Telusuri kegagalan pertama tanpa menurunkan penjagaan pemasangan.",
+    "acceptance": [
+      "Kesalahan terkontrol meninggalkan nama/kode penjagaan dan identitas file dalam receipt privat.",
+      "Tampilan umum tidak membocorkan kredensial/data sensitif.",
+      "51 file yang berhasil dan admission state tetap tercatat; tidak direlabel sebagai 58/58."
+    ],
+    "evidence": {
+      "first_run": 38564307650,
+      "first_job": 115852968691,
+      "first_artifact": 11895105110,
+      "diagnostic_run": 38566750411,
+      "diagnostic_job": 115861262360,
+      "diagnostic_artifact": 11896562171
+    }
+  },
+  {
+    "id": "OPEN-AZ-FIRST",
+    "priority": "P1_BEFORE_INSTALL_ACCEPTANCE",
+    "owner": "WRITER_UTAMA",
+    "status": "INVESTIGATION_REQUIRED",
+    "task": "Jelaskan kegagalan AZ pertama. Green berikutnya tidak menjelaskan root cause; A2/D13-10 berbeda kasus."
+  },
+  {
+    "id": "KNOWN-SKU-RANGE-DOZENS",
+    "priority": "P2_REQUIREMENT_COMPLETENESS",
+    "owner": "WRITER_UTAMA",
+    "status": "KNOWN_OPEN_NOT_NEW_FINDING",
+    "task": "Buktikan helper range di form connected: satu lusin dibagi ke anggota ukuran SKU dan pengetikan per ukuran menampilkan total lusin + PCS. A6 per-line dan simulasi 4/4/4 tidak membuktikan fitur range-wide ini."
+  },
+  {
+    "id": "COVERAGE-CLOSURE",
+    "priority": "BEFORE_FULL_ACCEPTANCE",
+    "owner": "WRITER_UTAMA",
+    "status": "INCOMPLETE",
+    "task": "Tutup bukti sensitivitas detektor yang belum dipancing, pemulihan original CP2 pada tahap yang diizinkan, dan permukaan API alternatif seperti GraphQL jika dipakai/exposed. Catat batas hardware/hosted yang ditunda owner."
+  }
+]

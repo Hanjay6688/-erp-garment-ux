@@ -1,7 +1,7 @@
 {
   "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
   "round": "cp1-7-20261014",
-  "status": "DRAFT_HANDOFF_PREPARATION",
+  "status": "REPORT_READY_PENDING_SEAL",
   "production_go": false,
   "audit_complete": false,
   "findings": [
@@ -87,9 +87,16 @@
     "C0_finalstack": {
       "case_executions": 25,
       "case_status": "PASS",
-      "package_status": "INCOMPLETE_COPY_CLEANUP_SESSION",
+      "package_status": "ORIGINAL_INCOMPLETE_RETAINED; LATER_CLEANUP_QUALIFIED",
       "run": 38578838814,
-      "job": 115903011981
+      "job": 115903011981,
+      "cleanup_qualification": {
+        "run": 38584549739,
+        "job": 115923555677,
+        "status": "PASS",
+        "new_C0_case_credit": 0,
+        "cleanup_control": 1
+      }
     },
     "K4_5000": {
       "run": 38572947416,
@@ -129,5 +136,7 @@
     "Native auto-distribution dozens across size range still simulation-only; A6 browser per-line helper does not prove range-wide auto-distribution",
     "K7 3s not attained, temporary background acceptance",
     "hosted/real-cutover/offsite backup/physical Safari deferred owner scope"
-  ]
+  ],
+  "run_count": 46,
+  "job_count": 104
 }

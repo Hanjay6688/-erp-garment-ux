@@ -1,0 +1,135 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "findings": [
+    {
+      "id": "SOL-001",
+      "severity": "S1",
+      "priority": "P1",
+      "classification": "CONFIRMED_BUSINESS_COUNTEREXAMPLE",
+      "status": "OPEN",
+      "title": "Pembayaran supplier dapat membuat saldo bank negatif tanpa kebijakan overdraft yang teridentifikasi",
+      "root_cause": "Command memeriksa AP, izin, tanggal, token, dan akun aktif, lalu menyerahkan posting kepada Native. Kapasitas kas/bank bukan bagian tinjauan atau penjagaan yang terlihat pada jalur ini.",
+      "invariant": "INV-U05",
+      "scope": [
+        "CP6 Native cash authority",
+        "CP7 supplier payment",
+        "cash/bank reports"
+      ],
+      "code": [
+        "scripts/cp7-src/invoices/payment-create.sql",
+        "erp.post_supplier_payment(uuid)",
+        "erp.cash_accounts",
+        "erp.journal_lines"
+      ],
+      "repro": [
+        "Bank baru aktif, tanpa opening/funding, saldo GL 0; receipt FINAL menimbulkan AP 1000.",
+        "Sebagai OWNER, kirim command publik pembayaran supplier 1.00 dengan review token sah.",
+        "Respons POSTED, AP 999, saldo bank -1.00. Kontrol funded 34.50 → pembayaran 1.00 → 33.50 lulus."
+      ],
+      "expected": "Tolak atomik jika dana tidak cukup, kecuali ada kebijakan saldo negatif yang sah dan batasnya dipenuhi.",
+      "actual": "POSTED: 0 → -1.00; tidak ada kolom overdraft pada bank fixture dan izin kebijakan tersebut tidak ditemukan dalam inventaris acuan.",
+      "evidence": {
+        "run": 38575876533,
+        "job": 115892704370,
+        "artifact": 11902025964,
+        "report": "11902025964/SOL_CASH_POLICY.json",
+        "case": "SOL_CASH_EMPTY_BANK_WITHOUT_OVERDRAFT_POLICY",
+        "control": "SOL_CASH_FUNDED_PUBLIC_PAYMENT"
+      },
+      "impact": "Saldo bank dapat tercatat di bawah nol walau jurnal seimbang dan AP tidak kelebihan bayar. Bukti ini tidak berarti uang nyata hilang; seluruh fixture sintetis.",
+      "fix": "Gunakan penjagaan kas bersama pada otoritas Native, dengan lock per akun dan aturan per tanggal. Jika owner mengizinkan overdraft, simpan kebijakan, batas dan periode berlaku secara eksplisit. Jangan mengarang default atau hanya menambah pemeriksaan UI.",
+      "acceptance": [
+        "Dana cukup, tepat habis, dana kurang dan kebijakan pending.",
+        "Dua invoice berbeda membayar dari bank yang sama bersamaan: gabungan tidak melampaui kapasitas.",
+        "Backdate, reversal dan koreksi mempertahankan aturan histori serta sumber pendanaan.",
+        "Terapkan kontrol yang sama pada vendor/laundry, payroll, pengeluaran lain, uang muka dan refund; bukti bug saat ini khusus supplier.",
+        "UUID replay sekali; semua penolakan memulihkan payment/journal/request/stock/HPP."
+      ]
+    },
+    {
+      "id": "SOL-002",
+      "severity": "S2",
+      "priority": "P2",
+      "classification": "CONFIRMED_EVIDENCE_PACKAGING_DEFECT",
+      "status": "OPEN",
+      "title": "Artefak BE hanya menyimpan empat dari enam belas hasil yang telah dijalankan",
+      "root_cause": "BE memakai global r1.OUT. Kasus kelima lazy-import cp6_av_probe; import itu mengganti r1.OUT ke folder av. Hasil selanjutnya dan terminal report ditulis di av, sementara workflow mengunggah be.",
+      "invariant": "Pro Max §16.1–16.2/16.6",
+      "scope": [
+        "BE probe",
+        "shared auditor runner",
+        "evidence upload"
+      ],
+      "code": [
+        "scripts/cp6_be_probe.py:252",
+        "scripts/cp6_be_probe.py:rework_new_sku",
+        "scripts/cp6_av_probe.py:32",
+        "scripts/cp6_au_r1_probe.py:save"
+      ],
+      "repro": [
+        "Jalankan unchanged BE after pada kandidat ini.",
+        "Artefak 11892298930 berisi BE_CASES_AFTER status INCOMPLETE dengan empat kasus; terminal RESULT_AFTER tidak ada.",
+        "Log job auditor sendiri memuat 16 PASS, terminal REVIEW_COMPLETE, primary unchanged dan clone remaining 0."
+      ],
+      "expected": "Seluruh 16 ID dan hasil terminal berada dalam artefak yang diunggah.",
+      "actual": "Produk BE lulus 16 kasus menurut log lengkap; paket bukti parsial 4/16.",
+      "evidence": {
+        "run": 38560141862,
+        "job": 115838893507,
+        "artifact": 11892298930,
+        "recovered": "evidence/BE_LOG_RECOVERY.json",
+        "new_case_credit": 0
+      },
+      "impact": "Auditor berikutnya dapat menerima bukti parsial atau tidak dapat memeriksa kelulusan dari artefak.",
+      "fix": "Jadikan tujuan output eksplisit dan tetap per run/group; hindari mutasi global pada import. Unggahan wajib memeriksa set ID, jumlah, status terminal dan cleanup. Pertahankan artefak lama yang parsial.",
+      "acceptance": [
+        "Lazy import pada kasus kelima tidak memindahkan output.",
+        "Artefak final 16/16, exact ID set dan seluruh expected/actual serta boundary.",
+        "Hilangkan/ubah satu hasil: gate artefak harus gagal."
+      ]
+    },
+    {
+      "id": "SOL-003",
+      "severity": "S2",
+      "priority": "P2",
+      "classification": "CONFIRMED_INSTALLER_DIAGNOSTIC_LOSS",
+      "status": "OPEN",
+      "title": "Pemasang membuang diagnostik PostgreSQL saat pemasangan berhenti di AZ",
+      "root_cause": "except di owner installer menyimpan error_type/sqlstate serta proyeksi MAINTENANCE_RUNTIME_FAILED, tanpa message_primary/context/detail dari kegagalan SQL.",
+      "invariant": "Pro Max §9/16.6",
+      "scope": [
+        "non-superuser owner installation",
+        "partial install diagnosis"
+      ],
+      "code": [
+        "scripts/cp6_readiness_owner_install.py:run except",
+        "core._public_failure_code"
+      ],
+      "repro": [
+        "Jalankan FULL_FROM_V2620 dengan owner/work postgres NOSUPERUSER pada clone disposable.",
+        "A..AY (51/58) terpasang; AZ berhenti dengan P0001.",
+        "Artefak hanya menyatakan MAINTENANCE_RUNTIME_FAILED; nama penjagaan PostgreSQL yang menolak tidak tersimpan."
+      ],
+      "expected": "Diagnostik terikat file/hash tersedia secara privat bagi operator/auditor, dengan pesan UI tetap terbatas.",
+      "actual": "Penyebab pertama tidak dapat ditentukan. Qualification berinstrumen berikutnya memasang 58/58, tetapi tidak mereproduksi atau menjelaskan kegagalan pertama.",
+      "evidence": {
+        "first_run": 38564307650,
+        "first_job": 115852968691,
+        "first_artifact": 11895105110,
+        "diagnostic_run": 38566750411,
+        "diagnostic_job": 115861262360,
+        "diagnostic_artifact": 11896562171
+      },
+      "impact": "Pemasangan parsial tidak mempunyai informasi cukup untuk membedakan drift, admission/session, atau kondisi lain. Admission tetap tertutup dengan aman.",
+      "fix": "Simpan message_primary, context/detail yang aman, constraint/object, file key/hash dan katalog/session diagnostic dalam bukti privat. Telusuri kegagalan pertama tanpa menurunkan penjagaan pemasangan.",
+      "acceptance": [
+        "Kesalahan terkontrol meninggalkan nama/kode penjagaan dan identitas file dalam receipt privat.",
+        "Tampilan umum tidak membocorkan kredensial/data sensitif.",
+        "51 file yang berhasil dan admission state tetap tercatat; tidak direlabel sebagai 58/58."
+      ]
+    }
+  ],
+  "confirmed_business_roots": 1,
+  "confirmed_evidence_roots": 2,
+  "production_go": false
+}

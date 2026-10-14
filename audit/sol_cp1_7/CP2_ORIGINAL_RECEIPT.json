@@ -1,0 +1,929 @@
+{
+  "status": "PASS_ORIGINAL_ARCHIVE_INTEGRITY",
+  "functional_restore": "INCOMPLETE_NOT_EXECUTED",
+  "reason": "Original CP2 recovery was read, decrypted and validated here; no local native PostgreSQL/Docker runtime available. CI restores a constructed CP6 baseline, not the original CP2 archive.",
+  "archive_sha256": "e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53",
+  "zip_members": 149,
+  "hashed_members": 148,
+  "tables": 142,
+  "total_rows": 104,
+  "auth": {
+    "users": 0,
+    "identities": 0,
+    "app_users": 0,
+    "export_method": "empty-state-manifest; no password hashes copied"
+  },
+  "source_commit": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+  "schema_fingerprint": "a0c59b96b3879edd28f3d8c57d0894a3",
+  "table_rows": {
+    "erp.accessory_bom_items": 0,
+    "erp.accessory_bom_versions": 0,
+    "erp.accessory_categories": 0,
+    "erp.accessory_category_uom_conversions": 0,
+    "erp.account_daily_balances": 0,
+    "erp.accounting_account_mappings": 24,
+    "erp.accounting_period_control": 1,
+    "erp.app_users": 0,
+    "erp.attendance_periods": 0,
+    "erp.attendance_records": 0,
+    "erp.audit_logs": 2,
+    "erp.brands": 0,
+    "erp.bs_case_components": 0,
+    "erp.bs_cases": 0,
+    "erp.bs_resolutions": 0,
+    "erp.cash_accounts": 1,
+    "erp.chart_accounts": 24,
+    "erp.contractor_accessory_price_versions": 0,
+    "erp.contractor_accessory_reimbursement_entitlements": 0,
+    "erp.contractor_material_issue_items": 0,
+    "erp.contractor_material_issues": 0,
+    "erp.contractor_material_price_versions": 0,
+    "erp.contractor_work_rates": 0,
+    "erp.contractor_workers": 0,
+    "erp.contractors": 0,
+    "erp.cost_adjustments": 0,
+    "erp.cost_recalc_queue": 0,
+    "erp.customer_user_access": 0,
+    "erp.customers": 0,
+    "erp.cutting_batches": 0,
+    "erp.cutting_group_rolls": 0,
+    "erp.cutting_group_size_slots": 0,
+    "erp.cutting_groups": 0,
+    "erp.cutting_qty_correction_lines": 0,
+    "erp.cutting_qty_corrections": 0,
+    "erp.cutting_roll_yields": 0,
+    "erp.fabric_benchmark_price_versions": 0,
+    "erp.fabric_master_profiles": 0,
+    "erp.fg_accessory_cost_revisions": 0,
+    "erp.fg_accessory_cost_snapshots": 0,
+    "erp.fg_adjustment_items": 0,
+    "erp.fg_adjustments": 0,
+    "erp.fg_inventory_balances": 0,
+    "erp.fg_lots": 0,
+    "erp.fg_stock_movements": 0,
+    "erp.hpp_version_components": 0,
+    "erp.hpp_versions": 0,
+    "erp.idempotency_requests": 0,
+    "erp.journal_entries": 0,
+    "erp.journal_lines": 0,
+    "erp.laundry_claims": 0,
+    "erp.laundry_cost_accrual_events": 0,
+    "erp.laundry_cost_accrual_state": 0,
+    "erp.laundry_deliveries": 0,
+    "erp.laundry_delivery_lines": 0,
+    "erp.laundry_receipt_bs_product_allocations": 0,
+    "erp.laundry_receipt_lines": 0,
+    "erp.laundry_receipts": 0,
+    "erp.laundry_vendor_rate_versions": 0,
+    "erp.laundry_vendors": 0,
+    "erp.locations": 0,
+    "erp.manual_reminders": 0,
+    "erp.material_adjustment_items": 0,
+    "erp.material_adjustments": 0,
+    "erp.material_cost_checkpoints": 0,
+    "erp.material_cost_history": 0,
+    "erp.material_cost_revaluation_events": 0,
+    "erp.material_cost_revaluation_state": 0,
+    "erp.material_purchase_cost_correction_items": 0,
+    "erp.material_purchase_cost_corrections": 0,
+    "erp.material_purchase_headers": 0,
+    "erp.material_purchase_items": 0,
+    "erp.material_rolls": 0,
+    "erp.material_stock_movements": 0,
+    "erp.material_supplier_invoice_lines": 0,
+    "erp.material_supplier_invoices": 0,
+    "erp.material_supplier_return_items": 0,
+    "erp.material_supplier_returns": 0,
+    "erp.material_transfer_items": 0,
+    "erp.material_transfers": 0,
+    "erp.materials": 0,
+    "erp.migration_batches": 0,
+    "erp.migration_staging_rows": 0,
+    "erp.misc_finance_categories": 2,
+    "erp.misc_finance_transactions": 0,
+    "erp.opening_balance_headers": 0,
+    "erp.opening_balance_items": 0,
+    "erp.opening_financial_corrections": 0,
+    "erp.opening_hpp_corrections": 0,
+    "erp.opening_lot_hpp_gl_state": 0,
+    "erp.opening_subledger_balances": 0,
+    "erp.opening_subledger_settlements": 0,
+    "erp.payroll_attendance_items": 0,
+    "erp.payroll_deductions": 0,
+    "erp.payroll_reimbursements": 0,
+    "erp.payroll_settlements": 0,
+    "erp.payroll_work_items": 0,
+    "erp.po_accessory_bom_commitments": 0,
+    "erp.po_customer_visibility": 0,
+    "erp.po_hpp_gl_events": 0,
+    "erp.po_hpp_gl_state": 0,
+    "erp.po_wip_close_events": 0,
+    "erp.po_work_component_snapshots": 0,
+    "erp.product_conversion_allocations": 0,
+    "erp.product_conversions": 0,
+    "erp.product_model_sizes": 0,
+    "erp.product_models": 0,
+    "erp.product_price_versions": 0,
+    "erp.production_orders": 0,
+    "erp.products": 0,
+    "erp.qc_inspection_items": 0,
+    "erp.qc_inspections": 0,
+    "erp.rework_component_lines": 0,
+    "erp.rework_orders": 0,
+    "erp.sale_stock_allocations": 0,
+    "erp.sales_headers": 0,
+    "erp.sales_items": 0,
+    "erp.sales_payments": 0,
+    "erp.sales_return_items": 0,
+    "erp.sales_returns": 0,
+    "erp.schema_migrations": 41,
+    "erp.scrap_batches": 0,
+    "erp.scrap_sales": 0,
+    "erp.sizes": 0,
+    "erp.stock_explainability_snapshots": 0,
+    "erp.stock_policy_versions": 0,
+    "erp.supplier_payments": 0,
+    "erp.suppliers": 0,
+    "erp.system_release_info": 1,
+    "erp.uom_definitions": 8,
+    "erp.vendor_invoice_items": 0,
+    "erp.vendor_invoices": 0,
+    "erp.vendor_payments": 0,
+    "erp.wash_processes": 0,
+    "erp.wip_stage_events": 0,
+    "erp.work_bom_items": 0,
+    "erp.work_bom_versions": 0,
+    "erp.work_completion_events": 0,
+    "erp.work_completion_lines": 0,
+    "erp.work_components": 0,
+    "erp.worker_daily_rate_versions": 0,
+    "erp.worker_employment_periods": 0
+  },
+  "payload_checks": [
+    {
+      "member": "data/erp.accessory_bom_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.accessory_bom_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.accessory_categories.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.accessory_category_uom_conversions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.account_daily_balances.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.accounting_account_mappings.json",
+      "bytes": 3521,
+      "sha256": "9c1d88b8f6dcd7fd2feb0e25d26c81b1eaffaedc837712c7843a67ec64987233"
+    },
+    {
+      "member": "data/erp.accounting_period_control.json",
+      "bytes": 167,
+      "sha256": "47e6fa3b24151df65c08ff6650c148ac10614fc0c156b2301c6208cb78db7326"
+    },
+    {
+      "member": "data/erp.app_users.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.attendance_periods.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.attendance_records.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.audit_logs.json",
+      "bytes": 1189,
+      "sha256": "437c93edf107bc8a3870e52536ababd7c02b37d525275c07408cc4eab1228c31"
+    },
+    {
+      "member": "data/erp.brands.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.bs_case_components.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.bs_cases.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.bs_resolutions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cash_accounts.json",
+      "bytes": 250,
+      "sha256": "b9692dbade31aaa737fbe586aeeaebfddd1441038aec57e2ff4a44ed1974040d"
+    },
+    {
+      "member": "data/erp.chart_accounts.json",
+      "bytes": 8749,
+      "sha256": "16718ba68adbf8449d82b698e37ebac6d5631c977bcc2c5a650b618d90332266"
+    },
+    {
+      "member": "data/erp.contractor_accessory_price_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.contractor_accessory_reimbursement_entitlements.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.contractor_material_issue_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.contractor_material_issues.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.contractor_material_price_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.contractor_work_rates.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.contractor_workers.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.contractors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cost_adjustments.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cost_recalc_queue.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.customer_user_access.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.customers.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cutting_batches.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cutting_group_rolls.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cutting_group_size_slots.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cutting_groups.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cutting_qty_correction_lines.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cutting_qty_corrections.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.cutting_roll_yields.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fabric_benchmark_price_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fabric_master_profiles.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fg_accessory_cost_revisions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fg_accessory_cost_snapshots.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fg_adjustment_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fg_adjustments.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fg_inventory_balances.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fg_lots.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.fg_stock_movements.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.hpp_version_components.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.hpp_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.idempotency_requests.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.journal_entries.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.journal_lines.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_claims.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_cost_accrual_events.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_cost_accrual_state.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_deliveries.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_delivery_lines.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_receipt_bs_product_allocations.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_receipt_lines.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_receipts.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_vendor_rate_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.laundry_vendors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.locations.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.manual_reminders.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_adjustment_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_adjustments.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_cost_checkpoints.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_cost_history.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_cost_revaluation_events.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_cost_revaluation_state.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_purchase_cost_correction_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_purchase_cost_corrections.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_purchase_headers.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_purchase_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_rolls.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_stock_movements.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_supplier_invoice_lines.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_supplier_invoices.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_supplier_return_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_supplier_returns.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_transfer_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.material_transfers.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.materials.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.migration_batches.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.migration_staging_rows.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.misc_finance_categories.json",
+      "bytes": 538,
+      "sha256": "139eb10c787d522ee5cb186e6e83bf91685289e289f903bc38ea27886c5eb2a8"
+    },
+    {
+      "member": "data/erp.misc_finance_transactions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.opening_balance_headers.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.opening_balance_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.opening_financial_corrections.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.opening_hpp_corrections.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.opening_lot_hpp_gl_state.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.opening_subledger_balances.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.opening_subledger_settlements.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.payroll_attendance_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.payroll_deductions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.payroll_reimbursements.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.payroll_settlements.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.payroll_work_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.po_accessory_bom_commitments.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.po_customer_visibility.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.po_hpp_gl_events.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.po_hpp_gl_state.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.po_wip_close_events.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.po_work_component_snapshots.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.product_conversion_allocations.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.product_conversions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.product_model_sizes.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.product_models.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.product_price_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.production_orders.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.products.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.qc_inspection_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.qc_inspections.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.rework_component_lines.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.rework_orders.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.sale_stock_allocations.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.sales_headers.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.sales_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.sales_payments.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.sales_return_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.sales_returns.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.schema_migrations.json",
+      "bytes": 9574,
+      "sha256": "565063b9d041b9e01555570fca3c7221268a6e082c6fe403601f7daeb5593c54"
+    },
+    {
+      "member": "data/erp.scrap_batches.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.scrap_sales.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.sizes.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.stock_explainability_snapshots.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.stock_policy_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.supplier_payments.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.suppliers.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.system_release_info.json",
+      "bytes": 952,
+      "sha256": "5bd9f9afff5bcccdde3f62379e1cc8d77331711a90d773f5dd2fdde90f3f14d8"
+    },
+    {
+      "member": "data/erp.uom_definitions.json",
+      "bytes": 1308,
+      "sha256": "030c01bcd72ba4fc3c5499363ca4eec94bd3562f945ef7d66aaa1fcee8f13af4"
+    },
+    {
+      "member": "data/erp.vendor_invoice_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.vendor_invoices.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.vendor_payments.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.wash_processes.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.wip_stage_events.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.work_bom_items.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.work_bom_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.work_completion_events.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.work_completion_lines.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.work_components.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.worker_daily_rate_versions.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "data/erp.worker_employment_periods.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "member": "storage/files/chatgpt-temp-erp-export/ERP_GARMENT_V2_6_0_COMPACT_ONE_SHOT.sql",
+      "bytes": 1084146,
+      "sha256": "756a962d8dda43c71487afa7a3cdbbd80ef787487b1eafc771c94def53187aee"
+    },
+    {
+      "member": "ERP_ENTENG_CATALOG_SNAPSHOT.json",
+      "bytes": 3806630,
+      "sha256": "1d6367a3b109722bd7006b8f92fb2a24c3bb4b3072011320a523dffb410c7fbb"
+    },
+    {
+      "member": "STORAGE_MANIFEST.json",
+      "bytes": 586,
+      "sha256": "3d047c98afacdf3cb8a72e52c854b24b50ca63f95c217906e89c6f36d030b693"
+    },
+    {
+      "member": "ERP_ENTENG_BEFORE_REBUILD.sql",
+      "bytes": 1819372,
+      "sha256": "ead5588e2ca9f90070ec2402dcafcb59c51164611c3165bbe3c554857db420f1"
+    },
+    {
+      "member": "ERP_ENTENG_DATA_RESTORE.sql",
+      "bytes": 29492,
+      "sha256": "5f788688a4649b9480325b1626d446ae194ad43c01168539ab45de4b602d0404"
+    },
+    {
+      "member": "RECOVERY_MANIFEST.json",
+      "bytes": 50543,
+      "sha256": "c3ad9db7eac21e68f2444f3341d78c4b34c6c0d1f965ec4863041b4b6e0e5c55"
+    }
+  ],
+  "catalog_counts": {
+    "extensions": 6,
+    "custom_types": 0,
+    "sequences": 4,
+    "tables": 142,
+    "columns": 1498,
+    "constraints": 944,
+    "indexes": 184,
+    "functions": 436,
+    "views": 48,
+    "view_dependencies": 124,
+    "triggers": 383,
+    "policies": 190,
+    "table_grants": 2569,
+    "routine_grants": 903,
+    "cron_jobs": 1,
+    "platform_migrations": 55,
+    "application_migrations": 41,
+    "release_info": 1,
+    "auth_counts": 1,
+    "storage_buckets": 1,
+    "storage_objects": 1
+  },
+  "no_dump_or_key_published": true,
+  "production_go": false
+}

@@ -1,0 +1,11 @@
+{
+  "candidate_sha": "0b7049d9203bac52b47a4c89f3e0d75646067a8f",
+  "audit_round_work_finished": true,
+  "audit_complete": false,
+  "production_go": false,
+  "decision": "HOLD",
+  "confirmed_business_findings": 1,
+  "evidence_findings": 2,
+  "open_first_install_failure": true,
+  "owner_deferred_exclusions": true
+}

@@ -1,0 +1,11 @@
+{
+  "report_structure": true,
+  "all_46_runs_terminal": true,
+  "job_count": 104,
+  "invariants": 82,
+  "scenarios": 29,
+  "original_archive_exact_bytes_verified": true,
+  "BE16_log_recovered": true,
+  "no_product_changes": true,
+  "production_go": false
+}

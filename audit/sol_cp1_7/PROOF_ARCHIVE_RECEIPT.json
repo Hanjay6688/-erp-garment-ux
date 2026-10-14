@@ -1,0 +1,18 @@
+{
+  "file_name": "SOL_CP1_7_NATIVE_ORIGINALS.tar.xz",
+  "local_path": "/workspace/scratch/5969cedfb83c/deliverables/SOL_CP1_7_NATIVE_ORIGINALS.tar.xz",
+  "sha256": "e52ce5fb6a565f1e1c2b4cc79787d0997c228423fe81d5c4f1a0ee7ea1c85feb",
+  "compressed_bytes": 19127200,
+  "original_report_files": 722,
+  "unique_byte_reports": 330,
+  "original_bytes": 186846551,
+  "original_bytes_unchanged": true,
+  "aliases_preserved": true,
+  "no_CP2_dump_or_key": true,
+  "no_screenshots": true,
+  "no_unique_oracle_total_claim": true,
+  "production_go": false,
+  "library_file_id": "libfile_3f913893ea2081919bde99186c5f8c89",
+  "file_id": "file_00000000ef38821196e9b345e7bd8342",
+  "durable_save_verified": true
+}
