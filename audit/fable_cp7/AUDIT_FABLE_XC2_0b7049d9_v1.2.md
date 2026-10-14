@@ -73,7 +73,7 @@ keduanya tetap ada.
 | `drop_owned` | tidak berubah; jalur `created_here and comment is None` tetap: menghapus OID yang **dibuat percobaan ini** bila gagal sebelum tanda ditulis. Bukan pemakaian tanda polos; OID dipilih acak oleh alat dan hanya bisa "disusupi" dengan `CREATE DATABASE ... OID` yang sama secara sengaja di tengah percobaan | diterima; kelas yang sama dengan batas operasional A1 (Astra B10 menguji jalur ini) |
 | kasus penulis | `K3C_RACE_BACKUP_PLAIN_MARK_COPIED_ONTO_FOREIGN_KEPT`: tanda polos disalin ke (1) database bernama `--scratch` → `BACKUP_SCRATCH_EXISTS_NOT_OURS`, utuh dengan OID dan barisnya; (2) database berpola `<scratch>_<hex>` dengan nama scratch bebas → bukan sisa, malam terverifikasi, utuh. Dua kasus lama yang memakai tanda polos sebagai "milik alat" diganti ke tanda ber-OID (`'c'*16`, `'d'*16` + OID database itu) dengan harapan yang sama | oracle ketat; perubahan fixture tidak melonggarkan harapan (saya baca kedua hunk: `scratch_before == OURS`, pengganti tetap, `REPLACED`; sisa milik alat dipakai ulang lalu dihapus) |
 
-### Run independen ⏳
+### Run independen (Fable pada `product_ref=0b7049d9`; penulis pada head = kandidat)
 
 | Kasus | Oracle | Run / job | Hasil |
 |---|---|---|---|
